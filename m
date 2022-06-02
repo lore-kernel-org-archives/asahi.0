@@ -1,131 +1,48 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from rosenzweig.io (rosenzweig.io [138.197.143.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85A9256E
-	for <asahi@lists.linux.dev>; Thu,  2 Jun 2022 17:42:38 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 9921432007D7;
-	Thu,  2 Jun 2022 13:42:37 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 02 Jun 2022 13:42:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1654191757; x=
-	1654278157; bh=sdCSDnTwZq4cKIMvJzFEUcWYJ3lEuGnemhaFysCn4Yw=; b=h
-	m5aaRDeaBuxkLWm2i4Nl+cUCfkn1NntvvL0E5qNsGUiDuFUx8q1oKwV3OIB6YSaa
-	tZ/ln6iH3Osjx1KLtWr7G+r/A3E1gupNMi9xRmMOmWAXotXWYjO/PAjhhUYKX2AD
-	IvAzEXMByfBx2OEVLxFmFplqRPKNDaMGHP6ze4B5eBE6EGuDYxiWHazWvq2Nf1Ji
-	m/yPT9zqLrg5ZjZ5NfjsmoASDBFoMNLy+W06HK/EMWTNIV957DvBXqHV2PcTcs84
-	2PZWSRgc6DTNfZmgb70uOok2eBtD4ykkTZAY5NXcJ6Mbhx79KqMB6SztG8J4oFrQ
-	9uhICn0oOVnbwaWM2mkgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1654191757; x=1654278157; bh=sdCSDnTwZq4cK
-	IMvJzFEUcWYJ3lEuGnemhaFysCn4Yw=; b=qkhRJqAy0YW0NayKJJvWEw0OXxR32
-	sOCEPBATJVW04XZ/8sZ6DNMJR671ZQNI7mpZk277LcknyW9STZwmVjlpM0gefjW+
-	ysZFwN5GBR5somBKd2lkK/5Yj3aTNYP+H2Nsxl/11tzJeEP/gluY9pefF4xJUmPk
-	X388jSjI4spjKNzBThWJUSfRhlqoEAmjT5YYqweu3fB+xeqhgi06rZmV6ynZZOzG
-	QDFm77/urOPYPjuXtM0dq+O+fi3wMmxRzMBdeJkhQAeIUs0yLqq4cIKX2jV48ROo
-	y6MgMw+/qKMpwsaVoIVv/TCuZi/XVRvdLyKGbditW+uP4Ull0bS4b0nbQ==
-X-ME-Sender: <xms:jPaYYm-yY35ccxlHbv2evNYSGFeAqvrEZL_CwdliXUvpt0Oz7Uf6aA>
-    <xme:jPaYYmvPDGtPZn-JiZmWn0nWQhhUuvbj2ggR3C7rk6HQ5A4kDzQcc8P3u1J__6gzy
-    -tPM3yzY0O5kcBMhbk>
-X-ME-Received: <xmr:jPaYYsDK0g7tKE3RRIhK1Gog6yvnALLATSpAfNENUq54c2wmIeRANfSZlvwhcIB1as8RTWSx1EhijulA5raI5X4F1vG7AMU5cDB9zjLDCDBKp9Yp5I-KlCyZ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleefgddvgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcu
-    rfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvg
-    hrnhepjeeiheehkeegvdejhfevkeejgfdutdefhfethedtieffleekieeuudefleekjeeg
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvg
-    hnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:jPaYYuc_zF-ez0TwkLSbX5mrzQcRPUCcQ4DFc2yrpKOqyNN8fQNSTg>
-    <xmx:jPaYYrODmMJGoEPohgztmauhSBrhVfM2uQywWmg8mwZqt4GS7EbNMw>
-    <xmx:jPaYYomBLQU5njWG9QnJi9PE0pZxzlCA_pCuEeuc59g9r1Fq7UTUhw>
-    <xmx:jfaYYmcKxVa0J_O5DEATjON7tyDE6JYNkntzpeIiheIvN-zqluIM6A>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Jun 2022 13:42:35 -0400 (EDT)
-From: Sven Peter <sven@svenpeter.dev>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] arm64: dts: apple: t8103: Add ANS2 NVMe nodes
-Date: Thu,  2 Jun 2022 19:42:13 +0200
-Message-Id: <20220602174213.2737-2-sven@svenpeter.dev>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20220602174213.2737-1-sven@svenpeter.dev>
-References: <20220602174213.2737-1-sven@svenpeter.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BFA29B4
+	for <asahi@lists.linux.dev>; Thu,  2 Jun 2022 17:53:53 +0000 (UTC)
+Received: by rosenzweig.io (Postfix, from userid 1000)
+	id A0CEB4000C; Thu,  2 Jun 2022 17:44:34 +0000 (UTC)
+Date: Thu, 2 Jun 2022 17:44:34 +0000
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Sven Peter <sven@svenpeter.dev>
+Cc: Hector Martin <marcan@marcan.st>, linux-arm-kernel@lists.infradead.org,
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: add ARM/APPLE MACHINE mailing list
+Message-ID: <Ypj3Aps1e5h2qTHx@rosenzweig.io>
+References: <20220602173144.2263-1-sven@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220602173144.2263-1-sven@svenpeter.dev>
 
-This allows to use the internal disks attatched via NVMe.
+Reviewed-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
----
- arch/arm64/boot/dts/apple/t8103.dtsi | 34 ++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 9f8f4145db88..51a63b29d404 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -378,6 +378,40 @@ pinctrl_aop: pinctrl@24a820000 {
- 				     <AIC_IRQ 274 IRQ_TYPE_LEVEL_HIGH>;
- 		};
- 
-+		ans_mbox: mbox@277408000 {
-+			compatible = "apple,t8103-asc-mailbox", "apple,asc-mailbox-v4";
-+			reg = <0x2 0x77408000 0x0 0x4000>;
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 583 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 584 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 585 IRQ_TYPE_LEVEL_HIGH>,
-+				<AIC_IRQ 586 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "send-empty", "send-not-empty",
-+				"recv-empty", "recv-not-empty";
-+			#mbox-cells = <0>;
-+			power-domains = <&ps_ans2>;
-+		};
-+
-+		sart: iommu@27bc50000 {
-+			compatible = "apple,t8103-sart";
-+			reg = <0x2 0x7bc50000 0x0 0x10000>;
-+			power-domains = <&ps_ans2>;
-+		};
-+
-+		nvme@27bcc0000 {
-+			compatible = "apple,t8103-nvme-ans2", "apple,nvme-ans2";
-+			reg = <0x2 0x7bcc0000 0x0 0x40000>,
-+				<0x2 0x77400000 0x0 0x4000>;
-+			reg-names = "nvme", "ans";
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 590 IRQ_TYPE_LEVEL_HIGH>;
-+			mboxes = <&ans_mbox>;
-+			apple,sart = <&sart>;
-+			power-domains = <&ps_ans2>, <&ps_apcie_st>;
-+			power-domain-names = "ans", "apcie0";
-+			resets = <&ps_ans2>;
-+		};
-+
- 		pcie0_dart_0: dart@681008000 {
- 			compatible = "apple,t8103-dart";
- 			reg = <0x6 0x81008000 0x0 0x4000>;
--- 
-2.25.1
-
+On Thu, Jun 02, 2022 at 07:31:44PM +0200, Sven Peter wrote:
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 55114e73de26..621eeb037a91 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1826,6 +1826,7 @@ ARM/APPLE MACHINE SUPPORT
+>  M:	Hector Martin <marcan@marcan.st>
+>  M:	Sven Peter <sven@svenpeter.dev>
+>  R:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> +L:	asahi@lists.linux.dev
+>  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>  S:	Maintained
+>  W:	https://asahilinux.org
+> -- 
+> 2.25.1
+> 
