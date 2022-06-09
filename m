@@ -1,40 +1,32 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF22F3210
-	for <asahi@lists.linux.dev>; Thu,  9 Jun 2022 16:19:40 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1654791578; bh=4oG/+gfqOkTh35XvvWAtX5REN3FZwalZARzou9YHdB4=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=kd2Riq/FkSbvoJq2jjAf5MBgfp6q/RYP7eGUCErvWm+Pc0yqe6Br5pbsGU0kyhXou
-	 WDPbyTDjTow1Pf4Hs2LDNl7nBheIGLZdcovSs/jTdg8aYrDrO4ZaXPckBS7BU/FGVE
-	 A83JrJ3SU+rSCE3/BmHsI4XgoBLjxwceApHMXgZ0=
-Precedence: bulk
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AC67A
+	for <asahi@lists.linux.dev>; Thu,  9 Jun 2022 16:35:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1AC1C34114;
+	Thu,  9 Jun 2022 16:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654792550;
+	bh=nLV0GvHy/KQCKd/BLxkCqqI+MIgBK4mD0qJiit652bw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F0DX+M6GHhaVTxSNRfrenUrPcrKyVKIyaxOc8mh6FV1QFP33FNxx5J4Wp2izWBWbA
+	 QbQJ/fmKfazZgJYXTg4okVDZgX3qv5eglx4DLyGB18ouro5GwCkLbvCetMQea5n9vZ
+	 rYlUfxyxZNJs/gzMISsCVmBin/qnqZ0VsiO/7v5VrHvoI6X44TtmqdoCVQKIaF/lVl
+	 bS16JFaULKyFIM0lgk9voFtJoDde1zrujgymcYrbZqwP+IwD0KspgTQD+jPU+0k8/L
+	 RwQLz0cmmT9kzvNSnFAKWtq0PJLKZUnlecE0yQniAqzEcQZePRNachnrcVRZPoDxrD
+	 JtFRd0+FtAD2w==
+Date: Thu, 9 Jun 2022 17:35:44 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Mark Kettenis <kettenis@openbsd.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	asahi@lists.linux.dev
 Subject: Re: [RFC PATCH v2 5/5] ASoC: apple: Add macaudio machine driver
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <YqIWtzphzVGmbIOe@sirena.org.uk>
-Date: Thu, 9 Jun 2022 18:19:37 +0200
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Mark Kettenis <kettenis@openbsd.org>,
- Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>,
- asahi@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <4DA6EE04-D23B-437B-8FBA-9223EAA71219@cutebit.org>
+Message-ID: <YqIhYPBpVcvz9iLQ@sirena.org.uk>
 References: <20220606191910.16580-1-povik+lin@cutebit.org>
  <20220606191910.16580-6-povik+lin@cutebit.org>
  <YqHylN3xba9XFrF8@sirena.org.uk>
@@ -42,77 +34,72 @@ References: <20220606191910.16580-1-povik+lin@cutebit.org>
  <YqILv21K+tZ00Qhx@sirena.org.uk>
  <2A0422B8-8367-457E-A146-730F7C3DE66B@cutebit.org>
  <YqIWtzphzVGmbIOe@sirena.org.uk>
-To: Mark Brown <broonie@kernel.org>
+ <4DA6EE04-D23B-437B-8FBA-9223EAA71219@cutebit.org>
+Precedence: bulk
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8PA9aIQYrjMhOXsy"
+Content-Disposition: inline
+In-Reply-To: <4DA6EE04-D23B-437B-8FBA-9223EAA71219@cutebit.org>
+X-Cookie: Space is limited.
 
 
-> On 9. 6. 2022, at 17:50, Mark Brown <broonie@kernel.org> wrote:
+--8PA9aIQYrjMhOXsy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jun 09, 2022 at 06:19:37PM +0200, Martin Povi=C5=A1er wrote:
+> > On 9. 6. 2022, at 17:50, Mark Brown <broonie@kernel.org> wrote:
+
+> > Can you say anything more about the use case?
+
+> I can restate: The alleged use case is running userspace without sound
+> server, but having playback switch transparently between speakers and
+> headphones even mid-stream based on jack detection.
+
+Sure, but why?
+
+> > No, that works perfectly fine - you can enable or disable pins depending
+> > on the jack state.
+
+> Ah, I peeked into soc-jack.c. What about this then: If I understand what
+> pins represent, they would be at the remote end of the DAPM paths. So if
+> for the speakers I add something like
+
+>    Headphones Codec Out =E2=80=94> Jack pin
 >=20
-> On Thu, Jun 09, 2022 at 05:24:49PM +0200, Martin Povi=C5=A1er wrote:
->>> On 9. 6. 2022, at 17:03, Mark Brown <broonie@kernel.org> wrote:
->=20
-> Why is this off list?
+>                        +--> Always-on pin
+>                        |
+>    Speaker Amp Out -> Mux
+>                        |
+>                        +--> Jack inverted pin
 
-By accident, added the CC list back with this reply (hopefully it
-still attaches to the thread when people receive it).
+> and let userspace control the mux, it would in effect support the same
+> use cases as what I attempted in the code so far. Sounds somewhat right?
 
->>> That's basically no userspaces at this point TBH.  I'm not convinced
->>> it's a good idea to be adding custom code for that use case.
->>=20
->> FWIW I know of at least one user of the WIP audio support on Macs who
->> would welcome this feature. My preference is to keep it in, but in
->> the end I guess it=E2=80=99s your call.
->=20
-> I'd rather not have this open coded in individual drivers, we already
-> have an unfortunate abundance of jack detection interfaces.  If we're
-> going to add anything I'd rather it were in core code and TBH I'm
-> struggling to be enthusiastic.
+Yes, that should DTRT.  If the mux is working properly with DAPM (not
+sure it does with DPCM but ICBW) then you shouldn't even need the jack
+integration since the mux would disconnect the unused output when it
+gets switched.
 
-Noted.
+--8PA9aIQYrjMhOXsy
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Can you say anything more about the use case?
+-----BEGIN PGP SIGNATURE-----
 
-I can restate: The alleged use case is running userspace without sound
-server, but having playback switch transparently between speakers and
-headphones even mid-stream based on jack detection.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKiIWAACgkQJNaLcl1U
+h9CPXQf/ZMQGcAD7+pTSBWR4+WU2VepcoHhnVLOflAgyJQjnRir5E8L3PN0OaI/D
+dvAR3rvl9pttuZZCiK7Dr7xjWyep9qh3Wbh0Tv4CcR7fb88qYgSiZRzvDVDql24W
+JYQusypBqzGCPadH2+XUnrI7jKGaagm46KTxNdnEEnnMEUosu+/bhnoFnOi8tBvP
+ANAengNgcpTfFvbakGrHg7LL6EYTR9gsjNpPnd8nnhoMcJGylTbYwcWO2oSPJccF
+Eu+W+HN2OGE3j3j5tW5jJ4fhOaXQ2b7R8ngc8VWHncgUKKFgtlXt5NF1PZ1x0XUh
+yTN7VXtNkQRolvvX+GrjQk9uN9N08g==
+=tdB1
+-----END PGP SIGNATURE-----
 
->>>> I looked at the existing DAPM integration but I couldn=E2=80=99t =
-figure out
->>>> how to switch the demux with it.
->=20
->>> Yes, it won't do that.  If you can't stream the same audio to both =
-then
->>> you'd need something else.
->=20
->> I don=E2=80=99t understand what=E2=80=99s meant by streaming the same =
-audio here.
->=20
-> Playing one audio stream from the host which appears on both speakers
-> and headphones - I don't know what the mixing and muxing capabilities =
-of
-> the hardware are.
->=20
->> Taking a guess: The existing DAPM integration can enable the =
-headphones
->> path based on jack being plugged in, but it can=E2=80=99t disable the =
-speakers
->> path like the demux does?
->=20
-> No, that works perfectly fine - you can enable or disable pins =
-depending
-> on the jack state.
-
-Ah, I peeked into soc-jack.c. What about this then: If I understand what
-pins represent, they would be at the remote end of the DAPM paths. So if
-for the speakers I add something like
-
-   Headphones Codec Out =E2=80=94> Jack pin
-
-                       +--> Always-on pin
-                       |
-   Speaker Amp Out -> Mux
-                       |
-                       +--> Jack inverted pin
-
-and let userspace control the mux, it would in effect support the same
-use cases as what I attempted in the code so far. Sounds somewhat right?
-
+--8PA9aIQYrjMhOXsy--
