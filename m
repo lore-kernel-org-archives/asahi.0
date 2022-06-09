@@ -1,105 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7AC67A
-	for <asahi@lists.linux.dev>; Thu,  9 Jun 2022 16:35:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1AC1C34114;
-	Thu,  9 Jun 2022 16:35:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654792550;
-	bh=nLV0GvHy/KQCKd/BLxkCqqI+MIgBK4mD0qJiit652bw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F0DX+M6GHhaVTxSNRfrenUrPcrKyVKIyaxOc8mh6FV1QFP33FNxx5J4Wp2izWBWbA
-	 QbQJ/fmKfazZgJYXTg4okVDZgX3qv5eglx4DLyGB18ouro5GwCkLbvCetMQea5n9vZ
-	 rYlUfxyxZNJs/gzMISsCVmBin/qnqZ0VsiO/7v5VrHvoI6X44TtmqdoCVQKIaF/lVl
-	 bS16JFaULKyFIM0lgk9voFtJoDde1zrujgymcYrbZqwP+IwD0KspgTQD+jPU+0k8/L
-	 RwQLz0cmmT9kzvNSnFAKWtq0PJLKZUnlecE0yQniAqzEcQZePRNachnrcVRZPoDxrD
-	 JtFRd0+FtAD2w==
-Date: Thu, 9 Jun 2022 17:35:44 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Mark Kettenis <kettenis@openbsd.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	asahi@lists.linux.dev
-Subject: Re: [RFC PATCH v2 5/5] ASoC: apple: Add macaudio machine driver
-Message-ID: <YqIhYPBpVcvz9iLQ@sirena.org.uk>
-References: <20220606191910.16580-1-povik+lin@cutebit.org>
- <20220606191910.16580-6-povik+lin@cutebit.org>
- <YqHylN3xba9XFrF8@sirena.org.uk>
- <0E611F13-96E3-41FD-9550-F900B2EFB00A@cutebit.org>
- <YqILv21K+tZ00Qhx@sirena.org.uk>
- <2A0422B8-8367-457E-A146-730F7C3DE66B@cutebit.org>
- <YqIWtzphzVGmbIOe@sirena.org.uk>
- <4DA6EE04-D23B-437B-8FBA-9223EAA71219@cutebit.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF2920FB
+	for <asahi@lists.linux.dev>; Thu,  9 Jun 2022 18:43:04 +0000 (UTC)
+From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1654800181; bh=8ZEDC9HewScHp00W0Vw5klKniAEYKDjKhKDVNSK6OOU=;
+	h=From:To:Cc:Subject:Date;
+	b=px6qoy7FiskG+Z3anl7TxNFwGF7UnJqjxDERfyPLa+fTPdkDH8JfmC+vIye5H6rTA
+	 +1m+jcZxGTjemXB7pbrLxQJ23S7F86hlk265VE3UEM32dudovgOOKaxzy7uYJQvGtf
+	 W3x5Pnu3Uwz2RiqajIpkAEy0dIdvAzl1dLZd0mzo=
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	linux-arm-kernel@lists.infradead.org,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+Subject: [PATCH] dmaengine: apple-admac: Fix compile warning
+Date: Thu,  9 Jun 2022 20:43:01 +0200
+Message-Id: <20220609184301.8242-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8PA9aIQYrjMhOXsy"
-Content-Disposition: inline
-In-Reply-To: <4DA6EE04-D23B-437B-8FBA-9223EAA71219@cutebit.org>
-X-Cookie: Space is limited.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Fix a warning of bad format specifier:
 
---8PA9aIQYrjMhOXsy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+  drivers/dma/apple-admac.c: In function 'admac_cyclic_write_one_desc':
+  drivers/dma/apple-admac.c:209:26: warning: format '%x' expects argument of type 'unsigned int', but argument 7 has type 'long unsigned int' [-Wformat=]
+      209 |         dev_dbg(ad->dev, "ch%d descriptor: addr=0x%pad len=0x%zx flags=0x%x\n",
 
-On Thu, Jun 09, 2022 at 06:19:37PM +0200, Martin Povi=C5=A1er wrote:
-> > On 9. 6. 2022, at 17:50, Mark Brown <broonie@kernel.org> wrote:
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+---
 
-> > Can you say anything more about the use case?
+Follow-up to the recent ADMAC series, feel free to squash:
+https://lore.kernel.org/asahi/20220531213615.7822-1-povik+lin@cutebit.org/T/#t
 
-> I can restate: The alleged use case is running userspace without sound
-> server, but having playback switch transparently between speakers and
-> headphones even mid-stream based on jack detection.
+ drivers/dma/apple-admac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sure, but why?
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 2425069c186d..c502f8c3aca7 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -206,7 +206,7 @@ static void admac_cyclic_write_one_desc(struct admac_data *ad, int channo,
+ 	/* If happens means we have buggy code */
+ 	WARN_ON_ONCE(addr + tx->period_len > tx->buf_end);
+ 
+-	dev_dbg(ad->dev, "ch%d descriptor: addr=0x%pad len=0x%zx flags=0x%x\n",
++	dev_dbg(ad->dev, "ch%d descriptor: addr=0x%pad len=0x%zx flags=0x%lx\n",
+ 		channo, &addr, tx->period_len, FLAG_DESC_NOTIFY);
+ 
+ 	writel_relaxed(addr,             ad->base + REG_DESC_WRITE(channo));
+-- 
+2.33.0
 
-> > No, that works perfectly fine - you can enable or disable pins depending
-> > on the jack state.
-
-> Ah, I peeked into soc-jack.c. What about this then: If I understand what
-> pins represent, they would be at the remote end of the DAPM paths. So if
-> for the speakers I add something like
-
->    Headphones Codec Out =E2=80=94> Jack pin
->=20
->                        +--> Always-on pin
->                        |
->    Speaker Amp Out -> Mux
->                        |
->                        +--> Jack inverted pin
-
-> and let userspace control the mux, it would in effect support the same
-> use cases as what I attempted in the code so far. Sounds somewhat right?
-
-Yes, that should DTRT.  If the mux is working properly with DAPM (not
-sure it does with DPCM but ICBW) then you shouldn't even need the jack
-integration since the mux would disconnect the unused output when it
-gets switched.
-
---8PA9aIQYrjMhOXsy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKiIWAACgkQJNaLcl1U
-h9CPXQf/ZMQGcAD7+pTSBWR4+WU2VepcoHhnVLOflAgyJQjnRir5E8L3PN0OaI/D
-dvAR3rvl9pttuZZCiK7Dr7xjWyep9qh3Wbh0Tv4CcR7fb88qYgSiZRzvDVDql24W
-JYQusypBqzGCPadH2+XUnrI7jKGaagm46KTxNdnEEnnMEUosu+/bhnoFnOi8tBvP
-ANAengNgcpTfFvbakGrHg7LL6EYTR9gsjNpPnd8nnhoMcJGylTbYwcWO2oSPJccF
-Eu+W+HN2OGE3j3j5tW5jJ4fhOaXQ2b7R8ngc8VWHncgUKKFgtlXt5NF1PZ1x0XUh
-yTN7VXtNkQRolvvX+GrjQk9uN9N08g==
-=tdB1
------END PGP SIGNATURE-----
-
---8PA9aIQYrjMhOXsy--
