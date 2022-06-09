@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0010A7C
-	for <asahi@lists.linux.dev>; Thu,  9 Jun 2022 13:16:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08F2FC34114;
-	Thu,  9 Jun 2022 13:16:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A851E7C
+	for <asahi@lists.linux.dev>; Thu,  9 Jun 2022 13:33:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A641BC34114;
+	Thu,  9 Jun 2022 13:33:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654780570;
-	bh=adIY73cUSCNwOEj4s+9TfwrvjgCT5vabHNIojXe/1uY=;
+	s=k20201202; t=1654781630;
+	bh=By/LmjmkZstbquCKqvZQy6ApS9VkUQsifOo+GuV6Dko=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WYPI/dFW/4u4zTXC/IoaW+gqiph/U3f8dUrIV74OlJs0SAnkbFcVND+snhWDy+MYh
-	 6ioLbFofSxMV7wfxsQubzFcp7eTHg3LR3D+RM3LC975VPbwms9sD1u0fzMbkuK+7aZ
-	 Hq6J0DhKtzTC3IsvGKX9eswrN40xD110OJDrNfNDsCNKB94cTJL53JgZBEcnqbkddT
-	 lLTbP/uNM2VCh5PIs/E4J25prK2pS1ggzPizFluCG2fNfVAlxsCvzIncZN5RMqgVXo
-	 sxWPPRxk2eVKbDsvcyXmElZHZvHsWOE8mcZOC/F3x32x/sWUjeGTGdnynKF84hiXFL
-	 9k55FZrg5hBdg==
-Date: Thu, 9 Jun 2022 14:16:04 +0100
+	b=jBjS/rOwm0hXNM3I8qiEPO7/IWTr1BS4RG6x9wN9iGRDrDP9gF+wZT1lEBA/ZPR3E
+	 /IznIWKF1BjwRBQm+yZjYzHz4pWUj8mScY/u/lV2NkIej/gw6RywABIeNCvJs9IdK4
+	 th2rkhqsJp/PKLG3zb1z9m9UeN6qRprBs562Aj/2KeDD+OeNMciH67M6F5pVx6scZ0
+	 ZcH7msHNtn5u64cIA6FePjvBIyLF4Ix87m6SMxaXkGNAhALWn6ZXdcMSUKX09U5OZ7
+	 bEByuQ0LUh4bmqVP9WuIiZTTSWrp0ZzdcUuzDTDkfYjNAEF0IfjvbysQQuF/vGSYMc
+	 rGQAi9DvNHL8g==
+Date: Thu, 9 Jun 2022 14:33:44 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
@@ -26,7 +26,7 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
 	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 	asahi@lists.linux.dev
 Subject: Re: [RFC PATCH v2 5/5] ASoC: apple: Add macaudio machine driver
-Message-ID: <YqHylN3xba9XFrF8@sirena.org.uk>
+Message-ID: <YqH2uCgaedf0HQPE@sirena.org.uk>
 References: <20220606191910.16580-1-povik+lin@cutebit.org>
  <20220606191910.16580-6-povik+lin@cutebit.org>
 Precedence: bulk
@@ -36,110 +36,115 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zP4ArPesiXfS095U"
+	protocol="application/pgp-signature"; boundary="Yt9911NapMtJ1eUK"
 Content-Disposition: inline
 In-Reply-To: <20220606191910.16580-6-povik+lin@cutebit.org>
 X-Cookie: Space is limited.
 
 
---zP4ArPesiXfS095U
+--Yt9911NapMtJ1eUK
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Mon, Jun 06, 2022 at 09:19:10PM +0200, Martin Povi=C5=A1er wrote:
 
-> + *  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90       =E2=94=8C=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=96=BA =E2=94=8C=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90     =E2=94=8C=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=90
-> + *  =E2=94=82 Primary  =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=A4                 =E2=94=82 Mux =E2=94=82 =
-=E2=94=80=E2=94=80=E2=96=BA =E2=94=82 Speakers =E2=94=82
-> + *  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98       =E2=94=82    =E2=94=8C=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=96=BA =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=98     =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
-> + *                =E2=94=8C=E2=94=80=E2=94=80=E2=94=80 =E2=94=82 =E2=94=
-=80=E2=94=80=E2=94=80=E2=94=98             =E2=96=B2
-> + *  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90  =E2=94=82    =E2=94=82         =
-         =E2=94=82
-> + *  =E2=94=82Secondary =E2=94=9C=E2=94=80=E2=94=80=E2=94=98    =E2=94=82=
-     =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=B4=E2=94=90
-> + *  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98       =E2=94=9C=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=96=BA=E2=94=82Plug-in Demux=E2=94=82
-> + *                     =E2=94=82     =E2=94=94=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=AC=E2=94=98
-> + *                     =E2=94=82                  =E2=94=82
-> + *                     =E2=94=82                  =E2=96=BC
-> + *                     =E2=94=82                 =E2=94=8C=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90     =E2=94=8C=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=90
-> + *                     =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=96=BA =E2=94=82 Mux =E2=94=82 =E2=94=80=E2=94=80=
-=E2=96=BA =E2=94=82Headphones=E2=94=82
-> + *                                       =E2=94=94=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=98     =E2=94=94=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
+> +		/*
+> +		 * Primary FE
+> +		 *
+> +		 * The mclk/fs ratio at 64 for the primary frontend is important
+> +		 * to ensure that the headphones codec's idea of left and right
+> +		 * in a stereo stream over I2S fits in nicely with everyone else's.
+> +		 * (This is until the headphones codec's driver supports
+> +		 * set_tdm_slot.)
+> +		 *
+> +		 * The low mclk/fs ratio precludes transmitting more than two
+> +		 * channels over I2S, but that's okay since there is the secondary
+> +		 * FE for speaker arrays anyway.
+> +		 */
+> +		.mclk_fs =3D 64,
+> +	},
 
-As far as I can tell this demux is entirely software based - why not
-just expose the routing control to userspace and let it handle
-switching (which I suspect may be more featureful than what's
-implemented here)?
+This seems weird - it looks like it's confusing MCLK and the bit clock
+for the audio bus.  These are two different clocks.  Note that it's very
+common for devices to require a higher MCLK/fs ratio to deliver the best
+audio performance, 256fs is standard.
 
-> +static int macaudio_jack_event(struct notifier_block *nb, unsigned long =
-event,
-> +                               void *data)
+> +	{
+> +		/*
+> +		 * Secondary FE
+> +		 *
+> +		 * Here we want frames plenty long to be able to drive all
+> +		 * those fancy speaker arrays.
+> +		 */
+> +		.mclk_fs =3D 256,
+> +	}
+
+Same thing here - this is at least confusing MCLK and the bit clock.
+
+> +static bool macaudio_match_kctl_name(const char *pattern, const char *na=
+me)
 > +{
-> +       struct snd_soc_jack *jack =3D data;
-> +       struct macaudio_snd_data *ma =3D snd_soc_card_get_drvdata(jack->c=
-ard);
+> +	if (pattern[0] =3D=3D '*') {
+> +		int namelen, patternlen;
 > +
-> +       ma->jack_plugin_state =3D !!event;
+> +		pattern++;
+> +		if (pattern[0] =3D=3D ' ')
+> +			pattern++;
 > +
-> +       if (!ma->plugin_demux_kcontrol)
-> +               return 0;
+> +		namelen =3D strlen(name);
+> +		patternlen =3D strlen(pattern);
 > +
-> +       snd_soc_dapm_mux_update_power(&ma->card.dapm, ma->plugin_demux_kc=
-ontrol,
-> +                                     ma->jack_plugin_state,
-> +                                     (struct soc_enum *) &macaudio_plugi=
-n_demux_enum, NULL);
+> +		if (namelen > patternlen)
+> +			name +=3D (namelen - patternlen);
+> +	}
 > +
-> +       return 0;
+> +	return !strcmp(name, pattern);
+> +}
+> +
+> +static int macaudio_limit_volume(struct snd_soc_card *card,
+> +				 const char *pattern, int max)
+> +{
+> +	struct snd_kcontrol *kctl;
+> +	struct soc_mixer_control *mc;
+> +	int found =3D 0;
+> +
+> +	list_for_each_entry(kctl, &card->snd_card->controls, list) {
+> +		if (!macaudio_match_kctl_name(pattern, kctl->id.name))
+> +			continue;
+> +
+> +		found++;
+> +		dev_dbg(card->dev, "limiting volume on '%s'\n", kctl->id.name);
+> +
+> +		/*
+> +		 * TODO: This doesn't decrease the volume if it's already
+> +		 * above the limit!
+> +		 */
+> +		mc =3D (struct soc_mixer_control *)kctl->private_value;
+> +		if (max <=3D mc->max)
+> +			mc->platform_max =3D max;
+> +
+> +	}
+> +
+> +	return found;
 > +}
 
-This should be integrated with the core jack detection stuff in
-soc-jack.c and/or the core stuff that's wrapping - that way you'll
-ensure that events are generated and status readable via all the
-interfaces userspace might be looking for.  The ASoC stuff also has some
-DAPM integration for turning on/off outputs which might DTRT for you if
-you do need it in kernel.
+This shouldn't be open coded in a driver, please factor it out into the
+core so we've got an API for "set limit X on control Y" then call that.
 
---zP4ArPesiXfS095U
+--Yt9911NapMtJ1eUK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKh8pQACgkQJNaLcl1U
-h9A35AgAhc/b4LJ2GElO9+hrXTNIF0hkl2AmactD2FfUXkE/CAfoLDtaK/5RtjeR
-4ybKT5miFOnvG5bzMVTQV8BtLKiT9AI3ABDsuj2QMvaTZ95Y3tgqZh738EQAYB5l
-Qrie4m9HHqjp1dLdqvNcgVTg1QWzIddKaMB7bI0FHITUZVqgcq5qZiAtAZ3GGBeP
-ZIdkYMVLhyEIUpjXpYOlHjgxo2wKs+ixIyN9BonMvX6aSOLNXmI/vuqVPYp8uuvn
-u+WXjidw0QlG2gU2kgnncbugvKNMKm4YcCd+CcQ7q4wrwQbH12DT7uD0X2m1/kVE
-py9WhKEDlJiKgkRkR7GjmWGf2OmarA==
-=P1Mm
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKh9rcACgkQJNaLcl1U
+h9Be8Qf/cbx1SuNmXunfKG1D6mfqR8Q1iocw25ztL4MzTR16bJ8oAGIVuIFGvp6F
+65sLYF0riHrCUz1DZvyFCKmcDB+GeSWR9BICYOSnaQg6DnBXQdaBl3uY7v9DRrA6
+ypLzKzTdy5LhR58xRaThyGAiep77ZxpxGmOmPyMZS+oq+NQ4idOE/5z5ENxRSg3n
+qjMDlWlotFv3MjVNNBBFmZsH1oWa2CuxnXjpM/JrOAhEk7rt7Ylx4I3Bhqpv+lgo
+++g3qBUAP1cMdsyYOJza5Jkh4WynmGe3dQ7zj68UbdWoGtvHV8x6SucSnSeVrWXM
+IzZswmQla/NHnxdszylvTnONJmU8kg==
+=K4AF
 -----END PGP SIGNATURE-----
 
---zP4ArPesiXfS095U--
+--Yt9911NapMtJ1eUK--
