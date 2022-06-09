@@ -1,163 +1,108 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 944507C
-	for <asahi@lists.linux.dev>; Thu,  9 Jun 2022 14:10:00 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1654783798; bh=jHH7bIr15k6Wcan9xWpb2RIAAbwJZGEkdGwUmeH+pik=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=XgcTXKYMtUhTeQO6Ro1EGyNKeIdpm0Get6FyG9/ernuBm5uxzfpY+RZ9qbFfzUG1G
-	 nMiPvNPkxTi2YsD4gN8kt2FdsXeBxGW8VWayv/7YVxVlJvWox68X2g88mudvm7kW4o
-	 c6vIcj42mzRKd6BBqt19kf6BscBM7EdFKysHPiD8=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E66A2F23
+	for <asahi@lists.linux.dev>; Thu,  9 Jun 2022 15:03:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77D5FC34115;
+	Thu,  9 Jun 2022 15:03:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654787013;
+	bh=ZGSUzWDwWXAmiQOo13GFnbChwNWQBClHSdybMstPJBU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=spG2dWJXt/OtibBPi8WHIfGHUXxfeyy5/Sm7zVjMItXwD0iVyfgYaWK8utduXnVFx
+	 7KhswRD3hP50E+mhKzh1thRj+VzxpgR4M3I7Rju85SZd9AxFEheO1CkK5J6TIy9DBK
+	 vtvWZvmd9pwSt/8DYskm74XRtCKyJT+cPqW2ntmMP9fbO2isWU2i4DOaQ9Q8tHyOQ9
+	 FjfsojDm+IPdwWfcNhhRhmMbcqerCSBQDlCMvLOxLqyQ9LndHfVbHxr4o0lf5PQUjC
+	 4okYtP2tiJqVIJc455B8a1DpNQmvZFlHZCgqGmozRMOjx4ehAzEpw4ZBlGGJPDMAyT
+	 ZCgeLLJWxS7rQ==
+Date: Thu, 9 Jun 2022 16:03:27 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Mark Kettenis <kettenis@openbsd.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	asahi@lists.linux.dev
+Subject: Re: [RFC PATCH v2 5/5] ASoC: apple: Add macaudio machine driver
+Message-ID: <YqILv21K+tZ00Qhx@sirena.org.uk>
+References: <20220606191910.16580-1-povik+lin@cutebit.org>
+ <20220606191910.16580-6-povik+lin@cutebit.org>
+ <YqHylN3xba9XFrF8@sirena.org.uk>
+ <0E611F13-96E3-41FD-9550-F900B2EFB00A@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [RFC PATCH v2 5/5] ASoC: apple: Add macaudio machine driver
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <YqH2uCgaedf0HQPE@sirena.org.uk>
-Date: Thu, 9 Jun 2022 16:09:57 +0200
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Mark Kettenis <kettenis@openbsd.org>,
- Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>,
- asahi@lists.linux.dev
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vbGz0wp4L4rRy+b7"
+Content-Disposition: inline
+In-Reply-To: <0E611F13-96E3-41FD-9550-F900B2EFB00A@cutebit.org>
+X-Cookie: Space is limited.
+
+
+--vbGz0wp4L4rRy+b7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <8961DDD2-93FF-4A18-BCA2-90FCE298F517@cutebit.org>
-References: <20220606191910.16580-1-povik+lin@cutebit.org>
- <20220606191910.16580-6-povik+lin@cutebit.org>
- <YqH2uCgaedf0HQPE@sirena.org.uk>
-To: Mark Brown <broonie@kernel.org>
 
+On Thu, Jun 09, 2022 at 03:42:09PM +0200, Martin Povi=C5=A1er wrote:
+> > On 9. 6. 2022, at 15:16, Mark Brown <broonie@kernel.org> wrote:
 
-> On 9. 6. 2022, at 15:33, Mark Brown <broonie@kernel.org> wrote:
->=20
-> On Mon, Jun 06, 2022 at 09:19:10PM +0200, Martin Povi=C5=A1er wrote:
->=20
->> +		/*
->> +		 * Primary FE
->> +		 *
->> +		 * The mclk/fs ratio at 64 for the primary frontend is =
-important
->> +		 * to ensure that the headphones codec's idea of left =
-and right
->> +		 * in a stereo stream over I2S fits in nicely with =
-everyone else's.
->> +		 * (This is until the headphones codec's driver supports
->> +		 * set_tdm_slot.)
->> +		 *
->> +		 * The low mclk/fs ratio precludes transmitting more =
-than two
->> +		 * channels over I2S, but that's okay since there is the =
-secondary
->> +		 * FE for speaker arrays anyway.
->> +		 */
->> +		.mclk_fs =3D 64,
->> +	},
->=20
-> This seems weird - it looks like it's confusing MCLK and the bit clock
-> for the audio bus.  These are two different clocks.  Note that it's =
-very
-> common for devices to require a higher MCLK/fs ratio to deliver the =
-best
-> audio performance, 256fs is standard.
+> > As far as I can tell this demux is entirely software based - why not
+> > just expose the routing control to userspace and let it handle
+> > switching (which I suspect may be more featureful than what's
+> > implemented here)?
 
-On these machines we are not producing any other clock for the codecs
-besides the bit clock, so I am using MCLK interchangeably for it. (It is
-what the sample rate is derived from after all.)
+> Well, userspace should have the other two muxes at its disposal to
+> implement any routing/switching it wishes -- but in addition we are
+> also offering letting kernel take care of the switching, by pointing
+> the muxes to the demux.
 
-One of the codec drivers this is to be used with (cs42l42) expects to be
-given the I2S bit clock with
+> I assume (but I don=E2=80=99t know the extent of what=E2=80=99s possible =
+with UCM files),
+> that this will be of some value to users running plain ALSA with no
+> sound server.
 
-  snd_soc_dai_set_sysclk(dai, 0, mclk, SND_SOC_CLOCK_IN);
+That's basically no userspaces at this point TBH.  I'm not convinced
+it's a good idea to be adding custom code for that use case.
 
-I can rename mclk to bclk in all of the code to make it clearer maybe.
-Also the platform driver can take the bit clock value from =
-set_bclk_ratio,
-instead of set_sysclk from where it takes it now. The cs42l42 driver I =
-can
-patch too to accept set_bclk_ratio.
+> > This should be integrated with the core jack detection stuff in
+> > soc-jack.c and/or the core stuff that's wrapping - that way you'll
+> > ensure that events are generated and status readable via all the
+> > interfaces userspace might be looking for.  The ASoC stuff also has some
+> > DAPM integration for turning on/off outputs which might DTRT for you if
+> > you do need it in kernel.
 
->> +	{
->> +		/*
->> +		 * Secondary FE
->> +		 *
->> +		 * Here we want frames plenty long to be able to drive =
-all
->> +		 * those fancy speaker arrays.
->> +		 */
->> +		.mclk_fs =3D 256,
->> +	}
->=20
-> Same thing here - this is at least confusing MCLK and the bit clock.
->=20
->> +static bool macaudio_match_kctl_name(const char *pattern, const char =
-*name)
->> +{
->> +	if (pattern[0] =3D=3D '*') {
->> +		int namelen, patternlen;
->> +
->> +		pattern++;
->> +		if (pattern[0] =3D=3D ' ')
->> +			pattern++;
->> +
->> +		namelen =3D strlen(name);
->> +		patternlen =3D strlen(pattern);
->> +
->> +		if (namelen > patternlen)
->> +			name +=3D (namelen - patternlen);
->> +	}
->> +
->> +	return !strcmp(name, pattern);
->> +}
->> +
->> +static int macaudio_limit_volume(struct snd_soc_card *card,
->> +				 const char *pattern, int max)
->> +{
->> +	struct snd_kcontrol *kctl;
->> +	struct soc_mixer_control *mc;
->> +	int found =3D 0;
->> +
->> +	list_for_each_entry(kctl, &card->snd_card->controls, list) {
->> +		if (!macaudio_match_kctl_name(pattern, kctl->id.name))
->> +			continue;
->> +
->> +		found++;
->> +		dev_dbg(card->dev, "limiting volume on '%s'\n", =
-kctl->id.name);
->> +
->> +		/*
->> +		 * TODO: This doesn't decrease the volume if it's =
-already
->> +		 * above the limit!
->> +		 */
->> +		mc =3D (struct soc_mixer_control *)kctl->private_value;
->> +		if (max <=3D mc->max)
->> +			mc->platform_max =3D max;
->> +
->> +	}
->> +
->> +	return found;
->> +}
->=20
-> This shouldn't be open coded in a driver, please factor it out into =
-the
-> core so we've got an API for "set limit X on control Y" then call =
-that.
+> Aren=E2=80=99t all the right events to userspace generated already by the
+> codec calling snd_soc_jack_report?
 
-There=E2=80=99s already snd_soc_limit_volume, but it takes a fixed =
-control name.
-Can I extend it to understand patterns beginning with a wildcard, like
-'* Amp Gain Volume=E2=80=99?
+I wasn't able to find any references to snd_soc_jack_report() in your
+series?
 
+> I looked at the existing DAPM integration but I couldn=E2=80=99t figure o=
+ut
+> how to switch the demux with it.
+
+Yes, it won't do that.  If you can't stream the same audio to both then
+you'd need something else.
+
+--vbGz0wp4L4rRy+b7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKiC74ACgkQJNaLcl1U
+h9CaSwf+K7qAgCHyPIBkRRBsmZJ9BXgtuDVApqNRqwM4iuIPyr9H8Ro7YZhyqNXv
+iGc9p09J9KRFc8LdHqqe+WcUutRCIHrIEjkTmUlEN8I6hr2yWyVx8foGVKV9us8H
+0ifiPXkXLbXph9C5KBM9ssKYB+Zcu+TnyVEQn68L6z0MRsirKK6t/aEWRgrCu9Mp
++P14CgDfGtI0WnudAYVYIbB4euQcqy/kNCPmBzCce6+0AWhRi5r84seF3pAtECkw
+/aXfYtwposNztGqSsZe2ryWBdztM1VQdt6ZQ1TtPxaIllUigNTvqe0JRPkk3Ii3J
+49VwyPQb1UL/MJYuO9hTxO04Iz8G9g==
+=WcrN
+-----END PGP SIGNATURE-----
+
+--vbGz0wp4L4rRy+b7--
