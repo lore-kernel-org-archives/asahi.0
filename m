@@ -1,11 +1,11 @@
 Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AC6A44
-	for <asahi@lists.linux.dev>; Tue, 21 Jun 2022 07:18:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B68A56
+	for <asahi@lists.linux.dev>; Tue, 21 Jun 2022 07:25:29 +0000 (UTC)
 Received: from coburn.home.jannau.net (p579ad988.dip0.t-ipconnect.de [87.154.217.136])
-	by soltyk.jannau.net (Postfix) with ESMTPSA id AB4F126ED1D;
-	Tue, 21 Jun 2022 09:18:51 +0200 (CEST)
+	by soltyk.jannau.net (Postfix) with ESMTPSA id 7E63126ED18;
+	Tue, 21 Jun 2022 09:18:50 +0200 (CEST)
 From: Janne Grunau <j@jannau.net>
 To: iommu@lists.linux-foundation.org
 Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -17,9 +17,9 @@ Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
 	Will Deacon <will@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/5] iommu: dart: Support t6000 variant
-Date: Tue, 21 Jun 2022 09:18:48 +0200
-Message-Id: <20220621071848.14834-6-j@jannau.net>
+Subject: [PATCH v3 3/5] iommu/io-pgtable: Add DART subpage protection support
+Date: Tue, 21 Jun 2022 09:18:46 +0200
+Message-Id: <20220621071848.14834-4-j@jannau.net>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220621071848.14834-1-j@jannau.net>
 References: <20220621071848.14834-1-j@jannau.net>
@@ -33,13 +33,11 @@ Content-Transfer-Encoding: 8bit
 
 From: Sven Peter <sven@svenpeter.dev>
 
-The M1 Pro/Max/Ultra SoCs come with a new variant of DART which
-supports a larger physical address space with a different PTE format.
-Pass through the correct paddr address space size and the PTE format
-to the io-pgtable code which will take care of the rest.
+DART allows to only expose a subpage to the device. While this is an
+optional feature on the M1 DARTs the new ones present on the Pro/Max
+models require this field in every PTE.
 
 Signed-off-by: Sven Peter <sven@svenpeter.dev>
-Co-developed-by: Janne Grunau <j@jannau.net>
 Signed-off-by: Janne Grunau <j@jannau.net>
 
 ---
@@ -47,85 +45,42 @@ Signed-off-by: Janne Grunau <j@jannau.net>
 Changes in v3:
 - apply change to io-pgtable-dart.c
 
-Changes in v2:
-- use APPLE_DART2 PTE format for dart-t6000
+ drivers/iommu/io-pgtable-dart.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
- drivers/iommu/apple-dart.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index 8af0242a90d9..e5793c0d08b4 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -81,10 +81,16 @@
- #define DART_TTBR_VALID BIT(31)
- #define DART_TTBR_SHIFT 12
+diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
+index 0c5222942c65..fa8025c03bb5 100644
+--- a/drivers/iommu/io-pgtable-dart.c
++++ b/drivers/iommu/io-pgtable-dart.c
+@@ -14,6 +14,7 @@
+ #define pr_fmt(fmt)	"dart io-pgtable: " fmt
  
-+struct apple_dart_hw {
-+	u32 oas;
-+	enum io_pgtable_fmt fmt;
-+};
+ #include <linux/atomic.h>
++#include <linux/bitfield.h>
+ #include <linux/bitops.h>
+ #include <linux/io-pgtable.h>
+ #include <linux/kernel.h>
+@@ -63,6 +64,9 @@
+ /* Calculate the block/page mapping size at level l for pagetable in d. */
+ #define DART_BLOCK_SIZE(l, d)	(1ULL << DART_LVL_SHIFT(l, d))
+ 
++#define APPLE_DART_PTE_SUBPAGE_START   GENMASK_ULL(63, 52)
++#define APPLE_DART_PTE_SUBPAGE_END     GENMASK_ULL(51, 40)
 +
- /*
-  * Private structure associated with each DART device.
-  *
-  * @dev: device struct
-+ * @hw: SoC-specific hardware data
-  * @regs: mapped MMIO region
-  * @irq: interrupt number, can be shared with other DARTs
-  * @clks: clocks associated with this DART
-@@ -98,6 +104,7 @@
-  */
- struct apple_dart {
- 	struct device *dev;
-+	const struct apple_dart_hw *hw;
+ #define APPLE_DART1_PADDR_MASK	GENMASK_ULL(35, 12)
  
- 	void __iomem *regs;
+ /* Apple DART1 protection bits */
+@@ -140,6 +144,10 @@ static void __dart_init_pte(struct dart_io_pgtable *data,
  
-@@ -421,13 +428,13 @@ static int apple_dart_finalize_domain(struct iommu_domain *domain,
- 	pgtbl_cfg = (struct io_pgtable_cfg){
- 		.pgsize_bitmap = dart->pgsize,
- 		.ias = 32,
--		.oas = 36,
-+		.oas = dart->hw->oas,
- 		.coherent_walk = 1,
- 		.iommu_dev = dart->dev,
- 	};
+ 	pte |= APPLE_DART_PTE_VALID;
  
- 	dart_domain->pgtbl_ops =
--		alloc_io_pgtable_ops(APPLE_DART, &pgtbl_cfg, domain);
-+		alloc_io_pgtable_ops(dart->hw->fmt, &pgtbl_cfg, domain);
- 	if (!dart_domain->pgtbl_ops) {
- 		ret = -ENOMEM;
- 		goto done;
-@@ -858,6 +865,7 @@ static int apple_dart_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	dart->dev = dev;
-+	dart->hw = of_device_get_match_data(dev);
- 	spin_lock_init(&dart->lock);
- 
- 	dart->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-@@ -946,8 +954,18 @@ static int apple_dart_remove(struct platform_device *pdev)
- 	return 0;
++	/* subpage protection: always allow access to the entire page */
++	pte |= FIELD_PREP(APPLE_DART_PTE_SUBPAGE_START, 0);
++	pte |= FIELD_PREP(APPLE_DART_PTE_SUBPAGE_END, 0xfff);
++
+ 	for (i = 0; i < num_entries; i++)
+ 		ptep[i] = pte | paddr_to_iopte(paddr + i * sz, data);
  }
- 
-+static const struct apple_dart_hw apple_dart_hw_t8103 = {
-+	.oas = 36,
-+	.fmt = APPLE_DART,
-+};
-+static const struct apple_dart_hw apple_dart_hw_t6000 = {
-+	.oas = 42,
-+	.fmt = APPLE_DART2,
-+};
-+
- static const struct of_device_id apple_dart_of_match[] = {
--	{ .compatible = "apple,t8103-dart", .data = NULL },
-+	{ .compatible = "apple,t8103-dart", .data = &apple_dart_hw_t8103 },
-+	{ .compatible = "apple,t6000-dart", .data = &apple_dart_hw_t6000 },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, apple_dart_of_match);
 -- 
 2.35.1
 
