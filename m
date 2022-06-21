@@ -1,78 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9AD7C
-	for <asahi@lists.linux.dev>; Fri, 10 Jun 2022 15:58:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43C84C34114;
-	Fri, 10 Jun 2022 15:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654876727;
-	bh=GDubMMqKX5ziyi7uxi0ZmYERIwl7N131vwqlSO+EgJc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Cb6qvF2W0lCY6kSjtH0jA0xSmnhSAnMUWMGvz0HpazJEipNdgIwQoPd1Vmhd+h8sO
-	 wI3dGE9CUlMBN0Jb14yHn5QCv/KulBspetBlFXgVXFN/SsQH9RWPXYFvnaEaQlwlXj
-	 wyJI2H6JQ2V/1uBzya4Powx00zSivPq6dzrXgfjN33X7MXmfgBN1QyyOn6+1gg9Ktt
-	 2Rs498gkau1LilfMgFJ0AFGnMQHFXq2dIKT3vrddswIE3yToaEyvhReKUGB1m+r6Vi
-	 T8U9mpNUNj/SEMj1qnA2hteO2bJP8HBfKetqriBByXUTsH/Zd6QvQ9dbp28i39VOZP
-	 VJXQTCj8z8csw==
-From: Mark Brown <broonie@kernel.org>
-To: krzk+dt@kernel.org, povik+lin@cutebit.org, tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, robh+dt@kernel.org
-Cc: sven@svenpeter.dev, asahi@lists.linux.dev, kettenis@openbsd.org, marcan@marcan.st, alsa-devel@alsa-project.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20220606191910.16580-1-povik+lin@cutebit.org>
-References: <20220606191910.16580-1-povik+lin@cutebit.org>
-Subject: Re: (subset) [RFC PATCH v2 0/5] Apple Macs machine/platform ASoC driver
-Message-Id: <165487672494.1755957.15170830453341675210.b4-ty@kernel.org>
-Date: Fri, 10 Jun 2022 16:58:44 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9736EA32
+	for <asahi@lists.linux.dev>; Tue, 21 Jun 2022 05:53:25 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 64A0D41A42;
+	Tue, 21 Jun 2022 05:47:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1655790439; bh=ijFdzRKGTtoK1EVyxIS8irIozCEEUXj0UcZnJdewx9o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=q1Y5wLaoxNsvyVxoe1tMqYu3F2C3TZU1t83aZmhfMJKOJpopgE/2q5lzAPty2tvDw
+	 6Z7C6s0YGAZnEbPM1BmgwIVF/AvqFrYgebhKpqDmT6FmZuOR6GxwrvWyyi9/9BS81n
+	 tOoLJScys6Nu2niNI5TERljSVQldBkk4+PINFEpQ34EZNqhosbAPy/6YrzLrWWGoDI
+	 7jw1dux7hSAR2p5lwij4IAkQVa4u/sJVoFoY2CNA181BaXUriBLwi3kFwDE+TErbNG
+	 tPr2+6aFxko7u8wixxz9YoYVH4bvtJE4HRIWPb3O620lQ9YYjMKXzxfrS0TjHQKpTW
+	 r5pkDpBUyPJqQ==
+Message-ID: <703c04df-9b61-0aca-9b2c-41f5a293e828@marcan.st>
+Date: Tue, 21 Jun 2022 14:47:15 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] MAINTAINERS: add ARM/APPLE MACHINE mailing list
+Content-Language: es-ES
+To: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220602173144.2263-1-sven@svenpeter.dev>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20220602173144.2263-1-sven@svenpeter.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 6 Jun 2022 21:19:05 +0200, Martin Povišer wrote:
-> This is again RFC with a machine-level ASoC driver for recent Apple Macs
-> with the M1 line of chips. This time I attached the platform driver too
-> for good measure. What I am interested in the most is checking the overall
-> approach, especially on two points (both in some ways already discussed
-> in previous RFC [0]):
+On 03/06/2022 02.31, Sven Peter wrote:
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->  - The way the platform/machine driver handles the fact that multiple I2S
->    ports (now backend DAIs) can be driven by/connected to the same SERDES
->    unit (now in effect a frontend DAI). After previous discussion I have
->    transitioned to DPCM to model this. I took the opportunity of dynamic
->    backend/frontend routing to support speakers/headphones runtime
->    switching. More on this in comments at top of the machine and platform
->    driver.
-> 
-> [...]
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 55114e73de26..621eeb037a91 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1826,6 +1826,7 @@ ARM/APPLE MACHINE SUPPORT
+>  M:	Hector Martin <marcan@marcan.st>
+>  M:	Sven Peter <sven@svenpeter.dev>
+>  R:	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> +L:	asahi@lists.linux.dev
+>  L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>  S:	Maintained
+>  W:	https://asahilinux.org
 
-Applied to
+Applied to asahi-soc/maintainers. Thanks!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[4/5] ASoC: Introduce 'fixup_controls' card method
-      commit: df4d27b19b892f464685ea45fa6132dd1a2b6864
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+Hector Martin (marcan@marcan.st)
+Public Key: https://mrcn.st/pub
