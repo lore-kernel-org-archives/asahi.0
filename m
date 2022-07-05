@@ -1,41 +1,41 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E783E2F56
-	for <asahi@lists.linux.dev>; Tue,  5 Jul 2022 12:58:49 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id lw20so21509318ejb.4
-        for <asahi@lists.linux.dev>; Tue, 05 Jul 2022 05:58:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805F52F56
+	for <asahi@lists.linux.dev>; Tue,  5 Jul 2022 13:06:57 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id lg18so1731229ejb.0
+        for <asahi@lists.linux.dev>; Tue, 05 Jul 2022 06:06:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mt2U9a7tnFLCX9wgkrM1HMmN66TcXqkkVi2NC46P4ZM=;
-        b=nNuVdrWW+GdYThuwyB/PF+JCo6W0brafNJOZoPms5fDliKEGgqgPz3KAX91npdTZ1B
-         fAJzTnuTwDRlQKkq2dmjFO7RF3pL5zTqZrfvz3AZLLbgVFovf8rL49v0KCDay2snnXEV
-         GjmLyEip5KtMV5YskNmRfjEFCxLW5lXpF1wBEXS9ZWJI75CLUAy5If1AMcpA29eJF9dF
-         8J8rpiZctEMJSz50l4CHpTc9sg4s/zu21eVFx0Fkqu+zQW3xrJhtpFBfy7JMwfl0eDG3
-         2636ZN3hZXOqKC//K6X7mw14DsHqL2BkP/GhQW93GYwtiDu0Z4sAfSSEk1VQctpXXTWE
-         bOiQ==
+        bh=E5lZCn36K7elVbgWUPtU4nIkD2xVpncEAsbxyPDLzyQ=;
+        b=lm8H8F5nhMgMkfJktmNYWnUwAHoU2kzLD1lTjvkXjHVFIckKFJIfzndHBmtswfGRg/
+         MXRKwWqk9GdDKkkUqoELU2G0JpTQkS+85q5nInih4KHrdwlCb32ArHDlZxJXLb14yZ2w
+         +l97eRTC0Rv6D+/OJhsjiyFiepR7ozNkzifW+JtqVkW88Hmw1G+yqTqvB+NTaPXM9WNH
+         edYyvQDB+kYK94PH8/ZDymKjKKoIAPrxwfLE5D+AGN3jfz0NNxFdNDR7eibxSRGx574F
+         7II+SvPVgYI9g9ZmxZYYaN8b0zAdF+EOcBR05XoLHJcl8DPdXwsm9HsEhM3ikdSOVCIO
+         JIfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mt2U9a7tnFLCX9wgkrM1HMmN66TcXqkkVi2NC46P4ZM=;
-        b=eHjtxasN/XA+0tgt8+eYbOhpdOfn4jmZs+TacPIyeGD1jYrguObukkRa5Yj9QDwPzA
-         TSA3ojuKpxJ+L/xxSG3sOTTp49UJWo1Z6cFr8SFpdErcsmxBjUJS4UCilCV+urwriWKj
-         9rQJElmSIfLqj5UJINx7PcAv6hRclc/MF9bN2zpDaTzwFnfDk23uPKDftGuwHoUyrC56
-         GGKsx7pvkykCN7Zs2YDcZ98lqD9US5CM0op9/OxaWBiLHVc8otsaZ+5XNokGt0FDaAyQ
-         rm/Rt6wl3XfMDcsFyQnW/lixdYWxocXfchVCUPJrlFaLfxUhP60HKCbUAKPU96uxbhy4
-         0bvA==
-X-Gm-Message-State: AJIora8YPJlMUiXqRa8cUUA4zA6t4yAzENhvkhqJn0x1JSfhv8oq2NBk
-	f1oo3QDml2QmLFfu2SfoFtM=
-X-Google-Smtp-Source: AGRyM1smNxj9DjX4JWeWQaDKC/wlX6qMAURGlLE5EGv8L1+qkZ4epmG66QZpNEqUQqtTXMtmAY/6Ow==
-X-Received: by 2002:a17:907:6d1d:b0:726:363e:cca3 with SMTP id sa29-20020a1709076d1d00b00726363ecca3mr33679851ejc.713.1657025928198;
-        Tue, 05 Jul 2022 05:58:48 -0700 (PDT)
+        bh=E5lZCn36K7elVbgWUPtU4nIkD2xVpncEAsbxyPDLzyQ=;
+        b=BA2OUS2ABU1aJi/m4o9XpiN4iuasdTUreaLVchlKZG3qnl9tkHiFZPrA62wWvkGA00
+         ozqRH4sjvvoyJiOPADofPcvqc3CMhcF6qIxc73tTL9OW6lkDbDYSiKnDbg/oiLve3WT3
+         MMtnJXuWKiQjsHTLd7A8zFMITO0+umcyEWWhJHt9EzhpDPB+rhl4j9pakBHtutgSrqJB
+         g/BzCO0zynhe8sdoRXqy2wXFHaEVlcNp/XmssziE4lnhCAuuj+AHVSDypzePfFpSo4O4
+         +/ih+EHXh0d67vg4mFyEcr/lb6+hrE/4PhzOj11rJ27Ub9qM4At0XRgD0GNr6+HFweuo
+         dNNw==
+X-Gm-Message-State: AJIora8XGEaKpaEVeEmifKqfDkUis/KmFEcWVaT64eEqagDGZgTowJGG
+	hHa8ioShxQFpqo1OoU+lLx8=
+X-Google-Smtp-Source: AGRyM1vD8mMwCrBI8neyCmTlP1RSBwb6Rp+y6x2OGJiIuDCQ/Ljz4kwRfPcQ5Ky4BFx6E/eSBIIMrw==
+X-Received: by 2002:a17:907:1dc6:b0:72a:5e9a:91be with SMTP id og6-20020a1709071dc600b0072a5e9a91bemr28945775ejc.730.1657026415675;
+        Tue, 05 Jul 2022 06:06:55 -0700 (PDT)
 Received: from localhost (p200300e41f12c800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f12:c800:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ch25-20020a0564021bd900b00437e027fad9sm12086140edb.48.2022.07.05.05.58.46
+        by smtp.gmail.com with ESMTPSA id d8-20020a056402000800b0043a71c376a2sm2744485edu.33.2022.07.05.06.06.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 05:58:47 -0700 (PDT)
+        Tue, 05 Jul 2022 06:06:53 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Joerg Roedel <joro@8bytes.org>
@@ -51,12 +51,12 @@ Cc: Will Deacon <will@kernel.org>,
 	iommu@lists.linux-foundation.org,
 	linux-tegra@vger.kernel.org,
 	asahi@lists.linux.dev
-Subject: [PATCH v6 5/5] iommu/tegra-smmu: Support managed domains
-Date: Tue,  5 Jul 2022 14:58:34 +0200
-Message-Id: <20220705125834.431711-6-thierry.reding@gmail.com>
+Subject: [PATCH v7] dt-bindings: reserved-memory: Document iommu-addresses
+Date: Tue,  5 Jul 2022 15:06:52 +0200
+Message-Id: <20220705130652.433496-1-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220705125834.431711-1-thierry.reding@gmail.com>
-References: <20220705125834.431711-1-thierry.reding@gmail.com>
+In-Reply-To: <20220705125834.431711-2-thierry.reding@gmail.com>
+References: <20220705125834.431711-2-thierry.reding@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -65,101 +65,120 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Navneet Kumar <navneetk@nvidia.com>
+From: Thierry Reding <treding@nvidia.com>
 
-Allow creating identity and DMA API compatible IOMMU domains. When
-creating a DMA API compatible domain, make sure to also create the
-required cookie.
+This adds the "iommu-addresses" property to reserved-memory nodes, which
+allow describing the interaction of memory regions with IOMMUs. Two use-
+cases are supported:
 
-Signed-off-by: Navneet Kumar <navneetk@nvidia.com>
+  1. Static mappings can be described by pairing the "iommu-addresses"
+     property with a "reg" property. This is mostly useful for adopting
+     firmware-allocated buffers via identity mappings. One common use-
+     case where this is required is if early firmware or bootloaders
+     have set up a bootsplash framebuffer that a display controller is
+     actively scanning out from during the operating system boot
+     process.
+
+  2. If an "iommu-addresses" property exists without a "reg" property,
+     the reserved-memory node describes an IOVA reservation. Such memory
+     regions are excluded from the IOVA space available to operating
+     system drivers and can be used for regions that must not be used to
+     map arbitrary buffers.
+
+Each mapping or reservation is tied to a specific device via a phandle
+to the device's device tree node. This allows a reserved-memory region
+to be reused across multiple devices.
+
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
-Changes in v5:
-- remove DMA cookie initialization that's now no longer needed
+Changes in v7:
+- keep reserved-memory.txt to avoid broken references
 
- drivers/iommu/tegra-smmu.c | 37 ++++++++++++++++++++-----------------
- 1 file changed, 20 insertions(+), 17 deletions(-)
+Changes in v6:
+- add device phandle to iommu-addresses property in examples
+- remove now unused dt-bindings/reserved-memory.h header
+---
+ .../reserved-memory/reserved-memory.yaml      | 62 +++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 93879c40056c..f8b2b863c111 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -16,6 +16,7 @@
- #include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/dma-mapping.h>
-+#include <linux/dma-iommu.h>
+diff --git a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.yaml b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.yaml
+index 7a0744052ff6..8b885ee82ff4 100644
+--- a/Documentation/devicetree/bindings/reserved-memory/reserved-memory.yaml
++++ b/Documentation/devicetree/bindings/reserved-memory/reserved-memory.yaml
+@@ -52,6 +52,30 @@ properties:
+       Address and Length pairs. Specifies regions of memory that are
+       acceptable to allocate from.
  
- #include <soc/tegra/ahb.h>
- #include <soc/tegra/mc.h>
-@@ -277,7 +278,9 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- {
- 	struct tegra_smmu_as *as;
- 
--	if (type != IOMMU_DOMAIN_UNMANAGED)
-+	if (type != IOMMU_DOMAIN_UNMANAGED &&
-+	    type != IOMMU_DOMAIN_DMA &&
-+	    type != IOMMU_DOMAIN_IDENTITY)
- 		return NULL;
- 
- 	as = kzalloc(sizeof(*as), GFP_KERNEL);
-@@ -287,25 +290,16 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- 	as->attr = SMMU_PD_READABLE | SMMU_PD_WRITABLE | SMMU_PD_NONSECURE;
- 
- 	as->pd = alloc_page(GFP_KERNEL | __GFP_DMA | __GFP_ZERO);
--	if (!as->pd) {
--		kfree(as);
--		return NULL;
--	}
-+	if (!as->pd)
-+		goto free_as;
- 
- 	as->count = kcalloc(SMMU_NUM_PDE, sizeof(u32), GFP_KERNEL);
--	if (!as->count) {
--		__free_page(as->pd);
--		kfree(as);
--		return NULL;
--	}
-+	if (!as->count)
-+		goto free_pd_range;
- 
- 	as->pts = kcalloc(SMMU_NUM_PDE, sizeof(*as->pts), GFP_KERNEL);
--	if (!as->pts) {
--		kfree(as->count);
--		__free_page(as->pd);
--		kfree(as);
--		return NULL;
--	}
-+	if (!as->pts)
-+		goto free_pts;
- 
- 	spin_lock_init(&as->lock);
- 
-@@ -315,6 +309,15 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- 	as->domain.geometry.force_aperture = true;
- 
- 	return &as->domain;
++  iommu-addresses:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description: >
++      A list of phandle and specifier pairs that describe static IO virtual
++      address space mappings and carveouts associated with a given reserved
++      memory region. The phandle in the first cell refers to the device for
++      which the mapping or carveout is to be created.
 +
-+free_pts:
-+	kfree(as->pts);
-+free_pd_range:
-+	__free_page(as->pd);
-+free_as:
-+	kfree(as);
++      The specifier consists of an address/size pair and denotes the IO
++      virtual address range of the region for the given device. The exact
++      format depends on the values of the "#address-cells" and "#size-cells"
++      properties of the device referenced via the phandle.
 +
-+	return NULL;
- }
++      When used in combination with a "reg" property, an IOVA mapping is to
++      be established for this memory region. One example where this can be
++      useful is to create an identity mapping for physical memory that the
++      firmware has configured some hardware to access (such as a bootsplash
++      framebuffer).
++
++      If no "reg" property is specified, the "iommu-addresses" property
++      defines carveout regions in the IOVA space for the given device. This
++      can be useful if a certain memory region should not be mapped through
++      the IOMMU.
++
+   no-map:
+     type: boolean
+     description: >
+@@ -97,4 +121,42 @@ oneOf:
  
- static void tegra_smmu_domain_free(struct iommu_domain *domain)
-@@ -1009,7 +1012,7 @@ static const struct iommu_ops tegra_smmu_ops = {
- 	.probe_device = tegra_smmu_probe_device,
- 	.release_device = tegra_smmu_release_device,
- 	.device_group = tegra_smmu_device_group,
--	.get_resv_regions = of_iommu_get_resv_regions,
-+	.get_resv_regions = iommu_dma_get_resv_regions,
- 	.put_resv_regions = generic_iommu_put_resv_regions,
- 	.of_xlate = tegra_smmu_of_xlate,
- 	.pgsize_bitmap = SZ_4K,
+ additionalProperties: true
+ 
++examples:
++  - |
++    / {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      reserved-memory {
++        ranges;
++
++        adsp_resv: reservation-adsp {
++          /*
++           * Restrict IOVA mappings for ADSP buffers to the 512 MiB region
++           * from 0x40000000 - 0x5fffffff. Anything outside is reserved by
++           * the ADSP for I/O memory and private memory allocations.
++           */
++          iommu-addresses = <&adsp 0x0 0x00000000 0x00 0x40000000>,
++                            <&adsp 0x0 0x60000000 0xff 0xa0000000>;
++        };
++
++        fb: framebuffer@90000000 {
++          reg = <0x0 0x90000000 0x0 0x00800000>;
++          iommu-addresses = <&dc0 0x0 0x90000000 0x0 0x00800000>;
++        };
++      };
++
++      bus@0 {
++        adsp: adsp@2990000 {
++          reg = <0x0 0x2990000 0x0 0x2000>;
++          memory-region = <&adsp_resv>;
++        };
++
++        dc0: display@15200000 {
++          reg = <0x0 0x15200000 0x0 0x10000>;
++          memory-region = <&fb>;
++        };
++      };
++    };
++
+ ...
 -- 
 2.36.1
 
