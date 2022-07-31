@@ -1,96 +1,110 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A672515AD
-	for <asahi@lists.linux.dev>; Sun, 31 Jul 2022 07:04:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 3CDD742597;
-	Sun, 31 Jul 2022 07:04:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1659251056; bh=IHRQqvX4twQwqPyyYOZbP4kt2K6mlg9BVwDRMLK7idE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kpGae5qKMQ8jQ836i4GFOEXv9321qF54Mdf1/hPPsey/gfZM0qNEpm8yK8MC+9mRU
-	 zcxNy3m+rphB28lj2uvZy2KQO9BA1T/lYXDPaBLQRUds+Sp0hI3XdPhVhpOlls4yep
-	 Q0471BuhlzjbFLjArw44RQuII7h08wwf3qxNh36MXYIn87pYYmaCrGzSrvtpzUMED7
-	 Fg6VZW4L3hewS+y8Wu8GmSA1x4DtbBh/+6FdMUJtIDUIcnEXMljmddR78fxdVUYJSf
-	 9JZJrEEmtDMTN/akJuDxkPCsdN4+LGNXND7+HzOlzvUMbAg90ETJcAYwHmPf0bN3A1
-	 7FAk8iFisIKxw==
-Message-ID: <ae7dea84-b438-f67f-c18b-d67507eb4b2a@marcan.st>
-Date: Sun, 31 Jul 2022 16:04:11 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B188F17C4
+	for <asahi@lists.linux.dev>; Sun, 31 Jul 2022 11:18:32 +0000 (UTC)
+Received: from localhost (bloch.sibelius.xs4all.nl [local])
+	by bloch.sibelius.xs4all.nl (OpenSMTPD) with ESMTPA id 9daaaf1c;
+	Sun, 31 Jul 2022 13:11:50 +0200 (CEST)
+Date: Sun, 31 Jul 2022 13:11:50 +0200 (CEST)
+From: Mark Kettenis <mark.kettenis@xs4all.nl>
+To: Hector Martin <marcan@marcan.st>
+Cc: bmeng.cn@gmail.com, sven@svenpeter.dev, kettenis@openbsd.org,
+	u-boot@lists.denx.de, asahi@lists.linux.dev, marcan@marcan.st
+In-Reply-To: <20220731063131.38271-1-marcan@marcan.st> (message from Hector
+	Martin on Sun, 31 Jul 2022 15:31:31 +0900)
+Subject: Re: [PATCH] nvme: Do a clean NVMe shutdown
+References: <20220731063131.38271-1-marcan@marcan.st>
+Message-ID: <d3ce5fbdfc7c2e9b@bloch.sibelius.xs4all.nl>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 4/5] iommu/io-pgtable-dart: Add DART PTE support for
- t6000
-Content-Language: es-ES
-To: Robin Murphy <robin.murphy@arm.com>, Janne Grunau <j@jannau.net>,
- iommu@lists.linux-foundation.org
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>, asahi@lists.linux.dev,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Georgi Djakov <quic_c_gdjako@quicinc.com>,
- "Isaac J. Manjarres" <isaacm@codeaurora.org>, Joerg Roedel
- <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220621071848.14834-1-j@jannau.net>
- <20220621071848.14834-5-j@jannau.net>
- <2df8c1d1-fb83-5b92-d32a-6b8ba988844c@arm.com>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <2df8c1d1-fb83-5b92-d32a-6b8ba988844c@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 28/06/2022 00.13, Robin Murphy wrote:
-> On 2022-06-21 08:18, Janne Grunau wrote:
->> From: Sven Peter <sven@svenpeter.dev>
->>
->> The DARTs present in the M1 Pro/Max/Ultra SoC use a diffent PTE format.
->> They support a 42bit physical address space by shifting the paddr and
->> extending its mask inside the PTE.
->> They also come with mandatory sub-page protection now which we just
->> configure to always allow access to the entire page. This feature is
->> already present but optional on the previous DARTs which allows to
->> unconditionally configure it.
->>
->> Signed-off-by: Sven Peter <sven@svenpeter.dev>
->> Co-developed-by: Janne Grunau <j@jannau.net>
->> Signed-off-by: Janne Grunau <j@jannau.net>
->>
->> ---
->>
->> Changes in v3:
->> - apply change to io-pgtable-dart.c
->> - handle pte <> paddr conversion based on the pte format instead of
->>    the output address size
->>
->> Changes in v2:
->> - add APPLE_DART2 PTE format
->>
->>   drivers/iommu/io-pgtable-dart.c | 51 +++++++++++++++++++++++++++------
->>   drivers/iommu/io-pgtable.c      |  1 +
->>   include/linux/io-pgtable.h      |  1 +
->>   3 files changed, 45 insertions(+), 8 deletions(-)
->>
-> [...]
->> @@ -536,7 +571,7 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
->>   	if (!cfg->coherent_walk)
->>   		return NULL;
->>   
->> -	if (cfg->oas > 36)
->> +	if (cfg->oas != 36 && cfg->oas != 42)
->>   		return NULL;
+> From: Hector Martin <marcan@marcan.st>
+> Date: Sun, 31 Jul 2022 15:31:31 +0900
 > 
-> Wouldn't it make sense to tie this to the format? Maybe 36-bit OAS is 
-> still valid with v2, but presumably 42-bit with v1 definitely isn't.
+> The brute-force controller disable method can end up racing controller
+> initilization and causing a crash when we shut down Apple ANS2 NVMe
+> controllers. Do a proper controlled shutdown, which does block until
+> things are quiesced properly. This is nicer in general for all
+> controllers.
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
 
-FWIW, 36-bit OAS with v2 is valid (this is the case on M2/t8112).
+Tested-by: Mark Kettenis <kettenis@openbsd.org> [firefly-rk3399]
 
-- Hector
+> ---
+>  drivers/nvme/nvme.c | 25 ++++++++++++++++++++-----
+>  1 file changed, 20 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/nvme/nvme.c b/drivers/nvme/nvme.c
+> index a305305885ec..5fd2fb9ed6a6 100644
+> --- a/drivers/nvme/nvme.c
+> +++ b/drivers/nvme/nvme.c
+> @@ -27,9 +27,8 @@
+>  #define IO_TIMEOUT		30
+>  #define MAX_PRP_POOL		512
+>  
+> -static int nvme_wait_ready(struct nvme_dev *dev, bool enabled)
+> +static int nvme_wait_csts(struct nvme_dev *dev, u32 mask, u32 val)
+>  {
+> -	u32 bit = enabled ? NVME_CSTS_RDY : 0;
+>  	int timeout;
+>  	ulong start;
+>  
+> @@ -38,7 +37,7 @@ static int nvme_wait_ready(struct nvme_dev *dev, bool enabled)
+>  
+>  	start = get_timer(0);
+>  	while (get_timer(start) < timeout) {
+> -		if ((readl(&dev->bar->csts) & NVME_CSTS_RDY) == bit)
+> +		if ((readl(&dev->bar->csts) & mask) == val)
+>  			return 0;
+>  	}
+>  
+> @@ -295,7 +294,7 @@ static int nvme_enable_ctrl(struct nvme_dev *dev)
+>  	dev->ctrl_config |= NVME_CC_ENABLE;
+>  	writel(dev->ctrl_config, &dev->bar->cc);
+>  
+> -	return nvme_wait_ready(dev, true);
+> +	return nvme_wait_csts(dev, NVME_CSTS_RDY, NVME_CSTS_RDY);
+>  }
+>  
+>  static int nvme_disable_ctrl(struct nvme_dev *dev)
+> @@ -304,7 +303,16 @@ static int nvme_disable_ctrl(struct nvme_dev *dev)
+>  	dev->ctrl_config &= ~NVME_CC_ENABLE;
+>  	writel(dev->ctrl_config, &dev->bar->cc);
+>  
+> -	return nvme_wait_ready(dev, false);
+> +	return nvme_wait_csts(dev, NVME_CSTS_RDY, 0);
+> +}
+> +
+> +static int nvme_shutdown_ctrl(struct nvme_dev *dev)
+> +{
+> +	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
+> +	dev->ctrl_config |= NVME_CC_SHN_NORMAL;
+> +	writel(dev->ctrl_config, &dev->bar->cc);
+> +
+> +	return nvme_wait_csts(dev, NVME_CSTS_SHST_MASK, NVME_CSTS_SHST_CMPLT);
+>  }
+>  
+>  static void nvme_free_queue(struct nvme_queue *nvmeq)
+> @@ -904,6 +912,13 @@ free_nvme:
+>  int nvme_shutdown(struct udevice *udev)
+>  {
+>  	struct nvme_dev *ndev = dev_get_priv(udev);
+> +	int ret;
+> +
+> +	ret = nvme_shutdown_ctrl(ndev);
+> +	if (ret < 0) {
+> +		printf("Error: %s: Shutdown timed out!\n", udev->name);
+> +		return ret;
+> +	}
+>  
+>  	return nvme_disable_ctrl(ndev);
+>  }
+> -- 
+> 2.35.1
+> 
+> 
