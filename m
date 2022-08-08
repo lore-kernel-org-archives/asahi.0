@@ -1,158 +1,101 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F707F
-	for <asahi@lists.linux.dev>; Mon,  1 Aug 2022 17:36:13 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 491585C00FC;
-	Mon,  1 Aug 2022 13:36:12 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute2.internal (MEProxy); Mon, 01 Aug 2022 13:36:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1659375372; x=1659461772; bh=Y2
-	57L4d6b5CFZRcEy4JTormzanQNT+CLmxVCxY4oXZQ=; b=g4bHXidTEQtZid/MiU
-	Km2uU51ckhpdCCymYl9CZnQTKMlvu+uJpr/P5nW4iTzjl1vl2e8ieXlyrpXfYsrE
-	i2ewUMNKuXi9h7fs6I8OyyJk0qdyz0Xk640DgQBehTA/5dbT41tICmzo3pwl4MJN
-	4qpe3+T99uf2uQ4MKBtHYokvje5dVU2sSDThBGjByO5035SFXneWI6lJ+FF/Uc0+
-	1bVfqKYJYBDnBiLDN/qochGDy/GLy5ca1FNe/dS5xehVIrakomdfjcE8K1fLkmu5
-	O0Ef9GaLpCJATqeso3YDjcXku+INE8xh2w+SFu+u2YVr9qEXvP/A8H1fH6uqeXa7
-	yM4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1659375372; x=1659461772; bh=Y257L4d6b5CFZRcEy4JTormzanQN
-	T+CLmxVCxY4oXZQ=; b=W/FfjJ0eKIl/DnkCsoGQA8BXCbnS7+/bgS4IsH8VkUFc
-	WEFgOu9seVvV32WdW8BXLdISTVnxmC7NrzewMn2cYqTWjICiGUdQkYwPmfDDM9i6
-	7Q9OboAhiF4ugSPkxFtpJEzhhVL0L7qXDjAz4fKoZ5N74QHCR5ADne85PHBYZuHX
-	BIwdNSA3kFt0PxjnvkCZoPIgcWYeEkzlLR/ILAHup3SzdbJrjeUUEzXobCU59M7L
-	cEgRBI1hmwIPsAYi7F5pxUir5Azv8ZuckuDCSO0hGSl02LvCw0cOCwMpVXeYWJMi
-	5YSILl8MsCgPKBAh1bKy42hWCyICXQYdT4jbAZaG+A==
-X-ME-Sender: <xms:Cw_oYrr_5aCcl7cEE8iaunfu4F_D1TAzOMyG-iKFo2s8kzoT5W2JBQ>
-    <xme:Cw_oYloaHXmrllphGVNjks4ob5Q4icuVgL8s2XahiBUYr-vwpeoE8npb7JMYNE4HD
-    whi1wwhU0Gvmdg9Agc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvfedgudduhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfu
-    vhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtf
-    frrghtthgvrhhnpeefgedugffhjedvfffggfektedutdetueehudeitdfgudefvdduiedt
-    vdeliedvgfenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhp
-    vghtvghrrdguvghv
-X-ME-Proxy: <xmx:Cw_oYoNsaQXZJY3jgsO6geqeaJyaheDOg96WD6T7KWUkt0bAAZh1uw>
-    <xmx:Cw_oYu5RCO3SfaN-QC5_LwJh_uAEw1PVWJfcaW1L1IN4YHElfs-mOQ>
-    <xmx:Cw_oYq560o3pp4JroCLxPVfRfAWjZK-k7L6lRy59B9UN7S__p0weBw>
-    <xmx:DA_oYpQDEz816y26wyIy4v7InNIcT-9QSPcwrFPOFJfMwpZdBzLJTQ>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5A72EA6007C; Mon,  1 Aug 2022 13:36:11 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-758-ge0d20a54e1-fm-20220729.001-ge0d20a54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0A13C15
+	for <asahi@lists.linux.dev>; Mon,  8 Aug 2022 14:21:19 +0000 (UTC)
+From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1659968029; bh=odD+Lb+pa0FPCQEPZICIcBt216AndpEzsCiglXQnk/U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=OGE7d3z2O8XJcQmoM5601IiE2Xiju0oxCBly/qlfwnFY8j5zXzb3CXklNCjrPsFyF
+	 ZzCK3r0P7R4iCmu3IENMVP5V3BNaTAKV81/fXGQGMfXlgK9K4qVH+ByupYIBToJczY
+	 o38yTQKeCAMJ6atW62jIifEl6412rVq7UzcIB6WM=
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Stephen Kitt <steve@sk2.org>,
+	Frank Shi <shifu0704@thundersoft.com>,
+	alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: [PATCH 3/4] ASoC: tas2770: Drop conflicting set_bias_level power setting
+Date: Mon,  8 Aug 2022 16:12:45 +0200
+Message-Id: <20220808141246.5749-4-povik+lin@cutebit.org>
+In-Reply-To: <20220808141246.5749-1-povik+lin@cutebit.org>
+References: <20220808141246.5749-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <de5f9eb8-9328-4c1c-a57c-a06d40ec203e@www.fastmail.com>
-In-Reply-To: <20220801152338.GB1031441-robh@kernel.org>
-References: <20220801103633.27772-1-sven@svenpeter.dev>
- <20220801103633.27772-2-sven@svenpeter.dev>
- <20220801152338.GB1031441-robh@kernel.org>
-Date: Mon, 01 Aug 2022 19:35:51 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Rob Herring" <robh@kernel.org>
-Cc: "Marcel Holtmann" <marcel@holtmann.org>,
- "Johan Hedberg" <johan.hedberg@gmail.com>,
- "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "David S. Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] dt-bindings: net: Add generic Bluetooth controller
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The driver is setting the PWR_CTRL field in both the set_bias_level
+callback and on DAPM events of the DAC widget (and also in the
+mute_stream method). Drop the set_bias_level callback altogether as the
+power setting it does is in conflict with the other code paths.
 
-On Mon, Aug 1, 2022, at 17:23, Rob Herring wrote:
-> On Mon, Aug 01, 2022 at 12:36:29PM +0200, Sven Peter wrote:
->> Bluetooth controllers share the common local-bd-address property.
->> Add a generic YAML schema to replace bluetooth.txt for those.
->> 
->> Signed-off-by: Sven Peter <sven@svenpeter.dev>
->> ---
->> I hope it's fine to list the current Bluetooth maintainers in here
->> as well.
->> 
->>  .../bindings/net/bluetooth-controller.yaml    | 30 +++++++++++++++++++
->>  .../devicetree/bindings/net/bluetooth.txt     |  6 +---
->>  2 files changed, 31 insertions(+), 5 deletions(-)
->>  create mode 100644 Documentation/devicetree/bindings/net/bluetooth-controller.yaml
->> 
->> diff --git a/Documentation/devicetree/bindings/net/bluetooth-controller.yaml b/Documentation/devicetree/bindings/net/bluetooth-controller.yaml
->> new file mode 100644
->> index 000000000000..0ea8a20e30f9
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/net/bluetooth-controller.yaml
->> @@ -0,0 +1,30 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/net/bluetooth-controller.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Bluetooth Controller Generic Binding
->> +
->> +maintainers:
->> +  - Marcel Holtmann <marcel@holtmann.org>
->> +  - Johan Hedberg <johan.hedberg@gmail.com>
->> +  - Luiz Augusto von Dentz <luiz.dentz@gmail.com>
->> +
->> +properties:
->> +  $nodename:
->> +    pattern: "^bluetooth(@.*)?$"
->> +
->> +  local-bd-address:
->> +    $ref: /schemas/types.yaml#/definitions/uint8-array
->> +    minItems: 6
->> +    maxItems: 6
->> +    description:
->> +      Specifies the BD address that was uniquely assigned to the Bluetooth
->> +      device. Formatted with least significant byte first (little-endian), e.g.
->> +      in order to assign the address 00:11:22:33:44:55 this property must have
->> +      the value [55 44 33 22 11 00].
->> +
->> +additionalProperties: true
->> +
->> +...
->> diff --git a/Documentation/devicetree/bindings/net/bluetooth.txt b/Documentation/devicetree/bindings/net/bluetooth.txt
->> index 94797df751b8..3cb5a7b8e5ad 100644
->> --- a/Documentation/devicetree/bindings/net/bluetooth.txt
->> +++ b/Documentation/devicetree/bindings/net/bluetooth.txt
->> @@ -1,5 +1 @@
->> -The following properties are common to the Bluetooth controllers:
->> -
->> -- local-bd-address: array of 6 bytes, specifies the BD address that was
->> -  uniquely assigned to the Bluetooth device, formatted with least significant
->> -  byte first (little-endian).
->> +This file has been moved to bluetooth-controller.yaml.
->
-> There's one reference to bluetooth.txt. Update it and remove this file.
+Fixes: 1a476abc723e ("tas2770: add tas2770 smart PA kernel driver")
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+---
+ sound/soc/codecs/tas2770.c | 33 ---------------------------------
+ 1 file changed, 33 deletions(-)
 
-Sure, I've just checked and found Documentation/devicetree/bindings/soc/qcom/qcom,wcnss.yaml
-and Documentation/devicetree/bindings/net/qualcomm-bluetooth.yaml and will
-update both for v2 and remove bluetooth.txt.
+diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
+index db446db88df5..10a79f8139be 100644
+--- a/sound/soc/codecs/tas2770.c
++++ b/sound/soc/codecs/tas2770.c
+@@ -46,38 +46,6 @@ static void tas2770_reset(struct tas2770_priv *tas2770)
+ 	usleep_range(1000, 2000);
+ }
+ 
+-static int tas2770_set_bias_level(struct snd_soc_component *component,
+-				 enum snd_soc_bias_level level)
+-{
+-	struct tas2770_priv *tas2770 =
+-			snd_soc_component_get_drvdata(component);
+-
+-	switch (level) {
+-	case SND_SOC_BIAS_ON:
+-		snd_soc_component_update_bits(component, TAS2770_PWR_CTRL,
+-					      TAS2770_PWR_CTRL_MASK,
+-					      TAS2770_PWR_CTRL_ACTIVE);
+-		break;
+-	case SND_SOC_BIAS_STANDBY:
+-	case SND_SOC_BIAS_PREPARE:
+-		snd_soc_component_update_bits(component, TAS2770_PWR_CTRL,
+-					      TAS2770_PWR_CTRL_MASK,
+-					      TAS2770_PWR_CTRL_MUTE);
+-		break;
+-	case SND_SOC_BIAS_OFF:
+-		snd_soc_component_update_bits(component, TAS2770_PWR_CTRL,
+-					      TAS2770_PWR_CTRL_MASK,
+-					      TAS2770_PWR_CTRL_SHUTDOWN);
+-		break;
+-
+-	default:
+-		dev_err(tas2770->dev, "wrong power level setting %d\n", level);
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+ #ifdef CONFIG_PM
+ static int tas2770_codec_suspend(struct snd_soc_component *component)
+ {
+@@ -555,7 +523,6 @@ static const struct snd_soc_component_driver soc_component_driver_tas2770 = {
+ 	.probe			= tas2770_codec_probe,
+ 	.suspend		= tas2770_codec_suspend,
+ 	.resume			= tas2770_codec_resume,
+-	.set_bias_level = tas2770_set_bias_level,
+ 	.controls		= tas2770_snd_controls,
+ 	.num_controls		= ARRAY_SIZE(tas2770_snd_controls),
+ 	.dapm_widgets		= tas2770_dapm_widgets,
+-- 
+2.33.0
 
-
-Thanks,
-
-
-Sven
