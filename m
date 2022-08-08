@@ -1,54 +1,60 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30BA03C17
-	for <asahi@lists.linux.dev>; Mon,  8 Aug 2022 14:21:19 +0000 (UTC)
-From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B7F3D6E
+	for <asahi@lists.linux.dev>; Mon,  8 Aug 2022 16:23:43 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1659968028; bh=tKWeu11aeXQ63OTvc9oUPZOVNW4tJ0tCoIcgd5/QzcY=;
-	h=From:To:Cc:Subject:Date;
-	b=GGUn9Xxh2AOR8fCPJgCDChOVNwKnSOyuiqs3uIgw/vAXBqML5KNhp08xKmHIplmbG
-	 u+1g3fkMUTJoNwJlKhId87MCk28tPqAaCnv7TxQerQ8+pOUV+hrvEqO2Gx/b0HYI8E
-	 9plHX3cuKzWMlrjbVBdJaOYFSg4UL2HW3uKGKUzM=
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Stephen Kitt <steve@sk2.org>,
-	Frank Shi <shifu0704@thundersoft.com>,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: [PATCH 0/4] TAS2770 fixes
-Date: Mon,  8 Aug 2022 16:12:42 +0200
-Message-Id: <20220808141246.5749-1-povik+lin@cutebit.org>
+	t=1659975820; bh=XjThV4rj1Nh3GCLFRepWBhK3akKLDUOxgagEgZfGkBo=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=bz3u7r7W0i2JsYPYwf4vglkvFsht2OVepruISNFBI6ZjSIBIDrwIoICd2o+w0W5yG
+	 AfXCTtEdC9HNWuZnIz6I082tJHcMv3FRucwiv77PMq9UMOiEZF5wjEGx5126LdMJVM
+	 zp5nWmmGvXEvV7EBIpkfZXQ3BmJH96bJtYSygvcw=
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: Re: [PATCH 4/4] ASoC: tas2770: Fix handling of mute/unmute
+From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+In-Reply-To: <20220808141246.5749-5-povik+lin@cutebit.org>
+Date: Mon, 8 Aug 2022 18:23:39 +0200
+Cc: Stephen Kitt <steve@sk2.org>,
+ Frank Shi <shifu0704@thundersoft.com>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ asahi@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <906CDD19-1894-4106-959D-B2444036168E@cutebit.org>
+References: <20220808141246.5749-1-povik+lin@cutebit.org>
+ <20220808141246.5749-5-povik+lin@cutebit.org>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
 
-The first two fixes should be straightforward.
 
-The latter two clean up what looks to me like a mess in the setting of
-power levels. However we settle it, we should then do the same changes
-to TAS2764, which has the same template (and maybe there are other
-drivers).
+> On 8. 8. 2022, at 16:12, Martin Povi=C5=A1er <povik+lin@cutebit.org> =
+wrote:
+>=20
+> Because the PWR_CTRL field is modeled as the power state of the DAC
+> widget, and at the same time it is used to implement mute/unmute, we
+> need some additional book-keeping to have the right end result no =
+matter
+> the sequence of calls. Without this fix, one can mute an ongoing =
+stream
+> by toggling a speaker pin control.
+>=20
+> Fixes: 1a476abc723e ("tas2770: add tas2770 smart PA kernel driver")
+> Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
 
-Martin Povišer (4):
-  ASoC: tas2770: Set correct FSYNC polarity
-  ASoC: tas2770: Allow mono streams
-  ASoC: tas2770: Drop conflicting set_bias_level power setting
-  ASoC: tas2770: Fix handling of mute/unmute
+Ah, should have written the end of the commit message clearer...
+What I meant is, if you toggle the speaker pin, you mute the
+stream permanently until it's restarted, since toggling the
+speaker pin back won't recover the PWR_CTRL_ACTIVE value set in
+mute_stream at unmute.
 
- sound/soc/codecs/tas2770.c | 98 +++++++++++++++++---------------------
- sound/soc/codecs/tas2770.h |  5 ++
- 2 files changed, 48 insertions(+), 55 deletions(-)
-
--- 
-2.33.0
+Martin
 
