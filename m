@@ -1,62 +1,87 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3DC23D0
-	for <asahi@lists.linux.dev>; Tue,  9 Aug 2022 08:50:26 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1oLKfR-0006K1-7S; Tue, 09 Aug 2022 10:32:49 +0200
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1oLKfM-002fas-63; Tue, 09 Aug 2022 10:32:46 +0200
-Received: from pza by lupine with local (Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1oLKfN-0001Qi-La; Tue, 09 Aug 2022 10:32:45 +0200
-Message-ID: <b18ef07670c09d4a58b70dc3671549a9b7d5b4e2.camel@pengutronix.de>
-Subject: Re: [PATCH 2/3] ASoC: apple: mca: Start new platform driver
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Martin =?UTF-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>,  Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev, alsa-devel@alsa-project.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Tue, 09 Aug 2022 10:32:45 +0200
-In-Reply-To: <20220808224153.3634-3-povik+lin@cutebit.org>
-References: <20220808224153.3634-1-povik+lin@cutebit.org>
-	 <20220808224153.3634-3-povik+lin@cutebit.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.38.3-1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F9423D0
+	for <asahi@lists.linux.dev>; Tue,  9 Aug 2022 08:54:30 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1660035268; bh=HTSQxyjdTff+5nKPgMwzEpelY+3eet5R/sdeOOVWrTc=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=GV5wgq6SeyFBiWZhXtg2xXQJhx94BbQOIGfNwWbOq1g9j4sHeM/lKE9/e+uWJ3clQ
+	 kyFU/VV8EyPOcEzGetL87wmnbeVd9fefTVslcKypKvn8kLkx8i8OhBhqeyWep+5HfN
+	 tGcmJXUKaS6JggqfY9Xo9ZZWoU+vbWUmSaoI8O0k=
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: asahi@lists.linux.dev
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: Re: [PATCH 2/3] ASoC: apple: mca: Start new platform driver
+From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+In-Reply-To: <53c8f062-a760-c65f-479e-53e7991b3f66@linaro.org>
+Date: Tue, 9 Aug 2022 10:54:27 +0200
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ asahi@lists.linux.dev,
+ alsa-devel@alsa-project.org,
+ devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <82B580B4-85BF-4ABA-B098-98E3CA9EE247@cutebit.org>
+References: <20220808224153.3634-1-povik+lin@cutebit.org>
+ <20220808224153.3634-3-povik+lin@cutebit.org>
+ <53c8f062-a760-c65f-479e-53e7991b3f66@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Hi Martin,
 
-On Di, 2022-08-09 at 00:41 +0200, Martin Povi=C5=A1er wrote:
-> +	mca->rstc =3D devm_reset_control_get_shared(&pdev->dev, NULL);
-> +	if (IS_ERR(mca->rstc)) {
-> +		dev_dbg(&pdev->dev, "couldn't obtain reset control: %pe\n", mca->rstc)=
-;
-> +		mca->rstc =3D NULL;
-> +	}
+> On 9. 8. 2022, at 10:47, Krzysztof Kozlowski =
+<krzysztof.kozlowski@linaro.org> wrote:
+>=20
+> On 09/08/2022 01:41, Martin Povi=C5=A1er wrote:
 
-Please don't ignore errors, this could be -ENOMEM.
+>> +	mca->switch_base =3D
+>> +		devm_platform_ioremap_resource_byname(pdev, "switch");
+>> +	if (IS_ERR(mca->switch_base))
+>> +		return PTR_ERR(mca->switch_base);
+>=20
+> How does it work exactly? There is no such property... Can you submit
+> also DTS using the bindings so we can validate they are real/correct?
 
-For optional resets, use devm_reset_control_get_optional_shared(),
-which returns NULL if there is no resets property in the device tree.
+Ah, I thought I fixed that. There=E2=80=99s supposed to be
 
-regards
-Philipp
+	mca->switch_base =3D devm_platform_ioremap_resource(pdev, 1);
+
+of course. My bad, I guess didn=E2=80=99t reexport the patches after =
+these last
+minute changes.
+
+>> +
+>> +	mca->rstc =3D devm_reset_control_get_shared(&pdev->dev, NULL);
+>> +	if (IS_ERR(mca->rstc)) {
+>> +		dev_dbg(&pdev->dev, "couldn't obtain reset control: =
+%pe\n", mca->rstc);
+>> +		mca->rstc =3D NULL;
+>> +	}
+>=20
+> Similar question.
+
+Same as above, there=E2=80=99s supposed to be
+
+  resets:
+    maxItems: 1
+
+in the schema.
+
+
+> Best regards,
+> Krzysztof
+>=20
+
+Martin
+
