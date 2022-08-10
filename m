@@ -1,110 +1,80 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92DA23D0
-	for <asahi@lists.linux.dev>; Tue,  9 Aug 2022 08:55:37 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1660035335; bh=gC4GNArn5L/+qSmbqUbjWxF4hXj6UbOzOdSVGC9cgDE=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=ZajEXVjp7mPMMG2eOn3wmWnNtyDDnBp6T+mh3Lh7LDgJkT00oLqeXkpQkzqJk4Tdb
-	 Q31ajC+zOqJEr6HgWWNNIXqDtjUn5onK4CiWqrqUJ4ukSUOYk6AkOziyznRr5ywn31
-	 qQTwzcFLfOLG5AFWJHC4utUEbbWrT1nIUfpjjz58=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02A217EC
+	for <asahi@lists.linux.dev>; Wed, 10 Aug 2022 12:44:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB35FC433C1;
+	Wed, 10 Aug 2022 12:44:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1660135459;
+	bh=KA3dwPhdercQ+bjwAHZSLXEZgALOI5+blLRwOWv3xsk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=huzI43NGmEQHtVQIKUKaIqn54Pe12Y2tnG9TuUhj4L2l086g3kuVZBX7gWMfyAQnA
+	 F/moX5+AjnGTvjlZJDBLinLQXTJhOd5nl2PzNTXDMJMkOIoxM88uyHsFYKWdnkA5Fx
+	 HePsksH3dwh4+EcrZTP5Zw2EkJg5qprCzZzXhuMxqUBFmt2IX/4rC43XvLZkWvLATi
+	 eMPeCCUV4a735dLWBOZV18fx8NVb8y4eWKqidwBcoz8bmXTdlT/liELClJke81WXok
+	 v2x67hTPveR5huz4hYwgl9iZ+LH8IVrmSQ/ZGBs5YF9McIslXt7HlmR1pbPL7KMbEr
+	 p0tBB27fxLTWQ==
+From: Mark Brown <broonie@kernel.org>
+To: Martin Povišer <povik+lin@cutebit.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>
+Cc: Frank Shi <shifu0704@thundersoft.com>, linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ Stephen Kitt <steve@sk2.org>, alsa-devel@alsa-project.org
+In-Reply-To: <20220808141246.5749-1-povik+lin@cutebit.org>
+References: <20220808141246.5749-1-povik+lin@cutebit.org>
+Subject: Re: [PATCH 0/4] TAS2770 fixes
+Message-Id: <166013545745.24388.6261052304965817378.b4-ty@kernel.org>
+Date: Wed, 10 Aug 2022 13:44:17 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH 1/3] dt-bindings: sound: Add Apple MCA I2S transceiver
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <cbe80ae1-3ae8-eccf-89f7-4506e3f44ca7@linaro.org>
-Date: Tue, 9 Aug 2022 10:55:35 +0200
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- asahi@lists.linux.dev,
- alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C55ADB0F-0894-4A3B-BDD2-6A20BB1F4A4F@cutebit.org>
-References: <20220808224153.3634-1-povik+lin@cutebit.org>
- <20220808224153.3634-2-povik+lin@cutebit.org>
- <8ce59940-f559-35cb-5f86-37399da166a1@linaro.org>
- <DCBCB694-F5A3-4E76-9518-89E9A1A4AB55@cutebit.org>
- <cbe80ae1-3ae8-eccf-89f7-4506e3f44ca7@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-fe10a
 
+On Mon, 8 Aug 2022 16:12:42 +0200, Martin Povišer wrote:
+> The first two fixes should be straightforward.
+> 
+> The latter two clean up what looks to me like a mess in the setting of
+> power levels. However we settle it, we should then do the same changes
+> to TAS2764, which has the same template (and maybe there are other
+> drivers).
+> 
+> [...]
 
-> On 9. 8. 2022, at 10:47, Krzysztof Kozlowski =
-<krzysztof.kozlowski@linaro.org> wrote:
->=20
-> On 09/08/2022 11:40, Martin Povi=C5=A1er wrote:
->>> Describe the items because otherwise you allow any order. The list =
-will
->>> be unfortunately quite long, but still readable enough.
->>=20
->> Well, I would assume the =E2=80=98dmas=E2=80=99 property as described =
-above has an implicit
->> natural order, and the dma-names are tied to it. You order it like =
-the other
->> per-cluster properties, and then within the cluster the order is =
-fixed to
->> 'TXA, RXA, TXB, RXB=E2=80=99 (maybe the word =E2=80=98respectively=E2=80=
-=99 thrown into the description
->> would have made it clearer).
->>=20
->> Anyway that=E2=80=99s just discussing my assumptions. I can roll out =
-the items list
->> for =E2=80=98dma-names=E2=80=99, if that=E2=80=99s what you mean. Or =
-do you mean explicitly describing
->> the items in =E2=80=98dmas=E2=80=99 too?
->=20
-> The text description of 'dmas' does not mean it will be followed by =
-DTS
-> author. In current bindings DTS author can therefore put any order of
-> dmas/dma-names. Unrolling the dma-names forces this order to be fixed
-> and validated by dtschema.
+Applied to
 
-OK
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
->>=20
->>>> +    description: |
->>>> +      Names for the DMA channels: 'tx'/'rx', then cluster number, =
-then 'a'/'b'
->>>> +      based on the associated SERDES unit.
->>>> +
->>=20
->> (...)
->>=20
->>>> +
->>>> +additionalProperties: false
->>>> +
->>>> +examples:
->>>> +  - |
->>>> +    mca: mca@9b600000 {
->>>=20
->>> You called it I2S transceiver but isn't it also actually I2S =
-controller?
->>> If yes, then the node name should be probably "i2s".
->>=20
->> It=E2=80=99s a peripheral you use to transmit and receive samples =
-over I2S, frankly
->> I don't know the nomenclature.
->=20
-> Looking at other devices, it's i2s.
+Thanks!
 
-OK, thanks.
+[1/4] ASoC: tas2770: Set correct FSYNC polarity
+      commit: e9ac31f0a5d0e246b046c20348954519f91a297f
+[2/4] ASoC: tas2770: Allow mono streams
+      commit: bf54d97a835dfe62d4d29e245e170c63d0089be7
+[3/4] ASoC: tas2770: Drop conflicting set_bias_level power setting
+      commit: 482c23fbc7e9bf5a7a74defd0735d5346215db58
+[4/4] ASoC: tas2770: Fix handling of mute/unmute
+      commit: 1e5907bcb3a3b569be0a03ebe668bba2ed320a50
 
-> Best regards,
-> Krzysztof
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-Best,
-Martin
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
