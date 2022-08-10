@@ -1,80 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02A217EC
-	for <asahi@lists.linux.dev>; Wed, 10 Aug 2022 12:44:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB35FC433C1;
-	Wed, 10 Aug 2022 12:44:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1660135459;
-	bh=KA3dwPhdercQ+bjwAHZSLXEZgALOI5+blLRwOWv3xsk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=huzI43NGmEQHtVQIKUKaIqn54Pe12Y2tnG9TuUhj4L2l086g3kuVZBX7gWMfyAQnA
-	 F/moX5+AjnGTvjlZJDBLinLQXTJhOd5nl2PzNTXDMJMkOIoxM88uyHsFYKWdnkA5Fx
-	 HePsksH3dwh4+EcrZTP5Zw2EkJg5qprCzZzXhuMxqUBFmt2IX/4rC43XvLZkWvLATi
-	 eMPeCCUV4a735dLWBOZV18fx8NVb8y4eWKqidwBcoz8bmXTdlT/liELClJke81WXok
-	 v2x67hTPveR5huz4hYwgl9iZ+LH8IVrmSQ/ZGBs5YF9McIslXt7HlmR1pbPL7KMbEr
-	 p0tBB27fxLTWQ==
-From: Mark Brown <broonie@kernel.org>
-To: Martin Povišer <povik+lin@cutebit.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Liam Girdwood <lgirdwood@gmail.com>
-Cc: Frank Shi <shifu0704@thundersoft.com>, linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- Stephen Kitt <steve@sk2.org>, alsa-devel@alsa-project.org
-In-Reply-To: <20220808141246.5749-1-povik+lin@cutebit.org>
-References: <20220808141246.5749-1-povik+lin@cutebit.org>
-Subject: Re: [PATCH 0/4] TAS2770 fixes
-Message-Id: <166013545745.24388.6261052304965817378.b4-ty@kernel.org>
-Date: Wed, 10 Aug 2022 13:44:17 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B94E2F41
+	for <asahi@lists.linux.dev>; Wed, 10 Aug 2022 18:10:16 +0000 (UTC)
+Received: by mail-il1-f171.google.com with SMTP id s16so8715624ilp.3
+        for <asahi@lists.linux.dev>; Wed, 10 Aug 2022 11:10:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=0D2zsyejY7H3mCUQMpi1C3N991oh7KCilN66QDRGx+o=;
+        b=FG03MtWpRLC0fhQbT+uLn0ux7rYGoMJYkLB03+pY2I+NmMPBSUj/K7EgoMFOYYmSQ5
+         BSJ5P4lTd6zsl8Bblzcb9rgT2WJx2sP1wvCD6VVlcED0YPNMOlkNC2l7L1SFO1+EwQ77
+         bwFtKuV+++ZIPOHjl+UNgA5iONwXoumQ2AJx4TPSNCevw7HukOf7shXyQr3Id6xm5n8Q
+         hTi0b5J+ZmjHfxfrZAoPa6KO67q1kguvZ7CbciqYDxUUwI9TWoBYLvUhMIpFDYxMPyRn
+         EHsxsVjzFT2m7CSoGSfLJBZ4/B1s78xMtAloJwcwfZmNKwUk4avyruH2VARUDzrTXflj
+         D5xw==
+X-Gm-Message-State: ACgBeo3VxUk+k/teQqjUcXrCOHTDqk+iKXwNacmO5lfmBc5nGZDwwG0u
+	wyhkkXOVcJok6BOJWs30Pw==
+X-Google-Smtp-Source: AA6agR5d4AsX9K90n0Ys1OYAoyj/B+E1S7TnIfhjyAAak/DzJ5cPFU4MiDHA4HNZaHyC/UVS/jKP+w==
+X-Received: by 2002:a05:6e02:1a41:b0:2de:e162:c5bb with SMTP id u1-20020a056e021a4100b002dee162c5bbmr13479096ilv.102.1660155015561;
+        Wed, 10 Aug 2022 11:10:15 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id l9-20020a02a889000000b00339e158bd3esm7757356jam.38.2022.08.10.11.10.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 11:10:15 -0700 (PDT)
+Received: (nullmailer pid 260691 invoked by uid 1000);
+	Wed, 10 Aug 2022 18:10:12 -0000
+Date: Wed, 10 Aug 2022 12:10:12 -0600
+From: Rob Herring <robh@kernel.org>
+To: Mark Kettenis <mark.kettenis@xs4all.nl>
+Cc: sven@svenpeter.dev, marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com, krzysztof.kozlowski+dt@linaro.org, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, marcan@marcan.st, alyssa@rosenzweig.io, asahi@lists.linux.dev, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] dt-bindings: net: Add Broadcom BCM4377 family PCI
+ Bluetooth
+Message-ID: <20220810181012.GC200295-robh@kernel.org>
+References: <20220801103633.27772-1-sven@svenpeter.dev>
+ <20220801103633.27772-3-sven@svenpeter.dev>
+ <20220801153921.GC1031441-robh@kernel.org>
+ <d3ce6343fdaaf127@bloch.sibelius.xs4all.nl>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fe10a
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d3ce6343fdaaf127@bloch.sibelius.xs4all.nl>
 
-On Mon, 8 Aug 2022 16:12:42 +0200, Martin Povišer wrote:
-> The first two fixes should be straightforward.
+On Mon, Aug 01, 2022 at 05:51:23PM +0200, Mark Kettenis wrote:
+> > Date: Mon, 1 Aug 2022 09:39:21 -0600
+> > From: Rob Herring <robh@kernel.org>
+> > 
+> > On Mon, Aug 01, 2022 at 12:36:30PM +0200, Sven Peter wrote:
+> > > These chips are combined Wi-Fi/Bluetooth radios which expose a
+> > > PCI subfunction for the Bluetooth part.
+> > > They are found in Apple machines such as the x86 models with the T2
+> > > chip or the arm64 models with the M1 or M2 chips.
+> > > 
+> > > Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> > > ---
+> > >  .../bindings/net/brcm,bcm4377-bluetooth.yaml  | 77 +++++++++++++++++++
+> > >  MAINTAINERS                                   |  1 +
+> > >  2 files changed, 78 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/net/brcm,bcm4377-bluetooth.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/net/brcm,bcm4377-bluetooth.yaml b/Documentation/devicetree/bindings/net/brcm,bcm4377-bluetooth.yaml
+> > > new file mode 100644
+> > > index 000000000000..afe6ecebd939
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/net/brcm,bcm4377-bluetooth.yaml
+> > > @@ -0,0 +1,77 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/net/brcm,bcm4377-bluetooth.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Broadcom BCM4377 family PCI Bluetooth Chips
+> > > +
+> > > +allOf:
+> > > +  - $ref: bluetooth-controller.yaml#
+> > > +
+> > > +maintainers:
+> > > +  - Sven Peter <sven@svenpeter.dev>
+> > > +
+> > > +description:
+> > > +  This binding describes Broadcom BCM4377 family PCI-attached bluetooth chips
+> > 
+> > s/PCI/PCIe/
+> > 
+> > > +  usually found in Apple machines. The Wi-Fi part of the chip is described in
+> > > +  bindings/net/wireless/brcm,bcm4329-fmac.yaml.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - pci14e4,5fa0 # BCM4377
+> > > +      - pci14e4,5f69 # BCM4378
+> > > +      - pci14e4,5f71 # BCM4387
+> > > +
+> > > +  reg:
+> > > +    description: PCI device identifier.
+> > > +
+> > > +  brcm,board-type:
+> > > +    $ref: /schemas/types.yaml#/definitions/string
+> > > +    description: Board type of the Bluetooth chip. This is used to decouple
+> > > +      the overall system board from the Bluetooth module and used to construct
+> > > +      firmware and calibration data filenames.
+> > > +      On Apple platforms, this should be the Apple module-instance codename
+> > > +      prefixed by "apple,", e.g. "apple,atlantisb".
+> > 
+> > pattern: '^apple,.*'
+> > 
+> > And when there's other known vendors we can add them.
+> > 
+> > Really, I'm not all that crazy about this property. 'firmware-name' 
+> > doesn't work? Or perhaps this should just be a more specific compatible 
+> > string.
 > 
-> The latter two clean up what looks to me like a mess in the setting of
-> power levels. However we settle it, we should then do the same changes
-> to TAS2764, which has the same template (and maybe there are other
-> drivers).
+> This matches the property proposed here:
 > 
-> [...]
+>   https://patchwork.kernel.org/project/linux-wireless/patch/20220104072658.69756-2-marcan@marcan.st/
+> 
+> Unfortunately that series didn't make progress for other reasons...
+> 
+> There was some significant bikeshedding in the original version of that series already:
+> 
+>   https://patchwork.kernel.org/project/linux-wireless/patch/20211226153624.162281-2-marcan@marcan.st/
+> 
+> Are you sure you want to repeat that? ;)
 
-Applied to
+No, it's fine. :)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/4] ASoC: tas2770: Set correct FSYNC polarity
-      commit: e9ac31f0a5d0e246b046c20348954519f91a297f
-[2/4] ASoC: tas2770: Allow mono streams
-      commit: bf54d97a835dfe62d4d29e245e170c63d0089be7
-[3/4] ASoC: tas2770: Drop conflicting set_bias_level power setting
-      commit: 482c23fbc7e9bf5a7a74defd0735d5346215db58
-[4/4] ASoC: tas2770: Fix handling of mute/unmute
-      commit: 1e5907bcb3a3b569be0a03ebe668bba2ed320a50
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Rob
