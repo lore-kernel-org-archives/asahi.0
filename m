@@ -1,194 +1,90 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2069.outbound.protection.outlook.com [40.107.220.69])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D094C82;
-	Mon, 15 Aug 2022 18:16:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hLMzVn2yMkrkIfEZ/eE4cLdbNQZLUdKpUDkYIeVtjLHq0vs/idtfpkTh0uCbpjX89Mq2cvx+Dl11zGG6H8LmovVmLKxZXpIe9POpb64KQ95c3RHdgmK8wXQ6M41JhGsf7s6YQ0rpRwyLBqrUw4sERW/rOQ/a4Aw+SCELbQ9tq5Ypp7+0Dkz0j5/4WRGqNA/i1mGb9TIAq2/j01p85oQiXM3qUmK/XRAryi5AGkHGOAzRCD8G/+2CAKFiC+RTPNG8zQc4e+tXjn+PbzMr25O8fTKu0y60QKmmqB2rCF/MPe1Y1c2Y5c31lXDNVXtUntfo6yuwJ/U1FpY41s5v559r2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wcakuXyxFswuCTVAy8lc/1Px7kpmxatALTQ0BFKkvrg=;
- b=XlqIUei/fOa5PQFz2yu+5qWO3WF6ctlYoBeOeEqWDeW/qYEoSAppVgkCRet7PRocQSI4RhyRhacZ+ubhpyPhdmSpD3NiQvnSE1fJ5C7dKzJ3G0T4eHILUB5iUKRJ1tYW2uT8NTy5brultLyrn2r528XbRBP5tRW31Mlz/T/kiCaIOOtuawZSW+LqjZWri9vvl1hvxhLAKSGiqonch+ScFGJ+SrAHKq8J3UkU9F0XIOLOBTjiQVYtdYJNfn2ECnQ9aJEJbnml2ZeN+qUNq60TzvQmQBD0rGmnINzOoTGg6/beUlnT6SFlUT3rtnc5//EiyXRMIQbVpr7EBuUGqWc8Xg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=rosenzweig.io smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wcakuXyxFswuCTVAy8lc/1Px7kpmxatALTQ0BFKkvrg=;
- b=RdMjUVsib/EQeYoY0hAPyk/lD8ZNhuvqMhoDOJAmzOGgGlBIjb4EkXFiCaBiaEKm6HF50/WTJu4647/0G4B/so4c6sCXbpO9A0F89Z3vyVRquiaULLxs56EKszhZpxB2Aj8tAGDiHwfRTQTcWpjyPTADZOU2djSHKeFcnLD/2OaZVmgIyX8r11vV5K+HIlob0yJrNYH9a1PunZEGS6616nbV8lW9WZ8NK4HqYORPfO6aP8yvBbMHIjZrL1qwEyRWJk4mvkipfRB1WuurFGZpO1m/+vpwdm2FDILJkbcpcrbxyZuO7+9iI4dLZu63eFH6/ilcVjZJVzVlIr0FMEnnXA==
-Received: from DM6PR12CA0010.namprd12.prod.outlook.com (2603:10b6:5:1c0::23)
- by PH8PR12MB6721.namprd12.prod.outlook.com (2603:10b6:510:1cc::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.15; Mon, 15 Aug
- 2022 18:16:38 +0000
-Received: from DM6NAM11FT113.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:1c0:cafe::54) by DM6PR12CA0010.outlook.office365.com
- (2603:10b6:5:1c0::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.16 via Frontend
- Transport; Mon, 15 Aug 2022 18:16:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.235) by
- DM6NAM11FT113.mail.protection.outlook.com (10.13.173.5) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5546.7 via Frontend Transport; Mon, 15 Aug 2022 18:16:38 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.38; Mon, 15 Aug 2022 18:14:53 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.29; Mon, 15 Aug 2022 11:14:53 -0700
-Received: from Asurada-Nvidia.nvidia.com (10.127.8.12) by mail.nvidia.com
- (10.126.190.182) with Microsoft SMTP Server id 15.2.986.29 via Frontend
- Transport; Mon, 15 Aug 2022 11:14:51 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <joro@8bytes.org>, <will@kernel.org>, <robin.murphy@arm.com>,
-	<alex.williamson@redhat.com>
-CC: <suravee.suthikulpanit@amd.com>, <marcan@marcan.st>, <sven@svenpeter.dev>,
-	<alyssa@rosenzweig.io>, <robdclark@gmail.com>, <dwmw2@infradead.org>,
-	<baolu.lu@linux.intel.com>, <mjrosato@linux.ibm.com>,
-	<gerald.schaefer@linux.ibm.com>, <orsonzhai@gmail.com>,
-	<baolin.wang@linux.alibaba.com>, <zhang.lyra@gmail.com>,
-	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
-	<jean-philippe@linaro.org>, <cohuck@redhat.com>, <jgg@nvidia.com>,
-	<tglx@linutronix.de>, <shameerali.kolothum.thodi@huawei.com>,
-	<thunder.leizhen@huawei.com>, <christophe.jaillet@wanadoo.fr>,
-	<yangyingliang@huawei.com>, <jon@solid-run.com>, <iommu@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-s390@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<virtualization@lists.linux-foundation.org>, <kvm@vger.kernel.org>,
-	<kevin.tian@intel.com>
-Subject: [PATCH v6 4/5] vfio/iommu_type1: Clean up update_dirty_scope in detach_group()
-Date: Mon, 15 Aug 2022 11:14:36 -0700
-Message-ID: <20220815181437.28127-5-nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220815181437.28127-1-nicolinc@nvidia.com>
-References: <20220815181437.28127-1-nicolinc@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7F44C8A
+	for <asahi@lists.linux.dev>; Mon, 15 Aug 2022 18:26:29 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id AF634447DB;
+	Mon, 15 Aug 2022 18:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1660587986; bh=0eJkDGE3GNvcOcrqqV1kb6hUfibmFduCDUfne/ShuDE=;
+	h=Date:To:Cc:References:From:Subject:In-Reply-To;
+	b=BjSm8hWsvn6dwegv+PhyexA77iCJc24QCH4ZHb2ClHrPArSlQvtJMBynZVWR45RZn
+	 MeXfh9FHXVZ8XIGFag9GsiyJP0PcNQOfAMoCcpCJ1p/cGnuqb4yVUgT2rGbmIqEEHm
+	 eDm6hIINQcP/5S5wZJVJkvevNtQPuCw4Koag86Fby/I5cj3LwHt31B5S6v2ERdE5ZH
+	 CMLXRcU0sNqN3JDTl9EtkbnH6PEmV6vhYUhijMwZ1ZUkoTlDGrrOU0h6jKNZoYHrBm
+	 4J9mtzx20fg24jT7K/evAqE2DDrYGLc8Hki+NreyuurtCkXg3Igu4SolOG8mrr0bnr
+	 XkKhp07nTMNIQ==
+Message-ID: <8ccfdd2d-ef77-4586-e50c-985e1d13726a@marcan.st>
+Date: Tue, 16 Aug 2022 03:26:21 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a9b34f92-e9f9-4975-5d64-08da7eea4ba2
-X-MS-TrafficTypeDiagnostic: PH8PR12MB6721:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	9ExOFm/y6kqAJyyXyMEHI5xa77a/BkOIt+blXUTjRUVi06Zd+p7EjYkBbHhVjHsPaSuVUp/oRq1Bjf5ewy/+7BvDY1VtcjsKj7lvYhdAhoBRL05ze0NM4RHM4ZcOSewvAqjB09QLMl18F/zPxR47s4sSqisXXuJQQjZXfsxE9xsQxW8XJXYNi4+XvxUFKvxYGY0VqtdwdMD4PL0C80HMQsIRUCT2hiXIxFZt0qauDTBANjy2UqqKmbqRUeNP5U77xgUaRlhbwfagAHTwr2ZJShhMdT52VABJgONqmcuDL+osDY26zRjQVAw+C77YGKEBOcz07NQxUeNjH37AZ/04I9jQuEUyKim2tduR9cb5RBH1/ulkD1/QUiDNBLAaFuO3Z59WnN38fcq868EA9HhMkn5OhB9sZbopJNGSQ38S6DJpFdWZQVt/MkEJZnPq2jqYkRvsU3bb+KD2gtTACzioU208kR/O/sjuNkhJRw6XMVaLNVTbCc1Iza3dUWYFe2O19/yZb/Fq41qLdiUMFn0qqn3SFSgpLuIUb/nGlNIOeXAM21QPS5OeuNt6H/a5UBYqHB1ZLgVkoS09Vxo0h6yUQD3/cXUER/GxJqqmC2tjYD3fiHySghk0+O7n0OGE2AYSyYOUOGbafdM8dHyaik6rtaynbQ0emh+sYL7pHZ7X3qlDw07/BLW4GltxcSBoDgAncX6JOGL7dcCFdMl2AtYKkGCGGC0TSNJjkiIiW4NpKmcwO7jkVkMIh2sXEDMVmSWrn5W4zTkvrzKiv3UB9ThjasB5qKf73tf1i312M+A3DdQDbVbKeXGbxSMv8mCqa6eu+YqtcXccKufwILAhXhcIiXDCpSV7H9/ZLon7Jo8kfyk=
-X-Forefront-Antispam-Report:
-	CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(346002)(39860400002)(136003)(396003)(376002)(36840700001)(40470700004)(46966006)(478600001)(36756003)(6666004)(7696005)(86362001)(2616005)(26005)(186003)(1076003)(41300700001)(336012)(426003)(47076005)(83380400001)(82310400005)(40480700001)(5660300002)(70586007)(8676002)(4326008)(54906003)(110136005)(316002)(40460700003)(70206006)(81166007)(356005)(36860700001)(8936002)(7406005)(7416002)(82740400003)(2906002)(15650500001)(14143004)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Aug 2022 18:16:38.1319
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9b34f92-e9f9-4975-5d64-08da7eea4ba2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DM6NAM11FT113.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6721
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: es-ES
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Will Deacon <will@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Greg KH <gregkh@linuxfoundation.org>, jirislaby@kernel.org,
+ Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Asahi Linux <asahi@lists.linux.dev>, Oliver Neukum <oneukum@suse.com>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <6c089268-4f2c-9fdf-7bcb-107b611fbc21@marcan.st>
+ <20220815134711.GA10374@willie-the-truck>
+ <63cd54a8-3c48-d1b9-406a-c521bd02ee4a@marcan.st>
+ <YvqKtJn5eBsDJXBI@boqun-archlinux>
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: Debugging a TTY race condition on M1 (memory ordering dragons)
+In-Reply-To: <YvqKtJn5eBsDJXBI@boqun-archlinux>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-All devices in emulated_iommu_groups have pinned_page_dirty_scope
-set, so the update_dirty_scope in the first list_for_each_entry
-is always false. Clean it up, and move the "if update_dirty_scope"
-part from the detach_group_done routine to the domain_list part.
+On 16/08/2022 03.04, Boqun Feng wrote:
+> On Tue, Aug 16, 2022 at 01:01:17AM +0900, Hector Martin wrote:
+> Hmm.. but doesn't your (and Will's) finding actually show why
+> queue_work() only guarantee ordering if queuing succeeds? In other
+> words, if you want extra ordering, use smp_mb() before queue_work()
+> like:
+> 
+> 	smp_mb();	// pairs with smp_mb() in set_work_pool_and_clear_pending()
+> 	queue_work();	// if queue_work() return false, it means the work
+> 			// is pending, and someone will eventually clear
+> 		      	// the pending bit, with the smp_mb() above it's
+> 			// guaranteed that work function will see the
+> 			// memory accesses above.
+> 
+> Of course, I shall defer this to workqueue folks. Just saying that it
+> may not be broken. We have a few similar guarantees, for example,
+> wake_up_process() only provides ordering if it really wakes up a
+> process.
 
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
-Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
----
- drivers/vfio/vfio_iommu_type1.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+Technically yes, but that doesn't actually make a lot of sense, and in
+fact the comments inside the workqueue code imply that it does actually
+provide order even in the failure case (and there are other barriers to
+try to make that happen, just not enough). Note that the ordering
+documentation was added post-facto, and I don't think the person who
+wrote it necessarily considered whether it *actually* provides
+guarantees in the failure case, and whether it should.
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index 523927d61aac..3b63a5a237c9 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -2464,14 +2464,12 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	struct vfio_iommu *iommu = iommu_data;
- 	struct vfio_domain *domain;
- 	struct vfio_iommu_group *group;
--	bool update_dirty_scope = false;
- 	LIST_HEAD(iova_copy);
- 
- 	mutex_lock(&iommu->lock);
- 	list_for_each_entry(group, &iommu->emulated_iommu_groups, next) {
- 		if (group->iommu_group != iommu_group)
- 			continue;
--		update_dirty_scope = !group->pinned_page_dirty_scope;
- 		list_del(&group->next);
- 		kfree(group);
- 
-@@ -2480,7 +2478,8 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 			WARN_ON(!list_empty(&iommu->device_list));
- 			vfio_iommu_unmap_unpin_all(iommu);
- 		}
--		goto detach_group_done;
-+		mutex_unlock(&iommu->lock);
-+		return;
- 	}
- 
- 	/*
-@@ -2496,9 +2495,7 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 			continue;
- 
- 		iommu_detach_group(domain->domain, group->iommu_group);
--		update_dirty_scope = !group->pinned_page_dirty_scope;
- 		list_del(&group->next);
--		kfree(group);
- 		/*
- 		 * Group ownership provides privilege, if the group list is
- 		 * empty, the domain goes away. If it's the last domain with
-@@ -2522,6 +2519,16 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 			vfio_iommu_aper_expand(iommu, &iova_copy);
- 			vfio_update_pgsize_bitmap(iommu);
- 		}
-+		/*
-+		 * Removal of a group without dirty tracking may allow
-+		 * the iommu scope to be promoted.
-+		 */
-+		if (!group->pinned_page_dirty_scope) {
-+			iommu->num_non_pinned_groups--;
-+			if (iommu->dirty_page_tracking)
-+				vfio_iommu_populate_bitmap_full(iommu);
-+		}
-+		kfree(group);
- 		break;
- 	}
- 
-@@ -2530,16 +2537,6 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 	else
- 		vfio_iommu_iova_free(&iova_copy);
- 
--detach_group_done:
--	/*
--	 * Removal of a group without dirty tracking may allow the iommu scope
--	 * to be promoted.
--	 */
--	if (update_dirty_scope) {
--		iommu->num_non_pinned_groups--;
--		if (iommu->dirty_page_tracking)
--			vfio_iommu_populate_bitmap_full(iommu);
--	}
- 	mutex_unlock(&iommu->lock);
- }
- 
--- 
-2.17.1
+wake_up_process() is different because it doesn't actually guarantee
+anything if the process is already awake. However, under this
+definition, queue_work() guarantees that *some* work execution will
+observe every preceding write before queue_work(), regardless of the
+current state, and that is a very useful property. That is something
+that wake_up_process() semantics can't do.
 
+Without this guarantee, basically every queue_work() user that's using
+some kind of producer/consumer pattern would need the explicit barrier.
+I imagine that pattern is very common.
+
+- Hector
