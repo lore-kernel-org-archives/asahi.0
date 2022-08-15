@@ -1,238 +1,188 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFA47E
-	for <asahi@lists.linux.dev>; Mon, 15 Aug 2022 17:58:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: hector@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 2204B447DB;
-	Mon, 15 Aug 2022 17:58:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1660586299; bh=ua/yZD37LRjVhAmoFQjxcYx+kjIfLUaOX5iBGAQfvEw=;
-	h=From:To:Cc:Subject:Date;
-	b=E20W8zf0oQ7MmRzAkhNOt1OTJq/0vnenLMc88d/4bu4fEXUiCzyoD2EpMvyWfSc0F
-	 4TlBXP7FetuHCxn+jjvWqLmdIm16rxXPsGBHHwMkX0JaJh4Crh3qjytcgV87CRQ+yX
-	 ItUh3fLQYngSALUTESzquJiHZsCjAlsHU6l4uFENtjWKjZwf1Hr81HXZpIk/Ao1bT0
-	 uXPazqNgf1iBk3pVRVU7vpU4srbpZ690pw5TTuusca5sWclyQnV0hEl798ZtdcxulW
-	 PEgfdsHXPdj8W3ey7b0HWjXoW3a3u7uLB+GGOdPpyBt1qE783TD4RXuceHn8Yy4b+y
-	 8lVCr50XyE4SA==
-From: Hector Martin <marcan@marcan.st>
-To: Tejun Heo <tj@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819DC7E
+	for <asahi@lists.linux.dev>; Mon, 15 Aug 2022 18:04:52 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id s11so6029183qtx.6
+        for <asahi@lists.linux.dev>; Mon, 15 Aug 2022 11:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc;
+        bh=VzJF6qSAyWf9rymdlhaI5LfjxX1moEAaRt9gerX2rGI=;
+        b=FLpeWmbebS7Adq4skhC73mAaHdjLhUXLgMLr54oCGmgio9UJ2thpMFjVWlHX0LGeiF
+         rO0KM3p/uo7nkXhyIbjbnd1xgZPGarAoM91eRSf7Eb1P8urtI0Txi1JbOjRT09Up2Jcz
+         83iTaYLJe4AXu+0vqetKz4T0pjYix/saY9sGUTugz2n/bxdTh8eABFAhat93DybFyeEU
+         0VSNeFK23yU7qM0kP9w6MZLI/UWdrkfTlgdnAwwlamDMHPmQy8QDDwf+GNsrOvr4dXdW
+         MclPFn3GqafkVvQPyffoCyYoKI8JJ02zXz8JiXZ0rLW3z5RPTO4YJMTA4WY7SWhl39lE
+         Ci1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc;
+        bh=VzJF6qSAyWf9rymdlhaI5LfjxX1moEAaRt9gerX2rGI=;
+        b=AAdM/zZAzq+p66LA0Z+WVZsrCIEHtaFz+GNr8FnAt5AcPKdurQR7IH5Ws44ZbKfanR
+         cFS/WQKi8mlLajsP5jRktKi4fOuT1dGXsQ2r5C8V8mEbLreeMP7JfGCqFhMhfF1RFZMH
+         ILUOH3nrGCtRgIMJg6fjU+aX9sNVkkC9JOWmMXVQXRA+2e3QljSjjXe2M3ykrHbOVTsm
+         Kd1M06rkStuW0irEZ+KuZJ3UwLBScZvSeOk3LHQq4ICEl+mgie2ZrlAqMZ3JvRnwm7vV
+         BmvDKEwHIqUIwI+nXmNvtQGE3LZscGkxe7SOOLwHIsgLgv6ud0xArXqAZmbNmo9Ji2bH
+         TBrg==
+X-Gm-Message-State: ACgBeo35i8wIJk+MRQo+TLEpLiuxE7zsfGOnHLUw1rIfCx3s5rUfyquF
+	l/+lNfxHialkeOBi7W8PT3w=
+X-Google-Smtp-Source: AA6agR6YmuPGdL9sLsrMaudL6leZ3roDFKm1tFhqvUvraFuNqvnWMz7PkL1JKMDcn6LSLrsIb9fgjQ==
+X-Received: by 2002:a05:622a:1aa2:b0:344:5ffd:3190 with SMTP id s34-20020a05622a1aa200b003445ffd3190mr4920867qtc.80.1660586691384;
+        Mon, 15 Aug 2022 11:04:51 -0700 (PDT)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id h5-20020ac846c5000000b003434f45b935sm8655482qto.84.2022.08.15.11.04.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Aug 2022 11:04:50 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailauth.nyi.internal (Postfix) with ESMTP id 81F6227C0054;
+	Mon, 15 Aug 2022 14:04:50 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 15 Aug 2022 14:04:50 -0400
+X-ME-Sender: <xms:wYr6YgQKxQ0-UQ9056f6iTrbQAd0pQf1Xyz44qelDA8laYS0ZXBJsw>
+    <xme:wYr6Ytz3it8y4uaHkqYYlP2xFSXE-4QiTsAkronR2u3zZQZ9ixZf10h_ula2YzKmm
+    ghGE075KZGQQUoLjQ>
+X-ME-Received: <xmr:wYr6Yt2IC0diKRocU_LR9aJ-WVfEZ1WH2YDASECamHgxioRQJLaHWzZcaru3yA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddguddvudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhq
+    uhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrf
+    grthhtvghrnhephedugfduffffteeutddvheeuveelvdfhleelieevtdeguefhgeeuveei
+    udffiedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedt
+    ieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfh
+    higihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:wYr6YkBAf7Pm_oTSsRwVV2e6Q4xP0L1d-pckKYOt2_Grree8hu6xcA>
+    <xmx:wYr6YpifK7hUMR7Ugh4anIVLDAlhgImWBlN92jZ9Quf2CQDYySkWsw>
+    <xmx:wYr6Ygog_Awhaln9h9n3nAqDUocOqECtNvRnyIqYeag5Js-8gCS9pA>
+    <xmx:wor6YkpJYsdTMMP82hYDtyApZqJACVgswg23mf1Qlh2XF-XDTxDPDg>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Aug 2022 14:04:49 -0400 (EDT)
+Date: Mon, 15 Aug 2022 11:04:36 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Hector Martin <marcan@marcan.st>
 Cc: Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	jirislaby@kernel.org,
-	Marc Zyngier <maz@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Oliver Neukum <oneukum@suse.com>,
-	Roman Pen <roman.penyaev@profitbricks.com>,
-	Asahi Linux <asahi@lists.linux.dev>,
 	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	stable@vger.kernel.org
-Subject: [PATCH] workqueue: Fix memory ordering race in queue_work*()
-Date: Tue, 16 Aug 2022 02:58:10 +0900
-Message-Id: <20220815175810.17780-1-marcan@marcan.st>
-X-Mailer: git-send-email 2.35.1
+	Greg KH <gregkh@linuxfoundation.org>, jirislaby@kernel.org,
+	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Asahi Linux <asahi@lists.linux.dev>,
+	Oliver Neukum <oneukum@suse.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: Re: Debugging a TTY race condition on M1 (memory ordering dragons)
+Message-ID: <YvqKtJn5eBsDJXBI@boqun-archlinux>
+References: <6c089268-4f2c-9fdf-7bcb-107b611fbc21@marcan.st>
+ <20220815134711.GA10374@willie-the-truck>
+ <63cd54a8-3c48-d1b9-406a-c521bd02ee4a@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <63cd54a8-3c48-d1b9-406a-c521bd02ee4a@marcan.st>
 
-The work queueing operation relies on the atomic test-and-set operation
-to set the PENDING bit behaving as a full barrier, even if it fails.
-Otherwise, the PENDING state may be observed before memory writes
-pertaining to the work complete, as they are allowed to be reordered.
-That can lead to work being processed before all prior writes are
-observable, and no new work being queued to ensure they are observed at
-some point.
+On Tue, Aug 16, 2022 at 01:01:17AM +0900, Hector Martin wrote:
+> (Resend, because I still can't use mail clients properly it seems...)
+> 
+> On 15/08/2022 22.47, Will Deacon wrote:
+> > As I mentioned in the thread you linked to, the architecture was undergoing
+> > review in this area. I should've followed back up, but in the end it was
+> > tightened retrospectively to provide the behaviour you wanted. This was
+> > achieved by augmenting the barrier-ordered-before relation with:
+> > 
+> >   * RW1 is a memory write effect W1 and is generated by an atomic instruction
+> >     with both Acquire and Release semantics.
+> > 
+> > You can see this in the latest Arm ARM.
+> > 
+> > However, test_and_set_bit() is unordered on failure (i.e. when the bit is
+> > unchanged) and uses READ_ONCE() as a quick check before the RmW. See the
+> > "ORDERING" section of Documentation/atomic_bitops.txt.
+> 
+> Argh, I'd completely missed that early exit (and had stumbled on an
+> unofficial doc that said it was always ordered, which confused me).
+> Indeed, getting rid of the early exit it fixes the problem.
+> 
+> > I think you're missing the "shortcut" in test_and_set_bit():
+> > 
+> >         if (READ_ONCE(*p) & mask)
+> >                 return 1;
+> > 
+> >         old = arch_atomic_long_fetch_or(mask, (atomic_long_t *)p);
+> > 
+> > so if the bit is already set (which I think is the 'ret == false' case)
+> > then you've only got a control dependency here and we elide writing to
+> > B.
+> 
+> Completely missed it. Ouch.
+> 
+> > 
+> >>
+> >> CPU#2:
+> >>   DMB ISHST
+> >>   STR B
+> > 
+> > Missing DMB ISH here from the smp_mb()?
+> 
+> Yup, my apologies, that was a brain fart while writing the email. I did
+> have it in the litmus tests (and they indeed completely fail without it).
+> 
+> > If that non-atomic store is hitting the same variable, then it cannot land
+> > in the middle of the atomic RmW. The architecture says:
+> > 
+> >  | The atomic instructions perform atomic read and write operations on a memory
+> >  | location such that the architecture guarantees that no modification of that
+> >  | memory location by another observer can occur between the read and the write
+> >  | defined by that instruction.
+> > 
+> > and the .cat file used by herd has a separate constraint for this (see the
+> > "empty rmw & (fre; coe) as atomic" line).
+> 
+> Ha, I was using G.a from Jan 2021 (back when I started working on this
+> M1 stuff), and it looks like that wording was added as an issue after
+> that (D17572) :-)
+> 
+> > There's never anything obvious when you're working with this sort of stuff,
+> > but my suggestion is that we work towards a litmus tests that we both agree
+> > represents the code and then take it from there. At the moment there's an
+> > awful lof of information, but you can see from my comments that I'm not
+> > up to speed with you yet!
+> 
+> I think you nailed it with the early exit, I'd completely missed that. I
+> think I can fairly confidently say that's the issue now. As for the
+> litmus test, indeed with the revised definitions of the memory model /
+> ARM my concerns no longer apply, hence why I couldn't reproduce them
+> (and the hardware, thankfully, seems to agree here).
+> 
+> Workqueues are broken. Yay! I'll send a patch.
+> 
 
-This has been broken since the dawn of time, and it was incompletely
-fixed by 346c09f80459, which added the necessary barriers in the work
-execution path but failed to account for the missing barrier in the
-test_and_set_bit() failure case. Fix it by switching to
-atomic_long_fetch_or(), which does have unconditional barrier semantics
-regardless of whether the bit was already set or not (this is actually
-just test_and_set_bit() minus the early exit path).
+Hmm.. but doesn't your (and Will's) finding actually show why
+queue_work() only guarantee ordering if queuing succeeds? In other
+words, if you want extra ordering, use smp_mb() before queue_work()
+like:
 
-Discovered [1] on Apple M1 platforms, which are ridiculously
-out-of-order and managed to trigger this in the TTY core, of all places.
-Easily reproducible by running this m1n1 client script on one M1 machine
-connected to another one running the m1n1 bootloader in proxy mode:
+	smp_mb();	// pairs with smp_mb() in set_work_pool_and_clear_pending()
+	queue_work();	// if queue_work() return false, it means the work
+			// is pending, and someone will eventually clear
+		      	// the pending bit, with the smp_mb() above it's
+			// guaranteed that work function will see the
+			// memory accesses above.
 
-=============
-from m1n1.setup import *
+Of course, I shall defer this to workqueue folks. Just saying that it
+may not be broken. We have a few similar guarantees, for example,
+wake_up_process() only provides ordering if it really wakes up a
+process.
 
-i = 0
-while True:
-    a = iface.readmem(u.base, 1170)
-    print(i)
-    i += 1
-=============
+Regards,
+Boqun
 
-The script will hang when the TTY layer fails to push a buffer of data
-into the ldisc in a timely manner in tty_flip_buffer_push(), which
-writes a buffer pointer and then queue_work()s the ldisc push.
-
-(Note: reproducibility depends on .config options)
-
-Additionally, properly document that queue_work() has guarantees even
-when work is already queued (it doesn't make any sense for it not to,
-the comment in set_work_pool_and_clear_pending() already implies it
-does, and the TTY core and probably quite a few other places rely on
-this).
-
-[1] https://lore.kernel.org/lkml/6c089268-4f2c-9fdf-7bcb-107b611fbc21@marcan.st/#t
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Fixes: 346c09f80459 ("workqueue: fix ghost PENDING flag while doing MQ IO")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- include/linux/workqueue.h | 15 ++++++++++-----
- kernel/workqueue.c        | 39 +++++++++++++++++++++++++++++++--------
- 2 files changed, 41 insertions(+), 13 deletions(-)
-
-diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
-index a0143dd24430..d9ea73813a3c 100644
---- a/include/linux/workqueue.h
-+++ b/include/linux/workqueue.h
-@@ -484,18 +484,23 @@ extern void wq_worker_comm(char *buf, size_t size, struct task_struct *task);
-  * We queue the work to the CPU on which it was submitted, but if the CPU dies
-  * it can be processed by another CPU.
-  *
-- * Memory-ordering properties:  If it returns %true, guarantees that all stores
-- * preceding the call to queue_work() in the program order will be visible from
-- * the CPU which will execute @work by the time such work executes, e.g.,
-+ * Memory-ordering properties:  Guarantees that all stores preceding the call to
-+ * queue_work() in the program order will be visible from the CPU which will
-+ * execute @work by the time such work executes, e.g.,
-  *
-  * { x is initially 0 }
-  *
-  *   CPU0				CPU1
-  *
-  *   WRITE_ONCE(x, 1);			[ @work is being executed ]
-- *   r0 = queue_work(wq, work);		  r1 = READ_ONCE(x);
-+ *   queue_work(wq, work);		r0 = READ_ONCE(x);
-  *
-- * Forbids: r0 == true && r1 == 0
-+ * Forbids: r0 == 0 for the currently pending execution of @work after
-+ * queue_work() completes.
-+ *
-+ * If @work was already pending (ret == false), that execution is guaranteed
-+ * to observe x == 1. If @work was newly queued (ret == true), the newly
-+ * queued execution is guaranteed to observe x == 1.
-  */
- static inline bool queue_work(struct workqueue_struct *wq,
- 			      struct work_struct *work)
-diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index aeea9731ef80..01bc03eed649 100644
---- a/kernel/workqueue.c
-+++ b/kernel/workqueue.c
-@@ -655,7 +655,7 @@ static void set_work_pool_and_clear_pending(struct work_struct *work,
- {
- 	/*
- 	 * The following wmb is paired with the implied mb in
--	 * test_and_set_bit(PENDING) and ensures all updates to @work made
-+	 * atomic_long_fetch_or(PENDING) and ensures all updates to @work made
- 	 * here are visible to and precede any updates by the next PENDING
- 	 * owner.
- 	 */
-@@ -673,7 +673,7 @@ static void set_work_pool_and_clear_pending(struct work_struct *work,
- 	 *
- 	 * 1  STORE event_indicated
- 	 * 2  queue_work_on() {
--	 * 3    test_and_set_bit(PENDING)
-+	 * 3    atomic_long_fetch_or(PENDING)
- 	 * 4 }                             set_..._and_clear_pending() {
- 	 * 5                                 set_work_data() # clear bit
- 	 * 6                                 smp_mb()
-@@ -688,6 +688,15 @@ static void set_work_pool_and_clear_pending(struct work_struct *work,
- 	 * finish the queued @work.  Meanwhile CPU#1 does not see
- 	 * event_indicated is set, because speculative LOAD was executed
- 	 * before actual STORE.
-+	 *
-+	 * Line 3 requires barrier semantics, even on failure. If it were
-+	 * implemented with test_and_set_bit() (which does not have
-+	 * barrier semantics on failure), that would allow the STORE to
-+	 * be reordered after it, and it could be observed by CPU#1 after
-+	 * it has executed all the way through to line 8 (and cleared the
-+	 * PENDING bit in the process). At this point, CPU#0 would not have
-+	 * queued new work (having observed PENDING set), and CPU#1 would not
-+	 * have observed the event_indicated store in the last work execution.
- 	 */
- 	smp_mb();
- }
-@@ -1276,8 +1285,9 @@ static int try_to_grab_pending(struct work_struct *work, bool is_dwork,
- 			return 1;
- 	}
-
--	/* try to claim PENDING the normal way */
--	if (!test_and_set_bit(WORK_STRUCT_PENDING_BIT, work_data_bits(work)))
-+	/* try to claim PENDING the normal way, see queue_work_on() */
-+	if (!(atomic_long_fetch_or(WORK_STRUCT_PENDING, &work->data)
-+			& WORK_STRUCT_PENDING))
- 		return 0;
-
- 	rcu_read_lock();
-@@ -1541,7 +1551,14 @@ bool queue_work_on(int cpu, struct workqueue_struct *wq,
-
- 	local_irq_save(flags);
-
--	if (!test_and_set_bit(WORK_STRUCT_PENDING_BIT, work_data_bits(work))) {
-+	/*
-+	 * We need unconditional barrier semantics, even on failure,
-+	 * to avoid racing set_work_pool_and_clear_pending(). Hence,
-+	 * this has to be atomic_long_fetch_or(), not test_and_set_bit()
-+	 * which elides the barrier on failure.
-+	 */
-+	if (!(atomic_long_fetch_or(WORK_STRUCT_PENDING, &work->data)
-+			& WORK_STRUCT_PENDING)) {
- 		__queue_work(cpu, wq, work);
- 		ret = true;
- 	}
-@@ -1623,7 +1640,9 @@ bool queue_work_node(int node, struct workqueue_struct *wq,
-
- 	local_irq_save(flags);
-
--	if (!test_and_set_bit(WORK_STRUCT_PENDING_BIT, work_data_bits(work))) {
-+	/* see queue_work_on() */
-+	if (!(atomic_long_fetch_or(WORK_STRUCT_PENDING, &work->data)
-+			& WORK_STRUCT_PENDING)) {
- 		int cpu = workqueue_select_cpu_near(node);
-
- 		__queue_work(cpu, wq, work);
-@@ -1697,7 +1716,9 @@ bool queue_delayed_work_on(int cpu, struct workqueue_struct *wq,
- 	/* read the comment in __queue_work() */
- 	local_irq_save(flags);
-
--	if (!test_and_set_bit(WORK_STRUCT_PENDING_BIT, work_data_bits(work))) {
-+	/* see queue_work_on() */
-+	if (!(atomic_long_fetch_or(WORK_STRUCT_PENDING, &work->data)
-+			& WORK_STRUCT_PENDING)) {
- 		__queue_delayed_work(cpu, wq, dwork, delay);
- 		ret = true;
- 	}
-@@ -1769,7 +1790,9 @@ bool queue_rcu_work(struct workqueue_struct *wq, struct rcu_work *rwork)
- {
- 	struct work_struct *work = &rwork->work;
-
--	if (!test_and_set_bit(WORK_STRUCT_PENDING_BIT, work_data_bits(work))) {
-+	/* see queue_work_on() */
-+	if (!(atomic_long_fetch_or(WORK_STRUCT_PENDING, &work->data)
-+			& WORK_STRUCT_PENDING)) {
- 		rwork->wq = wq;
- 		call_rcu(&rwork->rcu, rcu_work_rcufn);
- 		return true;
---
-2.35.1
-
+> - Hector
