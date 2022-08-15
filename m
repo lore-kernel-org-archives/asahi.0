@@ -1,58 +1,54 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911C51C04
-	for <asahi@lists.linux.dev>; Mon, 15 Aug 2022 13:56:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=8H7M++LHjLPagFvc25ZTit0lX+9Q+HaL3iQSNzDSx5I=; b=oPueY7bmQ32LIM+kvz9NC4LcWF
-	ZD8OH1HwyTDACmg3Hu/I8PIzoB78jKBUoOqmXDNaUFoR1wBSaJcM4PR7aqexT9t14F7sUCvPSk6y/
-	eLCd1hYPIRpm5qbrVJAXCeEAtY2lkGYfKM9lhIFgbH0Oa7rg9altls4wuBad9FmfNICyklfd/s80Y
-	oozevP/mlOKuoPREQj2RpimUfCeNhFUhXwpahsbOeHTDHYvErQ6nH7ob7Kyq1Ww+CsB9hIpS7VZqo
-	pcOq0+38PWUQC7f5AQCyPgE4DftYv1nkk3gfmGIOWEYIF4K+0rsuoyOtSqB88iJWj5ohpH4Mi1eM5
-	g01TU4tg==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=worktop.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oNaaC-005le7-Dw; Mon, 15 Aug 2022 13:56:44 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 9CB96980153; Mon, 15 Aug 2022 15:56:43 +0200 (CEST)
-Date: Mon, 15 Aug 2022 15:56:43 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Will Deacon <will@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Greg KH <gregkh@linuxfoundation.org>, jirislaby@kernel.org,
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Oliver Neukum <oneukum@suse.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: Re: Debugging a TTY race condition on M1 (memory ordering dragons)
-Message-ID: <YvpQmzt73Yj8xbxV@worktop.programming.kicks-ass.net>
-References: <6c089268-4f2c-9fdf-7bcb-107b611fbc21@marcan.st>
- <20220815134711.GA10374@willie-the-truck>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200C11C38
+	for <asahi@lists.linux.dev>; Mon, 15 Aug 2022 16:01:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 89988447DB;
+	Mon, 15 Aug 2022 16:01:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1660579282; bh=VmF3FTu694LbmWoV17slTSTf/K4ZQcEVB4/OX7NK47I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=bGKYDqKdaH6yX2rSOAnTSkSAl0XPV99z3QFH/NDw9sQ8GcNSGibpbnkKFCMMAViTg
+	 aDe6DwfITSXxLBzuPOOQjsi03lahDVtiGQNVe5Z1nSCC6mcG8cVLgDgUrtAAFQD/wu
+	 +uZl3+8jLU8odv8WViQEVVdyy2WK4c6+hJ8/C9SOf1KaoZjOb2ecNO6ulpnHu789rT
+	 gOoI5BG0FflnDtWkFGxiZ+gv2S6je1cV2mSULhnT3xswW57IrEeaKCuetMaO/H+3xE
+	 yWpJbxEvPhQoDho8kE49i0cR6BGtaJtLSb62iejoiAkThw8vHlC0kTnKjkhs/6xgoU
+	 hKxO0ZktFUAqg==
+Message-ID: <63cd54a8-3c48-d1b9-406a-c521bd02ee4a@marcan.st>
+Date: Tue, 16 Aug 2022 01:01:17 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: Debugging a TTY race condition on M1 (memory ordering dragons)
+Content-Language: es-ES
+To: Will Deacon <will@kernel.org>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Greg KH <gregkh@linuxfoundation.org>, jirislaby@kernel.org,
+ Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Peter Zijlstra <peterz@infradead.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Asahi Linux <asahi@lists.linux.dev>, Oliver Neukum <oneukum@suse.com>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <6c089268-4f2c-9fdf-7bcb-107b611fbc21@marcan.st>
+ <20220815134711.GA10374@willie-the-truck>
+From: Hector Martin <marcan@marcan.st>
 In-Reply-To: <20220815134711.GA10374@willie-the-truck>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 15, 2022 at 02:47:11PM +0100, Will Deacon wrote:
+(Resend, because I still can't use mail clients properly it seems...)
 
-> > Behind the scenes, the work pending flag is atomically set with
-> > test_and_set_bit() by queue_work_on(). That compiles down to my old
-> > friend LDSETAL, which I already showed [2] does not provide the
-> > guarantees test_and_set_bit() claims to have (== full memory barrier).
-> > However, I can't get that litmus test to fail on real hardware, so that
-> > may be a red herring as far as this bug goes.
-> 
+On 15/08/2022 22.47, Will Deacon wrote:
 > As I mentioned in the thread you linked to, the architecture was undergoing
 > review in this area. I should've followed back up, but in the end it was
 > tightened retrospectively to provide the behaviour you wanted. This was
@@ -67,7 +63,9 @@ On Mon, Aug 15, 2022 at 02:47:11PM +0100, Will Deacon wrote:
 > unchanged) and uses READ_ONCE() as a quick check before the RmW. See the
 > "ORDERING" section of Documentation/atomic_bitops.txt.
 
-Damn, I forgot that too... :/
+Argh, I'd completely missed that early exit (and had stumbled on an
+unofficial doc that said it was always ordered, which confused me).
+Indeed, getting rid of the early exit it fixes the problem.
 
 > I think you're missing the "shortcut" in test_and_set_bit():
 > 
@@ -80,5 +78,46 @@ Damn, I forgot that too... :/
 > then you've only got a control dependency here and we elide writing to
 > B.
 
-Given all that, I think workqueue wants to be fixed, it really does seem
-to rely on full ordering for it's test_and_set_bit() usage.
+Completely missed it. Ouch.
+
+> 
+>>
+>> CPU#2:
+>>   DMB ISHST
+>>   STR B
+> 
+> Missing DMB ISH here from the smp_mb()?
+
+Yup, my apologies, that was a brain fart while writing the email. I did
+have it in the litmus tests (and they indeed completely fail without it).
+
+> If that non-atomic store is hitting the same variable, then it cannot land
+> in the middle of the atomic RmW. The architecture says:
+> 
+>  | The atomic instructions perform atomic read and write operations on a memory
+>  | location such that the architecture guarantees that no modification of that
+>  | memory location by another observer can occur between the read and the write
+>  | defined by that instruction.
+> 
+> and the .cat file used by herd has a separate constraint for this (see the
+> "empty rmw & (fre; coe) as atomic" line).
+
+Ha, I was using G.a from Jan 2021 (back when I started working on this
+M1 stuff), and it looks like that wording was added as an issue after
+that (D17572) :-)
+
+> There's never anything obvious when you're working with this sort of stuff,
+> but my suggestion is that we work towards a litmus tests that we both agree
+> represents the code and then take it from there. At the moment there's an
+> awful lof of information, but you can see from my comments that I'm not
+> up to speed with you yet!
+
+I think you nailed it with the early exit, I'd completely missed that. I
+think I can fairly confidently say that's the issue now. As for the
+litmus test, indeed with the revised definitions of the memory model /
+ARM my concerns no longer apply, hence why I couldn't reproduce them
+(and the hardware, thankfully, seems to agree here).
+
+Workqueues are broken. Yay! I'll send a patch.
+
+- Hector
