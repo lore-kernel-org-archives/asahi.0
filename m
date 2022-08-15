@@ -1,84 +1,91 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DDE1103
-	for <asahi@lists.linux.dev>; Mon, 15 Aug 2022 19:10:38 +0000 (UTC)
-Received: by mail-pj1-f43.google.com with SMTP id ha11so7721207pjb.2
-        for <asahi@lists.linux.dev>; Mon, 15 Aug 2022 12:10:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc;
-        bh=KUjRZPqE91jzSYN2iE0zIp+wxb3Fz8jBCptNiXCO28k=;
-        b=nl5D74t6p6a2b7Jz2/xeLL85eNGxMaG3q869rymjnx1KUzapWeOISxWX+Bvmkl4271
-         z2s1HKqnfi00Leht9JdsPLQHpEJip7s09mwJrSD/co/QWkM4CP7FbOTt3cR8LqhGZjVX
-         W39fR3JaIwng1yNdPmuW5bbBYDG/XxtfJdQhkl0eAfpCrKbB8ByBNKFQEgDQj4WCo46E
-         Vq9u5iMZ2Z1FDRfICD6WBo7Z3wvd9rBk6M0Y1jDkBER6vmrodcDrxVS7C1gpbg576Ugx
-         LpxTfqWuUSnDDOhQVS7U9pznNGBzDyQN40bxh5ZUTnzCn7V53y72UzUUiVUMmUasHbIw
-         FkKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
-        bh=KUjRZPqE91jzSYN2iE0zIp+wxb3Fz8jBCptNiXCO28k=;
-        b=UK50jHlo6j1a1cZYR9jh81YFpmZSIl1oMmf/kRlvFxgEKva3RMbMyrm4qAeFWvYlUO
-         HxnzSfpcJhjLbj70BVDL6e7wFTHr9ETzNCK+PHU16IQug03pXBR66yI6CJDyhMSIpCK7
-         fe9C8nLOVRDfNIsLYBIvpMbMvRsvsUCe9E+eJ+K07X/nrW+onEZ7xmNafgO/Do/MFcOM
-         y+HTATatiq9oGX8vzxm5ftayi8eciLSd9/2dVaaA2Ns3YxBhrvvVYdAuBapUmu31wxI3
-         7xyQRLHd+RxMAhEKee99YqxpXOPY3mSuenflQA86CsJ7x9QDw/38X5k4WzR5PfeyYFn9
-         0YiA==
-X-Gm-Message-State: ACgBeo0XS/t/343yVjY7pPVywDvp6SIWucksdJ/fIsfWGw/sDWx0OOyI
-	vmAdWop9dZmmVmJrffIsl28=
-X-Google-Smtp-Source: AA6agR4vn6iDlfADGbaSh46rlmxbHe822Dd3CTfESNqOHC4cvV2/XfoCT4HkKO1FddAI/ECHIaJ6qQ==
-X-Received: by 2002:a17:90a:20f:b0:1f8:cc20:1216 with SMTP id c15-20020a17090a020f00b001f8cc201216mr17823341pjc.225.1660590637729;
-        Mon, 15 Aug 2022 12:10:37 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:3a69])
-        by smtp.gmail.com with ESMTPSA id b6-20020a1709027e0600b0016b90620910sm7361957plm.71.2022.08.15.12.10.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Aug 2022 12:10:36 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date: Mon, 15 Aug 2022 09:10:35 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-	jirislaby@kernel.org, Marc Zyngier <maz@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Oliver Neukum <oneukum@suse.com>,
-	Roman Pen <roman.penyaev@profitbricks.com>,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] workqueue: Fix memory ordering race in queue_work*()
-Message-ID: <YvqaK3hxix9AaQBO@slm.duckdns.org>
-References: <20220815175810.17780-1-marcan@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DDF1103
+	for <asahi@lists.linux.dev>; Mon, 15 Aug 2022 19:15:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 2C02044E47;
+	Mon, 15 Aug 2022 19:15:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1660590905; bh=qqaaeEPVyM0kn+wlB73W5v9RUTLjhjxD0bTjXPsKLTc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=MUGsMWhyajDA1ZUk/xpNWAPGXiNsuhJLSZapOYcsH8J65ov5p7MXVNW4wWtYnxRtq
+	 dF5k63BfNZ3QJJ3hKvPQcN6DLqwjESodNVQdMRoyMFbPczGR/oHQYymELOsKWdb6dd
+	 buRfqWuFmD+eFUOm7pNTtSRdlPTCUNZHgIRSjGdGY28o8ecf8XIDfu8WamkyxMmS1z
+	 TBXtvIEsLFWccPsje9gCHmQtsSySV7zMaxc10Q30M2JU0RSr095MkdYAOldPm2nTXD
+	 dYeKdZco8iKuDsmloBu5sPV86KO5dhMguOgZBsY01uvFyagSoLrguVfhBOrew40a+w
+	 LWparOodqyBuw==
+Message-ID: <f3f84fc1-50be-0a9b-0538-6ea26dd93b16@marcan.st>
+Date: Tue, 16 Aug 2022 04:15:00 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220815175810.17780-1-marcan@marcan.st>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: Debugging a TTY race condition on M1 (memory ordering dragons)
+Content-Language: es-ES
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Will Deacon <will@kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Greg KH <gregkh@linuxfoundation.org>, jirislaby@kernel.org,
+ Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Asahi Linux <asahi@lists.linux.dev>, Oliver Neukum <oneukum@suse.com>,
+ LKML <linux-kernel@vger.kernel.org>
+References: <6c089268-4f2c-9fdf-7bcb-107b611fbc21@marcan.st>
+ <20220815134711.GA10374@willie-the-truck>
+ <63cd54a8-3c48-d1b9-406a-c521bd02ee4a@marcan.st>
+ <YvqKtJn5eBsDJXBI@boqun-archlinux>
+ <8ccfdd2d-ef77-4586-e50c-985e1d13726a@marcan.st>
+ <YvqXbApYbGGEqQl+@boqun-archlinux>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <YvqXbApYbGGEqQl+@boqun-archlinux>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 16, 2022 at 02:58:10AM +0900, Hector Martin wrote:
-> This has been broken since the dawn of time, and it was incompletely
-> fixed by 346c09f80459, which added the necessary barriers in the work
-> execution path but failed to account for the missing barrier in the
-> test_and_set_bit() failure case. Fix it by switching to
-> atomic_long_fetch_or(), which does have unconditional barrier semantics
-> regardless of whether the bit was already set or not (this is actually
-> just test_and_set_bit() minus the early exit path).
-...
+On 16/08/2022 03.58, Boqun Feng wrote:
+> I agree this is handy, but an unconditional full barrier may be costy to
+> some users, and probably unnecessary if the users periodically queue
+> the work. In that case, some successful enqueue will eventually make all
+> memory accesses observable. Also if workqueue users use their own
+> locking in work function, then the barrier is also unnecessary.
+> 
+> The document part of course needs some help to clear things up. But I'm
+> not sure "strengthen"ing the ordering guarantee of queue_work() is a
+> good idea. Maybe a dedicated API, like:
+> 
+> // More work is needed for the @work, it has the same semantics as
+> // queue_work() if the @work is not pending. If the @work is pending,
+> // this ensures the work function observes all memory access before
+> // this.
+> void queue_more_work(struct work_struct *work)
+> {
+> 	smp_mb();
+> 	queue_work(work);
+> }
+> 
+> Regards,
+> Boqun
 
-Oh, tricky one and yeah you're absolutely right that it makes no sense to
-not guarantee barrier semantics when already pending. I didn't even know
-test_and_set_bit() wasn't a barrier when it failed. Thanks a lot for hunting
-down and fixing this. Applied to wq/for-6.0-fixes.
+FWIW, I didn't actually use a full barrier in my patch. I just replaced
+the test_and_set_bit() with the underlying atomic op, sans early exit path.
 
-Thanks.
+Personally though, I think it makes more sense to have the default
+function provide the guarantees, and if someone *really* needs the
+performance gain from eliding the implicit barrier, they could use an
+alternate API for that (after they show useful gains). This stuff is too
+subtle to expect every caller to wrap their head around memory ordering,
+and having queue_work() always provide order with prior stores *feels*
+intuitive.
 
--- 
-tejun
+But let's see what the workqueue folks say :)
+
+- Hector
