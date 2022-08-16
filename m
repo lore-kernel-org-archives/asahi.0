@@ -1,133 +1,61 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14CB1FBC
-	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 07:03:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: hector@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id E22484195A;
-	Tue, 16 Aug 2022 07:03:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1660633407; bh=kUwKJCbfhFuqlbG5x8uMKMwiqOIdhALURpt/vstQk4s=;
-	h=From:To:Cc:Subject:Date;
-	b=oZugG863BdtFggJGMD5WWyU3O9TQMqUzQI0Q0opxDi9IBIIqfCX8bmf5N2YMyCiRZ
-	 2keRbaZtAzfI4XvjVQnFFtSCOUOYOXWaZyrqqG+ut2RkHO3zGaiMgjnKx2yzNSXjrY
-	 bL0tH7UpAmYsOIYiNTgRd5LkWG2+SpzNXCpk5BfDO7izM9Wj4UYSLYoFzMD3cpXTZ8
-	 ItJ56cokotDvC/wfZXdCqNw5B15pSrAFIdJqh7kKil/FvjbCbQlT+5659azbnI/9q9
-	 FIqW/hbHLrCYNw8X0r/KatC+tbn1Qx3TCxeSt4gV/vPUZv3KtMdasKqGbmccXcukE5
-	 vd9SMut5DVlkQ==
-From: Hector Martin <marcan@marcan.st>
-To: Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Ingo Molnar <mingo@kernel.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	David Howells <dhowells@redhat.com>,
-	Jade Alglave <j.alglave@ucl.ac.uk>,
-	Luc Maranget <luc.maranget@inria.fr>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Tejun Heo <tj@kernel.org>,
-	jirislaby@kernel.org,
-	Marc Zyngier <maz@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Oliver Neukum <oneukum@suse.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Hector Martin <marcan@marcan.st>,
-	stable@vger.kernel.org
-Subject: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
-Date: Tue, 16 Aug 2022 16:03:11 +0900
-Message-Id: <20220816070311.89186-1-marcan@marcan.st>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D941FDA
+	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 07:48:27 +0000 (UTC)
+Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
+	by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1oNrIu-00BXvH-6U; Tue, 16 Aug 2022 17:48:01 +1000
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Tue, 16 Aug 2022 15:48:00 +0800
+Date: Tue, 16 Aug 2022 15:48:00 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Hector Martin <marcan@marcan.st>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Will Deacon <will@kernel.org>, Tejun Heo <tj@kernel.org>,
+	peterz@infradead.org, jirislaby@kernel.org, maz@kernel.org,
+	mark.rutland@arm.com, boqun.feng@gmail.com, catalin.marinas@arm.com,
+	oneukum@suse.com, roman.penyaev@profitbricks.com,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] workqueue: Fix memory ordering race in queue_work*()
+Message-ID: <YvtLsNZEUUytdx+i@gondor.apana.org.au>
+References: <YvqaK3hxix9AaQBO@slm.duckdns.org>
+ <YvsZ6vObgLaDeSZk@gondor.apana.org.au>
+ <CAHk-=wgSNiT5qJX53RHtWECsUiFq6d6VWYNAvu71ViOEan07yw@mail.gmail.com>
+ <cd51b422-89f3-1856-5d3b-d6e5b0029085@marcan.st>
+ <CAHk-=wjfLT7nL8pV8RWATpjgm0zDtUwT8UMtroqnGcXRjN8tgw@mail.gmail.com>
+ <24c88c4f-aea5-1fb7-0ead-95c88629d72b@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <24c88c4f-aea5-1fb7-0ead-95c88629d72b@marcan.st>
 
-These operations are documented as always ordered in
-include/asm-generic/bitops/instrumented-atomic.h, and producer-consumer
-type use cases where one side needs to ensure a flag is left pending
-after some shared data was updated rely on this ordering, even in the
-failure case.
+On Tue, Aug 16, 2022 at 03:28:50PM +0900, Hector Martin wrote:
+>
+> This is the same reason I argued queue_work() itself needs to have a
+> similar guarantee, even when it doesn't queue work (and I updated the
+> doc to match). If test_and_set_bit() is used in this kind of context
+> often in the kernel, clearly the current implementation/doc clashes with
+> that.
 
-This is the case with the workqueue code, which currently suffers from a
-reproducible ordering violation on Apple M1 platforms (which are
-notoriously out-of-order) that ends up causing the TTY layer to fail to
-deliver data to userspace properly under the right conditions. This
-change fixes that bug.
+Kernel code all over the place rely on the fact that test_and_set_bit
+provides a memory barrier.  So this bug that you've discovered is
+not at all isolated to the workqeueue system.  It'll break the kernel
+in lots of places in exactly the same way.
 
-Change the documentation to restrict the "no order on failure" story to
-the _lock() variant (for which it makes sense), and remove the
-early-exit from the generic implementation, which is what causes the
-missing barrier semantics in that case. Without this, the remaining
-atomic op is fully ordered (including on ARM64 LSE, as of recent
-versions of the architecture spec).
+> As I said, I don't have any particular beef in this fight, but this is
+> horribly broken on M1/2 right now, so I'll send a patch to change the
+> bitops instead and you all can fight it out over which way is correct :)
 
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: stable@vger.kernel.org
-Fixes: e986a0d6cb36 ("locking/atomics, asm-generic/bitops/atomic.h: Rewrite using atomic_*() APIs")
-Fixes: 61e02392d3c7 ("locking/atomic/bitops: Document and clarify ordering semantics for failed test_and_{}_bit()")
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- Documentation/atomic_bitops.txt     | 2 +-
- include/asm-generic/bitops/atomic.h | 6 ------
- 2 files changed, 1 insertion(+), 7 deletions(-)
+Please do.
 
-diff --git a/Documentation/atomic_bitops.txt b/Documentation/atomic_bitops.txt
-index 093cdaefdb37..d8b101c97031 100644
---- a/Documentation/atomic_bitops.txt
-+++ b/Documentation/atomic_bitops.txt
-@@ -59,7 +59,7 @@ Like with atomic_t, the rule of thumb is:
-  - RMW operations that have a return value are fully ordered.
- 
-  - RMW operations that are conditional are unordered on FAILURE,
--   otherwise the above rules apply. In the case of test_and_{}_bit() operations,
-+   otherwise the above rules apply. In the case of test_and_set_bit_lock(),
-    if the bit in memory is unchanged by the operation then it is deemed to have
-    failed.
- 
-diff --git a/include/asm-generic/bitops/atomic.h b/include/asm-generic/bitops/atomic.h
-index 3096f086b5a3..71ab4ba9c25d 100644
---- a/include/asm-generic/bitops/atomic.h
-+++ b/include/asm-generic/bitops/atomic.h
-@@ -39,9 +39,6 @@ arch_test_and_set_bit(unsigned int nr, volatile unsigned long *p)
- 	unsigned long mask = BIT_MASK(nr);
- 
- 	p += BIT_WORD(nr);
--	if (READ_ONCE(*p) & mask)
--		return 1;
--
- 	old = arch_atomic_long_fetch_or(mask, (atomic_long_t *)p);
- 	return !!(old & mask);
- }
-@@ -53,9 +50,6 @@ arch_test_and_clear_bit(unsigned int nr, volatile unsigned long *p)
- 	unsigned long mask = BIT_MASK(nr);
- 
- 	p += BIT_WORD(nr);
--	if (!(READ_ONCE(*p) & mask))
--		return 0;
--
- 	old = arch_atomic_long_fetch_andnot(mask, (atomic_long_t *)p);
- 	return !!(old & mask);
- }
+Thanks,
 -- 
-2.35.1
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
