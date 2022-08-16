@@ -1,92 +1,99 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9A016AA5
-	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 18:02:33 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id dc19so20335854ejb.12
-        for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 11:02:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=uXGdesIi7LyqHlMu2dT0RxDIuJI5AzNBe4VjC5+ytdY=;
-        b=BGaXGJuiB7eGotBqcqWfwy8VgrYrFL9S/Bz2cQMnHb8DGajRYxwJbBwi51UswnEen4
-         qeGfJgSl2eiS9ekAhwJadkZI/p8h6CBxAi08OQH7SCDmC5kp547O/7op0YNbaXEekIdO
-         A36MXq6QBuMAzvlOfavBoL7t/c3fRWsSF+dBo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=uXGdesIi7LyqHlMu2dT0RxDIuJI5AzNBe4VjC5+ytdY=;
-        b=Qpf9aNviK3uuyt+VQiOl99Jrq6wF0AqWHKeS/4d2gfd704QiWLB5ht1335AyUWA5h1
-         hkge4lEHsfDGIWfX/hZYzPebEEGKGHWhPNvWxm/IbiQCW9NpQ/1NzDqXmMiM5pp6TDCy
-         zO6P23PbvKYMJpEWUNI4zmAYnyV3wvjYguqtrxggGIio6nsuN4JgJqszH7sZH/dVDV5c
-         24ZO6mTfFsSuSi6LjFctGklcEjhQuzfjFgBl4HWE+o0Uxm+99LwEVOz1MIQrgvJtXmRF
-         cRc0BsQu2oEkf0huWssOcOKb567rh7AQdOmr4mg8LGsquHaMRLu6VRz8NUK1Y9Udw4Oz
-         GcTg==
-X-Gm-Message-State: ACgBeo3tctFgQAtmG5UbAsaIimp1TO1H3Uqu8ty6vZjzkzHUFsfNg7px
-	QgLeYywa5Kr0i1VvQJ2IeD7m62pbTwGUDaejpds=
-X-Google-Smtp-Source: AA6agR7sljLgfPjZgpDw8lOVcjljlKvtyMapu3n8K/unq5Q17IQINodqILNhAAd3BdomBTHD4zGc/Q==
-X-Received: by 2002:a17:907:7634:b0:730:c378:b86e with SMTP id jy20-20020a170907763400b00730c378b86emr14210164ejc.647.1660672951766;
-        Tue, 16 Aug 2022 11:02:31 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id kw10-20020a170907770a00b006fe0abb00f0sm3781354ejc.209.2022.08.16.11.02.30
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 11:02:30 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id z16so13509028wrh.12
-        for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 11:02:30 -0700 (PDT)
-X-Received: by 2002:a05:6000:2a4:b0:225:162f:4cc7 with SMTP id
- l4-20020a05600002a400b00225162f4cc7mr2836760wry.274.1660672938800; Tue, 16
- Aug 2022 11:02:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7796AA7
+	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 18:14:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=MySzvGXqRSaBBJhmsw3ulDhggVAysoOKEMJnaszkKsU=; b=YPrEDcLvKjIb0xNBG+Jk/CGOJ6
+	kW006eJ0NtmQgEuIfrtpv18W/AT3E6P4tU5tApVpU7iXAmUuqgW37qBLQwW2Knu5FTIuqME+NNPyp
+	YadFUKbPi+Tq8trcm0xs6iZy0i2DBc3igLK50MYONBYKHxtUkGtlV31WJyX2fPAFh1cO7W3lL6vBo
+	rNXj8n/uobl/HADOp+sc3StKPN9OlbxVN+x6YSldP1qDn+vr9g7EePepooP8GXvGf41FpHgOg9w5Q
+	eUbNbWIvPg7EMgqcJ9XQFTfQntotK8qMPpjXTNgqVHkWILVngJ8OwCDNX5OV/DmArUSafNpj+lANo
+	lPG7MazQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1oO153-007DVO-MT; Tue, 16 Aug 2022 18:14:21 +0000
+Date: Tue, 16 Aug 2022 19:14:21 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Will Deacon <will@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Hector Martin <marcan@marcan.st>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	David Howells <dhowells@redhat.com>,
+	Jade Alglave <j.alglave@ucl.ac.uk>,
+	Luc Maranget <luc.maranget@inria.fr>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
+	jirislaby@kernel.org, Marc Zyngier <maz@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Oliver Neukum <oneukum@suse.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Asahi Linux <asahi@lists.linux.dev>, stable@vger.kernel.org
+Subject: Re: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
+Message-ID: <Yvveff1aW/zeYzBo@casper.infradead.org>
+References: <20220816070311.89186-1-marcan@marcan.st>
+ <CAK8P3a03pfrPzjnx1tB5z0HcKnY=JL=y+F8PMQDpc=Bavs3UCA@mail.gmail.com>
+ <20220816140640.GD11202@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220816070311.89186-1-marcan@marcan.st> <20220816140423.GC11202@willie-the-truck>
- <c545705f-ee7e-4442-ebfc-64a3baca2836@marcan.st> <20220816173654.GA11766@willie-the-truck>
- <CABdtJHt_3TKJVLhLiYMcBtvyA_DwaNapv1xHVeDdQH7cAC6YWw@mail.gmail.com>
-In-Reply-To: <CABdtJHt_3TKJVLhLiYMcBtvyA_DwaNapv1xHVeDdQH7cAC6YWw@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 16 Aug 2022 11:02:02 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh3dCn5a4fZuJ7cewJoG9Vrm9xSOShiwgC6MA9=yJvXPg@mail.gmail.com>
-Message-ID: <CAHk-=wh3dCn5a4fZuJ7cewJoG9Vrm9xSOShiwgC6MA9=yJvXPg@mail.gmail.com>
-Subject: Re: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
-To: Jon Nettleton <jon@solid-run.com>
-Cc: Will Deacon <will@kernel.org>, Hector Martin <marcan@marcan.st>, 
-	Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>, Ingo Molnar <mingo@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, Andrea Parri <parri.andrea@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Nicholas Piggin <npiggin@gmail.com>, 
-	David Howells <dhowells@redhat.com>, Jade Alglave <j.alglave@ucl.ac.uk>, 
-	Luc Maranget <luc.maranget@inria.fr>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Akira Yokosawa <akiyks@gmail.com>, Daniel Lustig <dlustig@nvidia.com>, 
-	Joel Fernandes <joel@joelfernandes.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>, jirislaby@kernel.org, 
-	Marc Zyngier <maz@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	Asahi Linux <asahi@lists.linux.dev>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220816140640.GD11202@willie-the-truck>
 
-On Tue, Aug 16, 2022 at 10:49 AM Jon Nettleton <jon@solid-run.com> wrote:
->
-> It is moot if Linus has already taken the patch, but with a stock
-> kernel config I am
-> still seeing a slight performance dip but only ~1-2% in the specific
-> tests I was running.
+On Tue, Aug 16, 2022 at 03:06:41PM +0100, Will Deacon wrote:
+> On Tue, Aug 16, 2022 at 10:16:04AM +0200, Arnd Bergmann wrote:
+> > On Tue, Aug 16, 2022 at 9:03 AM Hector Martin <marcan@marcan.st> wrote:
+> > >
+> > > These operations are documented as always ordered in
+> > > include/asm-generic/bitops/instrumented-atomic.h, and producer-consumer
+> > > type use cases where one side needs to ensure a flag is left pending
+> > > after some shared data was updated rely on this ordering, even in the
+> > > failure case.
+> > >
+> > > This is the case with the workqueue code, which currently suffers from a
+> > > reproducible ordering violation on Apple M1 platforms (which are
+> > > notoriously out-of-order) that ends up causing the TTY layer to fail to
+> > > deliver data to userspace properly under the right conditions. This
+> > > change fixes that bug.
+> > >
+> > > Change the documentation to restrict the "no order on failure" story to
+> > > the _lock() variant (for which it makes sense), and remove the
+> > > early-exit from the generic implementation, which is what causes the
+> > > missing barrier semantics in that case. Without this, the remaining
+> > > atomic op is fully ordered (including on ARM64 LSE, as of recent
+> > > versions of the architecture spec).
+> > >
+> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> > > Cc: stable@vger.kernel.org
+> > > Fixes: e986a0d6cb36 ("locking/atomics, asm-generic/bitops/atomic.h: Rewrite using atomic_*() APIs")
+> > > Fixes: 61e02392d3c7 ("locking/atomic/bitops: Document and clarify ordering semantics for failed test_and_{}_bit()")
+> > > Signed-off-by: Hector Martin <marcan@marcan.st>
+> > > ---
+> > >  Documentation/atomic_bitops.txt     | 2 +-
+> > >  include/asm-generic/bitops/atomic.h | 6 ------
+> > 
+> > I double-checked all the architecture specific implementations to ensure
+> > that the asm-generic one is the only one that needs the fix.
+> 
+> I couldn't figure out parisc -- do you know what ordering their spinlocks
+> provide? They have a comment talking about a release, but I don't know what
+> the ordering guarantees of an "ldcw" are.
 
-It would be interesting to hear if you can pinpoint in the profiles
-where the time is spent.
-
-It might be some random place that really doesn't care about ordering
-at all, and then we could easily rewrite _that_ particular case to do
-the unordered test explicitly, ie something like
-
--        if (test_and_set_bit()) ...
-+       if (test_bit() || test_and_set_bit()) ...
-
-or even introduce an explicitly unordered "test_and_set_bit_relaxed()" thing.
-
-                 Linus
+"The semaphore operation is strongly ordered" (that's from the
+description of the LDCW instruction)
