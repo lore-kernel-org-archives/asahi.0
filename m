@@ -1,61 +1,84 @@
-Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D941FDA
-	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 07:48:27 +0000 (UTC)
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
-	by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1oNrIu-00BXvH-6U; Tue, 16 Aug 2022 17:48:01 +1000
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Tue, 16 Aug 2022 15:48:00 +0800
-Date: Tue, 16 Aug 2022 15:48:00 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Hector Martin <marcan@marcan.st>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Will Deacon <will@kernel.org>, Tejun Heo <tj@kernel.org>,
-	peterz@infradead.org, jirislaby@kernel.org, maz@kernel.org,
-	mark.rutland@arm.com, boqun.feng@gmail.com, catalin.marinas@arm.com,
-	oneukum@suse.com, roman.penyaev@profitbricks.com,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] workqueue: Fix memory ordering race in queue_work*()
-Message-ID: <YvtLsNZEUUytdx+i@gondor.apana.org.au>
-References: <YvqaK3hxix9AaQBO@slm.duckdns.org>
- <YvsZ6vObgLaDeSZk@gondor.apana.org.au>
- <CAHk-=wgSNiT5qJX53RHtWECsUiFq6d6VWYNAvu71ViOEan07yw@mail.gmail.com>
- <cd51b422-89f3-1856-5d3b-d6e5b0029085@marcan.st>
- <CAHk-=wjfLT7nL8pV8RWATpjgm0zDtUwT8UMtroqnGcXRjN8tgw@mail.gmail.com>
- <24c88c4f-aea5-1fb7-0ead-95c88629d72b@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C47C2F2E
+	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 08:01:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 8E23941A42;
+	Tue, 16 Aug 2022 08:01:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1660636907; bh=hdO0VK1BgxthiOSTlr+e1eaO5dfWp+h7FMXRza4Hsq4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=DaLeUy6iahjaMjN9JrVNc57ZozIWEObhc79ETbuWH6F4g2xflaB0R2I9U12Ei7s5z
+	 c2ZH7+UHYhXpQJr/ul4lQrS49JpL1YF7DD9LwwdH4J5nC8ZbMlz2YlPqtjkybNBjIs
+	 NsSOqPqMrknOup3Ju2HGcGoQYJ2pptLHhZNC0aP439quZj3TRIADaHsix5DBPMXU53
+	 ELmGSpq3U830ZMod7U3u/QdZK09aGS4ZGkyip3lnTzJPuVW6UtzLV26E3hyR39MfK1
+	 RBnjaozfwBmzm+dzR+FXJ11o1uU1z/E9CG2t1asjvQoCksdVzIj+wetB8Lw79d7aAV
+	 eol3iUbS6rPYQ==
+Message-ID: <0c0ba856-a4ba-7133-e751-3a81c82311a9@marcan.st>
+Date: Tue, 16 Aug 2022 17:01:39 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <24c88c4f-aea5-1fb7-0ead-95c88629d72b@marcan.st>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.12.0
+Subject: Re: [PATCH] workqueue: Fix memory ordering race in queue_work*()
+Content-Language: en-US
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Will Deacon <will@kernel.org>, Tejun Heo <tj@kernel.org>,
+ peterz@infradead.org, jirislaby@kernel.org, maz@kernel.org,
+ mark.rutland@arm.com, boqun.feng@gmail.com, catalin.marinas@arm.com,
+ oneukum@suse.com, roman.penyaev@profitbricks.com, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <YvqaK3hxix9AaQBO@slm.duckdns.org>
+ <YvsZ6vObgLaDeSZk@gondor.apana.org.au>
+ <CAHk-=wgSNiT5qJX53RHtWECsUiFq6d6VWYNAvu71ViOEan07yw@mail.gmail.com>
+ <cd51b422-89f3-1856-5d3b-d6e5b0029085@marcan.st>
+ <CAHk-=wjfLT7nL8pV8RWATpjgm0zDtUwT8UMtroqnGcXRjN8tgw@mail.gmail.com>
+ <24c88c4f-aea5-1fb7-0ead-95c88629d72b@marcan.st>
+ <YvtLsNZEUUytdx+i@gondor.apana.org.au>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <YvtLsNZEUUytdx+i@gondor.apana.org.au>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 16, 2022 at 03:28:50PM +0900, Hector Martin wrote:
->
-> This is the same reason I argued queue_work() itself needs to have a
-> similar guarantee, even when it doesn't queue work (and I updated the
-> doc to match). If test_and_set_bit() is used in this kind of context
-> often in the kernel, clearly the current implementation/doc clashes with
-> that.
+On 2022/08/16 16:48, Herbert Xu wrote:
+> On Tue, Aug 16, 2022 at 03:28:50PM +0900, Hector Martin wrote:
+>>
+>> This is the same reason I argued queue_work() itself needs to have a
+>> similar guarantee, even when it doesn't queue work (and I updated the
+>> doc to match). If test_and_set_bit() is used in this kind of context
+>> often in the kernel, clearly the current implementation/doc clashes with
+>> that.
+> 
+> Kernel code all over the place rely on the fact that test_and_set_bit
+> provides a memory barrier.  So this bug that you've discovered is
+> not at all isolated to the workqeueue system.  It'll break the kernel
+> in lots of places in exactly the same way.
 
-Kernel code all over the place rely on the fact that test_and_set_bit
-provides a memory barrier.  So this bug that you've discovered is
-not at all isolated to the workqeueue system.  It'll break the kernel
-in lots of places in exactly the same way.
+Now I'm surprised this isn't failing all over the place, given that...
+these things are annoyingly subtle.
 
-> As I said, I don't have any particular beef in this fight, but this is
-> horribly broken on M1/2 right now, so I'll send a patch to change the
-> bitops instead and you all can fight it out over which way is correct :)
+Still would want Will & Peter to chime in, of course.
 
-Please do.
+>> As I said, I don't have any particular beef in this fight, but this is
+>> horribly broken on M1/2 right now, so I'll send a patch to change the
+>> bitops instead and you all can fight it out over which way is correct :)
+> 
+> Please do.
 
-Thanks,
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Already did, but I just realized I forgot to Cc you. Sorry about that,
+hope you can pick it up through the MLs:
+
+https://lore.kernel.org/asahi/20220816070311.89186-1-marcan@marcan.st/T/#u
+
+- Hector
