@@ -1,35 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4795B110C
-	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 13:42:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2356C433D6;
-	Tue, 16 Aug 2022 13:42:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EE63D7E
+	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 14:04:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 004EBC433C1;
+	Tue, 16 Aug 2022 14:04:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1660657324;
-	bh=Qq7Od/WKrPNgJutT+rQAJ/KGqHp84OSZZFvuxh53vfs=;
+	s=k20201202; t=1660658673;
+	bh=Wh+jI+PqTsQH8YzE0QsazGkkHZidRC6uVcJ+kYQYMlI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uxm4xm+ALMb01rM4sXSeb76GPtpquhJHUuGAQPan5hjPTY2PG2/VVJT+yzlSqJSp4
-	 gbuO20i7MQ/V7LbXJBKi1Kv09HDlPEiykqQMiYrWfUuyR+4RMtgbrS/pNK3Ld1tEBz
-	 iIteDr8uwY6qNZQEt56Qo4uW7G8/lP+qi52hqjEEwFQkOg6aDn23w+NX3EvCN1bG8/
-	 BHbwbkZnhyPnYs2uzf/FiTBySdqnGim674TWzDv0o2cWLgMBBhZT84l3ZuxIHs2LhU
-	 0MFGrARz8A7GOsadQ1/ZmP+BWv6OdePO4izMwZkkb0oCjNAyEJ2dXzgtG2zHhN6Vzo
-	 71xzl9WdEbD4w==
-Date: Tue, 16 Aug 2022 14:41:57 +0100
+	b=bjXJagJFCVZKSV3tJrcQnLFtFysSDQKz/D7YuLPy1S9mlkH3GtZ4qwYpfs+/U/2Zz
+	 G9PhhC/7502IjDqw834ILwsFz+caU10Nr08nZttjgzuA21C3Gu6tuOU71Xr42m2wZI
+	 DO2ddjVtB1xapBh5YXxMNEdVkvZ1WDtHUpKJjX32loqxEAProcjn0wCHMdCqqVmTmf
+	 GotA9kj3JjsdqgQMnp8NrN6BGlw271uwgYq0EuXclMq85mnVdJqE+0RNLTwaSHDiep
+	 CokoyPFXqYhiiwMwX3wGuqtXPZkL/3NsQ7AXGoYtOb7jWYalNpdpsMdei02Fd3Ysf6
+	 Z1ZOsXxdPhcPw==
+Date: Tue, 16 Aug 2022 15:04:24 +0100
 From: Will Deacon <will@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>, Tejun Heo <tj@kernel.org>,
-	marcan@marcan.st, peterz@infradead.org, jirislaby@kernel.org,
-	maz@kernel.org, mark.rutland@arm.com, boqun.feng@gmail.com,
-	catalin.marinas@arm.com, oneukum@suse.com,
-	roman.penyaev@profitbricks.com, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] workqueue: Fix memory ordering race in queue_work*()
-Message-ID: <20220816134156.GB11202@willie-the-truck>
-References: <YvqaK3hxix9AaQBO@slm.duckdns.org>
- <YvsZ6vObgLaDeSZk@gondor.apana.org.au>
- <CAHk-=wgSNiT5qJX53RHtWECsUiFq6d6VWYNAvu71ViOEan07yw@mail.gmail.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	David Howells <dhowells@redhat.com>,
+	Jade Alglave <j.alglave@ucl.ac.uk>,
+	Luc Maranget <luc.maranget@inria.fr>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
+	jirislaby@kernel.org, Marc Zyngier <maz@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Oliver Neukum <oneukum@suse.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Asahi Linux <asahi@lists.linux.dev>, stable@vger.kernel.org
+Subject: Re: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
+Message-ID: <20220816140423.GC11202@willie-the-truck>
+References: <20220816070311.89186-1-marcan@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -38,134 +51,121 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgSNiT5qJX53RHtWECsUiFq6d6VWYNAvu71ViOEan07yw@mail.gmail.com>
+In-Reply-To: <20220816070311.89186-1-marcan@marcan.st>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Mon, Aug 15, 2022 at 10:27:10PM -0700, Linus Torvalds wrote:
-> On Mon, Aug 15, 2022 at 9:15 PM Herbert Xu <herbert@gondor.apana.org.au> wrote:
-> >
-> > Please revert this as test_and_set_bit was always supposed to be
-> > a full memory barrier.  This is an arch bug.
+On Tue, Aug 16, 2022 at 04:03:11PM +0900, Hector Martin wrote:
+> These operations are documented as always ordered in
+> include/asm-generic/bitops/instrumented-atomic.h, and producer-consumer
+> type use cases where one side needs to ensure a flag is left pending
+> after some shared data was updated rely on this ordering, even in the
+> failure case.
 > 
-> Yes, the bitops are kind of strange for various legacy reasons:
+> This is the case with the workqueue code, which currently suffers from a
+> reproducible ordering violation on Apple M1 platforms (which are
+> notoriously out-of-order) that ends up causing the TTY layer to fail to
+> deliver data to userspace properly under the right conditions. This
+> change fixes that bug.
 > 
->  - set/clear_bit is atomic, but without a memory barrier, and need a
-> "smp_mb__before_atomic()" or similar for barriers
+> Change the documentation to restrict the "no order on failure" story to
+> the _lock() variant (for which it makes sense), and remove the
+> early-exit from the generic implementation, which is what causes the
+> missing barrier semantics in that case. Without this, the remaining
+> atomic op is fully ordered (including on ARM64 LSE, as of recent
+> versions of the architecture spec).
 > 
->  - test_and_set/clear_bit() are atomic, _and_ are memory barriers
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Cc: stable@vger.kernel.org
+> Fixes: e986a0d6cb36 ("locking/atomics, asm-generic/bitops/atomic.h: Rewrite using atomic_*() APIs")
+> Fixes: 61e02392d3c7 ("locking/atomic/bitops: Document and clarify ordering semantics for failed test_and_{}_bit()")
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> ---
+>  Documentation/atomic_bitops.txt     | 2 +-
+>  include/asm-generic/bitops/atomic.h | 6 ------
+>  2 files changed, 1 insertion(+), 7 deletions(-)
 > 
->  - test_and_set_bit_lock and test_and_clear_bit_unlock are atomic and
-> _weaker_ than full memory barriers, but sufficient for locking (ie
-> acquire/release)
-> 
-> Does any of this make any sense at all? No. But those are the
-> documented semantics exactly because people were worried about
-> test_and_set_bit being used for locking, since on x86 all the atomics
-> are also memory barriers.
-> 
-> From looking at it, the asm-generic implementation is a bit
-> questionable, though. In particular, it does
-> 
->         if (READ_ONCE(*p) & mask)
->                 return 1;
-> 
-> so it's *entirely* unordered for the "bit was already set" case.
-> 
-> That looks very wrong to me, since it basically means that the
-> test_and_set_bit() can return "bit was already set" based on an old
-> value - not a memory barrier at all.
-> 
-> So if you use "test_and_set_bit()" as some kind of "I've done my work,
-> now I am going to set the bit to tell people to pick it up", then that
-> early "bit was already set" code completely breaks it.
-> 
-> Now, arguably our atomic bitop semantics are very very odd, and it
-> might be time to revisit them. But that code looks very very buggy to
-> me.
-> 
-> The bug seems to go back to commit e986a0d6cb36 ("locking/atomics,
-> asm-generic/bitops/atomic.h: Rewrite using atomic_*() APIs"), and the
-> fix looks to be as simple as just removing that early READ_ONCE return
-> case (test_and_clear has the same bug).
-> 
-> Will?
+> diff --git a/Documentation/atomic_bitops.txt b/Documentation/atomic_bitops.txt
+> index 093cdaefdb37..d8b101c97031 100644
+> --- a/Documentation/atomic_bitops.txt
+> +++ b/Documentation/atomic_bitops.txt
+> @@ -59,7 +59,7 @@ Like with atomic_t, the rule of thumb is:
+>   - RMW operations that have a return value are fully ordered.
+>  
+>   - RMW operations that are conditional are unordered on FAILURE,
+> -   otherwise the above rules apply. In the case of test_and_{}_bit() operations,
+> +   otherwise the above rules apply. In the case of test_and_set_bit_lock(),
+>     if the bit in memory is unchanged by the operation then it is deemed to have
+>     failed.
 
-Right, this looks like it's all my fault, so sorry about that.
+The next sentence is:
 
-In an effort to replace the spinlock-based atomic bitops with a version
-based on atomic instructions in e986a0d6cb36, I inadvertently added this
-READ_ONCE() shortcut to test_and_set_bit() because at the time that's
-what we had (incorrectly) documented in our attempts at cleaning things
-up in this area. I confess that I have never been comfortable with the
-comment for test_and_set_bit() prior to my problematic patch:
+  | Except for a successful test_and_set_bit_lock() which has ACQUIRE
+  | semantics and clear_bit_unlock() which has RELEASE semantics.
 
-/**
- * test_and_set_bit - Set a bit and return its old value
- * @nr: Bit to set
- * @addr: Address to count from
- *
- * This operation is atomic and cannot be reordered.
- * It may be reordered on other architectures than x86.
- * It also implies a memory barrier.
- */
+so I think it reads a bit strangely now. How about something like:
 
-so while Peter and I were trying to improve the documentation for
-atomics and memory barriers we clearly ended up making the wrong call
-trying to treat this like e.g. a cmpxchg() (which has the
-unordered-on-failure semantics).
 
-It's worth noting that with the spinlock-based implementation (i.e.
-prior to e986a0d6cb36) then we would have the same problem on
-architectures that implement spinlocks with acquire/release semantics;
-accesses from outside of the critical section can drift in and reorder
-with each other there, so the conversion looked legitimate to me in
-isolation and I vaguely remember going through callers looking for
-potential issues. Alas, I obviously missed this case.
+diff --git a/Documentation/atomic_bitops.txt b/Documentation/atomic_bitops.txt
+index 093cdaefdb37..3b516729ec81 100644
+--- a/Documentation/atomic_bitops.txt
++++ b/Documentation/atomic_bitops.txt
+@@ -59,12 +59,15 @@ Like with atomic_t, the rule of thumb is:
+  - RMW operations that have a return value are fully ordered.
+ 
+  - RMW operations that are conditional are unordered on FAILURE,
+-   otherwise the above rules apply. In the case of test_and_{}_bit() operations,
+-   if the bit in memory is unchanged by the operation then it is deemed to have
+-   failed.
++   otherwise the above rules apply. For the purposes of ordering, the
++   test_and_{}_bit() operations are treated as unconditional.
+ 
+-Except for a successful test_and_set_bit_lock() which has ACQUIRE semantics and
+-clear_bit_unlock() which has RELEASE semantics.
++Except for:
++
++ - test_and_set_bit_lock() which has ACQUIRE semantics on success and is
++   unordered on failure;
++
++ - clear_bit_unlock() which has RELEASE semantics.
+ 
+ Since a platform only has a single means of achieving atomic operations
+ the same barriers as for atomic_t are used, see atomic_t.txt.
 
-So it looks to me like we need to:
 
-  1. Upgrade test_and_{set,clear}_bit() to have a full memory barrier
-     regardless of the value which is read from memory. The lock/unlock
-     flavours can remain as-is.
+?
 
-  2. Fix the documentation
+> diff --git a/include/asm-generic/bitops/atomic.h b/include/asm-generic/bitops/atomic.h
+> index 3096f086b5a3..71ab4ba9c25d 100644
+> --- a/include/asm-generic/bitops/atomic.h
+> +++ b/include/asm-generic/bitops/atomic.h
+> @@ -39,9 +39,6 @@ arch_test_and_set_bit(unsigned int nr, volatile unsigned long *p)
+>  	unsigned long mask = BIT_MASK(nr);
+>  
+>  	p += BIT_WORD(nr);
+> -	if (READ_ONCE(*p) & mask)
+> -		return 1;
+> -
+>  	old = arch_atomic_long_fetch_or(mask, (atomic_long_t *)p);
+>  	return !!(old & mask);
+>  }
+> @@ -53,9 +50,6 @@ arch_test_and_clear_bit(unsigned int nr, volatile unsigned long *p)
+>  	unsigned long mask = BIT_MASK(nr);
+>  
+>  	p += BIT_WORD(nr);
+> -	if (!(READ_ONCE(*p) & mask))
+> -		return 0;
+> -
+>  	old = arch_atomic_long_fetch_andnot(mask, (atomic_long_t *)p);
+>  	return !!(old & mask);
 
-  3. Figure out what to do about architectures building atomics out of
-     spinlocks (probably ok as lock+unlock == full barrier there?)
+I suppose one sad thing about this is that, on arm64, we could reasonably
+keep the READ_ONCE() path with a DMB LD (R->RW) barrier before the return
+but I don't think we can express that in the Linux memory model so we
+end up in RmW territory every time. Perhaps we should roll our own
+implementation in the arch code?
 
-  4. Accept my sincerest apologies for the mess!
+In any case, this should fix the problem so:
 
-> IOW, the proper fix for this should, I think, look something like this
-> (whitespace mangled) thing:
-> 
->    --- a/include/asm-generic/bitops/atomic.h
->    +++ b/include/asm-generic/bitops/atomic.h
->    @@ -39,9 +39,6 @@ arch_test_and_set_bit(
->         unsigned long mask = BIT_MASK(nr);
-> 
->         p += BIT_WORD(nr);
->    -    if (READ_ONCE(*p) & mask)
->    -            return 1;
->    -
->         old = arch_atomic_long_fetch_or(mask, (atomic_long_t *)p);
->         return !!(old & mask);
->     }
->    @@ -53,9 +50,6 @@ arch_test_and_clear_bit
->         unsigned long mask = BIT_MASK(nr);
-> 
->         p += BIT_WORD(nr);
->    -    if (!(READ_ONCE(*p) & mask))
->    -            return 0;
->    -
->         old = arch_atomic_long_fetch_andnot(mask, (atomic_long_t *)p);
->         return !!(old & mask);
->     }
-> 
-> but the above is not just whitespace-damaged, it's entirely untested
-> and based purely on me looking at that code.
-
-Yes, I think that's step 1, thanks! I'm a bit worried about the perf
-numbers on the other thread, but we can get to the bottom of that
-separately.
+Acked-by: Will Deacon <will@kernel.org>
 
 Will
