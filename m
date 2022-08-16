@@ -1,71 +1,118 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8860A53B0
-	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 17:21:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 03A7241A42;
-	Tue, 16 Aug 2022 17:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1660670515; bh=b4EG0LTa8HIU16A9LTbhnmpSiFXMqiYjr5/PwslTjn8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=NDT/wfyLBeksVX2whoG656IQBELw8GrtdHHV+e91oqOaTh4aoCoJMqrimcMRgCKMm
-	 jcPpxORLtiwU3jdv6kY4lb55rhK3SnU5u1d+ViIbpE214Gx0s6jL3euXb1ZUcCmhqN
-	 hP6mAI8e2e2qYlB9F3LLuUKfbb02+QKOr+/idlac/vUYib2MgR6/sPAWyHNQsMJTy4
-	 M/dk7OBEaK4kb2/93j6+4ny+f0Hd4mctuYhUIj/zJacFroP12Rh3t19U58un/RGvRB
-	 Zoi8N98LHEmAz3ocSL2lfxyODbctXAaeyrzL81rVK9vPMT1CMn58xSMgum03QxIQ+r
-	 lfGz7DmjJG3uQ==
-Message-ID: <b7a0082b-1bda-9a46-a979-8414d24d7dd2@marcan.st>
-Date: Wed, 17 Aug 2022 02:21:48 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5179A53B8
+	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 17:37:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1FFAC433C1;
+	Tue, 16 Aug 2022 17:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1660671424;
+	bh=E+LNE2NFAYYa8LG9rDr9KWJnY8H1CbWqaT9X9cltAsg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Q3GsKJD5bA9HAPYjdc987zxp+h8NOwPo9fLGXBLPgXzYy1mnc7FnSVGKdV0Raz20/
+	 1W3NIRAN1P3GKqoWJbLo98VrPvtvRgQfeQJgmM8/8mtiu0s+mLU8X2HrdRoH6dIDU+
+	 /a8UziVf+g12jr7gNe4iUf864MDdZMQvz4Ggh8mDMvRv320+bXP26JPXcwUFzCWG+B
+	 EXYVcPkLQUabUA2FB/F7gNl5Epux81MbFh3OPQLUccak3pyOUBqnUepODjhrC6PHRH
+	 oJi7+fpsCTrEq87/3mV40rgSPXw/EBGxhecfQr62tl1DXO9p2MVU2dvwZJ+jA20NXg
+	 HMKObI12LuQ6g==
+Date: Tue, 16 Aug 2022 18:36:54 +0100
+From: Will Deacon <will@kernel.org>
+To: Hector Martin <marcan@marcan.st>
+Cc: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Andrea Parri <parri.andrea@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	David Howells <dhowells@redhat.com>,
+	Jade Alglave <j.alglave@ucl.ac.uk>,
+	Luc Maranget <luc.maranget@inria.fr>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
+	jirislaby@kernel.org, Marc Zyngier <maz@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Oliver Neukum <oneukum@suse.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Asahi Linux <asahi@lists.linux.dev>, stable@vger.kernel.org
+Subject: Re: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
+Message-ID: <20220816173654.GA11766@willie-the-truck>
+References: <20220816070311.89186-1-marcan@marcan.st>
+ <20220816140423.GC11202@willie-the-truck>
+ <c545705f-ee7e-4442-ebfc-64a3baca2836@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] workqueue: Fix memory ordering race in queue_work*()
-Content-Language: es-ES
-To: Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, will@kernel.org,
- peterz@infradead.org, jirislaby@kernel.org, maz@kernel.org,
- mark.rutland@arm.com, boqun.feng@gmail.com, catalin.marinas@arm.com,
- oneukum@suse.com, roman.penyaev@profitbricks.com, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <YvqaK3hxix9AaQBO@slm.duckdns.org>
- <YvsZ6vObgLaDeSZk@gondor.apana.org.au> <YvvFQwBVh1s23gbR@slm.duckdns.org>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <YvvFQwBVh1s23gbR@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c545705f-ee7e-4442-ebfc-64a3baca2836@marcan.st>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 17/08/2022 01.26, Tejun Heo wrote:
-> Hello,
+On Tue, Aug 16, 2022 at 11:30:45PM +0900, Hector Martin wrote:
+> On 16/08/2022 23.04, Will Deacon wrote:
+> >> diff --git a/include/asm-generic/bitops/atomic.h b/include/asm-generic/bitops/atomic.h
+> >> index 3096f086b5a3..71ab4ba9c25d 100644
+> >> --- a/include/asm-generic/bitops/atomic.h
+> >> +++ b/include/asm-generic/bitops/atomic.h
+> >> @@ -39,9 +39,6 @@ arch_test_and_set_bit(unsigned int nr, volatile unsigned long *p)
+> >>  	unsigned long mask = BIT_MASK(nr);
+> >>  
+> >>  	p += BIT_WORD(nr);
+> >> -	if (READ_ONCE(*p) & mask)
+> >> -		return 1;
+> >> -
+> >>  	old = arch_atomic_long_fetch_or(mask, (atomic_long_t *)p);
+> >>  	return !!(old & mask);
+> >>  }
+> >> @@ -53,9 +50,6 @@ arch_test_and_clear_bit(unsigned int nr, volatile unsigned long *p)
+> >>  	unsigned long mask = BIT_MASK(nr);
+> >>  
+> >>  	p += BIT_WORD(nr);
+> >> -	if (!(READ_ONCE(*p) & mask))
+> >> -		return 0;
+> >> -
+> >>  	old = arch_atomic_long_fetch_andnot(mask, (atomic_long_t *)p);
+> >>  	return !!(old & mask);
+> > 
+> > I suppose one sad thing about this is that, on arm64, we could reasonably
+> > keep the READ_ONCE() path with a DMB LD (R->RW) barrier before the return
+> > but I don't think we can express that in the Linux memory model so we
+> > end up in RmW territory every time.
 > 
-> On Tue, Aug 16, 2022 at 12:15:38PM +0800, Herbert Xu wrote:
->> Tejun Heo <tj@kernel.org> wrote:
->>>
->>> Oh, tricky one and yeah you're absolutely right that it makes no sense to
->>> not guarantee barrier semantics when already pending. I didn't even know
->>> test_and_set_bit() wasn't a barrier when it failed. Thanks a lot for hunting
->>> down and fixing this. Applied to wq/for-6.0-fixes.
->>
->> Please revert this as test_and_set_bit was always supposed to be
->> a full memory barrier.  This is an arch bug.
-> 
-> Alright, reverting.
+> You'd need a barrier *before* the READ_ONCE(), since what we're trying
+> to prevent is a consumer from writing to the value without being able to
+> observe the writes that happened prior, while this side read the old
+> value. A barrier after the READ_ONCE() doesn't do anything, as that read
+> is the last memory operation in this thread (of the problematic sequence).
 
-FYI, Linus applied the alternate fix directly to his tree already, so
-this is fixed on M1 either way. However, you may want to pay attention
-to the discussion about the subtlety of the workqueue code pairing
-test_and_set_bit() not with clear_bit(), but rather atomic_long_set(),
-since it *could* imply it is still broken or might be broken in the
-future, on other architectures.
+Right, having gone back to your litmus test, I now realise it's the "SB"
+shape from the memory ordering terminology. It's funny because the arm64
+acquire/release instructions are RCsc and so upgrading the READ_ONCE()
+to an *arm64* acquire instruction would work for your specific case, but
+only because the preceeding store is a release.
 
-- Hector
+> At that point, I'm not sure DMB LD / early read / LSE atomic would be
+> any faster than just always doing the LSE atomic?
+
+It depends a lot on the configuration of the system and the state of the
+relevant cacheline, but generally avoiding an RmW by introducing a barrier
+is likely to be a win. It just gets ugly here as we'd want to avoid the
+DMB in the case where we end up doing the RmW. Possibly we could do
+something funky like a test-and-test-and-test-and-set (!) where we do
+the DMB+READ_ONCE() only if the first READ_ONCE() has the bit set, but
+even just typing that is horrible and I'd _absolutely_ want to see perf
+numbers to show that it's a benefit once you start taking into account
+things like branch prediction.
+
+Anywho, since Linus has applied the patch and it should work, this is
+just an interesting aside.
+
+Will
