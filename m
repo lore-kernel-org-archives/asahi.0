@@ -1,51 +1,29 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7796AA7
-	for <asahi@lists.linux.dev>; Tue, 16 Aug 2022 18:14:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=MySzvGXqRSaBBJhmsw3ulDhggVAysoOKEMJnaszkKsU=; b=YPrEDcLvKjIb0xNBG+Jk/CGOJ6
-	kW006eJ0NtmQgEuIfrtpv18W/AT3E6P4tU5tApVpU7iXAmUuqgW37qBLQwW2Knu5FTIuqME+NNPyp
-	YadFUKbPi+Tq8trcm0xs6iZy0i2DBc3igLK50MYONBYKHxtUkGtlV31WJyX2fPAFh1cO7W3lL6vBo
-	rNXj8n/uobl/HADOp+sc3StKPN9OlbxVN+x6YSldP1qDn+vr9g7EePepooP8GXvGf41FpHgOg9w5Q
-	eUbNbWIvPg7EMgqcJ9XQFTfQntotK8qMPpjXTNgqVHkWILVngJ8OwCDNX5OV/DmArUSafNpj+lANo
-	lPG7MazQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1oO153-007DVO-MT; Tue, 16 Aug 2022 18:14:21 +0000
-Date: Tue, 16 Aug 2022 19:14:21 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Will Deacon <will@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Hector Martin <marcan@marcan.st>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	David Howells <dhowells@redhat.com>,
-	Jade Alglave <j.alglave@ucl.ac.uk>,
-	Luc Maranget <luc.maranget@inria.fr>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
-	jirislaby@kernel.org, Marc Zyngier <maz@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Oliver Neukum <oneukum@suse.com>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Asahi Linux <asahi@lists.linux.dev>, stable@vger.kernel.org
-Subject: Re: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
-Message-ID: <Yvveff1aW/zeYzBo@casper.infradead.org>
-References: <20220816070311.89186-1-marcan@marcan.st>
- <CAK8P3a03pfrPzjnx1tB5z0HcKnY=JL=y+F8PMQDpc=Bavs3UCA@mail.gmail.com>
- <20220816140640.GD11202@willie-the-truck>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8703185D
+	for <asahi@lists.linux.dev>; Wed, 17 Aug 2022 05:06:36 +0000 (UTC)
+Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
+	by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1oOBFW-00BuOh-ON; Wed, 17 Aug 2022 15:05:51 +1000
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Wed, 17 Aug 2022 13:05:50 +0800
+Date: Wed, 17 Aug 2022 13:05:50 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Will Deacon <will@kernel.org>, Tejun Heo <tj@kernel.org>,
+	marcan@marcan.st, peterz@infradead.org, jirislaby@kernel.org,
+	maz@kernel.org, mark.rutland@arm.com, boqun.feng@gmail.com,
+	catalin.marinas@arm.com, oneukum@suse.com,
+	roman.penyaev@profitbricks.com, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH] workqueue: Fix memory ordering race in queue_work*()
+Message-ID: <Yvx3LpyqWwZ0Mawc@gondor.apana.org.au>
+References: <YvqaK3hxix9AaQBO@slm.duckdns.org>
+ <YvsZ6vObgLaDeSZk@gondor.apana.org.au>
+ <CAHk-=wgSNiT5qJX53RHtWECsUiFq6d6VWYNAvu71ViOEan07yw@mail.gmail.com>
+ <20220816134156.GB11202@willie-the-truck>
+ <CAHk-=wgqvApXmXxk42eZK1u5T60aRWnBMeJOs7JwP-+qqLq6zQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -54,46 +32,57 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220816140640.GD11202@willie-the-truck>
+In-Reply-To: <CAHk-=wgqvApXmXxk42eZK1u5T60aRWnBMeJOs7JwP-+qqLq6zQ@mail.gmail.com>
 
-On Tue, Aug 16, 2022 at 03:06:41PM +0100, Will Deacon wrote:
-> On Tue, Aug 16, 2022 at 10:16:04AM +0200, Arnd Bergmann wrote:
-> > On Tue, Aug 16, 2022 at 9:03 AM Hector Martin <marcan@marcan.st> wrote:
-> > >
-> > > These operations are documented as always ordered in
-> > > include/asm-generic/bitops/instrumented-atomic.h, and producer-consumer
-> > > type use cases where one side needs to ensure a flag is left pending
-> > > after some shared data was updated rely on this ordering, even in the
-> > > failure case.
-> > >
-> > > This is the case with the workqueue code, which currently suffers from a
-> > > reproducible ordering violation on Apple M1 platforms (which are
-> > > notoriously out-of-order) that ends up causing the TTY layer to fail to
-> > > deliver data to userspace properly under the right conditions. This
-> > > change fixes that bug.
-> > >
-> > > Change the documentation to restrict the "no order on failure" story to
-> > > the _lock() variant (for which it makes sense), and remove the
-> > > early-exit from the generic implementation, which is what causes the
-> > > missing barrier semantics in that case. Without this, the remaining
-> > > atomic op is fully ordered (including on ARM64 LSE, as of recent
-> > > versions of the architecture spec).
-> > >
-> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: e986a0d6cb36 ("locking/atomics, asm-generic/bitops/atomic.h: Rewrite using atomic_*() APIs")
-> > > Fixes: 61e02392d3c7 ("locking/atomic/bitops: Document and clarify ordering semantics for failed test_and_{}_bit()")
-> > > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > > ---
-> > >  Documentation/atomic_bitops.txt     | 2 +-
-> > >  include/asm-generic/bitops/atomic.h | 6 ------
-> > 
-> > I double-checked all the architecture specific implementations to ensure
-> > that the asm-generic one is the only one that needs the fix.
+On Tue, Aug 16, 2022 at 09:41:52AM -0700, Linus Torvalds wrote:
+.
+> So I htink the code problem is easy, I think the real problem here has
+> always been bad documentation, and it would be really good to clarify
+> that.
 > 
-> I couldn't figure out parisc -- do you know what ordering their spinlocks
-> provide? They have a comment talking about a release, but I don't know what
-> the ordering guarantees of an "ldcw" are.
+> Comments?
 
-"The semaphore operation is strongly ordered" (that's from the
-description of the LDCW instruction)
+The problem is that test_and_set_bit has been unambiguously
+documented to have memory barriers since 2005:
+
+commit 3085f02b869d980c5588f3e8fb136b0b465a2759
+Author: David S. Miller <davem@nuts.davemloft.net>
+Date:   Fri Feb 4 23:39:15 2005 -0800
+
+    [DOC]: Add asm/atomic.h asm/bitops.h implementation specification.
+
+And this is what it says:
+
++       int test_and_set_bit(unsigned long nr, volatils unsigned long *addr);
++       int test_and_clear_bit(unsigned long nr, volatils unsigned long *addr);
++       int test_and_change_bit(unsigned long nr, volatils unsigned long *addr);
+
+	...snip...
+
++These routines, like the atomic_t counter operations returning values,
++require explicit memory barrier semantics around their execution.  All
++memory operations before the atomic bit operation call must be made
++visible globally before the atomic bit operation is made visible.
++Likewise, the atomic bit operation must be visible globally before any
++subsequent memory operation is made visible.  For example:
++
++       obj->dead = 1;
++       if (test_and_set_bit(0, &obj->flags))
++               /* ... */;
++       obj->killed = 1;
+
+This file wasn't removed until 16/11/2020 by f0400a77ebdc.
+
+In that time people who wrote code using test_and_set_bit could have
+legitimately relied on the memory barrier as documented.  Changing
+this restrospectively is dangerous.
+
+I'm fine with introducing new primitives that have different
+properties, and then converting the existing users of test_and_set_bit
+over on a case-by-case basis.
+
+Cheers,
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
