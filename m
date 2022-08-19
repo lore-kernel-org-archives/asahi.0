@@ -1,97 +1,148 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217632F52
-	for <asahi@lists.linux.dev>; Fri, 19 Aug 2022 14:17:22 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id d23so1951800lfl.13
-        for <asahi@lists.linux.dev>; Fri, 19 Aug 2022 07:17:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=ZP7/pN9LQxTPvYxi5HKb2nXXnhaq2Nc8r+By7c+Y8XI=;
-        b=iJnvZwROEr7eyVt42APRy3CDs3DwcP72OtirjShu7JD4apfi/c9NR4HAHeHpX3tJlg
-         TcaazsqTdt2Tg2ZNfkjSf1K3zEI/2TJePtXRR8cgdyh/8+3SIluNfG0wNw3cnu6eDaW7
-         TYJ0WMdAWhQ7sCsVSoDtN7pg8067CAPao4/iWR/uXyIaA3fjAmimrHYrOCVqpBiuKY56
-         qP7GZ2anmhxPVmFptQVyJWrhJR8awQCbBcvuV2br2DX7YJxD5/rtLrX5sF01A6jPjjUy
-         6U45Ni4SFWdTKH5tvIzjFzmmPlGGgyDmAhdxibPjqGvY8N7w8HGrEsYUID5+DfrJdxYR
-         1o5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=ZP7/pN9LQxTPvYxi5HKb2nXXnhaq2Nc8r+By7c+Y8XI=;
-        b=FUFJdGx/0uRdLCeshl1vLG24lrDNNAzXEFPFvd8UWfhGGz3D26stdAQELHhEwyoOG0
-         N6sFylVTUxPit7UWmdFOEhVvxazgGM4kXK7zBx6jo7JQbXVW+rYUkdrgNNzP+9DIpF6a
-         TWynn1/L3lwEVrt5rRn3CSCLcEn5iKaXIq2FuYxk9VAQgcn4RGpNddi7ksXFAQRHA7ek
-         C8ot6YSU1R0OjCPZGznwW5/u/if6lLnpbAaUnMckwd7zt1O41UUMcGkTlTpPe2nafVqg
-         lQuwsUagFxptHLX9TWD806OopJ7ue9+/95gdJ+Z111ZzwzVldIiUYQph0K2xDh9VXSJZ
-         oVzA==
-X-Gm-Message-State: ACgBeo2qvx/MsA4LmumXpVqbUloMVNCl1gVOL3mS6MAHeMeXA/yJ7gI1
-	vntnvL4yjOwEKtSBY56ukv0v/g==
-X-Google-Smtp-Source: AA6agR4mQVqG+Lw9A96QRROjP3Cx8kJfoZ3CvE8DSd7qh9uGbqoOd+4+PPlHX1LIHOJfMNnfJSg27g==
-X-Received: by 2002:a05:6512:3fa4:b0:492:34ba:e9fc with SMTP id x36-20020a0565123fa400b0049234bae9fcmr2432323lfa.174.1660918640222;
-        Fri, 19 Aug 2022 07:17:20 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:ac:e5a8:ef73:73ed:75b3:8ed5? (d1xw6v77xrs23np8r6z-4.rev.dnainternet.fi. [2001:14bb:ac:e5a8:ef73:73ed:75b3:8ed5])
-        by smtp.gmail.com with ESMTPSA id v19-20020a2ea453000000b0025e87b1fdbcsm611027ljn.63.2022.08.19.07.17.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Aug 2022 07:17:19 -0700 (PDT)
-Message-ID: <a0a34ac8-4b62-4e69-f16f-7a51132a3987@linaro.org>
-Date: Fri, 19 Aug 2022 17:17:17 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081F22F52
+	for <asahi@lists.linux.dev>; Fri, 19 Aug 2022 14:24:54 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1660919090; bh=rxMg2xPDnYTGDNHNhIT0kpgTm3BHNlqUVYjelU2Wnlk=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=cN0DLigKR5cWPoRIyNMmYIxY+4PU5IX1WPSOj5t6HYXP9NphxQ4Ug01xF13D3FM8e
+	 7pOlDXAfkK59n40RzEEfvTeJoeeNltYSLdgmYCvEqelHDU+5uQLbC2DYkQUmvstiVx
+	 cGR2z9rxCnlNZBBBk2C5zxRDD+hAqQUvNVjO5COg=
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 1/4] dt-bindings: sound: Add Apple MCA I2S transceiver
-Content-Language: en-US
-To: =?UTF-8?Q?Martin_Povi=c5=a1er?= <povik+lin@cutebit.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: Re: [PATCH v2 2/4] arm64: dts: apple: t8103: Add MCA and its support
+From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+In-Reply-To: <38094e2d-c75c-920b-4b4d-aa377971f615@linaro.org>
+Date: Fri, 19 Aug 2022 16:24:49 +0200
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>,
  Philipp Zabel <p.zabel@pengutronix.de>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ asahi@lists.linux.dev,
+ alsa-devel@alsa-project.org,
+ devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A9E366E2-EA4D-4F35-BE28-63745296D222@cutebit.org>
 References: <20220819125430.4920-1-povik+lin@cutebit.org>
- <20220819125430.4920-2-povik+lin@cutebit.org>
- <AE646B68-CA14-483C-A1AB-30358560DAAD@cutebit.org>
- <8472463e-d99a-d0f6-9551-45a79a15f567@linaro.org>
- <737767DD-CB70-4941-8CF5-497333D3A801@cutebit.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <737767DD-CB70-4941-8CF5-497333D3A801@cutebit.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-On 19/08/2022 17:14, Martin Povišer wrote:
->>> Since it was brought up last time but I didn’t respond: the
->>> nonalphabetical order is as the chips were introduced (and
->>> matches other schemas).
->>
->> Sure, just keep that order for future compatibles as well - so always
->> put them according to verifiable time of market introduction...
->>
->> This is very poor reason, instead of alphabetical order. Even worse
->> reason is repeating wrong pattern just because someone else did it.
->>
->> Best regards,
->> Krzysztof
->>
-> 
-> I don’t see it nearly as clear-cut. Adding to the end seems pretty
-> foolproof too, but OK, next submission will have it alphabet. ordered.
-
-The concept is the same everywhere, be it Kconfig, Makefile or other
-lists. If everyone adds at the end, you increase the chances of
-conflicts. Having alphabetical order usually means simultaneous edits
-will happen in different places.
+ <20220819125430.4920-3-povik+lin@cutebit.org>
+ <38094e2d-c75c-920b-4b4d-aa377971f615@linaro.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 
-Best regards,
-Krzysztof
+
+> On 19. 8. 2022, at 15:12, Krzysztof Kozlowski =
+<krzysztof.kozlowski@linaro.org> wrote:
+>=20
+> On 19/08/2022 15:54, Martin Povi=C5=A1er wrote:
+>> Add the MCA I2S transceiver node and its supporting NCO, ADMAC nodes.
+>>=20
+>> Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+>> ---
+>> arch/arm64/boot/dts/apple/t8103.dtsi | 70 =
+++++++++++++++++++++++++++++
+>> 1 file changed, 70 insertions(+)
+>>=20
+>> diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi =
+b/arch/arm64/boot/dts/apple/t8103.dtsi
+>> index 51a63b29d404..2dc3125aca5b 100644
+>> --- a/arch/arm64/boot/dts/apple/t8103.dtsi
+>> +++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+>> @@ -532,6 +532,76 @@ port02: pci@2,0 {
+>> 						<0 0 0 4 &port02 0 0 0 =
+3>;
+>> 			};
+>> 		};
+>> +
+>> +		dart_sio: iommu@235004000 {
+>> +			compatible =3D "apple,t8103-dart", "apple,dart";
+>> +			reg =3D <0x2 0x35004000 0x0 0x4000>;
+>> +			interrupt-parent =3D <&aic>;
+>> +			interrupts =3D <AIC_IRQ 635 =
+IRQ_TYPE_LEVEL_HIGH>;
+>> +			#iommu-cells =3D <1>;
+>> +			power-domains =3D <&ps_sio_cpu>;
+>> +		};
+>> +
+>> +		nco_clkref: clock-ref {
+>> +			compatible =3D "fixed-clock";
+>> +			#clock-cells =3D <0>;
+>> +			clock-frequency =3D <900000000>;
+>> +			clock-output-names =3D "nco_ref";
+>> +		};
+>=20
+> Reference clocks are usually physically outside of SoC (e.g. on the
+> board), so:
+> 1. Not part of "soc" node.
+> 2. It should be defined by board. At least clock-frequency should be =
+there.
+
+Ah, right, this deserves commentary: Since this is a reverse-engineered
+driver/platform support, we give up on knowing the clock tree exactly. =
+Instead
+we model the clock input to the Numerically Controlled Oscillator =
+(=E2=80=98nco=E2=80=99 node
+below) with this fabulated fixed clock reference.
+
+I guess eventually the clock tree is rooted off the SoC, and there=E2=80=99=
+s
+nothing guaranteeing the same reference clock to the NCO across machines =
+(being
+function of the board wiring and the proprietary firmware). In the end I =
+would
+argue for keeping the =E2=80=98clock-ref=E2=80=99 here in =E2=80=99soc' =
+but have the clock-frequency
+defined by board.  Sounds reasonable?
+
+>=20
+>> +
+>> +		nco: nco@23b044000 {
+>> +			compatible =3D "apple,t8103-nco", "apple,nco";
+>> +			reg =3D <0x2 0x3b044000 0x0 0x14000>;
+>> +			clocks =3D <&nco_clkref>;
+>> +			#clock-cells =3D <1>;
+>> +		};
+>> +
+>> +		admac: dma-controller@238200000 {
+>> +			compatible =3D "apple,t8103-admac", =
+"apple,admac";
+>> +			reg =3D <0x2 0x38200000 0x0 0x34000>;
+>> +			dma-channels =3D <24>;
+>> +			interrupts-extended =3D <0>,
+>> +					 <&aic AIC_IRQ 626 =
+IRQ_TYPE_LEVEL_HIGH>,
+>> +					 <0>,
+>> +					 <0>;
+>> +			#dma-cells =3D <1>;
+>> +			iommus =3D <&dart_sio 2>;
+>> +			power-domains =3D <&ps_sio_adma>;
+>> +		};
+>> +
+>> +		mca: mca@38400000 {
+>=20
+> Here node name is as well wrong.
+>=20
+> Node names should be generic.
+> =
+https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicet=
+ree-basics.html#generic-names-recommendation
+
+OK
+
+Best, Martin
+
+>=20
+> Best regards,
+> Krzysztof
+
