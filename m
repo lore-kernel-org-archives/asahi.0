@@ -1,15 +1,15 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B5C29A5
-	for <asahi@lists.linux.dev>; Fri, 19 Aug 2022 12:54:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6C02CAB
+	for <asahi@lists.linux.dev>; Fri, 19 Aug 2022 12:54:42 +0000 (UTC)
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1660913678; bh=tTprV1n7p44voEK5W8FVLH7SdnHe3gxie4vMBDCp63o=;
-	h=From:To:Cc:Subject:Date;
-	b=g3bbBbdFZKKhaFxMxs/5P6L1fMZgLmBIiA6e/vR1YREkdFAj0+ECIAR8LnylytQ1Z
-	 rFgsJ1ol7nBDkBgiqpiQZJJr+YE5jZAjtpq676mE/9HJLijT9x1LMReFuaJKeai+ZY
-	 YO4SV+cn+8FC1j/K+W6StvK74GrHtD/EpM8LP3zA=
+	t=1660913679; bh=rMqv5XG7HZonB1qblYJ+ygvYMKuUQ1pTBISJ/bCgBe8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=tzt+8+zyCxT0Ck7k5+el1rA3Ecr8ze12ezmsLN+7LrgYy7Bx8hxAE9wY+BDb3yQb4
+	 KPQbM3IgqW+7b4XwU1Ej5FnKQxN5OSTMf16xWea9CINja/e/pSvFGAkbPFTvWMUAah
+	 mLM20oVhyAAXrKV9MoOYQ+2XfibYr7obBInOReRE=
 To: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -23,9 +23,11 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	alsa-devel@alsa-project.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/4] ASoC platform driver for Apple MCA
-Date: Fri, 19 Aug 2022 14:54:26 +0200
-Message-Id: <20220819125430.4920-1-povik+lin@cutebit.org>
+Subject: [PATCH v2 2/4] arm64: dts: apple: t8103: Add MCA and its support
+Date: Fri, 19 Aug 2022 14:54:28 +0200
+Message-Id: <20220819125430.4920-3-povik+lin@cutebit.org>
+In-Reply-To: <20220819125430.4920-1-povik+lin@cutebit.org>
+References: <20220819125430.4920-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,50 +37,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Add the MCA I2S transceiver node and its supporting NCO, ADMAC nodes.
 
-this is v2 of the ASoC platform driver for MCA peripheral on Apple M1,
-to be followed by a machine driver later for sound support on the new
-Apple devices. This time I attached a DTS patch for t8103 (M1), which
-I guess should go through Marcan's (in CC) tree.
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+---
+ arch/arm64/boot/dts/apple/t8103.dtsi | 70 ++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-Martin
-
-Changes since v1:
- - reflect the set_fmt provider/consumer change in 6.0-rc1
- - fix the probe function requesting optional reset
- - unroll 'dma-names' in schema
- - fix binding schema/code discrepancy in register ranges
- - minor things
-
-Changes since 'macaudio RFC v2' [0]:
- - addition of locking (extra commit)
- - transition to set_bclk_ratio (instead of getting the bclk ratio from set_sysclk)
- - using shared reset control and documenting the reset in binding
- - formatting, comments, and a minor fix to hw driving
-
-[0] https://lore.kernel.org/asahi/20220606191910.16580-1-povik+lin@cutebit.org/
-
-Martin Povišer (4):
-  dt-bindings: sound: Add Apple MCA I2S transceiver
-  arm64: dts: apple: t8103: Add MCA and its support
-  ASoC: apple: mca: Start new platform driver
-  ASoC: apple: mca: Add locks on foreign cluster access
-
- .../devicetree/bindings/sound/apple,mca.yaml  |  131 ++
- MAINTAINERS                                   |    8 +
- arch/arm64/boot/dts/apple/t8103.dtsi          |   70 +
- sound/soc/Kconfig                             |    1 +
- sound/soc/Makefile                            |    1 +
- sound/soc/apple/Kconfig                       |    9 +
- sound/soc/apple/Makefile                      |    3 +
- sound/soc/apple/mca.c                         | 1170 +++++++++++++++++
- 8 files changed, 1393 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/apple,mca.yaml
- create mode 100644 sound/soc/apple/Kconfig
- create mode 100644 sound/soc/apple/Makefile
- create mode 100644 sound/soc/apple/mca.c
-
+diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+index 51a63b29d404..2dc3125aca5b 100644
+--- a/arch/arm64/boot/dts/apple/t8103.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+@@ -532,6 +532,76 @@ port02: pci@2,0 {
+ 						<0 0 0 4 &port02 0 0 0 3>;
+ 			};
+ 		};
++
++		dart_sio: iommu@235004000 {
++			compatible = "apple,t8103-dart", "apple,dart";
++			reg = <0x2 0x35004000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 635 IRQ_TYPE_LEVEL_HIGH>;
++			#iommu-cells = <1>;
++			power-domains = <&ps_sio_cpu>;
++		};
++
++		nco_clkref: clock-ref {
++			compatible = "fixed-clock";
++			#clock-cells = <0>;
++			clock-frequency = <900000000>;
++			clock-output-names = "nco_ref";
++		};
++
++		nco: nco@23b044000 {
++			compatible = "apple,t8103-nco", "apple,nco";
++			reg = <0x2 0x3b044000 0x0 0x14000>;
++			clocks = <&nco_clkref>;
++			#clock-cells = <1>;
++		};
++
++		admac: dma-controller@238200000 {
++			compatible = "apple,t8103-admac", "apple,admac";
++			reg = <0x2 0x38200000 0x0 0x34000>;
++			dma-channels = <24>;
++			interrupts-extended = <0>,
++					      <&aic AIC_IRQ 626 IRQ_TYPE_LEVEL_HIGH>,
++					      <0>,
++					      <0>;
++			#dma-cells = <1>;
++			iommus = <&dart_sio 2>;
++			power-domains = <&ps_sio_adma>;
++		};
++
++		mca: mca@38400000 {
++			compatible = "apple,t8103-mca", "apple,mca";
++			reg = <0x2 0x38400000 0x0 0x18000>,
++			      <0x2 0x38300000 0x0 0x30000>;
++
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 619 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 620 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 621 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 622 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 623 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 624 IRQ_TYPE_LEVEL_HIGH>;
++
++			resets = <&ps_audio_p>;
++			clocks = <&nco 0>, <&nco 1>, <&nco 2>,
++				 <&nco 3>, <&nco 4>, <&nco 4>;
++			power-domains = <&ps_audio_p>, <&ps_mca0>, <&ps_mca1>,
++					<&ps_mca2>, <&ps_mca3>, <&ps_mca4>, <&ps_mca5>;
++			dmas = <&admac 0>, <&admac 1>, <&admac 2>, <&admac 3>,
++			       <&admac 4>, <&admac 5>, <&admac 6>, <&admac 7>,
++			       <&admac 8>, <&admac 9>, <&admac 10>, <&admac 11>,
++			       <&admac 12>, <&admac 13>, <&admac 14>, <&admac 15>,
++			       <&admac 16>, <&admac 17>, <&admac 18>, <&admac 19>,
++			       <&admac 20>, <&admac 21>, <&admac 22>, <&admac 23>;
++			dma-names = "tx0a", "rx0a", "tx0b", "rx0b",
++				"tx1a", "rx1a", "tx1b", "rx1b",
++				"tx2a", "rx2a", "tx2b", "rx2b",
++				"tx3a", "rx3a", "tx3b", "rx3b",
++				"tx4a", "rx4a", "tx4b", "rx4b",
++				"tx5a", "rx5a", "tx5b", "rx5b";
++
++			#sound-dai-cells = <1>;
++		};
+ 	};
+ };
+ 
 -- 
 2.33.0
 
