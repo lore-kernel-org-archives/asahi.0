@@ -1,15 +1,15 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6C02CAB
-	for <asahi@lists.linux.dev>; Fri, 19 Aug 2022 12:54:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7957A2C9C
+	for <asahi@lists.linux.dev>; Fri, 19 Aug 2022 12:54:41 +0000 (UTC)
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1660913679; bh=rMqv5XG7HZonB1qblYJ+ygvYMKuUQ1pTBISJ/bCgBe8=;
+	t=1660913679; bh=Gkj3zv8/AM0qe5Jje8Bp7iYtlxqcO626XnrNO1Cj3wY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=tzt+8+zyCxT0Ck7k5+el1rA3Ecr8ze12ezmsLN+7LrgYy7Bx8hxAE9wY+BDb3yQb4
-	 KPQbM3IgqW+7b4XwU1Ej5FnKQxN5OSTMf16xWea9CINja/e/pSvFGAkbPFTvWMUAah
-	 mLM20oVhyAAXrKV9MoOYQ+2XfibYr7obBInOReRE=
+	b=keSH+EIT5pxyg9zlrBLaHmVDb0kTl6hmA4nfblgxgR4YNeHQlAYHfO+l5qvJo926l
+	 G9Om5eu9TQLcHcs+FkrzPNSsXU20Bf3avCCdsnMsch0yEscQbl4clP1ruBz1cZe1VK
+	 nzshyHi6HRupXMQfwDwie9Gxv5mlbJEUe/EUxwes=
 To: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -23,9 +23,9 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	alsa-devel@alsa-project.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/4] arm64: dts: apple: t8103: Add MCA and its support
-Date: Fri, 19 Aug 2022 14:54:28 +0200
-Message-Id: <20220819125430.4920-3-povik+lin@cutebit.org>
+Subject: [PATCH v2 1/4] dt-bindings: sound: Add Apple MCA I2S transceiver
+Date: Fri, 19 Aug 2022 14:54:27 +0200
+Message-Id: <20220819125430.4920-2-povik+lin@cutebit.org>
 In-Reply-To: <20220819125430.4920-1-povik+lin@cutebit.org>
 References: <20220819125430.4920-1-povik+lin@cutebit.org>
 Precedence: bulk
@@ -37,94 +37,152 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add the MCA I2S transceiver node and its supporting NCO, ADMAC nodes.
+Add binding schema for MCA I2S transceiver found on Apple M1 and other
+chips.
 
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 ---
- arch/arm64/boot/dts/apple/t8103.dtsi | 70 ++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ .../devicetree/bindings/sound/apple,mca.yaml  | 131 ++++++++++++++++++
+ 1 file changed, 131 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/apple,mca.yaml
 
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 51a63b29d404..2dc3125aca5b 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -532,6 +532,76 @@ port02: pci@2,0 {
- 						<0 0 0 4 &port02 0 0 0 3>;
- 			};
- 		};
+diff --git a/Documentation/devicetree/bindings/sound/apple,mca.yaml b/Documentation/devicetree/bindings/sound/apple,mca.yaml
+new file mode 100644
+index 000000000000..7b4f348c2be3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/apple,mca.yaml
+@@ -0,0 +1,131 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/apple,mca.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+		dart_sio: iommu@235004000 {
-+			compatible = "apple,t8103-dart", "apple,dart";
-+			reg = <0x2 0x35004000 0x0 0x4000>;
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 635 IRQ_TYPE_LEVEL_HIGH>;
-+			#iommu-cells = <1>;
-+			power-domains = <&ps_sio_cpu>;
-+		};
++title: Apple MCA I2S transceiver
 +
-+		nco_clkref: clock-ref {
-+			compatible = "fixed-clock";
-+			#clock-cells = <0>;
-+			clock-frequency = <900000000>;
-+			clock-output-names = "nco_ref";
-+		};
++description: |
++  MCA is an I2S transceiver peripheral found on M1 and other Apple chips. It is
++  composed of a number of identical clusters which can operate independently
++  or in an interlinked fashion. Up to 6 clusters have been seen on an MCA.
 +
-+		nco: nco@23b044000 {
-+			compatible = "apple,t8103-nco", "apple,nco";
-+			reg = <0x2 0x3b044000 0x0 0x14000>;
-+			clocks = <&nco_clkref>;
-+			#clock-cells = <1>;
-+		};
++maintainers:
++  - Martin Povišer <povik+lin@cutebit.org>
 +
-+		admac: dma-controller@238200000 {
-+			compatible = "apple,t8103-admac", "apple,admac";
-+			reg = <0x2 0x38200000 0x0 0x34000>;
-+			dma-channels = <24>;
-+			interrupts-extended = <0>,
-+					      <&aic AIC_IRQ 626 IRQ_TYPE_LEVEL_HIGH>,
-+					      <0>,
-+					      <0>;
-+			#dma-cells = <1>;
-+			iommus = <&dart_sio 2>;
-+			power-domains = <&ps_sio_adma>;
-+		};
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,t8103-mca
++          - apple,t6000-mca
++      - const: apple,mca
 +
-+		mca: mca@38400000 {
-+			compatible = "apple,t8103-mca", "apple,mca";
-+			reg = <0x2 0x38400000 0x0 0x18000>,
-+			      <0x2 0x38300000 0x0 0x30000>;
++  reg:
++    items:
++      - description: Register region of the MCA clusters proper
++      - description: Register region of the DMA glue and its FIFOs
 +
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 619 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 620 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 621 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 622 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 623 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 624 IRQ_TYPE_LEVEL_HIGH>;
++  interrupts:
++    minItems: 4
++    maxItems: 6
++    description:
++      One interrupt per each cluster
 +
-+			resets = <&ps_audio_p>;
-+			clocks = <&nco 0>, <&nco 1>, <&nco 2>,
-+				 <&nco 3>, <&nco 4>, <&nco 4>;
-+			power-domains = <&ps_audio_p>, <&ps_mca0>, <&ps_mca1>,
-+					<&ps_mca2>, <&ps_mca3>, <&ps_mca4>, <&ps_mca5>;
-+			dmas = <&admac 0>, <&admac 1>, <&admac 2>, <&admac 3>,
-+			       <&admac 4>, <&admac 5>, <&admac 6>, <&admac 7>,
-+			       <&admac 8>, <&admac 9>, <&admac 10>, <&admac 11>,
-+			       <&admac 12>, <&admac 13>, <&admac 14>, <&admac 15>,
-+			       <&admac 16>, <&admac 17>, <&admac 18>, <&admac 19>,
-+			       <&admac 20>, <&admac 21>, <&admac 22>, <&admac 23>;
-+			dma-names = "tx0a", "rx0a", "tx0b", "rx0b",
-+				"tx1a", "rx1a", "tx1b", "rx1b",
-+				"tx2a", "rx2a", "tx2b", "rx2b",
-+				"tx3a", "rx3a", "tx3b", "rx3b",
-+				"tx4a", "rx4a", "tx4b", "rx4b",
-+				"tx5a", "rx5a", "tx5b", "rx5b";
++  '#address-cells':
++    const: 1
 +
-+			#sound-dai-cells = <1>;
-+		};
- 	};
- };
- 
++  '#size-cells':
++    const: 0
++
++  dmas:
++    minItems: 16
++    maxItems: 24
++    description:
++      DMA channels corresponding to the SERDES units in the peripheral. They are
++      listed in groups of four per cluster, and within the group they are given
++      as associated to the TXA, RXA, TXB, RXB units.
++
++  dma-names:
++    minItems: 16
++    items:
++      - const: tx0a
++      - const: rx0a
++      - const: tx0b
++      - const: rx0b
++      - const: tx1a
++      - const: rx1a
++      - const: tx1b
++      - const: rx1b
++      - const: tx2a
++      - const: rx2a
++      - const: tx2b
++      - const: rx2b
++      - const: tx3a
++      - const: rx3a
++      - const: tx3b
++      - const: rx3b
++      - const: tx4a
++      - const: rx4a
++      - const: tx4b
++      - const: rx4b
++      - const: tx5a
++      - const: rx5a
++      - const: tx5b
++      - const: rx5b
++    description: |
++      Names for the DMA channels: 'tx'/'rx', then cluster number, then 'a'/'b'
++      based on the associated SERDES unit.
++
++  clocks:
++    minItems: 4
++    maxItems: 6
++    description:
++      Clusters' input reference clock.
++
++  resets:
++    maxItems: 1
++
++  power-domains:
++    minItems: 5
++    maxItems: 7
++    description:
++      First a general power domain for register access, then the power
++      domains of individual clusters for their operation.
++
++  '#sound-dai-cells':
++    const: 1
++
++required:
++  - compatible
++  - reg
++  - dmas
++  - dma-names
++  - clocks
++  - power-domains
++  - '#sound-dai-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    mca: i2s@9b600000 {
++      compatible = "apple,t6000-mca", "apple,mca";
++      reg = <0x9b600000 0x10000>,
++            <0x9b200000 0x20000>;
++
++      clocks = <&nco 0>, <&nco 1>, <&nco 2>, <&nco 3>;
++      power-domains = <&ps_audio_p>, <&ps_mca0>, <&ps_mca1>,
++                      <&ps_mca2>, <&ps_mca3>;
++      dmas = <&admac 0>, <&admac 1>, <&admac 2>, <&admac 3>,
++             <&admac 4>, <&admac 5>, <&admac 6>, <&admac 7>,
++             <&admac 8>, <&admac 9>, <&admac 10>, <&admac 11>,
++             <&admac 12>, <&admac 13>, <&admac 14>, <&admac 15>;
++      dma-names = "tx0a", "rx0a", "tx0b", "rx0b",
++                  "tx1a", "rx1a", "tx1b", "rx1b",
++                  "tx2a", "rx2a", "tx2b", "rx2b",
++                  "tx3a", "rx3a", "tx3b", "rx3b";
++
++      #sound-dai-cells = <1>;
++    };
 -- 
 2.33.0
 
