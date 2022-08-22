@@ -1,148 +1,117 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081F22F52
-	for <asahi@lists.linux.dev>; Fri, 19 Aug 2022 14:24:54 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1660919090; bh=rxMg2xPDnYTGDNHNhIT0kpgTm3BHNlqUVYjelU2Wnlk=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=cN0DLigKR5cWPoRIyNMmYIxY+4PU5IX1WPSOj5t6HYXP9NphxQ4Ug01xF13D3FM8e
-	 7pOlDXAfkK59n40RzEEfvTeJoeeNltYSLdgmYCvEqelHDU+5uQLbC2DYkQUmvstiVx
-	 cGR2z9rxCnlNZBBBk2C5zxRDD+hAqQUvNVjO5COg=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1C433EC
+	for <asahi@lists.linux.dev>; Mon, 22 Aug 2022 17:40:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0915C433D6;
+	Mon, 22 Aug 2022 17:39:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1661190000;
+	bh=6CmQdowko0m3VEWl0fKzK9C0KmgTv5BlYHbJQN96nP0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Js2/6HWDWg4NXMH8+tRxvjuUIGmcjy7run71WD6MSM/AxdIYKI24l4Ioagg88clJu
+	 2OzQ7ZBhMhpWBnwp/SZPh9w5cseL5P2hF97CMWTZgVA2ZE1MOnngKTyk7qjWTx7Bzn
+	 muUfo1KOOLzrLJuD6zJviWHZqgR18jy/i0xheu4oaLw6QWqIz0bRa+RusaLpDceMx3
+	 ppgHLAjtcNjQoe8fMxYi+VPx7eFoUbXWY3PvgVnf2ioweZ6w7Mvqg/4pZsVoiBi2er
+	 WYGY+r0QaqCUC9PyMSjr5JqJgrcLw9cisr2i5bCF+clJc+QQ62deyf/Z8sYERWKsZX
+	 FDQVzbkUemRDw==
+Date: Mon, 22 Aug 2022 18:39:54 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] ASoC: apple: mca: Start new platform driver
+Message-ID: <YwO/aqs7eqZx07kS@sirena.org.uk>
+References: <20220819125430.4920-1-povik+lin@cutebit.org>
+ <20220819125430.4920-4-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH v2 2/4] arm64: dts: apple: t8103: Add MCA and its support
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <38094e2d-c75c-920b-4b4d-aa377971f615@linaro.org>
-Date: Fri, 19 Aug 2022 16:24:49 +0200
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- asahi@lists.linux.dev,
- alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qCefvYX0tdeieUPa"
+Content-Disposition: inline
+In-Reply-To: <20220819125430.4920-4-povik+lin@cutebit.org>
+X-Cookie: Do not write in this space.
+
+
+--qCefvYX0tdeieUPa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <A9E366E2-EA4D-4F35-BE28-63745296D222@cutebit.org>
-References: <20220819125430.4920-1-povik+lin@cutebit.org>
- <20220819125430.4920-3-povik+lin@cutebit.org>
- <38094e2d-c75c-920b-4b4d-aa377971f615@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+On Fri, Aug 19, 2022 at 02:54:29PM +0200, Martin Povi=C5=A1er wrote:
 
+This all looks good, one style nit and a couple of requests for
+clarification below but basically this is fine.
 
-> On 19. 8. 2022, at 15:12, Krzysztof Kozlowski =
-<krzysztof.kozlowski@linaro.org> wrote:
->=20
-> On 19/08/2022 15:54, Martin Povi=C5=A1er wrote:
->> Add the MCA I2S transceiver node and its supporting NCO, ADMAC nodes.
->>=20
->> Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
->> ---
->> arch/arm64/boot/dts/apple/t8103.dtsi | 70 =
-++++++++++++++++++++++++++++
->> 1 file changed, 70 insertions(+)
->>=20
->> diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi =
-b/arch/arm64/boot/dts/apple/t8103.dtsi
->> index 51a63b29d404..2dc3125aca5b 100644
->> --- a/arch/arm64/boot/dts/apple/t8103.dtsi
->> +++ b/arch/arm64/boot/dts/apple/t8103.dtsi
->> @@ -532,6 +532,76 @@ port02: pci@2,0 {
->> 						<0 0 0 4 &port02 0 0 0 =
-3>;
->> 			};
->> 		};
->> +
->> +		dart_sio: iommu@235004000 {
->> +			compatible =3D "apple,t8103-dart", "apple,dart";
->> +			reg =3D <0x2 0x35004000 0x0 0x4000>;
->> +			interrupt-parent =3D <&aic>;
->> +			interrupts =3D <AIC_IRQ 635 =
-IRQ_TYPE_LEVEL_HIGH>;
->> +			#iommu-cells =3D <1>;
->> +			power-domains =3D <&ps_sio_cpu>;
->> +		};
->> +
->> +		nco_clkref: clock-ref {
->> +			compatible =3D "fixed-clock";
->> +			#clock-cells =3D <0>;
->> +			clock-frequency =3D <900000000>;
->> +			clock-output-names =3D "nco_ref";
->> +		};
->=20
-> Reference clocks are usually physically outside of SoC (e.g. on the
-> board), so:
-> 1. Not part of "soc" node.
-> 2. It should be defined by board. At least clock-frequency should be =
-there.
+> +++ b/sound/soc/apple/mca.c
+> @@ -0,0 +1,1149 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Apple SoCs MCA driver
+> + *
+> + * Copyright (C) The Asahi Linux Contributors
+> + *
+> + * The MCA peripheral is made up of a number of identical units called c=
+lusters.
 
-Ah, right, this deserves commentary: Since this is a reverse-engineered
-driver/platform support, we give up on knowing the clock tree exactly. =
-Instead
-we model the clock input to the Numerically Controlled Oscillator =
-(=E2=80=98nco=E2=80=99 node
-below) with this fabulated fixed clock reference.
+Please make the entire comment block a C++ one so things look more
+intentional.
 
-I guess eventually the clock tree is rooted off the SoC, and there=E2=80=99=
-s
-nothing guaranteeing the same reference clock to the NCO across machines =
-(being
-function of the board wiring and the proprietary firmware). In the end I =
-would
-argue for keeping the =E2=80=98clock-ref=E2=80=99 here in =E2=80=99soc' =
-but have the clock-frequency
-defined by board.  Sounds reasonable?
+> +#define USE_RXB_FOR_CAPTURE
 
->=20
->> +
->> +		nco: nco@23b044000 {
->> +			compatible =3D "apple,t8103-nco", "apple,nco";
->> +			reg =3D <0x2 0x3b044000 0x0 0x14000>;
->> +			clocks =3D <&nco_clkref>;
->> +			#clock-cells =3D <1>;
->> +		};
->> +
->> +		admac: dma-controller@238200000 {
->> +			compatible =3D "apple,t8103-admac", =
-"apple,admac";
->> +			reg =3D <0x2 0x38200000 0x0 0x34000>;
->> +			dma-channels =3D <24>;
->> +			interrupts-extended =3D <0>,
->> +					 <&aic AIC_IRQ 626 =
-IRQ_TYPE_LEVEL_HIGH>,
->> +					 <0>,
->> +					 <0>;
->> +			#dma-cells =3D <1>;
->> +			iommus =3D <&dart_sio 2>;
->> +			power-domains =3D <&ps_sio_adma>;
->> +		};
->> +
->> +		mca: mca@38400000 {
->=20
-> Here node name is as well wrong.
->=20
-> Node names should be generic.
-> =
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicet=
-ree-basics.html#generic-names-recommendation
+What's this all about?
 
-OK
+> +static int mca_fe_enable_clocks(struct mca_cluster *cl)
+> +{
+> +	struct mca_data *mca =3D cl->host;
+> +	int ret;
+> +
+> +	ret =3D clk_prepare_enable(cl->clk_parent);
+> +	if (ret) {
+> +		dev_err(mca->dev,
+> +			"cluster %d: unable to enable clock parent: %d\n",
+> +			cl->no, ret);
+> +		return ret;
+> +	}
+> +
+> +	/*
+> +	 * We can't power up the device earlier than this because
+> +	 * the power state driver would error out on seeing the device
+> +	 * as clock-gated.
+> +	 */
+> +	cl->pd_link =3D device_link_add(mca->dev, cl->pd_dev,
+> +				      DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
+> +					      DL_FLAG_RPM_ACTIVE);
 
-Best, Martin
+I'm not clear on this dynamically adding and removing device links stuff
+- it looks like the main (only?) purpose is to take a runtime PM
+reference to the target device which is fine but it's not clear why
+device links are involved given that the links are created and destroyed
+every time the DAI is used, AFAICT always in the same fixed
+relationship.  It's not a problem, it's just unclear.
 
->=20
-> Best regards,
-> Krzysztof
+--qCefvYX0tdeieUPa
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmMDv2kACgkQJNaLcl1U
+h9Apnwf8DfhwTXhkRk42QdwLlD8jY+ALJxnAnI9N0WL27+ro0ik9D4csIFZ0yyep
+peioVGWLjZDtHb8hU/MA6iwVIjrGfFOaRzacALHikXMaknAqzNGAcY3iYt2PrivX
+l6glTR9aQZ9wqdVYbHjSpStEu4D1Fb+QzdgtJyPTFiduuGhv13pAGscTUmpTHaiL
+Oy80EJMZ1T/TUXevPew4EALeIZiT3dBch98K5VAEhpLpAQlyGjNAaJNMcHHBVyrB
+0NRvDmrVO+pXfiXQb0Fb/NtDm3jT6VJuBvOE7tmIDXL9RTk1NAEJC0qm56IQv1hR
+lDk432wlomyUxhOKnc6xZD51i5We8A==
+=y4jf
+-----END PGP SIGNATURE-----
+
+--qCefvYX0tdeieUPa--
