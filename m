@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1C433EC
-	for <asahi@lists.linux.dev>; Mon, 22 Aug 2022 17:40:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0915C433D6;
-	Mon, 22 Aug 2022 17:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3314A02
+	for <asahi@lists.linux.dev>; Mon, 22 Aug 2022 17:45:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8238C433D6;
+	Mon, 22 Aug 2022 17:45:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661190000;
-	bh=6CmQdowko0m3VEWl0fKzK9C0KmgTv5BlYHbJQN96nP0=;
+	s=k20201202; t=1661190331;
+	bh=11zZAIvln2KnjZa+NDc5/38WwFHC5uUCvQwpMLeQgKA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Js2/6HWDWg4NXMH8+tRxvjuUIGmcjy7run71WD6MSM/AxdIYKI24l4Ioagg88clJu
-	 2OzQ7ZBhMhpWBnwp/SZPh9w5cseL5P2hF97CMWTZgVA2ZE1MOnngKTyk7qjWTx7Bzn
-	 muUfo1KOOLzrLJuD6zJviWHZqgR18jy/i0xheu4oaLw6QWqIz0bRa+RusaLpDceMx3
-	 ppgHLAjtcNjQoe8fMxYi+VPx7eFoUbXWY3PvgVnf2ioweZ6w7Mvqg/4pZsVoiBi2er
-	 WYGY+r0QaqCUC9PyMSjr5JqJgrcLw9cisr2i5bCF+clJc+QQ62deyf/Z8sYERWKsZX
-	 FDQVzbkUemRDw==
-Date: Mon, 22 Aug 2022 18:39:54 +0100
+	b=WUaaP22a5zZsy9GiQ8bCYSYGvAqnmUz0lvNXrBFoireqXcRCibtu479FOC+3OkX2r
+	 e2MXqPuhICJICWMcFq+cVclfSrp9Yi5KZ6heB9sJ7ulJWRej4BJKMeYR6TeKSefDuY
+	 EWBFPfQJtR6EOnJhiXOQTvHYQndzw6XMoJ05CjJUhx+NJnt6hPAiy3su+CrfKUZv1Q
+	 KWKG4oBd/cEdIAo+XLWWd5mMcY6ofQKtMBQXCJAp1C83qba9TnZLHu3WtqqF/YbwEx
+	 kqZ9A4hnf3PmxuvVL6byKPK1o7+90m0+Va1F1kj46jLjh7yVuu0W0pGxixRT78FDOf
+	 akf/B/448h0mw==
+Date: Mon, 22 Aug 2022 18:45:25 +0100
 From: Mark Brown <broonie@kernel.org>
 To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
@@ -25,10 +25,11 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
 	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] ASoC: apple: mca: Start new platform driver
-Message-ID: <YwO/aqs7eqZx07kS@sirena.org.uk>
+Subject: Re: [PATCH v2 4/4] ASoC: apple: mca: Add locks on foreign cluster
+ access
+Message-ID: <YwPAtY1kp5tU/isF@sirena.org.uk>
 References: <20220819125430.4920-1-povik+lin@cutebit.org>
- <20220819125430.4920-4-povik+lin@cutebit.org>
+ <20220819125430.4920-5-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -36,82 +37,42 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qCefvYX0tdeieUPa"
+	protocol="application/pgp-signature"; boundary="7TCI7W6orlvhYY9k"
 Content-Disposition: inline
-In-Reply-To: <20220819125430.4920-4-povik+lin@cutebit.org>
+In-Reply-To: <20220819125430.4920-5-povik+lin@cutebit.org>
 X-Cookie: Do not write in this space.
 
 
---qCefvYX0tdeieUPa
+--7TCI7W6orlvhYY9k
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 19, 2022 at 02:54:29PM +0200, Martin Povi=C5=A1er wrote:
+On Fri, Aug 19, 2022 at 02:54:30PM +0200, Martin Povi=C5=A1er wrote:
+> In DAI ops, accesses to the native cluster (of the DAI), and to data of
+> clusters related to it by a DPCM frontend-backend link, should have
+> been synchronized by the 'pcm_mutex' lock at ASoC level.
+>=20
+> What is not covered are the 'port_driver' accesses on foreign clusters
+> to which the current cluster has no a priori relation, so fill in
+> locking for that. (This should only matter in bizarre configurations of
+> sharing one MCA peripheral between ASoC cards.)
 
-This all looks good, one style nit and a couple of requests for
-clarification below but basically this is fine.
+This also looks good.
 
-> +++ b/sound/soc/apple/mca.c
-> @@ -0,0 +1,1149 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Apple SoCs MCA driver
-> + *
-> + * Copyright (C) The Asahi Linux Contributors
-> + *
-> + * The MCA peripheral is made up of a number of identical units called c=
-lusters.
-
-Please make the entire comment block a C++ one so things look more
-intentional.
-
-> +#define USE_RXB_FOR_CAPTURE
-
-What's this all about?
-
-> +static int mca_fe_enable_clocks(struct mca_cluster *cl)
-> +{
-> +	struct mca_data *mca =3D cl->host;
-> +	int ret;
-> +
-> +	ret =3D clk_prepare_enable(cl->clk_parent);
-> +	if (ret) {
-> +		dev_err(mca->dev,
-> +			"cluster %d: unable to enable clock parent: %d\n",
-> +			cl->no, ret);
-> +		return ret;
-> +	}
-> +
-> +	/*
-> +	 * We can't power up the device earlier than this because
-> +	 * the power state driver would error out on seeing the device
-> +	 * as clock-gated.
-> +	 */
-> +	cl->pd_link =3D device_link_add(mca->dev, cl->pd_dev,
-> +				      DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME |
-> +					      DL_FLAG_RPM_ACTIVE);
-
-I'm not clear on this dynamically adding and removing device links stuff
-- it looks like the main (only?) purpose is to take a runtime PM
-reference to the target device which is fine but it's not clear why
-device links are involved given that the links are created and destroyed
-every time the DAI is used, AFAICT always in the same fixed
-relationship.  It's not a problem, it's just unclear.
-
---qCefvYX0tdeieUPa
+--7TCI7W6orlvhYY9k
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmMDv2kACgkQJNaLcl1U
-h9Apnwf8DfhwTXhkRk42QdwLlD8jY+ALJxnAnI9N0WL27+ro0ik9D4csIFZ0yyep
-peioVGWLjZDtHb8hU/MA6iwVIjrGfFOaRzacALHikXMaknAqzNGAcY3iYt2PrivX
-l6glTR9aQZ9wqdVYbHjSpStEu4D1Fb+QzdgtJyPTFiduuGhv13pAGscTUmpTHaiL
-Oy80EJMZ1T/TUXevPew4EALeIZiT3dBch98K5VAEhpLpAQlyGjNAaJNMcHHBVyrB
-0NRvDmrVO+pXfiXQb0Fb/NtDm3jT6VJuBvOE7tmIDXL9RTk1NAEJC0qm56IQv1hR
-lDk432wlomyUxhOKnc6xZD51i5We8A==
-=y4jf
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmMDwLQACgkQJNaLcl1U
+h9Dvagf/TRY4LCW2H+nmGAoKwC6tDc1DZpexBXRhpqOhlBQD7h3NJbtNN6uIJwK6
+E7n1ORFmQFe7fIgSz9vOQmTFBEGg+wYh/RqvEOZhTC0QpdXYe0l4H9yUMCEabiJg
+Ngf6f0m08vBex9X2NDr+B/wq4xbXbMVlbSuMdNDgIqPqyczuuGFdBbrGuiOQFtFk
+SlCQoiQXWW/OLTcSMok2d7To4zbfON7eaZBZTza8b3XeI5y0vnWyix67qAuhPCMY
+i0SGbf2U8gbnEJzlkUDRpsWNH77Qie7c+VzagvzQvefKZd6Ww+ShI1fYq8CVtf+Q
+BXIFo1OuoozZ7yTj2FWGC/dn2PuSSQ==
+=7Lok
 -----END PGP SIGNATURE-----
 
---qCefvYX0tdeieUPa--
+--7TCI7W6orlvhYY9k--
