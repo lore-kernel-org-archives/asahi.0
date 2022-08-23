@@ -1,125 +1,128 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CB5A3B
-	for <asahi@lists.linux.dev>; Tue, 23 Aug 2022 07:33:47 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1661240018; bh=ftKfGYt19SPqa6Cn1sVIOkBEC6upRTpfHplVCy06jFo=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=H2XDFgnSF0seYKYphMwMhHDHqvRe6U0bfcLzS8zKgohwWKDbnplD1OTsGdzFzUesC
-	 EXVXvyNF2rFo3RgQI1j1rhIzyKzx/qHIwzcftBWDYQMgr+DDehE+AIDXG7Y798yxxt
-	 BqmeeC/X+Bkyi8b2lTLSDnDHrQyrL46eu6s+QWUo=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C54ED4
+	for <asahi@lists.linux.dev>; Tue, 23 Aug 2022 11:02:46 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id u24so7572663lji.0
+        for <asahi@lists.linux.dev>; Tue, 23 Aug 2022 04:02:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=Nh/dSfQpjawYJKjYiUJyrmH/Pdok2iA80vxKA7PHHnc=;
+        b=FEdHHqbCC7TtKYyi1L6Ks5VnxgHVgIZG9H2aCY0WL2r6YX2J+LFzAfOn6HO5uQDI/N
+         VioQTqrYqgOeSYlSKy8Aa68z0lWTheqQMMuGdCClPHt1N9/1M/GDE9wwN8zAxENmLYxZ
+         /gfXbXMVk5ecw0/NuAh5Nk921ymDUjP54UvLi4/G3pCBNy17k0s7sCVQLelgYvQ+OIUv
+         n/OLH3fbZAb9qDNSeAD0a9w6s7lORF5A8lDu+KbicYZLUeU3r4Bnvf0G3XmH+v2Z3EAo
+         9h242JRXKE5jZrnYtJOVAEOSXBD9M8Rz5dRRHGN/FE8cbqCSaP3R27EV0I7G1FW1cs0q
+         ospg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=Nh/dSfQpjawYJKjYiUJyrmH/Pdok2iA80vxKA7PHHnc=;
+        b=AzRf+P3Od3nHi5ZU1Bg/ZxEhFbVvyNlZeD5t9Fv4IyNj+Wfhv5DZSrI3eqFCi0QLFe
+         3JYI2eEEO3IpWW5YE6t9Dsj6ZAkP5eWf1ri/+zkDf8mD9V7M/ngjkzyO9TZTMoTJGUAR
+         qYDJsUR4YXPTT3GZOOxiRJ5dd17eN1g8io9jFPY40ibvO8bgNaCNr+B5+uWnwLUb1Xa5
+         4AWuRhOb4f1Zghy5xF2b9mrnrqsK5+ODL17EBmwurd4qw/WfDVkTUg7H9jMBrVhZZMVj
+         BPlYbga+I5is3joKhvYCeS2JpAYy1r+Unla3MyOan4z0N+bpkYNtY73i3J8RGTJRK9ys
+         8zCQ==
+X-Gm-Message-State: ACgBeo12s9JdWgEIQk3fxyd6djWb2sIXIk6KC0uj+oclQE7SofbHkOlA
+	FCQyT4aoNnIT/vsw2wSuF5hCkg==
+X-Google-Smtp-Source: AA6agR5vbYNjhHFnx+6VhB11BI4MrfWNs+kd+/HTfFywhleTdAxL7fiMVIIBFB64PGTaYQ6X+iS3mg==
+X-Received: by 2002:a2e:8e75:0:b0:261:d530:86f4 with SMTP id t21-20020a2e8e75000000b00261d53086f4mr975578ljk.461.1661252564894;
+        Tue, 23 Aug 2022 04:02:44 -0700 (PDT)
+Received: from [192.168.0.11] (89-27-92-210.bb.dnainternet.fi. [89.27.92.210])
+        by smtp.gmail.com with ESMTPSA id p17-20020a2ea4d1000000b0025d64453f4dsm2316547ljm.122.2022.08.23.04.02.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Aug 2022 04:02:44 -0700 (PDT)
+Message-ID: <ae5a10b8-a459-11c9-3fac-4f5de0ba2218@linaro.org>
+Date: Tue, 23 Aug 2022 14:02:43 +0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH v2 3/4] ASoC: apple: mca: Start new platform driver
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <YwO/aqs7eqZx07kS@sirena.org.uk>
-Date: Tue, 23 Aug 2022 09:33:36 +0200
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 2/4] arm64: dts: apple: t8103: Add MCA and its support
+Content-Language: en-US
+To: =?UTF-8?Q?Martin_Povi=c5=a1er?= <povik+lin@cutebit.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Philipp Zabel <p.zabel@pengutronix.de>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- asahi@lists.linux.dev,
- alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <24C0ABFA-BF71-4492-8A6A-E9BE1462B403@cutebit.org>
 References: <20220819125430.4920-1-povik+lin@cutebit.org>
- <20220819125430.4920-4-povik+lin@cutebit.org>
- <YwO/aqs7eqZx07kS@sirena.org.uk>
-To: Mark Brown <broonie@kernel.org>
+ <20220819125430.4920-3-povik+lin@cutebit.org>
+ <38094e2d-c75c-920b-4b4d-aa377971f615@linaro.org>
+ <A9E366E2-EA4D-4F35-BE28-63745296D222@cutebit.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <A9E366E2-EA4D-4F35-BE28-63745296D222@cutebit.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 19/08/2022 17:24, Martin Povišer wrote:
+> 
+> 
+>> On 19. 8. 2022, at 15:12, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On 19/08/2022 15:54, Martin Povišer wrote:
+>>> Add the MCA I2S transceiver node and its supporting NCO, ADMAC nodes.
+>>>
+>>> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+>>> ---
+>>> arch/arm64/boot/dts/apple/t8103.dtsi | 70 ++++++++++++++++++++++++++++
+>>> 1 file changed, 70 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+>>> index 51a63b29d404..2dc3125aca5b 100644
+>>> --- a/arch/arm64/boot/dts/apple/t8103.dtsi
+>>> +++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+>>> @@ -532,6 +532,76 @@ port02: pci@2,0 {
+>>> 						<0 0 0 4 &port02 0 0 0 3>;
+>>> 			};
+>>> 		};
+>>> +
+>>> +		dart_sio: iommu@235004000 {
+>>> +			compatible = "apple,t8103-dart", "apple,dart";
+>>> +			reg = <0x2 0x35004000 0x0 0x4000>;
+>>> +			interrupt-parent = <&aic>;
+>>> +			interrupts = <AIC_IRQ 635 IRQ_TYPE_LEVEL_HIGH>;
+>>> +			#iommu-cells = <1>;
+>>> +			power-domains = <&ps_sio_cpu>;
+>>> +		};
+>>> +
+>>> +		nco_clkref: clock-ref {
+>>> +			compatible = "fixed-clock";
+>>> +			#clock-cells = <0>;
+>>> +			clock-frequency = <900000000>;
+>>> +			clock-output-names = "nco_ref";
+>>> +		};
+>>
+>> Reference clocks are usually physically outside of SoC (e.g. on the
+>> board), so:
+>> 1. Not part of "soc" node.
+>> 2. It should be defined by board. At least clock-frequency should be there.
+> 
+> Ah, right, this deserves commentary: Since this is a reverse-engineered
+> driver/platform support, we give up on knowing the clock tree exactly. Instead
+> we model the clock input to the Numerically Controlled Oscillator (‘nco’ node
+> below) with this fabulated fixed clock reference.
+> 
+> I guess eventually the clock tree is rooted off the SoC, and there’s
+> nothing guaranteeing the same reference clock to the NCO across machines (being
+> function of the board wiring and the proprietary firmware). In the end I would
+> argue for keeping the ‘clock-ref’ here in ’soc' but have the clock-frequency
+> defined by board.  Sounds reasonable?
 
-> On 22. 8. 2022, at 19:39, Mark Brown <broonie@kernel.org> wrote:
->=20
-> On Fri, Aug 19, 2022 at 02:54:29PM +0200, Martin Povi=C5=A1er wrote:
->=20
-> This all looks good, one style nit and a couple of requests for
-> clarification below but basically this is fine.
->=20
->> +++ b/sound/soc/apple/mca.c
->> @@ -0,0 +1,1149 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Apple SoCs MCA driver
->> + *
->> + * Copyright (C) The Asahi Linux Contributors
->> + *
->> + * The MCA peripheral is made up of a number of identical units =
-called clusters.
->=20
-> Please make the entire comment block a C++ one so things look more
-> intentional.
+Yes.
 
-Is this so that it does not look like the SPDX header was added
-mechanically? I will do it, just curious what the reasoning is.
-
->=20
->> +#define USE_RXB_FOR_CAPTURE
->=20
-> What's this all about?
-
-There=E2=80=99s something we can configure one way or the other way in =
-the
-hardware (choosing RXA or RXB unit in a cluster for capture). Since this=20=
-
-driver developed along reverse-engineering the hardware, this switch
-got built in. I want to keep it for future experimentation. Also, as
-the driver=E2=80=99s side gig is documenting the hardware, this way it
-documents more.
-
->> +static int mca_fe_enable_clocks(struct mca_cluster *cl)
->> +{
->> +	struct mca_data *mca =3D cl->host;
->> +	int ret;
->> +
->> +	ret =3D clk_prepare_enable(cl->clk_parent);
->> +	if (ret) {
->> +		dev_err(mca->dev,
->> +			"cluster %d: unable to enable clock parent: =
-%d\n",
->> +			cl->no, ret);
->> +		return ret;
->> +	}
->> +
->> +	/*
->> +	 * We can't power up the device earlier than this because
->> +	 * the power state driver would error out on seeing the device
->> +	 * as clock-gated.
->> +	 */
->> +	cl->pd_link =3D device_link_add(mca->dev, cl->pd_dev,
->> +				      DL_FLAG_STATELESS | =
-DL_FLAG_PM_RUNTIME |
->> +					      DL_FLAG_RPM_ACTIVE);
->=20
-> I'm not clear on this dynamically adding and removing device links =
-stuff
-> - it looks like the main (only?) purpose is to take a runtime PM
-> reference to the target device which is fine but it's not clear why
-> device links are involved given that the links are created and =
-destroyed
-> every time the DAI is used, AFAICT always in the same fixed
-> relationship.  It's not a problem, it's just unclear.
-
-Indeed the only purpose is powering up the cluster=E2=80=99s power =
-domain (there=E2=80=99s
-one domain for each cluster). Adding the links is the only way I know to
-do it. They need to be added dynamically (as opposed to statically =
-linking,
-say, the DAI=E2=80=99s ->dev to the cluster=E2=80=99s ->pd_dev, which I =
-guess may do
-something similar), because we need to sequence the power-up/power-down
-with the enablement of the clocks.
-
-Martin
-
+Best regards,
+Krzysztof
