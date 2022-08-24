@@ -1,118 +1,91 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408971C07
-	for <asahi@lists.linux.dev>; Tue, 23 Aug 2022 11:53:03 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E014D186C
+	for <asahi@lists.linux.dev>; Wed, 24 Aug 2022 16:07:26 +0000 (UTC)
+From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1661255580; bh=C+qYzg3MiDGTFt2SnOj/uPYpItAq9KcnqTfZxJRJUvQ=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=eLdFwguVO9Al2h37zHcURvgU/NLAzSrE+FrlcUFVbpseZjBCnz261whssmh7FJT9i
-	 BstM7oxGbltfBT7yWA9I2Xm8Lkn/Kiys7OETC+MvkkPSy2/VSdohCFdS5NbTUjwbhp
-	 kyKhQq6uF2A91IWufZCGszTe/x9VdmYoDEYjfx7E=
+	t=1661357238; bh=vfSK7fJtUtZF7v3UQoemHYG11mAecyxCaxX8PYPRpzQ=;
+	h=From:To:Cc:Subject:Date;
+	b=a77t2Wm0ZCHFkidB88rzre6aeLIfhkq/9gl2n2ez05Cq3dJgUvznsbu/fv5l4gT4i
+	 yhhwM/fbFcx2NT7IxLSbNKRPbGc629r4k0zKZAJGqbYhXg8GVrYuOrvq7Su6zGzCXO
+	 GZERaZwHCqUxk0M1stlco3+9HLwh/DykEvT3LLno=
+To: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] ASoC platform driver for Apple MCA
+Date: Wed, 24 Aug 2022 18:07:11 +0200
+Message-Id: <20220824160715.95779-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH v2 3/4] ASoC: apple: mca: Start new platform driver
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <6C89CA60-D0E2-4869-B21C-17AD4AA1974C@cutebit.org>
-Date: Tue, 23 Aug 2022 13:53:00 +0200
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- asahi@lists.linux.dev,
- alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E307FA6A-749E-450D-B200-4509848BDA69@cutebit.org>
-References: <20220819125430.4920-1-povik+lin@cutebit.org>
- <20220819125430.4920-4-povik+lin@cutebit.org>
- <YwO/aqs7eqZx07kS@sirena.org.uk>
- <24C0ABFA-BF71-4492-8A6A-E9BE1462B403@cutebit.org>
- <YwS6lHeGH0BZKHeB@sirena.org.uk>
- <6C89CA60-D0E2-4869-B21C-17AD4AA1974C@cutebit.org>
-To: Mark Brown <broonie@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi all,
 
-> On 23. 8. 2022, at 13:51, Martin Povi=C5=A1er <povik+lin@cutebit.org> =
-wrote:
->=20
->=20
->=20
->> On 23. 8. 2022, at 13:31, Mark Brown <broonie@kernel.org> wrote:
->>=20
->> On Tue, Aug 23, 2022 at 09:33:36AM +0200, Martin Povi=C5=A1er wrote:
->>>> On 22. 8. 2022, at 19:39, Mark Brown <broonie@kernel.org> wrote:
->>>> On Fri, Aug 19, 2022 at 02:54:29PM +0200, Martin Povi=C5=A1er =
-wrote:
->=20
->>>>> +	/*
->>>>> +	 * We can't power up the device earlier than this because
->>>>> +	 * the power state driver would error out on seeing the device
->>>>> +	 * as clock-gated.
->>>>> +	 */
->>>>> +	cl->pd_link =3D device_link_add(mca->dev, cl->pd_dev,
->>>>> +				 DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME =
-|
->>>>> +					 DL_FLAG_RPM_ACTIVE);
->>=20
->>>> I'm not clear on this dynamically adding and removing device links =
-stuff
->>>> - it looks like the main (only?) purpose is to take a runtime PM
->>>> reference to the target device which is fine but it's not clear why
->>>> device links are involved given that the links are created and =
-destroyed
->>>> every time the DAI is used, AFAICT always in the same fixed
->>>> relationship. It's not a problem, it's just unclear.
->>=20
->>> Indeed the only purpose is powering up the cluster=E2=80=99s power =
-domain (there=E2=80=99s
->>> one domain for each cluster). Adding the links is the only way I =
-know to
->>> do it. They need to be added dynamically (as opposed to statically =
-linking,
->>> say, the DAI=E2=80=99s ->dev to the cluster=E2=80=99s ->pd_dev, =
-which I guess may do
->>> something similar), because we need to sequence the =
-power-up/power-down
->>> with the enablement of the clocks.
->>=20
->> You could also just do the underlying runtime power management
->> operations directly couldn't you? It's not clear what the device link
->> stuff is adding.
->=20
-> This seems to be the way to do it. Quoting from documentation of
-> dev_pm_domain_attach_by_id, by which we obtain the mca->dev and =
-cl->pd_dev
-> the link is between:
->=20
-> * This function should typically be invoked by a driver during the =
-probe phase,
-> * in case its device requires power management through multiple PM =
-domains. The
-> * driver may benefit from using the received device, to configure =
-device-links
-> * towards its original device. Depending on the use-case and if =
-needed, the
-> * links may be dynamically changed by the driver, which allows it to =
-control
-> * the power to the PM domains independently from each other.
->=20
-> --
-> Martin
-
-Pardon, just the cl->pd_dev is from dev_pm_domain_attach_by_id, mca->dev =
-is
-the original device.
+sending what should be the final touches on Apple MCA driver. It most
+likely goes without saying but please do not merge the DT additions
+into the ASoC tree.
 
 Martin
+
+Changes since v2:
+ - fix Mark's style nit
+ - order compatibles in schema
+ - redo the DT additions for t8103
+ - remove stray unlock in mca_be_prepare (and rename the locking patch)
+Link: https://lore.kernel.org/asahi/20220819125430.4920-1-povik+lin@cutebit.org/T/#t
+
+Changes since v1:
+ - reflect the set_fmt provider/consumer change in 6.0-rc1
+ - fix the probe function requesting optional reset
+ - unroll 'dma-names' in schema
+ - fix binding schema/code discrepancy in register ranges
+ - minor things
+Link: https://lore.kernel.org/asahi/20220808224153.3634-1-povik+lin@cutebit.org/T/#t
+
+Changes since 'macaudio RFC v2' [0]:
+ - addition of locking (extra commit)
+ - transition to set_bclk_ratio (instead of getting the bclk ratio from set_sysclk)
+ - using shared reset control and documenting the reset in binding
+ - formatting, comments, and a minor fix to hw driving
+Link: https://lore.kernel.org/asahi/20220606191910.16580-1-povik+lin@cutebit.org/T/#t
+
+Martin Povišer (4):
+  dt-bindings: sound: Add Apple MCA I2S transceiver
+  arm64: dts: apple: t8103: Add MCA and its support
+  ASoC: apple: mca: Start new platform driver
+  ASoC: apple: mca: Add locking
+
+ .../devicetree/bindings/sound/apple,mca.yaml  |  131 ++
+ MAINTAINERS                                   |    8 +
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi     |    4 +
+ arch/arm64/boot/dts/apple/t8103.dtsi          |   73 ++
+ sound/soc/Kconfig                             |    1 +
+ sound/soc/Makefile                            |    1 +
+ sound/soc/apple/Kconfig                       |    9 +
+ sound/soc/apple/Makefile                      |    3 +
+ sound/soc/apple/mca.c                         | 1167 +++++++++++++++++
+ 9 files changed, 1397 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/apple,mca.yaml
+ create mode 100644 sound/soc/apple/Kconfig
+ create mode 100644 sound/soc/apple/Makefile
+ create mode 100644 sound/soc/apple/mca.c
+
+-- 
+2.33.0
 
