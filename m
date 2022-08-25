@@ -1,15 +1,15 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84161322E
-	for <asahi@lists.linux.dev>; Thu, 25 Aug 2022 14:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FC83229
+	for <asahi@lists.linux.dev>; Thu, 25 Aug 2022 14:02:53 +0000 (UTC)
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1661436172; bh=PsCam++xDona5BVDShW7mfj5kX/puOVnGoX+XMGkuc8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=r31WAVO2XWASiv4N/KJcm/d/M9XAJsD7XFnrJl5o758Se1fe0WQIwxSkjIsVOH5ON
-	 e8LgKJb+uuhADj085h44Fm4WYlFXHOwzPYJ2e2IAOiehHONsugUmqaPGVO5q9VzE8v
-	 pGpVTLB8SLg0x9dZdNsml/t7IVBivF031WRMC044=
+	t=1661436170; bh=ELGy1lUsHhPdvqtxh1bn64AYOFQqdlpEPx8nzBVvc/Q=;
+	h=From:To:Cc:Subject:Date;
+	b=hv7CXhgLy6WgpqX3UhKZwyPXlNgVtxyprcluDZBE80PKmGq3Rfv2ewtadZaKh86mY
+	 oVcHp3SuYeBvnqN0AD/KIjSLmw5qVbjsEiAy3vLYXCxscRoHVZM9td56eRj1b3l8BY
+	 TblbGZnNpko+m1A0bNOmMflMqB+d9jWpmkQKynDg=
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
 Cc: navada@ti.com,
@@ -23,11 +23,9 @@ Cc: navada@ti.com,
 	alsa-devel@alsa-project.org,
 	linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev
-Subject: [PATCH 3/5] ASoC: tas2764: Fix mute/unmute
-Date: Thu, 25 Aug 2022 16:02:39 +0200
-Message-Id: <20220825140241.53963-4-povik+lin@cutebit.org>
-In-Reply-To: <20220825140241.53963-1-povik+lin@cutebit.org>
-References: <20220825140241.53963-1-povik+lin@cutebit.org>
+Subject: [PATCH 0/5] TAS2764 fixes/extensions
+Date: Thu, 25 Aug 2022 16:02:36 +0200
+Message-Id: <20220825140241.53963-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -37,127 +35,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Because the PWR_CTRL field is modeled as the power state of the DAC
-widget, and at the same time it is used to implement mute/unmute, we
-need some additional book-keeping to have the right end result no matter
-the sequence of calls. Without this fix, one permanently mutes an
-ongoing stream by toggling the associated speaker pin control.
+First three patches are fixes analogical to those recently done to
+the TAS2770 driver.
+Link: https://lore.kernel.org/asahi/20220808141246.5749-1-povik+lin@cutebit.org/T/#t
 
-(This mirrors commit 1e5907bcb3a3 ("ASoC: tas2770: Fix handling of
-mute/unmute") which was a fix to the tas2770 driver.)
+The latter two add IRQ handler to log faults and expose a new control.
 
-Fixes: 827ed8a0fa50 ("ASoC: tas2764: Add the driver for the TAS2764")
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
----
- sound/soc/codecs/tas2764.c | 57 +++++++++++++++++++++-----------------
- 1 file changed, 32 insertions(+), 25 deletions(-)
+Martin Povišer (5):
+  ASoC: tas2764: Allow mono streams
+  ASoC: tas2764: Drop conflicting set_bias_level power setting
+  ASoC: tas2764: Fix mute/unmute
+  ASoC: tas2764: Add IRQ handling
+  ASoC: tas2764: Export highpass filter setting
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index f4ac6edefdc0..39902f77a2e0 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -34,6 +34,9 @@ struct tas2764_priv {
- 	
- 	int v_sense_slot;
- 	int i_sense_slot;
-+
-+	bool dac_powered;
-+	bool unmuted;
- };
- 
- static void tas2764_reset(struct tas2764_priv *tas2764)
-@@ -50,6 +53,26 @@ static void tas2764_reset(struct tas2764_priv *tas2764)
- 	usleep_range(1000, 2000);
- }
- 
-+static int tas2764_update_pwr_ctrl(struct tas2764_priv *tas2764)
-+{
-+	struct snd_soc_component *component = tas2764->component;
-+	unsigned int val;
-+	int ret;
-+
-+	if (tas2764->dac_powered)
-+		val = tas2764->unmuted ?
-+			TAS2764_PWR_CTRL_ACTIVE : TAS2764_PWR_CTRL_MUTE;
-+	else
-+		val = TAS2764_PWR_CTRL_SHUTDOWN;
-+
-+	ret = snd_soc_component_update_bits(component, TAS2764_PWR_CTRL,
-+					    TAS2764_PWR_CTRL_MASK, val);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-+
- #ifdef CONFIG_PM
- static int tas2764_codec_suspend(struct snd_soc_component *component)
- {
-@@ -82,9 +105,7 @@ static int tas2764_codec_resume(struct snd_soc_component *component)
- 		usleep_range(1000, 2000);
- 	}
- 
--	ret = snd_soc_component_update_bits(component, TAS2764_PWR_CTRL,
--					    TAS2764_PWR_CTRL_MASK,
--					    TAS2764_PWR_CTRL_ACTIVE);
-+	ret = tas2764_update_pwr_ctrl(tas2764);
- 
- 	if (ret < 0)
- 		return ret;
-@@ -118,14 +139,12 @@ static int tas2764_dac_event(struct snd_soc_dapm_widget *w,
- 
- 	switch (event) {
- 	case SND_SOC_DAPM_POST_PMU:
--		ret = snd_soc_component_update_bits(component, TAS2764_PWR_CTRL,
--						    TAS2764_PWR_CTRL_MASK,
--						    TAS2764_PWR_CTRL_MUTE);
-+		tas2764->dac_powered = true;
-+		ret = tas2764_update_pwr_ctrl(tas2764);
- 		break;
- 	case SND_SOC_DAPM_PRE_PMD:
--		ret = snd_soc_component_update_bits(component, TAS2764_PWR_CTRL,
--						    TAS2764_PWR_CTRL_MASK,
--						    TAS2764_PWR_CTRL_SHUTDOWN);
-+		tas2764->dac_powered = false;
-+		ret = tas2764_update_pwr_ctrl(tas2764);
- 		break;
- 	default:
- 		dev_err(tas2764->dev, "Unsupported event\n");
-@@ -170,17 +189,11 @@ static const struct snd_soc_dapm_route tas2764_audio_map[] = {
- 
- static int tas2764_mute(struct snd_soc_dai *dai, int mute, int direction)
- {
--	struct snd_soc_component *component = dai->component;
--	int ret;
--
--	ret = snd_soc_component_update_bits(component, TAS2764_PWR_CTRL,
--					    TAS2764_PWR_CTRL_MASK,
--					    mute ? TAS2764_PWR_CTRL_MUTE : 0);
-+	struct tas2764_priv *tas2764 =
-+			snd_soc_component_get_drvdata(dai->component);
- 
--	if (ret < 0)
--		return ret;
--
--	return 0;
-+	tas2764->unmuted = !mute;
-+	return tas2764_update_pwr_ctrl(tas2764);
- }
- 
- static int tas2764_set_bitwidth(struct tas2764_priv *tas2764, int bitwidth)
-@@ -494,12 +507,6 @@ static int tas2764_codec_probe(struct snd_soc_component *component)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = snd_soc_component_update_bits(component, TAS2764_PWR_CTRL,
--					    TAS2764_PWR_CTRL_MASK,
--					    TAS2764_PWR_CTRL_MUTE);
--	if (ret < 0)
--		return ret;
--
- 	return 0;
- }
- 
+ sound/soc/codecs/tas2764.c | 181 ++++++++++++++++++++++++++-----------
+ sound/soc/codecs/tas2764.h |  23 +++++
+ 2 files changed, 152 insertions(+), 52 deletions(-)
+
 -- 
 2.33.0
 
