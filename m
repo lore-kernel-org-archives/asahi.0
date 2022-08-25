@@ -1,92 +1,81 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533612F57
-	for <asahi@lists.linux.dev>; Thu, 25 Aug 2022 14:03:01 +0000 (UTC)
-From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1661436172; bh=l8JOb0hAWhVJH3nSwe474gz70FVSVhQNrSMoKlGL5NE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DGrIQhoRsIrW6NeEmOuD5vnKGvGau5m3L5zCZyZQoUzJ4++Obr6tjp31EDTIDVBEH
-	 TlSSOvrhZl0DB/Axv0/GvdZDBh9Z+vK0WGxvVs4nksjHbQPrAjpbMQS+HQiCbKubhC
-	 CC/7BN32D69v6dlKIeo2vKWi0fDQ1ZfQzTxJrWmQ=
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: navada@ti.com,
-	shenghao-ding@ti.com,
-	asyrus@ti.com,
-	raphael-xu@ti.com,
-	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Stephen Kitt <steve@sk2.org>,
-	Dan Murphy <dmurphy@ti.com>,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: [PATCH 5/5] ASoC: tas2764: Export highpass filter setting
-Date: Thu, 25 Aug 2022 16:02:41 +0200
-Message-Id: <20220825140241.53963-6-povik+lin@cutebit.org>
-In-Reply-To: <20220825140241.53963-1-povik+lin@cutebit.org>
-References: <20220825140241.53963-1-povik+lin@cutebit.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A389B33E0
+	for <asahi@lists.linux.dev>; Thu, 25 Aug 2022 15:28:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 171C9C433D7;
+	Thu, 25 Aug 2022 15:28:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1661441297;
+	bh=tQWGFhVvmwiIylyTB+mN9NpSEl/M7BY0JbIVV60nJlo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=p2/k2n3t2NusXB/mMXR36VkEbFi1NSsN0LfyUFY80h3jfsDzX7RYJED4dCwnDdTSk
+	 SqTXz7uf/Sfvnk4SZnOF9GUVRtIA0T4jui+lEQ604JTXiFCAb8ZMRQ25Bls/dDYEq/
+	 uYC9akkLYxXaXp9JKNO0kowcq8n/JRLfSVkPI1J7MLpWmSa6E3z4WSp48a2g1k9iiz
+	 2LGy/bsC/Kwj1+DMLIaMMFHZYIASkdjTLIUB35OB+fpirsdwc5IC4nsfsr4W7kYYzU
+	 ssXjEe6phpMNF4wANWthAgyzCpzAe3uIF09gXsQALoqhp5LjLlXKDqYROPLQnQG+rs
+	 plD447l54U17g==
+From: Mark Brown <broonie@kernel.org>
+To: p.zabel@pengutronix.de, krzysztof.kozlowski+dt@linaro.org, sven@svenpeter.dev, marcan@marcan.st, povik+lin@cutebit.org, lgirdwood@gmail.com, robh+dt@kernel.org
+Cc: asahi@lists.linux.dev, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, alyssa@rosenzweig.io, linux-kernel@vger.kernel.org
+In-Reply-To: <20220824160715.95779-1-povik+lin@cutebit.org>
+References: <20220824160715.95779-1-povik+lin@cutebit.org>
+Subject: Re: (subset) [PATCH v3 0/4] ASoC platform driver for Apple MCA
+Message-Id: <166144129265.526663.12769625949004805936.b4-ty@kernel.org>
+Date: Thu, 25 Aug 2022 16:28:12 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Expose a control for the setting of 'DC blocker' highpass filter in the
-playback path of TAS2764.
+On Wed, 24 Aug 2022 18:07:11 +0200, Martin Povišer wrote:
+> sending what should be the final touches on Apple MCA driver. It most
+> likely goes without saying but please do not merge the DT additions
+> into the ASoC tree.
+> 
+> Martin
+> 
+> Changes since v2:
+>  - fix Mark's style nit
+>  - order compatibles in schema
+>  - redo the DT additions for t8103
+>  - remove stray unlock in mca_be_prepare (and rename the locking patch)
+> Link: https://lore.kernel.org/asahi/20220819125430.4920-1-povik+lin@cutebit.org/T/#t
+> 
+> [...]
 
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
----
- sound/soc/codecs/tas2764.c | 10 ++++++++++
- sound/soc/codecs/tas2764.h |  4 ++++
- 2 files changed, 14 insertions(+)
+Applied to
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index e99a46fb503f..51b87a936179 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -593,11 +593,21 @@ static int tas2764_codec_probe(struct snd_soc_component *component)
- static DECLARE_TLV_DB_SCALE(tas2764_digital_tlv, 1100, 50, 0);
- static DECLARE_TLV_DB_SCALE(tas2764_playback_volume, -10050, 50, 1);
- 
-+static const char * const tas2764_hpf_texts[] = {
-+	"Disabled", "2 Hz", "50 Hz", "100 Hz", "200 Hz",
-+	"400 Hz", "800 Hz"
-+};
-+
-+static SOC_ENUM_SINGLE_DECL(
-+	tas2764_hpf_enum, TAS2764_DC_BLK0,
-+	TAS2764_DC_BLK0_HPF_FREQ_PB_SHIFT, tas2764_hpf_texts);
-+
- static const struct snd_kcontrol_new tas2764_snd_controls[] = {
- 	SOC_SINGLE_TLV("Speaker Volume", TAS2764_DVC, 0,
- 		       TAS2764_DVC_MAX, 1, tas2764_playback_volume),
- 	SOC_SINGLE_TLV("Amp Gain Volume", TAS2764_CHNL_0, 1, 0x14, 0,
- 		       tas2764_digital_tlv),
-+	SOC_ENUM("HPF Corner Frequency", tas2764_hpf_enum),
- };
- 
- static const struct snd_soc_component_driver soc_component_driver_tas2764 = {
-diff --git a/sound/soc/codecs/tas2764.h b/sound/soc/codecs/tas2764.h
-index 960b337ed0fc..168af772a898 100644
---- a/sound/soc/codecs/tas2764.h
-+++ b/sound/soc/codecs/tas2764.h
-@@ -33,6 +33,10 @@
- #define TAS2764_VSENSE_POWER_EN		3
- #define TAS2764_ISENSE_POWER_EN		4
- 
-+/* DC Blocker Control */
-+#define TAS2764_DC_BLK0			TAS2764_REG(0x0, 0x04)
-+#define TAS2764_DC_BLK0_HPF_FREQ_PB_SHIFT  0
-+
- /* Digital Volume Control */
- #define TAS2764_DVC	TAS2764_REG(0X0, 0x1a)
- #define TAS2764_DVC_MAX	0xc9
--- 
-2.33.0
+   broonie/sound.git for-next
 
+Thanks!
+
+[1/4] dt-bindings: sound: Add Apple MCA I2S transceiver
+      commit: 6ed462d1c1167506479089e655355b3c123fee89
+[3/4] ASoC: apple: mca: Start new platform driver
+      commit: 3df5d0d972893d3c0df5aead8152fe1ad48ef45c
+[4/4] ASoC: apple: mca: Add locking
+      commit: 4065f0b25b7b30ba4dd4665deb5305ead1c0db25
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
