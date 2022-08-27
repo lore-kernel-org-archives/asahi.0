@@ -1,81 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A389B33E0
-	for <asahi@lists.linux.dev>; Thu, 25 Aug 2022 15:28:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 171C9C433D7;
-	Thu, 25 Aug 2022 15:28:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661441297;
-	bh=tQWGFhVvmwiIylyTB+mN9NpSEl/M7BY0JbIVV60nJlo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=p2/k2n3t2NusXB/mMXR36VkEbFi1NSsN0LfyUFY80h3jfsDzX7RYJED4dCwnDdTSk
-	 SqTXz7uf/Sfvnk4SZnOF9GUVRtIA0T4jui+lEQ604JTXiFCAb8ZMRQ25Bls/dDYEq/
-	 uYC9akkLYxXaXp9JKNO0kowcq8n/JRLfSVkPI1J7MLpWmSa6E3z4WSp48a2g1k9iiz
-	 2LGy/bsC/Kwj1+DMLIaMMFHZYIASkdjTLIUB35OB+fpirsdwc5IC4nsfsr4W7kYYzU
-	 ssXjEe6phpMNF4wANWthAgyzCpzAe3uIF09gXsQALoqhp5LjLlXKDqYROPLQnQG+rs
-	 plD447l54U17g==
-From: Mark Brown <broonie@kernel.org>
-To: p.zabel@pengutronix.de, krzysztof.kozlowski+dt@linaro.org, sven@svenpeter.dev, marcan@marcan.st, povik+lin@cutebit.org, lgirdwood@gmail.com, robh+dt@kernel.org
-Cc: asahi@lists.linux.dev, devicetree@vger.kernel.org, alsa-devel@alsa-project.org, alyssa@rosenzweig.io, linux-kernel@vger.kernel.org
-In-Reply-To: <20220824160715.95779-1-povik+lin@cutebit.org>
-References: <20220824160715.95779-1-povik+lin@cutebit.org>
-Subject: Re: (subset) [PATCH v3 0/4] ASoC platform driver for Apple MCA
-Message-Id: <166144129265.526663.12769625949004805936.b4-ty@kernel.org>
-Date: Thu, 25 Aug 2022 16:28:12 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4234D3C1D
+	for <asahi@lists.linux.dev>; Sat, 27 Aug 2022 12:06:11 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id cr9so3075676qtb.13
+        for <asahi@lists.linux.dev>; Sat, 27 Aug 2022 05:06:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=GwEAUoAsvSKAuI3T7BnBX/XzvogeDEWCtliQKkHfxU4=;
+        b=ROAfxbu7W8pLqK0F2H9HpYyBIofrqp/7lOLmQy1Tt3vGqx830iaMXpBb0vv5mnaZa9
+         DHkx/J418Iv9Ob2+05fLaaXJdwSB7Sg1LqQxEb+lbSjArD48K7AkddY5ubJywNEK7Sw3
+         //R/0GqGW5EBFO+G/5jIBl2e7uN4l99h/NLjo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=GwEAUoAsvSKAuI3T7BnBX/XzvogeDEWCtliQKkHfxU4=;
+        b=IkGjYYyOUtQtPME66jNtWuyoBEadiNPFDdV/AlsvChyQS/WumenHZMTcaXTYwDZ4A9
+         E/cL3BxreW6nz7KWC3Wx5zQZRC0p131o2DyUzl7RCopJOSXlRnUN2YYmyTGyrzE3k2k6
+         p46zajQSWkccvVxfdjJzEdSNbQ+NkfCq0HAPdeQE+1j7etBJ+iZxfUR43D+0umPNv1zQ
+         UQCp+Duw+riyWicvbu86UShHhNKJGJ6xQjHA3iwH09IHjdyD4YfJn4ujfKvtWnLqkWsn
+         SUXklVZvQ6TPaNKWT8HUR1IvTe9V5CDjwUNmIpfzx3dfdIuyCrVuFPdYKEzzw95QTGup
+         JkqA==
+X-Gm-Message-State: ACgBeo3+kAyShyJezBqMqFEVlYtejqvvcjRpD/KXjawZGE99a45ChFcT
+	WQh726V85coZeY4aqyEpEMU09Y8QgXNnBQ==
+X-Google-Smtp-Source: AA6agR5ddtjQzR9v96KExowcIh9PNV0lzC42nhdyacCJbUL5DCKbXir+siU3XbnzhIwtdYkeIpim6A==
+X-Received: by 2002:ac8:4e41:0:b0:343:5c49:951a with SMTP id e1-20020ac84e41000000b003435c49951amr3122721qtw.25.1661601970101;
+        Sat, 27 Aug 2022 05:06:10 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-195-139.ec.res.rr.com. [65.184.195.139])
+        by smtp.gmail.com with ESMTPSA id x6-20020ac86b46000000b00339b8a5639csm1538229qts.95.2022.08.27.05.06.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Aug 2022 05:06:09 -0700 (PDT)
+Date: Sat, 27 Aug 2022 08:06:07 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Sven Peter <sven@svenpeter.dev>,
+	Mark Kettenis <kettenis@openbsd.org>, u-boot@lists.denx.de,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH] nvme: Do a clean NVMe shutdown
+Message-ID: <20220827120607.GF7942@bill-the-cat>
+References: <20220731063131.38271-1-marcan@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6nSyB+bcl/pT7+kx"
+Content-Disposition: inline
+In-Reply-To: <20220731063131.38271-1-marcan@marcan.st>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-On Wed, 24 Aug 2022 18:07:11 +0200, Martin Povišer wrote:
-> sending what should be the final touches on Apple MCA driver. It most
-> likely goes without saying but please do not merge the DT additions
-> into the ASoC tree.
-> 
-> Martin
-> 
-> Changes since v2:
->  - fix Mark's style nit
->  - order compatibles in schema
->  - redo the DT additions for t8103
->  - remove stray unlock in mca_be_prepare (and rename the locking patch)
-> Link: https://lore.kernel.org/asahi/20220819125430.4920-1-povik+lin@cutebit.org/T/#t
-> 
-> [...]
 
-Applied to
+--6nSyB+bcl/pT7+kx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   broonie/sound.git for-next
+On Sun, Jul 31, 2022 at 03:31:31PM +0900, Hector Martin wrote:
 
-Thanks!
+> The brute-force controller disable method can end up racing controller
+> initilization and causing a crash when we shut down Apple ANS2 NVMe
+> controllers. Do a proper controlled shutdown, which does block until
+> things are quiesced properly. This is nicer in general for all
+> controllers.
+>=20
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Tested-by: Mark Kettenis <kettenis@openbsd.org> [firefly-rk3399]
 
-[1/4] dt-bindings: sound: Add Apple MCA I2S transceiver
-      commit: 6ed462d1c1167506479089e655355b3c123fee89
-[3/4] ASoC: apple: mca: Start new platform driver
-      commit: 3df5d0d972893d3c0df5aead8152fe1ad48ef45c
-[4/4] ASoC: apple: mca: Add locking
-      commit: 4065f0b25b7b30ba4dd4665deb5305ead1c0db25
+Applied to u-boot/master, thanks!
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--=20
+Tom
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--6nSyB+bcl/pT7+kx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmMKCK8ACgkQFHw5/5Y0
+tyzybQv7BtQ1MlhRAe4Oo7VLCwXxTGYuK6opoI+c3heQgvQ3n3Mw9DxfHtKPOjEF
+XDo3E/Ce5HgOcMmXxBAez2GjgOypw3HSmL1vC/nvRNmmMgBp7gONqSpWOLDyWNqw
+aYKdMrFQJQR6T9JvcDn061sU3+2ixYWFGy2+5vaDIpnnyDBlYs2eqIhdVGYnm2x3
+povHQDwPv/PM3bWSFkDlN9qpS0BI6C7aNyviNX1zcuyNFo6tePkSGbzuIyTKpj7G
+fwCsCZqzXhfYSbCr//rziv/gXT3yegFtYIf2D3I1ma5vRvWlECpT6EIRjpgjYDkA
+afDcfb3/fIfz+2mypzRArKY0MXh/NOAQpoM5XpJx1YVy4gHQcw1mzlaC6Xn3NrD8
+du18jst2Uw2XHO/w2AkqZeHJlQnH0RyUEWWf5I7C8IHpqrA2UBhfCqH98twPS/NQ
+cTrp+0Fkom6Yew5XC2toMIrWnL6eJ5D50F8neLkWZDCoiDPZnuLl0e3mZXrh90ce
+bt38Sf7q
+=B2ip
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
+--6nSyB+bcl/pT7+kx--
