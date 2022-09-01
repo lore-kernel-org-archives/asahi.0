@@ -1,93 +1,124 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D643C46A9
-	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 14:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
-	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=OIuuWZHIE79RchMzxo9rcKTVtQlB+aNlI5Cl+pfkoGQ=; b=G1eBjNaG1b4RpXR2bE4d7P2XwL
-	NJi248a9rKrf89X3PkR4RzYu0kirMsJsrNYYyibj0m1eu8cAecuqrjTmM4ZwRPi6v98OII0/b/IVU
-	Mus0CF9MaDTbP4mxUBS4GUJN/Jfcd3Cl8kmsiQaBkwcItL+QnoLXaDPsTaCMk+ByNaeIjBoXUSIqK
-	wlDUm77bhGcuWewBKj7gEP105Mu7/4eR0MBvWM9yV12MdDOicHRN79pizFkKt42qJ/rmPEYCicVrg
-	FREe4ait+/J96hZgfpBNIkRuiv2C2HMtxI2sQ/1P47hWOC8dgtR2zntTgjwVo2CwThPE6APsK0Mm6
-	fV3x/zug==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34038)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1oTkdw-0005vl-CF; Thu, 01 Sep 2022 14:54:04 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1oTkdt-0003Vs-Us; Thu, 01 Sep 2022 14:54:01 +0100
-Date: Thu, 1 Sep 2022 14:54:01 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>, Sven Peter <sven@svenpeter.dev>
-Subject: [PATCH 0/6] Add Apple Mac System Management Controller GPIOs
-Message-ID: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3904A5C82
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 15:06:21 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id b26so11287969ljk.12
+        for <asahi@lists.linux.dev>; Thu, 01 Sep 2022 08:06:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=KCbUSop3WQVL4RTWvtr+n/jabxyBXZUokjzZKHnU5M0=;
+        b=b2G44R7KnF5fTX88ReDvkLzm45zanEpaB49cNMjgDVVrz4TNOidDzAoCL2r4Cdeosl
+         AK20h571HggQWfg3sVDA65zRKZ6JIHxvZtXwviB4RzcyI0BPaUiA/XCT21nio9EzQvVr
+         iLbM/DmRnb1g5z3BGcKjJ4nXHAndFu0hlun63GghH3Elgkr8a5o24Iok+VtHo4htWedC
+         PNXwucC8haXd3P/32QCTWhQ4DQd06S5FhJVBmEfIakUHcAmtz5oSn4f6bAZLqmLALH3/
+         bKMmFKGLbGuflHGj3tV139uLu7gbH8pJr28PMOSitOChu39i7ikkJE9jdZ77dPjqGOKI
+         aJUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=KCbUSop3WQVL4RTWvtr+n/jabxyBXZUokjzZKHnU5M0=;
+        b=vBt6Gz70y4GeBmHvHOpehHKn2gHy+0njAs6hR+y0oK4F2EeolcEPi0tKPAZQroJBbV
+         DnbcKBIlqdB1/mmIPp/d7BEC4OdLfqivXLl/0M6pIO+RgUJqg73CSyQ69QWSt24ZIFcQ
+         dB8BsVeOlVgfsA+3Fxq+vBDIwYBJS/AUl1GpLaSbxL/729HlHpGxAvdQlpUL7zrG4XzG
+         K3KocbqyS82yqF2coexvSWrO31FPNH2TKqUhjAtjM1ID4ATcv/XEIknwvuxJ5+j+Rx/E
+         X8Q6PTQ+YPv3ykFjM39t9Vq5nQ5tuzJqoDZ7niYkv4GvAwmHczbqG3WSepTwq2I7R6Lk
+         2o1w==
+X-Gm-Message-State: ACgBeo2oZnCLYGRZZVb6LknO3q2GSRAiZgrrgLswBuyIdlNpGgDR5twS
+	C+p8GfEIreSWlv9WE0LIyDKjJA==
+X-Google-Smtp-Source: AA6agR4v82tzjRxzkl50GAILGvdU/4Z8/oNIC6ddy1jLimYFNB37TxV7X+A0H1YFvTJk0OU7i+85SQ==
+X-Received: by 2002:a05:651c:1993:b0:263:a41d:3d7b with SMTP id bx19-20020a05651c199300b00263a41d3d7bmr6374222ljb.63.1662044779237;
+        Thu, 01 Sep 2022 08:06:19 -0700 (PDT)
+Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
+        by smtp.gmail.com with ESMTPSA id 11-20020ac2482b000000b00492e2918a5asm1352324lft.269.2022.09.01.08.06.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 08:06:18 -0700 (PDT)
+Message-ID: <426469c1-13cc-178b-4904-09439d7788e8@linaro.org>
+Date: Thu, 1 Sep 2022 18:06:17 +0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+Content-Language: en-US
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+ Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>,
+ linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+ Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+ <E1oTkeH-003t9A-3K@rmk-PC.armlinux.org.uk>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <E1oTkeH-003t9A-3K@rmk-PC.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 01/09/2022 16:54, Russell King (Oracle) wrote:
+> Add a DT binding for the Apple Mac System Management Controller.
+> 
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-This series adds support for the Apple Mac GPIO driver. These GPIOs
-are hadled via the System Management Controller.
+Thank you for your patch. There is something to discuss/improve.
 
-The first two patches add the DT binding documentation for the new
-drivers.
+> +
+> +maintainers:
+> +  - Hector Martin <marcan@marcan.st>
+> +
+> +description:
+> +  Apple Mac System Management Controller implements various functions
+> +  such as GPIO, RTC, power, reboot.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +        - apple,t8103-smc
 
-The second two patches add the core System Management Controller
-support.
+You miss two spaces of indentation on this level.
 
-The last two patches add the GPIO support.
+> +        - apple,t8112-smc
+> +        - apple,t6000-smc
 
-DT updates will follow once the bindings have been reviewed.
+Bring some order here - either alphabetical or by date of release (as in
+other Apple schemas). I think t6000 was before t8112, so it's none of
+that orders.
 
-Patches taken from the Asahi project.
+> +      - const: apple,smc
+> +
+> +  reg:
+> +    description: Two regions, one for the SMC area and one for the SRAM area.
 
- .../devicetree/bindings/gpio/gpio-macsmc.yaml      |  28 ++
- .../devicetree/bindings/mfd/apple,smc.yaml         |  57 +++
- drivers/gpio/Kconfig                               |  11 +
- drivers/gpio/Makefile                              |   1 +
- drivers/gpio/gpio-macsmc.c                         | 394 ++++++++++++++++++
- drivers/platform/Kconfig                           |   2 +
- drivers/platform/Makefile                          |   1 +
- drivers/platform/apple/Kconfig                     |  49 +++
- drivers/platform/apple/Makefile                    |  11 +
- drivers/platform/apple/smc.h                       |  28 ++
- drivers/platform/apple/smc_core.c                  | 249 ++++++++++++
- drivers/platform/apple/smc_rtkit.c                 | 451 +++++++++++++++++++++
- drivers/soc/apple/rtkit.c                          |   6 +
- include/linux/mfd/macsmc.h                         |  86 ++++
- include/linux/soc/apple/rtkit.h                    |  12 +
- 15 files changed, 1386 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
- create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
- create mode 100644 drivers/gpio/gpio-macsmc.c
- create mode 100644 drivers/platform/apple/Kconfig
- create mode 100644 drivers/platform/apple/Makefile
- create mode 100644 drivers/platform/apple/smc.h
- create mode 100644 drivers/platform/apple/smc_core.c
- create mode 100644 drivers/platform/apple/smc_rtkit.c
- create mode 100644 include/linux/mfd/macsmc.h
+You need constraints for size/order, so in this context list with
+described items.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+> +
+> +  reg-names:
+> +    items:
+> +      - const: smc
+> +      - const: sram
+> +
+> +  mboxes:
+> +    description:
+> +      A phandle to the mailbox channel
+
+Missing maxItems
+
+> +
+> +additionalProperties: false
+> +
+Best regards,
+Krzysztof
