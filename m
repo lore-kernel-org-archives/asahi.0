@@ -1,85 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D43980A
-	for <asahi@lists.linux.dev>; Wed, 31 Aug 2022 12:41:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80FCCC433D6;
-	Wed, 31 Aug 2022 12:40:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1661949660;
-	bh=7VXQYgpXHFCTbsB76XEzNCO0/kCouomL6yAB9DRolFU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gK8ay9jX2GrmzFfm/INug7cwJ3Vfwp9XYW5uQMddvnKaa8evOjTkpOvFF5Nbp5gfO
-	 JodIaicNHhSnIUlvXRsizxFvU1ItfcHy36SiEw8hpg/kROAJt1fhfTofN4xmGJ9GOj
-	 M9Y6dB00tL+fA8ZQTNdbtbVrB0Mt6D+ew1/SJXKlMLkOrPSwakKRD903UTnYG1K0kj
-	 9eBd+BzSkbbN2uUij4pKzlCXn83dhYGtzeLQejcPbNG/Wt/Rh3VqXVODId6BHkzVjS
-	 Kcl//nHCkhdAn3tMzvHikW7v7uMUAjafHkiXbt0z43cM/GjaS+f8fHtpnYT9ozAJ1V
-	 1mr40x6Yte2dg==
-From: Mark Brown <broonie@kernel.org>
-To: Hector Martin <marcan@marcan.st>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Liam Girdwood <lgirdwood@gmail.com>, Martin Povišer <povik+lin@cutebit.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- alsa-devel@alsa-project.org, asahi@lists.linux.dev
-In-Reply-To: <20220824160715.95779-1-povik+lin@cutebit.org>
-References: <20220824160715.95779-1-povik+lin@cutebit.org>
-Subject: Re: (subset) [PATCH v3 0/4] ASoC platform driver for Apple MCA
-Message-Id: <166194965823.85274.11181035918338902693.b4-ty@kernel.org>
-Date: Wed, 31 Aug 2022 13:40:58 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4F67E2
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 00:22:36 +0000 (UTC)
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+	id 22D3326EF4A; Thu,  1 Sep 2022 02:22:34 +0200 (CEST)
+Date: Thu, 1 Sep 2022 02:22:34 +0200
+From: Janne Grunau <j@jannau.net>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: iommu@lists.linux-foundation.org,
+	Konrad Dybcio <konrad.dybcio@somainline.org>, asahi@lists.linux.dev,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Georgi Djakov <quic_c_gdjako@quicinc.com>,
+	Hector Martin <marcan@marcan.st>,
+	"Isaac J. Manjarres" <isaacm@codeaurora.org>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] iommu/io-pgtable-dart: Add DART PTE support for
+ t6000
+Message-ID: <20220901002234.GD10102@jannau.net>
+References: <20220621071848.14834-1-j@jannau.net>
+ <20220621071848.14834-5-j@jannau.net>
+ <2df8c1d1-fb83-5b92-d32a-6b8ba988844c@arm.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-0c1df
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2df8c1d1-fb83-5b92-d32a-6b8ba988844c@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, 24 Aug 2022 18:07:11 +0200, Martin Povišer wrote:
-> sending what should be the final touches on Apple MCA driver. It most
-> likely goes without saying but please do not merge the DT additions
-> into the ASoC tree.
-> 
-> Martin
-> 
-> Changes since v2:
->  - fix Mark's style nit
->  - order compatibles in schema
->  - redo the DT additions for t8103
->  - remove stray unlock in mca_be_prepare (and rename the locking patch)
-> Link: https://lore.kernel.org/asahi/20220819125430.4920-1-povik+lin@cutebit.org/T/#t
-> 
+On 2022-06-27 16:13:20 +0100, Robin Murphy wrote:
+> On 2022-06-21 08:18, Janne Grunau wrote:
+> > From: Sven Peter <sven@svenpeter.dev>
+> > 
+> > The DARTs present in the M1 Pro/Max/Ultra SoC use a diffent PTE format.
+> > They support a 42bit physical address space by shifting the paddr and
+> > extending its mask inside the PTE.
+> > They also come with mandatory sub-page protection now which we just
+> > configure to always allow access to the entire page. This feature is
+> > already present but optional on the previous DARTs which allows to
+> > unconditionally configure it.
+> > 
+> > Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> > Co-developed-by: Janne Grunau <j@jannau.net>
+> > Signed-off-by: Janne Grunau <j@jannau.net>
+> > 
+> > ---
+> > 
+> > Changes in v3:
+> > - apply change to io-pgtable-dart.c
+> > - handle pte <> paddr conversion based on the pte format instead of
+> >    the output address size
+> > 
+> > Changes in v2:
+> > - add APPLE_DART2 PTE format
+> > 
+> >   drivers/iommu/io-pgtable-dart.c | 51 +++++++++++++++++++++++++++------
+> >   drivers/iommu/io-pgtable.c      |  1 +
+> >   include/linux/io-pgtable.h      |  1 +
+> >   3 files changed, 45 insertions(+), 8 deletions(-)
+> > 
 > [...]
+> > @@ -536,7 +571,7 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
+> >   	if (!cfg->coherent_walk)
+> >   		return NULL;
+> > -	if (cfg->oas > 36)
+> > +	if (cfg->oas != 36 && cfg->oas != 42)
+> >   		return NULL;
+> 
+> Wouldn't it make sense to tie this to the format? Maybe 36-bit OAS is still
+> valid with v2, but presumably 42-bit with v1 definitely isn't.
 
-Applied to
+The format is not know inside the alloc call unless I add per format 
+alloc wrapper. I think we can trust the caller for now.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Janne
 
-Thanks!
-
-[1/4] dt-bindings: sound: Add Apple MCA I2S transceiver
-      commit: 6ed462d1c1167506479089e655355b3c123fee89
-[3/4] ASoC: apple: mca: Start new platform driver
-      commit: 3df5d0d972893d3c0df5aead8152fe1ad48ef45c
-[4/4] ASoC: apple: mca: Add locking
-      commit: 4065f0b25b7b30ba4dd4665deb5305ead1c0db25
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
