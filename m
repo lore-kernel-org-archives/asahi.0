@@ -1,92 +1,116 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512246AA9
-	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 15:12:37 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id y10so15083096ljq.0
-        for <asahi@lists.linux.dev>; Thu, 01 Sep 2022 08:12:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=qTC2Y70APRJOcps3tf6QOae/fOMCH2muBNa4G8Z6yPs=;
-        b=J1TYZkwC0XhQDSfLrkftWdaC2pwGjiDifNnjEa6B86mdUJo0eZRfPaMBgBPzzxGofr
-         F3yf0h2RFfn1UocIllVNmkov5IDmsmHAS+/oqBSfSAolxYv6sAb1MpHiL7AHLfEa1yUO
-         yvLOzCvHf2tmrljoFBfwLEfMRVg11vAVdq9m2T+kusBJyoomTRhhKFxeHEq5aiHWbcsy
-         Prg/gzK2vq10/sIhjXSGa84BIHGYkoiX8GEqJdrbq1Qu1oJhDbBiQiyEQUUgYcLSwJOh
-         sP5A9zYPc5h4hrDmyV0RQ9hl5fDfWkD+H71MdExNw1sYta0akN3QuJ5kVeSQCEnBZ6VW
-         mbUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=qTC2Y70APRJOcps3tf6QOae/fOMCH2muBNa4G8Z6yPs=;
-        b=LbWeNYfAxX8WlbbFlp1u6dJsZyIsk30c2h/sitlFz4KmQtyCZZZImrNGqOUkUNJClm
-         Kc2umZvQB8+Ae63iPgIDACC4LH2eAAHmQeyOsbjTkYpR29NqsYecLuc1vHZVaLulEnjO
-         QjBOrJ4Mnq9bsJ2IGlYsScthUTVfacxUJ0k35nRlAPlKXDim6GQfb1f41pE3caxJ149r
-         iOrpsO1MZXY4dGlyTUgk6PZUM/LOdFjI7CEdM/24JuIZKEgHrbvRUHc+oOIMWfxZxcYl
-         6SL/Yiq+XucLMA9ILuLkS3iRgCoKa7/z2l8hRb7YjJ9N4n12nTwYThqhkN/+3pCeAkVL
-         WCWg==
-X-Gm-Message-State: ACgBeo34ks3uv7uHhnPyjjVsQmkNvlzq2kReTpywp9PA64oijwE/BR3P
-	KI2ahRnHxyZGl77nu5SfyBUCng==
-X-Google-Smtp-Source: AA6agR4ugS5tyTwVwYnuIaQklpVkzkiOpqJmaKPSnCGjhxjT9arcAzMb64uBWCZfCu3H+QzZlAfpOQ==
-X-Received: by 2002:a2e:a552:0:b0:25e:6fa1:a6c4 with SMTP id e18-20020a2ea552000000b0025e6fa1a6c4mr9388414ljn.90.1662045155444;
-        Thu, 01 Sep 2022 08:12:35 -0700 (PDT)
-Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
-        by smtp.gmail.com with ESMTPSA id b1-20020a056512070100b004947fcf0c0bsm912235lfs.281.2022.09.01.08.12.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 08:12:35 -0700 (PDT)
-Message-ID: <be6cda7d-28ab-6fe8-e0ee-5e448c7696b9@linaro.org>
-Date: Thu, 1 Sep 2022 18:12:33 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650B96AA9
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 15:13:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=7/CPUX/ynohOIeOlrrCDAduWf8K/FPNJKtQygx9Ka8s=; b=juSZdZGS4bX9rnvdMqR/Hfpr3G
+	arfHNxdZolfPYmWDH4tAtE6ttCm5jfJ0RVqWmsxe99WEA+OkKfVoi/xrwFRWCqnaBJz8kOeuK74Ps
+	dx9gKD7nbZ80NQ7HSiH523esNkX+otgpweGSJxZJTknSs/Og6DOR1/8+kyDXDgXJeUz00uncAhPdg
+	Xy/FHzV9VTZeCaEMd43pINKdupH/4yKx2PCBSr2Btp7chL2sORFGQbjSAotiIq9udFb2yh/DBsSH4
+	9Xv764w9NUsUToE1vvZlv4+DQqIvVn0ObzR9OcY846L1KaOZbQAbSUZIBQjiRluLiQ7KAEk/OmFyu
+	BasqDYbQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34040)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oTlsJ-00067A-CL; Thu, 01 Sep 2022 16:12:59 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oTlsH-0003Ym-5L; Thu, 01 Sep 2022 16:12:57 +0100
+Date: Thu, 1 Sep 2022 16:12:57 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Hector Martin <marcan@marcan.st>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+Message-ID: <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+ <E1oTkeH-003t9A-3K@rmk-PC.armlinux.org.uk>
+ <426469c1-13cc-178b-4904-09439d7788e8@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 0/6] Add Apple Mac System Management Controller GPIOs
-Content-Language: en-US
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org,
- Hector Martin <marcan@marcan.st>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Sven Peter <sven@svenpeter.dev>
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <426469c1-13cc-178b-4904-09439d7788e8@linaro.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 01/09/2022 16:54, Russell King (Oracle) wrote:
-> Hi,
+On Thu, Sep 01, 2022 at 06:06:17PM +0300, Krzysztof Kozlowski wrote:
+> On 01/09/2022 16:54, Russell King (Oracle) wrote:
+> > Add a DT binding for the Apple Mac System Management Controller.
+> > 
+> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 > 
-> This series adds support for the Apple Mac GPIO driver. These GPIOs
-> are hadled via the System Management Controller.
+> Thank you for your patch. There is something to discuss/improve.
 > 
+> > +
+> > +maintainers:
+> > +  - Hector Martin <marcan@marcan.st>
+> > +
+> > +description:
+> > +  Apple Mac System Management Controller implements various functions
+> > +  such as GPIO, RTC, power, reboot.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +        - apple,t8103-smc
+> 
+> You miss two spaces of indentation on this level.
 
-Thank you for your patch. There is something to discuss/improve.
+Should that be picked up by the dt checker?
 
-> The first two patches add the DT binding documentation for the new
-> drivers.
+> > +        - apple,t8112-smc
+> > +        - apple,t6000-smc
 > 
-> The second two patches add the core System Management Controller
-> support.
-> 
-> The last two patches add the GPIO support.
-> 
-> DT updates will follow once the bindings have been reviewed.
+> Bring some order here - either alphabetical or by date of release (as in
+> other Apple schemas). I think t6000 was before t8112, so it's none of
+> that orders.
 
-...and how can we validate that your DTS actually implements the
-bindings? Typical submission includes everything, either in one patchset
-or at least linked to each other so we can see the user of the bindings.
+Ok.
 
-Best regards,
-Krzysztof
+> > +      - const: apple,smc
+> > +
+> > +  reg:
+> > +    description: Two regions, one for the SMC area and one for the SRAM area.
+> 
+> You need constraints for size/order, so in this context list with
+> described items.
+
+How do I do that? I tried maxItems/minItems set to 2, but the dt checker
+objected to it.
+
+> > +  reg-names:
+> > +    items:
+> > +      - const: smc
+> > +      - const: sram
+> > +
+> > +  mboxes:
+> > +    description:
+> > +      A phandle to the mailbox channel
+> 
+> Missing maxItems
+
+Ok. Would be helpful if the dt checker identified that.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
