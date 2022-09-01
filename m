@@ -1,77 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9393166F7
-	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 13:03:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2BBC433D6;
-	Thu,  1 Sep 2022 13:03:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1662037428;
-	bh=90Pu4Z0995xDSMUAbDdhc76aEoKg03ejpjrv0Doj9I4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=FBK7hgZsdA+O5pr1NwvSIynPqfNnuMlgbe5zK4vUQdsKhp5Vz4ym9Gjrck1eyTNQi
-	 kWzRXOCY9G/1dIqOwItDAAcBBzh5b8l4yItefGPPxUKdU4rl0b4VigzCQSmBjSr9WL
-	 hqTEdP8izC2H3R5i4svNsQ1Y9G3e4nU4Cq/Vs4+bSjaVwLcfHr6/HCnCf28b16UQ9f
-	 rZv/PL9/QX/avS9CHNIgFkFrjZKNiYtBSmwh2zc286cwJoZe+kXKDC4vLCn6dRCe3h
-	 2YUFbX52qqKPPoQg2xblYM/7CdFeEEAK3JrkVXCF+ccrMQVVZdmwo09lKieuiyFTOr
-	 bdWpsCZBp6szQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Martin Povišer <povik+lin@cutebit.org>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, alsa-devel@alsa-project.org
-In-Reply-To: <20220901113415.27449-1-povik+lin@cutebit.org>
-References: <20220901113415.27449-1-povik+lin@cutebit.org>
-Subject: Re: [PATCH 1/2] ASoC: apple: mca: Unselect COMMON_CLK in Kconfig
-Message-Id: <166203742666.66780.529814779896263080.b4-ty@kernel.org>
-Date: Thu, 01 Sep 2022 14:03:46 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D137D46A1
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 13:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
+	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
+	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=dxEWj1HSab4n35vw5dAjlZvV9OByVj0SWQXbX0i1WrE=; b=fb+gyC7QWTqpX408zcS+WuWEui
+	r6HSB1nukSml67CVX1Z89RS9S8hKG+eacF7aZtChAdX5gmpKaXykpDyjn7JdEd2H7phw5kV3czs85
+	9laQlyMLKBKwkOvg7td+W9p1qBoMsPMXJ79dMRmDs+1vAdC084k/J9QdF7tCYzZ27wEfjCg98CjeI
+	na2wl/jfYrZ7TLCVkvKhRSHuaJN0grWeHaoFg7gc1545fGoNj5azJf0ce6XNGGaAExDzTKJLTKWBu
+	u6yHyQD6adrL4w4VW6Oo6q30qGMMhOWwn27CIp8qwj8LejCY7uGeYc5jnAfbODN8gVgaOJ7HlOpA7
+	VRAPfWAA==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:44070 helo=rmk-PC.armlinux.org.uk)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <rmk@armlinux.org.uk>)
+	id 1oTkeH-0005w2-OT; Thu, 01 Sep 2022 14:54:25 +0100
+Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
+	id 1oTkeH-003t9A-3K; Thu, 01 Sep 2022 14:54:25 +0100
+In-Reply-To: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+To: Arnd Bergmann <arnd@arndb.de>,
+	 Lee Jones <lee@kernel.org>,
+	 Linus Walleij <linus.walleij@linaro.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Hector Martin <marcan@marcan.st>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	Sven Peter <sven@svenpeter.dev>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-0c1df
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <E1oTkeH-003t9A-3K@rmk-PC.armlinux.org.uk>
+Sender: Russell King <rmk@armlinux.org.uk>
+Date: Thu, 01 Sep 2022 14:54:25 +0100
 
-On Thu, 1 Sep 2022 13:34:14 +0200, Martin Povišer wrote:
-> The MCA driver selects COMMON_CLK, which leads to misconfiguration
-> on platforms with HAVE_LEGACY_CLK (under compile test). Kconfig catches
-> the conflict with the following warning:
-> 
->   WARNING: unmet direct dependencies detected for COMMON_CLK
->   Depends on [n]: !HAVE_LEGACY_CLK [=y]
->   Selected by [m]:
->   - SND_SOC_APPLE_MCA [=m] && SOUND [=m] && !UML && SND [=m] &&
->     SND_SOC [=m] && (ARCH_APPLE || COMPILE_TEST [=y])
-> 
-> [...]
+Add a DT binding for the Apple Mac System Management Controller.
 
-Applied to
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+---
+ .../devicetree/bindings/mfd/apple,smc.yaml    | 53 +++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+new file mode 100644
+index 000000000000..794d3a6eb04a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+@@ -0,0 +1,53 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple Mac System Management Controller
++
++maintainers:
++  - Hector Martin <marcan@marcan.st>
++
++description:
++  Apple Mac System Management Controller implements various functions
++  such as GPIO, RTC, power, reboot.
++
++properties:
++  compatible:
++    items:
++      - enum:
++        - apple,t8103-smc
++        - apple,t8112-smc
++        - apple,t6000-smc
++      - const: apple,smc
++
++  reg:
++    description: Two regions, one for the SMC area and one for the SRAM area.
++
++  reg-names:
++    items:
++      - const: smc
++      - const: sram
++
++  mboxes:
++    description:
++      A phandle to the mailbox channel
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - mboxes
++
++examples:
++  - |
++    smc@23e400000 {
++      compatible = "apple,t8103-smc", "apple,smc";
++      reg = <0x2 0x3e400000 0x0 0x4000>,
++             <0x2 0x3fe00000 0x0 0x100000>;
++      reg-names = "smc", "sram";
++      mboxes = <&smc_mbox>;
++    };
+-- 
+2.30.2
 
-Thanks!
-
-[1/2] ASoC: apple: mca: Unselect COMMON_CLK in Kconfig
-      commit: 7d2497b7fd3bf45706360bfe289f19d61d37f536
-[2/2] MAINTAINERS: Fix file pattern for ARM/APPLE MACHINE SOUND DRIVERS
-      commit: 55e2bd9c41e800638676dce3f19dcfd16b309a08
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
