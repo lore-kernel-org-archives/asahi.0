@@ -1,50 +1,50 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E333B6AD6
-	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 18:04:26 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id h22so14091994qtu.2
-        for <asahi@lists.linux.dev>; Thu, 01 Sep 2022 11:04:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9749C3202
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 18:56:00 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id j6so25424qkl.10
+        for <asahi@lists.linux.dev>; Thu, 01 Sep 2022 11:56:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=Zv8zSKFq6bzQqKXYqWy0Qx4amMNXqj8LcRMKjpftT8k=;
-        b=KUOKej5nPOeGXo5nEfUAHYOLs5eyvNYlpPTgCZVwvX1z47fwyYmBooIcwdClVmNz/v
-         BRlsK21Dt9FO/arMv4k1bBH9kpHYhGlhCYiHWwSs7zcTWAS1o68a1rng8ufeVyq64mCt
-         p546eMwZIIcOP8bw44GqQ79ZHCkKG3OtwLGvXJ8UJulq9EvJ/SlNLAoghw4QreA9qeju
-         3+z4Yxdu9AcK3lIk8lLUAEA0Ts0X4QHz8YrmEABFlwU8pmOnUzx5OVD4tlF8JlFdgDWG
-         G+M+vJxEIoIdPawxcqf3xok6F/M0ttOpxReuVfdwkBWLnB/drLA8iRY22Wj87RvL3w+E
-         jGsQ==
+        bh=1VvKQrI+SSW3GbbR3EcVWpVRmYCp6SaG8dIjhzsYhOM=;
+        b=Bh36Zm/09czxvJIp6FKPj/gpDE2cQv5AUbtCEww7iLv77eW+xe70dYVjKj8o0DKgkp
+         wX5sNd2NIxQZZHMIouEgDUx2HVgoi+JhXP16roRVEPLgjneAOLJo0badD8V14/T6aAIc
+         BYEWg1IuGeQi5Dh4nHFvq2eFQpOaYBufXZ7qCy88SMhJevvMR1CEENesqlyR3exklmHx
+         hOcHxLhJtfupJ3PgfRe/mvZmU1k+2jQ9Oi1NfHRNNF8pBFKczaONc6hb7Pa3yQHtU9LJ
+         MYgFIKZHOfhRt5NWgRpuHQvaKcK5oJCDjKoeY0Ad4kfCRracjbRMMCSPKXRqlBYXywSW
+         cEzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Zv8zSKFq6bzQqKXYqWy0Qx4amMNXqj8LcRMKjpftT8k=;
-        b=JEe0OizL0HKelzm2v3SumHBTjIaMwRqpvaHeM1O1XwvQhdcRdEASZi8MbaVmqE/xpC
-         myLDcget7bYSNbYQzlB9w4kqAg0TvNcinGNR2BTMNtASBsbJiJIVyv4nn9u9WJkf5SSQ
-         a+2by2PvmD50NPrjVC9/e9D2MU8Sw+op6v/0RuNS3LxYJ8DyB9vgFZclKqJi9XQaOJlx
-         rz0NnMjUCersGc2jRRofg6S18CZrqGAwMgzhHADHF0DN7tYyUZjMHcnZTDyldhFQ6eKZ
-         8Mvw7jrCgJ1yuezapKd7vQD7CcJbTVkUaqHUjESL+IUB/1rTpAHjJlHFTyxnecuvfZ5c
-         vvlA==
-X-Gm-Message-State: ACgBeo23o3WcNLemorVTOFnlutImJ2ydRWN7gksqQMJ994ojSLaWe9cU
-	EwXRKyVueIvVGri3qlq5TauHHV9uMDbjmO3HqRg=
-X-Google-Smtp-Source: AA6agR62i/7z5gszNPxCHM2tUNT7IR0EnqVb391hZCNAMeUz4tSPO3zPDqa/NtagcRnkiNQJGORyj3nl76pLbZ0BL1M=
-X-Received: by 2002:ac8:7f92:0:b0:344:8cd8:59a1 with SMTP id
- z18-20020ac87f92000000b003448cd859a1mr25497299qtj.384.1662055465702; Thu, 01
- Sep 2022 11:04:25 -0700 (PDT)
+        bh=1VvKQrI+SSW3GbbR3EcVWpVRmYCp6SaG8dIjhzsYhOM=;
+        b=vNn3LvF1OYaA6ihhFN9mFv6KPOniaXvTK+k6aHHE245mdaFJgq7RfpyHmWSzD0vw9R
+         HCgKu1BhGcHD8gJuQ2Swqst3ffPmBrjbT7H34962qk4o+FSCgI1lGTRMzVoQ+HZ4Fnm/
+         Cbcnh776Yz/RkBmzbttZyVeB43Nu/avnqq+iVlgwyRh+84xpbEe/nGkykJN94J+rgnDN
+         7fae+wOFeem6QOHc4NbUgrSMCN3uz/WatTYkhQ0k0Dq4XrFF65phfP8CEM2Yk7DJ/Ywj
+         93R1sirSZuMfEOoDuUg+2RRPqzRFtrYLGIoztPk0wbuM4xUkOeMyCDkIHsnmD9QLGiW9
+         XZpQ==
+X-Gm-Message-State: ACgBeo09GZjGKvhyxC4yCPHDGDa6hnr0OZGsPMkYXYhLjUt69ktZhKPT
+	HTHybk2BKyLkA8cXmfS+6zJy4bQPqesA05l/V24=
+X-Google-Smtp-Source: AA6agR6yVph8B9MEmz/Yn3Kga+Chvz+h6RQ4roBohfY8Ki1bWSSoJdC3BLtoybu3oxfMWiUVAIYlbYqnS2VKv/VV7oI=
+X-Received: by 2002:a05:620a:254d:b0:6ab:84b8:25eb with SMTP id
+ s13-20020a05620a254d00b006ab84b825ebmr20567527qko.383.1662058559429; Thu, 01
+ Sep 2022 11:55:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeg-003t9k-Mc@rmk-PC.armlinux.org.uk>
-In-Reply-To: <E1oTkeg-003t9k-Mc@rmk-PC.armlinux.org.uk>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 1 Sep 2022 21:03:49 +0300
-Message-ID: <CAHp75VfW7uj=+vwGRLsUJEjF-bQLL2EdVNfAnF6iDUqryksC+w@mail.gmail.com>
-Subject: Re: [PATCH 6/6] gpio: macsmc: Add IRQ support
+Date: Thu, 1 Sep 2022 21:55:23 +0300
+Message-ID: <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
+Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
 To: Russell King <rmk+kernel@armlinux.org.uk>
 Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>, 
 	Linus Walleij <linus.walleij@linaro.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
@@ -53,132 +53,190 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
 	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Sven Peter <sven@svenpeter.dev>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 1, 2022 at 5:18 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
+On Thu, Sep 1, 2022 at 5:17 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
 >
 > From: Hector Martin <marcan@marcan.st>
 >
-> Add IRQ support to the macsmc driver. This patch has updates from Joey
-> Gouly and Russell King.
+> This driver implements the GPIO service on top of the SMC framework
+> on Apple Mac machines. In particular, these are the GPIOs present in the
+> PMU IC which are used to control power to certain on-board devices.
+>
+> Although the underlying hardware supports various pin config settings
+> (input/output, open drain, etc.), this driver does not implement that
+> functionality and leaves it up to the firmware to configure things
+> properly. We also don't yet support interrupts/events. This is
+> sufficient for device power control, which is the only thing we need to
+> support at this point. More features will be implemented when needed.
+>
+> To our knowledge, only Apple Silicon Macs implement this SMC feature.
 
 ...
 
-> +       u16 type = event >> 16;
-> +       u8 offset = (event >> 8) & 0xff;
+> +/*
+> + * Commands 0-6 are, presumably, the intended API.
 
-The ' & 0xff' part is redundant.
+> + * Command 0xff lets you get/set the pin configuration in detail directly,
+> + * but the bit meanings seem not to be stable between devices/PMU hardware
+> + * versions.
+
+Probably for debugging purposes...
+
+> + *
+> + * We're going to try to make do with the low commands for now.
+> + * We don't implement pin mode changes at this time.
+> + */
 
 ...
 
-> +       return (ret == 0) ? NOTIFY_OK : NOTIFY_DONE;
+> +/*
+> + * output modes seem to differ depending on the PMU in use... ?
 
-Parentheses and ' == 0' parts are redundant. You may swap ternary operands.
+Output
+
+> + * j274 / M1 (Sera PMU):
+> + *   0 = input
+> + *   1 = output
+> + *   2 = open drain
+> + *   3 = disable
+> + * j314 / M1Pro (Maverick PMU):
+> + *   0 = input
+> + *   1 = open drain
+> + *   2 = output
+> + *   3 = ?
+> + */
 
 ...
 
-> +static void macsmc_gpio_irq_enable(struct irq_data *d)
+> +struct macsmc_gpio {
+> +       struct device *dev;
+> +       struct apple_smc *smc;
+> +       struct gpio_chip gc;
+
+You might save some CPU cycles / code by shuffling members around.
+Usually we put gpio_chip as a first one, so pointer arithmetics to get
+it becomes a bit simpler, but it needs to be checked by the tool and
+also paying attention to what is used in critical paths (so
+performance-wise).
+
+> +       int first_index;
+> +};
+
+...
+
+> +static int macsmc_gpio_nr(smc_key key)
 > +{
-> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
+> +       int low = hex_to_bin(key & 0xff);
+> +       int high = hex_to_bin((key >> 8) & 0xff);
 > +
-> +       gpiochip_enable_irq(gc, irqd_to_hwirq(d));
-> +       set_bit(irqd_to_hwirq(d), smcgp->irq_enable_shadow);
-
-You may use temporary variable for hwirq
-
-  irq_hw_number_t hwirq = irdq_to_hwirq(d);
-
+> +       if (low < 0 || high < 0)
+> +               return -1;
+> +
+> +       return low | (high << 4);
 > +}
-> +
-> +static void macsmc_gpio_irq_disable(struct irq_data *d)
+
+NIH hex2bin().
+
+> +static int macsmc_gpio_key(unsigned int offset)
 > +{
-> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
+> +       return _SMC_KEY("gP\0\0") | (hex_asc_hi(offset) << 8) | hex_asc_lo(offset);
+> +}
+
+NIH hex_byte_pack().
+
+...
+
+> +       /* First try reading the explicit pin mode register */
+> +       ret = apple_smc_rw_u32(smcgp->smc, key, CMD_PINMODE, &val);
+> +       if (!ret)
+> +               return (val & MODE_OUTPUT) ? GPIO_LINE_DIRECTION_OUT : GPIO_LINE_DIRECTION_IN;
 > +
-> +       clear_bit(irqd_to_hwirq(d), smcgp->irq_enable_shadow);
-> +       gpiochip_disable_irq(gc, irqd_to_hwirq(d));
+> +       /*
+> +        * Less common IRQ configs cause CMD_PINMODE to fail, and so does open drain mode.
+> +        * Fall back to reading IRQ mode, which will only succeed for inputs.
+> +        */
+> +       ret = apple_smc_rw_u32(smcgp->smc, key, CMD_IRQ_MODE, &val);
+> +       return (!ret) ? GPIO_LINE_DIRECTION_IN : GPIO_LINE_DIRECTION_OUT;
+
+What is the meaning of val in this case?
+
+...
+
+> +       if (ret == GPIO_LINE_DIRECTION_OUT)
+> +               ret = apple_smc_rw_u32(smcgp->smc, key, CMD_OUTPUT, &val);
+> +       else
+> +               ret = apple_smc_rw_u32(smcgp->smc, key, CMD_INPUT, &val);
+
+> +
+
+Unnecessary blank line.
+
+> +       if (ret < 0)
+> +               return ret;
+
+...
+
+> +       ret = apple_smc_write_u32(smcgp->smc, key, CMD_OUTPUT | value);
+> +       if (ret < 0)
+> +               dev_err(smcgp->dev, "GPIO set failed %p4ch = 0x%x\n", &key, value);
+
+Strange specifier... It seems like a hashed pointer with added (or
+skipped? I don't remember) '4ch'. Perhaps you meant one of '%pE',
+'%p4cc'?
+Ditto for other cases.
+
+
+...
+
+> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
+> +       int count = apple_smc_get_key_count(smcgp->smc) - smcgp->first_index;
+
+I would split this assignment and move it closer to the first user.
+
+> +       int i;
+> +
+> +       if (count > MAX_GPIO)
+> +               count = MAX_GPIO;
+
+Hmm... When can it be the case?
+
+> +       bitmap_zero(valid_mask, ngpios);
+> +
+> +       for (i = 0; i < count; i++) {
+> +               smc_key key;
+> +               int gpio_nr;
+
+> +               int ret = apple_smc_get_key_by_index(smcgp->smc, smcgp->first_index + i, &key);
 
 Ditto.
 
-> +}
 > +
-> +static int macsmc_gpio_irq_set_type(struct irq_data *d, unsigned int type)
-> +{
-> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
+> +               if (ret < 0)
+> +                       return ret;
+> +
+> +               if (key > SMC_KEY(gPff))
+> +                       break;
+> +
+> +               gpio_nr = macsmc_gpio_nr(key);
+> +               if (gpio_nr < 0 || gpio_nr > MAX_GPIO) {
+> +                       dev_err(smcgp->dev, "Bad GPIO key %p4ch\n", &key);
 
-> +       int offset = irqd_to_hwirq(d);
+Yeah, according to the code it will print something you didn't want.
 
-As above.
-
-
-> +       u32 mode;
-
-> +       if (!test_bit(offset, smcgp->irq_supported))
-> +               return -EINVAL;
-
-We have a valid mask for IRQs. Can it be used here instead?
-
-> +       switch (type & IRQ_TYPE_SENSE_MASK) {
-> +       case IRQ_TYPE_LEVEL_HIGH:
-> +               mode = IRQ_MODE_HIGH;
-> +               break;
-> +       case IRQ_TYPE_LEVEL_LOW:
-> +               mode = IRQ_MODE_LOW;
-> +               break;
-> +       case IRQ_TYPE_EDGE_RISING:
-> +               mode = IRQ_MODE_RISING;
-> +               break;
-> +       case IRQ_TYPE_EDGE_FALLING:
-> +               mode = IRQ_MODE_FALLING;
-> +               break;
-> +       case IRQ_TYPE_EDGE_BOTH:
-> +               mode = IRQ_MODE_BOTH;
-> +               break;
-> +       default:
-> +               return -EINVAL;
->         }
->
-> +       smcgp->irq_mode_shadow[offset] = mode;
-
-Usually we want to have handle_bad_irq() handler by default and in
-->set_type() we lock a handler depending on the flags. Why is this not
-the case in this driver?
-
->         return 0;
->  }
+> +                       continue;
+> +               }
+> +
+> +               set_bit(gpio_nr, valid_mask);
+> +       }
+> +
+> +       return 0;
+> +}
 
 ...
 
-> +static void macsmc_gpio_irq_bus_sync_unlock(struct irq_data *d)
-> +{
-> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
+> +       pdev->dev.of_node = of_get_child_by_name(pdev->dev.parent->of_node, "gpio");
 
-> +       smc_key key = macsmc_gpio_key(irqd_to_hwirq(d));
-> +       int offset = irqd_to_hwirq(d);
-
-As above.
-
-> +       bool val;
-> +
-> +       if (smcgp->irq_mode_shadow[offset] != smcgp->irq_mode[offset]) {
-> +               u32 cmd = CMD_IRQ_MODE | smcgp->irq_mode_shadow[offset];
-> +               if (apple_smc_write_u32(smcgp->smc, key, cmd) < 0)
-> +                       dev_err(smcgp->dev, "GPIO IRQ config failed for %p4ch = 0x%x\n", &key, cmd);
-> +               else
-> +                       smcgp->irq_mode_shadow[offset] = smcgp->irq_mode[offset];
-> +       }
-> +
-> +       val = test_bit(offset, smcgp->irq_enable_shadow);
-> +       if (test_bit(offset, smcgp->irq_enable) != val) {
-> +               if (apple_smc_write_u32(smcgp->smc, key, CMD_IRQ_ENABLE | val) < 0)
-> +                       dev_err(smcgp->dev, "GPIO IRQ en/disable failed for %p4ch\n", &key);
-> +               else
-> +                       change_bit(offset, smcgp->irq_enable);
-> +       }
-> +
-> +       mutex_unlock(&smcgp->irq_mutex);
-> +}
+Can we use fwnode APIs instead?
+Or do you really need this?
 
 --
 With Best Regards,
