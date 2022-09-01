@@ -1,45 +1,45 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3904A5C82
-	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 15:06:21 +0000 (UTC)
-Received: by mail-lj1-f171.google.com with SMTP id b26so11287969ljk.12
-        for <asahi@lists.linux.dev>; Thu, 01 Sep 2022 08:06:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0FB6AA9
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 15:11:33 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id v26so14639303lfd.10
+        for <asahi@lists.linux.dev>; Thu, 01 Sep 2022 08:11:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=KCbUSop3WQVL4RTWvtr+n/jabxyBXZUokjzZKHnU5M0=;
-        b=b2G44R7KnF5fTX88ReDvkLzm45zanEpaB49cNMjgDVVrz4TNOidDzAoCL2r4Cdeosl
-         AK20h571HggQWfg3sVDA65zRKZ6JIHxvZtXwviB4RzcyI0BPaUiA/XCT21nio9EzQvVr
-         iLbM/DmRnb1g5z3BGcKjJ4nXHAndFu0hlun63GghH3Elgkr8a5o24Iok+VtHo4htWedC
-         PNXwucC8haXd3P/32QCTWhQ4DQd06S5FhJVBmEfIakUHcAmtz5oSn4f6bAZLqmLALH3/
-         bKMmFKGLbGuflHGj3tV139uLu7gbH8pJr28PMOSitOChu39i7ikkJE9jdZ77dPjqGOKI
-         aJUg==
+        bh=Ns5DU1nOfngp2+7giOu7t5+idfy4C3d8IqsGOFXmUks=;
+        b=qs4Pv/jPOG27EPrTtcvWNOKNnbfrLo6Aw9McLhC5oHtI4egYvTBcREOdjcSplah8jh
+         lzXxie+rxnziunZanrrAAkdjYVCAz2aAmVR+wlsAWplfgdlpwyFT7Y377hZRl4fLrtZz
+         L/K4IrA7jAj3NuY1jOkCEoZ+NBJL9+46pOHdUjS02J8zkXuAsFZeNqG8nJ4inAwywNPH
+         LnMTqZyfCxbqooKkNHGxIPI5MTb/koENgLx5XmTGw4R18RKo7LteRkrLBfJ7tu5Qv9VP
+         iV8Hcj97sEWTAKOMO1hsjnAbjNhcknguZFI7GPn3L6Oz+tOy6ZrWRL7YZy/2DH82hwJD
+         WwNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=KCbUSop3WQVL4RTWvtr+n/jabxyBXZUokjzZKHnU5M0=;
-        b=vBt6Gz70y4GeBmHvHOpehHKn2gHy+0njAs6hR+y0oK4F2EeolcEPi0tKPAZQroJBbV
-         DnbcKBIlqdB1/mmIPp/d7BEC4OdLfqivXLl/0M6pIO+RgUJqg73CSyQ69QWSt24ZIFcQ
-         dB8BsVeOlVgfsA+3Fxq+vBDIwYBJS/AUl1GpLaSbxL/729HlHpGxAvdQlpUL7zrG4XzG
-         K3KocbqyS82yqF2coexvSWrO31FPNH2TKqUhjAtjM1ID4ATcv/XEIknwvuxJ5+j+Rx/E
-         X8Q6PTQ+YPv3ykFjM39t9Vq5nQ5tuzJqoDZ7niYkv4GvAwmHczbqG3WSepTwq2I7R6Lk
-         2o1w==
-X-Gm-Message-State: ACgBeo2oZnCLYGRZZVb6LknO3q2GSRAiZgrrgLswBuyIdlNpGgDR5twS
-	C+p8GfEIreSWlv9WE0LIyDKjJA==
-X-Google-Smtp-Source: AA6agR4v82tzjRxzkl50GAILGvdU/4Z8/oNIC6ddy1jLimYFNB37TxV7X+A0H1YFvTJk0OU7i+85SQ==
-X-Received: by 2002:a05:651c:1993:b0:263:a41d:3d7b with SMTP id bx19-20020a05651c199300b00263a41d3d7bmr6374222ljb.63.1662044779237;
-        Thu, 01 Sep 2022 08:06:19 -0700 (PDT)
+        bh=Ns5DU1nOfngp2+7giOu7t5+idfy4C3d8IqsGOFXmUks=;
+        b=ujSTdOk4dokrziMZntjfMUhwXv7bEaAXx+R2p2RRpA6n2Fpo6c9+h9B5XpnI2ZXCMD
+         MwXrb72Vx1P4C1f+bW3iM9+xPqGqndQj0bFSGAzzXGKW6Jit89d8umclksPfiQuYDLYh
+         Vbef8IwO/4+T7rPbpHlHiVO5wZY1zvyoMOAdfwIMDSmWveRT3ygXYDHDpGcSTcBoX7j/
+         /rt1C6GkoXJPd/7N2f6PTX2imtfZi0LEDoiuq+3eAfUSUfAglciMRgUmPYbNXHDpoxaU
+         oGh+2KKQmZx+1nTsvzMLFL/UbTw/UbzbwZhEwjWSuZP96U+j0nzfBL30zE3phEM+X/Ay
+         GnuA==
+X-Gm-Message-State: ACgBeo09Y8WG98Qs9hukIoh1VVuzTXnI5PwISjgf/kno4lmNNUadQtC3
+	ZUIZwNGJu+TcsDUbRDhnT+FB6Q==
+X-Google-Smtp-Source: AA6agR6IuPNoybT1QM6ZvPT+EzZ7MbGZbMoz+EYsaE+0RKePK2D7gBiB5KtdC+0rly55i7aUrgmDeg==
+X-Received: by 2002:a05:6512:402a:b0:494:9bb5:820 with SMTP id br42-20020a056512402a00b004949bb50820mr1018259lfb.175.1662045091971;
+        Thu, 01 Sep 2022 08:11:31 -0700 (PDT)
 Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
-        by smtp.gmail.com with ESMTPSA id 11-20020ac2482b000000b00492e2918a5asm1352324lft.269.2022.09.01.08.06.18
+        by smtp.gmail.com with ESMTPSA id i3-20020a2ea223000000b00262fa7bae79sm2102476ljm.81.2022.09.01.08.11.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 08:06:18 -0700 (PDT)
-Message-ID: <426469c1-13cc-178b-4904-09439d7788e8@linaro.org>
-Date: Thu, 1 Sep 2022 18:06:17 +0300
+        Thu, 01 Sep 2022 08:11:31 -0700 (PDT)
+Message-ID: <5ad90366-e7ac-1cae-77ee-cc084e5a69d3@linaro.org>
+Date: Thu, 1 Sep 2022 18:11:30 +0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -48,8 +48,8 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
- Management Controller
+Subject: Re: [PATCH 2/6] dt-bindings: gpio: add binding for the GPIO block for
+ Apple Mac SMC
 Content-Language: en-US
 To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
  Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
@@ -61,64 +61,80 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  devicetree@vger.kernel.org
 References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeH-003t9A-3K@rmk-PC.armlinux.org.uk>
+ <E1oTkeM-003t9G-7S@rmk-PC.armlinux.org.uk>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <E1oTkeH-003t9A-3K@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1oTkeM-003t9G-7S@rmk-PC.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 01/09/2022 16:54, Russell King (Oracle) wrote:
-> Add a DT binding for the Apple Mac System Management Controller.
+> Add the DT binding for the Apple Mac System Management Controller GPIOs.
 > 
 > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+>  .../devicetree/bindings/gpio/gpio-macsmc.yaml | 28 +++++++++++++++++++
+>  .../devicetree/bindings/mfd/apple,smc.yaml    |  4 +++
+>  2 files changed, 32 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+> new file mode 100644
+> index 000000000000..ee620fe50ca8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+> @@ -0,0 +1,28 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
 
-Thank you for your patch. There is something to discuss/improve.
+filename based on the compatible... which is missing here, so this leads
+to the question - why this is separate device/child node? It won't bind
+to anything, won't be populated, right?
 
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple Mac System Management Controller GPIO
 > +
 > +maintainers:
 > +  - Hector Martin <marcan@marcan.st>
 > +
 > +description:
-> +  Apple Mac System Management Controller implements various functions
-> +  such as GPIO, RTC, power, reboot.
+> +  This describes the binding for the Apple Mac System Management Controller
+> +  GPIO block.
 > +
 > +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +        - apple,t8103-smc
-
-You miss two spaces of indentation on this level.
-
-> +        - apple,t8112-smc
-> +        - apple,t6000-smc
-
-Bring some order here - either alphabetical or by date of release (as in
-other Apple schemas). I think t6000 was before t8112, so it's none of
-that orders.
-
-> +      - const: apple,smc
-> +
-> +  reg:
-> +    description: Two regions, one for the SMC area and one for the SRAM area.
-
-You need constraints for size/order, so in this context list with
-described items.
-
-> +
-> +  reg-names:
-> +    items:
-> +      - const: smc
-> +      - const: sram
-> +
-> +  mboxes:
-> +    description:
-> +      A phandle to the mailbox channel
-
-Missing maxItems
-
+> +  gpio-controller: true
+> +  '#gpio-cells':
+> +    const: 2
 > +
 > +additionalProperties: false
 > +
+> +examples:
+> +  - |
+> +    smc_gpio: gpio {
+> +      gpio-controller;
+> +      #gpio-cells = <2>;
+> +    };
+> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> index 794d3a6eb04a..bb799a27638d 100644
+> --- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> @@ -34,6 +34,10 @@ title: Apple Mac System Management Controller
+>      description:
+>        A phandle to the mailbox channel
+>  
+> +patternProperties:
+
+This is not a pattern, so "gpio" goes to "properties:".
+
+> +  gpio:
+> +    $ref: /schemas/gpio/gpio-macsmc.yaml
+> +
+>  additionalProperties: false
+>  
+>  required:
+
+
 Best regards,
 Krzysztof
