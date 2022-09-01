@@ -1,136 +1,127 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18826AA9
-	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 15:15:49 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id z6so24890580lfu.9
-        for <asahi@lists.linux.dev>; Thu, 01 Sep 2022 08:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=gyNVCFkaWNsKBaoIpibBhspi5hxPuuG/Dvrr/wS3a7I=;
-        b=wAubuwLzKPR6GV1qetXH4QaFJMWXbtjhYc0Kcr1CE6SfUMgea1gpwtfh1Y4ECyT54/
-         JX3Rpmt/dIf+WxH7n5FGocI+2bTUXw8EWWWki6+085uECpswC1nrlriZh1BcgRtUGstf
-         KGKqkZmuaK6XNYEXXL2BQNAQRJlYAh6K58+dDWeyHmbO2XXXfI/A3VWoEq/fDfZk2A/Z
-         +PUbJ7tKuL4krb8xJCjXQ7OSP+Gj/TzC0djScgtRqVAchUR2PwlBF8HCoVDCHjMiuM6q
-         48Evdh8MLPgTCQKgsTnfIAsBEgdwq/5vP4SJIpwxzvQOqZYMDgV+04LgPeT6fEK+n2Tk
-         c3fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=gyNVCFkaWNsKBaoIpibBhspi5hxPuuG/Dvrr/wS3a7I=;
-        b=m5i/S0PXIsBOleBnEorYUQ4IcsF4xsPah3abp/BPijQsyc7JSJ2tfSXYFh8ywjOQ17
-         IvAIBC3bxTCJzDiuFwpOULr3nQ2g9JCYEj1nUj64We4JrDOfHo1d2x3G/j9FTLp1tcpE
-         oNZrWRJJIRi/a48JcLh4N6ObO0vSDGs3wAwO48cUsmZDmUrwR+MJ+RIRDe7tpx6/vDAS
-         K8Ts7ksMaJXWMoTbrUHV/Xl7Fm4+nbKEY9tTBJ0PLOvoPz4ZXBQNLriwCX5h7UFlNOof
-         jeOim3XHTzhltycHH4KmA+3ezNZbBrPEUF92ukQvi4xUrmI0NsJCsDha3jYQlTGLmB+5
-         KFXw==
-X-Gm-Message-State: ACgBeo2ICHcewBJHWBVZR6Sx6XE2cp6IqpocvywO1K6rnJNFizNBSr0P
-	3ko169iZS/ui6/6RA3rTLkSp3A==
-X-Google-Smtp-Source: AA6agR5MpbukT/Tca+4lJmUDLkrqlKDBqgbUDBrUrfiqS8yHyVFbox6z5ZZ4tGsdTDAnNdH/MCg4zg==
-X-Received: by 2002:a05:6512:1312:b0:492:e14d:54d4 with SMTP id x18-20020a056512131200b00492e14d54d4mr10205963lfu.469.1662045347897;
-        Thu, 01 Sep 2022 08:15:47 -0700 (PDT)
-Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
-        by smtp.gmail.com with ESMTPSA id h1-20020a05651c124100b0026181a42284sm2059267ljh.88.2022.09.01.08.15.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 08:15:47 -0700 (PDT)
-Message-ID: <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
-Date: Thu, 1 Sep 2022 18:15:46 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CE46AA9
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 15:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=EM9unvrkq5KRXP4o9UGZIuXzbMhXAHieicgtIajlFio=; b=NVfxU3cQBDLMSI4eTEe+8zr9Xg
+	o3IdDia1gfpLSkNnfZRD3V5wNNifg9d+qVmtK+9T867ltBDd0lF+GRB6IUqVKCOoaTyxVdraED8DA
+	oCuT1pnvWBZlznrGb0McrrMigJJKVZQRy5IDzpGLAcWshX14Bw8uA+8u1mAls64KRsp8t+m6E8g1i
+	p3tUlqAPVN2TMQF5Gf5AVCsRlwjqWxRR+bkPAmlxTouHm0g/Y8N2VObbrb8w7dyAN/eS61S430U3I
+	x5JqsMJWzhGGASp9VlDe9a+zQQPubEizbaACCsTZ9bevCLvjrCHyqm8hEHkK1DnUjYkhP7niYp/Vq
+	1mi6wcxw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34044)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oTm3J-00069M-9M; Thu, 01 Sep 2022 16:24:21 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oTm3I-0003Z9-2M; Thu, 01 Sep 2022 16:24:20 +0100
+Date: Thu, 1 Sep 2022 16:24:20 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Hector Martin <marcan@marcan.st>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+Message-ID: <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+ <E1oTkeH-003t9A-3K@rmk-PC.armlinux.org.uk>
+ <426469c1-13cc-178b-4904-09439d7788e8@linaro.org>
+ <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk>
+ <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
- Management Controller
-Content-Language: en-US
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeH-003t9A-3K@rmk-PC.armlinux.org.uk>
- <426469c1-13cc-178b-4904-09439d7788e8@linaro.org>
- <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 01/09/2022 18:12, Russell King (Oracle) wrote:
->>> +  compatible:
->>> +    items:
->>> +      - enum:
->>> +        - apple,t8103-smc
->>
->> You miss two spaces of indentation on this level.
+On Thu, Sep 01, 2022 at 06:15:46PM +0300, Krzysztof Kozlowski wrote:
+> On 01/09/2022 18:12, Russell King (Oracle) wrote:
+> >>> +  compatible:
+> >>> +    items:
+> >>> +      - enum:
+> >>> +        - apple,t8103-smc
+> >>
+> >> You miss two spaces of indentation on this level.
+> > 
+> > Should that be picked up by the dt checker?
 > 
-> Should that be picked up by the dt checker?
-
-I think yamllint complains about it. It is not a hard-dependency, so
-maybe you don't have it installed.
-
+> I think yamllint complains about it. It is not a hard-dependency, so
+> maybe you don't have it installed.
 > 
->>> +        - apple,t8112-smc
->>> +        - apple,t6000-smc
->>
->> Bring some order here - either alphabetical or by date of release (as in
->> other Apple schemas). I think t6000 was before t8112, so it's none of
->> that orders.
+> > 
+> >>> +        - apple,t8112-smc
+> >>> +        - apple,t6000-smc
+> >>
+> >> Bring some order here - either alphabetical or by date of release (as in
+> >> other Apple schemas). I think t6000 was before t8112, so it's none of
+> >> that orders.
+> > 
+> > Ok.
+> > 
+> >>> +      - const: apple,smc
+> >>> +
+> >>> +  reg:
+> >>> +    description: Two regions, one for the SMC area and one for the SRAM area.
+> >>
+> >> You need constraints for size/order, so in this context list with
+> >> described items.
+> > 
+> > How do I do that? I tried maxItems/minItems set to 2, but the dt checker
+> > objected to it.
 > 
-> Ok.
+> One way:
+> reg:
+>   items:
+>     - description: SMC area
+>     - description: SRAM area
 > 
->>> +      - const: apple,smc
->>> +
->>> +  reg:
->>> +    description: Two regions, one for the SMC area and one for the SRAM area.
->>
->> You need constraints for size/order, so in this context list with
->> described items.
+> but actually this is very similar what you wrote for reg-names - kind of
+> obvious, so easier way:
 > 
-> How do I do that? I tried maxItems/minItems set to 2, but the dt checker
-> objected to it.
+> reg:
+>   maxItems: 2
 
-One way:
-reg:
-  items:
-    - description: SMC area
-    - description: SRAM area
+Doesn't work. With maxItems: 2, the example fails, yet it correctly lists
+two regs which are 64-bit address and 64-bit size - so in total 8 32-bit
+ints.
 
-but actually this is very similar what you wrote for reg-names - kind of
-obvious, so easier way:
+Documentation/devicetree/bindings/mfd/apple,smc.example.dtb: smc@23e400000: reg: [[2, 1044381696], [0, 16384], [2, 1071644672], [0, 1048576]] is too long
+        From schema: /home/rmk/git/linux-rmk/Documentation/devicetree/bindings/mfd/apple,smc.yaml
 
-reg:
-  maxItems: 2
+Hence, I originally had maxItems: 2, and ended up deleting it because of
+the dt checker.
 
+With the two descriptions, it's the same failure.
 
-> 
->>> +  reg-names:
->>> +    items:
->>> +      - const: smc
->>> +      - const: sram
->>> +
->>> +  mboxes:
->>> +    description:
->>> +      A phandle to the mailbox channel
->>
->> Missing maxItems
-> 
-> Ok. Would be helpful if the dt checker identified that.
+I think the problem is that the checker has no knowledge in the example
+of how big each address and size element of the reg property is. So,
+it's interpreting it as four entries of 32-bit address,size pairs
+instead of two entries of 64-bit address,size pairs. Yep, that's it,
+if I increase the number of "- description" entries to four then it's
+happy.
 
-Patches are welcomed :)
+So, what's the solution?
 
-Best regards,
-Krzysztof
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
