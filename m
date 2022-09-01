@@ -1,153 +1,227 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFDD6AA9
-	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 15:45:55 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id v26so14789708lfd.10
-        for <asahi@lists.linux.dev>; Thu, 01 Sep 2022 08:45:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=pwTnU1NRYqCTcCUVTKD8Na05COqOczxBt/998o6XYy4=;
-        b=Q1Te17xgrcpyNuRzijNHlA+g+n1O1MNUqLEL/vTX0m1A0HewPL1WFOQVAPZ7KxPvu0
-         VI1WDz6IZXgDc11TKe3lV95r8U7UOh1WayI+oWovAa8zJIMr1Q5oTO8vry6qdMBpY97z
-         WvLAFtYLvWEUhWMzxh003OIghREZ09oA/bKjg+spidGjdDkKnuQHBm6wx1ZJ6JDkVGhD
-         0nddj4YGs81ydICVPQwsMfUGI/Mbdw0Pp7v8t3d4cs4PHZPZXx8OVBQDY6kAw0qeWhqg
-         ymGQ7VNYSfFYadAMeBd+d1KY9CytW5Yf3UeNXGxfpGY93CUiX/qIV/TgMA9QjiibvRuD
-         dPrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=pwTnU1NRYqCTcCUVTKD8Na05COqOczxBt/998o6XYy4=;
-        b=SdupgKlhSR1H1vimTOEfmB2la0WpdMth7OJ1PO4cRiQN+02UW+YBYFnj4VM7UHDbFk
-         THcCaJY3mp9PvrwiPSzSDjRPPgagu4WHgeZ4w4XsGob+Jjdo/an2k6OFxZFVXrNHy9/g
-         s517oViLYKAjHBt5QoCFQjqjNROeGbKSaUc0/Ywv/H/Dir3BGT/sUWoDj3ZFwzEe81Kq
-         0TjI5+rVIENfrTKTyU4FTRW13iJ6UXslgk3SVOUZMc7sL/qkOPGWxuSRpyDe5pMEWXB4
-         C5zz6yrmLevabcNGj4yNW/7WbPrK+7rcSgmyWGuk7k6uSh9IzjPyRgHIQvyamVTEQW7F
-         FEAA==
-X-Gm-Message-State: ACgBeo3ORwJo3Icktq+RxcoSq5W6clECzkgDDv0BUDN8jog0tpCe4ps1
-	oCrjlr1u1W7zELTbWxtNwvwSPQ==
-X-Google-Smtp-Source: AA6agR4SF8JzyLedOeOJ13W6f/aUole8ekwKb8ZCgGMPhRfJWyZZpsmdH22j41No67YEX3YkvOnzUw==
-X-Received: by 2002:a05:6512:260d:b0:492:df5a:e4f9 with SMTP id bt13-20020a056512260d00b00492df5ae4f9mr10276035lfb.90.1662047153618;
-        Thu, 01 Sep 2022 08:45:53 -0700 (PDT)
-Received: from [192.168.28.124] (balticom-73-99-134.balticom.lv. [109.73.99.134])
-        by smtp.gmail.com with ESMTPSA id b1-20020a056512070100b004947fcf0c0bsm920400lfs.281.2022.09.01.08.45.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 08:45:53 -0700 (PDT)
-Message-ID: <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
-Date: Thu, 1 Sep 2022 18:45:52 +0300
-Precedence: bulk
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63EB6AA9
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 15:56:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=S9iP4fTRtB1X7zN4oLDTGujtcRJ/XufA0LaTZFsQlEA=; b=BuV0D5jqJCX0I+shzsbIkcxkeM
+	f7dEZ7VLNSm7LxeCtxx6gtyeyVPSaRt9v5sDUzoNMk3Q5SD7W91LK8XhQtUET8kBK60rKPzKhhfzu
+	aAVZ3euKSwxCx4hnRkLFc3JbH7e9hOnlH6IdjDvCKTwiP7mTj0n251RM8PqekeEX6FMdmyBzV7WAi
+	RsKx8eSO2k0ZjCNTjDmpLjpJv/L1pUZ+PJ8jjWuMi/VqhirfDjMxPacYDZgEWnsZi2acxkVlX0n37
+	jACH1oaJ8RyaJIvEJI5MwyeM0pVPJ28TFUwDCwcc/hq+eWk+vL9I9HmwX48/7my8VFw/7n56Gv1ID
+	4XlhV5+w==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34046)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oTmY9-0006Bp-5d; Thu, 01 Sep 2022 16:56:13 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oTmY7-0003aV-J6; Thu, 01 Sep 2022 16:56:11 +0100
+Date: Thu, 1 Sep 2022 16:56:11 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Hector Martin <marcan@marcan.st>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org
 Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
  Management Controller
-Content-Language: en-US
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org
+Message-ID: <YxDWG5dmzErhKIXw@shell.armlinux.org.uk>
 References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
  <E1oTkeH-003t9A-3K@rmk-PC.armlinux.org.uk>
  <426469c1-13cc-178b-4904-09439d7788e8@linaro.org>
  <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk>
  <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
  <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
+Precedence: bulk
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 01/09/2022 18:24, Russell King (Oracle) wrote:
-> On Thu, Sep 01, 2022 at 06:15:46PM +0300, Krzysztof Kozlowski wrote:
->> On 01/09/2022 18:12, Russell King (Oracle) wrote:
->>>>> +  compatible:
->>>>> +    items:
->>>>> +      - enum:
->>>>> +        - apple,t8103-smc
->>>>
->>>> You miss two spaces of indentation on this level.
->>>
->>> Should that be picked up by the dt checker?
->>
->> I think yamllint complains about it. It is not a hard-dependency, so
->> maybe you don't have it installed.
->>
->>>
->>>>> +        - apple,t8112-smc
->>>>> +        - apple,t6000-smc
->>>>
->>>> Bring some order here - either alphabetical or by date of release (as in
->>>> other Apple schemas). I think t6000 was before t8112, so it's none of
->>>> that orders.
->>>
->>> Ok.
->>>
->>>>> +      - const: apple,smc
->>>>> +
->>>>> +  reg:
->>>>> +    description: Two regions, one for the SMC area and one for the SRAM area.
->>>>
->>>> You need constraints for size/order, so in this context list with
->>>> described items.
->>>
->>> How do I do that? I tried maxItems/minItems set to 2, but the dt checker
->>> objected to it.
->>
->> One way:
->> reg:
->>   items:
->>     - description: SMC area
->>     - description: SRAM area
->>
->> but actually this is very similar what you wrote for reg-names - kind of
->> obvious, so easier way:
->>
->> reg:
->>   maxItems: 2
+On Thu, Sep 01, 2022 at 06:45:52PM +0300, Krzysztof Kozlowski wrote:
+> On 01/09/2022 18:24, Russell King (Oracle) wrote:
+> > On Thu, Sep 01, 2022 at 06:15:46PM +0300, Krzysztof Kozlowski wrote:
+> >> On 01/09/2022 18:12, Russell King (Oracle) wrote:
+> >>>>> +  compatible:
+> >>>>> +    items:
+> >>>>> +      - enum:
+> >>>>> +        - apple,t8103-smc
+> >>>>
+> >>>> You miss two spaces of indentation on this level.
+> >>>
+> >>> Should that be picked up by the dt checker?
+> >>
+> >> I think yamllint complains about it. It is not a hard-dependency, so
+> >> maybe you don't have it installed.
+> >>
+> >>>
+> >>>>> +        - apple,t8112-smc
+> >>>>> +        - apple,t6000-smc
+> >>>>
+> >>>> Bring some order here - either alphabetical or by date of release (as in
+> >>>> other Apple schemas). I think t6000 was before t8112, so it's none of
+> >>>> that orders.
+> >>>
+> >>> Ok.
+> >>>
+> >>>>> +      - const: apple,smc
+> >>>>> +
+> >>>>> +  reg:
+> >>>>> +    description: Two regions, one for the SMC area and one for the SRAM area.
+> >>>>
+> >>>> You need constraints for size/order, so in this context list with
+> >>>> described items.
+> >>>
+> >>> How do I do that? I tried maxItems/minItems set to 2, but the dt checker
+> >>> objected to it.
+> >>
+> >> One way:
+> >> reg:
+> >>   items:
+> >>     - description: SMC area
+> >>     - description: SRAM area
+> >>
+> >> but actually this is very similar what you wrote for reg-names - kind of
+> >> obvious, so easier way:
+> >>
+> >> reg:
+> >>   maxItems: 2
+> > 
+> > Doesn't work. With maxItems: 2, the example fails, yet it correctly lists
+> > two regs which are 64-bit address and 64-bit size - so in total 8 32-bit
+> > ints.
+> > 
+> > Documentation/devicetree/bindings/mfd/apple,smc.example.dtb: smc@23e400000: reg: [[2, 1044381696], [0, 16384], [2, 1071644672], [0, 1048576]] is too long
+> >         From schema: /home/rmk/git/linux-rmk/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> > 
+> > Hence, I originally had maxItems: 2, and ended up deleting it because of
+> > the dt checker.
+> > 
+> > With the two descriptions, it's the same failure.
 > 
-> Doesn't work. With maxItems: 2, the example fails, yet it correctly lists
-> two regs which are 64-bit address and 64-bit size - so in total 8 32-bit
-> ints.
+> Yeah, they should create same result.
 > 
-> Documentation/devicetree/bindings/mfd/apple,smc.example.dtb: smc@23e400000: reg: [[2, 1044381696], [0, 16384], [2, 1071644672], [0, 1048576]] is too long
->         From schema: /home/rmk/git/linux-rmk/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> > 
+> > I think the problem is that the checker has no knowledge in the example
+> > of how big each address and size element of the reg property is. So,
+> > it's interpreting it as four entries of 32-bit address,size pairs
+> > instead of two entries of 64-bit address,size pairs. Yep, that's it,
+> > if I increase the number of "- description" entries to four then it's
+> > happy.
+> > 
+> > So, what's the solution?
+> > 
 > 
-> Hence, I originally had maxItems: 2, and ended up deleting it because of
-> the dt checker.
-> 
-> With the two descriptions, it's the same failure.
+> If you open generated DTS examples (in your
+> kbuild-output/Documentation/devicetree/bindings/mfd/) you will see which
+> address/size cells are expected. By default it is I think address/size
+> cells=1, so you need a bus node setting it to 2.
 
-Yeah, they should create same result.
+Thanks, that works. The patch with all those points addressed now looks
+like:
 
-> 
-> I think the problem is that the checker has no knowledge in the example
-> of how big each address and size element of the reg property is. So,
-> it's interpreting it as four entries of 32-bit address,size pairs
-> instead of two entries of 64-bit address,size pairs. Yep, that's it,
-> if I increase the number of "- description" entries to four then it's
-> happy.
-> 
-> So, what's the solution?
-> 
+8<===
+From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Subject: [PATCH] dt-bindings: mfd: add binding for Apple Mac System Management
+ Controller
 
-If you open generated DTS examples (in your
-kbuild-output/Documentation/devicetree/bindings/mfd/) you will see which
-address/size cells are expected. By default it is I think address/size
-cells=1, so you need a bus node setting it to 2.
+Add a DT binding for the Apple Mac System Management Controller.
 
-Best regards,
-Krzysztof
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+---
+ .../devicetree/bindings/mfd/apple,smc.yaml    | 61 +++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
+
+diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+new file mode 100644
+index 000000000000..168f237c2962
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple Mac System Management Controller
++
++maintainers:
++  - Hector Martin <marcan@marcan.st>
++
++description:
++  Apple Mac System Management Controller implements various functions
++  such as GPIO, RTC, power, reboot.
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,t6000-smc
++          - apple,t8103-smc
++          - apple,t8112-smc
++      - const: apple,smc
++
++  reg:
++    items:
++      - description: SMC area
++      - description: SRAM area
++
++  reg-names:
++    items:
++      - const: smc
++      - const: sram
++
++  mboxes:
++    maxItems: 1
++    description:
++      A phandle to the mailbox channel
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - mboxes
++
++examples:
++  - |
++    soc {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      smc@23e400000 {
++        compatible = "apple,t8103-smc", "apple,smc";
++        reg = <0x2 0x3e400000 0x0 0x4000>,
++               <0x2 0x3fe00000 0x0 0x100000>;
++        reg-names = "smc", "sram";
++        mboxes = <&smc_mbox>;
++      };
++    };
+-- 
+2.30.2
+
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
