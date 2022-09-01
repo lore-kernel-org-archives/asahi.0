@@ -1,134 +1,78 @@
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576C0813;
-	Thu,  1 Sep 2022 01:25:26 +0000 (UTC)
-Received: from coburn.home.jannau.net (p54acc2ba.dip0.t-ipconnect.de [84.172.194.186])
-	by soltyk.jannau.net (Postfix) with ESMTPSA id 4832426EF51;
-	Thu,  1 Sep 2022 03:25:23 +0200 (CEST)
-From: Janne Grunau <j@jannau.net>
-To: iommu@lists.linux.dev
-Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7090466E9
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 11:34:32 +0000 (UTC)
+From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1662032063; bh=64K6de8/WYbFY9mQuRbf7StfNJYaBkUUYkjBkby97iE=;
+	h=From:To:Cc:Subject:Date;
+	b=LJbzIZvXhb5XUcSgRAC6Eu5+ldNP5RqOgTHgRXWJbqEgRO08yUwNmOaJm92Y8GcnE
+	 X59dRQe1LOpgFJNtPQSlkSyYZbhk8PStP+BUrxFwMvgNetA6uWd53VFbZ3+XiAaQOX
+	 aLQ9Aomr4d0baGByf/w+uvTLODMhaU+t6whgiWYQ=
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Hector Martin <marcan@marcan.st>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	iommu@lists.linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/5] iommu: dart: Support t6000 variant
-Date: Thu,  1 Sep 2022 03:25:19 +0200
-Message-Id: <20220901012519.7167-6-j@jannau.net>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220901012519.7167-1-j@jannau.net>
-References: <20220901012519.7167-1-j@jannau.net>
+	alsa-devel@alsa-project.org,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH 1/2] ASoC: apple: mca: Unselect COMMON_CLK in Kconfig
+Date: Thu,  1 Sep 2022 13:34:14 +0200
+Message-Id: <20220901113415.27449-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Sven Peter <sven@svenpeter.dev>
+The MCA driver selects COMMON_CLK, which leads to misconfiguration
+on platforms with HAVE_LEGACY_CLK (under compile test). Kconfig catches
+the conflict with the following warning:
 
-The M1 Pro/Max/Ultra SoCs come with a new variant of DART which
-supports a larger physical address space with a different PTE format.
-Pass through the correct paddr address space size and the PTE format
-to the io-pgtable code which will take care of the rest.
+  WARNING: unmet direct dependencies detected for COMMON_CLK
+  Depends on [n]: !HAVE_LEGACY_CLK [=y]
+  Selected by [m]:
+  - SND_SOC_APPLE_MCA [=m] && SOUND [=m] && !UML && SND [=m] &&
+    SND_SOC [=m] && (ARCH_APPLE || COMPILE_TEST [=y])
 
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
-Co-developed-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Janne Grunau <j@jannau.net>
+Eventually the build fails with errors like:
 
+>> drivers/clk/clk.c:867:6: error: redefinition of 'clk_unprepare'
+     867 | void clk_unprepare(struct clk *clk)
+         |      ^~~~~~~~~~~~~
+   In file included from drivers/clk/clk.c:9:
+   include/linux/clk.h:303:20: note: previous definition of 'clk_unprepare' with type 'void(struct clk *)'
+     303 | static inline void clk_unprepare(struct clk *clk)
+         |                    ^~~~~~~~~~~~~
+
+which appears to be because COMMON_CLK is selected but HAVE_CLK_PREPARE
+is not. In the end it seems we had no business selecting COMMON_CLK from
+an unrelated driver like that, so remove the selection. The linux/clk.h
+API is there anyway.
+
+Fixes: 3df5d0d97289 ("ASoC: apple: mca: Start new platform driver")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 ---
+ sound/soc/apple/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-(no changes since v3)
-
-Changes in v3:
-- apply change to io-pgtable-dart.c
-
-Changes in v2:
-- use APPLE_DART2 PTE format for dart-t6000
-
- drivers/iommu/apple-dart.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index 8af0242a90d9..e5793c0d08b4 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -81,10 +81,16 @@
- #define DART_TTBR_VALID BIT(31)
- #define DART_TTBR_SHIFT 12
- 
-+struct apple_dart_hw {
-+	u32 oas;
-+	enum io_pgtable_fmt fmt;
-+};
-+
- /*
-  * Private structure associated with each DART device.
-  *
-  * @dev: device struct
-+ * @hw: SoC-specific hardware data
-  * @regs: mapped MMIO region
-  * @irq: interrupt number, can be shared with other DARTs
-  * @clks: clocks associated with this DART
-@@ -98,6 +104,7 @@
-  */
- struct apple_dart {
- 	struct device *dev;
-+	const struct apple_dart_hw *hw;
- 
- 	void __iomem *regs;
- 
-@@ -421,13 +428,13 @@ static int apple_dart_finalize_domain(struct iommu_domain *domain,
- 	pgtbl_cfg = (struct io_pgtable_cfg){
- 		.pgsize_bitmap = dart->pgsize,
- 		.ias = 32,
--		.oas = 36,
-+		.oas = dart->hw->oas,
- 		.coherent_walk = 1,
- 		.iommu_dev = dart->dev,
- 	};
- 
- 	dart_domain->pgtbl_ops =
--		alloc_io_pgtable_ops(APPLE_DART, &pgtbl_cfg, domain);
-+		alloc_io_pgtable_ops(dart->hw->fmt, &pgtbl_cfg, domain);
- 	if (!dart_domain->pgtbl_ops) {
- 		ret = -ENOMEM;
- 		goto done;
-@@ -858,6 +865,7 @@ static int apple_dart_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	dart->dev = dev;
-+	dart->hw = of_device_get_match_data(dev);
- 	spin_lock_init(&dart->lock);
- 
- 	dart->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-@@ -946,8 +954,18 @@ static int apple_dart_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static const struct apple_dart_hw apple_dart_hw_t8103 = {
-+	.oas = 36,
-+	.fmt = APPLE_DART,
-+};
-+static const struct apple_dart_hw apple_dart_hw_t6000 = {
-+	.oas = 42,
-+	.fmt = APPLE_DART2,
-+};
-+
- static const struct of_device_id apple_dart_of_match[] = {
--	{ .compatible = "apple,t8103-dart", .data = NULL },
-+	{ .compatible = "apple,t8103-dart", .data = &apple_dart_hw_t8103 },
-+	{ .compatible = "apple,t6000-dart", .data = &apple_dart_hw_t6000 },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, apple_dart_of_match);
+diff --git a/sound/soc/apple/Kconfig b/sound/soc/apple/Kconfig
+index 0ba955657e98..793f7782e0d7 100644
+--- a/sound/soc/apple/Kconfig
++++ b/sound/soc/apple/Kconfig
+@@ -2,7 +2,6 @@ config SND_SOC_APPLE_MCA
+ 	tristate "Apple Silicon MCA driver"
+ 	depends on ARCH_APPLE || COMPILE_TEST
+ 	select SND_DMAENGINE_PCM
+-	select COMMON_CLK
+ 	default ARCH_APPLE
+ 	help
+ 	  This option enables an ASoC platform driver for MCA peripherals found
 -- 
-2.35.1
+2.33.0
 
