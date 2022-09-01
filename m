@@ -1,31 +1,31 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC05D46A1
-	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 13:54:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85FC46A9
+	for <asahi@lists.linux.dev>; Thu,  1 Sep 2022 13:54:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
 	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=a/v4fh5dvlfR33CRToBG85CI71CxvOgrSGU87eSy72Q=; b=t+BR8tI4opOX8R7R3QBDc7fK4Q
-	DOIAqIn1mAs8LLmGkCjFohGjNm3Boo0XG8Nd/3TrL5BfeNfg7o66YlYx7uZ09Tu+ZUxLlG88VlcNW
-	c/2UrL7PZsXxVWwAQozs3S4kJOFnGCpPwGTBCsAYmTLGC0v+41IMU/VLmGF6ME86NUx7pConEKaAx
-	75of+C9DNMDbS75VGifzPO12JeKpADeVViOEOmQmhXyqQaejQejJLspTleXfX9W/JkH1tvX2w0wqM
-	s5ZJ8P99ZatfA9PGhjxw0vaOPaGfavJeOmA895xj5BWp20MQyUfkPP4n7wmY030VpEBsbBWhBU/TB
-	pVhOYMkg==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:50878 helo=rmk-PC.armlinux.org.uk)
+	bh=zyU/s3SljPR5PhLbvgtX6PueXWeHUUBpW9mxXVc6RjY=; b=KJfq6mYKuSbYxdudTLedUx0mCt
+	BunHdgABCzFEUZYVsP4LkpRi0N+fzdJGrx2X7nwO7FtlyMGvFpaECsfPnTYzNFAaiiLBKviYn72IN
+	dpgC7ogcbz88KV6w8hNka2XIPXTbQe4wC4n27i5jiHZDKigY4kf0aTFYMX2w6o/OTx6kwG1Ppe9lP
+	ULpFep7r2vbnMDkCYiVMmXMAVxutgs++7kaQy4vnkMuCUPVEhGW+iP4UFq0xlYu57WvhCqOdPlWBR
+	WvAM0dhbIVvXw7ApRqve4EDd7SaAyceJZ5gQ5QEPEfpNGTPW03mD1BL3YXnaf3CqT1yFVFWY+ZXN1
+	AgSBmT6g==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:50894 helo=rmk-PC.armlinux.org.uk)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <rmk@armlinux.org.uk>)
-	id 1oTkeM-0005wG-R6; Thu, 01 Sep 2022 14:54:30 +0100
+	id 1oTkeR-0005wa-UV; Thu, 01 Sep 2022 14:54:35 +0100
 Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
 	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1oTkeM-003t9G-7S; Thu, 01 Sep 2022 14:54:30 +0100
+	id 1oTkeR-003t9R-BK; Thu, 01 Sep 2022 14:54:35 +0100
 In-Reply-To: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
 References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
-From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+From: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 To: Arnd Bergmann <arnd@arndb.de>,
 	 Lee Jones <lee@kernel.org>,
 	 Linus Walleij <linus.walleij@linaro.org>
@@ -35,12 +35,8 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Hector Martin <marcan@marcan.st>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-gpio@vger.kernel.org,
-	Sven Peter <sven@svenpeter.dev>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH 2/6] dt-bindings: gpio: add binding for the GPIO block for
- Apple Mac SMC
+	Sven Peter <sven@svenpeter.dev>
+Subject: [PATCH 3/6] soc: apple: rtkit: Add apple_rtkit_poll
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -50,68 +46,59 @@ MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1oTkeM-003t9G-7S@rmk-PC.armlinux.org.uk>
+Message-Id: <E1oTkeR-003t9R-BK@rmk-PC.armlinux.org.uk>
 Sender: Russell King <rmk@armlinux.org.uk>
-Date: Thu, 01 Sep 2022 14:54:30 +0100
+Date: Thu, 01 Sep 2022 14:54:35 +0100
 
-Add the DT binding for the Apple Mac System Management Controller GPIOs.
+From: Hector Martin <marcan@marcan.st>
 
+This allows a client to receive messages in atomic context, by polling.
+
+Signed-off-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- .../devicetree/bindings/gpio/gpio-macsmc.yaml | 28 +++++++++++++++++++
- .../devicetree/bindings/mfd/apple,smc.yaml    |  4 +++
- 2 files changed, 32 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+ drivers/soc/apple/rtkit.c       |  6 ++++++
+ include/linux/soc/apple/rtkit.h | 12 ++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
-new file mode 100644
-index 000000000000..ee620fe50ca8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
-@@ -0,0 +1,28 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Apple Mac System Management Controller GPIO
-+
-+maintainers:
-+  - Hector Martin <marcan@marcan.st>
-+
-+description:
-+  This describes the binding for the Apple Mac System Management Controller
-+  GPIO block.
-+
-+properties:
-+  gpio-controller: true
-+  '#gpio-cells':
-+    const: 2
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    smc_gpio: gpio {
-+      gpio-controller;
-+      #gpio-cells = <2>;
-+    };
-diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-index 794d3a6eb04a..bb799a27638d 100644
---- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-+++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-@@ -34,6 +34,10 @@ title: Apple Mac System Management Controller
-     description:
-       A phandle to the mailbox channel
+diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+index cf1129e9f76b..031ec4aa06d5 100644
+--- a/drivers/soc/apple/rtkit.c
++++ b/drivers/soc/apple/rtkit.c
+@@ -660,6 +660,12 @@ int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+ }
+ EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
  
-+patternProperties:
-+  gpio:
-+    $ref: /schemas/gpio/gpio-macsmc.yaml
++int apple_rtkit_poll(struct apple_rtkit *rtk)
++{
++	return mbox_client_peek_data(rtk->mbox_chan);
++}
++EXPORT_SYMBOL_GPL(apple_rtkit_poll);
 +
- additionalProperties: false
+ int apple_rtkit_start_ep(struct apple_rtkit *rtk, u8 endpoint)
+ {
+ 	u64 msg;
+diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
+index 88eb832eac7b..c9cabb679cd1 100644
+--- a/include/linux/soc/apple/rtkit.h
++++ b/include/linux/soc/apple/rtkit.h
+@@ -152,4 +152,16 @@ int apple_rtkit_send_message(struct apple_rtkit *rtk, u8 ep, u64 message,
+ int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+ 				  unsigned long timeout, bool atomic);
  
- required:
++/*
++ * Process incoming messages in atomic context.
++ * This only guarantees that messages arrive as far as the recv_message_early
++ * callback; drivers expecting to handle incoming messages synchronously
++ * by calling this function must do it that way.
++ * Will return 1 if some data was processed, 0 if none was, or a
++ * negative error code on failure.
++ *
++ * @rtk:            RTKit reference
++ */
++int apple_rtkit_poll(struct apple_rtkit *rtk);
++
+ #endif /* _LINUX_APPLE_RTKIT_H_ */
 -- 
 2.30.2
 
