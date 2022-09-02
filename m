@@ -1,90 +1,102 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29547E
-	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 06:32:03 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id g21so1047720qka.5
-        for <asahi@lists.linux.dev>; Thu, 01 Sep 2022 23:32:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=X4NcCxXF7k9Z1Trr19zd7vM5+qsrHkvjZK9Hyee90S0=;
-        b=BN3eElpZfT+pMo2zikkEwGX5qeGEqtXq2eN6JhTPJ8qw1TJFRZAA9vb4xvMDby5vf2
-         0K+N/s9Kx/1EUEXZDPpdvElig0nNis31cXoacbHjCFMc32a0sFrwITbxUU7W6mTyzwC6
-         wFN+F+NWrwFp7xBI5SZWGnKn6vKeDt9iRZSI3QASh8OGXgAM4aALec+FnPsp8BJ/gA9S
-         C9qC/+xSF6eMiGzWXMtB04XR9lI5aheOLJJ5j/aHSr4xBxZsar1baoWJKNVcFmhw5w17
-         HY1OrzpUPKZ3PaQhsz3ShmK6+uRu6qh+nh3AiD0KWTAsqj3oAqSG5kKU8wrwyywr7wQk
-         cQbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=X4NcCxXF7k9Z1Trr19zd7vM5+qsrHkvjZK9Hyee90S0=;
-        b=EnG3+a5zQB7+fzmjRvwayjHza3ZrG9Gmf2bzqXyWVqIApJd+33KDij/SSsxtFD2u4L
-         a9i6N4uWej2wVpbSJhy2/Kaf7QxzLPia3MzfE44JTDTaVNB2MW9JyijqKzpzGtvd0y7b
-         47/b0W5fNGLWqD8jSjzg7ZwaB14kqvjZxaQO4MCa9bTQWRmspR0Qyi3pB5Ef0sLP0hqT
-         JBQiAqQYIKcbqqi/ZWBjIlLr6GpPA4j08rRJNCNr3rfbsK0ib8kEY8ibs+cDDoJd928w
-         xRjVvKWTOx2JYwdWFiR14EPgxy4xpOri+S3ryJ9gtRZE7i2fsclyogKySN3j+OUiCLBf
-         bvgw==
-X-Gm-Message-State: ACgBeo3jHAH4mO9KIiIG+Xl8TcwdVnqmQ4x/B4JwL849g3tVHv+i9935
-	ClDi8RIGL1HOghBK9VpenFI/GnP5MJYJ4dfcVrA=
-X-Google-Smtp-Source: AA6agR4JICc7E0FUZLQlYaaaP83CEbr+9RS26LtnWz7NEbVMYwAZgHXPoAkEaBJKHRlDHRl96o5USc4gMok3Uv8IoxY=
-X-Received: by 2002:a05:620a:2987:b0:6ba:dc04:11ae with SMTP id
- r7-20020a05620a298700b006badc0411aemr22062478qkp.748.1662100322854; Thu, 01
- Sep 2022 23:32:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968997E
+	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 06:45:40 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id BF88B3200AA1;
+	Fri,  2 Sep 2022 02:45:38 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute2.internal (MEProxy); Fri, 02 Sep 2022 02:45:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1662101138; x=1662187538; bh=bY
+	LZ913Dp4ZRTutrVUDsylQfP4PyGybvm0JPexpAVjU=; b=KhcAMIs2YHep2jlRRO
+	QbkSmQM712fJB4yt/bzEHrtuoD11z0u5pulVP6dXilNhfZnSuN0yn21up9xoFJeA
+	oNNU7CPFVjsx4YCV/ZrmWFfK7UV5XbCxMXbh5wKvhXXzIYYH19SbZjDmx7CkAmBO
+	5ECaiT0Icm8u3vOuIfTQDi0V2ZPPpQpdkaqOVUteaVX9OBPE0l137igKR5Rv1YbO
+	yadSnbBE0EJG2ExUSE2+J6FLIQfUTqNHyp9QX8QDz84ydDBn3PAHF+lC7JCnLryV
+	PWuj0uk1+A1jJzIwseNkgwrDUDIxpSX8eQTdkL6M5+GoJzbqkI/zr9tpEBdNiM2h
+	oqtQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1662101138; x=1662187538; bh=bYLZ913Dp4ZRTutrVUDsylQfP4Py
+	Gybvm0JPexpAVjU=; b=svfbX1bqsJVGSY5/Bt/8cV8k7ubPHmmNcb/gZ+B3BLZp
+	qEjMNoQC2zDfu3h5PLW2Q+SC0XkDu3tuYO/NDdzabemMS4Jz5yBdyXag0o4QhN1N
+	8pKikiekWrkOTBHZcDKBHfCe3OIcABgAjUbNp+SiL/17EMD4T1opa+y+vr8/XMtR
+	94JWZsCf1ktYqdtP1+KdsH2oeiwaUNFM+OzxA4WTTmZjlUAx65yvORoy+JW6FlX1
+	wFpZboyp6bSgI5h8JJHJ8UplFtNFDnD2EPJlIhblWn1Z/yn7vs4lAaTKsLo+6mZa
+	Mar9OwTBv4SekHC+VxeDJTFKn2Q5hl57Jc5jALGdjg==
+X-ME-Sender: <xms:kaYRY5ND_g4mYC9t9sy6PIoyjrebZQuq_Kq94iMk46F6472l76aUKA>
+    <xme:kaYRY7_zcuAkioI92ViBILJtzeqmwWXr6AINMdzzgINGCqQXQRzsJ6rw5gc5-TzNu
+    QFL5sSWHNcCOI_VPuk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekledgudduvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfu
+    vhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtf
+    frrghtthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefg
+    hfeiveeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:kaYRY4S6YyWPB8nSZ1bFyEJmFqJ4uN3Xp9y_E_VWS6q9znP69PRomg>
+    <xmx:kaYRY1tunDO5RTurEuBueAtB03zIB5zmTExDfC-bSluszGFQuO14UQ>
+    <xmx:kaYRYxeD6GaXrXXvbNYTN2SFiAko0YnihhSffE3Ot3Zow04U52A1Ng>
+    <xmx:kqYRYwxMRoG3xUxqQBLPkGcB1Q683AszGaxaoJ4ql4-gUtWIxR1sqw>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 38E0DA60082; Fri,  2 Sep 2022 02:45:37 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
- <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com> <FEE9F7AE-B324-4426-AB26-17BDF30CFC91@cutebit.org>
-In-Reply-To: <FEE9F7AE-B324-4426-AB26-17BDF30CFC91@cutebit.org>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 2 Sep 2022 09:31:26 +0300
-Message-ID: <CAHp75Vd8-mOuJvr=PRKjVKbz0SM9hPe39rEcraOMJFYtrwHjng@mail.gmail.com>
-Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
-To: povik@cutebit.org
-Cc: Russell King <rmk+kernel@armlinux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
-	Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>, 
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Sven Peter <sven@svenpeter.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Message-Id: <20d82d72-ed8a-458f-bb84-37906bd41bcc@www.fastmail.com>
+In-Reply-To: 
+ <CAHp75Ve1ackTCOAkVar00OyDW-+BOPbRmsJRH3-z1bdNaukC+Q@mail.gmail.com>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+ <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
+ <CAHp75Ve1ackTCOAkVar00OyDW-+BOPbRmsJRH3-z1bdNaukC+Q@mail.gmail.com>
+Date: Fri, 02 Sep 2022 08:45:16 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Andy Shevchenko" <andy.shevchenko@gmail.com>,
+ "Russell King" <rmk+kernel@armlinux.org.uk>
+Cc: "Arnd Bergmann" <arnd@arndb.de>, "Lee Jones" <lee@kernel.org>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, "Hector Martin" <marcan@marcan.st>,
+ "linux-arm Mailing List" <linux-arm-kernel@lists.infradead.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
+Content-Type: text/plain
 
-On Fri, Sep 2, 2022 at 12:52 AM Martin Povi=C5=A1er <povik@cutebit.org> wro=
-te:
-> > On 1. 9. 2022, at 20:55, Andy Shevchenko <andy.shevchenko@gmail.com> wr=
-ote:
-> > On Thu, Sep 1, 2022 at 5:17 PM Russell King <rmk+kernel@armlinux.org.uk=
-> wrote:
+On Thu, Sep 1, 2022, at 21:26, Andy Shevchenko wrote:
+> On Thu, Sep 1, 2022 at 5:18 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
+[...]
 >
-> >> + ret =3D apple_smc_write_u32(smcgp->smc, key, CMD_OUTPUT | value);
-> >> + if (ret < 0)
-> >> + dev_err(smcgp->dev, "GPIO set failed %p4ch =3D 0x%x\n", &key, value)=
-;
-> >
-> > Strange specifier... It seems like a hashed pointer with added (or
-> > skipped? I don't remember) '4ch'. Perhaps you meant one of '%pE',
-> > '%p4cc'?
-> > Ditto for other cases.
+> ...
 >
-> As was pointed out by Sven elsewhere in the thread, this is an
-> unupstreamed specifier (that was missed as a dependency of this
-> code).
+>> +       if (size <= 4)
+>> +               memcpy(buf, &rdata, size);
+>> +       else
+>> +               memcpy_fromio(buf, smc->shmem.iomem, size);
 >
-> https://github.com/AsahiLinux/linux/blob/f8c0d18173a7b649999ee27515393f7a=
-ae40310c/Documentation/core-api/printk-formats.rst#generic-fourcc-code
+> This is unclear why plain memcpy() for the small size and what are the
+> side effects of the memory. Maybe you wanted memremap() instead of
+> ioremap() to begin with?
 
-I don't see why we need that. The %.4s (0x%08x) is repeating that with
-the existing codebase. (I do understand why v4l2/drm have it). Ideally
-the first should use %4pE, but it might not be suitable in some cases.
+rdata is used for small buffers, comes directly as part of a message sent on the
+underlying hardware FIFO and is on the stack (and thus mapped as as Normal memory)
+while smc->shmem.iomem has to be Device-nGnRnE. Mapping it with any other attributes
+will generate SErrors for each access.
 
---=20
-With Best Regards,
-Andy Shevchenko
+
+
+
+Sven
