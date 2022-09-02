@@ -1,127 +1,138 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132ED1869
-	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 13:37:43 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1662125854; bh=tciNiAcemF/xP+86KrN5KXfFgo4o4RSmHFJZ1UK/Fac=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=UeIjSDk3IzNUnlY2MWN8yndLc5b0daxKNnOrIu7Il++FsZRLQu3H63l17axc4lYPb
-	 cq84/9I2CLSF4wbExERM1U+pg02P1cK2kR5eBAXqETrkrtSuyx9WlrTKWieGzDxzVW
-	 dPQYKMHD6+vJsUQZ+LS+Va4sUdtG/O9X8gq2P42c=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153BA1869
+	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 13:39:53 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id e28so1465628qts.1
+        for <asahi@lists.linux.dev>; Fri, 02 Sep 2022 06:39:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=6ejWKhNX3z+mJeAp0vohms4StWQ+ex5tKICo/SaWryk=;
+        b=kSwA17VpbhWllmbIwG2SF+JSBHQYUlWfVjNTHklJsfTr1zc5UxpkXYm+cD5XZnKNIC
+         lGbVayXtBZHyWNkR8Ajomc7c1IbD8webInQZ04rnoTXGTw0xdb7c/ig8tfJTYAMLt0cx
+         ibe87KpvnyAygSi67QiRVgTjSUuQAw7vqIWifIbfQZ6vJaUNkksZCvCy5q1fy7q+Ys00
+         27OA47Og+NdQrYjv8IYLofMBeRpKjy84y8Mr4oexJra2O3HMdoNE9pJrcpxEC3PxGGC7
+         EAcfLmOp5MXfd+wFCQBW3BFS2VK6lyY9gQOA57teZloD+pWWh+iQbUgWe6na+zhuZKoV
+         7cJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=6ejWKhNX3z+mJeAp0vohms4StWQ+ex5tKICo/SaWryk=;
+        b=wYPs/wRzl3WoOSOxhLemjRbae2I32DiDOAs2w5ITByYFBBK8xJCP5gRJFl6QVXLIJs
+         lqrlsSMT3S0aBAGxvDhixOnXN5yT4iQOF2qY13G+vizuHGozaefZjzG82yHq+aq/WHo9
+         MqV4mEh4qmDAQPbZUUxZQ1LWu61nqDPO/JIfw7irKQ+/5zcY9VwWCLXr8Yc5KXRcfQ+A
+         sTTypbKNooNV+RJwGn/jRjLklPznWWDy63zRnbF/Kx2DuHx6y8SJ1xk1H6AiNzKOeEis
+         8GlPb8+SO3kKUVnm524F2/3rZ9nv09PGttyD4ZPIIb95jRFXnUtMcLFGpK1FYGvHOjJy
+         9KAA==
+X-Gm-Message-State: ACgBeo2JMpKh36WGze7SaMPHI7vhrFW8b8BqcNRAEOBwGmTbrj+rvkdt
+	0FDHPASRkpnACagOBg9oydKfsMqC+dQDdmbxb/I=
+X-Google-Smtp-Source: AA6agR4UMfgaIkG2vGC2aly7nyNTuJKjT8PVOEv/c5wpoMmCkLfZKnsuheo1q1QgXeiZatP0AjQUB2zVifFAsos8OTE=
+X-Received: by 2002:a05:622a:40a:b0:343:77ba:727f with SMTP id
+ n10-20020a05622a040a00b0034377ba727fmr28567765qtx.481.1662125992956; Fri, 02
+ Sep 2022 06:39:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik@cutebit.org>
-In-Reply-To: <CAHp75VdstDxcZ96d3XD=k8_q2oP3UvoL+QV-27BxWFyALWJ_QQ@mail.gmail.com>
-Date: Fri, 2 Sep 2022 15:37:27 +0200
-Cc: Lee Jones <lee@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- asahi@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Hector Martin <marcan@marcan.st>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Sven Peter <sven@svenpeter.dev>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <85AE2F3E-6A1D-4AA0-9205-3E3DE5C6D79F@cutebit.org>
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
+MIME-Version: 1.0
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
  <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
- <FEE9F7AE-B324-4426-AB26-17BDF30CFC91@cutebit.org>
- <CAHp75Vd8-mOuJvr=PRKjVKbz0SM9hPe39rEcraOMJFYtrwHjng@mail.gmail.com>
- <3B649A66-8116-432D-B88A-B5CE493EF930@cutebit.org>
- <CAHp75VeB3_sZ2vsSxMSsLeJSkyemDh9iOPHXJCN1mhodA13LNQ@mail.gmail.com>
- <E753B391-D2CB-4213-AF82-678ADD5A7644@cutebit.org>
- <CAHp75VdstDxcZ96d3XD=k8_q2oP3UvoL+QV-27BxWFyALWJ_QQ@mail.gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
+ <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk> <CAHp75VeO3gxypRTUc9Subvh+NZ7X4_RR=eFUZpPNwBeWk+_ipg@mail.gmail.com>
+ <YxHp6CNhlQ5Hx1m8@shell.armlinux.org.uk>
+In-Reply-To: <YxHp6CNhlQ5Hx1m8@shell.armlinux.org.uk>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 2 Sep 2022 16:39:16 +0300
+Message-ID: <CAHp75Vd-hT3Z-TUCG3y872_Y7sPAW2QBGC28S7aimOf3WQHg6A@mail.gmail.com>
+Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>, 
+	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Sven Peter <sven@svenpeter.dev>
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, Sep 2, 2022 at 2:33 PM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
+> On Fri, Sep 02, 2022 at 01:37:14PM +0300, Andy Shevchenko wrote:
+> > On Fri, Sep 2, 2022 at 1:05 PM Russell King (Oracle)
+> > <linux@armlinux.org.uk> wrote:
+> > > On Thu, Sep 01, 2022 at 09:55:23PM +0300, Andy Shevchenko wrote:
+> > > > > +static int macsmc_gpio_nr(smc_key key)
+> > > > > +{
+> > > > > +       int low = hex_to_bin(key & 0xff);
+> > > > > +       int high = hex_to_bin((key >> 8) & 0xff);
+> > > > > +
+> > > > > +       if (low < 0 || high < 0)
+> > > > > +               return -1;
+> > > > > +
+> > > > > +       return low | (high << 4);
+> > > > > +}
+> > > >
+> > > > NIH hex2bin().
+> > >
+> > > Is using hex2bin really better?
+> >
+> > Yes.
+> >
+> > > static int macsmc_gpio_nr(smc_key key)
+> > > {
+> > >         char k[2];
+> > >         u8 result;
+> > >         int ret;
+> > >
+> > >         k[0] = key;
+> > >         k[1] = key >> 8;
+> > >
+> > >         ret = hex2bin(&result, k, 2);
+> > >         if (ret < 0)
+> > >                 return ret;
+> > >
+> > >         return result;
+> > > }
+> > >
+> > > This looks to me like it consumes more CPU cycles - because we have to
+> > > write each "character" to the stack, then call a function, only to then
+> > > call the hex_to_bin() function. One can't just pass "key" into hex2bin
+> > > because that will bring with it endian issues.
+> >
+> > With one detail missed, why do you need all that if you can use
+> > byteorder helpers()? What's the stack? Just replace this entire
+> > function with the respectful calls to hex2bin().
+>
+> Sorry, I don't understand what you're suggesting, because it doesn't
+> make sense to me. The byteorder helpers do not give a char array, which
+> is what hex2bin() wants, so we end up with something like:
+>
+>         __le16 foo = cpu_to_le16(key);
+>         u8 result;
+>
+>         ret = hex2bin(&result, (char *)&foo, 1);
+>         if (ret < 0)
+>                 return ret;
+>
+>         return result;
+>
+> This to me looks like yucky code, It still results in "foo" having to
+> be on the stack, because the out-of-line hex2bin() requires a pointer
+> to be passed as the second argument.
+>
+> Maybe you could provide an example of what you're thinking of, because
+> I'm at a loss to understand what you're thinking this should look like.
 
-> On 2. 9. 2022, at 15:33, Andy Shevchenko <andy.shevchenko@gmail.com> =
-wrote:
->=20
-> On Fri, Sep 2, 2022 at 2:12 PM Martin Povi=C5=A1er <povik@cutebit.org> =
-wrote:
->>> On 2. 9. 2022, at 12:23, Andy Shevchenko <andy.shevchenko@gmail.com> =
-wrote:
->>> On Fri, Sep 2, 2022 at 12:47 PM Martin Povi=C5=A1er =
-<povik@cutebit.org> wrote:
->>>>> On 2. 9. 2022, at 8:31, Andy Shevchenko =
-<andy.shevchenko@gmail.com> wrote:
->>>>> On Fri, Sep 2, 2022 at 12:52 AM Martin Povi=C5=A1er =
-<povik@cutebit.org> wrote:
->=20
-> ...
->=20
->>>>> I don't see why we need that. The %.4s (0x%08x) is repeating that =
-with
->>>>> the existing codebase. (I do understand why v4l2/drm have it). =
-Ideally
->>>>> the first should use %4pE, but it might not be suitable in some =
-cases.
->>>>=20
->>>> Just from a superficial understanding of things: %p4ch on =
-little-endian
->>>> will print in a reversed order to %.4s. As I see it the handling of
->>>> endianness is the value proposition of the new specifiers.
->>>=20
->>> So, what prevents you from adding this to %pE?
->>> The preferred way is not adding a specifier for a single user with a
->>> particular case, esp. when it's covered by the existing ones.
->>=20
->> Adding the endianness conversion into %pE as, ehm, an =E2=80=98escaping=
- flag=E2=80=99?
->> If you think that would be accepted...
->>=20
->> I guess this was added on the assumption that keys like this will
->> be a common occurrence in interaction with Apple firmware. Though
->> greping the =E2=80=98asahi=E2=80=99 staging tree for =E2=80=98%p4ch=E2=80=
-=99 I only see it in the
->> SMC code (9 times):
->>=20
->> ./drivers/power/reset/macsmc-reboot.c
->> ./drivers/platform/apple/smc_core.c
->> ./drivers/gpio/gpio-macsmc.c
->=20
->>>> %p4ch - interpret as an u32, print the character in most =
-significant byte first
->>>=20
->>> %.4s + be32_to_cpu()
->>=20
->> Well, AIUI instead of
->>=20
->>  printk(=E2=80=9C%p4ch =3D ...\n=E2=80=9D, &key);
->>=20
->> you need to do
->>=20
->>  u32 key_be =3D cpu_to_be32(key);
->>  printk(=E2=80=9C%.4s =3D ...\n=E2=80=9D, &key_be);
->>=20
->> in at least 9 places now, the number of which will probably grow.
->> Just to make the case for *some* printk helper.
->=20
-> Wouldn't this be one line
->=20
->  printk(=E2=80=9C%.4s =3D ...\n=E2=80=9D, &cpu_to_be32(key));
->=20
-> ?
+So, let's look into the real callers to see, oh wait, it's a single caller!
+Why can't you simply do
 
-That would compile? I thought that=E2=80=99s not valid C, taking an
-address of function=E2=80=99s return value.
+         ret = hex2bin(&result, (char *)&cpu_to_le16(key), 1);
+         if (ret < 0)
+                 return ret;
 
->=20
-> So I don't see disadvantages right now. Later on we can consider a new
-> specifier _separately_, otherwise this series would be dragging for no
-> sense.
+in-place there?
 
-Absolutely agreed on the latter point.
-
-Martin
-
+-- 
+With Best Regards,
+Andy Shevchenko
