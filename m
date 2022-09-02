@@ -1,215 +1,255 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428D2110D
-	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 10:05:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=AH9jorqRscdJTuJaR2kWLhnyNOvRxsIijPyGrUq1awk=; b=a1xCK6n2tWQphxQp0uCMhdK3yX
-	7XnpDvbVcxFBEu0djyukDCYEfY9pfpCJqVbHYPBlCKVpEm+S4E9r7MoocxVQJP9Fx7whJ1U8Nefre
-	gYkMjJARvjYepo+S/ACuvcPbt3pTHysBNftBysVbo5ruZl3b7fcy9w2qXZCT01+yXtp4SduYpy12p
-	zhR8JNiHA1hOBQb8fAxRVSSd/OIRPc9KUEOeWKafFhWAXRGrUIFhQjAfW73du+W+37tdUAe7BA/pS
-	HyyoNwfScfQZ+MTn9F42WoFAvjp1FkFiZyY/oWttMkH0bdlWN6gOCxhwiq8JCQQXES7D/vNOy+kpu
-	iexdnJWw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34060)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1oU3YZ-0007HI-4I; Fri, 02 Sep 2022 11:05:47 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1oU3YU-0004LB-TV; Fri, 02 Sep 2022 11:05:42 +0100
-Date: Fri, 2 Sep 2022 11:05:42 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Hector Martin <marcan@marcan.st>,
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
-Message-ID: <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
- <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71840185C
+	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 10:37:51 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id l5so1114459qtv.4
+        for <asahi@lists.linux.dev>; Fri, 02 Sep 2022 03:37:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=dhxY1XN9LqDd4p8jCsOrBrLU/6pXWataZOAm6mzXO/0=;
+        b=i1ti6U87GQmvuzYoKKQtiUc9u7ziwtznBwkS0Ib/RwIbJM+TJ0Iy+/driqB5WPMz97
+         PjBOfjbmfxlKWQqcXD+CCHfievlDoLDkZR5AVkL/FUzdyT4oX9nOaxIfgiGJxJBd5k5v
+         GVkF2VEGkBB8buU5hMISCa3oTeuZT9w60gacplfyytUvau38t0iWvNgbBl7Z3vSLbLTl
+         ncfdIhTAYTi04F15JEBttyZ7bynhoo69CGRi+8qcD3fFRvdKhOs9IdTtQ+tFw5zh6+We
+         y/k669r8oe0FK4lypWpxV+uSpLXWq8mrI/ETmGZeSgn9v/8HqDrZMTsEe7Ytz9hxdXGz
+         om+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=dhxY1XN9LqDd4p8jCsOrBrLU/6pXWataZOAm6mzXO/0=;
+        b=nmxhDBuFa4Np8ixLaLujkRbmcgXQQszU2y89WGRZG0BOJlVzIEovUOzTGkgKdIwzjt
+         Oh9jztehddRgTfA7cvY8n2Ht1CAG9GUn/MRQEGMYlMJdcDRY5mATDFMka/hXsSvorUx6
+         2cTeyFDuqMEYJhaN4/Ethfey8VdbbBbQrFauC7FCR6NWBHTYDFuJ+9TOf6o9c8f+LJp2
+         IGEgMUkSXbAnnxJiByP4gzrrDs+BnYQ/OzM4GDwTzwc4hiHS5qsKpQDDwU7dNi5L0uHh
+         6kbcXE+6x6uWxAd7WrOqMlVmL9JGZ9j/qaoSK5PDUK3lgCf/3+U7EWd4rXkGr6P0hdI8
+         atBg==
+X-Gm-Message-State: ACgBeo1g9gHJoPcsDxYAXdpoczdrgcQF4/fO9LIOkLwJZVC5G4FyKK/g
+	0TPCVbl7IKR46Jhxo2sk1RNbxOcfMFh5wHSdSwE=
+X-Google-Smtp-Source: AA6agR6DmZf5PoN+MCkvXtJaqlV67oH/Ez4z9v5Fo7VjrPQL57s7MFmEv1tM4k0nYROeGI7vu96Ftx9+29on6qxDNAQ=
+X-Received: by 2002:ac8:7f92:0:b0:344:8cd8:59a1 with SMTP id
+ z18-20020ac87f92000000b003448cd859a1mr28231282qtj.384.1662115070372; Fri, 02
+ Sep 2022 03:37:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
+ <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com> <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
+In-Reply-To: <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 2 Sep 2022 13:37:14 +0300
+Message-ID: <CAHp75VeO3gxypRTUc9Subvh+NZ7X4_RR=eFUZpPNwBeWk+_ipg@mail.gmail.com>
+Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>, 
+	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Sven Peter <sven@svenpeter.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 01, 2022 at 09:55:23PM +0300, Andy Shevchenko wrote:
-> > +static int macsmc_gpio_nr(smc_key key)
-> > +{
-> > +       int low = hex_to_bin(key & 0xff);
-> > +       int high = hex_to_bin((key >> 8) & 0xff);
-> > +
-> > +       if (low < 0 || high < 0)
-> > +               return -1;
-> > +
-> > +       return low | (high << 4);
-> > +}
-> 
-> NIH hex2bin().
+On Fri, Sep 2, 2022 at 1:05 PM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
+> On Thu, Sep 01, 2022 at 09:55:23PM +0300, Andy Shevchenko wrote:
 
-Is using hex2bin really better?
+...
 
-static int macsmc_gpio_nr(smc_key key)
-{
-        char k[2];
-        u8 result;
-        int ret;
+> > > +static int macsmc_gpio_nr(smc_key key)
+> > > +{
+> > > +       int low = hex_to_bin(key & 0xff);
+> > > +       int high = hex_to_bin((key >> 8) & 0xff);
+> > > +
+> > > +       if (low < 0 || high < 0)
+> > > +               return -1;
+> > > +
+> > > +       return low | (high << 4);
+> > > +}
+> >
+> > NIH hex2bin().
+>
+> Is using hex2bin really better?
 
-        k[0] = key;
-        k[1] = key >> 8;
+Yes.
 
-        ret = hex2bin(&result, k, 2);
-        if (ret < 0)
-                return ret;
+> static int macsmc_gpio_nr(smc_key key)
+> {
+>         char k[2];
+>         u8 result;
+>         int ret;
+>
+>         k[0] = key;
+>         k[1] = key >> 8;
+>
+>         ret = hex2bin(&result, k, 2);
+>         if (ret < 0)
+>                 return ret;
+>
+>         return result;
+> }
+>
+> This looks to me like it consumes more CPU cycles - because we have to
+> write each "character" to the stack, then call a function, only to then
+> call the hex_to_bin() function. One can't just pass "key" into hex2bin
+> because that will bring with it endian issues.
 
-        return result;
-}
+With one detail missed, why do you need all that if you can use
+byteorder helpers()? What's the stack? Just replace this entire
+function with the respectful calls to hex2bin().
 
-This looks to me like it consumes more CPU cycles - because we have to
-write each "character" to the stack, then call a function, only to then
-call the hex_to_bin() function. One can't just pass "key" into hex2bin
-because that will bring with it endian issues.
+...
 
-> > +static int macsmc_gpio_key(unsigned int offset)
-> > +{
-> > +       return _SMC_KEY("gP\0\0") | (hex_asc_hi(offset) << 8) | hex_asc_lo(offset);
-> > +}
-> 
-> NIH hex_byte_pack().
+> > > +static int macsmc_gpio_key(unsigned int offset)
+> > > +{
+> > > +       return _SMC_KEY("gP\0\0") | (hex_asc_hi(offset) << 8) | hex_asc_lo(offset);
+> > > +}
+> >
+> > NIH hex_byte_pack().
+>
+> This would become:
+>
+>         char buf[2];
+>
+>         hex_byte_pack(buf, offset);
+>
+>         return _SMC_KEY("gP\0\0") | buf[0] << 8 | buf[1];
 
-This would become:
+You have a point here.
 
-	char buf[2];
+> to avoid the endian issues. It just seems to be a more complex way to
+> do the conversion. One could then argue that this is just a NIH
+> sprintf(), so it could then be written:
 
-	hex_byte_pack(buf, offset);
+No, no. snprintf() is too much here.
 
-	return _SMC_KEY("gP\0\0") | buf[0] << 8 | buf[1];
+> which looks nicer, but involves a lot more code.
+>
+> Since this is called for every GPIO operation, and you were worred above
+> about the layout of the macsmc_gpio structure (which is a micro-
+> optimisation), it seems weird to be concerned about the efficiency of
+> the structure layout and then suggest less efficient code in each of the
+> functional paths of the driver. There seems to be a contradiction.
 
-to avoid the endian issues. It just seems to be a more complex way to
-do the conversion. One could then argue that this is just a NIH
-sprintf(), so it could then be written:
+...
 
-	char buf[5];
+> > > +       /* First try reading the explicit pin mode register */
+> > > +       ret = apple_smc_rw_u32(smcgp->smc, key, CMD_PINMODE, &val);
+> > > +       if (!ret)
+> > > +               return (val & MODE_OUTPUT) ? GPIO_LINE_DIRECTION_OUT : GPIO_LINE_DIRECTION_IN;
+> > > +
+> > > +       /*
+> > > +        * Less common IRQ configs cause CMD_PINMODE to fail, and so does open drain mode.
+> > > +        * Fall back to reading IRQ mode, which will only succeed for inputs.
+> > > +        */
+> > > +       ret = apple_smc_rw_u32(smcgp->smc, key, CMD_IRQ_MODE, &val);
+> > > +       return (!ret) ? GPIO_LINE_DIRECTION_IN : GPIO_LINE_DIRECTION_OUT;
+> >
+> > What is the meaning of val in this case?
+>
+> Reading the comment, it seems that "val" is irrelevant. I'm not sure that
+> needs explaining given there's a comment that's already explaining what
+> is going on here.
 
-	snprintf(buf, sizeof(buf), "gP%02x", offset);
+OK.
+Just convert then (!ret) --> ret.
 
-	return _SMC_KEY(buf);
+...
 
-which looks nicer, but involves a lot more code.
+> > > +       if (ret == GPIO_LINE_DIRECTION_OUT)
+> > > +               ret = apple_smc_rw_u32(smcgp->smc, key, CMD_OUTPUT, &val);
+> > > +       else
+> > > +               ret = apple_smc_rw_u32(smcgp->smc, key, CMD_INPUT, &val);
+> >
+> > > +
+> >
+> > Unnecessary blank line.
+>
+> I think that's personal style preference, it isn't mentioned in the coding
+> style. However, the following is much nicer and likely produces better
+> code:
+>
+>         if (ret == GPIO_LINE_DIRECTION_OUT)
+>                 cmd = CMD_OUTPUT;
+>         else
+>                 cmd = CMD_INPUT;
+>
+>         ret = apple_smc_rw_u32(smcgp->smc, key, cmd, &val);
+>         if (ret < 0)
+>                 return ret;
 
-Since this is called for every GPIO operation, and you were worred above
-about the layout of the macsmc_gpio structure (which is a micro-
-optimisation), it seems weird to be concerned about the efficiency of
-the structure layout and then suggest less efficient code in each of the
-functional paths of the driver. There seems to be a contradiction.
+Go for it!
 
-> > +       /* First try reading the explicit pin mode register */
-> > +       ret = apple_smc_rw_u32(smcgp->smc, key, CMD_PINMODE, &val);
-> > +       if (!ret)
-> > +               return (val & MODE_OUTPUT) ? GPIO_LINE_DIRECTION_OUT : GPIO_LINE_DIRECTION_IN;
-> > +
-> > +       /*
-> > +        * Less common IRQ configs cause CMD_PINMODE to fail, and so does open drain mode.
-> > +        * Fall back to reading IRQ mode, which will only succeed for inputs.
-> > +        */
-> > +       ret = apple_smc_rw_u32(smcgp->smc, key, CMD_IRQ_MODE, &val);
-> > +       return (!ret) ? GPIO_LINE_DIRECTION_IN : GPIO_LINE_DIRECTION_OUT;
-> 
-> What is the meaning of val in this case?
+...
 
-Reading the comment, it seems that "val" is irrelevant. I'm not sure that
-needs explaining given there's a comment that's already explaining what
-is going on here.
+> > > +       if (count > MAX_GPIO)
+> > > +               count = MAX_GPIO;
+> >
+> > Hmm... When can it be the case?
+>
+> That's a question for the Asahi folk - it's not obvious whether it could
+> or could not be from the code. I think it depends on firmware.
 
-> > +       if (ret == GPIO_LINE_DIRECTION_OUT)
-> > +               ret = apple_smc_rw_u32(smcgp->smc, key, CMD_OUTPUT, &val);
-> > +       else
-> > +               ret = apple_smc_rw_u32(smcgp->smc, key, CMD_INPUT, &val);
-> 
-> > +
-> 
-> Unnecessary blank line.
+If it's the case, why does the code not support higher GPIOs? Needs at
+least a comment.
 
-I think that's personal style preference, it isn't mentioned in the coding
-style. However, the following is much nicer and likely produces better
-code:
+...
 
-        if (ret == GPIO_LINE_DIRECTION_OUT)
-                cmd = CMD_OUTPUT;
-        else
-                cmd = CMD_INPUT;
+> > > +       bitmap_zero(valid_mask, ngpios);
+> > > +
+> > > +       for (i = 0; i < count; i++) {
+> > > +               smc_key key;
+> > > +               int gpio_nr;
+> >
+> > > +               int ret = apple_smc_get_key_by_index(smcgp->smc, smcgp->first_index + i, &key);
+> >
+> > Ditto.
+>
+> What does "ditto" here mean, because I don't think you mean "Hmm...
+> When can it be the case?" and "I would split this assignment and move
+> it closer to the first user." doesn't seem to be relevant either.
 
-        ret = apple_smc_rw_u32(smcgp->smc, key, cmd, &val);
-        if (ret < 0)
-                return ret;
+Split
 
-> > +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
-> > +       int count = apple_smc_get_key_count(smcgp->smc) - smcgp->first_index;
-> 
-> I would split this assignment and move it closer to the first user.
-> 
-> > +       int i;
-> > +
-> > +       if (count > MAX_GPIO)
-> > +               count = MAX_GPIO;
-> 
-> Hmm... When can it be the case?
+  int ret = foo();
 
-That's a question for the Asahi folk - it's not obvious whether it could
-or could not be from the code. I think it depends on firmware.
+to
 
-> > +       bitmap_zero(valid_mask, ngpios);
-> > +
-> > +       for (i = 0; i < count; i++) {
-> > +               smc_key key;
-> > +               int gpio_nr;
-> 
-> > +               int ret = apple_smc_get_key_by_index(smcgp->smc, smcgp->first_index + i, &key);
-> 
-> Ditto.
+    int ret;
+    ret = foo();
 
-What does "ditto" here mean, because I don't think you mean "Hmm...
-When can it be the case?" and "I would split this assignment and move
-it closer to the first user." doesn't seem to be relevant either.
+...
 
-> > +       pdev->dev.of_node = of_get_child_by_name(pdev->dev.parent->of_node, "gpio");
-> 
-> Can we use fwnode APIs instead?
-> Or do you really need this?
+> > > +       pdev->dev.of_node = of_get_child_by_name(pdev->dev.parent->of_node, "gpio");
+> >
+> > Can we use fwnode APIs instead?
+> > Or do you really need this?
+>
+> Ouch, that's not nice. I can change this to:
 
-Ouch, that's not nice. I can change this to:
+(Some background on why my eye caught this. We as GPIO SIG in the
+kernel want to move the library to be fwnode one without looking into
+the underneath property provider. This kind of lines makes driver look
+a bit ugly from that perspective)
 
-        fwnode = device_get_named_child_node(pdev->dev.parent, "gpio");
-        device_set_node(&pdev->dev, fwnode);
+>         fwnode = device_get_named_child_node(pdev->dev.parent, "gpio");
+>         device_set_node(&pdev->dev, fwnode);
+>
+> but even that isn't _that_ nice. I'd like to hear comments from the Asahi
+> folk about whether these sub-blocks of the SMC can have compatibles, so
+> that the MFD layer can automatically fill in the firmware nodes on the
+> struct device before the probe function gets called.
 
-but even that isn't _that_ nice. I'd like to hear comments from the Asahi
-folk about whether these sub-blocks of the SMC can have compatibles, so
-that the MFD layer can automatically fill in the firmware nodes on the
-struct device before the probe function gets called.
+> If not, then I think it would be reasonable to have a discussion with
+> Lee about extending MFD to be able to have mfd cells name a child, so
+> that MFD can do the above instead of having it littered amongst drivers.
 
-If not, then I think it would be reasonable to have a discussion with
-Lee about extending MFD to be able to have mfd cells name a child, so
-that MFD can do the above instead of having it littered amongst drivers.
-
-Thanks for the review.
+MFD cells can be matched by compatible strings.
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+With Best Regards,
+Andy Shevchenko
