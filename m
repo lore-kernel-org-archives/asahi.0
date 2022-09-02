@@ -1,102 +1,82 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968997E
-	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 06:45:40 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id BF88B3200AA1;
-	Fri,  2 Sep 2022 02:45:38 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute2.internal (MEProxy); Fri, 02 Sep 2022 02:45:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1662101138; x=1662187538; bh=bY
-	LZ913Dp4ZRTutrVUDsylQfP4PyGybvm0JPexpAVjU=; b=KhcAMIs2YHep2jlRRO
-	QbkSmQM712fJB4yt/bzEHrtuoD11z0u5pulVP6dXilNhfZnSuN0yn21up9xoFJeA
-	oNNU7CPFVjsx4YCV/ZrmWFfK7UV5XbCxMXbh5wKvhXXzIYYH19SbZjDmx7CkAmBO
-	5ECaiT0Icm8u3vOuIfTQDi0V2ZPPpQpdkaqOVUteaVX9OBPE0l137igKR5Rv1YbO
-	yadSnbBE0EJG2ExUSE2+J6FLIQfUTqNHyp9QX8QDz84ydDBn3PAHF+lC7JCnLryV
-	PWuj0uk1+A1jJzIwseNkgwrDUDIxpSX8eQTdkL6M5+GoJzbqkI/zr9tpEBdNiM2h
-	oqtQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1662101138; x=1662187538; bh=bYLZ913Dp4ZRTutrVUDsylQfP4Py
-	Gybvm0JPexpAVjU=; b=svfbX1bqsJVGSY5/Bt/8cV8k7ubPHmmNcb/gZ+B3BLZp
-	qEjMNoQC2zDfu3h5PLW2Q+SC0XkDu3tuYO/NDdzabemMS4Jz5yBdyXag0o4QhN1N
-	8pKikiekWrkOTBHZcDKBHfCe3OIcABgAjUbNp+SiL/17EMD4T1opa+y+vr8/XMtR
-	94JWZsCf1ktYqdtP1+KdsH2oeiwaUNFM+OzxA4WTTmZjlUAx65yvORoy+JW6FlX1
-	wFpZboyp6bSgI5h8JJHJ8UplFtNFDnD2EPJlIhblWn1Z/yn7vs4lAaTKsLo+6mZa
-	Mar9OwTBv4SekHC+VxeDJTFKn2Q5hl57Jc5jALGdjg==
-X-ME-Sender: <xms:kaYRY5ND_g4mYC9t9sy6PIoyjrebZQuq_Kq94iMk46F6472l76aUKA>
-    <xme:kaYRY7_zcuAkioI92ViBILJtzeqmwWXr6AINMdzzgINGCqQXQRzsJ6rw5gc5-TzNu
-    QFL5sSWHNcCOI_VPuk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekledgudduvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfu
-    vhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtf
-    frrghtthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefg
-    hfeiveeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:kaYRY4S6YyWPB8nSZ1bFyEJmFqJ4uN3Xp9y_E_VWS6q9znP69PRomg>
-    <xmx:kaYRY1tunDO5RTurEuBueAtB03zIB5zmTExDfC-bSluszGFQuO14UQ>
-    <xmx:kaYRYxeD6GaXrXXvbNYTN2SFiAko0YnihhSffE3Ot3Zow04U52A1Ng>
-    <xmx:kqYRYwxMRoG3xUxqQBLPkGcB1Q683AszGaxaoJ4ql4-gUtWIxR1sqw>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 38E0DA60082; Fri,  2 Sep 2022 02:45:37 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29259110D
+	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 09:42:19 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id og21so2764504ejc.2
+        for <asahi@lists.linux.dev>; Fri, 02 Sep 2022 02:42:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=7RVxKy/7NAGOaBeicY+wPpYYEBXyRyq/rxV9WkxurLc=;
+        b=t5MAHakXGCxi9EzKBEp8YrERVHmy6pFRk58+CBrN5EjND9wsClk17Q0nsbbYkvAhS2
+         ZTMfzJ5dRLrvlYkoGBwqOlTvaOFKdPP84LgYesx7KfqWMhctqEXExFWdl21Az0XQS8tg
+         uxK7evYVqfY+74N5Hqq5BciG6CPBfdKeazeAD2G+/5+gvt6xOjZw0sZeO0kXehvh1h7+
+         gm9BEI7E/sQ+7LDikGIjcMX2Hl752X9at4k3GlTDzO+rOkHAFwxjhH5nUl01yoeh5I06
+         K1U5VSA2gtsiIPiCgzGpzyJW3EBbnfsR2iQFb01OD6sUpNTNIJArMEBiaa9flKclDr5C
+         RlWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=7RVxKy/7NAGOaBeicY+wPpYYEBXyRyq/rxV9WkxurLc=;
+        b=UQvcWhGpKlq6nxXO+6gCFXq77BsRpSVslhUsgYiXdAGfVx5tcsyIbo2wOoy8OrFrNE
+         KGFWGaT+xiuZDdkkeUps+tvVNV7dGFQVc6tP3+3VzE2OWHDRJzpkixJXOXt1zajcfBHc
+         nS5NfzAaqCHPIQFLqHcsOGpQMphnsC8M6IULmiGci14PmZLRGO7fcxLT+rn3DIYMo3Bc
+         TnVd+MhioyZ+7Gmb+fyzp76i7URSyH8wp2G9DE7ff4UnmDxFh/cOTYVuqfVYb86sbHQR
+         nOINAlcyGLPyZMWEeJ0PAAY0LH7bspHaVMWLrSMH9saO6erEFgmhUzTdWsDVxw1urxHu
+         +XXA==
+X-Gm-Message-State: ACgBeo0KBA8VPiCUwdvymKGqiNCpM18QsKqWpYQXApQKX/y4oUGrNW+R
+	dEINVxRsTahVbOgMr+iD22hdbYvmqVncq+t92pHZ8Q==
+X-Google-Smtp-Source: AA6agR5FNn2SdvXJheXgW++QRRzppsx1/2cO8qkL7nCfiz48tHzXXaKQNTosX51dACVMFHkUCLXidwkeIGtP5BM4lG4=
+X-Received: by 2002:a17:907:6293:b0:73d:b27b:e594 with SMTP id
+ nd19-20020a170907629300b0073db27be594mr27254666ejc.526.1662111737397; Fri, 02
+ Sep 2022 02:42:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <20d82d72-ed8a-458f-bb84-37906bd41bcc@www.fastmail.com>
-In-Reply-To: 
- <CAHp75Ve1ackTCOAkVar00OyDW-+BOPbRmsJRH3-z1bdNaukC+Q@mail.gmail.com>
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
- <CAHp75Ve1ackTCOAkVar00OyDW-+BOPbRmsJRH3-z1bdNaukC+Q@mail.gmail.com>
-Date: Fri, 02 Sep 2022 08:45:16 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Andy Shevchenko" <andy.shevchenko@gmail.com>,
- "Russell King" <rmk+kernel@armlinux.org.uk>
-Cc: "Arnd Bergmann" <arnd@arndb.de>, "Lee Jones" <lee@kernel.org>,
- "Linus Walleij" <linus.walleij@linaro.org>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- "Bartosz Golaszewski" <brgl@bgdev.pl>, "Hector Martin" <marcan@marcan.st>,
- "linux-arm Mailing List" <linux-arm-kernel@lists.infradead.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
-Content-Type: text/plain
+MIME-Version: 1.0
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 2 Sep 2022 11:42:05 +0200
+Message-ID: <CACRpkdZDWn=Pw=QnO5=TP=KfT4Q8Eot3yCp7NVLmDTwWg39Zvw@mail.gmail.com>
+Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, Sven Peter <sven@svenpeter.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 1, 2022, at 21:26, Andy Shevchenko wrote:
-> On Thu, Sep 1, 2022 at 5:18 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
-[...]
+On Thu, Sep 1, 2022 at 3:54 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
+
+> From: Hector Martin <marcan@marcan.st>
 >
-> ...
+> This driver implements the GPIO service on top of the SMC framework
+> on Apple Mac machines. In particular, these are the GPIOs present in the
+> PMU IC which are used to control power to certain on-board devices.
 >
->> +       if (size <= 4)
->> +               memcpy(buf, &rdata, size);
->> +       else
->> +               memcpy_fromio(buf, smc->shmem.iomem, size);
+> Although the underlying hardware supports various pin config settings
+> (input/output, open drain, etc.), this driver does not implement that
+> functionality and leaves it up to the firmware to configure things
+> properly. We also don't yet support interrupts/events. This is
+> sufficient for device power control, which is the only thing we need to
+> support at this point. More features will be implemented when needed.
 >
-> This is unclear why plain memcpy() for the small size and what are the
-> side effects of the memory. Maybe you wanted memremap() instead of
-> ioremap() to begin with?
+> To our knowledge, only Apple Silicon Macs implement this SMC feature.
+>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-rdata is used for small buffers, comes directly as part of a message sent on the
-underlying hardware FIFO and is on the stack (and thus mapped as as Normal memory)
-while smc->shmem.iomem has to be Device-nGnRnE. Mapping it with any other attributes
-will generate SErrors for each access.
+Overall this looks very good provided the SMC API is fine
+with the platform/MFD maintainers, I like the usage of .init_valid_mask
+which is used just as intended. Andy's detailed review points
+should be addressed reasonably after that it's:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-
-
-
-Sven
+Yours,
+Linus Walleij
