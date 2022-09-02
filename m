@@ -1,291 +1,134 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13071869
-	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 13:21:45 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id cu2so3953030ejb.0
-        for <asahi@lists.linux.dev>; Fri, 02 Sep 2022 06:21:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB54266FE
+	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 13:34:12 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id h21so1448616qta.3
+        for <asahi@lists.linux.dev>; Fri, 02 Sep 2022 06:34:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=9kjykBLX/2XOZBPDkYx1NLn0xeEFvOvh/J7JeDhgExk=;
-        b=QtEycjEFT3kKXeccaCJV0EQelglBaWCaK0Agc13Ll/Mwm3/7GgXSrcqm7BV4Bts38z
-         YLYnfSB3UWwe6Ns3pce0JmGSgJ/zPbpAd2jea45sk/KwZn/BGEWYyFBZlsRmWetnlIuh
-         DpU2xAn+3okijON0TKQs1IzQV/22ODfAxFQAB6t9aoLpBh+5aqKEVM8pBXFNOsJLsl8L
-         8Pm9XMNd5C5CxYjq6GPvhE6cp8PQ31gLI5aozoc09Z0xJ1RjymHF8E29Y3Hq6Bd2CJdJ
-         CWATn/aGANinKbqle2HktZq4wwX2eU10/zyHFb7uhJ0IlQ7aWQ/8ukTHU+mEOqk3x+G6
-         +I4w==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=Gkpmi9v/Zg1z+jYmfWZseXaPc8qDinSrvckWTlev+4o=;
+        b=IlnWAH9ba0fxoVhZaboZc38zbbHoqqdVnynDSmCY4zEL5kazQWT1bBY/B9tDawwACF
+         whpMF8OGNY9DED2tGDnAKQRooa00tzkmEhQe7MFlhtcj/U+I5goqgFcBTCzABlWuaA+L
+         qe2DPEsRy+uszsvR1RGMr9hTaK/hOajBBLsSqcoNYWFO8R1//e86h7J8+TVIDpb5izay
+         8Oi1BLNpytRbr6lRpGBY8RmpPIlqsMTLqd23Z5/3MbQnhkQgWpK7oUfgZbA9Zn7oF25B
+         AsKD2EM3D35eB/zYCjxNS3B7Pqgpuz1u/fmGM+OKmc5v/E4lsz2VX+JZLZju2cf4IG4B
+         svHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=9kjykBLX/2XOZBPDkYx1NLn0xeEFvOvh/J7JeDhgExk=;
-        b=VETGWLZ6yO/TxJlkzZbTgDs3wE7QVMHf3jlJrMnolBDRk4ofQFRnO0uBoI1TFkpSYA
-         iVvcPuUJ5Zc2ubvQendAEpGeTdZ6RzPMdqxvZIcrPw8cvbjQ85bdoI/1umagVty64sqQ
-         6hsM7BjlbeO39zThkR5FW9CFhj/H3sCJXb1XHSP8MqmM43TMI2ejZ9uHeC/uJj4Tz41B
-         F+7HRjITdt+Vgr1pBwUDAztrcH+y6ipFvg0/PEMgNpFAenlVkOF8tMY4n1D8HTxedWck
-         OZfVpKVoe16BT3YKqIRku4ed91VkYevyxkipTe4fSMI8GvSh4xR2RxldZCIo/di+LeFi
-         2log==
-X-Gm-Message-State: ACgBeo26Dx4nAY0OOfGdf4MA660ZUaQ3HDwM/CFT/P6t1OMCXew7kV1i
-	61jQ6XZqnFRmoBIIiDI3a2Qxad6mpGxnbMouJgFiDw==
-X-Google-Smtp-Source: AA6agR4r/6CP+Iq7CHiLZ9hhf/V6Z3w5iDTDeeWViqSHhU+3njvpPWP1PCbfjr1cC7FuHD8BEjYEh9+YQJaNJZW84iA=
-X-Received: by 2002:a17:907:1c89:b0:741:4453:75be with SMTP id
- nb9-20020a1709071c8900b00741445375bemr21492292ejc.208.1662124903916; Fri, 02
- Sep 2022 06:21:43 -0700 (PDT)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=Gkpmi9v/Zg1z+jYmfWZseXaPc8qDinSrvckWTlev+4o=;
+        b=HvKpzi6tP5R2NDHiSc3wiWxwklK4dnv0Bu91y7iQZCgAzahAEJS/ZZeo8746lbZLPO
+         /8daz/9lmHxA3XRACMnUyrHWvFL/tofw1u4ZQnolBQtm+yEm9Um5Hm51qoQ8U1hmFfM5
+         FA1vMABNFPMn9HUh64wnOt4uSUD8Bv2cn5bTZp0AQmEqN2YROzvvmov5plc+PtbcSdbB
+         bgNcQPPGSY0xq3GB2fMhv5hvewxhEUQ0V7icqcfnHbegwipr/1FXWnhGaB2y69NSV+pv
+         p0Y2aF1Fd070W8nyWyB749ssg2d9cg51JmAsPH6t7fFl+j/x7oN4YCqXcA5sZo9mykhG
+         Rx9w==
+X-Gm-Message-State: ACgBeo2qkZBtNS/vw6zfBBpE42mM1xq21aEUPAwJ+/eyRO8O2q+mLP4Y
+	U0UIpkc1fxZS4Jvp5zpete7OhXLs13qCDOiqUjU=
+X-Google-Smtp-Source: AA6agR70JafKl8vd6yqzpSoneLWMOadRHZ7KK1Dfyex2M1IYykk+PqGzJOo7e4Fu15BAshv/O2UboAIo6utt735Vdmk=
+X-Received: by 2002:ac8:5786:0:b0:343:3051:170d with SMTP id
+ v6-20020ac85786000000b003433051170dmr28009819qta.429.1662125651651; Fri, 02
+ Sep 2022 06:34:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeg-003t9k-Mc@rmk-PC.armlinux.org.uk>
-In-Reply-To: <E1oTkeg-003t9k-Mc@rmk-PC.armlinux.org.uk>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 2 Sep 2022 15:21:31 +0200
-Message-ID: <CACRpkdaR9rBdPC_OBKx5e+=EtbR-Jn3GzrvGRYHMJmXwRxPhyg@mail.gmail.com>
-Subject: Re: [PATCH 6/6] gpio: macsmc: Add IRQ support
-To: Russell King <rmk+kernel@armlinux.org.uk>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>, 
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
+ <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
+ <FEE9F7AE-B324-4426-AB26-17BDF30CFC91@cutebit.org> <CAHp75Vd8-mOuJvr=PRKjVKbz0SM9hPe39rEcraOMJFYtrwHjng@mail.gmail.com>
+ <3B649A66-8116-432D-B88A-B5CE493EF930@cutebit.org> <CAHp75VeB3_sZ2vsSxMSsLeJSkyemDh9iOPHXJCN1mhodA13LNQ@mail.gmail.com>
+ <E753B391-D2CB-4213-AF82-678ADD5A7644@cutebit.org>
+In-Reply-To: <E753B391-D2CB-4213-AF82-678ADD5A7644@cutebit.org>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 2 Sep 2022 16:33:35 +0300
+Message-ID: <CAHp75VdstDxcZ96d3XD=k8_q2oP3UvoL+QV-27BxWFyALWJ_QQ@mail.gmail.com>
+Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
+To: =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik@cutebit.org>
+Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>, linux-arm-kernel@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, Sven Peter <sven@svenpeter.dev>
+	Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Sven Peter <sven@svenpeter.dev>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 1, 2022 at 3:54 PM Russell King <rmk+kernel@armlinux.org.uk> wrote:
+On Fri, Sep 2, 2022 at 2:12 PM Martin Povi=C5=A1er <povik@cutebit.org> wrot=
+e:
+> > On 2. 9. 2022, at 12:23, Andy Shevchenko <andy.shevchenko@gmail.com> wr=
+ote:
+> > On Fri, Sep 2, 2022 at 12:47 PM Martin Povi=C5=A1er <povik@cutebit.org>=
+ wrote:
+> >>> On 2. 9. 2022, at 8:31, Andy Shevchenko <andy.shevchenko@gmail.com> w=
+rote:
+> >>> On Fri, Sep 2, 2022 at 12:52 AM Martin Povi=C5=A1er <povik@cutebit.or=
+g> wrote:
 
-> From: Hector Martin <marcan@marcan.st>
+...
+
+> >>> I don't see why we need that. The %.4s (0x%08x) is repeating that wit=
+h
+> >>> the existing codebase. (I do understand why v4l2/drm have it). Ideall=
+y
+> >>> the first should use %4pE, but it might not be suitable in some cases=
+.
+> >>
+> >> Just from a superficial understanding of things: %p4ch on little-endia=
+n
+> >> will print in a reversed order to %.4s. As I see it the handling of
+> >> endianness is the value proposition of the new specifiers.
+> >
+> > So, what prevents you from adding this to %pE?
+> > The preferred way is not adding a specifier for a single user with a
+> > particular case, esp. when it's covered by the existing ones.
 >
-> Add IRQ support to the macsmc driver. This patch has updates from Joey
-> Gouly and Russell King.
+> Adding the endianness conversion into %pE as, ehm, an =E2=80=98escaping f=
+lag=E2=80=99?
+> If you think that would be accepted...
 >
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-
-Overall looks very good, again some detailed remarks from Andy
-should be addressed, apart from that you need to add:
-
-select GPIOLIB_IRQCHIP
-
-to the Kconfig entry for the driver, or else the compile robots are
-going to hit some configuration that doesn't compile.
-
-> +       struct mutex irq_mutex;
-> +       DECLARE_BITMAP(irq_supported, MAX_GPIO);
-
-If you can use the .init_valid_mask from struct gpio_irq_chip
-instead, it will allocate this mask dynamically for the irqchip.
-(Further comment below.)
-
-> +       DECLARE_BITMAP(irq_enable_shadow, MAX_GPIO);
-
-Please rename irq_unmasked_shadow as it is tracking
-this and not what the irqchip core calls enabled/disabled.
-
-> +       DECLARE_BITMAP(irq_enable, MAX_GPIO);
-
-I think this state should be possible to set/get from the irqchip
-core. !irqd_irq_masked(d) on the descriptor, correct me if I'm wrong.
-
-> +       u32 irq_mode_shadow[MAX_GPIO];
-> +       u32 irq_mode[MAX_GPIO];
+> I guess this was added on the assumption that keys like this will
+> be a common occurrence in interaction with Apple firmware. Though
+> greping the =E2=80=98asahi=E2=80=99 staging tree for =E2=80=98%p4ch=E2=80=
+=99 I only see it in the
+> SMC code (9 times):
 >
->         int first_index;
->  };
-> @@ -161,6 +172,7 @@ static int macsmc_gpio_init_valid_mask(struct gpio_chip *gc,
->         for (i = 0; i < count; i++) {
->                 smc_key key;
->                 int gpio_nr;
-> +               u32 val;
->                 int ret = apple_smc_get_key_by_index(smcgp->smc, smcgp->first_index + i, &key);
+> ./drivers/power/reset/macsmc-reboot.c
+> ./drivers/platform/apple/smc_core.c
+> ./drivers/gpio/gpio-macsmc.c
+
+> >> %p4ch - interpret as an u32, print the character in most significant b=
+yte first
+> >
+> > %.4s + be32_to_cpu()
 >
->                 if (ret < 0)
-> @@ -176,11 +188,143 @@ static int macsmc_gpio_init_valid_mask(struct gpio_chip *gc,
->                 }
+> Well, AIUI instead of
 >
->                 set_bit(gpio_nr, valid_mask);
-> +
-> +               /* Check for IRQ support */
-> +               ret = apple_smc_rw_u32(smcgp->smc, key, CMD_IRQ_MODE, &val);
-> +               if (!ret)
-> +                       set_bit(gpio_nr, smcgp->irq_supported);
-> +       }
-> +
-> +       return 0;
-> +}
-
-This  gets initialized from the struct gpio_chip .init_valid_mask, but
-struct gpio_irq_chip has its own callback with the same name, which
-is preferred to be used for this, check if you can use that instead, it
-makes the use more obvious.
-
-> +static int macsmc_gpio_event(struct notifier_block *nb, unsigned long event, void *data)
-> +{
-> +       struct macsmc_gpio *smcgp = container_of(nb, struct macsmc_gpio, nb);
-> +       u16 type = event >> 16;
-> +       u8 offset = (event >> 8) & 0xff;
-> +       smc_key key = macsmc_gpio_key(offset);
-> +       unsigned long flags;
-> +        int ret;
-> +
-> +       if (type != SMC_EV_GPIO)
-> +               return NOTIFY_DONE;
-> +
-> +       if (offset > MAX_GPIO) {
-> +               dev_err(smcgp->dev, "GPIO event index %d out of range\n", offset);
-> +               return NOTIFY_BAD;
-> +       }
-> +
-> +       local_irq_save(flags);
-> +       ret = generic_handle_domain_irq(smcgp->gc.irq.domain, offset);
-> +       local_irq_restore(flags);
-
-Isn't irq_bus_lock/unlock protecting us here already?
-(I might be getting it wrong...)
-
-Since this is coming from a notifier and not an IRQ or threaded
-IRQ I actually am a bit puzzled on how to handle it... you probably
-know it better than me, maybe ask Marc Z if anything is
-unclear.
-
-> +       if (apple_smc_write_u32(smcgp->smc, key, CMD_IRQ_ACK | 1) < 0)
-> +               dev_err(smcgp->dev, "GPIO IRQ ack failed for %p4ch\n", &key);
-
-isn't this one of those cases where we should implement the
-irqchip callback .irq_ack() specifically for this?
-
-That callback will only be used by edge triggered IRQs but
-I guess that would realistically be all we support anyway?
-(See comment below on .set_type)
-
-> +static void macsmc_gpio_irq_enable(struct irq_data *d)
-> +{
-> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
-> +
-> +       gpiochip_enable_irq(gc, irqd_to_hwirq(d));
-> +       set_bit(irqd_to_hwirq(d), smcgp->irq_enable_shadow);
-> +}
-> +
-> +static void macsmc_gpio_irq_disable(struct irq_data *d)
-> +{
-> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
-> +
-> +       clear_bit(irqd_to_hwirq(d), smcgp->irq_enable_shadow);
-> +       gpiochip_disable_irq(gc, irqd_to_hwirq(d));
-> +}
-
-I would rename these unmask/mask to match the callback
-hooks they are implementing, since there are irqchips
-callbacks with these names I get a but confused.
-
-> +static int macsmc_gpio_irq_set_type(struct irq_data *d, unsigned int type)
-> +{
-> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
-> +       int offset = irqd_to_hwirq(d);
-> +       u32 mode;
-> +
-> +       if (!test_bit(offset, smcgp->irq_supported))
-> +               return -EINVAL;
-> +
-> +       switch (type & IRQ_TYPE_SENSE_MASK) {
-> +       case IRQ_TYPE_LEVEL_HIGH:
-> +               mode = IRQ_MODE_HIGH;
-> +               break;
-> +       case IRQ_TYPE_LEVEL_LOW:
-> +               mode = IRQ_MODE_LOW;
-> +               break;
-> +       case IRQ_TYPE_EDGE_RISING:
-> +               mode = IRQ_MODE_RISING;
-> +               break;
-> +       case IRQ_TYPE_EDGE_FALLING:
-> +               mode = IRQ_MODE_FALLING;
-> +               break;
-> +       case IRQ_TYPE_EDGE_BOTH:
-> +               mode = IRQ_MODE_BOTH;
-> +               break;
-> +       default:
-> +               return -EINVAL;
-
-I don't know how level IRQs would work on this essentially
-message-passing process context interrupt. Maybe I am getting
-it all wrong, but for level the line should be held low/high until
-the IRQ is serviced, it would be possible to test if this actually
-works by *not* servicing an IRQ and see if the SMC then sends
-another message notifier for the same IRQ.
-
-I strongly suspect that actually only edges are supported, but
-there might be semantics I don't understand here.
-
->         }
+>   printk(=E2=80=9C%p4ch =3D ...\n=E2=80=9D, &key);
 >
-> +       smcgp->irq_mode_shadow[offset] = mode;
-
-Hm yeah I guess this shadow mode is necessary for the sync
-to work.
-
->         return 0;
->  }
+> you need to do
 >
-> +static void macsmc_gpio_irq_bus_lock(struct irq_data *d)
-> +{
-> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
-> +
-> +       mutex_lock(&smcgp->irq_mutex);
-> +}
-> +
-> +static void macsmc_gpio_irq_bus_sync_unlock(struct irq_data *d)
-> +{
-> +       struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
-> +       smc_key key = macsmc_gpio_key(irqd_to_hwirq(d));
-> +       int offset = irqd_to_hwirq(d);
-> +       bool val;
-> +
-> +       if (smcgp->irq_mode_shadow[offset] != smcgp->irq_mode[offset]) {
-> +               u32 cmd = CMD_IRQ_MODE | smcgp->irq_mode_shadow[offset];
-> +               if (apple_smc_write_u32(smcgp->smc, key, cmd) < 0)
-> +                       dev_err(smcgp->dev, "GPIO IRQ config failed for %p4ch = 0x%x\n", &key, cmd);
-> +               else
-> +                       smcgp->irq_mode_shadow[offset] = smcgp->irq_mode[offset];
-> +       }
-> +
-> +       val = test_bit(offset, smcgp->irq_enable_shadow);
-> +       if (test_bit(offset, smcgp->irq_enable) != val) {
-
-So what you want to know for each line is (correct me if I'm wrong):
-- Is it enabled (unmasked) or not?
-- Did it get changed enabled->disabled, disabled->enabled since
-  macsmc_gpio_irq_bus_lock()?
-
-Doesn't the irqchip core track the first part of this for you?
-irqd_irq_masked(d) should tell you the same thing as
-irq_enable, just inverted.
-
-irq_enable_shadow is a bit tricker, I guess you might need that since
-the irqchip doesn't track state changes.
-
->  static int macsmc_gpio_probe(struct platform_device *pdev)
->  {
->         struct macsmc_gpio *smcgp;
-> @@ -221,6 +365,18 @@ static int macsmc_gpio_probe(struct platform_device *pdev)
->         smcgp->gc.base = -1;
->         smcgp->gc.parent = &pdev->dev;
+>   u32 key_be =3D cpu_to_be32(key);
+>   printk(=E2=80=9C%.4s =3D ...\n=E2=80=9D, &key_be);
 >
-> +       gpio_irq_chip_set_chip(&smcgp->gc.irq, &macsmc_gpio_irqchip);
-> +       smcgp->gc.irq.parent_handler = NULL;
-> +       smcgp->gc.irq.num_parents = 0;
-> +       smcgp->gc.irq.parents = NULL;
-> +       smcgp->gc.irq.default_type = IRQ_TYPE_NONE;
-> +       smcgp->gc.irq.handler = handle_simple_irq;
+> in at least 9 places now, the number of which will probably grow.
+> Just to make the case for *some* printk helper.
 
-I would consider setting this to handle_edge_irq() and implement
-.irq_ack(). I might be wrong.
+Wouldn't this be one line
 
-But overall since this IRQ is driven by a notifier I feel a bit lost.
+  printk(=E2=80=9C%.4s =3D ...\n=E2=80=9D, &cpu_to_be32(key));
 
-Yours,
-Linus Walleij
+?
+
+So I don't see disadvantages right now. Later on we can consider a new
+specifier _separately_, otherwise this series would be dragging for no
+sense.
+
+--=20
+With Best Regards,
+Andy Shevchenko
