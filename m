@@ -1,38 +1,39 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153BA1869
-	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 13:39:53 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id e28so1465628qts.1
-        for <asahi@lists.linux.dev>; Fri, 02 Sep 2022 06:39:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349576708
+	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 14:41:55 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id g21so1852059qka.5
+        for <asahi@lists.linux.dev>; Fri, 02 Sep 2022 07:41:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=6ejWKhNX3z+mJeAp0vohms4StWQ+ex5tKICo/SaWryk=;
-        b=kSwA17VpbhWllmbIwG2SF+JSBHQYUlWfVjNTHklJsfTr1zc5UxpkXYm+cD5XZnKNIC
-         lGbVayXtBZHyWNkR8Ajomc7c1IbD8webInQZ04rnoTXGTw0xdb7c/ig8tfJTYAMLt0cx
-         ibe87KpvnyAygSi67QiRVgTjSUuQAw7vqIWifIbfQZ6vJaUNkksZCvCy5q1fy7q+Ys00
-         27OA47Og+NdQrYjv8IYLofMBeRpKjy84y8Mr4oexJra2O3HMdoNE9pJrcpxEC3PxGGC7
-         EAcfLmOp5MXfd+wFCQBW3BFS2VK6lyY9gQOA57teZloD+pWWh+iQbUgWe6na+zhuZKoV
-         7cJg==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=0ac1i9buWoWncajk6SXq/V2mUp/aPapb/moPxFtHBro=;
+        b=mmaBi/9RC6JzJIPiGTLURB2g4mTUjg0f6HHHHeLisvJFyzFg3cllpWRBvU60UwISVN
+         jy6mjv6UYv9oxlK69um/FYVDRIKQTkHR209BH6UvQM8oa6Wymarxp65qjBc+Bs1IdfOI
+         1/rFKL14OWkpUnVbTqlF1u64YZuGaSotce3ZlBI1bKT7BD0UT5G9MXNmfYq9ZkOFflNg
+         U2J1zR0fSA1f7n+jPsfAvrmCQjxRc4/SPJGL/1SoQVfqzWCLVMt/eaGrimYKpQGRmZEE
+         J4jNztbsdP3fgPZ14Fvf8S7p0Zz4c1rtX8mqOvOhDTbKdkfgCXk6qgsfI9IDrsIe9yTq
+         8NJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=6ejWKhNX3z+mJeAp0vohms4StWQ+ex5tKICo/SaWryk=;
-        b=wYPs/wRzl3WoOSOxhLemjRbae2I32DiDOAs2w5ITByYFBBK8xJCP5gRJFl6QVXLIJs
-         lqrlsSMT3S0aBAGxvDhixOnXN5yT4iQOF2qY13G+vizuHGozaefZjzG82yHq+aq/WHo9
-         MqV4mEh4qmDAQPbZUUxZQ1LWu61nqDPO/JIfw7irKQ+/5zcY9VwWCLXr8Yc5KXRcfQ+A
-         sTTypbKNooNV+RJwGn/jRjLklPznWWDy63zRnbF/Kx2DuHx6y8SJ1xk1H6AiNzKOeEis
-         8GlPb8+SO3kKUVnm524F2/3rZ9nv09PGttyD4ZPIIb95jRFXnUtMcLFGpK1FYGvHOjJy
-         9KAA==
-X-Gm-Message-State: ACgBeo2JMpKh36WGze7SaMPHI7vhrFW8b8BqcNRAEOBwGmTbrj+rvkdt
-	0FDHPASRkpnACagOBg9oydKfsMqC+dQDdmbxb/I=
-X-Google-Smtp-Source: AA6agR4UMfgaIkG2vGC2aly7nyNTuJKjT8PVOEv/c5wpoMmCkLfZKnsuheo1q1QgXeiZatP0AjQUB2zVifFAsos8OTE=
-X-Received: by 2002:a05:622a:40a:b0:343:77ba:727f with SMTP id
- n10-20020a05622a040a00b0034377ba727fmr28567765qtx.481.1662125992956; Fri, 02
- Sep 2022 06:39:52 -0700 (PDT)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=0ac1i9buWoWncajk6SXq/V2mUp/aPapb/moPxFtHBro=;
+        b=8MguvmnY2pyeWtbYdWS4lmlq4cWRY6C3QQp1JwhNq2OCf5JIG+iPQXsmXYAs2Vvwxd
+         CDjgFXRKVt/WqXDzxrhW0Z9l6XGz886IqtdeWq3KKegCIHSh/AuKexpsaIDeJxRmC275
+         gU35rAgi2w+TOXFRPJxVwJiHZ6A5GmJCLWdnikCMHT22IpvIMJbHJpSIlJwhpix38kN3
+         lYmGLZfQxTIn2u9m28XhKHBpY2KTlJwIOsH1b/YrhZPL8zILBxj2rnq1mmSEL17kfmsj
+         WO6n5elIz2VBQKJDD7sM/mNAnjFR4wzbmjm9LreXgLEKauhQW5JrZpg9RoX9IbYDODg9
+         IAxQ==
+X-Gm-Message-State: ACgBeo13Loukt5dcx4jDuI5n7Qc2zKwomrgxK9ci0j0gXA10ZCpcaiG5
+	SNDMnStdInLkSO2S3C8IPQ+cu1Feu1TCEUB0u+0=
+X-Google-Smtp-Source: AA6agR56MurRTLIs4bBYExs7jDRPEMyhQr5Mhf/O8ly8l0LxrCoTs+3wDiuMvxTNR4W5Nf7u3JlY9+f75gF3CAk/OfE=
+X-Received: by 2002:a05:620a:288a:b0:6b8:fcfe:db02 with SMTP id
+ j10-20020a05620a288a00b006b8fcfedb02mr24165177qkp.504.1662129714040; Fri, 02
+ Sep 2022 07:41:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,98 +42,52 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
  <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
- <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk> <CAHp75VeO3gxypRTUc9Subvh+NZ7X4_RR=eFUZpPNwBeWk+_ipg@mail.gmail.com>
- <YxHp6CNhlQ5Hx1m8@shell.armlinux.org.uk>
-In-Reply-To: <YxHp6CNhlQ5Hx1m8@shell.armlinux.org.uk>
+ <FEE9F7AE-B324-4426-AB26-17BDF30CFC91@cutebit.org> <CAHp75Vd8-mOuJvr=PRKjVKbz0SM9hPe39rEcraOMJFYtrwHjng@mail.gmail.com>
+ <3B649A66-8116-432D-B88A-B5CE493EF930@cutebit.org> <CAHp75VeB3_sZ2vsSxMSsLeJSkyemDh9iOPHXJCN1mhodA13LNQ@mail.gmail.com>
+ <E753B391-D2CB-4213-AF82-678ADD5A7644@cutebit.org> <CAHp75VdstDxcZ96d3XD=k8_q2oP3UvoL+QV-27BxWFyALWJ_QQ@mail.gmail.com>
+ <85AE2F3E-6A1D-4AA0-9205-3E3DE5C6D79F@cutebit.org>
+In-Reply-To: <85AE2F3E-6A1D-4AA0-9205-3E3DE5C6D79F@cutebit.org>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 2 Sep 2022 16:39:16 +0300
-Message-ID: <CAHp75Vd-hT3Z-TUCG3y872_Y7sPAW2QBGC28S7aimOf3WQHg6A@mail.gmail.com>
+Date: Fri, 2 Sep 2022 17:41:16 +0300
+Message-ID: <CAHp75Vdfo87xT2S-MEO+z3o0eHZYtHHEzJBswSMNaWTSVhcXPA@mail.gmail.com>
 Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+To: =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik@cutebit.org>
+Cc: Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
 	Bartosz Golaszewski <brgl@bgdev.pl>, Hector Martin <marcan@marcan.st>, 
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
 	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Sven Peter <sven@svenpeter.dev>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 2, 2022 at 2:33 PM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
-> On Fri, Sep 02, 2022 at 01:37:14PM +0300, Andy Shevchenko wrote:
-> > On Fri, Sep 2, 2022 at 1:05 PM Russell King (Oracle)
-> > <linux@armlinux.org.uk> wrote:
-> > > On Thu, Sep 01, 2022 at 09:55:23PM +0300, Andy Shevchenko wrote:
-> > > > > +static int macsmc_gpio_nr(smc_key key)
-> > > > > +{
-> > > > > +       int low = hex_to_bin(key & 0xff);
-> > > > > +       int high = hex_to_bin((key >> 8) & 0xff);
-> > > > > +
-> > > > > +       if (low < 0 || high < 0)
-> > > > > +               return -1;
-> > > > > +
-> > > > > +       return low | (high << 4);
-> > > > > +}
-> > > >
-> > > > NIH hex2bin().
-> > >
-> > > Is using hex2bin really better?
+On Fri, Sep 2, 2022 at 4:37 PM Martin Povi=C5=A1er <povik@cutebit.org> wrot=
+e:
+> > On 2. 9. 2022, at 15:33, Andy Shevchenko <andy.shevchenko@gmail.com> wr=
+ote:
+> > On Fri, Sep 2, 2022 at 2:12 PM Martin Povi=C5=A1er <povik@cutebit.org> =
+wrote:
+
+...
+
+> >> you need to do
+> >>
+> >>  u32 key_be =3D cpu_to_be32(key);
+> >>  printk(=E2=80=9C%.4s =3D ...\n=E2=80=9D, &key_be);
+> >>
+> >> in at least 9 places now, the number of which will probably grow.
+> >> Just to make the case for *some* printk helper.
 > >
-> > Yes.
+> > Wouldn't this be one line
 > >
-> > > static int macsmc_gpio_nr(smc_key key)
-> > > {
-> > >         char k[2];
-> > >         u8 result;
-> > >         int ret;
-> > >
-> > >         k[0] = key;
-> > >         k[1] = key >> 8;
-> > >
-> > >         ret = hex2bin(&result, k, 2);
-> > >         if (ret < 0)
-> > >                 return ret;
-> > >
-> > >         return result;
-> > > }
-> > >
-> > > This looks to me like it consumes more CPU cycles - because we have to
-> > > write each "character" to the stack, then call a function, only to then
-> > > call the hex_to_bin() function. One can't just pass "key" into hex2bin
-> > > because that will bring with it endian issues.
+> >  printk(=E2=80=9C%.4s =3D ...\n=E2=80=9D, &cpu_to_be32(key));
 > >
-> > With one detail missed, why do you need all that if you can use
-> > byteorder helpers()? What's the stack? Just replace this entire
-> > function with the respectful calls to hex2bin().
+> > ?
 >
-> Sorry, I don't understand what you're suggesting, because it doesn't
-> make sense to me. The byteorder helpers do not give a char array, which
-> is what hex2bin() wants, so we end up with something like:
->
->         __le16 foo = cpu_to_le16(key);
->         u8 result;
->
->         ret = hex2bin(&result, (char *)&foo, 1);
->         if (ret < 0)
->                 return ret;
->
->         return result;
->
-> This to me looks like yucky code, It still results in "foo" having to
-> be on the stack, because the out-of-line hex2bin() requires a pointer
-> to be passed as the second argument.
->
-> Maybe you could provide an example of what you're thinking of, because
-> I'm at a loss to understand what you're thinking this should look like.
+> That would compile? I thought that=E2=80=99s not valid C, taking an
+> address of function=E2=80=99s return value.
 
-So, let's look into the real callers to see, oh wait, it's a single caller!
-Why can't you simply do
+Ah, you are right. My bad.
 
-         ret = hex2bin(&result, (char *)&cpu_to_le16(key), 1);
-         if (ret < 0)
-                 return ret;
-
-in-place there?
-
--- 
+--=20
 With Best Regards,
 Andy Shevchenko
