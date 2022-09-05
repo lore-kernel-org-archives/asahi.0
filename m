@@ -1,116 +1,85 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D5D93C02
-	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 16:53:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id E332F41E2F;
-	Mon,  5 Sep 2022 16:53:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1662396789; bh=hRXwbXXRiTYQG/osYKxUHpmJOLK8eCmRlp3G1KWkfNo=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=FH6uuVOudFHjruZS/crhJ8sKniG0A0cRm9+eOv9dTqKPLYdtBQNmtssNVVcBYsPyf
-	 0Srtm2feeNEty1GJ5vivwGJR8GJxr1KOxqkLDZJQBhQsezmfYGcOFVSJ+lU8K0yIuu
-	 7XZBkEK2pkTtnVZpl4GFwD0dm7MdFTq9q+UqdJt95q8BD6kE/J6fhSXjviRjfJwjqq
-	 10RvEgZzrj74PYColQndD6nCM66n60vOueq5Ui+JssCNKI4wOtfSObHhYOsWlKNWUs
-	 q6GAPwanuBxLiyWqiYy+pShqux53tsNV/f3TjjxKRncjeRD8ALv+ereE6NnVbZ6efJ
-	 6ulM1/ZjelxrA==
-Message-ID: <0038ca9c-2634-82f6-750e-a9f5b17c8f5c@marcan.st>
-Date: Tue, 6 Sep 2022 01:53:04 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C1B3C02
+	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 16:59:03 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 294655C00E9;
+	Mon,  5 Sep 2022 12:59:02 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute2.internal (MEProxy); Mon, 05 Sep 2022 12:59:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1662397142; x=1662483542; bh=Sh
+	h3LMvh5cLwa5Wm2j+dYZlXgI/hHnKoVcHSaX3pFYo=; b=xGV1Vmi9pUwMbp6fa4
+	uQtwJZHUOriAh7V49KZ/lCM6BuOQ+nbCM5Ji7tZLs/lthBy6VWc1CJ1zKkc3D1La
+	VjKzqN1BmQOQq0Cqhh/PNxHA1ttPNB5OTYsIGgRxbChaT/TogwSBExrdBFmdmRLG
+	FR9i8Y5S2OwEcJRsbqJCJclG4q/p2O43Ls2Mdk2lNuadQI6qBWhZAuoXbiyaISkl
+	tkQwpbSAw6m9nJErXBbKlT6/gcJdVm/9sY8rK0n6pRiiXolDJG/MQuvlT6q4mEHF
+	SMosHeGp8LSpje1cLYxgtU87UqSq0CFAC7YddGBYsYibnuBL/ADnm3KfOzvH8BDA
+	4jjA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1662397142; x=1662483542; bh=Shh3LMvh5cLwa5Wm2j+dYZlXgI/h
+	HnKoVcHSaX3pFYo=; b=cZujbKDMjXgAqlvzrgpxup09Ho811nobuz+zlfEnAx+6
+	Z44Ow++vm/jdKrzUzluCvKPfeiwvZeWjot3MTJ44Dj4CYXhdmNChFdOnmMIsbp9+
+	B+JUJcG22nuFYOTKNoFa5hmVPfWLY/r505lXBE5kKRuMl5jiiDF0Ff8irC7KhX5X
+	nVLP7h6l/28P4BoYkK4S4ozzNPRfJyWXB9qghAJDrRlVHPNZKP8J8I0h7yuTlU1Z
+	f8wwIkcnStafoIETTRiH84B0zexQCCAU6t0ufk664g4qxTN0Fb9S4rrySW6hLVm1
+	j2NKbfbOoocVY/+FqapLwUKx7SPyO3pbPA1dz0CV0w==
+X-ME-Sender: <xms:1CoWY3bpHrBs8shw7ltZW0wxDOBv6fG3PWUtZQfkxOA5SWgYkhlHPg>
+    <xme:1CoWY2aHp5ey_pPRfdm1ENUV93Dwh-8osSQyC-ErhK65_VX_4LMAb--0gZ6aWcWXq
+    CNbNVxFHhdxxnzJuGg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeliedgudduudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfu
+    vhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtf
+    frrghtthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefg
+    hfeiveeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:1CoWY5-iYlPmNvTqXpcnVJDKseo1mKDYnmjLIxwRgbAb_OdeysSg8Q>
+    <xmx:1CoWY9qDkTDStzSqn7LWr4D-DiIYM9FWq9v76PTqyYTxU4oxv1_kbQ>
+    <xmx:1CoWYyrEpj96WMnbIPtwQ2ASzKcO5Z74dZl7Fy1FT1pvu-0p8JPofA>
+    <xmx:1ioWY1VWyAkTgmdG_3_ehB8Bqra7oAqpNG7xtC4nHvbIugLuCmkH3A>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C5DD7A6007C; Mon,  5 Sep 2022 12:59:00 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-927-gf4c98c8499-fm-20220826.002-gf4c98c84
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: es-ES
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Sven Peter <sven@svenpeter.dev>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>, linux-arm-kernel@lists.infradead.org,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
- <1c876ae2-9d8b-4f47-8ca7-797fb484ad03@www.fastmail.com>
- <YxXVuvXZIWBDW0/r@shell.armlinux.org.uk>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
-In-Reply-To: <YxXVuvXZIWBDW0/r@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Message-Id: <cb47e092-bb63-475b-8953-c4d306feed6c@www.fastmail.com>
+In-Reply-To: <E1oVFHG-004pua-Dw@rmk-PC.armlinux.org.uk>
+References: <YxYoW2IZFK/JdKgH@shell.armlinux.org.uk>
+ <E1oVFHG-004pua-Dw@rmk-PC.armlinux.org.uk>
+Date: Mon, 05 Sep 2022 18:58:40 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Russell King" <rmk+kernel@armlinux.org.uk>,
+ "Jassi Brar" <jassisinghbrar@gmail.com>
+Cc: "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/2] mailbox: apple: Implement flush() operation
+Content-Type: text/plain
 
-On 05/09/2022 19.55, Russell King (Oracle) wrote:
-> Delving into this, it seems this code is buggy.
-> 
-> If apple_smc_rtkit_write_key_atomic() is used from atomic contexts,
-> what prevents apple_smc_rtkit_write_key_atomic() being called while
-> apple_smc_rtkit_write_key() is executing?
 
-This does:
 
-> +int apple_smc_write_atomic(struct apple_smc *smc, smc_key key, void *buf, size_t size)
-> +{
-> +	int ret;
-> +
-> +	/*
-> +	 * Will fail if SMC is busy. This is only used by SMC reboot/poweroff
-> +	 * final calls, so it doesn't really matter at that point.
-> +	 */
-> +	if (!mutex_trylock(&smc->mutex))
-> +		return -EBUSY;
-> +
-> +	ret = smc->be->write_key_atomic(smc->be_cookie, key, buf, size);
-> +	mutex_unlock(&smc->mutex);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL(apple_smc_write_atomic);
+On Mon, Sep 5, 2022, at 18:48, Russell King wrote:
+> From: Hector Martin <marcan@marcan.st>
+>
+> This allows clients to use the atomic-safe mailbox API style.
+>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
 
-I tried making this actually work properly while I was considering using
-the atomic call in non-shutdown contexts, but gave up - it gets very
-hairy, and is probably impossible under the premise that the atomic side
-can always block on the non-atomic side and end up deadlocking due to
-the nature of things. But right now, since this is only ever used for
-final shutdown, there is no contention possible. The mutex_trylock there
-is a safety, in case someone tries using this in some other context,
-that will just bail if there is contention with non-atomic acesses.
-Maybe there should be a warning there, something like "SMC: contention
-between atomic accesses and non-atomic accesses is not supported".
-
-> Lastly:
-> 
-> #define SMC_SHMEM_SIZE                  0x1000
-> 
-> #define SMC_WSIZE                       GENMASK(31, 24)
-> #define SMC_SIZE                        GENMASK(23, 16)
-> 
-> The size fields are one byte, but we error out if the size is larger
-> than the shmem size:
-> 
->         if (size > SMC_SHMEM_SIZE || size == 0)
->                 return -EINVAL;
-> 
-> but we still try to squeeze the size into this byte-wide field:
-> 
->                FIELD_PREP(SMC_SIZE, size) |
-> 
-> which isn't goint to work. If the size is limited by the protocol to
-> 255 bytes (or is it 256, where 0 means 256?) then surely we should be
-> erroring out if size is above that maximum rather than the shmem size.
-
-Good point, this should be 255 bytes max.
-
-*checks*
-
-Yeah, the longest SMC key we have in practice is 120 bytes, so let's
-just #define SMC_MAX_SIZE 255 or something like that.
-
-- Hector
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
