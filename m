@@ -1,95 +1,73 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03694416
-	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 15:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Pkv4WXNm7iE9vE05byre09zXOKz07p8cKrQykZtredI=; b=iFsIJjjSIt/lIDARm53CfftMma
-	eLRKd3yzY0kSj9Mn2teC71wa+dCiE+wZ6l6XtUeKsdVhKMePTmuuAY+0vjJPzLi1D0uKB6gmrvBE1
-	W89fZsyvBlwxsuSnhRv2TFR22hzSONJ8yc1Tih7XBolErF9kA+TUE0a8wkkeHAq1iUK0b1kI7XLYd
-	KYSkjNPC4j6v2mDH3W07cXNj9ItUq3hFT12c5clkUvXI3gKQd8otKdxa4onDCiv4bbHX9mdo1Z428
-	ycu+ULGq1TulWNzRPtUqECshbBEZZLmhIn7wA0pIsutCqRePJfS5U3u32LmpTkrLek0t2Z9O7yfAv
-	+E1F74/A==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34122)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1oVE50-0002Yf-DN; Mon, 05 Sep 2022 16:32:06 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1oVE4y-0007OT-PL; Mon, 05 Sep 2022 16:32:04 +0100
-Date: Mon, 5 Sep 2022 16:32:04 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Hector Martin <marcan@marcan.st>,
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
-Message-ID: <YxYWdDUBNOV+DaU0@shell.armlinux.org.uk>
-References: <YxHp6CNhlQ5Hx1m8@shell.armlinux.org.uk>
- <CAHp75Vd-hT3Z-TUCG3y872_Y7sPAW2QBGC28S7aimOf3WQHg6A@mail.gmail.com>
- <YxIXPSZlEBcKYulW@shell.armlinux.org.uk>
- <CAHp75VeTYSn+ODtoH27OB2U+XYVEphonm+QR3Z+NVs-nJ90w9w@mail.gmail.com>
- <YxIifddpeJRCuImc@shell.armlinux.org.uk>
- <CAHp75VddN-cEY3AN=PWO5pR4D6YaDTRQgjbZLS=C5dLBTSVGwA@mail.gmail.com>
- <YxXNZzeBRiiS6FNk@shell.armlinux.org.uk>
- <CAHp75Vcq4LVRmgELvLJ8fNk3xdSfGikyLDL_7LGvKg4a4L4J=A@mail.gmail.com>
- <YxX1Lp7ClRSBhbno@shell.armlinux.org.uk>
- <CAHp75VfcTzbhOGr=0YH+nfpgcfDg8mhF1b5tZF3wudPiKhp7Qw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E524416
+	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 15:38:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1622FC433D7;
+	Mon,  5 Sep 2022 15:38:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1662392331;
+	bh=4u4jqbKnjxr0740mYmvnkQwNn7DrSy8Qxd94JXxLGcQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=OEgjefpByYac9OU8DroWmjFX+lWlkrXwKE8GdJel8JEq+Su4YUw7IzQVabm9lKlI8
+	 cxqLJhRxGZ6XpNMezUOBl2UgHwgOAxu5yg+px/ZXH6xqeq1uj86/84OBWY77fEm8T/
+	 VVy/rcG41Tft2jBwtjbFF1YzvyBbff50UABY5bUCzxMUb80Q7XBdC4u9XfHywfk1Av
+	 hcVTdMWqLMzeWx6qCyRKDTtg+c+NAsl4RW1mLsLUkeSzAyYpz3hWDkxRCnPpEDIaJT
+	 2Ot2+PfD4r/SYO9XXr3XSDbAugs0YDpnB1MF0ez46dbpG6zVM00/a6h4+aACEshauh
+	 8E/kc9yz+jX2g==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Martin Povišer <povik+lin@cutebit.org>
+Cc: asahi@lists.linux.dev, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20220905074030.1293-1-povik+lin@cutebit.org>
+References: <20220905074030.1293-1-povik+lin@cutebit.org>
+Subject: Re: [PATCH] ASoC: apple: mca: Postpone requesting of DMA channels
+Message-Id: <166239232981.736206.16201162567715763451.b4-ty@kernel.org>
+Date: Mon, 05 Sep 2022 16:38:49 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VfcTzbhOGr=0YH+nfpgcfDg8mhF1b5tZF3wudPiKhp7Qw@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-fc921
 
-On Mon, Sep 05, 2022 at 04:16:27PM +0300, Andy Shevchenko wrote:
-> On Mon, Sep 5, 2022 at 4:10 PM Russell King (Oracle)
-> <linux@armlinux.org.uk> wrote:
-> > On Mon, Sep 05, 2022 at 01:32:29PM +0300, Andy Shevchenko wrote:
+On Mon, 5 Sep 2022 09:40:30 +0200, Martin Povišer wrote:
+> Move the requesting of DMA channels further down from 'probe' to
+> 'pcm_new'. This is to spare the allocated DMA channel resources as we
+> typically only ever use one or two of the clusters for PCM streaming.
+> Before we would request DMA channels for all clusters.
 > 
-> ...
+> (This is prompted by a change in the Audio DMA Controller driver, which
+> will now be allocating cache SRAM to channels.)
 > 
-> > Let me say again: I am not changing this. That's for Asahi people to
-> > do if they wish. I am the just middle-man here.
-> 
-> While I agree on technical aspects, this mythical "they" is
-> frustrating me. They haven't participated in this discussion (yet?) so
-> they do not care, why should we (as a community of upstream)?
-> 
-> P.S. Do you have a platform to test all these?
+> [...]
 
-Right, having addressed as many review comments as I possibly can, I've
-rebuilt and booted it on the platform - and the good news is, it still
-works _but_ I don't have enough support in the "mainline" kernel that
-I'm testing for anything to make use of any of the interrupt support in
-this patch set - so I can't actually test those changes.
+Applied to
 
-I'm going to drop the interrupt patch temporarily as it's unnecessary
-for what I want to do, which will be one less patch to worry about.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-I still need a resolution between you and Hector over the smc_key
-issue - specifically, do I pick up the patch that adds support for
-%p4ch, or do we re-architect the smc_key thing and also in doing so
-get rid of the need for your "endian conversion" thing.
+Thanks!
 
-Given that Hector has rejected some of your comments, I now need to
-back out those changes that resulted from your NIH comments.
+[1/1] ASoC: apple: mca: Postpone requesting of DMA channels
+      commit: 4ec8179c212fb1530df4a1df6db75756c06da5f6
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
