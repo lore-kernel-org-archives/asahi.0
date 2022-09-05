@@ -1,26 +1,26 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA414416
-	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 15:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAE384416
+	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 15:52:55 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id A200B41E2F;
-	Mon,  5 Sep 2022 15:47:49 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id BE74B41F78;
+	Mon,  5 Sep 2022 15:52:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1662392873; bh=gjmIz0nVzbAw3TxWSNxeDBxLRDom162au1HI5lXkHR8=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=Bi4q9G3vK0zx66t0RQIhOdbBHDwuptPUU0sxZ6oqSa6DXt0Jqtc8sq2ug3QaBaIm+
-	 SIroMDLcITS/oGjrpBdSIlE0Tvh1rN1LT3FxDLFuxR6VwLZMximsbes6/yIWJTcEEg
-	 mcu/zMukYy+PmTUJJM2eDrhB2YfSia89OLKV4M+t0aSyp64ffABhtgpmH+/s8QvfFo
-	 snFUXtwYfhXJbO6TbPtnH5gG1mZyG+wJwe6WnpnKVVPSDbR4Nn+0wp/Wre363kzGWT
-	 Pghyyf7JIXduBjC28mZXq0SOYqJDTP1RtfMc8zG8Sp9h/TrvLk4uEjtHEC9GMvdaF0
-	 z2GCln2cEheZg==
-Message-ID: <a703cffc-5c9b-a173-63ea-5afc45e28382@marcan.st>
-Date: Tue, 6 Sep 2022 00:47:47 +0900
+	t=1662393173; bh=Ra3o6r5W8eESsw93yHTiwc7uW/oimDp1IFWslWumMc8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hbDFQOVIABdVF7kdJ1z1Mav3dov0Ja9+ZKrq/RJ2cJPsFlrBN7MX+FcDWyfJGytLz
+	 D+LNbh57tdhvsch7LXB1/IDh3ILSSe2ikP+8TTbLyyR/c03WloBfTxY3u5FNuyI6qc
+	 ZgJyoMt3HS9etSf5A7KvQsNdXI6hVtsiuoySHgT5ydDpjYh2RUNLpLFV90GgZCIeHM
+	 uWVRloc3CvePFLYRrgvcIawvpysNk2eNWwdqFkgZU2UaQuGl87RwoYkoaMiis7SHrq
+	 xBpaeDdcNIgROcSFTGsTJ0L+LWgg/7MnkOTJbLq84iQCjU+CpnPwrW8luIfTkYTnOl
+	 TjJgJKCyCwS2Q==
+Message-ID: <0457bda4-8449-dede-1d85-e4e1317dff12@marcan.st>
+Date: Tue, 6 Sep 2022 00:52:48 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -29,9 +29,10 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
+Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
 Content-Language: es-ES
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
- "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
  Linus Walleij <linus.walleij@linaro.org>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
@@ -39,9 +40,7 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
  linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
  Sven Peter <sven@svenpeter.dev>
-References: <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
- <CAHp75VeO3gxypRTUc9Subvh+NZ7X4_RR=eFUZpPNwBeWk+_ipg@mail.gmail.com>
- <YxHp6CNhlQ5Hx1m8@shell.armlinux.org.uk>
+References: <YxHp6CNhlQ5Hx1m8@shell.armlinux.org.uk>
  <CAHp75Vd-hT3Z-TUCG3y872_Y7sPAW2QBGC28S7aimOf3WQHg6A@mail.gmail.com>
  <YxIXPSZlEBcKYulW@shell.armlinux.org.uk>
  <CAHp75VeTYSn+ODtoH27OB2U+XYVEphonm+QR3Z+NVs-nJ90w9w@mail.gmail.com>
@@ -51,36 +50,28 @@ References: <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
  <CAHp75Vcq4LVRmgELvLJ8fNk3xdSfGikyLDL_7LGvKg4a4L4J=A@mail.gmail.com>
  <YxX1Lp7ClRSBhbno@shell.armlinux.org.uk>
  <CAHp75VfcTzbhOGr=0YH+nfpgcfDg8mhF1b5tZF3wudPiKhp7Qw@mail.gmail.com>
+ <YxYBJcRGCOlcSZH8@shell.armlinux.org.uk>
 From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
-In-Reply-To: <CAHp75VfcTzbhOGr=0YH+nfpgcfDg8mhF1b5tZF3wudPiKhp7Qw@mail.gmail.com>
+In-Reply-To: <YxYBJcRGCOlcSZH8@shell.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 05/09/2022 22.16, Andy Shevchenko wrote:
-> On Mon, Sep 5, 2022 at 4:10 PM Russell King (Oracle)
-> <linux@armlinux.org.uk> wrote:
->> On Mon, Sep 05, 2022 at 01:32:29PM +0300, Andy Shevchenko wrote:
+On 05/09/2022 23.01, Russell King (Oracle) wrote:
+> On Mon, Sep 05, 2022 at 04:16:27PM +0300, Andy Shevchenko wrote:
+>> P.S. Do you have a platform to test all these?
 > 
-> ...
-> 
->> Let me say again: I am not changing this. That's for Asahi people to
->> do if they wish. I am the just middle-man here.
-> 
-> While I agree on technical aspects, this mythical "they" is
-> frustrating me. They haven't participated in this discussion (yet?) so
-> they do not care, why should we (as a community of upstream)?
+> Yes, but that doesn't mean I can do testing sufficient to ensure that
+> the modifications are correct. As I understand things, the SMC is not
+> limited to just aarch64 hardware.
 
-Hi Andy,
+FWIW, the RTKit backend is limited to aarch64 hardware, and that's also
+why I kept all the endian-munging there. T2 and legacy x86 backends
+(which don't exist yet, so whether things need changing for those
+platforms is an open question anyway) would respectively do whatever
+endian-munging is appropriate for them.
 
-This was submitted 4 days before your comment, 2 of which were the
-weekend. Not all of us spend our weekends reviewing patches.
-
-Russell graciously volunteered to help upstream this patchset and I
-hadn't had a chance to reply yet. I would appreciate it if you don't
-accuse us of "not caring", or I might have to start pointing out
-upstreaming attempts by us that were ignored by the respective
-maintainers for *months*, not 4 days. Glass houses and throwing stones
-and all that.
+So at this point, only Apple Mx AArch64 SoCs matter, though I *tried* to
+write the code in the way that I thought was most likely to cleanly
+transfer over to other SMC platforms by just changing the backend code.
 
 - Hector
