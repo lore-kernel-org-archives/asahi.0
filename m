@@ -1,70 +1,95 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1AC4416
-	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 15:16:25 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 4BCB541E2F;
-	Mon,  5 Sep 2022 15:16:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1662390983; bh=SnH+V+R2GJ662ezyRKhqvJs4sp4YS/auEDgqtiyNbXY=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=vfVRk4l1phRl5WI5mhxMh2gc7IloxwsMuJfGw7RRIJB4AjB2TJL490OULhTi2+Llo
-	 sYxBS5EV0vx5Z3JJ21Hy8hERURHoayJAV52IwP5bg7SbnQt4yL7F3EoOAv+UL/MVk4
-	 mgcLeRIxIgQMUjOcCQJuorWGVgJcMY1z2nJ/naUV92D0R0mCtcTt3vigMyIgbDJ+nP
-	 +DXpei6EMEtqLNxOyT2OUimKckpIRPjBgOmrZHK3gzS+xyxkD8E4sQlmpYDssRjZJr
-	 Y3uW9IFIDCvwT5AUTFskMJxW1rWuLh66JzdvbfUFaVODlaaVIYOCZxOIxdHQ79gkSz
-	 MRH+8qyzn0VFQ==
-Message-ID: <92f95d06-c02b-2173-90ad-71f7d365d56f@marcan.st>
-Date: Tue, 6 Sep 2022 00:16:18 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03694416
+	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 15:32:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Pkv4WXNm7iE9vE05byre09zXOKz07p8cKrQykZtredI=; b=iFsIJjjSIt/lIDARm53CfftMma
+	eLRKd3yzY0kSj9Mn2teC71wa+dCiE+wZ6l6XtUeKsdVhKMePTmuuAY+0vjJPzLi1D0uKB6gmrvBE1
+	W89fZsyvBlwxsuSnhRv2TFR22hzSONJ8yc1Tih7XBolErF9kA+TUE0a8wkkeHAq1iUK0b1kI7XLYd
+	KYSkjNPC4j6v2mDH3W07cXNj9ItUq3hFT12c5clkUvXI3gKQd8otKdxa4onDCiv4bbHX9mdo1Z428
+	ycu+ULGq1TulWNzRPtUqECshbBEZZLmhIn7wA0pIsutCqRePJfS5U3u32LmpTkrLek0t2Z9O7yfAv
+	+E1F74/A==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34122)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oVE50-0002Yf-DN; Mon, 05 Sep 2022 16:32:06 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oVE4y-0007OT-PL; Mon, 05 Sep 2022 16:32:04 +0100
+Date: Mon, 5 Sep 2022 16:32:04 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Hector Martin <marcan@marcan.st>,
+	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
+Message-ID: <YxYWdDUBNOV+DaU0@shell.armlinux.org.uk>
+References: <YxHp6CNhlQ5Hx1m8@shell.armlinux.org.uk>
+ <CAHp75Vd-hT3Z-TUCG3y872_Y7sPAW2QBGC28S7aimOf3WQHg6A@mail.gmail.com>
+ <YxIXPSZlEBcKYulW@shell.armlinux.org.uk>
+ <CAHp75VeTYSn+ODtoH27OB2U+XYVEphonm+QR3Z+NVs-nJ90w9w@mail.gmail.com>
+ <YxIifddpeJRCuImc@shell.armlinux.org.uk>
+ <CAHp75VddN-cEY3AN=PWO5pR4D6YaDTRQgjbZLS=C5dLBTSVGwA@mail.gmail.com>
+ <YxXNZzeBRiiS6FNk@shell.armlinux.org.uk>
+ <CAHp75Vcq4LVRmgELvLJ8fNk3xdSfGikyLDL_7LGvKg4a4L4J=A@mail.gmail.com>
+ <YxX1Lp7ClRSBhbno@shell.armlinux.org.uk>
+ <CAHp75VfcTzbhOGr=0YH+nfpgcfDg8mhF1b5tZF3wudPiKhp7Qw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: es-ES
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
- <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
- <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
-In-Reply-To: <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VfcTzbhOGr=0YH+nfpgcfDg8mhF1b5tZF3wudPiKhp7Qw@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 02/09/2022 19.05, Russell King (Oracle) wrote:
-> but even that isn't _that_ nice. I'd like to hear comments from the Asahi
-> folk about whether these sub-blocks of the SMC can have compatibles, so
-> that the MFD layer can automatically fill in the firmware nodes on the
-> struct device before the probe function gets called.
+On Mon, Sep 05, 2022 at 04:16:27PM +0300, Andy Shevchenko wrote:
+> On Mon, Sep 5, 2022 at 4:10 PM Russell King (Oracle)
+> <linux@armlinux.org.uk> wrote:
+> > On Mon, Sep 05, 2022 at 01:32:29PM +0300, Andy Shevchenko wrote:
+> 
+> ...
+> 
+> > Let me say again: I am not changing this. That's for Asahi people to
+> > do if they wish. I am the just middle-man here.
+> 
+> While I agree on technical aspects, this mythical "they" is
+> frustrating me. They haven't participated in this discussion (yet?) so
+> they do not care, why should we (as a community of upstream)?
+> 
+> P.S. Do you have a platform to test all these?
 
-I'm fine with adding compatibles if this makes the of/fwnode handling
-simpler. However, keep in mind these aren't hardware, they're
-effectively software services implemented in a coprocessor. The idea
-behind not having compatibles was that the SMC stuff should be
-self-discovering enough that it can decide what's available and not at
-runtime, and that the SMC core needs to probe before the child devices
-anyway, so it's not like this can be a simple-bus. But I'm new to the
-MFD subsystem, so if compatibles make life easier, sure.
+Right, having addressed as many review comments as I possibly can, I've
+rebuilt and booted it on the platform - and the good news is, it still
+works _but_ I don't have enough support in the "mainline" kernel that
+I'm testing for anything to make use of any of the interrupt support in
+this patch set - so I can't actually test those changes.
 
-Personally, I'd defer to Rob's opinon on this (CC'ed), since he has the
-last word on DT bindings :).
+I'm going to drop the interrupt patch temporarily as it's unnecessary
+for what I want to do, which will be one less patch to worry about.
 
-- Hector
+I still need a resolution between you and Hector over the smc_key
+issue - specifically, do I pick up the patch that adds support for
+%p4ch, or do we re-architect the smc_key thing and also in doing so
+get rid of the need for your "endian conversion" thing.
+
+Given that Hector has rejected some of your comments, I now need to
+back out those changes that resulted from your NIH comments.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
