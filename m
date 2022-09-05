@@ -1,87 +1,255 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9C03C35
-	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 09:55:12 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-3452214cec6so23433317b3.1
-        for <asahi@lists.linux.dev>; Mon, 05 Sep 2022 02:55:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=kZwowG+rRON5KFSUE0R9YJYWgBrkd2+kJINr3ZwEXZo=;
-        b=Vl1e3lhr4VBYOH0566THbq5E7P+PDrFu12F8dop24wzAOHlXYdtoS44xu2rgMicuvp
-         tA7YB486fFdpf8kVtFpNecJH1s4DXPlxHiW6LQkPh/LWtoRWVE5AHVHmq0SZwgAi87o9
-         wEXwyzgeEiMe9khhpJkOsw2zjnF+351IkAyQj1AQodm19bxNYQTuw2r3ZRJi19DQ8Rtx
-         3Om79/0Ta7Gr6MSxgSucqk93FAlG0v0w89dq18ngW9nbBb1AX7Z+BV6kOoLnB8YYNiK3
-         nKw+MnTtefiAlqU/F83VERFQTnah38RoRnpml3JJpVMCKDt8aMbdYtZDFbs1AYhOw90P
-         JVyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=kZwowG+rRON5KFSUE0R9YJYWgBrkd2+kJINr3ZwEXZo=;
-        b=Jr2+gpFGtHt5WJgMJ7W2v6QXlg3lY1HCAvuGgiD7TmYvZUVX/FQWdLb1HtOj+XlCjk
-         Vcl1nWbqf4z0RvuXe9ZLUfgypFylxKkt4R4F6e3FrMGgrqboXrr6g4+HZviwWq1V0739
-         5XXKm2OWg82qNQVrDo30wqCXqegxgnRCwlaqivHlg2HxhKGXpY1wp5I1MK/ovmHnCfMq
-         x1K9V0tMXY69FZ1KYpDp6sCaBYpp8BvvGIMn1bHDrs+nA/FvKVOJZfDlhZCWdDhQD9Ih
-         IVjviNf5i5KeXHzi7chxOsFp0VdZhQd5c2aX2P/9giHonz7nBSTDOfOPUJAKzkXfK1ZR
-         FX3g==
-X-Gm-Message-State: ACgBeo0/zJ6AfYmxhaMSJWrGDgO9bWuaMZ8vvCWfG3lv88YbHw1dhob+
-	MRKEReLXohM/QnWz9VmNBALVz76CrGVBaRhuOdHpsQLt
-X-Google-Smtp-Source: AA6agR5VnQe4agp3+bventbZ7vQ9gI0u6eIpSo3fWiJh/oMJA6ijI89J9YKmciXOJw3L4bSRSWRikz9lWxdlZfz3zGk=
-X-Received: by 2002:a0d:f701:0:b0:32a:17d3:d189 with SMTP id
- h1-20020a0df701000000b0032a17d3d189mr38205702ywf.401.1662371711515; Mon, 05
- Sep 2022 02:55:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBAB3C35
+	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 10:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=B2NN3F0SgNcJQB7qPmxsMNll5XZyS6PCmgX79g4KLAA=; b=sA6vVyzRHhcOZhNiv0IGi8IgLl
+	o+Q21puUj5QyRZQiOoUQGZgShJE4k4cuxaCjE1rhYRBtYTjsm3XB/ES7HdgDji3lFbePnuANm8wlq
+	auW67Y7PDbf4e9btsXWiNMBk5rm7FKfj4h5yiJVK4S9x5RqFo1kkNUBYqWwx0x0k7NlgUQNBHfL7U
+	uWjbWUiDouhrBj+FzU1bZIOS9YVJc+iQsTlWKmWZAGGnmEd8qCqdeqDXa6sSZJhS6itwOMTY5tWxS
+	0aW4fP3gCUKGdmrbVYoa6PvoMKrOE9H6ySCt1P9N04awodh13PQKB47tomM+tPng7fZk9LEtCVT9O
+	bSRC/drA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34098)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oV9DP-0002BM-Dy; Mon, 05 Sep 2022 11:20:27 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oV9DL-0007CU-Ua; Mon, 05 Sep 2022 11:20:23 +0100
+Date: Mon, 5 Sep 2022 11:20:23 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Hector Martin <marcan@marcan.st>,
+	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
+Message-ID: <YxXNZzeBRiiS6FNk@shell.armlinux.org.uk>
+References: <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
+ <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
+ <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
+ <CAHp75VeO3gxypRTUc9Subvh+NZ7X4_RR=eFUZpPNwBeWk+_ipg@mail.gmail.com>
+ <YxHp6CNhlQ5Hx1m8@shell.armlinux.org.uk>
+ <CAHp75Vd-hT3Z-TUCG3y872_Y7sPAW2QBGC28S7aimOf3WQHg6A@mail.gmail.com>
+ <YxIXPSZlEBcKYulW@shell.armlinux.org.uk>
+ <CAHp75VeTYSn+ODtoH27OB2U+XYVEphonm+QR3Z+NVs-nJ90w9w@mail.gmail.com>
+ <YxIifddpeJRCuImc@shell.armlinux.org.uk>
+ <CAHp75VddN-cEY3AN=PWO5pR4D6YaDTRQgjbZLS=C5dLBTSVGwA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220905093546.19735-1-lukas.bulwahn@gmail.com> <4DB82E66-0BB9-4B43-917B-55E115994876@cutebit.org>
-In-Reply-To: <4DB82E66-0BB9-4B43-917B-55E115994876@cutebit.org>
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date: Mon, 5 Sep 2022 11:55:00 +0200
-Message-ID: <CAKXUXMzGJv=Xvbv8VRqFfa=n-0D84Hk2FALqtyqmxD9ovDKCMw@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: rectify entry in ARM/APPLE MACHINE SOUND DRIVERS
-To: =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Mark Brown <broonie@kernel.org>, asahi@lists.linux.dev, alsa-devel@alsa-project.org, 
-	kernel-janitors <kernel-janitors@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VddN-cEY3AN=PWO5pR4D6YaDTRQgjbZLS=C5dLBTSVGwA@mail.gmail.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Mon, Sep 5, 2022 at 11:44 AM Martin Povi=C5=A1er <povik+lin@cutebit.org>=
- wrote:
->
->
-> > On 5. 9. 2022, at 11:35, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+On Fri, Sep 02, 2022 at 06:43:36PM +0300, Andy Shevchenko wrote:
+> On Fri, Sep 2, 2022 at 6:34 PM Russell King (Oracle)
+> <linux@armlinux.org.uk> wrote:
+> > On Fri, Sep 02, 2022 at 05:53:25PM +0300, Andy Shevchenko wrote:
+> > > On Fri, Sep 2, 2022 at 5:46 PM Russell King (Oracle)
+> > > <linux@armlinux.org.uk> wrote:
+> > > > On Fri, Sep 02, 2022 at 04:39:16PM +0300, Andy Shevchenko wrote:
+> > > > > On Fri, Sep 2, 2022 at 2:33 PM Russell King (Oracle)
+> > > > > <linux@armlinux.org.uk> wrote:
+> > > > > > On Fri, Sep 02, 2022 at 01:37:14PM +0300, Andy Shevchenko wrote:
+> > > > > > > On Fri, Sep 2, 2022 at 1:05 PM Russell King (Oracle)
+> > > > > > > <linux@armlinux.org.uk> wrote:
+> > > > > > > > On Thu, Sep 01, 2022 at 09:55:23PM +0300, Andy Shevchenko wrote:
+> > > > > > > > > > +static int macsmc_gpio_nr(smc_key key)
+> > > > > > > > > > +{
+> > > > > > > > > > +       int low = hex_to_bin(key & 0xff);
+> > > > > > > > > > +       int high = hex_to_bin((key >> 8) & 0xff);
+> > > > > > > > > > +
+> > > > > > > > > > +       if (low < 0 || high < 0)
+> > > > > > > > > > +               return -1;
+> > > > > > > > > > +
+> > > > > > > > > > +       return low | (high << 4);
+> > > > > > > > > > +}
+> > > > > > > > >
+> > > > > > > > > NIH hex2bin().
+> > > > > > > >
+> > > > > > > > Is using hex2bin really better?
+> > > > > > >
+> > > > > > > Yes.
+> > > > > > >
+> > > > > > > > static int macsmc_gpio_nr(smc_key key)
+> > > > > > > > {
+> > > > > > > >         char k[2];
+> > > > > > > >         u8 result;
+> > > > > > > >         int ret;
+> > > > > > > >
+> > > > > > > >         k[0] = key;
+> > > > > > > >         k[1] = key >> 8;
+> > > > > > > >
+> > > > > > > >         ret = hex2bin(&result, k, 2);
+> > > > > > > >         if (ret < 0)
+> > > > > > > >                 return ret;
+> > > > > > > >
+> > > > > > > >         return result;
+> > > > > > > > }
+> > > > > > > >
+> > > > > > > > This looks to me like it consumes more CPU cycles - because we have to
+> > > > > > > > write each "character" to the stack, then call a function, only to then
+> > > > > > > > call the hex_to_bin() function. One can't just pass "key" into hex2bin
+> > > > > > > > because that will bring with it endian issues.
+> > > > > > >
+> > > > > > > With one detail missed, why do you need all that if you can use
+> > > > > > > byteorder helpers()? What's the stack? Just replace this entire
+> > > > > > > function with the respectful calls to hex2bin().
+> > > > > >
+> > > > > > Sorry, I don't understand what you're suggesting, because it doesn't
+> > > > > > make sense to me. The byteorder helpers do not give a char array, which
+> > > > > > is what hex2bin() wants, so we end up with something like:
+> > > > > >
+> > > > > >         __le16 foo = cpu_to_le16(key);
+> > > > > >         u8 result;
+> > > > > >
+> > > > > >         ret = hex2bin(&result, (char *)&foo, 1);
+> > > > > >         if (ret < 0)
+> > > > > >                 return ret;
+> > > > > >
+> > > > > >         return result;
+> > > > > >
+> > > > > > This to me looks like yucky code, It still results in "foo" having to
+> > > > > > be on the stack, because the out-of-line hex2bin() requires a pointer
+> > > > > > to be passed as the second argument.
+> > > > > >
+> > > > > > Maybe you could provide an example of what you're thinking of, because
+> > > > > > I'm at a loss to understand what you're thinking this should look like.
+> > > > >
+> > > > > So, let's look into the real callers to see, oh wait, it's a single caller!
+> > > > > Why can't you simply do
+> > > > >
+> > > > >          ret = hex2bin(&result, (char *)&cpu_to_le16(key), 1);
+> > > > >          if (ret < 0)
+> > > > >                  return ret;
+> > > > >
+> > > > > in-place there?
+> > > >
+> > > > This is not legal C.
+> > >
+> > > I acknowledged this, sorry.
+> > >
+> > > > Please can we back up this discussion, and start
+> > > > over with legal C suggestions. Thanks.
+> > >
+> > > Suggestion was given as well, let's create a helper used by apple
+> > > stuff and later on we will consider the separate submission for the
+> > > (new) specifier. Would it work for you?
 > >
-> > Commit 3df5d0d97289 ("ASoC: apple: mca: Start new platform driver") add=
-s
-> > a new sound driver at the location "sound/soc/apple/", but it adds a fi=
-le
-> > entry referring to the non-existing location "drivers/sound/apple/*".
+> > This sub-thread isn't about the %p4ch specifier. It's about a
+> > reasonable implementation of macsmc_gpio_nr().
 > >
-> > Hence, ./scripts/get_maintainer.pl --self-test=3Dpatterns complains abo=
-ut a
-> > broken reference.
+> > Extracting from the context above, the original code was:
 > >
-> > Repair this file reference in ARM/APPLE MACHINE SOUND DRIVERS.
+> > static int macsmc_gpio_nr(smc_key key)
+> > {
+> >        int low = hex_to_bin(key & 0xff);
+> >        int high = hex_to_bin((key >> 8) & 0xff);
 > >
-> > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> > ---
-> > Martin, please ack.
-> > Mark, please pick this patch on top of the commit above.
->
-> Hi Lukas, fixed here already:
-> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/commit/=
-?id=3D55e2bd9c41e800638676dce3f19dcfd16b309a08
->
+> >        if (low < 0 || high < 0)
+> >                return -1;
+> >
+> >        return low | (high << 4);
+> > }
+> >
+> > I suggested:
+> >
+> > static int macsmc_gpio_nr(smc_key key)
+> > {
+> >          char k[2];
+> >          u8 result;
+> >          int ret;
+> >
+> >          k[0] = key;
+> >          k[1] = key >> 8;
+> >
+> >          ret = hex2bin(&result, k, 2);
+> >          if (ret < 0)
+> >                  return ret;
+> >
+> >          return result;
+> > }
+> >
+> > You didn't like that, so I then suggested:
+> >
+> > static int macsmc_gpio_nr(smc_key key)
+> > {
+> >          __le16 foo = cpu_to_le16(key);
+> >          u8 result;
+> >          int ret;
+> >
+> >          ret = hex2bin(&result, (char *)&foo, 1);
+> >          if (ret < 0)
+> >                  return ret;
+> >
+> >          return result;
+> > }
+> >
+> > which you also didn't like,
+> 
+> ...based on the wrong suggestion below. That said, the above is fine to me.
 
-Great, thanks! Then, there is nothing more to do. Please ignore this patch =
-then.
+To be honest, using the endian conversion macro there doesn't feel
+right and is more prone to programming errors. I can't tell just by
+looking at it that either cpu_to_le16() or cpu_to_le32() would be the
+right thing here - and if it's not obvious then it's a bug waiting to
+happen.
 
-Lukas
+As if to prove the point, the above suggestions turn out to *all* be
+buggy.
+
+The initial suggestion gets the k[0] and k[1] assignment round the
+wrong way. The second, le16() is definitely not the right conversion.
+If we start using the endian conversion macros, then this is going to
+screw up if someone runs a BE kernel against the SMC (since the
+_SMC_KEY() macro will still be doing its conversion.)
+
+This seems utterly counter-productive, and I've spent quite a long
+time trying to work out what would be correct.
+
+At this point, I'm not sure that changing what has already been
+established in the Asahi Linux tree for something entirely different
+in mainline is going to be practical - it's a recipe for repeated
+mistakes converting keys from the Asahi kernel to the mainline
+kernel.
+
+It's not _just_ the GPIO driver. There are multiple other drivers
+that will be impacted by changing the scheme here.
+
+Any change to the scheme for these SMC keys  needs to happen in the
+Asahi kernel tree by the Asahi Linux maintainers, not by someone
+pushing the code upstream - doing so would be a recipe for repeated
+trainwrecks.
+
+So, I'm going with my first suggestion for the hex2bin() conversion
+above, and adding a comment thusly:
+
+        /*
+         * The most significant nibble comes from k[0] and key bits 15..8
+         * The least significant nibble comes from k[1] and key bits 7..0
+         */
+        k[0] = key >> 8;
+        k[1] = key;
+
+because I needed the comment to prove to myself that I wasn't breaking
+this code. Maybe it's obvious to you, but it isn't obvious to everyone.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
