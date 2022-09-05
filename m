@@ -1,162 +1,54 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4DD7E
-	for <asahi@lists.linux.dev>; Fri,  2 Sep 2022 17:28:10 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id z22-20020a056830129600b0063711f456ceso1885654otp.7
-        for <asahi@lists.linux.dev>; Fri, 02 Sep 2022 10:28:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=OcvzQvUSS5BtKmCuAUECPvo/XLnVbi/A8dYrn8VmGY8=;
-        b=sNi6sf/TjtsQbliwZ+toXmMOfHzsRCgWpZXzRBPCAspqfXdtM0kFt5xFl/vbm5eGfL
-         C/k9HVkGuzCMGPUKhDLcjnVzcnWo475V7tbfJsJgwJfBmOXsaCD6uKiZ0RZvvoOWq1Zz
-         sIzz4l1VIq2qK3DJQIVVYNbZJUq9EVd4rRzeDxty9vv3iOk4LyXxaMpqLO4V9aJc9vw4
-         HMFlS+VRg8diSG6F5EMyfa8i9irY8wDoAZPU7MS9x1JAi107alyC9qqm8gUdWWzJRTGO
-         1XQSPP9OtcGQoe7PF4NgLhNyZxh3IhA0tGxktGhn7WP0wexGf4rV0skcsNEN3103CsSz
-         UfSQ==
-X-Gm-Message-State: ACgBeo3gVPZOoiv/OyzeCIK85njAeohBRnj/P6eW1ecfMWXa2aAnyZIL
-	nHSyTu7YzmBm8Czca/DKRw==
-X-Google-Smtp-Source: AA6agR6ne64hi/duoCub5KI+hVE1YPF+X4QCb+HaiW6b/UpaTprnQRbugYjsvv1s/+lraQv3IukWkA==
-X-Received: by 2002:a05:6830:929:b0:63b:25ba:dfe4 with SMTP id v41-20020a056830092900b0063b25badfe4mr12145905ott.311.1662139689454;
-        Fri, 02 Sep 2022 10:28:09 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id b10-20020a05687051ca00b0011e73536301sm1389723oaj.52.2022.09.02.10.28.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 10:28:09 -0700 (PDT)
-Received: (nullmailer pid 90543 invoked by uid 1000);
-	Fri, 02 Sep 2022 17:28:08 -0000
-Date: Fri, 2 Sep 2022 12:28:08 -0500
-From: Rob Herring <robh@kernel.org>
-To: Mark Kettenis <mark.kettenis@xs4all.nl>
-Cc: linux@armlinux.org.uk, krzysztof.kozlowski@linaro.org, arnd@arndb.de, lee@kernel.org, linus.walleij@linaro.org, alyssa@rosenzweig.io, asahi@lists.linux.dev, brgl@bgdev.pl, marcan@marcan.st, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, sven@svenpeter.dev, krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
- Management Controller
-Message-ID: <20220902172808.GB52527-robh@kernel.org>
-References: <426469c1-13cc-178b-4904-09439d7788e8@linaro.org>
- <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk>
- <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
- <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk>
- <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
- <YxDWG5dmzErhKIXw@shell.armlinux.org.uk>
- <ef6c7248-1efa-5366-6bcd-900c5f10ccb2@linaro.org>
- <YxDiBFIn6artUOZm@shell.armlinux.org.uk>
- <CAL_Jsq+GCKisAVA0AfE=yWJYy18mAGQ7rY1sKGYraXv-berNSg@mail.gmail.com>
- <d3cec3d22e464fa8@bloch.sibelius.xs4all.nl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628CB28EA
+	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 07:22:05 +0000 (UTC)
+From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1662362517; bh=lOUdKjM63vhO0T+j6pqlxE6SWF9QKCLU2WE1cQBJyRw=;
+	h=From:To:Cc:Subject:Date;
+	b=pS74r3S2HWyehRNTdLfOqcK9jEH4nYjyagt9/59ATpMJfmOxHDnKLDKx5xmqPMrwE
+	 sxRwijnBARH8L9WTFdwZ0+tPtGFnjmgQiWEIW46B9zBEo+93tR1RcHzurDHF3PzTAL
+	 UbJapWahgPeJQUisyAsTyyTPNtlZ78lMF2AvUKeo=
+To: Vinod Koul <vkoul@kernel.org>
+Cc: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	asahi@lists.linux.dev,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] dmaengine: apple-admac: Fix grabbing of channels in of_xlate
+Date: Mon,  5 Sep 2022 09:21:09 +0200
+Message-Id: <20220905072110.72094-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d3cec3d22e464fa8@bloch.sibelius.xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 02, 2022 at 05:06:43PM +0200, Mark Kettenis wrote:
-> > From: Rob Herring <robh+dt@kernel.org>
-> > Date: Thu, 1 Sep 2022 17:33:31 -0500
-> > 
-> > On Thu, Sep 1, 2022 at 11:47 AM Russell King (Oracle)
-> > <linux@armlinux.org.uk> wrote:
-> > >
-> > > On Thu, Sep 01, 2022 at 07:25:03PM +0300, Krzysztof Kozlowski wrote:
-> > > > On 01/09/2022 18:56, Russell King (Oracle) wrote:
-> > > > >
-> > > > > 8<===
-> > > > > From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-> > > > > Subject: [PATCH] dt-bindings: mfd: add binding for Apple Mac System Management
-> > > > >  Controller
-> > > > >
-> > > > > Add a DT binding for the Apple Mac System Management Controller.
-> > > > >
-> > > > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > > >
-> > > > Yes, looks good.
-> > > >
-> > > > I won't add Reviewed-by tag, because I think it would confuse Patchwork,
-> > > > so please send a v2 at some point.
-> > >
-> > > Thanks. Do you have any suggestions for patch 2? Should I merge the
-> > > description in patch 2 into this file?
-> > >
-> > > The full dts for this series looks like this:
-> > >
-> > >                 smc: smc@23e400000 {
-> > >                         compatible = "apple,t8103-smc", "apple,smc";
-> > >                         reg = <0x2 0x3e400000 0x0 0x4000>,
-> > >                                 <0x2 0x3fe00000 0x0 0x100000>;
-> > >                         reg-names = "smc", "sram";
-> > >                         mboxes = <&smc_mbox>;
-> > >
-> > >                         smc_gpio: gpio {
-> > >                                 gpio-controller;
-> > >                                 #gpio-cells = <2>;
-> > >                         };
-> > >                 };
-> > >
-> > > but the fuller version in the asahi linux tree looks like:
-> > >
-> > >                 smc: smc@23e400000 {
-> > >                         compatible = "apple,t8103-smc", "apple,smc";
-> > >                         reg = <0x2 0x3e400000 0x0 0x4000>,
-> > >                                 <0x2 0x3fe00000 0x0 0x100000>;
-> > >                         reg-names = "smc", "sram";
-> > >                         mboxes = <&smc_mbox>;
-> > >
-> > >                         smc_gpio: gpio {
-> > >                                 gpio-controller;
-> > >                                 #gpio-cells = <2>;
-> > 
-> > Only 2 properties doesn't really need its own schema doc. However, I
-> > would just move these to the parent node.
-> 
-> When we designed the bindings, it was our understanding that having
-> separate nodes better matches Linux's MFD driver model.
+The of_xlate callback is supposed to return the channel after already
+having 'grabbed' it for private use, so fill that in.
 
-Well, it is convenient to have subnodes with compatibles so that your 
-drivers automagically probe. So yes, a 1:1 relationship of nodes to 
-drivers is nice and tidy. But h/w is not always packaged up neatly and 
-it's not DT's job to try to abstract it such that it is. Also, we 
-shouldn't design bindings around the *current* driver partitioning of 
-some OS.
+Fixes: b127315d9a78 ("dmaengine: apple-admac: Add Apple ADMAC driver")
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+---
+ drivers/dma/apple-admac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This one is actually pretty odd in that the child nodes don't have a 
-compatible string which breaks the automagical probing.
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index d1f74a3aa999..6780761a1640 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -490,7 +490,7 @@ static struct dma_chan *admac_dma_of_xlate(struct of_phandle_args *dma_spec,
+ 		return NULL;
+ 	}
+ 
+-	return &ad->channels[index].chan;
++	return dma_get_slave_channel(&ad->channels[index].chan);
+ }
+ 
+ static int admac_drain_reports(struct admac_data *ad, int channo)
+-- 
+2.33.0
 
-> Please be aware that OpenBSD is already using these bindings.  If
-> there are good reasons for moving things, we can probably deal with
-> that.  But this sounds a bit like a toss up.
-
-Sigh. If there are other bindings in use, please submit them even if the 
-Linux driver isn't ready. If a Linux subsystem maintainer doesn't want 
-to take it, then I will. 
-
-It is a toss up though...
-
-> > >                         };
-> > >
-> > >                         smc_rtc: rtc {
-> > >                                 nvmem-cells = <&rtc_offset>;
-> > >                                 nvmem-cell-names = "rtc_offset";
-> > >                         };
-> > >
-> > >                         smc_reboot: reboot {
-> > >                                 nvmem-cells = <&shutdown_flag>, <&boot_stage>,
-> > >                                         <&boot_error_count>, <&panic_count>, <&pm_setting>;
-> > >                                 nvmem-cell-names = "shutdown_flag", "boot_stage",
-> > >                                         "boot_error_count", "panic_count", "pm_setting";
-> > 
-> > Not really much reason to split these up either because you can just
-> > fetch the entry you want by name.
-> 
-> Again the separate nodes are there because the RTC and the reboot
-> functionality are logically separate and handled by different MFD
-> sub-drivers in Linux.
-
-It's really a question of whether the subset of functionality is going 
-to get reused on its own or has its own resources in DT. MFD bindings 
-are done both ways.
-
-Rob
