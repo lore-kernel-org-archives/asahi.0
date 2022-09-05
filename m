@@ -1,26 +1,26 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E188E2561
-	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 15:04:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1AC4416
+	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 15:16:25 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 98B9C41E2F;
-	Mon,  5 Sep 2022 15:04:28 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 4BCB541E2F;
+	Mon,  5 Sep 2022 15:16:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1662390271; bh=4j1NwuJDwtPSknMdpbNcwHIk+7R9crA14Er54hayAmg=;
+	t=1662390983; bh=SnH+V+R2GJ662ezyRKhqvJs4sp4YS/auEDgqtiyNbXY=;
 	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=I5VcZBYXt3ZaZQpcD8IdttqV8k884pqbr1WQDrVIvEHu6PGd/8x70cMoqmvpBYqCx
-	 BGrwrYfkmkOKCfwV4Xj6jUTSfbcDeplzBDvn0GSxEVDxWdnlkKOQocN6JqclNTIaxT
-	 tZG/WElU58UgtsNGxbJwjaK9KwUcc7z1S59BY+fXX6470msQ83/GuzW0s3GUxCriCt
-	 wkuHtnMW7luB4iGULy/443JOd1oJIHp9JMoD94DGfn6U29AN8ca8zsYjCBoMnxOWBW
-	 wIFPFzVKHcDBqtp+GCnZ+idaGsQ/xiMqSK5/t6BvNgkDu7Q/A96tO+oMzmipQa4QM1
-	 6U+qKZPYUnlHQ==
-Message-ID: <2126f1db-1904-0be3-3c7d-eee1c2060b4d@marcan.st>
-Date: Tue, 6 Sep 2022 00:04:26 +0900
+	b=vfVRk4l1phRl5WI5mhxMh2gc7IloxwsMuJfGw7RRIJB4AjB2TJL490OULhTi2+Llo
+	 sYxBS5EV0vx5Z3JJ21Hy8hERURHoayJAV52IwP5bg7SbnQt4yL7F3EoOAv+UL/MVk4
+	 mgcLeRIxIgQMUjOcCQJuorWGVgJcMY1z2nJ/naUV92D0R0mCtcTt3vigMyIgbDJ+nP
+	 +DXpei6EMEtqLNxOyT2OUimKckpIRPjBgOmrZHK3gzS+xyxkD8E4sQlmpYDssRjZJr
+	 Y3uW9IFIDCvwT5AUTFskMJxW1rWuLh66JzdvbfUFaVODlaaVIYOCZxOIxdHQ79gkSz
+	 MRH+8qyzn0VFQ==
+Message-ID: <92f95d06-c02b-2173-90ad-71f7d365d56f@marcan.st>
+Date: Tue, 6 Sep 2022 00:16:18 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -30,164 +30,41 @@ MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
 Content-Language: es-ES
-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
- Russell King <rmk+kernel@armlinux.org.uk>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
  Linus Walleij <linus.walleij@linaro.org>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
  Bartosz Golaszewski <brgl@bgdev.pl>,
  linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
  "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Sven Peter <sven@svenpeter.dev>
+ Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>
 References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
  <E1oTkeb-003t9e-Iy@rmk-PC.armlinux.org.uk>
  <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
+ <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
 From: Hector Martin <marcan@marcan.st>
 Subject: Re: [PATCH 5/6] gpio: Add new gpio-macsmc driver for Apple Macs
-In-Reply-To: <CAHp75VcG5E+yTH2hG2CbnArsm+ZJ-sWRMmM-wLks0xUJkwSgcg@mail.gmail.com>
+In-Reply-To: <YxHVdjYPlIINZ/Wc@shell.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 02/09/2022 03.55, Andy Shevchenko wrote:
->> +struct macsmc_gpio {
->> +       struct device *dev;
->> +       struct apple_smc *smc;
->> +       struct gpio_chip gc;
-> 
-> You might save some CPU cycles / code by shuffling members around.
-> Usually we put gpio_chip as a first one, so pointer arithmetics to get
-> it becomes a bit simpler, but it needs to be checked by the tool and
-> also paying attention to what is used in critical paths (so
-> performance-wise).
+On 02/09/2022 19.05, Russell King (Oracle) wrote:
+> but even that isn't _that_ nice. I'd like to hear comments from the Asahi
+> folk about whether these sub-blocks of the SMC can have compatibles, so
+> that the MFD layer can automatically fill in the firmware nodes on the
+> struct device before the probe function gets called.
 
-This is a GPIO chip accessed via a remote CPU. Saving two cycles on
-pointer arithmetic is the very definition of premature optimization.
+I'm fine with adding compatibles if this makes the of/fwnode handling
+simpler. However, keep in mind these aren't hardware, they're
+effectively software services implemented in a coprocessor. The idea
+behind not having compatibles was that the SMC stuff should be
+self-discovering enough that it can decide what's available and not at
+runtime, and that the SMC core needs to probe before the child devices
+anyway, so it's not like this can be a simple-bus. But I'm new to the
+MFD subsystem, so if compatibles make life easier, sure.
 
-> 
->> +       int first_index;
->> +};
-> 
-> ...
-> 
->> +static int macsmc_gpio_nr(smc_key key)
->> +{
->> +       int low = hex_to_bin(key & 0xff);
->> +       int high = hex_to_bin((key >> 8) & 0xff);
->> +
->> +       if (low < 0 || high < 0)
->> +               return -1;
->> +
->> +       return low | (high << 4);
->> +}
-> 
-> NIH hex2bin().
-
-No. hex2bin() works on string buffers. This works on an integer
-containing packed characters. They are not the same, and do not have the
-same semantics endian-wise. Integer represent numbers abstractly, byte
-buffers represent bytes in memory in sequence.
-
->> +static int macsmc_gpio_key(unsigned int offset)
->> +{
->> +       return _SMC_KEY("gP\0\0") | (hex_asc_hi(offset) << 8) | hex_asc_lo(offset);
->> +}
-> 
-> NIH hex_byte_pack().
-
-Same comment as above.
-
->> +       /* First try reading the explicit pin mode register */
->> +       ret = apple_smc_rw_u32(smcgp->smc, key, CMD_PINMODE, &val);
->> +       if (!ret)
->> +               return (val & MODE_OUTPUT) ? GPIO_LINE_DIRECTION_OUT : GPIO_LINE_DIRECTION_IN;
->> +
->> +       /*
->> +        * Less common IRQ configs cause CMD_PINMODE to fail, and so does open drain mode.
->> +        * Fall back to reading IRQ mode, which will only succeed for inputs.
->> +        */
->> +       ret = apple_smc_rw_u32(smcgp->smc, key, CMD_IRQ_MODE, &val);
->> +       return (!ret) ? GPIO_LINE_DIRECTION_IN : GPIO_LINE_DIRECTION_OUT;
-> 
-> What is the meaning of val in this case?
-
-Have you tried reading the comment above the code?
-
-When I write code doing something unintuitive and put a comment on top,
-I expect reviewers to *read* it. If you're not going to do that, I might
-as well stop writing comments.
-
-> Strange specifier... It seems like a hashed pointer with added (or
-> skipped? I don't remember) '4ch'. Perhaps you meant one of '%pE',
-> '%p4cc'?
-> Ditto for other cases.
-
-As mentioned in the other thread, there was a missed dependency that
-added this specifier.
-
-> 
->> +       struct macsmc_gpio *smcgp = gpiochip_get_data(gc);
->> +       int count = apple_smc_get_key_count(smcgp->smc) - smcgp->first_index;
-> 
-> I would split this assignment and move it closer to the first user.
-
-It is one line away from the first user.
-
-> 
->> +       int i;
->> +
->> +       if (count > MAX_GPIO)
->> +               count = MAX_GPIO;
-> 
-> Hmm... When can it be the case?
-
-Let's find out! Two lines above:
-
-+	int count = apple_smc_get_key_count(smcgp->smc) - smcgp->first_index;
-
-So I get the toal SMC key count, which is probably 1000 or so, then
-subtract the index of the first GPIO key, to get an upper bound on the
-last GPIO key just to make sure we don't run off the end of the key list.
-
-In other words, pretty much always.
-
-But you didn't read two lines prior, did you.
-
-> 
->> +       bitmap_zero(valid_mask, ngpios);
->> +
->> +       for (i = 0; i < count; i++) {
->> +               smc_key key;
->> +               int gpio_nr;
-> 
->> +               int ret = apple_smc_get_key_by_index(smcgp->smc, smcgp->first_index + i, &key);
-> 
-> Ditto.
-
-This is zero lines away from the first user.
-
-> 
->> +
->> +               if (ret < 0)
->> +                       return ret;
->> +
->> +               if (key > SMC_KEY(gPff))
->> +                       break;
->> +
->> +               gpio_nr = macsmc_gpio_nr(key);
->> +               if (gpio_nr < 0 || gpio_nr > MAX_GPIO) {
->> +                       dev_err(smcgp->dev, "Bad GPIO key %p4ch\n", &key);
-> 
-> Yeah, according to the code it will print something you didn't want.
-
-What?
-
->> +       pdev->dev.of_node = of_get_child_by_name(pdev->dev.parent->of_node, "gpio");
-> 
-> Can we use fwnode APIs instead?
-> Or do you really need this?
-
-This is a producer, not a consumer. It needs to set the of_node so there
-is something for consumers to target in the device tree. The consumers
-may well use fwnode APIs.
+Personally, I'd defer to Rob's opinon on this (CC'ed), since he has the
+last word on DT bindings :).
 
 - Hector
