@@ -1,188 +1,142 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1843C02
-	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 17:05:27 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id BBDCC5C015A;
-	Mon,  5 Sep 2022 13:05:26 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute2.internal (MEProxy); Mon, 05 Sep 2022 13:05:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1662397526; x=1662483926; bh=5E
-	mDhbcz2GkIAaDUST6hLFso+iN6losMgzio9GObyew=; b=1IV5R79i2i/A8SvCja
-	pdnPux+5Lqq2RGskqUMO2mRM+zI2Z3AMPP33HvqNqwDQVmWe9tncWNBfygwdTbmv
-	MhqjgaJG05baQionlEKn0wPTM0YODGvfr0juNzNl+6P309LihTSLT9zhTq1fqvRN
-	mOQ76cOfhPcqq7PIwfRXy1zErExW5RTLt+HzwqKFvkMcT0840Z0xjvRbFzo2V3IN
-	NJFG7lrxwPHCgQOBjKLoWZbHAcKy7hfkzkqg/wvika2TINwiikn0wBuubZqXOwQI
-	Sl5c45DdTkQjLLfR4mejBnFLMnSU8Av1YYuPYJi3IuzvbRKZb2ZccvLIy9qWp0WS
-	5SpA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1662397526; x=1662483926; bh=5EmDhbcz2GkIAaDUST6hLFso+iN6
-	losMgzio9GObyew=; b=kAeN33/7Mcr+DJ5rccv0/1x3WiymHc09kExuA/hEEqsr
-	y4ji/KVJysqcYI1LUCzFtav9R1MTzg+1UXt7INeCT0PYXiK39hoXM0C9dbO7zPom
-	MHLFKT99aTzrirmo2EOxKiTnUPckcQX97+z4/zFttgoPvhdtGKIYbhqizwlCuX72
-	Gt5/tSrbP3Jx/nHhMtpVW5snACF6XahVA00x1tkOmRsOSWM5ZkSD3bg90YVaXpZb
-	tJlWBgZngrcb1E5QFZ1T8wEQ8GLNv4nNXadKyH/xrE906OjJmvzMroF0UpPCP2G+
-	OMs7/lZslUwCImDCwnmU/6Lhet7cdX3CUVhl3ZKMZg==
-X-ME-Sender: <xms:ViwWY9tG2i9qg5b0fzXro2u9yNPQPBX-Vw6nLD84F0jGBomZbXL-ww>
-    <xme:ViwWY2cJc__cvwQ_JmhM8gXWXxI_1NOHhDJzTylsBBIrVXslcEwbheuxBvh9oXvlX
-    PdevFtOsz3_zZQ9Mzo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeliedgudduvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfu
-    vhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtf
-    frrghtthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefg
-    hfeiveeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:ViwWYwzjwRKrqmnCYXNodHUYQLGwlwkQYIRwcgMHW17N-wR6fqoM-g>
-    <xmx:ViwWY0PgfSpKbIA17AHDDOfwJnb9U1Ojw9UDPpKZRVikQvprXfPHnA>
-    <xmx:ViwWY99yHEMj6nlXGWOhiFFk1DzDZ7CUQJ9TJxK0L7t4uYa7ICHd0g>
-    <xmx:ViwWY4YIlelFbtxfUkvvHS1PDh10svFq7TYIU7y4_sjGDc5u0LGMiQ>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 75EEEA6007C; Mon,  5 Sep 2022 13:05:26 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-927-gf4c98c8499-fm-20220826.002-gf4c98c84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B223C02
+	for <asahi@lists.linux.dev>; Mon,  5 Sep 2022 17:08:40 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id r4so12079888edi.8
+        for <asahi@lists.linux.dev>; Mon, 05 Sep 2022 10:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=Z4NPH3VMOZhGzciAdUkGzboSEXiv1Tr3n/uskw1TaLc=;
+        b=HtssaPqx0g/dBFfnT62VO14ARKa+MavTMD+vXVu8bojf38JW+7oMZQ6FC2b1O4Cn7+
+         ANa1bm9arL1ODBssnKv0v1QZ2foCcZLwISc8vqGEEx859S6el9U3L55spM6H42+JUa4H
+         hWWKnlNkDTZZRLPKklGGucJUC8hrF6LXmk7ExVE3X1YNyBdOqLTwCuCYyDM4FawOoFH1
+         OksKreJsl8IH/zu9GwIpB0dofVgvbO7WFF9pl2PZ8RP+8VfCYrx0QOSLF/VIaRlt0WGH
+         9ki1epJB7901I41mfJrm0fqBnMX+OfTykLCbhcrhrMsPrw9e1SfBQWNUI3vgbw+3feWq
+         b+6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=Z4NPH3VMOZhGzciAdUkGzboSEXiv1Tr3n/uskw1TaLc=;
+        b=JAyZM4Lmmhd58WvVBjZo8EK0Yrf2hxxnejLoKXp2mWQHcnNNuiG6Ux7sOOUYUlI585
+         CyuJUEFSgRvuY0AW1j3vWCVB0IevhNBO4VpB3AP9D7wpRpVq/sEWiZFsAAZvwmJt9PD/
+         uNhP/Pu2GNAtynVNmR4yZyNZOMYu5ZbInCHJe75UNpiec9QJXQ1HZewn+mFzkdVZcr3w
+         Zd/i21EB5myI/YdiDYQelhY1QUZW6R2UeKZ0QfMtqPiVuLCKCcIHOHw4dcQ23kw+DIN9
+         Oq/ab0Z1lajWm2Lb2xRtdiXVE1edyrRyQmNRZQ9jPJNFMByilq+yylfChJWYa11dyx8x
+         DyAQ==
+X-Gm-Message-State: ACgBeo2n2w2JiPSkqoamSW/Igv3zlRKK4rUYvGF2nkQY6BiJ3FJEWCOv
+	DqT2zAi8rJvvPxJL733FRAU=
+X-Google-Smtp-Source: AA6agR4s46ks47YtBXe+JZtx/QYH+X1xg0JmwBdjA7c8NgvDIjKokhXf7CMf1PItkPO6PqCYhfsZSQ==
+X-Received: by 2002:aa7:dcd2:0:b0:44e:69f3:edd1 with SMTP id w18-20020aa7dcd2000000b0044e69f3edd1mr6553227edu.244.1662397719116;
+        Mon, 05 Sep 2022 10:08:39 -0700 (PDT)
+Received: from localhost (p200300e41f12c800f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f12:c800:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id vs22-20020a170907139600b00734a9503bcasm5266319ejb.135.2022.09.05.10.08.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Sep 2022 10:08:38 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>
+Cc: Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Janne Grunau <j@jannau.net>,
+	Sameer Pujar <spujar@nvidia.com>,
+	devicetree@vger.kernel.org,
+	iommu@lists.linux-foundation.org,
+	linux-tegra@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: [PATCH v8 0/5] iommu: Support mappings/reservations in reserved-memory regions
+Date: Mon,  5 Sep 2022 19:08:28 +0200
+Message-Id: <20220905170833.396892-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.37.2
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <aea7b62d-9cc1-4590-9d6b-9419b5af62a2@www.fastmail.com>
-In-Reply-To: <E1oVFHL-004pug-JP@rmk-PC.armlinux.org.uk>
-References: <YxYoW2IZFK/JdKgH@shell.armlinux.org.uk>
- <E1oVFHL-004pug-JP@rmk-PC.armlinux.org.uk>
-Date: Mon, 05 Sep 2022 19:03:39 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Russell King" <rmk+kernel@armlinux.org.uk>,
- "Jassi Brar" <jassisinghbrar@gmail.com>
-Cc: "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/2] mailbox: apple: Implement poll_data() operation
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+From: Thierry Reding <treding@nvidia.com>
 
+Hi,
 
-On Mon, Sep 5, 2022, at 18:48, Russell King wrote:
-> From: Hector Martin <marcan@marcan.st>
->
-> This allows clients running in atomic context to poll for messages to
-> arrive.
->
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+This version has several fixes over the previous v6/v7, which can be
+found here:
 
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
+  https://lore.kernel.org/all/20220705125834.431711-1-thierry.reding@gmail.com/
 
-with one small comment below:
+An example is included in the DT bindings, but here is an extract of
+what I've used to test this:
 
-> ---
->  drivers/mailbox/apple-mailbox.c | 37 ++++++++++++++++++++++++++++++---
->  1 file changed, 34 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/mailbox/apple-mailbox.c b/drivers/mailbox/apple-mailbox.c
-> index 33e7acf71e3e..1c14ff63f3d3 100644
-> --- a/drivers/mailbox/apple-mailbox.c
-> +++ b/drivers/mailbox/apple-mailbox.c
-> @@ -26,6 +26,7 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/spinlock.h>
->  #include <linux/types.h>
-> 
->  #define APPLE_ASC_MBOX_CONTROL_FULL  BIT(16)
-> @@ -101,6 +102,7 @@ struct apple_mbox {
-> 
->  	struct device *dev;
->  	struct mbox_controller controller;
-> +	spinlock_t rx_lock;
->  };
-> 
->  static const struct of_device_id apple_mbox_of_match[];
-> @@ -204,13 +206,16 @@ static irqreturn_t apple_mbox_send_empty_irq(int 
-> irq, void *data)
->  	return IRQ_HANDLED;
->  }
-> 
-> -static irqreturn_t apple_mbox_recv_irq(int irq, void *data)
-> +static int apple_mbox_poll(struct apple_mbox *apple_mbox)
->  {
-> -	struct apple_mbox *apple_mbox = data;
-> +
+        reserved-memory {
+                #address-cells = <2>;
+                #size-cells = <2>;
+                ranges;
 
-small nit: there's a spurious white line here
+                /*
+                 * Creates an identity mapping for the framebuffer that
+                 * the firmware has setup to scan out a bootsplash from.
+                 */
+                fb: framebuffer@92cb2000 {
+                        reg = <0x0 0x92cb2000 0x0 0x00800000>;
+                        iommu-addresses = <&dc0 0x0 0x92cb2000 0x0 0x00800000>;
+                };
 
->  	struct apple_mbox_msg msg;
-> +	int ret = 0;
-> 
-> -	while (apple_mbox_hw_recv(apple_mbox, &msg) == 0)
-> +	while (apple_mbox_hw_recv(apple_mbox, &msg) == 0) {
->  		mbox_chan_received_data(&apple_mbox->chan, (void *)&msg);
-> +		ret++;
-> +	}
-> 
->  	/*
->  	 * The interrupt will keep firing even if there are no more messages
-> @@ -225,9 +230,33 @@ static irqreturn_t apple_mbox_recv_irq(int irq, void *data)
->  			       apple_mbox->regs + apple_mbox->hw->irq_ack);
->  	}
-> 
-> +	return ret;
-> +}
-> +
-> +static irqreturn_t apple_mbox_recv_irq(int irq, void *data)
-> +{
-> +	struct apple_mbox *apple_mbox = data;
-> +
-> +	spin_lock(&apple_mbox->rx_lock);
-> +	apple_mbox_poll(apple_mbox);
-> +	spin_unlock(&apple_mbox->rx_lock);
-> +
->  	return IRQ_HANDLED;
->  }
-> 
-> +static bool apple_mbox_chan_peek_data(struct mbox_chan *chan)
-> +{
-> +	struct apple_mbox *apple_mbox = chan->con_priv;
-> +	unsigned long flags;
-> +	int ret;
-> +
-> +	spin_lock_irqsave(&apple_mbox->rx_lock, flags);
-> +	ret = apple_mbox_poll(apple_mbox);
-> +	spin_unlock_irqrestore(&apple_mbox->rx_lock, flags);
-> +
-> +	return ret > 0;
-> +}
-> +
->  static int apple_mbox_chan_flush(struct mbox_chan *chan, unsigned long timeout)
->  {
->  	struct apple_mbox *apple_mbox = chan->con_priv;
-> @@ -276,6 +305,7 @@ static void apple_mbox_chan_shutdown(struct mbox_chan *chan)
-> 
->  static const struct mbox_chan_ops apple_mbox_ops = {
->  	.send_data = apple_mbox_chan_send_data,
-> +	.peek_data = apple_mbox_chan_peek_data,
->  	.flush = apple_mbox_chan_flush,
->  	.startup = apple_mbox_chan_startup,
->  	.shutdown = apple_mbox_chan_shutdown,
-> @@ -331,6 +361,7 @@ static int apple_mbox_probe(struct platform_device *pdev)
->  	mbox->controller.txdone_irq = true;
->  	mbox->controller.of_xlate = apple_mbox_of_xlate;
->  	mbox->chan.con_priv = mbox;
-> +	spin_lock_init(&mbox->rx_lock);
-> 
->  	irqname = devm_kasprintf(dev, GFP_KERNEL, "%s-recv", dev_name(dev));
->  	if (!irqname)
-> -- 
-> 2.30.2
+                /*
+                 * Creates a reservation in the IOVA space to prevent
+                 * any buffers from being mapped to that region. Note
+                 * that on Tegra the range is actually quite different
+                 * from this, but it would conflict with the display
+                 * driver that I tested this against, so this is just
+                 * a dummy region for testing.
+                 */
+                adsp: reservation-adsp {
+                        iommu-addresses = <&dc0 0x0 0x90000000 0x0 0x00010000>;
+                };
+        };
+
+        host1x@50000000 {
+                dc@54200000 {
+                        memory-region = <&fb>, <&adsp>;
+                };
+        };
+
+This is abbreviated a little to focus on the essentials. Note also that
+the ADSP reservation is not actually used on this device and the driver
+for this doesn't exist yet, but I wanted to include this variant for
+testing, because we'll want to use these bindings for the reservation
+use-case as well at some point.
+
+Adding Alyssa and Janne who have in the past tried to make these
+bindings work on Apple M1. Also adding Sameer from the Tegra audio team
+to look at the ADSP reservation and double-check that this is suitable
+for our needs.
+
+Thierry
+
+Navneet Kumar (1):
+  iommu/tegra-smmu: Support managed domains
+
+Thierry Reding (4):
+  dt-bindings: reserved-memory: Document iommu-addresses
+  iommu: Implement of_iommu_get_resv_regions()
+  iommu: dma: Use of_iommu_get_resv_regions()
+  iommu/tegra-smmu: Add support for reserved regions
+
+ .../reserved-memory/reserved-memory.yaml      | 70 +++++++++++++++
+ drivers/iommu/dma-iommu.c                     |  3 +
+ drivers/iommu/of_iommu.c                      | 85 +++++++++++++++++++
+ drivers/iommu/tegra-smmu.c                    | 85 +++++++++++++++----
+ include/linux/of_iommu.h                      |  8 ++
+ 5 files changed, 234 insertions(+), 17 deletions(-)
+
+-- 
+2.37.2
+
