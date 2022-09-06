@@ -1,106 +1,133 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0487E
-	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 08:00:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 598EC4195A;
-	Tue,  6 Sep 2022 08:00:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1662451242; bh=k5TWm1XP5pcR2xRgfu1N6rqx92XM+FWn7U6xtLXwbik=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=jq7ENYaok8ZfdAiT7t4E0EbQfmSKQ49SQfDHxVr8lMF6iQuzHYZPzwC2PnEJkefQa
-	 Rccd2cyxAwNLETulV5JSv6hrzFjGBT22rK0h2n9CjCNSwwFqcKVsSdD0B5HLPdUEJI
-	 gxjZXMswgEid9b0SX+rI4lZ4DdB8b6Kw8jTl74jc+oGLfEobvfbzExPeRhyiLym4Ts
-	 cel2lnQCzVBBevwFaGc198/gHLllKyYa24AttnoTxo6pi5RsvewlE1BRpzefNGBLlc
-	 hcZ4uEXg4abCFzZBa6WjSNea1cy3spzvD9h/RaFvj/BqCMLZBJGK8sLAf5paZ4rGuX
-	 GAEVD5/aJbWrg==
-Message-ID: <6f93d53d-4771-15a2-f76d-38eb4b60e66e@marcan.st>
-Date: Tue, 6 Sep 2022 17:00:36 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106002F2F
+	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 09:04:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=zD51EHbUMEGF34YrRuNppOWB4NaAsrvsQWAlBIvtq70=; b=WKZULGD3yfXwyVmbbYgw+9fy1Y
+	YPu5oQIPHhCQyZBY5eJLPtRD5DE/4LTd4R3pHzvTp18gSj8Lnj0hrBT3u77EYgUAu/9VpPw2Vm+Hu
+	vXBllKnTTILtAfDOzApwbLIzHe+Qnhjae7h78U9OQVq8Li0QZ1XPzj9gW3t4qIsAsNTUTyWL+8ymq
+	A25EvLzvxMHuJGyX6hbfyuHJf5twn9+56foueY+7KMd37iXQ7WFKAJKGQfl7hVNAHgwMhRnRyLyGo
+	d9K+x36Ipek1NL/pGvkbuN0wRaO9p1elxpXtR10UEzxnNxrNARQQKwVtNeiN6WnLXDhB9hk68QXKo
+	8gC85/pQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34142)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oVUVl-0003eF-S3; Tue, 06 Sep 2022 10:04:49 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oVUVh-00088w-Rq; Tue, 06 Sep 2022 10:04:45 +0100
+Date: Tue, 6 Sep 2022 10:04:45 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Rob Herring <robh@kernel.org>
+Cc: Mark Kettenis <mark.kettenis@xs4all.nl>, krzysztof.kozlowski@linaro.org,
+	arnd@arndb.de, lee@kernel.org, linus.walleij@linaro.org,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev, brgl@bgdev.pl,
+	marcan@marcan.st, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, sven@svenpeter.dev,
+	krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+Message-ID: <YxcNLU+KGEolrdfT@shell.armlinux.org.uk>
+References: <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk>
+ <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
+ <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk>
+ <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
+ <YxDWG5dmzErhKIXw@shell.armlinux.org.uk>
+ <ef6c7248-1efa-5366-6bcd-900c5f10ccb2@linaro.org>
+ <YxDiBFIn6artUOZm@shell.armlinux.org.uk>
+ <CAL_Jsq+GCKisAVA0AfE=yWJYy18mAGQ7rY1sKGYraXv-berNSg@mail.gmail.com>
+ <d3cec3d22e464fa8@bloch.sibelius.xs4all.nl>
+ <20220902172808.GB52527-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 6/6] gpio: macsmc: Add IRQ support
-Content-Language: es-ES
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- Lee Jones <lee@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- Sven Peter <sven@svenpeter.dev>
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeg-003t9k-Mc@rmk-PC.armlinux.org.uk>
- <CACRpkdaR9rBdPC_OBKx5e+=EtbR-Jn3GzrvGRYHMJmXwRxPhyg@mail.gmail.com>
- <9cf54921-c6a5-b328-6941-d1cbe086bcda@marcan.st>
- <Yxb7Fm5hm5JF9JiA@shell.armlinux.org.uk>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <Yxb7Fm5hm5JF9JiA@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902172808.GB52527-robh@kernel.org>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 06/09/2022 16.47, Russell King (Oracle) wrote:
-> On Tue, Sep 06, 2022 at 04:00:31PM +0900, Hector Martin wrote:
->> On 02/09/2022 22.21, Linus Walleij wrote:
->>>> +       switch (type & IRQ_TYPE_SENSE_MASK) {
->>>> +       case IRQ_TYPE_LEVEL_HIGH:
->>>> +               mode = IRQ_MODE_HIGH;
->>>> +               break;
->>>> +       case IRQ_TYPE_LEVEL_LOW:
->>>> +               mode = IRQ_MODE_LOW;
->>>> +               break;
->>>> +       case IRQ_TYPE_EDGE_RISING:
->>>> +               mode = IRQ_MODE_RISING;
->>>> +               break;
->>>> +       case IRQ_TYPE_EDGE_FALLING:
->>>> +               mode = IRQ_MODE_FALLING;
->>>> +               break;
->>>> +       case IRQ_TYPE_EDGE_BOTH:
->>>> +               mode = IRQ_MODE_BOTH;
->>>> +               break;
->>>> +       default:
->>>> +               return -EINVAL;
->>>
->>> I don't know how level IRQs would work on this essentially
->>> message-passing process context interrupt. Maybe I am getting
->>> it all wrong, but for level the line should be held low/high until
->>> the IRQ is serviced, it would be possible to test if this actually
->>> works by *not* servicing an IRQ and see if the SMC then sends
->>> another message notifier for the same IRQ.
->>>
->>> I strongly suspect that actually only edges are supported, but
->>> there might be semantics I don't understand here.
->>
->> IIRC that is exactly what happens - the SMC will re-fire the IRQ after
->> the ACK if it is set to level mode and still at the active level.
->>
->> I do remember testing all the modes carefully when implementing this to
->> figure out what the precise semantics are, and I *think* I agonized over
->> the flow handlers quite a bit and decided this way would work properly
->> for all the modes, but it's been a while so I'd have to take a look
->> again to convince myself again :)
-> 
-> Thanks for the clarification - I think it would be useful to put some
-> of that as comments before the CMD_IRQ_ACK write to head off any
-> questions about this in the future. Something like this maybe?
-> 
->         /*
->          * This is not an "ack" int he i8253 PIC sense - it is used for level
->          * interrupts as well. The SMC will re-fire the interrupt event after
->          * this ACK if the level interrupt is still active.
->          */
->         if (apple_smc_write_u32(smcgp->smc, key, CMD_IRQ_ACK | 1) < 0)
->                 dev_err(smcgp->dev, "GPIO IRQ ack failed for %p4ch\n", &key);
-> 
+On Fri, Sep 02, 2022 at 12:28:08PM -0500, Rob Herring wrote:
+> This one is actually pretty odd in that the child nodes don't have a 
+> compatible string which breaks the automagical probing.
 
-Sounds good to me! (nit: typo on "int he")
+I don't think that is necessarily true, and I don't think it's true in
+this case.
 
-- Hector
+The SMC core driver instructs the MFD core to create devices for the
+individual functional items:
+
+static const struct mfd_cell apple_smc_devs[] = {
+        {
+                .name = "macsmc-gpio",
+        },
+        {
+                .name = "macsmc-hid",
+        },
+        {
+                .name = "macsmc-power",
+        },
+        {
+                .name = "macsmc-reboot",
+        },
+        {
+                .name = "macsmc-rtc",
+        },
+};
+
+Since MFD uses platform devices for these, they get all the normal
+functionality that these devices have, which include matching by
+device name ot the driver name, and udev events being appropriately
+triggered. As long as the platform drivers for these devices have the
+correct modalias lines, autoloading of the modules will work and the
+drivers will be correctly matched and probed.
+
+The Asahi kernel builds most of the platform support as modules,
+including these, so we know it works (if it didn't, then lots of
+module autoloading would be broken on non-DT platforms.)
+
+> > Again the separate nodes are there because the RTC and the reboot
+> > functionality are logically separate and handled by different MFD
+> > sub-drivers in Linux.
+> 
+> It's really a question of whether the subset of functionality is going 
+> to get reused on its own or has its own resources in DT. MFD bindings 
+> are done both ways.
+
+I think the current position on what to do about these is that everyone
+is looking for someone else to make a decision, and no one wants to!
+
+Firstly, I don't think that the number of properties in a node should
+have a bearing on the design of the DT binding - what should have a
+bearing is the logical partitioning of functionality.
+
+Mark suggests that it would take six months for OpenBSD to transition to
+some other description - for example, if we merged the nodes.
+
+Hector says that MacOS's firmware description has the nodes merged, but
+their description is a mess.
+
+The overall preference seems to be to keep the sub-nodes unless there
+is a strong technical reason not to.
+
+The feeling I am getting from the review is that there doesn't seem to
+be a strong technical reason to merge the nodes - there are desires and
+preferences, but nothing concrete.
+
+So at this point, I think it would make sense if I post a v2 with all
+the updates so far (sorry, given the long drawn out discussions on
+this, I've lost track of what changes have been made to the code, so
+I won't include a detailed change log.)
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
