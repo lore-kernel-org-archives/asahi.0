@@ -1,46 +1,40 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FE77E
-	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 17:01:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 4AA0B4195A;
-	Tue,  6 Sep 2022 17:00:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1662483660; bh=lGUQ2yTJ9XJbKZKm2DQO637Q3W+GRczGxOgamRjh/ns=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=Mv0pnE3G87fxXxUwPdNLORDS0t/I1vEOTWJTERQMT6dOff9WKYvo02XGcjMy2xtIP
-	 m1y+47H1d3EZiDMjV6pLyUeanyfnf3zTIelouvrIuX4X6QpfmjFvpILuX6VK21BU5V
-	 rNb+qTQJ8Q619r/x0b0rQBppzBTsBoYhqidlZXJOMI1eWwk6L+qSFBizAJ15UGOaSq
-	 qHKrgQTC/ggzNUzTkQmXWEA7C6GIpW7OzbJimUGi4n29ysB/+ODW9vVj+ViTkOJeD2
-	 CHih/nt2HvmqtSd9MxEY0BhOd2H1KUgJdqXH2w+UQGbKF06VkhK62wWotbLY860LJi
-	 Cu1ilYRR/0khQ==
-Message-ID: <91466e41-d3f7-0993-9082-80f94e53f375@marcan.st>
-Date: Wed, 7 Sep 2022 02:00:53 +0900
-Precedence: bulk
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: es-ES
-To: Rob Herring <robh@kernel.org>,
- "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Mark Kettenis <mark.kettenis@xs4all.nl>, krzysztof.kozlowski@linaro.org,
- arnd@arndb.de, lee@kernel.org, linus.walleij@linaro.org,
- alyssa@rosenzweig.io, asahi@lists.linux.dev, brgl@bgdev.pl,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- sven@svenpeter.dev, krzysztof.kozlowski+dt@linaro.org,
- devicetree@vger.kernel.org
-References: <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
- <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk>
- <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E6E7E
+	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 17:35:37 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id h20-20020a056830165400b00638ac7ddba5so8541934otr.4
+        for <asahi@lists.linux.dev>; Tue, 06 Sep 2022 10:35:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=Axl59O4YJWSYqFaxFX2s1YiQiL8KBb3VgOdRYMsp+Bs=;
+        b=K0w0dOC0RX3pTwx2TeqzQUf6VP8YTqG/hWMw7f9xvVYh8akXpNqzMwweB+0SC/Gof5
+         IH+yXwidFh0ihhYapZSNUoDlliLLSxKkYo4GrkuT8l3imr9hSclrM0XPz3IfxSyPnhrE
+         yA8o4ScrOvQLW1+iujeR5V2uRGM0i0DOeGJJn1S2STjywapWRG1sFK97OpPh39MzhrmA
+         vGHEVYFAuc4axd2eAWMD7dGYCTlbY/2HvEymIZXBjtoCx26V3M1lPdweNXf3HzDHJ9b+
+         jpytHeeAnsXTi7T1GagVflMP453oNWX80ViAkcrL1tStTK5WUaS7XVbhKhoD/Pq0nlnO
+         E/3w==
+X-Gm-Message-State: ACgBeo38VibVZes0umCGwo9HCKafvAQcbxSl01XY6bC5Y/dPQa4HO6ze
+	vulbES02i/sZhff1LZSj9w==
+X-Google-Smtp-Source: AA6agR6OFcjRQ+joH68tfuhOfhhZXRcOZk0l3kN/CH7MxvMkzhMCwdEmiPaXYJithfHs7z2Rp7Qi1w==
+X-Received: by 2002:a9d:65c2:0:b0:638:d9ec:4a9b with SMTP id z2-20020a9d65c2000000b00638d9ec4a9bmr22516719oth.83.1662485737027;
+        Tue, 06 Sep 2022 10:35:37 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id 35-20020a9d0f26000000b0063b24357269sm6079404ott.13.2022.09.06.10.35.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 10:35:36 -0700 (PDT)
+Received: (nullmailer pid 761200 invoked by uid 1000);
+	Tue, 06 Sep 2022 17:35:35 -0000
+Date: Tue, 6 Sep 2022 12:35:35 -0500
+From: Rob Herring <robh@kernel.org>
+To: Hector Martin <marcan@marcan.st>
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, Mark Kettenis <mark.kettenis@xs4all.nl>, krzysztof.kozlowski@linaro.org, arnd@arndb.de, lee@kernel.org, linus.walleij@linaro.org, alyssa@rosenzweig.io, asahi@lists.linux.dev, brgl@bgdev.pl, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, sven@svenpeter.dev, krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+Message-ID: <20220906173535.GA734389-robh@kernel.org>
+References: <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
  <YxDWG5dmzErhKIXw@shell.armlinux.org.uk>
  <ef6c7248-1efa-5366-6bcd-900c5f10ccb2@linaro.org>
  <YxDiBFIn6artUOZm@shell.armlinux.org.uk>
@@ -49,50 +43,74 @@ References: <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
  <20220902172808.GB52527-robh@kernel.org>
  <YxcNLU+KGEolrdfT@shell.armlinux.org.uk>
  <20220906161049.GC534217-robh@kernel.org>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
- Management Controller
-In-Reply-To: <20220906161049.GC534217-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <91466e41-d3f7-0993-9082-80f94e53f375@marcan.st>
+Precedence: bulk
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <91466e41-d3f7-0993-9082-80f94e53f375@marcan.st>
 
-On 07/09/2022 01.10, Rob Herring wrote:
->> So at this point, I think it would make sense if I post a v2 with all
->> the updates so far (sorry, given the long drawn out discussions on
->> this, I've lost track of what changes have been made to the code, so
->> I won't include a detailed change log.)
+On Wed, Sep 07, 2022 at 02:00:53AM +0900, Hector Martin wrote:
+> On 07/09/2022 01.10, Rob Herring wrote:
+> >> So at this point, I think it would make sense if I post a v2 with all
+> >> the updates so far (sorry, given the long drawn out discussions on
+> >> this, I've lost track of what changes have been made to the code, so
+> >> I won't include a detailed change log.)
+> > 
+> > As I said elsewhere, sub-nodes is probably the right choice here. I 
+> > think they need compatible strings in the child nodes, and addressing 
+> > has to be sorted out which it seems may also break OpenBSD.
 > 
-> As I said elsewhere, sub-nodes is probably the right choice here. I 
-> think they need compatible strings in the child nodes, and addressing 
-> has to be sorted out which it seems may also break OpenBSD.
+> So addressing only makes sense for GPIO, out of the nodes we have so far
+> - that's the only thing with two discrete instances whose access can be
+> entirely described by a single base key name, and which are otherwise
+> compatible.
+> 
+> Everything else is pretty much single-instance, and talks to multiple
+> keys, so there isn't one single "address" key that would make semantic
+> sense to use as the node address. 
 
-So addressing only makes sense for GPIO, out of the nodes we have so far
-- that's the only thing with two discrete instances whose access can be
-entirely described by a single base key name, and which are otherwise
-compatible.
+Unit-addresses are just the first address in 'reg'. So multiple 
+addresses or not doesn't really matter.
 
-Everything else is pretty much single-instance, and talks to multiple
-keys, so there isn't one single "address" key that would make semantic
-sense to use as the node address. There are some indexed keys, but at a
-deeper level (e.g. multiple battery cells part of the charge control
-subsystem, multiple Type C ports as part of the AC/power input
-subsystem, etc.). And in those cases, these subdevices are mostly
-homogeneous and we would never need multiple nodes for them at the DT
-level, they'd just be implicitly handled by those drivers.
+> There are some indexed keys, but at a
+> deeper level (e.g. multiple battery cells part of the charge control
+> subsystem, multiple Type C ports as part of the AC/power input
+> subsystem, etc.). And in those cases, these subdevices are mostly
+> homogeneous and we would never need multiple nodes for them at the DT
+> level, they'd just be implicitly handled by those drivers.
 
-GPIO is quite special in that 1) it only has a single key type (which is
-overloaded using advanced features to provide, effectively,
-sub-registers to control all the GPIO features per pin), 2) a single key
-represents a single pin, 3) keys are numbered in a reasoanble way, and
-4) there are two prefixes for two discrete GPIO controllers. For pretty
-much everything else SMC does, we just have a bag of keys with no real
-rhyme nor reason from the point of view of an "address space".
+Type-C will be fun depending on how much of the muxing/altmode 
+details have to get exposed. 
 
-Given that, how would this work? Is it legal/reasonable for only the
-gpio nodes to have addressing/reg properties, and everything else to
-just have a node name with no concept of address? Does it even make
-sense to special case gpio in this way, vs. just having something like
-gpio {} / gpio-sec {} (if we ever even need gpio-sec, which is an open
-question)?
+> GPIO is quite special in that 1) it only has a single key type (which is
+> overloaded using advanced features to provide, effectively,
+> sub-registers to control all the GPIO features per pin), 2) a single key
+> represents a single pin, 3) keys are numbered in a reasoanble way, and
+> 4) there are two prefixes for two discrete GPIO controllers. For pretty
+> much everything else SMC does, we just have a bag of keys with no real
+> rhyme nor reason from the point of view of an "address space".
+> 
+> Given that, how would this work? Is it legal/reasonable for only the
+> gpio nodes to have addressing/reg properties, and everything else to
+> just have a node name with no concept of address? 
 
-- Hector
+Not ideal, but allowed.
+
+> Does it even make
+> sense to special case gpio in this way, vs. just having something like
+> gpio {} / gpio-sec {} (if we ever even need gpio-sec, which is an open
+> question)?
+
+If not unit-addresses, the 2nd choice we do is 'gpio-0', 'gpio-1', etc. 
+Though that is mainly in the GPIO based consumer bindings like gpio-pwm, 
+spi-gpio, etc. where there's really not anything to use for an address.
+
+If only those 2 nodes, then I really don't care so much and gpio-sec 
+would be fine. It's 1 node in 1 binding.
+
+Rob
