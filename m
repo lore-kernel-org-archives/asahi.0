@@ -1,28 +1,28 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C3346BC
-	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 13:19:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A920746BC
+	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 13:19:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
 	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=hJ3kLGkWuUBRmwOZ2cL0NRg2eHh7ETiNBBItZCgbIJM=; b=Sz3kuqigiSGDcjuCtnvwreNrvo
-	D0BzxepT8Bhy/9g4Y4WHlnt3LBfcvU4eplSpOJW+b9itH5DHWqpbSlpp9V0rXR1u8pkX4PE7fVu6f
-	htItWqkTGHa7em6gpXPNP+BUFFG60fKciXZT5gu4rSCCvZCxw+0p3K5svlsS07plHwQFMGa32GtK8
-	vMY14VMnUnKZ1DTHi5if0IjR4C2GYBq1MdeyZ7k4UiqyAO0xg25RDKJ5KZ84dFXXk3wAEVpcNOVh+
-	eyRkdNx79oKTB0Fmg7xHzbluz5u2Y8dJzaUkNRS8qYKB9ioGRrLuiv4c6uEMg6Sq+XzvMukQbv7tW
-	o4gzoXlQ==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:53694 helo=rmk-PC.armlinux.org.uk)
+	bh=Bo5o2gfQBOp1/WUNsVSQGZ63kyAmLRQHzYhaX9J4aSQ=; b=ofYxUHhRJsQhp71zA13LjzpFl4
+	RygXoRzllMG5gk0ZRvEtjmPUvE0kbIN89ZYSE+0U0RU4G8Hgo2njdIRp/3A7F1v214A/d5NySlkHu
+	84thZSm2EaZPUCgYoSfe70jL9MXiMBmgk8UuQmiJOB8GB3PIqF8avls0UPuCKPVpcvPX01Dd3NKm4
+	iIDApKGxKPPbwQh9mYohmu1KZ6XgsGERg9k4zxCJ0rMUl+XMg1awpOPpRmWNrMaLeQkxtE32zi19W
+	m6wXLnYvO/djNoq9PwmXycPsEZZHCxxRv7eXDPEVVsfPr7Iq2jRHN7qUz59yBxHUyZPsRFJ7T0D5j
+	k+gsFzHw==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:38434 helo=rmk-PC.armlinux.org.uk)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <rmk@armlinux.org.uk>)
-	id 1oVYUO-0003rN-3D; Tue, 06 Sep 2022 14:19:40 +0100
+	id 1oVYUT-0003rh-88; Tue, 06 Sep 2022 14:19:45 +0100
 Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
 	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1oVYUN-005CmM-Dn; Tue, 06 Sep 2022 14:19:39 +0100
+	id 1oVYUS-005CmS-IA; Tue, 06 Sep 2022 14:19:44 +0100
 In-Reply-To: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
 References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
 From: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
@@ -46,7 +46,8 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Sven Peter <sven@svenpeter.dev>
-Subject: [PATCH 3/7] soc: apple: rtkit: Add apple_rtkit_poll
+Subject: [PATCH 4/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -56,61 +57,140 @@ MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1oVYUN-005CmM-Dn@rmk-PC.armlinux.org.uk>
+Message-Id: <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
 Sender: Russell King <rmk@armlinux.org.uk>
-Date: Tue, 06 Sep 2022 14:19:39 +0100
+Date: Tue, 06 Sep 2022 14:19:44 +0100
 
 From: Hector Martin <marcan@marcan.st>
 
-This allows a client to receive messages in atomic context, by polling.
+%p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+it's useful to be able to print generic 4-character codes formatted as
+an integer. Extend it to add format specifiers for printing generic
+32-bit FOURCCs with various endian semantics:
+
+%p4ch   Host-endian
+%p4cl	Little-endian
+%p4cb	Big-endian
+%p4cr	Reverse-endian
+
+The endianness determines how bytes are interpreted as a u32, and the
+FOURCC is then always printed MSByte-first (this is the opposite of
+V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+allow printing LSByte-first FOURCCs stored in host endian order
+(other than the hex form being in character order, not the integer
+value).
 
 Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- drivers/soc/apple/rtkit.c       |  6 ++++++
- include/linux/soc/apple/rtkit.h | 12 ++++++++++++
- 2 files changed, 18 insertions(+)
+ Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++++
+ lib/vsprintf.c                            | 35 +++++++++++++++++++----
+ 2 files changed, 61 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-index cf1129e9f76b..031ec4aa06d5 100644
---- a/drivers/soc/apple/rtkit.c
-+++ b/drivers/soc/apple/rtkit.c
-@@ -660,6 +660,12 @@ int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
- }
- EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 5e89497ba314..22c33398ec02 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -625,6 +625,38 @@ Passed by reference.
+ 	%p4cc	Y10  little-endian (0x20303159)
+ 	%p4cc	NV12 big-endian (0xb231564e)
  
-+int apple_rtkit_poll(struct apple_rtkit *rtk)
-+{
-+	return mbox_client_peek_data(rtk->mbox_chan);
-+}
-+EXPORT_SYMBOL_GPL(apple_rtkit_poll);
++Generic FourCC code
++-------------------
 +
- int apple_rtkit_start_ep(struct apple_rtkit *rtk, u8 endpoint)
- {
- 	u64 msg;
-diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
-index 88eb832eac7b..c9cabb679cd1 100644
---- a/include/linux/soc/apple/rtkit.h
-+++ b/include/linux/soc/apple/rtkit.h
-@@ -152,4 +152,16 @@ int apple_rtkit_send_message(struct apple_rtkit *rtk, u8 ep, u64 message,
- int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
- 				  unsigned long timeout, bool atomic);
++::
++	%p4c[hnbl]	gP00 (0x67503030)
++
++Print a generic FourCC code, as both ASCII characters and its numerical
++value as hexadecimal.
++
++The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
++host, reversed, big or little endian order data respectively. Host endian
++order means the data is interpreted as a 32-bit integer and the most
++significant byte is printed first; that is, the character code as printed
++matches the byte order stored in memory on big-endian systems, and is reversed
++on little-endian systems.
++
++Passed by reference.
++
++Examples for a little-endian machine, given &(u32)0x67503030::
++
++	%p4ch	gP00 (0x67503030)
++	%p4cl	gP00 (0x67503030)
++	%p4cb	00Pg (0x30305067)
++	%p4cr	00Pg (0x30305067)
++
++Examples for a big-endian machine, given &(u32)0x67503030::
++
++	%p4ch	gP00 (0x67503030)
++	%p4cl	00Pg (0x30305067)
++	%p4cb	gP00 (0x67503030)
++	%p4cr	00Pg (0x30305067)
++
+ Thanks
+ ======
  
-+/*
-+ * Process incoming messages in atomic context.
-+ * This only guarantees that messages arrive as far as the recv_message_early
-+ * callback; drivers expecting to handle incoming messages synchronously
-+ * by calling this function must do it that way.
-+ * Will return 1 if some data was processed, 0 if none was, or a
-+ * negative error code on failure.
-+ *
-+ * @rtk:            RTKit reference
-+ */
-+int apple_rtkit_poll(struct apple_rtkit *rtk);
-+
- #endif /* _LINUX_APPLE_RTKIT_H_ */
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 3c1853a9d1c0..31707499f90f 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1757,27 +1757,50 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+ 	char output[sizeof("0123 little-endian (0x01234567)")];
+ 	char *p = output;
+ 	unsigned int i;
++	bool pix_fmt = false;
+ 	u32 orig, val;
+ 
+-	if (fmt[1] != 'c' || fmt[2] != 'c')
++	if (fmt[1] != 'c')
+ 		return error_string(buf, end, "(%p4?)", spec);
+ 
+ 	if (check_pointer(&buf, end, fourcc, spec))
+ 		return buf;
+ 
+ 	orig = get_unaligned(fourcc);
+-	val = orig & ~BIT(31);
++	switch (fmt[2]) {
++	case 'h':
++		val = orig;
++		break;
++	case 'r':
++		val = orig = swab32(orig);
++		break;
++	case 'l':
++		val = orig = le32_to_cpu(orig);
++		break;
++	case 'b':
++		val = orig = be32_to_cpu(orig);
++		break;
++	case 'c':
++		/* Pixel formats are printed LSB-first */
++		val = swab32(orig & ~BIT(31));
++		pix_fmt = true;
++		break;
++	default:
++		return error_string(buf, end, "(%p4?)", spec);
++	}
+ 
+ 	for (i = 0; i < sizeof(u32); i++) {
+-		unsigned char c = val >> (i * 8);
++		unsigned char c = val >> ((3 - i) * 8);
+ 
+ 		/* Print non-control ASCII characters as-is, dot otherwise */
+ 		*p++ = isascii(c) && isprint(c) ? c : '.';
+ 	}
+ 
+-	*p++ = ' ';
+-	strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+-	p += strlen(p);
++	if (pix_fmt) {
++		*p++ = ' ';
++		strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
++		p += strlen(p);
++	}
+ 
+ 	*p++ = ' ';
+ 	*p++ = '(';
 -- 
 2.30.2
 
