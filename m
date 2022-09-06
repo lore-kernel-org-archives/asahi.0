@@ -1,119 +1,112 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EB33D88
-	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 11:57:44 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id nc14so22633861ejc.4
-        for <asahi@lists.linux.dev>; Tue, 06 Sep 2022 04:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=/+p0wzFj/upkv9e1wiwyvWP1+FT9YhrV1TfR4whLT7A=;
-        b=WPj6KNJpdx4ESLURazeomIr7jVFWSOZYDwnp3ZjB0SezHdvdUickHDnsxSGgA1VqWQ
-         8dPftpgpnFr0XB7Uj16cBasmDTHGwe90H2XfLCV+/YSo/dw2p/nor0fgixin+8kYnZXK
-         JT/Z7GeeUEQQ8NWrZwRggD8Z29+Vdgn/gLLRUymV5grVbEw6K28FPJvrK2m3H+1DUryi
-         Oyg7bID4CxSu9YFBMP1oY0EgjCATJNnD0t0NGgpxrM9Rh9ZUVnT50THlikeVppp+Z4td
-         V2Sjn7ZMjpFBkJE54SuXF3VauV8IUQCo70wMpvTtZKdKRcEKoyVa210h0zM8GDnCvJ19
-         L+qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=/+p0wzFj/upkv9e1wiwyvWP1+FT9YhrV1TfR4whLT7A=;
-        b=wZrTwBzRS4jBSpwHXK0bV13sFdiS+UtI9ebMxPHKRFlZ2/MpI3R5IFLsIpoLO/aeh1
-         QIm8WbdI/hgmr149WkJETvKNVNjRafWwOnc10yyj46LBk1E796rgPxH0/BjaZnuPY2XP
-         jATwk30P2e4I6VpVaZP3Mv+gAjB250YEyJp3DwHRdJWEofYd9Kb6SWFIpj8WnF+o63CX
-         Ysd94XMUT1AQmvKfix9wBhrxbworMKzBVtmBmtMgmHpynTDvpqU/luIsJc6laLtuQatl
-         1w9OjaQQwlXX9hodqOCU9wii+5V2fvuUINNkVwP0pr3RXkNK7xkVKSxYJUmCj/E+TY5S
-         VY6Q==
-X-Gm-Message-State: ACgBeo0aZAV3mGox6EV8snb0dxxai0LnLBrwixpuBXYgGVkFNFFuk65A
-	KmLJ2ltyoPRyNFilvClvPpCcef4WYZl7FTW5laMTUQ==
-X-Google-Smtp-Source: AA6agR4l1xB762o3DaSOS5+KZCpE8WDptXDx0mKu9slBlWSXdcqJncsF4brvN7CKb06geMDtHrbRW0K/th1I6X+zY0I=
-X-Received: by 2002:a17:907:2707:b0:741:7c18:4e76 with SMTP id
- w7-20020a170907270700b007417c184e76mr27550306ejk.690.1662465462649; Tue, 06
- Sep 2022 04:57:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6784D46BC
+	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 13:18:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=abOmnhnyd+sWtL9SSFYhJDEb2jQ0BuhJ03Z3IXa5TEI=; b=SU+8sj/4hl+sw0I48s5fZ3iBM+
+	Nk6Tq+n+HmeldWmI2R6oLROiYD/GtVJFqdWaVMy+pYzgwn9+jZkqwSIqgN53v74dLPFV2smVXDvQ0
+	f9Grp8po3LJSbx1xkU7N/HfwJiudIM3umIePLrMAP9xa9M1gkFpKvM0S59LulOs8l7D4et4aiQq3M
+	NAWoD072DAi4BDe6MkFpMQnYax9+0jmMDept6EyJubKr+NbHSo2wqQFmlM+bb54iZcsG2c21oboie
+	TlAiBbDyT9grJNjMXgpodwTW54AcS6EaaD/IgBhtltyQg0YAGDNhk9BX5f7auMFLOOr8w/dapvRJI
+	vSAkyB0w==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34146)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oVYTD-0003qY-55; Tue, 06 Sep 2022 14:18:27 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oVYT8-0008IJ-Ka; Tue, 06 Sep 2022 14:18:22 +0100
+Date: Tue, 6 Sep 2022 14:18:22 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Rob Herring <robh+dt@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Peter <sven@svenpeter.dev>
+Subject: [PATCH v2 0/7] Add Apple Mac System Management Controller GPIOs
+Message-ID: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk> <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
- <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk> <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
- <YxDWG5dmzErhKIXw@shell.armlinux.org.uk> <ef6c7248-1efa-5366-6bcd-900c5f10ccb2@linaro.org>
- <YxDiBFIn6artUOZm@shell.armlinux.org.uk> <CAL_Jsq+GCKisAVA0AfE=yWJYy18mAGQ7rY1sKGYraXv-berNSg@mail.gmail.com>
- <d3cec3d22e464fa8@bloch.sibelius.xs4all.nl> <20220902172808.GB52527-robh@kernel.org>
- <YxcNLU+KGEolrdfT@shell.armlinux.org.uk> <d3cecee5edd24f67@bloch.sibelius.xs4all.nl>
- <CACRpkdaSRcczEF8QZ4aO+-HDVS+n-8MXvn6ysnjJfUEabwUJ=w@mail.gmail.com> <909bb4e7-5bd2-2903-5bba-87ae37f3448a@marcan.st>
-In-Reply-To: <909bb4e7-5bd2-2903-5bba-87ae37f3448a@marcan.st>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 6 Sep 2022 13:57:31 +0200
-Message-ID: <CACRpkdajhjpMzjMooDduu0jxrp0uDNJ90VfBPpHx+P14cFfskA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
- Management Controller
-To: Hector Martin <marcan@marcan.st>
-Cc: Mark Kettenis <mark.kettenis@xs4all.nl>, 
-	"Russell King (Oracle)" <linux@armlinux.org.uk>, robh@kernel.org, krzysztof.kozlowski@linaro.org, 
-	arnd@arndb.de, lee@kernel.org, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
-	brgl@bgdev.pl, linux-arm-kernel@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, sven@svenpeter.dev, 
-	krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Tue, Sep 6, 2022 at 1:36 PM Hector Martin <marcan@marcan.st> wrote:
-> On 06/09/2022 20.22, Linus Walleij wrote:
-> > On Tue, Sep 6, 2022 at 11:31 AM Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
-> >
-> >> Another argument for having sub-nodes is that the firmware actually
-> >> exposes *two* GPIO controllers.  For now we only support the "master"
-> >> PMU GPIOs, but there also is a "slave" PMU GPIO controller that uses a
-> >> separate set of SMC "keys".  We currently don't need any of the pins
-> >> on the "slave", so we don't expose it in the DT yet.
-> >
-> > That sounds backward, like we don't expose device X as DT node
-> > because $OS doesn't use it yet. DT should just expose (by nodes or
-> > other ways) all hardware that exist or at least all hardware we know
-> > about no matter what $OS is using.
->
-> How so? The are piles and piles of unused hardware not exposed in the
-> DT, and piles and piles of hardware that will be used but we haven't
-> figured out how to do it yet, so it's not exposed. For example, we know
-> there are like 8 or so UARTs, but we don't define them in the DT because
-> they are not connected to anything on any existing device and we don't
-> need them. Apple does the same thing in their DTs (only used hardware is
-> defined).
->
-> I don't really see the point of exposing a GPIO controller when we don't
-> actually do anything with the pins yet, and might never do so. Having
-> drivers bind and stay unused just increases the amount of code running
-> without any ultimate purpose, so why do it? It's not like any other OS
-> would use the hardware either - GPIOs are only useful if they are
-> referenced in the DT for something, and we don't have anything that
-> would reference these.
+Hi,
 
-This comes from the FDT background in OpenFirmware, and there is
-definitely a timeline perspective (also called "waterfall model") in that
-line of thinking: a DT is written that describes the hardware and flashed
-into the BIOS and never changed, then the operating system is
-implemented at a later point. This is how e.g. the PC ACPI BIOS tables
-are also thinking about themselves.
+[Andy dropped from the Cc lists; he's taking a break.]
 
-Of course the world does not work like that, but as a standard process
-DT and ACPI works with the same ambition as any such process: slowly and
-impersonal, like the planets, or the plants.
+This series adds support for the Apple Mac GPIO driver. These GPIOs
+are hadled via the System Management Controller.
 
-The ambition that a DT should always remain backward compatible
-comes from the same historical root and reasoning.
+The first two patches add the DT binding documentation for the new
+drivers. No changes from the first posting (I think there's still
+some discussion going on about how best to handle these.)
 
-Any agile development or (heh) hardware discovers through reverse
-engineering will of course drive a truck through that line of thinking.
+Patch 3 adds apple_rtkit_poll() and has had no changes since v1.
 
-Realistically, use the same approach as with everything else, I like the
-IETF motto "rough consensus and running code", any ambition taken too
-far will just stifle development. So I'd say make an honest effort to
-resonably describe the nodes we see will be useful in the foreseeable
-future.
+Patch 4 is new, extending the existing FourCC format code to be able
+to print other endian FourCC codes.
 
-Yours,
-Linus Walleij
+Patch 5 adds the SMC core and rtkit driver. Changes in v2 include
+properly limiting the data size (since it is limited to the width of
+the size fields in the mailbox messages, not the shmem size) and also
+to properly cleanup after failure to send the initialisation message.
+
+Patch 6 adds the SMC GPIO support. Changes in v2 include some of the
+issues Andy pointed out,
+
+Patch 7 is new, adding the SMC nodes to the dtsi.
+
+Patches taken from the Asahi project.
+
+ Documentation/core-api/printk-formats.rst          |  32 ++
+ .../devicetree/bindings/gpio/gpio-macsmc.yaml      |  28 ++
+ .../devicetree/bindings/mfd/apple,smc.yaml         |  65 +++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  26 ++
+ drivers/gpio/Kconfig                               |  11 +
+ drivers/gpio/Makefile                              |   1 +
+ drivers/gpio/gpio-macsmc.c                         | 242 +++++++++++
+ drivers/platform/Kconfig                           |   2 +
+ drivers/platform/Makefile                          |   1 +
+ drivers/platform/apple/Kconfig                     |  49 +++
+ drivers/platform/apple/Makefile                    |  11 +
+ drivers/platform/apple/smc.h                       |  28 ++
+ drivers/platform/apple/smc_core.c                  | 249 +++++++++++
+ drivers/platform/apple/smc_rtkit.c                 | 453 +++++++++++++++++++++
+ drivers/soc/apple/rtkit.c                          |   6 +
+ include/linux/mfd/macsmc.h                         |  86 ++++
+ include/linux/soc/apple/rtkit.h                    |  12 +
+ lib/vsprintf.c                                     |  35 +-
+ 18 files changed, 1331 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
+ create mode 100644 drivers/gpio/gpio-macsmc.c
+ create mode 100644 drivers/platform/apple/Kconfig
+ create mode 100644 drivers/platform/apple/Makefile
+ create mode 100644 drivers/platform/apple/smc.h
+ create mode 100644 drivers/platform/apple/smc_core.c
+ create mode 100644 drivers/platform/apple/smc_rtkit.c
+ create mode 100644 include/linux/mfd/macsmc.h
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
