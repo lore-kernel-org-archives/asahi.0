@@ -1,105 +1,106 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A2F7E
-	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 07:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=lLXhTMvjqFFLOX0a6T90Zams+r/sSjtpu4H/nZBakYs=; b=oCINmkxAjl/nzza1v/DJ4U4BvX
-	Fl3q+7uY05Zms4N2oXFzeSLhtW+ZRo4ZRlMh4b+KcteXGCTKB8xd/+NJq/uCZpHMRNbE3si+JcwyR
-	NyzsUI/UJ0ICFYXw5a6mG9PSgKwPHMqVeVCs4N1c2Mjt4UO/PwWzFpMkQmChc8tgBqyO70xGRBGe6
-	howisr2hDJtidTInx248n/PDcO2KWUJeyIEJBijweEVLsdDTUZ00OjFZK6sjg6xFtmFIX3ohqGOKH
-	oFOH6Dg1J1Z00SP8U/HRx0Tkw5dCR4h/rehOElnsgcMOeV2eEWpeWGMsNDJ1Ys3b5V3f/GIFdY6KS
-	lMtaPBRQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34140)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1oVTTX-0003a3-6a; Tue, 06 Sep 2022 08:58:27 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1oVTTV-00086j-Fp; Tue, 06 Sep 2022 08:58:25 +0100
-Date: Tue, 6 Sep 2022 08:58:25 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Jassi Brar <jassisinghbrar@gmail.com>, Hector Martin <marcan@marcan.st>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/2] mailbox: apple: Implement poll_data() operation
-Message-ID: <Yxb9oRcbz6qTddr+@shell.armlinux.org.uk>
-References: <YxYoW2IZFK/JdKgH@shell.armlinux.org.uk>
- <E1oVFHL-004pug-JP@rmk-PC.armlinux.org.uk>
- <aea7b62d-9cc1-4590-9d6b-9419b5af62a2@www.fastmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F0487E
+	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 08:00:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 598EC4195A;
+	Tue,  6 Sep 2022 08:00:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1662451242; bh=k5TWm1XP5pcR2xRgfu1N6rqx92XM+FWn7U6xtLXwbik=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jq7ENYaok8ZfdAiT7t4E0EbQfmSKQ49SQfDHxVr8lMF6iQuzHYZPzwC2PnEJkefQa
+	 Rccd2cyxAwNLETulV5JSv6hrzFjGBT22rK0h2n9CjCNSwwFqcKVsSdD0B5HLPdUEJI
+	 gxjZXMswgEid9b0SX+rI4lZ4DdB8b6Kw8jTl74jc+oGLfEobvfbzExPeRhyiLym4Ts
+	 cel2lnQCzVBBevwFaGc198/gHLllKyYa24AttnoTxo6pi5RsvewlE1BRpzefNGBLlc
+	 hcZ4uEXg4abCFzZBa6WjSNea1cy3spzvD9h/RaFvj/BqCMLZBJGK8sLAf5paZ4rGuX
+	 GAEVD5/aJbWrg==
+Message-ID: <6f93d53d-4771-15a2-f76d-38eb4b60e66e@marcan.st>
+Date: Tue, 6 Sep 2022 17:00:36 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aea7b62d-9cc1-4590-9d6b-9419b5af62a2@www.fastmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 6/6] gpio: macsmc: Add IRQ support
+Content-Language: es-ES
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ Lee Jones <lee@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+ linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+ Sven Peter <sven@svenpeter.dev>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+ <E1oTkeg-003t9k-Mc@rmk-PC.armlinux.org.uk>
+ <CACRpkdaR9rBdPC_OBKx5e+=EtbR-Jn3GzrvGRYHMJmXwRxPhyg@mail.gmail.com>
+ <9cf54921-c6a5-b328-6941-d1cbe086bcda@marcan.st>
+ <Yxb7Fm5hm5JF9JiA@shell.armlinux.org.uk>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <Yxb7Fm5hm5JF9JiA@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 05, 2022 at 07:03:39PM +0200, Sven Peter wrote:
+On 06/09/2022 16.47, Russell King (Oracle) wrote:
+> On Tue, Sep 06, 2022 at 04:00:31PM +0900, Hector Martin wrote:
+>> On 02/09/2022 22.21, Linus Walleij wrote:
+>>>> +       switch (type & IRQ_TYPE_SENSE_MASK) {
+>>>> +       case IRQ_TYPE_LEVEL_HIGH:
+>>>> +               mode = IRQ_MODE_HIGH;
+>>>> +               break;
+>>>> +       case IRQ_TYPE_LEVEL_LOW:
+>>>> +               mode = IRQ_MODE_LOW;
+>>>> +               break;
+>>>> +       case IRQ_TYPE_EDGE_RISING:
+>>>> +               mode = IRQ_MODE_RISING;
+>>>> +               break;
+>>>> +       case IRQ_TYPE_EDGE_FALLING:
+>>>> +               mode = IRQ_MODE_FALLING;
+>>>> +               break;
+>>>> +       case IRQ_TYPE_EDGE_BOTH:
+>>>> +               mode = IRQ_MODE_BOTH;
+>>>> +               break;
+>>>> +       default:
+>>>> +               return -EINVAL;
+>>>
+>>> I don't know how level IRQs would work on this essentially
+>>> message-passing process context interrupt. Maybe I am getting
+>>> it all wrong, but for level the line should be held low/high until
+>>> the IRQ is serviced, it would be possible to test if this actually
+>>> works by *not* servicing an IRQ and see if the SMC then sends
+>>> another message notifier for the same IRQ.
+>>>
+>>> I strongly suspect that actually only edges are supported, but
+>>> there might be semantics I don't understand here.
+>>
+>> IIRC that is exactly what happens - the SMC will re-fire the IRQ after
+>> the ACK if it is set to level mode and still at the active level.
+>>
+>> I do remember testing all the modes carefully when implementing this to
+>> figure out what the precise semantics are, and I *think* I agonized over
+>> the flow handlers quite a bit and decided this way would work properly
+>> for all the modes, but it's been a while so I'd have to take a look
+>> again to convince myself again :)
 > 
+> Thanks for the clarification - I think it would be useful to put some
+> of that as comments before the CMD_IRQ_ACK write to head off any
+> questions about this in the future. Something like this maybe?
 > 
-> On Mon, Sep 5, 2022, at 18:48, Russell King wrote:
-> > From: Hector Martin <marcan@marcan.st>
-> >
-> > This allows clients running in atomic context to poll for messages to
-> > arrive.
-> >
-> > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+>         /*
+>          * This is not an "ack" int he i8253 PIC sense - it is used for level
+>          * interrupts as well. The SMC will re-fire the interrupt event after
+>          * this ACK if the level interrupt is still active.
+>          */
+>         if (apple_smc_write_u32(smcgp->smc, key, CMD_IRQ_ACK | 1) < 0)
+>                 dev_err(smcgp->dev, "GPIO IRQ ack failed for %p4ch\n", &key);
 > 
-> Reviewed-by: Sven Peter <sven@svenpeter.dev>
-> 
-> with one small comment below:
-> 
-> > ---
-> >  drivers/mailbox/apple-mailbox.c | 37 ++++++++++++++++++++++++++++++---
-> >  1 file changed, 34 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/mailbox/apple-mailbox.c b/drivers/mailbox/apple-mailbox.c
-> > index 33e7acf71e3e..1c14ff63f3d3 100644
-> > --- a/drivers/mailbox/apple-mailbox.c
-> > +++ b/drivers/mailbox/apple-mailbox.c
-> > @@ -26,6 +26,7 @@
-> >  #include <linux/module.h>
-> >  #include <linux/of.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/spinlock.h>
-> >  #include <linux/types.h>
-> > 
-> >  #define APPLE_ASC_MBOX_CONTROL_FULL  BIT(16)
-> > @@ -101,6 +102,7 @@ struct apple_mbox {
-> > 
-> >  	struct device *dev;
-> >  	struct mbox_controller controller;
-> > +	spinlock_t rx_lock;
-> >  };
-> > 
-> >  static const struct of_device_id apple_mbox_of_match[];
-> > @@ -204,13 +206,16 @@ static irqreturn_t apple_mbox_send_empty_irq(int 
-> > irq, void *data)
-> >  	return IRQ_HANDLED;
-> >  }
-> > 
-> > -static irqreturn_t apple_mbox_recv_irq(int irq, void *data)
-> > +static int apple_mbox_poll(struct apple_mbox *apple_mbox)
-> >  {
-> > -	struct apple_mbox *apple_mbox = data;
-> > +
-> 
-> small nit: there's a spurious white line here
 
-Thanks, well spotted. Will fix.
+Sounds good to me! (nit: typo on "int he")
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+- Hector
