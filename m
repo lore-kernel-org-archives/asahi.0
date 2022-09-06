@@ -1,49 +1,49 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A277D6713
-	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 15:55:55 +0000 (UTC)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-127a0d798bdso8755658fac.4
-        for <asahi@lists.linux.dev>; Tue, 06 Sep 2022 08:55:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7836713
+	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 16:10:52 +0000 (UTC)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-127dca21a7dso2046484fac.12
+        for <asahi@lists.linux.dev>; Tue, 06 Sep 2022 09:10:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=2Fy4H2MBwjVVVrFLZsY4ti38bj+tXW/iTfIXfNTv+3g=;
-        b=Nqy1b1KYx30siytrytsKgHSdBn7QwyvQuhzU+q613PNLx4mHHoEiIvMINwMBG8S5BS
-         xsUp4nwCuGRA1Ao9bCJ2pvW75YTketx30WveP0h0nkcVk4EFykwOVXlSzVwRNttA8tFg
-         tOHIWbttYXuXaURtJOW98FXumBCY/5D66zpIyN7351SmxhB6SPcWWwITaoEAoOJ9v9RU
-         craGUuMybVkU5N7qpEImXnPOsseSSjC/yahIMAr8OSYNfgXi9qu0D+eoClHciQVVMqgm
-         kwpGxP+3t+Y6Ujyyio3q/lmk1WuqhNSddKZC18DpSETGC8WM8XlqFU/z6KtztGdrF9CE
-         mOLA==
-X-Gm-Message-State: ACgBeo2+yl6C5HIU+0B8t9oCagkCmFtoPxnWFRBEonfwa1uQpjRojlmZ
-	UFArVdbd50bdGhjM12UUqA==
-X-Google-Smtp-Source: AA6agR6qziKVqiJIw7PdgqemkFs/WLC9+0abUzjCVXa8LjJdoJxpx0czecK1Nr0cIDU7nnpcz2j3+w==
-X-Received: by 2002:a05:6870:6195:b0:127:3394:9c with SMTP id a21-20020a056870619500b001273394009cmr6323369oah.218.1662479754538;
-        Tue, 06 Sep 2022 08:55:54 -0700 (PDT)
+        bh=0UoPNDaC8NCrfq0xjsW8qx2SIU/bt2Qiddj8DCUAP+M=;
+        b=ree7ohK1g2nSkw7yhYFEeY3QjPt8ehlmiLCQLFFf4Ys2d1VxkXKqrxoLoqzY4duB+w
+         axjOIsyih4MO8QEg2W1K3ltTWJFo3KqFTztnnxrMXGIODvfGK6EoZ8KxfHhUNRKJpudh
+         iYlKzottDC4mT03C/M9uzlUWz6BxmsTT8z12j4Atq1gJGcSvgMEji387dA9Cv0DV5cHa
+         ZnpbhQHBa2zV7cB53P2lSEWCQvqWXMg4u2FRKMXoelUv7JzzUz9V7raxZxu7KMpdcHEn
+         TiSW+Yv3RahPSryzgFIRh6I2CFFVL4FjNWFIBdjCcK2grvy3UM774tBATjqaZUHFmadO
+         UpiQ==
+X-Gm-Message-State: ACgBeo31MKCGKPXarq2OpRFlf213/fefvDGfy/6DrhUp0W8g6oW0pz4n
+	RSv+/oMoyfCzWJuYzFLf1w==
+X-Google-Smtp-Source: AA6agR5Jt/pp6V/0cSJbLG/uZ3wRLl3rUFetLiWmtRsQju4iEwOlY/LWBZGhv3u72wd7Ebj6Z31rKA==
+X-Received: by 2002:a05:6870:d354:b0:126:6b86:449d with SMTP id h20-20020a056870d35400b001266b86449dmr8005579oag.107.1662480651214;
+        Tue, 06 Sep 2022 09:10:51 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id b20-20020a05687061d400b001275f056133sm3074236oah.51.2022.09.06.08.55.53
+        by smtp.gmail.com with ESMTPSA id h6-20020a9d6406000000b00636f7059b27sm6062359otl.5.2022.09.06.09.10.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Sep 2022 08:55:54 -0700 (PDT)
-Received: (nullmailer pid 594109 invoked by uid 1000);
-	Tue, 06 Sep 2022 15:55:53 -0000
-Date: Tue, 6 Sep 2022 10:55:53 -0500
+        Tue, 06 Sep 2022 09:10:50 -0700 (PDT)
+Received: (nullmailer pid 618747 invoked by uid 1000);
+	Tue, 06 Sep 2022 16:10:49 -0000
+Date: Tue, 6 Sep 2022 11:10:49 -0500
 From: Rob Herring <robh@kernel.org>
 To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Mark Kettenis <mark.kettenis@xs4all.nl>, Hector Martin <marcan@marcan.st>, linus.walleij@linaro.org, krzysztof.kozlowski@linaro.org, arnd@arndb.de, lee@kernel.org, alyssa@rosenzweig.io, asahi@lists.linux.dev, brgl@bgdev.pl, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, sven@svenpeter.dev, krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
+Cc: Mark Kettenis <mark.kettenis@xs4all.nl>, krzysztof.kozlowski@linaro.org, arnd@arndb.de, lee@kernel.org, linus.walleij@linaro.org, alyssa@rosenzweig.io, asahi@lists.linux.dev, brgl@bgdev.pl, marcan@marcan.st, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, sven@svenpeter.dev, krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
 Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
  Management Controller
-Message-ID: <20220906155553.GB534217-robh@kernel.org>
-References: <YxcNLU+KGEolrdfT@shell.armlinux.org.uk>
- <d3cecee5edd24f67@bloch.sibelius.xs4all.nl>
- <CACRpkdaSRcczEF8QZ4aO+-HDVS+n-8MXvn6ysnjJfUEabwUJ=w@mail.gmail.com>
- <909bb4e7-5bd2-2903-5bba-87ae37f3448a@marcan.st>
- <CACRpkdajhjpMzjMooDduu0jxrp0uDNJ90VfBPpHx+P14cFfskA@mail.gmail.com>
- <5b75dc7e-5337-73eb-450f-b72f479793c4@marcan.st>
- <YxdOafCWnDUNourH@shell.armlinux.org.uk>
- <f5bef359-3abe-311c-3521-136eb5b54c4b@marcan.st>
- <d3ced0ffaec45e3c@bloch.sibelius.xs4all.nl>
- <YxdfOr6WCZiR3W1c@shell.armlinux.org.uk>
+Message-ID: <20220906161049.GC534217-robh@kernel.org>
+References: <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
+ <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk>
+ <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
+ <YxDWG5dmzErhKIXw@shell.armlinux.org.uk>
+ <ef6c7248-1efa-5366-6bcd-900c5f10ccb2@linaro.org>
+ <YxDiBFIn6artUOZm@shell.armlinux.org.uk>
+ <CAL_Jsq+GCKisAVA0AfE=yWJYy18mAGQ7rY1sKGYraXv-berNSg@mail.gmail.com>
+ <d3cec3d22e464fa8@bloch.sibelius.xs4all.nl>
+ <20220902172808.GB52527-robh@kernel.org>
+ <YxcNLU+KGEolrdfT@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -52,103 +52,99 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YxdfOr6WCZiR3W1c@shell.armlinux.org.uk>
+In-Reply-To: <YxcNLU+KGEolrdfT@shell.armlinux.org.uk>
 
-On Tue, Sep 06, 2022 at 03:54:50PM +0100, Russell King (Oracle) wrote:
-> On Tue, Sep 06, 2022 at 04:25:49PM +0200, Mark Kettenis wrote:
-> > > Date: Tue, 6 Sep 2022 22:53:47 +0900
-> > > From: Hector Martin <marcan@marcan.st>
-> > > 
-> > > I agree that this is something to think about (I was about to reply on
-> > > the subject).
-> > > 
-> > > I can think of two ways: using `reg` for the key name, but that feels
-> > > icky since it's ASCII and not *really* a register number/address, or
-> > > something like this:
-> > > 
-> > > gpio@0 {
-> > > 	apple,smc-key-base = "gP00";
-> > > 	...
-> > > }
-> > > 
-> > > gpio@1 {
-> > > 	apple,smc-key-base = "gp00";
-> > > 	...
-> > > }
+On Tue, Sep 06, 2022 at 10:04:45AM +0100, Russell King (Oracle) wrote:
+> On Fri, Sep 02, 2022 at 12:28:08PM -0500, Rob Herring wrote:
+> > This one is actually pretty odd in that the child nodes don't have a 
+> > compatible string which breaks the automagical probing.
+> 
+> I don't think that is necessarily true, and I don't think it's true in
+> this case.
+
+It is, because you are creating the devices in the driver rather than 
+creating devices based on child nodes that exist.
+
+> 
+> The SMC core driver instructs the MFD core to create devices for the
+> individual functional items:
+> 
+> static const struct mfd_cell apple_smc_devs[] = {
+>         {
+>                 .name = "macsmc-gpio",
+>         },
+>         {
+>                 .name = "macsmc-hid",
+>         },
+>         {
+>                 .name = "macsmc-power",
+>         },
+>         {
+>                 .name = "macsmc-reboot",
+>         },
+>         {
+>                 .name = "macsmc-rtc",
+>         },
+> };
+> 
+> Since MFD uses platform devices for these, they get all the normal
+> functionality that these devices have, which include matching by
+> device name ot the driver name, and udev events being appropriately
+> triggered. As long as the platform drivers for these devices have the
+> correct modalias lines, autoloading of the modules will work and the
+> drivers will be correctly matched and probed.
+
+Yes, and that's how MFD devices with no child nodes work. The difference 
+is those get any DT info out of the parent node. Here you are presumably 
+manually getting the child DT node you want for each driver.
+
+
+> The Asahi kernel builds most of the platform support as modules,
+> including these, so we know it works (if it didn't, then lots of
+> module autoloading would be broken on non-DT platforms.)
+> 
+> > > Again the separate nodes are there because the RTC and the reboot
+> > > functionality are logically separate and handled by different MFD
+> > > sub-drivers in Linux.
 > > 
-> > This would still require us to add a (one-cell) "reg" property and
-> > would require adding the appropriate "#address-cells" and
-> > "#size-cells" properties to the SMC node.
+> > It's really a question of whether the subset of functionality is going 
+> > to get reused on its own or has its own resources in DT. MFD bindings 
+> > are done both ways.
 > 
-> Yes, and at that point, as I suggested, it probably would be better
-> to use:
-> 
-> 	#address-cells = <1>;
-> 	#size-cells = <0>;
-> 
-> 	gpio@67503030 {
-> 		reg = <0x67503030>;
-> 	};
-> 
-> 	gpio@67703030 {
-> 		reg = <0x67703030>;
-> 	};
-> 
-> Then the "reg" has a meaning that is directly related to the SMC.
+> I think the current position on what to do about these is that everyone
+> is looking for someone else to make a decision, and no one wants to!
 
-That's certainly odd, but if that's how it is addressed, then okay I 
-suppose.
+I'm just looking for more information first.
 
+> Firstly, I don't think that the number of properties in a node should
+> have a bearing on the design of the DT binding - what should have a
+> bearing is the logical partitioning of functionality.
+
+It's not strictly about number of properties. Though nodes with only a 
+compatible string is generally a red flag for me.
+
+> Mark suggests that it would take six months for OpenBSD to transition to
+> some other description - for example, if we merged the nodes.
+
+The risk you take when using undocumented bindings...
+
+> Hector says that MacOS's firmware description has the nodes merged, but
+> their description is a mess.
 > 
-> > > But this ties back to the device enumeration too, since right now the DT
-> > > does not drive that (we'd have to add the subdevice to the mfd subdevice
-> > > list somehow anyway, if we don't switch to compatibles).
-> > > 
-> > > I'd love to hear Rob's opinion on this one, and also whether the
-> > > existing Linux and OpenBSD code would currently find gpio@0 {} instead
-> > > of gpio {} for backwards compat.
-
-Node names are generally not considered ABI except when they are. :)
-
-Generally, core code doesn't care. Specific bindings with defined child 
-nodes often do, but finding nodes by compatible is strongly preferred. 
-Linux drivers can bind by node name (w/o unit-address), but that's 
-really only ever done on ancient h/w.
-
-> > 
-> > The OpenBSD driver does a lookup by name and the "@0" is part of that
-> > name.  So that would break backwards compat.
+> The overall preference seems to be to keep the sub-nodes unless there
+> is a strong technical reason not to.
 > 
-> Oh, that's annoying - and is a different behaviour to Linux.
+> The feeling I am getting from the review is that there doesn't seem to
+> be a strong technical reason to merge the nodes - there are desires and
+> preferences, but nothing concrete.
 > 
-> On Linux, we only look at the node name up to the @ when matching (see
-> of_node_name_eq() in drivers/of/base.c, so it doesn't matter to Linux
-> what follows the @ when you try to look up a node named "gpio" - you'll
-> find gpio@anythingyoulike.
->
-> > Maybe just name the slave GPIO controller "gpio-slave"?  If we add
-> > compatibles, the compatibles for the nodes should propbably be
-> > different such that we can switch to do a lookup by compatible?
-> 
-> I don't think the DT folk would be happy with "gpio-slave" because
-> node names are supposed to be generic. Also, "slave" probably isn't
-> a good choice of name in this modern era given past history.
+> So at this point, I think it would make sense if I post a v2 with all
+> the updates so far (sorry, given the long drawn out discussions on
+> this, I've lost track of what changes have been made to the code, so
+> I won't include a detailed change log.)
 
-Yeah, not a great choice for both reasons.
- 
-> Rather than the above, we could use "reg" to indicate which GPIO
-> controller we're talking about, and lookup the reg value in a table
-> to give the key. So gpio@0, reg=<0> => gP00, gpio@1, reg=<1> => gp00.
-> gpio@2, reg=<2> => whatever next.
-
-Keep in mind that for any level, there is only 1 address space. So if 
-there's anything else with multiple instances, they share the same 
-address space. IOW, you couldn't have say 'rtc@1'.
-
-(Another example of why I want to see a full picture.)
-> 
-> That sounds like it won't break the existing OpenBSD.
-
-No? Isn't OpenBSD looking for 'gpio' which wouldn't find 'gpio@0'?
+As I said elsewhere, sub-nodes is probably the right choice here. I 
+think they need compatible strings in the child nodes, and addressing 
+has to be sorted out which it seems may also break OpenBSD.
 
 Rob
