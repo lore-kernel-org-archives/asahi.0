@@ -1,26 +1,42 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F582F2F
-	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 18:38:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 517F841F12;
-	Tue,  6 Sep 2022 18:38:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1662489496; bh=7Cacof0XymbmecKgM3gMsHDYnVb8qJgvsVIujiO7CR8=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=a9fRbQ2YgUa+LiyX8/bc1TbPO8zGx2TK2+8SGDQhbJ6wbzlNf+wIDNHjc49143Eap
-	 P1+ow8dSsJvGIwjHHLeOsWTAGVMCUJ2vSfNUCKgzwm3BuEtsbs98c8WbsD4cfmeT4Z
-	 DeLOzyRkcT/O/kgRZvCrdiwJ3/60cALLeeIpnMhfhLKySLSSLYXyVvBxSVCVMNAuH+
-	 JX3xXyfu31e3tInA4wnDlNRnQTM0N3o89c7vYYXP7ws1B0MGWnoxXwK9pt39xmTJLS
-	 +S3aYsDQXb+LbxDfvwSuNUAXRiSS+l8D7FtWxPSIUqkQbjuQ7+PHZstCxlOyLLUcl9
-	 WscGqHdi3RdLg==
-Message-ID: <39c32c75-207c-3807-0c97-8a6bd9555b5e@marcan.st>
-Date: Wed, 7 Sep 2022 03:38:09 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CDC86F7
+	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 22:11:28 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id bj12so26273178ejb.13
+        for <asahi@lists.linux.dev>; Tue, 06 Sep 2022 15:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=KBxZTl3QLBPzQvK7Avwrhh94NGQfx9l6fJMpQ6cilkA=;
+        b=BkGdOuXQ1cLS+b0NYKo/64meSchT279vzK9adoSJ6jORvCkmT2tG50Zgpod7ru3pnz
+         BgZHQ1+ZQE1VagOuTagUckuZOlIeQv1bWly/8d/MBrPpFZB8OukOFS1ilcqVr13a6T3h
+         9RmWXfO5zfGDqT2ll9Z9chRz1o/hwNG8SPmbE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=KBxZTl3QLBPzQvK7Avwrhh94NGQfx9l6fJMpQ6cilkA=;
+        b=vlA6+CqZ2vWMwDvGC+JfHvCvv8tAAb3kk3miQLcTXsgWa2l0FU1FEKNiHuNY41Bw/Z
+         l7MRVfgY3F4YvuEWUqzc1hY6nyUDznnkdQlOAYZXSiuVaiDWj5EaFwzJ/aML3FX397uQ
+         NOvN9Q62kz9LHdXJvXWJ+ILsl/+L9f0kdlrfah6vTmoETSdIUMimMFtXHkmICDwic6Qv
+         CmD6b+hf7Yo3DGp3MBLZPPq4D0Z/htJ5hn8flAKEWZTcStzqkFR7KOs4bI4W6EXRXXA/
+         YTjPc6l0ZPCvQHExgXjDdgazZyFHMsfBcDyr0c58SczzM4knbfef0Df9g3fUg2eoR0/G
+         9t+w==
+X-Gm-Message-State: ACgBeo1FSyYrIptfLEFwSr+Xid0R2Tj8yxfPgkZWcnPPzA4cAE9uz8dP
+	bWWvhBWhh78Nyo3z0wY132fEmA==
+X-Google-Smtp-Source: AA6agR4sr7CY6ohDCUgo1cuFeiMGJDrY8VIlBJdET91T+NWk5F0EUKnaU4lX2OEjAoB2NiRsPDczdg==
+X-Received: by 2002:a17:906:eec7:b0:733:189f:b07a with SMTP id wu7-20020a170906eec700b00733189fb07amr385666ejb.230.1662502287053;
+        Tue, 06 Sep 2022 15:11:27 -0700 (PDT)
+Received: from [192.168.1.149] ([80.208.71.65])
+        by smtp.gmail.com with ESMTPSA id 12-20020a170906318c00b0073923a68974sm7083488ejy.206.2022.09.06.15.11.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Sep 2022 15:11:26 -0700 (PDT)
+Message-ID: <db3b8d51-3350-7823-a462-6f81c4cdc5f1@rasmusvillemoes.dk>
+Date: Wed, 7 Sep 2022 00:11:24 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -28,91 +44,61 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: es-ES
-To: Rob Herring <robh@kernel.org>
-Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Mark Kettenis <mark.kettenis@xs4all.nl>, krzysztof.kozlowski@linaro.org,
- arnd@arndb.de, lee@kernel.org, linus.walleij@linaro.org,
- alyssa@rosenzweig.io, asahi@lists.linux.dev, brgl@bgdev.pl,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- sven@svenpeter.dev, krzysztof.kozlowski+dt@linaro.org,
- devicetree@vger.kernel.org
-References: <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
- <YxDWG5dmzErhKIXw@shell.armlinux.org.uk>
- <ef6c7248-1efa-5366-6bcd-900c5f10ccb2@linaro.org>
- <YxDiBFIn6artUOZm@shell.armlinux.org.uk>
- <CAL_Jsq+GCKisAVA0AfE=yWJYy18mAGQ7rY1sKGYraXv-berNSg@mail.gmail.com>
- <d3cec3d22e464fa8@bloch.sibelius.xs4all.nl>
- <20220902172808.GB52527-robh@kernel.org>
- <YxcNLU+KGEolrdfT@shell.armlinux.org.uk>
- <20220906161049.GC534217-robh@kernel.org>
- <91466e41-d3f7-0993-9082-80f94e53f375@marcan.st>
- <20220906173535.GA734389-robh@kernel.org>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
- Management Controller
-In-Reply-To: <20220906173535.GA734389-robh@kernel.org>
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 4/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Content-Language: en-US
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+ Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, asahi@lists.linux.dev,
+ Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org,
+ Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Sven Peter <sven@svenpeter.dev>
+References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
+ <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+In-Reply-To: <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 07/09/2022 02.35, Rob Herring wrote:
-> On Wed, Sep 07, 2022 at 02:00:53AM +0900, Hector Martin wrote:
->> On 07/09/2022 01.10, Rob Herring wrote:
->>>> So at this point, I think it would make sense if I post a v2 with all
->>>> the updates so far (sorry, given the long drawn out discussions on
->>>> this, I've lost track of what changes have been made to the code, so
->>>> I won't include a detailed change log.)
->>>
->>> As I said elsewhere, sub-nodes is probably the right choice here. I 
->>> think they need compatible strings in the child nodes, and addressing 
->>> has to be sorted out which it seems may also break OpenBSD.
->>
->> So addressing only makes sense for GPIO, out of the nodes we have so far
->> - that's the only thing with two discrete instances whose access can be
->> entirely described by a single base key name, and which are otherwise
->> compatible.
->>
->> Everything else is pretty much single-instance, and talks to multiple
->> keys, so there isn't one single "address" key that would make semantic
->> sense to use as the node address. 
+On 06/09/2022 15.19, Russell King (Oracle) wrote:
+> From: Hector Martin <marcan@marcan.st>
 > 
-> Unit-addresses are just the first address in 'reg'. So multiple 
-> addresses or not doesn't really matter.
-
-Okay, but we're obviously not going to list every single SMC key used by
-any given node in the device tree (that'd be a giant mess, other than
-for hwmon which is a story for another time), and it doesn't make sense
-to pick an arbitrary one as the reg address and then ignore it in the
-driver.
-
->> There are some indexed keys, but at a
->> deeper level (e.g. multiple battery cells part of the charge control
->> subsystem, multiple Type C ports as part of the AC/power input
->> subsystem, etc.). And in those cases, these subdevices are mostly
->> homogeneous and we would never need multiple nodes for them at the DT
->> level, they'd just be implicitly handled by those drivers.
+> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FOURCCs with various endian semantics:
 > 
-> Type-C will be fun depending on how much of the muxing/altmode 
-> details have to get exposed. 
 
-As sven mentioned that will be fun, but thankfully not part of this
-binding (SMC only cares for power supply purposes, and since our direct
-driver already exposes power config info in Linux (or should, and we can
-improve that), I don't particularly have plans to expose the SMC Type-C
-data other than perhaps something in the existing power supply driver to
-indicate which port is the currently chosen power input.
+>  Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++++
+>  lib/vsprintf.c                            | 35 +++++++++++++++++++----
+>  2 files changed, 61 insertions(+), 6 deletions(-)
 
-> If only those 2 nodes, then I really don't care so much and gpio-sec 
-> would be fine. It's 1 node in 1 binding.
+Please also update lib/test_printf.c with a few test cases when
+modifying/extending vsnprintf().
 
-I think it might make sense to just go with this then. If Apple ever
-introduces yet another GPIO sub-controller we can just add another one,
-and honestly I don't think that's very likely, given they don't even use
-any of the GPIOs from the second one from the AP yet. I don't see SMC
-growing a big list of GPIO controllers any time soon, such that we
-regret doing it this way. And then the node-name can just map to a given
-key prefix statically in the driver, and thus we don't even need a
-property for that (gpio would be gP?? and gpio-sec gp?? right now).
+> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> index 5e89497ba314..22c33398ec02 100644
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -625,6 +625,38 @@ Passed by reference.
+>  	%p4cc	Y10  little-endian (0x20303159)
+>  	%p4cc	NV12 big-endian (0xb231564e)
+>  
+> +Generic FourCC code
+> +-------------------
+> +
+> +::
+> +	%p4c[hnbl]	gP00 (0x67503030)
+> +
 
-- Hector
+Typo, I think. hrbl ?
+
+Rasmus
