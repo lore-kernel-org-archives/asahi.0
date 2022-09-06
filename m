@@ -1,104 +1,119 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CCB3D88
-	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 11:36:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id D82EB41F12;
-	Tue,  6 Sep 2022 11:36:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1662464191; bh=iZaovA3utTa1MRTvB6tlYyIRYCuVcLY9Hsc4sBAEXHA=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=gaJghwidE54NgcQlYlv0xIM81NWChh/4fnOJRbbzs/VRr8HNzQ+WaJtZkHSV1tH8u
-	 81Vth9//yauZpcTBB4TgSuAuAo09pCRsJvYfzYsJiDD6Guai6KQ0tp/452hyfGdi3/
-	 /cbMpAKzpFLy58hDgpKnppEl7OT58u11d6/2pVPtXgP6RbhvMQQgeIO+c4XiseVZu5
-	 a8hgRWBghjlRPgcLXpaeJT6nwkrmbdBxcUVIIacVl3z5JEPQplCbjV13euzaopq+Gc
-	 xDs3MqsdVMSni2cvqh2cKVoTWllkCHOrgCDQNVGxohTU5YDF0lZWqi3/RGqFhq/Ck3
-	 d8zQBxImKX+wQ==
-Message-ID: <909bb4e7-5bd2-2903-5bba-87ae37f3448a@marcan.st>
-Date: Tue, 6 Sep 2022 20:36:25 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EB33D88
+	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 11:57:44 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id nc14so22633861ejc.4
+        for <asahi@lists.linux.dev>; Tue, 06 Sep 2022 04:57:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=/+p0wzFj/upkv9e1wiwyvWP1+FT9YhrV1TfR4whLT7A=;
+        b=WPj6KNJpdx4ESLURazeomIr7jVFWSOZYDwnp3ZjB0SezHdvdUickHDnsxSGgA1VqWQ
+         8dPftpgpnFr0XB7Uj16cBasmDTHGwe90H2XfLCV+/YSo/dw2p/nor0fgixin+8kYnZXK
+         JT/Z7GeeUEQQ8NWrZwRggD8Z29+Vdgn/gLLRUymV5grVbEw6K28FPJvrK2m3H+1DUryi
+         Oyg7bID4CxSu9YFBMP1oY0EgjCATJNnD0t0NGgpxrM9Rh9ZUVnT50THlikeVppp+Z4td
+         V2Sjn7ZMjpFBkJE54SuXF3VauV8IUQCo70wMpvTtZKdKRcEKoyVa210h0zM8GDnCvJ19
+         L+qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=/+p0wzFj/upkv9e1wiwyvWP1+FT9YhrV1TfR4whLT7A=;
+        b=wZrTwBzRS4jBSpwHXK0bV13sFdiS+UtI9ebMxPHKRFlZ2/MpI3R5IFLsIpoLO/aeh1
+         QIm8WbdI/hgmr149WkJETvKNVNjRafWwOnc10yyj46LBk1E796rgPxH0/BjaZnuPY2XP
+         jATwk30P2e4I6VpVaZP3Mv+gAjB250YEyJp3DwHRdJWEofYd9Kb6SWFIpj8WnF+o63CX
+         Ysd94XMUT1AQmvKfix9wBhrxbworMKzBVtmBmtMgmHpynTDvpqU/luIsJc6laLtuQatl
+         1w9OjaQQwlXX9hodqOCU9wii+5V2fvuUINNkVwP0pr3RXkNK7xkVKSxYJUmCj/E+TY5S
+         VY6Q==
+X-Gm-Message-State: ACgBeo0aZAV3mGox6EV8snb0dxxai0LnLBrwixpuBXYgGVkFNFFuk65A
+	KmLJ2ltyoPRyNFilvClvPpCcef4WYZl7FTW5laMTUQ==
+X-Google-Smtp-Source: AA6agR4l1xB762o3DaSOS5+KZCpE8WDptXDx0mKu9slBlWSXdcqJncsF4brvN7CKb06geMDtHrbRW0K/th1I6X+zY0I=
+X-Received: by 2002:a17:907:2707:b0:741:7c18:4e76 with SMTP id
+ w7-20020a170907270700b007417c184e76mr27550306ejk.690.1662465462649; Tue, 06
+ Sep 2022 04:57:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: es-ES
-To: Linus Walleij <linus.walleij@linaro.org>,
- Mark Kettenis <mark.kettenis@xs4all.nl>
-Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, robh@kernel.org,
- krzysztof.kozlowski@linaro.org, arnd@arndb.de, lee@kernel.org,
- alyssa@rosenzweig.io, asahi@lists.linux.dev, brgl@bgdev.pl,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- sven@svenpeter.dev, krzysztof.kozlowski+dt@linaro.org,
- devicetree@vger.kernel.org
-References: <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk>
- <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
- <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk>
- <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
- <YxDWG5dmzErhKIXw@shell.armlinux.org.uk>
- <ef6c7248-1efa-5366-6bcd-900c5f10ccb2@linaro.org>
- <YxDiBFIn6artUOZm@shell.armlinux.org.uk>
- <CAL_Jsq+GCKisAVA0AfE=yWJYy18mAGQ7rY1sKGYraXv-berNSg@mail.gmail.com>
- <d3cec3d22e464fa8@bloch.sibelius.xs4all.nl>
- <20220902172808.GB52527-robh@kernel.org>
- <YxcNLU+KGEolrdfT@shell.armlinux.org.uk>
- <d3cecee5edd24f67@bloch.sibelius.xs4all.nl>
- <CACRpkdaSRcczEF8QZ4aO+-HDVS+n-8MXvn6ysnjJfUEabwUJ=w@mail.gmail.com>
-From: Hector Martin <marcan@marcan.st>
+References: <YxDL+cAx9kkZRL8K@shell.armlinux.org.uk> <928ddeff-efac-920c-7bbf-dda35a942b93@linaro.org>
+ <YxDOpCq0vIlt4VNa@shell.armlinux.org.uk> <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
+ <YxDWG5dmzErhKIXw@shell.armlinux.org.uk> <ef6c7248-1efa-5366-6bcd-900c5f10ccb2@linaro.org>
+ <YxDiBFIn6artUOZm@shell.armlinux.org.uk> <CAL_Jsq+GCKisAVA0AfE=yWJYy18mAGQ7rY1sKGYraXv-berNSg@mail.gmail.com>
+ <d3cec3d22e464fa8@bloch.sibelius.xs4all.nl> <20220902172808.GB52527-robh@kernel.org>
+ <YxcNLU+KGEolrdfT@shell.armlinux.org.uk> <d3cecee5edd24f67@bloch.sibelius.xs4all.nl>
+ <CACRpkdaSRcczEF8QZ4aO+-HDVS+n-8MXvn6ysnjJfUEabwUJ=w@mail.gmail.com> <909bb4e7-5bd2-2903-5bba-87ae37f3448a@marcan.st>
+In-Reply-To: <909bb4e7-5bd2-2903-5bba-87ae37f3448a@marcan.st>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 6 Sep 2022 13:57:31 +0200
+Message-ID: <CACRpkdajhjpMzjMooDduu0jxrp0uDNJ90VfBPpHx+P14cFfskA@mail.gmail.com>
 Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
  Management Controller
-In-Reply-To: <CACRpkdaSRcczEF8QZ4aO+-HDVS+n-8MXvn6ysnjJfUEabwUJ=w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Hector Martin <marcan@marcan.st>
+Cc: Mark Kettenis <mark.kettenis@xs4all.nl>, 
+	"Russell King (Oracle)" <linux@armlinux.org.uk>, robh@kernel.org, krzysztof.kozlowski@linaro.org, 
+	arnd@arndb.de, lee@kernel.org, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
+	brgl@bgdev.pl, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, sven@svenpeter.dev, 
+	krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 06/09/2022 20.22, Linus Walleij wrote:
-> On Tue, Sep 6, 2022 at 11:31 AM Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
-> 
->> Another argument for having sub-nodes is that the firmware actually
->> exposes *two* GPIO controllers.  For now we only support the "master"
->> PMU GPIOs, but there also is a "slave" PMU GPIO controller that uses a
->> separate set of SMC "keys".  We currently don't need any of the pins
->> on the "slave", so we don't expose it in the DT yet.
-> 
-> That sounds backward, like we don't expose device X as DT node
-> because $OS doesn't use it yet. DT should just expose (by nodes or
-> other ways) all hardware that exist or at least all hardware we know
-> about no matter what $OS is using.
+On Tue, Sep 6, 2022 at 1:36 PM Hector Martin <marcan@marcan.st> wrote:
+> On 06/09/2022 20.22, Linus Walleij wrote:
+> > On Tue, Sep 6, 2022 at 11:31 AM Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
+> >
+> >> Another argument for having sub-nodes is that the firmware actually
+> >> exposes *two* GPIO controllers.  For now we only support the "master"
+> >> PMU GPIOs, but there also is a "slave" PMU GPIO controller that uses a
+> >> separate set of SMC "keys".  We currently don't need any of the pins
+> >> on the "slave", so we don't expose it in the DT yet.
+> >
+> > That sounds backward, like we don't expose device X as DT node
+> > because $OS doesn't use it yet. DT should just expose (by nodes or
+> > other ways) all hardware that exist or at least all hardware we know
+> > about no matter what $OS is using.
+>
+> How so? The are piles and piles of unused hardware not exposed in the
+> DT, and piles and piles of hardware that will be used but we haven't
+> figured out how to do it yet, so it's not exposed. For example, we know
+> there are like 8 or so UARTs, but we don't define them in the DT because
+> they are not connected to anything on any existing device and we don't
+> need them. Apple does the same thing in their DTs (only used hardware is
+> defined).
+>
+> I don't really see the point of exposing a GPIO controller when we don't
+> actually do anything with the pins yet, and might never do so. Having
+> drivers bind and stay unused just increases the amount of code running
+> without any ultimate purpose, so why do it? It's not like any other OS
+> would use the hardware either - GPIOs are only useful if they are
+> referenced in the DT for something, and we don't have anything that
+> would reference these.
 
-How so? The are piles and piles of unused hardware not exposed in the
-DT, and piles and piles of hardware that will be used but we haven't
-figured out how to do it yet, so it's not exposed. For example, we know
-there are like 8 or so UARTs, but we don't define them in the DT because
-they are not connected to anything on any existing device and we don't
-need them. Apple does the same thing in their DTs (only used hardware is
-defined).
+This comes from the FDT background in OpenFirmware, and there is
+definitely a timeline perspective (also called "waterfall model") in that
+line of thinking: a DT is written that describes the hardware and flashed
+into the BIOS and never changed, then the operating system is
+implemented at a later point. This is how e.g. the PC ACPI BIOS tables
+are also thinking about themselves.
 
-I don't really see the point of exposing a GPIO controller when we don't
-actually do anything with the pins yet, and might never do so. Having
-drivers bind and stay unused just increases the amount of code running
-without any ultimate purpose, so why do it? It's not like any other OS
-would use the hardware either - GPIOs are only useful if they are
-referenced in the DT for something, and we don't have anything that
-would reference these.
+Of course the world does not work like that, but as a standard process
+DT and ACPI works with the same ambition as any such process: slowly and
+impersonal, like the planets, or the plants.
 
-For SMC in particular, there's a huge amount of functionality we don't
-have drivers for yet, and I don't see the point of trying to conjure up
-DT bindings for it until someone writes a driver (and has a reason to do
-so) :)
+The ambition that a DT should always remain backward compatible
+comes from the same historical root and reasoning.
 
-> FWIW I think nodes makes most sense because no doubt for example
-> the RTC is a separate hardware unit somewhere, and so is the
-> GPIO. The fact that it is hidden behind a software abstraction doesn't
-> change the fact that the HW definitely has these discrete units.
+Any agile development or (heh) hardware discovers through reverse
+engineering will of course drive a truck through that line of thinking.
 
-The RTC and the GPIO happen to be part of the same physical IC (PMU),
-but yes, I agree.
+Realistically, use the same approach as with everything else, I like the
+IETF motto "rough consensus and running code", any ambition taken too
+far will just stifle development. So I'd say make an honest effort to
+resonably describe the nodes we see will be useful in the foreseeable
+future.
 
-- Hector
+Yours,
+Linus Walleij
