@@ -1,173 +1,67 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBB97E
-	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 07:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=WJ2b8qVHDZJNqUbRpw1alUgkg2tYX5NB7/G3I8fEYno=; b=rbrzSllJxBQoU46oO61RreeO36
-	yv5hzD9M6XX1m4nxp855D++VbI0NYuJP30eV2U/KfQUm6UQ4KcixqbbLzqGWcaI/Onu+ROQNIbzTe
-	yyRtqsZd6ASn7TlLtqAqCxQr2+3qfi4twT64FvZ4R/duwtckJjcgAWI6Taf7C6ITfCPtPeZoKhx24
-	i04TUP+x+nc/X6E9S0oLB86CnK+pC1sHxoUPQ61qKgIxKEaFIIZnfzF++cn7Q/7VYPjmOQkp+zstS
-	kHruBzgAAmdsM/MoHiC3OlC4fe3Ysj2i1HBDiR4RVs0dRi7GGctmNo5x1OcTmc+wHWx6Wj6zRpt3s
-	uUONeIPQ==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:41590 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1oVpnf-0004yG-Ir; Wed, 07 Sep 2022 08:48:43 +0100
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1oVpne-005LCR-RJ; Wed, 07 Sep 2022 08:48:42 +0100
-In-Reply-To: <YxhMaYOfnM+7FG+W@shell.armlinux.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE517E
+	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 08:14:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B66FFC43470;
+	Wed,  7 Sep 2022 08:14:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1662538476;
+	bh=nCjrwhu4Hv0/rkKfoQw5UBPI3nCcw75wcbv6WTgbygo=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=L8risvptovTerFqCZSvFpVhLBSrmTkOVbSDtxBOfe4pG3kVUUrFwGzGV6F5TbEg24
+	 PFa+a8o645k0IN54/8Lb3o60UQ2dvJh8jyBf4tk3rVLWCfZNsGqNhv1z01LK6FSJFK
+	 TKDdOcEfbTQHd116b8shu1lBjEul/xzrsPOxV6ioSYo09aFgSdN4ow/pWtfcPFkwDN
+	 e+ods9s8dg0JgWfhL8pBFNepXb/KiQlDTujBRfdN7i3cDw91PgNyz6geJn+nrCKeEm
+	 zFvjY9JtdKprfYY8mVzQ5MriSZRRvpoGO7uoQdOdUTU9PCBtp7a663lZNEzcVBHK5l
+	 xaQEgXdIaCt/Q==
+From: Kalle Valo <kvalo@kernel.org>
+To: "Russell King \(Oracle\)" <linux@armlinux.org.uk>
+Cc: Arend van Spriel <aspriel@gmail.com>,  Franky Lin
+ <franky.lin@broadcom.com>,  Hante Meuleman <hante.meuleman@broadcom.com>,
+  Alyssa Rosenzweig <alyssa@rosenzweig.io>,  asahi@lists.linux.dev,
+  brcm80211-dev-list.pdl@broadcom.com,  "David S. Miller"
+ <davem@davemloft.net>,  devicetree@vger.kernel.org,  Eric Dumazet
+ <edumazet@google.com>,  Hector Martin <marcan@marcan.st>,  Jakub Kicinski
+ <kuba@kernel.org>,  Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>,
+  linux-arm-kernel@lists.infradead.org,  linux-wireless@vger.kernel.org,
+  netdev@vger.kernel.org,  Paolo Abeni <pabeni@redhat.com>,  =?utf-8?Q?Raf?=
+ =?utf-8?Q?a=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>,  Rob Herring
+ <robh+dt@kernel.org>,  SHA-cyfmac-dev-list@infineon.com,  Sven Peter
+ <sven@svenpeter.dev>,  van Spriel <arend@broadcom.com>
+Subject: Re: [PATCH net-next 0/12] Add support for bcm4378 on Apple platforms
 References: <YxhMaYOfnM+7FG+W@shell.armlinux.org.uk>
-From: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-To: Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	"David S. Miller" <davem@davemloft.net>,
-	devicetree@vger.kernel.org,
-	Eric Dumazet <edumazet@google.com>,
-	Hector Martin <marcan@marcan.st>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	"Rafa__ Mi__ecki" <zajec5@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	SHA-cyfmac-dev-list@infineon.com,
-	Sven Peter <sven@svenpeter.dev>
-Subject: [PATCH net-next 12/12] arm64: dts: apple: Add WiFi module and antenna
- properties
+Date: Wed, 07 Sep 2022 11:14:28 +0300
+In-Reply-To: <YxhMaYOfnM+7FG+W@shell.armlinux.org.uk> (Russell King's message
+	of "Wed, 7 Sep 2022 08:46:49 +0100")
+Message-ID: <874jxja9ej.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1oVpne-005LCR-RJ@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Wed, 07 Sep 2022 08:48:42 +0100
+Content-Type: text/plain
 
-From: Hector Martin <marcan@marcan.st>
+"Russell King (Oracle)" <linux@armlinux.org.uk> writes:
 
-Add the new module-instance/antenna-sku properties required to select
-WiFi firmwares properly to all board device trees.
+> This series adds support for bcm4378 found on Apple platforms, and has
+> been tested on the Apple Mac Mini. It is a re-posting of a subset of
+> Hector's previous 38 patch series, and it is believed that the comments
+> from that review were addressed.
+>
+> (I'm just the middle man; please don't complain if something has been
+> missed.)
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
- arch/arm64/boot/dts/apple/t8103-j274.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j293.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j313.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j456.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j457.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-jxxx.dtsi | 2 ++
- 6 files changed, 22 insertions(+)
+Thanks for sending the subset, this is much more manageable. Arend,
+please take a look. It would be nice to get this to v6.1.
 
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 2cd429efba5b..c1f3ba9c39f6 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -21,6 +21,10 @@ aliases {
- 	};
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,atlantisb";
-+};
-+
- /*
-  * Force the bus number assignments so that we can declare some of the
-  * on-board devices and properties that are populated by the bootloader
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 49cdf4b560a3..ecb10d237a05 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -17,6 +17,10 @@ / {
- 	model = "Apple MacBook Pro (13-inch, M1, 2020)";
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,honshu";
-+};
-+
- /*
-  * Remove unused PCIe ports and disable the associated DARTs.
-  */
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index b0ebb45bdb6f..df741737b8e6 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -17,6 +17,10 @@ / {
- 	model = "Apple MacBook Air (M1, 2020)";
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,shikoku";
-+};
-+
- /*
-  * Remove unused PCIe ports and disable the associated DARTs.
-  */
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 884fddf7d363..8c6bf9592510 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -21,6 +21,10 @@ aliases {
- 	};
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,capri";
-+};
-+
- &i2c0 {
- 	hpm2: usb-pd@3b {
- 		compatible = "apple,cd321x";
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index d7c622931627..fe7c0aaf7d62 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -21,6 +21,10 @@ aliases {
- 	};
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,santorini";
-+};
-+
- /*
-  * Force the bus number assignments so that we can declare some of the
-  * on-board devices and properties that are populated by the bootloader
-diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-index fe2ae40fa9dd..3d15b8e2a6c1 100644
---- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-@@ -71,8 +71,10 @@ hpm1: usb-pd@3f {
- &port00 {
- 	bus-range = <1 1>;
- 	wifi0: network@0,0 {
-+		compatible = "pci14e4,4425";
- 		reg = <0x10000 0x0 0x0 0x0 0x0>;
- 		/* To be filled by the loader */
- 		local-mac-address = [00 00 00 00 00 00];
-+		apple,antenna-sku = "XX";
- 	};
- };
+BTW brcmfmac patches go via wireless-next, not net-next, but no need to
+resend because of this.
+
 -- 
-2.30.2
+https://patchwork.kernel.org/project/linux-wireless/list/
 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
