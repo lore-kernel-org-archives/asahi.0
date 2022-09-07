@@ -1,61 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711BD7E
-	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 08:16:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF2F6C433C1;
-	Wed,  7 Sep 2022 08:16:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1662538589;
-	bh=WPz0hEmaLRR2o9iEaOapRahUqEImeqvU61J+OmlJNQg=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=hGMFQ5sK0ZM6kVlEbtpKlKvnd5C/qv883+l+bqrVBQKuZMguKcl38KYIoAFomUGQB
-	 3uAuVhecjkwmqnUmftQivDethtqrAsw0kd31TRJj1CCPqFh0cvJeZhBIbQZX4TCakS
-	 ZwhMfJPXUMRaOUKBKbfXja6r0LBT1L0uE0D4aDEPmlVoBm/Jtax1wb64voxixJYVLk
-	 PSm1HfF6giQxyvomAUDMw7YlWihj3leTtIosDpSpEkbd8aXUxsLau4Bbm707vennRs
-	 0yZuvRKlfOtjTnv9jlSPsjdXk4WxzAnbKffXKu240SeoAWHdv8c3R5ZNCieQfLunZI
-	 +YU4cZhUnldHQ==
-From: Kalle Valo <kvalo@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB96B2F4E
+	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 09:25:51 +0000 (UTC)
+Received: from localhost (bloch.sibelius.xs4all.nl [local])
+	by bloch.sibelius.xs4all.nl (OpenSMTPD) with ESMTPA id 009b8c43;
+	Wed, 7 Sep 2022 11:25:48 +0200 (CEST)
+Date: Wed, 7 Sep 2022 11:25:48 +0200 (CEST)
+From: Mark Kettenis <mark.kettenis@xs4all.nl>
 To: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-Cc: Arend van Spriel <aspriel@gmail.com>,  Franky Lin <franky.lin@broadcom.com>,  Hante Meuleman <hante.meuleman@broadcom.com>,  Alyssa Rosenzweig <alyssa@rosenzweig.io>,  asahi@lists.linux.dev,  brcm80211-dev-list.pdl@broadcom.com,  "David S. Miller" <davem@davemloft.net>,  devicetree@vger.kernel.org,  Eric Dumazet <edumazet@google.com>,  Hector Martin <marcan@marcan.st>,  Jakub Kicinski <kuba@kernel.org>,  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,  linux-arm-kernel@lists.infradead.org,  linux-wireless@vger.kernel.org,  netdev@vger.kernel.org,  Paolo Abeni <pabeni@redhat.com>,  "Rafa__ Mi__ecki" <zajec5@gmail.com>,  Rob Herring <robh+dt@kernel.org>,  SHA-cyfmac-dev-list@infineon.com,  Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH net-next 12/12] arm64: dts: apple: Add WiFi module and antenna properties
-References: <YxhMaYOfnM+7FG+W@shell.armlinux.org.uk>
-	<E1oVpne-005LCR-RJ@rmk-PC.armlinux.org.uk>
-Date: Wed, 07 Sep 2022 11:16:22 +0300
-In-Reply-To: <E1oVpne-005LCR-RJ@rmk-PC.armlinux.org.uk> (Russell King's
-	message of "Wed, 07 Sep 2022 08:48:42 +0100")
-Message-ID: <87zgfb8uqx.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+Cc: aspriel@gmail.com, franky.lin@broadcom.com,
+	hante.meuleman@broadcom.com, alyssa@rosenzweig.io,
+	asahi@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+	davem@davemloft.net, devicetree@vger.kernel.org,
+	edumazet@google.com, marcan@marcan.st, kuba@kernel.org,
+	kvalo@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	pabeni@redhat.com, zajec5@gmail.com, robh+dt@kernel.org,
+	SHA-cyfmac-dev-list@infineon.com, sven@svenpeter.dev,
+	arend@broadcom.com
+In-Reply-To: <E1oVpmk-005LBL-5U@rmk-PC.armlinux.org.uk>
+	(rmk+kernel@armlinux.org.uk)
+Subject: Re: [PATCH net-next 01/12] dt-bindings: net: bcm4329-fmac: Add Apple
+ properties & chips
+References: <YxhMaYOfnM+7FG+W@shell.armlinux.org.uk> <E1oVpmk-005LBL-5U@rmk-PC.armlinux.org.uk>
+Message-ID: <d3ced5135ffd65d8@bloch.sibelius.xs4all.nl>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-Russell King (Oracle) <rmk+kernel@armlinux.org.uk> writes:
-
+> From: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Date: Wed, 07 Sep 2022 08:47:46 +0100
+> 
 > From: Hector Martin <marcan@marcan.st>
->
-> Add the new module-instance/antenna-sku properties required to select
-> WiFi firmwares properly to all board device trees.
->
+> 
+> This binding is currently used for SDIO devices, but these chips are
+> also used as PCIe devices on DT platforms and may be represented in the
+> DT. Re-use the existing binding and add chip compatibles used by Apple
+> T2 and M1 platforms (the T2 ones are not known to be used in DT
+> platforms, but we might as well document them).
+> 
+> Then, add properties required for firmware selection and calibration on
+> M1 machines.
+> 
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+
+Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+
 > ---
->  arch/arm64/boot/dts/apple/t8103-j274.dts  | 4 ++++
->  arch/arm64/boot/dts/apple/t8103-j293.dts  | 4 ++++
->  arch/arm64/boot/dts/apple/t8103-j313.dts  | 4 ++++
->  arch/arm64/boot/dts/apple/t8103-j456.dts  | 4 ++++
->  arch/arm64/boot/dts/apple/t8103-j457.dts  | 4 ++++
->  arch/arm64/boot/dts/apple/t8103-jxxx.dtsi | 2 ++
->  6 files changed, 22 insertions(+)
-
-Is it ok to take this via wireless-next? Can I get an ack from the
-maintainers of these files?
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+>  .../net/wireless/brcm,bcm4329-fmac.yaml       | 37 +++++++++++++++++--
+>  1 file changed, 34 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
+> index 53b4153d9bfc..53ded82b273a 100644
+> --- a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
+> +++ b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: Broadcom BCM4329 family fullmac wireless SDIO devices
+> +title: Broadcom BCM4329 family fullmac wireless SDIO/PCIE devices
+>  
+>  maintainers:
+>    - Arend van Spriel <arend@broadcom.com>
+> @@ -42,10 +42,16 @@ title: Broadcom BCM4329 family fullmac wireless SDIO devices
+>                - cypress,cyw43012-fmac
+>            - const: brcm,bcm4329-fmac
+>        - const: brcm,bcm4329-fmac
+> +      - enum:
+> +          - pci14e4,43dc  # BCM4355
+> +          - pci14e4,4464  # BCM4364
+> +          - pci14e4,4488  # BCM4377
+> +          - pci14e4,4425  # BCM4378
+> +          - pci14e4,4433  # BCM4387
+>  
+>    reg:
+> -    description: SDIO function number for the device, for most cases
+> -      this will be 1.
+> +    description: SDIO function number for the device (for most cases
+> +      this will be 1) or PCI device identifier.
+>  
+>    interrupts:
+>      maxItems: 1
+> @@ -85,6 +91,31 @@ title: Broadcom BCM4329 family fullmac wireless SDIO devices
+>        takes precedence.
+>      type: boolean
+>  
+> +  brcm,cal-blob:
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    description: A per-device calibration blob for the Wi-Fi radio. This
+> +      should be filled in by the bootloader from platform configuration
+> +      data, if necessary, and will be uploaded to the device if present.
+> +
+> +  brcm,board-type:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    description: Overrides the board type, which is normally the compatible of
+> +      the root node. This can be used to decouple the overall system board or
+> +      device name from the board type for WiFi purposes, which is used to
+> +      construct firmware and NVRAM configuration filenames, allowing for
+> +      multiple devices that share the same module or characteristics for the
+> +      WiFi subsystem to share the same firmware/NVRAM files. On Apple platforms,
+> +      this should be the Apple module-instance codename prefixed by "apple,",
+> +      e.g. "apple,honshu".
+> +
+> +  apple,antenna-sku:
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +    description: Antenna SKU used to identify a specific antenna configuration
+> +      on Apple platforms. This is use to build firmware filenames, to allow
+> +      platforms with different antenna configs to have different firmware and/or
+> +      NVRAM. This would normally be filled in by the bootloader from platform
+> +      configuration data.
+> +
+>  required:
+>    - compatible
+>    - reg
+> -- 
+> 2.30.2
+> 
+> 
+> 
