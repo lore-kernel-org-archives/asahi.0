@@ -1,104 +1,91 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CDC86F7
-	for <asahi@lists.linux.dev>; Tue,  6 Sep 2022 22:11:28 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id bj12so26273178ejb.13
-        for <asahi@lists.linux.dev>; Tue, 06 Sep 2022 15:11:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=KBxZTl3QLBPzQvK7Avwrhh94NGQfx9l6fJMpQ6cilkA=;
-        b=BkGdOuXQ1cLS+b0NYKo/64meSchT279vzK9adoSJ6jORvCkmT2tG50Zgpod7ru3pnz
-         BgZHQ1+ZQE1VagOuTagUckuZOlIeQv1bWly/8d/MBrPpFZB8OukOFS1ilcqVr13a6T3h
-         9RmWXfO5zfGDqT2ll9Z9chRz1o/hwNG8SPmbE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=KBxZTl3QLBPzQvK7Avwrhh94NGQfx9l6fJMpQ6cilkA=;
-        b=vlA6+CqZ2vWMwDvGC+JfHvCvv8tAAb3kk3miQLcTXsgWa2l0FU1FEKNiHuNY41Bw/Z
-         l7MRVfgY3F4YvuEWUqzc1hY6nyUDznnkdQlOAYZXSiuVaiDWj5EaFwzJ/aML3FX397uQ
-         NOvN9Q62kz9LHdXJvXWJ+ILsl/+L9f0kdlrfah6vTmoETSdIUMimMFtXHkmICDwic6Qv
-         CmD6b+hf7Yo3DGp3MBLZPPq4D0Z/htJ5hn8flAKEWZTcStzqkFR7KOs4bI4W6EXRXXA/
-         YTjPc6l0ZPCvQHExgXjDdgazZyFHMsfBcDyr0c58SczzM4knbfef0Df9g3fUg2eoR0/G
-         9t+w==
-X-Gm-Message-State: ACgBeo1FSyYrIptfLEFwSr+Xid0R2Tj8yxfPgkZWcnPPzA4cAE9uz8dP
-	bWWvhBWhh78Nyo3z0wY132fEmA==
-X-Google-Smtp-Source: AA6agR4sr7CY6ohDCUgo1cuFeiMGJDrY8VIlBJdET91T+NWk5F0EUKnaU4lX2OEjAoB2NiRsPDczdg==
-X-Received: by 2002:a17:906:eec7:b0:733:189f:b07a with SMTP id wu7-20020a170906eec700b00733189fb07amr385666ejb.230.1662502287053;
-        Tue, 06 Sep 2022 15:11:27 -0700 (PDT)
-Received: from [192.168.1.149] ([80.208.71.65])
-        by smtp.gmail.com with ESMTPSA id 12-20020a170906318c00b0073923a68974sm7083488ejy.206.2022.09.06.15.11.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Sep 2022 15:11:26 -0700 (PDT)
-Message-ID: <db3b8d51-3350-7823-a462-6f81c4cdc5f1@rasmusvillemoes.dk>
-Date: Wed, 7 Sep 2022 00:11:24 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05757E
+	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 07:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=I+p6cUmDn7OtLSjJelOWcrfySN1QQyfUSzq1+9ZjAjo=; b=RUI5rrUHN+N7Isq/K41V0FL6me
+	N5uzyGeW8ILYu+Pv7g+N5ybL9DjxUJmCuy+WcFKD7slDug3s6aFbVJgrsbOI2u6tbYfM1/fZWSWg5
+	PLdf9qyWf4dL1DzxkfEE0eqFjhN+IINx5CqG6Dkb23nbofcBRlOZpQHZ2daWBbPX/lWWVBasuNtHT
+	ZH6pogpbN+DgcZancUbZKCFfelIb4w7TSK0pD/MoCOXVH06WT+Rypt4TDXciEETQANfCI2Bt1tAv2
+	7qmHTrnq0eZ8cxv+xoeyzuc5N+HeWlRL37J2FCJRwBk0TY+hZPVwaWHVb9T/DW+YZXwZeld8oP4MJ
+	u6r7hKuw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34164)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oVplu-0004tr-42; Wed, 07 Sep 2022 08:46:54 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oVplp-0000nx-Jm; Wed, 07 Sep 2022 08:46:49 +0100
+Date: Wed, 7 Sep 2022 08:46:49 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Arend van Spriel <aspriel@gmail.com>,
+	Franky Lin <franky.lin@broadcom.com>,
+	Hante Meuleman <hante.meuleman@broadcom.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com,
+	"David S. Miller" <davem@davemloft.net>, devicetree@vger.kernel.org,
+	Eric Dumazet <edumazet@google.com>,
+	Hector Martin <marcan@marcan.st>, Jakub Kicinski <kuba@kernel.org>,
+	Kalle Valo <kvalo@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>, SHA-cyfmac-dev-list@infineon.com,
+	Sven Peter <sven@svenpeter.dev>, van Spriel <arend@broadcom.com>
+Subject: [PATCH net-next 0/12] Add support for bcm4378 on Apple platforms
+Message-ID: <YxhMaYOfnM+7FG+W@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 4/7] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Content-Language: en-US
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, asahi@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org,
- Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
- Rob Herring <robh+dt@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Steven Rostedt <rostedt@goodmis.org>, Sven Peter <sven@svenpeter.dev>
-References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
- <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-In-Reply-To: <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 06/09/2022 15.19, Russell King (Oracle) wrote:
-> From: Hector Martin <marcan@marcan.st>
-> 
-> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
-> it's useful to be able to print generic 4-character codes formatted as
-> an integer. Extend it to add format specifiers for printing generic
-> 32-bit FOURCCs with various endian semantics:
-> 
+Hi,
 
->  Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++++
->  lib/vsprintf.c                            | 35 +++++++++++++++++++----
->  2 files changed, 61 insertions(+), 6 deletions(-)
+This series adds support for bcm4378 found on Apple platforms, and has
+been tested on the Apple Mac Mini. It is a re-posting of a subset of
+Hector's previous 38 patch series, and it is believed that the comments
+from that review were addressed.
 
-Please also update lib/test_printf.c with a few test cases when
-modifying/extending vsnprintf().
+(I'm just the middle man; please don't complain if something has been
+missed.)
 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 5e89497ba314..22c33398ec02 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -625,6 +625,38 @@ Passed by reference.
->  	%p4cc	Y10  little-endian (0x20303159)
->  	%p4cc	NV12 big-endian (0xb231564e)
->  
-> +Generic FourCC code
-> +-------------------
-> +
-> +::
-> +	%p4c[hnbl]	gP00 (0x67503030)
-> +
+ .../bindings/net/wireless/brcm,bcm4329-fmac.yaml   |  37 +-
+ arch/arm64/boot/dts/apple/t8103-j274.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-j313.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-j456.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-j457.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi          |   2 +
+ .../net/wireless/broadcom/brcm80211/brcmfmac/bus.h |  19 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/chip.c    |   2 +
+ .../wireless/broadcom/brcm80211/brcmfmac/common.c  |  12 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/common.h  |   1 +
+ .../broadcom/brcm80211/brcmfmac/firmware.c         | 115 ++++--
+ .../broadcom/brcm80211/brcmfmac/firmware.h         |   4 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/msgbuf.h  |   4 +-
+ .../net/wireless/broadcom/brcm80211/brcmfmac/of.c  |  12 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/pcie.c    | 431 +++++++++++++++++++--
+ .../wireless/broadcom/brcm80211/brcmfmac/sdio.c    |  38 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/sdio.h    |   2 +
+ .../net/wireless/broadcom/brcm80211/brcmfmac/usb.c |  23 +-
+ .../broadcom/brcm80211/include/brcm_hw_ids.h       |   2 +
+ include/linux/bcma/bcma_driver_chipcommon.h        |   1 +
+ 21 files changed, 609 insertions(+), 116 deletions(-)
 
-Typo, I think. hrbl ?
-
-Rasmus
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
