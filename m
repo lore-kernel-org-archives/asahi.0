@@ -1,74 +1,83 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5125F5C91;
-	Wed,  7 Sep 2022 14:06:37 +0000 (UTC)
-Received: from 8bytes.org (p4ff2bb62.dip0.t-ipconnect.de [79.242.187.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 6118D2409A7;
-	Wed,  7 Sep 2022 16:06:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1662559591;
-	bh=sD6ntPJavoL+O3jZjBfdlyQKhK42Ee+ATtCC5qSKLek=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rnWXPfkRqiJXCBikZk6JRGP2BockRbTgJPogFW6R24YrO/UYOBdbDIQPctDN3LGpI
-	 79/xXHT61Edm0n+vSGPYdlczsRRfdkacO6KmQgX/Kv6hNnOMuGvxYRlTiNeRqAdoGh
-	 5eisSJGFeEPl9sdwLcPf/+l2Yyy8DviLlelMTM4i/bTvjcSo5ebNKYoIEDQy0YTBKO
-	 jt0uBK0fCmoSFWyU5uIRYNcijnnozfeA7oB/uWHePVQatjmPma4sWvhtPveFHkv/Zd
-	 5qGfNEp1V9BqTtR+QMkc0IJeFW1j8U5UpZXX6b1OmgcnRAA8Xu95xNZgC6+l1xfUpO
-	 7YogNayXEccUQ==
-Date: Wed, 7 Sep 2022 16:06:29 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, will@kernel.org,
-	robin.murphy@arm.com, alex.williamson@redhat.com,
-	suravee.suthikulpanit@amd.com, marcan@marcan.st, sven@svenpeter.dev,
-	alyssa@rosenzweig.io, robdclark@gmail.com, dwmw2@infradead.org,
-	baolu.lu@linux.intel.com, mjrosato@linux.ibm.com,
-	gerald.schaefer@linux.ibm.com, orsonzhai@gmail.com,
-	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
-	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
-	jean-philippe@linaro.org, cohuck@redhat.com, tglx@linutronix.de,
-	shameerali.kolothum.thodi@huawei.com, thunder.leizhen@huawei.com,
-	christophe.jaillet@wanadoo.fr, yangyingliang@huawei.com,
-	jon@solid-run.com, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
-	kevin.tian@intel.com
-Subject: Re: [PATCH v6 1/5] iommu: Return -EMEDIUMTYPE for incompatible
- domain and device/group
-Message-ID: <YxilZbRL0WBR97oi@8bytes.org>
-References: <20220815181437.28127-1-nicolinc@nvidia.com>
- <20220815181437.28127-2-nicolinc@nvidia.com>
- <YxiRkm7qgQ4k+PIG@8bytes.org>
- <Yxig+zfA2Pr4vk6K@nvidia.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E213C5C91;
+	Wed,  7 Sep 2022 14:23:27 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CCDD91042;
+	Wed,  7 Sep 2022 07:23:32 -0700 (PDT)
+Received: from [10.57.15.197] (unknown [10.57.15.197])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B9E63F71A;
+	Wed,  7 Sep 2022 07:23:15 -0700 (PDT)
+Message-ID: <9f91f187-2767-13f9-68a2-a5458b888f00@arm.com>
+Date: Wed, 7 Sep 2022 15:23:09 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.1
+Subject: Re: [PATCH v6 1/5] iommu: Return -EMEDIUMTYPE for incompatible domain
+ and device/group
+Content-Language: en-GB
+To: Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>
+Cc: Nicolin Chen <nicolinc@nvidia.com>, will@kernel.org,
+ alex.williamson@redhat.com, suravee.suthikulpanit@amd.com, marcan@marcan.st,
+ sven@svenpeter.dev, alyssa@rosenzweig.io, robdclark@gmail.com,
+ dwmw2@infradead.org, baolu.lu@linux.intel.com, mjrosato@linux.ibm.com,
+ gerald.schaefer@linux.ibm.com, orsonzhai@gmail.com,
+ baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+ thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+ jean-philippe@linaro.org, cohuck@redhat.com, tglx@linutronix.de,
+ shameerali.kolothum.thodi@huawei.com, thunder.leizhen@huawei.com,
+ christophe.jaillet@wanadoo.fr, yangyingliang@huawei.com, jon@solid-run.com,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
+ virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
+ kevin.tian@intel.com
+References: <20220815181437.28127-1-nicolinc@nvidia.com>
+ <20220815181437.28127-2-nicolinc@nvidia.com> <YxiRkm7qgQ4k+PIG@8bytes.org>
+ <Yxig+zfA2Pr4vk6K@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
 In-Reply-To: <Yxig+zfA2Pr4vk6K@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 07, 2022 at 10:47:39AM -0300, Jason Gunthorpe wrote:
+On 2022-09-07 14:47, Jason Gunthorpe wrote:
+> On Wed, Sep 07, 2022 at 02:41:54PM +0200, Joerg Roedel wrote:
+>> On Mon, Aug 15, 2022 at 11:14:33AM -0700, Nicolin Chen wrote:
+>>> Provide a dedicated errno from the IOMMU driver during attach that the
+>>> reason attached failed is because of domain incompatability. EMEDIUMTYPE
+>>> is chosen because it is never used within the iommu subsystem today and
+>>> evokes a sense that the 'medium' aka the domain is incompatible.
+>>
+>> I am not a fan of re-using EMEDIUMTYPE or any other special value. What
+>> is needed here in EINVAL, but with a way to tell the caller which of the
+>> function parameters is actually invalid.
+> 
+> Using errnos to indicate the nature of failure is a well established
+> unix practice, it is why we have hundreds of error codes and don't
+> just return -EINVAL for everything.
+> 
+> What don't you like about it?
+> 
 > Would you be happier if we wrote it like
 > 
->  #define IOMMU_EINCOMPATIBLE_DEVICE xx
+>   #define IOMMU_EINCOMPATIBLE_DEVICE xx
 > 
 > Which tells "which of the function parameters is actually invalid" ?
 
-Having done some Rust hacking in the last months, I have to say I like
-to concept of error handling with Result<> there. Ideally we have a way
-to emulate that in our C code without having to change all callers.
+FWIW, we're now very close to being able to validate dev->iommu against 
+where the domain came from in core code, and so short-circuit 
+->attach_dev entirely if they don't match. At that point -EINVAL at the 
+driver callback level could be assumed to refer to the domain argument, 
+while anything else could be taken as something going unexpectedly wrong 
+when the attach may otherwise have worked. I've forgotten if we actually 
+had a valid case anywhere for "this is my device but even if you retry 
+with a different domain it's still never going to work", but I think we 
+wouldn't actually need that anyway - it should be clear enough to a 
+caller that if attaching to an existing domain fails, then allocating a 
+fresh domain and attaching also fails, that's the point to give up.
 
-What I am proposing is a way this could be emulated here, but I am open
-to other suggestions. Still better than re-using random error codes for
-special purposes.
-
-Regards,
-
-	Joerg
+Robin.
