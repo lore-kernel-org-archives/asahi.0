@@ -1,64 +1,127 @@
-Received: from sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69AB2F4E
-	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 09:39:25 +0000 (UTC)
-Received: from localhost (bloch.sibelius.xs4all.nl [local])
-	by bloch.sibelius.xs4all.nl (OpenSMTPD) with ESMTPA id e57b84d2;
-	Wed, 7 Sep 2022 11:39:16 +0200 (CEST)
-Date: Wed, 7 Sep 2022 11:39:16 +0200 (CEST)
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Hector Martin <marcan@marcan.st>
-Cc: robh@kernel.org, linux@armlinux.org.uk,
-	krzysztof.kozlowski@linaro.org, arnd@arndb.de, lee@kernel.org,
-	linus.walleij@linaro.org, alyssa@rosenzweig.io,
-	asahi@lists.linux.dev, brgl@bgdev.pl,
-	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org, sven@svenpeter.dev,
-	krzysztof.kozlowski+dt@linaro.org, devicetree@vger.kernel.org
-In-Reply-To: <39c32c75-207c-3807-0c97-8a6bd9555b5e@marcan.st> (message from
-	Hector Martin on Wed, 7 Sep 2022 03:38:09 +0900)
-Subject: Re: [PATCH 1/6] dt-bindings: mfd: add binding for Apple Mac System
- Management Controller
-References: <2fedff34-6a20-f1ce-a756-2bd8671fcd52@linaro.org>
- <YxDWG5dmzErhKIXw@shell.armlinux.org.uk>
- <ef6c7248-1efa-5366-6bcd-900c5f10ccb2@linaro.org>
- <YxDiBFIn6artUOZm@shell.armlinux.org.uk>
- <CAL_Jsq+GCKisAVA0AfE=yWJYy18mAGQ7rY1sKGYraXv-berNSg@mail.gmail.com>
- <d3cec3d22e464fa8@bloch.sibelius.xs4all.nl>
- <20220902172808.GB52527-robh@kernel.org>
- <YxcNLU+KGEolrdfT@shell.armlinux.org.uk>
- <20220906161049.GC534217-robh@kernel.org>
- <91466e41-d3f7-0993-9082-80f94e53f375@marcan.st>
- <20220906173535.GA734389-robh@kernel.org> <39c32c75-207c-3807-0c97-8a6bd9555b5e@marcan.st>
-Message-ID: <d3ced597b1c472c9@bloch.sibelius.xs4all.nl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9C133C1
+	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 10:02:35 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id u6so18848945eda.12
+        for <asahi@lists.linux.dev>; Wed, 07 Sep 2022 03:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=MFgYf5i+p8HnoiZj78ub5+J+EdkgxQwFyuduhPa5CXE=;
+        b=NWBRDSGoTo4Kh/kDLYYCBfh6kBK3XcY3jeUptXhD2LeP8OUt5DLBoUbsVn3lDiqR2m
+         cdcuCZnbH5JeYs3XuEyVXUkn1VDoQh+LYblo47u4orckEDjn9PN41LoOV/VdI7RU+vN/
+         3XZMrdlpAIIuKLBJP+YS3w7HKlEfZ0xLzy9gq2To4keduXXlu6MT/X5mBUL49sf6bomb
+         h70GZSIINXBeRVa46OBD6raACPOY/fiS69JRUhS5B48t5N8HSROwe5qqeC2w07PUaGav
+         KBZApMS2ed8wZDt2ts/eOlAiWVd5jdLO/dBXObZA4AAjPrYeeFjUR36exEobQaVEWDuU
+         vPrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=MFgYf5i+p8HnoiZj78ub5+J+EdkgxQwFyuduhPa5CXE=;
+        b=Y1o1b97Zl8QqtteurbdHWgSZfwqKHBM/dtp5RK7cCUybOc9nDp01MnmIL/OZFhjvKt
+         TsUUWTZSv9iRozqqabSODrdfEgGaTpSwk144W/UtPaFr8QB16iD86LCmQCqkitHD3N+R
+         D3kUn9JwXB5snbwXTiwtvVexRxUV+E9vuJ2NkqTvFYep/Hv3wYUSAddDojPoA7lr0jeR
+         mvzHlSv/r0ghS04O/EidxVPawPD31GNHCDy4gWqzRZsklIzsQk9MvDsfvUStQB/PESfC
+         bXri1TP6nPVSfNFTeIauOPPO7K5rhHH6OdJ0xKy+LZ2I1VTvBKCneM1SdOfrid3SOq+T
+         FmbQ==
+X-Gm-Message-State: ACgBeo0b3svDyNS3RfNEaKOMTOOkjmKjzffb2BPFrKduostyvG7Z9sZL
+	OT+6N5wpKYQplUdS7ZJa46WORmfbAScReMLPX8L1ZA==
+X-Google-Smtp-Source: AA6agR6ZLTZLfrhufuCQPkbnhVtzEViucDISa1L3We20Da0CSRHp4PvYtWUKlWfhrloyJvPt30RjLqJ6qOK2oWprULo=
+X-Received: by 2002:a05:6402:354d:b0:448:1f80:e737 with SMTP id
+ f13-20020a056402354d00b004481f80e737mr2509997edd.69.1662544953645; Wed, 07
+ Sep 2022 03:02:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
+In-Reply-To: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Wed, 7 Sep 2022 12:02:22 +0200
+Message-ID: <CAMRc=Mc7dgctBMKukH1FS2MA1qMbhN=GxEACorwJAv9Mmzjh7A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] Add Apple Mac System Management Controller GPIOs
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+	devicetree <devicetree@vger.kernel.org>, Hector Martin <marcan@marcan.st>, 
+	Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	linux-doc <linux-doc@vger.kernel.org>, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, Petr Mladek <pmladek@suse.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Rob Herring <robh+dt@kernel.org>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Sven Peter <sven@svenpeter.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-> Date: Wed, 7 Sep 2022 03:38:09 +0900
-> From: Hector Martin <marcan@marcan.st>
-> 
-> On 07/09/2022 02.35, Rob Herring wrote:
-> 
-> > If only those 2 nodes, then I really don't care so much and gpio-sec 
-> > would be fine. It's 1 node in 1 binding.
-> 
-> I think it might make sense to just go with this then. If Apple ever
-> introduces yet another GPIO sub-controller we can just add another one,
-> and honestly I don't think that's very likely, given they don't even use
-> any of the GPIOs from the second one from the AP yet. I don't see SMC
-> growing a big list of GPIO controllers any time soon, such that we
-> regret doing it this way. And then the node-name can just map to a given
-> key prefix statically in the driver, and thus we don't even need a
-> property for that (gpio would be gP?? and gpio-sec gp?? right now).
+On Tue, Sep 6, 2022 at 3:18 PM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
+>
+> Hi,
+>
+> [Andy dropped from the Cc lists; he's taking a break.]
+>
+> This series adds support for the Apple Mac GPIO driver. These GPIOs
+> are hadled via the System Management Controller.
+>
+> The first two patches add the DT binding documentation for the new
+> drivers. No changes from the first posting (I think there's still
+> some discussion going on about how best to handle these.)
+>
+> Patch 3 adds apple_rtkit_poll() and has had no changes since v1.
+>
+> Patch 4 is new, extending the existing FourCC format code to be able
+> to print other endian FourCC codes.
+>
+> Patch 5 adds the SMC core and rtkit driver. Changes in v2 include
+> properly limiting the data size (since it is limited to the width of
+> the size fields in the mailbox messages, not the shmem size) and also
+> to properly cleanup after failure to send the initialisation message.
+>
+> Patch 6 adds the SMC GPIO support. Changes in v2 include some of the
+> issues Andy pointed out,
+>
+> Patch 7 is new, adding the SMC nodes to the dtsi.
+>
+> Patches taken from the Asahi project.
+>
+>  Documentation/core-api/printk-formats.rst          |  32 ++
+>  .../devicetree/bindings/gpio/gpio-macsmc.yaml      |  28 ++
+>  .../devicetree/bindings/mfd/apple,smc.yaml         |  65 +++
+>  arch/arm64/boot/dts/apple/t8103.dtsi               |  26 ++
+>  drivers/gpio/Kconfig                               |  11 +
+>  drivers/gpio/Makefile                              |   1 +
+>  drivers/gpio/gpio-macsmc.c                         | 242 +++++++++++
+>  drivers/platform/Kconfig                           |   2 +
+>  drivers/platform/Makefile                          |   1 +
+>  drivers/platform/apple/Kconfig                     |  49 +++
+>  drivers/platform/apple/Makefile                    |  11 +
+>  drivers/platform/apple/smc.h                       |  28 ++
+>  drivers/platform/apple/smc_core.c                  | 249 +++++++++++
+>  drivers/platform/apple/smc_rtkit.c                 | 453 +++++++++++++++++++++
+>  drivers/soc/apple/rtkit.c                          |   6 +
+>  include/linux/mfd/macsmc.h                         |  86 ++++
+>  include/linux/soc/apple/rtkit.h                    |  12 +
+>  lib/vsprintf.c                                     |  35 +-
+>  18 files changed, 1331 insertions(+), 6 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+>  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
+>  create mode 100644 drivers/gpio/gpio-macsmc.c
+>  create mode 100644 drivers/platform/apple/Kconfig
+>  create mode 100644 drivers/platform/apple/Makefile
+>  create mode 100644 drivers/platform/apple/smc.h
+>  create mode 100644 drivers/platform/apple/smc_core.c
+>  create mode 100644 drivers/platform/apple/smc_rtkit.c
+>  create mode 100644 include/linux/mfd/macsmc.h
+>
+> --
+> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+> FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
 
-We could also use a compatible property to map the key prefix.  For
-example we could have "apple,smc-gpio-primary" map to gP??  and
-"apple,smc-gpio-secondary" map to gp??.  Then we can keep the generic
-"gpio" name for both GPIO nodes.  And if Apple introduces yet another
-GPIO sub-controller we just have to invent a new compatible for it.
-Probably the cleanest solution if Rob still thinks it is better for
-these nodes to have a compatible property anyway.
+For GPIO:
+
+Reviewed-by: Bartosz Golaszewski <brgl@bgdev.pl>
