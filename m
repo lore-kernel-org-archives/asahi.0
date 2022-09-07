@@ -1,41 +1,41 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB825CA6
-	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 15:38:25 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id h20-20020a056830165400b00638ac7ddba5so10533306otr.4
-        for <asahi@lists.linux.dev>; Wed, 07 Sep 2022 08:38:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C5A5CA6
+	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 15:41:11 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id h20-20020a056830165400b00638ac7ddba5so10538930otr.4
+        for <asahi@lists.linux.dev>; Wed, 07 Sep 2022 08:41:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=KSoB0G6pzRD9DIaWPNDedKDIgG6tTjWjaUw36ufPm4w=;
-        b=jGfAP7eak4sbXXl3ReexIdg4oq4c53XI0kBaHkJtwDS6QZRB3//18SEoDHXFTWHiXr
-         taG0ZGfHp4v2K2AtqGTyNP19vfyTMFOwzHhnEc1c4pR8L4heQZFYW94M1hiHr584Y4HA
-         +Cvdg3UPLtT3nkZtnkdicbnzFvyGG7B3B9BDrSwfVM/OHAfYzN6TKXfl4hgCaULPHBFY
-         ikFlmG+K15t6C5OOURjAOA0gZ/XV5NwLFcEy/0gOxWQEA5xJJ++vQY3ZS+dGFEj9/LGJ
-         ZKwwqguWLvbrvx3VyEFNZmeMUZew65XTb8ExBOY3hEzmkTAtkW6s4H2Ia3RoYt8wDuhx
-         +r6w==
-X-Gm-Message-State: ACgBeo2MjuGjBM/XAbshr2kIZ/6Vbp27Ub638aaTmoNRLzDDt+OytB2s
-	rH8Vdnx1Q/kCbRnxfnS+nA==
-X-Google-Smtp-Source: AA6agR7cHntWzuv22mM6yjZi+6RNKL5IJKl5pY/iSsPF1rL/uA/vWpzkdCz2m1iQhfyCAPlQWPYbhw==
-X-Received: by 2002:a9d:5508:0:b0:636:ee02:ff7c with SMTP id l8-20020a9d5508000000b00636ee02ff7cmr1745217oth.249.1662565104411;
-        Wed, 07 Sep 2022 08:38:24 -0700 (PDT)
+        bh=btKRTicmLvDCX1hJOEXkDhCFvp2y2mAwN4dxOJuI9Xs=;
+        b=XDheDD1oB4GWuJVbhj5QuqOVvdNTV2hbquxoi0NFto8B9euysOo8FmobjK+TAIG6Ot
+         txG0nBmSYm1BshOGi9ArPqxBV5LWor31zZWh8KaO6AKsaGOlh/o7isop8Vnc7VIr82MX
+         RdlaMqZGNM2ngubkc5NNjK2uGgKr8rD50LM5s//hcMKA5OyuEM5RANSPGjFbdezg18Av
+         r5h2CwmDCBS3AoUwEVaHWniOOZVlDFv4ReudSDCgbp5rS67R7vWEIzxQ/T5aH+VRZ/de
+         YR/Y4wv7Icz7OxQ+HW2+f6ti90MtRXcV4cpewVEhptVH10VNE+4jLqhOva2VLzosU7Xl
+         /QzQ==
+X-Gm-Message-State: ACgBeo2BOGHY6cTvvz2khNt0G5ioNwIdxOYaskCHzAxmK1KAd4xyb7z5
+	+UCiKppe6EjRP0ZzL2fkaA==
+X-Google-Smtp-Source: AA6agR4p0eaTsxXGe9aZXFV+W851SwM/FoDIIR/4L+/Kvd6bS7Rk3DlqEa0K4TyDOXVuPAnToLaI3w==
+X-Received: by 2002:a9d:77c3:0:b0:637:36c1:475b with SMTP id w3-20020a9d77c3000000b0063736c1475bmr1673088otl.346.1662565270329;
+        Wed, 07 Sep 2022 08:41:10 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bm23-20020a0568081a9700b0034480f7eec4sm6550747oib.12.2022.09.07.08.38.23
+        by smtp.gmail.com with ESMTPSA id l14-20020a4ac60e000000b00435ae9a836asm5174440ooq.15.2022.09.07.08.41.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Sep 2022 08:38:23 -0700 (PDT)
-Received: (nullmailer pid 3498322 invoked by uid 1000);
-	Wed, 07 Sep 2022 15:38:23 -0000
-Date: Wed, 7 Sep 2022 10:38:22 -0500
+        Wed, 07 Sep 2022 08:41:09 -0700 (PDT)
+Received: (nullmailer pid 3502719 invoked by uid 1000);
+	Wed, 07 Sep 2022 15:41:08 -0000
+Date: Wed, 7 Sep 2022 10:41:08 -0500
 From: Rob Herring <robh@kernel.org>
 To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH 2/7] dt-bindings: gpio: add binding for the GPIO block
- for Apple Mac SMC
-Message-ID: <20220907153822.GA3492530-robh@kernel.org>
+Subject: Re: [PATCH 1/7] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+Message-ID: <20220907154108.GA3498574-robh@kernel.org>
 References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
- <E1oVYUI-005CmB-84@rmk-PC.armlinux.org.uk>
+ <E1oVYUD-005Cm5-3Z@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -44,70 +44,88 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1oVYUI-005CmB-84@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1oVYUD-005Cm5-3Z@rmk-PC.armlinux.org.uk>
 
-On Tue, Sep 06, 2022 at 02:19:34PM +0100, Russell King (Oracle) wrote:
-> Add the DT binding for the Apple Mac System Management Controller GPIOs.
+On Tue, Sep 06, 2022 at 02:19:29PM +0100, Russell King (Oracle) wrote:
+> Add a DT binding for the Apple Mac System Management Controller.
 > 
 > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 > ---
->  .../devicetree/bindings/gpio/gpio-macsmc.yaml | 28 +++++++++++++++++++
->  .../devicetree/bindings/mfd/apple,smc.yaml    |  4 +++
->  2 files changed, 32 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+>  .../devicetree/bindings/mfd/apple,smc.yaml    | 61 +++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
 > new file mode 100644
-> index 000000000000..ee620fe50ca8
+> index 000000000000..168f237c2962
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
-> @@ -0,0 +1,28 @@
+> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> @@ -0,0 +1,61 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
+> +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Apple Mac System Management Controller GPIO
+> +title: Apple Mac System Management Controller
 > +
 > +maintainers:
 > +  - Hector Martin <marcan@marcan.st>
 > +
 > +description:
-> +  This describes the binding for the Apple Mac System Management Controller
-> +  GPIO block.
+> +  Apple Mac System Management Controller implements various functions
+> +  such as GPIO, RTC, power, reboot.
 > +
 > +properties:
-> +  gpio-controller: true
-> +  '#gpio-cells':
-> +    const: 2
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - apple,t6000-smc
+> +          - apple,t8103-smc
+> +          - apple,t8112-smc
+> +      - const: apple,smc
+> +
+> +  reg:
+> +    items:
+> +      - description: SMC area
+> +      - description: SRAM area
+> +
+> +  reg-names:
+> +    items:
+> +      - const: smc
+> +      - const: sram
+> +
+> +  mboxes:
+> +    maxItems: 1
+> +    description:
+> +      A phandle to the mailbox channel
+
+That's every 'mboxes'. Drop generic descriptions on common properties.
+
 > +
 > +additionalProperties: false
 > +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - mboxes
+> +
 > +examples:
 > +  - |
-> +    smc_gpio: gpio {
-> +      gpio-controller;
-> +      #gpio-cells = <2>;
-> +    };
-
-Please move the example to the mfd schema. One complete example rather 
-than piecemeal examples.
-
-> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> index 168f237c2962..47e3cd58bf19 100644
-> --- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> @@ -37,6 +37,10 @@ title: Apple Mac System Management Controller
->      description:
->        A phandle to the mailbox channel
->  
-> +patternProperties:
-> +  gpio:
-> +    $ref: /schemas/gpio/gpio-macsmc.yaml
+> +    soc {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
 > +
-
-Reorder the patches such that the MFD binding is last and this hunk can 
-be part of it.
-
-Rob
+> +      smc@23e400000 {
+> +        compatible = "apple,t8103-smc", "apple,smc";
+> +        reg = <0x2 0x3e400000 0x0 0x4000>,
+> +               <0x2 0x3fe00000 0x0 0x100000>;
+> +        reg-names = "smc", "sram";
+> +        mboxes = <&smc_mbox>;
+> +      };
+> +    };
+> -- 
+> 2.30.2
+> 
+> 
