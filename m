@@ -1,83 +1,113 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E213C5C91;
-	Wed,  7 Sep 2022 14:23:27 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CCDD91042;
-	Wed,  7 Sep 2022 07:23:32 -0700 (PDT)
-Received: from [10.57.15.197] (unknown [10.57.15.197])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B9E63F71A;
-	Wed,  7 Sep 2022 07:23:15 -0700 (PDT)
-Message-ID: <9f91f187-2767-13f9-68a2-a5458b888f00@arm.com>
-Date: Wed, 7 Sep 2022 15:23:09 +0100
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB825CA6
+	for <asahi@lists.linux.dev>; Wed,  7 Sep 2022 15:38:25 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id h20-20020a056830165400b00638ac7ddba5so10533306otr.4
+        for <asahi@lists.linux.dev>; Wed, 07 Sep 2022 08:38:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=KSoB0G6pzRD9DIaWPNDedKDIgG6tTjWjaUw36ufPm4w=;
+        b=jGfAP7eak4sbXXl3ReexIdg4oq4c53XI0kBaHkJtwDS6QZRB3//18SEoDHXFTWHiXr
+         taG0ZGfHp4v2K2AtqGTyNP19vfyTMFOwzHhnEc1c4pR8L4heQZFYW94M1hiHr584Y4HA
+         +Cvdg3UPLtT3nkZtnkdicbnzFvyGG7B3B9BDrSwfVM/OHAfYzN6TKXfl4hgCaULPHBFY
+         ikFlmG+K15t6C5OOURjAOA0gZ/XV5NwLFcEy/0gOxWQEA5xJJ++vQY3ZS+dGFEj9/LGJ
+         ZKwwqguWLvbrvx3VyEFNZmeMUZew65XTb8ExBOY3hEzmkTAtkW6s4H2Ia3RoYt8wDuhx
+         +r6w==
+X-Gm-Message-State: ACgBeo2MjuGjBM/XAbshr2kIZ/6Vbp27Ub638aaTmoNRLzDDt+OytB2s
+	rH8Vdnx1Q/kCbRnxfnS+nA==
+X-Google-Smtp-Source: AA6agR7cHntWzuv22mM6yjZi+6RNKL5IJKl5pY/iSsPF1rL/uA/vWpzkdCz2m1iQhfyCAPlQWPYbhw==
+X-Received: by 2002:a9d:5508:0:b0:636:ee02:ff7c with SMTP id l8-20020a9d5508000000b00636ee02ff7cmr1745217oth.249.1662565104411;
+        Wed, 07 Sep 2022 08:38:24 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id bm23-20020a0568081a9700b0034480f7eec4sm6550747oib.12.2022.09.07.08.38.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Sep 2022 08:38:23 -0700 (PDT)
+Received: (nullmailer pid 3498322 invoked by uid 1000);
+	Wed, 07 Sep 2022 15:38:23 -0000
+Date: Wed, 7 Sep 2022 10:38:22 -0500
+From: Rob Herring <robh@kernel.org>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 2/7] dt-bindings: gpio: add binding for the GPIO block
+ for Apple Mac SMC
+Message-ID: <20220907153822.GA3492530-robh@kernel.org>
+References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
+ <E1oVYUI-005CmB-84@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v6 1/5] iommu: Return -EMEDIUMTYPE for incompatible domain
- and device/group
-Content-Language: en-GB
-To: Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, will@kernel.org,
- alex.williamson@redhat.com, suravee.suthikulpanit@amd.com, marcan@marcan.st,
- sven@svenpeter.dev, alyssa@rosenzweig.io, robdclark@gmail.com,
- dwmw2@infradead.org, baolu.lu@linux.intel.com, mjrosato@linux.ibm.com,
- gerald.schaefer@linux.ibm.com, orsonzhai@gmail.com,
- baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
- jean-philippe@linaro.org, cohuck@redhat.com, tglx@linutronix.de,
- shameerali.kolothum.thodi@huawei.com, thunder.leizhen@huawei.com,
- christophe.jaillet@wanadoo.fr, yangyingliang@huawei.com, jon@solid-run.com,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
- virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
- kevin.tian@intel.com
-References: <20220815181437.28127-1-nicolinc@nvidia.com>
- <20220815181437.28127-2-nicolinc@nvidia.com> <YxiRkm7qgQ4k+PIG@8bytes.org>
- <Yxig+zfA2Pr4vk6K@nvidia.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <Yxig+zfA2Pr4vk6K@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <E1oVYUI-005CmB-84@rmk-PC.armlinux.org.uk>
 
-On 2022-09-07 14:47, Jason Gunthorpe wrote:
-> On Wed, Sep 07, 2022 at 02:41:54PM +0200, Joerg Roedel wrote:
->> On Mon, Aug 15, 2022 at 11:14:33AM -0700, Nicolin Chen wrote:
->>> Provide a dedicated errno from the IOMMU driver during attach that the
->>> reason attached failed is because of domain incompatability. EMEDIUMTYPE
->>> is chosen because it is never used within the iommu subsystem today and
->>> evokes a sense that the 'medium' aka the domain is incompatible.
->>
->> I am not a fan of re-using EMEDIUMTYPE or any other special value. What
->> is needed here in EINVAL, but with a way to tell the caller which of the
->> function parameters is actually invalid.
+On Tue, Sep 06, 2022 at 02:19:34PM +0100, Russell King (Oracle) wrote:
+> Add the DT binding for the Apple Mac System Management Controller GPIOs.
 > 
-> Using errnos to indicate the nature of failure is a well established
-> unix practice, it is why we have hundreds of error codes and don't
-> just return -EINVAL for everything.
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+>  .../devicetree/bindings/gpio/gpio-macsmc.yaml | 28 +++++++++++++++++++
+>  .../devicetree/bindings/mfd/apple,smc.yaml    |  4 +++
+>  2 files changed, 32 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
 > 
-> What don't you like about it?
-> 
-> Would you be happier if we wrote it like
-> 
->   #define IOMMU_EINCOMPATIBLE_DEVICE xx
-> 
-> Which tells "which of the function parameters is actually invalid" ?
+> diff --git a/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+> new file mode 100644
+> index 000000000000..ee620fe50ca8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+> @@ -0,0 +1,28 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple Mac System Management Controller GPIO
+> +
+> +maintainers:
+> +  - Hector Martin <marcan@marcan.st>
+> +
+> +description:
+> +  This describes the binding for the Apple Mac System Management Controller
+> +  GPIO block.
+> +
+> +properties:
+> +  gpio-controller: true
+> +  '#gpio-cells':
+> +    const: 2
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    smc_gpio: gpio {
+> +      gpio-controller;
+> +      #gpio-cells = <2>;
+> +    };
 
-FWIW, we're now very close to being able to validate dev->iommu against 
-where the domain came from in core code, and so short-circuit 
-->attach_dev entirely if they don't match. At that point -EINVAL at the 
-driver callback level could be assumed to refer to the domain argument, 
-while anything else could be taken as something going unexpectedly wrong 
-when the attach may otherwise have worked. I've forgotten if we actually 
-had a valid case anywhere for "this is my device but even if you retry 
-with a different domain it's still never going to work", but I think we 
-wouldn't actually need that anyway - it should be clear enough to a 
-caller that if attaching to an existing domain fails, then allocating a 
-fresh domain and attaching also fails, that's the point to give up.
+Please move the example to the mfd schema. One complete example rather 
+than piecemeal examples.
 
-Robin.
+> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> index 168f237c2962..47e3cd58bf19 100644
+> --- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> @@ -37,6 +37,10 @@ title: Apple Mac System Management Controller
+>      description:
+>        A phandle to the mailbox channel
+>  
+> +patternProperties:
+> +  gpio:
+> +    $ref: /schemas/gpio/gpio-macsmc.yaml
+> +
+
+Reorder the patches such that the MFD binding is last and this hunk can 
+be part of it.
+
+Rob
