@@ -1,79 +1,98 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A037C
-	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 13:29:57 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id lz22so17206684ejb.3
-        for <asahi@lists.linux.dev>; Thu, 08 Sep 2022 06:29:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=PDuAPZrpPEtZS68Yxx+kwA9YlOfP3w3tOQUXiw/qzS8=;
-        b=QH57RwMVu8vMSoQCu6D5f9wGqQlvcOcmb4CopxZrOhkFCWLbwJ6AOwCi0TTzqbNsRA
-         cBJMO3DjLvPIPMLbAL+8736YVIyS6wv3WRZ/0DXmx0DCWf5SeffWDFdEenHY1bTY+LPk
-         7TO1CeDgQMhSHrZi3G1sdNaDAjHhpQr2EET5Q9aAbm7LsPqInO24KZi6tAVjKw65jd2i
-         FCK1JTYESyuAYtTOYvp5qht7U02LmNdSDveT2UlQPw0kP5uRiFqf61QkdOoyg1XZnWNm
-         /7/ISSMyI1NbbedTVgrPhfw1wBHBxTS9jXPP2GbE+qXLjpx82IhMf5mfq8xn1AdW7mvb
-         YtZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=PDuAPZrpPEtZS68Yxx+kwA9YlOfP3w3tOQUXiw/qzS8=;
-        b=dFgRs4PuWXcmnl48SSESuPvbYKX8ZT5NvS98yL8hL3kkadgh6+dYoYOoZzV4+D4aZP
-         5iz0GivcqSx2ZVTEzvgSB/LtHu1RATQ8NSsHjIOWLAGj9IUjVqQu5EClzXW0w0NRKo0n
-         k+AoKVyWMTicI5QME06mmjRjFA+YFgTPNDEvvg6e9k2Bwsx7SGrto8IUrLTbjvs7Vc2L
-         5o4Txl0btwJjobALKPSGkqsA1KdJJiw1BddxBIrtsXLvgt8R/Fnmu6j/1ncb4kvsyAxC
-         duXBBSSLYHi2Ygcqd9GPIlJ0cRI0WJvSEEno4NrmzeLYV5CBCEEUWyuU7FBYvzvg7rC0
-         p27A==
-X-Gm-Message-State: ACgBeo0OgqbSAgOD/8f8wN7a0nlv4Skf600tWjI/Lg68+SjPFXq0vW/F
-	Nru7ZDNWLNk6HJ5/Z3rk2JlAwEEcX5nbll7F8l6wbKjnm3c=
-X-Google-Smtp-Source: AA6agR7zssRGYnqc5tnQE6Pq9ZVgR66W//Jr1xQ+ados38ww6SnvXF3vj7pDozd5PzloL51ZyUnMbu/bJsxChqtBddg=
-X-Received: by 2002:a17:907:7242:b0:741:770b:dfc6 with SMTP id
- ds2-20020a170907724200b00741770bdfc6mr6050505ejc.203.1662643795629; Thu, 08
- Sep 2022 06:29:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA473222
+	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 13:36:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2412C433C1;
+	Thu,  8 Sep 2022 13:36:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1662644192;
+	bh=jNYWcMJTxd9I6mwuzcAiobhdY14ilM+Fu6mCeOacPks=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Wwi5zw+Td0dhT/rAp3NbqBmoiLPsF132s7eZ25qXpttdfakMm2iZAPzjt+tbDXlry
+	 0xypQmNisF/a5Ky1S7NVqX9xIGHTJnUfSrylXJ6HO0sl8oKin1XXRTFgVMbE3MqZwf
+	 FaIrw6oy0uBdDTtkwQnHj5Ikdvfv9ESzOPys3dTQ8zuSzE1hhN8itoLb4z/zN6aTk3
+	 OmfC1/mgqY/z8h9cqhxws2KIq/Qex4MhVi6dEeN5apuJk9BWkl2qStNzmuXMnHhwYz
+	 8bby+has6UFuxVYOFJ6KBMvhbqbjepknNg+fUju70QJDuaIpCN9PVZwGw/rbsXH7kD
+	 iP1imfkt7TTgg==
+Date: Thu, 8 Sep 2022 14:36:26 +0100
+From: Lee Jones <lee@kernel.org>
+To: Hector Martin <marcan@marcan.st>
+Cc: Russell King <rmk+kernel@armlinux.org.uk>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
+Message-ID: <Yxnv2mKkl1tW4PUp@google.com>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+ <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
+ <YxnK3LeyfacKssLT@google.com>
+ <45ed0a37-60ac-3a06-92d1-6b30e18261ff@marcan.st>
+ <YxngtlhRLTVBw+iW@google.com>
+ <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
- <YxnK3LeyfacKssLT@google.com> <45ed0a37-60ac-3a06-92d1-6b30e18261ff@marcan.st>
- <YxngtlhRLTVBw+iW@google.com> <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 8 Sep 2022 15:29:44 +0200
-Message-ID: <CACRpkdZpu-3gOEsXBwdjcdTEqNz4MGn59gZX0Mkdy+-+Be7LPQ@mail.gmail.com>
-Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
-To: Hector Martin <marcan@marcan.st>
-Cc: Lee Jones <lee@kernel.org>, Russell King <rmk+kernel@armlinux.org.uk>, 
-	Arnd Bergmann <arnd@arndb.de>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-arm-kernel@lists.infradead.org, 
-	linux-gpio@vger.kernel.org, Sven Peter <sven@svenpeter.dev>
-Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 8, 2022 at 2:58 PM Hector Martin <marcan@marcan.st> wrote:
+On Thu, 08 Sep 2022, Hector Martin wrote:
 
+> On 08/09/2022 21.31, Lee Jones wrote:
+> > On Thu, 08 Sep 2022, Hector Martin wrote:
+> >> But it's not exactly your
+> >> typical MFD device (it's not even a separate chip, it's part of the main
+> >> SoC), so I'm not sure if it really belongs in mfd/ from an
+> >> organizational standpoint?
+> > 
+> > There is a strong argument for all SoCs to be classed as (massive)
+> > MFDs.  However seeing as they represent more of a whole platform,
+> > rather than an add-on chip, we have had the sense to represent them
+> > differently.  Some such submissions I have made explicit requests to be
+> > moved form drivers/mfd *into* drivers/platform in the past.
+> > 
+> > Most SoCs are solely represented in DT, omitting the requirement for
+> > subsequent device registration.  Have you considered this?  If so, why
+> > does this not suit your use-case?
+> 
+> This driver and a subset of its sub-drivers are intended to generalize
+> (via different backends, but no changes to sub-drivers) to legacy and T2
+> Mac platforms, eventually superseding applesmc (which is in hwmon/
+> because it started out as that, but has now grown random features and is
+> quite a mess). Those are are Intel/UEFI machines and not DT platforms,
+> and on those the SMC is actually a separate chip in some form (much like
+> an EC).
+
+Understood.  Fair point.
+
+> > The long and the short of it is; if you wish to treat this device, or
+> > at least a section of it, as a type of MFD, then please draft that
+> > part of it as an MFD driver, residing in drivers/mfd.  If it's "not
+> > really an MFD", then find another way to represent the conglomeration
+> > please.
+> > 
 > > If the MFD route is the best, then you can register each of the
 > > devices, including the *-core from drivers/mfd.  Grep for "cross-ec"
 > > as a relatively recently good example.
->
+> 
 > I think cros-ec is similar enough, yeah. As long as you don't mind
 > having the core codebase in mfd/ (4 files: core, rtkit backend, and
 > future T2 and legacy backends) we can do that.
 
-I'd even suggest its own subfolder under MFD, if you already know
-that there will likely be more than these 4 files.
+That's actually not what I'm suggesting.
 
-Though nothing else has a subdirectory in MFD right now so
-maybe Lee should approve of that first...
+You *only* need to move the subsequent-device-registration handling
+into drivers/mfd.  The remainder really should be treated as Platform
+(not to be confused with Arch Platform) code and should reside in
+drivers/platform.  Just as we do with cros-ec.
 
-The obvious upside to using MFD is that it has an active maintainer
-and patches get reviewed and merged swiftly, whereas
-drivers/platform is usually managed by SoC and x86 tip maintainers
-and what not.
-
-Yours,
-Linus Walleij
+-- 
+Lee Jones [李琼斯]
