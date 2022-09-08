@@ -1,159 +1,229 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30E347C;
-	Thu,  8 Sep 2022 10:26:09 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 94A8D14BF;
-	Thu,  8 Sep 2022 03:26:14 -0700 (PDT)
-Received: from [10.57.15.197] (unknown [10.57.15.197])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D059C3F71A;
-	Thu,  8 Sep 2022 03:25:52 -0700 (PDT)
-Message-ID: <7ef259b2-121e-643e-49c2-0b65923d392d@arm.com>
-Date: Thu, 8 Sep 2022 11:25:46 +0100
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDD57C
+	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 10:58:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F164C433C1;
+	Thu,  8 Sep 2022 10:58:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1662634722;
+	bh=49jEeNsIKQoe/Dx0yaIkSCvAc5oDN3iWQSfhKBoPbqM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qiRynBjVkZgLcSlAmEC0sG3H832NG2XxGy5AtuYB/WnmkXs06wIhMN6McDmmydctx
+	 YQSHiRhb0wFw79FTz3C0158OdQpJZ1CecoWMuZx5G3vC8P9fxYHAZdc8cpnU1Fdw9Q
+	 90nX0FZSSS4TWRA5+595HDlkATqYkzDJNWeT2Girz8AUHeVRYFm7l8ZQIPKEmsFvDH
+	 JgMtDrjrtgLWzRsJ7drFyGqVTB3qzuTfRQntc7HVRxjCJnKz9AdYSVNViJupa6Cxi9
+	 1DbEP+2/q0Oz+1y4dps5C73RWS/NOFyf9jw3v6OrsEzsTF6NzDunO/6Jv+YaNm+Uti
+	 jkljPyEM2jGGA==
+Date: Thu, 8 Sep 2022 11:58:36 +0100
+From: Lee Jones <lee@kernel.org>
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Hector Martin <marcan@marcan.st>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
+Message-ID: <YxnK3LeyfacKssLT@google.com>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+ <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.2.1
-Subject: Re: [PATCH v6 1/5] iommu: Return -EMEDIUMTYPE for incompatible domain
- and device/group
-Content-Language: en-GB
-To: Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, will@kernel.org,
- alex.williamson@redhat.com, suravee.suthikulpanit@amd.com, marcan@marcan.st,
- sven@svenpeter.dev, alyssa@rosenzweig.io, robdclark@gmail.com,
- dwmw2@infradead.org, baolu.lu@linux.intel.com, mjrosato@linux.ibm.com,
- gerald.schaefer@linux.ibm.com, orsonzhai@gmail.com,
- baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
- thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
- jean-philippe@linaro.org, cohuck@redhat.com, tglx@linutronix.de,
- shameerali.kolothum.thodi@huawei.com, thunder.leizhen@huawei.com,
- christophe.jaillet@wanadoo.fr, yangyingliang@huawei.com, jon@solid-run.com,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
- virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
- kevin.tian@intel.com
-References: <20220815181437.28127-1-nicolinc@nvidia.com>
- <20220815181437.28127-2-nicolinc@nvidia.com> <YxiRkm7qgQ4k+PIG@8bytes.org>
- <Yxig+zfA2Pr4vk6K@nvidia.com> <9f91f187-2767-13f9-68a2-a5458b888f00@arm.com>
- <YxjOPo5FFqu2vE/g@nvidia.com> <0b466705-3a17-1bbc-7ef2-5adadc22d1ae@arm.com>
- <Yxk6sR4JiAAn3Jf5@nvidia.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <Yxk6sR4JiAAn3Jf5@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
 
-On 2022-09-08 01:43, Jason Gunthorpe wrote:
-> On Wed, Sep 07, 2022 at 08:41:13PM +0100, Robin Murphy wrote:
-> 
->>>> FWIW, we're now very close to being able to validate dev->iommu against
->>>> where the domain came from in core code, and so short-circuit ->attach_dev
->>>> entirely if they don't match.
->>>
->>> I don't think this is a long term direction. We have systems now with
->>> a number of SMMU blocks and we really are going to see a need that
->>> they share the iommu_domains so we don't have unncessary overheads
->>> from duplicated io page table memory.
->>>
->>> So ultimately I'd expect to pass the iommu_domain to the driver and
->>> the driver will decide if the page table memory it represents is
->>> compatible or not. Restricting to only the same iommu instance isn't
->>> good..
->>
->> Who said IOMMU instance?
-> 
-> Ah, I completely misunderstood what 'dev->iommu' was referring too, OK
-> I see.
-> 
->> Again, not what I was suggesting. In fact the nature of iommu_attach_group()
->> already rules out bogus devices getting this far, so all a driver currently
->> has to worry about is compatibility of a device that it definitely probed
->> with a domain that it definitely allocated. Therefore, from a caller's point
->> of view, if attaching to an existing domain returns -EINVAL, try another
->> domain; multiple different existing domains can be tried, and may also
->> return -EINVAL for the same or different reasons; the final attempt is to
->> allocate a fresh domain and attach to that, which should always be nominally
->> valid and *never* return -EINVAL. If any attempt returns any other error,
->> bail out down the usual "this should have worked but something went wrong"
->> path. Even if any driver did have a nonsensical "nothing went wrong, I just
->> can't attach my device to any of my domains" case, I don't think it would
->> really need distinguishing from any other general error anyway.
-> 
-> The algorithm you described is exactly what this series does, it just
-> used EMEDIUMTYPE instead of EINVAL. Changing it to EINVAL is not a
-> fundamental problem, just a bit more work.
-> 
-> Looking at Nicolin's series there is a bunch of existing errnos that
-> would still need converting, ie EXDEV, EBUSY, EOPNOTSUPP, EFAULT, and
-> ENXIO are all returned as codes for 'domain incompatible with device'
-> in various drivers. So the patch would still look much the same, just
-> changing them to EINVAL instead of EMEDIUMTYPE.
-> 
-> That leaves the question of the remaining EINVAL's that Nicolin did
-> not convert to EMEDIUMTYPE.
-> 
-> eg in the AMD driver:
-> 
-> 	if (!check_device(dev))
-> 		return -EINVAL;
-> 
-> 	iommu = rlookup_amd_iommu(dev);
-> 	if (!iommu)
-> 		return -EINVAL;
-> 
-> These are all cases of 'something is really wrong with the device or
-> iommu, everything will fail'. Other drivers are using ENODEV for this
-> already, so we'd probably have an additional patch changing various
-> places like that to ENODEV.
-> 
-> This mixture of error codes is the basic reason why a new code was
-> used, because none of the existing codes are used with any
-> consistency.
-> 
-> But OK, I'm on board, lets use more common errnos with specific
-> meaning, that can be documented in a comment someplace:
->   ENOMEM - out of memory
->   ENODEV - no domain can attach, device or iommu is messed up
->   EINVAL - the domain is incompatible with the device
->   <others> - Same behavior as ENODEV, use is discouraged.
-> 
-> I think achieving consistency of error codes is a generally desirable
-> goal, it makes the error code actually useful.
-> 
-> Joerg this is a good bit of work, will you be OK with it?
-> 
->> Thus as long as we can maintain that basic guarantee that attaching
->> a group to a newly allocated domain can only ever fail for resource
->> allocation reasons and not some spurious "incompatibility", then we
->> don't need any obscure trickery, and a single, clear, error code is
->> in fact enough to say all that needs to be said.
-> 
-> As above, this is not the case, drivers do seem to have error paths
-> that are unconditional on the domain. Perhaps they are just protective
-> assertions and never happen.
+On Thu, 01 Sep 2022, Russell King wrote:
 
-Right, that's the gist of what I was getting at - I think it's worth 
-putting in the effort to audit and fix the drivers so that that *can* be 
-the case, then we can have a meaningful error API with standard codes 
-effectively for free, rather than just sighing at the existing mess and 
-building a slightly esoteric special case on top.
-
-Case in point, the AMD checks quoted above are pointless, since it 
-checks the same things in ->probe_device, and if that fails then the 
-device won't get a group so there's no way for it to even reach 
-->attach_dev any more. I'm sure there's a *lot* of cruft that can be 
-cleared out now that per-device and per-domain ops give us this kind of 
-inherent robustness.
-
-Cheers,
-Robin.
-
-> Regardless, it doesn't matter. If they return ENODEV or EINVAL the
-> VFIO side algorithm will continue to work fine, it just does alot more
-> work if EINVAL is permanently returned.
+> From: Hector Martin <marcan@marcan.st>
 > 
-> Thanks,
-> Jason
+> This driver implements support for the SMC (System Management
+> Controller) in Apple Macs. In contrast to the existing applesmc driver,
+> it uses pluggable backends that allow it to support different SMC
+> implementations, and uses the MFD subsystem to expose the core SMC
+> functionality so that specific features (gpio, hwmon, battery, etc.) can
+> be implemented by separate drivers in their respective downstream
+> subsystems.
+> 
+> The initial RTKit backend adds support for Apple Silicon Macs (M1 et
+> al). We hope a backend for T2 Macs will be written in the future
+> (since those are not supported by applesmc), and eventually an x86
+> backend would allow us to fully deprecate applesmc in favor of this
+> driver.
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> ---
+>  drivers/platform/Kconfig           |   2 +
+>  drivers/platform/Makefile          |   1 +
+>  drivers/platform/apple/Kconfig     |  49 ++++
+>  drivers/platform/apple/Makefile    |  11 +
+>  drivers/platform/apple/smc.h       |  28 ++
+>  drivers/platform/apple/smc_core.c  | 249 ++++++++++++++++
+>  drivers/platform/apple/smc_rtkit.c | 451 +++++++++++++++++++++++++++++
+>  include/linux/mfd/macsmc.h         |  86 ++++++
+>  8 files changed, 877 insertions(+)
+>  create mode 100644 drivers/platform/apple/Kconfig
+>  create mode 100644 drivers/platform/apple/Makefile
+>  create mode 100644 drivers/platform/apple/smc.h
+>  create mode 100644 drivers/platform/apple/smc_core.c
+>  create mode 100644 drivers/platform/apple/smc_rtkit.c
+>  create mode 100644 include/linux/mfd/macsmc.h
+> 
+> diff --git a/drivers/platform/Kconfig b/drivers/platform/Kconfig
+> index b437847b6237..5f8b9bcdb830 100644
+> --- a/drivers/platform/Kconfig
+> +++ b/drivers/platform/Kconfig
+> @@ -13,4 +13,6 @@ source "drivers/platform/olpc/Kconfig"
+>  
+>  source "drivers/platform/surface/Kconfig"
+>  
+> +source "drivers/platform/apple/Kconfig"
+> +
+>  source "drivers/platform/x86/Kconfig"
+> diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
+> index 4de08ef4ec9d..3e5d5039a28c 100644
+> --- a/drivers/platform/Makefile
+> +++ b/drivers/platform/Makefile
+> @@ -10,3 +10,4 @@ obj-$(CONFIG_OLPC_EC)		+= olpc/
+>  obj-$(CONFIG_GOLDFISH)		+= goldfish/
+>  obj-$(CONFIG_CHROME_PLATFORMS)	+= chrome/
+>  obj-$(CONFIG_SURFACE_PLATFORMS)	+= surface/
+> +obj-$(CONFIG_APPLE_PLATFORMS)	+= apple/
+> diff --git a/drivers/platform/apple/Kconfig b/drivers/platform/apple/Kconfig
+> new file mode 100644
+> index 000000000000..42525aa9fbbe
+> --- /dev/null
+> +++ b/drivers/platform/apple/Kconfig
+> @@ -0,0 +1,49 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Apple Platform-Specific Drivers
+> +#
+> +
+> +menuconfig APPLE_PLATFORMS
+> +	bool "Apple Mac Platform-Specific Device Drivers"
+> +	default y
+> +	help
+> +	  Say Y here to get to see options for platform-specific device drivers
+> +	  for Apple devices. This option alone does not add any kernel code.
+> +
+> +	  If you say N, all options in this submenu will be skipped and disabled.
+> +
+> +if APPLE_PLATFORMS
+> +
+> +config APPLE_SMC
+> +	tristate "Apple SMC Driver"
+> +	depends on ARCH_APPLE || COMPILE_TEST
+> +	default ARCH_APPLE
+> +	select MFD_CORE
+> +	help
+> +	  Build support for the Apple System Management Controller present in
+> +	  Apple Macs. This driver currently supports the SMC in Apple Silicon
+> +	  Macs. For x86 Macs, see the applesmc driver (SENSORS_APPLESMC).
+> +
+> +	  Say Y here if you have an Apple Silicon Mac.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called macsmc.
+> +
+> +if APPLE_SMC
+> +
+> +config APPLE_SMC_RTKIT
+> +	tristate "RTKit (Apple Silicon) backend"
+> +	depends on ARCH_APPLE || COMPILE_TEST
+> +	depends on APPLE_RTKIT
+> +	default ARCH_APPLE
+> +	help
+> +	  Build support for SMC communications via the RTKit backend. This is
+> +	  required for Apple Silicon Macs.
+> +
+> +	  Say Y here if you have an Apple Silicon Mac.
+> +
+> +	  To compile this driver as a module, choose M here: the module will
+> +	  be called macsmc-rtkit.
+> +
+> +endif
+> +endif
+> diff --git a/drivers/platform/apple/Makefile b/drivers/platform/apple/Makefile
+> new file mode 100644
+> index 000000000000..79fac195398b
+> --- /dev/null
+> +++ b/drivers/platform/apple/Makefile
+> @@ -0,0 +1,11 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Makefile for linux/drivers/platform/apple
+> +# Apple Platform-Specific Drivers
+> +#
+> +
+> +macsmc-y				+= smc_core.o
+> +macsmc-rtkit-y				+= smc_rtkit.o
+> +
+> +obj-$(CONFIG_APPLE_SMC)			+= macsmc.o
+> +obj-$(CONFIG_APPLE_SMC_RTKIT)		+= macsmc-rtkit.o
+> diff --git a/drivers/platform/apple/smc.h b/drivers/platform/apple/smc.h
+> new file mode 100644
+> index 000000000000..8ae51887b2c5
+> --- /dev/null
+> +++ b/drivers/platform/apple/smc.h
+> @@ -0,0 +1,28 @@
+> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
+> +/*
+> + * Apple SMC internal core definitions
+> + * Copyright (C) The Asahi Linux Contributors
+> + */
+> +
+> +#ifndef _SMC_H
+> +#define _SMC_H
+> +
+> +#include <linux/mfd/macsmc.h>
+> +
+> +struct apple_smc_backend_ops {
+> +	int (*read_key)(void *cookie, smc_key key, void *buf, size_t size);
+> +	int (*write_key)(void *cookie, smc_key key, void *buf, size_t size);
+> +	int (*write_key_atomic)(void *cookie, smc_key key, void *buf, size_t size);
+> +	int (*rw_key)(void *cookie, smc_key key, void *wbuf, size_t wsize,
+> +		      void *rbuf, size_t rsize);
+> +	int (*get_key_by_index)(void *cookie, int index, smc_key *key);
+> +	int (*get_key_info)(void *cookie, smc_key key, struct apple_smc_key_info *info);
+> +};
+> +
+> +struct apple_smc *apple_smc_probe(struct device *dev, const struct apple_smc_backend_ops *ops,
+> +				  void *cookie);
+> +void *apple_smc_get_cookie(struct apple_smc *smc);
+> +int apple_smc_remove(struct apple_smc *smc);
+> +void apple_smc_event_received(struct apple_smc *smc, uint32_t event);
+> +
+> +#endif
+> diff --git a/drivers/platform/apple/smc_core.c b/drivers/platform/apple/smc_core.c
+> new file mode 100644
+> index 000000000000..daf029cd072f
+> --- /dev/null
+> +++ b/drivers/platform/apple/smc_core.c
+> @@ -0,0 +1,249 @@
+> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
+> +/*
+> + * Apple SMC core framework
+> + * Copyright The Asahi Linux Contributors
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/mfd/core.h>
+
+Please refrain from using the MFD API outside of drivers/mfd.
+
+If you need an MFD driver, please separate it out.
+
+If not, please replace it with the platform_*() API instead.
+
+Thanks.
+
+-- 
+Lee Jones [李琼斯]
