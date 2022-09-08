@@ -1,100 +1,79 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9286D7C;
-	Thu,  8 Sep 2022 13:28:25 +0000 (UTC)
-Received: from 8bytes.org (p4ff2bb62.dip0.t-ipconnect.de [79.242.187.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 6ACB624069C;
-	Thu,  8 Sep 2022 15:28:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1662643704;
-	bh=tDuhKm9wQfdx7sUd4hZrnBHJRGruWciJVuKdXgXOhg8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nbzo8AaKCmLcJF6ywBTO/rjFGCww8jqPWoQ6WcBpBVILlVrrzm/ywTVSN6gtAJpvI
-	 A4WA5AxpHDg5Sd62NU3n5V/Vi1+huBSshzEAQAZS7xn++DhH0oznzPGAGwNcfBbTfq
-	 Twt1k1zJR6eHTY8BdmbO1Ww2bxQuZSP3YVyPip5R53rnIHglAbsB0bCYX0JzWlq5Om
-	 M3nAYqpIKCggsduzZcJAnKN/jYWRx4aw2vg7FWSxO/QqqKt7N7pAfFXxtOG8goJGLV
-	 xuiUyCTz0ghn5xX8vuVnC49wxhLLFEBrREVNPwdgKbdzr/ZwBoayTRYmgPniXvM4Pl
-	 wZdcX65MXNFqw==
-Date: Thu, 8 Sep 2022 15:28:22 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, will@kernel.org,
-	robin.murphy@arm.com, alex.williamson@redhat.com,
-	suravee.suthikulpanit@amd.com, marcan@marcan.st, sven@svenpeter.dev,
-	alyssa@rosenzweig.io, robdclark@gmail.com, dwmw2@infradead.org,
-	baolu.lu@linux.intel.com, mjrosato@linux.ibm.com,
-	gerald.schaefer@linux.ibm.com, orsonzhai@gmail.com,
-	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
-	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
-	jean-philippe@linaro.org, cohuck@redhat.com, tglx@linutronix.de,
-	shameerali.kolothum.thodi@huawei.com, thunder.leizhen@huawei.com,
-	christophe.jaillet@wanadoo.fr, yangyingliang@huawei.com,
-	jon@solid-run.com, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-tegra@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
-	kevin.tian@intel.com
-Subject: Re: [PATCH v6 1/5] iommu: Return -EMEDIUMTYPE for incompatible
- domain and device/group
-Message-ID: <Yxnt9uQTmbqul5lf@8bytes.org>
-References: <20220815181437.28127-1-nicolinc@nvidia.com>
- <20220815181437.28127-2-nicolinc@nvidia.com>
- <YxiRkm7qgQ4k+PIG@8bytes.org>
- <Yxig+zfA2Pr4vk6K@nvidia.com>
- <YxilZbRL0WBR97oi@8bytes.org>
- <YxjQiVnpU0dr7SHC@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A037C
+	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 13:29:57 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id lz22so17206684ejb.3
+        for <asahi@lists.linux.dev>; Thu, 08 Sep 2022 06:29:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=PDuAPZrpPEtZS68Yxx+kwA9YlOfP3w3tOQUXiw/qzS8=;
+        b=QH57RwMVu8vMSoQCu6D5f9wGqQlvcOcmb4CopxZrOhkFCWLbwJ6AOwCi0TTzqbNsRA
+         cBJMO3DjLvPIPMLbAL+8736YVIyS6wv3WRZ/0DXmx0DCWf5SeffWDFdEenHY1bTY+LPk
+         7TO1CeDgQMhSHrZi3G1sdNaDAjHhpQr2EET5Q9aAbm7LsPqInO24KZi6tAVjKw65jd2i
+         FCK1JTYESyuAYtTOYvp5qht7U02LmNdSDveT2UlQPw0kP5uRiFqf61QkdOoyg1XZnWNm
+         /7/ISSMyI1NbbedTVgrPhfw1wBHBxTS9jXPP2GbE+qXLjpx82IhMf5mfq8xn1AdW7mvb
+         YtZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=PDuAPZrpPEtZS68Yxx+kwA9YlOfP3w3tOQUXiw/qzS8=;
+        b=dFgRs4PuWXcmnl48SSESuPvbYKX8ZT5NvS98yL8hL3kkadgh6+dYoYOoZzV4+D4aZP
+         5iz0GivcqSx2ZVTEzvgSB/LtHu1RATQ8NSsHjIOWLAGj9IUjVqQu5EClzXW0w0NRKo0n
+         k+AoKVyWMTicI5QME06mmjRjFA+YFgTPNDEvvg6e9k2Bwsx7SGrto8IUrLTbjvs7Vc2L
+         5o4Txl0btwJjobALKPSGkqsA1KdJJiw1BddxBIrtsXLvgt8R/Fnmu6j/1ncb4kvsyAxC
+         duXBBSSLYHi2Ygcqd9GPIlJ0cRI0WJvSEEno4NrmzeLYV5CBCEEUWyuU7FBYvzvg7rC0
+         p27A==
+X-Gm-Message-State: ACgBeo0OgqbSAgOD/8f8wN7a0nlv4Skf600tWjI/Lg68+SjPFXq0vW/F
+	Nru7ZDNWLNk6HJ5/Z3rk2JlAwEEcX5nbll7F8l6wbKjnm3c=
+X-Google-Smtp-Source: AA6agR7zssRGYnqc5tnQE6Pq9ZVgR66W//Jr1xQ+ados38ww6SnvXF3vj7pDozd5PzloL51ZyUnMbu/bJsxChqtBddg=
+X-Received: by 2002:a17:907:7242:b0:741:770b:dfc6 with SMTP id
+ ds2-20020a170907724200b00741770bdfc6mr6050505ejc.203.1662643795629; Thu, 08
+ Sep 2022 06:29:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YxjQiVnpU0dr7SHC@nvidia.com>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk> <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
+ <YxnK3LeyfacKssLT@google.com> <45ed0a37-60ac-3a06-92d1-6b30e18261ff@marcan.st>
+ <YxngtlhRLTVBw+iW@google.com> <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
+In-Reply-To: <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 8 Sep 2022 15:29:44 +0200
+Message-ID: <CACRpkdZpu-3gOEsXBwdjcdTEqNz4MGn59gZX0Mkdy+-+Be7LPQ@mail.gmail.com>
+Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
+To: Hector Martin <marcan@marcan.st>
+Cc: Lee Jones <lee@kernel.org>, Russell King <rmk+kernel@armlinux.org.uk>, 
+	Arnd Bergmann <arnd@arndb.de>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-arm-kernel@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, Sven Peter <sven@svenpeter.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 07, 2022 at 02:10:33PM -0300, Jason Gunthorpe wrote:
-> Sure, rust has all sorts of nice things. But the kernel doesn't follow
-> rust idioms, and I don't think this is a great place to start
-> experimenting with them.
+On Thu, Sep 8, 2022 at 2:58 PM Hector Martin <marcan@marcan.st> wrote:
 
-It is actually a great place to start experimenting. The IOMMU
-interfaces are rather domain specific and if we get something wrong the
-damage is limited to a few callers. There are APIs much more exposed in
-the kernel which would be worse for that.
+> > If the MFD route is the best, then you can register each of the
+> > devices, including the *-core from drivers/mfd.  Grep for "cross-ec"
+> > as a relatively recently good example.
+>
+> I think cros-ec is similar enough, yeah. As long as you don't mind
+> having the core codebase in mfd/ (4 files: core, rtkit backend, and
+> future T2 and legacy backends) we can do that.
 
-But anyway, I am not insisting on it.
+I'd even suggest its own subfolder under MFD, if you already know
+that there will likely be more than these 4 files.
 
-> It has been 3 months since EMEDIUMTYPE was first proposed and 6
-> iterations of the series, don't you think it is a bit late in the game
-> to try to experiment with rust error handling idioms?
+Though nothing else has a subdirectory in MFD right now so
+maybe Lee should approve of that first...
 
-If I am not mistaken, I am the person who gets blamed when crappy IOMMU
-code is sent upstream. So it is also up to me to decide in which state
-and how close to merging a given patch series is an whether it is
-already 'late in the game'.
+The obvious upside to using MFD is that it has an active maintainer
+and patches get reviewed and merged swiftly, whereas
+drivers/platform is usually managed by SoC and x86 tip maintainers
+and what not.
 
-> So, again, would you be happy with a simple 
-> 
->  #define IOMMU_EINCOMPATIBLE_DEVICE xx
-> 
-> to make it less "re-using random error codes"?
-
-I am wondering if this can be solved by better defining what the return
-codes mean and adjust the call-back functions to match the definition.
-Something like:
-
-	-ENODEV : Device not mapped my an IOMMU
-	-EBUSY  : Device attached and domain can not be changed
-	-EINVAL : Device and domain are incompatible
-	...
-
-That would be much more intuitive than using something obscure like
-EMEDIUMTYPE.
-
-Regards,
-
-	Joerg
+Yours,
+Linus Walleij
