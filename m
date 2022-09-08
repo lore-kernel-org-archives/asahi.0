@@ -1,26 +1,45 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1797C
-	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 11:38:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 8A4174203C;
-	Thu,  8 Sep 2022 11:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1662636542; bh=Gf+Vc3LMu+/P98tObzo911spVumaTP5jk1W7ju8dPNU=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=v093FjhPqaTwD/yFEQq6RJVVJSkx3xG1C9OLGuJRmuEEUPbLn9b3UMC5SBaW7r9T5
-	 b4BwRoG7bTeVI3PFYAYSisJpYvgbRL//3HGzeRpPL2x2vRSH0PHuOtBe+z4yk0Pd1L
-	 TM/+YcvKMc793d+FBx3465ZHc+i64/tN4Jga2hBku1UFH/3sYZ+lwV3O5LOvk6tRt/
-	 hPv46W1RfEyVtPktiFZ/NEBiQ90KTNub5ipswSwtwWTjiL+hoZHgu1eWtEtZof4d/u
-	 WN7A9q44gc7Q9IjWRJrdFFM0o4KfGSi9vI2LjOWXl9dWDahj+vORNad0pimdU5lbt6
-	 +UIwzqHs8pIAA==
-Message-ID: <45ed0a37-60ac-3a06-92d1-6b30e18261ff@marcan.st>
-Date: Thu, 8 Sep 2022 20:28:56 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6660D7C
+	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 11:42:20 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id b19so19530505ljf.8
+        for <asahi@lists.linux.dev>; Thu, 08 Sep 2022 04:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=rGbehmmbFjGdP39Tva2lX3JsZ3RKZXRTihQXkTFVj0Y=;
+        b=u6D+fKJ2Lhfyp6EpZaftp621lBz6Wd859kwOBiqFQ3lUxvV9CWJbk8wOUpHBKAnWOJ
+         Ay19wrgdZbZWV7IS7+EwTdDnyzs1gQo+vI4ToLdDyGdhHkq1VlOwt7MAYkg9PE1lU6qo
+         F16V9/sqUWF0TWbcg/8py5MBiAGP+i7UlE06Zvuba3U2XsCSkq0BGs6XNK1XPEcmncx3
+         j5w4fQ2F/4zInUlUf2dTKh4Myma9gGm+JZNaFR8GdOtrtDQwJ1WGRKxb5AUbN+YFwZap
+         w16k9HfAxB5IseMpsnbuKf1KdTr3ZczXUc4GMFHag3eMo9Kbo/zinntSpaM1kmLh/0h9
+         UmPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=rGbehmmbFjGdP39Tva2lX3JsZ3RKZXRTihQXkTFVj0Y=;
+        b=fI9OpkqTVMEyP/o6fcLZ2W1WGk1h7NPlGT0i1iuIu5ujdDCS+t8XF7WEBqBKgxKyO2
+         w6bJUUBn94jp4w8wu+xV4kQ0jQcJGVJuUACa1W0qhtMRN/qeAVWl++PGZO6zg6eLmGzd
+         krDRTRm3S3WCtmCaV7ov+epK7xh4/tb+RdT79eNMfpuLWy4QJXAhlns9wPYKJRDxgpk0
+         p6EMQHCluHXAfblP82P+p4ywfbYM0dH1/B2tIL9vIuBx273ypSJoky72KRUB3PB8c6Vr
+         +se1aFDy3ro48gnklNyECdVPpe5OGLPAkdddEtnHnSoKock/XGa26KKN0dQx1NufJbZ6
+         q2EQ==
+X-Gm-Message-State: ACgBeo0q6DSx0+/obIb/IKNG4aEW55H2a7j6okZ+ieLdQ3sdAkLUqHtg
+	X9jCFrw53EARqFwWKfC+CKq4w99YJ2hO8g==
+X-Google-Smtp-Source: AA6agR4ui+DsaI/rx9G71gnDc6YAJvWKPoB3zCyZaJ1nLjK+vVvOPNBMn6vOY0NTUCUZDxAiUFpecw==
+X-Received: by 2002:a05:651c:1a26:b0:269:15ee:809a with SMTP id by38-20020a05651c1a2600b0026915ee809amr2203010ljb.307.1662636900510;
+        Thu, 08 Sep 2022 04:35:00 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id v25-20020a05651203b900b00497aae401f8sm770409lfp.184.2022.09.08.04.34.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Sep 2022 04:34:59 -0700 (PDT)
+Message-ID: <d0dacbf4-3768-7bbf-77a5-957bb37cd2b7@linaro.org>
+Date: Thu, 8 Sep 2022 13:34:58 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -28,227 +47,49 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: es-ES
-To: Lee Jones <lee@kernel.org>, Russell King <rmk+kernel@armlinux.org.uk>
-Cc: Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, Sven Peter <sven@svenpeter.dev>
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk> <YxnK3LeyfacKssLT@google.com>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
-In-Reply-To: <YxnK3LeyfacKssLT@google.com>
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 2/5] dt-bindings: net: Add Broadcom BCM4377 family PCIe
+ Bluetooth
+Content-Language: en-US
+To: =?UTF-8?Q?Martin_Povi=c5=a1er?= <povik@cutebit.org>
+Cc: Sven Peter <sven@svenpeter.dev>, Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ asahi@lists.linux.dev, netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20220907170935.11757-1-sven@svenpeter.dev>
+ <20220907170935.11757-3-sven@svenpeter.dev>
+ <bcb799ea-d58e-70dc-c5c2-daaff1b19bf5@linaro.org>
+ <E53D41D9-1675-42EB-BC76-3453043FCB6E@cutebit.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <E53D41D9-1675-42EB-BC76-3453043FCB6E@cutebit.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 08/09/2022 19.58, Lee Jones wrote:
-> On Thu, 01 Sep 2022, Russell King wrote:
-> 
->> From: Hector Martin <marcan@marcan.st>
+On 08/09/2022 13:29, Martin Povišer wrote:
+>>> + brcm,taurus-cal-blob:
+>>> + $ref: /schemas/types.yaml#/definitions/uint8-array
+>>> + description: A per-device calibration blob for the Bluetooth radio. This
+>>> + should be filled in by the bootloader from platform configuration
+>>> + data, if necessary, and will be uploaded to the device.
+>>> + This blob is used if the chip stepping of the Bluetooth module does not
+>>> + support beamforming.
 >>
->> This driver implements support for the SMC (System Management
->> Controller) in Apple Macs. In contrast to the existing applesmc driver,
->> it uses pluggable backends that allow it to support different SMC
->> implementations, and uses the MFD subsystem to expose the core SMC
->> functionality so that specific features (gpio, hwmon, battery, etc.) can
->> be implemented by separate drivers in their respective downstream
->> subsystems.
->>
->> The initial RTKit backend adds support for Apple Silicon Macs (M1 et
->> al). We hope a backend for T2 Macs will be written in the future
->> (since those are not supported by applesmc), and eventually an x86
->> backend would allow us to fully deprecate applesmc in favor of this
->> driver.
->>
->> Signed-off-by: Hector Martin <marcan@marcan.st>
->> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
->> ---
->>  drivers/platform/Kconfig           |   2 +
->>  drivers/platform/Makefile          |   1 +
->>  drivers/platform/apple/Kconfig     |  49 ++++
->>  drivers/platform/apple/Makefile    |  11 +
->>  drivers/platform/apple/smc.h       |  28 ++
->>  drivers/platform/apple/smc_core.c  | 249 ++++++++++++++++
->>  drivers/platform/apple/smc_rtkit.c | 451 +++++++++++++++++++++++++++++
->>  include/linux/mfd/macsmc.h         |  86 ++++++
->>  8 files changed, 877 insertions(+)
->>  create mode 100644 drivers/platform/apple/Kconfig
->>  create mode 100644 drivers/platform/apple/Makefile
->>  create mode 100644 drivers/platform/apple/smc.h
->>  create mode 100644 drivers/platform/apple/smc_core.c
->>  create mode 100644 drivers/platform/apple/smc_rtkit.c
->>  create mode 100644 include/linux/mfd/macsmc.h
->>
->> diff --git a/drivers/platform/Kconfig b/drivers/platform/Kconfig
->> index b437847b6237..5f8b9bcdb830 100644
->> --- a/drivers/platform/Kconfig
->> +++ b/drivers/platform/Kconfig
->> @@ -13,4 +13,6 @@ source "drivers/platform/olpc/Kconfig"
->>  
->>  source "drivers/platform/surface/Kconfig"
->>  
->> +source "drivers/platform/apple/Kconfig"
->> +
->>  source "drivers/platform/x86/Kconfig"
->> diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
->> index 4de08ef4ec9d..3e5d5039a28c 100644
->> --- a/drivers/platform/Makefile
->> +++ b/drivers/platform/Makefile
->> @@ -10,3 +10,4 @@ obj-$(CONFIG_OLPC_EC)		+= olpc/
->>  obj-$(CONFIG_GOLDFISH)		+= goldfish/
->>  obj-$(CONFIG_CHROME_PLATFORMS)	+= chrome/
->>  obj-$(CONFIG_SURFACE_PLATFORMS)	+= surface/
->> +obj-$(CONFIG_APPLE_PLATFORMS)	+= apple/
->> diff --git a/drivers/platform/apple/Kconfig b/drivers/platform/apple/Kconfig
->> new file mode 100644
->> index 000000000000..42525aa9fbbe
->> --- /dev/null
->> +++ b/drivers/platform/apple/Kconfig
->> @@ -0,0 +1,49 @@
->> +# SPDX-License-Identifier: GPL-2.0
->> +#
->> +# Apple Platform-Specific Drivers
->> +#
->> +
->> +menuconfig APPLE_PLATFORMS
->> +	bool "Apple Mac Platform-Specific Device Drivers"
->> +	default y
->> +	help
->> +	  Say Y here to get to see options for platform-specific device drivers
->> +	  for Apple devices. This option alone does not add any kernel code.
->> +
->> +	  If you say N, all options in this submenu will be skipped and disabled.
->> +
->> +if APPLE_PLATFORMS
->> +
->> +config APPLE_SMC
->> +	tristate "Apple SMC Driver"
->> +	depends on ARCH_APPLE || COMPILE_TEST
->> +	default ARCH_APPLE
->> +	select MFD_CORE
->> +	help
->> +	  Build support for the Apple System Management Controller present in
->> +	  Apple Macs. This driver currently supports the SMC in Apple Silicon
->> +	  Macs. For x86 Macs, see the applesmc driver (SENSORS_APPLESMC).
->> +
->> +	  Say Y here if you have an Apple Silicon Mac.
->> +
->> +	  To compile this driver as a module, choose M here: the module will
->> +	  be called macsmc.
->> +
->> +if APPLE_SMC
->> +
->> +config APPLE_SMC_RTKIT
->> +	tristate "RTKit (Apple Silicon) backend"
->> +	depends on ARCH_APPLE || COMPILE_TEST
->> +	depends on APPLE_RTKIT
->> +	default ARCH_APPLE
->> +	help
->> +	  Build support for SMC communications via the RTKit backend. This is
->> +	  required for Apple Silicon Macs.
->> +
->> +	  Say Y here if you have an Apple Silicon Mac.
->> +
->> +	  To compile this driver as a module, choose M here: the module will
->> +	  be called macsmc-rtkit.
->> +
->> +endif
->> +endif
->> diff --git a/drivers/platform/apple/Makefile b/drivers/platform/apple/Makefile
->> new file mode 100644
->> index 000000000000..79fac195398b
->> --- /dev/null
->> +++ b/drivers/platform/apple/Makefile
->> @@ -0,0 +1,11 @@
->> +# SPDX-License-Identifier: GPL-2.0
->> +#
->> +# Makefile for linux/drivers/platform/apple
->> +# Apple Platform-Specific Drivers
->> +#
->> +
->> +macsmc-y				+= smc_core.o
->> +macsmc-rtkit-y				+= smc_rtkit.o
->> +
->> +obj-$(CONFIG_APPLE_SMC)			+= macsmc.o
->> +obj-$(CONFIG_APPLE_SMC_RTKIT)		+= macsmc-rtkit.o
->> diff --git a/drivers/platform/apple/smc.h b/drivers/platform/apple/smc.h
->> new file mode 100644
->> index 000000000000..8ae51887b2c5
->> --- /dev/null
->> +++ b/drivers/platform/apple/smc.h
->> @@ -0,0 +1,28 @@
->> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
->> +/*
->> + * Apple SMC internal core definitions
->> + * Copyright (C) The Asahi Linux Contributors
->> + */
->> +
->> +#ifndef _SMC_H
->> +#define _SMC_H
->> +
->> +#include <linux/mfd/macsmc.h>
->> +
->> +struct apple_smc_backend_ops {
->> +	int (*read_key)(void *cookie, smc_key key, void *buf, size_t size);
->> +	int (*write_key)(void *cookie, smc_key key, void *buf, size_t size);
->> +	int (*write_key_atomic)(void *cookie, smc_key key, void *buf, size_t size);
->> +	int (*rw_key)(void *cookie, smc_key key, void *wbuf, size_t wsize,
->> +		      void *rbuf, size_t rsize);
->> +	int (*get_key_by_index)(void *cookie, int index, smc_key *key);
->> +	int (*get_key_info)(void *cookie, smc_key key, struct apple_smc_key_info *info);
->> +};
->> +
->> +struct apple_smc *apple_smc_probe(struct device *dev, const struct apple_smc_backend_ops *ops,
->> +				  void *cookie);
->> +void *apple_smc_get_cookie(struct apple_smc *smc);
->> +int apple_smc_remove(struct apple_smc *smc);
->> +void apple_smc_event_received(struct apple_smc *smc, uint32_t event);
->> +
->> +#endif
->> diff --git a/drivers/platform/apple/smc_core.c b/drivers/platform/apple/smc_core.c
->> new file mode 100644
->> index 000000000000..daf029cd072f
->> --- /dev/null
->> +++ b/drivers/platform/apple/smc_core.c
->> @@ -0,0 +1,249 @@
->> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
->> +/*
->> + * Apple SMC core framework
->> + * Copyright The Asahi Linux Contributors
->> + */
->> +
->> +#include <linux/device.h>
->> +#include <linux/mfd/core.h>
+>> Isn't it:
+>> s/beamforming/beam forming/
+>> ?
 > 
-> Please refrain from using the MFD API outside of drivers/mfd.
-> 
-> If you need an MFD driver, please separate it out.
-> 
-> If not, please replace it with the platform_*() API instead.
+> Doesn’t seem like it:
+> https://www.google.com/search?hl=en&q=beam%20forming
 
-There is precedent for MFD devices under platform/:
+OK, thanks :)
 
-drivers/platform/x86/intel/int3472/tps68470.c
 
-As well as other examples in the tree:
-
-drivers/firmware/xilinx/zynqmp.c
-drivers/iio/common/ssp_sensors/ssp_dev.c
-drivers/misc/cardreader/alcor_pci.c
-drivers/misc/cardreader/rtsx_pcr.c
-drivers/misc/cardreader/rtsx_usb.c
-drivers/soc/samsung/exynos-pmu.c
-drivers/staging/nvec/nvec.c
-
-Since it's a driver for a platform-specific firmware service, I thought
-it made more sense in platform/ than mfd/. It's using the MFD API
-because the firmware exposes multiple subsystems, and this maps very
-nicely to the MFD model - NIHing that scaffolding would require a whole
-bunch of custom matching/device creation code. But it's not exactly your
-typical MFD device (it's not even a separate chip, it's part of the main
-SoC), so I'm not sure if it really belongs in mfd/ from an
-organizational standpoint?
-
-- Hector
+Best regards,
+Krzysztof
