@@ -1,229 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDD57C
-	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 10:58:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F164C433C1;
-	Thu,  8 Sep 2022 10:58:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1662634722;
-	bh=49jEeNsIKQoe/Dx0yaIkSCvAc5oDN3iWQSfhKBoPbqM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qiRynBjVkZgLcSlAmEC0sG3H832NG2XxGy5AtuYB/WnmkXs06wIhMN6McDmmydctx
-	 YQSHiRhb0wFw79FTz3C0158OdQpJZ1CecoWMuZx5G3vC8P9fxYHAZdc8cpnU1Fdw9Q
-	 90nX0FZSSS4TWRA5+595HDlkATqYkzDJNWeT2Girz8AUHeVRYFm7l8ZQIPKEmsFvDH
-	 JgMtDrjrtgLWzRsJ7drFyGqVTB3qzuTfRQntc7HVRxjCJnKz9AdYSVNViJupa6Cxi9
-	 1DbEP+2/q0Oz+1y4dps5C73RWS/NOFyf9jw3v6OrsEzsTF6NzDunO/6Jv+YaNm+Uti
-	 jkljPyEM2jGGA==
-Date: Thu, 8 Sep 2022 11:58:36 +0100
-From: Lee Jones <lee@kernel.org>
-To: Russell King <rmk+kernel@armlinux.org.uk>
-Cc: Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Hector Martin <marcan@marcan.st>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
-Message-ID: <YxnK3LeyfacKssLT@google.com>
-References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
- <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D69D17C
+	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 11:16:31 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id l12so11038042ljg.9
+        for <asahi@lists.linux.dev>; Thu, 08 Sep 2022 04:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=WOxGa6HDdZTkz+qaFAMzvcgUAVFd9V45w/3KQDKwpCI=;
+        b=QgYMkiugBcSQvEwKtmTDnsQFAgT1NHRFpcgN00InVwjf0e/82PfGO/50/cgJJNG+UE
+         IDviNRSwAUJcjGNR848LdzZUgBzup5swhYKMCMMCulJwOo/fYt4s9SwobZGHP00rTU3G
+         umbLymyj2oL6g1n4BHPInwe8bmP5sevNDdGM/1ivTzPSWxkbGmoMhVSB4j4FYQ4rM40M
+         tlRjvhjm2EVqZiUHkC3QvZXzVqYJzDqpufO5x2fAYdrB6fVZJwGuGrqLTsU1rEHgPlrX
+         nchASRVod92uw74+Ep/B4Tn7dU0WDJgcPXJnLL/gLQgOC8FQO2GEbXfvc+vC46IiHFQ7
+         mDxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=WOxGa6HDdZTkz+qaFAMzvcgUAVFd9V45w/3KQDKwpCI=;
+        b=DO52k0FDgfnHqqhSCH0mg3GDFyOB+UgkTkgUVXfTXduD4cn3LLgkwb+7zJoeAM0uvE
+         Ps7kU/9qt2tUbrmH/MuI30VB1VQtMT89HSvfmwpSOy/ZSL8nDw1Hhu0Y96RWfZ7Wxf5a
+         RW6uPxsfBM8mTwy1hZxO748IyeJAm1o1VLCvWblnHU2vpBdtNG/E8Y6Ok6DwfU4mvSX7
+         RdVu4HWUlqryZwR2pOJbisLNAUa1wEshUdjCZUL8cd3eZoM8wlCTOo2dvhe0rfYuGTbN
+         DzVoHvEqdLeM7QV9Ozzg3aUcDCH/0HrX51S6uETMM2CnhQo8UmE/QYvqBCDuY5WFPG2u
+         qSkw==
+X-Gm-Message-State: ACgBeo2VbZRk8lIN8Rfs6RM3qfzG+2RkH9fCoYK1frBMR4PAxBmpmclV
+	XQaPQeEs0dWKVADgE3fAJjlnxw==
+X-Google-Smtp-Source: AA6agR6kiJ4FX1LJJ/Uo44iVsHBip9Lv0pwLDM6D16vW1SGLhcD/fIU21n32DClqzX3EKl/GiPay4g==
+X-Received: by 2002:a05:651c:c86:b0:25e:7181:e1a5 with SMTP id bz6-20020a05651c0c8600b0025e7181e1a5mr2260875ljb.492.1662635789973;
+        Thu, 08 Sep 2022 04:16:29 -0700 (PDT)
+Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id a9-20020a196609000000b004946274b7d6sm2992129lfc.166.2022.09.08.04.16.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Sep 2022 04:16:29 -0700 (PDT)
+Message-ID: <35722313-6585-1748-6821-aebe0859ef6e@linaro.org>
+Date: Thu, 8 Sep 2022 13:16:28 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 1/5] dt-bindings: net: Add generic Bluetooth controller
+Content-Language: en-US
+To: Sven Peter <sven@svenpeter.dev>, Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Hector Martin <marcan@marcan.st>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Balakrishna Godavarthi <bgodavar@codeaurora.org>,
+ Rocky Liao <rjliao@codeaurora.org>, linux-arm-msm@vger.kernel.org
+References: <20220907170935.11757-1-sven@svenpeter.dev>
+ <20220907170935.11757-2-sven@svenpeter.dev>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220907170935.11757-2-sven@svenpeter.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 01 Sep 2022, Russell King wrote:
-
-> From: Hector Martin <marcan@marcan.st>
+On 07/09/2022 19:09, Sven Peter wrote:
 > 
-> This driver implements support for the SMC (System Management
-> Controller) in Apple Macs. In contrast to the existing applesmc driver,
-> it uses pluggable backends that allow it to support different SMC
-> implementations, and uses the MFD subsystem to expose the core SMC
-> functionality so that specific features (gpio, hwmon, battery, etc.) can
-> be implemented by separate drivers in their respective downstream
-> subsystems.
+> Bluetooth controllers share the common local-bd-address property.
+> Add a generic YAML schema to replace bluetooth.txt for those.
 > 
-> The initial RTKit backend adds support for Apple Silicon Macs (M1 et
-> al). We hope a backend for T2 Macs will be written in the future
-> (since those are not supported by applesmc), and eventually an x86
-> backend would allow us to fully deprecate applesmc in favor of this
-> driver.
-> 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
 > ---
->  drivers/platform/Kconfig           |   2 +
->  drivers/platform/Makefile          |   1 +
->  drivers/platform/apple/Kconfig     |  49 ++++
->  drivers/platform/apple/Makefile    |  11 +
->  drivers/platform/apple/smc.h       |  28 ++
->  drivers/platform/apple/smc_core.c  | 249 ++++++++++++++++
->  drivers/platform/apple/smc_rtkit.c | 451 +++++++++++++++++++++++++++++
->  include/linux/mfd/macsmc.h         |  86 ++++++
->  8 files changed, 877 insertions(+)
->  create mode 100644 drivers/platform/apple/Kconfig
->  create mode 100644 drivers/platform/apple/Makefile
->  create mode 100644 drivers/platform/apple/smc.h
->  create mode 100644 drivers/platform/apple/smc_core.c
->  create mode 100644 drivers/platform/apple/smc_rtkit.c
->  create mode 100644 include/linux/mfd/macsmc.h
+> changes from v1:
+>   - removed blueetooth.txt instead of just replacing it with a
+>     deprecation note
+>   - replaced references to bluetooth.txt
 > 
-> diff --git a/drivers/platform/Kconfig b/drivers/platform/Kconfig
-> index b437847b6237..5f8b9bcdb830 100644
-> --- a/drivers/platform/Kconfig
-> +++ b/drivers/platform/Kconfig
-> @@ -13,4 +13,6 @@ source "drivers/platform/olpc/Kconfig"
->  
->  source "drivers/platform/surface/Kconfig"
->  
-> +source "drivers/platform/apple/Kconfig"
-> +
->  source "drivers/platform/x86/Kconfig"
-> diff --git a/drivers/platform/Makefile b/drivers/platform/Makefile
-> index 4de08ef4ec9d..3e5d5039a28c 100644
-> --- a/drivers/platform/Makefile
-> +++ b/drivers/platform/Makefile
-> @@ -10,3 +10,4 @@ obj-$(CONFIG_OLPC_EC)		+= olpc/
->  obj-$(CONFIG_GOLDFISH)		+= goldfish/
->  obj-$(CONFIG_CHROME_PLATFORMS)	+= chrome/
->  obj-$(CONFIG_SURFACE_PLATFORMS)	+= surface/
-> +obj-$(CONFIG_APPLE_PLATFORMS)	+= apple/
-> diff --git a/drivers/platform/apple/Kconfig b/drivers/platform/apple/Kconfig
+> checkpatch complains here because it thinks I do to many things at once,
+> I think it's better to replace bluetooth.txt in single commit though.
+> Let me know if you prefer this to be split into multiple commits
+> instead.
+> 
+> .../bindings/net/bluetooth-controller.yaml    | 30 +++++++++++++++++++
+
+I propose to keep it in net/bluetooth subdirectory. In next patch you
+can move there other files.
+
+>  .../devicetree/bindings/net/bluetooth.txt     |  5 ----
+>  .../bindings/net/qualcomm-bluetooth.yaml      |  4 +--
+>  .../bindings/soc/qcom/qcom,wcnss.yaml         |  8 ++---
+>  4 files changed, 35 insertions(+), 12 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/net/bluetooth-controller.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/net/bluetooth.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/net/bluetooth-controller.yaml b/Documentation/devicetree/bindings/net/bluetooth-controller.yaml
 > new file mode 100644
-> index 000000000000..42525aa9fbbe
+> index 000000000000..0ea8a20e30f9
 > --- /dev/null
-> +++ b/drivers/platform/apple/Kconfig
-> @@ -0,0 +1,49 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Apple Platform-Specific Drivers
-> +#
+> +++ b/Documentation/devicetree/bindings/net/bluetooth-controller.yaml
+> @@ -0,0 +1,30 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/net/bluetooth-controller.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +menuconfig APPLE_PLATFORMS
-> +	bool "Apple Mac Platform-Specific Device Drivers"
-> +	default y
-> +	help
-> +	  Say Y here to get to see options for platform-specific device drivers
-> +	  for Apple devices. This option alone does not add any kernel code.
+> +title: Bluetooth Controller Generic Binding
 > +
-> +	  If you say N, all options in this submenu will be skipped and disabled.
+> +maintainers:
+> +  - Marcel Holtmann <marcel@holtmann.org>
+> +  - Johan Hedberg <johan.hedberg@gmail.com>
+> +  - Luiz Augusto von Dentz <luiz.dentz@gmail.com>
 > +
-> +if APPLE_PLATFORMS
+> +properties:
+> +  $nodename:
+> +    pattern: "^bluetooth(@.*)?$"
 > +
-> +config APPLE_SMC
-> +	tristate "Apple SMC Driver"
-> +	depends on ARCH_APPLE || COMPILE_TEST
-> +	default ARCH_APPLE
-> +	select MFD_CORE
-> +	help
-> +	  Build support for the Apple System Management Controller present in
-> +	  Apple Macs. This driver currently supports the SMC in Apple Silicon
-> +	  Macs. For x86 Macs, see the applesmc driver (SENSORS_APPLESMC).
-> +
-> +	  Say Y here if you have an Apple Silicon Mac.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called macsmc.
-> +
-> +if APPLE_SMC
-> +
-> +config APPLE_SMC_RTKIT
-> +	tristate "RTKit (Apple Silicon) backend"
-> +	depends on ARCH_APPLE || COMPILE_TEST
-> +	depends on APPLE_RTKIT
-> +	default ARCH_APPLE
-> +	help
-> +	  Build support for SMC communications via the RTKit backend. This is
-> +	  required for Apple Silicon Macs.
-> +
-> +	  Say Y here if you have an Apple Silicon Mac.
-> +
-> +	  To compile this driver as a module, choose M here: the module will
-> +	  be called macsmc-rtkit.
-> +
-> +endif
-> +endif
-> diff --git a/drivers/platform/apple/Makefile b/drivers/platform/apple/Makefile
-> new file mode 100644
-> index 000000000000..79fac195398b
-> --- /dev/null
-> +++ b/drivers/platform/apple/Makefile
-> @@ -0,0 +1,11 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Makefile for linux/drivers/platform/apple
-> +# Apple Platform-Specific Drivers
-> +#
-> +
-> +macsmc-y				+= smc_core.o
-> +macsmc-rtkit-y				+= smc_rtkit.o
-> +
-> +obj-$(CONFIG_APPLE_SMC)			+= macsmc.o
-> +obj-$(CONFIG_APPLE_SMC_RTKIT)		+= macsmc-rtkit.o
-> diff --git a/drivers/platform/apple/smc.h b/drivers/platform/apple/smc.h
-> new file mode 100644
-> index 000000000000..8ae51887b2c5
-> --- /dev/null
-> +++ b/drivers/platform/apple/smc.h
-> @@ -0,0 +1,28 @@
-> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
-> +/*
-> + * Apple SMC internal core definitions
-> + * Copyright (C) The Asahi Linux Contributors
-> + */
-> +
-> +#ifndef _SMC_H
-> +#define _SMC_H
-> +
-> +#include <linux/mfd/macsmc.h>
-> +
-> +struct apple_smc_backend_ops {
-> +	int (*read_key)(void *cookie, smc_key key, void *buf, size_t size);
-> +	int (*write_key)(void *cookie, smc_key key, void *buf, size_t size);
-> +	int (*write_key_atomic)(void *cookie, smc_key key, void *buf, size_t size);
-> +	int (*rw_key)(void *cookie, smc_key key, void *wbuf, size_t wsize,
-> +		      void *rbuf, size_t rsize);
-> +	int (*get_key_by_index)(void *cookie, int index, smc_key *key);
-> +	int (*get_key_info)(void *cookie, smc_key key, struct apple_smc_key_info *info);
-> +};
-> +
-> +struct apple_smc *apple_smc_probe(struct device *dev, const struct apple_smc_backend_ops *ops,
-> +				  void *cookie);
-> +void *apple_smc_get_cookie(struct apple_smc *smc);
-> +int apple_smc_remove(struct apple_smc *smc);
-> +void apple_smc_event_received(struct apple_smc *smc, uint32_t event);
-> +
-> +#endif
-> diff --git a/drivers/platform/apple/smc_core.c b/drivers/platform/apple/smc_core.c
-> new file mode 100644
-> index 000000000000..daf029cd072f
-> --- /dev/null
-> +++ b/drivers/platform/apple/smc_core.c
-> @@ -0,0 +1,249 @@
-> +// SPDX-License-Identifier: GPL-2.0-only OR MIT
-> +/*
-> + * Apple SMC core framework
-> + * Copyright The Asahi Linux Contributors
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/mfd/core.h>
+> +  local-bd-address:
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    minItems: 6
 
-Please refrain from using the MFD API outside of drivers/mfd.
+No need for minitems.
 
-If you need an MFD driver, please separate it out.
 
-If not, please replace it with the platform_*() API instead.
 
-Thanks.
-
--- 
-Lee Jones [李琼斯]
+Best regards,
+Krzysztof
