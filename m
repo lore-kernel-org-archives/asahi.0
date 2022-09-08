@@ -1,52 +1,41 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6FDC38F
-	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 16:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=qtQp5tdiILv0tGhvoMFeR9PrV87mSTbmJDKlZd+2Xwo=; b=HtKhJIlDKAJ/7ZH7a225FlpstI
-	pLSoQwRGmhUTbEa9FpxQXUgJ8KKyQnjZSl2+gbWF163qf4Kp+/TBap7U+CpunKE/9z1RhKN+MJqCP
-	x7mNm5EUPwoLf9yh/ILb/bp9T7s6WCO74zW9J4enwNCDdQ2jM40ofiq0th8YG6v17yHYf0o+9MUcG
-	7rCkXOcIvvXmwIqTtz79cwHCarB8Qm8W7iDAATF/jy1o5tEWjXk0ugQ1fR9IJzlb0OjGDVqO07xU4
-	u1rr9gaYFjNALrBWMs3VOfLFYWGDRM3Tae/Hpg4BxdvZMjZrSmBotW/dGxOclBz0bYf5IacabWd9G
-	3XmNmVmQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34206)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1oWKfv-0006nM-Gm; Thu, 08 Sep 2022 17:46:47 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1oWKfq-0002DO-Ck; Thu, 08 Sep 2022 17:46:42 +0100
-Date: Thu, 8 Sep 2022 17:46:42 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
-	devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 7/7] arm64: dts: apple: Add SMC node to t8103/t6001
- devicetrees
-Message-ID: <Yxoccowow9avoZ/i@shell.armlinux.org.uk>
-References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
- <E1oVYUi-005Cmk-0R@rmk-PC.armlinux.org.uk>
- <8a94f2e6-f537-4e29-8375-e79b84524582@www.fastmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84C439C
+	for <asahi@lists.linux.dev>; Thu,  8 Sep 2022 22:32:49 +0000 (UTC)
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-11e9a7135easo48271049fac.6
+        for <asahi@lists.linux.dev>; Thu, 08 Sep 2022 15:32:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=CxueroWKOCf1VlWz/nI3gMCK0OJff9cC2ODwmgYrqaM=;
+        b=o6SNo2Dy+bhObc4GAvXhDmgiGniuP60CntFLrnH5kB4WT5of1yZkZkhihIMMnO7Dex
+         Spf/KDSQEH1AvXA2rlLh/rvOy+ItfdUjAJmy0UdaHrr0mp6haaeoPMAGoKaUt/lPDipa
+         1JZ4u5eZ5B479ZFVRqrZN4CwX6tK85d2ijYEmEeYr73v+1Rg7KqeZuYUtOCeypnjKSCi
+         NwwN9WHxjSYKicBnCljfYW9DEeSftgtHRAkh8jlJnfGtxIPJ8OEpCqNmvqM6Mby0Pedc
+         QhmYCmnRd3eevqv6y2D96+dK2K/zDAXDvJPInPEsotKldUw3A3Ii6E5XWBKyz/HjmRaf
+         KthA==
+X-Gm-Message-State: ACgBeo2jkZBYq2fKKPq6LsruR30Xj1RSQFhn4MDiBgdRnlUzg8cWGr4K
+	9Fa6HcwiP+Vu8lk7Prosdg==
+X-Google-Smtp-Source: AA6agR5MC+RLWyuYmH/6MzXRA1Lyj+OMmMzdoCAZCKC3Rql+zmp3AUsEWYhhK37k+JRJFRvkiePTpw==
+X-Received: by 2002:a05:6870:6317:b0:10e:631c:5e63 with SMTP id s23-20020a056870631700b0010e631c5e63mr3459441oao.262.1662676369003;
+        Thu, 08 Sep 2022 15:32:49 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id 3-20020a4a1b03000000b00441c26f8fadsm723780oop.12.2022.09.08.15.32.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Sep 2022 15:32:48 -0700 (PDT)
+Received: (nullmailer pid 3461521 invoked by uid 1000);
+	Thu, 08 Sep 2022 22:32:47 -0000
+Date: Thu, 8 Sep 2022 17:32:47 -0500
+From: Rob Herring <robh@kernel.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Nicolin Chen <nicolinc@nvidia.com>, Krishna Reddy <vdumpa@nvidia.com>, Dmitry Osipenko <dmitry.osipenko@collabora.com>, Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>, devicetree@vger.kernel.org, iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH v8 1/5] dt-bindings: reserved-memory: Document
+ iommu-addresses
+Message-ID: <20220908223247.GA3448766-robh@kernel.org>
+References: <20220905170833.396892-1-thierry.reding@gmail.com>
+ <20220905170833.396892-2-thierry.reding@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -55,57 +44,53 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8a94f2e6-f537-4e29-8375-e79b84524582@www.fastmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+In-Reply-To: <20220905170833.396892-2-thierry.reding@gmail.com>
 
-On Tue, Sep 06, 2022 at 03:42:47PM +0200, Sven Peter wrote:
+On Mon, Sep 05, 2022 at 07:08:29PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
+> This adds the "iommu-addresses" property to reserved-memory nodes, which
+> allow describing the interaction of memory regions with IOMMUs. Two use-
+> cases are supported:
 > 
-> On Tue, Sep 6, 2022, at 15:20, Russell King wrote:
-> > From: Hector Martin <marcan@marcan.st>
-> >
-> > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > ---
-> >  arch/arm64/boot/dts/apple/t8103.dtsi | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi 
-> > b/arch/arm64/boot/dts/apple/t8103.dtsi
-> > index 51a63b29d404..15c6023cf612 100644
-> > --- a/arch/arm64/boot/dts/apple/t8103.dtsi
-> > +++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-> > @@ -336,6 +336,32 @@ wdt: watchdog@23d2b0000 {
-> >  			interrupts = <AIC_IRQ 338 IRQ_TYPE_LEVEL_HIGH>;
-> >  		};
-> > 
-> > +		smc_mbox: mbox@23e408000 {
-> > +			compatible = "apple,t8103-asc-mailbox", "apple,asc-mailbox-v4";
-> > +			reg = <0x2 0x3e408000 0x0 0x4000>;
-> > +			interrupt-parent = <&aic>;
-> > +			interrupts = <AIC_IRQ 400 IRQ_TYPE_LEVEL_HIGH>,
-> > +				<AIC_IRQ 401 IRQ_TYPE_LEVEL_HIGH>,
-> > +				<AIC_IRQ 402 IRQ_TYPE_LEVEL_HIGH>,
-> > +				<AIC_IRQ 403 IRQ_TYPE_LEVEL_HIGH>;
-> > +			interrupt-names = "send-empty", "send-not-empty",
-> > +				"recv-empty", "recv-not-empty";
-> > +			#mbox-cells = <0>;
-> > +		};
-> > +
-> > +		smc: smc@23e400000 {
+>   1. Static mappings can be described by pairing the "iommu-addresses"
+>      property with a "reg" property. This is mostly useful for adopting
+>      firmware-allocated buffers via identity mappings. One common use-
+>      case where this is required is if early firmware or bootloaders
+>      have set up a bootsplash framebuffer that a display controller is
+>      actively scanning out from during the operating system boot
+>      process.
 > 
-> Usually we sort these nodes by their address to prevent merge conflicts.
-> I guess it doesn't really matter here though since nothing will be between
-> these two nodes.
-> Either way,
+>   2. If an "iommu-addresses" property exists without a "reg" property,
+>      the reserved-memory node describes an IOVA reservation. Such memory
+>      regions are excluded from the IOVA space available to operating
+>      system drivers and can be used for regions that must not be used to
+>      map arbitrary buffers.
+> 
+> Each mapping or reservation is tied to a specific device via a phandle
+> to the device's device tree node. This allows a reserved-memory region
+> to be reused across multiple devices.
+> 
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v8:
+> - include validation warning fixes that had crept into an unrelated patch
+> 
+> Changes in v7:
+> - keep reserved-memory.txt to avoid broken references
+> 
+> Changes in v6:
+> - add device phandle to iommu-addresses property in examples
+> - remove now unused dt-bindings/reserved-memory.h header
+> 
+>  .../reserved-memory/reserved-memory.yaml      | 70 +++++++++++++++++++
+>  1 file changed, 70 insertions(+)
 
-If that's how the nodes should be sorted, let's do it now so we don't
-end up with another patch that re-ordering this - I've made the change.
+Thanks for being persistent with this. It looks good to me.
 
-> Reviewed-by: Sven Peter <sven@svenpeter.dev>
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Thanks!
+I really don't like new common bindings with only 1 user, so I hope the 
+Asahi folks chime in here. Or really anyone else look at it.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Rob
