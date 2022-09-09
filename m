@@ -1,98 +1,101 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1177B4A2D
-	for <asahi@lists.linux.dev>; Fri,  9 Sep 2022 15:33:09 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id p5so2255255ljc.13
-        for <asahi@lists.linux.dev>; Fri, 09 Sep 2022 08:33:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=lP9I9C231dArXcMlyocTl/qVE0j3Pv37aaLeqVQ7UZU=;
-        b=twITONxYLgPP9PxkRf8UDAvKbnLUZmH56aq6q+qd7igqBv9W6NMmSitWjOGWFf4it3
-         LCQhRxyuGz4oj/8i+t3bY/DBVlHmyqeJ0czsSq2tS1agOxqtYqcs5Ig3ltIpR6JSGpaG
-         rAHgebTzPRAZdHLod8VnLOin5og/nVCVDoRaWHZDhDN7SxfzFnushm2QkPMUEdyI31pC
-         gFoixmPBfD30PnD+gsGvzQ5X4e+hbsCfU3XyyEGO6r6UMEdTPcZ0IlKDhU6bF/gGWecW
-         BD7jLpreMkNBMcqA7so5sDsOkQ2C+OoxBscwm81lyVy7/1FNFUJ+YfZu3FCexn4K2KWu
-         VWOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=lP9I9C231dArXcMlyocTl/qVE0j3Pv37aaLeqVQ7UZU=;
-        b=WBMclH69WM3wc/eiKYOx14CuiK1U7gFFOhFlPBZK8v9e1hAgQIsh1XOuteyN9hgM7f
-         vwt+vzB5nKdiAWwoxZfR0KY8I+d9v3+29v6eJYGYOUpUX2/ankoh3TOwIeAPWn9ABcLa
-         nBz0RSZSowpKnqQyQUEMzOkepN+wVMvu4vVB6JHpTWLBcB204zgc1qwEP6WEjv1nZv46
-         jRtJqnFY98jS6qHTynQn7a5pyqseECSso6KUBABSAHJT/RGWVEjt098I6gIaN1wlTVcG
-         1Gm3uwKCbGaLIFQ7UOkxmTMdxqFk8GwE7loP4a8/NxWlaVfw1K1rdbmg35CSRSsbksAT
-         +1Rw==
-X-Gm-Message-State: ACgBeo1X9sggHz1GnOVaclpcAVwkhyswPqNyDOHxSrjHm+B61cVKjCqa
-	qs7AFe8bkJTvkLNBPIK6CbpYNg==
-X-Google-Smtp-Source: AA6agR6CrTnN/jL30qM2oy1chzWlwWkFSKzElgaz5C6XKHdy3uLj5jrCJc6y5+wmuCf2/Doyz1zYhw==
-X-Received: by 2002:a05:651c:511:b0:266:c941:67ca with SMTP id o17-20020a05651c051100b00266c94167camr3956347ljp.28.1662737588111;
-        Fri, 09 Sep 2022 08:33:08 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id u17-20020a2e8551000000b00261d6f45c2csm113367ljj.124.2022.09.09.08.33.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Sep 2022 08:33:07 -0700 (PDT)
-Message-ID: <47eb92fc-f5ff-de82-aacd-91aa0fcc68cb@linaro.org>
-Date: Fri, 9 Sep 2022 17:33:05 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC44C4A2D
+	for <asahi@lists.linux.dev>; Fri,  9 Sep 2022 15:44:18 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1662738255; bh=iQf3eHuSRWeGotbEYofBZciMp+NjvuT3Kv1h/4d/X3M=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=n2eWeH6ZvPApY9mJ0yKUXl1e12MAK+7kor4NjJZ6CufN8lt/yiaXpx8DrOKCJHWU+
+	 ruPpKHk10oPnza/ORTzLinO+9fJU1PvwkRit9928gEFuRIODfVqk4B/wWs5IzJ0HNz
+	 MzbcedJpnccEHAPsnk8WWsu3dbsSjobljAn8uTy8=
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 09/10] ASoC: cs42l83: Extend CS42L42 support to new part
-Content-Language: en-US
-To: =?UTF-8?Q?Martin_Povi=c5=a1er?= <povik+lin@cutebit.org>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: Re: [PATCH 07/10] ASoC: cs42l42: Split I2C identity into separate
+ module
+From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+In-Reply-To: <aabae52f-8230-f837-c17a-59d781b5af62@opensource.cirrus.com>
+Date: Fri, 9 Sep 2022 17:44:14 +0200
 Cc: James Schulman <james.schulman@cirrus.com>,
  David Rhodes <david.rhodes@cirrus.com>,
  Lucas Tanure <tanureal@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
  Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
  Charles Keepax <ckeepax@opensource.cirrus.com>,
  ChiYuan Huang <cy_huang@richtek.com>,
  Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Matt Flax <flatmax@flatmax.com>,
- - <patches@opensource.cirrus.com>, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Matt Flax <flatmax@flatmax.com>,
+ - <patches@opensource.cirrus.com>,
+ alsa-devel@alsa-project.org,
+ devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
  asahi@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <5C349ED8-BD51-40BA-BD02-A44FBBEF9C52@cutebit.org>
 References: <20220909135334.98220-1-povik+lin@cutebit.org>
- <20220909135334.98220-10-povik+lin@cutebit.org>
- <541b11a1-6b5a-cae0-73d9-f1fe8c961a15@linaro.org>
- <822926B0-CF33-4FF0-B234-8EF644DCED21@cutebit.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <822926B0-CF33-4FF0-B234-8EF644DCED21@cutebit.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-On 09/09/2022 17:10, Martin Povišer wrote:
->>> +};
->>> +MODULE_DEVICE_TABLE(of, cs42l83_of_match);
->>> +
->>> +static struct i2c_driver cs42l83_i2c_driver = {
->>> +	.driver = {
->>> +		.name = "cs42l83",
->>> +		.pm = &cs42l83_i2c_pm_ops,
->>> +		.of_match_table = of_match_ptr(cs42l83_of_match),
->>
->> This should complain with compile testing. Usually it comes with
->> __maybe_unused/
-> 
-> Which symbol? cs42l83_of_match has maybe_unused.
-> 
-
-Ah, I missed it completely. It's fine.
+ <20220909135334.98220-8-povik+lin@cutebit.org>
+ <aabae52f-8230-f837-c17a-59d781b5af62@opensource.cirrus.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
 
 
-Best regards,
-Krzysztof
+> On 9. 9. 2022, at 17:40, Richard Fitzgerald <rf@opensource.cirrus.com> =
+wrote:
+>=20
+> On 09/09/2022 14:53, Martin Povi=C5=A1er wrote:
+>> +static int cs42l42_i2c_probe(struct i2c_client *i2c_client)
+>> +{
+>> +	struct device *dev =3D &i2c_client->dev;
+>> +	struct cs42l42_private *cs42l42;
+>> +	struct regmap *regmap;
+>> +	int ret;
+>> +
+>> +	cs42l42 =3D devm_kzalloc(dev, sizeof(*cs42l42), GFP_KERNEL);
+>> +	if (!cs42l42)
+>> +		return -ENOMEM;
+>> +
+>> +	regmap =3D devm_regmap_init_i2c(i2c_client, &cs42l42_regmap);
+>> +	if (IS_ERR(regmap)) {
+>> +		ret =3D PTR_ERR(regmap);
+>> +		dev_err(&i2c_client->dev, "regmap_init() failed: %d\n", =
+ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	cs42l42->dev =3D dev;
+>> +	cs42l42->regmap =3D regmap;
+>> +	cs42l42->irq =3D i2c_client->irq;
+>> +
+>> +	ret =3D cs42l42_common_probe(cs42l42, &cs42l42_soc_component, =
+&cs42l42_dai);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret =3D cs42l42_init(cs42l42);
+>> +	if (ret)
+>> +		cs42l42_common_remove(cs42l42);
+>=20
+> This introduces a bug that regulator_bulk_disable() is called
+> twice if there is an error.
+>=20
+> cs42l42_init() was supposed to clean up if it returns an error, which
+> it nearly does, but my original patch is missing the call to =
+free_irq()
+> in the error paths of cs42l42_init().
+
+Ah! I didn=E2=80=99t inspect it closely enough then, I only ran into the =
+missing
+free_irq.
+
+Martin
+
