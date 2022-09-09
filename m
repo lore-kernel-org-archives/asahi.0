@@ -1,93 +1,197 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8C34A2D
-	for <asahi@lists.linux.dev>; Fri,  9 Sep 2022 15:10:50 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1662736247; bh=4NS9jOc+DKYjPlXdslwxuf9QrepRBJxIl1RQFwG0wLc=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=LJ4wFHF5Ch89nRfLgiUdEOVGOXI0VmjoH78a0fFKjH3755SQJKgdpZx2R9Wm+7h3g
-	 xzMl3lYqxW3Hplz2UlV735ZTboKP6xQiA0IQBoQMOrUmJMxaVFmlmpOI2XZ52xGDFI
-	 2kUJ2+JtivHhevG9Tt6VpzCZ0r3Oq2YcBy9Gfyyk=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8E74A2D
+	for <asahi@lists.linux.dev>; Fri,  9 Sep 2022 15:16:24 +0000 (UTC)
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+	id 1AB9526EFEA; Fri,  9 Sep 2022 17:16:22 +0200 (CEST)
+Date: Fri, 9 Sep 2022 17:16:22 +0200
+From: Janne Grunau <j@jannau.net>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Sameer Pujar <spujar@nvidia.com>, devicetree@vger.kernel.org,
+	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+	asahi@lists.linux.dev, Frank Rowand <frowand.list@gmail.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v8 2/5] iommu: Implement of_iommu_get_resv_regions()
+Message-ID: <20220909151621.GB4024@jannau.net>
+References: <20220905170833.396892-1-thierry.reding@gmail.com>
+ <20220905170833.396892-3-thierry.reding@gmail.com>
+ <cdac209d-16b3-6c95-6387-4ffeed97178c@arm.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH 09/10] ASoC: cs42l83: Extend CS42L42 support to new part
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <541b11a1-6b5a-cae0-73d9-f1fe8c961a15@linaro.org>
-Date: Fri, 9 Sep 2022 17:10:45 +0200
-Cc: James Schulman <james.schulman@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Lucas Tanure <tanureal@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- ChiYuan Huang <cy_huang@richtek.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Matt Flax <flatmax@flatmax.com>,
- - <patches@opensource.cirrus.com>,
- alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <822926B0-CF33-4FF0-B234-8EF644DCED21@cutebit.org>
-References: <20220909135334.98220-1-povik+lin@cutebit.org>
- <20220909135334.98220-10-povik+lin@cutebit.org>
- <541b11a1-6b5a-cae0-73d9-f1fe8c961a15@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cdac209d-16b3-6c95-6387-4ffeed97178c@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
+On 2022-09-09 11:56:32 +0100, Robin Murphy wrote:
+> On 2022-09-05 18:08, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> > 
+> > This is an implementation that IOMMU drivers can use to obtain reserved
+> > memory regions from a device tree node. It uses the reserved-memory DT
+> > bindings to find the regions associated with a given device. If these
+> > regions are marked accordingly, identity mappings will be created for
+> > them in the IOMMU domain that the devices will be attached to.
+> > 
+> > Cc: Frank Rowand <frowand.list@gmail.com>
+> > Cc: devicetree@vger.kernel.org
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> > Changes in v8:
+> > - cleanup set-but-unused variables
+> > 
+> > Changes in v6:
+> > - remove reference to now unused dt-bindings/reserved-memory.h include
+> > 
+> > Changes in v5:
+> > - update for new "iommu-addresses" device tree bindings
+> > 
+> > Changes in v4:
+> > - fix build failure on !CONFIG_OF_ADDRESS
+> > 
+> > Changes in v3:
+> > - change "active" property to identity mapping flag that is part of the
+> >    memory region specifier (as defined by #memory-region-cells) to allow
+> >    per-reference flags to be used
+> > 
+> > Changes in v2:
+> > - use "active" property to determine whether direct mappings are needed
+> > 
+> >   drivers/iommu/of_iommu.c | 85 ++++++++++++++++++++++++++++++++++++++++
+> >   include/linux/of_iommu.h |  8 ++++
+> >   2 files changed, 93 insertions(+)
+> > 
+> > diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
+> > index 5696314ae69e..6617096ad15f 100644
+> > --- a/drivers/iommu/of_iommu.c
+> > +++ b/drivers/iommu/of_iommu.c
+> > @@ -11,6 +11,7 @@
+> >   #include <linux/module.h>
+> >   #include <linux/msi.h>
+> >   #include <linux/of.h>
+> > +#include <linux/of_address.h>
+> >   #include <linux/of_iommu.h>
+> >   #include <linux/of_pci.h>
+> >   #include <linux/pci.h>
+> > @@ -172,3 +173,87 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
+> >   	return ops;
+> >   }
+> > +
+> > +/**
+> > + * of_iommu_get_resv_regions - reserved region driver helper for device tree
+> > + * @dev: device for which to get reserved regions
+> > + * @list: reserved region list
+> > + *
+> > + * IOMMU drivers can use this to implement their .get_resv_regions() callback
+> > + * for memory regions attached to a device tree node. See the reserved-memory
+> > + * device tree bindings on how to use these:
+> > + *
+> > + *   Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+> > + */
+> > +void of_iommu_get_resv_regions(struct device *dev, struct list_head *list)
+> > +{
+> > +#if IS_ENABLED(CONFIG_OF_ADDRESS)
+> > +	struct of_phandle_iterator it;
+> > +	int err;
+> > +
+> > +	of_for_each_phandle(&it, err, dev->of_node, "memory-region", NULL, 0) {
+> > +		struct iommu_resv_region *region;
+> > +		struct resource res;
+> > +		const __be32 *maps;
+> > +		int size;
+> > +
+> > +		memset(&res, 0, sizeof(res));
+> > +
+> > +		/*
+> > +		 * The "reg" property is optional and can be omitted by reserved-memory regions
+> > +		 * that represent reservations in the IOVA space, which are regions that should
+> > +		 * not be mapped.
+> > +		 */
+> > +		if (of_find_property(it.node, "reg", NULL)) {
+> > +			err = of_address_to_resource(it.node, 0, &res);
+> > +			if (err < 0) {
+> > +				dev_err(dev, "failed to parse memory region %pOF: %d\n",
+> > +					it.node, err);
+> > +				continue;
+> > +			}
+> > +		}
+> > +
+> > +		maps = of_get_property(it.node, "iommu-addresses", &size);
+> > +		if (maps) {
+> 
+> Nit: "if (!maps) continue;" and save some indentation.
+> 
+> > +			const __be32 *end = maps + size / sizeof(__be32);
+> > +			struct device_node *np;
+> > +			u32 phandle;
+> > +			int na, ns;
+> > +
+> > +			while (maps < end) {
+> > +				phys_addr_t start;
+> > +				size_t length;
+> > +
+> > +				phandle = be32_to_cpup(maps++);
+> > +				np = of_find_node_by_phandle(phandle);
+> > +				na = of_n_addr_cells(np);
+> > +				ns = of_n_size_cells(np);
+> > +
+> > +				start = of_translate_dma_address(np, maps);
+> > +				length = of_read_number(maps + na, ns);
+> 
+> Nit: these could go inside the if condition.
+> 
+> > +
+> > +				if (np == dev->of_node) {
+> > +					int prot = IOMMU_READ | IOMMU_WRITE;
 
+would it be reasonable to infer IOMMU_CACHE here from "dma-coherrent"?
 
-> On 9. 9. 2022, at 16:47, Krzysztof Kozlowski =
-<krzysztof.kozlowski@linaro.org> wrote:
->=20
-> On 09/09/2022 15:53, Martin Povi=C5=A1er wrote:
->> The CS42L83 part is a headphone jack codec found in recent Apple
->> machines. It is a publicly undocumented part but as far as can be =
-told
->> it is identical to CS42L42 except for two points:
->>=20
+> > +					enum iommu_resv_type type;
+> > +
+> > +					/*
+> > +					 * IOMMU regions without an associated physical region
+> > +					 * cannot be mapped and are simply reservations.
+> > +					 */
+> > +					if (res.end > res.start)
+> > +						type = IOMMU_RESV_DIRECT_RELAXABLE;
+> 
+> There may be reservations that have a PA but are expected to live beyond
+> boot-time handover, like device firmware or a shared-memory communication
+> buffer which the kernel driver can't reconfigure, or some kind of black hole
+> that needs a PA because it's also "no-map" for the CPUs. Those are not
+> relaxable. Might it be reasonable to expect to infer this from the
+> compatible, or should we have an additional explicit flag to distinguish
+> ephemeral boot-time mappings from permanent ones?
 
-(...)
+From which compatible? the device's? That's not possible for the display
+processor on apple silicon machines. They will carry mappings for their 
+firmware's data and heap and the boot framebuffer. That are however not 
+direct mappings so it doesn't apply directly to 
+IOMMU_RESV_DIRECT_RELAXABLE. There are probably other ways we could 
+identify the boot framebuffer but so far I'm not even convinced that we 
+want to reuse it.
 
->> +static const struct dev_pm_ops cs42l83_i2c_pm_ops =3D {
->> +	SET_SYSTEM_SLEEP_PM_OPS(cs42l42_suspend, cs42l83_i2c_resume)
->> +};
->> +
->> +static const struct of_device_id __maybe_unused cs42l83_of_match[] =3D=
- {
->> +	{ .compatible =3D "cirrus,cs42l83", },
->> +	{}
->> +};
->> +MODULE_DEVICE_TABLE(of, cs42l83_of_match);
->> +
->> +static struct i2c_driver cs42l83_i2c_driver =3D {
->> +	.driver =3D {
->> +		.name =3D "cs42l83",
->> +		.pm =3D &cs42l83_i2c_pm_ops,
->> +		.of_match_table =3D of_match_ptr(cs42l83_of_match),
->=20
-> This should complain with compile testing. Usually it comes with
-> __maybe_unused/
+> Furthermore, we should only use IOMMU_RESV_DIRECT (in either form) if 
+> start
+> and length actually match res here; if not then we should warn that we're
+> reserving the IOVA space but not actually honouring the specified mapping
+> (we'd need a new resv_region type for arbitrary translations).
 
-Which symbol? cs42l83_of_match has maybe_unused.
+This would be needed for Asahi's dcp driver. So far I worked around this 
+problem by direct reserved-memory parsing from apple-dart.
+Probably best to postpone the extension until it's needed.
 
-Best, Martin
-
->=20
->=20
-> Best regards,
-> Krzysztof
-
+Thanks,
+Janne
