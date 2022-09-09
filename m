@@ -1,55 +1,90 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19124A02
-	for <asahi@lists.linux.dev>; Fri,  9 Sep 2022 14:16:27 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1662732985; bh=JwFAHcC/4eYphZlFJvNFL6J9NVjJq/CoRrfoZy73gUs=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=g4Q3gU7RsWFdnxwGJGFTG1OiSMEGIlmu3Brl7NvC84c77Z1XA+EfquuLWfcK8m7u9
-	 +631amUToG5wtKoVe8WbcHCFit/JhV896ll2vbQp5mcSsAKKNL+Pyo4OJzwaYYKPrp
-	 ke8Sf8e203KocpZeq5h8Futbk6bBjxRqCqEZcauE=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC71964E
+	for <asahi@lists.linux.dev>; Fri,  9 Sep 2022 14:45:06 +0000 (UTC)
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+	id C8BB826F000; Fri,  9 Sep 2022 16:45:04 +0200 (CEST)
+Date: Fri, 9 Sep 2022 16:45:04 +0200
+From: Janne Grunau <j@jannau.net>
+To: Rob Herring <robh@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Sameer Pujar <spujar@nvidia.com>, devicetree@vger.kernel.org,
+	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH v8 1/5] dt-bindings: reserved-memory: Document
+ iommu-addresses
+Message-ID: <20220909144504.GA4024@jannau.net>
+References: <20220905170833.396892-1-thierry.reding@gmail.com>
+ <20220905170833.396892-2-thierry.reding@gmail.com>
+ <20220908223247.GA3448766-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [RFC PATCH 02/10] dt-bindings: dma: apple,admac: Add iommus and
- power-domains properties
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <20220909135103.98179-3-j@jannau.net>
-Date: Fri, 9 Sep 2022 16:16:24 +0200
-Cc: asahi@lists.linux.dev,
- Mark Kettenis <kettenis@openbsd.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Hector Martin <marcan@marcan.st>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Sven Peter <sven@svenpeter.dev>,
- devicetree@vger.kernel.org,
- dmaengine@vger.kernel.org,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <60F87A29-03D1-4F82-ABEF-A64C38E550FE@cutebit.org>
-References: <20220909135103.98179-1-j@jannau.net>
- <20220909135103.98179-3-j@jannau.net>
-To: Janne Grunau <j@jannau.net>,
- Vinod Koul <vkoul@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220908223247.GA3448766-robh@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
+On 2022-09-08 17:32:47 -0500, Rob Herring wrote:
+> On Mon, Sep 05, 2022 at 07:08:29PM +0200, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> > 
+> > This adds the "iommu-addresses" property to reserved-memory nodes, which
+> > allow describing the interaction of memory regions with IOMMUs. Two use-
+> > cases are supported:
+> > 
+> >   1. Static mappings can be described by pairing the "iommu-addresses"
+> >      property with a "reg" property. This is mostly useful for adopting
+> >      firmware-allocated buffers via identity mappings. One common use-
+> >      case where this is required is if early firmware or bootloaders
+> >      have set up a bootsplash framebuffer that a display controller is
+> >      actively scanning out from during the operating system boot
+> >      process.
+> > 
+> >   2. If an "iommu-addresses" property exists without a "reg" property,
+> >      the reserved-memory node describes an IOVA reservation. Such memory
+> >      regions are excluded from the IOVA space available to operating
+> >      system drivers and can be used for regions that must not be used to
+> >      map arbitrary buffers.
+> > 
+> > Each mapping or reservation is tied to a specific device via a phandle
+> > to the device's device tree node. This allows a reserved-memory region
+> > to be reused across multiple devices.
+> > 
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> > Changes in v8:
+> > - include validation warning fixes that had crept into an unrelated patch
+> > 
+> > Changes in v7:
+> > - keep reserved-memory.txt to avoid broken references
+> > 
+> > Changes in v6:
+> > - add device phandle to iommu-addresses property in examples
+> > - remove now unused dt-bindings/reserved-memory.h header
+> > 
+> >  .../reserved-memory/reserved-memory.yaml      | 70 +++++++++++++++++++
+> >  1 file changed, 70 insertions(+)
+> 
+> Thanks for being persistent with this. It looks good to me.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> I really don't like new common bindings with only 1 user, so I hope the 
+> Asahi folks chime in here. Or really anyone else look at it.
 
-> On 9. 9. 2022, at 15:50, Janne Grunau <j@jannau.net> wrote:
->=20
-> Apple's ADMAC is on all supported Apple silicon SoCs behind an IOMMU
-> and has its own power-domain.
->=20
-> Signed-off-by: Janne Grunau <j@jannau.net>
+The Asahi WIP display controller/processor driver uses this binding with 
+static non 1:1 mappings. The binding is sufficient for our needs our 
+needs.
 
-Acked-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
-
-Vinod, please pick it up in the dmaengine tree, I may have one patch to
-the binding I will post later (with associated driver changes).
-
+Janne
