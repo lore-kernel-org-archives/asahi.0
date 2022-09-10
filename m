@@ -1,26 +1,24 @@
 Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EBEEC0
-	for <asahi@lists.linux.dev>; Sat, 10 Sep 2022 11:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEBEEC0
+	for <asahi@lists.linux.dev>; Sat, 10 Sep 2022 11:46:28 +0000 (UTC)
 Received: by soltyk.jannau.net (Postfix, from userid 1000)
-	id 056FB26F009; Sat, 10 Sep 2022 13:43:24 +0200 (CEST)
-Date: Sat, 10 Sep 2022 13:43:24 +0200
+	id 781C126F009; Sat, 10 Sep 2022 13:46:26 +0200 (CEST)
+Date: Sat, 10 Sep 2022 13:46:26 +0200
 From: Janne Grunau <j@jannau.net>
-To: Marc Zyngier <maz@kernel.org>
-Cc: asahi@lists.linux.dev, Mark Kettenis <kettenis@openbsd.org>,
+To: asahi@lists.linux.dev
+Cc: Mark Kettenis <kettenis@openbsd.org>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Hector Martin <marcan@marcan.st>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Rob Herring <robh+dt@kernel.org>, Sven Peter <sven@svenpeter.dev>,
-	Thomas Gleixner <tglx@linutronix.de>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 01/10] dt-bindings: apple,aic: Fix required item
- "apple,fiq-index" in affinity description
-Message-ID: <20220910114324.GD4024@jannau.net>
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 08/10] arm64: dts: apple: Add J375 devicetrees
+Message-ID: <20220910114626.GE4024@jannau.net>
 References: <20220909135103.98179-1-j@jannau.net>
- <20220909135103.98179-2-j@jannau.net>
- <874jxfqzvj.wl-maz@kernel.org>
+ <20220909135103.98179-9-j@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -29,45 +27,47 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <874jxfqzvj.wl-maz@kernel.org>
+In-Reply-To: <20220909135103.98179-9-j@jannau.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 2022-09-10 11:37:20 +0100, Marc Zyngier wrote:
-> On Fri, 09 Sep 2022 14:50:54 +0100,
-> Janne Grunau <j@jannau.net> wrote:
-> > 
-> > Fixes: dba07ad11384 ("dt-bindings: apple,aic: Add affinity description for per-cpu pseudo-interrupts")
-> > Signed-off-by: Janne Grunau <j@jannau.net>
-> > ---
-> > 
-> >  .../devicetree/bindings/interrupt-controller/apple,aic.yaml     | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> > index 85c85b694217..e18107eafe7c 100644
-> > --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> > +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> > @@ -96,7 +96,7 @@ properties:
-> >                Documentation/devicetree/bindings/arm/cpus.yaml).
-> >  
-> >          required:
-> > -          - fiq-index
-> > +          - apple,fiq-index
-> >            - cpus
-> >  
-> >  required:
+On 2022-09-09 15:51:01 +0200, Janne Grunau wrote:
+> These are the Mac Studio devices with M1 Max (t6001) and
+> M1 Ultra (t6002).
 > 
-> With a commit message added,
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+> 
+>  arch/arm64/boot/dts/apple/Makefile        |   2 +
+>  arch/arm64/boot/dts/apple/t6001-j375c.dts |  18 ++++
+>  arch/arm64/boot/dts/apple/t6002-j375d.dts |  50 ++++++++++
+>  arch/arm64/boot/dts/apple/t600x-j375.dtsi | 115 ++++++++++++++++++++++
+>  4 files changed, 185 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/apple/t6001-j375c.dts
+>  create mode 100644 arch/arm64/boot/dts/apple/t6002-j375d.dts
+>  create mode 100644 arch/arm64/boot/dts/apple/t600x-j375.dtsi
 
-I've added
+...
 
-| The required list used "fiq-index" instead of "apple,fiq-index"
-| described as property and used in the dts. Add the missing "apple,"
-| prefix.
+> diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+> new file mode 100644
+> index 000000000000..c5444cb34389
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+> @@ -0,0 +1,115 @@
+> +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> +/*
+> + * Mac Studio (2022)
+> + *
+> + * This file contains the parts common to J375 devices with both t6001 and t6002.
+> + *
+> + * target-type: J375c / J375d
+> + *
+> + * Copyright The Asahi Linux Contributors
+> + */
+> +
+> +/dts-v1/;
 
-as commit description.
+This stray "/dts-v1/;" has been removed locally from the .dtsi file, 
+fixing a build error.
 
-> Acked-by: Marc Zyngier <maz@kernel.org>
-
-Thanks,
 Janne
