@@ -1,90 +1,96 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC297F
-	for <asahi@lists.linux.dev>; Sun, 11 Sep 2022 11:27:59 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id f11so10383201lfa.6
-        for <asahi@lists.linux.dev>; Sun, 11 Sep 2022 04:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=wODXrUGa3xJje0kIbd8qZg/z/wc1dTw39zG2Qx5AyhI=;
-        b=AkNi3/z9b9CHqnJdIfnIBVDDMABspoLSeuVjYlbR5LJn7OoLnkReI5eVApXBhxQD++
-         BhRUBswOj2pgzEAfLQsiwAbTtVPs+nIoxM3nLwrOI7K4s58D4N/PUhHrvjWyhjzkJnrd
-         0kU/zGfsf3UoSVxYCToP69gSe0n7Hmcy8moTgbE+0WxvdjlExnPsvvFdZOCb98B09HbX
-         baoKiktVRdbWQVfrNqQ6t+ndzbGfPmau2hvJVYMpzvH2k79I4rxGITYm0IrcHrE5B43N
-         tdfZ7JJI9zQNWZQk1EDARNlERktOHp+EXvJ91rKFaS8yFhHxys+BnCpjuke8PNE0vAQM
-         QXOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=wODXrUGa3xJje0kIbd8qZg/z/wc1dTw39zG2Qx5AyhI=;
-        b=seRnwQ0FHCAfCqfhYIB6qAI2CLTAuYjILlFy6Uc/fChucYR34VlW9PEO7oQMgFuGso
-         9fyuMNDXmpt0H09p3I4ehlg2k9wRUcysrEpexFlwriSSexrKBtub5lC4D5AnVf4GdtPL
-         wuyXrCV9FjjQbDdYcah9fMofyLdzek/7F52L+xkt1/3TnnZAqGrf++1D86vshRR2ngLy
-         hFSlfpHwUQXsV7VdpClYLNu1p+rLZfXDRJYxnEj+bAZ6nXtlpE/Vr3RkLR7uBtcg4UFj
-         CBL80qktH6kC6hinEO051zB2pGQsifnDpyJPF5oy3V5IsWkV+rlEalvOkB3uqxGngXEN
-         Facg==
-X-Gm-Message-State: ACgBeo1XS7Ke6gPUSwi8Ro3EhBGubcJiGCycnsDwUPIq/aVeI3Rzh02r
-	hbcpVaGIvTEm4wgnI6UumJ5oiQ==
-X-Google-Smtp-Source: AA6agR7+C80U63XwG32U92syOxTjw9Jp4ccOZIjl5T+WYcwHZ2T0df7+gpCmPXCVRBqqVz2H4iE9TQ==
-X-Received: by 2002:a05:6512:11f1:b0:497:adc5:629a with SMTP id p17-20020a05651211f100b00497adc5629amr5928383lfs.419.1662895677571;
-        Sun, 11 Sep 2022 04:27:57 -0700 (PDT)
-Received: from [192.168.0.21] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id d23-20020a194f17000000b00492e69be4d6sm585484lfb.27.2022.09.11.04.27.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Sep 2022 04:27:57 -0700 (PDT)
-Message-ID: <834eafc7-adb8-4977-a8c0-e34c44a583f3@linaro.org>
-Date: Sun, 11 Sep 2022 13:27:56 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074127F
+	for <asahi@lists.linux.dev>; Mon, 12 Sep 2022 09:52:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=i7scest9/GRb/SJTIXxI6p7sk+zo39k5Ettiz2gvQT0=; b=tRz4vOR8lAGwAn6YrCx+p6EKSw
+	snonH391ow5yXmrkOBmGvfgdClNw4V5uJ5tywGTSBm3IVVBU2Z/1FsNfS2HhT6U5mhGydyO30vCij
+	zsw438CFRgu2T9drmOt2gnRCME4fBwRo989z9W8rTRcIyLSSQ4m9vkTV6Eplu0wcJSLTpS6hBu56u
+	ii5wo8Zgio3aZ5A7M4kwnAnMnq6dRozl3+6pHPEzUq1IxgNVeB4tn7aE5eFcGk4LoQotp/lnfaM+s
+	l2AtwF5zjBQ9mE4zmpe0j7bHl9Cnngi21ZZWTKvkugRGlXeYeb1Vl1ZnaUxY6fwZc8f2TBh9qHfAJ
+	HW1Pw7/Q==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34252)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oXg6o-0001Qx-Bb; Mon, 12 Sep 2022 10:52:06 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oXg6j-00080m-W7; Mon, 12 Sep 2022 10:52:02 +0100
+Date: Mon, 12 Sep 2022 10:52:01 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Arend van Spriel <aspriel@gmail.com>,
+	Franky Lin <franky.lin@broadcom.com>,
+	Hante Meuleman <hante.meuleman@broadcom.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com,
+	"David S. Miller" <davem@davemloft.net>, devicetree@vger.kernel.org,
+	Eric Dumazet <edumazet@google.com>,
+	Hector Martin <marcan@marcan.st>, Jakub Kicinski <kuba@kernel.org>,
+	Kalle Valo <kvalo@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>, SHA-cyfmac-dev-list@infineon.com,
+	Sven Peter <sven@svenpeter.dev>, van Spriel <arend@broadcom.com>
+Subject: [PATCH wireless-next v2 0/12] Add support for bcm4378 on Apple
+ platforms
+Message-ID: <Yx8BQbjJT4I2oQ5K@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RFC PATCH 04/10] dt-bindings: arm: apple: Add t6001/t6002 Mac
- Studio compatibles
-Content-Language: en-US
-To: Janne Grunau <j@jannau.net>
-Cc: asahi@lists.linux.dev, Mark Kettenis <kettenis@openbsd.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Hector Martin <marcan@marcan.st>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Sven Peter <sven@svenpeter.dev>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20220909135103.98179-1-j@jannau.net>
- <20220909135103.98179-5-j@jannau.net>
- <25b42684-1bee-b7f6-a89d-ed0b0ea7428b@linaro.org>
- <20220910113714.GC4024@jannau.net>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220910113714.GC4024@jannau.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 10/09/2022 13:37, Janne Grunau wrote:
->>>    The compatible property should follow this format:
->>>  
->>> @@ -79,8 +81,15 @@ properties:
->>>            - enum:
->>>                - apple,j314c # MacBook Pro (14-inch, M1 Max, 2021)
->>>                - apple,j316c # MacBook Pro (16-inch, M1 Max, 2021)
->>> +              - apple,j375c # Mac Studio (M1 Max, 2022)
->>>            - const: apple,t6001
->>>            - const: apple,arm-platform
->>
->> Blank line.
-> 
-> Added. The other entries in this list are not separated by blank lines.  
-> What would preferred to fix this? A whitespace only patch or can just 
-> add those additional blank lines in this change?
+Hi,
 
-Both would work for me.
+This series adds support for bcm4378 found on Apple platforms, and has
+been tested on the Apple Mac Mini. It is a re-posting of a subset of
+Hector's previous 38 patch series, and it is believed that the comments
+from that review were addressed.
 
-Best regards,
-Krzysztof
+(I'm just the middle man; please don't complain if something has been
+missed.)
+
+v2:
+- sending for wireless-next
+- fixed up %ld -> %zd for size_t
+- added reviewed-bys
+
+ arch/arm64/boot/dts/apple/t8103-j274.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-j313.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-j456.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-j457.dts           |   4 +
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi          |   2 +
+ .../net/wireless/broadcom/brcm80211/brcmfmac/bus.h |  19 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/chip.c    |   2 +
+ .../wireless/broadcom/brcm80211/brcmfmac/common.c  |  12 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/common.h  |   1 +
+ .../broadcom/brcm80211/brcmfmac/firmware.c         | 115 ++++--
+ .../broadcom/brcm80211/brcmfmac/firmware.h         |   4 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/msgbuf.h  |   4 +-
+ .../net/wireless/broadcom/brcm80211/brcmfmac/of.c  |  12 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/pcie.c    | 431 +++++++++++++++++++--
+ .../wireless/broadcom/brcm80211/brcmfmac/sdio.c    |  38 +-
+ .../wireless/broadcom/brcm80211/brcmfmac/sdio.h    |   2 +
+ .../net/wireless/broadcom/brcm80211/brcmfmac/usb.c |  23 +-
+ .../broadcom/brcm80211/include/brcm_hw_ids.h       |   2 +
+ include/linux/bcma/bcma_driver_chipcommon.h        |   1 +
+ 21 files changed, 610 insertions(+), 117 deletions(-)
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
