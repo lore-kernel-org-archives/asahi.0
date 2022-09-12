@@ -1,31 +1,23 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DE97F
-	for <asahi@lists.linux.dev>; Mon, 12 Sep 2022 10:03:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=+91oUc1RS/b9V7qFF8dVDgZBRc4n7cWRgZfEVNUz3QA=; b=KyoHktdAx0ozSOFIxnWShFi9Np
-	k2uPAJGA8AtYymoxT8KSkPQcbvEOi5KdCxIx9f+2cPRPJZELDghgbUOPdiYZhyMdG8f02vnADlceU
-	2IuhaqG1E7ydXF297xlSlKZL4ttUpbd6jff2utUlFTB7be9aHILXYVlZ2VgKsE7WBMg65uMaL4len
-	lBrw7Qa6ou2HoTDKiCOEXYrXdIa+egLTkThqS4ip2DOCvsABAAqi/ae/IcVoAgXsHhJ4fgYPbP9XO
-	ebTKYWif+jP8byoMS8omNY9pagUb2+Ys+qBF7YYPY+nXoBlsKYlDP3AwflLTSZHhlqIwi7M5RJA44
-	Dd0sy0EA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34254)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1oXgHr-0001XV-OY; Mon, 12 Sep 2022 11:03:31 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1oXgHq-000812-A4; Mon, 12 Sep 2022 11:03:30 +0100
-Date: Mon, 12 Sep 2022 11:03:30 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Lee Jones <lee@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAE92589
+	for <asahi@lists.linux.dev>; Mon, 12 Sep 2022 10:55:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CB69C433C1;
+	Mon, 12 Sep 2022 10:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1662980119;
+	bh=olNDbRIfnOmwdlTBZ0eKtcS1vbz03Ge0f8j7QrmV77s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RYhl21IGWWiCUHKT976Kew9cqRUne3cH8yMq04dFsqDaCI2OTKNdEX2Xc1n1tavJX
+	 sUO5B6S3Vhi3xsCmyIER0PrZKHsy2+Ys82V7D4hkTR3bBJR/SczGgwtEoIx3mIz0s0
+	 36Whv9/X8xhTiOqI95oZG8jCi5zZAOt6uyBEitTS9wwoJrl77SV9fsq6lgAXrr+J/o
+	 5n1xEOxMOoyW9YI+xgJ12yVx0TTxHQHcDVG4E1rdJ3y3UIn40MoGQPrP1J2hftbXCn
+	 JN9XPP0o6FyoJH332fhUycwEb2un+kmLK+iewWsdrCj78v9dChLrDf7eY1pG1JCI8C
+	 ssuuF19p0odvA==
+Date: Mon, 12 Sep 2022 11:55:14 +0100
+From: Lee Jones <lee@kernel.org>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
 Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
@@ -33,7 +25,7 @@ Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
 	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
 	Sven Peter <sven@svenpeter.dev>
 Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
-Message-ID: <Yx8D8mGCO+1sEaKG@shell.armlinux.org.uk>
+Message-ID: <Yx8QEkZcnL59qSUM@google.com>
 References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
  <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
  <YxnK3LeyfacKssLT@google.com>
@@ -43,90 +35,94 @@ References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
  <Yxnv2mKkl1tW4PUp@google.com>
  <82088b05-2a0d-69cc-ba2c-d61c74c9d855@marcan.st>
  <YxrwLwVihe/s9wxN@google.com>
+ <Yx8D8mGCO+1sEaKG@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YxrwLwVihe/s9wxN@google.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yx8D8mGCO+1sEaKG@shell.armlinux.org.uk>
 
-On Fri, Sep 09, 2022 at 08:50:07AM +0100, Lee Jones wrote:
-> On Thu, 08 Sep 2022, Hector Martin wrote:
-> 
-> > On 08/09/2022 22.36, Lee Jones wrote:
-> > > On Thu, 08 Sep 2022, Hector Martin wrote:
-> > > 
-> > >> On 08/09/2022 21.31, Lee Jones wrote:
-> > >>> The long and the short of it is; if you wish to treat this device, or
-> > >>> at least a section of it, as a type of MFD, then please draft that
-> > >>> part of it as an MFD driver, residing in drivers/mfd.  If it's "not
-> > >>> really an MFD", then find another way to represent the conglomeration
-> > >>> please.
-> > >>>
-> > >>> If the MFD route is the best, then you can register each of the
-> > >>> devices, including the *-core from drivers/mfd.  Grep for "cross-ec"
-> > >>> as a relatively recently good example.
-> > >>
-> > >> I think cros-ec is similar enough, yeah. As long as you don't mind
-> > >> having the core codebase in mfd/ (4 files: core, rtkit backend, and
-> > >> future T2 and legacy backends) we can do that.
-> > > 
-> > > That's actually not what I'm suggesting.
-> > > 
-> > > You *only* need to move the subsequent-device-registration handling
-> > > into drivers/mfd.  The remainder really should be treated as Platform
-> > > (not to be confused with Arch Platform) code and should reside in
-> > > drivers/platform.  Just as we do with cros-ec.
+On Mon, 12 Sep 2022, Russell King (Oracle) wrote:
+
+> On Fri, Sep 09, 2022 at 08:50:07AM +0100, Lee Jones wrote:
+> > On Thu, 08 Sep 2022, Hector Martin wrote:
 > > 
-> > That's... an interesting approach.
+> > > On 08/09/2022 22.36, Lee Jones wrote:
+> > > > On Thu, 08 Sep 2022, Hector Martin wrote:
+> > > > 
+> > > >> On 08/09/2022 21.31, Lee Jones wrote:
+> > > >>> The long and the short of it is; if you wish to treat this device, or
+> > > >>> at least a section of it, as a type of MFD, then please draft that
+> > > >>> part of it as an MFD driver, residing in drivers/mfd.  If it's "not
+> > > >>> really an MFD", then find another way to represent the conglomeration
+> > > >>> please.
+> > > >>>
+> > > >>> If the MFD route is the best, then you can register each of the
+> > > >>> devices, including the *-core from drivers/mfd.  Grep for "cross-ec"
+> > > >>> as a relatively recently good example.
+> > > >>
+> > > >> I think cros-ec is similar enough, yeah. As long as you don't mind
+> > > >> having the core codebase in mfd/ (4 files: core, rtkit backend, and
+> > > >> future T2 and legacy backends) we can do that.
+> > > > 
+> > > > That's actually not what I'm suggesting.
+> > > > 
+> > > > You *only* need to move the subsequent-device-registration handling
+> > > > into drivers/mfd.  The remainder really should be treated as Platform
+> > > > (not to be confused with Arch Platform) code and should reside in
+> > > > drivers/platform.  Just as we do with cros-ec.
+> > > 
+> > > That's... an interesting approach.
+> > 
+> > How you decide to initially architect it would be your choice.
+> > 
+> > We can then discuss any potential improvements / suggestions.
+> > 
+> > > Is the code in drivers/mfd supposed
+> > > to be a subdevice itself? That seems to be what's going on with
+> > > cros_ec_dev.c, but do we really need that layer of indirection?
+> > 
+> > Ideally not.  The evolution of cros-ec happened over many iterations
+> > and much time.  Initially it was almost entirely implemented in
+> > drivers/mfd until I requested for a lot of the truly platform code to
+> > be moved out, as it grew beyond the bounds of, and was therefore no
+> > longer relevant to MFD.
+> > 
+> > If we were to design and build it up again from scratch, I'd suggest
+> > that the MFD part would be the core-driver / entry-point.  That driver
+> > should request and initialise shared resources and register the other
+> > devices, which is essentially the MFD's mantra.
+> > 
+> > > What's the point of just having effectively an array of mfd_cell and
+> > > wrappers to call into the mfd core in the drivers/mfd/ tree and the
+> > > rest of the driver elsewhere?
+> > 
+> > They should be separate drivers, with MFD registering the Platform.
 > 
-> How you decide to initially architect it would be your choice.
+> I'm guessing this series is now dead, and Hector needs to re-spin the
+> patch set according to your views. I'm guessing this is going to take
+> a major re-work of the patch series.
 > 
-> We can then discuss any potential improvements / suggestions.
-> 
-> > Is the code in drivers/mfd supposed
-> > to be a subdevice itself? That seems to be what's going on with
-> > cros_ec_dev.c, but do we really need that layer of indirection?
-> 
-> Ideally not.  The evolution of cros-ec happened over many iterations
-> and much time.  Initially it was almost entirely implemented in
-> drivers/mfd until I requested for a lot of the truly platform code to
-> be moved out, as it grew beyond the bounds of, and was therefore no
-> longer relevant to MFD.
-> 
-> If we were to design and build it up again from scratch, I'd suggest
-> that the MFD part would be the core-driver / entry-point.  That driver
-> should request and initialise shared resources and register the other
-> devices, which is essentially the MFD's mantra.
-> 
-> > What's the point of just having effectively an array of mfd_cell and
-> > wrappers to call into the mfd core in the drivers/mfd/ tree and the
-> > rest of the driver elsewhere?
-> 
-> They should be separate drivers, with MFD registering the Platform.
+> I suspect my attempt and trying to get this upstream has made things
+> more complicated, because I doubt Hector has updated his patch set
+> with the review comments that have been made so far... so this is
+> now quite a mess. I think, once this is sorted, the entire series
+> will need to be re-reviewed entirely afresh.
 
-I'm guessing this series is now dead, and Hector needs to re-spin the
-patch set according to your views. I'm guessing this is going to take
-a major re-work of the patch series.
+I have no insight into what Hector is doing, or plans to do.
 
-I suspect my attempt and trying to get this upstream has made things
-more complicated, because I doubt Hector has updated his patch set
-with the review comments that have been made so far... so this is
-now quite a mess. I think, once this is sorted, the entire series
-will need to be re-reviewed entirely afresh.
+> I've also completely lost where I was in updating the patches with
+> all the discussion on this posting of the patch set (which is why I
+> posted v2, because I couldn't keep track of all the emails on this
+> version.) When I posted v2, I had already lost track, which is why
+> it got posted.
 
-I've also completely lost where I was in updating the patches with
-all the discussion on this posting of the patch set (which is why I
-posted v2, because I couldn't keep track of all the emails on this
-version.) When I posted v2, I had already lost track, which is why
-it got posted.
-
-Sorry.
+Apologies if this has hindered your good work.
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Lee Jones [李琼斯]
