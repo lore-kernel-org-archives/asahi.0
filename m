@@ -1,174 +1,132 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926E67F
-	for <asahi@lists.linux.dev>; Mon, 12 Sep 2022 09:53:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DE97F
+	for <asahi@lists.linux.dev>; Mon, 12 Sep 2022 10:03:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=wSe5pomBhTXmrzeew07tnBfDyvTaXWDNVStsmMHXZWc=; b=v5Uosfjv8ZjiA6HLBWbeUvTulO
-	Ilu/9s8s4Vt8W1PLdGnPkCjLxhFYXD2Ip6Y4c6qDYCv9c49POP6+Yt6C1S+OXW1JRzpparFp9fiR3
-	/oTieDoIwiHQf1c196MamcT8yIPJAVS63XimyNXehnw/JwadnoBAcF6efOkOPIztWuj9fNFgy93jh
-	FS75U0cnCw7dB5K+fbdW0O32RhRzQci01QONFE1229S0HcxFv3+2Ye5Q9LgrVOYjZoni1/K+oaXou
-	iPbA4HxoPxREqhwDRnmFI/i+bq1sUWjKCkE/Ik9lEaFRBQf3dLMypDAS/NAnt/V1cOR//apgXxH/1
-	M4XoXI+Q==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:50550 helo=rmk-PC.armlinux.org.uk)
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=+91oUc1RS/b9V7qFF8dVDgZBRc4n7cWRgZfEVNUz3QA=; b=KyoHktdAx0ozSOFIxnWShFi9Np
+	k2uPAJGA8AtYymoxT8KSkPQcbvEOi5KdCxIx9f+2cPRPJZELDghgbUOPdiYZhyMdG8f02vnADlceU
+	2IuhaqG1E7ydXF297xlSlKZL4ttUpbd6jff2utUlFTB7be9aHILXYVlZ2VgKsE7WBMg65uMaL4len
+	lBrw7Qa6ou2HoTDKiCOEXYrXdIa+egLTkThqS4ip2DOCvsABAAqi/ae/IcVoAgXsHhJ4fgYPbP9XO
+	ebTKYWif+jP8byoMS8omNY9pagUb2+Ys+qBF7YYPY+nXoBlsKYlDP3AwflLTSZHhlqIwi7M5RJA44
+	Dd0sy0EA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34254)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1oXg8I-0001VU-QY; Mon, 12 Sep 2022 10:53:38 +0100
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1oXg8I-0064vm-1C; Mon, 12 Sep 2022 10:53:38 +0100
-In-Reply-To: <Yx8BQbjJT4I2oQ5K@shell.armlinux.org.uk>
-References: <Yx8BQbjJT4I2oQ5K@shell.armlinux.org.uk>
-From: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-To: Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	"David S. Miller" <davem@davemloft.net>,
-	devicetree@vger.kernel.org,
-	Eric Dumazet <edumazet@google.com>,
-	Hector Martin <marcan@marcan.st>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	"Rafa__ Mi__ecki" <zajec5@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	SHA-cyfmac-dev-list@infineon.com,
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oXgHr-0001XV-OY; Mon, 12 Sep 2022 11:03:31 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oXgHq-000812-A4; Mon, 12 Sep 2022 11:03:30 +0100
+Date: Mon, 12 Sep 2022 11:03:30 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Lee Jones <lee@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
 	Sven Peter <sven@svenpeter.dev>
-Subject: [PATCH wireless-next v2 12/12] arm64: dts: apple: Add WiFi module and
- antenna properties
+Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
+Message-ID: <Yx8D8mGCO+1sEaKG@shell.armlinux.org.uk>
+References: <YxC5eZjGgd8xguDr@shell.armlinux.org.uk>
+ <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
+ <YxnK3LeyfacKssLT@google.com>
+ <45ed0a37-60ac-3a06-92d1-6b30e18261ff@marcan.st>
+ <YxngtlhRLTVBw+iW@google.com>
+ <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
+ <Yxnv2mKkl1tW4PUp@google.com>
+ <82088b05-2a0d-69cc-ba2c-d61c74c9d855@marcan.st>
+ <YxrwLwVihe/s9wxN@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1oXg8I-0064vm-1C@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Mon, 12 Sep 2022 10:53:38 +0100
+In-Reply-To: <YxrwLwVihe/s9wxN@google.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-From: Hector Martin <marcan@marcan.st>
+On Fri, Sep 09, 2022 at 08:50:07AM +0100, Lee Jones wrote:
+> On Thu, 08 Sep 2022, Hector Martin wrote:
+> 
+> > On 08/09/2022 22.36, Lee Jones wrote:
+> > > On Thu, 08 Sep 2022, Hector Martin wrote:
+> > > 
+> > >> On 08/09/2022 21.31, Lee Jones wrote:
+> > >>> The long and the short of it is; if you wish to treat this device, or
+> > >>> at least a section of it, as a type of MFD, then please draft that
+> > >>> part of it as an MFD driver, residing in drivers/mfd.  If it's "not
+> > >>> really an MFD", then find another way to represent the conglomeration
+> > >>> please.
+> > >>>
+> > >>> If the MFD route is the best, then you can register each of the
+> > >>> devices, including the *-core from drivers/mfd.  Grep for "cross-ec"
+> > >>> as a relatively recently good example.
+> > >>
+> > >> I think cros-ec is similar enough, yeah. As long as you don't mind
+> > >> having the core codebase in mfd/ (4 files: core, rtkit backend, and
+> > >> future T2 and legacy backends) we can do that.
+> > > 
+> > > That's actually not what I'm suggesting.
+> > > 
+> > > You *only* need to move the subsequent-device-registration handling
+> > > into drivers/mfd.  The remainder really should be treated as Platform
+> > > (not to be confused with Arch Platform) code and should reside in
+> > > drivers/platform.  Just as we do with cros-ec.
+> > 
+> > That's... an interesting approach.
+> 
+> How you decide to initially architect it would be your choice.
+> 
+> We can then discuss any potential improvements / suggestions.
+> 
+> > Is the code in drivers/mfd supposed
+> > to be a subdevice itself? That seems to be what's going on with
+> > cros_ec_dev.c, but do we really need that layer of indirection?
+> 
+> Ideally not.  The evolution of cros-ec happened over many iterations
+> and much time.  Initially it was almost entirely implemented in
+> drivers/mfd until I requested for a lot of the truly platform code to
+> be moved out, as it grew beyond the bounds of, and was therefore no
+> longer relevant to MFD.
+> 
+> If we were to design and build it up again from scratch, I'd suggest
+> that the MFD part would be the core-driver / entry-point.  That driver
+> should request and initialise shared resources and register the other
+> devices, which is essentially the MFD's mantra.
+> 
+> > What's the point of just having effectively an array of mfd_cell and
+> > wrappers to call into the mfd core in the drivers/mfd/ tree and the
+> > rest of the driver elsewhere?
+> 
+> They should be separate drivers, with MFD registering the Platform.
 
-Add the new module-instance/antenna-sku properties required to select
-WiFi firmwares properly to all board device trees.
+I'm guessing this series is now dead, and Hector needs to re-spin the
+patch set according to your views. I'm guessing this is going to take
+a major re-work of the patch series.
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
- arch/arm64/boot/dts/apple/t8103-j274.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j293.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j313.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j456.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j457.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-jxxx.dtsi | 2 ++
- 6 files changed, 22 insertions(+)
+I suspect my attempt and trying to get this upstream has made things
+more complicated, because I doubt Hector has updated his patch set
+with the review comments that have been made so far... so this is
+now quite a mess. I think, once this is sorted, the entire series
+will need to be re-reviewed entirely afresh.
 
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 2cd429efba5b..c1f3ba9c39f6 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -21,6 +21,10 @@ aliases {
- 	};
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,atlantisb";
-+};
-+
- /*
-  * Force the bus number assignments so that we can declare some of the
-  * on-board devices and properties that are populated by the bootloader
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 49cdf4b560a3..ecb10d237a05 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -17,6 +17,10 @@ / {
- 	model = "Apple MacBook Pro (13-inch, M1, 2020)";
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,honshu";
-+};
-+
- /*
-  * Remove unused PCIe ports and disable the associated DARTs.
-  */
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index b0ebb45bdb6f..df741737b8e6 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -17,6 +17,10 @@ / {
- 	model = "Apple MacBook Air (M1, 2020)";
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,shikoku";
-+};
-+
- /*
-  * Remove unused PCIe ports and disable the associated DARTs.
-  */
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 884fddf7d363..8c6bf9592510 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -21,6 +21,10 @@ aliases {
- 	};
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,capri";
-+};
-+
- &i2c0 {
- 	hpm2: usb-pd@3b {
- 		compatible = "apple,cd321x";
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index d7c622931627..fe7c0aaf7d62 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -21,6 +21,10 @@ aliases {
- 	};
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,santorini";
-+};
-+
- /*
-  * Force the bus number assignments so that we can declare some of the
-  * on-board devices and properties that are populated by the bootloader
-diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-index fe2ae40fa9dd..3d15b8e2a6c1 100644
---- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-@@ -71,8 +71,10 @@ hpm1: usb-pd@3f {
- &port00 {
- 	bus-range = <1 1>;
- 	wifi0: network@0,0 {
-+		compatible = "pci14e4,4425";
- 		reg = <0x10000 0x0 0x0 0x0 0x0>;
- 		/* To be filled by the loader */
- 		local-mac-address = [00 00 00 00 00 00];
-+		apple,antenna-sku = "XX";
- 	};
- };
+I've also completely lost where I was in updating the patches with
+all the discussion on this posting of the patch set (which is why I
+posted v2, because I couldn't keep track of all the emails on this
+version.) When I posted v2, I had already lost track, which is why
+it got posted.
+
+Sorry.
+
 -- 
-2.30.2
-
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
