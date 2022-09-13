@@ -1,171 +1,205 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58194C6C
-	for <asahi@lists.linux.dev>; Mon, 12 Sep 2022 21:12:28 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1278624b7c4so26844248fac.5
-        for <asahi@lists.linux.dev>; Mon, 12 Sep 2022 14:12:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=Nip0DqpF4pFkRZH+cZCKwsl/yHMaJf5IoaaXn/QNxSk=;
-        b=n2hhFA14q2NmJ6rFWeuHJxOloG0uwuVAFGaJIXHb2KOyPMRlIqLmZhkeCKXcyIRfNj
-         Mb9cjsx9UkriciRuFd5KyCJND9k1fXT+g/Pg5gTUomQJWgLi2AyHhoaG8mAfrNHhD8BI
-         uVg85u9ensm2ECKD03Jm4o5nYBih+MIWurKm8L9d9xLLTLoStW1c4eLy3dCPnKuswHDP
-         /ElL99+H+fHCKTNn0VqXvNK28LEBo/R3vkCap9RXsJMc0WbIyYJXDgD7DtFYzghyqCSR
-         XfcJHVR7ZB2AMzM2eh2a9yNPdle4genZGZHk9XPnR6ddVZrNupQkU9DgDkseWii/np+M
-         Z4DQ==
-X-Gm-Message-State: ACgBeo0kXytMK0QYDxis+aFyO9lj7sxJrXS3yS/vGb134RyfKFVdMCaD
-	KCl5oKXM+G9EPegZ49qpQA==
-X-Google-Smtp-Source: AA6agR7BL/CQtAyYvQvcr+vIkRvAqs7VKLr+Xu8UpOBsWQGAV67Cg2TMBwDDp3CR4aFgS7C2yCTYNw==
-X-Received: by 2002:a05:6808:1996:b0:34f:c809:e298 with SMTP id bj22-20020a056808199600b0034fc809e298mr128276oib.184.1663017147764;
-        Mon, 12 Sep 2022 14:12:27 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id c186-20020acab3c3000000b0034484c532c7sm4421093oif.32.2022.09.12.14.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Sep 2022 14:12:27 -0700 (PDT)
-Received: (nullmailer pid 1872059 invoked by uid 1000);
-	Mon, 12 Sep 2022 21:12:26 -0000
-Date: Mon, 12 Sep 2022 16:12:26 -0500
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Sven Peter <sven@svenpeter.dev>
-Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] dt-bindings: net: Add Broadcom BCM4377 family
- PCIe Bluetooth
-Message-ID: <20220912211226.GA1847448-robh@kernel.org>
-References: <20220907170935.11757-1-sven@svenpeter.dev>
- <20220907170935.11757-3-sven@svenpeter.dev>
- <bcb799ea-d58e-70dc-c5c2-daaff1b19bf5@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6C21FAA;
+	Tue, 13 Sep 2022 02:22:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1663035741; x=1694571741;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=zygJnuE8E8jvKNdz2OIP3JKDOMe0BkKnwQo47Gv3Gjc=;
+  b=UDD1IEwj1EbhmV34faB9374KnhDIppClZgL3coDPytBf3TeiKO0GS3tT
+   Eid1AHDjQIdOqxyN8Z0GxC+dodTgIC6qbdI/IWZf66wJabVb3ZLdQGYG+
+   adCk46IxVt1tLZ/+3X+wjXnHcguzW3Kchu4dGGYZbpiDH/ykph47Ws6Pa
+   VARywCK/KBxPct7Im/UbAvXFfgLM4u/t2JmzY+JN/k/jX2uPTslBJqUUg
+   ItH81Tu+KKfsZR1E55FvB6BL0WgZV4JiYIwwldwwkQ+F4KVuhg1W89z1C
+   sjDUb+yMpeVLaDn5IVvFNqxm6aHJ0hW84TwOtQ9NTTE91KUGAnfy+ovrb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10468"; a="277751202"
+X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; 
+   d="scan'208";a="277751202"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2022 19:22:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,311,1654585200"; 
+   d="scan'208";a="791762022"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orsmga005.jf.intel.com with ESMTP; 12 Sep 2022 19:22:20 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 12 Sep 2022 19:22:19 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Mon, 12 Sep 2022 19:22:19 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Mon, 12 Sep 2022 19:22:19 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Mon, 12 Sep 2022 19:22:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RGXqaJiEawXuTviv0p9HjvJTkbOB9wM2og5byLbLd8HqXW1dyhxS93WQ8otXaBYvlG+tJ4he8mYdrB9NF3ZvMAjhMqJE+oO4196RvVZbQZcPzrqmG6xJxZFXCZIifNwlQArLHv3WqaQS+O+0Oupoi3n0xpLfcj6hcZTGa5q1fR6eUpB57OW++WevzcF0zDMx2ihXCkpmHZP6r0H0+SsSmUjjoccn2oyGXBGsIomcnWuM1aATcXBRqP24CslV6kPPJzKw0j/z3g5yC4JM3NE2E4e4goTCbKh56LUGxnZCyotw1xgphGY5ORP9kMwWtwTdBjIEXaCa2hCve2Ugp0rGIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K3sEiqT6mWiBMTYhk6cJclFLHy+CFuei8OxoHTPxlyE=;
+ b=Wo/ZYQBr8PwGhE5PjfrA25VYX9l4dikH3eljdVYxZZsQ5sPLSJ5gkHDFEnqtGtXVttY4uw6d1nrgiFCg5+vGcvldhVxDUuTwEIAh7JTH2FwmwS0GzV4fWkHz3wlM0106hHY6ORF1hKwnPfVdstKZdHB3HpRHQNWvj9MTplhgYU/iFhlfUs1OGlOsWeWIR1v5oSbErrzVqHPHW1w1jbBmtUEg372NrP15I+75D1YfGUPmOaO1dM4UIORKSE6QcjgCv2+R2pnl7S9loxaK9dZe8HPMF9ebVI18WUPLAAs+u+EsTHg/wxI8VGH4uDAHNbsZsadl4OlYesO1gVrNzz/AQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by DM4PR11MB6287.namprd11.prod.outlook.com (2603:10b6:8:a6::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.20; Tue, 13 Sep
+ 2022 02:22:18 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::a435:3eff:aa83:73d7]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::a435:3eff:aa83:73d7%5]) with mapi id 15.20.5612.022; Tue, 13 Sep 2022
+ 02:22:17 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Nicolin Chen <nicolinc@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+	"will@kernel.org" <will@kernel.org>, "robin.murphy@arm.com"
+	<robin.murphy@arm.com>, "alex.williamson@redhat.com"
+	<alex.williamson@redhat.com>, "suravee.suthikulpanit@amd.com"
+	<suravee.suthikulpanit@amd.com>, "marcan@marcan.st" <marcan@marcan.st>,
+	"sven@svenpeter.dev" <sven@svenpeter.dev>, "alyssa@rosenzweig.io"
+	<alyssa@rosenzweig.io>, "robdclark@gmail.com" <robdclark@gmail.com>,
+	"dwmw2@infradead.org" <dwmw2@infradead.org>, "baolu.lu@linux.intel.com"
+	<baolu.lu@linux.intel.com>, "mjrosato@linux.ibm.com"
+	<mjrosato@linux.ibm.com>, "gerald.schaefer@linux.ibm.com"
+	<gerald.schaefer@linux.ibm.com>, "orsonzhai@gmail.com" <orsonzhai@gmail.com>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"zhang.lyra@gmail.com" <zhang.lyra@gmail.com>, "thierry.reding@gmail.com"
+	<thierry.reding@gmail.com>, "vdumpa@nvidia.com" <vdumpa@nvidia.com>,
+	"jonathanh@nvidia.com" <jonathanh@nvidia.com>, "jean-philippe@linaro.org"
+	<jean-philippe@linaro.org>, "cohuck@redhat.com" <cohuck@redhat.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"shameerali.kolothum.thodi@huawei.com"
+	<shameerali.kolothum.thodi@huawei.com>, "thunder.leizhen@huawei.com"
+	<thunder.leizhen@huawei.com>, "christophe.jaillet@wanadoo.fr"
+	<christophe.jaillet@wanadoo.fr>, "yangyingliang@huawei.com"
+	<yangyingliang@huawei.com>, "jon@solid-run.com" <jon@solid-run.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-arm-msm@vger.kernel.org"
+	<linux-arm-msm@vger.kernel.org>, "linux-s390@vger.kernel.org"
+	<linux-s390@vger.kernel.org>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "virtualization@lists.linux-foundation.org"
+	<virtualization@lists.linux-foundation.org>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>
+Subject: RE: [PATCH v6 1/5] iommu: Return -EMEDIUMTYPE for incompatible domain
+ and device/group
+Thread-Topic: [PATCH v6 1/5] iommu: Return -EMEDIUMTYPE for incompatible
+ domain and device/group
+Thread-Index: AQHYsNLwCXoHuSRk00qOEfaHbTrxlq3UDMUAgAASXoCAAAVEgIAAM22AgAFUQQCAAC55AIAAuSeAgAARJhCAAIL6gIAFo0HQ
+Date: Tue, 13 Sep 2022 02:22:17 +0000
+Message-ID: <BN9PR11MB527670BB3EEB81064DC811828C479@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <20220815181437.28127-1-nicolinc@nvidia.com>
+ <20220815181437.28127-2-nicolinc@nvidia.com> <YxiRkm7qgQ4k+PIG@8bytes.org>
+ <Yxig+zfA2Pr4vk6K@nvidia.com> <YxilZbRL0WBR97oi@8bytes.org>
+ <YxjQiVnpU0dr7SHC@nvidia.com> <Yxnt9uQTmbqul5lf@8bytes.org>
+ <YxoU8lw+qIw9woRL@nvidia.com> <YxqwQ+3OICPdEtk0@Asurada-Nvidia>
+ <BN9PR11MB5276D4CDC551DEA5962F9A178C439@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <YxsshXKlidq8WgT+@nvidia.com>
+In-Reply-To: <YxsshXKlidq8WgT+@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+dlp-version: 11.6.500.17
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|DM4PR11MB6287:EE_
+x-ms-office365-filtering-correlation-id: e5ce67f3-a65f-4a98-18d2-08da952ec7ac
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: CvufSMyXupdZ6hPSrHTaPQQRgcIKIy6wazEJlKOA6JLYffstT31snx8xeYpMW6u3DcZx3q+6q8TOAcHGS/cUELqYySFRzpLT3uoZAC4YnnM3Dnwi+M59b+TzxZEg7jQ6IFBlnOiZARjY548EnwdXox/QVr8Mg3ANoYUijZ21cl/7HUee6/cYEw+S6zzmlq72xitNmFCxS7V+ZY4aPS66leM9VWr4KFwZKRTiCDrEZw44mrXvPZ8bUsGUYeBncP7T0TJolQZtCpiOfdlk4UqPnItsJ05d0jLAjEFTRu6z2UPXg1nUDWY3iaixCqrDp54+6yaH7Gf0y86oahQQZGWb4cR9s9prn/WiNzzRm4OoeK8vw04MJ0wOfH1EaB7ikD1ZZ54bVvaiiNhba0PQSlzPVMu1pucJHVLeFCXMfyDOZNrLzN00fv7GqTpUdB3jcoc4OgRaDAquyTNIRMBkfMcFdWGictUZjd0otUMqePgpPWQxLFe8fTMuC+Hi9GkeO0CDxLZ1xwuFpMtXEkfPmzNYNr51YGhqYE0t0DfH6QSD2gz+SMeWWz2lXfadp/zOcgD716wNy86ldbyA6jgrC09qGJ6locXomAljelTl6aMZjxtMknofRGdz6A/b8TeIzg5OM2SQ5DNyvs1MSTJg62s+77Uy+HULTrJeClxZgEzVw2LOGHWH0W38KpG2lfTy2j95sCDKJDQE4xaDfZxQyhTtbG9Rp4qux+bb7NkzZ+IuO0/LcbimL0YP1RzALcNyk3sM
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(376002)(346002)(366004)(136003)(396003)(39860400002)(451199015)(33656002)(38100700002)(54906003)(26005)(122000001)(8936002)(4326008)(41300700001)(55016003)(66446008)(66946007)(8676002)(86362001)(186003)(66476007)(9686003)(71200400001)(82960400001)(7696005)(6916009)(76116006)(38070700005)(66556008)(64756008)(7416002)(6506007)(2906002)(52536014)(7406005)(316002)(5660300002)(4744005)(478600001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?b4qeXk9yk5QzTjdJ3jnMCs1ixGiIWHfRF1YgiHM7o1kcAFatKoQ5Tb0N1ZWm?=
+ =?us-ascii?Q?7vUvFYVzbOslLtFOKCjHUOWwkECNobeiQr9H3ycGf9GELBfzz/Am0c6x3o/u?=
+ =?us-ascii?Q?wTMVs8rFQaSv7dZxxMrIndj2OTxhIeNvC/kDeasgnCXvul8zk4o+2V4w754L?=
+ =?us-ascii?Q?ph4lQjDy0/st8JCQN3/61s0L6eGfFTm5t0gN2ngFjWJfy2UmrylEjK78ToqN?=
+ =?us-ascii?Q?2NpZeVswFV0eZbNCO5zu2wbUZlbZINhZyeRZ9ms1O+ashlUKT+jiVcZXztTr?=
+ =?us-ascii?Q?CotmeK6Iruz7auG0RkVJ13qDUpkpMMr0Jk/qVGrY/esSKZ2uuQwjpTflF84v?=
+ =?us-ascii?Q?Ip93U5V+aDSPmt6LMXosQIR0StyNS9VYAWZVWZ0Fae6gG/kWvdgU691sUJA7?=
+ =?us-ascii?Q?sv3+U7AnLfyQ3nQIcYgVPbNlbDGqefSyQVKX/BDFs+4ph7tteXb4lvnarIqx?=
+ =?us-ascii?Q?Jk+GDVh0PM1RMOcstoBBU7saETKdcUf5mlnQcLFsd+l629bFC1pqdHs+WQXZ?=
+ =?us-ascii?Q?Iee23pKgt9LDOIr7Qt44KL6N+D80pFnY0kQ/QpHx8yLM3VhuG4GPqYHNKw/v?=
+ =?us-ascii?Q?Y54inkz7Hvb52dkdBJoKxQ3QyOlWvVqt7Gfl5KJ4vr4dNrgCem/aMsJR4C/0?=
+ =?us-ascii?Q?QJv8MWTJXnwJJhLlPWyluM+0I4xy3yPgkc9ijTbYzCFs+74bio0kW3FDQx2U?=
+ =?us-ascii?Q?6Lo4Lz1Tzdd+1Zg8hWa8ruC1Qdv2cSC6TXyOtP7yrm44lpFLRl15BYxiq/dZ?=
+ =?us-ascii?Q?/Isv8ynn1JsRnQvSzK+RvQxtJ8FR5HFZAERGcsGvdAaxedkp9lL/qN7i/PC0?=
+ =?us-ascii?Q?baFDGRLrMy0InZMcCJTg9e3rMF6WvZ1VlprLiBTHQ63ZODYasDOED19JVVxM?=
+ =?us-ascii?Q?UXDURkGCzBpcACXmngM+4Qb3m4MupLOC08LVRRsObGT0iCuCnRVN0hRViH0q?=
+ =?us-ascii?Q?OiR1gRIF8SbdMWbxSrs6nQvkwo5fFID34ePJOsuLqz28ibpn9mhCy+JyW2/a?=
+ =?us-ascii?Q?UhbHCkoyz+UCB81s0JPwT1pij7cMgFE9HgYQ2BJTiQ8dufs3P3N+VMuuk3ra?=
+ =?us-ascii?Q?LJHBPNCZeQSK6TUPmrPKxF3vWkXBFvxec1SM58OiFwSx8+helW5c+x5OIs13?=
+ =?us-ascii?Q?oBGlvDvm4H++fCpWdTIlkm0IbksSOHGNqXTZX5rDVR+qGNBDiT+ismsqXm0b?=
+ =?us-ascii?Q?udPt46R25GgtwlssftxrwfLyBNkV6YVSxQGodmoEMrOcvOjqwON80hyCN5yp?=
+ =?us-ascii?Q?HdqLRZNkXZwqtvKd/zSq2o+v7Ns7w62nUvCsfvONISKv6ToQiGitBazLlKvr?=
+ =?us-ascii?Q?KONzotzNgPNtvoWYxR3ztbFn/C6ZnpDrVvpz6FriWfCv6ujGwwIr3nXLZ05j?=
+ =?us-ascii?Q?Z99MJTfaqOG88D4ft0x44nMiUY/twm8byKqiyK81GUXxcVIoWAqYVp5U4Rbn?=
+ =?us-ascii?Q?dktqjoJGQ4p1tZq/wUAxURv/Ft41uRJBDCzV6HkyqLnbeK2ym9MbXp81hYz3?=
+ =?us-ascii?Q?ssTk+BM5ZV7yMi8WBTVhU+YATdVbyqlQ94qJsAgHB39m0nj9Ye77ZetgNB1V?=
+ =?us-ascii?Q?4tloqOtwtOjDysZUsRc=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bcb799ea-d58e-70dc-c5c2-daaff1b19bf5@linaro.org>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5ce67f3-a65f-4a98-18d2-08da952ec7ac
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Sep 2022 02:22:17.7012
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /H/LmOHGk/LV+KRBVGSs00g9G8hLQ0HGzLapZzpWY5xN0nFoEQgopuaQQLhqb/2GkrmbUM+Rqt1I3lDYrc7t8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6287
+X-OriginatorOrg: intel.com
 
-On Thu, Sep 08, 2022 at 01:19:17PM +0200, Krzysztof Kozlowski wrote:
-> On 07/09/2022 19:09, Sven Peter wrote:
-> > These chips are combined Wi-Fi/Bluetooth radios which expose a
-> > PCI subfunction for the Bluetooth part.
-> > They are found in Apple machines such as the x86 models with the T2
-> > chip or the arm64 models with the M1 or M2 chips.
-> > 
-> > Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> > ---
-> > changes from v1:
-> >   - added apple,* pattern to brcm,board-type
-> >   - s/PCI/PCIe/
-> >   - fixed 1st reg cell inside the example to not contain the bus number
-> > 
-> > .../bindings/net/brcm,bcm4377-bluetooth.yaml  | 78 +++++++++++++++++++
-> >  MAINTAINERS                                   |  1 +
-> >  2 files changed, 79 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/net/brcm,bcm4377-bluetooth.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/net/brcm,bcm4377-bluetooth.yaml b/Documentation/devicetree/bindings/net/brcm,bcm4377-bluetooth.yaml
-> > new file mode 100644
-> > index 000000000000..fb851f8e6bcb
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/net/brcm,bcm4377-bluetooth.yaml
-> > @@ -0,0 +1,78 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/net/brcm,bcm4377-bluetooth.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Broadcom BCM4377 family PCIe Bluetooth Chips
-> > +
-> > +allOf:
-> > +  - $ref: bluetooth-controller.yaml#
-> 
-> Put it before properties (so after description).
-> 
-> > +
-> > +maintainers:
-> > +  - Sven Peter <sven@svenpeter.dev>
-> > +
-> > +description:
-> > +  This binding describes Broadcom BCM4377 family PCIe-attached bluetooth chips
-> > +  usually found in Apple machines. The Wi-Fi part of the chip is described in
-> > +  bindings/net/wireless/brcm,bcm4329-fmac.yaml.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - pci14e4,5fa0 # BCM4377
-> > +      - pci14e4,5f69 # BCM4378
-> > +      - pci14e4,5f71 # BCM4387
-> > +
-> > +  reg:
-> > +    description: PCI device identifier.
-> 
-> maxItems: X
+> From: Jason Gunthorpe <jgg@nvidia.com>
+> Sent: Friday, September 9, 2022 8:08 PM
+>=20
+>=20
+> > As discussed in a side thread a note might be added to exempt calling
+> > kAPI outside of the iommu driver.
+>=20
+> Sadly, not really.. The driver is responsible to santize this if it is
+> relevant. It is the main downside of this approach.
+>=20
 
-And drop the description.
+Better provide a clarification on what sanitization means.
 
-> 
-> > +
-> > +  brcm,board-type:
-> > +    $ref: /schemas/types.yaml#/definitions/string
-> > +    description: Board type of the Bluetooth chip. This is used to decouple
-> > +      the overall system board from the Bluetooth module and used to construct
-> > +      firmware and calibration data filenames.
-> > +      On Apple platforms, this should be the Apple module-instance codename
-> > +      prefixed by "apple,", e.g. "apple,atlantisb".
-> > +    pattern: '^apple,.*'
-> > +
-> > +  brcm,taurus-cal-blob:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> > +    description: A per-device calibration blob for the Bluetooth radio. This
-> > +      should be filled in by the bootloader from platform configuration
-> > +      data, if necessary, and will be uploaded to the device.
-> > +      This blob is used if the chip stepping of the Bluetooth module does not
-> > +      support beamforming.
-> 
-> Isn't it:
-> s/beamforming/beam forming/
-> ?
-> 
-> > +
-> > +  brcm,taurus-bf-cal-blob:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> > +    description: A per-device calibration blob for the Bluetooth radio. This
-> > +      should be filled in by the bootloader from platform configuration
-> > +      data, if necessary, and will be uploaded to the device.
-> > +      This blob is used if the chip stepping of the Bluetooth module supports
-> > +      beamforming.
-> 
-> Same here.
-> 
-> > +
-> > +  local-bd-address: true
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - local-bd-address
-> > +  - brcm,board-type
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    pcie {
-> > +      #address-cells = <3>;
-> > +      #size-cells = <2>;
-> > +
-> > +      bluetooth@0,1 {
-> 
-> The unit address seems to be different than reg.
+e.g. I don't think we should change errno in those kAPIs to match the
+definition in iommu subsystem since e.g. -EINVAL really means different
+things in different context.
 
-Right, this says dev 0, func 1.
+So the sanitization in iommu driver is probably that:
 
-dtc can check this, but IIRC it would need 'device_type = "pci";' 
-in the parent. So please add that, and verify you get a warning.
+  - If an external kAPI returns -EINVAL, convert it to -ENODEV given iommu
+    domain is iommu internal object hence unlikely for external kAPIs to
+    capture incompatibility issue between domain/device;
+  - Otherwise just pass whatever returned to the caller, following the defi=
+nition
+    of "Same behavior as -ENODEV" above
 
-Rob
+Thanks
+Kevin
