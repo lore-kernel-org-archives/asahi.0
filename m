@@ -1,92 +1,117 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA7A02F2C
-	for <asahi@lists.linux.dev>; Thu, 15 Sep 2022 09:08:22 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8FD3205
+	for <asahi@lists.linux.dev>; Thu, 15 Sep 2022 09:45:34 +0000 (UTC)
+From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1663232894; bh=5T7fANvbR8aOkxZKsm17t90nIE/N2i6lzPnLtMrGZng=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=Pcpl22EllOQGrrVzCCwI7v343ZqXYueCFtqmX2hj1JqswEZRjm7P/BAmKO20CTLCV
-	 kABvmE3rEUvznJVv/IG8M68id8aQqks6gQY7gk23+GQmdoAloa7/L73ZYsJtxSLkeG
-	 CKr1oQIv6VQW5MEikA70J8azkXsbCn/Ngkpdyz/M=
+	t=1663235131; bh=4WniKmDTRyE2+0d9QSPkjbvmgZSalwVJ8NJ5/GghFWU=;
+	h=From:To:Cc:Subject:Date;
+	b=StoUiZsQfJGYtm0lt4u4lHvSWLKSnV4Zv/D8JVqi8y3uI4IuIK5ksiwYoW2THgt4B
+	 bU4A4DFmjejXo/qacvtZ3QUF4fm83xZ+elfIuGqXnPF1/kzMO/tggjMU93epoR/yOh
+	 mmatTUrGqLd/BbOJqFlh2pW0ab+IfJzPJ+r10/Jo=
+To: James Schulman <james.schulman@cirrus.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Lucas Tanure <tanureal@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
+	ChiYuan Huang <cy_huang@richtek.com>,
+	Matt Flax <flatmax@flatmax.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	- <patches@opensource.cirrus.com>,
+	alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: [PATCH v2 00/11] Support for CS42L83 on Apple machines
+Date: Thu, 15 Sep 2022 11:44:33 +0200
+Message-Id: <20220915094444.11434-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: [PATCH 04/10] ASoC: cs42l42: Split probe() and remove() into
- stages
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <20220909135334.98220-5-povik+lin@cutebit.org>
-Date: Thu, 15 Sep 2022 11:08:11 +0200
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
- ChiYuan Huang <cy_huang@richtek.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Matt Flax <flatmax@flatmax.com>,
- - <patches@opensource.cirrus.com>,
- alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A40F3F43-2052-4759-BAF0-3EE0EEA270DC@cutebit.org>
-References: <20220909135334.98220-1-povik+lin@cutebit.org>
- <20220909135334.98220-5-povik+lin@cutebit.org>
-To: James Schulman <james.schulman@cirrus.com>,
- David Rhodes <david.rhodes@cirrus.com>,
- Lucas Tanure <tanureal@opensource.cirrus.com>,
- Richard Fitzgerald <rf@opensource.cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+[Changes for v2: Collected ack on compatible. Addressed Richard's
+comments pertaining to error handling. Rebased. Switched to
+dev_err_probe() in few places (added patch #11). Fixed authorship of
+one of Richard's patches.]
 
-> On 9. 9. 2022, at 15:53, Martin Povi=C5=A1er <povik+lin@cutebit.org> =
-wrote:
->=20
-> To prepare for adding SoundWire the probe must be split into three
-> parts:
->=20
-> 1) The bus-specific probe
-> 2) Common bus-agnostic probe steps
-> 3) Initialization of the peripheral registers
->=20
-> Step (3) must be separate because on SoundWire devices the probe must
-> enable power supplies and release reset so that the peripheral can be
-> enumerated by the bus, but it isn't possible to access registers until
-> enumeration has completed.
->=20
-> The call to devm_snd_soc_register_component() must be done at stage =
-(2)
-> so that it can EPROBE_DEFER if necessary. In SoundWire systems stage =
-(3)
-> is not a probe event so a deferral at this stage would not result in
-> re-probing dependencies.
->=20
-> A new init_done flag indicates that the chip has been identified and
-> initialized. This is used to prevent cs42l42_remove(), =
-cs42l42_suspend(),
-> cs42l42_restore() and cs42l42_irq_thread() from attempting register
-> accesses if the chip was not successfully initialized. Although this
-> cannot happen on I2C, because the entire probe would fail, it is
-> possible on SoundWire if probe succeeds but the cs42l42 is never
-> enumerated.
->=20
-> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-> Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+Hi all,
 
-Preparing the next iteration of the series, I noticed that I reset
-the authorship of this patch in the course of git manipulations. The
-author of this patch is of course Richard, apologies for that. It will
-be fixed for v2.
+there's a CS42L83 headphone jack codec found in Apple computers (in the
+recent 'Apple Silicon' ones as well as in earlier models, one example
+[1]). The part isn't publicly documented, but it appears almost
+identical to CS42L42, for which we have a driver in kernel. This series
+adapts the CS42L42 driver to the new part, and makes one change in
+anticipation of a machine driver for the Apple computers.
 
+Patch 1 adds new compatible to the cs42l42 schema.
+
+Patches 2 to 7 are taken from Richard's recent series [2] adding
+soundwire support to cs42l42. They are useful refactorings to build on
+in the later patches, and also this way our work doesn't diverge. 
+(I fixed missing free_irq path in cs42l42_init, did
+ s/Soundwire/SoundWire/ in changelogs, rebased.)
+
+Patch 8 exports some regmap-related symbols from cs42l42.c so they can
+be used to create cs42l83 regmap in cs42l83-i2c.c later.
+
+Patch 9 is the cs42l83 support proper.
+
+Patch 10 implements 'set_bclk_ratio' on the cs42l42 core. This will be
+called by the upcoming ASoC machine driver for 'Apple Silicon' Macs.
+(We have touched on this change to be made in earlier discussion, see
+ [3] and replies.)
+
+Patch 11 brings cs42l42-i2c.c in sync with cs42l83-i2c.c on
+dev_err_probe() usage.
+
+Best,
 Martin
+
+[1] https://www.ifixit.com/Teardown/MacBook+Pro+13-Inch+Touch+Bar+2018+Teardown/111384
+[2] https://lore.kernel.org/alsa-devel/20220819125230.42731-1-rf@opensource.cirrus.com/T/#mc05cc6898be2c23fe2e7c8bb4ea4e4a00c1912a7
+[3] https://lore.kernel.org/asahi/8961DDD2-93FF-4A18-BCA2-90FCE298F517@cutebit.org/
+
+
+Martin Povišer (5):
+  ASoC: dt-bindings: cs42l42: Add 'cs42l83' compatible
+  ASoC: cs42l42: Export regmap elements to core namespace
+  ASoC: cs42l83: Extend CS42L42 support to new part
+  ASoC: cs42l42: Implement 'set_bclk_ratio'
+  ASoC: cs42l42: Switch to dev_err_probe() helper
+
+Richard Fitzgerald (6):
+  ASoC: cs42l42: Add bitclock frequency argument to cs42l42_pll_config()
+  ASoC: cs42l42: Use cs42l42->dev instead of &i2c_client->dev
+  ASoC: cs42l42: Split probe() and remove() into stages
+  ASoC: cs42l42: Split cs42l42_resume into two functions
+  ASoC: cs42l42: Pass component and dai defs into common probe
+  ASoC: cs42l42: Split I2C identity into separate module
+
+ .../bindings/sound/cirrus,cs42l42.yaml        |   1 +
+ MAINTAINERS                                   |   1 +
+ include/sound/cs42l42.h                       |   1 +
+ sound/soc/codecs/Kconfig                      |  15 +-
+ sound/soc/codecs/Makefile                     |   6 +-
+ sound/soc/codecs/cs42l42-i2c.c                | 106 +++++++
+ sound/soc/codecs/cs42l42.c                    | 259 +++++++++---------
+ sound/soc/codecs/cs42l42.h                    |  24 +-
+ sound/soc/codecs/cs42l83-i2c.c                | 242 ++++++++++++++++
+ 9 files changed, 529 insertions(+), 126 deletions(-)
+ create mode 100644 sound/soc/codecs/cs42l42-i2c.c
+ create mode 100644 sound/soc/codecs/cs42l83-i2c.c
+
+-- 
+2.33.0
 
