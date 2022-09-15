@@ -1,79 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0704432
-	for <asahi@lists.linux.dev>; Thu, 15 Sep 2022 13:09:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A37C433B5
-	for <asahi@lists.linux.dev>; Thu, 15 Sep 2022 13:09:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663247376;
-	bh=voBOspV7bMcyAOeL4IXlWZdmHt1ofLGAWeFr9pfd3M4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=mwPCw60Q/FaLbJtDCeVQ+MGRtjz5+Mg3watBFhaPlRpSaXCc3yw72nTHSNnuU4LXd
-	 44mZUcEdoOA4t+xQ4jHx1IrH3bj3XbDL6YCRheg2v526vnaUXKddXY1wcr2sTcqEFH
-	 CJuA2ARstHd3yBic3yIdb6L3kaoRDFNDJKEnBeB7i07VZtuHrUFu9YYERPHQva0boE
-	 p3sXDVmKjju/7nXZsrkv7Qfn5JCrppjIQ6BWReK4v4dmYLXt3xR7sQOvE51EPfqm8n
-	 ANtzLfHvnq1RuwnQDuLCG5glf/gxR4hVnwcJh0DAMQnvVA45eb00SJ0QtRh6rhCduS
-	 ztDi6iTo3rjWQ==
-Received: by mail-vs1-f51.google.com with SMTP id u189so19229331vsb.4
-        for <asahi@lists.linux.dev>; Thu, 15 Sep 2022 06:09:36 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3PBmYBznc9kOEFhQV6VTSIJmIuCmOCdNOj6uAqN+q7SN9NvDUb
-	EV6fMH3nEUwaNbSnK8WMQim5pep3ShMO///mXw==
-X-Google-Smtp-Source: AA6agR4BIfzeSUOkNKwBmMYoVvW5yb/Z1HSv0FwqqEWLBeGrUkIu+Mdpm6vlUlMr86ifsZh2UV/yNNG8p8uNEyrklF0=
-X-Received: by 2002:a67:ad12:0:b0:398:3d57:33e0 with SMTP id
- t18-20020a67ad12000000b003983d5733e0mr11010446vsl.6.1663247375551; Thu, 15
- Sep 2022 06:09:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E839A4683
+	for <asahi@lists.linux.dev>; Thu, 15 Sep 2022 13:45:18 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1663249513; bh=l01iLyM36JedOYdbzAtHbSm+ZQiW2nZAjHAJLtQOIws=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=K5TAwaPZbHU8pEC1ODHmVk2rGZNxvX8lP1CrhlLin+uAdeE//NklaLbliGyuO37GS
+	 1aD+jCZlo1q28wPfikTP0ks7osCFIaqDUy2T2ilc+0qWxTJ4lONe3Njl7HZGlO/K08
+	 VKw4qsdaRXa7xW7ULNnDcMlFOQcCRig6u4y+RNNI=
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20220907170935.11757-1-sven@svenpeter.dev> <20220907170935.11757-3-sven@svenpeter.dev>
- <bcb799ea-d58e-70dc-c5c2-daaff1b19bf5@linaro.org> <20220912211226.GA1847448-robh@kernel.org>
-In-Reply-To: <20220912211226.GA1847448-robh@kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 15 Sep 2022 08:09:24 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqL96Er9JuDajHWtf=i7bvzrf7PLzk-G-Qm4wTxTr5BStg@mail.gmail.com>
-Message-ID: <CAL_JsqL96Er9JuDajHWtf=i7bvzrf7PLzk-G-Qm4wTxTr5BStg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] dt-bindings: net: Add Broadcom BCM4377 family PCIe Bluetooth
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Sven Peter <sven@svenpeter.dev>
-Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, 
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	"open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
+Subject: Re: [PATCH v2 04/11] ASoC: cs42l42: Split probe() and remove() into
+ stages
+From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+In-Reply-To: <2839a437-a57a-ffc4-da8e-dde9a9a9a5cc@opensource.cirrus.com>
+Date: Thu, 15 Sep 2022 15:45:10 +0200
+Cc: James Schulman <james.schulman@cirrus.com>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Lucas Tanure <tanureal@opensource.cirrus.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ ChiYuan Huang <cy_huang@richtek.com>,
+ Matt Flax <flatmax@flatmax.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+ - <patches@opensource.cirrus.com>,
+ Linux-ALSA <alsa-devel@alsa-project.org>,
+ devicetree@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ asahi@lists.linux.dev
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <AB6CBB73-5124-4C3B-9F03-DB4B5092767C@cutebit.org>
+References: <20220915094444.11434-1-povik+lin@cutebit.org>
+ <20220915094444.11434-5-povik+lin@cutebit.org>
+ <2839a437-a57a-ffc4-da8e-dde9a9a9a5cc@opensource.cirrus.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Mark Brown <broonie@kernel.org>
 
-On Mon, Sep 12, 2022 at 4:12 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Thu, Sep 08, 2022 at 01:19:17PM +0200, Krzysztof Kozlowski wrote:
-> > On 07/09/2022 19:09, Sven Peter wrote:
-> > > These chips are combined Wi-Fi/Bluetooth radios which expose a
-> > > PCI subfunction for the Bluetooth part.
-> > > They are found in Apple machines such as the x86 models with the T2
-> > > chip or the arm64 models with the M1 or M2 chips.
-> > >
-> > > Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> > > ---
 
-> > > +examples:
-> > > +  - |
-> > > +    pcie {
-> > > +      #address-cells = <3>;
-> > > +      #size-cells = <2>;
-> > > +
-> > > +      bluetooth@0,1 {
-> >
-> > The unit address seems to be different than reg.
->
-> Right, this says dev 0, func 1.
+> On 15. 9. 2022, at 14:20, Richard Fitzgerald =
+<rf@opensource.cirrus.com> wrote:
+>=20
+> On 15/09/2022 10:44, Martin Povi=C5=A1er wrote:
+>> From: Richard Fitzgerald <rf@opensource.cirrus.com>
+>> To prepare for adding SoundWire the probe must be split into three
+>> parts:
+>> 1) The bus-specific probe
+>> 2) Common bus-agnostic probe steps
+>> 3) Initialization of the peripheral registers
+>> Step (3) must be separate because on SoundWire devices the probe must
+>> enable power supplies and release reset so that the peripheral can be
+>> enumerated by the bus, but it isn't possible to access registers =
+until
+>> enumeration has completed.
+>> The call to devm_snd_soc_register_component() must be done at stage =
+(2)
+>> so that it can EPROBE_DEFER if necessary. In SoundWire systems stage =
+(3)
+>> is not a probe event so a deferral at this stage would not result in
+>> re-probing dependencies.
+>> A new init_done flag indicates that the chip has been identified and
+>> initialized. This is used to prevent cs42l42_remove(), =
+cs42l42_suspend(),
+>> cs42l42_restore() and cs42l42_irq_thread() from attempting register
+>> accesses if the chip was not successfully initialized. Although this
+>> cannot happen on I2C, because the entire probe would fail, it is
+>> possible on SoundWire if probe succeeds but the cs42l42 is never
+>> enumerated.
+>> Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+>> Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+>> ---
+>> sound/soc/codecs/cs42l42.c | 127 =
++++++++++++++++++++++++++------------
+>> sound/soc/codecs/cs42l42.h | 2 +
+>> 2 files changed, 87 insertions(+), 42 deletions(-)
+>> diff --git a/sound/soc/codecs/cs42l42.c b/sound/soc/codecs/cs42l42.c
+>> index 11cb659f03e0..427b29db2252 100644
+>> --- a/sound/soc/codecs/cs42l42.c
+>> +++ b/sound/soc/codecs/cs42l42.c
+>> @@ -1627,7 +1627,7 @@ static irqreturn_t cs42l42_irq_thread(int irq, =
+void *data)
+>> 	int report =3D 0;
+>> 	mutex_lock(&cs42l42->irq_lock);
+>> -	if (cs42l42->suspended) {
+>> +	if (cs42l42->suspended || !cs42l42->init_done) {
+>> 		mutex_unlock(&cs42l42->irq_lock);
+>> 		return IRQ_NONE;
+>> 	}
+>=20
+> This doesn't apply to broonie/for-next. Needs rebasing onto commit:
+> ea75deef1a73 ("ASoC: cs42l42: Only report button state if there was a
+> button interrupt")
 
-Actually, the reg value of 0x100 is correct. func is bits 8-10. dev
-starts in bit 11.
+It did apply to broonie/for-6.1 roughly at the time of posting, but
+since then the merge commit 12e51866c79f ("ASoC/qcom/arm64: Qualcomm
+ADSP DTS and binding fixes=E2=80=9D) brought in changes into =
+broonie/for-6.1
+from elsewhere, I guess from broonie/for-next. (I am not sure this
+was intentional.)
 
-Rob
+Since the series still applies in a 3-way automerge (git am -3) on
+top of the new for-6.1 or for-next, I checked the automerge result
+and also considering the other commit ea75deef1a73 touches an
+unrelated part of cs42l42_irq_thread, I am not considering this an
+issue, that is unless Mark says it is.
+
+Martin
+
