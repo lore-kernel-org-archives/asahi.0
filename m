@@ -1,15 +1,15 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653093C37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C984D3D6E
 	for <asahi@lists.linux.dev>; Thu, 15 Sep 2022 09:45:39 +0000 (UTC)
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1663235136; bh=5iADcUyCkoKBLtPlXxKURQhY4TmQ9CXYiJ51cQuH6qI=;
+	t=1663235137; bh=RYvMqhdnzL8RPlR9TpcOtA7UqSXk+T+8HMSs+nwHUT4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=ILCBgd+d2F1xL5yu8ExrZbyMrdANyfkHWDDq1OYbz9YKhvikJan6iTzh+1Qji5Z7x
-	 jEnAyyGRvAKxwoE+PdMbGByP02azv2pzva2VVwhm2zJmP8JGQ4cO4e9GPnxhxWNgKh
-	 84TYPjlcgAAsejYG1goLel0jkxdD0OrBBH36NYBk=
+	b=cFhRzEkoYwohnQsDEnr6aUWMfMKipUR8Feq3jxl40+gC6PjMguEAK/PFnqbft3/oI
+	 mcqLjLhoX/Ls1umQzkw5gT9hVnfudMaW/qAmIBI0UZYz0EvpNjWP9MIOnJQbCkg3Bd
+	 bbZ21Kxxj2ZGj/XdWbnvZRH1jQmdqWO2TVpOAggU=
 To: James Schulman <james.schulman@cirrus.com>,
 	David Rhodes <david.rhodes@cirrus.com>,
 	Lucas Tanure <tanureal@opensource.cirrus.com>,
@@ -29,9 +29,9 @@ Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev
-Subject: [PATCH v2 08/11] ASoC: cs42l42: Export regmap elements to core namespace
-Date: Thu, 15 Sep 2022 11:44:41 +0200
-Message-Id: <20220915094444.11434-9-povik+lin@cutebit.org>
+Subject: [PATCH v2 10/11] ASoC: cs42l42: Implement 'set_bclk_ratio'
+Date: Thu, 15 Sep 2022 11:44:43 +0200
+Message-Id: <20220915094444.11434-11-povik+lin@cutebit.org>
 In-Reply-To: <20220915094444.11434-1-povik+lin@cutebit.org>
 References: <20220915094444.11434-1-povik+lin@cutebit.org>
 Precedence: bulk
@@ -43,78 +43,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Export the regmap callbacks for indicating readable/volatile registers,
-also the range structure, to the CS42L42 core namespace. This is in
-advance of reusing these bits in a CS42L83 driver frontend.
+The driver wants to know the bit rate on the serial bus and takes that
+to be the value set by 'set_sysclk'. The 'set_bclk_ratio' op is a better
+fit for figuring out the clocking parameters of the serial bus, so
+implement that and give it precedence over the prior methods.
 
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 ---
- sound/soc/codecs/cs42l42.c | 9 ++++++---
- sound/soc/codecs/cs42l42.h | 4 ++++
- 2 files changed, 10 insertions(+), 3 deletions(-)
+ sound/soc/codecs/cs42l42.c | 17 ++++++++++++++++-
+ sound/soc/codecs/cs42l42.h |  1 +
+ 2 files changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/sound/soc/codecs/cs42l42.c b/sound/soc/codecs/cs42l42.c
-index 3ace16259d1a..7b9237f0ce78 100644
+index c1d7eb12b0ba..05995ed1d3f5 100644
 --- a/sound/soc/codecs/cs42l42.c
 +++ b/sound/soc/codecs/cs42l42.c
-@@ -171,7 +171,7 @@ static const struct reg_default cs42l42_reg_defaults[] = {
- 	{ CS42L42_ASP_RX_DAI1_CH2_BIT_LSB,	0x00 },
+@@ -898,7 +898,10 @@ static int cs42l42_pcm_hw_params(struct snd_pcm_substream *substream,
+ 
+ 	cs42l42->srate = params_rate(params);
+ 
+-	if (cs42l42->sclk) {
++	if (cs42l42->bclk_ratio) {
++		/* machine driver has set the BCLK/samp-rate ratio */
++		bclk = cs42l42->bclk_ratio * params_rate(params);
++	} else if (cs42l42->sclk) {
+ 		/* machine driver has set the SCLK */
+ 		bclk = cs42l42->sclk;
+ 	} else {
+@@ -984,6 +987,17 @@ static int cs42l42_set_sysclk(struct snd_soc_dai *dai,
+ 	return -EINVAL;
+ }
+ 
++static int cs42l42_set_bclk_ratio(struct snd_soc_dai *dai,
++				unsigned int bclk_ratio)
++{
++	struct snd_soc_component *component = dai->component;
++	struct cs42l42_private *cs42l42 = snd_soc_component_get_drvdata(component);
++
++	cs42l42->bclk_ratio = bclk_ratio;
++
++	return 0;
++}
++
+ static int cs42l42_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
+ {
+ 	struct snd_soc_component *component = dai->component;
+@@ -1087,6 +1101,7 @@ static const struct snd_soc_dai_ops cs42l42_ops = {
+ 	.hw_params	= cs42l42_pcm_hw_params,
+ 	.set_fmt	= cs42l42_set_dai_fmt,
+ 	.set_sysclk	= cs42l42_set_sysclk,
++	.set_bclk_ratio	= cs42l42_set_bclk_ratio,
+ 	.mute_stream	= cs42l42_mute_stream,
  };
  
--static bool cs42l42_readable_register(struct device *dev, unsigned int reg)
-+bool cs42l42_readable_register(struct device *dev, unsigned int reg)
- {
- 	switch (reg) {
- 	case CS42L42_PAGE_REGISTER:
-@@ -330,8 +330,9 @@ static bool cs42l42_readable_register(struct device *dev, unsigned int reg)
- 		return false;
- 	}
- }
-+EXPORT_SYMBOL_NS_GPL(cs42l42_readable_register, SND_SOC_CS42L42_CORE);
- 
--static bool cs42l42_volatile_register(struct device *dev, unsigned int reg)
-+bool cs42l42_volatile_register(struct device *dev, unsigned int reg)
- {
- 	switch (reg) {
- 	case CS42L42_DEVID_AB:
-@@ -362,8 +363,9 @@ static bool cs42l42_volatile_register(struct device *dev, unsigned int reg)
- 		return false;
- 	}
- }
-+EXPORT_SYMBOL_NS_GPL(cs42l42_volatile_register, SND_SOC_CS42L42_CORE);
- 
--static const struct regmap_range_cfg cs42l42_page_range = {
-+const struct regmap_range_cfg cs42l42_page_range = {
- 	.name = "Pages",
- 	.range_min = 0,
- 	.range_max = CS42L42_MAX_REGISTER,
-@@ -373,6 +375,7 @@ static const struct regmap_range_cfg cs42l42_page_range = {
- 	.window_start = 0,
- 	.window_len = 256,
- };
-+EXPORT_SYMBOL_NS_GPL(cs42l42_page_range, SND_SOC_CS42L42_CORE);
- 
- const struct regmap_config cs42l42_regmap = {
- 	.reg_bits = 8,
 diff --git a/sound/soc/codecs/cs42l42.h b/sound/soc/codecs/cs42l42.h
-index 2a9f178f6190..be6f979c82ec 100644
+index bc51bb09da5c..a72136664112 100644
 --- a/sound/soc/codecs/cs42l42.h
 +++ b/sound/soc/codecs/cs42l42.h
-@@ -52,10 +52,14 @@ struct  cs42l42_private {
- 	bool init_done;
- };
- 
-+extern const struct regmap_range_cfg cs42l42_page_range;
- extern const struct regmap_config cs42l42_regmap;
- extern const struct snd_soc_component_driver cs42l42_soc_component;
- extern struct snd_soc_dai_driver cs42l42_dai;
- 
-+bool cs42l42_readable_register(struct device *dev, unsigned int reg);
-+bool cs42l42_volatile_register(struct device *dev, unsigned int reg);
-+
- int cs42l42_suspend(struct device *dev);
- int cs42l42_resume(struct device *dev);
- void cs42l42_resume_restore(struct device *dev);
+@@ -35,6 +35,7 @@ struct  cs42l42_private {
+ 	int irq;
+ 	int pll_config;
+ 	u32 sclk;
++	u32 bclk_ratio;
+ 	u32 srate;
+ 	u8 plug_state;
+ 	u8 hs_type;
 -- 
 2.33.0
 
