@@ -1,175 +1,74 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3102A5C81
-	for <asahi@lists.linux.dev>; Fri, 16 Sep 2022 16:03:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
-	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
-	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=06h/aLRDpzu0LJwNKp8/O+DW8AdR6QoYK87bZj9Y9rE=; b=OV7B74hkZgueUtosq2xMVJX84k
-	ccK3aMa1th9/C0UDJlVXTnuFbqyT/cq6WfQU07NAOy9aMVfwf4Z0hGMqOgtAaG6NMLn7I0DqWLx9d
-	eEFeU4XjzM5SxFTWptTd+Br948eosJb9Z7UT+kEGBfq2Jgdp0e2kYO1FgLdTTi953Z3ksnN9Zqpul
-	XYkFLuUYbfMW4VtgKcxitEJ+DXgtFDwZFmurAwegpNCY9ah/GNZisu42yKikp+85qRskGCN64EEBM
-	bVtQaWREn4TNupVNSdeFfBkmpEGsBHZSqLDqsJsi3b/THYTeuzRGJdY6k6bfPKaUGXAayc9tJCh+N
-	UzRjMgGw==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:33148 helo=rmk-PC.armlinux.org.uk)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <rmk@armlinux.org.uk>)
-	id 1oZDoJ-0006wx-1V; Fri, 16 Sep 2022 17:03:23 +0100
-Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1oZDoI-0077b3-Dd; Fri, 16 Sep 2022 17:03:22 +0100
-In-Reply-To: <YySd3pASZKUh4leX@shell.armlinux.org.uk>
-References: <YySd3pASZKUh4leX@shell.armlinux.org.uk>
-From: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-To: Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	"David S. Miller" <davem@davemloft.net>,
-	devicetree@vger.kernel.org,
-	Eric Dumazet <edumazet@google.com>,
-	Hector Martin <marcan@marcan.st>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	"Rafa__ Mi__ecki" <zajec5@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	SHA-cyfmac-dev-list@infineon.com,
-	Sven Peter <sven@svenpeter.dev>
-Subject: [PATCH wireless-next v3 12/12] arm64: dts: apple: Add WiFi module and
- antenna properties
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2862F59
+	for <asahi@lists.linux.dev>; Fri, 16 Sep 2022 18:38:47 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id ck2-20020a056830648200b0065603aef276so10006741otb.12
+        for <asahi@lists.linux.dev>; Fri, 16 Sep 2022 11:38:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=xo/d/N34lTwigjgh8R+6n/VWTdyA9uD8vMADayXwoxU=;
+        b=Fzb4uDix6TWmF5b4rkLK5S7PPRs0B0WmeEO1QpCjlR/iR8X4xg1kPqk78on6XXLXIq
+         FaAAjk2Bs/DzvBipADe99uMblzoJxBMBNzpfxEculrOxkA4QHR+HbSsxxB8MN2Lq5gkT
+         Afd5zsiYyCc2sCaUdKjgYgEBpL06GOFld6bhG4F6UfQxxLhqtxITjs+3bsTkFF4JR84S
+         7gX3jFTN0+o9CkR/e1l9JOO8cn++saFpbti1bpyMLEwjD4GOwobkLZnPaJmmFiQ762i2
+         0PsTDq24Jith9kpmF4YWiAxwnSBU75fooHWu21FVonH0NaqYPqOiXcaZve4YBqtTNT2T
+         0ddg==
+X-Gm-Message-State: ACrzQf1o8YzKycGdQTznWh9alnPWvOcvBQQIr+gyU5q98sTxg/zvMLgY
+	2Ca3zjjXRWw13RsEgKZZwA==
+X-Google-Smtp-Source: AMsMyM7LURM228JuPzwCGullRsDqUgiNrVGRngnC/lcXYvPwciH2Tsmaug3XlkralOAWGjBBT+qolw==
+X-Received: by 2002:a05:6830:244d:b0:655:e902:7e47 with SMTP id x13-20020a056830244d00b00655e9027e47mr2980448otr.66.1663353527029;
+        Fri, 16 Sep 2022 11:38:47 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id w19-20020a056830145300b0063725d33561sm10214318otp.73.2022.09.16.11.38.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Sep 2022 11:38:46 -0700 (PDT)
+Received: (nullmailer pid 1043197 invoked by uid 1000);
+	Fri, 16 Sep 2022 18:38:45 -0000
+Date: Fri, 16 Sep 2022 13:38:45 -0500
+From: Rob Herring <robh@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Hector Martin <marcan@marcan.st>, asahi@lists.linux.dev, Mark Kettenis <kettenis@openbsd.org>, Sven Peter <sven@svenpeter.dev>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Subject: Re: [PATCH v1 02/10] dt-bindings: apple,aic2: Add CPU PMU per-cpu
+ pseudo-interrupts
+Message-ID: <20220916183845.GA1043137-robh@kernel.org>
+References: <20220916142550.269905-1-j@jannau.net>
+ <20220916142550.269905-3-j@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1oZDoI-0077b3-Dd@rmk-PC.armlinux.org.uk>
-Sender: Russell King <rmk@armlinux.org.uk>
-Date: Fri, 16 Sep 2022 17:03:22 +0100
+In-Reply-To: <20220916142550.269905-3-j@jannau.net>
 
-From: Hector Martin <marcan@marcan.st>
+On Fri, 16 Sep 2022 16:25:42 +0200, Janne Grunau wrote:
+> Advertise the two pseudo-interrupts that tied to the two PMU
+> flavours present in the Apple M1 Pro/Max/Ultra SoC.
+> 
+> We choose the expose two different pseudo-interrupts to the OS
+> as the e-core PMU is obviously different from the p-core one,
+> effectively presenting two different devices.
+> 
+> Imported from "apple,aic".
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Acked-by: Marc Zyngier <maz@kernel.org>
+> 
+> ---
+> 
+> Changes in v1:
+> - Added Krzysztof's and Marc's ack
+> 
+> 
+> ---
+>  .../interrupt-controller/apple,aic2.yaml      | 29 +++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
 
-Add the new module-instance/antenna-sku properties required to select
-WiFi firmwares properly to all board device trees.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
-Acked-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
----
- arch/arm64/boot/dts/apple/t8103-j274.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j293.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j313.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j456.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-j457.dts  | 4 ++++
- arch/arm64/boot/dts/apple/t8103-jxxx.dtsi | 2 ++
- 6 files changed, 22 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
-index 2cd429efba5b..c1f3ba9c39f6 100644
---- a/arch/arm64/boot/dts/apple/t8103-j274.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
-@@ -21,6 +21,10 @@ aliases {
- 	};
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,atlantisb";
-+};
-+
- /*
-  * Force the bus number assignments so that we can declare some of the
-  * on-board devices and properties that are populated by the bootloader
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 49cdf4b560a3..ecb10d237a05 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -17,6 +17,10 @@ / {
- 	model = "Apple MacBook Pro (13-inch, M1, 2020)";
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,honshu";
-+};
-+
- /*
-  * Remove unused PCIe ports and disable the associated DARTs.
-  */
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index b0ebb45bdb6f..df741737b8e6 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -17,6 +17,10 @@ / {
- 	model = "Apple MacBook Air (M1, 2020)";
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,shikoku";
-+};
-+
- /*
-  * Remove unused PCIe ports and disable the associated DARTs.
-  */
-diff --git a/arch/arm64/boot/dts/apple/t8103-j456.dts b/arch/arm64/boot/dts/apple/t8103-j456.dts
-index 884fddf7d363..8c6bf9592510 100644
---- a/arch/arm64/boot/dts/apple/t8103-j456.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j456.dts
-@@ -21,6 +21,10 @@ aliases {
- 	};
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,capri";
-+};
-+
- &i2c0 {
- 	hpm2: usb-pd@3b {
- 		compatible = "apple,cd321x";
-diff --git a/arch/arm64/boot/dts/apple/t8103-j457.dts b/arch/arm64/boot/dts/apple/t8103-j457.dts
-index d7c622931627..fe7c0aaf7d62 100644
---- a/arch/arm64/boot/dts/apple/t8103-j457.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j457.dts
-@@ -21,6 +21,10 @@ aliases {
- 	};
- };
- 
-+&wifi0 {
-+	brcm,board-type = "apple,santorini";
-+};
-+
- /*
-  * Force the bus number assignments so that we can declare some of the
-  * on-board devices and properties that are populated by the bootloader
-diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-index fe2ae40fa9dd..3d15b8e2a6c1 100644
---- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
-@@ -71,8 +71,10 @@ hpm1: usb-pd@3f {
- &port00 {
- 	bus-range = <1 1>;
- 	wifi0: network@0,0 {
-+		compatible = "pci14e4,4425";
- 		reg = <0x10000 0x0 0x0 0x0 0x0>;
- 		/* To be filled by the loader */
- 		local-mac-address = [00 00 00 00 00 00];
-+		apple,antenna-sku = "XX";
- 	};
- };
--- 
-2.30.2
-
+Reviewed-by: Rob Herring <robh@kernel.org>
