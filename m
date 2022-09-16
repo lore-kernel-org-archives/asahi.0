@@ -1,138 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494082904
-	for <asahi@lists.linux.dev>; Fri, 16 Sep 2022 07:32:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17F4DC433D7;
-	Fri, 16 Sep 2022 07:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663313525;
-	bh=kIN7QfExsQx+UqdmpMBdIeRw4B5bb5Sxm5kWFcM1KzI=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=BYLEcH7VikUqQp6Ol63pR9weKaq6Ds4LJ34NFHxXEZIr0SUBjr8aZfiA1z8v9ONKu
-	 eJ2UtDydVvWa/8BA95GnRWYK+B75UK55ccY+EIrEG3brSst7DtWLammK0h26MPVJpp
-	 ygs72WHLbgL+t14iN8YNFmuisOZZMUCHN6jEh51GuUjpT9SO5pbEQibe9pctMGVPwF
-	 8/CvdxTkeXG2IyO1BYC95aMphvizJ+LoNNhbkRpRjg6gcmLTegH9pbmK6/MLwQCp1g
-	 AI0KOXGwXJ3AGtbAVwXDaBw0iG0pODqammiL+6NbirOjgfyg5uFMA9wjwdfptkGRlv
-	 vhOKkxtMrrtLw==
-From: Kalle Valo <kvalo@kernel.org>
-To: Alvin =?utf-8?Q?=C5=A0ipraga?= <ALSI@bang-olufsen.dk>
-Cc: "Russell King \(Oracle\)" <linux@armlinux.org.uk>,  Arend van Spriel
- <aspriel@gmail.com>,  Franky Lin <franky.lin@broadcom.com>,  Hante
- Meuleman <hante.meuleman@broadcom.com>,  Alyssa Rosenzweig
- <alyssa@rosenzweig.io>,  "asahi\@lists.linux.dev" <asahi@lists.linux.dev>,
-  "brcm80211-dev-list.pdl\@broadcom.com"
- <brcm80211-dev-list.pdl@broadcom.com>,  "David S. Miller"
- <davem@davemloft.net>,  "devicetree\@vger.kernel.org"
- <devicetree@vger.kernel.org>,  Eric Dumazet <edumazet@google.com>,  Hector
- Martin <marcan@marcan.st>,  Jakub Kicinski <kuba@kernel.org>,  Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-  "linux-arm-kernel\@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,  "linux-wireless\@vger.kernel.org"
- <linux-wireless@vger.kernel.org>,  "netdev\@vger.kernel.org"
- <netdev@vger.kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Rafa__
- Mi__ecki <zajec5@gmail.com>,  Rob Herring <robh+dt@kernel.org>,
-  "SHA-cyfmac-dev-list\@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,
-  Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH wireless-next v2 11/12] brcmfmac: pcie: Add IDs/properties for BCM4378
-References: <Yx8BQbjJT4I2oQ5K@shell.armlinux.org.uk>
-	<E1oXg8C-0064vf-SN@rmk-PC.armlinux.org.uk>
-	<20220915153459.oytlibhzbngczsuo@bang-olufsen.dk>
-	<YyNYs5Acdl8/zazb@shell.armlinux.org.uk>
-	<20220915165943.pwhxg6yqsiapm2qx@bang-olufsen.dk>
-Date: Fri, 16 Sep 2022 10:31:57 +0300
-In-Reply-To: <20220915165943.pwhxg6yqsiapm2qx@bang-olufsen.dk> ("Alvin
-	\=\?utf-8\?Q\?\=C5\=A0ipraga\=22's\?\= message of "Thu, 15 Sep 2022 16:59:45 +0000")
-Message-ID: <875yhnai6q.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B5B2FAF;
+	Fri, 16 Sep 2022 09:42:00 +0000 (UTC)
+Received: from robin.home.jannau.net (unknown [91.200.110.112])
+	by soltyk.jannau.net (Postfix) with ESMTPSA id 5368A26F072;
+	Fri, 16 Sep 2022 11:41:53 +0200 (CEST)
+From: Janne Grunau <j@jannau.net>
+To: iommu@lists.linux.dev
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+	asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Hector Martin <marcan@marcan.st>,
+	Joerg Roedel <joro@8bytes.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Mark Kettenis <mark.kettenis@xs4all.nl>,
+	Rob Herring <robh+dt@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Will Deacon <will@kernel.org>,
+	devicetree@vger.kernel.org,
+	iommu@lists.linux-foundation.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/5] iommu: M1 Pro/Max DART support
+Date: Fri, 16 Sep 2022 11:41:47 +0200
+Message-Id: <20220916094152.87137-1-j@jannau.net>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Alvin =C5=A0ipraga <ALSI@bang-olufsen.dk> writes:
+Hej,
 
-> On Thu, Sep 15, 2022 at 05:54:11PM +0100, Russell King (Oracle) wrote:
->> On Thu, Sep 15, 2022 at 03:34:59PM +0000, Alvin =C5=A0ipraga wrote:
->> > On Mon, Sep 12, 2022 at 10:53:32AM +0100, Russell King wrote:
->> > > From: Hector Martin <marcan@marcan.st>
->> > >=20
->> > > This chip is present on Apple M1 (t8103) platforms:
->> > >=20
->> > > * atlantisb (apple,j274): Mac mini (M1, 2020)
->> > > * honshu    (apple,j293): MacBook Pro (13-inch, M1, 2020)
->> > > * shikoku   (apple,j313): MacBook Air (M1, 2020)
->> > > * capri     (apple,j456): iMac (24-inch, 4x USB-C, M1, 2020)
->> > > * santorini (apple,j457): iMac (24-inch, 2x USB-C, M1, 2020)
->> > >=20
->> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->> > > Signed-off-by: Hector Martin <marcan@marcan.st>
->> > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
->> > > ---
->> >=20
->> > Reviewed-by: Alvin =C5=A0ipraga <alsi@bang-olufsen.dk>
->> >=20
->> > >  drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c   | 2 ++
->> > >  drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c   | 8 +++++=
-+++
->> > >  .../net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h | 2 ++
->> > >  3 files changed, 12 insertions(+)
->> > >=20
->> > > diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c=
- b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
->> > > index 23295fceb062..3026166a56c1 100644
->> > > --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
->> > > +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
->> > > @@ -733,6 +733,8 @@ static u32 brcmf_chip_tcm_rambase(struct brcmf_c=
-hip_priv *ci)
->> > >  		return 0x160000;
->> > >  	case CY_CC_43752_CHIP_ID:
->> > >  		return 0x170000;
->> > > +	case BRCM_CC_4378_CHIP_ID:
->> > > +		return 0x352000;
->> > >  	default:
->> > >  		brcmf_err("unknown chip: %s\n", ci->pub.name);
->> > >  		break;
->> > > diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c=
- b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
->> > > index 269a516ae654..0c627f33049e 100644
->> > > --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
->> > > +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
->> > > @@ -59,6 +59,7 @@ BRCMF_FW_DEF(4365C, "brcmfmac4365c-pcie");
->> > >  BRCMF_FW_DEF(4366B, "brcmfmac4366b-pcie");
->> > >  BRCMF_FW_DEF(4366C, "brcmfmac4366c-pcie");
->> > >  BRCMF_FW_DEF(4371, "brcmfmac4371-pcie");
->> > > +BRCMF_FW_CLM_DEF(4378B1, "brcmfmac4378b1-pcie");
->> > >=20=20
->> > >  /* firmware config files */
->> > >  MODULE_FIRMWARE(BRCMF_FW_DEFAULT_PATH "brcmfmac*-pcie.txt");
->> > > @@ -88,6 +89,7 @@ static const struct brcmf_firmware_mapping brcmf_p=
-cie_fwnames[] =3D {
->> > >  	BRCMF_FW_ENTRY(BRCM_CC_43664_CHIP_ID, 0xFFFFFFF0, 4366C),
->> > >  	BRCMF_FW_ENTRY(BRCM_CC_43666_CHIP_ID, 0xFFFFFFF0, 4366C),
->> > >  	BRCMF_FW_ENTRY(BRCM_CC_4371_CHIP_ID, 0xFFFFFFFF, 4371),
->> > > +	BRCMF_FW_ENTRY(BRCM_CC_4378_CHIP_ID, 0xFFFFFFFF, 4378B1), /* 3 */
->> >=20
->> > What is /* 3 */?
->>=20
->> Hector says that it was mentioned in the prior review round as well.
->> It's the revision ID. The mask allows all IDs for chips where no
->> split has been seen, but if a new one comes up that comment is there
->> so we know where to split the mask.
->
-> Alright, makes sense. If you happen to re-spin the series then it would
-> be nice to include this info in the commit message.
+this is the next attempt adding support for the DART found in Apple's
+M1 Pro/Max/Ultra. This adds a separate io-pgtable implementation for
+DART. As already mentioned in v2 the pte format is not fully compatible
+with io-pgtable-arm. Especially the 2nd least significant bit is used
+and is not available to tag tables/pages.
+io-pgtable-dart.c is copied from io-pgtable-arm.c and support for
+unused features is removed. Support for 4k IO pages is left for A7 to
+A11 SoCs as there's work underway to run Linux on them.
 
-And maybe even change the comment to something like:
+The incompatibilities between both Apple DART pte seems manageable in
+their own io-pgtable implementation. A short list of the known
+differences:
 
-/* revision ID 3 */
+ - the physical addresses are shifted left by 4 bits and and have 2 more
+   bits inside the PTE entries
+ - the read/write protection flags are at a different position
+ - the subpage protection feature is now mandatory. For Linux we can
+   just configure it to always allow access to the entire page.
+ - BIT(1) tags "uncached" mappings (used for the display controller)
 
---=20
-https://patchwork.kernel.org/project/linux-wireless/list/
+There is second type of DART (t8110) present on M1 Pro/Max SoCs which
+uses the same PTE format as t6000.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatc=
-hes
+Changes in v5:
+- collected Sven's ack
+- minor fixes in "iommu/io-pgtable: Move Apple DART support to its own
+  file"
+
+Changes in v4:
+- split dart and io-pgtable-dart build to allow building dart as module
+- add missing "SELECT IOMMU_IO_PGTABLE"
+- made map/unmap_pages/iova_to_phys inon-recursive
+- replace pgd concatenation with multiple table handling
+- simplified config and page size checks
+- collected Robin's Ack
+
+Changes in v3:
+- move APPLE_DART to its own io-pgtable implementation, copied from
+  io-pgtable-arm and simplified
+
+Changes in v2:
+- added Rob's Acked-by:
+- add APPLE_DART2 io-pgtable format
+
+Janne Grunau (1):
+  iommu/io-pgtable: Move Apple DART support to its own file
+
+Sven Peter (4):
+  dt-bindings: iommu: dart: add t6000 compatible
+  iommu/io-pgtable: Add DART subpage protection support
+  iommu/io-pgtable-dart: Add DART PTE support for t6000
+  iommu: dart: Support t6000 variant
+
+ .../devicetree/bindings/iommu/apple,dart.yaml |   4 +-
+ MAINTAINERS                                   |   1 +
+ drivers/iommu/Kconfig                         |  13 +-
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/apple-dart.c                    |  24 +-
+ drivers/iommu/io-pgtable-arm.c                |  63 ---
+ drivers/iommu/io-pgtable-dart.c               | 470 ++++++++++++++++++
+ drivers/iommu/io-pgtable.c                    |   3 +
+ include/linux/io-pgtable.h                    |   1 +
+ 9 files changed, 512 insertions(+), 68 deletions(-)
+ create mode 100644 drivers/iommu/io-pgtable-dart.c
+
+-- 
+2.35.1
+
