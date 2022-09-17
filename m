@@ -1,118 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8AE63A
-	for <asahi@lists.linux.dev>; Sat, 17 Sep 2022 09:17:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79D24C433D6;
-	Sat, 17 Sep 2022 09:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663406244;
-	bh=PmSUO1q26n8MEHPMpIYDhyZ/koyt1KmDorHa9IO2m/0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HA5DdpxrG2ueLj2osB/uvUxmx4+XW5pRkJWkoiyoAXPNlifZ41iDMJ0rSlMVAlY+y
-	 fDj++YypuEDBTFhddLNqYs5BPW734ykOeV6rQ7jNfWyJSu8a8YntqFB+gXNzwLdMRx
-	 XiBGmw5oFRpNn0jpUAzSwj0dAV0rwEEkSrBsaZT1zL7tvgA3GYqKt2wWJ6Bz9AxLh9
-	 VuPLckmtgNiuBPR/X1g97i7b/wmqq22dRr8L1nIKnAg1qbSuUKHqkvea7MWOAR9LrU
-	 wrCv2491ajVxmY16LHkli/YpW7Mzs1s1nVwLvmpnEzpUO9UNxx0sMHksDQYvYLKonq
-	 RVX7TpWvNAh/w==
-Received: from 185-176-101-241.host.sccbroadband.ie ([185.176.101.241] helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1oZTww-00AlgE-0k;
-	Sat, 17 Sep 2022 10:17:22 +0100
-Date: Sat, 17 Sep 2022 10:17:19 +0100
-Message-ID: <87pmful5r4.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: asahi@lists.linux.dev,	Mark Kettenis <kettenis@openbsd.org>,	Alyssa
- Rosenzweig <alyssa@rosenzweig.io>,	Hector Martin <marcan@marcan.st>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,	Martin
- =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,	Rob Herring
- <robh+dt@kernel.org>,	Sven Peter <sven@svenpeter.dev>,	Thomas Gleixner
- <tglx@linutronix.de>,	Vinod Koul <vkoul@kernel.org>,
-	devicetree@vger.kernel.org,	dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 00/10] Apple M1 Pro/Max/Ultra device trees
-In-Reply-To: <20220916142550.269905-1-j@jannau.net>
-References: <20220916142550.269905-1-j@jannau.net>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D007366
+	for <asahi@lists.linux.dev>; Sat, 17 Sep 2022 10:42:54 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 26D0C5C0159;
+	Sat, 17 Sep 2022 06:42:53 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute2.internal (MEProxy); Sat, 17 Sep 2022 06:42:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1663411373; x=1663497773; bh=dQ
+	aF+1wSXTdrGKDcFvsc8AiWzGgDv7nBoW21HBv1DLc=; b=oeCs/stak0qMFS9gHV
+	ayipsq4P2eK4CEc60GdUWqJRjscPQ92tLolcVRGeoHknSQQ5XGh3fxiZVXknEWsw
+	mUFU/bB1C8A4R4daHOkoMRwXYWTMhG2Kjl/HRaV/JMo0etl8bP9oYMjgjUQmD5vU
+	wTjKYos08sQ4y12mnS0+SpwAuTGs2oxXCn1EBIPce3gFQEImGwIypjucBUZxu/Ss
+	5fzbVo5nW4ETo4FhjJKgxRdeVBuwD8ZSyaL7OaXU7F1t07OAsK6SKxi8qauN/QRb
+	qlBhJ2QUa2gayWtqnCo9EOp3ObGK7cjMcAMw+7nEWYi8j8gWWYs6HHdjKkiWXtyR
+	Ou/w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1663411373; x=1663497773; bh=dQaF+1wSXTdrGKDcFvsc8AiWzGgD
+	v7nBoW21HBv1DLc=; b=iZBEa7Zw0YqZHXwMam7tmdy/BdtD6R1Tm4RubFd3blxd
+	F5DO+7ib6euBW+NBpfgX1LkLS9x0oe9/fIafWc8HC1g45ryrZ0ZBeYY6Y0U7lTuG
+	PNzosz3u6I1VfeOBxrnpwYWvajkD2zrR2sYnXEjaKeJbcZ8pDhe+ecvdtpQRwp14
+	iCbk6hfSYX4A5+QtNCAo4JuUkpYSRjNmZLXC6t1WUt2fep0Kpav59tjSnquFGOTt
+	b6kWhifUUdnTLGevjzdpNKv4MQIC7HspSR1X2KI99Bvtbn7Ota/VfEY6h/j7g4Ll
+	vFp2nGajgxnnxEoVv3ZYZ8M5n1xiz7h3BlkK+BOdjw==
+X-ME-Sender: <xms:rKQlY47s17PG-7EztnXEHgVyhOcuQezgmsIabgGAzRJEx-Pv_FAPRw>
+    <xme:rKQlY55oVRBO497zW_FDKtuO76lttwVgavALPI93p7_5q8g7RQHJzIqprVvPzLVZA
+    _7NVJU152vYWg7EgG4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvvddgfeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
+    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:rKQlY3fXYx1Diz8XUWJOFrcgAmqzrEU6A4e7O0f6XhYWb6_pPU2J5g>
+    <xmx:rKQlY9ITr0-eNPZEs5-zPjrxTjD7qyn5_coZ69aTB8YHIIRPq6uTPA>
+    <xmx:rKQlY8LgNdfCS0-5UB8V-NWaPTdO3qBE4BKePW3jMnO_9bVnH9xWjA>
+    <xmx:raQlYw3yTe7UMJJUfcmwAPkym7eraYI1yQjbayu2zjKxuliSVOGHTA>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 7057FA6007C; Sat, 17 Sep 2022 06:42:52 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.176.101.241
-X-SA-Exim-Rcpt-To: j@jannau.net, asahi@lists.linux.dev, kettenis@openbsd.org, alyssa@rosenzweig.io, marcan@marcan.st, krzysztof.kozlowski+dt@linaro.org, povik+lin@cutebit.org, robh+dt@kernel.org, sven@svenpeter.dev, tglx@linutronix.de, vkoul@kernel.org, devicetree@vger.kernel.org, dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Mime-Version: 1.0
+Message-Id: <19191d4d-e8a8-4319-bf7b-d5301a792a21@www.fastmail.com>
+In-Reply-To: <YyGR+z5nGPh66LdY@shell.armlinux.org.uk>
+References: <YyGR+z5nGPh66LdY@shell.armlinux.org.uk>
+Date: Sat, 17 Sep 2022 12:42:30 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ "Jassi Brar" <jassisinghbrar@gmail.com>
+Cc: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ "Hector Martin" <marcan@marcan.st>, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 0/3] apple rtkit: add support for atomic operations
+Content-Type: text/plain
 
-On Fri, 16 Sep 2022 15:25:40 +0100,
-Janne Grunau <j@jannau.net> wrote:
-> 
-> Hej,
-> 
-> this series contains device trees for Apple's M1 Pro, Max and Ultra SoCs
-> and devices based on these SoCs.
-> 
-> Quoting from the main commit:
-> 
-> | These SoCs are found in Apple devices with M1 Pro (t6000), M1 Max
-> | (t6001) and M1 Ultra (t6002).
-> |
-> | t6000 is a cut-down version of t6001, so the former just includes the
-> | latter and disables the missing bits (This is currently just one PMGR
-> | node and all of its domains.
-> |
-> | t6002 is two connected t6001 dies. The implementation seems to use
-> | t6001 with blocks disabled (mostly on the second die). MMIO addresses on
-> | the second die have a constant offset. The interrupt controller is
-> | multi-die aware. This setup can be represented in the device tree with
-> | two top level "soc" nodes. The MMIO offset is applied via "ranges" and
-> | devices are included with preproceesor macros to make the node labels
-> | unique and to specify the die number for the interrupt definition.
-> |
-> | Device nodes are distributed over dtsi files based on whether they are
-> | present on both dies or just on the first die. The only execption is the
-> | NVMe controller which resides on the second die. Its nodes are in a
-> | separate file.
-> 
-> This series depends for full functionality on t600x dart support (latest
-> version at
-> https://lore.kernel.org/linux-iommu/20220916094152.87137-1-j@jannau.net/T/#t
-> expected to be picked up for 6.1). This is the usual device tree /
-> driver changes runtime dependency.
-> 
-> Even with the t6000-dart support t600x devices are not terribly useful
-> in upstream. There is no input device support. The laptop's keyboard
-> and touchpad are missing SPI and HID over SPI drivers. The dwc3
-> USB-C ports are not yet added since they require special handling
-> after disconnect. The PCIe based USB xhci controller in the Mac Studio
-> requires firmware downloaded in a similar way as USB_XHCI_PCI_RENESAS.
-> 
-> To simplify dependency handling this series carries mostly identical
-> device tree additions for M1 and M1 Pro/Max/Ultra as part of the in
-> development audio support.
-> 
-> The series passes dtbs_check with 3 additional dt bindings changes:
-> - "dt-bindings: apple,aic: Fix required item "apple,fiq-index" in
->   affinity description" (merged as da3b1c294d47 in Linus' repo)
-> - "ASoC: Add Apple MCA I2S transceiver bindings" (6ed462d1c11675)
->   in sound/for-next
-> - "dt-bindings: iommu: dart: add t6000 compatible"
->   https://lore.kernel.org/linux-iommu/20220901012519.7167-2-j@jannau.net/
-> 
-> New bindings passes dt_binding_check.
+Hi,
 
-For the whole series:
+On Wed, Sep 14, 2022, at 10:34, Russell King (Oracle) wrote:
+> Hi,
+>
+> This series adds support to the Apple rtkit for atomic messaging,
+> which will be necessary for SMC support on these platforms.
+>
+> SMC support requires a bit of rework after recent review comments,
+> so I'm sending this separately in the hope that we can move forward
+> with upstream kernels.
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+Maybe I misremember or maybe you forgot to pick up my reviewed-by tags
+for the mailbox commits.
+Either way, for the entire series:
 
-	M.
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
--- 
-Without deviation from the norm, progress is not possible.
+
+We'd usually take the last soc/rtkit commit through the Asahi platform and then the
+soc tree. Taking it through the mailbox tree will make things more complicated
+if SMC (which is the only driver that uses the poll API and hard depends on it) is
+also ready for this merge window. I don't think that's very likely so taking it
+through mailbox is also fine.
+
+
+Best,
+
+Sven
+
