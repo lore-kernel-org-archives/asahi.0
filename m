@@ -1,71 +1,118 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9571C2F59
-	for <asahi@lists.linux.dev>; Fri, 16 Sep 2022 18:39:19 +0000 (UTC)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-12b542cb1d3so43578155fac.13
-        for <asahi@lists.linux.dev>; Fri, 16 Sep 2022 11:39:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=LloOAAh3fMnP4loPWLwVdN2fBYfkgLtJ0iyYP475p/A=;
-        b=HxDj9ahtcHYBwCzoRksg+6x3NQM0sTA3iOGVc0tDhHSv4KZt3qKDU4W5YGC/M6gFo7
-         hnuFK+Uk0xe2uijfnixL1d+orGApN32g9wsVuWXWmz3ttmgnIj2fhyIcG9bT6KJw4LNz
-         /e+TXjpVyU4GE6pWD1h7uZGoLJD3SCBaurWZNZhT7KadnzGcAlpWdrcIxPJT7uUawX2M
-         9HtG38UyFxKQTWZzj2kdVcPRx5SIXcon8hO8q+AVOaLkjm2enknyyhdoPb7FKhgAuz2T
-         Jusx/tS4/RBCtSk/9ozPBMEiufxa2M1ZJjoyFe2pDwlMRH2SvYX+KjKy8wqumSKEnZiQ
-         YtSA==
-X-Gm-Message-State: ACgBeo27MRiXYUJCuX8875i1UO/QXNDpo7IPW3ktynUGKq4bfJV8gVE1
-	n3XEb+AtjeusizPNs8CwTg==
-X-Google-Smtp-Source: AA6agR4rJd3UZwBNHhnMn8U25gn7La8l8lm2O3ldIEUl+kA3gcHdpA10nwvFJdyB9SsWmen12iN1vg==
-X-Received: by 2002:a05:6870:2191:b0:126:729a:b1d0 with SMTP id l17-20020a056870219100b00126729ab1d0mr8892314oae.131.1663353558579;
-        Fri, 16 Sep 2022 11:39:18 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id r11-20020a056871088b00b0012752d3212fsm3218681oaq.53.2022.09.16.11.39.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Sep 2022 11:39:18 -0700 (PDT)
-Received: (nullmailer pid 1044162 invoked by uid 1000);
-	Fri, 16 Sep 2022 18:39:17 -0000
-Date: Fri, 16 Sep 2022 13:39:17 -0500
-From: Rob Herring <robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8AE63A
+	for <asahi@lists.linux.dev>; Sat, 17 Sep 2022 09:17:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79D24C433D6;
+	Sat, 17 Sep 2022 09:17:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1663406244;
+	bh=PmSUO1q26n8MEHPMpIYDhyZ/koyt1KmDorHa9IO2m/0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HA5DdpxrG2ueLj2osB/uvUxmx4+XW5pRkJWkoiyoAXPNlifZ41iDMJ0rSlMVAlY+y
+	 fDj++YypuEDBTFhddLNqYs5BPW734ykOeV6rQ7jNfWyJSu8a8YntqFB+gXNzwLdMRx
+	 XiBGmw5oFRpNn0jpUAzSwj0dAV0rwEEkSrBsaZT1zL7tvgA3GYqKt2wWJ6Bz9AxLh9
+	 VuPLckmtgNiuBPR/X1g97i7b/wmqq22dRr8L1nIKnAg1qbSuUKHqkvea7MWOAR9LrU
+	 wrCv2491ajVxmY16LHkli/YpW7Mzs1s1nVwLvmpnEzpUO9UNxx0sMHksDQYvYLKonq
+	 RVX7TpWvNAh/w==
+Received: from 185-176-101-241.host.sccbroadband.ie ([185.176.101.241] helo=wait-a-minute.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1oZTww-00AlgE-0k;
+	Sat, 17 Sep 2022 10:17:22 +0100
+Date: Sat, 17 Sep 2022 10:17:19 +0100
+Message-ID: <87pmful5r4.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
 To: Janne Grunau <j@jannau.net>
-Cc: devicetree@vger.kernel.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Hector Martin <marcan@marcan.st>, linux-arm-kernel@lists.infradead.org, Mark Kettenis <kettenis@openbsd.org>, Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH v1 03/10] dt-bindings: arm: apple: Add t6001/t6002 Mac
- Studio compatibles
-Message-ID: <20220916183917.GA1044129-robh@kernel.org>
+Cc: asahi@lists.linux.dev,	Mark Kettenis <kettenis@openbsd.org>,	Alyssa
+ Rosenzweig <alyssa@rosenzweig.io>,	Hector Martin <marcan@marcan.st>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,	Martin
+ =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,	Rob Herring
+ <robh+dt@kernel.org>,	Sven Peter <sven@svenpeter.dev>,	Thomas Gleixner
+ <tglx@linutronix.de>,	Vinod Koul <vkoul@kernel.org>,
+	devicetree@vger.kernel.org,	dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 00/10] Apple M1 Pro/Max/Ultra device trees
+In-Reply-To: <20220916142550.269905-1-j@jannau.net>
 References: <20220916142550.269905-1-j@jannau.net>
- <20220916142550.269905-4-j@jannau.net>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220916142550.269905-4-j@jannau.net>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.176.101.241
+X-SA-Exim-Rcpt-To: j@jannau.net, asahi@lists.linux.dev, kettenis@openbsd.org, alyssa@rosenzweig.io, marcan@marcan.st, krzysztof.kozlowski+dt@linaro.org, povik+lin@cutebit.org, robh+dt@kernel.org, sven@svenpeter.dev, tglx@linutronix.de, vkoul@kernel.org, devicetree@vger.kernel.org, dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Fri, 16 Sep 2022 16:25:43 +0200, Janne Grunau wrote:
-> This adds the following apple,t6001 platform:
+On Fri, 16 Sep 2022 15:25:40 +0100,
+Janne Grunau <j@jannau.net> wrote:
 > 
-> - apple,j375c - Mac Studio (M1 Max, 2022)
+> Hej,
 > 
-> And the initial apple,t6002 platform:
+> this series contains device trees for Apple's M1 Pro, Max and Ultra SoCs
+> and devices based on these SoCs.
 > 
-> - apple,j375d - Mac Studio (M1 Ultra, 2022)
+> Quoting from the main commit:
 > 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> | These SoCs are found in Apple devices with M1 Pro (t6000), M1 Max
+> | (t6001) and M1 Ultra (t6002).
+> |
+> | t6000 is a cut-down version of t6001, so the former just includes the
+> | latter and disables the missing bits (This is currently just one PMGR
+> | node and all of its domains.
+> |
+> | t6002 is two connected t6001 dies. The implementation seems to use
+> | t6001 with blocks disabled (mostly on the second die). MMIO addresses on
+> | the second die have a constant offset. The interrupt controller is
+> | multi-die aware. This setup can be represented in the device tree with
+> | two top level "soc" nodes. The MMIO offset is applied via "ranges" and
+> | devices are included with preproceesor macros to make the node labels
+> | unique and to specify the die number for the interrupt definition.
+> |
+> | Device nodes are distributed over dtsi files based on whether they are
+> | present on both dies or just on the first die. The only execption is the
+> | NVMe controller which resides on the second die. Its nodes are in a
+> | separate file.
 > 
-> ---
+> This series depends for full functionality on t600x dart support (latest
+> version at
+> https://lore.kernel.org/linux-iommu/20220916094152.87137-1-j@jannau.net/T/#t
+> expected to be picked up for 6.1). This is the usual device tree /
+> driver changes runtime dependency.
 > 
-> Changes in v1:
->  - added blank lines between SoC entires
->  - added Krzysztof's ack
+> Even with the t6000-dart support t600x devices are not terribly useful
+> in upstream. There is no input device support. The laptop's keyboard
+> and touchpad are missing SPI and HID over SPI drivers. The dwc3
+> USB-C ports are not yet added since they require special handling
+> after disconnect. The PCIe based USB xhci controller in the Mac Studio
+> requires firmware downloaded in a similar way as USB_XHCI_PCI_RENESAS.
 > 
->  Documentation/devicetree/bindings/arm/apple.yaml | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
+> To simplify dependency handling this series carries mostly identical
+> device tree additions for M1 and M1 Pro/Max/Ultra as part of the in
+> development audio support.
 > 
+> The series passes dtbs_check with 3 additional dt bindings changes:
+> - "dt-bindings: apple,aic: Fix required item "apple,fiq-index" in
+>   affinity description" (merged as da3b1c294d47 in Linus' repo)
+> - "ASoC: Add Apple MCA I2S transceiver bindings" (6ed462d1c11675)
+>   in sound/for-next
+> - "dt-bindings: iommu: dart: add t6000 compatible"
+>   https://lore.kernel.org/linux-iommu/20220901012519.7167-2-j@jannau.net/
+> 
+> New bindings passes dt_binding_check.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+For the whole series:
+
+Acked-by: Marc Zyngier <maz@kernel.org>
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
