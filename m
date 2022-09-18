@@ -1,15 +1,15 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB247F2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C67C7F3
 	for <asahi@lists.linux.dev>; Sun, 18 Sep 2022 10:09:17 +0000 (UTC)
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1663495156; bh=GhjgtFBnDwq38pLPrNGHQBD/G+iWkmUIYKT3/As9ZJc=;
-	h=From:To:Cc:Subject:Date;
-	b=ldzxa9jok4Kb04UQIOk7AiM4ZQAwglQLzjSUlyk1Z98Bh63ESFFPkzVJU9e70S0CM
-	 T9QNwXVv/VjhfbXgiYm39823aHfYFd5Jucz3vErpKqojhorKEK/LT/Sz5F4SKFJWiN
-	 HNo0Yrot80oPSe85qwqv13ykeE8wzSn983uksGUg=
+	t=1663495158; bh=LrJPTCNgJnKyYQZq+jzf17tmj1SfmkEssly/2yyWLXI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=VQt1bFhxVZIgI0lk3VKPibjdw92XIuzyJf5Jh1JYuWIUcFaOQY88E6ksD5tsdb/L2
+	 BmCIssV4FXl+DOq6rKXgZOoPSLQlYA7go+QjyqoDyACc6+9/ya1FQ5kc07+kKd88fW
+	 EcJCpUC3bu8jkmmPw005ZxDPT0SckNd2qaABSlHc=
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
 	Vinod Koul <vkoul@kernel.org>,
@@ -22,9 +22,11 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-Subject: [PATCH 0/4] Apple ADMAC peripheral reset clean-up
-Date: Sun, 18 Sep 2022 11:58:41 +0200
-Message-Id: <20220918095845.68860-1-povik+lin@cutebit.org>
+Subject: [PATCH 4/4] dmaengine: apple-admac: Trigger shared reset
+Date: Sun, 18 Sep 2022 11:58:45 +0200
+Message-Id: <20220918095845.68860-5-povik+lin@cutebit.org>
+In-Reply-To: <20220918095845.68860-1-povik+lin@cutebit.org>
+References: <20220918095845.68860-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -34,31 +36,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Apple SoCs the ADMAC peripheral shares a reset line with another
-audio-related peripheral which is the MCA.
+If a reset domain is attached to the device, obtain a shared reference
+to it and trigger it. Typically on a chip the ADMAC controller will
+share a reset domain with the MCA peripheral.
 
-On the side of the MCA, the reset is described in binding (staged in
-broonie-sound/for-6.1) and in the soon-to-be-merged series adding new
-nodes to t8103/t600x SoC device trees [1]. The staged MCA driver does
-make use of the reset, knowing it's a shared one.
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+---
+ drivers/dma/apple-admac.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-This series catches up on the ADMAC side, adds the reset to the binding
-and describes it in the t8103/t600x DTs (on top of [1]). It also pulls
-the shared reset from the driver.
-
-Since [1] already includes another ADMAC binding change and will
-probably be fully merged into Hector's asahi-soc tree, I propose the
-binding change here takes the same route. Leaving patches #3 and #4 to
-go into dmaengine.
-
-[1] https://lore.kernel.org/asahi/87pmful5r4.wl-maz@kernel.org/T/#t
-
-Martin Povišer (4):
-  dt-bindings: dma: apple,admac: Add reset
-  arm64: dts: apple: Add ADMAC resets on t8103/t600x
-  dmaengine: apple-admac: Do not use devres for IRQs
-  dmaengine: apple-admac: Trigger shared reset
-
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 7d1b76678032..317ca76ccafd 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -12,8 +12,9 @@
+ #include <linux/module.h>
+ #include <linux/of_device.h>
+ #include <linux/of_dma.h>
+-#include <linux/interrupt.h>
++#include <linux/reset.h>
+ #include <linux/spinlock.h>
++#include <linux/interrupt.h>
+ 
+ #include "dmaengine.h"
+ 
+@@ -95,6 +96,7 @@ struct admac_data {
+ 	struct dma_device dma;
+ 	struct device *dev;
+ 	__iomem void *base;
++	struct reset_control *rstc;
+ 
+ 	int irq;
+ 	int irq_index;
+@@ -732,6 +734,10 @@ static int admac_probe(struct platform_device *pdev)
+ 		return dev_err_probe(&pdev->dev, PTR_ERR(ad->base),
+ 				     "unable to obtain MMIO resource\n");
+ 
++	ad->rstc = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
++	if (IS_ERR(ad->rstc))
++		return PTR_ERR(ad->rstc);
++
+ 	dma = &ad->dma;
+ 
+ 	dma_cap_set(DMA_PRIVATE, dma->cap_mask);
+@@ -770,10 +776,17 @@ static int admac_probe(struct platform_device *pdev)
+ 		tasklet_setup(&adchan->tasklet, admac_chan_tasklet);
+ 	}
+ 
+-	err = request_irq(irq, admac_interrupt, 0, dev_name(&pdev->dev), ad);
++	err = reset_control_reset(ad->rstc);
+ 	if (err)
+ 		return dev_err_probe(&pdev->dev, err,
+-				     "unable to register interrupt\n");
++				     "unable to trigger reset\n");
++
++	err = request_irq(irq, admac_interrupt, 0, dev_name(&pdev->dev), ad);
++	if (err) {
++		dev_err_probe(&pdev->dev, err,
++				"unable to register interrupt\n");
++		goto free_reset;
++	}
+ 
+ 	err = dma_async_device_register(&ad->dma);
+ 	if (err) {
+@@ -792,6 +805,8 @@ static int admac_probe(struct platform_device *pdev)
+ 
+ free_irq:
+ 	free_irq(ad->irq, ad);
++free_reset:
++	reset_control_rearm(ad->rstc);
+ 	return err;
+ }
+ 
+@@ -802,6 +817,7 @@ static int admac_remove(struct platform_device *pdev)
+ 	of_dma_controller_free(pdev->dev.of_node);
+ 	dma_async_device_unregister(&ad->dma);
+ 	free_irq(ad->irq, ad);
++	reset_control_rearm(ad->rstc);
+ 
+ 	return 0;
+ }
 -- 
 2.33.0
 
