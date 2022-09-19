@@ -1,89 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0611C23AF
-	for <asahi@lists.linux.dev>; Mon, 19 Sep 2022 10:00:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E3AFC433B5;
-	Mon, 19 Sep 2022 10:00:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663581647;
-	bh=+17s6Wtbdo4L7stYi4UorDpOJxEGDGV29FM19sqxEbs=;
-	h=Subject:From:In-Reply-To:References:To:Cc:Date:From;
-	b=bX04CSGo0ee0hnFdJp+TMvEDLAKINbbX05Mg+qSjcOZ/sNT5zqzNbuP8okLs8NFqq
-	 vYcb5e/UFd5k73NSEMDy/7LSaRf6aDaCkfuJCayU+8RZwGECoYw8L92tIGOzA+XDaE
-	 W3yJmBOixQjwfsSuXj1Jxcld0DFgD6boIjo35PkoikQxFoswnYk0JxoIfqKJ/lQObQ
-	 W+becfcJWP/kffx8skuE14osfd1Z/VciUue9rtEW6tMxRHOjsrSV7Vjkh8YTvKLISk
-	 o/pUU2RweAGV/B8hVM9By7v/5WEVMBCa3y7hRtzqPC7S1QGvuA4+HpYw4Ub7junJJ/
-	 DDisqcNS1BGRQ==
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371FE7C
+	for <asahi@lists.linux.dev>; Mon, 19 Sep 2022 15:15:47 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 11DFC58012A;
+	Mon, 19 Sep 2022 11:15:46 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute2.internal (MEProxy); Mon, 19 Sep 2022 11:15:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1663600546; x=1663607746; bh=V2
+	NHp03LEGFatOiT5SjFLIfjK3Dfgn5PwWj8407qQ9U=; b=sL0wAf4fnlz910F4Vz
+	odUFag9auWhR/JyQhsLSE2hhs2iaOmseZ2lH4k1AI6HmHq43B6Os0UKYrwZtTeOX
+	3s6ldQyHOblUK8qk1b+gAXaPyQlPiQkA4uwasunUQ2yj1TUlzVnEwEbVHsx00zRE
+	kM3JXx7k+m6N2TPkCtLZ6VKUb7mu1xgy9r/LIog9I7rdaHflnXmE8FYjKJiCsRxO
+	Uh4ZPnTHM6MahoycLN32BjqQSsl9MubT1fF8Yyl42/N5Gg+LUbNxudFDwthhbdk8
+	Z4Wm3tGF+eRhPigVD+N9/sS5/nutzPX0rC5gxa4njw9m1geXcFCOono28a5UAs7H
+	MiJA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1663600546; x=1663607746; bh=V2NHp03LEGFatOiT5SjFLIfjK3Df
+	gn5PwWj8407qQ9U=; b=0T3K43FVWjJFjss+Dr0RpPQff86JEiZ/mtijgFEbUr/l
+	V1wb621rNSwI4xv7bWmNSm3tVuNlCf1JR8T49wMQJtNMmbmGIxrPwPrpEbAdrp6+
+	XssX+ZjvHat2nIGd+3gCBFOkNmK4JZW0369RrKyfF4khiD8NzXoybiJM3g2QqiLA
+	6hWugCya3tqgP/uFNzfKAHFe0vakoFK9nS96AFLXQsnjquOyaNNMc/f/pMNVNBZ6
+	orD0qmkHv/0GjynpRJAvkXhTW+m8MRFmrgfhFuk/YN2Wnd1S8I/+sbvznRorZbUy
+	NO431d1qd1FTaT9qoiKMeckANp7jhSiq3JiJuRLkig==
+X-ME-Sender: <xms:n4coY4w3oVzkvr77PB1H4fmBb40ZfQZy2NPF_wgQPMfKT_UHaIdYBg>
+    <xme:n4coY8SKki3oKPC9hfhlcZPz5VA3fXj7KTW57FsLva5PyKbe-mf9IPkv4NNRGtd0Y
+    SAbxqDZb8ytBlKk-FI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfedvjedgkeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepfeegudfghfejvdffgffgkeetuddtteeuheduiedtgfdufedvudeitddv
+    leeivdfgnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgv
+    thgvrhdruggvvh
+X-ME-Proxy: <xmx:n4coY6WFIew5Sc41BNZQRbuHJ6iDGtkghtY6vE2WG9w9A2UjvI4pnA>
+    <xmx:n4coY2iRVzdGAhuC6fa-__H6wK_f2H5UR-DQhjwLL0c0IMnCDFe5Xw>
+    <xmx:n4coY6AdELWjRb6eLemIUP2tTRNz8fz4-rgm_i1QEoe-z4Jsf_HbeA>
+    <xmx:oocoY04cLhYi_fAbiGr4SEo2BotTLrK9LYGTnOoJWrSydn28MXNgNQ>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C7BA1A6007C; Mon, 19 Sep 2022 11:15:43 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-935-ge4ccd4c47b-fm-20220914.001-ge4ccd4c4
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH wireless-next v3 01/12] dt-bindings: net: bcm4329-fmac:
- Add
- Apple properties & chips
-From: Kalle Valo <kvalo@kernel.org>
-In-Reply-To: <E1oZDnO-0077Zy-18@rmk-PC.armlinux.org.uk>
-References: <E1oZDnO-0077Zy-18@rmk-PC.armlinux.org.uk>
-To: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-Cc: Arend van Spriel <aspriel@gmail.com>,
- Franky Lin <franky.lin@broadcom.com>,
- Hante Meuleman <hante.meuleman@broadcom.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, "David S. Miller" <davem@davemloft.net>,
- devicetree@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
- Hector Martin <marcan@marcan.st>, Jakub Kicinski <kuba@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-wireless@vger.kernel.org,
- netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
- "Rafa__ Mi__ecki" <zajec5@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- SHA-cyfmac-dev-list@infineon.com, Sven Peter <sven@svenpeter.dev>,
- van Spriel <arend@broadcom.com>
-User-Agent: pwcli/0.1.1-git (https://github.com/kvalo/pwcli/) Python/3.7.3
-Message-ID: <166358162603.24821.1105605322984506505.kvalo@kernel.org>
-Date: Mon, 19 Sep 2022 10:00:42 +0000 (UTC)
+Mime-Version: 1.0
+Message-Id: <c7c1e2a8-2293-4060-b17f-dcfce98ee219@app.fastmail.com>
+In-Reply-To: <35722313-6585-1748-6821-aebe0859ef6e@linaro.org>
+References: <20220907170935.11757-1-sven@svenpeter.dev>
+ <20220907170935.11757-2-sven@svenpeter.dev>
+ <35722313-6585-1748-6821-aebe0859ef6e@linaro.org>
+Date: Mon, 19 Sep 2022 17:15:43 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Marcel Holtmann" <marcel@holtmann.org>,
+ "Johan Hedberg" <johan.hedberg@gmail.com>,
+ "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Andy Gross" <agross@kernel.org>,
+ "Bjorn Andersson" <bjorn.andersson@linaro.org>,
+ "Konrad Dybcio" <konrad.dybcio@somainline.org>,
+ "Balakrishna Godavarthi" <bgodavar@codeaurora.org>,
+ "Rocky Liao" <rjliao@codeaurora.org>, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] dt-bindings: net: Add generic Bluetooth controller
+Content-Type: text/plain
 
-Russell King (Oracle) <rmk+kernel@armlinux.org.uk> wrote:
+Hi,
 
-> From: Hector Martin <marcan@marcan.st>
-> 
-> This binding is currently used for SDIO devices, but these chips are
-> also used as PCIe devices on DT platforms and may be represented in the
-> DT. Re-use the existing binding and add chip compatibles used by Apple
-> T2 and M1 platforms (the T2 ones are not known to be used in DT
-> platforms, but we might as well document them).
-> 
-> Then, add properties required for firmware selection and calibration on
-> M1 machines.
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Alvin Šipraga <alsi@bang-olufsen.dk>
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+On Thu, Sep 8, 2022, at 13:16, Krzysztof Kozlowski wrote:
+> On 07/09/2022 19:09, Sven Peter wrote:
+>> 
+>> Bluetooth controllers share the common local-bd-address property.
+>> Add a generic YAML schema to replace bluetooth.txt for those.
+>> 
+>> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+>> ---
+>> changes from v1:
+>>   - removed blueetooth.txt instead of just replacing it with a
+>>     deprecation note
+>>   - replaced references to bluetooth.txt
+>> 
+>> checkpatch complains here because it thinks I do to many things at once,
+>> I think it's better to replace bluetooth.txt in single commit though.
+>> Let me know if you prefer this to be split into multiple commits
+>> instead.
+>> 
+>> .../bindings/net/bluetooth-controller.yaml    | 30 +++++++++++++++++++
+>
+> I propose to keep it in net/bluetooth subdirectory. In next patch you
+> can move there other files.
 
-12 patches applied to wireless-next.git, thanks.
+Sure, I can also already move net/qualcomm-bluetooth.yaml to the new
+subdirectory since I need to touch it in this commit anyway.
 
-e2e37224e8b3 dt-bindings: net: bcm4329-fmac: Add Apple properties & chips
-e263d7229411 wifi: brcmfmac: firmware: Handle per-board clm_blob files
-a1b5a9022436 wifi: brcmfmac: pcie/sdio/usb: Get CLM blob via standard firmware mechanism
-7cb46e721417 wifi: brcmfmac: firmware: Support passing in multiple board_types
-e63efbcaba7d wifi: brcmfmac: pcie: Read Apple OTP information
-7682de8b3351 wifi: brcmfmac: of: Fetch Apple properties
-6bad3eeab6d3 wifi: brcmfmac: pcie: Perform firmware selection for Apple platforms
-687f767d6fab wifi: brcmfmac: firmware: Allow platform to override macaddr
-f48476780ce3 wifi: brcmfmac: msgbuf: Increase RX ring sizes to 1024
-e01d7a546981 wifi: brcmfmac: pcie: Support PCIe core revisions >= 64
-e8b80bf2fbd7 wifi: brcmfmac: pcie: Add IDs/properties for BCM4378
-4302b3fba12a arm64: dts: apple: Add WiFi module and antenna properties
+>
+>>  .../devicetree/bindings/net/bluetooth.txt     |  5 ----
+>>  .../bindings/net/qualcomm-bluetooth.yaml      |  4 +--
+>>  .../bindings/soc/qcom/qcom,wcnss.yaml         |  8 ++---
+>>  4 files changed, 35 insertions(+), 12 deletions(-)
+>>  create mode 100644 Documentation/devicetree/bindings/net/bluetooth-controller.yaml
+>>  delete mode 100644 Documentation/devicetree/bindings/net/bluetooth.txt
+>> 
+>> diff --git a/Documentation/devicetree/bindings/net/bluetooth-controller.yaml b/Documentation/devicetree/bindings/net/bluetooth-controller.yaml
+>> new file mode 100644
+>> index 000000000000..0ea8a20e30f9
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/net/bluetooth-controller.yaml
+>> @@ -0,0 +1,30 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/net/bluetooth-controller.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Bluetooth Controller Generic Binding
+>> +
+>> +maintainers:
+>> +  - Marcel Holtmann <marcel@holtmann.org>
+>> +  - Johan Hedberg <johan.hedberg@gmail.com>
+>> +  - Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+>> +
+>> +properties:
+>> +  $nodename:
+>> +    pattern: "^bluetooth(@.*)?$"
+>> +
+>> +  local-bd-address:
+>> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+>> +    minItems: 6
+>
+> No need for minitems.
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/patch/E1oZDnO-0077Zy-18@rmk-PC.armlinux.org.uk/
+Ok, dropped.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 
+Best,
+
+
+Sven
