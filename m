@@ -1,98 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE231C03
-	for <asahi@lists.linux.dev>; Tue, 20 Sep 2022 20:46:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29016C433D6;
-	Tue, 20 Sep 2022 20:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1663706793;
-	bh=tRmySnzyxJtvKAKwBC3of+F/OYOk3Qbmx+SXQY2cawg=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=XQeUHjq9Pj072MUFjdlkgmhlsm6Ii6T4hBL32a9gi0MLiF4zTVHr1IuZ9ChsR49q2
-	 ywhc6tm8Wx7e6jmtIEbtQpss5umPnEwk1KKbAm2ZbHSo8NqArqDYZjEZrJgpfCVUsb
-	 tM0XQmWuOcd1ttz2tokjpkswBqdgptfnboj58u8woxnqtHmc39crve4KESdNpltLut
-	 Vh/M9cPSD5Nub4VBhgCTIVO8o6/dhbY4HjBVgFhU0oBQqfBPj+81KxQ+5lqNowo1cF
-	 PUQ2CZ1J+9ynttgI4yt2cIqFDqyo8MdiJXD3Jrc2owq2/GsWMmFHXT96rYBUcXCKRC
-	 IfMaQ9beLaDVQ==
-From: Mark Brown <broonie@kernel.org>
-To: Martin Povišer <povik+lin@cutebit.org>, David Rhodes <david.rhodes@cirrus.com>,
- Lucas Tanure <tanureal@opensource.cirrus.com>, James Schulman <james.schulman@cirrus.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: ChiYuan Huang <cy_huang@richtek.com>, devicetree@vger.kernel.org, Matt Flax <flatmax@flatmax.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, alsa-devel@alsa-project.org, Charles Keepax <ckeepax@opensource.cirrus.com>,
- linux-kernel@vger.kernel.org, Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, asahi@lists.linux.dev,
- - <patches@opensource.cirrus.com>
-In-Reply-To: <20220915094444.11434-1-povik+lin@cutebit.org>
-References: <20220915094444.11434-1-povik+lin@cutebit.org>
-Subject: Re: [PATCH v2 00/11] Support for CS42L83 on Apple machines
-Message-Id: <166370678777.361668.609808774566315229.b4-ty@kernel.org>
-Date: Tue, 20 Sep 2022 21:46:27 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0E9A2F56;
+	Wed, 21 Sep 2022 13:20:51 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5ADA9143D;
+	Wed, 21 Sep 2022 06:20:57 -0700 (PDT)
+Received: from [10.1.32.30] (010265703453.arm.com [10.1.32.30])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1985A3F73B;
+	Wed, 21 Sep 2022 06:20:46 -0700 (PDT)
+Message-ID: <11708ed1-b74a-5d45-0ce3-e2649dac1e8a@arm.com>
+Date: Wed, 21 Sep 2022 14:20:40 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.11.0-dev-8af31
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH v5 0/5] iommu: M1 Pro/Max DART support
+Content-Language: en-GB
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Hector Martin <marcan@marcan.st>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Mark Kettenis <mark.kettenis@xs4all.nl>, Rob Herring <robh+dt@kernel.org>,
+ Sven Peter <sven@svenpeter.dev>, Will Deacon <will@kernel.org>,
+ devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, Janne Grunau <j@jannau.net>
+References: <20220916094152.87137-1-j@jannau.net>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220916094152.87137-1-j@jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 15 Sep 2022 11:44:33 +0200, Martin Povišer wrote:
-> [Changes for v2: Collected ack on compatible. Addressed Richard's
-> comments pertaining to error handling. Rebased. Switched to
-> dev_err_probe() in few places (added patch #11). Fixed authorship of
-> one of Richard's patches.]
+On 2022-09-16 10:41, Janne Grunau wrote:
+> Hej,
 > 
-> Hi all,
+> this is the next attempt adding support for the DART found in Apple's
+> M1 Pro/Max/Ultra. This adds a separate io-pgtable implementation for
+> DART. As already mentioned in v2 the pte format is not fully compatible
+> with io-pgtable-arm. Especially the 2nd least significant bit is used
+> and is not available to tag tables/pages.
+> io-pgtable-dart.c is copied from io-pgtable-arm.c and support for
+> unused features is removed. Support for 4k IO pages is left for A7 to
+> A11 SoCs as there's work underway to run Linux on them.
 > 
-> [...]
+> The incompatibilities between both Apple DART pte seems manageable in
+> their own io-pgtable implementation. A short list of the known
+> differences:
+> 
+>   - the physical addresses are shifted left by 4 bits and and have 2 more
+>     bits inside the PTE entries
+>   - the read/write protection flags are at a different position
+>   - the subpage protection feature is now mandatory. For Linux we can
+>     just configure it to always allow access to the entire page.
+>   - BIT(1) tags "uncached" mappings (used for the display controller)
+> 
+> There is second type of DART (t8110) present on M1 Pro/Max SoCs which
+> uses the same PTE format as t6000.
 
-Applied to
+FWIW I think there's minimal risk in queueing this up as a late addition 
+for 6.1, lest it get forgotten again. I've not been following it since 
+I've been busy with other things and I largely trust that DART patches 
+are well-tested, but from a quick skim it all earns a solid "yeah, why 
+not" from me :)
 
-   broonie/sound.git for-next
+Cheers,
+Robin.
 
-Thanks!
-
-[01/11] ASoC: dt-bindings: cs42l42: Add 'cs42l83' compatible
-        commit: 23162672ff85c24afc19293309500d3a63134ef8
-[02/11] ASoC: cs42l42: Add bitclock frequency argument to cs42l42_pll_config()
-        commit: 7e178946c3e4e64cebda4e60d0b7e5c02a502d13
-[03/11] ASoC: cs42l42: Use cs42l42->dev instead of &i2c_client->dev
-        commit: 2feab7e7d8c01b67d9ffbfb902d1591c08e9d564
-[04/11] ASoC: cs42l42: Split probe() and remove() into stages
-        commit: 0285042feda799edca63b35cea0cda32ed0c47c2
-[05/11] ASoC: cs42l42: Split cs42l42_resume into two functions
-        commit: 56746683c2560ba5604bb212f73eb01f5edfd312
-[06/11] ASoC: cs42l42: Pass component and dai defs into common probe
-        commit: 52c2e370df07092437d1515e773d28a5f53fc810
-[07/11] ASoC: cs42l42: Split I2C identity into separate module
-        commit: ae9f5e607da47104bc3d02e5c0ed237749f5db51
-[08/11] ASoC: cs42l42: Export regmap elements to core namespace
-        commit: 30b679e2cb058c3dcf6d3ebdf10999f0a7a1644d
-[09/11] ASoC: cs42l83: Extend CS42L42 support to new part
-        commit: 94d5f62a91aab6ac9c3f4abfd048cbe5f77153ac
-[10/11] ASoC: cs42l42: Implement 'set_bclk_ratio'
-        commit: ab2940a72dfa823af09abf593512459afe3da460
-[11/11] ASoC: cs42l42: Switch to dev_err_probe() helper
-        commit: ac088c31d496b885d8268bd1c9746c3c76bf7078
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+> Changes in v5:
+> - collected Sven's ack
+> - minor fixes in "iommu/io-pgtable: Move Apple DART support to its own
+>    file"
+> 
+> Changes in v4:
+> - split dart and io-pgtable-dart build to allow building dart as module
+> - add missing "SELECT IOMMU_IO_PGTABLE"
+> - made map/unmap_pages/iova_to_phys inon-recursive
+> - replace pgd concatenation with multiple table handling
+> - simplified config and page size checks
+> - collected Robin's Ack
+> 
+> Changes in v3:
+> - move APPLE_DART to its own io-pgtable implementation, copied from
+>    io-pgtable-arm and simplified
+> 
+> Changes in v2:
+> - added Rob's Acked-by:
+> - add APPLE_DART2 io-pgtable format
+> 
+> Janne Grunau (1):
+>    iommu/io-pgtable: Move Apple DART support to its own file
+> 
+> Sven Peter (4):
+>    dt-bindings: iommu: dart: add t6000 compatible
+>    iommu/io-pgtable: Add DART subpage protection support
+>    iommu/io-pgtable-dart: Add DART PTE support for t6000
+>    iommu: dart: Support t6000 variant
+> 
+>   .../devicetree/bindings/iommu/apple,dart.yaml |   4 +-
+>   MAINTAINERS                                   |   1 +
+>   drivers/iommu/Kconfig                         |  13 +-
+>   drivers/iommu/Makefile                        |   1 +
+>   drivers/iommu/apple-dart.c                    |  24 +-
+>   drivers/iommu/io-pgtable-arm.c                |  63 ---
+>   drivers/iommu/io-pgtable-dart.c               | 470 ++++++++++++++++++
+>   drivers/iommu/io-pgtable.c                    |   3 +
+>   include/linux/io-pgtable.h                    |   1 +
+>   9 files changed, 512 insertions(+), 68 deletions(-)
+>   create mode 100644 drivers/iommu/io-pgtable-dart.c
+> 
