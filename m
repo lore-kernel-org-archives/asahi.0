@@ -1,101 +1,148 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDD42560
-	for <asahi@lists.linux.dev>; Thu, 22 Sep 2022 22:19:53 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4MYV815Q9pz4xD1;
-	Fri, 23 Sep 2022 08:19:44 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=201702; t=1663885185;
-	bh=u29mhIvpahCVfLIeUUJ+Q5zVnoirDkHZjYdUJFVs5oQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HdHw5oYkasNYjRn5gszsBXTII8c/u2/5Utd2mwHx7xY7I1qsB9Czqe9dCWLweKvuH
-	 K+VNnMh4UTIrmsD4N/KIFdojWmy/r6QSGhaSo9JBhEeR5VTcs8mzdjxBpHvernFA9I
-	 xlk6/9eK69JtHSjWH5DW0Cj27NznwQVBKEVekFdo8QHTblo6HOV6yK6z9H7dNIVs0F
-	 I+oXihVkBjrl0t9a7dhE1mrTycct7iMxJN/VSjRD27KBryOsesc6Qp7cJFngXtUP4w
-	 HL1OP4oQNUQl97dYb7f6DPMu6tWhqsc5AyM/iw8pNnR7U3V5pK4u93RiHkum4Gq9Km
-	 y/8MF0gmNb+TQ==
-Date: Fri, 23 Sep 2022 08:19:28 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Hector Martin <marcan@marcan.st>
-Cc: Asahi Linux <asahi@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: Please add asahi-soc to linux-next
-Message-ID: <20220923081928.6172c4fa@canb.auug.org.au>
-In-Reply-To: <2159b672-4db7-5add-8046-ed5354dd5343@marcan.st>
-References: <2159b672-4db7-5add-8046-ed5354dd5343@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB767C
+	for <asahi@lists.linux.dev>; Fri, 23 Sep 2022 12:36:04 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id f20so27579edf.6
+        for <asahi@lists.linux.dev>; Fri, 23 Sep 2022 05:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=Wdk1JgkEf6+e3NqnmCSJjMireXUCrz29umVj4QoVxEQ=;
+        b=ChqPvxFq/AcMG/qDW+/Fw3x+ZudpgRYRus11vdPTwos+X10x7h2Ik5duzINe4rsYlb
+         TxyKjzVRrqSSOrBwFulI7K53Uec+V5Mi4j8axInmSYDETm+geTA2SmAebnxe+qD/5lsK
+         AdqSQLf3UxgCW3mLYN8RCHBAS7FphwsMSI1sOOIhnsc1+OSf6iN5rN5BlNXJazHclJ7H
+         XJaU1tiRq2cRGysHAD9sajjtM+0D0i/8kRDG2HpYuthYJzr6cwcZCgMd3U02iPADlGv+
+         pzYHVYWSHwOPWmgo/NRTPjXvFhcU5FP2xfJKQFN48Z3l4SWh8/2dKejsfIQHxFtR25Pr
+         B58w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=Wdk1JgkEf6+e3NqnmCSJjMireXUCrz29umVj4QoVxEQ=;
+        b=ZM3C/5vIOzqoBGXlzAmmSN4oaCHGGpqC0oW6FvmVYJOni2N2wi07RijwnBOAzPDjZT
+         5w+eZBHpc3k9HeUj/1CyOxoPorpGm8iQ3RI+YmuZZtxVFKYrzgcEJ55pQjvapKo39kOp
+         UpTKnIEzZp+n8NCTEcrWXpyrbr5saNIVmQKGx8zmkgn+HZXenjxZxGcBar4+PuTS5O0a
+         hMGEJKDJG/lUILOPfhhEF/71g54u7dFlfI+zm99RSw8MeRZgYIjUqADWA2lFC4BFeZ+5
+         2NC4Kclo39pgOSOM/U+qrKBi1gfwc+f8HpgVy6rsCXgeTA+MdFrok3QcRWrahqQOZrLy
+         NFhQ==
+X-Gm-Message-State: ACrzQf2NnrDruD99sEu/5hRQMkUEEnBQC7ZFAb+119JKQPCw9rujvqHj
+	I6yNGgFdmDNb/Cs7i/ne2PM=
+X-Google-Smtp-Source: AMsMyM59QO1OTdqYxp9OIcu2jWVMwK9ihTGFuFUIlSPywwi6lEZVHdKeKo8DaT/ITFgqglkRLY1VQg==
+X-Received: by 2002:a50:fa99:0:b0:44e:9e71:4899 with SMTP id w25-20020a50fa99000000b0044e9e714899mr8237380edr.197.1663936562857;
+        Fri, 23 Sep 2022 05:36:02 -0700 (PDT)
+Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id e2-20020a056402104200b00445f9faf13csm5459208edu.72.2022.09.23.05.36.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Sep 2022 05:36:01 -0700 (PDT)
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Joerg Roedel <joro@8bytes.org>
+Cc: Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Janne Grunau <j@jannau.net>,
+	Sameer Pujar <spujar@nvidia.com>,
+	devicetree@vger.kernel.org,
+	iommu@lists.linux-foundation.org,
+	linux-tegra@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: [PATCH v9 0/5] iommu: Support mappings/reservations in reserved-memory regions
+Date: Fri, 23 Sep 2022 14:35:52 +0200
+Message-Id: <20220923123557.866972-1-thierry.reding@gmail.com>
+X-Mailer: git-send-email 2.37.3
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/YQ7ShGKyHkj//oJBnDgl6P9";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
 
---Sig_/YQ7ShGKyHkj//oJBnDgl6P9
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+From: Thierry Reding <treding@nvidia.com>
 
-Hi Hector,
+Hi,
 
-On Thu, 22 Sep 2022 23:29:29 +0900 Hector Martin <marcan@marcan.st> wrote:
->
-> Could you add the asahi-soc trees to linux-next? We are downstream from
-> SoC and would benefit from testing in linux-next before I send out PRs.
->=20
-> URLs:
-> https://github.com/AsahiLinux/linux.git asahi-soc/fixes
-> https://github.com/AsahiLinux/linux.git asahi-soc/for-next
->=20
-> (Right now we have no fixes, and some DT changes in for-next)
+This version has several fixes over the previous v8, which can be found
+here:
 
-Added from today.  I have just you listed as the contact at the moment,
-please let me know if you want any others listed.
+  https://lore.kernel.org/all/20220905170833.396892-1-thierry.reding@gmail.com/
 
-Thanks for adding your subsystem tree as a participant of linux-next.  As
-you may know, this is not a judgement of your code.  The purpose of
-linux-next is for integration testing and to lower the impact of
-conflicts between subsystems in the next merge window.=20
+An example is included in the DT bindings, but here is an extract of
+what I've used to test this:
 
-You will need to ensure that the patches/commits in your tree/series have
-been:
-     * submitted under GPL v2 (or later) and include the Contributor's
-        Signed-off-by,
-     * posted to the relevant mailing list,
-     * reviewed by you (or another maintainer of your subsystem tree),
-     * successfully unit tested, and=20
-     * destined for the current or next Linux merge window.
+        reserved-memory {
+                #address-cells = <2>;
+                #size-cells = <2>;
+                ranges;
 
-Basically, this should be just what you would send to Linus (or ask him
-to fetch).  It is allowed to be rebased if you deem it necessary.
+                /*
+                 * Creates an identity mapping for the framebuffer that
+                 * the firmware has setup to scan out a bootsplash from.
+                 */
+                fb: framebuffer@92cb2000 {
+                        reg = <0x0 0x92cb2000 0x0 0x00800000>;
+                        iommu-addresses = <&dc0 0x0 0x92cb2000 0x0 0x00800000>;
+                };
 
---=20
-Cheers,
-Stephen Rothwell=20
-sfr@canb.auug.org.au
+                /*
+                 * Creates a reservation in the IOVA space to prevent
+                 * any buffers from being mapped to that region. Note
+                 * that on Tegra the range is actually quite different
+                 * from this, but it would conflict with the display
+                 * driver that I tested this against, so this is just
+                 * a dummy region for testing.
+                 */
+                adsp: reservation-adsp {
+                        iommu-addresses = <&dc0 0x0 0x90000000 0x0 0x00010000>;
+                };
+        };
 
---=20
-Cheers,
-Stephen Rothwell
+        host1x@50000000 {
+                dc@54200000 {
+                        memory-region = <&fb>, <&adsp>;
+                };
+        };
 
---Sig_/YQ7ShGKyHkj//oJBnDgl6P9
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+This is abbreviated a little to focus on the essentials. Note also that
+the ADSP reservation is not actually used on this device and the driver
+for this doesn't exist yet, but I wanted to include this variant for
+testing, because we'll want to use these bindings for the reservation
+use-case as well at some point.
 
------BEGIN PGP SIGNATURE-----
+I've also been able to make use of this binding and the IOMMU code in
+conjunction with the simple-framebuffer driver to hand over a display
+configuration set up by UEFI to the Linux kernel.
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmMs33AACgkQAVBC80lX
-0GzwtwgAj44qDB1qKHk382gLm8Oyl9RT/nNE3AlJJRQAMTnwMQBqKHznjQGm8P5L
-6n413A7xXoRGNeHsyTiVY6j8wxktNvqWvStMYgEGl9njC28og/z3lTivmule2/to
-FUWkzvnmZIQ3mVrMTBKwrEa/e42g8LvgOKvVOV+Ou2FsFoSvoyLHC/be4C1Y1Q5Z
-BPGUXWmjbUtvlf5rZarALm/YX9lEYhPMwUNVuQ81q1sMb2D2Vb75phRkPiUqGX+O
-7RX4WpHFBckbKL0xAVi6wM17fxufJciedcRz313lbSLrENCrFkmRu2yQCf6WyHsJ
-ZhJDdnNWCU2HlND22XnidNpUt27w1g==
-=ymJI
------END PGP SIGNATURE-----
+Janne has confirmed[0] this to be suitable for indirect mappings as
+well, though these patches don't implement that feature yet. Potential
+extensions to this have been discussed but are not yet included at this
+time to not further complicate things.
 
---Sig_/YQ7ShGKyHkj//oJBnDgl6P9--
+Thierry
+
+[0]: https://lore.kernel.org/all/20220909144504.GA4024@jannau.net/
+
+Navneet Kumar (1):
+  iommu/tegra-smmu: Support managed domains
+
+Thierry Reding (4):
+  dt-bindings: reserved-memory: Document iommu-addresses
+  iommu: Implement of_iommu_get_resv_regions()
+  iommu: dma: Use of_iommu_get_resv_regions()
+  iommu/tegra-smmu: Add support for reserved regions
+
+ .../reserved-memory/reserved-memory.yaml      |  70 ++++++++++++
+ drivers/iommu/dma-iommu.c                     |   3 +
+ drivers/iommu/of_iommu.c                      | 104 ++++++++++++++++++
+ drivers/iommu/tegra-smmu.c                    |  86 ++++++++++++---
+ include/linux/of_iommu.h                      |   8 ++
+ 5 files changed, 254 insertions(+), 17 deletions(-)
+
+-- 
+2.37.3
+
