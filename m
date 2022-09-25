@@ -1,167 +1,77 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12603D63
-	for <asahi@lists.linux.dev>; Fri, 23 Sep 2022 12:36:15 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id r18so321782eja.11
-        for <asahi@lists.linux.dev>; Fri, 23 Sep 2022 05:36:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=OcVK8cEHIhhrEG5qIUUuL04h8/PHYGVEkTjTLnQzMJQ=;
-        b=W0hoFeaq+vvTKk8xQkURwyR5FoOWDM9YzfxcSmsuwvUZNFJp8LsxvGrIYReajbYB/q
-         nJc5WR1Y7rUcOqvuB63ERvsE7FyTC0ofl68VdSWcQK/CMkhaZ2eIBCrz0w42Iv/JFzKQ
-         Ff4JI5VDoBjunJbUufGNe6ptDEyLZxngst8EODLaUyvDvjfbZ+HVd7CfgOLeF/56RiP0
-         T+MVdxi8j96ZAYepS/4Lrbpio+QKWAUnQVhqHQVREAdLx6bKNKaqnHcyrYHm3XI+Ij9U
-         MsQCub17q31u37PTitQSEaiL6nsaosJv9Z7fzrZBRxkTE6srHKDiYUcqeQr8GdRUUOfb
-         vWzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=OcVK8cEHIhhrEG5qIUUuL04h8/PHYGVEkTjTLnQzMJQ=;
-        b=3VlNPgCQrlnvqNFSJhdziYSEbPhFX0iBggk8sfztptXi/qvQkyEOPO06i1GOQ8WMsh
-         lo+/8DpfQKnKGwd8Gct3g2bXg0w9Onsx0U/fBIx90wfSCkJtqi+IOqree9Nhku1cNBmA
-         YPTltNIK7Vu72wosZqz2hfPVWlyFI5QTQDJ3YkcXl7Dz2hV/LPtWd2Mbk6/vc5vC09hR
-         +AcF35rhPuGpMduht/gP1mKyfiql0DzrJ9fkteY/9gyBEvF6eYunuynb8ht5coAPFRtD
-         eY33XnwsxV+w0WH+1K6LH6oIpfTDcOFEJxFA1DRSq/WXcHUQWTyltbyCtaQGCm1zOHQt
-         j/Vw==
-X-Gm-Message-State: ACrzQf0lfBE+KPYgb+eXBLogGu3n7JskucahwARU2FnVz7HWl/0o3fHx
-	2BZR1uYksl8sWqY3IzHhhPU=
-X-Google-Smtp-Source: AMsMyM6einoHp3XMiUb3xsIMekreEJuo4DUMLfkavQ2Py7A7x2lW5z8YfABIbMRraurdwHhYDB+zPg==
-X-Received: by 2002:a17:907:60cf:b0:782:d3ab:55b8 with SMTP id hv15-20020a17090760cf00b00782d3ab55b8mr238302ejc.6.1663936574058;
-        Fri, 23 Sep 2022 05:36:14 -0700 (PDT)
-Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id ky6-20020a170907778600b00778e3e2830esm4038013ejc.9.2022.09.23.05.36.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Sep 2022 05:36:12 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
-	Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-	Janne Grunau <j@jannau.net>,
-	Sameer Pujar <spujar@nvidia.com>,
-	devicetree@vger.kernel.org,
-	iommu@lists.linux-foundation.org,
-	linux-tegra@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: [PATCH v9 5/5] iommu/tegra-smmu: Support managed domains
-Date: Fri, 23 Sep 2022 14:35:57 +0200
-Message-Id: <20220923123557.866972-6-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.37.3
-In-Reply-To: <20220923123557.866972-1-thierry.reding@gmail.com>
-References: <20220923123557.866972-1-thierry.reding@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0B87B
+	for <asahi@lists.linux.dev>; Sun, 25 Sep 2022 15:44:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0973BC4347C
+	for <asahi@lists.linux.dev>; Sun, 25 Sep 2022 15:44:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1664120699;
+	bh=56m/znKoTqndib5n/0vCAB2QHcSxXEmvepAWYlZLhWk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=QQLd9wkzmzjg2Y9MYtxD7yTDj0m/R13xWOkIr4gOzrwcYyNlUgMPBz2WoG2Iifo6M
+	 b4rdth7ywIDrJBzjsGx9/3pA892Nu7JSCiwCt00ttI8lC+zO65TZzIhIu9/0a6S5gL
+	 luaMcuQf8AoQvud3q4Tbgl3bMH5wv5HyXF8xhFoNXrB6eXEHWBU6BDndY/uRlGq0dB
+	 Tx3OeBlCcX1n2uFAEL7a/yV2Ri7rcV+PJqI3gxvZMc8gkrraex+SULO0JGse3zdmqq
+	 79WH+Y7L+Dg3RWKZiO3+urVehnbcfloeJgVSb3+wXu5djvw+S8c4Z0KZATiWO5cAfz
+	 F+pYCgtLhrm3w==
+Received: by mail-vs1-f50.google.com with SMTP id u189so4442125vsb.4
+        for <asahi@lists.linux.dev>; Sun, 25 Sep 2022 08:44:58 -0700 (PDT)
+X-Gm-Message-State: ACrzQf3twxNioaL+Wp+wB9bSJHOOooHoTvwky64TCMzBfHcLTbOYmg+8
+	jr8FU0oAHPsMXCmjorgCFVPAcYIeTie+KkLSqA==
+X-Google-Smtp-Source: AMsMyM7/3q9FshtDglD88xmTCGAJX/8emrrdhymK14qX1nCmQ86CE+9eL8oqG7N/RaB47ay+Ukfhad/Do05B2gOjn7g=
+X-Received: by 2002:a67:c18a:0:b0:398:4c72:cafb with SMTP id
+ h10-20020a67c18a000000b003984c72cafbmr6274564vsj.53.1664120697844; Sun, 25
+ Sep 2022 08:44:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220919164834.62739-1-sven@svenpeter.dev> <20220919164834.62739-3-sven@svenpeter.dev>
+In-Reply-To: <20220919164834.62739-3-sven@svenpeter.dev>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Sun, 25 Sep 2022 10:44:46 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+32LpvsFC+sCVsqzncgokYRd+oXUQYirumr-boz_RwKQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+32LpvsFC+sCVsqzncgokYRd+oXUQYirumr-boz_RwKQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] dt-bindings: net: Add Broadcom BCM4377 family PCIe Bluetooth
+To: Sven Peter <sven@svenpeter.dev>
+Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+	netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	"open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Navneet Kumar <navneetk@nvidia.com>
+On Mon, Sep 19, 2022 at 11:49 AM Sven Peter <sven@svenpeter.dev> wrote:
+>
+> These chips are combined Wi-Fi/Bluetooth radios which expose a
+> PCI subfunction for the Bluetooth part.
+> They are found in Apple machines such as the x86 models with the T2
+> chip or the arm64 models with the M1 or M2 chips.
+>
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+> changes from v2:
+>   - extended example to include parent pcie node to make
+>     node name validation work
+>   - moved to bluetooth/ subdirectory
+>   - added maxItems to reg and dropped description
+>   - moved bluetooth-controller.yaml reference after description
+>
+> changes from v1:
+>   - added apple,* pattern to brcm,board-type
+>   - s/PCI/PCIe/
+>   - fixed 1st reg cell inside the example to not contain the bus number
+>
+>  .../net/bluetooth/brcm,bcm4377-bluetooth.yaml | 81 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 82 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
 
-Allow creating identity and DMA API compatible IOMMU domains. When
-creating a DMA API compatible domain, make sure to also create the
-required cookie.
-
-Signed-off-by: Navneet Kumar <navneetk@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v5:
-- remove DMA cookie initialization that's now no longer needed
-
- drivers/iommu/tegra-smmu.c | 38 +++++++++++++++++++++-----------------
- 1 file changed, 21 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/iommu/tegra-smmu.c b/drivers/iommu/tegra-smmu.c
-index 57b4f2b37447..7ad993330634 100644
---- a/drivers/iommu/tegra-smmu.c
-+++ b/drivers/iommu/tegra-smmu.c
-@@ -20,6 +20,8 @@
- #include <soc/tegra/ahb.h>
- #include <soc/tegra/mc.h>
- 
-+#include "dma-iommu.h"
-+
- struct tegra_smmu_group {
- 	struct list_head list;
- 	struct tegra_smmu *smmu;
-@@ -277,7 +279,9 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- {
- 	struct tegra_smmu_as *as;
- 
--	if (type != IOMMU_DOMAIN_UNMANAGED)
-+	if (type != IOMMU_DOMAIN_UNMANAGED &&
-+	    type != IOMMU_DOMAIN_DMA &&
-+	    type != IOMMU_DOMAIN_IDENTITY)
- 		return NULL;
- 
- 	as = kzalloc(sizeof(*as), GFP_KERNEL);
-@@ -287,25 +291,16 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- 	as->attr = SMMU_PD_READABLE | SMMU_PD_WRITABLE | SMMU_PD_NONSECURE;
- 
- 	as->pd = alloc_page(GFP_KERNEL | __GFP_DMA | __GFP_ZERO);
--	if (!as->pd) {
--		kfree(as);
--		return NULL;
--	}
-+	if (!as->pd)
-+		goto free_as;
- 
- 	as->count = kcalloc(SMMU_NUM_PDE, sizeof(u32), GFP_KERNEL);
--	if (!as->count) {
--		__free_page(as->pd);
--		kfree(as);
--		return NULL;
--	}
-+	if (!as->count)
-+		goto free_pd_range;
- 
- 	as->pts = kcalloc(SMMU_NUM_PDE, sizeof(*as->pts), GFP_KERNEL);
--	if (!as->pts) {
--		kfree(as->count);
--		__free_page(as->pd);
--		kfree(as);
--		return NULL;
--	}
-+	if (!as->pts)
-+		goto free_pts;
- 
- 	spin_lock_init(&as->lock);
- 
-@@ -315,6 +310,15 @@ static struct iommu_domain *tegra_smmu_domain_alloc(unsigned type)
- 	as->domain.geometry.force_aperture = true;
- 
- 	return &as->domain;
-+
-+free_pts:
-+	kfree(as->pts);
-+free_pd_range:
-+	__free_page(as->pd);
-+free_as:
-+	kfree(as);
-+
-+	return NULL;
- }
- 
- static void tegra_smmu_domain_free(struct iommu_domain *domain)
-@@ -1012,7 +1016,7 @@ static const struct iommu_ops tegra_smmu_ops = {
- 	.probe_device = tegra_smmu_probe_device,
- 	.release_device = tegra_smmu_release_device,
- 	.device_group = tegra_smmu_device_group,
--	.get_resv_regions = of_iommu_get_resv_regions,
-+	.get_resv_regions = iommu_dma_get_resv_regions,
- 	.of_xlate = tegra_smmu_of_xlate,
- 	.pgsize_bitmap = SZ_4K,
- 	.default_domain_ops = &(const struct iommu_domain_ops) {
--- 
-2.37.3
-
+Reviewed-by: Rob Herring <robh@kernel.org>
