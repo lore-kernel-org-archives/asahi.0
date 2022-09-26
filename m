@@ -1,77 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0B87B
-	for <asahi@lists.linux.dev>; Sun, 25 Sep 2022 15:44:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0973BC4347C
-	for <asahi@lists.linux.dev>; Sun, 25 Sep 2022 15:44:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1664120699;
-	bh=56m/znKoTqndib5n/0vCAB2QHcSxXEmvepAWYlZLhWk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=QQLd9wkzmzjg2Y9MYtxD7yTDj0m/R13xWOkIr4gOzrwcYyNlUgMPBz2WoG2Iifo6M
-	 b4rdth7ywIDrJBzjsGx9/3pA892Nu7JSCiwCt00ttI8lC+zO65TZzIhIu9/0a6S5gL
-	 luaMcuQf8AoQvud3q4Tbgl3bMH5wv5HyXF8xhFoNXrB6eXEHWBU6BDndY/uRlGq0dB
-	 Tx3OeBlCcX1n2uFAEL7a/yV2Ri7rcV+PJqI3gxvZMc8gkrraex+SULO0JGse3zdmqq
-	 79WH+Y7L+Dg3RWKZiO3+urVehnbcfloeJgVSb3+wXu5djvw+S8c4Z0KZATiWO5cAfz
-	 F+pYCgtLhrm3w==
-Received: by mail-vs1-f50.google.com with SMTP id u189so4442125vsb.4
-        for <asahi@lists.linux.dev>; Sun, 25 Sep 2022 08:44:58 -0700 (PDT)
-X-Gm-Message-State: ACrzQf3twxNioaL+Wp+wB9bSJHOOooHoTvwky64TCMzBfHcLTbOYmg+8
-	jr8FU0oAHPsMXCmjorgCFVPAcYIeTie+KkLSqA==
-X-Google-Smtp-Source: AMsMyM7/3q9FshtDglD88xmTCGAJX/8emrrdhymK14qX1nCmQ86CE+9eL8oqG7N/RaB47ay+Ukfhad/Do05B2gOjn7g=
-X-Received: by 2002:a67:c18a:0:b0:398:4c72:cafb with SMTP id
- h10-20020a67c18a000000b003984c72cafbmr6274564vsj.53.1664120697844; Sun, 25
- Sep 2022 08:44:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC113626;
+	Mon, 26 Sep 2022 07:51:32 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id lh5so12202963ejb.10;
+        Mon, 26 Sep 2022 00:51:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date;
+        bh=JTLxaDlZ0s+4KzzKxJ2iMAsNQ8edLuUfFix3kOf4hxE=;
+        b=IUYcYkeAKAq3Z9pkfcGCw7GFVb5ytx/L103zWixWaVGGHUW4qaqsi7qFcQb8U9ylb+
+         ZH86Rft2dsUKJJPRUWtJ5SbNWB4vsOoMJNFE+RdK2CQvW8sUrWj7ZCHcXFtyYAbTbzre
+         05ZZb0uTlCJrtnHgUYE3Xmren2i+EwAw2RU0lcC0cs3q9HG0Ad8Uv35WTJuvWm79HW5P
+         K9F9i3i+Ol/SXFaX85xP+/7swtxTbQVL4rKPAMc8iyX8adFMUbWloN1UPCTGZq2Il07D
+         +TiUZOOKWEghMgGbQMmJULxQ0z/4vUcpXar06SX6FjLR2L+k5eC9evSI2aDdcl09Dz7X
+         ZLQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=JTLxaDlZ0s+4KzzKxJ2iMAsNQ8edLuUfFix3kOf4hxE=;
+        b=UErJWY1OoU+JYWEnlp57akqOaSuH1Wmj5rFs2sOTC8Uk1IZZwa+56LqRiEKzELsHPX
+         S41/ui7hzKLXl4c7TBQKdefAyqCnEaOnAaSqqml8CrTqigaPgmH5wbXYFTxKAf8yEkrd
+         zNPuHvOnVuSlGOeb1p/yhL/dgsCMJPYqc9ye5WqTyudC6jJWCHEM+O8AfVQnasrPLkYK
+         RUm0Mm9VVxYX6YYVMMaqQc/Buix0tYJX9BvDenWztRUNeoAshDTdzIEZRHBlKa1muo69
+         bZUQp4AqxJdLj5UsE58KDP4XTADUKrnX1a8Qx02l5PKOwkarLPErkHmMOgn7UnKQmpZs
+         z7Rg==
+X-Gm-Message-State: ACrzQf0uZB6vcavmVS3nV37eT2MkNAZx994ExHidB9uM0d41ZcgwNQlh
+	HAhSjQyX/6L7HT3G/dHEoV9QaQ3xC6gjZYY7NqY=
+X-Google-Smtp-Source: AMsMyM54PjI7r9RBNywo7Vr4XI825HD15QzPS4xTM54XWF4bEobGfMMFwon7099h/YE9taKhiPm8G8gbvIN0ntLE4AA=
+X-Received: by 2002:a17:906:9c83:b0:779:c14c:55e4 with SMTP id
+ fj3-20020a1709069c8300b00779c14c55e4mr16698857ejc.619.1664178690895; Mon, 26
+ Sep 2022 00:51:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220919164834.62739-1-sven@svenpeter.dev> <20220919164834.62739-3-sven@svenpeter.dev>
-In-Reply-To: <20220919164834.62739-3-sven@svenpeter.dev>
-From: Rob Herring <robh+dt@kernel.org>
-Date: Sun, 25 Sep 2022 10:44:46 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+32LpvsFC+sCVsqzncgokYRd+oXUQYirumr-boz_RwKQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+32LpvsFC+sCVsqzncgokYRd+oXUQYirumr-boz_RwKQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] dt-bindings: net: Add Broadcom BCM4377 family PCIe Bluetooth
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, 
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	netdev <netdev@vger.kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	"open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Nick Desaulniers <nick.desaulniers@gmail.com>
+Date: Mon, 26 Sep 2022 00:51:19 -0700
+Message-ID: <CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=Tv5Z9zGyn5SS+gsUw@mail.gmail.com>
+Subject: Any interest in building the Linux kernel from a MacOS host?
+To: torvalds@linux-foundation.org, Masahiro Yamada <masahiroy@kernel.org>, 
+	"marcan@marcan.st" <marcan@marcan.st>
+Cc: Nick Desaulniers <ndesaulniers@google.com>, llvm@lists.linux.dev, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Sep 19, 2022 at 11:49 AM Sven Peter <sven@svenpeter.dev> wrote:
->
-> These chips are combined Wi-Fi/Bluetooth radios which expose a
-> PCI subfunction for the Bluetooth part.
-> They are found in Apple machines such as the x86 models with the T2
-> chip or the arm64 models with the M1 or M2 chips.
->
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
-> changes from v2:
->   - extended example to include parent pcie node to make
->     node name validation work
->   - moved to bluetooth/ subdirectory
->   - added maxItems to reg and dropped description
->   - moved bluetooth-controller.yaml reference after description
->
-> changes from v1:
->   - added apple,* pattern to brcm,board-type
->   - s/PCI/PCIe/
->   - fixed 1st reg cell inside the example to not contain the bus number
->
->  .../net/bluetooth/brcm,bcm4377-bluetooth.yaml | 81 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 82 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/bluetooth/brcm,bcm4377-bluetooth.yaml
+Not sure if this is potentially interesting to anyone but I was able
+to get the kernel building from MacOS my M2 Air with a small amount of
+effort (read: duct tape and bailing wire).  If this might seem helpful
+to anyone's workflow, I wouldn't mind pursuing this (with some
+cleanup, sending a more formal patch set).  Maybe this helps us
+bootstrap or get Linux up and running sooner on these machines?
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Take a look at the commit message linked below for the trials & tribulations:
+https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb340355f471c1dfe95a
+
+Thanks,
+~Nick Desaulniers
