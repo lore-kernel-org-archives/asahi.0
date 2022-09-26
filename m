@@ -1,84 +1,98 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8745963A;
-	Mon, 26 Sep 2022 09:12:46 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1664183208; bh=RuwvdYTue40Ppjb+3cJgTWK/P0AA+gH8pgKbdcDCbis=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=jEaw9gribPaZizwL95XhqNvpGGKOpLeKz7JPj9XYd0tZcE9DiRrfbsAJvYX4Cl0pA
-	 TseBUVpJ3jrfWEiIKr/DpkoK2nbWbJeVZfWFR2zOif3AQjhpeZ4PsXPKfJOAyMy/El
-	 QWAc+tsi4qCsOwI9MCgQf7s+cmAv1TOen8250iW4=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4D17B;
+	Mon, 26 Sep 2022 11:16:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id B11BF41EF0;
+	Mon, 26 Sep 2022 11:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1664190994; bh=rOuuto//9X2yVHXbZW7PA1Ohl4IJGMNIa4F1RVFPT7M=;
+	h=Date:To:Cc:References:From:Subject:In-Reply-To;
+	b=JzqNXDipIlQwwGnZOEmalB3DCXA8ACeevo7PBd8Tf6hEgVGX8isUPzkW2pkT3TtrA
+	 jK2QtBtlw1//90TBODlINJXWWtTgxXPhGRYI+6zRp6gcfkotBZUYzmPl9KlEMWYdq4
+	 FuhYGRNq02QRNZhBJ+LmEp4u573KWSoFJaFFimNCmSyEFbvRmGw8sC++BivEXZRPlE
+	 VLD1Wc8cTTlRULjmgZajaeDnjwTXGnNwVc723YEI9/54We+zjglFfPJTntTsOj+LYd
+	 0Fr/FQ8jUs80yWnhNI2q/+9Eufc2tUiGsq+XjHik8Fbh1xciHEgyOm3OyYiwV9QdIO
+	 8ftjoKBp5TheQ==
+Message-ID: <4fdda77e-6aed-b148-ddbc-52ef2d29b565@marcan.st>
+Date: Mon, 26 Sep 2022 20:16:28 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.80.82.1.1\))
-Subject: Re: Any interest in building the Linux kernel from a MacOS host?
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <ba821ade-1573-4c35-8fbb-285283817147@app.fastmail.com>
-Date: Mon, 26 Sep 2022 11:06:46 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: es-ES
+To: =?UTF-8?Q?Martin_Povi=c5=a1er?= <povik+lin@cutebit.org>,
+ Sven Peter <sven@svenpeter.dev>,
+ Nick Desaulniers <nick.desaulniers@gmail.com>
 Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Masahiro Yamada <masahiroy@kernel.org>,
- Hector Martin <marcan@marcan.st>,
  Nick Desaulniers <ndesaulniers@google.com>,
  clang-built-linux <llvm@lists.linux.dev>,
  Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  asahi@lists.linux.dev,
  linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <478D9484-E404-4A96-908C-4DE0F7C23997@cutebit.org>
 References: <CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=Tv5Z9zGyn5SS+gsUw@mail.gmail.com>
  <ba821ade-1573-4c35-8fbb-285283817147@app.fastmail.com>
-To: Sven Peter <sven@svenpeter.dev>,
- Nick Desaulniers <nick.desaulniers@gmail.com>
+ <478D9484-E404-4A96-908C-4DE0F7C23997@cutebit.org>
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: Any interest in building the Linux kernel from a MacOS host?
+In-Reply-To: <478D9484-E404-4A96-908C-4DE0F7C23997@cutebit.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-FWIW my current workflow includes building the kernel under macOS, so
-there=E2=80=99s some interest from me, but that will pass once the =
-porting
-project progresses enough. So far I get by with some local duct tape.
+On 26/09/2022 18.06, Martin Povišer wrote:
+> FWIW my current workflow includes building the kernel under macOS, so
+> there’s some interest from me, but that will pass once the porting
+> project progresses enough. So far I get by with some local duct tape.
+> 
+>> On 26. 9. 2022, at 10:09, Sven Peter <sven@svenpeter.dev> wrote:
+>>
+>> On Mon, Sep 26, 2022, at 09:51, Nick Desaulniers wrote:
+> 
+> (...)
+> 
+>>> If this might seem helpful
+>>> to anyone's workflow, I wouldn't mind pursuing this (with some
+>>> cleanup, sending a more formal patch set).  Maybe this helps us
+>>> bootstrap or get Linux up and running sooner on these machines?
+>>
+>> I've been either using a Linux VM or just a bare metal system running
+>> on these machine for quite a while now to build kernels. This would've
+>> been useful when I originally started though and VMs weren't working very
+>> well yet so maybe it's still worth pursuing.
+> 
+> I really wanted to do it in a VM as a saner path, but I didn't find
+> a satisfactory way to share the working source tree between the macOS
+> host and Linux guest (which wouldn't slow down the build).
+> 
+> Martin
 
-> On 26. 9. 2022, at 10:09, Sven Peter <sven@svenpeter.dev> wrote:
->=20
-> On Mon, Sep 26, 2022, at 09:51, Nick Desaulniers wrote:
+Just for context: Most of our (Asahi) developers' workflow involves
+loading kernels over USB from another machine. That other machine can be
+any OS, but if it's another M1/2 running macOS you get the additional
+perk of USB-PD tooling to remote-force-reboot the target machine as well
+as get a real physical serial port. The same tooling could be ported to
+Linux-on-M1/2 relatively easily, but nobody has done that yet (probably
+because these days we have a hypervisor that gives you a superset of
+that functionality anyway, over standard USB, so it's not that necessary).
 
-(...)
+I personally use an x86 host and a hardware contraption to provide the
+same hard reboot/UART functionality (for the rare case when the
+hypervisor borks, to avoid having to hold down power buttons).
 
->> If this might seem helpful
->> to anyone's workflow, I wouldn't mind pursuing this (with some
->> cleanup, sending a more formal patch set).  Maybe this helps us
->> bootstrap or get Linux up and running sooner on these machines?
->=20
-> I've been either using a Linux VM or just a bare metal system running
-> on these machine for quite a while now to build kernels. This would've
-> been useful when I originally started though and VMs weren't working =
-very
-> well yet so maybe it's still worth pursuing.
+So there are certainly some people who'd benefit from using a macOS
+machine as a build host, either for the special USB-PD functionality or
+because they just like macOS as a development environment. It sounds
+like getting it to work isn't that hard, so perhaps it's worth upstreaming?
 
-I really wanted to do it in a VM as a saner path, but I didn't find
-a satisfactory way to share the working source tree between the macOS
-host and Linux guest (which wouldn't slow down the build).
-
-Martin
-
->>=20
->> Take a look at the commit message linked below for the trials &=20
->> tribulations:
->> =
-https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb3403=
-55f471c1dfe95a
->>=20
->> Thanks,
->> ~Nick Desaulniers
->=20
->=20
-> Best,
->=20
->=20
-> Sven
->=20
-
+- Hector
