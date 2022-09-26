@@ -1,38 +1,40 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7AE47B;
-	Mon, 26 Sep 2022 11:50:21 +0000 (UTC)
-Received: from 8bytes.org (p549ad5ad.dip0.t-ipconnect.de [84.154.213.173])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 43A8740790;
-	Mon, 26 Sep 2022 13:50:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1664193020;
-	bh=r73YqNLvS8xHDKysKOJqND3w7M8xnHB11lZ7x7MZsy0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AMQwYRjNqHisYDOdEKxfFWu/gkexU4GnmoMnLqLBILbna6Za7HO7Ji5SOe5sYmDNk
-	 xNaq5Mex9DFyC0BhmJrOzf31cVPZlnG4NGaretAaYcmrZgckXf2OQ9saU4FeP02qKp
-	 2DsUCBDKCjEWD5DCi2c1Nj9m2ZlfYLodUYNIlpGTKdiggpljJMedyQahQH7+7G/nT6
-	 WYjzN5NFA8omNpppCh3FGvZhjkkwRdUlZ99GJ9o7Omip2kr8Xb+3pG9bbDkNOxj1Ov
-	 pWeK8kjaEfnnOkab1YQTYkB3hmfFfT/WHQfcFjNx2wPWBn2G+71Egld2yEQXIBWBg7
-	 iQ7InYik2HAQA==
-Date: Mon, 26 Sep 2022 13:50:19 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Janne Grunau <j@jannau.net>
-Cc: iommu@lists.linux.dev, Konrad Dybcio <konrad.dybcio@somainline.org>,
-	asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Hector Martin <marcan@marcan.st>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Mark Kettenis <mark.kettenis@xs4all.nl>,
-	Rob Herring <robh+dt@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sven Peter <sven@svenpeter.dev>, Will Deacon <will@kernel.org>,
-	devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/5] iommu: M1 Pro/Max DART support
-Message-ID: <YzGR+y1YFc0Kw1Rd@8bytes.org>
-References: <20220916094152.87137-1-j@jannau.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8AC468D
+	for <asahi@lists.linux.dev>; Mon, 26 Sep 2022 19:20:44 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id r125so9457090oia.8
+        for <asahi@lists.linux.dev>; Mon, 26 Sep 2022 12:20:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=ADvJyP56wHbSxc129KlmBq1wxQ11OvIcsy3rVQbt0AM=;
+        b=gHD1mKDEMYXhuLnWCWwqwpSVCZugm7LUjWh2kaFrq8392sN87QjnAAG/8mwjHI4ePX
+         q5yF4EO34n66G27D/31ZqryHKr3vl50fkw3MAHC2AMYbhm6VmKabA4+OwP96t4glOQKK
+         0xeF4BROvHOYbEoI17In1CIfO3WBUdZPZjf71L/mlKRGh3hMAasp7+sk5Rd5b86L3yb9
+         l6qh2HG8HNlJx/KeTrolbPCpPdu8aaGP7Rc+l0MVGv5jpF0KEOuayl6McMEBe9DTlUgy
+         tDu90hYv8j6+nkbwNyw0VyoF+QbNLPqZNx4eS74VyZFx+I+Od+H/2FwSfBzx8LJ6GH1E
+         nGSA==
+X-Gm-Message-State: ACrzQf3dsflETF7SUKhiJL2wYJsI69zsvW59DH6DAAwqz30kh0ptqP8m
+	aldNQ2Wjh4z0tqNPcN8ucw==
+X-Google-Smtp-Source: AMsMyM4ROdDjV6GTDIC7rGrPJZId6RQc+iAMicuKSsRckR/ihD7ZKbUwPWuDfXhBc1jE8xBvdfnQGQ==
+X-Received: by 2002:aca:aa97:0:b0:34d:83f5:4a5 with SMTP id t145-20020acaaa97000000b0034d83f504a5mr144441oie.146.1664220043920;
+        Mon, 26 Sep 2022 12:20:43 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t9-20020a05683022e900b0061c9f9c54e4sm8144004otc.80.2022.09.26.12.20.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Sep 2022 12:20:43 -0700 (PDT)
+Received: (nullmailer pid 2629975 invoked by uid 1000);
+	Mon, 26 Sep 2022 19:20:42 -0000
+Date: Mon, 26 Sep 2022 14:20:42 -0500
+From: Rob Herring <robh@kernel.org>
+To: Sven Peter <sven@svenpeter.dev>
+Cc: linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Konrad Dybcio <konrad.dybcio@somainline.org>, Rob Herring <robh+dt@kernel.org>, linux-bluetooth@vger.kernel.org, Hector Martin <marcan@marcan.st>, linux-arm-kernel@lists.infradead.org, Andy Gross <agross@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Eric Dumazet <edumazet@google.com>, Johan Hedberg <johan.hedberg@gmail.com>, netdev@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>, asahi@lists.linux.dev, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, "David S. Miller" <davem@davemloft.net>
+Subject: Re: [PATCH v3 1/7] dt-bindings: net: Add generic Bluetooth controller
+Message-ID: <20220926192042.GA2629908-robh@kernel.org>
+References: <20220919164834.62739-1-sven@svenpeter.dev>
+ <20220919164834.62739-2-sven@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,16 +43,33 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220916094152.87137-1-j@jannau.net>
+In-Reply-To: <20220919164834.62739-2-sven@svenpeter.dev>
 
-On Fri, Sep 16, 2022 at 11:41:47AM +0200, Janne Grunau wrote:
-> Janne Grunau (1):
->   iommu/io-pgtable: Move Apple DART support to its own file
+On Mon, 19 Sep 2022 18:48:28 +0200, Sven Peter wrote:
+> Bluetooth controllers share the common local-bd-address property.
+> Add a generic YAML schema to replace bluetooth.txt for those.
 > 
-> Sven Peter (4):
->   dt-bindings: iommu: dart: add t6000 compatible
->   iommu/io-pgtable: Add DART subpage protection support
->   iommu/io-pgtable-dart: Add DART PTE support for t6000
->   iommu: dart: Support t6000 variant
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+> changes from v2:
+>   - added new bluetooth subdirectory and moved files there
+>   - removed minItems from local-bd-address
+>   - dropped bjorn.andersson@linaro.org, bgodavar@codeaurora.org and
+>     rjliao@codeaurora.org due to bouncing emails from the CC list
+> 
+> changes from v1:
+>   - removed blueetooth.txt instead of just replacing it with a
+>     deprecation note
+>   - replaced references to bluetooth.txt
+> 
+>  .../devicetree/bindings/net/bluetooth.txt     |  5 ----
+>  .../net/bluetooth/bluetooth-controller.yaml   | 29 +++++++++++++++++++
+>  .../{ => bluetooth}/qualcomm-bluetooth.yaml   |  6 ++--
+>  .../bindings/soc/qcom/qcom,wcnss.yaml         |  8 ++---
+>  4 files changed, 35 insertions(+), 13 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/net/bluetooth.txt
+>  create mode 100644 Documentation/devicetree/bindings/net/bluetooth/bluetooth-controller.yaml
+>  rename Documentation/devicetree/bindings/net/{ => bluetooth}/qualcomm-bluetooth.yaml (96%)
+> 
 
-Applied patches 2-5 for v6.1, thanks everyone.
+Reviewed-by: Rob Herring <robh@kernel.org>
