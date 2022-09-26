@@ -1,130 +1,56 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7AE47B;
+	Mon, 26 Sep 2022 11:50:21 +0000 (UTC)
+Received: from 8bytes.org (p549ad5ad.dip0.t-ipconnect.de [84.154.213.173])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84747B
-	for <asahi@lists.linux.dev>; Mon, 26 Sep 2022 11:35:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1664192133;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=El6s5Me40WjqNMPIsI01upfNOG9tCRVFThB/uqNE3Fc=;
-	b=UrK9/XS2jlcN09GVveJZTR5qNDu+7Fn4F0fXIuHRDH55xdT6rAuTEd5ujyD5OUBZw9bUeT
-	WcgnCOWHR5qLc+roju8GHu75u/0boz6esVO85TUqCHyJjIpm25rKUJAzHqt5ZhDyvyO6t/
-	ej9OokJIoDdN+DpZCzGsI/XOhjtWecs=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-611-LsQ3KhWDOzO4B8BXYoF_wQ-1; Mon, 26 Sep 2022 07:35:32 -0400
-X-MC-Unique: LsQ3KhWDOzO4B8BXYoF_wQ-1
-Received: by mail-vk1-f198.google.com with SMTP id n12-20020a1f270c000000b003a2e234386dso2261949vkn.23
-        for <asahi@lists.linux.dev>; Mon, 26 Sep 2022 04:35:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=El6s5Me40WjqNMPIsI01upfNOG9tCRVFThB/uqNE3Fc=;
-        b=gmNgQQumFuyAcjRqszLl47+Uq9cfwbuULuRO6nfNiQA38V5oeO4E3rlAaD/bfShrVL
-         /62ts5qUbo1JkajE3ZXhwKcvDyqie64QCe8DuOFTmBW/rtRRCwzNMxRVxIhSOWSlEkul
-         CxdX+K5QaBpzJ0mL24qF0ymOy8ZOc7+d1ki/O5/PwKPN+WVcisVi8RTb9ZDzbl38Zdv4
-         OFrZziyTSu3AM5cPPcNo+Jh8ie4GEqkHRf2xW1dNBRfVt8y1p1QdRq9nMvEpz6fevHDu
-         FjxVI2EIwl8ge/YzN5U7WE8LwkuSZndRifIsPLX+oI63nq2cDPEborxILOTWmX/vAbtX
-         3HwA==
-X-Gm-Message-State: ACrzQf3rqXdBlWvGGTeauZTZAbXU8utFJ6GQuzQmweEObOOXbXQI6N9z
-	itwUQ1h/sNVX0r4Ek5A9YXo/ozeKBI6ukhceZ3kkwc0lznG+cKNWpn1sy71rAvQzOOenZHCpd7x
-	HAW5fYlJxhAQpvADrMRZ/jPrbDzX33hw=
-X-Received: by 2002:a67:dc98:0:b0:398:c70f:9357 with SMTP id g24-20020a67dc98000000b00398c70f9357mr7700221vsk.76.1664192132001;
-        Mon, 26 Sep 2022 04:35:32 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM7QffRF1yNXJ07+v6HXx6c3EHwuogm4Tj8Rvx8Y1YOfwF0OM48DctOrSJEUHph+UD/b5tVJ6lKINT5kRwE2x6k=
-X-Received: by 2002:a67:dc98:0:b0:398:c70f:9357 with SMTP id
- g24-20020a67dc98000000b00398c70f9357mr7700205vsk.76.1664192131763; Mon, 26
- Sep 2022 04:35:31 -0700 (PDT)
+	by mail.8bytes.org (Postfix) with ESMTPSA id 43A8740790;
+	Mon, 26 Sep 2022 13:50:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1664193020;
+	bh=r73YqNLvS8xHDKysKOJqND3w7M8xnHB11lZ7x7MZsy0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AMQwYRjNqHisYDOdEKxfFWu/gkexU4GnmoMnLqLBILbna6Za7HO7Ji5SOe5sYmDNk
+	 xNaq5Mex9DFyC0BhmJrOzf31cVPZlnG4NGaretAaYcmrZgckXf2OQ9saU4FeP02qKp
+	 2DsUCBDKCjEWD5DCi2c1Nj9m2ZlfYLodUYNIlpGTKdiggpljJMedyQahQH7+7G/nT6
+	 WYjzN5NFA8omNpppCh3FGvZhjkkwRdUlZ99GJ9o7Omip2kr8Xb+3pG9bbDkNOxj1Ov
+	 pWeK8kjaEfnnOkab1YQTYkB3hmfFfT/WHQfcFjNx2wPWBn2G+71Egld2yEQXIBWBg7
+	 iQ7InYik2HAQA==
+Date: Mon, 26 Sep 2022 13:50:19 +0200
+From: Joerg Roedel <joro@8bytes.org>
+To: Janne Grunau <j@jannau.net>
+Cc: iommu@lists.linux.dev, Konrad Dybcio <konrad.dybcio@somainline.org>,
+	asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Hector Martin <marcan@marcan.st>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Mark Kettenis <mark.kettenis@xs4all.nl>,
+	Rob Herring <robh+dt@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sven Peter <sven@svenpeter.dev>, Will Deacon <will@kernel.org>,
+	devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/5] iommu: M1 Pro/Max DART support
+Message-ID: <YzGR+y1YFc0Kw1Rd@8bytes.org>
+References: <20220916094152.87137-1-j@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAH7mPvj64Scp6_Nbaj8KOfkoV5f7_N5L=Tv5Z9zGyn5SS+gsUw@mail.gmail.com>
- <ba821ade-1573-4c35-8fbb-285283817147@app.fastmail.com> <478D9484-E404-4A96-908C-4DE0F7C23997@cutebit.org>
-In-Reply-To: <478D9484-E404-4A96-908C-4DE0F7C23997@cutebit.org>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Mon, 26 Sep 2022 12:35:15 +0100
-Message-ID: <CAOgh=Fx-sjUKBCPSYX+6JEn39Vv6LLkTMBVRCOGOa9AfJ4Trag@mail.gmail.com>
-Subject: Re: Any interest in building the Linux kernel from a MacOS host?
-To: =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Sven Peter <sven@svenpeter.dev>, Nick Desaulniers <nick.desaulniers@gmail.com>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Nick Desaulniers <ndesaulniers@google.com>, 
-	clang-built-linux <llvm@lists.linux.dev>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, asahi@lists.linux.dev, 
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220916094152.87137-1-j@jannau.net>
 
-On Mon, 26 Sept 2022 at 10:21, Martin Povi=C5=A1er <povik+lin@cutebit.org> =
-wrote:
->
-> FWIW my current workflow includes building the kernel under macOS, so
-> there=E2=80=99s some interest from me, but that will pass once the portin=
-g
-> project progresses enough. So far I get by with some local duct tape.
->
-> > On 26. 9. 2022, at 10:09, Sven Peter <sven@svenpeter.dev> wrote:
-> >
-> > On Mon, Sep 26, 2022, at 09:51, Nick Desaulniers wrote:
->
-> (...)
->
-> >> If this might seem helpful
-> >> to anyone's workflow, I wouldn't mind pursuing this (with some
-> >> cleanup, sending a more formal patch set).  Maybe this helps us
-> >> bootstrap or get Linux up and running sooner on these machines?
-> >
-> > I've been either using a Linux VM or just a bare metal system running
-> > on these machine for quite a while now to build kernels. This would've
-> > been useful when I originally started though and VMs weren't working ve=
-ry
-> > well yet so maybe it's still worth pursuing.
->
-> I really wanted to do it in a VM as a saner path, but I didn't find
-> a satisfactory way to share the working source tree between the macOS
-> host and Linux guest (which wouldn't slow down the build).
+On Fri, Sep 16, 2022 at 11:41:47AM +0200, Janne Grunau wrote:
+> Janne Grunau (1):
+>   iommu/io-pgtable: Move Apple DART support to its own file
+> 
+> Sven Peter (4):
+>   dt-bindings: iommu: dart: add t6000 compatible
+>   iommu/io-pgtable: Add DART subpage protection support
+>   iommu/io-pgtable-dart: Add DART PTE support for t6000
+>   iommu: dart: Support t6000 variant
 
-My way of doing this efficiently is to create throwaway commits, in
-git, just to push code around to various physical or virtual machines
-in my house. Because git is really fast at pushing incremental changes
-around:
-
-https://github.com/ericcurtin/staging/blob/master/git-push.sh
-
-But if you eventually find a way to share a filesystem (which wouldn't
-slow down the build) between MacOS and a Linux host via qemu or
-something like that I'd be interested, that's most ideal of course.
-
->
-> Martin
->
-> >>
-> >> Take a look at the commit message linked below for the trials &
-> >> tribulations:
-> >> https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb=
-340355f471c1dfe95a
-> >>
-> >> Thanks,
-> >> ~Nick Desaulniers
-> >
-> >
-> > Best,
-> >
-> >
-> > Sven
-> >
->
->
-
+Applied patches 2-5 for v6.1, thanks everyone.
