@@ -1,75 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E842588
-	for <asahi@lists.linux.dev>; Tue, 27 Sep 2022 14:48:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C4AC433C1;
-	Tue, 27 Sep 2022 14:48:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1664290121;
-	bh=ZeMk/3E0OzkkDISoQSihxyFtSKw+qjaaKWkV6nZIzEo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=TG8UvWh22vkK/rZywCv916Cwq36ZrOfVIkggJbi8zN0YWz5hgBfEScU8bmQMwtth6
-	 Y6OoRpY5zzib6stCysGC5QMoSvOcYpeKExGtZtgPH4FlB/o6yMVF/BctIFdCRlKqYT
-	 eNrR2gODD8kuIhm/FUg/iuyj2rRTzmXCN70pNtlSt/Ft4e7CRfNwzFh0TM6288xdps
-	 aNoRwxXK/i5ZppbRFm3MZsEH7afxwVuRdY6r2RDCIp5FzZtRJ1WDRtrvd8RIaNBCV5
-	 Qx4o27hLdzxPqTAMbZBNag8BqtKYXCgJn0ic4NknRFCaL2CMXyKnwe/fht5oHXGF39
-	 8knVGMYfhLwXA==
-From: Mark Brown <broonie@kernel.org>
-To: Martin Povišer <povik+lin@cutebit.org>, Liam Girdwood <lgirdwood@gmail.com>
-Cc: alsa-devel@alsa-project.org, Philipp Zabel <p.zabel@pengutronix.de>, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-In-Reply-To: <20220927113426.49724-1-povik+lin@cutebit.org>
-References: <20220927113426.49724-1-povik+lin@cutebit.org>
-Subject: Re: [PATCH 1/3] ASoC: apple: mca: Trigger, not deassert, the peripheral reset
-Message-Id: <166429011948.444806.10905154613892329863.b4-ty@kernel.org>
-Date: Tue, 27 Sep 2022 15:48:39 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D00A47
+	for <asahi@lists.linux.dev>; Thu, 29 Sep 2022 14:47:20 +0000 (UTC)
+Received: from fdsafasdfasdf.mikrus.ds.pw.edu.pl (unknown [194.29.137.22])
+	(using TLSv1.3 with cipher TLS_CHACHA20_POLY1305_SHA256 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA512)
+	(No client certificate requested)
+	by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 3F4B34018D;
+	Thu, 29 Sep 2022 16:40:52 +0200 (CEST)
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
+To: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Cc: towinchenmi@gmail.com,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Marc Zyngier <maz@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v2 1/2] dt-bindings: apple,aic: Document A7-A11 compatibles
+Date: Thu, 29 Sep 2022 16:40:38 +0200
+Message-Id: <20220929144039.40011-1-konrad.dybcio@somainline.org>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
 
-On Tue, 27 Sep 2022 13:34:24 +0200, Martin Povišer wrote:
-> Replace the deassertion of the peripheral's shared reset with the
-> triggering of a pulse on it. This is what we should have been using all
-> along as the platform's custom is not leaving the reset asserted on
-> unused peripherals.
-> 
-> 
+Document the compatibles for Apple A7-A11 SoCs.
 
-Applied to
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+---
+Changes since v1:
+- separate t8015 out, it does not fall back to s5l8960x
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+ .../bindings/interrupt-controller/apple,aic.yaml | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-Thanks!
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+index e18107eafe7c..0619dd73a7b0 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+@@ -36,9 +36,19 @@ allOf:
+ 
+ properties:
+   compatible:
+-    items:
+-      - const: apple,t8103-aic
+-      - const: apple,aic
++    oneOf:
++      - const: apple,s5l8960x-aic
++      - items:
++          - enum:
++              - apple,s8000-aic
++              - apple,t7000-aic
++              - apple,t8010-aic
++          - const: apple,s5l8960x-aic
++      - items:
++          - enum:
++              - apple,t8015-aic
++              - apple,t8103-aic
++          - const: apple,aic
+ 
+   interrupt-controller: true
+ 
+-- 
+2.30.2
 
-[1/3] ASoC: apple: mca: Trigger, not deassert, the peripheral reset
-      commit: d584e73e7310971cc226ef0e2a1bc0526da0d582
-[2/3] ASoC: apple: mca: Remove stale release of DMA channels
-      commit: e92e50e4263f5cf9c731ef5593c31f94dc3b7b8c
-[3/3] ASoC: apple: mca: Adjust timing of component unregister
-      commit: db6ae79a7e4f729457ec42db5d6d0fbe0e35784c
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
