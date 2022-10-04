@@ -1,92 +1,209 @@
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from m-r1.th.seeweb.it (m-r1.th.seeweb.it [5.144.164.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EE017C2
-	for <asahi@lists.linux.dev>; Tue,  4 Oct 2022 01:37:46 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4F87B
+	for <asahi@lists.linux.dev>; Tue,  4 Oct 2022 11:27:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown [IPv6:2a00:f41:188c:1c74:dc7c:ae37:b483:8263])
+	(using TLSv1.3 with cipher TLS_CHACHA20_POLY1305_SHA256 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA512)
 	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4MhKnj3qpkz4xDn;
-	Tue,  4 Oct 2022 12:27:37 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1664846861;
-	bh=dILIPkBSNiaMmuEgx2aZ/VK27RtnOYvEUacjVkijs74=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=HPNFOfyi/pQutZwIwhl9fl4tsacR4hDZWC2YrVMONUfvmLO5pv/mIQSiaiDj293Vj
-	 qDjrx+kFb5O4BRjKAFQiSUMoyki5soVCJW3RFUXOZWq8QZOFcauFpzaROuZUUCaZVT
-	 RVxUOUcQuAyLEkSxNn60QjHxtWQuloChpMU+NUW0NgdV/QTXGvCtCfGNZAmBISvy5Y
-	 M5Z9rpFqf6Pw9qDYvHYO2RFzBrFebkxJ7ZDEND8o9rLMks35MtA5ofZhL5KzRCnts5
-	 mNZkDft0YVolHC1fX63JO3m1TWrQBor9b7Or9tYTRngCbk7AgDMptELDvaOoQi1/+e
-	 jcCmCeuZdkc4Q==
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Sven Peter <sven@svenpeter.dev>, Arminder Singh
- <arminders208@outlook.com>, Wolfram Sang <wsa@kernel.org>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>, Christian Zigotzky
- <chzigotzky@xenosoft.de>, Darren Stevens <darren@stevens-zone.net>,
- linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
- linux-kernel@vger.kernel.org, linuxppc-dev
- <linuxppc-dev@lists.ozlabs.org>, Hector Martin <marcan@marcan.st>, Paul
- Mackerras <paulus@samba.org>
-Subject: Re: [PATCH v2] i2c-pasemi: PASemi I2C controller IRQ enablement
-In-Reply-To: <5e89999e-5c9d-428c-a6c6-b454fb47aaa3@app.fastmail.com>
-References: <Yzl16W6+poH8/8h4@shikoro>
- <MN2PR01MB5358FB185A18D2E6C22A45FE9F589@MN2PR01MB5358.prod.exchangelabs.com>
- <5e89999e-5c9d-428c-a6c6-b454fb47aaa3@app.fastmail.com>
-Date: Tue, 04 Oct 2022 12:27:36 +1100
-Message-ID: <87edvoped3.fsf@mpe.ellerman.id.au>
+	by m-r1.th.seeweb.it (Postfix) with ESMTPSA id CC8291FC01;
+	Tue,  4 Oct 2022 13:27:34 +0200 (CEST)
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
+To: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Cc: towinchenmi@gmail.com,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Marc Zyngier <maz@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v3 2/2] irqchip/apple-aic: Add support for A7-A11 SoCs
+Date: Tue,  4 Oct 2022 13:27:24 +0200
+Message-Id: <20221004112724.31621-2-konrad.dybcio@somainline.org>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+In-Reply-To: <20221004112724.31621-1-konrad.dybcio@somainline.org>
+References: <20221004112724.31621-1-konrad.dybcio@somainline.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-"Sven Peter" <sven@svenpeter.dev> writes:
-> On Sun, Oct 2, 2022, at 16:07, Arminder Singh wrote:
->> Hi,
->>
->>>  #define REG_MTXFIFO	0x00
->>>  #define REG_MRXFIFO	0x04
->>>  #define REG_SMSTA	0x14
->>> +#define REG_IMASK   0x18
->>
->>> This doesn't seem to be aligned correctly, this file seems to use a tab
->>> to separate the register name and the offset and you used spaces here.
->>
->>> @@ -15,7 +16,11 @@ struct pasemi_smbus {
->>>  	struct i2c_adapter	 adapter;
->>>  	void __iomem		*ioaddr;
->>>  	unsigned int		 clk_div;
->>> -	int			 hw_rev;
->>> +	int			         hw_rev;
->>> +	int                  use_irq;
->>> +	struct completion    irq_completion;
->>
->>> This doesn't seem to be aligned correctly and the hw_rev line
->>> doesn't have to be changed.
->>
->> I'm sorry for the alignment issues in the patch, I genuinely didn't notice
->> them as from the perspective of my primary editor (Visual Studio Code)
->> the entries were aligned. I just saw them when opening the files in
->> nano.
->
-> No worries, it's just a small nit and quickly fixed after all! :)
->
->>
->> Does fixing the alignment issues and the commit description justify a v3
->> of the patch or should the minor fixes go out as a "resend"? Just not sure
->> in this particular case as the fixes seem to be very minor ones.
->
-> I'd send a v3. I've only used resend when e.g. my previous mail provider
-> messed up and silently converted all my outgoing mails to HTML.
+Add support for A7-A11 SoCs by if-ing out some features only present
+on:
 
-If you've modified the patches then it's not a "resend":
+* A11 & newer (implementation-defined IPI & UNCORE registers)
+* A11[1] & newer (fast IPI support).
 
-  https://www.kernel.org/doc/html/latest/process/submitting-patches.html#don-t-get-discouraged-or-impatient
+UNCORE/UNCORE2 and IPI registers conveniently both first appeared on
+A11, so introduce just one check for that.
 
-So yeah send a v3 in this case.
+Knowing whether the SoC supports the latter is necessary, as they are
+written to, even if fast IPI is disabled. This in turn causes a crash
+on older platforms, as the implemention-defined registers either do
+something else or are not supposed to be touched - definitely not a
+NOP though.
 
-cheers
+[1] A11 is supposed to use this feature, but it currently doesn't work
+for reasons unknown and hence remains disabled. It can easily be enabled
+on A11 only, as there is a SoC-specific compatible in the DT with a
+fallback to apple,aic. That said, it is not yet necessary, especially
+with only one core up, and it has worked a-ok so far.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+---
+Changes since v2:
+- has_uncore_regs now also reflects whether the soc has IPI regs (A11+)
+- apple,aic is now the default, lowest-common-denominator fallback
+compatible (Sven checked it still works on M1)
+- fixed an error where "Fast IPI fired. Acking." would be unreachable..
+oops..
+- what used to be apple,aic (yes UNCORE/IPI regs no fast IPI) is now
+used for the A11 compatible
+
+ drivers/irqchip/irq-apple-aic.c | 60 ++++++++++++++++++++++++---------
+ 1 file changed, 45 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
+index 1c2813ad8bbe..239115c64340 100644
+--- a/drivers/irqchip/irq-apple-aic.c
++++ b/drivers/irqchip/irq-apple-aic.c
+@@ -230,6 +230,9 @@
+ 
+ static DEFINE_STATIC_KEY_TRUE(use_fast_ipi);
+ 
++/* True if UNCORE/UNCORE2 and Sn_... IPI registers are present (A11+) */
++static DEFINE_STATIC_KEY_TRUE(has_uncore_ipi_regs);
++
+ struct aic_info {
+ 	int version;
+ 
+@@ -246,6 +249,7 @@ struct aic_info {
+ 
+ 	/* Features */
+ 	bool fast_ipi;
++	bool uncore_ipi_regs;
+ };
+ 
+ static const struct aic_info aic1_info = {
+@@ -261,18 +265,33 @@ static const struct aic_info aic1_fipi_info = {
+ 	.event		= AIC_EVENT,
+ 	.target_cpu	= AIC_TARGET_CPU,
+ 
++	.uncore_ipi_regs	= true,
+ 	.fast_ipi	= true,
+ };
+ 
++static const struct aic_info aic1_nofipi_info = {
++	.version	= 1,
++
++	.event		= AIC_EVENT,
++	.target_cpu	= AIC_TARGET_CPU,
++
++	.uncore_ipi_regs	= true,
++};
++
+ static const struct aic_info aic2_info = {
+ 	.version	= 2,
+ 
+ 	.irq_cfg	= AIC2_IRQ_CFG,
+ 
++	.uncore_ipi_regs	= true,
+ 	.fast_ipi	= true,
+ };
+ 
+ static const struct of_device_id aic_info_match[] = {
++	{
++		.compatible = "apple,t8015-aic",
++		.data = &aic1_nofipi_info,
++	},
+ 	{
+ 		.compatible = "apple,t8103-aic",
+ 		.data = &aic1_fipi_info,
+@@ -524,12 +543,14 @@ static void __exception_irq_entry aic_handle_fiq(struct pt_regs *regs)
+ 	 * we check for everything here, even things we don't support yet.
+ 	 */
+ 
+-	if (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING) {
+-		if (static_branch_likely(&use_fast_ipi)) {
+-			aic_handle_ipi(regs);
+-		} else {
+-			pr_err_ratelimited("Fast IPI fired. Acking.\n");
+-			write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
++	if (static_branch_likely(&has_uncore_ipi_regs)) {
++		if (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING) {
++			if (static_branch_likely(&use_fast_ipi)) {
++				aic_handle_ipi(regs);
++			} else {
++				pr_err_ratelimited("Fast IPI fired. Acking.\n");
++				write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
++			}
+ 		}
+ 	}
+ 
+@@ -566,12 +587,14 @@ static void __exception_irq_entry aic_handle_fiq(struct pt_regs *regs)
+ 					  AIC_FIQ_HWIRQ(irq));
+ 	}
+ 
+-	if (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) == UPMCR0_IMODE_FIQ &&
+-			(read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
+-		/* Same story with uncore PMCs */
+-		pr_err_ratelimited("Uncore PMC FIQ fired. Masking.\n");
+-		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
+-				   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
++	if (static_branch_likely(&has_uncore_ipi_regs)) {
++		if (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) ==
++			UPMCR0_IMODE_FIQ && (read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
++			/* Same story with uncore PMCs */
++			pr_err_ratelimited("Uncore PMC FIQ fired. Masking.\n");
++			sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
++					FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
++		}
+ 	}
+ }
+ 
+@@ -944,7 +967,8 @@ static int aic_init_cpu(unsigned int cpu)
+ 	/* Mask all hard-wired per-CPU IRQ/FIQ sources */
+ 
+ 	/* Pending Fast IPI FIQs */
+-	write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
++	if (static_branch_likely(&use_fast_ipi))
++		write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
+ 
+ 	/* Timer FIQs */
+ 	sysreg_clear_set(cntp_ctl_el0, 0, ARCH_TIMER_CTRL_IT_MASK);
+@@ -965,8 +989,9 @@ static int aic_init_cpu(unsigned int cpu)
+ 			   FIELD_PREP(PMCR0_IMODE, PMCR0_IMODE_OFF));
+ 
+ 	/* Uncore PMC FIQ */
+-	sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
+-			   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
++	if (static_branch_likely(&has_uncore_ipi_regs))
++		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
++				   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
+ 
+ 	/* Commit all of the above */
+ 	isb();
+@@ -1125,6 +1150,11 @@ static int __init aic_of_ic_init(struct device_node *node, struct device_node *p
+ 	else
+ 		static_branch_disable(&use_fast_ipi);
+ 
++	if (irqc->info.uncore_ipi_regs)
++		static_branch_enable(&has_uncore_ipi_regs);
++	else
++		static_branch_disable(&has_uncore_ipi_regs);
++
+ 	irqc->info.die_stride = off - start_off;
+ 
+ 	irqc->hw_domain = irq_domain_create_tree(of_node_to_fwnode(node),
+-- 
+2.30.2
+
