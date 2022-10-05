@@ -1,45 +1,33 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45952F2C
-	for <asahi@lists.linux.dev>; Wed,  5 Oct 2022 16:43:37 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id j71so9558365pge.2
-        for <asahi@lists.linux.dev>; Wed, 05 Oct 2022 09:43:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=tILem83EJNuvIc5+TmcyEmjOuaEfpedRH8xo74px4IM=;
-        b=gwPyQmbr7slMOsWZ7Svbjc60E0jzRoQJnXOyA9UlTczLgMCmWVcsB3tt6cKQpOgzQt
-         3esZbJKqcEYIkcgl3Lwqn6KM93N7316Rv/YIdpvDuj1fVhvv2Wmd0i+9OtnZNRXEMEH4
-         SxMrIkHmu7iZ5Nixr0OcR7v8uceju3Tb7mQ3MthrMXAqC/jGuu/SOBSthKnQdGXVUGOk
-         XkrSK1MBD4zviv+WvsDKTRxmJX/uo67/PbgYPKTCz+bV6QCO/7ZdCWOyOpU/Y30fsymu
-         0HRXk8pQw0i8grHuI9HLYb+TXKLGd+L833xaufMDqnw3fXAUa5K8RVnYAfMtb3jBPocF
-         2TZA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E32E2F2C
+	for <asahi@lists.linux.dev>; Wed,  5 Oct 2022 16:54:19 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id bh13so15731624pgb.4
+        for <asahi@lists.linux.dev>; Wed, 05 Oct 2022 09:54:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date;
-        bh=tILem83EJNuvIc5+TmcyEmjOuaEfpedRH8xo74px4IM=;
-        b=WOdraJ0/H3ff+STDidzqAbZOlfMIygtV8kwCSeDeZSUS4CdQA1VA5kouQIUjn+v5Gl
-         RRR7SLHoCVXyGt/e+j/r0YEIWDyZsIDwvFO65odNW1ADSwJWm+vmeLG78VSes3kjdtYY
-         Xkd8RbIeH0BJbW8qWKp7tRY48F3EiMzS4ZKGc9FfCnPZ59yzTn/n5Mq7+GJn3HvjhvyW
-         ik5xtseOCcBdRVbO/gXiE9q6F5Gzc/VA55+qqw1ZBufv2Hg7B3gAOJuW+1lgCM0aJK1x
-         QFaSEYJAtFKyANtxlBcrkPRtqZldfxJ2jr5Mrn1w7W4pD/MvAkDTidvX1ixLrqYYIOpz
-         dqHg==
-X-Gm-Message-State: ACrzQf2utmYlGWRRQ7PahZyxIyVceXtbCJbmJxTXruiAY1kXmhZPmneQ
-	A/y3ERMsRyf1Lor79Xoz5H4=
-X-Google-Smtp-Source: AMsMyM7kQtyNZhDR0lmhv7RCt2A3DFuUNz9FnAeQRICtLaz6ostG3FIRuQIo4RmdsfYsaVXVbkSc5w==
-X-Received: by 2002:a05:6a00:302a:b0:560:950e:afd1 with SMTP id ay42-20020a056a00302a00b00560950eafd1mr332181pfb.26.1664988216904;
-        Wed, 05 Oct 2022 09:43:36 -0700 (PDT)
-Received: from [192.168.0.106] (155137199074.ctinets.com. [155.137.199.74])
-        by smtp.gmail.com with ESMTPSA id g10-20020a170902868a00b0016cf3f124e1sm10595963plo.234.2022.10.05.09.43.32
+        bh=GFGmeXwzImdz1h+PmMN1s24FBEmejNYEC+q1xWfXEck=;
+        b=0VBT7ZSzT7ze9krCEUy2WFYXhEAB8ABcs+kQErgkyoy4Jx8R21I4dr7CiJNygdBWja
+         4BsHg0XHbW8sImIXS+w7iizvxTjUwtEok9WUMqBHq0gRAG90BGzhOvCBx7+l5KH5UUmR
+         MNcbrvWBI6XiEwIeAirXXvWQI4VqHAL0VAPNIXHXPRkKf0l8L1yMt6qDJPPFAGnocbnn
+         rpU1pZM484c+M/lJnmxWmYi4Aj2iWdW0C1KaTo1NeM6b+nRfm5/64P72/A+imqn459fq
+         Db8xZ5eVTWcT5m0WnUfdD6kWsUPaoIiBM6SQ99tZ/FMtnCgWPnBN/2+F1lVnYk9u8+of
+         /qjQ==
+X-Gm-Message-State: ACrzQf28uJE5Kj6+or/foIo2Zd5J0uH61jnxseZljxoWk73Xk+belq9b
+	ZUwBUQ8hDcOcI/lOILBCDu4=
+X-Google-Smtp-Source: AMsMyM5oX6qSPQ4HG3bu8E8hjU3lPQSUd8WrMcNcjR4MljBf6naYCl5wsAAwQMON9m5RMKfn4/SRMQ==
+X-Received: by 2002:a62:2985:0:b0:544:77d4:f43b with SMTP id p127-20020a622985000000b0054477d4f43bmr726456pfp.9.1664988858370;
+        Wed, 05 Oct 2022 09:54:18 -0700 (PDT)
+Received: from [192.168.3.219] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id j16-20020a170902da9000b00176c6738d13sm10795484plx.169.2022.10.05.09.54.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Oct 2022 09:43:36 -0700 (PDT)
-Message-ID: <be98b367-f29f-25d1-de01-be189ae8057a@gmail.com>
-Date: Thu, 6 Oct 2022 00:43:31 +0800
+        Wed, 05 Oct 2022 09:54:17 -0700 (PDT)
+Message-ID: <e0ea0b0a-5077-de37-046f-62902aca93b6@acm.org>
+Date: Wed, 5 Oct 2022 09:54:11 -0700
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -48,74 +36,74 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.3.0
-Subject: Re: [PATCH v3 2/2] irqchip/apple-aic: Add support for A7-A11 SoCs
+Subject: Re: [RFC PATCH 01/21] block: add and use init tagset helper
 Content-Language: en-US
-To: Sven Peter <sven@svenpeter.dev>,
- Konrad Dybcio <konrad.dybcio@somainline.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Cc: Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Thomas Gleixner <tglx@linutronix.de>,
- Marc Zyngier <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-References: <20221004112724.31621-1-konrad.dybcio@somainline.org>
- <20221004112724.31621-2-konrad.dybcio@somainline.org>
- <3398859f-e872-4f1d-8a03-4dcb1e46e010@app.fastmail.com>
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <3398859f-e872-4f1d-8a03-4dcb1e46e010@app.fastmail.com>
+To: Chaitanya Kulkarni <kch@nvidia.com>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, axboe@kernel.dk,
+ efremov@linux.com, josef@toxicpanda.com, idryomov@gmail.com,
+ dongsheng.yang@easystack.cn, haris.iqbal@ionos.com, jinpu.wang@ionos.com,
+ mst@redhat.com, jasowang@redhat.com, pbonzini@redhat.com,
+ stefanha@redhat.com, ohad@wizery.com, andersson@kernel.org,
+ baolin.wang@linux.alibaba.com, richard@nod.at, miquel.raynal@bootlin.com,
+ vigneshr@ti.com, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io,
+ kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, sth@linux.ibm.com,
+ hoeppner@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+ agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com,
+ jejb@linux.ibm.com, martin.petersen@oracle.com, hare@suse.de,
+ bhelgaas@google.com, john.garry@huawei.com, mcgrof@kernel.org,
+ christophe.jaillet@wanadoo.fr, vaibhavgupta40@gmail.com,
+ wsa+renesas@sang-engineering.com, johannes.thumshirn@wdc.com,
+ ming.lei@redhat.com, shinichiro.kawasaki@wdc.com, vincent.fu@samsung.com,
+ christoph.boehmwalder@linbit.com, joel@jms.id.au,
+ vincent.whitchurch@axis.com, nbd@other.debian.org,
+ ceph-devel@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ asahi@lists.linux.dev
+References: <20221005032257.80681-1-kch@nvidia.com>
+ <20221005032257.80681-2-kch@nvidia.com>
+ <6fee2d7a-7fd1-73ee-2911-87a4ed3e8769@opensource.wdc.com>
+ <CAPDyKFpBpiydQn+=24CqtaH_qa3tQfN2gQSiUrHCjnLSuy4=Kg@mail.gmail.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <CAPDyKFpBpiydQn+=24CqtaH_qa3tQfN2gQSiUrHCjnLSuy4=Kg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 4/10/2022 23:56, Sven Peter wrote:
-> Hi,
-> 
-> 
-> On Tue, Oct 4, 2022, at 13:27, Konrad Dybcio wrote:
->> Add support for A7-A11 SoCs by if-ing out some features only present
->> on:
+On 10/5/22 02:47, Ulf Hansson wrote:
+> On Wed, 5 Oct 2022 at 07:11, Damien Le Moal <damien.lemoal@opensource.wdc.com> wrote:
+>> On 10/5/22 12:22, Chaitanya Kulkarni wrote:
+>>> +void blk_mq_init_tag_set(struct blk_mq_tag_set *set,
+>>> +             const struct blk_mq_ops *ops, unsigned int nr_hw_queues,
+>>> +             unsigned int queue_depth, unsigned int cmd_size, int numa_node,
+>>> +             unsigned int timeout, unsigned int flags, void *driver_data)
 >>
->> * A11 & newer (implementation-defined IPI & UNCORE registers)
->> * A11[1] & newer (fast IPI support).
->>
->> UNCORE/UNCORE2 and IPI registers conveniently both first appeared on
->> A11, so introduce just one check for that.
->>
->> Knowing whether the SoC supports the latter is necessary, as they are
->> written to, even if fast IPI is disabled.
+>> That is an awful lot of arguments... I would be tempted to say pack all
+>> these into a struct but then that would kind of negate this patchset goal.
+>> Using a function with that many arguments will be error prone, and hard to
+>> review... Not a fan.
 > 
-> AFAIK that's only an artifact in this driver: It was added to prevent an FIQ
-> storm in case there were pending fast ipis (i.e. the bootloader was broken ;))
-> when this driver didn't support fast ipis yet.
+> I completely agree.
 > 
->> This in turn causes a crash
->> on older platforms, as the implemention-defined registers either do
->> something else or are not supposed to be touched - definitely not a
->> NOP though.
->>
->> [1] A11 is supposed to use this feature, but it currently doesn't work
->> for reasons unknown and hence remains disabled. It can easily be enabled
->> on A11 only, as there is a SoC-specific compatible in the DT with a
->> fallback to apple,aic. That said, it is not yet necessary, especially
->> with only one core up, and it has worked a-ok so far.
-> 
-> Just to make sure I understand this correctly - we have the following three situations:
-> 
-> - base: no fastipi, no uncore, will work on A11 and M1 though
-> - A11: fastipi and uncore but fastipi is broken (possibly due to HW errata or some bug in this driver that only happens on A11)
-> - M1 (or maybe even A12 already, doesn't matter though): fastipi and uncore support
-> 
-> If we figured out _why_ fastipi is broken on A11 we would only need a single
-> feature flag to enable both uncore and fastipi but for now we need two to
-> disable fastipi for A11
+> But there is also another problem going down this route. If/when we
+> realize that there is another parameter needed in the blk_mq_tag_set.
+> Today that's quite easy to add (assuming the parameter can be
+> optional), without changing the blk_mq_init_tag_set() interface.
 
-The previous issues with fast IPI does not seem to be reproducible with thisversion of patches anymore, at least when modifying the device tree to useapple,t8103-aic the device still boots. Tested on iPhone X.
-> 
-> I'm also curious: What are the symptoms when you enable fastipi on A11?
-> 
-> 
-> Sven
+Hi Chaitanya,
 
+Please consider to drop the entire patch series. In addition to the 
+disadvantages mentioned above I'd like to mention the following 
+disadvantages:
+* Replacing named member assignments with positional arguments in a
+   function call makes code harder to read and harder to verify.
+* This patch series makes tree-wide changes without improving the code
+   in a substantial way.
 
-Nick Chan
+Thanks,
+
+Bart.
+
