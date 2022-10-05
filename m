@@ -1,141 +1,61 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34D163C
-	for <asahi@lists.linux.dev>; Wed,  5 Oct 2022 09:48:11 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id fw14so8078198pjb.3
-        for <asahi@lists.linux.dev>; Wed, 05 Oct 2022 02:48:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=uAiOjs73GnPtRWDKlCBYpOmHeG3ElDSPTXYVbLmJn3Y=;
-        b=dh/s9gbrJ1NP2il6j7m7392rb5m/0olUhLw6ywfYrwbm+b05mgthbXGVeHCne6faSe
-         nEB8FWIww9/Mh3TPJYBTwQxHk9YQhBfOYEWSgISGS3x2V+1PSzpPW0fGwHCNvRUrDmsC
-         V4LPjNBP1ZNWd2lWycmQ+cVlk2hOYpk0wbD3BQW90ktRdTfHVQoOGdzFfsVLA+UV8P0L
-         yaYjHeb70WMgWdHpn0iX5L8LgNN78O1ThcYXr+GHqSaFRNBAWLFYqLr8IpSUK6wbVOaM
-         BO7XUtm7Hdl6sqI52mxM7YweUuOKwjFV07IZc9k6gah2y9PsEzpdZlxqQ3TbFVT9xR+n
-         gOow==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5067A2F34
+	for <asahi@lists.linux.dev>; Wed,  5 Oct 2022 13:24:56 +0000 (UTC)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1322fa1cf6fso12596465fac.6
+        for <asahi@lists.linux.dev>; Wed, 05 Oct 2022 06:24:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=uAiOjs73GnPtRWDKlCBYpOmHeG3ElDSPTXYVbLmJn3Y=;
-        b=4zFFk2nbrxerRJ6VU+H4CgUQ8eCW2PIDE7MSiDKK8U8778P6SaXb42tw8CdDTxDIIy
-         3hxqspJb0BnSnpCx/d9hSytyuFgyidNwayXIV+f3nCnsqTuM7s1uagonkgd9A50Bwbud
-         gJuCvTViJqQ4haxVhcYwhcNZQx4Q+hNB1WtfNnuZ/NoYMnASm389evlPdjMgNbj3gI6M
-         f7JgPhLVkJrYZIJwFdRNYjBtvQT9X7/ksy4BBEjh/tlLrZG3d6oQU79sD2kA8RvvZVzR
-         l7XhI6d4QlwQ4raJbJTT7SPnhR9CH9UAR0N2Fi6nlTL01RpoLJdgwEoqN84Zx331jmxK
-         Em+w==
-X-Gm-Message-State: ACrzQf38iUsoOyHNxPVdhaAUR0jF5d4qrECnBUq0gMRxqo05D+ujBeP8
-	3WjD1A+GP3p3t8dHmCj7Mnq8lgLx92ibAttfAiBiGA==
-X-Google-Smtp-Source: AMsMyM6eqXlNc1atZOkkKgiG1yV3Y78Coz+AbzCXphLyt0GPdUFcokJxxEDnXeFGnrVe0bHv3fHf9rWqZFSPgK8TTJI=
-X-Received: by 2002:a17:90b:4d07:b0:1ef:521c:f051 with SMTP id
- mw7-20020a17090b4d0700b001ef521cf051mr4350723pjb.164.1664963290949; Wed, 05
- Oct 2022 02:48:10 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XblGBiVWunq/5AH0NgRtHm6ev1QmpK3EFUSqh7n0QCs=;
+        b=nDxPE7cia+Gis6kmUM/4wTKHX61ZPrFo4UN3bWMxM9Th03s2MpfcMxwvc5PG07gBMY
+         nBuLYIeDe1kfYt3okyGU3tVGAPkZ1k5QXJ8CmTm2NVbZXcisPxpoW+b8JVRq92Q53pJK
+         rq3KOaI/YgHwyiRU/ENlY3epyHTFC/QmDLMULrSaBRANYA/l7LAP6gGe5WC9hUOPbLLS
+         I9RQqCcK+p0VgC4AqFsVsxKchu5RNp67/GGOT0R7CBeJi+/HVz40mC2q+s9JLviln1tf
+         7npqeyiX+or9MxRQxXQEkSq8NDRD+5fbaoIqObQvKO3/9j21ZG/Khak1do5UztcXeocB
+         rq5g==
+X-Gm-Message-State: ACrzQf2k1dc2z/tyBDjxmiwZZd5PhAl3wbcTylFjkWD2Pv6JAix/esHD
+	tldOoQmjkj0foC2Vmugqkg==
+X-Google-Smtp-Source: AMsMyM4zkR5tqtiek9zvCWt7nguIIlXqUbUFSNk1htu3119sr35KNk94ROL7OzkIy6DikpU9egKzvQ==
+X-Received: by 2002:a05:6870:612c:b0:132:a4d3:e0d8 with SMTP id s44-20020a056870612c00b00132a4d3e0d8mr2533657oae.95.1664976295307;
+        Wed, 05 Oct 2022 06:24:55 -0700 (PDT)
+Received: from robh_at_kernel.org ([2607:fb90:5fee:ea3a:4239:ad4:650a:6e66])
+        by smtp.gmail.com with ESMTPSA id m125-20020aca3f83000000b0034ffacec0basm4277982oia.15.2022.10.05.06.24.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Oct 2022 06:24:54 -0700 (PDT)
+Received: (nullmailer pid 3268023 invoked by uid 1000);
+	Wed, 05 Oct 2022 13:24:53 -0000
+Date: Wed, 5 Oct 2022 08:24:53 -0500
+From: Rob Herring <robh@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@somainline.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>, devicetree@vger.kernel.org, Marc Zyngier <maz@kernel.org>, Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Sven Peter <sven@svenpeter.dev>, towinchenmi@gmail.com, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: apple,aic: Document A7-A11
+ compatibles
+Message-ID: <166497629188.3267955.11156012087252607194.robh@kernel.org>
+References: <20221004112724.31621-1-konrad.dybcio@somainline.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221005032257.80681-1-kch@nvidia.com> <20221005032257.80681-2-kch@nvidia.com>
- <6fee2d7a-7fd1-73ee-2911-87a4ed3e8769@opensource.wdc.com>
-In-Reply-To: <6fee2d7a-7fd1-73ee-2911-87a4ed3e8769@opensource.wdc.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 5 Oct 2022 11:47:34 +0200
-Message-ID: <CAPDyKFpBpiydQn+=24CqtaH_qa3tQfN2gQSiUrHCjnLSuy4=Kg@mail.gmail.com>
-Subject: Re: [RFC PATCH 01/21] block: add and use init tagset helper
-To: Chaitanya Kulkarni <kch@nvidia.com>, Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-omap@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, axboe@kernel.dk, 
-	efremov@linux.com, josef@toxicpanda.com, idryomov@gmail.com, 
-	dongsheng.yang@easystack.cn, haris.iqbal@ionos.com, jinpu.wang@ionos.com, 
-	mst@redhat.com, jasowang@redhat.com, pbonzini@redhat.com, stefanha@redhat.com, 
-	ohad@wizery.com, andersson@kernel.org, baolin.wang@linux.alibaba.com, 
-	richard@nod.at, miquel.raynal@bootlin.com, vigneshr@ti.com, marcan@marcan.st, 
-	sven@svenpeter.dev, alyssa@rosenzweig.io, kbusch@kernel.org, hch@lst.de, 
-	sagi@grimberg.me, sth@linux.ibm.com, hoeppner@linux.ibm.com, 
-	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com, 
-	borntraeger@linux.ibm.com, svens@linux.ibm.com, jejb@linux.ibm.com, 
-	martin.petersen@oracle.com, hare@suse.de, bhelgaas@google.com, 
-	john.garry@huawei.com, mcgrof@kernel.org, christophe.jaillet@wanadoo.fr, 
-	vaibhavgupta40@gmail.com, wsa+renesas@sang-engineering.com, 
-	johannes.thumshirn@wdc.com, bvanassche@acm.org, ming.lei@redhat.com, 
-	shinichiro.kawasaki@wdc.com, vincent.fu@samsung.com, 
-	christoph.boehmwalder@linbit.com, joel@jms.id.au, vincent.whitchurch@axis.com, 
-	nbd@other.debian.org, ceph-devel@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221004112724.31621-1-konrad.dybcio@somainline.org>
 
-On Wed, 5 Oct 2022 at 07:11, Damien Le Moal
-<damien.lemoal@opensource.wdc.com> wrote:
->
-> On 10/5/22 12:22, Chaitanya Kulkarni wrote:
-> > Add and use the helper to initialize the common fields of the tag_set
-> > such as blk_mq_ops, number of h/w queues, queue depth, command size,
-> > numa_node, timeout, BLK_MQ_F_XXX flags, driver data. This initialization
-> > is spread all over the block drivers. This avoids the code repetation of
-> > the inialization code of the tag set in current block drivers and any
->
-> s/inialization/initialization
-> s/repetation/repetition
->
-> > future ones.
-> >
-> > Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
-> > ---
-> >  block/blk-mq.c                | 20 ++++++++++++++++++++
-> >  drivers/block/null_blk/main.c | 10 +++-------
-> >  include/linux/blk-mq.h        |  5 +++++
-> >  3 files changed, 28 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/block/blk-mq.c b/block/blk-mq.c
-> > index 8070b6c10e8d..e3a8dd81bbe2 100644
-> > --- a/block/blk-mq.c
-> > +++ b/block/blk-mq.c
-> > @@ -4341,6 +4341,26 @@ static int blk_mq_alloc_tag_set_tags(struct blk_mq_tag_set *set,
-> >       return blk_mq_realloc_tag_set_tags(set, 0, new_nr_hw_queues);
-> >  }
-> >
-> > +void blk_mq_init_tag_set(struct blk_mq_tag_set *set,
-> > +             const struct blk_mq_ops *ops, unsigned int nr_hw_queues,
-> > +             unsigned int queue_depth, unsigned int cmd_size, int numa_node,
-> > +             unsigned int timeout, unsigned int flags, void *driver_data)
->
-> That is an awful lot of arguments... I would be tempted to say pack all
-> these into a struct but then that would kind of negate this patchset goal.
-> Using a function with that many arguments will be error prone, and hard to
-> review... Not a fan.
+On Tue, 04 Oct 2022 13:27:23 +0200, Konrad Dybcio wrote:
+> Document the compatibles for Apple A7-A11 SoCs.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> ---
+> Changes since v2:
+> - drop s5l8960x fallback for A8-A11, now apple,aic is the fallback for all
+> 
+>  .../bindings/interrupt-controller/apple,aic.yaml          | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
 
-I completely agree.
-
-But there is also another problem going down this route. If/when we
-realize that there is another parameter needed in the blk_mq_tag_set.
-Today that's quite easy to add (assuming the parameter can be
-optional), without changing the blk_mq_init_tag_set() interface.
-
->
-> > +{
-> > +     if (!set)
-> > +             return;
-> > +
-> > +     set->ops = ops;
-> > +     set->nr_hw_queues = nr_hw_queues;
-> > +     set->queue_depth = queue_depth;
-> > +     set->cmd_size = cmd_size;
-> > +     set->numa_node = numa_node;
-> > +     set->timeout = timeout;
-> > +     set->flags = flags;
-> > +     set->driver_data = driver_data;
-> > +}
-> > +
->
-
-[...]
-
-Kind regards
-Uffe
+Acked-by: Rob Herring <robh@kernel.org>
