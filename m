@@ -1,264 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2061.outbound.protection.outlook.com [40.107.92.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6582F59
-	for <asahi@lists.linux.dev>; Tue,  4 Oct 2022 19:14:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B74FC433C1;
-	Tue,  4 Oct 2022 19:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1664910867;
-	bh=AI/bhdO9mDt2AJiBTy/DR5WJsm0u8LzDoxfCIICGnNw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=niNm40Ige5jvXdzikYXbvFRhCnsVrejQ9vC/UzB6lHinYg3V18+BeU8W0NpIgvVt0
-	 J4MskZtq62uP1UMptL1pqj/LNZjPvxt5j4RPVu9ePciX1LcFsRMZE0L/vgqWu9dv/t
-	 11Wj9pb7kVH8ti6f4wRcjHQEIXFP5b9RlJuS/W4tSgvhw2ghGOdkji7pj8TcQ6PUNA
-	 HVVLvYV958jPMpFwKbjs3Nsa1p2RMv0/vRd5dRNDkcWfRPLv6VE0HzZCiZ62nzUGkk
-	 Qa1nhM4ht2qyt9fO5hsPiEQ1EkOmgphAk8l/AAoGsTELQUtv/wpTLjssvroA5AOgxf
-	 xOq8d/xjamKYg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1ofnN3-00EagJ-5M;
-	Tue, 04 Oct 2022 20:14:25 +0100
-Date: Tue, 04 Oct 2022 20:14:24 +0100
-Message-ID: <86a66b8kq7.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@somainline.org>
-Cc: asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	towinchenmi@gmail.com,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] irqchip/apple-aic: Add support for A7-A11 SoCs
-In-Reply-To: <20221004112724.31621-2-konrad.dybcio@somainline.org>
-References: <20221004112724.31621-1-konrad.dybcio@somainline.org>
-	<20221004112724.31621-2-konrad.dybcio@somainline.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7867B371
+	for <asahi@lists.linux.dev>; Wed,  5 Oct 2022 03:23:19 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EAnP4nz11d924n5Ea6rkfbTTWZkOcBMR/h7ZkQJ1oHltLxDJaeH/Iez5BS7J79qQ2VcFFwKYgIGmCiYXjOb76HvhXSy2EaAQdXrVxivVboL/NYUst26hybzA8F8XTgXAFdbEcsSJMarnV5z3mvpNv6/2qB++DsmW8q+cjiY5mYdZRhiZtGSYFd3lR+A2iFGBWA/Ij8OWKnFTulTcMU+8KAKsLHdCYRDn4ExerGOo0Cz+trXQUARNz81ypcs8fpGxbeso3FeGPHnm9ypVjlCvgTaHFSZVumbmAN2zpDwlny92lM3GEdkISUQHh9Y61BlOgXREHFsrbzCGQ5y2BJTFOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YrgGetB/TLOjMS3vQknhv/SINTgMiPk7KqpkdclIcUs=;
+ b=Xdz1XM9XgHs5tzhGy60K1VMGf7QyJWaVPAJhDsbnmp5W/XTYb8Bi8f8nb1UQ9e1IMXiPYTTYFi+RlZ3dI4B1Y65Z0QQl37FH3c1C70lf2zoeoThJTzvL5pDhglUPoxYHgg6oC5ZPXVTzZ7fI8eRAMYUPXqTcCbnYF3bAL97S2ILwtM1l2jXOjFCoIw/7vNwUKgtUw5eRwCmMqR8F6tJ6kWA6QAr1QEgGdFMtX9EEuzAUXyUW/5oQ5M9j8wHfEwj0ontzAsr9fQnTHG8LgEDXWpyAJq2jM6WEwKhEfCq2J7ZwlH6dHyJLv/NzzbtfG8MmACbtqAtD5iuTsSetceIsug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YrgGetB/TLOjMS3vQknhv/SINTgMiPk7KqpkdclIcUs=;
+ b=iW3jsrpo9QXt4SmTdh80KE4thGPDh8fejFIagobwIQSERcoWvLGWdLcnqwJhThlAROWm8mvRxQA47EVCi2eq5eIqa5WE0yHiZwRofiP/64oBAIcTBy9/FMHs0x/UhCYe76qnqD/RIxdsnzqz50SrhQQ5XHpX7WIjLrthz2kNv59+A3mkKtYd3h3MQR4rPdtfo4TK1QbuPLEW/MLJ9voFSb02DML6kB8S+aqt7c7YeYtZ6sH/cLX22f9gL/69KTjRMugSIK3H29HTjUPGFQd45Kix5z6Vce1d/4Amspy1WZOvPhvdO4CpC2PD1IOhhn2ZmJ7Dkg4nMNlIVcZcz5zeig==
+Received: from BN8PR04CA0001.namprd04.prod.outlook.com (2603:10b6:408:70::14)
+ by DM6PR12MB4863.namprd12.prod.outlook.com (2603:10b6:5:1b9::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.24; Wed, 5 Oct
+ 2022 03:23:16 +0000
+Received: from BN8NAM11FT062.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:70:cafe::c8) by BN8PR04CA0001.outlook.office365.com
+ (2603:10b6:408:70::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5676.26 via Frontend
+ Transport; Wed, 5 Oct 2022 03:23:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ BN8NAM11FT062.mail.protection.outlook.com (10.13.177.34) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5709.10 via Frontend Transport; Wed, 5 Oct 2022 03:23:16 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Tue, 4 Oct 2022
+ 20:23:08 -0700
+Received: from dev.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.29; Tue, 4 Oct 2022
+ 20:23:05 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <linux-block@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-omap@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>,
+	<linux-mmc@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-nvme@lists.infradead.org>,
+	<linux-s390@vger.kernel.org>, <linux-scsi@vger.kernel.org>
+CC: <axboe@kernel.dk>, <efremov@linux.com>, <josef@toxicpanda.com>,
+	<idryomov@gmail.com>, <dongsheng.yang@easystack.cn>, <haris.iqbal@ionos.com>,
+	<jinpu.wang@ionos.com>, <mst@redhat.com>, <jasowang@redhat.com>,
+	<pbonzini@redhat.com>, <stefanha@redhat.com>, <ohad@wizery.com>,
+	<andersson@kernel.org>, <baolin.wang@linux.alibaba.com>,
+	<ulf.hansson@linaro.org>, <richard@nod.at>, <miquel.raynal@bootlin.com>,
+	<vigneshr@ti.com>, <marcan@marcan.st>, <sven@svenpeter.dev>,
+	<alyssa@rosenzweig.io>, <kbusch@kernel.org>, <hch@lst.de>,
+	<sagi@grimberg.me>, <sth@linux.ibm.com>, <hoeppner@linux.ibm.com>,
+	<hca@linux.ibm.com>, <gor@linux.ibm.com>, <agordeev@linux.ibm.com>,
+	<borntraeger@linux.ibm.com>, <svens@linux.ibm.com>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <hare@suse.de>, <kch@nvidia.com>,
+	<bhelgaas@google.com>, <john.garry@huawei.com>, <mcgrof@kernel.org>,
+	<christophe.jaillet@wanadoo.fr>, <vaibhavgupta40@gmail.com>,
+	<wsa+renesas@sang-engineering.com>, <damien.lemoal@opensource.wdc.com>,
+	<johannes.thumshirn@wdc.com>, <bvanassche@acm.org>, <ming.lei@redhat.com>,
+	<shinichiro.kawasaki@wdc.com>, <vincent.fu@samsung.com>,
+	<christoph.boehmwalder@linbit.com>, <joel@jms.id.au>,
+	<vincent.whitchurch@axis.com>, <nbd@other.debian.org>,
+	<ceph-devel@vger.kernel.org>, <virtualization@lists.linux-foundation.org>,
+	<asahi@lists.linux.dev>
+Subject: [RFC PATCH 00/21] block: add and use init tagset helper
+Date: Tue, 4 Oct 2022 20:22:36 -0700
+Message-ID: <20221005032257.80681-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.29.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: konrad.dybcio@somainline.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, towinchenmi@gmail.com, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, tglx@linutronix.de, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.230.35]
+X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8NAM11FT062:EE_|DM6PR12MB4863:EE_
+X-MS-Office365-Filtering-Correlation-Id: fce348ec-947a-4641-efb6-08daa680f183
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	9FlJpRPPWo/UczTdTCd5SyHamL/pqbpEL/Ib+DcXgEmnGmZ9HEQsxCsQSSaqCQcTZjccDkXjj6u6yhsKWFHSidDTY7fUyBz2KqAnbklpfj1swJc7PjxXCgzNELZVysLo4szooec2ZY8lzfdkSE6HtdY+DtVcTMVjT8/jV+DKt5E6leNDKjVvSwh8EQ+Et7lmmqiT5dBceOsWFEahHF9xDSoPAe8cAus+8SNEDsQM/6NnzlmMJLTqU3TNS2er/HUj3CSYob4ij3EhgCsbqwKE9P/opr4klhGiEvSjB3DqbxFBhoQWFGh3JkLy/bkJIE9ynCNZz144NHMITmR5CHCTeusxffP0uhFo7kUdiQBTkgxqKecyfPQnuhlX/bH6m9Szl15GpW7txUmH/1j62W3KaE9uc5ouAyMtQlwD5YGw+snHXJjYVq7VluiZGSPIx5lNKrFTs9brAjh+oHAqB/n511BLraQb8GC6Uxu2tRGuunDb47VIS8P+D/hbiblfD/8mXucfE4lBfj0SIMlLUoPlKp0fkZ4FwsXtU2X1Gkn+mFFL+PnaG2Bvhazs80UG8ITqBnJHvmm8BR0hiA5I9yOwQqNN/La6BsPmng/IjQ0jXZDQtHd5tXAwu7XpWpAsOHNrnNQejJI1nT3M/dr+3H7VZ902lZCeV4RpYrjbSktdNLt+0q4Qgde1mX3VLGrvRqUzqyMBNIPAnRd4/ehBsgzMWgL1bZOGZzvOa9nJKokVBQEo8fw8n1c1PismK7nqoMDbHtoaNR1b+Woq9GxppbdQ+Uk3j/bTNKU/oQZ46LetuLMSQ2+S8Aek1LfTGwDQtcXmq39TIGsaevKwgzMGZjrTtWGxjjuYVEglp3ZjLIPlBV0=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230022)(4636009)(346002)(376002)(39860400002)(136003)(396003)(451199015)(46966006)(40470700004)(36840700001)(7696005)(41300700001)(36756003)(6666004)(82740400003)(5660300002)(7366002)(7406005)(7416002)(8936002)(26005)(8676002)(316002)(70206006)(70586007)(4326008)(336012)(40480700001)(83380400001)(47076005)(426003)(82310400005)(16526019)(186003)(1076003)(921005)(356005)(7636003)(40460700003)(2906002)(2616005)(36860700001)(478600001)(110136005)(54906003)(21314003)(2101003)(83996005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2022 03:23:16.2764
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fce348ec-947a-4641-efb6-08daa680f183
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN8NAM11FT062.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4863
 
-On Tue, 04 Oct 2022 12:27:24 +0100,
-Konrad Dybcio <konrad.dybcio@somainline.org> wrote:
-> 
-> Add support for A7-A11 SoCs by if-ing out some features only present
-> on:
-> 
-> * A11 & newer (implementation-defined IPI & UNCORE registers)
-> * A11[1] & newer (fast IPI support).
-> 
-> UNCORE/UNCORE2 and IPI registers conveniently both first appeared on
-> A11, so introduce just one check for that.
-> 
-> Knowing whether the SoC supports the latter is necessary, as they are
-> written to, even if fast IPI is disabled. This in turn causes a crash
-> on older platforms, as the implemention-defined registers either do
-> something else or are not supposed to be touched - definitely not a
-> NOP though.
-> 
-> [1] A11 is supposed to use this feature, but it currently doesn't work
-> for reasons unknown and hence remains disabled. It can easily be enabled
-> on A11 only, as there is a SoC-specific compatible in the DT with a
-> fallback to apple,aic. That said, it is not yet necessary, especially
-> with only one core up, and it has worked a-ok so far.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> ---
-> Changes since v2:
-> - has_uncore_regs now also reflects whether the soc has IPI regs (A11+)
-> - apple,aic is now the default, lowest-common-denominator fallback
-> compatible (Sven checked it still works on M1)
-> - fixed an error where "Fast IPI fired. Acking." would be unreachable..
-> oops..
-> - what used to be apple,aic (yes UNCORE/IPI regs no fast IPI) is now
-> used for the A11 compatible
+Hi,
 
-I asked for it when I reviewed the first revision of this series, and
-I'm going to ask again: please add a cover letter to your patches.
-It's not rocket science, and this is the place where you should have
-the change log.
+Add and use the helper to initialize the common fields of the tag_set
+such as blk_mq_ops, number of h/w queues, queue depth, command size,
+numa_node, timeout, BLK_MQ_F_XXX flags, driver data. This initialization
+is spread all over the block drivers. This avoids repetation of
+inialization code of the tag set in current block drivers and any future
+ones.
 
-> 
->  drivers/irqchip/irq-apple-aic.c | 60 ++++++++++++++++++++++++---------
->  1 file changed, 45 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
-> index 1c2813ad8bbe..239115c64340 100644
-> --- a/drivers/irqchip/irq-apple-aic.c
-> +++ b/drivers/irqchip/irq-apple-aic.c
-> @@ -230,6 +230,9 @@
->  
->  static DEFINE_STATIC_KEY_TRUE(use_fast_ipi);
->  
-> +/* True if UNCORE/UNCORE2 and Sn_... IPI registers are present (A11+) */
-> +static DEFINE_STATIC_KEY_TRUE(has_uncore_ipi_regs);
-> +
->  struct aic_info {
->  	int version;
->  
-> @@ -246,6 +249,7 @@ struct aic_info {
->  
->  	/* Features */
->  	bool fast_ipi;
-> +	bool uncore_ipi_regs;
->  };
->  
->  static const struct aic_info aic1_info = {
-> @@ -261,18 +265,33 @@ static const struct aic_info aic1_fipi_info = {
->  	.event		= AIC_EVENT,
->  	.target_cpu	= AIC_TARGET_CPU,
->  
-> +	.uncore_ipi_regs	= true,
->  	.fast_ipi	= true,
->  };
->  
-> +static const struct aic_info aic1_nofipi_info = {
+P.S. I'm aware of the EXPORT_SYMBOL_GPL() checkpatch warn just to make
+get some feedback to so I can remove the RFC tag.
 
-It is high time that these structures get marked as __initconst, as we
-don't need them once the driver is up and running.
+-ck
 
-> +	.version	= 1,
-> +
-> +	.event		= AIC_EVENT,
-> +	.target_cpu	= AIC_TARGET_CPU,
-> +
-> +	.uncore_ipi_regs	= true,
-> +};
-> +
->  static const struct aic_info aic2_info = {
->  	.version	= 2,
->  
->  	.irq_cfg	= AIC2_IRQ_CFG,
->  
-> +	.uncore_ipi_regs	= true,
->  	.fast_ipi	= true,
+Chaitanya Kulkarni (21):
+  block: add and use init tagset helper
+  loop: use lib tagset init helper
+  nbd: use lib tagset init helper
+  rnbd: use lib tagset init helper
+  bsg-lib: use lib tagset init helper
+  rnbd-clt: use lib tagset init helper
+  virtio-blk: use lib tagset init helper
+  scsi: use lib tagset init helper
+  block: use lib tagset init helper
+  amiflop: use lib tagset init helper
+  floppy: use lib tagset init helper
+  mtip32xx: use lib tagset init helper
+  z3ram: use lib tagset init helper
+  scm_blk: use lib tagset init helper
+  ubi: use lib tagset init helper
+  mmc: core: use lib tagset init helper
+  dasd: use lib tagset init helper
+  nvme-core: use lib tagset init helper for I/O q
+  nvme-core: use lib tagset init helper for adminq
+  nvme-apple: use lib tagset init helper
+  nvme-pci: use lib tagset init helper
 
-Please initialise the fields in the same order as the declaration.
-
->  };
->  
->  static const struct of_device_id aic_info_match[] = {
-
-This could also benefit from __initconst.
-
-> +	{
-> +		.compatible = "apple,t8015-aic",
-> +		.data = &aic1_nofipi_info,
-> +	},
->  	{
->  		.compatible = "apple,t8103-aic",
->  		.data = &aic1_fipi_info,
-> @@ -524,12 +543,14 @@ static void __exception_irq_entry aic_handle_fiq(struct pt_regs *regs)
->  	 * we check for everything here, even things we don't support yet.
->  	 */
->  
-> -	if (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING) {
-> -		if (static_branch_likely(&use_fast_ipi)) {
-> -			aic_handle_ipi(regs);
-> -		} else {
-> -			pr_err_ratelimited("Fast IPI fired. Acking.\n");
-> -			write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
-> +	if (static_branch_likely(&has_uncore_ipi_regs)) {
-> +		if (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING) {
-
-What's wrong with:
-
-	if (static_branch_likely(&has_uncore_ipi_regs) &&
-	    (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING)) {
-
-which limits the churn and avoids the extra indentation?
-
-> +			if (static_branch_likely(&use_fast_ipi)) {
-> +				aic_handle_ipi(regs);
-> +			} else {
-> +				pr_err_ratelimited("Fast IPI fired. Acking.\n");
-> +				write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
-> +			}
->  		}
->  	}
->  
-> @@ -566,12 +587,14 @@ static void __exception_irq_entry aic_handle_fiq(struct pt_regs *regs)
->  					  AIC_FIQ_HWIRQ(irq));
->  	}
->  
-> -	if (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) == UPMCR0_IMODE_FIQ &&
-> -			(read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
-> -		/* Same story with uncore PMCs */
-> -		pr_err_ratelimited("Uncore PMC FIQ fired. Masking.\n");
-> -		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> -				   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
-> +	if (static_branch_likely(&has_uncore_ipi_regs)) {
-> +		if (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) ==
-> +			UPMCR0_IMODE_FIQ && (read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
-
-Same thing.
-
-> +			/* Same story with uncore PMCs */
-> +			pr_err_ratelimited("Uncore PMC FIQ fired. Masking.\n");
-> +			sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> +					FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
-> +		}
->  	}
->  }
->  
-> @@ -944,7 +967,8 @@ static int aic_init_cpu(unsigned int cpu)
->  	/* Mask all hard-wired per-CPU IRQ/FIQ sources */
->  
->  	/* Pending Fast IPI FIQs */
-> -	write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
-> +	if (static_branch_likely(&use_fast_ipi))
-> +		write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
->  
->  	/* Timer FIQs */
->  	sysreg_clear_set(cntp_ctl_el0, 0, ARCH_TIMER_CTRL_IT_MASK);
-> @@ -965,8 +989,9 @@ static int aic_init_cpu(unsigned int cpu)
->  			   FIELD_PREP(PMCR0_IMODE, PMCR0_IMODE_OFF));
->  
->  	/* Uncore PMC FIQ */
-> -	sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> -			   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
-> +	if (static_branch_likely(&has_uncore_ipi_regs))
-> +		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> +				   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
->  
->  	/* Commit all of the above */
->  	isb();
-> @@ -1125,6 +1150,11 @@ static int __init aic_of_ic_init(struct device_node *node, struct device_node *p
->  	else
->  		static_branch_disable(&use_fast_ipi);
->  
-> +	if (irqc->info.uncore_ipi_regs)
-> +		static_branch_enable(&has_uncore_ipi_regs);
-
-You initialised the static branch to true, so this does very little.
-
-> +	else
-> +		static_branch_disable(&has_uncore_ipi_regs);
-> +
->  	irqc->info.die_stride = off - start_off;
->  
->  	irqc->hw_domain = irq_domain_create_tree(of_node_to_fwnode(node),
-
-Thanks,
-
-	M.
+ block/blk-mq.c                    | 27 ++++++++++++++++++++++-----
+ block/bsg-lib.c                   |  9 +++------
+ drivers/block/amiflop.c           |  8 +++-----
+ drivers/block/floppy.c            |  7 ++-----
+ drivers/block/loop.c              | 12 ++++--------
+ drivers/block/mtip32xx/mtip32xx.c | 13 ++++---------
+ drivers/block/nbd.c               | 11 +++--------
+ drivers/block/null_blk/main.c     | 10 +++-------
+ drivers/block/rbd.c               | 11 +++++------
+ drivers/block/rnbd/rnbd-clt.c     | 25 +++++++++++--------------
+ drivers/block/virtio_blk.c        | 14 +++++---------
+ drivers/block/z2ram.c             |  7 ++-----
+ drivers/mmc/core/queue.c          |  9 +++------
+ drivers/mtd/ubi/block.c           | 11 +++--------
+ drivers/nvme/host/apple.c         | 25 ++++++++-----------------
+ drivers/nvme/host/core.c          | 21 +++++----------------
+ drivers/nvme/host/pci.c           | 25 +++++++------------------
+ drivers/s390/block/dasd_genhd.c   |  9 +++------
+ drivers/s390/block/scm_blk.c      | 10 +++-------
+ drivers/scsi/scsi_lib.c           | 13 +++++--------
+ include/linux/blk-mq.h            |  5 +++++
+ 21 files changed, 109 insertions(+), 173 deletions(-)
 
 -- 
-Without deviation from the norm, progress is not possible.
+2.29.0
+
