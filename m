@@ -1,109 +1,84 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E32E2F2C
-	for <asahi@lists.linux.dev>; Wed,  5 Oct 2022 16:54:19 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id bh13so15731624pgb.4
-        for <asahi@lists.linux.dev>; Wed, 05 Oct 2022 09:54:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=GFGmeXwzImdz1h+PmMN1s24FBEmejNYEC+q1xWfXEck=;
-        b=0VBT7ZSzT7ze9krCEUy2WFYXhEAB8ABcs+kQErgkyoy4Jx8R21I4dr7CiJNygdBWja
-         4BsHg0XHbW8sImIXS+w7iizvxTjUwtEok9WUMqBHq0gRAG90BGzhOvCBx7+l5KH5UUmR
-         MNcbrvWBI6XiEwIeAirXXvWQI4VqHAL0VAPNIXHXPRkKf0l8L1yMt6qDJPPFAGnocbnn
-         rpU1pZM484c+M/lJnmxWmYi4Aj2iWdW0C1KaTo1NeM6b+nRfm5/64P72/A+imqn459fq
-         Db8xZ5eVTWcT5m0WnUfdD6kWsUPaoIiBM6SQ99tZ/FMtnCgWPnBN/2+F1lVnYk9u8+of
-         /qjQ==
-X-Gm-Message-State: ACrzQf28uJE5Kj6+or/foIo2Zd5J0uH61jnxseZljxoWk73Xk+belq9b
-	ZUwBUQ8hDcOcI/lOILBCDu4=
-X-Google-Smtp-Source: AMsMyM5oX6qSPQ4HG3bu8E8hjU3lPQSUd8WrMcNcjR4MljBf6naYCl5wsAAwQMON9m5RMKfn4/SRMQ==
-X-Received: by 2002:a62:2985:0:b0:544:77d4:f43b with SMTP id p127-20020a622985000000b0054477d4f43bmr726456pfp.9.1664988858370;
-        Wed, 05 Oct 2022 09:54:18 -0700 (PDT)
-Received: from [192.168.3.219] ([98.51.102.78])
-        by smtp.gmail.com with ESMTPSA id j16-20020a170902da9000b00176c6738d13sm10795484plx.169.2022.10.05.09.54.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Oct 2022 09:54:17 -0700 (PDT)
-Message-ID: <e0ea0b0a-5077-de37-046f-62902aca93b6@acm.org>
-Date: Wed, 5 Oct 2022 09:54:11 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75298441A
+	for <asahi@lists.linux.dev>; Wed,  5 Oct 2022 19:04:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86140C433D6;
+	Wed,  5 Oct 2022 19:04:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1664996647;
+	bh=ms2LxKUF/+3C5vyCiRLUbpBT+qKWwk5Y3RBszCPvMdM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C33c96aPw6GJQctedQVWleVyybb8QjFb7d+tX0UM47FQWEd1Pyqg0MIJmJuZdgSUg
+	 yexR7zXQnJmPRyHgHWHZlJ25v0Wb0iQEDpskfZFtrD/3IL837n/PRnVjH7cMneH2Te
+	 XsNOum8aVBaFa63pVDLiDTlhTAaZScGejxlrBi/sR76glISTA55/+vJD3jFt1/I0NU
+	 kv0m2vW1IX/fIAUGrjfOKbCpNmE6ocaTTMdVc+svfVy/+hTWC0bfnEV/3hL/HyC1vl
+	 39uj+EGykFMNZ1zyBLBUbojbQECamCccZPh7+HnOug0Pcv604rBR66bShk6hL1h9R3
+	 T3anS2aJRa6gA==
+Date: Wed, 5 Oct 2022 21:04:02 +0200
+From: Wolfram Sang <wsa@kernel.org>
+To: Arminder Singh <arminders208@outlook.com>
+Cc: alyssa@rosenzweig.io, asahi@lists.linux.dev, benh@kernel.crashing.org,
+	chzigotzky@xenosoft.de, darren@stevens-zone.net,
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	marcan@marcan.st, mpe@ellerman.id.au, paulus@samba.org,
+	sven@svenpeter.dev
+Subject: Re: [PATCH v2] i2c-pasemi: PASemi I2C controller IRQ enablement
+Message-ID: <Yz3VItDOw6mYwxak@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+	Arminder Singh <arminders208@outlook.com>, alyssa@rosenzweig.io,
+	asahi@lists.linux.dev, benh@kernel.crashing.org,
+	chzigotzky@xenosoft.de, darren@stevens-zone.net,
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	marcan@marcan.st, mpe@ellerman.id.au, paulus@samba.org,
+	sven@svenpeter.dev
+References: <Yzl16W6+poH8/8h4@shikoro>
+ <MN2PR01MB5358FB185A18D2E6C22A45FE9F589@MN2PR01MB5358.prod.exchangelabs.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.0
-Subject: Re: [RFC PATCH 01/21] block: add and use init tagset helper
-Content-Language: en-US
-To: Chaitanya Kulkarni <kch@nvidia.com>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Ulf Hansson <ulf.hansson@linaro.org>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, axboe@kernel.dk,
- efremov@linux.com, josef@toxicpanda.com, idryomov@gmail.com,
- dongsheng.yang@easystack.cn, haris.iqbal@ionos.com, jinpu.wang@ionos.com,
- mst@redhat.com, jasowang@redhat.com, pbonzini@redhat.com,
- stefanha@redhat.com, ohad@wizery.com, andersson@kernel.org,
- baolin.wang@linux.alibaba.com, richard@nod.at, miquel.raynal@bootlin.com,
- vigneshr@ti.com, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io,
- kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, sth@linux.ibm.com,
- hoeppner@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
- agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com,
- jejb@linux.ibm.com, martin.petersen@oracle.com, hare@suse.de,
- bhelgaas@google.com, john.garry@huawei.com, mcgrof@kernel.org,
- christophe.jaillet@wanadoo.fr, vaibhavgupta40@gmail.com,
- wsa+renesas@sang-engineering.com, johannes.thumshirn@wdc.com,
- ming.lei@redhat.com, shinichiro.kawasaki@wdc.com, vincent.fu@samsung.com,
- christoph.boehmwalder@linbit.com, joel@jms.id.au,
- vincent.whitchurch@axis.com, nbd@other.debian.org,
- ceph-devel@vger.kernel.org, virtualization@lists.linux-foundation.org,
- asahi@lists.linux.dev
-References: <20221005032257.80681-1-kch@nvidia.com>
- <20221005032257.80681-2-kch@nvidia.com>
- <6fee2d7a-7fd1-73ee-2911-87a4ed3e8769@opensource.wdc.com>
- <CAPDyKFpBpiydQn+=24CqtaH_qa3tQfN2gQSiUrHCjnLSuy4=Kg@mail.gmail.com>
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <CAPDyKFpBpiydQn+=24CqtaH_qa3tQfN2gQSiUrHCjnLSuy4=Kg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Bvu7jPk+VeUHSDVn"
+Content-Disposition: inline
+In-Reply-To: <MN2PR01MB5358FB185A18D2E6C22A45FE9F589@MN2PR01MB5358.prod.exchangelabs.com>
 
-On 10/5/22 02:47, Ulf Hansson wrote:
-> On Wed, 5 Oct 2022 at 07:11, Damien Le Moal <damien.lemoal@opensource.wdc.com> wrote:
->> On 10/5/22 12:22, Chaitanya Kulkarni wrote:
->>> +void blk_mq_init_tag_set(struct blk_mq_tag_set *set,
->>> +             const struct blk_mq_ops *ops, unsigned int nr_hw_queues,
->>> +             unsigned int queue_depth, unsigned int cmd_size, int numa_node,
->>> +             unsigned int timeout, unsigned int flags, void *driver_data)
->>
->> That is an awful lot of arguments... I would be tempted to say pack all
->> these into a struct but then that would kind of negate this patchset goal.
->> Using a function with that many arguments will be error prone, and hard to
->> review... Not a fan.
-> 
-> I completely agree.
-> 
-> But there is also another problem going down this route. If/when we
-> realize that there is another parameter needed in the blk_mq_tag_set.
-> Today that's quite easy to add (assuming the parameter can be
-> optional), without changing the blk_mq_init_tag_set() interface.
 
-Hi Chaitanya,
+--Bvu7jPk+VeUHSDVn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Please consider to drop the entire patch series. In addition to the 
-disadvantages mentioned above I'd like to mention the following 
-disadvantages:
-* Replacing named member assignments with positional arguments in a
-   function call makes code harder to read and harder to verify.
-* This patch series makes tree-wide changes without improving the code
-   in a substantial way.
 
-Thanks,
+> Does fixing the alignment issues and the commit description justify a v3
+> of the patch or should the minor fixes go out as a "resend"? Just not sure
+> in this particular case as the fixes seem to be very minor ones.
 
-Bart.
+Yes, please send a v3. Since you are only fixing whitespace issues, you
+can add the Tested-by tags given here for v3 already.
 
+
+--Bvu7jPk+VeUHSDVn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmM91SIACgkQFA3kzBSg
+KbZ+EBAAnMxkC4kEf5fVj8TlIzY2ZTuYiGbsJBZk2QBuUCBtuLUCvwOLtc9+GRDu
++9o8dkey0GskEOeJOHlCdL7v7t/q0lxXwkRyJnAhZ35ykhPnNCmNqj3aKKxi94fE
+QKqhIpR6hEbN5okcdYngYA9UOd1LM23IFXcSEnuw9KaeMWJLzLfJU6xh2N6drOZl
++IoyqPXXMwlGpqX3y/dI84XSxJZ3VfCMZNj6bfe+YvoJO6iyZBrvgBL5fNpch1HI
+3ID+7nQEbGZaV9B0Bh22PVYgvc34FyfwUZbnhtSIAgr3aIPGqTvM5n7eDCnNRAEW
+YppgIO6CiH3SalgavJqLENIEjf3zm63U8YH8bVMYQXHOFIspu4TyRJewGcgGNEcx
+NMKDxUFJ36EB2h8qtqoREo+36bvdMzmobrnJ5M/3yLOFbXvpejMdkq9G9Jsqlst6
+jeXQwZ7SaXI0HFxgwp/NtIYfvogi2UEuEWyOYPQCI85f/GlcpT9HEp6EP48P3+rD
+wKY1jAW07pbPTr1qLSkjiNORyQdBWMUb9w6BkjPYW4+ZAHvtIh/F3ohOwPdA7Q1b
+Kqa1eX2y2Vl36GE7Y56lnZWTSfeFDc867EVp264lG82gSF4ejd4qeOjkfE6u0iOx
+CLdQiuFpO158OxZHfz67+RNXlDrLoPLTvpPYiI/mH+IDDKKVVSU=
+=yR5q
+-----END PGP SIGNATURE-----
+
+--Bvu7jPk+VeUHSDVn--
