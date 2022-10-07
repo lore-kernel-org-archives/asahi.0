@@ -1,278 +1,184 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11olkn2073.outbound.protection.outlook.com [40.92.18.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E4664C
-	for <asahi@lists.linux.dev>; Fri,  7 Oct 2022 00:43:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ffOnQ0V7XQxGm/Z+K90iHYhl9euDCobfW16V3FAsrNW2ZvwaOrnjx50ni/uPTcpoagygmyhhu6MakRA49VviSetMMizpPjt/m0vx0Y7NeDni/1xQJ+ERX7wTr8x5nzWbbmuuVEdRUVSI/apIgz8YTV2eb3GjTJm8XJvWvs8pFT+UbSYjuA7xz8feDWqLJD1SFwjFE/hyDM0A3/sQFf3TPAxCSUmuVRfAuKTUmrMwusnONLzDLGTfArzvDuzb7JrVbXeQTcIaEzH1fGb/+t5NxXYlgoxyVb1K7mJYMEolXfkZlWPy5BgeLejyvaU/srYgG11k4Ir5fAumdxfhgbkqmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pqukOOrvRDIhkBG1itTCkuejnMLMzhVBDjnmBgzOZ5Y=;
- b=WIGspF+KKj8g48TzFuktfg7Z0JmHN4VQZkwiRneKgX7ehbmeW7OOKyROQNn0dNVemzxnJg/3GknB5g2v2MWTxx7LmylStjDVRc8rKXdD0qDIG+LCOlFg1WKqU3fNHskhoEDUyffVqMzwqpOyFNmMdYVKi3m4sSCNUg6dwj9a+AHA7+O2KT1uGo5FxD0Rd0BvQ5AFW+X69xRuKY3heq+6EV2vnw0cKISS9ocgOmZSSk1O4EzgAAU7AeMJC/eLqYgZ7OZ1LeIM+JH1ihpSQzrAeM4NP/4U98f+CGmtsQ3WiFqxsIBfKiP9fmUVqo2YQHdDWMohDJ1eVbN52J/8QQhnqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pqukOOrvRDIhkBG1itTCkuejnMLMzhVBDjnmBgzOZ5Y=;
- b=kcn2AwBR5GXp5b977KH2miBiJve1EqiErw3hJ+s5/5AAeu2MejuaHlD7zZNpKnK3S18d5HvIuTmfi/+OrcSqpoa6gk5RUnSRNzdwP63GLbQAJx/RCNxPVT8AXrRDNuyuUFXhg4x7lQm8pTDGokic4Yt7X8Q6P3ehB/euppMcVJ5tGuJNp7PzA6unfCfUDsLitolxlBJSfs2+nd0rAi13PN/JFg8NWOm4b2lu83uMU1IrYVmhXsDIx0eiosNo9/w1koAYURhVg4tcfAXHtLv1TO4+oZkqID9bTRMyIfvJJWG/IMdDaqlpSeMspzVnHCkZ5fPVXXGupAHkGih3pUngtg==
-Received: from MN2PR01MB5358.prod.exchangelabs.com (2603:10b6:208:117::26) by
- SJ0PR01MB6221.prod.exchangelabs.com (2603:10b6:a03:295::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5676.20; Fri, 7 Oct 2022 00:43:05 +0000
-Received: from MN2PR01MB5358.prod.exchangelabs.com
- ([fe80::3c11:1e6d:4c2b:c8c7]) by MN2PR01MB5358.prod.exchangelabs.com
- ([fe80::3c11:1e6d:4c2b:c8c7%6]) with mapi id 15.20.5676.034; Fri, 7 Oct 2022
- 00:43:05 +0000
-From: Arminder Singh <arminders208@outlook.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-i2c@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	asahi@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Sven Peter <sven@svenpeter.dev>,
-	Hector Martin <marcan@marcan.st>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Arminder Singh <arminders208@outlook.com>
-Subject: [PATCH v3] i2c/pasemi: PASemi I2C controller IRQ enablement
-Date: Thu,  6 Oct 2022 20:42:03 -0400
-Message-ID:
- <MN2PR01MB5358ED8FC32C0CFAEBD4A0E19F5F9@MN2PR01MB5358.prod.exchangelabs.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [wI8Vag+iqIejAVU6v720xiuzB+MDRhCoOK5FgCeod/5NcFcomaqQ9XIWD6BRe3mf]
-X-ClientProxiedBy: BLAPR03CA0047.namprd03.prod.outlook.com
- (2603:10b6:208:32d::22) To MN2PR01MB5358.prod.exchangelabs.com
- (2603:10b6:208:117::26)
-X-Microsoft-Original-Message-ID:
- <20221007004202.2662001-1-arminders208@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400B0ECF
+	for <asahi@lists.linux.dev>; Fri,  7 Oct 2022 12:51:58 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id s2so6930428edd.2
+        for <asahi@lists.linux.dev>; Fri, 07 Oct 2022 05:51:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UVR4A7rTDXaDZT2ap3V+IDUaXiwWgE+SqvzF3iigsYM=;
+        b=Dzw3kT/irBpT48ntV/1nFrgfbswZ7E69GOVn7keVyflPBLViOYJ9hzLNiOuekVDCQI
+         13mi33qu0hnQxkbA/pyteGQ9o2b6QaKUo78KHCl/r/5pXctYZhMWbAu/e360d2aDBHlK
+         YAiE6IZVBQCzNFD/xgRxuHhFuD1u2rIx+nTCJ0eAUKjXZl8jpwrKYwXVXlHmaywfUMYd
+         XxJO9nuSOLsr+7NsQmAXGxesLNdYREunmNZtmzaQsyWZdOVzOpUY9EM77oKc3O6KfeCa
+         kxCINd0LDTdsK4bDekAuqdtSrhNHHuBUMrRHCTblrhEHbZAExgCLQWMs3YGfVTOmklO8
+         O5BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UVR4A7rTDXaDZT2ap3V+IDUaXiwWgE+SqvzF3iigsYM=;
+        b=3+x1r0grWNDjhi6JAJz5lShKCs87rvCVwGRDF6MLm0VwZOkXVB7+trAV/tSAOAGc4s
+         oKuK5aZ73EvBpvnzRhu2l+7MYXHPdeKkI0QJuAA+zPG6P4Klb0b2X50rdVa6o9hNTNeC
+         QX42igxXPEsjgw82WoVN51e8IWHXZNsmBqWfSQDctWUtleJ84A1GFNb68HEpZ30MFknt
+         edOaq874bfWS5zJFn7i1A03PgfEmoRSPFCD8/v7gLKjwTUgw2hDOe5xCb2ygIkBwLBcM
+         TPV/6MdB0UH5/RGg0EdmShSt0A+oy9khKNodqLTZUx1sg3UDO8EHiUKf5morBSNFuaEf
+         Nd/w==
+X-Gm-Message-State: ACrzQf3ovj/W5BuGHAl0RWXMAgnJRW+/MJOGVETuPPQ6uphn7UstyODY
+	rJQQK3alqAfK55OD8VA0+yA=
+X-Google-Smtp-Source: AMsMyM72M6aPDsfwBObYtVFL0p8t0YHAzYNzlKS+HyicbULufboz6R4lgnogFL6VLCkU+wcFIWnz5A==
+X-Received: by 2002:a05:6402:35d3:b0:459:ddca:4db7 with SMTP id z19-20020a05640235d300b00459ddca4db7mr4377016edc.393.1665147116313;
+        Fri, 07 Oct 2022 05:51:56 -0700 (PDT)
+Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id ti5-20020a170907c20500b0073d9630cbafsm1171837ejc.126.2022.10.07.05.51.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 05:51:55 -0700 (PDT)
+Date: Fri, 7 Oct 2022 14:51:53 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>
+Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
+	devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+	linux-tegra@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH v9 0/5] iommu: Support mappings/reservations in
+ reserved-memory regions
+Message-ID: <Y0Ag6QkQ+DPOElhm@orome>
+References: <20220923123557.866972-1-thierry.reding@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR01MB5358:EE_|SJ0PR01MB6221:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5c67f286-26c3-4b08-b8d5-08daa7fce50a
-X-MS-Exchange-SLBlob-MailProps:
-	ZpxNddEKiWz9xWgIDw6EsgO2Ibru/UT1cZ7XV10NTqMVi6rxHosuiqEw0YtFBVR/OMiGlhALjdxZc/ohAYz4GCASMc7q6VA3lPUCe5teuSOf1thQmHuN5WGhAXP7YThY2Bc2WlXITjqWIHnL/pwsPd/wGrlqSx9im70ez3PnETAdXzyV+DdXoQODc/78yivKJxVOPUVr+TcaMTq6VMo6LcHJYuwp4n6R6kEBUzpl9uk2SsLmTsYKoFd7O1K3/MYsFQI7Uq0K0f0uJJDCpOMgnU6JT97H5UdBwdR3eI0sMQhBudl+qU65KCrQM3dw1X3EKOnkXYf1DKV7br010TBqZjE00Tfl/62D3m5PfcW5DXZ1nSzWgHuRXzn8DeOEE8cKL7/vB0O8X/i1NJU6AAdB/NJ/Bvvl7XauE/xppn3Hvvl9lSSfMgDu27RgQj3vmzm4wgWRt6S1nWWLkrWL7zPFqMh9yWJsSVJDFRovTtzKI4FeOO0LaqcjQpVskEGP8bw5u5wLraAdoRALBRjosz5b+otrpQW/QGt8o4FOd0g8VdQyupocf4TNHxsQxzbRn+ZVKH/0cO1RhHoZ3xZuymcPAtOPtpque3CZ6HV5ZrRi/hM5E0l5QM3XyPLka8SYH0zheckXKqgDRGDPSsSIQtRhkDDu5IDlUYAp1n3e6nFr4f1rRtCX1wbTK8F3d1sJKtjf6sayBEhEVVLHhiU0cvtJBYjMlIW/cBBO+FOfKnU2O2TZWs+Cpl0jRIjTjzrvoNjUx9fHXx84L2WPIcE4pP/jhziuvtzmuzLMp+EdSFhmPuHoH+EH2SLw5fhZTOrh6E4IJM0wGl3sBIUYUpP9Mbc2RA==
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	FJm4ivqDBVCSG1SP3POC7Qbms7P47i/5cRndT0GadIQiqCUCbwp7yR6VDOcT93gGcs3Vmtl5dFlGxou5IcRA8BQuS+kNoXnRg7ZrB43KthcxtbJNDKKp+CXxgvk9VBApTB2cCRHBULu468lxe6KtZoAyVnM2kQB3IAzYfJtMM13TqJekI25eQqh7NyY+l8jsLHk9aImyCWSrTTuu4/7pWyMZKQsFr8aUYMV7LJ/NXFiWb/sgFhOpvsHXuQYp3IGeDWBBB1M+zsgTqmnMT7MDeO6FKHB2Op0kUwzDhvTkpyqsLb9GwpRvwrgM3iFxkZiETnyKusVgouP7PMHtrMY6PVhnY+aKJBy6t+W8f7etdzgzuR6TNLuRSx6KHNqjQ6RO0IE/+7MX+lwg7tNraS8GrcSLvsfrAgAEhmiaIlttDcVALxTPmmLMPsU/2p0upYccResWO2YXQcMSbVQQSxfO7LqN119Dd/SfVfxBMpzlhLuRxxWZT67ipkmCICsATNm72omMoLgIEvptpbb8r5v9Yy6ofLZtHdRknD6aE7IpapIMAbWdbZ+wkMwhUDkvSmU9I0BaHfE1caou/PuGVXbvmb5yS+nge8tFE5tkkYqupj0GX0AdeMKqxtSx22OW9e4QQEhu3Efbr4U76hLikXDUnVwtL5XGNHq+lj4bMVeCCnhj7EhNXrlmfL5h39E849Dvb0V9xxc89qsyWTP363Oe5Q57oMPKVc17013ZidBquXE=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?qvnBOh22pvUEwsGytVUDVbj8Fs7EltnwDUPWrOFsE1DP5ohyt9kOEPj3NBGf?=
- =?us-ascii?Q?1XhDijtNgVhzoqrP1kjfysIVwd3F+2GQXGutuqJ+WQ4Brjx/EhjPF8KMewTa?=
- =?us-ascii?Q?0U+iem37hFVlSpy/nOSs6zuNXI/ICTcGlGGul6UdOBf5z6MTFmmJnNaKk7fd?=
- =?us-ascii?Q?YZAwjmkSG6owvi/lI8LCMjqCNPfSi1yOWFuPNCwW2YSqMqKm6IUVVB58hKQJ?=
- =?us-ascii?Q?ilbcLF69mIToc708w6A5yz2UjRkQerXFeFk05LKbZWdVtby84t+uhRXgJyq0?=
- =?us-ascii?Q?Ce9Zchw2QwSL9DaVaS7Di/zJq9PFZW/hl/+OvtQMgBNUEroWhzDFn3Yuxmdb?=
- =?us-ascii?Q?GM5FWbfcTjtxgmPbNCa5bNS8XkkkUciLGaFlPH0gwr4v+1zGm6vI/G3Fy/VK?=
- =?us-ascii?Q?pA9FVVbo3f8Y64jIS8VT/TLq2EvWPH8uBQQAm/FVFiYrU8fA4cnNqBByGB8V?=
- =?us-ascii?Q?KE+Fk6xC+I+pMaERuJLujgF2W20NpoBrT88JlvJvgMVYVAlI3IQpyjxGqoxz?=
- =?us-ascii?Q?I2VJfvFqJsrbbjZgRwpeW3iUtOG8x5am7Lsl2BYwJ/MRGKSomMyA6cW2XIyH?=
- =?us-ascii?Q?gVaGyI2Lg6zXyvLZKfzFJyJ9+sao6KOi2/Zrdtyc7ptDadz3yCvbqBwpf3ka?=
- =?us-ascii?Q?ubtS7gD7FypUV1Xq2xhF7rGmp912p1FB9wmBXgoSMr7YbcSU+9ZLaKndzdZO?=
- =?us-ascii?Q?67CYtMkQ5xtJl+JKAuix7qSrpKcSGXxjFR8BbGlFRqk7xv0Mb9xxS3mptRo3?=
- =?us-ascii?Q?4PJmUFtXnJsDfdQEYebJRq4Qon1CQGwzuh1p3elt+2bFar6SFQzxE3K8bZEp?=
- =?us-ascii?Q?Q+LxnIo98GPf3kcMHSd61U6cMCS9LaUYK0a9w8hFjrqZY0iLg9fb06Be8JoL?=
- =?us-ascii?Q?Lew+I+D7wnlHV99lkJ3f+d5m5bcBAGuBM0cKGCbdeZm81z5p08htPNkDBcW5?=
- =?us-ascii?Q?c/ARCn5UzDpNRWZ6hbfh/W7ENvhXO03gmQN1K1prnpr+OgFfoASVoz0MjIQh?=
- =?us-ascii?Q?2B56hpLeuhK5ypJ76MqvIj7mROClZO1vj1Nzh9nHPDAV0vCe3ay5DRsgJgeV?=
- =?us-ascii?Q?wgyanmBiKvvK8u6CX+wDCGrvnW3wwFHkJ/rb+iafXDP9XCdypCQX8nrrhhTI?=
- =?us-ascii?Q?X6VFRq2s6N3prpEVeY6lR76ucFVbOTCK8+A5o/3PY3gMAovLsC801rJ91deK?=
- =?us-ascii?Q?PLIUZ3snPufJU2bn0pQoPqP989UYd1pHcwobhRA2p3OzbNfxzsOV5rh4s9qw?=
- =?us-ascii?Q?6xTeRLesd0huGAb3lmj986UYZT8PD9aOGfxZifUMFxP3wcEzpjQfWe0oLCoA?=
- =?us-ascii?Q?8KKdJGOVaTLcWeSA8GrYSDnrxH3L/nJGmkI8lT4HO2oHKA=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c67f286-26c3-4b08-b8d5-08daa7fce50a
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR01MB5358.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2022 00:43:05.1690
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR01MB6221
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="JGYHqtEsfJ0xq16p"
+Content-Disposition: inline
+In-Reply-To: <20220923123557.866972-1-thierry.reding@gmail.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 
-This patch adds IRQ support to the PASemi I2C controller driver to 
-increase the performace of I2C transactions on platforms with PASemi I2C 
-controllers. While primarily intended for Apple silicon platforms, this 
-patch should also help in enabling IRQ support for older PASemi hardware 
-as well should the need arise.
 
-Signed-off-by: Arminder Singh <arminders208@outlook.com>
----
-This version of the patch has been tested on an M1 Ultra Mac Studio,
-as well as an M1 MacBook Pro, and userspace launches successfully
-while using the IRQ path for I2C transactions.
+--JGYHqtEsfJ0xq16p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This version of the patch only contains fixes to the whitespace and
-alignment issues found in v2 of the patch, and as such the testing that
-Christian Zigotsky did on PASemi hardware for v2 of the patch also applies
-to this version of the patch as well.
-(See v2 patch email thread for the "Tested-by" tag)
+On Fri, Sep 23, 2022 at 02:35:52PM +0200, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> Hi,
+>=20
+> This version has several fixes over the previous v8, which can be found
+> here:
+>=20
+>   https://lore.kernel.org/all/20220905170833.396892-1-thierry.reding@gmai=
+l.com/
+>=20
+> An example is included in the DT bindings, but here is an extract of
+> what I've used to test this:
+>=20
+>         reserved-memory {
+>                 #address-cells =3D <2>;
+>                 #size-cells =3D <2>;
+>                 ranges;
+>=20
+>                 /*
+>                  * Creates an identity mapping for the framebuffer that
+>                  * the firmware has setup to scan out a bootsplash from.
+>                  */
+>                 fb: framebuffer@92cb2000 {
+>                         reg =3D <0x0 0x92cb2000 0x0 0x00800000>;
+>                         iommu-addresses =3D <&dc0 0x0 0x92cb2000 0x0 0x00=
+800000>;
+>                 };
+>=20
+>                 /*
+>                  * Creates a reservation in the IOVA space to prevent
+>                  * any buffers from being mapped to that region. Note
+>                  * that on Tegra the range is actually quite different
+>                  * from this, but it would conflict with the display
+>                  * driver that I tested this against, so this is just
+>                  * a dummy region for testing.
+>                  */
+>                 adsp: reservation-adsp {
+>                         iommu-addresses =3D <&dc0 0x0 0x90000000 0x0 0x00=
+010000>;
+>                 };
+>         };
+>=20
+>         host1x@50000000 {
+>                 dc@54200000 {
+>                         memory-region =3D <&fb>, <&adsp>;
+>                 };
+>         };
+>=20
+> This is abbreviated a little to focus on the essentials. Note also that
+> the ADSP reservation is not actually used on this device and the driver
+> for this doesn't exist yet, but I wanted to include this variant for
+> testing, because we'll want to use these bindings for the reservation
+> use-case as well at some point.
+>=20
+> I've also been able to make use of this binding and the IOMMU code in
+> conjunction with the simple-framebuffer driver to hand over a display
+> configuration set up by UEFI to the Linux kernel.
+>=20
+> Janne has confirmed[0] this to be suitable for indirect mappings as
+> well, though these patches don't implement that feature yet. Potential
+> extensions to this have been discussed but are not yet included at this
+> time to not further complicate things.
+>=20
+> Thierry
+>=20
+> [0]: https://lore.kernel.org/all/20220909144504.GA4024@jannau.net/
+>=20
+> Navneet Kumar (1):
+>   iommu/tegra-smmu: Support managed domains
+>=20
+> Thierry Reding (4):
+>   dt-bindings: reserved-memory: Document iommu-addresses
+>   iommu: Implement of_iommu_get_resv_regions()
+>   iommu: dma: Use of_iommu_get_resv_regions()
+>   iommu/tegra-smmu: Add support for reserved regions
+>=20
+>  .../reserved-memory/reserved-memory.yaml      |  70 ++++++++++++
+>  drivers/iommu/dma-iommu.c                     |   3 +
+>  drivers/iommu/of_iommu.c                      | 104 ++++++++++++++++++
+>  drivers/iommu/tegra-smmu.c                    |  86 ++++++++++++---
+>  include/linux/of_iommu.h                      |   8 ++
+>  5 files changed, 254 insertions(+), 17 deletions(-)
 
-v2 to v3 changes:
- - Fixed some whitespace and alignment issues found in v2 of the patch
+Joerg, if there are no further concerns on this, can you pick this up
+once v6.1-rc1 is released?
 
-v1 to v2 changes:
- - moved completion setup from pasemi_platform_i2c_probe to
-   pasemi_i2c_common_probe to allow PASemi and Apple platforms to share
-   common completion setup code in case PASemi hardware gets IRQ support
-   added
- - initialized the status variable in pasemi_smb_waitready when going down
-   the non-IRQ path
- - removed an unnecessary cast of dev_id in the IRQ handler
- - fixed alignment of struct member names in i2c-pasemi-core.h
-   (addresses Christophe's feedback in the original submission)
- - IRQs are now disabled after the wait_for_completion_timeout call
-   instead of inside the IRQ handler
-   (prevents the IRQ from going off after the completion times out)
- - changed the request_irq call to a devm_request_irq call to obviate
-   the need for a remove function and a free_irq call
-   (thanks to Sven for pointing this out in the original submission)
- - added a reinit_completion call to pasemi_reset 
-   as a failsafe to prevent missed interrupts from causing the completion
-   to never complete (thanks to Arnd Bergmann for pointing this out)
- - removed the bitmask variable in favor of just using the value
-   directly (it wasn't used anywhere else)
+Thanks,
+Thierry
 
-v2 linked here: https://lore.kernel.org/linux-i2c/MN2PR01MB535821C8058C7814B2F8EEDF9F599@MN2PR01MB5358.prod.exchangelabs.com/
-v1 linked here: https://lore.kernel.org/linux-i2c/MN2PR01MB535838492432C910F2381F929F6F9@MN2PR01MB5358.prod.exchangelabs.com/T/#m11b3504c2667517aad7521514c99ca0e07a9381f
+--JGYHqtEsfJ0xq16p
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Hopefully the patch is good to go this time around!
+-----BEGIN PGP SIGNATURE-----
 
- drivers/i2c/busses/i2c-pasemi-core.c     | 29 ++++++++++++++++++++----
- drivers/i2c/busses/i2c-pasemi-core.h     |  5 ++++
- drivers/i2c/busses/i2c-pasemi-platform.c |  6 +++++
- 3 files changed, 36 insertions(+), 4 deletions(-)
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmNAIOkACgkQ3SOs138+
+s6HMOw/9EzfFTbPIHJ55dk8c2dHNzdSSSd0VIS6K9XFP1CTDRcmSNrM32GN1jL5X
+Eo/cDhXNNj8hBHOK8ejI0QP2mSRaEGOEQ4AN+a/I4FKQ6UQqRR6S9h14eyCkWoIm
+s0IbugJCLcKIJ6pZ+TrzdbqicAZHTUih0r5BWfaMGWi6Dz4GC0YD+xflDKm3Ysp2
+DOpEzGHOYfOTJ3DIilCWiMMHqSXFeuexMj9WYoSoH192BClik3JEHUJEk9VpI+fo
+YvFLmbsutf4YapyUcyV2jJ8rA9gFmccCmtSg5xziqnoHnmRqlnSECDimDVMlfr2s
+HwbS0mLUe9nYxlpRWk5e/i63lEJx/5/EhXWeXp9zP7mIXnWC4/BAfpSXq6A8Dv3v
+vmTEuzadcWkrAPcz6o4aeVb7S/34IAkTEBr7jzV37Mm2i20E065FlXuOeUpwv+1j
+ePyqbDfAOvnFnnNpdZHlcIEJoXL5+pUaPcuNx+2PlPnS8ychYfoZxkStRueEqAfs
+SfrtV4T02Pq+ASUya8i6Qd80q06uNwzA0gtY4+R+Vu/K27b5TH3Eze1Sr9jhiJM1
+5t37qbbzC3chPFc9uPLr6aDBhEC5uZg1xLFMOVDEiKSsMJiuRY0tRyebh8++RB8Y
+yT4/+IAy8b0SUKyxpNIomSfBpIVya2B7cGuL1hkICSM+wo/8Ksk=
+=OhtH
+-----END PGP SIGNATURE-----
 
-diff --git a/drivers/i2c/busses/i2c-pasemi-core.c b/drivers/i2c/busses/i2c-pasemi-core.c
-index 9028ffb58cc0..4855144b370e 100644
---- a/drivers/i2c/busses/i2c-pasemi-core.c
-+++ b/drivers/i2c/busses/i2c-pasemi-core.c
-@@ -21,6 +21,7 @@
- #define REG_MTXFIFO	0x00
- #define REG_MRXFIFO	0x04
- #define REG_SMSTA	0x14
-+#define REG_IMASK	0x18
- #define REG_CTL		0x1c
- #define REG_REV		0x28
- 
-@@ -66,6 +67,7 @@ static void pasemi_reset(struct pasemi_smbus *smbus)
- 		val |= CTL_EN;
- 
- 	reg_write(smbus, REG_CTL, val);
-+	reinit_completion(&smbus->irq_completion);
- }
- 
- static void pasemi_smb_clear(struct pasemi_smbus *smbus)
-@@ -81,11 +83,18 @@ static int pasemi_smb_waitready(struct pasemi_smbus *smbus)
- 	int timeout = 10;
- 	unsigned int status;
- 
--	status = reg_read(smbus, REG_SMSTA);
--
--	while (!(status & SMSTA_XEN) && timeout--) {
--		msleep(1);
-+	if (smbus->use_irq) {
-+		reinit_completion(&smbus->irq_completion);
-+		reg_write(smbus, REG_IMASK, SMSTA_XEN | SMSTA_MTN);
-+		wait_for_completion_timeout(&smbus->irq_completion, msecs_to_jiffies(10));
-+		reg_write(smbus, REG_IMASK, 0);
- 		status = reg_read(smbus, REG_SMSTA);
-+	} else {
-+		status = reg_read(smbus, REG_SMSTA);
-+		while (!(status & SMSTA_XEN) && timeout--) {
-+			msleep(1);
-+			status = reg_read(smbus, REG_SMSTA);
-+		}
- 	}
- 
- 	/* Got NACK? */
-@@ -344,10 +353,14 @@ int pasemi_i2c_common_probe(struct pasemi_smbus *smbus)
- 
- 	/* set up the sysfs linkage to our parent device */
- 	smbus->adapter.dev.parent = smbus->dev;
-+	smbus->use_irq = 0;
-+	init_completion(&smbus->irq_completion);
- 
- 	if (smbus->hw_rev != PASEMI_HW_REV_PCI)
- 		smbus->hw_rev = reg_read(smbus, REG_REV);
- 
-+	reg_write(smbus, REG_IMASK, 0);
-+
- 	pasemi_reset(smbus);
- 
- 	error = devm_i2c_add_adapter(smbus->dev, &smbus->adapter);
-@@ -356,3 +369,11 @@ int pasemi_i2c_common_probe(struct pasemi_smbus *smbus)
- 
- 	return 0;
- }
-+
-+irqreturn_t pasemi_irq_handler(int irq, void *dev_id)
-+{
-+	struct pasemi_smbus *smbus = dev_id;
-+
-+	complete(&smbus->irq_completion);
-+	return IRQ_HANDLED;
-+}
-diff --git a/drivers/i2c/busses/i2c-pasemi-core.h b/drivers/i2c/busses/i2c-pasemi-core.h
-index 4655124a37f3..88821f4e8a9f 100644
---- a/drivers/i2c/busses/i2c-pasemi-core.h
-+++ b/drivers/i2c/busses/i2c-pasemi-core.h
-@@ -7,6 +7,7 @@
- #include <linux/i2c-smbus.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-+#include <linux/completion.h>
- 
- #define PASEMI_HW_REV_PCI -1
- 
-@@ -16,6 +17,10 @@ struct pasemi_smbus {
- 	void __iomem		*ioaddr;
- 	unsigned int		 clk_div;
- 	int			 hw_rev;
-+	int			 use_irq;
-+	struct completion	 irq_completion;
- };
- 
- int pasemi_i2c_common_probe(struct pasemi_smbus *smbus);
-+
-+irqreturn_t pasemi_irq_handler(int irq, void *dev_id);
-diff --git a/drivers/i2c/busses/i2c-pasemi-platform.c b/drivers/i2c/busses/i2c-pasemi-platform.c
-index 88a54aaf7e3c..e35945a91dbe 100644
---- a/drivers/i2c/busses/i2c-pasemi-platform.c
-+++ b/drivers/i2c/busses/i2c-pasemi-platform.c
-@@ -49,6 +49,7 @@ static int pasemi_platform_i2c_probe(struct platform_device *pdev)
- 	struct pasemi_smbus *smbus;
- 	u32 frequency;
- 	int error;
-+	int irq_num;
- 
- 	data = devm_kzalloc(dev, sizeof(struct pasemi_platform_i2c_data),
- 			    GFP_KERNEL);
-@@ -82,6 +83,11 @@ static int pasemi_platform_i2c_probe(struct platform_device *pdev)
- 	if (error)
- 		goto out_clk_disable;
- 
-+	irq_num = platform_get_irq(pdev, 0);
-+	error = devm_request_irq(smbus->dev, irq_num, pasemi_irq_handler, 0, "pasemi_apple_i2c", (void *)smbus);
-+
-+	if (!error)
-+		smbus->use_irq = 1;
- 	platform_set_drvdata(pdev, data);
- 
- 	return 0;
--- 
-2.34.1
-
+--JGYHqtEsfJ0xq16p--
