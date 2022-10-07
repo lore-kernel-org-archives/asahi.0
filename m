@@ -1,82 +1,82 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it [5.144.164.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBAE4C76
-	for <asahi@lists.linux.dev>; Fri,  7 Oct 2022 18:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=IudIrA3q3WpPWuZzZUKujefONUnAfceTWjlveYaPvio=; b=y3TnHRe5LU2pfTWpYrKhFoSYbh
-	jboFN1RMi5CjIniehZGNTOJpkF2sr617jJ4vb6Ib6lSQpyC0ek2+SlWngTW1ubM41ZOvqG9t87RGe
-	LZXDSjCQvYJpbTl+VRQpi8LkTLFVyXqr+kFALUeMkSNjyvXp3VTfiu6Hin9S6c12kBhwJdLbNbYn4
-	4szHif4ftpjkLWks7RWt2NtkOf4pQQWV+FmMEugetSNijqYdLE8QwTu09Ycl6RznABM1+qPym5ADr
-	Od764RzqJQFgxId6v9nZqSWYrZBx/EX1oe/ZXXPNJJb8O2jtIyGdk61SSE07/zRW76XLArhkeRZ+1
-	ZC4+w/vg==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ogs33-00A41Z-Ot; Fri, 07 Oct 2022 18:26:13 +0000
-Date: Fri, 7 Oct 2022 11:26:13 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF284C80
+	for <asahi@lists.linux.dev>; Fri,  7 Oct 2022 20:00:55 +0000 (UTC)
+Received: from localhost.localdomain (95.49.30.201.neoplus.adsl.tpnet.pl [95.49.30.201])
+	by m-r2.th.seeweb.it (Postfix) with ESMTPA id 7D0E13F359;
+	Fri,  7 Oct 2022 22:00:45 +0200 (CEST)
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
+To: ~postmarketos/upstreaming@lists.sr.ht,
+	asahi@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: martin.botka@somainline.org,
+	angelogioacchino.delregno@somainline.org,
+	marijn.suijten@somainline.org,
+	jamipkettunen@somainline.org,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Marc Zyngier <maz@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, axboe@kernel.dk, efremov@linux.com,
-	josef@toxicpanda.com, idryomov@gmail.com,
-	dongsheng.yang@easystack.cn, haris.iqbal@ionos.com,
-	jinpu.wang@ionos.com, mst@redhat.com, jasowang@redhat.com,
-	pbonzini@redhat.com, stefanha@redhat.com, ohad@wizery.com,
-	andersson@kernel.org, baolin.wang@linux.alibaba.com,
-	ulf.hansson@linaro.org, richard@nod.at, miquel.raynal@bootlin.com,
-	vigneshr@ti.com, marcan@marcan.st, sven@svenpeter.dev,
-	alyssa@rosenzweig.io, kbusch@kernel.org, hch@lst.de,
-	sagi@grimberg.me, sth@linux.ibm.com, hoeppner@linux.ibm.com,
-	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-	borntraeger@linux.ibm.com, svens@linux.ibm.com, jejb@linux.ibm.com,
-	martin.petersen@oracle.com, hare@suse.de, bhelgaas@google.com,
-	john.garry@huawei.com, christophe.jaillet@wanadoo.fr,
-	vaibhavgupta40@gmail.com, wsa+renesas@sang-engineering.com,
-	damien.lemoal@opensource.wdc.com, johannes.thumshirn@wdc.com,
-	bvanassche@acm.org, ming.lei@redhat.com,
-	shinichiro.kawasaki@wdc.com, vincent.fu@samsung.com,
-	christoph.boehmwalder@linbit.com, joel@jms.id.au,
-	vincent.whitchurch@axis.com, nbd@other.debian.org,
-	ceph-devel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, asahi@lists.linux.dev
-Subject: Re: [RFC PATCH 00/21] block: add and use init tagset helper
-Message-ID: <Y0BvRaVO0iUVmHgB@bombadil.infradead.org>
-References: <20221005032257.80681-1-kch@nvidia.com>
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v4 1/2] dt-bindings: apple,aic: Document A7-A11 compatibles
+Date: Fri,  7 Oct 2022 22:00:21 +0200
+Message-Id: <20221007200022.22844-2-konrad.dybcio@somainline.org>
+X-Mailer: git-send-email 2.37.3
+In-Reply-To: <20221007200022.22844-1-konrad.dybcio@somainline.org>
+References: <20221007200022.22844-1-konrad.dybcio@somainline.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221005032257.80681-1-kch@nvidia.com>
-Sender: Luis Chamberlain <mcgrof@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 04, 2022 at 08:22:36PM -0700, Chaitanya Kulkarni wrote:
-> Hi,
-> 
-> Add and use the helper to initialize the common fields of the tag_set
-> such as blk_mq_ops, number of h/w queues, queue depth, command size,
-> numa_node, timeout, BLK_MQ_F_XXX flags, driver data. This initialization
-> is spread all over the block drivers. This avoids repetation of
-> inialization code of the tag set in current block drivers and any future
-> ones.
-> 
-> P.S. I'm aware of the EXPORT_SYMBOL_GPL() checkpatch warn just to make
-> get some feedback to so I can remove the RFC tag.
-> 
+Document the compatibles for Apple A7-A11 SoCs.
 
-*If* there were commonalities at init and these could be broken up into
-common groups, each having their own set of calls, then we simplify and
-can abstract these. I say this without doing a complete review of the
-removals, but if there really isn't much of commonalities I tend to
-agree with Bart that open coding this is better.
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+---
+Changes since v3:
+- Bindings: A7-A10+M1 only get SoC compat and generic fallback,
+A11 gets M1 fallback and generic fallback (removed A11 compatible)
+- Drop Rob's A-b as this is essentially yet another rewrite..
 
-  Luis
+ .../bindings/interrupt-controller/apple,aic.yaml | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+index e18107eafe7c..1427ea9b04a2 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+@@ -36,9 +36,19 @@ allOf:
+ 
+ properties:
+   compatible:
+-    items:
+-      - const: apple,t8103-aic
+-      - const: apple,aic
++    oneOf:
++      - items:
++          - enum:
++              - apple,s5l8960x-aic
++              - apple,s8000-aic
++              - apple,t7000-aic
++              - apple,t8010-aic
++              - apple,t8103-aic
++          - const: apple,aic
++      - items:
++          - const: apple,t8015-aic
++          - const: apple,t8103-aic
++          - const: apple,aic
+ 
+   interrupt-controller: true
+ 
+-- 
+2.37.3
+
