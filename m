@@ -1,87 +1,170 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB1D73D74
-	for <asahi@lists.linux.dev>; Fri,  7 Oct 2022 14:21:55 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66DE4106F;
-	Fri,  7 Oct 2022 07:22:01 -0700 (PDT)
-Received: from [10.57.65.170] (unknown [10.57.65.170])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC9253F67D;
-	Fri,  7 Oct 2022 07:21:52 -0700 (PDT)
-Message-ID: <75bebf10-6b89-464c-f9ad-c53f9f830c20@arm.com>
-Date: Fri, 7 Oct 2022 15:21:46 +0100
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DFA468F
+	for <asahi@lists.linux.dev>; Fri,  7 Oct 2022 15:22:25 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id e18so7518028edj.3
+        for <asahi@lists.linux.dev>; Fri, 07 Oct 2022 08:22:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+El8A1P1S/zXel3Nequ87VItdNh3NPA1dXujJmoYOXk=;
+        b=R8nscShiJ4u+0sTGiav+3+Ex1pUvbKm3kIdYDUam8/6TsjAQWrhix/TlKOT5j8pbtd
+         4CSwwu5oP0qft57eLUnB6P8tysG8oCrRYcHOMnrnC1NOMXpBMVUEEPx/dG+ILMtyWANW
+         6jrXug1ap1+hHhdGqpVg9kOgCI4vFp2j3ystxYisA4ajCQjV1NjF6YkvvqTafT0YYqEP
+         1/VlXMdUdfHRKk59lj3Usgttove6VF2S7LisXNmYxb7m73dYLM/gLMEaChnVGZ2Pv9dY
+         z78pG8+2FashQAEQ/CrM7LcCGdY5Atsv6LXQsGPHlV7P5tFyqa5cDmP+KJ4RBpOQVQeD
+         xq8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+El8A1P1S/zXel3Nequ87VItdNh3NPA1dXujJmoYOXk=;
+        b=hiiraTtUKbKMaGwWZjv1O63T9CsispYIjabOOHhhD0NpTus2TT9DwrnPejR5LOcs36
+         20zpNCrzkicJ8DLr2tmNwpT5dYxP68IghZjFyF5WB8wh49+rOCBtoi9ydLOM7j9XoQG5
+         uM+QBaWk3y0Uk1pyngla2vXisjAdcEaTeX3RLugxVqIDLWTMF2r/UFg/EH4P8hBwqc9R
+         Q8Di+ah7tH0G8D116vSN9FnwCj2ojyqIu3VMlf+L+Rq7QUdsKkub/TKaS4fg2il+uabU
+         Cu980iLVL4mtWbUykEgglN24Vx3spyIpbgRoEORmjm4/r3Jrc2FEXED9DIIc2HAKDORQ
+         fgPg==
+X-Gm-Message-State: ACrzQf0Vg0zHTjjOg+FPu40KezUJrzIUIF9fwfTPW8o7h+v7UeltaWFa
+	wmrbU8gQBOlrej/sY9D/LBQ=
+X-Google-Smtp-Source: AMsMyM64pxlk0Q2rX8xynlf1HAWCmrrGeyUbN5wqj6UXON1FnS76vurUVYCh3xSq3RCT/YrPpa7P2w==
+X-Received: by 2002:a05:6402:1910:b0:458:8b32:4752 with SMTP id e16-20020a056402191000b004588b324752mr5059019edz.302.1665156144032;
+        Fri, 07 Oct 2022 08:22:24 -0700 (PDT)
+Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id o29-20020a509b1d000000b00459c5c2138csm1678498edi.32.2022.10.07.08.22.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Oct 2022 08:22:22 -0700 (PDT)
+Date: Fri, 7 Oct 2022 17:22:21 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
+	devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
+	linux-tegra@vger.kernel.org, asahi@lists.linux.dev,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v9 1/5] dt-bindings: reserved-memory: Document
+ iommu-addresses
+Message-ID: <Y0BELav7cgHdW0eT@orome>
+References: <20220923123557.866972-1-thierry.reding@gmail.com>
+ <20220923123557.866972-2-thierry.reding@gmail.com>
+ <3fb949ad-74c4-1bac-7e14-5d056afcef5f@arm.com>
+ <Y0AvkshNYmqc3UGo@orome>
+ <75bebf10-6b89-464c-f9ad-c53f9f830c20@arm.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v9 1/5] dt-bindings: reserved-memory: Document
- iommu-addresses
-Content-Language: en-GB
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
- Krishna Reddy <vdumpa@nvidia.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
- devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-tegra@vger.kernel.org, asahi@lists.linux.dev,
- Rob Herring <robh@kernel.org>
-References: <20220923123557.866972-1-thierry.reding@gmail.com>
- <20220923123557.866972-2-thierry.reding@gmail.com>
- <3fb949ad-74c4-1bac-7e14-5d056afcef5f@arm.com> <Y0AvkshNYmqc3UGo@orome>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <Y0AvkshNYmqc3UGo@orome>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ReXUlrLGezBjaiaj"
+Content-Disposition: inline
+In-Reply-To: <75bebf10-6b89-464c-f9ad-c53f9f830c20@arm.com>
+User-Agent: Mutt/2.2.7 (2022-08-07)
 
-On 2022-10-07 14:54, Thierry Reding wrote:
-> On Fri, Oct 07, 2022 at 02:45:31PM +0100, Robin Murphy wrote:
->> On 2022-09-23 13:35, Thierry Reding wrote:
->>> From: Thierry Reding <treding@nvidia.com>
->>>
->>> This adds the "iommu-addresses" property to reserved-memory nodes, which
->>> allow describing the interaction of memory regions with IOMMUs. Two use-
->>> cases are supported:
->>>
->>>     1. Static mappings can be described by pairing the "iommu-addresses"
->>>        property with a "reg" property. This is mostly useful for adopting
->>>        firmware-allocated buffers via identity mappings. One common use-
->>>        case where this is required is if early firmware or bootloaders
->>>        have set up a bootsplash framebuffer that a display controller is
->>>        actively scanning out from during the operating system boot
->>>        process.
->>>
->>>     2. If an "iommu-addresses" property exists without a "reg" property,
->>>        the reserved-memory node describes an IOVA reservation. Such memory
->>>        regions are excluded from the IOVA space available to operating
->>>        system drivers and can be used for regions that must not be used to
->>>        map arbitrary buffers.
->>
->> Bah, I've only just realised: don't we also need to change the "oneOf:
->> required: ..." schema to permit "iommu-addresses" without "reg" or "size"?
-> 
-> Hm... good point. I think at least we'll want another:
-> 
->       - required:
->           - iommu-addresses
-> 
-> in there. I wonder if we also need to avoid the combination of "size"
-> and "iommu-addresses". When "size" is specified, is it guaranteed that
-> those regions will be allocated before the direct mapping needs to be
-> created?
 
-Well, it couldn't really be a direct mapping anyway. In general I don't 
-think that combination makes any sense, since the presence of 
-"iommu-addresses" means one of two things; either it says the IOVA range 
-is carved out for some special purpose or just unusable, in which case 
-allocating any memory to back it would surely be pointless, or it's 
-saying don't touch these addresses because the device is already 
-accessing them, thus the underlying physical memory must be allocated 
-somewhere already.
+--ReXUlrLGezBjaiaj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Robin.
+On Fri, Oct 07, 2022 at 03:21:46PM +0100, Robin Murphy wrote:
+> On 2022-10-07 14:54, Thierry Reding wrote:
+> > On Fri, Oct 07, 2022 at 02:45:31PM +0100, Robin Murphy wrote:
+> > > On 2022-09-23 13:35, Thierry Reding wrote:
+> > > > From: Thierry Reding <treding@nvidia.com>
+> > > >=20
+> > > > This adds the "iommu-addresses" property to reserved-memory nodes, =
+which
+> > > > allow describing the interaction of memory regions with IOMMUs. Two=
+ use-
+> > > > cases are supported:
+> > > >=20
+> > > >     1. Static mappings can be described by pairing the "iommu-addre=
+sses"
+> > > >        property with a "reg" property. This is mostly useful for ad=
+opting
+> > > >        firmware-allocated buffers via identity mappings. One common=
+ use-
+> > > >        case where this is required is if early firmware or bootload=
+ers
+> > > >        have set up a bootsplash framebuffer that a display controll=
+er is
+> > > >        actively scanning out from during the operating system boot
+> > > >        process.
+> > > >=20
+> > > >     2. If an "iommu-addresses" property exists without a "reg" prop=
+erty,
+> > > >        the reserved-memory node describes an IOVA reservation. Such=
+ memory
+> > > >        regions are excluded from the IOVA space available to operat=
+ing
+> > > >        system drivers and can be used for regions that must not be =
+used to
+> > > >        map arbitrary buffers.
+> > >=20
+> > > Bah, I've only just realised: don't we also need to change the "oneOf:
+> > > required: ..." schema to permit "iommu-addresses" without "reg" or "s=
+ize"?
+> >=20
+> > Hm... good point. I think at least we'll want another:
+> >=20
+> >       - required:
+> >           - iommu-addresses
+> >=20
+> > in there. I wonder if we also need to avoid the combination of "size"
+> > and "iommu-addresses". When "size" is specified, is it guaranteed that
+> > those regions will be allocated before the direct mapping needs to be
+> > created?
+>=20
+> Well, it couldn't really be a direct mapping anyway. In general I don't
+> think that combination makes any sense, since the presence of
+> "iommu-addresses" means one of two things; either it says the IOVA range =
+is
+> carved out for some special purpose or just unusable, in which case
+> allocating any memory to back it would surely be pointless, or it's saying
+> don't touch these addresses because the device is already accessing them,
+> thus the underlying physical memory must be allocated somewhere already.
+
+I thought perhaps there could be cases where it is known that a
+controller needs to access memory in a certain I/O virtual region but
+doesn't actually care where that lives in physical memory and also does
+not rely on that memory have been previously set up (pre-filled, or
+whatever). Say you've got a micro-controller in a system that needs its
+firmware in a given region, but the OS can set up that region without
+any other limitations. One could use "size" and "iommu-addresses" to
+make sure the region is allocated with a specific size and located in a
+specific I/O virtual region. Not sure if that's perhaps a bit exotic,
+though.
+
+Thierry
+
+--ReXUlrLGezBjaiaj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmNARCwACgkQ3SOs138+
+s6G/wBAAq+jpQ9peE9xOPuucGTxcDci018hQWZ5ZsRlBmFmyT5BzIX0cT4DGGJsZ
+6vf3ALxD4/NH5cdcWFj8OSlgLwo7E08+5cDI/aTL9688j9iKoUt8Lc2rWdUaSvlb
+Mdv6KtE8+Isl4cZktPz+MwyGO7tV+khGGXcNYN0F+Y7qByk8l1/WyaRy/618qa6W
+iQ8bkg3I6GhLInwBIzbTYTVr+AaWtZsYVCRkUDBz5QmmOsQJX1eCiUsn2+gjJ+UZ
++2aL72uC8QW5SyQ8HYJwTdBikhNli5wEQj+J7Lat398uhjLNqmvczJubFk2HTbXD
+dIfhhLWqWwQfBkNYoOLhTk5mZWaS3SceEEHRaBHMCW/diav/yQeqN3WsyvWnqsHp
+FHgrqVHy0VilyHsxape6LtHTdjTvCBEC39MnMDyQQstGCedlI9o+FKiUI7bYcwDp
+nAL+wi/3y8u3NReOEvjTiwVqIFTn7KkxNio3WsFPTDsaIYIfJXqFZVD5FyqIT+ia
+ew1Tly8J5ciU8coSbnKfdWF4K2669b/YrM6hPCXrfSkPP7uVVUtb64KoRveuhAUp
+0tP0EAfXTGzIgZB9Z7vVCwnVtNRzRB3sXJmPefMiWgc2Fl1T1HdoIOw93Oz1sUFR
+0sRscCxk1jNDynPz344SyQikVfaF9D0SmuS/xzP24yyJJ372jUg=
+=pvnC
+-----END PGP SIGNATURE-----
+
+--ReXUlrLGezBjaiaj--
