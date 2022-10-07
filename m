@@ -1,64 +1,82 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B327D7E4
-	for <asahi@lists.linux.dev>; Fri,  7 Oct 2022 16:35:49 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3CF3A106F;
-	Fri,  7 Oct 2022 09:35:55 -0700 (PDT)
-Received: from [10.57.65.170] (unknown [10.57.65.170])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1CFF13F67D;
-	Fri,  7 Oct 2022 09:35:45 -0700 (PDT)
-Message-ID: <be053004-2d51-5d06-58b2-00e44dd93034@arm.com>
-Date: Fri, 7 Oct 2022 17:35:24 +0100
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBAE4C76
+	for <asahi@lists.linux.dev>; Fri,  7 Oct 2022 18:27:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=IudIrA3q3WpPWuZzZUKujefONUnAfceTWjlveYaPvio=; b=y3TnHRe5LU2pfTWpYrKhFoSYbh
+	jboFN1RMi5CjIniehZGNTOJpkF2sr617jJ4vb6Ib6lSQpyC0ek2+SlWngTW1ubM41ZOvqG9t87RGe
+	LZXDSjCQvYJpbTl+VRQpi8LkTLFVyXqr+kFALUeMkSNjyvXp3VTfiu6Hin9S6c12kBhwJdLbNbYn4
+	4szHif4ftpjkLWks7RWt2NtkOf4pQQWV+FmMEugetSNijqYdLE8QwTu09Ycl6RznABM1+qPym5ADr
+	Od764RzqJQFgxId6v9nZqSWYrZBx/EX1oe/ZXXPNJJb8O2jtIyGdk61SSE07/zRW76XLArhkeRZ+1
+	ZC4+w/vg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1ogs33-00A41Z-Ot; Fri, 07 Oct 2022 18:26:13 +0000
+Date: Fri, 7 Oct 2022 11:26:13 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, axboe@kernel.dk, efremov@linux.com,
+	josef@toxicpanda.com, idryomov@gmail.com,
+	dongsheng.yang@easystack.cn, haris.iqbal@ionos.com,
+	jinpu.wang@ionos.com, mst@redhat.com, jasowang@redhat.com,
+	pbonzini@redhat.com, stefanha@redhat.com, ohad@wizery.com,
+	andersson@kernel.org, baolin.wang@linux.alibaba.com,
+	ulf.hansson@linaro.org, richard@nod.at, miquel.raynal@bootlin.com,
+	vigneshr@ti.com, marcan@marcan.st, sven@svenpeter.dev,
+	alyssa@rosenzweig.io, kbusch@kernel.org, hch@lst.de,
+	sagi@grimberg.me, sth@linux.ibm.com, hoeppner@linux.ibm.com,
+	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+	borntraeger@linux.ibm.com, svens@linux.ibm.com, jejb@linux.ibm.com,
+	martin.petersen@oracle.com, hare@suse.de, bhelgaas@google.com,
+	john.garry@huawei.com, christophe.jaillet@wanadoo.fr,
+	vaibhavgupta40@gmail.com, wsa+renesas@sang-engineering.com,
+	damien.lemoal@opensource.wdc.com, johannes.thumshirn@wdc.com,
+	bvanassche@acm.org, ming.lei@redhat.com,
+	shinichiro.kawasaki@wdc.com, vincent.fu@samsung.com,
+	christoph.boehmwalder@linbit.com, joel@jms.id.au,
+	vincent.whitchurch@axis.com, nbd@other.debian.org,
+	ceph-devel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org, asahi@lists.linux.dev
+Subject: Re: [RFC PATCH 00/21] block: add and use init tagset helper
+Message-ID: <Y0BvRaVO0iUVmHgB@bombadil.infradead.org>
+References: <20221005032257.80681-1-kch@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v9 2/5] iommu: Implement of_iommu_get_resv_regions()
-Content-Language: en-GB
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
- Krishna Reddy <vdumpa@nvidia.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
- devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-tegra@vger.kernel.org, asahi@lists.linux.dev,
- Frank Rowand <frowand.list@gmail.com>, Rob Herring <robh@kernel.org>
-References: <20220923123557.866972-1-thierry.reding@gmail.com>
- <20220923123557.866972-3-thierry.reding@gmail.com>
- <c95801a2-4d37-ecd9-fc01-e2c32b6a6fdc@arm.com> <Y0BFkudEGLlAqeFj@orome>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <Y0BFkudEGLlAqeFj@orome>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221005032257.80681-1-kch@nvidia.com>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 
-On 2022-10-07 16:28, Thierry Reding wrote:
-[...]
->>> @@ -172,3 +173,106 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
->>>    	return ops;
->>>    }
->>> +
->>> +static inline bool check_direct_mapping(struct device *dev, struct resource *phys,
->>
->> Where "phys" is the virtual address, right? :(
+On Tue, Oct 04, 2022 at 08:22:36PM -0700, Chaitanya Kulkarni wrote:
+> Hi,
 > 
-> No, phys is actually res passed in from of_iommu_get_resv_regions()
-> where it is the address read from the "reg" property. So that's the
-> physical address of the reserved region. Perhaps it'd be useful to
-> rename "res" to "phys" in that function to be a little more consistent.
-> It's actually the "start" and "end" values that are passed into this
-> function that refer to the I/O virtual addresses from iommu-addresses.
+> Add and use the helper to initialize the common fields of the tag_set
+> such as blk_mq_ops, number of h/w queues, queue depth, command size,
+> numa_node, timeout, BLK_MQ_F_XXX flags, driver data. This initialization
+> is spread all over the block drivers. This avoids repetation of
+> inialization code of the tag set in current block drivers and any future
+> ones.
+> 
+> P.S. I'm aware of the EXPORT_SYMBOL_GPL() checkpatch warn just to make
+> get some feedback to so I can remove the RFC tag.
+> 
 
-Oh, so it's the phys_addr_t's that aren't physical addresses - well, it 
-had to be wrong one way or the other :)
+*If* there were commonalities at init and these could be broken up into
+common groups, each having their own set of calls, then we simplify and
+can abstract these. I say this without doing a complete review of the
+removals, but if there really isn't much of commonalities I tend to
+agree with Bart that open coding this is better.
 
-I agree that s/res/phys/ in the main function, and maybe s/start/iova/ 
-too, would be helpful.
-
-Thanks,
-Robin.
+  Luis
