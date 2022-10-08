@@ -1,56 +1,57 @@
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976A310FF
-	for <asahi@lists.linux.dev>; Sat,  8 Oct 2022 09:33:43 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7D1925C012B;
-	Sat,  8 Oct 2022 05:33:42 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Sat, 08 Oct 2022 05:33:42 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3C310FF
+	for <asahi@lists.linux.dev>; Sat,  8 Oct 2022 09:49:17 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 663295C0050;
+	Sat,  8 Oct 2022 05:49:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Sat, 08 Oct 2022 05:49:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
 	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1665221622; x=
-	1665308022; bh=hUl3Ir3x++r50yiN713hcR9ZO+kB6wQMi6hsc1U36Xw=; b=I
-	Y+NE0MjMY5RcIhUaqp10J3RXs6gSuRYVdubxg1QJMtgL184jmzWLIHP6VaLR3QKp
-	4PxjbEufYCNR0KoROW3Bcxoc50U/tBQWXy75ovzanv7HQfChOG6usxFaw4m6Ly7Y
-	b3jVUWa/58tD5bq4vYdtSYHNjMq2A8ziqZOjkC01kZxrDqXvN/X4x+UcqXBlQw9Y
-	MFwD3PUnGWsXSgG4P75rOmnJIwjBJ2bTbmh9AD3Y790ZNG9U9O4h/2wVAUV7XylK
-	AafbDT/BhOvSUJzoOuFFbpTmH312zJn1BtMKcQ0JbJIgJYnoEQ0IOJLg+nGPUgEb
-	2ZaKS+51V5JMizjlg/RBw==
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1665222555; x=
+	1665308955; bh=uVFJ/ixFTuJnrPpiJX6LTMPl44z8m+rvMsabaV3ZgAc=; b=O
+	ghPHC9z0ghD0VkEkl8iG4dY+2QNDwjO10Q1Hpe1rOIrEAv9mK/A4M+kp538aSLAR
+	5ozhbtz+ZgI0IyohsvGY7FCRfeFIsV4rGmZ3xmquheDgmaWRKLzdDs46vYiPLGps
+	CJG8ZSGkPYqKH5zKV/rdXDOcA73L4DAbv4TvHhNyAxpxMbCYinwIN/APhOzWNK8v
+	U7Up73CoV3ZmJYjVYrVTmCe7qeb5tb3DftB5BwePZNdEApMC96LGqAe4NTjg2Csm
+	K8R3Fs2YOkSkgHTlPH/3nRawT2MSjKdwCaL4rECj42wxNECQN61NVkuO5x6XM5ED
+	ydZ5Oqu0a2h4+lbvClQ/A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665221622; x=
-	1665308022; bh=hUl3Ir3x++r50yiN713hcR9ZO+kB6wQMi6hsc1U36Xw=; b=B
-	dSZtnw6OFgUrfSNdGQISvvbmSRnB7uftiA4kAdwSmIePnF9Rvz32cf1M8q7D5N8V
-	xzxmNs/ctcjpfsmwCLCsP3FsTruiahMQpergqS9I/1dhUKwCjbST6GiViuKLAWFh
-	bvlqpsZ8KnihJyalIWNo33UwoDsxHPTKbkojljyJMYCUfN6zvt7qvlA3wGhsy8ap
-	2lAkuEpe4n1mAfNudwhGWcckKKCvWL13LCNbCDUoC5xVulvD7RnkRlEe9tdHMVoX
-	BmGEn9XuSB5+Ms67gsnp0tFmkM9Rf2gi+fss5L0A2VNJrIlfeZc+ukuvhDnMfnYb
-	2gzjfIRxT5sOGekb7v+DA==
-X-ME-Sender: <xms:9UNBY9ilDxiznHExg5qeWuZ-QNdYgd7cIlTb2TKP2kkFFw1Z5Beqgg>
-    <xme:9UNBYyDJv8hZ4Fe4STLCg4KZbLqVTePZY7x4RyYOGJHmbT3_5P3GKhx2__y4U5MAR
-    WqNceqMChL6wDm-UYY>
-X-ME-Received: <xmr:9UNBY9G6O-nB8FAieWkZEVlSg8SRpDChhfFOeS6uqy4BpOiw24PbSl0PKBeUrlnv5VhZmseIZNrrDSXGA-WNuOo2yxeiqzCdqfT7C2ni_hz8FWiQI1ooX3Fwcpactg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeiledgudehucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1665222555; x=
+	1665308955; bh=uVFJ/ixFTuJnrPpiJX6LTMPl44z8m+rvMsabaV3ZgAc=; b=O
+	xZUcRRG6CuHz40Ik0Oh2py6Z3KNeNlrX7gOx+fx2ajE8ZJF4whTQkSfHIKMRknCl
+	gloqnYKIVGOTtZpLAnyhvGtj4Td7yLVFivuo6ujEP4x3M0KfgcKXO8oV04hPHv3T
+	EvJPeaMmz2de0HGf3KnrgJv8XLX/pFiWfWV/FUw6KJ4KtmXQl7Hyl7cHEF2Ikg2T
+	v98RywUfLr1rQAjxgpxgRNzFK5o0JWqRB8WELoUgc4KUhOcGYkTEi2qOmoHEk7FR
+	Z0ZH7fmrEKvqKwISHCKi+eAKc0atBQoyomNkIR28VeCLleboqXMdknruEVuFTkkF
+	9RwOkolCtcNUgnpOLh+rQ==
+X-ME-Sender: <xms:mkdBY2csKk4dWgRzzMCiAYzpTpTQuwavSpLNvj5IqG3Jk2g_a7C0JQ>
+    <xme:mkdBYwOOw7QyPEFxhrnW1IIcUl_VqEemqI9mpi-GADdrT29ffa4OgBbSXEvboQs9T
+    I_qlw2zd_kB-x78yZg>
+X-ME-Received: <xmr:mkdBY3iB_iSfoX-w5HxF8uTrARZt64JIqNtqseAmtl-nLtZr5f0WSlmVvvXR8HHIku3NTVbdhUKW_3_6XqUN1SxuAWfqLScYtki03aLp63o-2aMCO060Al8AireyLA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeeiledgudekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurheptgfghfggufffkfhfvegjvffosehtqhhmtdhhtdejnecuhfhrohhmpefuvhgv
     nhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrth
-    htvghrnhepvdfhtdduuddvueejueffgfdukedvfeevgfeuieeivdeltdehgeeivefftdet
-    kedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
-    hvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:9UNBYyS91bOQ8-WzY82Xpzcy9wPTVLM1dSdE9fomvARGsltDCKqLDA>
-    <xmx:9UNBY6ykY2uJWifrqg_j2i3PANr2qZs_6XS8lW08sVrZqoH1XoN2Eg>
-    <xmx:9UNBY45B1rZTvDOHytUemGGjbV3hSAfPBh4VCnfkYVwfPhbIU-EbKw>
-    <xmx:9kNBY87T10vjR26vuQvZlU9DekNUhKU8916Vi17Ffqb5sM7G4nWMZw>
+    htvghrnhepffdvueeggeffieelgeeitdekteejkeehhefhheduledvueduvdelffeiveel
+    teeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggv
+    vh
+X-ME-Proxy: <xmx:mkdBYz9cMhi2VMI_HwJyTOrHl8m5-Mc7qWqP6NdfdnVE5b2mFFGvJg>
+    <xmx:mkdBYyulqXQyO6biOiXHkhTQKUfr9zdvX7VfpeM4_YHbEsHx2FfSug>
+    <xmx:mkdBY6GRKiXirMwbybVRoJtuWp43MPA0NJTLP5DfjagZeG-TF4eyag>
+    <xmx:m0dBY8IKIxMzynN_XVgkRTjRWgvWQqzsb6PDFUnKJa-pnb7BmkycsQ>
 Feedback-ID: i51094778:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 8 Oct 2022 05:33:41 -0400 (EDT)
+ 8 Oct 2022 05:49:03 -0400 (EDT)
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 From: Sven Peter <sven@svenpeter.dev>
@@ -60,193 +61,232 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v4 2/2] irqchip/apple-aic: Add support for A7-A11 SoCs
-Date: Sat, 8 Oct 2022 11:33:27 +0200
-Message-Id: <65B38F6C-4E97-49CE-84F6-22CC9929B14B@svenpeter.dev>
-References: <20221007200022.22844-3-konrad.dybcio@somainline.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev,
- Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- martin.botka@somainline.org, angelogioacchino.delregno@somainline.org,
- marijn.suijten@somainline.org, jamipkettunen@somainline.org,
- Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20221007200022.22844-3-konrad.dybcio@somainline.org>
-To: Konrad Dybcio <konrad.dybcio@somainline.org>
+Subject: Re: [PATCH v3] i2c/pasemi: PASemi I2C controller IRQ enablement
+Date: Sat, 8 Oct 2022 11:48:42 +0200
+Message-Id: <A0B81E7F-BF26-424D-B9E5-5647323B24EC@svenpeter.dev>
+References: <MN2PR01MB5358ED8FC32C0CFAEBD4A0E19F5F9@MN2PR01MB5358.prod.exchangelabs.com>
+Cc: linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Hector Martin <marcan@marcan.st>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>
+In-Reply-To: <MN2PR01MB5358ED8FC32C0CFAEBD4A0E19F5F9@MN2PR01MB5358.prod.exchangelabs.com>
+To: Arminder Singh <arminders208@outlook.com>
 X-Mailer: iPhone Mail (20A362)
-
 
 Hi,
 
-> On 7. Oct 2022, at 22:00, Konrad Dybcio <konrad.dybcio@somainline.org> wro=
-te:
->=20
-> =EF=BB=BFAdd support for A7-A11 SoCs by if-ing out some features only pres=
-ent
-> on A11 & newer (implementation-defined IPI & UNCORE registers).
->=20
-> Also, annotate IPI regs support in the aic struct so that the driver
-> can tell whether the SoC supports these, as they are written to,
-> even if fast IPI is disabled.
-
-No.
-
-> This in turn causes a crash on older
-> platforms, as the implemention-defined registers either do
-> something else or are not supposed to be touched - definitely not a
-> NOP though.
-
-This entire description needs to be rewritten. All you want to do is guard b=
-oth fastipi and uncore reg access on pre-A11.
+> On 7. Oct 2022, at 02:43, Arminder Singh <arminders208@outlook.com> wrote:=
 
 >=20
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> =EF=BB=BFThis patch adds IRQ support to the PASemi I2C controller driver t=
+o=20
+> increase the performace of I2C transactions on platforms with PASemi I2C=20=
+
+> controllers. While primarily intended for Apple silicon platforms, this=20=
+
+> patch should also help in enabling IRQ support for older PASemi hardware=20=
+
+> as well should the need arise.
+>=20
+> Signed-off-by: Arminder Singh <arminders208@outlook.com>
 > ---
-> Changes since v3:
-> - Replace use_fast_ipi with has_uncore_ipi_regs in aic_init_cpu
-> (logic error, this was written to regardless of FIPI usage before,
-> but touching Sn_... regs on SoCs that don't explicitly use them for
-> IPIs makes them sepuku..)
-> - Drop A11 compatible
->=20
-> drivers/irqchip/irq-apple-aic.c | 47 ++++++++++++++++++++++-----------
-> 1 file changed, 32 insertions(+), 15 deletions(-)
->=20
-> diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-a=
-ic.c
-> index 1c2813ad8bbe..2609d6b60487 100644
-> --- a/drivers/irqchip/irq-apple-aic.c
-> +++ b/drivers/irqchip/irq-apple-aic.c
-> @@ -230,6 +230,9 @@
->=20
-> static DEFINE_STATIC_KEY_TRUE(use_fast_ipi);
->=20
-> +/* True if UNCORE/UNCORE2 and Sn_... IPI registers are present (A11+) */
-> +static DEFINE_STATIC_KEY_TRUE(has_uncore_ipi_regs);
-> +
-> struct aic_info {
->    int version;
->=20
-> @@ -246,6 +249,7 @@ struct aic_info {
->=20
->    /* Features */
->    bool fast_ipi;
-> +    bool uncore_ipi_regs;
+> This version of the patch has been tested on an M1 Ultra Mac Studio,
+> as well as an M1 MacBook Pro, and userspace launches successfully
+> while using the IRQ path for I2C transactions.
 
-Why two flags? Didn=E2=80=99t we come to the conclusion last time that fasti=
-pi and uncore were introduced at the same time? Below you also either have b=
-oth true or both false so there=E2=80=99s really no need to track both of th=
-em.
+I think Wolfram suggested to keep this in the commit message. If in doubt li=
+sten to him and not me because he=E2=80=99s much more experienced with the k=
+ernel than I am ;)
 
+>=20
+> This version of the patch only contains fixes to the whitespace and
+> alignment issues found in v2 of the patch, and as such the testing that
+> Christian Zigotsky did on PASemi hardware for v2 of the patch also applies=
 
-> };
->=20
-> static const struct aic_info aic1_info =3D {
-> @@ -261,6 +265,7 @@ static const struct aic_info aic1_fipi_info =3D {
->    .event        =3D AIC_EVENT,
->    .target_cpu    =3D AIC_TARGET_CPU,
->=20
-> +    .uncore_ipi_regs    =3D true,
->    .fast_ipi    =3D true,
-> };
->=20
-> @@ -269,6 +274,7 @@ static const struct aic_info aic2_info =3D {
->=20
->    .irq_cfg    =3D AIC2_IRQ_CFG,
->=20
-> +    .uncore_ipi_regs    =3D true,
->    .fast_ipi    =3D true,
-> };
->=20
-> @@ -524,12 +530,14 @@ static void __exception_irq_entry aic_handle_fiq(str=
-uct pt_regs *regs)
->     * we check for everything here, even things we don't support yet.
->     */
->=20
-> -    if (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING) {
-> -        if (static_branch_likely(&use_fast_ipi)) {
-> -            aic_handle_ipi(regs);
-> -        } else {
-> -            pr_err_ratelimited("Fast IPI fired. Acking.\n");
-> -            write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
-> +    if (static_branch_likely(&has_uncore_ipi_regs)) {
-> +        if (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING) {
-> +            if (static_branch_likely(&use_fast_ipi)) {
-> +                aic_handle_ipi(regs);
-> +            } else {
-> +                pr_err_ratelimited("Fast IPI fired. Acking.\n");
-> +                write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
+> to this version of the patch as well.
+> (See v2 patch email thread for the "Tested-by" tag)
 
-This still can=E2=80=99t be reached because both static branches will always=
- have the same value. Didn=E2=80=99t we also realize a version or two ago th=
-at this can just be dropped?
+You can just collect and keep those tags above your signed off by if you onl=
+y change things like whitespaces.
 
-> +            }
->        }
->    }
 >=20
-> @@ -566,12 +574,14 @@ static void __exception_irq_entry aic_handle_fiq(str=
-uct pt_regs *regs)
->                      AIC_FIQ_HWIRQ(irq));
->    }
+> v2 to v3 changes:
+> - Fixed some whitespace and alignment issues found in v2 of the patch
 >=20
-> -    if (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) =3D=
-=3D UPMCR0_IMODE_FIQ &&
-> -            (read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
-> -        /* Same story with uncore PMCs */
-> -        pr_err_ratelimited("Uncore PMC FIQ fired. Masking.\n");
-> -        sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> -                   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
-> +    if (static_branch_likely(&has_uncore_ipi_regs)) {
-> +        if (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)=
-) =3D=3D
-> +            UPMCR0_IMODE_FIQ && (read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & U=
-PMSR_IACT)) {
-> +            /* Same story with uncore PMCs */
-> +            pr_err_ratelimited("Uncore PMC FIQ fired. Masking.\n");
-> +            sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> +                    FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
-> +        }
->    }
+> v1 to v2 changes:
+> - moved completion setup from pasemi_platform_i2c_probe to
+>   pasemi_i2c_common_probe to allow PASemi and Apple platforms to share
+>   common completion setup code in case PASemi hardware gets IRQ support
+>   added
+> - initialized the status variable in pasemi_smb_waitready when going down
+>   the non-IRQ path
+> - removed an unnecessary cast of dev_id in the IRQ handler
+> - fixed alignment of struct member names in i2c-pasemi-core.h
+>   (addresses Christophe's feedback in the original submission)
+> - IRQs are now disabled after the wait_for_completion_timeout call
+>   instead of inside the IRQ handler
+>   (prevents the IRQ from going off after the completion times out)
+> - changed the request_irq call to a devm_request_irq call to obviate
+>   the need for a remove function and a free_irq call
+>   (thanks to Sven for pointing this out in the original submission)
+> - added a reinit_completion call to pasemi_reset=20
+>   as a failsafe to prevent missed interrupts from causing the completion
+>   to never complete (thanks to Arnd Bergmann for pointing this out)
+> - removed the bitmask variable in favor of just using the value
+>   directly (it wasn't used anywhere else)
+>=20
+> v2 linked here: https://lore.kernel.org/linux-i2c/MN2PR01MB535821C8058C781=
+4B2F8EEDF9F599@MN2PR01MB5358.prod.exchangelabs.com/
+> v1 linked here: https://lore.kernel.org/linux-i2c/MN2PR01MB535838492432C91=
+0F2381F929F6F9@MN2PR01MB5358.prod.exchangelabs.com/T/#m11b3504c2667517aad752=
+1514c99ca0e07a9381f
+>=20
+> Hopefully the patch is good to go this time around!
+>=20
+> drivers/i2c/busses/i2c-pasemi-core.c     | 29 ++++++++++++++++++++----
+> drivers/i2c/busses/i2c-pasemi-core.h     |  5 ++++
+> drivers/i2c/busses/i2c-pasemi-platform.c |  6 +++++
+> 3 files changed, 36 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/i2c/busses/i2c-pasemi-core.c b/drivers/i2c/busses/i2c=
+-pasemi-core.c
+> index 9028ffb58cc0..4855144b370e 100644
+> --- a/drivers/i2c/busses/i2c-pasemi-core.c
+> +++ b/drivers/i2c/busses/i2c-pasemi-core.c
+> @@ -21,6 +21,7 @@
+> #define REG_MTXFIFO    0x00
+> #define REG_MRXFIFO    0x04
+> #define REG_SMSTA    0x14
+> +#define REG_IMASK    0x18
+> #define REG_CTL        0x1c
+> #define REG_REV        0x28
+>=20
+> @@ -66,6 +67,7 @@ static void pasemi_reset(struct pasemi_smbus *smbus)
+>        val |=3D CTL_EN;
+>=20
+>    reg_write(smbus, REG_CTL, val);
+> +    reinit_completion(&smbus->irq_completion);
 > }
 >=20
-> @@ -944,7 +954,8 @@ static int aic_init_cpu(unsigned int cpu)
->    /* Mask all hard-wired per-CPU IRQ/FIQ sources */
+> static void pasemi_smb_clear(struct pasemi_smbus *smbus)
+> @@ -81,11 +83,18 @@ static int pasemi_smb_waitready(struct pasemi_smbus *s=
+mbus)
+>    int timeout =3D 10;
+>    unsigned int status;
 >=20
->    /* Pending Fast IPI FIQs */
-> -    write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
-> +    if (static_branch_likely(&has_uncore_ipi_regs))
-> +        write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
+> -    status =3D reg_read(smbus, REG_SMSTA);
+> -
+> -    while (!(status & SMSTA_XEN) && timeout--) {
+> -        msleep(1);
+> +    if (smbus->use_irq) {
+> +        reinit_completion(&smbus->irq_completion);
+> +        reg_write(smbus, REG_IMASK, SMSTA_XEN | SMSTA_MTN);
+> +        wait_for_completion_timeout(&smbus->irq_completion, msecs_to_jiff=
+ies(10));
+> +        reg_write(smbus, REG_IMASK, 0);
+>        status =3D reg_read(smbus, REG_SMSTA);
+> +    } else {
+> +        status =3D reg_read(smbus, REG_SMSTA);
+> +        while (!(status & SMSTA_XEN) && timeout--) {
+> +            msleep(1);
+> +            status =3D reg_read(smbus, REG_SMSTA);
+> +        }
+>    }
 >=20
->    /* Timer FIQs */
->    sysreg_clear_set(cntp_ctl_el0, 0, ARCH_TIMER_CTRL_IT_MASK);
-> @@ -965,8 +976,9 @@ static int aic_init_cpu(unsigned int cpu)
->               FIELD_PREP(PMCR0_IMODE, PMCR0_IMODE_OFF));
+>    /* Got NACK? */
+> @@ -344,10 +353,14 @@ int pasemi_i2c_common_probe(struct pasemi_smbus *smb=
+us)
 >=20
->    /* Uncore PMC FIQ */
-> -    sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> -               FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
-> +    if (static_branch_likely(&has_uncore_ipi_regs))
-> +        sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> +                   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
+>    /* set up the sysfs linkage to our parent device */
+>    smbus->adapter.dev.parent =3D smbus->dev;
+> +    smbus->use_irq =3D 0;
+> +    init_completion(&smbus->irq_completion);
 >=20
->    /* Commit all of the above */
->    isb();
-> @@ -1125,6 +1137,11 @@ static int __init aic_of_ic_init(struct device_node=
- *node, struct device_node *p
->    else
->        static_branch_disable(&use_fast_ipi);
+>    if (smbus->hw_rev !=3D PASEMI_HW_REV_PCI)
+>        smbus->hw_rev =3D reg_read(smbus, REG_REV);
 >=20
-> +    if (irqc->info.uncore_ipi_regs)
-> +        static_branch_enable(&has_uncore_ipi_regs);
-> +    else
-> +        static_branch_disable(&has_uncore_ipi_regs);
+> +    reg_write(smbus, REG_IMASK, 0);
 > +
->    irqc->info.die_stride =3D off - start_off;
+>    pasemi_reset(smbus);
 >=20
->    irqc->hw_domain =3D irq_domain_create_tree(of_node_to_fwnode(node),
+>    error =3D devm_i2c_add_adapter(smbus->dev, &smbus->adapter);
+> @@ -356,3 +369,11 @@ int pasemi_i2c_common_probe(struct pasemi_smbus *smbu=
+s)
+>=20
+>    return 0;
+> }
+> +
+> +irqreturn_t pasemi_irq_handler(int irq, void *dev_id)
+> +{
+> +    struct pasemi_smbus *smbus =3D dev_id;
+> +
+> +    complete(&smbus->irq_completion);
+
+I only realized just now that you also want to disable the interrupt right h=
+ere by writing to IMASK. This is a level sensitive interrupt at AIC level so=
+ the moment this handler returns it will fire again until you reach the writ=
+e above after the completion wait a bit later.
+
+
+> +    return IRQ_HANDLED;
+> +}
+> diff --git a/drivers/i2c/busses/i2c-pasemi-core.h b/drivers/i2c/busses/i2c=
+-pasemi-core.h
+> index 4655124a37f3..88821f4e8a9f 100644
+> --- a/drivers/i2c/busses/i2c-pasemi-core.h
+> +++ b/drivers/i2c/busses/i2c-pasemi-core.h
+> @@ -7,6 +7,7 @@
+> #include <linux/i2c-smbus.h>
+> #include <linux/io.h>
+> #include <linux/kernel.h>
+> +#include <linux/completion.h>
+>=20
+> #define PASEMI_HW_REV_PCI -1
+>=20
+> @@ -16,6 +17,10 @@ struct pasemi_smbus {
+>    void __iomem        *ioaddr;
+>    unsigned int         clk_div;
+>    int             hw_rev;
+> +    int             use_irq;
+> +    struct completion     irq_completion;
+> };
+>=20
+> int pasemi_i2c_common_probe(struct pasemi_smbus *smbus);
+> +
+> +irqreturn_t pasemi_irq_handler(int irq, void *dev_id);
+> diff --git a/drivers/i2c/busses/i2c-pasemi-platform.c b/drivers/i2c/busses=
+/i2c-pasemi-platform.c
+> index 88a54aaf7e3c..e35945a91dbe 100644
+> --- a/drivers/i2c/busses/i2c-pasemi-platform.c
+> +++ b/drivers/i2c/busses/i2c-pasemi-platform.c
+> @@ -49,6 +49,7 @@ static int pasemi_platform_i2c_probe(struct platform_dev=
+ice *pdev)
+>    struct pasemi_smbus *smbus;
+>    u32 frequency;
+>    int error;
+> +    int irq_num;
+>=20
+>    data =3D devm_kzalloc(dev, sizeof(struct pasemi_platform_i2c_data),
+>                GFP_KERNEL);
+> @@ -82,6 +83,11 @@ static int pasemi_platform_i2c_probe(struct platform_de=
+vice *pdev)
+>    if (error)
+>        goto out_clk_disable;
+>=20
+> +    irq_num =3D platform_get_irq(pdev, 0);
+> +    error =3D devm_request_irq(smbus->dev, irq_num, pasemi_irq_handler, 0=
+, "pasemi_apple_i2c", (void *)smbus);
+> +
+> +    if (!error)
+> +        smbus->use_irq =3D 1;
+>    platform_set_drvdata(pdev, data);
+>=20
+>    return 0;
 > --=20
-> 2.37.3
+> 2.34.1
+>=20
 
-
-Sven
+Sven=20=
 
