@@ -1,100 +1,115 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay04.th.seeweb.it (relay04.th.seeweb.it [5.144.164.165])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9440928F4
-	for <asahi@lists.linux.dev>; Mon, 10 Oct 2022 12:27:27 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-136b5dd6655so433972fac.3
-        for <asahi@lists.linux.dev>; Mon, 10 Oct 2022 05:27:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3XimozxtCM3OTFQP29kmIOvI38zdZ6QInZnUvN9y4CQ=;
-        b=ufSEB2JSZ9LVO9s9iZ/2ze+QBVJtcwwmmzX+rqV1xT8D1g1IQsANl5NTZaoZUk1FNt
-         9n3j9rFrITUPpvwN5uc/58tuOgf9RFE2sGnqxeJaORkGHjyVQtQbqw/y4O2S5vN8j3ym
-         4KA0Uj5mgxQyml4VN1UOp6EOcFOW81lCDhVN8umpj3CPjoy0/LwQh1bMlP/86lcGvdGR
-         lQzMIrKAaL4E+OAqHlrN3E/+wm5F27Elm9kmkfK487vNMB0+/bwUs8O/LKrmkV1bg3E8
-         jAFUPgZ9/Rt/WYNnd9j4Md8wp+XLx2jNUYghQkuHfhXCAH6aqfPxSiUyUEdf5F4Qch4f
-         5LfQ==
-X-Gm-Message-State: ACrzQf3TUS4IC4yJvUT5NI8pkYg4lUXEzNMhpv8fWDfkF9su+i2T7ExZ
-	YAyXVFeOdmEoqqwM+cPCDw==
-X-Google-Smtp-Source: AMsMyM4Wraf8Vgk7cNKGKpmIo2CmacT/qVRhLbZIlf30aykw5iXbY/fXUC23XjS4RuVb6w1V6WP4Ow==
-X-Received: by 2002:a05:6870:9a05:b0:132:ebf:dc61 with SMTP id fo5-20020a0568709a0500b001320ebfdc61mr9506149oab.76.1665404846584;
-        Mon, 10 Oct 2022 05:27:26 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id q13-20020a9d654d000000b0066193fe498bsm2043389otl.28.2022.10.10.05.27.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Oct 2022 05:27:26 -0700 (PDT)
-Received: (nullmailer pid 442613 invoked by uid 1000);
-	Mon, 10 Oct 2022 12:27:27 -0000
-Date: Mon, 10 Oct 2022 07:27:27 -0500
-From: Rob Herring <robh@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@somainline.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, martin.botka@somainline.org, angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org, jamipkettunen@somainline.org, Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: apple,aic: Document A7-A11
- compatibles
-Message-ID: <20221010122727.GA432201-robh@kernel.org>
-References: <20221007200022.22844-1-konrad.dybcio@somainline.org>
- <20221007200022.22844-2-konrad.dybcio@somainline.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54201FD1
+	for <asahi@lists.linux.dev>; Mon, 10 Oct 2022 14:34:10 +0000 (UTC)
+Received: from cp.tophost.it (vm1054.cs12.seeweb.it [217.64.195.253])
+	by m-r1.th.seeweb.it (Postfix) with ESMTPA id A809A1F660;
+	Mon, 10 Oct 2022 16:23:59 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221007200022.22844-2-konrad.dybcio@somainline.org>
+Date: Mon, 10 Oct 2022 16:10:42 +0200
+From: konrad.dybcio@somainline.org
+To: Rob Herring <robh@kernel.org>
+Cc: Konrad Dybcio <konrad.dybcio@somainline.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev, Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, martin.botka@somainline.org,
+ angelogioacchino.delregno@somainline.org, marijn.suijten@somainline.org,
+ jamipkettunen@somainline.org, Thomas Gleixner <tglx@linutronix.de>, Marc
+ Zyngier <maz@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: apple,aic: Document A7-A11
+ compatibles
+In-Reply-To: <20221010122727.GA432201-robh@kernel.org>
+References: <20221007200022.22844-1-konrad.dybcio@somainline.org>
+ <20221007200022.22844-2-konrad.dybcio@somainline.org>
+ <20221010122727.GA432201-robh@kernel.org>
+User-Agent: Roundcube Webmail/1.4.6
+Message-ID: <0ff2cede3ac644141ba66f54244eb069@pop.somainline.org>
+X-Sender: konrad.dybcio@somainline.org
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 07, 2022 at 10:00:21PM +0200, Konrad Dybcio wrote:
-> Document the compatibles for Apple A7-A11 SoCs.
+On 2022-10-10 14:27, Rob Herring wrote:
+> On Fri, Oct 07, 2022 at 10:00:21PM +0200, Konrad Dybcio wrote:
+>> Document the compatibles for Apple A7-A11 SoCs.
+>> 
+>> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+>> ---
+>> Changes since v3:
+>> - Bindings: A7-A10+M1 only get SoC compat and generic fallback,
+>> A11 gets M1 fallback and generic fallback (removed A11 compatible)
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> ---
-> Changes since v3:
-> - Bindings: A7-A10+M1 only get SoC compat and generic fallback,
-> A11 gets M1 fallback and generic fallback (removed A11 compatible)
+> I have no idea if that makes sense or not. Do I have to go read the
+> rationale in the prior version?
+> 
+> The question to ask on fallbacks, is would s/w that only understands 
+> the
+> fallback compatible work as-is?
+Yep, A7-A10 share the same feature level ("apple,aic"), but I think 
+having a separate, per-SoC
+compatible in the DT from the get-go makes a lot of sense, since we're 
+not sure what's gonna happen
+when we, for example, add SMP support for these older chipsets, maybe 
+they'll need some special
+handling.
 
-I have no idea if that makes sense or not. Do I have to go read the 
-rationale in the prior version?
+Similar story with A11 and M1. They can both work with "apple,aic", but 
+they also support things
+that are enabled with the "apple,t8103-aic" compat string.
 
-The question to ask on fallbacks, is would s/w that only understands the 
-fallback compatible work as-is?
+I do not plan on adding specific compatibles for A7-A11 SoCs in the 
+driver, unless we uncover some
+bugs / deviations.
 
-> - Drop Rob's A-b as this is essentially yet another rewrite..
+Konrad
+
 > 
->  .../bindings/interrupt-controller/apple,aic.yaml | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> index e18107eafe7c..1427ea9b04a2 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> @@ -36,9 +36,19 @@ allOf:
->  
->  properties:
->    compatible:
-> -    items:
-> -      - const: apple,t8103-aic
-> -      - const: apple,aic
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - apple,s5l8960x-aic
-> +              - apple,s8000-aic
-> +              - apple,t7000-aic
-> +              - apple,t8010-aic
-> +              - apple,t8103-aic
-> +          - const: apple,aic
-> +      - items:
-> +          - const: apple,t8015-aic
-> +          - const: apple,t8103-aic
-> +          - const: apple,aic
->  
->    interrupt-controller: true
->  
-> -- 
-> 2.37.3
-> 
-> 
+>> - Drop Rob's A-b as this is essentially yet another rewrite..
+>> 
+>>  .../bindings/interrupt-controller/apple,aic.yaml | 16 
+>> +++++++++++++---
+>>  1 file changed, 13 insertions(+), 3 deletions(-)
+>> 
+>> diff --git 
+>> a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml 
+>> b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+>> index e18107eafe7c..1427ea9b04a2 100644
+>> --- 
+>> a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+>> +++ 
+>> b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+>> @@ -36,9 +36,19 @@ allOf:
+>> 
+>>  properties:
+>>    compatible:
+>> -    items:
+>> -      - const: apple,t8103-aic
+>> -      - const: apple,aic
+>> +    oneOf:
+>> +      - items:
+>> +          - enum:
+>> +              - apple,s5l8960x-aic
+>> +              - apple,s8000-aic
+>> +              - apple,t7000-aic
+>> +              - apple,t8010-aic
+>> +              - apple,t8103-aic
+>> +          - const: apple,aic
+>> +      - items:
+>> +          - const: apple,t8015-aic
+>> +          - const: apple,t8103-aic
+>> +          - const: apple,aic
+>> 
+>>    interrupt-controller: true
+>> 
+>> --
+>> 2.37.3
+>> 
+>> 
