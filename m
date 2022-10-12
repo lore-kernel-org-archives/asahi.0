@@ -1,74 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2364B8F7B
-	for <asahi@lists.linux.dev>; Wed, 12 Oct 2022 12:11:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1665576666;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hregpx8t1kAHRsj5KIbt4EVewflLpm3kB0Chk3MbBVo=;
-	b=JI5uOKBACpH6RG+ah8iDP24zeut3SN7JR7HS4wUuSiN1AYNC/1Z0fsJ8j31m/k0Vy/esxb
-	XsVTqObd61z5b8pHMbUSdCRAiq/zGJbyAcBhCeijGqh9lNf5RdiDV64PuvLavHM0nPAQN8
-	XPRb3EA9tVF634nLB43JO3c4OanqS6M=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-222-ViHo598UN8SLEo5-9UKfIw-1; Wed, 12 Oct 2022 08:11:05 -0400
-X-MC-Unique: ViHo598UN8SLEo5-9UKfIw-1
-Received: by mail-ua1-f70.google.com with SMTP id q9-20020ab04a09000000b003dfecbdc5cdso4668359uae.15
-        for <asahi@lists.linux.dev>; Wed, 12 Oct 2022 05:11:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Hregpx8t1kAHRsj5KIbt4EVewflLpm3kB0Chk3MbBVo=;
-        b=T819Cvuiqg8M9UyfLQ4KV2iFTgc6N9n7u5UJ1X8wMREeuY1Y12kmHnpBV55oTqMCum
-         VjqS1vUgWiqfIEk6JKkr7rMnOz/8zccbxrOyCRa5c0S1qeYcBRo2enhH8BgzAa/TVfYQ
-         mKxCqaJ+q3OxNlo0rM3yKpCRyUVA1ZUE84SEMk5UKEYOgmYMlBzhjt6ZPg42kA897SDN
-         W4fgFU5ywGWJB0/KlEDwq2hXwX/3U21kZK2tCMIjvKRCh+D7n2y3YnE0qW618xYJFFwq
-         yWNYSpZpeOI89lbaSPSQk0cUOC/H5qOcgafjSIme+da7rRAX6bVAIv4iTK7ppegEG/o9
-         hEbg==
-X-Gm-Message-State: ACrzQf1U/i53CevMrFbnFwMPnWQDw4bAL0UqTiOp05GMEj2JzC8aSEiF
-	Ru05GBG2T9sRHgR6pJkgXXiYu2PRviDjykhTKSiTZ8Xry0q47JEU1p7JSAX84Te3zRPRzhEHLOb
-	3q+VWk2TZgouExBQwP6hamyQv90lXQlc=
-X-Received: by 2002:ab0:7c8f:0:b0:381:c81f:6152 with SMTP id v15-20020ab07c8f000000b00381c81f6152mr14996259uaw.58.1665576663429;
-        Wed, 12 Oct 2022 05:11:03 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6BcAPMB0fOUebVBZrx75XmrZkHjxCDZuCbZ2MEbg+W3PfuUXuBgiCfdkdxsD5PMXfIc/kiYj+v9aXSxNwUOUI=
-X-Received: by 2002:ab0:7c8f:0:b0:381:c81f:6152 with SMTP id
- v15-20020ab07c8f000000b00381c81f6152mr14996248uaw.58.1665576663179; Wed, 12
- Oct 2022 05:11:03 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE18117ED
+	for <asahi@lists.linux.dev>; Wed, 12 Oct 2022 15:11:21 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id A432A5C00D4;
+	Wed, 12 Oct 2022 11:11:20 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute2.internal (MEProxy); Wed, 12 Oct 2022 11:11:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1665587480; x=1665673880; bh=TG
+	0zS+/AD8OWXajAcLqKBeQQIZNNEfxrwqAkL+1Qq6Q=; b=EOIOxvQ9x9XSxkUcKE
+	To1oq79r289pMPOpGeiyg8rl/Vl0Xo9JPeLyAc8Kh8+mAdobU4omq7tuBTOhZK7V
+	UJhluo19E6EcVxkdyCcPislqKQbbbS2g+EAvvFWzB8v85aF6fphjPWtREhniF2ny
+	O/YT51clMW77Z6Y4gde+5QMY3EipnIkZvxEuj2Pb2DBgpZ4qPMStLeS2C3Efs+Hv
+	7C2UufiyQZMvxvoyBD8SCplI4YIp5rfj8ybVRpcBAUJ+sMAHhfywpYWLy/WRwX54
+	cPpuEMPFGZzaQi+iIE/VK7qVqG/+ypvn2Gy9NW0DSadrWN2En0eGpCdG5N0WY4ru
+	U77g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1665587480; x=1665673880; bh=TG0zS+/AD8OWXajAcLqKBeQQIZNN
+	EfxrwqAkL+1Qq6Q=; b=AByNme9KVvOVvRwQdd0s0QITQED1uc/WwhtzFc7TIOJv
+	eMsXYlDLsOP6mR5VIm5PopFZvPVgpePN0/X3Kh+m8bB+TZjTpT2QzO5fPmxoKS9X
+	ZttWTx0fDVQ7vYU62rFaMHMbuulsFLxHCGLNc3VI9ApQOB6z0qPWCv/9vNfO71dY
+	0cFqgnFv6eUq0C7PoibAQiz27xHoUYyifXuWC/ZwYyiknuuvmrjD4qsp/lxbLmLu
+	bSOdWO1Ygr4gWOz2CXjSNbV/8EjUq5NYY4XuGh3tHe4A3rE7Guz0J2R2OpneZU3c
+	2vMdtw2nXPyAV0y5XF4Zz6NPkCq5HZUel/LbuW69AA==
+X-ME-Sender: <xms:F9lGY0gvvMJ7aiLizsHnkCyNQ4DDXgc-zvf4ghOrlnL21Z4TzxRTPQ>
+    <xme:F9lGY9Dt8ErEzi_ZBySad-xPet36f0vqu6141-_2xe-_lcigXl1ko4v81qhjQeWC5
+    FHeW14Zv6DKLkIAc9U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeejkedgkeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
+    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:F9lGY8F5XvHyn3wlGvq-R8FYAlGxZnzSHTjois2cWuigS6sCZl_RCg>
+    <xmx:F9lGY1SpbIfZrEAHo5qb3-Pgebi7gOVXKHBmOIqyiBhr8v7FbUtjbA>
+    <xmx:F9lGYxxVGXeMSBqVrBq-r3CGw-W66zY6VkCCKdY-Cl__3N24ce5rGQ>
+    <xmx:GNlGYwyMsZ3C1PaMes_Tsffuw7r14YLsLQi-emiuhZYf2HuTLDCyTQ>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 6117CA6007C; Wed, 12 Oct 2022 11:11:19 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1047-g9e4af4ada4-fm-20221005.001-g9e4af4ad
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <E1oiaBa-00Dz7S-SK@rmk-PC.armlinux.org.uk>
+Mime-Version: 1.0
+Message-Id: <1419687c-c58b-4eb8-8f37-523f6a367f26@app.fastmail.com>
 In-Reply-To: <E1oiaBa-00Dz7S-SK@rmk-PC.armlinux.org.uk>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Wed, 12 Oct 2022 13:10:47 +0100
-Message-ID: <CAOgh=FzyV4mVsEujkYKZyZ0m12cnDEuK9GadUqutSFk2Cfj5jQ@mail.gmail.com>
+References: <E1oiaBa-00Dz7S-SK@rmk-PC.armlinux.org.uk>
+Date: Wed, 12 Oct 2022 17:10:59 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Russell King" <rmk+kernel@armlinux.org.uk>
+Cc: "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Keith Busch" <kbusch@kernel.org>, "axboe@fb.com" <axboe@fb.com>,
+ "hch@lst.de" <hch@lst.de>, "sagi@grimberg.me" <sagi@grimberg.me>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-nvme@lists.infradead.org
 Subject: Re: [PATCH] nvme-apple: fix DMA-API warning
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>, 
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Wed, 12 Oct 2022 at 12:53, Russell King (Oracle)
-<rmk+kernel@armlinux.org.uk> wrote:
->
+On Wed, Oct 12, 2022, at 13:46, Russell King (Oracle) wrote:
 > Fix the following DMA-API warning:
+
+Thanks for fixing this!
+
+I'd probably use something like "Communicate unlimited segment size support to DMA mapping code"
+as the title since that's the actual change which then happens to fix the warning and
+maybe also mention that this is done in pci.c and was dropped by mistake when
+apple.c was forked from there.
+
+This could also use a Fixes tag to reference the commit that introduced this driver.
+
+With those things addressed,
+
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
+
+
+Thanks,
+
+
+Sven
+
+
 >
-> DMA-API: nvme-apple 27bcc0000.nvme: mapping sg segment longer than device claims to support [len=69632] [max=65536]
-> WARNING: CPU: 3 PID: 1 at kernel/dma/debug.c:1160 debug_dma_map_sg+0x310/0x3a0
-> Modules linked in: tps6598x roles typec rtc_macsmc gpio_macsmc nvme_apple apple_mailbox apple_sart pcie_apple macsmc_rtkit macsmc pinctrl_apple_gpio i2c_apple
+> DMA-API: nvme-apple 27bcc0000.nvme: mapping sg segment longer than 
+> device claims to support [len=69632] [max=65536]
+> WARNING: CPU: 3 PID: 1 at kernel/dma/debug.c:1160 
+> debug_dma_map_sg+0x310/0x3a0
+> Modules linked in: tps6598x roles typec rtc_macsmc gpio_macsmc 
+> nvme_apple apple_mailbox apple_sart pcie_apple macsmc_rtkit macsmc 
+> pinctrl_apple_gpio i2c_apple
 > CPU: 3 PID: 1 Comm: init Not tainted 6.0.0+ #1081
 > Hardware name: Apple Mac mini (M1, 2020) (DT)
 > pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
@@ -108,15 +142,6 @@ On Wed, 12 Oct 2022 at 12:53, Russell King (Oracle)
 >
 > Suggested-by: Sven Peter <sven@svenpeter.dev>
 > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-
-Seems reasonable, the same as nvme_reset_work, wouldn't be the worst
-thing in the world if we duplicated the "Don't limit the IOMMU merged
-segment size" comment from the generic driver for the apple version
-also if there ends up being a v2.
-
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
-
-
 > ---
 >  drivers/nvme/host/apple.c | 2 ++
 >  1 file changed, 2 insertions(+)
@@ -125,17 +150,15 @@ Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 > index 5fc5ea196b40..ff8b083dc5c6 100644
 > --- a/drivers/nvme/host/apple.c
 > +++ b/drivers/nvme/host/apple.c
-> @@ -1039,6 +1039,8 @@ static void apple_nvme_reset_work(struct work_struct *work)
->                                          dma_max_mapping_size(anv->dev) >> 9);
->         anv->ctrl.max_segments = NVME_MAX_SEGS;
->
-> +       dma_set_max_seg_size(anv->dev, 0xffffffff);
+> @@ -1039,6 +1039,8 @@ static void apple_nvme_reset_work(struct 
+> work_struct *work)
+>  					 dma_max_mapping_size(anv->dev) >> 9);
+>  	anv->ctrl.max_segments = NVME_MAX_SEGS;
+> 
+> +	dma_set_max_seg_size(anv->dev, 0xffffffff);
 > +
->         /*
->          * Enable NVMMU and linear submission queues.
->          * While we could keep those disabled and pretend this is slightly
-> --
+>  	/*
+>  	 * Enable NVMMU and linear submission queues.
+>  	 * While we could keep those disabled and pretend this is slightly
+> -- 
 > 2.30.2
->
->
-
