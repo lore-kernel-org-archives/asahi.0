@@ -1,31 +1,127 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D5810EA
-	for <asahi@lists.linux.dev>; Mon, 17 Oct 2022 07:20:59 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0B42768C7B; Mon, 17 Oct 2022 09:20:50 +0200 (CEST)
-Date: Mon, 17 Oct 2022 09:20:49 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH] nvme-apple: fix DMA-API warning
-Message-ID: <20221017072049.GD30661@lst.de>
-References: <E1oiaBa-00Dz7S-SK@rmk-PC.armlinux.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD16137C
+	for <asahi@lists.linux.dev>; Mon, 17 Oct 2022 12:47:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id A1D2341EA7;
+	Mon, 17 Oct 2022 12:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1666010345; bh=BKhVOrgoZ2ys1+3AyuhmxIKrpqUiYWfceV4pZCQN++M=;
+	h=Date:To:Cc:References:From:Subject:In-Reply-To;
+	b=JlFkb41oCJANAqSSHTz1e1vrPoItfndKMP/qkmVLuCZqKZiKER4AIw0fQC1ap+GW6
+	 0zqVPKFHkIYejoUWpMpSQDTmNgpb7QiajLevccF0GtUSTcrcVg4a2e69PPG9dJ/3B9
+	 dKAR1MdBjnU+s30Q3DZQFFwt+/JCLPxuD/u3YY6apr9yArBmUhQKfxlQbHgVkipt97
+	 337BUFaCUybrpewaNIsBRUOQlqGteXD9AHreQloS9TVrClaYMSzX21kETSQj6x8pQo
+	 iduuX7jAqwNcvldsEtfpGDZbklsVk7xiFajQdZ7yrrJjrz0Og5e2xQCjBF51+MTaPw
+	 31PDU+GMdh7HA==
+Message-ID: <3eb9cc12-db75-8042-4106-fa6521c684a7@marcan.st>
+Date: Mon, 17 Oct 2022 21:38:59 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1oiaBa-00Dz7S-SK@rmk-PC.armlinux.org.uk>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: en-US
+To: Ian Lin <ian.lin@infineon.com>, alep@cypress.com
+Cc: brcm80211-dev-list@broadcom.com, brcm80211-dev-list@cypress.com,
+ franky.lin@broadcom.com, hante.meuleman@broadcom.com, kvalo@kernel.org,
+ Double.Lo@infineon.com,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Asahi Linux <asahi@lists.linux.dev>
+References: <20220922104140.11889-1-ian.lin@infineon.com>
+ <20220922104140.11889-3-ian.lin@infineon.com>
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v2 2/4] brcmfmac: Support 89459 pcie
+In-Reply-To: <20220922104140.11889-3-ian.lin@infineon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thanks, applied with a rewritten commit message and a Fixes tag.
+Hi,
+
+On 22/09/2022 19.41, Ian Lin wrote:
+> From: Alexander Prutskov <alep@cypress.com>
+> 
+> Adds support of 89459 chip pcie device and save restore support.
+> 
+> Signed-off-by: Alexander Prutskov <alep@cypress.com>
+> Signed-off-by: Joseph chuang <jiac@cypress.com>
+> Signed-off-by: Chi-Hsien Lin <chi-hsien.lin@cypress.com>
+> Signed-off-by: Ian Lin <ian.lin@infineon.com>
+[...]
+
+Can you explain how the CYW89459 is related to the BCM4355 family? I
+have a patch [1] to add support for the BCM4355 variant present in some
+Apple laptops which I was hoping to submit again for 6.2, and this patch
+conflicts with it.
+
+[1] https://lore.kernel.org/lkml/20220104072658.69756-19-marcan@marcan.st/
+
+>  BRCMF_FW_DEF(4366C, "brcmfmac4366c-pcie");
+>  BRCMF_FW_DEF(4371, "brcmfmac4371-pcie");
+>  BRCMF_FW_CLM_DEF(4378B1, "brcmfmac4378b1-pcie");
+> +BRCMF_FW_DEF(4355, "brcmfmac89459-pcie");
+>  
+>  /* firmware config files */
+>  MODULE_FIRMWARE(BRCMF_FW_DEFAULT_PATH "brcmfmac*-pcie.txt");
+> @@ -90,6 +91,7 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
+>  	BRCMF_FW_ENTRY(BRCM_CC_43666_CHIP_ID, 0xFFFFFFF0, 4366C),
+>  	BRCMF_FW_ENTRY(BRCM_CC_4371_CHIP_ID, 0xFFFFFFFF, 4371),
+>  	BRCMF_FW_ENTRY(BRCM_CC_4378_CHIP_ID, 0xFFFFFFFF, 4378B1), /* revision ID 3 */
+> +	BRCMF_FW_ENTRY(CY_CC_89459_CHIP_ID, 0xFFFFFFFF, 4355),
+>  };
+
+Is the CYW89459 just a rebrand of the BCM4355, or just a subset? If it
+is a rebrand, it's okay if we call our Apple firmware
+brcmfmac89459-pcie* (note that we use per-board firmware names, so it
+wouldn't conflict with a generic one). However, if CYW89459 only refers
+to specific variants, I think the firmware should be named after the
+overall bcm4355 family.
+
+I'm guessing you intend to ship firmware for this. Would that firmware
+work for all 4355 variants, or only the CYW one? If only the CYW one, is
+it possible to differentiate between them based on PCI revision ID? Note
+that our 4355 has revision ID 12, and Apple specifically calls it 4355C1
+(different chip revisions have different firmware builds, which is why I
+named our firmware brcmfmac4355c1-pcie). If the CYW variant uses other
+revision IDs that do not overlap, maybe we should have different
+firmware entries for them with different masks.
+
+>  
+> diff --git a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
+> index 1003f123ec25..f4939cf62767 100644
+> --- a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
+> +++ b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
+> @@ -56,6 +56,7 @@
+>  #define CY_CC_43012_CHIP_ID		43012
+>  #define CY_CC_43439_CHIP_ID		43439
+>  #define CY_CC_43752_CHIP_ID		43752
+> +#define CY_CC_89459_CHIP_ID		0x4355
+
+This seems suspicious. If the chip ID is 4355 and applies to non-Cypress
+products, unlike the other constants in this list, this constant should
+probably be named after BCM4355, not the Cypress part number.
+
+>  
+>  /* USB Device IDs */
+>  #define BRCM_USB_43143_DEVICE_ID	0xbd1e
+> @@ -90,7 +91,8 @@
+>  #define BRCM_PCIE_4366_5G_DEVICE_ID	0x43c5
+>  #define BRCM_PCIE_4371_DEVICE_ID	0x440d
+>  #define BRCM_PCIE_4378_DEVICE_ID	0x4425
+> -
+> +#define CY_PCIE_89459_DEVICE_ID         0x4415
+> +#define CY_PCIE_89459_RAW_DEVICE_ID     0x4355
+
+Note that the PCI device ID for our 4355 is 0x43dc. Other sources call
+this "BCM4355 D11AC", which is distinct from 0x4355 ("BCM43237 D11N")
+and 0x4415 ("BCM43596 D11AC").
+
+- Hector
