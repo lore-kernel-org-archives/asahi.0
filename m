@@ -1,127 +1,67 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD16137C
-	for <asahi@lists.linux.dev>; Mon, 17 Oct 2022 12:47:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id A1D2341EA7;
-	Mon, 17 Oct 2022 12:39:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1666010345; bh=BKhVOrgoZ2ys1+3AyuhmxIKrpqUiYWfceV4pZCQN++M=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=JlFkb41oCJANAqSSHTz1e1vrPoItfndKMP/qkmVLuCZqKZiKER4AIw0fQC1ap+GW6
-	 0zqVPKFHkIYejoUWpMpSQDTmNgpb7QiajLevccF0GtUSTcrcVg4a2e69PPG9dJ/3B9
-	 dKAR1MdBjnU+s30Q3DZQFFwt+/JCLPxuD/u3YY6apr9yArBmUhQKfxlQbHgVkipt97
-	 337BUFaCUybrpewaNIsBRUOQlqGteXD9AHreQloS9TVrClaYMSzX21kETSQj6x8pQo
-	 iduuX7jAqwNcvldsEtfpGDZbklsVk7xiFajQdZ7yrrJjrz0Og5e2xQCjBF51+MTaPw
-	 31PDU+GMdh7HA==
-Message-ID: <3eb9cc12-db75-8042-4106-fa6521c684a7@marcan.st>
-Date: Mon, 17 Oct 2022 21:38:59 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06A64A24
+	for <asahi@lists.linux.dev>; Tue, 18 Oct 2022 11:28:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72814C433D6;
+	Tue, 18 Oct 2022 11:28:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1666092506;
+	bh=2WaQRiHTmvcUWsaqC+uuKUaRlQvcNK/D5SC7IqqYZkA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=GpNaJg7F6qGMlJB+p9vv6sO83YbXa0n7mB4RqXYTXYynFI82BGrHYrvZGoMD7DOrq
+	 OcAlyol3RKdBMmurGCy9I04bXwcxKZhQCHF3RqAup46L9DPdj6hptg65d9nlOP4XGO
+	 aObPQoD6L9NIVxaYdSOcrl7+Ij00+mDejhWSbhMQkYI74yFllLO7omQg8l9C5mzP82
+	 zOR0UK4tQkHhd+sXSTxBRLZIDIKq2u8nbjU1j7F9r7JhQwFEjkIHBkjcrVfMqN1kHh
+	 k2hqkp7jasoPsNc4iYP1PpQNtg57yToFHOhKpAoDYJi2EtlAs0TDzKQHlry2+gAohp
+	 +JB9Fss4KMQpA==
+From: Mark Brown <broonie@kernel.org>
+To: asahi@lists.linux.dev, alsa-devel@alsa-project.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: povik+lin@cutebit.org
+In-Reply-To: <20220921153123.1508144-1-yangyingliang@huawei.com>
+References: <20220921153123.1508144-1-yangyingliang@huawei.com>
+Subject: Re: [PATCH -next] ASoC: cs42l83: change cs42l83_regmap to static
+Message-Id: <166609250519.155136.17284249606778071645.b4-ty@kernel.org>
+Date: Tue, 18 Oct 2022 12:28:25 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To: Ian Lin <ian.lin@infineon.com>, alep@cypress.com
-Cc: brcm80211-dev-list@broadcom.com, brcm80211-dev-list@cypress.com,
- franky.lin@broadcom.com, hante.meuleman@broadcom.com, kvalo@kernel.org,
- Double.Lo@infineon.com,
- "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, Asahi Linux <asahi@lists.linux.dev>
-References: <20220922104140.11889-1-ian.lin@infineon.com>
- <20220922104140.11889-3-ian.lin@infineon.com>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v2 2/4] brcmfmac: Support 89459 pcie
-In-Reply-To: <20220922104140.11889-3-ian.lin@infineon.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.10.0-dev-fc921
 
-Hi,
-
-On 22/09/2022 19.41, Ian Lin wrote:
-> From: Alexander Prutskov <alep@cypress.com>
+On Wed, 21 Sep 2022 23:31:23 +0800, Yang Yingliang wrote:
+> cs42l83_regmap is only used in cs42l83-i2c.c now, change it to static.
 > 
-> Adds support of 89459 chip pcie device and save restore support.
 > 
-> Signed-off-by: Alexander Prutskov <alep@cypress.com>
-> Signed-off-by: Joseph chuang <jiac@cypress.com>
-> Signed-off-by: Chi-Hsien Lin <chi-hsien.lin@cypress.com>
-> Signed-off-by: Ian Lin <ian.lin@infineon.com>
-[...]
 
-Can you explain how the CYW89459 is related to the BCM4355 family? I
-have a patch [1] to add support for the BCM4355 variant present in some
-Apple laptops which I was hoping to submit again for 6.2, and this patch
-conflicts with it.
+Applied to
 
-[1] https://lore.kernel.org/lkml/20220104072658.69756-19-marcan@marcan.st/
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
->  BRCMF_FW_DEF(4366C, "brcmfmac4366c-pcie");
->  BRCMF_FW_DEF(4371, "brcmfmac4371-pcie");
->  BRCMF_FW_CLM_DEF(4378B1, "brcmfmac4378b1-pcie");
-> +BRCMF_FW_DEF(4355, "brcmfmac89459-pcie");
->  
->  /* firmware config files */
->  MODULE_FIRMWARE(BRCMF_FW_DEFAULT_PATH "brcmfmac*-pcie.txt");
-> @@ -90,6 +91,7 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
->  	BRCMF_FW_ENTRY(BRCM_CC_43666_CHIP_ID, 0xFFFFFFF0, 4366C),
->  	BRCMF_FW_ENTRY(BRCM_CC_4371_CHIP_ID, 0xFFFFFFFF, 4371),
->  	BRCMF_FW_ENTRY(BRCM_CC_4378_CHIP_ID, 0xFFFFFFFF, 4378B1), /* revision ID 3 */
-> +	BRCMF_FW_ENTRY(CY_CC_89459_CHIP_ID, 0xFFFFFFFF, 4355),
->  };
+Thanks!
 
-Is the CYW89459 just a rebrand of the BCM4355, or just a subset? If it
-is a rebrand, it's okay if we call our Apple firmware
-brcmfmac89459-pcie* (note that we use per-board firmware names, so it
-wouldn't conflict with a generic one). However, if CYW89459 only refers
-to specific variants, I think the firmware should be named after the
-overall bcm4355 family.
+[1/1] ASoC: cs42l83: change cs42l83_regmap to static
+      commit: fb07a8493a7b205116c9825b16267a07ffae129c
 
-I'm guessing you intend to ship firmware for this. Would that firmware
-work for all 4355 variants, or only the CYW one? If only the CYW one, is
-it possible to differentiate between them based on PCI revision ID? Note
-that our 4355 has revision ID 12, and Apple specifically calls it 4355C1
-(different chip revisions have different firmware builds, which is why I
-named our firmware brcmfmac4355c1-pcie). If the CYW variant uses other
-revision IDs that do not overlap, maybe we should have different
-firmware entries for them with different masks.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
->  
-> diff --git a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
-> index 1003f123ec25..f4939cf62767 100644
-> --- a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
-> +++ b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
-> @@ -56,6 +56,7 @@
->  #define CY_CC_43012_CHIP_ID		43012
->  #define CY_CC_43439_CHIP_ID		43439
->  #define CY_CC_43752_CHIP_ID		43752
-> +#define CY_CC_89459_CHIP_ID		0x4355
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-This seems suspicious. If the chip ID is 4355 and applies to non-Cypress
-products, unlike the other constants in this list, this constant should
-probably be named after BCM4355, not the Cypress part number.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
->  
->  /* USB Device IDs */
->  #define BRCM_USB_43143_DEVICE_ID	0xbd1e
-> @@ -90,7 +91,8 @@
->  #define BRCM_PCIE_4366_5G_DEVICE_ID	0x43c5
->  #define BRCM_PCIE_4371_DEVICE_ID	0x440d
->  #define BRCM_PCIE_4378_DEVICE_ID	0x4425
-> -
-> +#define CY_PCIE_89459_DEVICE_ID         0x4415
-> +#define CY_PCIE_89459_RAW_DEVICE_ID     0x4355
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Note that the PCI device ID for our 4355 is 0x43dc. Other sources call
-this "BCM4355 D11AC", which is distinct from 0x4355 ("BCM43237 D11N")
-and 0x4415 ("BCM43596 D11AC").
-
-- Hector
+Thanks,
+Mark
