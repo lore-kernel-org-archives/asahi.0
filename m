@@ -1,67 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6B72577
+	for <asahi@lists.linux.dev>; Wed, 19 Oct 2022 10:00:33 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id CF34633924;
+	Wed, 19 Oct 2022 10:00:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1666173625; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iR8uS4Gx4LUrjoOa7cKkotplZsy+7+DUm7VXca8j8Vk=;
+	b=qk52itcPxIK0JYJIi3Lrj54e+dtHIlQeHi6ZYF0FDwxWlMQhelJJNQhmNUS1f86htn1Xka
+	3pgdL7jeDWGAv/Xsx519Lwgtk5IQgrsiiCt87uyBNDUZYcXKpnvAr+ZVrDQofc7P5ldqj4
+	6qPVodH8VgXZUIZ4NmbL7RdzPT2GDiM=
+Received: from suse.cz (unknown [10.100.201.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06A64A24
-	for <asahi@lists.linux.dev>; Tue, 18 Oct 2022 11:28:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72814C433D6;
-	Tue, 18 Oct 2022 11:28:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666092506;
-	bh=2WaQRiHTmvcUWsaqC+uuKUaRlQvcNK/D5SC7IqqYZkA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=GpNaJg7F6qGMlJB+p9vv6sO83YbXa0n7mB4RqXYTXYynFI82BGrHYrvZGoMD7DOrq
-	 OcAlyol3RKdBMmurGCy9I04bXwcxKZhQCHF3RqAup46L9DPdj6hptg65d9nlOP4XGO
-	 aObPQoD6L9NIVxaYdSOcrl7+Ij00+mDejhWSbhMQkYI74yFllLO7omQg8l9C5mzP82
-	 zOR0UK4tQkHhd+sXSTxBRLZIDIKq2u8nbjU1j7F9r7JhQwFEjkIHBkjcrVfMqN1kHh
-	 k2hqkp7jasoPsNc4iYP1PpQNtg57yToFHOhKpAoDYJi2EtlAs0TDzKQHlry2+gAohp
-	 +JB9Fss4KMQpA==
-From: Mark Brown <broonie@kernel.org>
-To: asahi@lists.linux.dev, alsa-devel@alsa-project.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: povik+lin@cutebit.org
-In-Reply-To: <20220921153123.1508144-1-yangyingliang@huawei.com>
-References: <20220921153123.1508144-1-yangyingliang@huawei.com>
-Subject: Re: [PATCH -next] ASoC: cs42l83: change cs42l83_regmap to static
-Message-Id: <166609250519.155136.17284249606778071645.b4-ty@kernel.org>
-Date: Tue, 18 Oct 2022 12:28:25 +0100
+	by relay2.suse.de (Postfix) with ESMTPS id 3E4AF2C142;
+	Wed, 19 Oct 2022 10:00:24 +0000 (UTC)
+Date: Wed, 19 Oct 2022 12:00:23 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	asahi@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+	devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Rob Herring <robh+dt@kernel.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 4/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Y0/Kt9CW5vYcxHhK@alley>
+References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
+ <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk>
 
-On Wed, 21 Sep 2022 23:31:23 +0800, Yang Yingliang wrote:
-> cs42l83_regmap is only used in cs42l83-i2c.c now, change it to static.
+On Tue 2022-09-06 14:19:44, Russell King wrote:
+> From: Hector Martin <marcan@marcan.st>
 > 
+> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FOURCCs with various endian semantics:
 > 
+> %p4ch   Host-endian
+> %p4cl	Little-endian
+> %p4cb	Big-endian
+> %p4cr	Reverse-endian
+> 
+> The endianness determines how bytes are interpreted as a u32, and the
+> FOURCC is then always printed MSByte-first (this is the opposite of
+> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> allow printing LSByte-first FOURCCs stored in host endian order
+> (other than the hex form being in character order, not the integer
+> value).
+> 
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -625,6 +625,38 @@ Passed by reference.
+>  	%p4cc	Y10  little-endian (0x20303159)
+>  	%p4cc	NV12 big-endian (0xb231564e)
+>  
+> +Generic FourCC code
+> +-------------------
+> +
+> +::
+> +	%p4c[hnbl]	gP00 (0x67503030)
+> +
+> +Print a generic FourCC code, as both ASCII characters and its numerical
+> +value as hexadecimal.
+> +
+> +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
+> +host, reversed, big or little endian order data respectively. Host endian
+> +order means the data is interpreted as a 32-bit integer and the most
+> +significant byte is printed first; that is, the character code as printed
+> +matches the byte order stored in memory on big-endian systems, and is reversed
+> +on little-endian systems.
+> +
+> +Passed by reference.
+> +
+> +Examples for a little-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cl	gP00 (0x67503030)
+> +	%p4cb	00Pg (0x30305067)
+> +	%p4cr	00Pg (0x30305067)
 
-Applied to
+Nit: I would prefer to keep the same order (h,r,b,l) everywhere.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+     I guess that you wanted to show exactly the same results next
+     to each other. But it is not the case on big-endian anyway.
 
-Thanks!
+> +
+> +Examples for a big-endian machine, given &(u32)0x67503030::
+> +
+> +	%p4ch	gP00 (0x67503030)
+> +	%p4cl	00Pg (0x30305067)
+> +	%p4cb	gP00 (0x67503030)
+> +	%p4cr	00Pg (0x30305067)
 
-[1/1] ASoC: cs42l83: change cs42l83_regmap to static
-      commit: fb07a8493a7b205116c9825b16267a07ffae129c
+Same here.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> +
+>  Thanks
+>  ======
+>  
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 3c1853a9d1c0..31707499f90f 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -1757,27 +1757,50 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+>  	char output[sizeof("0123 little-endian (0x01234567)")];
+>  	char *p = output;
+>  	unsigned int i;
+> +	bool pix_fmt = false;
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Nit: I would prefer "pixel_fmt". I am not a graphics guy and wondered
+     what "pix" did stands for ;-)
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+>  	u32 orig, val;
+>  
+> -	if (fmt[1] != 'c' || fmt[2] != 'c')
+> +	if (fmt[1] != 'c')
+>  		return error_string(buf, end, "(%p4?)", spec);
+>  
+>  	if (check_pointer(&buf, end, fourcc, spec))
+>  		return buf;
+>  
+>  	orig = get_unaligned(fourcc);
+> -	val = orig & ~BIT(31);
+> +	switch (fmt[2]) {
+> +	case 'h':
+> +		val = orig;
+> +		break;
+> +	case 'r':
+> +		val = orig = swab32(orig);
+> +		break;
+> +	case 'l':
+> +		val = orig = le32_to_cpu(orig);
+> +		break;
+> +	case 'b':
+> +		val = orig = be32_to_cpu(orig);
+> +		break;
+> +	case 'c':
+> +		/* Pixel formats are printed LSB-first */
+> +		val = swab32(orig & ~BIT(31));
+> +		pix_fmt = true;
+> +		break;
+> +	default:
+> +		return error_string(buf, end, "(%p4?)", spec);
+> +	}
+>  
+>  	for (i = 0; i < sizeof(u32); i++) {
+> -		unsigned char c = val >> (i * 8);
+> +		unsigned char c = val >> ((3 - i) * 8);
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+This hardcodes '3' but the for-cycle uses i < sizeof(u32).
+We should be consistent.
 
-Thanks,
-Mark
+A solution would be:
+
+	int i;
+
+	for (i = sizeof(u32); --i >= 0;) {
+		unsigned char c = val >> (i * 8);
+
+
+>  		/* Print non-control ASCII characters as-is, dot otherwise */
+>  		*p++ = isascii(c) && isprint(c) ? c : '.';
+>  	}
+>  
+> -	*p++ = ' ';
+> -	strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> -	p += strlen(p);
+> +	if (pix_fmt) {
+> +		*p++ = ' ';
+> +		strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+> +		p += strlen(p);
+> +	}
+>  
+>  	*p++ = ' ';
+>  	*p++ = '(';
+
+Best Regards,
+Petr
