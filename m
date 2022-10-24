@@ -1,24 +1,24 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA1A7B
-	for <asahi@lists.linux.dev>; Mon, 24 Oct 2022 04:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E860B64A
+	for <asahi@lists.linux.dev>; Mon, 24 Oct 2022 04:39:51 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: hector@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 921AC4248E;
-	Mon, 24 Oct 2022 04:39:35 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 77582424B9;
+	Mon, 24 Oct 2022 04:39:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1666586380; bh=PSIFBicjAsCmHU1aD6l6zkYxcFB0FGKPngGEO+mAWSQ=;
-	h=From:To:Cc:Subject:Date;
-	b=NDsLUNRMLS+soEDN1/NPuJdzeXmAp7lorII8SuaT5AHcEwFwKw2sX4goU/57qx05k
-	 taoKsGazNkms5aVzIiYXpPyvPFfcfiloUyWS0EgwMRavQPlsLuDyZm1YYwuoalJ5gI
-	 1LOZuEVhLHdRit8jOhSUMuJV1Dm0K5qs07I7gLx7yH24Mviz91FmXUV8oOTqtGUZ5i
-	 gx2krc7rsVPVABY97iw68tCd2PBoQEHSkc2ATqTKOxNalY/t+DEJhZxbskib+9Fz4y
-	 V8mkZvr62Or0qEbHVoikbCeUNkjQVh9uFgoUIf2ASfr+GmTRLfHrt+eeNjzVgSUdtK
-	 64f4v/1ZATT3g==
+	t=1666586389; bh=PVbU0np+97Je803BzzDJxHjiUfk3jhfRkIFZVZYuHUk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=LYVmh+bSESpCH7QKiV6mv4Oel4WaxJcbFyjwesld4g+umRsZfe3jzeACIQA9EgbL7
+	 e6OGgdiAPDOSHb8/nv5mm22hYgipk5ewwnU7QaD1AVWv5E/qaBNNWuVQ+Sw0kgSiJd
+	 z2SC/9VTTruuzFJvFIjAftSYNWMl9xowXkOMOW0Dgpc39xJ3xZ9c6eb/OiH8SytExD
+	 Yo0YvQNegGkH9Wk3jOjZv9wiUNd8TiBzbWxMUO7vFeKemw0Kfk+VmbcYcZ+kq/iW9N
+	 Tqn36RYv+D7IwdzRQZPJGzYjRt/ZSIJKUFIF52a+fkODGhOhqz8kXAH/uSr9/KMTBa
+	 4YWpOYw+wbarA==
 From: Hector Martin <marcan@marcan.st>
 To: "Rafael J. Wysocki" <rafael@kernel.org>,
 	Viresh Kumar <viresh.kumar@linaro.org>,
@@ -37,10 +37,12 @@ Cc: Hector Martin <marcan@marcan.st>,
 	linux-pm@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/5] Apple SoC cpufreq driver
-Date: Mon, 24 Oct 2022 13:39:20 +0900
-Message-Id: <20221024043925.25379-1-marcan@marcan.st>
+Subject: [PATCH v3 2/5] dt-bindings: cpufreq: apple,soc-cpufreq: Add binding for Apple SoC cpufreq
+Date: Mon, 24 Oct 2022 13:39:22 +0900
+Message-Id: <20221024043925.25379-3-marcan@marcan.st>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20221024043925.25379-1-marcan@marcan.st>
+References: <20221024043925.25379-1-marcan@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -49,65 +51,143 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi folks,
+This binding represents the cpufreq/DVFS hardware present in Apple SoCs.
+The hardware has an independent controller per CPU cluster, and we
+represent them as unique nodes in order to accurately describe the
+hardware. The driver is responsible for binding them as a single cpufreq
+device (in the Linux cpufreq model).
 
-Third time's the charm? Here's v3 of the cpufreq driver for Apple SoCs.
-This version takes a page from both v1 and v2, keeping the dedicated
-cpufreq style (instead of pretending to be a clock controller) but using
-dedicated DT nodes for each cluster, which accurately represents the
-hardware. In particular, this makes supporting t6002 (M1 Ultra) a lot
-more reasonable on the DT side.
-
-This version also switches to the standard performance-domains binding,
-so we don't need any more vendor-specific properties. In order to
-support this, I had to make the performance-domains parsing code more
-generic. This required a minor change to the only consumer
-(mediatek-cpufreq-hw).
-
-The Linux driver probes based on platform compatible, and then attempts
-to locate the cluster nodes by following the performance-domains links
-from CPU nodes (this will then fail for any incompatible nodes, e.g. if
-a future SoC needs a new compatible and can't fall back). This approach
-was suggested by robh as the right way to handle the impedance mismatch
-between the hardware, which has separate controllers per cluster, and
-the Linux model where there can only be one CPUFreq driver instance.
-
-Functionality-wise, there are no significant changes from v2. The only
-notable difference is support for t8112 (M2). This works largely the
-same as the other SoCs, but they ran out of bits in the current PState
-register, so that needs a SoC-specific quirk. Since that register is
-not used by macOS (it was discovered experimentally) and is not critical
-for functionality (it just allows accurately reporting the current
-frequency to userspace, given boost clock limitations), I've decided to
-only use it when a SoC-specific compatible is present. The default
-fallback code will simply report the requested frequency as actual.
-I expect this will work for future SoCs.
-
-As usual, MAINTAINERS and DT changes are split. I expect patches #2~#4
-to go through the cpufreq tree, and we'll take care of #1 and #5 via
-the asahi-soc tree.
-
-Hector Martin (5):
-  MAINTAINERS: Add entries for Apple SoC cpufreq driver
-  dt-bindings: cpufreq: apple,soc-cpufreq: Add binding for Apple SoC
-    cpufreq
-  cpufreq: Generalize of_perf_domain_get_sharing_cpumask phandle format
-  cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states
-  arm64: dts: apple: Add CPU topology & cpufreq nodes for t8103
-
- .../cpufreq/apple,cluster-cpufreq.yaml        | 119 ++++++
- MAINTAINERS                                   |   2 +
- arch/arm64/boot/dts/apple/t8103.dtsi          | 206 +++++++++-
- drivers/cpufreq/Kconfig.arm                   |   9 +
- drivers/cpufreq/Makefile                      |   1 +
- drivers/cpufreq/apple-soc-cpufreq.c           | 352 ++++++++++++++++++
- drivers/cpufreq/cpufreq-dt-platdev.c          |   2 +
- drivers/cpufreq/mediatek-cpufreq-hw.c         |  14 +-
- include/linux/cpufreq.h                       |  28 +-
- 9 files changed, 706 insertions(+), 27 deletions(-)
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+ .../cpufreq/apple,cluster-cpufreq.yaml        | 119 ++++++++++++++++++
+ 1 file changed, 119 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
- create mode 100644 drivers/cpufreq/apple-soc-cpufreq.c
 
+diff --git a/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+new file mode 100644
+index 000000000000..b11452f91468
+--- /dev/null
++++ b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+@@ -0,0 +1,119 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple SoC cluster cpufreq device
++
++maintainers:
++  - Hector Martin <marcan@marcan.st>
++
++description: |
++  Apple SoCs (e.g. M1) have a per-cpu-cluster DVFS controller that is part of
++  the cluster management register block. This binding uses the standard
++  operating-points-v2 table to define the CPU performance states, with the
++  opp-level property specifying the hardware p-state index for that level.
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - const: apple,t8103-cluster-cpufreq
++          - const: apple,cluster-cpufreq
++      - items:
++          - const: apple,t6000-cluster-cpufreq
++          - const: apple,t8103-cluster-cpufreq
++          - const: apple,cluster-cpufreq
++      - items:
++          - const: apple,t8112-cluster-cpufreq
++          - const: apple,cluster-cpufreq
++
++  reg:
++    maxItems: 1
++    description: The register region for this CPU cluster DVFS controller
++
++  '#performance-domain-cells':
++    const: 0
++
++required:
++  - compatible
++  - reg
++  - '#performance-domain-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    // This example shows a single CPU per domain and 2 domains,
++    // with two p-states per domain.
++    // Shipping hardware has 2-4 CPUs per domain and 2-6 domains.
++    cpus {
++      #address-cells = <2>;
++      #size-cells = <0>;
++
++      cpu@0 {
++        compatible = "apple,icestorm";
++        device_type = "cpu";
++        reg = <0x0 0x0>;
++        operating-points-v2 = <&ecluster_opp>;
++        performance-domains = <&cpufreq_e>;
++      };
++
++      cpu@10100 {
++        compatible = "apple,firestorm";
++        device_type = "cpu";
++        reg = <0x0 0x10100>;
++        operating-points-v2 = <&pcluster_opp>;
++        performance-domains = <&cpufreq_p>;
++      };
++    };
++
++    ecluster_opp: opp-table-0 {
++      compatible = "operating-points-v2";
++      opp-shared;
++
++      opp01 {
++        opp-hz = /bits/ 64 <600000000>;
++        opp-level = <1>;
++        clock-latency-ns = <7500>;
++      };
++      opp02 {
++        opp-hz = /bits/ 64 <972000000>;
++        opp-level = <2>;
++        clock-latency-ns = <22000>;
++      };
++    };
++
++    pcluster_opp: opp-table-1 {
++      compatible = "operating-points-v2";
++      opp-shared;
++
++      opp01 {
++        opp-hz = /bits/ 64 <600000000>;
++        opp-level = <1>;
++        clock-latency-ns = <8000>;
++      };
++      opp02 {
++        opp-hz = /bits/ 64 <828000000>;
++        opp-level = <2>;
++        clock-latency-ns = <19000>;
++      };
++    };
++
++    soc {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      cpufreq_e: cpufreq@210e20000 {
++        compatible = "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
++        reg = <0x2 0x10e20000 0 0x1000>;
++        #performance-domain-cells = <0>;
++      };
++
++      cpufreq_p: cpufreq@211e20000 {
++        compatible = "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
++        reg = <0x2 0x11e20000 0 0x1000>;
++        #performance-domain-cells = <0>;
++      };
++    };
 -- 
 2.35.1
 
