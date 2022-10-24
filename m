@@ -1,118 +1,113 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2588933DF
-	for <asahi@lists.linux.dev>; Sat, 22 Oct 2022 13:50:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1666446601;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9L4JE6hZ7E7BRXfPAr2m26KAuFLoVfy/IaYPaNDhBM4=;
-	b=X7RgAjamHH+yxz0OuKQwEV+tuawspljziaNpYTwZWcXT+H0+ccrqRxp91e8GEVR/OFa/iP
-	p5LJTmMnh4joTiqL4nnLCNGZByZA/cP1WZneIteqBjz9rjfTI4/eeRm0aNLz43b8ZSPbRr
-	MkrMF8B1VvEoQl7FTT4lAkd8bGnysjA=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-617-ik6gLVqZNB2kz7VqW7TiNw-1; Sat, 22 Oct 2022 09:49:58 -0400
-X-MC-Unique: ik6gLVqZNB2kz7VqW7TiNw-1
-Received: by mail-vs1-f69.google.com with SMTP id a6-20020a671a06000000b003986a4e277dso1423876vsa.12
-        for <asahi@lists.linux.dev>; Sat, 22 Oct 2022 06:49:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9L4JE6hZ7E7BRXfPAr2m26KAuFLoVfy/IaYPaNDhBM4=;
-        b=taz1vvqLxtFPNDrYbc7YY8caBKg+/Xda6EqUV45llTChdaPcFowA3pO7x5cGw0us7p
-         DwzF3CZhgSUJyca0938xz+36h5sfkOpp7Q3Bt79JeWl66itKf49Za9tGoNIepltoxslE
-         sjUHJKQtIFGkcWBq7jxGFj2GMcIvwmiGQi6DrQ7gKPiWTXCFj2UleY5to/rWvjD+3G90
-         VM4Mzp4R9p3aycEzqxIRq4he+ThFLW9zB4i8iaP9bnEXGM3i3DVlyoCyQF0TAKa+fY0v
-         zK2vGWuzu9g11zX6mnoizysdaRs+5HOObwMWtmLg9XsuQLAftCNLIcRCMidqdGLoiDgC
-         fmcw==
-X-Gm-Message-State: ACrzQf32GaDx6n904st6pDxvcMkzNFKSAD5jLhPs+KfZp5uXd4xxQ1FQ
-	U/fZDj7HtD43sqlXJryR91Y3Bu0p3nAwfacUvPpVNgxHxbQR5JcSr6W2tVsP/9EG/fdAvwyZr7r
-	S2Vvuuekm4MUqNgkO0UHCVM4An7XDo74=
-X-Received: by 2002:a67:eac1:0:b0:3a6:eeaf:bb10 with SMTP id s1-20020a67eac1000000b003a6eeafbb10mr17843637vso.13.1666446598139;
-        Sat, 22 Oct 2022 06:49:58 -0700 (PDT)
-X-Google-Smtp-Source: AMsMyM6ulU5EcnN5sYdSwkk4YPB4fyn/1SpiyaEqPkdjSmKDL50inCgaVHuxtn3ot8G8PsbCohyqEeH7CEQstqyyGTM=
-X-Received: by 2002:a67:eac1:0:b0:3a6:eeaf:bb10 with SMTP id
- s1-20020a67eac1000000b003a6eeafbb10mr17843631vso.13.1666446597922; Sat, 22
- Oct 2022 06:49:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CA1A7B
+	for <asahi@lists.linux.dev>; Mon, 24 Oct 2022 04:39:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: hector@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 921AC4248E;
+	Mon, 24 Oct 2022 04:39:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1666586380; bh=PSIFBicjAsCmHU1aD6l6zkYxcFB0FGKPngGEO+mAWSQ=;
+	h=From:To:Cc:Subject:Date;
+	b=NDsLUNRMLS+soEDN1/NPuJdzeXmAp7lorII8SuaT5AHcEwFwKw2sX4goU/57qx05k
+	 taoKsGazNkms5aVzIiYXpPyvPFfcfiloUyWS0EgwMRavQPlsLuDyZm1YYwuoalJ5gI
+	 1LOZuEVhLHdRit8jOhSUMuJV1Dm0K5qs07I7gLx7yH24Mviz91FmXUV8oOTqtGUZ5i
+	 gx2krc7rsVPVABY97iw68tCd2PBoQEHSkc2ATqTKOxNalY/t+DEJhZxbskib+9Fz4y
+	 V8mkZvr62Or0qEbHVoikbCeUNkjQVh9uFgoUIf2ASfr+GmTRLfHrt+eeNjzVgSUdtK
+	 64f4v/1ZATT3g==
+From: Hector Martin <marcan@marcan.st>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Mark Kettenis <mark.kettenis@xs4all.nl>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/5] Apple SoC cpufreq driver
+Date: Mon, 24 Oct 2022 13:39:20 +0900
+Message-Id: <20221024043925.25379-1-marcan@marcan.st>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221021235523.76585-1-konrad.dybcio@somainline.org> <cccebca9-69a9-523c-dd5e-85d17f0946b6@somainline.org>
-In-Reply-To: <cccebca9-69a9-523c-dd5e-85d17f0946b6@somainline.org>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Sat, 22 Oct 2022 14:49:41 +0100
-Message-ID: <CAOgh=Fyg7nRMy2oKNgcFCqXXsxbZY1jEmXf-y-JH-P3TLTMz8g@mail.gmail.com>
-Subject: Re: [PATCH] irqchip/apple-aic: Mark aic_info structs __initconst
-To: Konrad Dybcio <konrad.dybcio@somainline.org>
-Cc: asahi@lists.linux.dev, Hector Martin <marcan@marcan.st>, 
-	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, 22 Oct 2022 at 01:04, Konrad Dybcio
-<konrad.dybcio@somainline.org> wrote:
->
->
->
-> On 22.10.2022 01:55, Konrad Dybcio wrote:
-> > These structs hold information used only at init time that never
-> > gets modified, hence mark them __initconst.
-> >
-> > Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+Hi folks,
 
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+Third time's the charm? Here's v3 of the cpufreq driver for Apple SoCs.
+This version takes a page from both v1 and v2, keeping the dedicated
+cpufreq style (instead of pretending to be a clock controller) but using
+dedicated DT nodes for each cluster, which accurately represents the
+hardware. In particular, this makes supporting t6002 (M1 Ultra) a lot
+more reasonable on the DT side.
 
-> > ---
-> Forgot to add:
->
-> Suggested-by: Marc Zyngier <maz@kernel.org>
->
->
-> Konrad
-> >  drivers/irqchip/irq-apple-aic.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
-> > index 1c2813ad8bbe..ae3437f03e6c 100644
-> > --- a/drivers/irqchip/irq-apple-aic.c
-> > +++ b/drivers/irqchip/irq-apple-aic.c
-> > @@ -248,14 +248,14 @@ struct aic_info {
-> >       bool fast_ipi;
-> >  };
-> >
-> > -static const struct aic_info aic1_info = {
-> > +static const struct aic_info aic1_info __initconst = {
-> >       .version        = 1,
-> >
-> >       .event          = AIC_EVENT,
-> >       .target_cpu     = AIC_TARGET_CPU,
-> >  };
-> >
-> > -static const struct aic_info aic1_fipi_info = {
-> > +static const struct aic_info aic1_fipi_info __initconst = {
-> >       .version        = 1,
-> >
-> >       .event          = AIC_EVENT,
-> > @@ -264,7 +264,7 @@ static const struct aic_info aic1_fipi_info = {
-> >       .fast_ipi       = true,
-> >  };
-> >
-> > -static const struct aic_info aic2_info = {
-> > +static const struct aic_info aic2_info __initconst = {
-> >       .version        = 2,
-> >
-> >       .irq_cfg        = AIC2_IRQ_CFG,
->
+This version also switches to the standard performance-domains binding,
+so we don't need any more vendor-specific properties. In order to
+support this, I had to make the performance-domains parsing code more
+generic. This required a minor change to the only consumer
+(mediatek-cpufreq-hw).
+
+The Linux driver probes based on platform compatible, and then attempts
+to locate the cluster nodes by following the performance-domains links
+from CPU nodes (this will then fail for any incompatible nodes, e.g. if
+a future SoC needs a new compatible and can't fall back). This approach
+was suggested by robh as the right way to handle the impedance mismatch
+between the hardware, which has separate controllers per cluster, and
+the Linux model where there can only be one CPUFreq driver instance.
+
+Functionality-wise, there are no significant changes from v2. The only
+notable difference is support for t8112 (M2). This works largely the
+same as the other SoCs, but they ran out of bits in the current PState
+register, so that needs a SoC-specific quirk. Since that register is
+not used by macOS (it was discovered experimentally) and is not critical
+for functionality (it just allows accurately reporting the current
+frequency to userspace, given boost clock limitations), I've decided to
+only use it when a SoC-specific compatible is present. The default
+fallback code will simply report the requested frequency as actual.
+I expect this will work for future SoCs.
+
+As usual, MAINTAINERS and DT changes are split. I expect patches #2~#4
+to go through the cpufreq tree, and we'll take care of #1 and #5 via
+the asahi-soc tree.
+
+Hector Martin (5):
+  MAINTAINERS: Add entries for Apple SoC cpufreq driver
+  dt-bindings: cpufreq: apple,soc-cpufreq: Add binding for Apple SoC
+    cpufreq
+  cpufreq: Generalize of_perf_domain_get_sharing_cpumask phandle format
+  cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states
+  arm64: dts: apple: Add CPU topology & cpufreq nodes for t8103
+
+ .../cpufreq/apple,cluster-cpufreq.yaml        | 119 ++++++
+ MAINTAINERS                                   |   2 +
+ arch/arm64/boot/dts/apple/t8103.dtsi          | 206 +++++++++-
+ drivers/cpufreq/Kconfig.arm                   |   9 +
+ drivers/cpufreq/Makefile                      |   1 +
+ drivers/cpufreq/apple-soc-cpufreq.c           | 352 ++++++++++++++++++
+ drivers/cpufreq/cpufreq-dt-platdev.c          |   2 +
+ drivers/cpufreq/mediatek-cpufreq-hw.c         |  14 +-
+ include/linux/cpufreq.h                       |  28 +-
+ 9 files changed, 706 insertions(+), 27 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+ create mode 100644 drivers/cpufreq/apple-soc-cpufreq.c
+
+-- 
+2.35.1
 
