@@ -1,26 +1,26 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9CA7B
-	for <asahi@lists.linux.dev>; Mon, 24 Oct 2022 04:54:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0E647B
+	for <asahi@lists.linux.dev>; Mon, 24 Oct 2022 06:21:08 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 458AD42137;
-	Mon, 24 Oct 2022 04:53:54 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 0888B42137;
+	Mon, 24 Oct 2022 06:21:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1666587242; bh=hTIfI1TimkoQbe2AR20uYjLSCpdXcrxx7IELqXaCqFI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=G/m7gCvhKw9O2d4cKPN8jwXyzQPu/KeSr3SYbUo6bVg+Oc7LD7hcdnqzKXNwA/cP5
-	 Qz9x4YelwUF/VzZFsJ9Qeb3Ui+QDgPj78zpYR4PPUvJP0N//apKkmjK8FJy4HG+Rx+
-	 5fUD3ddBvsbrgiyA3hASpBcafQWQa+61My4P3hQP4B7PxvoGvBLwZy5F8Q/0Kfu/CI
-	 ISv0P89RnaK6V3BMrUkY9M3Q3tXMdE/lguht1NqUUwjes45NkbdkHkWQWB9pONzRiD
-	 QQNHGIzejzGkPHtGlXVySnxh5l9tvR81LcOeD+oniSTfP4YQx6Qfja+mUj9m67HMA/
-	 XKNm0Id5540Aw==
-Message-ID: <62ac9899-477e-8181-3b31-4afae9a9c3df@marcan.st>
-Date: Mon, 24 Oct 2022 13:53:50 +0900
+	t=1666592466; bh=MWOe8I8q+lsn3KC3yEyEeeUlPMaoDKA+SDB384axbew=;
+	h=Date:From:Subject:To:Cc;
+	b=s13njybK5vMlyqvnEPoWt+yMX/7eumgrt53TjX/5GdEHIR/7gdB5eltPb4M01UZzf
+	 qRvG9zsxFkzPpu0O19aUBXL2wKJoqD4jZfV7kHQgrGaWAlywshLoDgz1OUu8OjUXAm
+	 XuzKwN/g7wCx4ML3OBhJidAN4kaVoUNWwR/68MaO6AqI4F5JgoOoXjJvCOOSLS4TG6
+	 PeIeiL1pXcm/4y3ZFK9bya3OiHMguYP9eo/HwBXpt4T3mK2Uum8I1pHAQ0KojfrpZ7
+	 Vo6uoea5V2FDxTAehF9mG+sq1+RZVsDbuas4c9zJrGHNeHvnplDa8PTEbVJNc+AjMK
+	 En6O3F8p85QPQ==
+Message-ID: <dea10860-2870-3a9e-fa51-21e493b1573a@marcan.st>
+Date: Mon, 24 Oct 2022 15:21:02 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -29,72 +29,108 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 4/7] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Content-Language: en-US
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
- Petr Mladek <pmladek@suse.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, asahi@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-gpio@vger.kernel.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Rob Herring <robh+dt@kernel.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Steven Rostedt <rostedt@goodmis.org>, Sven Peter <sven@svenpeter.dev>
-References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
- <E1oVYUS-005CmS-IA@rmk-PC.armlinux.org.uk> <Y0/Kt9CW5vYcxHhK@alley>
- <Y0/kJwpbvbeul8n3@shell.armlinux.org.uk>
 From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <Y0/kJwpbvbeul8n3@shell.armlinux.org.uk>
+Subject: [GIT PULL] Apple SoC DT updates for 6.2
+To: SoC Team <soc@kernel.org>
+Content-Language: en-US
+Cc: Asahi Linux <asahi@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 19/10/2022 20.48, Russell King (Oracle) wrote:
-> On Wed, Oct 19, 2022 at 12:00:23PM +0200, Petr Mladek wrote:
->> On Tue 2022-09-06 14:19:44, Russell King wrote:
->>> From: Hector Martin <marcan@marcan.st>
->>>
-> ... 
->>> +Generic FourCC code
->>> +-------------------
->>> +
->>> +::
->>> +	%p4c[hnbl]	gP00 (0x67503030)
->>> +
->>> +Print a generic FourCC code, as both ASCII characters and its numerical
->>> +value as hexadecimal.
->>> +
->>> +The additional ``h``, ``r``, ``b``, and ``l`` specifiers are used to specify
->>> +host, reversed, big or little endian order data respectively. Host endian
->>> +order means the data is interpreted as a 32-bit integer and the most
->>> +significant byte is printed first; that is, the character code as printed
->>> +matches the byte order stored in memory on big-endian systems, and is reversed
->>> +on little-endian systems.
->>> +
->>> +Passed by reference.
->>> +
->>> +Examples for a little-endian machine, given &(u32)0x67503030::
->>> +
->>> +	%p4ch	gP00 (0x67503030)
->>> +	%p4cl	gP00 (0x67503030)
->>> +	%p4cb	00Pg (0x30305067)
->>> +	%p4cr	00Pg (0x30305067)
->>
->> Nit: I would prefer to keep the same order (h,r,b,l) everywhere.
->>
->>      I guess that you wanted to show exactly the same results next
->>      to each other. But it is not the case on big-endian anyway.
-> 
-> This is straight from the Asahi kernel tree, and is unmodified. I'm
-> guessing you're use of "you" here refers to Hector rather than me.
-> 
-> So, Hector, any opinions on Petr's comments please?
+Hi SoC folks,
 
-Fine with me, feel free to make the changes :)
+Please merge these DT changes for 6.2.
 
-- Hector
+These are the t6000 device tree changes that got punted last cycle, and
+some audio stuff.
+
+-Hector
+
+The following changes since commit 9abf2313adc1ca1b6180c508c25f22f9395cc780:
+
+  Linux 6.1-rc1 (2022-10-16 15:36:24 -0700)
+
+are available in the Git repository at:
+
+  https://github.com/AsahiLinux/linux.git tags/asahi-soc-dt-6.2
+
+for you to fetch changes up to 56fed763f6b2dc2578ea8c3e7d317722d8581cba:
+
+  arm64: dts: apple: Add ADMAC resets on t8103/t600x (2022-10-24 13:44:22 +0900)
+
+----------------------------------------------------------------
+Apple SoC DT updates for 6.2.
+
+This includes new device trees for Apple M1 Pro/Max/Ultra SoCs and the
+devices that contain them, as well as some audio-related changes.
+
+----------------------------------------------------------------
+Hector Martin (3):
+      arm64: dts: apple: Fix j45x model years
+      arm64: dts: apple: Add initial t6000/t6001/t6002 DTs
+      arm64: dts: apple: Add J314 and J316 devicetrees
+
+Janne Grunau (4):
+      dt-bindings: apple,aic2: Add CPU PMU per-cpu pseudo-interrupts
+      dt-bindings: arm: apple: Add t6001/t6002 Mac Studio compatibles
+      arm64: dts: apple: Add J375 devicetrees
+      arm64: dts: apple: t600x: Add MCA and its support
+
+Martin Povišer (4):
+      arm64: dts: apple: t8103: Add AUDIO_P parent to the SIO_ADMA power domain
+      arm64: dts: apple: t8103: Add MCA and its support
+      dt-bindings: dma: apple,admac: Add reset
+      arm64: dts: apple: Add ADMAC resets on t8103/t600x
+
+Sven Peter (1):
+      dt-bindings: iommu: dart: add t6000 compatible
+
+ Documentation/devicetree/bindings/arm/apple.yaml   |   14 +-
+ .../devicetree/bindings/dma/apple,admac.yaml       |    3 +
+ .../bindings/interrupt-controller/apple,aic2.yaml  |   29 +
+ .../devicetree/bindings/iommu/apple,dart.yaml      |    4 +-
+ arch/arm64/boot/dts/apple/Makefile                 |    6 +
+ arch/arm64/boot/dts/apple/multi-die-cpp.h          |   22 +
+ arch/arm64/boot/dts/apple/t6000-j314s.dts          |   18 +
+ arch/arm64/boot/dts/apple/t6000-j316s.dts          |   18 +
+ arch/arm64/boot/dts/apple/t6000.dtsi               |   18 +
+ arch/arm64/boot/dts/apple/t6001-j314c.dts          |   18 +
+ arch/arm64/boot/dts/apple/t6001-j316c.dts          |   18 +
+ arch/arm64/boot/dts/apple/t6001-j375c.dts          |   18 +
+ arch/arm64/boot/dts/apple/t6001.dtsi               |   63 +
+ arch/arm64/boot/dts/apple/t6002-j375d.dts          |   50 +
+ arch/arm64/boot/dts/apple/t6002.dtsi               |  175 ++
+ arch/arm64/boot/dts/apple/t600x-common.dtsi        |  137 ++
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi          |  361 ++++
+ arch/arm64/boot/dts/apple/t600x-dieX.dtsi          |  103 +
+ arch/arm64/boot/dts/apple/t600x-gpio-pins.dtsi     |   45 +
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi     |  114 ++
+ arch/arm64/boot/dts/apple/t600x-j375.dtsi          |  117 ++
+ arch/arm64/boot/dts/apple/t600x-nvme.dtsi          |   42 +
+ arch/arm64/boot/dts/apple/t600x-pmgr.dtsi          | 2012 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103-j456.dts           |    2 +-
+ arch/arm64/boot/dts/apple/t8103-j457.dts           |    2 +-
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi          |    4 +
+ arch/arm64/boot/dts/apple/t8103-pmgr.dtsi          |    2 +-
+ arch/arm64/boot/dts/apple/t8103.dtsi               |   74 +
+ 28 files changed, 3484 insertions(+), 5 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/apple/multi-die-cpp.h
+ create mode 100644 arch/arm64/boot/dts/apple/t6000-j314s.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t6000-j316s.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t6000.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t6001-j314c.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t6001-j316c.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t6001-j375c.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t6001.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t6002-j375d.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t6002.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t600x-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t600x-die0.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t600x-dieX.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t600x-gpio-pins.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t600x-j375.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t600x-nvme.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t600x-pmgr.dtsi
+
