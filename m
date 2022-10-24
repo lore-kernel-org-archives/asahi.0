@@ -1,24 +1,24 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E6364A
-	for <asahi@lists.linux.dev>; Mon, 24 Oct 2022 04:39:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEBD7B
+	for <asahi@lists.linux.dev>; Mon, 24 Oct 2022 04:39:56 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: hector@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 86C4B4249A;
-	Mon, 24 Oct 2022 04:39:40 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 6E02E42508;
+	Mon, 24 Oct 2022 04:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1666586384; bh=Ll3nZx9A+ehUPc37begKWfofxpkHxbd5hBsp2PqJ+08=;
+	t=1666586394; bh=yMbEwflzqPvq1z+7biOy/IUVCweTSxh7aHPaxBSZMtg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=pJxdBSGaqM1cH6OcyMx4XZSVH21f8MKmZAeode/RxTRonmYbCbXIwn7VeCh0i9sTI
-	 m3tqnIxuCqNBDJkqWDLtM1/LWRHaXh1zdyMDmsWUjt598YmYIYs/4dsv5vy9hXltwJ
-	 NMr1GV7/L/8+AyhM28gDP6rtAxMRaA7t8jqPBoTG7eVRcMUSFvCvZFEf9BXEepFnlL
-	 K2NIgOUKC+WjUyIjjU1Z8kWALC90SPR9tP03BHItesbxTGQggmNSYhPtSz5+F6uzj+
-	 sk7H7TOaHaxZjZcB7lQIHcB+p62w2Y9cilQ/JRr9+pMMeceIoFPDBHN+WPMTjSYwp1
-	 hCNQ+n/+RVNgw==
+	b=yEf0FUNHoy/2ES74xJsxu/jKCPVa4yBrgjz9IPfCXBYFCKNRSovPXszbYdIumxaka
+	 eCS9xnqqCjB1QgtNkmaQ5yYshTfmfIrfG4qVhpFKj4+DAVrZ6WzpCT9nrHgnH4/EsD
+	 2ZQK652mihrJTpQ5luntG2RFPextkHcCVuWRTSFbetEXRHEKeF8b2vYOrJVHth6HD3
+	 I1cZBDD/xzVaBzVpNJHy/uOLzAYNDM3qmIiD9Hq3cFsKFtQtQPxfZXozRDG9Hxd1IV
+	 AJzBJw8nDyHsNplVP5xosYQSmaxDgDFHU+z9Xxv2sF0/RzGO/dq1++Zd8GqO159rrl
+	 EVIfkpLK/XTng==
 From: Hector Martin <marcan@marcan.st>
 To: "Rafael J. Wysocki" <rafael@kernel.org>,
 	Viresh Kumar <viresh.kumar@linaro.org>,
@@ -37,9 +37,9 @@ Cc: Hector Martin <marcan@marcan.st>,
 	linux-pm@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/5] MAINTAINERS: Add entries for Apple SoC cpufreq driver
-Date: Mon, 24 Oct 2022 13:39:21 +0900
-Message-Id: <20221024043925.25379-2-marcan@marcan.st>
+Subject: [PATCH v3 3/5] cpufreq: Generalize of_perf_domain_get_sharing_cpumask phandle format
+Date: Mon, 24 Oct 2022 13:39:23 +0900
+Message-Id: <20221024043925.25379-4-marcan@marcan.st>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20221024043925.25379-1-marcan@marcan.st>
 References: <20221024043925.25379-1-marcan@marcan.st>
@@ -51,34 +51,134 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This MAINTAINERS update is split, as usual, to facilitate merges via the
-SoC tree and avoid conflicts.
+of_perf_domain_get_sharing_cpumask currently assumes a 1-argument
+phandle format, and directly returns the argument. Generalize this to
+return the full of_phandle_args, so it can be used by drivers which use
+other phandle styles (e.g. separate nodes). This also requires changing
+the CPU sharing match to compare the full args structure.
+
+Also, make sure to of_node_put(args.np) (the original code was leaking a
+reference).
 
 Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/cpufreq/mediatek-cpufreq-hw.c | 14 +++++++++-----
+ include/linux/cpufreq.h               | 28 +++++++++++++++------------
+ 2 files changed, 25 insertions(+), 17 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cf0f18502372..6783f5263b5e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1897,6 +1897,7 @@ T:	git https://github.com/AsahiLinux/linux.git
- F:	Documentation/devicetree/bindings/arm/apple.yaml
- F:	Documentation/devicetree/bindings/arm/apple/*
- F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
-+F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
- F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
- F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
-@@ -1911,6 +1912,7 @@ F:	Documentation/devicetree/bindings/power/apple*
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/clk/clk-apple-nco.c
-+F:	drivers/cpufreq/apple-soc-cpufreq.c
- F:	drivers/dma/apple-admac.c
- F:	drivers/i2c/busses/i2c-pasemi-core.c
- F:	drivers/i2c/busses/i2c-pasemi-platform.c
+diff --git a/drivers/cpufreq/mediatek-cpufreq-hw.c b/drivers/cpufreq/mediatek-cpufreq-hw.c
+index f0e0a35c7f21..f80339779084 100644
+--- a/drivers/cpufreq/mediatek-cpufreq-hw.c
++++ b/drivers/cpufreq/mediatek-cpufreq-hw.c
+@@ -160,6 +160,7 @@ static int mtk_cpu_resources_init(struct platform_device *pdev,
+ 	struct mtk_cpufreq_data *data;
+ 	struct device *dev = &pdev->dev;
+ 	struct resource *res;
++	struct of_phandle_args args;
+ 	void __iomem *base;
+ 	int ret, i;
+ 	int index;
+@@ -168,11 +169,14 @@ static int mtk_cpu_resources_init(struct platform_device *pdev,
+ 	if (!data)
+ 		return -ENOMEM;
+ 
+-	index = of_perf_domain_get_sharing_cpumask(policy->cpu, "performance-domains",
+-						   "#performance-domain-cells",
+-						   policy->cpus);
+-	if (index < 0)
+-		return index;
++	ret = of_perf_domain_get_sharing_cpumask(policy->cpu, "performance-domains",
++						 "#performance-domain-cells",
++						 policy->cpus, &args);
++	if (ret < 0)
++		return ret;
++
++	index = args.args[0];
++	of_node_put(args.np);
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, index);
+ 	if (!res) {
+diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+index d5595d57f4e5..6a94a6eaad27 100644
+--- a/include/linux/cpufreq.h
++++ b/include/linux/cpufreq.h
+@@ -1110,10 +1110,10 @@ cpufreq_table_set_inefficient(struct cpufreq_policy *policy,
+ }
+ 
+ static inline int parse_perf_domain(int cpu, const char *list_name,
+-				    const char *cell_name)
++				    const char *cell_name,
++				    struct of_phandle_args *args)
+ {
+ 	struct device_node *cpu_np;
+-	struct of_phandle_args args;
+ 	int ret;
+ 
+ 	cpu_np = of_cpu_device_node_get(cpu);
+@@ -1121,41 +1121,44 @@ static inline int parse_perf_domain(int cpu, const char *list_name,
+ 		return -ENODEV;
+ 
+ 	ret = of_parse_phandle_with_args(cpu_np, list_name, cell_name, 0,
+-					 &args);
++					 args);
+ 	if (ret < 0)
+ 		return ret;
+ 
+ 	of_node_put(cpu_np);
+ 
+-	return args.args[0];
++	return 0;
+ }
+ 
+ static inline int of_perf_domain_get_sharing_cpumask(int pcpu, const char *list_name,
+-						     const char *cell_name, struct cpumask *cpumask)
++						     const char *cell_name, struct cpumask *cpumask,
++						     struct of_phandle_args *pargs)
+ {
+-	int target_idx;
+ 	int cpu, ret;
++	struct of_phandle_args args;
+ 
+-	ret = parse_perf_domain(pcpu, list_name, cell_name);
++	ret = parse_perf_domain(pcpu, list_name, cell_name, pargs);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	target_idx = ret;
+ 	cpumask_set_cpu(pcpu, cpumask);
+ 
+ 	for_each_possible_cpu(cpu) {
+ 		if (cpu == pcpu)
+ 			continue;
+ 
+-		ret = parse_perf_domain(cpu, list_name, cell_name);
++		ret = parse_perf_domain(cpu, list_name, cell_name, &args);
+ 		if (ret < 0)
+ 			continue;
+ 
+-		if (target_idx == ret)
++		if (pargs->np == args.np && pargs->args_count == args.args_count &&
++		    !memcmp(pargs->args, args.args, sizeof(args.args[0]) * args.args_count))
+ 			cpumask_set_cpu(cpu, cpumask);
++
++		of_node_put(args.np);
+ 	}
+ 
+-	return target_idx;
++	return 0;
+ }
+ #else
+ static inline int cpufreq_boost_trigger_state(int state)
+@@ -1185,7 +1188,8 @@ cpufreq_table_set_inefficient(struct cpufreq_policy *policy,
+ }
+ 
+ static inline int of_perf_domain_get_sharing_cpumask(int pcpu, const char *list_name,
+-						     const char *cell_name, struct cpumask *cpumask)
++						     const char *cell_name, struct cpumask *cpumask,
++						     struct of_phandle_args *pargs)
+ {
+ 	return -EOPNOTSUPP;
+ }
 -- 
 2.35.1
 
