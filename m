@@ -1,130 +1,230 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83737E6
-	for <asahi@lists.linux.dev>; Mon, 24 Oct 2022 08:28:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7928AC433D6;
-	Mon, 24 Oct 2022 08:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1666600133;
-	bh=uC7mKT8uDqXXd0XO6Nf+G9XWZ6e3itlzM+GC1HHhwag=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=dcH5Ozu/tQLQGNGU98OnUJBu9h8Ei6xr0Op9knsWMQvUB0j08FvS2ucjeD/ciG27W
-	 0PUi6CnyMjfgji7ySgaoqEkfah2qZQOPcXal7gn0E7w+iNL2MyZsGBMXGRp2D1UIA+
-	 GjVI0gkXe/ntofPeJqdZDeCKQUQFU4HeUzDhND5Je/I516gjwBN92jzglcamxHSwZS
-	 PoYbh5m/WTlPxfvoHNEcbF6prff8q4XhdjbwxbaGgVGokjWVgLGtRM2YDErg2tW+ST
-	 1cgbJHYWZcnjCUTLr8V35gzjHELlDDVadmCev84JrPiCjwm+HkY4FReDY8viTny20D
-	 195z2HoM3+zpw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1omspH-00165X-99;
-	Mon, 24 Oct 2022 09:28:51 +0100
-Date: Mon, 24 Oct 2022 09:28:50 +0100
-Message-ID: <861qqxocal.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Mark Kettenis <mark.kettenis@xs4all.nl>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] Apple SoC cpufreq driver
-In-Reply-To: <20221024043925.25379-1-marcan@marcan.st>
-References: <20221024043925.25379-1-marcan@marcan.st>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D5B7B
+	for <asahi@lists.linux.dev>; Tue, 25 Oct 2022 16:01:46 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id o8so8932240qvw.5
+        for <asahi@lists.linux.dev>; Tue, 25 Oct 2022 09:01:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5k4oXNi7wIr/yTUcNWF+k2ZgcBaXW2+/B9fhcI3NaxY=;
+        b=fZoLICmcpxc7ya8YhyB8zyJ0hhZBpusQO1Te7bNyn7VgyIrTHa/zgg93BVM9FX79Qx
+         yuiAJMyDN/1iRmtJ4dk3XD9iPp+OwWxHJYE8nJAe7t18FT6V8H/uifX0CqyDBrEy9Ird
+         YHrUM04nT93ARAzXeNQYU+P6Iq87XYJiqVRKHkyk1edg0+gRCkQgSR5DgWKgjTG1fkpr
+         Lmy6eqied/95AT5xejacqjO2ZIbFkJqgnrOArj5LCAPnHXezoXRkwDDo9UGqPsJradYI
+         siHQfJ14o7g/0y2GnEk+1zSEC0pKPBZgxy7AB/Kagq0DGLpL24OaS3ehvdQnFtVw6tJj
+         zKxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5k4oXNi7wIr/yTUcNWF+k2ZgcBaXW2+/B9fhcI3NaxY=;
+        b=Q5a4zlqZhA8+U245/+BhvZwaMHaLPSWnGu4OmiwoKFDk/Kyn9hapD2MQ55P/mRrJDh
+         JluOzQg+Y1vtlSqQEE1Upb53Iy9mr1Abn6ZiTAIFIzYAln21d9wj4H1bxtiN7/h9oXpi
+         fryHf/k+8Tz1oB5IRN8Jdx1angfwL5/MjUIGbsKEeUyRu/QjaI9bC6JWYbHXPEpEoAGL
+         yicu4aDcRUwoDhvGwzZRX3fgRcwdrYjQcXmEO/KeE//s996A4ZoEAwTV2OHz/WRWgO7R
+         QWifByic5w3w8Y0xwcN/nt9D1tyZbOJ7SKMfuTMcmZBW2f+ZAWqY3K+fVYlHMtKOKIOC
+         5ESg==
+X-Gm-Message-State: ACrzQf2tLk6c+oMD7OjvO6BAv5jiC73R4OOMwpmwMYXxb08uEFv64sQT
+	G20u5fJxdCcAFgm1Vlqn0tafJg==
+X-Google-Smtp-Source: AMsMyM6o6xBD+WYR2CO0j6dAkweiKItDjdgpLFpHCMkk6IrNKCkm8KiYfd7Yt33MY63MGZbyfL20aA==
+X-Received: by 2002:ad4:594b:0:b0:4bb:6e7d:6c63 with SMTP id eo11-20020ad4594b000000b004bb6e7d6c63mr9749603qvb.86.1666713704935;
+        Tue, 25 Oct 2022 09:01:44 -0700 (PDT)
+Received: from [192.168.1.11] ([64.57.193.93])
+        by smtp.gmail.com with ESMTPSA id k11-20020ac85fcb000000b0039953dcc480sm1794373qta.88.2022.10.25.09.01.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Oct 2022 09:01:44 -0700 (PDT)
+Message-ID: <5c3126fb-8fdb-5163-95a8-136a4a7ee2ce@linaro.org>
+Date: Tue, 25 Oct 2022 12:01:42 -0400
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: marcan@marcan.st, rafael@kernel.org, viresh.kumar@linaro.org, matthias.bgg@gmail.com, sven@svenpeter.dev, alyssa@rosenzweig.io, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, sboyd@kernel.org, ulf.hansson@linaro.org, mark.kettenis@xs4all.nl, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.0
+Subject: Re: [PATCH v3 2/5] dt-bindings: cpufreq: apple,soc-cpufreq: Add
+ binding for Apple SoC cpufreq
+Content-Language: en-US
+To: Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <sboyd@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Marc Zyngier <maz@kernel.org>, Mark Kettenis <mark.kettenis@xs4all.nl>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20221024043925.25379-1-marcan@marcan.st>
+ <20221024043925.25379-3-marcan@marcan.st>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221024043925.25379-3-marcan@marcan.st>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 24 Oct 2022 05:39:20 +0100,
-Hector Martin <marcan@marcan.st> wrote:
+On 24/10/2022 00:39, Hector Martin wrote:
+> This binding represents the cpufreq/DVFS hardware present in Apple SoCs.
+> The hardware has an independent controller per CPU cluster, and we
+> represent them as unique nodes in order to accurately describe the
+> hardware. The driver is responsible for binding them as a single cpufreq
+> device (in the Linux cpufreq model).
 > 
-> Hi folks,
-> 
-> Third time's the charm? Here's v3 of the cpufreq driver for Apple SoCs.
-> This version takes a page from both v1 and v2, keeping the dedicated
-> cpufreq style (instead of pretending to be a clock controller) but using
-> dedicated DT nodes for each cluster, which accurately represents the
-> hardware. In particular, this makes supporting t6002 (M1 Ultra) a lot
-> more reasonable on the DT side.
-> 
-> This version also switches to the standard performance-domains binding,
-> so we don't need any more vendor-specific properties. In order to
-> support this, I had to make the performance-domains parsing code more
-> generic. This required a minor change to the only consumer
-> (mediatek-cpufreq-hw).
-> 
-> The Linux driver probes based on platform compatible, and then attempts
-> to locate the cluster nodes by following the performance-domains links
-> from CPU nodes (this will then fail for any incompatible nodes, e.g. if
-> a future SoC needs a new compatible and can't fall back). This approach
-> was suggested by robh as the right way to handle the impedance mismatch
-> between the hardware, which has separate controllers per cluster, and
-> the Linux model where there can only be one CPUFreq driver instance.
-> 
-> Functionality-wise, there are no significant changes from v2. The only
-> notable difference is support for t8112 (M2). This works largely the
-> same as the other SoCs, but they ran out of bits in the current PState
-> register, so that needs a SoC-specific quirk. Since that register is
-> not used by macOS (it was discovered experimentally) and is not critical
-> for functionality (it just allows accurately reporting the current
-> frequency to userspace, given boost clock limitations), I've decided to
-> only use it when a SoC-specific compatible is present. The default
-> fallback code will simply report the requested frequency as actual.
-> I expect this will work for future SoCs.
-> 
-> As usual, MAINTAINERS and DT changes are split. I expect patches #2~#4
-> to go through the cpufreq tree, and we'll take care of #1 and #5 via
-> the asahi-soc tree.
-> 
-> Hector Martin (5):
->   MAINTAINERS: Add entries for Apple SoC cpufreq driver
->   dt-bindings: cpufreq: apple,soc-cpufreq: Add binding for Apple SoC
->     cpufreq
->   cpufreq: Generalize of_perf_domain_get_sharing_cpumask phandle format
->   cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states
->   arm64: dts: apple: Add CPU topology & cpufreq nodes for t8103
-> 
->  .../cpufreq/apple,cluster-cpufreq.yaml        | 119 ++++++
->  MAINTAINERS                                   |   2 +
->  arch/arm64/boot/dts/apple/t8103.dtsi          | 206 +++++++++-
->  drivers/cpufreq/Kconfig.arm                   |   9 +
->  drivers/cpufreq/Makefile                      |   1 +
->  drivers/cpufreq/apple-soc-cpufreq.c           | 352 ++++++++++++++++++
->  drivers/cpufreq/cpufreq-dt-platdev.c          |   2 +
->  drivers/cpufreq/mediatek-cpufreq-hw.c         |  14 +-
->  include/linux/cpufreq.h                       |  28 +-
->  9 files changed, 706 insertions(+), 27 deletions(-)
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> ---
+>  .../cpufreq/apple,cluster-cpufreq.yaml        | 119 ++++++++++++++++++
+>  1 file changed, 119 insertions(+)
 >  create mode 100644 Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
->  create mode 100644 drivers/cpufreq/apple-soc-cpufreq.c
+> 
+> diff --git a/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+> new file mode 100644
+> index 000000000000..b11452f91468
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+> @@ -0,0 +1,119 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple SoC cluster cpufreq device
 
-FWIW, and for the whole series:
+Few nits, in general looks fine to me.
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+> +
+> +maintainers:
+> +  - Hector Martin <marcan@marcan.st>
+> +
+> +description: |
+> +  Apple SoCs (e.g. M1) have a per-cpu-cluster DVFS controller that is part of
+> +  the cluster management register block. This binding uses the standard
+> +  operating-points-v2 table to define the CPU performance states, with the
+> +  opp-level property specifying the hardware p-state index for that level.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - const: apple,t8103-cluster-cpufreq
+> +          - const: apple,cluster-cpufreq
+> +      - items:
+> +          - const: apple,t6000-cluster-cpufreq
+> +          - const: apple,t8103-cluster-cpufreq
+> +          - const: apple,cluster-cpufreq
+> +      - items:
+> +          - const: apple,t8112-cluster-cpufreq
 
-	M.
+With the first one (t8103) - it's an enum.
 
--- 
-Without deviation from the norm, progress is not possible.
+> +          - const: apple,cluster-cpufreq
+> +
+> +  reg:
+> +    maxItems: 1
+> +    description: The register region for this CPU cluster DVFS controller
+
+Drop description, quite obvious.
+
+> +
+> +  '#performance-domain-cells':
+> +    const: 0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - '#performance-domain-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    // This example shows a single CPU per domain and 2 domains,
+> +    // with two p-states per domain.
+> +    // Shipping hardware has 2-4 CPUs per domain and 2-6 domains.
+> +    cpus {
+> +      #address-cells = <2>;
+> +      #size-cells = <0>;
+> +
+> +      cpu@0 {
+> +        compatible = "apple,icestorm";
+> +        device_type = "cpu";
+> +        reg = <0x0 0x0>;
+> +        operating-points-v2 = <&ecluster_opp>;
+> +        performance-domains = <&cpufreq_e>;
+> +      };
+> +
+> +      cpu@10100 {
+> +        compatible = "apple,firestorm";
+> +        device_type = "cpu";
+> +        reg = <0x0 0x10100>;
+> +        operating-points-v2 = <&pcluster_opp>;
+> +        performance-domains = <&cpufreq_p>;
+> +      };
+> +    };
+> +
+> +    ecluster_opp: opp-table-0 {
+> +      compatible = "operating-points-v2";
+> +      opp-shared;
+> +
+> +      opp01 {
+> +        opp-hz = /bits/ 64 <600000000>;
+> +        opp-level = <1>;
+> +        clock-latency-ns = <7500>;
+> +      };
+> +      opp02 {
+> +        opp-hz = /bits/ 64 <972000000>;
+> +        opp-level = <2>;
+> +        clock-latency-ns = <22000>;
+> +      };
+> +    };
+> +
+> +    pcluster_opp: opp-table-1 {
+> +      compatible = "operating-points-v2";
+> +      opp-shared;
+> +
+> +      opp01 {
+> +        opp-hz = /bits/ 64 <600000000>;
+> +        opp-level = <1>;
+> +        clock-latency-ns = <8000>;
+> +      };
+> +      opp02 {
+> +        opp-hz = /bits/ 64 <828000000>;
+> +        opp-level = <2>;
+> +        clock-latency-ns = <19000>;
+> +      };
+> +    };
+> +
+> +    soc {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      cpufreq_e: cpufreq@210e20000 {
+
+Node name: performance-controller
+
+(cpufreq is rather Linux naming)
+
+> +        compatible = "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
+> +        reg = <0x2 0x10e20000 0 0x1000>;
+> +        #performance-domain-cells = <0>;
+> +      };
+> +
+> +      cpufreq_p: cpufreq@211e20000 {
+
+The same.
+
+> +        compatible = "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
+> +        reg = <0x2 0x11e20000 0 0x1000>;
+> +        #performance-domain-cells = <0>;
+> +      };
+> +    };
+
+Best regards,
+Krzysztof
+
