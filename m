@@ -1,91 +1,224 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DA1186B
-	for <asahi@lists.linux.dev>; Thu, 27 Oct 2022 10:04:07 +0000 (UTC)
-From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1666864724; bh=zafY4n3noNNCOhqBie7L/wTVrWC4g1SUal4WI4ax48o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kLA41O/WnlKOz+9do3+r5DrO19XcLsdxQ8iPXqdXw3FRvu9sSjESMw7zzz0golJvW
-	 f+6ejAdTY7J4q2hK5u77BJOe2IV0fli1G5A4ycL5ZA4w8G+oZtVf/Axxqs9W2yzdyk
-	 IghoOdn/L/mDoZgNxMBqmS0OYS1xnff9vWHuL7Ow=
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Stephen Kitt <steve@sk2.org>,
-	Raphael-Xu <13691752556@139.com>,
-	Frank Shi <shifu0704@thundersoft.com>,
-	shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	Jos Dehaes <jos.dehaes@gmail.com>,
-	alsa-devel@alsa-project.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D261BA57
+	for <asahi@lists.linux.dev>; Thu, 27 Oct 2022 10:26:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: hector@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id B08D43FA55;
+	Thu, 27 Oct 2022 10:26:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1666866396; bh=KKrxP2gQfugnbdgrFfsdnmfgpdRdNRhYEj4LkB4xA3c=;
+	h=From:To:Cc:Subject:Date;
+	b=R3WNOOr5ZcSvaDxSk9IpeLlVjRQk2xLV/qR1/fVX1IDmzJsGbyIJ72u8P6E97GyfN
+	 14G2BKbUuoEYiZbWCyadCMv80/yD18SzSZbPtsXTxE6JrtWAAPZp1/NiO43vVIFv55
+	 Gbpp2ep1pAB1z9YgYnr016WN8zvTJDWSi5SZDM9LWmqGsRX/7TpkYAmdT4fk43NUj/
+	 4QM3J7RygdtpeTVuzWphXklNqfd2TZI3iZt16cNUYptT9gf5as5rxdcy5DKSNQRc9S
+	 htZa2G9kQDuAy7CWHK+F6kGGX5wR7mQc8JA1Q2p8PoEvwkPGLJj8ix6vITzPXb/kRC
+	 pGGVUHdwofEeQ==
+From: Hector Martin <marcan@marcan.st>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Javier Martinez Canillas <javierm@redhat.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+	dri-devel@lists.freedesktop.org,
 	asahi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-Subject: [PATCH 2/3] ASoC: tas2764: Fix set_tdm_slot in case of single slot
-Date: Thu, 27 Oct 2022 11:57:59 +0200
-Message-Id: <20221027095800.16094-2-povik+lin@cutebit.org>
-In-Reply-To: <20221027095800.16094-1-povik+lin@cutebit.org>
-References: <20221027095800.16094-1-povik+lin@cutebit.org>
+	Hector Martin <marcan@marcan.st>,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/simpledrm: Only advertise formats that are supported
+Date: Thu, 27 Oct 2022 19:13:27 +0900
+Message-Id: <20221027101327.16678-1-marcan@marcan.st>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-There's a special branch in the set_tdm_slot op for the case of nslots
-being 1, but:
+Until now, simpledrm unconditionally advertised all formats that can be
+supported natively as conversions. However, we don't actually have a
+full conversion matrix of helpers. Although the list is arguably
+provided to userspace in precedence order, userspace can pick something
+out-of-order (and thus break when it shouldn't), or simply only support
+a format that is unsupported (and thus think it can work, which results
+in the appearance of a hang as FB blits fail later on, instead of the
+initialization error you'd expect in this case).
 
- (1) That branch can never work (there's a check for tx_mask being
-     non-zero, later there's another check for it *being* zero; one or
-     the other always throws -EINVAL).
+Split up the format table into separate ones for each required subset,
+and then pick one based on the native format. Also remove the
+native<->conversion overlap check from the helper (which doesn't make
+sense any more, since the native format is advertised anyway and this
+way RGB565/RGB888 can share a format table), and instead print the same
+message in simpledrm when the native format is not one for which we have
+conversions at all.
 
- (2) The intention of the branch seems to be what the general other
-     branch reduces to in case of nslots being 1.
+This fixes a real user regression where the ?RGB2101010 support commit
+started advertising it unconditionally where not supported, and KWin
+decided to start to use it over the native format, but also the fixes
+the spurious RGB565/RGB888 formats which have been wrongly
+unconditionally advertised since the dawn of simpledrm.
 
-For those reasons remove the 'nslots being 1' special case.
+Note: this patch is merged because splitting it into two patches, one
+for the helper and one for simpledrm, would regress at the midpoint
+regardless of the order. If simpledrm is changed first, that would break
+working conversions to RGB565/RGB888 (since those share a table that
+does not include the native formats). If the helper is changed first, it
+would start spuriously advertising all conversion formats when the
+native format doesn't have any supported conversions at all.
 
-Fixes: 827ed8a0fa50 ("ASoC: tas2764: Add the driver for the TAS2764")
-Suggested-by: Jos Dehaes <jos.dehaes@gmail.com>
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Fixes: 6ea966fca084 ("drm/simpledrm: Add [AX]RGB2101010 formats")
+Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- sound/soc/codecs/tas2764.c | 19 ++++++-------------
- 1 file changed, 6 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/drm_format_helper.c | 15 -------
+ drivers/gpu/drm/tiny/simpledrm.c    | 62 +++++++++++++++++++++++++----
+ 2 files changed, 55 insertions(+), 22 deletions(-)
 
-diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
-index 51b87a936179..2e0ed3e68fa5 100644
---- a/sound/soc/codecs/tas2764.c
-+++ b/sound/soc/codecs/tas2764.c
-@@ -438,20 +438,13 @@ static int tas2764_set_dai_tdm_slot(struct snd_soc_dai *dai,
- 	if (tx_mask == 0 || rx_mask != 0)
- 		return -EINVAL;
- 
--	if (slots == 1) {
--		if (tx_mask != 1)
--			return -EINVAL;
--		left_slot = 0;
--		right_slot = 0;
-+	left_slot = __ffs(tx_mask);
-+	tx_mask &= ~(1 << left_slot);
-+	if (tx_mask == 0) {
-+		right_slot = left_slot;
- 	} else {
--		left_slot = __ffs(tx_mask);
--		tx_mask &= ~(1 << left_slot);
--		if (tx_mask == 0) {
--			right_slot = left_slot;
--		} else {
--			right_slot = __ffs(tx_mask);
--			tx_mask &= ~(1 << right_slot);
--		}
-+		right_slot = __ffs(tx_mask);
-+		tx_mask &= ~(1 << right_slot);
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index e2f76621453c..c60c13f3a872 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -864,20 +864,6 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
+ 		++fourccs;
  	}
  
- 	if (tx_mask != 0 || left_slot >= slots || right_slot >= slots)
+-	/*
+-	 * The plane's atomic_update helper converts the framebuffer's color format
+-	 * to a native format when copying to device memory.
+-	 *
+-	 * If there is not a single format supported by both, device and
+-	 * driver, the native formats are likely not supported by the conversion
+-	 * helpers. Therefore *only* support the native formats and add a
+-	 * conversion helper ASAP.
+-	 */
+-	if (!found_native) {
+-		drm_warn(dev, "Format conversion helpers required to add extra formats.\n");
+-		goto out;
+-	}
+-
+ 	/*
+ 	 * The extra formats, emulated by the driver, go second.
+ 	 */
+@@ -898,7 +884,6 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
+ 		++fourccs;
+ 	}
+ 
+-out:
+ 	return fourccs - fourccs_out;
+ }
+ EXPORT_SYMBOL(drm_fb_build_fourcc_list);
+diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+index 18489779fb8a..1257411f3d44 100644
+--- a/drivers/gpu/drm/tiny/simpledrm.c
++++ b/drivers/gpu/drm/tiny/simpledrm.c
+@@ -446,22 +446,48 @@ static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
+  */
+ 
+ /*
+- * Support all formats of simplefb and maybe more; in order
+- * of preference. The display's update function will do any
++ * Support the subset of formats that we have conversion helpers for,
++ * in order of preference. The display's update function will do any
+  * conversion necessary.
+  *
+  * TODO: Add blit helpers for remaining formats and uncomment
+  *       constants.
+  */
+-static const uint32_t simpledrm_primary_plane_formats[] = {
++
++/*
++ * Supported conversions to RGB565 and RGB888:
++ *   from [AX]RGB8888
++ */
++static const uint32_t simpledrm_primary_plane_formats_base[] = {
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ARGB8888,
++};
++
++/*
++ * Supported conversions to [AX]RGB8888:
++ *   A/X variants (no-op)
++ *   from RGB565
++ *   from RGB888
++ */
++static const uint32_t simpledrm_primary_plane_formats_xrgb8888[] = {
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_ARGB8888,
++	DRM_FORMAT_RGB888,
+ 	DRM_FORMAT_RGB565,
+ 	//DRM_FORMAT_XRGB1555,
+ 	//DRM_FORMAT_ARGB1555,
+-	DRM_FORMAT_RGB888,
++};
++
++/*
++ * Supported conversions to [AX]RGB2101010:
++ *   A/X variants (no-op)
++ *   from [AX]RGB8888
++ */
++static const uint32_t simpledrm_primary_plane_formats_xrgb2101010[] = {
+ 	DRM_FORMAT_XRGB2101010,
+ 	DRM_FORMAT_ARGB2101010,
++	DRM_FORMAT_XRGB8888,
++	DRM_FORMAT_ARGB8888,
+ };
+ 
+ static const uint64_t simpledrm_primary_plane_format_modifiers[] = {
+@@ -642,7 +668,8 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+ 	struct drm_encoder *encoder;
+ 	struct drm_connector *connector;
+ 	unsigned long max_width, max_height;
+-	size_t nformats;
++	const uint32_t *conv_formats;
++	size_t conv_nformats, nformats;
+ 	int ret;
+ 
+ 	sdev = devm_drm_dev_alloc(&pdev->dev, drv, struct simpledrm_device, dev);
+@@ -755,10 +782,31 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+ 	dev->mode_config.funcs = &simpledrm_mode_config_funcs;
+ 
+ 	/* Primary plane */
++	switch (format->format) {
++	case DRM_FORMAT_RGB565:
++	case DRM_FORMAT_RGB888:
++		conv_formats = simpledrm_primary_plane_formats_base;
++		conv_nformats = ARRAY_SIZE(simpledrm_primary_plane_formats_base);
++		break;
++	case DRM_FORMAT_XRGB8888:
++	case DRM_FORMAT_ARGB8888:
++		conv_formats = simpledrm_primary_plane_formats_xrgb8888;
++		conv_nformats = ARRAY_SIZE(simpledrm_primary_plane_formats_xrgb8888);
++		break;
++	case DRM_FORMAT_XRGB2101010:
++	case DRM_FORMAT_ARGB2101010:
++		conv_formats = simpledrm_primary_plane_formats_xrgb2101010;
++		conv_nformats = ARRAY_SIZE(simpledrm_primary_plane_formats_xrgb2101010);
++		break;
++	default:
++		conv_formats = NULL;
++		conv_nformats = 0;
++		drm_warn(dev, "Format conversion helpers required to add extra formats.\n");
++		break;
++	}
+ 
+ 	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
+-					    simpledrm_primary_plane_formats,
+-					    ARRAY_SIZE(simpledrm_primary_plane_formats),
++					    conv_formats, conv_nformats,
+ 					    sdev->formats, ARRAY_SIZE(sdev->formats));
+ 
+ 	primary_plane = &sdev->primary_plane;
 -- 
-2.33.0
+2.35.1
 
