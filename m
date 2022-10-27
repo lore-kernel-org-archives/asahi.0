@@ -1,15 +1,15 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D395186A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081F1BA54
 	for <asahi@lists.linux.dev>; Thu, 27 Oct 2022 10:04:06 +0000 (UTC)
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1666864724; bh=v+OR8wmZOIyovuDfyWeiLKf+QGSEMk6EcfThh0NrItQ=;
-	h=From:To:Cc:Subject:Date;
-	b=PDjj5tIHERq38p5UkEbRwLtCxradDm2f7h9sxBb6AvbPSwVitnC3JaaFdhg+3wiwO
-	 VEe+GFIhFHI1ltppU24s4MkjJhNb1lW56ZBGVInqqHXRjwfPcYZd9IdS7ZDW8loYqB
-	 1V3cWumqiXT2Bs9EO7gbLbZ2JfzeOd+vMmbinbcs=
+	t=1666864725; bh=2Fc+yisSwfIomFrwc/B3SPRno9UwMqdBRdReCF0H+cU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Yy6o+PYYi8oZ3I31rDpzKVL1SdeZHBdl66Nya8PTgGaSZ2vLqtl7m/cMeLkAJax9D
+	 PbuJVZB1unK+byWC+IIfwqpKvHFngT9LrP3fUn1yg7iZI0Zp5SE1TLjvRg+KjjUQbp
+	 Ej4kzqEICrdFpaX+62ZM3M0BMCKzpdGTfZqKwS3I=
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
 Cc: Stephen Kitt <steve@sk2.org>,
@@ -22,9 +22,11 @@ Cc: Stephen Kitt <steve@sk2.org>,
 	asahi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-Subject: [PATCH 1/3] ASoC: tas2770: Fix set_tdm_slot in case of single slot
-Date: Thu, 27 Oct 2022 11:57:58 +0200
-Message-Id: <20221027095800.16094-1-povik+lin@cutebit.org>
+Subject: [PATCH 3/3] ASoC: tas2780: Fix set_tdm_slot in case of single slot
+Date: Thu, 27 Oct 2022 11:58:00 +0200
+Message-Id: <20221027095800.16094-3-povik+lin@cutebit.org>
+In-Reply-To: <20221027095800.16094-1-povik+lin@cutebit.org>
+References: <20221027095800.16094-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -46,25 +48,24 @@ being 1, but:
 
 For those reasons remove the 'nslots being 1' special case.
 
-Fixes: 1a476abc723e ("tas2770: add tas2770 smart PA kernel driver")
+Fixes: eae9f9ce181b ("ASoC: add tas2780 driver")
 Suggested-by: Jos Dehaes <jos.dehaes@gmail.com>
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 ---
- sound/soc/codecs/tas2770.c | 20 ++++++--------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
+ sound/soc/codecs/tas2780.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/codecs/tas2770.c b/sound/soc/codecs/tas2770.c
-index b6765235a4b3..8557759acb1f 100644
---- a/sound/soc/codecs/tas2770.c
-+++ b/sound/soc/codecs/tas2770.c
-@@ -395,21 +395,13 @@ static int tas2770_set_dai_tdm_slot(struct snd_soc_dai *dai,
+diff --git a/sound/soc/codecs/tas2780.c b/sound/soc/codecs/tas2780.c
+index a6db6f0e5431..afdf0c863aa1 100644
+--- a/sound/soc/codecs/tas2780.c
++++ b/sound/soc/codecs/tas2780.c
+@@ -380,20 +380,13 @@ static int tas2780_set_dai_tdm_slot(struct snd_soc_dai *dai,
  	if (tx_mask == 0 || rx_mask != 0)
  		return -EINVAL;
  
 -	if (slots == 1) {
 -		if (tx_mask != 1)
 -			return -EINVAL;
--
 -		left_slot = 0;
 -		right_slot = 0;
 +	left_slot = __ffs(tx_mask);
