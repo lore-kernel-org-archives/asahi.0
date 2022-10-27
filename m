@@ -1,15 +1,15 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081F1BA54
-	for <asahi@lists.linux.dev>; Thu, 27 Oct 2022 10:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DA1186B
+	for <asahi@lists.linux.dev>; Thu, 27 Oct 2022 10:04:07 +0000 (UTC)
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1666864725; bh=2Fc+yisSwfIomFrwc/B3SPRno9UwMqdBRdReCF0H+cU=;
+	t=1666864724; bh=zafY4n3noNNCOhqBie7L/wTVrWC4g1SUal4WI4ax48o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Yy6o+PYYi8oZ3I31rDpzKVL1SdeZHBdl66Nya8PTgGaSZ2vLqtl7m/cMeLkAJax9D
-	 PbuJVZB1unK+byWC+IIfwqpKvHFngT9LrP3fUn1yg7iZI0Zp5SE1TLjvRg+KjjUQbp
-	 Ej4kzqEICrdFpaX+62ZM3M0BMCKzpdGTfZqKwS3I=
+	b=kLA41O/WnlKOz+9do3+r5DrO19XcLsdxQ8iPXqdXw3FRvu9sSjESMw7zzz0golJvW
+	 f+6ejAdTY7J4q2hK5u77BJOe2IV0fli1G5A4ycL5ZA4w8G+oZtVf/Axxqs9W2yzdyk
+	 IghoOdn/L/mDoZgNxMBqmS0OYS1xnff9vWHuL7Ow=
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>
 Cc: Stephen Kitt <steve@sk2.org>,
@@ -22,9 +22,9 @@ Cc: Stephen Kitt <steve@sk2.org>,
 	asahi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-Subject: [PATCH 3/3] ASoC: tas2780: Fix set_tdm_slot in case of single slot
-Date: Thu, 27 Oct 2022 11:58:00 +0200
-Message-Id: <20221027095800.16094-3-povik+lin@cutebit.org>
+Subject: [PATCH 2/3] ASoC: tas2764: Fix set_tdm_slot in case of single slot
+Date: Thu, 27 Oct 2022 11:57:59 +0200
+Message-Id: <20221027095800.16094-2-povik+lin@cutebit.org>
 In-Reply-To: <20221027095800.16094-1-povik+lin@cutebit.org>
 References: <20221027095800.16094-1-povik+lin@cutebit.org>
 Precedence: bulk
@@ -48,18 +48,18 @@ being 1, but:
 
 For those reasons remove the 'nslots being 1' special case.
 
-Fixes: eae9f9ce181b ("ASoC: add tas2780 driver")
+Fixes: 827ed8a0fa50 ("ASoC: tas2764: Add the driver for the TAS2764")
 Suggested-by: Jos Dehaes <jos.dehaes@gmail.com>
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 ---
- sound/soc/codecs/tas2780.c | 19 ++++++-------------
+ sound/soc/codecs/tas2764.c | 19 ++++++-------------
  1 file changed, 6 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/codecs/tas2780.c b/sound/soc/codecs/tas2780.c
-index a6db6f0e5431..afdf0c863aa1 100644
---- a/sound/soc/codecs/tas2780.c
-+++ b/sound/soc/codecs/tas2780.c
-@@ -380,20 +380,13 @@ static int tas2780_set_dai_tdm_slot(struct snd_soc_dai *dai,
+diff --git a/sound/soc/codecs/tas2764.c b/sound/soc/codecs/tas2764.c
+index 51b87a936179..2e0ed3e68fa5 100644
+--- a/sound/soc/codecs/tas2764.c
++++ b/sound/soc/codecs/tas2764.c
+@@ -438,20 +438,13 @@ static int tas2764_set_dai_tdm_slot(struct snd_soc_dai *dai,
  	if (tx_mask == 0 || rx_mask != 0)
  		return -EINVAL;
  
