@@ -1,157 +1,215 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC7D28E8
-	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 15:09:22 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 279445C0063;
-	Fri, 28 Oct 2022 11:09:21 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute2.internal (MEProxy); Fri, 28 Oct 2022 11:09:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1666969761; x=1667056161; bh=Sy
-	6FI25zRCehPukmtH7/3V5knsC4JumJoR5V84h5kaM=; b=G+cOvYkJUUuGPABiFE
-	zjECEj6bJ8KF8IJsUGHKSG0kkvtJ2VGlxHt/vHL3ot1tcHvmCSHq8Yxsn4jmlio7
-	b87XcMRi/qNN2Hb+sQrrIZ/MprY+gQcSbAB1QGBlp6tKIsdFXVmWzpQXjwkBy+xO
-	4NvUlBVNiARkhbYcP5kRP5B0zXk8MJkJINm4XJm8NEnr4Qzbl7givGBykTZzep89
-	cUxHoMgh2r033YFDu1ONbt6pohcKPJwCy45muRy6CLnu6U5L9/8q6rm0UoXVOE4f
-	JDMshM/hm6kmL+pRMQ9aVtqAhwjY2GOiTOFxCdJtIFMMe1NV8rq+RTaTz7G9SCGw
-	O0AQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1666969761; x=1667056161; bh=Sy6FI25zRCehPukmtH7/3V5knsC4
-	JumJoR5V84h5kaM=; b=TsctoJvwFdAcmmgfHHKeVjmT4R7aNkVhe6oQqMfWMVbJ
-	5eenZ0qnr+0i+VeZ4wJBz8Vh/koB0kDeIK1jZa+7vK5IVeaOZdE+MA8+s4RxrBZ+
-	X592De5wmxSVbMZkK3U06Bco6tBH2UULWY+GgRgGJdh0HdjwVinsImTnjLXK3bAJ
-	Kvn9Ot2VuqzkO4U05kBK9GNBs4Ul0H1ednZr4yCjeLd8Qn7ZYGyCGJvEBWRxUmSn
-	ow91pTIwYpEuEIFXibkL7lxzaZ977U4bzMrtl2gCdWegTSLYhVw5uyD2RhX3rB1A
-	3yrcm+/abvZP9pUGBNFqCI2vjfocyFju8Dr4PVuyjQ==
-X-ME-Sender: <xms:n_BbY5q9PM5WcB2nasCymuRAfsH5P_socO5xgz8nev3Qz577tghQMg>
-    <xme:n_BbY7oyIwDdM-bSjSjqj4cCpDS2JGnPeg9RIC0TEUut5aaeH8DTzvXVTGvqiV-xP
-    k58Tbpa6Z9GUzsD3y4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeigdekgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
-    nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
-    htthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefghfei
-    veeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:oPBbY2MNaLXplfXAKqaolwa_6NaHLJ0Ptmad9_r4hec89t2_VdM70w>
-    <xmx:oPBbY04RfC88foBNrWOloMJshDEZKbin3RfvfhkZRJoLcpJj_2C5dQ>
-    <xmx:oPBbY442i4NZAMcpqZQCBHKaiD37HPyZZa7a9dcqmIt7_vtzC4goUg>
-    <xmx:ofBbY3TVaZqRl7-HOh0h5ylgzJPy1WpKCeDbgQNMvtPaN1kDZyXdtg>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id EDD5AA6007C; Fri, 28 Oct 2022 11:09:19 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF3128E8
+	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 15:37:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Q1F6yR8dYAxI+UJJtikY1mCKGi7/pORbcF6uO/72aDc=; b=B2KR2ciuxIEhgq3ERqvr+IdMPB
+	FrSvvzKNSyXEdVgVy+JYbdLI0Hdkx3gIIt8BZ6xY+DXTarWIfJ9/8u6dQFUxoq6lKiOKg4RnXNFg7
+	wfim86HxozZh5E/PVv8yCm3N6UoODEeuG52qGrR8nxg3aFLAfTiqQ6wT1jbxsceBIPUSAaPC8qfwU
+	m1b5E9ISh1Ulgc1mM9by1k7YNCCr/j0enaXE2OM6k58Y2AklQweB+OHHUQ4tLvZwrtrdudk8MTJoQ
+	ovxs4YG2IjtqQIDHbc1xaEXP+Hi6j5ywZJes3/bElpjMDE0WkBS3omBNnbE7yyZkm8Qo1It6pZGw+
+	LjaRYnlA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35008)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1ooRPf-0008S0-2H; Fri, 28 Oct 2022 16:36:51 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1ooRPc-0002fe-Lc; Fri, 28 Oct 2022 16:36:48 +0100
+Date: Fri, 28 Oct 2022 16:36:48 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Lee Jones <lee@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
+Message-ID: <Y1v3EMP6pFZuo0QW@shell.armlinux.org.uk>
+References: <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
+ <YxnK3LeyfacKssLT@google.com>
+ <45ed0a37-60ac-3a06-92d1-6b30e18261ff@marcan.st>
+ <YxngtlhRLTVBw+iW@google.com>
+ <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
+ <Yxnv2mKkl1tW4PUp@google.com>
+ <82088b05-2a0d-69cc-ba2c-d61c74c9d855@marcan.st>
+ <YxrwLwVihe/s9wxN@google.com>
+ <Yx8D8mGCO+1sEaKG@shell.armlinux.org.uk>
+ <Yx8QEkZcnL59qSUM@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <587611e4-eb08-4b86-a8e8-aaa10f8efee6@app.fastmail.com>
-In-Reply-To: 
- <CABBYNZKJnmfWfvxdgpxNFUGc7jTKP+BGv6CiZc2MsR970L35MA@mail.gmail.com>
-References: <20221027150822.26120-1-sven@svenpeter.dev>
- <20221027150822.26120-7-sven@svenpeter.dev>
- <CABBYNZKJnmfWfvxdgpxNFUGc7jTKP+BGv6CiZc2MsR970L35MA@mail.gmail.com>
-Date: Fri, 28 Oct 2022 17:08:59 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>
-Cc: "Marcel Holtmann" <marcel@holtmann.org>,
- "Johan Hedberg" <johan.hedberg@gmail.com>,
- "David S. Miller" <davem@davemloft.net>,
- "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Rob Herring" <robh+dt@kernel.org>,
- "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 6/7] Bluetooth: Add quirk to disable MWS Transport Configuration
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yx8QEkZcnL59qSUM@google.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Hi Luiz,
+On Mon, Sep 12, 2022 at 11:55:14AM +0100, Lee Jones wrote:
+> > I'm guessing this series is now dead, and Hector needs to re-spin the
+> > patch set according to your views. I'm guessing this is going to take
+> > a major re-work of the patch series.
+> > 
+> > I suspect my attempt and trying to get this upstream has made things
+> > more complicated, because I doubt Hector has updated his patch set
+> > with the review comments that have been made so far... so this is
+> > now quite a mess. I think, once this is sorted, the entire series
+> > will need to be re-reviewed entirely afresh.
+> 
+> I have no insight into what Hector is doing, or plans to do.
 
-On Thu, Oct 27, 2022, at 20:59, Luiz Augusto von Dentz wrote:
-> Hi Sven,
->
-> On Thu, Oct 27, 2022 at 8:09 AM Sven Peter <sven@svenpeter.dev> wrote:
->>
->> Broadcom 4378/4387 controllers found in Apple Silicon Macs claim to
->> support getting MWS Transport Layer Configuration,
->>
->> < HCI Command: Read Local Supported... (0x04|0x0002) plen 0
->> > HCI Event: Command Complete (0x0e) plen 68
->>       Read Local Supported Commands (0x04|0x0002) ncmd 1
->>         Status: Success (0x00)
->> [...]
->>           Get MWS Transport Layer Configuration (Octet 30 - Bit 3)]
->> [...]
->>
->> , but then don't actually allow the required command:
->>
->> > HCI Event: Command Complete (0x0e) plen 15
->>       Get MWS Transport Layer Configuration (0x05|0x000c) ncmd 1
->>         Status: Command Disallowed (0x0c)
->>         Number of transports: 0
->>         Baud rate list: 0 entries
->>         00 00 00 00 00 00 00 00 00 00
->>
->> Signed-off-by: Sven Peter <sven@svenpeter.dev>
->> ---
->>  include/net/bluetooth/hci.h | 10 ++++++++++
->>  net/bluetooth/hci_sync.c    |  2 ++
->>  2 files changed, 12 insertions(+)
->>
->> diff --git a/include/net/bluetooth/hci.h b/include/net/bluetooth/hci.h
->> index 8cd89948f961..110d6df1299b 100644
->> --- a/include/net/bluetooth/hci.h
->> +++ b/include/net/bluetooth/hci.h
->> @@ -273,6 +273,16 @@ enum {
->>          * during the hdev->setup vendor callback.
->>          */
->>         HCI_QUIRK_BROKEN_EXT_SCAN,
->> +
->> +       /*
->> +        * When this quirk is set, the HCI_OP_GET_MWS_TRANSPORT_CONFIG command is
->> +        * disabled. This is required for some Broadcom controllers which
->> +        * erroneously claim to support MWS Transport Layer Configuration.
->> +        *
->> +        * This quirk can be set before hci_register_dev is called or
->> +        * during the hdev->setup vendor callback.
->> +        */
->> +       HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG,
->>  };
->>
->>  /* HCI device flags */
->> diff --git a/net/bluetooth/hci_sync.c b/net/bluetooth/hci_sync.c
->> index 76c3107c9f91..91788d356748 100644
->> --- a/net/bluetooth/hci_sync.c
->> +++ b/net/bluetooth/hci_sync.c
->> @@ -4260,6 +4260,8 @@ static int hci_get_mws_transport_config_sync(struct hci_dev *hdev)
->>  {
->>         if (!(hdev->commands[30] & 0x08))
->>                 return 0;
->> +       if (test_bit(HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG, &hdev->quirks))
->> +               return 0;
->
-> Let's add a macro that tests both the command and the quirk so we
-> don't have to test them separately.
+It seems there's no plans by Hector to address this, so it comes down
+to me.
 
-Sure, I'll add a macro for v5.
+So, guessing what you're after, would something like the following
+work for you? I don't see *any* point in creating more yet more
+platform devices unless we're on a mission to maximise wasted memory
+resources (which this split will already be doing by creating two
+small modules instead of one.)
 
+Obviously, this is not an official patch yet, it's just to find out
+what code structure you are looking for.
 
-Best,
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 78c6d9d99c3f..8d4c0508a2c8 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -18,6 +18,8 @@ obj-$(CONFIG_MFD_ENE_KB3930)	+= ene-kb3930.o
+ obj-$(CONFIG_MFD_EXYNOS_LPASS)	+= exynos-lpass.o
+ obj-$(CONFIG_MFD_GATEWORKS_GSC)	+= gateworks-gsc.o
+ 
++obj-$(CONFIG_APPLE_SMC)		+= apple-smc.o
++
+ obj-$(CONFIG_HTC_PASIC3)	+= htc-pasic3.o
+ obj-$(CONFIG_HTC_I2CPLD)	+= htc-i2cpld.o
+ 
+diff --git a/drivers/mfd/apple-smc.c b/drivers/mfd/apple-smc.c
+new file mode 100644
+index 000000000000..bc59d1c5e13d
+--- /dev/null
++++ b/drivers/mfd/apple-smc.c
+@@ -0,0 +1,38 @@
++#include <linux/mfd/core.h>
++#include <linux/mfd/apple-smc.h>
++
++static const struct mfd_cell apple_smc_devs[] = {
++	{
++		.name = "macsmc-gpio",
++		.of_compatible = "apple,smc-gpio",
++	},
++	{
++		.name = "macsmc-hid",
++	},
++	{
++		.name = "macsmc-power",
++	},
++	{
++		.name = "macsmc-reboot",
++	},
++	{
++		.name = "macsmc-rtc",
++	},
++};
++
++int apple_smc_mfd_probe(struct device *dev)
++{
++	return mfd_add_devices(dev, -1, apple_smc_devs,
++			       ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
++}
++EXPORT_SYMBOL(apple_smc_mfd_probe);
++
++void apple_smc_mfd_remove(struct device *dev)
++{
++	mfd_remove_devices(dev);
++}
++EXPORT_SYMBOL(apple_smc_mfd_remove);
++
++MODULE_AUTHOR("Hector Martin <marcan@marcan.st>");
++MODULE_LICENSE("Dual MIT/GPL");
++MODULE_DESCRIPTION("Apple SMC MFD core");
+diff --git a/drivers/platform/apple/smc_core.c b/drivers/platform/apple/smc_core.c
+index 148a3f8173d3..d4a502835b27 100644
+--- a/drivers/platform/apple/smc_core.c
++++ b/drivers/platform/apple/smc_core.c
+@@ -5,7 +5,7 @@
+  */
+ 
+ #include <linux/device.h>
+-#include <linux/mfd/core.h>
++#include <linux/mfd/apple-smc.h>
+ #include <linux/mutex.h>
+ #include <linux/notifier.h>
+ #include "smc.h"
+@@ -25,25 +25,6 @@ struct apple_smc {
+ 	struct blocking_notifier_head event_handlers;
+ };
+ 
+-static const struct mfd_cell apple_smc_devs[] = {
+-	{
+-		.name = "macsmc-gpio",
+-		.of_compatible = "apple,smc-gpio",
+-	},
+-	{
+-		.name = "macsmc-hid",
+-	},
+-	{
+-		.name = "macsmc-power",
+-	},
+-	{
+-		.name = "macsmc-reboot",
+-	},
+-	{
+-		.name = "macsmc-rtc",
+-	},
+-};
+-
+ int apple_smc_read(struct apple_smc *smc, smc_key key, void *buf, size_t size)
+ {
+ 	int ret;
+@@ -226,7 +207,7 @@ struct apple_smc *apple_smc_probe(struct device *dev, const struct apple_smc_bac
+ 
+ 	dev_set_drvdata(dev, smc);
+ 
+-	ret = mfd_add_devices(dev, -1, apple_smc_devs, ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
++	ret = apple_smc_mfd_probe(dev);
+ 	if (ret)
+ 		return ERR_PTR(dev_err_probe(dev, ret, "Subdevice initialization failed"));
+ 
+@@ -236,7 +217,7 @@ EXPORT_SYMBOL(apple_smc_probe);
+ 
+ int apple_smc_remove(struct apple_smc *smc)
+ {
+-	mfd_remove_devices(smc->dev);
++	apple_smc_mfd_remove(smc->dev);
+ 
+ 	/* Disable notifications */
+ 	apple_smc_write_flag(smc, SMC_KEY(NTAP), 1);
+diff --git a/include/linux/mfd/apple-smc.h b/include/linux/mfd/apple-smc.h
+new file mode 100644
+index 000000000000..2f34ca0f07f3
+--- /dev/null
++++ b/include/linux/mfd/apple-smc.h
+@@ -0,0 +1,9 @@
++#ifndef LINUX_MFD_APPLE_SMC_H
++#define LINUX_MFD_APPLE_SMC_H
++
++struct device;
++
++int apple_smc_mfd_probe(struct device *dev);
++void apple_smc_mfd_remove(struct device *dev);
++
++#endif
 
-
-Sven
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
