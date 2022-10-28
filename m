@@ -1,215 +1,94 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF3128E8
-	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 15:37:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Q1F6yR8dYAxI+UJJtikY1mCKGi7/pORbcF6uO/72aDc=; b=B2KR2ciuxIEhgq3ERqvr+IdMPB
-	FrSvvzKNSyXEdVgVy+JYbdLI0Hdkx3gIIt8BZ6xY+DXTarWIfJ9/8u6dQFUxoq6lKiOKg4RnXNFg7
-	wfim86HxozZh5E/PVv8yCm3N6UoODEeuG52qGrR8nxg3aFLAfTiqQ6wT1jbxsceBIPUSAaPC8qfwU
-	m1b5E9ISh1Ulgc1mM9by1k7YNCCr/j0enaXE2OM6k58Y2AklQweB+OHHUQ4tLvZwrtrdudk8MTJoQ
-	ovxs4YG2IjtqQIDHbc1xaEXP+Hi6j5ywZJes3/bElpjMDE0WkBS3omBNnbE7yyZkm8Qo1It6pZGw+
-	LjaRYnlA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35008)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1ooRPf-0008S0-2H; Fri, 28 Oct 2022 16:36:51 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1ooRPc-0002fe-Lc; Fri, 28 Oct 2022 16:36:48 +0100
-Date: Fri, 28 Oct 2022 16:36:48 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Lee Jones <lee@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
-Message-ID: <Y1v3EMP6pFZuo0QW@shell.armlinux.org.uk>
-References: <E1oTkeW-003t9Y-Ey@rmk-PC.armlinux.org.uk>
- <YxnK3LeyfacKssLT@google.com>
- <45ed0a37-60ac-3a06-92d1-6b30e18261ff@marcan.st>
- <YxngtlhRLTVBw+iW@google.com>
- <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
- <Yxnv2mKkl1tW4PUp@google.com>
- <82088b05-2a0d-69cc-ba2c-d61c74c9d855@marcan.st>
- <YxrwLwVihe/s9wxN@google.com>
- <Yx8D8mGCO+1sEaKG@shell.armlinux.org.uk>
- <Yx8QEkZcnL59qSUM@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB512916
+	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 16:52:54 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id f27so14342634eje.1
+        for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 09:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TRbtjzgGY79KT/za/x8o0WGQEAKstEUc6+ZUvLa/3WE=;
+        b=Rm1QgOjAFiI7XmFUhmPEZeVtIvOd4SWpfjF8UQiJEDSDLZL7F2M6r9ByqbGV/JByp4
+         Gv+fkWsQJ88UVp2YtPZeQqKxuaVRxYmvpr30scl035igGDXPVadrzYMtHmEdSv4lgSnq
+         vm1cQURGqu5jG05rh321S9jyPgK1mI/l2VZM9FPwNqay2EfePWJDExQClNkSqrI6KBQp
+         +hVA6dgfE2iRfo3JkqkWF9HBGcLA2Qm+v6n3eJLHLuWfuttfiILkbnPESeUi+fZwJtno
+         SvVb60STbZAD5X2utynPoFPNFvBtl2VmtWBDWcD/7tARz8FbcSVwSnt+I2dVgP4qUxg1
+         WZRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TRbtjzgGY79KT/za/x8o0WGQEAKstEUc6+ZUvLa/3WE=;
+        b=RKGsu2pbha+VHqlu/tjTWolYbZmYsS6T2+6sMA9aSbtQZlzDbobuSe0FLrDIs4jfYy
+         8MUd1YwB1gsgJfdj2hB+Z6T6WatGozxXSTAZhu5GAj0kPNUn7+sONmgjTtGRJyMryiyH
+         oNOGQ5EmBYt5ESvmqyefsqkY/8zrwUl03us7Vaf0JXcv8QBZB4QkC6k8IsWbFfJQJxhW
+         8u6dvAGjSsgqW6v7M6/6ju3sfKV9WEf5AJqMq4jwGJVQUgoA7Vc5jryrdInAu1W4JrlF
+         zExafFZmvBOnHMLLrHP82+eIW2Gzl/3nNCe2rrkzQz/pTOtZgHHYGaYwTmt6e639cgZz
+         25hg==
+X-Gm-Message-State: ACrzQf3RttNaD7cYj59qNVaT0s5Vde8QNhKHxUhXBOfVAPHdgEhl8kQ7
+	iyJAf9/kiJJzm11+aCukgKM=
+X-Google-Smtp-Source: AMsMyM7gsqxktKkco3+PcK41044g4dHIYIHKTgAqQdmLcpGgPUnZd0RVuxuYWimJn9kPdH4HvFGBLA==
+X-Received: by 2002:a17:906:3111:b0:7ad:a7fc:f3e8 with SMTP id 17-20020a170906311100b007ada7fcf3e8mr243112ejx.518.1666975972737;
+        Fri, 28 Oct 2022 09:52:52 -0700 (PDT)
+Received: from localhost ([88.227.58.131])
+        by smtp.gmail.com with UTF8SMTPSA id x9-20020a056402414900b004589da5e5cesm2952990eda.41.2022.10.28.09.52.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Oct 2022 09:52:52 -0700 (PDT)
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+To: thierry.reding@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org
+Cc: marcan@marcan.st,
+	sven@svenpeter.dev,
+	alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] PWM and keyboard backlight driver for ARM Macs
+Date: Fri, 28 Oct 2022 19:52:11 +0300
+Message-Id: <20221028165215.43662-1-fnkl.kernel@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yx8QEkZcnL59qSUM@google.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 12, 2022 at 11:55:14AM +0100, Lee Jones wrote:
-> > I'm guessing this series is now dead, and Hector needs to re-spin the
-> > patch set according to your views. I'm guessing this is going to take
-> > a major re-work of the patch series.
-> > 
-> > I suspect my attempt and trying to get this upstream has made things
-> > more complicated, because I doubt Hector has updated his patch set
-> > with the review comments that have been made so far... so this is
-> > now quite a mess. I think, once this is sorted, the entire series
-> > will need to be re-reviewed entirely afresh.
-> 
-> I have no insight into what Hector is doing, or plans to do.
+Hi,
 
-It seems there's no plans by Hector to address this, so it comes down
-to me.
+This series adds support for the PWM controller present on ARM Macs and used
+among other things for the keyboard backlight on those laptops.
 
-So, guessing what you're after, would something like the following
-work for you? I don't see *any* point in creating more yet more
-platform devices unless we're on a mission to maximise wasted memory
-resources (which this split will already be doing by creating two
-small modules instead of one.)
+The included device tree patch also hooks up the keyboard backlight using
+the pwm-leds binding.
 
-Obviously, this is not an official patch yet, it's just to find out
-what code structure you are looking for.
+Best Regards.
 
-diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-index 78c6d9d99c3f..8d4c0508a2c8 100644
---- a/drivers/mfd/Makefile
-+++ b/drivers/mfd/Makefile
-@@ -18,6 +18,8 @@ obj-$(CONFIG_MFD_ENE_KB3930)	+= ene-kb3930.o
- obj-$(CONFIG_MFD_EXYNOS_LPASS)	+= exynos-lpass.o
- obj-$(CONFIG_MFD_GATEWORKS_GSC)	+= gateworks-gsc.o
- 
-+obj-$(CONFIG_APPLE_SMC)		+= apple-smc.o
-+
- obj-$(CONFIG_HTC_PASIC3)	+= htc-pasic3.o
- obj-$(CONFIG_HTC_I2CPLD)	+= htc-i2cpld.o
- 
-diff --git a/drivers/mfd/apple-smc.c b/drivers/mfd/apple-smc.c
-new file mode 100644
-index 000000000000..bc59d1c5e13d
---- /dev/null
-+++ b/drivers/mfd/apple-smc.c
-@@ -0,0 +1,38 @@
-+#include <linux/mfd/core.h>
-+#include <linux/mfd/apple-smc.h>
-+
-+static const struct mfd_cell apple_smc_devs[] = {
-+	{
-+		.name = "macsmc-gpio",
-+		.of_compatible = "apple,smc-gpio",
-+	},
-+	{
-+		.name = "macsmc-hid",
-+	},
-+	{
-+		.name = "macsmc-power",
-+	},
-+	{
-+		.name = "macsmc-reboot",
-+	},
-+	{
-+		.name = "macsmc-rtc",
-+	},
-+};
-+
-+int apple_smc_mfd_probe(struct device *dev)
-+{
-+	return mfd_add_devices(dev, -1, apple_smc_devs,
-+			       ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
-+}
-+EXPORT_SYMBOL(apple_smc_mfd_probe);
-+
-+void apple_smc_mfd_remove(struct device *dev)
-+{
-+	mfd_remove_devices(dev);
-+}
-+EXPORT_SYMBOL(apple_smc_mfd_remove);
-+
-+MODULE_AUTHOR("Hector Martin <marcan@marcan.st>");
-+MODULE_LICENSE("Dual MIT/GPL");
-+MODULE_DESCRIPTION("Apple SMC MFD core");
-diff --git a/drivers/platform/apple/smc_core.c b/drivers/platform/apple/smc_core.c
-index 148a3f8173d3..d4a502835b27 100644
---- a/drivers/platform/apple/smc_core.c
-+++ b/drivers/platform/apple/smc_core.c
-@@ -5,7 +5,7 @@
-  */
- 
- #include <linux/device.h>
--#include <linux/mfd/core.h>
-+#include <linux/mfd/apple-smc.h>
- #include <linux/mutex.h>
- #include <linux/notifier.h>
- #include "smc.h"
-@@ -25,25 +25,6 @@ struct apple_smc {
- 	struct blocking_notifier_head event_handlers;
- };
- 
--static const struct mfd_cell apple_smc_devs[] = {
--	{
--		.name = "macsmc-gpio",
--		.of_compatible = "apple,smc-gpio",
--	},
--	{
--		.name = "macsmc-hid",
--	},
--	{
--		.name = "macsmc-power",
--	},
--	{
--		.name = "macsmc-reboot",
--	},
--	{
--		.name = "macsmc-rtc",
--	},
--};
--
- int apple_smc_read(struct apple_smc *smc, smc_key key, void *buf, size_t size)
- {
- 	int ret;
-@@ -226,7 +207,7 @@ struct apple_smc *apple_smc_probe(struct device *dev, const struct apple_smc_bac
- 
- 	dev_set_drvdata(dev, smc);
- 
--	ret = mfd_add_devices(dev, -1, apple_smc_devs, ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
-+	ret = apple_smc_mfd_probe(dev);
- 	if (ret)
- 		return ERR_PTR(dev_err_probe(dev, ret, "Subdevice initialization failed"));
- 
-@@ -236,7 +217,7 @@ EXPORT_SYMBOL(apple_smc_probe);
- 
- int apple_smc_remove(struct apple_smc *smc)
- {
--	mfd_remove_devices(smc->dev);
-+	apple_smc_mfd_remove(smc->dev);
- 
- 	/* Disable notifications */
- 	apple_smc_write_flag(smc, SMC_KEY(NTAP), 1);
-diff --git a/include/linux/mfd/apple-smc.h b/include/linux/mfd/apple-smc.h
-new file mode 100644
-index 000000000000..2f34ca0f07f3
---- /dev/null
-+++ b/include/linux/mfd/apple-smc.h
-@@ -0,0 +1,9 @@
-+#ifndef LINUX_MFD_APPLE_SMC_H
-+#define LINUX_MFD_APPLE_SMC_H
-+
-+struct device;
-+
-+int apple_smc_mfd_probe(struct device *dev);
-+void apple_smc_mfd_remove(struct device *dev);
-+
-+#endif
+Sasha Finkelstein (4):
+ dt-bindings: pwm: Add Apple PWM controller
+ pwm: Add Apple PWM controller
+ arm64: dts: apple: t8103: Add PWM controller
+ MAINTAINERS: Add entries for Apple PWM driver
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+ Documentation/devicetree/bindings/pwm/pwm-apple.yaml |  51 +++++++++++++
+ MAINTAINERS                                          |   2 ++
+ arch/arm64/boot/dts/apple/t8103-j293.dts             |  20 ++++++++
+ arch/arm64/boot/dts/apple/t8103-j313.dts             |  20 ++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi                 |   9 ++++
+ drivers/pwm/Kconfig                                  |  12 ++++
+ drivers/pwm/Makefile                                 |   1 +
+ drivers/pwm/pwm-apple.c                              | 124 +++++++++++++++++++
+ 8 files changed, 239 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+ create mode 100644 drivers/pwm/pwm-apple.c
+
+
+
+
