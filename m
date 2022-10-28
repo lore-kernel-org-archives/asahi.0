@@ -1,243 +1,288 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2ED1FAA
-	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 07:30:15 +0000 (UTC)
-Received: from eldfell (unknown [194.136.85.206])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A00BE83C
+	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 08:07:30 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	(Authenticated sender: pq)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4E5B8660290F;
-	Fri, 28 Oct 2022 08:30:13 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1666942213;
-	bh=z+ciR8QtGyLRpkmTeUgYpn3tnblv69hXqxcsMx9CfIQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=g5fjiNOIUQHXnXBQsyffh8A5rK4ubwA4/hM4iWL8HwSNwR5/kqOicwEz3++/vDks7
-	 35wb9X2J8qXynxhqgPMeSvzhUbtB0OxHftoEXm8OiPfzEMpV39CjYl9cCRuUnIcKh5
-	 T/6L2YmugQuHUNvQVz6QqRqYq+/srLEI5wiaQYe/tK3s8/5L7zckTPCqlrMJ1i2seY
-	 Wo8Ve7Qw8Zn6MGe2gic46RPNei1zMzAkBRCmL//qm5FFitCOxLBVs6Qw+guWaJ7Die
-	 n4+4P8QkQxJ5Vxuofdo+zydJJ1UsnWNO9S9icoeZBmis1U9MnWwueF3YywZ0Gqx495
-	 AkEqmozH2wGFg==
-Date: Fri, 28 Oct 2022 10:30:10 +0300
-From: Pekka Paalanen <pekka.paalanen@collabora.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Javier Martinez
- Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] drm/format-helper: Only advertise supported formats
- for conversion
-Message-ID: <20221028103010.15994b06.pekka.paalanen@collabora.com>
-In-Reply-To: <20221027135711.24425-1-marcan@marcan.st>
-References: <20221027135711.24425-1-marcan@marcan.st>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7820F21A57;
+	Fri, 28 Oct 2022 08:07:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666944448; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZmhdIYzgzYoMemuPAwgV+inOEVpWTOZbblPXWt27sS4=;
+	b=PrA133hUkoySASjI+VY6GmOzuLbNZOTJZkKiLCw0PMMguWXBPtAdYEg32c5B+6nH2t9jt8
+	n31txsHFbkKBLAv+51l55GkMb59Ym2gUX3jdAxv0yKWS35xtAb7CO0JbTwPkCadzPBnvTF
+	brCdPQ/NU4mds0KOhPCbgPSaUU5oPak=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666944448;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZmhdIYzgzYoMemuPAwgV+inOEVpWTOZbblPXWt27sS4=;
+	b=li4yohojqXOL4nleDYSz+NxaKNv2Yc1qZXj/7mWOlXlFZkXV03/2832uJdBJbldB0MJZhb
+	E6kODzOQf80JfSCQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3EA8D13A6E;
+	Fri, 28 Oct 2022 08:07:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id W9NGDsCNW2NAcAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Fri, 28 Oct 2022 08:07:28 +0000
+Message-ID: <6102d131-fd3f-965b-cd52-d8d3286e0048@suse.de>
+Date: Fri, 28 Oct 2022 10:07:27 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH v2] drm/format-helper: Only advertise supported formats
+ for conversion
+Content-Language: en-US
+To: Hector Martin <marcan@marcan.st>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, asahi@lists.linux.dev
+References: <20221027135711.24425-1-marcan@marcan.st>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20221027135711.24425-1-marcan@marcan.st>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------d8cxr00dZvmaC4Yh9gxFclmK"
 
-On Thu, 27 Oct 2022 22:57:11 +0900
-Hector Martin <marcan@marcan.st> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------d8cxr00dZvmaC4Yh9gxFclmK
+Content-Type: multipart/mixed; boundary="------------ZU9yfxcGT0NrRZtZx7GyGYf5";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Hector Martin <marcan@marcan.st>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Javier Martinez Canillas <javierm@redhat.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, asahi@lists.linux.dev
+Message-ID: <6102d131-fd3f-965b-cd52-d8d3286e0048@suse.de>
+Subject: Re: [PATCH v2] drm/format-helper: Only advertise supported formats
+ for conversion
+References: <20221027135711.24425-1-marcan@marcan.st>
+In-Reply-To: <20221027135711.24425-1-marcan@marcan.st>
 
-> drm_fb_build_fourcc_list() currently returns all emulated formats
-> unconditionally as long as the native format is among them, even though
-> not all combinations have conversion helpers. Although the list is
-> arguably provided to userspace in precedence order, userspace can pick
-> something out-of-order (and thus break when it shouldn't), or simply
-> only support a format that is unsupported (and thus think it can work,
-> which results in the appearance of a hang as FB blits fail later on,
-> instead of the initialization error you'd expect in this case).
-> 
-> Add checks to filter the list of emulated formats to only those
-> supported for conversion to the native format. This presumes that there
-> is a single native format (only the first is checked, if there are
-> multiple). Refactoring this API to drop the native list or support it
-> properly (by returning the appropriate emulated->native mapping table)
-> is left for a future patch.
-> 
-> The simpledrm driver is left as-is with a full table of emulated
-> formats. This keeps all currently working conversions available and
-> drops all the broken ones (i.e. this a strict bugfix patch, adding no
-> new supported formats nor removing any actually working ones). In order
-> to avoid proliferation of emulated formats, future drivers should
-> advertise only XRGB8888 as the sole emulated format (since some
-> userspace assumes its presence).
-> 
-> This fixes a real user regression where the ?RGB2101010 support commit
-> started advertising it unconditionally where not supported, and KWin
-> decided to start to use it over the native format and broke, but also
-> the fixes the spurious RGB565/RGB888 formats which have been wrongly
-> unconditionally advertised since the dawn of simpledrm.
-> 
-> Fixes: 6ea966fca084 ("drm/simpledrm: Add [AX]RGB2101010 formats")
-> Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+--------------ZU9yfxcGT0NrRZtZx7GyGYf5
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Hi Hector,
+SGkNCg0KQW0gMjcuMTAuMjIgdW0gMTU6NTcgc2NocmllYiBIZWN0b3IgTWFydGluOg0KPiBk
+cm1fZmJfYnVpbGRfZm91cmNjX2xpc3QoKSBjdXJyZW50bHkgcmV0dXJucyBhbGwgZW11bGF0
+ZWQgZm9ybWF0cw0KPiB1bmNvbmRpdGlvbmFsbHkgYXMgbG9uZyBhcyB0aGUgbmF0aXZlIGZv
+cm1hdCBpcyBhbW9uZyB0aGVtLCBldmVuIHRob3VnaA0KPiBub3QgYWxsIGNvbWJpbmF0aW9u
+cyBoYXZlIGNvbnZlcnNpb24gaGVscGVycy4gQWx0aG91Z2ggdGhlIGxpc3QgaXMNCj4gYXJn
+dWFibHkgcHJvdmlkZWQgdG8gdXNlcnNwYWNlIGluIHByZWNlZGVuY2Ugb3JkZXIsIHVzZXJz
+cGFjZSBjYW4gcGljaw0KPiBzb21ldGhpbmcgb3V0LW9mLW9yZGVyIChhbmQgdGh1cyBicmVh
+ayB3aGVuIGl0IHNob3VsZG4ndCksIG9yIHNpbXBseQ0KPiBvbmx5IHN1cHBvcnQgYSBmb3Jt
+YXQgdGhhdCBpcyB1bnN1cHBvcnRlZCAoYW5kIHRodXMgdGhpbmsgaXQgY2FuIHdvcmssDQo+
+IHdoaWNoIHJlc3VsdHMgaW4gdGhlIGFwcGVhcmFuY2Ugb2YgYSBoYW5nIGFzIEZCIGJsaXRz
+IGZhaWwgbGF0ZXIgb24sDQo+IGluc3RlYWQgb2YgdGhlIGluaXRpYWxpemF0aW9uIGVycm9y
+IHlvdSdkIGV4cGVjdCBpbiB0aGlzIGNhc2UpLg0KPiANCj4gQWRkIGNoZWNrcyB0byBmaWx0
+ZXIgdGhlIGxpc3Qgb2YgZW11bGF0ZWQgZm9ybWF0cyB0byBvbmx5IHRob3NlDQo+IHN1cHBv
+cnRlZCBmb3IgY29udmVyc2lvbiB0byB0aGUgbmF0aXZlIGZvcm1hdC4gVGhpcyBwcmVzdW1l
+cyB0aGF0IHRoZXJlDQo+IGlzIGEgc2luZ2xlIG5hdGl2ZSBmb3JtYXQgKG9ubHkgdGhlIGZp
+cnN0IGlzIGNoZWNrZWQsIGlmIHRoZXJlIGFyZQ0KPiBtdWx0aXBsZSkuIFJlZmFjdG9yaW5n
+IHRoaXMgQVBJIHRvIGRyb3AgdGhlIG5hdGl2ZSBsaXN0IG9yIHN1cHBvcnQgaXQNCj4gcHJv
+cGVybHkgKGJ5IHJldHVybmluZyB0aGUgYXBwcm9wcmlhdGUgZW11bGF0ZWQtPm5hdGl2ZSBt
+YXBwaW5nIHRhYmxlKQ0KPiBpcyBsZWZ0IGZvciBhIGZ1dHVyZSBwYXRjaC4NCj4gDQo+IFRo
+ZSBzaW1wbGVkcm0gZHJpdmVyIGlzIGxlZnQgYXMtaXMgd2l0aCBhIGZ1bGwgdGFibGUgb2Yg
+ZW11bGF0ZWQNCj4gZm9ybWF0cy4gVGhpcyBrZWVwcyBhbGwgY3VycmVudGx5IHdvcmtpbmcg
+Y29udmVyc2lvbnMgYXZhaWxhYmxlIGFuZA0KPiBkcm9wcyBhbGwgdGhlIGJyb2tlbiBvbmVz
+IChpLmUuIHRoaXMgYSBzdHJpY3QgYnVnZml4IHBhdGNoLCBhZGRpbmcgbm8NCj4gbmV3IHN1
+cHBvcnRlZCBmb3JtYXRzIG5vciByZW1vdmluZyBhbnkgYWN0dWFsbHkgd29ya2luZyBvbmVz
+KS4gSW4gb3JkZXINCj4gdG8gYXZvaWQgcHJvbGlmZXJhdGlvbiBvZiBlbXVsYXRlZCBmb3Jt
+YXRzLCBmdXR1cmUgZHJpdmVycyBzaG91bGQNCj4gYWR2ZXJ0aXNlIG9ubHkgWFJHQjg4ODgg
+YXMgdGhlIHNvbGUgZW11bGF0ZWQgZm9ybWF0IChzaW5jZSBzb21lDQo+IHVzZXJzcGFjZSBh
+c3N1bWVzIGl0cyBwcmVzZW5jZSkuDQo+IA0KPiBUaGlzIGZpeGVzIGEgcmVhbCB1c2VyIHJl
+Z3Jlc3Npb24gd2hlcmUgdGhlID9SR0IyMTAxMDEwIHN1cHBvcnQgY29tbWl0DQo+IHN0YXJ0
+ZWQgYWR2ZXJ0aXNpbmcgaXQgdW5jb25kaXRpb25hbGx5IHdoZXJlIG5vdCBzdXBwb3J0ZWQs
+IGFuZCBLV2luDQo+IGRlY2lkZWQgdG8gc3RhcnQgdG8gdXNlIGl0IG92ZXIgdGhlIG5hdGl2
+ZSBmb3JtYXQgYW5kIGJyb2tlLCBidXQgYWxzbw0KPiB0aGUgZml4ZXMgdGhlIHNwdXJpb3Vz
+IFJHQjU2NS9SR0I4ODggZm9ybWF0cyB3aGljaCBoYXZlIGJlZW4gd3JvbmdseQ0KPiB1bmNv
+bmRpdGlvbmFsbHkgYWR2ZXJ0aXNlZCBzaW5jZSB0aGUgZGF3biBvZiBzaW1wbGVkcm0uDQo+
+IA0KPiBGaXhlczogNmVhOTY2ZmNhMDg0ICgiZHJtL3NpbXBsZWRybTogQWRkIFtBWF1SR0Iy
+MTAxMDEwIGZvcm1hdHMiKQ0KPiBGaXhlczogMTFlOGY1ZmQyMjNiICgiZHJtOiBBZGQgc2lt
+cGxlZHJtIGRyaXZlciIpDQo+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnDQo+IFNpZ25l
+ZC1vZmYtYnk6IEhlY3RvciBNYXJ0aW4gPG1hcmNhbkBtYXJjYW4uc3Q+DQoNClJldmlld2Vk
+LWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3VzZS5kZT4NCg0KVGhhbmtz
+IGZvciB5b3VyIHBhdGNoLiBJIGhhdmUgdmVyaWZpZWQgdGhhdCB2aWRlbz0tezE2LDI0fSBz
+dGlsbCB3b3JrcyANCndpdGggc2ltcGxlZHJtLg0KDQo+IC0tLQ0KPiBJJ20gcHJvcG9zaW5n
+IHRoaXMgYWx0ZXJuYXRpdmUgYXBwcm9hY2ggYWZ0ZXIgYSBoZWF0ZWQgZGlzY3Vzc2lvbiBv
+bg0KPiBJUkMuIEknbSBvdXQgb2YgaWRlYXMsIGlmIHknYWxsIGRvbid0IGxpa2UgdGhpcyBv
+bmUgeW91IGNhbiBmaWd1cmUgaXQNCj4gb3V0IGZvciB5b3Vyc2V2ZXMgOi0pDQo+IA0KPiBD
+aGFuZ2VzIHNpbmNlIHYxOg0KPiBUaGlzIHYyIG1vdmVzIGFsbCB0aGUgY2hhbmdlcyB0byB0
+aGUgaGVscGVyIChzbyB0aGV5IHdpbGwgYXBwbHkgdG8NCj4gdGhlIHVwY29taW5nIG9mZHJt
+LCB0aG91Z2ggb2Zkcm0gYWxzbyBuZWVkcyB0byBiZSBmaXhlZCB0byB0cmltIGl0cw0KPiBm
+b3JtYXQgdGFibGUgdG8gb25seSBmb3JtYXRzIHRoYXQgc2hvdWxkIGJlIGVtdWxhdGVkLCBw
+cm9iYWJseSBvbmx5DQo+IFhSR0I4ODg4LCB0byBhdm9pZCBmdXJ0aGVyIHByb2xpZmVyYXRp
+bmcgdGhlIHVzZSBvZiBjb252ZXJzaW9ucyksDQo+IGFuZCBhdm9pZHMgdG91Y2hpbmcgbW9y
+ZSB0aGFuIG9uZSBmaWxlLiBUaGUgQVBJIHN0aWxsIG5lZWRzIGNsZWFudXANCj4gYXMgbWVu
+dGlvbmVkIChzdXBwb3J0aW5nIG1vcmUgdGhhbiBvbmUgbmF0aXZlIGZvcm1hdCBpcyBmdW5k
+YW1lbnRhbGx5DQo+IGJyb2tlbiwgc2luY2UgdGhlIGhlbHBlciB3b3VsZCBuZWVkIHRvIHRl
+bGwgdGhlIGRyaXZlciAqd2hhdCogbmF0aXZlDQo+IGZvcm1hdCB0byB1c2UgZm9yICplYWNo
+KiBlbXVsYXRlZCBmb3JtYXQgc29tZWhvdyksIGJ1dCBhbGwgY3VycmVudCBhbmQNCj4gcGxh
+bm5lZCB1c2VycyBvbmx5IHBhc3MgaW4gb25lIG5hdGl2ZSBmb3JtYXQsIHNvIHRoaXMgY2Fu
+IChhbmQgc2hvdWxkKQ0KPiBiZSBmaXhlZCBsYXRlci4NCj4gDQo+IEFzaWRlOiBBZnRlciBv
+dGhlciBJUkMgZGlzY3Vzc2lvbiwgSSdtIHRlc3RpbmcgbnVraW5nIHRoZQ0KPiBYUkdCMjEw
+MTAxMCA8LT4gQVJHQjIxMDEwMTAgYWR2ZXJ0aXNlbWVudCAod2hpY2ggZG9lcyBub3QgaW52
+b2x2ZQ0KPiBjb252ZXJzaW9uKSBieSByZW1vdmluZyB0aG9zZSBlbnRyaWVzIGZyb20gc2lt
+cGxlZHJtIGluIHRoZSBBc2FoaSBMaW51eA0KPiBkb3duc3RyZWFtIHRyZWUuIEFzIGZhciBh
+cyBJJ20gY29uY2VybmVkLCBpdCBjYW4gYmUgcmVtb3ZlZCBpZiBub2JvZHkNCj4gY29tcGxh
+aW5zIChieSByZW1vdmluZyB0aG9zZSBlbnRyaWVzIGZyb20gdGhlIHNpbXBsZWRybSBhcnJh
+eSksIGlmDQo+IG1haW50YWluZXJzIGFyZSBnZW5lcmFsbHkgb2theSB3aXRoIHJlbW92aW5n
+IGFkdmVydGlzZWQgZm9ybWF0cyBhdCBhbGwuDQo+IElmIHNvLCB0aGVyZSBtaWdodCBiZSBv
+dGhlciBvcHBvcnR1bml0aWVzIGZvciBmdXJ0aGVyIHRyaW1taW5nIHRoZSBsaXN0DQo+IG5v
+bi1uYXRpdmUgZm9ybWF0cyBhZHZlcnRpc2VkIHRvIHVzZXJzcGFjZS4NCg0KSU1ITyBhbGwg
+b2YgdGhlIGV4dHJhIEEgZm9ybWF0cyBjYW4gaW1tZWRpYXRlbHkgZ28uIFdlIGhhdmUgcGxl
+bnR5IG9mIA0Kc2ltcGxlIGRyaXZlcnMgdGhhdCBvbmx5IGV4cG9ydCBYUkdCODg4OCBwbHVz
+IHNvbWV0aW1lcyBhIGZldyBvdGhlciANCm5vbi1BIGZvcm1hdHMuIElmIGFueXRoaW5nIGlu
+IHVzZXJzcGFjZSBoYWQgYSBoYXJkIGRlcGVuZGVuY3kgb24gYW4gQSANCmZvcm1hdCwgd2Un
+ZCBwcm9iYWJseSBoZWFyZCBhYm91dCBpdC4NCg0KSW4geWVzdGVyZGF5J3MgZGlzY3Vzc2lv
+biBvbiBJUkMsIGl0IHdhcyBzYWlkIHRoYXQgc2V2ZXJhbCBkZXZpY2VzIA0KYWR2ZXJ0aXNl
+IEFSR0IgZnJhbWVidWZmZXJzIHdoZW4gdGhlIGhhcmR3YXJlIGFjdHVhbGx5IHVzZXMgWFJH
+Qj8gSXMgDQp0aGVyZSBoYXJkd2FyZSB0aGF0IHN1cHBvcnRzIHRyYW5zcGFyZW50IHByaW1h
+cnkgcGxhbmVzPw0KDQpCZWZvcmUgcmVtb3ZpbmcgdGhlIGV4dHJhIG5vbi1BIGZvcm1hdHMs
+IHdlIGZpcnN0IGhhdmUgdG8gZml4IHRoZSBmYmRldiANCmNvbnNvbGUncyBmb3JtYXQgc2Vs
+ZWN0aW9uLiBTbyBpZiB1c2VycyBzZXQgdmlkZW89LTI0IHdpdGhvdXQgbmF0aXZlIA0KaGFy
+ZHdhcmUgc3VwcG9ydCwgc2ltcGxlZHJtIChhbmQgYW55IG90aGVyIGRyaXZlcikgZmFsbHMg
+YmFjayB0byBhIA0Kc3VwcG9ydGVkIGZvcm1hdC4gVGhpcyB3b3JrZWQgd2l0aCB0aGUgb2xk
+IGZiZGV2IGRyaXZlcnMsIHN1Y2ggYXMgDQpzaW1wbGVmYiBhbmQgZWZpZmIsIGFuZCBzb21l
+IHVzZXJzIGV4cGVjdCBpdC4NCg0KSWYgbm90aGluZyBlbHNlIGNvbWVzIGluLCBJJ2xsIG1l
+cmdlIHlvdXIgcGF0Y2ggb24gTW9uZGF5Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+
+IA0KPiBUZXN0ZWQgd2l0aCBLV2luLVgxMSwgS1dpbi1XYXlsYW5kLCBHTk9NRS1YMTEsIEdO
+T01FLVdheWxhbmQsIGFuZCBXZXN0b24NCj4gb24gYm90aCBYUkdCMjEwMTAxMCBhbmQgUkdC
+ODg4OCBzaW1wbGVkcm0gZnJhbWVidWZmZXJzLg0KPiANCj4gICBkcml2ZXJzL2dwdS9kcm0v
+ZHJtX2Zvcm1hdF9oZWxwZXIuYyB8IDY2ICsrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0t
+DQo+ICAgMSBmaWxlIGNoYW5nZWQsIDQ3IGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9ucygt
+KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9ybWF0X2hlbHBl
+ci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9mb3JtYXRfaGVscGVyLmMNCj4gaW5kZXggZTJm
+NzY2MjE0NTNjLi4zZWU1OWJhZTlkMmYgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2Ry
+bS9kcm1fZm9ybWF0X2hlbHBlci5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZm9y
+bWF0X2hlbHBlci5jDQo+IEBAIC04MDcsNiArODA3LDM4IEBAIHN0YXRpYyBib29sIGlzX2xp
+c3RlZF9mb3VyY2MoY29uc3QgdWludDMyX3QgKmZvdXJjY3MsIHNpemVfdCBuZm91cmNjcywg
+dWludDMyX3QNCj4gICAJcmV0dXJuIGZhbHNlOw0KPiAgIH0NCj4gICANCj4gK3N0YXRpYyBj
+b25zdCB1aW50MzJfdCBjb252X2Zyb21feHJnYjg4ODhbXSA9IHsNCj4gKwlEUk1fRk9STUFU
+X1hSR0I4ODg4LA0KPiArCURSTV9GT1JNQVRfQVJHQjg4ODgsDQo+ICsJRFJNX0ZPUk1BVF9Y
+UkdCMjEwMTAxMCwNCj4gKwlEUk1fRk9STUFUX0FSR0IyMTAxMDEwLA0KPiArCURSTV9GT1JN
+QVRfUkdCNTY1LA0KPiArCURSTV9GT1JNQVRfUkdCODg4LA0KPiArfTsNCj4gKw0KPiArc3Rh
+dGljIGNvbnN0IHVpbnQzMl90IGNvbnZfZnJvbV9yZ2I1NjVfODg4W10gPSB7DQo+ICsJRFJN
+X0ZPUk1BVF9YUkdCODg4OCwNCj4gKwlEUk1fRk9STUFUX0FSR0I4ODg4LA0KPiArfTsNCj4g
+Kw0KPiArc3RhdGljIGJvb2wgaXNfY29udmVyc2lvbl9zdXBwb3J0ZWQodWludDMyX3QgZnJv
+bSwgdWludDMyX3QgdG8pDQo+ICt7DQo+ICsJc3dpdGNoIChmcm9tKSB7DQo+ICsJY2FzZSBE
+Uk1fRk9STUFUX1hSR0I4ODg4Og0KPiArCWNhc2UgRFJNX0ZPUk1BVF9BUkdCODg4ODoNCj4g
+KwkJcmV0dXJuIGlzX2xpc3RlZF9mb3VyY2MoY29udl9mcm9tX3hyZ2I4ODg4LCBBUlJBWV9T
+SVpFKGNvbnZfZnJvbV94cmdiODg4OCksIHRvKTsNCj4gKwljYXNlIERSTV9GT1JNQVRfUkdC
+NTY1Og0KPiArCWNhc2UgRFJNX0ZPUk1BVF9SR0I4ODg6DQo+ICsJCXJldHVybiBpc19saXN0
+ZWRfZm91cmNjKGNvbnZfZnJvbV9yZ2I1NjVfODg4LCBBUlJBWV9TSVpFKGNvbnZfZnJvbV9y
+Z2I1NjVfODg4KSwgdG8pOw0KPiArCWNhc2UgRFJNX0ZPUk1BVF9YUkdCMjEwMTAxMDoNCj4g
+KwkJcmV0dXJuIHRvID09IERSTV9GT1JNQVRfQVJHQjIxMDEwMTA7DQo+ICsJY2FzZSBEUk1f
+Rk9STUFUX0FSR0IyMTAxMDEwOg0KPiArCQlyZXR1cm4gdG8gPT0gRFJNX0ZPUk1BVF9YUkdC
+MjEwMTAxMDsNCj4gKwlkZWZhdWx0Og0KPiArCQlyZXR1cm4gZmFsc2U7DQo+ICsJfQ0KPiAr
+fQ0KPiArDQo+ICAgLyoqDQo+ICAgICogZHJtX2ZiX2J1aWxkX2ZvdXJjY19saXN0IC0gRmls
+dGVycyBhIGxpc3Qgb2Ygc3VwcG9ydGVkIGNvbG9yIGZvcm1hdHMgYWdhaW5zdA0KPiAgICAq
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRoZSBkZXZpY2UncyBuYXRpdmUgZm9ybWF0
+cw0KPiBAQCAtODI3LDcgKzg1OSw5IEBAIHN0YXRpYyBib29sIGlzX2xpc3RlZF9mb3VyY2Mo
+Y29uc3QgdWludDMyX3QgKmZvdXJjY3MsIHNpemVfdCBuZm91cmNjcywgdWludDMyX3QNCj4g
+ICAgKiBiZSBoYW5kZWQgb3ZlciB0byBkcm1fdW5pdmVyc2FsX3BsYW5lX2luaXQoKSBldCBh
+bC4gTmF0aXZlIGZvcm1hdHMNCj4gICAgKiB3aWxsIGdvIGJlZm9yZSBlbXVsYXRlZCBmb3Jt
+YXRzLiBPdGhlciBoZXVyaXN0aWNzIG1pZ2h0IGJlIGFwcGxpZWQNCj4gICAgKiB0byBvcHRp
+bWl6ZSB0aGUgb3JkZXIuIEZvcm1hdHMgbmVhciB0aGUgYmVnaW5uaW5nIG9mIHRoZSBsaXN0
+IGFyZQ0KPiAtICogdXN1YWxseSBwcmVmZXJyZWQgb3ZlciBmb3JtYXRzIG5lYXIgdGhlIGVu
+ZCBvZiB0aGUgbGlzdC4NCj4gKyAqIHVzdWFsbHkgcHJlZmVycmVkIG92ZXIgZm9ybWF0cyBu
+ZWFyIHRoZSBlbmQgb2YgdGhlIGxpc3QuIEZvcm1hdHMNCj4gKyAqIHdpdGhvdXQgY29udmVy
+c2lvbiBoZWxwZXJzIHdpbGwgYmUgc2tpcHBlZC4gTmV3IGRyaXZlcnMgc2hvdWxkIG9ubHkN
+Cj4gKyAqIHBhc3MgaW4gWFJHQjg4ODggYW5kIGF2b2lkIGV4cG9zaW5nIGFkZGl0aW9uYWwg
+ZW11bGF0ZWQgZm9ybWF0cy4NCj4gICAgKg0KPiAgICAqIFJldHVybnM6DQo+ICAgICogVGhl
+IG51bWJlciBvZiBjb2xvci1mb3JtYXRzIDRDQyBjb2RlcyByZXR1cm5lZCBpbiBAZm91cmNj
+c19vdXQuDQo+IEBAIC04MzksNyArODczLDcgQEAgc2l6ZV90IGRybV9mYl9idWlsZF9mb3Vy
+Y2NfbGlzdChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LA0KPiAgIHsNCj4gICAJdTMyICpmb3Vy
+Y2NzID0gZm91cmNjc19vdXQ7DQo+ICAgCWNvbnN0IHUzMiAqZm91cmNjc19lbmQgPSBmb3Vy
+Y2NzX291dCArIG5mb3VyY2NzX291dDsNCj4gLQlib29sIGZvdW5kX25hdGl2ZSA9IGZhbHNl
+Ow0KPiArCXVpbnQzMl90IG5hdGl2ZV9mb3JtYXQgPSAwOw0KPiAgIAlzaXplX3QgaTsNCj4g
+ICANCj4gICAJLyoNCj4gQEAgLTg1OCwyNiArODkyLDE4IEBAIHNpemVfdCBkcm1fZmJfYnVp
+bGRfZm91cmNjX2xpc3Qoc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCj4gICANCj4gICAJCWRy
+bV9kYmdfa21zKGRldiwgImFkZGluZyBuYXRpdmUgZm9ybWF0ICVwNGNjXG4iLCAmZm91cmNj
+KTsNCj4gICANCj4gLQkJaWYgKCFmb3VuZF9uYXRpdmUpDQo+IC0JCQlmb3VuZF9uYXRpdmUg
+PSBpc19saXN0ZWRfZm91cmNjKGRyaXZlcl9mb3VyY2NzLCBkcml2ZXJfbmZvdXJjY3MsIGZv
+dXJjYyk7DQo+ICsJCS8qDQo+ICsJCSAqIFRoZXJlIHNob3VsZCBvbmx5IGJlIG9uZSBuYXRp
+dmUgZm9ybWF0IHdpdGggdGhlIGN1cnJlbnQgQVBJLg0KPiArCQkgKiBUaGlzIEFQSSBuZWVk
+cyB0byBiZSByZWZhY3RvcmVkIHRvIGNvcnJlY3RseSBzdXBwb3J0IGFyYml0cmFyeQ0KPiAr
+CQkgKiBzZXRzIG9mIG5hdGl2ZSBmb3JtYXRzLCBzaW5jZSBpdCBuZWVkcyB0byByZXBvcnQg
+d2hpY2ggbmF0aXZlDQo+ICsJCSAqIGZvcm1hdCB0byB1c2UgZm9yIGVhY2ggZW11bGF0ZWQg
+Zm9ybWF0Lg0KPiArCQkgKi8NCj4gKwkJaWYgKCFuYXRpdmVfZm9ybWF0KQ0KPiArCQkJbmF0
+aXZlX2Zvcm1hdCA9IGZvdXJjYzsNCj4gICAJCSpmb3VyY2NzID0gZm91cmNjOw0KPiAgIAkJ
+Kytmb3VyY2NzOw0KPiAgIAl9DQo+ICAgDQo+IC0JLyoNCj4gLQkgKiBUaGUgcGxhbmUncyBh
+dG9taWNfdXBkYXRlIGhlbHBlciBjb252ZXJ0cyB0aGUgZnJhbWVidWZmZXIncyBjb2xvciBm
+b3JtYXQNCj4gLQkgKiB0byBhIG5hdGl2ZSBmb3JtYXQgd2hlbiBjb3B5aW5nIHRvIGRldmlj
+ZSBtZW1vcnkuDQo+IC0JICoNCj4gLQkgKiBJZiB0aGVyZSBpcyBub3QgYSBzaW5nbGUgZm9y
+bWF0IHN1cHBvcnRlZCBieSBib3RoLCBkZXZpY2UgYW5kDQo+IC0JICogZHJpdmVyLCB0aGUg
+bmF0aXZlIGZvcm1hdHMgYXJlIGxpa2VseSBub3Qgc3VwcG9ydGVkIGJ5IHRoZSBjb252ZXJz
+aW9uDQo+IC0JICogaGVscGVycy4gVGhlcmVmb3JlICpvbmx5KiBzdXBwb3J0IHRoZSBuYXRp
+dmUgZm9ybWF0cyBhbmQgYWRkIGENCj4gLQkgKiBjb252ZXJzaW9uIGhlbHBlciBBU0FQLg0K
+PiAtCSAqLw0KPiAtCWlmICghZm91bmRfbmF0aXZlKSB7DQo+IC0JCWRybV93YXJuKGRldiwg
+IkZvcm1hdCBjb252ZXJzaW9uIGhlbHBlcnMgcmVxdWlyZWQgdG8gYWRkIGV4dHJhIGZvcm1h
+dHMuXG4iKTsNCj4gLQkJZ290byBvdXQ7DQo+IC0JfQ0KPiAtDQo+ICAgCS8qDQo+ICAgCSAq
+IFRoZSBleHRyYSBmb3JtYXRzLCBlbXVsYXRlZCBieSB0aGUgZHJpdmVyLCBnbyBzZWNvbmQu
+DQo+ICAgCSAqLw0KPiBAQCAtODkwLDYgKzkxNiw5IEBAIHNpemVfdCBkcm1fZmJfYnVpbGRf
+Zm91cmNjX2xpc3Qoc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCj4gICAJCX0gZWxzZSBpZiAo
+Zm91cmNjcyA9PSBmb3VyY2NzX2VuZCkgew0KPiAgIAkJCWRybV93YXJuKGRldiwgIklnbm9y
+aW5nIGVtdWxhdGVkIGZvcm1hdCAlcDRjY1xuIiwgJmZvdXJjYyk7DQo+ICAgCQkJY29udGlu
+dWU7IC8qIGVuZCBvZiBhdmFpbGFibGUgb3V0cHV0IGJ1ZmZlciAqLw0KPiArCQl9IGVsc2Ug
+aWYgKCFpc19jb252ZXJzaW9uX3N1cHBvcnRlZChmb3VyY2MsIG5hdGl2ZV9mb3JtYXQpKSB7
+DQo+ICsJCQlkcm1fZGJnX2ttcyhkZXYsICJVbnN1cHBvcnRlZCBlbXVsYXRlZCBmb3JtYXQg
+JXA0Y2NcbiIsICZmb3VyY2MpOw0KPiArCQkJY29udGludWU7IC8qIGZvcm1hdCBpcyBub3Qg
+c3VwcG9ydGVkIGZvciBjb252ZXJzaW9uICovDQo+ICAgCQl9DQo+ICAgDQo+ICAgCQlkcm1f
+ZGJnX2ttcyhkZXYsICJhZGRpbmcgZW11bGF0ZWQgZm9ybWF0ICVwNGNjXG4iLCAmZm91cmNj
+KTsNCj4gQEAgLTg5OCw3ICs5MjcsNiBAQCBzaXplX3QgZHJtX2ZiX2J1aWxkX2ZvdXJjY19s
+aXN0KHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsDQo+ICAgCQkrK2ZvdXJjY3M7DQo+ICAgCX0N
+Cj4gICANCj4gLW91dDoNCj4gICAJcmV0dXJuIGZvdXJjY3MgLSBmb3VyY2NzX291dDsNCj4g
+ICB9DQo+ICAgRVhQT1JUX1NZTUJPTChkcm1fZmJfYnVpbGRfZm91cmNjX2xpc3QpOw0KDQot
+LSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNF
+IFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5
+IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jD
+pGZ0c2bDvGhyZXI6IEl2byBUb3Rldg0K
 
-I completely agree with all the rationale here.
+--------------ZU9yfxcGT0NrRZtZx7GyGYf5--
 
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+--------------d8cxr00dZvmaC4Yh9gxFclmK
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-pq
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNbjb8FAwAAAAAACgkQlh/E3EQov+BZ
+1xAAz2Nyf457wkGPpPfW1h7LrXq/+67flsJgwHWa2y3bgVUMg1qRZwC5OFAVYMU2Vhy5yE/nLEyp
+YWrHR+7rGUq0aPfJWp7HlV+Mj74MnZd3skphyfsIy2kVc1XEHiZ7OTiZEwPCvHPxBu7L2M/GQimF
+pGo/9bMeO64TG2DMdQqCgRVN8uZKULBZ9BNHYr92R2+IcjwaLnqJPtNlwWUhm8BFIyDiOYlDJ6rd
+2VHuzslPQW5TrwZ4FTvOyRGgsnZxYS8SWPCPBhmk36/MbhCBQETZUcM5My5F3nh9g0NK1GUdCG7c
+kkWZ11bP+iEgfVY1hfzFFqp5rHRA0usBR5teV8X34Kdh/H94v0MxfcI0ov5FDKYrKZ1TnwU0LcpH
+aLf/zcFR/mQiAie8R0zIfmbUHaD0T56SeNxnWkq6DWuf++gQs3jH42Ug+Vt6i5UTc5LfrG63UAX5
+NMg7ql7wcYKusRkZpfSv3bUnTY71K9BNM+ULWi+9NAFLMkj1AJP0SnsgYX8IJP4iqtvOTvyJQSW+
+jDgt49zVXeGXmG4601h/yqj9P9yKMi3HnA7ayft9jCyBcU/ROEmUdlpwAPNGC6NdtknBII7JP3/k
+/YXgG5ncdhMlEYf3DsiFzy9tiBwQCFzonkf6OJ28DVsyghCowESxfA9I+zG+qhsWpnzc8JSK/Grq
+hbw=
+=aplX
+-----END PGP SIGNATURE-----
 
-
-> ---
-> I'm proposing this alternative approach after a heated discussion on
-> IRC. I'm out of ideas, if y'all don't like this one you can figure it
-> out for yourseves :-)
-> 
-> Changes since v1:
-> This v2 moves all the changes to the helper (so they will apply to
-> the upcoming ofdrm, though ofdrm also needs to be fixed to trim its
-> format table to only formats that should be emulated, probably only
-> XRGB8888, to avoid further proliferating the use of conversions),
-> and avoids touching more than one file. The API still needs cleanup
-> as mentioned (supporting more than one native format is fundamentally
-> broken, since the helper would need to tell the driver *what* native
-> format to use for *each* emulated format somehow), but all current and
-> planned users only pass in one native format, so this can (and should)
-> be fixed later.
-> 
-> Aside: After other IRC discussion, I'm testing nuking the
-> XRGB2101010 <-> ARGB2101010 advertisement (which does not involve
-> conversion) by removing those entries from simpledrm in the Asahi Linux
-> downstream tree. As far as I'm concerned, it can be removed if nobody
-> complains (by removing those entries from the simpledrm array), if
-> maintainers are generally okay with removing advertised formats at all.
-> If so, there might be other opportunities for further trimming the list
-> non-native formats advertised to userspace.
-> 
-> Tested with KWin-X11, KWin-Wayland, GNOME-X11, GNOME-Wayland, and Weston
-> on both XRGB2101010 and RGB8888 simpledrm framebuffers.
-> 
->  drivers/gpu/drm/drm_format_helper.c | 66 ++++++++++++++++++++---------
->  1 file changed, 47 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-> index e2f76621453c..3ee59bae9d2f 100644
-> --- a/drivers/gpu/drm/drm_format_helper.c
-> +++ b/drivers/gpu/drm/drm_format_helper.c
-> @@ -807,6 +807,38 @@ static bool is_listed_fourcc(const uint32_t *fourccs, size_t nfourccs, uint32_t
->  	return false;
->  }
->  
-> +static const uint32_t conv_from_xrgb8888[] = {
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_ARGB8888,
-> +	DRM_FORMAT_XRGB2101010,
-> +	DRM_FORMAT_ARGB2101010,
-> +	DRM_FORMAT_RGB565,
-> +	DRM_FORMAT_RGB888,
-> +};
-> +
-> +static const uint32_t conv_from_rgb565_888[] = {
-> +	DRM_FORMAT_XRGB8888,
-> +	DRM_FORMAT_ARGB8888,
-> +};
-> +
-> +static bool is_conversion_supported(uint32_t from, uint32_t to)
-> +{
-> +	switch (from) {
-> +	case DRM_FORMAT_XRGB8888:
-> +	case DRM_FORMAT_ARGB8888:
-> +		return is_listed_fourcc(conv_from_xrgb8888, ARRAY_SIZE(conv_from_xrgb8888), to);
-> +	case DRM_FORMAT_RGB565:
-> +	case DRM_FORMAT_RGB888:
-> +		return is_listed_fourcc(conv_from_rgb565_888, ARRAY_SIZE(conv_from_rgb565_888), to);
-> +	case DRM_FORMAT_XRGB2101010:
-> +		return to == DRM_FORMAT_ARGB2101010;
-> +	case DRM_FORMAT_ARGB2101010:
-> +		return to == DRM_FORMAT_XRGB2101010;
-> +	default:
-> +		return false;
-> +	}
-> +}
-> +
->  /**
->   * drm_fb_build_fourcc_list - Filters a list of supported color formats against
->   *                            the device's native formats
-> @@ -827,7 +859,9 @@ static bool is_listed_fourcc(const uint32_t *fourccs, size_t nfourccs, uint32_t
->   * be handed over to drm_universal_plane_init() et al. Native formats
->   * will go before emulated formats. Other heuristics might be applied
->   * to optimize the order. Formats near the beginning of the list are
-> - * usually preferred over formats near the end of the list.
-> + * usually preferred over formats near the end of the list. Formats
-> + * without conversion helpers will be skipped. New drivers should only
-> + * pass in XRGB8888 and avoid exposing additional emulated formats.
->   *
->   * Returns:
->   * The number of color-formats 4CC codes returned in @fourccs_out.
-> @@ -839,7 +873,7 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
->  {
->  	u32 *fourccs = fourccs_out;
->  	const u32 *fourccs_end = fourccs_out + nfourccs_out;
-> -	bool found_native = false;
-> +	uint32_t native_format = 0;
->  	size_t i;
->  
->  	/*
-> @@ -858,26 +892,18 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
->  
->  		drm_dbg_kms(dev, "adding native format %p4cc\n", &fourcc);
->  
-> -		if (!found_native)
-> -			found_native = is_listed_fourcc(driver_fourccs, driver_nfourccs, fourcc);
-> +		/*
-> +		 * There should only be one native format with the current API.
-> +		 * This API needs to be refactored to correctly support arbitrary
-> +		 * sets of native formats, since it needs to report which native
-> +		 * format to use for each emulated format.
-> +		 */
-> +		if (!native_format)
-> +			native_format = fourcc;
->  		*fourccs = fourcc;
->  		++fourccs;
->  	}
->  
-> -	/*
-> -	 * The plane's atomic_update helper converts the framebuffer's color format
-> -	 * to a native format when copying to device memory.
-> -	 *
-> -	 * If there is not a single format supported by both, device and
-> -	 * driver, the native formats are likely not supported by the conversion
-> -	 * helpers. Therefore *only* support the native formats and add a
-> -	 * conversion helper ASAP.
-> -	 */
-> -	if (!found_native) {
-> -		drm_warn(dev, "Format conversion helpers required to add extra formats.\n");
-> -		goto out;
-> -	}
-> -
->  	/*
->  	 * The extra formats, emulated by the driver, go second.
->  	 */
-> @@ -890,6 +916,9 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
->  		} else if (fourccs == fourccs_end) {
->  			drm_warn(dev, "Ignoring emulated format %p4cc\n", &fourcc);
->  			continue; /* end of available output buffer */
-> +		} else if (!is_conversion_supported(fourcc, native_format)) {
-> +			drm_dbg_kms(dev, "Unsupported emulated format %p4cc\n", &fourcc);
-> +			continue; /* format is not supported for conversion */
->  		}
->  
->  		drm_dbg_kms(dev, "adding emulated format %p4cc\n", &fourcc);
-> @@ -898,7 +927,6 @@ size_t drm_fb_build_fourcc_list(struct drm_device *dev,
->  		++fourccs;
->  	}
->  
-> -out:
->  	return fourccs - fourccs_out;
->  }
->  EXPORT_SYMBOL(drm_fb_build_fourcc_list);
-
+--------------d8cxr00dZvmaC4Yh9gxFclmK--
