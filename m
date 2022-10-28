@@ -1,128 +1,157 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995A923A3
-	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 11:11:42 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E359221A7C;
-	Fri, 28 Oct 2022 11:11:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1666955494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q3Gyf9yh6Z7gf5UxheFhxyn9ZPpF3XaNGcf35QjzmTo=;
-	b=N/JsWVC5UOrRwtHtEZlI83GXTJfHHtSLSeEgPZSl2VQQjffotCYbxz/ZyoZpq3uepws1hq
-	16z4TRq4X9OQVOt7dHfisakoP5/ESnEeD+qWAJtCQ4lwdySslwIjxTM1S4FXPX0lvQ8D2g
-	kdwaFAGM30//A6bDKWABybmLuL7LuOg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1666955494;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q3Gyf9yh6Z7gf5UxheFhxyn9ZPpF3XaNGcf35QjzmTo=;
-	b=TW7ovC3DwFRRbWHgBYnU5YNLs9XN4NU0oG2Ho1YXlicUqnhHMUjuRmr1Qwq3HVEU3Xpy7p
-	v2IL46t68MoypGAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BCFC213A6E;
-	Fri, 28 Oct 2022 11:11:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 4bBpLea4W2N6TwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Fri, 28 Oct 2022 11:11:34 +0000
-Message-ID: <18b98740-6730-3c3a-c95b-c377cb355e77@suse.de>
-Date: Fri, 28 Oct 2022 13:11:34 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC7D28E8
+	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 15:09:22 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 279445C0063;
+	Fri, 28 Oct 2022 11:09:21 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute2.internal (MEProxy); Fri, 28 Oct 2022 11:09:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1666969761; x=1667056161; bh=Sy
+	6FI25zRCehPukmtH7/3V5knsC4JumJoR5V84h5kaM=; b=G+cOvYkJUUuGPABiFE
+	zjECEj6bJ8KF8IJsUGHKSG0kkvtJ2VGlxHt/vHL3ot1tcHvmCSHq8Yxsn4jmlio7
+	b87XcMRi/qNN2Hb+sQrrIZ/MprY+gQcSbAB1QGBlp6tKIsdFXVmWzpQXjwkBy+xO
+	4NvUlBVNiARkhbYcP5kRP5B0zXk8MJkJINm4XJm8NEnr4Qzbl7givGBykTZzep89
+	cUxHoMgh2r033YFDu1ONbt6pohcKPJwCy45muRy6CLnu6U5L9/8q6rm0UoXVOE4f
+	JDMshM/hm6kmL+pRMQ9aVtqAhwjY2GOiTOFxCdJtIFMMe1NV8rq+RTaTz7G9SCGw
+	O0AQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1666969761; x=1667056161; bh=Sy6FI25zRCehPukmtH7/3V5knsC4
+	JumJoR5V84h5kaM=; b=TsctoJvwFdAcmmgfHHKeVjmT4R7aNkVhe6oQqMfWMVbJ
+	5eenZ0qnr+0i+VeZ4wJBz8Vh/koB0kDeIK1jZa+7vK5IVeaOZdE+MA8+s4RxrBZ+
+	X592De5wmxSVbMZkK3U06Bco6tBH2UULWY+GgRgGJdh0HdjwVinsImTnjLXK3bAJ
+	Kvn9Ot2VuqzkO4U05kBK9GNBs4Ul0H1ednZr4yCjeLd8Qn7ZYGyCGJvEBWRxUmSn
+	ow91pTIwYpEuEIFXibkL7lxzaZ977U4bzMrtl2gCdWegTSLYhVw5uyD2RhX3rB1A
+	3yrcm+/abvZP9pUGBNFqCI2vjfocyFju8Dr4PVuyjQ==
+X-ME-Sender: <xms:n_BbY5q9PM5WcB2nasCymuRAfsH5P_socO5xgz8nev3Qz577tghQMg>
+    <xme:n_BbY7oyIwDdM-bSjSjqj4cCpDS2JGnPeg9RIC0TEUut5aaeH8DTzvXVTGvqiV-xP
+    k58Tbpa6Z9GUzsD3y4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrtdeigdekgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
+    nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
+    htthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefghfei
+    veeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:oPBbY2MNaLXplfXAKqaolwa_6NaHLJ0Ptmad9_r4hec89t2_VdM70w>
+    <xmx:oPBbY04RfC88foBNrWOloMJshDEZKbin3RfvfhkZRJoLcpJj_2C5dQ>
+    <xmx:oPBbY442i4NZAMcpqZQCBHKaiD37HPyZZa7a9dcqmIt7_vtzC4goUg>
+    <xmx:ofBbY3TVaZqRl7-HOh0h5ylgzJPy1WpKCeDbgQNMvtPaN1kDZyXdtg>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id EDD5AA6007C; Fri, 28 Oct 2022 11:09:19 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.3
-Subject: Re: [PATCH] drm/simpledrm: Only advertise formats that are supported
-Content-Language: en-US
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- dri-devel@lists.freedesktop.org, Hector Martin <marcan@marcan.st>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, asahi@lists.linux.dev
-References: <20221027101327.16678-1-marcan@marcan.st>
- <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de> <Y1upGwtjWgtLUZ1k@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <Y1upGwtjWgtLUZ1k@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------rf1QNd9bcU8kcnpGuzuxLiIp"
+Mime-Version: 1.0
+Message-Id: <587611e4-eb08-4b86-a8e8-aaa10f8efee6@app.fastmail.com>
+In-Reply-To: 
+ <CABBYNZKJnmfWfvxdgpxNFUGc7jTKP+BGv6CiZc2MsR970L35MA@mail.gmail.com>
+References: <20221027150822.26120-1-sven@svenpeter.dev>
+ <20221027150822.26120-7-sven@svenpeter.dev>
+ <CABBYNZKJnmfWfvxdgpxNFUGc7jTKP+BGv6CiZc2MsR970L35MA@mail.gmail.com>
+Date: Fri, 28 Oct 2022 17:08:59 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>
+Cc: "Marcel Holtmann" <marcel@holtmann.org>,
+ "Johan Hedberg" <johan.hedberg@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Rob Herring" <robh+dt@kernel.org>,
+ "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 6/7] Bluetooth: Add quirk to disable MWS Transport Configuration
+Content-Type: text/plain
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------rf1QNd9bcU8kcnpGuzuxLiIp
-Content-Type: multipart/mixed; boundary="------------8u5PvsoHb7Q4dMWuHVKTaKSk";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
- dri-devel@lists.freedesktop.org, Hector Martin <marcan@marcan.st>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, asahi@lists.linux.dev
-Message-ID: <18b98740-6730-3c3a-c95b-c377cb355e77@suse.de>
-Subject: Re: [PATCH] drm/simpledrm: Only advertise formats that are supported
-References: <20221027101327.16678-1-marcan@marcan.st>
- <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de> <Y1upGwtjWgtLUZ1k@intel.com>
-In-Reply-To: <Y1upGwtjWgtLUZ1k@intel.com>
+Hi Luiz,
 
---------------8u5PvsoHb7Q4dMWuHVKTaKSk
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Thu, Oct 27, 2022, at 20:59, Luiz Augusto von Dentz wrote:
+> Hi Sven,
+>
+> On Thu, Oct 27, 2022 at 8:09 AM Sven Peter <sven@svenpeter.dev> wrote:
+>>
+>> Broadcom 4378/4387 controllers found in Apple Silicon Macs claim to
+>> support getting MWS Transport Layer Configuration,
+>>
+>> < HCI Command: Read Local Supported... (0x04|0x0002) plen 0
+>> > HCI Event: Command Complete (0x0e) plen 68
+>>       Read Local Supported Commands (0x04|0x0002) ncmd 1
+>>         Status: Success (0x00)
+>> [...]
+>>           Get MWS Transport Layer Configuration (Octet 30 - Bit 3)]
+>> [...]
+>>
+>> , but then don't actually allow the required command:
+>>
+>> > HCI Event: Command Complete (0x0e) plen 15
+>>       Get MWS Transport Layer Configuration (0x05|0x000c) ncmd 1
+>>         Status: Command Disallowed (0x0c)
+>>         Number of transports: 0
+>>         Baud rate list: 0 entries
+>>         00 00 00 00 00 00 00 00 00 00
+>>
+>> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+>> ---
+>>  include/net/bluetooth/hci.h | 10 ++++++++++
+>>  net/bluetooth/hci_sync.c    |  2 ++
+>>  2 files changed, 12 insertions(+)
+>>
+>> diff --git a/include/net/bluetooth/hci.h b/include/net/bluetooth/hci.h
+>> index 8cd89948f961..110d6df1299b 100644
+>> --- a/include/net/bluetooth/hci.h
+>> +++ b/include/net/bluetooth/hci.h
+>> @@ -273,6 +273,16 @@ enum {
+>>          * during the hdev->setup vendor callback.
+>>          */
+>>         HCI_QUIRK_BROKEN_EXT_SCAN,
+>> +
+>> +       /*
+>> +        * When this quirk is set, the HCI_OP_GET_MWS_TRANSPORT_CONFIG command is
+>> +        * disabled. This is required for some Broadcom controllers which
+>> +        * erroneously claim to support MWS Transport Layer Configuration.
+>> +        *
+>> +        * This quirk can be set before hci_register_dev is called or
+>> +        * during the hdev->setup vendor callback.
+>> +        */
+>> +       HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG,
+>>  };
+>>
+>>  /* HCI device flags */
+>> diff --git a/net/bluetooth/hci_sync.c b/net/bluetooth/hci_sync.c
+>> index 76c3107c9f91..91788d356748 100644
+>> --- a/net/bluetooth/hci_sync.c
+>> +++ b/net/bluetooth/hci_sync.c
+>> @@ -4260,6 +4260,8 @@ static int hci_get_mws_transport_config_sync(struct hci_dev *hdev)
+>>  {
+>>         if (!(hdev->commands[30] & 0x08))
+>>                 return 0;
+>> +       if (test_bit(HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG, &hdev->quirks))
+>> +               return 0;
+>
+> Let's add a macro that tests both the command and the quirk so we
+> don't have to test them separately.
 
-SGkNCg0KQW0gMjguMTAuMjIgdW0gMTI6MDQgc2NocmllYiBWaWxsZSBTeXJqw6Rsw6Q6DQo+
-IE9uIFRodSwgT2N0IDI3LCAyMDIyIGF0IDAxOjA4OjI0UE0gKzAyMDAsIFRob21hcyBaaW1t
-ZXJtYW5uIHdyb3RlOg0KPj4gSSB0cnVzdCB5b3Ugd2hlbiB5b3Ugc2F5IHRoYXQgPG5hdGl2
-ZT4tPlhSR0I4ODg4IGlzIG5vdCBlbm91Z2guIEJ1dA0KPj4gYWx0aG91Z2ggSSd2ZSByZWFk
-IHlvdXIgcmVwbGllcywgSSBzdGlsbCBkb24ndCB1bmRlcnN0YW5kIHdoeSB0aGlzDQo+PiBz
-d2l0Y2ggaXMgbmVjZXNzYXJ5Lg0KPj4NCj4+IFdoeSBkb24ndCB3ZSBjYWxsIGRybV9mYl9i
-dWlsZF9mb3VyY2NfbGlzdCgpIHdpdGggdGhlIG5hdGl2ZQ0KPj4gZm9ybWF0L2Zvcm1hdHMg
-YW5kIGxldCBpdCBhcHBlbmQgYSBudW1iZXIgb2YgZm9ybWF0cywgc3VjaCBhcyBhZGRpbmcN
-Cj4+IFhSR0I4ODgsIGFkZGluZyBBUkdCODg4OCBpZiBuZWNlc3NhcnksIGFkZGluZyBBUkdC
-MjEwMTAxMCBpZiBuZWNlc3NhcnkuDQo+PiBFYWNoIHdpdGggYSBlbGFib3JhdGUgY29tbWVu
-dCB3aHkgYW5kIHdoaWNoIHVzZXJzcGFjZSBuZWVkcyB0aGUgZm9ybWF0LiAoPykNCj4gDQo+
-IEFyZSB5b3Ugc2F5aW5nIHRoZXJlIGlzIHNvbWUgcmVhbCB1c2Vyc3BhY2UgdGhhdCBicmVh
-a3Mgd2l0aG91dA0KPiB0aGUgYWxwaGEgZm9ybWF0cz8gVGhhdCB3b3VsZCBhbHJlYWR5IGJl
-IGJyb2tlbiBvbiBtYW55IGRldmljZXMuDQoNCldlIHNob3VsZCBzY3JhcCB0aGVtIGFsbCBJ
-TUhPLCB1bmxlc3MgdGhlIGhhcmR3YXJlIHJlYWxseSBzdXBwb3J0cyB0aGVtLiANClNlZSB0
-aGUgb3RoZXIgZGlzY3Vzc2lvbiBvbiB0aGlzIHBhdGNoJ3MgdjIgYXMgd2VsbC4NCg0KQmVz
-dCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
-cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
-eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
-MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
+Sure, I'll add a macro for v5.
 
 
---------------8u5PvsoHb7Q4dMWuHVKTaKSk--
+Best,
 
---------------rf1QNd9bcU8kcnpGuzuxLiIp
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNbuOYFAwAAAAAACgkQlh/E3EQov+BI
-bg/9H02ohq4l9vzXaPTIrYpZyOs24OfTZcFqW0qU93wR5tsG1iYQg+FOspomlfBBFlTJjLvOG2Gp
-nrr6rQ0iUDhzuJX7MSzmU+UlBE3hM45yiMzw6z5GUXEUjzIaNWBmVQ3jpSmREAM5og6tCvAwhvXL
-pOpLy9FqyAleLN7D2ERoSzZw6iWhpDRHDOnuwB2srpbVxQ9gKDoOj0bZckVFUb/EiAXt3ZoNz2+Y
-NDBRkv5xkgrYc7R8wR/PIEVLgzE774oF2nSacxUYP3appqP+Os8sYprlpvIS8i2H9fr4bFtKjBJV
-yedvafU4aZv2kGNB9u3nO6i3KibxTMur0mlh+npcgg2EfsEI77x3l4rTZsPmpS+W+dfE535qKKtc
-xJOIOfMx+6yX4TNIHolSugTI9akMfToyH1MINCLWLTy+zu67XzqR+EZbqraDtsneQpvXZh0BPsZ6
-n8GT8nLS+SbPlb1VKj/eHAlZu6CBREGD1Z7SDRJj6mJ0aYPPaejyAu24XFqwxFc4lQcPbcZyMAiy
-8wAEcMsWFtmHN16g3UI4pv05q43KaqWhS8EuiSfI+jycI8nlYRXWTfH0OpcQPXtEVE71v79sUwE0
-blGbgsBxCCJA5QB5LxrKFPTL0itEuilgaspv62YqrP4pa0Q7+ZzTJGAMjR5mM7QqTrmWhJKjO7d1
-5sI=
-=AH5T
------END PGP SIGNATURE-----
-
---------------rf1QNd9bcU8kcnpGuzuxLiIp--
+Sven
