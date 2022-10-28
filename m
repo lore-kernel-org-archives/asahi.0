@@ -1,45 +1,45 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF13D527
-	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 19:47:34 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id z6so4142694qtv.5
-        for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 12:47:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E456412292
+	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 19:49:47 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id ay12so3490069qtb.12
+        for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 12:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SuLQ4LGhTb9iEJLwlybh7NzL9tVrunJow2oZoFj99dQ=;
-        b=Pjxp64dtv0DecR/RobHlhnBssFPkJpiIYdP9pzvHpW8KX1urKw17Q3/hVzO6xZuWU0
-         ZEBP7vT3vkOpmYLoHdriGyrmvzZ7BkZmOWgPP3PV7bczMOcHweuS0/lffViCJIt/zuTh
-         GQvoM9yVvq8QtBvga4RIfbp7cvVeoRvDUlevsM7b1/SnTgFsY/w9vPdcH/utytuS3kty
-         Kx7tCElNtSa8/P9Rxw0cqhW4GGO0QGqALG5Zca8cMOvmrsjNKC7wqSTPQinjgA5BZ49S
-         VYzbWWiza4Z/UtvQt2tUN89m0uFwB8WeQwLBW7M9W2qD4bih9ojfGr/pBjHHrpNO1ygV
-         S4+A==
+        bh=CrrbK6WiWXkWTKLU/KfAO4hvX9jlvOUQaHzqnu/h4mc=;
+        b=OjL/nt1Dp1/VP/e3v0ZKs5p2qQeXHV5NgNI3Rd1KnjbGfaOka7Px+PjzCXyw6sMhOb
+         Znl96YHjoXR8U+pjzIeYs6DN8AKLlo6cvi0dTe2+LgJHGHv3LCpVIH1MQeDhtmEPsvm6
+         /krya6K6d/PsZkEPdGrIWhzgi7h8uQjIE6pbs1Koqkmn/39Qmz7YD9WgOEQVSYw8VMyX
+         AAaGUef+kLxg1y8D0YWjgvGdW6wu/CiwHy1MTxa9tpyD3+nHHZIr3lZYYWp95WCFY9bX
+         AAHAMVwPs173OC4AjQzRzIF2lNkV/5P0OtNQ7mSTACrf1vEa7jpFW32+MzcYWQFWn4nu
+         MxRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SuLQ4LGhTb9iEJLwlybh7NzL9tVrunJow2oZoFj99dQ=;
-        b=YC0xUXXal5pMDFCTJIHvSbXN3ksqw532Qrvdhex0vYxAloLx+pVwikaQDacqJmuFrl
-         9rfDwi6Eqnnzcl2hk+rFeEkWzoUa+vduwOBShRm9facRm0zR1vgwZ/Y8JfDOsQcZptVp
-         smrgQPBfqGVePuH3Vz9lzmVA55KAuxt9IU6ThwCFk1vgPTuC/2sWvoE/jeBYqpaYkaWq
-         Y+TBVh0du6Bi/ba60dURk+VdWISgq8gR1z57cbn1GzrNC5ClDT3esd83UvQgzrgpG6DH
-         ztOcP69L6XERIKZqOjc6Gd12qjre3JsOgL+MvbsS6w03nkxTz5WhL8ihv1iXeamoEiYq
-         sOvg==
-X-Gm-Message-State: ACrzQf3LayQ+HrWRFuTO1WWLuzzwAKIT21fROG1XisAOVBxJ4YZ1Dwke
-	+98x8WSfDG/JKfjgb/GZshk/iuhRoCaoug==
-X-Google-Smtp-Source: AMsMyM6lrikoLcv6eLHGa7lpzNLbaHvBXJP/FuXl58MVeVcQpzV+fNRBVO9OTj27uH/gzSL/lvnmwQ==
-X-Received: by 2002:ac8:5b81:0:b0:39c:b735:6b8b with SMTP id a1-20020ac85b81000000b0039cb7356b8bmr1011547qta.416.1666986453067;
-        Fri, 28 Oct 2022 12:47:33 -0700 (PDT)
+        bh=CrrbK6WiWXkWTKLU/KfAO4hvX9jlvOUQaHzqnu/h4mc=;
+        b=5RdunfYH1NuAx5C3F6sJs1BfMQXeWfmRMRyvPD5P5RQCWUe1m2EnzybPA06nhG1Rbq
+         fgYhZ4MXWuFqkteaZCEn+9TRPizeYiSKFDxFNM02aK1fFxZNT0Ax3rWgmQssNIas9lz7
+         jEm36XZExc5XAwi8GCBrrXTV17U7DVZiGxjlpQZiJiAAI2oB2HyiByYCHGo5hhMM297H
+         Cn0PtEFNdQ+FYFW5JzXjSbE1kVg2wI0tDN//eLcYnG1HYldWyknaiv1UbGtVB358Bz6Z
+         FwDXA+4724HN7OVs65IpDdztNEjQdhhxRxPlVHDuUQkWfmqOkOMRgSHS/1ar4eePRTkD
+         QVrg==
+X-Gm-Message-State: ACrzQf1b6pC/b2sbSC0NEjAy125ZcGqoO4/hEvPjQliEPmqjGEffIBru
+	zvOZ4dkijI9mxVq2uPzUJb5Vrg==
+X-Google-Smtp-Source: AMsMyM7nMFuwEm0OvAIGlJiOgSag125RW6TO1KxEjVBRpjyHvfL07vawyBpzddMrC11skIJGMBMAig==
+X-Received: by 2002:ac8:5ac5:0:b0:39c:f8f5:c432 with SMTP id d5-20020ac85ac5000000b0039cf8f5c432mr1022780qtd.33.1666986585310;
+        Fri, 28 Oct 2022 12:49:45 -0700 (PDT)
 Received: from [192.168.1.11] ([64.57.193.93])
-        by smtp.gmail.com with ESMTPSA id h24-20020ac85498000000b00399b73d06f0sm2842518qtq.38.2022.10.28.12.47.31
+        by smtp.gmail.com with ESMTPSA id t1-20020a05620a450100b006ee7e223bb8sm3622607qkp.39.2022.10.28.12.49.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Oct 2022 12:47:32 -0700 (PDT)
-Message-ID: <498e6e3a-6391-c220-f7db-211aa415dde8@linaro.org>
-Date: Fri, 28 Oct 2022 15:47:30 -0400
+        Fri, 28 Oct 2022 12:49:44 -0700 (PDT)
+Message-ID: <3b8441da-31af-2414-1362-0efb05cbf8c0@linaro.org>
+Date: Fri, 28 Oct 2022 15:49:40 -0400
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -48,89 +48,42 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.1
-Subject: Re: [PATCH 1/4] dt-bindings: pwm: Add Apple PWM controller
+Subject: Re: [PATCH 2/4] pwm: Add Apple PWM controller
 Content-Language: en-US
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>, thierry.reding@gmail.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Cc: marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: thierry.reding@gmail.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st, sven@svenpeter.dev,
+ alyssa@rosenzweig.io, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20221028165215.43662-1-fnkl.kernel@gmail.com>
- <20221028165215.43662-2-fnkl.kernel@gmail.com>
+ <20221028165215.43662-3-fnkl.kernel@gmail.com>
+ <02523fe5-bf99-9891-d00c-347893d5dabe@linaro.org>
+ <CAMT+MTTE84XDf8c0D3MLxZ92HiDP6DhXfpHVyQZ7hfYMUkL7dg@mail.gmail.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221028165215.43662-2-fnkl.kernel@gmail.com>
+In-Reply-To: <CAMT+MTTE84XDf8c0D3MLxZ92HiDP6DhXfpHVyQZ7hfYMUkL7dg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/10/2022 12:52, Sasha Finkelstein wrote:
-> Apple SoCs such as the M1 contain a PWM controller used
-> among other things to control the keyboard backlight.
-> 
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  .../devicetree/bindings/pwm/pwm-apple.yaml    | 51 +++++++++++++++++++
->  1 file changed, 51 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/pwm-apple.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/pwm/pwm-apple.yaml b/Documentation/devicetree/bindings/pwm/pwm-apple.yaml
-> new file mode 100644
-> index 000000000000..39dc32e00a3f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pwm/pwm-apple.yaml
-> @@ -0,0 +1,51 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pwm/pwm-apple.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Apple FPWM controller
-> +
-> +maintainers:
-> +  - asahi@lists.linux.dev
-> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-> +
-> +description: |+
-> +  PWM controller used for keyboard backlight on ARM Macs
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - apple,t8103-fpwm
-> +          - apple,t6000-fpwm
-> +          - apple,t8112-fpwm
-> +      - const: apple,s5l-fpwm
+On 28/10/2022 14:51, Sasha Finkelstein wrote:
+> On Fri, 28 Oct 2022 at 20:54, Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> On 28/10/2022 12:52, Sasha Finkelstein wrote:
+>>> +config PWM_APPLE
+>>> +     tristate "Apple SoC PWM support"
+>>> +     depends on ARCH_APPLE || (COMPILE_TEST && 64BIT)
+>>
+>> Why this code cannot be build on 32-bit?
+> It uses 64-bit divisions, which causes it to fail to build on 32-bit
+> mips. It should not be a
+> problem, since this hardware is only present on 64-bit SoCs.
 
-Missing blank line.
+Does not matter, code should be portable and buildable on 32-bit. If it
+does not build then your code is not correct.
 
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  "#pwm-cells":
-> +    const: 2
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    pwm: fpwm@235044000 {
-> +      compatible = "apple,s5l-fpwm";
-
-As Rob's bot pointed out, this does not match the bindings so you did
-not test them before sending :(
+You need to investigate the failure. Maybe using do_div would solve (or
+other macros from div64.h)
 
 Best regards,
 Krzysztof
