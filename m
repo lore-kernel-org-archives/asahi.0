@@ -1,69 +1,82 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACAAD527
-	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 18:52:08 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id o4so9464691ljp.8
-        for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 11:52:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6gdWn4WdaMz/orHTAzTV9G0nntj7JTXh23bqgGD28ww=;
-        b=IlIMFaVvVPTKibfA9BQgsl6WlDe6xi3m4idFQLiURGOQyhN8GFQQQFzvvyRXnD8he2
-         T21zJmDFV5DckThnOPksEsSfiJFBvQMprH0xtSSfAtSpn6zO0Cjc0Yxtp+LtKIrGQg/y
-         PLw1kC73/9lVhboHHGzJAx4oKBDtFV5mbkgd2T+lfZZcj8x2kiEVbX7den29NDjlH8g2
-         9BMCYYXGQDcCy/6qYq3d07fXwrupU0vQ+syCzOwFPxgcAl/EBYglrHaJ7NSuzDZzavN6
-         w7yLPQSUXCBZbsXsiYpnc+oaYjOvAffoqDkuxgGmsLUoVgfxJxYbbzG+x36N03gai0sN
-         OWAQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A91E12280
+	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 19:04:40 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-1322d768ba7so7319024fac.5
+        for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 12:04:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6gdWn4WdaMz/orHTAzTV9G0nntj7JTXh23bqgGD28ww=;
-        b=YSjZiXQtrwn7YheqyuTuVsH0VAckjMNJLtD5c8FR8tDYJSvQokEdTv1zVeh3y6MfRt
-         O34iyBhoawTBEvmBWLzqA0aucr60CEHFB0VYWXDMHWY4sQJyfUR2DLwL2yLYYHV+lqgm
-         uxg+YIDFKE1PnCzcgEaCNdI9Gx58cok/0aRdPuh+eS3/3gjKhLfEwI+il0D9eiNljeHb
-         oBfoKrcTqkTA4B91vF1uyWLEKN9MYkhI7CUL/HblUc8LTOdhjWbwy/sCjptDwvG8H9S6
-         dhBNghcV3kDlqCN1M08wQE/VFr38Kmke+L+nGRz6LqA0+hbJFEziVTVvAIO4wNNiZf2X
-         4dqA==
-X-Gm-Message-State: ACrzQf2rYS32gXvHihMVJ3ywnLRe2mbTFG/UUIMgj9q5YyaOprRU7L5s
-	BSs9ezWL0BbtfSvTK5HXzaRbn4v7GBMl4doDJWVFp9KmcwukUA==
-X-Google-Smtp-Source: AMsMyM5VRH4ZpCY4vOTfbRgY2tlY1P3ky5WrY7Fz0QRermYZFqN2uaE/zebFoOjmW7Y2t2HShLgeo8qoKuu7FMxmtTc=
-X-Received: by 2002:a05:651c:1073:b0:277:35ca:5eef with SMTP id
- y19-20020a05651c107300b0027735ca5eefmr372209ljm.150.1666983126676; Fri, 28
- Oct 2022 11:52:06 -0700 (PDT)
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RtfpI9rlbOhsKpmZm1h0Bvu9a77/MRnLOJ2Qclf1R/g=;
+        b=5/aTCerIih0gUopCt6gszajcPqWvr4oWuqUWlKJLwRo39juH5R9Gfd6npggcE0zquu
+         Tuc8P5A1TAvJGap0VCFFrK8ZYATvvczw0AvjcKIEYPUf/x1KoMsxelpWrTwo0+j9KpCZ
+         XinnXQAnWsPYDaSXlE+nH8HDimnSw7FU5hB8CtmLXJhxN0pbUfWKErfH+ZeFPz4bJs4g
+         jd9YbxfKyNKlkrC0j9kE9KXdXv7dZTNE7A0kIicQMQ4CvPsOCaZCpehTpW0sg8ODWp+m
+         hxMWSITIbOD/IPYdl5xX6a5RZeJLxSmSVOFKXwjT8rrAHNBg2D0kO7dQMMLzdbri42WX
+         NmSA==
+X-Gm-Message-State: ACrzQf2OmdBA/AX8vUqVkomJGZp/axfTPk4l/brHeVkr+ClxDhCQ9a/D
+	KpWl50HDWVDlBABl1E3aIq3JR7h5Xw==
+X-Google-Smtp-Source: AMsMyM6tezh5o2b4dNkYK5v+E6BduBVm+8wB6EMOaQdLqRIYQoPr5GfMlgIq26LTdQ2B28Jfk4dbpw==
+X-Received: by 2002:a05:6870:b414:b0:130:ea11:761c with SMTP id x20-20020a056870b41400b00130ea11761cmr393921oap.62.1666983879570;
+        Fri, 28 Oct 2022 12:04:39 -0700 (PDT)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id g91-20020a9d12e4000000b00661b019accbsm2022445otg.3.2022.10.28.12.04.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Oct 2022 12:04:39 -0700 (PDT)
+Received: (nullmailer pid 2098127 invoked by uid 1000);
+	Fri, 28 Oct 2022 19:04:38 -0000
+From: Rob Herring <robh@kernel.org>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: krzysztof.kozlowski+dt@linaro.org, sven@svenpeter.dev, linux-kernel@vger.kernel.org, thierry.reding@gmail.com, robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, asahi@lists.linux.dev, marcan@marcan.st, alyssa@rosenzweig.io
+In-Reply-To: <20221028165215.43662-2-fnkl.kernel@gmail.com>
+References: <20221028165215.43662-1-fnkl.kernel@gmail.com> <20221028165215.43662-2-fnkl.kernel@gmail.com>
+Message-Id: <166698381253.2093680.6251640066817102720.robh@kernel.org>
+Subject: Re: [PATCH 1/4] dt-bindings: pwm: Add Apple PWM controller
+Date: Fri, 28 Oct 2022 14:04:38 -0500
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20221028165215.43662-1-fnkl.kernel@gmail.com> <20221028165215.43662-3-fnkl.kernel@gmail.com>
- <02523fe5-bf99-9891-d00c-347893d5dabe@linaro.org>
-In-Reply-To: <02523fe5-bf99-9891-d00c-347893d5dabe@linaro.org>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Fri, 28 Oct 2022 21:51:55 +0300
-Message-ID: <CAMT+MTTE84XDf8c0D3MLxZ92HiDP6DhXfpHVyQZ7hfYMUkL7dg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] pwm: Add Apple PWM controller
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: thierry.reding@gmail.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st, sven@svenpeter.dev, 
-	alyssa@rosenzweig.io, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 28 Oct 2022 at 20:54, Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 28/10/2022 12:52, Sasha Finkelstein wrote:
-> > +config PWM_APPLE
-> > +     tristate "Apple SoC PWM support"
-> > +     depends on ARCH_APPLE || (COMPILE_TEST && 64BIT)
->
-> Why this code cannot be build on 32-bit?
-It uses 64-bit divisions, which causes it to fail to build on 32-bit
-mips. It should not be a
-problem, since this hardware is only present on 64-bit SoCs.
+On Fri, 28 Oct 2022 19:52:13 +0300, Sasha Finkelstein wrote:
+> Apple SoCs such as the M1 contain a PWM controller used
+> among other things to control the keyboard backlight.
+> 
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+>  .../devicetree/bindings/pwm/pwm-apple.yaml    | 51 +++++++++++++++++++
+>  1 file changed, 51 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+> 
+
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pwm/pwm-apple.example.dtb: fpwm@235044000: compatible:0: 'apple,s5l-fpwm' is not one of ['apple,t8103-fpwm', 'apple,t6000-fpwm', 'apple,t8112-fpwm']
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pwm/pwm-apple.example.dtb: fpwm@235044000: compatible: ['apple,s5l-fpwm'] is too short
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pwm/pwm-apple.example.dtb: fpwm@235044000: reg: [[2, 889470976], [0, 16384]] is too long
+	From schema: /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
