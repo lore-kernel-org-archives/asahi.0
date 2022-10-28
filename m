@@ -1,260 +1,128 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DFD1FDF
-	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 10:28:39 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id g12so7589643lfh.3
-        for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 03:28:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tkun3rRy+GzEVIQYIXSl4ZmmxciQnM9huc9BB1/7wtE=;
-        b=SBX8JZ9XHJCczt7NDMF++v1va3K7PfSKi0knv8JyLkArFjK8rumzqOEWBr1aptiLAw
-         dQmvgEisV+NfgBA9+m1m3/oO7iBbVPvE/rDFaUBMAeMvcjlqoleTe+GN4UZNmmve/jG6
-         HU3mCC2XHat/5xtiESvjdk7++heBO2VyJDm/6ntJqToqE/l1rYWvji4hk7hjksSGFjrq
-         M780Er4qTM3Igm9U9Fd/oKuDv3PQ96pBUtfaxhJudrA4ItL9v0oBLYb1fdy0Gbyuu/tn
-         ugQc+qmA2EhABlFjWUSVjzoaYdWhsQBjK9dGj+pbAD/YcPLED5GgHrL7hub91p9L98rW
-         JFXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tkun3rRy+GzEVIQYIXSl4ZmmxciQnM9huc9BB1/7wtE=;
-        b=pu967d2q0FsEUlBy7/WMtE7fyEYdXrm1gyI9s4HNnrY7a16C8F/mtXZPG8yHR5oBO2
-         qYARfcwzrwd362rc08Ltnk//C8Jb2c+VGWa+70VZymS+8z5DiMP/iARMztuSlA59tqp+
-         Z3jf4vnWVMLJFgRQL9SgefMLGZUoiaTzsmN/6Fz4MdbGJ8wABDVkX7gqY8TgPXw9ezQj
-         oqA0tZ32mjxQ0shd9XJ6pUQSoHsOngJ1sXOKRYtZomCzVk7xtQUfj5cegJy1n4yv7lin
-         zDw5LkOe3bdykPqKvmgCTNC/aRm0Ln2I3N/ZsO0//EhLQu3ek+nAOmQixsNikDOOe2q8
-         ZxiQ==
-X-Gm-Message-State: ACrzQf2T/tyDDV6i6aZZ55FuAuKZc9qxQScBNzl4pDUagBt6o4AryKti
-	NgdmW8IgOX68KbJcIcAOUSI=
-X-Google-Smtp-Source: AMsMyM6Ky5cOVvQNbwTNrAZX8JSaggXdVR5qTbRzqueJXB8sJK0bOuw4suTa/Sr3h62sZF6Hw3Tv4A==
-X-Received: by 2002:a05:6512:1287:b0:4a2:a7c3:641d with SMTP id u7-20020a056512128700b004a2a7c3641dmr21949742lfs.511.1666952917737;
-        Fri, 28 Oct 2022 03:28:37 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id i15-20020a056512006f00b004a4251c7f75sm506551lfo.202.2022.10.28.03.28.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Oct 2022 03:28:37 -0700 (PDT)
-Date: Fri, 28 Oct 2022 13:28:24 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, Hector Martin <marcan@marcan.st>,
- Javier Martinez Canillas <javierm@redhat.com>, stable@vger.kernel.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH v2] drm/format-helper: Only advertise supported formats
- for conversion
-Message-ID: <20221028132824.7155b072@eldfell>
-In-Reply-To: <98ec2c54-cf99-6465-31a1-b63e3b4d021d@suse.de>
-References: <20221027135711.24425-1-marcan@marcan.st>
-	<6102d131-fd3f-965b-cd52-d8d3286e0048@suse.de>
-	<20221028113705.084502b6@eldfell>
-	<efd80dc5-d732-113d-b8fd-398b650beb8f@suse.de>
-	<20221028121744.2073d196@eldfell>
-	<98ec2c54-cf99-6465-31a1-b63e3b4d021d@suse.de>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995A923A3
+	for <asahi@lists.linux.dev>; Fri, 28 Oct 2022 11:11:42 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E359221A7C;
+	Fri, 28 Oct 2022 11:11:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1666955494; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q3Gyf9yh6Z7gf5UxheFhxyn9ZPpF3XaNGcf35QjzmTo=;
+	b=N/JsWVC5UOrRwtHtEZlI83GXTJfHHtSLSeEgPZSl2VQQjffotCYbxz/ZyoZpq3uepws1hq
+	16z4TRq4X9OQVOt7dHfisakoP5/ESnEeD+qWAJtCQ4lwdySslwIjxTM1S4FXPX0lvQ8D2g
+	kdwaFAGM30//A6bDKWABybmLuL7LuOg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1666955494;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=q3Gyf9yh6Z7gf5UxheFhxyn9ZPpF3XaNGcf35QjzmTo=;
+	b=TW7ovC3DwFRRbWHgBYnU5YNLs9XN4NU0oG2Ho1YXlicUqnhHMUjuRmr1Qwq3HVEU3Xpy7p
+	v2IL46t68MoypGAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BCFC213A6E;
+	Fri, 28 Oct 2022 11:11:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 4bBpLea4W2N6TwAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Fri, 28 Oct 2022 11:11:34 +0000
+Message-ID: <18b98740-6730-3c3a-c95b-c377cb355e77@suse.de>
+Date: Fri, 28 Oct 2022 13:11:34 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/hL8suL49hYQ0bVssPUv1n2x";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.3.3
+Subject: Re: [PATCH] drm/simpledrm: Only advertise formats that are supported
+Content-Language: en-US
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ dri-devel@lists.freedesktop.org, Hector Martin <marcan@marcan.st>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, asahi@lists.linux.dev
+References: <20221027101327.16678-1-marcan@marcan.st>
+ <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de> <Y1upGwtjWgtLUZ1k@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <Y1upGwtjWgtLUZ1k@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------rf1QNd9bcU8kcnpGuzuxLiIp"
 
---Sig_/hL8suL49hYQ0bVssPUv1n2x
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------rf1QNd9bcU8kcnpGuzuxLiIp
+Content-Type: multipart/mixed; boundary="------------8u5PvsoHb7Q4dMWuHVKTaKSk";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>,
+ dri-devel@lists.freedesktop.org, Hector Martin <marcan@marcan.st>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, asahi@lists.linux.dev
+Message-ID: <18b98740-6730-3c3a-c95b-c377cb355e77@suse.de>
+Subject: Re: [PATCH] drm/simpledrm: Only advertise formats that are supported
+References: <20221027101327.16678-1-marcan@marcan.st>
+ <fa4efcfd-91b6-dc76-2e5c-eed538bccff3@suse.de> <Y1upGwtjWgtLUZ1k@intel.com>
+In-Reply-To: <Y1upGwtjWgtLUZ1k@intel.com>
 
-On Fri, 28 Oct 2022 11:34:34 +0200
-Thomas Zimmermann <tzimmermann@suse.de> wrote:
+--------------8u5PvsoHb7Q4dMWuHVKTaKSk
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Hi
->=20
-> Am 28.10.22 um 11:17 schrieb Pekka Paalanen:
-> > On Fri, 28 Oct 2022 10:53:49 +0200
-> > Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >  =20
-> >> Hi
-> >>
-> >> Am 28.10.22 um 10:37 schrieb Pekka Paalanen: =20
-> >>> On Fri, 28 Oct 2022 10:07:27 +0200
-> >>> Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> >>>     =20
-> >>>> Hi
-> >>>>
-> >>>> Am 27.10.22 um 15:57 schrieb Hector Martin: =20
-> >>>>> drm_fb_build_fourcc_list() currently returns all emulated formats
-> >>>>> unconditionally as long as the native format is among them, even th=
-ough
-> >>>>> not all combinations have conversion helpers. Although the list is
-> >>>>> arguably provided to userspace in precedence order, userspace can p=
-ick
-> >>>>> something out-of-order (and thus break when it shouldn't), or simply
-> >>>>> only support a format that is unsupported (and thus think it can wo=
-rk,
-> >>>>> which results in the appearance of a hang as FB blits fail later on,
-> >>>>> instead of the initialization error you'd expect in this case).
-> >>>>>
-> >>>>> Add checks to filter the list of emulated formats to only those
-> >>>>> supported for conversion to the native format. This presumes that t=
-here
-> >>>>> is a single native format (only the first is checked, if there are
-> >>>>> multiple). Refactoring this API to drop the native list or support =
-it
-> >>>>> properly (by returning the appropriate emulated->native mapping tab=
-le)
-> >>>>> is left for a future patch.
-> >>>>>
-> >>>>> The simpledrm driver is left as-is with a full table of emulated
-> >>>>> formats. This keeps all currently working conversions available and
-> >>>>> drops all the broken ones (i.e. this a strict bugfix patch, adding =
-no
-> >>>>> new supported formats nor removing any actually working ones). In o=
-rder
-> >>>>> to avoid proliferation of emulated formats, future drivers should
-> >>>>> advertise only XRGB8888 as the sole emulated format (since some
-> >>>>> userspace assumes its presence).
-> >>>>>
-> >>>>> This fixes a real user regression where the ?RGB2101010 support com=
-mit
-> >>>>> started advertising it unconditionally where not supported, and KWin
-> >>>>> decided to start to use it over the native format and broke, but al=
-so
-> >>>>> the fixes the spurious RGB565/RGB888 formats which have been wrongly
-> >>>>> unconditionally advertised since the dawn of simpledrm.
-> >>>>>
-> >>>>> Fixes: 6ea966fca084 ("drm/simpledrm: Add [AX]RGB2101010 formats")
-> >>>>> Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
-> >>>>> Cc: stable@vger.kernel.org
-> >>>>> Signed-off-by: Hector Martin <marcan@marcan.st> =20
-> >>>>
-> >>>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>>
-> >>>> Thanks for your patch. I have verified that video=3D-{16,24} still w=
-orks
-> >>>> with simpledrm.
-> >>>>    =20
-> >>>>> ---
-> >>>>> I'm proposing this alternative approach after a heated discussion on
-> >>>>> IRC. I'm out of ideas, if y'all don't like this one you can figure =
-it
-> >>>>> out for yourseves :-)
-> >>>>>
-> >>>>> Changes since v1:
-> >>>>> This v2 moves all the changes to the helper (so they will apply to
-> >>>>> the upcoming ofdrm, though ofdrm also needs to be fixed to trim its
-> >>>>> format table to only formats that should be emulated, probably only
-> >>>>> XRGB8888, to avoid further proliferating the use of conversions),
-> >>>>> and avoids touching more than one file. The API still needs cleanup
-> >>>>> as mentioned (supporting more than one native format is fundamental=
-ly
-> >>>>> broken, since the helper would need to tell the driver *what* native
-> >>>>> format to use for *each* emulated format somehow), but all current =
-and
-> >>>>> planned users only pass in one native format, so this can (and shou=
-ld)
-> >>>>> be fixed later.
-> >>>>>
-> >>>>> Aside: After other IRC discussion, I'm testing nuking the
-> >>>>> XRGB2101010 <-> ARGB2101010 advertisement (which does not involve
-> >>>>> conversion) by removing those entries from simpledrm in the Asahi L=
-inux
-> >>>>> downstream tree. As far as I'm concerned, it can be removed if nobo=
-dy
-> >>>>> complains (by removing those entries from the simpledrm array), if
-> >>>>> maintainers are generally okay with removing advertised formats at =
-all.
-> >>>>> If so, there might be other opportunities for further trimming the =
-list
-> >>>>> non-native formats advertised to userspace. =20
-> >>>>
-> >>>> IMHO all of the extra A formats can immediately go. We have plenty of
-> >>>> simple drivers that only export XRGB8888 plus sometimes a few other
-> >>>> non-A formats. If anything in userspace had a hard dependency on an A
-> >>>> format, we'd probably heard about it.
-> >>>>
-> >>>> In yesterday's discussion on IRC, it was said that several devices
-> >>>> advertise ARGB framebuffers when the hardware actually uses XRGB? Is
-> >>>> there hardware that supports transparent primary planes? =20
-> >>>
-> >>> I'm fairly sure such hardware does exist, but I don't know if it's the
-> >>> drivers in question here.
-> >>>
-> >>> It's not uncommon to have extra hardware planes below the primary
-> >>> plane, and then use alpha on primary plane to cut a hole to see throu=
-gh
-> >>> to the "underlay" plane. This is a good setup for video playback, whe=
-re
-> >>> the video is on the underlay, and (a slow GPU or CPU renders) the
-> >>> subtitles and UI on the primary plane.
-> >>>
-> >>> I've heard that some hardware also has a separate background color
-> >>> "plane" below all hardware planes, but I forget if upstream KMS expos=
-es
-> >>> that. =20
-> >>
-> >> That's also what I heard of. It's not something we can control within
-> >> simpledrm or any other generic driver.
-> >>
-> >> I'm worried that we advertise ARGB to userspace when the scanout buffer
-> >> is actually XRGB. =20
-> >=20
-> > What would be the problem with that?
-> > simpledrm would never expose more than only the primary plane, right?
-> > Not even background color. =20
->=20
-> Right. My concerns are the proliferation of A format, and userspace that=
-=20
-> tries something fancy with that incorrect A byte, which leads to display=
-=20
-> artifacts. Like fading in/out the content of the primary plane.
-
-I agree.
-
-> > That means that userspace cannot use the alpha channel for anything
-> > anyway, there is nothing to show through. Or are you thinking about
-> > transparent monitors? =20
->=20
-> I can't tell if you're serious, but I'm not going to rule this out. ;)
-
-I am kind of serious. See-through monitors would be cool if not
-practical. They actually kind of exist already as projections through
-semi-mirrors like in AR-goggles or car windscreens, but they don't yet
-allow displaying opaque black (or do they?). OTOH, one could use a
-traditional LCD and replace the mirror with another polarizing filter,
-I guess. Maybe that's a way to implement controllable opacity. I've no
-idea if anyone has combined these technologies.
-
-Hmm, if alpha controls the opacity layer, then RGB values would behave
-as if pre-multiplied in optical blending. The projected RGB primaries
-can only add light on top of what passes through the LCD opacity mask.
-
-Why don't I have one of those yet!
+SGkNCg0KQW0gMjguMTAuMjIgdW0gMTI6MDQgc2NocmllYiBWaWxsZSBTeXJqw6Rsw6Q6DQo+
+IE9uIFRodSwgT2N0IDI3LCAyMDIyIGF0IDAxOjA4OjI0UE0gKzAyMDAsIFRob21hcyBaaW1t
+ZXJtYW5uIHdyb3RlOg0KPj4gSSB0cnVzdCB5b3Ugd2hlbiB5b3Ugc2F5IHRoYXQgPG5hdGl2
+ZT4tPlhSR0I4ODg4IGlzIG5vdCBlbm91Z2guIEJ1dA0KPj4gYWx0aG91Z2ggSSd2ZSByZWFk
+IHlvdXIgcmVwbGllcywgSSBzdGlsbCBkb24ndCB1bmRlcnN0YW5kIHdoeSB0aGlzDQo+PiBz
+d2l0Y2ggaXMgbmVjZXNzYXJ5Lg0KPj4NCj4+IFdoeSBkb24ndCB3ZSBjYWxsIGRybV9mYl9i
+dWlsZF9mb3VyY2NfbGlzdCgpIHdpdGggdGhlIG5hdGl2ZQ0KPj4gZm9ybWF0L2Zvcm1hdHMg
+YW5kIGxldCBpdCBhcHBlbmQgYSBudW1iZXIgb2YgZm9ybWF0cywgc3VjaCBhcyBhZGRpbmcN
+Cj4+IFhSR0I4ODgsIGFkZGluZyBBUkdCODg4OCBpZiBuZWNlc3NhcnksIGFkZGluZyBBUkdC
+MjEwMTAxMCBpZiBuZWNlc3NhcnkuDQo+PiBFYWNoIHdpdGggYSBlbGFib3JhdGUgY29tbWVu
+dCB3aHkgYW5kIHdoaWNoIHVzZXJzcGFjZSBuZWVkcyB0aGUgZm9ybWF0LiAoPykNCj4gDQo+
+IEFyZSB5b3Ugc2F5aW5nIHRoZXJlIGlzIHNvbWUgcmVhbCB1c2Vyc3BhY2UgdGhhdCBicmVh
+a3Mgd2l0aG91dA0KPiB0aGUgYWxwaGEgZm9ybWF0cz8gVGhhdCB3b3VsZCBhbHJlYWR5IGJl
+IGJyb2tlbiBvbiBtYW55IGRldmljZXMuDQoNCldlIHNob3VsZCBzY3JhcCB0aGVtIGFsbCBJ
+TUhPLCB1bmxlc3MgdGhlIGhhcmR3YXJlIHJlYWxseSBzdXBwb3J0cyB0aGVtLiANClNlZSB0
+aGUgb3RoZXIgZGlzY3Vzc2lvbiBvbiB0aGlzIHBhdGNoJ3MgdjIgYXMgd2VsbC4NCg0KQmVz
+dCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3Jh
+cGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFu
+eSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIg
+MzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
 
-Thanks,
-pq
+--------------8u5PvsoHb7Q4dMWuHVKTaKSk--
 
---Sig_/hL8suL49hYQ0bVssPUv1n2x
-Content-Type: application/pgp-signature
+--------------rf1QNd9bcU8kcnpGuzuxLiIp
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
 Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmNbrsgACgkQI1/ltBGq
-qqcvPw//Tp0h1jYN+RREbW3JJUS8hX9177kB4uZA4+7JGREUDBPqaRLxYqp2s+Ut
-068BR7NP8QEMbVABjaArCCPrbwJcDluEXm8Il10Ednni6DFunoME4YxSkcBVJdw/
-S7wHQtYzyg1shR8J3gtpKyaRzkrmvP32YZr4EhShVKq+TBkTRZglKPmJqC+4X/gH
-mf4tZP8fbX3wWABA7kZYMcraGTELG7shkomG037/QqyRoE5tqzWc3OrNM+SOCe4B
-62A1bAi5yVCFk6XJXSyO3MN6Pcqb0+0WXOSvcFzA4Pkj3IMh8VmtEPRZ4XMmQQQ9
-Q5oW5w2NO/m8jpog/aok1B4iJBIJOKZ5k1ZMLDajw1x/xWi4y0EeEXKw/K0stqMc
-wV4zudB/p++ttsUc7ihbydmKNNQDSNl70hH44qNgSYddpbsgDIDxAwtlX9aiAJ4c
-1tMzS0lJCcysaEF8Jzja0Ow4nwwc0lG3+QVJPEKnkUwIASFJWoccbCVHE+oV7eQg
-UZN1VkNmjfveX2wZYrfHb+4E4BNDiWBQHzOH/xT8qX+nooXnzGbVWTb7QNqz8A0M
-Tzw5r9luliZaP8U6wSEzFbcK2JVfC05CoBqs2IGAok/gCnZNbrxTH1w3xYF9njX3
-pXGfp9Ef5HsNB40e0s88U2fU4Hs2hyclaRVE+3vsrC34vo6LGt8=
-=z5Fk
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmNbuOYFAwAAAAAACgkQlh/E3EQov+BI
+bg/9H02ohq4l9vzXaPTIrYpZyOs24OfTZcFqW0qU93wR5tsG1iYQg+FOspomlfBBFlTJjLvOG2Gp
+nrr6rQ0iUDhzuJX7MSzmU+UlBE3hM45yiMzw6z5GUXEUjzIaNWBmVQ3jpSmREAM5og6tCvAwhvXL
+pOpLy9FqyAleLN7D2ERoSzZw6iWhpDRHDOnuwB2srpbVxQ9gKDoOj0bZckVFUb/EiAXt3ZoNz2+Y
+NDBRkv5xkgrYc7R8wR/PIEVLgzE774oF2nSacxUYP3appqP+Os8sYprlpvIS8i2H9fr4bFtKjBJV
+yedvafU4aZv2kGNB9u3nO6i3KibxTMur0mlh+npcgg2EfsEI77x3l4rTZsPmpS+W+dfE535qKKtc
+xJOIOfMx+6yX4TNIHolSugTI9akMfToyH1MINCLWLTy+zu67XzqR+EZbqraDtsneQpvXZh0BPsZ6
+n8GT8nLS+SbPlb1VKj/eHAlZu6CBREGD1Z7SDRJj6mJ0aYPPaejyAu24XFqwxFc4lQcPbcZyMAiy
+8wAEcMsWFtmHN16g3UI4pv05q43KaqWhS8EuiSfI+jycI8nlYRXWTfH0OpcQPXtEVE71v79sUwE0
+blGbgsBxCCJA5QB5LxrKFPTL0itEuilgaspv62YqrP4pa0Q7+ZzTJGAMjR5mM7QqTrmWhJKjO7d1
+5sI=
+=AH5T
 -----END PGP SIGNATURE-----
 
---Sig_/hL8suL49hYQ0bVssPUv1n2x--
+--------------rf1QNd9bcU8kcnpGuzuxLiIp--
