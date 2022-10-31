@@ -1,183 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A87D33C9
-	for <asahi@lists.linux.dev>; Mon, 31 Oct 2022 17:24:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A6A5C433C1;
-	Mon, 31 Oct 2022 17:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1667237098;
-	bh=L2DTKbzzG8agvR9eg8iwoy8a6p94nxgFrdIuJOLI3hM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=alRFXgOXTskmXTUkD7pX+beDjAWS7SHjyseUhGzvEb5sCQwK9BR9d0/ucv2yDIOtf
-	 zV/UlD8xiDUAeiXEXCcINfJvVIV5WWyIBGJ/WE+vAmQQOmGEpt7P5OV5/jvOHDPx9A
-	 TGGQyRbfjTVC+Bj9U9YRcz66nzJxgf/TlE5YTimFTd2hzB8+lQ+Oixc4Se883V7kcM
-	 MalfjFA1OY5d0yMr6gGIuX1jNuDVTOeisDEZdbFoCMyxByYXyD1hoOiqZfZdSbhtDP
-	 WXObWPjbiPPUKNmkLQBzSikHqdqxrlFb89IhkA8OOadsYu8FsAlwRBhKkaVO3ydXza
-	 QKI4rMY5z8Urw==
-Date: Mon, 31 Oct 2022 17:24:53 +0000
-From: Lee Jones <lee@kernel.org>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
-Message-ID: <Y2AE5a/5fY4Pl7YF@google.com>
-References: <YxngtlhRLTVBw+iW@google.com>
- <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
- <Yxnv2mKkl1tW4PUp@google.com>
- <82088b05-2a0d-69cc-ba2c-d61c74c9d855@marcan.st>
- <YxrwLwVihe/s9wxN@google.com>
- <Yx8D8mGCO+1sEaKG@shell.armlinux.org.uk>
- <Yx8QEkZcnL59qSUM@google.com>
- <Y1v3EMP6pFZuo0QW@shell.armlinux.org.uk>
- <Y1+LYbdYLA0otaKF@google.com>
- <Y1+Y49b6vi2waVN9@shell.armlinux.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7793C00
+	for <asahi@lists.linux.dev>; Mon, 31 Oct 2022 18:23:08 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id b2so31608386eja.6
+        for <asahi@lists.linux.dev>; Mon, 31 Oct 2022 11:23:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxtx.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=a4rZhUH4ZpLMhBAqpfgdI9c7u8+KCLFpVpEFUicGMn4=;
+        b=GgM4/QujTRQ05JzoJoxOXsdk7HHVGSupVn0YESMwsNLFruqKu9FeueaBfHbCvR1X9W
+         /oKRptwJv97/KvG1CQqMuiJeDajS/M6d2xqOH5eEnH7o4jSh7hsRGIFN94u3DtCBQ5H0
+         Bn1t0aM7ftW30HmemMZ3Zj8M4eIZ8zFwdMdew=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a4rZhUH4ZpLMhBAqpfgdI9c7u8+KCLFpVpEFUicGMn4=;
+        b=SaQVzzCufEmcUVFaAaKJ79ew3AzLc2XguC1QNBcsH6QVqnD4jePgTVyrtmdpS7zTPA
+         XVM/GSz1UoMN2BKEtLMXNhjs0+X7QzHu2SQGrbETjCiJzv72KEfKb5JYuqkSRIMIt9s/
+         JJcfbGrwGq3AJ043pttvWiIXjwm6GX8o28UasQI+6iWXmbXd3iQOXTuO4LXeYKeK2AMo
+         DOMyx7XO99/4eHTXjge+DNYLjLfhWX2ck57R34/gse5quD4tPBnx6FvX5Q4GlxaoSwDQ
+         lKKB7IrHWx9XepLNwVkDrgYhnqpC2bmIbKVYKYOgRNbnZDxzM+XTFiUlHyfONq3kUJtR
+         TWww==
+X-Gm-Message-State: ACrzQf0CquouMqnye21+Iru2sEJPkbtosE9ho4/ZPbjGqRmIiHJKf8/v
+	Qj8G08U6X+L1K4EKrwBPGKe4C0Ao8MUGOIbeaV1JAA==
+X-Google-Smtp-Source: AMsMyM5DhoL8s28zzkeeLevlXOzn1Jye7+9SjSZzpbIqMEEJLmIGHYQyoMVmaWUIpW5aaCIrKN/r2n1OP2A/3CGeDSA=
+X-Received: by 2002:a17:907:86a4:b0:7ab:afe4:5a94 with SMTP id
+ qa36-20020a17090786a400b007abafe45a94mr14305688ejc.7.1667240586730; Mon, 31
+ Oct 2022 11:23:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y1+Y49b6vi2waVN9@shell.armlinux.org.uk>
+References: <20221027135711.24425-1-marcan@marcan.st> <CAFxkdAqjdonoEgOm4Nv-mbyw3OJuuO1=3dXYyn2+yszUp13Bbg@mail.gmail.com>
+ <8cd3c731-5501-8bfb-9432-b1b9554aeb23@marcan.st>
+In-Reply-To: <8cd3c731-5501-8bfb-9432-b1b9554aeb23@marcan.st>
+From: Justin Forbes <jmforbes@linuxtx.org>
+Date: Mon, 31 Oct 2022 13:22:55 -0500
+Message-ID: <CAFxkdArt_C82q1OXtCS=b_+Rn2cw7QkZp8bg-DwPD-dbBdRAaQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/format-helper: Only advertise supported formats
+ for conversion
+To: Hector Martin <marcan@marcan.st>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Pekka Paalanen <pekka.paalanen@collabora.com>, 
+	dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 31 Oct 2022, Russell King (Oracle) wrote:
+On Mon, Oct 31, 2022 at 11:52 AM Hector Martin <marcan@marcan.st> wrote:
+>
+> On 01/11/2022 01.15, Justin Forbes wrote:
+> > On Thu, Oct 27, 2022 at 8:57 AM Hector Martin <marcan@marcan.st> wrote:
+> >>
+> >> drm_fb_build_fourcc_list() currently returns all emulated formats
+> >> unconditionally as long as the native format is among them, even though
+> >> not all combinations have conversion helpers. Although the list is
+> >> arguably provided to userspace in precedence order, userspace can pick
+> >> something out-of-order (and thus break when it shouldn't), or simply
+> >> only support a format that is unsupported (and thus think it can work,
+> >> which results in the appearance of a hang as FB blits fail later on,
+> >> instead of the initialization error you'd expect in this case).
+> >>
+> >> Add checks to filter the list of emulated formats to only those
+> >> supported for conversion to the native format. This presumes that there
+> >> is a single native format (only the first is checked, if there are
+> >> multiple). Refactoring this API to drop the native list or support it
+> >> properly (by returning the appropriate emulated->native mapping table)
+> >> is left for a future patch.
+> >>
+> >> The simpledrm driver is left as-is with a full table of emulated
+> >> formats. This keeps all currently working conversions available and
+> >> drops all the broken ones (i.e. this a strict bugfix patch, adding no
+> >> new supported formats nor removing any actually working ones). In order
+> >> to avoid proliferation of emulated formats, future drivers should
+> >> advertise only XRGB8888 as the sole emulated format (since some
+> >> userspace assumes its presence).
+> >>
+> >> This fixes a real user regression where the ?RGB2101010 support commit
+> >> started advertising it unconditionally where not supported, and KWin
+> >> decided to start to use it over the native format and broke, but also
+> >> the fixes the spurious RGB565/RGB888 formats which have been wrongly
+> >> unconditionally advertised since the dawn of simpledrm.
+> >>
+> >> Fixes: 6ea966fca084 ("drm/simpledrm: Add [AX]RGB210101
+> >
+> >
+> >> Cc: stable@vger.kernel.org
+> >> Signed-off-by: Hector Martin <marcan@marcan.st>
+> >
+> > There is a CC for stable on here, but this patch does not apply in any
+> > way on 6.0 or older kernels as the fourcc bits and considerable churn
+> > came in with the 6.1 merge window.  You don't happen to have a
+> > backport of this to 6.0 do you?
+>
+> v1 is probably closer to such a backport, and I offered to figure it out
+> on Matrix but I heard you're already working on it ;)
 
-> On Mon, Oct 31, 2022 at 08:46:25AM +0000, Lee Jones wrote:
-> > On Fri, 28 Oct 2022, Russell King (Oracle) wrote:
-> > 
-> > > On Mon, Sep 12, 2022 at 11:55:14AM +0100, Lee Jones wrote:
-> > > > > I'm guessing this series is now dead, and Hector needs to re-spin the
-> > > > > patch set according to your views. I'm guessing this is going to take
-> > > > > a major re-work of the patch series.
-> > > > > 
-> > > > > I suspect my attempt and trying to get this upstream has made things
-> > > > > more complicated, because I doubt Hector has updated his patch set
-> > > > > with the review comments that have been made so far... so this is
-> > > > > now quite a mess. I think, once this is sorted, the entire series
-> > > > > will need to be re-reviewed entirely afresh.
-> > > > 
-> > > > I have no insight into what Hector is doing, or plans to do.
-> > > 
-> > > It seems there's no plans by Hector to address this, so it comes down
-> > > to me.
-> > > 
-> > > So, guessing what you're after, would something like the following
-> > > work for you? I don't see *any* point in creating more yet more
-> > > platform devices unless we're on a mission to maximise wasted memory
-> > > resources (which this split will already be doing by creating two
-> > > small modules instead of one.)
-> > > 
-> > > Obviously, this is not an official patch yet, it's just to find out
-> > > what code structure you are looking for.
-> > > 
-> > > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> > > index 78c6d9d99c3f..8d4c0508a2c8 100644
-> > > --- a/drivers/mfd/Makefile
-> > > +++ b/drivers/mfd/Makefile
-> > > @@ -18,6 +18,8 @@ obj-$(CONFIG_MFD_ENE_KB3930)	+= ene-kb3930.o
-> > >  obj-$(CONFIG_MFD_EXYNOS_LPASS)	+= exynos-lpass.o
-> > >  obj-$(CONFIG_MFD_GATEWORKS_GSC)	+= gateworks-gsc.o
-> > >  
-> > > +obj-$(CONFIG_APPLE_SMC)		+= apple-smc.o
-> > > +
-> > >  obj-$(CONFIG_HTC_PASIC3)	+= htc-pasic3.o
-> > >  obj-$(CONFIG_HTC_I2CPLD)	+= htc-i2cpld.o
-> > >  
-> > > diff --git a/drivers/mfd/apple-smc.c b/drivers/mfd/apple-smc.c
-> > > new file mode 100644
-> > > index 000000000000..bc59d1c5e13d
-> > > --- /dev/null
-> > > +++ b/drivers/mfd/apple-smc.c
-> > > @@ -0,0 +1,38 @@
-> > > +#include <linux/mfd/core.h>
-> > > +#include <linux/mfd/apple-smc.h>
-> > > +
-> > > +static const struct mfd_cell apple_smc_devs[] = {
-> > > +	{
-> > > +		.name = "macsmc-gpio",
-> > > +		.of_compatible = "apple,smc-gpio",
-> > > +	},
-> > > +	{
-> > > +		.name = "macsmc-hid",
-> > > +	},
-> > > +	{
-> > > +		.name = "macsmc-power",
-> > > +	},
-> > > +	{
-> > > +		.name = "macsmc-reboot",
-> > > +	},
-> > > +	{
-> > > +		.name = "macsmc-rtc",
-> > > +	},
-> > > +};
-> > > +
-> > > +int apple_smc_mfd_probe(struct device *dev)
-> > > +{
-> > > +	return mfd_add_devices(dev, -1, apple_smc_devs,
-> > > +			       ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
-> > > +}
-> > > +EXPORT_SYMBOL(apple_smc_mfd_probe);
-> > > +
-> > > +void apple_smc_mfd_remove(struct device *dev)
-> > > +{
-> > > +	mfd_remove_devices(dev);
-> > > +}
-> > > +EXPORT_SYMBOL(apple_smc_mfd_remove);
-> > > +
-> > > +MODULE_AUTHOR("Hector Martin <marcan@marcan.st>");
-> > > +MODULE_LICENSE("Dual MIT/GPL");
-> > > +MODULE_DESCRIPTION("Apple SMC MFD core");
-> > 
-> > Conceptually interesting, not seen this one before, but clearly a
-> > hack, no?  Pretty sure all of the other cores in MFD are represented
-> > by a Platform Device.
-> 
-> No one seems to understand what you actually want to see with the
-> smc-core.c part, so I'm trying to find out what code structure
-> would suit you.
-> 
-> It seemed from the thread that moving smc-core.c to drivers/mfd
-> wasn't desirable, but there was the desire to move the mfd bits
-> into there - so that's what I've done with this patch. It doesn't
-> make any sense what so ever to add yet another platform device
-> into this structure with all of the complication around what happens
-> if the user forces it to unbind, so I didn't.
-> 
-> > Why not implement the inverse?
-> 
-> What do you mean "the inverse" ? The inverse of this patch is moving
-> everything of smc-core.c except the MFD bits into drivers/mfd leaving
-> the MFD bits in drivers/platform/apple, which makes no sense.
-> 
-> > The Apple SMC is clearly an MFD, in
-> > Linux terms, so why not move the Platform Device into here, fetch all
-> > of the global resources, register the sub-devices, then call into the
-> > rtkit implementation in drivers/platform? 
-> 
-> I thought you had previously ruled out the idea of moving the contents
-> of drivers/platform/apple into drivers/mfd, but maybe your position on
-> that had changed through the course of the discussion. It's really not
-> obvious to me what you want from what's been said in this thread.
-> 
-> So, I ask the direct question - would moving the code that is in this
-> patch set from drivers/platform/apple to drivers/mfd then make it
-> acceptable to you? In other words:
-> 
->  drivers/platform/apple/smc_core.c
->  drivers/platform/apple/smc.h
->  drivers/platform/apple/smc_rtkit.c
-> 
-> If not, then please clearly and fully state what you want to see.
+i am, but I didn't want to be, so I thought I would ask.
 
-Sorry Russell, I'm out of time today.  Please see my recent reply to
-Hector for now and I'll get back to you first thing.
-
--- 
-Lee Jones [李琼斯]
+Justin
