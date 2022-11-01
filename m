@@ -1,31 +1,23 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75F87C
-	for <asahi@lists.linux.dev>; Mon, 31 Oct 2022 19:47:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=PPSPjnWP+DveRpIaSnIkEhVnKd1D9zYt55dwDBIhP3w=; b=wxjWiG/YkQ4dDMRS90avngL/Kk
-	LvdyYn2sbcteyQm2U+y6pCPqwTKnS1Pv1w/1MoPedQQLP85eBmJxMLz5SO9VgYomDaFivIP768TdP
-	tuTZnOUxv1WAEfqF5EZsNqWyJT0IUst2u6DJjReQRphgS2fbQM3ul82agq6K67DFl1RosaZ4Ctaeg
-	wOTRfUaonI1r81tEQ/v0/dQUzZvj6oiUkSwhSGVWxEbtSGx2bNA3jfSg9Lg86zl6/H+58afwO6N6S
-	G1pUdq9iyZLhyK1oJNq5NbvxFLCUX21IDJ+Pn/HR2yEGkf4/UF1+TS+GPm2IM54nuXut/A5hENDGS
-	H64MKKwg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35056)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1opalC-0003Nb-Nt; Mon, 31 Oct 2022 19:47:50 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1opalB-0005it-Hg; Mon, 31 Oct 2022 19:47:49 +0000
-Date: Mon, 31 Oct 2022 19:47:49 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Lee Jones <lee@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF31641
+	for <asahi@lists.linux.dev>; Tue,  1 Nov 2022 09:59:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE328C433D6;
+	Tue,  1 Nov 2022 09:59:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1667296746;
+	bh=uJPqy7FdyJCQ3j/6bfkJujcNB6cscQ3q4+L1Rs0Y5Jk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=arwNIvA1wsqucYpLvARlwfatzTaLVsPmmj8WXh2ihymvc4jyg736y53jBzaB3hi1o
+	 q+5fMgrqZ1NPiiagpJltvuRHZ3Rt1ujoC7sCBms/TJ/ejyi1VrdpjglUAeFIyv/228
+	 nnlxDzo90LWgL/nl7w+hJkoLOajoY9sG6JvttOszwaBTRNSGWXpdcKAFrqK+aC5Z15
+	 4l/v3Te8c+Mgs0YhLRgfFh6kEkHc5UXH7qZYwLvg8dsRuo2bLI2406Hr6ttAxSSJBz
+	 1gDSbBQhs4cpEszkGPSUvWoEPLqB88QHtnKuCMe6uEcWAVVsCMA2oKMXwar5yFPMbv
+	 KhhrCH4eaCGMg==
+Date: Tue, 1 Nov 2022 09:59:00 +0000
+From: Lee Jones <lee@kernel.org>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
 Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
@@ -33,9 +25,8 @@ Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
 	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
 	Sven Peter <sven@svenpeter.dev>
 Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
-Message-ID: <Y2AmZQtttiGwpvth@shell.armlinux.org.uk>
-References: <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
- <Yxnv2mKkl1tW4PUp@google.com>
+Message-ID: <Y2Dt5Gp4umPbp2an@google.com>
+References: <Yxnv2mKkl1tW4PUp@google.com>
  <82088b05-2a0d-69cc-ba2c-d61c74c9d855@marcan.st>
  <YxrwLwVihe/s9wxN@google.com>
  <Yx8D8mGCO+1sEaKG@shell.armlinux.org.uk>
@@ -44,163 +35,169 @@ References: <8f30a490-f970-6605-20cb-c2256daab9de@marcan.st>
  <Y1+LYbdYLA0otaKF@google.com>
  <Y1+Y49b6vi2waVN9@shell.armlinux.org.uk>
  <Y2AE5a/5fY4Pl7YF@google.com>
+ <Y2AmZQtttiGwpvth@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Y2AE5a/5fY4Pl7YF@google.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y2AmZQtttiGwpvth@shell.armlinux.org.uk>
 
-On Mon, Oct 31, 2022 at 05:24:53PM +0000, Lee Jones wrote:
-> On Mon, 31 Oct 2022, Russell King (Oracle) wrote:
-> 
-> > On Mon, Oct 31, 2022 at 08:46:25AM +0000, Lee Jones wrote:
-> > > On Fri, 28 Oct 2022, Russell King (Oracle) wrote:
-> > > 
-> > > > On Mon, Sep 12, 2022 at 11:55:14AM +0100, Lee Jones wrote:
-> > > > > > I'm guessing this series is now dead, and Hector needs to re-spin the
-> > > > > > patch set according to your views. I'm guessing this is going to take
-> > > > > > a major re-work of the patch series.
+On Mon, 31 Oct 2022, Russell King (Oracle) wrote:
+
+> On Mon, Oct 31, 2022 at 05:24:53PM +0000, Lee Jones wrote:
+> > On Mon, 31 Oct 2022, Russell King (Oracle) wrote:
+> > 
+> > > On Mon, Oct 31, 2022 at 08:46:25AM +0000, Lee Jones wrote:
+> > > > On Fri, 28 Oct 2022, Russell King (Oracle) wrote:
+> > > > 
+> > > > > On Mon, Sep 12, 2022 at 11:55:14AM +0100, Lee Jones wrote:
+> > > > > > > I'm guessing this series is now dead, and Hector needs to re-spin the
+> > > > > > > patch set according to your views. I'm guessing this is going to take
+> > > > > > > a major re-work of the patch series.
+> > > > > > > 
+> > > > > > > I suspect my attempt and trying to get this upstream has made things
+> > > > > > > more complicated, because I doubt Hector has updated his patch set
+> > > > > > > with the review comments that have been made so far... so this is
+> > > > > > > now quite a mess. I think, once this is sorted, the entire series
+> > > > > > > will need to be re-reviewed entirely afresh.
 > > > > > > 
-> > > > > > I suspect my attempt and trying to get this upstream has made things
-> > > > > > more complicated, because I doubt Hector has updated his patch set
-> > > > > > with the review comments that have been made so far... so this is
-> > > > > > now quite a mess. I think, once this is sorted, the entire series
-> > > > > > will need to be re-reviewed entirely afresh.
+> > > > > > I have no insight into what Hector is doing, or plans to do.
 > > > > > 
-> > > > > I have no insight into what Hector is doing, or plans to do.
+> > > > > It seems there's no plans by Hector to address this, so it comes down
+> > > > > to me.
+> > > > > 
+> > > > > So, guessing what you're after, would something like the following
+> > > > > work for you? I don't see *any* point in creating more yet more
+> > > > > platform devices unless we're on a mission to maximise wasted memory
+> > > > > resources (which this split will already be doing by creating two
+> > > > > small modules instead of one.)
+> > > > > 
+> > > > > Obviously, this is not an official patch yet, it's just to find out
+> > > > > what code structure you are looking for.
+> > > > > 
+> > > > > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+> > > > > index 78c6d9d99c3f..8d4c0508a2c8 100644
+> > > > > --- a/drivers/mfd/Makefile
+> > > > > +++ b/drivers/mfd/Makefile
+> > > > > @@ -18,6 +18,8 @@ obj-$(CONFIG_MFD_ENE_KB3930)	+= ene-kb3930.o
+> > > > >  obj-$(CONFIG_MFD_EXYNOS_LPASS)	+= exynos-lpass.o
+> > > > >  obj-$(CONFIG_MFD_GATEWORKS_GSC)	+= gateworks-gsc.o
+> > > > >  
+> > > > > +obj-$(CONFIG_APPLE_SMC)		+= apple-smc.o
+> > > > > +
+> > > > >  obj-$(CONFIG_HTC_PASIC3)	+= htc-pasic3.o
+> > > > >  obj-$(CONFIG_HTC_I2CPLD)	+= htc-i2cpld.o
+> > > > >  
+> > > > > diff --git a/drivers/mfd/apple-smc.c b/drivers/mfd/apple-smc.c
+> > > > > new file mode 100644
+> > > > > index 000000000000..bc59d1c5e13d
+> > > > > --- /dev/null
+> > > > > +++ b/drivers/mfd/apple-smc.c
+> > > > > @@ -0,0 +1,38 @@
+> > > > > +#include <linux/mfd/core.h>
+> > > > > +#include <linux/mfd/apple-smc.h>
+> > > > > +
+> > > > > +static const struct mfd_cell apple_smc_devs[] = {
+> > > > > +	{
+> > > > > +		.name = "macsmc-gpio",
+> > > > > +		.of_compatible = "apple,smc-gpio",
+> > > > > +	},
+> > > > > +	{
+> > > > > +		.name = "macsmc-hid",
+> > > > > +	},
+> > > > > +	{
+> > > > > +		.name = "macsmc-power",
+> > > > > +	},
+> > > > > +	{
+> > > > > +		.name = "macsmc-reboot",
+> > > > > +	},
+> > > > > +	{
+> > > > > +		.name = "macsmc-rtc",
+> > > > > +	},
+> > > > > +};
+> > > > > +
+> > > > > +int apple_smc_mfd_probe(struct device *dev)
+> > > > > +{
+> > > > > +	return mfd_add_devices(dev, -1, apple_smc_devs,
+> > > > > +			       ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(apple_smc_mfd_probe);
+> > > > > +
+> > > > > +void apple_smc_mfd_remove(struct device *dev)
+> > > > > +{
+> > > > > +	mfd_remove_devices(dev);
+> > > > > +}
+> > > > > +EXPORT_SYMBOL(apple_smc_mfd_remove);
+> > > > > +
+> > > > > +MODULE_AUTHOR("Hector Martin <marcan@marcan.st>");
+> > > > > +MODULE_LICENSE("Dual MIT/GPL");
+> > > > > +MODULE_DESCRIPTION("Apple SMC MFD core");
 > > > > 
-> > > > It seems there's no plans by Hector to address this, so it comes down
-> > > > to me.
-> > > > 
-> > > > So, guessing what you're after, would something like the following
-> > > > work for you? I don't see *any* point in creating more yet more
-> > > > platform devices unless we're on a mission to maximise wasted memory
-> > > > resources (which this split will already be doing by creating two
-> > > > small modules instead of one.)
-> > > > 
-> > > > Obviously, this is not an official patch yet, it's just to find out
-> > > > what code structure you are looking for.
-> > > > 
-> > > > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> > > > index 78c6d9d99c3f..8d4c0508a2c8 100644
-> > > > --- a/drivers/mfd/Makefile
-> > > > +++ b/drivers/mfd/Makefile
-> > > > @@ -18,6 +18,8 @@ obj-$(CONFIG_MFD_ENE_KB3930)	+= ene-kb3930.o
-> > > >  obj-$(CONFIG_MFD_EXYNOS_LPASS)	+= exynos-lpass.o
-> > > >  obj-$(CONFIG_MFD_GATEWORKS_GSC)	+= gateworks-gsc.o
-> > > >  
-> > > > +obj-$(CONFIG_APPLE_SMC)		+= apple-smc.o
-> > > > +
-> > > >  obj-$(CONFIG_HTC_PASIC3)	+= htc-pasic3.o
-> > > >  obj-$(CONFIG_HTC_I2CPLD)	+= htc-i2cpld.o
-> > > >  
-> > > > diff --git a/drivers/mfd/apple-smc.c b/drivers/mfd/apple-smc.c
-> > > > new file mode 100644
-> > > > index 000000000000..bc59d1c5e13d
-> > > > --- /dev/null
-> > > > +++ b/drivers/mfd/apple-smc.c
-> > > > @@ -0,0 +1,38 @@
-> > > > +#include <linux/mfd/core.h>
-> > > > +#include <linux/mfd/apple-smc.h>
-> > > > +
-> > > > +static const struct mfd_cell apple_smc_devs[] = {
-> > > > +	{
-> > > > +		.name = "macsmc-gpio",
-> > > > +		.of_compatible = "apple,smc-gpio",
-> > > > +	},
-> > > > +	{
-> > > > +		.name = "macsmc-hid",
-> > > > +	},
-> > > > +	{
-> > > > +		.name = "macsmc-power",
-> > > > +	},
-> > > > +	{
-> > > > +		.name = "macsmc-reboot",
-> > > > +	},
-> > > > +	{
-> > > > +		.name = "macsmc-rtc",
-> > > > +	},
-> > > > +};
-> > > > +
-> > > > +int apple_smc_mfd_probe(struct device *dev)
-> > > > +{
-> > > > +	return mfd_add_devices(dev, -1, apple_smc_devs,
-> > > > +			       ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
-> > > > +}
-> > > > +EXPORT_SYMBOL(apple_smc_mfd_probe);
-> > > > +
-> > > > +void apple_smc_mfd_remove(struct device *dev)
-> > > > +{
-> > > > +	mfd_remove_devices(dev);
-> > > > +}
-> > > > +EXPORT_SYMBOL(apple_smc_mfd_remove);
-> > > > +
-> > > > +MODULE_AUTHOR("Hector Martin <marcan@marcan.st>");
-> > > > +MODULE_LICENSE("Dual MIT/GPL");
-> > > > +MODULE_DESCRIPTION("Apple SMC MFD core");
+> > > > Conceptually interesting, not seen this one before, but clearly a
+> > > > hack, no?  Pretty sure all of the other cores in MFD are represented
+> > > > by a Platform Device.
 > > > 
-> > > Conceptually interesting, not seen this one before, but clearly a
-> > > hack, no?  Pretty sure all of the other cores in MFD are represented
-> > > by a Platform Device.
+> > > No one seems to understand what you actually want to see with the
+> > > smc-core.c part, so I'm trying to find out what code structure
+> > > would suit you.
+> > > 
+> > > It seemed from the thread that moving smc-core.c to drivers/mfd
+> > > wasn't desirable, but there was the desire to move the mfd bits
+> > > into there - so that's what I've done with this patch. It doesn't
+> > > make any sense what so ever to add yet another platform device
+> > > into this structure with all of the complication around what happens
+> > > if the user forces it to unbind, so I didn't.
+> > > 
+> > > > Why not implement the inverse?
+> > > 
+> > > What do you mean "the inverse" ? The inverse of this patch is moving
+> > > everything of smc-core.c except the MFD bits into drivers/mfd leaving
+> > > the MFD bits in drivers/platform/apple, which makes no sense.
+> > > 
+> > > > The Apple SMC is clearly an MFD, in
+> > > > Linux terms, so why not move the Platform Device into here, fetch all
+> > > > of the global resources, register the sub-devices, then call into the
+> > > > rtkit implementation in drivers/platform? 
+> > > 
+> > > I thought you had previously ruled out the idea of moving the contents
+> > > of drivers/platform/apple into drivers/mfd, but maybe your position on
+> > > that had changed through the course of the discussion. It's really not
+> > > obvious to me what you want from what's been said in this thread.
+> > > 
+> > > So, I ask the direct question - would moving the code that is in this
+> > > patch set from drivers/platform/apple to drivers/mfd then make it
+> > > acceptable to you? In other words:
+> > > 
+> > >  drivers/platform/apple/smc_core.c
+> > >  drivers/platform/apple/smc.h
+> > >  drivers/platform/apple/smc_rtkit.c
+> > > 
+> > > If not, then please clearly and fully state what you want to see.
 > > 
-> > No one seems to understand what you actually want to see with the
-> > smc-core.c part, so I'm trying to find out what code structure
-> > would suit you.
-> > 
-> > It seemed from the thread that moving smc-core.c to drivers/mfd
-> > wasn't desirable, but there was the desire to move the mfd bits
-> > into there - so that's what I've done with this patch. It doesn't
-> > make any sense what so ever to add yet another platform device
-> > into this structure with all of the complication around what happens
-> > if the user forces it to unbind, so I didn't.
-> > 
-> > > Why not implement the inverse?
-> > 
-> > What do you mean "the inverse" ? The inverse of this patch is moving
-> > everything of smc-core.c except the MFD bits into drivers/mfd leaving
-> > the MFD bits in drivers/platform/apple, which makes no sense.
-> > 
-> > > The Apple SMC is clearly an MFD, in
-> > > Linux terms, so why not move the Platform Device into here, fetch all
-> > > of the global resources, register the sub-devices, then call into the
-> > > rtkit implementation in drivers/platform? 
-> > 
-> > I thought you had previously ruled out the idea of moving the contents
-> > of drivers/platform/apple into drivers/mfd, but maybe your position on
-> > that had changed through the course of the discussion. It's really not
-> > obvious to me what you want from what's been said in this thread.
-> > 
-> > So, I ask the direct question - would moving the code that is in this
-> > patch set from drivers/platform/apple to drivers/mfd then make it
-> > acceptable to you? In other words:
-> > 
-> >  drivers/platform/apple/smc_core.c
-> >  drivers/platform/apple/smc.h
-> >  drivers/platform/apple/smc_rtkit.c
-> > 
-> > If not, then please clearly and fully state what you want to see.
+> > Sorry Russell, I'm out of time today.  Please see my recent reply to
+> > Hector for now and I'll get back to you first thing.
 > 
-> Sorry Russell, I'm out of time today.  Please see my recent reply to
-> Hector for now and I'll get back to you first thing.
+> Hi Lee,
+> 
+> Thanks - I look forward to it. Having read your response to Hector, I
+> am wondering whether there's a misunderstanding of the code, so I'm
+> hoping that my attempt in my reply helps to clear up any code
+> misunderstandings.
+> 
+> If you want to ask questions about the code, you know where to find
+> me on irc, and I'll more than happily answer anything you want to
+> know about the code structure.
 
-Hi Lee,
+That might be helpful, thanks.
 
-Thanks - I look forward to it. Having read your response to Hector, I
-am wondering whether there's a misunderstanding of the code, so I'm
-hoping that my attempt in my reply helps to clear up any code
-misunderstandings.
+Let's keep in on-list for now, in case others are following along.
 
-If you want to ask questions about the code, you know where to find
-me on irc, and I'll more than happily answer anything you want to
-know about the code structure.
-
-Russell.
+For now, I'll go take a look at your other response.
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Lee Jones [李琼斯]
