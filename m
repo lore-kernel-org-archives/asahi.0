@@ -1,146 +1,177 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B241D7ED
-	for <asahi@lists.linux.dev>; Wed,  2 Nov 2022 10:21:06 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id y203so1863210pfb.4
-        for <asahi@lists.linux.dev>; Wed, 02 Nov 2022 03:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w+v+Uk4ph8G3ivevMkDD1+/l5JO6IeLjWfLLSRXlGKg=;
-        b=GVZOwlOBgXY+2rToRwZ6Q4ktnqTnUjC1UK4TrgdxvWLKFpuYvjriu5/Q49S7RJgJBz
-         G0dYOCm1P4oLO42bh/MEIxiQH2wF3DNQGVYsaa20gnhNCmKYRxKe/fhSKVD87ve7g10g
-         iDawmziHNrZ5+07pjlmw84SjAkFXaGj0dQFvZincZNE7IPbzkem201AUYnmNQyRAC6yI
-         9FMDDgE0vlOKefKr+WYYwWYTLgdDWEh8reaaq2Gj6znuZU8YzBg+NwpcWHH3P3LlT/3d
-         YxbzTJ5+EnLzF32Le8sc67JbK+ckjX4C1oDBWzCY0miH0uphW+8pQB6cGmYGWXcTb6lG
-         7pHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w+v+Uk4ph8G3ivevMkDD1+/l5JO6IeLjWfLLSRXlGKg=;
-        b=UCnSbPxv3gpr6+81TvW9dRjOyhZj97qD9sD/c7JSRrUS6GS8xkXtHjMs4k/ni6y9o/
-         vYf82iUdkG4p2y7tBdTsBvtAA7asmDXMpNR/i3wIRNnSzGE29En0oxuOgpyuVsqJBD7H
-         cfWqtL68ss4g8/YBXFpeM4xgxoyMZdv+YG3s1heMZiMT9CA7EDPv+84pX/kSzV2T+Hod
-         ekxLSRkcWqjBrkk6dR/TM8xJPN2rJIzUHSK6nYf7OjEuXt13RHZCJD5goPSlCTNHkaeE
-         Vxihh7HJa42HE8BU4hUllwZghzSOcx2j77k6/a7eFMcDMoXZJswL4AEvUetw4KIyQGsP
-         HsMQ==
-X-Gm-Message-State: ACrzQf3IDWs9GSJehpZp9gesHdG8xd8Ro9cXuhDg15N5QBziYqoGo4Sh
-	wBI6kM3X/LWTYmVa0wc7scs=
-X-Google-Smtp-Source: AMsMyM4LOhJz5rxgtFjV6yVXQUawGjAc8IinLj4FnHJo3GNB+7LqwgTK52RVRShmpwXtpX0XTr2vdw==
-X-Received: by 2002:a63:ce54:0:b0:46a:e2a9:c7f6 with SMTP id r20-20020a63ce54000000b0046ae2a9c7f6mr20856483pgi.264.1667384466034;
-        Wed, 02 Nov 2022 03:21:06 -0700 (PDT)
-Received: from localhost.localdomain (2403-580a-80ed--90b3-8553.ip6.aussiebb.net. [2403:580a:80ed::90b3:8553])
-        by smtp.gmail.com with ESMTPSA id d12-20020a170902654c00b00176acd80f69sm7919680pln.102.2022.11.02.03.21.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Nov 2022 03:21:05 -0700 (PDT)
-From: James Calligeros <jcalligeros99@gmail.com>
-To: viresh.kumar@linaro.org
-Cc: asahi@lists.linux.dev,
-	jcalligeros99@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	nm@ti.com,
-	sboyd@kernel.org,
-	vireshk@kernel.org
-Subject: Re: [PATCH v2] OPP: decouple dt properties in opp_parse_supplies()
-Date: Wed,  2 Nov 2022 20:20:13 +1000
-Message-Id: <20221102102011.11623-1-jcalligeros99@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221102090228.odyt7ykdkcbdx4lw@vireshk-i7>
-References: <20221102090228.odyt7ykdkcbdx4lw@vireshk-i7>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1FD2108
+	for <asahi@lists.linux.dev>; Wed,  2 Nov 2022 13:12:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 869CDC433C1;
+	Wed,  2 Nov 2022 13:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1667394778;
+	bh=JuzdzoZQv7vx3g4XLThOhs8ysZfBBda2DUoWLO5jrQw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ShqS8vce3zJSYQHz986Lcb8b1A4C+a5Cfdtrqa+Cfg+H4aDm6iqVp2CEkhLwtUCgZ
+	 EsvnoxPMYkzOb5qIUHwG8gPu5V5lLa09QbqoRpNZsZ+svDiuWeAfAfSjf9/CARFGFA
+	 NZ38eYXCEhAh/IZPoS8araweWXwQK2I9jsFdFSXlFhgoLD8yAU7E53f91e0yyZ+yNN
+	 Cl08KmvPM2SkQIxLcVV6GHWgyOK/nEfLbImosWEHC6gASiZZ25pldDlA1MahVgU8DS
+	 d43veR4iZCA2UAhhztusfvzh4he2WZnYNnHIaJHBY9mdS6u3Zn3xH9+q+eaif9+sYb
+	 q2cLLYL3knpGA==
+Date: Wed, 2 Nov 2022 13:12:53 +0000
+From: Lee Jones <lee@kernel.org>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
+Message-ID: <Y2Js1ZhIlr9dimHw@google.com>
+References: <Yxnv2mKkl1tW4PUp@google.com>
+ <82088b05-2a0d-69cc-ba2c-d61c74c9d855@marcan.st>
+ <YxrwLwVihe/s9wxN@google.com>
+ <a92ca9ac-fbc8-a25f-4865-5bc7adb206e2@marcan.st>
+ <Y1+LzpEvVj7xswqb@google.com>
+ <dcd692aa-1525-4fc5-5198-37f803725c4f@marcan.st>
+ <Y1+VdnmMUfIKTwWF@google.com>
+ <4faa5e4c-b43b-12e4-2259-c2595bd55b97@marcan.st>
+ <Y2AEgIfURNhCgimr@google.com>
+ <Y2AjUz9eGa/GLY5s@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y2AjUz9eGa/GLY5s@shell.armlinux.org.uk>
 
->> The opp-microwatt property was added with the intention of providing
->> platforms a way to specify a precise value for the power consumption
->> of a device at a given OPP to enable better energy-aware scheduling
->> decisions by informing the kernel of the total static and dynamic
->> power of a device at a given OPP, removing the reliance on the EM
->> subsystem's often flawed estimations. This property is parsed by
->> opp_parse_supplies(), which creates a hard dependency on the
->> opp-microvolt property.
->> 
->> Some platforms, such as Apple Silicon, do not describe their devices'
->> voltage regulators in the DT as they cannot be controlled by the kernel
->> and/or rely on opaque firmware algorithms to control their voltage and
->> current characteristics at runtime. We can, however, experimentally
->> determine the power consumption of a given device at a given OPP, taking
->> advantage of opp-microwatt to provide EAS on such devices as was initially
->> intended.
+On Mon, 31 Oct 2022, Russell King (Oracle) wrote:
 
->Do you supply a regulator to the OPP core for your platform ?
+> On Mon, Oct 31, 2022 at 05:23:12PM +0000, Lee Jones wrote:
+> > I see that you pass a bunch of function pointers from the RTKit
+> > implementation into the SMC.  Which in turn offers an exported
+> > (apple_smc_*) API.  In most of the frameworks I have knowledge of, the
+> > core provides the Ops structure and it's populated by the client
+> > device.
+> 
+> Sorry Lee, I don't get this point. From what I can see, the
+> apple_smc_backend_ops struct is owned by the core System Management
+> Controller code, and RTKit backend fills in an instance of these ops
+> and provides that to the core SMC code. The RTKit backend is just
+> how we walk to the System Management Controller. It is not a client.
+> 
+> I don't see this being any different to struct file_operations,
+> seq_operations, vm_operations_struct, block_Device_operations,
+> and so on and so forth.
+> 
+> Having read your response, I wonder if you're confused about what the
+> smc_core and smc_rtkit code actually are - because you seem to think
+> that smc_rtkit is a _client_ of the smc_core code. It isn't, as I
+> explain above, it's how we talk to the System Management Controller,
+> and smc_core provides a uniform interface to the client drivers such
+> as GPIO, RTC etc.
+> 
+> Essentially, we have:
+> 
+> Hardware   Backend    Core             Clients
+>                                  .---- RTC
+>                                 / .--- GPIO
+> Mailbox -- RTKit -- SMC Core -- MFD -- HID
+>                                 \ `--- Power
+>                                  `---- Reboot
 
-On Apple SoCs, all the regulators are controlled transparently
-by the hardware/firmware. The CPUfreq driver requests a pstate as
-described in the OPP table by setting some bits in some registers, and
-the platform handles everything else.
+The issue I see with the current implementation is that, what you are
+calling the SMC Core here, is being viewed as the parent to all of
+these client (child / sub) devices.  However, in reality, the SMC Core
+is little more than a function pointer shim / pass-through without
+it's own Device.  In order for it to register the child-devices, it's
+effectively borrowing and branching off of the RTKit's Device, which
+from a Device Driver hierarchy stand-point feels odd.
 
-Not only is there no use for the voltage and current information from
-the kernel's perspective since there's nothing to control, we don't
-even really have a way to reliably model their behaviour.
+> RTKit is just _one_ possible backend, there are other backends that
+> can be used to interface to the underlying platform implementation to
+> talk to the SMC.
 
-What we can do, however, is use energy counter registers in the core
-clusters to determine energy consumption at a given pstate and register
-that with the OPP core using the opp-microwatt property. Given that its
-stated purpose is to enable such behaviour, requiring it to be coupled
-to opp-microvolt is a major design deficiency.
+Right, this is the tricky part.  The way I see it, the best route
+would be to make the RTKit, which is the real Linux Device (with real
+resources), the direct parent (no sharing) and move it to MFD.
 
->> Fixes: 4f9a7a1dc2a2 ("OPP: Add "opp-microwatt" supporting code")
+However, the looming question then becomes, "what happens when the
+RTKit is removed and swapped out for something else?", does that mean
+anything you swap it out with will need to become an MFD also?  How
+would the children get registered otherwise?
 
->I won't call it a fix, we are trying to use this information in a
->different way here, that's all.
+The TL;DR is, I can see why it's been architected this way, but it
+doesn't really fit in with the Device Driver norms, which makes it
+quite difficult to shoehorn in without the issues (using MFD API
+outside of MFD and borrowing Devices) we're encountering here.
 
-My interpretation of the commit message for 32bf8bc9a077 is that this
-is the way in which the property was intended to be used, and that it not
-working like this is a bug. Quoting the commit message, "Some of the platforms
-don't expose voltage information, thus it's not possible to use EM
-registration using DT. This patch aims to fix it." 
+> > I'm sure having that clear in my head will go some ways to put me in a
+> > position to advise you further.
+> > 
+> > > > Request the device-wide memory (and other shared resources) here.
+> > > 
+> > > That's what smc_rtkit.c does, but you seem not to want that code in mfd.
+> > 
+> > I'm not sure I explicitly said that.
+> 
+> On Fri, Sep 09, 2022 at 08:50:07AM +0100, Lee Jones wrote:
+> | If we were to design and build it up again from scratch, I'd suggest
+> | that the MFD part would be the core-driver / entry-point.  That driver
+> | should request and initialise shared resources and register the other
+> | devices, which is essentially the MFD's mantra.
+> 
+> This is exactly what smc_rtkit is doing, which as I've mentioned above
+> is the backend provider of access to the System Management Controller.
+> Backend-independent access to the System Management Controller is done
+> via smc_core which - at least to me - seems to be entirely correct,
+> and it seems entirely appropriate that this should be responsible for
+> creating the individual clients that make use of the System Management
+> Controller's facilities such as GPIO, RTC etc.
 
-There is probably a bigger discussion to be had on whether or not parsing
-opp-microwatt for the purpose of EM registration should be entangled in
-opp_parse_supplies() at all, but that's by the by.
+Making a shim-layer without a real Device become a parent to
+sub-devices is the part I'm finding most difficult to swallow.
 
->If there is a regulator, then we must have microvolt property.
->amps/watts are optional.
+> > "call into" was not a good choice of words here.  Simply, let the
+> > child devices go about their business and do whatever they were
+> > designed to do.
+> 
+> ... by calling into the code which provides them with access to the
+> System Management Controller - that being through smc_core and
+> ultimately which ever backend is used to finally communicate with the
+> System Management Controller.
 
-I noticed no adverse effects from not having opp-microvolt in my testing of
-this patch, possibly because the data is not used to actually puppeteer any
-supplies. This goes back to the greater discussion, though. If we're going
-to use opp_parse_supplies() to do EM registration stuff then having the
-check for a valid representation of an actual VRM should probably happen
-elsewhere, where a valid VRM is actually a hard requirement of the code being
-run.
+Right.  No problem with that part.
 
->> -			return -EINVAL;
->> -		}
->>  	}
->>  
->> -	if (unlikely(supplies == -1)) {
->> -		/* Initialize regulator_count */
->> -		supplies = opp_table->regulator_count = 1;
->> -	} else if (unlikely(!supplies)) {
->> -		dev_err(dev, "%s: opp-microvolt wasn't expected\n", __func__);
->> -		return -EINVAL;
->> +	if (prop_mv) {
->> +		vcount = of_property_count_u32_elems(opp->np, name);
->> +		if (unlikely(supplies == -1))
->> +			supplies = opp_table->regulator_count = vcount;
+Mailbox, I2C, SPI, MMIO, USB, makes no difference to me.
 
->This is wrong. There can be one or three entries per regulator here.
->Target or min/max/target. If the supplies value is -1, we can only
->support one regulator, i.e. one or three entries total.
+> At this point, I'm wondering whether you're somehow expecting client
+> devices to map memory and read/write some registers. This is not that
+> kind of setup. The address space is entirely virtual, through a set
+> of four byte keys that indicate to the System Management Controller
+> which fine-grained resource one wants to access. That being an
+> individual GPIO line or some other parameter of the system.
 
-Ack.
+No, not at all.  A public API mapping to whatever the H/W communication
+strategy (I2C, SPI, ...) is a perfectly viable implementation.
 
-- James
+> The memory that you see smc_rtkit claim is for passing messages, none
+> of the clients have a right to directly access that memory - indeed,
+> doing so would be a total layering violation and really bad bit of
+> design.
 
+This is not a concept I have an issue understanding.
+
+> So, I hope my response helps fill in some of the detail about what
+> this code is doing, how it works and how it's been designed.
+
+I have a strong grasp of the concept presented. :)
+
+If we can find an acceptable way to create a proper and correct device
+hierarchy, I think we're in a good place.  My present suggestion is to
+make the RTKit the MFD and spawn the child devices directly from it.
+
+-- 
+Lee Jones [李琼斯]
