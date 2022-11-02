@@ -1,113 +1,88 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11olkn2047.outbound.protection.outlook.com [40.92.19.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46507B
-	for <asahi@lists.linux.dev>; Tue,  1 Nov 2022 21:34:11 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZNliFBMqKURDirtNCWK0c4i9bZTVeNY6Db3uFGTfl95TwiivZGZ0DdZaG8AKzRLpXTADOO7G8PLaG4FdPAoAwnJN36ZDDldsFpAvBWRw3gCkoaKXZpV+OcsD49EVfSsT+WaiwC8kIPuOpli3vwenPWQvvhBk4tHciAKuAdsI3KthSLFP6w+Oy/a/Wd9/v1nOeOPkLzP7NXzzspmuJHPzRBgFnARRaNBYaW5a0mBWH6h4+cX0hrrQjdumr/PsEyZfKMk1qSIgsKjmM+sdl9H1ZiW7C7Dwtemv/P5XIN2s+YnO30k499pAMFLdPB/1w0ksJr3nWnvkZFopG44XOVWqQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pGva5ueQXHXsB2llHO8Tg2WYrlOj7MYMb/QcC+k6XLI=;
- b=XX68pPU4dJXVFSLgSrfS7SZNJ2/Ka3iTrC540YoMlCPVKreyl89KJadOXJIYM5wDPHO4RcXTDPvxD6HUlhGZHBND7LxyCexjohKg6f/Rlk86tsF+OyItQrDdiQ0IDpOcBK6ftUNRsTf7TSwygvXFIxg4nVzVxoDWeTVKt8XMsp+Wgvx2fN6iaY5zLSWDwJLzvJROJdm11fN9xnljt0zFb+f4HJWUY+aBgcMYks3qQqiR/KlbUOsnc2siStMPDwtXtOt7uDVOCxB0Tx0jIHbNn6+3pAanyjVfAOI2+WkMUHQL7a17EJckgXTKUoH4xF5v4gkUzA+G/4HHGPDXf0prqA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pGva5ueQXHXsB2llHO8Tg2WYrlOj7MYMb/QcC+k6XLI=;
- b=hl4dNW0JIj5d1XL5sryNUO9EnaQWC0AA5N9KhffHyclK4ifYpmoRO29C7NIj960oJcYjmL78UdFHAVZXHB+C3mtOy450LZuIjCUT5+lURu34ygp+Rhf5SSkpp+benGwgLijT9c1lji7y/wMyk4dHeQ3+WIwWGN5GyJnQUOlCjq9cXnWp7KVaMnQ2pXA9UAswxvXpvXfkjevioSCMhotFRcr4ZLhjhpmjULB/nVcoblmZOTZaDESZBaleI6dpRmbbGtlBbb9LBgCTi3opZ+4q8H+e4g6DShbH+zicAw8LxWlbeuV392ltfAa9dP9NnNLyC7udf1IR/o7A0mETAjXvAw==
-Received: from MN2PR01MB5358.prod.exchangelabs.com (2603:10b6:208:117::26) by
- BYAPR01MB5144.prod.exchangelabs.com (2603:10b6:a03:7e::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5769.19; Tue, 1 Nov 2022 21:34:06 +0000
-Received: from MN2PR01MB5358.prod.exchangelabs.com
- ([fe80::bc9a:11a8:3923:da92]) by MN2PR01MB5358.prod.exchangelabs.com
- ([fe80::bc9a:11a8:3923:da92%4]) with mapi id 15.20.5746.028; Tue, 1 Nov 2022
- 21:34:06 +0000
-From: Arminder Singh <arminders208@outlook.com>
-To: marcan@marcan.st
-Cc: alyssa@rosenzweig.io,
-	arminders208@outlook.com,
-	asahi@lists.linux.dev,
-	christophe.leroy@csgroup.eu,
-	linux-arm-kernel@lists.infradead.org,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	mpe@ellerman.id.au,
-	npiggin@gmail.com,
-	sven@svenpeter.dev
-Subject: Re: [PATCH v3] i2c/pasemi: PASemi I2C controller IRQ enablement
-Date: Tue,  1 Nov 2022 16:06:41 -0400
-Message-ID:
- <MN2PR01MB5358DC40F0643617AF6BF7A19F369@MN2PR01MB5358.prod.exchangelabs.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <a40dbff1-6aa1-dedf-7eb2-c75d75d808b2@marcan.st>
-References: <a40dbff1-6aa1-dedf-7eb2-c75d75d808b2@marcan.st>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [CVbj5uOjxFV6kAv8RKsYqPoA+xVXHXLY]
-X-ClientProxiedBy: MN2PR14CA0024.namprd14.prod.outlook.com
- (2603:10b6:208:23e::29) To MN2PR01MB5358.prod.exchangelabs.com
- (2603:10b6:208:117::26)
-X-Microsoft-Original-Message-ID:
- <20221101200641.9300-1-arminders208@outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641A07B
+	for <asahi@lists.linux.dev>; Wed,  2 Nov 2022 05:37:48 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id 4so15599198pli.0
+        for <asahi@lists.linux.dev>; Tue, 01 Nov 2022 22:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hqop9bFq4X+7EEZsaLdz6NMp5hBj6ltud7ohZ8tsg/c=;
+        b=g3oAGRBhy4zV/+aMWPwq9VXoNC7cP9h9qVE4qBLjD+3NS7GRkGz5FrTmIqNcAzY7zc
+         4IMxosno3yAK9C73eKUhBaphssSlKUJhPzgJys2nw/xsY9+9ejhTTOcncA9J+v0/ukw/
+         MGgNDTinvmL5qzXi7pAgaykmC1iOtnZ/SSSoKECSXRAJbFq95kjrowWflh2G7RH+3HOR
+         mVcBxPXm8E01LUwJ09OXZq9DfNONLPW3phLJ7NwYLaW2r221cXIB8pdx+hlNVgcbPSXa
+         1fu3CpzvpSar8joeUuYl7cVs29Vg+lENpkxaRNJwMMz+lCjVABZakp0CMM+qs4hVLVVk
+         REkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hqop9bFq4X+7EEZsaLdz6NMp5hBj6ltud7ohZ8tsg/c=;
+        b=AyDmh1wqySNuIOM0IDfX7j5tcSCuX9+NTP7b/wQs+s2VBmU9AX1jGtIKLVa570xldq
+         5AwI8c8g/X80UkRPSuClXId22DJWcu1iAbY1rvjwTMhuuFc2uMVAn5goGlDoGUugSsFL
+         ofKE4Ziu9C4+PijFa+O508MMez7pqJkCVzayXspvHYE3XeYpLhHTI5x5P4An1fvKT1rj
+         r7A3h3t/fV89jsbcKl5uDGU5vvmU3WsDLhuG339AQh8k5Shl7KrZg32khStvW74VaGJd
+         iT0i/53TluNwSYMUvqbu7U6zkghDbL/D2xf3VmAIKEcPZckMP5o+KIHSAXg1flgUC0Sc
+         AB0g==
+X-Gm-Message-State: ACrzQf1BHCyIepZKlOjha9QCs9HidQn21tUYokHYD42hN/Tl9pxGcndL
+	qXEnvTzK//NaWKNvk2pvNaQ6MQ==
+X-Google-Smtp-Source: AMsMyM4R/OuXIAegcMHeQp65UbHlOBt/uVdkUBh4+GKJeepib2DNmvB0Hj4flrqj25QOs55d4qS+8A==
+X-Received: by 2002:a17:90a:c38a:b0:213:119e:ebce with SMTP id h10-20020a17090ac38a00b00213119eebcemr24165138pjt.159.1667367467841;
+        Tue, 01 Nov 2022 22:37:47 -0700 (PDT)
+Received: from localhost ([122.172.84.80])
+        by smtp.gmail.com with ESMTPSA id p7-20020a17090a748700b00212d4c50647sm500218pjk.36.2022.11.01.22.37.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Nov 2022 22:37:47 -0700 (PDT)
+Date: Wed, 2 Nov 2022 11:07:44 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Hector Martin <marcan@marcan.st>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Marc Zyngier <maz@kernel.org>,
+	Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/5] cpufreq: Generalize
+ of_perf_domain_get_sharing_cpumask phandle format
+Message-ID: <20221102053744.jq7dug6oyalu6uhj@vireshk-i7>
+References: <20221024043925.25379-1-marcan@marcan.st>
+ <20221024043925.25379-4-marcan@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR01MB5358:EE_|BYAPR01MB5144:EE_
-X-MS-Office365-Filtering-Correlation-Id: 44dc1837-6c2a-4e20-30a0-08dabc50cde2
-X-MS-Exchange-SLBlob-MailProps:
-	BDG1u3cCCl0Dyim5CXX8MiEo25DcAHUeGml6N6JMP7HrJ02izmdMOxS9xconZwMTCbv8NEduY58sEq8iN8nyKHXXrCHvqSR7f9jDapjrnxB2DH2bltRYuxIoDvH+jq2Z4f0IHBuqHPe4x3WSdXcvtnrVtIpdvV6IbWYW+K2Onxz9WlfUK6KU1/BAqFIXr53UpD1bt4Q6K06DgOAAyPpJXQpCwb3OZ5LMS9bh6tbg8ESYSUPaz7djHxNBp0YtrFF2XuGyFUDPtJ758AAfE4q0NRiqnBpV87awhKQ9AQQmwawICQdoY7jwKw4gb5P3L8CQI2HzlgndWQaazno38cbGS+HelavrKSh3tsdrmabKZJtcjKvtAD5VxPOaDjT+tyjPslkINkAd4yk592Qa7PmnXNEbKOax0fdP8hUGtmp4JbryhCWkR+/HrMQKFmVENeFWarSHUqhCzI5PI8/GFo6CjwnYvIZSOs2MqCJjKk/Fe0+qg2QjusScUHb5ULkVB658EgVKLn42YZ1CigWoesLmi+wvmJZHBow2SrhZ1nnc+dtv4wjUEbs43WpfQ/BcZYaC8eYt/87pknZ20ishss7fNTxTZgHc2d0QRb6vU+Ql+0FrQOcgSUUV6UPHd/e6/AJdOIwjB/uHrAJFsN0I87k9LmHR3GkCdYYCk3gtvxqKlujgomcSm6YUmrF4Shtv9nn4cBjtkyp4BLw=
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	rxIUQ15VEFBCjYyAMg3Ux6UqpYvfjxmcHdOTsvJEPFLdR49PK6HTrlgmBm55CX4cqV7IQu0JeFHoOfBM3GrTITgFSjcbM2OZSkNVIzklKxHNl/iE1iI/s5eG/UMosyLeiCkuvIlVFNUKhv4oU4EPWt7+NVYHvoFAQ3EuxjsBINwo5d1Oo7Ck0p4AP2f59kitNS/JW0g33qrzsLRKSKibcZnUGJ2c7jwld9X0iBZcZOvymlooDz3nrnkX5iOIgHNYI3E/kVQ+5IPOSMVJfUJccpDdV0RFFZdOrU8FfyukS7l8R1W8D4UDoTzOVCZOQJd3ByuqQtMKWDKmRmP1FF7TuDOkx3LVttkEzYYkxJWD5IyYYi9pt4P9QctnJa2I+BzLZJykWchpq7hSjkMinrfwzoap7Pt4cq1OJ2Dhws8KqUD8x0vZm+MduV3NledPFSnXiHKlnG+JDtrhYsZtJP9NHhd/uCnhZ0CfA9GOMk0c8z7fF5x/wCS04Zl8AymvM0Ow/6Li9RRxIDNo7kdt1K4HeQMwq/5Y4JWxzPVtbu3NqyUpvAP1Wh0TLIkbOU74siAeCN/SMAj7k29ZRS3MMPkw45pZSwlRMHtbQgIZ1yxJ3vm1XQKnGQupp0gUVdyovU3Bk4dCBSWnNwEyqdlNbDWIWqVKvRIOYVh2xrBfa0fWJ2PLJDgKS7yu0PJKT1EHTnBdbpv5viCaRuGlHjIs4OaNsA==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?uNHUlyLxDEfs7w1nVZwxHT1anF/OaUWLBV6taeotUmrz5Q2v18JY2PHJ83KV?=
- =?us-ascii?Q?O39WwQCCdOKzndcLHTkLp49vFp0YsST2nOUMRkispXb0J5p6EQaDCkw49HTs?=
- =?us-ascii?Q?MPDrAzAtgq++Z2p6ndlcou6ZHtwhOfgNPvzZT3zLV8AUOYBRcGtizYolXs5y?=
- =?us-ascii?Q?QouoMYSxHpygT3j/B2qYriwU3D6b5ZX6TqEjLbIQcRAsg6qwugX8ESSVgkJv?=
- =?us-ascii?Q?lxZhL/HVBYkgPYdpNwiKf5edKv3XZ0Q8jCjtG1j3q2ZQ+Tzae0On9l+Nr3vC?=
- =?us-ascii?Q?x5tqLqTdluaNzW+ebQs9Ubvzf9BZVrjOvEI7vEWVzuXrqkaux2nnc/lTWRD0?=
- =?us-ascii?Q?9iZKY0sxzIn9UtBVdQo+f86F7qGHLdXzzzNKBk4L4R52bXRsciL0JGBRi4WL?=
- =?us-ascii?Q?XJeyxryvwNgTlgxztUgXg/NwMWnRcEkLeSlQC/eGCUklNEpdZxyzq3FouygD?=
- =?us-ascii?Q?GKmVLj3rH9j4tKOPDui6GwcZX5JEviiKwcULzTLXKi3kdI5y1vNLkjPC0WL5?=
- =?us-ascii?Q?8sIc8JPn2o94nCZRz9xRTTTYs2vnIe31dwnZdxWNaFoNa3bTCQwgoxE1lexh?=
- =?us-ascii?Q?uPiqKRzSKw2Py3aNQM168zUbywj+DlRTIp//h0e3/u2S/poHwL0oTf0TR2fq?=
- =?us-ascii?Q?hTql6pBb8gZ880kLA1igVofui/UQCf/7qLTaWmaO6mYqirQcdxczTroAIS/c?=
- =?us-ascii?Q?tR/bAVDq+AbQ3SSe5nvOWY9iHqAZrS++cathQe34eSQzY8oyh4rHeljH38yv?=
- =?us-ascii?Q?QGc3smYCw/1r7pwvXVP/aFtU7JaSovotZEfHCEbOOg0cK9CBivD7QmaTOMir?=
- =?us-ascii?Q?UPQuMclkfc4Tuls3qxpRjIQNpfC9j4q6io9ZfYwV5dIU4BPaNVg2uY7x2Pa5?=
- =?us-ascii?Q?eQX/S8VWL6MhTehZE3IvExH5Ttdg+rOE8aEmhgGaLBLOzRv/N+x2mm1jZPSF?=
- =?us-ascii?Q?NeXMWg9ZhxAB5U7qshfGLas42fesZlXhJ4W7wTBWr2+WG/DHn7p6wfNNcoQs?=
- =?us-ascii?Q?M6BGUMQ2zeneGNx/lKxGdm+WJpdAbTVAY3Mdq8SaHZMP5rj8MoP6voy8NAc3?=
- =?us-ascii?Q?IoY36PuOpmhRESDVLo7Sk8Csl9v/DpBEXy/gjVthSlx0zvO7lr5/bY7bp0UM?=
- =?us-ascii?Q?CEW3hORlCGmkC+s3YphR4CNYrf+9PxgnrAxtkfi3VnMVO6jk/TZFF+vdD5PT?=
- =?us-ascii?Q?7d1O8F5viknDGFwRWuxW/4ra/qmIL/kDu/a/8X7bNrJoGIAJd8peOWjzPxd0?=
- =?us-ascii?Q?TW/IfCH/hgZDpkNzorW1AMHXiShn8Kzd+UTA6zvWyA=3D=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44dc1837-6c2a-4e20-30a0-08dabc50cde2
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR01MB5358.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2022 21:34:06.6717
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR01MB5144
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221024043925.25379-4-marcan@marcan.st>
 
-Thanks Hector! Acknowledged the need to change to a 100ms delay, will be
-addressed/changed in v4 of the patch.
+On 24-10-22, 13:39, Hector Martin wrote:
+> of_perf_domain_get_sharing_cpumask currently assumes a 1-argument
+> phandle format, and directly returns the argument. Generalize this to
+> return the full of_phandle_args, so it can be used by drivers which use
+> other phandle styles (e.g. separate nodes). This also requires changing
+> the CPU sharing match to compare the full args structure.
+> 
+> Also, make sure to of_node_put(args.np) (the original code was leaking a
+> reference).
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> ---
+>  drivers/cpufreq/mediatek-cpufreq-hw.c | 14 +++++++++-----
+>  include/linux/cpufreq.h               | 28 +++++++++++++++------------
+>  2 files changed, 25 insertions(+), 17 deletions(-)
 
-Thanks,
-Arminder
+Applied. Thanks.
 
-
+-- 
+viresh
