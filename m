@@ -1,110 +1,69 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C511E7460
-	for <asahi@lists.linux.dev>; Wed,  2 Nov 2022 16:16:04 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id AEF2432005C1;
-	Wed,  2 Nov 2022 12:16:03 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Wed, 02 Nov 2022 12:16:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1667405763; x=1667492163; bh=vjsW9AucU8
-	8T88HijQ2DrXg0E5k9G26I+ZgoZYsnzAI=; b=p7Be0evCxVzL9WsdOQE4XYZ+IN
-	fE/97l2ihtQ1rXMk4iqSOBAq8BsukeckaHXigDSbz1F+xQ4OJ7M7BzRNJHOz4i1f
-	Rg5pUXmQ0h+luQXk5iDZuwHt9OJkSE9tEEWf8pktnQ0oDTjsd219fJWQtwXOmfly
-	VxUXn8GoEVjahMbW5xheoI8mKp8uSLr5SSDmmNFvjmN1OCvTUM6hqEoo8XG7V4AU
-	TpkzIq4kRYvw641pcjFf/LFT94vpOcFPuex2rXseTYaP5FxcsjaVTxPDpf2EUffI
-	CFzEEW4VnitwTwsDbn3ELwGo/n2CHSe+NgOJ3xfuHKQRk97ry3vzx+vAPUvg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1667405763; x=1667492163; bh=vjsW9AucU88T88HijQ2DrXg0E5k9G26I+Zg
-	oZYsnzAI=; b=tJYHxDZW6rW4pPnCLpsIta4NrRsfO1HsHdhpmYM7x39dx1b9V34
-	ube4P7qlGDjt3p3xx0FlTOamj8PoQ7GzpWEMiBe+Yy3Xdbb5Omb8mKZ20+3sjz8y
-	XTHTFX9/wdwsTJn7jZHTd94PCGyvidlwa/YwVJQBItyFfqVNU6tqHHh8jL9YhLGa
-	/hoAsCKKsEGhlyV1uO5nmLQGlph7I0/Co9d24rHaWSqhWa7G5Lx7964B24s8vdXO
-	iw2V2n/fSt3ZQwafBaxq3hmAUZShG7tC68SlSeNWovBusHZutNAQvWNt3eTbYBG3
-	Rg6LscQAoyVvh2HO86Q/7q8Dm5mbOqDInVw==
-X-ME-Sender: <xms:wpdiY6HvLI4jQjbUwyrqCQc-xXX3gU4cKUZoWMsX1IaWtIXghsPIWQ>
-    <xme:wpdiY7XJzrb7SjRTev8FnzZPqH6JOoPyJHHvP-BETWm2FR6O0OKQvmvpCfb5hSA4k
-    LGDfII561qe29I0WFw>
-X-ME-Received: <xmr:wpdiY0LYgH9ZUU3TrefF0JiHfLxE90cLtdTq5wBRzM1tizIrKx9XO2a_3_uuMKqyhc9qNvDv0n5n9lmopl9A5h5cazK9bmL9oH3BHVqmMJ0PzyulkOD1QOnYn1Afig>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrudejgdekhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcurfgv
-    thgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvghrnh
-    epleduffeiheeuvedtffevtdeuleeljeduudfgtedtvefhfeffvdfghfejhefgleelnecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnse
-    hsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:wpdiY0HM4ukHeVnwrAjU32g6S62a2t6rCnh4FpmkzLZoTPYESoni5w>
-    <xmx:wpdiYwUiQz-oHg0vNUOEo5d0lxHmtjS0y5JM9AcJTzht7tpAAviybw>
-    <xmx:wpdiY3OWqHNP_2qA_ksAARSYCiVVL6rrDMZ2Ed13NCsbr9pJlQXSdw>
-    <xmx:w5diYyJ_qRPDhwydtkyvKeyfzAPFiDu3ixePL4pwB8_Cxv18jT3YRg>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Nov 2022 12:16:01 -0400 (EDT)
-From: Sven Peter <sven@svenpeter.dev>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	Hector Martin <marcan@marcan.st>,
-	=?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: [PATCH] usb: typec: tipd: Prevent uninitialized event{1,2} in IRQ handler
-Date: Wed,  2 Nov 2022 17:15:42 +0100
-Message-Id: <20221102161542.30669-1-sven@svenpeter.dev>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B717461
+	for <asahi@lists.linux.dev>; Wed,  2 Nov 2022 16:26:04 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id l8so14803965ljh.13
+        for <asahi@lists.linux.dev>; Wed, 02 Nov 2022 09:26:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=i9lzFBitnyAp6ipWpwtICbzA7hqqgUYQcinpTzvMvYI=;
+        b=pE3B01zFCVw+bIUAPWnhHJVI4HcUniogBqFng7orjWDucp24hEY7aCrqjDuO6GV6hM
+         YSu5meS5CRBEILfG0g6tdvKOR9x44wyXJAXK/wQ0VHKqUkLclJeEZX8tEklUhNyRClvC
+         tkaWHlt2A5zuihz51DFhN6Jwlrtrkglb8YvMFNw9Q2LyLwSUpkLRmkO9Yd4vIFLeercb
+         pHdVDYN32QXUIfuydzeuJ2zCpen7H8ise2cmH1/CEXU3af7Bky29LQAha/r4RpKRXz3C
+         TL/nArGGa58sBE/P2nuzY7qUCjG/V+HRkVZZyoIXbguWohQuZnynAiIQ6cwVMrsjaUf1
+         V7CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i9lzFBitnyAp6ipWpwtICbzA7hqqgUYQcinpTzvMvYI=;
+        b=BocCwYuqnPJc4yZZegdUL9+1TZpRN5NWWToevnsyrzeuBJ0X3gQBXBUe3JhEcFQ7r1
+         bCcUePQHCI7uOMLmnwCIyZmytt6MC6ht6X+V9eT03yyQJbZtEiqbpD68QSabJr6Jq/FC
+         NATrCbtBaE2t0OUG9lkVnGZw6fSDFy72RYJBCDVMXI/5zv2N2bbZzD1stLS11S0RkBO/
+         z4zG08wZLpWkC6cYC5k+Txj/ZIUOCpSQKDwvyvhLR10DSu/jwSFM8uM7Sbzw15aYxUc3
+         NeZOMtCWTNUocmQGWaVyowkG5LMh4eigaqhq55XAF5wiD147Eoy1YA3QMGtXMEUs9fBZ
+         ikPw==
+X-Gm-Message-State: ACrzQf2jmiF5QIh3INAf9Wk/gkqzcEbVVfJZyQx8jglNApcCrWFqmgUF
+	DVe5hok7ufalIaBI3L4mzHLpHPQJmZWCSRyrdFc=
+X-Google-Smtp-Source: AMsMyM6IbNesFItHd+WCfCAtu+r/QS5DLwm2t+DZtQmi2xg5qQZv8LtFV2vCfxx4R8Q8SmpZvAFp2FCTROx9tNrxDFk=
+X-Received: by 2002:a05:651c:33c:b0:277:e2b:de4a with SMTP id
+ b28-20020a05651c033c00b002770e2bde4amr9519495ljp.55.1667406362096; Wed, 02
+ Nov 2022 09:26:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20221102141513.49289-1-fnkl.kernel@gmail.com> <20221102141513.49289-3-fnkl.kernel@gmail.com>
+ <OS0PR01MB59227A9E7B8A471E4D6B665786399@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+ <CAMT+MTT1ptFymwDdOe=OXYzKfOPHdQbAfpx_9LBYn+C9NFhddg@mail.gmail.com> <OS0PR01MB592217539BCA46FD8F523C2386399@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+In-Reply-To: <OS0PR01MB592217539BCA46FD8F523C2386399@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Wed, 2 Nov 2022 19:25:50 +0300
+Message-ID: <CAMT+MTQLJZsDSOtcQqV8e_j0XKfjNm+dVjeo7ocMjcYOPLAPvA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] pwm: Add Apple PWM controller
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "thierry.reding@gmail.com" <thierry.reding@gmail.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>, 
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>, "marcan@marcan.st" <marcan@marcan.st>, 
+	"sven@svenpeter.dev" <sven@svenpeter.dev>, "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>, 
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-If reading TPS_REG_INT_EVENT1/2 fails in the interrupt handler event1
-and event2 may be uninitialized when they are used to determine
-IRQ_HANDLED vs. IRQ_NONE in the error path.
+On Wed, 2 Nov 2022 at 19:02, Biju Das <biju.das.jz@bp.renesas.com> wrote:
 
-Fixes: c7260e29dd20 ("usb: typec: tipd: Add short-circuit for no irqs")
-Fixes: 45188f27b3d0 ("usb: typec: tipd: Add support for Apple CD321X")
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
----
- drivers/usb/typec/tipd/core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> I just asked, because you are unnecessarily turning on the clock or increasing the usage
+> Count, even if it is not used by anyone during probe.
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index b637e8b378b3..2a77bab948f5 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -474,7 +474,7 @@ static void tps6598x_handle_plug_event(struct tps6598x *tps, u32 status)
- static irqreturn_t cd321x_interrupt(int irq, void *data)
- {
- 	struct tps6598x *tps = data;
--	u64 event;
-+	u64 event = 0;
- 	u32 status;
- 	int ret;
- 
-@@ -519,8 +519,8 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
- static irqreturn_t tps6598x_interrupt(int irq, void *data)
- {
- 	struct tps6598x *tps = data;
--	u64 event1;
--	u64 event2;
-+	u64 event1 = 0;
-+	u64 event2 = 0;
- 	u32 status;
- 	int ret;
- 
--- 
-2.25.1
-
+It is used to get the clock rate so it can be used to convert between
+seconds and pwm ticks, and the pwm uses that clock, so it is kept
+enabled while the pwm is active.
