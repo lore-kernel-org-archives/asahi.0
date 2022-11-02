@@ -1,338 +1,472 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2094.outbound.protection.outlook.com [40.107.113.94])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7EA6ADD
-	for <asahi@lists.linux.dev>; Wed,  2 Nov 2022 15:33:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ip9QHlBE+lfbcWHSmU6UJ/KHEW9OeFZoUR5rGg3EGwGkCNCDYP2G425ntrKMlBMjjm8+/Nt78Ihknjk+hw3e6m0v0nrYdw6VlPE90QOJzchnxgTAKu9kaSNkn8Im2gaW4utEeLqFs9fXOulgQWeu0EhTP/ieve7rwv1iXUc1LdTYJL19UHaGxWkGtzW+jfz2J3lF3jVEK2bKGIapusti6rpc8zzJhkv1sImyEcjYFapfiqksxQMxGFlhn9Gs5MmMG8HvxvxnGTG8Ri4AKUQUiR9u4AJ0AJzUaWNERLqrid6Fg0i8+WtOkYk2flqjFa6YssZ6VNUKM9Zc/MaBOBw+/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MORB4AHaDTLM1Uv0qyKSfV7bjhSlhRimieT8dliL+ic=;
- b=hpL/JMgZGEwK4qlMA3YToD5vPE48zAG/Cto4a+UGKajR2RFUjkF9Vj+9qwNPdZ7CKGxtI2cgGLcajcORuAeok3IS+2Z4eK6QG1ONXHO4bWggqH2x12KYzfA1STLjYljvg6+YJv2Evn7Lfe5SkQQ+x+N2taC2W4lQ3xJjSBu6WyHKN1qQje5Xw1Tz3RZnoT3ECksC+L0D+Lf3ZC5nv15Atb/oMLhxAU8ZEss4/cyrFmWJM9frNWIrRmUmO2MkskF/aQdVAADNHPSqXeS02b1A7pzD4DNBnqcV+B2D+y+EQhfDDNzK3q2MXzDCkMiYyblggPjjfgyxWvlIB3OM3RrI/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MORB4AHaDTLM1Uv0qyKSfV7bjhSlhRimieT8dliL+ic=;
- b=qjT/55PBLlX9RV0tx7M4+2ZnE7aIXlZSkM6OrskuBnw43oJhRmosMhpUCM8YTL2c/VeXD7KZ+M8d1iQUn6xmn/TyDM/AIwEsMjbsn+Ek2zM9V5jJ1xvijCyen+cmLm+Ibt5naEQff1J5mskSzWkeQJpIJDXN6cFZXXGq3GQuU6w=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TY1PR01MB10850.jpnprd01.prod.outlook.com (2603:1096:400:324::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5769.21; Wed, 2 Nov
- 2022 15:33:34 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::5b24:f581:85bd:6ce2]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::5b24:f581:85bd:6ce2%3]) with mapi id 15.20.5791.020; Wed, 2 Nov 2022
- 15:33:34 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>, "thierry.reding@gmail.com"
-	<thierry.reding@gmail.com>, "robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>
-CC: "marcan@marcan.st" <marcan@marcan.st>, "sven@svenpeter.dev"
-	<sven@svenpeter.dev>, "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-pwm@vger.kernel.org"
-	<linux-pwm@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 2/4] pwm: Add Apple PWM controller
-Thread-Topic: [PATCH v2 2/4] pwm: Add Apple PWM controller
-Thread-Index: AQHY7scaJddHyAtwqkGPO5YDCJjX564rwPsw
-Date: Wed, 2 Nov 2022 15:33:34 +0000
-Message-ID:
- <OS0PR01MB59227A9E7B8A471E4D6B665786399@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <20221102141513.49289-1-fnkl.kernel@gmail.com>
- <20221102141513.49289-3-fnkl.kernel@gmail.com>
-In-Reply-To: <20221102141513.49289-3-fnkl.kernel@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TY1PR01MB10850:EE_
-x-ms-office365-filtering-correlation-id: 3e690b8a-6269-4e24-bf05-08dabce79a84
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 4DkfMIxACoO6bY3UWl75SHVVluZHWiT7PNerkoJ3C5RiLgUfahbyHxEIn7H/TnmBj64cJ44XjXGfI4iV/12OTBdeNZd2Zy2ee7OoLzCqnv+GJ7D2zV8WTxY6BX+861Ogj4zMbCs9J9Bz2+cE44aoc99AltdshlIqG7AXndVml5ZTr2/9t/5k0zGb+asDsBsCjqlxH1zSGIHwGOj1QevtqDkWOBpszxbsPyUxfUgLBQhyCBssypkPWloqByLimwiK9dcKiB+1Uz1/gRwAAlPQvfNXlD7bkgOHTneDiDCYIbhM0d+6WJ/GUnHG9KgVseuhtqDYN3lAUx5YzNqL99TC1KldcZJpbsb0nrl7KMkwSrdrmW84PFhOOZYDVB1sEpHuuotgo5QT9Yh9Dk1MhGObvSLFIjAK+spKleYW/ci27Eu+jd0VRYiWFfD4zFdKEdf0xVEfcRlqNp/AqgIiopN6oIANr6cEW9sh6DqcwhrRpInHLYS0wqrcFv+8kicTaFhny0tmX5xNoZwvqKrghBTRD3JQfwwBm+Iob4xPPokg0JbUu/xrleZ65doiXxq582NYLFmcNtNFf2rGjvFOq1YP0M7VdNbkgZFP/dduow6c8On9zLVigQom2ASfyMKy+sWJonhsqFRnX5Fo/2M32oFHBeYhdklGY4LjsIxjUVIsZMT8rk9BBfrimQy9C0tfCH0O9Yeid2x4NKr27Gb403K29Jp/yjguBhAzGZDJMLgoYf2JwR0JcUdcc92D2TKWlWF1p+BLptRRPJw2GWHe8+sqEl9GLSCnyq8kRA96EiAe/ePGTfboGdmv+hchrZDz/VQNK8d7XZBNrPhUXO/tRBmDCw==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(136003)(39860400002)(396003)(366004)(346002)(376002)(47660400002)(451199015)(2906002)(316002)(86362001)(122000001)(9686003)(83380400001)(33656002)(186003)(66446008)(52536014)(5660300002)(7416002)(66556008)(8936002)(76116006)(6506007)(8676002)(66476007)(7696005)(66946007)(64756008)(4326008)(41300700001)(26005)(38070700005)(55016003)(478600001)(110136005)(966005)(71200400001)(45080400002)(38100700002)(54906003)(46800400005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?SLswX+JjwLxFalC9YbEtIf4YUYrUMHwexN8aifHClqrDNL0fh8MGeS0jqD6O?=
- =?us-ascii?Q?OVGXWyeghIMO0FwfBt1jphvrz2G6iYHTLdqfpSJOUWx1UbPGo0sw88yt4SGw?=
- =?us-ascii?Q?gKyXYYgrpavUC8GGjbNnqnmkdm9Y85plf5Pz3Kii8VOYJYn2vnwTyzzeqwgY?=
- =?us-ascii?Q?DFRkvoO8Z/LxQq0+UGXnh6LCG668UrXme+NTO0kZDRF8lmj2wtB/8PBZYCs+?=
- =?us-ascii?Q?C2KDc5cmCIeyy6wkM4YbNjXkSFPCn39HBxLPpKLrreViYHslEdwBjwh2qqaY?=
- =?us-ascii?Q?k7vieHztgMCE9aXBUfEmUIvM4Wr//7Jjj5s68KkwHwjmBlNAOPJHZSeS/ASS?=
- =?us-ascii?Q?vC0TmA6K46J/0Dv2ToivCy0zC3zca61uRSNoTSI60x4XZmAPk7JMQN7jwzzQ?=
- =?us-ascii?Q?04mNXC/wHXr3Y/lhajUf/Sm/R6DT4zkW+5J2CaP/jumc+lxUpRaNX4oLqzD0?=
- =?us-ascii?Q?y4QeYOMdIKfgM632ybvjq4B861pw3/mNDU0B0/LVY5oDfZiwhQFAeLBAdQg/?=
- =?us-ascii?Q?gC4nn+KNm4U6f1S3hSVb4xmxEjpVjI23PQQTCv6AO6V19l/lc4QcmuEdc06/?=
- =?us-ascii?Q?eNbqQz5+u+EDoLh/vH94qYpXviNuy3AQFdEAciOOFmrAzDaYWsncV51TuJCs?=
- =?us-ascii?Q?OuCgtKRPEEhXKZtjMh39MTmkyQF8aj7SZryqU63Z836J6esb0fbrLpSB+DnB?=
- =?us-ascii?Q?M7gFZbhR4FFU+oo/YkSYV4/S64g9VPtSI+wmvi8gGBf677QBtS5FG5fgoO01?=
- =?us-ascii?Q?5W7DyjnlzNTDwFXiTiKavpNOSMJ+D/EKC2F+ZM3lvP0LMKndEZQgvH8VIMN3?=
- =?us-ascii?Q?zjZpglgYfzGdoT2ylPQFAjjbiANzxaBsVz16ibWshb314KnqyhykkB9XDup0?=
- =?us-ascii?Q?Xy6ntkCvJ+vkEhfCqAKMphqcaCJA2oQhaQtPuo7JwXGx/1v+/DhrujCvn7MJ?=
- =?us-ascii?Q?H9QpybDZS7SzIp3c+vAFfZ46/i93Me+YD9VHD9aqAkMBWsAGmUqE0P94Pm5r?=
- =?us-ascii?Q?zUCTcH46bpBC+Vlvwsg9fDRM1U0FtK0zAZQYId6a9nendIz54rs+2A1mnbnL?=
- =?us-ascii?Q?T2Sxhwizty3LgdSSJLhVk6Zz0hcysSWc/griGj5MsUDvSJFHQckKoR1d7oid?=
- =?us-ascii?Q?K8X3Le4Z3innQ1PXw7yxX/xuCsOcyvuFiHR29Gsld9mCq+0wwOk1X6fR8g4U?=
- =?us-ascii?Q?LoQne4llwIjsHOHYBAAETLtVlvMQTHQygJoaTTcNQF8fDxANZW0vtUoidF80?=
- =?us-ascii?Q?+/efArCUekIGg1qzpNnqyzAKhxdKxmMohKAflCgNOiKzbeUJkVtiRMH5CmJ/?=
- =?us-ascii?Q?TyakX+4U8TMJAwy+ha7a7fNt7VGORipaEZkgqAjJQP2IcEi33aneDSEWmlmc?=
- =?us-ascii?Q?aZJjYRManNQh2hvJJ5F58x+RUtEakDPnz7Zd5wCnFfGYt/yqnMTEUcMlksT3?=
- =?us-ascii?Q?qT0/5qDm6D00sj+goCVspsnvAWcPd/sKqx1q1FwiDuCRxR5roKkEZTxCJ8Rn?=
- =?us-ascii?Q?gRzrfXzHhq80df23xEwFd1A4KaYM25ZB1bE2cvwnB+Uu9Z12TgQxg+95SGxl?=
- =?us-ascii?Q?ZWhUojfuhKsuOUx/MiZ0X/aroW9a07gcfgSorAWiR7B0UuvJc6bJWqW7moyA?=
- =?us-ascii?Q?mg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201536D18
+	for <asahi@lists.linux.dev>; Wed,  2 Nov 2022 15:55:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Q5ifmNZigSkK/DIN6ifuG6KAV4UaKwlaKQfa8uQpd2A=; b=o6J2ufXMULqCXdw8DDGRsk8lzT
+	euC1OIadsh2ViXT9Lcy4uhhqNAI9vEK/I9JEosEix5Q/m453RtKclSEpu0ClZr8bve9hkMXblo4EE
+	i7/6tDYXaA3eBLnsZ+JiZ6RdxyQOC9pChyUNqGNMkuT6ovwO8Ng5gv1oq+fbqszc7DyHY1vcwo/Fp
+	X0jNJot4rGmUo4PE/EZ9Udm8dNz8BhJbIzGt8m2rmIez2sy9sUVpqRteYk9Rov7+ufhgypxKjB3SI
+	wOWBjh1Kw/yOFoDRjQ2VoMGX3uTRjjAmpF4xsFDOjxNe7AvRX1W5rgiHS0618hZQ0l0ifbgLuHIZe
+	SnIix5MA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35080)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oqG4l-0005EC-O2; Wed, 02 Nov 2022 15:54:47 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oqG4i-0007Wl-V2; Wed, 02 Nov 2022 15:54:45 +0000
+Date: Wed, 2 Nov 2022 15:54:44 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Lee Jones <lee@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH 4/6] platform/apple: Add new Apple Mac SMC driver
+Message-ID: <Y2KSxJJHmceIFmNn@shell.armlinux.org.uk>
+References: <82088b05-2a0d-69cc-ba2c-d61c74c9d855@marcan.st>
+ <YxrwLwVihe/s9wxN@google.com>
+ <a92ca9ac-fbc8-a25f-4865-5bc7adb206e2@marcan.st>
+ <Y1+LzpEvVj7xswqb@google.com>
+ <dcd692aa-1525-4fc5-5198-37f803725c4f@marcan.st>
+ <Y1+VdnmMUfIKTwWF@google.com>
+ <4faa5e4c-b43b-12e4-2259-c2595bd55b97@marcan.st>
+ <Y2AEgIfURNhCgimr@google.com>
+ <Y2AjUz9eGa/GLY5s@shell.armlinux.org.uk>
+ <Y2Js1ZhIlr9dimHw@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e690b8a-6269-4e24-bf05-08dabce79a84
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Nov 2022 15:33:34.1736
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2A68bYuA/s5Zx9ArNuYli7k7+JT0qrEpBsV5HQVOYjoVORTDL1VWYLfSVdNevAXoG9hQIKXPAqLqBlvkueSyl+E17a0j5qMvpyuq3YLYKtw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10850
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y2Js1ZhIlr9dimHw@google.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Hi Sasha Finkelstein,
+Hi Lee,
 
-Thanks for the patch.
+One of the things we discussed on IRC was moving the shim to a header
+file. Moving code into functions in a header file requires the
+functions to be marked "static inline", and when I mentioned that
+you seemed to be rather surprised.
 
-> Subject: [PATCH v2 2/4] pwm: Add Apple PWM controller
->=20
-> Adds the Apple PWM controller driver.
->=20
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  drivers/pwm/Kconfig     |  12 ++++
->  drivers/pwm/Makefile    |   1 +
->  drivers/pwm/pwm-apple.c | 127
-> ++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 140 insertions(+)
->  create mode 100644 drivers/pwm/pwm-apple.c
->=20
-> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig index
-> 60d13a949bc5..c3be11468414 100644
-> --- a/drivers/pwm/Kconfig
-> +++ b/drivers/pwm/Kconfig
-> @@ -51,6 +51,18 @@ config PWM_AB8500
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called pwm-ab8500.
->=20
-> +config PWM_APPLE
-> +	tristate "Apple SoC PWM support"
-> +	depends on ARCH_APPLE || COMPILE_TEST
-> +	help
-> +	  Generic PWM framework driver for PWM controller present on
-> +	  Apple SoCs
-> +
-> +	  Say Y here if you have an ARM Apple laptop, otherwise say N
-> +
-> +	  To compile this driver as a module, choose M here: the module
-> +	  will be called pwm-apple.
-> +
->  config PWM_ATMEL
->  	tristate "Atmel PWM support"
->  	depends on ARCH_AT91 || COMPILE_TEST
-> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile index
-> 7bf1a29f02b8..19899b912e00 100644
-> --- a/drivers/pwm/Makefile
-> +++ b/drivers/pwm/Makefile
-> @@ -2,6 +2,7 @@
->  obj-$(CONFIG_PWM)		+=3D core.o
->  obj-$(CONFIG_PWM_SYSFS)		+=3D sysfs.o
->  obj-$(CONFIG_PWM_AB8500)	+=3D pwm-ab8500.o
-> +obj-$(CONFIG_PWM_APPLE)		+=3D pwm-apple.o
->  obj-$(CONFIG_PWM_ATMEL)		+=3D pwm-atmel.o
->  obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+=3D pwm-atmel-hlcdc.o
->  obj-$(CONFIG_PWM_ATMEL_TCB)	+=3D pwm-atmel-tcb.o
-> diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c new
-> file mode 100644 index 000000000000..7b2936346f4e
-> --- /dev/null
-> +++ b/drivers/pwm/pwm-apple.c
-> @@ -0,0 +1,127 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +/*
-> + * Driver for the Apple SoC PWM controller
-> + *
-> + * Copyright The Asahi Linux Contributors  */
-> +
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pwm.h>
-> +#include <linux/io.h>
-> +#include <linux/clk.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/math64.h>
+They need to be static to give them compilation-unit scope so two
+different users of them don't expose the functions to each other,
+creating a linker error. They also need to be "inline" so the
+compiler knows that they're supposed to be shim-style functions and
+avoids the compiler warning that static functions aren't being used.
 
-May be sort header alphabetically??
+Most can be moved out, but we end up with one rather large function
+which feels way too bulky to move into a header file, that being
+apple_smc_find_first_key_index().
 
-> +
-> +#define PWM_CONTROL     0x00
-> +#define PWM_ON_CYCLES   0x1c
-> +#define PWM_OFF_CYCLES  0x18
-> +
-> +#define CTRL_ENABLE        BIT(0)
-> +#define CTRL_MODE          BIT(2)
-> +#define CTRL_UPDATE        BIT(5)
-> +#define CTRL_TRIGGER       BIT(9)
-> +#define CTRL_INVERT        BIT(10)
-> +#define CTRL_OUTPUT_ENABLE BIT(14)
-> +
-> +struct apple_pwm {
-> +	struct pwm_chip chip;
-> +	void __iomem *base;
-> +	u64 clkrate;
-> +};
-> +
-> +static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device
-> *pwm,
-> +			   const struct pwm_state *state)
-> +{
-> +	struct apple_pwm *fpwm;
-> +	u64 on_cycles, off_cycles;
-> +
-> +	fpwm =3D container_of(chip, struct apple_pwm, chip);
-> +	if (state->enabled) {
-> +		on_cycles =3D mul_u64_u64_div_u64(fpwm->clkrate,
-> +						state->duty_cycle, NSEC_PER_SEC);
-> +		off_cycles =3D mul_u64_u64_div_u64(fpwm->clkrate,
-> +						 state->period, NSEC_PER_SEC) -
-> on_cycles;
-> +		writel(on_cycles, fpwm->base + PWM_ON_CYCLES);
-> +		writel(off_cycles, fpwm->base + PWM_OFF_CYCLES);
-> +		writel(CTRL_ENABLE | CTRL_OUTPUT_ENABLE | CTRL_UPDATE,
-> +		       fpwm->base + PWM_CONTROL);
-> +	} else {
-> +		writel(0, fpwm->base + PWM_CONTROL);
-> +	}
-> +	return 0;
-> +}
-> +
-> +static void apple_pwm_get_state(struct pwm_chip *chip, struct
-> pwm_device *pwm,
-> +			   struct pwm_state *state)
-> +{
-> +	struct apple_pwm *fpwm;
-> +	u32 on_cycles, off_cycles, ctrl;
-> +
-> +	fpwm =3D container_of(chip, struct apple_pwm, chip);
-> +
-> +	ctrl =3D readl(fpwm->base + PWM_CONTROL);
-> +	on_cycles =3D readl(fpwm->base + PWM_ON_CYCLES);
-> +	off_cycles =3D readl(fpwm->base + PWM_OFF_CYCLES);
-> +
-> +	state->enabled =3D (ctrl & CTRL_ENABLE) && (ctrl &
-> CTRL_OUTPUT_ENABLE);
-> +	state->polarity =3D PWM_POLARITY_NORMAL;
-> +	state->duty_cycle =3D div_u64(on_cycles, fpwm->clkrate) *
-> NSEC_PER_SEC;
-> +	state->period =3D div_u64(off_cycles + on_cycles, fpwm->clkrate) *
-> +NSEC_PER_SEC; }
-> +
-> +static const struct pwm_ops apple_pwm_ops =3D {
-> +	.apply =3D apple_pwm_apply,
-> +	.get_state =3D apple_pwm_get_state,
-> +	.owner =3D THIS_MODULE,
-> +};
-> +
-> +static int apple_pwm_probe(struct platform_device *pdev) {
-> +	struct apple_pwm *pwm;
-> +	struct clk *clk;
-> +	int ret;
-> +
-> +	pwm =3D devm_kzalloc(&pdev->dev, sizeof(*pwm), GFP_KERNEL);
-> +	if (!pwm)
-> +		return -ENOMEM;
-> +
-> +	pwm->base =3D devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(pwm->base))
-> +		return PTR_ERR(pwm->base);
-> +
-> +	platform_set_drvdata(pdev, pwm);
-> +
-> +	clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
-> +	if (IS_ERR(clk))
-> +		return PTR_ERR(clk);
+So, this is what it looks like moving everything except that function,
+and it means we need somewhere for that function to live outside of a
+header file. This raises the question whether there really is much
+point to moving the shim out.
 
-What is your use case?=20
+If we do manage to move the shim out, we're left with the shim
+initialisation and the MFD bits left in smc_core.c, and we've already
+established that oving the MFD bits isn't what you're after. So, we
+could move that initialisation and MFD bits to smc_rtkit.c... but then
+what happens when the next backend comes along (which will be for Intel
+based MACs), we would need to duplicate that code in another backend.
 
-PWM is configured by bootloader intially??
+To me, making this change just feels wrong - not just mildly wrong -
+because it exposes things that consumers of the SMC API offered by the
+core shouldn't really know about, such as the contents of struct
+apple_smc and struct apple_smc_backend_ops. I'm really not sure doing
+this results in an improvement. Here's the changes on top of this
+patch set anyway.
 
-Or
+From what I understand that you want for MFD, you want a single .c file
+that is a device driver itself, which then talks directly to MFD with
+nothing else inbetween.
 
-PWM is configured by Linux not by the bootloader?
+The only way I can think of achieving that is to essentially move the
+contents of smc_rtkit.c into smc_core.c, and when it comes to merging
+the Intel SMC support, that also has to go into smc_core.c as well -
+which means we end up with a lot of dead code and #ifdef's in that .c
+file - which is not nice.
+
+ drivers/platform/apple/smc.h      |  24 +++---
+ drivers/platform/apple/smc_core.c | 127 ----------------------------
+ include/linux/mfd/macsmc.h        | 136 +++++++++++++++++++++++++++---
+ 3 files changed, 138 insertions(+), 149 deletions(-)
+
+diff --git a/drivers/platform/apple/smc.h b/drivers/platform/apple/smc.h
+index 8ae51887b2c5..fa86411d5044 100644
+--- a/drivers/platform/apple/smc.h
++++ b/drivers/platform/apple/smc.h
+@@ -7,22 +7,24 @@
+ #ifndef _SMC_H
+ #define _SMC_H
+ 
++#include <linux/device.h>
+ #include <linux/mfd/macsmc.h>
+ 
+-struct apple_smc_backend_ops {
+-	int (*read_key)(void *cookie, smc_key key, void *buf, size_t size);
+-	int (*write_key)(void *cookie, smc_key key, void *buf, size_t size);
+-	int (*write_key_atomic)(void *cookie, smc_key key, void *buf, size_t size);
+-	int (*rw_key)(void *cookie, smc_key key, void *wbuf, size_t wsize,
+-		      void *rbuf, size_t rsize);
+-	int (*get_key_by_index)(void *cookie, int index, smc_key *key);
+-	int (*get_key_info)(void *cookie, smc_key key, struct apple_smc_key_info *info);
+-};
++static inline void apple_smc_event_received(struct apple_smc *smc,
++					    uint32_t event)
++{
++	dev_dbg(smc->dev, "Event: 0x%08x\n", event);
++
++	blocking_notifier_call_chain(&smc->event_handlers, event, NULL);
++}
++
++static inline void *apple_smc_get_cookie(struct apple_smc *smc)
++{
++	return smc->be_cookie;
++}
+ 
+ struct apple_smc *apple_smc_probe(struct device *dev, const struct apple_smc_backend_ops *ops,
+ 				  void *cookie);
+-void *apple_smc_get_cookie(struct apple_smc *smc);
+ int apple_smc_remove(struct apple_smc *smc);
+-void apple_smc_event_received(struct apple_smc *smc, uint32_t event);
+ 
+ #endif
+diff --git a/drivers/platform/apple/smc_core.c b/drivers/platform/apple/smc_core.c
+index 148a3f8173d3..0902d2f811f4 100644
+--- a/drivers/platform/apple/smc_core.c
++++ b/drivers/platform/apple/smc_core.c
+@@ -6,25 +6,8 @@
+ 
+ #include <linux/device.h>
+ #include <linux/mfd/core.h>
+-#include <linux/mutex.h>
+-#include <linux/notifier.h>
+ #include "smc.h"
+ 
+-struct apple_smc {
+-	struct device *dev;
+-
+-	void *be_cookie;
+-	const struct apple_smc_backend_ops *be;
+-
+-	struct mutex mutex;
+-
+-	u32 key_count;
+-	smc_key first_key;
+-	smc_key last_key;
+-
+-	struct blocking_notifier_head event_handlers;
+-};
+-
+ static const struct mfd_cell apple_smc_devs[] = {
+ 	{
+ 		.name = "macsmc-gpio",
+@@ -44,85 +27,6 @@ static const struct mfd_cell apple_smc_devs[] = {
+ 	},
+ };
+ 
+-int apple_smc_read(struct apple_smc *smc, smc_key key, void *buf, size_t size)
+-{
+-	int ret;
+-
+-	mutex_lock(&smc->mutex);
+-	ret = smc->be->read_key(smc->be_cookie, key, buf, size);
+-	mutex_unlock(&smc->mutex);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL(apple_smc_read);
+-
+-int apple_smc_write(struct apple_smc *smc, smc_key key, void *buf, size_t size)
+-{
+-	int ret;
+-
+-	mutex_lock(&smc->mutex);
+-	ret = smc->be->write_key(smc->be_cookie, key, buf, size);
+-	mutex_unlock(&smc->mutex);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL(apple_smc_write);
+-
+-int apple_smc_write_atomic(struct apple_smc *smc, smc_key key, void *buf, size_t size)
+-{
+-	int ret;
+-
+-	/*
+-	 * Will fail if SMC is busy. This is only used by SMC reboot/poweroff
+-	 * final calls, so it doesn't really matter at that point.
+-	 */
+-	if (!mutex_trylock(&smc->mutex))
+-		return -EBUSY;
+-
+-	ret = smc->be->write_key_atomic(smc->be_cookie, key, buf, size);
+-	mutex_unlock(&smc->mutex);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL(apple_smc_write_atomic);
+-
+-int apple_smc_rw(struct apple_smc *smc, smc_key key, void *wbuf, size_t wsize,
+-		 void *rbuf, size_t rsize)
+-{
+-	int ret;
+-
+-	mutex_lock(&smc->mutex);
+-	ret = smc->be->rw_key(smc->be_cookie, key, wbuf, wsize, rbuf, rsize);
+-	mutex_unlock(&smc->mutex);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL(apple_smc_rw);
+-
+-int apple_smc_get_key_by_index(struct apple_smc *smc, int index, smc_key *key)
+-{
+-	int ret;
+-
+-	mutex_lock(&smc->mutex);
+-	ret = smc->be->get_key_by_index(smc->be_cookie, index, key);
+-	mutex_unlock(&smc->mutex);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL(apple_smc_get_key_by_index);
+-
+-int apple_smc_get_key_info(struct apple_smc *smc, smc_key key, struct apple_smc_key_info *info)
+-{
+-	int ret;
+-
+-	mutex_lock(&smc->mutex);
+-	ret = smc->be->get_key_info(smc->be_cookie, key, info);
+-	mutex_unlock(&smc->mutex);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL(apple_smc_get_key_info);
+-
+ int apple_smc_find_first_key_index(struct apple_smc *smc, smc_key key)
+ {
+ 	int start = 0, count = smc->key_count;
+@@ -158,37 +62,6 @@ int apple_smc_find_first_key_index(struct apple_smc *smc, smc_key key)
+ }
+ EXPORT_SYMBOL(apple_smc_find_first_key_index);
+ 
+-int apple_smc_get_key_count(struct apple_smc *smc)
+-{
+-	return smc->key_count;
+-}
+-EXPORT_SYMBOL(apple_smc_get_key_count);
+-
+-void apple_smc_event_received(struct apple_smc *smc, uint32_t event)
+-{
+-	dev_dbg(smc->dev, "Event: 0x%08x\n", event);
+-	blocking_notifier_call_chain(&smc->event_handlers, event, NULL);
+-}
+-EXPORT_SYMBOL(apple_smc_event_received);
+-
+-int apple_smc_register_notifier(struct apple_smc *smc, struct notifier_block *n)
+-{
+-	return blocking_notifier_chain_register(&smc->event_handlers, n);
+-}
+-EXPORT_SYMBOL(apple_smc_register_notifier);
+-
+-int apple_smc_unregister_notifier(struct apple_smc *smc, struct notifier_block *n)
+-{
+-	return blocking_notifier_chain_unregister(&smc->event_handlers, n);
+-}
+-EXPORT_SYMBOL(apple_smc_unregister_notifier);
+-
+-void *apple_smc_get_cookie(struct apple_smc *smc)
+-{
+-	return smc->be_cookie;
+-}
+-EXPORT_SYMBOL(apple_smc_get_cookie);
+-
+ struct apple_smc *apple_smc_probe(struct device *dev, const struct apple_smc_backend_ops *ops, void *cookie)
+ {
+ 	struct apple_smc *smc;
+diff --git a/include/linux/mfd/macsmc.h b/include/linux/mfd/macsmc.h
+index 39b4dc4ca881..147d6f957cb1 100644
+--- a/include/linux/mfd/macsmc.h
++++ b/include/linux/mfd/macsmc.h
+@@ -7,7 +7,10 @@
+ #ifndef _LINUX_MFD_MACSMC_H
+ #define _LINUX_MFD_MACSMC_H
+ 
+-struct apple_smc;
++#include <linux/errno.h>
++#include <linux/mutex.h>
++#include <linux/notifier.h>
++#include <linux/types.h>
+ 
+ typedef u32 smc_key;
+ 
+@@ -24,16 +27,118 @@ struct apple_smc_key_info {
+ 	u8 flags;
+ };
+ 
+-int apple_smc_read(struct apple_smc *smc, smc_key key, void *buf, size_t size);
+-int apple_smc_write(struct apple_smc *smc, smc_key key, void *buf, size_t size);
+-int apple_smc_write_atomic(struct apple_smc *smc, smc_key key, void *buf, size_t size);
+-int apple_smc_rw(struct apple_smc *smc, smc_key key, void *wbuf, size_t wsize,
+-		 void *rbuf, size_t rsize);
++struct device;
++
++struct apple_smc_backend_ops {
++	int (*read_key)(void *cookie, smc_key key, void *buf, size_t size);
++	int (*write_key)(void *cookie, smc_key key, void *buf, size_t size);
++	int (*write_key_atomic)(void *cookie, smc_key key, void *buf, size_t size);
++	int (*rw_key)(void *cookie, smc_key key, void *wbuf, size_t wsize,
++		      void *rbuf, size_t rsize);
++	int (*get_key_by_index)(void *cookie, int index, smc_key *key);
++	int (*get_key_info)(void *cookie, smc_key key, struct apple_smc_key_info *info);
++};
++
++struct apple_smc {
++	struct device *dev;
++
++	void *be_cookie;
++	const struct apple_smc_backend_ops *be;
++
++	struct mutex mutex;
++
++	u32 key_count;
++	smc_key first_key;
++	smc_key last_key;
++
++	struct blocking_notifier_head event_handlers;
++};
++
++static inline int apple_smc_read(struct apple_smc *smc, smc_key key,
++				 void *buf, size_t size)
++{
++	int ret;
++
++	mutex_lock(&smc->mutex);
++	ret = smc->be->read_key(smc->be_cookie, key, buf, size);
++	mutex_unlock(&smc->mutex);
++
++	return ret;
++}
++
++static inline int apple_smc_write(struct apple_smc *smc, smc_key key,
++				  void *buf, size_t size)
++{
++	int ret;
++
++	mutex_lock(&smc->mutex);
++	ret = smc->be->write_key(smc->be_cookie, key, buf, size);
++	mutex_unlock(&smc->mutex);
++
++	return ret;
++}
++
++static inline int apple_smc_write_atomic(struct apple_smc *smc, smc_key key,
++					 void *buf, size_t size)
++{
++	int ret;
++
++	/*
++	 * Will fail if SMC is busy. This is only used by SMC reboot/poweroff
++	 * final calls, so it shouldn't really matter at that point.
++	 */
++	if (!mutex_trylock(&smc->mutex))
++		return -EBUSY;
++
++	ret = smc->be->write_key_atomic(smc->be_cookie, key, buf, size);
++	mutex_unlock(&smc->mutex);
++
++	return ret;
++}
++
++static inline int apple_smc_rw(struct apple_smc *smc, smc_key key,
++			       void *wbuf, size_t wsize,
++			       void *rbuf, size_t rsize)
++{
++	int ret;
++
++	mutex_lock(&smc->mutex);
++	ret = smc->be->rw_key(smc->be_cookie, key, wbuf, wsize, rbuf, rsize);
++	mutex_unlock(&smc->mutex);
++
++	return ret;
++}
++
++static inline int apple_smc_get_key_count(struct apple_smc *smc)
++{
++	return smc->key_count;
++}
++
++static inline int apple_smc_get_key_by_index(struct apple_smc *smc, int index,
++					     smc_key *key)
++{
++	int ret;
++
++	mutex_lock(&smc->mutex);
++	ret = smc->be->get_key_by_index(smc->be_cookie, index, key);
++	mutex_unlock(&smc->mutex);
++
++	return ret;
++}
++
++static inline int apple_smc_get_key_info(struct apple_smc *smc, smc_key key,
++					 struct apple_smc_key_info *info)
++{
++	int ret;
++
++	mutex_lock(&smc->mutex);
++	ret = smc->be->get_key_info(smc->be_cookie, key, info);
++	mutex_unlock(&smc->mutex);
++
++	return ret;
++}
+ 
+-int apple_smc_get_key_count(struct apple_smc *smc);
+ int apple_smc_find_first_key_index(struct apple_smc *smc, smc_key key);
+-int apple_smc_get_key_by_index(struct apple_smc *smc, int index, smc_key *key);
+-int apple_smc_get_key_info(struct apple_smc *smc, smc_key key, struct apple_smc_key_info *info);
+ 
+ static inline bool apple_smc_key_exists(struct apple_smc *smc, smc_key key)
+ {
+@@ -80,7 +185,16 @@ static inline int apple_smc_read_flag(struct apple_smc *smc, smc_key key)
+ }
+ #define apple_smc_write_flag apple_smc_write_u8
+ 
+-int apple_smc_register_notifier(struct apple_smc *smc, struct notifier_block *n);
+-int apple_smc_unregister_notifier(struct apple_smc *smc, struct notifier_block *n);
++static inline int apple_smc_register_notifier(struct apple_smc *smc,
++					      struct notifier_block *n)
++{
++	return blocking_notifier_chain_register(&smc->event_handlers, n);
++}
++
++static inline int apple_smc_unregister_notifier(struct apple_smc *smc,
++						struct notifier_block *n)
++{
++	return blocking_notifier_chain_unregister(&smc->event_handlers, n);
++}
+ 
+ #endif
+-- 
+2.30.2
 
 
-Or
 
-Driver needs to support both ??
-
-Cheers,
-Biju
-
-
-> +
-> +	pwm->clkrate =3D clk_get_rate(clk);
-> +	pwm->chip.dev =3D &pdev->dev;
-> +	pwm->chip.npwm =3D 1;
-> +	pwm->chip.ops =3D &apple_pwm_ops;
-> +
-> +	ret =3D devm_pwmchip_add(&pdev->dev, &pwm->chip);
-> +	return ret;
-> +}
-> +
-> +static const struct of_device_id apple_pwm_of_match[] =3D {
-> +	{ .compatible =3D "apple,s5l-fpwm" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, apple_pwm_of_match);
-> +
-> +static struct platform_driver apple_pwm_driver =3D {
-> +	.probe =3D apple_pwm_probe,
-> +	.driver =3D {
-> +		.name =3D "apple-pwm",
-> +		.owner =3D THIS_MODULE,
-> +		.of_match_table =3D apple_pwm_of_match,
-> +	},
-> +};
-> +module_platform_driver(apple_pwm_driver);
-> +
-> +MODULE_DESCRIPTION("Apple SoC PWM driver"); MODULE_LICENSE("Dual
-> +MIT/GPL");
-> --
-> 2.37.3
->=20
->=20
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> https://jpn01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Flists
-> .infradead.org%2Fmailman%2Flistinfo%2Flinux-arm-
-> kernel&amp;data=3D05%7C01%7Cbiju.das.jz%40bp.renesas.com%7C0ff5a9275b954
-> eff39ae08dabcde3c28%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C63802
-> 9959918512569%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2lu
-> MzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=3DzdoRENBcN
-> FUDLdqC8wOspyvoOzRsTkBkS01Q8ff9okk%3D&amp;reserved=3D0
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
