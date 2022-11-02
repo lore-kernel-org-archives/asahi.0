@@ -1,61 +1,51 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7242D7B
-	for <asahi@lists.linux.dev>; Wed,  2 Nov 2022 06:18:22 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id c2so15618875plz.11
-        for <asahi@lists.linux.dev>; Tue, 01 Nov 2022 23:18:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E256865F
+	for <asahi@lists.linux.dev>; Wed,  2 Nov 2022 09:02:31 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id v4-20020a17090a088400b00212cb0ed97eso1332104pjc.5
+        for <asahi@lists.linux.dev>; Wed, 02 Nov 2022 02:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h0d5aCVPRTVrfRa+Qu4ZFoByM5Lhhf9AZF5J+3bpC/M=;
-        b=Ny0gpAJSShyPpcJLqRwRbmw/0WJGjqpn49vntdcZHq0u3pzx/+RdHFQceVu20fS8nx
-         tinZ6IROpAZf7Za60oNA0P6u3bnXF4qH7i992xR6iRShZx34GoVp34iaS7DRD2IAyA0Z
-         9ZcJtm2ElTzRurp4D3yNxJ3so5ql3vgeoZ8f0AhOcc8UYcWqXbuww3eFhDFV4qe8ZAvr
-         caoWdfjuzhzdPwXtJc0y1Pb5SmsJTlUjWSvwjBPltx3qwSqh/X4ZJ/f8eF3lp+o86e4x
-         yDkU4jJXb1tYVJjffaT7scKPIN4IYyWgDmBFLBMt5gLNWL4pFQrQqcFCNMyyIMeGHXeR
-         bfjA==
+        bh=3lW+SEAwaQj22Ep5QkmznnP/cF5sNnG1Gxo6Sa2AZ74=;
+        b=zMACeZbTZl8Q3wbIi8TRiige4VbN1aGqtrYun5aTANcuZZe+p7qmASVXONqOc8BnjO
+         EXUpfbpmLT4aldBZy+mhaQUupoCUeZZt6VqjUbjTA9X4Zx3bRl3erk2FCZAgbGp7SbmI
+         1xnzVLkngnIJP+qZvFQ1rW/oLf4sRdaTM8kS6enQOg0wRQ215McLO0h9oGWZPvVnsl9D
+         FerDzddgYMI4QPktFlJyuv7L6Q54iEHyS7k5k2aX6/fOVvEu2UapwdObqqF0mf9Zw2yc
+         VBsphQ7BS33X/JO7bmpx6UWnuCfJXDYNgtfzX7OKuD7AyX9aWhXpBzu03Pc+GrnrujDL
+         YNTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h0d5aCVPRTVrfRa+Qu4ZFoByM5Lhhf9AZF5J+3bpC/M=;
-        b=1g9THbL4HSrUUBe6CVmp2F9JZoy69caUMO3CLu/JVr5iDBH7M8asj+opt4DsXKup6N
-         xvn8hOgNRiJjVmgbeXnLKCQ2wDyPTSTT5iqI6Rxdj0FyhsYD7NTk3A2cpqPZV0W9Ywr8
-         0A6nu8nDfRRmJXoBVYhCOj/2MJ3rFQ7M5UgbJW2s0qJFls5opn4GKnlHiRhgCEo7yCq0
-         4taUeEAF/QvoON9TfL9a9vknWxxWdJlWZuX4mzABa5fcv/yXC9O1B14GWvNoj6Kkuzag
-         PqEqQyeVJ1q7dWERnByAhsoP1l/S8DSxqtfGvRrIIE1i47bWkA3hI+wB3rHTMFgmrKze
-         02Zg==
-X-Gm-Message-State: ACrzQf1bLX3tNd/y+CIjlX6ulg9FrI/6Sdmzl5NeGLYPuinmYCUGvJRj
-	VrZAoExmVxVaJX0F3uPQNrvIvg==
-X-Google-Smtp-Source: AMsMyM7tdx3msXcDSRjzengMv7BnjG3CokZXlPZh9RQr5YedHUAgqS+vzQiPxXN9ulEJ1GVtVzG0qA==
-X-Received: by 2002:a17:903:444:b0:187:428:1317 with SMTP id iw4-20020a170903044400b0018704281317mr23080646plb.151.1667369901803;
-        Tue, 01 Nov 2022 23:18:21 -0700 (PDT)
+        bh=3lW+SEAwaQj22Ep5QkmznnP/cF5sNnG1Gxo6Sa2AZ74=;
+        b=IxwSBYx5bYi3LCcl13vjAGvPXuorMAdTikxNYK/bDWQvFlfAm/h2CSxSPS86oPoHrx
+         xyJTOjdRcDE+rpFbkl5uMEDUAVgH+8gd40LoEJUhsG4xail06AdqWOlGlGh0VKoJxjSk
+         OaDtlkgcVQrZvz/afMEcusvxjKbLXPgizS3uZSe7gkKbKeltIwS4F7piQLzl0FQxVpJ3
+         eEy8sNmYz6t9zXhXcJ0DjmvgVGJxbpGo7AcZGMYeb04/lJqn7ei/iH4OYYzE7PhJYQTS
+         4dJyhBWOw0ezMT+WwStIbR8Sug3z98uYDseqdAPcFYki4OhzB5VWQKkyRlc0JiljkmjK
+         vuow==
+X-Gm-Message-State: ACrzQf3yl8XGD1Xob2JxoFGqYtbaPcaiqA5hfCp6VTsck7AAm8o2GAam
+	d82/gJ3I2YnT3399CY2XJBMCbw==
+X-Google-Smtp-Source: AMsMyM6PALNUlom1rlSsoWaB+9NYnSm8AiAITHIXsiK1BSybVbtqKeCAusR4sDxJ3wdLnUx7GI0NlQ==
+X-Received: by 2002:a17:902:8e88:b0:185:3cea:6335 with SMTP id bg8-20020a1709028e8800b001853cea6335mr23860226plb.96.1667379751258;
+        Wed, 02 Nov 2022 02:02:31 -0700 (PDT)
 Received: from localhost ([122.172.84.80])
-        by smtp.gmail.com with ESMTPSA id c12-20020a170902d48c00b00186a6b63525sm7401974plg.120.2022.11.01.23.18.20
+        by smtp.gmail.com with ESMTPSA id a3-20020a170902ecc300b001868ed86a95sm7830304plh.174.2022.11.02.02.02.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Nov 2022 23:18:21 -0700 (PDT)
-Date: Wed, 2 Nov 2022 11:48:19 +0530
+        Wed, 02 Nov 2022 02:02:30 -0700 (PDT)
+Date: Wed, 2 Nov 2022 14:32:28 +0530
 From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Marc Zyngier <maz@kernel.org>,
-	Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] cpufreq: apple-soc: Add new driver to control
- Apple SoC CPU P-states
-Message-ID: <20221102061819.dyl5ah6qffntqieh@vireshk-i7>
-References: <20221024043925.25379-1-marcan@marcan.st>
- <20221024043925.25379-5-marcan@marcan.st>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: vireshk@kernel.org, sboyd@kernel.org, nm@ti.com,
+	linux-pm@vger.kernel.org, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] OPP: decouple dt properties in opp_parse_supplies()
+Message-ID: <20221102090228.odyt7ykdkcbdx4lw@vireshk-i7>
+References: <20221030101546.29306-1-jcalligeros99@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -64,241 +54,116 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221024043925.25379-5-marcan@marcan.st>
+In-Reply-To: <20221030101546.29306-1-jcalligeros99@gmail.com>
 
-On 24-10-22, 13:39, Hector Martin wrote:
-> diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
-> +struct apple_soc_cpufreq_info {
-> +	u64 max_pstate;
-> +	u64 cur_pstate_mask;
-> +	u64 cur_pstate_shift;
-> +};
-> +
-> +struct apple_cpu_priv {
-> +	struct device *cpu_dev;
-> +	void __iomem *reg_base;
-> +	const struct apple_soc_cpufreq_info *info;
-> +};
-> +
-> +static struct cpufreq_driver apple_soc_cpufreq_driver;
-> +
-> +const struct apple_soc_cpufreq_info soc_t8103_info = {
+On 30-10-22, 20:15, James Calligeros wrote:
+> The opp-microwatt property was added with the intention of providing
+> platforms a way to specify a precise value for the power consumption
+> of a device at a given OPP to enable better energy-aware scheduling
+> decisions by informing the kernel of the total static and dynamic
+> power of a device at a given OPP, removing the reliance on the EM
+> subsystem's often flawed estimations. This property is parsed by
+> opp_parse_supplies(), which creates a hard dependency on the
+> opp-microvolt property.
+> 
+> Some platforms, such as Apple Silicon, do not describe their devices'
+> voltage regulators in the DT as they cannot be controlled by the kernel
+> and/or rely on opaque firmware algorithms to control their voltage and
+> current characteristics at runtime. We can, however, experimentally
+> determine the power consumption of a given device at a given OPP, taking
+> advantage of opp-microwatt to provide EAS on such devices as was initially
+> intended.
 
-static ? For other instances too.
+Do you supply a regulator to the OPP core for your platform ?
 
-> +	.max_pstate = 15,
-> +	.cur_pstate_mask = APPLE_DVFS_STATUS_CUR_PS_T8103,
-> +	.cur_pstate_shift = APPLE_DVFS_STATUS_CUR_PS_SHIFT_T8103,
-> +};
-> +
-> +const struct apple_soc_cpufreq_info soc_t8112_info = {
-> +	.max_pstate = 31,
-> +	.cur_pstate_mask = APPLE_DVFS_STATUS_CUR_PS_T8112,
-> +	.cur_pstate_shift = APPLE_DVFS_STATUS_CUR_PS_SHIFT_T8112,
-> +};
-> +
-> +const struct apple_soc_cpufreq_info soc_default_info = {
-> +	.max_pstate = 15,
-> +	.cur_pstate_mask = 0, /* fallback */
-> +};
-> +
-> +static const struct of_device_id apple_soc_cpufreq_of_match[] = {
-> +	{
-> +		.compatible = "apple,t8103-cluster-cpufreq",
-> +		.data = &soc_t8103_info,
-> +	},
-> +	{
+> Allow platforms to specify and consume any subset of opp-microvolt,
+> opp-microamp, or opp-microwatt without a hard dependency on opp-microvolt
+> to enable this functionality on such platforms.
+> 
+> Fixes: 4f9a7a1dc2a2 ("OPP: Add "opp-microwatt" supporting code")
 
-Isn't the preferred way for this is "}, {" instead ?
+I won't call it a fix, we are trying to use this information in a
+different way here, that's all.
 
-I couldn't find this in Coding Guidelines, but somehow remember that
-to be the preferred format.
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+> Changes since v1:
+> Fixed bad reference (opp to opp_table)
+> 
+>  drivers/opp/of.c | 198 +++++++++++++++++++++++++----------------------
+>  1 file changed, 104 insertions(+), 94 deletions(-)
+> 
+> diff --git a/drivers/opp/of.c b/drivers/opp/of.c
+> index 605d68673f92..0fa25c3a959e 100644
+> --- a/drivers/opp/of.c
+> +++ b/drivers/opp/of.c
+> @@ -581,166 +581,176 @@ static bool _opp_is_supported(struct device *dev, struct opp_table *opp_table,
+>  static int opp_parse_supplies(struct dev_pm_opp *opp, struct device *dev,
+>  			      struct opp_table *opp_table)
+>  {
+> -	u32 *microvolt, *microamp = NULL, *microwatt = NULL;
+> +	u32 *microvolt = NULL, *microamp = NULL, *microwatt = NULL;
+>  	int supplies = opp_table->regulator_count;
+>  	int vcount, icount, pcount, ret, i, j;
+> -	struct property *prop = NULL;
+> +	struct property *prop_mv = NULL, *prop_ma = NULL, *prop_mw = NULL;
+>  	char name[NAME_MAX];
+>  
+>  	/* Search for "opp-microvolt-<name>" */
+>  	if (opp_table->prop_name) {
+>  		snprintf(name, sizeof(name), "opp-microvolt-%s",
+>  			 opp_table->prop_name);
+> -		prop = of_find_property(opp->np, name, NULL);
+> +		prop_mv = of_find_property(opp->np, name, NULL);
+>  	}
+>  
+> -	if (!prop) {
+> +	if (!prop_mv) {
+>  		/* Search for "opp-microvolt" */
+>  		sprintf(name, "opp-microvolt");
+> -		prop = of_find_property(opp->np, name, NULL);
+> -
+> -		/* Missing property isn't a problem, but an invalid entry is */
+> -		if (!prop) {
+> -			if (unlikely(supplies == -1)) {
+> -				/* Initialize regulator_count */
+> -				opp_table->regulator_count = 0;
+> -				return 0;
+> -			}
+> +		prop_mv = of_find_property(opp->np, name, NULL);
+>  
+> -			if (!supplies)
+> -				return 0;
+> -
+> -			dev_err(dev, "%s: opp-microvolt missing although OPP managing regulators\n",
+> -				__func__);
 
-> +		.compatible = "apple,t8112-cluster-cpufreq",
-> +		.data = &soc_t8112_info,
-> +	},
-> +	{
-> +		.compatible = "apple,cluster-cpufreq",
-> +		.data = &soc_default_info,
-> +	},
-> +	{}
-> +};
-> +
-> +static unsigned int apple_soc_cpufreq_get_rate(unsigned int cpu)
-> +{
-> +	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
-> +	struct apple_cpu_priv *priv = policy->driver_data;
-> +	unsigned int pstate;
-> +	unsigned int i;
+Catching such errors are important and so the opp-microvolt property
+was made compulsory earlier.
 
-Merge these two ?
+If there is a regulator, then we must have microvolt property.
+amps/watts are optional.
 
-> +
-> +	if (priv->info->cur_pstate_mask) {
-> +		u64 reg = readq_relaxed(priv->reg_base + APPLE_DVFS_STATUS);
-> +
-> +		pstate = (reg & priv->info->cur_pstate_mask) >>  priv->info->cur_pstate_shift;
-> +	} else {
-> +		/*
-> +		 * For the fallback case we might not know the layout of DVFS_STATUS,
-> +		 * so just use the command register value (which ignores boost limitations).
-> +		 */
-> +		u64 reg = readq_relaxed(priv->reg_base + APPLE_DVFS_CMD);
-> +
-> +		pstate = FIELD_GET(APPLE_DVFS_CMD_PS1, reg);
-> +	}
-> +
-> +	for (i = 0; policy->freq_table[i].frequency != CPUFREQ_TABLE_END; i++)
+> -			return -EINVAL;
+> -		}
+>  	}
+>  
+> -	if (unlikely(supplies == -1)) {
+> -		/* Initialize regulator_count */
+> -		supplies = opp_table->regulator_count = 1;
+> -	} else if (unlikely(!supplies)) {
+> -		dev_err(dev, "%s: opp-microvolt wasn't expected\n", __func__);
+> -		return -EINVAL;
+> +	if (prop_mv) {
+> +		vcount = of_property_count_u32_elems(opp->np, name);
+> +		if (unlikely(supplies == -1))
+> +			supplies = opp_table->regulator_count = vcount;
 
-You may want to use, cpufreq_for_each_valid_entry(), or some other
-generic iterator here.
+This is wrong. There can be one or three entries per regulator here.
+Target or min/max/target. If the supplies value is -1, we can only
+support one regulator, i.e. one or three entries total.
 
-> +		if (policy->freq_table[i].driver_data == pstate)
-> +			return policy->freq_table[i].frequency;
-> +
-> +	dev_err(priv->cpu_dev, "could not find frequency for pstate %d\n",
-> +		pstate);
-> +	return 0;
-> +}
-> +
-> +static int apple_soc_cpufreq_set_target(struct cpufreq_policy *policy,
-> +					unsigned int index)
-> +{
-> +	struct apple_cpu_priv *priv = policy->driver_data;
-> +	unsigned int pstate = policy->freq_table[index].driver_data;
-> +	u64 reg;
-> +
-> +	/* Fallback for newer SoCs */
-> +	if (index > priv->info->max_pstate)
-> +		index = priv->info->max_pstate;
-> +
-> +	if (readq_poll_timeout_atomic(priv->reg_base + APPLE_DVFS_CMD, reg,
-> +				      !(reg & APPLE_DVFS_CMD_BUSY), 2,
-> +				      APPLE_DVFS_TRANSITION_TIMEOUT)) {
-> +		return -EIO;
-> +	}
-> +
-> +	reg &= ~(APPLE_DVFS_CMD_PS1 | APPLE_DVFS_CMD_PS2);
-> +	reg |= FIELD_PREP(APPLE_DVFS_CMD_PS1, pstate);
-> +	reg |= FIELD_PREP(APPLE_DVFS_CMD_PS2, pstate);
-> +	reg |= APPLE_DVFS_CMD_SET;
-> +
-> +	writeq_relaxed(reg, priv->reg_base + APPLE_DVFS_CMD);
-> +
-> +	return 0;
-> +}
-> +
-> +static unsigned int apple_soc_cpufreq_fast_switch(struct cpufreq_policy *policy,
-> +						  unsigned int target_freq)
-> +{
-> +	if (apple_soc_cpufreq_set_target(policy, policy->cached_resolved_idx) < 0)
-> +		return 0;
-> +
-> +	return policy->freq_table[policy->cached_resolved_idx].frequency;
-> +}
-> +
-> +static int apple_soc_cpufreq_find_cluster(struct cpufreq_policy *policy,
-> +					  void __iomem **reg_base,
-> +					  const struct apple_soc_cpufreq_info **info)
-> +{
-> +	struct of_phandle_args args;
-> +	const struct of_device_id *match;
-> +	int ret = 0;
-> +
-> +	ret = of_perf_domain_get_sharing_cpumask(policy->cpu, "performance-domains",
-> +						 "#performance-domain-cells",
-> +						 policy->cpus, &args);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	match = of_match_node(apple_soc_cpufreq_of_match, args.np);
-> +	of_node_put(args.np);
-> +	if (!match)
-> +		return -ENODEV;
-> +
-> +	*info = match->data;
-> +
-> +	*reg_base = of_iomap(args.np, 0);
-> +	if (IS_ERR(*reg_base))
-> +		return PTR_ERR(*reg_base);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct freq_attr *apple_soc_cpufreq_hw_attr[] = {
-> +	&cpufreq_freq_attr_scaling_available_freqs,
-> +	NULL,
-> +	NULL,
-> +};
-> +
-> +static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
-> +{
-> +	int ret, i;
-> +	unsigned int transition_latency;
-> +	void __iomem *reg_base;
-> +	struct device *cpu_dev;
-> +	struct apple_cpu_priv *priv;
-> +	const struct apple_soc_cpufreq_info *info;
-> +	struct cpufreq_frequency_table *freq_table;
-> +
-> +	cpu_dev = get_cpu_device(policy->cpu);
-> +	if (!cpu_dev) {
-> +		pr_err("failed to get cpu%d device\n", policy->cpu);
-> +		return -ENODEV;
-> +	}
-> +
-> +	ret = dev_pm_opp_of_add_table(cpu_dev);
-> +	if (ret < 0) {
-> +		dev_err(cpu_dev, "%s: failed to add OPP table: %d\n", __func__, ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = apple_soc_cpufreq_find_cluster(policy, &reg_base, &info);
-> +	if (ret) {
-> +		dev_err(cpu_dev, "%s: failed to get cluster info: %d\n", __func__, ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = dev_pm_opp_set_sharing_cpus(cpu_dev, policy->cpus);
-
-Why do you need this ? The OPP core should be able to find this
-information by itself in your case AFAIU. The OPP core will refer
-"operating-points-v2 = <&pcluster_opp>" and find that the cores are
-related.
-
-> +	if (ret) {
-> +		dev_err(cpu_dev, "%s: failed to mark OPPs as shared: %d\n", __func__, ret);
-> +		goto out_iounmap;
-> +	}
-> +
-> +	ret = dev_pm_opp_get_opp_count(cpu_dev);
-> +	if (ret <= 0) {
-> +		dev_dbg(cpu_dev, "OPP table is not ready, deferring probe\n");
-
-Why would this happen in your case ?
-
-> +		ret = -EPROBE_DEFER;
-> +		goto out_free_opp;
-> +	}
-> +
-> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> +	if (!priv) {
-> +		ret = -ENOMEM;
-> +		goto out_free_opp;
-> +	}
-> +
-> +	ret = dev_pm_opp_init_cpufreq_table(cpu_dev, &freq_table);
-> +	if (ret) {
-> +		dev_err(cpu_dev, "failed to init cpufreq table: %d\n", ret);
-> +		goto out_free_priv;
-> +	}
-> +
-> +	/* Get OPP levels (p-state indexes) and stash them in driver_data */
-> +	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++) {
-> +		unsigned long rate = freq_table[i].frequency * 1000;
-> +		struct dev_pm_opp *opp = dev_pm_opp_find_freq_floor(cpu_dev, &rate);
-
-Shouldn't you use dev_pm_opp_find_freq_exact() here ?
+I didn't look at rest of the patch yet. Lets discuss this a bit first.
 
 -- 
 viresh
