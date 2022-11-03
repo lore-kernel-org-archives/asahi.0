@@ -1,43 +1,43 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B957465
-	for <asahi@lists.linux.dev>; Thu,  3 Nov 2022 13:39:14 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id d26so5247310eje.10
-        for <asahi@lists.linux.dev>; Thu, 03 Nov 2022 06:39:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD326FD6
+	for <asahi@lists.linux.dev>; Thu,  3 Nov 2022 13:39:15 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id kt23so5282631ejc.7
+        for <asahi@lists.linux.dev>; Thu, 03 Nov 2022 06:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BecJ0E2plRH5MxDE40UsMd1VqUugZCh95ceLSHGaoR4=;
-        b=RhWQegExPTUv/VcMbdwViIte9vibXTINDoB2s3FK2GFt5KoXIKN6ZwsnaBkg4yw7le
-         nrZjQiWw9W8Q+lxGDNxxBQg7ynD3PNcJ68zDH01z7Zd6CORj+fOb5Sv0lkiOvY9h2bXu
-         WE3gHu8yGZIywTSY0axnD9Xsi5jRYFptb4WzCuNI+TvG5Z/KCMosli4G3NQYDCIoXNdw
-         O9xqgTMQj7y4c4jsjcJpsbJXfqMXpkRPCC+f7wxonuvHSKvjSST8/s2y3VC94fs93bNN
-         RtNnCf90J0vM+ZaSUgS9UxJBlVQyejTnabAqr+PVgyoR9cIAzO/OYn7A/nBeVzMnAX45
-         rTAg==
+        bh=HuoiIm8f1+pLkMCMfNs8Z4K3LzZnaZWtse5hncoBXug=;
+        b=WOIOrTs5wDw45r6z1U4MpbhJq9ZryvRk3zOzSYUmYMec/MQxf3XmaBKYvPOrW9phMZ
+         UAswei6GmqvYKULPZKvu4EC06uAQ3oUPdBDaCRnvqBxURM5H8nk3rW7ZwO9vnG+KibgH
+         /kthT9vb9jS7RjOfaei8dc5/58TXTJsFwgDhJNGQ0fasmyfpK6C4NtDXrAgdEAvBNbKt
+         t2AvI09T0oeHAtBBYcRli8B7NjxKYYktBKvoMLPeardsdEa7xfCz/8ReTq4U8ouZmFP2
+         +CxXTIzPpF1A5apjqogM+4+goqbUNtpG4Jj2t8eAG/jProlkpbSvAbr+EnMfNxk+8l7p
+         DNIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BecJ0E2plRH5MxDE40UsMd1VqUugZCh95ceLSHGaoR4=;
-        b=IeOSrBGEXhajbQAG3lXiuXCjeWSl/5+jEiSwVBAe9wtOkXaDRG5mWwQfuvfjJ6eUcV
-         s8ePUzWCI5ArcEWXN4v2blNK8J8xRXxz88Ld5+w8qE5JOSMjnsNPIWGU0qCbly0q9w5S
-         Kr+SgQEFTCkPlKEQUHZJkuRP8+35TD/jh5Kxjis/THqLaOaTKMw/CyYlwK3i+voD8boS
-         DNy/1sv0O+ERroGYGdwK9NnTROBrp3/HS2RRMJ6zz4xFAzu7DmvM+h1Rm92uHlhNOuMa
-         Qbg5dYKnbup4DixRhDHsHLdZLpd3i+Gq3hd4DwJZXC6qnIK2BTeVlXjrHaSoM9lSOSmH
-         HF1w==
-X-Gm-Message-State: ACrzQf0CUqzjLRm3paEZP9qaoghAVhAJPQeYJvFmayqtxBo9cfS9b32N
-	ijqFbMBfYkNM3VLf/DW1IA8=
-X-Google-Smtp-Source: AMsMyM60ciF41ZqstOeqWY/AN37rTgyXw3vOVEdM/yvKGvtIcSJyCiS6B2gGiDSrz4le9GaE22NVkg==
-X-Received: by 2002:a17:906:cc5e:b0:7ad:ad3a:b20a with SMTP id mm30-20020a170906cc5e00b007adad3ab20amr28576665ejb.315.1667482752163;
-        Thu, 03 Nov 2022 06:39:12 -0700 (PDT)
+        bh=HuoiIm8f1+pLkMCMfNs8Z4K3LzZnaZWtse5hncoBXug=;
+        b=bLSSKfzBn+wlRNt/dhlQzrnD9Jxkfx/8g40FVSjVsFmytMPaYpKUt4m4onuGyqzNQr
+         sQde6VUI7eK5h/ksIGy3oBp4AHhMgt1tvycWcij7FfDlA/B2G6VPJCDNP662Bw4hlO9P
+         If0SoXc3C05gjBwO9eBPbKiGTDfHR1THLbCii73JFfZyX3XFMg1SwHkYSdIIZUbM4Vl2
+         ra2AeggbkLCP1WBcoi0Evi8Sk68ZbA3QEWORR/Zr4SH1KwS8+WUenxdgEESLaH8CLzY+
+         VdP9eBOr/EnAgP+pDaz25jQqq8Q9SVmdMKdo9vzwvKO1zLJfENoRnQx7RM900ON9X+dL
+         7iiQ==
+X-Gm-Message-State: ACrzQf0bTUiVgioqQomlRDNI5oQzZh6NPUFRI7NcZ+8i2og0YVx+Ilpz
+	2SrtXpp6Al68712T1lXd8GitOrx9ejs=
+X-Google-Smtp-Source: AMsMyM515jSAgrgtrPv6W8cuyVKGjXoGniUUGUbH7rNavvWKdzFTbZakrYtH2QbWOm5oPcugOCAcuQ==
+X-Received: by 2002:a17:906:fe45:b0:788:15a5:7495 with SMTP id wz5-20020a170906fe4500b0078815a57495mr29363453ejb.633.1667482753890;
+        Thu, 03 Nov 2022 06:39:13 -0700 (PDT)
 Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id u10-20020a1709061daa00b0073cf6ec3276sm477733ejh.207.2022.11.03.06.39.11
+        by smtp.gmail.com with ESMTPSA id x20-20020a1709064a9400b0074136cac2e7sm510618eju.81.2022.11.03.06.39.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 06:39:11 -0700 (PDT)
+        Thu, 03 Nov 2022 06:39:13 -0700 (PDT)
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Joerg Roedel <joro@8bytes.org>
@@ -54,11 +54,10 @@ Cc: Will Deacon <will@kernel.org>,
 	iommu@lists.linux-foundation.org,
 	linux-tegra@vger.kernel.org,
 	asahi@lists.linux.dev,
-	Frank Rowand <frowand.list@gmail.com>,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH v10 4/5] iommu: Implement of_iommu_get_resv_regions()
-Date: Thu,  3 Nov 2022 14:38:59 +0100
-Message-Id: <20221103133900.1473855-5-thierry.reding@gmail.com>
+	Frank Rowand <frowand.list@gmail.com>
+Subject: [PATCH v10 5/5] iommu: dma: Use of_iommu_get_resv_regions()
+Date: Thu,  3 Nov 2022 14:39:00 +0100
+Message-Id: <20221103133900.1473855-6-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221103133900.1473855-1-thierry.reding@gmail.com>
 References: <20221103133900.1473855-1-thierry.reding@gmail.com>
@@ -72,194 +71,39 @@ Content-Transfer-Encoding: 8bit
 
 From: Thierry Reding <treding@nvidia.com>
 
-This is an implementation that IOMMU drivers can use to obtain reserved
-memory regions from a device tree node. It uses the reserved-memory DT
-bindings to find the regions associated with a given device. If these
-regions are marked accordingly, identity mappings will be created for
-them in the IOMMU domain that the devices will be attached to.
+For device tree nodes, use the standard of_iommu_get_resv_regions()
+implementation to obtain the reserved memory regions associated with a
+device.
 
+Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Frank Rowand <frowand.list@gmail.com>
 Cc: devicetree@vger.kernel.org
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
-Rob,
+ drivers/iommu/dma-iommu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-I've dropped your Reviewed-by: for now since there were some significant
-changes since you looked at this. Please take another look to confirm
-that it still applies.
-
-Changes in v10:
-- extract more code into the new iommu_resv_region_get_type() function
-- rename variables for physical and I/O virtual addresses for clarity
-- default to IOMMU_RESV_DIRECT instead of IOMMU_RESV_DIRECT_RELAXABLE
-- use newly introduced of_translate_dma_region()
-
-Changes in v9:
-- address review comments by Robin Murphy:
-  - warn about non-direct mappings since they are not supported yet
-  - cleanup code to require less indentation
-  - narrow scope of variables
-
-Changes in v8:
-- cleanup set-but-unused variables
-
-Changes in v6:
-- remove reference to now unused dt-bindings/reserved-memory.h include
-
-Changes in v5:
-- update for new "iommu-addresses" device tree bindings
-
-Changes in v4:
-- fix build failure on !CONFIG_OF_ADDRESS
-
-Changes in v3:
-- change "active" property to identity mapping flag that is part of the
-  memory region specifier (as defined by #memory-region-cells) to allow
-  per-reference flags to be used
-
-Changes in v2:
-- use "active" property to determine whether direct mappings are needed
----
- drivers/iommu/of_iommu.c | 94 ++++++++++++++++++++++++++++++++++++++++
- include/linux/of_iommu.h |  8 ++++
- 2 files changed, 102 insertions(+)
-
-diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-index 5696314ae69e..fa7c63a4abbf 100644
---- a/drivers/iommu/of_iommu.c
-+++ b/drivers/iommu/of_iommu.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/msi.h>
- #include <linux/of.h>
-+#include <linux/of_address.h>
- #include <linux/of_iommu.h>
- #include <linux/of_pci.h>
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 9297b741f5e8..709b05d3aad2 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -23,6 +23,7 @@
+ #include <linux/memremap.h>
+ #include <linux/mm.h>
+ #include <linux/mutex.h>
++#include <linux/of_iommu.h>
  #include <linux/pci.h>
-@@ -172,3 +173,96 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
+ #include <linux/scatterlist.h>
+ #include <linux/spinlock.h>
+@@ -391,6 +392,8 @@ void iommu_dma_get_resv_regions(struct device *dev, struct list_head *list)
+ 	if (!is_of_node(dev_iommu_fwspec_get(dev)->iommu_fwnode))
+ 		iort_iommu_get_resv_regions(dev, list);
  
- 	return ops;
++	if (dev->of_node)
++		of_iommu_get_resv_regions(dev, list);
  }
-+
-+static enum iommu_resv_type iommu_resv_region_get_type(struct device *dev, struct resource *phys,
-+						       phys_addr_t start, size_t length)
-+{
-+	phys_addr_t end = start + length - 1;
-+
-+	/*
-+	 * IOMMU regions without an associated physical region cannot be
-+	 * mapped and are simply reservations.
-+	 */
-+	if (phys->start >= phys->end)
-+		return IOMMU_RESV_RESERVED;
-+
-+	/* may be IOMMU_RESV_DIRECT_RELAXABLE for certain cases */
-+	if (start == phys->start && end == phys->end)
-+		return IOMMU_RESV_DIRECT;
-+
-+	dev_warn(dev, "treating non-direct mapping [%pr] -> [%pap-%pap] as reservation\n", &phys,
-+		 &start, &end);
-+	return IOMMU_RESV_RESERVED;
-+}
-+
-+/**
-+ * of_iommu_get_resv_regions - reserved region driver helper for device tree
-+ * @dev: device for which to get reserved regions
-+ * @list: reserved region list
-+ *
-+ * IOMMU drivers can use this to implement their .get_resv_regions() callback
-+ * for memory regions attached to a device tree node. See the reserved-memory
-+ * device tree bindings on how to use these:
-+ *
-+ *   Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-+ */
-+void of_iommu_get_resv_regions(struct device *dev, struct list_head *list)
-+{
-+#if IS_ENABLED(CONFIG_OF_ADDRESS)
-+	struct of_phandle_iterator it;
-+	int err;
-+
-+	of_for_each_phandle(&it, err, dev->of_node, "memory-region", NULL, 0) {
-+		const __be32 *maps, *end;
-+		struct resource phys;
-+		int size;
-+
-+		memset(&phys, 0, sizeof(phys));
-+
-+		/*
-+		 * The "reg" property is optional and can be omitted by reserved-memory regions
-+		 * that represent reservations in the IOVA space, which are regions that should
-+		 * not be mapped.
-+		 */
-+		if (of_find_property(it.node, "reg", NULL)) {
-+			err = of_address_to_resource(it.node, 0, &phys);
-+			if (err < 0) {
-+				dev_err(dev, "failed to parse memory region %pOF: %d\n",
-+					it.node, err);
-+				continue;
-+			}
-+		}
-+
-+		maps = of_get_property(it.node, "iommu-addresses", &size);
-+		if (!maps)
-+			continue;
-+
-+		end = maps + size / sizeof(__be32);
-+
-+		while (maps < end) {
-+			struct device_node *np;
-+			u32 phandle;
-+
-+			phandle = be32_to_cpup(maps++);
-+			np = of_find_node_by_phandle(phandle);
-+
-+			if (np == dev->of_node) {
-+				int prot = IOMMU_READ | IOMMU_WRITE;
-+				struct iommu_resv_region *region;
-+				enum iommu_resv_type type;
-+				phys_addr_t iova;
-+				size_t length;
-+
-+				maps = of_translate_dma_region(np, maps, &iova, &length);
-+				type = iommu_resv_region_get_type(dev, &phys, iova, length);
-+
-+				region = iommu_alloc_resv_region(iova, length, prot, type,
-+								 GFP_KERNEL);
-+				if (region)
-+					list_add_tail(&region->list, list);
-+			}
-+		}
-+	}
-+#endif
-+}
-+EXPORT_SYMBOL(of_iommu_get_resv_regions);
-diff --git a/include/linux/of_iommu.h b/include/linux/of_iommu.h
-index 55c1eb300a86..9a5e6b410dd2 100644
---- a/include/linux/of_iommu.h
-+++ b/include/linux/of_iommu.h
-@@ -12,6 +12,9 @@ extern const struct iommu_ops *of_iommu_configure(struct device *dev,
- 					struct device_node *master_np,
- 					const u32 *id);
+ EXPORT_SYMBOL(iommu_dma_get_resv_regions);
  
-+extern void of_iommu_get_resv_regions(struct device *dev,
-+				      struct list_head *list);
-+
- #else
- 
- static inline const struct iommu_ops *of_iommu_configure(struct device *dev,
-@@ -21,6 +24,11 @@ static inline const struct iommu_ops *of_iommu_configure(struct device *dev,
- 	return NULL;
- }
- 
-+static inline void of_iommu_get_resv_regions(struct device *dev,
-+					     struct list_head *list)
-+{
-+}
-+
- #endif	/* CONFIG_OF_IOMMU */
- 
- #endif /* __OF_IOMMU_H */
 -- 
 2.38.1
 
