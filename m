@@ -1,109 +1,96 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD326FD6
-	for <asahi@lists.linux.dev>; Thu,  3 Nov 2022 13:39:15 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id kt23so5282631ejc.7
-        for <asahi@lists.linux.dev>; Thu, 03 Nov 2022 06:39:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HuoiIm8f1+pLkMCMfNs8Z4K3LzZnaZWtse5hncoBXug=;
-        b=WOIOrTs5wDw45r6z1U4MpbhJq9ZryvRk3zOzSYUmYMec/MQxf3XmaBKYvPOrW9phMZ
-         UAswei6GmqvYKULPZKvu4EC06uAQ3oUPdBDaCRnvqBxURM5H8nk3rW7ZwO9vnG+KibgH
-         /kthT9vb9jS7RjOfaei8dc5/58TXTJsFwgDhJNGQ0fasmyfpK6C4NtDXrAgdEAvBNbKt
-         t2AvI09T0oeHAtBBYcRli8B7NjxKYYktBKvoMLPeardsdEa7xfCz/8ReTq4U8ouZmFP2
-         +CxXTIzPpF1A5apjqogM+4+goqbUNtpG4Jj2t8eAG/jProlkpbSvAbr+EnMfNxk+8l7p
-         DNIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HuoiIm8f1+pLkMCMfNs8Z4K3LzZnaZWtse5hncoBXug=;
-        b=bLSSKfzBn+wlRNt/dhlQzrnD9Jxkfx/8g40FVSjVsFmytMPaYpKUt4m4onuGyqzNQr
-         sQde6VUI7eK5h/ksIGy3oBp4AHhMgt1tvycWcij7FfDlA/B2G6VPJCDNP662Bw4hlO9P
-         If0SoXc3C05gjBwO9eBPbKiGTDfHR1THLbCii73JFfZyX3XFMg1SwHkYSdIIZUbM4Vl2
-         ra2AeggbkLCP1WBcoi0Evi8Sk68ZbA3QEWORR/Zr4SH1KwS8+WUenxdgEESLaH8CLzY+
-         VdP9eBOr/EnAgP+pDaz25jQqq8Q9SVmdMKdo9vzwvKO1zLJfENoRnQx7RM900ON9X+dL
-         7iiQ==
-X-Gm-Message-State: ACrzQf0bTUiVgioqQomlRDNI5oQzZh6NPUFRI7NcZ+8i2og0YVx+Ilpz
-	2SrtXpp6Al68712T1lXd8GitOrx9ejs=
-X-Google-Smtp-Source: AMsMyM515jSAgrgtrPv6W8cuyVKGjXoGniUUGUbH7rNavvWKdzFTbZakrYtH2QbWOm5oPcugOCAcuQ==
-X-Received: by 2002:a17:906:fe45:b0:788:15a5:7495 with SMTP id wz5-20020a170906fe4500b0078815a57495mr29363453ejb.633.1667482753890;
-        Thu, 03 Nov 2022 06:39:13 -0700 (PDT)
-Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id x20-20020a1709064a9400b0074136cac2e7sm510618eju.81.2022.11.03.06.39.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 06:39:13 -0700 (PDT)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
-	Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Ashish Mhetre <amhetre@nvidia.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-	Janne Grunau <j@jannau.net>,
-	Sameer Pujar <spujar@nvidia.com>,
-	devicetree@vger.kernel.org,
-	iommu@lists.linux-foundation.org,
-	linux-tegra@vger.kernel.org,
-	asahi@lists.linux.dev,
-	Frank Rowand <frowand.list@gmail.com>
-Subject: [PATCH v10 5/5] iommu: dma: Use of_iommu_get_resv_regions()
-Date: Thu,  3 Nov 2022 14:39:00 +0100
-Message-Id: <20221103133900.1473855-6-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221103133900.1473855-1-thierry.reding@gmail.com>
-References: <20221103133900.1473855-1-thierry.reding@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F917488
+	for <asahi@lists.linux.dev>; Thu,  3 Nov 2022 15:44:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1667490251; x=1699026251;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z/HJ+bj6Eo7qiPd6yeWolEz7ykFhuBQJvEbNeL9/IcA=;
+  b=dWpMi6y41EeVuh3OS1hVLK+6SfkyzuztoUw7lAJJJJ7l4XRX+fB82o0b
+   RP/i9RmColt7BB54k/KP4KQCQUnj3Infx7X0UBq20aHvbBMzr2aNshxbv
+   IyaEB1pawMj3lc1O+FxiLy5wbBjt4uQr4CE8IGV0CWo5zqb2wRsxVvZCi
+   D2/PdgGLNUhsIKzYUGj02g9OO8l0V/guQnMO9dKbz15i3jMpy21RVeWig
+   HebCeLktc+8/mz0B18y6k6e+zHGvlisWohpvgryAF8K/8wQj/hlsoiJRW
+   03cf5VWHhgk6yNCr8DkptItewsT/QmQvzzKWr3o7tPMJKRMsfhCE99vIg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="308436631"
+X-IronPort-AV: E=Sophos;i="5.96,235,1665471600"; 
+   d="scan'208";a="308436631"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2022 08:44:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10520"; a="777351032"
+X-IronPort-AV: E=Sophos;i="5.96,134,1665471600"; 
+   d="scan'208";a="777351032"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 03 Nov 2022 08:43:53 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 03 Nov 2022 17:43:52 +0200
+Date: Thu, 3 Nov 2022 17:43:52 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sven Peter <sven@svenpeter.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hector Martin <marcan@marcan.st>,
+	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH] usb: typec: tipd: Prevent uninitialized event{1,2} in
+ IRQ handler
+Message-ID: <Y2PhuIM7OJ/Xjsf8@kuha.fi.intel.com>
+References: <20221102161542.30669-1-sven@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221102161542.30669-1-sven@svenpeter.dev>
 
-From: Thierry Reding <treding@nvidia.com>
+On Wed, Nov 02, 2022 at 05:15:42PM +0100, Sven Peter wrote:
+> If reading TPS_REG_INT_EVENT1/2 fails in the interrupt handler event1
+> and event2 may be uninitialized when they are used to determine
+> IRQ_HANDLED vs. IRQ_NONE in the error path.
+> 
+> Fixes: c7260e29dd20 ("usb: typec: tipd: Add short-circuit for no irqs")
+> Fixes: 45188f27b3d0 ("usb: typec: tipd: Add support for Apple CD321X")
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
 
-For device tree nodes, use the standard of_iommu_get_resv_regions()
-implementation to obtain the reserved memory regions associated with a
-device.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Frank Rowand <frowand.list@gmail.com>
-Cc: devicetree@vger.kernel.org
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/iommu/dma-iommu.c | 3 +++
- 1 file changed, 3 insertions(+)
+> ---
+>  drivers/usb/typec/tipd/core.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index b637e8b378b3..2a77bab948f5 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -474,7 +474,7 @@ static void tps6598x_handle_plug_event(struct tps6598x *tps, u32 status)
+>  static irqreturn_t cd321x_interrupt(int irq, void *data)
+>  {
+>  	struct tps6598x *tps = data;
+> -	u64 event;
+> +	u64 event = 0;
+>  	u32 status;
+>  	int ret;
+>  
+> @@ -519,8 +519,8 @@ static irqreturn_t cd321x_interrupt(int irq, void *data)
+>  static irqreturn_t tps6598x_interrupt(int irq, void *data)
+>  {
+>  	struct tps6598x *tps = data;
+> -	u64 event1;
+> -	u64 event2;
+> +	u64 event1 = 0;
+> +	u64 event2 = 0;
+>  	u32 status;
+>  	int ret;
+>  
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 9297b741f5e8..709b05d3aad2 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -23,6 +23,7 @@
- #include <linux/memremap.h>
- #include <linux/mm.h>
- #include <linux/mutex.h>
-+#include <linux/of_iommu.h>
- #include <linux/pci.h>
- #include <linux/scatterlist.h>
- #include <linux/spinlock.h>
-@@ -391,6 +392,8 @@ void iommu_dma_get_resv_regions(struct device *dev, struct list_head *list)
- 	if (!is_of_node(dev_iommu_fwspec_get(dev)->iommu_fwnode))
- 		iort_iommu_get_resv_regions(dev, list);
- 
-+	if (dev->of_node)
-+		of_iommu_get_resv_regions(dev, list);
- }
- EXPORT_SYMBOL(iommu_dma_get_resv_regions);
- 
+thanks,
+
 -- 
-2.38.1
-
+heikki
