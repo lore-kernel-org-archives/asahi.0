@@ -1,40 +1,40 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956B01C3F
-	for <asahi@lists.linux.dev>; Fri,  4 Nov 2022 15:39:15 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 78EE05C012A;
-	Fri,  4 Nov 2022 11:39:14 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9F81C3F
+	for <asahi@lists.linux.dev>; Fri,  4 Nov 2022 15:42:01 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 9FAB55C0075;
+	Fri,  4 Nov 2022 11:42:00 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 04 Nov 2022 11:39:14 -0400
+  by compute2.internal (MEProxy); Fri, 04 Nov 2022 11:42:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
 	 h=cc:cc:content-transfer-encoding:date:date:from:from
 	:in-reply-to:message-id:mime-version:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1667576354; x=1667662754; bh=AWuyVgNZ5N
-	X5XYa72JpSx89IAy74SR0YpbdPJ6sn2uE=; b=ahSAhFPj0BXH9eemkB0r3x797M
-	Oy9TkHBvbH4GA5qiXfKVhQehTcDjWFyz+kC2AaUD/Ta1lxkhjA5csDRYJPuGGsVO
-	gR0j8YfQZTVcEg1Zs/XG9Pt2af4EeV0th4TpP4zxm57GvUftKs2s6L5SlbvzrJdi
-	aql3KPFDUyfTGmuOkRxIGLXfjqakzOIc3MHQmg8ZSFY97pk2zWKIHStaTSUyfXfb
-	iXuu6SfKpElBM4dWRWrYZVS77aFB3VfdFJTg8nXQutby6IFsxZKLL5vQVYIJ/nue
-	nWWzZtHBQHUpJDOblIIMomNWULU/zFwDJZv6w8k97Z/Qhi8QELcA2Hs2uDfg==
+	:subject:to:to; s=fm3; t=1667576520; x=1667662920; bh=K/Jy/ap7eS
+	35A75a4wuv/qSzMWMS57fbfihQm65uJFk=; b=gSVRsc6gTJel/XjnIYYG6Ppafn
+	SRUXo1y/EgGMn6qvDPFrE8QMKvueUOCk2laIrbwLxj45K8OicwINlEhoYgjBeuhb
+	HKq4jM582NDRcKsS2KCf8b3y6h0OCAm3fS4iXGl11crEhPx/gC01VJdRlwcSD9Nt
+	HFEI1F4wi8IfhRY7Ge0wyyDi4hjZ71xbp/A57aygls/kUiVNUa0jicoDAzwfTOkP
+	DrtQXUTEiFCLH7DEuq08XrfwAEGn5BfSYW1Sdq2Mo8/vTwrNXyksCvK40+56Ipf0
+	IBikYnxT7FcK/c5R099s6mP0FO5a0Z41qje7sQsrqmvoHK8a4D0qXsxURaZQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1667576354; x=1667662754; bh=AWuyVgNZ5NX5XYa72JpSx89IAy74SR0Ypbd
-	PJ6sn2uE=; b=nUcvVRc3SwF/ylqQMXBOLjkzjAXE1I8i/u3p3V1Qp4I1c1XtoWH
-	d9aIeKZUQ7x62GmT28op0g7a0viOaBHK+8duCMgFC+U0xmUiaVLGVd18jg6pDMoz
-	rOfyfS+Xi/cOeRFx5dp0OzPR+RuqMAqRrbf8AM5zbly3pzA2/6sEz9RhjkCyMrJV
-	oMocTuze0pszi/NuW9DO0WLaVnk+6Qg3LdXJ6Nm7xgmrxdc27pYOAVKWp3SRRCAw
-	1heCOUnjVZ7nJHeWFQhu3H5rnvGL85SJiMr8E4ttfwkRopqXwencsYyaatwOq4rh
-	W8WJ7v/BRH2CobIUQRAjMGG4dxcAepfzQ4A==
-X-ME-Sender: <xms:IDJlY8EYbauaGtbciFWggHjd3esTKjZJd197m3TxYPLoXl5fybociw>
-    <xme:IDJlY1UMk3lzi9cnWl_DTuIWTjZueg5ohLb9On2pRi_JhuyeOh1P70VUXgaeSQ6Io
-    KDsN1bB2Hlj28A_0Lg>
-X-ME-Received: <xmr:IDJlY2L2bOxHLBC-F7TI1uVPjTZm3XOIKZX91OfI1ZefcNuNljDGv-E8gIp3QGn9PVBAGcJ6og6QNIw2OGzjbVdNY7503c4_NckSmB4OScf8rl_gWky5QWQr5EWrqQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdejiecutefuodetggdotefrodftvf
+	1667576520; x=1667662920; bh=K/Jy/ap7eS35A75a4wuv/qSzMWMS57fbfih
+	Qm65uJFk=; b=BP5OIs+31Q2jEpyxftz4NKi25JYuYkihFe1ohPfu8+sleOuVjIH
+	MmxDoqp6nrrQH1lFCNBNGr+GWRC8mJj2PGO2+cr3RrijsjpAIvIkwzSBKJ6iPwSf
+	B3+JCKC41Q7PhnhrzFarYKddGJ128SoGMpF0UAx5z4OlbL4QKGHK05X/MJ+aXxAH
+	bfMTghDiakCznI9+lF/doUfcwqN4V63LhVp+V0wZAT6u1icyFQWOX/LKK/2Vq9IH
+	0wrvUkjHhiG0nrQDsqtWJR9Oc5bKtsluxU0xj/sxnl9NeAmYMEG66ESqLknmT+H8
+	3IG7f6LSH8symcWYUlWxxQk0HIn8vw066vQ==
+X-ME-Sender: <xms:xjJlY9VPgHsCAk7HOTEUChjFZo0cvjyT-G69b1QzYCzor3EFfFC45A>
+    <xme:xjJlY9l3rXNZ4gW-vEh_aognrjgH3VvOBlEbHnWYZ_yBtoP-wFOmMivmINzqisB4b
+    aP_0f59dI6b13FeJbc>
+X-ME-Received: <xmr:xjJlY5ZV9bucIBKMJVWuCy9BRcc-Oc_NoO84taJzhNHFC-oBc24PNePfy_zBwgTboe9R-09qDk0FZz40f9jYAMTb_PWKgpHGpF_jiAJZqZqbs4vtHaJAM54crTg-0w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdejjecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcurfgv
@@ -42,13 +42,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvddugdejiecutefuodetggdote
     epleduffeiheeuvedtffevtdeuleeljeduudfgtedtvefhfeffvdfghfejhefgleelnecu
     vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnse
     hsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:IDJlY-Ff_PLIWG9hG_F3xZ-XAA_fbGXEvBlAxBaV0geST3lRGyEZgQ>
-    <xmx:IDJlYyW9SPHBMElzemNOV-V8gQq2aQhs5tYZG8Rk16mTQ9EvPVPTOg>
-    <xmx:IDJlYxNj6gofcs_xlFyAj_1jirAGuuU7LqcFQPA59moX3E9bPfzusw>
-    <xmx:IjJlY0IwxqN49BJGSLs3d4bPPVXJV31l0_0uu78eM544X-uElFWcMg>
+X-ME-Proxy: <xmx:xjJlYwWhhbEY8jO78OFqqiVNHKS-aQijFGRNM5hfOari0DdmqaVFTg>
+    <xmx:xjJlY3nRb6c7lduV4-Nf6QUgtA2YTBWDji1a06gs9zP_-5W_JVRUKw>
+    <xmx:xjJlY9eCQUuJ4L8G_1ZevR2oLl-vFOljK7-2E2VvlbczQ_iugIAzkQ>
+    <xmx:yDJlY1ZUJRRdudzt3iM67Jtf2PgZgzyycBK26a8YyvJh7GNqgazJHw>
 Feedback-ID: i51094778:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 4 Nov 2022 11:39:11 -0400 (EDT)
+ 4 Nov 2022 11:41:56 -0400 (EDT)
 From: Sven Peter <sven@svenpeter.dev>
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: Sven Peter <sven@svenpeter.dev>,
@@ -58,9 +58,9 @@ Cc: Sven Peter <sven@svenpeter.dev>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	kernel test robot <lkp@intel.com>
-Subject: [PATCH] soc: apple: sart: Stop casting function pointer signatures
-Date: Fri,  4 Nov 2022 16:39:02 +0100
-Message-Id: <20221104153902.78999-1-sven@svenpeter.dev>
+Subject: [PATCH] soc: apple: rtkit: Stop casting function pointer signatures
+Date: Fri,  4 Nov 2022 16:41:53 +0100
+Message-Id: <20221104154153.79373-1-sven@svenpeter.dev>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -70,38 +70,39 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixes: b170143ae111 ("soc: apple: Add SART driver")
+Fixes: 9bd1d9a0d8bb ("soc: apple: Add RTKit IPC library")
 Reported-by: kernel test robot <lkp@intel.com>
 Signed-off-by: Sven Peter <sven@svenpeter.dev>
 ---
- drivers/soc/apple/sart.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/soc/apple/rtkit.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/soc/apple/sart.c b/drivers/soc/apple/sart.c
-index 83804b16ad03..afa111736899 100644
---- a/drivers/soc/apple/sart.c
-+++ b/drivers/soc/apple/sart.c
-@@ -164,6 +164,11 @@ static int apple_sart_probe(struct platform_device *pdev)
- 	return 0;
+diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+index ecc1a818b23d..fa3cda831d2b 100644
+--- a/drivers/soc/apple/rtkit.c
++++ b/drivers/soc/apple/rtkit.c
+@@ -922,8 +922,10 @@ int apple_rtkit_wake(struct apple_rtkit *rtk)
  }
+ EXPORT_SYMBOL_GPL(apple_rtkit_wake);
  
-+static void apple_sart_put_device(void *dev)
-+{
-+	put_device(dev);
-+}
-+
- struct apple_sart *devm_apple_sart_get(struct device *dev)
+-static void apple_rtkit_free(struct apple_rtkit *rtk)
++static void apple_rtkit_free(void *data)
  {
- 	struct device_node *sart_node;
-@@ -187,7 +192,7 @@ struct apple_sart *devm_apple_sart_get(struct device *dev)
- 		return ERR_PTR(-EPROBE_DEFER);
- 	}
++	struct apple_rtkit *rtk = data;
++
+ 	mbox_free_channel(rtk->mbox_chan);
+ 	destroy_workqueue(rtk->wq);
  
--	ret = devm_add_action_or_reset(dev, (void (*)(void *))put_device,
-+	ret = devm_add_action_or_reset(dev, apple_sart_put_device,
- 				       &sart_pdev->dev);
+@@ -946,8 +948,7 @@ struct apple_rtkit *devm_apple_rtkit_init(struct device *dev, void *cookie,
+ 	if (IS_ERR(rtk))
+ 		return rtk;
+ 
+-	ret = devm_add_action_or_reset(dev, (void (*)(void *))apple_rtkit_free,
+-				       rtk);
++	ret = devm_add_action_or_reset(dev, apple_rtkit_free, rtk);
  	if (ret)
  		return ERR_PTR(ret);
+ 
 -- 
 2.25.1
 
