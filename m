@@ -1,119 +1,124 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B48428EC
-	for <asahi@lists.linux.dev>; Sun,  6 Nov 2022 15:49:57 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7A9765C00A3;
-	Sun,  6 Nov 2022 10:49:56 -0500 (EST)
-Received: from imap47 ([10.202.2.97])
-  by compute2.internal (MEProxy); Sun, 06 Nov 2022 10:49:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1667749796; x=1667836196; bh=2R
-	ExpLgU9g1N+kqrPRFMdAkMdWjT7WLqNDmpPvDQ17Q=; b=DmjqHN7yrCbLOSSh7d
-	SAzD+TBzSfihWszXmjEMLhCYtRM23iy3t8v23UduvgKsczS9UaRHpEvTq8v+3tOL
-	f7HXnwv2mP/fli3F0wjI1Qd20xANu765VA67yWgsWl7LytYgL+TRmb3rsGRaF1hn
-	yU8u/0CD0RD2XZG0YraxctVLF0Vuk1PwiUUbl4BvBvtW2JAokjG2dtk7KPEJ9Shq
-	5Eh4yiFrIAMZmwGGdZTBzQfXj3kgadhISraqH4emcnmsVdhVywi+9P4xu3AFHaBT
-	nZWf9VpS06ydtiIg5dOmPHKcGZ411UlzLAwHqg5r2UmGyDAiI8JLDheQIlDq2LfS
-	1/0A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1667749796; x=1667836196; bh=2RExpLgU9g1N+kqrPRFMdAkMdWjT
-	7WLqNDmpPvDQ17Q=; b=ZCBNc/BUa/qNzefy+yhJM+dcOSlUenf99lBMJGGmtaPS
-	XdlSmmhqTdrvUZY6cQE5EAZcBPwWRxaARENTLhdeTlbItl7EfUDSkrxM9x+IuzWH
-	Snp/Brj1PGVvXB9azni1q2npz6prh+naw4c+XPhei5mHxmg9WNbnd87lALgCdOTP
-	Suv1a+yX94bZwXClzCBGROkFhjjr4y+ai59peTzKOtzkS4KTReG7TbJvEerCN9tE
-	3x3xr2xRo5jSuMUAzNswfBZoErv/xRpRy/IKFPwiv4izeXTxUwJnZWsRloaLXBYd
-	Sf/8TvFmRA7LAEUDtdFNpv16UJ+69ow6PELtHXBSMg==
-X-ME-Sender: <xms:pNdnYyI3q7euMRFPQdA9gcg20ASDsAviCGJHa0W7H-4FT5kd-sNPPg>
-    <xme:pNdnY6IhvZ4DJ6kK0m_c4EI-jHNM_oN5_THAzyfv89T--5baPor7XfDl3VVQcuHJS
-    CW72OD5nqGjPbyHUhs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrvdeigdejhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
-    nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
-    htthgvrhhnpeduiedvgeekffdvffdtkefhhedtjeduleffleegleefkefgueeijeejueek
-    gfdtffenucffohhmrghinhepshhpihhnihgtshdrnhgvthenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdr
-    uggvvh
-X-ME-Proxy: <xmx:pNdnYys2d_fjlycfGIvKnoe_0GI9blBLCIBps-jvOSB6FKbG5rTQOg>
-    <xmx:pNdnY3Ye9Pazw9PaGEgJz9l-Pmk4rvAo3kIAZ1YmkSuqQbVomK6gPw>
-    <xmx:pNdnY5bAWh74a2sGmia9HKmcC-aArMCeJv87PVWPxNWkU3Kg_Ar5zQ>
-    <xmx:pNdnY3P_26aZxbhFZe6LB41pZja6RekhVgEankWq7aLjy_86wsL8VA>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 38700A6007C; Sun,  6 Nov 2022 10:49:56 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1087-g968661d8e1-fm-20221021.001-g968661d8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236591FBA
+	for <asahi@lists.linux.dev>; Mon,  7 Nov 2022 05:14:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 923A141EF0;
+	Mon,  7 Nov 2022 05:14:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1667798078; bh=NYmJfcOtDKmddaHWfWTLrq4ChxppgcegnFV/m6Pblq8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=nIN9aYbjQD/ISeQ3F05tSjvX6nclS/rcRpvC23y9cJyLMgTPPb9sLNGLQuDo3nPSD
+	 FoFZpppyB0C5ESo6qVFF39In4nzGoAqPvTfe+B9V3Xi44r2TfURPkwLabqzHp05h3d
+	 2wSMz7UXnf5JtEd/yuv3tgZkypXF016l1vu7pAbj6NJtk8RIBV2muCNMIeJDro2NEb
+	 1LZlZvAK0piikTADwtMXjkPm7kxWVWMratlkaw8bnyGYMy6LhnrntjRZ27LeTtUeZX
+	 mYHLmlTacyeA/uJ5mg2xH8xU9YRlo+eeNF/K4wup3BDO+RnJ0POMtta+aiyEt1SCir
+	 dhMZcCrDAIsaQ==
+Message-ID: <eec45f54-097b-1f16-f572-44d9499a51c0@marcan.st>
+Date: Mon, 7 Nov 2022 14:14:32 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <47fd4a93-8544-41eb-9ddd-1501b9006cf0@app.fastmail.com>
-In-Reply-To: <20221102141513.49289-1-fnkl.kernel@gmail.com>
-References: <20221102141513.49289-1-fnkl.kernel@gmail.com>
-Date: Sun, 06 Nov 2022 16:49:35 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Sasha Finkelstein" <fnkl.kernel@gmail.com>,
- "Thierry Reding" <thierry.reding@gmail.com>,
- "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>
-Cc: "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] PWM and keyboard backlight driver for ARM Macs
-Content-Type: text/plain
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4] i2c/pasemi: PASemi I2C controller IRQ enablement
+Content-Language: en-US
+To: Arminder Singh <arminders208@outlook.com>, linux-kernel@vger.kernel.org
+Cc: linux-i2c@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, Paul Mackerras <paulus@samba.org>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Sven Peter <sven@svenpeter.dev>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, asahi@lists.linux.dev
+References: <MN2PR01MB5358D35DEBAB82A80629EBB59F3A9@MN2PR01MB5358.prod.exchangelabs.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <MN2PR01MB5358D35DEBAB82A80629EBB59F3A9@MN2PR01MB5358.prod.exchangelabs.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 05/11/2022 20.56, Arminder Singh wrote:
+> This patch adds IRQ support to the PASemi I2C controller driver to
+> increase the performace of I2C transactions on platforms with PASemi I2C
+> controllers. While primarily intended for Apple silicon platforms, this
+> patch should also help in enabling IRQ support for older PASemi hardware
+> as well should the need arise.
+> 
+> This version of the patch has been tested on an M1 Ultra Mac Studio,
+> as well as an M1 MacBook Pro, and userspace launches successfully
+> while using the IRQ path for I2C transactions.
+> 
+> Signed-off-by: Arminder Singh <arminders208@outlook.com>
+> ---
+> This version of the patch fixes some reliability issues brought up by
+> Hector and Sven in the v3 patch email thread. First, this patch
+> increases the timeout value in pasemi_smb_waitready to 100ms from 10ms,
+> as the original 10ms timeout in the driver was incorrect according to the
+> controller's datasheet as Hector pointed out in the v3 patch email thread.
+> This incorrect timeout had caused some issues with the tps6598x controller
+> on Apple silicon platforms.
+> 
+> This version of the patch also adds a reg_write to REG_IMASK in the IRQ
+> handler, because as Sven pointed out in the previous thread, the I2C
+> transaction interrupt is level sensitive so not masking the interrupt in
+> REG_IMASK will cause the interrupt to trigger again when it leaves the IRQ
+> handler until it reaches the call to reg_write after the completion expires.
+> 
+> Patch changelog:
+> 
+> v3 to v4 changes:
+>  - Increased the timeout value for I2C transactions to 100ms, as the original
+>    10ms timeout in the driver was incorrect according to the I2C chip's
+>    datasheet. Mitigates an issue with the tps6598x controller on Apple
+>    silicon platforms.
+>  - Added a reg_write to REG_IMASK inside the IRQ handler, which prevents
+>    the IRQ from triggering again after leaving the IRQ handler, as the
+>    IRQ is level-sensitive.
+> 
+> v2 to v3 changes:
+>  - Fixed some whitespace and alignment issues found in v2 of the patch
+> 
+> v1 to v2 changes:
+>  - moved completion setup from pasemi_platform_i2c_probe to
+>    pasemi_i2c_common_probe to allow PASemi and Apple platforms to share
+>    common completion setup code in case PASemi hardware gets IRQ support
+>    added
+>  - initialized the status variable in pasemi_smb_waitready when going down
+>    the non-IRQ path
+>  - removed an unnecessary cast of dev_id in the IRQ handler
+>  - fixed alignment of struct member names in i2c-pasemi-core.h
+>    (addresses Christophe's feedback in the original submission)
+>  - IRQs are now disabled after the wait_for_completion_timeout call
+>    instead of inside the IRQ handler
+>    (prevents the IRQ from going off after the completion times out)
+>  - changed the request_irq call to a devm_request_irq call to obviate
+>    the need for a remove function and a free_irq call
+>    (thanks to Sven for pointing this out in the original submission)
+>  - added a reinit_completion call to pasemi_reset 
+>    as a failsafe to prevent missed interrupts from causing the completion
+>    to never complete (thanks to Arnd Bergmann for pointing this out)
+>  - removed the bitmask variable in favor of just using the value
+>    directly (it wasn't used anywhere else)
+> 
+> v3: https://lore.kernel.org/linux-i2c/MN2PR01MB5358ED8FC32C0CFAEBD4A0E19F5F9@MN2PR01MB5358.prod.exchangelabs.com/T/
+> 
+> v2: https://lore.kernel.org/linux-i2c/MN2PR01MB535821C8058C7814B2F8EEDF9F599@MN2PR01MB5358.prod.exchangelabs.com/T/
+> 
+> v1: https://lore.kernel.org/linux-i2c/MN2PR01MB535838492432C910F2381F929F6F9@MN2PR01MB5358.prod.exchangelabs.com/T/
+> 
+>  drivers/i2c/busses/i2c-pasemi-core.c     | 32 ++++++++++++++++++++----
+>  drivers/i2c/busses/i2c-pasemi-core.h     |  5 ++++
+>  drivers/i2c/busses/i2c-pasemi-platform.c |  6 +++++
+>  3 files changed, 38 insertions(+), 5 deletions(-)
+> 
 
-On Wed, Nov 2, 2022, at 15:15, Sasha Finkelstein wrote:
-> Hi,
->
-> This is the v2 of the patch series to add PWM and keyboard backlight
-> drivers for ARM macs. The changes from v1 address the review
-> comments on that patch set.
->
-> v1: https://www.spinics.net/lists/linux-pwm/msg19500.html
->
-> Best Regards.
->
-> Sasha Finkelstein (4):
->   dt-bindings: pwm: Add Apple PWM controller
->   pwm: Add Apple PWM controller
->   arm64: dts: apple: t8103: Add PWM controller
->   MAINTAINERS: Add entries for Apple PWM driver
->
->  .../bindings/pwm/apple,s5l-fpwm.yaml          |  51 +++++++
->  MAINTAINERS                                   |   2 +
->  arch/arm64/boot/dts/apple/t8103-j293.dts      |  20 +++
->  arch/arm64/boot/dts/apple/t8103-j313.dts      |  20 +++
->  arch/arm64/boot/dts/apple/t8103.dtsi          |   9 ++
->  drivers/pwm/Kconfig                           |  12 ++
->  drivers/pwm/Makefile                          |   1 +
->  drivers/pwm/pwm-apple.c                       | 127 ++++++++++++++++++
->  8 files changed, 242 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
->  create mode 100644 drivers/pwm/pwm-apple.c
->
-> -- 
-> 2.37.3
+Reviewed-by: Hector Martin <marcan@marcan.st>
 
-this looks good to me, entire series:
-
-Acked-by: Sven Peter <sven@svenpeter.dev>
-
-
-Best,
-
-
-Sven
+- Hector
