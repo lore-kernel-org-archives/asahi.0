@@ -1,258 +1,142 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618208BE1
-	for <asahi@lists.linux.dev>; Tue,  8 Nov 2022 15:03:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=K1GF++C5iK1Z1QIdYa8iJZqKhnznICU8bhdu91unaWc=; b=P98S4CWRu2w9pCeXdlGURZ631I
-	lVyaie3VyAOaNZhBzCVcyo4ve1fN+7ccPfLD3B5H1DmVCAchT7oJdpPu8nWe0uar/jQQzJQgOkMOZ
-	PNOEv5mTtFsVp8VRwUuzxO4dK7Zdhgfwc3R58TzywN/46OBd7iU0qZTW3sKSr3BhwgWD/5qK1qhxD
-	2A7MEg/S4DOoQ0On3xNH+4FYGY+MCFxwO6KmEj/0ThRVgP53SOqtPoXFiyQ/IYEWNDsBlmOhn4Ga2
-	MOqqjQD9O7MDoGG6AEWhhMJWRYYzGbTusodu2K+7NiQcObRPpjNVMoN9O6B/yCCKpAdf7t3megbFh
-	7Rth/DEw==;
-Received: from [2001:4bb8:191:2450:b4e6:4796:2c38:d4bf] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1osQ8L-006Bux-TP; Tue, 08 Nov 2022 15:03:26 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Gerd Bayer <gbayer@linux.ibm.com>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 11/12] nvme-pci: split the initial probe from the rest path
-Date: Tue,  8 Nov 2022 16:02:51 +0100
-Message-Id: <20221108150252.2123727-12-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221108150252.2123727-1-hch@lst.de>
-References: <20221108150252.2123727-1-hch@lst.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55B68BE1
+	for <asahi@lists.linux.dev>; Tue,  8 Nov 2022 16:25:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9865AC43147
+	for <asahi@lists.linux.dev>; Tue,  8 Nov 2022 16:25:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1667924729;
+	bh=G5C8vewa6rwRjTQumguODaoFHIR0XcRiyJloc2k0v58=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=YDvCNfZAE++VSoSMXo4tFfRN+M7Squ9lo1fAKdJ6Sc3BofusKDvrVPwfNeRwrh3J1
+	 xGcNsTn2HEF6arClGp4F2hDprqj2KyvNFQpk7mi+6axr/bbbAdBqh7tDSkk7y8uExr
+	 R7SLLKeI5TarnucAc0XKQ4+WKbqDAmdCEB0YIkHGJVmcuVmQ9sqpGvtfiRpdmy3nbM
+	 MFBFH4ZVi+v22MYHLfOZUFqvSswpasrp5DntthEkcjERWfAtFKMnjXRVX/WqTeEw8D
+	 9quoVRVLvMJ77tchhcWNmbn/qhfNmwnk0202ZSjjXEkP5F3yb11dqm8Z0AhH1g4tgQ
+	 Yco5taEowexqg==
+Received: by mail-lj1-f171.google.com with SMTP id x21so21870407ljg.10
+        for <asahi@lists.linux.dev>; Tue, 08 Nov 2022 08:25:29 -0800 (PST)
+X-Gm-Message-State: ACrzQf1boC2m+axnhypT/fG9uaqyCafzgE2CeApE/9wobrrBjcdDh/24
+	5hrnw/S17ugqZYh3vDjmL9PqFxbD5ZrYacth4A==
+X-Google-Smtp-Source: AMsMyM4iXpsQim/WrEqsQekIVlLAJVyM1LSjKUemsBwuFcfOC9oe0pnOfouA+Sw6MXCdIgQeUs5R9dLsb5ojWInStbo=
+X-Received: by 2002:a2e:9a85:0:b0:275:1343:df71 with SMTP id
+ p5-20020a2e9a85000000b002751343df71mr7268096lji.215.1667924727546; Tue, 08
+ Nov 2022 08:25:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20221103133900.1473855-1-thierry.reding@gmail.com>
+ <20221103133900.1473855-3-thierry.reding@gmail.com> <20221107193035.GA1394942-robh@kernel.org>
+ <Y2popxNd2uIdXmlf@orome>
+In-Reply-To: <Y2popxNd2uIdXmlf@orome>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 8 Nov 2022 10:25:18 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJ6XS7UZiEdjb2pyq_LmOLWBGcWHKsntTgjVFRi=4JMXw@mail.gmail.com>
+Message-ID: <CAL_JsqJ6XS7UZiEdjb2pyq_LmOLWBGcWHKsntTgjVFRi=4JMXw@mail.gmail.com>
+Subject: Re: [PATCH v10 2/5] of: Stop DMA translation at last DMA parent
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Nicolin Chen <nicolinc@nvidia.com>, 
+	Krishna Reddy <vdumpa@nvidia.com>, Ashish Mhetre <amhetre@nvidia.com>, 
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, Janne Grunau <j@jannau.net>, 
+	Sameer Pujar <spujar@nvidia.com>, devicetree@vger.kernel.org, 
+	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-nvme_reset_work is a little fragile as it needs to handle both resetting
-a live controller and initializing one during probe.  Split out the initial
-probe and open code it in nvme_probe and leave nvme_reset_work to just do
-the live controller reset.
+On Tue, Nov 8, 2022 at 8:33 AM Thierry Reding <thierry.reding@gmail.com> wrote:
+>
+> On Mon, Nov 07, 2022 at 01:30:35PM -0600, Rob Herring wrote:
+> > On Thu, Nov 03, 2022 at 02:38:57PM +0100, Thierry Reding wrote:
+> > > From: Thierry Reding <treding@nvidia.com>
+> > >
+> > > DMA parent devices can define separate DMA busses via the "dma-ranges"
+> > > and "#address-cells" and "#size-cells" properties. If the DMA bus has
+> > > different cell counts than its parent, this can cause the translation
+> > > of DMA address to fails (e.g. truncation from 2 to 1 address cells).
+> >
+> > My assumption in this case was that the parent cell sizes should be
+> > increased to 2 cells. That tends to be what people want to do anyways
+> > (64-bit everywhere on 64-bit CPUs).
+> >
+> > > Avoid this by stopping to search for DMA parents when a parent without
+> > > a "dma-ranges" property is encountered. Also, since it is the DMA parent
+> > > that defines the DMA bus, use the bus' cell counts instead of its parent
+> > > cell counts.
+> >
+> > We treat no 'dma-ranges' as equivalent to 'dma-ranges;'. IIRC, the spec
+> > even says that because I hit that case.
+> >
+> > Is this going to work for 'dma-device' with something like this?:
+> >
+> >   bus@0 {
+> >     dma-ranges = <...>;
+> >     child-bus@... {
+> >       dma-device@... {
+> >       };
+> >     };
+> >   };
+> >
+> > >
+> > > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > > ---
+> > > Changes in v10:
+> > > - new patch to avoid address truncation when traversing a bus hierarchy
+> > >   with mismatching #address-cells properties
+> > >
+> > > Example from Tegra194 (redacted for clarity):
+> > >
+> > >     reserved-memory {
+> > >             #address-cells = <2>;
+> > >             #size-cells = <2>;
+> > >             ranges;
+> > >
+> > >             framebuffer@0,0 {
+> > >                     compatible = "framebuffer";
+> > >                     reg = <0x2 0x57320000 0x0 0x00800000>;
+> > >                     iommu-addresses = <&dc0 0x2 0x57320000 0x0 0x00800000>;
+> > >             };
+> > >     };
+> > >
+> > >     bus@0 {
+> > >             /* truncation happens here */
+> > >             #address-cells = <1>;
+> > >             #size-cells = <1>;
+> > >             ranges = <0x0 0x0 0x0 0x40000000>;
+> > >
+> > >             mc: memory-controller@2c00000 {
+> > >                     #address-cells = <2>;
+> > >                     #size-cells = <2>;
+> >
+> > I think this is wrong. The parent should have more or equal number of
+> > cells.
+>
+> I was half suspecting that. The reason why I hesitated is that I recall
+> having the opposite discussion a while ago when we were adding bus@0 to
+> 64-bit Tegra devices. We had at some point (probably around Tegra114 or
+> Tegra124, 32-bit ARM chips that support LPAE) started to set #address-
+> cells = <2> precisely because the CPU could address more than 32-bit
+> addresses. We then did the same thing transitioning to 64-bit ARM. When
+> we then started discussing bus@0, someone (might have been you) had
+> argued that all these peripherals could be addressed with a single cell
+> so there'd be no need for #address-cells = <2>, so then we went with
+> that.
 
-This fixes a recently introduced bug where nvme_dev_disable causes a NULL
-pointer dereferences in blk_mq_quiesce_tagset because the tagset pointer
-is not set when the reset state is entered directly from the new state.
-The separate probe code can skip the reset state and probe directly and
-fixes this.
+I may have not thinking about the DMA side of things.
 
-To make sure the system isn't single threaded on enabling nvme
-controllers, set the PROBE_PREFER_ASYNCHRONOUS flag in the device_driver
-structure so that the driver core probes in parallel.
+> Reverting back to #address-cells = <2> is now going to cause quite a bit
+> of churn, but I guess if it's the right thing, so be it.
+>
+> Another possible alternative would be to move the memory-controller node
+> from the bus@0 to the top-level. Not sure if that's any better.
 
-Fixes: 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
-Reported-by: Gerd Bayer <gbayer@linux.ibm.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/pci.c | 139 ++++++++++++++++++++++++----------------
- 1 file changed, 83 insertions(+), 56 deletions(-)
+I stumbled upon 'ibm,#dma-address-cells' and 'ibm,#dma-size-cells'
+while reviewing this. Those seem to be for the same purpose AFAICT. We
+could consider adding those (w/o 'ibm') to handle this situation.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1b3c96a4b7c90..1c8c70767cb8a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2821,15 +2821,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	result = nvme_pci_enable(dev);
- 	if (result)
- 		goto out_unlock;
--
--	if (!dev->ctrl.admin_q) {
--		result = nvme_pci_alloc_admin_tag_set(dev);
--		if (result)
--			goto out_unlock;
--	} else {
--		nvme_start_admin_queue(&dev->ctrl);
--	}
--
-+	nvme_start_admin_queue(&dev->ctrl);
- 	mutex_unlock(&dev->shutdown_lock);
- 
- 	/*
-@@ -2854,9 +2846,6 @@ static void nvme_reset_work(struct work_struct *work)
- 		 */
- 		memset(dev->dbbuf_dbs, 0, nvme_dbbuf_size(dev));
- 		memset(dev->dbbuf_eis, 0, nvme_dbbuf_size(dev));
--	} else {
--		if (dev->ctrl.oacs & NVME_CTRL_OACS_DBBUF_SUPP)
--			nvme_dbbuf_dma_alloc(dev);
- 	}
- 
- 	if (dev->ctrl.hmpre) {
-@@ -2869,37 +2858,23 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (result)
- 		goto out;
- 
--	if (dev->ctrl.tagset) {
--		/*
--		 * This is a controller reset and we already have a tagset.
--		 * Freeze and update the number of I/O queues as thos might have
--		 * changed.  If there are no I/O queues left after this reset,
--		 * keep the controller around but remove all namespaces.
--		 */
--		if (dev->online_queues > 1) {
--			nvme_start_queues(&dev->ctrl);
--			nvme_wait_freeze(&dev->ctrl);
--			nvme_pci_update_nr_queues(dev);
--			nvme_dbbuf_set(dev);
--			nvme_unfreeze(&dev->ctrl);
--		} else {
--			dev_warn(dev->ctrl.device, "IO queues lost\n");
--			nvme_mark_namespaces_dead(&dev->ctrl);
--			nvme_start_queues(&dev->ctrl);
--			nvme_remove_namespaces(&dev->ctrl);
--			nvme_free_tagset(dev);
--		}
-+	/*
-+	 * Freeze and update the number of I/O queues as thos might have
-+	 * changed.  If there are no I/O queues left after this reset, keep the
-+	 * controller around but remove all namespaces.
-+	 */
-+	if (dev->online_queues > 1) {
-+		nvme_start_queues(&dev->ctrl);
-+		nvme_wait_freeze(&dev->ctrl);
-+		nvme_pci_update_nr_queues(dev);
-+		nvme_dbbuf_set(dev);
-+		nvme_unfreeze(&dev->ctrl);
- 	} else {
--		/*
--		 * First probe.  Still allow the controller to show up even if
--		 * there are no namespaces.
--		 */
--		if (dev->online_queues > 1) {
--			nvme_pci_alloc_tag_set(dev);
--			nvme_dbbuf_set(dev);
--		} else {
--			dev_warn(dev->ctrl.device, "IO queues not created\n");
--		}
-+		dev_warn(dev->ctrl.device, "IO queues lost\n");
-+		nvme_mark_namespaces_dead(&dev->ctrl);
-+		nvme_start_queues(&dev->ctrl);
-+		nvme_remove_namespaces(&dev->ctrl);
-+		nvme_free_tagset(dev);
- 	}
- 
- 	/*
-@@ -3055,15 +3030,6 @@ static unsigned long check_vendor_combination_bug(struct pci_dev *pdev)
- 	return 0;
- }
- 
--static void nvme_async_probe(void *data, async_cookie_t cookie)
--{
--	struct nvme_dev *dev = data;
--
--	flush_work(&dev->ctrl.reset_work);
--	flush_work(&dev->ctrl.scan_work);
--	nvme_put_ctrl(&dev->ctrl);
--}
--
- static struct nvme_dev *nvme_pci_alloc_ctrl(struct pci_dev *pdev,
- 		const struct pci_device_id *id)
- {
-@@ -3155,12 +3121,72 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto out_release_prp_pools;
- 
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
-+
-+	result = nvme_pci_enable(dev);
-+	if (result)
-+		goto out_release_iod_mempool;
-+
-+	result = nvme_pci_alloc_admin_tag_set(dev);
-+	if (result)
-+		goto out_disable;
-+
-+	/*
-+	 * Mark the controller as connecting before sending admin commands to
-+	 * allow the timeout handler to do the right thing.
-+	 */
-+	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_CONNECTING)) {
-+		dev_warn(dev->ctrl.device,
-+			"failed to mark controller CONNECTING\n");
-+		result = -EBUSY;
-+		goto out_disable;
-+	}
-+
-+	result = nvme_init_ctrl_finish(&dev->ctrl, false);
-+	if (result)
-+		goto out_disable;
-+
-+	if (dev->ctrl.oacs & NVME_CTRL_OACS_DBBUF_SUPP)
-+		nvme_dbbuf_dma_alloc(dev);
-+
-+	if (dev->ctrl.hmpre) {
-+		result = nvme_setup_host_mem(dev);
-+		if (result < 0)
-+			goto out_disable;
-+	}
-+
-+	result = nvme_setup_io_queues(dev);
-+	if (result)
-+		goto out_disable;
-+
-+	if (dev->online_queues > 1) {
-+		nvme_pci_alloc_tag_set(dev);
-+		nvme_dbbuf_set(dev);
-+	} else {
-+		dev_warn(dev->ctrl.device, "IO queues not created\n");
-+	}
-+
-+	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_LIVE)) {
-+		dev_warn(dev->ctrl.device,
-+			"failed to mark controller live state\n");
-+		result = -ENODEV;
-+		goto out_disable;
-+	}
-+
- 	pci_set_drvdata(pdev, dev);
- 
--	nvme_reset_ctrl(&dev->ctrl);
--	async_schedule(nvme_async_probe, dev);
-+	nvme_start_ctrl(&dev->ctrl);
-+	nvme_put_ctrl(&dev->ctrl);
- 	return 0;
- 
-+out_disable:
-+	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
-+	nvme_dev_disable(dev, true);
-+	nvme_free_host_mem(dev);
-+	nvme_dev_remove_admin(dev);
-+	nvme_dbbuf_dma_free(dev);
-+	nvme_free_queues(dev, 0);
-+out_release_iod_mempool:
-+	mempool_destroy(dev->iod_mempool);
- out_release_prp_pools:
- 	nvme_release_prp_pools(dev);
- out_dev_unmap:
-@@ -3556,11 +3582,12 @@ static struct pci_driver nvme_driver = {
- 	.probe		= nvme_probe,
- 	.remove		= nvme_remove,
- 	.shutdown	= nvme_shutdown,
--#ifdef CONFIG_PM_SLEEP
- 	.driver		= {
--		.pm	= &nvme_dev_pm_ops,
--	},
-+		.probe_type	= PROBE_PREFER_ASYNCHRONOUS,
-+#ifdef CONFIG_PM_SLEEP
-+		.pm		= &nvme_dev_pm_ops,
- #endif
-+	},
- 	.sriov_configure = pci_sriov_configure_simple,
- 	.err_handler	= &nvme_err_handler,
- };
--- 
-2.30.2
-
+Rob
