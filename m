@@ -1,169 +1,116 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7153329B2
-	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 12:36:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 6E96342168;
-	Wed,  9 Nov 2022 12:36:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1667997402; bh=40T/Vg8S78Ck1klC8rhrSnHnp9uaUuhzNx0JdGvXxQQ=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=LvBU1vt/QEhtDus5QTiUFIqeeLClAamWy5/sfF3m/akhhilFMmBLbEQ9yiOJWmLPT
-	 g4H5v0GL2Gr+kcLJCA9mlKagmPpAcBsSVAKu8+DG+ze1XyUixA/s18wnZl6jWUVTJV
-	 6AmargetRQOrnuWOF/8VGg6cBbk7NtlerAU4WilSxMWjzMuK7wKIqJ0bsjAYSP6AAM
-	 JXj8jfJD5R4Sh1uTIzd+kjMr2pyIzhBaT5rB6Su5nJ5+29BaJmQO+BM95EWqCnovVe
-	 aUJNpR5WBOcL7F536YPC4fhJwiGU7ElAZ3y8/to9vNRqOY5DEMnICq41WzTNDEM8s1
-	 qMcwQSUcblisg==
-Message-ID: <c3b88bae-f6da-4242-0b19-5e2a32b9c266@marcan.st>
-Date: Wed, 9 Nov 2022 21:36:36 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEA317CD3
+	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 14:20:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F16AFC433D6;
+	Wed,  9 Nov 2022 14:20:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668003651;
+	bh=R0d+e4AdJ2Po6pEtyX7eL5IfvQAUQy4DjsaeX0GaoDY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=at9a6f9v122U0kVYFxgGtwpdg96Pc2vJZm4v4xb0dEbLL8IiwKzAx26pGIzPVC2UX
+	 NDxi56Imv4Hy6IaBRLmzWLrZxOkkjjPZH8LnUwMVdOBox+/FxAoc+Y2/NvLRy7Tc3G
+	 EDimLtiyEEomjqy5nBCqvFRa/MmWCTVlumFQeC0/u3aw44SlR9CZmJckulKXYFt6Rs
+	 vLF5NOBvDABZT6tRAtjGKear1eURDWKg7mE4goFIfiOQRy7U+cKFEf/GCtC1I3vQjT
+	 I/G6WLS3C9J+y5YWKFQxSzbQWZjC6dkuXMjLmK16H2W53IAJghZxknrykpr+Eqh3ag
+	 xtovpcX77veVw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1oslwe-004vkC-MP;
+	Wed, 09 Nov 2022 14:20:48 +0000
+Date: Wed, 09 Nov 2022 14:20:47 +0000
+Message-ID: <86v8nop5ts.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Hector Martin <marcan@marcan.st>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Mark Kettenis <mark.kettenis@xs4all.nl>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states
+In-Reply-To: <3d4536c9-4b3b-8312-4868-5e5b42a87424@marcan.st>
+References: <20221024043925.25379-1-marcan@marcan.st>
+	<20221024043925.25379-5-marcan@marcan.st>
+	<8635bdocco.wl-maz@kernel.org>
+	<3d4536c9-4b3b-8312-4868-5e5b42a87424@marcan.st>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Stephen Boyd <sboyd@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Marc Zyngier <maz@kernel.org>, Mark Kettenis <mark.kettenis@xs4all.nl>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20221024043925.25379-1-marcan@marcan.st>
- <20221024043925.25379-5-marcan@marcan.st>
- <20221102061819.dyl5ah6qffntqieh@vireshk-i7>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v3 4/5] cpufreq: apple-soc: Add new driver to control
- Apple SoC CPU P-states
-In-Reply-To: <20221102061819.dyl5ah6qffntqieh@vireshk-i7>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: marcan@marcan.st, rafael@kernel.org, viresh.kumar@linaro.org, matthias.bgg@gmail.com, sven@svenpeter.dev, alyssa@rosenzweig.io, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, sboyd@kernel.org, ulf.hansson@linaro.org, mark.kettenis@xs4all.nl, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 02/11/2022 15.18, Viresh Kumar wrote:
-> On 24-10-22, 13:39, Hector Martin wrote:
->> +const struct apple_soc_cpufreq_info soc_t8103_info = {
+On Wed, 09 Nov 2022 12:13:33 +0000,
+Hector Martin <marcan@marcan.st> wrote:
 > 
-> static ? For other instances too.
-
-Ack, fixed.
-
->> +static const struct of_device_id apple_soc_cpufreq_of_match[] = {
->> +	{
->> +		.compatible = "apple,t8103-cluster-cpufreq",
->> +		.data = &soc_t8103_info,
->> +	},
->> +	{
+> On 24/10/2022 17.27, Marc Zyngier wrote:
+> > On Mon, 24 Oct 2022 05:39:24 +0100,
+> > Hector Martin <marcan@marcan.st> wrote:
+> >>
+> >> This driver implements CPU frequency scaling for Apple Silicon SoCs,
+> >> including M1 (t8103), M1 Max/Pro/Ultra (t600x), and M2 (t8112).
+> >>
+> >> Each CPU cluster has its own register set, and frequency management is
+> >> fully automated by the hardware; the driver only has to write one
+> >> register. There is boost frequency support, but the hardware will only
+> >> allow their use if only a subset of cores in a cluster are in
+> >> non-deep-idle. Since we don't support deep idle yet, these frequencies
+> >> are not achievable, but the driver supports them. They will remain
+> >> disabled in the device tree until deep idle is implemented, to avoid
+> >> confusing users.
+> >>
+> >> This driver does not yet implement the memory controller performance
+> >> state tuning that usually accompanies higher CPU p-states. This will be
+> >> done in a future patch.
+> >>
+> >> Signed-off-by: Hector Martin <marcan@marcan.st>
+> >> ---
+> >>  drivers/cpufreq/Kconfig.arm          |   9 +
+> >>  drivers/cpufreq/Makefile             |   1 +
+> >>  drivers/cpufreq/apple-soc-cpufreq.c  | 352 +++++++++++++++++++++++++++
+> >>  drivers/cpufreq/cpufreq-dt-platdev.c |   2 +
+> >>  4 files changed, 364 insertions(+)
+> >>  create mode 100644 drivers/cpufreq/apple-soc-cpufreq.c
+> >>
+> > 
+> > [...]
+> > 
+> >> +static struct freq_attr *apple_soc_cpufreq_hw_attr[] = {
+> >> +	&cpufreq_freq_attr_scaling_available_freqs,
+> >> +	NULL,
+> >> +	NULL,
+> > 
+> > nit: extra NULL?
 > 
-> Isn't the preferred way for this is "}, {" instead ?
-> 
-> I couldn't find this in Coding Guidelines, but somehow remember that
-> to be the preferred format.
+> That slot gets filled in later if boost is enabled, hence the need for
+> an extra terminating NULL in that case.
 
-I did an informal search and the two-line form seems to be more common,
-though both are in widespread use. I can change it if you want, though
-it seems kind of a wash.
+Right. Consider placing a comment next to the first NULL so that
+someone else doesn't consider it useless and accidentally removes
+it...
 
->> +static unsigned int apple_soc_cpufreq_get_rate(unsigned int cpu)
->> +{
->> +	struct cpufreq_policy *policy = cpufreq_cpu_get_raw(cpu);
->> +	struct apple_cpu_priv *priv = policy->driver_data;
->> +	unsigned int pstate;
->> +	unsigned int i;
-> 
-> Merge these two ?
+	M.
 
-Done.
-
-> 
->> +
->> +	if (priv->info->cur_pstate_mask) {
->> +		u64 reg = readq_relaxed(priv->reg_base + APPLE_DVFS_STATUS);
->> +
->> +		pstate = (reg & priv->info->cur_pstate_mask) >>  priv->info->cur_pstate_shift;
->> +	} else {
->> +		/*
->> +		 * For the fallback case we might not know the layout of DVFS_STATUS,
->> +		 * so just use the command register value (which ignores boost limitations).
->> +		 */
->> +		u64 reg = readq_relaxed(priv->reg_base + APPLE_DVFS_CMD);
->> +
->> +		pstate = FIELD_GET(APPLE_DVFS_CMD_PS1, reg);
->> +	}
->> +
->> +	for (i = 0; policy->freq_table[i].frequency != CPUFREQ_TABLE_END; i++)
-> 
-> You may want to use, cpufreq_for_each_valid_entry(), or some other
-> generic iterator here.
-
-Done.
-
->> +	ret = dev_pm_opp_set_sharing_cpus(cpu_dev, policy->cpus);
-> 
-> Why do you need this ? The OPP core should be able to find this
-> information by itself in your case AFAIU. The OPP core will refer
-> "operating-points-v2 = <&pcluster_opp>" and find that the cores are
-> related.
-
-We have multiple clusters sharing an OPP table (e.g. the M1 Ultra has 2
-e-cluster and 4 p-clusters, and duplicating OPP tables seems very
-silly), so this is necessary to tell it about the subset of cores
-sharing a table that are actually one domain.
-
-> 
->> +	if (ret) {
->> +		dev_err(cpu_dev, "%s: failed to mark OPPs as shared: %d\n", __func__, ret);
->> +		goto out_iounmap;
->> +	}
->> +
->> +	ret = dev_pm_opp_get_opp_count(cpu_dev);
->> +	if (ret <= 0) {
->> +		dev_dbg(cpu_dev, "OPP table is not ready, deferring probe\n");
-> 
-> Why would this happen in your case ?
-
-Good question. This came from scpi-cpufreq.c. It sounds like it doesn't
-make any sense here; the error path should just error out, not defer.
-I'll change it to that.
-
->> +		ret = -EPROBE_DEFER;
->> +		goto out_free_opp;
->> +	}
->> +
->> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
->> +	if (!priv) {
->> +		ret = -ENOMEM;
->> +		goto out_free_opp;
->> +	}
->> +
->> +	ret = dev_pm_opp_init_cpufreq_table(cpu_dev, &freq_table);
->> +	if (ret) {
->> +		dev_err(cpu_dev, "failed to init cpufreq table: %d\n", ret);
->> +		goto out_free_priv;
->> +	}
->> +
->> +	/* Get OPP levels (p-state indexes) and stash them in driver_data */
->> +	for (i = 0; freq_table[i].frequency != CPUFREQ_TABLE_END; i++) {
->> +		unsigned long rate = freq_table[i].frequency * 1000;
->> +		struct dev_pm_opp *opp = dev_pm_opp_find_freq_floor(cpu_dev, &rate);
-> 
-> Shouldn't you use dev_pm_opp_find_freq_exact() here ?
-
-Actually, it would seem the correct thing to do is
-dev_pm_opp_find_freq_ceil, or otherwise use _floor and add 999.
-dev_pm_opp_init_cpufreq_table() truncates down to kHz, so the real
-frequency will always be between `rate` and `rate + 999` here. This
-makes it work with frequencies that aren't a multiple of 1 kHz (we don't
-have any of those but it seems broken not to support it).
-
-- Hector
+-- 
+Without deviation from the norm, progress is not possible.
