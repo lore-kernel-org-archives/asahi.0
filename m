@@ -1,222 +1,120 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A91917CD3
-	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 14:25:22 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id l14so26047420wrw.2
-        for <asahi@lists.linux.dev>; Wed, 09 Nov 2022 06:25:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=inJ9kpO5aVpoQfdPx6WJGeQHjasVn/qUmKCu+lJ0PAM=;
-        b=GiHtZNe028AhOl3kA6R3t/WgYpDdVzjK/JruxF9RPT1md6J7Vq6eJpRFtuoal1VY9M
-         SLz/UQ9A674HOXhyKm509xySk+nQErIh57lNH11gis0QzCzxpvDNPCq1ljLId/53+CAC
-         8Ym7d5ZAtpzwpFMmgqfnU9H28owYwmhjOEbzr8tRzLEqem35DG7IVj2ADYvu8Ke2B6Ik
-         sSxP0lyt2y8lREJ0kLdVa2ihyo8toDRTZZW40nHoGdS8pOnHepqNJxLT3RV1RzldYqb+
-         X+cWZQLOYhBF/Ypjsbddkz3rVjyftlc4ZFj6hl8WzheKiQCfgm/Jl8rHPihu22PK7F0E
-         rV3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=inJ9kpO5aVpoQfdPx6WJGeQHjasVn/qUmKCu+lJ0PAM=;
-        b=GThIqV4EVlQ95R7d3mrZohhGnjtbY5exUtVkTU9cauda6+qpTEm0/y7x2+1iJDEZwf
-         2Np0J5MUOR2NjzlupgayCxPJj+QJ45/fjnNQFWK0LG+RIRlo/Ss9Y5JrxBsOUBEYF2mp
-         6PEyYap0rIMVEjhgIxnnEh1nXEhReSu7MumcOElASin16ytNtMea31IjngZsSKWZs7Hr
-         rY0OMNKN3KUyQSvCFocb00ktP/E9iXb6c0oRGq3MH6qvExBkhheHluzPahbSe22Y/aLL
-         LZOWcmSw4W56bgX6i2vdZBYioAyuJARCp+UD7czn1v3cg34m3/kObzT9v1lUdPTUMGK8
-         900w==
-X-Gm-Message-State: ACrzQf08HMc4neG7XvCbxjeJj9W/5nuvOMgl28xSgKzgZ2GWtSKgr5T8
-	AiDf0aB9tvy6BiuNS0jBd9A=
-X-Google-Smtp-Source: AMsMyM5/C39K7zIfNARGwgjtXklTl9NZrYRfWK/N3v0Fchy/Wkvs0JLJd4OUNMjoBpwO5Zu83RPWOg==
-X-Received: by 2002:a05:6000:408b:b0:238:238:513d with SMTP id da11-20020a056000408b00b002380238513dmr23705686wrb.536.1668003920482;
-        Wed, 09 Nov 2022 06:25:20 -0800 (PST)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id z3-20020adff1c3000000b00236e834f050sm12936189wro.35.2022.11.09.06.25.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Nov 2022 06:25:19 -0800 (PST)
-Date: Wed, 9 Nov 2022 15:25:17 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: Rob Herring <robh@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Ashish Mhetre <amhetre@nvidia.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-	Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
-	devicetree@vger.kernel.org, iommu@lists.linux-foundation.org,
-	linux-tegra@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH v10 2/5] of: Stop DMA translation at last DMA parent
-Message-ID: <Y2u4TdwwL+o+sqhE@orome>
-References: <20221103133900.1473855-1-thierry.reding@gmail.com>
- <20221103133900.1473855-3-thierry.reding@gmail.com>
- <20221107193035.GA1394942-robh@kernel.org>
- <Y2popxNd2uIdXmlf@orome>
- <CAL_JsqJ6XS7UZiEdjb2pyq_LmOLWBGcWHKsntTgjVFRi=4JMXw@mail.gmail.com>
- <c8bcec17571a896610f225498655025ffc4b092a.camel@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20F4EBE2
+	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 15:19:08 +0000 (UTC)
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2A9EdGtq001802;
+	Wed, 9 Nov 2022 15:18:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=7K2j+iJjt71qri7MYWgoSqhbLBMSKqlPcwbP02kFYG0=;
+ b=NdNP113yvxHnNDx8u3glNjOmmaWEpEEm/t5ZzZAzhPChPSIEdDzWQTieir3vnowMvwX8
+ HbeHOTWnTsy8v4WFU+tBl00kkjl3wTDd/gwB0OBR2JeCKetnTBnc6NOJ5wtUBrX9OQBN
+ dvJ4bcJ6QjvDcmzVsvq4XmZe3eg813h53HeKmUUeSn0smO2B+uSlsWxU7Z9ijNSDpUN/
+ pGPBKMN7ggatyaeSgL2W9IboqVtIfCG4DhmAOnFNrsyThOpFbgYpxEFYmyTaWMnoYA2+
+ RuDVLKZWDLDV8aUFowqpaoqgin9nhy9XDm3IAExng7XPVNMce3cLJX4+5r551XRc28WK kQ== 
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3krapk7dyv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 09 Nov 2022 15:18:37 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+	by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2A9F6M4k004349;
+	Wed, 9 Nov 2022 15:18:35 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+	by ppma03fra.de.ibm.com with ESMTP id 3kngp5m9pa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 09 Nov 2022 15:18:35 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2A9FIWKV5767810
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 9 Nov 2022 15:18:32 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BB7AFAE053;
+	Wed,  9 Nov 2022 15:18:32 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7745CAE045;
+	Wed,  9 Nov 2022 15:18:32 +0000 (GMT)
+Received: from dyn-9-152-224-237.boeblingen.de.ibm.com (unknown [9.152.224.237])
+	by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Wed,  9 Nov 2022 15:18:32 +0000 (GMT)
+Message-ID: <7d469dec0b3e11f20c720fbf2c9b3b1e5b765372.camel@linux.ibm.com>
+Subject: Re: [PATCH 11/12] nvme-pci: split the initial probe from the rest
+ path
+From: Gerd Bayer <gbayer@linux.ibm.com>
+To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+        asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-nvme@lists.infradead.org,
+        Niklas Schnelle <schnelle@linux.ibm.com>
+Date: Wed, 09 Nov 2022 16:18:32 +0100
+In-Reply-To: <20221108150252.2123727-12-hch@lst.de>
+References: <20221108150252.2123727-1-hch@lst.de>
+	 <20221108150252.2123727-12-hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: zP7hulsqWEA9P9Mg2Wt8V8qJjbXExptU
+X-Proofpoint-GUID: zP7hulsqWEA9P9Mg2Wt8V8qJjbXExptU
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6pZZkBGyKsqUI+DW"
-Content-Disposition: inline
-In-Reply-To: <c8bcec17571a896610f225498655025ffc4b092a.camel@pengutronix.de>
-User-Agent: Mutt/2.2.7 (2022-08-07)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.895,Hydra:6.0.545,FMLib:17.11.122.1
+ definitions=2022-11-09_06,2022-11-09_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ lowpriorityscore=0 adultscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=837 priorityscore=1501 impostorscore=0 bulkscore=0
+ clxscore=1011 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2210170000 definitions=main-2211090115
+
+Hi Christoph,
+
+On Tue, 2022-11-08 at 16:02 +0100, Christoph Hellwig wrote:
+> nvme_reset_work is a little fragile as it needs to handle both resetting
+> a live controller and initializing one during probe.  Split out the initial
+> probe and open code it in nvme_probe and leave nvme_reset_work to just do
+> the live controller reset.
+> 
+> This fixes a recently introduced bug where nvme_dev_disable causes a NULL
+> pointer dereferences in blk_mq_quiesce_tagset because the tagset pointer
+> is not set when the reset state is entered directly from the new state.
+> The separate probe code can skip the reset state and probe directly and
+> fixes this.
+> 
+> To make sure the system isn't single threaded on enabling nvme
+> controllers, set the PROBE_PREFER_ASYNCHRONOUS flag in the device_driver
+> structure so that the driver core probes in parallel.
+> 
+> Fixes: 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
+> Reported-by: Gerd Bayer <gbayer@linux.ibm.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  drivers/nvme/host/pci.c | 139 ++++++++++++++++++++++++----------------
+>  1 file changed, 83 insertions(+), 56 deletions(-)
+
+I have successfully tested the patch series as proposed here on top of next-20220908.
+The small test script that I used to expose the race condition in my initial bug report
+https://lore.kernel.org/linux-nvme/20221108091609.1020-1-hdanton@sina.com/T/#t
+did no longer reproduce the kernel panic.
+Even repeated unbind/bind/remove/rescan cycles worked without any issue.
+
+Out of curiousity I did run a little traffic to the NVMe drive after the repeated
+cycles, too. No issues.
+
+While the patch series did apply fine on next-20220909 I was unable to do any testing
+with that as that had different severe issues to boot.
+
+So feel free to add my 
+Tested-by Gerd Bayer <gbayer@linxu.ibm.com> for the whole series
+
+Thank you,
+Gerd Bayer
 
 
---6pZZkBGyKsqUI+DW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Nov 09, 2022 at 11:07:02AM +0100, Lucas Stach wrote:
-> Am Dienstag, dem 08.11.2022 um 10:25 -0600 schrieb Rob Herring:
-> > On Tue, Nov 8, 2022 at 8:33 AM Thierry Reding <thierry.reding@gmail.com=
-> wrote:
-> > >=20
-> > > On Mon, Nov 07, 2022 at 01:30:35PM -0600, Rob Herring wrote:
-> > > > On Thu, Nov 03, 2022 at 02:38:57PM +0100, Thierry Reding wrote:
-> > > > > From: Thierry Reding <treding@nvidia.com>
-> > > > >=20
-> > > > > DMA parent devices can define separate DMA busses via the "dma-ra=
-nges"
-> > > > > and "#address-cells" and "#size-cells" properties. If the DMA bus=
- has
-> > > > > different cell counts than its parent, this can cause the transla=
-tion
-> > > > > of DMA address to fails (e.g. truncation from 2 to 1 address cell=
-s).
-> > > >=20
-> > > > My assumption in this case was that the parent cell sizes should be
-> > > > increased to 2 cells. That tends to be what people want to do anywa=
-ys
-> > > > (64-bit everywhere on 64-bit CPUs).
-> > > >=20
-> > > > > Avoid this by stopping to search for DMA parents when a parent wi=
-thout
-> > > > > a "dma-ranges" property is encountered. Also, since it is the DMA=
- parent
-> > > > > that defines the DMA bus, use the bus' cell counts instead of its=
- parent
-> > > > > cell counts.
-> > > >=20
-> > > > We treat no 'dma-ranges' as equivalent to 'dma-ranges;'. IIRC, the =
-spec
-> > > > even says that because I hit that case.
-> > > >=20
-> > > > Is this going to work for 'dma-device' with something like this?:
-> > > >=20
-> > > >   bus@0 {
-> > > >     dma-ranges =3D <...>;
-> > > >     child-bus@... {
-> > > >       dma-device@... {
-> > > >       };
-> > > >     };
-> > > >   };
-> > > >=20
-> > > > >=20
-> > > > > Signed-off-by: Thierry Reding <treding@nvidia.com>
-> > > > > ---
-> > > > > Changes in v10:
-> > > > > - new patch to avoid address truncation when traversing a bus hie=
-rarchy
-> > > > >   with mismatching #address-cells properties
-> > > > >=20
-> > > > > Example from Tegra194 (redacted for clarity):
-> > > > >=20
-> > > > >     reserved-memory {
-> > > > >             #address-cells =3D <2>;
-> > > > >             #size-cells =3D <2>;
-> > > > >             ranges;
-> > > > >=20
-> > > > >             framebuffer@0,0 {
-> > > > >                     compatible =3D "framebuffer";
-> > > > >                     reg =3D <0x2 0x57320000 0x0 0x00800000>;
-> > > > >                     iommu-addresses =3D <&dc0 0x2 0x57320000 0x0 =
-0x00800000>;
-> > > > >             };
-> > > > >     };
-> > > > >=20
-> > > > >     bus@0 {
-> > > > >             /* truncation happens here */
-> > > > >             #address-cells =3D <1>;
-> > > > >             #size-cells =3D <1>;
-> > > > >             ranges =3D <0x0 0x0 0x0 0x40000000>;
-> > > > >=20
-> > > > >             mc: memory-controller@2c00000 {
-> > > > >                     #address-cells =3D <2>;
-> > > > >                     #size-cells =3D <2>;
-> > > >=20
-> > > > I think this is wrong. The parent should have more or equal number =
-of
-> > > > cells.
-> > >=20
-> > > I was half suspecting that. The reason why I hesitated is that I reca=
-ll
-> > > having the opposite discussion a while ago when we were adding bus@0 =
-to
-> > > 64-bit Tegra devices. We had at some point (probably around Tegra114 =
-or
-> > > Tegra124, 32-bit ARM chips that support LPAE) started to set #address-
-> > > cells =3D <2> precisely because the CPU could address more than 32-bit
-> > > addresses. We then did the same thing transitioning to 64-bit ARM. Wh=
-en
-> > > we then started discussing bus@0, someone (might have been you) had
-> > > argued that all these peripherals could be addressed with a single ce=
-ll
-> > > so there'd be no need for #address-cells =3D <2>, so then we went with
-> > > that.
-> >=20
-> > I may have not thinking about the DMA side of things.
-> >=20
-> > > Reverting back to #address-cells =3D <2> is now going to cause quite =
-a bit
-> > > of churn, but I guess if it's the right thing, so be it.
-> > >=20
-> > > Another possible alternative would be to move the memory-controller n=
-ode
-> > > from the bus@0 to the top-level. Not sure if that's any better.
-> >=20
-> > I stumbled upon 'ibm,#dma-address-cells' and 'ibm,#dma-size-cells'
-> > while reviewing this. Those seem to be for the same purpose AFAICT. We
-> > could consider adding those (w/o 'ibm') to handle this situation.
->=20
-> I would appreciate this. We have the same situation on some of the NXP
-> i.MX8 SoCs right now: all the MMIO is addressable with 32bit, so all
-> the busses have a single address and size cell right now, but we would
-> need to extend the address-cells to 64bit just to properly describe the
-> DMA addressing capabilities of the devices.
-
-Alright, I'll see if I can come up with some code to deal with this.
-
-Thierry
-
---6pZZkBGyKsqUI+DW
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmNruEsACgkQ3SOs138+
-s6FSLg/8DPLKVp9Se36bVlxeWZHHKC7fX6fjWMji1JXJVTYZAaDqZeDhDT5RCGRS
-8/N1Yjg5ZCDV8c8kCvxS/sTq+wLT6l93secD17EwdG2AxaO2N84OW7zRP8Yw3QjJ
-b04qqpkXQuvBLP8bag5YAD6Iti7kGx6zTZ3IOpSJegasua8F/KnBGwmGfGv5chiv
-DLAYTWt6tWM5H97WMKEVhEjJpAL3yMO5ylJUpQadbu/oVQO+7iLR3cxo6IrmuOiI
-cbj9aUOhDnMYZQGJ2GaVZSigCf4gYs0oNUWRA9iQCA1a/1e4gXQQ7hed9tB14Bdh
-t/2moFuySC+dWfDtjHo8DFW2vXt7ba+HEkolgYP1fBjI2zZy1TDDwdDYip+3i9V4
-fQgeqlrioJH/sV90RXv6SvqKQAY9tyf1FRyeSoj6Z/ep+twz3JKEy5eTvPUgbtM9
-Y8CtmzRrYFg9phGFiPiGmfvBXy0SGWdoZmoldaWMSkWEnBfZttn8UfiZEHh3uxBu
-ZxI78aGf6BEfFWoxw/oK+9P70ysizFct14xyFrlayMHTxxW81Ek2Pc3eEFUmOfoy
-4ClNedrsYJMsgDZfNt/hNiXgkiADfjyl/2apSFSCR2MkZTPxaJUmQV+5146M3j0B
-YoNhr/uVplP75/h9m2zrNZv2ITVARwqCOiaNWI9w0Me2BdLkSWA=
-=IIig
------END PGP SIGNATURE-----
-
---6pZZkBGyKsqUI+DW--
