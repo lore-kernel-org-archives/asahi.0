@@ -1,53 +1,98 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A5A17E
-	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 06:31:23 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9EDF068AFE; Wed,  9 Nov 2022 07:31:19 +0100 (CET)
-Date: Wed, 9 Nov 2022 07:31:19 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Sagi Grimberg <sagi@grimberg.me>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Gerd Bayer <gbayer@linux.ibm.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 11/12] nvme-pci: split the initial probe from the rest
- path
-Message-ID: <20221109063119.GG10528@lst.de>
-References: <20221108150252.2123727-1-hch@lst.de> <20221108150252.2123727-12-hch@lst.de> <e1225fb6-0cac-ba47-df03-0be84cb3a09b@grimberg.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73985257B
+	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 07:31:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 1E4A141A42;
+	Wed,  9 Nov 2022 07:31:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1667979076; bh=nWvNg1VPCRK8w6aaa8acSaDwMto5C+mMnVSDnwfo4Ic=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=m7ltRRcdvpiDH+yE9dvAvP4fgJTboKU8BTktrI9Qrsxe5N7qUqvwp2NXOC5KSlVS6
+	 1n+7b/PlqzcYgfCdLLhIoklrh/fJtuRW00MlCrtgJJGjdz1qFucY/zqKxnTTAKuKTo
+	 H4AiUSA2w+uVw1h3wiW6cNeFqHXBNKaWFMxMYfbQB2Y6TbrP2FSoRDF1JV/2iHO0Eb
+	 6sgwaT+OPYdICSYkzVVpd5OB3tSPqenaB6fALru0fyJ6R7PFbIGeZ3j7m/12CTiBdu
+	 5nKkUuInkppC+QLTcDNRm5Xy3BUv09Ff06vyGnhLQ0jZ1zptBj/Ia8wRWpZFpuhJA9
+	 G8JmzEUmFEcZw==
+Message-ID: <2acc54a3-4fa9-2c93-449a-eed24340a00e@marcan.st>
+Date: Wed, 9 Nov 2022 16:31:07 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e1225fb6-0cac-ba47-df03-0be84cb3a09b@grimberg.me>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 6/7] dt-bindings: gpio: add binding for the GPIO block
+ for Apple Mac SMC
+Content-Language: en-US
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh+dt@kernel.org>,
+ Lee Jones <lee@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, asahi@lists.linux.dev,
+ devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Sven Peter <sven@svenpeter.dev>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXi-002mwL-UB@rmk-PC.armlinux.org.uk>
+ <3d51c0e2-1e59-5767-4be1-5754ca8dc902@linaro.org>
+ <Y2rTmS/gEdtU66b0@shell.armlinux.org.uk>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <Y2rTmS/gEdtU66b0@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 09, 2022 at 05:14:02AM +0200, Sagi Grimberg wrote:
->> -		if (dev->online_queues > 1) {
->> -			nvme_pci_alloc_tag_set(dev);
->> -			nvme_dbbuf_set(dev);
->> -		} else {
->> -			dev_warn(dev->ctrl.device, "IO queues not created\n");
->> -		}
->> +		dev_warn(dev->ctrl.device, "IO queues lost\n");
->> +		nvme_mark_namespaces_dead(&dev->ctrl);
->> +		nvme_start_queues(&dev->ctrl);
->> +		nvme_remove_namespaces(&dev->ctrl);
->
-> Is this needed? isn't nvme_remove coming soon?
-> In fact, shouldn't all these calls be in nvme_remove?
+On 09/11/2022 07.09, Russell King (Oracle) wrote:
+> On Tue, Nov 08, 2022 at 09:56:40PM +0100, Krzysztof Kozlowski wrote:
+>> On 08/11/2022 17:33, Russell King (Oracle) wrote:
+>>> Add the DT binding for the Apple Mac System Management Controller GPIOs.
+>>>
+>>> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+>>> ---
+>>>  .../bindings/gpio/apple,smc-gpio.yaml         | 37 +++++++++++++++++++
+>>>  1 file changed, 37 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
+>>> new file mode 100644
+>>> index 000000000000..1a415b78760b
+>>> --- /dev/null
+>>> +++ b/Documentation/devicetree/bindings/gpio/apple,smc-gpio.yaml
+>>> @@ -0,0 +1,37 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
+>>
+>> Does not look like you tested the bindings. Please run `make
+>> dt_binding_check` (see
+>> Documentation/devicetree/bindings/writing-schema.rst for instructions).
+> 
+> Oh ffs. DT bindings are utterly impossible to get correct.
 
-This handles the case where a controller controller does not have I/O
-queues. For controllers that never had them (e.g. admin controllers)
-none of the three calls above is needed, but they deal with the
-case where a controller had queues, but they are going away.  I'm
-not sure if that can happen, but it keeps the behavior of the existing
-code.  Keith wrote it to deal with Intel controllers that can be in
-a degraded state where having the admin queue live even without I/O
-queues allows updating the firmware, so he might know more.
+I'd be happy to wrap the bindings up in another cycle & take them via
+asahi-soc, if you want. That will also allow us to add the nodes to the
+t6000 DTs which are on that tree for this cycle, and unblock merging the
+driver bits of this series. Bindings updates are not a hard dependency
+for drivers, only for the DTs themselves.
+
+That is:
+
+1-2,4 via mfd tree (if Lee agrees to merging the RTKit driver platform
+bits that way)
+3,5-6 via asahi-soc
+7 via GPIO (I think)
+
+- Hector
