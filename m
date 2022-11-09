@@ -1,107 +1,50 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A78EBE2
-	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 15:39:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 3DCE642168;
-	Wed,  9 Nov 2022 15:39:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1668008384; bh=gJgjxLC/opOKAlINQDBTgDNZach6gSpta5DKFmngup8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=CmCwGacg9CAujTmTiX66T5ZSZrMGmPq6cHme5VJziOjIbzRSaFIYVsEUeJQ4ItNZz
-	 ceXH6ASwFIObAsxUoznwh5XU61Spy5rRSUiOL0T3xcH5dvRBxqrx3CJbkQHhlI9y97
-	 H1mR+j60e5BhTkA7Zd8lvsPcxmvJMzwpQx07Cv0oJGhqJ//qtBEwxpaBCLmKChAGQl
-	 Lrr/aVNOgIvJfXcIdOwXalemsgd7efGgSD7gR+X+i0DiIXizjkmsgnhbKg5+j2/zo+
-	 t47I9oVLpz4HP8P2KYKNExZGwIBIIMfK0P6y9kzSXMkxWkkR0AJ3RoMhx3JT6i/bK1
-	 bZX+UmkCZeG3A==
-Message-ID: <cb0466ae-7a6c-20c8-4e90-e4b9b3432e72@marcan.st>
-Date: Thu, 10 Nov 2022 00:39:37 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE41EBEE
+	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 15:51:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0A03C433D6;
+	Wed,  9 Nov 2022 15:51:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1668009088;
+	bh=Vk2ZZ3agqZ4nabmZlagJmePBsOimEQy2GQK/lbJ9HbA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XYCBDGte88HHfnc9cGKfhc2BNWmUwzzobQugNDgpGi+A7FsvBnngRJny6JgSifEDW
+	 m3fB2FtrOMtp9P7R903WZgliqDy0wKdZKDuJ7i7ms0kIvHSj/9IwkwQwfi9oIbm7zR
+	 QFkOe2mL1zOSeIRuzzmOL+bWCk19QxzORBHRAuXO2vIgLrgi5Dnmvvi6UCWphIUnri
+	 +5UTZyf0dss1mwfOVS1roY6btvw7nkFGaLSFbUHMtPrAn0xQ0OrGwp9KBKeRmOEANz
+	 g9lXuVFg7xVrFbtWxZFJn4If0Yfe4AlnLFTD9kGDxosB+WltXmwuvf72IThvfYfjOf
+	 kXqP23r47QyRw==
+Date: Wed, 9 Nov 2022 08:51:25 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org
+Subject: Re: [PATCH 11/12] nvme-pci: split the initial probe from the rest
+ path
+Message-ID: <Y2vMfSCjCj8sCMj/@kbusch-mbp.dhcp.thefacebook.com>
+References: <20221108150252.2123727-1-hch@lst.de>
+ <20221108150252.2123727-12-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 4/5] cpufreq: apple-soc: Add new driver to control
- Apple SoC CPU P-states
-Content-Language: en-US
-To: Marc Zyngier <maz@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Stephen Boyd <sboyd@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221024043925.25379-1-marcan@marcan.st>
- <20221024043925.25379-5-marcan@marcan.st> <8635bdocco.wl-maz@kernel.org>
- <3d4536c9-4b3b-8312-4868-5e5b42a87424@marcan.st>
- <86v8nop5ts.wl-maz@kernel.org>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <86v8nop5ts.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221108150252.2123727-12-hch@lst.de>
 
-On 09/11/2022 23.20, Marc Zyngier wrote:
-> On Wed, 09 Nov 2022 12:13:33 +0000,
-> Hector Martin <marcan@marcan.st> wrote:
->>
->> On 24/10/2022 17.27, Marc Zyngier wrote:
->>> On Mon, 24 Oct 2022 05:39:24 +0100,
->>> Hector Martin <marcan@marcan.st> wrote:
->>>>
->>>> This driver implements CPU frequency scaling for Apple Silicon SoCs,
->>>> including M1 (t8103), M1 Max/Pro/Ultra (t600x), and M2 (t8112).
->>>>
->>>> Each CPU cluster has its own register set, and frequency management is
->>>> fully automated by the hardware; the driver only has to write one
->>>> register. There is boost frequency support, but the hardware will only
->>>> allow their use if only a subset of cores in a cluster are in
->>>> non-deep-idle. Since we don't support deep idle yet, these frequencies
->>>> are not achievable, but the driver supports them. They will remain
->>>> disabled in the device tree until deep idle is implemented, to avoid
->>>> confusing users.
->>>>
->>>> This driver does not yet implement the memory controller performance
->>>> state tuning that usually accompanies higher CPU p-states. This will be
->>>> done in a future patch.
->>>>
->>>> Signed-off-by: Hector Martin <marcan@marcan.st>
->>>> ---
->>>>  drivers/cpufreq/Kconfig.arm          |   9 +
->>>>  drivers/cpufreq/Makefile             |   1 +
->>>>  drivers/cpufreq/apple-soc-cpufreq.c  | 352 +++++++++++++++++++++++++++
->>>>  drivers/cpufreq/cpufreq-dt-platdev.c |   2 +
->>>>  4 files changed, 364 insertions(+)
->>>>  create mode 100644 drivers/cpufreq/apple-soc-cpufreq.c
->>>>
->>>
->>> [...]
->>>
->>>> +static struct freq_attr *apple_soc_cpufreq_hw_attr[] = {
->>>> +	&cpufreq_freq_attr_scaling_available_freqs,
->>>> +	NULL,
->>>> +	NULL,
->>>
->>> nit: extra NULL?
->>
->> That slot gets filled in later if boost is enabled, hence the need for
->> an extra terminating NULL in that case.
-> 
-> Right. Consider placing a comment next to the first NULL so that
-> someone else doesn't consider it useless and accidentally removes
-> it...
-> 
+On Tue, Nov 08, 2022 at 04:02:51PM +0100, Christoph Hellwig wrote:
+> nvme_reset_work is a little fragile as it needs to handle both resetting
+> a live controller and initializing one during probe.  Split out the initial
+> probe and open code it in nvme_probe and leave nvme_reset_work to just do
+> the live controller reset.
 
-Good point, done :)
-
-- Hector
+By enabling the controller in probe, you are blocking subsequent
+controllers from probing in parallel. Some devices take a very long time
+to complete enable, so serializing this process may significantly
+increase a system reset time for one with even a modest number of nvme
+drives.
