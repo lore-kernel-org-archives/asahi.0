@@ -1,33 +1,33 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258A117C2
-	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 03:00:18 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id m6-20020a17090a5a4600b00212f8dffec9so690590pji.0
-        for <asahi@lists.linux.dev>; Tue, 08 Nov 2022 19:00:18 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D473717C2
+	for <asahi@lists.linux.dev>; Wed,  9 Nov 2022 03:00:47 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id h14so15501653pjv.4
+        for <asahi@lists.linux.dev>; Tue, 08 Nov 2022 19:00:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
         bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=toJd/fcNb+uduY98Ks9mGTZ8mQbRZSb6eNy6wEvg3UgkHBUOUdjJRNnI526Df/DijA
-         HkjGVQccA5dpg49ZgfBDEglIpTx7x0vUHS+06k9WkBGpCZlkpZwpAVWTvd/iK5KMiYHP
-         I8XTedvfbc6jP7r5juFMudjM2qYZTdDIjjFg436auR5uso0duY7qIAE2JaXQndBhPN2r
-         fUgFdnkH0bMwfnew2OKEJ7uiKTdgp6UQqqWMrtqEB+JUNt4vMxSaJW38bg53WU6/5fte
-         99xyiOwgh3uNJaMkjKBpAG0bPMUHYZwFQKN9mJXgeEpej072F+LCYyXkFMhCE26TVJnc
-         BESg==
-X-Gm-Message-State: ACrzQf1WmW7gD5sub7jis9AWS0/JPS+0TSwbc3kFkUSegAyKTKTYEKV/
-	WLKoeLKdhXYwkWpCBSsMygs=
-X-Google-Smtp-Source: AMsMyM4ee/mRlXt+Uwt+fwMqgPDYxoO/bkWtF32UcRS6ftK7eaQ0kAvdAJOBurb5MxTkzqAit8ncrA==
-X-Received: by 2002:a17:902:db02:b0:187:4736:f783 with SMTP id m2-20020a170902db0200b001874736f783mr38362682plx.155.1667962817677;
-        Tue, 08 Nov 2022 19:00:17 -0800 (PST)
+        b=KhwgiHjxwJzCtH6p8Hw6DKfiwj6S16gNzDXqOqVpp+r8puYUnXoK8wSJo3IpGHuj4T
+         VsxD1sKybPF5jP1/Jc5Sgsaw8fAO2BsjZz19P4MFFSvNJ/nC5ccH04Hx1r7P5pN5FAYr
+         1WD0VNl7En8K+iVOGjHMLTR+5v1kFpH/cF7ICUIoNuBe9xPbSs1fNvaozsoy2YjqTMdj
+         4j0ryojXGf0Nflf1wG7zqgiEpJSFTk7SS63KjQzlgHhj6sjH953Bah59/WgovcEI38cA
+         D3NM5egEl2VQ39J4lo/NeD2Od5g9dQcN4I8XNgFRyZsD3DyEA4Fy2+/EqCux6cw+OlNo
+         Wnhg==
+X-Gm-Message-State: ACrzQf1OjKD6uM5g2RG8AdLj6y/nYUb1iMF2MlcaMFpYHmHiVCfVqXJg
+	KMzORQ2fbJqpfix22SMNkWc=
+X-Google-Smtp-Source: AMsMyM4MjyYJm3A0lRMAig+9KBrkTTzQIX469ghRDQr5mOQe+122nwCSZxkAk0Sj/83VH4yL3hvuFg==
+X-Received: by 2002:a17:902:d4cc:b0:186:f57d:ba61 with SMTP id o12-20020a170902d4cc00b00186f57dba61mr58745464plg.97.1667962847373;
+        Tue, 08 Nov 2022 19:00:47 -0800 (PST)
 Received: from [172.20.3.206] (69-170-33-158.static-ip.telepacific.net. [69.170.33.158])
-        by smtp.gmail.com with ESMTPSA id w5-20020a170902e88500b001885dbe31dfsm7671429plg.178.2022.11.08.19.00.16
+        by smtp.gmail.com with ESMTPSA id f143-20020a623895000000b0056b6d31ac8asm7299069pfa.178.2022.11.08.19.00.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Nov 2022 19:00:17 -0800 (PST)
-Message-ID: <d4d5317f-8ef9-cec9-9c9e-b05e44232ad5@grimberg.me>
-Date: Wed, 9 Nov 2022 05:00:15 +0200
+        Tue, 08 Nov 2022 19:00:46 -0800 (PST)
+Message-ID: <3e8c78a4-d50b-efc5-d66a-8e90dc37a86b@grimberg.me>
+Date: Wed, 9 Nov 2022 05:00:45 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -36,16 +36,17 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.2
-Subject: Re: [PATCH 05/12] nvme-pci: move more teardown work to nvme_remove
+Subject: Re: [PATCH 06/12] nvme-pci: factor the iod mempool creation into a
+ helper
 Content-Language: en-US
 To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
 Cc: Chaitanya Kulkarni <kch@nvidia.com>, Gerd Bayer <gbayer@linux.ibm.com>,
  asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-nvme@lists.infradead.org
 References: <20221108150252.2123727-1-hch@lst.de>
- <20221108150252.2123727-6-hch@lst.de>
+ <20221108150252.2123727-7-hch@lst.de>
 From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221108150252.2123727-6-hch@lst.de>
+In-Reply-To: <20221108150252.2123727-7-hch@lst.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
