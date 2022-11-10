@@ -1,151 +1,167 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068CB362
-	for <asahi@lists.linux.dev>; Thu, 10 Nov 2022 03:35:39 +0000 (UTC)
-Received: from canpemm500002.china.huawei.com (unknown [172.30.72.56])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4N76Pn0Y6YzJnZk;
-	Thu, 10 Nov 2022 11:14:21 +0800 (CST)
-Received: from [10.169.59.127] (10.169.59.127) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Thu, 10 Nov 2022 11:17:22 +0800
-Subject: Re: [PATCH 11/12] nvme-pci: split the initial probe from the rest
- path
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-CC: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
-	Gerd Bayer <gbayer@linux.ibm.com>, <asahi@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-nvme@lists.infradead.org>
-References: <20221108150252.2123727-1-hch@lst.de>
- <20221108150252.2123727-12-hch@lst.de>
-From: Chao Leng <lengchao@huawei.com>
-Message-ID: <37a66baf-7654-3064-6692-0aea6340cf32@huawei.com>
-Date: Thu, 10 Nov 2022 11:17:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435AC185E
+	for <asahi@lists.linux.dev>; Thu, 10 Nov 2022 11:36:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id E001042118;
+	Thu, 10 Nov 2022 11:36:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1668080166; bh=WOf5UXqWmrE/iTU0u9/p1HHRldeA61BWkQMiReNjNM4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=DfFgYDCkl/pz6GkXaASFqMMdsyDkSJxzVvQ9rPyZDRvyS5bEOoF/4qS5WbN/YgGgv
+	 E3VJbN5gn5PzLll6yyobEfMZiJeHUbkJGMUIOGp5a0RkTDIwJmehg/4ucRfYvhy/Pi
+	 XQySwwKZK6J+gkFoow8CWIMB4iJoMbap/4zuWg1x4LE/q3XvckXbWrabcRfQ/zfTbd
+	 F8GHlXaje5W9E9y69WMKh4/c+b9LeJHLkhc0cJ/em5rEXwjROotPO80TrQKmxQF9n2
+	 U+c2lNN7eCsJGBmODyoArSmRKbdAad04i8ow4o7DOkL3HZmlpa/kp6c+efbS5WBkfM
+	 JRiPsSiLvGI3Q==
+Message-ID: <269b4d0a-920e-fe1e-0b6d-e972e494895d@marcan.st>
+Date: Thu, 10 Nov 2022 20:35:59 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20221108150252.2123727-12-hch@lst.de>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
 Content-Language: en-US
+To: Rob Herring <robh@kernel.org>,
+ "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, asahi@lists.linux.dev,
+ devicetree@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Sven Peter <sven@svenpeter.dev>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
+ <531d88b8-75db-1d8f-1384-b8d05594e7b3@linaro.org>
+ <Y2rWp4wasbflS/0y@shell.armlinux.org.uk>
+ <20221109221723.GA2948356-robh@kernel.org>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20221109221723.GA2948356-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.169.59.127]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- canpemm500002.china.huawei.com (7.192.104.244)
-X-CFilter-Loop: Reflected
+
+On 10/11/2022 07.17, Rob Herring wrote:
+> On Tue, Nov 08, 2022 at 10:22:31PM +0000, Russell King (Oracle) wrote:
+>> On Tue, Nov 08, 2022 at 09:55:58PM +0100, Krzysztof Kozlowski wrote:
+>>> On 08/11/2022 17:33, Russell King (Oracle) wrote:
+>>>> Add a DT binding for the Apple Mac System Management Controller.
+>>>
+>>> Drop the second, redundant "binding" from subject. It's already in prefix.
+>>
+>> Yet another thing that's been there from the start... how many more
+>> things are you going to pick up in subsequent versions of the patch?
+>> When does this stop?
+>>
+>> In any case, taking your comment literally,
+>>
+>> "dt-bindings: mfd: add for Apple Mac System Management Controller"
+>>
+>> makes no sense, so presumably you want something more than that.
+>>
+>> In any case, I see several recent cases already merged which follow
+>> the pattern that I've used and that you've reviewed.
+>>
+>>>> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+>>>> ---
+>>>>  .../devicetree/bindings/mfd/apple,smc.yaml    | 67 +++++++++++++++++++
+>>>>  1 file changed, 67 insertions(+)
+>>>>  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
+>>>>
+>>>> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+>>>> new file mode 100644
+>>>> index 000000000000..014eba5a1bbc
+>>>> --- /dev/null
+>>>> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+>>>> @@ -0,0 +1,67 @@
+>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>>>> +%YAML 1.2
+>>>> +---
+>>>> +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
+>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>> +
+>>>> +title: Apple Mac System Management Controller
+>>>> +
+>>>> +maintainers:
+>>>> +  - Hector Martin <marcan@marcan.st>
+>>>> +
+>>>> +description:
+>>>> +  Apple Mac System Management Controller implements various functions
+>>>> +  such as GPIO, RTC, power, reboot.
+>>>> +
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    items:
+>>>> +      - enum:
+>>>> +          - apple,t6000-smc
+>>>> +          - apple,t8103-smc
+>>>> +          - apple,t8112-smc
+>>>> +      - const: apple,smc
+>>>> +
+>>>> +  reg:
+>>>> +    items:
+>>>> +      - description: SMC area
+>>>> +      - description: SRAM area
+>>>> +
+>>>> +  reg-names:
+>>>> +    items:
+>>>> +      - const: smc
+>>>> +      - const: sram
+>>>> +
+>>>> +  mboxes:
+>>>> +    maxItems: 1
+>>>> +
+>>>> +  gpio:
+>>>> +    $ref: /schemas/gpio/gpio-macsmc.yaml
+>>>
+>>> So this depends on other patch, so:
+>>> 1. You need mention the dependency in cover letter (nothing there),
+>>> 2. Re-order patches.
+>>>
+>>> The GPIO cannot go separate tree and this must be explicitly communicated.
+>>
+>> Sigh, getting an order that is sensible is really bloody difficult.
+> 
+> It's not. Sub-devices before the MFD. The only time that doesn't work is 
+> when the sub-devices put the parent MFD in their example. The solution 
+> there is don't do that. Just 1 complete example in the MFD schema and no 
+> examples in the sub-devices.
+> 
+>> I'm quite sure Lee is only going to want to apply the mfd bits. 
+> 
+> Indeed. I can't seem to make Lee care... All the schemas should really 
+> be applied together.
+> 
+>> Then
+>> what do we do with the other bits? GPIO stuff via the GPIO tree, then
+>> wait a cycle before the rest can be merged. Or what?
+> 
+> The schemas must be picked up in the same cycle. I don't care so much 
+> if subsystem maintainers' trees have warnings if they don't care, but I 
+> do care for linux-next. If the subsystem bits aren't picked up, then 
+> I'll pick them up if it comes to that.
+> 
+
+We can take all the schemas and DT changes via asahi-soc if that works
+for you. This also lets us move forward with more related DT changes
+that would apply on top of things already in that branch. Then Lee only
+has to take the mfd core bits (and possibly the RTKit platform part, or
+we can figure something else out for that).
 
 
-
-On 2022/11/8 23:02, Christoph Hellwig wrote:
-> nvme_reset_work is a little fragile as it needs to handle both resetting
-> a live controller and initializing one during probe.  Split out the initial
-> probe and open code it in nvme_probe and leave nvme_reset_work to just do
-> the live controller reset.
-> 
-> This fixes a recently introduced bug where nvme_dev_disable causes a NULL
-> pointer dereferences in blk_mq_quiesce_tagset because the tagset pointer
-> is not set when the reset state is entered directly from the new state.
-> The separate probe code can skip the reset state and probe directly and
-> fixes this.
-> 
-> To make sure the system isn't single threaded on enabling nvme
-> controllers, set the PROBE_PREFER_ASYNCHRONOUS flag in the device_driver
-> structure so that the driver core probes in parallel.
-> 
-> Fixes: 98d81f0df70c ("nvme: use blk_mq_[un]quiesce_tagset")
-> Reported-by: Gerd Bayer <gbayer@linux.ibm.com>
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->   drivers/nvme/host/pci.c | 139 ++++++++++++++++++++++++----------------
->   1 file changed, 83 insertions(+), 56 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 1b3c96a4b7c90..1c8c70767cb8a 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -2821,15 +2821,7 @@ static void nvme_reset_work(struct work_struct *work)
->   	result = nvme_pci_enable(dev);
->   	if (result)
->   		goto out_unlock;
-> -
-> -	if (!dev->ctrl.admin_q) {
-> -		result = nvme_pci_alloc_admin_tag_set(dev);
-> -		if (result)
-> -			goto out_unlock;
-> -	} else {
-> -		nvme_start_admin_queue(&dev->ctrl);
-> -	}
-> -
-> +	nvme_start_admin_queue(&dev->ctrl);
->   	mutex_unlock(&dev->shutdown_lock);
->   
->   	/*
-> @@ -2854,9 +2846,6 @@ static void nvme_reset_work(struct work_struct *work)
->   		 */
->   		memset(dev->dbbuf_dbs, 0, nvme_dbbuf_size(dev));
->   		memset(dev->dbbuf_eis, 0, nvme_dbbuf_size(dev));
-> -	} else {
-> -		if (dev->ctrl.oacs & NVME_CTRL_OACS_DBBUF_SUPP)
-> -			nvme_dbbuf_dma_alloc(dev);
->   	}
->   
->   	if (dev->ctrl.hmpre) {
-> @@ -2869,37 +2858,23 @@ static void nvme_reset_work(struct work_struct *work)
->   	if (result)
->   		goto out;
->   
-> -	if (dev->ctrl.tagset) {
-> -		/*
-> -		 * This is a controller reset and we already have a tagset.
-> -		 * Freeze and update the number of I/O queues as thos might have
-> -		 * changed.  If there are no I/O queues left after this reset,
-> -		 * keep the controller around but remove all namespaces.
-> -		 */
-> -		if (dev->online_queues > 1) {
-> -			nvme_start_queues(&dev->ctrl);
-> -			nvme_wait_freeze(&dev->ctrl);
-> -			nvme_pci_update_nr_queues(dev);
-> -			nvme_dbbuf_set(dev);
-> -			nvme_unfreeze(&dev->ctrl);
-> -		} else {
-> -			dev_warn(dev->ctrl.device, "IO queues lost\n");
-> -			nvme_mark_namespaces_dead(&dev->ctrl);
-> -			nvme_start_queues(&dev->ctrl);
-> -			nvme_remove_namespaces(&dev->ctrl);
-> -			nvme_free_tagset(dev);
-> -		}
-> +	/*
-> +	 * Freeze and update the number of I/O queues as thos might have
-> +	 * changed.  If there are no I/O queues left after this reset, keep the
-> +	 * controller around but remove all namespaces.
-> +	 */
-> +	if (dev->online_queues > 1) {
-> +		nvme_start_queues(&dev->ctrl);
-> +		nvme_wait_freeze(&dev->ctrl);
-> +		nvme_pci_update_nr_queues(dev);
-> +		nvme_dbbuf_set(dev);
-> +		nvme_unfreeze(&dev->ctrl);
->   	} else {
-> -		/*
-> -		 * First probe.  Still allow the controller to show up even if
-> -		 * there are no namespaces.
-> -		 */
-> -		if (dev->online_queues > 1) {
-> -			nvme_pci_alloc_tag_set(dev);
-> -			nvme_dbbuf_set(dev);
-> -		} else {
-> -			dev_warn(dev->ctrl.device, "IO queues not created\n");
-> -		}
-> +		dev_warn(dev->ctrl.device, "IO queues lost\n");
-> +		nvme_mark_namespaces_dead(&dev->ctrl);
-> +		nvme_start_queues(&dev->ctrl);
-> +		nvme_remove_namespaces(&dev->ctrl);
-> +		nvme_free_tagset(dev);
-nvme_free_tagset is not necessary when IO queues lost.
-nvme_free_tagset can be called in nvme_pci_free_ctrl.
-If we call nvme_free_tagset here, nvme_dev_disable will still cause a NULL pointer references
-in blk_mq_quiesce_tagset.
+- Hector
