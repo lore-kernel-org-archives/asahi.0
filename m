@@ -1,47 +1,69 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25E32119
-	for <asahi@lists.linux.dev>; Thu, 10 Nov 2022 14:24:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=qoFmVn/RVbiWlU8+j9YvRhNLwQE+IXU9nraJkisEkVk=; b=OQaEJySySnSNYRxSyKz5i9nCv0
-	v6wd4jE08fOsidmsLkDoDw1J6s/txbapm50Y/+AWTgOTHkjzZuJlg8atqHfiX7qrCIUPdR6H4qcm8
-	VnCxLQUsQmyf3/XUXn75nYSihY/pPTh9Dwd+y8+nn40/gORVVeRjp9sRwVg7/WvI6KbMM4kptc6ck
-	YMdy0O0OVv3xglHFMiW3oK87nvw7jqYodjs6qltNUoEjo3VNihF6TyIo0qoAwc6IHLoiNKmYW0pm4
-	BTHwN/r1ITBs2QPMQb87GPyIDpCF/0Kby7XfVXpR6ArBQ473ss0oWHB1KUL9WRYISXh13wVWvsLXD
-	Q4moizjg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35204)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1ot8TF-0005iw-3c; Thu, 10 Nov 2022 14:23:57 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1ot8TD-0006i7-Mq; Thu, 10 Nov 2022 14:23:55 +0000
-Date: Thu, 10 Nov 2022 14:23:55 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42C429A2
+	for <asahi@lists.linux.dev>; Thu, 10 Nov 2022 14:36:23 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id g7so3622270lfv.5
+        for <asahi@lists.linux.dev>; Thu, 10 Nov 2022 06:36:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=A69txW9iggSNkdP/nQ5U6dpUNL+jGVuughye7m5si+I=;
+        b=TzwBwyFSBp6qkaEkfafIvqSCCZPx5YULBwW9S0b3J+5SfWHYxCnTH8VAaxfWnIkchh
+         gT67jqTe4iLpzCjG/AKLmOXon91u5uSHKjC3z57Gf/S5hfoETUMdcfm0Y55Uz7enW7uL
+         TnttORDMbW77Al0vidB2llkLkXhczLLl4dp4YI+vVmlo01D1L1RtuV13NP2m30sOCzZo
+         0rmMoJyeGSdP05w9GvOZvx9ebhTc7m+TfQGXHQq170yprWRSh8X+jguYFvESGPIX40w5
+         MytFPR+/jCEWllShm9nJ4bw4dabv5OdF1puYb4T7ma8aKfUsYdfkv7CpJtb5oDL01OOk
+         hlIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=A69txW9iggSNkdP/nQ5U6dpUNL+jGVuughye7m5si+I=;
+        b=l68nKKxaY3pJ+MSSR11Qn60NgKEYbgCLZMgsl4tjPqcvbwx22mG6o96/n3esQowKDa
+         cYZAvEMdcKNmef51PdHdB4vzb/Lo/+Ihlg7USjUCZVVxgm/eSf6CktwJPiuJNnpJyr1V
+         D7eWAtEcQZKUtiMcG39UqtmmTWFf/6+kfsCQV5NStQtoKbjzAtkDeMtnxwcUD/lMjYto
+         2dQC55lMXFJnxuAdQZyg2p5pN6L151olkxh73D2wjdJJKr6cWlEEkod/JO3Y0b6xfScV
+         tUFVxxluxj9kga8euiwisM/UUFUmCGZY7cqIyLKVHxI3MeyvGsqg3+t9jbIfrUyRfu+G
+         vShQ==
+X-Gm-Message-State: ACrzQf1kXOWaXD+S0/HNMETcx0d0VtutBK0y4yQTpIHiPg6N4k5oOahb
+	jW4it0JZwvVwr2gUZiiteDJzCg==
+X-Google-Smtp-Source: AMsMyM7KGIkty4xZO/9jQRsXxH0v5rDOnPRRVCHh0SQ4GWyXcX+Zd6lGgflOmMs/QVCB2FziHhNHzw==
+X-Received: by 2002:a05:6512:210b:b0:4a2:361d:da22 with SMTP id q11-20020a056512210b00b004a2361dda22mr20829878lfr.561.1668090981735;
+        Thu, 10 Nov 2022 06:36:21 -0800 (PST)
+Received: from [192.168.0.20] (088156142199.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.199])
+        by smtp.gmail.com with ESMTPSA id i24-20020a2ea238000000b002770d98151dsm2746981ljm.122.2022.11.10.06.36.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Nov 2022 06:36:19 -0800 (PST)
+Message-ID: <392bec2d-c4aa-f87d-5250-c62760f808e2@linaro.org>
+Date: Thu, 10 Nov 2022 15:36:17 +0100
+Precedence: bulk
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+Content-Language: en-US
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
 Cc: Rob Herring <robh@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	asahi@lists.linux.dev, devicetree@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac
- System Management Controller
-Message-ID: <Y20Je7quui2iohNR@shell.armlinux.org.uk>
+ Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, asahi@lists.linux.dev,
+ devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Sven Peter <sven@svenpeter.dev>
 References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
  <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
  <531d88b8-75db-1d8f-1384-b8d05594e7b3@linaro.org>
@@ -51,162 +73,57 @@ References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
  <bb77e12a-b218-461b-6aa8-10f2b9a67347@linaro.org>
  <Y20HOW8t3wfFott1@shell.armlinux.org.uk>
  <403f372a-6fd1-b5b6-cfd9-b15147bf1caf@linaro.org>
-Precedence: bulk
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <403f372a-6fd1-b5b6-cfd9-b15147bf1caf@linaro.org>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+ <Y20Je7quui2iohNR@shell.armlinux.org.uk>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <Y20Je7quui2iohNR@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 10, 2022 at 03:21:35PM +0100, Krzysztof Kozlowski wrote:
-> On 10/11/2022 15:14, Russell King (Oracle) wrote:
-> > On Thu, Nov 10, 2022 at 03:00:16PM +0100, Krzysztof Kozlowski wrote:
-> >> On 10/11/2022 12:48, Russell King (Oracle) wrote:
-> >>> On Wed, Nov 09, 2022 at 04:17:23PM -0600, Rob Herring wrote:
-> >>>> On Tue, Nov 08, 2022 at 10:22:31PM +0000, Russell King (Oracle) wrote:
-> >>>>> On Tue, Nov 08, 2022 at 09:55:58PM +0100, Krzysztof Kozlowski wrote:
-> >>>>>> On 08/11/2022 17:33, Russell King (Oracle) wrote:
-> >>>>>>> Add a DT binding for the Apple Mac System Management Controller.
-> >>>>>>
-> >>>>>> Drop the second, redundant "binding" from subject. It's already in prefix.
-> >>>>>
-> >>>>> Yet another thing that's been there from the start... how many more
-> >>>>> things are you going to pick up in subsequent versions of the patch?
-> >>>>> When does this stop?
-> >>>>>
-> >>>>> In any case, taking your comment literally,
-> >>>>>
-> >>>>> "dt-bindings: mfd: add for Apple Mac System Management Controller"
-> >>>>>
-> >>>>> makes no sense, so presumably you want something more than that.
-> >>>>>
-> >>>>> In any case, I see several recent cases already merged which follow
-> >>>>> the pattern that I've used and that you've reviewed.
-> >>>>>
-> >>>>>>> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> >>>>>>> ---
-> >>>>>>>  .../devicetree/bindings/mfd/apple,smc.yaml    | 67 +++++++++++++++++++
-> >>>>>>>  1 file changed, 67 insertions(+)
-> >>>>>>>  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> >>>>>>>
-> >>>>>>> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> >>>>>>> new file mode 100644
-> >>>>>>> index 000000000000..014eba5a1bbc
-> >>>>>>> --- /dev/null
-> >>>>>>> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> >>>>>>> @@ -0,0 +1,67 @@
-> >>>>>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >>>>>>> +%YAML 1.2
-> >>>>>>> +---
-> >>>>>>> +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
-> >>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >>>>>>> +
-> >>>>>>> +title: Apple Mac System Management Controller
-> >>>>>>> +
-> >>>>>>> +maintainers:
-> >>>>>>> +  - Hector Martin <marcan@marcan.st>
-> >>>>>>> +
-> >>>>>>> +description:
-> >>>>>>> +  Apple Mac System Management Controller implements various functions
-> >>>>>>> +  such as GPIO, RTC, power, reboot.
-> >>>>>>> +
-> >>>>>>> +properties:
-> >>>>>>> +  compatible:
-> >>>>>>> +    items:
-> >>>>>>> +      - enum:
-> >>>>>>> +          - apple,t6000-smc
-> >>>>>>> +          - apple,t8103-smc
-> >>>>>>> +          - apple,t8112-smc
-> >>>>>>> +      - const: apple,smc
-> >>>>>>> +
-> >>>>>>> +  reg:
-> >>>>>>> +    items:
-> >>>>>>> +      - description: SMC area
-> >>>>>>> +      - description: SRAM area
-> >>>>>>> +
-> >>>>>>> +  reg-names:
-> >>>>>>> +    items:
-> >>>>>>> +      - const: smc
-> >>>>>>> +      - const: sram
-> >>>>>>> +
-> >>>>>>> +  mboxes:
-> >>>>>>> +    maxItems: 1
-> >>>>>>> +
-> >>>>>>> +  gpio:
-> >>>>>>> +    $ref: /schemas/gpio/gpio-macsmc.yaml
-> >>>>>>
-> >>>>>> So this depends on other patch, so:
-> >>>>>> 1. You need mention the dependency in cover letter (nothing there),
-> >>>>>> 2. Re-order patches.
-> >>>>>>
-> >>>>>> The GPIO cannot go separate tree and this must be explicitly communicated.
-> >>>>>
-> >>>>> Sigh, getting an order that is sensible is really bloody difficult.
-> >>>>
-> >>>> It's not. Sub-devices before the MFD. The only time that doesn't work is 
-> >>>> when the sub-devices put the parent MFD in their example. The solution 
-> >>>> there is don't do that. Just 1 complete example in the MFD schema and no 
-> >>>> examples in the sub-devices.
-> >>>
-> >>> Meanwhile, I was told by Krzysztof that DT schemas must always have an
-> >>> example. So, different person, different story.
-> >>
-> >> Hm, where do you see a message I told you to always have examples? Maybe
-> >> in some discussion I mentioned that examples are desired, but not
-> >> always. There is no point in having example in MFD child device schema
-> >> if it is already part of the parent MFD binding, where it is actually
-> >> required for complete picture.
-> > 
-> > 35ed6e48-40e6-eb14-72de-9a0a4f5b38f8@linaro.org
-> > 
-> > and
+On 10/11/2022 15:23, Russell King (Oracle) wrote:
+>>>
+>>> Make up your bloody minds and stop pissing me about. This is why I've
+>>> given up trying to get this in.
+>>
+>> I don't think it is constructive to discuss this with you anymore.
+>>
+>>>
+>>> Getting a consistent message would be nice, but it seems impossible.
+>>>
+>>
 > 
-> That was independent schema, no references to MFD, thus my comment. If
-> you post such stuff alone without indication it is part of MFD, what do
-> you expect from reviewers?
-> 
-> > 
-> > 2e2356f2-ded1-3cbf-4456-20054a8defda@linaro.org
-> 
-> Which was comment about MFD, right? It is expected to have example for
-> MFD. I never said it is mandatory for every schema, which you implied in
-> previous mailing.
-> 
-> 
-> > 
-> > For the GPIO macsec binding. So I'm getting contradictory information.
-> > First you say that I need an example in the gpio macsec DT binding
-> > yaml document.
-> 
-> First you split patches making reviewers life difficult. Then reviewers
-> don't get entire concept and they answer based what they got.
-> 
-> > 
-> > Now I'm told it should go in the parent.
-> 
-> After posting entire patchset with context you can get better review,
-> yes, that's right.
-> 
-> > 
-> > Make up your bloody minds and stop pissing me about. This is why I've
-> > given up trying to get this in.
-> 
-> I don't think it is constructive to discuss this with you anymore.
-> 
-> > 
-> > Getting a consistent message would be nice, but it seems impossible.
-> > 
-> 
+> In which case you CLEARLY didn't read the cover message to that two
+> patch series.
 
-In which case you CLEARLY didn't read the cover message to that two
-patch series.
+I have every day 100-200 new patches, so not every cover letter gets
+enough attention. Your did not say this is part of MFD, just mentioned
+some build dependency.
 
-Again, YOU are giving contradictory information.
+Anyway, job of submitter is to make the patch and its context readable
+to the reviewers.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+There is literally nothing about including in parent MFD node in DT.
+Just take a look:
+
+https://lore.kernel.org/all/Y1q5jW8ff0aUdjPd@shell.armlinux.org.uk/
+
+Or maybe you refer to this:
+"previously posted before the last merge window."
+Yes, so I will go through hundreds of emails from a week or months to
+satisfy you?
+
+"this driver is dependent on the
+Apple SMC driver in order to be buildable and usable."
+
+The only hint... it's about driver, not MFD. Make it obvious for
+readers, not obvious for you.
+
+"It is expected
+that this Apple SMC driver will be merged via Lee's MFD tree."
+
+Maybe there is dependency, maybe not, who the heck knows.
+
+> Again, YOU are giving contradictory information.
+
+Best regards,
+Krzysztof
+
