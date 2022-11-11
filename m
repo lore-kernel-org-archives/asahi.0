@@ -1,68 +1,59 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47F424F35
-	for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 16:18:19 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id j15so7097109wrq.3
-        for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 08:18:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C2E24F4F
+	for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 17:34:04 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id x2so8572159edd.2
+        for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 09:34:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UFYlmsCB+de1MKykLCFPxeRpHC1cNZyXUBWiz3WJZhE=;
-        b=m0MVD/CdFH+Jhub9b9cVXL6+v2ZVLU8Qv8Aa0UDEUvxL1PsQuSFDx9p5QdfS1QYZmQ
-         XIxtxjPdPpdNGg2NqbZXqV2hgkAYTuW3Gqi9KtBO1x4NyyCnY0Q7NlZkwnaWaq9MUbvo
-         aQOLokkP++DqOwCb9Wn+lb9FiE3BCXTGQM0Pd3tMN888p2rTj5YsO9gzwNwlwtfEoS6P
-         M2EToW5HmtBHpu6Amc2lQt/6Gn9YOtwRthyyejgWm1aBMNOyc6QqpWRmr4KlTkEesp+P
-         RpxXrb1yVYaFBmq4FvauFBK8AHdQGOZ09LpCwBT1/znXjEkSSOCbFC9AFyL9UJ2gmjeo
-         LMOA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VcLz+JLectl4eq76JetIRN2RIxjnki5yQTvjxWRfAgM=;
+        b=D9eruaRgsUTg63mWpBsgzufnU+S1W0EcOItzcOWKFcDN4Fj99yc9qisypftFtx/Ou1
+         12/wvgaiKsjgrVniAsiC5abbCGEaX2luQRIC3lz8eStkPcrWtowlAkXozzcYRAPAyKJ7
+         zl6V0DJKSeAGwM1v+S3fJCR0XUpxoyoVqncMj+mtLB0oDajxjVwy1H4VB6MUHx1Aa2lx
+         WUHFNwp6siYTeAIINk2BhlHRA+446txsPaIN8KMo0fN5GYnDMMMtJRqKZao7/iRT7KoS
+         5vg49szXKtScm8SjxfDxNDIXk9Tw5v2gN9wVXSEoqVin7PwGFaWTCR3IviOZQZYQKSxM
+         DHMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UFYlmsCB+de1MKykLCFPxeRpHC1cNZyXUBWiz3WJZhE=;
-        b=yhMBux1ngWXqx2cTrXbPbSAVtN7DhyaqvUN4/LEJYgNXGi+faEEpKFiW8P6kFMoJUs
-         Gh5KFD+uGxOtxu3AoAQC4vFZPIvIbZGpajQazpUIZHKYrGi1P+YjY4mf/c3BmPimhXw+
-         fm8ocwx/ddVmRPBSxFWYzDNNv5DMySCSFtjBJNPd3QyVKE37hYstnTHjvSvN8OvHI1sr
-         W5A9dVW+NhD8nNF+nqFvYE+OGMaQaig40GQf0wLjJ0wT4UhLIkpt3tzomxdc7uRrXWD9
-         AK5/imt/N2I3xPl6BLqN/GKvuQMsk6Zf7/HWRrnibAMGjG24lFF/t5AmeNnh0dBfs+bt
-         WJHQ==
-X-Gm-Message-State: ANoB5pkKA8pQFSLmW2/x8JxU+V8DBArnp24VBWmvUzu7fkM34fFb2Z3A
-	g7uyJ8v7LqxAReUU65rhRbo=
-X-Google-Smtp-Source: AA0mqf53WVJ+L6bov99XmumvVtupfxkS3Af7POoygSof3WxWKR0KRGYMzenSg9pN/4P7jCtGKnHnaA==
-X-Received: by 2002:a5d:528c:0:b0:22f:da60:345 with SMTP id c12-20020a5d528c000000b0022fda600345mr1721302wrv.218.1668183497900;
-        Fri, 11 Nov 2022 08:18:17 -0800 (PST)
-Received: from localhost (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id z8-20020adfec88000000b00236722ebe66sm2297016wrn.75.2022.11.11.08.18.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Nov 2022 08:18:16 -0800 (PST)
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>,
-	Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Ashish Mhetre <amhetre@nvidia.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-	Janne Grunau <j@jannau.net>,
-	Sameer Pujar <spujar@nvidia.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	devicetree@vger.kernel.org,
-	iommu@lists.linux-foundation.org,
-	linux-tegra@vger.kernel.org,
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VcLz+JLectl4eq76JetIRN2RIxjnki5yQTvjxWRfAgM=;
+        b=pNPNFn4/nOJ4wX2vQbvJJcRlMyyKn9O0qa2JJEJdkB+h4grzLT9rX/ks85lCEmM27x
+         FipV8h9WP+nufcs7YnxmRD5ywc7dUvpm9xvf6OcG9RsBaE2Y2teYecWFr02c6O6G+1zE
+         LBHF6kmLiTjjd3dt756GIPK3yYYzRVdKtu38Pxbt9IA/9XLgBHjBzBkblL3lNvWBqeot
+         HpXbWND/IXh1+M6BLuglkpx0vqS2f00IzmQrp10NBH4yxYPr9kKjVmQ7L4aCXBnfr7Ja
+         hqtKJDdng+HY8HefFTH3U7QVw2mi2dScYSRz5+pU6PnR7tcqiBKBvoxOjNcTTK6k90rc
+         GBcw==
+X-Gm-Message-State: ANoB5pn/ocO36swu4sKdfv2DLwR0pnD9nfWuRI5nNPQOCjg2uHc5oUY3
+	/kIv3yiVuvg7YkmqIksi5kE=
+X-Google-Smtp-Source: AA0mqf4ckoin6dGD/x5XJtdvqAL0YTD5HKpohCb+EetbuAAk3yn/kZAu0w6RnZJIPV0/UUtoMLBHRA==
+X-Received: by 2002:a05:6402:1bdc:b0:463:7312:a94 with SMTP id ch28-20020a0564021bdc00b0046373120a94mr2496485edb.178.1668188042536;
+        Fri, 11 Nov 2022 09:34:02 -0800 (PST)
+Received: from localhost ([85.153.204.139])
+        by smtp.gmail.com with UTF8SMTPSA id ku21-20020a170907789500b007ae1ab8f887sm1138089ejc.14.2022.11.11.09.34.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Nov 2022 09:34:01 -0800 (PST)
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+To: thierry.reding@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org
+Cc: marcan@marcan.st,
+	sven@svenpeter.dev,
+	alyssa@rosenzweig.io,
 	asahi@lists.linux.dev,
-	Frank Rowand <frowand.list@gmail.com>,
-	Rob Herring <robh@kernel.org>
-Subject: [PATCH v11 4/5] iommu: Implement of_iommu_get_resv_regions()
-Date: Fri, 11 Nov 2022 17:18:05 +0100
-Message-Id: <20221111161806.630527-5-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221111161806.630527-1-thierry.reding@gmail.com>
-References: <20221111161806.630527-1-thierry.reding@gmail.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>
+Subject: [PATCH v3 0/4] PWM and keyboard backlight driver for ARM Macs
+Date: Fri, 11 Nov 2022 20:33:44 +0300
+Message-Id: <20221111173348.6537-1-fnkl.kernel@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -71,190 +62,39 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Thierry Reding <treding@nvidia.com>
+Hi,
 
-This is an implementation that IOMMU drivers can use to obtain reserved
-memory regions from a device tree node. It uses the reserved-memory DT
-bindings to find the regions associated with a given device. If these
-regions are marked accordingly, identity mappings will be created for
-them in the IOMMU domain that the devices will be attached to.
+This is the v3 of the patch series to add PWM and keyboard backlight
+driver for ARM macs.
 
-Cc: Frank Rowand <frowand.list@gmail.com>
-Cc: devicetree@vger.kernel.org
-Reviewed-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
-Changes in v10:
-- extract more code into the new iommu_resv_region_get_type() function
-- rename variables for physical and I/O virtual addresses for clarity
-- default to IOMMU_RESV_DIRECT instead of IOMMU_RESV_DIRECT_RELAXABLE
-- use newly introduced of_translate_dma_region()
-
-Changes in v9:
-- address review comments by Robin Murphy:
-  - warn about non-direct mappings since they are not supported yet
-  - cleanup code to require less indentation
-  - narrow scope of variables
-
-Changes in v8:
-- cleanup set-but-unused variables
-
-Changes in v6:
-- remove reference to now unused dt-bindings/reserved-memory.h include
-
-Changes in v5:
-- update for new "iommu-addresses" device tree bindings
-
-Changes in v4:
-- fix build failure on !CONFIG_OF_ADDRESS
-
-Changes in v3:
-- change "active" property to identity mapping flag that is part of the
-  memory region specifier (as defined by #memory-region-cells) to allow
-  per-reference flags to be used
+Changes in v1:
+Addressing the review comments.
 
 Changes in v2:
-- use "active" property to determine whether direct mappings are needed
+Added the reviewed-by and acked-by tags.
+Addressing a review comment.
 
- drivers/iommu/of_iommu.c | 94 ++++++++++++++++++++++++++++++++++++++++
- include/linux/of_iommu.h |  8 ++++
- 2 files changed, 102 insertions(+)
+v1: https://www.spinics.net/lists/linux-pwm/msg19500.html
+v2: https://www.spinics.net/lists/linux-pwm/msg19562.html
 
-diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-index 5696314ae69e..fa7c63a4abbf 100644
---- a/drivers/iommu/of_iommu.c
-+++ b/drivers/iommu/of_iommu.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/msi.h>
- #include <linux/of.h>
-+#include <linux/of_address.h>
- #include <linux/of_iommu.h>
- #include <linux/of_pci.h>
- #include <linux/pci.h>
-@@ -172,3 +173,96 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
- 
- 	return ops;
- }
-+
-+static enum iommu_resv_type iommu_resv_region_get_type(struct device *dev, struct resource *phys,
-+						       phys_addr_t start, size_t length)
-+{
-+	phys_addr_t end = start + length - 1;
-+
-+	/*
-+	 * IOMMU regions without an associated physical region cannot be
-+	 * mapped and are simply reservations.
-+	 */
-+	if (phys->start >= phys->end)
-+		return IOMMU_RESV_RESERVED;
-+
-+	/* may be IOMMU_RESV_DIRECT_RELAXABLE for certain cases */
-+	if (start == phys->start && end == phys->end)
-+		return IOMMU_RESV_DIRECT;
-+
-+	dev_warn(dev, "treating non-direct mapping [%pr] -> [%pap-%pap] as reservation\n", &phys,
-+		 &start, &end);
-+	return IOMMU_RESV_RESERVED;
-+}
-+
-+/**
-+ * of_iommu_get_resv_regions - reserved region driver helper for device tree
-+ * @dev: device for which to get reserved regions
-+ * @list: reserved region list
-+ *
-+ * IOMMU drivers can use this to implement their .get_resv_regions() callback
-+ * for memory regions attached to a device tree node. See the reserved-memory
-+ * device tree bindings on how to use these:
-+ *
-+ *   Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
-+ */
-+void of_iommu_get_resv_regions(struct device *dev, struct list_head *list)
-+{
-+#if IS_ENABLED(CONFIG_OF_ADDRESS)
-+	struct of_phandle_iterator it;
-+	int err;
-+
-+	of_for_each_phandle(&it, err, dev->of_node, "memory-region", NULL, 0) {
-+		const __be32 *maps, *end;
-+		struct resource phys;
-+		int size;
-+
-+		memset(&phys, 0, sizeof(phys));
-+
-+		/*
-+		 * The "reg" property is optional and can be omitted by reserved-memory regions
-+		 * that represent reservations in the IOVA space, which are regions that should
-+		 * not be mapped.
-+		 */
-+		if (of_find_property(it.node, "reg", NULL)) {
-+			err = of_address_to_resource(it.node, 0, &phys);
-+			if (err < 0) {
-+				dev_err(dev, "failed to parse memory region %pOF: %d\n",
-+					it.node, err);
-+				continue;
-+			}
-+		}
-+
-+		maps = of_get_property(it.node, "iommu-addresses", &size);
-+		if (!maps)
-+			continue;
-+
-+		end = maps + size / sizeof(__be32);
-+
-+		while (maps < end) {
-+			struct device_node *np;
-+			u32 phandle;
-+
-+			phandle = be32_to_cpup(maps++);
-+			np = of_find_node_by_phandle(phandle);
-+
-+			if (np == dev->of_node) {
-+				int prot = IOMMU_READ | IOMMU_WRITE;
-+				struct iommu_resv_region *region;
-+				enum iommu_resv_type type;
-+				phys_addr_t iova;
-+				size_t length;
-+
-+				maps = of_translate_dma_region(np, maps, &iova, &length);
-+				type = iommu_resv_region_get_type(dev, &phys, iova, length);
-+
-+				region = iommu_alloc_resv_region(iova, length, prot, type,
-+								 GFP_KERNEL);
-+				if (region)
-+					list_add_tail(&region->list, list);
-+			}
-+		}
-+	}
-+#endif
-+}
-+EXPORT_SYMBOL(of_iommu_get_resv_regions);
-diff --git a/include/linux/of_iommu.h b/include/linux/of_iommu.h
-index 55c1eb300a86..9a5e6b410dd2 100644
---- a/include/linux/of_iommu.h
-+++ b/include/linux/of_iommu.h
-@@ -12,6 +12,9 @@ extern const struct iommu_ops *of_iommu_configure(struct device *dev,
- 					struct device_node *master_np,
- 					const u32 *id);
- 
-+extern void of_iommu_get_resv_regions(struct device *dev,
-+				      struct list_head *list);
-+
- #else
- 
- static inline const struct iommu_ops *of_iommu_configure(struct device *dev,
-@@ -21,6 +24,11 @@ static inline const struct iommu_ops *of_iommu_configure(struct device *dev,
- 	return NULL;
- }
- 
-+static inline void of_iommu_get_resv_regions(struct device *dev,
-+					     struct list_head *list)
-+{
-+}
-+
- #endif	/* CONFIG_OF_IOMMU */
- 
- #endif /* __OF_IOMMU_H */
+Sasha Finkelstein (4):
+  dt-bindings: pwm: Add Apple PWM controller
+  pwm: Add Apple PWM controller
+  arm64: dts: apple: t8103: Add PWM controller
+  MAINTAINERS: Add entries for Apple PWM driver
+
+ .../bindings/pwm/apple,s5l-fpwm.yaml          |  51 +++++++
+ MAINTAINERS                                   |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts      |  20 +++
+ arch/arm64/boot/dts/apple/t8103-j313.dts      |  20 +++
+ arch/arm64/boot/dts/apple/t8103.dtsi          |   9 ++
+ drivers/pwm/Kconfig                           |  12 ++
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-apple.c                       | 127 ++++++++++++++++++
+ 8 files changed, 242 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+ create mode 100644 drivers/pwm/pwm-apple.c
+
 -- 
 2.38.1
 
