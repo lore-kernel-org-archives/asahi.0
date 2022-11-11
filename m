@@ -1,62 +1,40 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164D524F4F
-	for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 17:34:24 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id 13so14167287ejn.3
-        for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 09:34:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WNL6IfTe0wzPq8NWBK/D96/5y8l3oPapGeg3sP1iP80=;
-        b=ZiUNfWdS+2kgkaKJuTKbf+3zGC6VlGeB9T3IBZAioQZkrkhbJwmO60/IQP7d4odxOd
-         UQ9P/NHEflrVY3Um9feS1Tq2bYLLXYUUmZOpTPgtpvRLA1a0cCvcG8zFNIWOKIwtyApR
-         kmw9g2Yj5pzFx2qaZzl2VuzjXA859mMBprMcsy+6rpX8mUKZO2UIi29+pX5+5QinRPnt
-         te6I9Y0Vl5WvYvNH/QQfWUziOp1hqe1GBkRFVW6YDYRjTnAxRe6pblWJkitt61N++Q8W
-         Yky075tee/8i0S7Jdvfa0RullX4+2DxdfuZRmvF2rrsmNWbH72mRmHlzDHiA+ltP6EE2
-         TFPg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32EE28FA
+	for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 21:29:24 +0000 (UTC)
+Received: by mail-oo1-f42.google.com with SMTP id g15-20020a4a894f000000b0047f8e899623so821963ooi.5
+        for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 13:29:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WNL6IfTe0wzPq8NWBK/D96/5y8l3oPapGeg3sP1iP80=;
-        b=EjnZKKp8FwDfTdm1u0jE2xkYlcFGGoReHdCxfo06ZiBiJsDuQKct/08RTs2vYtBqi3
-         I6i4g5vjB0+q+qpwXM8tZhWfpWlrSMq2NfNpQLRddjEUzrS4CjMpSP87eMfxf+ars9xw
-         0yD2KZOftwQXSc/rxyTz0p/LyjSEIx3KzgdBKZcjzNXoti0LmW2uTyNkWzoGv+VJ8F0f
-         +jb2IQ2VpFblVBuQzQ2LbOwK5b2HRwSBdBH+Wt1x9w1sDt/SOoHzF1PYYpF/EMV5UWuS
-         wVv7L1QMa+xo70gtqoW0slSlKl/uputeSc6vxnH7jNXWXD86I+3EprrpBxQP+ed7Nv0v
-         7UdA==
-X-Gm-Message-State: ANoB5pkhJFf92fDoEDv8PJ2GzEt543gFVhMnJ1SUx6GbcVV7xbQ4di8+
-	7hngi2PqUUQWg8jqUtRf5Dg=
-X-Google-Smtp-Source: AA0mqf4WNUX8D3AJJ+yKFXFkOeOfQnJkafQvX4JqhdEVmSHraQl66sol6L5QnsfhPdMBvLHU7ww+uQ==
-X-Received: by 2002:a17:906:2852:b0:7ad:9f03:fd44 with SMTP id s18-20020a170906285200b007ad9f03fd44mr2722601ejc.73.1668188063262;
-        Fri, 11 Nov 2022 09:34:23 -0800 (PST)
-Received: from localhost ([85.153.204.139])
-        by smtp.gmail.com with UTF8SMTPSA id lb21-20020a170907785500b0073dbaeb50f6sm1072867ejc.169.2022.11.11.09.34.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Nov 2022 09:34:22 -0800 (PST)
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-To: thierry.reding@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org
-Cc: marcan@marcan.st,
-	sven@svenpeter.dev,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH v3 4/4] MAINTAINERS: Add entries for Apple PWM driver
-Date: Fri, 11 Nov 2022 20:33:48 +0300
-Message-Id: <20221111173348.6537-5-fnkl.kernel@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20221111173348.6537-1-fnkl.kernel@gmail.com>
-References: <20221111173348.6537-1-fnkl.kernel@gmail.com>
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hIp7jd8BG+VyztOlnNrMSKLknJT+C5EdBhL10GKzhBU=;
+        b=LfPKdt0ztPkpylJoFtIqqZTeE37Ii04b924exNMI1288BQGS9ejlj4pJBX8bB1yKPj
+         tEH3lkqYx9AWffhdeMwcfKwbTs0lZYGfiU/ZIliywxIAnpWdATSEBVO9mkCRrIHwuYNS
+         iVuYOEI9D38WjZ7AsSvvaYg+UXndLJzjbtFELmin2CbNKYR8ACcrA1o+N4ECyZXmIxEM
+         5s/s/7HY+ldCDLioS9Eep/vDfT6qtAoMtl5/5EmUXFU+7eypFpdOZePcVTb/yge1lEmb
+         vx9Cw3YPo2p1IOuo3QZR66X0xNme4zNCBTsR03Peo/YBPsE55w5fYXngLK8xnEoY51SR
+         GVkA==
+X-Gm-Message-State: ANoB5pnL1iJcLsebwTZ5Xq6Ek5LhPhZWwxiO1T8DeX1lP5IdXL4x/2uV
+	N6T8ftT5YCanPii6m+6flw==
+X-Google-Smtp-Source: AA0mqf4qpdSnYe3yq24GgO3dKhAyK4uUgFYDUEN8XGhdue/Iag212Co/ECLO5w9c0X6gMaWFOQI4fg==
+X-Received: by 2002:a4a:5884:0:b0:498:9589:b7ac with SMTP id f126-20020a4a5884000000b004989589b7acmr1706732oob.56.1668202163616;
+        Fri, 11 Nov 2022 13:29:23 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t9-20020a056870638900b0013c955f64dbsm1802406oap.41.2022.11.11.13.29.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Nov 2022 13:29:23 -0800 (PST)
+Received: (nullmailer pid 4104940 invoked by uid 1000);
+	Fri, 11 Nov 2022 21:29:24 -0000
+From: Rob Herring <robh@kernel.org>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@somainline.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, Robin Murphy <robin.murphy@arm.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Thara Gopinath <thara.gopinath@linaro.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: [PATCH] dt-bindings: Drop type from 'cpus' property
+Date: Fri, 11 Nov 2022 15:28:56 -0600
+Message-Id: <20221111212857.4104308-1-robh@kernel.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -65,34 +43,75 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the MAINTAINERS entries for the driver
+'cpus' is a common property, and it is now defined in dtschema schemas,
+so drop the type references in the tree.
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Acked-by: Sven Peter <sven@svenpeter.dev>
+Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/interrupt-controller/apple,aic.yaml | 1 -
+ Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml     | 3 ---
+ Documentation/devicetree/bindings/power/renesas,apmu.yaml   | 6 ++----
+ Documentation/devicetree/bindings/thermal/qcom-lmh.yaml     | 2 +-
+ 4 files changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 046ff06ff97f..69f56f7cf907 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1908,6 +1908,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
-+F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/clk/clk-apple-nco.c
-@@ -1921,6 +1922,7 @@ F:	drivers/mailbox/apple-mailbox.c
- F:	drivers/nvme/host/apple.c
- F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
-+F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+index e18107eafe7c..698588e9aa86 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+@@ -90,7 +90,6 @@ properties:
+             maximum: 5
+ 
+           cpus:
+-            $ref: /schemas/types.yaml#/definitions/phandle-array
+             description:
+               Should be a list of phandles to CPU nodes (as described in
+               Documentation/devicetree/bindings/arm/cpus.yaml).
+diff --git a/Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml b/Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml
+index c87821be158b..a740378ed592 100644
+--- a/Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml
++++ b/Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml
+@@ -32,11 +32,8 @@ properties:
+       - description: nCLUSTERPMUIRQ interrupt
+ 
+   cpus:
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
+     minItems: 1
+     maxItems: 12
+-    items:
+-      maxItems: 1
+     description: List of phandles for the CPUs connected to this DSU instance.
+ 
+ required:
+diff --git a/Documentation/devicetree/bindings/power/renesas,apmu.yaml b/Documentation/devicetree/bindings/power/renesas,apmu.yaml
+index f2cc89e7f4e4..2b4d802ef4b2 100644
+--- a/Documentation/devicetree/bindings/power/renesas,apmu.yaml
++++ b/Documentation/devicetree/bindings/power/renesas,apmu.yaml
+@@ -34,10 +34,8 @@ properties:
+     maxItems: 1
+ 
+   cpus:
+-    $ref: /schemas/types.yaml#/definitions/phandle-array
+-    items:
+-      minItems: 1
+-      maxItems: 4
++    minItems: 1
++    maxItems: 4
+     description: |
+       Array of phandles pointing to CPU cores, which should match the order of
+       CPU cores used by the WUPCR and PSTR registers in the Advanced Power
+diff --git a/Documentation/devicetree/bindings/thermal/qcom-lmh.yaml b/Documentation/devicetree/bindings/thermal/qcom-lmh.yaml
+index e1587ddf7de3..92762efc2120 100644
+--- a/Documentation/devicetree/bindings/thermal/qcom-lmh.yaml
++++ b/Documentation/devicetree/bindings/thermal/qcom-lmh.yaml
+@@ -37,7 +37,7 @@ properties:
+   cpus:
+     description:
+       phandle of the first cpu in the LMh cluster
+-    $ref: /schemas/types.yaml#/definitions/phandle
++    maxItems: 1
+ 
+   qcom,lmh-temp-arm-millicelsius:
+     description:
 -- 
-2.38.1
+2.35.1
 
