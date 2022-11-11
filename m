@@ -1,43 +1,43 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20BA24F4F
-	for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 17:34:21 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id ud5so14119620ejc.4
-        for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 09:34:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164D524F4F
+	for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 17:34:24 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id 13so14167287ejn.3
+        for <asahi@lists.linux.dev>; Fri, 11 Nov 2022 09:34:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u5GqgUQltU/UwWJVmKB9yBrhZ1yrd9RICIJ3rDIHDxU=;
-        b=BYViKet/CZKXvHTS3HlQWmBj09BBq1AYiW0SCIXjYp8h4OM4k+MGKh/8MMSBZKGobi
-         ZXQFXI+vEkXyeVYhJYgacvuetIi1/+nNsmH7Pr019WNsaNzUlnbns60k6b65h+HgB/BT
-         QQJaqNyyXa8YvuSMbADbmW8l7wHDmWpjZQOsPcDSCLc8tP5ZlQlvEGy4olnXNYODMIIc
-         iL1kPwBhZB9h4i2sJpBLLlZOB+HvoQl5n9srWG8F7v1R75MWG9bRhAcv/Qoq33beLAq0
-         mYi2qoNYXnZrvdu1hH6A2msUDybDAA5EtrBpi1mlxypKok/JZzTbZ/Qdoj0/f22V7d0A
-         urZQ==
+        bh=WNL6IfTe0wzPq8NWBK/D96/5y8l3oPapGeg3sP1iP80=;
+        b=ZiUNfWdS+2kgkaKJuTKbf+3zGC6VlGeB9T3IBZAioQZkrkhbJwmO60/IQP7d4odxOd
+         UQ9P/NHEflrVY3Um9feS1Tq2bYLLXYUUmZOpTPgtpvRLA1a0cCvcG8zFNIWOKIwtyApR
+         kmw9g2Yj5pzFx2qaZzl2VuzjXA859mMBprMcsy+6rpX8mUKZO2UIi29+pX5+5QinRPnt
+         te6I9Y0Vl5WvYvNH/QQfWUziOp1hqe1GBkRFVW6YDYRjTnAxRe6pblWJkitt61N++Q8W
+         Yky075tee/8i0S7Jdvfa0RullX4+2DxdfuZRmvF2rrsmNWbH72mRmHlzDHiA+ltP6EE2
+         TFPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=u5GqgUQltU/UwWJVmKB9yBrhZ1yrd9RICIJ3rDIHDxU=;
-        b=5bBBxGD17mogBsLaJPEshiITOPTEabz5VKAGwLqplsHo+H9nArTPpgfWhsfQWPvPsC
-         zUORymX6rzifpuvH3O6w4pjervYPGDyauv26nVbEO5sGpYrnNjD+BoGRZVaibSTbOdX0
-         DDuNFU1lLaEjOv13SrYd3Qhq8bx1/JsIe6ayOaKnmW5NBPRxz9MJl0+AQhVxeNtYhGBx
-         GCm3ReQFuwyH0XyuE4ZmlsMqJDbepYviBl17SOxUnrReCcMDHn/f5jp8hehT3mjv1TAI
-         6YxlRRrI3yyv+/Oi2oXLb+qA7Wvjsbv4rmwfQrMcFSdYVhckZUt6Gy7lFvIq104wF3Ne
-         VHgQ==
-X-Gm-Message-State: ANoB5pmEilpu7hglsuQMrt/Ah3kq3eDFPYSnzAbpv+xnsjLMMHBQA9H1
-	C74cT4sPY5mpXluZcSVDvkQ=
-X-Google-Smtp-Source: AA0mqf6TJYdmBV4uqcojNktHAUuSrWKh+40hrVO5UjWbk/L98q28A7iRK2dih/ex8yogPUty9MNm1w==
-X-Received: by 2002:a17:906:2856:b0:7a9:a59c:4be with SMTP id s22-20020a170906285600b007a9a59c04bemr2675063ejc.556.1668188060238;
-        Fri, 11 Nov 2022 09:34:20 -0800 (PST)
+        bh=WNL6IfTe0wzPq8NWBK/D96/5y8l3oPapGeg3sP1iP80=;
+        b=EjnZKKp8FwDfTdm1u0jE2xkYlcFGGoReHdCxfo06ZiBiJsDuQKct/08RTs2vYtBqi3
+         I6i4g5vjB0+q+qpwXM8tZhWfpWlrSMq2NfNpQLRddjEUzrS4CjMpSP87eMfxf+ars9xw
+         0yD2KZOftwQXSc/rxyTz0p/LyjSEIx3KzgdBKZcjzNXoti0LmW2uTyNkWzoGv+VJ8F0f
+         +jb2IQ2VpFblVBuQzQ2LbOwK5b2HRwSBdBH+Wt1x9w1sDt/SOoHzF1PYYpF/EMV5UWuS
+         wVv7L1QMa+xo70gtqoW0slSlKl/uputeSc6vxnH7jNXWXD86I+3EprrpBxQP+ed7Nv0v
+         7UdA==
+X-Gm-Message-State: ANoB5pkhJFf92fDoEDv8PJ2GzEt543gFVhMnJ1SUx6GbcVV7xbQ4di8+
+	7hngi2PqUUQWg8jqUtRf5Dg=
+X-Google-Smtp-Source: AA0mqf4WNUX8D3AJJ+yKFXFkOeOfQnJkafQvX4JqhdEVmSHraQl66sol6L5QnsfhPdMBvLHU7ww+uQ==
+X-Received: by 2002:a17:906:2852:b0:7ad:9f03:fd44 with SMTP id s18-20020a170906285200b007ad9f03fd44mr2722601ejc.73.1668188063262;
+        Fri, 11 Nov 2022 09:34:23 -0800 (PST)
 Received: from localhost ([85.153.204.139])
-        by smtp.gmail.com with UTF8SMTPSA id wl6-20020a170907310600b007add28659b0sm1098058ejb.140.2022.11.11.09.34.18
+        by smtp.gmail.com with UTF8SMTPSA id lb21-20020a170907785500b0073dbaeb50f6sm1072867ejc.169.2022.11.11.09.34.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Nov 2022 09:34:19 -0800 (PST)
+        Fri, 11 Nov 2022 09:34:22 -0800 (PST)
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 To: thierry.reding@gmail.com,
 	robh+dt@kernel.org,
@@ -51,9 +51,9 @@ Cc: marcan@marcan.st,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH v3 3/4] arm64: dts: apple: t8103: Add PWM controller
-Date: Fri, 11 Nov 2022 20:33:47 +0300
-Message-Id: <20221111173348.6537-4-fnkl.kernel@gmail.com>
+Subject: [PATCH v3 4/4] MAINTAINERS: Add entries for Apple PWM driver
+Date: Fri, 11 Nov 2022 20:33:48 +0300
+Message-Id: <20221111173348.6537-5-fnkl.kernel@gmail.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 In-Reply-To: <20221111173348.6537-1-fnkl.kernel@gmail.com>
 References: <20221111173348.6537-1-fnkl.kernel@gmail.com>
@@ -65,106 +65,34 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds PWM controller and keyboard backlight bindings for M1 MacBooks
+Add the MAINTAINERS entries for the driver
 
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Acked-by: Sven Peter <sven@svenpeter.dev>
 ---
- arch/arm64/boot/dts/apple/t8103-j293.dts | 20 ++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8103-j313.dts | 20 ++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8103.dtsi     |  9 +++++++++
- 3 files changed, 49 insertions(+)
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index ecb10d237a05..0b4b7e8e0726 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -11,6 +11,7 @@
- 
- #include "t8103.dtsi"
- #include "t8103-jxxx.dtsi"
-+#include <dt-bindings/leds/common.h>
- 
- / {
- 	compatible = "apple,j293", "apple,t8103", "apple,arm-platform";
-@@ -43,3 +44,22 @@ &i2c2 {
- &i2c4 {
- 	status = "okay";
- };
-+
-+/ {
-+	led-controller {
-+		compatible = "pwm-leds";
-+		led-0 {
-+			pwms = <&fpwm1 0 40000>;
-+			pwm-names = "kbd-backlight";
-+			label = "kbd_backlight";
-+			function = LED_FUNCTION_KBD_BACKLIGHT;
-+			color = <LED_COLOR_ID_WHITE>;
-+			max-brightness = <255>;
-+			default-state = "keep";
-+		};
-+	};
-+};
-+
-+&fpwm1 {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index df741737b8e6..0e0f57dee96b 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -11,6 +11,7 @@
- 
- #include "t8103.dtsi"
- #include "t8103-jxxx.dtsi"
-+#include <dt-bindings/leds/common.h>
- 
- / {
- 	compatible = "apple,j313", "apple,t8103", "apple,arm-platform";
-@@ -35,3 +36,22 @@ &pcie0_dart_2 {
- 
- /delete-node/ &port01;
- /delete-node/ &port02;
-+
-+/ {
-+	led-controller {
-+		compatible = "pwm-leds";
-+		led-0 {
-+			pwms = <&fpwm1 0 40000>;
-+			pwm-names = "kbd-backlight";
-+			label = "kbd_backlight";
-+			function = LED_FUNCTION_KBD_BACKLIGHT;
-+			color = <LED_COLOR_ID_WHITE>;
-+			max-brightness = <255>;
-+			default-state = "keep";
-+		};
-+	};
-+};
-+
-+&fpwm1 {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 51a63b29d404..ccdb26ef6b22 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -191,6 +191,15 @@ i2c4: i2c@235020000 {
- 			status = "disabled"; /* only used in J293 */
- 		};
- 
-+		fpwm1: pwm@235044000 {
-+			compatible = "apple,t8103-fpwm", "apple,s5l-fpwm";
-+			reg = <0x2 0x35044000 0x0 0x4000>;
-+			power-domains = <&ps_fpwm1>;
-+			clocks = <&clkref>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
- 		serial0: serial@235200000 {
- 			compatible = "apple,s5l-uart";
- 			reg = <0x2 0x35200000 0x0 0x1000>;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 046ff06ff97f..69f56f7cf907 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1908,6 +1908,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
+ F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
+ F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+ F:	Documentation/devicetree/bindings/power/apple*
++F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+ F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+ F:	arch/arm64/boot/dts/apple/
+ F:	drivers/clk/clk-apple-nco.c
+@@ -1921,6 +1922,7 @@ F:	drivers/mailbox/apple-mailbox.c
+ F:	drivers/nvme/host/apple.c
+ F:	drivers/nvmem/apple-efuses.c
+ F:	drivers/pinctrl/pinctrl-apple-gpio.c
++F:	drivers/pwm/pwm-apple.c
+ F:	drivers/soc/apple/*
+ F:	drivers/watchdog/apple_wdt.c
+ F:	include/dt-bindings/interrupt-controller/apple-aic.h
 -- 
 2.38.1
 
