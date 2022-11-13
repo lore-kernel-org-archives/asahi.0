@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8360C1850
-	for <asahi@lists.linux.dev>; Sun, 13 Nov 2022 16:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B973E1850
+	for <asahi@lists.linux.dev>; Sun, 13 Nov 2022 16:12:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=yHpt6ED/+AEhJM5joO3jOPvLb/JsyYQ8YtKgvKmjY28=; b=fR/lJ65uNfskxG52hdNGdKvX/p
-	RyfWwk+8AXRN6fm2MJQ4e7qD7tzswyRhMWFwFunU1P117MWHa52dQfSnmJiL14g0kod6KrpogG6MO
-	Mh8ZtC/cVigrElf/UXsHjfbza/ikO3AIC4xOttbjRqy0Pz3iVNHdPWsixUq5FbVS+2b2ANILldtsd
-	DXkNUyr+ll2hjngKMyOfAqHZcuP4FCWhdeMDgmZ0j/fb/gTWo0p27mgUQYfXxIuS1W2MJu0c2v+qA
-	UTV7PRfUFujQ6TIf3IikXjaYejwcbPcF+2Yy1Amk7uq4voUNR6nrw6a1ZWXctw4WjV7hOzGmrL0Ds
-	iCwYuI3w==;
+	bh=JskPbanT7ns+OWNy0b/lpfB1mdd2cepy0iLXfthLb7w=; b=JVLlCzuVjaMomYV1LRHvum6fvN
+	c8cxtU/rp1JRO8Pe5A32BjR4Vv2/4jv6Jhz1N2IB/7HAh5og9QD0JmDMNGqnGLs5dxqskC2c0zPxf
+	yvmzo6aV91nWv6AA8U/lYm1oVcMHgBa/C3jEGvxtB0QiVC56uT8ASCj+Z1wkQZD2pyzHGhrhY3bJC
+	uWk4mYPfnmHIxtHCQdpp/aje1T6quZfwy5oWCOOd2aptsh9BJ7NgryJa3puduwIo0HtYiWA9WuV7F
+	pYGY2AaKzcl1kIPe2pSirRpu9BY2eERNmVZBUHiG35pd6Bok6x/lU496nWuyZ9ZLHtsGcppYMW8Id
+	YgXth3lg==;
 Received: from 213-225-8-167.nat.highway.a1.net ([213.225.8.167] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ouFaa-00CBx0-5m; Sun, 13 Nov 2022 16:12:09 +0000
+	id 1ouFaf-00CBzw-Pn; Sun, 13 Nov 2022 16:12:14 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -23,9 +23,9 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Gerd Bayer <gbayer@linux.ibm.com>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 07/13] nvme-pci: factor out a nvme_pci_alloc_dev helper
-Date: Sun, 13 Nov 2022 17:11:32 +0100
-Message-Id: <20221113161138.883195-8-hch@lst.de>
+Subject: [PATCH 08/13] nvme-pci: set constant paramters in nvme_pci_alloc_ctrl
+Date: Sun, 13 Nov 2022 17:11:33 +0100
+Message-Id: <20221113161138.883195-9-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221113161138.883195-1-hch@lst.de>
 References: <20221113161138.883195-1-hch@lst.de>
@@ -38,161 +38,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Add a helper that allocates the nvme_dev structure up to the point where
-we can call nvme_init_ctrl.  This pairs with the free_ctrl method and can
-thus be used to cleanup the teardown path and make it more symmetric.
-
-Note that this now calls nvme_init_ctrl a lot earlier during probing,
-which also means the per-controller character device shows up earlier.
-Due to the controller state no commnds can be send on it, but it might
-make sense to delay the cdev registration until nvme_init_ctrl_finish.
+Move setting of low-level constant parameters from nvme_reset_work to
+nvme_pci_alloc_ctrl.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
 Tested-by Gerd Bayer <gbayer@linxu.ibm.com>
 ---
- drivers/nvme/host/pci.c | 81 +++++++++++++++++++++++------------------
- 1 file changed, 46 insertions(+), 35 deletions(-)
+ drivers/nvme/host/pci.c | 38 +++++++++++++++++---------------------
+ 1 file changed, 17 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f7dab65bf5042..03c83cd724ec5 100644
+index 03c83cd724ec5..9dcb35f148009 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2777,6 +2777,7 @@ static void nvme_free_tagset(struct nvme_dev *dev)
- 	dev->ctrl.tagset = NULL;
- }
- 
-+/* pairs with nvme_pci_alloc_dev */
- static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_dev *dev = to_nvme_dev(ctrl);
-@@ -3090,19 +3091,23 @@ static void nvme_async_probe(void *data, async_cookie_t cookie)
- 	nvme_put_ctrl(&dev->ctrl);
- }
- 
--static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-+static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
-+		const struct pci_device_id *id)
- {
--	int node, result = -ENOMEM;
--	struct nvme_dev *dev;
- 	unsigned long quirks = id->driver_data;
-+	int node = dev_to_node(&pdev->dev);
-+	struct nvme_dev *dev;
-+	int ret = -ENOMEM;
- 
--	node = dev_to_node(&pdev->dev);
- 	if (node == NUMA_NO_NODE)
- 		set_dev_node(&pdev->dev, first_memory_node);
- 
- 	dev = kzalloc_node(sizeof(*dev), GFP_KERNEL, node);
- 	if (!dev)
--		return -ENOMEM;
-+		return NULL;
-+	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
-+	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
-+	mutex_init(&dev->shutdown_lock);
- 
- 	dev->nr_write_queues = write_queues;
- 	dev->nr_poll_queues = poll_queues;
-@@ -3110,25 +3115,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	dev->queues = kcalloc_node(dev->nr_allocated_queues,
- 			sizeof(struct nvme_queue), GFP_KERNEL, node);
- 	if (!dev->queues)
--		goto free;
-+		goto out_free_dev;
- 
- 	dev->dev = get_device(&pdev->dev);
--	pci_set_drvdata(pdev, dev);
--
--	result = nvme_dev_map(dev);
--	if (result)
--		goto put_pci;
--
--	INIT_WORK(&dev->ctrl.reset_work, nvme_reset_work);
--	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
--	mutex_init(&dev->shutdown_lock);
--
--	result = nvme_setup_prp_pools(dev);
--	if (result)
--		goto unmap;
- 
- 	quirks |= check_vendor_combination_bug(pdev);
--
- 	if (!noacpi && acpi_storage_d3(&pdev->dev)) {
- 		/*
- 		 * Some systems use a bios work around to ask for D3 on
-@@ -3138,34 +3129,54 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 			 "platform quirk: setting simple suspend\n");
- 		quirks |= NVME_QUIRK_SIMPLE_SUSPEND;
+@@ -2841,21 +2841,6 @@ static void nvme_reset_work(struct work_struct *work)
+ 		nvme_start_admin_queue(&dev->ctrl);
  	}
-+	ret = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
-+			     quirks);
-+	if (ret)
-+		goto out_put_device;
-+	return dev;
  
--	result = nvme_pci_alloc_iod_mempool(dev);
-+out_put_device:
-+	put_device(dev->dev);
-+	kfree(dev->queues);
-+out_free_dev:
-+	kfree(dev);
-+	return ERR_PTR(ret);
-+}
-+
-+static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-+{
-+	struct nvme_dev *dev;
-+	int result = -ENOMEM;
-+
-+	dev = nvme_pci_alloc_dev(pdev, id);
-+	if (!dev)
-+		return -ENOMEM;
-+
-+	result = nvme_dev_map(dev);
- 	if (result)
--		goto release_pools;
-+		goto out_uninit_ctrl;
- 
--	result = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
--			quirks);
-+	result = nvme_setup_prp_pools(dev);
-+	if (result)
-+		goto out_dev_unmap;
-+
-+	result = nvme_pci_alloc_iod_mempool(dev);
- 	if (result)
--		goto release_mempool;
-+		goto out_release_prp_pools;
- 
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
-+	pci_set_drvdata(pdev, dev);
- 
- 	nvme_reset_ctrl(&dev->ctrl);
- 	async_schedule(nvme_async_probe, dev);
+-	dma_set_min_align_mask(dev->dev, NVME_CTRL_PAGE_SIZE - 1);
 -
- 	return 0;
+-	/*
+-	 * Limit the max command size to prevent iod->sg allocations going
+-	 * over a single page.
+-	 */
+-	dev->ctrl.max_hw_sectors = min_t(u32,
+-		NVME_MAX_KB_SZ << 1, dma_max_mapping_size(dev->dev) >> 9);
+-	dev->ctrl.max_segments = NVME_MAX_SEGS;
+-
+-	/*
+-	 * Don't limit the IOMMU merged segment size.
+-	 */
+-	dma_set_max_seg_size(dev->dev, 0xffffffff);
+-
+ 	mutex_unlock(&dev->shutdown_lock);
  
-- release_mempool:
--	mempool_destroy(dev->iod_mempool);
-- release_pools:
-+out_release_prp_pools:
- 	nvme_release_prp_pools(dev);
-- unmap:
-+out_dev_unmap:
- 	nvme_dev_unmap(dev);
-- put_pci:
--	put_device(dev->dev);
-- free:
--	kfree(dev->queues);
--	kfree(dev);
-+out_uninit_ctrl:
-+	nvme_uninit_ctrl(&dev->ctrl);
- 	return result;
- }
+ 	/*
+@@ -2869,12 +2854,6 @@ static void nvme_reset_work(struct work_struct *work)
+ 		goto out;
+ 	}
  
+-	/*
+-	 * We do not support an SGL for metadata (yet), so we are limited to a
+-	 * single integrity segment for the separate metadata pointer.
+-	 */
+-	dev->ctrl.max_integrity_segments = 1;
+-
+ 	result = nvme_init_ctrl_finish(&dev->ctrl, was_suspend);
+ 	if (result)
+ 		goto out;
+@@ -3133,6 +3112,23 @@ static struct nvme_dev *nvme_pci_alloc_dev(struct pci_dev *pdev,
+ 			     quirks);
+ 	if (ret)
+ 		goto out_put_device;
++	
++	dma_set_min_align_mask(&pdev->dev, NVME_CTRL_PAGE_SIZE - 1);
++	dma_set_max_seg_size(&pdev->dev, 0xffffffff);
++
++	/*
++	 * Limit the max command size to prevent iod->sg allocations going
++	 * over a single page.
++	 */
++	dev->ctrl.max_hw_sectors = min_t(u32,
++		NVME_MAX_KB_SZ << 1, dma_max_mapping_size(&pdev->dev) >> 9);
++	dev->ctrl.max_segments = NVME_MAX_SEGS;
++
++	/*
++	 * There is no support for SGLs for metadata (yet), so we are limited to
++	 * a single integrity segment for the separate metadata pointer.
++	 */
++	dev->ctrl.max_integrity_segments = 1;
+ 	return dev;
+ 
+ out_put_device:
 -- 
 2.30.2
 
