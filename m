@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1461850
-	for <asahi@lists.linux.dev>; Sun, 13 Nov 2022 16:11:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5691869
+	for <asahi@lists.linux.dev>; Sun, 13 Nov 2022 16:11:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Usf+R6RVsaQ2qPXORkfHh47EniOLLHDMiICrDrEjhNs=; b=ZHNaUpmZiptsC+UiVsJ37ve3VY
-	y34t8MZPuKu4owxXhgW0j1Ou7qkhnw4OPSwn6eSzmekHKrX36+Wi/una0CD4v9z3y7etslfTRY1RO
-	604RCqbY2ZaMGLI86dopKlJ/JBGlXzcq69MEoNDQE4EvxTTP9BJx6aANPVVan8U6EfOWvlHttmKT0
-	zTGjyXkN3KJm9mrSxjfKxg+mHVMsO27azN3kSNKoxAQDQMG70bOw9yf+TFk5QwaQq+wWWF+gp4Ndt
-	fa+7qugvoRQG1WAkKdJfgTmM1J7RICZ9eM94IUO5cqP3Io4Hbxgc1ld+v9cAUHOGXqH8b34MOkh9y
-	/OE+iJ4g==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=beZXtSwh1gZ8xyOSBhcvxyb+Iq2r+NCVUZ+EeP2PwOU=; b=q915GynaRk1G+1mq/iBQh1+ium
+	iNrunFf2p7zXa4QzR9nm96MrQvS6i9o8OkNEObtsHyRVZ8DHE/VgT3Mtz+Wq6FD3Sx8szX2KQ2XfJ
+	kkBMJ0om1FQU7zNQj1DyHkjn0FXxjsNqvRrYaAlF9T9KVqe71C5sO/5yAYHDSPrDgB7U0Qbxbo/sy
+	tReWPN/qhsTQ3JM+iW7Em2/hcjMz/O8xSkqv6kIofl7NJsh0rJctsfmLQCGaSeSgqcLtSn+dociY9
+	DPFxErHmavsWzaRZxQ01WWHNZovWgBTghAWXobyCVX/r6TPP63Z5ssnQQDxwkmytbCsjSPGKAv33j
+	0d8pUIpQ==;
 Received: from 213-225-8-167.nat.highway.a1.net ([213.225.8.167] helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1ouFaB-00CBlz-JG; Sun, 13 Nov 2022 16:11:44 +0000
+	id 1ouFaH-00CBoE-KV; Sun, 13 Nov 2022 16:11:50 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>
 Cc: Sagi Grimberg <sagi@grimberg.me>,
@@ -23,10 +23,12 @@ Cc: Sagi Grimberg <sagi@grimberg.me>,
 	Gerd Bayer <gbayer@linux.ibm.com>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: nvme-pci: split the probe and reset handlers v2
-Date: Sun, 13 Nov 2022 17:11:25 +0100
-Message-Id: <20221113161138.883195-1-hch@lst.de>
+Subject: [PATCH 02/13] nvme: move OPAL setup from PCIe to core
+Date: Sun, 13 Nov 2022 17:11:27 +0100
+Message-Id: <20221113161138.883195-3-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20221113161138.883195-1-hch@lst.de>
+References: <20221113161138.883195-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -36,28 +38,213 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi all,
+Nothing about the TCG Opal support is PCIe transport specific, so move it
+to the core code.  For this nvme_init_ctrl_finish grows a new
+was_suspended argument that allows the transport driver to tell the OPAL
+code if the controller came out of a suspend cycle.
 
-this series split the nvme-pci probe handler to be separate from the reset
-handler.  I've been wanting to do that for a while, but the bug report from
-Gerd that was caused by confusing about the controller state in the reset
-state required it to be expedited.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Tested-by Gerd Bayer <gbayer@linxu.ibm.com>
+---
+ drivers/nvme/host/apple.c  |  2 +-
+ drivers/nvme/host/core.c   | 25 ++++++++++++++++++++++---
+ drivers/nvme/host/fc.c     |  2 +-
+ drivers/nvme/host/nvme.h   |  5 +----
+ drivers/nvme/host/pci.c    | 14 +-------------
+ drivers/nvme/host/rdma.c   |  2 +-
+ drivers/nvme/host/tcp.c    |  2 +-
+ drivers/nvme/target/loop.c |  2 +-
+ 8 files changed, 29 insertions(+), 25 deletions(-)
 
-Changes since v1:
- - switch back from IS_ENABLED for the SED_OPAL code to prevent a warning
-   when it is disabled.
- - rename nvme_pci_alloc_ctrl to nvme_pci_alloc_dev
- - allow initializating shadow doorbell buffers during reset
- - simplify HMB setup a bit
- - shutdown the controller on reset failure
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 24e224c279a41..a85349a7e938c 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1102,7 +1102,7 @@ static void apple_nvme_reset_work(struct work_struct *work)
+ 		goto out;
+ 	}
+ 
+-	ret = nvme_init_ctrl_finish(&anv->ctrl);
++	ret = nvme_init_ctrl_finish(&anv->ctrl, false);
+ 	if (ret)
+ 		goto out;
+ 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ce8314aee1ddf..aedacf2fba69e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2192,7 +2192,7 @@ const struct pr_ops nvme_pr_ops = {
+ };
+ 
+ #ifdef CONFIG_BLK_SED_OPAL
+-int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
++static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+ 		bool send)
+ {
+ 	struct nvme_ctrl *ctrl = data;
+@@ -2209,7 +2209,23 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+ 	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
+ 			NVME_QID_ANY, 1, 0);
+ }
+-EXPORT_SYMBOL_GPL(nvme_sec_submit);
++
++static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
++{
++	if (ctrl->oacs & NVME_CTRL_OACS_SEC_SUPP) {
++		if (!ctrl->opal_dev)
++			ctrl->opal_dev = init_opal_dev(ctrl, &nvme_sec_submit);
++		else if (was_suspended)
++			opal_unlock_from_suspend(ctrl->opal_dev);
++	} else {
++		free_opal_dev(ctrl->opal_dev);
++		ctrl->opal_dev = NULL;
++	}
++}
++#else
++static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
++{
++}
+ #endif /* CONFIG_BLK_SED_OPAL */
+ 
+ #ifdef CONFIG_BLK_DEV_ZONED
+@@ -3242,7 +3258,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+  * register in our nvme_ctrl structure.  This should be called as soon as
+  * the admin queue is fully up and running.
+  */
+-int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
++int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl, bool was_suspended)
+ {
+ 	int ret;
+ 
+@@ -3273,6 +3289,8 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+ 	if (ret < 0)
+ 		return ret;
+ 
++	nvme_configure_opal(ctrl, was_suspended);
++
+ 	if (!ctrl->identified && !nvme_discovery_ctrl(ctrl)) {
+ 		/*
+ 		 * Do not return errors unless we are in a controller reset,
+@@ -5007,6 +5025,7 @@ static void nvme_free_ctrl(struct device *dev)
+ 	nvme_auth_stop(ctrl);
+ 	nvme_auth_free(ctrl);
+ 	__free_page(ctrl->discard_page);
++	free_opal_dev(ctrl->opal_dev);
+ 
+ 	if (subsys) {
+ 		mutex_lock(&nvme_subsystems_lock);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 2d3c54838496f..1f9f4075794b5 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3107,7 +3107,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 
+ 	nvme_start_admin_queue(&ctrl->ctrl);
+ 
+-	ret = nvme_init_ctrl_finish(&ctrl->ctrl);
++	ret = nvme_init_ctrl_finish(&ctrl->ctrl, false);
+ 	if (ret || test_bit(ASSOC_FAILED, &ctrl->flags))
+ 		goto out_disconnect_admin_queue;
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 16b34a4914959..306a120d49ab9 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -736,7 +736,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_start_ctrl(struct nvme_ctrl *ctrl);
+ void nvme_stop_ctrl(struct nvme_ctrl *ctrl);
+-int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl);
++int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl, bool was_suspended);
+ int nvme_alloc_admin_tag_set(struct nvme_ctrl *ctrl, struct blk_mq_tag_set *set,
+ 		const struct blk_mq_ops *ops, unsigned int flags,
+ 		unsigned int cmd_size);
+@@ -748,9 +748,6 @@ void nvme_remove_io_tag_set(struct nvme_ctrl *ctrl);
+ 
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
+ 
+-int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+-		bool send);
+-
+ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		volatile union nvme_result *res);
+ 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 208c387f1558d..e4f084e12b966 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2772,7 +2772,6 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ 	nvme_free_tagset(dev);
+ 	if (dev->ctrl.admin_q)
+ 		blk_put_queue(dev->ctrl.admin_q);
+-	free_opal_dev(dev->ctrl.opal_dev);
+ 	mempool_destroy(dev->iod_mempool);
+ 	put_device(dev->dev);
+ 	kfree(dev->queues);
+@@ -2866,21 +2865,10 @@ static void nvme_reset_work(struct work_struct *work)
+ 	 */
+ 	dev->ctrl.max_integrity_segments = 1;
+ 
+-	result = nvme_init_ctrl_finish(&dev->ctrl);
++	result = nvme_init_ctrl_finish(&dev->ctrl, was_suspend);
+ 	if (result)
+ 		goto out;
+ 
+-	if (dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP) {
+-		if (!dev->ctrl.opal_dev)
+-			dev->ctrl.opal_dev =
+-				init_opal_dev(&dev->ctrl, &nvme_sec_submit);
+-		else if (was_suspend)
+-			opal_unlock_from_suspend(dev->ctrl.opal_dev);
+-	} else {
+-		free_opal_dev(dev->ctrl.opal_dev);
+-		dev->ctrl.opal_dev = NULL;
+-	}
+-
+ 	if (dev->ctrl.oacs & NVME_CTRL_OACS_DBBUF_SUPP) {
+ 		result = nvme_dbbuf_dma_alloc(dev);
+ 		if (result)
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 6e079abb22ee9..ccd45e5b32986 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -871,7 +871,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 
+ 	nvme_start_admin_queue(&ctrl->ctrl);
+ 
+-	error = nvme_init_ctrl_finish(&ctrl->ctrl);
++	error = nvme_init_ctrl_finish(&ctrl->ctrl, false);
+ 	if (error)
+ 		goto out_quiesce_queue;
+ 
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index 1eed0fc26b3ae..4f8584657bb75 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -1949,7 +1949,7 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
+ 
+ 	nvme_start_admin_queue(ctrl);
+ 
+-	error = nvme_init_ctrl_finish(ctrl);
++	error = nvme_init_ctrl_finish(ctrl, false);
+ 	if (error)
+ 		goto out_quiesce_queue;
+ 
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index b45fe3adf015f..893c50f365c4d 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -377,7 +377,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
+ 
+ 	nvme_start_admin_queue(&ctrl->ctrl);
+ 
+-	error = nvme_init_ctrl_finish(&ctrl->ctrl);
++	error = nvme_init_ctrl_finish(&ctrl->ctrl, false);
+ 	if (error)
+ 		goto out_cleanup_tagset;
+ 
+-- 
+2.30.2
 
-Diffstat:
- host/apple.c  |    2 
- host/core.c   |   39 ++++-
- host/fc.c     |    2 
- host/nvme.h   |    7 
- host/pci.c    |  413 ++++++++++++++++++++++++++++------------------------------
- host/rdma.c   |    2 
- host/tcp.c    |    2 
- target/loop.c |    2 
- 8 files changed, 240 insertions(+), 229 deletions(-)
