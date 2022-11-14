@@ -1,150 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD29256D
-	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 10:05:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F53EC433C1;
-	Mon, 14 Nov 2022 10:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1668420350;
-	bh=NhbLUkVP1qgXtJ3N5nkqK7ZHPyOyPFqJ0lETMsTVYws=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c3/xqHsgaufIAMdRP91uc5oGFKPH6u7DIAYCBEJ1ZkEeqyrESomFRzqxttQqIUY6m
-	 4qh+KhN2tnUOrXjLTJiR+gz0VOTCqYxrA0JytJ3b90JwtGjRP9d/hOcCityd/ecDIT
-	 LyHHHUVLTRpG2chq4+AhNkoSlQeEjio/0N2uq/qWBdyI2/JbMjhZTNK4wWTGI8TpmA
-	 Hr03doA+gJ+IOgfJvZ75vgcfqKqeLj2T0taLl8D3QSh50KNgSnpy7M+nuoEF6EZOoX
-	 RI8ePXZAC8s7oAw1x//Flr4Om7AX1UJS3zKbklaxR6mVAuP6U6osjYKX9fktcPw7uu
-	 4KQleIGBiObug==
-Date: Mon, 14 Nov 2022 10:05:43 +0000
-From: Lee Jones <lee@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	asahi@lists.linux.dev, devicetree@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v3 3/7] dt-bindings: mfd: add binding for Apple Mac
- System Management Controller
-Message-ID: <Y3IS96xQhs1/Jre4@google.com>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXT-002mw3-JR@rmk-PC.armlinux.org.uk>
- <531d88b8-75db-1d8f-1384-b8d05594e7b3@linaro.org>
- <Y2rWp4wasbflS/0y@shell.armlinux.org.uk>
- <20221109221723.GA2948356-robh@kernel.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CA0F10E6
+	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 10:30:05 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7B31A23A;
+	Mon, 14 Nov 2022 02:30:11 -0800 (PST)
+Received: from [10.57.39.18] (unknown [10.57.39.18])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 328A73F534;
+	Mon, 14 Nov 2022 02:30:01 -0800 (PST)
+Message-ID: <f9e3cd4e-e31a-8395-2f25-f69fb4a82370@arm.com>
+Date: Mon, 14 Nov 2022 10:29:55 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20221109221723.GA2948356-robh@kernel.org>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.4.2
+Subject: Re: [PATCH] dt-bindings: Drop type from 'cpus' property
+To: Rob Herring <robh@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria
+ <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Thara Gopinath <thara.gopinath@linaro.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org
+References: <20221111212857.4104308-1-robh@kernel.org>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20221111212857.4104308-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 09 Nov 2022, Rob Herring wrote:
-
-> On Tue, Nov 08, 2022 at 10:22:31PM +0000, Russell King (Oracle) wrote:
-> > On Tue, Nov 08, 2022 at 09:55:58PM +0100, Krzysztof Kozlowski wrote:
-> > > On 08/11/2022 17:33, Russell King (Oracle) wrote:
-> > > > Add a DT binding for the Apple Mac System Management Controller.
-> > > 
-> > > Drop the second, redundant "binding" from subject. It's already in prefix.
-> > 
-> > Yet another thing that's been there from the start... how many more
-> > things are you going to pick up in subsequent versions of the patch?
-> > When does this stop?
-> > 
-> > In any case, taking your comment literally,
-> > 
-> > "dt-bindings: mfd: add for Apple Mac System Management Controller"
-> > 
-> > makes no sense, so presumably you want something more than that.
-> > 
-> > In any case, I see several recent cases already merged which follow
-> > the pattern that I've used and that you've reviewed.
-> > 
-> > > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> > > > ---
-> > > >  .../devicetree/bindings/mfd/apple,smc.yaml    | 67 +++++++++++++++++++
-> > > >  1 file changed, 67 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..014eba5a1bbc
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> > > > @@ -0,0 +1,67 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Apple Mac System Management Controller
-> > > > +
-> > > > +maintainers:
-> > > > +  - Hector Martin <marcan@marcan.st>
-> > > > +
-> > > > +description:
-> > > > +  Apple Mac System Management Controller implements various functions
-> > > > +  such as GPIO, RTC, power, reboot.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    items:
-> > > > +      - enum:
-> > > > +          - apple,t6000-smc
-> > > > +          - apple,t8103-smc
-> > > > +          - apple,t8112-smc
-> > > > +      - const: apple,smc
-> > > > +
-> > > > +  reg:
-> > > > +    items:
-> > > > +      - description: SMC area
-> > > > +      - description: SRAM area
-> > > > +
-> > > > +  reg-names:
-> > > > +    items:
-> > > > +      - const: smc
-> > > > +      - const: sram
-> > > > +
-> > > > +  mboxes:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  gpio:
-> > > > +    $ref: /schemas/gpio/gpio-macsmc.yaml
-> > > 
-> > > So this depends on other patch, so:
-> > > 1. You need mention the dependency in cover letter (nothing there),
-> > > 2. Re-order patches.
-> > > 
-> > > The GPIO cannot go separate tree and this must be explicitly communicated.
-> > 
-> > Sigh, getting an order that is sensible is really bloody difficult.
+On 11/11/2022 21:28, Rob Herring wrote:
+> 'cpus' is a common property, and it is now defined in dtschema schemas,
+> so drop the type references in the tree.
 > 
-> It's not. Sub-devices before the MFD. The only time that doesn't work is 
-> when the sub-devices put the parent MFD in their example. The solution 
-> there is don't do that. Just 1 complete example in the MFD schema and no 
-> examples in the sub-devices.
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>   .../devicetree/bindings/interrupt-controller/apple,aic.yaml | 1 -
+>   Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml     | 3 ---
+>   Documentation/devicetree/bindings/power/renesas,apmu.yaml   | 6 ++----
+>   Documentation/devicetree/bindings/thermal/qcom-lmh.yaml     | 2 +-
+>   4 files changed, 3 insertions(+), 9 deletions(-)
 > 
-> > I'm quite sure Lee is only going to want to apply the mfd bits. 
-> 
-> Indeed. I can't seem to make Lee care... All the schemas should really 
-> be applied together.
 
-I care about drivers.  Happy to take the set as a whole if it helps.
+...
 
--- 
-Lee Jones [李琼斯]
+> diff --git a/Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml b/Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml
+> index c87821be158b..a740378ed592 100644
+> --- a/Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml
+> +++ b/Documentation/devicetree/bindings/perf/arm,dsu-pmu.yaml
+> @@ -32,11 +32,8 @@ properties:
+>         - description: nCLUSTERPMUIRQ interrupt
+>   
+>     cpus:
+> -    $ref: /schemas/types.yaml#/definitions/phandle-array
+>       minItems: 1
+>       maxItems: 12
+> -    items:
+> -      maxItems: 1
+>       description: List of phandles for the CPUs connected to this DSU instance.
+>   
+>   required:
+
+Acked-by: Suzuki K Poulose <suzuki.poulse@arm.com>
