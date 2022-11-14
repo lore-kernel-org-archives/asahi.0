@@ -1,51 +1,93 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C41710E7
-	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 06:32:25 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id o4so16173853wrq.6
-        for <asahi@lists.linux.dev>; Sun, 13 Nov 2022 22:32:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9310187C
+	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 06:51:19 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id q1-20020a17090a750100b002139ec1e999so9762223pjk.1
+        for <asahi@lists.linux.dev>; Sun, 13 Nov 2022 22:51:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qr+/Csa4DQbRfUmbmy3oZ72h1oNUuMzGZrFMsfi/w94=;
+        b=J4pHBjE44RhQZyQPbpn0rS7CdMwvev9PP21t/XfKNpb7LdxYcFvINBI2MYfMLjaEnv
+         Gzc0KyXSu87DHrO6UIbuMpCCN23ptJrgM6xIl9x8hHNLXkSRYLUCOoLWZ7TJPyJuA8Wc
+         ypGHdEQyRQVYMzd+0vvI10M+YYygVfA7+IlE4aWw2g0lbEd6Nh8zKHb49RV4eCG/6g40
+         NPgNJhZ7zkymjEgrwwTShciLZ6Fo1VJSuoyVj9ArlgVuAq3/m5iTEBy44eJMIK/9+9QT
+         rBgjuNhFLFZ+qZAv/vkf8Hd+mJVBm0CqcPzP/3nX83acDAN7sKcI0qNL32Dy1FvBiAQo
+         9p2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWpDQmZNg8zKVk12QskQ7NNS05C4fI/JmZBKLdKyu8Q=;
-        b=FcXWU3YQ6HPJuB4JI5Bz4qN3H0xqQEtSdEDQyRLEN4fmKS0tiBcBo7gMwgJ0jeS5L3
-         3bRW15LY/Y512r67i70Jn7avaMt3auLPGFR9QGb2pYIFEjGQRFsgArdHV8Ch0IVGV/Tt
-         +CSCnKdUj1vPM3oRui5ivJQAQAT9yNNPxUC3YI8I7G3m1ObGD+cNnFhFe4w/5arfKaW0
-         1em/YPyg29TD9OhhV8xOE090A2y12lteIgXeUfHitJj6CkBBDni1jO+YJen3J9Q0azYS
-         mjyLC/JxfqtP8VQpsxRy+hfgooXHIM44fwlPu44Ga1DwQxOJxCObzIuMTM26brYCt2W7
-         8YNQ==
-X-Gm-Message-State: ANoB5pm1hEperF9edSrKVYjorYwSKOcp7akU05edMoGGNO5drt+SlJRj
-	CVDV6VQqWvS7TBr5iAgL/ik=
-X-Google-Smtp-Source: AA0mqf7WDKccuVmk/zAud4HA9xAgeKTDvQzWA+Ollpk4we7CvgOfB6NI06ZJGAXrFHTRE5xR7egHyQ==
-X-Received: by 2002:a5d:4b4e:0:b0:236:6deb:4498 with SMTP id w14-20020a5d4b4e000000b002366deb4498mr6663711wrs.52.1668407544330;
-        Sun, 13 Nov 2022 22:32:24 -0800 (PST)
-Received: from [10.100.102.14] (46-116-236-159.bb.netvision.net.il. [46.116.236.159])
-        by smtp.gmail.com with ESMTPSA id j7-20020a05600c190700b003b47e8a5d22sm19304583wmq.23.2022.11.13.22.32.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 13 Nov 2022 22:32:23 -0800 (PST)
-Message-ID: <e51a514c-d19e-71c5-cc30-b226f4eb7703@grimberg.me>
-Date: Mon, 14 Nov 2022 08:32:22 +0200
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qr+/Csa4DQbRfUmbmy3oZ72h1oNUuMzGZrFMsfi/w94=;
+        b=m+lJ88FLVxKFq1Wj9GjWbm4N+umgjwuqi+CrnRWk2zx1AmDk8iL97SskKT7uwfF3s5
+         VZjE16oexctHN59dbjYFct/lHbof/FlHFqXE5XYqRY1r3yxKoODTh0Jh9jzSGt749rRE
+         qhfoCcBCR+5EyVoK0wxMcVpFFp8AQnyFDppWRL50uwoAFmJc/uijatxOYDJM56EKpSCW
+         fAPI/iAgs/TJLb2s8VaKAmNd2Z+kLwavYxVjyV+vmvLHrK0eBCxVVPL7rpx86JgY09nl
+         yFofAL5kqjBnLRdDhcQddjNVLVSzroj79iO7lCfJjKSl8rplx9RY7TIJqAlT5JxdQeA2
+         mL7A==
+X-Gm-Message-State: ANoB5pkIzFZYI3QIuyj3UievxqQaNmIPDOgQhfgXnkf8uXZtj0locGwQ
+	VJ9TnVEyFh7Yzfp0VSdeeX5vzMH5fY5QYw==
+X-Google-Smtp-Source: AA0mqf7O1kfKyS40WvCXZ5qP0whrae0q/ADSqdPFztRYqjWzf84q+mVXRSyTkyHNMe3Z5V7ql3NnDA==
+X-Received: by 2002:a17:90a:5a4a:b0:200:8a2b:d120 with SMTP id m10-20020a17090a5a4a00b002008a2bd120mr12086138pji.208.1668408679225;
+        Sun, 13 Nov 2022 22:51:19 -0800 (PST)
+Received: from localhost ([122.172.85.60])
+        by smtp.gmail.com with ESMTPSA id c27-20020a631c5b000000b0046ec7beb53esm5209030pgm.8.2022.11.13.22.51.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Nov 2022 22:51:18 -0800 (PST)
+Date: Mon, 14 Nov 2022 12:21:16 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Hector Martin <marcan@marcan.st>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>, Marc Zyngier <maz@kernel.org>,
+	Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/5] cpufreq: apple-soc: Add new driver to control
+ Apple SoC CPU P-states
+Message-ID: <20221114065116.zs67pkbhhgfoze52@vireshk-i7>
+References: <20221024043925.25379-1-marcan@marcan.st>
+ <20221024043925.25379-5-marcan@marcan.st>
+ <20221102061819.dyl5ah6qffntqieh@vireshk-i7>
+ <c3b88bae-f6da-4242-0b19-5e2a32b9c266@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 13/13] nvme-pci: don't unbind the driver on reset failure
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, Gerd Bayer <gbayer@linux.ibm.com>,
- asahi@lists.linux.dev, linux-nvme@lists.infradead.org
-References: <20221113161138.883195-1-hch@lst.de>
- <20221113161138.883195-14-hch@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221113161138.883195-14-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c3b88bae-f6da-4242-0b19-5e2a32b9c266@marcan.st>
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+On 09-11-22, 21:36, Hector Martin wrote:
+> On 02/11/2022 15.18, Viresh Kumar wrote:
+> >> +	ret = dev_pm_opp_set_sharing_cpus(cpu_dev, policy->cpus);
+> > 
+> > Why do you need this ? The OPP core should be able to find this
+> > information by itself in your case AFAIU. The OPP core will refer
+> > "operating-points-v2 = <&pcluster_opp>" and find that the cores are
+> > related.
+> 
+> We have multiple clusters sharing an OPP table (e.g. the M1 Ultra has 2
+> e-cluster and 4 p-clusters, and duplicating OPP tables seems very
+> silly), so this is necessary to tell it about the subset of cores
+> sharing a table that are actually one domain.
+
+The cluster sharing information is already part of the OPP tables, "opp-shared"
+property. Platforms like scpi needed this because they didn't have the OPP table
+in DT and so no way to find out the relation of the CPUs.
+
+See how drivers/cpufreq/mediatek-cpufreq.c has done this.
+dev_pm_opp_of_get_sharing_cpus() followed by dev_pm_opp_of_cpumask_add_table().
+
+-- 
+viresh
