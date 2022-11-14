@@ -1,93 +1,83 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90EDA187C
-	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 07:03:26 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id v4-20020a17090a088400b00212cb0ed97eso9748445pjc.5
-        for <asahi@lists.linux.dev>; Sun, 13 Nov 2022 23:03:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FvfBNxVIGOH3Bp/nCBzNm/9qGi/7IhzqapsmYDeuoxU=;
-        b=eHjR5DqRQ2d6kboIXotQnkplHR6lj6qZNY7QdJZg1wM7ff6AUOTy30q3iMF9JswVor
-         YAMTi+LnQnzNunMS9xkgpJCct4Azvn8JYaSEX424xOASjGZY5QwV0wDDMRR5rfpIOC5r
-         KMPLHHUvrYTrEfWL4ewTbJXRyKHrXOHBL3V66OB528VzmwDPmYnbMOdb5QMKeSHxSdjp
-         PE+PMV2HhJssdSTiSW+1YV95hHisEdkrOitJvr6Vhpew2MDLY29pMAt/3WSXBGeePInx
-         jC+IzrgeyqJtbd5mPdFoOLDbRglqtHtNZ1emhuhgpCrx5ZWS/Kkzv8xWMAlbipHm/6+F
-         AQag==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F3031FBE
+	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 08:26:38 +0000 (UTC)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-13ae8117023so11722806fac.9
+        for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 00:26:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FvfBNxVIGOH3Bp/nCBzNm/9qGi/7IhzqapsmYDeuoxU=;
-        b=4mUf0Lh9gDXHcFRVv1qBL4jaVf4aTSPix8fIhuDO/VNzCvgJVPGTZLJAkpDJQg/CyH
-         T3kj9F5G099B2Wy+Pcnw2jw8bpN4TMzd6XDmP73hhu28uuobJbaxHysxOdL7rflAKUzk
-         GwwLQ+LWIrdbI/NEbjbnBSX7nvnt7PzIZ9R7tkdljT0hk7L3jT4WvftmTCFZhLtAmp2R
-         dQu1r77D9OUAA1lxdjCurBntjQpc9uGV3YdF5Td6pUO7nRkUHyBzvh14Fmmjqbt/wnYM
-         yrdWC0d2WWMtkEoJuIE7sEYYXsFGQL4a50l4CPGbfEs1XKtiX2nSazqoSbcmvabPvXIN
-         10Rg==
-X-Gm-Message-State: ANoB5pk9e/LyTv+hQP0YkqyxIAM9o6pxXjHazP8QF7xQsFENKZ/L+T1F
-	dIWM5c6fEgAfjcFt+x2WEPxTyg==
-X-Google-Smtp-Source: AA0mqf4kzm9a0ZulwDzo7O7QvNDBVZbnouYhbqOgpYg1p8Ab8qawbcF0CbVo0l6hdJrTRXDZt8L+PA==
-X-Received: by 2002:a17:902:efc4:b0:176:a6c5:20c9 with SMTP id ja4-20020a170902efc400b00176a6c520c9mr12736074plb.57.1668409405987;
-        Sun, 13 Nov 2022 23:03:25 -0800 (PST)
-Received: from localhost ([122.172.85.60])
-        by smtp.gmail.com with ESMTPSA id x11-20020a17090a9dcb00b001faafa42a9esm5667825pjv.26.2022.11.13.23.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Nov 2022 23:03:25 -0800 (PST)
-Date: Mon, 14 Nov 2022 12:33:23 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Marc Zyngier <maz@kernel.org>,
-	Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] cpufreq: apple-soc: Add new driver to control
- Apple SoC CPU P-states
-Message-ID: <20221114070323.gjwgllfd44hthwon@vireshk-i7>
-References: <20221024043925.25379-1-marcan@marcan.st>
- <20221024043925.25379-5-marcan@marcan.st>
- <20221102061819.dyl5ah6qffntqieh@vireshk-i7>
- <c3b88bae-f6da-4242-0b19-5e2a32b9c266@marcan.st>
- <20221114065116.zs67pkbhhgfoze52@vireshk-i7>
- <367270ad-114a-96ca-a92a-a7f54a5f3318@marcan.st>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1f6hcexQwRSjpPtI2b6I+pAA5eVX0oLT0ZXtJfpdDAY=;
+        b=rcDaONsr9cpgSJizCyCq6d/fzlgU+JFmTnNHe/4KAD34CWqlIumIL5MVqImbCzqtNk
+         CMEKBKSKTaKH5f1eGm35x9fLN/E8DNi+gvibwt4hGIt8pJ9debIacxQSDS+1OaEWlj2q
+         RAXOKDZRs9XLBM6yO0KbJ0mMAdksWIQOQmjOlzFKX6ykGX83u92wo10SeeoBiEjmS6Di
+         ZEK+G8fYy49lhdnD4kjvzgiPXrXeDoQZPdZDHZJG1Ayjjqc0WYON25py7ZyX1AAs4nhm
+         sz7E9MfQtDscW/iVsL4mBmejo477GemmAj9bMlt+yklI/am4ljhUXpejh342KIBRIv6+
+         DmOw==
+X-Gm-Message-State: ANoB5pncHQrlsuIMUDVHjmiQmxYK4ggbq0eB8nTnqvETjY4YFwVre79o
+	nDnQUPzMYQLlbm5M5GHbUAdDHeAjhxL/3Q==
+X-Google-Smtp-Source: AA0mqf65bmiXgb1Dqf6So2jW2ZCxq4kj6flBHkW/hiDTyFN/fh+J+eTE9H6WduZSVfw4OJZfuWM7QA==
+X-Received: by 2002:a05:6870:1d0a:b0:132:f7b8:3f27 with SMTP id pa10-20020a0568701d0a00b00132f7b83f27mr6129541oab.116.1668414397915;
+        Mon, 14 Nov 2022 00:26:37 -0800 (PST)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com. [209.85.161.41])
+        by smtp.gmail.com with ESMTPSA id be28-20020a056870589c00b0013b09a56d59sm4635560oab.27.2022.11.14.00.26.37
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Nov 2022 00:26:37 -0800 (PST)
+Received: by mail-oo1-f41.google.com with SMTP id x196-20020a4a41cd000000b0049f064d2591so1477582ooa.11
+        for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 00:26:37 -0800 (PST)
+X-Received: by 2002:a25:cb4a:0:b0:6dd:b521:a8f2 with SMTP id
+ b71-20020a25cb4a000000b006ddb521a8f2mr11133712ybg.380.1668413975373; Mon, 14
+ Nov 2022 00:19:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <367270ad-114a-96ca-a92a-a7f54a5f3318@marcan.st>
+References: <20221111212857.4104308-1-robh@kernel.org>
+In-Reply-To: <20221111212857.4104308-1-robh@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 14 Nov 2022 09:19:23 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdXT_+_afxBW6=dku+Y1ea8GTaWznM5vzXO7bYQ1Z8sRwQ@mail.gmail.com>
+Message-ID: <CAMuHMdXT_+_afxBW6=dku+Y1ea8GTaWznM5vzXO7bYQ1Z8sRwQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Drop type from 'cpus' property
+To: Rob Herring <robh@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@somainline.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Thara Gopinath <thara.gopinath@linaro.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 14-11-22, 15:57, Hector Martin wrote:
-> I don't think you understood me. We have multiple identical clusters.
-> All those clusters share an OPP table but are *not* the same cpufreq
-> domain. So we can have 8 CPUs which are two 4-CPU cluster using one OPP
-> table.
+On Fri, Nov 11, 2022 at 10:29 PM Rob Herring <robh@kernel.org> wrote:
+> 'cpus' is a common property, and it is now defined in dtschema schemas,
+> so drop the type references in the tree.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-I looked at the patch 5/5. It shows two clusters, e and p, with four CPUs in
-each cluster. And as per the OPP table all the CPUs in cluster e are part of
-same frequency domain, i.e. switch rate together. Same with all CPUs of cluster
-p.
+>  Documentation/devicetree/bindings/power/renesas,apmu.yaml   | 6 ++----
 
-And I also see both the clusters have separate OPP tables.
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> There is no way to express this relationship with OPP tables without
-> duplicating the tables themselves.
+Gr{oetje,eeting}s,
 
-Can you show how the DT looks in this case ? I am still not clear on what the
-scenario is here :(
+                        Geert
 
--- 
-viresh
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
