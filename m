@@ -1,99 +1,100 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E87748D
-	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 16:46:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=alWvsDEk2ast4MquuTzMfCnex7hE3JeGIqS6LusDl0c=; b=OvNCoOdy4QPkxzrWrzlQEsdgNV
-	IOkyFWL5tNj9hbIYkCtlE5b+1M5vHpQW/8Ov2fi7vXAOpcqdarNLBWSvWvKdvDIr/QX4q73+jRcIf
-	8GIUJwV/R+bSYqFAaOlWqrvjnj6tY//rU8nxSkHoHXnaoCWyL9POP77DQwHeCoSuDETFVLKAYZwYm
-	xoKYaFRlopJfoWF/aL9NazAcP0/ds20rr8+jRpROGOakFpt1ez+BwMuZlTPWvM0lLXokZOmJZvCNG
-	Cp/OlsLmdWNEUZ7MgLpqmClu3fnd5wC5Ny1J0i6ZiZNcLAfkiBtC3JHd9i2v8I/kiZ6H0naNZaxCw
-	qxoLBaqQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35266)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1oucbY-000169-1k; Mon, 14 Nov 2022 16:46:40 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1oucbU-0003xd-Jm; Mon, 14 Nov 2022 16:46:36 +0000
-Date: Mon, 14 Nov 2022 16:46:36 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	asahi@lists.linux.dev, devicetree@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v3 2/7] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Message-ID: <Y3Jw7PQVzjjaNniF@shell.armlinux.org.uk>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXO-002mvw-Fp@rmk-PC.armlinux.org.uk>
- <Y3Jf7xz2CQjJuEeT@alley>
- <Y3Jptob4bGL9Weel@shell.armlinux.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC4879E8
+	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 19:50:31 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id r61-20020a17090a43c300b00212f4e9cccdso14810964pjg.5
+        for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 11:50:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=aeYV7fDkLER/6GDtsBmzPKt14c7SuI0JOECUHSx1zDk=;
+        b=M6HioAcUd9+V0vOi9nn77C1cQZ+yuMKdHtjqJasI7QmXmRQ8uC2szUrUKvbkrkfQr9
+         4Y01GrpR1X1HpMQeAno85q+LMFPlBpy6CbJ4mJrczv4D8jcWmb7B4FYnW4U4wD6xhLRd
+         oMUhqGXDvYMiUHdDfFYDBNuQTJx6SdYI15EvAZJrOxtgHmgIh6bEmpzFaxmWjrS/65kP
+         VnZMWisqdZKYYNEIp9jiwDd+bS/VZai+OND0GNCNv9jUjdlk8XBykGKEVduXG/7cHPC7
+         BeUx8JDRSXzQyD4qtIZ6lHNvcrDUJX36jiqrLZXlzGPWbyLVA3AMhGmXYo3qFm3p6/oq
+         mcew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aeYV7fDkLER/6GDtsBmzPKt14c7SuI0JOECUHSx1zDk=;
+        b=dsEJ/TM8Bnr7FfWpQwClp2TZjfK46SvP5AeXhjp2xA6SJto7N+FJsBiE5WvL24KnDb
+         V516WTld0czopqXEnBuz7T7cXvhuan7lszD/NH6gorKAWeAG/fjUAyK3SG68+iS7ojQX
+         DOgcGsdd80H5KD44aFKajL7tgPoXx+iqo6ATM97iwxIqpbqta/Fm/NycnhM7gC5mbzce
+         KdQOu82ClP9MXLhaDfcgOkPaeEg2ap7Raee3H5h6dB427jClO083gNNl6wcZk/1te60O
+         NU4o7LpdXQXqyFSi/YhLdiTXqqlnEfMQ+PFpMsA4TB0mWT7xX+3/9vx1hQ5Q2fDu3KPG
+         xH8w==
+X-Gm-Message-State: ANoB5pkt4h3WKNjJ596oBOk3tjSzokDxWtjbxkBKWLH+MLBhu1Bo7+j1
+	LW3u2rn138xiTCTHMuw8fbT1T7GBU8qZi0zjaXQxBA==
+X-Google-Smtp-Source: AA0mqf4hSdec3Om+IZl6dvO0bLDNDJnaPYiFm4//JZu9ysk7gnawgAc89XgfoUMHBNTwplgX6FIngd8yPW9ZeuPeYFQ=
+X-Received: by 2002:a17:902:a584:b0:186:be05:798e with SMTP id
+ az4-20020a170902a58400b00186be05798emr790394plb.37.1668455430845; Mon, 14 Nov
+ 2022 11:50:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3Jptob4bGL9Weel@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20221024043925.25379-1-marcan@marcan.st> <20221024043925.25379-5-marcan@marcan.st>
+ <CAPDyKFqYr5NDhZNT=EHWzWq=eCZKbF8Z3Y0eRHY8-nY7Ej0PBw@mail.gmail.com> <c791b776-c90f-4ee5-b025-79352937bf62@marcan.st>
+In-Reply-To: <c791b776-c90f-4ee5-b025-79352937bf62@marcan.st>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 14 Nov 2022 20:49:54 +0100
+Message-ID: <CAPDyKFpnzmRkgRHsRoRRSpzFGPT7oMx0u+d1g5Rmu_mCA_nC2A@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] cpufreq: apple-soc: Add new driver to control
+ Apple SoC CPU P-states
+To: Hector Martin <marcan@marcan.st>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 14, 2022 at 04:15:50PM +0000, Russell King (Oracle) wrote:
-> On Mon, Nov 14, 2022 at 04:34:07PM +0100, Petr Mladek wrote:
-> > >  	orig = get_unaligned(fourcc);
-> > > -	val = orig & ~BIT(31);
-> > > +	switch (fmt[2]) {
-> > > +	case 'h':
-> > > +		val = orig;
-> > > +		break;
-> > > +	case 'r':
-> > > +		val = orig = swab32(orig);
-> > 
-> > I do not like much these multi assignments. I think that the result
-> > was not even defined in some older C standards. Though, I can't find
-> > it now. And even make W=3 does not warn about it.
-> 
-> Err.
-> 
-> It's been supported for decades. I learnt about it back in 1992 when
-> I was introduced to C by another experienced C programmer. It's been
-> supported in ANSI C compilers. The Norcroft C compiler (which is
-> strict ANSI) on Acorn platforms back in the late 1980s/1990s even
-> supported it.
-> 
-> I think you're a bit out of date.
+On Tue, 1 Nov 2022 at 19:17, Hector Martin <marcan@marcan.st> wrote:
+>
+> On 02/11/2022 00.16, Ulf Hansson wrote:
+> > On Mon, 24 Oct 2022 at 06:40, Hector Martin <marcan@marcan.st> wrote:
+> >>
+> >> This driver implements CPU frequency scaling for Apple Silicon SoCs,
+> >> including M1 (t8103), M1 Max/Pro/Ultra (t600x), and M2 (t8112).
+> >>
+> >> Each CPU cluster has its own register set, and frequency management is
+> >> fully automated by the hardware; the driver only has to write one
+> >> register. There is boost frequency support, but the hardware will only
+> >> allow their use if only a subset of cores in a cluster are in
+> >> non-deep-idle. Since we don't support deep idle yet, these frequencies
+> >> are not achievable, but the driver supports them. They will remain
+> >> disabled in the device tree until deep idle is implemented, to avoid
+> >> confusing users.
+> >
+> > Out of curiosity, may I ask if this implies the need of a
+> > synchronization mechanism on the Linux side? Or is the boost frequency
+> > dynamically managed solely by HW/FW?
+>
+> It's managed by hardware - Linux gets to request whatever frequency it
+> wants, and the hardware will limit it to what is achievable given the
+> current idle states within the cluster (and it will change automatically
+> with them). So if Linux asks for 3.2 GHz but there are no deep idle
+> cores in the cluster, you get 3.0. If there's one deep idle core, you
+> get 3.1 (I think). Three, 3.2. So this driver doesn't have to do
+> anything (and will report the correct current-frequency as long as the
+> per-SoC compatible is matched; without that this feature is disabled and
+> it just reports the requested frequency). We could enable the boost
+> states today just fine, it's just that they would never actually be
+> reached by the hardware.
 
-Oh, and it's not like there isn't precedent for doing this in
-lib/vsprintf.c:
+Thanks for sharing these details. It's always nice to know a bit more
+about how the HW works!
 
-841a915d20c7 vsprintf: Do not have bprintf dereference pointers
+From the reviewing point of view, I don't have more to add at this point!
 
-+                                       len = copy = strlen(args);
-
-If you grep lib/, there's many more examples. So, what is in Hectors
-patch is in no way any different from lots of other examples already
-merged into the kernel code.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Kind regards
+Uffe
