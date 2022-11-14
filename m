@@ -1,95 +1,77 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5AC2912
-	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 10:35:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1668422150; x=1699958150;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KQI39jI+VhVq9DkODJATdCRiiFhF16bievVRLfJnrnw=;
-  b=E3Kh+FO4PXk2BSmUV59SRJzrFwwXKB3lpNUaXDYg5CEzHNMPyhlzEjar
-   ZMshzZfxNhJx6ggzQUoS209ujfwJeS2hN63R/VKd2mkUO3Zr8EIVWyikD
-   IHpMgvlZ57OokRWnHBXwejYVoQS4zoz2WZfm7a2Mo4YaWeEl2ckVBb6dE
-   XMN4wJws9uxQ7zqeEn54Zf+n1ANYABCiqjtzyX/zGx3h5+a64DXGJ406O
-   hbco6oMzlKqvYKcaCz0nOKQjXtVhUUDNGswraPqx03F8ZXrXBENIvcml2
-   CrENjSmn/XYEHcZE3VBOfWr+zaajIvnff9cmSIoQUkVfm7/gkzfeF+Zip
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="398227964"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="398227964"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2022 02:35:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10530"; a="589320025"
-X-IronPort-AV: E=Sophos;i="5.96,161,1665471600"; 
-   d="scan'208";a="589320025"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga003.jf.intel.com with ESMTP; 14 Nov 2022 02:35:45 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1ouWoY-00C7k0-1J;
-	Mon, 14 Nov 2022 12:35:42 +0200
-Date: Mon, 14 Nov 2022 12:35:42 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Russell King <rmk+kernel@armlinux.org.uk>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v3 1/7] mfd: Add core Apple Mac SMC driver
-Message-ID: <Y3IZ/ppKU/bWc5aU@smile.fi.intel.com>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXJ-002mvq-Bg@rmk-PC.armlinux.org.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F109F3FC2
+	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 11:06:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 6FA6941A36;
+	Mon, 14 Nov 2022 11:06:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1668424016; bh=mEO3KaY4WycE6m/ZsEnGy8Jcr+7DDVadkM8nmAQA1LY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=k/asXcbh6z+OeutUMQEIQNPkUjIC8KOxNcIYNi80fAsCVzMK9dhurY+vPp4fDsrca
+	 DMDgCDkii26DP6CMUnzpgicAP4VrVu1lFDpqE5g5djv4G0qRlKtQ7RNU77MnTg8WZa
+	 Woo6fwinBRk4uW+QXvy/qQR1813tuX7pdW9AMLPmw6x67bgwZ2nbih/Fb4xIN/vXpX
+	 VfqnHiOJzBBW9wKod/dpB1mXdpxZx0KK1w4cSQgbzUV5EZQ9dyCN0Nu8Tq4/MsZC4H
+	 /xtmiuJ5vGjjBS4/0YnFROCKX6Yw06sLlOuEyKTR66P1rnqy7lE2Wsr+9Ramt4SSBJ
+	 dOM7GDm4ZCh6Q==
+Message-ID: <8c7b25f0-aee2-c3ee-c6da-3432b6513c57@marcan.st>
+Date: Mon, 14 Nov 2022 20:06:50 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1osRXJ-002mvq-Bg@rmk-PC.armlinux.org.uk>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 4/5] cpufreq: apple-soc: Add new driver to control
+ Apple SoC CPU P-states
+Content-Language: en-US
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <sboyd@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Marc Zyngier <maz@kernel.org>, Mark Kettenis <mark.kettenis@xs4all.nl>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20221024043925.25379-1-marcan@marcan.st>
+ <20221024043925.25379-5-marcan@marcan.st>
+ <20221102061819.dyl5ah6qffntqieh@vireshk-i7>
+ <c3b88bae-f6da-4242-0b19-5e2a32b9c266@marcan.st>
+ <20221114065116.zs67pkbhhgfoze52@vireshk-i7>
+ <367270ad-114a-96ca-a92a-a7f54a5f3318@marcan.st>
+ <20221114070323.gjwgllfd44hthwon@vireshk-i7>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20221114070323.gjwgllfd44hthwon@vireshk-i7>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 08, 2022 at 04:33:17PM +0000, Russell King wrote:
-> From: Hector Martin <marcan@marcan.st>
+For the benefit of everyone else: I screwed up a reply from mobile and
+ended up with a brief exchange offline, but here's the useful part of
+the context. Viresh also pointed out dropping opp-shared if we don't use
+that mechanism, so I'll do that for v4.
+
+On 14/11/2022 16.03, Viresh Kumar wrote:
+> On 14-11-22, 15:57, Hector Martin wrote:
+>> There is no way to express this relationship with OPP tables without
+>> duplicating the tables themselves.
 > 
-> This driver implements support for the SMC (System Management
-> Controller) in Apple Macs. In contrast to the existing applesmc driver,
-> it uses pluggable backends that allow it to support different SMC
-> implementations, and uses the MFD subsystem to expose the core SMC
-> functionality so that specific features (gpio, hwmon, battery, etc.) can
-> be implemented by separate drivers in their respective downstream
-> subsystems.
+> Can you show how the DT looks in this case ? I am still not clear on what the
+> scenario is here :(
 
-...
+Here's the most complicated one we have so far: 20 cores and 6 clusters
+sharing 2 OPP tables (mind the include and define fun - this is the best
+way we could come up with to express two SoC dies glued together into
+one MCM).
 
-> +	ret = mfd_add_devices(dev, -1, apple_smc_devs, ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
+https://github.com/AsahiLinux/linux/blob/asahi-wip/arch/arm64/boot/dts/apple/t6002.dtsi
 
-PLATFORM_DEVID_NONE
-
-> +	if (ret)
-> +		return ERR_PTR(dev_err_probe(dev, ret, "Subdevice initialization failed"));
-
-...
-
-> +EXPORT_SYMBOL(apple_smc_probe);
-
-Namespace?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+- Hector
