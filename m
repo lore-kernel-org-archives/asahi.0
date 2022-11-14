@@ -1,91 +1,99 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8F5748D
-	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 16:37:51 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id hh9so7075632qtb.13
-        for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 08:37:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IgOId39Xocm9Vje1a/ep3OwWov96m12G3JQ8Ar6j2js=;
-        b=Qa0GsT/naRuPhIF14456ovieRdsJ6XhHibA8b+89NOw+mpNSYiGJk7qmuj4n1ZqVKX
-         2Cen0kxU499y3PryQOrfNo2eAz6rHw0oTz8m/tRrEdSXhz5UBZoIIEPGzMcSO37IrJdY
-         jxF8tN3DwETde2iItJ3zcfAEqahYTKwCcfatc40qIi2FcibQ8OcovAvYZbONiZg63arX
-         GQxDgXXsQgNNYz7QAWqAmjjhMvzrjhsLM3rNAqXNqfsyvjBaUIi+r528SoPSE4hEDe/4
-         Q0L4P3APqywasdFmVG3ykAtabAt2NIsYnxg+7X57cRG5UCD4YebtfhUJZOD12LfB4ilP
-         b4vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IgOId39Xocm9Vje1a/ep3OwWov96m12G3JQ8Ar6j2js=;
-        b=TXX86myEHWYLAJn9MpkFud7pbv+x/Uti2HUtSdh8OU1smKK0yo600hXqdoiVWdDMsG
-         0say1qP0msMPtKto67gCvZDfPlxt06zRtByhc8sqLM47QVAIRDVtHOAC3232j312GGr4
-         J6Oo2Ej9rEx+d3paLREVhKZC+mIv6nAQZcRQTgRv35y4sLPXNdY8YFiOPo+P6RkwrWap
-         d/mhyvqXFV/+uxLa7C0pJgqfSbasCGw/F8ADoD/pFDhpjeQk/1xuUPWo1M2PtHBEtjXC
-         u0lzEOWAt24NC6u+GmV8eHfB3T8c50i5azvHs4NqHDAVC+teg5Lc0up0+bjVFCwuFhY9
-         d+dg==
-X-Gm-Message-State: ANoB5pngFxypbycuimFUjBdGMl42ml2oG9sK0hti0ErUruutrXUuRPYf
-	6qs9GDxB3cb1P+TN4rZbvfA=
-X-Google-Smtp-Source: AA0mqf7/arSHjVFS1kNgX1Efe4XIdrBRJm6BAMzr6Q8VwiwhFqT1+N9tnQyNPsPf4v4c0rfLijiRcQ==
-X-Received: by 2002:a05:622a:1a1f:b0:3a5:42f9:de64 with SMTP id f31-20020a05622a1a1f00b003a542f9de64mr12853008qtb.685.1668443870917;
-        Mon, 14 Nov 2022 08:37:50 -0800 (PST)
-Received: from [192.168.50.208] (ip68-109-79-27.oc.oc.cox.net. [68.109.79.27])
-        by smtp.gmail.com with ESMTPSA id he31-20020a05622a601f00b00397b1c60780sm5861555qtb.61.2022.11.14.08.37.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Nov 2022 08:37:50 -0800 (PST)
-Message-ID: <8ff1226e-d38c-67ee-7c8f-771cad7f99d7@gmail.com>
-Date: Mon, 14 Nov 2022 08:37:48 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73E87748D
+	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 16:46:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=alWvsDEk2ast4MquuTzMfCnex7hE3JeGIqS6LusDl0c=; b=OvNCoOdy4QPkxzrWrzlQEsdgNV
+	IOkyFWL5tNj9hbIYkCtlE5b+1M5vHpQW/8Ov2fi7vXAOpcqdarNLBWSvWvKdvDIr/QX4q73+jRcIf
+	8GIUJwV/R+bSYqFAaOlWqrvjnj6tY//rU8nxSkHoHXnaoCWyL9POP77DQwHeCoSuDETFVLKAYZwYm
+	xoKYaFRlopJfoWF/aL9NazAcP0/ds20rr8+jRpROGOakFpt1ez+BwMuZlTPWvM0lLXokZOmJZvCNG
+	Cp/OlsLmdWNEUZ7MgLpqmClu3fnd5wC5Ny1J0i6ZiZNcLAfkiBtC3JHd9i2v8I/kiZ6H0naNZaxCw
+	qxoLBaqQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35266)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1oucbY-000169-1k; Mon, 14 Nov 2022 16:46:40 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1oucbU-0003xd-Jm; Mon, 14 Nov 2022 16:46:36 +0000
+Date: Mon, 14 Nov 2022 16:46:36 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	asahi@lists.linux.dev, devicetree@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH v3 2/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Y3Jw7PQVzjjaNniF@shell.armlinux.org.uk>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXO-002mvw-Fp@rmk-PC.armlinux.org.uk>
+ <Y3Jf7xz2CQjJuEeT@alley>
+ <Y3Jptob4bGL9Weel@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 02/13] nvme: move OPAL setup from PCIe to core
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Gerd Bayer <gbayer@linux.ibm.com>, asahi@lists.linux.dev,
- linux-nvme@lists.infradead.org
-References: <20221113161138.883195-1-hch@lst.de>
- <20221113161138.883195-3-hch@lst.de>
-From: James Smart <jsmart2021@gmail.com>
-In-Reply-To: <20221113161138.883195-3-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3Jptob4bGL9Weel@shell.armlinux.org.uk>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 11/13/2022 8:11 AM, Christoph Hellwig wrote:
-> Nothing about the TCG Opal support is PCIe transport specific, so move it
-> to the core code.  For this nvme_init_ctrl_finish grows a new
-> was_suspended argument that allows the transport driver to tell the OPAL
-> code if the controller came out of a suspend cycle.
+On Mon, Nov 14, 2022 at 04:15:50PM +0000, Russell King (Oracle) wrote:
+> On Mon, Nov 14, 2022 at 04:34:07PM +0100, Petr Mladek wrote:
+> > >  	orig = get_unaligned(fourcc);
+> > > -	val = orig & ~BIT(31);
+> > > +	switch (fmt[2]) {
+> > > +	case 'h':
+> > > +		val = orig;
+> > > +		break;
+> > > +	case 'r':
+> > > +		val = orig = swab32(orig);
+> > 
+> > I do not like much these multi assignments. I think that the result
+> > was not even defined in some older C standards. Though, I can't find
+> > it now. And even make W=3 does not warn about it.
 > 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> Tested-by Gerd Bayer <gbayer@linxu.ibm.com>
-> ---
->   drivers/nvme/host/apple.c  |  2 +-
->   drivers/nvme/host/core.c   | 25 ++++++++++++++++++++++---
->   drivers/nvme/host/fc.c     |  2 +-
->   drivers/nvme/host/nvme.h   |  5 +----
->   drivers/nvme/host/pci.c    | 14 +-------------
->   drivers/nvme/host/rdma.c   |  2 +-
->   drivers/nvme/host/tcp.c    |  2 +-
->   drivers/nvme/target/loop.c |  2 +-
->   8 files changed, 29 insertions(+), 25 deletions(-)
+> Err.
 > 
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index 24e224c279a41..a85349a7e938c 100644
+> It's been supported for decades. I learnt about it back in 1992 when
+> I was introduced to C by another experienced C programmer. It's been
+> supported in ANSI C compilers. The Norcroft C compiler (which is
+> strict ANSI) on Acorn platforms back in the late 1980s/1990s even
+> supported it.
+> 
+> I think you're a bit out of date.
 
-Reviewed-by: James Smart <jsmart2021@gmail.com>
+Oh, and it's not like there isn't precedent for doing this in
+lib/vsprintf.c:
 
--- james
+841a915d20c7 vsprintf: Do not have bprintf dereference pointers
 
++                                       len = copy = strlen(args);
+
+If you grep lib/, there's many more examples. So, what is in Hectors
+patch is in no way any different from lots of other examples already
+merged into the kernel code.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
