@@ -1,130 +1,91 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00FB6FC1
-	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 16:24:15 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id B4DAC22C5F;
-	Mon, 14 Nov 2022 16:18:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1668442707; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0tL7xPSD03f3HZ+4HQQQ7sQ5enemmDpf5Sp5cZ89xFw=;
-	b=oWvuMqKJhtkNpedSgvnQGk4xFBCkRyJ7Ke9fIutR/Lc7G/sifitPB/TZk+jWmaLllrk9R4
-	OKXNLgokyF/Vky+YYw3QVk2SaFT+t0DtJgztAH1VgUhEphielJwf/CWWY2zmJwUoGy6lOR
-	/Rr4Dzm154RIXwpqI13iQCAKf+QwqWo=
-Received: from suse.cz (unknown [10.100.201.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id 559E52C142;
-	Mon, 14 Nov 2022 16:18:27 +0000 (UTC)
-Date: Mon, 14 Nov 2022 17:18:26 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Russell King <rmk+kernel@armlinux.org.uk>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH v3 2/7] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-Message-ID: <Y3JqUtLcnGVR7kb6@alley>
-References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
- <E1osRXO-002mvw-Fp@rmk-PC.armlinux.org.uk>
- <Y3Jf7xz2CQjJuEeT@alley>
- <Y3Ji1B+Kar6OSBn3@smile.fi.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8F5748D
+	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 16:37:51 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id hh9so7075632qtb.13
+        for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 08:37:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IgOId39Xocm9Vje1a/ep3OwWov96m12G3JQ8Ar6j2js=;
+        b=Qa0GsT/naRuPhIF14456ovieRdsJ6XhHibA8b+89NOw+mpNSYiGJk7qmuj4n1ZqVKX
+         2Cen0kxU499y3PryQOrfNo2eAz6rHw0oTz8m/tRrEdSXhz5UBZoIIEPGzMcSO37IrJdY
+         jxF8tN3DwETde2iItJ3zcfAEqahYTKwCcfatc40qIi2FcibQ8OcovAvYZbONiZg63arX
+         GQxDgXXsQgNNYz7QAWqAmjjhMvzrjhsLM3rNAqXNqfsyvjBaUIi+r528SoPSE4hEDe/4
+         Q0L4P3APqywasdFmVG3ykAtabAt2NIsYnxg+7X57cRG5UCD4YebtfhUJZOD12LfB4ilP
+         b4vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IgOId39Xocm9Vje1a/ep3OwWov96m12G3JQ8Ar6j2js=;
+        b=TXX86myEHWYLAJn9MpkFud7pbv+x/Uti2HUtSdh8OU1smKK0yo600hXqdoiVWdDMsG
+         0say1qP0msMPtKto67gCvZDfPlxt06zRtByhc8sqLM47QVAIRDVtHOAC3232j312GGr4
+         J6Oo2Ej9rEx+d3paLREVhKZC+mIv6nAQZcRQTgRv35y4sLPXNdY8YFiOPo+P6RkwrWap
+         d/mhyvqXFV/+uxLa7C0pJgqfSbasCGw/F8ADoD/pFDhpjeQk/1xuUPWo1M2PtHBEtjXC
+         u0lzEOWAt24NC6u+GmV8eHfB3T8c50i5azvHs4NqHDAVC+teg5Lc0up0+bjVFCwuFhY9
+         d+dg==
+X-Gm-Message-State: ANoB5pngFxypbycuimFUjBdGMl42ml2oG9sK0hti0ErUruutrXUuRPYf
+	6qs9GDxB3cb1P+TN4rZbvfA=
+X-Google-Smtp-Source: AA0mqf7/arSHjVFS1kNgX1Efe4XIdrBRJm6BAMzr6Q8VwiwhFqT1+N9tnQyNPsPf4v4c0rfLijiRcQ==
+X-Received: by 2002:a05:622a:1a1f:b0:3a5:42f9:de64 with SMTP id f31-20020a05622a1a1f00b003a542f9de64mr12853008qtb.685.1668443870917;
+        Mon, 14 Nov 2022 08:37:50 -0800 (PST)
+Received: from [192.168.50.208] (ip68-109-79-27.oc.oc.cox.net. [68.109.79.27])
+        by smtp.gmail.com with ESMTPSA id he31-20020a05622a601f00b00397b1c60780sm5861555qtb.61.2022.11.14.08.37.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Nov 2022 08:37:50 -0800 (PST)
+Message-ID: <8ff1226e-d38c-67ee-7c8f-771cad7f99d7@gmail.com>
+Date: Mon, 14 Nov 2022 08:37:48 -0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y3Ji1B+Kar6OSBn3@smile.fi.intel.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 02/13] nvme: move OPAL setup from PCIe to core
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Cc: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Gerd Bayer <gbayer@linux.ibm.com>, asahi@lists.linux.dev,
+ linux-nvme@lists.infradead.org
+References: <20221113161138.883195-1-hch@lst.de>
+ <20221113161138.883195-3-hch@lst.de>
+From: James Smart <jsmart2021@gmail.com>
+In-Reply-To: <20221113161138.883195-3-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon 2022-11-14 17:46:28, Andy Shevchenko wrote:
-> On Mon, Nov 14, 2022 at 04:34:07PM +0100, Petr Mladek wrote:
-> > On Tue 2022-11-08 16:33:22, Russell King wrote:
+On 11/13/2022 8:11 AM, Christoph Hellwig wrote:
+> Nothing about the TCG Opal support is PCIe transport specific, so move it
+> to the core code.  For this nvme_init_ctrl_finish grows a new
+> was_suspended argument that allows the transport driver to tell the OPAL
+> code if the controller came out of a suspend cycle.
 > 
-> ...
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Keith Busch <kbusch@kernel.org>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Tested-by Gerd Bayer <gbayer@linxu.ibm.com>
+> ---
+>   drivers/nvme/host/apple.c  |  2 +-
+>   drivers/nvme/host/core.c   | 25 ++++++++++++++++++++++---
+>   drivers/nvme/host/fc.c     |  2 +-
+>   drivers/nvme/host/nvme.h   |  5 +----
+>   drivers/nvme/host/pci.c    | 14 +-------------
+>   drivers/nvme/host/rdma.c   |  2 +-
+>   drivers/nvme/host/tcp.c    |  2 +-
+>   drivers/nvme/target/loop.c |  2 +-
+>   8 files changed, 29 insertions(+), 25 deletions(-)
 > 
-> > >  	orig = get_unaligned(fourcc);
-> > > -	val = orig & ~BIT(31);
-> > > +	switch (fmt[2]) {
-> > > +	case 'h':
-> > > +		val = orig;
-> > > +		break;
-> > > +	case 'r':
-> > > +		val = orig = swab32(orig);
-> > 
-> > I do not like much these multi assignments. I think that the result
-> > was not even defined in some older C standards. Though, I can't find
-> > it now. And even make W=3 does not warn about it.
-> > 
-> > > +		break;
-> > > +	case 'l':
-> > > +		val = orig = le32_to_cpu(orig);
-> > > +		break;
-> > > +	case 'b':
-> > > +		val = orig = be32_to_cpu(orig);
-> > > +		break;
-> 
-> Isn't easy to fix? Something like below?
-> 
-> 	switch (fmt[2]) {
-> 	case 'h':
-> 		break;
-> 	case 'r':
-> 		orig = swab32(orig);
-> 		break;
-> 	case 'l':
-> 		orig = le32_to_cpu(orig);
-> 		break;
-> 	case 'b':
-> 		orig = be32_to_cpu(orig);
-> 		break;
-> 
-> 		...
-> 	}
-> 	val = orig;
+> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> index 24e224c279a41..a85349a7e938c 100644
 
-I though the same. Unfortunately, this is not valid for the "case c:"
-path where "orig" stays untouched:
+Reviewed-by: James Smart <jsmart2021@gmail.com>
 
-	case 'c':
-		/* Pixel formats are printed LSB-first */
-		val = swab32(orig & ~BIT(31));
-		pixel_fmt = true;
-		break;
+-- james
 
-It is pity that "orig" is handled differently for the pixel and the generic
-formats.
-
-But I am afraid that there is no good solution. The code will
-always be a mess when it tries to implement a messy definition.
-
-It would be nice if the the FourCC format was used consistently
-in all subsystems in the first place.
-
-
-IMPORTANT: This brings the questions.
-
-	   Is there actually a standard how to print the original
-	   number in FourCC?
-
-	   Do we really want to modify "orig" in the generic
-	   implementation?
-
-Best Regards,
-Petr
