@@ -1,100 +1,149 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC4879E8
-	for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 19:50:31 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id r61-20020a17090a43c300b00212f4e9cccdso14810964pjg.5
-        for <asahi@lists.linux.dev>; Mon, 14 Nov 2022 11:50:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=aeYV7fDkLER/6GDtsBmzPKt14c7SuI0JOECUHSx1zDk=;
-        b=M6HioAcUd9+V0vOi9nn77C1cQZ+yuMKdHtjqJasI7QmXmRQ8uC2szUrUKvbkrkfQr9
-         4Y01GrpR1X1HpMQeAno85q+LMFPlBpy6CbJ4mJrczv4D8jcWmb7B4FYnW4U4wD6xhLRd
-         oMUhqGXDvYMiUHdDfFYDBNuQTJx6SdYI15EvAZJrOxtgHmgIh6bEmpzFaxmWjrS/65kP
-         VnZMWisqdZKYYNEIp9jiwDd+bS/VZai+OND0GNCNv9jUjdlk8XBykGKEVduXG/7cHPC7
-         BeUx8JDRSXzQyD4qtIZ6lHNvcrDUJX36jiqrLZXlzGPWbyLVA3AMhGmXYo3qFm3p6/oq
-         mcew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aeYV7fDkLER/6GDtsBmzPKt14c7SuI0JOECUHSx1zDk=;
-        b=dsEJ/TM8Bnr7FfWpQwClp2TZjfK46SvP5AeXhjp2xA6SJto7N+FJsBiE5WvL24KnDb
-         V516WTld0czopqXEnBuz7T7cXvhuan7lszD/NH6gorKAWeAG/fjUAyK3SG68+iS7ojQX
-         DOgcGsdd80H5KD44aFKajL7tgPoXx+iqo6ATM97iwxIqpbqta/Fm/NycnhM7gC5mbzce
-         KdQOu82ClP9MXLhaDfcgOkPaeEg2ap7Raee3H5h6dB427jClO083gNNl6wcZk/1te60O
-         NU4o7LpdXQXqyFSi/YhLdiTXqqlnEfMQ+PFpMsA4TB0mWT7xX+3/9vx1hQ5Q2fDu3KPG
-         xH8w==
-X-Gm-Message-State: ANoB5pkt4h3WKNjJ596oBOk3tjSzokDxWtjbxkBKWLH+MLBhu1Bo7+j1
-	LW3u2rn138xiTCTHMuw8fbT1T7GBU8qZi0zjaXQxBA==
-X-Google-Smtp-Source: AA0mqf4hSdec3Om+IZl6dvO0bLDNDJnaPYiFm4//JZu9ysk7gnawgAc89XgfoUMHBNTwplgX6FIngd8yPW9ZeuPeYFQ=
-X-Received: by 2002:a17:902:a584:b0:186:be05:798e with SMTP id
- az4-20020a170902a58400b00186be05798emr790394plb.37.1668455430845; Mon, 14 Nov
- 2022 11:50:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579171FC1
+	for <asahi@lists.linux.dev>; Tue, 15 Nov 2022 04:15:05 +0000 (UTC)
+Received: from leknes.fjasle.eu ([46.142.49.7]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1M42X0-1ounKL0J2u-0006vY; Tue, 15 Nov 2022 05:13:37 +0100
+Received: from localhost.fjasle.eu (bergen.fjasle.eu [IPv6:fdda:8718:be81:0:6f0:21ff:fe91:394])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by leknes.fjasle.eu (Postfix) with ESMTPS id 258723C0C9;
+	Tue, 15 Nov 2022 05:13:10 +0100 (CET)
+Authentication-Results: leknes.fjasle.eu; dkim=none; dkim-atps=neutral
+Received: by localhost.fjasle.eu (Postfix, from userid 1000)
+	id C05B3974; Tue, 15 Nov 2022 05:12:46 +0100 (CET)
+Date: Tue, 15 Nov 2022 05:12:46 +0100
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Nick Desaulniers <nick.desaulniers@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <git@xen0n.name>,
+	Guo Ren <guoren@kernel.org>, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, asahi@lists.linux.dev,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] scripts: subarch.include: fix SUBARCH on MacOS hosts
+Message-ID: <Y3MRvtwdjIwMHvRo@bergen.fjasle.eu>
+References: <20221113233812.36784-1-nick.desaulniers@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221024043925.25379-1-marcan@marcan.st> <20221024043925.25379-5-marcan@marcan.st>
- <CAPDyKFqYr5NDhZNT=EHWzWq=eCZKbF8Z3Y0eRHY8-nY7Ej0PBw@mail.gmail.com> <c791b776-c90f-4ee5-b025-79352937bf62@marcan.st>
-In-Reply-To: <c791b776-c90f-4ee5-b025-79352937bf62@marcan.st>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 14 Nov 2022 20:49:54 +0100
-Message-ID: <CAPDyKFpnzmRkgRHsRoRRSpzFGPT7oMx0u+d1g5Rmu_mCA_nC2A@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] cpufreq: apple-soc: Add new driver to control
- Apple SoC CPU P-states
-To: Hector Martin <marcan@marcan.st>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>, Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ba37Kt4S81U8BtDM"
+Content-Disposition: inline
+In-Reply-To: <20221113233812.36784-1-nick.desaulniers@gmail.com>
+Jabber-ID: nicolas@jabber.no
+X-Operating-System: Debian GNU/Linux bookworm/sid
+X-Provags-ID: V03:K1:ueI0HeSkWXIB3kHt2cF8B/8YIDt+WctiVHzmtFD1Jabhfjvts/h
+ 9ryJmVi4rhsDY+49g1uY6pVbh7MFfmSrMl/ZBypNSj7f2ByyPWEMQtRMgcTR/fElV2v9zS1
+ QT9zBcMA+5vG1Rnje7qs6KEaNggvefid/Tll1XDXw4jcSpPrXycnbL++El9tk67Hp5RCVGf
+ Ou2lYrK2+y7e6OmsbMCaA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/R7+4g97Xmo=:pnXppWFSepT9OBr2AHyOEm
+ JEOsOU1XZpx+1JzZhEnYFOqrD5HLyPLMCwGwj9s3ZoQIpmPABlHhN5PQzDkQ2dTZU1Pl3DtpA
+ Kiyu4JUtWwxHTvMiQV4zVqZHcaknTm34TMgvEsM3VuW5m5Tm8KpdO1p2yogHxPHqsYoM852TZ
+ o8vjfQWTzxHt9D3EkCRz2iOT0qNgxUBrHYuuLj+Q63IfZHTuvkAiXwR2g1q4u76mbMhG3RzVW
+ L/47mV/tNmkh3tSHRGQQ/10AEWpwd2k38YxFNRfyLgFRWuXWGwy+DY2Eue7mVjGYDqT9CDRyN
+ QqjaD5h7BR3ScEE8Rq1tccun/8Bl/Bxl0xamlBLSU9vROA0Q9ib4Exip21u6toPP/TxIRIRRd
+ qAGylFd/wPB3X6u33fnaNDxeM3tYEQqCJVZhCSnNri2g9jpd2iiQ2Z4BNZitSaECp2OGiyULz
+ mhedMG6cxj0/mOHJ5l5rbS3vZQ5Tu2yHVD2g8Gafw7hQf+K3gYXdWfZWp9coR4QMtDy3d+Iqo
+ P9JEknWqZPwsJxbTTVSViBS0NsHeBPrhJtlG+HVJoWSpT4g29moefq6bQZrM08s125XZu5k2U
+ e8fHevK43aZx8aRU60RHEYzHvYszGmOi40117zfAFRVIexgoolReuhj+BT1ai4MGsGkXAFjMA
+ g6NCHMRivc5AAk35eGr2E/jNY1PlyMVMbKUrplYlpRu2og1NRrIQ/KIYcLJmJlC6K9MCDRMxK
+ DcFeFKpWqBV5vi/mijeIYfeVhOxE0yo2gV+VSpaoz8/6r5uw7tacg3LCFd7n9EIFA1KW8AiEY
+ VOO5lY1
 
-On Tue, 1 Nov 2022 at 19:17, Hector Martin <marcan@marcan.st> wrote:
->
-> On 02/11/2022 00.16, Ulf Hansson wrote:
-> > On Mon, 24 Oct 2022 at 06:40, Hector Martin <marcan@marcan.st> wrote:
-> >>
-> >> This driver implements CPU frequency scaling for Apple Silicon SoCs,
-> >> including M1 (t8103), M1 Max/Pro/Ultra (t600x), and M2 (t8112).
-> >>
-> >> Each CPU cluster has its own register set, and frequency management is
-> >> fully automated by the hardware; the driver only has to write one
-> >> register. There is boost frequency support, but the hardware will only
-> >> allow their use if only a subset of cores in a cluster are in
-> >> non-deep-idle. Since we don't support deep idle yet, these frequencies
-> >> are not achievable, but the driver supports them. They will remain
-> >> disabled in the device tree until deep idle is implemented, to avoid
-> >> confusing users.
-> >
-> > Out of curiosity, may I ask if this implies the need of a
-> > synchronization mechanism on the Linux side? Or is the boost frequency
-> > dynamically managed solely by HW/FW?
->
-> It's managed by hardware - Linux gets to request whatever frequency it
-> wants, and the hardware will limit it to what is achievable given the
-> current idle states within the cluster (and it will change automatically
-> with them). So if Linux asks for 3.2 GHz but there are no deep idle
-> cores in the cluster, you get 3.0. If there's one deep idle core, you
-> get 3.1 (I think). Three, 3.2. So this driver doesn't have to do
-> anything (and will report the correct current-frequency as long as the
-> per-SoC compatible is matched; without that this feature is disabled and
-> it just reports the requested frequency). We could enable the boost
-> states today just fine, it's just that they would never actually be
-> reached by the hardware.
 
-Thanks for sharing these details. It's always nice to know a bit more
-about how the HW works!
+--ba37Kt4S81U8BtDM
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-From the reviewing point of view, I don't have more to add at this point!
+On Sun, 13 Nov 2022 15:38:09 -0800 Nick Desaulniers wrote:
+> When building the Linux kernel on an aarch64 MacOS based host, if we don't
+> specify a value for ARCH when invoking make, we default to arm and thus
+> multi_v7_defconfig rather than the expected arm64 and arm64's defconfig.
+>=20
+> This is because subarch.include invokes `uname -m` which on MacOS hosts
+> evaluates to `arm64` but on Linux hosts evaluates to `aarch64`,
+>=20
+> This allows us to build ARCH=3Darm64 natively on MacOS (as in ARCH need
+> not be specified on an aarch64-based system).
+>=20
+> Utilize a negative lookahead regular expression to avoid matching arm64.
+>=20
+> Signed-off-by: Nick Desaulniers <nick.desaulniers@gmail.com>
+> ---
+> This is only part 1 of
+> https://github.com/ClangBuiltLinux/linux/commit/f06333e29addbc3d714adb340=
+355f471c1dfe95a
+> I'm still working on the rest...
+>=20
+>  scripts/subarch.include | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/scripts/subarch.include b/scripts/subarch.include
+> index 4bd327d0ae42..aa130286b627 100644
+> --- a/scripts/subarch.include
+> +++ b/scripts/subarch.include
+> @@ -6,7 +6,7 @@
+> =20
+>  SUBARCH :=3D $(shell uname -m | sed -e s/i.86/x86/ -e s/x86_64/x86/ \
+>  				  -e s/sun4u/sparc64/ \
+> -				  -e s/arm.*/arm/ -e s/sa110/arm/ \
+> +				  -e s/arm\(?:\(?!64\).*\)/arm/ -e s/sa110/arm/ \
 
-Kind regards
-Uffe
+On my Debian's sed, this does not match any more at all, e.g.:
+
+  $ echo armv4 | sed -e 's/arm\(?:\(?!64\).*\)/arm/'
+  armv4
+=2E
+
+This one works for me, but does not look such advanced:
+
+  $ echo arm64 | sed -e '/^arm64$/!s/arm.*/arm/'
+  arm64
+  $ echo armv4 | sed -e '/^arm64$/!s/arm.*/arm/'
+  arm
+=2E
+
+Kind regards,
+Nicolas
+
+>  				  -e s/s390x/s390/ \
+>  				  -e s/ppc.*/powerpc/ -e s/mips.*/mips/ \
+>  				  -e s/sh[234].*/sh/ -e s/aarch64.*/arm64/ \
+> --=20
+> 2.37.0 (Apple Git-136)
+
+--=20
+epost|xmpp: nicolas@fjasle.eu          irc://oftc.net/nsc
+=E2=86=B3 gpg: 18ed 52db e34f 860e e9fb  c82b 7d97 0932 55a0 ce7f
+     -- frykten for herren er opphav til kunnskap --
+
+--ba37Kt4S81U8BtDM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmNzEboACgkQB1IKcBYm
+EmlHbA//ZeYSkgSFZLkbtCRamaOOyoZ0M0hrB2whcGjrjCTmMYIsyouwkdjWpZnD
+OoM4OfBnSLpvSQvv7uPbz+ht14ER2UGIPRnUL9sz8RcH3tIv+8G/3jc6cjllFPCQ
+94rzOsK17UcZ6lPDhQTg7XLyNaWHNus0ATAlDzLryzOhAt/RjpzHfoppF50AjcV/
+YIaj196HpKMQ+Q3BkvG303JcyiiRwL4nZis+zJBxNc/dJClASLkinL2DamwidYMD
+wCO3s+ehEL6uxHsHgu/D4EB7oChPoaUd/ocV+mAQXNOMr5iAESQdwlsX5Yw5JnbL
+rST1qeY5XO/TnGx0p6dbxeY/WF1b9ygPT6K0/KZyXeQX1OHD1HyPP3ezdAQ+eHiz
+03vj0xksCXlvaN80xQbbX6jZxrhPZfQ76SAzqQhlggFH+V0fMTvr4Zf3us6pI1OW
+GOryQ51tssTqYgJAbbQ4G++53vnPagsI9D9mzXGnP7G/vI15HuyinARDW4M/UiL0
+J+fHtiE9tue6txb4BnL3rP5K8HrijD5KJCHux4js1cm2Bqjuv54Fsfuec42g/3Tb
+JGQyq/eC9e1XhCJ+AU1P6KPM/uU6mCbIy4RtfsMuHzpKba3qa8Ebp2FLFOg0XUMe
+LWfSVwwCx8ciDfHHEUtbk+6ZDiO17i6kg8kWwLYmlU9Wh4bq+i8=
+=xldg
+-----END PGP SIGNATURE-----
+
+--ba37Kt4S81U8BtDM--
