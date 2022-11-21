@@ -1,43 +1,43 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D0A6FA6
-	for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 17:45:09 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id n20so30400307ejh.0
-        for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 09:45:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE116FA6
+	for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 17:45:16 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id s5so17273283edc.12
+        for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 09:45:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=B+9IrtAc191rAMJ9lamUKYajmKH7hj/07wCLXl1AJ5g=;
-        b=F0N5VBAlSRuCK9dwIjBJ+sB4ejjY3jp7bnEHmkA1+3g4pr/YlxiLBAenlCQ1TR6svB
-         AVWoi9tdb7b7jGQIKNxIi54BWX8ZsXGhVgwlUbyHQ8mtiiUtcN8zLIWafSOdlBk/nt1y
-         fDYv0OxQt92tTSGkowqCjeuFXXBkdR7mAjfDL1qYCXFvAjC/m4gQptouJKpw2aI1Ags2
-         qz6QsdqFIRPOKQkJKbE7o0Uv4il02accd97GvIY70RqSLswcfwJsE05Biddj9SIljPbm
-         pvM9DHMU+y4lnZHa2Quz3W97Y/IzMv6dViiAhZ5tO8rQJ2L26HiyDL9EbiuUvj/qToAX
-         MBvw==
+        bh=u5GqgUQltU/UwWJVmKB9yBrhZ1yrd9RICIJ3rDIHDxU=;
+        b=EEQfpiS80XVVx5sLX7hxmEe6Nc+y9aFvjbVDbccbOjamDOnaEeSuuTP9cyjVQmHaEq
+         RAeC5m7UPE16AP/Qe1/9HOJUWGg48B62MMSa8VOrWdNX66bj6g+SyDJbDSnMjQuoXD7o
+         ZoeMcpvr7kFG+oX9fW4DuJFATYerf1o+IbwZQN4Lo9hNq0MLbLXOaNQ5PgG9YaU9EsAe
+         XyGRYc+8xGtXbYyj9W6bOm8Lix67z9ectnuHhnU3WrEhyrcKQb5maUCdqLLyVFgG8dt1
+         tYqdX+qgQrC9JGANOEjoWFa40ck27oAmDOFhNPEe6q5tHXEVj43J+JZztCxi7f5vyjgQ
+         ALTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B+9IrtAc191rAMJ9lamUKYajmKH7hj/07wCLXl1AJ5g=;
-        b=eAi+OrCUluvbT//82vUOZDtIWXdnAdHCBMnzfh46qb0vcVMWptaOYz6A1e6keenGh/
-         PIgyzeg6A6Zcp9vdbKjx8/lgjBKKaXOwjLqsEYkK4RAzsFgk1oQTDbKZCT4A3zafmWeT
-         Z8VtQPZ1v3oXMLxKs5nadA90RA+GwePx/U/Rm8qdDN5+SPRAiMn7udnG3BjPPkpo48ML
-         cjXTtjzKH5QZJ0OWN8ZadFYbtVdVesSj9CC6RNmrssazMJIW8HqvU4uukomZjdfQP/aH
-         xM/rmCBv29c3UgsN15iN5GMSndorWYDuC2cq7YAVgXDun1AjTqwjzrwZvSSwWsh97oFV
-         A3qQ==
-X-Gm-Message-State: ANoB5pleCKJSOO7yOEqrWpfzM9WDHdVnCwI6M7evYb97/Uv+l5l7Gj09
-	+GXPaEpNYonsxr7LyxxD/heMYGPWbLzsTw==
-X-Google-Smtp-Source: AA0mqf7WB//zz75XwT4qrUkl7f/GrEkUi04JkoSigEcForgwCnymKs9LkQFOa4IoRo21tv6ysPq7QA==
-X-Received: by 2002:a17:906:68db:b0:7b4:869f:f944 with SMTP id y27-20020a17090668db00b007b4869ff944mr6339155ejr.427.1669052707965;
-        Mon, 21 Nov 2022 09:45:07 -0800 (PST)
+        bh=u5GqgUQltU/UwWJVmKB9yBrhZ1yrd9RICIJ3rDIHDxU=;
+        b=urKBNcOq+/43yID9mAxQkFngcyaPlG3RNzs9jl6cl4Ye5QRLJ7hpK75ATeUwbjiW1t
+         atYh81bT+NTK3Fdkcw1Po0A7M/y91z1dOaErEUycYXvIO1XBPX+zyGBPrssH0E2cKLKr
+         WemuQ02GAOsuG9fizgaWpZ0DUcslo+jk1WhLuKnpBhVKoZOGOuVP+l89y6zJ3Pj6aZcK
+         hbzVJL5mNf1a1/8zaHu6J0Co6hDGL3U+BSeco5dtYO1KJ04rNCqTHTXDGUYeYFPVqXp1
+         hf+CzNVzV3puMiMy+yZLbvv3GV/1lpRbb34JvmrZPcjAirw/IHjg+OGmyQFJT7I2KeqO
+         j0AQ==
+X-Gm-Message-State: ANoB5pk69fo503+HiG00KZNHYifKHQsQwIgQjZQs68fPNszojqxxk/zT
+	Y7t6rQMdKrSVYh4Pg76aXfk=
+X-Google-Smtp-Source: AA0mqf6LYJRmuao1b8/FmHyF8hM9rGcOvUl8k9MzKzg4AB1fNO2tR3YxlSSFoYQG1Y4rrMZVM+c70A==
+X-Received: by 2002:a05:6402:2929:b0:469:b603:ca21 with SMTP id ee41-20020a056402292900b00469b603ca21mr1615945edb.350.1669052714455;
+        Mon, 21 Nov 2022 09:45:14 -0800 (PST)
 Received: from localhost ([217.131.81.52])
-        by smtp.gmail.com with UTF8SMTPSA id x10-20020a1709064a8a00b0078d3a075525sm5252834eju.56.2022.11.21.09.45.06
+        by smtp.gmail.com with UTF8SMTPSA id d7-20020a170906304700b007b29d292852sm2418180ejd.148.2022.11.21.09.45.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 09:45:07 -0800 (PST)
+        Mon, 21 Nov 2022 09:45:13 -0800 (PST)
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 To: thierry.reding@gmail.com,
 	robh+dt@kernel.org,
@@ -51,9 +51,9 @@ Cc: marcan@marcan.st,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH RESEND v3 2/4] pwm: Add Apple PWM controller
-Date: Mon, 21 Nov 2022 20:42:26 +0300
-Message-Id: <20221121174228.93670-3-fnkl.kernel@gmail.com>
+Subject: [PATCH RESEND v3 3/4] arm64: dts: apple: t8103: Add PWM controller
+Date: Mon, 21 Nov 2022 20:42:27 +0300
+Message-Id: <20221121174228.93670-4-fnkl.kernel@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20221121174228.93670-1-fnkl.kernel@gmail.com>
 References: <20221121174228.93670-1-fnkl.kernel@gmail.com>
@@ -65,185 +65,106 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds the Apple PWM controller driver.
+Adds PWM controller and keyboard backlight bindings for M1 MacBooks
 
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Acked-by: Sven Peter <sven@svenpeter.dev>
 ---
- drivers/pwm/Kconfig     |  12 ++++
- drivers/pwm/Makefile    |   1 +
- drivers/pwm/pwm-apple.c | 127 ++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 140 insertions(+)
- create mode 100644 drivers/pwm/pwm-apple.c
+ arch/arm64/boot/dts/apple/t8103-j293.dts | 20 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103-j313.dts | 20 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi     |  9 +++++++++
+ 3 files changed, 49 insertions(+)
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index 60d13a949bc5..c3be11468414 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -51,6 +51,18 @@ config PWM_AB8500
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called pwm-ab8500.
+diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
+index ecb10d237a05..0b4b7e8e0726 100644
+--- a/arch/arm64/boot/dts/apple/t8103-j293.dts
++++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
+@@ -11,6 +11,7 @@
  
-+config PWM_APPLE
-+	tristate "Apple SoC PWM support"
-+	depends on ARCH_APPLE || COMPILE_TEST
-+	help
-+	  Generic PWM framework driver for PWM controller present on
-+	  Apple SoCs
+ #include "t8103.dtsi"
+ #include "t8103-jxxx.dtsi"
++#include <dt-bindings/leds/common.h>
+ 
+ / {
+ 	compatible = "apple,j293", "apple,t8103", "apple,arm-platform";
+@@ -43,3 +44,22 @@ &i2c2 {
+ &i2c4 {
+ 	status = "okay";
+ };
 +
-+	  Say Y here if you have an ARM Apple laptop, otherwise say N
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called pwm-apple.
-+
- config PWM_ATMEL
- 	tristate "Atmel PWM support"
- 	depends on ARCH_AT91 || COMPILE_TEST
-diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index 7bf1a29f02b8..19899b912e00 100644
---- a/drivers/pwm/Makefile
-+++ b/drivers/pwm/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_PWM)		+= core.o
- obj-$(CONFIG_PWM_SYSFS)		+= sysfs.o
- obj-$(CONFIG_PWM_AB8500)	+= pwm-ab8500.o
-+obj-$(CONFIG_PWM_APPLE)		+= pwm-apple.o
- obj-$(CONFIG_PWM_ATMEL)		+= pwm-atmel.o
- obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+= pwm-atmel-hlcdc.o
- obj-$(CONFIG_PWM_ATMEL_TCB)	+= pwm-atmel-tcb.o
-diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c
-new file mode 100644
-index 000000000000..b0c3f86fd578
---- /dev/null
-+++ b/drivers/pwm/pwm-apple.c
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/*
-+ * Driver for the Apple SoC PWM controller
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/io.h>
-+#include <linux/math64.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/pwm.h>
-+
-+#define PWM_CONTROL     0x00
-+#define PWM_ON_CYCLES   0x1c
-+#define PWM_OFF_CYCLES  0x18
-+
-+#define CTRL_ENABLE        BIT(0)
-+#define CTRL_MODE          BIT(2)
-+#define CTRL_UPDATE        BIT(5)
-+#define CTRL_TRIGGER       BIT(9)
-+#define CTRL_INVERT        BIT(10)
-+#define CTRL_OUTPUT_ENABLE BIT(14)
-+
-+struct apple_pwm {
-+	struct pwm_chip chip;
-+	void __iomem *base;
-+	u64 clkrate;
++/ {
++	led-controller {
++		compatible = "pwm-leds";
++		led-0 {
++			pwms = <&fpwm1 0 40000>;
++			pwm-names = "kbd-backlight";
++			label = "kbd_backlight";
++			function = LED_FUNCTION_KBD_BACKLIGHT;
++			color = <LED_COLOR_ID_WHITE>;
++			max-brightness = <255>;
++			default-state = "keep";
++		};
++	};
 +};
 +
-+static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			   const struct pwm_state *state)
-+{
-+	struct apple_pwm *fpwm;
-+	u64 on_cycles, off_cycles;
++&fpwm1 {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
+index df741737b8e6..0e0f57dee96b 100644
+--- a/arch/arm64/boot/dts/apple/t8103-j313.dts
++++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
+@@ -11,6 +11,7 @@
+ 
+ #include "t8103.dtsi"
+ #include "t8103-jxxx.dtsi"
++#include <dt-bindings/leds/common.h>
+ 
+ / {
+ 	compatible = "apple,j313", "apple,t8103", "apple,arm-platform";
+@@ -35,3 +36,22 @@ &pcie0_dart_2 {
+ 
+ /delete-node/ &port01;
+ /delete-node/ &port02;
 +
-+	fpwm = container_of(chip, struct apple_pwm, chip);
-+	if (state->enabled) {
-+		on_cycles = mul_u64_u64_div_u64(fpwm->clkrate,
-+						state->duty_cycle, NSEC_PER_SEC);
-+		off_cycles = mul_u64_u64_div_u64(fpwm->clkrate,
-+						 state->period, NSEC_PER_SEC) - on_cycles;
-+		writel(on_cycles, fpwm->base + PWM_ON_CYCLES);
-+		writel(off_cycles, fpwm->base + PWM_OFF_CYCLES);
-+		writel(CTRL_ENABLE | CTRL_OUTPUT_ENABLE | CTRL_UPDATE,
-+		       fpwm->base + PWM_CONTROL);
-+	} else {
-+		writel(0, fpwm->base + PWM_CONTROL);
-+	}
-+	return 0;
-+}
-+
-+static void apple_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-+			   struct pwm_state *state)
-+{
-+	struct apple_pwm *fpwm;
-+	u32 on_cycles, off_cycles, ctrl;
-+
-+	fpwm = container_of(chip, struct apple_pwm, chip);
-+
-+	ctrl = readl(fpwm->base + PWM_CONTROL);
-+	on_cycles = readl(fpwm->base + PWM_ON_CYCLES);
-+	off_cycles = readl(fpwm->base + PWM_OFF_CYCLES);
-+
-+	state->enabled = (ctrl & CTRL_ENABLE) && (ctrl & CTRL_OUTPUT_ENABLE);
-+	state->polarity = PWM_POLARITY_NORMAL;
-+	state->duty_cycle = div_u64(on_cycles, fpwm->clkrate) * NSEC_PER_SEC;
-+	state->period = div_u64(off_cycles + on_cycles, fpwm->clkrate) * NSEC_PER_SEC;
-+}
-+
-+static const struct pwm_ops apple_pwm_ops = {
-+	.apply = apple_pwm_apply,
-+	.get_state = apple_pwm_get_state,
-+	.owner = THIS_MODULE,
++/ {
++	led-controller {
++		compatible = "pwm-leds";
++		led-0 {
++			pwms = <&fpwm1 0 40000>;
++			pwm-names = "kbd-backlight";
++			label = "kbd_backlight";
++			function = LED_FUNCTION_KBD_BACKLIGHT;
++			color = <LED_COLOR_ID_WHITE>;
++			max-brightness = <255>;
++			default-state = "keep";
++		};
++	};
 +};
 +
-+static int apple_pwm_probe(struct platform_device *pdev)
-+{
-+	struct apple_pwm *pwm;
-+	struct clk *clk;
-+	int ret;
-+
-+	pwm = devm_kzalloc(&pdev->dev, sizeof(*pwm), GFP_KERNEL);
-+	if (!pwm)
-+		return -ENOMEM;
-+
-+	pwm->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(pwm->base))
-+		return PTR_ERR(pwm->base);
-+
-+	platform_set_drvdata(pdev, pwm);
-+
-+	clk = devm_clk_get_enabled(&pdev->dev, NULL);
-+	if (IS_ERR(clk))
-+		return PTR_ERR(clk);
-+
-+	pwm->clkrate = clk_get_rate(clk);
-+	pwm->chip.dev = &pdev->dev;
-+	pwm->chip.npwm = 1;
-+	pwm->chip.ops = &apple_pwm_ops;
-+
-+	ret = devm_pwmchip_add(&pdev->dev, &pwm->chip);
-+	return ret;
-+}
-+
-+static const struct of_device_id apple_pwm_of_match[] = {
-+	{ .compatible = "apple,s5l-fpwm" },
-+	{}
++&fpwm1 {
++	status = "okay";
 +};
-+MODULE_DEVICE_TABLE(of, apple_pwm_of_match);
+diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+index 51a63b29d404..ccdb26ef6b22 100644
+--- a/arch/arm64/boot/dts/apple/t8103.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+@@ -191,6 +191,15 @@ i2c4: i2c@235020000 {
+ 			status = "disabled"; /* only used in J293 */
+ 		};
+ 
++		fpwm1: pwm@235044000 {
++			compatible = "apple,t8103-fpwm", "apple,s5l-fpwm";
++			reg = <0x2 0x35044000 0x0 0x4000>;
++			power-domains = <&ps_fpwm1>;
++			clocks = <&clkref>;
++			#pwm-cells = <2>;
++			status = "disabled";
++		};
 +
-+static struct platform_driver apple_pwm_driver = {
-+	.probe = apple_pwm_probe,
-+	.driver = {
-+		.name = "apple-pwm",
-+		.owner = THIS_MODULE,
-+		.of_match_table = apple_pwm_of_match,
-+	},
-+};
-+module_platform_driver(apple_pwm_driver);
-+
-+MODULE_DESCRIPTION("Apple SoC PWM driver");
-+MODULE_LICENSE("Dual MIT/GPL");
+ 		serial0: serial@235200000 {
+ 			compatible = "apple,s5l-uart";
+ 			reg = <0x2 0x35200000 0x0 0x1000>;
 -- 
 2.38.1
 
