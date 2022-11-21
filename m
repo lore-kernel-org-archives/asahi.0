@@ -1,173 +1,101 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18F9EA6
-	for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 10:28:34 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id a11-20020a05600c2d4b00b003cf6f5fd9f1so8672142wmg.2
-        for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 02:28:34 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5146FA6
+	for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 17:44:40 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id m22so30193290eji.10
+        for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 09:44:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RLnharg7HDG4tuhJcBKXRgEiJmoIlGVpeHO4ji1PupQ=;
+        b=QMxs7gt0GdJyUwOlWlUC7k8EYUiuFa2UjgYIVh3FqAjs64LLxkxattfbJ6q9RN1/Xt
+         UjgjDR2kn7+E1O5kJc+eIcAE2y5BELiDUH2a5ShKVTlU2XfWFWS8b9U615oGAaOZlu5W
+         +zPWFpWn/EWRE8EgId63QukTU3LKvFicXp387MXKZtE87pailleizraUkcGWBTKwCAP2
+         jVfbC4J410Qr6kd/PVSo3cLwXm7N5Zg/bADMRrhobWTBlJ6CZV9WQQY/dObzVCwiJ7cZ
+         /4xtai8Q71kHnPOjG0zCZtJTbCs07MeXUTmettAKy84z8xbSjOX/O2zHh+BZm0mB4WyV
+         UmRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eWbXVpspuUPy6zjkOvEDunyF1CsCwQ7V9RJ8Q3reGJA=;
-        b=DVvcPxFNjZgC6e5egAjms9gB3OQ62L1A+DgOOb+ij3Fhb6AG7iOJncrgRE6uirnofa
-         GkHE0WGaxcI4QwLFKG7KmYd7QFYxh0UYarIuyfpFuZp7rBZtMnT6IYaGOcni01ThANPl
-         EjlfrkjGPyo5krQosiFRQ6fjUbxo12zcY7Jg4jXDEUX85LpxYTBpjJSHNPKZwmBE1dR6
-         /rSsOYfTcS43GBWTTo6pIrAYq7BefI0f+pNFPGFs1/P/rhi2Ldy5WW1eQG0TRcJpqi4E
-         dkuNv498Wke7WiAWoX923MNqtqNHNoI0Z1wQ7NYgiPCsfaFFZeg4G5CXIXz+ZIE/Bsh9
-         JrQg==
-X-Gm-Message-State: ANoB5pkB/JXXoBRGx9usYiUe3wq+cYxdMs2BbKGDN6alborxPG/oSi2R
-	BzAQmW/NDLPvxRicJsPHtP4=
-X-Google-Smtp-Source: AA0mqf6/+IWocVx64SV0V0xaQ6RUGklG7CeewU+ZXEAJZdR/f1FjLoTRznYCEUHv7sFtwKg7zu1JsA==
-X-Received: by 2002:a05:600c:3d99:b0:3cf:cab4:a42b with SMTP id bi25-20020a05600c3d9900b003cfcab4a42bmr3174130wmb.36.1669026512968;
-        Mon, 21 Nov 2022 02:28:32 -0800 (PST)
-Received: from [192.168.64.178] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
-        by smtp.gmail.com with ESMTPSA id r7-20020a05600c458700b003a3170a7af9sm13838239wmo.4.2022.11.21.02.28.31
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RLnharg7HDG4tuhJcBKXRgEiJmoIlGVpeHO4ji1PupQ=;
+        b=PkKwPF17ql4v1wqFIWtftRkMJlDkuuRqAxlbvTpgjXEOt0lc0FCWcca6tGSbPFrI8N
+         f78brtlwD5TdYGAhmNn/HhYoRP+szVgLtKwid9TUYWFyuvECyHU8E9bEdoH0wgoDTeDO
+         l7cDdONHAgrVX7hQdt0pplW5lhlX08e9QWURYUIZlGFxHGAnsyYCkSfJAnN4S6u1+x2G
+         f1cSuJByKtMa04WyPhm8lWxSFYQlMJSjznJIDe2rtV+WdAF6kWl3mxKGJcYKKQo+PulG
+         XZed0NWB1UtCwP54OO6ZmGgj3NsiKlX1EfUQ4wiH7XQP4IWJp6KX6nBURnvVkNbwkrPG
+         8nXQ==
+X-Gm-Message-State: ANoB5plExvro8L7dVgGYu/Egwx2O+jbcMxCO+WXDuDp94AfSHqo5xvmo
+	BhvS8DTunkAHOAw9KO7SsBg=
+X-Google-Smtp-Source: AA0mqf5hbgaT1LTR83Rgz0E8eKtIWdVjV/lZPLQv/7DyuZ4ztHtH3rHY0A0ZW3+Vs7MM7VoXiPYOwQ==
+X-Received: by 2002:a17:906:85d2:b0:78e:ebd:bf96 with SMTP id i18-20020a17090685d200b0078e0ebdbf96mr16597014ejy.625.1669052678827;
+        Mon, 21 Nov 2022 09:44:38 -0800 (PST)
+Received: from localhost ([217.131.81.52])
+        by smtp.gmail.com with UTF8SMTPSA id 14-20020a170906308e00b007b29a6bec24sm5172485ejv.32.2022.11.21.09.44.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 02:28:32 -0800 (PST)
-Message-ID: <47533ede-4660-23e2-96b5-0010b032e3dc@grimberg.me>
-Date: Mon, 21 Nov 2022 12:28:31 +0200
+        Mon, 21 Nov 2022 09:44:38 -0800 (PST)
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+To: thierry.reding@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org
+Cc: marcan@marcan.st,
+	sven@svenpeter.dev,
+	alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>
+Subject: [PATCH RESEND v3 0/4] PWM and keyboard backlight driver for ARM Macs
+Date: Mon, 21 Nov 2022 20:42:24 +0300
+Message-Id: <20221121174228.93670-1-fnkl.kernel@gmail.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [PATCH 02/13] nvme: move OPAL setup from PCIe to core
-Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Cc: Chaitanya Kulkarni <kch@nvidia.com>, Gerd Bayer <gbayer@linux.ibm.com>,
- asahi@lists.linux.dev, linux-nvme@lists.infradead.org
-References: <20221113161138.883195-1-hch@lst.de>
- <20221113161138.883195-3-hch@lst.de>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <20221113161138.883195-3-hch@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+Hi,
+
+This is a resend of the v3 of the patch series to add PWM and keyboard
+backlight driver for ARM macs.
+
+Changes in v1:
+Addressing the review comments.
+
+Changes in v2:
+Added the reviewed-by and acked-by tags.
+Addressing a review comment.
+
+v1: https://www.spinics.net/lists/linux-pwm/msg19500.html
+v2: https://www.spinics.net/lists/linux-pwm/msg19562.html
 
 
+Sasha Finkelstein (4):
+  dt-bindings: pwm: Add Apple PWM controller
+  pwm: Add Apple PWM controller
+  arm64: dts: apple: t8103: Add PWM controller
+  MAINTAINERS: Add entries for Apple PWM driver
 
-On 11/13/22 18:11, Christoph Hellwig wrote:
-> Nothing about the TCG Opal support is PCIe transport specific, so move it
-> to the core code.  For this nvme_init_ctrl_finish grows a new
-> was_suspended argument that allows the transport driver to tell the OPAL
-> code if the controller came out of a suspend cycle.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
-> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
-> Tested-by Gerd Bayer <gbayer@linxu.ibm.com>
-> ---
->   drivers/nvme/host/apple.c  |  2 +-
->   drivers/nvme/host/core.c   | 25 ++++++++++++++++++++++---
->   drivers/nvme/host/fc.c     |  2 +-
->   drivers/nvme/host/nvme.h   |  5 +----
->   drivers/nvme/host/pci.c    | 14 +-------------
->   drivers/nvme/host/rdma.c   |  2 +-
->   drivers/nvme/host/tcp.c    |  2 +-
->   drivers/nvme/target/loop.c |  2 +-
->   8 files changed, 29 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index 24e224c279a41..a85349a7e938c 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -1102,7 +1102,7 @@ static void apple_nvme_reset_work(struct work_struct *work)
->   		goto out;
->   	}
->   
-> -	ret = nvme_init_ctrl_finish(&anv->ctrl);
-> +	ret = nvme_init_ctrl_finish(&anv->ctrl, false);
->   	if (ret)
->   		goto out;
->   
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index ce8314aee1ddf..aedacf2fba69e 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2192,7 +2192,7 @@ const struct pr_ops nvme_pr_ops = {
->   };
->   
->   #ifdef CONFIG_BLK_SED_OPAL
-> -int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
-> +static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
->   		bool send)
->   {
->   	struct nvme_ctrl *ctrl = data;
-> @@ -2209,7 +2209,23 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
->   	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
->   			NVME_QID_ANY, 1, 0);
->   }
-> -EXPORT_SYMBOL_GPL(nvme_sec_submit);
-> +
-> +static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
-> +{
-> +	if (ctrl->oacs & NVME_CTRL_OACS_SEC_SUPP) {
-> +		if (!ctrl->opal_dev)
-> +			ctrl->opal_dev = init_opal_dev(ctrl, &nvme_sec_submit);
-> +		else if (was_suspended)
-> +			opal_unlock_from_suspend(ctrl->opal_dev);
-> +	} else {
-> +		free_opal_dev(ctrl->opal_dev);
-> +		ctrl->opal_dev = NULL;
-> +	}
-> +}
-> +#else
-> +static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
-> +{
-> +}
->   #endif /* CONFIG_BLK_SED_OPAL */
->   
->   #ifdef CONFIG_BLK_DEV_ZONED
-> @@ -3242,7 +3258,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
->    * register in our nvme_ctrl structure.  This should be called as soon as
->    * the admin queue is fully up and running.
->    */
-> -int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
-> +int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl, bool was_suspended)
->   {
->   	int ret;
->   
-> @@ -3273,6 +3289,8 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
->   	if (ret < 0)
->   		return ret;
->   
-> +	nvme_configure_opal(ctrl, was_suspended);
-> +
->   	if (!ctrl->identified && !nvme_discovery_ctrl(ctrl)) {
->   		/*
->   		 * Do not return errors unless we are in a controller reset,
-> @@ -5007,6 +5025,7 @@ static void nvme_free_ctrl(struct device *dev)
->   	nvme_auth_stop(ctrl);
->   	nvme_auth_free(ctrl);
->   	__free_page(ctrl->discard_page);
-> +	free_opal_dev(ctrl->opal_dev);
->   
->   	if (subsys) {
->   		mutex_lock(&nvme_subsystems_lock);
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 2d3c54838496f..1f9f4075794b5 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -3107,7 +3107,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
->   
->   	nvme_start_admin_queue(&ctrl->ctrl);
->   
-> -	ret = nvme_init_ctrl_finish(&ctrl->ctrl);
-> +	ret = nvme_init_ctrl_finish(&ctrl->ctrl, false);
+ .../bindings/pwm/apple,s5l-fpwm.yaml          |  51 +++++++
+ MAINTAINERS                                   |   2 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts      |  20 +++
+ arch/arm64/boot/dts/apple/t8103-j313.dts      |  20 +++
+ arch/arm64/boot/dts/apple/t8103.dtsi          |   9 ++
+ drivers/pwm/Kconfig                           |  12 ++
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-apple.c                       | 127 ++++++++++++++++++
+ 8 files changed, 242 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+ create mode 100644 drivers/pwm/pwm-apple.c
 
-Completely imaginary question,
+-- 
+2.38.1
 
-Since you correctly indicated that opal is not pcie specific, why is
-this passed as always false?
-
-Wandering if a opal fabrics device comes along and becomes
-incompatible with this...
-
-Although fabrics call nvme_shutdown_ctrl only when deleting the
-controller, so there is no opal_dev in any case... There is no real
-suspend in fabrics at all really. So I guess it makes sense.
-It's just a bit confusing to think about in the fabrics context.
