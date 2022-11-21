@@ -1,63 +1,173 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD1C2588
-	for <asahi@lists.linux.dev>; Sun, 20 Nov 2022 18:00:32 +0000 (UTC)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-14286d5ebc3so8163186fac.3
-        for <asahi@lists.linux.dev>; Sun, 20 Nov 2022 10:00:31 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18F9EA6
+	for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 10:28:34 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id a11-20020a05600c2d4b00b003cf6f5fd9f1so8672142wmg.2
+        for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 02:28:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VqDV5bEOonkQKcGjRa8rDOkspDvNLwiewUYppvmzsG4=;
-        b=sueB+9RkZuRuzcrec65qkhnFCt/eCpJPaa3Fo6xZV+oUKQCjvaGJlh2MN3edEMRqsA
-         ahg3z9PkVFml5XiedqwY/27NSR/Lac53zl1P4i6bxAat6c/dOrrVqCjkVL947vnDYlrt
-         +SoO6k7RqQJlSQ8amvRt56sShSJzUuHGifl3PflgqdxWvLWM/9djDWew558QuSaxVTzq
-         XdTZybDu+QevhjTFpbn52wtUMQwlsoKtN3ds69DSXhtyUOF2KJxJr2qRqrxNQj8TfT4F
-         NsFcPf5ERJX5eXqdWvJj00vLFrBOkPTtaneU2KrOLmUkrjoUTm8mdFwpGGU5m1rR53sh
-         D7Cg==
-X-Gm-Message-State: ANoB5pkjs8yVSuRBQahWenzF5C/7L2PImQptstMNFEUfA7mgpMKJl+F7
-	aLyaZd0Y5G3cmMUKq+jkUA==
-X-Google-Smtp-Source: AA0mqf59xqJp3I6E88kVPzETemIzIGpnJbqw6uctCutxVSc8VS3ZmMs7qXwBj7/o6UDxxyLKSGwJdQ==
-X-Received: by 2002:a05:6870:9688:b0:141:51a8:2d19 with SMTP id o8-20020a056870968800b0014151a82d19mr1637577oaq.187.1668967231043;
-        Sun, 20 Nov 2022 10:00:31 -0800 (PST)
-Received: from robh_at_kernel.org ([2605:ef80:80f8:5cb3:df5a:23c3:86fb:15a6])
-        by smtp.gmail.com with ESMTPSA id 123-20020aca0781000000b00349a06c581fsm3493232oih.3.2022.11.20.10.00.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Nov 2022 10:00:30 -0800 (PST)
-Received: (nullmailer pid 3265089 invoked by uid 1000);
-	Sun, 20 Nov 2022 18:00:30 -0000
-Date: Sun, 20 Nov 2022 12:00:30 -0600
-From: Rob Herring <robh@kernel.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sameer Pujar <spujar@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>, linux-tegra@vger.kernel.org, Dmitry Osipenko <dmitry.osipenko@collabora.com>, Janne Grunau <j@jannau.net>, Ashish Mhetre <amhetre@nvidia.com>, Lucas Stach <l.stach@pengutronix.de>, devicetree@vger.kernel.org, Krishna Reddy <vdumpa@nvidia.com>, asahi@lists.linux.dev, Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, Nicolin Chen <nicolinc@nvidia.com>, Rob Herring <robh+dt@kernel.org>, iommu@lists.linux-foundation.org
-Subject: Re: [PATCH v12 1/4] of: Introduce of_translate_dma_region()
-Message-ID: <166896722896.3265021.2815009340512697667.robh@kernel.org>
-References: <20221117185424.2359687-1-thierry.reding@gmail.com>
- <20221117185424.2359687-2-thierry.reding@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eWbXVpspuUPy6zjkOvEDunyF1CsCwQ7V9RJ8Q3reGJA=;
+        b=DVvcPxFNjZgC6e5egAjms9gB3OQ62L1A+DgOOb+ij3Fhb6AG7iOJncrgRE6uirnofa
+         GkHE0WGaxcI4QwLFKG7KmYd7QFYxh0UYarIuyfpFuZp7rBZtMnT6IYaGOcni01ThANPl
+         EjlfrkjGPyo5krQosiFRQ6fjUbxo12zcY7Jg4jXDEUX85LpxYTBpjJSHNPKZwmBE1dR6
+         /rSsOYfTcS43GBWTTo6pIrAYq7BefI0f+pNFPGFs1/P/rhi2Ldy5WW1eQG0TRcJpqi4E
+         dkuNv498Wke7WiAWoX923MNqtqNHNoI0Z1wQ7NYgiPCsfaFFZeg4G5CXIXz+ZIE/Bsh9
+         JrQg==
+X-Gm-Message-State: ANoB5pkB/JXXoBRGx9usYiUe3wq+cYxdMs2BbKGDN6alborxPG/oSi2R
+	BzAQmW/NDLPvxRicJsPHtP4=
+X-Google-Smtp-Source: AA0mqf6/+IWocVx64SV0V0xaQ6RUGklG7CeewU+ZXEAJZdR/f1FjLoTRznYCEUHv7sFtwKg7zu1JsA==
+X-Received: by 2002:a05:600c:3d99:b0:3cf:cab4:a42b with SMTP id bi25-20020a05600c3d9900b003cfcab4a42bmr3174130wmb.36.1669026512968;
+        Mon, 21 Nov 2022 02:28:32 -0800 (PST)
+Received: from [192.168.64.178] (bzq-219-42-90.isdn.bezeqint.net. [62.219.42.90])
+        by smtp.gmail.com with ESMTPSA id r7-20020a05600c458700b003a3170a7af9sm13838239wmo.4.2022.11.21.02.28.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Nov 2022 02:28:32 -0800 (PST)
+Message-ID: <47533ede-4660-23e2-96b5-0010b032e3dc@grimberg.me>
+Date: Mon, 21 Nov 2022 12:28:31 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221117185424.2359687-2-thierry.reding@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.2
+Subject: Re: [PATCH 02/13] nvme: move OPAL setup from PCIe to core
+Content-Language: en-US
+To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+Cc: Chaitanya Kulkarni <kch@nvidia.com>, Gerd Bayer <gbayer@linux.ibm.com>,
+ asahi@lists.linux.dev, linux-nvme@lists.infradead.org
+References: <20221113161138.883195-1-hch@lst.de>
+ <20221113161138.883195-3-hch@lst.de>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <20221113161138.883195-3-hch@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-On Thu, 17 Nov 2022 19:54:21 +0100, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
+
+On 11/13/22 18:11, Christoph Hellwig wrote:
+> Nothing about the TCG Opal support is PCIe transport specific, so move it
+> to the core code.  For this nvme_init_ctrl_finish grows a new
+> was_suspended argument that allows the transport driver to tell the OPAL
+> code if the controller came out of a suspend cycle.
 > 
-> This function is similar to of_translate_dma_address() but also reads a
-> length in addition to an address from a device tree property.
-> 
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Keith Busch <kbusch@kernel.org>
+> Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+> Tested-by Gerd Bayer <gbayer@linxu.ibm.com>
 > ---
->  drivers/of/address.c       | 41 ++++++++++++++++++++++++++++++++++++++
->  include/linux/of_address.h |  2 ++
->  2 files changed, 43 insertions(+)
+>   drivers/nvme/host/apple.c  |  2 +-
+>   drivers/nvme/host/core.c   | 25 ++++++++++++++++++++++---
+>   drivers/nvme/host/fc.c     |  2 +-
+>   drivers/nvme/host/nvme.h   |  5 +----
+>   drivers/nvme/host/pci.c    | 14 +-------------
+>   drivers/nvme/host/rdma.c   |  2 +-
+>   drivers/nvme/host/tcp.c    |  2 +-
+>   drivers/nvme/target/loop.c |  2 +-
+>   8 files changed, 29 insertions(+), 25 deletions(-)
 > 
+> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> index 24e224c279a41..a85349a7e938c 100644
+> --- a/drivers/nvme/host/apple.c
+> +++ b/drivers/nvme/host/apple.c
+> @@ -1102,7 +1102,7 @@ static void apple_nvme_reset_work(struct work_struct *work)
+>   		goto out;
+>   	}
+>   
+> -	ret = nvme_init_ctrl_finish(&anv->ctrl);
+> +	ret = nvme_init_ctrl_finish(&anv->ctrl, false);
+>   	if (ret)
+>   		goto out;
+>   
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index ce8314aee1ddf..aedacf2fba69e 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2192,7 +2192,7 @@ const struct pr_ops nvme_pr_ops = {
+>   };
+>   
+>   #ifdef CONFIG_BLK_SED_OPAL
+> -int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+> +static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+>   		bool send)
+>   {
+>   	struct nvme_ctrl *ctrl = data;
+> @@ -2209,7 +2209,23 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+>   	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
+>   			NVME_QID_ANY, 1, 0);
+>   }
+> -EXPORT_SYMBOL_GPL(nvme_sec_submit);
+> +
+> +static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
+> +{
+> +	if (ctrl->oacs & NVME_CTRL_OACS_SEC_SUPP) {
+> +		if (!ctrl->opal_dev)
+> +			ctrl->opal_dev = init_opal_dev(ctrl, &nvme_sec_submit);
+> +		else if (was_suspended)
+> +			opal_unlock_from_suspend(ctrl->opal_dev);
+> +	} else {
+> +		free_opal_dev(ctrl->opal_dev);
+> +		ctrl->opal_dev = NULL;
+> +	}
+> +}
+> +#else
+> +static void nvme_configure_opal(struct nvme_ctrl *ctrl, bool was_suspended)
+> +{
+> +}
+>   #endif /* CONFIG_BLK_SED_OPAL */
+>   
+>   #ifdef CONFIG_BLK_DEV_ZONED
+> @@ -3242,7 +3258,7 @@ static int nvme_init_identify(struct nvme_ctrl *ctrl)
+>    * register in our nvme_ctrl structure.  This should be called as soon as
+>    * the admin queue is fully up and running.
+>    */
+> -int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+> +int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl, bool was_suspended)
+>   {
+>   	int ret;
+>   
+> @@ -3273,6 +3289,8 @@ int nvme_init_ctrl_finish(struct nvme_ctrl *ctrl)
+>   	if (ret < 0)
+>   		return ret;
+>   
+> +	nvme_configure_opal(ctrl, was_suspended);
+> +
+>   	if (!ctrl->identified && !nvme_discovery_ctrl(ctrl)) {
+>   		/*
+>   		 * Do not return errors unless we are in a controller reset,
+> @@ -5007,6 +5025,7 @@ static void nvme_free_ctrl(struct device *dev)
+>   	nvme_auth_stop(ctrl);
+>   	nvme_auth_free(ctrl);
+>   	__free_page(ctrl->discard_page);
+> +	free_opal_dev(ctrl->opal_dev);
+>   
+>   	if (subsys) {
+>   		mutex_lock(&nvme_subsystems_lock);
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 2d3c54838496f..1f9f4075794b5 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -3107,7 +3107,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+>   
+>   	nvme_start_admin_queue(&ctrl->ctrl);
+>   
+> -	ret = nvme_init_ctrl_finish(&ctrl->ctrl);
+> +	ret = nvme_init_ctrl_finish(&ctrl->ctrl, false);
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Completely imaginary question,
+
+Since you correctly indicated that opal is not pcie specific, why is
+this passed as always false?
+
+Wandering if a opal fabrics device comes along and becomes
+incompatible with this...
+
+Although fabrics call nvme_shutdown_ctrl only when deleting the
+controller, so there is no opal_dev in any case... There is no real
+suspend in fabrics at all really. So I guess it makes sense.
+It's just a bit confusing to think about in the fabrics context.
