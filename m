@@ -1,98 +1,128 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BECA6FA6
-	for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 17:45:18 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id s5so17273509edc.12
-        for <asahi@lists.linux.dev>; Mon, 21 Nov 2022 09:45:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WNL6IfTe0wzPq8NWBK/D96/5y8l3oPapGeg3sP1iP80=;
-        b=dLhwAvRFJe9dchF5SlF7ogMjH13Pn6iK4bxfoIQiE97ocKlAgrKq3Ar3GgtgtJKfGJ
-         s/O72OTVsNvv/EiYuci7viuu6cDSVg22gjpQLhVYJHIlvsVhHPTbmiber2ea9U9GrLb3
-         JsVBE1OojpPa1oX3NA0Bk1bmjuH/4QGz35S4ErMgIwB7uRJ8VKuFHWGECFZOB1dM6QcM
-         u8P32EeuImZq7VHnVYE0Ity0o12rE81sECLWAV5Z+2oKSbokt9Rxkn/lq8ymXNoZORno
-         RA/kd0GE//5CNTFYaKh0Ox/dgx1dQYtgjQN1ilhQil8pIApqLdb6WEkjdYHpG+p36LzT
-         TogQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WNL6IfTe0wzPq8NWBK/D96/5y8l3oPapGeg3sP1iP80=;
-        b=nHB5E9B5xT2DQz8BOBK+BDKwhgA153RLxC69E73utrYeXw7Jd+dZ69vT8kIk459dQB
-         XUfIUsyPa8i5+KvCiMjO/WgrJuXupZ1ZDYx9U8qrTfU0dlmdJ3MjkNLVEQ4bMsO/1ztZ
-         M74A4uqowRBDprUVGb7WFN7BD1PDMUEwlTUmWUPatQalzNcrsWwTZY2BmVWbki1qdMgg
-         4zViVS5fxhApCTsrV/ZQHIac84YDkn8JUPDCG8irTCEwuxl/drUmkTZFynm9tyQ5BgjR
-         oBRDcCvOkCofxWdBnncm1nKMoRRqHvH6t4/f3lBklM4r1OjqhdxUrOw4nFqoFSFgY1Fg
-         xJdA==
-X-Gm-Message-State: ANoB5pnvqBpmQDtH6AcnVdyeYAuBMtLa4wmXLd0L/8r8gaodLt1o95lm
-	aDFwQVIvCMWaF0skX8LSg44=
-X-Google-Smtp-Source: AA0mqf5tktH45X/K7WSst1WSDXG6NCTfMsMwbFnE94eu773Cg61+GPcdMqm0ADWd+wNyEsvR1EuCxg==
-X-Received: by 2002:aa7:db90:0:b0:459:aa70:d4fd with SMTP id u16-20020aa7db90000000b00459aa70d4fdmr16907330edt.162.1669052717948;
-        Mon, 21 Nov 2022 09:45:17 -0800 (PST)
-Received: from localhost ([217.131.81.52])
-        by smtp.gmail.com with UTF8SMTPSA id g2-20020a056402428200b0046146c730easm5464345edc.75.2022.11.21.09.45.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Nov 2022 09:45:17 -0800 (PST)
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-To: thierry.reding@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org
-Cc: marcan@marcan.st,
-	sven@svenpeter.dev,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH RESEND v3 4/4] MAINTAINERS: Add entries for Apple PWM driver
-Date: Mon, 21 Nov 2022 20:42:28 +0300
-Message-Id: <20221121174228.93670-5-fnkl.kernel@gmail.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20221121174228.93670-1-fnkl.kernel@gmail.com>
-References: <20221121174228.93670-1-fnkl.kernel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEEF23B1
+	for <asahi@lists.linux.dev>; Tue, 22 Nov 2022 12:43:31 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out2.suse.de (Postfix) with ESMTP id 6CD801F86C;
+	Tue, 22 Nov 2022 12:43:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1669121009; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+LttO4rwpoEUKx+mKrlRotB9foBpDXaTdB6zGT0DKgM=;
+	b=ECk0gdBvt1mE2jQiltgYhsFiQNQPIPXHcekRdV1hpQDSitwE3iuuWa2Nl+Yuv4JL+Xb7qX
+	wgSOiTlj8GL42umxGL1Ajp3XsnlksRR9pDJV92RYvqEHo1At21rVmtPN7zv9gZ3FI/qxdB
+	0bICCWaFXg9/uyIBG8u7x6+OEwXd3k8=
+Received: from suse.cz (unknown [10.100.201.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by relay2.suse.de (Postfix) with ESMTPS id C30942C142;
+	Tue, 22 Nov 2022 12:43:28 +0000 (UTC)
+Date: Tue, 22 Nov 2022 13:43:28 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Rob Herring <robh+dt@kernel.org>, Lee Jones <lee@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	asahi@lists.linux.dev, devicetree@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>, Jonathan Corbet <corbet@lwn.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Peter <sven@svenpeter.dev>
+Subject: Re: [PATCH v3 2/7] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Y3zD8DSB7zZK0M13@alley>
+References: <Y2qEpgIdpRTzTQbN@shell.armlinux.org.uk>
+ <E1osRXO-002mvw-Fp@rmk-PC.armlinux.org.uk>
+ <Y3Jf7xz2CQjJuEeT@alley>
+ <Y3Jptob4bGL9Weel@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y3Jptob4bGL9Weel@shell.armlinux.org.uk>
 
-Add the MAINTAINERS entries for the driver
+On Mon 2022-11-14 16:15:50, Russell King (Oracle) wrote:
+> On Mon, Nov 14, 2022 at 04:34:07PM +0100, Petr Mladek wrote:
+> > On Tue 2022-11-08 16:33:22, Russell King wrote:
+> > > From: Hector Martin <marcan@marcan.st>
+> > > 
+> > > %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> > > it's useful to be able to print generic 4-character codes formatted as
+> > > an integer. Extend it to add format specifiers for printing generic
+> > > 32-bit FOURCCs with various endian semantics:
+> > > 
+> > > %p4ch   Host-endian
+> > > %p4cl	Little-endian
+> > > %p4cb	Big-endian
+> > > %p4cr	Reverse-endian
+> > > 
+> > > The endianness determines how bytes are interpreted as a u32, and the
+> > > FOURCC is then always printed MSByte-first (this is the opposite of
+> > > V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> > > allow printing LSByte-first FOURCCs stored in host endian order
+> > > (other than the hex form being in character order, not the integer
+> > > value).
+> > > 
+> > > Signed-off-by: Hector Martin <marcan@marcan.st>
+> > > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> > 
+> > Reviewed-by: Petr Mladek <pmladek@suse.com>
+> > 
+> > See one nit below.
+> > 
+> > > --- a/lib/vsprintf.c
+> > > +++ b/lib/vsprintf.c
+> > > @@ -1762,27 +1762,50 @@ char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+> > >  	char output[sizeof("0123 little-endian (0x01234567)")];
+> > >  	char *p = output;
+> > >  	unsigned int i;
+> > > +	bool pixel_fmt = false;
+> > >  	u32 orig, val;
+> > >  
+> > > -	if (fmt[1] != 'c' || fmt[2] != 'c')
+> > > +	if (fmt[1] != 'c')
+> > >  		return error_string(buf, end, "(%p4?)", spec);
+> > >  
+> > >  	if (check_pointer(&buf, end, fourcc, spec))
+> > >  		return buf;
+> > >  
+> > >  	orig = get_unaligned(fourcc);
+> > > -	val = orig & ~BIT(31);
+> > > +	switch (fmt[2]) {
+> > > +	case 'h':
+> > > +		val = orig;
+> > > +		break;
+> > > +	case 'r':
+> > > +		val = orig = swab32(orig);
+> > 
+> > I do not like much these multi assignments. I think that the result
+> > was not even defined in some older C standards. Though, I can't find
+> > it now. And even make W=3 does not warn about it.
+> 
+> Err.
+> 
+> It's been supported for decades. I learnt about it back in 1992 when
+> I was introduced to C by another experienced C programmer. It's been
+> supported in ANSI C compilers. The Norcroft C compiler (which is
+> strict ANSI) on Acorn platforms back in the late 1980s/1990s even
+> supported it.
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Acked-by: Sven Peter <sven@svenpeter.dev>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+Ah, the problem probably was with a more complicated assignment.
+For example, the result of the following code is not obvious:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 046ff06ff97f..69f56f7cf907 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1908,6 +1908,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
-+F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/clk/clk-apple-nco.c
-@@ -1921,6 +1922,7 @@ F:	drivers/mailbox/apple-mailbox.c
- F:	drivers/nvme/host/apple.c
- F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
-+F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
--- 
-2.38.1
+	  a = b = a++;
 
+Best Regards,
+Petr
