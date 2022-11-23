@@ -1,318 +1,246 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B88815CBB
-	for <asahi@lists.linux.dev>; Tue, 22 Nov 2022 22:07:30 +0000 (UTC)
-Received: by mail-io1-f46.google.com with SMTP id p141so11981985iod.6
-        for <asahi@lists.linux.dev>; Tue, 22 Nov 2022 14:07:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDB97B
+	for <asahi@lists.linux.dev>; Wed, 23 Nov 2022 02:24:39 +0000 (UTC)
+Received: by mail-io1-f50.google.com with SMTP id c7so12273836iof.13
+        for <asahi@lists.linux.dev>; Tue, 22 Nov 2022 18:24:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+9Nr6gPVOX/6LCyJBvLH9UJlV747BhwLKeGilJxI7hM=;
-        b=IKRE80Yk7saa5j7vWyQheweAGE8z6HWe2vKcOyhnW9UpLtYwrC2hWrK+lohe/u+uCf
-         B2k9ZC3BTYT6ii39meIFxal3upi1gL0soXbbLs8fGnqSnaom+46YK1r2HOB03gfIBbNj
-         wONsgFPfgAneMUj4TwKCHZCW9Lk0NG9cjx633ZelCievDMrlKvbfgSBXAybhvMbbr/jw
-         /fxujOuh+VP+y8OvYOluUMJkD81n3TrkRYEFRLIxwCMeIyMPu+Ku3NkV+p5t2VoHjRnv
-         lB/qvZhI2NbyUzRPUHkcPX4IV0iu0PYH48kS3eEgiEKwhLCPLx/RPbrG2GGQ47BhWdYs
-         Oo0w==
-X-Gm-Message-State: ANoB5pnKoy9/GvESCqehEYsTiJYEKdu2FPfSi8V/9Pi59HJ77QpUlIh0
-	lUPngmleTQ7vBq3BeKlWFQ==
-X-Google-Smtp-Source: AA0mqf4V6ppRkdKRqtlLw69vA65riP97JWiM8WcMjwXpElslevptzfWytkuNVAbmbvpQ/TcmgGNdEw==
-X-Received: by 2002:a02:6662:0:b0:363:69a0:837f with SMTP id l34-20020a026662000000b0036369a0837fmr4983635jaf.57.1669154849246;
-        Tue, 22 Nov 2022 14:07:29 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eevd4QeJklojoebeEJhPyzscEB6NPDv0+cfMGWenyh4=;
+        b=wpRn0h6MtPSP8QWRZMLEPdtPkCRbG13EVX213TMmj0PMwHO+x6qxdatfnsFwvsGSbH
+         hnsHvSCZRKcJGhna3cB/X4LWwUjiafWSXHX1n6HAz15QlEexx4QvdIa4ZtyUO4j/DFRo
+         2+eh/TpuRQPbv7NuuW91lg8QvEWmecGSOIrNYVI15GmGeWVlKUjmapS34d2K3PQ41/YW
+         3r9Kpi6JUxAyBHYh6qIuYQINBlHgX06tJdKeasSFI3xf1TcIHNjZab7SZ56m1DnDDxbQ
+         jchMh+m5IXa4dd1lwsT1d8+7u/8jQ7sanE8RpHX8FKgJCW66+cA6aL4wi3tpJ+8fuCyS
+         ZseA==
+X-Gm-Message-State: ANoB5pnuoWvLYZtcAzTWlf0FeLzxwHL8Jq0pl+tLZ9QPuKqT4A2skrWO
+	7ckVVpkfcf5IqYoyewO7DA==
+X-Google-Smtp-Source: AA0mqf7lj2Lu5JHM8TL6FPv94tgfEkhK5BGNxYguTEj/89B2m84NjyyM19FUmLCPy+Dla6xj9S3UMA==
+X-Received: by 2002:a02:9f8a:0:b0:363:db63:a796 with SMTP id a10-20020a029f8a000000b00363db63a796mr12367480jam.250.1669170278161;
+        Tue, 22 Nov 2022 18:24:38 -0800 (PST)
 Received: from robh_at_kernel.org ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id w11-20020a056638024b00b0037609ad8485sm5775812jaq.69.2022.11.22.14.07.27
+        by smtp.gmail.com with ESMTPSA id f89-20020a0284e2000000b00363f8e0ab41sm5848805jai.152.2022.11.22.18.24.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Nov 2022 14:07:28 -0800 (PST)
-Received: (nullmailer pid 660771 invoked by uid 1000);
-	Tue, 22 Nov 2022 22:07:30 -0000
+        Tue, 22 Nov 2022 18:24:37 -0800 (PST)
+Received: (nullmailer pid 1017012 invoked by uid 1000);
+	Wed, 23 Nov 2022 02:24:38 -0000
+Date: Tue, 22 Nov 2022 20:24:38 -0600
 From: Rob Herring <robh@kernel.org>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: dts: apple: Add t600x L1/L2 cache properties and nodes
-Date: Tue, 22 Nov 2022 16:06:20 -0600
-Message-Id: <20221122220619.659174-1-robh@kernel.org>
-X-Mailer: git-send-email 2.35.1
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: thierry.reding@gmail.com, krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v3 2/4] pwm: Add Apple PWM controller
+Message-ID: <20221123022438.GA1006695-robh@kernel.org>
+References: <20221121174228.93670-1-fnkl.kernel@gmail.com>
+ <20221121174228.93670-3-fnkl.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221121174228.93670-3-fnkl.kernel@gmail.com>
 
-The t600x CPU nodes are missing the cache hierarchy information. The
-cache hierarchy on Arm can not be detected and needs to be described in
-DT. The OS scheduler can make use of this information for scheduling
-decisions.
+On Mon, Nov 21, 2022 at 08:42:26PM +0300, Sasha Finkelstein wrote:
+> Adds the Apple PWM controller driver.
+> 
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> Acked-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  drivers/pwm/Kconfig     |  12 ++++
+>  drivers/pwm/Makefile    |   1 +
+>  drivers/pwm/pwm-apple.c | 127 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 140 insertions(+)
+>  create mode 100644 drivers/pwm/pwm-apple.c
+> 
+> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+> index 60d13a949bc5..c3be11468414 100644
+> --- a/drivers/pwm/Kconfig
+> +++ b/drivers/pwm/Kconfig
+> @@ -51,6 +51,18 @@ config PWM_AB8500
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called pwm-ab8500.
+>  
+> +config PWM_APPLE
+> +	tristate "Apple SoC PWM support"
+> +	depends on ARCH_APPLE || COMPILE_TEST
+> +	help
+> +	  Generic PWM framework driver for PWM controller present on
+> +	  Apple SoCs
+> +
+> +	  Say Y here if you have an ARM Apple laptop, otherwise say N
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called pwm-apple.
+> +
+>  config PWM_ATMEL
+>  	tristate "Atmel PWM support"
+>  	depends on ARCH_AT91 || COMPILE_TEST
+> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
+> index 7bf1a29f02b8..19899b912e00 100644
+> --- a/drivers/pwm/Makefile
+> +++ b/drivers/pwm/Makefile
+> @@ -2,6 +2,7 @@
+>  obj-$(CONFIG_PWM)		+= core.o
+>  obj-$(CONFIG_PWM_SYSFS)		+= sysfs.o
+>  obj-$(CONFIG_PWM_AB8500)	+= pwm-ab8500.o
+> +obj-$(CONFIG_PWM_APPLE)		+= pwm-apple.o
+>  obj-$(CONFIG_PWM_ATMEL)		+= pwm-atmel.o
+>  obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+= pwm-atmel-hlcdc.o
+>  obj-$(CONFIG_PWM_ATMEL_TCB)	+= pwm-atmel-tcb.o
+> diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c
+> new file mode 100644
+> index 000000000000..b0c3f86fd578
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-apple.c
+> @@ -0,0 +1,127 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
 
-The cache size information is based on various articles about the
-processors. There's also an L3 system level cache (SLC). It's not
-described here because SLCs typically have some MMIO interface which
-would need to be described.
+Kernel code is generally GPL-2.0 only. No other PWM driver is MIT 
+licensed. So why this one.
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-Based on apple dts changes in linux-next.
+Mixing licenses is a problem because few people look at the licenses 
+when copying code around.
 
-This fixes the warning: Unable to detect cache hierarchy for CPU %d
----
- arch/arm64/boot/dts/apple/t6002.dtsi        | 51 +++++++++++++++++++++
- arch/arm64/boot/dts/apple/t600x-common.dtsi | 51 +++++++++++++++++++++
- 2 files changed, 102 insertions(+)
+> +/*
+> + * Driver for the Apple SoC PWM controller
+> + *
+> + * Copyright The Asahi Linux Contributors
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/io.h>
+> +#include <linux/math64.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/pwm.h>
+> +
+> +#define PWM_CONTROL     0x00
+> +#define PWM_ON_CYCLES   0x1c
+> +#define PWM_OFF_CYCLES  0x18
+> +
+> +#define CTRL_ENABLE        BIT(0)
+> +#define CTRL_MODE          BIT(2)
+> +#define CTRL_UPDATE        BIT(5)
+> +#define CTRL_TRIGGER       BIT(9)
+> +#define CTRL_INVERT        BIT(10)
+> +#define CTRL_OUTPUT_ENABLE BIT(14)
+> +
+> +struct apple_pwm {
+> +	struct pwm_chip chip;
+> +	void __iomem *base;
+> +	u64 clkrate;
+> +};
+> +
+> +static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			   const struct pwm_state *state)
+> +{
+> +	struct apple_pwm *fpwm;
+> +	u64 on_cycles, off_cycles;
+> +
+> +	fpwm = container_of(chip, struct apple_pwm, chip);
+> +	if (state->enabled) {
+> +		on_cycles = mul_u64_u64_div_u64(fpwm->clkrate,
+> +						state->duty_cycle, NSEC_PER_SEC);
+> +		off_cycles = mul_u64_u64_div_u64(fpwm->clkrate,
+> +						 state->period, NSEC_PER_SEC) - on_cycles;
+> +		writel(on_cycles, fpwm->base + PWM_ON_CYCLES);
+> +		writel(off_cycles, fpwm->base + PWM_OFF_CYCLES);
+> +		writel(CTRL_ENABLE | CTRL_OUTPUT_ENABLE | CTRL_UPDATE,
+> +		       fpwm->base + PWM_CONTROL);
+> +	} else {
+> +		writel(0, fpwm->base + PWM_CONTROL);
+> +	}
+> +	return 0;
+> +}
+> +
+> +static void apple_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			   struct pwm_state *state)
+> +{
+> +	struct apple_pwm *fpwm;
+> +	u32 on_cycles, off_cycles, ctrl;
+> +
+> +	fpwm = container_of(chip, struct apple_pwm, chip);
+> +
+> +	ctrl = readl(fpwm->base + PWM_CONTROL);
+> +	on_cycles = readl(fpwm->base + PWM_ON_CYCLES);
+> +	off_cycles = readl(fpwm->base + PWM_OFF_CYCLES);
+> +
+> +	state->enabled = (ctrl & CTRL_ENABLE) && (ctrl & CTRL_OUTPUT_ENABLE);
+> +	state->polarity = PWM_POLARITY_NORMAL;
+> +	state->duty_cycle = div_u64(on_cycles, fpwm->clkrate) * NSEC_PER_SEC;
+> +	state->period = div_u64(off_cycles + on_cycles, fpwm->clkrate) * NSEC_PER_SEC;
+> +}
+> +
+> +static const struct pwm_ops apple_pwm_ops = {
+> +	.apply = apple_pwm_apply,
+> +	.get_state = apple_pwm_get_state,
+> +	.owner = THIS_MODULE,
+> +};
+> +
+> +static int apple_pwm_probe(struct platform_device *pdev)
+> +{
+> +	struct apple_pwm *pwm;
+> +	struct clk *clk;
+> +	int ret;
+> +
+> +	pwm = devm_kzalloc(&pdev->dev, sizeof(*pwm), GFP_KERNEL);
+> +	if (!pwm)
+> +		return -ENOMEM;
+> +
+> +	pwm->base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(pwm->base))
+> +		return PTR_ERR(pwm->base);
+> +
+> +	platform_set_drvdata(pdev, pwm);
+> +
+> +	clk = devm_clk_get_enabled(&pdev->dev, NULL);
+> +	if (IS_ERR(clk))
+> +		return PTR_ERR(clk);
+> +
+> +	pwm->clkrate = clk_get_rate(clk);
+> +	pwm->chip.dev = &pdev->dev;
+> +	pwm->chip.npwm = 1;
+> +	pwm->chip.ops = &apple_pwm_ops;
+> +
+> +	ret = devm_pwmchip_add(&pdev->dev, &pwm->chip);
 
-diff --git a/arch/arm64/boot/dts/apple/t6002.dtsi b/arch/arm64/boot/dts/apple/t6002.dtsi
-index 3b1677ba5262..731d61fbb05f 100644
---- a/arch/arm64/boot/dts/apple/t6002.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6002.dtsi
-@@ -29,6 +29,9 @@ cpu_e10: cpu@800 {
- 			reg = <0x0 0x800>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_3>;
-+			i-cache-size = <0x20000>;
-+			d-cache-size = <0x10000>;
- 		};
- 
- 		cpu_e11: cpu@801 {
-@@ -37,6 +40,9 @@ cpu_e11: cpu@801 {
- 			reg = <0x0 0x801>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_3>;
-+			i-cache-size = <0x20000>;
-+			d-cache-size = <0x10000>;
- 		};
- 
- 		cpu_p20: cpu@10900 {
-@@ -45,6 +51,9 @@ cpu_p20: cpu@10900 {
- 			reg = <0x0 0x10900>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_4>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p21: cpu@10901 {
-@@ -53,6 +62,9 @@ cpu_p21: cpu@10901 {
- 			reg = <0x0 0x10901>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_4>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p22: cpu@10902 {
-@@ -61,6 +73,9 @@ cpu_p22: cpu@10902 {
- 			reg = <0x0 0x10902>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_4>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p23: cpu@10903 {
-@@ -69,6 +84,9 @@ cpu_p23: cpu@10903 {
- 			reg = <0x0 0x10903>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_4>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p30: cpu@10a00 {
-@@ -77,6 +95,9 @@ cpu_p30: cpu@10a00 {
- 			reg = <0x0 0x10a00>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_5>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p31: cpu@10a01 {
-@@ -85,6 +106,9 @@ cpu_p31: cpu@10a01 {
- 			reg = <0x0 0x10a01>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_5>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p32: cpu@10a02 {
-@@ -93,6 +117,9 @@ cpu_p32: cpu@10a02 {
- 			reg = <0x0 0x10a02>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_5>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p33: cpu@10a03 {
-@@ -101,6 +128,30 @@ cpu_p33: cpu@10a03 {
- 			reg = <0x0 0x10a03>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_5>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
-+		};
-+
-+		l2_cache_3: l2-cache-3 {
-+			compatible = "cache";
-+			cache-level = <2>;
-+			cache-unified;
-+			cache-size = <0x400000>;
-+		};
-+
-+		l2_cache_4: l2-cache-4 {
-+			compatible = "cache";
-+			cache-level = <2>;
-+			cache-unified;
-+			cache-size = <0xc00000>;
-+		};
-+
-+		l2_cache_5: l2-cache-5 {
-+			compatible = "cache";
-+			cache-level = <2>;
-+			cache-unified;
-+			cache-size = <0xc00000>;
- 		};
- 	};
- 
-diff --git a/arch/arm64/boot/dts/apple/t600x-common.dtsi b/arch/arm64/boot/dts/apple/t600x-common.dtsi
-index f5fac1926a25..e2568d914719 100644
---- a/arch/arm64/boot/dts/apple/t600x-common.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-common.dtsi
-@@ -21,6 +21,9 @@ cpu_e00: cpu@0 {
- 			reg = <0x0 0x0>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_0>;
-+			i-cache-size = <0x20000>;
-+			d-cache-size = <0x10000>;
- 		};
- 
- 		cpu_e01: cpu@1 {
-@@ -29,6 +32,9 @@ cpu_e01: cpu@1 {
- 			reg = <0x0 0x1>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_0>;
-+			i-cache-size = <0x20000>;
-+			d-cache-size = <0x10000>;
- 		};
- 
- 		cpu_p00: cpu@10100 {
-@@ -37,6 +43,9 @@ cpu_p00: cpu@10100 {
- 			reg = <0x0 0x10100>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_1>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p01: cpu@10101 {
-@@ -45,6 +54,9 @@ cpu_p01: cpu@10101 {
- 			reg = <0x0 0x10101>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_1>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p02: cpu@10102 {
-@@ -53,6 +65,9 @@ cpu_p02: cpu@10102 {
- 			reg = <0x0 0x10102>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_1>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p03: cpu@10103 {
-@@ -61,6 +76,9 @@ cpu_p03: cpu@10103 {
- 			reg = <0x0 0x10103>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_1>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p10: cpu@10200 {
-@@ -69,6 +87,9 @@ cpu_p10: cpu@10200 {
- 			reg = <0x0 0x10200>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_2>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p11: cpu@10201 {
-@@ -77,6 +98,9 @@ cpu_p11: cpu@10201 {
- 			reg = <0x0 0x10201>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_2>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p12: cpu@10202 {
-@@ -85,6 +109,9 @@ cpu_p12: cpu@10202 {
- 			reg = <0x0 0x10202>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_2>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
- 		};
- 
- 		cpu_p13: cpu@10203 {
-@@ -93,6 +120,30 @@ cpu_p13: cpu@10203 {
- 			reg = <0x0 0x10203>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			next-level-cache = <&l2_cache_2>;
-+			i-cache-size = <0x30000>;
-+			d-cache-size = <0x20000>;
-+		};
-+
-+		l2_cache_0: l2-cache-0 {
-+			compatible = "cache";
-+			cache-level = <2>;
-+			cache-unified;
-+			cache-size = <0x400000>;
-+		};
-+
-+		l2_cache_1: l2-cache-1 {
-+			compatible = "cache";
-+			cache-level = <2>;
-+			cache-unified;
-+			cache-size = <0xc00000>;
-+		};
-+
-+		l2_cache_2: l2-cache-2 {
-+			compatible = "cache";
-+			cache-level = <2>;
-+			cache-unified;
-+			cache-size = <0xc00000>;
- 		};
- 	};
- 
--- 
-2.35.1
+This symbol is EXPORT_SYMBOL_GPL. So how can this module be MIT 
+licensed?
 
+> +	return ret;
+> +}
+> +
+> +static const struct of_device_id apple_pwm_of_match[] = {
+> +	{ .compatible = "apple,s5l-fpwm" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, apple_pwm_of_match);
+> +
+> +static struct platform_driver apple_pwm_driver = {
+> +	.probe = apple_pwm_probe,
+> +	.driver = {
+> +		.name = "apple-pwm",
+> +		.owner = THIS_MODULE,
+
+This line should be dropped.
+
+> +		.of_match_table = apple_pwm_of_match,
+> +	},
+> +};
+> +module_platform_driver(apple_pwm_driver);
+> +
+> +MODULE_DESCRIPTION("Apple SoC PWM driver");
+> +MODULE_LICENSE("Dual MIT/GPL");
+> -- 
+> 2.38.1
+> 
+> 
