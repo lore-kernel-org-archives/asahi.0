@@ -1,89 +1,176 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DDC8F42
-	for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 15:08:38 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1ozfkE-0002f4-Ee; Mon, 28 Nov 2022 16:08:30 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1ozfkD-000rvc-06; Mon, 28 Nov 2022 16:08:29 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1ozfkD-000yxu-0Q; Mon, 28 Nov 2022 16:08:29 +0100
-Date: Mon, 28 Nov 2022 16:08:28 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st,
-	sven@svenpeter.dev, alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH RESEND v3 1/4] dt-bindings: pwm: Add Apple PWM controller
-Message-ID: <20221128150828.xnzmwbfguorn22pf@pengutronix.de>
-References: <20221121174228.93670-1-fnkl.kernel@gmail.com>
- <20221121174228.93670-2-fnkl.kernel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A898F5D
+	for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 16:15:36 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 628973200942;
+	Mon, 28 Nov 2022 11:15:35 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Mon, 28 Nov 2022 11:15:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to; s=fm1; t=1669652134; x=1669738534; bh=wg7FaKo805
+	eO+vNPgQ7ztZjMcWXQHDAz6Wy4cpdl6SA=; b=LS5uLeJVdBZuZTtUjOOHkxZRYW
+	Zxzxid+7EuBWTBo86rf+TL/N2F5x6eoDGBDASrMR/VYCSE+XtimVIPI82vmjBCI3
+	5g3Q7P2nXT+NmLRYfdtSwKyblGaQse+ZIRQ7GHYLYO3do1Fv7Iv2TBSvkfEGCfIW
+	ilCT7xeHvJtg0b62aMsit5Qloni3E130q1VA9l+62hmEdvMhhfKVY0eCrc+jk7Hg
+	OwrX+g9ZaqUlh2ERcVSyvWBWUcnStVqSvPX2Zu36H5lR4YHcfJyoO+F0aGlNd2CP
+	ddwZ8SIxgVUlYPT8SNqZ2Cw1m3ACKn+iC3P4tzkkmusHVMqwARwx5CyH1wuw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1669652134; x=1669738534; bh=wg7FaKo805eO+vNPgQ7ztZjMcWXQHDAz6Wy
+	4cpdl6SA=; b=b65YMzkTrWpIYtQmR9odiHJDJ7BfHUZN/uWL+F8Aw10cJWGMCxU
+	xBAqjmgl8mAcWdiFba2sRkJGSmdUMkcKdVWRF5kWpOckwD6qFDH5rlA3jbBaYYFO
+	FiKGUCaCm3ofJkuhi2YYtjiNvN4MB4AQDk2vwJOlrdGfxbQG+JjaIuXA0WNhZ/Yq
+	HktPQNh9FVkKdVbh5SQ8EPmPRfIRCy8LUGVBYBu18HHX41Cbomplu81ST0RUKwPl
+	rQLcwwlfpTUJvPh1w/WW09Aw4YJZXzq17QdZayczeFrGhw/LrzqYGR70BW+l67ZF
+	JCuQvyLKbXgRMxfIDtcAFGhSxWr26phVRTg==
+X-ME-Sender: <xms:pt6EYxW7yUkjCUvoLNYZZiR9SHvzbKYGrAd4UC5VAKAGTpVFXSbfUg>
+    <xme:pt6EYxmiS56cx2Epe9GZhtUvBSi9gONyR5A4fHB2BXGwla4ISjpXhmNnAdOASYzQ1
+    5_iJtCPNca0Dm_xjEU>
+X-ME-Received: <xmr:pt6EY9bSQm59bwu0jpCLZ5VDta7NuH8-AGbJAA_TCkIzwqzi9MYS0HJmxCUADvGE0K32tpZ8ZrvBOvPFo8swzNBSZpyV51Ebz7oa7sIWTXZso_kksHsWvg8WQZHLtA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvgedrjedvgdekkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuvhgvnhcurfgv
+    thgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrthhtvghrnh
+    epleduffeiheeuvedtffevtdeuleeljeduudfgtedtvefhfeffvdfghfejhefgleelnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnse
+    hsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:pt6EY0V1CzL83rp1lD1q4jkxlyvN4xsk4rUO4UN_gJgJ2b11jLIReA>
+    <xmx:pt6EY7mwHMh8h64OC4Dz_Vc-P2FaX3r0-qtrtyccWVfn_tthUN68jw>
+    <xmx:pt6EYxcRcNRmEpEZq_XjqPh1VxRDxSLuh4CC4yA8gxadmvdvVL27kA>
+    <xmx:pt6EY5YPoKCElaKrgbqTYrS5NmvURkk1nttm-AfXTWVsCCZAJlqo8g>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 28 Nov 2022 11:15:32 -0500 (EST)
+From: Sven Peter <sven@svenpeter.dev>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	Felipe Balbi <felipe.balbi@linux.intel.com>,
+	Janne Grunau <j@jannau.net>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: [PATCH] usb: dwc3: Fix race between dwc3_set_mode and __dwc3_set_mode
+Date: Mon, 28 Nov 2022 17:15:26 +0100
+Message-Id: <20221128161526.79730-1-sven@svenpeter.dev>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="crknip2xs333o5v7"
-Content-Disposition: inline
-In-Reply-To: <20221121174228.93670-2-fnkl.kernel@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: asahi@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+dwc->desired_dr_role is changed by dwc3_set_mode inside a spinlock but
+then read by __dwc3_set_mode outside of that lock. This can lead to a
+race condition when very quick successive role switch events happen:
 
---crknip2xs333o5v7
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+CPU A
+	dwc3_set_mode(DWC3_GCTL_PRTCAP_HOST) // first role switch event
+		spin_lock_irqsave(&dwc->lock, flags);
+		dwc->desired_dr_role = mode; // DWC3_GCTL_PRTCAP_HOST
+		spin_unlock_irqrestore(&dwc->lock, flags);
+		queue_work(system_freezable_wq, &dwc->drd_work);
 
-Hello Sasha,
+CPU B
+	__dwc3_set_mode
+		// ....
+		spin_lock_irqsave(&dwc->lock, flags);
+		// desired_dr_role is DWC3_GCTL_PRTCAP_HOST
+		dwc3_set_prtcap(dwc, dwc->desired_dr_role);
+		spin_unlock_irqrestore(&dwc->lock, flags);
 
-On Mon, Nov 21, 2022 at 08:42:25PM +0300, Sasha Finkelstein wrote:
-> Apple SoCs such as the M1 contain a PWM controller used
-> among other things to control the keyboard backlight.
->=20
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Acked-by: Sven Peter <sven@svenpeter.dev>
+CPU A
+	dwc3_set_mode(DWC3_GCTL_PRTCAP_DEVICE) // second event
+		spin_lock_irqsave(&dwc->lock, flags);
+		dwc->desired_dr_role = mode; // DWC3_GCTL_PRTCAP_DEVICE
+		spin_unlock_irqrestore(&dwc->lock, flags);
 
-With the requested changes in the other patches of this series, I'm
-marking this and the addition to MAINTAINERS as changes-requested, too,
-in the assumption that when (and if) you address the feedback you will
-care for these two, too.
+CPU B (continues running __dwc3_set_mode)
+	switch (dwc->desired_dr_role) { // DWC3_GCTL_PRTCAP_DEVICE
+	// ....
+	case DWC3_GCTL_PRTCAP_DEVICE:
+		// ....
+		ret = dwc3_gadget_init(dwc);
 
-Best regards
-Uwe
+We then have DWC3_GCTL.DWC3_GCTL_PRTCAPDIR = DWC3_GCTL_PRTCAP_HOST and
+dwc->current_dr_role = DWC3_GCTL_PRTCAP_HOST but initialized the
+controller in device mode. It's also possible to get into a state
+where both host and device are intialized at the same time.
+Fix this race by creating a local copy of desired_dr_role inside
+__dwc3_set_mode while holding dwc->lock.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Fixes: 41ce1456e1db ("usb: dwc3: core: make dwc3_set_mode() work properly")
+Signed-off-by: Sven Peter <sven@svenpeter.dev>
+---
+ drivers/usb/dwc3/core.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
---crknip2xs333o5v7
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 1f348bc867c2..fc38a8b13efa 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -122,21 +122,25 @@ static void __dwc3_set_mode(struct work_struct *work)
+ 	unsigned long flags;
+ 	int ret;
+ 	u32 reg;
++	u32 desired_dr_role;
+ 
+ 	mutex_lock(&dwc->mutex);
++	spin_lock_irqsave(&dwc->lock, flags);
++	desired_dr_role = dwc->desired_dr_role;
++	spin_unlock_irqrestore(&dwc->lock, flags);
+ 
+ 	pm_runtime_get_sync(dwc->dev);
+ 
+ 	if (dwc->current_dr_role == DWC3_GCTL_PRTCAP_OTG)
+ 		dwc3_otg_update(dwc, 0);
+ 
+-	if (!dwc->desired_dr_role)
++	if (!desired_dr_role)
+ 		goto out;
+ 
+-	if (dwc->desired_dr_role == dwc->current_dr_role)
++	if (desired_dr_role == dwc->current_dr_role)
+ 		goto out;
+ 
+-	if (dwc->desired_dr_role == DWC3_GCTL_PRTCAP_OTG && dwc->edev)
++	if (desired_dr_role == DWC3_GCTL_PRTCAP_OTG && dwc->edev)
+ 		goto out;
+ 
+ 	switch (dwc->current_dr_role) {
+@@ -164,7 +168,7 @@ static void __dwc3_set_mode(struct work_struct *work)
+ 	 */
+ 	if (dwc->current_dr_role && ((DWC3_IP_IS(DWC3) ||
+ 			DWC3_VER_IS_PRIOR(DWC31, 190A)) &&
+-			dwc->desired_dr_role != DWC3_GCTL_PRTCAP_OTG)) {
++			desired_dr_role != DWC3_GCTL_PRTCAP_OTG)) {
+ 		reg = dwc3_readl(dwc->regs, DWC3_GCTL);
+ 		reg |= DWC3_GCTL_CORESOFTRESET;
+ 		dwc3_writel(dwc->regs, DWC3_GCTL, reg);
+@@ -184,11 +188,11 @@ static void __dwc3_set_mode(struct work_struct *work)
+ 
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 
+-	dwc3_set_prtcap(dwc, dwc->desired_dr_role);
++	dwc3_set_prtcap(dwc, desired_dr_role);
+ 
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
+ 
+-	switch (dwc->desired_dr_role) {
++	switch (desired_dr_role) {
+ 	case DWC3_GCTL_PRTCAP_HOST:
+ 		ret = dwc3_host_init(dwc);
+ 		if (ret) {
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOEzukACgkQwfwUeK3K
-7AnaqAf/Vbpl3GuTD3Vdaks/soACfcqBTAt7X9kYPRexcZ0zm0/qzw0wWQ+x087n
-V9RovWR3PXCwwXe5yK9t7gJUQrKBBaGGuFEw56VypHIvXfH9GTKRB5HhIu3Fhk8G
-+X3wYjSmeTPsk7eAAJSkFnSY3fwYA5bwzmaaScV8ukpFsHeZFHnbXYg5whwjS1o5
-EpuUY7TUTNgWRTyzrQQfjjLk7hyeV/E84BJF6lFvWr1QQaqih37wFgDIyq6W4HCB
-rWbg/v55lK9s1ZEDT5/HUPyYK8hse8rsSxiep6NRCBn/otwiagpAUco50MlkC1gN
-24dNsL5HNoSsb+7Wi/iGG7Z34a4FIw==
-=YL/H
------END PGP SIGNATURE-----
-
---crknip2xs333o5v7--
