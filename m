@@ -1,118 +1,81 @@
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129272F29
-	for <asahi@lists.linux.dev>; Sun, 27 Nov 2022 23:19:45 +0000 (UTC)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
-	id EE62B26F404; Mon, 28 Nov 2022 00:12:06 +0100 (CET)
-Date: Mon, 28 Nov 2022 00:12:06 +0100
-From: Janne Grunau <j@jannau.net>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: dwc3_set_mode vs. __dwc3_set_mode race
-Message-ID: <20221127231206.GA5547@jannau.net>
-References: <dad79707-a778-4868-8684-f1658a38b4d0@app.fastmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F3F2F43
+	for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 11:35:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 82A7441A36;
+	Mon, 28 Nov 2022 11:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1669635313; bh=xEcdu2K4hzKmkxDaxzkREF8TV43gjY/bcXwdVMPfj68=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=PZmkBXVrpKuTJU1t5EVAMYQhiS9ett2X1MmRMlV70pD8tl+mngDQjbUG/s4xwC/8y
+	 Y5VedcKvLHHP895+VJXn1bkLfaT9vguZ/02IyLnhg9snhAh4JIEt9D1GWGtDYu/DIU
+	 QtjQF6GbXVkkjBQ+aDNv5AocZ9Nn4AgP12NmGUkrFMyJ1pC17k928vrTe7FquHP6vL
+	 cbjp1qKuQlaKK+0lLNKvdvGbHiLzEPiIzIQlHSgCmNGtegODAr2Og9UsDVbdp3sXy6
+	 VN/uAOo/MSKFZOSD2uN625+YRRYG8xxLW9ZGrvqnxtyq6QtiWDDPJfQc3YKH3wHr3f
+	 x1toAkfhdw6Gg==
+Message-ID: <d2ff74cc-9835-1573-73ca-d5eebf8f824c@marcan.st>
+Date: Mon, 28 Nov 2022 20:35:08 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dad79707-a778-4868-8684-f1658a38b4d0@app.fastmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] soc: apple: sart: Stop casting function pointer
+ signatures
+Content-Language: en-US
+To: Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ kernel test robot <lkp@intel.com>
+References: <20221104153902.78999-1-sven@svenpeter.dev>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20221104153902.78999-1-sven@svenpeter.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hej,
+On 05/11/2022 00.39, Sven Peter wrote:
+> Fixes: b170143ae111 ("soc: apple: Add SART driver")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  drivers/soc/apple/sart.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/soc/apple/sart.c b/drivers/soc/apple/sart.c
+> index 83804b16ad03..afa111736899 100644
+> --- a/drivers/soc/apple/sart.c
+> +++ b/drivers/soc/apple/sart.c
+> @@ -164,6 +164,11 @@ static int apple_sart_probe(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static void apple_sart_put_device(void *dev)
+> +{
+> +	put_device(dev);
+> +}
+> +
+>  struct apple_sart *devm_apple_sart_get(struct device *dev)
+>  {
+>  	struct device_node *sart_node;
+> @@ -187,7 +192,7 @@ struct apple_sart *devm_apple_sart_get(struct device *dev)
+>  		return ERR_PTR(-EPROBE_DEFER);
+>  	}
+>  
+> -	ret = devm_add_action_or_reset(dev, (void (*)(void *))put_device,
+> +	ret = devm_add_action_or_reset(dev, apple_sart_put_device,
+>  				       &sart_pdev->dev);
+>  	if (ret)
+>  		return ERR_PTR(ret);
 
-On 2022-11-26 10:10:48 +0100, Sven Peter wrote:
-> Hi Thinh,
-> 
-> I've run into a race between dwc3_set_mode and __dwc3_set_mode accessing
-> dwc->desired_dr_role: It's an incredibly tight race that's hard to hit since
-> role switch events need to come in just after each other. It's reproducible
-> with an Apple M1 connected to a device that very quickly switches
-> roles when shutting down (which happens to be another M1). This sometimes
-> triggers a device->host->device switch sequence which is fast enough to hit this
-> race:
-> 
-> CPU A
-> 	dwc3_set_mode(DWC3_GCTL_PRTCAP_HOST) // first role switch event
-> 		spin_lock_irqsave(&dwc->lock, flags);
-> 		dwc->desired_dr_role = mode; // DWC3_GCTL_PRTCAP_HOST
-> 		spin_unlock_irqrestore(&dwc->lock, flags);
-> 		queue_work(system_freezable_wq, &dwc->drd_work); // true, schedules __dwc3_set_mode
-> 
-> CPU B
-> 	__dwc3_set_mode
-> 		// ....
-> 		spin_lock_irqsave(&dwc->lock, flags);
-> 		dwc3_set_prtcap(dwc, dwc->desired_dr_role); // DWC3_GCTL_PRTCAP_HOST
-> 		spin_unlock_irqrestore(&dwc->lock, flags);
-> 
-> CPU A
-> 	dwc3_set_mode(DWC3_GCTL_PRTCAP_DEVICE) // second role switch event
-> 		spin_lock_irqsave(&dwc->lock, flags);
-> 		dwc->desired_dr_role = mode; // DWC3_GCTL_PRTCAP_DEVICE
-> 		spin_unlock_irqrestore(&dwc->lock, flags);
-> 
-> CPU B (continues running __dwc3_set_mode)
-> 	switch (dwc->desired_dr_role) { // DWC3_GCTL_PRTCAP_DEVICE
-> 	case DWC3_GCTL_PRTCAP_HOST:
-> 		// not executed since desired_dr_role is DWC3_GCTL_PRTCAP_DEVICE now
-> 		break;
-> 
-> CPU A (continues running dwc3_set_mode)
-> 	queue_work(system_freezable_wq, &dwc->drd_work); // __dwc3_set_mode is still running
-> 
-> CPU B (continues running __dwc3_set_mode)
-> 	case DWC3_GCTL_PRTCAP_DEVICE:
-> 		// ....
-> 		ret = dwc3_gadget_init(dwc);
-> 
-> 
-> We then have DWC3_GCTL.DWC3_GCTL_PRTCAPDIR = DWC3_GCTL_PRTCAP_HOST and
-> dwc->current_dr_role = DWC3_GCTL_PRTCAP_HOST but initialized the controller in
-> device mode when calling dwc3_gadget_init. This obviously doesn't work and is
-> not easy to recover from.
-> 
-> Unfortunately we can't just lock dwc3->mutex since dwc3_set_mode may be called
-> from an extcon interrupt in atomic context (which is probably the reason for
-> deferring the mode switch to a workqueue).
-> 
-> Otherwise I can only think of creating a single-threaded work queue and
-> allocating a new work_struct together with desired_role inside dwc3_set_mode
-> and putting that onto the queue, i.e. something like:
-> 
-> struct dwc3_set_mode_work {
-> 	struct dwc3 *dwc;
-> 	u32 desired_dr_role;
-> 	struct work_struct work;
-> };
-> 
-> void dwc3_set_mode(struct dwc3 *dwc, u32 mode)
-> {
-> 	struct dwc3_set_mode_work *work = kzalloc(sizeof(*work), GFP_ATOMIC);
-> 
-> 	INIT_WORK(&work->work, __dwc3_set_mode);
-> 	work->dwc = dwc;
-> 	work->desired_dr_role = mode;
-> 	queue_work(dwc->drd_work_queue, &work->work);
-> }
-> 
-> That way all role switch events will be executed in order and we can't race
-> desired_dr_role anymore.
-> I'm not very happy with that solution but can't think of anything else.
-> 
-> Any thoughts or ideas? I can otherwise prepare a patch.
+Applied to asahi-soc/soc, thanks!
 
-your alternate solution to operate on a stack copy of 
-dwc->desired_dr_role in __dwc3_set_mode() avoids this race and seems to 
-work fine. Tested with 2 Apple silicon devices. Trivial patch left to 
-the sender since I did just the trivial typing and testing.
-
-thanks
-
-Janne
+- Hector
