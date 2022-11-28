@@ -1,362 +1,85 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450B58BF0
-	for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 14:29:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id A852341E2F;
-	Mon, 28 Nov 2022 14:29:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1669645781; bh=59CSFOX97npsoJgTAQusPWIZ1PoRhHaim0uMHhjm+K0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=HLu7Zwn9C6DoiPJmcVGLSVIkC2dKmcxpsOjGsN/JLbs/EHno/FqJCKdL7zfFCmGGE
-	 g1CcfFG4fn9sljNMBuoPsKPMa/4sJlAMShnYp0nGFLxo6dHeImJp+cRTs/3nK+9ZLf
-	 41qSe0nRUudMYGDO75PWVvZhoiykQJ3d4jkJy9g8bJTPHM+TKRR0eX3qjbI9ZXowHm
-	 U0WqtpDSBWeGS8xSwELFflDJr4f0JtY7LJXHeemI6kKDqjEEdAfsMWtHjiHRUSMxzC
-	 NMFyyHDlEsl8V3Mt148jeGggRRKXePqUKEPxEh/3EGdiN+hdHAIrufUnvq+ujMFsnb
-	 9lsraulqQCrVA==
-From: Hector Martin <marcan@marcan.st>
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Mark Kettenis <mark.kettenis@xs4all.nl>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 4/4] arm64: dts: apple: Add CPU topology & cpufreq nodes for t8103
-Date: Mon, 28 Nov 2022 23:29:12 +0900
-Message-Id: <20221128142912.16022-5-marcan@marcan.st>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221128142912.16022-1-marcan@marcan.st>
-References: <20221128142912.16022-1-marcan@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843AB8C1D
+	for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 14:40:24 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id q7so13366025ljp.9
+        for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 06:40:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+NiUJlplsn9n6lGGdwaVYz/dvUY1Uiz0F8E0WFP5MXA=;
+        b=mUY4sXo496dMgRbJDhldHGyTbaS60fNegypcclPyzw/16zckDxAqi3rx0MG0tMyZos
+         /7D+YrPdRYNYrR0EQnrbNQ/Q7htyuzDboExz/O3YGlCiAyaKlHnA/LTUkhbf6JtqpHpt
+         2a4atD5Hk3YCkU12y6mMmxHSEa0VzAZ70FoCzLTmC99SMuDsL/FZ65NKmqm1OcdqW+pi
+         ZBKA6C6ih+VqgYVPK6fnGXgWKT5WeQLTANBTCenMqP7Jd5vPSP9gvq31OFElyn2yfsDa
+         5Y+f5SE9f3mOD4n68ud7YJ1SULJg26cRV5YGQfbMLwKltMl2Ld0ElsvKRB0dwrS5j08o
+         Wq6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+NiUJlplsn9n6lGGdwaVYz/dvUY1Uiz0F8E0WFP5MXA=;
+        b=4eSMyLDR4rZuSwNPAflSZzS7/l2sFuWbrojEv0TFciMI3Bihztij2RDua69Z2cP713
+         Te+qX5vYSZreY080cDVtSZdEl+8B7b1qBfUsPxW7lX8PVRI/hgiM3vTZlTsPcWV5rbS7
+         TSNARSqycAw0vEREBaib+Abz0CyVZxfaSsRR45ybl3pbZmmKyIWwRQoRVMnqv7FFAZ5a
+         aQm+8jw9VnaIOqk+A7sJXCN0TD5uT0KbiiwGylQoINPunW7gSEy6olZafOR5P0WiXNjX
+         BgosIpcbIOriCaF84/joMqTj+HgxygVJhCrAKgiuqhU4ft2ag9wSuVUMxZUER5+G3BpS
+         m6KA==
+X-Gm-Message-State: ANoB5pkzg/AbuURUhmYHZP0sPDgFXsWZpL1ecC0/Ogxfztlk99RfPSHw
+	TV4kjYkUQmO/0B3KNS8lS+MP7g==
+X-Google-Smtp-Source: AA0mqf44My3TSiQHWXKUbpZ8nXgALHNbYVtTj2k2cv7Q5oTPCaZ+9Bd9an1qmJv5RwWvKlqF7DwXtw==
+X-Received: by 2002:a05:651c:b0e:b0:277:3ca2:dac6 with SMTP id b14-20020a05651c0b0e00b002773ca2dac6mr15718506ljr.143.1669646422586;
+        Mon, 28 Nov 2022 06:40:22 -0800 (PST)
+Received: from [192.168.0.20] (088156142067.dynamic-2-waw-k-3-2-0.vectranet.pl. [88.156.142.67])
+        by smtp.gmail.com with ESMTPSA id cf39-20020a056512282700b004a0589786ddsm1752136lfb.69.2022.11.28.06.40.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Nov 2022 06:40:21 -0800 (PST)
+Message-ID: <5c8c10c7-0d2d-25ff-1bed-d75dde93ee75@linaro.org>
+Date: Mon, 28 Nov 2022 15:40:20 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v5 2/4] dt-bindings: cpufreq: apple,soc-cpufreq: Add
+ binding for Apple SoC cpufreq
+Content-Language: en-US
+To: Hector Martin <marcan@marcan.st>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <sboyd@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Marc Zyngier <maz@kernel.org>, Mark Kettenis <mark.kettenis@xs4all.nl>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20221128142912.16022-1-marcan@marcan.st>
+ <20221128142912.16022-3-marcan@marcan.st>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20221128142912.16022-3-marcan@marcan.st>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add the missing CPU topology/capacity information and the cpufreq nodes,
-so we can have CPU frequency scaling and the scheduler has the
-information it needs to make the correct decisions.
+On 28/11/2022 15:29, Hector Martin wrote:
+> This binding represents the cpufreq/DVFS hardware present in Apple SoCs.
+> The hardware has an independent controller per CPU cluster, and we
+> represent them as unique nodes in order to accurately describe the
+> hardware. The driver is responsible for binding them as a single cpufreq
+> device (in the Linux cpufreq model).
+> 
 
-Boost states are commented out, as they are not yet available (that
-requires CPU deep sleep support, to be eventually done via PSCI).
-The driver supports them fine; the hardware will just refuse to ever
-go into them at this time, so don't expose them to users until that's
-done.
 
-Acked-by: Marc Zyngier <maz@kernel.org>
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- arch/arm64/boot/dts/apple/t8103.dtsi | 204 +++++++++++++++++++++++++--
- 1 file changed, 194 insertions(+), 10 deletions(-)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 51a63b29d404..d56708038d05 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -22,71 +22,243 @@ cpus {
- 		#address-cells = <2>;
- 		#size-cells = <0>;
- 
--		cpu0: cpu@0 {
-+		cpu-map {
-+			cluster0 {
-+				core0 {
-+					cpu = <&cpu_e0>;
-+				};
-+				core1 {
-+					cpu = <&cpu_e1>;
-+				};
-+				core2 {
-+					cpu = <&cpu_e2>;
-+				};
-+				core3 {
-+					cpu = <&cpu_e3>;
-+				};
-+			};
-+
-+			cluster1 {
-+				core0 {
-+					cpu = <&cpu_p0>;
-+				};
-+				core1 {
-+					cpu = <&cpu_p1>;
-+				};
-+				core2 {
-+					cpu = <&cpu_p2>;
-+				};
-+				core3 {
-+					cpu = <&cpu_p3>;
-+				};
-+			};
-+		};
-+
-+		cpu_e0: cpu@0 {
- 			compatible = "apple,icestorm";
- 			device_type = "cpu";
- 			reg = <0x0 0x0>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&ecluster_opp>;
-+			capacity-dmips-mhz = <714>;
-+			performance-domains = <&cpufreq_e>;
- 		};
- 
--		cpu1: cpu@1 {
-+		cpu_e1: cpu@1 {
- 			compatible = "apple,icestorm";
- 			device_type = "cpu";
- 			reg = <0x0 0x1>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&ecluster_opp>;
-+			capacity-dmips-mhz = <714>;
-+			performance-domains = <&cpufreq_e>;
- 		};
- 
--		cpu2: cpu@2 {
-+		cpu_e2: cpu@2 {
- 			compatible = "apple,icestorm";
- 			device_type = "cpu";
- 			reg = <0x0 0x2>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&ecluster_opp>;
-+			capacity-dmips-mhz = <714>;
-+			performance-domains = <&cpufreq_e>;
- 		};
- 
--		cpu3: cpu@3 {
-+		cpu_e3: cpu@3 {
- 			compatible = "apple,icestorm";
- 			device_type = "cpu";
- 			reg = <0x0 0x3>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&ecluster_opp>;
-+			capacity-dmips-mhz = <714>;
-+			performance-domains = <&cpufreq_e>;
- 		};
- 
--		cpu4: cpu@10100 {
-+		cpu_p0: cpu@10100 {
- 			compatible = "apple,firestorm";
- 			device_type = "cpu";
- 			reg = <0x0 0x10100>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&pcluster_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p>;
- 		};
- 
--		cpu5: cpu@10101 {
-+		cpu_p1: cpu@10101 {
- 			compatible = "apple,firestorm";
- 			device_type = "cpu";
- 			reg = <0x0 0x10101>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&pcluster_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p>;
- 		};
- 
--		cpu6: cpu@10102 {
-+		cpu_p2: cpu@10102 {
- 			compatible = "apple,firestorm";
- 			device_type = "cpu";
- 			reg = <0x0 0x10102>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&pcluster_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p>;
- 		};
- 
--		cpu7: cpu@10103 {
-+		cpu_p3: cpu@10103 {
- 			compatible = "apple,firestorm";
- 			device_type = "cpu";
- 			reg = <0x0 0x10103>;
- 			enable-method = "spin-table";
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&pcluster_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p>;
- 		};
- 	};
- 
-+	ecluster_opp: opp-table-0 {
-+		compatible = "operating-points-v2";
-+
-+		opp01 {
-+			opp-hz = /bits/ 64 <600000000>;
-+			opp-level = <1>;
-+			clock-latency-ns = <7500>;
-+		};
-+		opp02 {
-+			opp-hz = /bits/ 64 <972000000>;
-+			opp-level = <2>;
-+			clock-latency-ns = <22000>;
-+		};
-+		opp03 {
-+			opp-hz = /bits/ 64 <1332000000>;
-+			opp-level = <3>;
-+			clock-latency-ns = <27000>;
-+		};
-+		opp04 {
-+			opp-hz = /bits/ 64 <1704000000>;
-+			opp-level = <4>;
-+			clock-latency-ns = <33000>;
-+		};
-+		opp05 {
-+			opp-hz = /bits/ 64 <2064000000>;
-+			opp-level = <5>;
-+			clock-latency-ns = <50000>;
-+		};
-+	};
-+
-+	pcluster_opp: opp-table-1 {
-+		compatible = "operating-points-v2";
-+
-+		opp01 {
-+			opp-hz = /bits/ 64 <600000000>;
-+			opp-level = <1>;
-+			clock-latency-ns = <8000>;
-+		};
-+		opp02 {
-+			opp-hz = /bits/ 64 <828000000>;
-+			opp-level = <2>;
-+			clock-latency-ns = <19000>;
-+		};
-+		opp03 {
-+			opp-hz = /bits/ 64 <1056000000>;
-+			opp-level = <3>;
-+			clock-latency-ns = <21000>;
-+		};
-+		opp04 {
-+			opp-hz = /bits/ 64 <1284000000>;
-+			opp-level = <4>;
-+			clock-latency-ns = <23000>;
-+		};
-+		opp05 {
-+			opp-hz = /bits/ 64 <1500000000>;
-+			opp-level = <5>;
-+			clock-latency-ns = <24000>;
-+		};
-+		opp06 {
-+			opp-hz = /bits/ 64 <1728000000>;
-+			opp-level = <6>;
-+			clock-latency-ns = <29000>;
-+		};
-+		opp07 {
-+			opp-hz = /bits/ 64 <1956000000>;
-+			opp-level = <7>;
-+			clock-latency-ns = <31000>;
-+		};
-+		opp08 {
-+			opp-hz = /bits/ 64 <2184000000>;
-+			opp-level = <8>;
-+			clock-latency-ns = <34000>;
-+		};
-+		opp09 {
-+			opp-hz = /bits/ 64 <2388000000>;
-+			opp-level = <9>;
-+			clock-latency-ns = <36000>;
-+		};
-+		opp10 {
-+			opp-hz = /bits/ 64 <2592000000>;
-+			opp-level = <10>;
-+			clock-latency-ns = <51000>;
-+		};
-+		opp11 {
-+			opp-hz = /bits/ 64 <2772000000>;
-+			opp-level = <11>;
-+			clock-latency-ns = <54000>;
-+		};
-+		opp12 {
-+			opp-hz = /bits/ 64 <2988000000>;
-+			opp-level = <12>;
-+			clock-latency-ns = <55000>;
-+		};
-+#if 0
-+		/* Not available until CPU deep sleep is implemented */
-+		opp13 {
-+			opp-hz = /bits/ 64 <3096000000>;
-+			opp-level = <13>;
-+			clock-latency-ns = <55000>;
-+			turbo-mode;
-+		};
-+		opp14 {
-+			opp-hz = /bits/ 64 <3144000000>;
-+			opp-level = <14>;
-+			clock-latency-ns = <56000>;
-+			turbo-mode;
-+		};
-+		opp15 {
-+			opp-hz = /bits/ 64 <3204000000>;
-+			opp-level = <15>;
-+			clock-latency-ns = <56000>;
-+			turbo-mode;
-+		};
-+#endif
-+	};
-+
- 	timer {
- 		compatible = "arm,armv8-timer";
- 		interrupt-parent = <&aic>;
-@@ -124,6 +296,18 @@ soc {
- 		ranges;
- 		nonposted-mmio;
- 
-+		cpufreq_e: performance-controller@210e20000 {
-+			compatible = "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
-+			reg = <0x2 0x10e20000 0 0x1000>;
-+			#performance-domain-cells = <0>;
-+		};
-+
-+		cpufreq_p: performance-controller@211e20000 {
-+			compatible = "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
-+			reg = <0x2 0x11e20000 0 0x1000>;
-+			#performance-domain-cells = <0>;
-+		};
-+
- 		i2c0: i2c@235010000 {
- 			compatible = "apple,t8103-i2c", "apple,i2c";
- 			reg = <0x2 0x35010000 0x0 0x4000>;
-@@ -229,12 +413,12 @@ aic: interrupt-controller@23b100000 {
- 			affinities {
- 				e-core-pmu-affinity {
- 					apple,fiq-index = <AIC_CPU_PMU_E>;
--					cpus = <&cpu0 &cpu1 &cpu2 &cpu3>;
-+					cpus = <&cpu_e0 &cpu_e1 &cpu_e2 &cpu_e3>;
- 				};
- 
- 				p-core-pmu-affinity {
- 					apple,fiq-index = <AIC_CPU_PMU_P>;
--					cpus = <&cpu4 &cpu5 &cpu6 &cpu7>;
-+					cpus = <&cpu_p0 &cpu_p1 &cpu_p2 &cpu_p3>;
- 				};
- 			};
- 		};
--- 
-2.35.1
+Best regards,
+Krzysztof
 
