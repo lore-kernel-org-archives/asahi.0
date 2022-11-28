@@ -1,112 +1,106 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A108BF0
-	for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 13:14:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id A944D3FB17;
-	Mon, 28 Nov 2022 13:14:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1669641291; bh=FIkQB5lmPZ4s9NS7JtxyZUKE03ixueajpd0v6qEFWhY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=I4j7QaFyIkkiCf6wp4xp7IiFLrNgBX4uvHR4J9RZSgrRabszG/xGCknbFN3Lsv5Vt
-	 eB38csaqIghQPRuYpLkZBflq9ZVQT2tNkF7uLYihmOQFdHWF4bw63mdMOJdDo6zasE
-	 dWuaDG7P+Im0nFkATFeSsX4LNJD6dj0/vajMo64hv3GfX8ObB7fK8d17l5cpTJIjPg
-	 xqorCK/GyExauyLoVS0aww8QuYdWwrUoNMcCi780QD4BbKvBPDFy7ihYcEC8jjtG4t
-	 YW0S//3Ymvu8jP6Sf6HXGI8CFPM//rQW0LNGaHHZ53BfCWPIBHIXaNqWzVGoaWmSbj
-	 qD5lfyPZGXvgw==
-Message-ID: <0b250757-b7b4-2df9-5d16-1b540fa85b0d@marcan.st>
-Date: Mon, 28 Nov 2022 22:14:43 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AB48BF0
+	for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 14:15:03 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id t62so11634518oib.12
+        for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 06:15:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rMDrKJM1JYq9frHiDAV6QjHrjgaT+Wd+P/w7Ou0pGrc=;
+        b=qwXU+lwqLh52E04NDQcqMT2mUD4XrY0PSyGjHtGl47EHxkeyiXmDjU8gWXg3QH2QGy
+         ZwMWtbFAfLnuyAGTTYXacGOMmeZJ7s7BiXZtjCpGNlYsSRoaWui5sBfp3vO67uKLx/oO
+         pZWBsrJuoBDxI/iniy+id3lNbft1QsepHW7mb7yRlYScS0UkjRy6mKeuHHKwzUAOtqBY
+         aQwD3VRRjpjK8rmHAUBqCc8JymlEujxxSEKy234WIVcNdKaDrFVYxD5AdGbicBbpk+7E
+         QKc5nUQdM6Bk2N9CD5Px0Ofmx40i3mr/nv0YdFtP200LrVM5F55Ou2snAKKCWLNhnATq
+         p6dw==
+X-Gm-Message-State: ANoB5pncG2A103/KxsxC23bIAaZpOz/2Gl7J7oY+aSqDIED4W8foKqQL
+	+onPVbcVVjW+P0lsldqoQA==
+X-Google-Smtp-Source: AA0mqf7GaLmT+j6KXYSEaDabzZGvwPVlEA86w3Pu8lzi8pqWtO//a4CTd3PVxjYaNKvONEotUcwvLA==
+X-Received: by 2002:a05:6808:22a1:b0:35b:8a39:ab76 with SMTP id bo33-20020a05680822a100b0035b8a39ab76mr8955735oib.196.1669644902054;
+        Mon, 28 Nov 2022 06:15:02 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id t12-20020a056870e74c00b001375188dae9sm5946085oak.16.2022.11.28.06.15.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Nov 2022 06:15:01 -0800 (PST)
+Received: (nullmailer pid 722965 invoked by uid 1000);
+	Mon, 28 Nov 2022 14:15:00 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v4 2/4] dt-bindings: cpufreq: apple,soc-cpufreq: Add
- binding for Apple SoC cpufreq
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Stephen Boyd <sboyd@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Marc Zyngier <maz@kernel.org>, Mark Kettenis <mark.kettenis@xs4all.nl>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
+From: Rob Herring <robh@kernel.org>
+To: Hector Martin <marcan@marcan.st>
+Cc: linux-arm-kernel@lists.infradead.org, Ulf Hansson <ulf.hansson@linaro.org>, Marc Zyngier <maz@kernel.org>, Sven Peter <sven@svenpeter.dev>, Matthias Brugger <matthias.bgg@gmail.com>, linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Mark Kettenis <mark.kettenis@xs4all.nl>, Viresh Kumar <viresh.kumar@linaro.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, devicetree@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, asahi@lists.linux.dev
+In-Reply-To: <20221128124216.13477-3-marcan@marcan.st>
 References: <20221128124216.13477-1-marcan@marcan.st>
  <20221128124216.13477-3-marcan@marcan.st>
- <0b608b1e-e7a0-0084-e691-6e957028dd90@linaro.org>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <0b608b1e-e7a0-0084-e691-6e957028dd90@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Message-Id: <166964486801.717655.2608444925832576232.robh@kernel.org>
+Subject: Re: [PATCH v4 2/4] dt-bindings: cpufreq: apple,soc-cpufreq: Add
+ binding for Apple SoC cpufreq
+Date: Mon, 28 Nov 2022 08:15:00 -0600
 
-On 28/11/2022 21.56, Krzysztof Kozlowski wrote:
-> On 28/11/2022 13:42, Hector Martin wrote:
->> This binding represents the cpufreq/DVFS hardware present in Apple SoCs.
->> The hardware has an independent controller per CPU cluster, and we
->> represent them as unique nodes in order to accurately describe the
->> hardware. The driver is responsible for binding them as a single cpufreq
->> device (in the Linux cpufreq model).
->>
->> Acked-by: Marc Zyngier <maz@kernel.org>
->> Signed-off-by: Hector Martin <marcan@marcan.st>
->> ---
->>  .../cpufreq/apple,cluster-cpufreq.yaml        | 117 ++++++++++++++++++
->>  1 file changed, 117 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
->> new file mode 100644
->> index 000000000000..a21271f73fc1
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
->> @@ -0,0 +1,117 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/cpufreq/apple,cluster-cpufreq.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Apple SoC cluster cpufreq device
->> +
->> +maintainers:
->> +  - Hector Martin <marcan@marcan.st>
->> +
->> +description: |
->> +  Apple SoCs (e.g. M1) have a per-cpu-cluster DVFS controller that is part of
->> +  the cluster management register block. This binding uses the standard
->> +  operating-points-v2 table to define the CPU performance states, with the
->> +  opp-level property specifying the hardware p-state index for that level.
->> +
->> +properties:
->> +  compatible:
->> +    oneOf:
->> +      - items:
->> +          - oneOf:
+
+On Mon, 28 Nov 2022 21:42:14 +0900, Hector Martin wrote:
+> This binding represents the cpufreq/DVFS hardware present in Apple SoCs.
+> The hardware has an independent controller per CPU cluster, and we
+> represent them as unique nodes in order to accurately describe the
+> hardware. The driver is responsible for binding them as a single cpufreq
+> device (in the Linux cpufreq model).
 > 
-> This is enum.
+> Acked-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> ---
+>  .../cpufreq/apple,cluster-cpufreq.yaml        | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+> 
 
-Sigh. Every single time I think the changes are too simple and I
-definitely don't need to run the DT checker this time.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-I'll send a v5 shortly because this is just me being an idiot.
+yamllint warnings/errors:
 
-> Any other changes? Your cover letter say quite unspecific "minor review
-> feedback"...
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml: properties:compatible:oneOf:0:items: 'anyOf' conditional failed, one must be fixed:
+	[{'oneOf': ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']}, {'const': 'apple,cluster-cpufreq'}] is not of type 'object', 'boolean'
+	'apple,t8103-cluster-cpufreq' is not of type 'object', 'boolean'
+	'apple,t8112-cluster-cpufreq' is not of type 'object', 'boolean'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml: properties:compatible:oneOf:0:items: 'oneOf' conditional failed, one must be fixed:
+	[{'oneOf': ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']}, {'const': 'apple,cluster-cpufreq'}] is not of type 'object'
+	['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq'] should not be valid under {'items': {'propertyNames': {'const': 'const'}, 'required': ['const']}}
+		hint: Use 'enum' rather than 'oneOf' + 'const' entries
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml: properties:compatible:oneOf:0:items: 'oneOf' conditional failed, one must be fixed:
+	[{'oneOf': ['apple,t8103-cluster-cpufreq', 'apple,t8112-cluster-cpufreq']}, {'const': 'apple,cluster-cpufreq'}] is not of type 'object'
+	Additional properties are not allowed ('oneOf' was unexpected)
+	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml: ignoring, error in schema: properties: compatible: oneOf: 0: items
+Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.example.dtb:0:0: /example-0/soc/performance-controller@210e20000: failed to match any schema with compatible: ['apple,t8103-cluster-cpufreq', 'apple,cluster-cpufreq']
+Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.example.dtb:0:0: /example-0/soc/performance-controller@210e20000: failed to match any schema with compatible: ['apple,t8103-cluster-cpufreq', 'apple,cluster-cpufreq']
+Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.example.dtb:0:0: /example-0/soc/performance-controller@211e20000: failed to match any schema with compatible: ['apple,t8103-cluster-cpufreq', 'apple,cluster-cpufreq']
+Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.example.dtb:0:0: /example-0/soc/performance-controller@211e20000: failed to match any schema with compatible: ['apple,t8103-cluster-cpufreq', 'apple,cluster-cpufreq']
 
-For the DT, the things you asked for ;) (this, dropping the reg
-description, and the performance-controller thing).
+doc reference errors (make refcheckdocs):
 
-- Hector
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20221128124216.13477-3-marcan@marcan.st
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command.
+
