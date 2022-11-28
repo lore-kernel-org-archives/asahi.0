@@ -1,77 +1,113 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195072F5E
-	for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 11:57:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EAC181
+	for <asahi@lists.linux.dev>; Mon, 28 Nov 2022 12:42:51 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id A132541A36;
-	Mon, 28 Nov 2022 11:57:36 +0000 (UTC)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 6AEFE41E2F;
+	Mon, 28 Nov 2022 12:42:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1669636659; bh=EwJToLzTU9h6aco5n9NXZUfUVrHciJDtXP0+NrxOMN4=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=vAUs1d2xmDOZAYc5dlIyiS1spEYljgtDMqNxaLu4aT5AlxdajmKH+b2J88piBbOFW
-	 onPWgc9PC6IoXDLesSl9ycz1HWQwRhfSNusqM4qV/AULub8EJz6dVB2Q3aYqA+htfr
-	 a2rKEIyh3pwo3n/4ULDJ/HI/O7IPJ5MGw5qwXSYSBQEK1Tsyzm7I64UwZDnMm+GBJH
-	 PVBb/e3dOXeiD0Mn1UcWIZaan843DVKIuvJ9U8rK6gh36+xsqiHgGA7RMtxoVZYvuM
-	 aB8TKj1oKLZVYYwmSnIsXVAHI3srI2u/zSYeBnoXvHU2BYCPx4ynmMlsT9IX0r/M5z
-	 kzdRing6imHPw==
-Message-ID: <9410ffc0-3bc0-028d-cf67-b67bc54ef600@marcan.st>
-Date: Mon, 28 Nov 2022 20:57:34 +0900
+	t=1669639368; bh=1dxnUSDEvKYeE43lav3OHIW+vuIWNs74+BJaO5X2HgQ=;
+	h=From:To:Cc:Subject:Date;
+	b=P4XVKazWMVlXvD9Tnwcyve+7orDds3+LiOth/HZyYvEjUwhHG4HruZbvpTjOddcZv
+	 kT8+YDbhlibU6tOsK9rKanIrqhSsi6yhUDYtiJ6m9su7Vdd5Mte1VSehKFXNeuXf9x
+	 gDVMrO9Nnky1jGWX0L8Ltjmcuol2EHIzTHqnFW6rXSUD04kaaDPeUGjmQJq5BYp5K/
+	 nA79B1Tjsy9oVpPQm+9uGeK0daUbwkGtBZq5208n6R+zXKi/ROYdb7pZi2auQ7GHn/
+	 DFsypPJW3yA7XXBFsrP6bjaiI9hv0CgDkYotzXyO5bfXYqbIxXhro7aY0ItPb/y2q2
+	 OznqIDvV6IMPg==
+From: Hector Martin <marcan@marcan.st>
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Mark Kettenis <mark.kettenis@xs4all.nl>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/4] Apple SoC cpufreq driver
+Date: Mon, 28 Nov 2022 21:42:12 +0900
+Message-Id: <20221128124216.13477-1-marcan@marcan.st>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20221122220619.659174-1-robh@kernel.org>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH] arm64: dts: apple: Add t600x L1/L2 cache properties and
- nodes
-In-Reply-To: <20221122220619.659174-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 23/11/2022 07.06, Rob Herring wrote:
-> The t600x CPU nodes are missing the cache hierarchy information. The
-> cache hierarchy on Arm can not be detected and needs to be described in
-> DT. The OS scheduler can make use of this information for scheduling
-> decisions.
-> 
-> The cache size information is based on various articles about the
-> processors. There's also an L3 system level cache (SLC). It's not
-> described here because SLCs typically have some MMIO interface which
-> would need to be described.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Based on apple dts changes in linux-next.
-> 
-> This fixes the warning: Unable to detect cache hierarchy for CPU %d
-> ---
->  arch/arm64/boot/dts/apple/t6002.dtsi        | 51 +++++++++++++++++++++
->  arch/arm64/boot/dts/apple/t600x-common.dtsi | 51 +++++++++++++++++++++
->  2 files changed, 102 insertions(+)
-> 
-[...]
+Hi folks,
 
-Applied to asahi-soc/dt, thanks!
+Here's v4 of the cpufreq driver for Apple SoCs. v4 just incorporates
+minor review feedback changes from v3, and no functional changes.
 
-I probably won't send this one up until the 6.3 cycle; I've rebased our
-downstream bits/000-devicetree on top so it'll get some downstream
-testing before going upstream (and in the meantime someone should get
-around to adding these for the other chips too ;)).
+Once reviewed, please merge #3 via the cpufreq tree, and we'll take
+care of #1,#2,#4 via the asahi-soc tree. This lets us merge the DT
+changes in the same cycle without blocking on the binding coming in
+via the cpufreq tree first.
 
-Cheers,
-- Hector
+This version takes a page from both v1 and v2, keeping the dedicated
+cpufreq style (instead of pretending to be a clock controller) but using
+dedicated DT nodes for each cluster, which accurately represents the
+hardware. In particular, this makes supporting t6002 (M1 Ultra) a lot
+more reasonable on the DT side.
+
+This version also switches to the standard performance-domains binding,
+so we don't need any more vendor-specific properties. In order to
+support this, I had to make the performance-domains parsing code more
+generic. This required a minor change to the only consumer
+(mediatek-cpufreq-hw).
+
+The Linux driver probes based on platform compatible, and then attempts
+to locate the cluster nodes by following the performance-domains links
+from CPU nodes (this will then fail for any incompatible nodes, e.g. if
+a future SoC needs a new compatible and can't fall back). This approach
+was suggested by robh as the right way to handle the impedance mismatch
+between the hardware, which has separate controllers per cluster, and
+the Linux model where there can only be one CPUFreq driver instance.
+
+Functionality-wise, there are no significant changes from v2. The only
+notable difference is support for t8112 (M2). This works largely the
+same as the other SoCs, but they ran out of bits in the current PState
+register, so that needs a SoC-specific quirk. Since that register is
+not used by macOS (it was discovered experimentally) and is not critical
+for functionality (it just allows accurately reporting the current
+frequency to userspace, given boost clock limitations), I've decided to
+only use it when a SoC-specific compatible is present. The default
+fallback code will simply report the requested frequency as actual.
+I expect this will work for future SoCs.
+
+Hector Martin (4):
+  MAINTAINERS: Add entries for Apple SoC cpufreq driver
+  dt-bindings: cpufreq: apple,soc-cpufreq: Add binding for Apple SoC
+    cpufreq
+  cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states
+  arm64: dts: apple: Add CPU topology & cpufreq nodes for t8103
+
+ .../cpufreq/apple,cluster-cpufreq.yaml        | 117 ++++++
+ MAINTAINERS                                   |   2 +
+ arch/arm64/boot/dts/apple/t8103.dtsi          | 204 +++++++++-
+ drivers/cpufreq/Kconfig.arm                   |   9 +
+ drivers/cpufreq/Makefile                      |   1 +
+ drivers/cpufreq/apple-soc-cpufreq.c           | 352 ++++++++++++++++++
+ drivers/cpufreq/cpufreq-dt-platdev.c          |   2 +
+ 7 files changed, 677 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+ create mode 100644 drivers/cpufreq/apple-soc-cpufreq.c
+
+-- 
+2.35.1
+
