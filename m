@@ -1,21 +1,21 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F306E322A
-	for <asahi@lists.linux.dev>; Tue, 29 Nov 2022 13:22:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 621C5322A
+	for <asahi@lists.linux.dev>; Tue, 29 Nov 2022 13:22:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=qn+flxfGx6jn7uSJ/HmRl/Dxbu6gyoXo19fbbnqKF0g=; b=LhqTnDd7S3Av7Wr7heEz/NQswq
-	izh9jmcJT8ZoXr0c6tMyLD2ss8TwLlUT6gKUK/7a4gLRwpKE2Z6ugB5GKOkxg4SbkZT3wvYeriNmb
-	OVWOBR7wv6g7HFncSFWBtLlnnoIElOIVTs+5RFloXjiBemvg9wsPDtk81/nCk+ZDGcZCo6GNWQuYM
-	YFe4uOltUfeTv6D3cadH6QJ5I385tj1/7cKRYXeZcr1ctBrvOAeg8AlK5LQl+ExhWFD4toSj+yvDW
-	Oj14Mz1v9OVjgm2JXt1U6oPAeAWcSjpQALlyiQid+zOJGnIo00eXZMVBzCNkM4bIDI9tFu7kNS8JF
-	yEHL33Vg==;
+	bh=KKBmeYqsbzZo6HcXsM4V/24vGrVwbM7W2COZA8MhMTU=; b=wG30fC9GrzRvdkuCUmGJn5oiJf
+	XAAUiJPiVHi5YIiOGXsIlKuH7EsigH9ZsLOyM2b5Mf7Vd6rOqLIe//TVweeU36h3+Y/Zjp7/1iPxD
+	EgH8cen2zAIUNUxgIlOsCjNmI9JTdtpWOiIz9uzzgZ3J9IFtpFjU6IvcpmlxtB5FQMTeK7kltKg1F
+	dDVCkHeVYiyxuKDcsMkwJE+PHUuJqn5sDCL7xKLBo4c34poTp6vyz/7P+J5wJDaaFmSsywZCMFaUU
+	2Ry7Tnij9KuTVydU0/1q4mm/mGNiqatSqAFOamyg6FLFjgMW23/NP2D8sbjmAEELPa9lP1V3NtUT7
+	eRPTszVw==;
 Received: from [2001:4bb8:192:26e7:691d:40a8:d7b5:b2f5] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p00ZD-008lcE-59; Tue, 29 Nov 2022 13:22:31 +0000
+	id 1p00ZG-008ldO-1s; Tue, 29 Nov 2022 13:22:34 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Keith Busch <kbusch@kernel.org>,
 	Sagi Grimberg <sagi@grimberg.me>
@@ -25,9 +25,9 @@ Cc: James Smart <james.smart@broadcom.com>,
 	Sven Peter <sven@svenpeter.dev>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 6/9] nvme-pci: cleanup nvme_suspend_queue
-Date: Tue, 29 Nov 2022 14:22:05 +0100
-Message-Id: <20221129132208.4337-7-hch@lst.de>
+Subject: [PATCH 7/9] nvme-pci: rename nvme_disable_io_queues
+Date: Tue, 29 Nov 2022 14:22:06 +0100
+Message-Id: <20221129132208.4337-8-hch@lst.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20221129132208.4337-1-hch@lst.de>
 References: <20221129132208.4337-1-hch@lst.de>
@@ -40,66 +40,81 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Remove the unused returne value, pass a dev + qid instead of the queue
-as that is better for the callers as well as the function itself, and
-remove the entirely pointless kerneldoc comment.
+This function really deletes the I/O queues, so rename it to match
+the functionality.  Also move the main wrapper right next to the
+actual underlying implementation.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/nvme/host/pci.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/nvme/host/pci.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c3d9b23699d3f3..2c8dd0f7ef463b 100644
+index 2c8dd0f7ef463b..1b527377e35197 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1468,14 +1468,12 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
- 	}
- }
+@@ -109,7 +109,7 @@ struct nvme_dev;
+ struct nvme_queue;
  
--/**
-- * nvme_suspend_queue - put queue into suspended state
-- * @nvmeq: queue to suspend
-- */
--static int nvme_suspend_queue(struct nvme_queue *nvmeq)
-+static void nvme_suspend_queue(struct nvme_dev *dev, unsigned int qid)
- {
-+	struct nvme_queue *nvmeq = &dev->queues[qid];
-+
- 	if (!test_and_clear_bit(NVMEQ_ENABLED, &nvmeq->flags))
--		return 1;
-+		return;
- 
- 	/* ensure that nvme_queue_rq() sees NVMEQ_ENABLED cleared */
- 	mb();
-@@ -1484,8 +1482,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
- 		nvme_quiesce_admin_queue(&nvmeq->dev->ctrl);
- 	if (!test_and_clear_bit(NVMEQ_POLLED, &nvmeq->flags))
--		pci_free_irq(to_pci_dev(nvmeq->dev->dev), nvmeq->cq_vector, nvmeq);
--	return 0;
-+		pci_free_irq(to_pci_dev(dev->dev), nvmeq->cq_vector, nvmeq);
- }
- 
- static void nvme_suspend_io_queues(struct nvme_dev *dev)
-@@ -1493,7 +1490,7 @@ static void nvme_suspend_io_queues(struct nvme_dev *dev)
- 	int i;
- 
- 	for (i = dev->ctrl.queue_count - 1; i > 0; i--)
--		nvme_suspend_queue(&dev->queues[i]);
-+		nvme_suspend_queue(dev, i);
- }
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+-static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode);
++static void nvme_delete_io_queues(struct nvme_dev *dev);
  
  /*
-@@ -2695,7 +2692,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+@@ -2310,12 +2310,6 @@ static int nvme_setup_irqs(struct nvme_dev *dev, unsigned int nr_io_queues)
+ 			      PCI_IRQ_ALL_TYPES | PCI_IRQ_AFFINITY, &affd);
+ }
+ 
+-static void nvme_disable_io_queues(struct nvme_dev *dev)
+-{
+-	if (__nvme_disable_io_queues(dev, nvme_admin_delete_sq))
+-		__nvme_disable_io_queues(dev, nvme_admin_delete_cq);
+-}
+-
+ static unsigned int nvme_max_io_queues(struct nvme_dev *dev)
+ {
+ 	/*
+@@ -2423,7 +2417,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 
+ 	if (dev->online_queues - 1 < dev->max_qid) {
+ 		nr_io_queues = dev->online_queues - 1;
+-		nvme_disable_io_queues(dev);
++		nvme_delete_io_queues(dev);
+ 		result = nvme_setup_io_queues_trylock(dev);
+ 		if (result)
+ 			return result;
+@@ -2487,7 +2481,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ 	return 0;
+ }
+ 
+-static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
++static bool __nvme_delete_io_queues(struct nvme_dev *dev, u8 opcode)
+ {
+ 	int nr_queues = dev->online_queues - 1, sent = 0;
+ 	unsigned long timeout;
+@@ -2515,6 +2509,12 @@ static bool __nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
+ 	return true;
+ }
+ 
++static void nvme_delete_io_queues(struct nvme_dev *dev)
++{
++	if (__nvme_delete_io_queues(dev, nvme_admin_delete_sq))
++		__nvme_delete_io_queues(dev, nvme_admin_delete_cq);
++}
++
+ static void nvme_pci_alloc_tag_set(struct nvme_dev *dev)
+ {
+ 	struct blk_mq_tag_set * set = &dev->tagset;
+@@ -2687,7 +2687,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	nvme_quiesce_io_queues(&dev->ctrl);
+ 
+ 	if (!dead && dev->ctrl.queue_count > 0) {
+-		nvme_disable_io_queues(dev);
++		nvme_delete_io_queues(dev);
+ 		nvme_disable_ctrl(&dev->ctrl, shutdown);
  		nvme_poll_irqdisable(&dev->queues[0]);
  	}
- 	nvme_suspend_io_queues(dev);
--	nvme_suspend_queue(&dev->queues[0]);
-+	nvme_suspend_queue(dev, 0);
- 	pci_free_irq_vectors(pdev);
- 	if (pci_is_enabled(pdev)) {
- 		pci_disable_pcie_error_reporting(pdev);
 -- 
 2.30.2
 
