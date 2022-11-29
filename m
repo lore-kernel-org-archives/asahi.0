@@ -1,119 +1,117 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFF4322A
-	for <asahi@lists.linux.dev>; Tue, 29 Nov 2022 13:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=JDG7vM/8NNOflqy1G5WXsrxazrDkPcumfsjKP4vQD2Y=; b=mgIra+t5kGggcFnYP3gI+zaGUp
-	OHym+d5RjaHK/e9ZQeVMESaYrGQ+xjfyTDZ8+DW+8hB0ijOGxTwWvSQBVmAYIkWnsOfL5WM9uBHNX
-	1BXvJKcd/L4HIzzC+REt0HuS65YebS93gExorQOx1spHdpbZK6FArz0zX6ii+hUHVisjjHhQM5F0Z
-	qmljpNodzjaVTgRASyJD5zxCcyBMryhHKPWirGbDHAj0JPVAXDzo9sZdLqprNfnYqHvSO+Tp80gC5
-	mP/a3fRu9j8DdEq3Tu7pMpEZNcrkCGMqi187jRzHTOY7PG9L7Wj7ujhYMuV21rsLQ6ZytnNYepXni
-	zvZgkZVw==;
-Received: from [2001:4bb8:192:26e7:691d:40a8:d7b5:b2f5] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1p00ZM-008lhO-KE; Tue, 29 Nov 2022 13:22:41 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>
-Cc: James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	asahi@lists.linux.dev,
-	linux-nvme@lists.infradead.org
-Subject: [PATCH 9/9] nvme-pci: split out a nvme_pci_ctrl_is_dead helper
-Date: Tue, 29 Nov 2022 14:22:08 +0100
-Message-Id: <20221129132208.4337-10-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20221129132208.4337-1-hch@lst.de>
-References: <20221129132208.4337-1-hch@lst.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324E1322A
+	for <asahi@lists.linux.dev>; Tue, 29 Nov 2022 14:00:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 33E213FB17;
+	Tue, 29 Nov 2022 14:00:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1669730446; bh=adS46JVWH1WlaPbDZblMEFJYiqhfkyXnDs8IpAPLC2w=;
+	h=Date:To:Cc:References:From:Subject:In-Reply-To;
+	b=IWzbqBPmY10XvuyP3B89YIfdQPitUUc8VmOhJdYYoFvGO6o3rEW+9bPt3rhVg6WYw
+	 Io36r7PLmxsCpw+cSXJPEMJabwGTe+KLxK+R1UGR6mTj3wLIgKrOc0+uP2do0C5Kc4
+	 JpeYbXAxFezVdpDv7Lo2DsBIzYapRii4GyUd/zDt9HXVPgw7nfSMNDHiG4jwsD7IgX
+	 0f3nV4yp1tx0RHSlBf1wK9zh4OhDOhEuShnm8Y7Kdh8WY4jnL+171EqVQRHNS5Yxjz
+	 ESIDwC0CxOL39402m8cm6gFBkbIEG4vgtZT0BdOPx2p5/eR3l/8qEZYwoT6LC7nLQA
+	 65PJAxTtnhSyQ==
+Message-ID: <41c6882a-bff0-378c-edd3-160b54be7c1d@marcan.st>
+Date: Tue, 29 Nov 2022 23:00:38 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: en-US
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Stephen Boyd <sboyd@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20221128142912.16022-1-marcan@marcan.st>
+ <20221128142912.16022-3-marcan@marcan.st>
+ <CAPDyKFobMvef_BWGMR=7avODh2r5XNMGpwO3xYgrN-u=DqRwbg@mail.gmail.com>
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v5 2/4] dt-bindings: cpufreq: apple,soc-cpufreq: Add
+ binding for Apple SoC cpufreq
+In-Reply-To: <CAPDyKFobMvef_BWGMR=7avODh2r5XNMGpwO3xYgrN-u=DqRwbg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Clean up nvme_dev_disable by splitting the logic to detect if a
-controller is dead into a separate helper.
+On 29/11/2022 20.36, Ulf Hansson wrote:
+> On Mon, 28 Nov 2022 at 15:29, Hector Martin <marcan@marcan.st> wrote:
+>> +examples:
+>> +  - |
+>> +    // This example shows a single CPU per domain and 2 domains,
+>> +    // with two p-states per domain.
+>> +    // Shipping hardware has 2-4 CPUs per domain and 2-6 domains.
+>> +    cpus {
+>> +      #address-cells = <2>;
+>> +      #size-cells = <0>;
+>> +
+>> +      cpu@0 {
+>> +        compatible = "apple,icestorm";
+>> +        device_type = "cpu";
+>> +        reg = <0x0 0x0>;
+>> +        operating-points-v2 = <&ecluster_opp>;
+> 
+> To me, it looks like the operating-points-v2 phandle better belongs in
+> the performance-domains provider node. I mean, isn't the OPPs really a
+> description of the performance-domain provider?
+> 
+> That said, I suggest we try to extend the generic performance-domain
+> binding [1] with an "operating-points-v2". In that way, we should
+> instead be able to reference it from this binding.
+> 
+> In fact, that would be very similar to what already exists for the
+> generic power-domain binding [2]. I think it would be rather nice to
+> follow a similar pattern for the performance-domain binding.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- drivers/nvme/host/pci.c | 47 ++++++++++++++++++++++-------------------
- 1 file changed, 25 insertions(+), 22 deletions(-)
+While I agree with the technical rationale and the proposed approach
+being better in principle...
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 02940b4f42b104..d613b4292c0f95 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2654,36 +2654,39 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- 	pci_release_mem_regions(to_pci_dev(dev->dev));
- }
- 
--static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
-+static bool nvme_pci_ctrl_is_dead(struct nvme_dev *dev)
- {
--	bool dead = true, freeze = false;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	u32 csts;
- 
--	mutex_lock(&dev->shutdown_lock);
--	if (pci_is_enabled(pdev)) {
--		u32 csts;
-+	if (!pci_is_enabled(pdev) || !pci_device_is_present(pdev))
-+		return true;
-+	if (pdev->error_state != pci_channel_io_normal)
-+		return true;
- 
--		if (pci_device_is_present(pdev))
--			csts = readl(dev->bar + NVME_REG_CSTS);
--		else
--			csts = ~0;
-+	csts = readl(dev->bar + NVME_REG_CSTS);
-+	return (csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY);
-+}
-+
-+static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	bool dead;
- 
--		if (dev->ctrl.state == NVME_CTRL_LIVE ||
--		    dev->ctrl.state == NVME_CTRL_RESETTING) {
--			freeze = true;
-+	mutex_lock(&dev->shutdown_lock);
-+	dead = nvme_pci_ctrl_is_dead(dev);
-+	if (dev->ctrl.state == NVME_CTRL_LIVE ||
-+	    dev->ctrl.state == NVME_CTRL_RESETTING) {
-+		if (pci_is_enabled(pdev))
- 			nvme_start_freeze(&dev->ctrl);
--		}
--		dead = !!((csts & NVME_CSTS_CFS) || !(csts & NVME_CSTS_RDY) ||
--			pdev->error_state  != pci_channel_io_normal);
-+		/*
-+		 * Give the controller a chance to complete all entered requests
-+		 * if doing a safe shutdown.
-+		 */
-+		if (!dead && shutdown)
-+			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
- 	}
- 
--	/*
--	 * Give the controller a chance to complete all entered requests if
--	 * doing a safe shutdown.
--	 */
--	if (!dead && shutdown && freeze)
--		nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
--
- 	nvme_quiesce_io_queues(&dev->ctrl);
- 
- 	if (!dead && dev->ctrl.queue_count > 0) {
--- 
-2.30.2
+We're at v5 of bikeshedding this trivial driver's DT binding, and the
+comment could've been made at v3. To quote IRC just now:
 
+> this way the machines will be obsolete before things are fully upstreamed
+
+I think it's long overdue for the kernel community to take a deep look
+at itself and its development and review process, because it is quite
+honestly insane how pathologically inefficient it is compared to,
+basically, every other large and healthy open source project of similar
+or even greater impact and scope.
+
+Cc Linus, because this is for your Mac and I assume you care. We're at
+v5 here for this silly driver. Meanwhile, rmk recently threw the towel
+on upstreaming macsmc for us. We're trying, and I'll keep trying because
+I actually get paid (by very generous donors) to do this, but if I
+weren't I'd have given up a long time ago. And while I won't give up, I
+can't deny this situation affects my morale and willingness to keep
+pushing on upstreaming on a regular basis.
+
+Meanwhile, OpenBSD has been *shipping* full M1 support for a while now
+in official release images (and since Linux is the source of truth for
+DT bindings, every time we re-bikeshed it we break their users because
+they, quite reasonably, aren't interested in waiting for us Linux
+slowpokes to figure it out first).
+
+Please, let's introspect about this for a moment. Something is deeply
+broken if people with 25+ years being an arch maintainer can't get a
+700-line mfd driver upstreamed before giving up. I don't know how we
+expect to ever get a Rust GPU driver merged if it takes 6+ versions to
+upstream the world's easiest cpufreq hardware.
+
+- Hector
