@@ -1,59 +1,23 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329BC7E9
-	for <asahi@lists.linux.dev>; Wed, 30 Nov 2022 05:45:04 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so885433pjs.4
-        for <asahi@lists.linux.dev>; Tue, 29 Nov 2022 21:45:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kcop1gzwvrOWuYGccdr47O8voZqAmlt2zg16X+P522E=;
-        b=z41iTzbj/qN/MPAQ5F4zvwaDd9PpZTxY22drhP/5eyYFzjHcPHa79pM+kqyhKsCQ7/
-         v/hzsc62C1o0gTwrYjuGzFFxvVZxZg6pdRaB8aIRUYdgpEVWvRCy5U7qxNWMKGky7KKN
-         5NlS+CwQUx1VHmkZpABluXtWaRf+PsWkMm4SD8Xj/M37dYlRrxzIy8C+Qt7VG4fQgNGW
-         3I19hb8bCxftYcoL2+HUB2/RLSZ1tCQo675W9ca5de9rA5XMdHEZ/uGM9rEbND/OiKYN
-         j3XVw1yo4Mg6tUMt7VWoWZsDZ+vowH8/kIutoKY2Z2BSvUJNBLHgG4Q2z5S/rC85vbDv
-         xeZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kcop1gzwvrOWuYGccdr47O8voZqAmlt2zg16X+P522E=;
-        b=6sd69RjodhdfpoxYnxTsTcMZ+IFr1ZckqrhLtTuWkPkV9LtU54bYGI+yj6YJHBUIPf
-         Zc/ooMpbvve9FQHs8RdsSLgrfxYPxSjyNHn+Lu29h0YZHbGMU0Pq+/Fk9Y9Pm4YbC1en
-         xm6HgZ2NOuqdnsFGbV0EujyheRrmP4CNiyauuKDWqwo69w8BbBy/d5Hr8wE88epryhB5
-         70GYKC81qhV0C7OBL9/v1xMNTyODBvsp9YdM4TzYn90dEhORxqIiqlbfGTFfFpIqgOqW
-         WupBDmK/iyxd5wiPTXZ+m4pNGViV/GWztMA5NJ9zWluXmF+nC2idr2Ij8oJhfXYaNxgP
-         j4yg==
-X-Gm-Message-State: ANoB5pngtMfQkiDwCs10Whz6IwFMj720ovAO08KHyvM/VCOtlAnijG7U
-	V0u6znnRG1/upmu6WSEzDWJTNA==
-X-Google-Smtp-Source: AA0mqf6fvEC7PPByArPqHez7CyXgUfArEJ4SMUtjONXdpBqqiVfIleMT5tI/sdO5xAWpKyEdccQ3Rg==
-X-Received: by 2002:a17:903:44b:b0:189:9749:d3fe with SMTP id iw11-20020a170903044b00b001899749d3femr8917136plb.70.1669787103612;
-        Tue, 29 Nov 2022 21:45:03 -0800 (PST)
-Received: from localhost ([122.172.87.149])
-        by smtp.gmail.com with ESMTPSA id u8-20020a170903124800b00189a50d2a38sm362710plh.38.2022.11.29.21.45.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Nov 2022 21:45:03 -0800 (PST)
-Date: Wed, 30 Nov 2022 11:15:01 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>, Marc Zyngier <maz@kernel.org>,
-	Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/4] Apple SoC cpufreq driver
-Message-ID: <20221130054501.d65ajqzctsoyqemz@vireshk-i7>
-References: <20221128142912.16022-1-marcan@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AE363A8
+	for <asahi@lists.linux.dev>; Wed, 30 Nov 2022 13:57:54 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id EDB9368AFE; Wed, 30 Nov 2022 14:57:49 +0100 (CET)
+Date: Wed, 30 Nov 2022 14:57:49 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Pankaj Raghav <pankydev8@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	asahi@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: Re: [PATCH 2/9] nvme: use nvme_wait_ready in nvme_shutdown_ctrl
+Message-ID: <20221130135749.GA4786@lst.de>
+References: <20221129132208.4337-1-hch@lst.de> <20221129132208.4337-3-hch@lst.de> <20221129155718.poqztp4zudt47zmq@quentin>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -62,23 +26,121 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221128142912.16022-1-marcan@marcan.st>
+In-Reply-To: <20221129155718.poqztp4zudt47zmq@quentin>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On 28-11-22, 23:29, Hector Martin wrote:
-> Hi folks,
+On Tue, Nov 29, 2022 at 04:57:18PM +0100, Pankaj Raghav wrote:
+> The timeout_jiffies calculation in nvme_shutdown_ctrl is:
+> unsigned long timeout = jiffies + (ctrl->shutdown_timeout * HZ);
 > 
-> Here's v5 of the cpufreq driver for Apple SoCs. v5 just incorporates
-> minor review feedback changes from v3, and no functional changes. v4
-> had a DT schema SNAFU; this supersedes it.
-> 
-> Once reviewed, please merge #3 via the cpufreq tree, and we'll take
-> care of #1,#2,#4 via the asahi-soc tree. This lets us merge the DT
-> changes in the same cycle without blocking on the binding coming in
-> via the cpufreq tree first.
+> Aren't we changing the timeout with this change to something
+> different compared to what it was before for shutdown?
 
-For patches 1/2/4:
+Indeed.  the timeout fields in the spec are in a different granularity
+than the shutdown_timeout field.  This version should fix that:
 
-Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
+From 2f862232c4428d57dcfdc3b332866a9b2743711d Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Wed, 16 Nov 2022 08:54:26 +0100
+Subject: nvme: use nvme_wait_ready in nvme_shutdown_ctrl
 
+Refactor the code to wait for CSTS state changes so that it can be reused
+by nvme_shutdown_ctrl.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/core.c | 38 ++++++++++++--------------------------
+ 1 file changed, 12 insertions(+), 26 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7961e146bbb163..03b2e34dcf7249 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2252,16 +2252,17 @@ static const struct block_device_operations nvme_bdev_ops = {
+ 	.pr_ops		= &nvme_pr_ops,
+ };
+ 
+-static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 timeout, bool enabled)
++static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 mask, u32 val,
++		u32 timeout, const char *op)
+ {
+-	unsigned long timeout_jiffies = ((timeout + 1) * HZ / 2) + jiffies;
+-	u32 csts, bit = enabled ? NVME_CSTS_RDY : 0;
++	unsigned long timeout_jiffies = jiffies + timeout * HZ;
++	u32 csts;
+ 	int ret;
+ 
+ 	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts)) == 0) {
+ 		if (csts == ~0)
+ 			return -ENODEV;
+-		if ((csts & NVME_CSTS_RDY) == bit)
++		if ((csts & mask) == val)
+ 			break;
+ 
+ 		usleep_range(1000, 2000);
+@@ -2270,7 +2271,7 @@ static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 timeout, bool enabled)
+ 		if (time_after(jiffies, timeout_jiffies)) {
+ 			dev_err(ctrl->device,
+ 				"Device not ready; aborting %s, CSTS=0x%x\n",
+-				enabled ? "initialisation" : "reset", csts);
++				op, csts);
+ 			return -ENODEV;
+ 		}
+ 	}
+@@ -2297,8 +2298,8 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl)
+ 
+ 	if (ctrl->quirks & NVME_QUIRK_DELAY_BEFORE_CHK_RDY)
+ 		msleep(NVME_QUIRK_DELAY_AMOUNT);
+-
+-	return nvme_wait_ready(ctrl, NVME_CAP_TIMEOUT(ctrl->cap), false);
++	return nvme_wait_ready(ctrl, NVME_CSTS_RDY, 0,
++			       (NVME_CAP_TIMEOUT(ctrl->cap) + 1) / 2, "reset");
+ }
+ EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
+ 
+@@ -2363,14 +2364,13 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl)
+ 	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
+ 	if (ret)
+ 		return ret;
+-	return nvme_wait_ready(ctrl, timeout, true);
++	return nvme_wait_ready(ctrl, NVME_CSTS_RDY, NVME_CSTS_RDY,
++			       (timeout + 1) / 2, "initialisation");
+ }
+ EXPORT_SYMBOL_GPL(nvme_enable_ctrl);
+ 
+ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	unsigned long timeout = jiffies + (ctrl->shutdown_timeout * HZ);
+-	u32 csts;
+ 	int ret;
+ 
+ 	ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
+@@ -2379,22 +2379,8 @@ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
+ 	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
+ 	if (ret)
+ 		return ret;
+-
+-	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts)) == 0) {
+-		if ((csts & NVME_CSTS_SHST_MASK) == NVME_CSTS_SHST_CMPLT)
+-			break;
+-
+-		msleep(100);
+-		if (fatal_signal_pending(current))
+-			return -EINTR;
+-		if (time_after(jiffies, timeout)) {
+-			dev_err(ctrl->device,
+-				"Device shutdown incomplete; abort shutdown\n");
+-			return -ENODEV;
+-		}
+-	}
+-
+-	return ret;
++	return nvme_wait_ready(ctrl, NVME_CSTS_SHST_MASK, NVME_CSTS_SHST_CMPLT,
++			       ctrl->shutdown_timeout, "shutdown");
+ }
+ EXPORT_SYMBOL_GPL(nvme_shutdown_ctrl);
+ 
 -- 
-viresh
+2.30.2
+
