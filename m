@@ -1,174 +1,97 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6A563B3
-	for <asahi@lists.linux.dev>; Wed, 30 Nov 2022 14:36:18 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20221130142733euoutp0291aad8a542f16e31f95323b1b3c5754f~sYwlBu8MO1550015500euoutp02K
-	for <asahi@lists.linux.dev>; Wed, 30 Nov 2022 14:27:33 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20221130142733euoutp0291aad8a542f16e31f95323b1b3c5754f~sYwlBu8MO1550015500euoutp02K
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1669818453;
-	bh=Kscipv6BkawDOSIhKHFS9BVJt02cpjkFGfZxLKXFxx8=;
-	h=Date:Subject:To:CC:From:In-Reply-To:References:From;
-	b=mItj3jm3k5CzsWXU09dwqCLpiQZcWdIGideeaWQuTPZ8RXEIgmK7slUKCQqVH1QIV
-	 J80f/LtD1iji9LpAtdzhOM9T0c6Vvicz5iSiZqef9RMOnpSoyxYTNnF4B6CKsSmo5A
-	 vsaJ0vHByn2E270bZ6i2PwPKnY9+qwkx9dXrkTpY=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20221130142732eucas1p1f8053d94336162fc79acb2c34006ba94~sYwkh9GxN0107901079eucas1p1E;
-	Wed, 30 Nov 2022 14:27:32 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges3new.samsung.com (EUCPMTA) with SMTP id 26.9F.09549.45867836; Wed, 30
-	Nov 2022 14:27:32 +0000 (GMT)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20221130142732eucas1p1c6bf1882f8554331225f718c51056f08~sYwkK_-j-0107101071eucas1p1H;
-	Wed, 30 Nov 2022 14:27:32 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20221130142732eusmtrp10aefa271fb8236675af0ab8a279831fe~sYwkKO3LR3074230742eusmtrp1O;
-	Wed, 30 Nov 2022 14:27:32 +0000 (GMT)
-X-AuditID: cbfec7f5-f5dff7000000254d-e2-63876854535d
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id A9.4B.09026.45867836; Wed, 30
-	Nov 2022 14:27:32 +0000 (GMT)
-Received: from CAMSVWEXC02.scsc.local (unknown [106.1.227.72]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20221130142732eusmtip195eb22052abcc644c2ee2e9564ea36ea~sYwj-OE5z1762917629eusmtip1C;
-	Wed, 30 Nov 2022 14:27:32 +0000 (GMT)
-Received: from [192.168.8.141] (106.210.248.101) by CAMSVWEXC02.scsc.local
-	(2002:6a01:e348::6a01:e348) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
-	Wed, 30 Nov 2022 14:27:30 +0000
-Message-ID: <fc5d0a74-e4e9-38c7-3a93-ff1eb71e0054@samsung.com>
-Date: Wed, 30 Nov 2022 15:27:29 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3471E63C0
+	for <asahi@lists.linux.dev>; Wed, 30 Nov 2022 15:36:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1669822606; x=1701358606;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mFcTuiZmYcNs/FSZXRnVW3rxXkLgXGBo1VexLnJfNBo=;
+  b=HHJGGG2bBRsv0BFULKtUVARiHFyDMHh3QYvpm7o6C8+NTWUZYEJ6Tg8Y
+   Vj75Qlo8xmUUeB5AiiL2n8snbRq4tgfiOUVKJ2rHVa0syaVAxA+eVhFnu
+   68EQdJdUBO9tPlImyfzYgFbosvpRj4W1IncOy4P8DYNBlpkjTAFaurHYy
+   SbkT16S5Y5FrktIBRMc0wchyzHlaJep31W1NbCi2iiK7ZZ+VHgXJaHMfS
+   3jd/fIdo5n94XdCGlHZfIEG1cOKcvPBChsojbnEUhBUPRTmuBL3SBLgmk
+   BGpbPCOXAMjVHaAL4p2zHLT4YJQxEoMJyFCxC2+OVE7vtvVDT5iwJOLTI
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="377585577"
+X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
+   d="scan'208";a="377585577"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2022 07:36:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10547"; a="786503452"
+X-IronPort-AV: E=Sophos;i="5.96,206,1665471600"; 
+   d="scan'208";a="786503452"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 30 Nov 2022 07:36:40 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 30 Nov 2022 17:36:39 +0200
+Date: Wed, 30 Nov 2022 17:36:39 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sven Peter <sven@svenpeter.dev>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH] usb: typec: tipd: Set mode of operation for USB Type-C
+ connector
+Message-ID: <Y4d4h6N6EyOozkYS@kuha.fi.intel.com>
+References: <20221128162304.80125-1-sven@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
-	Thunderbird/102.4.2
-Subject: Re: [PATCH 2/9] nvme: use nvme_wait_ready in nvme_shutdown_ctrl
-To: Christoph Hellwig <hch@lst.de>, Pankaj Raghav <pankydev8@gmail.com>
-CC: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, James
-	Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	<asahi@lists.linux.dev>, <linux-nvme@lists.infradead.org>
-Content-Language: en-US
-From: Pankaj Raghav <p.raghav@samsung.com>
-In-Reply-To: <20221130135749.GA4786@lst.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [106.210.248.101]
-X-ClientProxiedBy: CAMSVWEXC01.scsc.local (2002:6a01:e347::6a01:e347) To
-	CAMSVWEXC02.scsc.local (2002:6a01:e348::6a01:e348)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKKsWRmVeSWpSXmKPExsWy7djP87ohGe3JBs92qVv8vMpnsXL1USaL
-	3Qs/MllMOnSN0eLp1VlMFvOXPWW3OH1tAbvFmptPWSzWvX7PYvHn9n8mBy6PWffPsnnsnHWX
-	3eP8vY0sHptWdbJ5bF5S7/Fi80xGj903G9g8Fi/byebR2/yOzaN/Xj9TAFcUl01Kak5mWWqR
-	vl0CV8aFGUfYC74JVfyYdYGtgXEGfxcjJ4eEgInEtxmbGLsYuTiEBFYwSszff5EdwvnCKLGy
-	eRILhPOZUeL9/8VAZRxgLbOemEHElzNKfDx6jxmu6OjaWVDObkaJGQtvg3XwCthJPH6VBbKP
-	RUBVYuP1/cwgNq+AoMTJmU9YQGxRgSiJpgs/wWxhAQ+JdV+uMILYIgLuEn2nf7GBzGQWmMYk
-	0bP1DBtIgllAXOLWk/lMIPPZBLQkGjvZQUxOAW2JFxdVICo0JVq3/2aHsOUltr+dwwzxsrLE
-	rFPnoOxaiVNbbjGBjJcQ2M8psfXORxaIhIvEx4t3oIqEJV4d38IOYctInJ7cA1VTLfH0xm9m
-	iOYWRon+nevZICFkLdF3JgeixlHiw/wdrBBhPokbbwUh7uGTmLRtOvMERtVZSCExC8ljs5C8
-	MAvJCwsYWVYxiqeWFuempxYb56WW6xUn5haX5qXrJefnbmIEprTT/45/3cG44tVHvUOMTByM
-	hxglOJiVRHg7PrclC/GmJFZWpRblxxeV5qQWH2KU5mBREudlm6GVLCSQnliSmp2aWpBaBJNl
-	4uCUamASW3Vgwn3+Vf7WWUFcPkGLLx5rlZnD/+3yr+oTpgecLnVUKKx8+/WE67RL+wpPiegs
-	djdTupf5IDE4+Nq0WvutC5ZXPVCLfOh7O+7mvr/btSPCfOfkrt9znSfLS4cjYX73v77azgeM
-	Jl8np1/6n2ltm9V9JeF57FmbfHv5Nflf8j/cmf37wOQ3ZXPK/pxW73JYwND+5Okh/X07xO3W
-	3d11aHUZ8+2XUxwX/tnzocjhUUJSwmMOzQ2KOQa810xKZ31dOGG+RpWZ3/X1x8MKbbV2XC7c
-	vbAjjD9J4saUEx8SXe7oipxcq35k96UmhbwG9qaltccKi2Se/G48suencaHIFAvJSS0ejWXf
-	xWZYV4enKrEUZyQaajEXFScCAL+rkXfYAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJIsWRmVeSWpSXmKPExsVy+t/xu7ohGe3JBudnCFr8vMpnsXL1USaL
-	3Qs/MllMOnSN0eLp1VlMFvOXPWW3OH1tAbvFmptPWSzWvX7PYvHn9n8mBy6PWffPsnnsnHWX
-	3eP8vY0sHptWdbJ5bF5S7/Fi80xGj903G9g8Fi/byebR2/yOzaN/Xj9TAFeUnk1RfmlJqkJG
-	fnGJrVK0oYWRnqGlhZ6RiaWeobF5rJWRqZK+nU1Kak5mWWqRvl2CXsaFGUfYC74JVfyYdYGt
-	gXEGfxcjB4eEgInErCdmXYxcHEICSxklPr+fwNrFyAkUl5H4dOUjO4QtLPHnWhcbRNFHRomt
-	zR+hnN2MEndbVzKCTOIVsJN4/CoLpIFFQFVi4/X9zCA2r4CgxMmZT1hAbFGBKImb5x8ygdjC
-	Ah4S675cYQSxRQTcJfpO/wKbySwwjUni04G9bCAJIYFPjBJvO2JBbGYBcYlbT+YzgexiE9CS
-	aOxkBzE5BbQlXlxUgajQlGjd/psdwpaX2P52DjPE/coSs06dg7JrJT7/fcY4gVF0FpLrZiFZ
-	MAvJqFlIRi1gZFnFKJJaWpybnltspFecmFtcmpeul5yfu4kRmAa2Hfu5ZQfjylcf9Q4xMnEw
-	HmKU4GBWEuHt+NyWLMSbklhZlVqUH19UmpNafIjRFBhEE5mlRJPzgYkoryTe0MzA1NDEzNLA
-	1NLMWEmc17OgI1FIID2xJDU7NbUgtQimj4mDU6qByfPUuZmviyMuncm38o861zXXNiPZd3mw
-	xu0QwQkRZtrvkn9XPeAPNlSPsijv2qovdbFCoey7RuK3iZs/8gjcufr6xBnr++GX71uGME0u
-	dLlbMXdqi/qHvDl2Tn+fyzbtex/auzO8zOmNXMltfYkD78QebPrcvq16/rNVJlXR889x6s2Z
-	cTX8AYvEZKXcRJ24/pJ768we1DLlXpkz/0Gx7c8tb/4YSgcozrHTjKm7OPmZ2BGuB2tuaekv
-	koxfMCc1WuTu7Y+erptXL/u6dErAygDx83xs5T0To87JB3kLvbrx6rqXpP/Hpu8eNXILU9uf
-	b193VOSl7Lca3y3Gfz0l4gNKAtw6LTQL4q8eOiomosRSnJFoqMVcVJwIAPsPQliMAwAA
-X-CMS-MailID: 20221130142732eucas1p1c6bf1882f8554331225f718c51056f08
-X-Msg-Generator: CA
-X-RootMTR: 20221130135758eucas1p2aaf96c2c7bee29c0f44e5714b0b159bc
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20221130135758eucas1p2aaf96c2c7bee29c0f44e5714b0b159bc
-References: <20221129132208.4337-1-hch@lst.de>
-	<20221129132208.4337-3-hch@lst.de> <20221129155718.poqztp4zudt47zmq@quentin>
-	<CGME20221130135758eucas1p2aaf96c2c7bee29c0f44e5714b0b159bc@eucas1p2.samsung.com>
-	<20221130135749.GA4786@lst.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221128162304.80125-1-sven@svenpeter.dev>
 
-On 2022-11-30 14:57, Christoph Hellwig wrote:
-> On Tue, Nov 29, 2022 at 04:57:18PM +0100, Pankaj Raghav wrote:
->> The timeout_jiffies calculation in nvme_shutdown_ctrl is:
->> unsigned long timeout = jiffies + (ctrl->shutdown_timeout * HZ);
->>
->> Aren't we changing the timeout with this change to something
->> different compared to what it was before for shutdown?
+On Mon, Nov 28, 2022 at 05:23:04PM +0100, Sven Peter wrote:
+> Forward the mode of operation to the typec subsystem such that it can
+> configure the mux correctly.
 > 
-> Indeed.  the timeout fields in the spec are in a different granularity
-> than the shutdown_timeout field.  This version should fix that:
-> 
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+
+Looks OK to me.
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
-> From 2f862232c4428d57dcfdc3b332866a9b2743711d Mon Sep 17 00:00:00 2001
-> From: Christoph Hellwig <hch@lst.de>
-> Date: Wed, 16 Nov 2022 08:54:26 +0100
-> Subject: nvme: use nvme_wait_ready in nvme_shutdown_ctrl
+>  drivers/usb/typec/tipd/core.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> Refactor the code to wait for CSTS state changes so that it can be reused
-> by nvme_shutdown_ctrl.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-
-One minor nit: I also notice that nvme_wait_ready busy loop sleeps for
-1~2ms, while the existing shutdown code busy loop sleeps for 100ms. Though,
-I don't think it is an issue.
-
-Apart from that, the new version looks good to me. Feel free to add to it:
-
-Reviewed-by: Pankaj Raghav <p.raghav@samsung.com>
-> ---
->  drivers/nvme/host/core.c | 38 ++++++++++++--------------------------
->  1 file changed, 12 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 7961e146bbb163..03b2e34dcf7249 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2252,16 +2252,17 @@ static const struct block_device_operations nvme_bdev_ops = {
->  	.pr_ops		= &nvme_pr_ops,
->  };
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index 982bd2cad931..46a4d8b128f0 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/regmap.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/usb/typec.h>
+> +#include <linux/usb/typec_altmode.h>
+>  #include <linux/usb/role.h>
 >  
-> -static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 timeout, bool enabled)
-> +static int nvme_wait_ready(struct nvme_ctrl *ctrl, u32 mask, u32 val,
-> +		u32 timeout, const char *op)
->  {
-> -	unsigned long timeout_jiffies = ((timeout + 1) * HZ / 2) + jiffies;
-> -	u32 csts, bit = enabled ? NVME_CSTS_RDY : 0;
-> +	unsigned long timeout_jiffies = jiffies + timeout * HZ;
-> +	u32 csts;
->  	int ret;
+>  #include "tps6598x.h"
+> @@ -257,6 +258,7 @@ static int tps6598x_connect(struct tps6598x *tps, u32 status)
+>  		typec_set_orientation(tps->port, TYPEC_ORIENTATION_REVERSE);
+>  	else
+>  		typec_set_orientation(tps->port, TYPEC_ORIENTATION_NORMAL);
+> +	typec_set_mode(tps->port, TYPEC_STATE_USB);
+>  	tps6598x_set_data_role(tps, TPS_STATUS_TO_TYPEC_DATAROLE(status), true);
 >  
->  	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts)) == 0) {
->  		if (csts == ~0)
->  			return -ENODEV;
-> -		if ((csts & NVME_CSTS_RDY) == bit)
-> +		if ((csts & mask) == val)
->  			break;
+>  	tps->partner = typec_register_partner(tps->port, &desc);
+> @@ -280,6 +282,7 @@ static void tps6598x_disconnect(struct tps6598x *tps, u32 status)
+>  	typec_set_pwr_role(tps->port, TPS_STATUS_TO_TYPEC_PORTROLE(status));
+>  	typec_set_vconn_role(tps->port, TPS_STATUS_TO_TYPEC_VCONN(status));
+>  	typec_set_orientation(tps->port, TYPEC_ORIENTATION_NONE);
+> +	typec_set_mode(tps->port, TYPEC_STATE_SAFE);
+>  	tps6598x_set_data_role(tps, TPS_STATUS_TO_TYPEC_DATAROLE(status), false);
 >  
->  		usleep_range(1000, 2000);
-<snip>
+>  	power_supply_changed(tps->psy);
 
-> -		msleep(100);
-> -		if (fatal_signal_pending(current))
-> -			return -EINTR;
+thanks,
+
+-- 
+heikki
