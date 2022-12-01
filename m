@@ -1,119 +1,61 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7B9D521
-	for <asahi@lists.linux.dev>; Thu,  1 Dec 2022 18:14:45 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id w2so1103815pfq.12
-        for <asahi@lists.linux.dev>; Thu, 01 Dec 2022 10:14:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+qiP+aVyEbFOin+Fo/Yz6dh5ehlyeto99kkZi+uNlNg=;
-        b=bLwHx176LOszJh7EjFmxlHoRSrusawe1m/8ONFIvi20Ao1VaNovHngA/dkeAr9PdM6
-         HXyqLmIOclACQAJz9XvahXKcNR64jiGkSV2gp2VVafJ/t/8EGFbJrIYhGEV1aMX5xqTt
-         j1+/A/Mk4bf9xbt+jBLBQywuGUSoPYAuKjqywUfWHdD/IzmCctJIGHC8g8PIOO8gna0z
-         LZ1558q3nJqSv++SBilMpXNgyiGoLv103hh+ZzCzwnxRfKvhjbtqZtXqMpc2D5h9/eVt
-         MSjyIjF5HqSDRPNLRETVpOLf/BOuCy2GfaRce6VtPi400GwVMFdkBA1JjPHuntxdehAV
-         hrPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+qiP+aVyEbFOin+Fo/Yz6dh5ehlyeto99kkZi+uNlNg=;
-        b=2SyRh0OrGTc5ktQsUhJ0E6an8gcO0wNNB/zB0ZXG9sOVAuxiwi0wjYYvTvHvddaW++
-         bPoao5LakYQelQb5rx9L5PTk1bNZkwctjmBimk9ekbKfgO7X8KvxJkK1ClQJ0qAXXAWe
-         twoAKYN29Ay+FlLFsoCksH30hin/a1VoJ0YPLVsnO9tJ6uU9+0cYaxm6AQ+2bqa8TIN+
-         3Zjmk141H5uW80GHJPSIVc+DOGDxntukJ7z3FIp7y6H+c5CkuuTYQ3G01O2IkyD/vm3Z
-         Moz9XZtQuFoTEwbYSZsuz6SdFe6VfIhOfDrkTjBG5N8cDyGL07noVpehjADJgeWTZpMi
-         Lofg==
-X-Gm-Message-State: ANoB5pkHD127M9dDsxoCUsPGH4q/D5qflyzg/No5yGr/1aG/MWUS0wj4
-	ruQ6On4gqa8PykJC8ixV0eiKqg==
-X-Google-Smtp-Source: AA0mqf4B6/UAlIPQX5wvlJ3k48CdDnGeviR46Lrs1HEVHn73FAxfx55icdrfZVrW9OOfLpFuIcVuaw==
-X-Received: by 2002:a62:1417:0:b0:575:c993:acbe with SMTP id 23-20020a621417000000b00575c993acbemr11000843pfu.2.1669918485410;
-        Thu, 01 Dec 2022 10:14:45 -0800 (PST)
-Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419? ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id b1-20020a63d801000000b0046ff7db0984sm2842628pgh.72.2022.12.01.10.14.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 10:14:45 -0800 (PST)
-Message-ID: <18c884cb-dd73-09eb-65da-604cf45cb1b4@daynix.com>
-Date: Fri, 2 Dec 2022 03:14:41 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB64AA20;
+	Thu,  1 Dec 2022 18:30:03 +0000 (UTC)
+Date: Thu, 1 Dec 2022 18:29:51 +0000
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 0/3] KVM: arm64: Handle CCSIDR associativity mismatches
+Message-ID: <Y4jyn+aMUGcaa6Ag@google.com>
+References: <20221201104914.28944-1-akihiko.odaki@daynix.com>
+ <867czbmlh1.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH] arch: arm64: dts: apple: Remove stdout-path
-Content-Language: en-US
-To: Hector Martin <marcan@marcan.st>, Mark Kettenis <mark.kettenis@xs4all.nl>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, alyssa@rosenzweig.io,
- sven@svenpeter.dev
-References: <20221201103651.27807-1-akihiko.odaki@daynix.com>
- <877czb42wk.fsf@bloch.sibelius.xs4all.nl>
- <c3b0cee9-032c-0447-37df-3ce5ce280e41@daynix.com>
- <ae89b38f-fd67-e0e5-1439-f376da985be8@marcan.st>
- <8b3c4fe0-4a81-ba47-2f01-3686cfdbd519@daynix.com>
- <647b6572-e5d1-d243-283e-616cef15a1f5@marcan.st>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <647b6572-e5d1-d243-283e-616cef15a1f5@marcan.st>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <867czbmlh1.wl-maz@kernel.org>
 
-On 2022/12/02 2:46, Hector Martin wrote:
-> On 02/12/2022 01.38, Akihiko Odaki wrote:
->>   >> In contrary, if you boot the kernel without the hypervisor
->>   >> feature and this change, you will completely lose the console.
->>   >
->>   > How so? The console goes to both places with stdout-path set to serial0.
->>   > What it *does* change is where input is accepted prior to getty startup
->>   > (which is why u-boot specifically conditions this on keyboard presence,
->>   > modulo the USB issue - because if you *don't* have a keyboard then tty
->>   > keyboard input is useless). But if you're booting kernels without u-boot
->>   > along the way, you're probably doing it from the hypervisor or linux.py
->>   > anyway, especially if you plan to do something like "init=/bin/sh",
->>   > because without u-boot (+ optionally some EFI loader) there is no way of
->>   > editing command line arguments at boot time stand-alone.
->>
->> Well, that is not exactly the behavior I saw. In my case, if stdout-path
->> is pointed to serial, there is no output on the framebuffer, and it just
->> printed "_".
->>
->> It looks like the kernel only outputs to either of serial and
->> framebuffer, not both.
-> 
-> That is not what I've seen in all of my hypervisor runs since the dawn
-> of time. You get log output on both.
-> 
->> What I experienced is that when I directly booted the kernel from m1n1
->> without hypervisor, it showed no output to the display even though the
->> same kernel worked with U-Boot. While I could tell it used wrong console
->> by running the hypervisor, I wondered why it behaves differently without
->> U-Boot, and found the aforementioned U-Boot change, coming up with this
->> patch.
-> 
-> Then it sounds like something else is different about our setups,
-> because I've booted the kernel from linux.py hundreds of times and I get
-> output on both. Looking through the console code, the VT console gets
-> added and enabled really early, and the subsequent serial console
-> registration later does not disable it.
-> 
-> Look for "console: colour dummy device 80x25". It should be immediately
-> followed by "printk: console [tty0] enabled", and this should all come
-> well before the ttySAC0 serial stuff shows up.
-> 
-> - Hector
+On Thu, Dec 01, 2022 at 11:06:50AM +0000, Marc Zyngier wrote:
 
-I think I understand the situation now. By "console", I was meaning the 
-input and output of init, but I failed to clarify that and you thought 
-it referring to kernel message output. I saw no messages earlier than 
-init because my kernel command line has loglevel=3.
+[...]
 
-Regards,
-Akihiko Odaki
+> It would be a lot better to expose a virtual topology
+> (one set, one way, one level). It would also save us from the CCSIDRX
+> silliness.
+> 
+> The only complexity would be to still accept different topologies from
+> userspace so that we can restore a VM saved before this virtual
+> topology.
+
+I generally agree that the reported topology is meaningless to
+non-secure software.
+
+However, with the cloud vendor hat on, I'm worried that inevitably some
+customer will inspect the cache topology of the VM we've provided them
+and complain.
+
+Could we extend your suggestion about accepting different topologies to
+effectively tolerate _any_ topology provided by userspace? KVM can
+default to the virtual topology, but a well-informed userspace could
+still provide different values to its guest. No point in trying to
+babyproofing the UAPI further, IMO.
+
+--
+Thanks,
+Oliver
