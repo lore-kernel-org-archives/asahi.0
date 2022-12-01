@@ -1,104 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C7779C0
-	for <asahi@lists.linux.dev>; Wed, 30 Nov 2022 19:50:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A978C43144
-	for <asahi@lists.linux.dev>; Wed, 30 Nov 2022 19:50:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1669837820;
-	bh=QOqw927fxRzrbF/F3Jnf30+Wco4wM1OzEviRcFlVUEM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=V3zEJ+E37k+PcTuehrx445ZgWfK+r063zKQF13cD/Q9IDc5a1UsKXM1vM0X3PxAW8
-	 5A+ubiQPnrThXbkKEw6Kas8R20BH+ZffyYOlLplY9Cz6jJzjpdQr/IKrLZGoe3Hw3V
-	 7KO0pKJnrRcemGaKShSL6r0H8va1Bb3nUOMqiZ7sP6zme8H4HOKDWoqmt3Z8K8yauc
-	 VFdkNnx4PeUcl6Amnm2yeRQ59w1vNAPMuX7E9taqMesk+ekaBkPRmsYtnUjScumNIg
-	 qvr5PiSgJ7PIzDXlula4TqQ+eexBUq8hqnQlv+3C/2UmD/HvlInYbEMbQT3/2MIvTL
-	 M762HhtGWxJwg==
-Received: by mail-vs1-f52.google.com with SMTP id 124so18397547vsv.4
-        for <asahi@lists.linux.dev>; Wed, 30 Nov 2022 11:50:20 -0800 (PST)
-X-Gm-Message-State: ANoB5plV5eLOhyeQzcgPl4qGf6LDiPSwAvwrDiGTy8xMu3S0Y4iI03Sw
-	WKS5ZUnayYVkrl4fDoDbknVV591HCNr1vhTlYg==
-X-Google-Smtp-Source: AA0mqf52Y1Vj9n3ybkEc5FmCE5sMcIYABT3Rc5wjqxKa7c1Iw7w12pQuxt5Kk2YnjZv2U8m3ZeRxCLTHwseH2sbP40I=
-X-Received: by 2002:a05:6102:2381:b0:3b0:c6ec:cc6a with SMTP id
- v1-20020a056102238100b003b0c6eccc6amr5171717vsr.0.1669837819471; Wed, 30 Nov
- 2022 11:50:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3790C1116
+	for <asahi@lists.linux.dev>; Thu,  1 Dec 2022 10:37:05 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id w37so1312203pga.5
+        for <asahi@lists.linux.dev>; Thu, 01 Dec 2022 02:37:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+WRkgKEIfnbIC3sboGx7at523Tajis/IinNKBu0g+f0=;
+        b=4aJjSaljnbWvmCdxfv2Tw8eNcPRlLQgtjkc95h7EWk4LbVtnRfG9yZ9085y/tbN/U+
+         uLYVvkAC3maD/srRId4iYVVZxanKsYrHI7De9MyJxn3JUkxTuRBnhuVBjtmYip+79p9F
+         Ea7P9w6ygdO6c1U5+imSJM2ONyKGZLfOeVeg0eiIpx65LYcNTarhKGvpr5hYydm2U4hi
+         dTjhtEh9F6txeCwAldKilSPo2brXCeRJufeELa0/WjcGjYMWwez6mejy8eIyOrhxWG7o
+         lRIfo84Taw3mifwHYsuzrM/Jg+gQrA2Y+jcUgGH6H/LHx2O6BLCbT8BR/Az3+R+9nUqa
+         QKaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+WRkgKEIfnbIC3sboGx7at523Tajis/IinNKBu0g+f0=;
+        b=acIuoi3zuIUV1x6tScN66LpEWMlgvDDuh+UgPN2r79ktlqZ1uDTGrYNfU1WoYlu23X
+         DW77UPrmHmUmvxdN1WoglG4s7U8Ei6Oc3Bwtk4BP3iHpb095khwbMbBoPrxPRwyAYwFm
+         BnUrE14zYNKrS6rj/rTTGLadSGDbgtQLqMoq3fNSp0BcXsPrIE1of+5ZQf7/qT9+T8g2
+         5xLZEtyUgHiCdI/ydvu8JFfOwHfIqlwbtbl5zCgFKBGpsoqCVUvkNvZYttYnHswcZ8aq
+         yvtWVR0GMTc5OKXc3NpP3nvn2oFRBsY5LwRMIcKpUhYPiVxI85+VJ9mHfWxWvqQIQdmx
+         gL+g==
+X-Gm-Message-State: ANoB5pk6ViNxg+GCs78uZnoXqDPDdJ8P6/oTNIMuGwvOPtCo9FvcgcGt
+	xuHDQ5acZsMnMFKu0pBav4OSGg==
+X-Google-Smtp-Source: AA0mqf43IR8AhUgxd1fohVg0/7ky938ImQTjBbMoTgnM3ajiZwSIxVkoEgYa1CSaTh7TSSmpgJi1iA==
+X-Received: by 2002:a05:6a00:216e:b0:56e:7b62:bba with SMTP id r14-20020a056a00216e00b0056e7b620bbamr46739385pff.55.1669891024654;
+        Thu, 01 Dec 2022 02:37:04 -0800 (PST)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id jx24-20020a17090b46d800b00213202d77d9sm2709877pjb.43.2022.12.01.02.37.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Dec 2022 02:37:04 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	asahi@lists.linux.dev,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>,
+	Hector Martin <marcan@marcan.st>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH] arch: arm64: dts: apple: Remove stdout-path
+Date: Thu,  1 Dec 2022 19:36:51 +0900
+Message-Id: <20221201103651.27807-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221128142912.16022-1-marcan@marcan.st> <20221128142912.16022-3-marcan@marcan.st>
- <CAPDyKFobMvef_BWGMR=7avODh2r5XNMGpwO3xYgrN-u=DqRwbg@mail.gmail.com>
- <41c6882a-bff0-378c-edd3-160b54be7c1d@marcan.st> <a297079e-2dc9-d311-5415-a58332e7a711@linaro.org>
- <e8c481ba-02a7-f1c7-6314-ea1ddf136998@marcan.st> <20221129232837.GA432535-robh@kernel.org>
-In-Reply-To: <20221129232837.GA432535-robh@kernel.org>
-From: Rob Herring <robh@kernel.org>
-Date: Wed, 30 Nov 2022 13:50:08 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJFEBFSeTrCc6QSCAN8C7rsiyoiy8D-9ZFr6Xk35TqhGg@mail.gmail.com>
-Message-ID: <CAL_JsqJFEBFSeTrCc6QSCAN8C7rsiyoiy8D-9ZFr6Xk35TqhGg@mail.gmail.com>
-Subject: Re: [PATCH v5 2/4] dt-bindings: cpufreq: apple,soc-cpufreq: Add
- binding for Apple SoC cpufreq
-To: Hector Martin <marcan@marcan.st>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Stephen Boyd <sboyd@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>, Mark Kettenis <mark.kettenis@xs4all.nl>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 29, 2022 at 5:28 PM Rob Herring <robh@kernel.org> wrote:
+u-boot overrides stdout-path so that it points to /chosen/framebuffer
+with some condition.
+> arm: apple: Point stdout-path to framebuffer when keyboard present
 >
-> On Wed, Nov 30, 2022 at 12:17:08AM +0900, Hector Martin wrote:
-> > On 29/11/2022 23.34, Krzysztof Kozlowski wrote:
-> > > On 29/11/2022 15:00, Hector Martin wrote:
-> > >> On 29/11/2022 20.36, Ulf Hansson wrote:
-> > >> Please, let's introspect about this for a moment. Something is deeply
-> > >> broken if people with 25+ years being an arch maintainer can't get a
-> > >
-> > > If arch maintainer sends patches which does not build (make
-> > > dt_binding_check), then what do you exactly expect? Accept them just
-> > > because it is 25+ years of experience or a maintainer? So we have
-> > > difference processes - for beginners code should compile. For
-> > > experienced people, it does not have to build because otherwise they
-> > > will get discouraged?
-> >
-> > I expect the process to not be so confusing and frustrating that a
-> > maintainer with 25+ years of experience gives up. That the bindings
-> > didn't pass the checker is besides the point. People say the Linux
-> > kernel community is hostile to newbies. This issue proves it's not just
-> > newbies, the process is failing even experienced folks.
->
-> IME, a lack of response is a bigger issue and more frustrating.
->
-> > On that specific issue, any other functional open source project would
-> > have the binding checks be a CI bot, with a friendly message telling you
-> > what to do to fix it, and it would re-run when you push to the PR again,
-> > which is a *much* lower friction action than sending a whole new patch
-> > series out for review via email (if you don't agree with this, then
-> > you're not the average contributor - the Linux kernel is by far the
-> > scariest major open source project to contribute to, and I think most
-> > people would agree with me on that).
->
-> We could probably add a $ci_provider job description to do that. In
-> fact, I did try that once[1]. The challenge would be what to run if
-> there's multiple maintainers doing something. Otherwise, it's a
-> maintainer creating their own thing which we have too much of already.
+> Unless you have a spare Apple Silicon machine, getting access to
+> the serial port on Apple Silicon machines requires special
+> hardware. Given that most machines come with a built-in screen
+> the framebuffer is likely to be the most convenient output device
+> for most users. While U-Boot will output to both serial and
+> framebuffer, OSes might not. Therefore set stdout-path to point
+> at /chosen/framebuffer when a keyboard is connected to the machine.
+https://github.com/AsahiLinux/u-boot/commit/a609353e82fd757b7635d18ed6a0828fff657d59
 
-Actually, turns out this pretty much already exists with my CI. I just
-had to turn on merge requests on the project. If anyone actually uses
-it, I'll have to tweak it to not do 'make dtbs_check' because that is
-really slow. And this all runs on my machines, so that is another
-issue. It already is just running it for patches on the list (which is
-a different CI job).
+Perhaps it made sense to specify serial0 as stdout-path when the
+framebuffer and keyboard support was inmature, but today it is
+preferrable to use /chosen/framebuffer instead of serial0 for the
+console in the most cases as the u-boot change states.
 
-Just create a MR here:
+Remove stdout-path to allow the kernel to choose the appropriate
+console. For Linux, it will be VT, which will be eventually backed by
+the framebuffer, if it is enabled. Otherwise, it will fall back to the
+serial.
 
-https://gitlab.com/robherring/linux-dt/-/merge_requests
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 2 --
+ arch/arm64/boot/dts/apple/t600x-j375.dtsi      | 2 --
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi      | 2 --
+ arch/arm64/boot/dts/apple/t8112-jxxx.dtsi      | 2 --
+ 4 files changed, 8 deletions(-)
 
-Rob
+diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
+index 5547f5e7ac5a..14b6bf234f82 100644
+--- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
+@@ -30,8 +30,6 @@ chosen {
+ 		#size-cells = <2>;
+ 		ranges;
+ 
+-		stdout-path = "serial0";
+-
+ 		framebuffer0: framebuffer@0 {
+ 			compatible = "apple,simple-framebuffer", "simple-framebuffer";
+ 			reg = <0 0 0 0>; /* To be filled by loader */
+diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+index 7c207b1df949..22e96b436bf2 100644
+--- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+@@ -28,8 +28,6 @@ chosen {
+ 		#size-cells = <2>;
+ 		ranges;
+ 
+-		stdout-path = "serial0";
+-
+ 		framebuffer0: framebuffer@0 {
+ 			compatible = "apple,simple-framebuffer", "simple-framebuffer";
+ 			reg = <0 0 0 0>; /* To be filled by loader */
+diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+index 3c5da0e5a41d..d2483f618d44 100644
+--- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+@@ -27,8 +27,6 @@ chosen {
+ 		#size-cells = <2>;
+ 		ranges;
+ 
+-		stdout-path = "serial0";
+-
+ 		framebuffer0: framebuffer@0 {
+ 			compatible = "apple,simple-framebuffer", "simple-framebuffer";
+ 			reg = <0 0 0 0>; /* To be filled by loader */
+diff --git a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
+index b6b815d93c3e..af4153dcb55d 100644
+--- a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
++++ b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
+@@ -22,8 +22,6 @@ chosen {
+ 		#size-cells = <2>;
+ 		ranges;
+ 
+-		stdout-path = "serial0";
+-
+ 		framebuffer0: framebuffer@0 {
+ 			compatible = "apple,simple-framebuffer", "simple-framebuffer";
+ 			reg = <0 0 0 0>; /* To be filled by loader */
+-- 
+2.38.1
+
