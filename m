@@ -1,151 +1,524 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE0C10F6
-	for <asahi@lists.linux.dev>; Thu,  1 Dec 2022 16:38:29 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id h28so2352354pfq.9
-        for <asahi@lists.linux.dev>; Thu, 01 Dec 2022 08:38:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8ktaBf+m+7zsCEDxnoaX5mo2FVAO2+XdFUnqxLpyGNw=;
-        b=mA7VeMKgH/C+/BL1ppc+N9wU4CejHE+DMIURYuGvfocw1ZcCKphtlPDzo+27wwskjG
-         O1BaMMyilZbgbS7mX0ixrsn+OHqZtW8oEO8kADSp5D2YLJBvjkJ3oTLMDc7SaS70rdft
-         i495mS3a0TYQH3D7DC1n/dTlrIXhwB+AvvhBqmbpD46KjxX6ULRIEyygJ1IhrCZ5XzkE
-         MMMqimGq5z5RC1Pv+baZ1v8Cv0RrhxI2IgXaXp6pRMqB6aFSlBnMpmie8vFEdFKTigqk
-         7LwwzG7bIu9mfvNKYpqJ9WJPQWsP47LlxpQ0DUPETXOGQUGvAl7AKcW3coLmIBRtBdKf
-         5bHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8ktaBf+m+7zsCEDxnoaX5mo2FVAO2+XdFUnqxLpyGNw=;
-        b=scuFiCg+T7bIWAKMUyh3ztrvI6/rDHEPuWrmm9eHz6+JDLvHCX9CHxKcwY6vN5klRS
-         KvG378R53/SzWK1j9AUSG2boGainAu+LJtzlwxzkFxATYxMJK+b+l5eyHs720E51ItfJ
-         LN5Mxo6F7v65mt0U/cIKNYoOJliGAYW12yeyVZ38NOZjH6IbJcBJ3DiTkByCxIwetb40
-         y4YX58QUYDZGlX+3zxJAk98XrhPk2K1Z+RFpaIdyQK4CEjM8ThO4915tGQe4NwtwvzMS
-         +7SxWUZzfRs1fu/pt86hyu5zggLLWOwdwP2nHWwCUiE5GsfEFIE9vbzVxLzud3tCr3s3
-         LIOQ==
-X-Gm-Message-State: ANoB5plLp/7j1KHH+4l9rE3wfiuq60UZnOSfIXBm+J5wWMjw+/Wv569/
-	hyyuTJJLwP7RnrO6K+Mp3aNC7g==
-X-Google-Smtp-Source: AA0mqf71fmql0yVOroUO352Tyegi4ufTC7eSD+civWVFv4uppvX9jsZvHlH4/5tw9e0rlYBITxqOuQ==
-X-Received: by 2002:a05:6a00:1d0c:b0:573:7b50:acb8 with SMTP id a12-20020a056a001d0c00b005737b50acb8mr51202930pfx.59.1669912709020;
-        Thu, 01 Dec 2022 08:38:29 -0800 (PST)
-Received: from ?IPV6:2400:4050:c360:8200:7b99:f7c3:d084:f1e2? ([2400:4050:c360:8200:7b99:f7c3:d084:f1e2])
-        by smtp.gmail.com with ESMTPSA id x28-20020aa78f1c000000b0056c349f5c70sm3448592pfr.79.2022.12.01.08.38.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 08:38:28 -0800 (PST)
-Message-ID: <8b3c4fe0-4a81-ba47-2f01-3686cfdbd519@daynix.com>
-Date: Fri, 2 Dec 2022 01:38:25 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266387473
+	for <asahi@lists.linux.dev>; Thu,  1 Dec 2022 16:54:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id A9D2241F98;
+	Thu,  1 Dec 2022 16:54:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1669913683; bh=nogEBZiP4Pq9k70q1r1Sq2fpcE7vD0XmA4xsz0zgPB8=;
+	h=From:To:Cc:Subject:Date;
+	b=m+HqsX80i/hTevzBoiCOp1gnSN6JMGTjAy33KWRmPgUkZtUE4CVEfiL3fZoCXgFwN
+	 8ovO7Qrf9XfefvDsvhKf39k+GF9xbl+eKQkbXQd0QMRL8bQpgoI7wfc+Qd022HKOCi
+	 53YAsr3uDXHHGZsd4H0ExEUvyDJcGxGGrZmoA+FfWP5LSZtrvBai/2E9qZgqOA+QdH
+	 uCt0hIwGZN3IchgomdMasygBVCaG9SW++4Cw+gtbkRwGrJhU/3ppgVkI7NIm5ywBo7
+	 hA1VI0nLaLEu1r6I2hk7ux7OIrY13q9ng+YjqG5G1Tnm2G9xvlhYilvxyorZsXHVly
+	 mgjLDH/fS4KYg==
+From: Hector Martin <marcan@marcan.st>
+To: Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: Mark Kettenis <kettenis@openbsd.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>
+Subject: [PATCH] arm64: dts: apple: Add CPU topology & cpufreq nodes for t600x
+Date: Fri,  2 Dec 2022 01:53:45 +0900
+Message-Id: <20221201165344.32505-1-marcan@marcan.st>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH] arch: arm64: dts: apple: Remove stdout-path
-Content-Language: en-US
-To: Hector Martin <marcan@marcan.st>, Mark Kettenis <mark.kettenis@xs4all.nl>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, alyssa@rosenzweig.io,
- sven@svenpeter.dev
-References: <20221201103651.27807-1-akihiko.odaki@daynix.com>
- <877czb42wk.fsf@bloch.sibelius.xs4all.nl>
- <c3b0cee9-032c-0447-37df-3ce5ce280e41@daynix.com>
- <ae89b38f-fd67-e0e5-1439-f376da985be8@marcan.st>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <ae89b38f-fd67-e0e5-1439-f376da985be8@marcan.st>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Add the missing CPU topology/capacity information and the cpufreq nodes,
+so we can have CPU frequency scaling and the scheduler has the
+information it needs to make the correct decisions.
 
-Thank you for reviewing and detailed explanation.
+As with t8103, boost states are commented out pending PSCI/etc support
+for deep sleep states.
 
-I'm withdrawing this patch. As you pointed out it makes earlycon 
-difficult, which is serious in development workflow. As a normal user 
-will use U-Boot, which changes stdout-path if appropriate, this kind of 
-change should be designed to make development easier, and this change 
-does the opposite.
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+ arch/arm64/boot/dts/apple/t6002.dtsi        |  72 +++++++-
+ arch/arm64/boot/dts/apple/t600x-common.dtsi | 186 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t600x-dieX.dtsi   |  18 ++
+ 3 files changed, 275 insertions(+), 1 deletion(-)
 
-On 2022/12/02 0:46, Hector Martin wrote:
- > On 02/12/2022 00.19, Akihiko Odaki wrote:
- >> So I think we should think more about the case when the kernel is booted
- >> from m1n1. When using its hypervisor feature, it is more likely that you
- >> want console on serial and and that is the opposite of this change.
- >> However, it is still possible to get the console on framebuffer with
- >> keyboard.
- >
- > Except if the framebuffer is broken, or everything is broken and it
- > hangs on early boot, which happens all the time when I'm debugging using
- > the hypervisor. Or maybe I'm just SSHing in remotely and not physically
- > in front of the machine, which is also often the case. Or maybe I'm just
- > booting headless because I didn't feel like swapping around the HDMI 
-cable.
+diff --git a/arch/arm64/boot/dts/apple/t6002.dtsi b/arch/arm64/boot/dts/apple/t6002.dtsi
+index 731d61fbb05f..15da2c7eb1fe 100644
+--- a/arch/arm64/boot/dts/apple/t6002.dtsi
++++ b/arch/arm64/boot/dts/apple/t6002.dtsi
+@@ -23,6 +23,47 @@ / {
+ 	#size-cells = <2>;
+ 
+ 	cpus {
++		cpu-map {
++			cluster3 {
++				core0 {
++					cpu = <&cpu_e10>;
++				};
++				core1 {
++					cpu = <&cpu_e11>;
++				};
++			};
++
++			cluster4 {
++				core0 {
++					cpu = <&cpu_p20>;
++				};
++				core1 {
++					cpu = <&cpu_p21>;
++				};
++				core2 {
++					cpu = <&cpu_p22>;
++				};
++				core3 {
++					cpu = <&cpu_p23>;
++				};
++			};
++
++			cluster5 {
++				core0 {
++					cpu = <&cpu_p30>;
++				};
++				core1 {
++					cpu = <&cpu_p31>;
++				};
++				core2 {
++					cpu = <&cpu_p32>;
++				};
++				core3 {
++					cpu = <&cpu_p33>;
++				};
++			};
++		};
++
+ 		cpu_e10: cpu@800 {
+ 			compatible = "apple,icestorm";
+ 			device_type = "cpu";
+@@ -32,6 +73,9 @@ cpu_e10: cpu@800 {
+ 			next-level-cache = <&l2_cache_3>;
+ 			i-cache-size = <0x20000>;
+ 			d-cache-size = <0x10000>;
++			operating-points-v2 = <&icestorm_opp>;
++			capacity-dmips-mhz = <714>;
++			performance-domains = <&cpufreq_e_die1>;
+ 		};
+ 
+ 		cpu_e11: cpu@801 {
+@@ -43,6 +87,9 @@ cpu_e11: cpu@801 {
+ 			next-level-cache = <&l2_cache_3>;
+ 			i-cache-size = <0x20000>;
+ 			d-cache-size = <0x10000>;
++			operating-points-v2 = <&icestorm_opp>;
++			capacity-dmips-mhz = <714>;
++			performance-domains = <&cpufreq_e_die1>;
+ 		};
+ 
+ 		cpu_p20: cpu@10900 {
+@@ -54,6 +101,9 @@ cpu_p20: cpu@10900 {
+ 			next-level-cache = <&l2_cache_4>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p0_die1>;
+ 		};
+ 
+ 		cpu_p21: cpu@10901 {
+@@ -65,6 +115,9 @@ cpu_p21: cpu@10901 {
+ 			next-level-cache = <&l2_cache_4>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p0_die1>;
+ 		};
+ 
+ 		cpu_p22: cpu@10902 {
+@@ -76,6 +129,9 @@ cpu_p22: cpu@10902 {
+ 			next-level-cache = <&l2_cache_4>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p0_die1>;
+ 		};
+ 
+ 		cpu_p23: cpu@10903 {
+@@ -87,6 +143,9 @@ cpu_p23: cpu@10903 {
+ 			next-level-cache = <&l2_cache_4>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p0_die1>;
+ 		};
+ 
+ 		cpu_p30: cpu@10a00 {
+@@ -98,6 +157,9 @@ cpu_p30: cpu@10a00 {
+ 			next-level-cache = <&l2_cache_5>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p1_die1>;
+ 		};
+ 
+ 		cpu_p31: cpu@10a01 {
+@@ -109,6 +171,9 @@ cpu_p31: cpu@10a01 {
+ 			next-level-cache = <&l2_cache_5>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p1_die1>;
+ 		};
+ 
+ 		cpu_p32: cpu@10a02 {
+@@ -120,6 +185,9 @@ cpu_p32: cpu@10a02 {
+ 			next-level-cache = <&l2_cache_5>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p1_die1>;
+ 		};
+ 
+ 		cpu_p33: cpu@10a03 {
+@@ -131,6 +199,9 @@ cpu_p33: cpu@10a03 {
+ 			next-level-cache = <&l2_cache_5>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p1_die1>;
+ 		};
+ 
+ 		l2_cache_3: l2-cache-3 {
+@@ -206,7 +277,6 @@ &die1 {
+ #undef DIE
+ #undef DIE_NO
+ 
+-
+ &aic {
+ 	affinities {
+ 		e-core-pmu-affinity {
+diff --git a/arch/arm64/boot/dts/apple/t600x-common.dtsi b/arch/arm64/boot/dts/apple/t600x-common.dtsi
+index e2568d914719..fa8ead699363 100644
+--- a/arch/arm64/boot/dts/apple/t600x-common.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-common.dtsi
+@@ -15,6 +15,47 @@ cpus {
+ 		#address-cells = <2>;
+ 		#size-cells = <0>;
+ 
++		cpu-map {
++			cluster0 {
++				core0 {
++					cpu = <&cpu_e00>;
++				};
++				core1 {
++					cpu = <&cpu_e01>;
++				};
++			};
++
++			cluster1 {
++				core0 {
++					cpu = <&cpu_p00>;
++				};
++				core1 {
++					cpu = <&cpu_p01>;
++				};
++				core2 {
++					cpu = <&cpu_p02>;
++				};
++				core3 {
++					cpu = <&cpu_p03>;
++				};
++			};
++
++			cluster2 {
++				core0 {
++					cpu = <&cpu_p10>;
++				};
++				core1 {
++					cpu = <&cpu_p11>;
++				};
++				core2 {
++					cpu = <&cpu_p12>;
++				};
++				core3 {
++					cpu = <&cpu_p13>;
++				};
++			};
++		};
++
+ 		cpu_e00: cpu@0 {
+ 			compatible = "apple,icestorm";
+ 			device_type = "cpu";
+@@ -24,6 +65,9 @@ cpu_e00: cpu@0 {
+ 			next-level-cache = <&l2_cache_0>;
+ 			i-cache-size = <0x20000>;
+ 			d-cache-size = <0x10000>;
++			operating-points-v2 = <&icestorm_opp>;
++			capacity-dmips-mhz = <714>;
++			performance-domains = <&cpufreq_e>;
+ 		};
+ 
+ 		cpu_e01: cpu@1 {
+@@ -35,6 +79,9 @@ cpu_e01: cpu@1 {
+ 			next-level-cache = <&l2_cache_0>;
+ 			i-cache-size = <0x20000>;
+ 			d-cache-size = <0x10000>;
++			operating-points-v2 = <&icestorm_opp>;
++			capacity-dmips-mhz = <714>;
++			performance-domains = <&cpufreq_e>;
+ 		};
+ 
+ 		cpu_p00: cpu@10100 {
+@@ -46,6 +93,9 @@ cpu_p00: cpu@10100 {
+ 			next-level-cache = <&l2_cache_1>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p0>;
+ 		};
+ 
+ 		cpu_p01: cpu@10101 {
+@@ -57,6 +107,9 @@ cpu_p01: cpu@10101 {
+ 			next-level-cache = <&l2_cache_1>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p0>;
+ 		};
+ 
+ 		cpu_p02: cpu@10102 {
+@@ -68,6 +121,9 @@ cpu_p02: cpu@10102 {
+ 			next-level-cache = <&l2_cache_1>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p0>;
+ 		};
+ 
+ 		cpu_p03: cpu@10103 {
+@@ -79,6 +135,9 @@ cpu_p03: cpu@10103 {
+ 			next-level-cache = <&l2_cache_1>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p0>;
+ 		};
+ 
+ 		cpu_p10: cpu@10200 {
+@@ -90,6 +149,9 @@ cpu_p10: cpu@10200 {
+ 			next-level-cache = <&l2_cache_2>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p1>;
+ 		};
+ 
+ 		cpu_p11: cpu@10201 {
+@@ -101,6 +163,9 @@ cpu_p11: cpu@10201 {
+ 			next-level-cache = <&l2_cache_2>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p1>;
+ 		};
+ 
+ 		cpu_p12: cpu@10202 {
+@@ -112,6 +177,9 @@ cpu_p12: cpu@10202 {
+ 			next-level-cache = <&l2_cache_2>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p1>;
+ 		};
+ 
+ 		cpu_p13: cpu@10203 {
+@@ -123,6 +191,9 @@ cpu_p13: cpu@10203 {
+ 			next-level-cache = <&l2_cache_2>;
+ 			i-cache-size = <0x30000>;
+ 			d-cache-size = <0x20000>;
++			operating-points-v2 = <&firestorm_opp>;
++			capacity-dmips-mhz = <1024>;
++			performance-domains = <&cpufreq_p1>;
+ 		};
+ 
+ 		l2_cache_0: l2-cache-0 {
+@@ -147,6 +218,121 @@ l2_cache_2: l2-cache-2 {
+ 		};
+ 	};
+ 
++	icestorm_opp: opp-table-0 {
++		compatible = "operating-points-v2";
++
++		opp01 {
++			opp-hz = /bits/ 64 <600000000>;
++			opp-level = <1>;
++			clock-latency-ns = <7500>;
++		};
++		opp02 {
++			opp-hz = /bits/ 64 <972000000>;
++			opp-level = <2>;
++			clock-latency-ns = <23000>;
++		};
++		opp03 {
++			opp-hz = /bits/ 64 <1332000000>;
++			opp-level = <3>;
++			clock-latency-ns = <29000>;
++		};
++		opp04 {
++			opp-hz = /bits/ 64 <1704000000>;
++			opp-level = <4>;
++			clock-latency-ns = <40000>;
++		};
++		opp05 {
++			opp-hz = /bits/ 64 <2064000000>;
++			opp-level = <5>;
++			clock-latency-ns = <50000>;
++		};
++	};
++
++	firestorm_opp: opp-table-1 {
++		compatible = "operating-points-v2";
++
++		opp01 {
++			opp-hz = /bits/ 64 <600000000>;
++			opp-level = <1>;
++			clock-latency-ns = <8000>;
++		};
++		opp02 {
++			opp-hz = /bits/ 64 <828000000>;
++			opp-level = <2>;
++			clock-latency-ns = <18000>;
++		};
++		opp03 {
++			opp-hz = /bits/ 64 <1056000000>;
++			opp-level = <3>;
++			clock-latency-ns = <19000>;
++		};
++		opp04 {
++			opp-hz = /bits/ 64 <1296000000>;
++			opp-level = <4>;
++			clock-latency-ns = <23000>;
++		};
++		opp05 {
++			opp-hz = /bits/ 64 <1524000000>;
++			opp-level = <5>;
++			clock-latency-ns = <24000>;
++		};
++		opp06 {
++			opp-hz = /bits/ 64 <1752000000>;
++			opp-level = <6>;
++			clock-latency-ns = <28000>;
++		};
++		opp07 {
++			opp-hz = /bits/ 64 <1980000000>;
++			opp-level = <7>;
++			clock-latency-ns = <31000>;
++		};
++		opp08 {
++			opp-hz = /bits/ 64 <2208000000>;
++			opp-level = <8>;
++			clock-latency-ns = <45000>;
++		};
++		opp09 {
++			opp-hz = /bits/ 64 <2448000000>;
++			opp-level = <9>;
++			clock-latency-ns = <49000>;
++		};
++		opp10 {
++			opp-hz = /bits/ 64 <2676000000>;
++			opp-level = <10>;
++			clock-latency-ns = <53000>;
++		};
++		opp11 {
++			opp-hz = /bits/ 64 <2904000000>;
++			opp-level = <11>;
++			clock-latency-ns = <56000>;
++		};
++		opp12 {
++			opp-hz = /bits/ 64 <3036000000>;
++			opp-level = <12>;
++			clock-latency-ns = <56000>;
++		};
++		/* Not available until CPU deep sleep is implemented
++		opp13 {
++			opp-hz = /bits/ 64 <3132000000>;
++			opp-level = <13>;
++			clock-latency-ns = <56000>;
++			turbo-mode;
++		};
++		opp14 {
++			opp-hz = /bits/ 64 <3168000000>;
++			opp-level = <14>;
++			clock-latency-ns = <56000>;
++			turbo-mode;
++		};
++		opp15 {
++			opp-hz = /bits/ 64 <3228000000>;
++			opp-level = <15>;
++			clock-latency-ns = <56000>;
++			turbo-mode;
++		};
++		*/
++	};
++
+ 	pmu-e {
+ 		compatible = "apple,icestorm-pmu";
+ 		interrupt-parent = <&aic>;
+diff --git a/arch/arm64/boot/dts/apple/t600x-dieX.dtsi b/arch/arm64/boot/dts/apple/t600x-dieX.dtsi
+index 0a437b68e86c..a32ff0c9d7b0 100644
+--- a/arch/arm64/boot/dts/apple/t600x-dieX.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-dieX.dtsi
+@@ -6,6 +6,24 @@
+  * Copyright The Asahi Linux Contributors
+  */
+ 
++	DIE_NODE(cpufreq_e): cpufreq@210e20000 {
++		compatible = "apple,t6000-cluster-cpufreq", "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
++		reg = <0x2 0x10e20000 0 0x1000>;
++		#performance-domain-cells = <0>;
++	};
++
++	DIE_NODE(cpufreq_p0): cpufreq@211e20000 {
++		compatible = "apple,t6000-cluster-cpufreq", "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
++		reg = <0x2 0x11e20000 0 0x1000>;
++		#performance-domain-cells = <0>;
++	};
++
++	DIE_NODE(cpufreq_p1): cpufreq@212e20000 {
++		compatible = "apple,t6000-cluster-cpufreq", "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
++		reg = <0x2 0x12e20000 0 0x1000>;
++		#performance-domain-cells = <0>;
++	};
++
+ 	DIE_NODE(pmgr): power-management@28e080000 {
+ 		compatible = "apple,t6000-pmgr", "apple,pmgr", "syscon", "simple-mfd";
+ 		#address-cells = <1>;
+-- 
+2.35.1
 
-The user can change the kernel parameter in such a case. If you have 
-already ran the kernel with this change, you should have learned that 
-the console is tied to the framebuffer and keyboard and you need to 
-supply the kernel parameter. It is easy to change the kernel parameter 
-if you use m1n1 directly.
-
- >
- >> In contrary, if you boot the kernel without the hypervisor
- >> feature and this change, you will completely lose the console.
- >
- > How so? The console goes to both places with stdout-path set to serial0.
- > What it *does* change is where input is accepted prior to getty startup
- > (which is why u-boot specifically conditions this on keyboard presence,
- > modulo the USB issue - because if you *don't* have a keyboard then tty
- > keyboard input is useless). But if you're booting kernels without u-boot
- > along the way, you're probably doing it from the hypervisor or linux.py
- > anyway, especially if you plan to do something like "init=/bin/sh",
- > because without u-boot (+ optionally some EFI loader) there is no way of
- > editing command line arguments at boot time stand-alone.
-
-Well, that is not exactly the behavior I saw. In my case, if stdout-path 
-is pointed to serial, there is no output on the framebuffer, and it just 
-printed "_".
-
-It looks like the kernel only outputs to either of serial and 
-framebuffer, not both.
-
- >
- > However, while having stdout-path gives you both serial + tty output and
- > serial input, *not* having stdout-path kills serial entirely. It also
- > kills earlycon, and makes it so that you have to specify a bunch of
- > obscure arguments to get earlycon to work, instead of just a plain
- > "earlycon" argument which is much easier.
-
-This is a valid argument. I always struggle when I try earlycon first 
-for a computer. stdout-path should be maintained if it is freeing 
-developers from such trouble.
-
- >
- > So for this to be considered at all, you would first need to propose a
- > m1n1 patch to re-add stdout-path in boots under the hypervisor and
- > (optionally?) on linux.py boots, so you don't regress tools that our
- > developers use every day.
- >
- > But I still fail to see the benefit of this change. What scenario are
- > you envisioning that this would improve (something people actually do,
- > not a hypothetical)?
- >
-
-What I experienced is that when I directly booted the kernel from m1n1 
-without hypervisor, it showed no output to the display even though the 
-same kernel worked with U-Boot. While I could tell it used wrong console 
-by running the hypervisor, I wondered why it behaves differently without 
-U-Boot, and found the aforementioned U-Boot change, coming up with this 
-patch.
-
-Regards,
-Akihiko Odaki
-
- > - Hector
