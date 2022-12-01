@@ -1,85 +1,162 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2FCAA20
-	for <asahi@lists.linux.dev>; Thu,  1 Dec 2022 18:35:29 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id AD3955C011D;
-	Thu,  1 Dec 2022 13:35:28 -0500 (EST)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Thu, 01 Dec 2022 13:35:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1669919728; x=1670006128; bh=pk
-	8Iux6YCMVT1etqJvZ4tJrrAsulMlBycPs6sKsttUQ=; b=OUj2zLcKJCTLZrp1mC
-	/5W5Noq5Vge2GPO5f/7z3TpMnBRcTR/KY1urq8Ja7omLR+OOobQe3F0F864TVmJf
-	aFF35KEHAJ2A1OvBu6vyHZcJnp0KB6tjrNpUAPRXqG2Zg/zK30nQdAme6UeHcR4i
-	mGZbvcYgyzCGCjKShEXgA5Eh6XrNbCfcRKhlLcY61y3BXj1CTWk6S1oblJwL6EeV
-	DzdoQFBvUoWOgQYzWbXTQEd9x6Jc4CgyCOgbOjeKY4kX76qsFkRU/gOHhy7jcRy8
-	3a/2bmg17rCWfg+wYS6HeWL5qpd3CRsd8oBHNQVCp8vWHFUSmf88Rv+/8gUOs3DQ
-	Kp/Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1669919728; x=1670006128; bh=pk8Iux6YCMVT1etqJvZ4tJrrAsul
-	MlBycPs6sKsttUQ=; b=fN4KW7tr/2ZMlCyZY+s5+aJKrBrwC3DAZxsEEhxoEcH+
-	B5gNMXL7V8h/Ads1qajiSfT6hRCvdNApKM+uwsXht/PAWHwTbPE+x4pekyKws1RL
-	4cR5N5+nxH7HT95+kjEsHAZj542wv0KpSphchtFcNWBZnCgUJCJXtw0BG7Le/sYA
-	CRJ6UN65RQP8OYvEXgJ8oni4/KK9pLXPe/LorBNHJOnb5p2Z7nfYDNkZjj85MZoa
-	8LmfpRdQGxa9ptzRin+alxju2i8ZjRZkYDKOOtfWgpQDXfPdz+9df5b4zna2OujE
-	MXlMN7UbjYVU8D0m8FF8NxuM7IpabqwVlZ+KSYOg9A==
-X-ME-Sender: <xms:8POIYzQQkj7Oq9NVxaP4uWI9oumU_Jovfh2YTEP8Uq7ZXdxjC1SI1g>
-    <xme:8POIY0y6pS7jve2HmTaXZXC901d6p4a6Uornn5z_BY5QKHtClFOxGljNv6INwPSzr
-    aVCgs9QPw-PIoUNIdk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrtdehgdduudegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
-    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
-    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
-    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:8POIY43yYF8Q6lH-VhnGcQTi452WO8X9LzvVJwhmqJtDN5Nnp62YUg>
-    <xmx:8POIYzBgEduUjpxPDvWhu6ZBAbvL61nb7FBtqYYxiDn7NHs79MWj4Q>
-    <xmx:8POIY8jYVGtUJ8_hn2YKxdjeUa5RNeL0A_H8owM62cgTjCVw1YTrBA>
-    <xmx:8POIY3XqM4pEIKo_ymhC8JNgbepCzKZoc78a1hwzmYNUUKQKY9Uy6A>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5A76EA6007C; Thu,  1 Dec 2022 13:35:28 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1115-g8b801eadce-fm-20221102.001-g8b801ead
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290E510798;
+	Thu,  1 Dec 2022 23:14:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF261C433C1;
+	Thu,  1 Dec 2022 23:14:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1669936444;
+	bh=ozp0kC2g9+TotjQ9j2Pw3XRqzPeryuGFH0wGXi5UC/Y=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RdPD0jGlqLp3uEAhn0aFEjETKR8VNVD/JPLofMJf3Yp7CXvgsXMteQfqb2UGCnPQM
+	 29Zdpm8HsAtw/CblVCJKkiQ/OcMXphmydCW9m5W6eNXPJPRxf6Z7QLwsWBwul9Gj33
+	 0VjEN3YfMM3rseBp6VpGvpAxLa86qiKaXWYVx+MOtYyD8nrOkDz3DWGT/zrfDbRi/M
+	 ehn9I/+41au4Bk7FNHDbNRc7qTC6z3akboH6ko5yTg+stWIIbmQDsq5JMWtrqbCRdq
+	 MUazZozc/2xl3tg+JMZO2NulQr7n+Byv273rvkxjBccRJqLpgMgALYRJXC0UEV9O7W
+	 OBBbHwAyWKkhw==
+Received: from 51-171-6-54-dynamic.agg9.chf.chf-qkr.eircom.net ([51.171.6.54] helo=wait-a-minute.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1p0skk-009wGh-B3;
+	Thu, 01 Dec 2022 23:14:02 +0000
+Date: Thu, 01 Dec 2022 23:13:58 +0000
+Message-ID: <87lenqu37t.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 0/3] KVM: arm64: Handle CCSIDR associativity mismatches
+In-Reply-To: <50499ee9-33fe-4f5d-9d0a-76ceef038333@daynix.com>
+References: <20221201104914.28944-1-akihiko.odaki@daynix.com>
+	<867czbmlh1.wl-maz@kernel.org>
+	<50499ee9-33fe-4f5d-9d0a-76ceef038333@daynix.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <60e1a46f-b180-496c-bc45-348969bbac32@app.fastmail.com>
-In-Reply-To: <20221201165344.32505-1-marcan@marcan.st>
-References: <20221201165344.32505-1-marcan@marcan.st>
-Date: Thu, 01 Dec 2022 19:35:08 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>
-Cc: "Mark Kettenis" <kettenis@openbsd.org>,
- "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: apple: Add CPU topology & cpufreq nodes for t600x
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 51.171.6.54
+X-SA-Exim-Rcpt-To: akihiko.odaki@daynix.com, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, mathieu.poirier@linaro.org, oliver.upton@linux.dev, suzuki.poulose@arm.com, alexandru.elisei@arm.com, james.morse@arm.com, will@kernel.org, catalin.marinas@arm.com, asahi@lists.linux.dev, alyssa@rosenzweig.io, sven@svenpeter.dev, marcan@marcan.st
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Thu, Dec 1, 2022, at 17:53, Hector Martin wrote:
-> Add the missing CPU topology/capacity information and the cpufreq nodes,
-> so we can have CPU frequency scaling and the scheduler has the
-> information it needs to make the correct decisions.
->
-> As with t8103, boost states are commented out pending PSCI/etc support
-> for deep sleep states.
->
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+On Thu, 01 Dec 2022 17:26:08 +0000,
+Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> 
+> On 2022/12/01 20:06, Marc Zyngier wrote:
+> > On Thu, 01 Dec 2022 10:49:11 +0000,
+> > Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> > 
+> > Thanks for looking into this.
+> > 
+> >> M2 MacBook Air has mismatched CCSIDR associativity bits, which makes the
+> >> bits a KVM vCPU sees inconsistent when migrating.
+> > 
+> > Can you describe the actual discrepancy? Is that an issue between the
+> > two core types? In which case, nothing says that these two cluster
+> > should have the same cache topology.
+> 
+> Yes, the processor has big.LITTLE configuration.
+> 
+> On the processor, the valid CSSELR values are 0 (L1D), 1 (L1I), 3
+> (L2D). For each CSSELR values, each cluster has:
+> - 0x700FE03A, 0x203FE01A, 0x70FFE07B
+> - 0x701FE03A, 0x203FE02A, 0x73FFE07B
 
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
+This is a perfectly valid configuration. The architecture doesn't
+place any limitation on how different or identical the cache
+hierarchies are from the PoV of each CPU. Actually, most big-little
+systems show similar differences across their clusters.
+
+> >> It also makes QEMU fail restoring the vCPU registers because QEMU saves
+> >> and restores all of the registers including CCSIDRs, and if the vCPU
+> >> migrated among physical CPUs between saving and restoring, it tries to
+> >> restore CCSIDR values that mismatch with the current physical CPU, which
+> >> causes EFAULT.
+> > 
+> > Well, QEMU will have plenty of other problems, starting with MIDRs,
+> > which always reflect the physical one. In general, KVM isn't well
+> > geared for VMs spanning multiple CPU types. It is improving, but there
+> > is a long way to go.
+> 
+> On M2 MacBook Air, I have seen no other difference in standard ID
+> registers and CCSIDRs are exceptions. Perhaps Apple designed this way
+> so that macOS's Hypervisor can freely migrate vCPU, but I can't assure
+> that without more analysis. This is still enough to migrate vCPU
+> running Linux at least.
+
+I guess that MacOS hides more of the underlying HW than KVM does. And
+KVM definitely doesn't hide the MIDR_EL1 registers, which *are*
+different between the two clusters.
+
+> >> Trap CCSIDRs if there are CCSIDR value msimatches, and override the
+> >> associativity bits when handling the trap.
+> > 
+> > TBH, I'd rather we stop reporting this stuff altogether.
+> > 
+> > There is nothing a correctly written arm64 guest should do with any of
+> > this (this is only useful for set/way CMOs, which non-secure SW should
+> > never issue). It would be a lot better to expose a virtual topology
+> > (one set, one way, one level). It would also save us from the CCSIDRX
+> > silliness.
+> > 
+> > The only complexity would be to still accept different topologies from
+> > userspace so that we can restore a VM saved before this virtual
+> > topology.
+> 
+> Another (minor) concern is that trapping relevant registers may cost
+> too much. Currently KVM traps CSSELR and CCSIDR accesses with
+> HCR_TID2, but HCR_TID2 also affects CTR_EL0.
+
+It will have an additional impact (JITs, for example, will take a hit
+if they don't cache that value), but this is pretty easy to mitigate
+if it proves to have too much of an impact. We already have a bunch of
+fast-paths for things that we want to emulate more efficiently, and
+CTR_EL0 could be one of them,
+
+> Although I'm not sure if the register is referred frequently, Arm
+> introduced FEAT_EVT to trap CSSELR and CSSIDR but not CTR_EL0 so
+> there may be some case where trapping CTR_EL0 is not
+> tolerated. Perhaps Arm worried that a userspace application may read
+> CTR_EL0 frequently.
+
+FEAT_EVT is one of these "let's add random traps" extensions,
+culminating in FEAT_FGT. Having FEAT_EVT would make it more efficient,
+but we need to support this for all revisions of the architecture.
+
+So let's first build on top of HCR_EL2.TID2, and only then once we
+have an idea of the overhead add support for HCR_EL2.TID4 for the
+systems that have FEAT_EVT.
+
+> If you think the concern on VM restoration you mentioned and the
+> trapping overhead is tolerable, I'll write a new, much smaller patch
+> accordingly.
+
+That would great, thanks. There are a number of gotchas around that
+(like the 32bit stuff that already plays the emulation game), but this
+is the right time to start and have something in 6.3 if you keep to it!
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
