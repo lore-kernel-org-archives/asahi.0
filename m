@@ -1,524 +1,146 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266387473
-	for <asahi@lists.linux.dev>; Thu,  1 Dec 2022 16:54:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id A9D2241F98;
-	Thu,  1 Dec 2022 16:54:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1669913683; bh=nogEBZiP4Pq9k70q1r1Sq2fpcE7vD0XmA4xsz0zgPB8=;
-	h=From:To:Cc:Subject:Date;
-	b=m+HqsX80i/hTevzBoiCOp1gnSN6JMGTjAy33KWRmPgUkZtUE4CVEfiL3fZoCXgFwN
-	 8ovO7Qrf9XfefvDsvhKf39k+GF9xbl+eKQkbXQd0QMRL8bQpgoI7wfc+Qd022HKOCi
-	 53YAsr3uDXHHGZsd4H0ExEUvyDJcGxGGrZmoA+FfWP5LSZtrvBai/2E9qZgqOA+QdH
-	 uCt0hIwGZN3IchgomdMasygBVCaG9SW++4Cw+gtbkRwGrJhU/3ppgVkI7NIm5ywBo7
-	 hA1VI0nLaLEu1r6I2hk7ux7OIrY13q9ng+YjqG5G1Tnm2G9xvlhYilvxyorZsXHVly
-	 mgjLDH/fS4KYg==
-From: Hector Martin <marcan@marcan.st>
-To: Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: Mark Kettenis <kettenis@openbsd.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	devicetree@vger.kernel.org,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>
-Subject: [PATCH] arm64: dts: apple: Add CPU topology & cpufreq nodes for t600x
-Date: Fri,  2 Dec 2022 01:53:45 +0900
-Message-Id: <20221201165344.32505-1-marcan@marcan.st>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A93A491
+	for <asahi@lists.linux.dev>; Thu,  1 Dec 2022 17:26:13 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id 3-20020a17090a098300b00219041dcbe9so2746052pjo.3
+        for <asahi@lists.linux.dev>; Thu, 01 Dec 2022 09:26:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=02CF0TJYI4L7g3srrazD4xH+/OuBD9klT/4Hk2gtU0U=;
+        b=txApKc3gtDcQMm+FVBYm+D0Mo1n4TL0Vapxd3lQf0wekHKp4QFL/juRdq0ivkrC709
+         rVw0C5ACxYCPAbySn7V5JKA+NV3okQWkwPGbENM2SJwgdMTeyObxCCwgwUOOx0BC7oWz
+         +h7qGkFumy1Mw737V/jWWIQ0z6+NFFhlD5owjCq/feMugXvEoCHJax5uCjFKdA88ptVQ
+         C2bNboHdjpx/p+BBKcMcghLfjGguL5CJ+usVgzk6pHX7s0eXXjYbXywS0/ciUiAkhj6B
+         w4jY4IdmFe2vSaYLG2oj5UHN9K1ZzirLTvOs3K1gjqpLYDePd8bzLoi1/rndXhowE6SL
+         zdPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=02CF0TJYI4L7g3srrazD4xH+/OuBD9klT/4Hk2gtU0U=;
+        b=lO8R79GoHqgbzgC71fifebYkuOxX5gsds9k93W7n/LKoeVz8hO1S98joHCW9tOwUHY
+         mFx7Ni5fzzgCvRY15Wf/1pUwt2bvCTCVC5nv6lJ8UGvIrVmNZvsELZnoZlJjy3cyG7yW
+         Q7lwoSnpulTECD79YG3W00DtRVOPBLReRgjnuyHFWHo43BEdhBrpKwXw2+a5TP7tJOED
+         4X/LRlr6jXP+zzgTzRELakVPpVCN9+u2xmN2wH2qqfSsNRDGd9FCV9lrxy7mmHuDs5p/
+         4Hv+6NBhMyGMNuUtGkskAYvI3vietJHuRrUOXLRMgpEzElAxuaDsjll8RF2K5uYAacOw
+         9aKA==
+X-Gm-Message-State: ANoB5pm0W1i9JrSvO8JTME9SwMiZf7/5IGpu3uLjU7Unu9uxcMe3YoKN
+	AyL2HkE3Odw1Eb/O1WMBqBUQmg==
+X-Google-Smtp-Source: AA0mqf4SMFdu/n4a1aFlo3szQD2bjOfheoqlSHE9xuODUTMXDUAclzarx3ixXW8iNFKhgeVWojv9Lg==
+X-Received: by 2002:a17:902:d650:b0:189:f86:ecb with SMTP id y16-20020a170902d65000b001890f860ecbmr58839022plh.45.1669915572825;
+        Thu, 01 Dec 2022 09:26:12 -0800 (PST)
+Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419? ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id n11-20020a170902e54b00b00178aaf6247bsm3965798plf.21.2022.12.01.09.26.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Dec 2022 09:26:12 -0800 (PST)
+Message-ID: <50499ee9-33fe-4f5d-9d0a-76ceef038333@daynix.com>
+Date: Fri, 2 Dec 2022 02:26:08 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.1
+Subject: Re: [PATCH 0/3] KVM: arm64: Handle CCSIDR associativity mismatches
+To: Marc Zyngier <maz@kernel.org>
+Cc: linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
+ kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Oliver Upton <oliver.upton@linux.dev>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Alexandru Elisei <alexandru.elisei@arm.com>,
+ James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Sven Peter <sven@svenpeter.dev>,
+ Hector Martin <marcan@marcan.st>
+References: <20221201104914.28944-1-akihiko.odaki@daynix.com>
+ <867czbmlh1.wl-maz@kernel.org>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <867czbmlh1.wl-maz@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add the missing CPU topology/capacity information and the cpufreq nodes,
-so we can have CPU frequency scaling and the scheduler has the
-information it needs to make the correct decisions.
+On 2022/12/01 20:06, Marc Zyngier wrote:
+> On Thu, 01 Dec 2022 10:49:11 +0000,
+> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+> 
+> Thanks for looking into this.
+> 
+>> M2 MacBook Air has mismatched CCSIDR associativity bits, which makes the
+>> bits a KVM vCPU sees inconsistent when migrating.
+> 
+> Can you describe the actual discrepancy? Is that an issue between the
+> two core types? In which case, nothing says that these two cluster
+> should have the same cache topology.
 
-As with t8103, boost states are commented out pending PSCI/etc support
-for deep sleep states.
+Yes, the processor has big.LITTLE configuration.
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- arch/arm64/boot/dts/apple/t6002.dtsi        |  72 +++++++-
- arch/arm64/boot/dts/apple/t600x-common.dtsi | 186 ++++++++++++++++++++
- arch/arm64/boot/dts/apple/t600x-dieX.dtsi   |  18 ++
- 3 files changed, 275 insertions(+), 1 deletion(-)
+On the processor, the valid CSSELR values are 0 (L1D), 1 (L1I), 3 (L2D). 
+For each CSSELR values, each cluster has:
+- 0x700FE03A, 0x203FE01A, 0x70FFE07B
+- 0x701FE03A, 0x203FE02A, 0x73FFE07B
 
-diff --git a/arch/arm64/boot/dts/apple/t6002.dtsi b/arch/arm64/boot/dts/apple/t6002.dtsi
-index 731d61fbb05f..15da2c7eb1fe 100644
---- a/arch/arm64/boot/dts/apple/t6002.dtsi
-+++ b/arch/arm64/boot/dts/apple/t6002.dtsi
-@@ -23,6 +23,47 @@ / {
- 	#size-cells = <2>;
- 
- 	cpus {
-+		cpu-map {
-+			cluster3 {
-+				core0 {
-+					cpu = <&cpu_e10>;
-+				};
-+				core1 {
-+					cpu = <&cpu_e11>;
-+				};
-+			};
-+
-+			cluster4 {
-+				core0 {
-+					cpu = <&cpu_p20>;
-+				};
-+				core1 {
-+					cpu = <&cpu_p21>;
-+				};
-+				core2 {
-+					cpu = <&cpu_p22>;
-+				};
-+				core3 {
-+					cpu = <&cpu_p23>;
-+				};
-+			};
-+
-+			cluster5 {
-+				core0 {
-+					cpu = <&cpu_p30>;
-+				};
-+				core1 {
-+					cpu = <&cpu_p31>;
-+				};
-+				core2 {
-+					cpu = <&cpu_p32>;
-+				};
-+				core3 {
-+					cpu = <&cpu_p33>;
-+				};
-+			};
-+		};
-+
- 		cpu_e10: cpu@800 {
- 			compatible = "apple,icestorm";
- 			device_type = "cpu";
-@@ -32,6 +73,9 @@ cpu_e10: cpu@800 {
- 			next-level-cache = <&l2_cache_3>;
- 			i-cache-size = <0x20000>;
- 			d-cache-size = <0x10000>;
-+			operating-points-v2 = <&icestorm_opp>;
-+			capacity-dmips-mhz = <714>;
-+			performance-domains = <&cpufreq_e_die1>;
- 		};
- 
- 		cpu_e11: cpu@801 {
-@@ -43,6 +87,9 @@ cpu_e11: cpu@801 {
- 			next-level-cache = <&l2_cache_3>;
- 			i-cache-size = <0x20000>;
- 			d-cache-size = <0x10000>;
-+			operating-points-v2 = <&icestorm_opp>;
-+			capacity-dmips-mhz = <714>;
-+			performance-domains = <&cpufreq_e_die1>;
- 		};
- 
- 		cpu_p20: cpu@10900 {
-@@ -54,6 +101,9 @@ cpu_p20: cpu@10900 {
- 			next-level-cache = <&l2_cache_4>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p0_die1>;
- 		};
- 
- 		cpu_p21: cpu@10901 {
-@@ -65,6 +115,9 @@ cpu_p21: cpu@10901 {
- 			next-level-cache = <&l2_cache_4>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p0_die1>;
- 		};
- 
- 		cpu_p22: cpu@10902 {
-@@ -76,6 +129,9 @@ cpu_p22: cpu@10902 {
- 			next-level-cache = <&l2_cache_4>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p0_die1>;
- 		};
- 
- 		cpu_p23: cpu@10903 {
-@@ -87,6 +143,9 @@ cpu_p23: cpu@10903 {
- 			next-level-cache = <&l2_cache_4>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p0_die1>;
- 		};
- 
- 		cpu_p30: cpu@10a00 {
-@@ -98,6 +157,9 @@ cpu_p30: cpu@10a00 {
- 			next-level-cache = <&l2_cache_5>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p1_die1>;
- 		};
- 
- 		cpu_p31: cpu@10a01 {
-@@ -109,6 +171,9 @@ cpu_p31: cpu@10a01 {
- 			next-level-cache = <&l2_cache_5>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p1_die1>;
- 		};
- 
- 		cpu_p32: cpu@10a02 {
-@@ -120,6 +185,9 @@ cpu_p32: cpu@10a02 {
- 			next-level-cache = <&l2_cache_5>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p1_die1>;
- 		};
- 
- 		cpu_p33: cpu@10a03 {
-@@ -131,6 +199,9 @@ cpu_p33: cpu@10a03 {
- 			next-level-cache = <&l2_cache_5>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p1_die1>;
- 		};
- 
- 		l2_cache_3: l2-cache-3 {
-@@ -206,7 +277,6 @@ &die1 {
- #undef DIE
- #undef DIE_NO
- 
--
- &aic {
- 	affinities {
- 		e-core-pmu-affinity {
-diff --git a/arch/arm64/boot/dts/apple/t600x-common.dtsi b/arch/arm64/boot/dts/apple/t600x-common.dtsi
-index e2568d914719..fa8ead699363 100644
---- a/arch/arm64/boot/dts/apple/t600x-common.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-common.dtsi
-@@ -15,6 +15,47 @@ cpus {
- 		#address-cells = <2>;
- 		#size-cells = <0>;
- 
-+		cpu-map {
-+			cluster0 {
-+				core0 {
-+					cpu = <&cpu_e00>;
-+				};
-+				core1 {
-+					cpu = <&cpu_e01>;
-+				};
-+			};
-+
-+			cluster1 {
-+				core0 {
-+					cpu = <&cpu_p00>;
-+				};
-+				core1 {
-+					cpu = <&cpu_p01>;
-+				};
-+				core2 {
-+					cpu = <&cpu_p02>;
-+				};
-+				core3 {
-+					cpu = <&cpu_p03>;
-+				};
-+			};
-+
-+			cluster2 {
-+				core0 {
-+					cpu = <&cpu_p10>;
-+				};
-+				core1 {
-+					cpu = <&cpu_p11>;
-+				};
-+				core2 {
-+					cpu = <&cpu_p12>;
-+				};
-+				core3 {
-+					cpu = <&cpu_p13>;
-+				};
-+			};
-+		};
-+
- 		cpu_e00: cpu@0 {
- 			compatible = "apple,icestorm";
- 			device_type = "cpu";
-@@ -24,6 +65,9 @@ cpu_e00: cpu@0 {
- 			next-level-cache = <&l2_cache_0>;
- 			i-cache-size = <0x20000>;
- 			d-cache-size = <0x10000>;
-+			operating-points-v2 = <&icestorm_opp>;
-+			capacity-dmips-mhz = <714>;
-+			performance-domains = <&cpufreq_e>;
- 		};
- 
- 		cpu_e01: cpu@1 {
-@@ -35,6 +79,9 @@ cpu_e01: cpu@1 {
- 			next-level-cache = <&l2_cache_0>;
- 			i-cache-size = <0x20000>;
- 			d-cache-size = <0x10000>;
-+			operating-points-v2 = <&icestorm_opp>;
-+			capacity-dmips-mhz = <714>;
-+			performance-domains = <&cpufreq_e>;
- 		};
- 
- 		cpu_p00: cpu@10100 {
-@@ -46,6 +93,9 @@ cpu_p00: cpu@10100 {
- 			next-level-cache = <&l2_cache_1>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p0>;
- 		};
- 
- 		cpu_p01: cpu@10101 {
-@@ -57,6 +107,9 @@ cpu_p01: cpu@10101 {
- 			next-level-cache = <&l2_cache_1>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p0>;
- 		};
- 
- 		cpu_p02: cpu@10102 {
-@@ -68,6 +121,9 @@ cpu_p02: cpu@10102 {
- 			next-level-cache = <&l2_cache_1>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p0>;
- 		};
- 
- 		cpu_p03: cpu@10103 {
-@@ -79,6 +135,9 @@ cpu_p03: cpu@10103 {
- 			next-level-cache = <&l2_cache_1>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p0>;
- 		};
- 
- 		cpu_p10: cpu@10200 {
-@@ -90,6 +149,9 @@ cpu_p10: cpu@10200 {
- 			next-level-cache = <&l2_cache_2>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p1>;
- 		};
- 
- 		cpu_p11: cpu@10201 {
-@@ -101,6 +163,9 @@ cpu_p11: cpu@10201 {
- 			next-level-cache = <&l2_cache_2>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p1>;
- 		};
- 
- 		cpu_p12: cpu@10202 {
-@@ -112,6 +177,9 @@ cpu_p12: cpu@10202 {
- 			next-level-cache = <&l2_cache_2>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p1>;
- 		};
- 
- 		cpu_p13: cpu@10203 {
-@@ -123,6 +191,9 @@ cpu_p13: cpu@10203 {
- 			next-level-cache = <&l2_cache_2>;
- 			i-cache-size = <0x30000>;
- 			d-cache-size = <0x20000>;
-+			operating-points-v2 = <&firestorm_opp>;
-+			capacity-dmips-mhz = <1024>;
-+			performance-domains = <&cpufreq_p1>;
- 		};
- 
- 		l2_cache_0: l2-cache-0 {
-@@ -147,6 +218,121 @@ l2_cache_2: l2-cache-2 {
- 		};
- 	};
- 
-+	icestorm_opp: opp-table-0 {
-+		compatible = "operating-points-v2";
-+
-+		opp01 {
-+			opp-hz = /bits/ 64 <600000000>;
-+			opp-level = <1>;
-+			clock-latency-ns = <7500>;
-+		};
-+		opp02 {
-+			opp-hz = /bits/ 64 <972000000>;
-+			opp-level = <2>;
-+			clock-latency-ns = <23000>;
-+		};
-+		opp03 {
-+			opp-hz = /bits/ 64 <1332000000>;
-+			opp-level = <3>;
-+			clock-latency-ns = <29000>;
-+		};
-+		opp04 {
-+			opp-hz = /bits/ 64 <1704000000>;
-+			opp-level = <4>;
-+			clock-latency-ns = <40000>;
-+		};
-+		opp05 {
-+			opp-hz = /bits/ 64 <2064000000>;
-+			opp-level = <5>;
-+			clock-latency-ns = <50000>;
-+		};
-+	};
-+
-+	firestorm_opp: opp-table-1 {
-+		compatible = "operating-points-v2";
-+
-+		opp01 {
-+			opp-hz = /bits/ 64 <600000000>;
-+			opp-level = <1>;
-+			clock-latency-ns = <8000>;
-+		};
-+		opp02 {
-+			opp-hz = /bits/ 64 <828000000>;
-+			opp-level = <2>;
-+			clock-latency-ns = <18000>;
-+		};
-+		opp03 {
-+			opp-hz = /bits/ 64 <1056000000>;
-+			opp-level = <3>;
-+			clock-latency-ns = <19000>;
-+		};
-+		opp04 {
-+			opp-hz = /bits/ 64 <1296000000>;
-+			opp-level = <4>;
-+			clock-latency-ns = <23000>;
-+		};
-+		opp05 {
-+			opp-hz = /bits/ 64 <1524000000>;
-+			opp-level = <5>;
-+			clock-latency-ns = <24000>;
-+		};
-+		opp06 {
-+			opp-hz = /bits/ 64 <1752000000>;
-+			opp-level = <6>;
-+			clock-latency-ns = <28000>;
-+		};
-+		opp07 {
-+			opp-hz = /bits/ 64 <1980000000>;
-+			opp-level = <7>;
-+			clock-latency-ns = <31000>;
-+		};
-+		opp08 {
-+			opp-hz = /bits/ 64 <2208000000>;
-+			opp-level = <8>;
-+			clock-latency-ns = <45000>;
-+		};
-+		opp09 {
-+			opp-hz = /bits/ 64 <2448000000>;
-+			opp-level = <9>;
-+			clock-latency-ns = <49000>;
-+		};
-+		opp10 {
-+			opp-hz = /bits/ 64 <2676000000>;
-+			opp-level = <10>;
-+			clock-latency-ns = <53000>;
-+		};
-+		opp11 {
-+			opp-hz = /bits/ 64 <2904000000>;
-+			opp-level = <11>;
-+			clock-latency-ns = <56000>;
-+		};
-+		opp12 {
-+			opp-hz = /bits/ 64 <3036000000>;
-+			opp-level = <12>;
-+			clock-latency-ns = <56000>;
-+		};
-+		/* Not available until CPU deep sleep is implemented
-+		opp13 {
-+			opp-hz = /bits/ 64 <3132000000>;
-+			opp-level = <13>;
-+			clock-latency-ns = <56000>;
-+			turbo-mode;
-+		};
-+		opp14 {
-+			opp-hz = /bits/ 64 <3168000000>;
-+			opp-level = <14>;
-+			clock-latency-ns = <56000>;
-+			turbo-mode;
-+		};
-+		opp15 {
-+			opp-hz = /bits/ 64 <3228000000>;
-+			opp-level = <15>;
-+			clock-latency-ns = <56000>;
-+			turbo-mode;
-+		};
-+		*/
-+	};
-+
- 	pmu-e {
- 		compatible = "apple,icestorm-pmu";
- 		interrupt-parent = <&aic>;
-diff --git a/arch/arm64/boot/dts/apple/t600x-dieX.dtsi b/arch/arm64/boot/dts/apple/t600x-dieX.dtsi
-index 0a437b68e86c..a32ff0c9d7b0 100644
---- a/arch/arm64/boot/dts/apple/t600x-dieX.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-dieX.dtsi
-@@ -6,6 +6,24 @@
-  * Copyright The Asahi Linux Contributors
-  */
- 
-+	DIE_NODE(cpufreq_e): cpufreq@210e20000 {
-+		compatible = "apple,t6000-cluster-cpufreq", "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
-+		reg = <0x2 0x10e20000 0 0x1000>;
-+		#performance-domain-cells = <0>;
-+	};
-+
-+	DIE_NODE(cpufreq_p0): cpufreq@211e20000 {
-+		compatible = "apple,t6000-cluster-cpufreq", "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
-+		reg = <0x2 0x11e20000 0 0x1000>;
-+		#performance-domain-cells = <0>;
-+	};
-+
-+	DIE_NODE(cpufreq_p1): cpufreq@212e20000 {
-+		compatible = "apple,t6000-cluster-cpufreq", "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
-+		reg = <0x2 0x12e20000 0 0x1000>;
-+		#performance-domain-cells = <0>;
-+	};
-+
- 	DIE_NODE(pmgr): power-management@28e080000 {
- 		compatible = "apple,t6000-pmgr", "apple,pmgr", "syscon", "simple-mfd";
- 		#address-cells = <1>;
--- 
-2.35.1
+> 
+>> It also makes QEMU fail restoring the vCPU registers because QEMU saves
+>> and restores all of the registers including CCSIDRs, and if the vCPU
+>> migrated among physical CPUs between saving and restoring, it tries to
+>> restore CCSIDR values that mismatch with the current physical CPU, which
+>> causes EFAULT.
+> 
+> Well, QEMU will have plenty of other problems, starting with MIDRs,
+> which always reflect the physical one. In general, KVM isn't well
+> geared for VMs spanning multiple CPU types. It is improving, but there
+> is a long way to go.
 
+On M2 MacBook Air, I have seen no other difference in standard ID 
+registers and CCSIDRs are exceptions. Perhaps Apple designed this way so 
+that macOS's Hypervisor can freely migrate vCPU, but I can't assure that 
+without more analysis. This is still enough to migrate vCPU running 
+Linux at least.
+
+> 
+>> Trap CCSIDRs if there are CCSIDR value msimatches, and override the
+>> associativity bits when handling the trap.
+> 
+> TBH, I'd rather we stop reporting this stuff altogether.
+> 
+> There is nothing a correctly written arm64 guest should do with any of
+> this (this is only useful for set/way CMOs, which non-secure SW should
+> never issue). It would be a lot better to expose a virtual topology
+> (one set, one way, one level). It would also save us from the CCSIDRX
+> silliness.
+> 
+> The only complexity would be to still accept different topologies from
+> userspace so that we can restore a VM saved before this virtual
+> topology.
+
+Another (minor) concern is that trapping relevant registers may cost too 
+much. Currently KVM traps CSSELR and CCSIDR accesses with HCR_TID2, but 
+HCR_TID2 also affects CTR_EL0. Although I'm not sure if the register is 
+referred frequently, Arm introduced FEAT_EVT to trap CSSELR and CSSIDR 
+but not CTR_EL0 so there may be some case where trapping CTR_EL0 is not 
+tolerated. Perhaps Arm worried that a userspace application may read 
+CTR_EL0 frequently.
+
+If you think the concern on VM restoration you mentioned and the 
+trapping overhead is tolerable, I'll write a new, much smaller patch 
+accordingly.
+
+Regards,
+Akihiko Odaki
+
+> 
+> Do you mind having a look at this?
+> 
+> Thanks,
+> 
+> 	M.
+> 
