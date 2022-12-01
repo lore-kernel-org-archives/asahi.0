@@ -1,146 +1,91 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A93A491
-	for <asahi@lists.linux.dev>; Thu,  1 Dec 2022 17:26:13 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id 3-20020a17090a098300b00219041dcbe9so2746052pjo.3
-        for <asahi@lists.linux.dev>; Thu, 01 Dec 2022 09:26:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=02CF0TJYI4L7g3srrazD4xH+/OuBD9klT/4Hk2gtU0U=;
-        b=txApKc3gtDcQMm+FVBYm+D0Mo1n4TL0Vapxd3lQf0wekHKp4QFL/juRdq0ivkrC709
-         rVw0C5ACxYCPAbySn7V5JKA+NV3okQWkwPGbENM2SJwgdMTeyObxCCwgwUOOx0BC7oWz
-         +h7qGkFumy1Mw737V/jWWIQ0z6+NFFhlD5owjCq/feMugXvEoCHJax5uCjFKdA88ptVQ
-         C2bNboHdjpx/p+BBKcMcghLfjGguL5CJ+usVgzk6pHX7s0eXXjYbXywS0/ciUiAkhj6B
-         w4jY4IdmFe2vSaYLG2oj5UHN9K1ZzirLTvOs3K1gjqpLYDePd8bzLoi1/rndXhowE6SL
-         zdPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=02CF0TJYI4L7g3srrazD4xH+/OuBD9klT/4Hk2gtU0U=;
-        b=lO8R79GoHqgbzgC71fifebYkuOxX5gsds9k93W7n/LKoeVz8hO1S98joHCW9tOwUHY
-         mFx7Ni5fzzgCvRY15Wf/1pUwt2bvCTCVC5nv6lJ8UGvIrVmNZvsELZnoZlJjy3cyG7yW
-         Q7lwoSnpulTECD79YG3W00DtRVOPBLReRgjnuyHFWHo43BEdhBrpKwXw2+a5TP7tJOED
-         4X/LRlr6jXP+zzgTzRELakVPpVCN9+u2xmN2wH2qqfSsNRDGd9FCV9lrxy7mmHuDs5p/
-         4Hv+6NBhMyGMNuUtGkskAYvI3vietJHuRrUOXLRMgpEzElAxuaDsjll8RF2K5uYAacOw
-         9aKA==
-X-Gm-Message-State: ANoB5pm0W1i9JrSvO8JTME9SwMiZf7/5IGpu3uLjU7Unu9uxcMe3YoKN
-	AyL2HkE3Odw1Eb/O1WMBqBUQmg==
-X-Google-Smtp-Source: AA0mqf4SMFdu/n4a1aFlo3szQD2bjOfheoqlSHE9xuODUTMXDUAclzarx3ixXW8iNFKhgeVWojv9Lg==
-X-Received: by 2002:a17:902:d650:b0:189:f86:ecb with SMTP id y16-20020a170902d65000b001890f860ecbmr58839022plh.45.1669915572825;
-        Thu, 01 Dec 2022 09:26:12 -0800 (PST)
-Received: from ?IPV6:2400:4050:c360:8200:8ae8:3c4:c0da:7419? ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id n11-20020a170902e54b00b00178aaf6247bsm3965798plf.21.2022.12.01.09.26.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Dec 2022 09:26:12 -0800 (PST)
-Message-ID: <50499ee9-33fe-4f5d-9d0a-76ceef038333@daynix.com>
-Date: Fri, 2 Dec 2022 02:26:08 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3485BA2C
+	for <asahi@lists.linux.dev>; Thu,  1 Dec 2022 17:46:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 008D242600;
+	Thu,  1 Dec 2022 17:46:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1669916777; bh=5FyH3OS+pK5R8cX27N/PSU5p4zkEL3o4KXlC2krsXmk=;
+	h=Date:To:Cc:References:From:Subject:In-Reply-To;
+	b=NpFKctwEt7JN6dhPWhMLros6WSZW6BaHehKhc6GHEdzofYSXkzpXlC76PmRxmaBY/
+	 y9FmPugJSrcKkCp4ccjf67XLQFsPxJbzP83V9zX5SFjftC0g27lz/rcgySG9LnNioQ
+	 ooUP9CsLY2zOJLzvrFct54AOMvE2zBquGA7VDZ1SOK5K0djKeTWB9Sg+EfQvS8hS/C
+	 1yIj1vFy35v4qaa/p2kFZGxSHlglBANgDCsaID40mAQNo48fwwvC8Z39jdEA8tpA5P
+	 wqxPlDAyZjjqfLlvN7VXMZFK2EqIm5/lLGMHcV1pTV+sSWMo/PZEq9njJe9asZnZbI
+	 AQq3bLIq/H02Q==
+Message-ID: <647b6572-e5d1-d243-283e-616cef15a1f5@marcan.st>
+Date: Fri, 2 Dec 2022 02:46:11 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [PATCH 0/3] KVM: arm64: Handle CCSIDR associativity mismatches
-To: Marc Zyngier <maz@kernel.org>
-Cc: linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
- kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Oliver Upton <oliver.upton@linux.dev>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Alexandru Elisei <alexandru.elisei@arm.com>,
- James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Sven Peter <sven@svenpeter.dev>,
- Hector Martin <marcan@marcan.st>
-References: <20221201104914.28944-1-akihiko.odaki@daynix.com>
- <867czbmlh1.wl-maz@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
 Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <867czbmlh1.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Mark Kettenis <mark.kettenis@xs4all.nl>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, alyssa@rosenzweig.io,
+ sven@svenpeter.dev
+References: <20221201103651.27807-1-akihiko.odaki@daynix.com>
+ <877czb42wk.fsf@bloch.sibelius.xs4all.nl>
+ <c3b0cee9-032c-0447-37df-3ce5ce280e41@daynix.com>
+ <ae89b38f-fd67-e0e5-1439-f376da985be8@marcan.st>
+ <8b3c4fe0-4a81-ba47-2f01-3686cfdbd519@daynix.com>
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH] arch: arm64: dts: apple: Remove stdout-path
+In-Reply-To: <8b3c4fe0-4a81-ba47-2f01-3686cfdbd519@daynix.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2022/12/01 20:06, Marc Zyngier wrote:
-> On Thu, 01 Dec 2022 10:49:11 +0000,
-> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+On 02/12/2022 01.38, Akihiko Odaki wrote:
+>  >> In contrary, if you boot the kernel without the hypervisor
+>  >> feature and this change, you will completely lose the console.
+>  >
+>  > How so? The console goes to both places with stdout-path set to serial0.
+>  > What it *does* change is where input is accepted prior to getty startup
+>  > (which is why u-boot specifically conditions this on keyboard presence,
+>  > modulo the USB issue - because if you *don't* have a keyboard then tty
+>  > keyboard input is useless). But if you're booting kernels without u-boot
+>  > along the way, you're probably doing it from the hypervisor or linux.py
+>  > anyway, especially if you plan to do something like "init=/bin/sh",
+>  > because without u-boot (+ optionally some EFI loader) there is no way of
+>  > editing command line arguments at boot time stand-alone.
 > 
-> Thanks for looking into this.
+> Well, that is not exactly the behavior I saw. In my case, if stdout-path 
+> is pointed to serial, there is no output on the framebuffer, and it just 
+> printed "_".
 > 
->> M2 MacBook Air has mismatched CCSIDR associativity bits, which makes the
->> bits a KVM vCPU sees inconsistent when migrating.
-> 
-> Can you describe the actual discrepancy? Is that an issue between the
-> two core types? In which case, nothing says that these two cluster
-> should have the same cache topology.
+> It looks like the kernel only outputs to either of serial and 
+> framebuffer, not both.
 
-Yes, the processor has big.LITTLE configuration.
+That is not what I've seen in all of my hypervisor runs since the dawn
+of time. You get log output on both.
 
-On the processor, the valid CSSELR values are 0 (L1D), 1 (L1I), 3 (L2D). 
-For each CSSELR values, each cluster has:
-- 0x700FE03A, 0x203FE01A, 0x70FFE07B
-- 0x701FE03A, 0x203FE02A, 0x73FFE07B
+> What I experienced is that when I directly booted the kernel from m1n1 
+> without hypervisor, it showed no output to the display even though the 
+> same kernel worked with U-Boot. While I could tell it used wrong console 
+> by running the hypervisor, I wondered why it behaves differently without 
+> U-Boot, and found the aforementioned U-Boot change, coming up with this 
+> patch.
 
-> 
->> It also makes QEMU fail restoring the vCPU registers because QEMU saves
->> and restores all of the registers including CCSIDRs, and if the vCPU
->> migrated among physical CPUs between saving and restoring, it tries to
->> restore CCSIDR values that mismatch with the current physical CPU, which
->> causes EFAULT.
-> 
-> Well, QEMU will have plenty of other problems, starting with MIDRs,
-> which always reflect the physical one. In general, KVM isn't well
-> geared for VMs spanning multiple CPU types. It is improving, but there
-> is a long way to go.
+Then it sounds like something else is different about our setups,
+because I've booted the kernel from linux.py hundreds of times and I get
+output on both. Looking through the console code, the VT console gets
+added and enabled really early, and the subsequent serial console
+registration later does not disable it.
 
-On M2 MacBook Air, I have seen no other difference in standard ID 
-registers and CCSIDRs are exceptions. Perhaps Apple designed this way so 
-that macOS's Hypervisor can freely migrate vCPU, but I can't assure that 
-without more analysis. This is still enough to migrate vCPU running 
-Linux at least.
+Look for "console: colour dummy device 80x25". It should be immediately
+followed by "printk: console [tty0] enabled", and this should all come
+well before the ttySAC0 serial stuff shows up.
 
-> 
->> Trap CCSIDRs if there are CCSIDR value msimatches, and override the
->> associativity bits when handling the trap.
-> 
-> TBH, I'd rather we stop reporting this stuff altogether.
-> 
-> There is nothing a correctly written arm64 guest should do with any of
-> this (this is only useful for set/way CMOs, which non-secure SW should
-> never issue). It would be a lot better to expose a virtual topology
-> (one set, one way, one level). It would also save us from the CCSIDRX
-> silliness.
-> 
-> The only complexity would be to still accept different topologies from
-> userspace so that we can restore a VM saved before this virtual
-> topology.
-
-Another (minor) concern is that trapping relevant registers may cost too 
-much. Currently KVM traps CSSELR and CCSIDR accesses with HCR_TID2, but 
-HCR_TID2 also affects CTR_EL0. Although I'm not sure if the register is 
-referred frequently, Arm introduced FEAT_EVT to trap CSSELR and CSSIDR 
-but not CTR_EL0 so there may be some case where trapping CTR_EL0 is not 
-tolerated. Perhaps Arm worried that a userspace application may read 
-CTR_EL0 frequently.
-
-If you think the concern on VM restoration you mentioned and the 
-trapping overhead is tolerable, I'll write a new, much smaller patch 
-accordingly.
-
-Regards,
-Akihiko Odaki
-
-> 
-> Do you mind having a look at this?
-> 
-> Thanks,
-> 
-> 	M.
-> 
+- Hector
