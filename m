@@ -1,200 +1,64 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2FC4C64
-	for <asahi@lists.linux.dev>; Fri,  2 Dec 2022 14:41:11 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id vv4so12006315ejc.2
-        for <asahi@lists.linux.dev>; Fri, 02 Dec 2022 06:41:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Jbtz62/9w40k58squVqf0TUtGGR07w4EKpHh1neaUA=;
-        b=SkPI4+E7HzmpxvUDO2DFOGKkpYSeZgapleOF0O/xJzrEKz6MqQ8W7eVz24F1Ux55Gq
-         xlhDIAgaPXAF1DmCuH/C+e5tzBVomX6LlpXaXmJjy3ElAKGmeKZQ8XyYOTQju6lQAL9k
-         g2HvGf0M8OTJRJxRV4RRuISTlTtt7S394ixjr2IVcZMJZsaKIdzocEa7NX8ktZ6vwP22
-         4ZQzqbDp2HPy/PRjQBdsmbFMFEYO9VdhhtLwQZXAPUkgKRoePcDg7osUElj4aIggNF0f
-         jXZ5cd1w/b2VbBKegMZ27irSLmpLz+8wtXDnxcwyxhlIKqNb4zC4YJP6ncvL9EAfuPfj
-         6KEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+Jbtz62/9w40k58squVqf0TUtGGR07w4EKpHh1neaUA=;
-        b=Hed1Sv9aw9d5uhIBBinjNJdQJTA1D2KbWOaiPwh4nZ+jVJCpnEplF/6NqGwnE2D2rY
-         mWnNT9U2atXe/HA2ybKiUkqW9+69yKz8CvkQ3Pzts2EysaEbea4O346D8R4I+RCGD67m
-         7FfSJvzK00JB47tmPap56HNOtGkts1HSKZjymiXaXbQ0Ds5XOuo4JSLXEDEpyMeB6U13
-         wgthpxxzs4SZLSo+njsh6dd1mZF4xjHNI1W9990JbOKWlyUxgl3AA3kDrmnYi0a0FJHJ
-         /YZW4xT7jSDvXqWLcx02hRpJ+vjFh2K29DNw2PEZniOsTlU5xdAeFcSK+WV+TAp5Ujht
-         MkkA==
-X-Gm-Message-State: ANoB5plk8IBZH8ilD0Md/dynx99KBRHjoR1rfIh25qdOR3Ez45/K9tdm
-	+paP9rY6ihG/WAYIVxtmGW8=
-X-Google-Smtp-Source: AA0mqf478x0IXjmvjD+LZiZAVDXar6/lwtMdxvIe25MTdk9Ts9wA7t4y42BVaCiQLnqEcnGU2N4BNg==
-X-Received: by 2002:a17:906:6887:b0:7c0:a728:6aeb with SMTP id n7-20020a170906688700b007c0a7286aebmr9268938ejr.438.1669992070028;
-        Fri, 02 Dec 2022 06:41:10 -0800 (PST)
-Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id w24-20020a1709064a1800b007b47748d22fsm3058036eju.220.2022.12.02.06.41.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Dec 2022 06:41:09 -0800 (PST)
-Date: Fri, 2 Dec 2022 15:41:07 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>
-Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Ashish Mhetre <amhetre@nvidia.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-	Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
-	Lucas Stach <l.stach@pengutronix.de>, devicetree@vger.kernel.org,
-	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH v12 0/4] iommu: Support mappings/reservations in
- reserved-memory regions
-Message-ID: <Y4oOg5nSBPBieArv@orome>
-References: <20221117185424.2359687-1-thierry.reding@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688A8110C;
+	Fri,  2 Dec 2022 18:55:04 +0000 (UTC)
+Date: Fri, 2 Dec 2022 18:54:51 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1670007296;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QF7YyY0zCO4x691PE+6++2gBpkKD4tpfGa6u+JeBMx4=;
+	b=EXkS9mLpz+vLNs65I4j2M/dADkhs3aXj6C2J9/QQBDtzZvHcNqfe16I74H5FqC54X6IZh1
+	vDlLk2ztWLvPpDhIQey3K7nj4r9t8dEgpELG+MGppVJXr0vTOFEn8BqpFWmyYmdKr0UKQZ
+	7KgvNJRzvcj4Zw0lGfzfhiHCt5vdOM8=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 0/3] KVM: arm64: Handle CCSIDR associativity mismatches
+Message-ID: <Y4pJ+wnzHv0Rpws+@google.com>
+References: <20221201104914.28944-1-akihiko.odaki@daynix.com>
+ <867czbmlh1.wl-maz@kernel.org>
+ <Y4jyn+aMUGcaa6Ag@google.com>
+ <87k03au36k.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="YDYlJthlp2phvpXx"
-Content-Disposition: inline
-In-Reply-To: <20221117185424.2359687-1-thierry.reding@gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-
-
---YDYlJthlp2phvpXx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87k03au36k.wl-maz@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Nov 17, 2022 at 07:54:20PM +0100, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> Hi,
->=20
-> This version is a minor update to the previous v11, which can be found
-> here:
->=20
->   https://lore.kernel.org/all/20221111161806.630527-1-thierry.reding@gmai=
-l.com/
->=20
-> The only change here is that the #dma-{address,size}-cells is dropped.
-> It turns out to be much simpler to just update #{address,size}-cells to
-> what they should be rather than add extra complexity for the DMA work-
-> around. There's a minor update to the DT binding so that it can now
-> properly validate cases where we have both reg and iommu-addresses
-> properties.
->=20
-> An example is included in the DT bindings, but here is an extract of
-> what I've used to test this:
->=20
->         reserved-memory {
->                 #address-cells =3D <2>;
->                 #size-cells =3D <2>;
->                 ranges;
->=20
->                 /*
->                  * Creates an identity mapping for the framebuffer that
->                  * the firmware has setup to scan out a bootsplash from.
->                  */
->                 fb: framebuffer@92cb2000 {
->                         reg =3D <0x0 0x92cb2000 0x0 0x00800000>;
->                         iommu-addresses =3D <&dc0 0x0 0x92cb2000 0x0 0x00=
-800000>;
->                 };
->=20
->                 /*
->                  * Creates a reservation in the IOVA space to prevent
->                  * any buffers from being mapped to that region. Note
->                  * that on Tegra the range is actually quite different
->                  * from this, but it would conflict with the display
->                  * driver that I tested this against, so this is just
->                  * a dummy region for testing.
->                  */
->                 adsp: reservation-adsp {
->                         iommu-addresses =3D <&dc0 0x0 0x90000000 0x0 0x00=
-010000>;
->                 };
->         };
->=20
->         host1x@50000000 {
->                 dc@54200000 {
->                         memory-region =3D <&fb>, <&adsp>;
->                 };
->         };
->=20
-> This is abbreviated a little to focus on the essentials. Note also that
-> the ADSP reservation is not actually used on this device and the driver
-> for this doesn't exist yet, but I wanted to include this variant for
-> testing, because we'll want to use these bindings for the reservation
-> use-case as well at some point.
->=20
-> I've also been able to make use of this binding and the IOMMU code in
-> conjunction with the simple-framebuffer driver to hand over a display
-> configuration set up by UEFI to the Linux kernel.
->=20
-> Janne has confirmed[0] this to be suitable for indirect mappings as
-> well, though these patches don't implement that feature yet. Potential
-> extensions to this have been discussed but are not yet included at this
-> time to not further complicate things.
->=20
-> Thierry
->=20
-> [0]: https://lore.kernel.org/all/20220909144504.GA4024@jannau.net/
->=20
-> Thierry Reding (4):
->   of: Introduce of_translate_dma_region()
->   dt-bindings: reserved-memory: Document iommu-addresses
->   iommu: Implement of_iommu_get_resv_regions()
->   iommu: dma: Use of_iommu_get_resv_regions()
->=20
->  .../reserved-memory/reserved-memory.yaml      | 89 +++++++++++++++++-
->  drivers/iommu/dma-iommu.c                     |  3 +
->  drivers/iommu/of_iommu.c                      | 94 +++++++++++++++++++
->  drivers/of/address.c                          | 41 ++++++++
->  include/linux/of_address.h                    |  2 +
->  include/linux/of_iommu.h                      |  8 ++
->  6 files changed, 233 insertions(+), 4 deletions(-)
+On Thu, Dec 01, 2022 at 11:14:43PM +0000, Marc Zyngier wrote:
+> On Thu, 01 Dec 2022 18:29:51 +0000,
+> Oliver Upton <oliver.upton@linux.dev> wrote:
+> > Could we extend your suggestion about accepting different topologies to
+> > effectively tolerate _any_ topology provided by userspace? KVM can
+> > default to the virtual topology, but a well-informed userspace could
+> > still provide different values to its guest. No point in trying to
+> > babyproofing the UAPI further, IMO.
+> 
+> I think this is *exactly* what I suggested. Any valid topology should
+> be able to be restored, as we currently present the VM with any
+> topology the host HW may have. This must be preserved.
 
-Joerg, Rob,
+Ah, I was narrowly reading into the conversation as it relates to the M2
+implementation, my bad. SGTM :)
 
-Is there anything left to do on the series? It'd be great to get some
-feedback from Robin on patch 3 since he had some concerns about how the
-reservation type was getting determined. All those should now be
-addressed and I think overall this is ready to go.
-
-Rob, you've given a Reviewed-by on all the DT-related parts, does that
-mean you're okay with this going through Joerg's tree?
-
-Joerg, other than a Reviewed-by from Robin on patch 3, anything else
-you'd like to see before you pick this up?
-
-Thierry
-
---YDYlJthlp2phvpXx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmOKDoMACgkQ3SOs138+
-s6ERoQ//WAHKrd3sSos3I9hlsUtTTI3H4NJgyMFVh2KDK5KTBlsWC3fAH/Ia16IM
-AAK+Dqfrlmw2scOfHOGdzg7JYjXS0Q5v1h/iiWn3shfJ5XH+gQN6fFZksVG8B9jD
-GiWUkUDvRj+VP+aQ/M6DsLVi5c2BhnzS6j6SaIiMPcDKxXhxl3QWqj6kODOKFcad
-qsO1xgIPst1BNEy53mN+Dq+v3zqt3IgCv7g7Zuy/DxN/yZ4YQBjR/EmxN6pmwapc
-EyT2Xev9vuHXgbW/VLV/QusvFqfiXQzxZ242tNeySXy7v+Mm1ULEQ1uS7fd7oZu6
-AtByxT+d5EczShhwsRzLcigJ2h9n2vBhPpq3uiJy8rssTo7ax7o7ptsilbcblFm4
-4eJ/9ATI2X23Zslhi6vtf5Z06wjSUgUhMJ+Sb9JQc17qptxc3+/5AZhftrPM2I1g
-TuPf5BWn+68y8LmQSneoPJXWOKe7Dkys3/zjNYdxXRrRFeVm9Zgxb1yqr272E/LE
-jIxVBI+pGHRLm1KxjpaSSXiy2OneYxUyLAHyHMEGJFWv6gVi3LHGVuSNtONxTxF4
-BQkIsI/yZnVeysiuSD7SvfB/I3Mt61IACbJHl8prkQAdKCucnMgjMfQfFbsQOnmC
-XgdeGKnIKwDseEA9uZWPMiUKtR2fXRiaT9DVKYZ+W1Gk3a+sW/U=
-=JpMc
------END PGP SIGNATURE-----
-
---YDYlJthlp2phvpXx--
+--
+Thanks,
+Oliver
