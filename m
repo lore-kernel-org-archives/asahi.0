@@ -1,198 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D17215AC;
-	Sun,  4 Dec 2022 14:57:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EAC0C433C1;
-	Sun,  4 Dec 2022 14:57:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1670165877;
-	bh=Cgm74NkKEZ/DK5RPHt06OPQZsab/+7Dm33HMyFy16EQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IBbWkhGldTnPxTm2GnBQewKJxktXrW8xPU5icmaUJHIc6PcgSX9oSrvnxV9D8cLcl
-	 jPYkNrjmWwB3TIlWFYT28Jv8O5lZHK/R3WTQP7i+bwz+oasHthcsKkk2XFtg+IVVZa
-	 Xc1hn1YayMhURTJIVCoswxTnOiAJv2JLbOegzL1Dix3VwQXPka+7IUorL1/j11AV0W
-	 W0VXR3DgPel2+vk7UyFeUKTOq9+TnNDLS8nmmDXYz0+Rztow0DSCl9KLFTWNPT8H0F
-	 FOE8A8wVMGTr68t9Hi23GWKt1E7EcQMEjzKRI0ZkwI3LRCfezpbpTS/zIx0DGQtycg
-	 u0GvX8eDS/veQ==
-Received: from [82.141.251.28] (helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1p1qRG-00AP6F-Pg;
-	Sun, 04 Dec 2022 14:57:54 +0000
-Date: Sun, 04 Dec 2022 14:57:53 +0000
-Message-ID: <87bkojtdvy.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	kvmarm@lists.cs.columbia.edu,
-	linux-arm-kernel@lists.infradead.org,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	James Morse <james.morse@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	asahi@lists.linux.dev,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Sven Peter <sven@svenpeter.dev>,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 0/3] KVM: arm64: Handle CCSIDR associativity mismatches
-In-Reply-To: <d54e7e38-cdf6-ef5d-a6e6-e30ad8a59034@gmail.com>
-References: <20221201104914.28944-1-akihiko.odaki@daynix.com>
-	<867czbmlh1.wl-maz@kernel.org>
-	<50499ee9-33fe-4f5d-9d0a-76ceef038333@daynix.com>
-	<87lenqu37t.wl-maz@kernel.org>
-	<525ff263-90b3-5b12-da31-171b09f9ad1b@daynix.com>
-	<87h6yeta8b.wl-maz@kernel.org>
-	<d54e7e38-cdf6-ef5d-a6e6-e30ad8a59034@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E483C28;
+	Sun,  4 Dec 2022 16:09:46 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id bs21so15257082wrb.4;
+        Sun, 04 Dec 2022 08:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mSY/soRdbw3l7VfX1MPIQXbuFJkETcDbjbzdvzg9U1E=;
+        b=nmnnLHjQQPJyJNBEfVfdOPXpOYw99+Ew34YDKQSA7EUqQ1wRE7HB99k+5HnDEsFXs6
+         s/Wti8lfe/gDF0GC8HfFWK6SarmOEHUEk9+mOcTopjhIelQOQdkwrwTaJ2Nuha5VsgW2
+         2H6F26qSiuyp8Kq/ZSHMfpgdbHvQFcFP1JzgfnxoezYYiNxdqBEBTLKe4Lp5bAtojZvR
+         8CRQD22BJyoRVHfXHYamci85e1A3cN4zPEaRD05DJf6yKSFDZhxfON8l9cCNMXaL7xNB
+         p3PM7GEe2pPEVM3wrIgGfBatgwqg3XW8DZRAw5uxGi7GSWYN8djxxtisjrQ0JrQ2Emxp
+         xjmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mSY/soRdbw3l7VfX1MPIQXbuFJkETcDbjbzdvzg9U1E=;
+        b=lF0bcCp8NwAWYuTTFyeqD4zPEClgqXUtM8/Jm0mhC+/5/NNFBeQWpqMNG3PGalxgOM
+         1m+e55EKCwU271wvZcOEu9RjHtNXezBMOd0fbi8EvJiWUp3+pFRJbCzv3xcs7PrxyDdf
+         eTk4p6hFYsMyUPYIjb6Ss6m6hjsFLheimMTpoSJEgOdd16hEoJZzoUaTjavpfQ/1bL+G
+         0I9Xwnul/6WHgRMtRkgGX9VBRcPv5XxdVSNIFuBKX94AkYtSr+l+ChH+Em5S+00olVeR
+         7OMQ2zd7yqwXEkYxyGoCJvTxn5wpDo8uajwcb2SU5pZ0rbFCIu+LF4twtFwFfehAmTBf
+         YXBA==
+X-Gm-Message-State: ANoB5plLgcatxOWXencYT3ELa92rde2B3Reoc8K13V+UQZ36hYRcTQZp
+	ZBl668UwJh/+r3tQVanB0yU=
+X-Google-Smtp-Source: AA0mqf5OXVS1lM5QoKtCTGOYBnrpmscrGHlaSSO7Jq8/Dc8cy0PB5VfXUZBhR9OrsdWfWopJ4DW8pw==
+X-Received: by 2002:a5d:6dd1:0:b0:236:75a8:58d with SMTP id d17-20020a5d6dd1000000b0023675a8058dmr49641323wrz.295.1670170184810;
+        Sun, 04 Dec 2022 08:09:44 -0800 (PST)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
+        by smtp.gmail.com with ESMTPSA id j13-20020a056000124d00b002421db5f279sm11847154wrx.78.2022.12.04.08.09.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Dec 2022 08:09:44 -0800 (PST)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Ban Tao <fengzheng923@gmail.com>, =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	James Schulman <james.schulman@cirrus.com>, David Rhodes <david.rhodes@cirrus.com>, 
+	Lucas Tanure <tanureal@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Cheng-Yi Chiang <cychiang@chromium.org>, 
+	Tzung-Bi Shih <tzungbi@kernel.org>, Guenter Roeck <groeck@chromium.org>, 
+	Benson Leung <bleung@chromium.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Stephan Gerhold <stephan@gerhold.net>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@quicinc.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Fabio Estevam <festevam@gmail.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Olivier Moysan <olivier.moysan@foss.st.com>, 
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.om>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Bogdan Togorean <bogdan.togorean@analog.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Vincent Knecht <vincent.knecht@mailoo.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Maxime Ripard <mripard@kernel.org>, 
+	Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>, - <patches@opensource.cirrus.com>, 
+	Jayesh Choudhary <j-choudhary@ti.com>, Daniel Drake <drake@endlessm.com>, 
+	Katsuhiro Suzuki <katsuhiro@katsuster.net>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Jee Heng <jee.heng.sia@intel.com>, 
+	Lubomir Rintel <lkundrak@v3.sk>, Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, 
+	Mohan Kumar <mkumard@nvidia.com>, Sameer Pujar <spujar@nvidia.com>, 
+	Rohit kumar <rohitkr@codeaurora.org>, Derek Fang <derek.fang@realtek.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, ChiYuan Huang <cy_huang@richtek.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Andrew Davis <afd@ti.com>, Shi Fu <shifu0704@thundersoft.com>, 
+	Shenghao Ding <shenghao-ding@ti.com>, Matt Flax <flatmax@flatmax.com>, 
+	Ricard Wanderlof <ricardw@axis.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org, 
+	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH 2/3] ASoC: dt-bindings: Reference common DAI properties
+Date: Sun, 04 Dec 2022 17:09:41 +0100
+Message-ID: <2251607.XGVbBG2WQu@archbook>
+In-Reply-To: <20221203160442.69594-2-krzysztof.kozlowski@linaro.org>
+References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org> <20221203160442.69594-2-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 82.141.251.28
-X-SA-Exim-Rcpt-To: akihiko.odaki@gmail.com, akihiko.odaki@daynix.com, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, mathieu.poirier@linaro.org, oliver.upton@linux.dev, suzuki.poulose@arm.com, alexandru.elisei@arm.com, james.morse@arm.com, will@kernel.org, catalin.marinas@arm.com, asahi@lists.linux.dev, alyssa@rosenzweig.io, sven@svenpeter.dev, marcan@marcan.st
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, 02 Dec 2022 09:55:24 +0000,
-Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->=20
-> On 2022/12/02 18:40, Marc Zyngier wrote:
-> > On Fri, 02 Dec 2022 05:17:12 +0000,
-> > Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
-> >>=20
-> >>>> On M2 MacBook Air, I have seen no other difference in standard ID
-> >>>> registers and CCSIDRs are exceptions. Perhaps Apple designed this way
-> >>>> so that macOS's Hypervisor can freely migrate vCPU, but I can't assu=
-re
-> >>>> that without more analysis. This is still enough to migrate vCPU
-> >>>> running Linux at least.
-> >>>=20
-> >>> I guess that MacOS hides more of the underlying HW than KVM does. And
-> >>> KVM definitely doesn't hide the MIDR_EL1 registers, which *are*
-> >>> different between the two clusters.
-> >>=20
-> >> It seems KVM stores a MIDR value of a CPU and reuse it as "invariant"
-> >> value for ioctls while it exposes the MIDR value each physical CPU
-> >> owns to vCPU.
-> >=20
-> > This only affects the VMM though, and not the guest which sees the
-> > MIDR of the CPU it runs on. The problem is that at short of pinning
-> > the vcpus, you don't know where they will run. So any value is fair
-> > game.
->=20
-> Yes, my concern is that VMM can be confused if it sees something
-> different from what the guest on the vCPU sees.
+On Samstag, 3. Dezember 2022 17:04:41 CET Krzysztof Kozlowski wrote:
+> Reference in all sound components which have '#sound-dai-cells' the
+> dai-common.yaml schema, which allows to use 'sound-name-prefix'
+> property.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> This is an output of discussion here:
+> https://lore.kernel.org/all/Y255C+TGNVJ9fs8A@sirena.org.uk/
+> 
+> This patch supersedes previous WSA883x one.
+> ---
 
-Well, this has been part of the ABI for about 10 years, since Rusty
-introduced this notion of invariant, so userspace is already working
-around it if that's an actual issue.
+Hello,
 
-This would be easily addressed though, and shouldn't result in any
-issue. The following should do the trick (only lightly tested on an
-M1).
+for rockchip,i2s-tdm, we get some (new?) warnings with W=1:
 
-Thanks,
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.1.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-pinenote-v1.2.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-quartz64-a.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-quartz64-b.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-roc-pc.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3568-bpi-r2-pro.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-soquartz-blade.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    DTC_CHK arch/arm64/boot/dts/rockchip/rk3568-evb1-v10.dtb
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-soquartz-cm4.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
+    /home/fratti/Projekte/linux/arch/arm64/boot/dts/rockchip/rk3566-soquartz-model-a.dtb: i2s@fe420000: reset-names:0: 'm' is not one of ['tx-m', 'rx-m']
+            From schema: /home/fratti/Projekte/linux/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.yaml
 
-	M.
+Apparently we don't have separate resets for tx/rx on i2s2 on this
+hardware. Should we add 'm' to the allowed reset-names for this
+case?
 
-=46rom f1caacb89eb8ae40dc38669160a2f081f87f4b15 Mon Sep 17 00:00:00 2001
-From: Marc Zyngier <maz@kernel.org>
-Date: Sun, 4 Dec 2022 14:22:22 +0000
-Subject: [PATCH] KVM: arm64: Return MIDR_EL1 to userspace as seen on the vc=
-pu
- thread
-
-When booting, KVM sample the MIDR of the CPU it initialises on,
-and keep this as the value that will forever be exposed to userspace.
-
-However, this has nothing to do with the value that the guest will
-see. On an asymetric system, this can result in userspace observing
-weird things, specially if it has pinned the vcpus on a *different*
-set of CPUs.
-
-Instead, return the MIDR value for the vpcu we're currently on and
-that the vcpu will observe if it has been pinned onto that CPU.
-
-For symmetric systems, this changes nothing. For asymmetric machines,
-they will observe the correct MIDR value at the point of the call.
-
-Reported-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- arch/arm64/kvm/sys_regs.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-index f4a7c5abcbca..f6bcf8ba9b2e 100644
---- a/arch/arm64/kvm/sys_regs.c
-+++ b/arch/arm64/kvm/sys_regs.c
-@@ -1246,6 +1246,22 @@ static int set_id_reg(struct kvm_vcpu *vcpu, const s=
-truct sys_reg_desc *rd,
- 	return 0;
- }
-=20
-+static int get_midr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
-+		    u64 *val)
-+{
-+	*val =3D read_sysreg(midr_el1);
-+	return 0;
-+}
-+
-+static int set_midr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
-+		    u64 val)
-+{
-+	if (val !=3D read_sysreg(midr_el1))
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
- static int get_raz_reg(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r=
-d,
- 		       u64 *val)
- {
-@@ -1432,6 +1448,7 @@ static const struct sys_reg_desc sys_reg_descs[] =3D {
-=20
- 	{ SYS_DESC(SYS_DBGVCR32_EL2), NULL, reset_val, DBGVCR32_EL2, 0 },
-=20
-+	{ SYS_DESC(SYS_MIDR_EL1), .get_user =3D get_midr, .set_user =3D set_midr =
-},
- 	{ SYS_DESC(SYS_MPIDR_EL1), NULL, reset_mpidr, MPIDR_EL1 },
-=20
- 	/*
-@@ -2609,7 +2626,6 @@ id_to_sys_reg_desc(struct kvm_vcpu *vcpu, u64 id,
- 		((struct sys_reg_desc *)r)->val =3D read_sysreg(reg);	\
- 	}
-=20
--FUNCTION_INVARIANT(midr_el1)
- FUNCTION_INVARIANT(revidr_el1)
- FUNCTION_INVARIANT(clidr_el1)
- FUNCTION_INVARIANT(aidr_el1)
-@@ -2621,7 +2637,6 @@ static void get_ctr_el0(struct kvm_vcpu *v, const str=
-uct sys_reg_desc *r)
-=20
- /* ->val is filled in by kvm_sys_reg_table_init() */
- static struct sys_reg_desc invariant_sys_regs[] =3D {
--	{ SYS_DESC(SYS_MIDR_EL1), NULL, get_midr_el1 },
- 	{ SYS_DESC(SYS_REVIDR_EL1), NULL, get_revidr_el1 },
- 	{ SYS_DESC(SYS_CLIDR_EL1), NULL, get_clidr_el1 },
- 	{ SYS_DESC(SYS_AIDR_EL1), NULL, get_aidr_el1 },
---=20
-2.34.1
+Cheers,
+Nicolas Frattaroli
 
 
---=20
-Without deviation from the norm, progress is not possible.
+
