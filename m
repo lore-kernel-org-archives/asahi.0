@@ -1,106 +1,226 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DAE6125;
-	Mon,  5 Dec 2022 17:29:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3D01C433D6;
-	Mon,  5 Dec 2022 17:29:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1670261360;
-	bh=9d2J8LPcLpZa1jj5Cgn2rDMLtkYnsdFIg2tKpX86qeY=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=B0LXS8/gyek+8hlLKsm9IjaIYf/0pFfbI2pNsXBHzqjnPIM8h3ww4pOYnuM14nXKw
-	 UBWu1MJkJwIaGe3JL+twjWh8I56KLFz2GLThRH0BJPynb7Gk58dSvTeTDvDJJGB3iv
-	 NoDs7UPlskIPQ1kxd3LCMypuJU5e3wbgPjNbY0HABqughPGJ8cQCWovZkYkccfUG7y
-	 zMIFHFMg+6etqtkmant212Sds7h6lpBMsTN4wkQjJ0AWOtid5n0v6fyqdfZ5Dyv6Ln
-	 +HaH8yaYOkpYvVkzdvV3hRmidQ8X/qrD8rbWHqzaES4XRJGdFv8b+ImSVysA7u4Rik
-	 LzPrPqjBGL7ow==
-From: Mark Brown <broonie@kernel.org>
-To: Derek Fang <derek.fang@realtek.com>, Sameer Pujar <spujar@nvidia.com>, Heiko Stuebner <heiko@sntech.de>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Bjorn Andersson <andersson@kernel.org>, asahi@lists.linux.dev,
- Daniel Drake <drake@endlessm.com>, Martin Povišer <povik+lin@cutebit.org>, linux-kernel@vger.kernel.org,
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, Jayesh Choudhary <j-choudhary@ti.com>,
- Banajit Goswami <bgoswami@quicinc.com>, Daniel Vetter <daniel@ffwll.ch>, Masami Hiramatsu <mhiramat@kernel.org>,
- Andrew Davis <afd@ti.com>, Charles Keepax <ckeepax@opensource.cirrus.com>,
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, - <patches@opensource.cirrus.com>, Matt Flax <flatmax@flatmax.com>,
- Biju Das <biju.das.jz@bp.renesas.com>, Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jonathan Hunter <jonathanh@nvidia.com>,
- Mohan Kumar <mkumard@nvidia.com>, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Bogdan Togorean <bogdan.togorean@analog.com>, Takashi Iwai <tiwai@suse.com>, Katsuhiro Suzuki <katsuhiro@katsuster.net>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- David Airlie <airlied@gmail.com>, chrome-platform@lists.linux.dev, linux-sunxi@lists.linux.dev,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, linux-rockchip@lists.infradead.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Ban Tao <fengzheng923@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.om>, Ricardo Rivera-Matos <rriveram@opensource.cirrus.com>,
- Lubomir Rintel <lkundrak@v3.sk>, Lars-Peter Clausen <lars@metafoo.de>, Liam Girdwood <lgirdwood@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>, Jee Heng <jee.heng.sia@intel.com>, Rob Herring <robh+dt@kernel.org>,
- linux-stm32@st-md-mailman.stormreply.com, linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Olivier Moysan <olivier.moysan@foss.st.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- James Schulman <james.schulman@cirrus.com>, alsa-devel@alsa-project.org, Paul Cercueil <paul@crapouillou.net>,
- Lucas Tanure <tanureal@opensource.cirrus.com>, linux-tegra@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
- Stephan Gerhold <stephan@gerhold.net>, Shengjiu Wang <shengjiu.wang@nxp.com>,
- Vincent Knecht <vincent.knecht@mailoo.org>, Jerome Brunet <jbrunet@baylibre.com>, ChiYuan Huang <cy_huang@richtek.com>,
- linux-arm-msm@vger.kernel.org, Nuno Sá <nuno.sa@analog.com>, Chen-Yu Tsai <wens@csie.org>,
- Richard Fitzgerald <rf@opensource.cirrus.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Andy Gross <agross@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, Ricard Wanderlof <ricardw@axis.com>,
- Maxime Ripard <mripard@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>, Tzung-Bi Shih <tzungbi@kernel.org>,
- Cheng-Yi Chiang <cychiang@chromium.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
- David Rhodes <david.rhodes@cirrus.com>, Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Kevin Hilman <khilman@baylibre.com>, Shi Fu <shifu0704@thundersoft.com>, Jaroslav Kysela <perex@perex.cz>,
- Neil Armstrong <neil.armstrong@linaro.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- linux-arm-kernel@lists.infradead.org, Jose Abreu <joabreu@synopsys.com>, devicetree@vger.kernel.org,
- Samuel Holland <samuel@sholland.org>
-In-Reply-To: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
-References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common DAI properties
-Message-Id: <167026134462.536379.12661875208007412738.b4-ty@kernel.org>
-Date: Mon, 05 Dec 2022 17:29:04 +0000
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 604CE848A
+	for <asahi@lists.linux.dev>; Mon,  5 Dec 2022 18:36:14 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 25D2323A;
+	Mon,  5 Dec 2022 10:36:20 -0800 (PST)
+Received: from [10.57.71.118] (unknown [10.57.71.118])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B3C193F73B;
+	Mon,  5 Dec 2022 10:36:10 -0800 (PST)
+Message-ID: <d3a64bcb-870b-76fb-884b-2beaeaf3af66@arm.com>
+Date: Mon, 5 Dec 2022 18:36:02 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.10.0-dev-fc921
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v12 3/4] iommu: Implement of_iommu_get_resv_regions()
+Content-Language: en-GB
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>
+Cc: Will Deacon <will@kernel.org>, Nicolin Chen <nicolinc@nvidia.com>,
+ Krishna Reddy <vdumpa@nvidia.com>, Ashish Mhetre <amhetre@nvidia.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
+ Lucas Stach <l.stach@pengutronix.de>, devicetree@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+ asahi@lists.linux.dev, Frank Rowand <frowand.list@gmail.com>,
+ Rob Herring <robh@kernel.org>
+References: <20221117185424.2359687-1-thierry.reding@gmail.com>
+ <20221117185424.2359687-4-thierry.reding@gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20221117185424.2359687-4-thierry.reding@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, 3 Dec 2022 17:04:40 +0100, Krzysztof Kozlowski wrote:
-> Rename name-prefix.yaml into common DAI schema and document
-> '#sound-dai-cells' for completeness.  The '#sound-dai-cells' cannot be
-> really constrained, as there are users with value of 0, 1 and 2, but at
-> least it brings definition to one common place.
+On 2022-11-17 18:54, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
 > 
+> This is an implementation that IOMMU drivers can use to obtain reserved
+> memory regions from a device tree node. It uses the reserved-memory DT
+> bindings to find the regions associated with a given device. If these
+> regions are marked accordingly, identity mappings will be created for
+> them in the IOMMU domain that the devices will be attached to.
+
+Acked-by: Robin Murphy <robin.murphy@arm.com>
+
+> Cc: Frank Rowand <frowand.list@gmail.com>
+> Cc: devicetree@vger.kernel.org
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> ---
+> Changes in v10:
+> - extract more code into the new iommu_resv_region_get_type() function
+> - rename variables for physical and I/O virtual addresses for clarity
+> - default to IOMMU_RESV_DIRECT instead of IOMMU_RESV_DIRECT_RELAXABLE
+> - use newly introduced of_translate_dma_region()
 > 
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common DAI properties
-      commit: 3fda85324b8d7aa01ccfa1bb82c46befc6af518f
-[2/3] ASoC: dt-bindings: Reference common DAI properties
-      commit: 58ae9a2aca6f883dd6fd7b8bfc2e1b1b21a2f03e
-[3/3] ASoC: dt-bindings: maxim,max98357a: Convert to DT schema
-      commit: 8a5a05583a04fcfa094072147eb8f6c9bb2af852
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+> Changes in v9:
+> - address review comments by Robin Murphy:
+>    - warn about non-direct mappings since they are not supported yet
+>    - cleanup code to require less indentation
+>    - narrow scope of variables
+> 
+> Changes in v8:
+> - cleanup set-but-unused variables
+> 
+> Changes in v6:
+> - remove reference to now unused dt-bindings/reserved-memory.h include
+> 
+> Changes in v5:
+> - update for new "iommu-addresses" device tree bindings
+> 
+> Changes in v4:
+> - fix build failure on !CONFIG_OF_ADDRESS
+> 
+> Changes in v3:
+> - change "active" property to identity mapping flag that is part of the
+>    memory region specifier (as defined by #memory-region-cells) to allow
+>    per-reference flags to be used
+> 
+> Changes in v2:
+> - use "active" property to determine whether direct mappings are needed
+> 
+>   drivers/iommu/of_iommu.c | 94 ++++++++++++++++++++++++++++++++++++++++
+>   include/linux/of_iommu.h |  8 ++++
+>   2 files changed, 102 insertions(+)
+> 
+> diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
+> index 5696314ae69e..fa7c63a4abbf 100644
+> --- a/drivers/iommu/of_iommu.c
+> +++ b/drivers/iommu/of_iommu.c
+> @@ -11,6 +11,7 @@
+>   #include <linux/module.h>
+>   #include <linux/msi.h>
+>   #include <linux/of.h>
+> +#include <linux/of_address.h>
+>   #include <linux/of_iommu.h>
+>   #include <linux/of_pci.h>
+>   #include <linux/pci.h>
+> @@ -172,3 +173,96 @@ const struct iommu_ops *of_iommu_configure(struct device *dev,
+>   
+>   	return ops;
+>   }
+> +
+> +static enum iommu_resv_type iommu_resv_region_get_type(struct device *dev, struct resource *phys,
+> +						       phys_addr_t start, size_t length)
+> +{
+> +	phys_addr_t end = start + length - 1;
+> +
+> +	/*
+> +	 * IOMMU regions without an associated physical region cannot be
+> +	 * mapped and are simply reservations.
+> +	 */
+> +	if (phys->start >= phys->end)
+> +		return IOMMU_RESV_RESERVED;
+> +
+> +	/* may be IOMMU_RESV_DIRECT_RELAXABLE for certain cases */
+> +	if (start == phys->start && end == phys->end)
+> +		return IOMMU_RESV_DIRECT;
+> +
+> +	dev_warn(dev, "treating non-direct mapping [%pr] -> [%pap-%pap] as reservation\n", &phys,
+> +		 &start, &end);
+> +	return IOMMU_RESV_RESERVED;
+> +}
+> +
+> +/**
+> + * of_iommu_get_resv_regions - reserved region driver helper for device tree
+> + * @dev: device for which to get reserved regions
+> + * @list: reserved region list
+> + *
+> + * IOMMU drivers can use this to implement their .get_resv_regions() callback
+> + * for memory regions attached to a device tree node. See the reserved-memory
+> + * device tree bindings on how to use these:
+> + *
+> + *   Documentation/devicetree/bindings/reserved-memory/reserved-memory.txt
+> + */
+> +void of_iommu_get_resv_regions(struct device *dev, struct list_head *list)
+> +{
+> +#if IS_ENABLED(CONFIG_OF_ADDRESS)
+> +	struct of_phandle_iterator it;
+> +	int err;
+> +
+> +	of_for_each_phandle(&it, err, dev->of_node, "memory-region", NULL, 0) {
+> +		const __be32 *maps, *end;
+> +		struct resource phys;
+> +		int size;
+> +
+> +		memset(&phys, 0, sizeof(phys));
+> +
+> +		/*
+> +		 * The "reg" property is optional and can be omitted by reserved-memory regions
+> +		 * that represent reservations in the IOVA space, which are regions that should
+> +		 * not be mapped.
+> +		 */
+> +		if (of_find_property(it.node, "reg", NULL)) {
+> +			err = of_address_to_resource(it.node, 0, &phys);
+> +			if (err < 0) {
+> +				dev_err(dev, "failed to parse memory region %pOF: %d\n",
+> +					it.node, err);
+> +				continue;
+> +			}
+> +		}
+> +
+> +		maps = of_get_property(it.node, "iommu-addresses", &size);
+> +		if (!maps)
+> +			continue;
+> +
+> +		end = maps + size / sizeof(__be32);
+> +
+> +		while (maps < end) {
+> +			struct device_node *np;
+> +			u32 phandle;
+> +
+> +			phandle = be32_to_cpup(maps++);
+> +			np = of_find_node_by_phandle(phandle);
+> +
+> +			if (np == dev->of_node) {
+> +				int prot = IOMMU_READ | IOMMU_WRITE;
+> +				struct iommu_resv_region *region;
+> +				enum iommu_resv_type type;
+> +				phys_addr_t iova;
+> +				size_t length;
+> +
+> +				maps = of_translate_dma_region(np, maps, &iova, &length);
+> +				type = iommu_resv_region_get_type(dev, &phys, iova, length);
+> +
+> +				region = iommu_alloc_resv_region(iova, length, prot, type,
+> +								 GFP_KERNEL);
+> +				if (region)
+> +					list_add_tail(&region->list, list);
+> +			}
+> +		}
+> +	}
+> +#endif
+> +}
+> +EXPORT_SYMBOL(of_iommu_get_resv_regions);
+> diff --git a/include/linux/of_iommu.h b/include/linux/of_iommu.h
+> index 55c1eb300a86..9a5e6b410dd2 100644
+> --- a/include/linux/of_iommu.h
+> +++ b/include/linux/of_iommu.h
+> @@ -12,6 +12,9 @@ extern const struct iommu_ops *of_iommu_configure(struct device *dev,
+>   					struct device_node *master_np,
+>   					const u32 *id);
+>   
+> +extern void of_iommu_get_resv_regions(struct device *dev,
+> +				      struct list_head *list);
+> +
+>   #else
+>   
+>   static inline const struct iommu_ops *of_iommu_configure(struct device *dev,
+> @@ -21,6 +24,11 @@ static inline const struct iommu_ops *of_iommu_configure(struct device *dev,
+>   	return NULL;
+>   }
+>   
+> +static inline void of_iommu_get_resv_regions(struct device *dev,
+> +					     struct list_head *list)
+> +{
+> +}
+> +
+>   #endif	/* CONFIG_OF_IOMMU */
+>   
+>   #endif /* __OF_IOMMU_H */
