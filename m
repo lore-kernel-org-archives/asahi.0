@@ -1,35 +1,37 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C3123A2
-	for <asahi@lists.linux.dev>; Mon,  5 Dec 2022 10:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F063823A2
+	for <asahi@lists.linux.dev>; Mon,  5 Dec 2022 10:09:18 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id B18F041F72;
-	Mon,  5 Dec 2022 10:02:31 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id DF71242137;
+	Mon,  5 Dec 2022 10:09:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1670234553; bh=lvzR71Puvwn8e/WO5N0bPNELgxMXJHRnFAET4OycXe0=;
+	t=1670234956; bh=/lyXjIyUIb+1pgEaMmUwZNYl0uV1GrDjGWI2beTmvj0=;
 	h=From:To:Cc:Subject:Date;
-	b=W7qNzgkk5f+5BiUOeBCK5cb9Cub3n8+Nn8o2LPggIbCJv4RPuiQnBvmkjjfDptmUA
-	 ETNH+G6w6SoGy7XQMLEjewP7jbTYzXF9RdgM3LdH334GzNovNFFuzPz+eF7cWSbowz
-	 9sVZTR8U4HcrweUZ8a2ucAPfXG5SDMXvfOxitVaEIz4dhwjifpseM/5sgkxXH5Jebu
-	 mXVbG1tk7foSA6jgiXBpitCDkCInPVrmjZt9LmmnxoD3R+cOSlyYGP+LD/vhLuPP7r
-	 u16AaI6Acp16b9z122DQcw5mkneCDDYZwd68PjnxXa9+LN37qg4iU8wBr+Zet/WN7e
-	 ChObTU5QzgLpw==
+	b=m5sgsXXtSrqefqkY+9rLDHCdHtIuKLYn/OuPT+lybjBXgnPgK4kP9ZReDUcpmDmoS
+	 c1/7bQzBphZxXoYjhy/8FMOxpVooUeVACX4o7mCPZ+jfRJoYUMoptCKE8bSspRqQn1
+	 G9qJxD3f1sHwP9JbMmaV7DvbMf5WgxYWa+MN/2dyc7ECMe+53CxF/L/2RgEH2evwAh
+	 T5erlbKK2tLu4HcbSoBGNiFfR7wnLb2/RGpWWc/zbZOx/+gzTXbCkQg+HSehHcZAEV
+	 AeoMO8Mz2cYYR6HWiPgNT6HcU0IK0G7PvYZ/XaA8t2Az8Gi6KSVAGqqZjwgAZRYE23
+	 QlU6oP/9NfpVg==
 From: Hector Martin <marcan@marcan.st>
-To: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Sven Peter <sven@svenpeter.dev>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	devicetree@vger.kernel.org,
+To: Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Hector Martin <marcan@marcan.st>
-Subject: [PATCH] arm64: dts: apple: Rename dart-sio* to sio-dart*
-Date: Mon,  5 Dec 2022 19:02:11 +0900
-Message-Id: <20221205100211.3155-1-marcan@marcan.st>
+Subject: [PATCH] iommu: dart: Add suspend/resume support
+Date: Mon,  5 Dec 2022 19:09:07 +0900
+Message-Id: <20221205100907.10230-1-marcan@marcan.st>
 X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -39,69 +41,89 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-All the other DARTs are named foo-dart, so let's keep things consistent.
+We need to save/restore the TCR/TTBR registers, since they are lost
+on power gate.
 
-Fixes: 51979fbb7fb8 ("arm64: dts: apple: t600x: Add MCA and its support")
-Fixes: 8a3df85ad87d ("arm64: dts: apple: t8103: Add MCA and its support")
 Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- arch/arm64/boot/dts/apple/t600x-die0.dtsi | 6 +++---
- arch/arm64/boot/dts/apple/t8103.dtsi      | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/iommu/apple-dart.c | 50 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-index 0b8958a8db77..e2f972c2c147 100644
---- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-@@ -53,7 +53,7 @@ wdt: watchdog@2922b0000 {
- 		interrupts = <AIC_IRQ 0 631 IRQ_TYPE_LEVEL_HIGH>;
- 	};
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index 4f4a323be0d0..ed524765ad87 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -121,6 +121,9 @@ struct apple_dart {
  
--	dart_sio_0: iommu@39b004000 {
-+	sio_dart_0: iommu@39b004000 {
- 		compatible = "apple,t6000-dart";
- 		reg = <0x3 0x9b004000 0x0 0x4000>;
- 		interrupt-parent = <&aic>;
-@@ -62,7 +62,7 @@ dart_sio_0: iommu@39b004000 {
- 		power-domains = <&ps_sio_cpu>;
- 	};
+ 	struct iommu_group *sid2group[DART_MAX_STREAMS];
+ 	struct iommu_device iommu;
++
++	u32 save_tcr[DART_MAX_STREAMS];
++	u32 save_ttbr[DART_MAX_STREAMS][DART_MAX_TTBR];
+ };
  
--	dart_sio_1: iommu@39b008000 {
-+	sio_dart_1: iommu@39b008000 {
- 		compatible = "apple,t6000-dart";
- 		reg = <0x3 0x9b008000 0x0 0x8000>;
- 		interrupt-parent = <&aic>;
-@@ -179,7 +179,7 @@ admac: dma-controller@39b400000 {
- 				      <&aic AIC_IRQ 0 1118 IRQ_TYPE_LEVEL_HIGH>,
- 				      <0>,
- 				      <0>;
--		iommus = <&dart_sio_0 2>, <&dart_sio_1 2>;
-+		iommus = <&sio_dart_0 2>, <&sio_dart_1 2>;
- 		power-domains = <&ps_sio_adma>;
- 		resets = <&ps_audio_p>;
- 	};
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 6f5a2334e5b1..1ea760ef2c25 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -318,7 +318,7 @@ cpufreq_p: performance-controller@211e20000 {
- 			#performance-domain-cells = <0>;
- 		};
+ /*
+@@ -932,6 +935,50 @@ static const struct apple_dart_hw apple_dart_hw_t6000 = {
+ 	.fmt = APPLE_DART2,
+ };
  
--		dart_sio: iommu@235004000 {
-+		sio_dart: iommu@235004000 {
- 			compatible = "apple,t8103-dart";
- 			reg = <0x2 0x35004000 0x0 0x4000>;
- 			interrupt-parent = <&aic>;
-@@ -431,7 +431,7 @@ admac: dma-controller@238200000 {
- 					      <0>,
- 					      <0>;
- 			#dma-cells = <1>;
--			iommus = <&dart_sio 2>;
-+			iommus = <&sio_dart 2>;
- 			power-domains = <&ps_sio_adma>;
- 			resets = <&ps_audio_p>;
- 		};
++#ifdef CONFIG_PM_SLEEP
++static int apple_dart_suspend(struct device *dev)
++{
++	struct apple_dart *dart = dev_get_drvdata(dev);
++	unsigned int sid, idx;
++
++	for (sid = 0; sid < DART_MAX_STREAMS; sid++) {
++		dart->save_tcr[sid] = readl_relaxed(dart->regs + DART_TCR(sid));
++		for (idx = 0; idx < DART_MAX_TTBR; idx++)
++			dart->save_ttbr[sid][idx] =
++				readl_relaxed(dart->regs + DART_TTBR(sid, idx));
++	}
++
++	return 0;
++}
++
++static int apple_dart_resume(struct device *dev)
++{
++	struct apple_dart *dart = dev_get_drvdata(dev);
++	unsigned int sid, idx;
++	int ret;
++
++	ret = apple_dart_hw_reset(dart);
++	if (ret) {
++		dev_err(dev, "Failed to reset DART on resume\n");
++		return ret;
++	}
++
++	for (sid = 0; sid < DART_MAX_STREAMS; sid++) {
++		for (idx = 0; idx < DART_MAX_TTBR; idx++)
++			writel_relaxed(dart->save_ttbr[sid][idx],
++				       dart->regs + DART_TTBR(sid, idx));
++		writel_relaxed(dart->save_tcr[sid], dart->regs + DART_TCR(sid));
++	}
++
++	return 0;
++}
++
++static const struct dev_pm_ops apple_dart_pm_ops = {
++	.suspend	= apple_dart_suspend,
++	.resume		= apple_dart_resume,
++};
++#endif
++
+ static const struct of_device_id apple_dart_of_match[] = {
+ 	{ .compatible = "apple,t8103-dart", .data = &apple_dart_hw_t8103 },
+ 	{ .compatible = "apple,t6000-dart", .data = &apple_dart_hw_t6000 },
+@@ -944,6 +991,9 @@ static struct platform_driver apple_dart_driver = {
+ 		.name			= "apple-dart",
+ 		.of_match_table		= apple_dart_of_match,
+ 		.suppress_bind_attrs    = true,
++#ifdef CONFIG_PM_SLEEP
++		.pm			= &apple_dart_pm_ops,
++#endif
+ 	},
+ 	.probe	= apple_dart_probe,
+ 	.remove	= apple_dart_remove,
 -- 
 2.35.1
 
