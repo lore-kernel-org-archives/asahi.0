@@ -1,57 +1,57 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA6E2CA7
-	for <asahi@lists.linux.dev>; Tue,  6 Dec 2022 10:37:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD38F1362
+	for <asahi@lists.linux.dev>; Tue,  6 Dec 2022 10:39:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1670323075;
+	s=mimecast20190719; t=1670323150;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DkUVoTAl7YZ8iV+h+p/E7rejIu+4PoMJoPM9UjUbhrQ=;
-	b=cSnpji3yDz6/ahLpUlfqkopcpjc/fL41bGAHdcfZ1aG6Quc2Ftq2jf3GVFNJoMNsOIuRFi
-	B6kdUGj5SWJEdUNvEJ5SZJb5JTV6Fqt/GSfh7vEL8NJSsjPQP6LkVj/Qw7pbVX/Ylg6GGe
-	Gl8tfCbA8Catdl2BYAqJO9qUjqnloy0=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=yf0pg6HyCZe9RGQZhR7ZfKdQUaSK6G751H86Hj4Y1Nw=;
+	b=CcsAyNfTWr9O9dA/g63u7d1GdT/T7TfUgUkj1ltlFOn9Xq6ZtEavtyXymZdG1IBWGRdzO9
+	iFDKCFWqmo8YuZT1O19UsMaJTFwdNh4g5rRQW0Khq/rZMhmtI5AJPSlBQBVn4Q8ULWfZ1f
+	K8lP/XW7v9ZjTkoZgoL6CMRjtd4nkUI=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-657-bbPY7uKDNWiRcgMQlnE_uw-1; Tue, 06 Dec 2022 05:37:54 -0500
-X-MC-Unique: bbPY7uKDNWiRcgMQlnE_uw-1
-Received: by mail-ua1-f71.google.com with SMTP id o43-20020ab0596e000000b0038421e4c7deso7425129uad.19
-        for <asahi@lists.linux.dev>; Tue, 06 Dec 2022 02:37:54 -0800 (PST)
+ us-mta-350-BzH5nzrpPimEZKLFFFbjlQ-1; Tue, 06 Dec 2022 05:39:09 -0500
+X-MC-Unique: BzH5nzrpPimEZKLFFFbjlQ-1
+Received: by mail-vs1-f72.google.com with SMTP id 4-20020a671704000000b003af7639515aso5379465vsx.8
+        for <asahi@lists.linux.dev>; Tue, 06 Dec 2022 02:39:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DkUVoTAl7YZ8iV+h+p/E7rejIu+4PoMJoPM9UjUbhrQ=;
-        b=5Dh82R3Xw/YJbjV1ezB4uUC9BLtlWpvSogmREzk/t2aAdGEjqbhHFPQvETYEKXlXtw
-         9VbCTHLRKqUHKhVhFgP0sX531YveY+ispA64fZxCPaH6quuPx4q05r4kjsWHg6i/7fSd
-         AjePVxtj+47IcS51kohAZtm8cLcwaR4Lhs/4GrZAXdTAHOBAwIOA0G1LSuaIWJj20qA9
-         JExwXVVt7wXCxaFtC0HTshYp1MzpHSqUXwIV7la8IBXTg4J6gIP9XXLlRrspaxGjKiVK
-         3eL9ux5aAodvO85VwF5X0FsAU/sudez8+hnwXEWTkW/AOS1GC9+M51+QgPaxXdRvi8EU
-         Aufg==
-X-Gm-Message-State: ANoB5pniaSiSTnr7AofReBymRnEKUrlvtoFPo2WxlrsBQGNFmZqRexdj
-	KfQaBxRjfpQ+NkW0zrHb1KYx/IFZ4r3TNVQkQw+m3R6ezLutbcGqhC93yyNodcKDY+vszljfGWm
-	wPE1ONE4nzjO2a2CrAGyE8TK8S+uuNtA=
-X-Received: by 2002:a05:6102:3129:b0:3aa:125:9040 with SMTP id f9-20020a056102312900b003aa01259040mr52571436vsh.13.1670323073982;
-        Tue, 06 Dec 2022 02:37:53 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf6g7L+LzHomWoPugltUcCEbFCYXsailw2SvmbWFnpYUoOMzTBFD8TqxAz2rJgHpXlRIYrnKnvS2Ku+ZOMZW4I4=
-X-Received: by 2002:a05:6102:3129:b0:3aa:125:9040 with SMTP id
- f9-20020a056102312900b003aa01259040mr52571429vsh.13.1670323073783; Tue, 06
- Dec 2022 02:37:53 -0800 (PST)
+        bh=yf0pg6HyCZe9RGQZhR7ZfKdQUaSK6G751H86Hj4Y1Nw=;
+        b=kz6Jk31SbVeG4Ie+/W1ylY/WKmOKQ6blBhACuMLJYwHMFZNofdHgu7mAC6+FjHmk4o
+         lxTrx1R4wyuWyeUzbdMVg7PHkQnUFbhd8LAz6YUdoHlfAYru3dWiZugxM50D2BZamQ9h
+         h6ViCDmTnfOpQJD1SpaV51PaSLhObyKTHppPf1TRBo1KQKxVtBBtLiK94pctL98o6aDt
+         9cZ1y5C8qB89oxyUg+Myb4juJ7hpzUX+W+ajSEsHP4uvRUxAeASSQaIlDE3WyuLucsBY
+         splG69dQ5flTJOE1GJ9XSC/2O17z8ORBY37Zf8/azNk6U1NUbX2RyuBsn1CCIbgc2zZT
+         EqBw==
+X-Gm-Message-State: ANoB5pmO6hqmMffOEqkhsYC9x+TvxXCN9G8n57BMx6eHtWdk+pTiJafx
+	WSX2YP0b1mJmMOVByIbDBvn3EFDAm1Tsy0PlGumxgMY3gRer+8QvU10GeDlcNXDD3ciwDcykq/X
+	Lg8yZ+8WIjbVzddrC6pRqgmM54uAHb5Q=
+X-Received: by 2002:a67:ce12:0:b0:3ad:9714:5d75 with SMTP id s18-20020a67ce12000000b003ad97145d75mr39536682vsl.77.1670323148955;
+        Tue, 06 Dec 2022 02:39:08 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf4cUeNKmGdXVLA6X9buYSxafC1NlN9zBrzcpjrS4ND+WQZsoBpcnv1A1LpypKpiHWopac0rR5uFVRZHCcRQfKY=
+X-Received: by 2002:a67:ce12:0:b0:3ad:9714:5d75 with SMTP id
+ s18-20020a67ce12000000b003ad97145d75mr39536673vsl.77.1670323148771; Tue, 06
+ Dec 2022 02:39:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221129132208.4337-1-hch@lst.de> <20221129132208.4337-2-hch@lst.de>
-In-Reply-To: <20221129132208.4337-2-hch@lst.de>
+References: <20221129132208.4337-1-hch@lst.de> <20221129132208.4337-5-hch@lst.de>
+In-Reply-To: <20221129132208.4337-5-hch@lst.de>
 From: Eric Curtin <ecurtin@redhat.com>
-Date: Tue, 6 Dec 2022 10:37:37 +0000
-Message-ID: <CAOgh=Fxb7f7aozjxYM8uXd5RdLnxUmiQ2MiT7vAWT94OgdyUpw@mail.gmail.com>
-Subject: Re: [PATCH 1/9] nvme-apple: fix controller shutdown in apple_nvme_disable
+Date: Tue, 6 Dec 2022 10:38:52 +0000
+Message-ID: <CAOgh=FyTsAgXMOuPhh-YG1Cj3QH6_6vwB9cWrxk6XTchE5P_mg@mail.gmail.com>
+Subject: Re: [PATCH 4/9] nvme-pci: remove nvme_disable_admin_queue
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
 	James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
@@ -63,31 +63,46 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Tue, 29 Nov 2022 at 13:29, Christoph Hellwig <hch@lst.de> wrote:
 >
-> nvme_shutdown_ctrl already shuts the controller down, there is no
-> need to also call nvme_disable_ctrl for the shutdown case.
+> nvme_disable_admin_queue has only a single caller, and just calls two
+> other funtions, so remove it to clean up the remove path a little more.
 >
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
 Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 
 > ---
->  drivers/nvme/host/apple.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/nvme/host/pci.c | 11 ++---------
+>  1 file changed, 2 insertions(+), 9 deletions(-)
 >
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index 94ef797e8b4a5f..56d9e9be945b76 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -831,7 +831,8 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 84226dce9b3b92..c6a02210d22b46 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1496,14 +1496,6 @@ static void nvme_suspend_io_queues(struct nvme_dev *dev)
+>                 nvme_suspend_queue(&dev->queues[i]);
+>  }
 >
->                 if (shutdown)
->                         nvme_shutdown_ctrl(&anv->ctrl);
-> -               nvme_disable_ctrl(&anv->ctrl);
-> +               else
-> +                       nvme_disable_ctrl(&anv->ctrl);
+> -static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+> -{
+> -       struct nvme_queue *nvmeq = &dev->queues[0];
+> -
+> -       nvme_disable_ctrl(&dev->ctrl, shutdown);
+> -       nvme_poll_irqdisable(nvmeq);
+> -}
+> -
+>  /*
+>   * Called only on a device that has been disabled and after all other threads
+>   * that can check this device's completion queues have synced, except
+> @@ -2711,7 +2703,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>
+>         if (!dead && dev->ctrl.queue_count > 0) {
+>                 nvme_disable_io_queues(dev);
+> -               nvme_disable_admin_queue(dev, shutdown);
+> +               nvme_disable_ctrl(&dev->ctrl, shutdown);
+> +               nvme_poll_irqdisable(&dev->queues[0]);
 >         }
->
->         WRITE_ONCE(anv->ioq.enabled, false);
+>         nvme_suspend_io_queues(dev);
+>         nvme_suspend_queue(&dev->queues[0]);
 > --
 > 2.30.2
 >
