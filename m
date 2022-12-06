@@ -1,22 +1,22 @@
 Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BB36AB3
-	for <asahi@lists.linux.dev>; Tue,  6 Dec 2022 13:33:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038096AB3
+	for <asahi@lists.linux.dev>; Tue,  6 Dec 2022 13:38:37 +0000 (UTC)
 Received: by verein.lst.de (Postfix, from userid 2407)
-	id A576E68B05; Tue,  6 Dec 2022 14:33:12 +0100 (CET)
-Date: Tue, 6 Dec 2022 14:33:12 +0100
+	id 6781A68B05; Tue,  6 Dec 2022 14:38:33 +0100 (CET)
+Date: Tue, 6 Dec 2022 14:38:33 +0100
 From: Christoph Hellwig <hch@lst.de>
-To: Pankaj Raghav <p.raghav@samsung.com>
-Cc: Christoph Hellwig <hch@lst.de>, Pankaj Raghav <pankydev8@gmail.com>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+To: Keith Busch <kbusch@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
 	James Smart <james.smart@broadcom.com>,
 	Chaitanya Kulkarni <kch@nvidia.com>,
 	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 	asahi@lists.linux.dev, linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 2/9] nvme: use nvme_wait_ready in nvme_shutdown_ctrl
-Message-ID: <20221206133312.GA25727@lst.de>
-References: <20221129132208.4337-1-hch@lst.de> <20221129132208.4337-3-hch@lst.de> <20221129155718.poqztp4zudt47zmq@quentin> <CGME20221130135758eucas1p2aaf96c2c7bee29c0f44e5714b0b159bc@eucas1p2.samsung.com> <20221130135749.GA4786@lst.de> <fc5d0a74-e4e9-38c7-3a93-ff1eb71e0054@samsung.com>
+Subject: Re: [PATCH 8/9] nvme-pci: return early on ctrl state mismatch in
+ nvme_reset_work
+Message-ID: <20221206133833.GB25727@lst.de>
+References: <20221129132208.4337-1-hch@lst.de> <20221129132208.4337-9-hch@lst.de> <Y48m2+Mn1W6E4Xs9@kbusch-mbp>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -25,13 +25,12 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fc5d0a74-e4e9-38c7-3a93-ff1eb71e0054@samsung.com>
+In-Reply-To: <Y48m2+Mn1W6E4Xs9@kbusch-mbp>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 
-> One minor nit: I also notice that nvme_wait_ready busy loop sleeps for
-> 1~2ms, while the existing shutdown code busy loop sleeps for 100ms. Though,
-> I don't think it is an issue.
+On Tue, Dec 06, 2022 at 11:26:19AM +0000, Keith Busch wrote:
+> Yeah, the only way something like that should happen is if a reset and
+> remove happen near the same time. We don't want the reset work to
+> disable the controller because the remove is already doing that.
 
-Thanks, I've added a note about that, and a reference to the commit
-that changed from the msleep(100) to the usleep_range for the
-enable/disable path.
+Thanks, I've stole some of this for a better commit log.
