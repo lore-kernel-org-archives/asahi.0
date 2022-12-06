@@ -1,57 +1,57 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD38F1362
-	for <asahi@lists.linux.dev>; Tue,  6 Dec 2022 10:39:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9DC1362
+	for <asahi@lists.linux.dev>; Tue,  6 Dec 2022 10:39:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1670323150;
+	s=mimecast20190719; t=1670323168;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yf0pg6HyCZe9RGQZhR7ZfKdQUaSK6G751H86Hj4Y1Nw=;
-	b=CcsAyNfTWr9O9dA/g63u7d1GdT/T7TfUgUkj1ltlFOn9Xq6ZtEavtyXymZdG1IBWGRdzO9
-	iFDKCFWqmo8YuZT1O19UsMaJTFwdNh4g5rRQW0Khq/rZMhmtI5AJPSlBQBVn4Q8ULWfZ1f
-	K8lP/XW7v9ZjTkoZgoL6CMRjtd4nkUI=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=EjxcT7s0G6NzdYkLLEMRpVnPO3NSARFPUey6LwGz4bY=;
+	b=fZT07vvXny3es16yTqX+nw/W9Pbvlbg7xLV/tIUtknBxgh0cxfP2Km2hFDD8R2jnS/8yO0
+	RT/ATqSvdQ54vLfJxt3eFF3Ha6XynWlkTDf07NKAfpX1jjS/+T7PSCKC1WLrjKS/tMZyHy
+	znjZ1sq1qVrYdvsiXfs21iGuezKeDTI=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-350-BzH5nzrpPimEZKLFFFbjlQ-1; Tue, 06 Dec 2022 05:39:09 -0500
-X-MC-Unique: BzH5nzrpPimEZKLFFFbjlQ-1
-Received: by mail-vs1-f72.google.com with SMTP id 4-20020a671704000000b003af7639515aso5379465vsx.8
-        for <asahi@lists.linux.dev>; Tue, 06 Dec 2022 02:39:09 -0800 (PST)
+ us-mta-155--_KZQyEBObqi-HCass7RfQ-1; Tue, 06 Dec 2022 05:39:27 -0500
+X-MC-Unique: -_KZQyEBObqi-HCass7RfQ-1
+Received: by mail-ua1-f69.google.com with SMTP id y10-20020ab0560a000000b003af33bfa8c4so7468894uaa.21
+        for <asahi@lists.linux.dev>; Tue, 06 Dec 2022 02:39:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yf0pg6HyCZe9RGQZhR7ZfKdQUaSK6G751H86Hj4Y1Nw=;
-        b=kz6Jk31SbVeG4Ie+/W1ylY/WKmOKQ6blBhACuMLJYwHMFZNofdHgu7mAC6+FjHmk4o
-         lxTrx1R4wyuWyeUzbdMVg7PHkQnUFbhd8LAz6YUdoHlfAYru3dWiZugxM50D2BZamQ9h
-         h6ViCDmTnfOpQJD1SpaV51PaSLhObyKTHppPf1TRBo1KQKxVtBBtLiK94pctL98o6aDt
-         9cZ1y5C8qB89oxyUg+Myb4juJ7hpzUX+W+ajSEsHP4uvRUxAeASSQaIlDE3WyuLucsBY
-         splG69dQ5flTJOE1GJ9XSC/2O17z8ORBY37Zf8/azNk6U1NUbX2RyuBsn1CCIbgc2zZT
-         EqBw==
-X-Gm-Message-State: ANoB5pmO6hqmMffOEqkhsYC9x+TvxXCN9G8n57BMx6eHtWdk+pTiJafx
-	WSX2YP0b1mJmMOVByIbDBvn3EFDAm1Tsy0PlGumxgMY3gRer+8QvU10GeDlcNXDD3ciwDcykq/X
-	Lg8yZ+8WIjbVzddrC6pRqgmM54uAHb5Q=
-X-Received: by 2002:a67:ce12:0:b0:3ad:9714:5d75 with SMTP id s18-20020a67ce12000000b003ad97145d75mr39536682vsl.77.1670323148955;
-        Tue, 06 Dec 2022 02:39:08 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf4cUeNKmGdXVLA6X9buYSxafC1NlN9zBrzcpjrS4ND+WQZsoBpcnv1A1LpypKpiHWopac0rR5uFVRZHCcRQfKY=
-X-Received: by 2002:a67:ce12:0:b0:3ad:9714:5d75 with SMTP id
- s18-20020a67ce12000000b003ad97145d75mr39536673vsl.77.1670323148771; Tue, 06
- Dec 2022 02:39:08 -0800 (PST)
+        bh=EjxcT7s0G6NzdYkLLEMRpVnPO3NSARFPUey6LwGz4bY=;
+        b=HAwSosTIZFjDXMMDBr6/re1f1wRtLjUhM1OYTStaadjSSX37k2WB0xoeav30173/15
+         EQz8KLYAMYydkEMlnsjjnLKnHSiyVh0cCMi1kBbgOnvl/F4N/0RiG0Ur6t9Ggfov9Peo
+         Yf3tDpE6vboFy2iklQfUlIbTefS/8ENhV7opvKdowEZF4e0rLnQ6OdFtD0I2CIDqW2hI
+         0rVnV0zMwibZChKYlYpnOvIkfEAh6hwDrVYJ9T2SJSmSytEI7GeY1+xB2gmCu9CUPGrI
+         W8/y84U5JPv+nXfez3Zzh4PVN4KqVgZle83xtj44ExNK+YKraiG8AKXh9T8crMiV8uQK
+         gGtQ==
+X-Gm-Message-State: ANoB5pk++yAQLhGz3CLm10ymRi4SZEIYgEFybgPrHqmWvkEJASYWu4Mo
+	G6j+NDvFH7yqvgNDL+yfIZyq2T15y3oq+67w0QsOq0ml2QQmPlEVwCXUtU/YFjzs09/cJeRDyDU
+	yEr75J4XAnmly5KgymOsESy5T3GKOl6c=
+X-Received: by 2002:a1f:1b0d:0:b0:3b3:b114:8ff1 with SMTP id b13-20020a1f1b0d000000b003b3b1148ff1mr39568032vkb.17.1670323166703;
+        Tue, 06 Dec 2022 02:39:26 -0800 (PST)
+X-Google-Smtp-Source: AA0mqf6yc6cX/hNx5MTrfR2LYsczoNPUfT6CJCiQYSwq0/Hyjhtm5KhZdvPxTDOplcZ1aknwFY5owbiCI3znrOgZZWA=
+X-Received: by 2002:a1f:1b0d:0:b0:3b3:b114:8ff1 with SMTP id
+ b13-20020a1f1b0d000000b003b3b1148ff1mr39568015vkb.17.1670323166513; Tue, 06
+ Dec 2022 02:39:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20221129132208.4337-1-hch@lst.de> <20221129132208.4337-5-hch@lst.de>
-In-Reply-To: <20221129132208.4337-5-hch@lst.de>
+References: <20221129132208.4337-1-hch@lst.de> <20221129132208.4337-6-hch@lst.de>
+In-Reply-To: <20221129132208.4337-6-hch@lst.de>
 From: Eric Curtin <ecurtin@redhat.com>
-Date: Tue, 6 Dec 2022 10:38:52 +0000
-Message-ID: <CAOgh=FyTsAgXMOuPhh-YG1Cj3QH6_6vwB9cWrxk6XTchE5P_mg@mail.gmail.com>
-Subject: Re: [PATCH 4/9] nvme-pci: remove nvme_disable_admin_queue
+Date: Tue, 6 Dec 2022 10:39:10 +0000
+Message-ID: <CAOgh=FxeOUAeyY1xZGoWO1OGRRK4Usdx_E_h_C3T22iw4Vut5Q@mail.gmail.com>
+Subject: Re: [PATCH 5/9] nvme-pci: remove nvme_pci_disable
 To: Christoph Hellwig <hch@lst.de>
 Cc: Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
 	James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
@@ -63,46 +63,52 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Tue, 29 Nov 2022 at 13:29, Christoph Hellwig <hch@lst.de> wrote:
 >
-> nvme_disable_admin_queue has only a single caller, and just calls two
-> other funtions, so remove it to clean up the remove path a little more.
+> nvme_pci_disable has a single caller, fold it into that.
 >
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 
 Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 
 > ---
->  drivers/nvme/host/pci.c | 11 ++---------
->  1 file changed, 2 insertions(+), 9 deletions(-)
+>  drivers/nvme/host/pci.c | 18 +++++-------------
+>  1 file changed, 5 insertions(+), 13 deletions(-)
 >
 > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 84226dce9b3b92..c6a02210d22b46 100644
+> index c6a02210d22b46..c3d9b23699d3f3 100644
 > --- a/drivers/nvme/host/pci.c
 > +++ b/drivers/nvme/host/pci.c
-> @@ -1496,14 +1496,6 @@ static void nvme_suspend_io_queues(struct nvme_dev *dev)
->                 nvme_suspend_queue(&dev->queues[i]);
+> @@ -2657,18 +2657,6 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
+>         pci_release_mem_regions(to_pci_dev(dev->dev));
 >  }
 >
-> -static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+> -static void nvme_pci_disable(struct nvme_dev *dev)
 > -{
-> -       struct nvme_queue *nvmeq = &dev->queues[0];
+> -       struct pci_dev *pdev = to_pci_dev(dev->dev);
 > -
-> -       nvme_disable_ctrl(&dev->ctrl, shutdown);
-> -       nvme_poll_irqdisable(nvmeq);
+> -       pci_free_irq_vectors(pdev);
+> -
+> -       if (pci_is_enabled(pdev)) {
+> -               pci_disable_pcie_error_reporting(pdev);
+> -               pci_disable_device(pdev);
+> -       }
 > -}
 > -
->  /*
->   * Called only on a device that has been disabled and after all other threads
->   * that can check this device's completion queues have synced, except
-> @@ -2711,7 +2703,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
->
->         if (!dead && dev->ctrl.queue_count > 0) {
->                 nvme_disable_io_queues(dev);
-> -               nvme_disable_admin_queue(dev, shutdown);
-> +               nvme_disable_ctrl(&dev->ctrl, shutdown);
-> +               nvme_poll_irqdisable(&dev->queues[0]);
+>  static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+>  {
+>         bool dead = true, freeze = false;
+> @@ -2708,7 +2696,11 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
 >         }
 >         nvme_suspend_io_queues(dev);
 >         nvme_suspend_queue(&dev->queues[0]);
+> -       nvme_pci_disable(dev);
+> +       pci_free_irq_vectors(pdev);
+> +       if (pci_is_enabled(pdev)) {
+> +               pci_disable_pcie_error_reporting(pdev);
+> +               pci_disable_device(pdev);
+> +       }
+>         nvme_reap_pending_cqes(dev);
+>
+>         nvme_cancel_tagset(&dev->ctrl);
 > --
 > 2.30.2
 >
