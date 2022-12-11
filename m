@@ -1,62 +1,65 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1CDFEC1
-	for <asahi@lists.linux.dev>; Fri,  9 Dec 2022 11:15:21 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id o15so2984000wmr.4
-        for <asahi@lists.linux.dev>; Fri, 09 Dec 2022 03:15:21 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E210F1363
+	for <asahi@lists.linux.dev>; Sun, 11 Dec 2022 05:17:25 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id 21so6429143pfw.4
+        for <asahi@lists.linux.dev>; Sat, 10 Dec 2022 21:17:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8JfIhBQiQdRpJMfaCFXCAzBv7sjvzS5wkmaXDYOimOk=;
-        b=Zp5F6wCUXi/NJ5uICZTPFEcbi34g+0A3QfRXWirxcrW+E7C+H+3Z1wJBw1CZTHoloO
-         nlStbGVm0QBJwDYhOXYliWTDQ1STgZuE7xoT8ZaRVs9Pj+/vGauGo4cbPkj5rfCUY05v
-         4XfJCuClQCJeKa2TW69A6uWQJnsViD9v/XOX/UUkrmrkrvDw3/H06sGJ+gFN0cVhCEN8
-         rza5IxNBZ0p2mPE+iF3MTRbkAPZZaRuUsdClqu2iQUuhKO5ZtnhEXpGM1AAUq5FSfTC0
-         NVU5GchDzQQlL61lY1nbWnsimHWuDLPKiyppeDOxFndFRVuGBaY+/h6Q0jowunthFDwU
-         opSQ==
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0kPiXJlVEAGiE46bEmtCKOJ4JxdjDvz4UZE+PugYkgI=;
+        b=zD/O2nzY7tL6eshwIf3CeY/YAQIm1xVj5/Js/pKlVUvQWsGxQvosSXAL5bONw8IRja
+         NA3S79/dHcWpJuvuy9trw6RuKm57YDQCUNFpPvtYLZhGO3nfFMIvpKzeGx8mjTPJk5gq
+         hw+7ezvQrKhSUi9CIBPtmx5dqGx8b4Zr7z+xZLP2OUafjrWtcGD8PRS4P8yU7dKvr6Jv
+         UbbqVz0qPUqc4J5QhHhE7EjNOtQ744qnzQYQZf3qc8NljImI96wFoAZ++URfZ7JtOOme
+         i8w/sViehDGjCh8JEOb2IPC1RIyIsa1SCr8haVzrurKIBxrloDk0D0MMtViqlg2ivnDO
+         D2tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8JfIhBQiQdRpJMfaCFXCAzBv7sjvzS5wkmaXDYOimOk=;
-        b=rOFeGXwRp5wRn5L+xgxpYi+TYuPQi6C++DAR+hTpqwNiqvzTJZlMg2jh/YwztJiKjz
-         Xz/2JyiUh51SUq/+QfF0R9g7Y4lSLNvywj8ew4MRqsBmDDf0gWQ8c/YRbjlCyKh9zOY+
-         Ag7QljZvgcgpdwjc/PYEGV0VkD0eKum9rIfZYwySEN6EEKZcs7O2zp+uR4IrON1WAlCw
-         M9Ppq/YwIu4CiIa2ljatXOl3SpYaB1UU8R+offWbmSxJyG0cpzYd73MLkfJHI8bgj6II
-         jMuR/9HPGDC5eLyDdEu2uqmkXKJtkoXzaMmN5HcKhweiWx05mmeO2ti2AmvmqOmPMKRM
-         3ZUg==
-X-Gm-Message-State: ANoB5pm58yiRpjMbOoAF8DsSgiuG8GR+ZuIeS2DsPHcK2jkegGkAscLg
-	dKJ4w+NjKpcX2n+RSnOzW4g=
-X-Google-Smtp-Source: AA0mqf4VhywMBEJArePJwdgHoqHlWBtuDafXIyolh0KxoMBFXwbj7kqLPN5MxEL9ZmMltqgPJCZu1w==
-X-Received: by 2002:a7b:c358:0:b0:3d1:f882:43eb with SMTP id l24-20020a7bc358000000b003d1f88243ebmr4237490wmj.10.1670584519963;
-        Fri, 09 Dec 2022 03:15:19 -0800 (PST)
-Received: from localhost ([217.131.81.52])
-        by smtp.gmail.com with UTF8SMTPSA id m188-20020a1c26c5000000b003d1d5a83b2esm7580068wmm.35.2022.12.09.03.15.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Dec 2022 03:15:19 -0800 (PST)
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-To: thierry.reding@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org
-Cc: marcan@marcan.st,
-	sven@svenpeter.dev,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0kPiXJlVEAGiE46bEmtCKOJ4JxdjDvz4UZE+PugYkgI=;
+        b=M/ZXD2APmEyQwW8jzp3V5W6kR1YrpLBhJ3yc8oswyDR/F+OqDEtcFlqBw6QIPwVStY
+         naUBtwWCwbSQhkBoKySzqzNsFFNm5X4c8TcmEFvD6v8FnUvi8LmU93nFk1U+KhICZElt
+         SwepwTDcIlYG/mSu1nb6rmScemIHtuj+lP5l4+D6SkCcpz7Ube1qvfJ+cOldZxAVHoKj
+         +44HLCb2ZvNBGjRdm8JMaEl9Z3dmx+v4OuY1ti7mwNn9kBOVMssqtRCqEUFV54roTtF3
+         mujBz6oCxZ9FvR6kPOZfdpkW8SzruQQZcxDgDSd0a3nzdFM+VIReEchBDV7vH7iEY2qH
+         efkA==
+X-Gm-Message-State: ANoB5pl0OyxKA6knLwY/ZwFH/P14EMfzJdfb/zBcKJ0Qh5M5p8NTqAIE
+	pGYDPCNbMHVEDA805aQQMhul/Q==
+X-Google-Smtp-Source: AA0mqf6ROckMAbfbisK6rGjhVdzEf/yVRLrsZe5jClX/LxHWmHcqbWN4KyQJGM1sOsD4rukXuxv6tA==
+X-Received: by 2002:aa7:904e:0:b0:56b:a2f8:1d0f with SMTP id n14-20020aa7904e000000b0056ba2f81d0fmr9918822pfo.0.1670735845341;
+        Sat, 10 Dec 2022 21:17:25 -0800 (PST)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id f125-20020a623883000000b00575d90636dcsm3463684pfa.6.2022.12.10.21.17.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Dec 2022 21:17:25 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Marc Zyngier <maz@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH v4 4/4] MAINTAINERS: Add entries for Apple PWM driver
-Date: Fri,  9 Dec 2022 14:13:13 +0300
-Message-Id: <20221209111313.2701-5-fnkl.kernel@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20221209111313.2701-1-fnkl.kernel@gmail.com>
-References: <20221209111313.2701-1-fnkl.kernel@gmail.com>
+	kvmarm@lists.linux.dev,
+	kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>,
+	Hector Martin <marcan@marcan.st>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH 0/3] KVM: arm64: Normalize cache configuration
+Date: Sun, 11 Dec 2022 14:16:57 +0900
+Message-Id: <20221211051700.275761-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -65,34 +68,42 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the MAINTAINERS entries for the driver
+Before this change, the cache configuration of the physical CPU was
+exposed to vcpus. This is problematic because the cache configuration a
+vcpu sees varies when it migrates between vcpus with different cache
+configurations.
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Acked-by: Sven Peter <sven@svenpeter.dev>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+Fabricate cache configuration from arm64_ftr_reg_ctrel0.sys_val, which
+holds the CTR_EL0 value the userspace sees regardless of which physical
+CPU it resides on.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1daadaa4d48b..86a8265c8e42 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1908,6 +1908,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
-+F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/clk/clk-apple-nco.c
-@@ -1921,6 +1922,7 @@ F:	drivers/mailbox/apple-mailbox.c
- F:	drivers/nvme/host/apple.c
- F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
-+F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
+HCR_TID2 is now always set as it is troublesome to detect the difference
+of cache configurations among physical CPUs.
+
+CSSELR_EL1 is now held in the memory instead of the corresponding
+phyisccal register as the fabricated cache configuration may have a
+cache level which does not exist in the physical CPU, and setting the
+physical CSSELR_EL1 for the level results in an UNKNOWN behavior.
+
+CLIDR_EL1 and CCSIDR_EL1 are now writable from the userspace so that
+the VMM can restore the values saved with the old kernel.
+
+Akihiko Odaki (3):
+  arm64/sysreg: Add CCSIDR2_EL1
+  arm64/cache: Move CLIDR macro definitions
+  KVM: arm64: Normalize cache configuration
+
+ arch/arm64/include/asm/cache.h             |   6 +
+ arch/arm64/include/asm/kvm_arm.h           |   3 +-
+ arch/arm64/include/asm/kvm_emulate.h       |   4 -
+ arch/arm64/include/asm/kvm_host.h          |   6 +-
+ arch/arm64/kernel/cacheinfo.c              |   5 -
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h |   2 -
+ arch/arm64/kvm/reset.c                     |   1 +
+ arch/arm64/kvm/sys_regs.c                  | 232 ++++++++++++---------
+ arch/arm64/tools/sysreg                    |   5 +
+ 9 files changed, 153 insertions(+), 111 deletions(-)
+
 -- 
-2.37.1 (Apple Git-137.1)
+2.38.1
 
