@@ -1,42 +1,43 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E210F1363
-	for <asahi@lists.linux.dev>; Sun, 11 Dec 2022 05:17:25 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id 21so6429143pfw.4
-        for <asahi@lists.linux.dev>; Sat, 10 Dec 2022 21:17:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53981363
+	for <asahi@lists.linux.dev>; Sun, 11 Dec 2022 05:17:29 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id 65so6421808pfx.9
+        for <asahi@lists.linux.dev>; Sat, 10 Dec 2022 21:17:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=daynix-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0kPiXJlVEAGiE46bEmtCKOJ4JxdjDvz4UZE+PugYkgI=;
-        b=zD/O2nzY7tL6eshwIf3CeY/YAQIm1xVj5/Js/pKlVUvQWsGxQvosSXAL5bONw8IRja
-         NA3S79/dHcWpJuvuy9trw6RuKm57YDQCUNFpPvtYLZhGO3nfFMIvpKzeGx8mjTPJk5gq
-         hw+7ezvQrKhSUi9CIBPtmx5dqGx8b4Zr7z+xZLP2OUafjrWtcGD8PRS4P8yU7dKvr6Jv
-         UbbqVz0qPUqc4J5QhHhE7EjNOtQ744qnzQYQZf3qc8NljImI96wFoAZ++URfZ7JtOOme
-         i8w/sViehDGjCh8JEOb2IPC1RIyIsa1SCr8haVzrurKIBxrloDk0D0MMtViqlg2ivnDO
-         D2tA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A5kiwn5okie3cYkwLwnJvTGi40F+wMTuMjX2LuHOS+A=;
+        b=WM+yFLRXJy6JnBZbZOpn5+t8atNOLnueKar48v96qp2NwU/8Ik1wwnuxmytttty2z9
+         ITUmFGcOh29D6O6PlCO0PlhB2szHk7iTkSdA0gLqBptODhfUF520Gbgw7MZBVwLwLiTw
+         0CSCnOHilk+hhVw4IuvHirujaQAZXrBuPE4ZmouZYqe2dHTtICsf6+0xz/CW8OWjOcpj
+         JOCFkmrSinl+xQUfrSMRl/7MyercuXij7RIG389zwGUekxyDAo63H1HbdgfXDq4JFyI8
+         2HRfGSO+Go17DonBkq5ok61YEIAdu2j4o7pvrlOMtTlhWZV7F0tGbfILJBgZ/rE6SGs2
+         p8ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0kPiXJlVEAGiE46bEmtCKOJ4JxdjDvz4UZE+PugYkgI=;
-        b=M/ZXD2APmEyQwW8jzp3V5W6kR1YrpLBhJ3yc8oswyDR/F+OqDEtcFlqBw6QIPwVStY
-         naUBtwWCwbSQhkBoKySzqzNsFFNm5X4c8TcmEFvD6v8FnUvi8LmU93nFk1U+KhICZElt
-         SwepwTDcIlYG/mSu1nb6rmScemIHtuj+lP5l4+D6SkCcpz7Ube1qvfJ+cOldZxAVHoKj
-         +44HLCb2ZvNBGjRdm8JMaEl9Z3dmx+v4OuY1ti7mwNn9kBOVMssqtRCqEUFV54roTtF3
-         mujBz6oCxZ9FvR6kPOZfdpkW8SzruQQZcxDgDSd0a3nzdFM+VIReEchBDV7vH7iEY2qH
-         efkA==
-X-Gm-Message-State: ANoB5pl0OyxKA6knLwY/ZwFH/P14EMfzJdfb/zBcKJ0Qh5M5p8NTqAIE
-	pGYDPCNbMHVEDA805aQQMhul/Q==
-X-Google-Smtp-Source: AA0mqf6ROckMAbfbisK6rGjhVdzEf/yVRLrsZe5jClX/LxHWmHcqbWN4KyQJGM1sOsD4rukXuxv6tA==
-X-Received: by 2002:aa7:904e:0:b0:56b:a2f8:1d0f with SMTP id n14-20020aa7904e000000b0056ba2f81d0fmr9918822pfo.0.1670735845341;
-        Sat, 10 Dec 2022 21:17:25 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A5kiwn5okie3cYkwLwnJvTGi40F+wMTuMjX2LuHOS+A=;
+        b=Dzqvi9itIvu01Ot++qW1cGtpocEe/9Bt5nrvFT/XQNx703Q7DBNdvTW64IXQEVQvDJ
+         rRs5rubZPrzJTMMZyW1DrNEH8vOqkNRGdQvT5WRDi1f1M3mGaddQehf/KLpUK0+BolmA
+         g8/LbLPrl2nYyfnGNUSw13BQQEec0FAst6UQjvavGPAw5R3IF7jaauK4EIAAUsoks7qe
+         7uF9PdJz3V/0gQFeKns60KcwiuybzzJX0mHCwUl9q+qu+4h8OE4QgGjXyE2QExmoCoXG
+         U2Pj2Qu77gZZGAbNqffF+ZMDBJsr63sxJD4aFG5XK/u/2aMp6OEhsAga5iedIxRSsKe3
+         9wwQ==
+X-Gm-Message-State: ANoB5pkoyGSs42ItZY/7OZaKh+cmpNKF00rM8xoX15nNVXWqU6ugp5Kj
+	WTZl/Zs2NmIodLdlpD7Q3UQ6Ig==
+X-Google-Smtp-Source: AA0mqf4MODz3PRgxNZCX+N8VP2CyAydeEtYzkGUUPBV3KsYk9uUNpuHV9OrohMyN3dXkAHtnQP7GRQ==
+X-Received: by 2002:a05:6a00:1c81:b0:577:8bae:29a7 with SMTP id y1-20020a056a001c8100b005778bae29a7mr10830364pfw.33.1670735849244;
+        Sat, 10 Dec 2022 21:17:29 -0800 (PST)
 Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
-        by smtp.gmail.com with ESMTPSA id f125-20020a623883000000b00575d90636dcsm3463684pfa.6.2022.12.10.21.17.21
+        by smtp.gmail.com with ESMTPSA id f125-20020a623883000000b00575d90636dcsm3463684pfa.6.2022.12.10.21.17.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Dec 2022 21:17:25 -0800 (PST)
+        Sat, 10 Dec 2022 21:17:28 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Marc Zyngier <maz@kernel.org>,
@@ -56,10 +57,12 @@ Cc: Marc Zyngier <maz@kernel.org>,
 	Sven Peter <sven@svenpeter.dev>,
 	Hector Martin <marcan@marcan.st>,
 	Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH 0/3] KVM: arm64: Normalize cache configuration
-Date: Sun, 11 Dec 2022 14:16:57 +0900
-Message-Id: <20221211051700.275761-1-akihiko.odaki@daynix.com>
+Subject: [PATCH 1/3] arm64/sysreg: Add CCSIDR2_EL1
+Date: Sun, 11 Dec 2022 14:16:58 +0900
+Message-Id: <20221211051700.275761-2-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20221211051700.275761-1-akihiko.odaki@daynix.com>
+References: <20221211051700.275761-1-akihiko.odaki@daynix.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -68,42 +71,29 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Before this change, the cache configuration of the physical CPU was
-exposed to vcpus. This is problematic because the cache configuration a
-vcpu sees varies when it migrates between vcpus with different cache
-configurations.
+CCSIDR2_EL1 was added with FEAT_CCIDX.
 
-Fabricate cache configuration from arm64_ftr_reg_ctrel0.sys_val, which
-holds the CTR_EL0 value the userspace sees regardless of which physical
-CPU it resides on.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ arch/arm64/tools/sysreg | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-HCR_TID2 is now always set as it is troublesome to detect the difference
-of cache configurations among physical CPUs.
-
-CSSELR_EL1 is now held in the memory instead of the corresponding
-phyisccal register as the fabricated cache configuration may have a
-cache level which does not exist in the physical CPU, and setting the
-physical CSSELR_EL1 for the level results in an UNKNOWN behavior.
-
-CLIDR_EL1 and CCSIDR_EL1 are now writable from the userspace so that
-the VMM can restore the values saved with the old kernel.
-
-Akihiko Odaki (3):
-  arm64/sysreg: Add CCSIDR2_EL1
-  arm64/cache: Move CLIDR macro definitions
-  KVM: arm64: Normalize cache configuration
-
- arch/arm64/include/asm/cache.h             |   6 +
- arch/arm64/include/asm/kvm_arm.h           |   3 +-
- arch/arm64/include/asm/kvm_emulate.h       |   4 -
- arch/arm64/include/asm/kvm_host.h          |   6 +-
- arch/arm64/kernel/cacheinfo.c              |   5 -
- arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h |   2 -
- arch/arm64/kvm/reset.c                     |   1 +
- arch/arm64/kvm/sys_regs.c                  | 232 ++++++++++++---------
- arch/arm64/tools/sysreg                    |   5 +
- 9 files changed, 153 insertions(+), 111 deletions(-)
-
+diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
+index 384757a7eda9..0fb08c53fcdb 100644
+--- a/arch/arm64/tools/sysreg
++++ b/arch/arm64/tools/sysreg
+@@ -887,6 +887,11 @@ Field	5:3	Ctype2
+ Field	2:0	Ctype1
+ EndSysreg
+ 
++Sysreg	CCSIDR2_EL1	3	1	0	0	2
++Res0	63:24
++Field	23:0	NumSets
++EndSysreg
++
+ Sysreg	GMID_EL1	3	1	0	0	4
+ Res0	63:4
+ Field	3:0	BS
 -- 
 2.38.1
 
