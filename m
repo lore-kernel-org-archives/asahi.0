@@ -1,151 +1,89 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19032186F
-	for <asahi@lists.linux.dev>; Sun, 11 Dec 2022 10:44:43 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id s196so6378483pgs.3
-        for <asahi@lists.linux.dev>; Sun, 11 Dec 2022 02:44:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=daynix-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CSYO6GAYJ35zt05esIXClHwHgXyrpJY8FQ1q/9ql0Ik=;
-        b=o8yWru14C7LAzgaEbMCM+XlM98edDtEjBJPRlbubJWIzppNLaaX4IYJMTKwGUG90MW
-         1REzJ5zSA561ChWvAAksM6ZLtUFd1TMXfPcKXADZ4aLFl10YnuJLMw7ZZrMj2rA8tsKC
-         BZUt57ieMxpp+sc1+HLFT7sNyrpJ5vidumnuetBlem3ytR/xQrPMPuaYn6/UAZmQyAnj
-         tZ7BkkauRszeNLXTU2/deWIMM/ew/3ZniXljE8mobJBWBePT2+oQ9cjYAXiLxdRFnvIq
-         9sWEOtSZ03Dd/Wu2hseMWqkSNdO9RJJtMIy9rt1VekUTK/5NurSapCckdpKFdXSL+t2r
-         Eb7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CSYO6GAYJ35zt05esIXClHwHgXyrpJY8FQ1q/9ql0Ik=;
-        b=ItwRbUB7TVEmzrpUAkNDyuTvB4nXCS+PwEkA0p/4q9YmY5XvmJAQ1sQDpwkul6V420
-         +hZA2DXQ5R2cUG0/vS9Tusj6MJPaOtl6oanDcKQJf+xw2iHVLYwKoll+knLZqXmJPSTX
-         z+hINFMleMxuKtmt66jdz2aHHytev/AvkyY1h5iHllCuOCt+Vt++dllXGnaVztYnwvGm
-         OKAw0L9At370naeOrTeSr0cSSctfAOFnUIoHsrlLfeHVXnaSxVKVvOJyzoiWz++88X0S
-         ZlcBHoqDBSZwCu+gWnkE5i1OGHcI8vdjDUPMxYxxfDgVHJxJZKbony5JVP/rYXsLMpgh
-         ywaQ==
-X-Gm-Message-State: ANoB5pkm07y25eMXbQSrEvbE5eClZNdMkNxX/LOxeHZfH4wWgiDZR8wg
-	9DAw75GWRweSByI7ERjfU1F/hg==
-X-Google-Smtp-Source: AA0mqf5eX2lf/4q7qzuxUq3FEVAm6RQVyQCcLkQOi+sgu7W9izRnftAzN2PHf6Ua2g5Wuza37Ubw2A==
-X-Received: by 2002:aa7:8492:0:b0:576:ebfe:e9c1 with SMTP id u18-20020aa78492000000b00576ebfee9c1mr11487490pfn.20.1670755483463;
-        Sun, 11 Dec 2022 02:44:43 -0800 (PST)
-Received: from ?IPV6:2400:4050:c360:8200:7b99:f7c3:d084:f1e2? ([2400:4050:c360:8200:7b99:f7c3:d084:f1e2])
-        by smtp.gmail.com with ESMTPSA id r7-20020aa79ec7000000b005765df21e68sm3949433pfq.94.2022.12.11.02.44.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 11 Dec 2022 02:44:43 -0800 (PST)
-Message-ID: <634e1d66-12f5-0b6c-7917-dc7982072711@daynix.com>
-Date: Sun, 11 Dec 2022 19:44:38 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C677F33FF
+	for <asahi@lists.linux.dev>; Tue, 13 Dec 2022 14:08:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82776C433F0;
+	Tue, 13 Dec 2022 14:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1670940521;
+	bh=ZhS1+Jlq3PtbDqoFD6tZt00rbsFDNMR0cDrwPMM46IU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=o5JPbh7RIfNUgRAwbMU1AkQ+gPqagF91VvU4yE+e2MCAPxBOXwA/PdyXxq2qtOycq
+	 svx6xe4s/pD8Dx42oAxi2Rz9GR41biHEuk7wVf5kfBwFg7M5wkaqnJyI1c96z+1f7K
+	 CdmKZQrlvDWqqcHonGcNqkOYmDlAnEc7X45AejsE/iMtZOyV6UfxMCYEZEkPPyNCpA
+	 8JKx5Eg2g1FnqyAlHC9joBIm6GRwgeMmTuGK/leaU9Ck2/FwrVG51kLZhYw9LAy+j6
+	 vrwdGqTV4eWB/4+sXPtEJSfLpdgZCcguFDmHj8ijGKFQcV528i2/7N+lLRW43bNP9E
+	 tM3ZcuUrF3RzA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+	(envelope-from <johan+linaro@kernel.org>)
+	id 1p55xz-00042J-9t; Tue, 13 Dec 2022 15:09:07 +0100
+From: Johan Hovold <johan+linaro@kernel.org>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Marc Zyngier <maz@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [PATCH 0/2] irqchip/genirq/msi: Use irq_domain_alloc_irqs()
+Date: Tue, 13 Dec 2022 15:08:42 +0100
+Message-Id: <20221213140844.15470-1-johan+linaro@kernel.org>
+X-Mailer: git-send-email 2.37.4
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 0/3] KVM: arm64: Handle CCSIDR associativity mismatches
-To: Marc Zyngier <maz@kernel.org>
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>, linux-kernel@vger.kernel.org,
- kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Oliver Upton <oliver.upton@linux.dev>,
- Suzuki K Poulose <suzuki.poulose@arm.com>,
- Alexandru Elisei <alexandru.elisei@arm.com>,
- James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Sven Peter <sven@svenpeter.dev>,
- Hector Martin <marcan@marcan.st>
-References: <20221201104914.28944-1-akihiko.odaki@daynix.com>
- <867czbmlh1.wl-maz@kernel.org>
- <50499ee9-33fe-4f5d-9d0a-76ceef038333@daynix.com>
- <87lenqu37t.wl-maz@kernel.org>
- <525ff263-90b3-5b12-da31-171b09f9ad1b@daynix.com>
- <87h6yeta8b.wl-maz@kernel.org>
- <d54e7e38-cdf6-ef5d-a6e6-e30ad8a59034@gmail.com>
- <87bkojtdvy.wl-maz@kernel.org>
- <88bdcca8-4df4-15ff-2e88-c53255b1fe30@daynix.com>
- <868rjeqm0d.wl-maz@kernel.org>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <868rjeqm0d.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2022/12/11 19:21, Marc Zyngier wrote:
-> On Sun, 11 Dec 2022 05:25:31 +0000,
-> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>
->> On 2022/12/04 23:57, Marc Zyngier wrote:
->>> On Fri, 02 Dec 2022 09:55:24 +0000,
->>> Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->>>>
->>>> On 2022/12/02 18:40, Marc Zyngier wrote:
->>>>> On Fri, 02 Dec 2022 05:17:12 +0000,
->>>>> Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
->>>>>>
->>>>>>>> On M2 MacBook Air, I have seen no other difference in standard ID
->>>>>>>> registers and CCSIDRs are exceptions. Perhaps Apple designed this way
->>>>>>>> so that macOS's Hypervisor can freely migrate vCPU, but I can't assure
->>>>>>>> that without more analysis. This is still enough to migrate vCPU
->>>>>>>> running Linux at least.
->>>>>>>
->>>>>>> I guess that MacOS hides more of the underlying HW than KVM does. And
->>>>>>> KVM definitely doesn't hide the MIDR_EL1 registers, which *are*
->>>>>>> different between the two clusters.
->>>>>>
->>>>>> It seems KVM stores a MIDR value of a CPU and reuse it as "invariant"
->>>>>> value for ioctls while it exposes the MIDR value each physical CPU
->>>>>> owns to vCPU.
->>>>>
->>>>> This only affects the VMM though, and not the guest which sees the
->>>>> MIDR of the CPU it runs on. The problem is that at short of pinning
->>>>> the vcpus, you don't know where they will run. So any value is fair
->>>>> game.
->>>>
->>>> Yes, my concern is that VMM can be confused if it sees something
->>>> different from what the guest on the vCPU sees.
->>>
->>> Well, this has been part of the ABI for about 10 years, since Rusty
->>> introduced this notion of invariant, so userspace is already working
->>> around it if that's an actual issue.
->>
->> In that case, I think it is better to document that the interface is
->> not working properly and deprecated.
-> 
-> This means nothing. Deprecating an API doesn't mean we don't support
-> it and doesn't solve any issue for existing userspace.
-> 
-> I'd rather not change anything, TBH. Existing userspace already knows
-> how to deal with this,
-> 
->>
->>>
->>> This would be easily addressed though, and shouldn't result in any
->>> issue. The following should do the trick (only lightly tested on an
->>> M1).
->>
->> This can be problematic when restoring vcpu state saved with the old
->> kernel. A possible solution is to allow the userspace to overwrite
->> MIDR_EL1 as proposed for CCSIDR_EL1.
-> 
-> That would break most guests for obvious reasons. At best what can be
-> done is to make the MIDR WI.
+When reworking the irqdomain locking I noticed that we had quite a few
+users of the __irq_domain_alloc_irqs() interface which was initially
+only intended for some legacy x86 use cases.
 
-Making MIDR WI sounds good to me. Either keeping the current behavior or 
-making it WI, the behavior is better to be documented, I think. The 
-documentation obviously does not help running existing userspace code 
-but will be helpful when writing new userspace code or understanding how 
-existing userspace code works.
+This first patch updates the irqchip driver so that the
+irq_domain_alloc_irqs() wrapper is instead used consistently.
 
-Regards,
-Akihiko Odaki
+The second patch adds a matching irq_domain_alloc_irqs_affinity() helper
+which can be used when an affinity hint needs to be provided and updates
+the sole user.
 
-> 
-> 	M.
-> 
+With this update to gpiolib:
+
+	https://lore.kernel.org/lkml/20221213135227.14398-1-johan+linaro@kernel.org
+
+the only remaining users of the full interface (with preallocated
+descriptors) are the two original calls in x86/io_apic and the later
+added one for IPI.
+
+Johan
+
+
+Johan Hovold (2):
+  irqchip: Use irq_domain_alloc_irqs()
+  genirq/irqdomain/msi: Add irq_domain_alloc_irqs_affinity() wrapper
+
+ drivers/irqchip/irq-apple-aic.c     |  5 ++---
+ drivers/irqchip/irq-armada-370-xp.c |  4 ++--
+ drivers/irqchip/irq-bcm2836.c       |  6 ++----
+ drivers/irqchip/irq-gic-v3.c        |  5 ++---
+ drivers/irqchip/irq-gic-v4.c        | 10 ++++------
+ drivers/irqchip/irq-gic.c           |  5 ++---
+ include/linux/irqdomain.h           | 15 +++++++++++++++
+ kernel/irq/msi.c                    |  6 +++---
+ 8 files changed, 32 insertions(+), 24 deletions(-)
+
+-- 
+2.37.4
+
