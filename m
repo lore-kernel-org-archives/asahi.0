@@ -1,119 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C67A95CA9
-	for <asahi@lists.linux.dev>; Tue, 13 Dec 2022 14:08:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80A5EC433D2;
-	Tue, 13 Dec 2022 14:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1670940521;
-	bh=M2Je/haA40Wu9LCU1PfMEDvXGneFkuJ8iybnSPHk2oI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UxWcVgkZrWmEEJ8Ao51oMyMe+heeIkwUihFgxIgb0XlgHRs/hGIVJLR2uV9H8XQDz
-	 6UqQMpJIgarzttGleoBAESwIMUpxmpUdiwD6CYSZA0XgMAM5o6AWnP5zwY9HrrcaAG
-	 wWstqE9uA1p3UZGVG5jzl3t3kDy4xsUkllpUnKSmYQFxKeFhogvbNQruMP5TqX9dd6
-	 DJ8nI6WYU66GdYR24n4yaKBP8bEbuEA2eYhAgLxujnmsKl++3Cg/hIop0ZBS75cQKC
-	 dHxcoyVPrNAaQXGTYvnLo3raoDCUFQcRVlcCWWPfv3fSuw8xHje3l4aQTt7G8mxAmJ
-	 TlgBjeRHXMwaQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan+linaro@kernel.org>)
-	id 1p55xz-00042N-Hl; Tue, 13 Dec 2022 15:09:07 +0100
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Marc Zyngier <maz@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	asahi@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95167F;
+	Wed, 14 Dec 2022 00:59:29 +0000 (UTC)
+Date: Wed, 14 Dec 2022 00:59:17 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1670979562;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qbKxRIPYAhQPs9JSjFRsJUAAmMT3SmynUTp6Kob5aSA=;
+	b=BJmn8mmJMMe4GC4cqN0JMmdIVim+izlQOZFM7XZq1llY0jN+dMVlj1H4EP4eIBEmXp8lYK
+	MXbZuomcvx54TXdefIJEo1RVkbTUFi+HJtKiWnQoFfOhiWeNG5+ZIYpfylkQgVG/nu5OMS
+	hIMZmFyTmHWQIDkc9Qi42jOvL1qPC/g=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Marc Zyngier <maz@kernel.org>, linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	Johan Hovold <johan+linaro@kernel.org>
-Subject: [PATCH 2/2] genirq/irqdomain/msi: Add irq_domain_alloc_irqs_affinity() wrapper
-Date: Tue, 13 Dec 2022 15:08:44 +0100
-Message-Id: <20221213140844.15470-3-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.37.4
-In-Reply-To: <20221213140844.15470-1-johan+linaro@kernel.org>
-References: <20221213140844.15470-1-johan+linaro@kernel.org>
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 0/3] KVM: arm64: Normalize cache configuration
+Message-ID: <Y5kf5XDUb5En00BZ@google.com>
+References: <20221211051700.275761-1-akihiko.odaki@daynix.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221211051700.275761-1-akihiko.odaki@daynix.com>
+X-Migadu-Flow: FLOW_OUT
 
-The full __irq_domain_alloc_irqs() interface was initially only intended
-for some legacy (x86) use cases while most callers should use the
-irq_domain_alloc_irqs() wrapper.
+Hi Akihiko,
 
-Add a matching irq_domain_alloc_irqs_affinity() wrapper that can be used
-when an affinity hint needs to be provided and use it for MSI
-allocations.
+On Sun, Dec 11, 2022 at 02:16:57PM +0900, Akihiko Odaki wrote:
+> Before this change, the cache configuration of the physical CPU was
+> exposed to vcpus. This is problematic because the cache configuration a
+> vcpu sees varies when it migrates between vcpus with different cache
+> configurations.
+> 
+> Fabricate cache configuration from arm64_ftr_reg_ctrel0.sys_val, which
+> holds the CTR_EL0 value the userspace sees regardless of which physical
+> CPU it resides on.
+> 
+> HCR_TID2 is now always set as it is troublesome to detect the difference
+> of cache configurations among physical CPUs.
+> 
+> CSSELR_EL1 is now held in the memory instead of the corresponding
+> phyisccal register as the fabricated cache configuration may have a
+> cache level which does not exist in the physical CPU, and setting the
+> physical CSSELR_EL1 for the level results in an UNKNOWN behavior.
+> 
+> CLIDR_EL1 and CCSIDR_EL1 are now writable from the userspace so that
+> the VMM can restore the values saved with the old kernel.
+> 
+> Akihiko Odaki (3):
+>   arm64/sysreg: Add CCSIDR2_EL1
+>   arm64/cache: Move CLIDR macro definitions
+>   KVM: arm64: Normalize cache configuration
 
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
- include/linux/irqdomain.h | 15 +++++++++++++++
- kernel/irq/msi.c          |  6 +++---
- 2 files changed, 18 insertions(+), 3 deletions(-)
+Next time you do a respin can you please bump the version number? I.e.
+the next version should be v3.
 
-diff --git a/include/linux/irqdomain.h b/include/linux/irqdomain.h
-index cad47737a052..b1b06d75d31a 100644
---- a/include/linux/irqdomain.h
-+++ b/include/linux/irqdomain.h
-@@ -507,6 +507,14 @@ static inline int irq_domain_alloc_irqs(struct irq_domain *domain,
- 				       NULL);
- }
- 
-+static inline int irq_domain_alloc_irqs_affinity(struct irq_domain *domain,
-+			unsigned int nr_irqs, int node, void *arg,
-+			const struct irq_affinity_desc *affinity)
-+{
-+	return __irq_domain_alloc_irqs(domain, -1, nr_irqs, node, arg, false,
-+				       affinity);
-+}
-+
- extern int irq_domain_alloc_irqs_hierarchy(struct irq_domain *domain,
- 					   unsigned int irq_base,
- 					   unsigned int nr_irqs, void *arg);
-@@ -585,6 +593,13 @@ static inline int irq_domain_alloc_irqs(struct irq_domain *domain,
- 	return -1;
- }
- 
-+static inline int irq_domain_alloc_irqs_affinity(struct irq_domain *domain,
-+			unsigned int nr_irqs, int node, void *arg,
-+			const struct irq_affinity_desc *affinity)
-+{
-+	return -1;
-+}
-+
- static inline void irq_domain_free_irqs(unsigned int virq,
- 					unsigned int nr_irqs) { }
- 
-diff --git a/kernel/irq/msi.c b/kernel/irq/msi.c
-index bd4d4dd626b4..01f7f3c8d77a 100644
---- a/kernel/irq/msi.c
-+++ b/kernel/irq/msi.c
-@@ -1272,9 +1272,9 @@ static int __msi_domain_alloc_irqs(struct device *dev, struct irq_domain *domain
- 
- 		ops->set_desc(&arg, desc);
- 
--		virq = __irq_domain_alloc_irqs(domain, -1, desc->nvec_used,
--					       dev_to_node(dev), &arg, false,
--					       desc->affinity);
-+		virq = irq_domain_alloc_irqs_affinity(domain, desc->nvec_used,
-+						      dev_to_node(dev), &arg,
-+						      desc->affinity);
- 		if (virq < 0)
- 			return msi_handle_pci_fail(domain, desc, allocated);
- 
--- 
-2.37.4
+Additionally, it is tremendously helpful to reviewers if you can provide
+(1) a summary of what has changed in the current revision and (2) a
+lore.kernel.org link to the last series you mailed out.
 
+--
+Thanks,
+Oliver
