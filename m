@@ -1,8 +1,43 @@
-Received: from infra.glanzmann.de (infra.glanzmann.de [88.198.237.220])
+Received: from buxtehude.debian.org (buxtehude.debian.org [209.87.16.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB9B20E3
-	for <asahi@lists.linux.dev>; Fri, 16 Dec 2022 14:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C4A383
+	for <asahi@lists.linux.dev>; Fri, 16 Dec 2022 14:30:28 +0000 (UTC)
+Received: from debbugs by buxtehude.debian.org with local (Exim 4.94.2)
+	(envelope-from <debbugs@buxtehude.debian.org>)
+	id 1p6Bd6-003h6S-Ky; Fri, 16 Dec 2022 14:24:04 +0000
+X-Loop: owner@bugs.debian.org
+Subject: Bug#1026217: libunwind 1.6.2-2.1 assumes 4k page sizes and crashes on systems with bigger page sizes
+Reply-To: Thomas Glanzmann <thomas@glanzmann.de>, 1026217@bugs.debian.org
+Resent-From: Thomas Glanzmann <thomas@glanzmann.de>
+Resent-To: debian-bugs-dist@lists.debian.org
+Resent-CC: asahi@lists.linux.dev, Adrian Bunk <bunk@debian.org>
+X-Loop: owner@bugs.debian.org
+Resent-Date: Fri, 16 Dec 2022 14:24:02 +0000
+Resent-Message-ID: <handler.1026217.B.1671200441879010@bugs.debian.org>
+X-Debian-PR-Message: report 1026217
+X-Debian-PR-Package: libunwind8
+X-Debian-PR-Keywords: patch
+X-Debian-PR-Source: libunwind
+Received: via spool by submit@bugs.debian.org id=B.1671200441879010
+          (code B); Fri, 16 Dec 2022 14:24:02 +0000
+Received: (at submit) by bugs.debian.org; 16 Dec 2022 14:20:41 +0000
+X-Spam-Checker-Version: SpamAssassin 3.4.6-bugs.debian.org_2005_01_02
+	(2021-04-09) on buxtehude.debian.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-10.1 required=4.0 tests=BAYES_00,DIGITS_LETTERS,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FOURLA,HAS_PACKAGE,
+	MD5_SHA1_SUM,MURPHY_DRUGS_REL8,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.6-bugs.debian.org_2005_01_02
+X-Spam-Bayes: score:0.0000 Tokens: new, 20; hammy, 150; neutral, 50; spammy,
+	0. spammytokens: hammytokens:0.000-+--X-Debbugs-Cc,
+	0.000-+--XDebbugsCc, 0.000-+--bookworm, 0.000-+--cutf8, 0.000-+--CUTF8
+Received: from infra.glanzmann.de ([88.198.237.220]:41798)
+	by buxtehude.debian.org with esmtps (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <thomas@glanzmann.de>)
+	id 1p6BZm-003gfD-Vy
+	for submit@bugs.debian.org; Fri, 16 Dec 2022 14:20:41 +0000
 Received: by infra.glanzmann.de (Postfix, from userid 1000)
 	id E3B717A80074; Fri, 16 Dec 2022 15:13:01 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=glanzmann.de;
@@ -24,8 +59,6 @@ Date: Fri, 16 Dec 2022 15:13:01 +0100
 From: Thomas Glanzmann <thomas@glanzmann.de>
 To: Debian Bug Tracking System <submit@bugs.debian.org>
 Cc: asahi@lists.linux.dev
-Subject: libunwind 1.6.2-2.1 assumes 4k page sizes and crashes on systems
- with bigger page sizes
 Message-ID: <20221216141301.GA3440195@glanzmann.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -36,6 +69,8 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 User-Agent: Mutt/1.8.3 (2017-05-23)
+X-Greylist: delayed 448 seconds by postgrey-1.36 at buxtehude; Fri, 16 Dec 2022 14:20:38 UTC
+Message-ID: <20221216141301.thyf28Bz2r9KIVRMYYi30WgShmxa7e0Y8MqygoFEKuc@z>
 
 Package: libunwind8
 Version: 1.6.2-2.1
