@@ -1,57 +1,32 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from infra.glanzmann.de (infra.glanzmann.de [88.198.237.220])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42279371
-	for <asahi@lists.linux.dev>; Fri, 16 Dec 2022 04:55:10 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id 4so1215315plj.3
-        for <asahi@lists.linux.dev>; Thu, 15 Dec 2022 20:55:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W0Tj2k/1t7IFFkY/9dHnLGaWG8Wc/rSGoUwoxjZjG0c=;
-        b=w/aIbkNZ8GVpY67t83q0gZDEpwPlUa/DEFNFj1k4B142i9zxQXDk7NCxvdpQIAknQm
-         BWjMTJf+Solsk8eeHIzQmf5UfsCuHC+K2SWHeEONhtYNf4a0GlFP0/ZGOG4ias6KUzxg
-         CKgDHBLcpbUCtMkP42h8ifGqe9rHkgXgKlQhWNXpJXgJfxqhZTACM8TqUf0Cxw51zdMe
-         fiq3nwuRFylCxcAMfq/1QIIxl+Akd+jOjVsf552hgkgRcOqvxJXuqdqD0SocmFyg5YHw
-         B2zEMQ6zrCkrimzljP2BQS6+wq/xNLrgS/oGLlS1zdsuuVG0QaeSx2Af2HoQAU21ThOB
-         fb9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W0Tj2k/1t7IFFkY/9dHnLGaWG8Wc/rSGoUwoxjZjG0c=;
-        b=q+sp3CTstpq1RpzkeHwvbdsOJO5Y+OrD55yhsKNpQJaO+FZuyjKTUBzFlVdOkRRatX
-         YbzTFbmu5QCnKcZTVoMWuZ4Q1as4KQW9a1i89/iu4D0Ytq0XoYXWPEzUvRAF1qP2nLdn
-         t8OSkiCs8uWr18BOgl326zNq4h69aTN3LcO0ZAkG0jf+VKK44LaxC1jlFERC0ngsbDw4
-         +7lX+V7Oh9kU/tgo8mQRyGqBkoWMiupdHPGnhZ3AMtjgX2PrE4/KcdJOVmJkcNr55sCv
-         go5B7e1f24+WzYXjsTh5irT1ZjNpE6OOS5KZcgbmYvU4YHod0toauq3tMO7J3cs0Teuf
-         YXaA==
-X-Gm-Message-State: ANoB5pljLXUHSBDxkcmit3pnEqaVHsnDFwnoSBgUeyHTkLy5frc0tdJI
-	TBLWgNFEH80oF8t9qfc3wxEzfw==
-X-Google-Smtp-Source: AA0mqf57oecpu1XU54PlDJZcjwZdwR4smxE5Zu9aOaFo5PtlUFwVlK19poM3sY1qyj6L5LO2/x79KQ==
-X-Received: by 2002:a17:902:7143:b0:189:5ff6:903a with SMTP id u3-20020a170902714300b001895ff6903amr30167034plm.52.1671166509616;
-        Thu, 15 Dec 2022 20:55:09 -0800 (PST)
-Received: from localhost ([122.172.87.149])
-        by smtp.gmail.com with ESMTPSA id g6-20020a170902c38600b0017f64ab80e5sm509175plg.179.2022.12.15.20.55.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Dec 2022 20:55:08 -0800 (PST)
-Date: Fri, 16 Dec 2022 10:25:06 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Eric Curtin <ecurtin@redhat.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Marc Zyngier <maz@kernel.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] cpufreq: apple: remove duplicate intializer
-Message-ID: <20221216045506.edsjlxkkhma4mh5h@vireshk-i7>
-References: <20221215165523.1920672-1-arnd@kernel.org>
- <CAOgh=Fw4BXvGNV0bsTXfSxy+ks09ed=nbJhkOWE+UrT7LW+r6A@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB9B20E3
+	for <asahi@lists.linux.dev>; Fri, 16 Dec 2022 14:20:38 +0000 (UTC)
+Received: by infra.glanzmann.de (Postfix, from userid 1000)
+	id E3B717A80074; Fri, 16 Dec 2022 15:13:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=glanzmann.de;
+	s=infra26101010; t=1671199981;
+	bh=P/F7ElgPU8wEr2EsVwByQ8u+HnmesvnY1MwlXbDTM4U=;
+	h=Date:From:To:Cc:Subject:From;
+	b=lkVqbIkwbXRIpYwG2h3PY0xfJrG9vGY90/dKBvbysLFPgHuopDiSk/v4W/9q5V/lW
+	 wb/b6AZH79nvsgP1IFGqhtXzWuTNzbEPzGmKOicgfMfiYNPW63KIyrPNhUunTOpynP
+	 d/9GWHluqvFHxoxMrTV1sJXSOBzERy+WMt+xhxEjY0nZ4Ecoxz29hYAi7C7WV8fS0/
+	 51BqPaRCxgLnvQgntAFS7B1/hlRWO6NMKbpS4nbU/Zf7Mi9bc9FDiqPw7SzeQJfs8t
+	 RHAKXu8P+HIsmxZbtUbwPYP7v9z/CoAaolfHo+FELZyD0oe5Ql7zQd/NMWSJ6SklyG
+	 f+14gB38FdBUUH6TlRsS4/WqSr+oJaBzo/YZhKHgbhgjAfCPghfD96ZHOg6p9Wb15e
+	 0haIB4INXNsX8SumXMNg2pZS9c+eKtmXcj/bLydoc5chYK7MLCBihbTHl/Hbp8Rf4b
+	 BS3bzDawM7ym8YMAzdEetlelGAAF1Pt3e4x9c2dzvL6Qt1gWvrKteLgNha4nFpqe8g
+	 OmEkRUqdX1lwkk/IF+juPNgXFRbTiKa7ulERhIxxGJeisIOZQ9CigYNgKpjQspLQUa
+	 xF5H1UqaHebALBcK3suvR6ghhhjv1hcqgznl33WAhTTsFh0KBGhEJM9v67hLFvAcFO
+	 g29UpRHT2MpuyRLL0XoYFUIE=
+Date: Fri, 16 Dec 2022 15:13:01 +0100
+From: Thomas Glanzmann <thomas@glanzmann.de>
+To: Debian Bug Tracking System <submit@bugs.debian.org>
+Cc: asahi@lists.linux.dev
+Subject: libunwind 1.6.2-2.1 assumes 4k page sizes and crashes on systems
+ with bigger page sizes
+Message-ID: <20221216141301.GA3440195@glanzmann.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -60,27 +35,46 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAOgh=Fw4BXvGNV0bsTXfSxy+ks09ed=nbJhkOWE+UrT7LW+r6A@mail.gmail.com>
+User-Agent: Mutt/1.8.3 (2017-05-23)
 
-On 15-12-22, 17:10, Eric Curtin wrote:
-> On Thu, 15 Dec 2022 at 17:05, Arnd Bergmann <arnd@kernel.org> wrote:
-> >
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > When -Woverride-init is enabled, gcc notices that the .attr
-> > field is initialized twice:
-> >
-> > drivers/cpufreq/apple-soc-cpufreq.c:331:27: error: initialized field overwritten [-Werror=override-init]
-> >   331 |         .attr           = apple_soc_cpufreq_hw_attr,
-> >       |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-> >
-> > Remove the first one, since this is not actually used.
-> >
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> 
-> Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+Package: libunwind8
+Version: 1.6.2-2.1
+Severity: important
+Tags: patch
+X-Debbugs-Cc: asahi@lists.linux.dev
 
-Applied. Thanks.
+Hello,
+the recent libunwind8 update 1.6.2-2.1 breaks for architectures which have a
+pagesize bigger than 4096 on arm64. The issue is fixed upstream. But no
+release has been made with the patch included. libunwind8 1.6.2-2.1 crashes
+Xorg on startup for systems with a pagesize bigger than 4096 on arm64. Linux on
+apple silicon (m1/m2) uses a 16 KB page size.
 
--- 
-viresh
+https://github.com/libunwind/libunwind/commit/2d004eafc77f3c6a4bd9a44b1c35735273fd4e97
+
+Please apply the above patch.
+
+Cheers,
+        Thomas
+
+-- System Information:
+Debian Release: bookworm/sid
+  APT prefers testing
+  APT policy: (500, 'testing')
+Architecture: arm64 (aarch64)
+
+Kernel: Linux 6.1.0-asahi (SMP w/8 CPU threads)
+Kernel taint flags: TAINT_CPU_OUT_OF_SPEC
+Locale: LANG=C, LC_CTYPE=C.UTF-8 (charmap=UTF-8), LANGUAGE not set
+Shell: /bin/sh linked to /usr/bin/dash
+Init: systemd (via /run/systemd/system)
+
+Versions of packages libunwind8 depends on:
+ii  libc6     2.36-6
+ii  liblzma5  5.2.9-0.0
+
+libunwind8 recommends no packages.
+
+libunwind8 suggests no packages.
+
+-- no debconf information
