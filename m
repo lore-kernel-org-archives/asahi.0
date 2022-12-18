@@ -1,115 +1,121 @@
-Received: from buxtehude.debian.org (buxtehude.debian.org [209.87.16.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C4A383
-	for <asahi@lists.linux.dev>; Fri, 16 Dec 2022 14:30:28 +0000 (UTC)
-Received: from debbugs by buxtehude.debian.org with local (Exim 4.94.2)
-	(envelope-from <debbugs@buxtehude.debian.org>)
-	id 1p6Bd6-003h6S-Ky; Fri, 16 Dec 2022 14:24:04 +0000
-X-Loop: owner@bugs.debian.org
-Subject: Bug#1026217: libunwind 1.6.2-2.1 assumes 4k page sizes and crashes on systems with bigger page sizes
-Reply-To: Thomas Glanzmann <thomas@glanzmann.de>, 1026217@bugs.debian.org
-Resent-From: Thomas Glanzmann <thomas@glanzmann.de>
-Resent-To: debian-bugs-dist@lists.debian.org
-Resent-CC: asahi@lists.linux.dev, Adrian Bunk <bunk@debian.org>
-X-Loop: owner@bugs.debian.org
-Resent-Date: Fri, 16 Dec 2022 14:24:02 +0000
-Resent-Message-ID: <handler.1026217.B.1671200441879010@bugs.debian.org>
-X-Debian-PR-Message: report 1026217
-X-Debian-PR-Package: libunwind8
-X-Debian-PR-Keywords: patch
-X-Debian-PR-Source: libunwind
-Received: via spool by submit@bugs.debian.org id=B.1671200441879010
-          (code B); Fri, 16 Dec 2022 14:24:02 +0000
-Received: (at submit) by bugs.debian.org; 16 Dec 2022 14:20:41 +0000
-X-Spam-Checker-Version: SpamAssassin 3.4.6-bugs.debian.org_2005_01_02
-	(2021-04-09) on buxtehude.debian.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=4.0 tests=BAYES_00,DIGITS_LETTERS,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FOURLA,HAS_PACKAGE,
-	MD5_SHA1_SUM,MURPHY_DRUGS_REL8,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.6-bugs.debian.org_2005_01_02
-X-Spam-Bayes: score:0.0000 Tokens: new, 20; hammy, 150; neutral, 50; spammy,
-	0. spammytokens: hammytokens:0.000-+--X-Debbugs-Cc,
-	0.000-+--XDebbugsCc, 0.000-+--bookworm, 0.000-+--cutf8, 0.000-+--CUTF8
-Received: from infra.glanzmann.de ([88.198.237.220]:41798)
-	by buxtehude.debian.org with esmtps (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <thomas@glanzmann.de>)
-	id 1p6BZm-003gfD-Vy
-	for submit@bugs.debian.org; Fri, 16 Dec 2022 14:20:41 +0000
-Received: by infra.glanzmann.de (Postfix, from userid 1000)
-	id E3B717A80074; Fri, 16 Dec 2022 15:13:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=glanzmann.de;
-	s=infra26101010; t=1671199981;
-	bh=P/F7ElgPU8wEr2EsVwByQ8u+HnmesvnY1MwlXbDTM4U=;
-	h=Date:From:To:Cc:Subject:From;
-	b=lkVqbIkwbXRIpYwG2h3PY0xfJrG9vGY90/dKBvbysLFPgHuopDiSk/v4W/9q5V/lW
-	 wb/b6AZH79nvsgP1IFGqhtXzWuTNzbEPzGmKOicgfMfiYNPW63KIyrPNhUunTOpynP
-	 d/9GWHluqvFHxoxMrTV1sJXSOBzERy+WMt+xhxEjY0nZ4Ecoxz29hYAi7C7WV8fS0/
-	 51BqPaRCxgLnvQgntAFS7B1/hlRWO6NMKbpS4nbU/Zf7Mi9bc9FDiqPw7SzeQJfs8t
-	 RHAKXu8P+HIsmxZbtUbwPYP7v9z/CoAaolfHo+FELZyD0oe5Ql7zQd/NMWSJ6SklyG
-	 f+14gB38FdBUUH6TlRsS4/WqSr+oJaBzo/YZhKHgbhgjAfCPghfD96ZHOg6p9Wb15e
-	 0haIB4INXNsX8SumXMNg2pZS9c+eKtmXcj/bLydoc5chYK7MLCBihbTHl/Hbp8Rf4b
-	 BS3bzDawM7ym8YMAzdEetlelGAAF1Pt3e4x9c2dzvL6Qt1gWvrKteLgNha4nFpqe8g
-	 OmEkRUqdX1lwkk/IF+juPNgXFRbTiKa7ulERhIxxGJeisIOZQ9CigYNgKpjQspLQUa
-	 xF5H1UqaHebALBcK3suvR6ghhhjv1hcqgznl33WAhTTsFh0KBGhEJM9v67hLFvAcFO
-	 g29UpRHT2MpuyRLL0XoYFUIE=
-Date: Fri, 16 Dec 2022 15:13:01 +0100
-From: Thomas Glanzmann <thomas@glanzmann.de>
-To: Debian Bug Tracking System <submit@bugs.debian.org>
-Cc: asahi@lists.linux.dev
-Message-ID: <20221216141301.GA3440195@glanzmann.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162A8804
+	for <asahi@lists.linux.dev>; Sun, 18 Dec 2022 05:15:24 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id e7-20020a17090a77c700b00216928a3917so9946339pjs.4
+        for <asahi@lists.linux.dev>; Sat, 17 Dec 2022 21:15:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a01G1GBaf3qfiSutprsFR/TlqOiwESaNiFiCPW34lhQ=;
+        b=oB2m/VIEAkS9xOaITyE3rjE56r6CApd8uv6/I9Uhzf8pGv9vmJR578c5JqGMjoKvPv
+         kRaPQEyoEv/UxuTchSJGFAhseLU8GEBHWCYoQenv0Ni/ERulgVgmbY3R/CwgWJw/TvAs
+         3IeonmoVwK5kmEVznc8OofYBZSw1es2YvP7mL6RU21/0ABA/Kh6iBYlEl6MlbLsjVe4X
+         ALHKRtXC/iDcupj1w/c56rFgGtEO3dQpCE4BWpSytHZIad5dgzuxbns1fNb3nFkpVaw0
+         ts9lgWdtWxzOk2YhyxanXAGFYk4O0Rk9MCFkzxjA6qSrJb/6shjAA5V82VzCfyKPQ4Og
+         HTbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a01G1GBaf3qfiSutprsFR/TlqOiwESaNiFiCPW34lhQ=;
+        b=ypLK07uChuF/AfWjcMEhGkFgl5fuNV0vb+bFWezBxpDDfvx+9MLXWi5qFpPYajfQJz
+         UASSj2FMOlZUxKONTgKRgKrCSouks4sAdPdZZsCGlBBrTcaRQZG1IUxcSYyezqhV1Dhm
+         g8GoXC84Hlg6jqb3Bcuhh+VOFDm3yizt7SSXR6zTXrThwLgKgGjPZ8nqCAlKVC733w9I
+         UL0UeqsmxyG7TctKS5eS9qFFKsV+4bB4VFBOrOwGqRI9oSUNoAOPUrRYvKS/zIOrGcgm
+         atHuHVvpdvIUiUjkXV+tk81YypzOTT77xvNz3dJspoRnawIR6xXGSEkW86CeN7J0HTpR
+         sJ8w==
+X-Gm-Message-State: ANoB5pl+XclbMZ6dnbsbGZ87pW6I0FwP3AnmjBItjwNnUNqEHopL1lN+
+	qaeA2P9BSQ04QDBsgOY2VdTlNw==
+X-Google-Smtp-Source: AA0mqf72YV5edT4kAgOZXEWT3kE8W12UBWocuqS2BFj9Nm3zqofKc8b75dDfMhucuQYOpxQGxpjPjQ==
+X-Received: by 2002:a17:90b:4a8c:b0:219:e763:1d21 with SMTP id lp12-20020a17090b4a8c00b00219e7631d21mr39250867pjb.5.1671340524491;
+        Sat, 17 Dec 2022 21:15:24 -0800 (PST)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id b1-20020a17090a6ac100b002139459e121sm7002417pjm.27.2022.12.17.21.15.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Dec 2022 21:15:23 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Marc Zyngier <maz@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>,
+	Hector Martin <marcan@marcan.st>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v3 0/7] KVM: arm64: Normalize cache configuration
+Date: Sun, 18 Dec 2022 14:14:05 +0900
+Message-Id: <20221218051412.384657-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.8.3 (2017-05-23)
-X-Greylist: delayed 448 seconds by postgrey-1.36 at buxtehude; Fri, 16 Dec 2022 14:20:38 UTC
-Message-ID: <20221216141301.thyf28Bz2r9KIVRMYYi30WgShmxa7e0Y8MqygoFEKuc@z>
+Content-Transfer-Encoding: 8bit
 
-Package: libunwind8
-Version: 1.6.2-2.1
-Severity: important
-Tags: patch
-X-Debbugs-Cc: asahi@lists.linux.dev
+Before this change, the cache configuration of the physical CPU was
+exposed to vcpus. This is problematic because the cache configuration a
+vcpu sees varies when it migrates between vcpus with different cache
+configurations.
 
-Hello,
-the recent libunwind8 update 1.6.2-2.1 breaks for architectures which have a
-pagesize bigger than 4096 on arm64. The issue is fixed upstream. But no
-release has been made with the patch included. libunwind8 1.6.2-2.1 crashes
-Xorg on startup for systems with a pagesize bigger than 4096 on arm64. Linux on
-apple silicon (m1/m2) uses a 16 KB page size.
+Fabricate cache configuration from the sanitized value, which holds the
+CTR_EL0 value the userspace sees regardless of which physical CPU it
+resides on.
 
-https://github.com/libunwind/libunwind/commit/2d004eafc77f3c6a4bd9a44b1c35735273fd4e97
+V2 -> V3:
+- Corrected message for patch "Normalize cache configuration"
+- Split patch "Normalize cache configuration"
+- Added handling for CSSELR_EL1.TnD
+- Added code to ignore RES0 in CSSELR_EL1
+- Replaced arm64_ftr_reg_ctrel0.sys_val with
+  read_sanitised_ftr_reg(SYS_CTR_EL0)
+- Fixed vcpu->arch.ccsidr initialziation
+- Added CCSIDR_EL1 sanitization
+- Added FWB check
+- Added a comment for CACHE_TYPE_SEPARATE
+- Added MTE tag cache creation code for CLIDR_EL1 fabrication
+- Removed CLIDR_EL1 reset code for reset caused by guest
+- Added a comment for CCSIDR2
 
-Please apply the above patch.
+V2: https://lore.kernel.org/lkml/20221211051700.275761-2-akihiko.odaki@daynix.com/
+V1: https://lore.kernel.org/lkml/525ff263-90b3-5b12-da31-171b09f9ad1b@daynix.com/
 
-Cheers,
-        Thomas
+Akihiko Odaki (7):
+  arm64/sysreg: Convert CCSIDR_EL1 to automatic generation
+  arm64/sysreg: Add CCSIDR2_EL1
+  arm64/cache: Move CLIDR macro definitions
+  KVM: arm64: Always set HCR_TID2
+  KVM: arm64: Allow user to set CCSIDR_EL1
+  KVM: arm64: Mask FEAT_CCIDX
+  KVM: arm64: Normalize cache configuration
 
--- System Information:
-Debian Release: bookworm/sid
-  APT prefers testing
-  APT policy: (500, 'testing')
-Architecture: arm64 (aarch64)
+ arch/arm64/include/asm/cache.h             |   9 +
+ arch/arm64/include/asm/kvm_arm.h           |   3 +-
+ arch/arm64/include/asm/kvm_emulate.h       |   4 -
+ arch/arm64/include/asm/kvm_host.h          |   6 +-
+ arch/arm64/include/asm/sysreg.h            |   1 -
+ arch/arm64/kernel/cacheinfo.c              |   5 -
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h |   2 -
+ arch/arm64/kvm/reset.c                     |   1 +
+ arch/arm64/kvm/sys_regs.c                  | 246 +++++++++++++--------
+ arch/arm64/tools/sysreg                    |  16 ++
+ 10 files changed, 182 insertions(+), 111 deletions(-)
 
-Kernel: Linux 6.1.0-asahi (SMP w/8 CPU threads)
-Kernel taint flags: TAINT_CPU_OUT_OF_SPEC
-Locale: LANG=C, LC_CTYPE=C.UTF-8 (charmap=UTF-8), LANGUAGE not set
-Shell: /bin/sh linked to /usr/bin/dash
-Init: systemd (via /run/systemd/system)
+-- 
+2.38.1
 
-Versions of packages libunwind8 depends on:
-ii  libc6     2.36-6
-ii  liblzma5  5.2.9-0.0
-
-libunwind8 recommends no packages.
-
-libunwind8 suggests no packages.
-
--- no debconf information
