@@ -1,32 +1,38 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E591398
-	for <asahi@lists.linux.dev>; Mon, 19 Dec 2022 13:06:33 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1p7FqU-0006uP-H0; Mon, 19 Dec 2022 14:06:18 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1p7FqR-000Kxh-SW; Mon, 19 Dec 2022 14:06:15 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1p7FqQ-006JrB-MX; Mon, 19 Dec 2022 14:06:14 +0100
-Date: Mon, 19 Dec 2022 14:06:10 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st,
-	sven@svenpeter.dev, alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] pwm: Add Apple PWM controller
-Message-ID: <20221219130610.yxggztlqnssm4k7c@pengutronix.de>
-References: <20221209111313.2701-1-fnkl.kernel@gmail.com>
- <20221209111313.2701-3-fnkl.kernel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F186187A;
+	Mon, 19 Dec 2022 13:12:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7697AC433EF;
+	Mon, 19 Dec 2022 13:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1671455560;
+	bh=SiMFS9SNL7VYiasdR0xL2Aevm/BpT8USH6YhYIrsfUY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eqVew1bp3uy/a0JBIUl09xCTjov+uyF9y0VHQcgJTkpUQV3Q9yatct81MNxAI6T5Q
+	 vqC5Uzm8fN9jkotNS2GHIOMbxubhBhvMwCS7IcvKSoQQmrb5Lrvn53xI1qe3i19px9
+	 bFnaWGIXiCD5Fkg9bGm+IBx5AF7xN7f2AbQCgVfZYicHzaR9mXwE8NnjHUtLFtt1Qz
+	 9hkaYwOQS09wuZjjqWStfEUD0SWSo/jAHT1+6B96bohPEkFg+45+qusvXF9PBx2hPO
+	 06F12uVmyVUudH1tYGHATZt2qIviIWwx0O/LEKf+AASEGwxRa1owTJdMeAiJIdv31d
+	 nMchHFhuc1xBA==
+Date: Mon, 19 Dec 2022 13:12:34 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Marc Zyngier <maz@kernel.org>, linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 1/3] arm64/sysreg: Add CCSIDR2_EL1
+Message-ID: <Y6BjQiR5gUhIAyIS@sirena.org.uk>
+References: <20221211051700.275761-1-akihiko.odaki@daynix.com>
+ <20221211051700.275761-2-akihiko.odaki@daynix.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -34,177 +40,36 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="cybldnmdxrk2dtsd"
+	protocol="application/pgp-signature"; boundary="oTrc6UTzbBTSf7fh"
 Content-Disposition: inline
-In-Reply-To: <20221209111313.2701-3-fnkl.kernel@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: asahi@lists.linux.dev
+In-Reply-To: <20221211051700.275761-2-akihiko.odaki@daynix.com>
+X-Cookie: Pay toll ahead.
 
 
---cybldnmdxrk2dtsd
-Content-Type: text/plain; charset=iso-8859-1
+--oTrc6UTzbBTSf7fh
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Sun, Dec 11, 2022 at 02:16:58PM +0900, Akihiko Odaki wrote:
+> CCSIDR2_EL1 was added with FEAT_CCIDX.
 
-over all the driver looks good. Just a few smaller issues below.
+This corresponds to the definition in DDI0487I.a.
 
-I wonder if it's a good idea to call this driver "apple". SoC vendors
-seem to reinvent their peripherals (or buy them somewhere else) for
-their different generations of processors. Maybe call it "apple-s5l"
-already today and not only when the next generation SoC appears?
-(I don't feel strong here, if you want to delay that renaming until
-there is an incompatible SoC that's fine for me.)
+Reviewed-by: Mark Brown <broonie@kernel.org>
 
-On Fri, Dec 09, 2022 at 02:13:11PM +0300, Sasha Finkelstein wrote:
-> diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c
-> new file mode 100644
-> index 000000000000..a85fecb20105
-> --- /dev/null
-> +++ b/drivers/pwm/pwm-apple.c
-> @@ -0,0 +1,150 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +/*
-> + * Driver for the Apple SoC PWM controller
-> + *
-> + * Copyright The Asahi Linux Contributors
-> + *
-> + * Limitations:
-> + * - The writes to cycle registers are shadowed until a write to
-> + *   the control register.
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pwm.h>
-> +#include <linux/io.h>
-> +#include <linux/clk.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/math64.h>
-
-I didn't test, but I think you don't need pm_runtime.h here. Also maybe
-the of headers are not needed?
-
-> +#define APPLE_PWM_CONTROL     0x00
-> +#define APPLE_PWM_ON_CYCLES   0x1c
-> +#define APPLE_PWM_OFF_CYCLES  0x18
-> +
-> +#define APPLE_CTRL_ENABLE        BIT(0)
-> +#define APPLE_CTRL_MODE          BIT(2)
-> +#define APPLE_CTRL_UPDATE        BIT(5)
-> +#define APPLE_CTRL_TRIGGER       BIT(9)
-> +#define APPLE_CTRL_INVERT        BIT(10)
-> +#define APPLE_CTRL_OUTPUT_ENABLE BIT(14)
-
-Would be nice if the register prefix would match the register name. That
-is please either rename APPLE_PWM_CONTROL to APPLE_PWM_CTRL or use
-APPLE_PWM_CONTROL as prefix for the bit fields in that register.
-
-> +
-> +struct apple_pwm {
-> +	struct pwm_chip chip;
-> +	void __iomem *base;
-> +	u64 clkrate;
-> +};
-> +
-> +static inline struct apple_pwm *to_apple_pwm(struct pwm_chip *chip)
-> +{
-> +	return container_of(chip, struct apple_pwm, chip);
-> +}
-> +
-> +static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> +			   const struct pwm_state *state)
-> +{
-> +	struct apple_pwm *fpwm;
-> +	u64 on_cycles, off_cycles;
-
-The declaration can move into the if block below.
-
-> +
-> +	fpwm =3D to_apple_pwm(chip);
-> +	if (state->enabled) {
-> +		on_cycles =3D mul_u64_u64_div_u64(fpwm->clkrate,
-> +						state->duty_cycle, NSEC_PER_SEC);
-> +		if (on_cycles > 0xFFFFFFFF)
-> +			return -ERANGE;
-> +
-> +		off_cycles =3D mul_u64_u64_div_u64(fpwm->clkrate,
-> +						 state->period, NSEC_PER_SEC) - on_cycles;
-> +		if (off_cycles > 0xFFFFFFFF)
-> +			return -ERANGE;
-> +
-> +		writel(on_cycles, fpwm->base + APPLE_PWM_ON_CYCLES);
-> +		writel(off_cycles, fpwm->base + APPLE_PWM_OFF_CYCLES);
-> +		writel(APPLE_CTRL_ENABLE | APPLE_CTRL_OUTPUT_ENABLE | APPLE_CTRL_UPDAT=
-E,
-> +		       fpwm->base + APPLE_PWM_CONTROL);
-> +	} else {
-> +		writel(0, fpwm->base + APPLE_PWM_CONTROL);
-> +	}
-> +	return 0;
-
-Assuming clkrate =3D 24000000, I wonder what happens if (duty_cycle and)
-period are so small that on_cycles and off_cycles are both zero. How
-does the hardware behave in this case?
-
-> +}
-> +
-> +static void apple_pwm_get_state(struct pwm_chip *chip, struct pwm_device=
- *pwm,
-> +			   struct pwm_state *state)
-> +{
-> +	struct apple_pwm *fpwm;
-> +	u32 on_cycles, off_cycles, ctrl;
-> +
-> +	fpwm =3D to_apple_pwm(chip);
-> +
-> +	ctrl =3D readl(fpwm->base + APPLE_PWM_CONTROL);
-> +	on_cycles =3D readl(fpwm->base + APPLE_PWM_ON_CYCLES);
-> +	off_cycles =3D readl(fpwm->base + APPLE_PWM_OFF_CYCLES);
-> +
-> +	state->enabled =3D (ctrl & APPLE_CTRL_ENABLE) && (ctrl & APPLE_CTRL_OUT=
-PUT_ENABLE);
-> +	state->polarity =3D PWM_POLARITY_NORMAL;
-> +	state->duty_cycle =3D mul_u64_u64_div_u64(on_cycles, NSEC_PER_SEC, fpwm=
-->clkrate);
-> +	state->period =3D mul_u64_u64_div_u64(off_cycles + on_cycles,
-> +					    NSEC_PER_SEC, fpwm->clkrate);
-
-Wrong rounding direction, you need to round up. Did you test with
-PWM_DEBUG on? This should point out the more obvious cases. Assuming
-clkrate =3D 24000000 for example setting .duty_cycle =3D 3 should trigger a
-warning.
-
-Unfortunately there is no variant of mul_u64_u64_div_u64 that rounds up,
-maybe we need to introduce one.
-
-> +}
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---cybldnmdxrk2dtsd
+--oTrc6UTzbBTSf7fh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmOgYb8ACgkQwfwUeK3K
-7AmyGgf/ZLtQ8j885QI9iI+qjelPALAIjeT2vq38/e9XPENLAGqMsl2+Fi9hgqEC
-fVv6/DhQyKJpvtcjjZIAnr7yBNXFSSAOoCgcNQ5RekuJ4PLW0Bh3yvOA4rf34Ilv
-N/pH5R1CVD1+nRP9VnfctX8cSG1a/fNhuXiSz47Fr2vhvHUGj8x2eLpD+NYZQhzN
-Nn0IQK6T5TQ5m45269jzJgfnoNFDaNQsUkW9BkveIBiIfuwzccdyGu1W0U6dwX6e
-MWaVcHSOtOl55ijXCtDBg4H6AdYiAgAdD7vyYS4sOZsix+cKoAVvl5bAjhDhTmro
-guHL50ggTuXTF6uizUOVGEGUUB1/xw==
-=+xU3
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmOgY0EACgkQJNaLcl1U
+h9AhTQf/SdZDrzwS6EDB4hBMBmeYOfYy8tMZjCFZ05VY8WKbOIpl2TpdAOUOVINE
+mqpmP7yEg56sP+rldgR+KjcL0T1AF5pyKZ2kU+HQdzo11FiFg6e2ulTSl+VFG4Fn
+ztcTgaWLUqTyttNyiBo7Suadzo/T7SsNIh7s5Rnd1USz4yvvtCasI3C/btgVGZIs
+HLBhVNOdRhLP6HyuTi43qMAaIT+UO4I78tEtt+NABG1fCx0jlMdzaxZG+JyQtaeX
+6yMxIOCHnc86P2vK1FeopSTYD2ZJbUy+LcX50HCKp/4OsU6SscxZ8t8MjOA8EgkW
+AZw9As6VAbETFTDokR+8/RmJLt4BGg==
+=6/73
 -----END PGP SIGNATURE-----
 
---cybldnmdxrk2dtsd--
+--oTrc6UTzbBTSf7fh--
