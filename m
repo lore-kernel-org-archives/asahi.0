@@ -1,130 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62356D24;
-	Mon, 19 Dec 2022 17:52:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C2AC433EF;
-	Mon, 19 Dec 2022 17:52:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1671472333;
-	bh=omnk1EvftJxQZKK4tFNl78eH7ggIgQG8DRMsnWyBp38=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dHRiMbVZ3RofwcmucbbxHiWnKKCyyOlCx1ztiN1W8TWZJOMTSy1A8lM0131J+SQ4W
-	 IxEGB9p/fKEijrcT6ntjOGiRswr1zujSVUh+YQEJdmumqVwAeUsBJmICp/UsuJkavX
-	 neDh1bJ96fNh9J0+Dmv7ienF2yJzvbtnWe8Eph8gmqL4zYZHu+mY7Wv4jqC3tGJJy3
-	 vbvQ1Al9FdpIzb8iUWRSx6pnHhjHoQI84bUndWDGGTZkFoatbWKorzyiZcyvgbaDRq
-	 296Dh4cd60qnYK1Aaj5DeZwFua1efEq4UtKkR/xxPFlL51pKUCHcdVcqffqN6RlBiV
-	 e51q1ZLqj90uA==
-Date: Mon, 19 Dec 2022 17:52:06 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
-	linux-arm-kernel@lists.infradead.org,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v3 1/7] arm64/sysreg: Convert CCSIDR_EL1 to automatic
- generation
-Message-ID: <Y6CkxueMwWPBMV7h@sirena.org.uk>
-References: <20221218051412.384657-1-akihiko.odaki@daynix.com>
- <20221218051412.384657-2-akihiko.odaki@daynix.com>
- <87cz8hez0i.wl-maz@kernel.org>
- <1ef32b0c-6cee-75f7-e1e0-ede1f5b9a016@daynix.com>
- <87bko0g8m2.wl-maz@kernel.org>
- <Y6B8fzaFSwmJ5VC1@sirena.org.uk>
- <86o7rzpg6i.wl-maz@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3006E7E
+	for <asahi@lists.linux.dev>; Wed, 21 Dec 2022 12:52:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id C252C3FB17;
+	Wed, 21 Dec 2022 12:52:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1671627141; bh=5yksC0Cq9kVpLaymRwg/jBmhLY9pNV/TWld2lFBpej4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=UNMFxg1Em5F+GVkdEbsfpromULeOq0/SPyW/deGz7kpYSgTRCr/6jR87+2cOHEowi
+	 S5fFLAzZ0PNimshCf1kkl1+uPRchbUV5/0Obu2GOEb++L6P2HGbdCHrZGZ/zMzk4dS
+	 HK5zjQ0cqFfNKo5TIcDTL0kbNSaau49pvwkuuUM1V8Ow6f46K75ctek7LbkItd/g55
+	 MeYz52RWfZSmvpGY9ODkOnhh08azfqwChl6dwnXRBiueJweVRVgBEz20ia9+c2MrTg
+	 lW/i/i1HPZ2+tehZsEjJG+I6CE+RFLxXC/Jz3YySIr44vIp2V1snTB3JMeExapjhTR
+	 K6NGXELZ7C/NA==
+Message-ID: <b13f4181-7818-6780-2aaa-7966d5722780@marcan.st>
+Date: Wed, 21 Dec 2022 21:52:16 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oz/pzyR4HiMnUm6B"
-Content-Disposition: inline
-In-Reply-To: <86o7rzpg6i.wl-maz@kernel.org>
-X-Cookie: Pay toll ahead.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v4 2/4] pwm: Add Apple PWM controller
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: thierry.reding@gmail.com, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, sven@svenpeter.dev, alyssa@rosenzweig.io,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20221209111313.2701-1-fnkl.kernel@gmail.com>
+ <20221209111313.2701-3-fnkl.kernel@gmail.com>
+ <20221219130610.yxggztlqnssm4k7c@pengutronix.de>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20221219130610.yxggztlqnssm4k7c@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 19/12/2022 22.06, Uwe Kleine-König wrote:
+> Hello,
+> 
+> over all the driver looks good. Just a few smaller issues below.
+> 
+> I wonder if it's a good idea to call this driver "apple". SoC vendors
+> seem to reinvent their peripherals (or buy them somewhere else) for
+> their different generations of processors. Maybe call it "apple-s5l"
+> already today and not only when the next generation SoC appears?
+> (I don't feel strong here, if you want to delay that renaming until
+> there is an incompatible SoC that's fine for me.)
 
---oz/pzyR4HiMnUm6B
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Well... considering s5l refers to the s5l8920x, the SoC used in the
+iPhone 3GS released in 2009, and here we are with the M1 13 years later
+and it's still the same, I think we're doing pretty well here.
 
-On Mon, Dec 19, 2022 at 03:27:17PM +0000, Marc Zyngier wrote:
-> Mark Brown <broonie@kernel.org> wrote:
+(Apple doesn't reinvent their peripherals nearly as often as other vendors).
 
-> > fully represent everything in the spec yet.  For things like the
-> > registers with multiple possible views it's much more effort which
-> > shouldn't get in the way of progress on features but with something like
-> > this just updating the tool so we can match the architecture spec is the
-> > right thing.
-
-> I was tempted to add a Namespace tag that wouldn't generate the sysreg
-> #defines, but only generate the fields with a feature-specific
-> namespace. For example:
-
-I think this is roughly where we'd end up - I was using the term view
-when thinking about it but that's just bikeshed.
-
-> Sysreg	CCSIDR_EL1	3	1	0	0	0
-> Res0	63:32
-> Unkn	31:28
-> Field	27:13	NumSets
-> Field	12:3	Associativity
-> Field	2:0	LineSize
-> EndSysreg
->=20
-> Namespace CCIDX CCSIDR_EL1
-> Res0	63:56
-> Field	55:32	NumSets
-> Res0	31:25
-> Field	24:3	Associativity
-> Field	2:0	LineSize
-> EndSysreg
-
-Yeah, something like that.  I think we also want a way to label bits in
-the root register as only existing in namespaces/views for things where
-there's no default (eg, where a feature adds two views at once or things
-have been there since the base architecture), and I wasn't sure if it
-made sense to nest the declaration of the views inside the Sysreg (I'm
-tempted to think it's more trouble than it's worth especially on the
-tooling side).
-
-I also wanted to go through and do an audit of all the current registers
-to make sure there were no nasty cases that'd complicate things.  I
-don't think there'd be anything but...
-
-> the later generating:
-
-> #define CCIDR_EL1_CCIDX_RES0		(GENMASK(63, 56) | GENMASK(31, 25))
-> #define	CCIDR_EL1_CCIDX_NumSets		GENMASK(55, 32)
-> #define	CCIDR_EL1_CCIDX_Associativity	GENMASK(24, 3)
-> #define CCIDR_EL1_CCIDX_LineSize	GENMASK(2, 0)
-
-> Thoughts?
-
-Definitely that for the output.
-
---oz/pzyR4HiMnUm6B
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmOgpMYACgkQJNaLcl1U
-h9DU0Af/SvoqDYexlOme2j0EORslcib1fD+HrBcMgXD/y5b//5a3p3SAmFlAd4P3
-pITNOWvrGAqXP/YLGgwMnnHaZqSk/lHr5+FvqNJPuYPesoqDVIC7essCYZxx/7Oj
-A1/UNsvXnMc8PctXZwv8zUPDYv0K3kgr6Tyh/gkeCU1MSzoKLoSTBQ7R3fa2KkC1
-RTjeUddshIpTQwHmB+I6YNKCAirDHOs4oF6A5fyrh+lOIyUXmer7tMTX0SEKkbtz
-zdHKY0Ul8u0P0IQm65LWYBeC1pz8rwp7RBhKkWbGMORv24PaeI5t1yzxeJhdFYLN
-yYJbS34/t/gl9viuV6jBiFvnr3meVA==
-=Gj9m
------END PGP SIGNATURE-----
-
---oz/pzyR4HiMnUm6B--
+- Hector
