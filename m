@@ -1,67 +1,133 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3006E7E
-	for <asahi@lists.linux.dev>; Wed, 21 Dec 2022 12:52:30 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id C252C3FB17;
-	Wed, 21 Dec 2022 12:52:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1671627141; bh=5yksC0Cq9kVpLaymRwg/jBmhLY9pNV/TWld2lFBpej4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UNMFxg1Em5F+GVkdEbsfpromULeOq0/SPyW/deGz7kpYSgTRCr/6jR87+2cOHEowi
-	 S5fFLAzZ0PNimshCf1kkl1+uPRchbUV5/0Obu2GOEb++L6P2HGbdCHrZGZ/zMzk4dS
-	 HK5zjQ0cqFfNKo5TIcDTL0kbNSaau49pvwkuuUM1V8Ow6f46K75ctek7LbkItd/g55
-	 MeYz52RWfZSmvpGY9ODkOnhh08azfqwChl6dwnXRBiueJweVRVgBEz20ia9+c2MrTg
-	 lW/i/i1HPZ2+tehZsEjJG+I6CE+RFLxXC/Jz3YySIr44vIp2V1snTB3JMeExapjhTR
-	 K6NGXELZ7C/NA==
-Message-ID: <b13f4181-7818-6780-2aaa-7966d5722780@marcan.st>
-Date: Wed, 21 Dec 2022 21:52:16 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEBB2F24
+	for <asahi@lists.linux.dev>; Wed, 21 Dec 2022 20:40:25 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id e190so6706925pgc.9
+        for <asahi@lists.linux.dev>; Wed, 21 Dec 2022 12:40:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=46KJ5714UULj+WdfQJdjJQGrRLK9Woox/C1y7Qhoy2g=;
+        b=b7pzq/wrJe+N+sYe0BI4+oHft0dyRVTtGA/7MXQ9g7N85VS0xZRYMon3Sb3oXzkJm9
+         7dMZnXr5DNUuug64ZrjUUWKQwsrX9ErROhWl/859Rw2hS5lCOrid3gjRl+tIHv70KOk7
+         qMijkbXr9o2A4KspnQapBxQCJvcXHDil02e0tZjkHILGyQaG5IhLCMXq8d9/k7gNlbWO
+         sDXeBldQxtbCbhspG3r9DnJvC4hEULpPr8QBJT2tSX/xdN6wGGewBE0V9eBG4faitRhk
+         r/ivw40L42LGGY8d8Dw0z8eX+uVhBG5K+SsbxCt4tyO6kv0AL0xYCH5zWQmnXCaYLv7m
+         mUGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=46KJ5714UULj+WdfQJdjJQGrRLK9Woox/C1y7Qhoy2g=;
+        b=jDLLcjpaDd+pRcr7H9cvT+oIpDJOUqA0cTjRlx6JpBl6C9Qkd97nziL1/li0yBvaZT
+         kp4CMsvQCHTZ+1igtj66qK3xFYHSz5RvD80SPp44trLSvFvx0WfKLYemZ9hE38GjvvJL
+         afDlvOFYx7HVYla1Vw8h/xa3x4e9G8yKFzyBbv6RgLtYaqqZXZiNRzWNU0RDhixPbcv9
+         GzY5sha8NjojnTrP66KWKjpBrG3DiTJgpeUMPnCYwdDoyEZApQNPjHCw10+pv0sCMT7d
+         0jhr86rqUPqshTR8Ss6jzcgMmhJKB7Ko1ppoknCSLnwPEwE+ppKmhLMTWBD7oUkvdzWm
+         TQVQ==
+X-Gm-Message-State: AFqh2kp8vXTmDPMUktWdZRTOcqvK/ltUH0OVq0WNsBj2BYNlW+ScfCYM
+	NKOb2m4J1IqpZu2fuwY1vxEIdQ==
+X-Google-Smtp-Source: AMrXdXs2wb7SfTWVOx0D5KHi10IfGT9eumUAALKjwFYtEgDmphXRkUTVayIt5zwFZw6zsdsFbsyt9g==
+X-Received: by 2002:a05:6a00:1d9d:b0:566:900d:5af2 with SMTP id z29-20020a056a001d9d00b00566900d5af2mr3772325pfw.34.1671655224959;
+        Wed, 21 Dec 2022 12:40:24 -0800 (PST)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id r4-20020aa79884000000b005763c22ea07sm11017784pfl.74.2022.12.21.12.40.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Dec 2022 12:40:24 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Mark Brown <broonie@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>,
+	Hector Martin <marcan@marcan.st>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v4 0/7] KVM: arm64: Normalize cache configuration
+Date: Thu, 22 Dec 2022 05:40:09 +0900
+Message-Id: <20221221204016.658874-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v4 2/4] pwm: Add Apple PWM controller
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: thierry.reding@gmail.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, sven@svenpeter.dev, alyssa@rosenzweig.io,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20221209111313.2701-1-fnkl.kernel@gmail.com>
- <20221209111313.2701-3-fnkl.kernel@gmail.com>
- <20221219130610.yxggztlqnssm4k7c@pengutronix.de>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20221219130610.yxggztlqnssm4k7c@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 19/12/2022 22.06, Uwe Kleine-König wrote:
-> Hello,
-> 
-> over all the driver looks good. Just a few smaller issues below.
-> 
-> I wonder if it's a good idea to call this driver "apple". SoC vendors
-> seem to reinvent their peripherals (or buy them somewhere else) for
-> their different generations of processors. Maybe call it "apple-s5l"
-> already today and not only when the next generation SoC appears?
-> (I don't feel strong here, if you want to delay that renaming until
-> there is an incompatible SoC that's fine for me.)
+Before this change, the cache configuration of the physical CPU was
+exposed to vcpus. This is problematic because the cache configuration a
+vcpu sees varies when it migrates between vcpus with different cache
+configurations.
 
-Well... considering s5l refers to the s5l8920x, the SoC used in the
-iPhone 3GS released in 2009, and here we are with the M1 13 years later
-and it's still the same, I think we're doing pretty well here.
+Fabricate cache configuration from the sanitized value, which holds the
+CTR_EL0 value the userspace sees regardless of which physical CPU it
+resides on.
 
-(Apple doesn't reinvent their peripherals nearly as often as other vendors).
+V3 -> V4:
+- Implemented UNKNOWN system register definition for CCSIDR_EL1
+- Added a comment about the relation between CCSIDR_EL1 and FEAT_CCIDX
+- Squashed "Normalize cache configuration" and "Allow user to set
+  CCSIDR_EL1"
+  The intermediate state between them did not make much sense.
+- Introduced FIELD_GET to extract CCSIDR_EL1_LineSize.
 
-- Hector
+V2 -> V3:
+- Corrected message for patch "Normalize cache configuration"
+- Split patch "Normalize cache configuration"
+- Added handling for CSSELR_EL1.TnD
+- Added code to ignore RES0 in CSSELR_EL1
+- Replaced arm64_ftr_reg_ctrel0.sys_val with
+  read_sanitised_ftr_reg(SYS_CTR_EL0)
+- Fixed vcpu->arch.ccsidr initialziation
+- Added CCSIDR_EL1 sanitization
+- Added FWB check
+- Added a comment for CACHE_TYPE_SEPARATE
+- Added MTE tag cache creation code for CLIDR_EL1 fabrication
+- Removed CLIDR_EL1 reset code for reset caused by guest
+- Added a comment for CCSIDR2
+
+V2: https://lore.kernel.org/lkml/20221211051700.275761-2-akihiko.odaki@daynix.com/
+V1: https://lore.kernel.org/lkml/525ff263-90b3-5b12-da31-171b09f9ad1b@daynix.com/
+
+Akihiko Odaki (6):
+  arm64/sysreg: Convert CCSIDR_EL1 to automatic generation
+  arm64/sysreg: Add CCSIDR2_EL1
+  arm64/cache: Move CLIDR macro definitions
+  KVM: arm64: Always set HCR_TID2
+  KVM: arm64: Mask FEAT_CCIDX
+  KVM: arm64: Normalize cache configuration
+
+Marc Zyngier (1):
+  arm64: Allow the definition of UNKNOWN system register fields
+
+ arch/arm64/include/asm/cache.h             |   9 +
+ arch/arm64/include/asm/kvm_arm.h           |   3 +-
+ arch/arm64/include/asm/kvm_emulate.h       |   4 -
+ arch/arm64/include/asm/kvm_host.h          |   6 +-
+ arch/arm64/include/asm/sysreg.h            |   1 -
+ arch/arm64/kernel/cacheinfo.c              |   5 -
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h |   2 -
+ arch/arm64/kvm/reset.c                     |   1 +
+ arch/arm64/kvm/sys_regs.c                  | 240 ++++++++++++---------
+ arch/arm64/tools/gen-sysreg.awk            |  20 +-
+ arch/arm64/tools/sysreg                    |  17 ++
+ 11 files changed, 196 insertions(+), 112 deletions(-)
+
+-- 
+2.38.1
+
