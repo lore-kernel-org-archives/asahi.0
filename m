@@ -1,24 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB90F634;
-	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 72628C433F1;
-	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672026091;
-	bh=zmtqhXQv7hiPZDJGmROKlujPmTGm2oRNxnDcUz2K1XA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=aFP63n6aR/0rsvyekq2AImCT+Ltsl9Jl7dPzbNYHhoyZYHDH6lK2bZrhlcgunmhld
-	 RgMVPID00zacoRWh6/2WcYeqqfuXii7bfwtJk5lxNcH9sYhs6uYZ65sHxjCjvHVJGC
-	 jU2sooTMKGRe+SFmEQSyRrM2Z5Ebr4Jv8ipoN7FtPVN5x7rUbCF4ahlzEUcQHuzwgS
-	 dPZnfjIrxijvQKXa4OnPsL5xX8faKU1LhwAeeoNrFyIvTCF3+ednhZDVur/h1/X3jD
-	 E41cCnOUXtPEk1kFVfqyh2f9D9ufm9IlqPIid1pjLmSc0vc0NcK4CEzAwGC3ktCoTG
-	 JD3TuvTuDV3ew==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 4CBF2E50D66;
-	Mon, 26 Dec 2022 03:41:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0467E
+	for <asahi@lists.linux.dev>; Fri, 30 Dec 2022 09:55:00 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id o1-20020a17090a678100b00219cf69e5f0so25351538pjj.2
+        for <asahi@lists.linux.dev>; Fri, 30 Dec 2022 01:55:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2HDTeomnMfOdczuT9/F20bMQlAjaFMXCpRqH1kdgIVY=;
+        b=P9Ljo6kGW+xXABlWTHQolBfJ92OlshrKeGbeNt/GrqH7QUYhjfdCECOnQT6TSUHFt0
+         BVmVAq9orDdtalAj8cJy59Toe8NUXr9mGDh5YSq6U1hQ4izys8arYQcQqgrYPJ+4oGUv
+         tfh8nq+ILIaVR6vyApuEdCU+iykOlI1TNZoH4EmL3i6GAEoB/f93QGDdJYs7qpx+xeO+
+         MCRrEDYCS5hmzgdV4mkghCCVsttFUg698w4d2Tf3VrgLBGjy+lqA+OzLmYca/7Ukj0tU
+         1SInCBY3SYEfYv27cTfv2QjJSvZOLF+bC/YDogY+/KIVKqRZfkRIz9G1a6largSAZw1Q
+         rHcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2HDTeomnMfOdczuT9/F20bMQlAjaFMXCpRqH1kdgIVY=;
+        b=RM5d2/hUfaxx54RHug/cTipZPkUsf8s8CT/2q3toEE/+8SRuE5jKp6Fewmya930ppY
+         vWIW0OlvfgcSpqMqAskS+vlWUhT8IlPVexCL2RY9oZNv/lzPcuP+ZCQ2UqooHK3R9kyn
+         N49ay+bCZ0kRm/pXvn6hGuf+2tHGhOU+HuYn6YKIphTfVKglfNKnTMoiSlRem54ffogd
+         XNxNh1LxVUxTbwsYtYTFXidAKNtmttjNQtJcCnyWzvHeOG3R6kP/1n1/boACWs2sLfm0
+         AqxTkoREO4+F3IfV06EMY+91k+p66Ax6ac/tdH+P5SGKKDl1LJmCIbOBeNnd+LpBLze2
+         Xlgg==
+X-Gm-Message-State: AFqh2krE48L8pDUqUw5A1JCJPI9g4Du/mdSQauZVh8Sz0jZDRm1ngIfi
+	pKy6yoOe2eK/eDC6vU7FE3I29A==
+X-Google-Smtp-Source: AMrXdXt/fAe2lXnpbEVPcBDmkZY6Wl4VVcSk141fejrUaMn53mFyxFW3jXXtZ/DXOfhybJVp3n0G3w==
+X-Received: by 2002:a17:903:2312:b0:192:8c7f:2654 with SMTP id d18-20020a170903231200b001928c7f2654mr16330645plh.0.1672394099989;
+        Fri, 30 Dec 2022 01:54:59 -0800 (PST)
+Received: from fedora.flets-east.jp ([2400:4050:c360:8200:8ae8:3c4:c0da:7419])
+        by smtp.gmail.com with ESMTPSA id b7-20020a170902650700b00189c536c72asm14487719plk.148.2022.12.30.01.54.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Dec 2022 01:54:59 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Mark Brown <broonie@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>,
+	Hector Martin <marcan@marcan.st>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v5 0/7] KVM: arm64: Normalize cache configuration
+Date: Fri, 30 Dec 2022 18:54:45 +0900
+Message-Id: <20221230095452.181764-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -26,76 +68,77 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common
- DAI properties
-From: patchwork-bot+chrome-platform@kernel.org
-Message-Id: 
- <167202609130.9518.10337988666912704066.git-patchwork-notify@kernel.org>
-Date: Mon, 26 Dec 2022 03:41:31 +0000
-References: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20221203160442.69594-1-krzysztof.kozlowski@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: neil.armstrong@linaro.org, airlied@gmail.com, daniel@ffwll.ch,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, khilman@baylibre.com,
- jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
- lgirdwood@gmail.com, broonie@kernel.org, wens@csie.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, fengzheng923@gmail.com,
- povik+lin@cutebit.org, james.schulman@cirrus.com, david.rhodes@cirrus.com,
- tanureal@opensource.cirrus.com, rf@opensource.cirrus.com,
- ckeepax@opensource.cirrus.com, peter.ujfalusi@gmail.com,
- cychiang@chromium.org, tzungbi@kernel.org, groeck@chromium.org,
- bleung@chromium.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
- stephan@gerhold.net, agross@kernel.org, andersson@kernel.org,
- konrad.dybcio@linaro.org, srinivas.kandagatla@linaro.org,
- bgoswami@quicinc.com, frattaroli.nicolas@gmail.com, heiko@sntech.de,
- s.nawrocki@samsung.com, festevam@gmail.com, hayashi.kunihiko@socionext.com,
- mhiramat@kernel.org, olivier.moysan@foss.st.com,
- arnaud.pouliquen@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, alexandre.belloni@bootlin.om, lars@metafoo.de,
- bogdan.togorean@analog.com, nuno.sa@analog.com, vincent.knecht@mailoo.org,
- kuninori.morimoto.gx@renesas.com, mripard@kernel.org,
- rriveram@opensource.cirrus.com, patches@opensource.cirrus.com,
- j-choudhary@ti.com, drake@endlessm.com, katsuhiro@katsuster.net,
- shengjiu.wang@nxp.com, paul@crapouillou.net, jee.heng.sia@intel.com,
- lkundrak@v3.sk, codrin.ciubotariu@microchip.com, mkumard@nvidia.com,
- spujar@nvidia.com, rohitkr@codeaurora.org, derek.fang@realtek.com,
- biju.das.jz@bp.renesas.com, cy_huang@richtek.com, joabreu@synopsys.com,
- afd@ti.com, shifu0704@thundersoft.com, shenghao-ding@ti.com,
- flatmax@flatmax.com, ricardw@axis.com, perex@perex.cz, tiwai@suse.com,
- dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sunxi@lists.linux.dev, asahi@lists.linux.dev,
- chrome-platform@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com
 
-Hello:
+Before this change, the cache configuration of the physical CPU was
+exposed to vcpus. This is problematic because the cache configuration a
+vcpu sees varies when it migrates between vcpus with different cache
+configurations.
 
-This series was applied to chrome-platform/linux.git (for-next)
-by Mark Brown <broonie@kernel.org>:
+Fabricate cache configuration from the sanitized value, which holds the
+CTR_EL0 value the userspace sees regardless of which physical CPU it
+resides on.
 
-On Sat,  3 Dec 2022 17:04:40 +0100 you wrote:
-> Rename name-prefix.yaml into common DAI schema and document
-> '#sound-dai-cells' for completeness.  The '#sound-dai-cells' cannot be
-> really constrained, as there are users with value of 0, 1 and 2, but at
-> least it brings definition to one common place.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> 
-> [...]
+V4 -> V5:
+- Noted why cache level existence check is unnecessary when fabricating
+  CCSIDR_EL1 value.
+- Removed FWB check. It is necessary as CLIDR_EL1.{LoUU, LoIUS} on the
+  host are {0, 0} if FWB is enabled, and such a CLIDR_EL1 value sets
+  the IDC bit of the sanitized CTR_EL0 value, which is already checked.
+- Removed UNDEF injection when reading CCSIDR_EL1 with an invalid
+  CSSELR_EL1 value.
+- Added a check for CLIDR_EL1.{LoUU,LoC,LoUIS} values set from the
+  userspace.
 
-Here is the summary with links:
-  - [1/3] ASoC: dt-bindings: Extend name-prefix.yaml into common DAI properties
-    https://git.kernel.org/chrome-platform/c/3fda85324b8d
-  - [2/3] ASoC: dt-bindings: Reference common DAI properties
-    https://git.kernel.org/chrome-platform/c/58ae9a2aca6f
-  - [3/3] ASoC: dt-bindings: maxim,max98357a: Convert to DT schema
-    https://git.kernel.org/chrome-platform/c/8a5a05583a04
+V3 -> V4:
+- Implemented UNKNOWN system register definition for CCSIDR_EL1
+- Added a comment about the relation between CCSIDR_EL1 and FEAT_CCIDX
+- Squashed "Normalize cache configuration" and "Allow user to set
+  CCSIDR_EL1"
+  The intermediate state between them did not make much sense.
+- Introduced FIELD_GET to extract CCSIDR_EL1_LineSize.
 
-You are awesome, thank you!
+V2 -> V3:
+- Corrected message for patch "Normalize cache configuration"
+- Split patch "Normalize cache configuration"
+- Added handling for CSSELR_EL1.TnD
+- Added code to ignore RES0 in CSSELR_EL1
+- Replaced arm64_ftr_reg_ctrel0.sys_val with
+  read_sanitised_ftr_reg(SYS_CTR_EL0)
+- Fixed vcpu->arch.ccsidr initialziation
+- Added CCSIDR_EL1 sanitization
+- Added FWB check
+- Added a comment for CACHE_TYPE_SEPARATE
+- Added MTE tag cache creation code for CLIDR_EL1 fabrication
+- Removed CLIDR_EL1 reset code for reset caused by guest
+- Added a comment for CCSIDR2
+
+V2: https://lore.kernel.org/lkml/20221211051700.275761-2-akihiko.odaki@daynix.com/
+V1: https://lore.kernel.org/lkml/525ff263-90b3-5b12-da31-171b09f9ad1b@daynix.com/
+
+Akihiko Odaki (6):
+  arm64/sysreg: Convert CCSIDR_EL1 to automatic generation
+  arm64/sysreg: Add CCSIDR2_EL1
+  arm64/cache: Move CLIDR macro definitions
+  KVM: arm64: Always set HCR_TID2
+  KVM: arm64: Mask FEAT_CCIDX
+  KVM: arm64: Normalize cache configuration
+
+Marc Zyngier (1):
+  arm64: Allow the definition of UNKNOWN system register fields
+
+ arch/arm64/include/asm/cache.h             |   9 +
+ arch/arm64/include/asm/kvm_arm.h           |   3 +-
+ arch/arm64/include/asm/kvm_emulate.h       |   4 -
+ arch/arm64/include/asm/kvm_host.h          |   6 +-
+ arch/arm64/include/asm/sysreg.h            |   1 -
+ arch/arm64/kernel/cacheinfo.c              |   5 -
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h |   2 -
+ arch/arm64/kvm/reset.c                     |   1 +
+ arch/arm64/kvm/sys_regs.c                  | 256 +++++++++++++--------
+ arch/arm64/tools/gen-sysreg.awk            |  20 +-
+ arch/arm64/tools/sysreg                    |  17 ++
+ 11 files changed, 212 insertions(+), 112 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.38.1
 
