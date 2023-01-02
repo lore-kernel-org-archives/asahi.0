@@ -1,92 +1,92 @@
-Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2066.outbound.protection.outlook.com [40.92.102.66])
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2020.outbound.protection.outlook.com [40.92.103.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EEF17F1
-	for <asahi@lists.linux.dev>; Mon,  2 Jan 2023 14:34:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8940C17F1
+	for <asahi@lists.linux.dev>; Mon,  2 Jan 2023 14:40:10 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DeEz4jlEA7Q1aK6xOBwFwnaWzSGYp5EPTY9EqjpGFo3PpetAxsqDCtJ9WLlZ/nlLm08Vpnxk+p1hLC/rdFP/Isri5kBG1q0KvIF3JFMB7mGrhXcRC1+THg/Saym1X4R4hiVkxzg6TXs7nVsog/kVntdpOpLqD1DKFD8Sitd58hBNxGUWuWXw4jUV/AK1d26D+I07u1AsG3ljBxQxaiT4GsN8l11aL16TVIKKlRSfcNGFcY6/fMWd28+2+msp+ROlkowSdmpXsNwCqFG2up3j8QK08vQyoM2S6N9XPpfTF/uIrVihGwhgxXNadcbj/E9Wa2FxlG9pzN3VhWJ4EP7UMA==
+ b=nffK1i+fHIvyLsJuQYpcuB+AyUK7cwaxAlbbkI1B0UuSdjf3LqynRIuOVUXECmdSL0JjYZot9kD2bNUmmUI7HzB4QATNVTattRKRuzR3c37+jAFIKtYP/TLTCLFNr/vSNj6/oktPmSQQApD/fRYvXN3PRNebmIOlyGb4xQYtJUsAVeia7Owk0mdtPBZauW/JVI//j0Ojn0zchXzY5B5JgssDIAtjzp+DvnLVGs/9+tjB+4W5ehsrUOiKjjjQ1hGrXJQryOE3lxBMAYBB3RSFHshdqHIWTma5wO7oOVbdW/oHbnH58VRTpXkWQhLHj3graBQLmrciyajWuHAClWW1IQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NPBwa7fNZnuX9AB7sLhynGkKj7iGvZ3nipo+pWbXmGs=;
- b=Vb79kup/VG13fkJv75up9hT3Y7uPL3z925ul9r8w/RrJGNlNOjdFXuQfHMbsgvcFLmP+z3li9IzitjaDBTinC3IedpBD93fOwIOa8IQnLoDne/Bb52OxbqQbR+9gFriGZkfgFwu3euvOn4qN2XbfMFKnJY/NF54sObVePq5LFwrH8ml3qPTI7dRE2O22zSOkQbMQQrKQxFyT3yD4O2bDG/ThxeQ7GTMjKJYU/ZQGk1VEzVhLy8qst5FA2XGCIZc5OONKIym+sgaMdE9vv5k+HyHlROzLJ3K6RyAE5O9t35l92veVFMclO3gZDI7vXzlTp8hx1IxGqE/E1uKZIG83AQ==
+ bh=QQUbrmMNNYrvHRXeGi9a9FXrDhRZ4NV7kKsuKyXQTAQ=;
+ b=HkiWp1Ju7AER7fBtE7UozeObxCLEsCpmtOAug8GdNQW6UhGhnicE5jxrcsswqEEZ7ITM0WluHFqeygJ/zN13uyMyI2SPBrx/vffT0L4CqwjO7IAHvikkrOh2S09y+OCRYkssLzwjMBXis+lYxVx1t5kgr6ioXaHQN0H73jKT+XrvMPFvK6JvITgsNbl6K3yFz7rbNoRLErfQHXnCUcD7tPt+1sKa9XyxT/5X3wG0VGVs6HftaXeb6S+YH7EaYbwQYJP7rGGv+ygmSbwUiVHt32qMT7DmC2hDSRv+FBYLTdiWqS5svNYFwxoOuXPGl16d+kvMJg8z0np0Q3luVkFyBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NPBwa7fNZnuX9AB7sLhynGkKj7iGvZ3nipo+pWbXmGs=;
- b=hZjW8bWqaiSO6t3JAqmQhrtuKdIXja5jrFJ6mjrotWUbmibeVov3H+V74G7S9W5C8MJ/sFfp1LoJTwDipuCQmfdKjax+AZcPC9wjFMJzgpNBgJU8NHXOyRV7x43c7gUF3bvGVQ0sVNrbQqjOm6AXmbEfdbiZpNgsGLnDRQ/K20NwVNcBv2Jb//u2263sO4fxr3KWf7AOoJkj2wMmv3jpzeB7yj8Fbmi1Fz7Fl9xAOE0H5M6+gTHFwcSR+HSB1wNecuVSt0WLmTQjp0q13BtknY8wb87TKSsIn6JIvBWr60dbUTbU0qgTDBC2L4Ujj6OIIgZYHsxj7f45bzp5wapftg==
+ bh=QQUbrmMNNYrvHRXeGi9a9FXrDhRZ4NV7kKsuKyXQTAQ=;
+ b=sGVFXaMQ+GC91FEuxLp2+toI2fopZhNBmWGbxEPFdSmF+rr0++hOaYAxF/PBBYSEMb5I2mDLZhJvzQFGAkQMJ7rtn6wuYuCJVV4Z6WkMedAqgOdpq3NobdEWSrJYuRzahT1WyvQg8WNklfOqbfkR4Zh5AEorli40E5zi01b79sSLqKX+37Pi1VQGbmguBM2qR5TST88+6XMyr8bzrV/fRatCiAv5iq0mzZ+JDehXTvJhTeiRmwKBXrSL8R7t2C/SgNMpCBv1x4sL9S65UiINEFwuB32pUIGs5Uu2Cc20zvILTPZJ2l2myPtEDzGQOQb6kD3Bb4ERZghIfmEHWeGQog==
 Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2::9) by
- MA0PR01MB6609.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:79::13) with Microsoft
+ PN2PR01MB9277.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:117::8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5944.19; Mon, 2 Jan 2023 14:34:17 +0000
+ 15.20.5944.19; Mon, 2 Jan 2023 14:40:03 +0000
 Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::f90e:46bc:7a0f:23bc]) by BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::f90e:46bc:7a0f:23bc%7]) with mapi id 15.20.5944.019; Mon, 2 Jan 2023
- 14:34:17 +0000
+ 14:40:03 +0000
 From: Aditya Garg <gargaditya08@live.com>
-To: Hector Martin <marcan@marcan.st>
-CC: Arend van Spriel <arend.vanspriel@broadcom.com>, Ian Lin
-	<ian.lin@infineon.com>, "alep@cypress.com" <alep@cypress.com>,
-	"brcm80211-dev-list@broadcom.com" <brcm80211-dev-list@broadcom.com>,
-	"brcm80211-dev-list@cypress.com" <brcm80211-dev-list@cypress.com>,
-	"franky.lin@broadcom.com" <franky.lin@broadcom.com>,
+To: Hector Martin <marcan@marcan.st>, "aspriel@gmail.com" <aspriel@gmail.com>,
 	"hante.meuleman@broadcom.com" <hante.meuleman@broadcom.com>,
-	"kvalo@kernel.org" <kvalo@kernel.org>, "Double.Lo@infineon.com"
-	<Double.Lo@infineon.com>, "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Asahi
- Linux <asahi@lists.linux.dev>
-Subject: Re: [PATCH v2 2/4] brcmfmac: Support 89459 pcie
-Thread-Topic: [PATCH v2 2/4] brcmfmac: Support 89459 pcie
-Thread-Index: AQHZHo718NMBa+5HNU60gzVi1Spvqa6LJ2UAgAAA0gCAAAkygA==
-Date: Mon, 2 Jan 2023 14:34:17 +0000
-Message-ID: <BA494267-7B5A-4042-BD33-44F62837C8DB@live.com>
-References: <20220922104140.11889-1-ian.lin@infineon.com>
- <20220922104140.11889-3-ian.lin@infineon.com>
- <3eb9cc12-db75-8042-4106-fa6521c684a7@marcan.st>
- <6D6035D7-894B-44F6-B35A-3EC9C57029B5@live.com>
- <91c8fc96-083d-74b7-3015-e76f1ab59cec@broadcom.com>
- <6e204026-d102-6d81-f58b-f4340e7d07ac@marcan.st>
-In-Reply-To: <6e204026-d102-6d81-f58b-f4340e7d07ac@marcan.st>
+	"kvalo@kernel.org" <kvalo@kernel.org>, "davem@davemloft.net"
+	<davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
+	"lina@asahilina.net" <lina@asahilina.net>, "franky.lin@broadcom.com"
+	<franky.lin@broadcom.com>, Arend van Spriel <arend.vanspriel@broadcom.com>
+CC: Orlando Chamberlain <redecorating@protonmail.com>,
+	"brcm80211-dev-list@broadcom.com" <brcm80211-dev-list@broadcom.com>,
+	"brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, LKML
+	<linux-kernel@vger.kernel.org>, Asahi Linux <asahi@lists.linux.dev>
+Subject: [PATCH 1/2] brcmfmac: Use separate struct to declare firmware names
+ for Apple OTP chips
+Thread-Topic: [PATCH 1/2] brcmfmac: Use separate struct to declare firmware
+ names for Apple OTP chips
+Thread-Index: AQHZHrgZDnaanKJG6k6Y1zElujNaAQ==
+Date: Mon, 2 Jan 2023 14:40:02 +0000
+Message-ID: <ACC0D1F6-7857-4FF0-A474-4EC699572E1B@live.com>
+References: <F8829A7C-909E-4A1F-A22C-668220C5C06D@live.com>
+ <f36dd8e3-9905-f04a-ed34-4be91ed1fec6@marcan.st>
+ <F9EFCCD1-4407-42CC-8316-2F58AAC1AE7F@live.com>
+In-Reply-To: <F9EFCCD1-4407-42CC-8316-2F58AAC1AE7F@live.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [5XsElTdK+5CFBK2m8CM/133hQGklwSZJaGCJSUNo9jWtfr0eGsISymOfuSkbof0q]
+x-tmn: [/xxa1By3errEM3v4mna0krMW7j3tH3EX/bIjP5/cXzFzt4cAe5imbucn5S+tO96O]
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|MA0PR01MB6609:EE_
-x-ms-office365-filtering-correlation-id: 7972c0e9-7187-49db-a12e-08daecce6ded
+x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|PN2PR01MB9277:EE_
+x-ms-office365-filtering-correlation-id: a39661f7-856f-434f-0470-08daeccf3bb7
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info:
- r/xWC5hW0xzD/UiB32JkMPPO57QsVQ47gDAWBDKeHahVJb4VzZUE+AQwCvx266QMiwCTOCYSwHiQFubv6PZiFnSLjMlfE2uGyrm9DXt1dade+q8IkrpYaEFjBS4uc6hoWU/ZyoeYoCjnhEhn5AW0bM4DOxm46jBg68ywsBnWBh713KwU6XOuimYqE/866UeFcVN/Z7G5KreVFfuD+fM2KmJaHxeqgnMLRJHVty7zEYtnCfyejHjwA5zU3c1rJCx6xgZEr6THjhezsT44ISjsB0Ccj/WPuI134UDxnvrBByjjxq9yvhO4+1XvpEKdc7/rc2EEsld/a/mPehbGssPa4NbLABR56BpFsEuvxjGVz0kVJvLAy1cKL6O25C/OW2j+jNsf+HYTLd6O+2EXNRnJL6w4adz/vgHnr7pyPexFJDaaKKKlvwreeBwP1TmbS1RkAMcmGy4/wi7dPGScXCrQsojSM+CeKia5T86uCHjCP0fl5B1S38nrH/DzNbp4qJ4zDq339CAgbJBbvmNIgH8DChNnmMsCbPSN5RuCrdrzGcaM+WIB65o3K3O+I0LLzS04a5IGX5yhYaUcRPw+sR6PuAziSn6cJvACZztx6/CJrEPUeofQvNoEmcWFs5zggZ3frwVDnOOIPYRlZQ8yqaCD0g==
+ r+pUXhuBEfdRc4r0zzY4dwxTPwDXCIkULou9NNxz62gr852viBV0pTLZfj6/1YZ+9VayoWYDew5zS9BfQUxP8w7+cquRJUgRXLeaLS5jP1eHECUkULAINHhBkwaOXBaL4mzdON/SPaT5WU2H1IwNaWql0+BR/UfrvgVdAMGfxQk3iTbxKhPpdYSvedqUNgyjxk5lDG9iKRgw9xEAGk8lu9IaHSt6gBO+Gv5dRJh3Crxe8opJfT3kuF8eFOxSybDwbEOZ6f5HA5qXxaPztneUQIpxK/uF4zdQ/tuP7THTS8UKYiKtP/sL1FCIbnlNgaMXPYvS3NSOcVhpWjQ5eYnC8nPLMN94Z8EkEVvY8C4vxhpLM6AgJfKC2WrS1UHOqcSy6OmHmPt0owBJeLp6UTRpU4A3Qz/R0INdJDrj2WhteWaEGvqvWZkHKOfOqwQwM4YZY3m1lPPYG76ICgicJWzBYjZHmjHhoafmp8ZTYgWqTEE/PbnRY2oAZ8FCKZ7WKUa9pow+13FVxjps2G4ZOyurEAsFuBvbo0Eq3qybSiptOScpSUB7Ks+mS2VkPE9EPBUOvmSFtK9z+ikrCvRNyPWe7vDJfvL3Nd+W4+N2A/O7wu0=
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?bRCqQaOlkf/T0vG7yhYtStVTqpFSujxIOB5O/gp3ipz0fAeWb0/vku7pRefB?=
- =?us-ascii?Q?rtOU5TofyoF6ck26wrJ+gIaShgPDxjCDxy4IMLLBgdqrR0bw7OPAgbFzfWTr?=
- =?us-ascii?Q?/2U7yu7e4+5I7+JSGYVAwljwgpZITGblGoRjhBH2s5qTLpeR3gAJ3f/T5XeW?=
- =?us-ascii?Q?kHdyBwItnrI/zrqpEDVhZMVvwMIGfFZjPgeiU7PJM6yqBtAsypDOR/AxHGKl?=
- =?us-ascii?Q?G7ABxmoz8uKDUstaBSknyxOvMv9nMBe1YtAc1zJAbfng8/D/3Q0SolnJGR4x?=
- =?us-ascii?Q?vrP29ydkD7CVqlUW4SIhk1GT+r5hdygDXFmJ6ieEKkmVrKX/GoOmU3ogLl18?=
- =?us-ascii?Q?9ddwSpYVXstqVtBoidCqrjgw5yOwUElogN/4blYxgfcp4w0gL0Se2a/fU00j?=
- =?us-ascii?Q?ii37idvyhpAzuA4U8XqYw5rffd1yupWzbNeom7OuccHBiRpdKPv085pdJOgA?=
- =?us-ascii?Q?Wud3234mNuxHqFlXQiPW/2m07VUFkpE3YrYVd4vqIEz73CBv3OiUBClxETyp?=
- =?us-ascii?Q?I92BeO78FxORkdyWJPaK4FvJZP1/jMzQtv64NXvVCi5xyqtkChufv/2FU6sL?=
- =?us-ascii?Q?Lhv6V9BvNaJFoIiXLlNHLGd0HJUGs+Mk5ndQwH8YnEod2qXAuuMecgt9ZLV9?=
- =?us-ascii?Q?XXKcDc5kC+9fAMRQrHW8TH5hB7rjAtyyOnMliZXk62UGZQUxkezaRHipBptx?=
- =?us-ascii?Q?zkx/IGMK5GIdE4mWHyiIy6XD7JqkW8EcDLvAPqquNOnVweH52nkZ80/hzniU?=
- =?us-ascii?Q?SzxclDmrJqPWlj+QQl5o6YsVK0LqbzJbg9Jpn6iCmNVyPj76KMXOyYsD04oM?=
- =?us-ascii?Q?Q/0VT6zqiJ+UJAIwMlfWhD+IfvaQonXoev9meKRp6TG3wUXzEZWZ7YbsND/g?=
- =?us-ascii?Q?69l7r3krpsO77Dp6fJl3HzcRIzgAV9MgN6Ix9473YNcuoJ2sJaUWl1pnppvx?=
- =?us-ascii?Q?s2E+rXdY6Rj30gXQeupmPBbtp5etVamFwFntHyrje9594ZvHQuULLk4+MHtp?=
- =?us-ascii?Q?7CcqdoklwB0zUunlyRnVqJ7KzI0X6Cm6CbOz6Dh2umJQzMFBwknEBp9peIk7?=
- =?us-ascii?Q?9SaeqMhzuUM7U9eAst3npmmWnpcVShoThpEGrOJom6YePCm5s/6s5fZyVRod?=
- =?us-ascii?Q?3R5pcVkdpMCiJnJrz1B9QWjJPz8gYrkHymMsJinOCtvaQHro4VlPQ5YdjIgP?=
- =?us-ascii?Q?xgJUAFcgvnwzj4DfNI5fFXgSlqwFE1UpGq59b6/hE+tI//gi4jlc6sXe3Fio?=
- =?us-ascii?Q?xTB0Rl2orAJEUodYrc9knv6huvOgNyyCSOIwNZlVWsGkl31U6AF3rsTV4t6e?=
- =?us-ascii?Q?X2g/MuXYVm671vAhMCOIcpuA3jbRPjHeGnIVQz+4vPecvQ=3D=3D?=
+ =?us-ascii?Q?Vh/Pp3B2gGcTEw+fpN8IqyzIkwtt9Lk2sdGPEWAI3jU9xxYykeA6UPsEUE6j?=
+ =?us-ascii?Q?Urb+hNt1Tx9R2wkqk7bLGDIb+/nSyL45sxOBbiuH6s/lAgKg2x1egI2t1Ik7?=
+ =?us-ascii?Q?cEB1YRLLrRjiI2PsN4rpLkCtQ1piycYlX/L0WOYPXYvheuClUc5JTa/F8GUq?=
+ =?us-ascii?Q?Yca5CW4oEvIPlJW84n+3KoecglHvI1h3E+yIm647m60dOYZj65TIQ6sLOj51?=
+ =?us-ascii?Q?PpiVarM0zG+z1KPxJqaPZwiwucmcNfLx83j6flHpxsrwJX3TwNJZduI4qQQx?=
+ =?us-ascii?Q?3pSAsoZOolG9QexwikRoYp99PeX59As29lGfGOb5EGfx+rimFA0HOCFzfWwb?=
+ =?us-ascii?Q?H24CgAHsdusaRB9gYphZYWDI6fJFJ5//YbAGjf9lJ2ntYNj5U8qVmCtmJpXo?=
+ =?us-ascii?Q?DZVOUWTfkXh9310rpt8huVkeENRVlDpwO3TGhnSQVGYhhm9iqCNz2pl035aA?=
+ =?us-ascii?Q?M8WIy8Ntky+NVasKyYFQwOhyd1sXcg3/9m+M3YfQjfHJrpAW74KvuDQHydi8?=
+ =?us-ascii?Q?Pb2VbRrPIKY1yK6FU6Lk2fUBK1lYf9Aa0PHRCPy4FK/CKsFI1RLNNDEdkKGt?=
+ =?us-ascii?Q?Y24geLVunuFv2SDQwfo0ESBQ6QChfq3Do6KKX/MPFyqPwvAtFcOJi812aNeY?=
+ =?us-ascii?Q?BkTWNFKG3S+o788Xlai3ToWd0wuY1nGDbRpyYsz7WLp1BN7/Y0HqWpCtMzkd?=
+ =?us-ascii?Q?7Zeqr3Geio8tct0mEJ1diiMIWNPXnUSTxZ+ftHHT3wNlh4RRBpxCIfkPBhtt?=
+ =?us-ascii?Q?tuOQ6c8XRIi/gHf3FvxXV8nHD1PJHSQT7sNDgms1F49MK5BjASZeiUFC5zXX?=
+ =?us-ascii?Q?TkHXSu2rqZJ9c7dO90IlyMDUt0euDHfhlEvRoLkuTC+aPMMUTnukZVahyLXw?=
+ =?us-ascii?Q?xJOXcMvWlgtYFHfkmpUISS+Hv1t2i/IYQ++hmxbFA3zAB5mJ+scaK8f1MXAe?=
+ =?us-ascii?Q?ZJOzbZf1//1GTn80zztY4fWIy6NdP1owXo2m+tQtwiSm3xQcwQe4XNQS7ApF?=
+ =?us-ascii?Q?gn3VGD41bNdw+P5yDe0imFKR/uy3L1UwgyWsWJsQvLZQYox73C8qNv42p4iH?=
+ =?us-ascii?Q?h8qHLn2n8G/io+bLmxtiT6il0lNZLxkfhTBBjNY5yzaeB/W7CY9J0sG4dfD+?=
+ =?us-ascii?Q?d1oN47cO7kJsdDV4avbSqKvLcE5cBhVgbdz+GwfHUWl2SL1c/LLH+zQxZ8eF?=
+ =?us-ascii?Q?0px0ElPXpr22ypcehZ5lTazV5ghQjyAgg/bJy50Vqt/+1HG1tL3E0Q4heVe2?=
+ =?us-ascii?Q?J0LZ8kbrUhb7K0EM9KGrh3OJjxUtjxS3w7ydpjtPERL8ADCROISoWxUwcobT?=
+ =?us-ascii?Q?u3Sk87R7SONRJ9NIVMpTtyZzVv00k7cIcRj1mpDea9tOxQ=3D=3D?=
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <C5222CA80F583B4DBEC100A09E97CD7F@INDPRD01.PROD.OUTLOOK.COM>
+Content-ID: <479D565AC9470C46B41E26623076DDA2@INDPRD01.PROD.OUTLOOK.COM>
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -98,31 +98,75 @@ X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7972c0e9-7187-49db-a12e-08daecce6ded
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jan 2023 14:34:17.7429
+X-MS-Exchange-CrossTenant-Network-Message-Id: a39661f7-856f-434f-0470-08daeccf3bb7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jan 2023 14:40:03.0113
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB6609
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PR01MB9277
 
+From: Aditya Garg <gargaditya08@live.com>
 
-> I think he's proposing we special-case Apple chips into their own
-> firmware table just to avoid colliding with non-Apple firmware usage,
-> which is honestly kind of tempting as the safe option if nobody from the
-> Broadcom/Cypress side is willing to clarify what, exactly, is the
-> relationship between these chips and what their respective revision
-> numbers are so we can *correctly* represent them and avoid further
-> confusion and problems down the line.
+Commit 'dce45ded7619' added support for 89459 chip pcie device. It uses the
+BRCM4355 chip which is also found in Apple hardware. However this commit
+causes conflicts in the firmware naming between Apple hardware, which
+supports OTP and other non-Apple hardwares. So, this patch makes these
+Apple chips use their own firmware table so as to avoid possible conflicts
+like these in the future.
 
-Exactly
+Signed-off-by: Aditya Garg <gargaditya08@live.com>
+---
+ .../broadcom/brcm80211/brcmfmac/pcie.c        | 19 ++++++++++++++-----
+ 1 file changed, 14 insertions(+), 5 deletions(-)
 
->=20
-> You might be able to help with that ;)
-
-I am sending the patch.
-
->=20
-> - Hector
-
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/driv=
+ers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
+index ae57a9a3a..ad7a780cd 100644
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
+@@ -92,10 +92,13 @@ static const struct brcmf_firmware_mapping brcmf_pcie_f=
+wnames[] =3D {
+ 	BRCMF_FW_ENTRY(BRCM_CC_43664_CHIP_ID, 0xFFFFFFF0, 4366C),
+ 	BRCMF_FW_ENTRY(BRCM_CC_43666_CHIP_ID, 0xFFFFFFF0, 4366C),
+ 	BRCMF_FW_ENTRY(BRCM_CC_4371_CHIP_ID, 0xFFFFFFFF, 4371),
+-	BRCMF_FW_ENTRY(BRCM_CC_4378_CHIP_ID, 0xFFFFFFFF, 4378B1), /* revision ID =
+3 */
+ 	BRCMF_FW_ENTRY(CY_CC_89459_CHIP_ID, 0xFFFFFFFF, 4355),
+ };
+=20
++static const struct brcmf_firmware_mapping brcmf_pcie_otp_fwnames[] =3D {
++	BRCMF_FW_ENTRY(BRCM_CC_4378_CHIP_ID, 0xFFFFFFFF, 4378B1), /* revision ID =
+3 */
++};
++
+ #define BRCMF_PCIE_FW_UP_TIMEOUT		5000 /* msec */
+=20
+ #define BRCMF_PCIE_REG_MAP_SIZE			(32 * 1024)
+@@ -2165,10 +2168,16 @@ brcmf_pcie_prepare_fw_request(struct brcmf_pciedev_=
+info *devinfo)
+ 		{ ".clm_blob", devinfo->clm_name },
+ 	};
+=20
+-	fwreq =3D brcmf_fw_alloc_request(devinfo->ci->chip, devinfo->ci->chiprev,
+-				       brcmf_pcie_fwnames,
+-				       ARRAY_SIZE(brcmf_pcie_fwnames),
+-				       fwnames, ARRAY_SIZE(fwnames));
++	if (devinfo->otp.valid)
++		fwreq =3D brcmf_fw_alloc_request(devinfo->ci->chip, devinfo->ci->chiprev=
+,
++					       brcmf_pcie_otp_fwnames,
++					       ARRAY_SIZE(brcmf_pcie_otp_fwnames),
++					       fwnames, ARRAY_SIZE(fwnames));
++	else
++		fwreq =3D brcmf_fw_alloc_request(devinfo->ci->chip, devinfo->ci->chiprev=
+,
++					       brcmf_pcie_fwnames,
++					       ARRAY_SIZE(brcmf_pcie_fwnames),
++					       fwnames, ARRAY_SIZE(fwnames));
+ 	if (!fwreq)
+ 		return NULL;
+=20
+--=20
+2.34.1
 
