@@ -1,129 +1,184 @@
-Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2085.outbound.protection.outlook.com [40.92.102.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E0E7C
-	for <asahi@lists.linux.dev>; Mon,  2 Jan 2023 09:45:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mDD63lWmef18VLGXGhdtJvjNeYdSaFCYUxgMMujS4URlwPPtoQOmBBtcBP9V0JAcOSugfbBJ9W8EysrNqtmVYtpqv/bFny+2AD4NYuN9W0HBNqRfksnag/wM2AwnE0QObgnqWPAOcQTomY9uiXSrQHuufnAcsomKqZ3rNYlHzQ4JPpswtWPAEUb6Rd9PPF1TPcDgLCoKt3F1AC5vgjqO+b0eyXIVfoLHsEWbSFOtt8g53t+vcY5JHaSvd7uur4nwzUkGoHYzZOmNxtSPLe1tdBwU0H2vsV2dYMCFdy2alVS7lly/upIT9aEturlqeQnSUmRChV2pRSEU82yXl2nNhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LP4n11FLTAkf6LyGzfvJPsp94IIRcbjWJWczPGIjmFk=;
- b=TEl3r6xvGY4lcb8b1cRvP081V9DRzBRg8txCq6+hz0DS1zgJjW1iEkhe3HKvkAKFvPXJptvdQ4c1Z1bDV/Wg/yZMQ7F5wuNwmnI+W9Fh5d5cezSsw0MFLYhAMjit1cBXxMxbzZQYEgTjFhcntp62OG2TyqNN3vhj+1YoGBP/WD7awzRKvmysjaObRO4la8yyjK0I+XXAtt0HhLBJvVyMeuDv142EY8kFixy1MW4cy3ziTQTLtiwqkXA4B4/wcgXxuPd2uF/SC5M6QV4uT1ggawTHdslYfQa3fhQ6GL6yhEEofacASPKsbfeOUBfLzPs9exjO8+eFOqBx5v+KhgNKPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LP4n11FLTAkf6LyGzfvJPsp94IIRcbjWJWczPGIjmFk=;
- b=QZ/EI+5tMFLq04msgQUWQ9ipa7mJS5SMrzpI3Efx1wHJD4PcFo0T9puY8AQuwscwn1cI0X9xP8pWqU03XCDRaeD5SiNtFS3grq5umWLsefR3pCRZmOivsGx46w7uj7SA7//lamaruinV0NE7ntI3+I27RcR8DxEiV9jT92KaF6sj2c5yQSy00v37Tuo61+a8CkOvXvohEmcXJAJU1KqUn9eslqb6LI7fi1Fyp8MR2TlVMl2+NhB8GlGga9MjOaoawpvvczMoNax0jnbaq6bGXZRV8mViU++K0+xDShXeTIgbWnqLcQCGN2I2UaAKxTA58KDTwi2846XYKPCPJRwodw==
-Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2::9) by
- PNXPR01MB7090.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:c5::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5944.19; Mon, 2 Jan 2023 09:45:45 +0000
-Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::f90e:46bc:7a0f:23bc]) by BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::f90e:46bc:7a0f:23bc%7]) with mapi id 15.20.5944.019; Mon, 2 Jan 2023
- 09:45:45 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Hector Martin <marcan@marcan.st>
-CC: Ian Lin <ian.lin@infineon.com>, "alep@cypress.com" <alep@cypress.com>,
-	"brcm80211-dev-list@broadcom.com" <brcm80211-dev-list@broadcom.com>,
-	"brcm80211-dev-list@cypress.com" <brcm80211-dev-list@cypress.com>,
-	"franky.lin@broadcom.com" <franky.lin@broadcom.com>,
-	"hante.meuleman@broadcom.com" <hante.meuleman@broadcom.com>,
-	"kvalo@kernel.org" <kvalo@kernel.org>, "Double.Lo@infineon.com"
-	<Double.Lo@infineon.com>, "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Asahi
- Linux <asahi@lists.linux.dev>
-Subject: Re: [PATCH v2 2/4] brcmfmac: Support 89459 pcie
-Thread-Topic: [PATCH v2 2/4] brcmfmac: Support 89459 pcie
-Thread-Index: AQHZHo788NMBa+5HNU60gzVi1SpvqQ==
-Date: Mon, 2 Jan 2023 09:45:45 +0000
-Message-ID: <6D6035D7-894B-44F6-B35A-3EC9C57029B5@live.com>
-References: <20220922104140.11889-1-ian.lin@infineon.com>
- <20220922104140.11889-3-ian.lin@infineon.com>
- <3eb9cc12-db75-8042-4106-fa6521c684a7@marcan.st>
-In-Reply-To: <3eb9cc12-db75-8042-4106-fa6521c684a7@marcan.st>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [FXAHCpcMFoyshNucTO9Kqi4ayHRcV4ddqJYkHH4o2XyH2lBO5oPqylVBsiOmrYfm]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|PNXPR01MB7090:EE_
-x-ms-office365-filtering-correlation-id: 358eba35-1421-4006-050d-08daeca61f0e
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- wqLqBiuPNR3+yUjIV/HZ2mWXqH5keLcoATIE8K08hVuFqhiZC3KmKCe72mTqkc57hRdidx+Y2awtD4IyYFz2H6fvva03SvXxbIliBg94jq8rcdV+6YS5P7V8AiUdaPYIZ9RKdY40DUV5qg3QzjxJIr6KnOd5J09cXwXWHxvTCeiaFg2vd9UKqM+mU91hHPyEeB1EFjLYQaE+zu/iC1bA4C118hCndjRnvIy+ntl6Nvun+O1WvVJCZJSnxxafNE8y4JLxegA0WOwCIgkUVEL8oFzTcjUR6E82fmWfrRwdcdlSktEVucw7JMZLHhoYus6T1+rKeTndKtcejtz+ONiIb73qUKBe05jroOVq0TQvXZ65f7kaStr+X2QLbJM9FA659HtHuvnaecPahvMYZADl8WChT53w5PUWtzpBmvYlqJIXCKzf1ypLccN0M8hAIAJBr+A2XZRTso53/GQzDtZbAG2YSAWqW7KRaXgEUxrbNYcm0IdT1wxXGQ+JMsJ6klDwPOAu9390WXpbI4jsCMSriW3aGlhg+aN3Kb0jnGFSr7hS2l71pv4kfpPbQ02Wh/bewIU/x7atvtc2MqjUry1akkeKQdq5EnciYe2GBfnk3UduAN7fM9u1nuDAXEO4Kk9yDWZwsDlbJWGAlP1tdNpfXA==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?T8rp/Vt1iJmxqUDIgOG06osf21A/yupKRSOcfHwgsIpra2whQ5m0x6s009du?=
- =?us-ascii?Q?0g0NeRW8LQinxPn6hdrt2aCLFvlg1HLwA99f4kQwL6H3nmOAdk3oRsvOfmyS?=
- =?us-ascii?Q?mOci8IMdneBJM5K9EXr9VqAA5H9hzVjjzkIoRHGoHuZat8Bt2Gbn9xE3RYpt?=
- =?us-ascii?Q?tWWtQ2TxZy8cIyK5Y4cbHm3dV9viS3FaUmwYQdIU9QReaL7eOkvVSVsOnJuw?=
- =?us-ascii?Q?q1YF0tSqwRmmXQaI4MTLS+FFeKlyZ1M/VoQOCIda1MclmMSeuZWhKEnmcdsV?=
- =?us-ascii?Q?AYryyrSgkNq8FnDPkj1Ndrq9EDnrwFagX96L/lUUQgWc3pkHzd/Ujzuz5eb5?=
- =?us-ascii?Q?ERduBZaxd70wxyXzxZ+LDDws9GjaEZTYa9b+BYfyxNLDnNZT+ucgIThkUM3X?=
- =?us-ascii?Q?wO92haaGXkJMeZeCm8X1zz/+A4qk3Dg8VNq9lN4JBpBYQ4wPbzrL/QDieMvA?=
- =?us-ascii?Q?K94GKWkskFIXL/hPnIsrYcTD9xIObBjncjRel51FKbK6Ee4lue3+nfKCDcdX?=
- =?us-ascii?Q?fYm/LF4SrfuR1I6ss3MhBGgEHfynVyiynIICYz4htIW+r5kDnTh4DRU78XkF?=
- =?us-ascii?Q?bFrqhEF8JWUlA2h1Eqs5m7YuGq8IMYQe0qterf7ldEvM0rfh4RF1pwSLaBpO?=
- =?us-ascii?Q?4muUR0oEj36m4R5Yx3F1wqTetLCUzx2yij6ByuKYYmiXVXq0rDarNPqluRIh?=
- =?us-ascii?Q?ZlZZiXNcBWy3ZS1JnuLku+4SRyLZW14e8lJQ3jXSwFhIAZ1BRWtYezrm84/o?=
- =?us-ascii?Q?EbQibLFrPNRjxERIrD3LfZBi4dxTNehsfk8rUZlnIRSDIp5wjjNcjSUgTV6j?=
- =?us-ascii?Q?kx0IYzmqcqy5ulEy/Ym6wuUYoeoyK0Rj/6JOtfEUqdNcWtjqpQ8UdzosYKp/?=
- =?us-ascii?Q?I7hYMdWNPHgOKsHDa0GZ6m6hinSnRbRGlCIvcS79paDUZjR6rmX9eJhGjLGR?=
- =?us-ascii?Q?pPfGbOBoIBeX2iGQdbwvh8v7sYNjjw6oZjI+rMm4erDwiOkVxGlQgGmn1+vL?=
- =?us-ascii?Q?ZCBuny3L+1BFWC6S3uFbrkepq1eJBESkVhJY3vYaq0WCHeV6NXX5zNmnmVHf?=
- =?us-ascii?Q?UU9kcIlk4ugkwtS/0W2kCKuOh32sfgiMyTUxUJdkupM1rI3TuCwm6/4FlFae?=
- =?us-ascii?Q?Q4NqpZIPRX8jcqhg0VQkrx7hrlZEKPTAPE5r7wfVuAiIvLxuaQj965sJSWoi?=
- =?us-ascii?Q?GiOmkXUtSNxfJLhiyryupkrD+UQ/TMkQ+MOGIUKyGjzHZKIWZo4jKoG+dIRk?=
- =?us-ascii?Q?AG7WxESoIndA9Y6tJ7eF+uimeulLziyUh/c5LYKKLckvpoK23gzySuLc4aSd?=
- =?us-ascii?Q?lcRW4cYCxSEWyztRgqfS1HTxVECnZvUwTq0YBWLyuKvekw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <CCB8DEB9BDE68D4DA65C0C6A9E1CAC75@INDPRD01.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C88320E
+	for <asahi@lists.linux.dev>; Mon,  2 Jan 2023 13:58:20 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id g7so22496171qts.1
+        for <asahi@lists.linux.dev>; Mon, 02 Jan 2023 05:58:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=YSQ4o//lMSqWkGgv75zc0XEI+IPEcx03/cFqEZcLF48=;
+        b=hm7Qbho40KXDBGIr11koELI3BZ2NS29RLoRQzdGdfY9XyrqHZl7XrEscTr7EYKAIKV
+         bVm03u7N/FsBIDwdXhKU0zmR590NDbmztHmumTxqDoPodXY0TsWnCPes9fT7ubqxjvDP
+         35g8NxLaI2piov1krzYWpuN4wbZ6vlgwU2BXc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YSQ4o//lMSqWkGgv75zc0XEI+IPEcx03/cFqEZcLF48=;
+        b=rUx8c+KBUg9S1O3kYRP/LyJ9AajyutrvA2izaJ9wGDZnyBW5TUs/WicDXgTPlLU/m4
+         mdQd/+aTE631IePLh41M0If0W8xc94lj641dnBp/rKPw4DbdK4fSb+IUWnoojMtHMXqD
+         FJmf+bppJgn+I//6+hkwkf/tPNJUYA5CVbjgefRObPLFSy2h78PyB2TeG3Zh86svVZbD
+         qgINY58mxJvMetnxVZMhsig0f4MNq9fNL/xiISxZ+bFVa5PMGunBvokKY755iblII/Ja
+         Ze4XomwKvXzbW0jkkE2BswZlH9HbuiI48GZCpuvtN+FYBgvmYO8eL8s+xKFSYxLQ5CEw
+         lGJQ==
+X-Gm-Message-State: AFqh2kpiSzi/QcYD6XpgkzcFhl9Xm7yIWmnip84CpHC5AtGPAIZbeun2
+	KD8kBcRhVbAac8qBxFMTAZZsTQ==
+X-Google-Smtp-Source: AMrXdXucIL+apvylSsERKhiM/zyW8Itq4uBB/mhxim6FCtrMo2iADaVLcXeEr6Oi+TcLK7Q6MHgM9Q==
+X-Received: by 2002:ac8:7049:0:b0:3a9:8842:5860 with SMTP id y9-20020ac87049000000b003a988425860mr58583663qtm.45.1672667899455;
+        Mon, 02 Jan 2023 05:58:19 -0800 (PST)
+Received: from [10.176.68.61] ([192.19.148.250])
+        by smtp.gmail.com with ESMTPSA id g25-20020ac84b79000000b003a70a675066sm17518880qts.79.2023.01.02.05.58.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Jan 2023 05:58:17 -0800 (PST)
+Message-ID: <91c8fc96-083d-74b7-3015-e76f1ab59cec@broadcom.com>
+Date: Mon, 2 Jan 2023 14:58:14 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 358eba35-1421-4006-050d-08daeca61f0e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jan 2023 09:45:45.5460
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNXPR01MB7090
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 2/4] brcmfmac: Support 89459 pcie
+To: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>
+Cc: Ian Lin <ian.lin@infineon.com>, "alep@cypress.com" <alep@cypress.com>,
+ "brcm80211-dev-list@broadcom.com" <brcm80211-dev-list@broadcom.com>,
+ "brcm80211-dev-list@cypress.com" <brcm80211-dev-list@cypress.com>,
+ "franky.lin@broadcom.com" <franky.lin@broadcom.com>,
+ "hante.meuleman@broadcom.com" <hante.meuleman@broadcom.com>,
+ "kvalo@kernel.org" <kvalo@kernel.org>,
+ "Double.Lo@infineon.com" <Double.Lo@infineon.com>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, Asahi Linux <asahi@lists.linux.dev>
+References: <20220922104140.11889-1-ian.lin@infineon.com>
+ <20220922104140.11889-3-ian.lin@infineon.com>
+ <3eb9cc12-db75-8042-4106-fa6521c684a7@marcan.st>
+ <6D6035D7-894B-44F6-B35A-3EC9C57029B5@live.com>
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+In-Reply-To: <6D6035D7-894B-44F6-B35A-3EC9C57029B5@live.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="00000000000000719305f14858b6"
 
-Hi Hector
+--00000000000000719305f14858b6
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
->=20
-> Is the CYW89459 just a rebrand of the BCM4355, or just a subset? If it
-> is a rebrand, it's okay if we call our Apple firmware
-> brcmfmac89459-pcie* (note that we use per-board firmware names, so it
-> wouldn't conflict with a generic one). However, if CYW89459 only refers
-> to specific variants, I think the firmware should be named after the
-> overall bcm4355 family.
->=20
-> I'm guessing you intend to ship firmware for this. Would that firmware
-> work for all 4355 variants, or only the CYW one? If only the CYW one, is
-> it possible to differentiate between them based on PCI revision ID? Note
-> that our 4355 has revision ID 12, and Apple specifically calls it 4355C1
-> (different chip revisions have different firmware builds, which is why I
-> named our firmware brcmfmac4355c1-pcie). If the CYW variant uses other
-> revision IDs that do not overlap, maybe we should have different
-> firmware entries for them with different masks.
+On 1/2/2023 10:45 AM, Aditya Garg wrote:
+> Hi Hector
+> 
+>>
+>> Is the CYW89459 just a rebrand of the BCM4355, or just a subset? If it
+>> is a rebrand, it's okay if we call our Apple firmware
+>> brcmfmac89459-pcie* (note that we use per-board firmware names, so it
+>> wouldn't conflict with a generic one). However, if CYW89459 only refers
+>> to specific variants, I think the firmware should be named after the
+>> overall bcm4355 family.
+>>
+>> I'm guessing you intend to ship firmware for this. Would that firmware
+>> work for all 4355 variants, or only the CYW one? If only the CYW one, is
+>> it possible to differentiate between them based on PCI revision ID? Note
+>> that our 4355 has revision ID 12, and Apple specifically calls it 4355C1
+>> (different chip revisions have different firmware builds, which is why I
+>> named our firmware brcmfmac4355c1-pcie). If the CYW variant uses other
+>> revision IDs that do not overlap, maybe we should have different
+>> firmware entries for them with different masks.
+> 
+> 
+> Can we make a separate table for the OTP Apple chips, something like here :-
+> 
+> https://github.com/AdityaGarg8/linux/commit/fc41aac9283d2ba653a8b3191e8c0138c13d8ee1
 
+I do not understand from this email thread why you would need separate 
+tables. Can you explain?
 
-Can we make a separate table for the OTP Apple chips, something like here :=
--
+Regards,
+Arend
 
-https://github.com/AdityaGarg8/linux/commit/fc41aac9283d2ba653a8b3191e8c013=
-8c13d8ee1=
+--00000000000000719305f14858b6
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
+Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
+HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
+Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
+KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
+Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
+dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
+OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
+MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
+BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
+ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
+zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
+sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
+BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
+N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
+p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
+YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
+bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDFABwchX6trRZuRKwZ
+KYd5Km8zJsMQmjvaR5+D/OcqjjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
+BTEPFw0yMzAxMDIxMzU4MTlaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
+AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
+BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEABwQQb16UdS8++2NhunehbO7d48c036PSRe4M
+lGJZsmyRMOqCNbf2T23y8U/zan6I5LEDPpk+vtuf1MyFrdz2FU6X0YsUKGkxmSWH7F4swIdWYEU/
+GxKM/MCBSHmI6IMCyxNevn/00Njc7DOHj1KUTm+la5NOx6itaiPybwFHAeLaOVKBoI4qTHuHZGld
+5ludoKt0fyMMJzKXgk38YkIDKMGGP4BantoI/O0BMMubBlj9YUCdNL4ZirIPZupKe30nXLxocdpU
+r2HDMd6COJBqI59o/yjo0UtNcyhdpEKJ+upXBp+TVH9H2BVXsX/l4NTVNqTNMprP2Dq2n/HKckFW
+KQ==
+--00000000000000719305f14858b6--
