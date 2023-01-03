@@ -1,157 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C2120F2;
-	Tue,  3 Jan 2023 09:50:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDAB6C43396;
-	Tue,  3 Jan 2023 09:50:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672739441;
-	bh=LnbPmwBFwRROsH14ElnGWhQ/uokKwoNdvE7Mu57CUW4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=g/1Lt9wY022EX/9bDOLcEczP2G1XtOC8yV+cAWjmsb0VHhszxYOnyAkFNiYHf27HC
-	 sur0mUwSGRZNXrMKVGP8zvO8ppzI0YGrmQ64TO6L/uzmUx8Y0IB6wrmNejxZsovdWO
-	 jnoyPhNQHgMIf0Og3/B9p8E14y8PpDb22e9J/lsmKohPHQSkv8RM79d42iNrsZAxdV
-	 7ALMvk1CWTFSpIyUBaYKYsG76Fk/M7EMkQGAk1ThpHBjAz4DOLNGl/KAvWi6/LV+m9
-	 2HMlKVDcoV1WCTxlU8gnJmtoxNw8IUcJmZZLWQwssedPkddaojICuXNJOX4P3WFDVi
-	 8fF6SzreYk0Sw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1pCdwN-00GTcP-Ts;
-	Tue, 03 Jan 2023 09:50:40 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: <kvmarm@lists.cs.columbia.edu>,
-	<kvmarm@lists.linux.dev>
-Cc: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	James Morse <james.morse@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] irqchip/apple-aic: Register vgic maintenance interrupt with KVM
-Date: Tue,  3 Jan 2023 09:50:22 +0000
-Message-Id: <20230103095022.3230946-4-maz@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230103095022.3230946-1-maz@kernel.org>
-References: <20230103095022.3230946-1-maz@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D8C2561
+	for <asahi@lists.linux.dev>; Tue,  3 Jan 2023 11:24:14 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso22871804wmb.0
+        for <asahi@lists.linux.dev>; Tue, 03 Jan 2023 03:24:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aM19bk+2PSoO6lDFC0lZ/JmQltFQ351Ko7Fkp/8cpJg=;
+        b=FvQ2z2GpdrHYPMRbQ7exRNu0TReI7Pd2G2HPrkGzBDACmtFIVcCMpb8ZAVWPAUwTc5
+         tFq99Tq4nSj8/0edkuZsgJYewmQ94M7JljTMPSeXZIgh6XMpSyFvDq/GU+wmIJm1RtHl
+         AynPkEolxmN0ZqqlYYVZMENvtrRq770f1Mwais801+EZecQvVHgO57gHiOoK1OOBlJbI
+         nlYgG8qF1xGloAdsZRIV0lzuYkqsWrTTJlYGyeKqfo9hy5W/XQHCXduhS970HhwTXZNV
+         +4oAAdYepQGhIT94dkcLSIcc/ThwVGrjfy9zPLwckVffBO/rvdcW9BiHYVyjWDaOY88W
+         ycpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aM19bk+2PSoO6lDFC0lZ/JmQltFQ351Ko7Fkp/8cpJg=;
+        b=yzaFgOhyUPfLDdKSFJC1t2HuF5Vbloct6GDh+7Y9kav5oqwMeyUgFb61obWZXmjmSr
+         8TH4WDK+bbf8PtWn2U7fCY0KUEa1lzRUbyf+30fa5kgqplbJ3h/IGIy/WJV4+gP645+I
+         v1KjlXzcGNzgTuelJjgQM4wccfAnQtG0zZI4HMYkpneQrlzeZGg+QivKePx6m5OohI0C
+         Pr/vI0mg2eVpaQ+dLSbYbKZx6VszXTZapu0Oh4NolbQ5nibkdbcq/EJ1CB0voqG6C61i
+         evw+kifcg4WUmhDH4CUodpsKfLS8DwbN+MjPUCbk1CxdPhqvOFNHVMRispgqRmjs8QR2
+         TdDA==
+X-Gm-Message-State: AFqh2kqSdDft2IU04X2AIOtLcEgr3+qYiDUNRDZIWs14cTOHVLFDnN5V
+	2p/zV1PlIu1FXY81pl+ftRK9Yg==
+X-Google-Smtp-Source: AMrXdXsu4u0wS962KDrqVuRXWqgErsy12KGEqrrdIuV/v8sTQ2HhnIDVP5FKAwi4HI638j+JyW33Lw==
+X-Received: by 2002:a05:600c:a10:b0:3d5:64bf:ccb8 with SMTP id z16-20020a05600c0a1000b003d564bfccb8mr30880129wmp.12.1672745053251;
+        Tue, 03 Jan 2023 03:24:13 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id r17-20020a05600c425100b003cffd3c3d6csm39874902wmm.12.2023.01.03.03.24.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Jan 2023 03:24:12 -0800 (PST)
+Message-ID: <6b7d1e08-e27e-3f8a-5b08-ba622f206295@linaro.org>
+Date: Tue, 3 Jan 2023 11:24:11 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: kvmarm@lists.cs.columbia.edu, kvmarm@lists.linux.dev, marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, tglx@linutronix.de, will@kernel.org, catalin.marinas@arm.com, james.morse@arm.com, suzuki.poulose@arm.com, alexandru.elisei@arm.com, oliver.upton@linux.dev, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] nvmem: core: Fix race in nvmem_register()
+To: Hector Martin <marcan@marcan.st>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Russell King <rmk+kernel@armlinux.org.uk>
+References: <20221214142952.9372-1-marcan@marcan.st>
+Content-Language: en-US
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20221214142952.9372-1-marcan@marcan.st>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In order to deliver vgic maintenance interrupts that Nested Virt
-requires, hook it into the FIQ space, even if it is delivered
-as an IRQ (we don't distinguish between the two anyway).
+Thanks Hector for the patch,
 
-Signed-off-by: Marc Zyngier <maz@kernel.org>
----
- drivers/irqchip/irq-apple-aic.c | 55 +++++++++++++++++++++++++--------
- 1 file changed, 42 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
-index ae3437f03e6c..09fd52d91e45 100644
---- a/drivers/irqchip/irq-apple-aic.c
-+++ b/drivers/irqchip/irq-apple-aic.c
-@@ -210,7 +210,6 @@
- 				 FIELD_PREP(AIC_EVENT_NUM, x))
- #define AIC_HWIRQ_IRQ(x)	FIELD_GET(AIC_EVENT_NUM, x)
- #define AIC_HWIRQ_DIE(x)	FIELD_GET(AIC_EVENT_DIE, x)
--#define AIC_NR_FIQ		6
- #define AIC_NR_SWIPI		32
- 
- /*
-@@ -222,11 +221,18 @@
-  * running at EL2 (with VHE). When the kernel is running at EL1, the
-  * mapping differs and aic_irq_domain_translate() performs the remapping.
-  */
--
--#define AIC_TMR_EL0_PHYS	AIC_TMR_HV_PHYS
--#define AIC_TMR_EL0_VIRT	AIC_TMR_HV_VIRT
--#define AIC_TMR_EL02_PHYS	AIC_TMR_GUEST_PHYS
--#define AIC_TMR_EL02_VIRT	AIC_TMR_GUEST_VIRT
-+enum fiq_hwirq {
-+	/* Must be ordered as in apple-aic.h */
-+	AIC_TMR_EL0_PHYS	= AIC_TMR_HV_PHYS,
-+	AIC_TMR_EL0_VIRT	= AIC_TMR_HV_VIRT,
-+	AIC_TMR_EL02_PHYS	= AIC_TMR_GUEST_PHYS,
-+	AIC_TMR_EL02_VIRT	= AIC_TMR_GUEST_VIRT,
-+	AIC_CPU_PMU_Effi	= AIC_CPU_PMU_E,
-+	AIC_CPU_PMU_Perf	= AIC_CPU_PMU_P,
-+	/* No need for this to be discovered from DT */
-+	AIC_VGIC_MI,
-+	AIC_NR_FIQ
-+};
- 
- static DEFINE_STATIC_KEY_TRUE(use_fast_ipi);
- 
-@@ -384,14 +390,20 @@ static void __exception_irq_entry aic_handle_irq(struct pt_regs *regs)
- 
- 	/*
- 	 * vGIC maintenance interrupts end up here too, so we need to check
--	 * for them separately. This should never trigger if KVM is working
--	 * properly, because it will have already taken care of clearing it
--	 * on guest exit before this handler runs.
-+	 * for them separately. It should however only trigger when NV is
-+	 * in use, and be cleared when coming back from the handler.
- 	 */
--	if (is_kernel_in_hyp_mode() && (read_sysreg_s(SYS_ICH_HCR_EL2) & ICH_HCR_EN) &&
--		read_sysreg_s(SYS_ICH_MISR_EL2) != 0) {
--		pr_err_ratelimited("vGIC IRQ fired and not handled by KVM, disabling.\n");
--		sysreg_clear_set_s(SYS_ICH_HCR_EL2, ICH_HCR_EN, 0);
-+	if (is_kernel_in_hyp_mode() &&
-+	    (read_sysreg_s(SYS_ICH_HCR_EL2) & ICH_HCR_EN) &&
-+	    read_sysreg_s(SYS_ICH_MISR_EL2) != 0) {
-+		generic_handle_domain_irq(aic_irqc->hw_domain,
-+					  AIC_FIQ_HWIRQ(AIC_VGIC_MI));
-+
-+		if (unlikely((read_sysreg_s(SYS_ICH_HCR_EL2) & ICH_HCR_EN) &&
-+			     read_sysreg_s(SYS_ICH_MISR_EL2))) {
-+			pr_err_ratelimited("vGIC IRQ fired and not handled by KVM, disabling.\n");
-+			sysreg_clear_set_s(SYS_ICH_HCR_EL2, ICH_HCR_EN, 0);
-+		}
- 	}
- }
- 
-@@ -1178,6 +1190,23 @@ static int __init aic_of_ic_init(struct device_node *node, struct device_node *p
- 			  "irqchip/apple-aic/ipi:starting",
- 			  aic_init_cpu, NULL);
- 
-+	if (is_kernel_in_hyp_mode()) {
-+		struct irq_fwspec mi = {
-+			.fwnode		= of_node_to_fwnode(node),
-+			.param_count	= 3,
-+			.param		= {
-+				[0]	= AIC_FIQ, /* This is a lie */
-+				[1]	= AIC_VGIC_MI,
-+				[2]	= IRQ_TYPE_LEVEL_HIGH,
-+			},
-+		};
-+
-+		vgic_info.maint_irq = irq_domain_alloc_irqs(irqc->hw_domain,
-+							    1, NUMA_NO_NODE,
-+							    &mi);
-+		WARN_ON(!vgic_info.maint_irq);
-+	}
-+
- 	vgic_set_kvm_info(&vgic_info);
- 
- 	pr_info("Initialized with %d/%d IRQs * %d/%d die(s), %d FIQs, %d vIPIs",
--- 
-2.34.1
+On 14/12/2022 14:29, Hector Martin wrote:
+> nvmem_register() currently registers the device before adding the nvmem
+> cells, which creates a race window where consumers may find the nvmem
+> device (and not get PROBE_DEFERred), but then fail to find the cells and
+> error out.
+> 
+> Move device registration to the end of nvmem_register(), to close the
+> race.
+> 
+> Observed when the stars line up on Apple Silicon machines with the (not
+> yet upstream, but trivial) spmi nvmem driver and the macsmc-rtc client:
+> 
+> [    0.487375] macsmc-rtc macsmc-rtc: error -ENOENT: Failed to get rtc_offset NVMEM cell
+> 
+> Fixes: eace75cfdcf7 ("nvmem: Add a simple NVMEM framework for nvmem providers")
+> Signed-off-by: Hector Martin <marcan@marcan.st>
 
+Missing Cc Stable
+
+> ---
+>   drivers/nvmem/core.c | 18 ++++++++----------
+>   1 file changed, 8 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+> index 321d7d63e068..d255feca5e17 100644
+> --- a/drivers/nvmem/core.c
+> +++ b/drivers/nvmem/core.c
+> @@ -837,20 +837,16 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+> 
+>   	dev_dbg(&nvmem->dev, "Registering nvmem device %s\n", config->name);
+> 
+> -	rval = device_register(&nvmem->dev);
+> -	if (rval)
+> -		goto err_put_device;
+> -
+>   	if (nvmem->nkeepout) {
+>   		rval = nvmem_validate_keepouts(nvmem);
+>   		if (rval)
+> -			goto err_device_del;
+> +			return ERR_PTR(rval);
+
+you can not do this as this will leak ida and nvmem itself.
+
+
+>   	}
+> 
+>   	if (config->compat) {
+>   		rval = nvmem_sysfs_setup_compat(nvmem, config);
+>   		if (rval)
+> -			goto err_device_del;
+> +			return ERR_PTR(rval);
+
+same here.
+
+>   	}
+> 
+>   	if (config->cells) {
+> @@ -867,19 +863,21 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+>   	if (rval)
+>   		goto err_remove_cells;
+> 
+> +	rval = device_register(&nvmem->dev);
+> +	if (rval)
+> +		goto err_put_device;
+> +
+>   	blocking_notifier_call_chain(&nvmem_notifier, NVMEM_ADD, nvmem);
+> 
+>   	return nvmem;
+> 
+> +err_put_device:
+> +	put_device(&nvmem->dev);
+
+this will free nvmem and further down you are going to de-reference the 
+freed pointer.
+
+--srini
+
+>   err_remove_cells:
+>   	nvmem_device_remove_all_cells(nvmem);
+>   err_teardown_compat:
+>   	if (config->compat)
+>   		nvmem_sysfs_remove_compat(nvmem, config);
+> -err_device_del:
+> -	device_del(&nvmem->dev);
+> -err_put_device:
+> -	put_device(&nvmem->dev);
+> 
+>   	return ERR_PTR(rval);
+>   }
+> --
+> 2.35.1
+> 
