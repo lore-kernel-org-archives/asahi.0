@@ -1,124 +1,83 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206C18466
-	for <asahi@lists.linux.dev>; Tue,  3 Jan 2023 16:03:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=fxpXgnZwZOvzoJ655io/8wieYC6m5OZtZxEHi2BztSk=; b=Ybnfgp3O3ucnrfrTgPRsAdD4HD
-	/l+4pneoWtKNsJDRAC9QmIReHEsETLEphSDUgWrmwqPlnbKFrZ4cUEx6yrk8C46BjEuynvHl6wm7g
-	Jkc7bQCZcbnqq+I+RnJILnNDl/65hry+Tni0Gkbwi/ZPBZb7Mkrj3xFM68oVLkg99N6h9Yq4QWEEw
-	H9QPVYCPvC0P/LySG5qWe23tcywTjYRlE6D5YcUwEGKLE44qxry+tnFCzczetS7v1Orw+r7lmVvMd
-	BR7ALrZg3nHIZsA+mdjvn4QL7Ova9N5uvjB1lZ2uQpRxc2E7m7ZLh1KPJP6lgI4zdBofFRpZvgYtG
-	U7zvvsxw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35946)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1pCjlC-0005YC-5j; Tue, 03 Jan 2023 16:03:29 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1pCjl9-0002Co-Hd; Tue, 03 Jan 2023 16:03:27 +0000
-Date: Tue, 3 Jan 2023 16:03:27 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Hector Martin <marcan@marcan.st>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CE98F47;
+	Tue,  3 Jan 2023 17:56:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79571C433D2;
+	Tue,  3 Jan 2023 17:56:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1672768585;
+	bh=UC4RdBvcPnI5XJhhZ46pv1YotwVqygpNpSpelRcjc+k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dNq2WgLp6fiiAgRTQt9iNPOZmuaaRoeBfgUewesNE5DImDRlCrMbjbqSMDDiIsrFy
+	 fQ83YDSZTq659bmYpz0aXisuvux6mnraKOdoQTbm8JpDuEzCHDkdZCh0Mmds2rOQr4
+	 zwjr57RrWgKHYZBAU2oGsX+AOLkodvGX+nd5XUGzF+g2U5a6wQmmlHrkb/NpGNyF1g
+	 jiab5756EaFtBNsVqKqCW7kzfCZqz0E0E9J4T6flkSFrvguURllYJpT8ZFXEwxrudf
+	 t41+RiIxV47Yxh5zw0ecjSLfdvnlD3015xQwGTLefok2gZH6Usex2tz5xk+tFQ/HKP
+	 hD7KRz4wXqP0A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=valley-girl.lan)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1pClWR-00Ga6w-6F;
+	Tue, 03 Jan 2023 17:56:23 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: kvmarm@lists.cs.columbia.edu,
+	Marc Zyngier <maz@kernel.org>,
+	kvmarm@lists.linux.dev
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	linux-kernel@vger.kernel.org,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Eric Curtin <ecurtin@redhat.com>
-Subject: Re: [PATCH v2] nvmem: core: Fix race in nvmem_register()
-Message-ID: <Y7RRz6nPwYlgwFk4@shell.armlinux.org.uk>
-References: <20230103114427.1825-1-marcan@marcan.st>
- <ff77ba1c-8b67-4697-d713-0392d3b1d77a@linaro.org>
- <95a4cfde-490f-d26d-163e-7ab1400e7380@marcan.st>
- <b118af4c-e4cc-c50b-59aa-d768f1ec69ff@linaro.org>
- <b98e313d-8875-056b-4b64-bb7528f2670a@marcan.st>
- <Y7RHTXZ60zuExeMA@shell.armlinux.org.uk>
- <03514845-dfd6-a117-83c8-ab3abc402229@marcan.st>
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	linux-arm-kernel@lists.infradead.org,
+	Will Deacon <will@kernel.org>,
+	asahi@lists.linux.dev,
+	James Morse <james.morse@arm.com>
+Subject: Re: (subset) [PATCH 0/3] KVM: arm64: M2 vgic maintenance interrupt rework pre-NV
+Date: Tue,  3 Jan 2023 17:56:19 +0000
+Message-Id: <167276854454.3239244.7195924669135808939.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230103095022.3230946-1-maz@kernel.org>
+References: <20230103095022.3230946-1-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <03514845-dfd6-a117-83c8-ab3abc402229@marcan.st>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: kvmarm@lists.cs.columbia.edu, maz@kernel.org, kvmarm@lists.linux.dev, suzuki.poulose@arm.com, linux-kernel@vger.kernel.org, oliver.upton@linux.dev, alyssa@rosenzweig.io, catalin.marinas@arm.com, marcan@marcan.st, sven@svenpeter.dev, alexandru.elisei@arm.com, tglx@linutronix.de, linux-arm-kernel@lists.infradead.org, will@kernel.org, asahi@lists.linux.dev, james.morse@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Wed, Jan 04, 2023 at 12:33:33AM +0900, Hector Martin wrote:
-> On 04/01/2023 00.18, Russell King (Oracle) wrote:
-> > On Tue, Jan 03, 2023 at 11:56:21PM +0900, Hector Martin wrote:
-> >> On 03/01/2023 23.22, Srinivas Kandagatla wrote:
-> >>>>>>    drivers/nvmem/core.c | 32 +++++++++++++++++---------------
-> >>>>>>    1 file changed, 17 insertions(+), 15 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-> >>>>>> index 321d7d63e068..606f428d6292 100644
-> >>>>>> --- a/drivers/nvmem/core.c
-> >>>>>> +++ b/drivers/nvmem/core.c
-> >>>>>> @@ -822,11 +822,8 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
-> >>>>>>    		break;
-> >>>>>>    	}
-> >>>>>>
-> >>>>>> -	if (rval) {
-> >>>>>> -		ida_free(&nvmem_ida, nvmem->id);
-> >>>>>> -		kfree(nvmem);
-> >>>>>> -		return ERR_PTR(rval);
-> >>>>>> -	}
-> >>>>>> +	if (rval)
-> >>>>>> +		goto err_gpiod_put;
-> >>>>>
-> >>>>> Why was gpiod changes added to this patch, that should be a separate
-> >>>>> patch/discussion, as this is not relevant to the issue that you are
-> >>>>> reporting.
-> >>>>
-> >>>> Because freeing the device also does a gpiod_put in the destructor, so
-> >>> This are clearly untested, And I dont want this to be in the middle to 
-> >>> fix to the issue you are hitting.
-> >>
-> >> I somehow doubt you tested any of these error paths either. Nobody tests
-> >> initialization error paths. That's why there was a gpio leak here to
-> >> begin with.
-> > 
-> > Sadly, this is one of the biggest problems with error paths, they get
-> > very little proper testing - and in most cases we're reliant on
-> > reviewers spotting errors. That's why we much prefer the devm_* stuff,
-> > but even that can be error-prone.
-> > 
-> >>> We should always be careful about untested changes, in this case gpiod 
-> >>> has some conditions to check before doing a put. So the patch is 
-> >>> incorrect as it is.
-> >>
-> >> Then the existing code is also incorrect as it is, because the device
-> >> release callback is doing the same gpiod_put() already. I just moved it
-> >> out since we are now registering the device later.
-> > 
-> > At the point where this change is being made (checking rval after
-> > dev_set_name()) the struct device has not been initialised, so the
-> > release callback will not be called. nvmem->wp_gpio will be leaked.
+On Tue, 3 Jan 2023 09:50:19 +0000, Marc Zyngier wrote:
+> I've spent the holiday break reviving the Nested Virt KVM/arm64
+> implementation[1] and allowing it to work on the Apple M2 SoC. The
+> amusing part is that it actually works!
 > 
-> But later in the code where device_put() was being called would will be,
-> and that callback is calling gpiod_put() unconditionally, which is why I
-> am doing the same after moving the device registration later.
+> However, the way the vgic is implemented on this HW is still at odds
+> with the rest of the architecture, and requires some hacks, some of
+> which are independent of the actual NV code. This is what this series
+> is about.
 > 
-> Is this wrong? Well,
+> [...]
 
-I'm not going to read the rest of your rant, honestly it's really not
-worth it. Let's just concentrate on trying to work out how best to fix
-this crud.
+Applied to fixes, thanks!
 
-Not only is there the issue with wp_gpio, but the whole IDA handling
-is fscked as well, so there's many problems to be sorted out here,
-and if we lump them all into one patch, we'll probably be getting to
-the point of completely rewriting nvmem_register() making backports
-extremely difficult.
+[1/3] KVM: arm64: vgic: Add Apple M2 cpus to the list of broken SEIS implementations
+      commit: 4f6202c9fb51cc6a2593ad37d8ddff136b7acef2
 
+Cheers,
+
+	M.
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Without deviation from the norm, progress is not possible.
+
+
