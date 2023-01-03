@@ -1,133 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A578F47;
-	Tue,  3 Jan 2023 18:09:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A666C433EF;
-	Tue,  3 Jan 2023 18:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1672769391;
-	bh=wQbkIKESYWax/laoInd6DKOdDsdq7q+29rZEh5GwHOs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=RVwSE4PnNi48ujVwGRD9zBR80eRryE5pMiSgcTocnildT/U1XvKOPEMBkMvyC9EQN
-	 EvLqZZpi7s4/rEzx/Ov2A/uGONArsC0Sz80GJpgIu5iNbWeZPM+m3vYIZdqzR0LRit
-	 DiUxLGpNtIj/eVtakrNYdxAsjeLShLMZr7fycJBhRlHCa3LTsU95shyo4OuYMozCLp
-	 7XhecoT3Iwf5RT9V3cVf924KtvnbxjbpWuMOQ1CK5Mgn0rde5tMj0f0w06ESGmKDxk
-	 qPO3kkxREPsIs5hHnqphlF30HdVU5Aijj55LImaOTosagWAHRCAfiPyjhd+741naOF
-	 VRyVxy8yQU0sg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1pCljQ-00GaOg-73;
-	Tue, 03 Jan 2023 18:09:48 +0000
-Date: Tue, 03 Jan 2023 18:09:47 +0000
-Message-ID: <86tu177ams.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: kvmarm@lists.cs.columbia.edu,
-	kvmarm@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Sven Peter <sven@svenpeter.dev>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Hector Martin <marcan@marcan.st>,
-	linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Will Deacon <will@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Subject: Re: [PATCH 1/3] KVM: arm64: vgic: Add Apple M2 cpus to the list of broken SEIS implementations
-In-Reply-To: <Y7Rs8Lc5u6L2Bz6o@dev-arch.thelio-3990X>
-References: <20230103095022.3230946-1-maz@kernel.org>
-	<20230103095022.3230946-2-maz@kernel.org>
-	<Y7Rs8Lc5u6L2Bz6o@dev-arch.thelio-3990X>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4B78F57
+	for <asahi@lists.linux.dev>; Tue,  3 Jan 2023 19:59:24 +0000 (UTC)
+Received: by mail-il1-f178.google.com with SMTP id g2so15404296ila.4
+        for <asahi@lists.linux.dev>; Tue, 03 Jan 2023 11:59:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=zzywysm.com; s=google;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h5J4EGBEddxLo8G+FzVVns1o6o8CcH7FdeCRkfOCVPQ=;
+        b=FZJz01IvyN5If7qklJzEXMRxUD+IWrKiqM981gedBuGukLcBNdo959ct83OeUVuWc5
+         WIfxx+i8BjXXDD3AUwtJpoDGO1doGzRKZrj/OX6q+hbyAkFV+hy65GHDk/ZgnMtqq3DW
+         pxKwsfRaJdcLJ5+Fb/1sYpEVoq/Uhqo1Gd/LsgOoes0R9u/y8zWhglfbznUKt4VIJol/
+         UcUJ55Rke3EqaBAVO28oFEsPn1K0WZnuuHwbc+5o1LFJvksRLFDTM1f23glujsyf1wiG
+         zNoPgrnYnp7aJdKt6PYlo5+sttwJoHshH7PrYrBjgYiUeAk1aOWjzKl7N74qaoBIzlq1
+         DSFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h5J4EGBEddxLo8G+FzVVns1o6o8CcH7FdeCRkfOCVPQ=;
+        b=kQB7F59diaXPqLrCNdWpTi6YJVqSi2vk95EkfO1IB6LJjh1vDTSPyqlcATRFQ2kfqy
+         NbSdHYeBupuBWXOaqK1A6kEHoNfjhMQDra0r8iNFCwCZS2jzHdslWoE6uOM4vWsC8gou
+         iHKTp7k3pAcqdHr86omVu4bj4mi7kFPDV1iDVzo6oDSVheoD3mEGeUzhRYWSb96W1BdQ
+         gLhDATReHMfYcBArj1sIDBODcevYlRGRsOgZBDn8VXThq/ssqMNbwTCVDbAktWIc0/tO
+         dO1qcOlz6oDuMFjV15n4xFDHVxiXyCInyoQGTvQSD2TYXkOXI6FVkRONoGUFRGgvKg6D
+         Olhw==
+X-Gm-Message-State: AFqh2kp7moNhdOGyWbFA2dPGZP+m8ka6ZKa4Gb2hB4X8w/h+I2iozQ65
+	VYL5ztvV3zh21JhCodC5qpvzNA==
+X-Google-Smtp-Source: AMrXdXt1iMsOai3p3P8ogoAM3QO55D/rUwTFhoXbmA0E2ODJ6SHAzdoUtwFXUHhR3ao5y1B+AVI6bw==
+X-Received: by 2002:a05:6e02:10d3:b0:30c:5e42:ebcd with SMTP id s19-20020a056e0210d300b0030c5e42ebcdmr1993126ilj.20.1672775963874;
+        Tue, 03 Jan 2023 11:59:23 -0800 (PST)
+Received: from [10.132.115.14] ([143.244.61.131])
+        by smtp.gmail.com with ESMTPSA id o18-20020a056638125200b0039d756fb908sm10259425jas.40.2023.01.03.11.59.21
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Jan 2023 11:59:23 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: nathan@kernel.org, kvmarm@lists.cs.columbia.edu, kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, sven@svenpeter.dev, catalin.marinas@arm.com, marcan@marcan.st, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, tglx@linutronix.de, will@kernel.org, alyssa@rosenzweig.io
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
+Subject: Re: [PATCH 1/2] brcmfmac: Use separate struct to declare firmware
+ names for Apple OTP chips
+From: Zzy Wysm <zzy@zzywysm.com>
+In-Reply-To: <6b30559d-9bcc-f3b3-d9b2-2406e9a044b7@broadcom.com>
+Date: Tue, 3 Jan 2023 14:59:20 -0500
+Cc: Hector Martin <marcan@marcan.st>,
+ Aditya Garg <gargaditya08@live.com>,
+ aspriel@gmail.com,
+ hante.meuleman@broadcom.com,
+ kvalo@kernel.org,
+ davem@davemloft.net,
+ edumazet@google.com,
+ kuba@kernel.org,
+ pabeni@redhat.com,
+ lina@asahilina.net,
+ franky.lin@broadcom.com,
+ Orlando Chamberlain <redecorating@protonmail.com>,
+ brcm80211-dev-list@broadcom.com,
+ brcm80211-dev-list.pdl@broadcom.com,
+ linux-wireless@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>,
+ Asahi Linux <asahi@lists.linux.dev>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2CFE1145-8C00-4529-B4A5-E9FA85D95398@zzywysm.com>
+References: <F8829A7C-909E-4A1F-A22C-668220C5C06D@live.com>
+ <f36dd8e3-9905-f04a-ed34-4be91ed1fec6@marcan.st>
+ <F9EFCCD1-4407-42CC-8316-2F58AAC1AE7F@live.com>
+ <ACC0D1F6-7857-4FF0-A474-4EC699572E1B@live.com>
+ <9c5bdb0a-0877-ed16-f09f-164a9dab16d4@marcan.st>
+ <18573bd1a38.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <3785835b-164b-28d1-6905-85454cabb69d@marcan.st>
+ <6b30559d-9bcc-f3b3-d9b2-2406e9a044b7@broadcom.com>
+To: Arend van Spriel <arend.vanspriel@broadcom.com>
+X-Mailer: Apple Mail (2.3608.120.23.2.7)
 
-Hi Nathan,
 
-On Tue, 03 Jan 2023 17:59:12 +0000,
-Nathan Chancellor <nathan@kernel.org> wrote:
-> 
-> Hi Marc,
-> 
-> I have only been lurking on the kvmarm mailing list for a little bit and
-> it has mainly just been reading patches/review to get more familiar with
-> various virtualization concepts so I apologize if the following review
-> is rather shallow but...
+> On Jan 3, 2023, at 8:30 AM, Arend van Spriel =
+<arend.vanspriel@broadcom.com> wrote:
+>=20
+> On 1/3/2023 4:55 AM, Hector Martin wrote:
+>> More specifically:
+>> - What BCM4355 variants exist in the wild, and what are their PCI =
+device
+>> IDs and revision IDs?
+>=20
+> Who knows. The PCI revision ID always equals the chip revision afaik. =
+The PCI device IDs should be as below.
 
-No need to apologise. Any extra pair of eye is welcome, specially when
-the idiot behind the keyboard writes stuff like the patch below...
+If the day ever came where the FCC inquired about a theoretical spurious =
+radio emissions issue in such a chipset, and asked Broadcom for a list =
+of all affected hardware releases, would the FCC also be told =E2=80=9Cwho=
+ knows=E2=80=9D?
 
-> 
-> On Tue, Jan 03, 2023 at 09:50:20AM +0000, Marc Zyngier wrote:
-> > I really hoped that Apple had fixed their not-quite-a-vgic implementation
-> > when moving from M1 to M2. Alas, it seems they didn't, and running
-> > a buggy EFI version results in the vgic generating SErrors outside
-> > of the guest and taking the host down.
-> > 
-> > Apply the same workaround as for M1. Yes, this is all a bit crap.
-> > 
-> > Signed-off-by: Marc Zyngier <maz@kernel.org>
-> > ---
-> >  arch/arm64/include/asm/cputype.h | 4 ++++
-> >  arch/arm64/kvm/vgic/vgic-v3.c    | 3 ++-
-> >  2 files changed, 6 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
-> > index 4e8b66c74ea2..683ca3af4084 100644
-> > --- a/arch/arm64/include/asm/cputype.h
-> > +++ b/arch/arm64/include/asm/cputype.h
-> > @@ -124,6 +124,8 @@
-> >  #define APPLE_CPU_PART_M1_FIRESTORM_PRO	0x025
-> >  #define APPLE_CPU_PART_M1_ICESTORM_MAX	0x028
-> >  #define APPLE_CPU_PART_M1_FIRESTORM_MAX	0x029
-> > +#define APPLE_CPU_PART_M2_BLIZZARD	0x032
-> > +#define APPLE_CPU_PART_M2_AVALANCHE	0x033
-> >  
-> >  #define AMPERE_CPU_PART_AMPERE1		0xAC3
-> >  
-> > @@ -177,6 +179,8 @@
-> >  #define MIDR_APPLE_M1_FIRESTORM_PRO MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M1_FIRESTORM_PRO)
-> >  #define MIDR_APPLE_M1_ICESTORM_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M1_ICESTORM_MAX)
-> >  #define MIDR_APPLE_M1_FIRESTORM_MAX MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M1_FIRESTORM_MAX)
-> > +#define MIDR_APPLE_M2_BLIZZARD MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_BLIZZARD)
-> > +#define MIDR_APPLE_M2_AVALANCHE MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M2_AVALANCHE)
-> >  #define MIDR_AMPERE1 MIDR_CPU_MODEL(ARM_CPU_IMP_AMPERE, AMPERE_CPU_PART_AMPERE1)
-> >  
-> >  /* Fujitsu Erratum 010001 affects A64FX 1.0 and 1.1, (v0r0 and v1r0) */
-> > diff --git a/arch/arm64/kvm/vgic/vgic-v3.c b/arch/arm64/kvm/vgic/vgic-v3.c
-> > index 826ff6f2a4e7..c6442b08fe80 100644
-> > --- a/arch/arm64/kvm/vgic/vgic-v3.c
-> > +++ b/arch/arm64/kvm/vgic/vgic-v3.c
-> > @@ -615,7 +615,8 @@ static const struct midr_range broken_seis[] = {
-> >  	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_ICESTORM_PRO),
-> >  	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_FIRESTORM_PRO),
-> >  	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_ICESTORM_MAX),
-> > -	MIDR_ALL_VERSIONS(MIDR_APPLE_M1_FIRESTORM_MAX),
-> 
-> The commit message makes no note of this removal, was it intentional?
-> MIDR_APPLE_M1_FIRESTORM_MAX is only used here so I assume it is not.
+I guess the difference is that the FCC has the statutory authority to =
+yank Broadcom=E2=80=99s certifications to sell their product, whereas =
+Hector is merely improving your driver support for no monetary =
+compensation from you.
 
-Absolutely not intentional :-/ Thanks a lot for spotting this!
+Maybe the Broadcom drivers should be yanked from Linux if this is what =
+passes for Broadcom release engineering.
 
-I'll fix this immediately (good thing I didn't send the fixes PR!).
+zzy
 
-Thanks again,
-
-       M.
-
--- 
-Without deviation from the norm, progress is not possible.
