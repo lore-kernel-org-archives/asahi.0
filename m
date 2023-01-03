@@ -1,112 +1,150 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A938466
-	for <asahi@lists.linux.dev>; Tue,  3 Jan 2023 15:22:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=y1ul7efxZNAVNH9AU1USRVGMWta2/7di2SV8aglnj4o=; b=xMEN2rI6xG0UAfipPh0hKVsIlg
-	TnH5O2c7xhrF8kY1cja6X/Cfa/Xp/rGZA3M1ITvuF7ldTXE9dnlxGh3sfMJ3ZljGwpL/PcLoMXcVW
-	5jJV3zSSG9JhLFxISjM+PpxkhZnvjDsTJ8D5i7gaqastxyqEzpNIhOlHwlKH/FIAnHDkL1QpKCTD2
-	+PeEvYFbL3NYuZFmachEM1lQyuhZuuMSnBuViDGrr7Zww4cjxHTdCSJGACjQIa9xni75OA42NY3R1
-	W1yGfyRHQ8CrNBEIAEPRl2J7pV0mTwb4RW5Ah1IlRTeGS3o17zNU+53opb67S04kiI+zF8JjpiXRb
-	le8Z/U+Q==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:35940)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1pCj7S-0005Um-LB; Tue, 03 Jan 2023 15:22:26 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1pCj7R-0002Aa-Lh; Tue, 03 Jan 2023 15:22:25 +0000
-Date: Tue, 3 Jan 2023 15:22:25 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Hector Martin <marcan@marcan.st>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Eric Curtin <ecurtin@redhat.com>
-Subject: Re: [PATCH v2] nvmem: core: Fix race in nvmem_register()
-Message-ID: <Y7RIMeMoKD70NIcc@shell.armlinux.org.uk>
-References: <20230103114427.1825-1-marcan@marcan.st>
- <ff77ba1c-8b67-4697-d713-0392d3b1d77a@linaro.org>
- <95a4cfde-490f-d26d-163e-7ab1400e7380@marcan.st>
- <Y7REcpXjxTlxv1Fp@shell.armlinux.org.uk>
- <ec2c2712-04fa-751d-9817-23ff4e0b7fb4@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B13B8466
+	for <asahi@lists.linux.dev>; Tue,  3 Jan 2023 15:33:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 47E7641DF4;
+	Tue,  3 Jan 2023 15:33:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1672760017; bh=Cfjad1f4bMHiStflEproBmzMrnqAIcpfSbdhxfxcGFw=;
+	h=Date:To:Cc:References:From:Subject:In-Reply-To;
+	b=iuX9XmiIXyPtwb1i6zlDMi9aiAfYcZByMkS78kNY1+hWkP3WqiFHgRhvHhaOImFeW
+	 toMfl29Qcz1XmFPuRUKeHcq8ewI4JBmpnw32ODfXyhcq3IaDkY8zusTywUaaTxUoyt
+	 moWuw9afzWcVouz8TuQ1KPMj6GOZpxF3IEkH8nw8oGtKeh2lByexuvDm0br4wnKK+r
+	 ghDchTFu3IHqk6Hu9BHRlESoL8ty2avW6NVBfjsKTjkHLYEoF8RbJ6065D2tgP5iRg
+	 eHTSOnUAQlkFGD+9ddemxhevEo/XyrI4XIEAcrHXk6eFEuVsyKatZKql7UTRnaNj98
+	 DqE3WwQ2Hu+yg==
+Message-ID: <03514845-dfd6-a117-83c8-ab3abc402229@marcan.st>
+Date: Wed, 4 Jan 2023 00:33:33 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec2c2712-04fa-751d-9817-23ff4e0b7fb4@marcan.st>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: en-US
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Eric Curtin <ecurtin@redhat.com>
+References: <20230103114427.1825-1-marcan@marcan.st>
+ <ff77ba1c-8b67-4697-d713-0392d3b1d77a@linaro.org>
+ <95a4cfde-490f-d26d-163e-7ab1400e7380@marcan.st>
+ <b118af4c-e4cc-c50b-59aa-d768f1ec69ff@linaro.org>
+ <b98e313d-8875-056b-4b64-bb7528f2670a@marcan.st>
+ <Y7RHTXZ60zuExeMA@shell.armlinux.org.uk>
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v2] nvmem: core: Fix race in nvmem_register()
+In-Reply-To: <Y7RHTXZ60zuExeMA@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 04, 2023 at 12:14:10AM +0900, Hector Martin wrote:
-> On 04/01/2023 00.06, Russell King (Oracle) wrote:
-> > Hi Hector,
-> > 
-> > On Tue, Jan 03, 2023 at 10:48:52PM +0900, Hector Martin wrote:
-> >>>> @@ -822,11 +822,8 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
-> >>>>   		break;
-> >>>>   	}
-> >>>>
-> >>>> -	if (rval) {
-> >>>> -		ida_free(&nvmem_ida, nvmem->id);
-> >>>> -		kfree(nvmem);
-> >>>> -		return ERR_PTR(rval);
-> >>>> -	}
-> >>>> +	if (rval)
-> >>>> +		goto err_gpiod_put;
-> >>>
-> >>> Why was gpiod changes added to this patch, that should be a separate 
-> >>> patch/discussion, as this is not relevant to the issue that you are 
-> >>> reporting.
-> >>
-> >> Because freeing the device also does a gpiod_put in the destructor, so
-> >> doing this is correct in every other instance below and maintains
-> >> existing behavior, and it just so happens that this instance converges
-> >> into the same codepath so it is correct to merge it, and it just so
-> >> happens that the gpiod put was missing in this path to begin with so
-> >> this becomes a drive-by bugfix.
-> >>
-> >> If you don't like it I can remove it (i.e. reintroduce the bug for no
-> >> good reason) and you can submit this fix yourself, because I have no
-> >> incentive to waste time submitting a separate patch to fix a GPIO leak
-> >> in an error path corner case in a subsystem I don't own and I have much
-> >> bigger things to spend my (increasingly lower and lower) willingness to
-> >> fight for upstream submissions than this.
-> >>
-> >> Seriously, what is wrong with y'all kernel people. No other open source
-> >> project wastes contributors' time with stupid nitpicks like this. I
-> >> found a bug, I fixed it, I then fixed the issues you pointed out, and I
-> >> don't have the time nor energy to fight over this kind of nonsense next.
-> >> Do you want bugs fixed or not?
-> > 
-> > This is not nonsense. We have always had a policy of one fix/change
-> > per patch, and in this case it makes complete and utter sense. Of
-> > course, the interpretation of "one change" is a matter of opinion.
+On 04/01/2023 00.18, Russell King (Oracle) wrote:
+> On Tue, Jan 03, 2023 at 11:56:21PM +0900, Hector Martin wrote:
+>> On 03/01/2023 23.22, Srinivas Kandagatla wrote:
+>>>>>>    drivers/nvmem/core.c | 32 +++++++++++++++++---------------
+>>>>>>    1 file changed, 17 insertions(+), 15 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+>>>>>> index 321d7d63e068..606f428d6292 100644
+>>>>>> --- a/drivers/nvmem/core.c
+>>>>>> +++ b/drivers/nvmem/core.c
+>>>>>> @@ -822,11 +822,8 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+>>>>>>    		break;
+>>>>>>    	}
+>>>>>>
+>>>>>> -	if (rval) {
+>>>>>> -		ida_free(&nvmem_ida, nvmem->id);
+>>>>>> -		kfree(nvmem);
+>>>>>> -		return ERR_PTR(rval);
+>>>>>> -	}
+>>>>>> +	if (rval)
+>>>>>> +		goto err_gpiod_put;
+>>>>>
+>>>>> Why was gpiod changes added to this patch, that should be a separate
+>>>>> patch/discussion, as this is not relevant to the issue that you are
+>>>>> reporting.
+>>>>
+>>>> Because freeing the device also does a gpiod_put in the destructor, so
+>>> This are clearly untested, And I dont want this to be in the middle to 
+>>> fix to the issue you are hitting.
+>>
+>> I somehow doubt you tested any of these error paths either. Nobody tests
+>> initialization error paths. That's why there was a gpio leak here to
+>> begin with.
 > 
-> The change here is the race condition fix. That change involves adding
-> an error cleanup path that involves a gpio_put(). Therefore it seems
-> logical to actually use it in that one extra case that should've used it
-> anyway, a few lines above.
+> Sadly, this is one of the biggest problems with error paths, they get
+> very little proper testing - and in most cases we're reliant on
+> reviewers spotting errors. That's why we much prefer the devm_* stuff,
+> but even that can be error-prone.
+> 
+>>> We should always be careful about untested changes, in this case gpiod 
+>>> has some conditions to check before doing a put. So the patch is 
+>>> incorrect as it is.
+>>
+>> Then the existing code is also incorrect as it is, because the device
+>> release callback is doing the same gpiod_put() already. I just moved it
+>> out since we are now registering the device later.
+> 
+> At the point where this change is being made (checking rval after
+> dev_set_name()) the struct device has not been initialised, so the
+> release callback will not be called. nvmem->wp_gpio will be leaked.
 
-The two are entirely unrelated. as I've already explained. The call
-to device_register() happens _after_ the check for rval from the
-dev_set_name() that you are changing. Moving device_register() doesn't
-make the lack of gpiod_put() any better or worse than it was before.
+But later in the code where device_put() was being called would will be,
+and that callback is calling gpiod_put() unconditionally, which is why I
+am doing the same after moving the device registration later.
 
-That said, I'm now thinking that my patch is actually wrong, but for
-a different reason unrelated to the gpiod issue. :(
+Is this wrong? Well,
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+> However, there may be bigger problems with wp_gpio - related to where
+> it can come from and what we do with it.
+> 
+> nvmem->wp_gpio has two sources - one of them is gpiod_get_optional(),
+> and we need to call gpiod_put() on that to drop the reference that
+> _this_ code acquired. The other is config->wp_gpio - we don't own
+> that reference, yet we call gpiod_put() on it. I'm not sure whether
+> config->wp_gpio is actually used anywhere - my grepping so far has
+> not found any users, but maybe Srivinas knows better.
+
+... then yes, it's wrong, and the original code is already broken too. I
+merely moved functionality around in the other cases *except* the one
+case after dev_set_name(), where I swapped one bug out for calling other
+buggy code derived from existing buggy code. ¯\_(ツ)_/¯
+
+> Hence, sorting out the leak of wp_gpio needs more discussion, and it
+> would not be right to delay merging the fix for the very real race
+> that people hit today resulting in stuff not working while we try
+> to work out how wp_gpio should be handled.
+
+> So... always fix one problem in one patch. Sometimes a fix is not as
+> obvious as one may first think.
+
+Sure, but you do realize the issue here, right? This, coupled with the
+kernel development model (and *especially* the impolite discourse that
+often goes along with it from maintainers) incentivizes doing the
+minimum amount of work to fix the minimum amount of bugs that actually
+affect people. I couldn't care less about the gpiod leak fix, it doesn't
+affect me, but I noticed and thought I could fix it. Turns out it's more
+complicated than that because the existing code is even more broken than
+I thought, sure - but I have no incentive to start that conversation nor
+fix all this now. Now I just know next time I touch nvmem code I won't
+bother pointing out any bugs I notice by accident, because clearly the
+discussion likely to follow is more mental overhead than I'm willing to
+spend on something that doesn't affect me. When bugs don't noticeably
+break people and fixing them is too much effort, nobody will.
+
+While if my change had been merged as-is, we'd have at least fixed one
+common case bug and reduced two related bugs to one class of bug (the
+unconditional gpiod_put()) which is still a strict improvement. And then
+someone can point out the incorrect puts when the GPIO isn't owned and
+fix that later if they want.
+
+- Hector
