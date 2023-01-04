@@ -1,26 +1,26 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA92AD48
-	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 16:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF79DA4A
+	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 16:35:10 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 9FA1A41DF4;
-	Wed,  4 Jan 2023 16:27:05 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 3DDA541DF4;
+	Wed,  4 Jan 2023 16:35:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1672849632; bh=CyB6nBdwWKmnMF5EnKIpG3XVjcUbBPWolPGePYu6aHs=;
+	t=1672850108; bh=TvncWowxEgTW0bS4kVFjn9GlEGLockSZ0Yom8+Vo6QQ=;
 	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=ZFcYfazb5ofGvHpZhd4vo4wCI/Euispc2vhvGew9YeFe0W6od6eOyJfBvn8XX4J14
-	 M+OqOZ9tmBNHZEo2BYLybSCDVkcBr4i88ejbzqQd5N/NuRKr4d2tdvkOtVLm8VFtKT
-	 nNbbbCXBXPPCL/D0vf0XTB5CVCBbRdEVoiEo+UxpATWG2RhRFHj49Z6wS5VGXt2nbu
-	 wJCnQIk/OS3MS+sIiuP33sSoHkgizDyXFZ7Ah5T2MlJX4NtvumXL1+CoKvKbi8eJdr
-	 NWydl6B6H41U+laQ1EVo2MSSC1CJ9Usc1R9ZXSDOMI10m50GXKhFFkVassPW9vHcaU
-	 Wd8kZ+GXW9uFg==
-Message-ID: <fdc60ff9-78b1-73e8-84d2-f6156a157057@marcan.st>
-Date: Thu, 5 Jan 2023 01:27:03 +0900
+	b=qRWfTMPYGZs22n13FfjSKlpkWBIpsqiqInet0D7+uDuKajt1tFJYMFgc4VSsKiCx9
+	 geK7qhY6yhQ593XoOD/FWWka99dMm4k5L06rwRBe1vU59o3SBC8lCuyGp4B1s3x+xJ
+	 CTkAwILwKPeh2sD89tvhrakMRt21M37kr/g4cdDT46O8CS4gKE3NfgId0ZS+IxrKeb
+	 k53cdi9eTxRZ8+ky1YsmUZuMc7hHDjDgJpPRjSG4lVF9B83nYqtbH+QHC4u+g0rHI+
+	 4e8sfJa8Z3BHMmV848D5uplvmOrP4W1lTL/qpcgcJ5xBxhbuZmRRJPi0ePpNX4F5XY
+	 OeXfC8769/otg==
+Message-ID: <d242c9e4-e551-aa7a-0f20-f3f1351648a3@marcan.st>
+Date: Thu, 5 Jan 2023 01:35:00 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -44,69 +44,105 @@ Cc: Alexander Prutskov <alep@cypress.com>,
  brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230104100116.729-1-marcan@marcan.st>
- <20230104100116.729-3-marcan@marcan.st>
- <ca904d05-7f11-80dd-cb1c-1cd54c4d7222@broadcom.com>
+ <20230104100116.729-2-marcan@marcan.st>
+ <6517b791-1700-970d-ac0a-847f60a6fa6f@broadcom.com>
 From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v1 2/4] brcmfmac: pcie: Add IDs/properties for BCM4355
-In-Reply-To: <ca904d05-7f11-80dd-cb1c-1cd54c4d7222@broadcom.com>
+Subject: Re: [PATCH v1 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
+In-Reply-To: <6517b791-1700-970d-ac0a-847f60a6fa6f@broadcom.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/01/2023 22.35, Arend van Spriel wrote:
+On 04/01/2023 22.29, Arend van Spriel wrote:
 > On 1/4/2023 11:01 AM, 'Hector Martin' via BRCM80211-DEV-LIST,PDL wrote:
->> This chip is present on at least these Apple T2 Macs:
+>> The commit that introduced support for this chip incorrectly claimed it
+>> is a Cypress-specific part, while in actuality it is just a variant of
+>> BCM4355 silicon (as evidenced by the chip ID).
 >>
->> * hawaii: MacBook Air 13" (Late 2018)
->> * hawaii: MacBook Air 13" (True Tone, 2019)
+>> The relationship between Cypress products and Broadcom products isn't
+>> entirely clear, but given what little information is available and prior
+>> art in the driver, it seems the convention should be that originally
+>> Broadcom parts should retain the Broadcom name.
 >>
->> Users report seeing PCI revision ID 12 for this chip, which Arend
->> reports should be revision C2, but Apple has the firmware tagged as
->> revision C1. Assume the right cutoff point for firmware versions is
->> revision ID 11 then, and leave older revisions using the non-versioned
->> firmware filename (Apple only uses C1 firmware builds).
-> 
-> Reviewed-by: Arend van Spriel <arend.vanspriel@broadcom.com>
+>> Thus, rename the relevant constants and firmware file. Also rename the
+>> specific 89459 PCIe ID to BCM43596, which seems to be the original
+>> subvariant name for this PCI ID (as defined in the out-of-tree bcmdhd
+>> driver). Also declare the firmware as CLM-capable, since it is.
+>>
+>> Fixes: dce45ded7619 ("brcmfmac: Support 89459 pcie")
 >> Signed-off-by: Hector Martin <marcan@marcan.st>
 >> ---
->>   .../net/wireless/broadcom/brcm80211/brcmfmac/pcie.c    | 10 +++++++++-
->>   .../wireless/broadcom/brcm80211/include/brcm_hw_ids.h  |  1 +
->>   2 files changed, 10 insertions(+), 1 deletion(-)
+>>   drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c   | 5 ++---
+>>   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c   | 8 ++++----
+>>   .../net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h | 6 +++---
+>>   3 files changed, 9 insertions(+), 10 deletions(-)
 >>
+>> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
+>> index 121893bbaa1d..3e42c2bd0d9a 100644
+>> --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
+>> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
+> 
+> [...]
+> 
 >> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
->> index 3264be485e20..bb4faea0f0b6 100644
+>> index ae57a9a3ab05..3264be485e20 100644
 >> --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
 >> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
 > 
 > [...]
 > 
->> @@ -1994,6 +1996,11 @@ static int brcmf_pcie_read_otp(struct brcmf_pciedev_info *devinfo)
->>   	int ret;
->>   
->>   	switch (devinfo->ci->chip) {
->> +	case BRCM_CC_4355_CHIP_ID:
->> +		coreid = BCMA_CORE_CHIPCOMMON;
->> +		base = 0x8c0;
->> +		words = 0xb2;
->> +		break;
->>   	case BRCM_CC_4378_CHIP_ID:
->>   		coreid = BCMA_CORE_GCI;
->>   		base = 0x1120;
+>> @@ -2590,6 +2590,7 @@ static const struct pci_device_id brcmf_pcie_devid_table[] = {
+>>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_4350_DEVICE_ID, WCC),
+>>   	BRCMF_PCIE_DEVICE_SUB(0x4355, BRCM_PCIE_VENDOR_ID_BROADCOM, 0x4355, WCC),
+>>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_4354_RAW_DEVICE_ID, WCC),
+>> +	BRCMF_PCIE_DEVICE(BRCM_PCIE_4355_RAW_DEVICE_ID, WCC),
 > 
-> This bit is not described in the commit message. Can you remind me why 
-> the driver needs to read OTP?
+> A bit of a problem here. If Cypress want to support this device, 
+> regardless how they branded it, they will provide its firmware. Given 
+> that they initially added it (as 89459) I suppose we should mark it with 
+> CYW and not WCC. Actually, see my comment below on RAW dev ids.
 
-Apple platforms use a vendor-specific OTP area to store identification
-information used to select the right firmware/txcap/clm/nvram blobs. See
-6bad3eeab6d3d (already upstream) and the immediately preceding commits
-for how this all works.
+Right, I thought we might wind up with this issue. So then the question
+becomes: can we give responsibility over PCI ID 0x4415 to Cypress and
+mark just that one as CYW (if so it probably makes sense to keep that
+labeled CYW89459 instead of BCM43596), and if not, is there some other
+way to tell apart Cypress and Broadcom products we can use? I believe
+the Apple side firmware is developed by Broadcom, not Cypress.
 
-In principle this should just return gracefully if that part of the OTP
-is empty, though when I originally wrote this code we only knew of Apple
-platforms using these chips anyway. If you think this might possibly
-introduce issues to other platforms using the same chips (e.g. if
-reading the OTP fails outright for some reason), we could gate it on the
-presence of a valid devinfo->settings->antenna_sku, which would indicate
-an Apple platform (since that property is specific to the Apple
-firmware-selection process and only populated on those platforms).
+Note that even if we split by PCI device ID here, we still have a
+problem with firmware selection, since that means we're requesting the
+same firmware filename for both vendors (since that only tests the chip
+ID and revision ID). If Apple is the *only* Broadcom customer using
+these chips then we can get away with this, since I can just make sure
+the fancy Apple firmware selection will never collide with the vanilla
+firmware filename. But if other customers of both companies are both
+shipping the same chip with different and incompatible generic firmware,
+we need some way to tell them apart.
+
+> 
+>>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_4356_DEVICE_ID, WCC),
+>>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_43567_DEVICE_ID, WCC),
+>>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_43570_DEVICE_ID, WCC),
+> 
+> [...]
+> 
+>> diff --git a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
+>> index f4939cf62767..cacc43db86eb 100644
+>> --- a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
+>> +++ b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
+> 
+> [...]
+> 
+>> @@ -72,6 +72,7 @@
+>>   #define BRCM_PCIE_4350_DEVICE_ID	0x43a3
+>>   #define BRCM_PCIE_4354_DEVICE_ID	0x43df
+>>   #define BRCM_PCIE_4354_RAW_DEVICE_ID	0x4354
+>> +#define BRCM_PCIE_4355_RAW_DEVICE_ID	0x4355
+> 
+> I would remove all RAW device ids. These should not be observed outside 
+> chip vendor walls.
+
+Ack, I'll remove this one instead of renaming it (or I can just drop all
+the existing RAW IDs first in one commit at the head of v2 if you prefer
+that).
 
 - Hector
