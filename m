@@ -1,41 +1,41 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D216179CD
-	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 13:38:35 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-46d4840b51fso417042637b3.12
-        for <asahi@lists.linux.dev>; Wed, 04 Jan 2023 05:38:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C992479CD
+	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 13:41:13 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id k19so15137661pfg.11
+        for <asahi@lists.linux.dev>; Wed, 04 Jan 2023 05:41:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=broadcom.com; s=google;
         h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=vaS8gIgtE0qLtNHGx0Eo7Ap3I/iw1ycFya2SKGH5KhU=;
-        b=BqpyV+0kGI1Bjuk3vGswuD9qXr49ip/BqTCz01vcIjBAazQQeWm/wYDRsnRhBfQLUO
-         c1kdvSS6+o8uVBEUmtdkUIbsHaeQVzLOTeuWlZ/TMc4yE0Qq5A5iEaixUC7zR+3kieGV
-         Y5UCl2ayFl+H55ZWeNgfDV6nZMK7dgILM6R0A=
+        bh=qdxRzJKRRQlKLJveH5N+RD7SA7oeNAwYHZia+4sVruE=;
+        b=NxH9pGCBzMa+f/6oPH323zxSK/GMlp19eCwvqXiXNkMAC8Y/KC6ziJZOx1aHfXOLPI
+         HtxW9g8tAOZP3jW2rM19DKFP4U76kKGaJNb56YPblGPg6JS2Q0iSqD/oL66gsPDu8OLA
+         XYQ3PXuy8vUfBvyYMntOWYr1Yqc3PI7BVBJ5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vaS8gIgtE0qLtNHGx0Eo7Ap3I/iw1ycFya2SKGH5KhU=;
-        b=1jB8vOcgkfZ5lT3BDjXwH/4OraF1N+RXJwo9tKmUKDdKwmoja3NZ/+5Fs3aLMVknl9
-         cn/oG1L+0tTGMi/BUguDncq21ohEO+haBitOd4qPMzdVn29murbmHQ0vElF+oDOX+kWk
-         /aMobkoWe+tieX5Il343mb1kjbePOviHA+uN5XtNDZTHh2dmOIWOOZlb98lWr9pPZn85
-         j9RAQpR8Sw0nrM9O586g1jIj6HgFsOKXI8V9Bd855JcFVPzWT6CbE04qySXuIQrpVAK5
-         QrvlGfe36DX3GirgmROZt4veRySByx465yxoidXx7q5GwzJpnedrGd6IdVPHP4WUF1PI
-         c/Vw==
-X-Gm-Message-State: AFqh2koUbPswFO5PeM9f2SYrymgxfYmwNYt+usfRvLC7bOJU7D1uigI+
-	Nde1fIyNCMbECR8CIa/pnnu5vQ==
-X-Google-Smtp-Source: AMrXdXszRsGgRshZtDm9CyuWm1/YVyw4ue5vacQYap0BVIi39wYOMC6W885xh03hdiLWZWBB16gKpg==
-X-Received: by 2002:a81:d58:0:b0:45f:ab6c:3d01 with SMTP id 85-20020a810d58000000b0045fab6c3d01mr42088403ywn.51.1672839514787;
-        Wed, 04 Jan 2023 05:38:34 -0800 (PST)
+        bh=qdxRzJKRRQlKLJveH5N+RD7SA7oeNAwYHZia+4sVruE=;
+        b=etAuTazoUdjhNJLyKqY39Bc2fat8xt0DqZsF5rMkf0KyjY4NAaJHBBd50W7/R2RtxJ
+         Sl9GHo4atXe3eYdsxiau6aGJg09q0DAkc7QUcFlyiGv6bA7RrgIHXoaQP5UIVONg09GC
+         nIZNpjt8zvl5+OLukeVZxd5pBv23KkQ0MXpwawU9U+trzmSxE03UyyCcHJ7DOVRpvTgl
+         eqm7tkWE7gmohFxeA7difIwSF+2XruGRF6J03izbGPkMzfoK8navdmERNCH6JZc4Clf7
+         UUwoo0Gz8trO421SYRNiIT7oMF54kHcGFMM8I+ovRy8yUf8pWDe8pEFoobol998Fs3pi
+         GHfg==
+X-Gm-Message-State: AFqh2kqAx+P1O43gJhrhF1EVOnE1ijob8IGFxSxnlkChY8h16697MGpM
+	fZp+f6evRl3NYMXzJ7w5910FZA==
+X-Google-Smtp-Source: AMrXdXuuPiUCnLLxpke3KC2E4FkpdrhQWTdsJ5gzfdkHdnHudpMkj7KpV9O3Ndm3VWkOdeeyvUk5yg==
+X-Received: by 2002:a62:e317:0:b0:581:4297:362f with SMTP id g23-20020a62e317000000b005814297362fmr33750377pfh.13.1672839673160;
+        Wed, 04 Jan 2023 05:41:13 -0800 (PST)
 Received: from [192.168.178.136] (f215227.upc-f.chello.nl. [80.56.215.227])
-        by smtp.gmail.com with ESMTPSA id v7-20020a05620a0f0700b006fbb4b98a25sm23949252qkl.109.2023.01.04.05.38.29
+        by smtp.gmail.com with ESMTPSA id 199-20020a6216d0000000b00580f224cdf6sm19043327pfw.203.2023.01.04.05.41.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Jan 2023 05:38:34 -0800 (PST)
-Message-ID: <e50b9ec5-342f-399a-5bac-5cb0843a5bc7@broadcom.com>
-Date: Wed, 4 Jan 2023 14:38:28 +0100
+        Wed, 04 Jan 2023 05:41:12 -0800 (PST)
+Message-ID: <9b385a20-39bd-e064-e0b3-e7f6273d3161@broadcom.com>
+Date: Wed, 4 Jan 2023 14:41:04 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -44,7 +44,8 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v1 3/4] brcmfmac: pcie: Add IDs/properties for BCM4377
+Subject: Re: [PATCH v1 4/4] brcmfmac: pcie: Perform correct BCM4364 firmware
+ selection
 To: Hector Martin <marcan@marcan.st>, Arend van Spriel <aspriel@gmail.com>,
  Franky Lin <franky.lin@broadcom.com>,
  Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>,
@@ -60,34 +61,53 @@ Cc: Alexander Prutskov <alep@cypress.com>,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  Linus Walleij <linus.walleij@linaro.org>
 References: <20230104100116.729-1-marcan@marcan.st>
- <20230104100116.729-4-marcan@marcan.st>
+ <20230104100116.729-5-marcan@marcan.st>
 From: Arend van Spriel <arend.vanspriel@broadcom.com>
-In-Reply-To: <20230104100116.729-4-marcan@marcan.st>
+In-Reply-To: <20230104100116.729-5-marcan@marcan.st>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000000f839a05f1704dbc"
+	boundary="00000000000081c49305f170563c"
 
---0000000000000f839a05f1704dbc
+--00000000000081c49305f170563c
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 1/4/2023 11:01 AM, 'Hector Martin' via BRCM80211-DEV-LIST,PDL wrote:
-> This chip is present on at least these Apple T2 Macs:
+> This chip exists in two revisions (B2=r3 and B3=r4) on different
+> platforms, and was added without regard to doing proper firmware
+> selection or differentiating between them. Fix this to have proper
+> per-revision firmwares and support Apple NVRAM selection.
 > 
-> * tahiti:  MacBook Pro 13" (2020, 2 TB3)
-> * formosa: MacBook Pro 13" (Touch/2019)
-> * fiji:    MacBook Air 13" (Scissor, 2020)
+> Revision B2 is present on at least these Apple T2 Macs:
 > 
+> kauai:    MacBook Pro 15" (Touch/2018-2019)
+> maui:     MacBook Pro 13" (Touch/2018-2019)
+> lanai:    Mac mini (Late 2018)
+> ekans:    iMac Pro 27" (5K, Late 2017)
+> 
+> And these non-T2 Macs:
+> 
+> nihau:    iMac 27" (5K, 2019)
+> 
+> Revision B3 is present on at least these Apple T2 Macs:
+> 
+> bali:     MacBook Pro 16" (2019)
+> trinidad: MacBook Pro 13" (2020, 4 TB3)
+> borneo:   MacBook Pro 16" (2019, 5600M)
+> kahana:   Mac Pro (2019)
+> kahana:   Mac Pro (2019, Rack)
+> hanauma:  iMac 27" (5K, 2020)
+> kure:     iMac 27" (5K, 2020, 5700/XT)
+> 
+> Fixes: 24f0bd136264 ("brcmfmac: add the BRCM 4364 found in MacBook Pro 15,2")
 > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 Reviewed-by: Arend van Spriel <arend.vanspriel@broadcom.com>
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 > ---
->   drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c      | 1 +
->   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c      | 5 +++++
->   .../net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h    | 2 ++
->   3 files changed, 8 insertions(+)
+>   .../net/wireless/broadcom/brcm80211/brcmfmac/pcie.c   | 11 +++++++++--
+>   1 file changed, 9 insertions(+), 2 deletions(-)
 
---0000000000000f839a05f1704dbc
+--00000000000081c49305f170563c
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -158,14 +178,14 @@ BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
 N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
 p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
 YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
-bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCHPieXu8o5vEbeM2VG
-PMaDt6rDdowQ4g5xBhEYAKk8VjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yMzAxMDQxMzM4MzVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
+bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDOgbrb3yzGU4TeLjue
+BZ0d6rSV/tfPcSWTYLIUR7aAYjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
+BTEPFw0yMzAxMDQxMzQxMTNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
 AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAWJgnHESOvOYQhsCKNBXBx9vKUC+tSUELxP5Y
-D0CMnU1rtNL942NWrdZAGEfmczMxH5d/B9vzkCzaJPSQtE6oapBLxrg3mDHmvWl2hF0CkDatvxIx
-UK/ZecYVKsN7fAc1oa4WxCo3oWvNrL4MIfNDgY2KXxA1WAbLCSEa66bWdbz9hZLvfsTBATNaB75S
-nulvVW7RyTRxhY/f7hCMuTST/yQ2/hq9dB9P0Smkaefq+1Yk94RngBCbz/GgJ2ImaMw4nMCbN7UO
-zCgHbimIOtmu5H7o0f08RrvZl8ynIBoQBjCW8AsOjNMXo6v0oy2z4jS8WoRjhIezzZa3qxKlD2gi
-gA==
---0000000000000f839a05f1704dbc--
+BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAUP7tKn5fX64Jben4ucQactdTcWsY5TUzF7Jw
+TGfrem4hpvifMgiEaGVcV1jPk0VCC8WadtbfPYRc8vZQcmTb/tO2F5bkM6ezYgiIJFAaL7IbxrmZ
+i5puVlIJtl3rUBlPjD05D8epcMt+YmpdggFBOaO1ijnRQlaSyWwfpH7ahZk0Uwx9B1rs34HtywYQ
+baUe17xiPhvdOhOAVO0iAt1pTDkxlJTvMAfbk3INCbvpgV0Y1iyqGVi39+bEM10yNjFQChFKx2CM
+IPWIfPGw+nB732RHoxav74ruktCc88p+910GV5lUCxOoiZ8uZ+N4YkvN6USihfNKPrT8PHflh7Sm
+og==
+--00000000000081c49305f170563c--
