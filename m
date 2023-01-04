@@ -1,79 +1,86 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6B5A5D
-	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 12:03:06 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id b145so18578422pfb.2
-        for <asahi@lists.linux.dev>; Wed, 04 Jan 2023 04:03:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gbKqkFsN4hQeaKGBwT0swWYlTLMQd/HhdjuV7OkFZck=;
-        b=mHVGqX8H91pzBJ3DqpDdUa8q5l+Xnziz+IY+I893b//GyPfrcaV4LyEnL5N7W5orqd
-         KhjDg2DKRkhNeg7kPMi5/Dhy3WkN7600cWS/0Yu9rxCpyqo6ycTsVO0NN2JpLSH8kMyK
-         vXORpTS7mvElXy7DsHenbpJaJVvGFX/hjwlGlF0eg94KlhEZgBDawY7WE2dRw3ar+b2i
-         KCiH4TGS/ukHVvhsiEvXeIHB87DmZkltPYIzUeRllH6xEgLaT6NJ0QPl9TZhB2tEE4Ex
-         wsFb6n+q+5/6hA8Q+vPZ5CnnwLwj2nu7jw2G2lKejRqy5shn0+KKHYefSNm2sZ/Hxh65
-         xfPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:in-reply-to:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gbKqkFsN4hQeaKGBwT0swWYlTLMQd/HhdjuV7OkFZck=;
-        b=4/HmDlcii2nqw4n+BTq8K4dM/g4Q8dc8zpYv5hykiCytOFHIaO6+cdKEsQYEEbYKAS
-         hPiWyWOP8HrDgeDX8Gc1mvDEzD4KB8yUurrb/Dg7mC2po6AEjP4Ltc8bRyX2YMu0jBPM
-         FImEMZZ4fKJleVxPI/R+tSX9j4JuUL8ZF6KATLhXn+0WqsiTuGaI6/c2JO8YIi3yZD1x
-         FSoPSh3k8rC2Wecc/qieC+ev7JuKiO0e1Fb1PEAk5ilv8FrLdFQHsaWd1qIBgRGYc5kS
-         Y0wbfFFHCHphFh3H6Xb6xkahEBXO1WlVh5BYfch1G6LBGPSvsEoDjmz4HBqa4zkeF6oA
-         l0ZQ==
-X-Gm-Message-State: AFqh2kpM19Ck3oBtOvVhhS8dVjPtdemoaWLcy6BSuw1qsGDYJuWP0oJk
-	pW+HM8+Y4EVkrbFD0ogA6wM=
-X-Google-Smtp-Source: AMrXdXvLlycQwR2yfcSSdIDuT8mAhKbn5aH7b2zhWOcV7RFoNEz+oc6njRkxGsmdCSs+xOoNDXJDDQ==
-X-Received: by 2002:a62:e317:0:b0:581:4297:362f with SMTP id g23-20020a62e317000000b005814297362fmr33459797pfh.13.1672833785678;
-        Wed, 04 Jan 2023 04:03:05 -0800 (PST)
-Received: from redecorated-mbp ([202.53.32.211])
-        by smtp.gmail.com with ESMTPSA id d18-20020aa797b2000000b0058251b6e0e8sm6856527pfq.188.2023.01.04.04.03.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 04:03:05 -0800 (PST)
-Date: Wed, 4 Jan 2023 23:03:00 +1100
-From: Orlando Chamberlain <orlandoch.dev@gmail.com>
-To: marcan@marcan.st
-Cc: asahi@lists.linux.dev, axboe@fb.com, hch@lst.de, kbusch@kernel.org,
- linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
- sagi@grimberg.me, sven@svenpeter.dev, ushankar@purestorage.com
-Subject: Re: [PATCH] nvme-pci: Add NVME_QUIRK_IDENTIFY_CNS quirk to Apple T2
- controllers
-Message-ID: <20230104230300.66b4a581@redecorated-mbp>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
-In-Reply-To: <20230104101641.12215-1-marcan@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2817D33EA;
+	Wed,  4 Jan 2023 13:09:13 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 63C62320091E;
+	Wed,  4 Jan 2023 08:09:11 -0500 (EST)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Wed, 04 Jan 2023 08:09:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1672837751; x=1672924151; bh=sW
+	97sEIph+hgvFghJa+u0wBCf7AiPUYeQdDtJ0BUk6c=; b=hE19vYa45oYCigsNdz
+	PXnGM8k46ZlLPD1vWz7V9kusPHwzNr0i3KR3PBAdkA8wCzeTR6KoYqLS1YoU33Hh
+	rGwsh7G8fTJPRHwH6oq+gGl81WB8XhbW50t9pJO5aRyPe1/FIuNyz02b4rr3oNSr
+	UQ75Uffrr7Mc/7dZkdTIW12dx9tb1OjmmkQOg2302FSqTRQ9ygDP1KWI3cGx6Sba
+	+5xs5zNpLd/sSoS6CYljQhAWdT3gJspPS9wxvOEZSqBIA+3lE/gDBjq4wrx3Nq0M
+	sm+qQ3i643Ux1c3aisS00saZZ88QSpI53i/wQUl7j5yiuPsckZ/2YqpG7Dt77Itl
+	5axA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1672837751; x=1672924151; bh=sW97sEIph+hgvFghJa+u0wBCf7Ai
+	PUYeQdDtJ0BUk6c=; b=YxnUHEhiKcb8lZ5UjzCdfW4EqEjQubucJO3YTDJwxGK+
+	dCDPx1Yia2YciL2zdof/aWicGBZqsENFN5aIz1OMVtGKQwPYh3ALXt+s/f/I0SE9
+	1E/uDnq4PNpvdkQkGPeMTWQ/xoL2dxGKEb5zuZBch1Y12/NEMKoSnzE189zmjKZ5
+	bYqQ/ZgLOq7hihySC4j+DMKtgioPR0NOs43mHBVM16Dpao5nUChPV57CLkPk1HjK
+	eDuVMkhLo844Bj0Wbk1T4/rnAAyTKrayqW1kqjdotRxFQYpeRAsLBnJ08CGaMWxj
+	+eARmJ0NYSnjA0f78gGs4rdYjfQAl+ejlh5kVdTwRA==
+X-ME-Sender: <xms:dnq1Y4xbEsBi_ZZyK8aqYryYMZRzpiqyuK301GmvIvJgYnY5VTyRLA>
+    <xme:dnq1Y8TeFluo6wHZtCGgxausyZ8AtX00ps2Tx5XiP7MbPbFUf_icxQqTuaxuJfrkp
+    TgmKltpjuTc47CNEuk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeeigdegkecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
+    nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
+    htthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefghfei
+    veeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:dnq1Y6VJ8aA2FhvZ6dNUS1QbWMTUw6TRSDw1PGPDrZEX-9Fg4K3L5A>
+    <xmx:dnq1Y2gF5o1db_P2UT03VTg4ce88CjKm6_GueOZAGLIuldYJd8FG0g>
+    <xmx:dnq1Y6CB73uums9oT5l9Lt_WriwfTvtKuSD2a0hd4OAu_5uJMZw6fQ>
+    <xmx:d3q1Y-67uaMPAchUrJ4I6Jo-2yL7pIfbA_8Ql5zIfidKyp8qEE8DvQ>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 0F62AA6007C; Wed,  4 Jan 2023 08:09:09 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Message-Id: <1205bb21-c252-4c6f-be2d-4a10bb3cd077@app.fastmail.com>
+In-Reply-To: <20230104110013.24738-2-marcan@marcan.st>
+References: <20230104110013.24738-1-marcan@marcan.st>
+ <20230104110013.24738-2-marcan@marcan.st>
+Date: Wed, 04 Jan 2023 14:08:43 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Hector Martin" <marcan@marcan.st>, "Joerg Roedel" <joro@8bytes.org>,
+ "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>
+Cc: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, "Janne Grunau" <j@jannau.net>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ devicetree@vger.kernel.org, iommu@lists.linux.dev, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/7] dt-bindings: iommu: dart: add t8110 compatible
+Content-Type: text/plain
 
-> This mirrors the quirk added to Apple Silicon controllers in apple.c.
-> These controllers do not support the Active NS ID List command and
-> behave identically to the SoC version judging by existing user
-> reports/syslogs, so will need the same fix. This quirk reverts
-> back to NVMe 1.0 behavior and disables the broken commands.
+
+
+On Wed, Jan 4, 2023, at 12:00, Hector Martin wrote:
+> t600x SoCs use this DART style for the Thunderbolt ports, and t8112 SoCs
+> use them everywhere. Add a compatible for it. No other binding changes
+> necessary.
 >
-> Fixes: 811f4de0344d ("nvme: avoid fallback to sequential scan due to transient issues")
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 
-On T2 macbookpro16,1 with 6.2.0-rc3-00010-g69b41ac87e4a I had this in
-dmesg:
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
-nvme nvme0: 1/0/0 default/read/poll queues
-nvme nvme0: Identify NS List failed (status=0xb)
-
-And in /dev only nvme0 existed (no nvme0n1*).
-
-This patch fixed that and /dev/nvme0n1p* existed.
-
-Tested-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
