@@ -1,376 +1,79 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E11810;
-	Wed,  4 Jan 2023 11:02:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id AB58841DF4;
-	Wed,  4 Jan 2023 11:02:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1672830132; bh=1VT/bUTM636oNejRj1jPw5QcNLDJ7CkhjPTXz4L78gU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=yRgDbNQ089cDz0JJP4zSHeD28X2IFKh0GUxnQ71tH/mPqKjX8IVN3l8PJnFnK3Fb8
-	 lvmK3/fRYgzvEXRxHH2U0AJxNEF0qOpoRpJHcx4NaJzf/S77jHIM7KayDK6wWz1Cxn
-	 5eOwiF+ipYSgkf0bPfncWRMEFHoE2mE/mHktRoxgj26c2DOrMqhtA4+igiiOhlo0Zw
-	 ve498pssr7apc2N3RlPUhEL0uHitARpocXffq6mg8f67VGxieKK9A0FSDNZjZLvm8w
-	 WT6vhG8kqPcGhVfxdR2KPCuHsVBaFTgpRwg3TetGBp3AFNt+cjOotquXEuFKNJnump
-	 AMVzLT9BrGNhw==
-From: Hector Martin <marcan@marcan.st>
-To: Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Janne Grunau <j@jannau.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	devicetree@vger.kernel.org,
-	iommu@lists.linux.dev,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>
-Subject: [PATCH 7/7] iommu: dart: Add t8110 DART support
-Date: Wed,  4 Jan 2023 20:00:13 +0900
-Message-Id: <20230104110013.24738-8-marcan@marcan.st>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230104110013.24738-1-marcan@marcan.st>
-References: <20230104110013.24738-1-marcan@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6B5A5D
+	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 12:03:06 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id b145so18578422pfb.2
+        for <asahi@lists.linux.dev>; Wed, 04 Jan 2023 04:03:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:in-reply-to:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gbKqkFsN4hQeaKGBwT0swWYlTLMQd/HhdjuV7OkFZck=;
+        b=mHVGqX8H91pzBJ3DqpDdUa8q5l+Xnziz+IY+I893b//GyPfrcaV4LyEnL5N7W5orqd
+         KhjDg2DKRkhNeg7kPMi5/Dhy3WkN7600cWS/0Yu9rxCpyqo6ycTsVO0NN2JpLSH8kMyK
+         vXORpTS7mvElXy7DsHenbpJaJVvGFX/hjwlGlF0eg94KlhEZgBDawY7WE2dRw3ar+b2i
+         KCiH4TGS/ukHVvhsiEvXeIHB87DmZkltPYIzUeRllH6xEgLaT6NJ0QPl9TZhB2tEE4Ex
+         wsFb6n+q+5/6hA8Q+vPZ5CnnwLwj2nu7jw2G2lKejRqy5shn0+KKHYefSNm2sZ/Hxh65
+         xfPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:in-reply-to:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gbKqkFsN4hQeaKGBwT0swWYlTLMQd/HhdjuV7OkFZck=;
+        b=4/HmDlcii2nqw4n+BTq8K4dM/g4Q8dc8zpYv5hykiCytOFHIaO6+cdKEsQYEEbYKAS
+         hPiWyWOP8HrDgeDX8Gc1mvDEzD4KB8yUurrb/Dg7mC2po6AEjP4Ltc8bRyX2YMu0jBPM
+         FImEMZZ4fKJleVxPI/R+tSX9j4JuUL8ZF6KATLhXn+0WqsiTuGaI6/c2JO8YIi3yZD1x
+         FSoPSh3k8rC2Wecc/qieC+ev7JuKiO0e1Fb1PEAk5ilv8FrLdFQHsaWd1qIBgRGYc5kS
+         Y0wbfFFHCHphFh3H6Xb6xkahEBXO1WlVh5BYfch1G6LBGPSvsEoDjmz4HBqa4zkeF6oA
+         l0ZQ==
+X-Gm-Message-State: AFqh2kpM19Ck3oBtOvVhhS8dVjPtdemoaWLcy6BSuw1qsGDYJuWP0oJk
+	pW+HM8+Y4EVkrbFD0ogA6wM=
+X-Google-Smtp-Source: AMrXdXvLlycQwR2yfcSSdIDuT8mAhKbn5aH7b2zhWOcV7RFoNEz+oc6njRkxGsmdCSs+xOoNDXJDDQ==
+X-Received: by 2002:a62:e317:0:b0:581:4297:362f with SMTP id g23-20020a62e317000000b005814297362fmr33459797pfh.13.1672833785678;
+        Wed, 04 Jan 2023 04:03:05 -0800 (PST)
+Received: from redecorated-mbp ([202.53.32.211])
+        by smtp.gmail.com with ESMTPSA id d18-20020aa797b2000000b0058251b6e0e8sm6856527pfq.188.2023.01.04.04.03.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 04:03:05 -0800 (PST)
+Date: Wed, 4 Jan 2023 23:03:00 +1100
+From: Orlando Chamberlain <orlandoch.dev@gmail.com>
+To: marcan@marcan.st
+Cc: asahi@lists.linux.dev, axboe@fb.com, hch@lst.de, kbusch@kernel.org,
+ linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org,
+ sagi@grimberg.me, sven@svenpeter.dev, ushankar@purestorage.com
+Subject: Re: [PATCH] nvme-pci: Add NVME_QUIRK_IDENTIFY_CNS quirk to Apple T2
+ controllers
+Message-ID: <20230104230300.66b4a581@redecorated-mbp>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+In-Reply-To: <20230104101641.12215-1-marcan@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Now that we have the driver properly parameterized, we can add support
-for T8110 DARTs. These DARTs drop the multiple TTBRs (which only make
-sense with legacy 4K page platforms) and instead add support for new
-features and more stream IDs. The register layout is different, but the
-pagetable format is the same as T6000.
+> This mirrors the quirk added to Apple Silicon controllers in apple.c.
+> These controllers do not support the Active NS ID List command and
+> behave identically to the SoC version judging by existing user
+> reports/syslogs, so will need the same fix. This quirk reverts
+> back to NVMe 1.0 behavior and disables the broken commands.
+>
+> Fixes: 811f4de0344d ("nvme: avoid fallback to sequential scan due to transient issues")
+> Signed-off-by: Hector Martin <marcan@marcan.st>
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- drivers/iommu/apple-dart.c | 206 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 201 insertions(+), 5 deletions(-)
+On T2 macbookpro16,1 with 6.2.0-rc3-00010-g69b41ac87e4a I had this in
+dmesg:
 
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index 396da83f2f9e..e9cbdb45448c 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -85,6 +85,62 @@
- #define DART_T8020_TTBR_ADDR_OFF 0
- #define DART_T8020_TTBR_SHIFT 12
- 
-+/* T8110 registers */
-+
-+#define DART_T8110_PARAMS3 0x08
-+#define DART_T8110_PARAMS3_PA_WIDTH GENMASK(29, 24)
-+#define DART_T8110_PARAMS3_VA_WIDTH GENMASK(21, 16)
-+#define DART_T8110_PARAMS3_VER_MAJ GENMASK(15, 8)
-+#define DART_T8110_PARAMS3_VER_MIN GENMASK(7, 0)
-+
-+#define DART_T8110_PARAMS4 0x0c
-+#define DART_T8110_PARAMS4_NUM_CLIENTS GENMASK(24, 16)
-+#define DART_T8110_PARAMS4_NUM_SIDS GENMASK(8, 0)
-+
-+#define DART_T8110_TLB_CMD              0x80
-+#define DART_T8110_TLB_CMD_BUSY         BIT(31)
-+#define DART_T8110_TLB_CMD_OP           GENMASK(10, 8)
-+#define DART_T8110_TLB_CMD_OP_FLUSH_ALL 0
-+#define DART_T8110_TLB_CMD_OP_FLUSH_SID 1
-+#define DART_T8110_TLB_CMD_STREAM       GENMASK(7, 0)
-+
-+#define DART_T8110_ERROR 0x100
-+#define DART_T8110_ERROR_STREAM GENMASK(27, 20)
-+#define DART_T8110_ERROR_CODE GENMASK(14, 0)
-+#define DART_T8110_ERROR_FLAG BIT(31)
-+
-+#define DART_T8110_ERROR_MASK 0x104
-+
-+#define DART_T8110_ERROR_READ_FAULT BIT(4)
-+#define DART_T8110_ERROR_WRITE_FAULT BIT(3)
-+#define DART_T8110_ERROR_NO_PTE BIT(3)
-+#define DART_T8110_ERROR_NO_PMD BIT(2)
-+#define DART_T8110_ERROR_NO_PGD BIT(1)
-+#define DART_T8110_ERROR_NO_TTBR BIT(0)
-+
-+#define DART_T8110_ERROR_ADDR_LO 0x170
-+#define DART_T8110_ERROR_ADDR_HI 0x174
-+
-+#define DART_T8110_PROTECT 0x200
-+#define DART_T8110_UNPROTECT 0x204
-+#define DART_T8110_PROTECT_LOCK 0x208
-+#define DART_T8110_PROTECT_TTBR_TCR BIT(0)
-+
-+#define DART_T8110_ENABLE_STREAMS  0xc00
-+#define DART_T8110_DISABLE_STREAMS 0xc20
-+
-+#define DART_T8110_TCR                  0x1000
-+#define DART_T8110_TCR_REMAP            GENMASK(11, 8)
-+#define DART_T8110_TCR_REMAP_EN         BIT(7)
-+#define DART_T8110_TCR_BYPASS_DAPF      BIT(2)
-+#define DART_T8110_TCR_BYPASS_DART      BIT(1)
-+#define DART_T8110_TCR_TRANSLATE_ENABLE BIT(0)
-+
-+#define DART_T8110_TTBR       0x1400
-+#define DART_T8110_TTBR_VALID BIT(0)
-+#define DART_T8110_TTBR_ADDR_OFF 2
-+#define DART_T8110_TTBR_SHIFT 14
-+
- #define DART_TCR(dart, sid) ((dart)->hw->tcr + ((sid) << 2))
- 
- #define DART_TTBR(dart, sid, idx) ((dart)->hw->ttbr + \
-@@ -93,7 +149,14 @@
- 
- struct apple_dart_stream_map;
- 
-+enum dart_type {
-+	DART_T8020,
-+	DART_T6000,
-+	DART_T8110,
-+};
-+
- struct apple_dart_hw {
-+	enum dart_type type;
- 	irqreturn_t (*irq_handler)(int irq, void *dev);
- 	int (*invalidate_tlb)(struct apple_dart_stream_map *stream_map);
- 
-@@ -150,6 +213,8 @@ struct apple_dart {
- 
- 	spinlock_t lock;
- 
-+	u32 ias;
-+	u32 oas;
- 	u32 pgsize;
- 	u32 num_streams;
- 	u32 supports_bypass : 1;
-@@ -331,6 +396,44 @@ apple_dart_t8020_hw_stream_command(struct apple_dart_stream_map *stream_map,
- 	return 0;
- }
- 
-+static int
-+apple_dart_t8110_hw_tlb_command(struct apple_dart_stream_map *stream_map,
-+				u32 command)
-+{
-+	struct apple_dart *dart = stream_map->dart;
-+	unsigned long flags;
-+	int ret = 0;
-+	int sid;
-+
-+	spin_lock_irqsave(&dart->lock, flags);
-+
-+	for_each_set_bit(sid, stream_map->sidmap, dart->num_streams) {
-+		u32 val = FIELD_PREP(DART_T8110_TLB_CMD_OP, command) |
-+			FIELD_PREP(DART_T8110_TLB_CMD_STREAM, sid);
-+		writel(val, dart->regs + DART_T8110_TLB_CMD);
-+
-+		ret = readl_poll_timeout_atomic(
-+			dart->regs + DART_T8110_TLB_CMD, val,
-+			!(val & DART_T8110_TLB_CMD_BUSY), 1,
-+			DART_STREAM_COMMAND_BUSY_TIMEOUT);
-+
-+		if (ret)
-+			break;
-+
-+	}
-+
-+	spin_unlock_irqrestore(&dart->lock, flags);
-+
-+	if (ret) {
-+		dev_err(stream_map->dart->dev,
-+			"busy bit did not clear after command %x for stream %d\n",
-+			command, sid);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int
- apple_dart_t8020_hw_invalidate_tlb(struct apple_dart_stream_map *stream_map)
- {
-@@ -338,6 +441,13 @@ apple_dart_t8020_hw_invalidate_tlb(struct apple_dart_stream_map *stream_map)
- 		stream_map, DART_T8020_STREAM_COMMAND_INVALIDATE);
- }
- 
-+static int
-+apple_dart_t8110_hw_invalidate_tlb(struct apple_dart_stream_map *stream_map)
-+{
-+	return apple_dart_t8110_hw_tlb_command(
-+		stream_map, DART_T8110_TLB_CMD_OP_FLUSH_SID);
-+}
-+
- static int apple_dart_hw_reset(struct apple_dart *dart)
- {
- 	u32 config;
-@@ -364,6 +474,9 @@ static int apple_dart_hw_reset(struct apple_dart *dart)
- 	/* clear any pending errors before the interrupt is unmasked */
- 	writel(readl(dart->regs + dart->hw->error), dart->regs + dart->hw->error);
- 
-+	if (dart->hw->type == DART_T8110)
-+		writel(0,  dart->regs + DART_T8110_ERROR_MASK);
-+
- 	return dart->hw->invalidate_tlb(&stream_map);
- }
- 
-@@ -479,8 +592,8 @@ static int apple_dart_finalize_domain(struct iommu_domain *domain,
- 
- 	pgtbl_cfg = (struct io_pgtable_cfg){
- 		.pgsize_bitmap = dart->pgsize,
--		.ias = 32,
--		.oas = dart->hw->oas,
-+		.ias = dart->ias,
-+		.oas = dart->oas,
- 		.coherent_walk = 1,
- 		.iommu_dev = dart->dev,
- 	};
-@@ -494,7 +607,7 @@ static int apple_dart_finalize_domain(struct iommu_domain *domain,
- 
- 	domain->pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
- 	domain->geometry.aperture_start = 0;
--	domain->geometry.aperture_end = DMA_BIT_MASK(32);
-+	domain->geometry.aperture_end = DMA_BIT_MASK(dart->ias);
- 	domain->geometry.force_aperture = true;
- 
- 	dart_domain->finalized = true;
-@@ -881,10 +994,49 @@ static irqreturn_t apple_dart_t8020_irq(int irq, void *dev)
- 	return IRQ_HANDLED;
- }
- 
-+static irqreturn_t apple_dart_t8110_irq(int irq, void *dev)
-+{
-+	struct apple_dart *dart = dev;
-+	const char *fault_name = NULL;
-+	u32 error = readl(dart->regs + DART_T8110_ERROR);
-+	u32 error_code = FIELD_GET(DART_T8110_ERROR_CODE, error);
-+	u32 addr_lo = readl(dart->regs + DART_T8110_ERROR_ADDR_LO);
-+	u32 addr_hi = readl(dart->regs + DART_T8110_ERROR_ADDR_HI);
-+	u64 addr = addr_lo | (((u64)addr_hi) << 32);
-+	u8 stream_idx = FIELD_GET(DART_T8110_ERROR_STREAM, error);
-+
-+	if (!(error & DART_T8110_ERROR_FLAG))
-+		return IRQ_NONE;
-+
-+	/* there should only be a single bit set but let's use == to be sure */
-+	if (error_code == DART_T8110_ERROR_READ_FAULT)
-+		fault_name = "READ FAULT";
-+	else if (error_code == DART_T8110_ERROR_WRITE_FAULT)
-+		fault_name = "WRITE FAULT";
-+	else if (error_code == DART_T8110_ERROR_NO_PTE)
-+		fault_name = "NO PTE FOR IOVA";
-+	else if (error_code == DART_T8110_ERROR_NO_PMD)
-+		fault_name = "NO PMD FOR IOVA";
-+	else if (error_code == DART_T8110_ERROR_NO_PGD)
-+		fault_name = "NO PGD FOR IOVA";
-+	else if (error_code == DART_T8110_ERROR_NO_TTBR)
-+		fault_name = "NO TTBR FOR IOVA";
-+	else
-+		fault_name = "unknown";
-+
-+	dev_err_ratelimited(
-+		dart->dev,
-+		"translation fault: status:0x%x stream:%d code:0x%x (%s) at 0x%llx",
-+		error, stream_idx, error_code, fault_name, addr);
-+
-+	writel(error, dart->regs + DART_T8110_ERROR);
-+	return IRQ_HANDLED;
-+}
-+
- static int apple_dart_probe(struct platform_device *pdev)
- {
- 	int ret;
--	u32 dart_params[2];
-+	u32 dart_params[4];
- 	struct resource *res;
- 	struct apple_dart *dart;
- 	struct device *dev = &pdev->dev;
-@@ -924,7 +1076,22 @@ static int apple_dart_probe(struct platform_device *pdev)
- 	dart->pgsize = 1 << FIELD_GET(DART_PARAMS1_PAGE_SHIFT, dart_params[0]);
- 	dart->supports_bypass = dart_params[1] & DART_PARAMS2_BYPASS_SUPPORT;
- 
--	dart->num_streams = dart->hw->max_sid_count;
-+	switch (dart->hw->type) {
-+	case DART_T8020:
-+	case DART_T6000:
-+		dart->ias = 32;
-+		dart->oas = dart->hw->oas;
-+		dart->num_streams = dart->hw->max_sid_count;
-+		break;
-+
-+	case DART_T8110:
-+		dart_params[2] = readl(dart->regs + DART_T8110_PARAMS3);
-+		dart_params[3] = readl(dart->regs + DART_T8110_PARAMS4);
-+		dart->ias = FIELD_GET(DART_T8110_PARAMS3_VA_WIDTH, dart_params[2]);
-+		dart->oas = FIELD_GET(DART_T8110_PARAMS3_PA_WIDTH, dart_params[2]);
-+		dart->num_streams = FIELD_GET(DART_T8110_PARAMS4_NUM_SIDS, dart_params[3]);
-+		break;
-+	}
- 
- 	if (dart->num_streams > DART_MAX_STREAMS) {
- 		dev_err(&pdev->dev, "Too many streams (%d > %d)\n",
-@@ -987,6 +1154,7 @@ static int apple_dart_remove(struct platform_device *pdev)
- }
- 
- static const struct apple_dart_hw apple_dart_hw_t8103 = {
-+	.type = DART_T8020,
- 	.irq_handler = apple_dart_t8020_irq,
- 	.invalidate_tlb = apple_dart_t8020_hw_invalidate_tlb,
- 	.oas = 36,
-@@ -1011,6 +1179,7 @@ static const struct apple_dart_hw apple_dart_hw_t8103 = {
- 	.ttbr_count = 4,
- };
- static const struct apple_dart_hw apple_dart_hw_t6000 = {
-+	.type = DART_T6000,
- 	.irq_handler = apple_dart_t8020_irq,
- 	.invalidate_tlb = apple_dart_t8020_hw_invalidate_tlb,
- 	.oas = 42,
-@@ -1035,6 +1204,32 @@ static const struct apple_dart_hw apple_dart_hw_t6000 = {
- 	.ttbr_count = 4,
- };
- 
-+static const struct apple_dart_hw apple_dart_hw_t8110 = {
-+	.type = DART_T8110,
-+	.irq_handler = apple_dart_t8110_irq,
-+	.invalidate_tlb = apple_dart_t8110_hw_invalidate_tlb,
-+	.fmt = APPLE_DART2,
-+	.max_sid_count = 256,
-+
-+	.enable_streams = DART_T8110_ENABLE_STREAMS,
-+	.disable_streams = DART_T8110_DISABLE_STREAMS,
-+	.lock = DART_T8110_PROTECT,
-+	.lock_bit = DART_T8110_PROTECT_TTBR_TCR,
-+
-+	.error = DART_T8110_ERROR,
-+
-+	.tcr = DART_T8110_TCR,
-+	.tcr_enabled = DART_T8110_TCR_TRANSLATE_ENABLE,
-+	.tcr_disabled = 0,
-+	.tcr_bypass = DART_T8110_TCR_BYPASS_DAPF | DART_T8110_TCR_BYPASS_DART,
-+
-+	.ttbr = DART_T8110_TTBR,
-+	.ttbr_valid = DART_T8110_TTBR_VALID,
-+	.ttbr_addr_off = DART_T8110_TTBR_ADDR_OFF,
-+	.ttbr_shift = DART_T8110_TTBR_SHIFT,
-+	.ttbr_count = 1,
-+};
-+
- static __maybe_unused int apple_dart_suspend(struct device *dev)
- {
- 	struct apple_dart *dart = dev_get_drvdata(dev);
-@@ -1076,6 +1271,7 @@ DEFINE_SIMPLE_DEV_PM_OPS(apple_dart_pm_ops, apple_dart_suspend, apple_dart_resum
- 
- static const struct of_device_id apple_dart_of_match[] = {
- 	{ .compatible = "apple,t8103-dart", .data = &apple_dart_hw_t8103 },
-+	{ .compatible = "apple,t8110-dart", .data = &apple_dart_hw_t8110 },
- 	{ .compatible = "apple,t6000-dart", .data = &apple_dart_hw_t6000 },
- 	{},
- };
--- 
-2.35.1
+nvme nvme0: 1/0/0 default/read/poll queues
+nvme nvme0: Identify NS List failed (status=0xb)
 
+And in /dev only nvme0 existed (no nvme0n1*).
+
+This patch fixed that and /dev/nvme0n1p* existed.
+
+Tested-by: Orlando Chamberlain <orlandoch.dev@gmail.com>
