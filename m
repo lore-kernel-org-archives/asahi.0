@@ -1,82 +1,225 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9ADA3C2B;
-	Wed,  4 Jan 2023 13:23:44 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 6B6C13200932;
-	Wed,  4 Jan 2023 08:23:43 -0500 (EST)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Wed, 04 Jan 2023 08:23:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1672838623; x=1672925023; bh=8u
-	HX+nCZK7LlNc0MfNr5rFJQuuJKrtCol6cwSt/LyQw=; b=cG+BY2KzlyYWUbtne/
-	VXUGtPLSspz0B27UIpaDk9jYF254S345Sdvsfi263UFUlHIlCaKRDEivTg+/FLkg
-	t4wd66LUAxlhTovAwTGJm1QDbizfnRKaI+oFjLNLKiE5SCWoU+v686dRGbRd+yZl
-	S6zbt/oehRSfGQGWaVv32INHjPwpijbVBLTNhyGIGWw/ut6z5wV6LRnJLdGagZV5
-	9EZiHeAHZWz/2qg/bFcRYfy3PHHzAjyNHwG6vGykgc893SnIFeT2RFJBD8PlDN2u
-	K8IalOZYiwhS6FRD4A5s9tPieXrQl2IvwucDpIA4j3XLk8LshF+Ht0DFhBl++Jol
-	P/iA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1672838623; x=1672925023; bh=8uHX+nCZK7LlNc0MfNr5rFJQuuJK
-	rtCol6cwSt/LyQw=; b=dLGRDPCOMP/TwUZtTg2q/HitiRGbr6G7kfFKuLqGi2+d
-	gEdaX2NYKbe0JgMIo1FbMu7GSPMBjQFjTkxvfYvyCtHUen9M/HgF30ApPX7t1Ag9
-	i/JBWIqjbs7184VxGwB9bxRrRs/YVEnW5NMkZXaspy91MnwdC26JND9a892M/ncc
-	YkBnjMAW7W/xxx5AIgwaserA6bYC48sUt2fdTyfh13Du/ITvNL1IAj4G+hoFOhKE
-	DuJDTtLJRIfa3ED3AZB3+fwkxqz0G6ms5lK2WIFt1aUWhwTfq+y4GOo37IgiqU/5
-	sWKW3Ir0K+DVj20bYRwIVkk3ghDOzTK5czUTGVlUwQ==
-X-ME-Sender: <xms:3n21Y5UWGN0mwBgX-i7HOivpb-iaIpp5N6yP6I_mDBb6aHe3fBGI5A>
-    <xme:3n21Y5mX3RbevceEexkBZj9GPNKiH-R4A26mgMiQbR0oPb5NKc68XAHhq1pSDc6Mc
-    IUUOFJ6ztYmh_Wsb_E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeeigdehudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
-    nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
-    htthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefghfei
-    veeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:3n21Y1Za-TgRMDRwshwfCl6nxYcS-c3VGAsvKHRW7HM7Aa4M9rFMCw>
-    <xmx:3n21Y8UmgGkeFzmgohmsoXk-_W7CM2oJNYplGTjCr0ytHlnlrimXIw>
-    <xmx:3n21YzlERd6GbIl-NKH1HIJEyJ6Pt51VoSXq39CliJ1rW92irWa5Jw>
-    <xmx:3321Y8dWWdSVtbMqzLSN6wgSNTjLzo3mRkbVhbG3nmyXzx-62FehrA>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 98036A6007C; Wed,  4 Jan 2023 08:23:42 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 923273C2B
+	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 13:29:52 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id s9so27135176qtx.6
+        for <asahi@lists.linux.dev>; Wed, 04 Jan 2023 05:29:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=/XrgDcnQ9Y5Fjshv0H1OMWL8zN13o7cRuPPWf7uPQ5A=;
+        b=H9brBbhtDkbFchG1cWSKqqUHnh84L7wcdbKpVPuS73s5vlenUmfHuMkJ6qU+kYdebJ
+         HnxnXeOt2Ajq2XolcbXhaso7ZcKd2p5U9H1Mbh27wEcBh8uhH/sJlTWpmjCH/zjicb1b
+         GGoxFxzMbrt4UGhQ+yk1ViInA13KedcJFJk9A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/XrgDcnQ9Y5Fjshv0H1OMWL8zN13o7cRuPPWf7uPQ5A=;
+        b=DIgb5acqrsVmJSVwjWIjZ2ecYGt7fObF7XNvXhHpP2DBFisypxMAsyWYPMAAjRX7Mp
+         qSVfA74B7otEabxh1ChiOWcsZbcy4RJljZxm5q+FB5r7dXFsttYDlvn/NFmSujoHpxcf
+         hi98kelcCqPvi0qx9v/9FGpvAVngI2Tx6T5+Ae+J9n7i5oDXT3+tG+jkT81MHGqWC96O
+         5xKhFKoweK0MTih9dmjqGxMlayBlw9xeazGS9lnrL8bb0jk57N8/mJNZ5BU4dSYJxdGV
+         +NhHjkuk2jqCxFXkclgdtrJqnBpcsDLSismjb8bKMJFwFZyk9+TFsEHe6m6/NIfzbBZl
+         /tyw==
+X-Gm-Message-State: AFqh2kr/B43MgcJihg8tq79Oy+9TFvNTq2GU0EnTPQkRb9ok1M24fxOc
+	FioaE93ewV+5kfmXNoSXG19BAQ==
+X-Google-Smtp-Source: AMrXdXuNrMeMmyT5Y9FM/S/OCcmLKsPp0s1of09EFulAWkHiFXCh+G07PMjOdFdATB84A+Xa0vjaAA==
+X-Received: by 2002:ac8:4454:0:b0:3a7:ffe6:dc60 with SMTP id m20-20020ac84454000000b003a7ffe6dc60mr68704759qtn.42.1672838991368;
+        Wed, 04 Jan 2023 05:29:51 -0800 (PST)
+Received: from [192.168.178.136] (f215227.upc-f.chello.nl. [80.56.215.227])
+        by smtp.gmail.com with ESMTPSA id h19-20020a05620a245300b006f9e103260dsm24039232qkn.91.2023.01.04.05.29.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Jan 2023 05:29:50 -0800 (PST)
+Message-ID: <6517b791-1700-970d-ac0a-847f60a6fa6f@broadcom.com>
+Date: Wed, 4 Jan 2023 14:29:44 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <a084b6d4-0167-4ae0-8397-f591809b628e@app.fastmail.com>
-In-Reply-To: <20230104110013.24738-6-marcan@marcan.st>
-References: <20230104110013.24738-1-marcan@marcan.st>
- <20230104110013.24738-6-marcan@marcan.st>
-Date: Wed, 04 Jan 2023 14:23:22 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Hector Martin" <marcan@marcan.st>, "Joerg Roedel" <joro@8bytes.org>,
- "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>
-Cc: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, "Janne Grunau" <j@jannau.net>,
- "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, iommu@lists.linux.dev, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/7] iommu: dart: Fix DART_PARAMS1/2 bit define names
-Content-Type: text/plain
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v1 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
+To: Hector Martin <marcan@marcan.st>, Arend van Spriel <aspriel@gmail.com>,
+ Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Alexander Prutskov <alep@cypress.com>,
+ Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+ Wright Feng <wright.feng@cypress.com>, Ian Lin <ian.lin@infineon.com>,
+ Soontak Lee <soontak.lee@cypress.com>, Joseph chuang <jiac@cypress.com>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ asahi@lists.linux.dev, linux-wireless@vger.kernel.org,
+ brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230104100116.729-1-marcan@marcan.st>
+ <20230104100116.729-2-marcan@marcan.st>
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+In-Reply-To: <20230104100116.729-2-marcan@marcan.st>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000de723605f1702da4"
 
-On Wed, Jan 4, 2023, at 12:00, Hector Martin wrote:
-> They didn't have the PARAMS reg index in them, but they should.
->
+--000000000000de723605f1702da4
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 1/4/2023 11:01 AM, 'Hector Martin' via BRCM80211-DEV-LIST,PDL wrote:
+> The commit that introduced support for this chip incorrectly claimed it
+> is a Cypress-specific part, while in actuality it is just a variant of
+> BCM4355 silicon (as evidenced by the chip ID).
+> 
+> The relationship between Cypress products and Broadcom products isn't
+> entirely clear, but given what little information is available and prior
+> art in the driver, it seems the convention should be that originally
+> Broadcom parts should retain the Broadcom name.
+> 
+> Thus, rename the relevant constants and firmware file. Also rename the
+> specific 89459 PCIe ID to BCM43596, which seems to be the original
+> subvariant name for this PCI ID (as defined in the out-of-tree bcmdhd
+> driver). Also declare the firmware as CLM-capable, since it is.
+> 
+> Fixes: dce45ded7619 ("brcmfmac: Support 89459 pcie")
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 > ---
+>   drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c   | 5 ++---
+>   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c   | 8 ++++----
+>   .../net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h | 6 +++---
+>   3 files changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
+> index 121893bbaa1d..3e42c2bd0d9a 100644
+> --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
+> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
 
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
+[...]
+
+> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
+> index ae57a9a3ab05..3264be485e20 100644
+> --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
+> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
+
+[...]
+
+> @@ -2590,6 +2590,7 @@ static const struct pci_device_id brcmf_pcie_devid_table[] = {
+>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_4350_DEVICE_ID, WCC),
+>   	BRCMF_PCIE_DEVICE_SUB(0x4355, BRCM_PCIE_VENDOR_ID_BROADCOM, 0x4355, WCC),
+>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_4354_RAW_DEVICE_ID, WCC),
+> +	BRCMF_PCIE_DEVICE(BRCM_PCIE_4355_RAW_DEVICE_ID, WCC),
+
+A bit of a problem here. If Cypress want to support this device, 
+regardless how they branded it, they will provide its firmware. Given 
+that they initially added it (as 89459) I suppose we should mark it with 
+CYW and not WCC. Actually, see my comment below on RAW dev ids.
+
+>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_4356_DEVICE_ID, WCC),
+>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_43567_DEVICE_ID, WCC),
+>   	BRCMF_PCIE_DEVICE(BRCM_PCIE_43570_DEVICE_ID, WCC),
+
+[...]
+
+> diff --git a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
+> index f4939cf62767..cacc43db86eb 100644
+> --- a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
+> +++ b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
+
+[...]
+
+> @@ -72,6 +72,7 @@
+>   #define BRCM_PCIE_4350_DEVICE_ID	0x43a3
+>   #define BRCM_PCIE_4354_DEVICE_ID	0x43df
+>   #define BRCM_PCIE_4354_RAW_DEVICE_ID	0x4354
+> +#define BRCM_PCIE_4355_RAW_DEVICE_ID	0x4355
+
+I would remove all RAW device ids. These should not be observed outside 
+chip vendor walls.
+
+
+--000000000000de723605f1702da4
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
+Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
+HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
+Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
+KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
+Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
+dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
+OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
+MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
+BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
+ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
+zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
+sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
+BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
+N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
+p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
+YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
+bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAIVHihwhv8QwZDb6lx
+Sf3r6MjuRDnVvT4ZaadIgsubNzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
+BTEPFw0yMzAxMDQxMzI5NTFaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
+AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
+BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAYw91bCKvbqjn+ckD993a+Wj3DKrjru9Oyy2+
+Jzl7dRdqmTMxbHbKYYErsXscbvT904qdUynOANmT0g1Du/coflmtyTlL2F2S/yW0GqDHhpp6Vx++
+sj9qGu5Jh88+7kFfM1pz/Ba1TnWGtUBECA66DI9BKSZg5mgp80tjqmWnP1lZ4S964th4v667gxsq
+QZraT1xFfSYtAgXtBKJM0atsMBLx39pR9o1EyaQv5uLyM83SlWg/LFRfEXLO2ObKDfNBsYdTpeXA
+cd/BpybmycXb/hSg0qsQ4FHXu+T0qfPk0KGfI3HxLGKaKXiky9Tpx2EdY2pTNzgIy4K53Mc1DNkN
+qg==
+--000000000000de723605f1702da4--
