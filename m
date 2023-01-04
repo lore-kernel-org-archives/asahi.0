@@ -1,55 +1,41 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D497EA
-	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 10:04:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C957EA
+	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 10:17:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id BD67D3FB17;
-	Wed,  4 Jan 2023 10:03:56 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id A8A6B3FB17;
+	Wed,  4 Jan 2023 10:17:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1672826642; bh=mOkwVVJsiF2o68VapbxsbLp3kJIi/NRtPGVxBs/LkVY=;
+	t=1672827438; bh=MLdyNUGqhsrRED5hjRcjh0VIn12dU5ghryHGCfnHNXo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=tduLWqcuVmmegdi78Vufu0LCcxOzMpvUVRexGQ6cqOQfGC8bcgvy6t1xgGwOB5i4a
-	 V+0KKlGdeM6OH1gl5YQeg1Wt9433ni6phTfsuRA2G9NUflHxyVCqzBFQ3++chO2rx8
-	 OK1uNaUp9/5Si2kculkTLn/JjPw924yAvKpWMg4y5CgV8MGCtxG9UFsn4drCl1OTI0
-	 iMByomQr/Z60wT2S4ahgcTRYuZ/wuN7IUCdJjmXv5Ev0UrAB2VpmRUm+PSrZfW9MTz
-	 Nqhq11L0WLTaVkYj2oI8+sVO8cOpA2AhkTRZyxnWENXB30bcaA61+qP48RkmyoE7uy
-	 QaO+EmRYL/lUw==
+	b=SRK2pJSe8FIQQ802ij/JBfeeRQR9w0uoN/kMMc6Z90lZUZ2yWsK0JP1YbkyOUupWn
+	 bOwUplD5+or6TeojFIlOB8/WrzpsBw7vwbFkNGectMMX2UKX3l5J298llbVGubvlVT
+	 j3Vzf7wwisCsBsc//+VIB5MSEIAj84SNCisk+hiLKBUsUj172bBEIFDGN+r3r8dd1Q
+	 +Jtu7soMD7JaSIkpqJB5gpzFhBaNDo2+RnLGguThHgc43kcBcLvjI+f52sYwJc7Fkl
+	 4Exgw0TwnQOFaOnA1vsUMht1fUT0yYkz9V4uBu+j0FanBrtU1uVj094IgHEq/FAeBi
+	 H4fBMYHakRcLA==
 From: Hector Martin <marcan@marcan.st>
-To: Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Alexander Prutskov <alep@cypress.com>,
-	Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
-	Wright Feng <wright.feng@cypress.com>,
-	Ian Lin <ian.lin@infineon.com>,
-	Soontak Lee <soontak.lee@cypress.com>,
-	Joseph chuang <jiac@cypress.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+To: Sven Peter <sven@svenpeter.dev>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@fb.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Uday Shankar <ushankar@purestorage.com>,
 	asahi@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
-	brcm80211-dev-list.pdl@broadcom.com,
-	SHA-cyfmac-dev-list@infineon.com,
-	netdev@vger.kernel.org,
+	linux-nvme@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v1 4/4] brcmfmac: pcie: Perform correct BCM4364 firmware selection
-Date: Wed,  4 Jan 2023 19:01:16 +0900
-Message-Id: <20230104100116.729-5-marcan@marcan.st>
+	Hector Martin <marcan@marcan.st>
+Subject: [PATCH] nvme-pci: Add NVME_QUIRK_IDENTIFY_CNS quirk to Apple T2 controllers
+Date: Wed,  4 Jan 2023 19:16:42 +0900
+Message-Id: <20230104101641.12215-1-marcan@marcan.st>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230104100116.729-1-marcan@marcan.st>
-References: <20230104100116.729-1-marcan@marcan.st>
+In-Reply-To: <20230104092148.15578-1-marcan@marcan.st>
+References: <20230104092148.15578-1-marcan@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -58,75 +44,46 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This chip exists in two revisions (B2=r3 and B3=r4) on different
-platforms, and was added without regard to doing proper firmware
-selection or differentiating between them. Fix this to have proper
-per-revision firmwares and support Apple NVRAM selection.
+This mirrors the quirk added to Apple Silicon controllers in apple.c.
+These controllers do not support the Active NS ID List command and
+behave identically to the SoC version judging by existing user
+reports/syslogs, so will need the same fix. This quirk reverts
+back to NVMe 1.0 behavior and disables the broken commands.
 
-Revision B2 is present on at least these Apple T2 Macs:
-
-kauai:    MacBook Pro 15" (Touch/2018-2019)
-maui:     MacBook Pro 13" (Touch/2018-2019)
-lanai:    Mac mini (Late 2018)
-ekans:    iMac Pro 27" (5K, Late 2017)
-
-And these non-T2 Macs:
-
-nihau:    iMac 27" (5K, 2019)
-
-Revision B3 is present on at least these Apple T2 Macs:
-
-bali:     MacBook Pro 16" (2019)
-trinidad: MacBook Pro 13" (2020, 4 TB3)
-borneo:   MacBook Pro 16" (2019, 5600M)
-kahana:   Mac Pro (2019)
-kahana:   Mac Pro (2019, Rack)
-hanauma:  iMac 27" (5K, 2020)
-kure:     iMac 27" (5K, 2020, 5700/XT)
-
-Fixes: 24f0bd136264 ("brcmfmac: add the BRCM 4364 found in MacBook Pro 15,2")
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Fixes: 811f4de0344d ("nvme: avoid fallback to sequential scan due to transient issues")
 Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- .../net/wireless/broadcom/brcm80211/brcmfmac/pcie.c   | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/nvme/host/pci.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-index c203f14343d3..65e0604c0c42 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-@@ -57,7 +57,8 @@ BRCMF_FW_CLM_DEF(4356, "brcmfmac4356-pcie");
- BRCMF_FW_CLM_DEF(43570, "brcmfmac43570-pcie");
- BRCMF_FW_DEF(4358, "brcmfmac4358-pcie");
- BRCMF_FW_DEF(4359, "brcmfmac4359-pcie");
--BRCMF_FW_DEF(4364, "brcmfmac4364-pcie");
-+BRCMF_FW_CLM_DEF(4364B2, "brcmfmac4364b2-pcie");
-+BRCMF_FW_CLM_DEF(4364B3, "brcmfmac4364b3-pcie");
- BRCMF_FW_DEF(4365B, "brcmfmac4365b-pcie");
- BRCMF_FW_DEF(4365C, "brcmfmac4365c-pcie");
- BRCMF_FW_DEF(4366B, "brcmfmac4366b-pcie");
-@@ -88,7 +89,8 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
- 	BRCMF_FW_ENTRY(BRCM_CC_43570_CHIP_ID, 0xFFFFFFFF, 43570),
- 	BRCMF_FW_ENTRY(BRCM_CC_4358_CHIP_ID, 0xFFFFFFFF, 4358),
- 	BRCMF_FW_ENTRY(BRCM_CC_4359_CHIP_ID, 0xFFFFFFFF, 4359),
--	BRCMF_FW_ENTRY(BRCM_CC_4364_CHIP_ID, 0xFFFFFFFF, 4364),
-+	BRCMF_FW_ENTRY(BRCM_CC_4364_CHIP_ID, 0x0000000F, 4364B2), /* 3 */
-+	BRCMF_FW_ENTRY(BRCM_CC_4364_CHIP_ID, 0xFFFFFFF0, 4364B3), /* 4 */
- 	BRCMF_FW_ENTRY(BRCM_CC_4365_CHIP_ID, 0x0000000F, 4365B),
- 	BRCMF_FW_ENTRY(BRCM_CC_4365_CHIP_ID, 0xFFFFFFF0, 4365C),
- 	BRCMF_FW_ENTRY(BRCM_CC_4366_CHIP_ID, 0x0000000F, 4366B),
-@@ -2003,6 +2005,11 @@ static int brcmf_pcie_read_otp(struct brcmf_pciedev_info *devinfo)
- 		base = 0x8c0;
- 		words = 0xb2;
- 		break;
-+	case BRCM_CC_4364_CHIP_ID:
-+		coreid = BCMA_CORE_CHIPCOMMON;
-+		base = 0x8c0;
-+		words = 0x1a0;
-+		break;
- 	case BRCM_CC_4377_CHIP_ID:
- 	case BRCM_CC_4378_CHIP_ID:
- 		coreid = BCMA_CORE_GCI;
--- 
+Note: this is untested (since probably nobody with a T2 is running
+6.2 RCs yet), but given that these controllers share the same firmware
+codebase and some other quirks, it is almost certain they regressed
+just like the M1/M2 controllers did. Existing syslogs from T2 machines
+show the same errors we were getting on M1/M2 prior to the regression,
+which points to them having the same issue of treating CNS as a binary
+flag as in NVMe 1.0 all along.
+
+Sven has asked some of the T2 folks if they can test a 6.2 RC to verify
+the same regression happened, so hopefully we can get confirmation that
+this needs fixing (and the fix works), but if we end up getting no
+feedback I'd lean towards just getting this applied as a fix since it's
+unlikely to break anything and highly likely to fix a regression.
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b13baccedb4a..91f8adcf6056 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -3495,7 +3495,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_SINGLE_VECTOR |
+ 				NVME_QUIRK_128_BYTES_SQES |
+ 				NVME_QUIRK_SHARED_TAGS |
+-				NVME_QUIRK_SKIP_CID_GEN },
++				NVME_QUIRK_SKIP_CID_GEN |
++				NVME_QUIRK_IDENTIFY_CNS },
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ 0, }
+ };
+--
 2.35.1
 
