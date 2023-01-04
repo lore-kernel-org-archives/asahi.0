@@ -1,262 +1,109 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8367EA
-	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 09:32:41 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id x22so81111413ejs.11
-        for <asahi@lists.linux.dev>; Wed, 04 Jan 2023 01:32:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=i+5Y33hrVcMwJCwj+9vjIukFzbpKv+CjzHXB99G4vZ0=;
-        b=S7buxxByxi0xPWYjqdnmUjwMxjbZPjWo1pEjxoZCwRNNwVPwOgb/nbdoLcxe/Yb1Ys
-         UjFFdzZXLWYLKHSNqKKDelwBAMUvxbTLKf8BvLxq+ul9p4a1KGZK4hv6iEjC88d3ny33
-         zycHS37eU0AQuJOAUSEWmT9Msd7x5jZnDU/Q0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i+5Y33hrVcMwJCwj+9vjIukFzbpKv+CjzHXB99G4vZ0=;
-        b=lvvuGjk/7jeDUrwpkKfHuu0NM6Vyw78xSmAQSXrlbOS6u0I4zxcUkqxlY7E1R+X7tn
-         f0fzxB3TzPOmoJ7GdNJvK8W4C+KA4sok/ZOFJ3cHnctv8zMRCT1qe86Fg+kmvZYRLkkp
-         wjuHGoXVSEy3zI8snEFjgbCWozcx95fDqgocyFp1fXBdvW1QyHDReBn8FPq52w0cOHo/
-         06tCltdeWlWzKAZVqdwxp0D6lANYiXDudX6/frBh81nLYiKAHCsKlFb67yfgQl8vo2sF
-         Pa+XX39yV5Mtaf/9HUk+LW9LY9CaCXv7iiGvyLKo/XCTqu660D3kkDpyOnblLmVxVkvU
-         3DrA==
-X-Gm-Message-State: AFqh2kqbU5LFHuFRNStqZRQuvzKQrRZs6X3Oi1KaH77+eFsIivikBeMR
-	TmqKOAK4C+QA8L5dyDPxa1hBTQ==
-X-Google-Smtp-Source: AMrXdXtxhFnRA3NF/aw4uJjfwhQY0FgQ4qJT5QmjPqPIYGGoPmusQEOeXQvSaRIj0TaT5JQl1QBNpg==
-X-Received: by 2002:a17:906:6d8:b0:844:79b1:ab36 with SMTP id v24-20020a17090606d800b0084479b1ab36mr40859169ejb.25.1672824759583;
-        Wed, 04 Jan 2023 01:32:39 -0800 (PST)
-Received: from [192.168.178.136] (f215227.upc-f.chello.nl. [80.56.215.227])
-        by smtp.gmail.com with ESMTPSA id l9-20020a1709063d2900b0084cc121f49esm4047808ejf.83.2023.01.04.01.32.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Jan 2023 01:32:38 -0800 (PST)
-Message-ID: <789c15e4-545c-21f9-70fa-517788df55d1@broadcom.com>
-Date: Wed, 4 Jan 2023 10:32:36 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBAE7EA
+	for <asahi@lists.linux.dev>; Wed,  4 Jan 2023 09:34:23 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 562095C0160;
+	Wed,  4 Jan 2023 04:34:22 -0500 (EST)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Wed, 04 Jan 2023 04:34:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1672824862; x=1672911262; bh=f+
+	jnYbjKkcGa4orSRr51wlvhbjDUTHP0WzFeB65hkKI=; b=XG5NsyuO5oIi9m1QsA
+	aY1Tifw8aYg4xPf4tW/3vDfkF8crVHQWlU3GMese8JGmxh4btldiJkF8zCpO4+45
+	wKv3Kim21Jf626pw253t1bE8b97E8g2wkaAWl69LaciDDgifoiGRgD/XNVQrFVLb
+	hpUXVt2Gn9dU2lWBqK24a7+Z3fiy3LcPAWDAvfMQ148SZHBJHUkkXZ7RMmWp9f4U
+	kQFy/+9VIoe7UUFEiwuxSg2RkNE25A5JbE8a8w417pZzQ0wR7cKUUjnrO6z/ZO2i
+	4o4Qo9dALfqOMfYOIsTjbCRZimHjkiZe4Kjzm5ev1B2CAsT8PmPlQ0/xEGQPxZEG
+	Sfug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1672824862; x=1672911262; bh=f+jnYbjKkcGa4orSRr51wlvhbjDU
+	THP0WzFeB65hkKI=; b=X9HDDIpQ6rdXzpKDkUqkDg4BwR//zGRYNT97c6euphFs
+	eg1IA6ZNfrKHAph5rEnoQ83b8G5bjQqe2q87R2SYAK09D5BXMgb6v7eBU+pbzF4K
+	w01CuktLPTkTjOFtbz2hkpYR2iRPcpKRSsekQDo74iu3Ap+/DqPpXK/TcFFPekyk
+	g5bGbKQAuayq+lequ8QAaWyUV3xgoVUz7JEiruLWZixeAqJY07J3B6czpkLzTa3I
+	O/XUi1PMnQxZLBzxfDDzYXey5ENO7pqO15tyh5XhgJtAwf6w8wxbK2eF94tQ0/lr
+	A/l4SiBS2xmFKTM2E4gXBlaK3epfMAjzRlh10tbKAA==
+X-ME-Sender: <xms:HUi1Y4XhYXXBcbBDl9iCGnVqmEdVGBv9EYfCGodu_OcnKdYHMtbP6Q>
+    <xme:HUi1Y8mf3G_teSr0zZvmsefl-rrPmm6tpop0DiSspSiyOVtjP2A6IWxBH0HdMxYbq
+    Wv7u0CzOHhwvyeCSX8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeeigddthecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
+    nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
+    htthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefghfei
+    veeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:HUi1Y8b2KmsTy8rJZLYL2jOoxLSnBIyqE2Zhg0Lbu5f8Srk_093IAQ>
+    <xmx:HUi1Y3VibLJXKJadKqOx8iRkDaQRpyrRecjazKFuJZOH7JH9rzZo9g>
+    <xmx:HUi1YynOus5-FknWgCrKDQ1N5m6-5UsXDtNePGAIqLlmtGMeJyAmEg>
+    <xmx:Hki1Y84cPdVHRbVURSxp-KFAjuwaEUWj7q8sM8q4m6IYcqQrTjerWQ>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C501AA6007C; Wed,  4 Jan 2023 04:34:21 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 1/2] brcmfmac: Use separate struct to declare firmware
- names for Apple OTP chips
-To: Hector Martin <marcan@marcan.st>, Aditya Garg <gargaditya08@live.com>,
- aspriel@gmail.com, hante.meuleman@broadcom.com, kvalo@kernel.org,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, lina@asahilina.net, franky.lin@broadcom.com
-Cc: Orlando Chamberlain <redecorating@protonmail.com>,
- brcm80211-dev-list@broadcom.com, brcm80211-dev-list.pdl@broadcom.com,
- linux-wireless@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Asahi Linux <asahi@lists.linux.dev>
-References: <F8829A7C-909E-4A1F-A22C-668220C5C06D@live.com>
- <f36dd8e3-9905-f04a-ed34-4be91ed1fec6@marcan.st>
- <F9EFCCD1-4407-42CC-8316-2F58AAC1AE7F@live.com>
- <ACC0D1F6-7857-4FF0-A474-4EC699572E1B@live.com>
- <9c5bdb0a-0877-ed16-f09f-164a9dab16d4@marcan.st>
- <18573bd1a38.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <3785835b-164b-28d1-6905-85454cabb69d@marcan.st>
- <6b30559d-9bcc-f3b3-d9b2-2406e9a044b7@broadcom.com>
- <3659477c-c822-c5d6-868c-ba40c5a80be6@marcan.st>
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-In-Reply-To: <3659477c-c822-c5d6-868c-ba40c5a80be6@marcan.st>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000957c3805f16cdd47"
+Mime-Version: 1.0
+Message-Id: <548661c9-165c-495b-b12a-ab25e92ece63@app.fastmail.com>
+In-Reply-To: <20230104092148.15578-1-marcan@marcan.st>
+References: <20230104092148.15578-1-marcan@marcan.st>
+Date: Wed, 04 Jan 2023 10:33:56 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Hector Martin" <marcan@marcan.st>, "Keith Busch" <kbusch@kernel.org>,
+ "axboe@fb.com" <axboe@fb.com>, "hch@lst.de" <hch@lst.de>,
+ "sagi@grimberg.me" <sagi@grimberg.me>
+Cc: "Uday Shankar" <ushankar@purestorage.com>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvme-apple: Add NVME_QUIRK_IDENTIFY_CNS quirk to fix regression
+Content-Type: text/plain
 
---000000000000957c3805f16cdd47
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi,
 
-On 1/3/2023 2:46 PM, Hector Martin wrote:
-> On 03/01/2023 22.30, Arend van Spriel wrote:
->> On 1/3/2023 4:55 AM, Hector Martin wrote:
->>> On 2023/01/03 3:27, Arend Van Spriel wrote:
->>>> On January 2, 2023 4:15:41 PM Hector Martin <marcan@marcan.st> wrote:
->>>>
->>>>> On 02/01/2023 23.40, Aditya Garg wrote:
->>>>>> From: Aditya Garg <gargaditya08@live.com>
->>>>>>
->>>>>> Commit 'dce45ded7619' added support for 89459 chip pcie device. It uses the
->>>>>> BRCM4355 chip which is also found in Apple hardware. However this commit
->>>>>> causes conflicts in the firmware naming between Apple hardware, which
->>>>>> supports OTP and other non-Apple hardwares. So, this patch makes these
->>>>>> Apple chips use their own firmware table so as to avoid possible conflicts
->>>>>> like these in the future.
->>>>>
->>>>> I think my reply to Arend flew over your head.
->>>>>
->>>>> My point was that I'd rather have the Broadcom/Cypress people actually
->>>>> answer my question so we can figure out how to do this *properly*,
->>>>> instead of doing "safer-but-dumb" things (like this patch) because we
->>>>> just don't have the information to do it properly.
->>>>
->>>> Fair enough. Can you accurately (re)state your question and I will try to
->>>> answer it.
->>>
->>> As per my original email: Is the CYW89459 just a rebrand of the BCM4355,
->>> or just a subset? Can we consider them equivalent, and equivalent to the
->>> Apple part (BCM4355C1 / revision 12)?
->>
->> There is probably no easy answer. Mainly because Cypress is a separate
->> entity. However, they use the same/similar technology and code base. So
->> let me first start with the chip naming. The wifi chip primarily has a
->> number and revision. The chip number is straighforward and can be read
->> from the device. The chip revision comes in two variants: 1) simple
->> increasing number as read from the device, and 2) a <letter><digit>
->> format. The latter start at a0, which you almost never see in the wild
->> unless we do it "first time right". Whenever spinning a new chip we
->> either increase the digit or the letter depending on type/amount of
->> changes. There is not predictable mapping between the revision variants.
->> Depending on the hurdles in a chip project we may move from a0 to b0, or
->> from b0 to b1 or whatever.
-> 
-> Right, this is standard chip spin numbering, that much I know.
-> 
->> If CYW89459 chip reads chip number 0x4355 than it is a BCM4355. If it is
->> a different revision it may require different firmware. A different
->> letter will always require different firmware. A different digit may
->> work although the firmware can have code paths for a specific revision.
-> 
-> So is it always correct to have the same firmware (in a generic
-> situation, not a customized OEM build) for, say, a BCM4355 rev 12,
-> regardless of what the PCI ID programmed into the OTP is (and what the
-> marketing device name is)?
 
-Yes.
+On Wed, Jan 4, 2023, at 10:21, Hector Martin wrote:
+> From the get-go, this driver and the ANS syslog have been complaining
+> about namespace identification. In 6.2-rc1, commit 811f4de0344d ("nvme:
+> avoid fallback to sequential scan due to transient issues") regressed
+> the driver by no longer allowing fallback to sequential namespace scans,
+> leaving us with no namespaces.
+>
+> It turns out that the real problem is that this controller claiming
+> NVMe 1.1 compat is treating the CNS field as a binary field, as in NVMe
+> 1.0. This already has a quirk, NVME_QUIRK_IDENTIFY_CNS, so set it for
+> the controller to fix all this nonsense (including other errors
+> triggered by other CNS commands).
+>
+> Fixes: 811f4de0344d ("nvme: avoid fallback to sequential scan due to 
+> transient issues")
+> Fixes: 5bd2927aceba ("nvme-apple: Add initial Apple SoC NVMe driver")
+> Signed-off-by: Hector Martin <marcan@marcan.st>
 
-> If so, then my conclusion is that the original patch I replied to is
-> incorrect, all the defines should've been called BCM4355 (not the
-> Cypress part number), and we probably need two firmware table entries
-> since (judging by the revision check elsewhere in that patch) there are
-> other revisions in the wild than the one Apple uses, and therefore there
-> should at the very least be a firmware name split at C1. It would then
-> be very helpful to know what revisions *do* exist and their correct naming.
+Nice, I've been meaning to look into those weird namespace scanning errors
+for a while now but never got around to it because they didn't break anything.
 
-I can only track down what we have in Broadcom. For the 4355 the 
-revisions B1 (=6), B3 (=8), C0 (=10) and C1 are mentioned as released. 
-Here things get weird, because you mentioned BCM4355 rev12, which would 
-be a C2. So without asking around I can only assume this C2 variant is 
-not different from firmware perspective and can happily run the C1 firmware.
+There's a chance this is also required for the later T2/x86 Macs in pci.c
+(PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2005)) since they share a similar firmware but
+I don't have access to those to test if this is actually required.
 
-> If different PCI device IDs might need different firmware, then the
-> exiting firmware selection/table mechanism is insufficient.
-> 
->> Happy New year to you. Thanks for clearly marking the rant. Makes it
->> easier to ignore, but let me get into this. I would not call bcmdhd the
->> downstream driver. It is a separate out-of-tree driver. Indeed resources
->> were pulled from brcm80211 development, but there always have been only
->> 2 or 3 people working on it. Me being the constant working mule and
->> these days only for 20% of my working hours to do the job. So you are
->> not really doing our job as we are not assigned to do so. I guess there
->> is no ROI for Broadcom or so it is perceived and there is no customer
->> pushing for it. That said I am always happy to help and clarify whatever
->> I can.
-> 
-> Is there any chance you can provide a list of chips/shipping revisions
-> and revision IDs, so we can stop guessing at the mappings in the
-> firmware table? Because this is effectively breaking userspace ABI every
-> time we make a change to an existing chip, as it can change the firmware
-> file name that userspace loads. This already happened with BCM4364,
-> where (at least) B2 and B3 revisions exist in the wild and we need
-> separate firmwares, yet it was added with a full mask, resulting in
-> people copying "the right firmware for them" manually and my patch to
-> split it into properly named firmwares will break those users.
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
-Userspace is not loading anything these days. AFAIK the kernel is 
-directly accessing the firmware file. Anyway, I never considered this as 
-being a big issue. If people change their installed os to get things 
-working, they can expect the reverse can happen anytime and deal with it 
-once more. If this is considered a real issue we should only set the 
-revmask for the revision we know to be working.
 
-Regards,
-Arend
 
---000000000000957c3805f16cdd47
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+Best,
 
-MIIQdwYJKoZIhvcNAQcCoIIQaDCCEGQCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-gg3OMIIFDTCCA/WgAwIBAgIQeEqpED+lv77edQixNJMdADANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA5MTYwMDAwMDBaFw0yODA5MTYwMDAwMDBaMFsxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBS
-MyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA
-vbCmXCcsbZ/a0fRIQMBxp4gJnnyeneFYpEtNydrZZ+GeKSMdHiDgXD1UnRSIudKo+moQ6YlCOu4t
-rVWO/EiXfYnK7zeop26ry1RpKtogB7/O115zultAz64ydQYLe+a1e/czkALg3sgTcOOcFZTXk38e
-aqsXsipoX1vsNurqPtnC27TWsA7pk4uKXscFjkeUE8JZu9BDKaswZygxBOPBQBwrA5+20Wxlk6k1
-e6EKaaNaNZUy30q3ArEf30ZDpXyfCtiXnupjSK8WU2cK4qsEtj09JS4+mhi0CTCrCnXAzum3tgcH
-cHRg0prcSzzEUDQWoFxyuqwiwhHu3sPQNmFOMwIDAQABo4IB2jCCAdYwDgYDVR0PAQH/BAQDAgGG
-MGAGA1UdJQRZMFcGCCsGAQUFBwMCBggrBgEFBQcDBAYKKwYBBAGCNxQCAgYKKwYBBAGCNwoDBAYJ
-KwYBBAGCNxUGBgorBgEEAYI3CgMMBggrBgEFBQcDBwYIKwYBBQUHAxEwEgYDVR0TAQH/BAgwBgEB
-/wIBADAdBgNVHQ4EFgQUljPR5lgXWzR1ioFWZNW+SN6hj88wHwYDVR0jBBgwFoAUj/BLf6guRSSu
-TVD6Y5qL3uLdG7wwegYIKwYBBQUHAQEEbjBsMC0GCCsGAQUFBzABhiFodHRwOi8vb2NzcC5nbG9i
-YWxzaWduLmNvbS9yb290cjMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5j
-b20vY2FjZXJ0L3Jvb3QtcjMuY3J0MDYGA1UdHwQvMC0wK6ApoCeGJWh0dHA6Ly9jcmwuZ2xvYmFs
-c2lnbi5jb20vcm9vdC1yMy5jcmwwWgYDVR0gBFMwUTALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgEo
-CjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAN
-BgkqhkiG9w0BAQsFAAOCAQEAdAXk/XCnDeAOd9nNEUvWPxblOQ/5o/q6OIeTYvoEvUUi2qHUOtbf
-jBGdTptFsXXe4RgjVF9b6DuizgYfy+cILmvi5hfk3Iq8MAZsgtW+A/otQsJvK2wRatLE61RbzkX8
-9/OXEZ1zT7t/q2RiJqzpvV8NChxIj+P7WTtepPm9AIj0Keue+gS2qvzAZAY34ZZeRHgA7g5O4TPJ
-/oTd+4rgiU++wLDlcZYd/slFkaT3xg4qWDepEMjT4T1qFOQIL+ijUArYS4owpPg9NISTKa1qqKWJ
-jFoyms0d0GwOniIIbBvhI2MJ7BSY9MYtWVT5jJO3tsVHwj4cp92CSFuGwunFMzCCA18wggJHoAMC
-AQICCwQAAAAAASFYUwiiMA0GCSqGSIb3DQEBCwUAMEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9v
-dCBDQSAtIFIzMRMwEQYDVQQKEwpHbG9iYWxTaWduMRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTA5
-MDMxODEwMDAwMFoXDTI5MDMxODEwMDAwMFowTDEgMB4GA1UECxMXR2xvYmFsU2lnbiBSb290IENB
-IC0gUjMxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzARBgNVBAMTCkdsb2JhbFNpZ24wggEiMA0GCSqG
-SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJXaQeQZ4Ihb1wIO2hMoonv0FdhHFrYhy/EYCQ8eyip0E
-XyTLLkvhYIJG4VKrDIFHcGzdZNHr9SyjD4I9DCuul9e2FIYQebs7E4B3jAjhSdJqYi8fXvqWaN+J
-J5U4nwbXPsnLJlkNc96wyOkmDoMVxu9bi9IEYMpJpij2aTv2y8gokeWdimFXN6x0FNx04Druci8u
-nPvQu7/1PQDhBjPogiuuU6Y6FnOM3UEOIDrAtKeh6bJPkC4yYOlXy7kEkmho5TgmYHWyn3f/kRTv
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBVYwggQ+oAMCAQICDE79bW6SMzVJMuOi1zANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMTQzMjNaFw0yNTA5MTAxMTQzMjNaMIGV
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEFyZW5kIFZhbiBTcHJpZWwxKzApBgkqhkiG
-9w0BCQEWHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IB
-DwAwggEKAoIBAQDxOB8Yu89pZLsG9Ic8ZY3uGibuv+NRsij+E70OMJQIwugrByyNq5xgH0BI22vJ
-LT7VKCB6YJC88ewEFfYi3EKW/sn6RL16ImUM40beDmQ12WBquJRoxVNyoByNalmTOBNYR95ZQZJw
-1nrzaoJtK0XIsv0dNCUcLlAc+jHkngD+I0ptVuWoMO1BcJexqJf5iX2M1CdC8PXTh9g4FIQnG2mc
-2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
-Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
-HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
-Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
-KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
-Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
-dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
-OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
-MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
-BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
-ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
-zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
-sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
-BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
-N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
-p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
-YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
-bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAQ5Y9jK+FF4z39S5uf
-g2vGk6XXS2VKy2qKZpn1x1W4yTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yMzAxMDQwOTMyMzlaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
-AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEALTWAttLkow/t9f4V5975Mxq5BsvR3wBNRNd/
-EpPRAoBGCgGOgqChPcC0e2gfo8yn0WkEBfLp/wC7qgdRZKpM6pfZV8Lj4sCMvP7aJmWYeK0RdcQF
-dPTOnSDFIxw6k9NjsBzsCxtzrbq0ZgW+dwsHtNePIBFVbXFqzYuFRGX5v7GNh2RekPgYvMOTiy43
-8Y79ImrE2L5gbBDjxSnYPAEfVD+Dwc3RDZkglO2fNY85yyIwQrq9ksWV9gtMsirl1GZ6jNss4/IY
-yHfqLwUSXf30Fhbf56rTbMhChC1MVjs8bglh5xAQDjPUh/rYR7A0vj0nS2RZRbDqLdbTlo2e8XDl
-wA==
---000000000000957c3805f16cdd47--
+Sven
