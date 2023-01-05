@@ -1,114 +1,82 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28F8EC0;
-	Thu,  5 Jan 2023 09:48:11 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 1ED213200A49;
-	Thu,  5 Jan 2023 04:48:10 -0500 (EST)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Thu, 05 Jan 2023 04:48:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1672912089; x=1672998489; bh=fx
-	RgFMFJkcfqXAuf9yZKddG/6gTkmyvw+JYOIZcIs6Y=; b=HUzOxVzi8SPiFZ+jm4
-	ZPDcF9rrI5dUTEUDRToWj4YCk/L3GWo5Kiel48b0qHBa4wHEXFRN05qIYhIQg4Sv
-	KkgQoU43LDTrvPsvRfY0bkMSaoVjHtQyEH+wuZcKtrAOvqWiY9FVM/SmpzEl7kqW
-	tlxMXZg2nuSZ2EPCV5oDWCYnQrzMCAuISfe+w4CvPDsr9jf1YOB4t7eSsuCB1/KT
-	vwFs0Z/rZUNLGvDYvn072/IottGCP941pTrVhqcksymhPB14Xyzwq4uhDd3xfzpL
-	HfKPvjC5cOHUtKgHC2dhvhiGFmdiW7M3wJLhBdvrz7dLPxMyMG9zkBADvmagsAPx
-	rTkA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1672912089; x=1672998489; bh=fxRgFMFJkcfqXAuf9yZKddG/6gTk
-	myvw+JYOIZcIs6Y=; b=PuNY1tKr2WSwgtb7gL5tb1jgzhb2sarZFEBSzF5ZgcjV
-	lkVRDU4tD/ZYO3E/nBYiRqW0znTxcDTHd33xjclOZ2AiAEOPon411jk2o1xzEnOo
-	Nfx03L3zhS0Lwm/DY8kF26DjYWXgDSxafHacSOHcbT1LPSlMO1zvvq1f4zTbDeon
-	hJudUmDC030QeHk9OXnYvuwCWpQ9T5ntkiZJKPxZ6LpwvuQ5QKytea6boBr5/dra
-	PvltiSSz4iWIXKSxW2tootZOa7UGh/fMBLk/A9kozpf9/qm0w73z7hV3PMWAFNRQ
-	0BAJ1vwzR6LnohcTOAOQsfS7XMzdA9LxIQxW4BP/+g==
-X-ME-Sender: <xms:2Zy2Y2_M2zTPFrMVkpbYo0qFBp-nw2-iL4Si5hA3oe2utbATArjSWA>
-    <xme:2Zy2Y2vhi_ue9B7cd_G0XTeVCo9N0KpR-sY02ulJ5Rd3Rm-OB5JkcTZdAjROJP1Js
-    5d3W_jVzIFbJ_YBgmo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrjeekgddtkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfuvhgv
-    nhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
-    htthgvrhhnpeelvefggeffheevtdeivefhkeehfeettdejteduveeiheevveeilefghfei
-    veeiueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:2Zy2Y8B0GVdM-I5_Pt17r-NbiZu3419bgodhUWNxLWUOxUtUk9qHkw>
-    <xmx:2Zy2Y-ehnlope9GIwkuPDbZ7yBMPpCL5qHCyADT0dgiQtMAXXvXs6Q>
-    <xmx:2Zy2Y7M9OOpJd9q9BlYaXT7O3I0nPNJ7XrZo-mhz1lTkDfXx5sX8GQ>
-    <xmx:2Zy2Y8GiRY4wnx9jtsWQI3Opwmtbt_xhN_FjhnMaV3GnpwEectSUZg>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 41F2EA6007C; Thu,  5 Jan 2023 04:48:09 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-1185-g841157300a-fm-20221208.002-g84115730
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD8A320B;
+	Thu,  5 Jan 2023 20:48:31 +0000 (UTC)
+Date: Thu, 5 Jan 2023 20:48:25 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1672951709;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aYVWC4sBVgWrlftRY/Wjwf7HrIxSM4JPLvpreSFfkAc=;
+	b=LgjU7AxU13CeHxxXWLLpwOOH5ZSC/3yZk+Yl//JoD5VDml1Sy6Yh3KLVvULVDKlvJXIKb/
+	tmKISIzCGNty273PY3SF6qOSJCq9HRNTKXvytFIAPNgHG5U4XiQXojMUv9cwj5/CyyOoN2
+	bGdRhh/FGQo/Uo6dCrNYdHW1xt1nOSQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
+	kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v4 6/7] KVM: arm64: Mask FEAT_CCIDX
+Message-ID: <Y7c3mQS1zqw0UATF@google.com>
+References: <20221221204016.658874-1-akihiko.odaki@daynix.com>
+ <20221221204016.658874-7-akihiko.odaki@daynix.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <7ecde27b-05e9-4727-8441-e17916df237a@app.fastmail.com>
-In-Reply-To: <3af091e9-09b4-53a0-da2d-5b2640040b9d@marcan.st>
-References: <20230104110013.24738-1-marcan@marcan.st>
- <20230104110013.24738-4-marcan@marcan.st>
- <71bffbd4-f8b0-4201-b2eb-7a15847ac2c6@app.fastmail.com>
- <3af091e9-09b4-53a0-da2d-5b2640040b9d@marcan.st>
-Date: Thu, 05 Jan 2023 10:47:39 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Hector Martin" <marcan@marcan.st>, "Joerg Roedel" <joro@8bytes.org>,
- "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>
-Cc: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, "Janne Grunau" <j@jannau.net>,
- "Rob Herring" <robh+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
- devicetree@vger.kernel.org, iommu@lists.linux.dev, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] iommu: dart: Support >64 stream IDs
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20221221204016.658874-7-akihiko.odaki@daynix.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
+Hi Akihiko,
 
-On Thu, Jan 5, 2023, at 05:43, Hector Martin wrote:
-> On 2023/01/04 22:37, Sven Peter wrote:
->>>  #include "dma-iommu.h"
->>>
->>> -#define DART_MAX_STREAMS 16
->>> +#define DART_MAX_STREAMS 256
->> 
->> Feels a bit wasteful to allocate 256-wide sid2group and save_{tcr,ttbr}
->> arrays even for the M1 where 16 are enough. But then again, that's still <100 KiB
->> for all DARTs combined and these machine have >8 GiB of RAM so it probably won't
->> make a difference
->
-> Yeah, I don't think this is worth the extra fumbling around with dynamic
-> allocation.
->
->>>  	/* enable all streams globally since TCR is used to control isolation */
->>> -	writel(DART_STREAM_ALL, dart->regs + DART_STREAMS_ENABLE);
->>> +	for (i = 0; i < BITS_TO_U32(dart->num_streams); i++)
->>> +		writel(U32_MAX, dart->regs + DART_STREAMS_ENABLE);
->> 
->> This seems weird: this code writes U32_MAX to the same register
->> again and again. 
->
-> Whoops, that was supposed to have a `+ 4 * i` in there. Fixed for v2.
+On Thu, Dec 22, 2022 at 05:40:15AM +0900, Akihiko Odaki wrote:
+> The CCSIDR access handler masks the associativity bits according to the
+> bit layout for processors without FEAT_CCIDX. KVM also assumes CCSIDR is
+> 32-bit where it will be 64-bit if FEAT_CCIDX is enabled. Mask FEAT_CCIDX
+> so that these assumptions hold.
+> 
+> Suggested-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>  arch/arm64/kvm/sys_regs.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index f4a7c5abcbca..aeabf1f3370b 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -1124,6 +1124,12 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu, struct sys_reg_desc const *r
+>  						      ID_DFR0_PERFMON_SHIFT,
+>  						      kvm_vcpu_has_pmu(vcpu) ? ID_DFR0_PERFMON_8_4 : 0);
+>  		break;
+> +	case SYS_ID_AA64MMFR2_EL1:
+> +		val &= ~ID_AA64MMFR2_EL1_CCIDX_MASK;
+> +		break;
+> +	case SYS_ID_MMFR4_EL1:
+> +		val &= ~ARM64_FEATURE_MASK(ID_MMFR4_CCIDX);
+> +		break;
 
-Great! Feel free to also add
+Not that it is necessarily worth addressing, but I wanted to point
+something out.
 
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
+This change breaks migration from older kernels on implementations w/
+FEAT_CCIDX. There is most likely exactly 0 of those in the wild, but
+we need to be careful changing user-visible stuff like this.
 
-then.
-
-
-Best,
-
-Sven
+--
+Thanks,
+Oliver
