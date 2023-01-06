@@ -1,43 +1,43 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094B963D9
-	for <asahi@lists.linux.dev>; Fri,  6 Jan 2023 14:00:35 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id m26-20020a05600c3b1a00b003d9811fcaafso1116632wms.5
-        for <asahi@lists.linux.dev>; Fri, 06 Jan 2023 06:00:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EBD63D9
+	for <asahi@lists.linux.dev>; Fri,  6 Jan 2023 14:00:41 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id k26-20020a05600c1c9a00b003d972646a7dso3578297wms.5
+        for <asahi@lists.linux.dev>; Fri, 06 Jan 2023 06:00:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PHp3o8QZ5KAEd3hXTm1YpH7fNbaNuTNn7S/5NjOZfjk=;
-        b=HaugyF/ljCd+ZT+a7oplMrAc62W8m50iIxp+l8izfUUt7QcNLgTW7MafQqFcUGZahB
-         rRYb21q81znIh67Bgfq81onyJ1jxtv82qK0qYn7V6KYaJMJ+vFlZBpEEeQEg2c5KALpU
-         IF71udZv5xF8nuCHxeY5y8lisodBRTFY/glGr++N6m7JTB3VYSQ9OkhJU8fUOde6gC38
-         Zk46WFBC49QyGx29A73QNfuNNk1clVtYOv1+9on6/S/v6QNHul4mm8GA0VAWl98wmBjw
-         aO4DjqjT9rVxcBSl02je5/b129U2Hn9G0ZKhZgX32gDW3+9cIzx3rG5PGI9v94IOdvLa
-         1/Qg==
+        bh=kTaBsHHaxY4hxEZyw1070cz+vHDzIdLfWWrgADCbRU8=;
+        b=kMVALwwUOsuXe2H9tiPvLnP6NJwlyxfFypCBmI0D/6IIZtFAulwtGv1gn7ileo9q2Y
+         2IkdjoXJON8sBxMRlrRPDgAkYJjpXXDgsuPD2GBKrP1iaPq8hK9izxaa3ptkUUDWkg8p
+         Yx190q4Cx6R3xYh0cbHYDGrm+SmaPex4zzWOGfJpEan3TqiEQy2X68zMlMuGv3zYhNO+
+         bDxustxsaVG7DxLPPIiRXYU9nLcewdrOZA9LtnX/3c6M2FCpX0PXgYSlx0h6is32iEYq
+         DxB5kIe8G2G3jkpDt9xlytnBpOhC25/ZkqeEDymmyT6+KKphiul0y3SyJsi/HjjWX1t3
+         P7DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PHp3o8QZ5KAEd3hXTm1YpH7fNbaNuTNn7S/5NjOZfjk=;
-        b=fRuT3yPKOggqA+4/PPXpLybux3U/GIFTTvHKDUUqtlx6dmarz6kln+a3ODCM7QgTb1
-         T0hnstKluz03/l6A9/c8KLD2h3HYF1VH/DoKb0AeXJhgyQc4pyjwntqBAFOmhHUBTnsM
-         ChckInFNGidmrbqqwnVt0jWHZ1R+cJJ18gP9Kjv2pvL+t6XzctPHGLT88WKgFnXVkrbp
-         aZ5/h6WQ+cLA0aYXq2A9HxyoFbQlsgHA/MzsA2kds6oqMsTd8xe6k5FiaKtElrlkQM6c
-         IQdRG5z2L28VegPXZcojqGbfPY/MeF9QObsCWCrnRiHl2FISM+tEfpQaZj+/1UY1pzcx
-         SGnQ==
-X-Gm-Message-State: AFqh2koClQcsr+4cddrWSSEwtZqD1cq8ksMjh5AiWF+gNvhqCrWB5BGC
-	WEvOYy1xMnOLlwxO9jBp1Ug=
-X-Google-Smtp-Source: AMrXdXtjG0BF2QnxbW/2QgclQNDmc7MjgEEz+VUROqGHCkOrB2l8GsnRy7csSk36p2sMuzeKifDJJg==
-X-Received: by 2002:a05:600c:19c7:b0:3d9:7096:262a with SMTP id u7-20020a05600c19c700b003d97096262amr33455819wmq.27.1673013633927;
-        Fri, 06 Jan 2023 06:00:33 -0800 (PST)
+        bh=kTaBsHHaxY4hxEZyw1070cz+vHDzIdLfWWrgADCbRU8=;
+        b=5mxjLXcU9bLZveAswpCxMaKkZx0ifZ0H4No/9xA54ggp3ByswMkylivl0cQcPN4wRe
+         tPtAWbwFYyCkJ+KXZ4+FBaKv+Jp95eIjqJGEG/Y5WcFhaarUknuTcT84mOKPLlVQFHhC
+         R7PO57aS0WdMYOHtLhJQk+qnqtxXsbUyRRFMJa/eZSpEjvmevpxDZ7d0HfTUDJ0RlTFL
+         B9L3gWPWhhg2TZGepa/hTWeEkyEI5iKSLey/dktaJr1pzABtSMMTaJzrJaPf3jupd5lZ
+         oAo6UNhJ0ocVCkbJfM6GLMQTGn9t503hntWfn4Rn6t+I0yTpKcpW0sY8fB0aGAzEY/Vn
+         lUNQ==
+X-Gm-Message-State: AFqh2krzorHkiaozrRkIvgigxISkA7nmUZn1TLC0huNpqJJ3FZ3NlcWU
+	Akxoj1oTRDo4tnX8uRAQWec=
+X-Google-Smtp-Source: AMrXdXtcxMb1sjh4Foy0c4Wo2XOB2rnnybH27bS0t4t2gZCoL++LW+Qf93N8JOewORmLz95/NAJuLw==
+X-Received: by 2002:a05:600c:3ba4:b0:3cf:d428:21d6 with SMTP id n36-20020a05600c3ba400b003cfd42821d6mr38001751wms.3.1673013640025;
+        Fri, 06 Jan 2023 06:00:40 -0800 (PST)
 Received: from localhost ([212.253.112.114])
-        by smtp.gmail.com with UTF8SMTPSA id n23-20020a05600c3b9700b003cf71b1f66csm2149876wms.0.2023.01.06.06.00.32
+        by smtp.gmail.com with UTF8SMTPSA id f19-20020a05600c155300b003d98a7aa12csm7246306wmg.16.2023.01.06.06.00.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Jan 2023 06:00:33 -0800 (PST)
+        Fri, 06 Jan 2023 06:00:39 -0800 (PST)
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 To: u.kleine-koenig@pengutronix.de,
 	thierry.reding@gmail.com,
@@ -52,9 +52,9 @@ Cc: marcan@marcan.st,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH v6 4/5] arm64: dts: apple: t600x: Add PWM controller
-Date: Fri,  6 Jan 2023 16:58:43 +0300
-Message-Id: <20230106135839.18676-5-fnkl.kernel@gmail.com>
+Subject: [PATCH v6 5/5] MAINTAINERS: Add entries for Apple PWM driver
+Date: Fri,  6 Jan 2023 16:58:45 +0300
+Message-Id: <20230106135839.18676-6-fnkl.kernel@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 In-Reply-To: <20230106135839.18676-1-fnkl.kernel@gmail.com>
 References: <20230106135839.18676-1-fnkl.kernel@gmail.com>
@@ -66,76 +66,34 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds PWM controller and keyboard backlight bindings for M1 Pro/Max MacBook Pros
+Add the MAINTAINERS entries for the driver
 
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Acked-by: Sven Peter <sven@svenpeter.dev>
 ---
- arch/arm64/boot/dts/apple/t600x-die0.dtsi      |  9 +++++++++
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 18 ++++++++++++++++++
- 2 files changed, 27 insertions(+)
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-index 1c41954e3899..7065045dc43a 100644
---- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-@@ -154,6 +154,15 @@ i2c5: i2c@39b054000 {
- 		status = "disabled";
- 	};
- 
-+	fpwm0: pwm@39b030000 {
-+		compatible = "apple,t6000-fpwm", "apple,s5l-fpwm";
-+		reg = <0x3 0x9b030000 0x0 0x4000>;
-+		power-domains = <&ps_fpwm0>;
-+		clocks = <&clkref>;
-+		#pwm-cells = <2>;
-+		status = "disabled";
-+	};
-+
- 	serial0: serial@39b200000 {
- 		compatible = "apple,s5l-uart";
- 		reg = <0x3 0x9b200000 0x0 0x1000>;
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index 34906d522f0a..96de7165df6d 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -9,6 +9,8 @@
-  * Copyright The Asahi Linux Contributors
-  */
- 
-+#include <dt-bindings/leds/common.h>
-+
- / {
- 	aliases {
- 		serial0 = &serial0;
-@@ -34,6 +36,18 @@ memory@10000000000 {
- 		device_type = "memory";
- 		reg = <0x100 0 0x2 0>; /* To be filled by loader */
- 	};
-+
-+	led-controller {
-+		compatible = "pwm-leds";
-+		led-0 {
-+			pwms = <&fpwm0 0 40000>;
-+			label = "kbd_backlight";
-+			function = LED_FUNCTION_KBD_BACKLIGHT;
-+			color = <LED_COLOR_ID_WHITE>;
-+			max-brightness = <255>;
-+			default-state = "keep";
-+		};
-+	};
- };
- 
- &serial0 {
-@@ -110,5 +124,9 @@ &pcie0_dart_3 {
- 	status = "disabled";
- };
- 
-+&fpwm0 {
-+	status = "okay";
-+};
-+
- /delete-node/ &port02;
- /delete-node/ &port03;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7f86d02cb427..75bda5ab704d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1970,6 +1970,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
+ F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
+ F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
+ F:	Documentation/devicetree/bindings/power/apple*
++F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
+ F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+ F:	arch/arm64/boot/dts/apple/
+ F:	drivers/bluetooth/hci_bcm4377.c
+@@ -1985,6 +1986,7 @@ F:	drivers/mailbox/apple-mailbox.c
+ F:	drivers/nvme/host/apple.c
+ F:	drivers/nvmem/apple-efuses.c
+ F:	drivers/pinctrl/pinctrl-apple-gpio.c
++F:	drivers/pwm/pwm-apple.c
+ F:	drivers/soc/apple/*
+ F:	drivers/watchdog/apple_wdt.c
+ F:	include/dt-bindings/interrupt-controller/apple-aic.h
 -- 
 2.37.1 (Apple Git-137.1)
 
