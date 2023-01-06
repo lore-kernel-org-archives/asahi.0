@@ -1,91 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A854A2F43
-	for <asahi@lists.linux.dev>; Fri,  6 Jan 2023 16:33:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CB3AC433EF;
-	Fri,  6 Jan 2023 16:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673022792;
-	bh=dIyjAVQ4zC1CK3pgE3nLqfcLv9FRSRVsJPB2VsHT/I4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=B04hPGSdBRClWe7Xv41li5rL1cWZY7ANkHf/Mg8AHmSb0o2LuEq5XJ2uJbJtRMJL5
-	 aYiLSS49PR0iAU9PvqLRfEwN2ULjI8w8A0qF3mHU83y4/CXwkbYiOX8QU/GXZ8ElbG
-	 gq7t11gSV88v6vbjNQ1f9aG4DdZOw1s3wbOBBapc07157xwcNBToWyA5D8UmF4jX4i
-	 atyG8ufzbwpQb5xLnWS+HI2TylMMkLZCUhs8q8SUojEI/vd45vlVb8E8nccu+thA/F
-	 jR8lOvucJmUjXys9fwzMQbgOU+epVISYLs1gU1DYlIzLhaGYJGLGoXXIglAEn+V7oQ
-	 xMpSrxvx1+kiQ==
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Hector Martin <marcan@marcan.st>
-Cc: Tudor Ambarus <tudor.ambarus@microchip.com>, linux-spi@vger.kernel.org,
- devicetree@vger.kernel.org, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-In-Reply-To: <20230104093631.15611-1-marcan@marcan.st>
-References: <20230104093631.15611-1-marcan@marcan.st>
-Subject: Re: [PATCH 0/5] SPI core CS delay fixes and additions
-Message-Id: <167302278905.177027.5835777381294854019.b4-ty@kernel.org>
-Date: Fri, 06 Jan 2023 16:33:09 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FAD2F43
+	for <asahi@lists.linux.dev>; Fri,  6 Jan 2023 16:41:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 27C4D426F3;
+	Fri,  6 Jan 2023 16:40:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1673023256; bh=gXgieJ9sHytuKgJOAD+se1IXoDv6b4RgyKmGjkVDxlg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=pl5bPON7tKn3exZITOT4qR8AxmLqINqBe1EkSfPfTGJJ4pMwe95KLLviTxrwqLQwB
+	 gB2OZCPWfbSTQe1RTYksbZw1P3rif1MD6OpxracZDpEAx7BZIXrHRCB81DG5EHfZy2
+	 lRU8twI8hP0fnB7iVC1/8UFC26t0x3V2ExshBDsPmwEpyfU5YIVUwlCsHtLUh51bBt
+	 E6IVUFQLb3mIk76yVZBPdCd8Homo90egFg/3zLW44enN2xZ4KpInASlBjQS7dArvEQ
+	 RFMZwgH3qEQOmOtJurTRDdnruH+rymWSscLNP6ZhTKPUz1yDkrbQfWWvn+tH+AiveM
+	 DLUFRPoqXdk1Q==
+Message-ID: <6a9371e6-6516-5966-f92c-10bb228c8db3@marcan.st>
+Date: Sat, 7 Jan 2023 01:40:49 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12-dev-214b3
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 3/5] spi: Use a 32-bit DT property for
+ spi-cs-setup-delay-ns
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>, Janne Grunau <j@jannau.net>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: Tudor Ambarus <tudor.ambarus@microchip.com>, linux-spi@vger.kernel.org,
+ devicetree@vger.kernel.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20230104093631.15611-4-marcan@marcan.st>
+ <Y7hLrxQO9GbgpW1h@sirena.org.uk>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <Y7hLrxQO9GbgpW1h@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 04 Jan 2023 18:36:26 +0900, Hector Martin wrote:
-> Commits f6c911f3308c ("spi: dt-bindings: Introduce
-> spi-cs-setup-ns property") and 33a2fde5f77b ("spi: Introduce
-> spi-cs-setup-ns property") introduced a new property to represent the
-> CS setup delay in the device tree, but they have some issues:
+On 07/01/2023 01.26, Mark Brown wrote:
+> On Wed, Jan 04, 2023 at 06:36:29PM +0900, Janne Grunau wrote:
 > 
-> - The property is only parsed as a 16-bit integer number of nanoseconds,
->   which limits the maximum value to ~65us. This is not a reasonable
->   upper limit, as some devices might need a lot more.
-> - The property name is inconsistent with other delay properties, which
->   use a "*-delay-ns" naming scheme.
-> - Only the setup delay is introduced, but not the related hold and
->   inactive delay times.
+>> 65us is not a reasonable maximum for this property, as some devices
+>> might need a much longer setup time (e.g. those driven by firmware on
+>> the other end). Plus, device tree property values are in 32-bit cells
+>> and smaller widths should not be used without good reason.
 > 
-> [...]
+> This breaks allmodconfig builds (I tested x86 but this should happen
+> for anything with -Werror):
+> 
+> /build/stage/linux/drivers/spi/spi.c: In function ‘of_spi_parse_dt’:
+> /build/stage/linux/drivers/spi/spi.c:2243:13: error: unused variable ‘cs_setup’ [-Werror=unused-variable]
+>  2243 |         u16 cs_setup;
+>       |             ^~~~~~~~
+> cc1: all warnings being treated as errors
 
-Applied to
+Yeah, the kernel test robot caught this one too. Sorry for missing it
+(it got buried in warning noise in a rather large rebuild on my side).
+That line should've been removed in #3 :(
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+I see two patches got applied already. Do you want me to just respin #3-#5?
 
-Thanks!
-
-[1/5] spi: dt-bindings: Rename spi-cs-setup-ns to spi-cs-setup-delay-ns
-      commit: 38892ea4cefbb6ed3a91e76d3af84a1f8077d2d4
-[2/5] spi: Rename spi-cs-setup-ns property to spi-cs-setup-delay-ns
-      commit: e0fe6a31cac84735939c29d1e05055d58325c6c0
-[3/5] spi: Use a 32-bit DT property for spi-cs-setup-delay-ns
-      (no commit info)
-[4/5] spi: dt-bindings: Add hold/inactive CS delay peripheral properties
-      (no commit info)
-[5/5] spi: Parse hold/inactive CS delay values from the DT
-      (no commit info)
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+- Hector
