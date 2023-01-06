@@ -1,99 +1,82 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EBD63D9
-	for <asahi@lists.linux.dev>; Fri,  6 Jan 2023 14:00:41 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id k26-20020a05600c1c9a00b003d972646a7dso3578297wms.5
-        for <asahi@lists.linux.dev>; Fri, 06 Jan 2023 06:00:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kTaBsHHaxY4hxEZyw1070cz+vHDzIdLfWWrgADCbRU8=;
-        b=kMVALwwUOsuXe2H9tiPvLnP6NJwlyxfFypCBmI0D/6IIZtFAulwtGv1gn7ileo9q2Y
-         2IkdjoXJON8sBxMRlrRPDgAkYJjpXXDgsuPD2GBKrP1iaPq8hK9izxaa3ptkUUDWkg8p
-         Yx190q4Cx6R3xYh0cbHYDGrm+SmaPex4zzWOGfJpEan3TqiEQy2X68zMlMuGv3zYhNO+
-         bDxustxsaVG7DxLPPIiRXYU9nLcewdrOZA9LtnX/3c6M2FCpX0PXgYSlx0h6is32iEYq
-         DxB5kIe8G2G3jkpDt9xlytnBpOhC25/ZkqeEDymmyT6+KKphiul0y3SyJsi/HjjWX1t3
-         P7DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kTaBsHHaxY4hxEZyw1070cz+vHDzIdLfWWrgADCbRU8=;
-        b=5mxjLXcU9bLZveAswpCxMaKkZx0ifZ0H4No/9xA54ggp3ByswMkylivl0cQcPN4wRe
-         tPtAWbwFYyCkJ+KXZ4+FBaKv+Jp95eIjqJGEG/Y5WcFhaarUknuTcT84mOKPLlVQFHhC
-         R7PO57aS0WdMYOHtLhJQk+qnqtxXsbUyRRFMJa/eZSpEjvmevpxDZ7d0HfTUDJ0RlTFL
-         B9L3gWPWhhg2TZGepa/hTWeEkyEI5iKSLey/dktaJr1pzABtSMMTaJzrJaPf3jupd5lZ
-         oAo6UNhJ0ocVCkbJfM6GLMQTGn9t503hntWfn4Rn6t+I0yTpKcpW0sY8fB0aGAzEY/Vn
-         lUNQ==
-X-Gm-Message-State: AFqh2krzorHkiaozrRkIvgigxISkA7nmUZn1TLC0huNpqJJ3FZ3NlcWU
-	Akxoj1oTRDo4tnX8uRAQWec=
-X-Google-Smtp-Source: AMrXdXtcxMb1sjh4Foy0c4Wo2XOB2rnnybH27bS0t4t2gZCoL++LW+Qf93N8JOewORmLz95/NAJuLw==
-X-Received: by 2002:a05:600c:3ba4:b0:3cf:d428:21d6 with SMTP id n36-20020a05600c3ba400b003cfd42821d6mr38001751wms.3.1673013640025;
-        Fri, 06 Jan 2023 06:00:40 -0800 (PST)
-Received: from localhost ([212.253.112.114])
-        by smtp.gmail.com with UTF8SMTPSA id f19-20020a05600c155300b003d98a7aa12csm7246306wmg.16.2023.01.06.06.00.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Jan 2023 06:00:39 -0800 (PST)
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-To: u.kleine-koenig@pengutronix.de,
-	thierry.reding@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org
-Cc: marcan@marcan.st,
-	sven@svenpeter.dev,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pwm@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624BE7460
+	for <asahi@lists.linux.dev>; Fri,  6 Jan 2023 16:26:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7DA2C433D2;
+	Fri,  6 Jan 2023 16:26:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673022389;
+	bh=jWB+sN7NrEajAweWKZpqeUW/3yCctjfcPWzZp9GCvNQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dOpdXagINOab8jxuJQkJI+qER+/XiBLXJ/M86brz8ojFo4gs3UlnlW3faeTla9lTK
+	 t/ztyWgcC+mhqmUnqGR6aLJGRtn5RmsCgrE1E+TLF/tShnZGT7C61dx0cjKHyOkNXL
+	 6Nt44LTixnjWLfsOkqvXYDVkNIRkE1c42gnAqKc//tn8tRnTB0HK7WVF8+WM4+KBVD
+	 MjRHxiFHO0qD7b8JMVSqo13OmDgdMcwD1dpsgCCMwGYM2Stwt0jl6LvtxTIFmX8gLZ
+	 5gdG5X8Ywj+M4O2tKj5KjU/7EDrPMyfiEgvFZ+Y8cLzXKcnO2leJFZ17AvH+fI0x6N
+	 DgQD2kvggwS/Q==
+Date: Fri, 6 Jan 2023 16:26:23 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Janne Grunau <j@jannau.net>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Hector Martin <marcan@marcan.st>
+Cc: Tudor Ambarus <tudor.ambarus@microchip.com>, linux-spi@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH v6 5/5] MAINTAINERS: Add entries for Apple PWM driver
-Date: Fri,  6 Jan 2023 16:58:45 +0300
-Message-Id: <20230106135839.18676-6-fnkl.kernel@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20230106135839.18676-1-fnkl.kernel@gmail.com>
-References: <20230106135839.18676-1-fnkl.kernel@gmail.com>
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 3/5] spi: Use a 32-bit DT property for
+ spi-cs-setup-delay-ns
+Message-ID: <Y7hLrxQO9GbgpW1h@sirena.org.uk>
+References: <20230104093631.15611-4-marcan@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="c+1eWrxib7oClGdE"
+Content-Disposition: inline
+In-Reply-To: <20230104093631.15611-4-marcan@marcan.st>
+X-Cookie: System going down in 5 minutes.
 
-Add the MAINTAINERS entries for the driver
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Acked-by: Sven Peter <sven@svenpeter.dev>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+--c+1eWrxib7oClGdE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7f86d02cb427..75bda5ab704d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1970,6 +1970,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
-+F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
-@@ -1985,6 +1986,7 @@ F:	drivers/mailbox/apple-mailbox.c
- F:	drivers/nvme/host/apple.c
- F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
-+F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
--- 
-2.37.1 (Apple Git-137.1)
+On Wed, Jan 04, 2023 at 06:36:29PM +0900, Janne Grunau wrote:
 
+> 65us is not a reasonable maximum for this property, as some devices
+> might need a much longer setup time (e.g. those driven by firmware on
+> the other end). Plus, device tree property values are in 32-bit cells
+> and smaller widths should not be used without good reason.
+
+This breaks allmodconfig builds (I tested x86 but this should happen
+for anything with -Werror):
+
+/build/stage/linux/drivers/spi/spi.c: In function =E2=80=98of_spi_parse_dt=
+=E2=80=99:
+/build/stage/linux/drivers/spi/spi.c:2243:13: error: unused variable =E2=80=
+=98cs_setup=E2=80=99 [-Werror=3Dunused-variable]
+ 2243 |         u16 cs_setup;
+      |             ^~~~~~~~
+cc1: all warnings being treated as errors
+
+--c+1eWrxib7oClGdE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmO4S64ACgkQJNaLcl1U
+h9CXLQf/YnI1PGSSqXVvRBi3udlWlcxcl4e3XTdPIfx50uYNZtbMu7wTBBa/z1zD
+taef+9KGMbp28DCMVaWhefYaFgDUrDk53fB0idts+TdHaX/Uww4BwvLZxwb1oYqu
+KSPo4rPD5q05N7KtK4Z5JMtQ0ldP3rbk37QuzSZTsF2X7EwNTndsX2RiwBo2KQlv
+/y2nxQfSA1qlfv6BNSnycJBNkxd283K5WIb0sfM0uc6J4lcF2pISHmx/KszZ+u54
+QIS3Y6oaY0YOXTnn/o672+vuSB1I4EaM7mhv/RqLZOW3CgeZl0rSPGvdbXmaRWOd
+RSBbY2L0j84DkOoVZ5O4Eb62R/7O9g==
+=nX4z
+-----END PGP SIGNATURE-----
+
+--c+1eWrxib7oClGdE--
