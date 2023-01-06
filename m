@@ -1,84 +1,75 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676E32770E
-	for <asahi@lists.linux.dev>; Fri,  6 Jan 2023 16:51:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id EFE8A425F5;
-	Fri,  6 Jan 2023 16:51:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1673023902; bh=EPFvEd87CFEOl6kkAh31MhZn8AnrKlMWs4KTdbvU0qY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=tJVNipEmFVCS3k7gPlntUC9ZFz1KmnJqvVQp0CY2BvJ198REA1+4Mg967S/e3jKvC
-	 UIzTJHiAWZxWZNrDxNkC90yzw/WLc5jGkamhCJIwjhFgqDDyFJZHZh/COqz+tqYVXE
-	 tHtyhwgW0K4+FsocQIFIXJzuQmTgW9UxI6ZjH8AvH1RpaiUBaMX7qJt2L7k8v2nKt9
-	 SUb/NgFXD64/EUBoLCsJpD0msJYSvtn5iUzbOWt03o2oPO4acpPxPbT1sAOto8tm4n
-	 k2J4oDgbssxZhRtcgzrWabPbyqLahILGmduJciDdApkDeGtntJbbHuajkmEukSMMUc
-	 7LnjOrXE8p6LA==
-Message-ID: <ced5bfbc-79f8-156a-32d5-27fe2be67236@marcan.st>
-Date: Sat, 7 Jan 2023 01:51:36 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9BF7E8
+	for <asahi@lists.linux.dev>; Fri,  6 Jan 2023 18:34:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C2AAC433F0;
+	Fri,  6 Jan 2023 18:34:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1673030097;
+	bh=rCzhA/52ddcfkNqEh7FMJ76ZEJnU+Wh9cDr+xpAZDnk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DjYrav64GXU/jG7gy7Tq7oZ+TOk6zDS56kpeFsK1eRzHMpq7uZwzmyxGVWFYtVRPl
+	 YKtE25439nA8eBUfj5hM2iVpQTPTqoVoYpCUr/Bj5rq2am9Wh0c7Ymn35ncXqg+CQ+
+	 wPkeq4r7axl5u8heHY8miJ8gb7UI3gA985aO0532XIK1y7g0mSmmEor71HxzrhkH5+
+	 U27wb/zJxQUzR2cvyY9oXoKVPb+g7pLxQmATinq/JirzYK2y1b7u+41pSp2A2icN4t
+	 DZQ3sTPSd9GuA5Fts69z71ccZByPBDwHz/6s4SFE8UrSUieXvmratJPcqi+rLPsshB
+	 EINBUD3Nrq+VQ==
+Date: Fri, 6 Jan 2023 18:34:51 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Hector Martin <marcan@marcan.st>
+Cc: Janne Grunau <j@jannau.net>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@microchip.com>,
+	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/5] spi: Use a 32-bit DT property for
+ spi-cs-setup-delay-ns
+Message-ID: <Y7hpy91VcDZjm794@sirena.org.uk>
+References: <20230104093631.15611-4-marcan@marcan.st>
+ <Y7hLrxQO9GbgpW1h@sirena.org.uk>
+ <6a9371e6-6516-5966-f92c-10bb228c8db3@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v6 4/5] arm64: dts: apple: t600x: Add PWM controller
-Content-Language: en-US
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>,
- u.kleine-koenig@pengutronix.de, thierry.reding@gmail.com,
- robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org
-Cc: sven@svenpeter.dev, alyssa@rosenzweig.io, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230106135839.18676-1-fnkl.kernel@gmail.com>
- <20230106135839.18676-5-fnkl.kernel@gmail.com>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20230106135839.18676-5-fnkl.kernel@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Gz8dsIQ/IGaP9yH8"
+Content-Disposition: inline
+In-Reply-To: <6a9371e6-6516-5966-f92c-10bb228c8db3@marcan.st>
+X-Cookie: Do not fold, spindle or mutilate.
 
-On 06/01/2023 22.58, Sasha Finkelstein wrote:
-> Adds PWM controller and keyboard backlight bindings for M1 Pro/Max MacBook Pros
-> 
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  arch/arm64/boot/dts/apple/t600x-die0.dtsi      |  9 +++++++++
->  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 18 ++++++++++++++++++
->  2 files changed, 27 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-> index 1c41954e3899..7065045dc43a 100644
-> --- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-> +++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-> @@ -154,6 +154,15 @@ i2c5: i2c@39b054000 {
->  		status = "disabled";
->  	};
->  
-> +	fpwm0: pwm@39b030000 {
-> +		compatible = "apple,t6000-fpwm", "apple,s5l-fpwm";
-> +		reg = <0x3 0x9b030000 0x0 0x4000>;
-> +		power-domains = <&ps_fpwm0>;
-> +		clocks = <&clkref>;
-> +		#pwm-cells = <2>;
-> +		status = "disabled";
-> +	};
-> +
 
-We usually keep device nodes sorted by address, so this is out of order
-and should come before i2c (at least). No need to respin just for this
-though, I can fix it when I apply it, so:
+--Gz8dsIQ/IGaP9yH8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Acked-by: Hector Martin <marcan@marcan.st>
+On Sat, Jan 07, 2023 at 01:40:49AM +0900, Hector Martin wrote:
 
-Maintainers: as we usually ask, please merge only the driver commit (#2)
-via the PWM tree, we'll take care of DTs/MAINTAINERS/bindings via
-asahi-soc so we can avoid serializing/blocking other DT changes.
+> Yeah, the kernel test robot caught this one too. Sorry for missing it
+> (it got buried in warning noise in a rather large rebuild on my side).
+> That line should've been removed in #3 :(
 
-- Hector
+> I see two patches got applied already. Do you want me to just respin #3-#5?
+
+Yes, please.
+
+--Gz8dsIQ/IGaP9yH8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmO4acoACgkQJNaLcl1U
+h9AGNgf/YLKaPX6bZYmFzuc9rgcJz4e+wLfOVLdyvXNxyuXADMOouc9UZUINAS5D
+5NOpXgqT+zyx/I7HNYvtZ7qHbXkq2K1FR49HUcYLbGuZAbijeHl6e80k41T3+qEN
+mExnNZOAb2URFnt64pbwYDA8jMbX6/94Jz5JTdXlvQJ8N0Bn1jMhYwUwCsh97bOI
+o1/E58Mlq+mStedbmNEGC0j5lr8KJLWbK0/YQiJpITUKN81fb8YSlVflqwRRbkkK
+H3xQp8vqNGcOlbZARTMzlOnobN+Vx1e+pWm3dA1q5cTBNDtFhbOgViy8B50ajKF3
+AlV3Gyo9mgWxOdmdnI2Hs8tMV8oV5w==
+=W9wq
+-----END PGP SIGNATURE-----
+
+--Gz8dsIQ/IGaP9yH8--
