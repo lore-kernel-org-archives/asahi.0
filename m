@@ -1,75 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9BF7E8
-	for <asahi@lists.linux.dev>; Fri,  6 Jan 2023 18:34:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C2AAC433F0;
-	Fri,  6 Jan 2023 18:34:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673030097;
-	bh=rCzhA/52ddcfkNqEh7FMJ76ZEJnU+Wh9cDr+xpAZDnk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DjYrav64GXU/jG7gy7Tq7oZ+TOk6zDS56kpeFsK1eRzHMpq7uZwzmyxGVWFYtVRPl
-	 YKtE25439nA8eBUfj5hM2iVpQTPTqoVoYpCUr/Bj5rq2am9Wh0c7Ymn35ncXqg+CQ+
-	 wPkeq4r7axl5u8heHY8miJ8gb7UI3gA985aO0532XIK1y7g0mSmmEor71HxzrhkH5+
-	 U27wb/zJxQUzR2cvyY9oXoKVPb+g7pLxQmATinq/JirzYK2y1b7u+41pSp2A2icN4t
-	 DZQ3sTPSd9GuA5Fts69z71ccZByPBDwHz/6s4SFE8UrSUieXvmratJPcqi+rLPsshB
-	 EINBUD3Nrq+VQ==
-Date: Fri, 6 Jan 2023 18:34:51 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: Janne Grunau <j@jannau.net>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Tudor Ambarus <tudor.ambarus@microchip.com>,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] spi: Use a 32-bit DT property for
- spi-cs-setup-delay-ns
-Message-ID: <Y7hpy91VcDZjm794@sirena.org.uk>
-References: <20230104093631.15611-4-marcan@marcan.st>
- <Y7hLrxQO9GbgpW1h@sirena.org.uk>
- <6a9371e6-6516-5966-f92c-10bb228c8db3@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E4E184C
+	for <asahi@lists.linux.dev>; Sat,  7 Jan 2023 09:46:39 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id m7-20020a17090a730700b00225ebb9cd01so7701104pjk.3
+        for <asahi@lists.linux.dev>; Sat, 07 Jan 2023 01:46:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=daynix-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nDiSSUCXyfTxgSY9w0A6cnWBkOKJja5kzfazSGhDk+s=;
+        b=Ip9Fl0k1pj40UoY+CGobxiY7Cb+1N2wjCHxGSMm+/IGkJbHoHvYlHh9isCjXM6EYbS
+         uYU63Wve+S4jpifnghRtL7kd3WflrBwh3ewvMkoPRgWyadCiC/fK8XtXA9ABONYlraHH
+         H5+qiphc39Pcnh5CPLvVweuQB6KVkf62uqYq4VP+3A9IzulQJBBeRToU4TMkrupx6yG1
+         gY3IhrlZ8V1zCR8JXMja5X1cV0jUZ2U8FjERPU1meMnTd8SBruQNkYFYuxV3KO23FQQQ
+         ElMN75eyjKeoaEgs84MOvHjxLXbZGa1jMV2iWjz0TDxOIu7m7T0XnEleWV6dJxbEIhqc
+         W1eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nDiSSUCXyfTxgSY9w0A6cnWBkOKJja5kzfazSGhDk+s=;
+        b=0TepUmxi6dBwMnLcT/qssKYaED9LI5Uf2pssP9NKgWp6Z92TyIODuF6WAuNipMY25g
+         yde03kiuGnbqAbCoPd8q70EZvaKPiyr++gXXge53ZmOx/KhWJE5O/G1GksfwyuggknFx
+         TrTyQ8Dg8R3TVhp4VH0tNXvzEnjuKF1XxRqP81ufcCMgbdW15vfbroeVgoALkqlLlT5C
+         u/B8zHp6Na0+qUadXBF/BabFZySe9jQckQ9iVFML870SL1guxqQC6/oikbJCirmrQ8k8
+         9+wVn6z+GFS5ThtIJHZOrorbdhy9hw0bwhgB59uB7K33FjQ15vGH8rDtqmwQPEzgp72l
+         rnog==
+X-Gm-Message-State: AFqh2kpF7wD6cWeQaqTtWlOWwM6LbWPPOik2ju8xM2UPNFa0s6ls+sg+
+	nF8hsskysPZBGocahMBLjzaJGA==
+X-Google-Smtp-Source: AMrXdXvo+rexBnZY1QlfA2EAy1F/HDKl7+wrHDMpE1Bhi7y2UBror3BjgD1EIrqM70vva4yt50Esag==
+X-Received: by 2002:a17:902:f78d:b0:192:ae36:f760 with SMTP id q13-20020a170902f78d00b00192ae36f760mr32857238pln.47.1673084799038;
+        Sat, 07 Jan 2023 01:46:39 -0800 (PST)
+Received: from fedora.flets-east.jp ([2400:4050:a840:1e00:d54:e521:8bac:7bed])
+        by smtp.gmail.com with ESMTPSA id n9-20020a170902d2c900b00183c6784704sm2263449plc.291.2023.01.07.01.46.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Jan 2023 01:46:38 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Mark Brown <broonie@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>,
+	Hector Martin <marcan@marcan.st>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v6 0/7] KVM: arm64: Normalize cache configuration
+Date: Sat,  7 Jan 2023 18:46:22 +0900
+Message-Id: <20230107094629.181236-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.38.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Gz8dsIQ/IGaP9yH8"
-Content-Disposition: inline
-In-Reply-To: <6a9371e6-6516-5966-f92c-10bb228c8db3@marcan.st>
-X-Cookie: Do not fold, spindle or mutilate.
+Content-Transfer-Encoding: 8bit
 
+Before this change, the cache configuration of the physical CPU was
+exposed to vcpus. This is problematic because the cache configuration a
+vcpu sees varies when it migrates between vcpus with different cache
+configurations.
 
---Gz8dsIQ/IGaP9yH8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Fabricate cache configuration from the sanitized value, which holds the
+CTR_EL0 value the userspace sees regardless of which physical CPU it
+resides on.
 
-On Sat, Jan 07, 2023 at 01:40:49AM +0900, Hector Martin wrote:
+V5 -> V6:
+- Add a comment to get_min_cache_line_size()
 
-> Yeah, the kernel test robot caught this one too. Sorry for missing it
-> (it got buried in warning noise in a rather large rebuild on my side).
-> That line should've been removed in #3 :(
+V4 -> V5:
+- Noted why cache level existence check is unnecessary when fabricating
+  CCSIDR_EL1 value.
+- Removed FWB check. It is necessary as CLIDR_EL1.{LoUU, LoIUS} on the
+  host are {0, 0} if FWB is enabled, and such a CLIDR_EL1 value sets
+  the IDC bit of the sanitized CTR_EL0 value, which is already checked.
+- Removed UNDEF injection when reading CCSIDR_EL1 with an invalid
+  CSSELR_EL1 value.
+- Added a check for CLIDR_EL1.{LoUU,LoC,LoUIS} values set from the
+  userspace.
 
-> I see two patches got applied already. Do you want me to just respin #3-#5?
+V3 -> V4:
+- Implemented UNKNOWN system register definition for CCSIDR_EL1
+- Added a comment about the relation between CCSIDR_EL1 and FEAT_CCIDX
+- Squashed "Normalize cache configuration" and "Allow user to set
+  CCSIDR_EL1"
+  The intermediate state between them did not make much sense.
+- Introduced FIELD_GET to extract CCSIDR_EL1_LineSize.
 
-Yes, please.
+V2 -> V3:
+- Corrected message for patch "Normalize cache configuration"
+- Split patch "Normalize cache configuration"
+- Added handling for CSSELR_EL1.TnD
+- Added code to ignore RES0 in CSSELR_EL1
+- Replaced arm64_ftr_reg_ctrel0.sys_val with
+  read_sanitised_ftr_reg(SYS_CTR_EL0)
+- Fixed vcpu->arch.ccsidr initialziation
+- Added CCSIDR_EL1 sanitization
+- Added FWB check
+- Added a comment for CACHE_TYPE_SEPARATE
+- Added MTE tag cache creation code for CLIDR_EL1 fabrication
+- Removed CLIDR_EL1 reset code for reset caused by guest
+- Added a comment for CCSIDR2
 
---Gz8dsIQ/IGaP9yH8
-Content-Type: application/pgp-signature; name="signature.asc"
+V2: https://lore.kernel.org/lkml/20221211051700.275761-2-akihiko.odaki@daynix.com/
+V1: https://lore.kernel.org/lkml/525ff263-90b3-5b12-da31-171b09f9ad1b@daynix.com/
 
------BEGIN PGP SIGNATURE-----
+Akihiko Odaki (6):
+  arm64/sysreg: Convert CCSIDR_EL1 to automatic generation
+  arm64/sysreg: Add CCSIDR2_EL1
+  arm64/cache: Move CLIDR macro definitions
+  KVM: arm64: Always set HCR_TID2
+  KVM: arm64: Mask FEAT_CCIDX
+  KVM: arm64: Normalize cache configuration
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmO4acoACgkQJNaLcl1U
-h9AGNgf/YLKaPX6bZYmFzuc9rgcJz4e+wLfOVLdyvXNxyuXADMOouc9UZUINAS5D
-5NOpXgqT+zyx/I7HNYvtZ7qHbXkq2K1FR49HUcYLbGuZAbijeHl6e80k41T3+qEN
-mExnNZOAb2URFnt64pbwYDA8jMbX6/94Jz5JTdXlvQJ8N0Bn1jMhYwUwCsh97bOI
-o1/E58Mlq+mStedbmNEGC0j5lr8KJLWbK0/YQiJpITUKN81fb8YSlVflqwRRbkkK
-H3xQp8vqNGcOlbZARTMzlOnobN+Vx1e+pWm3dA1q5cTBNDtFhbOgViy8B50ajKF3
-AlV3Gyo9mgWxOdmdnI2Hs8tMV8oV5w==
-=W9wq
------END PGP SIGNATURE-----
+Marc Zyngier (1):
+  arm64: Allow the definition of UNKNOWN system register fields
 
---Gz8dsIQ/IGaP9yH8--
+ arch/arm64/include/asm/cache.h             |   9 +
+ arch/arm64/include/asm/kvm_arm.h           |   3 +-
+ arch/arm64/include/asm/kvm_emulate.h       |   4 -
+ arch/arm64/include/asm/kvm_host.h          |   6 +-
+ arch/arm64/include/asm/sysreg.h            |   1 -
+ arch/arm64/kernel/cacheinfo.c              |   5 -
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h |   2 -
+ arch/arm64/kvm/reset.c                     |   1 +
+ arch/arm64/kvm/sys_regs.c                  | 263 +++++++++++++--------
+ arch/arm64/tools/gen-sysreg.awk            |  20 +-
+ arch/arm64/tools/sysreg                    |  17 ++
+ 11 files changed, 219 insertions(+), 112 deletions(-)
+
+-- 
+2.38.1
+
