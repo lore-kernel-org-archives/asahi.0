@@ -1,103 +1,223 @@
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C3F23A6
-	for <asahi@lists.linux.dev>; Tue, 10 Jan 2023 17:53:48 +0000 (UTC)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
-	id 59C4326F617; Tue, 10 Jan 2023 18:47:45 +0100 (CET)
-Date: Tue, 10 Jan 2023 18:47:45 +0100
-From: Janne Grunau <j@jannau.net>
-To: Hector Martin <marcan@marcan.st>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Sven Peter <sven@svenpeter.dev>, asahi@lists.linux.dev,
-	linux-nvme@lists.infradead.org
-Subject: Re: [PATCH 1/9] nvme-apple: fix controller shutdown in
- apple_nvme_disable
-Message-ID: <20230110174745.GA3576@jannau.net>
-References: <20221129132208.4337-1-hch@lst.de>
- <20221129132208.4337-2-hch@lst.de>
- <c20485ec-28aa-2a45-3eba-8fa384ce0349@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E68B43D
+	for <asahi@lists.linux.dev>; Tue, 10 Jan 2023 23:26:51 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pFNhL-0002oM-5n; Wed, 11 Jan 2023 00:06:27 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pFNhG-005Ai6-Sd; Wed, 11 Jan 2023 00:06:22 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pFNhF-00BpK3-Vd; Wed, 11 Jan 2023 00:06:22 +0100
+Date: Wed, 11 Jan 2023 00:06:18 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: thierry.reding@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st,
+	sven@svenpeter.dev, alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/5] pwm: Add Apple PWM controller
+Message-ID: <20230110230618.pfz267jj5ne34ava@pengutronix.de>
+References: <20230106135839.18676-1-fnkl.kernel@gmail.com>
+ <20230106135839.18676-3-fnkl.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nhj3lt2xyxvt3eo2"
 Content-Disposition: inline
-In-Reply-To: <c20485ec-28aa-2a45-3eba-8fa384ce0349@marcan.st>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20230106135839.18676-3-fnkl.kernel@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
-On 2022-11-30 00:41:45 +0900, Hector Martin wrote:
-> On 29/11/2022 22.22, Christoph Hellwig wrote:
-> > nvme_shutdown_ctrl already shuts the controller down, there is no
-> > need to also call nvme_disable_ctrl for the shutdown case.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > ---
-> >  drivers/nvme/host/apple.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> > index 94ef797e8b4a5f..56d9e9be945b76 100644
-> > --- a/drivers/nvme/host/apple.c
-> > +++ b/drivers/nvme/host/apple.c
-> > @@ -831,7 +831,8 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
-> >  
-> >  		if (shutdown)
-> >  			nvme_shutdown_ctrl(&anv->ctrl);
-> > -		nvme_disable_ctrl(&anv->ctrl);
-> > +		else
-> > +			nvme_disable_ctrl(&anv->ctrl);
-> >  	}
-> >  
-> >  	WRITE_ONCE(anv->ioq.enabled, false);
-> 
-> Reviewed-by: Hector Martin <marcan@marcan.st>
-> 
-> I looked at some of our other implementations and we always seem to do
-> both, but this makes sense. If it breaks something we'll notice and
-> shout loudly when it makes it into an -rc at the latest :)
 
-This breaks resume for the apple nvme controller. The immediate problem 
-is that apple_nvme_reset_work() uses NVME_CC_ENABLE to decide whether to 
-call apple_nvme_disable(). Only nvme_disable_ctrl(ctrl, false) clears 
-NVME_CC_ENABLE.
+--nhj3lt2xyxvt3eo2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Even after extending the check to consider NVME_CC_SHN_NORMAL resume is 
-still broken. The host specific reset to re-enable the controller works 
-but IO is blocked. The controller logs following messages into its 
-syslog:
+Hello Sasha,
 
-| RTKit: syslog message: cmd.c:728: Oldest tag 12 is 19 seconds VERY OLD with cmdQe:2
-| RTKit: syslog message: cmd.c:732: Oldest tag is about to crash!!
-| RTKit: syslog message: cmd.c:720: Oldest high water mark moved up to 21,tag 12, cmdQ CQ_PRI0W
+On Fri, Jan 06, 2023 at 04:58:39PM +0300, Sasha Finkelstein wrote:
+> Adds the Apple PWM controller driver.
+>=20
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> Acked-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  drivers/pwm/Kconfig     |  12 ++++
+>  drivers/pwm/Makefile    |   1 +
+>  drivers/pwm/pwm-apple.c | 156 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 169 insertions(+)
+>  create mode 100644 drivers/pwm/pwm-apple.c
+>=20
+> diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+> index dae023d783a2..8df861b1f4a3 100644
+> --- a/drivers/pwm/Kconfig
+> +++ b/drivers/pwm/Kconfig
+> @@ -51,6 +51,18 @@ config PWM_AB8500
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called pwm-ab8500.
+> =20
+> +config PWM_APPLE
+> +	tristate "Apple SoC PWM support"
+> +	depends on ARCH_APPLE || COMPILE_TEST
+> +	help
+> +	  Generic PWM framework driver for PWM controller present on
+> +	  Apple SoCs
+> +
+> +	  Say Y here if you have an ARM Apple laptop, otherwise say N
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called pwm-apple.
+> +
+>  config PWM_ATMEL
+>  	tristate "Atmel PWM support"
+>  	depends on ARCH_AT91 || COMPILE_TEST
+> diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
+> index 7bf1a29f02b8..19899b912e00 100644
+> --- a/drivers/pwm/Makefile
+> +++ b/drivers/pwm/Makefile
+> @@ -2,6 +2,7 @@
+>  obj-$(CONFIG_PWM)		+=3D core.o
+>  obj-$(CONFIG_PWM_SYSFS)		+=3D sysfs.o
+>  obj-$(CONFIG_PWM_AB8500)	+=3D pwm-ab8500.o
+> +obj-$(CONFIG_PWM_APPLE)		+=3D pwm-apple.o
+>  obj-$(CONFIG_PWM_ATMEL)		+=3D pwm-atmel.o
+>  obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+=3D pwm-atmel-hlcdc.o
+>  obj-$(CONFIG_PWM_ATMEL_TCB)	+=3D pwm-atmel-tcb.o
+> diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c
+> new file mode 100644
+> index 000000000000..5360583a5fa6
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-apple.c
+> @@ -0,0 +1,156 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> +/*
+> + * Driver for the Apple SoC PWM controller
+> + *
+> + * Copyright The Asahi Linux Contributors
+> + *
+> + * Limitations:
+> + * - The writes to cycle registers are shadowed until a write to
+> + *   the control register.
+> + * - If both OFF_CYCLES and ON_CYCLES are set to 0, the output
+> + *   is a constant off signal.
 
-This looks looks like the controller reset after/during shutdown is required
-on this controller.
+How does the PWM behave with *APPLE_PWM_CTRLAPPLE_PWM_CTRL =3D 0?
+(typically: drives constant low)
 
-Below patch fixes resume for me. I can send this with comment to
-prevent repeating this regression or if preferred handle this in
-nvme_disable_ctrl() either via a quirk or an additional parameter.
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pwm.h>
+> +#include <linux/io.h>
+> +#include <linux/clk.h>
+> +#include <linux/math64.h>
+> +
+> +#define APPLE_PWM_CTRL        0x00
+> +#define APPLE_PWM_ON_CYCLES   0x1c
+> +#define APPLE_PWM_OFF_CYCLES  0x18
+> +
+> +#define APPLE_CTRL_ENABLE        BIT(0)
+> +#define APPLE_CTRL_MODE          BIT(2)
+> +#define APPLE_CTRL_UPDATE        BIT(5)
+> +#define APPLE_CTRL_TRIGGER       BIT(9)
+> +#define APPLE_CTRL_INVERT        BIT(10)
+> +#define APPLE_CTRL_OUTPUT_ENABLE BIT(14)
 
-Janne
+In reply to v4 I wrote:
 
---- 
-diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-index e13a992b6096..82396f9486e1 100644
---- a/drivers/nvme/host/apple.c
-+++ b/drivers/nvme/host/apple.c
-@@ -867,7 +867,9 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
-			apple_nvme_remove_cq(anv);
-		}
- 
--               nvme_disable_ctrl(&anv->ctrl, shutdown);
-+               if (shutdown)
-+                       nvme_disable_ctrl(&anv->ctrl, true);
-+               nvme_disable_ctrl(&anv->ctrl, false);
-	}
- 
-	WRITE_ONCE(anv->ioq.enabled, false);
+| Would be nice if the register prefix would match the register name. That
+| is please either rename APPLE_PWM_CONTROL to APPLE_PWM_CTRL or use
+| APPLE_PWM_CONTROL as prefix for the bit fields in that register.
+
+well, one of the two options was bogus because it doesn't result in the
+intended effect. You picked that broken option :-\
+Can you please rename such that the (maybe new) name for APPLE_PWM_CTRL
+is a prefix for the (maybe new) APPLE_CTRL_ENABLE and the other register
+bit definitions?
+
+> [...]
+> +static int apple_pwm_probe(struct platform_device *pdev)
+> +{
+> +	struct apple_pwm *fpwm;
+> +	struct clk *clk;
+> +	int ret;
+> +
+> +	fpwm =3D devm_kzalloc(&pdev->dev, sizeof(*fpwm), GFP_KERNEL);
+> +	if (!fpwm)
+> +		return -ENOMEM;
+> +
+> +	fpwm->base =3D devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(fpwm->base))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(fpwm->base), "unable to map m=
+mio");
+
+devm_platform_ioremap_resource() already emits an error message if there
+is a problem. So please don't add another message here.
+
+> +	clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
+> +	if (IS_ERR(clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(clk), "unable to get the cloc=
+k");
+> +
+> +	/*
+> +	 * uses the 24MHz system clock on all existing devices, can only
+> +	 * happen if the device tree is broken
+> +	 */
+> +	fpwm->clkrate =3D clk_get_rate(clk);
+> +	if (fpwm->clkrate > NSEC_PER_SEC)
+> +		return dev_err_probe(&pdev->dev, -EINVAL, "pwm clock out of range");
+
+This check is done to prevent an overflow in .apply, right? Please point
+that out in a comment.
+
+> +	fpwm->chip.dev =3D &pdev->dev;
+> +	fpwm->chip.npwm =3D 1;
+> +	fpwm->chip.ops =3D &apple_pwm_ops;
+> +
+> +	ret =3D devm_pwmchip_add(&pdev->dev, &fpwm->chip);
+> +	if (ret < 0)
+> +		return dev_err_probe(&pdev->dev, ret, "unable to add pwm chip");
+> +
+> +	return 0;
+> +}
+> +
+> [...]
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--nhj3lt2xyxvt3eo2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmO972cACgkQwfwUeK3K
+7AlyMQf/fr+3quRS974KGObjeliI2qcMCqP2Tq0qjhRCKGwEsHMEFKPg7ixkOJko
+oRly+N3zqIs6S+b0eo2MObRMB9ABl3+42m7V5jLiGDiIEJzoBESE1/9XqwgQKISO
+p8CgaHZktwFIZoMOTakjuTJA7UNmGnB/JsQaSWnh2pi1qYfE2Ft4U18pTZNcSijv
+Eq4oY/3UNZV9+MCtB/EC6g9d3Mvi7fEkLdgp5OVZ4Z0NJqDFUz+klIDIfBiS7n+U
+u/heswafcPYiKo88tKKZcC449+1se/kX6+kwDUWIvdp2fKLhaWaX+jlgtCcMs9R7
+AUaPg6vD6bqhRtIWGP7r0ZfDO/eH/w==
+=Nwbo
+-----END PGP SIGNATURE-----
+
+--nhj3lt2xyxvt3eo2--
