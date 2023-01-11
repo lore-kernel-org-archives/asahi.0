@@ -1,242 +1,66 @@
-Received: from out-117.mta0.migadu.com (out-117.mta0.migadu.com [91.218.175.117])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E2E33D2
-	for <asahi@lists.linux.dev>; Wed, 11 Jan 2023 18:25:44 +0000 (UTC)
-Date: Wed, 11 Jan 2023 18:25:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1673461535;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CDD29A9
+	for <asahi@lists.linux.dev>; Wed, 11 Jan 2023 18:52:44 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1673463163;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=hAs7LUynKbLq5T1v0UqKm3yOvkRnDNP7tzZTR0H+taQ=;
-	b=NqZq6497DO/W7iQJ4P2g+Cej/89CLOjShG4+NPInRAducOx5h40SVY6Ov197WHklT/QLkf
-	wUNl+HcsZI6LVTdimfaZalC6esS6PEbunmMtMh/w60PMFbeWdWt5krHHDD1CJyeMrRvswK
-	mu5Y4S3E+NA6l/NWYLilEoNVTDDqS+k=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
-	kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v6 7/7] KVM: arm64: Normalize cache configuration
-Message-ID: <Y77/Gi+193u+YvwX@google.com>
-References: <20230107094629.181236-1-akihiko.odaki@daynix.com>
- <20230107094629.181236-8-akihiko.odaki@daynix.com>
+	bh=ttuLldY4Pi3UmGhGAJKRPa4PS1VhLCj3NNSYMZ/cf5Q=;
+	b=nzxu0gLLYJTkf5ZiYW7CY3jrR+VCSVh6N5vxmZ9rsR4ceES6/lgAGKfxrfGMcSdJnlyt8V
+	aZJeT4/VttZv7XCuVq2yPKuaySzqvxhKLzvmzMyjCvp+DympFCmiWMKH4mmkbZ2krVYX5t
+	AXNMMfdm/kpsJLPphJRyX/XxPv9CVfmrrTxH+sMIEYXKsyEVcbgly/Aj3pI3c4TMAahrsn
+	5GK+B1ho41Bs2Py2puxOzIldZnXInlsrgvoDkfkIeiJ5VCavBIOtJ4Zuw/scA2F4O6aXX/
+	Cgse8tUhNfbM5N019bCNiM4fHvQn0c5FELqHMRQi1UVL6Z/98pF+tWsS4k10TQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1673463163;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ttuLldY4Pi3UmGhGAJKRPa4PS1VhLCj3NNSYMZ/cf5Q=;
+	b=oF8+oX6j+iTKCzfG74NyYUi7q4vrceplUWYR/1y8bamslXWgKovdcFT8XGTmOcT91KmO0O
+	uzG5BN+06p0xJFBw==
+To: Johan Hovold <johan+linaro@kernel.org>, Marc Zyngier <maz@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andrew Lunn <andrew@lunn.ch>,
+ Gregory Clement <gregory.clement@bootlin.com>, Sebastian Hesselbarth
+ <sebastian.hesselbarth@gmail.com>, Florian Fainelli
+ <f.fainelli@gmail.com>, Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, Johan Hovold
+ <johan+linaro@kernel.org>
+Subject: Re: [PATCH 2/2] genirq/irqdomain/msi: Add
+ irq_domain_alloc_irqs_affinity() wrapper
+In-Reply-To: <20221213140844.15470-3-johan+linaro@kernel.org>
+References: <20221213140844.15470-1-johan+linaro@kernel.org>
+ <20221213140844.15470-3-johan+linaro@kernel.org>
+Date: Wed, 11 Jan 2023 19:52:42 +0100
+Message-ID: <87358ggayt.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230107094629.181236-8-akihiko.odaki@daynix.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain
 
-On Sat, Jan 07, 2023 at 06:46:29PM +0900, Akihiko Odaki wrote:
-> Before this change, the cache configuration of the physical CPU was
-> exposed to vcpus. This is problematic because the cache configuration a
-> vcpu sees varies when it migrates between vcpus with different cache
-> configurations.
-> 
-> Fabricate cache configuration from the sanitized value, which holds the
-> CTR_EL0 value the userspace sees regardless of which physical CPU it
-> resides on.
-> 
-> CLIDR_EL1 and CCSIDR_EL1 are now writable from the userspace so that
-> the VMM can restore the values saved with the old kernel.
-> 
-> Suggested-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->  arch/arm64/include/asm/cache.h    |   3 +
->  arch/arm64/include/asm/kvm_host.h |   4 +
->  arch/arm64/kvm/reset.c            |   1 +
->  arch/arm64/kvm/sys_regs.c         | 252 ++++++++++++++++++------------
->  4 files changed, 164 insertions(+), 96 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/cache.h b/arch/arm64/include/asm/cache.h
-> index ab7133654a72..a51e6e8f3171 100644
-> --- a/arch/arm64/include/asm/cache.h
-> +++ b/arch/arm64/include/asm/cache.h
-> @@ -22,6 +22,9 @@
->  #define CLIDR_CTYPE(clidr, level)	\
->  	(((clidr) & CLIDR_CTYPE_MASK(level)) >> CLIDR_CTYPE_SHIFT(level))
->  
-> +/* Ttypen, bits [2(n - 1) + 34 : 2(n - 1) + 33], for n = 1 to 7 */
-> +#define CLIDR_TTYPE_SHIFT(level)	(2 * ((level) - 1) + CLIDR_EL1_Ttypen_SHIFT)
-> +
->  /*
->   * Memory returned by kmalloc() may be used for DMA, so we must make
->   * sure that all such allocations are cache aligned. Otherwise,
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index 374390a9212e..496602e0b299 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -252,6 +252,7 @@ struct kvm_vcpu_fault_info {
->  enum vcpu_sysreg {
->  	__INVALID_SYSREG__,   /* 0 is reserved as an invalid value */
->  	MPIDR_EL1,	/* MultiProcessor Affinity Register */
-> +	CLIDR_EL1,	/* Cache Level ID Register */
->  	CSSELR_EL1,	/* Cache Size Selection Register */
->  	SCTLR_EL1,	/* System Control Register */
->  	ACTLR_EL1,	/* Auxiliary Control Register */
-> @@ -501,6 +502,9 @@ struct kvm_vcpu_arch {
->  		u64 last_steal;
->  		gpa_t base;
->  	} steal;
-> +
-> +	/* Per-vcpu CCSIDR override or NULL */
-> +	u32 *ccsidr;
->  };
->  
->  /*
-> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
-> index e0267f672b8a..dc235ddc6172 100644
-> --- a/arch/arm64/kvm/reset.c
-> +++ b/arch/arm64/kvm/reset.c
-> @@ -157,6 +157,7 @@ void kvm_arm_vcpu_destroy(struct kvm_vcpu *vcpu)
->  	if (sve_state)
->  		kvm_unshare_hyp(sve_state, sve_state + vcpu_sve_state_size(vcpu));
->  	kfree(sve_state);
-> +	kfree(vcpu->arch.ccsidr);
->  }
->  
->  static void kvm_vcpu_reset_sve(struct kvm_vcpu *vcpu)
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index 5617de916c80..e789f9dea277 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -11,6 +11,7 @@
->  
->  #include <linux/bitfield.h>
->  #include <linux/bsearch.h>
-> +#include <linux/cacheinfo.h>
->  #include <linux/kvm_host.h>
->  #include <linux/mm.h>
->  #include <linux/printk.h>
-> @@ -81,25 +82,85 @@ void vcpu_write_sys_reg(struct kvm_vcpu *vcpu, u64 val, int reg)
->  	 __vcpu_sys_reg(vcpu, reg) = val;
->  }
->  
-> -/* 3 bits per cache level, as per CLIDR, but non-existent caches always 0 */
-> -static u32 cache_levels;
-> -
->  /* CSSELR values; used to index KVM_REG_ARM_DEMUX_ID_CCSIDR */
->  #define CSSELR_MAX 14
->  
-> +static u8 get_min_cache_line_size(u32 csselr)
-> +{
-> +	u64 ctr_el0;
-> +	int field;
-> +
-> +	ctr_el0 = read_sanitised_ftr_reg(SYS_CTR_EL0);
-> +	field = csselr & CSSELR_EL1_InD ? CTR_EL0_IminLine_SHIFT : CTR_EL0_DminLine_SHIFT;
-> +
-> +	/*
-> +	 * Determine Log2(Number of bytes) - 4, which is the encoding of cache
-> +	 * line size in CCSIDR_EL0. In CTR_EL0, the cache line size is
-> +	 * represented with:
-> +	 * Log2(Number of words) = Log2((Number of bytes) / 4)
-> +	 *                       = Log2(Number of bytes) - 2
-> +	 */
-> +	return cpuid_feature_extract_unsigned_field(ctr_el0, field) - 2;
-> +}
+On Tue, Dec 13 2022 at 15:08, Johan Hovold wrote:
+> The full __irq_domain_alloc_irqs() interface was initially only intended
+> for some legacy (x86) use cases while most callers should use the
+> irq_domain_alloc_irqs() wrapper.
+>
+> Add a matching irq_domain_alloc_irqs_affinity() wrapper that can be used
+> when an affinity hint needs to be provided and use it for MSI
+> allocations.
 
-So I definitely got my math wrong when I was reading this the first
-time, apologies.
+I definitely like the irqchip cleanup, but this one is core code and
+having the extra wrapper is not really buying us much.
 
-Nonetheless, I still find the return value confusing here. It would be
-better to just return Log2(bytes) outright (i.e. no offset) and document
-that. I worry that the next user of this function will miss that detail.
-
-While at it we should probably convert to the new sysreg field helpers
-too.
-
-  /*
-   * Returns the minimum line size for the selected cache, expressed as
-   * Log2(bytes).
-   */
-  static u8 get_min_cache_line_size(bool icache)
-  {
-  	u64 ctr = read_sanitised_ftr_reg(SYS_CTR_EL0);
-	u8 field;
-
-	if (icache)
-		field = SYS_FIELD_GET(CTR_EL0, IminSize, ctr);
-	else
-		field = SYS_FIELD_GET(CTR_EL0, DminSize, ctr);
-
-	/*
-	 * Cache line size is represented as Log2(words) in CTR_EL0.
-	 * Log2(bytes) can be derived with the following:
-	 *
-	 * Log2(words) + 2 = Log2(bytes / 4) + 2
-	 * 		   = Log2(bytes) - 2 + 2
-	 * 		   = Log2(bytes)
-	 */
-	return field + 2;
-  }
-
-> +
->  /* Which cache CCSIDR represents depends on CSSELR value. */
-> -static u32 get_ccsidr(u32 csselr)
-> +static u32 get_ccsidr(struct kvm_vcpu *vcpu, u32 csselr)
->  {
-> -	u32 ccsidr;
-> +	if (vcpu->arch.ccsidr)
-> +		return vcpu->arch.ccsidr[csselr];
->  
-> -	/* Make sure noone else changes CSSELR during this! */
-> -	local_irq_disable();
-> -	write_sysreg(csselr, csselr_el1);
-> -	isb();
-> -	ccsidr = read_sysreg(ccsidr_el1);
-> -	local_irq_enable();
-> +	/*
-> +	 * Fabricate a CCSIDR value as the overriding value does not exist.
-> +	 * The real CCSIDR value will not be used as it can vary by the
-> +	 * physical CPU which the vcpu currently resides in.
-> +	 *
-> +	 * The line size is determined with get_min_cache_line_size(), which
-> +	 * should be valid for all CPUs even if they have different cache
-> +	 * configuration.
-> +	 *
-> +	 * The associativity bits are cleared, meaning the geometry of all data
-> +	 * and unified caches (which are guaranteed to be PIPT and thus
-> +	 * non-aliasing) are 1 set and 1 way.
-> +	 * Guests should not be doing cache operations by set/way at all, and
-> +	 * for this reason, we trap them and attempt to infer the intent, so
-> +	 * that we can flush the entire guest's address space at the appropriate
-> +	 * time. The exposed geometry minimizes the number of the traps.
-> +	 * [If guests should attempt to infer aliasing properties from the
-> +	 * geometry (which is not permitted by the architecture), they would
-> +	 * only do so for virtually indexed caches.]
-> +	 *
-> +	 * We don't check if the cache level exists as it is allowed to return
-> +	 * an UNKNOWN value if not.
-> +	 */
-> +	return get_min_cache_line_size(csselr) << CCSIDR_EL1_LineSize_SHIFT;
-
-So with the above change, this would become:
-
-	u8 line_size = get_min_cache_line_size(csselr & CSSELR_EL1_InD);
-
-	return SYS_FIELD_PREP(CSSELR_EL1, LineSize, line_size - 4);
-
-Which I find slightly more readable because it moves the -4 offset to
-where the relevant field is initialized. Adding an extra bit of
-information to your comment explaining the offset is likely worthwhile
-too.
-
---
 Thanks,
-Oliver
+
+        tglx
