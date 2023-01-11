@@ -1,170 +1,242 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from out-117.mta0.migadu.com (out-117.mta0.migadu.com [91.218.175.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F34B17EF;
-	Wed, 11 Jan 2023 09:30:25 +0000 (UTC)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1pFXR4-0005EH-HR; Wed, 11 Jan 2023 10:30:18 +0100
-Message-ID: <ce66aac0-9e6b-7688-9b82-2566e6d26362@leemhuis.info>
-Date: Wed, 11 Jan 2023 10:30:17 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E2E33D2
+	for <asahi@lists.linux.dev>; Wed, 11 Jan 2023 18:25:44 +0000 (UTC)
+Date: Wed, 11 Jan 2023 18:25:30 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1673461535;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hAs7LUynKbLq5T1v0UqKm3yOvkRnDNP7tzZTR0H+taQ=;
+	b=NqZq6497DO/W7iQJ4P2g+Cej/89CLOjShG4+NPInRAducOx5h40SVY6Ov197WHklT/QLkf
+	wUNl+HcsZI6LVTdimfaZalC6esS6PEbunmMtMh/w60PMFbeWdWt5krHHDD1CJyeMrRvswK
+	mu5Y4S3E+NA6l/NWYLilEoNVTDDqS+k=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev,
+	kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v6 7/7] KVM: arm64: Normalize cache configuration
+Message-ID: <Y77/Gi+193u+YvwX@google.com>
+References: <20230107094629.181236-1-akihiko.odaki@daynix.com>
+ <20230107094629.181236-8-akihiko.odaki@daynix.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 1/9] nvme-apple: fix controller shutdown in
- apple_nvme_disable
-Content-Language: en-US, de-DE
-To: Janne Grunau <j@jannau.net>, Hector Martin <marcan@marcan.st>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, James Smart <james.smart@broadcom.com>,
- Chaitanya Kulkarni <kch@nvidia.com>, Sven Peter <sven@svenpeter.dev>,
- asahi@lists.linux.dev, linux-nvme@lists.infradead.org,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>
-References: <20221129132208.4337-1-hch@lst.de>
- <20221129132208.4337-2-hch@lst.de>
- <c20485ec-28aa-2a45-3eba-8fa384ce0349@marcan.st>
- <20230110174745.GA3576@jannau.net>
-From: "Linux kernel regression tracking (#adding)" <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20230110174745.GA3576@jannau.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1673429425;3e5a319a;
-X-HE-SMSGID: 1pFXR4-0005EH-HR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230107094629.181236-8-akihiko.odaki@daynix.com>
+X-Migadu-Flow: FLOW_OUT
 
-[CCing the regression list, as it should be in the loop for regressions:
-https://docs.kernel.org/admin-guide/reporting-regressions.html]
-
-Top-posting one thing, to make this msg easier to consume.
-
-Hector, thx for already working on this. If you respin your patches,
-could you please include these tags in your patches:
-
-Reported-by: Janne Grunau <j@jannau.net>
-Link: https://lore.kernel.org/all/20230110174745.GA3576@jannau.net/
-
-For details, see Documentation/process/submitting-patches.rst
-(http://docs.kernel.org/process/submitting-patches.html) and
-Documentation/process/5.Posting.rst
-(https://docs.kernel.org/process/5.Posting.html)
-
-Or these posts from Linus:
-
-https://lore.kernel.org/all/CAHk-=wjMmSZzMJ3Xnskdg4+GGz=5p5p+GSYyFBTh0f-DgvdBWg@mail.gmail.com/
-
-https://lore.kernel.org/all/CAHk-=wgs38ZrfPvy=nOwVkVzjpM3VFU1zobP37Fwd_h9iAD5JQ@mail.gmail.com/
-
-https://lore.kernel.org/all/CAHk-=wjxzafG-=J8oT30s7upn4RhBs6TX-uVFZ5rME+L5_DoJA@mail.gmail.com/
-
-
-For the rest of this mail:
-
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
-
-On 10.01.23 18:47, Janne Grunau wrote:
-> On 2022-11-30 00:41:45 +0900, Hector Martin wrote:
->> On 29/11/2022 22.22, Christoph Hellwig wrote:
->>> nvme_shutdown_ctrl already shuts the controller down, there is no
->>> need to also call nvme_disable_ctrl for the shutdown case.
->>>
->>> Signed-off-by: Christoph Hellwig <hch@lst.de>
->>> ---
->>>  drivers/nvme/host/apple.c | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
->>> index 94ef797e8b4a5f..56d9e9be945b76 100644
->>> --- a/drivers/nvme/host/apple.c
->>> +++ b/drivers/nvme/host/apple.c
->>> @@ -831,7 +831,8 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
->>>  
->>>  		if (shutdown)
->>>  			nvme_shutdown_ctrl(&anv->ctrl);
->>> -		nvme_disable_ctrl(&anv->ctrl);
->>> +		else
->>> +			nvme_disable_ctrl(&anv->ctrl);
->>>  	}
->>>  
->>>  	WRITE_ONCE(anv->ioq.enabled, false);
->>
->> Reviewed-by: Hector Martin <marcan@marcan.st>
->>
->> I looked at some of our other implementations and we always seem to do
->> both, but this makes sense. If it breaks something we'll notice and
->> shout loudly when it makes it into an -rc at the latest :)
+On Sat, Jan 07, 2023 at 06:46:29PM +0900, Akihiko Odaki wrote:
+> Before this change, the cache configuration of the physical CPU was
+> exposed to vcpus. This is problematic because the cache configuration a
+> vcpu sees varies when it migrates between vcpus with different cache
+> configurations.
 > 
-> This breaks resume for the apple nvme controller.
-
-
-> The immediate problem 
-> is that apple_nvme_reset_work() uses NVME_CC_ENABLE to decide whether to 
-> call apple_nvme_disable(). Only nvme_disable_ctrl(ctrl, false) clears 
-> NVME_CC_ENABLE.
+> Fabricate cache configuration from the sanitized value, which holds the
+> CTR_EL0 value the userspace sees regardless of which physical CPU it
+> resides on.
 > 
-> Even after extending the check to consider NVME_CC_SHN_NORMAL resume is 
-> still broken. The host specific reset to re-enable the controller works 
-> but IO is blocked. The controller logs following messages into its 
-> syslog:
+> CLIDR_EL1 and CCSIDR_EL1 are now writable from the userspace so that
+> the VMM can restore the values saved with the old kernel.
 > 
-> | RTKit: syslog message: cmd.c:728: Oldest tag 12 is 19 seconds VERY OLD with cmdQe:2
-> | RTKit: syslog message: cmd.c:732: Oldest tag is about to crash!!
-> | RTKit: syslog message: cmd.c:720: Oldest high water mark moved up to 21,tag 12, cmdQ CQ_PRI0W
+> Suggested-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> ---
+>  arch/arm64/include/asm/cache.h    |   3 +
+>  arch/arm64/include/asm/kvm_host.h |   4 +
+>  arch/arm64/kvm/reset.c            |   1 +
+>  arch/arm64/kvm/sys_regs.c         | 252 ++++++++++++++++++------------
+>  4 files changed, 164 insertions(+), 96 deletions(-)
 > 
-> This looks looks like the controller reset after/during shutdown is required
-> on this controller.
-> 
-> Below patch fixes resume for me. I can send this with comment to
-> prevent repeating this regression or if preferred handle this in
-> nvme_disable_ctrl() either via a quirk or an additional parameter.
+> diff --git a/arch/arm64/include/asm/cache.h b/arch/arm64/include/asm/cache.h
+> index ab7133654a72..a51e6e8f3171 100644
+> --- a/arch/arm64/include/asm/cache.h
+> +++ b/arch/arm64/include/asm/cache.h
+> @@ -22,6 +22,9 @@
+>  #define CLIDR_CTYPE(clidr, level)	\
+>  	(((clidr) & CLIDR_CTYPE_MASK(level)) >> CLIDR_CTYPE_SHIFT(level))
+>  
+> +/* Ttypen, bits [2(n - 1) + 34 : 2(n - 1) + 33], for n = 1 to 7 */
+> +#define CLIDR_TTYPE_SHIFT(level)	(2 * ((level) - 1) + CLIDR_EL1_Ttypen_SHIFT)
+> +
+>  /*
+>   * Memory returned by kmalloc() may be used for DMA, so we must make
+>   * sure that all such allocations are cache aligned. Otherwise,
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 374390a9212e..496602e0b299 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -252,6 +252,7 @@ struct kvm_vcpu_fault_info {
+>  enum vcpu_sysreg {
+>  	__INVALID_SYSREG__,   /* 0 is reserved as an invalid value */
+>  	MPIDR_EL1,	/* MultiProcessor Affinity Register */
+> +	CLIDR_EL1,	/* Cache Level ID Register */
+>  	CSSELR_EL1,	/* Cache Size Selection Register */
+>  	SCTLR_EL1,	/* System Control Register */
+>  	ACTLR_EL1,	/* Auxiliary Control Register */
+> @@ -501,6 +502,9 @@ struct kvm_vcpu_arch {
+>  		u64 last_steal;
+>  		gpa_t base;
+>  	} steal;
+> +
+> +	/* Per-vcpu CCSIDR override or NULL */
+> +	u32 *ccsidr;
+>  };
+>  
+>  /*
+> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+> index e0267f672b8a..dc235ddc6172 100644
+> --- a/arch/arm64/kvm/reset.c
+> +++ b/arch/arm64/kvm/reset.c
+> @@ -157,6 +157,7 @@ void kvm_arm_vcpu_destroy(struct kvm_vcpu *vcpu)
+>  	if (sve_state)
+>  		kvm_unshare_hyp(sve_state, sve_state + vcpu_sve_state_size(vcpu));
+>  	kfree(sve_state);
+> +	kfree(vcpu->arch.ccsidr);
+>  }
+>  
+>  static void kvm_vcpu_reset_sve(struct kvm_vcpu *vcpu)
+> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> index 5617de916c80..e789f9dea277 100644
+> --- a/arch/arm64/kvm/sys_regs.c
+> +++ b/arch/arm64/kvm/sys_regs.c
+> @@ -11,6 +11,7 @@
+>  
+>  #include <linux/bitfield.h>
+>  #include <linux/bsearch.h>
+> +#include <linux/cacheinfo.h>
+>  #include <linux/kvm_host.h>
+>  #include <linux/mm.h>
+>  #include <linux/printk.h>
+> @@ -81,25 +82,85 @@ void vcpu_write_sys_reg(struct kvm_vcpu *vcpu, u64 val, int reg)
+>  	 __vcpu_sys_reg(vcpu, reg) = val;
+>  }
+>  
+> -/* 3 bits per cache level, as per CLIDR, but non-existent caches always 0 */
+> -static u32 cache_levels;
+> -
+>  /* CSSELR values; used to index KVM_REG_ARM_DEMUX_ID_CCSIDR */
+>  #define CSSELR_MAX 14
+>  
+> +static u8 get_min_cache_line_size(u32 csselr)
+> +{
+> +	u64 ctr_el0;
+> +	int field;
+> +
+> +	ctr_el0 = read_sanitised_ftr_reg(SYS_CTR_EL0);
+> +	field = csselr & CSSELR_EL1_InD ? CTR_EL0_IminLine_SHIFT : CTR_EL0_DminLine_SHIFT;
+> +
+> +	/*
+> +	 * Determine Log2(Number of bytes) - 4, which is the encoding of cache
+> +	 * line size in CCSIDR_EL0. In CTR_EL0, the cache line size is
+> +	 * represented with:
+> +	 * Log2(Number of words) = Log2((Number of bytes) / 4)
+> +	 *                       = Log2(Number of bytes) - 2
+> +	 */
+> +	return cpuid_feature_extract_unsigned_field(ctr_el0, field) - 2;
+> +}
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
+So I definitely got my math wrong when I was reading this the first
+time, apologies.
 
-#regzbot ^introduced c76b8308e4c9
-#regzbot title nvme: resume broken on apple nvme controller
-#regzbot monitor:
-https://lore.kernel.org/all/20230111043614.27087-1-marcan@marcan.st/
-#regzbot ignore-activity
+Nonetheless, I still find the return value confusing here. It would be
+better to just return Log2(bytes) outright (i.e. no offset) and document
+that. I worry that the next user of this function will miss that detail.
 
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
+While at it we should probably convert to the new sysreg field helpers
+too.
 
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
+  /*
+   * Returns the minimum line size for the selected cache, expressed as
+   * Log2(bytes).
+   */
+  static u8 get_min_cache_line_size(bool icache)
+  {
+  	u64 ctr = read_sanitised_ftr_reg(SYS_CTR_EL0);
+	u8 field;
 
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+	if (icache)
+		field = SYS_FIELD_GET(CTR_EL0, IminSize, ctr);
+	else
+		field = SYS_FIELD_GET(CTR_EL0, DminSize, ctr);
+
+	/*
+	 * Cache line size is represented as Log2(words) in CTR_EL0.
+	 * Log2(bytes) can be derived with the following:
+	 *
+	 * Log2(words) + 2 = Log2(bytes / 4) + 2
+	 * 		   = Log2(bytes) - 2 + 2
+	 * 		   = Log2(bytes)
+	 */
+	return field + 2;
+  }
+
+> +
+>  /* Which cache CCSIDR represents depends on CSSELR value. */
+> -static u32 get_ccsidr(u32 csselr)
+> +static u32 get_ccsidr(struct kvm_vcpu *vcpu, u32 csselr)
+>  {
+> -	u32 ccsidr;
+> +	if (vcpu->arch.ccsidr)
+> +		return vcpu->arch.ccsidr[csselr];
+>  
+> -	/* Make sure noone else changes CSSELR during this! */
+> -	local_irq_disable();
+> -	write_sysreg(csselr, csselr_el1);
+> -	isb();
+> -	ccsidr = read_sysreg(ccsidr_el1);
+> -	local_irq_enable();
+> +	/*
+> +	 * Fabricate a CCSIDR value as the overriding value does not exist.
+> +	 * The real CCSIDR value will not be used as it can vary by the
+> +	 * physical CPU which the vcpu currently resides in.
+> +	 *
+> +	 * The line size is determined with get_min_cache_line_size(), which
+> +	 * should be valid for all CPUs even if they have different cache
+> +	 * configuration.
+> +	 *
+> +	 * The associativity bits are cleared, meaning the geometry of all data
+> +	 * and unified caches (which are guaranteed to be PIPT and thus
+> +	 * non-aliasing) are 1 set and 1 way.
+> +	 * Guests should not be doing cache operations by set/way at all, and
+> +	 * for this reason, we trap them and attempt to infer the intent, so
+> +	 * that we can flush the entire guest's address space at the appropriate
+> +	 * time. The exposed geometry minimizes the number of the traps.
+> +	 * [If guests should attempt to infer aliasing properties from the
+> +	 * geometry (which is not permitted by the architecture), they would
+> +	 * only do so for virtually indexed caches.]
+> +	 *
+> +	 * We don't check if the cache level exists as it is allowed to return
+> +	 * an UNKNOWN value if not.
+> +	 */
+> +	return get_min_cache_line_size(csselr) << CCSIDR_EL1_LineSize_SHIFT;
+
+So with the above change, this would become:
+
+	u8 line_size = get_min_cache_line_size(csselr & CSSELR_EL1_InD);
+
+	return SYS_FIELD_PREP(CSSELR_EL1, LineSize, line_size - 4);
+
+Which I find slightly more readable because it moves the -4 offset to
+where the relevant field is initialized. Adding an extra bit of
+information to your comment explaining the offset is likely worthwhile
+too.
+
 --
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
-
-> --- 
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index e13a992b6096..82396f9486e1 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -867,7 +867,9 @@ static void apple_nvme_disable(struct apple_nvme *anv, bool shutdown)
-> 			apple_nvme_remove_cq(anv);
-> 		}
->  
-> -               nvme_disable_ctrl(&anv->ctrl, shutdown);
-> +               if (shutdown)
-> +                       nvme_disable_ctrl(&anv->ctrl, true);
-> +               nvme_disable_ctrl(&anv->ctrl, false);
-> 	}
->  
-> 	WRITE_ONCE(anv->ioq.enabled, false);
+Thanks,
+Oliver
