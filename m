@@ -1,74 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940D6746A
-	for <asahi@lists.linux.dev>; Thu, 12 Jan 2023 13:34:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 366CBC433D2;
-	Thu, 12 Jan 2023 13:34:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673530484;
-	bh=j0YIDz5bHF2dFE2r4pGCMvZWfbTDEfD2sZPAljVVdPM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oVh35eywb5oK7iIixDKPwxnygS6i9OfZxaRlgXZVZSaUI2xBUtrtHDIUB350VJI1c
-	 JK8EQ9nzK1wAVVCzb5Au21M7c+h9dTyP23XudUduDXGrppEhSIDJp/WGoB5uLyFd9W
-	 57K2iAQni9rcMi60meEtbkPnvxgIczX1aXRmp7I7L2GZAbLGkkAETYSDwJLFDmBIjC
-	 nfTIUiC9euE0vKEvft7Mu4mgCqgqDxlTvI6Pa7kXTCZ0RGOgRlpOVXJprKzRaChlzJ
-	 DgfIdidyjphtq0P40ueCY+WmQXLY4xRo9s0zzepVrezR5J69gSc8mIIWqX0BAx3aHE
-	 5rfJGq222ZZGQ==
-Received: from johan by xi.lan with local (Exim 4.94.2)
-	(envelope-from <johan@kernel.org>)
-	id 1pFxjG-0001vA-Mi; Thu, 12 Jan 2023 14:34:51 +0100
-Date: Thu, 12 Jan 2023 14:34:50 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Johan Hovold <johan+linaro@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73A120E2
+	for <asahi@lists.linux.dev>; Fri, 13 Jan 2023 10:23:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id ECE8341A42;
+	Fri, 13 Jan 2023 10:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1673605409; bh=Qk0SZhUSDcUli3ukUepHX62c899A3JbfgCFO6jDV0xw=;
+	h=From:To:Cc:Subject:Date;
+	b=l/RI4vKRdxtkr1dgBIidcWG5huYub+Hd8IQ4/8AQ9V+BjXniGnGiU7aIFRlbq/vxE
+	 dK8mHJeu6jhqseny7hhgTLMcPfw+YXb154e8BipO9gRGyOO2RcT8qZtqsPak13kkLh
+	 IGgXh82uSQGygDRIJQn6rNEdRI8f1YGPhIix1NOMGljo9TSMplT3v3/x1zyAw4UZh4
+	 9jJxba6lyvTo2g+bEa5jpYzUAFq7WnLQdwVdRVaQN/hAqns+goLBeSRMCn6sHaEDlP
+	 QhugQLLKCicRknkAnVE25f2+/4BS/2Zn8wyKIJOzBFBk5G6F5alMKkPUA6iw8L8dyn
+	 gEGvHEbkbAXWA==
+From: Hector Martin <marcan@marcan.st>
+To: Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@microchip.com>,
+	linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Janne Grunau <j@jannau.net>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/2] genirq/irqdomain/msi: Add
- irq_domain_alloc_irqs_affinity() wrapper
-Message-ID: <Y8AMejEy59W87YC5@hovoldconsulting.com>
-References: <20221213140844.15470-1-johan+linaro@kernel.org>
- <20221213140844.15470-3-johan+linaro@kernel.org>
- <87358ggayt.ffs@tglx>
- <Y8AKKVs9vAFR+F6H@hovoldconsulting.com>
+	asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>
+Subject: [PATCH v2 0/3] SPI core CS delay fixes and additions
+Date: Fri, 13 Jan 2023 19:23:07 +0900
+Message-Id: <20230113102309.18308-1-marcan@marcan.st>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8AKKVs9vAFR+F6H@hovoldconsulting.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 12, 2023 at 02:24:58PM +0100, Johan Hovold wrote:
-> On Wed, Jan 11, 2023 at 07:52:42PM +0100, Thomas Gleixner wrote:
-> > On Tue, Dec 13 2022 at 15:08, Johan Hovold wrote:
-> > > The full __irq_domain_alloc_irqs() interface was initially only intended
-> > > for some legacy (x86) use cases while most callers should use the
-> > > irq_domain_alloc_irqs() wrapper.
-> > >
-> > > Add a matching irq_domain_alloc_irqs_affinity() wrapper that can be used
-> > > when an affinity hint needs to be provided and use it for MSI
-> > > allocations.
-> > 
-> > I definitely like the irqchip cleanup, but this one is core code and
-> > having the extra wrapper is not really buying us much.
-> 
-> Fair enough. If you don't expect there to be any further users then
-> perhaps it's not worth it even if it arguably makes the call site a bit
-> more readable (e.g. by dropping the base and realloc arguments).
+Commits f6c911f3308c ("spi: dt-bindings: Introduce
+spi-cs-setup-ns property") and 33a2fde5f77b ("spi: Introduce
+spi-cs-setup-ns property") introduced a new property to represent the
+CS setup delay in the device tree, but they have some issues:
 
-And having this wrapper would also limit the use of the full (internal)
-helper to places that actually need the realloc parameter (e.g. making
-those stand out more).
+- The property is only parsed as a 16-bit integer number of nanoseconds,
+  which limits the maximum value to ~65us. This is not a reasonable
+  upper limit, as some devices might need a lot more.
+- The property name is inconsistent with other delay properties, which
+  use a "*-delay-ns" naming scheme.
+- Only the setup delay is introduced, but not the related hold and
+  inactive delay times.
 
-Johan
+This series fixes the issues and adds support for the two missing
+properties. Please pull in the first 3 patches as fixes for 6.2, to
+avoid introducing a problematic DT API in this release. The last two
+patches can wait until 6.3, though are probably harmless to throw in
+as fixes too, since they're trivial.
+
+v2: Removed a stray variable declaration that was triggering a warning,
+and dropped the first two patches which have already been applied.
+
+Janne Grunau (3):
+  spi: Use a 32-bit DT property for spi-cs-setup-delay-ns
+  spi: dt-bindings: Add hold/inactive CS delay peripheral properties
+  spi: Parse hold/inactive CS delay values from the DT
+
+ .../bindings/spi/spi-peripheral-props.yaml    | 10 ++++++++
+ drivers/spi/spi.c                             | 25 +++++++++++++++----
+ 2 files changed, 30 insertions(+), 5 deletions(-)
+
+--
+2.35.1
+
