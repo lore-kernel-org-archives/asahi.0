@@ -1,24 +1,24 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45692115
-	for <asahi@lists.linux.dev>; Fri, 13 Jan 2023 10:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A309F20E2
+	for <asahi@lists.linux.dev>; Fri, 13 Jan 2023 10:23:40 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 2D09D4258A;
-	Fri, 13 Jan 2023 10:23:32 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 8E63B4206F;
+	Fri, 13 Jan 2023 10:23:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1673605416; bh=M3tZrYZnQ0FBU0rxzLvbqjtCSW4bNvZXYV5NUHuboTk=;
+	t=1673605412; bh=c4zDn0WsX9vKD9/T+0pbZ4hUgI1frFckuoNzd/1iP5Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=xoflWglINJt2Kww6POJDVwvtrmzEH4a7tuJzKq+dTzqd5irvgP1Exj3UZ9TOAPLHj
-	 Jo9GbMSlw4pmdP335FEAWSGBaYmN81gsITgcorIbKPwW32uXmLbs8x8lc2YJTqWp1q
-	 1yXxZkgs+AHxN67mmI7xs1zqw5NxTpAaTKrqtDKo9tsJCuEMAtskUmJ8DhAGqwaUTB
-	 MoeuvEbtYnro6hp4nuqzlwVvP2gRKLpu5GIp07cgrhlfB+K46FCNHYpus3uqgrh2Vl
-	 fW2BzoBy0+8hGZPP8SIAmC6cbHWEvdIKTOwKDMfjumS1r+Tj15QC7SltWowsx/PO62
-	 FgK6uSuqSK4Hg==
+	b=n7zJ2YyRvs+dpSlx1IN05ugU0M7nsDpfdKXXY6aPy8xi9FPg0iViM+Z/TxZxhqJBW
+	 liFzKSpAht3GuYcmh2FcrvaP5c7uOUvxw46GTnWjxSWDShILeTEQEy9s6mvLx0mfgX
+	 vQINtu0OhMja720uWNW3wfnXIbl0H4JIgGs9TNF6Yo31Cb6HipQQlLNMpC5XEBfml3
+	 JTDypjBgDOgLWhUqzSI/ETk920CpYmOdthRQajOz4HN6Ux5eynaOmIOc8Fp7EG1+Gz
+	 NBYQ2BKLsIWwsFVQkZfHmDK9H9Rd6BmduEWi1ot1zE08fcGXMlaLXD5wHGiMEWZzdZ
+	 +mTEBCUyOcnlg==
 From: Hector Martin <marcan@marcan.st>
 To: Mark Brown <broonie@kernel.org>
 Cc: Rob Herring <robh+dt@kernel.org>,
@@ -30,11 +30,10 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
 	Hector Martin <marcan@marcan.st>
-Subject: [PATCH v2 2/3] spi: dt-bindings: Add hold/inactive CS delay peripheral properties
-Date: Fri, 13 Jan 2023 19:23:09 +0900
-Message-Id: <20230113102309.18308-3-marcan@marcan.st>
+Subject: [PATCH v2 1/3] spi: Use a 32-bit DT property for spi-cs-setup-delay-ns
+Date: Fri, 13 Jan 2023 19:23:08 +0900
+Message-Id: <20230113102309.18308-2-marcan@marcan.st>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20230113102309.18308-1-marcan@marcan.st>
 References: <20230113102309.18308-1-marcan@marcan.st>
@@ -48,37 +47,66 @@ Content-Transfer-Encoding: 8bit
 
 From: Janne Grunau <j@jannau.net>
 
-These two properties complete the bindings for the Linux spi_device cs
-model, which includes cs_setup, cs_hold and cs_inactive delay values.
+65us is not a reasonable maximum for this property, as some devices
+might need a much longer setup time (e.g. those driven by firmware on
+the other end). Plus, device tree property values are in 32-bit cells
+and smaller widths should not be used without good reason.
 
+Also move the logic to a helper function, since this will later be used
+to parse other CS delay properties too.
+
+Fixes: 33a2fde5f77b ("spi: Introduce spi-cs-setup-ns property")
 Signed-off-by: Janne Grunau <j@jannau.net>
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- .../devicetree/bindings/spi/spi-peripheral-props.yaml  | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/spi/spi.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-index 9a60c0664bbe..782a014b63a7 100644
---- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-@@ -49,6 +49,16 @@ properties:
-       Delay in nanoseconds to be introduced by the controller after CS is
-       asserted.
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index 15f174f4e056..3f33934f5429 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -2220,11 +2220,26 @@ void spi_flush_queue(struct spi_controller *ctlr)
+ /*-------------------------------------------------------------------------*/
  
-+  spi-cs-hold-delay-ns:
-+    description:
-+      Delay in nanoseconds to be introduced by the controller before CS is
-+      de-asserted.
+ #if defined(CONFIG_OF)
++static void of_spi_parse_dt_cs_delay(struct device_node *nc,
++				     struct spi_delay *delay, const char *prop)
++{
++	u32 value;
 +
-+  spi-cs-inactive-delay-ns:
-+    description:
-+      Delay in nanoseconds to be introduced by the controller after CS is
-+      de-asserted.
++	if (!of_property_read_u32(nc, prop, &value)) {
++		if (value > U16_MAX) {
++			delay->value = DIV_ROUND_UP(value, 1000);
++			delay->unit = SPI_DELAY_UNIT_USECS;
++		} else {
++			delay->value = value;
++			delay->unit = SPI_DELAY_UNIT_NSECS;
++		}
++	}
++}
 +
-   spi-rx-bus-width:
-     description:
-       Bus width to the SPI bus used for read transfers.
+ static int of_spi_parse_dt(struct spi_controller *ctlr, struct spi_device *spi,
+ 			   struct device_node *nc)
+ {
+ 	u32 value;
+-	u16 cs_setup;
+ 	int rc;
+ 
+ 	/* Mode (clock phase/polarity/etc.) */
+@@ -2310,10 +2325,8 @@ static int of_spi_parse_dt(struct spi_controller *ctlr, struct spi_device *spi,
+ 	if (!of_property_read_u32(nc, "spi-max-frequency", &value))
+ 		spi->max_speed_hz = value;
+ 
+-	if (!of_property_read_u16(nc, "spi-cs-setup-delay-ns", &cs_setup)) {
+-		spi->cs_setup.value = cs_setup;
+-		spi->cs_setup.unit = SPI_DELAY_UNIT_NSECS;
+-	}
++	/* Device CS delays */
++	of_spi_parse_dt_cs_delay(nc, &spi->cs_setup, "spi-cs-setup-delay-ns");
+ 
+ 	return 0;
+ }
 -- 
 2.35.1
 
