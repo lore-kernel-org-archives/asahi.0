@@ -1,42 +1,43 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1425A2115
-	for <asahi@lists.linux.dev>; Fri, 13 Jan 2023 10:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ABE1258E;
+	Fri, 13 Jan 2023 10:51:29 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 0606E42597;
-	Fri, 13 Jan 2023 10:23:36 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 1EAFD42462;
+	Fri, 13 Jan 2023 10:51:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1673605420; bh=fxnUPxMQfOKf9QNHPBDaDANUADvv1JFN7DwbvKgCdNs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=YZrgvujqp8be2tc3lP2yhiK7xnACtPrFKRW8NFtP3GuVfQ+IPnZsmzqk0sqY7arBi
-	 4xLm1P09TugAtLEe27leiv7gMugA+o0x7omi1CYVz4k6khlFEwheC+iVn1oms1/V1f
-	 69Z0RgW5z+VG40bjNBsNKl9ocrLzjjByhPlDGqipwGs6QqZP8Gqfir29ikEy2wcOFB
-	 8WtWpqmf8hWe4GiKOWrlEnjUKB0PSoZmQKXzSeqTfplqg7li1LooPURQVoaOSvu+kO
-	 TAXpDL9qllak0WN5i2rdy96JCdXTEB2ZDt7zYJDBWIgegCVubpqhv98Br4ew/7Sluu
-	 9sXSwo+3WWSGA==
+	t=1673607087; bh=tFvGULUm14+dr5KO0r2GXMUhnj28fQz3V85nCFyfxVI=;
+	h=From:To:Cc:Subject:Date;
+	b=pi/O7iWY9cFHNORSpJiiy9M8zhkG/X5AazwtO9IUn/A2ItgNETQzeMzCmRn84LvZn
+	 Z6nkOcTjBgYFpR8oawFJCANiQLg/HL6Tsaof8hgr3yzjEjVuHaRDpV1u7I/TqGrRbr
+	 y5PVQU1C9egFIIp+GVlDjGUs4kwqw+4zNEJbSeUvkpKYA2qBZqc8AzacSj0cgmyGWn
+	 DEyj3f/qZ3Ijv96IbpSotKdzgrEDCf6Tqyya5SrSkBdDEf84Qd16G4kv0M7j+CJPyo
+	 KDic7lt17YwKkHWOF+C/HC0KXbvpnjcmjG70bjeJ4nmRe48MimOrd15xuhGw6rDnUF
+	 vOvHuNQAsW3bQ==
 From: Hector Martin <marcan@marcan.st>
-To: Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Tudor Ambarus <tudor.ambarus@microchip.com>,
-	linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Janne Grunau <j@jannau.net>,
+To: Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>
+Cc: Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Janne Grunau <j@jannau.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	devicetree@vger.kernel.org,
+	iommu@lists.linux.dev,
 	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Hector Martin <marcan@marcan.st>
-Subject: [PATCH v2 3/3] spi: Parse hold/inactive CS delay values from the DT
-Date: Fri, 13 Jan 2023 19:23:10 +0900
-Message-Id: <20230113102309.18308-4-marcan@marcan.st>
+Subject: [PATCH 0/7] iommu: dart: Apple t8110 DART support
+Date: Fri, 13 Jan 2023 19:50:23 +0900
+Message-Id: <20230113105029.26654-1-marcan@marcan.st>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230113102309.18308-1-marcan@marcan.st>
-References: <20230113102309.18308-1-marcan@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -45,30 +46,36 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Janne Grunau <j@jannau.net>
+Hi all,
 
-Now that we support parsing the setup time from the Device Tree, we can
-also easily support the remaining hold and inactive time delay values.
+This series adds support for the T8110 DARTs used for the Thunderbolt
+controllers on T600x SoCs and everywhere on T8112 SoCs.
 
-Signed-off-by: Janne Grunau <j@jannau.net>
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- drivers/spi/spi.c | 2 ++
- 1 file changed, 2 insertions(+)
+This new DART revision shuffles the registers around and removes
+support for multiple TTBR registers per SID (which never made sense on
+16K configurations), but otherwise works much like the existing DART
+hardware. The pagetable format is the same as t600x, so no changes are
+needed there.
 
-diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-index 3f33934f5429..fc4f6308efd8 100644
---- a/drivers/spi/spi.c
-+++ b/drivers/spi/spi.c
-@@ -2327,6 +2327,8 @@ static int of_spi_parse_dt(struct spi_controller *ctlr, struct spi_device *spi,
- 
- 	/* Device CS delays */
- 	of_spi_parse_dt_cs_delay(nc, &spi->cs_setup, "spi-cs-setup-delay-ns");
-+	of_spi_parse_dt_cs_delay(nc, &spi->cs_hold, "spi-cs-hold-delay-ns");
-+	of_spi_parse_dt_cs_delay(nc, &spi->cs_inactive, "spi-cs-inactive-delay-ns");
- 
- 	return 0;
- }
--- 
+Once reviewed, I'd like to merge patch #1 through the Asahi-SoC tree so
+we can start using it in device trees right away, instead of waiting for
+one release cycle. Patches #2 onwards should go through the IOMMU tree.
+
+v2: Addressed minor review comments (style nits and minor fixes).
+
+Hector Martin (7):
+  dt-bindings: iommu: dart: add t8110 compatible
+  iommu: dart: Add suspend/resume support
+  iommu: dart: Support >64 stream IDs
+  iommu: dart: Support a variable number of TTBRs per stream
+  iommu: dart: Fix DART_PARAMS1/2 bit define names
+  iommu: dart: Support different variants with different registers
+  iommu: dart: Add t8110 DART support
+
+ .../devicetree/bindings/iommu/apple,dart.yaml |   1 +
+ drivers/iommu/apple-dart.c                    | 557 ++++++++++++++----
+ 2 files changed, 448 insertions(+), 110 deletions(-)
+
+--
 2.35.1
 
