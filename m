@@ -1,87 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236C62F2A
-	for <asahi@lists.linux.dev>; Fri, 13 Jan 2023 15:57:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4ADEC433D2;
-	Fri, 13 Jan 2023 15:57:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1673625449;
-	bh=RgE8Fj7iLHFPKGSsXzQDcEmsYGxZ0rV3hVEWaEMDJr4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SO7NS2P4DPwFr/A1++KqO020SxXyW1XnTE9vxLY8j3xLOBS0Df9wfDocbp3xZRVEz
-	 kCphu1x3II9PfiO9B7cmpkegKuxK+ybMlSQyqVLR2zuXMGeAIBGmKvRDRQCjXyFONX
-	 wE6PFzd7SzVE7xvGI2loOIMh5c7hv8w78t7XEhPPm7tHUSxfL3Lsme6/dY6jcCt8iK
-	 o4q+qC1GsAsB36/Rx6ZGmEpt7ptRSPKGgTIYhefXLmcABSvTVCYenDcev+dr7j9VNi
-	 oBXtNqKFTD5HbZmtrioaJP8M9sj5CgIfRmTAfvz/PKISJN5L5JQxJw/b6T9Bow5nMD
-	 2tkgJxa/kSQjg==
-From: Mark Brown <broonie@kernel.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Tudor Ambarus <tudor.ambarus@microchip.com>, linux-spi@vger.kernel.org,
- devicetree@vger.kernel.org, Janne Grunau <j@jannau.net>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-In-Reply-To: <20230113102309.18308-1-marcan@marcan.st>
-References: <20230113102309.18308-1-marcan@marcan.st>
-Subject: Re: [PATCH v2 0/3] SPI core CS delay fixes and additions
-Message-Id: <167362544665.163457.10878671229075890152.b4-ty@kernel.org>
-Date: Fri, 13 Jan 2023 15:57:26 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A481AD4A
+	for <asahi@lists.linux.dev>; Fri, 13 Jan 2023 18:25:21 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id fy8so54081224ejc.13
+        for <asahi@lists.linux.dev>; Fri, 13 Jan 2023 10:25:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4BkJEBPpFp0pdf+2AA0OV5kVpWpuYa4Hsr4hU8c+OCE=;
+        b=SOzKAJLf6d4epJGp9iSEVY1rLx7EVFkFbKY7h/gVewp5IkmEp/0OSNPIYQGVq7QV/4
+         s+r4OZ6Z/3XqyK6voJzbW0m+ckU1i+GBuXalixtnPyv6uVFpPDIvkdPsgfRopZz7b21C
+         ly+3L+DU/ihrp0ZRj8shyvbM+RlJnB3dRWbVNbym/FA59O15U868GTaYXjt6vM+YZf49
+         cimoE93fXnAIb7z4TPFqaHjSBrca1PUar53r/m8PH9T2V+4mw1dBCgSo5AAoU9CkewWX
+         xmPM7ev2nOPcL9BbGt5Mk6Wq5Goo2wqBDhqXVQ1c0HFu7cc0khDVvfrnYCntWkif0JGZ
+         66Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4BkJEBPpFp0pdf+2AA0OV5kVpWpuYa4Hsr4hU8c+OCE=;
+        b=AWG+QLMMWUJAF7r9GiE5IJtuQoAshRAwaolcJfIeStPIc3YYIS7rWJzWmFxq0WDdTW
+         RYBoMzyBVgXneeqi84n5Uls6mLf3u8lUkwoBF/DKpSTOAgx6s+cCO93vBGGPb01th7RM
+         pLI6b1ePexG/cqYuwUt7uzXGTUbMEDN+RYczxMsqXcH5Zw7QEJhqV4RApOE2Y/oAGE4X
+         H3Hp3v8KC3E+hz1xagdFP0QTj/F60/EilELHPLWjo6Z/uZmIeZbl+5g0iaPjb3K6GtPm
+         y+H+8YXZ+zd9bUj9mSjXHTQhEVW4CyLzElD00W66cJ+14kLAqPh86KqjwFzmPzxD6oP1
+         cPqw==
+X-Gm-Message-State: AFqh2kpSUOTCAcqVCq8HdnEAYfuDIliJsTKbTT/Ao0pf+L7gNUI0TSKk
+	JGluuf8WME0mLCy+88+4Wn6LRIR/+0Sr2X58Ajc=
+X-Google-Smtp-Source: AMrXdXsX3njBYJXQ3IXRoza4QRwgA+qz3BIB5sslyCQZSLsG2ysEexM7uipsJPOW96T/wVpgX5LDy66TmR+XdKUT6BA=
+X-Received: by 2002:a17:907:98cb:b0:78c:1f2f:233e with SMTP id
+ kd11-20020a17090798cb00b0078c1f2f233emr9837860ejc.307.1673634319796; Fri, 13
+ Jan 2023 10:25:19 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12-dev-8b3d1
+References: <20230106135839.18676-1-fnkl.kernel@gmail.com> <20230106135839.18676-3-fnkl.kernel@gmail.com>
+ <20230110230618.pfz267jj5ne34ava@pengutronix.de>
+In-Reply-To: <20230110230618.pfz267jj5ne34ava@pengutronix.de>
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Date: Fri, 13 Jan 2023 21:25:08 +0300
+Message-ID: <CAMT+MTToR+0_CmVBuGfLemALUv1XuevObAMB=TQXV0Vd7HdW5Q@mail.gmail.com>
+Subject: Re: [PATCH v6 2/5] pwm: Add Apple PWM controller
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: thierry.reding@gmail.com, robh+dt@kernel.org, 
+	krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st, sven@svenpeter.dev, 
+	alyssa@rosenzweig.io, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 13 Jan 2023 19:23:07 +0900, Hector Martin wrote:
-> Commits f6c911f3308c ("spi: dt-bindings: Introduce
-> spi-cs-setup-ns property") and 33a2fde5f77b ("spi: Introduce
-> spi-cs-setup-ns property") introduced a new property to represent the
-> CS setup delay in the device tree, but they have some issues:
-> 
-> - The property is only parsed as a 16-bit integer number of nanoseconds,
->   which limits the maximum value to ~65us. This is not a reasonable
->   upper limit, as some devices might need a lot more.
-> - The property name is inconsistent with other delay properties, which
->   use a "*-delay-ns" naming scheme.
-> - Only the setup delay is introduced, but not the related hold and
->   inactive delay times.
-> 
-> [...]
+On Wed, 11 Jan 2023 at 02:06, Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
+> > + * Limitations:
+> > + * - The writes to cycle registers are shadowed until a write to
+> > + *   the control register.
+> > + * - If both OFF_CYCLES and ON_CYCLES are set to 0, the output
+> > + *   is a constant off signal.
+>
+> How does the PWM behave with *APPLE_PWM_CTRLAPPLE_PWM_CTRL =3D 0?
+> (typically: drives constant low)
+>
+APPLE_PWM_CTRL =3D 0 implies that the APPLE_CTRL_ENABLE bit is set low, whi=
+ch
+turns off the pwm signal (constant low). I do not think that it is
+necessary to explicitly
+specify that case in the comments.
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-
-Thanks!
-
-[1/3] spi: Use a 32-bit DT property for spi-cs-setup-delay-ns
-      commit: f276aacf5d2f7fb57e400db44c807ea3b9525fd6
-[2/3] spi: dt-bindings: Add hold/inactive CS delay peripheral properties
-      commit: 34f89f238c545d4fd0166e37c201d96c10443953
-[3/3] spi: Parse hold/inactive CS delay values from the DT
-      commit: 5827b31d858e399e0ba9fbd33da7a39b31769e11
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+> Can you please rename such that the (maybe new) name for APPLE_PWM_CTRL
+> is a prefix for the (maybe new) APPLE_CTRL_ENABLE and the other register
+> bit definitions?
+To make sure, you want the register named APPLE_PWM_CTRL, and the bits name=
+d
+APPLE_PWM_CTRL_ENABLE, APPLE_PWM_CTRL_MODE and so on?
