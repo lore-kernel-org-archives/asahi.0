@@ -1,99 +1,69 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8946D80A
-	for <asahi@lists.linux.dev>; Sat, 14 Jan 2023 13:27:16 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id ja17so16889046wmb.3
-        for <asahi@lists.linux.dev>; Sat, 14 Jan 2023 05:27:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kTaBsHHaxY4hxEZyw1070cz+vHDzIdLfWWrgADCbRU8=;
-        b=KctgwPQpH9xCpSLXM53WC9mTpWK1PvFlynHp8iRqG1lMsjo9sB0rthg2CEF3rP3g8x
-         Kqe3/qO1CLVN8Z2AvbJDYtDjapoCrmExuuzBLKv7pVcKYONevudbuMWCF8BJtCTR7yjy
-         USX/U2WQW5J7PEnziHq82Ap8Mp9RV/W9vU/Avz3c6gr1Y43Zoa56txbi/NkoVU13SBUu
-         OKxMoo0XNfBDFgaLDSnqcMvEWOsTQgrn/UBFrXjNT6+/JDVmM0plvZGYy33x3YffaA9D
-         seqkCoyuB0bByMSTJOOTf4t60p3RNtEmWPz33zGfpIZNmvBPw2Mp24rzi9cJiwvUdPyP
-         8Chg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kTaBsHHaxY4hxEZyw1070cz+vHDzIdLfWWrgADCbRU8=;
-        b=OfHMoMEjOQao5An13GIV0CsbaYkjAplf10lkVmaRSg13PgIj+/YlNwpEKKRjgcDmZ3
-         MpHWoUPgBLZRj8N9uyg6DUwdEG2I8SuXZBaaoNiIuLPHcU/J0ppYpiiogUOEhmNpOjun
-         gDV3WEpLjYuSsUZ3TkXdnkqZrkT09gqfrF3iCkLvL4WA6TdAf7NBjO0Jf12Zp2r9gNn2
-         6yfRDr9ArM2nuwKxJThSnKNMlYompXsnw7f+E1TYDeWaIso2iUhBAUGSZ2g9G0O9m3+S
-         mP32hRt2r1IfQPH7B8rMZ4srffJ6vbWI4qSBOkQsKesPYimCGfIfCPxTiuZDCbJjOFGz
-         3vMA==
-X-Gm-Message-State: AFqh2kqf4UA5vEJ+qCSYhzDLan+4Nxuxix2d1SQW+XsEMu1coTygha3z
-	LeDRlfwU5r/Wk0PZ004Z1ho=
-X-Google-Smtp-Source: AMrXdXvxfcjO16Tfd57a8sefzot+ClnnfVVEzMxceMSpSs34TyOgYWX9y5BdDeILBBdMcapToQTN0A==
-X-Received: by 2002:a05:600c:3584:b0:3d9:719a:8f7d with SMTP id p4-20020a05600c358400b003d9719a8f7dmr54674605wmq.35.1673702834802;
-        Sat, 14 Jan 2023 05:27:14 -0800 (PST)
-Received: from localhost ([176.234.9.57])
-        by smtp.gmail.com with UTF8SMTPSA id l36-20020a05600c1d2400b003d9fb59c16fsm16415818wms.11.2023.01.14.05.27.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Jan 2023 05:27:14 -0800 (PST)
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-To: u.kleine-koenig@pengutronix.de,
-	thierry.reding@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org
-Cc: marcan@marcan.st,
-	sven@svenpeter.dev,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH v7 5/5] MAINTAINERS: Add entries for Apple PWM driver
-Date: Sat, 14 Jan 2023 16:25:08 +0300
-Message-Id: <20230114132508.96600-6-fnkl.kernel@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20230114132508.96600-1-fnkl.kernel@gmail.com>
-References: <20230114132508.96600-1-fnkl.kernel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A1DD51C
+	for <asahi@lists.linux.dev>; Tue, 17 Jan 2023 18:25:09 +0000 (UTC)
+Received: from robin.home.jannau.net (p579ad32f.dip0.t-ipconnect.de [87.154.211.47])
+	by soltyk.jannau.net (Postfix) with ESMTPSA id 1422126F66F;
+	Tue, 17 Jan 2023 19:25:02 +0100 (CET)
+From: Janne Grunau <j@jannau.net>
+Subject: [PATCH v2 0/2] nvme-apple: Fix suspend-resume regression
+Date: Tue, 17 Jan 2023 19:25:00 +0100
+Message-Id:
+ <20230114-apple-nvme-suspend-fixes-v6.2-v2-0-9157bf633dba@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPznxmMC/2WLwQ6CQAwFf4X0bA0sxIO/Yjwsy0OaaN20cUNC+
+ HdXrh5nMrORwwRO12YjQxGXt1YIp4bSEvUBlqkyhTb0bdcNHHN+grW8wP7xDJ14lhXO5XIObGmg
+ uo7RwaNFTctvPur/KhsOWZPbfd+/9b8JvYwAAAA=
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Eric Curtin <ecurtin@redhat.com>,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.11.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1036; i=j@jannau.net;
+ h=from:subject:message-id; bh=ew343/vV0kObrwRGYdFiYCkdG6wuIuazFB7ONX5IV3A=;
+ b=owGbwMvMwCG2UNrmdq9+ahrjabUkhuRjz//u/zFXvKxAXEqpljGG5+/NNq2bMY+aPIK3L2wqeRij
+ fv1/RykLgxgHg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgIn0uTD8M1+ZeDcmRXXiwtoDq84XHm
+ GsWpcW1qF7bsdzZ/bM7QtmnmBkuP3Ds+Uxw7Rcdt7XT/8Jb4t596dKeoXiLe2M65MdHj5wYAEA
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Add the MAINTAINERS entries for the driver
+c76b8308e4c9 removed a NVMe controller reset in the shutdown path. This
+broke suspend since it triggered a reset on resume. This reset hangs
+since the co-processor is not up.
+In addition the reset is needed on suspend to shutdown the co-processor
+cleanly.
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Acked-by: Sven Peter <sven@svenpeter.dev>
+This series contains a functional revert of c76b8308e4c9 (a simple revert
+is not possible due to other changes) and issues the NVMe reset only when
+the co-processor is running.
+
+Changes since Hector's v1:
+- keep the fix localy in nvme-apple
+- disable on shutdown for clean co-processor shutdown
+- disable on reset only while the co-processor is running
+
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+Janne Grunau (2):
+      nvme-apple: Reset controller during shutdown
+      nvme-apple: Only reset the controller when RTKit is running
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7f86d02cb427..75bda5ab704d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1970,6 +1970,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
-+F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
-@@ -1985,6 +1986,7 @@ F:	drivers/mailbox/apple-mailbox.c
- F:	drivers/nvme/host/apple.c
- F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
-+F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
+ drivers/nvme/host/apple.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+---
+base-commit: 5dc4c995db9eb45f6373a956eb1f69460e69e6d4
+change-id: 20230114-apple-nvme-suspend-fixes-v6.2-rc4
+
+Best regards,
 -- 
-2.37.1 (Apple Git-137.1)
-
+Janne Grunau <j@jannau.net>
