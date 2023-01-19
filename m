@@ -1,233 +1,242 @@
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B423C26
-	for <asahi@lists.linux.dev>; Thu, 19 Jan 2023 10:01:06 +0000 (UTC)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
-	id 4C68D26F685; Thu, 19 Jan 2023 11:01:04 +0100 (CET)
-Date: Thu, 19 Jan 2023 11:01:04 +0100
-From: Janne Grunau <janne@jannau.net>
-To: Rayyan Ansari <rayyan@ansari.sh>
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [RFC PATCH] drm/simpledrm: Allow physical width and height
- configuration via DT
-Message-ID: <20230119100104.GE3576@jannau.net>
-References: <20230118184817.608551-1-rayyan@ansari.sh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46183232
+	for <asahi@lists.linux.dev>; Thu, 19 Jan 2023 10:44:14 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8A7785CC56;
+	Thu, 19 Jan 2023 10:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1674125047; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DE6DjIh2+OCWnSX4O1vkl7/cVDbUnoAIzLVcw5LlXvA=;
+	b=wiDnWHLAMnoNymfoRWBT9OXwLRkzvJ7kTLvCFaVVHyjjHxAq2XOSInTLEJtQQUThPzYb1b
+	31CRytLbYNkTRvMdV50iwdnSC4jiGTJJu+wOp/xWXHh2yFaO5zAkb6+gOWS9n08dwOmztu
+	X5mHTHPvDuzeF6lWDLpyyWJDq1ZTUAE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1674125047;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DE6DjIh2+OCWnSX4O1vkl7/cVDbUnoAIzLVcw5LlXvA=;
+	b=tmQPo9Y3CxQMhh4vVICn8UsgrI6YpUMn3I4pGkM0qSOqrm8vKvWawa4AnOVs9a7VIvhGH0
+	/LD0OHsKVArLjdBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 646C9139ED;
+	Thu, 19 Jan 2023 10:44:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id BFVVF/ceyWNMJgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 19 Jan 2023 10:44:07 +0000
+Message-ID: <9acf95f1-0bce-62c7-b524-4eac408b4207@suse.de>
+Date: Thu, 19 Jan 2023 11:44:06 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [RFC PATCH] drm/simpledrm: Allow physical width and height
+ configuration via DT
+Content-Language: en-US
+To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, asahi@lists.linux.dev
+References: <20230118184817.608551-1-rayyan@ansari.sh>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 In-Reply-To: <20230118184817.608551-1-rayyan@ansari.sh>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------7CJxnm1qoxQINzwr000tyfEV"
 
-Hej,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------7CJxnm1qoxQINzwr000tyfEV
+Content-Type: multipart/mixed; boundary="------------E80qTy40WGnctAhqUwyuEWVV";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ linux-kernel@vger.kernel.org,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
+ <devicetree@vger.kernel.org>, asahi@lists.linux.dev
+Message-ID: <9acf95f1-0bce-62c7-b524-4eac408b4207@suse.de>
+Subject: Re: [RFC PATCH] drm/simpledrm: Allow physical width and height
+ configuration via DT
+References: <20230118184817.608551-1-rayyan@ansari.sh>
+In-Reply-To: <20230118184817.608551-1-rayyan@ansari.sh>
 
-adding devicetree@vger.kernel.org and asahi@lists.linux.dev to cc:, the 
-former for the obvious devictree/bindings related questions,
-asahi for the prospect of supporting high DPI displays during early boot 
-and in u-boot.
+--------------E80qTy40WGnctAhqUwyuEWVV
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On 2023-01-18 18:48:17 +0000, Rayyan Ansari wrote:
-> Hello,
-> The following draft patch adds support for configuring the
-> height-mm and width-mm DRM properties in the simpledrm driver
-> via devicetree.
-> This is useful to get proper scaling in UIs such as Phosh.
-> An example of using this property is this, taken from my local tree:
-> 
-> 		framebuffer0: framebuffer@3200000 {
-> 			compatible = "simple-framebuffer";
-> 			reg = <0x3200000 0x800000>;
-> 			format = "a8r8g8b8";
-> 			width = <720>;
-> 			height = <1280>;
-> 			stride = <(720 * 4)>;
-> 			width-mm = /bits/ 16 <58>;
-> 			height-mm = /bits/ 16 <103>;
-> 
-> 			clocks = <&mmcc MDSS_AHB_CLK>,
-> 				 <&mmcc MDSS_AXI_CLK>,
-> 				 <&mmcc MDSS_BYTE0_CLK>,
-> 				 <&mmcc MDSS_MDP_CLK>,
-> 				 <&mmcc MDSS_PCLK0_CLK>,
-> 				 <&mmcc MDSS_VSYNC_CLK>;
-> 			power-domains = <&mmcc MDSS_GDSC>;
-> 		};
-> 
-> I have tested this on my Lumia 735, and it does indeed
-> allow Phosh to scale correctly on the screen.
-> 
-> However, I would like to get some feedback before I write the
-> documentation.
-> - What data type should be used?
-> 	The width_mm and height_mm properties of the drm_display_mode
-> 	struct are defined as u16. I have also made the devicetree
-> 	properties as the u16 type, but this requires specifying
-> 	"/bits/ 16" before the value. Should u32 be used instead to get
-> 	rid of this? If so, how could the conversion from u32->u16 be
-> 	handled?
+KGNjOiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZywgYXNhaGlAbGlzdHMubGludXguZGV2
+KQ0KDQpIaSwNCg0KdGhhbmtzIGZvciB0aGUgcGF0Y2guIEkgYWxyZWFkeSB3b25kZXJlZCBp
+ZiB0aGUgRFBJIHZhbHVlIHNob3VsZCBiZSANCmNvbmZpZ3VyYWJsZSBpbiBzb21lIHdheS4N
+Cg0KQW0gMTguMDEuMjMgdW0gMTk6NDggc2NocmllYiBSYXl5YW4gQW5zYXJpOg0KPiBIZWxs
+bywNCj4gVGhlIGZvbGxvd2luZyBkcmFmdCBwYXRjaCBhZGRzIHN1cHBvcnQgZm9yIGNvbmZp
+Z3VyaW5nIHRoZQ0KPiBoZWlnaHQtbW0gYW5kIHdpZHRoLW1tIERSTSBwcm9wZXJ0aWVzIGlu
+IHRoZSBzaW1wbGVkcm0gZHJpdmVyDQo+IHZpYSBkZXZpY2V0cmVlLg0KPiBUaGlzIGlzIHVz
+ZWZ1bCB0byBnZXQgcHJvcGVyIHNjYWxpbmcgaW4gVUlzIHN1Y2ggYXMgUGhvc2guDQo+IEFu
+IGV4YW1wbGUgb2YgdXNpbmcgdGhpcyBwcm9wZXJ0eSBpcyB0aGlzLCB0YWtlbiBmcm9tIG15
+IGxvY2FsIHRyZWU6DQo+IA0KPiAJCWZyYW1lYnVmZmVyMDogZnJhbWVidWZmZXJAMzIwMDAw
+MCB7DQo+IAkJCWNvbXBhdGlibGUgPSAic2ltcGxlLWZyYW1lYnVmZmVyIjsNCj4gCQkJcmVn
+ID0gPDB4MzIwMDAwMCAweDgwMDAwMD47DQo+IAkJCWZvcm1hdCA9ICJhOHI4ZzhiOCI7DQo+
+IAkJCXdpZHRoID0gPDcyMD47DQo+IAkJCWhlaWdodCA9IDwxMjgwPjsNCj4gCQkJc3RyaWRl
+ID0gPCg3MjAgKiA0KT47DQo+IAkJCXdpZHRoLW1tID0gL2JpdHMvIDE2IDw1OD47DQo+IAkJ
+CWhlaWdodC1tbSA9IC9iaXRzLyAxNiA8MTAzPjsNCj4gDQo+IAkJCWNsb2NrcyA9IDwmbW1j
+YyBNRFNTX0FIQl9DTEs+LA0KPiAJCQkJIDwmbW1jYyBNRFNTX0FYSV9DTEs+LA0KPiAJCQkJ
+IDwmbW1jYyBNRFNTX0JZVEUwX0NMSz4sDQo+IAkJCQkgPCZtbWNjIE1EU1NfTURQX0NMSz4s
+DQo+IAkJCQkgPCZtbWNjIE1EU1NfUENMSzBfQ0xLPiwNCj4gCQkJCSA8Jm1tY2MgTURTU19W
+U1lOQ19DTEs+Ow0KPiAJCQlwb3dlci1kb21haW5zID0gPCZtbWNjIE1EU1NfR0RTQz47DQo+
+IAkJfTsNCj4gDQo+IEkgaGF2ZSB0ZXN0ZWQgdGhpcyBvbiBteSBMdW1pYSA3MzUsIGFuZCBp
+dCBkb2VzIGluZGVlZA0KPiBhbGxvdyBQaG9zaCB0byBzY2FsZSBjb3JyZWN0bHkgb24gdGhl
+IHNjcmVlbi4NCg0KSXMgdGhpcyBzb21ldGhpbmcgdGhhdCBpcyBhbHJlYWR5IHN1cHBvcnRl
+ZCBieSBzb21lIGRldmljZSwgb3IganVzdCBhIA0KcGV0IHByb2plY3Qgb2YgeW91cnM/DQoN
+Cj4gDQo+IEhvd2V2ZXIsIEkgd291bGQgbGlrZSB0byBnZXQgc29tZSBmZWVkYmFjayBiZWZv
+cmUgSSB3cml0ZSB0aGUNCj4gZG9jdW1lbnRhdGlvbi4NCj4gLSBXaGF0IGRhdGEgdHlwZSBz
+aG91bGQgYmUgdXNlZD8NCj4gCVRoZSB3aWR0aF9tbSBhbmQgaGVpZ2h0X21tIHByb3BlcnRp
+ZXMgb2YgdGhlIGRybV9kaXNwbGF5X21vZGUNCj4gCXN0cnVjdCBhcmUgZGVmaW5lZCBhcyB1
+MTYuIEkgaGF2ZSBhbHNvIG1hZGUgdGhlIGRldmljZXRyZWUNCj4gCXByb3BlcnRpZXMgYXMg
+dGhlIHUxNiB0eXBlLCBidXQgdGhpcyByZXF1aXJlcyBzcGVjaWZ5aW5nDQo+IAkiL2JpdHMv
+IDE2IiBiZWZvcmUgdGhlIHZhbHVlLiBTaG91bGQgdTMyIGJlIHVzZWQgaW5zdGVhZCB0byBn
+ZXQNCj4gCXJpZCBvZiB0aGlzPyBJZiBzbywgaG93IGNvdWxkIHRoZSBjb252ZXJzaW9uIGZy
+b20gdTMyLT51MTYgYmUNCj4gCWhhbmRsZWQ/DQoNCkknZCB1c2UgMzIgYml0cyBpbiB0aGUg
+RFQsIGp1c3QgbGlrZSB0aGUgb3RoZXIgcHJvcGVydGllcy4NCg0KPiAtIFN0eWxlPw0KPiAJ
+SSBoYXZlIHNwbGl0IHRoZSBhcmd1bWVudHMgdG8gdGhlIERSTV9NT0RFX0lOSVQgbWFjcm8g
+YWNyb3NzDQo+IAltdWx0aXBsZSBsaW5lcyB0byBpbmNyZWFzZSByZWFkYWJpbGl0eS4gSSdt
+IG5vdCBzdXJlIGlmIHRoaXMNCj4gCWlzIHRoZSBjb3JyZWN0IHN0eWxlIHRob3VnaC4NCj4g
+LSBBbnl0aGluZyBlbHNlPw0KPiAJVGhpcyBpcyBteSBmaXJzdCB0aW1lIHdyaXRpbmcgY29k
+ZSBmb3IgYSBMaW51eCBkcml2ZXIsIHNvIEkNCj4gCXdvdWxkIGJlIGdyYXRlZnVsIGlmIHlv
+dSBoYXZlIGFueSBzdWdnZXN0aW9ucyBmb3IgaW1wcm92ZW1lbnRzLg0KPiAgIA0KPiBUaGFu
+a3MsDQo+IFJheXlhbi4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxl
+ZHJtLmMgfCA0OSArKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLQ0KPiAgIDEgZmls
+ZSBjaGFuZ2VkLCA0MiBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jIGIvZHJpdmVycy9n
+cHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gaW5kZXggMTYyZWI0NGRjYmE4Li45MjEwOWY4
+NzBiMzUgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5j
+DQo+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jDQo+IEBAIC0xMTYs
+NiArMTE2LDE1IEBAIHNpbXBsZWZiX2dldF9mb3JtYXRfcGQoc3RydWN0IGRybV9kZXZpY2Ug
+KmRldiwNCj4gICAJcmV0dXJuIHNpbXBsZWZiX2dldF92YWxpZGF0ZWRfZm9ybWF0KGRldiwg
+cGQtPmZvcm1hdCk7DQo+ICAgfQ0KPiAgIA0KPiArc3RhdGljIHZvaWQNCj4gK3NpbXBsZWZi
+X3JlYWRfdTE2X29mX29wdGlvbmFsKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBk
+ZXZpY2Vfbm9kZSAqb2Zfbm9kZSwNCg0KTWF5YmUgY2FsbCBpdCBzaW1wbGVmYl9yZWFkX3Ux
+Nl9vZl9vcHQoKQ0KDQo+ICsJCSAgICAgY29uc3QgY2hhciAqbmFtZSwgdTE2ICp2YWx1ZSkN
+Cg0KVGhlIGFsaWdubWVudCBsb29rcyBvZmYuDQoNCj4gK3sNCj4gKwlpbnQgcmV0ID0gb2Zf
+cHJvcGVydHlfcmVhZF91MTYob2Zfbm9kZSwgbmFtZSwgdmFsdWUpOw0KPiArCWlmIChyZXQp
+DQo+ICsJCXZhbHVlID0gMDsNCg0KWW91IG1lYW4gKnZhbHVlID0gMCA/DQoNCkkgdGhpbmsg
+d2Ugc2hvdWxkIGJlIHN0cmljdGVyIGhlcmUuIExvb2sgYXQgdGhlIGRvY3MgYXQgWzFdLiBB
+IHJlc3VsdCBvZiANCjAgbWVhbnMgc3VjY2VzcyBhbmQgLUVJTlZBTCBtZWFucyB0aGF0IHRo
+ZSBwcm9wZXJ0eSBkb2VzIG5vdCBleGlzdC4gV2UgDQpzaG91bGQgc3RpbGwgcmVwb3J0IGVy
+cm9ycyBmb3IgdGhlIG90aGVyIGVycm5vIGNvZGVzLg0KDQpTb21ldGhpbmcgbGlrZQ0KDQog
+ICByZXQgPSBvZl9wcm9wZXJ0eV9yZWFkX3UxNigpDQoNCiAgIGlmIChyZXQpIHsNCiAgICAg
+aWYocmV0ID09IC1FSU5WQUwpIHsNCiAgICAgICAgICp2YWx1ZSA9IDA7DQoJcmV0PSAwOw0K
+ICAgICB9IGVsc2Ugew0KCQlkcm1fZXJyKGRldiwgInNpbXBsZWZiOiBjYW5ub3QgcGFyc2Ug
+ZnJhbWVidWZmZXIgJXM6DQoJCQkiZXJyb3IgJWRcbiIsIG5hbWUsIHJldCk7DQogICAgIH0N
+CiAgIH0NCg0KICAgcmV0dXJuIHJldDsNCg0KWzFdIGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4u
+Y29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvaW5jbHVkZS9saW51eC9vZi5oI0wxMjAyDQoNCj4g
+K30NCj4gKw0KPiAgIHN0YXRpYyBpbnQNCj4gICBzaW1wbGVmYl9yZWFkX3UzMl9vZihzdHJ1
+Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm9mX25vZGUsDQo+ICAg
+CQkgICAgIGNvbnN0IGNoYXIgKm5hbWUsIHUzMiAqdmFsdWUpDQo+IEBAIC0xODQsNiArMTkz
+LDIxIEBAIHNpbXBsZWZiX2dldF9mb3JtYXRfb2Yoc3RydWN0IGRybV9kZXZpY2UgKmRldiwg
+c3RydWN0IGRldmljZV9ub2RlICpvZl9ub2RlKQ0KPiAgIAlyZXR1cm4gc2ltcGxlZmJfZ2V0
+X3ZhbGlkYXRlZF9mb3JtYXQoZGV2LCBmb3JtYXQpOw0KPiAgIH0NCj4gICANCj4gK3N0YXRp
+YyB1MTYNCj4gK3NpbXBsZWZiX2dldF93aWR0aF9tbV9vZihzdHJ1Y3QgZHJtX2RldmljZSAq
+ZGV2LCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm9mX25vZGUpDQo+ICt7DQo+ICsJdTE2IHdpZHRo
+X21tOw0KPiArCXNpbXBsZWZiX3JlYWRfdTE2X29mX29wdGlvbmFsKGRldiwgb2Zfbm9kZSwg
+IndpZHRoLW1tIiwgJndpZHRoX21tKTsNCj4gKwlyZXR1cm4gd2lkdGhfbW07DQo+ICt9DQo+
+ICsNCj4gK3N0YXRpYyB1MTYNCj4gK3NpbXBsZWZiX2dldF9oZWlnaHRfbW1fb2Yoc3RydWN0
+IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGRldmljZV9ub2RlICpvZl9ub2RlKQ0KPiArew0K
+PiArCXUxNiBoZWlnaHRfbW07DQo+ICsJc2ltcGxlZmJfcmVhZF91MTZfb2Zfb3B0aW9uYWwo
+ZGV2LCBvZl9ub2RlLCAiaGVpZ2h0LW1tIiwgJmhlaWdodF9tbSk7DQo+ICsJcmV0dXJuIGhl
+aWdodF9tbTsNCj4gK30NCj4gICAvKg0KPiAgICAqIFNpbXBsZSBGcmFtZWJ1ZmZlciBkZXZp
+Y2UNCj4gICAgKi8NCj4gQEAgLTU5OSwxNiArNjIzLDI0IEBAIHN0YXRpYyBjb25zdCBzdHJ1
+Y3QgZHJtX21vZGVfY29uZmlnX2Z1bmNzIHNpbXBsZWRybV9tb2RlX2NvbmZpZ19mdW5jcyA9
+IHsNCj4gICAgKi8NCj4gICANCj4gICBzdGF0aWMgc3RydWN0IGRybV9kaXNwbGF5X21vZGUg
+c2ltcGxlZHJtX21vZGUodW5zaWduZWQgaW50IHdpZHRoLA0KPiAtCQkJCQkgICAgICB1bnNp
+Z25lZCBpbnQgaGVpZ2h0KQ0KPiArCQkJCQkgICAgICB1bnNpZ25lZCBpbnQgaGVpZ2h0LA0K
+PiArCQkJCQkgICAgICB1MTYgd2lkdGhfbW0sDQo+ICsJCQkJCSAgICAgIHUxNiBoZWlnaHRf
+bW0pDQo+ICAgew0KPiAgIAkvKg0KPiAtCSAqIEFzc3VtZSBhIG1vbml0b3IgcmVzb2x1dGlv
+biBvZiA5NiBkcGkgdG8NCj4gLQkgKiBnZXQgYSBzb21ld2hhdCByZWFzb25hYmxlIHNjcmVl
+biBzaXplLg0KPiArCSAqIEFzc3VtZSBhIG1vbml0b3IgcmVzb2x1dGlvbiBvZiA5NiBkcGkg
+aWYgcGh5c2ljYWwNCj4gKwkgKiBkaW1lbnNpb25zIGFyZSBub3Qgc3BlY2lmaWVkIHRvIGdl
+dCBhIHNvbWV3aGF0IHJlYXNvbmFibGUNCg0KUGxlYXNlIG1vdmUgJ2RpbWVuc2lvbnMnIHRv
+IHRoZSBwcmV2aW91cyBsaW5lIHRvIG1ha2UgaXQgbW9yZSBwbGVhc2FudCANCnRvIHRoZSBl
+eWVzLg0KDQo+ICsJICogc2NyZWVuIHNpemUuDQo+ICAgCSAqLw0KPiArDQo+ICAgCWNvbnN0
+IHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIG1vZGUgPSB7DQo+IC0JCURSTV9NT0RFX0lOSVQo
+NjAsIHdpZHRoLCBoZWlnaHQsDQo+IC0JCQkgICAgICBEUk1fTU9ERV9SRVNfTU0od2lkdGgs
+IDk2dWwpLA0KPiAtCQkJICAgICAgRFJNX01PREVfUkVTX01NKGhlaWdodCwgOTZ1bCkpDQo+
+ICsJCURSTV9NT0RFX0lOSVQoDQo+ICsJCQk2MCwNCj4gKwkJCXdpZHRoLA0KPiArCQkJaGVp
+Z2h0LA0KPiArCQkJKHdpZHRoX21tID8gd2lkdGhfbW0gOiBEUk1fTU9ERV9SRVNfTU0od2lk
+dGgsIDk2dWwpKSwNCj4gKwkJCShoZWlnaHRfbW0gPyBoZWlnaHRfbW0gOiBEUk1fTU9ERV9S
+RVNfTU0oaGVpZ2h0LCA5NnVsKSkNCj4gKwkJCSkNCg0KVGhlIGNvZGluZyBzdHlsZSBpcyBh
+d2t3YXJkIGFuZCB0aGUgPzogZG9lc24ndCBiZWxvbmcgaGVyZS4gUGxlYXNlIHNlZSANCmZ1
+cnRoZXIgYmVsb3cuDQoNCj4gICAJfTsNCj4gICANCj4gICAJcmV0dXJuIG1vZGU7DQo+IEBA
+IC02MjIsNiArNjU0LDcgQEAgc3RhdGljIHN0cnVjdCBzaW1wbGVkcm1fZGV2aWNlICpzaW1w
+bGVkcm1fZGV2aWNlX2NyZWF0ZShzdHJ1Y3QgZHJtX2RyaXZlciAqZHJ2LA0KPiAgIAlzdHJ1
+Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldjsNCj4gICAJc3RydWN0IGRybV9kZXZpY2UgKmRl
+djsNCj4gICAJaW50IHdpZHRoLCBoZWlnaHQsIHN0cmlkZTsNCj4gKwl1MTYgd2lkdGhfbW0s
+IGhlaWdodF9tbTsNCg0KSW5pdCB0aG9zZSB0d28gdmFyaWFibGVzIHRvIHplcm8uDQoNCj4g
+ICAJY29uc3Qgc3RydWN0IGRybV9mb3JtYXRfaW5mbyAqZm9ybWF0Ow0KPiAgIAlzdHJ1Y3Qg
+cmVzb3VyY2UgKnJlcywgKm1lbTsNCj4gICAJdm9pZCBfX2lvbWVtICpzY3JlZW5fYmFzZTsN
+Cj4gQEAgLTY3Niw2ICs3MDksOCBAQCBzdGF0aWMgc3RydWN0IHNpbXBsZWRybV9kZXZpY2Ug
+KnNpbXBsZWRybV9kZXZpY2VfY3JlYXRlKHN0cnVjdCBkcm1fZHJpdmVyICpkcnYsDQo+ICAg
+CQlmb3JtYXQgPSBzaW1wbGVmYl9nZXRfZm9ybWF0X29mKGRldiwgb2Zfbm9kZSk7DQo+ICAg
+CQlpZiAoSVNfRVJSKGZvcm1hdCkpDQo+ICAgCQkJcmV0dXJuIEVSUl9DQVNUKGZvcm1hdCk7
+DQo+ICsJCXdpZHRoX21tID0gc2ltcGxlZmJfZ2V0X3dpZHRoX21tX29mKGRldiwgb2Zfbm9k
+ZSk7DQo+ICsJCWhlaWdodF9tbSA9IHNpbXBsZWZiX2dldF9oZWlnaHRfbW1fb2YoZGV2LCBv
+Zl9ub2RlKTsNCj4gICAJfSBlbHNlIHsNCj4gICAJCWRybV9lcnIoZGV2LCAibm8gc2ltcGxl
+ZmIgY29uZmlndXJhdGlvbiBmb3VuZFxuIik7DQo+ICAgCQlyZXR1cm4gRVJSX1BUUigtRU5P
+REVWKTsNCj4gQEAgLTY4Niw3ICs3MjEsNyBAQCBzdGF0aWMgc3RydWN0IHNpbXBsZWRybV9k
+ZXZpY2UgKnNpbXBsZWRybV9kZXZpY2VfY3JlYXRlKHN0cnVjdCBkcm1fZHJpdmVyICpkcnYs
+DQo+ICAgCQkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7DQo+ICAgCX0NCg0KSnVzdCBsaWtl
+IHdpdGggdGhlIGZyYW1lYnVmZmVyIHN0cmlkZSwgaGVyZSdzIHRoZSBwbGFjZSB0byBkZXRl
+Y3QgDQpkZWZhdWx0IHZhbHVlcy4gU28gYXQgdGhpcyBwb2ludCwgZG8gc29tZXRoaW5nIGxp
+a2UNCg0KICAJaWYgKCF3aWR0aF9tbSkNCgkJd2lkdGhfbW0gPSBEUk1fTU9ERV9SRVNfTU0o
+d2lkdGgsIDk2dWwpOw0KICAJaWYgKCFoZWlnaHRfbW0pDQoJCWhlaWdodF9tbSA9IERSTV9N
+T0RFX1JFU19NTShoZWlnaHQsIDk2dWwpOw0KDQpBbmQgcGFzcyB0aGUgaW5pdGlhbGl6ZWQg
+cGh5c2ljYWwgZGltZW5zaW9ucyB0byBzaW1wbGRybV9tb2RlKCkuIFlvdSBjYW4gDQptb3Zl
+IHRoZSBjb21tZW50IGluIHNpbXBsZWRybV9tb2RlKCkgYmVmb3JlIHRoZSBicmFuY2hlcy4N
+Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiAgIA0KPiAtCXNkZXYtPm1vZGUgPSBzaW1w
+bGVkcm1fbW9kZSh3aWR0aCwgaGVpZ2h0KTsNCj4gKwlzZGV2LT5tb2RlID0gc2ltcGxlZHJt
+X21vZGUod2lkdGgsIGhlaWdodCwgd2lkdGhfbW0sIGhlaWdodF9tbSk7DQo+ICAgCXNkZXYt
+PmZvcm1hdCA9IGZvcm1hdDsNCj4gICAJc2Rldi0+cGl0Y2ggPSBzdHJpZGU7DQo+ICAgDQoN
+Ci0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNV
+U0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0
+MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNj
+aMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-u32 is the appropriate type. The device tree describes the hardware and 
-not the data types used in a "random" linux driver/subsystem. 65m is 
-probably enough for all practical purposes but u32 is the better choice.  
-Documentation/devicetree/bindings/display/panel/panel-common.yaml 
-already specifies "height-mm" and "width-mm" and all device tree files 
-using this binding code the properties as u32.
+--------------E80qTy40WGnctAhqUwyuEWVV--
 
-We probably do not want add height and width properties to the 
-simple-framebuffer node directly. At least for the static case I would 
-expect that it duplicates information already present in a panel node.  
-For that case parsing the panel dimensions via a phandle reference to 
-that panel node would be preferred.
+--------------7CJxnm1qoxQINzwr000tyfEV
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-I'm not sure if it worth considering the dynamic case. The bootloader 
-may be able to provide dimensions of HDMI, DP, ...  connected displays 
-from the EDID. In that case "height-mm" and "width-mm" properties would 
-make sense.
+-----BEGIN PGP SIGNATURE-----
 
-The existing panel drivers seem to ignore the u32 -> u16 conversion 
-problem.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPJHvYFAwAAAAAACgkQlh/E3EQov+CT
+bw//Y/ca/6rctvzBsu86GjN9OITgO5E0JyeRWnHZuk0n+DVq4nLeAJFLjP7rfbIvzpgrx229fFc4
+Z6dr3ALCVsLIgzz4RiP9cYM68p4t0YTIcn4dVKoZHPhS+hCV5W/CQjqqjy5cW/YQFX6KYYbQBwws
+JFnaIT00e+YuT3Hcnk/LpTZaRXMYlJEWvKU+p4bpnswmLI1zxl1RkaGPkt+DfZc0r4YnsNYO+L6d
+Sr/Ra/jovMErUfmHPH/qrwFDllycSmvhdOXYVWStvzDlutzB7XVc6OKV1ugVzoWMSYMx0SXNvB4c
+MDxUL9dQ/6hEMhtXpmToyKxZWQHwoFys2/Dm0PVrQCvBCxgtT3fsmEJsqaLNLSVfQ17mGw6VTUwn
+AE7n6++n48EBHRdzkh/RIPIsDdKl08kFNnQgtsqQYE43CHb5wnBN/cIsAmrf+0Ynu2YkJrQvaHe1
+ziD/0vGrNjSWKx0C+iZUD8/VFaafQ5omkbVvIaCyIqpfrCCEz+1fz3GfIG76lMAyG+JqfgxiIm0J
+8Hnv86XJdKhT0cxuUOjZyZdubDbK5I6lSUnMt12/7tXiVnjCNX/b2eI+tNbY/nGUzAjw3uY3xCRv
+Gyj7q+jropFqDYH4udndIwxVGFNMfNX6DJNA3vSh6VotoLCK2yvgRfd8UmUuqpdSt1w9Sa6oFu9I
+eLw=
+=ZK19
+-----END PGP SIGNATURE-----
 
-> - Style?
-> 	I have split the arguments to the DRM_MODE_INIT macro across
-> 	multiple lines to increase readability. I'm not sure if this
-> 	is the correct style though.
-
-I think the code would be more readable if width_mm and height_mm would 
-be calculated outside of DRM_MODE_INIT if they are zero.
-
-> - Anything else?
-> 	This is my first time writing code for a Linux driver, so I
-> 	would be grateful if you have any suggestions for improvements.
-
-Documentation/devicetree/bindings/display/simple-framebuffer.yaml needs 
-to be updates to list and document the properties added to the node.
-
-> ---
->  drivers/gpu/drm/tiny/simpledrm.c | 49 +++++++++++++++++++++++++++-----
->  1 file changed, 42 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-> index 162eb44dcba8..92109f870b35 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -116,6 +116,15 @@ simplefb_get_format_pd(struct drm_device *dev,
->  	return simplefb_get_validated_format(dev, pd->format);
->  }
->  
-> +static void
-> +simplefb_read_u16_of_optional(struct drm_device *dev, struct device_node *of_node,
-> +		     const char *name, u16 *value)
-> +{
-> +	int ret = of_property_read_u16(of_node, name, value);
-> +	if (ret)
-> +		value = 0;
-> +}
-> +
->  static int
->  simplefb_read_u32_of(struct drm_device *dev, struct device_node *of_node,
->  		     const char *name, u32 *value)
-> @@ -184,6 +193,21 @@ simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
->  	return simplefb_get_validated_format(dev, format);
->  }
->  
-> +static u16
-> +simplefb_get_width_mm_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +	u16 width_mm;
-> +	simplefb_read_u16_of_optional(dev, of_node, "width-mm", &width_mm);
-> +	return width_mm;
-> +}
-> +
-> +static u16
-> +simplefb_get_height_mm_of(struct drm_device *dev, struct device_node *of_node)
-> +{
-> +	u16 height_mm;
-> +	simplefb_read_u16_of_optional(dev, of_node, "height-mm", &height_mm);
-> +	return height_mm;
-> +}
-
-I don't think it makes sense to have these two mostly identical wrapper 
-functions. Please pass the name of the property as parameter. It could 
-make sense to have a function to both height and width. I think we 
-should ignore both height and width if one fails to parse or is 0.
-That could of course also be done in simpledrm_mode() for example like:
-
-|	if (!width_mm || !height_mm) {
-|		width_mm = DRM_MODE_RES_MM(width, 96ul);
-|		height_mm = DRM_MODE_RES_MM(height, 96ul);
-|	}
-
->  /*
->   * Simple Framebuffer device
->   */
-> @@ -599,16 +623,24 @@ static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
->   */
->  
->  static struct drm_display_mode simpledrm_mode(unsigned int width,
-> -					      unsigned int height)
-> +					      unsigned int height,
-> +					      u16 width_mm,
-> +					      u16 height_mm)
->  {
->  	/*
-> -	 * Assume a monitor resolution of 96 dpi to
-> -	 * get a somewhat reasonable screen size.
-> +	 * Assume a monitor resolution of 96 dpi if physical
-> +	 * dimensions are not specified to get a somewhat reasonable
-> +	 * screen size.
->  	 */
-> +
->  	const struct drm_display_mode mode = {
-> -		DRM_MODE_INIT(60, width, height,
-> -			      DRM_MODE_RES_MM(width, 96ul),
-> -			      DRM_MODE_RES_MM(height, 96ul))
-> +		DRM_MODE_INIT(
-> +			60,
-> +			width,
-> +			height,
-> +			(width_mm ? width_mm : DRM_MODE_RES_MM(width, 96ul)),
-> +			(height_mm ? height_mm : DRM_MODE_RES_MM(height, 96ul))
-> +			)
->  	};
->  
->  	return mode;
-> @@ -622,6 +654,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->  	struct simpledrm_device *sdev;
->  	struct drm_device *dev;
->  	int width, height, stride;
-> +	u16 width_mm, height_mm;
-
-these need to be initialized to 0 otherwise they may end up used 
-unitialized if pd is not NULL.
-
->  	const struct drm_format_info *format;
->  	struct resource *res, *mem;
->  	void __iomem *screen_base;
-> @@ -676,6 +709,8 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->  		format = simplefb_get_format_of(dev, of_node);
->  		if (IS_ERR(format))
->  			return ERR_CAST(format);
-> +		width_mm = simplefb_get_width_mm_of(dev, of_node);
-> +		height_mm = simplefb_get_height_mm_of(dev, of_node);
->  	} else {
->  		drm_err(dev, "no simplefb configuration found\n");
->  		return ERR_PTR(-ENODEV);
-> @@ -686,7 +721,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->  			return ERR_PTR(-EINVAL);
->  	}
->  
-> -	sdev->mode = simpledrm_mode(width, height);
-> +	sdev->mode = simpledrm_mode(width, height, width_mm, height_mm);
->  	sdev->format = format;
->  	sdev->pitch = stride;
-
-Janne
+--------------7CJxnm1qoxQINzwr000tyfEV--
