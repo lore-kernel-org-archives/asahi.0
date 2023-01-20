@@ -1,268 +1,188 @@
-Received: from out-134.mta0.migadu.com (out-134.mta0.migadu.com [91.218.175.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE3333C8
-	for <asahi@lists.linux.dev>; Fri, 20 Jan 2023 17:25:54 +0000 (UTC)
-Message-ID: <d0c1a4a6-b6b3-846c-e0c3-849e59ed732d@ansari.sh>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ansari.sh; s=key1;
-	t=1674235546;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jIAmzFt7Ixq5beVbwBrKV3kz9OMeEkNUhyaVCEyiNzk=;
-	b=HBn4/zEb87oRD6JM0x5tAyRqwZxTWK+CQlnXlJmNEv0/MZETK76uDEJS9aIJJQolwbkdCs
-	Vp84jzg2WE4kv+xRmXv1hbRFhP5RWbn+PEo1osQvwzBbPEztphSvr6yBj6DXrw5Bg8w8pz
-	5tIbVhaLmYwwmGhGBMN8et4liu+nL+s=
-Date: Fri, 20 Jan 2023 17:25:45 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F91033C8
+	for <asahi@lists.linux.dev>; Fri, 20 Jan 2023 17:36:19 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id v13so7592401eda.11
+        for <asahi@lists.linux.dev>; Fri, 20 Jan 2023 09:36:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Hsg3R7cF7+KXUcvELUAw71wu/QRs/AoD8oGagePGrU=;
+        b=FiFRNczG1zXTt5lXzhkrx2m2cQDmpDhc0J+5rlWsUErG7M5M2kj97QonC92zcUDsj4
+         zbho20kj9u4gIESi3BXzJkcEgzPA1mmebkD3D3e01nZZ6YJQszqa4C5GdXB8aTojW2t2
+         YOhBu5LTLvGjp7qJua5OpGqSUkLlcNJoXuSrHapZnvb6PbCHX4AiLWqBG+OT9uczAL69
+         Q3a4gI/wluSnevKoyFEfVyuWEgc/37CTXKSvL3Xomri5QC+ALu7VAzlMBbuWr+Bbzuc0
+         WA3Txco4pixBe8cLVriWCX/+wzhRmMwpQvn6fZQrkY2BDkXPiQsed2y9FKAGvqxt9wLA
+         RJyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3Hsg3R7cF7+KXUcvELUAw71wu/QRs/AoD8oGagePGrU=;
+        b=V36kxoRKdlxPV9u/GodKbaTOg0Xb92rzKCjA472Fl16SFyI5xy9+NuKLK6z6m808HL
+         KDptJ6KiYs5/TbdcldZNdoUihFlfQCI9GYKeAM+9FkMwvL1r1WwCVv37XJ53aTyaMou2
+         fIL90Lx38Vc3drhvU0vjxewfR7KCUh9O95OxEM7NYvHq7LtkNZfIUQT58/dBWQLL4zzb
+         lGPrY5Y8sQurdtKaRdXqFYPDLj6lgjpFRVRu8Mry/+NSTsaHgiFaKEJR3Ws3Bl+suf8x
+         225ONPlLkhCdj2yIv/gWnUUdL/B9RG/CVfIfBA9VbYqWpuNhYBYtCPi4icH8M5bLslyJ
+         HECw==
+X-Gm-Message-State: AFqh2kpklTQmfF1IjenA1hd804hRc9P3nrYV99ZrOKVDox/5dujhzJlf
+	0vjWoPAZnPAMvLaRx/ynmUo=
+X-Google-Smtp-Source: AMrXdXs+7JIXGlxA9jU7fzL3nVI7hW91H1kYyg81v/b5/PYAmef5Z3aGNM5nt63NKVtUY15Ph/T5pA==
+X-Received: by 2002:a05:6402:27cf:b0:49e:24b4:5981 with SMTP id c15-20020a05640227cf00b0049e24b45981mr20701198ede.39.1674236177527;
+        Fri, 20 Jan 2023 09:36:17 -0800 (PST)
+Received: from orome (p200300e41f201d00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f20:1d00:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id a8-20020aa7d908000000b0049dfd6bdc25sm8483147edr.84.2023.01.20.09.36.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jan 2023 09:36:17 -0800 (PST)
+Date: Fri, 20 Jan 2023 18:36:15 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>, Joerg Roedel <joro@8bytes.org>
+Cc: Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Ashish Mhetre <amhetre@nvidia.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
+	Lucas Stach <l.stach@pengutronix.de>, devicetree@vger.kernel.org,
+	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH v12 0/4] iommu: Support mappings/reservations in
+ reserved-memory regions
+Message-ID: <Y8rRDyFxx5KQSwD3@orome>
+References: <20221117185424.2359687-1-thierry.reding@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH] drm/simpledrm: Allow physical width and height
- configuration via DT
-Content-Language: en-US
-To: Janne Grunau <janne@jannau.net>
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, asahi@lists.linux.dev
-References: <20230118184817.608551-1-rayyan@ansari.sh>
- <20230119100104.GE3576@jannau.net>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Rayyan Ansari <rayyan@ansari.sh>
-In-Reply-To: <20230119100104.GE3576@jannau.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="oBH+S5ZD2EBiE5Rg"
+Content-Disposition: inline
+In-Reply-To: <20221117185424.2359687-1-thierry.reding@gmail.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
 
-On 19/01/2023 10:01, Janne Grunau wrote:
-> Hej,
-> 
-> adding devicetree@vger.kernel.org and asahi@lists.linux.dev to cc:, the
-> former for the obvious devictree/bindings related questions,
-> asahi for the prospect of supporting high DPI displays during early boot
-> and in u-boot.
-> 
-> On 2023-01-18 18:48:17 +0000, Rayyan Ansari wrote:
->> Hello,
->> The following draft patch adds support for configuring the
->> height-mm and width-mm DRM properties in the simpledrm driver
->> via devicetree.
->> This is useful to get proper scaling in UIs such as Phosh.
->> An example of using this property is this, taken from my local tree:
->>
->> 		framebuffer0: framebuffer@3200000 {
->> 			compatible = "simple-framebuffer";
->> 			reg = <0x3200000 0x800000>;
->> 			format = "a8r8g8b8";
->> 			width = <720>;
->> 			height = <1280>;
->> 			stride = <(720 * 4)>;
->> 			width-mm = /bits/ 16 <58>;
->> 			height-mm = /bits/ 16 <103>;
->>
->> 			clocks = <&mmcc MDSS_AHB_CLK>,
->> 				 <&mmcc MDSS_AXI_CLK>,
->> 				 <&mmcc MDSS_BYTE0_CLK>,
->> 				 <&mmcc MDSS_MDP_CLK>,
->> 				 <&mmcc MDSS_PCLK0_CLK>,
->> 				 <&mmcc MDSS_VSYNC_CLK>;
->> 			power-domains = <&mmcc MDSS_GDSC>;
->> 		};
->>
->> I have tested this on my Lumia 735, and it does indeed
->> allow Phosh to scale correctly on the screen.
->>
->> However, I would like to get some feedback before I write the
->> documentation.
->> - What data type should be used?
->> 	The width_mm and height_mm properties of the drm_display_mode
->> 	struct are defined as u16. I have also made the devicetree
->> 	properties as the u16 type, but this requires specifying
->> 	"/bits/ 16" before the value. Should u32 be used instead to get
->> 	rid of this? If so, how could the conversion from u32->u16 be
->> 	handled?
-> 
-> u32 is the appropriate type. The device tree describes the hardware and
-> not the data types used in a "random" linux driver/subsystem. 65m is
-> probably enough for all practical purposes but u32 is the better choice.
-> Documentation/devicetree/bindings/display/panel/panel-common.yaml
-> already specifies "height-mm" and "width-mm" and all device tree files
-> using this binding code the properties as u32.
-> 
 
-Okay, will change.
+--oBH+S5ZD2EBiE5Rg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> We probably do not want add height and width properties to the
-> simple-framebuffer node directly. At least for the static case I would
-> expect that it duplicates information already present in a panel node.
-> For that case parsing the panel dimensions via a phandle reference to
-> that panel node would be preferred.
+On Thu, Nov 17, 2022 at 07:54:20PM +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+>=20
+> Hi,
+>=20
+> This version is a minor update to the previous v11, which can be found
+> here:
+>=20
+>   https://lore.kernel.org/all/20221111161806.630527-1-thierry.reding@gmai=
+l.com/
+>=20
+> The only change here is that the #dma-{address,size}-cells is dropped.
+> It turns out to be much simpler to just update #{address,size}-cells to
+> what they should be rather than add extra complexity for the DMA work-
+> around. There's a minor update to the DT binding so that it can now
+> properly validate cases where we have both reg and iommu-addresses
+> properties.
+>=20
+> An example is included in the DT bindings, but here is an extract of
+> what I've used to test this:
+>=20
+>         reserved-memory {
+>                 #address-cells =3D <2>;
+>                 #size-cells =3D <2>;
+>                 ranges;
+>=20
+>                 /*
+>                  * Creates an identity mapping for the framebuffer that
+>                  * the firmware has setup to scan out a bootsplash from.
+>                  */
+>                 fb: framebuffer@92cb2000 {
+>                         reg =3D <0x0 0x92cb2000 0x0 0x00800000>;
+>                         iommu-addresses =3D <&dc0 0x0 0x92cb2000 0x0 0x00=
+800000>;
+>                 };
+>=20
+>                 /*
+>                  * Creates a reservation in the IOVA space to prevent
+>                  * any buffers from being mapped to that region. Note
+>                  * that on Tegra the range is actually quite different
+>                  * from this, but it would conflict with the display
+>                  * driver that I tested this against, so this is just
+>                  * a dummy region for testing.
+>                  */
+>                 adsp: reservation-adsp {
+>                         iommu-addresses =3D <&dc0 0x0 0x90000000 0x0 0x00=
+010000>;
+>                 };
+>         };
+>=20
+>         host1x@50000000 {
+>                 dc@54200000 {
+>                         memory-region =3D <&fb>, <&adsp>;
+>                 };
+>         };
+>=20
+> This is abbreviated a little to focus on the essentials. Note also that
+> the ADSP reservation is not actually used on this device and the driver
+> for this doesn't exist yet, but I wanted to include this variant for
+> testing, because we'll want to use these bindings for the reservation
+> use-case as well at some point.
+>=20
+> I've also been able to make use of this binding and the IOMMU code in
+> conjunction with the simple-framebuffer driver to hand over a display
+> configuration set up by UEFI to the Linux kernel.
+>=20
+> Janne has confirmed[0] this to be suitable for indirect mappings as
+> well, though these patches don't implement that feature yet. Potential
+> extensions to this have been discussed but are not yet included at this
+> time to not further complicate things.
+>=20
+> Thierry
+>=20
+> [0]: https://lore.kernel.org/all/20220909144504.GA4024@jannau.net/
+>=20
+> Thierry Reding (4):
+>   of: Introduce of_translate_dma_region()
+>   dt-bindings: reserved-memory: Document iommu-addresses
+>   iommu: Implement of_iommu_get_resv_regions()
+>   iommu: dma: Use of_iommu_get_resv_regions()
 
-In my case, there is currently no panel driver. The interface I 
-mentioned (Phosh) is running on the simpledrm driver.
-Here is my Lumia running this interface:
-https://wiki.postmarketos.org/images/c/c3/Lumia_735_Phosh.png
+Hi Joerg,
 
-> 
-> I'm not sure if it worth considering the dynamic case. The bootloader
-> may be able to provide dimensions of HDMI, DP, ...  connected displays
-> from the EDID. In that case "height-mm" and "width-mm" properties would
-> make sense.
-> 
-> The existing panel drivers seem to ignore the u32 -> u16 conversion
-> problem.
-> 
->> - Style?
->> 	I have split the arguments to the DRM_MODE_INIT macro across
->> 	multiple lines to increase readability. I'm not sure if this
->> 	is the correct style though.
-> 
-> I think the code would be more readable if width_mm and height_mm would
-> be calculated outside of DRM_MODE_INIT if they are zero.
-> 
->> - Anything else?
->> 	This is my first time writing code for a Linux driver, so I
->> 	would be grateful if you have any suggestions for improvements.
-> 
-> Documentation/devicetree/bindings/display/simple-framebuffer.yaml needs
-> to be updates to list and document the properties added to the node.
-> 
->> ---
->>   drivers/gpu/drm/tiny/simpledrm.c | 49 +++++++++++++++++++++++++++-----
->>   1 file changed, 42 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
->> index 162eb44dcba8..92109f870b35 100644
->> --- a/drivers/gpu/drm/tiny/simpledrm.c
->> +++ b/drivers/gpu/drm/tiny/simpledrm.c
->> @@ -116,6 +116,15 @@ simplefb_get_format_pd(struct drm_device *dev,
->>   	return simplefb_get_validated_format(dev, pd->format);
->>   }
->>   
->> +static void
->> +simplefb_read_u16_of_optional(struct drm_device *dev, struct device_node *of_node,
->> +		     const char *name, u16 *value)
->> +{
->> +	int ret = of_property_read_u16(of_node, name, value);
->> +	if (ret)
->> +		value = 0;
->> +}
->> +
->>   static int
->>   simplefb_read_u32_of(struct drm_device *dev, struct device_node *of_node,
->>   		     const char *name, u32 *value)
->> @@ -184,6 +193,21 @@ simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
->>   	return simplefb_get_validated_format(dev, format);
->>   }
->>   
->> +static u16
->> +simplefb_get_width_mm_of(struct drm_device *dev, struct device_node *of_node)
->> +{
->> +	u16 width_mm;
->> +	simplefb_read_u16_of_optional(dev, of_node, "width-mm", &width_mm);
->> +	return width_mm;
->> +}
->> +
->> +static u16
->> +simplefb_get_height_mm_of(struct drm_device *dev, struct device_node *of_node)
->> +{
->> +	u16 height_mm;
->> +	simplefb_read_u16_of_optional(dev, of_node, "height-mm", &height_mm);
->> +	return height_mm;
->> +}
-> 
-> I don't think it makes sense to have these two mostly identical wrapper
-> functions. Please pass the name of the property as parameter. It could
-> make sense to have a function to both height and width. I think we
-> should ignore both height and width if one fails to parse or is 0.
-> That could of course also be done in simpledrm_mode() for example like:
-> 
-> |	if (!width_mm || !height_mm) {
-> |		width_mm = DRM_MODE_RES_MM(width, 96ul);
-> |		height_mm = DRM_MODE_RES_MM(height, 96ul);
-> |	}
-> 
+I think this has all the Acked-by's and Reviewed-by's that it needs. Can
+you pick this up? I'd really like to see this go into v6.3.
 
-I based this on the way the pixel height and width is fetched from DT 
-(simplefb_get_width_of and simplefb_get_height_of) but changing it to 
-one function makes sense.
+If there's anything that you'd like to see addressed, please let me
+know.
 
->>   /*
->>    * Simple Framebuffer device
->>    */
->> @@ -599,16 +623,24 @@ static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
->>    */
->>   
->>   static struct drm_display_mode simpledrm_mode(unsigned int width,
->> -					      unsigned int height)
->> +					      unsigned int height,
->> +					      u16 width_mm,
->> +					      u16 height_mm)
->>   {
->>   	/*
->> -	 * Assume a monitor resolution of 96 dpi to
->> -	 * get a somewhat reasonable screen size.
->> +	 * Assume a monitor resolution of 96 dpi if physical
->> +	 * dimensions are not specified to get a somewhat reasonable
->> +	 * screen size.
->>   	 */
->> +
->>   	const struct drm_display_mode mode = {
->> -		DRM_MODE_INIT(60, width, height,
->> -			      DRM_MODE_RES_MM(width, 96ul),
->> -			      DRM_MODE_RES_MM(height, 96ul))
->> +		DRM_MODE_INIT(
->> +			60,
->> +			width,
->> +			height,
->> +			(width_mm ? width_mm : DRM_MODE_RES_MM(width, 96ul)),
->> +			(height_mm ? height_mm : DRM_MODE_RES_MM(height, 96ul))
->> +			)
->>   	};
->>   
->>   	return mode;
->> @@ -622,6 +654,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->>   	struct simpledrm_device *sdev;
->>   	struct drm_device *dev;
->>   	int width, height, stride;
->> +	u16 width_mm, height_mm;
-> 
-> these need to be initialized to 0 otherwise they may end up used
-> unitialized if pd is not NULL.
-> 
+Thanks,
+Thierry
 
-Noted.
+--oBH+S5ZD2EBiE5Rg
+Content-Type: application/pgp-signature; name="signature.asc"
 
->>   	const struct drm_format_info *format;
->>   	struct resource *res, *mem;
->>   	void __iomem *screen_base;
->> @@ -676,6 +709,8 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->>   		format = simplefb_get_format_of(dev, of_node);
->>   		if (IS_ERR(format))
->>   			return ERR_CAST(format);
->> +		width_mm = simplefb_get_width_mm_of(dev, of_node);
->> +		height_mm = simplefb_get_height_mm_of(dev, of_node);
->>   	} else {
->>   		drm_err(dev, "no simplefb configuration found\n");
->>   		return ERR_PTR(-ENODEV);
->> @@ -686,7 +721,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->>   			return ERR_PTR(-EINVAL);
->>   	}
->>   
->> -	sdev->mode = simpledrm_mode(width, height);
->> +	sdev->mode = simpledrm_mode(width, height, width_mm, height_mm);
->>   	sdev->format = format;
->>   	sdev->pitch = stride;
-> 
-> Janne
+-----BEGIN PGP SIGNATURE-----
 
-Thanks for the feedback! I'll write the documentation and improve on the 
-points mentioned to make this mainline-ready.
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmPK0Q8ACgkQ3SOs138+
+s6GnPQ//XKZ8kJsU2ABDQ4Hc2ibE+dZfYdJpuWJ/NHFHt9cbf4/bDMYmGubWAIFs
+FbHTJ4le89rhpERT/QrjqZLqpLfEsL+BaaW3J6k8zpCP5jdUc4vymu8KUtdQlYwT
+n4ef3WCzmWaesM4wCWtwJC6XjXktuXid2j1asxO6TKxS55XIxlwtob+K4U3nhAfg
+c4wQDXh6TeeIv6Hw6r4Lx8T2nr9CpDhqd6cJs7uLqn8kXZ9GEOhua3gPVznuEexy
+UtYpX7AgWTmJbzAcChRQQHd0Hs3OCcV6JWPMNKcmGGotlBKy0vz6ECzh5z9t/Py1
+K7Vq/FXSsyFtfZ1M+r4t7QkhQrReRHpALdjROnl3sCK2pM7krO5XBLWrloKFtZqj
+ryfuO6FLK69lOEqlhjHRGhaKQvuws8Kf4wHCnZtWepQOdZijBBqjZ0NbJulPmldo
+UDJCYzJSs8g0pQF5CqaQzj0gP/Md3TPRig+2GE3+m0rHA4lcRKQgt68GMFiPx6FI
+P5gqyiDLdK+dpfcq7Ev3m527Bv5hgoBHgCBh+tYbZu5Br0SrHZNOz00LW1uBmYBj
+00Ctzs9yMwNk2/daX6P8jxgYrdFTrIvmI7Fgns80lAsrClx7krfvwBBbZpljA8c9
+8oRJdryRtwbmE5ch8Sh+b/Ze9GHMn2EgBRjPSaaX65/T6lZiXEc=
+=qY7i
+-----END PGP SIGNATURE-----
 
--- 
-Rayyan Ansari
-https://ansari.sh
-
+--oBH+S5ZD2EBiE5Rg--
