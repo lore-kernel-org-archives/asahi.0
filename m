@@ -1,20 +1,20 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from out-134.mta0.migadu.com (out-134.mta0.migadu.com [91.218.175.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A9F33C8
-	for <asahi@lists.linux.dev>; Fri, 20 Jan 2023 17:09:39 +0000 (UTC)
-Message-ID: <77aea6a7-8a83-b748-5443-a5303f17ff51@ansari.sh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE3333C8
+	for <asahi@lists.linux.dev>; Fri, 20 Jan 2023 17:25:54 +0000 (UTC)
+Message-ID: <d0c1a4a6-b6b3-846c-e0c3-849e59ed732d@ansari.sh>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ansari.sh; s=key1;
-	t=1674234570;
+	t=1674235546;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9PQlRQJRFcCkFdYbq/AOrVsh5vPJ6/jx9IWzOtP6f+I=;
-	b=N3XO1OZfljoBTBWT2R/DjvKTfmXdWkqZlYTc2jifvDyNg8JXbpOKKe3yA+MEm/k35OpNXe
-	BirWdBR1A1Dd1G76gf4S06nAM7IhAlBBX/rY5eF+AQjAS+KwaHY/c60k/3L2+8qkfje2I0
-	mXmOqhXNmob4YPktaVmmiMAzGozXovE=
-Date: Fri, 20 Jan 2023 17:09:29 +0000
+	bh=jIAmzFt7Ixq5beVbwBrKV3kz9OMeEkNUhyaVCEyiNzk=;
+	b=HBn4/zEb87oRD6JM0x5tAyRqwZxTWK+CQlnXlJmNEv0/MZETK76uDEJS9aIJJQolwbkdCs
+	Vp84jzg2WE4kv+xRmXv1hbRFhP5RWbn+PEo1osQvwzBbPEztphSvr6yBj6DXrw5Bg8w8pz
+	5tIbVhaLmYwwmGhGBMN8et4liu+nL+s=
+Date: Fri, 20 Jan 2023 17:25:45 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -23,30 +23,29 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Subject: Re: [RFC PATCH] drm/simpledrm: Allow physical width and height
  configuration via DT
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- linux-kernel@vger.kernel.org,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE"
- <devicetree@vger.kernel.org>, asahi@lists.linux.dev
-References: <20230118184817.608551-1-rayyan@ansari.sh>
- <9acf95f1-0bce-62c7-b524-4eac408b4207@suse.de>
 Content-Language: en-US
+To: Janne Grunau <janne@jannau.net>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, asahi@lists.linux.dev
+References: <20230118184817.608551-1-rayyan@ansari.sh>
+ <20230119100104.GE3576@jannau.net>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Rayyan Ansari <rayyan@ansari.sh>
-In-Reply-To: <9acf95f1-0bce-62c7-b524-4eac408b4207@suse.de>
+In-Reply-To: <20230119100104.GE3576@jannau.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On 19/01/2023 10:44, Thomas Zimmermann wrote:
-> (cc: devicetree@vger.kernel.org, asahi@lists.linux.dev)
+On 19/01/2023 10:01, Janne Grunau wrote:
+> Hej,
 > 
-> Hi,
+> adding devicetree@vger.kernel.org and asahi@lists.linux.dev to cc:, the
+> former for the obvious devictree/bindings related questions,
+> asahi for the prospect of supporting high DPI displays during early boot
+> and in u-boot.
 > 
-> thanks for the patch. I already wondered if the DPI value should be 
-> configurable in some way.
-> 
-> Am 18.01.23 um 19:48 schrieb Rayyan Ansari:
+> On 2023-01-18 18:48:17 +0000, Rayyan Ansari wrote:
 >> Hello,
 >> The following draft patch adds support for configuring the
 >> height-mm and width-mm DRM properties in the simpledrm driver
@@ -54,237 +53,214 @@ On 19/01/2023 10:44, Thomas Zimmermann wrote:
 >> This is useful to get proper scaling in UIs such as Phosh.
 >> An example of using this property is this, taken from my local tree:
 >>
->>         framebuffer0: framebuffer@3200000 {
->>             compatible = "simple-framebuffer";
->>             reg = <0x3200000 0x800000>;
->>             format = "a8r8g8b8";
->>             width = <720>;
->>             height = <1280>;
->>             stride = <(720 * 4)>;
->>             width-mm = /bits/ 16 <58>;
->>             height-mm = /bits/ 16 <103>;
+>> 		framebuffer0: framebuffer@3200000 {
+>> 			compatible = "simple-framebuffer";
+>> 			reg = <0x3200000 0x800000>;
+>> 			format = "a8r8g8b8";
+>> 			width = <720>;
+>> 			height = <1280>;
+>> 			stride = <(720 * 4)>;
+>> 			width-mm = /bits/ 16 <58>;
+>> 			height-mm = /bits/ 16 <103>;
 >>
->>             clocks = <&mmcc MDSS_AHB_CLK>,
->>                  <&mmcc MDSS_AXI_CLK>,
->>                  <&mmcc MDSS_BYTE0_CLK>,
->>                  <&mmcc MDSS_MDP_CLK>,
->>                  <&mmcc MDSS_PCLK0_CLK>,
->>                  <&mmcc MDSS_VSYNC_CLK>;
->>             power-domains = <&mmcc MDSS_GDSC>;
->>         };
+>> 			clocks = <&mmcc MDSS_AHB_CLK>,
+>> 				 <&mmcc MDSS_AXI_CLK>,
+>> 				 <&mmcc MDSS_BYTE0_CLK>,
+>> 				 <&mmcc MDSS_MDP_CLK>,
+>> 				 <&mmcc MDSS_PCLK0_CLK>,
+>> 				 <&mmcc MDSS_VSYNC_CLK>;
+>> 			power-domains = <&mmcc MDSS_GDSC>;
+>> 		};
 >>
 >> I have tested this on my Lumia 735, and it does indeed
 >> allow Phosh to scale correctly on the screen.
-> 
-> Is this something that is already supported by some device, or just a 
-> pet project of yours?
-> 
-
-Phosh is a mobile environment, developed for use on the Librem 5 phone, 
-but it's also packaged by mobile-focused distros such as postmarketOS 
-and used on other phones.
-https://puri.sm/posts/phosh-overview/
-
-This is my Lumia running Phosh with Firefox open: 
-https://wiki.postmarketos.org/images/c/c3/Lumia_735_Phosh.png
-
 >>
 >> However, I would like to get some feedback before I write the
 >> documentation.
 >> - What data type should be used?
->>     The width_mm and height_mm properties of the drm_display_mode
->>     struct are defined as u16. I have also made the devicetree
->>     properties as the u16 type, but this requires specifying
->>     "/bits/ 16" before the value. Should u32 be used instead to get
->>     rid of this? If so, how could the conversion from u32->u16 be
->>     handled?
+>> 	The width_mm and height_mm properties of the drm_display_mode
+>> 	struct are defined as u16. I have also made the devicetree
+>> 	properties as the u16 type, but this requires specifying
+>> 	"/bits/ 16" before the value. Should u32 be used instead to get
+>> 	rid of this? If so, how could the conversion from u32->u16 be
+>> 	handled?
 > 
-> I'd use 32 bits in the DT, just like the other properties.
+> u32 is the appropriate type. The device tree describes the hardware and
+> not the data types used in a "random" linux driver/subsystem. 65m is
+> probably enough for all practical purposes but u32 is the better choice.
+> Documentation/devicetree/bindings/display/panel/panel-common.yaml
+> already specifies "height-mm" and "width-mm" and all device tree files
+> using this binding code the properties as u32.
 > 
 
-Noted.
+Okay, will change.
 
+> We probably do not want add height and width properties to the
+> simple-framebuffer node directly. At least for the static case I would
+> expect that it duplicates information already present in a panel node.
+> For that case parsing the panel dimensions via a phandle reference to
+> that panel node would be preferred.
+
+In my case, there is currently no panel driver. The interface I 
+mentioned (Phosh) is running on the simpledrm driver.
+Here is my Lumia running this interface:
+https://wiki.postmarketos.org/images/c/c3/Lumia_735_Phosh.png
+
+> 
+> I'm not sure if it worth considering the dynamic case. The bootloader
+> may be able to provide dimensions of HDMI, DP, ...  connected displays
+> from the EDID. In that case "height-mm" and "width-mm" properties would
+> make sense.
+> 
+> The existing panel drivers seem to ignore the u32 -> u16 conversion
+> problem.
+> 
 >> - Style?
->>     I have split the arguments to the DRM_MODE_INIT macro across
->>     multiple lines to increase readability. I'm not sure if this
->>     is the correct style though.
+>> 	I have split the arguments to the DRM_MODE_INIT macro across
+>> 	multiple lines to increase readability. I'm not sure if this
+>> 	is the correct style though.
+> 
+> I think the code would be more readable if width_mm and height_mm would
+> be calculated outside of DRM_MODE_INIT if they are zero.
+> 
 >> - Anything else?
->>     This is my first time writing code for a Linux driver, so I
->>     would be grateful if you have any suggestions for improvements.
->> Thanks,
->> Rayyan.
+>> 	This is my first time writing code for a Linux driver, so I
+>> 	would be grateful if you have any suggestions for improvements.
+> 
+> Documentation/devicetree/bindings/display/simple-framebuffer.yaml needs
+> to be updates to list and document the properties added to the node.
+> 
 >> ---
->>   drivers/gpu/drm/tiny/simpledrm.c | 49 +++++++++++++++++++++++++++-----
->>   1 file changed, 42 insertions(+), 7 deletions(-)
+>>   drivers/gpu/drm/tiny/simpledrm.c | 49 +++++++++++++++++++++++++++-----
+>>   1 file changed, 42 insertions(+), 7 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/tiny/simpledrm.c 
->> b/drivers/gpu/drm/tiny/simpledrm.c
+>> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
 >> index 162eb44dcba8..92109f870b35 100644
 >> --- a/drivers/gpu/drm/tiny/simpledrm.c
 >> +++ b/drivers/gpu/drm/tiny/simpledrm.c
 >> @@ -116,6 +116,15 @@ simplefb_get_format_pd(struct drm_device *dev,
->>       return simplefb_get_validated_format(dev, pd->format);
->>   }
+>>   	return simplefb_get_validated_format(dev, pd->format);
+>>   }
+>>   
 >> +static void
->> +simplefb_read_u16_of_optional(struct drm_device *dev, struct 
->> device_node *of_node,
-> 
-> Maybe call it simplefb_read_u16_of_opt()
-> 
->> +             const char *name, u16 *value)
-> 
-> The alignment looks off.
-> 
+>> +simplefb_read_u16_of_optional(struct drm_device *dev, struct device_node *of_node,
+>> +		     const char *name, u16 *value)
 >> +{
->> +    int ret = of_property_read_u16(of_node, name, value);
->> +    if (ret)
->> +        value = 0;
-> 
-> You mean *value = 0 ?
-> 
-> I think we should be stricter here. Look at the docs at [1]. A result of 
-> 0 means success and -EINVAL means that the property does not exist. We 
-> should still report errors for the other errno codes.
-> 
-> Something like
-> 
->    ret = of_property_read_u16()
-> 
->    if (ret) {
->      if(ret == -EINVAL) {
->          *value = 0;
->      ret= 0;
->      } else {
->          drm_err(dev, "simplefb: cannot parse framebuffer %s:
->              "error %d\n", name, ret);
->      }
->    }
-> 
->    return ret;
-> 
-> [1] https://elixir.bootlin.com/linux/latest/source/include/linux/of.h#L1202
-> 
-
-Will change, thanks for the example and reference.
-
+>> +	int ret = of_property_read_u16(of_node, name, value);
+>> +	if (ret)
+>> +		value = 0;
 >> +}
 >> +
->>   static int
->>   simplefb_read_u32_of(struct drm_device *dev, struct device_node 
->> *of_node,
->>                const char *name, u32 *value)
->> @@ -184,6 +193,21 @@ simplefb_get_format_of(struct drm_device *dev, 
->> struct device_node *of_node)
->>       return simplefb_get_validated_format(dev, format);
->>   }
+>>   static int
+>>   simplefb_read_u32_of(struct drm_device *dev, struct device_node *of_node,
+>>   		     const char *name, u32 *value)
+>> @@ -184,6 +193,21 @@ simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
+>>   	return simplefb_get_validated_format(dev, format);
+>>   }
+>>   
 >> +static u16
->> +simplefb_get_width_mm_of(struct drm_device *dev, struct device_node 
->> *of_node)
+>> +simplefb_get_width_mm_of(struct drm_device *dev, struct device_node *of_node)
 >> +{
->> +    u16 width_mm;
->> +    simplefb_read_u16_of_optional(dev, of_node, "width-mm", &width_mm);
->> +    return width_mm;
+>> +	u16 width_mm;
+>> +	simplefb_read_u16_of_optional(dev, of_node, "width-mm", &width_mm);
+>> +	return width_mm;
 >> +}
 >> +
 >> +static u16
->> +simplefb_get_height_mm_of(struct drm_device *dev, struct device_node 
->> *of_node)
+>> +simplefb_get_height_mm_of(struct drm_device *dev, struct device_node *of_node)
 >> +{
->> +    u16 height_mm;
->> +    simplefb_read_u16_of_optional(dev, of_node, "height-mm", 
->> &height_mm);
->> +    return height_mm;
+>> +	u16 height_mm;
+>> +	simplefb_read_u16_of_optional(dev, of_node, "height-mm", &height_mm);
+>> +	return height_mm;
 >> +}
->>   /*
->>    * Simple Framebuffer device
->>    */
->> @@ -599,16 +623,24 @@ static const struct drm_mode_config_funcs 
->> simpledrm_mode_config_funcs = {
->>    */
->>   static struct drm_display_mode simpledrm_mode(unsigned int width,
->> -                          unsigned int height)
->> +                          unsigned int height,
->> +                          u16 width_mm,
->> +                          u16 height_mm)
->>   {
->>       /*
->> -     * Assume a monitor resolution of 96 dpi to
->> -     * get a somewhat reasonable screen size.
->> +     * Assume a monitor resolution of 96 dpi if physical
->> +     * dimensions are not specified to get a somewhat reasonable
 > 
-> Please move 'dimensions' to the previous line to make it more pleasant 
-> to the eyes.
+> I don't think it makes sense to have these two mostly identical wrapper
+> functions. Please pass the name of the property as parameter. It could
+> make sense to have a function to both height and width. I think we
+> should ignore both height and width if one fails to parse or is 0.
+> That could of course also be done in simpledrm_mode() for example like:
 > 
->> +     * screen size.
->>        */
->> +
->>       const struct drm_display_mode mode = {
->> -        DRM_MODE_INIT(60, width, height,
->> -                  DRM_MODE_RES_MM(width, 96ul),
->> -                  DRM_MODE_RES_MM(height, 96ul))
->> +        DRM_MODE_INIT(
->> +            60,
->> +            width,
->> +            height,
->> +            (width_mm ? width_mm : DRM_MODE_RES_MM(width, 96ul)),
->> +            (height_mm ? height_mm : DRM_MODE_RES_MM(height, 96ul))
->> +            )
-> 
-> The coding style is awkward and the ?: doesn't belong here. Please see 
-> further below.
-> 
->>       };
->>       return mode;
->> @@ -622,6 +654,7 @@ static struct simpledrm_device 
->> *simpledrm_device_create(struct drm_driver *drv,
->>       struct simpledrm_device *sdev;
->>       struct drm_device *dev;
->>       int width, height, stride;
->> +    u16 width_mm, height_mm;
-> 
-> Init those two variables to zero.
-> 
->>       const struct drm_format_info *format;
->>       struct resource *res, *mem;
->>       void __iomem *screen_base;
->> @@ -676,6 +709,8 @@ static struct simpledrm_device 
->> *simpledrm_device_create(struct drm_driver *drv,
->>           format = simplefb_get_format_of(dev, of_node);
->>           if (IS_ERR(format))
->>               return ERR_CAST(format);
->> +        width_mm = simplefb_get_width_mm_of(dev, of_node);
->> +        height_mm = simplefb_get_height_mm_of(dev, of_node);
->>       } else {
->>           drm_err(dev, "no simplefb configuration found\n");
->>           return ERR_PTR(-ENODEV);
->> @@ -686,7 +721,7 @@ static struct simpledrm_device 
->> *simpledrm_device_create(struct drm_driver *drv,
->>               return ERR_PTR(-EINVAL);
->>       }
-> 
-> Just like with the framebuffer stride, here's the place to detect 
-> default values. So at this point, do something like
-> 
->       if (!width_mm)
->          width_mm = DRM_MODE_RES_MM(width, 96ul);
->       if (!height_mm)
->          height_mm = DRM_MODE_RES_MM(height, 96ul);
-> 
-> And pass the initialized physical dimensions to simpldrm_mode(). You can 
-> move the comment in simpledrm_mode() before the branches.
-> 
-> Best regards
-> Thomas
-> 
->> -    sdev->mode = simpledrm_mode(width, height);
->> +    sdev->mode = simpledrm_mode(width, height, width_mm, height_mm);
->>       sdev->format = format;
->>       sdev->pitch = stride;
+> |	if (!width_mm || !height_mm) {
+> |		width_mm = DRM_MODE_RES_MM(width, 96ul);
+> |		height_mm = DRM_MODE_RES_MM(height, 96ul);
+> |	}
 > 
 
-Thanks for the feedback! I'll improve on this patch and write 
-documentation to hopefully make this mainline-ready.
+I based this on the way the pixel height and width is fetched from DT 
+(simplefb_get_width_of and simplefb_get_height_of) but changing it to 
+one function makes sense.
+
+>>   /*
+>>    * Simple Framebuffer device
+>>    */
+>> @@ -599,16 +623,24 @@ static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
+>>    */
+>>   
+>>   static struct drm_display_mode simpledrm_mode(unsigned int width,
+>> -					      unsigned int height)
+>> +					      unsigned int height,
+>> +					      u16 width_mm,
+>> +					      u16 height_mm)
+>>   {
+>>   	/*
+>> -	 * Assume a monitor resolution of 96 dpi to
+>> -	 * get a somewhat reasonable screen size.
+>> +	 * Assume a monitor resolution of 96 dpi if physical
+>> +	 * dimensions are not specified to get a somewhat reasonable
+>> +	 * screen size.
+>>   	 */
+>> +
+>>   	const struct drm_display_mode mode = {
+>> -		DRM_MODE_INIT(60, width, height,
+>> -			      DRM_MODE_RES_MM(width, 96ul),
+>> -			      DRM_MODE_RES_MM(height, 96ul))
+>> +		DRM_MODE_INIT(
+>> +			60,
+>> +			width,
+>> +			height,
+>> +			(width_mm ? width_mm : DRM_MODE_RES_MM(width, 96ul)),
+>> +			(height_mm ? height_mm : DRM_MODE_RES_MM(height, 96ul))
+>> +			)
+>>   	};
+>>   
+>>   	return mode;
+>> @@ -622,6 +654,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+>>   	struct simpledrm_device *sdev;
+>>   	struct drm_device *dev;
+>>   	int width, height, stride;
+>> +	u16 width_mm, height_mm;
+> 
+> these need to be initialized to 0 otherwise they may end up used
+> unitialized if pd is not NULL.
+> 
+
+Noted.
+
+>>   	const struct drm_format_info *format;
+>>   	struct resource *res, *mem;
+>>   	void __iomem *screen_base;
+>> @@ -676,6 +709,8 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+>>   		format = simplefb_get_format_of(dev, of_node);
+>>   		if (IS_ERR(format))
+>>   			return ERR_CAST(format);
+>> +		width_mm = simplefb_get_width_mm_of(dev, of_node);
+>> +		height_mm = simplefb_get_height_mm_of(dev, of_node);
+>>   	} else {
+>>   		drm_err(dev, "no simplefb configuration found\n");
+>>   		return ERR_PTR(-ENODEV);
+>> @@ -686,7 +721,7 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+>>   			return ERR_PTR(-EINVAL);
+>>   	}
+>>   
+>> -	sdev->mode = simpledrm_mode(width, height);
+>> +	sdev->mode = simpledrm_mode(width, height, width_mm, height_mm);
+>>   	sdev->format = format;
+>>   	sdev->pitch = stride;
+> 
+> Janne
+
+Thanks for the feedback! I'll write the documentation and improve on the 
+points mentioned to make this mainline-ready.
 
 -- 
 Rayyan Ansari
