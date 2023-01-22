@@ -1,106 +1,83 @@
-Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376E4748E;
-	Sat, 21 Jan 2023 18:15:31 +0000 (UTC)
-Date: Sat, 21 Jan 2023 18:15:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1674324928;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YSLV8t+mHMg9bRk9e6jbKy2QqL7MoxPyHgIADPLc1gw=;
-	b=oBvdKsRBk/KCPvMNqQzp8o87W6yFujl67ZzxL8++ppyZmPdtkHvA2GFp99B8TDvnTVdeQh
-	pWJyS0yCDMpYHvIhdVFpXa6IkFr0EtYQtAtWmeVisBYHjdhKdersuNwplMQo49DHGaQyYa
-	dU2lu1ZuNy6fwOjs8GaspLV05q18rQQ=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: Marc Zyngier <maz@kernel.org>
-Cc: Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu,
-	linux-arm-kernel@lists.infradead.org,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	James Morse <james.morse@arm.com>, Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>, asahi@lists.linux.dev,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v7 7/7] KVM: arm64: Normalize cache configuration
-Message-ID: <Y8wru2IrgHtBIofM@google.com>
-References: <20230112023852.42012-1-akihiko.odaki@daynix.com>
- <20230112023852.42012-8-akihiko.odaki@daynix.com>
- <Y8meCFkrVXurXlTk@google.com>
- <86k01gm6ys.wl-maz@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5E77E
+	for <asahi@lists.linux.dev>; Sun, 22 Jan 2023 10:17:54 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 50CF7320085B;
+	Sun, 22 Jan 2023 05:17:53 -0500 (EST)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Sun, 22 Jan 2023 05:17:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1674382672; x=1674469072; bh=zs
+	A1eerhXxQaUGjq/k7I/yW9gRygQxaBHV3y1RifdYU=; b=Zj/SbSHHsctHGvB61p
+	L3by4m/rRaR+i2pyNvQ2LO1U4NAvs/we9ZTt4KPoXII3OOC1fSlMiDyQXPuJFX9l
+	2cyAnj6kHOxleXN9pRiBGZkNA5HUqYoESNRd39OCTxAQET0Cbo1yN+thtdK6cyyf
+	pKr71RzOqFBDl2/v37F7pNclwhAXM3C4id/Sb5cFmRsqOO8X+NM61jZaofyaelAU
+	Rc8n0OJr1X5FSdhBj9MLyzq+eRrPyT0UIetebGI+qYq+rJ1qpcCZX5A6EWxn8qBF
+	dLilTFx9AYZB4NDKc/39VksWX9WsEcFonx9aya+g253kFMs7Wg5GE1D9pOLHJr3J
+	b3nQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1674382672; x=1674469072; bh=zsA1eerhXxQaUGjq/k7I/yW9gRyg
+	QxaBHV3y1RifdYU=; b=mlt4VnjdrpwsYctrSwG+edr74RuhSm7AXMvWCExH0LcX
+	oCHj+5TLszDlvna85PqkjfSuRdwftMK8Qa9psxqsa/p+Uhs1MlshbLh/sWht68Ej
+	XOUSrN8BY5K4bOzb8L307KYmjUYujuf9CTjiwz7Z4YrHMphS3UAI94j1AMk/CoQx
+	/jwjEUujKSkDewWGvQzG11kWNtcKWXgtQehZPQgtz1O3uLmtJOcKKYmDGuW5aa/W
+	gFksdj5Vak2MEgtG+cp2kavokpxSrDby7XgGIBnfY9BxXgqofpo9ZXpwRnkP3OdP
+	VPQSjoC6VIgv/IBzCUjSZvBrTFA6clP3VfXVb2BZ6Q==
+X-ME-Sender: <xms:Tw3NY-_BlR2I5uI7_7JIXpOvhA5YPVfeQS15KrrGgdQ8PsK4gtFHMw>
+    <xme:Tw3NY-toSnf3YiNbtjzikiqjH9MHE38ifea81S8m5U18CWjOakNvS57Y3qFV_Q2te
+    q3ZbAnD1XXSm-x7xiA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudduiedgudeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
+    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:Tw3NY0Am9h5hoJWR88mdjwNHS_h6rMbuXm8Nzt4NWDesEKi2e-FGnA>
+    <xmx:Tw3NY2c1D111hikBsTLBeKDvIaYoSViwBR-tSg_fcXjHThUROMJPQw>
+    <xmx:Tw3NYzMLrBJOYZMXgAITwuvStRFUhj18wY63BYwq2rGOrkBc3tQwZw>
+    <xmx:UA3NY8qQSZxrBE050sU6ELiYHHvn7YPDQ0bImNqgvJcwfGDFhe7hzg>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C83C2A6007C; Sun, 22 Jan 2023 05:17:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <86k01gm6ys.wl-maz@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+Message-Id: <9c0df0cc-f592-468d-9d56-1559a6ab9513@app.fastmail.com>
+In-Reply-To: <20230121074253.9774-1-lina@asahilina.net>
+References: <20230121074253.9774-1-lina@asahilina.net>
+Date: Sun, 22 Jan 2023 11:17:31 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Asahi Lina" <lina@asahilina.net>, "Hector Martin" <marcan@marcan.st>
+Cc: "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] soc: apple: rtkit: Add a private pointer to apple_rtkit_shmem
+Content-Type: text/plain
 
-Hey Marc,
+On Sat, Jan 21, 2023, at 08:42, Asahi Lina wrote:
+> This allows downstream consumers to keep track of private data for shmem
+> mappings. In particular, the Rust abstraction will use this to safely
+> drop data associated with a mapping when it is unmapped.
+>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
 
-On Sat, Jan 21, 2023 at 12:02:03PM +0000, Marc Zyngier wrote:
-> On Thu, 19 Jan 2023 19:46:16 +0000, Oliver Upton <oliver.upton@linux.dev> wrote:
-> > diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> > index 459e6d358dab..b6228f7d1d8d 100644
-> > --- a/arch/arm64/kvm/sys_regs.c
-> > +++ b/arch/arm64/kvm/sys_regs.c
-> > @@ -148,17 +148,19 @@ static u32 get_ccsidr(struct kvm_vcpu *vcpu, u32 csselr)
-> >  
-> >  static int set_ccsidr(struct kvm_vcpu *vcpu, u32 csselr, u32 val)
-> >  {
-> > -	u8 line_size = FIELD_GET(CCSIDR_EL1_LineSize, val);
-> > +	u8 line_size = SYS_FIELD_GET(CCSIDR_EL1, LineSize, val);
-> > +	u32 cur = get_ccsidr(vcpu, csselr);
-> > +	u8 min_line_size = SYS_FIELD_GET(CCSIDR_EL1, LineSize, cur);
-> >  	u32 *ccsidr = vcpu->arch.ccsidr;
-> >  	u32 i;
-> >  
-> > -	if ((val & CCSIDR_EL1_RES0) || line_size < get_min_cache_line_size(csselr))
-> > +	if (cur == val)
-> > +		return 0;
-> > +
-> > +	if ((val & CCSIDR_EL1_RES0) || line_size < min_line_size)
-> >  		return -EINVAL;
-> 
-> This doesn't look right. You're comparing the value userspace is
-> trying to set for a given level with the value that is already set for
-> that level, and forbid the cache line size to be smaller. It works if
-> no value has been set yet (you fallback to something derived from
-> CTR_EL0), but this fails if userspace does multiple writes.
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
-Good catch, I tried to skip over the unit/field conversions by doing this
-but it has the consequence of not working as expected for multiple writes.
+thanks,
 
-> The original check is against CTR_EL0, which makes absolute sense
-> because we want to check across the whole hierarchy. It is just that
-> the original code has two bugs:
-> 
-> - It fails to convert the CCSIDR_EL1.LineSize value to a number of
->   words (the missing +4). Admire how the architecture is actively
->   designed to be hostile to SW by providing two different formats for
->   the cache line size, none of which is in... bytes.
-> 
-> - It passes the full CSSELR value to get_min_cache_line_size(), while
->   this function wants a bool... Yes, there are times where you'd want
->   a stronger type system (did anyone say Rust? ;-)
-
-Hey now, if you say it enough times people are going to start getting
-ideas ;-P
-
-> I propose that we fold something like the patch below in instead
-> (tested with get-reg-list).
-
-Agreed, I've backed out my diff and applied yours. Pushed (with force!)
-to my repo now, PTAL.
-
---
-Thanks,
-Oliver
+Sven
