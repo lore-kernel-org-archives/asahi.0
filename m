@@ -1,171 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0D81367
-	for <asahi@lists.linux.dev>; Sun, 22 Jan 2023 12:16:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674389805;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=brAkpxNNFoW2Z58ovept6ujrU4B664Hnu1EZEFyhAcY=;
-	b=W16SwGcbLfK0PWdZVAlT+T7VPuWrKJGInSJluy2mofLG63iGE4gbGZbdO7zmxqOTxyXgQg
-	oT7Z2/w1TmurJrsjCE+XnEUwPZ1t2+wJPpBxuOwC7z6Lg01iEKShz1UGx98Kpr1yXWNKN6
-	AFPFcgAlQ53BdGelhypqirul4TACEVE=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-100-_Pg-2xfHNQm3ldr6otvm1g-1; Sun, 22 Jan 2023 07:16:44 -0500
-X-MC-Unique: _Pg-2xfHNQm3ldr6otvm1g-1
-Received: by mail-vk1-f198.google.com with SMTP id b72-20020a1fb24b000000b003d58fdc33fcso3788746vkf.10
-        for <asahi@lists.linux.dev>; Sun, 22 Jan 2023 04:16:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=brAkpxNNFoW2Z58ovept6ujrU4B664Hnu1EZEFyhAcY=;
-        b=N/B6xVl2IGdUAfXpYaGjBCzg03P5UIWKB9drGU9yjJ/TqGkET27gQPLrojrIl6fhvK
-         FC46yK71pT5ZiAeOHdUwKeyuYiHMMIp7JwL9olh73w3YAw+MG7EL4GjOE3flQzmQPIe2
-         yeq4atxG6UvTVaoI/xAhKGI04K1W7lHSWu8A/jsUkiXpsUj3dbprgBqh+SjPnEl9PytB
-         Zu8OUlPetozdyHj5+2xnfyzOLZP1QUutmMa7gh0ERGPLZfp3ynq5RCyVWyJfQUFcJmhX
-         kSkWiYTYyVZFeIrbZQWUCEOmABwO0RvcvaS3gt9J/06CCAyditZHWHJt5SvDeytwu7bw
-         /ZVw==
-X-Gm-Message-State: AFqh2kqiilv+nCYNlf6x+1vGvBWx8q7epWX0b4SlWTJJ1KPgrdA73yks
-	yhOd2pRiozT5RY2zMLwkPUlLaEMAAqfbJMYo6CHfz1Q5d22nX76w9TTbyVJ/LYLtMA1NWpxh7Sm
-	Wt+ZxwsYOJ2jtQVFvnZkxrWl/+row9lw=
-X-Received: by 2002:a67:ea04:0:b0:3d3:ec78:1d72 with SMTP id g4-20020a67ea04000000b003d3ec781d72mr3367185vso.13.1674389803899;
-        Sun, 22 Jan 2023 04:16:43 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXstqJIXMudqh70EtyFZQyQrExJwlFEQoxbce+hMZ9zA7g8JYZZgFJ19R51I66UXYr8raWky+/W1qdTceGVyFcI=
-X-Received: by 2002:a67:ea04:0:b0:3d3:ec78:1d72 with SMTP id
- g4-20020a67ea04000000b003d3ec781d72mr3367179vso.13.1674389803666; Sun, 22 Jan
- 2023 04:16:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E758C1FBD
+	for <asahi@lists.linux.dev>; Sun, 22 Jan 2023 14:06:25 +0000 (UTC)
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+	id 7EDDC26F69C; Sun, 22 Jan 2023 15:06:17 +0100 (CET)
+Date: Sun, 22 Jan 2023 15:06:17 +0100
+From: Janne Grunau <j@jannau.net>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Rob Herring <robh+dt@kernel.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Ashish Mhetre <amhetre@nvidia.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Sameer Pujar <spujar@nvidia.com>,
+	Lucas Stach <l.stach@pengutronix.de>, devicetree@vger.kernel.org,
+	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH v13 0/4] iommu: Support mappings/reservations in
+ reserved-memory regions
+Message-ID: <20230122140617.GF3576@jannau.net>
+References: <20230120174251.4004100-1-thierry.reding@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230121074135.8629-1-lina@asahilina.net>
-In-Reply-To: <20230121074135.8629-1-lina@asahilina.net>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Sun, 22 Jan 2023 12:16:28 +0000
-Message-ID: <CAOgh=FwPCJ3pDk0EUgekzdE+Y=OpyWHiWW5bo7qoX21trbMV7Q@mail.gmail.com>
-Subject: Re: [PATCH] soc: apple: rtkit: Export non-devm init/free functions
-To: Asahi Lina <lina@asahilina.net>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230120174251.4004100-1-thierry.reding@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sat, 21 Jan 2023 at 07:48, Asahi Lina <lina@asahilina.net> wrote:
->
-> While we normally encourage devm usage by drivers, some consumers (and
-> in particular the upcoming Rust abstractions) might want to manually
-> manage memory. Export the raw functions to make this possible.
->
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
+Hej,
 
-Signed-off-by: Eric Curtin <ecurtin@redhat.com>
+On 2023-01-20 18:42:47 +0100, Thierry Reding wrote:
+> From: Thierry Reding <treding@nvidia.com>
+> 
+> Hi,
+> 
+> This version is a rebase on top of v6.2-rc4 to resolve a minor conflict.
+> Version 12 can be found here:
+> 
+>   https://lore.kernel.org/all/20221117185424.2359687-1-thierry.reding@gmail.com/
+> 
+> The only change here is that the #dma-{address,size}-cells is dropped.
+> It turns out to be much simpler to just update #{address,size}-cells to
+> what they should be rather than add extra complexity for the DMA work-
+> around. There's a minor update to the DT binding so that it can now
+> properly validate cases where we have both reg and iommu-addresses
+> properties.
+> 
+> An example is included in the DT bindings, but here is an extract of
+> what I've used to test this:
+> 
+>         reserved-memory {
+>                 #address-cells = <2>;
+>                 #size-cells = <2>;
+>                 ranges;
+> 
+>                 /*
+>                  * Creates an identity mapping for the framebuffer that
+>                  * the firmware has setup to scan out a bootsplash from.
+>                  */
+>                 fb: framebuffer@92cb2000 {
+>                         reg = <0x0 0x92cb2000 0x0 0x00800000>;
+>                         iommu-addresses = <&dc0 0x0 0x92cb2000 0x0 0x00800000>;
+>                 };
+> 
+>                 /*
+>                  * Creates a reservation in the IOVA space to prevent
+>                  * any buffers from being mapped to that region. Note
+>                  * that on Tegra the range is actually quite different
+>                  * from this, but it would conflict with the display
+>                  * driver that I tested this against, so this is just
+>                  * a dummy region for testing.
+>                  */
+>                 adsp: reservation-adsp {
+>                         iommu-addresses = <&dc0 0x0 0x90000000 0x0 0x00010000>;
+>                 };
+>         };
+> 
+>         host1x@50000000 {
+>                 dc@54200000 {
+>                         memory-region = <&fb>, <&adsp>;
+>                 };
+>         };
+> 
+> This is abbreviated a little to focus on the essentials. Note also that
+> the ADSP reservation is not actually used on this device and the driver
+> for this doesn't exist yet, but I wanted to include this variant for
+> testing, because we'll want to use these bindings for the reservation
+> use-case as well at some point.
+> 
+> I've also been able to make use of this binding and the IOMMU code in
+> conjunction with the simple-framebuffer driver to hand over a display
+> configuration set up by UEFI to the Linux kernel.
+> 
+> Janne has confirmed[0] this to be suitable for indirect mappings as
+> well, though these patches don't implement that feature yet. Potential
+> extensions to this have been discussed but are not yet included at this
+> time to not further complicate things.
 
-Is mise le meas/Regards,
+The dt-bindings are sufficient for various firmware based co-processors 
+on Apple silicon systems. This version and several before with 
+additional straight forward changes to support indirect mappings are 
+tested on the downstream asahi kernel with display processor support.
 
-Eric Curtin
+Acked-by: Janne Grunau <j@jannau.net>
 
->  drivers/soc/apple/rtkit.c       | 15 ++++++++++-----
->  include/linux/soc/apple/rtkit.h | 19 +++++++++++++++++++
->  2 files changed, 29 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-> index fa3cda831d2b..bb33f3cd4efd 100644
-> --- a/drivers/soc/apple/rtkit.c
-> +++ b/drivers/soc/apple/rtkit.c
-> @@ -686,7 +686,7 @@ static int apple_rtkit_request_mbox_chan(struct apple_rtkit *rtk)
->         return mbox_start_channel(rtk->mbox_chan);
->  }
->
-> -static struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
-> +struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
->                                             const char *mbox_name, int mbox_idx,
->                                             const struct apple_rtkit_ops *ops)
->  {
-> @@ -739,6 +739,7 @@ static struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
->         kfree(rtk);
->         return ERR_PTR(ret);
->  }
-> +EXPORT_SYMBOL_GPL(apple_rtkit_init);
->
->  static int apple_rtkit_wait_for_completion(struct completion *c)
->  {
-> @@ -922,10 +923,8 @@ int apple_rtkit_wake(struct apple_rtkit *rtk)
->  }
->  EXPORT_SYMBOL_GPL(apple_rtkit_wake);
->
-> -static void apple_rtkit_free(void *data)
-> +void apple_rtkit_free(struct apple_rtkit *rtk)
->  {
-> -       struct apple_rtkit *rtk = data;
-> -
->         mbox_free_channel(rtk->mbox_chan);
->         destroy_workqueue(rtk->wq);
->
-> @@ -936,6 +935,12 @@ static void apple_rtkit_free(void *data)
->         kfree(rtk->syslog_msg_buffer);
->         kfree(rtk);
->  }
-> +EXPORT_SYMBOL_GPL(apple_rtkit_free);
-> +
-> +static void apple_rtkit_free_wrapper(void *data)
-> +{
-> +       apple_rtkit_free(data);
-> +}
->
->  struct apple_rtkit *devm_apple_rtkit_init(struct device *dev, void *cookie,
->                                           const char *mbox_name, int mbox_idx,
-> @@ -948,7 +953,7 @@ struct apple_rtkit *devm_apple_rtkit_init(struct device *dev, void *cookie,
->         if (IS_ERR(rtk))
->                 return rtk;
->
-> -       ret = devm_add_action_or_reset(dev, apple_rtkit_free, rtk);
-> +       ret = devm_add_action_or_reset(dev, apple_rtkit_free_wrapper, rtk);
->         if (ret)
->                 return ERR_PTR(ret);
->
-> diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
-> index 2d837aa7b91f..62bfa37b5adb 100644
-> --- a/include/linux/soc/apple/rtkit.h
-> +++ b/include/linux/soc/apple/rtkit.h
-> @@ -77,6 +77,25 @@ struct apple_rtkit *devm_apple_rtkit_init(struct device *dev, void *cookie,
->                                           const char *mbox_name, int mbox_idx,
->                                           const struct apple_rtkit_ops *ops);
->
-> +/*
-> + * Non-devm version of devm_apple_rtkit_init. Must be freed with
-> + * apple_rtkit_free.
-> + *
-> + * @dev:         Pointer to the device node this coprocessor is assocated with
-> + * @cookie:      opaque cookie passed to all functions defined in rtkit_ops
-> + * @mbox_name:   mailbox name used to communicate with the co-processor
-> + * @mbox_idx:    mailbox index to be used if mbox_name is NULL
-> + * @ops:         pointer to rtkit_ops to be used for this co-processor
-> + */
-> +struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
-> +                                         const char *mbox_name, int mbox_idx,
-> +                                         const struct apple_rtkit_ops *ops);
-> +
-> +/*
-> + * Free an instance of apple_rtkit.
-> + */
-> +void apple_rtkit_free(struct apple_rtkit *rtk);
-> +
->  /*
->   * Reinitialize internal structures. Must only be called with the co-processor
->   * is held in reset.
-> --
-> 2.35.1
->
->
-
+Janne
