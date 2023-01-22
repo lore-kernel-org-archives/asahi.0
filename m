@@ -1,57 +1,57 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3CA1367
-	for <asahi@lists.linux.dev>; Sun, 22 Jan 2023 12:16:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0D81367
+	for <asahi@lists.linux.dev>; Sun, 22 Jan 2023 12:16:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674389779;
+	s=mimecast20190719; t=1674389805;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rXwZ5IpRiYOpk4BxqOLDiJBQ1xame8DGBmk28ubnqrM=;
-	b=EOxMFGRJxQS23LUEbd53cuVgp9Ci8F14jZ2Qs6RNQIkPM5jf1Om1iZg3kxXbxmTxkw6oQm
-	c6QGTObQHcHd9zonRHJR9vNXiehUxoimyYaPs6brTHOjJVe3UoBKCU7/RgisFxQNGTQEgz
-	izvVsD6I9Jj0d9yiYkUmJZmPM3w03ec=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=brAkpxNNFoW2Z58ovept6ujrU4B664Hnu1EZEFyhAcY=;
+	b=W16SwGcbLfK0PWdZVAlT+T7VPuWrKJGInSJluy2mofLG63iGE4gbGZbdO7zmxqOTxyXgQg
+	oT7Z2/w1TmurJrsjCE+XnEUwPZ1t2+wJPpBxuOwC7z6Lg01iEKShz1UGx98Kpr1yXWNKN6
+	AFPFcgAlQ53BdGelhypqirul4TACEVE=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-530-pUQnspzCO_WVbsgwgIAlVA-1; Sun, 22 Jan 2023 07:16:17 -0500
-X-MC-Unique: pUQnspzCO_WVbsgwgIAlVA-1
-Received: by mail-vk1-f197.google.com with SMTP id w13-20020a1f300d000000b003e17082aab9so3736652vkw.4
-        for <asahi@lists.linux.dev>; Sun, 22 Jan 2023 04:16:17 -0800 (PST)
+ us-mta-100-_Pg-2xfHNQm3ldr6otvm1g-1; Sun, 22 Jan 2023 07:16:44 -0500
+X-MC-Unique: _Pg-2xfHNQm3ldr6otvm1g-1
+Received: by mail-vk1-f198.google.com with SMTP id b72-20020a1fb24b000000b003d58fdc33fcso3788746vkf.10
+        for <asahi@lists.linux.dev>; Sun, 22 Jan 2023 04:16:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rXwZ5IpRiYOpk4BxqOLDiJBQ1xame8DGBmk28ubnqrM=;
-        b=hycc5tnKPzRtZdHSJym+M+ob9so3G65pd0nVQ2evT5OIbQ10AE7c6yikT3XgGc/Ryn
-         LN/0KaNqmiBgYQ/tfPnfW1nhCyGKCgOy9hGLaXqZaUZOkZe+4nloQqZH7nyjtpMc0VBS
-         fmwQdl+5kDwWpFWSANQectOqgWp39LMZTm9TgNQD9wjpdPA+0TvbOg4uFU08m7Xlq6c+
-         SAh7T/6fjSfOraDufFTWdcCii30Gl9fDlV79HofuggGzBO/+3PTt1YWrjizLFMOcP0Ie
-         zJcmoeGYEp4q98QDAtHhOdWNKS214DxKJNxPE5bbxpB0bPBPc9V8XeJ+Uu3puTYbF17g
-         SzZw==
-X-Gm-Message-State: AFqh2kqqvEscuKmBdbzBVjoQZNOiMDkjFUp0dTGXPAEtxA1sk95+y75C
-	+6C5FKsGUSapXsQ6WlUsNkyX+h4mtwGfxkLOPMQ5SxWBse4deRrHdAaAj5LwOlyB2fM6AQcKze8
-	GHEkjSWoReRMjsm0P8A862+ZbVWN1/5M=
-X-Received: by 2002:a67:e992:0:b0:3d2:e26a:d76f with SMTP id b18-20020a67e992000000b003d2e26ad76fmr2567176vso.41.1674389776840;
-        Sun, 22 Jan 2023 04:16:16 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt8RUTbUD2yYmQlhCh6ICsxMQJZgQco/EAGYx4CajKySDnAqSNvz1kUZi1oL2Ez+ij8lioHGTWMAHPAEv1502o=
-X-Received: by 2002:a67:e992:0:b0:3d2:e26a:d76f with SMTP id
- b18-20020a67e992000000b003d2e26ad76fmr2567173vso.41.1674389776614; Sun, 22
- Jan 2023 04:16:16 -0800 (PST)
+        bh=brAkpxNNFoW2Z58ovept6ujrU4B664Hnu1EZEFyhAcY=;
+        b=N/B6xVl2IGdUAfXpYaGjBCzg03P5UIWKB9drGU9yjJ/TqGkET27gQPLrojrIl6fhvK
+         FC46yK71pT5ZiAeOHdUwKeyuYiHMMIp7JwL9olh73w3YAw+MG7EL4GjOE3flQzmQPIe2
+         yeq4atxG6UvTVaoI/xAhKGI04K1W7lHSWu8A/jsUkiXpsUj3dbprgBqh+SjPnEl9PytB
+         Zu8OUlPetozdyHj5+2xnfyzOLZP1QUutmMa7gh0ERGPLZfp3ynq5RCyVWyJfQUFcJmhX
+         kSkWiYTYyVZFeIrbZQWUCEOmABwO0RvcvaS3gt9J/06CCAyditZHWHJt5SvDeytwu7bw
+         /ZVw==
+X-Gm-Message-State: AFqh2kqiilv+nCYNlf6x+1vGvBWx8q7epWX0b4SlWTJJ1KPgrdA73yks
+	yhOd2pRiozT5RY2zMLwkPUlLaEMAAqfbJMYo6CHfz1Q5d22nX76w9TTbyVJ/LYLtMA1NWpxh7Sm
+	Wt+ZxwsYOJ2jtQVFvnZkxrWl/+row9lw=
+X-Received: by 2002:a67:ea04:0:b0:3d3:ec78:1d72 with SMTP id g4-20020a67ea04000000b003d3ec781d72mr3367185vso.13.1674389803899;
+        Sun, 22 Jan 2023 04:16:43 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXstqJIXMudqh70EtyFZQyQrExJwlFEQoxbce+hMZ9zA7g8JYZZgFJ19R51I66UXYr8raWky+/W1qdTceGVyFcI=
+X-Received: by 2002:a67:ea04:0:b0:3d3:ec78:1d72 with SMTP id
+ g4-20020a67ea04000000b003d3ec781d72mr3367179vso.13.1674389803666; Sun, 22 Jan
+ 2023 04:16:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230121073741.3807-1-lina@asahilina.net>
-In-Reply-To: <20230121073741.3807-1-lina@asahilina.net>
+References: <20230121074135.8629-1-lina@asahilina.net>
+In-Reply-To: <20230121074135.8629-1-lina@asahilina.net>
 From: Eric Curtin <ecurtin@redhat.com>
-Date: Sun, 22 Jan 2023 12:16:00 +0000
-Message-ID: <CAOgh=FxN=5dvxvUm=Fj-6hVuieN6GFnfG96F9c9=td6B8OvP3g@mail.gmail.com>
-Subject: Re: [PATCH] soc: apple: rtkit: Add register dump decoding to crashlog
+Date: Sun, 22 Jan 2023 12:16:28 +0000
+Message-ID: <CAOgh=FwPCJ3pDk0EUgekzdE+Y=OpyWHiWW5bo7qoX21trbMV7Q@mail.gmail.com>
+Subject: Re: [PATCH] soc: apple: rtkit: Export non-devm init/free functions
 To: Asahi Lina <lina@asahilina.net>
 Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
@@ -62,12 +62,9 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Sat, 21 Jan 2023 at 07:48, Asahi Lina <lina@asahilina.net> wrote:
 >
-> When the coprocessor crashes, it's useful to get a proper register dump
-> so we can find out what the firmware was doing. Add a decoder for this.
->
-> Originally this had ESR decoding by reusing the ARM64 arch header for
-> this, but that introduces some module linking and cross-arch compilation
-> issues, so let's leave that out for now.
+> While we normally encourage devm usage by drivers, some consumers (and
+> in particular the upcoming Rust abstractions) might want to manually
+> manage memory. Export the raw functions to make this possible.
 >
 > Signed-off-by: Asahi Lina <lina@asahilina.net>
 > ---
@@ -78,124 +75,95 @@ Is mise le meas/Regards,
 
 Eric Curtin
 
->  drivers/soc/apple/rtkit-crashlog.c | 83 ++++++++++++++++++++++++++++++
->  1 file changed, 83 insertions(+)
+>  drivers/soc/apple/rtkit.c       | 15 ++++++++++-----
+>  include/linux/soc/apple/rtkit.h | 19 +++++++++++++++++++
+>  2 files changed, 29 insertions(+), 5 deletions(-)
 >
-> diff --git a/drivers/soc/apple/rtkit-crashlog.c b/drivers/soc/apple/rtkit-crashlog.c
-> index 732deed64660..e29ef0a80ab8 100644
-> --- a/drivers/soc/apple/rtkit-crashlog.c
-> +++ b/drivers/soc/apple/rtkit-crashlog.c
-> @@ -13,6 +13,7 @@
->  #define APPLE_RTKIT_CRASHLOG_VERSION FOURCC('C', 'v', 'e', 'r')
->  #define APPLE_RTKIT_CRASHLOG_MBOX FOURCC('C', 'm', 'b', 'x')
->  #define APPLE_RTKIT_CRASHLOG_TIME FOURCC('C', 't', 'i', 'm')
-> +#define APPLE_RTKIT_CRASHLOG_REGS FOURCC('C', 'r', 'g', '8')
->
->  struct apple_rtkit_crashlog_header {
->         u32 fourcc;
-> @@ -31,6 +32,24 @@ struct apple_rtkit_crashlog_mbox_entry {
->  };
->  static_assert(sizeof(struct apple_rtkit_crashlog_mbox_entry) == 0x18);
->
-> +struct apple_rtkit_crashlog_regs {
-> +       u32 unk_0;
-> +       u32 unk_4;
-> +       u64 regs[31];
-> +       u64 sp;
-> +       u64 pc;
-> +       u64 psr;
-> +       u64 cpacr;
-> +       u64 fpsr;
-> +       u64 fpcr;
-> +       u64 unk[64];
-> +       u64 far;
-> +       u64 unk_X;
-> +       u64 esr;
-> +       u64 unk_Z;
-> +};
-> +static_assert(sizeof(struct apple_rtkit_crashlog_regs) == 0x350);
-> +
->  static void apple_rtkit_crashlog_dump_str(struct apple_rtkit *rtk, u8 *bfr,
->                                           size_t size)
->  {
-> @@ -94,6 +113,66 @@ static void apple_rtkit_crashlog_dump_mailbox(struct apple_rtkit *rtk, u8 *bfr,
->         }
+> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+> index fa3cda831d2b..bb33f3cd4efd 100644
+> --- a/drivers/soc/apple/rtkit.c
+> +++ b/drivers/soc/apple/rtkit.c
+> @@ -686,7 +686,7 @@ static int apple_rtkit_request_mbox_chan(struct apple_rtkit *rtk)
+>         return mbox_start_channel(rtk->mbox_chan);
 >  }
 >
-> +static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
-> +                                          size_t size)
-> +{
-> +       struct apple_rtkit_crashlog_regs regs;
-> +       const char *el;
-> +       int i;
-> +
-> +       if (size < sizeof(regs)) {
-> +               dev_warn(rtk->dev, "RTKit: Regs section too small: 0x%lx", size);
-> +               return;
-> +       }
-> +
-> +       memcpy(&regs, bfr, sizeof(regs));
-> +
-> +       switch (regs.psr & PSR_MODE_MASK) {
-> +       case PSR_MODE_EL0t:
-> +               el = "EL0t";
-> +               break;
-> +       case PSR_MODE_EL1t:
-> +               el = "EL1t";
-> +               break;
-> +       case PSR_MODE_EL1h:
-> +               el = "EL1h";
-> +               break;
-> +       case PSR_MODE_EL2t:
-> +               el = "EL2t";
-> +               break;
-> +       case PSR_MODE_EL2h:
-> +               el = "EL2h";
-> +               break;
-> +       default:
-> +               el = "unknown";
-> +               break;
-> +       }
-> +
-> +       dev_warn(rtk->dev, "RTKit: Exception dump:");
-> +       dev_warn(rtk->dev, "  == Exception taken from %s ==", el);
-> +       dev_warn(rtk->dev, "  PSR    = 0x%llx", regs.psr);
-> +       dev_warn(rtk->dev, "  PC     = 0x%llx\n", regs.pc);
-> +       dev_warn(rtk->dev, "  ESR    = 0x%llx\n", regs.esr);
-> +       dev_warn(rtk->dev, "  FAR    = 0x%llx\n", regs.far);
-> +       dev_warn(rtk->dev, "  SP     = 0x%llx\n", regs.sp);
-> +       dev_warn(rtk->dev, "\n");
-> +
-> +       for (i = 0; i < 31; i += 4) {
-> +               if (i < 28)
-> +                       dev_warn(rtk->dev,
-> +                                        "  x%02d-x%02d = %016llx %016llx %016llx %016llx\n",
-> +                                        i, i + 3,
-> +                                        regs.regs[i], regs.regs[i + 1],
-> +                                        regs.regs[i + 2], regs.regs[i + 3]);
-> +               else
-> +                       dev_warn(rtk->dev,
-> +                                        "  x%02d-x%02d = %016llx %016llx %016llx\n", i, i + 3,
-> +                                        regs.regs[i], regs.regs[i + 1], regs.regs[i + 2]);
-> +       }
-> +
-> +       dev_warn(rtk->dev, "\n");
-> +}
-> +
->  void apple_rtkit_crashlog_dump(struct apple_rtkit *rtk, u8 *bfr, size_t size)
+> -static struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
+> +struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
+>                                             const char *mbox_name, int mbox_idx,
+>                                             const struct apple_rtkit_ops *ops)
 >  {
->         size_t offset;
-> @@ -140,6 +219,10 @@ void apple_rtkit_crashlog_dump(struct apple_rtkit *rtk, u8 *bfr, size_t size)
->                         apple_rtkit_crashlog_dump_time(rtk, bfr + offset + 16,
->                                                        section_size);
->                         break;
-> +               case APPLE_RTKIT_CRASHLOG_REGS:
-> +                       apple_rtkit_crashlog_dump_regs(rtk, bfr + offset + 16,
-> +                                                      section_size);
-> +                       break;
->                 default:
->                         dev_warn(rtk->dev,
->                                  "RTKit: Unknown crashlog section: %x",
+> @@ -739,6 +739,7 @@ static struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
+>         kfree(rtk);
+>         return ERR_PTR(ret);
+>  }
+> +EXPORT_SYMBOL_GPL(apple_rtkit_init);
+>
+>  static int apple_rtkit_wait_for_completion(struct completion *c)
+>  {
+> @@ -922,10 +923,8 @@ int apple_rtkit_wake(struct apple_rtkit *rtk)
+>  }
+>  EXPORT_SYMBOL_GPL(apple_rtkit_wake);
+>
+> -static void apple_rtkit_free(void *data)
+> +void apple_rtkit_free(struct apple_rtkit *rtk)
+>  {
+> -       struct apple_rtkit *rtk = data;
+> -
+>         mbox_free_channel(rtk->mbox_chan);
+>         destroy_workqueue(rtk->wq);
+>
+> @@ -936,6 +935,12 @@ static void apple_rtkit_free(void *data)
+>         kfree(rtk->syslog_msg_buffer);
+>         kfree(rtk);
+>  }
+> +EXPORT_SYMBOL_GPL(apple_rtkit_free);
+> +
+> +static void apple_rtkit_free_wrapper(void *data)
+> +{
+> +       apple_rtkit_free(data);
+> +}
+>
+>  struct apple_rtkit *devm_apple_rtkit_init(struct device *dev, void *cookie,
+>                                           const char *mbox_name, int mbox_idx,
+> @@ -948,7 +953,7 @@ struct apple_rtkit *devm_apple_rtkit_init(struct device *dev, void *cookie,
+>         if (IS_ERR(rtk))
+>                 return rtk;
+>
+> -       ret = devm_add_action_or_reset(dev, apple_rtkit_free, rtk);
+> +       ret = devm_add_action_or_reset(dev, apple_rtkit_free_wrapper, rtk);
+>         if (ret)
+>                 return ERR_PTR(ret);
+>
+> diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
+> index 2d837aa7b91f..62bfa37b5adb 100644
+> --- a/include/linux/soc/apple/rtkit.h
+> +++ b/include/linux/soc/apple/rtkit.h
+> @@ -77,6 +77,25 @@ struct apple_rtkit *devm_apple_rtkit_init(struct device *dev, void *cookie,
+>                                           const char *mbox_name, int mbox_idx,
+>                                           const struct apple_rtkit_ops *ops);
+>
+> +/*
+> + * Non-devm version of devm_apple_rtkit_init. Must be freed with
+> + * apple_rtkit_free.
+> + *
+> + * @dev:         Pointer to the device node this coprocessor is assocated with
+> + * @cookie:      opaque cookie passed to all functions defined in rtkit_ops
+> + * @mbox_name:   mailbox name used to communicate with the co-processor
+> + * @mbox_idx:    mailbox index to be used if mbox_name is NULL
+> + * @ops:         pointer to rtkit_ops to be used for this co-processor
+> + */
+> +struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
+> +                                         const char *mbox_name, int mbox_idx,
+> +                                         const struct apple_rtkit_ops *ops);
+> +
+> +/*
+> + * Free an instance of apple_rtkit.
+> + */
+> +void apple_rtkit_free(struct apple_rtkit *rtk);
+> +
+>  /*
+>   * Reinitialize internal structures. Must only be called with the co-processor
+>   * is held in reset.
 > --
 > 2.35.1
 >
