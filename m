@@ -1,149 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2767C;
-	Mon, 23 Jan 2023 11:11:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 914BCC433D2;
-	Mon, 23 Jan 2023 11:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1674472315;
-	bh=fvBZjE+C2lc+hZ1/sSez62FN4+Fmyocapbo76WLNgbI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MqQKfkdoh0Lq8t0o6WkO6AQI7srbvKy94ADF8ln5AkvAxtLFSzxTViCBC3/E01X8g
-	 32QrIK+jOxu5AjulniJzXV0yld8ZZ3SVYudba6eWiMwFcH54ZhdfIpB9UkicExA3SZ
-	 ZuymGuFxbxfORUQYwQIotM7dVjZjQ2sA83O95fh7Y5LvInNLmTLuFiQu61Q7ISGu7Z
-	 5Y9upxuX+Q6sKx0jQPCrY8vEjjSBk0+8P2WNnEHQhUXl83ygojcs1oCnkXWECgHyoo
-	 5B45dJetWDkwtieT1HsYCqlo6Wc5VozVHAzSOw4/e2vBEU+MWpZHrq1TDB53t64w5J
-	 PMVHnq0Sgii0g==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1pJujx-003vDl-6w;
-	Mon, 23 Jan 2023 11:11:53 +0000
-Date: Mon, 23 Jan 2023 11:11:52 +0000
-Message-ID: <86edrlmrnr.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: Oliver Upton <oliver.upton@linux.dev>,
-	Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Mark Brown
- <broonie@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	kvmarm@lists.linux.dev,
-	kvmarm@lists.cs.columbia.edu,
-	linux-arm-kernel@lists.infradead.org,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	James Morse <james.morse@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	asahi@lists.linux.dev,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Sven Peter <sven@svenpeter.dev>,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v7 7/7] KVM: arm64: Normalize cache configuration
-In-Reply-To: <0ac18497-8392-8ea3-05ee-7f2377a4374c@gmail.com>
-References: <20230112023852.42012-1-akihiko.odaki@daynix.com>
-	<20230112023852.42012-8-akihiko.odaki@daynix.com>
-	<Y8meCFkrVXurXlTk@google.com>
-	<86k01gm6ys.wl-maz@kernel.org>
-	<Y8wru2IrgHtBIofM@google.com>
-	<0ac18497-8392-8ea3-05ee-7f2377a4374c@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A397C
+	for <asahi@lists.linux.dev>; Mon, 23 Jan 2023 11:23:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1674472991;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P4b4VDNUOrCuuYzHrxL50l8orvsgc64zf6MDB9/G7nI=;
+	b=gXha7neNnPg8RFXLLMTcmc/FtrG/qaCzXnrIMsSZmqb2n4+wE4vnCR/Be2kPGWDGaPkwUY
+	eoVR4jr1tIILKJgxDPZ7M9ki7DPMZvDh5FZcx6GUtYepFq75bXs2C2Ea9oWpoYlL0CTCor
+	bgK5vKSuaejv++jsdsB6szXge6V2ZQ0=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-7-YDfmDIjjPDC0FZUtV27rbg-1; Mon, 23 Jan 2023 06:23:10 -0500
+X-MC-Unique: YDfmDIjjPDC0FZUtV27rbg-1
+Received: by mail-ua1-f69.google.com with SMTP id o6-20020ab01506000000b004f8c11096a9so3254113uae.20
+        for <asahi@lists.linux.dev>; Mon, 23 Jan 2023 03:23:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P4b4VDNUOrCuuYzHrxL50l8orvsgc64zf6MDB9/G7nI=;
+        b=VNbDKH3EE8+Gy4f9u5sXo3hDFPswXzmfoFwYSMsnzWlk/S4PqrJnVEo71bmKRhpGgA
+         TrVX6CeHFu691lD0m21IQrCH9p+TVmp6fH7Kg9zn3BM+wMQOyQ6U9hy+tF9Jobg0v35v
+         /QeBjHO74t0SiiZLFZUK/rH2oaDh2l7eyIMU1YsQ9s0aKZS9RWqlpY2Rf11BfEsjbwsJ
+         gmmDag5lyE2eSAK9W5IHvrir5DEK1hQ52LbgKZ4mnFbXQbDs/YxQ7N3t+C6s2DYalQNP
+         WchOoYu/tovDwL7aIVUiM+P8PxyX1ps/h4c6lyXd7vpGqjkzGebtYSOV0lOQYK3iPPfq
+         uO6w==
+X-Gm-Message-State: AFqh2kpF400nPwsDOYPlvxpgcHx0c3WxTINWv8d6aflxaU8Xz5hNRXr0
+	ep6jMqrQhCRQg3ZnaSD9o7FF2rjDjpyOoHRPPJPfaCzcsr9LNCMjVI3yp4qxNpkcfcyF0RP7Bxs
+	mUwkcgJX6Eb1gWDbALp9X0MaJy/SCLUc=
+X-Received: by 2002:a67:ea04:0:b0:3d3:ec78:1d72 with SMTP id g4-20020a67ea04000000b003d3ec781d72mr3814535vso.13.1674472989367;
+        Mon, 23 Jan 2023 03:23:09 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuc4Nm/Dd8Fe0BnJ+91lG8llg4zFQJ+QI5+ZUz5w0mVaUsCVB3YJcAwwxLUJmz1/ORwUCIYKtjwtj8FATe11nY=
+X-Received: by 2002:a67:ea04:0:b0:3d3:ec78:1d72 with SMTP id
+ g4-20020a67ea04000000b003d3ec781d72mr3814527vso.13.1674472989089; Mon, 23 Jan
+ 2023 03:23:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: akihiko.odaki@gmail.com, oliver.upton@linux.dev, akihiko.odaki@daynix.com, broonie@kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, mathieu.poirier@linaro.org, suzuki.poulose@arm.com, alexandru.elisei@arm.com, james.morse@arm.com, will@kernel.org, catalin.marinas@arm.com, asahi@lists.linux.dev, alyssa@rosenzweig.io, sven@svenpeter.dev, marcan@marcan.st
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+References: <20230123065125.26350-1-marcan@marcan.st>
+In-Reply-To: <20230123065125.26350-1-marcan@marcan.st>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Mon, 23 Jan 2023 11:22:53 +0000
+Message-ID: <CAOgh=FwEpMGx-F6GZumOBkBYShtU_SVUWTzZ+WWY0Euc-75YGQ@mail.gmail.com>
+Subject: Re: [PATCH] soc: apple: apple-pmgr-pwrstate: Switch to IRQ-safe mode
+To: Hector Martin <marcan@marcan.st>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Janne Grunau <j@jannau.net>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 22 Jan 2023 17:36:39 +0000,
-Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
-> 
-> On 2023/01/22 3:15, Oliver Upton wrote:
-> > Hey Marc,
-> > 
-> > On Sat, Jan 21, 2023 at 12:02:03PM +0000, Marc Zyngier wrote:
-> >> On Thu, 19 Jan 2023 19:46:16 +0000, Oliver Upton <oliver.upton@linux.dev> wrote:
-> >>> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> >>> index 459e6d358dab..b6228f7d1d8d 100644
-> >>> --- a/arch/arm64/kvm/sys_regs.c
-> >>> +++ b/arch/arm64/kvm/sys_regs.c
-> >>> @@ -148,17 +148,19 @@ static u32 get_ccsidr(struct kvm_vcpu *vcpu, u32 csselr)
-> >>>     static int set_ccsidr(struct kvm_vcpu *vcpu, u32 csselr, u32
-> >>> val)
-> >>>   {
-> >>> -	u8 line_size = FIELD_GET(CCSIDR_EL1_LineSize, val);
-> >>> +	u8 line_size = SYS_FIELD_GET(CCSIDR_EL1, LineSize, val);
-> >>> +	u32 cur = get_ccsidr(vcpu, csselr);
-> >>> +	u8 min_line_size = SYS_FIELD_GET(CCSIDR_EL1, LineSize, cur);
-> >>>   	u32 *ccsidr = vcpu->arch.ccsidr;
-> >>>   	u32 i;
-> >>>   -	if ((val & CCSIDR_EL1_RES0) || line_size <
-> >>> get_min_cache_line_size(csselr))
-> >>> +	if (cur == val)
-> >>> +		return 0;
-> >>> +
-> >>> +	if ((val & CCSIDR_EL1_RES0) || line_size < min_line_size)
-> >>>   		return -EINVAL;
-> >> 
-> >> This doesn't look right. You're comparing the value userspace is
-> >> trying to set for a given level with the value that is already set for
-> >> that level, and forbid the cache line size to be smaller. It works if
-> >> no value has been set yet (you fallback to something derived from
-> >> CTR_EL0), but this fails if userspace does multiple writes.
-> > 
-> > Good catch, I tried to skip over the unit/field conversions by doing this
-> > but it has the consequence of not working as expected for multiple writes.
-> > 
-> >> The original check is against CTR_EL0, which makes absolute sense
-> >> because we want to check across the whole hierarchy. It is just that
-> >> the original code has two bugs:
-> >> 
-> >> - It fails to convert the CCSIDR_EL1.LineSize value to a number of
-> >>    words (the missing +4). Admire how the architecture is actively
-> >>    designed to be hostile to SW by providing two different formats for
-> >>    the cache line size, none of which is in... bytes.
-> >> 
-> >> - It passes the full CSSELR value to get_min_cache_line_size(), while
-> >>    this function wants a bool... Yes, there are times where you'd want
-> >>    a stronger type system (did anyone say Rust? ;-)
-> > 
-> > Hey now, if you say it enough times people are going to start getting
-> > ideas ;-P
-> > 
-> >> I propose that we fold something like the patch below in instead
-> >> (tested with get-reg-list).
-> > 
-> > Agreed, I've backed out my diff and applied yours. Pushed (with force!)
-> > to my repo now, PTAL.
-> > 
-> > --
-> > Thanks,
-> > Oliver
-> > 
-> 
-> I was so careless that I missed two bugs and failed to test the last
-> version of my patch. It is fortunate that the bugs were caught by
-> careful review though we don't have a strong type system (yet). Your
-> tree looks good to me.
+On Mon, 23 Jan 2023 at 07:01, Hector Martin <marcan@marcan.st> wrote:
+>
+> This requires changing the reset path locking primitives to the spinlock
+> path in genpd, instead of the mutex path.
+>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> ---
 
-Don't beat yourself up! You've done a great job for a first arm64
-contribution, and we caught the problem during the review process,
-which is what it is for.
+It seems we need this to avoid a race from reading #asahi-dev IRC,
+commit message could be more detailed here.
 
-Thanks,
+Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 
-	M.
+Is mise le meas/Regards,
 
--- 
-Without deviation from the norm, progress is not possible.
+Eric Curtin
+
+>  drivers/soc/apple/apple-pmgr-pwrstate.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/soc/apple/apple-pmgr-pwrstate.c b/drivers/soc/apple/apple-pmgr-pwrstate.c
+> index e1122288409a..a3e2bc1d2686 100644
+> --- a/drivers/soc/apple/apple-pmgr-pwrstate.c
+> +++ b/drivers/soc/apple/apple-pmgr-pwrstate.c
+> @@ -116,8 +116,9 @@ static int apple_pmgr_ps_power_off(struct generic_pm_domain *genpd)
+>  static int apple_pmgr_reset_assert(struct reset_controller_dev *rcdev, unsigned long id)
+>  {
+>         struct apple_pmgr_ps *ps = rcdev_to_apple_pmgr_ps(rcdev);
+> +       unsigned long flags;
+>
+> -       mutex_lock(&ps->genpd.mlock);
+> +       spin_lock_irqsave(&ps->genpd.slock, flags);
+>
+>         if (ps->genpd.status == GENPD_STATE_OFF)
+>                 dev_err(ps->dev, "PS 0x%x: asserting RESET while powered down\n", ps->offset);
+> @@ -129,7 +130,7 @@ static int apple_pmgr_reset_assert(struct reset_controller_dev *rcdev, unsigned
+>         regmap_update_bits(ps->regmap, ps->offset, APPLE_PMGR_FLAGS | APPLE_PMGR_RESET,
+>                            APPLE_PMGR_RESET);
+>
+> -       mutex_unlock(&ps->genpd.mlock);
+> +       spin_unlock_irqrestore(&ps->genpd.slock, flags);
+>
+>         return 0;
+>  }
+> @@ -137,8 +138,9 @@ static int apple_pmgr_reset_assert(struct reset_controller_dev *rcdev, unsigned
+>  static int apple_pmgr_reset_deassert(struct reset_controller_dev *rcdev, unsigned long id)
+>  {
+>         struct apple_pmgr_ps *ps = rcdev_to_apple_pmgr_ps(rcdev);
+> +       unsigned long flags;
+>
+> -       mutex_lock(&ps->genpd.mlock);
+> +       spin_lock_irqsave(&ps->genpd.slock, flags);
+>
+>         dev_dbg(ps->dev, "PS 0x%x: deassert reset\n", ps->offset);
+>         regmap_update_bits(ps->regmap, ps->offset, APPLE_PMGR_FLAGS | APPLE_PMGR_RESET, 0);
+> @@ -147,7 +149,7 @@ static int apple_pmgr_reset_deassert(struct reset_controller_dev *rcdev, unsigne
+>         if (ps->genpd.status == GENPD_STATE_OFF)
+>                 dev_err(ps->dev, "PS 0x%x: RESET was deasserted while powered down\n", ps->offset);
+>
+> -       mutex_unlock(&ps->genpd.mlock);
+> +       spin_unlock_irqrestore(&ps->genpd.slock, flags);
+>
+>         return 0;
+>  }
+> @@ -222,6 +224,7 @@ static int apple_pmgr_ps_probe(struct platform_device *pdev)
+>                 return ret;
+>         }
+>
+> +       ps->genpd.flags |= GENPD_FLAG_IRQ_SAFE;
+>         ps->genpd.name = name;
+>         ps->genpd.power_on = apple_pmgr_ps_power_on;
+>         ps->genpd.power_off = apple_pmgr_ps_power_off;
+> --
+> 2.35.1
+>
+>
+
