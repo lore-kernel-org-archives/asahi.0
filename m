@@ -1,140 +1,149 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841067C
-	for <asahi@lists.linux.dev>; Mon, 23 Jan 2023 11:11:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674472279;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLW1zu/uqNqiNzxwf0pUEyEiwMB4MNxJjb70gD496nc=;
-	b=R6acrYWAvPCbclKzRJK5prqFLBgh5Zhx/nBiXk/fv/K2txibtsumwoGfru1GnLHMfwU6xX
-	EjoBJQHhoRKZxlGcCkp9BrOl7BqCkinxHdI2/JafgU+HhVOo71v9PU1KZTbBTjFBT5ahWe
-	WtdjzVUUPUG7NfXvgZCwZLhIk3B6/D4=
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
- [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-193-l23PdHmvPlWzaU2yCpMGkQ-1; Mon, 23 Jan 2023 06:11:17 -0500
-X-MC-Unique: l23PdHmvPlWzaU2yCpMGkQ-1
-Received: by mail-vs1-f71.google.com with SMTP id s62-20020a675e41000000b003cefb1730d9so2807196vsb.0
-        for <asahi@lists.linux.dev>; Mon, 23 Jan 2023 03:11:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZLW1zu/uqNqiNzxwf0pUEyEiwMB4MNxJjb70gD496nc=;
-        b=oTq8HuBvHC/G+KttJesgjtPzFAL68OkoJ9+HJht5JlYZkjwit7pdVskDClIx67zMpf
-         tqb9VtdWVa5HFc/FYPrFv14ija/qz0x8mpuJb3xVekWp5ImWzWCrjyuKDF8pQhDpYkbr
-         ErSqhunthBXdhppuCGYPpk6Wdoumfjq3dh0eTUQZ938sHkz7rNnf6zrkj4+Pinp4x64H
-         Z5J/9aK5/2MzKKFiIswXDhliOAvZoqZf+SyR5t8pFkxANyDKmqdiwyshvz/TpVfIJXDA
-         Q8yYIb/KZSyomEg5X2NUQ8/wq3jA9qPFtfn6Q0Zflh0iaKJgQxuuSjEB/By/FlOF15fo
-         BFCg==
-X-Gm-Message-State: AFqh2kp/fMfbXxUN1QZ1oywbNgcQTRBzc2SUMdl3BABW5wR3yyUuSPXG
-	RAnhSsVIeOxJmlyuZDATDV8luDS4j60JZ+yLeAUKcP3cqpHd7HqLRQ7Rvb/JHUXiolAIBJXrR1P
-	X6P0SiLPOBpTEJ2rQkYXWLk5hboz8xCE=
-X-Received: by 2002:ab0:25d1:0:b0:419:23:73b5 with SMTP id y17-20020ab025d1000000b00419002373b5mr2625765uan.17.1674472276859;
-        Mon, 23 Jan 2023 03:11:16 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvNuFzf3awsJRX31iM/Ic/uH+uRpF3B1E+2FTOiZ733WSjUePPEahunKZ6rWi5dytte8R/Rn1vNjkVBRgkYvIw=
-X-Received: by 2002:ab0:25d1:0:b0:419:23:73b5 with SMTP id y17-20020ab025d1000000b00419002373b5mr2625759uan.17.1674472276610;
- Mon, 23 Jan 2023 03:11:16 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2767C;
+	Mon, 23 Jan 2023 11:11:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 914BCC433D2;
+	Mon, 23 Jan 2023 11:11:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1674472315;
+	bh=fvBZjE+C2lc+hZ1/sSez62FN4+Fmyocapbo76WLNgbI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MqQKfkdoh0Lq8t0o6WkO6AQI7srbvKy94ADF8ln5AkvAxtLFSzxTViCBC3/E01X8g
+	 32QrIK+jOxu5AjulniJzXV0yld8ZZ3SVYudba6eWiMwFcH54ZhdfIpB9UkicExA3SZ
+	 ZuymGuFxbxfORUQYwQIotM7dVjZjQ2sA83O95fh7Y5LvInNLmTLuFiQu61Q7ISGu7Z
+	 5Y9upxuX+Q6sKx0jQPCrY8vEjjSBk0+8P2WNnEHQhUXl83ygojcs1oCnkXWECgHyoo
+	 5B45dJetWDkwtieT1HsYCqlo6Wc5VozVHAzSOw4/e2vBEU+MWpZHrq1TDB53t64w5J
+	 PMVHnq0Sgii0g==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1pJujx-003vDl-6w;
+	Mon, 23 Jan 2023 11:11:53 +0000
+Date: Mon, 23 Jan 2023 11:11:52 +0000
+Message-ID: <86edrlmrnr.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Oliver Upton <oliver.upton@linux.dev>,
+	Akihiko Odaki <akihiko.odaki@daynix.com>,
+	Mark Brown
+ <broonie@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	kvmarm@lists.cs.columbia.edu,
+	linux-arm-kernel@lists.infradead.org,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	James Morse <james.morse@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	asahi@lists.linux.dev,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Sven Peter <sven@svenpeter.dev>,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v7 7/7] KVM: arm64: Normalize cache configuration
+In-Reply-To: <0ac18497-8392-8ea3-05ee-7f2377a4374c@gmail.com>
+References: <20230112023852.42012-1-akihiko.odaki@daynix.com>
+	<20230112023852.42012-8-akihiko.odaki@daynix.com>
+	<Y8meCFkrVXurXlTk@google.com>
+	<86k01gm6ys.wl-maz@kernel.org>
+	<Y8wru2IrgHtBIofM@google.com>
+	<0ac18497-8392-8ea3-05ee-7f2377a4374c@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20230123065354.28179-1-marcan@marcan.st>
-In-Reply-To: <20230123065354.28179-1-marcan@marcan.st>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Mon, 23 Jan 2023 11:11:00 +0000
-Message-ID: <CAOgh=FxQLtA3OaQOq=tTGzTwod-BOSu+CP5QpgR2z4iFmoCX3w@mail.gmail.com>
-Subject: Re: [PATCH] soc: apple: rtkit: Add apple_rtkit_idle() function
-To: Hector Martin <marcan@marcan.st>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Janne Grunau <j@jannau.net>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: akihiko.odaki@gmail.com, oliver.upton@linux.dev, akihiko.odaki@daynix.com, broonie@kernel.org, linux-kernel@vger.kernel.org, kvmarm@lists.linux.dev, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, mathieu.poirier@linaro.org, suzuki.poulose@arm.com, alexandru.elisei@arm.com, james.morse@arm.com, will@kernel.org, catalin.marinas@arm.com, asahi@lists.linux.dev, alyssa@rosenzweig.io, sven@svenpeter.dev, marcan@marcan.st
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Mon, 23 Jan 2023 at 07:03, Hector Martin <marcan@marcan.st> wrote:
->
-> This is yet another low power mode, used by DCP.
->
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> ---
+On Sun, 22 Jan 2023 17:36:39 +0000,
+Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+> 
+> On 2023/01/22 3:15, Oliver Upton wrote:
+> > Hey Marc,
+> > 
+> > On Sat, Jan 21, 2023 at 12:02:03PM +0000, Marc Zyngier wrote:
+> >> On Thu, 19 Jan 2023 19:46:16 +0000, Oliver Upton <oliver.upton@linux.dev> wrote:
+> >>> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+> >>> index 459e6d358dab..b6228f7d1d8d 100644
+> >>> --- a/arch/arm64/kvm/sys_regs.c
+> >>> +++ b/arch/arm64/kvm/sys_regs.c
+> >>> @@ -148,17 +148,19 @@ static u32 get_ccsidr(struct kvm_vcpu *vcpu, u32 csselr)
+> >>>     static int set_ccsidr(struct kvm_vcpu *vcpu, u32 csselr, u32
+> >>> val)
+> >>>   {
+> >>> -	u8 line_size = FIELD_GET(CCSIDR_EL1_LineSize, val);
+> >>> +	u8 line_size = SYS_FIELD_GET(CCSIDR_EL1, LineSize, val);
+> >>> +	u32 cur = get_ccsidr(vcpu, csselr);
+> >>> +	u8 min_line_size = SYS_FIELD_GET(CCSIDR_EL1, LineSize, cur);
+> >>>   	u32 *ccsidr = vcpu->arch.ccsidr;
+> >>>   	u32 i;
+> >>>   -	if ((val & CCSIDR_EL1_RES0) || line_size <
+> >>> get_min_cache_line_size(csselr))
+> >>> +	if (cur == val)
+> >>> +		return 0;
+> >>> +
+> >>> +	if ((val & CCSIDR_EL1_RES0) || line_size < min_line_size)
+> >>>   		return -EINVAL;
+> >> 
+> >> This doesn't look right. You're comparing the value userspace is
+> >> trying to set for a given level with the value that is already set for
+> >> that level, and forbid the cache line size to be smaller. It works if
+> >> no value has been set yet (you fallback to something derived from
+> >> CTR_EL0), but this fails if userspace does multiple writes.
+> > 
+> > Good catch, I tried to skip over the unit/field conversions by doing this
+> > but it has the consequence of not working as expected for multiple writes.
+> > 
+> >> The original check is against CTR_EL0, which makes absolute sense
+> >> because we want to check across the whole hierarchy. It is just that
+> >> the original code has two bugs:
+> >> 
+> >> - It fails to convert the CCSIDR_EL1.LineSize value to a number of
+> >>    words (the missing +4). Admire how the architecture is actively
+> >>    designed to be hostile to SW by providing two different formats for
+> >>    the cache line size, none of which is in... bytes.
+> >> 
+> >> - It passes the full CSSELR value to get_min_cache_line_size(), while
+> >>    this function wants a bool... Yes, there are times where you'd want
+> >>    a stronger type system (did anyone say Rust? ;-)
+> > 
+> > Hey now, if you say it enough times people are going to start getting
+> > ideas ;-P
+> > 
+> >> I propose that we fold something like the patch below in instead
+> >> (tested with get-reg-list).
+> > 
+> > Agreed, I've backed out my diff and applied yours. Pushed (with force!)
+> > to my repo now, PTAL.
+> > 
+> > --
+> > Thanks,
+> > Oliver
+> > 
+> 
+> I was so careless that I missed two bugs and failed to test the last
+> version of my patch. It is fortunate that the bugs were caught by
+> careful review though we don't have a strong type system (yet). Your
+> tree looks good to me.
 
-New power state, nice
+Don't beat yourself up! You've done a great job for a first arm64
+contribution, and we caught the problem during the review process,
+which is what it is for.
 
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+Thanks,
 
-Is mise le meas/Regards,
+	M.
 
-Eric Curtin
-
->  drivers/soc/apple/rtkit.c       | 21 +++++++++++++++++++++
->  include/linux/soc/apple/rtkit.h |  5 +++++
->  2 files changed, 26 insertions(+)
->
-> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-> index ceb4516e442c..509b050cf040 100644
-> --- a/drivers/soc/apple/rtkit.c
-> +++ b/drivers/soc/apple/rtkit.c
-> @@ -9,6 +9,7 @@
->  enum {
->         APPLE_RTKIT_PWR_STATE_OFF = 0x00, /* power off, cannot be restarted */
->         APPLE_RTKIT_PWR_STATE_SLEEP = 0x01, /* sleeping, can be restarted */
-> +       APPLE_RTKIT_PWR_STATE_IDLE = 0x201, /* sleeping, retain state */
->         APPLE_RTKIT_PWR_STATE_QUIESCED = 0x10, /* running but no communication */
->         APPLE_RTKIT_PWR_STATE_ON = 0x20, /* normal operating state */
->  };
-> @@ -882,6 +883,26 @@ int apple_rtkit_shutdown(struct apple_rtkit *rtk)
->  }
->  EXPORT_SYMBOL_GPL(apple_rtkit_shutdown);
->
-> +int apple_rtkit_idle(struct apple_rtkit *rtk)
-> +{
-> +       int ret;
-> +
-> +       /* if OFF is used here the co-processor will not wake up again */
-> +       ret = apple_rtkit_set_ap_power_state(rtk,
-> +                                            APPLE_RTKIT_PWR_STATE_IDLE);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret = apple_rtkit_set_iop_power_state(rtk, APPLE_RTKIT_PWR_STATE_IDLE);
-> +       if (ret)
-> +               return ret;
-> +
-> +       rtk->iop_power_state = APPLE_RTKIT_PWR_STATE_IDLE;
-> +       rtk->ap_power_state = APPLE_RTKIT_PWR_STATE_IDLE;
-> +       return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(apple_rtkit_idle);
-> +
->  int apple_rtkit_quiesce(struct apple_rtkit *rtk)
->  {
->         int ret;
-> diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
-> index 2a0edb5fa6fe..f8d9cc0691de 100644
-> --- a/include/linux/soc/apple/rtkit.h
-> +++ b/include/linux/soc/apple/rtkit.h
-> @@ -132,6 +132,11 @@ int apple_rtkit_wake(struct apple_rtkit *rtk);
->   */
->  int apple_rtkit_shutdown(struct apple_rtkit *rtk);
->
-> +/*
-> + * Put the co-processor into idle mode
-> + */
-> +int apple_rtkit_idle(struct apple_rtkit *rtk);
-> +
->  /*
->   * Checks if RTKit is running and ready to handle messages.
->   */
-> --
-> 2.35.1
->
->
-
+-- 
+Without deviation from the norm, progress is not possible.
