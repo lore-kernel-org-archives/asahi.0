@@ -1,70 +1,77 @@
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920F47C;
-	Mon, 23 Jan 2023 20:27:55 +0000 (UTC)
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1674505668;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ptopzaIr3YmZ/jpKKhYwyqWy8pmjYpRDY1paJTvdAEU=;
-	b=fQrKEQXy3DMKiZgO6ZL0sDHVPNIuNZI/BwkvJwLVjzk2lq64ILx2tN+7QLtT8fumdDmjlM
-	sJPXYvqMUqAe55xZY4AYbRHpNxQvBum/428M1wdSXjd4um0SI6cdZBt2d2QEG96r5qFhCv
-	Cy9H7UoP50tYu31MYig/bjWPiCp+osE=
-From: Oliver Upton <oliver.upton@linux.dev>
-To: kvmarm@lists.linux.dev,
-	kvmarm@lists.cs.columbia.edu,
-	Marc Zyngier <maz@kernel.org>
-Cc: Oliver Upton <oliver.upton@linux.dev>,
-	Hector Martin <marcan@marcan.st>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Sven Peter <sven@svenpeter.dev>,
-	James Morse <james.morse@arm.com>,
-	linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	asahi@lists.linux.dev,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: (subset) [PATCH 0/3] KVM: arm64: M2 vgic maintenance interrupt rework pre-NV
-Date: Mon, 23 Jan 2023 20:27:33 +0000
-Message-Id: <167450413533.2570626.8104319764447216703.b4-ty@linux.dev>
-In-Reply-To: <20230103095022.3230946-1-maz@kernel.org>
-References: <20230103095022.3230946-1-maz@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365DEA3C
+	for <asahi@lists.linux.dev>; Tue, 24 Jan 2023 04:42:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 52B2C4246F;
+	Tue, 24 Jan 2023 04:42:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1674535362;
+	bh=WN44PrcFYfKoSeZ8iNlkhBh4hAFJ2coVdS4b3nGwky4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=s6egbtndiSbiZ/wVjze+mu8WzgzI0W5aW1+npUC4X3VfE49li/f2dcxgMfKRdMl5H
+	 20nlbjOJ1Ruok6qYMdRcs6/+isZz20t/8hPdiiwCbLbHbP5le/67Q3wcF8Q4EL1ony
+	 0bJaadrNRJ2vnkydz41McBsDozAPGvrNyZfzKFCk99o/ieWO7rOIIrqMKGbma+aADA
+	 vfT8pf5Bz/rqITgH8ACqEWE58vaTYqB8BCpu2UhMhD7UcjSxZe6B4Q9pLu0oW7KH7k
+	 U+hBvwVHEo+W8szYaiinwBsCyvKqqW/sgeWW8dXJoedRZ+MTdiiCHzq3XKakanj1jy
+	 5VykBTJpsSmzA==
+Message-ID: <3ddc508c-749d-801c-83fe-c5c4de31498a@asahilina.net>
+Date: Tue, 24 Jan 2023 13:42:38 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2] soc: apple: rtkit: Add register dump decoding to
+ crashlog
+Content-Language: en-US
+To: Eric Curtin <ecurtin@redhat.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20230123031728.22515-1-lina@asahilina.net>
+ <CAOgh=FwHc_sy5dfQo8OvnG+gfy6UpW08a6qA7R9ErytG83NHrQ@mail.gmail.com>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <CAOgh=FwHc_sy5dfQo8OvnG+gfy6UpW08a6qA7R9ErytG83NHrQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 3 Jan 2023 09:50:19 +0000, Marc Zyngier wrote:
-> I've spent the holiday break reviving the Nested Virt KVM/arm64
-> implementation[1] and allowing it to work on the Apple M2 SoC. The
-> amusing part is that it actually works!
+On 23/01/2023 21.18, Eric Curtin wrote:
+> On Mon, 23 Jan 2023 at 03:19, Asahi Lina <lina@asahilina.net> wrote:
+>>
+>> When the coprocessor crashes, it's useful to get a proper register dump
+>> so we can find out what the firmware was doing. Add a decoder for this.
+>>
+>> Originally this had ESR decoding by reusing the ARM64 arch header for
+>> this, but that introduces some module linking and cross-arch compilation
+>> issues, so let's leave that out for now.
+>>
+>> Reviewed-by: Sven Peter <sven@svenpeter.dev>
+>> Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
 > 
-> However, the way the vgic is implemented on this HW is still at odds
-> with the rest of the architecture, and requires some hacks, some of
-> which are independent of the actual NV code. This is what this series
-> is about.
-> 
-> [...]
+> I would be thinking, rather that duplicating the PSR_MODE_* defines
+> and values, why not just ifdef the whole
+> "apple_rtkit_crashlog_dump_regs(" function and the "case
+> APPLE_RTKIT_CRASHLOG_REGS" part (and maybe even
+> apple_rtkit_crashlog_regs struct also). Is it worth compiling that
+> code on other CPU architectures when PSR seems to be an ARM specific
+> thing?
 
-Applied to kvmarm/next, thanks!
+It's mostly just for compile testing! The code is about the architecture
+of the coprocessor, not the host CPU, so it still makes sense in
+principle (though of course it's not very likely that SoCs with a
+combination like that will ever exist). It helped the kernel test robot
+find a bad format specifier in this code during a compile test run for a
+32-bit arch, so I think it makes sense to keep it.
 
-[2/3] KVM: arm64: vgic: Allow registration of a non-maskable maintenance interrupt
-      https://git.kernel.org/kvmarm/kvmarm/c/43c5c868bddc
-[3/3] irqchip/apple-aic: Register vgic maintenance interrupt with KVM
-      https://git.kernel.org/kvmarm/kvmarm/c/13aad0c00bb1
-
---
-Best,
-Oliver
+~~ Lina
