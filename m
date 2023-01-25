@@ -1,63 +1,115 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E69C1FB4
-	for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 10:48:57 +0000 (UTC)
-Received: from 8bytes.org (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 3F79E262E65;
-	Wed, 25 Jan 2023 11:48:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1674643736;
-	bh=5SL4DTtyHd1dtmHSOYztGo95/xwXVAuXLfnPFWLBLU8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iN8WLFd4HYO/ivj04aBr/wZV8kOcHhSACBed49v1QjufeQeYLTn0UF3tlyxTEjv6S
-	 OS/YOsdcZCUO3jKLzA+mtnBPnYsO0gLGL5T2neFycITQkSGDJNmnq3KJX831qgwuT4
-	 /UDNUsNNhs8zGyk7Msbj+y4dDizBksVjrCR7AFKkMPe1d9bSOrBRND8wFFGCQVqHFL
-	 Oy7Evgv+Lgqhqm3oOSWmSyUx1amtK21gLyyDGLRc9YB0rLs57RQtperCKhh4pCn78f
-	 bpo6kUBUIp+XPPiACWFk7rXMnMHJqsLZcHUevzTXHDQaL4QKZ7EJFxTXu1rKlMHztv
-	 18/GhS0GlmKwQ==
-Date: Wed, 25 Jan 2023 11:48:55 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Ashish Mhetre <amhetre@nvidia.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-	Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
-	Lucas Stach <l.stach@pengutronix.de>, devicetree@vger.kernel.org,
-	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH v13 0/4] iommu: Support mappings/reservations in
- reserved-memory regions
-Message-ID: <Y9EJF/BwP+JPTxyO@8bytes.org>
-References: <20230120174251.4004100-1-thierry.reding@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5B046B5
+	for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 15:10:57 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id d14so13683296wrr.9
+        for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 07:10:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K04NI6H8f8RRsBW0KL8tL6HKr2Bz5cQXmicJNH1klmM=;
+        b=SA2NQRG/L8QUVWZChVmJ1+8+IwRHdlSAEQCRRz9NBXcZi7iBjHxcyQuHGJt43u4c6e
+         llYwjNEegTZnZmdn9Fb5EXaLrLNQC/2/LbrSvfh0phjkGDAtovHvnZOuedSGpM9yxdHr
+         cq7cHgRrXAnI0s1mFRwHG/ivgoWw588IqPFeC1EZcLdIWz4jseGVZeQIGV1ZC66Nz/hw
+         U1j5SOasK12fW7FmEPaIjqRxH19RHXfm0aTCiBDwJac2TqBNelUnjDwPy85fziB74Dwk
+         Pm8pGjiubUTQPnfbXFnNxO0K/ZDNakTMM64W10ZdIfD+bpJK3QmTTJr8LoPjUptYOkg9
+         UJ2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K04NI6H8f8RRsBW0KL8tL6HKr2Bz5cQXmicJNH1klmM=;
+        b=c8EO102tlenxIEA8PynmMfXLXy9y3avDzwmg2GE/U9SAmS+bU64Wdr0d3cO38HeHMg
+         oSpgnBlqH1OulAjDqI6kX4km3EWRn+qK5LiHINOcNNHhhTiDovgx1rFchpMmwUVQQk2z
+         ddxmpTkeZqAZ9ibQ37mimeE9hvYEP5F/XL6JZIl7BEwjgk+B9cemFfoHgmRN2sinj2kg
+         AmNVjhDVnEaW2uMPPR0uVGSXWq94XCCaIK6pe5rQ2+Z3BY7fauX+rGeUAAVNW/+e+4af
+         8uurT1CZYmYigVRBPyHhxu5Vij+Zeu82jMYUEx/X1gJ+IxzGQKb0587l6DltpGP3LrYn
+         z8Hg==
+X-Gm-Message-State: AFqh2kp1vFrgGlRy8F3US2mIOdyOc18otVJgMy2ufilbP/oaybqahTdz
+	ot579R4Ao229vKlYhZI4dto=
+X-Google-Smtp-Source: AMrXdXv8xSDMKuPB22yoht7YSdJKa83pN2WZr5uVBiJfuWmo6tGV5xAiy6noeRVyDoNTBw+2C4pl2g==
+X-Received: by 2002:adf:fbd0:0:b0:2bd:eb6a:cd43 with SMTP id d16-20020adffbd0000000b002bdeb6acd43mr26306973wrs.15.1674659455687;
+        Wed, 25 Jan 2023 07:10:55 -0800 (PST)
+Received: from localhost ([82.222.96.52])
+        by smtp.gmail.com with UTF8SMTPSA id v7-20020a5d6107000000b002bdc914a139sm5344448wrt.108.2023.01.25.07.10.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Jan 2023 07:10:51 -0800 (PST)
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+To: u.kleine-koenig@pengutronix.de,
+	thierry.reding@gmail.com,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org
+Cc: marcan@marcan.st,
+	sven@svenpeter.dev,
+	alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>
+Subject: [PATCH v7 0/5] PWM and keyboard backlight driver for ARM Macs
+Date: Wed, 25 Jan 2023 18:10:36 +0300
+Message-Id: <20230125151041.55483-1-fnkl.kernel@gmail.com>
+X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230120174251.4004100-1-thierry.reding@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 20, 2023 at 06:42:47PM +0100, Thierry Reding wrote:
-> Thierry Reding (4):
->   of: Introduce of_translate_dma_region()
->   dt-bindings: reserved-memory: Document iommu-addresses
->   iommu: Implement of_iommu_get_resv_regions()
->   iommu: dma: Use of_iommu_get_resv_regions()
-> 
->  .../reserved-memory/reserved-memory.yaml      | 89 +++++++++++++++++-
->  drivers/iommu/dma-iommu.c                     |  3 +
->  drivers/iommu/of_iommu.c                      | 94 +++++++++++++++++++
->  drivers/of/address.c                          | 41 ++++++++
->  include/linux/of_address.h                    |  2 +
->  include/linux/of_iommu.h                      |  8 ++
->  6 files changed, 233 insertions(+), 4 deletions(-)
+Hi,
 
-Applied for 6.3, thanks.
+This is the resend of the v7 of the patch series to add PWM and keyboard
+backlight driver for ARM macs. No significant changes this time.
+
+Changes in v1:
+Addressing the review comments.
+
+Changes in v2:
+Added the reviewed-by and acked-by tags.
+Addressing a review comment.
+
+Changes in v3 and v4:
+Addressing the review comments.
+
+Changes in v5:
+Added t600x device tree changes
+
+v1: https://www.spinics.net/lists/linux-pwm/msg19500.html
+v2: https://www.spinics.net/lists/linux-pwm/msg19562.html
+v3: https://www.spinics.net/lists/linux-pwm/msg19901.html
+v4: https://www.spinics.net/lists/linux-pwm/msg20093.html
+v5: https://www.spinics.net/lists/linux-pwm/msg20150.html
+v6: https://www.spinics.net/lists/linux-pwm/msg20190.html
+
+
+Sasha Finkelstein (5):
+  dt-bindings: pwm: Add Apple PWM controller
+  pwm: Add Apple PWM controller
+  arm64: dts: apple: t8103: Add PWM controller
+  arm64: dts: apple: t600x: Add PWM controller
+  MAINTAINERS: Add entries for Apple PWM driver
+
+ .../bindings/pwm/apple,s5l-fpwm.yaml          |  51 ++++++
+ MAINTAINERS                                   |   2 +
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi     |   9 +
+ .../arm64/boot/dts/apple/t600x-j314-j316.dtsi |  18 ++
+ arch/arm64/boot/dts/apple/t8103-j293.dts      |  17 ++
+ arch/arm64/boot/dts/apple/t8103-j313.dts      |  17 ++
+ arch/arm64/boot/dts/apple/t8103.dtsi          |   9 +
+ drivers/pwm/Kconfig                           |  12 ++
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-apple.c                       | 159 ++++++++++++++++++
+ 10 files changed, 295 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+ create mode 100644 drivers/pwm/pwm-apple.c
+
+-- 
+2.37.1 (Apple Git-137.1)
+
