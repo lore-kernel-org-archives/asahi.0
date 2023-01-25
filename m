@@ -1,42 +1,43 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5B046B5
-	for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 15:10:57 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id d14so13683296wrr.9
-        for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 07:10:57 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4A646B5
+	for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 15:11:05 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id iv8-20020a05600c548800b003db04a0a46bso2842730wmb.0
+        for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 07:11:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K04NI6H8f8RRsBW0KL8tL6HKr2Bz5cQXmicJNH1klmM=;
-        b=SA2NQRG/L8QUVWZChVmJ1+8+IwRHdlSAEQCRRz9NBXcZi7iBjHxcyQuHGJt43u4c6e
-         llYwjNEegTZnZmdn9Fb5EXaLrLNQC/2/LbrSvfh0phjkGDAtovHvnZOuedSGpM9yxdHr
-         cq7cHgRrXAnI0s1mFRwHG/ivgoWw588IqPFeC1EZcLdIWz4jseGVZeQIGV1ZC66Nz/hw
-         U1j5SOasK12fW7FmEPaIjqRxH19RHXfm0aTCiBDwJac2TqBNelUnjDwPy85fziB74Dwk
-         Pm8pGjiubUTQPnfbXFnNxO0K/ZDNakTMM64W10ZdIfD+bpJK3QmTTJr8LoPjUptYOkg9
-         UJ2g==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6k6iH6ye4eNPwympT1HKSV19Z/5AZl0oVvTiapSuckY=;
+        b=ahtGBzXJtFuPzd0YkuxCd/KNvneyK5hNhBtxCyDok0bmmfzkA61L1PVcwdXDyYVd8j
+         ZWhDdz9OXQCZ95mAAk3Sw7HS1SA0qZYOJ75si6XBZ85tW70ux8fwL1xmLi5YplYW9z2a
+         PH041UV2DgwwizTC+w20XPFaHaQZUOZiQ9lDUH+jQEaZQptQNcU3Fcl1/0+NDdzMmmte
+         7mW/hiIyrLN1j7QGBH+wRbNCOmKP3IsrkUnPah1SGSQ3zYxfGUF2EwuSMrCz0DvHj4bu
+         c6Ma6go8K5KIFjNDud9ycHukymznll+Dg9ShlbbSIfTJDCWcvZcman0/qVvK6R3xP87Q
+         c9Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K04NI6H8f8RRsBW0KL8tL6HKr2Bz5cQXmicJNH1klmM=;
-        b=c8EO102tlenxIEA8PynmMfXLXy9y3avDzwmg2GE/U9SAmS+bU64Wdr0d3cO38HeHMg
-         oSpgnBlqH1OulAjDqI6kX4km3EWRn+qK5LiHINOcNNHhhTiDovgx1rFchpMmwUVQQk2z
-         ddxmpTkeZqAZ9ibQ37mimeE9hvYEP5F/XL6JZIl7BEwjgk+B9cemFfoHgmRN2sinj2kg
-         AmNVjhDVnEaW2uMPPR0uVGSXWq94XCCaIK6pe5rQ2+Z3BY7fauX+rGeUAAVNW/+e+4af
-         8uurT1CZYmYigVRBPyHhxu5Vij+Zeu82jMYUEx/X1gJ+IxzGQKb0587l6DltpGP3LrYn
-         z8Hg==
-X-Gm-Message-State: AFqh2kp1vFrgGlRy8F3US2mIOdyOc18otVJgMy2ufilbP/oaybqahTdz
-	ot579R4Ao229vKlYhZI4dto=
-X-Google-Smtp-Source: AMrXdXv8xSDMKuPB22yoht7YSdJKa83pN2WZr5uVBiJfuWmo6tGV5xAiy6noeRVyDoNTBw+2C4pl2g==
-X-Received: by 2002:adf:fbd0:0:b0:2bd:eb6a:cd43 with SMTP id d16-20020adffbd0000000b002bdeb6acd43mr26306973wrs.15.1674659455687;
-        Wed, 25 Jan 2023 07:10:55 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6k6iH6ye4eNPwympT1HKSV19Z/5AZl0oVvTiapSuckY=;
+        b=qmuHmlAYcMtAv0prTy9lr7MG61ryvvhTUea+F8s0Rn4PUM7a9QCLrAHPES+TgTIJ8K
+         23x1oEbg0zZs4+qKKR7JNHGS5VUwHSIZRt41LHM2iSiX2llk3dHlFik+ALTxdy/XQBca
+         nX9EoZti6FmEoj1JeU0UCgINUosz+BFMpaS0WhJkabh5Iz9IWIKYk9yxbnURhi96qNHe
+         iSWg4P5bEMeuW5EOwB+ZQErJ7ghvlJ70hynU24ZV3eB/uH4nvv94chuK/WiAPICgSyRu
+         HAT0JC0XAjFYqITUSdz95+BBRIoSEq8uw8nEOp3KmllZCU1ZQ3C9/J3fQ7y1+yv+2ojh
+         SFmw==
+X-Gm-Message-State: AFqh2kpClFp2/BBW/NMzwvfizhfVtmPttSXr4JuJOgntrS2x9f19iQDa
+	j3rwUrJtVgrBxMnO5ZZlrFg=
+X-Google-Smtp-Source: AMrXdXvTpleKmDKo3XRUkgwFgruiRcTXHdOiIS+BOchozQho/sHJzli4AG0NzfGbY3k3fda9lkwFoQ==
+X-Received: by 2002:a05:600c:310e:b0:3db:eb0:6f6 with SMTP id g14-20020a05600c310e00b003db0eb006f6mr28834474wmo.13.1674659464119;
+        Wed, 25 Jan 2023 07:11:04 -0800 (PST)
 Received: from localhost ([82.222.96.52])
-        by smtp.gmail.com with UTF8SMTPSA id v7-20020a5d6107000000b002bdc914a139sm5344448wrt.108.2023.01.25.07.10.49
+        by smtp.gmail.com with UTF8SMTPSA id t19-20020a1c7713000000b003c71358a42dsm2528563wmi.18.2023.01.25.07.11.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 07:10:51 -0800 (PST)
+        Wed, 25 Jan 2023 07:11:03 -0800 (PST)
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 To: u.kleine-koenig@pengutronix.de,
 	thierry.reding@gmail.com,
@@ -50,11 +51,14 @@ Cc: marcan@marcan.st,
 	linux-pwm@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH v7 0/5] PWM and keyboard backlight driver for ARM Macs
-Date: Wed, 25 Jan 2023 18:10:36 +0300
-Message-Id: <20230125151041.55483-1-fnkl.kernel@gmail.com>
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v7 1/5] dt-bindings: pwm: Add Apple PWM controller
+Date: Wed, 25 Jan 2023 18:10:37 +0300
+Message-Id: <20230125151041.55483-2-fnkl.kernel@gmail.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
+In-Reply-To: <20230125151041.55483-1-fnkl.kernel@gmail.com>
+References: <20230125151041.55483-1-fnkl.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -63,53 +67,74 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Apple SoCs such as the M1 contain a PWM controller used
+among other things to control the keyboard backlight.
 
-This is the resend of the v7 of the patch series to add PWM and keyboard
-backlight driver for ARM macs. No significant changes this time.
-
-Changes in v1:
-Addressing the review comments.
-
-Changes in v2:
-Added the reviewed-by and acked-by tags.
-Addressing a review comment.
-
-Changes in v3 and v4:
-Addressing the review comments.
-
-Changes in v5:
-Added t600x device tree changes
-
-v1: https://www.spinics.net/lists/linux-pwm/msg19500.html
-v2: https://www.spinics.net/lists/linux-pwm/msg19562.html
-v3: https://www.spinics.net/lists/linux-pwm/msg19901.html
-v4: https://www.spinics.net/lists/linux-pwm/msg20093.html
-v5: https://www.spinics.net/lists/linux-pwm/msg20150.html
-v6: https://www.spinics.net/lists/linux-pwm/msg20190.html
-
-
-Sasha Finkelstein (5):
-  dt-bindings: pwm: Add Apple PWM controller
-  pwm: Add Apple PWM controller
-  arm64: dts: apple: t8103: Add PWM controller
-  arm64: dts: apple: t600x: Add PWM controller
-  MAINTAINERS: Add entries for Apple PWM driver
-
- .../bindings/pwm/apple,s5l-fpwm.yaml          |  51 ++++++
- MAINTAINERS                                   |   2 +
- arch/arm64/boot/dts/apple/t600x-die0.dtsi     |   9 +
- .../arm64/boot/dts/apple/t600x-j314-j316.dtsi |  18 ++
- arch/arm64/boot/dts/apple/t8103-j293.dts      |  17 ++
- arch/arm64/boot/dts/apple/t8103-j313.dts      |  17 ++
- arch/arm64/boot/dts/apple/t8103.dtsi          |   9 +
- drivers/pwm/Kconfig                           |  12 ++
- drivers/pwm/Makefile                          |   1 +
- drivers/pwm/pwm-apple.c                       | 159 ++++++++++++++++++
- 10 files changed, 295 insertions(+)
+Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Acked-by: Sven Peter <sven@svenpeter.dev>
+---
+ .../bindings/pwm/apple,s5l-fpwm.yaml          | 51 +++++++++++++++++++
+ 1 file changed, 51 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
- create mode 100644 drivers/pwm/pwm-apple.c
 
+diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+new file mode 100644
+index 000000000000..142157bff0cd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple FPWM controller
++
++maintainers:
++  - asahi@lists.linux.dev
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description: PWM controller used for keyboard backlight on ARM Macs
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,t8103-fpwm
++          - apple,t6000-fpwm
++          - apple,t8112-fpwm
++      - const: apple,s5l-fpwm
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  "#pwm-cells":
++    const: 2
++
++required:
++  - compatible
++  - reg
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    pwm@235044000 {
++      compatible = "apple,t8103-fpwm", "apple,s5l-fpwm";
++      reg = <0x35044000 0x4000>;
++      power-domains = <&ps_fpwm1>;
++      clocks = <&clkref>;
++      #pwm-cells = <2>;
++    };
 -- 
 2.37.1 (Apple Git-137.1)
 
