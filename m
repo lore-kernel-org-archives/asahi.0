@@ -1,99 +1,95 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B8746B5
-	for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 15:11:16 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id fl24so698120wmb.1
-        for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 07:11:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kTaBsHHaxY4hxEZyw1070cz+vHDzIdLfWWrgADCbRU8=;
-        b=BRnb5DYVXtWCtvc3qdQxtfQDSxjmp+yfOM2pXEVaEXc37OixGwC1jFBPFhmKTx4PoM
-         cphL1s7CofBvz5JRbnWE6RQqU6B4RL5Umhs+nBBVGb+ijp8jDNNvX5ik1SUFv9XCg1BF
-         nuNwfWqorONjLl4u53U774sFsM/0aCGUxeRaILHFFBh5SbBGYExmc/Lk52S9RAgt7m4z
-         5H8oQszL77/msmmj8xT9qURuXzeNvUYbdIqW4wgm4N3ci2pRXIOfanmDlu3loqIzIEzs
-         wXoD8IBN/nCKqB1owFuvw267FFffKotZDSwEPcp1M49ubhfphBeY+axb5FSCnGPNSZyn
-         eycg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0066FB1;
+	Wed, 25 Jan 2023 20:04:01 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id bm8so2008518oib.0;
+        Wed, 25 Jan 2023 12:04:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kTaBsHHaxY4hxEZyw1070cz+vHDzIdLfWWrgADCbRU8=;
-        b=EgVsbsk5NffjbZjN/fmbhqYlIMD3orxUbKv31h9TVpJGZhXXufkNJGJpmqLPQbsTA2
-         g1g4DLzW6l/0dxxvC9wfMYX/XwcV9zP9Vt6BDpsZKr5lmmnD7w4X+clC2n09JJM/opTd
-         jGRxsLeWf+ZLXMXkOtLMr5S5wj5Cd+r5S6HZLImAVepwuzhJ1LcIg0HUKsWfahY8QCv0
-         JZH4OOfU58tB3+H9NTf3fA0c8rFhadjQRNhXq6x75geaU7OumNcLicqlSSZSrKt8rU8X
-         4kDOMdObeKY5gah3Nsxg2fB5PTChuP9Kv6a11uK0rBPzO6UO1tmm0fEPabRHUgZZf0/h
-         qG4Q==
-X-Gm-Message-State: AFqh2kqvwzc1BWYJo49mc1ZcwiU/KEI5mLIZi7Vfb28mqXqyrzejQWes
-	FltfYvie6SoWUx0VjUtsU3f6shX+ayw=
-X-Google-Smtp-Source: AMrXdXsVMi89xiI+4LxZntiDgxj2YfyHgKghAGbA2sAo4gVujJ7zwlCxsirbMUpVHQC35a6Lk+uuNA==
-X-Received: by 2002:a05:600c:1d22:b0:3d9:6bc3:b8b9 with SMTP id l34-20020a05600c1d2200b003d96bc3b8b9mr32542581wms.9.1674659474298;
-        Wed, 25 Jan 2023 07:11:14 -0800 (PST)
-Received: from localhost ([82.222.96.52])
-        by smtp.gmail.com with UTF8SMTPSA id f39-20020a05600c492700b003dc0cb5e3f1sm2003392wmp.46.2023.01.25.07.11.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 07:11:13 -0800 (PST)
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-To: u.kleine-koenig@pengutronix.de,
-	thierry.reding@gmail.com,
-	robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org
-Cc: marcan@marcan.st,
-	sven@svenpeter.dev,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sasha Finkelstein <fnkl.kernel@gmail.com>
-Subject: [PATCH v7 5/5] MAINTAINERS: Add entries for Apple PWM driver
-Date: Wed, 25 Jan 2023 18:10:41 +0300
-Message-Id: <20230125151041.55483-6-fnkl.kernel@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
-In-Reply-To: <20230125151041.55483-1-fnkl.kernel@gmail.com>
-References: <20230125151041.55483-1-fnkl.kernel@gmail.com>
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0Gkcdkob2Y6ObYYrpnf1Losk1qJrdTh8H2I4YXgC+Dk=;
+        b=lBwy9xlOSoGstIbwbUVQ2FwGyiRzjR57vS/PPmFhaNxhkzc8vTFr6RnTHgwNayV25t
+         jwMxeHjnTsToAAXeMybJsz3pXiAC/zw1tBM3HL4IkTH6qyQZQ20Kli2Qs4J9pqesDOu3
+         g76Jx2TlM7H7frKEz6cL/XcBo5YdOLGgLWafKpWGvMKQrqv5vEYlDZyTQD/1aX197Ysl
+         d4TSxtzMyuT4XK+gbdeTiXlwcsNpxPF4odCWicPqOsejmgYdzrjD/cF+/x5GxV3aMdNq
+         43A80HqunmOqsrF8FcnYyaybi01Dgnj994HoeRk2GhPgk5Ure7orS9eDUyYEGrKtm9cE
+         +wIg==
+X-Gm-Message-State: AFqh2kpZt96/Hb92tfqu+kNeni/M3WzE6TICfYW5nqPtEj8dNIFlw8R9
+	7pfMgYxg39UaonEr8Sq7qA==
+X-Google-Smtp-Source: AMrXdXvFtWE+6e2FsDqQXpT3BBXJS/1t8Fhvmq3xKkeGeQdttgRtxg5rjf30XlBDjQNS36QwjR+NjQ==
+X-Received: by 2002:aca:1012:0:b0:364:cacc:515b with SMTP id 18-20020aca1012000000b00364cacc515bmr13031084oiq.52.1674677040479;
+        Wed, 25 Jan 2023 12:04:00 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id q64-20020acac043000000b0035e7ed5daa1sm2599650oif.26.2023.01.25.12.03.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jan 2023 12:04:00 -0800 (PST)
+Received: (nullmailer pid 2761036 invoked by uid 1000);
+	Wed, 25 Jan 2023 20:03:58 -0000
+Date: Wed, 25 Jan 2023 14:03:58 -0600
+From: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Hector Martin <marcan@marcan.st>, Viresh Kumar <vireshk@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Andy Gross <agross@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
+	Rob Herring <robh+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, =?UTF-8?B?77+9ZXI=?= <povik+lin@cutebit.org>, 
+	Masahiro Yamada <yamada.masahiro@socionext.com>, linux-arm-kernel@lists.infradead.org, 
+	Paul Cercueil <paul@crapouillou.net>, =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Long Cheng <long.cheng@mediatek.com>, 
+	Stefan Roese <sr@denx.de>, Palmer Debbelt <palmer@sifive.com>, Peng Fan <peng.fan@nxp.com>, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-mediatek@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
+	Olivier Dautricourt <olivierdautricourt@gmail.com>, devicetree@vger.kernel.org, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, linux-riscv@lists.infradead.org, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Vinod Koul <vkoul@kernel.org>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	linux-sunxi@lists.linux.dev, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	- <chuanhua.lei@intel.com>, Sven Peter <sven@svenpeter.dev>, asahi@lists.linux.dev, 
+	Maxime Ripard <mripard@kernel.org>, Rajesh Gumasta <rgumasta@nvidia.com>, dmaengine@vger.kernel.org, 
+	Green Wan <green.wan@sifive.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	Amelie Delaunay <amelie.delaunay@foss.st.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Bjorn Andersson <andersson@kernel.org>, linux-actions@lists.infradead.org, 
+	Jonathan Hunter <jonathanh@nvidia.com>, linux-arm-msm@vger.kernel.org, 
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] dt-bindings: dma: cleanup examples - indentation,
+ lowercase hex
+Message-ID: <167467703767.2760981.10110618536644439258.robh@kernel.org>
+References: <20230124081117.31186-1-krzysztof.kozlowski@linaro.org>
+ <20230124081117.31186-2-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124081117.31186-2-krzysztof.kozlowski@linaro.org>
 
-Add the MAINTAINERS entries for the driver
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Acked-by: Sven Peter <sven@svenpeter.dev>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+On Tue, 24 Jan 2023 09:11:17 +0100, Krzysztof Kozlowski wrote:
+> Cleanup examples:
+>  - use 4-space indentation (for cases when it is neither 4 not 2 space),
+>  - use lowercase hex,
+>  - drop unused node's label.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Changes since v1:
+> 1. Drop unused label, correct indentation.
+> ---
+>  .../bindings/dma/snps,dw-axi-dmac.yaml        | 36 +++++++++----------
+>  .../bindings/dma/stericsson,dma40.yaml        | 16 ++++-----
+>  2 files changed, 26 insertions(+), 26 deletions(-)
+> 
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7f86d02cb427..75bda5ab704d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1970,6 +1970,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
-+F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
-@@ -1985,6 +1986,7 @@ F:	drivers/mailbox/apple-mailbox.c
- F:	drivers/nvme/host/apple.c
- F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
-+F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
--- 
-2.37.1 (Apple Git-137.1)
-
+Reviewed-by: Rob Herring <robh@kernel.org>
