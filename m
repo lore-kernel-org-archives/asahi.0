@@ -1,80 +1,63 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E69C1FB4
+	for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 10:48:57 +0000 (UTC)
+Received: from 8bytes.org (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEA61381
-	for <asahi@lists.linux.dev>; Wed, 25 Jan 2023 07:29:17 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id c4-20020a1c3504000000b003d9e2f72093so604573wma.1
-        for <asahi@lists.linux.dev>; Tue, 24 Jan 2023 23:29:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/zYb3mbFmjgoGxZfiqbziu2v8uAqk6hubRFYbxoSlc=;
-        b=t6xI6eMY7T3NthJ8wINZKhVY4l2iBv+ao3N88MgKk0VGCKAVAjNjw8mNfFy8BTBMrG
-         XgidFiiVBZBy+anLYqLhffAZjms+FGkPzTpgdgnOnKSncoQUPWV1lcSdkygzL6EmuW9I
-         4YPGTwFyfLQOaUhDJF3SpXECnzEX6vwCg3ET5kHJ6xam4Puzf/80T1ksN+VLIA6uATxM
-         ZIPYrNJhgunMvk8sPM11Gxirc6WS1IrmdvW+3qz4dhYDIXvg9He/GVuvPhOyqetY2ajJ
-         Q0QJkv8Dp6PCcbuqv+Sc2JLYlFXFqJwX6hoB35vzT0V8JsJlK22MFGGMsMDn3OWfyhm3
-         N3ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/zYb3mbFmjgoGxZfiqbziu2v8uAqk6hubRFYbxoSlc=;
-        b=iLWGMsCd+EUvuab93bYkZOc6Qys52KygCh/SfQQ6VLn1ZeM8Rhn3TTJsGJG1wfuB+H
-         dSgpRE6BDOamV2ww4HZehPB0T9bgYHGYIz2i+w9ZbK9tZPcl4deQU3/Jk4JSyJo09Eto
-         UrqVlbdeb+bDF1mqCIwEKZ4+QdO3unG44QdShW9TKuK+ellfK4AXVjKzRhXeQ1BzpE8K
-         G352sY4nooJPpuh6Rtf758ttpGq6ZZOQE/TMLmz/gnBQrTvWZF61NE+VN75I/m1pE/CC
-         h0ilmoWT6azccyIBHzF4mSN0Qxi1KKKKkv6+lJOfwUHh/z4YyuVRNkM/XZYM95m9DHQg
-         PCCQ==
-X-Gm-Message-State: AFqh2koe+Zq8k25ZxGXlqOOiRJ74giGiXa4fqKtjKd4AuYBh1YXOrb9V
-	TglVugH7pZqv5laTxiedkhYPKQ==
-X-Google-Smtp-Source: AMrXdXt9SGOwxEXr5Ol6TM9T8P204nWihJ4QLUqzCiu7G3/To6p6IruhCE/rq6883y/w0Ulpsu1yqA==
-X-Received: by 2002:a05:600c:c05:b0:3db:2252:e50e with SMTP id fm5-20020a05600c0c0500b003db2252e50emr23239325wmb.24.1674631755424;
-        Tue, 24 Jan 2023 23:29:15 -0800 (PST)
-Received: from [192.168.1.109] ([178.197.216.144])
-        by smtp.gmail.com with ESMTPSA id g9-20020adff3c9000000b002bfb29d19e4sm2778121wrp.88.2023.01.24.23.29.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Jan 2023 23:29:14 -0800 (PST)
-Message-ID: <90125055-929b-fdd1-3489-cfdc913594a5@linaro.org>
-Date: Wed, 25 Jan 2023 08:29:13 +0100
+	by mail.8bytes.org (Postfix) with ESMTPSA id 3F79E262E65;
+	Wed, 25 Jan 2023 11:48:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1674643736;
+	bh=5SL4DTtyHd1dtmHSOYztGo95/xwXVAuXLfnPFWLBLU8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iN8WLFd4HYO/ivj04aBr/wZV8kOcHhSACBed49v1QjufeQeYLTn0UF3tlyxTEjv6S
+	 OS/YOsdcZCUO3jKLzA+mtnBPnYsO0gLGL5T2neFycITQkSGDJNmnq3KJX831qgwuT4
+	 /UDNUsNNhs8zGyk7Msbj+y4dDizBksVjrCR7AFKkMPe1d9bSOrBRND8wFFGCQVqHFL
+	 Oy7Evgv+Lgqhqm3oOSWmSyUx1amtK21gLyyDGLRc9YB0rLs57RQtperCKhh4pCn78f
+	 bpo6kUBUIp+XPPiACWFk7rXMnMHJqsLZcHUevzTXHDQaL4QKZ7EJFxTXu1rKlMHztv
+	 18/GhS0GlmKwQ==
+Date: Wed, 25 Jan 2023 11:48:55 +0100
+From: Joerg Roedel <joro@8bytes.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Ashish Mhetre <amhetre@nvidia.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Janne Grunau <j@jannau.net>, Sameer Pujar <spujar@nvidia.com>,
+	Lucas Stach <l.stach@pengutronix.de>, devicetree@vger.kernel.org,
+	iommu@lists.linux-foundation.org, linux-tegra@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH v13 0/4] iommu: Support mappings/reservations in
+ reserved-memory regions
+Message-ID: <Y9EJF/BwP+JPTxyO@8bytes.org>
+References: <20230120174251.4004100-1-thierry.reding@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v3 2/2] dt-bindings: display: simple-framebuffer: Document
- physical width and height properties
-Content-Language: en-US
-To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
-Cc: ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev,
- janne@jannau.net, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
- Hans de Goede <hdegoede@redhat.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <20230124224142.7133-1-rayyan@ansari.sh>
- <20230124224142.7133-3-rayyan@ansari.sh>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230124224142.7133-3-rayyan@ansari.sh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230120174251.4004100-1-thierry.reding@gmail.com>
 
-On 24/01/2023 23:41, Rayyan Ansari wrote:
-> Document the optional width-mm and height-mm simple-framebuffer
-> properties.
+On Fri, Jan 20, 2023 at 06:42:47PM +0100, Thierry Reding wrote:
+> Thierry Reding (4):
+>   of: Introduce of_translate_dma_region()
+>   dt-bindings: reserved-memory: Document iommu-addresses
+>   iommu: Implement of_iommu_get_resv_regions()
+>   iommu: dma: Use of_iommu_get_resv_regions()
+> 
+>  .../reserved-memory/reserved-memory.yaml      | 89 +++++++++++++++++-
+>  drivers/iommu/dma-iommu.c                     |  3 +
+>  drivers/iommu/of_iommu.c                      | 94 +++++++++++++++++++
+>  drivers/of/address.c                          | 41 ++++++++
+>  include/linux/of_address.h                    |  2 +
+>  include/linux/of_iommu.h                      |  8 ++
+>  6 files changed, 233 insertions(+), 4 deletions(-)
 
-As pointed in previous discussion - you should have panel node and take
-the properties from it. The physical dimensions are not properties of
-framebuffer device. These are properties of panel.
-
-Best regards,
-Krzysztof
-
+Applied for 6.3, thanks.
