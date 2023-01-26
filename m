@@ -1,106 +1,193 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A221FAC;
-	Thu, 26 Jan 2023 09:26:49 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id h12so1082033wrv.10;
-        Thu, 26 Jan 2023 01:26:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZYW30C/ykJ0dX6uEse/em3+bjaPFaeluNg8nm/RLldE=;
-        b=Hj2CvZ0hy14M4aVKbMFPqyH3ehhERaVzMUn0fSLlPiHrZruMAA349DMvEW4Eh4PWfJ
-         upttpxq9lkd4jEBPRxx2O3hDHyRpL6TjA60fK5YhxL57k57N4m9RO40vsj1dTZmYwwIF
-         JNxMGikMccPxdKK5a1ohI0KWDs0ZEoCMWsKBH1vpOTelgGJZE4kRvGX9b+y0+epK8LpY
-         B7+GdKEpM5xV/h0KftPrbwLA4aOvk0p1L/q1wKHIs/eL0PHfkROx+YRM2tFdN/tqMUez
-         cn8j6e+CUgwNY3Swv5UTPSnHfWo6BYe+mJRvsLwuKIr4AB2Yxi8+CzGfaJF+RRuw+fOE
-         Vt8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZYW30C/ykJ0dX6uEse/em3+bjaPFaeluNg8nm/RLldE=;
-        b=BnxsFU6/goFSQAFdUzR8b/rfWxENI4mNLMK6YlmJl3R7dN99vNURPnjTebz23FZaaz
-         0+tQqVajCt31CVAOwIehSkmV7df2g7eQ2rNtj6D/bP7X0tc6U3xmXZENiJ4cWKSWVJKy
-         zVfypnovRWHVT/NMBXPqfSMafvDJ6mw95l1LzTQ59O77RVXZEqVzAYq4Od/KWkNy/Rdg
-         jr1FwBChTRJSg5FiUBEmgAnnuygKJWYAt9qirWQJYYDDtBV31UNt/PUN8GC48kzsb1rN
-         rm0lkhVriV+JF3iZ+hmuPucMw9NvkgHphswP1m1Upa4A6Drd6fgb9WoYbpYV5SF7xqcq
-         ko0w==
-X-Gm-Message-State: AFqh2kqGXohKNS2F2YQAp+Qt3GMANY+b/Ts8ChoLB7sP69+ur3bU3P42
-	GSwjcxy/ek3u6hEZUI6Hcfg=
-X-Google-Smtp-Source: AMrXdXvHRPqRfhcYIfrzoZZUQRgHWUh4L/wOYXRWwfi2Gp8jExVMSRDbG1IspRw2wroTSHHynNW06Q==
-X-Received: by 2002:adf:edd1:0:b0:2bc:7d12:e736 with SMTP id v17-20020adfedd1000000b002bc7d12e736mr29910945wro.1.1674725207950;
-        Thu, 26 Jan 2023 01:26:47 -0800 (PST)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n9-20020a5d67c9000000b00294176c2c01sm750797wrw.86.2023.01.26.01.26.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 01:26:47 -0800 (PST)
-Date: Thu, 26 Jan 2023 12:26:44 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: marcan@marcan.st
-Cc: asahi@lists.linux.dev, iommu@lists.linux.dev
-Subject: [bug report] iommu: dart: Add t8110 DART support
-Message-ID: <Y9JHVN/lU6IHy7mB@kili>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB8F23D4
+	for <asahi@lists.linux.dev>; Thu, 26 Jan 2023 13:05:26 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6BB2A21E37;
+	Thu, 26 Jan 2023 13:05:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1674738319; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MZ/GsfMgRhW/1fXxnIvw+dujoHIf++p4Z4X2iJFtRvg=;
+	b=hiv1Mn3sT1arZKi54NXDzD/M3afihA9zhvqQiIb2qsecaZXpfrQ2VPaQT1anuwI/7Me+Ui
+	Is2+gpAZE3UtSGom7iBhXENKcaWOEIjSth9NR3IxMVmvtDltVFFUZWbdeQu/I2wrmfUksb
+	3NQ7ux3pflEBS3ffCVKKGiUguFOzDlI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1674738319;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MZ/GsfMgRhW/1fXxnIvw+dujoHIf++p4Z4X2iJFtRvg=;
+	b=JyZ8tAAS5NgcTJ4XmTK6XzFegSVpTasYrC3B/Z39D3bXGgc20lJI5xRlRvH/spdjl3UIxj
+	LJTVoJ8KjwH3dECA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 334A0139B3;
+	Thu, 26 Jan 2023 13:05:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 6pWsC4960mOfVQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Thu, 26 Jan 2023 13:05:19 +0000
+Message-ID: <00e614e8-4395-0aac-d613-b70b7005bd0b@suse.de>
+Date: Thu, 26 Jan 2023 14:05:18 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/2] drm/simpledrm: Allow physical width and height
+ configuration via DT
+Content-Language: en-US
+To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ janne@jannau.net, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev
+References: <20230121153544.467126-1-rayyan@ansari.sh>
+ <20230121153544.467126-2-rayyan@ansari.sh>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230121153544.467126-2-rayyan@ansari.sh>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------hVvOHpSjJzA94kD7H70P3Lwt"
 
-Hello Hector Martin,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------hVvOHpSjJzA94kD7H70P3Lwt
+Content-Type: multipart/mixed; boundary="------------crI3tKa4CicLouoxoKq0icJY";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Rayyan Ansari <rayyan@ansari.sh>, dri-devel@lists.freedesktop.org
+Cc: devicetree@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ janne@jannau.net, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org,
+ Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, asahi@lists.linux.dev
+Message-ID: <00e614e8-4395-0aac-d613-b70b7005bd0b@suse.de>
+Subject: Re: [PATCH v2 1/2] drm/simpledrm: Allow physical width and height
+ configuration via DT
+References: <20230121153544.467126-1-rayyan@ansari.sh>
+ <20230121153544.467126-2-rayyan@ansari.sh>
+In-Reply-To: <20230121153544.467126-2-rayyan@ansari.sh>
 
-The patch d8bcc870d99d: "iommu: dart: Add t8110 DART support" from
-Jan 13, 2023, leads to the following Smatch static checker warning:
+--------------crI3tKa4CicLouoxoKq0icJY
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-	drivers/iommu/apple-dart.c:991 apple_dart_t8110_irq()
-	warn: duplicate check 'error_code == ((((1))) << (3))' (previous on line 989)
+SGksDQoNCkkganVzdCB3YW50IHRvIGNvbW1lbnQgdGhhdCB0aGUgY29kZSBpbiB0aGlzIHBh
+dGNoIGlzIGZpbmUsIGJ1dCBJJ20gbm90IA0KZ29pbmcgdG8gbWVyZ2UgaXQgdW50aWwgdGhl
+IG90aGVyIGRpc2N1c3Npb24gYWJvdXQgdXNpbmcgdGhlIHBhbmVsJ3MgRFQgDQpub2RlcyBo
+YXMgYmVlbiByZXNvbHZlZC4gSU1ITywgdGhlIHBhbmVsLWJhc2VkIHNvbHV0aW9uIHNlZW1z
+IHByZWZlcmFibGUgDQp0byB0aGUgbmV3IHByb3BlcnRpZXMuDQoNCkJlc3QgcmVnYXJkcw0K
+VGhvbWFzDQoNCkFtIDIxLjAxLjIzIHVtIDE2OjM1IHNjaHJpZWIgUmF5eWFuIEFuc2FyaToN
+Cj4gU2lnbmVkLW9mZi1ieTogUmF5eWFuIEFuc2FyaSA8cmF5eWFuQGFuc2FyaS5zaD4NCj4g
+LS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCA2MCArKysrKysr
+KysrKysrKysrKysrKysrKysrKystLS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA1MSBpbnNl
+cnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+Z3B1L2RybS90aW55L3NpbXBsZWRybS5jIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxl
+ZHJtLmMNCj4gaW5kZXggMTYyZWI0NGRjYmE4Li43YWFiN2ZhNTcyZjAgMTAwNjQ0DQo+IC0t
+LSBhL2RyaXZlcnMvZ3B1L2RybS90aW55L3NpbXBsZWRybS5jDQo+ICsrKyBiL2RyaXZlcnMv
+Z3B1L2RybS90aW55L3NpbXBsZWRybS5jDQo+IEBAIC0xMjgsNiArMTI4LDIzIEBAIHNpbXBs
+ZWZiX3JlYWRfdTMyX29mKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2Vf
+bm9kZSAqb2Zfbm9kZSwNCj4gICAJcmV0dXJuIHJldDsNCj4gICB9DQo+ICAgDQo+ICtzdGF0
+aWMgaW50DQo+ICtzaW1wbGVmYl9yZWFkX3UzMl9vZl9vcHQoc3RydWN0IGRybV9kZXZpY2Ug
+KmRldiwgc3RydWN0IGRldmljZV9ub2RlICpvZl9ub2RlLA0KPiArCQkJIGNvbnN0IGNoYXIg
+Km5hbWUsIHUzMiAqdmFsdWUpDQo+ICt7DQo+ICsJaW50IHJldCA9IG9mX3Byb3BlcnR5X3Jl
+YWRfdTMyKG9mX25vZGUsIG5hbWUsIHZhbHVlKTsNCj4gKw0KPiArCWlmIChyZXQgPT0gLUVJ
+TlZBTCkgew0KPiArCQkqdmFsdWUgPSAwOw0KPiArCQlyZXQgPSAwOw0KPiArCX0gZWxzZSBp
+ZiAocmV0KSB7DQo+ICsJCWRybV9lcnIoZGV2LCAic2ltcGxlZmI6IGNhbm5vdCBwYXJzZSBm
+cmFtZWJ1ZmZlciAlczogZXJyb3IgJWRcbiIsDQo+ICsJCQluYW1lLCByZXQpOw0KPiArCX0N
+Cj4gKw0KPiArCXJldHVybiByZXQ7DQo+ICt9DQo+ICsNCj4gICBzdGF0aWMgaW50DQo+ICAg
+c2ltcGxlZmJfcmVhZF9zdHJpbmdfb2Yoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0
+IGRldmljZV9ub2RlICpvZl9ub2RlLA0KPiAgIAkJCWNvbnN0IGNoYXIgKm5hbWUsIGNvbnN0
+IGNoYXIgKip2YWx1ZSkNCj4gQEAgLTE4NCw2ICsyMDEsMTkgQEAgc2ltcGxlZmJfZ2V0X2Zv
+cm1hdF9vZihzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm9m
+X25vZGUpDQo+ICAgCXJldHVybiBzaW1wbGVmYl9nZXRfdmFsaWRhdGVkX2Zvcm1hdChkZXYs
+IGZvcm1hdCk7DQo+ICAgfQ0KPiAgIA0KPiArc3RhdGljIGludA0KPiArc2ltcGxlZmJfZ2V0
+X21tX29mKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2Vfbm9kZSAqb2Zf
+bm9kZSwNCj4gKwkJICAgY29uc3QgY2hhciAqbmFtZSkNCj4gK3sNCj4gKwlpbnQgbW07DQo+
+ICsJaW50IHJldCA9IHNpbXBsZWZiX3JlYWRfdTMyX29mX29wdChkZXYsIG9mX25vZGUsIG5h
+bWUsICZtbSk7DQo+ICsNCj4gKwlpZiAocmV0KQ0KPiArCQlyZXR1cm4gcmV0Ow0KPiArCXJl
+dHVybiBzaW1wbGVmYl9nZXRfdmFsaWRhdGVkX2ludChkZXYsIG5hbWUsIG1tKTsNCj4gK30N
+Cj4gKw0KPiArDQo+ICAgLyoNCj4gICAgKiBTaW1wbGUgRnJhbWVidWZmZXIgZGV2aWNlDQo+
+ICAgICovDQo+IEBAIC01OTksMTYgKzYyOSwxMiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRy
+bV9tb2RlX2NvbmZpZ19mdW5jcyBzaW1wbGVkcm1fbW9kZV9jb25maWdfZnVuY3MgPSB7DQo+
+ICAgICovDQo+ICAgDQo+ICAgc3RhdGljIHN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIHNpbXBs
+ZWRybV9tb2RlKHVuc2lnbmVkIGludCB3aWR0aCwNCj4gLQkJCQkJICAgICAgdW5zaWduZWQg
+aW50IGhlaWdodCkNCj4gKwkJCQkJICAgICAgdW5zaWduZWQgaW50IGhlaWdodCwNCj4gKwkJ
+CQkJICAgICAgdW5zaWduZWQgaW50IHdpZHRoX21tLA0KPiArCQkJCQkgICAgICB1bnNpZ25l
+ZCBpbnQgaGVpZ2h0X21tKQ0KPiAgIHsNCj4gLQkvKg0KPiAtCSAqIEFzc3VtZSBhIG1vbml0
+b3IgcmVzb2x1dGlvbiBvZiA5NiBkcGkgdG8NCj4gLQkgKiBnZXQgYSBzb21ld2hhdCByZWFz
+b25hYmxlIHNjcmVlbiBzaXplLg0KPiAtCSAqLw0KPiAgIAljb25zdCBzdHJ1Y3QgZHJtX2Rp
+c3BsYXlfbW9kZSBtb2RlID0gew0KPiAtCQlEUk1fTU9ERV9JTklUKDYwLCB3aWR0aCwgaGVp
+Z2h0LA0KPiAtCQkJICAgICAgRFJNX01PREVfUkVTX01NKHdpZHRoLCA5NnVsKSwNCj4gLQkJ
+CSAgICAgIERSTV9NT0RFX1JFU19NTShoZWlnaHQsIDk2dWwpKQ0KPiArCQlEUk1fTU9ERV9J
+TklUKDYwLCB3aWR0aCwgaGVpZ2h0LCB3aWR0aF9tbSwgaGVpZ2h0X21tKQ0KPiAgIAl9Ow0K
+PiAgIA0KPiAgIAlyZXR1cm4gbW9kZTsNCj4gQEAgLTYyMiw2ICs2NDgsNyBAQCBzdGF0aWMg
+c3RydWN0IHNpbXBsZWRybV9kZXZpY2UgKnNpbXBsZWRybV9kZXZpY2VfY3JlYXRlKHN0cnVj
+dCBkcm1fZHJpdmVyICpkcnYsDQo+ICAgCXN0cnVjdCBzaW1wbGVkcm1fZGV2aWNlICpzZGV2
+Ow0KPiAgIAlzdHJ1Y3QgZHJtX2RldmljZSAqZGV2Ow0KPiAgIAlpbnQgd2lkdGgsIGhlaWdo
+dCwgc3RyaWRlOw0KPiArCWludCB3aWR0aF9tbSA9IDAsIGhlaWdodF9tbSA9IDA7DQo+ICAg
+CWNvbnN0IHN0cnVjdCBkcm1fZm9ybWF0X2luZm8gKmZvcm1hdDsNCj4gICAJc3RydWN0IHJl
+c291cmNlICpyZXMsICptZW07DQo+ICAgCXZvaWQgX19pb21lbSAqc2NyZWVuX2Jhc2U7DQo+
+IEBAIC02NzYsNiArNzAzLDEyIEBAIHN0YXRpYyBzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAq
+c2ltcGxlZHJtX2RldmljZV9jcmVhdGUoc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4gICAJ
+CWZvcm1hdCA9IHNpbXBsZWZiX2dldF9mb3JtYXRfb2YoZGV2LCBvZl9ub2RlKTsNCj4gICAJ
+CWlmIChJU19FUlIoZm9ybWF0KSkNCj4gICAJCQlyZXR1cm4gRVJSX0NBU1QoZm9ybWF0KTsN
+Cj4gKwkJd2lkdGhfbW0gPSBzaW1wbGVmYl9nZXRfbW1fb2YoZGV2LCBvZl9ub2RlLCAid2lk
+dGgtbW0iKTsNCj4gKwkJaWYgKHdpZHRoX21tIDwgMCkNCj4gKwkJCXJldHVybiBFUlJfUFRS
+KHdpZHRoX21tKTsNCj4gKwkJaGVpZ2h0X21tID0gc2ltcGxlZmJfZ2V0X21tX29mKGRldiwg
+b2Zfbm9kZSwgImhlaWdodC1tbSIpOw0KPiArCQlpZiAoaGVpZ2h0X21tIDwgMCkNCj4gKwkJ
+CXJldHVybiBFUlJfUFRSKGhlaWdodF9tbSk7DQo+ICAgCX0gZWxzZSB7DQo+ICAgCQlkcm1f
+ZXJyKGRldiwgIm5vIHNpbXBsZWZiIGNvbmZpZ3VyYXRpb24gZm91bmRcbiIpOw0KPiAgIAkJ
+cmV0dXJuIEVSUl9QVFIoLUVOT0RFVik7DQo+IEBAIC02ODYsNyArNzE5LDE2IEBAIHN0YXRp
+YyBzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2ltcGxlZHJtX2RldmljZV9jcmVhdGUoc3Ry
+dWN0IGRybV9kcml2ZXIgKmRydiwNCj4gICAJCQlyZXR1cm4gRVJSX1BUUigtRUlOVkFMKTsN
+Cj4gICAJfQ0KPiAgIA0KPiAtCXNkZXYtPm1vZGUgPSBzaW1wbGVkcm1fbW9kZSh3aWR0aCwg
+aGVpZ2h0KTsNCj4gKwkvKg0KPiArCSAqIEFzc3VtZSBhIG1vbml0b3IgcmVzb2x1dGlvbiBv
+ZiA5NiBkcGkgaWYgcGh5c2ljYWwgZGltZW5zaW9ucw0KPiArCSAqIGFyZSBub3Qgc3BlY2lm
+aWVkIHRvIGdldCBhIHNvbWV3aGF0IHJlYXNvbmFibGUgc2NyZWVuIHNpemUuDQo+ICsJICov
+DQo+ICsJaWYgKCF3aWR0aF9tbSkNCj4gKwkJd2lkdGhfbW0gPSBEUk1fTU9ERV9SRVNfTU0o
+d2lkdGgsIDk2dWwpOw0KPiArCWlmICghaGVpZ2h0X21tKQ0KPiArCQloZWlnaHRfbW0gPSBE
+Uk1fTU9ERV9SRVNfTU0oaGVpZ2h0LCA5NnVsKTsNCj4gKw0KPiArCXNkZXYtPm1vZGUgPSBz
+aW1wbGVkcm1fbW9kZSh3aWR0aCwgaGVpZ2h0LCB3aWR0aF9tbSwgaGVpZ2h0X21tKTsNCj4g
+ICAJc2Rldi0+Zm9ybWF0ID0gZm9ybWF0Ow0KPiAgIAlzZGV2LT5waXRjaCA9IHN0cmlkZTsN
+Cj4gICANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
+b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3Ry
+LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVy
+ZykNCkdlc2Now6RmdHNmw7xocmVyOiBJdm8gVG90ZXYNCg==
 
-drivers/iommu/apple-dart.c
-    972 static irqreturn_t apple_dart_t8110_irq(int irq, void *dev)
-    973 {
-    974         struct apple_dart *dart = dev;
-    975         const char *fault_name = NULL;
-    976         u32 error = readl(dart->regs + DART_T8110_ERROR);
-    977         u32 error_code = FIELD_GET(DART_T8110_ERROR_CODE, error);
-    978         u32 addr_lo = readl(dart->regs + DART_T8110_ERROR_ADDR_LO);
-    979         u32 addr_hi = readl(dart->regs + DART_T8110_ERROR_ADDR_HI);
-    980         u64 addr = addr_lo | (((u64)addr_hi) << 32);
-    981         u8 stream_idx = FIELD_GET(DART_T8110_ERROR_STREAM, error);
-    982 
-    983         if (!(error & DART_T8110_ERROR_FLAG))
-    984                 return IRQ_NONE;
-    985 
-    986         /* there should only be a single bit set but let's use == to be sure */
-    987         if (error_code == DART_T8110_ERROR_READ_FAULT)
-    988                 fault_name = "READ FAULT";
-    989         else if (error_code == DART_T8110_ERROR_WRITE_FAULT)
-    990                 fault_name = "WRITE FAULT";
---> 991         else if (error_code == DART_T8110_ERROR_NO_PTE)
+--------------crI3tKa4CicLouoxoKq0icJY--
 
-DART_T8110_ERROR_NO_PTE and DART_T8110_ERROR_WRITE_FAULT are both BIT(3).
+--------------hVvOHpSjJzA94kD7H70P3Lwt
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-    992                 fault_name = "NO PTE FOR IOVA";
-    993         else if (error_code == DART_T8110_ERROR_NO_PMD)
-    994                 fault_name = "NO PMD FOR IOVA";
-    995         else if (error_code == DART_T8110_ERROR_NO_PGD)
-    996                 fault_name = "NO PGD FOR IOVA";
-    997         else if (error_code == DART_T8110_ERROR_NO_TTBR)
-    998                 fault_name = "NO TTBR FOR IOVA";
-    999         else
-    1000                 fault_name = "unknown";
-    1001 
-    1002         dev_err_ratelimited(
-    1003                 dart->dev,
-    1004                 "translation fault: status:0x%x stream:%d code:0x%x (%s) at 0x%llx",
-    1005                 error, stream_idx, error_code, fault_name, addr);
-    1006 
-    1007         writel(error, dart->regs + DART_T8110_ERROR);
-    1008         return IRQ_HANDLED;
-    1009 }
+-----BEGIN PGP SIGNATURE-----
 
-regards,
-dan carpenter
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPSeo4FAwAAAAAACgkQlh/E3EQov+AF
+dRAAr03P99RG0h7Bga6J3Ig+I5zFZhIR/vpS+pZUtrKKdbpGiZLR3Fvfy3yom8PRewVpuL8WoMqf
+j9LM3Ji0hLWFp8DJq0U+Lt62/f2O5odJaFrTLjRJVTGlJhBhEeBxVGa1UAgfvjEWPePrVBZkXoE5
+xOF5+pyMHqxlUxOEUngFEfOcQ0aW2eg7+yIBB4eVrCkTn/bRPN+rdK5RCc9mEkEYX9Psa0feob4h
+03AdZF5bJ62UhH0Yz44eTMc62xgMNUycwyUqNPhklMR+JC1cRXLg2DtdM/Hajc1VaFC9qR2rDAcU
+F2HPnbBzbxUAgKUD9CSdRyEYFPP1yRrTHDc99yFc2/sVMInJ03Z3Yjlmujwzq1anQfoHueqol6cn
+yeKZRFMRjrFtvJeBGfr8/2CVqhdwXUoklG/QqSmafUqkv/m6aWXiJAPUQ+10h+qJT7V4zcXBiBm5
+7koetQbIxew8jSoL5setXGM/YJp8YboO4FpZ429mVVII8da2kwvbCPKKlP3sjx1rFVxPsZ+mSrYX
+HVVTTo7WIqOx3BzKgDOT4YRmcXJ/UUZrlYVz1WktlFRaK4kMqXb498q5dhQJ+fKdloPrqFPlLJDF
+ruH7l30UKj83HMUbll8IcICGZdvgD1CJoMWU3zeTI6J4lJPYzc0DOdGwDV6dWwkBetQCyyIZAhFR
+Q1Q=
+=Uv5e
+-----END PGP SIGNATURE-----
+
+--------------hVvOHpSjJzA94kD7H70P3Lwt--
