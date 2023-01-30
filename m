@@ -1,168 +1,115 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D33453B4
-	for <asahi@lists.linux.dev>; Sat, 28 Jan 2023 12:24:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3EC569C
+	for <asahi@lists.linux.dev>; Mon, 30 Jan 2023 16:53:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1674908649;
+	s=mimecast20190719; t=1675097636;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=03GFZKsTOOOpaDJp/S3NzI8t/p2gCtQxJMJc4T/9yBg=;
-	b=MEDAkj/d07bAHG5tGDSh9Xj6srnUq5YDXKbtDenX1P13k9nQRXDiPflVeOJQSFee5rTVD6
-	dPkgE53TX8aC5aBS3l3Y/GPIyc0iCAIp2acxDOwzT6MpKjinI1OdUmHo3Z+rR7AKzRQ0TV
-	FDWlzuLNgKeorX/Xr83t5bOtf9TreF4=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kkgm+GawpEMj0/b8bomXaQOPdUfNkg30jmt/yNSamL8=;
+	b=Gvd8XoG6FAAlaYOG+dTrpjYwsPxmM4kByQ0Z7KtvK51v5bd7vZhjrHkkOvXewkhtS9HgkZ
+	jQ+HdG89RueS+aWkynDVjmHkhApHhYnRfDXFyHywKK+YBniiy3owPQfjSOumy3hqmxyRd8
+	Ba6OwK6CQ2ew4GbHw2V+CeKA81fAb1o=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-392-D6K1cnNWNSSHs4jS2vhLlA-1; Sat, 28 Jan 2023 07:24:08 -0500
-X-MC-Unique: D6K1cnNWNSSHs4jS2vhLlA-1
-Received: by mail-ua1-f70.google.com with SMTP id l24-20020ab06cf8000000b006549d0967caso2797301uai.18
-        for <asahi@lists.linux.dev>; Sat, 28 Jan 2023 04:24:08 -0800 (PST)
+ us-mta-50-zZ7rEQT-N0i_kqYp6qaNmw-1; Mon, 30 Jan 2023 11:53:55 -0500
+X-MC-Unique: zZ7rEQT-N0i_kqYp6qaNmw-1
+Received: by mail-wm1-f71.google.com with SMTP id r2-20020a05600c35c200b003dc547f6250so2183864wmq.4
+        for <asahi@lists.linux.dev>; Mon, 30 Jan 2023 08:53:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=03GFZKsTOOOpaDJp/S3NzI8t/p2gCtQxJMJc4T/9yBg=;
-        b=6b56T8Rz3KOatzuc8u7LI0GrUOlkSpggTHSAjJRSoa2EzU6ZYoXz07UTvWGcN/uL4A
-         zHNGWqsB7DDvxdcLZiJR4G4KQEanlMk1HlqSljhS7tsvWEriiH+oUnepLP+xTFvPmjX1
-         VJzTFpBx77MKOsiLkpxwONHbZfoPUcYZzpmEl0n2JTo51gc4AyqsYUSlFP7dBwZCdG+9
-         vmPa5OtqoCUkg+ggwdf/SVLOGHttHFxCE9W+d/fTdAG0J9TMWSXsYwp4ttkqZcwRyrR6
-         9ndmod5EKwkCcj9wvB6yKyESOVt9EZ6wK9j2HLEGNhV/BK48RrVVasmhAAIJE5SaRaQO
-         KpmA==
-X-Gm-Message-State: AFqh2kpXnn7t7KHNotLBGpkiJn5gMX6WH2XVZE63ycbE9E7QMXswuxNq
-	UF4wepPHg/dlBQkjJicD4eW/BUdAghNTkdmiUu3pV8X6enjbnX+mJ1m+KkZbdpWTf0GVlU7LOas
-	nkKEOby7XGyqZi7eIf2fQ5U0KZ19WuuE=
-X-Received: by 2002:a67:ea04:0:b0:3d3:ec78:1d72 with SMTP id g4-20020a67ea04000000b003d3ec781d72mr6956102vso.13.1674908647624;
-        Sat, 28 Jan 2023 04:24:07 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXujUr3nmTvR4IYft+VhWLaB9CaLr0rUquJiWtbPKQVgUOJtr2ccTZPeu3VmmCd7OwP4b9ukbqxY7/EVlW27Z14=
-X-Received: by 2002:a67:ea04:0:b0:3d3:ec78:1d72 with SMTP id
- g4-20020a67ea04000000b003d3ec781d72mr6956096vso.13.1674908647381; Sat, 28 Jan
- 2023 04:24:07 -0800 (PST)
+        bh=kkgm+GawpEMj0/b8bomXaQOPdUfNkg30jmt/yNSamL8=;
+        b=L5yg+xesmWn+wn6Y7dBiExcudoIH/igVsf9sv75vFZJYn5ujhyI7C9KRV5ieouQyBI
+         6YM5GzWeN0RK5w98MwRZAkmCeINvL4dLugux+dRAT0VfcsNtA6uzulU6hSJrDjP3/5RB
+         qtyxFlehqRxuNHaGUs9/i2jTUeth/gL8cknEbtmtRC6eNXyJO2OMBArm9gu5MJjjmC9o
+         fenIyUuRb1R+Ul8esU4WaRheWjZRO0ADZRNeSjsOQJm5m4xU3V/iOery6KRVGsId+KFj
+         mUU+7XRtxGCTGekBV+UlG8kAf/Rb5IDI+AsO9okjfTCoWsPLkVRcheKjBW+BjluzPSOT
+         w11w==
+X-Gm-Message-State: AFqh2kqK1a7g1vIM+ntSkMithSysas1Drh+KhI7ZZYrW8okazeUu2pfr
+	Jrpfjti2G/ycnVkT7aGQ4zTsGuggqA0sb/MnRbSvZvneK7knkZewZdIDKOZi56FK7mrc0tvqxHz
+	IRp1tr/LkU5VhIU+wMoDQFywGcv9daD327kcHTlHwYhR6bYcA399jf+oc9HRvV6itzA==
+X-Received: by 2002:a05:600c:3586:b0:3da:fb3c:c1ab with SMTP id p6-20020a05600c358600b003dafb3cc1abmr48909719wmq.0.1675097634607;
+        Mon, 30 Jan 2023 08:53:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtAfoRcm7NT4ZYC0o5cofJixnO/hgW2tQbP0lBvYL7zDDtE7psgWTMQUvqDIedKwjr+ouHdog==
+X-Received: by 2002:a05:600c:3586:b0:3da:fb3c:c1ab with SMTP id p6-20020a05600c358600b003dafb3cc1abmr48909693wmq.0.1675097634291;
+        Mon, 30 Jan 2023 08:53:54 -0800 (PST)
+Received: from p1.. ([77.75.244.146])
+        by smtp.gmail.com with ESMTPSA id n20-20020a05600c465400b003dc43a10fa5sm8677422wmo.13.2023.01.30.08.53.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jan 2023 08:53:53 -0800 (PST)
+From: Eric Curtin <ecurtin@redhat.com>
+To: asahi@lists.linux.dev
+Cc: Eric Curtin <ecurtin@redhat.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/APPLE MACHINE SUPPORT),
+	iommu@lists.linux.dev (open list:IOMMU SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] iommu: dart: DART_T8110_ERROR range should be 0 to 5
+Date: Mon, 30 Jan 2023 16:53:50 +0000
+Message-Id: <20230130165350.58533-1-ecurtin@redhat.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230128113532.94651-1-sven@svenpeter.dev>
-In-Reply-To: <20230128113532.94651-1-sven@svenpeter.dev>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Sat, 28 Jan 2023 12:23:51 +0000
-Message-ID: <CAOgh=Fw5FXPKde9PtTRRVeJ9eos8wqt72F_TLe_2XjWpKmCZ-A@mail.gmail.com>
-Subject: Re: [PATCH] iommu/dart: Fix apple_dart_device_group for PCI groups
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Hector Martin <marcan@marcan.st>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Robin Murphy <robin.murphy@arm.com>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Sat, 28 Jan 2023 at 11:43, Sven Peter <sven@svenpeter.dev> wrote:
->
-> pci_device_group() can return an already existing IOMMU group if the PCI
-> device's pagetables have to be shared with another one due to bus
-> toplogy, isolation features and/or DMA alias quirks.
-> apple_dart_device_group() however assumes that the group has just been
-> created and overwrites its iommudata which will eventually lead to
-> apple_dart_release_group leaving stale entries in sid2group.
-> Fix that by merging the iommudata if the returned group already exists.
->
-> Fixes: f0b636804c7c ("iommu/dart: Clear sid2group entry when a group is freed")
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
+This was detected by smatch as one "else if" statement could never be
+reached. Confirmed bit order by comparing with python implementation [1].
 
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+drivers/iommu/apple-dart.c:991 apple_dart_t8110_irq()
+warn: duplicate check 'error_code == ((((1))) << (3))'
+  (previous on line 989)
 
-Is mise le meas/Regards,
+Link: https://github.com/AsahiLinux/m1n1/commit/96b2d584feec1e3f7bfa [1]
 
-Eric Curtin
+Fixes: d8bcc870d99d ("iommu: dart: Add t8110 DART support")
+Reported-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Eric Curtin <ecurtin@redhat.com>
+---
+ drivers/iommu/apple-dart.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
->  drivers/iommu/apple-dart.c | 51 ++++++++++++++++++++++++++++++++------
->  1 file changed, 44 insertions(+), 7 deletions(-)
->
-> This won't apply cleanly to iommu/fixes as it's based on the t8110 DART
-> changes since the USB4/Thunderbolt DART itself also depends on those.
-> That's not a big deal though since it's not possible to run into this
-> bug without complex PCI bus topologies which can only be created using
-> USB4/Thunderbolt on these SoCs and there's no support for that upstream
-> yet.
->
-> diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-> index a1304ba3639b..02f7a1740b14 100644
-> --- a/drivers/iommu/apple-dart.c
-> +++ b/drivers/iommu/apple-dart.c
-> @@ -840,6 +840,29 @@ static void apple_dart_release_group(void *iommu_data)
->         mutex_unlock(&apple_dart_groups_lock);
->  }
->
-> +static int apple_dart_merge_master_cfg(struct apple_dart_master_cfg *dst,
-> +                                      struct apple_dart_master_cfg *src)
-> +{
-> +       /*
-> +        * We know that this function is only called for groups returned from
-> +        * pci_device_group and that all Apple Silicon platforms never spread
-> +        * PCIe devices from the same bus across multiple DARTs such that we can
-> +        * just assume that both src and dst only have the same single DART.
-> +        */
-> +       if (src->stream_maps[1].dart)
-> +               return -EINVAL;
-> +       if (dst->stream_maps[1].dart)
-> +               return -EINVAL;
-> +       if (src->stream_maps[0].dart != dst->stream_maps[0].dart)
-> +               return -EINVAL;
-> +
-> +       bitmap_or(dst->stream_maps[0].sidmap,
-> +                 dst->stream_maps[0].sidmap,
-> +                 src->stream_maps[0].sidmap,
-> +                 dst->stream_maps[0].dart->num_streams);
-> +       return 0;
-> +}
-> +
->  static struct iommu_group *apple_dart_device_group(struct device *dev)
->  {
->         int i, sid;
-> @@ -881,14 +904,28 @@ static struct iommu_group *apple_dart_device_group(struct device *dev)
->         if (!group)
->                 goto out;
->
-> -       group_master_cfg = kmemdup(cfg, sizeof(*group_master_cfg), GFP_KERNEL);
-> -       if (!group_master_cfg) {
-> -               iommu_group_put(group);
-> -               goto out;
-> -       }
-> +       group_master_cfg = iommu_group_get_iommudata(group);
-> +       if (group_master_cfg) {
-> +               int ret;
->
-> -       iommu_group_set_iommudata(group, group_master_cfg,
-> -               apple_dart_release_group);
-> +               ret = apple_dart_merge_master_cfg(group_master_cfg, cfg);
-> +               if (ret) {
-> +                       dev_err(dev, "Failed to merge DART IOMMU grups.\n");
-> +                       iommu_group_put(group);
-> +                       res = ERR_PTR(ret);
-> +                       goto out;
-> +               }
-> +       } else {
-> +               group_master_cfg = kmemdup(cfg, sizeof(*group_master_cfg),
-> +                                          GFP_KERNEL);
-> +               if (!group_master_cfg) {
-> +                       iommu_group_put(group);
-> +                       goto out;
-> +               }
-> +
-> +               iommu_group_set_iommudata(group, group_master_cfg,
-> +                       apple_dart_release_group);
-> +       }
->
->         for_each_stream_map(i, cfg, stream_map)
->                 for_each_set_bit(sid, stream_map->sidmap, stream_map->dart->num_streams)
-> --
-> 2.25.1
->
->
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index efe877842f72..3adacf4094d7 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -112,15 +112,15 @@
+ 
+ #define DART_T8110_ERROR_MASK 0x104
+ 
+-#define DART_T8110_ERROR_READ_FAULT BIT(4)
+-#define DART_T8110_ERROR_WRITE_FAULT BIT(3)
++#define DART_T8110_ERROR_READ_FAULT BIT(5)
++#define DART_T8110_ERROR_WRITE_FAULT BIT(4)
+ #define DART_T8110_ERROR_NO_PTE BIT(3)
+ #define DART_T8110_ERROR_NO_PMD BIT(2)
+ #define DART_T8110_ERROR_NO_PGD BIT(1)
+ #define DART_T8110_ERROR_NO_TTBR BIT(0)
+ 
+ #define DART_T8110_ERROR_ADDR_LO 0x170
+-#define DART_T8110_ERROR_ADDR_HI 0x174
++#define DART_T8110_ERROR_ADDR_HI 0x175
+ 
+ #define DART_T8110_PROTECT 0x200
+ #define DART_T8110_UNPROTECT 0x204
+-- 
+2.39.1
 
