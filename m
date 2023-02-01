@@ -1,98 +1,109 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 248CE79CD
-	for <asahi@lists.linux.dev>; Tue, 31 Jan 2023 14:18:07 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id u5so9969522pfm.10
-        for <asahi@lists.linux.dev>; Tue, 31 Jan 2023 06:18:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D/tLUdHiIHb80iO9Lp6bZpLrU9d/zmMciFOjvZujeYU=;
-        b=M7BEAZl9XM9H/0i/cZkTiFAj6gsYn05hTXFFLpAf4k7OyA1bg+txR7mkki7YAcPPW3
-         oLmFuZ8vC9EolA/0BQLZdhhC94OeHSQMECFcMpY/CykmgCZHc77HHG/seByXRbR904mF
-         jIHlzSztlVJRjbrOCMVKJzX4AJvT9NjY5O6+s37lCDOrHfXhfj9qPmyONeuL/Ua502te
-         2GsOE5fZuSDI2Qkf8AauNi7QR3TfbgPVEJz2wfsQLq3Pmn5UbX9JD9JRvBYHdcm8YAuA
-         4aqMNWgRTmojcWqkyThZtuuVwpGeCV/iUhYjVd4jOOjLarkILE8jbk54NrTZXHAxqbTY
-         HFGA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75932590
+	for <asahi@lists.linux.dev>; Wed,  1 Feb 2023 12:45:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1675255547;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=P5+/TE6LzKC07Kx1pXnv9JC6SnXItOhhp/p3/pfSlio=;
+	b=V1fBEf6rR/I7cHMYqTiBKKul+L4Q1cVin6/w9LYtSRjtYAP803LMBVCy4zDYRQ77ZaW07e
+	PrI/X7MAPJc+W0hvQlkUkRbtQTDueL0Hii+vYcTydyJ6us1qq34KxoTVY2QlAsT7rGo+P/
+	4jaBs/opRLqG+NMvkiTzs7jtkVu7Dt8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-606-NyCJ38v1Mw2GvRqES9gICw-1; Wed, 01 Feb 2023 07:45:46 -0500
+X-MC-Unique: NyCJ38v1Mw2GvRqES9gICw-1
+Received: by mail-wm1-f69.google.com with SMTP id bd21-20020a05600c1f1500b003dc5cb10dcfso4116810wmb.9
+        for <asahi@lists.linux.dev>; Wed, 01 Feb 2023 04:45:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D/tLUdHiIHb80iO9Lp6bZpLrU9d/zmMciFOjvZujeYU=;
-        b=V8ra3st+Lv89e4IAuIJFSlYxxYMHkC44yZWGN/CF6mf8hJKE6w6F+GmV5AdiQfTjV9
-         eygaKAdxywu4ogMu9TjMQEMeQpSgHHf1aygC+rCAF77FuJgHfac0K10Ad4QpUN36W+YE
-         wdopVlAi5bgVVplkiEmc0QLYi7H2RQT4n64sGfqUFIxCO6C2I0z0YLZ3hk/QhHgi0CzS
-         mYgQVPVbck0F+S3WjUIQBuZEQLbo71SXIhzs5slMKLnSPGOoXNawzSersJRWR4acmh8i
-         han5pa9aygNGmUAxXgK4UpsDe2LlVplAJ94mJeE0Wz+D8/ZHYdkq2YvqQLDyp/QMuMq3
-         lWwQ==
-X-Gm-Message-State: AFqh2ko+g6FNAEpGPjNhYUUIMdVrLlJjbyn5bvarJ9n8VFkhvPNmMsR9
-	NZslBj8VeEx8etQwybESzD9PsOnXKLtmoZVXNOo=
-X-Google-Smtp-Source: AMrXdXs9/A8sqP6U1AUBHsMTAuuw85NEz8wAEfIlns2ZHq3egt0ctehCpLkguo4QE4wz3Iwieal9NkYzu6ISoyDaFl0=
-X-Received: by 2002:a62:1989:0:b0:58d:ae61:c14b with SMTP id
- 131-20020a621989000000b0058dae61c14bmr6651888pfz.51.1675174686518; Tue, 31
- Jan 2023 06:18:06 -0800 (PST)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P5+/TE6LzKC07Kx1pXnv9JC6SnXItOhhp/p3/pfSlio=;
+        b=f9Aw7B2hZV1TbK2uYzIAZ6EvrfRZRJ7+YgBTIvrQsCh7fdYjtQ6V72I9WfzK+WYBto
+         b+yINXKM5048q1R9bRcgxANb3VeBK/+52JWne5Fb0QNkcZtrYbXuUWKSoMJHEqyC78jO
+         Yl4NZ6X3HoQAu9qneDA8Y0b0ZMgDIvqzTP57HoSpJ5OWECyisfaZhNVG6OJZI1QLPgqy
+         FCKU0Y0gHxs4DKGj7uQvQE2Es638hnslkQ1eOiyQX5JExnHGLmHxlWxofEZ2xflom6qU
+         XBZFPExTWyxH9fu3jQAuUfZmN2l0PEijJJxCSrWAh5CpC+gssbD09B3a1KUftE1FpBr6
+         /+Mw==
+X-Gm-Message-State: AO0yUKV3PXz25Nw9B0RsetR4goV/D92t1Lx8mW9MwnGamNqkqT0IcEV0
+	LWDSvInlNi+87H+kPjgsJQf/SniXbtkhiPh20OaKydOhBDrAXHLa04qD/SjAlfkfGgxXlvpbWmW
+	xwFLWJp2hPl/c89nCVyBHXazlPGNPhliKlbeUp+p3g60e7gLjGGdftEC1Luxm/li2Hw==
+X-Received: by 2002:a05:600c:314d:b0:3dc:5bd7:62ec with SMTP id h13-20020a05600c314d00b003dc5bd762ecmr1867381wmo.32.1675255545053;
+        Wed, 01 Feb 2023 04:45:45 -0800 (PST)
+X-Google-Smtp-Source: AK7set8X93HL3Pr+6m4ySC12znD+8GoeAtT14ExdjxV3jscGlmPBNCPHqUqxLTGT8qb1RFXrdrgjLw==
+X-Received: by 2002:a05:600c:314d:b0:3dc:5bd7:62ec with SMTP id h13-20020a05600c314d00b003dc5bd762ecmr1867352wmo.32.1675255544695;
+        Wed, 01 Feb 2023 04:45:44 -0800 (PST)
+Received: from localhost.localdomain ([2001:bb6:963d:9e00:7585:fe90:1658:512f])
+        by smtp.gmail.com with ESMTPSA id k27-20020a05600c081b00b003de77597f16sm1626333wmp.21.2023.02.01.04.45.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Feb 2023 04:45:44 -0800 (PST)
+From: Eric Curtin <ecurtin@redhat.com>
+To: asahi@lists.linux.dev
+Cc: Eric Curtin <ecurtin@redhat.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/APPLE MACHINE SUPPORT),
+	iommu@lists.linux.dev (open list:IOMMU SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2] iommu: dart: DART_T8110_ERROR range should be 0 to 5
+Date: Wed,  1 Feb 2023 12:42:58 +0000
+Message-Id: <20230201124257.7801-1-ecurtin@redhat.com>
+X-Mailer: git-send-email 2.39.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230131112840.14017-1-marcan@marcan.st> <20230131112840.14017-2-marcan@marcan.st>
-In-Reply-To: <20230131112840.14017-2-marcan@marcan.st>
-From: Jonas Gorski <jonas.gorski@gmail.com>
-Date: Tue, 31 Jan 2023 15:17:55 +0100
-Message-ID: <CAOiHx=mYxFx0kr5s=4X_qywZBpPqCbrNjLnTXfigPOnqZSxjag@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] brcmfmac: Drop all the RAW device IDs
-To: Hector Martin <marcan@marcan.st>
-Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
-	Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Alexander Prutskov <alep@cypress.com>, Chi-Hsien Lin <chi-hsien.lin@cypress.com>, 
-	Wright Feng <wright.feng@cypress.com>, Ian Lin <ian.lin@infineon.com>, 
-	Soontak Lee <soontak.lee@cypress.com>, Joseph chuang <jiac@cypress.com>, 
-	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Aditya Garg <gargaditya08@live.com>, asahi@lists.linux.dev, 
-	linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
-	SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Hauke Mehrtens <hauke@hauke-m.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-On Tue, 31 Jan 2023 at 12:36, Hector Martin <marcan@marcan.st> wrote:
->
-> These device IDs are only supposed to be visible internally, in devices
-> without a proper OTP. They should never be seen in devices in the wild,
-> so drop them to avoid confusion.
+This was detected by smatch as one "else if" statement could never be
+reached. Confirmed bit order by comparing with python implementation [1].
 
-I think these can still show up in embedded platforms where the
-OTP/SPROM is provided on-flash.
+drivers/iommu/apple-dart.c:991 apple_dart_t8110_irq()
+warn: duplicate check 'error_code == ((((1))) << (3))'
+  (previous on line 989)
 
-E.g. https://forum.archive.openwrt.org/viewtopic.php?id=3D55367&p=3D4
-shows this bootlog on an BCM4709A0 router with two BCM43602 wifis:
+Link: https://github.com/AsahiLinux/m1n1/commit/96b2d584feec1e3f7bfa [1]
 
-[    3.237132] pci 0000:01:00.0: [14e4:aa52] type 00 class 0x028000
-[    3.237174] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x00007fff 64bit=
-]
-[    3.237199] pci 0000:01:00.0: reg 0x18: [mem 0x00000000-0x003fffff 64bit=
-]
-[    3.237302] pci 0000:01:00.0: supports D1 D2
-...
-[    3.782384] pci 0001:03:00.0: [14e4:aa52] type 00 class 0x028000
-[    3.782440] pci 0001:03:00.0: reg 0x10: [mem 0x00000000-0x00007fff 64bit=
-]
-[    3.782474] pci 0001:03:00.0: reg 0x18: [mem 0x00000000-0x003fffff 64bit=
-]
-[    3.782649] pci 0001:03:00.0: supports D1 D2
+Fixes: d8bcc870d99d ("iommu: dart: Add t8110 DART support")
+Reported-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Eric Curtin <ecurtin@redhat.com
+---
+Changes in v2: Remove DART_T8110_ERROR_ADDR_HI change
+---
+ drivers/iommu/apple-dart.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-0xaa52 =3D=3D 43602 (BRCM_PCIE_43602_RAW_DEVICE_ID)
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index 42666617803d..fd09abe8d29e 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -111,8 +111,8 @@
+ 
+ #define DART_T8110_ERROR_MASK 0x104
+ 
+-#define DART_T8110_ERROR_READ_FAULT BIT(4)
+-#define DART_T8110_ERROR_WRITE_FAULT BIT(3)
++#define DART_T8110_ERROR_READ_FAULT BIT(5)
++#define DART_T8110_ERROR_WRITE_FAULT BIT(4)
+ #define DART_T8110_ERROR_NO_PTE BIT(3)
+ #define DART_T8110_ERROR_NO_PMD BIT(2)
+ #define DART_T8110_ERROR_NO_PGD BIT(1)
+-- 
+2.39.1
 
-Rafa=C5=82 can probably provide more info there.
-
-Regards
-Jonas
