@@ -1,109 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75932590
-	for <asahi@lists.linux.dev>; Wed,  1 Feb 2023 12:45:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675255547;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=P5+/TE6LzKC07Kx1pXnv9JC6SnXItOhhp/p3/pfSlio=;
-	b=V1fBEf6rR/I7cHMYqTiBKKul+L4Q1cVin6/w9LYtSRjtYAP803LMBVCy4zDYRQ77ZaW07e
-	PrI/X7MAPJc+W0hvQlkUkRbtQTDueL0Hii+vYcTydyJ6us1qq34KxoTVY2QlAsT7rGo+P/
-	4jaBs/opRLqG+NMvkiTzs7jtkVu7Dt8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-606-NyCJ38v1Mw2GvRqES9gICw-1; Wed, 01 Feb 2023 07:45:46 -0500
-X-MC-Unique: NyCJ38v1Mw2GvRqES9gICw-1
-Received: by mail-wm1-f69.google.com with SMTP id bd21-20020a05600c1f1500b003dc5cb10dcfso4116810wmb.9
-        for <asahi@lists.linux.dev>; Wed, 01 Feb 2023 04:45:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P5+/TE6LzKC07Kx1pXnv9JC6SnXItOhhp/p3/pfSlio=;
-        b=f9Aw7B2hZV1TbK2uYzIAZ6EvrfRZRJ7+YgBTIvrQsCh7fdYjtQ6V72I9WfzK+WYBto
-         b+yINXKM5048q1R9bRcgxANb3VeBK/+52JWne5Fb0QNkcZtrYbXuUWKSoMJHEqyC78jO
-         Yl4NZ6X3HoQAu9qneDA8Y0b0ZMgDIvqzTP57HoSpJ5OWECyisfaZhNVG6OJZI1QLPgqy
-         FCKU0Y0gHxs4DKGj7uQvQE2Es638hnslkQ1eOiyQX5JExnHGLmHxlWxofEZ2xflom6qU
-         XBZFPExTWyxH9fu3jQAuUfZmN2l0PEijJJxCSrWAh5CpC+gssbD09B3a1KUftE1FpBr6
-         /+Mw==
-X-Gm-Message-State: AO0yUKV3PXz25Nw9B0RsetR4goV/D92t1Lx8mW9MwnGamNqkqT0IcEV0
-	LWDSvInlNi+87H+kPjgsJQf/SniXbtkhiPh20OaKydOhBDrAXHLa04qD/SjAlfkfGgxXlvpbWmW
-	xwFLWJp2hPl/c89nCVyBHXazlPGNPhliKlbeUp+p3g60e7gLjGGdftEC1Luxm/li2Hw==
-X-Received: by 2002:a05:600c:314d:b0:3dc:5bd7:62ec with SMTP id h13-20020a05600c314d00b003dc5bd762ecmr1867381wmo.32.1675255545053;
-        Wed, 01 Feb 2023 04:45:45 -0800 (PST)
-X-Google-Smtp-Source: AK7set8X93HL3Pr+6m4ySC12znD+8GoeAtT14ExdjxV3jscGlmPBNCPHqUqxLTGT8qb1RFXrdrgjLw==
-X-Received: by 2002:a05:600c:314d:b0:3dc:5bd7:62ec with SMTP id h13-20020a05600c314d00b003dc5bd762ecmr1867352wmo.32.1675255544695;
-        Wed, 01 Feb 2023 04:45:44 -0800 (PST)
-Received: from localhost.localdomain ([2001:bb6:963d:9e00:7585:fe90:1658:512f])
-        by smtp.gmail.com with ESMTPSA id k27-20020a05600c081b00b003de77597f16sm1626333wmp.21.2023.02.01.04.45.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Feb 2023 04:45:44 -0800 (PST)
-From: Eric Curtin <ecurtin@redhat.com>
-To: asahi@lists.linux.dev
-Cc: Eric Curtin <ecurtin@redhat.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/APPLE MACHINE SUPPORT),
-	iommu@lists.linux.dev (open list:IOMMU SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2] iommu: dart: DART_T8110_ERROR range should be 0 to 5
-Date: Wed,  1 Feb 2023 12:42:58 +0000
-Message-Id: <20230201124257.7801-1-ecurtin@redhat.com>
-X-Mailer: git-send-email 2.39.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05CE8483;
+	Wed,  1 Feb 2023 17:00:12 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 9A5C95C0210;
+	Wed,  1 Feb 2023 12:00:11 -0500 (EST)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Wed, 01 Feb 2023 12:00:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1675270811; x=1675357211; bh=IO
+	10+nilpedjbvmOpZzEp7HKkUv6C8ukma2dy3Zsi04=; b=M1hgTUNftfYkdR/ybU
+	Aux1Rj7OUNnKoWZZZsXM9oZ904m5ADSdR/OFFmZHo3OYioEMjyhfycC0DdqyyI7H
+	qIN+Bcxnf+BMvYfKdbtqrLob14/LGidDdzL6sWYxKrcmYwf6bsGRuf3OVTezDrv+
+	jkjVAjaKCqbziQXuh1n6th9HtEZWcg+kNejXFTm2awr3LnQLtF6T1SehkMlNeTMJ
+	kyziwiPxhSM1i6lYR5Yq852Wca2lenJS4G49W9LWqZt8ppPK+wuEsRWPBRgxOjMs
+	s6qZvvQxrKbSy5ZI7EcKZ0L9hEBCzHP0huAnJ82tx1WIPXrLFdTW+xmcbHVtJ4dQ
+	jk8Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1675270811; x=1675357211; bh=IO10+nilpedjbvmOpZzEp7HKkUv6
+	C8ukma2dy3Zsi04=; b=fYZsrYaEbWClH7AP6UXkj9pmDGHncYCD49WJixMHC/kZ
+	I5ifjLGg8XNVEeY4ZUzPuseavQRDoNAkrsd889Zot4vHLHdJM+xQk1bErgTa09eD
+	xEMQi76gGTuYID81Rij+vimoUqzWn8zur8o03of/5TEzbxx5r4H5uywtofY1KTkG
+	5rxoMers/ejLLZVYE099oPU++mjMcWm6PtnoGx1h6MFvT6f7Vs4UN88t8uBKI0V9
+	aGv9Lm+dVjVVlMq5hRgiiqZRUTp7MRdUwB3yxNoFC7Uslg+D3WhHeC/7eCs7bCnm
+	dOxQj68kq3LGkPCUvCZWSYg8Z+bSBAvOJprggFXnVA==
+X-ME-Sender: <xms:mpraY5h3WiOb5GXQO1Inp813iJN43rQwCHq14z3QUhKJNu-hjj-oUQ>
+    <xme:mpraY-CXDa3sAnjtT4USR5fuCSdpNeryrh4AG9DTFOy2ngShnqM9ax1LRfUXImcOv
+    fXeShYpWTT9A_60Nbc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefiedgleeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepgeegkeektdejveeiteffvddugffggeeuudehvdfgtddvudfgjedtuedu
+    vdevueevnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdr
+    uggvvh
+X-ME-Proxy: <xmx:mpraY5FCHR8Jo7S9F1YYttoSyQWkTWBZOyvLCO4LvSUazUFU7sS9Pw>
+    <xmx:mpraY-QJ0-lvqM3Ptw-7sQe4nbdVx5fvJHRgyctcA-DMXM8bgR3_Ow>
+    <xmx:mpraY2zSMTyEKm8u5pMt7U0yPCd0mjvBUtgRFs3RMN_LyjBJI4nI2Q>
+    <xmx:m5raY1nxVeJjPcFmceI7hWTpfKEpnLiv5u6ER4ZKvqV8uXww1u7PhQ>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id B24AEA6007C; Wed,  1 Feb 2023 12:00:10 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-107-g82c3c54364-fm-20230131.002-g82c3c543
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+Mime-Version: 1.0
+Message-Id: <b7462a4f-c64e-4517-86f4-574dc1de9612@app.fastmail.com>
+In-Reply-To: <20230201124257.7801-1-ecurtin@redhat.com>
+References: <20230201124257.7801-1-ecurtin@redhat.com>
+Date: Wed, 01 Feb 2023 18:00:09 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Eric Curtin" <ecurtin@redhat.com>, asahi@lists.linux.dev
+Cc: "Dan Carpenter" <error27@gmail.com>, "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, "Joerg Roedel" <joro@8bytes.org>,
+ "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>,
+ "moderated list:ARM/APPLE MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
+ "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
+ "open list" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] iommu: dart: DART_T8110_ERROR range should be 0 to 5
+Content-Type: text/plain
 
-This was detected by smatch as one "else if" statement could never be
-reached. Confirmed bit order by comparing with python implementation [1].
+Hi,
 
-drivers/iommu/apple-dart.c:991 apple_dart_t8110_irq()
-warn: duplicate check 'error_code == ((((1))) << (3))'
-  (previous on line 989)
+On Wed, Feb 1, 2023, at 13:42, Eric Curtin wrote:
+> This was detected by smatch as one "else if" statement could never be
+> reached. Confirmed bit order by comparing with python implementation [1].
+>
+> drivers/iommu/apple-dart.c:991 apple_dart_t8110_irq()
+> warn: duplicate check 'error_code == ((((1))) << (3))'
+>   (previous on line 989)
+>
+> Link: https://github.com/AsahiLinux/m1n1/commit/96b2d584feec1e3f7bfa [1]
+>
+> Fixes: d8bcc870d99d ("iommu: dart: Add t8110 DART support")
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Eric Curtin <ecurtin@redhat.com
 
-Link: https://github.com/AsahiLinux/m1n1/commit/96b2d584feec1e3f7bfa [1]
+You're missing a ">" here but I hope Joerg can fix that when
+merging it!
 
-Fixes: d8bcc870d99d ("iommu: dart: Add t8110 DART support")
-Reported-by: Dan Carpenter <error27@gmail.com>
-Signed-off-by: Eric Curtin <ecurtin@redhat.com
----
-Changes in v2: Remove DART_T8110_ERROR_ADDR_HI change
----
- drivers/iommu/apple-dart.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> ---
+> Changes in v2: Remove DART_T8110_ERROR_ADDR_HI change
+> ---
 
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index 42666617803d..fd09abe8d29e 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -111,8 +111,8 @@
- 
- #define DART_T8110_ERROR_MASK 0x104
- 
--#define DART_T8110_ERROR_READ_FAULT BIT(4)
--#define DART_T8110_ERROR_WRITE_FAULT BIT(3)
-+#define DART_T8110_ERROR_READ_FAULT BIT(5)
-+#define DART_T8110_ERROR_WRITE_FAULT BIT(4)
- #define DART_T8110_ERROR_NO_PTE BIT(3)
- #define DART_T8110_ERROR_NO_PMD BIT(2)
- #define DART_T8110_ERROR_NO_PGD BIT(1)
--- 
-2.39.1
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
+
+Thanks,
+
+
+Sven
