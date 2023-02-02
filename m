@@ -1,105 +1,90 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05CE8483;
-	Wed,  1 Feb 2023 17:00:12 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 9A5C95C0210;
-	Wed,  1 Feb 2023 12:00:11 -0500 (EST)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Wed, 01 Feb 2023 12:00:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1675270811; x=1675357211; bh=IO
-	10+nilpedjbvmOpZzEp7HKkUv6C8ukma2dy3Zsi04=; b=M1hgTUNftfYkdR/ybU
-	Aux1Rj7OUNnKoWZZZsXM9oZ904m5ADSdR/OFFmZHo3OYioEMjyhfycC0DdqyyI7H
-	qIN+Bcxnf+BMvYfKdbtqrLob14/LGidDdzL6sWYxKrcmYwf6bsGRuf3OVTezDrv+
-	jkjVAjaKCqbziQXuh1n6th9HtEZWcg+kNejXFTm2awr3LnQLtF6T1SehkMlNeTMJ
-	kyziwiPxhSM1i6lYR5Yq852Wca2lenJS4G49W9LWqZt8ppPK+wuEsRWPBRgxOjMs
-	s6qZvvQxrKbSy5ZI7EcKZ0L9hEBCzHP0huAnJ82tx1WIPXrLFdTW+xmcbHVtJ4dQ
-	jk8Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1675270811; x=1675357211; bh=IO10+nilpedjbvmOpZzEp7HKkUv6
-	C8ukma2dy3Zsi04=; b=fYZsrYaEbWClH7AP6UXkj9pmDGHncYCD49WJixMHC/kZ
-	I5ifjLGg8XNVEeY4ZUzPuseavQRDoNAkrsd889Zot4vHLHdJM+xQk1bErgTa09eD
-	xEMQi76gGTuYID81Rij+vimoUqzWn8zur8o03of/5TEzbxx5r4H5uywtofY1KTkG
-	5rxoMers/ejLLZVYE099oPU++mjMcWm6PtnoGx1h6MFvT6f7Vs4UN88t8uBKI0V9
-	aGv9Lm+dVjVVlMq5hRgiiqZRUTp7MRdUwB3yxNoFC7Uslg+D3WhHeC/7eCs7bCnm
-	dOxQj68kq3LGkPCUvCZWSYg8Z+bSBAvOJprggFXnVA==
-X-ME-Sender: <xms:mpraY5h3WiOb5GXQO1Inp813iJN43rQwCHq14z3QUhKJNu-hjj-oUQ>
-    <xme:mpraY-CXDa3sAnjtT4USR5fuCSdpNeryrh4AG9DTFOy2ngShnqM9ax1LRfUXImcOv
-    fXeShYpWTT9A_60Nbc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefiedgleeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
-    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
-    grthhtvghrnhepgeegkeektdejveeiteffvddugffggeeuudehvdfgtddvudfgjedtuedu
-    vdevueevnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdr
-    uggvvh
-X-ME-Proxy: <xmx:mpraY5FCHR8Jo7S9F1YYttoSyQWkTWBZOyvLCO4LvSUazUFU7sS9Pw>
-    <xmx:mpraY-QJ0-lvqM3Ptw-7sQe4nbdVx5fvJHRgyctcA-DMXM8bgR3_Ow>
-    <xmx:mpraY2zSMTyEKm8u5pMt7U0yPCd0mjvBUtgRFs3RMN_LyjBJI4nI2Q>
-    <xmx:m5raY1nxVeJjPcFmceI7hWTpfKEpnLiv5u6ER4ZKvqV8uXww1u7PhQ>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id B24AEA6007C; Wed,  1 Feb 2023 12:00:10 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-107-g82c3c54364-fm-20230131.002-g82c3c543
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8A8A2A
+	for <asahi@lists.linux.dev>; Thu,  2 Feb 2023 05:25:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 4F980420CF;
+	Thu,  2 Feb 2023 05:25:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1675315524; bh=quxyhSe0FeVvGcqkw4T8hy/z9545s1zKRXcY3IGMuzs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=QDPtVfdb9reZ5mrUq0DE15jyyOvLL35VbpgEt5mECvGKwzJ/enzdD8bxz73FKYnkS
+	 UQLt2dpXu9ERK8E3LOq7hLSU2a4QTWv7h56/4xp/6doFhQKSO9F00cx7Cn9vt2A70q
+	 OkVOjSrhFfBeNwwSuYglPGnjdb0xJNbYeV/zMMYVXVF/Sg/4aTgLk+gRO1qWfEE34w
+	 2LpHQEMNNMVehm94aGAKx30/2EEyjIwdkceGXaujE2reU3jEoZMCH2EEMeWmZr+1X/
+	 2vsOw907IPxybcPn4cMIixNZrPN5ou/YVZ99fdHOCF+jeGfeX3TbRYZfVRlHdSoFAI
+	 w/U8SWrWQd/Vg==
+Message-ID: <4fb4af22-d115-de62-3bda-c1ae02e097ee@marcan.st>
+Date: Thu, 2 Feb 2023 14:25:15 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <b7462a4f-c64e-4517-86f4-574dc1de9612@app.fastmail.com>
-In-Reply-To: <20230201124257.7801-1-ecurtin@redhat.com>
-References: <20230201124257.7801-1-ecurtin@redhat.com>
-Date: Wed, 01 Feb 2023 18:00:09 +0100
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Eric Curtin" <ecurtin@redhat.com>, asahi@lists.linux.dev
-Cc: "Dan Carpenter" <error27@gmail.com>, "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, "Joerg Roedel" <joro@8bytes.org>,
- "Will Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>,
- "moderated list:ARM/APPLE MACHINE SUPPORT" <linux-arm-kernel@lists.infradead.org>,
- "open list:IOMMU SUBSYSTEM" <iommu@lists.linux.dev>,
- "open list" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] iommu: dart: DART_T8110_ERROR range should be 0 to 5
-Content-Type: text/plain
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 1/5] brcmfmac: Drop all the RAW device IDs
+Content-Language: en-US
+To: Jonas Gorski <jonas.gorski@gmail.com>
+Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin
+ <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>,
+ Kalle Valo <kvalo@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Alexander Prutskov <alep@cypress.com>,
+ Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+ Wright Feng <wright.feng@cypress.com>, Ian Lin <ian.lin@infineon.com>,
+ Soontak Lee <soontak.lee@cypress.com>, Joseph chuang <jiac@cypress.com>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Aditya Garg <gargaditya08@live.com>, asahi@lists.linux.dev,
+ linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+ SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>, Hauke Mehrtens <hauke@hauke-m.de>
+References: <20230131112840.14017-1-marcan@marcan.st>
+ <20230131112840.14017-2-marcan@marcan.st>
+ <CAOiHx=mYxFx0kr5s=4X_qywZBpPqCbrNjLnTXfigPOnqZSxjag@mail.gmail.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <CAOiHx=mYxFx0kr5s=4X_qywZBpPqCbrNjLnTXfigPOnqZSxjag@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 31/01/2023 23.17, Jonas Gorski wrote:
+> On Tue, 31 Jan 2023 at 12:36, Hector Martin <marcan@marcan.st> wrote:
+>>
+>> These device IDs are only supposed to be visible internally, in devices
+>> without a proper OTP. They should never be seen in devices in the wild,
+>> so drop them to avoid confusion.
+> 
+> I think these can still show up in embedded platforms where the
+> OTP/SPROM is provided on-flash.
+> 
+> E.g. https://forum.archive.openwrt.org/viewtopic.php?id=55367&p=4
+> shows this bootlog on an BCM4709A0 router with two BCM43602 wifis:
+> 
+> [    3.237132] pci 0000:01:00.0: [14e4:aa52] type 00 class 0x028000
+> [    3.237174] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x00007fff 64bit]
+> [    3.237199] pci 0000:01:00.0: reg 0x18: [mem 0x00000000-0x003fffff 64bit]
+> [    3.237302] pci 0000:01:00.0: supports D1 D2
+> ...
+> [    3.782384] pci 0001:03:00.0: [14e4:aa52] type 00 class 0x028000
+> [    3.782440] pci 0001:03:00.0: reg 0x10: [mem 0x00000000-0x00007fff 64bit]
+> [    3.782474] pci 0001:03:00.0: reg 0x18: [mem 0x00000000-0x003fffff 64bit]
+> [    3.782649] pci 0001:03:00.0: supports D1 D2
+> 
+> 0xaa52 == 43602 (BRCM_PCIE_43602_RAW_DEVICE_ID)
+> 
+> Rafał can probably provide more info there.
+> 
+> Regards
+> Jonas
+> 
 
-On Wed, Feb 1, 2023, at 13:42, Eric Curtin wrote:
-> This was detected by smatch as one "else if" statement could never be
-> reached. Confirmed bit order by comparing with python implementation [1].
->
-> drivers/iommu/apple-dart.c:991 apple_dart_t8110_irq()
-> warn: duplicate check 'error_code == ((((1))) << (3))'
->   (previous on line 989)
->
-> Link: https://github.com/AsahiLinux/m1n1/commit/96b2d584feec1e3f7bfa [1]
->
-> Fixes: d8bcc870d99d ("iommu: dart: Add t8110 DART support")
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Signed-off-by: Eric Curtin <ecurtin@redhat.com
+Arend, any comments on these platforms?
 
-You're missing a ">" here but I hope Joerg can fix that when
-merging it!
-
-> ---
-> Changes in v2: Remove DART_T8110_ERROR_ADDR_HI change
-> ---
-
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
-
-
-Thanks,
-
-
-Sven
+- Hector
