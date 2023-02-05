@@ -1,157 +1,144 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7BF28ED
-	for <asahi@lists.linux.dev>; Sun,  5 Feb 2023 12:44:51 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id t12-20020a17090aae0c00b00229f4cff534so11242189pjq.1
-        for <asahi@lists.linux.dev>; Sun, 05 Feb 2023 04:44:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UNQbvjXs76kLrTrP6/48/orXXpYZ4utP3YcercTcmdk=;
-        b=Lpx4AWSJ8kngfGosDiPF8Vgea1uNwxHRu6WcyK6iPWbYT1vuwOsAnDbShODviTp+ak
-         McODKL+2lWtpjVEpUn09Ag1GnwoN3HEb3DsRi98OemWbvkcf/fwm51RBVLpd0ge26F7g
-         WJFhJbb1R5S79+kABVOLUw7gHH11uJYJ5Bfgz3vjbW5U3vhj2YCxVHtwdagC4dNtB5xw
-         rn8oT9prtnhcrNfmIhbty19xyiccEC2uv05w/p+JHbr9iyTm67jeT1X3grWJg2lZwV1M
-         +uDZrczApAGh5ZTkWGk53XENtarR9TCzWPPhU7bK98czIia0S2eFzulZ6IF2B6gexhYF
-         ACpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UNQbvjXs76kLrTrP6/48/orXXpYZ4utP3YcercTcmdk=;
-        b=sKdbExgy7CbTDeWDjESy7p5o+lfcEealL0aUHiJ7kicRr2WnC3b6bWSrOrAlj/B2QL
-         V9erydi8sj7c4iu6ilfLcddVzV2nNOFuCa3rCFevFEQfu1lerqovd7W9GwSG+0Tyoq1K
-         BTRizjT0K9e0H9/T6yvlm5+NeY6vGysuwwGh90+6socaQHanYrDDeuIVvgDLM6x4p068
-         ztCDJs92uekSig3cuN1YYT4Tp4ol3QWM1meG4jURZ6Bg+gabwZBLoOuSGTUgyuNsAtk6
-         Xy2t3ybdV25hKkyZzfcbiAmL6M+xRbyca8YH9D6CjHNcRHDeQAMrEdF+aUOOmHXezssr
-         09+A==
-X-Gm-Message-State: AO0yUKVPEesmC9FF9nU2BqsKvKS54G9M8ZJCgWMA3qjRPtWxjodUNEYD
-	lOO5kl/htYYmFrPdiyD4l4iAU0Nx8s8L7IoDUtM=
-X-Google-Smtp-Source: AK7set9yNcGN3mqqmzAvPCGFoQsrkAjQUiciGz4UiGp/VX5ImbZ+Sc7PhQxRtperCrBYE3Y8HpteZ5TyRbxgF4HkVLE=
-X-Received: by 2002:a17:902:e846:b0:195:f26d:b82c with SMTP id
- t6-20020a170902e84600b00195f26db82cmr3644645plg.15.1675601090577; Sun, 05 Feb
- 2023 04:44:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05D528ED
+	for <asahi@lists.linux.dev>; Sun,  5 Feb 2023 12:52:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: linasend@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 09FF9423B9;
+	Sun,  5 Feb 2023 12:52:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1675601525;
+	bh=q0LNgqsfGLVJB6RizLXffwvd+oFT2Fg0IE4QerrJfd0=;
+	h=From:To:Cc:Subject:Date;
+	b=Xt+nlv7YZI4F8qZkOLOserjbvP/Ase1HK8RipD68mIthYaXCMAxz7k/GADvHZb97d
+	 B9WafGbp6VQaZJKHeX2iyuWMoli/QAWFzvq2TR5lmUPf/JSD8sLJTF5PFb24VbFcBl
+	 tKcqJwdpiOYgsBIErlgFnF3mTswqmzQ4ZxYdN9jN0vkW8bHRq7PU1/H5e82mFpyrrs
+	 NM1qKf207KL9Pml9f44U+wnlulDshDVQyjBpJe6k0Jom7hKA0TLIYc7UQBgS//eF0P
+	 32iFI9OqXft7piz1QRkz4JB6kfcpcpHizh1Qdy9RGnZ46V7J3hf+eKZG8XfLWCbjNG
+	 XmXeTjql3ZVbA==
+From: Asahi Lina <lina@asahilina.net>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>
+Cc: =?UTF-8?q?Noralf=20Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Rob Herring <robh@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	dri-devel@lists.freedesktop.org,
+	asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Asahi Lina <lina@asahilina.net>
+Subject: [PATCH] drm/shmem-helper: Fix locking for drm_gem_shmem_get_pages_sgt()
+Date: Sun,  5 Feb 2023 21:51:24 +0900
+Message-Id: <20230205125124.2260-1-lina@asahilina.net>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230131112840.14017-1-marcan@marcan.st> <20230131112840.14017-2-marcan@marcan.st>
- <CAOiHx=mYxFx0kr5s=4X_qywZBpPqCbrNjLnTXfigPOnqZSxjag@mail.gmail.com>
- <4fb4af22-d115-de62-3bda-c1ae02e097ee@marcan.st> <1861323f100.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <28ed8713-4243-7c67-b792-92d0dde82256@marcan.st> <186205e1c60.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-In-Reply-To: <186205e1c60.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-From: Jonas Gorski <jonas.gorski@gmail.com>
-Date: Sun, 5 Feb 2023 13:44:39 +0100
-Message-ID: <CAOiHx=m2NFo2hbS4a3j67B4iFrkM7dGKGhwLkXuwOZAR=+C63Q@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] brcmfmac: Drop all the RAW device IDs
-To: Arend Van Spriel <arend.vanspriel@broadcom.com>
-Cc: Hector Martin <marcan@marcan.st>, 
-	"'Hector Martin' via BRCM80211-DEV-LIST,PDL" <brcm80211-dev-list.pdl@broadcom.com>, Arend van Spriel <aspriel@gmail.com>, 
-	Franky Lin <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>, 
-	Kalle Valo <kvalo@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Alexander Prutskov <alep@cypress.com>, Ian Lin <ian.lin@infineon.com>, 
-	Joseph chuang <jiac@cypress.com>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Aditya Garg <gargaditya08@live.com>, asahi@lists.linux.dev, 
-	linux-wireless@vger.kernel.org, SHA-cyfmac-dev-list@infineon.com, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
-	Hauke Mehrtens <hauke@hauke-m.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, 5 Feb 2023 at 07:58, Arend Van Spriel
-<arend.vanspriel@broadcom.com> wrote:
->
-> - stale Cypress emails
->
-> On February 5, 2023 3:50:41 AM Hector Martin <marcan@marcan.st> wrote:
->
-> > On 03/02/2023 02.19, Arend Van Spriel wrote:
-> >> On February 2, 2023 6:25:28 AM "'Hector Martin' via BRCM80211-DEV-LIST=
-,PDL"
-> >> <brcm80211-dev-list.pdl@broadcom.com> wrote:
-> >>
-> >>> On 31/01/2023 23.17, Jonas Gorski wrote:
-> >>>> On Tue, 31 Jan 2023 at 12:36, Hector Martin <marcan@marcan.st> wrote=
-:
-> >>>>>
-> >>>>> These device IDs are only supposed to be visible internally, in dev=
-ices
-> >>>>> without a proper OTP. They should never be seen in devices in the w=
-ild,
-> >>>>> so drop them to avoid confusion.
-> >>>>
-> >>>> I think these can still show up in embedded platforms where the
-> >>>> OTP/SPROM is provided on-flash.
-> >>>>
-> >>>> E.g. https://forum.archive.openwrt.org/viewtopic.php?id=3D55367&p=3D=
-4
-> >>>> shows this bootlog on an BCM4709A0 router with two BCM43602 wifis:
-> >>>>
-> >>>> [    3.237132] pci 0000:01:00.0: [14e4:aa52] type 00 class 0x028000
-> >>>> [    3.237174] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x00007ff=
-f 64bit]
-> >>>> [    3.237199] pci 0000:01:00.0: reg 0x18: [mem 0x00000000-0x003ffff=
-f 64bit]
-> >>>> [    3.237302] pci 0000:01:00.0: supports D1 D2
-> >>>> ...
-> >>>> [    3.782384] pci 0001:03:00.0: [14e4:aa52] type 00 class 0x028000
-> >>>> [    3.782440] pci 0001:03:00.0: reg 0x10: [mem 0x00000000-0x00007ff=
-f 64bit]
-> >>>> [    3.782474] pci 0001:03:00.0: reg 0x18: [mem 0x00000000-0x003ffff=
-f 64bit]
-> >>>> [    3.782649] pci 0001:03:00.0: supports D1 D2
-> >>>>
-> >>>> 0xaa52 =3D=3D 43602 (BRCM_PCIE_43602_RAW_DEVICE_ID)
-> >>>>
-> >>>> Rafa=C5=82 can probably provide more info there.
-> >>>>
-> >>>> Regards
-> >>>> Jonas
-> >>>
-> >>> Arend, any comments on these platforms?
-> >>
-> >> Huh? I already replied to that couple of days ago or did I only imagin=
-e
-> >> doing that.
-> >
-> > I don't see any replies from you on the lists (or my inbox) to Jonas' e=
-mail.
->
-> Accidentally sent that reply to internal mailing list. So quoting myself =
-here:
->
-> """
-> Shaking the tree helps ;-) What is meant by "OTP/SPROM is provided
-> on-flash"? I assume you mean that it is on the host side and the wifi PCI=
-e
-> device can not access it when it gets powered up. Maybe for this scenario
-> we should have a devicetree compatible to configure the device id, but th=
-at
-> does not help any current users of these platforms. Thanks for providing
-> this info.
+Other functions touching shmem->sgt take the pages lock, so do that here
+too. drm_gem_shmem_get_pages() & co take the same lock, so move to the
+_locked() variants to avoid recursive locking.
 
-That's what I meant, the wifi chip itself does not have any (valid)
-OTP/SPROM attached/populated, and requires the driver to setup the
-values at runtime based on the host SoC's flash contents (most likely
-NVRAM contents).
+Discovered while auditing locking to write the Rust abstractions.
 
-This was the case in about 99% of embedded systems based on MIPS
-bcm47xx/bcm63xx, where the wifi chips then always identified
-themselves with their raw chip IDs as PCI device IDs (even leading to
-one or two ID conflicts ...).
+Fixes: 2194a63a818d ("drm: Add library for shmem backed GEM objects")
+Fixes: 4fa3d66f132b ("drm/shmem: Do dma_unmap_sg before purging pages")
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 54 ++++++++++++++++----------
+ 1 file changed, 34 insertions(+), 20 deletions(-)
 
-I have to admit I don't know how much this is still an issue on
-current (ARM) systems, but at least that one BCM4709A one suggests
-this is still happening in "recent" designs. Probably because it saves
-half a cent per board or so ;-)
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index b602cd72a120..2c559b310cad 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -681,23 +681,7 @@ struct sg_table *drm_gem_shmem_get_sg_table(struct drm_gem_shmem_object *shmem)
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_get_sg_table);
+ 
+-/**
+- * drm_gem_shmem_get_pages_sgt - Pin pages, dma map them, and return a
+- *				 scatter/gather table for a shmem GEM object.
+- * @shmem: shmem GEM object
+- *
+- * This function returns a scatter/gather table suitable for driver usage. If
+- * the sg table doesn't exist, the pages are pinned, dma-mapped, and a sg
+- * table created.
+- *
+- * This is the main function for drivers to get at backing storage, and it hides
+- * and difference between dma-buf imported and natively allocated objects.
+- * drm_gem_shmem_get_sg_table() should not be directly called by drivers.
+- *
+- * Returns:
+- * A pointer to the scatter/gather table of pinned pages or errno on failure.
+- */
+-struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
++static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_object *shmem)
+ {
+ 	struct drm_gem_object *obj = &shmem->base;
+ 	int ret;
+@@ -708,7 +692,7 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
+ 
+ 	WARN_ON(obj->import_attach);
+ 
+-	ret = drm_gem_shmem_get_pages(shmem);
++	ret = drm_gem_shmem_get_pages_locked(shmem);
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
+@@ -730,10 +714,40 @@ struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
+ 	sg_free_table(sgt);
+ 	kfree(sgt);
+ err_put_pages:
+-	drm_gem_shmem_put_pages(shmem);
++	drm_gem_shmem_put_pages_locked(shmem);
+ 	return ERR_PTR(ret);
+ }
+-EXPORT_SYMBOL_GPL(drm_gem_shmem_get_pages_sgt);
++
++/**
++ * drm_gem_shmem_get_pages_sgt - Pin pages, dma map them, and return a
++ *				 scatter/gather table for a shmem GEM object.
++ * @shmem: shmem GEM object
++ *
++ * This function returns a scatter/gather table suitable for driver usage. If
++ * the sg table doesn't exist, the pages are pinned, dma-mapped, and a sg
++ * table created.
++ *
++ * This is the main function for drivers to get at backing storage, and it hides
++ * and difference between dma-buf imported and natively allocated objects.
++ * drm_gem_shmem_get_sg_table() should not be directly called by drivers.
++ *
++ * Returns:
++ * A pointer to the scatter/gather table of pinned pages or errno on failure.
++ */
++struct sg_table *drm_gem_shmem_get_pages_sgt(struct drm_gem_shmem_object *shmem)
++{
++	int ret;
++	struct sg_table *sgt;
++
++	ret = mutex_lock_interruptible(&shmem->pages_lock);
++	if (ret)
++		return ERR_PTR(ret);
++	sgt = drm_gem_shmem_get_pages_sgt_locked(shmem);
++	mutex_unlock(&shmem->pages_lock);
++
++	return sgt;
++}
++EXPORT_SYMBOL(drm_gem_shmem_get_pages_sgt);
+ 
+ /**
+  * drm_gem_shmem_prime_import_sg_table - Produce a shmem GEM object from
+-- 
+2.35.1
 
-Regards
-Jonas
