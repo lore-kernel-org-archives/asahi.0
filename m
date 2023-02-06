@@ -1,148 +1,102 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4628428ED
-	for <asahi@lists.linux.dev>; Sun,  5 Feb 2023 13:03:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id A9F224261A;
-	Sun,  5 Feb 2023 13:02:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1675602182; bh=ZNHL58yNQz66uuQ3joFjqdj8irCpAfg7ZEmcywobkfs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mKHBjQb+zxKz02buS76DyTL8ssNj2HRWLjk0LC9QypmmCBg90Wh+cvKH/zzscBZi5
-	 wrtdKQu8eTI/R9TXpp/2L5IGcxXTfr68U5T5vCgv/w9dxnM+5CE1vdDhA1mDWkLOgb
-	 5wDUo4iR+Sx29zlEiCAUAHgd6KQaDAdZkCHQrg6Gi+WZGyZO3KhQ4xr2cGaL5fRFnF
-	 7b1eIupcqgahMDJWaeRiH8w/2Lg7E1KWgZW4JXTWB7c717aoYov+9SvTSAmNEktvou
-	 aNF2V30gXaFpK2MdJO2OGAPlLPqGXp2zGh2qGuNt5MXffdRldTSU41OqjsLkMAtowI
-	 XdHHlhhM8yUug==
-Message-ID: <d86f369d-a28c-bba3-a09b-31407acb4a25@marcan.st>
-Date: Sun, 5 Feb 2023 22:02:53 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208D22F2F
+	for <asahi@lists.linux.dev>; Mon,  6 Feb 2023 18:47:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1675709239;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hZ8casbfFD6TcKT9nSSfpPqsT0aAOl1x1pNCxblmoQc=;
+	b=F2r/SNZ0WaU9tfNhyQh77MPdG4ayWp4u5oykYxXKOKboXG3jLzGcd4hXbPlflpClr0inKv
+	PG87wn7+Sm5Ub+mjPhoEWi4JC7RKQEj2FkCMxn6eLFIm6sUizcUsF9DSF/OZvXWT/tArUi
+	AnR1u9M9SZtKeX1mP+MmiLFPa4YeCcY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-501-FigvTKOhORysMzJXeyZHCw-1; Mon, 06 Feb 2023 13:47:16 -0500
+X-MC-Unique: FigvTKOhORysMzJXeyZHCw-1
+Received: by mail-wr1-f72.google.com with SMTP id b9-20020adfc749000000b002c3dede475cso766093wrh.6
+        for <asahi@lists.linux.dev>; Mon, 06 Feb 2023 10:47:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hZ8casbfFD6TcKT9nSSfpPqsT0aAOl1x1pNCxblmoQc=;
+        b=7MHtz20P1ZZL37N3QFC1bXpZ9Y0zA0HqIODutIAti/xKR8zG+v0fXc22q1uVvD/7Il
+         5cCXQWtwIC9Zupa7XBVDXzprMWLB0EOq3lkJKZTtbkKjGKHbLtj2VI4Y44huueJiP5Qn
+         JfQYubTT4IQb3TLGXGAVRlMAon5i6xd+eP19OMXsTF210EB+o5GHSJQoukpxBiicpf7g
+         q76a5GPYZ944TYj8hxfllNZNYoYycxA3V6KyiPzcaoLAjRnWvnRbpDz3XpnbI/YAIhcF
+         arCFurvTFft+TFikXQW1GbHoa3zpRZlyUL0SLadvq2Qgfe6zLcuLeR1DHjL3md56sKd1
+         toEA==
+X-Gm-Message-State: AO0yUKXSCodHZ734oET3Gop5vR4pvarkeqxkJrwvvW5IU46wVMgtnjK4
+	agDCqnKhhvVwx3XCMqmgq+OwJR5lCXiFULyJN+nAE2Wck/QXkg0Fw0AXHSwbky0vedcqbKBe4b/
+	gYClM8cptoGmR0OU=
+X-Received: by 2002:a05:600c:18a6:b0:3dd:1a8b:7374 with SMTP id x38-20020a05600c18a600b003dd1a8b7374mr702585wmp.5.1675709235680;
+        Mon, 06 Feb 2023 10:47:15 -0800 (PST)
+X-Google-Smtp-Source: AK7set9O+AFBlSx1vEYGijuQNmYcM6SnLQcrjncn2maMR7AxUw5thKkNysCaeGtaTLYwLHkwW2zybw==
+X-Received: by 2002:a05:600c:18a6:b0:3dd:1a8b:7374 with SMTP id x38-20020a05600c18a600b003dd1a8b7374mr702568wmp.5.1675709235494;
+        Mon, 06 Feb 2023 10:47:15 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id c7-20020a05600c0ac700b003d1d5a83b2esm16444126wmr.35.2023.02.06.10.47.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Feb 2023 10:47:15 -0800 (PST)
+Message-ID: <a1cd8c74-98f4-bff0-0344-cbece787c6e8@redhat.com>
+Date: Mon, 6 Feb 2023 19:47:13 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 1/5] brcmfmac: Drop all the RAW device IDs
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
+ drm_gem_shmem_get_pages_sgt()
+To: Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+References: <20230205125124.2260-1-lina@asahilina.net>
+From: Javier Martinez Canillas <javierm@redhat.com>
+In-Reply-To: <20230205125124.2260-1-lina@asahilina.net>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Jonas Gorski <jonas.gorski@gmail.com>,
- Arend Van Spriel <arend.vanspriel@broadcom.com>
-Cc: "'Hector Martin' via BRCM80211-DEV-LIST,PDL"
- <brcm80211-dev-list.pdl@broadcom.com>, Arend van Spriel <aspriel@gmail.com>,
- Franky Lin <franky.lin@broadcom.com>,
- Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Alexander Prutskov <alep@cypress.com>, Ian Lin <ian.lin@infineon.com>,
- Joseph chuang <jiac@cypress.com>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Aditya Garg
- <gargaditya08@live.com>, asahi@lists.linux.dev,
- linux-wireless@vger.kernel.org, SHA-cyfmac-dev-list@infineon.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
- Hauke Mehrtens <hauke@hauke-m.de>
-References: <20230131112840.14017-1-marcan@marcan.st>
- <20230131112840.14017-2-marcan@marcan.st>
- <CAOiHx=mYxFx0kr5s=4X_qywZBpPqCbrNjLnTXfigPOnqZSxjag@mail.gmail.com>
- <4fb4af22-d115-de62-3bda-c1ae02e097ee@marcan.st>
- <1861323f100.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <28ed8713-4243-7c67-b792-92d0dde82256@marcan.st>
- <186205e1c60.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <CAOiHx=m2NFo2hbS4a3j67B4iFrkM7dGKGhwLkXuwOZAR=+C63Q@mail.gmail.com>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <CAOiHx=m2NFo2hbS4a3j67B4iFrkM7dGKGhwLkXuwOZAR=+C63Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 05/02/2023 21.44, Jonas Gorski wrote:
-> On Sun, 5 Feb 2023 at 07:58, Arend Van Spriel
-> <arend.vanspriel@broadcom.com> wrote:
->>
->> - stale Cypress emails
->>
->> On February 5, 2023 3:50:41 AM Hector Martin <marcan@marcan.st> wrote:
->>
->>> On 03/02/2023 02.19, Arend Van Spriel wrote:
->>>> On February 2, 2023 6:25:28 AM "'Hector Martin' via BRCM80211-DEV-LIST,PDL"
->>>> <brcm80211-dev-list.pdl@broadcom.com> wrote:
->>>>
->>>>> On 31/01/2023 23.17, Jonas Gorski wrote:
->>>>>> On Tue, 31 Jan 2023 at 12:36, Hector Martin <marcan@marcan.st> wrote:
->>>>>>>
->>>>>>> These device IDs are only supposed to be visible internally, in devices
->>>>>>> without a proper OTP. They should never be seen in devices in the wild,
->>>>>>> so drop them to avoid confusion.
->>>>>>
->>>>>> I think these can still show up in embedded platforms where the
->>>>>> OTP/SPROM is provided on-flash.
->>>>>>
->>>>>> E.g. https://forum.archive.openwrt.org/viewtopic.php?id=55367&p=4
->>>>>> shows this bootlog on an BCM4709A0 router with two BCM43602 wifis:
->>>>>>
->>>>>> [    3.237132] pci 0000:01:00.0: [14e4:aa52] type 00 class 0x028000
->>>>>> [    3.237174] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x00007fff 64bit]
->>>>>> [    3.237199] pci 0000:01:00.0: reg 0x18: [mem 0x00000000-0x003fffff 64bit]
->>>>>> [    3.237302] pci 0000:01:00.0: supports D1 D2
->>>>>> ...
->>>>>> [    3.782384] pci 0001:03:00.0: [14e4:aa52] type 00 class 0x028000
->>>>>> [    3.782440] pci 0001:03:00.0: reg 0x10: [mem 0x00000000-0x00007fff 64bit]
->>>>>> [    3.782474] pci 0001:03:00.0: reg 0x18: [mem 0x00000000-0x003fffff 64bit]
->>>>>> [    3.782649] pci 0001:03:00.0: supports D1 D2
->>>>>>
->>>>>> 0xaa52 == 43602 (BRCM_PCIE_43602_RAW_DEVICE_ID)
->>>>>>
->>>>>> Rafał can probably provide more info there.
->>>>>>
->>>>>> Regards
->>>>>> Jonas
->>>>>
->>>>> Arend, any comments on these platforms?
->>>>
->>>> Huh? I already replied to that couple of days ago or did I only imagine
->>>> doing that.
->>>
->>> I don't see any replies from you on the lists (or my inbox) to Jonas' email.
->>
->> Accidentally sent that reply to internal mailing list. So quoting myself here:
->>
->> """
->> Shaking the tree helps ;-) What is meant by "OTP/SPROM is provided
->> on-flash"? I assume you mean that it is on the host side and the wifi PCIe
->> device can not access it when it gets powered up. Maybe for this scenario
->> we should have a devicetree compatible to configure the device id, but that
->> does not help any current users of these platforms. Thanks for providing
->> this info.
-> 
-> That's what I meant, the wifi chip itself does not have any (valid)
-> OTP/SPROM attached/populated, and requires the driver to setup the
-> values at runtime based on the host SoC's flash contents (most likely
-> NVRAM contents).
-> 
-> This was the case in about 99% of embedded systems based on MIPS
-> bcm47xx/bcm63xx, where the wifi chips then always identified
-> themselves with their raw chip IDs as PCI device IDs (even leading to
-> one or two ID conflicts ...).
-> 
-> I have to admit I don't know how much this is still an issue on
-> current (ARM) systems, but at least that one BCM4709A one suggests
-> this is still happening in "recent" designs. Probably because it saves
-> half a cent per board or so ;-)
-> 
-> Regards
-> Jonas
-> 
+Hello Lina,
 
-As far as I know the OTP is built into the chips themselves, and even
-Apple (who refuses to put per-device calibration data in OTP these days
-and loads it from DT) still manages to burn in the proper device ID and
-basic info at least... so I'm not sure how this saves any money. I
-thought chips weren't supposed to even leave Broadcom without at least
-an ID burned in?
+On 2/5/23 13:51, Asahi Lina wrote:
+> Other functions touching shmem->sgt take the pages lock, so do that here
+> too. drm_gem_shmem_get_pages() & co take the same lock, so move to the
+> _locked() variants to avoid recursive locking.
+> 
+> Discovered while auditing locking to write the Rust abstractions.
+> 
+> Fixes: 2194a63a818d ("drm: Add library for shmem backed GEM objects")
+> Fixes: 4fa3d66f132b ("drm/shmem: Do dma_unmap_sg before purging pages")
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
 
-- Hector
+Good catch. The patch looks good to me.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+What about drm_gem_shmem_free() BTW, I believe that the helper should also
+grab the lock before unmap / free the sgtable?
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
