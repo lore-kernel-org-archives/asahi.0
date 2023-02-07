@@ -1,51 +1,42 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D667520FC
-	for <asahi@lists.linux.dev>; Tue,  7 Feb 2023 10:43:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1675766623;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B0423AA
+	for <asahi@lists.linux.dev>; Tue,  7 Feb 2023 11:30:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DFE4B34CCD;
+	Tue,  7 Feb 2023 11:29:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1675769392; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=e9w8e2JcvMX6iMDnX/Jbx1d9onPql+IXVufG06c+nXs=;
-	b=CWr2TY3bkpiHSA9OMEFpvNQ3EB+h/JmRrfHwHkpg+bAzAXaE9vWXfnUkcAzRvSX379md9c
-	JsoawLCBokXsnvrHkP8mM0NdV6mVNXE240G+PtNJJ3OcSi0qCMVzcnnhCIJRmvJKz2PVF7
-	4Ri6Hl5Hs0XrKRxl9YB3NuvJo+C0AdM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-474-NyxstH4wNp66lbe0-pctnA-1; Tue, 07 Feb 2023 05:43:42 -0500
-X-MC-Unique: NyxstH4wNp66lbe0-pctnA-1
-Received: by mail-wr1-f72.google.com with SMTP id f14-20020a0560001a8e00b002c3b562d76cso1950132wry.12
-        for <asahi@lists.linux.dev>; Tue, 07 Feb 2023 02:43:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=e9w8e2JcvMX6iMDnX/Jbx1d9onPql+IXVufG06c+nXs=;
-        b=sZpb5ongYNTAnAgvaOQKH3+GHX141QdAvB9a/8GPSDl2X2S0a+1h699B3JiGHveMDU
-         Hf+cCLCxu7Z9KetUBeQq6PQvvccIG+iy8wxM+hSol5GRPRb/ErAPGZiHFVs3qoORge9s
-         t73SoTirwo0IRXzjtoGlrQSeHtFCTmTSg/JjZ4rgIDn3/546K3a4JN3azTbN+OBDi9lR
-         w7fBPrqrRabFZBVgzH0k7JdQkKdeuTiMwslsMjWhTPBBE8ayzKm2SHAGDHeyRSNfxmm6
-         3u4k4JwJHoUO3ZMUJ9f2qiVFTa2sZBkOj4EPcx/u410SH8tHxYUvWWOonvUhAf6aexvz
-         ByWw==
-X-Gm-Message-State: AO0yUKXZ68gMLwvWw2kBoRxpK2aa59Z602lYbxJoO0gSOCMNVSiJyoeu
-	8mGdXkCJnqkBLMEcJYKkvuTszmxYC/HRqRU+cVgWafrwuBnM6ZK8c4xbTZPG2uPCwK0M6b8gShx
-	UagHaDNc7Yd+ZcIPTAzgx
-X-Received: by 2002:a05:600c:a68f:b0:3db:1f68:28f with SMTP id ip15-20020a05600ca68f00b003db1f68028fmr2479701wmb.24.1675766620729;
-        Tue, 07 Feb 2023 02:43:40 -0800 (PST)
-X-Google-Smtp-Source: AK7set+3X9OYULToFjxq0/e5ycg2dn+KVQVTkxzR4pq1pJZIYm4hVjPpyQn+MPCc8jKQ+WKwgg9A/w==
-X-Received: by 2002:a05:600c:a68f:b0:3db:1f68:28f with SMTP id ip15-20020a05600ca68f00b003db1f68028fmr2479685wmb.24.1675766620553;
-        Tue, 07 Feb 2023 02:43:40 -0800 (PST)
-Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id r16-20020a05600c459000b003e00c9888besm2692340wmo.30.2023.02.07.02.43.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Feb 2023 02:43:40 -0800 (PST)
-Message-ID: <a69c7362-52a5-ed26-ce12-69364d12fcf6@redhat.com>
-Date: Tue, 7 Feb 2023 11:43:39 +0100
+	bh=CstnpObWbSH1VuzZOMyTwrZPwoXryoEC+928GT558WA=;
+	b=m23qK4o8l1KemjFSGqbj0v0hWAure28dU8KoxNRsbgvOoB68lr1AVg9KAZ1IFzt2LpJ+D9
+	ifm8PITf33mp1WR1miTs0kTBrUvnuucYDIuDhaY3fwQltT/fJKDk1uFPTuaWmN38tCJ9kM
+	XBTerZd9WeHpCfISpvh0HPVQhAK8E0E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1675769392;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CstnpObWbSH1VuzZOMyTwrZPwoXryoEC+928GT558WA=;
+	b=VEynmn/fyhYUloqQWg4hSdpde2ILbnA1Fm6nNKMtU9oDivR0Xs5MfjF//zQeJ9VQxenJbG
+	qDOkiQm2WSMDn9CA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AD05B139ED;
+	Tue,  7 Feb 2023 11:29:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 5UE/KTA24mM6PgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Tue, 07 Feb 2023 11:29:52 +0000
+Message-ID: <77be28c1-52ff-87c8-b7f7-f99273d48267@suse.de>
+Date: Tue, 7 Feb 2023 12:29:52 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -53,87 +44,149 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
+ Thunderbird/102.6.1
 Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
  drm_gem_shmem_get_pages_sgt()
+Content-Language: en-US
 To: Asahi Lina <lina@asahilina.net>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
 References: <20230205125124.2260-1-lina@asahilina.net>
- <a1cd8c74-98f4-bff0-0344-cbece787c6e8@redhat.com>
- <d3331cf8-02df-bf15-586b-af9d10830758@asahilina.net>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <d3331cf8-02df-bf15-586b-af9d10830758@asahilina.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <20230205125124.2260-1-lina@asahilina.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------rdru5Yj00h0D36L3aQGi8PxT"
 
-On 2/7/23 11:33, Asahi Lina wrote:
-> On 07/02/2023 03.47, Javier Martinez Canillas wrote:
->> Hello Lina,
->>
->> On 2/5/23 13:51, Asahi Lina wrote:
->>> Other functions touching shmem->sgt take the pages lock, so do that here
->>> too. drm_gem_shmem_get_pages() & co take the same lock, so move to the
->>> _locked() variants to avoid recursive locking.
->>>
->>> Discovered while auditing locking to write the Rust abstractions.
->>>
->>> Fixes: 2194a63a818d ("drm: Add library for shmem backed GEM objects")
->>> Fixes: 4fa3d66f132b ("drm/shmem: Do dma_unmap_sg before purging pages")
->>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>> ---
->>
->> Good catch. The patch looks good to me.
->>
->> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->>
->> What about drm_gem_shmem_free() BTW, I believe that the helper should also
->> grab the lock before unmap / free the sgtable?
-> 
-> That's called from driver free callbacks, so it should only be called
-> when there are no other users left and the refcount is zero, right? If
-> there's anyone else racing it I think we have bigger problems than the
-> pages lock at that point, since the last thing it does is `kfree(shmem);` ^^
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------rdru5Yj00h0D36L3aQGi8PxT
+Content-Type: multipart/mixed; boundary="------------z0J1c34GJttYkTYx2Hf0Qi2v";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Message-ID: <77be28c1-52ff-87c8-b7f7-f99273d48267@suse.de>
+Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
+ drm_gem_shmem_get_pages_sgt()
+References: <20230205125124.2260-1-lina@asahilina.net>
+In-Reply-To: <20230205125124.2260-1-lina@asahilina.net>
 
-Yes, I was wondering only for the critical section that does:
+--------------z0J1c34GJttYkTYx2Hf0Qi2v
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-		if (shmem->sgt) {
-			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
-					  DMA_BIDIRECTIONAL, 0);
-			sg_free_table(shmem->sgt);
-			kfree(shmem->sgt);
-		}
-		if (shmem->pages)
-			drm_gem_shmem_put_pages(shmem);
- 
-> (In Rust terms this is equivalent to the Drop trait, which takes a
-> mutable/exclusive reference, which means no other reference to the
-> object can exist at that point, so no races are possible. And in fact in
-> my Rust abstraction I trigger a drop of the Rust object embedded in the
-> shmem object before calling drm_gem_shmem_free(), so if this invariant
-> doesn't hold that code would be wrong too!)
->
+SGkNCg0KQW0gMDUuMDIuMjMgdW0gMTM6NTEgc2NocmllYiBBc2FoaSBMaW5hOg0KPiBPdGhl
+ciBmdW5jdGlvbnMgdG91Y2hpbmcgc2htZW0tPnNndCB0YWtlIHRoZSBwYWdlcyBsb2NrLCBz
+byBkbyB0aGF0IGhlcmUNCg0KUmVhbGx5PyBJIHdhcyBqdXN0IGxvY2tpbmcgYXQgdGhlIExp
+bWEgZHJpdmVyIGFuZCBpdCBhcHBhcmVudGx5IGFjY2VzcyANCnNndCB3aXRob3V0IGxvY2tp
+bmcgaW4gWzFdLiBOb3QgdGhhdCBJIGRpc2FncmVlIHdpdGggdGhlIHBhdGNoIGluIGdlbmVy
+YWwuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSANCmh0dHBzOi8vZWxpeGlyLmJv
+b3RsaW4uY29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvZHJpdmVycy9ncHUvZHJtL2xpbWEvbGlt
+YV9nZW0uYyNMMjENCg0KPiB0b28uIGRybV9nZW1fc2htZW1fZ2V0X3BhZ2VzKCkgJiBjbyB0
+YWtlIHRoZSBzYW1lIGxvY2ssIHNvIG1vdmUgdG8gdGhlDQo+IF9sb2NrZWQoKSB2YXJpYW50
+cyB0byBhdm9pZCByZWN1cnNpdmUgbG9ja2luZy4NCj4gDQo+IERpc2NvdmVyZWQgd2hpbGUg
+YXVkaXRpbmcgbG9ja2luZyB0byB3cml0ZSB0aGUgUnVzdCBhYnN0cmFjdGlvbnMuDQo+IA0K
+PiBGaXhlczogMjE5NGE2M2E4MThkICgiZHJtOiBBZGQgbGlicmFyeSBmb3Igc2htZW0gYmFj
+a2VkIEdFTSBvYmplY3RzIikNCj4gRml4ZXM6IDRmYTNkNjZmMTMyYiAoImRybS9zaG1lbTog
+RG8gZG1hX3VubWFwX3NnIGJlZm9yZSBwdXJnaW5nIHBhZ2VzIikNCj4gU2lnbmVkLW9mZi1i
+eTogQXNhaGkgTGluYSA8bGluYUBhc2FoaWxpbmEubmV0Pg0KPiAtLS0NCj4gICBkcml2ZXJz
+L2dwdS9kcm0vZHJtX2dlbV9zaG1lbV9oZWxwZXIuYyB8IDU0ICsrKysrKysrKysrKysrKyst
+LS0tLS0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKyksIDIwIGRl
+bGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2Vt
+X3NobWVtX2hlbHBlci5jIGIvZHJpdmVycy9ncHUvZHJtL2RybV9nZW1fc2htZW1faGVscGVy
+LmMNCj4gaW5kZXggYjYwMmNkNzJhMTIwLi4yYzU1OWIzMTBjYWQgMTAwNjQ0DQo+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jDQo+ICsrKyBiL2RyaXZl
+cnMvZ3B1L2RybS9kcm1fZ2VtX3NobWVtX2hlbHBlci5jDQo+IEBAIC02ODEsMjMgKzY4MSw3
+IEBAIHN0cnVjdCBzZ190YWJsZSAqZHJtX2dlbV9zaG1lbV9nZXRfc2dfdGFibGUoc3RydWN0
+IGRybV9nZW1fc2htZW1fb2JqZWN0ICpzaG1lbSkNCj4gICB9DQo+ICAgRVhQT1JUX1NZTUJP
+TF9HUEwoZHJtX2dlbV9zaG1lbV9nZXRfc2dfdGFibGUpOw0KPiAgIA0KPiAtLyoqDQo+IC0g
+KiBkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3QgLSBQaW4gcGFnZXMsIGRtYSBtYXAgdGhl
+bSwgYW5kIHJldHVybiBhDQo+IC0gKgkJCQkgc2NhdHRlci9nYXRoZXIgdGFibGUgZm9yIGEg
+c2htZW0gR0VNIG9iamVjdC4NCj4gLSAqIEBzaG1lbTogc2htZW0gR0VNIG9iamVjdA0KPiAt
+ICoNCj4gLSAqIFRoaXMgZnVuY3Rpb24gcmV0dXJucyBhIHNjYXR0ZXIvZ2F0aGVyIHRhYmxl
+IHN1aXRhYmxlIGZvciBkcml2ZXIgdXNhZ2UuIElmDQo+IC0gKiB0aGUgc2cgdGFibGUgZG9l
+c24ndCBleGlzdCwgdGhlIHBhZ2VzIGFyZSBwaW5uZWQsIGRtYS1tYXBwZWQsIGFuZCBhIHNn
+DQo+IC0gKiB0YWJsZSBjcmVhdGVkLg0KPiAtICoNCj4gLSAqIFRoaXMgaXMgdGhlIG1haW4g
+ZnVuY3Rpb24gZm9yIGRyaXZlcnMgdG8gZ2V0IGF0IGJhY2tpbmcgc3RvcmFnZSwgYW5kIGl0
+IGhpZGVzDQo+IC0gKiBhbmQgZGlmZmVyZW5jZSBiZXR3ZWVuIGRtYS1idWYgaW1wb3J0ZWQg
+YW5kIG5hdGl2ZWx5IGFsbG9jYXRlZCBvYmplY3RzLg0KPiAtICogZHJtX2dlbV9zaG1lbV9n
+ZXRfc2dfdGFibGUoKSBzaG91bGQgbm90IGJlIGRpcmVjdGx5IGNhbGxlZCBieSBkcml2ZXJz
+Lg0KPiAtICoNCj4gLSAqIFJldHVybnM6DQo+IC0gKiBBIHBvaW50ZXIgdG8gdGhlIHNjYXR0
+ZXIvZ2F0aGVyIHRhYmxlIG9mIHBpbm5lZCBwYWdlcyBvciBlcnJubyBvbiBmYWlsdXJlLg0K
+PiAtICovDQo+IC1zdHJ1Y3Qgc2dfdGFibGUgKmRybV9nZW1fc2htZW1fZ2V0X3BhZ2VzX3Nn
+dChzdHJ1Y3QgZHJtX2dlbV9zaG1lbV9vYmplY3QgKnNobWVtKQ0KPiArc3RhdGljIHN0cnVj
+dCBzZ190YWJsZSAqZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXNfc2d0X2xvY2tlZChzdHJ1Y3Qg
+ZHJtX2dlbV9zaG1lbV9vYmplY3QgKnNobWVtKQ0KPiAgIHsNCj4gICAJc3RydWN0IGRybV9n
+ZW1fb2JqZWN0ICpvYmogPSAmc2htZW0tPmJhc2U7DQo+ICAgCWludCByZXQ7DQo+IEBAIC03
+MDgsNyArNjkyLDcgQEAgc3RydWN0IHNnX3RhYmxlICpkcm1fZ2VtX3NobWVtX2dldF9wYWdl
+c19zZ3Qoc3RydWN0IGRybV9nZW1fc2htZW1fb2JqZWN0ICpzaG1lbSkNCj4gICANCj4gICAJ
+V0FSTl9PTihvYmotPmltcG9ydF9hdHRhY2gpOw0KPiAgIA0KPiAtCXJldCA9IGRybV9nZW1f
+c2htZW1fZ2V0X3BhZ2VzKHNobWVtKTsNCj4gKwlyZXQgPSBkcm1fZ2VtX3NobWVtX2dldF9w
+YWdlc19sb2NrZWQoc2htZW0pOw0KPiAgIAlpZiAocmV0KQ0KPiAgIAkJcmV0dXJuIEVSUl9Q
+VFIocmV0KTsNCj4gICANCj4gQEAgLTczMCwxMCArNzE0LDQwIEBAIHN0cnVjdCBzZ190YWJs
+ZSAqZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXNfc2d0KHN0cnVjdCBkcm1fZ2VtX3NobWVtX29i
+amVjdCAqc2htZW0pDQo+ICAgCXNnX2ZyZWVfdGFibGUoc2d0KTsNCj4gICAJa2ZyZWUoc2d0
+KTsNCj4gICBlcnJfcHV0X3BhZ2VzOg0KPiAtCWRybV9nZW1fc2htZW1fcHV0X3BhZ2VzKHNo
+bWVtKTsNCj4gKwlkcm1fZ2VtX3NobWVtX3B1dF9wYWdlc19sb2NrZWQoc2htZW0pOw0KPiAg
+IAlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiAgIH0NCj4gLUVYUE9SVF9TWU1CT0xfR1BMKGRy
+bV9nZW1fc2htZW1fZ2V0X3BhZ2VzX3NndCk7DQo+ICsNCj4gKy8qKg0KPiArICogZHJtX2dl
+bV9zaG1lbV9nZXRfcGFnZXNfc2d0IC0gUGluIHBhZ2VzLCBkbWEgbWFwIHRoZW0sIGFuZCBy
+ZXR1cm4gYQ0KPiArICoJCQkJIHNjYXR0ZXIvZ2F0aGVyIHRhYmxlIGZvciBhIHNobWVtIEdF
+TSBvYmplY3QuDQo+ICsgKiBAc2htZW06IHNobWVtIEdFTSBvYmplY3QNCj4gKyAqDQo+ICsg
+KiBUaGlzIGZ1bmN0aW9uIHJldHVybnMgYSBzY2F0dGVyL2dhdGhlciB0YWJsZSBzdWl0YWJs
+ZSBmb3IgZHJpdmVyIHVzYWdlLiBJZg0KPiArICogdGhlIHNnIHRhYmxlIGRvZXNuJ3QgZXhp
+c3QsIHRoZSBwYWdlcyBhcmUgcGlubmVkLCBkbWEtbWFwcGVkLCBhbmQgYSBzZw0KPiArICog
+dGFibGUgY3JlYXRlZC4NCj4gKyAqDQo+ICsgKiBUaGlzIGlzIHRoZSBtYWluIGZ1bmN0aW9u
+IGZvciBkcml2ZXJzIHRvIGdldCBhdCBiYWNraW5nIHN0b3JhZ2UsIGFuZCBpdCBoaWRlcw0K
+PiArICogYW5kIGRpZmZlcmVuY2UgYmV0d2VlbiBkbWEtYnVmIGltcG9ydGVkIGFuZCBuYXRp
+dmVseSBhbGxvY2F0ZWQgb2JqZWN0cy4NCj4gKyAqIGRybV9nZW1fc2htZW1fZ2V0X3NnX3Rh
+YmxlKCkgc2hvdWxkIG5vdCBiZSBkaXJlY3RseSBjYWxsZWQgYnkgZHJpdmVycy4NCj4gKyAq
+DQo+ICsgKiBSZXR1cm5zOg0KPiArICogQSBwb2ludGVyIHRvIHRoZSBzY2F0dGVyL2dhdGhl
+ciB0YWJsZSBvZiBwaW5uZWQgcGFnZXMgb3IgZXJybm8gb24gZmFpbHVyZS4NCj4gKyAqLw0K
+PiArc3RydWN0IHNnX3RhYmxlICpkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3Qoc3RydWN0
+IGRybV9nZW1fc2htZW1fb2JqZWN0ICpzaG1lbSkNCj4gK3sNCj4gKwlpbnQgcmV0Ow0KPiAr
+CXN0cnVjdCBzZ190YWJsZSAqc2d0Ow0KPiArDQo+ICsJcmV0ID0gbXV0ZXhfbG9ja19pbnRl
+cnJ1cHRpYmxlKCZzaG1lbS0+cGFnZXNfbG9jayk7DQo+ICsJaWYgKHJldCkNCj4gKwkJcmV0
+dXJuIEVSUl9QVFIocmV0KTsNCj4gKwlzZ3QgPSBkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19z
+Z3RfbG9ja2VkKHNobWVtKTsNCj4gKwltdXRleF91bmxvY2soJnNobWVtLT5wYWdlc19sb2Nr
+KTsNCj4gKw0KPiArCXJldHVybiBzZ3Q7DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MKGRybV9n
+ZW1fc2htZW1fZ2V0X3BhZ2VzX3NndCk7DQo+ICAgDQo+ICAgLyoqDQo+ICAgICogZHJtX2dl
+bV9zaG1lbV9wcmltZV9pbXBvcnRfc2dfdGFibGUgLSBQcm9kdWNlIGEgc2htZW0gR0VNIG9i
+amVjdCBmcm9tDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBE
+ZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVs
+ZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xy
+bmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogSXZvIFRvdGV2DQo=
 
-But I guess you are correct and would be safe to assume that the .free
-callback won't race against other struct drm_gem_object_funcs handlers.
-I just felt to ask since wasn't sure about that.
- 
-I'll wait a few days in case someone else wants to take a look to your
-patch and then push it to drm-misc. Thanks again! 
+--------------z0J1c34GJttYkTYx2Hf0Qi2v--
 
--- 
-Best regards,
+--------------rdru5Yj00h0D36L3aQGi8PxT
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+-----BEGIN PGP SIGNATURE-----
 
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmPiNjAFAwAAAAAACgkQlh/E3EQov+AY
+qxAAzKurG9MXQXR5nLjC0RAKxoLyINYmrQOU++KMXUZj7SeUi0HRs5AmtPddf6DWOp06FvKDtlSS
+7m4vvMPrJXujERWuQgc9zvlAW3Nd9DbNpbCYrkYNFvaUlIgcD527swu5cv61J107c8lY1p5c6Ny/
+PDvZIvp6IPVcLN4O82eiF7V43jwkCoAIsk3vIIy7+bTStERH1vPYFrcLsBkRt3M7XjStDzyY41cM
+aA/A+0d1YNfd7LLnxdcFN5zOdCNK1v3pHOCvjZNE1QFzA3nWqV6sRHx+6R8Gv8/yawjoaq6l59R5
+/KsBbdZYwfh26dknN9SXEpHDX9T42Z32BL6knE7pcI4jQGRLaSv2VaBpzsH3OrujeZuNZvRxvhVu
+XPqrpZinbNanpQJMmIoOTXpo40OpaEvmyaZ6W0c+qpJ0ScDxFSXqbRKH80YO+aC5FxXzaK9bgEYJ
+Bb4AUXRMncj+AmYnGPSrZtXPs2RG+9nFAHtu1kxr7VBs9ofe7IF2T/y06GnSnjXgHlu+0+rXzBgi
+s2/GWXoc89pXva/hfBbbpZIL/J11XK3XVMFN4sEj54fF4kPmoIa4WQLChcHMmyTZ89PsfgQCHSqV
+JDgr6RRtal8GUyDCStGgwi/mSgulO3yfhFdDYpkJTEbBjHXiT2iAcMrKC4ojhOh+QTKFmTtOjO3y
+QDQ=
+=Ab7O
+-----END PGP SIGNATURE-----
+
+--------------rdru5Yj00h0D36L3aQGi8PxT--
