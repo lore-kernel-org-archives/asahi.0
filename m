@@ -1,146 +1,87 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134517E2
-	for <asahi@lists.linux.dev>; Fri, 10 Feb 2023 03:47:07 +0000 (UTC)
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 31A3giYoB027680, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 31A3giYoB027680
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-	Fri, 10 Feb 2023 11:42:44 +0800
-Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.9; Fri, 10 Feb 2023 11:42:44 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.7; Fri, 10 Feb 2023 11:42:44 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02]) by
- RTEXMBS04.realtek.com.tw ([fe80::b4a2:2bcc:48d1:8b02%5]) with mapi id
- 15.01.2375.007; Fri, 10 Feb 2023 11:42:43 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: Hector Martin <marcan@marcan.st>, Arend van Spriel <aspriel@gmail.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman
-	<hante.meuleman@broadcom.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        "David S.
- Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        "Jakub
- Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-CC: Alexander Prutskov <alep@cypress.com>,
-        Chi-Hsien Lin
-	<chi-hsien.lin@cypress.com>,
-        Wright Feng <wright.feng@cypress.com>, Ian Lin
-	<ian.lin@infineon.com>,
-        Soontak Lee <soontak.lee@cypress.com>,
-        Joseph chuang
-	<jiac@cypress.com>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig
-	<alyssa@rosenzweig.io>,
-        Aditya Garg <gargaditya08@live.com>,
-        Jonas Gorski
-	<jonas.gorski@gmail.com>,
-        "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
-        "SHA-cyfmac-dev-list@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Arend van
- Spriel" <arend.vanspriel@broadcom.com>
-Subject: RE: [PATCH v3 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
-Thread-Topic: [PATCH v3 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
-Thread-Index: AQHZPPqASPo0Y2xlw0ybs7L5iADUua7Hh+hg
-Date: Fri, 10 Feb 2023 03:42:43 +0000
-Message-ID: <0cd45af5812345878faf0dc8fa6b0963@realtek.com>
-References: <20230210025009.21873-1-marcan@marcan.st>
- <20230210025009.21873-2-marcan@marcan.st>
-In-Reply-To: <20230210025009.21873-2-marcan@marcan.st>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-originating-ip: [172.21.69.188]
-x-kse-serverinfo: RTEXDAG01.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210F97F4;
+	Fri, 10 Feb 2023 06:05:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C77ADC433D2;
+	Fri, 10 Feb 2023 06:05:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676009109;
+	bh=R+M0ft2NoW5OEkw9Yp/lx0D4Vb1O1La2tMhNLmrHwBk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UzFaShVbYUL6AnzcrewjwVNrWiJJde9hTV8N08ircjXv3C51e3nW1I8NUd2RMI+7M
+	 3qFjHfFG7uUtTMfQ3B0mmemAuWTzOCQsVIym1QDac0Fwh6uGDPSj2lZQFVTwFfBf+J
+	 qXnz//A5czX2LOvB+wyWER7bwOfG59bq2nmKpbzKWgYYw14Kf2JzmmQlTomzMeLQhA
+	 +POxMFnDWrSFug3xwaq+SJuL5KJIXJArxMGqB99mLZ2l/k2nVd4Lq/Gs3AhFG9XiUR
+	 hLRjRPu2RUQIFYOBXTlsc2I6Deu+PJSzIOoLmDbZH50Qu31YrxFNc0fxfN1/oMMCik
+	 pcYUxYygwH29Q==
+Date: Fri, 10 Feb 2023 11:35:05 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Olivier Dautricourt <olivierdautricourt@gmail.com>,
+	Stefan Roese <sr@denx.de>, Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Green Wan <green.wan@sifive.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	=?utf-8?B?77+9ZXI=?= <povik+lin@cutebit.org>,
+	Peng Fan <peng.fan@nxp.com>, Paul Cercueil <paul@crapouillou.net>,
+	- <chuanhua.lei@intel.com>, Long Cheng <long.cheng@mediatek.com>,
+	Rajesh Gumasta <rgumasta@nvidia.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Palmer Debbelt <palmer@sifive.com>,
+	Masahiro Yamada <yamada.masahiro@socionext.com>,
+	Amelie Delaunay <amelie.delaunay@foss.st.com>,
+	Linus Walleij <linus.walleij@linaro.org>, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-mediatek@lists.infradead.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: dma: drop unneeded quotes
+Message-ID: <Y+XekQsIwpixyPD0@matsya>
+References: <20230124081117.31186-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230124081117.31186-1-krzysztof.kozlowski@linaro.org>
 
+On 24-01-23, 09:11, Krzysztof Kozlowski wrote:
+> Cleanup by removing unneeded quotes from refs and redundant blank lines.
+> No functional impact except adjusting to preferred coding style.
 
+Applied both, thanks
 
-> -----Original Message-----
-> From: Hector Martin <marcan@marcan.st>
-> Sent: Friday, February 10, 2023 10:50 AM
-> To: Arend van Spriel <aspriel@gmail.com>; Franky Lin <franky.lin@broadcom=
-.com>; Hante Meuleman
-> <hante.meuleman@broadcom.com>; Kalle Valo <kvalo@kernel.org>; David S. Mi=
-ller <davem@davemloft.net>; Eric
-> Dumazet <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Ab=
-eni <pabeni@redhat.com>
-> Cc: Alexander Prutskov <alep@cypress.com>; Chi-Hsien Lin <chi-hsien.lin@c=
-ypress.com>; Wright Feng
-> <wright.feng@cypress.com>; Ian Lin <ian.lin@infineon.com>; Soontak Lee <s=
-oontak.lee@cypress.com>; Joseph
-> chuang <jiac@cypress.com>; Sven Peter <sven@svenpeter.dev>; Alyssa Rosenz=
-weig <alyssa@rosenzweig.io>;
-> Aditya Garg <gargaditya08@live.com>; Jonas Gorski <jonas.gorski@gmail.com=
->; asahi@lists.linux.dev;
-> linux-wireless@vger.kernel.org; brcm80211-dev-list.pdl@broadcom.com; SHA-=
-cyfmac-dev-list@infineon.com;
-> netdev@vger.kernel.org; linux-kernel@vger.kernel.org; Hector Martin <marc=
-an@marcan.st>; Arend van Spriel
-> <arend.vanspriel@broadcom.com>
-> Subject: [PATCH v3 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
->=20
-> The commit that introduced support for this chip incorrectly claimed it
-> is a Cypress-specific part, while in actuality it is just a variant of
-> BCM4355 silicon (as evidenced by the chip ID).
->=20
-> The relationship between Cypress products and Broadcom products isn't
-> entirely clear but given what little information is available and prior
-> art in the driver, it seems the convention should be that originally
-> Broadcom parts should retain the Broadcom name.
->=20
-> Thus, rename the relevant constants and firmware file. Also rename the
-> specific 89459 PCIe ID to BCM43596, which seems to be the original
-> subvariant name for this PCI ID (as defined in the out-of-tree bcmdhd
-> driver).
->=20
-> v2: Since Cypress added this part and will presumably be providing
-> its supported firmware, we keep the CYW designation for this device.
->=20
-> v3: Drop the RAW device ID in this commit. We don't do this for the
-> other chips since apparently some devices with them exist in the wild,
-> but there is already a 4355 entry with the Broadcom subvendor and WCC
-> firmware vendor, so adding a generic fallback to Cypress seems
-> redundant (no reason why a device would have the raw device ID *and* an
-> explicitly programmed subvendor).
-
-Do you really want to add changes of v2 and v3 to commit message? Or,
-just want to let reviewers know that? If latter one is what you want,
-move them after s-o-b with delimiter ---
-
->=20
-> Fixes: dce45ded7619 ("brcmfmac: Support 89459 pcie")
-> Reviewed-by: Arend van Spriel <arend.vanspriel@broadcom.com>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
----
-I mean here.
-> ---
->  drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c    | 5 ++---
->  drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c    | 7 +++----
->  .../net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h  | 5 ++---
->  3 files changed, 7 insertions(+), 10 deletions(-)
->=20
-
+-- 
+~Vinod
