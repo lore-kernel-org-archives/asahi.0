@@ -1,87 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 210F97F4;
-	Fri, 10 Feb 2023 06:05:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C77ADC433D2;
-	Fri, 10 Feb 2023 06:05:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676009109;
-	bh=R+M0ft2NoW5OEkw9Yp/lx0D4Vb1O1La2tMhNLmrHwBk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UzFaShVbYUL6AnzcrewjwVNrWiJJde9hTV8N08ircjXv3C51e3nW1I8NUd2RMI+7M
-	 3qFjHfFG7uUtTMfQ3B0mmemAuWTzOCQsVIym1QDac0Fwh6uGDPSj2lZQFVTwFfBf+J
-	 qXnz//A5czX2LOvB+wyWER7bwOfG59bq2nmKpbzKWgYYw14Kf2JzmmQlTomzMeLQhA
-	 +POxMFnDWrSFug3xwaq+SJuL5KJIXJArxMGqB99mLZ2l/k2nVd4Lq/Gs3AhFG9XiUR
-	 hLRjRPu2RUQIFYOBXTlsc2I6Deu+PJSzIOoLmDbZH50Qu31YrxFNc0fxfN1/oMMCik
-	 pcYUxYygwH29Q==
-Date: Fri, 10 Feb 2023 11:35:05 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Olivier Dautricourt <olivierdautricourt@gmail.com>,
-	Stefan Roese <sr@denx.de>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Green Wan <green.wan@sifive.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	=?utf-8?B?77+9ZXI=?= <povik+lin@cutebit.org>,
-	Peng Fan <peng.fan@nxp.com>, Paul Cercueil <paul@crapouillou.net>,
-	- <chuanhua.lei@intel.com>, Long Cheng <long.cheng@mediatek.com>,
-	Rajesh Gumasta <rgumasta@nvidia.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Palmer Debbelt <palmer@sifive.com>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Amelie Delaunay <amelie.delaunay@foss.st.com>,
-	Linus Walleij <linus.walleij@linaro.org>, dmaengine@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-mediatek@lists.infradead.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: dma: drop unneeded quotes
-Message-ID: <Y+XekQsIwpixyPD0@matsya>
-References: <20230124081117.31186-1-krzysztof.kozlowski@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FD4A4D
+	for <asahi@lists.linux.dev>; Fri, 10 Feb 2023 12:38:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1676032707;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PI3oUcKvFRhOHs5XVCh/GOynsoU/7+zmMQO9bHrhWBo=;
+	b=jTqrUxsZYo0F7Z0uLgO52KguceVyH6AVI9Icq1OtDwdLd1VKH7KgpNAzALXYP1e7mKzoBy
+	okXW8Vv4nRpVYG/gPxpcmpD9ZN5qZTog0lZ+ZPMrLFBe6xy1P9O+4Rl14LIO8B9Dw0irGP
+	vW5FBbSdpTIoWjDoaaxDe0Vv3vCSazk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-290-QOxsoVHFPCeMVeeokYAbdA-1; Fri, 10 Feb 2023 07:38:25 -0500
+X-MC-Unique: QOxsoVHFPCeMVeeokYAbdA-1
+Received: by mail-wm1-f72.google.com with SMTP id l21-20020a05600c4f1500b003e00be23a70so4530075wmq.2
+        for <asahi@lists.linux.dev>; Fri, 10 Feb 2023 04:38:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PI3oUcKvFRhOHs5XVCh/GOynsoU/7+zmMQO9bHrhWBo=;
+        b=Zf9WAXfog3Rnd6+SQv/anrYSgh5pdhdLgPI3v6NsiLz0lkUxQEXkCcMeoxwc2QHpl1
+         l7h5M4RSLTFZOlPhUCqNo21FqepR1CSRxX0KLkfM62vSx/eGTUTIZlUg6jMnc8nJHruT
+         ZcsUtDKdc1trDRKBvOLYcITm5HHBqDF2ZvhNXSIj5jT3qt10Hoy2topjT1zwk1eLkHy+
+         2/7XZdpPyXI2cFjpGd3meRFaCvJoDB2cK64Oi5SpEut5ccLYP4l2XCNokJO8dDnhzTvJ
+         6k4fnZFl6z6N7VOQvRRPku8HRZ/ApdX4lvRYyi2RiE8OjJhEJ9KKwkKP1WzJr5vFjrhf
+         WVdQ==
+X-Gm-Message-State: AO0yUKXmTN19G2z14dWCIm/1TKFaMEwSAZ+klkGGLBskfvx7wTBcwSUy
+	lZLTwRajSi4BcREEe+MiWmvjM+Eep1AbmM8l/uuoilsWyolJSEfVD7fKUCOSH9cjfW5vZUd1zfQ
+	WsULpfNWMcIG/Pcs=
+X-Received: by 2002:a5d:6750:0:b0:2be:64bb:1d84 with SMTP id l16-20020a5d6750000000b002be64bb1d84mr13710721wrw.24.1676032704781;
+        Fri, 10 Feb 2023 04:38:24 -0800 (PST)
+X-Google-Smtp-Source: AK7set94Bsqs5Ph/JyHM/6nNXatqCHays9ZS2lteG/fGGCwXWMilMicUznlG3v++jadE4RijV3uDbQ==
+X-Received: by 2002:a5d:6750:0:b0:2be:64bb:1d84 with SMTP id l16-20020a5d6750000000b002be64bb1d84mr13710711wrw.24.1676032704636;
+        Fri, 10 Feb 2023 04:38:24 -0800 (PST)
+Received: from [192.168.1.130] (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id s10-20020adff80a000000b002c54c7b9c78sm612414wrp.76.2023.02.10.04.38.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Feb 2023 04:38:24 -0800 (PST)
+Message-ID: <bee5d455-3e15-427a-d7a6-f633a748f4c3@redhat.com>
+Date: Fri, 10 Feb 2023 13:38:22 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230124081117.31186-1-krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
+ drm_gem_shmem_get_pages_sgt()
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+References: <20230205125124.2260-1-lina@asahilina.net>
+ <a1cd8c74-98f4-bff0-0344-cbece787c6e8@redhat.com>
+In-Reply-To: <a1cd8c74-98f4-bff0-0344-cbece787c6e8@redhat.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 24-01-23, 09:11, Krzysztof Kozlowski wrote:
-> Cleanup by removing unneeded quotes from refs and redundant blank lines.
-> No functional impact except adjusting to preferred coding style.
+On 2/6/23 19:47, Javier Martinez Canillas wrote:
+> Hello Lina,
+> 
+> On 2/5/23 13:51, Asahi Lina wrote:
+>> Other functions touching shmem->sgt take the pages lock, so do that here
+>> too. drm_gem_shmem_get_pages() & co take the same lock, so move to the
+>> _locked() variants to avoid recursive locking.
+>>
+>> Discovered while auditing locking to write the Rust abstractions.
+>>
+>> Fixes: 2194a63a818d ("drm: Add library for shmem backed GEM objects")
+>> Fixes: 4fa3d66f132b ("drm/shmem: Do dma_unmap_sg before purging pages")
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
+> 
+> Good catch. The patch looks good to me.
+> 
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> 
 
-Applied both, thanks
+Pushed this to drm-misc (drm-misc-next). Thanks!
 
 -- 
-~Vinod
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
