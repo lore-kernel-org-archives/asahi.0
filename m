@@ -1,255 +1,114 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2BC643
-	for <asahi@lists.linux.dev>; Wed,  8 Feb 2023 06:41:26 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id h3so7864591wrp.10
-        for <asahi@lists.linux.dev>; Tue, 07 Feb 2023 22:41:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:subject:user-agent:references:in-reply-to:message-id
-         :date:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HriabUW9ffk1EcHeuy6XmTb+HYYEir2ppNVfEK/iMms=;
-        b=C9Jurs9OEvzaTIW0eHVlz+wzC58tcimyl1QZi+D1nGpEAr8KQWiS/HtuWcz+Si5Tbo
-         u1xvn3cAsaR+MDu9Cggno3cKrfdmBfhVY5Gig/2gjAdx4l1UDXSxb/p6igfQmvwDX8E2
-         04ufA0Yf43W3aZeb/di9tFYRZCwexpSpZopnw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:subject:user-agent:references:in-reply-to:message-id
-         :date:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HriabUW9ffk1EcHeuy6XmTb+HYYEir2ppNVfEK/iMms=;
-        b=l4IfoVW6EfTC+bhKtT4mFK9K1icW8m8GHS7mpxm7UBu3/7WSMOvikjABswSSDRNdSi
-         T+pgUDMSnzCeurOClLz7ZobcY6rClLgWmxjBZxi06i9ezGsDQn6VzTR8gwVYGOM0v2jT
-         1WQ9i11IFGD5wYpeQF1Iou2DdC05OKSF11d2Ff5dGuXeGiwJkUQ70t7QYw4VTkoC/USq
-         FEpqxyIkhcfCeRlMaB3UCDC1SS48fguKBm0kv11ALxDeaHDHgqJSsue86Z9o8Wmg67Hb
-         bAH4zU4Mws1LagCnCe50pDm8CoVIsueYL8NKbMbS/6uwFcX93AbHX5v0/34SowgWanZG
-         iChw==
-X-Gm-Message-State: AO0yUKWgOGwg5tJUSB5RwKChwBuJDDj+Mn4t0mQi8h8pViQWmybv2iXB
-	qk0ThVx16Tc+zDc+oSBX5vittQ==
-X-Google-Smtp-Source: AK7set/Iu10vRMF2P4WT3Z34WnZfvpVZrSAER9sPzpiSgcrS4NYJ+5iw/4ZXqXP8EkkiJI/icZddaw==
-X-Received: by 2002:adf:e706:0:b0:2bf:b27f:c9b3 with SMTP id c6-20020adfe706000000b002bfb27fc9b3mr5411676wrm.32.1675838484959;
-        Tue, 07 Feb 2023 22:41:24 -0800 (PST)
-Received: from [10.230.43.52] ([192.19.152.250])
-        by smtp.gmail.com with ESMTPSA id e20-20020a5d5954000000b002bfd524255esm13091808wri.43.2023.02.07.22.41.23
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 Feb 2023 22:41:24 -0800 (PST)
-From: Arend Van Spriel <arend.vanspriel@broadcom.com>
-To: Hector Martin <marcan@marcan.st>, Jonas Gorski <jonas.gorski@gmail.com>
-CC: "'Hector Martin' via BRCM80211-DEV-LIST,PDL" <brcm80211-dev-list.pdl@broadcom.com>, Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Alexander Prutskov <alep@cypress.com>, Ian Lin <ian.lin@infineon.com>, Joseph chuang <jiac@cypress.com>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Aditya Garg <gargaditya08@live.com>, <asahi@lists.linux.dev>, <linux-wireless@vger.kernel.org>, <SHA-cyfmac-dev-list@infineon.com>, <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, Hauke Mehrtens <hauke@hauke-m.de>
-Date: Wed, 08 Feb 2023 07:41:23 +0100
-Message-ID: <1862fc1e650.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-In-Reply-To: <349fe17a-f754-a39a-d094-f07330618fcd@marcan.st>
-References: <20230131112840.14017-1-marcan@marcan.st>
- <20230131112840.14017-2-marcan@marcan.st>
- <CAOiHx=mYxFx0kr5s=4X_qywZBpPqCbrNjLnTXfigPOnqZSxjag@mail.gmail.com>
- <4fb4af22-d115-de62-3bda-c1ae02e097ee@marcan.st>
- <1861323f100.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <28ed8713-4243-7c67-b792-92d0dde82256@marcan.st>
- <186205e1c60.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <CAOiHx=m2NFo2hbS4a3j67B4iFrkM7dGKGhwLkXuwOZAR=+C63Q@mail.gmail.com>
- <d86f369d-a28c-bba3-a09b-31407acb4a25@marcan.st>
- <349fe17a-f754-a39a-d094-f07330618fcd@marcan.st>
-User-Agent: AquaMail/1.42.0 (build: 104200255)
-Subject: Re: [PATCH v2 1/5] brcmfmac: Drop all the RAW device IDs
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC09627
+	for <asahi@lists.linux.dev>; Fri, 10 Feb 2023 02:50:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 7E5A341EF0;
+	Fri, 10 Feb 2023 02:50:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1675997431; bh=dJYvSnjg1TsvS4N14R3W3MLMAAB3oGY+43m95CrJNq0=;
+	h=From:To:Cc:Subject:Date;
+	b=B/q6tembF5Kee89myywnTK0eLjTJnXo8cJo5nBCB33oCHCmyFHLxFRudDLeqIvyz7
+	 ze+XjEslAuMVtTEgs3gF8VQifJ4SEboEPBDwaI5aoXHgCKhGb+CiIiMULbkxzRhNdx
+	 FhfMBWhiFHekBfFYiPScIvcpkE64jD4nOLHI4rCXtnwxlLSd9GzwbNok8kQnOCwCky
+	 Uy3SRktjEUkOP9pASVbyFYBv2VS4z5gQ2IEL/EZ4S40+pM6azmR+5Qcoqk8sHzbvLy
+	 8qQ1UqgtBWO0k11qJM5a2zBed2Dd57a1F7Jl3G5tbxw2mZztmBlGvUF2sMi1EH5Ct6
+	 NzTtPf32CSflg==
+From: Hector Martin <marcan@marcan.st>
+To: Arend van Spriel <aspriel@gmail.com>,
+	Franky Lin <franky.lin@broadcom.com>,
+	Hante Meuleman <hante.meuleman@broadcom.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Alexander Prutskov <alep@cypress.com>,
+	Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+	Wright Feng <wright.feng@cypress.com>,
+	Ian Lin <ian.lin@infineon.com>,
+	Soontak Lee <soontak.lee@cypress.com>,
+	Joseph chuang <jiac@cypress.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Aditya Garg <gargaditya08@live.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>,
+	asahi@lists.linux.dev,
+	linux-wireless@vger.kernel.org,
+	brcm80211-dev-list.pdl@broadcom.com,
+	SHA-cyfmac-dev-list@infineon.com,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>
+Subject: [PATCH v3 0/4] BCM4355/4364/4377 support & identification fixes
+Date: Fri, 10 Feb 2023 11:50:05 +0900
+Message-Id: <20230210025009.21873-1-marcan@marcan.st>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000009dfc5905f42a8dde"
-
---0000000000009dfc5905f42a8dde
-Content-Type: text/plain; format=flowed; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On February 8, 2023 5:02:32 AM Hector Martin <marcan@marcan.st> wrote:
+Hi all,
 
-> On 05/02/2023 22.02, Hector Martin wrote:
->> On 05/02/2023 21.44, Jonas Gorski wrote:
->>> On Sun, 5 Feb 2023 at 07:58, Arend Van Spriel
->>> <arend.vanspriel@broadcom.com> wrote:
->>>>
->>>> - stale Cypress emails
->>>>
->>>> On February 5, 2023 3:50:41 AM Hector Martin <marcan@marcan.st> wrote:
->>>>
->>>>> On 03/02/2023 02.19, Arend Van Spriel wrote:
->>>>>> On February 2, 2023 6:25:28 AM "'Hector Martin' via BRCM80211-DEV-LIST,PDL"
->>>>>> <brcm80211-dev-list.pdl@broadcom.com> wrote:
->>>>>>
->>>>>>> On 31/01/2023 23.17, Jonas Gorski wrote:
->>>>>>>> On Tue, 31 Jan 2023 at 12:36, Hector Martin <marcan@marcan.st> wrote:
->>>>>>>>>
->>>>>>>>> These device IDs are only supposed to be visible internally, in devices
->>>>>>>>> without a proper OTP. They should never be seen in devices in the wild,
->>>>>>>>> so drop them to avoid confusion.
->>>>>>>>
->>>>>>>> I think these can still show up in embedded platforms where the
->>>>>>>> OTP/SPROM is provided on-flash.
->>>>>>>>
->>>>>>>> E.g. https://forum.archive.openwrt.org/viewtopic.php?id=55367&p=4
->>>>>>>> shows this bootlog on an BCM4709A0 router with two BCM43602 wifis:
->>>>>>>>
->>>>>>>> [    3.237132] pci 0000:01:00.0: [14e4:aa52] type 00 class 0x028000
->>>>>>>> [    3.237174] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x00007fff 64bit]
->>>>>>>> [    3.237199] pci 0000:01:00.0: reg 0x18: [mem 0x00000000-0x003fffff 64bit]
->>>>>>>> [    3.237302] pci 0000:01:00.0: supports D1 D2
->>>>>>>> ...
->>>>>>>> [    3.782384] pci 0001:03:00.0: [14e4:aa52] type 00 class 0x028000
->>>>>>>> [    3.782440] pci 0001:03:00.0: reg 0x10: [mem 0x00000000-0x00007fff 64bit]
->>>>>>>> [    3.782474] pci 0001:03:00.0: reg 0x18: [mem 0x00000000-0x003fffff 64bit]
->>>>>>>> [    3.782649] pci 0001:03:00.0: supports D1 D2
->>>>>>>>
->>>>>>>> 0xaa52 == 43602 (BRCM_PCIE_43602_RAW_DEVICE_ID)
->>>>>>>>
->>>>>>>> Rafał can probably provide more info there.
->>>>>>>>
->>>>>>>> Regards
->>>>>>>> Jonas
->>>>>>>
->>>>>>> Arend, any comments on these platforms?
->>>>>>
->>>>>> Huh? I already replied to that couple of days ago or did I only imagine
->>>>>> doing that.
->>>>>
->>>>> I don't see any replies from you on the lists (or my inbox) to Jonas' email.
->>>>
->>>> Accidentally sent that reply to internal mailing list. So quoting myself here:
->>>>
->>>> """
->>>> Shaking the tree helps ;-) What is meant by "OTP/SPROM is provided
->>>> on-flash"? I assume you mean that it is on the host side and the wifi PCIe
->>>> device can not access it when it gets powered up. Maybe for this scenario
->>>> we should have a devicetree compatible to configure the device id, but that
->>>> does not help any current users of these platforms. Thanks for providing
->>>> this info.
->>>
->>> That's what I meant, the wifi chip itself does not have any (valid)
->>> OTP/SPROM attached/populated, and requires the driver to setup the
->>> values at runtime based on the host SoC's flash contents (most likely
->>> NVRAM contents).
->>>
->>> This was the case in about 99% of embedded systems based on MIPS
->>> bcm47xx/bcm63xx, where the wifi chips then always identified
->>> themselves with their raw chip IDs as PCI device IDs (even leading to
->>> one or two ID conflicts ...).
->>>
->>> I have to admit I don't know how much this is still an issue on
->>> current (ARM) systems, but at least that one BCM4709A one suggests
->>> this is still happening in "recent" designs. Probably because it saves
->>> half a cent per board or so ;-)
->>>
->>> Regards
->>> Jonas
->>
->> As far as I know the OTP is built into the chips themselves, and even
->> Apple (who refuses to put per-device calibration data in OTP these days
->> and loads it from DT) still manages to burn in the proper device ID and
->> basic info at least... so I'm not sure how this saves any money. I
->> thought chips weren't supposed to even leave Broadcom without at least
->> an ID burned in?
->>
->> - Hector
->
-> I'd like to move forward with this. Should I send a v3 without the RAW
-> ID removal?
+This series adds support for the BCM4355, BCM4364, and BCM4377 variants
+found on Intel Apple Macs of the T2 era (and a few pre-T2 ones).
 
-Yeah. Need to consider the options for solving this.
+The first patch fixes a bunch of confusion introduced when adding
+support for the Cypress 89459 chip, which is, as far as I can tell,
+just a BCM4355. This also drops the RAW device ID (just for this one
+chip), as there's no reason to add it unless we find actual hardware
+in the wild that uses it, and besides the raw device ID is already
+there twice (with a subvendor match), which was added by 2fef681a4cf7
+("brcmfmac: add CYW89342 mini-PCIe device").
 
-Programming the OTP is a manufacturing step done by OEM so I think they 
-save having to implement that step in production and it is not so much chip 
-cost saving.
+The subsequent patches add the firmware names and remaining missing
+device IDs, including splitting the BCM4364 firmware name by revision
+(since it was previously added without giving thought to the existence
+of more than one revision in the wild with different firmwares,
+resulting in different users manually copying different incompatible
+firmwares as the same firmware name).
 
-Our proprietary driver is setup so it is probed for any PCI device with 
-network class and then it uses NVRAM to obtain the PCI devid.
+None of these devices have firmware in linux-firmware, so we should
+still be able to tweak firmware filenames without breaking anyone that
+matters. Apple T2 users these days are mostly using downstream trees
+with the Asahi Linux WLAN patches merged anyway, so they already know
+about this.
 
-Regards,
-Arend
+Note that these devices aren't fully usable as far as firmware
+selection on these platforms without some extra patches to add support
+for fetching the required info from ACPI, but I want to get the device
+ID stuff out of the way first to move forward.
 
+v2: Added a commit in front to drop all the RAW device IDs as discussed,
+    and also fixed the 4364 firmware interface from BCA to WCC, as
+    pointed out in the v1 thread.
 
+v3: Dropped the raw cleanup commit because apparently some platforms
+    rely on those. Still removing the redundant raw ID for CYW89459,
+    though. It seems highly unlikely that will break anything, as it'd
+    have to be a device with no proper ID programmed *and* a custom
+    subvendor programmed.
 
---0000000000009dfc5905f42a8dde
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+Hector Martin (4):
+  wifi: brcmfmac: Rename Cypress 89459 to BCM4355
+  brcmfmac: pcie: Add IDs/properties for BCM4355
+  brcmfmac: pcie: Add IDs/properties for BCM4377
+  brcmfmac: pcie: Perform correct BCM4364 firmware selection
 
-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
-2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
-Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
-HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
-Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
-KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
-Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
-dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
-OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
-MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
-BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
-ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
-zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
-sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
-BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
-N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
-p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
-YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
-bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBlMFMQwGINDL1SKWBR
-r7J3lEHyVQsQZ2zloCyA4YdvaTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yMzAyMDgwNjQxMjVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
-AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEA5Uc+tji4JCBmnvTIG2Np0GKJB4CExkZZuPyL
-lUTXNEridJKgwIZUbsJwe+z0Q81RbV7fk0gGXQYO64t+ThbN/M8lWjm8AfUnjNFMjpC3LZi9t5ML
-1q2TGUT6Xy7jib7pH98aGZh+j2qcfh2FvngxP7gIfiEZ3/mA5Y76uxROdbi7BTsgWBJSa1277Ard
-6BKgh5+xgY3xaG41ceIAeT0xfihnRqG7NZwza+LTwjKAthsgi4ndY23GSjkjngTdjkYsY6N3Fi5E
-BoDQ27S1QNL6hR9nXpauMCYac6nUyjQAum/Pp1p6Wl+ybgT/gzn7f9nytXe8dfEISzeV0gipl2bT
-UA==
---0000000000009dfc5905f42a8dde--
+ .../broadcom/brcm80211/brcmfmac/chip.c        |  6 ++--
+ .../broadcom/brcm80211/brcmfmac/pcie.c        | 33 +++++++++++++++----
+ .../broadcom/brcm80211/include/brcm_hw_ids.h  |  8 +++--
+ 3 files changed, 34 insertions(+), 13 deletions(-)
+
+-- 
+2.35.1
+
