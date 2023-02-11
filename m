@@ -1,158 +1,110 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DEE10E3
-	for <asahi@lists.linux.dev>; Sat, 11 Feb 2023 09:38:56 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-52ec329dc01so80813547b3.10
-        for <asahi@lists.linux.dev>; Sat, 11 Feb 2023 01:38:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gRTYTcrvPKL/Cxg5QRpZsjtHzFYdNvEF9N2GChXvYEo=;
-        b=ZTZRQY7oE7phlVmxewxRUPUI+P1vdOYq1dFFS8dERRMS+7U3ijR/g7aI3Zl8HvyQBf
-         7YtK+85BnJ7OT6XwWMznDIouj2OkiPsUWeWMKg4HzXveS9y89JlcK9Gu2QNYn6QjFSVq
-         CXgCuKI0kYQAw9CpiC/u3P70P+JAbxdZ++/ABLYOGd5gSsx14bO6ZB8VhWoYJ01oVuZs
-         88ZeAh5SOyU6OeynGt0JvfpmZsabc9yf6EEcKC5aFqQ+t/cCGGTGkecKXtpSFnSSDE3u
-         V33WZEwQon37PR06Lamoqv5s+IqiRvp9B7N1bIB6OXhftgWm9bKsCATZcl2Wc5E5aQxb
-         qT1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gRTYTcrvPKL/Cxg5QRpZsjtHzFYdNvEF9N2GChXvYEo=;
-        b=bWA+rv+T3S8L+Lr4nDvYKxksL0u9XA8UrfV0pYqeLOoeq+NZcd3dbY6drPE0God8v3
-         VosNPzii5wiELz4Zgx7u87pEboEm88K0m19r4Brk3ILTyCpJuMSLxY6xXSD6E9Ci0fKv
-         b604IXtwhL4EatJOO+CQrLeHYpMwkdJ3BhR0p28+ooqYNEonUnv9e78m17DG4V0gmYiC
-         Kds9LN00y8jx+rWaVUkVm9DU0Lm+mVRGHrcITnamCiQzM30SmZZt2C/DeBInDGNv/LqU
-         pL45U8G599EbnGnCLXcgZf7nZPef/+eHyeeHzOVhesiB/s38jQBlZ7A8955sTAQSPTaP
-         QVxw==
-X-Gm-Message-State: AO0yUKUbFpOdu5vtxBQziLxuPb2fNWIhJe7fsUGHMrrYy0attFF/rCgv
-	h+r7UUJ2MfOkPcdX0TSMiH6v97p6Oo0YHrsYFIs=
-X-Google-Smtp-Source: AK7set/xCREtnGpO0BL6e44eU1IhJyDuyat66bJWwDH0149Zp6C4vKWJUIENtvb+Nlspvw9I8grAaaH92Optvzx7ZHs=
-X-Received: by 2002:a0d:e401:0:b0:506:396f:bb17 with SMTP id
- n1-20020a0de401000000b00506396fbb17mr2109378ywe.486.1676108334984; Sat, 11
- Feb 2023 01:38:54 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0886E10E3
+	for <asahi@lists.linux.dev>; Sat, 11 Feb 2023 10:09:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id B70BE42300;
+	Sat, 11 Feb 2023 10:08:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1676110140; bh=xgElBP+tjDeZkk5no9nEVPZ3v18CazedQGwUh/vJETY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=JTGXd2AlOil2xNP6nYXSH5OsC7cMUTKh+G/WVZq/vjZOIFMtzd48SnDx53Mg/VcND
+	 NfPRMPuvczFn4Ie2BgxvPlQHe7bAhsXUjKVuBCsB4E+L6BagmaMBpMRNa3ntuui5WS
+	 PEZzsusPZw8DNVpngYjxdVpa60xQOIrDys+JMkVs28ZbiaV5w/5SMCMPzmvSaZHzFe
+	 N6+bO8EH8aZX8biwIz84pNymvzZ3vuSll3vEg0g+QXUKEgAfvxuMiFdXlgE7DIGNjZ
+	 RSKFel60jXPwhiambKMVND1UKQ0yLdnnuionb/8wQZ91Wmam+5AvQbr5igoVWIaKR8
+	 x+SQSq5juSoRQ==
+Message-ID: <624c0a20-f4e6-14a5-02a2-eaf7b36e9331@marcan.st>
+Date: Sat, 11 Feb 2023 19:08:50 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
-In-Reply-To: <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
-From: Daniel Gomez <dagmcr@gmail.com>
-Date: Sat, 11 Feb 2023 10:38:44 +0100
-Message-ID: <CAPsT6hnbAA_uCiVjST8VaPgb6TyfBq9nO2S7OPqJX3=YhzBD9g@mail.gmail.com>
-Subject: Re: max_hw_sectors error caused by recent NVMe driver commit
-To: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Chaitanya Kulkarni <kch@nvidia.com>, Gerd Bayer <gbayer@linux.ibm.com>, 
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>, 
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
+Content-Language: en-US
+To: Ping-Ke Shih <pkshih@realtek.com>, Arend van Spriel <aspriel@gmail.com>,
+ Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: Alexander Prutskov <alep@cypress.com>,
+ Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+ Wright Feng <wright.feng@cypress.com>, Ian Lin <ian.lin@infineon.com>,
+ Soontak Lee <soontak.lee@cypress.com>, Joseph chuang <jiac@cypress.com>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Aditya Garg <gargaditya08@live.com>, Jonas Gorski <jonas.gorski@gmail.com>,
+ "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ "brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
+ "SHA-cyfmac-dev-list@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Arend van Spriel <arend.vanspriel@broadcom.com>
+References: <20230210025009.21873-1-marcan@marcan.st>
+ <20230210025009.21873-2-marcan@marcan.st>
+ <0cd45af5812345878faf0dc8fa6b0963@realtek.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <0cd45af5812345878faf0dc8fa6b0963@realtek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+On 10/02/2023 12.42, Ping-Ke Shih wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Hector Martin <marcan@marcan.st>
+>> Sent: Friday, February 10, 2023 10:50 AM
+>> To: Arend van Spriel <aspriel@gmail.com>; Franky Lin <franky.lin@broadcom.com>; Hante Meuleman
+>> <hante.meuleman@broadcom.com>; Kalle Valo <kvalo@kernel.org>; David S. Miller <davem@davemloft.net>; Eric
+>> Dumazet <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>
+>> Cc: Alexander Prutskov <alep@cypress.com>; Chi-Hsien Lin <chi-hsien.lin@cypress.com>; Wright Feng
+>> <wright.feng@cypress.com>; Ian Lin <ian.lin@infineon.com>; Soontak Lee <soontak.lee@cypress.com>; Joseph
+>> chuang <jiac@cypress.com>; Sven Peter <sven@svenpeter.dev>; Alyssa Rosenzweig <alyssa@rosenzweig.io>;
+>> Aditya Garg <gargaditya08@live.com>; Jonas Gorski <jonas.gorski@gmail.com>; asahi@lists.linux.dev;
+>> linux-wireless@vger.kernel.org; brcm80211-dev-list.pdl@broadcom.com; SHA-cyfmac-dev-list@infineon.com;
+>> netdev@vger.kernel.org; linux-kernel@vger.kernel.org; Hector Martin <marcan@marcan.st>; Arend van Spriel
+>> <arend.vanspriel@broadcom.com>
+>> Subject: [PATCH v3 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
+>>
+>> The commit that introduced support for this chip incorrectly claimed it
+>> is a Cypress-specific part, while in actuality it is just a variant of
+>> BCM4355 silicon (as evidenced by the chip ID).
+>>
+>> The relationship between Cypress products and Broadcom products isn't
+>> entirely clear but given what little information is available and prior
+>> art in the driver, it seems the convention should be that originally
+>> Broadcom parts should retain the Broadcom name.
+>>
+>> Thus, rename the relevant constants and firmware file. Also rename the
+>> specific 89459 PCIe ID to BCM43596, which seems to be the original
+>> subvariant name for this PCI ID (as defined in the out-of-tree bcmdhd
+>> driver).
+>>
+>> v2: Since Cypress added this part and will presumably be providing
+>> its supported firmware, we keep the CYW designation for this device.
+>>
+>> v3: Drop the RAW device ID in this commit. We don't do this for the
+>> other chips since apparently some devices with them exist in the wild,
+>> but there is already a 4355 entry with the Broadcom subvendor and WCC
+>> firmware vendor, so adding a generic fallback to Cypress seems
+>> redundant (no reason why a device would have the raw device ID *and* an
+>> explicitly programmed subvendor).
+> 
+> Do you really want to add changes of v2 and v3 to commit message? Or,
+> just want to let reviewers know that? If latter one is what you want,
+> move them after s-o-b with delimiter ---
 
-On Sat, Feb 11, 2023 at 6:38 AM Michael Kelley (LINUX)
-<mikelley@microsoft.com> wrote:
->
-> Commit 3f30a79c2e2c ("nvme-pci: set constant paramters in nvme_pci_alloc_ctrl")
-> appears to have introduced an error in how max_hw_sectors is calculated.  The
-> value of max_hw_sectors is based on dma_max_mapping_size(), which indirectly
-> uses dma_addressing_limited() to decide if swiotlb_max_mapping_size() should
-> be used.
->
-> In this commit, setting max_hw_sectors is moved to nvme_pci_alloc_dev().
-> But dma_addressing_limited() depends on the dev->dma_mask, which hasn't
-> been set.  dma_addressing_limited() returns "true", and the swiotlb max mapping
-> size is used, limiting NVMe transfers to 504 sectors (252 Kbytes).
->
-> Prior to this commit, max_hw_sectors isn't set until after the call to
-> dma_set_mask_and_coherent() in nvme_pci_enable(), as called from
-> nvme_reset_work().   max_hw_sectors is correctly determined based on
-> values reported by the NVMe controller.
->
-> I haven't provided a fix because I'm not that familiar with the overall structure
-> of the code and the intent of the code reorganization.  I'm not sure if setting
-> the DMA mask should be moved earlier, or setting max_hw_sectors should
-> be moved back to its original location.
+Both; I thought those things were worth mentioning in the commit message
+as it stands on its own, and left the version tags in so reviewers know
+when they were introduced.
 
-Yesterday, I ran into the same problem. Below you can find my test
-case. I'm trying to get familiar with the code, so any help would be
-much appreciated.
-
-I could reproduce it with a simple dd test [1] and btrace. In summary,
-multi-page bvec splits are performed in 4 steps/chunks of 63 segments
-(63 * 4K / 512 = 504 sectors) and 1 step of 8 segments (8 * 4K / 512 =
-32 sectors). But I think it should be just 4 steps of 64 segments as
-that is the max_segments upper limit in my test case. Below you can
-find my test case and numbers:
-
-Check:
-root@qemuarm64:/sys/block/nvme0n1/queue# grep -H . max_sectors_kb
-max_hw_sectors_kb max_segments max_segment_size optimal_io_size
-logical_block_size chunk_sectors
-max_sectors_kb:252
-max_hw_sectors_kb:252
-max_segments:64
-max_segment_size:4294967295
-optimal_io_size:512
-logical_block_size:512
-chunk_sectors:0
-
-dd test:
-dd iflag=direct if=/dev/nvme0n1 bs=1M of=/dev/null status=progress
-
-btrace snippet:
-259,0    0    23476     1.111774467   751  Q  RS 1923072 + 2048 [dd]
-259,0    0    23477     1.111774842   751  X  RS 1923072 / 1923576 [dd]
-259,0    0    23478     1.111775342   751  G  RS 1923072 + 504 [dd]
-259,0    0    23479     1.111775425   751  I  RS 1923072 + 504 [dd]
-259,0    0    23480     1.111776133   751  X  RS 1923576 / 1924080 [dd]
-259,0    0    23481     1.111776258   751  G  RS 1923576 + 504 [dd]
-259,0    0    23482     1.111776300   751  I  RS 1923576 + 504 [dd]
-259,0    0    23483     1.111776675   751  X  RS 1924080 / 1924584 [dd]
-259,0    0    23484     1.111776967   751  G  RS 1924080 + 504 [dd]
-259,0    0    23485     1.111777008   751  I  RS 1924080 + 504 [dd]
-259,0    0    23486     1.111777383   751  X  RS 1924584 / 1925088 [dd]
-259,0    0    23487     1.111777467   751  G  RS 1924584 + 504 [dd]
-259,0    0    23488     1.111777550   751  I  RS 1924584 + 504 [dd]
-259,0    0    23489     1.111777758   751  G  RS 1925088 + 32 [dd]
-259,0    0    23490     1.111777800   751  I  RS 1925088 + 32 [dd]
-259,0    0    23491     1.111779383    36  D  RS 1923072 + 504 [kworker/0:1H]
-259,0    0    23492     1.111780092    36  D  RS 1923576 + 504 [kworker/0:1H]
-259,0    0    23493     1.111780800    36  D  RS 1924080 + 504 [kworker/0:1H]
-259,0    0    23494     1.111781425    36  D  RS 1924584 + 504 [kworker/0:1H]
-259,0    0    23495     1.111781717    36  D  RS 1925088 + 32 [kworker/0:1H]
-259,0    0    23496     1.112201967   749  C  RS 1923072 + 504 [0]
-259,0    0    23497     1.112563925   749  C  RS 1923072 + 2048 [0]
-259,0    0    23498     1.112564425   749  C  RS 1923072 + 2016 [0]
-259,0    0    23499     1.112564800   749  C  RS 1923072 + 1512 [0]
-259,0    0    23500     1.112758217   749  C  RS 1923072 + 1008 [0]
-
-In addition, going back to Michaels reference commit and running the
-test in the same setup, I got the following checks:
-
-max_sectors_kb:512
-max_hw_sectors_kb:512
-max_segments:127
-max_segment_size:4294967295
-optimal_io_size:512
-logical_block_size:512
-
-So, I'm not sure why my max_segments when from 64 -> 127 and,
-max_sectors_kb and max_hw_sectdors_kb from 252 -> 512. Perhaps my
-first assumption was wrong?
-
-[1] test:
-https://unix.stackexchange.com/questions/529529/why-is-the-size-of-my-io-requests-being-limited-to-about-512k
-
-Daniel
-
->
-> Michael
->
->
->
+- Hector
