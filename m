@@ -1,130 +1,158 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4675A10E3
-	for <asahi@lists.linux.dev>; Sat, 11 Feb 2023 09:13:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 38358424EC;
-	Sat, 11 Feb 2023 09:13:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1676106812;
-	bh=I+IK6qQ7gaXsQ1ViBTeWacu6GcpTW5fOOPr4of64kW4=;
-	h=From:To:Cc:Subject:Date;
-	b=PHMlETyumw5IcWqF65/BEQxoJJeVVwLmWGdfxAfFyvIU5qlDaYyQj49KuXHR8RLbB
-	 JW0bMrm5Z1kmjY7woj6LHCj0cbTwGkDsluhhLXYRo9cl1hgXM02VRJsoValgx4tepJ
-	 1Kpi1WTVux6WNEo2g5dW6rLIZt/IHGdCb/FOIxAheGoDcJj4/IeXrnQ0H0JFcrib/w
-	 6iKiLvH7i9l9ekTjMrnAo14cuxX12Cww2m8tuJUqkWpXrmttcCaJKmh3nPSUdfpsUB
-	 5qurZz4FqzaiyCtNtpBw0YsTKP6JKtWDRux7CbimErCKVKYrwp9EZ+XDSvetcoZpq2
-	 hCm5mHLiTb2Ng==
-From: Asahi Lina <lina@asahilina.net>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Asahi Lina <lina@asahilina.net>
-Subject: [PATCH] soc: apple: rtkit: Do not copy the reg state structure to the stack
-Date: Sat, 11 Feb 2023 18:13:02 +0900
-Message-Id: <20230211091302.4576-1-lina@asahilina.net>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DEE10E3
+	for <asahi@lists.linux.dev>; Sat, 11 Feb 2023 09:38:56 +0000 (UTC)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-52ec329dc01so80813547b3.10
+        for <asahi@lists.linux.dev>; Sat, 11 Feb 2023 01:38:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gRTYTcrvPKL/Cxg5QRpZsjtHzFYdNvEF9N2GChXvYEo=;
+        b=ZTZRQY7oE7phlVmxewxRUPUI+P1vdOYq1dFFS8dERRMS+7U3ijR/g7aI3Zl8HvyQBf
+         7YtK+85BnJ7OT6XwWMznDIouj2OkiPsUWeWMKg4HzXveS9y89JlcK9Gu2QNYn6QjFSVq
+         CXgCuKI0kYQAw9CpiC/u3P70P+JAbxdZ++/ABLYOGd5gSsx14bO6ZB8VhWoYJ01oVuZs
+         88ZeAh5SOyU6OeynGt0JvfpmZsabc9yf6EEcKC5aFqQ+t/cCGGTGkecKXtpSFnSSDE3u
+         V33WZEwQon37PR06Lamoqv5s+IqiRvp9B7N1bIB6OXhftgWm9bKsCATZcl2Wc5E5aQxb
+         qT1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gRTYTcrvPKL/Cxg5QRpZsjtHzFYdNvEF9N2GChXvYEo=;
+        b=bWA+rv+T3S8L+Lr4nDvYKxksL0u9XA8UrfV0pYqeLOoeq+NZcd3dbY6drPE0God8v3
+         VosNPzii5wiELz4Zgx7u87pEboEm88K0m19r4Brk3ILTyCpJuMSLxY6xXSD6E9Ci0fKv
+         b604IXtwhL4EatJOO+CQrLeHYpMwkdJ3BhR0p28+ooqYNEonUnv9e78m17DG4V0gmYiC
+         Kds9LN00y8jx+rWaVUkVm9DU0Lm+mVRGHrcITnamCiQzM30SmZZt2C/DeBInDGNv/LqU
+         pL45U8G599EbnGnCLXcgZf7nZPef/+eHyeeHzOVhesiB/s38jQBlZ7A8955sTAQSPTaP
+         QVxw==
+X-Gm-Message-State: AO0yUKUbFpOdu5vtxBQziLxuPb2fNWIhJe7fsUGHMrrYy0attFF/rCgv
+	h+r7UUJ2MfOkPcdX0TSMiH6v97p6Oo0YHrsYFIs=
+X-Google-Smtp-Source: AK7set/xCREtnGpO0BL6e44eU1IhJyDuyat66bJWwDH0149Zp6C4vKWJUIENtvb+Nlspvw9I8grAaaH92Optvzx7ZHs=
+X-Received: by 2002:a0d:e401:0:b0:506:396f:bb17 with SMTP id
+ n1-20020a0de401000000b00506396fbb17mr2109378ywe.486.1676108334984; Sat, 11
+ Feb 2023 01:38:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
+In-Reply-To: <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
+From: Daniel Gomez <dagmcr@gmail.com>
+Date: Sat, 11 Feb 2023 10:38:44 +0100
+Message-ID: <CAPsT6hnbAA_uCiVjST8VaPgb6TyfBq9nO2S7OPqJX3=YhzBD9g@mail.gmail.com>
+Subject: Re: max_hw_sectors error caused by recent NVMe driver commit
+To: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
+	Chaitanya Kulkarni <kch@nvidia.com>, Gerd Bayer <gbayer@linux.ibm.com>, 
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>, 
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The register state struct is 848 bytes, which ends up bloating the
-apple_rtkit_crashlog_dump_regs stack frame beyond 1024 on some
-32-bit platforms, triggering compile warnings.
+Hi all,
 
-This doesn't matter for 64BIT/ARM64, but there's also no good reason to
-copy the structure to the stack in this case. We can use __packed to
-avoid alignment issues, there are no double-read hazards, and this is a
-fatal error path so performance does not matter.
+On Sat, Feb 11, 2023 at 6:38 AM Michael Kelley (LINUX)
+<mikelley@microsoft.com> wrote:
+>
+> Commit 3f30a79c2e2c ("nvme-pci: set constant paramters in nvme_pci_alloc_ctrl")
+> appears to have introduced an error in how max_hw_sectors is calculated.  The
+> value of max_hw_sectors is based on dma_max_mapping_size(), which indirectly
+> uses dma_addressing_limited() to decide if swiotlb_max_mapping_size() should
+> be used.
+>
+> In this commit, setting max_hw_sectors is moved to nvme_pci_alloc_dev().
+> But dma_addressing_limited() depends on the dev->dma_mask, which hasn't
+> been set.  dma_addressing_limited() returns "true", and the swiotlb max mapping
+> size is used, limiting NVMe transfers to 504 sectors (252 Kbytes).
+>
+> Prior to this commit, max_hw_sectors isn't set until after the call to
+> dma_set_mask_and_coherent() in nvme_pci_enable(), as called from
+> nvme_reset_work().   max_hw_sectors is correctly determined based on
+> values reported by the NVMe controller.
+>
+> I haven't provided a fix because I'm not that familiar with the overall structure
+> of the code and the intent of the code reorganization.  I'm not sure if setting
+> the DMA mask should be moved earlier, or setting max_hw_sectors should
+> be moved back to its original location.
 
-Fixes: 22991d8d5725 ("soc: apple: rtkit: Add register dump decoding to crashlog")
-Signed-off-by: Asahi Lina <lina@asahilina.net>
----
- drivers/soc/apple/rtkit-crashlog.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+Yesterday, I ran into the same problem. Below you can find my test
+case. I'm trying to get familiar with the code, so any help would be
+much appreciated.
 
-diff --git a/drivers/soc/apple/rtkit-crashlog.c b/drivers/soc/apple/rtkit-crashlog.c
-index dfa74b32eda2..8319e365110b 100644
---- a/drivers/soc/apple/rtkit-crashlog.c
-+++ b/drivers/soc/apple/rtkit-crashlog.c
-@@ -57,7 +57,7 @@ struct apple_rtkit_crashlog_regs {
- 	u64 unk_X;
- 	u64 esr;
- 	u64 unk_Z;
--};
-+} __packed;
- static_assert(sizeof(struct apple_rtkit_crashlog_regs) == 0x350);
- 
- static void apple_rtkit_crashlog_dump_str(struct apple_rtkit *rtk, u8 *bfr,
-@@ -126,18 +126,18 @@ static void apple_rtkit_crashlog_dump_mailbox(struct apple_rtkit *rtk, u8 *bfr,
- static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
- 					   size_t size)
- {
--	struct apple_rtkit_crashlog_regs regs;
-+	struct apple_rtkit_crashlog_regs *regs;
- 	const char *el;
- 	int i;
- 
--	if (size < sizeof(regs)) {
-+	if (size < sizeof(*regs)) {
- 		dev_warn(rtk->dev, "RTKit: Regs section too small: 0x%zx", size);
- 		return;
- 	}
- 
--	memcpy(&regs, bfr, sizeof(regs));
-+	regs = (struct apple_rtkit_crashlog_regs *)bfr;
- 
--	switch (regs.psr & PSR_MODE_MASK) {
-+	switch (regs->psr & PSR_MODE_MASK) {
- 	case PSR_MODE_EL0t:
- 		el = "EL0t";
- 		break;
-@@ -160,11 +160,11 @@ static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
- 
- 	dev_warn(rtk->dev, "RTKit: Exception dump:");
- 	dev_warn(rtk->dev, "  == Exception taken from %s ==", el);
--	dev_warn(rtk->dev, "  PSR    = 0x%llx", regs.psr);
--	dev_warn(rtk->dev, "  PC     = 0x%llx\n", regs.pc);
--	dev_warn(rtk->dev, "  ESR    = 0x%llx\n", regs.esr);
--	dev_warn(rtk->dev, "  FAR    = 0x%llx\n", regs.far);
--	dev_warn(rtk->dev, "  SP     = 0x%llx\n", regs.sp);
-+	dev_warn(rtk->dev, "  PSR    = 0x%llx", regs->psr);
-+	dev_warn(rtk->dev, "  PC     = 0x%llx\n", regs->pc);
-+	dev_warn(rtk->dev, "  ESR    = 0x%llx\n", regs->esr);
-+	dev_warn(rtk->dev, "  FAR    = 0x%llx\n", regs->far);
-+	dev_warn(rtk->dev, "  SP     = 0x%llx\n", regs->sp);
- 	dev_warn(rtk->dev, "\n");
- 
- 	for (i = 0; i < 31; i += 4) {
-@@ -172,12 +172,12 @@ static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
- 			dev_warn(rtk->dev,
- 					 "  x%02d-x%02d = %016llx %016llx %016llx %016llx\n",
- 					 i, i + 3,
--					 regs.regs[i], regs.regs[i + 1],
--					 regs.regs[i + 2], regs.regs[i + 3]);
-+					 regs->regs[i], regs->regs[i + 1],
-+					 regs->regs[i + 2], regs->regs[i + 3]);
- 		else
- 			dev_warn(rtk->dev,
- 					 "  x%02d-x%02d = %016llx %016llx %016llx\n", i, i + 3,
--					 regs.regs[i], regs.regs[i + 1], regs.regs[i + 2]);
-+					 regs->regs[i], regs->regs[i + 1], regs->regs[i + 2]);
- 	}
- 
- 	dev_warn(rtk->dev, "\n");
--- 
-2.35.1
+I could reproduce it with a simple dd test [1] and btrace. In summary,
+multi-page bvec splits are performed in 4 steps/chunks of 63 segments
+(63 * 4K / 512 = 504 sectors) and 1 step of 8 segments (8 * 4K / 512 =
+32 sectors). But I think it should be just 4 steps of 64 segments as
+that is the max_segments upper limit in my test case. Below you can
+find my test case and numbers:
 
+Check:
+root@qemuarm64:/sys/block/nvme0n1/queue# grep -H . max_sectors_kb
+max_hw_sectors_kb max_segments max_segment_size optimal_io_size
+logical_block_size chunk_sectors
+max_sectors_kb:252
+max_hw_sectors_kb:252
+max_segments:64
+max_segment_size:4294967295
+optimal_io_size:512
+logical_block_size:512
+chunk_sectors:0
+
+dd test:
+dd iflag=direct if=/dev/nvme0n1 bs=1M of=/dev/null status=progress
+
+btrace snippet:
+259,0    0    23476     1.111774467   751  Q  RS 1923072 + 2048 [dd]
+259,0    0    23477     1.111774842   751  X  RS 1923072 / 1923576 [dd]
+259,0    0    23478     1.111775342   751  G  RS 1923072 + 504 [dd]
+259,0    0    23479     1.111775425   751  I  RS 1923072 + 504 [dd]
+259,0    0    23480     1.111776133   751  X  RS 1923576 / 1924080 [dd]
+259,0    0    23481     1.111776258   751  G  RS 1923576 + 504 [dd]
+259,0    0    23482     1.111776300   751  I  RS 1923576 + 504 [dd]
+259,0    0    23483     1.111776675   751  X  RS 1924080 / 1924584 [dd]
+259,0    0    23484     1.111776967   751  G  RS 1924080 + 504 [dd]
+259,0    0    23485     1.111777008   751  I  RS 1924080 + 504 [dd]
+259,0    0    23486     1.111777383   751  X  RS 1924584 / 1925088 [dd]
+259,0    0    23487     1.111777467   751  G  RS 1924584 + 504 [dd]
+259,0    0    23488     1.111777550   751  I  RS 1924584 + 504 [dd]
+259,0    0    23489     1.111777758   751  G  RS 1925088 + 32 [dd]
+259,0    0    23490     1.111777800   751  I  RS 1925088 + 32 [dd]
+259,0    0    23491     1.111779383    36  D  RS 1923072 + 504 [kworker/0:1H]
+259,0    0    23492     1.111780092    36  D  RS 1923576 + 504 [kworker/0:1H]
+259,0    0    23493     1.111780800    36  D  RS 1924080 + 504 [kworker/0:1H]
+259,0    0    23494     1.111781425    36  D  RS 1924584 + 504 [kworker/0:1H]
+259,0    0    23495     1.111781717    36  D  RS 1925088 + 32 [kworker/0:1H]
+259,0    0    23496     1.112201967   749  C  RS 1923072 + 504 [0]
+259,0    0    23497     1.112563925   749  C  RS 1923072 + 2048 [0]
+259,0    0    23498     1.112564425   749  C  RS 1923072 + 2016 [0]
+259,0    0    23499     1.112564800   749  C  RS 1923072 + 1512 [0]
+259,0    0    23500     1.112758217   749  C  RS 1923072 + 1008 [0]
+
+In addition, going back to Michaels reference commit and running the
+test in the same setup, I got the following checks:
+
+max_sectors_kb:512
+max_hw_sectors_kb:512
+max_segments:127
+max_segment_size:4294967295
+optimal_io_size:512
+logical_block_size:512
+
+So, I'm not sure why my max_segments when from 64 -> 127 and,
+max_sectors_kb and max_hw_sectdors_kb from 252 -> 512. Perhaps my
+first assumption was wrong?
+
+[1] test:
+https://unix.stackexchange.com/questions/529529/why-is-the-size-of-my-io-requests-being-limited-to-about-512k
+
+Daniel
+
+>
+> Michael
+>
+>
+>
