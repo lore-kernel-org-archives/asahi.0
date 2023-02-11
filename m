@@ -1,236 +1,140 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from DM5PR00CU002-vft-obe.outbound.protection.outlook.com (mail-centralusazon11021016.outbound.protection.outlook.com [52.101.62.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4A5813;
-	Sat, 11 Feb 2023 02:14:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676081698; x=1707617698;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=AFH7pAzH8z3MkAsbKr3xo6FcBDF2BLc1KAFzqHwB5bs=;
-  b=iaOyw950XhTEXZnHQmzPxwxShOGfoqYKmq1odEQ1fz6PdXhIo5I+AH71
-   WlbWu7O6CEAi9aCg9ljAD7mwcDpu2WusYoug7T+9bkpWsu15+ZuWmx7Ew
-   k1n62CFi+dsVid0s5iS3+1TA64rQB84mJPAtWllHBWuFIuJ64l0YR1avf
-   QFnOSVLUcEaJLzFB5FWrvkboUPsaxtiBWMGkYkYyr0avBG97Hi3snBzaH
-   y3DBTaUYaJiCJ1fRctAqAQ/QOtcodYGOwyeikXJHNS/sgC1u5rf0iQ9YA
-   8UsepKmaangeYUOJEAxLUJTW4ohQi9WvNxThBD9+WZmKbBt9oGKED/1ep
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="330582019"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="330582019"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2023 18:14:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10617"; a="842213075"
-X-IronPort-AV: E=Sophos;i="5.97,287,1669104000"; 
-   d="scan'208";a="842213075"
-Received: from lkp-server01.sh.intel.com (HELO 4455601a8d94) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 10 Feb 2023 18:14:53 -0800
-Received: from kbuild by 4455601a8d94 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pQfPg-0006B7-2O;
-	Sat, 11 Feb 2023 02:14:52 +0000
-Date: Sat, 11 Feb 2023 10:14:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-usb@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-media@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, intel-gfx@lists.freedesktop.org,
- fsverity@lists.linux.dev, asahi@lists.linux.dev,
- amd-gfx@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 6ba8a227fd19d19779005fb66ad7562608e1df83
-Message-ID: <63e6fa07.0LOPaAs7kdy2KqZw%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1E1A4C
+	for <asahi@lists.linux.dev>; Sat, 11 Feb 2023 05:33:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GCfobt6QcwbVEAYhqoGYfop7n+pTezKPycYDJ3Ju6SSPe5SCTUFcBct8QaiO+IJn30kzpzxFIj24GasxBnM+YBu4SmgZCYyJ6+TqD9nKW/xm82Im91cYFVl2eOziC75qF29A7Oh2Tx3k3vk79zQjTtbpFmD6u4Bda+h9IfTLbGL76dhGnxT9yFXNAPiF6FHRBm4B3UXJUeNCCnI7rlk0l/55rklRcsqpk1fqAS7VXCJ1ghNfSFRsZoNFUHfGGceznFG5/W8unQnXx3VUu90oY28e9RSh3QoEUuGAyfWnrJkboSDtg+wNRHQG5J0RH2A7D/BANrOaJUG3XuRCx3R9PA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=drvdaDvH4ja0s0OFxoErfnvKnideY+vuI4EHaRWqYgU=;
+ b=Cp+XGFJThg39PX7G2Io6PudlsAxTrohNa4S3EbVI7a2ntUoUWyhEsB4I1rN5V2KaY4OCJfh0rCe1AFUroOxR4qnNzbh4LBZWoBz4ul6cyiS3WS9I+jDONsorO2GdNvvngxVwIBE+WnwXbZQ6tN73e4dietkA0BloLCyzr9f/qK89QIkHikpqJVrvu627Spz6amXS4XWOOXFJZpSPvfYYGUP/mqef5CH4MItjRrADM2b+3zeSDWp1TCPGA44SVWRsKrvHoxXYLmSD1tEEiOIakDwO82nRQvGJFeyx3T54C5fChRUTJ6ABzsJqiqSvLs68gSYdCvNZqhe+Za3ZvtqG6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=drvdaDvH4ja0s0OFxoErfnvKnideY+vuI4EHaRWqYgU=;
+ b=HLhA78qEfbhoekvZ73oHY9fZIT+pNcIdzlR5WCjuv93EdorGuiNdy9Z6dCyaljIxhv/nRLxkjhmmVLwb05+3Ck6a82nJrLSxG2sHSLs+hH+oS29GAP3eGTwPCOpnOHtuHgtC7FmlIxhOGd9r6luK+xc3FGQfcInA/s1lIVotoMg=
+Received: from BYAPR21MB1688.namprd21.prod.outlook.com (2603:10b6:a02:bf::26)
+ by DM4PR21MB3782.namprd21.prod.outlook.com (2603:10b6:8:a0::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6111.2; Sat, 11 Feb 2023 05:33:35 +0000
+Received: from BYAPR21MB1688.namprd21.prod.outlook.com
+ ([fe80::55a1:c339:a0fb:6bbf]) by BYAPR21MB1688.namprd21.prod.outlook.com
+ ([fe80::55a1:c339:a0fb:6bbf%8]) with mapi id 15.20.6111.007; Sat, 11 Feb 2023
+ 05:33:34 +0000
+From: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+To: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
+CC: Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>, "asahi@lists.linux.dev"
+	<asahi@lists.linux.dev>, "linux-nvme@lists.infradead.org"
+	<linux-nvme@lists.infradead.org>
+Subject: max_hw_sectors error caused by recent NVMe driver commit
+Thread-Topic: max_hw_sectors error caused by recent NVMe driver commit
+Thread-Index: Adk91saIeniTqD2RReK/0l1vmobdkg==
+Date: Sat, 11 Feb 2023 05:33:33 +0000
+Message-ID:
+ <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=9b45d5d5-515a-417f-a740-db0ed56a2681;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2023-02-11T05:05:22Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR21MB1688:EE_|DM4PR21MB3782:EE_
+x-ms-office365-filtering-correlation-id: 393bd70c-d252-4a8e-4737-08db0bf18445
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ VEaXqko0D6T7igLxMGC93gX03mHDD499d3rKUYNSQ2xCjX6x6kFs6Ce7FWkrdMDTVee+o9Dv2OJk8HmjfEzCy6W6XAm1rdj8pX08WOobFkr/NbQbrrjXMErjKDqxhOTIDA0OUdniIyQgdTuWt1Atnzk2t5DQ+sBULjvVnvmqKNI7lycfPmIY2Rw+DNRXrPMFTLaCR0NElDF66CRmzk3P6f7D5S5y4kRjL8lNJgnRJonOTeGXkHlZlxixOYObVcx6rA7q+pszH4g8caY3aczs5EXt08RGKoXAT0Su54BLpwKQ2sHlELipOHuqfUWqtDOjM33oPSdwPXJHxoewO2ajIsybXbYj6c0A8QAnm05Ry1h18ZHIaBcbqHy14xabVcXTl2gStZJ2keQ0x07sJvRpcBoEEHVSOolIQc/Dl/AOMmmCUiwcPyAvBJLp+kCvERqgxnxXCHWLR9W72jMHk67VJ+8VdmQreQZoZlR93kXvtdWR7Io33+wL9vTl+udvmkLKYfLOcpR9mDgIFTBuZG+5uGaI5VHZPExQ1MN+aEiTXGdQVkOCAhaj9yzRbHunSf9jfjebA8HFCrtv/nF1AKjunwWmmyu4xyPQ0/TvPBbDVDPbsB/z3Lww3f3g9jNTXBBIk573HhygxzI/dKpCKowbN7gXNgDJtOFuzmeNmHs9UVyqqbuOn6W65virJWpoG9cbkefAMeQ9lFSJt7MI/9iXUqRKvMJWWjRU/JSgn5Ijrn3uL+rw+h54+eExaIW8vivA
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR21MB1688.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(346002)(366004)(376002)(39860400002)(396003)(451199018)(122000001)(82960400001)(82950400001)(38100700002)(8936002)(8990500004)(9686003)(186003)(52536014)(5660300002)(10290500003)(38070700005)(4326008)(71200400001)(55016003)(33656002)(66946007)(76116006)(64756008)(66556008)(316002)(8676002)(7696005)(66446008)(66476007)(86362001)(110136005)(54906003)(478600001)(6506007)(2906002)(41300700001)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?h6QOo8klny0zPkJZcE477Z8j8FtHwWO/3Xk0BdyqFQLVV/XuZTz4UCyPZdOV?=
+ =?us-ascii?Q?2c5LqQny0BHM+qF8YgqIJuUyk2DHcq3BDXmi6p3YfAYLUAGLSQIpcLuZ3j0E?=
+ =?us-ascii?Q?/FcPoaulR3SFJkW3FjH6PpNdbor8sCwsPofsQPxEr/vkyQrD4EOlKfZ82enj?=
+ =?us-ascii?Q?GYYjEjzt+kH88EyFa1lkyiGvbOoBvZ7M4KhROWM83S33ydJORWF+s4F0Ka2s?=
+ =?us-ascii?Q?r8GEMhPG2LYhJG2VBGbiURH4qwE4KXDUvFV56SffcaGgqTyo7vL+oBdK18iZ?=
+ =?us-ascii?Q?NRjqwfKsGPcuqNYNeSgvavAl9jzVbps0TtpxpDDxdKRgfGVNyhoGpNVqoqtT?=
+ =?us-ascii?Q?QuJ/yU9/I6Vg98JETo1HrKVRAFX8mHlA/IA9ne1d7MQFp+dbyTC5Mv4HH9vt?=
+ =?us-ascii?Q?2FPuRvUoe1Dd6QZ5mIqnEG7Q5pOtF7IrIFjpk3oXTzRQvgdsO18cx2pKSJVA?=
+ =?us-ascii?Q?rYDQd9J9C7BYTMjtSS/iNnMmkMkO4BKEsUc5FXv3SbP0K8WQeY8wZj5qkaT9?=
+ =?us-ascii?Q?rxNoQ0dgaLDg00fRuLOZcxnTngctfrGVD1Odsuhncj9v8ijiFL/FwrUiWBqp?=
+ =?us-ascii?Q?IoSRLEX9KOYWvYAs8QkYxuLYWW0UJR3vo5Ir5ory0mwjmz0EnO5aLblk2umd?=
+ =?us-ascii?Q?EbA0KAMBDfbb9giqaWTTqKAJ6SKxtlEZK3L7ZxKvNuT20vWHsLyVozj2iFBZ?=
+ =?us-ascii?Q?TRN0tlEervR15W6CGc5GJkYvrPGBocUicuCzoua2MbE9Kcr6ONmK3k988oZ4?=
+ =?us-ascii?Q?9VWAkqih+8u0N41ScOkKWoZpjZWX3do4XT2n4yT9YklJbKUt4pT2Ow/WL2jk?=
+ =?us-ascii?Q?hIK/cEIt4y825lV2eyFJSmYyWM7a5NoVXA882B8cYT91abn0Z6Z/a6NYHJz8?=
+ =?us-ascii?Q?PmzvVo5QayHn+JrDklOcbn1tBdXqjfeiyX0aY8Nwuivn5jTVgRlr+tlWkRja?=
+ =?us-ascii?Q?6neg7VfMV4XxPywCsckZ8L3nkF1NhsEgF7hnBg9JbBUaX4gQab8R8nEqH2xc?=
+ =?us-ascii?Q?fxF/J2nHWMbko2OyaKG+ag+foQU6is9utxZbrh4zuDaWfCIN1bCs0bCC1VkN?=
+ =?us-ascii?Q?If4bAUuxTIfvlo0d9vZIA8Kj1zwkbswloeefzK8qMZM6NFluMHX1X7BV9ytj?=
+ =?us-ascii?Q?cYvJo3NWYoUfS9OJ2+UxDsGOhRqM3EBA5m5Y5/mv4nJNApvuzoUKZMFcVf8Y?=
+ =?us-ascii?Q?Oupzx3HU2sHefcSZDlepKQolMmOjOlwTb3okaAAoHI3fv8LjnSocElXLqJV5?=
+ =?us-ascii?Q?Y/6UfOSLBWAIau7bb00RheAokUeuoBpDNwR3jxZMWfMFa3Orw7afIl4yJdZ6?=
+ =?us-ascii?Q?jejflVsR5DttzfILP6dvoSHFRRGBmCFYeUc5umEDYrwtc3Nxa1Pe/eIEpeAh?=
+ =?us-ascii?Q?BkE2aP9q2unmqNH7vNQWilup+RWybwIViy9R76JSpdXPG2PF4o3Ige3sRAjK?=
+ =?us-ascii?Q?PVrNkIMUBD8EN9oM1L2HwiSAS0o3DHHcMqynWU5kFphhgw8ggMwyVEm2ho3w?=
+ =?us-ascii?Q?xpnvSZUXc0YQhlBWtfG91p00KR2A0pG+dshZyFqJCiUBWsBmozJX14TqxQwV?=
+ =?us-ascii?Q?tSOM8D5JzKUUeyRayOm15yxpltYCcOMsD5VGZocINxh1D3cSGDeDhRlhalQg?=
+ =?us-ascii?Q?2YiWCZy2pd76Kv/mOIzKNG6pJrWgeXyXQVOYDLMyk/vB69MX65XrUGjLXZ8A?=
+ =?us-ascii?Q?oTK/Bg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1688.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 393bd70c-d252-4a8e-4737-08db0bf18445
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2023 05:33:33.6745
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GzQ9z34HmgOARN1tRyGOQFmSCLnEo6JFrztpP/neNubvlTLUJTgBu7+GODKQ7DUeqZBUxs6wQpt0iQyTIHaoz8IY0fZQ3+TQKpiAM6iwHM8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR21MB3782
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 6ba8a227fd19d19779005fb66ad7562608e1df83  Add linux-next specific files for 20230210
+Commit 3f30a79c2e2c ("nvme-pci: set constant paramters in nvme_pci_alloc_ct=
+rl")
+appears to have introduced an error in how max_hw_sectors is calculated.  T=
+he
+value of max_hw_sectors is based on dma_max_mapping_size(), which indirectl=
+y
+uses dma_addressing_limited() to decide if swiotlb_max_mapping_size() shoul=
+d
+be used.
 
-Error/Warning reports:
+In this commit, setting max_hw_sectors is moved to nvme_pci_alloc_dev().
+But dma_addressing_limited() depends on the dev->dma_mask, which hasn't
+been set.  dma_addressing_limited() returns "true", and the swiotlb max map=
+ping
+size is used, limiting NVMe transfers to 504 sectors (252 Kbytes).
 
-https://lore.kernel.org/oe-kbuild-all/202301302110.mEtNwkBD-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202301310939.TAgCOEZb-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302061911.C7xvHX9v-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302062224.ByzeTXh1-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302092211.54EYDhYH-lkp@intel.com
+Prior to this commit, max_hw_sectors isn't set until after the call to
+dma_set_mask_and_coherent() in nvme_pci_enable(), as called from
+nvme_reset_work().   max_hw_sectors is correctly determined based on
+values reported by the NVMe controller.
 
-Error/Warning: (recently discovered and may have been fixed)
+I haven't provided a fix because I'm not that familiar with the overall str=
+ucture
+of the code and the intent of the code reorganization.  I'm not sure if set=
+ting
+the DMA mask should be moved earlier, or setting max_hw_sectors should
+be moved back to its original location.
 
-Documentation/sphinx/templates/kernel-toc.html: 1:36 Invalid token: #}
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hubbub.c:1011:6: warning: no previous prototype for 'hubbub31_init' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hubbub.c:948:6: warning: no previous prototype for 'hubbub32_init' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_hubp.c:158:6: warning: no previous prototype for 'hubp32_init' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:62:18: warning: variable 'cursor_bpp' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1296:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:280:42: warning: variable 'ds_port' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1586:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
-ftrace-ops.c:(.init.text+0x2c3): undefined reference to `__udivdi3'
+Michael
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
 
-drivers/clk/ingenic/jz4760-cgu.c:80 jz4760_cgu_calc_m_n_od() error: uninitialized symbol 'od'.
-drivers/iommu/apple-dart.c:1281:1: sparse: sparse: symbol 'apple_dart_pm_ops' was not declared. Should it be static?
-drivers/media/i2c/max9286.c:802 max9286_s_stream() error: buffer overflow 'priv->fmt' 4 <= 32
-drivers/thermal/qcom/tsens-v0_1.c:106:40: sparse: sparse: symbol 'tsens_9607_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:26:40: sparse: sparse: symbol 'tsens_8916_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:42:40: sparse: sparse: symbol 'tsens_8939_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:62:40: sparse: sparse: symbol 'tsens_8974_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:84:40: sparse: sparse: symbol 'tsens_8974_backup_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:24:40: sparse: sparse: symbol 'tsens_qcs404_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:45:40: sparse: sparse: symbol 'tsens_8976_nvmem' was not declared. Should it be static?
-drivers/usb/gadget/composite.c:2082:33: sparse: sparse: restricted __le16 degrades to integer
-fs/verity/enable.c:29:2: warning: Null pointer passed as 1st argument to memory set function [clang-analyzer-unix.cstring.NullArg]
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- alpha-buildonly-randconfig-r006-20230210
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn31-dcn31_hubbub.c:warning:no-previous-prototype-for-hubbub31_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubbub.c:warning:no-previous-prototype-for-hubbub32_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubp.c:warning:no-previous-prototype-for-hubp32_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arm64-randconfig-m041-20230210
-|   |-- drivers-clk-ingenic-jz4760-cgu.c-jz4760_cgu_calc_m_n_od()-error:uninitialized-symbol-od-.
-|   `-- drivers-media-i2c-max9286.c-max9286_s_stream()-error:buffer-overflow-priv-fmt
-|-- arm64-randconfig-s042-20230210
-|   `-- drivers-iommu-apple-dart.c:sparse:sparse:symbol-apple_dart_pm_ops-was-not-declared.-Should-it-be-static
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn31-dcn31_hubbub.c:warning:no-previous-prototype-for-hubbub31_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubbub.c:warning:no-previous-prototype-for-hubbub32_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_hubp.c:warning:no-previous-prototype-for-hubp32_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-ds_port-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|   `-- ftrace-ops.c:(.init.text):undefined-reference-to-__udivdi3
-|-- i386-randconfig-m021
-|   `-- kernel-trace-trace_events_synth.c-trace_event_raw_event_synth()-warn:inconsistent-indenting
-|-- i386-randconfig-s001
-|   |-- drivers-gpu-drm-i915-gem-i915_gem_ttm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-vm_fault_t-assigned-usertype-ret-got-int
-|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
-|-- i386-randconfig-s002
-|   `-- drivers-gpu-drm-i915-gem-i915_gem_ttm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-vm_fault_t-assigned-usertype-ret-got-int
-|-- i386-randconfig-s003
-clang_recent_errors
-`-- s390-randconfig-c005-20230210
-    `-- fs-verity-enable.c:warning:Null-pointer-passed-as-1st-argument-to-memory-set-function-clang-analyzer-unix.cstring.NullArg
-
-elapsed time: 1238m
-
-configs tested: 71
-configs skipped: 8
-
-gcc tested configs:
-alpha                            allyesconfig
-alpha                               defconfig
-arc                              allyesconfig
-arc                                 defconfig
-arc                        nsimosci_defconfig
-arm                              allmodconfig
-arm                              allyesconfig
-arm                                 defconfig
-arm                      footbridge_defconfig
-arm                            qcom_defconfig
-arm                           sunxi_defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-csky                                defconfig
-i386                             allyesconfig
-i386                              debian-10.3
-i386                                defconfig
-i386                          randconfig-a016
-i386                          randconfig-c001
-ia64                             allmodconfig
-ia64                                defconfig
-loongarch                        allmodconfig
-loongarch                         allnoconfig
-loongarch                           defconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                        m5272c3_defconfig
-m68k                       m5275evb_defconfig
-mips                             allmodconfig
-mips                             allyesconfig
-mips                       bmips_be_defconfig
-mips                         db1xxx_defconfig
-nios2                               defconfig
-parisc                              defconfig
-parisc64                            defconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-riscv                            allmodconfig
-riscv                               defconfig
-s390                             allmodconfig
-s390                             allyesconfig
-s390                                defconfig
-sh                               allmodconfig
-sh                        edosk7760_defconfig
-sh                          sdk7786_defconfig
-sh                           se7343_defconfig
-sh                     sh7710voipgw_defconfig
-sparc                             allnoconfig
-sparc                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                            allnoconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                                  kexec
-x86_64                        randconfig-a006
-x86_64                               rhel-8.3
-x86_64                          rhel-8.3-func
-
-clang tested configs:
-i386                              allnoconfig
-i386                          randconfig-a006
-mips                        qi_lb60_defconfig
-powerpc                     mpc5200_defconfig
-powerpc                    mvme5100_defconfig
-powerpc                      ppc64e_defconfig
-powerpc              randconfig-c003-20230210
-riscv                randconfig-c006-20230210
-s390                 randconfig-c005-20230210
-s390                 randconfig-r044-20230210
-x86_64                        randconfig-a005
-x86_64                        randconfig-a016
-x86_64                          rhel-8.3-rust
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
