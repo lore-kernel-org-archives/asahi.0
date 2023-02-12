@@ -1,144 +1,110 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E968BA4E
-	for <asahi@lists.linux.dev>; Sun, 12 Feb 2023 06:39:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 66B064264E;
-	Sun, 12 Feb 2023 06:38:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1676183945; bh=BGt8G715pGoRlOQmF5GajgsoJaqKzjZwM8/OXbCFUiY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=m8JAL+q4gXGYDcpbK4+BMpxKomgLSvRGqXdW7yqpqQZT1ZJx3hbqs8gICxJibgItm
-	 sQlWZXM13zJWMgp3QyUdYmXkVw/64i1MCmYci90wSXl9cenTnSVSIB1EdrZzVpF901
-	 37quIBlROk+A+dgi7wC5ZpyFXgyHagGlG2XC+FeUptkuX2oAlxtWo60CieYhSXcwo1
-	 owkT6R5WRYL6JIcYS6ZZMfrHBZGZzI+NREhoMGrD4TVh3KGUmPQHXuuIPjv+EAH98n
-	 5yYG0Ayvt1CqsHnYnfZlv4CkeJk5F/dXfqlxGI85Y8Z5wusEApLS/1ZWBjjjlrswgK
-	 2eiuCDDt56aJA==
-From: Hector Martin <marcan@marcan.st>
-To: Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Alexander Prutskov <alep@cypress.com>,
-	Ian Lin <ian.lin@infineon.com>,
-	Joseph chuang <jiac@cypress.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E605257A
+	for <asahi@lists.linux.dev>; Sun, 12 Feb 2023 15:41:38 +0000 (UTC)
+Received: from robin.home.jannau.net (p579ad32f.dip0.t-ipconnect.de [87.154.211.47])
+	by soltyk.jannau.net (Postfix) with ESMTPSA id A76EC26F77A;
+	Sun, 12 Feb 2023 16:41:30 +0100 (CET)
+From: Janne Grunau <j@jannau.net>
+To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Aditya Garg <gargaditya08@live.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>,
-	asahi@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
-	brcm80211-dev-list.pdl@broadcom.com,
-	SHA-cyfmac-dev-list@infineon.com,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Arend van Spriel <arend.vanspriel@broadcom.com>
-Subject: [PATCH v4 4/4] brcmfmac: pcie: Perform correct BCM4364 firmware selection
-Date: Sun, 12 Feb 2023 15:38:13 +0900
-Message-Id: <20230212063813.27622-5-marcan@marcan.st>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230212063813.27622-1-marcan@marcan.st>
-References: <20230212063813.27622-1-marcan@marcan.st>
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Marc Zyngier <maz@kernel.org>
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 05/17] dt-bindings: interrupt-controller: apple,aic2: Add apple,t8112-aic compatible
+Date: Sun, 12 Feb 2023 16:41:15 +0100
+Message-Id: <20230202-asahi-t8112-dt-v1-5-cb5442d1c229@jannau.net>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
+References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1978; i=j@jannau.net; h=from:subject:message-id; bh=9s42KFAgCWAeCi1wiBerzppTPEA8YEq8gDQ5kBlwTI8=; b=owGbwMvMwCG2UNrmdq9+ahrjabUkhuSX7CdMPyV9KFeed+Hg6fDPDiqSuwRqN4rc+KCavJJ91 VPvJaGRHaUsDGIcDLJiiixJ2i87GFbXKMbUPgiDmcPKBDKEgYtTAC7SzfCH8xyfz82S6xMsvs48 HCa16xKbzrGWNGaTT/4LV3Er+d41Z2S4uWfqmk0x53O1eGPXblPU+qKVIpTwetn/BE0x2zuKGyO 5AA==
+X-Developer-Key: i=j@jannau.net; a=openpgp; fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 Content-Transfer-Encoding: 8bit
 
-This chip exists in two revisions (B2=r3 and B3=r4) on different
-platforms, and was added without regard to doing proper firmware
-selection or differentiating between them. Fix this to have proper
-per-revision firmwares and support Apple NVRAM selection.
+The Apple M2 SoC uses AICv2 and is compatible with the existing driver.
+Add its per-SoC compatible.
+Since multi-die versions of the M2 are not expected decrease
+'#interrupt-cells' to 3 for apple,t8112-aic. This is seamlessly handled
+inside the driver.
 
-Revision B2 is present on at least these Apple T2 Macs:
+Signed-off-by: Janne Grunau <j@jannau.net>
 
-kauai:    MacBook Pro 15" (Touch/2018-2019)
-maui:     MacBook Pro 13" (Touch/2018-2019)
-lanai:    Mac mini (Late 2018)
-ekans:    iMac Pro 27" (5K, Late 2017)
-
-And these non-T2 Macs:
-
-nihau:    iMac 27" (5K, 2019)
-
-Revision B3 is present on at least these Apple T2 Macs:
-
-bali:     MacBook Pro 16" (2019)
-trinidad: MacBook Pro 13" (2020, 4 TB3)
-borneo:   MacBook Pro 16" (2019, 5600M)
-kahana:   Mac Pro (2019)
-kahana:   Mac Pro (2019, Rack)
-hanauma:  iMac 27" (5K, 2020)
-kure:     iMac 27" (5K, 2020, 5700/XT)
-
-Also fix the firmware interface for 4364, from BCA to WCC.
-
-Fixes: 24f0bd136264 ("brcmfmac: add the BRCM 4364 found in MacBook Pro 15,2")
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Arend van Spriel <arend.vanspriel@broadcom.com>
-Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- .../net/wireless/broadcom/brcm80211/brcmfmac/pcie.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+This trivial dt-bindings update should be merged through the asahi-soc
+tree to ensure validation of the Apple M2 (t8112) devicetrees in this
+series.
+---
+ .../bindings/interrupt-controller/apple,aic2.yaml  | 23 +++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-index d54394885af7..f320b6ce8bff 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-@@ -57,7 +57,8 @@ BRCMF_FW_CLM_DEF(4356, "brcmfmac4356-pcie");
- BRCMF_FW_CLM_DEF(43570, "brcmfmac43570-pcie");
- BRCMF_FW_DEF(4358, "brcmfmac4358-pcie");
- BRCMF_FW_DEF(4359, "brcmfmac4359-pcie");
--BRCMF_FW_DEF(4364, "brcmfmac4364-pcie");
-+BRCMF_FW_CLM_DEF(4364B2, "brcmfmac4364b2-pcie");
-+BRCMF_FW_CLM_DEF(4364B3, "brcmfmac4364b3-pcie");
- BRCMF_FW_DEF(4365B, "brcmfmac4365b-pcie");
- BRCMF_FW_DEF(4365C, "brcmfmac4365c-pcie");
- BRCMF_FW_DEF(4366B, "brcmfmac4366b-pcie");
-@@ -88,7 +89,8 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
- 	BRCMF_FW_ENTRY(BRCM_CC_43570_CHIP_ID, 0xFFFFFFFF, 43570),
- 	BRCMF_FW_ENTRY(BRCM_CC_4358_CHIP_ID, 0xFFFFFFFF, 4358),
- 	BRCMF_FW_ENTRY(BRCM_CC_4359_CHIP_ID, 0xFFFFFFFF, 4359),
--	BRCMF_FW_ENTRY(BRCM_CC_4364_CHIP_ID, 0xFFFFFFFF, 4364),
-+	BRCMF_FW_ENTRY(BRCM_CC_4364_CHIP_ID, 0x0000000F, 4364B2), /* 3 */
-+	BRCMF_FW_ENTRY(BRCM_CC_4364_CHIP_ID, 0xFFFFFFF0, 4364B3), /* 4 */
- 	BRCMF_FW_ENTRY(BRCM_CC_4365_CHIP_ID, 0x0000000F, 4365B),
- 	BRCMF_FW_ENTRY(BRCM_CC_4365_CHIP_ID, 0xFFFFFFF0, 4365C),
- 	BRCMF_FW_ENTRY(BRCM_CC_4366_CHIP_ID, 0x0000000F, 4366B),
-@@ -2003,6 +2005,11 @@ static int brcmf_pcie_read_otp(struct brcmf_pciedev_info *devinfo)
- 		base = 0x8c0;
- 		words = 0xb2;
- 		break;
-+	case BRCM_CC_4364_CHIP_ID:
-+		coreid = BCMA_CORE_CHIPCOMMON;
-+		base = 0x8c0;
-+		words = 0x1a0;
-+		break;
- 	case BRCM_CC_4377_CHIP_ID:
- 	case BRCM_CC_4378_CHIP_ID:
- 		coreid = BCMA_CORE_GCI;
-@@ -2611,7 +2618,7 @@ static const struct pci_device_id brcmf_pcie_devid_table[] = {
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_43602_2G_DEVICE_ID, WCC),
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_43602_5G_DEVICE_ID, WCC),
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_43602_RAW_DEVICE_ID, WCC),
--	BRCMF_PCIE_DEVICE(BRCM_PCIE_4364_DEVICE_ID, BCA),
-+	BRCMF_PCIE_DEVICE(BRCM_PCIE_4364_DEVICE_ID, WCC),
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_4365_DEVICE_ID, BCA),
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_4365_2G_DEVICE_ID, BCA),
- 	BRCMF_PCIE_DEVICE(BRCM_PCIE_4365_5G_DEVICE_ID, BCA),
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
+index 06948c0e36a5..120e23ff668c 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
+@@ -31,19 +31,22 @@ description: |
+ properties:
+   compatible:
+     items:
+-      - const: apple,t6000-aic
++      - enum:
++          - apple,t8112-aic
++          - apple,t6000-aic
+       - const: apple,aic2
+ 
+   interrupt-controller: true
+ 
+   '#interrupt-cells':
+-    const: 4
++    minimum: 3
++    maximum: 4
+     description: |
+       The 1st cell contains the interrupt type:
+         - 0: Hardware IRQ
+         - 1: FIQ
+ 
+-      The 2nd cell contains the die ID.
++      The 2nd cell contains the die ID (optional).
+ 
+       The next cell contains the interrupt number.
+         - HW IRQs: interrupt number
+@@ -98,6 +101,20 @@ properties:
+           - apple,fiq-index
+           - cpus
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        const: apple,t8112-aic
++then:
++  properties:
++    '#interrupt-cells':
++      maximum: 3
++else:
++  properties:
++    '#interrupt-cells':
++      minimum: 4
++
+ required:
+   - compatible
+   - '#interrupt-cells'
+
 -- 
-2.35.1
+2.39.1
 
