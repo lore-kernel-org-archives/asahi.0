@@ -1,25 +1,26 @@
 Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920BA4A30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9060F46BB
 	for <asahi@lists.linux.dev>; Sun, 12 Feb 2023 15:51:34 +0000 (UTC)
 Received: from robin.home.jannau.net (p579ad32f.dip0.t-ipconnect.de [87.154.211.47])
-	by soltyk.jannau.net (Postfix) with ESMTPSA id 4A2A226F776;
-	Sun, 12 Feb 2023 16:41:28 +0100 (CET)
+	by soltyk.jannau.net (Postfix) with ESMTPSA id 185F226F779;
+	Sun, 12 Feb 2023 16:41:30 +0100 (CET)
 From: Janne Grunau <j@jannau.net>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>
+	Mark Kettenis <kettenis@openbsd.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>
 Cc: asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 01/17] dt-bindings: power: apple,pmgr-pwrstate: Add t8112 compatible
-Date: Sun, 12 Feb 2023 16:41:11 +0100
-Message-Id: <20230202-asahi-t8112-dt-v1-1-cb5442d1c229@jannau.net>
+Subject: [PATCH 04/17] dt-bindings: arm: cpus: Add apple,avalanche & blizzard compatibles
+Date: Sun, 12 Feb 2023 16:41:14 +0100
+Message-Id: <20230202-asahi-t8112-dt-v1-4-cb5442d1c229@jannau.net>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
 References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
@@ -31,52 +32,35 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1525; i=j@jannau.net; h=from:subject:message-id; bh=n7yL/QDtU43Wl5Tm9zGg0PPtP+ZxPi+QYS5i4Gj7DUs=; b=owGbwMvMwCG2UNrmdq9+ahrjabUkhuSX7MdDAw2Lq9K5U0NvRC9siGdxzLiyf7OifrDVyfdSi nn/N6d2lLIwiHEwyIopsiRpv+xgWF2jGFP7IAxmDisTyBAGLk4BmMhjPkaGJTqrmTa6KV+8fDGN rX/V8za51TxuE6udk9fNt++K5lHkBaqoqTicLh+aHN15YIJ/fr/PTse6K1cfCZ6sDJG8O3fjE1Y A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=821; i=j@jannau.net; h=from:subject:message-id; bh=JDVXxH2rWzmb7GnkAaYgeojsclpJe8BD3FpRIBowJhA=; b=owGbwMvMwCG2UNrmdq9+ahrjabUkhuSX7Ce6Dh9jXnrYNNf70Ra/ncW+HKai0lnLPdZpb5sul Kz3TuhjRykLgxgHg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgIn0ODAyHK5uMD+/RtRb4Nvt mIUSKyp8WN7XP/pqZjWX/X0MJ79UICPDpqR/5wWWME0qTbx9WTKvtrDG+PkWvqpdezl5pNvNb5Z wAgA=
 X-Developer-Key: i=j@jannau.net; a=openpgp; fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 Content-Transfer-Encoding: 8bit
 
-From: Hector Martin <marcan@marcan.st>
+These are the CPU cores in the Apple silicon M2 SoC.
 
-Add the apple,t8112-pmgr-pwrstate compatible for the Apple M2 SoC.
-
-This goes after t8103. The sort order logic here is having SoC numeric
-code families in release order, and SoCs within each family in release
-order:
-
-- t8xxx (Apple HxxP/G series, "phone"/"tablet" chips)
-  - t8103 (Apple H13G/M1)
-  - t8112 (Apple H14G/M2)
-- t6xxx (Apple HxxJ series, "desktop" chips)
-  - t6000 (Apple H13J(S)/M1 Pro)
-  - t6001 (Apple H13J(C)/M1 Max)
-  - t6002 (Apple H13J(D)/M1 Ultra)
-
-Note that t600[0-2] share the t6000 compatible where the hardware is
-100% compatible, which is usually the case in this highly related set
-of SoCs.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
+Signed-off-by: Janne Grunau <j@jannau.net>
 
 ---
 This trivial dt-bindings update should be merged through the asahi-soc
 tree to ensure validation of the Apple M2 (t8112) devicetrees in this
 series.
 ---
- Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/arm/cpus.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
-index 94d369eb85de..59a6af735a21 100644
---- a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
-+++ b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
-@@ -32,6 +32,7 @@ properties:
-     items:
-       - enum:
-           - apple,t8103-pmgr-pwrstate
-+          - apple,t8112-pmgr-pwrstate
-           - apple,t6000-pmgr-pwrstate
-       - const: apple,pmgr-pwrstate
+diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
+index 01b5a9c689a2..ac79fbb1479d 100644
+--- a/Documentation/devicetree/bindings/arm/cpus.yaml
++++ b/Documentation/devicetree/bindings/arm/cpus.yaml
+@@ -85,6 +85,8 @@ properties:
  
+   compatible:
+     enum:
++      - apple,avalanche
++      - apple,blizzard
+       - apple,icestorm
+       - apple,firestorm
+       - arm,arm710t
 
 -- 
 2.39.1
