@@ -1,163 +1,92 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C8F8F7C
-	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 17:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1676308536;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bO9yWwo9vtU3iHdmRXxQpw7q9DBKrgQFiJMFo0shriM=;
-	b=PMmtSVLb6jTUa1kS5i4JPamOxaP5wkAjD4FiuZ7CxuOhuGQLPX4iuIDxFCHxGu8f8cLLg4
-	vvLKT13/Gx+gpgK4ahLXmQNv9WeGskl6B+Y4ysPT4qk4eius6HOgBLGxQdCqGL9cq4X1+B
-	L410VfDZ4ScNgMZ4RDA93M8eCbhE2Js=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-86-Tm0DGEJzNmOYUwNoGiNndw-1; Mon, 13 Feb 2023 12:15:34 -0500
-X-MC-Unique: Tm0DGEJzNmOYUwNoGiNndw-1
-Received: by mail-ua1-f71.google.com with SMTP id o6-20020ab01506000000b004f8c11096a9so4599626uae.20
-        for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 09:15:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1676308534;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bO9yWwo9vtU3iHdmRXxQpw7q9DBKrgQFiJMFo0shriM=;
-        b=6MBdAaZVojgOd4jacR54aSBC5iT/7kKEtS/q4k/0QWNFwsNifJ3MQxtcbCCd8NWWDx
-         eiFs5NxEa0Ty4o0pWDJYMBqjPGDIrEi0/ENMIguQ2fAsbPusbM2I5U39VUz4vowN3zB0
-         5Lfx3kCa0HsUXogDwp6JLFSkc+4s23Ff9r9v1i2nqvhsNXvkTsmj/rUJl0hsazko7Eug
-         ex8glLenpJzknP1MjI9Pysq/UfqwTy3L8YA1xUX2LP7BOh8Ms4wnd20UmbK7rnG245l8
-         +9Yc2przBXUYO2sULSpDLoNujCOAZdvi/LyjWTt25O/TnCCEdnrjk4B+fFWdGNlaZWyV
-         NbUA==
-X-Gm-Message-State: AO0yUKV74z5nnedvGev9kz2RBopwM5btBZD+TOEsMh0FzKCVOkMiqdoW
-	6Y7/+ShU6TbbHV1o15bFLObFVF/lUClH1WI/zpsteiNBkq/TtNpscumiphgO/s9yCDupzbKFFHk
-	DSAjW1IeQhqLLKFZs/4ajYLM/XnoFVgo=
-X-Received: by 2002:a1f:b685:0:b0:401:b0cc:f96f with SMTP id g127-20020a1fb685000000b00401b0ccf96fmr149915vkf.11.1676308534160;
-        Mon, 13 Feb 2023 09:15:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set9SCfvG2pXjcynyi3JTNlAgUIexnHd1Ro0ps7FctoZkveGxkgYQ5kpx4sOfqRSiZHb0pjNBjmGb22dmQ3G0C0Y=
-X-Received: by 2002:a1f:b685:0:b0:401:b0cc:f96f with SMTP id
- g127-20020a1fb685000000b00401b0ccf96fmr149909vkf.11.1676308533926; Mon, 13
- Feb 2023 09:15:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1274290B
+	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 19:22:48 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id 7F86C320076F;
+	Mon, 13 Feb 2023 14:22:47 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Mon, 13 Feb 2023 14:22:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1676316167; x=1676402567; bh=BL5FodN++K
+	TbDK9wvPiZgDMeyaOd6mLCQejb8JmIqo8=; b=ByDTqqTzE0jYpZnzvYZt02rnAX
+	HBZ0RHZ7WAXdvYuH/a1Go5xa4zuD549uu0CKjsKfQE0O/GKIVaXNzvwQNTVI8qAp
+	DGATr8MPT1bUSpMhyeuk4jW8C0Q5lODpF/U7XJmQZ1kF/lglYUut9DYOrNTcTx2+
+	iBGQClnPgITSL7zxjR5c0ZfiZYP623FuC/miNOIXj3yIizqXcaxQRv3r+HEBqgcc
+	c0o2ZKSxXJdt85VC6roavN0Y6Xx/YP6uyO6I/j/8/wt8/7GiORCzhLYLP/UPmRoV
+	Hk6obGljFI5Qg5oEHr92Hxk8wwbgkll/PIjCj1TaxxQ+iK3p1ban7aWnUI4w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1676316167; x=1676402567; bh=BL5FodN++KTbDK9wvPiZgDMeyaOd
+	6mLCQejb8JmIqo8=; b=mCQSIf7Bfrkdmc4+Kjz9sqbpV2yarclg1pDVHoPEO6FQ
+	kG963IFw2YZjKHtr3W+xYy7nPv+I6TnffX39Y9W7AChq+Y/zOOySIs6WMvTDneAY
+	39iGg6mfl8UW7gYL7ENdo9My6GMD/mGR33rQwsaaObqbA6kDF6tmfeHaIgZvnXN0
+	3R/sgQ5UKfmBmSnNnlanI/eWHzi8R6hw2+EWzsH6dzhPk1Tg0PTTtNU0v0RJftKN
+	EAZ9seedqKe2+k5lneJrSXe9b/VEXSiooCamxgJqTecYbM0yI16GHtZJRqg0mEJ2
+	k6Qu/zfNMUXj+pwjP3khDLRczTcyfFKOnsD/pllGYQ==
+X-ME-Sender: <xms:Bo7qYze-_NC7wKcLtHxLOaW2YLHCHKzeui1aUWsYODphEHoJzT9pfQ>
+    <xme:Bo7qY5ODLGPKj4COXYDawrlKH_zSgtLDMZCy9jKlngzP09LVT40yXRfsAlIIOMpHR
+    gyYtC9vMwjuJFwU1os>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiuddguddvudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:Bo7qY8hvDvWYrMHI6Vh-w6_IeIGBKsHwFcvw09_zz4qY_qSiXduvnA>
+    <xmx:Bo7qY0-01hAZuWAcp9IWVU8unlz97NsTe0wrIli1UZeeL7ZEHosJfw>
+    <xmx:Bo7qY_uDgQiQQyk_RgPZGF5gKuf7xpQ7HNwozzorM8wmjTbz9xfEeA>
+    <xmx:B47qY1UkeF7egjDy5YZ6ZvCMsTPTuaS4uTvrBlEVYAZNPa6TBCVHQA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 32E90B60089; Mon, 13 Feb 2023 14:22:46 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Message-Id: <2c8a8539-649c-47d2-b416-6d607cba5956@app.fastmail.com>
+In-Reply-To: 
+ <CAOgh=FzCOvv86HG=AhCBDW6cUHDnzq8UPBgmYPR12PNNMRNx0w@mail.gmail.com>
 References: <20230211091302.4576-1-lina@asahilina.net>
-In-Reply-To: <20230211091302.4576-1-lina@asahilina.net>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Mon, 13 Feb 2023 17:15:18 +0000
-Message-ID: <CAOgh=FzCOvv86HG=AhCBDW6cUHDnzq8UPBgmYPR12PNNMRNx0w@mail.gmail.com>
-Subject: Re: [PATCH] soc: apple: rtkit: Do not copy the reg state structure to
- the stack
-To: Asahi Lina <lina@asahilina.net>
-Cc: Arnd Bergmann <arnd@arndb.de>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+ <CAOgh=FzCOvv86HG=AhCBDW6cUHDnzq8UPBgmYPR12PNNMRNx0w@mail.gmail.com>
+Date: Mon, 13 Feb 2023 20:22:28 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Eric Curtin" <ecurtin@redhat.com>, "Asahi Lina" <lina@asahilina.net>
+Cc: "Hector Martin" <marcan@marcan.st>, "Sven Peter" <sven@svenpeter.dev>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] soc: apple: rtkit: Do not copy the reg state structure to the
+ stack
+Content-Type: text/plain
 
-On Sat, 11 Feb 2023 at 09:21, Asahi Lina <lina@asahilina.net> wrote:
->
-> The register state struct is 848 bytes, which ends up bloating the
-> apple_rtkit_crashlog_dump_regs stack frame beyond 1024 on some
-> 32-bit platforms, triggering compile warnings.
->
-> This doesn't matter for 64BIT/ARM64, but there's also no good reason to
-> copy the structure to the stack in this case. We can use __packed to
-> avoid alignment issues, there are no double-read hazards, and this is a
-> fatal error path so performance does not matter.
->
-> Fixes: 22991d8d5725 ("soc: apple: rtkit: Add register dump decoding to crashlog")
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
+On Mon, Feb 13, 2023, at 18:15, Eric Curtin wrote:
+> On Sat, 11 Feb 2023 at 09:21, Asahi Lina <lina@asahilina.net> wrote:
+>>
+>> The register state struct is 848 bytes, which ends up bloating the
+>> apple_rtkit_crashlog_dump_regs stack frame beyond 1024 on some
+>> 32-bit platforms, triggering compile warnings.
+>>
+>> This doesn't matter for 64BIT/ARM64, but there's also no good reason to
+>> copy the structure to the stack in this case. We can use __packed to
+>> avoid alignment issues, there are no double-read hazards, and this is a
+>> fatal error path so performance does not matter.
+>>
+>> Fixes: 22991d8d5725 ("soc: apple: rtkit: Add register dump decoding to crashlog")
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 
-LGTM, less copies too.
+Merged now, thanks a lot for the fix!
 
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
-
-Is mise le meas/Regards,
-
-Eric Curtin
-
-> ---
->  drivers/soc/apple/rtkit-crashlog.c | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/soc/apple/rtkit-crashlog.c b/drivers/soc/apple/rtkit-crashlog.c
-> index dfa74b32eda2..8319e365110b 100644
-> --- a/drivers/soc/apple/rtkit-crashlog.c
-> +++ b/drivers/soc/apple/rtkit-crashlog.c
-> @@ -57,7 +57,7 @@ struct apple_rtkit_crashlog_regs {
->         u64 unk_X;
->         u64 esr;
->         u64 unk_Z;
-> -};
-> +} __packed;
->  static_assert(sizeof(struct apple_rtkit_crashlog_regs) == 0x350);
->
->  static void apple_rtkit_crashlog_dump_str(struct apple_rtkit *rtk, u8 *bfr,
-> @@ -126,18 +126,18 @@ static void apple_rtkit_crashlog_dump_mailbox(struct apple_rtkit *rtk, u8 *bfr,
->  static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
->                                            size_t size)
->  {
-> -       struct apple_rtkit_crashlog_regs regs;
-> +       struct apple_rtkit_crashlog_regs *regs;
->         const char *el;
->         int i;
->
-> -       if (size < sizeof(regs)) {
-> +       if (size < sizeof(*regs)) {
->                 dev_warn(rtk->dev, "RTKit: Regs section too small: 0x%zx", size);
->                 return;
->         }
->
-> -       memcpy(&regs, bfr, sizeof(regs));
-> +       regs = (struct apple_rtkit_crashlog_regs *)bfr;
->
-> -       switch (regs.psr & PSR_MODE_MASK) {
-> +       switch (regs->psr & PSR_MODE_MASK) {
->         case PSR_MODE_EL0t:
->                 el = "EL0t";
->                 break;
-> @@ -160,11 +160,11 @@ static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
->
->         dev_warn(rtk->dev, "RTKit: Exception dump:");
->         dev_warn(rtk->dev, "  == Exception taken from %s ==", el);
-> -       dev_warn(rtk->dev, "  PSR    = 0x%llx", regs.psr);
-> -       dev_warn(rtk->dev, "  PC     = 0x%llx\n", regs.pc);
-> -       dev_warn(rtk->dev, "  ESR    = 0x%llx\n", regs.esr);
-> -       dev_warn(rtk->dev, "  FAR    = 0x%llx\n", regs.far);
-> -       dev_warn(rtk->dev, "  SP     = 0x%llx\n", regs.sp);
-> +       dev_warn(rtk->dev, "  PSR    = 0x%llx", regs->psr);
-> +       dev_warn(rtk->dev, "  PC     = 0x%llx\n", regs->pc);
-> +       dev_warn(rtk->dev, "  ESR    = 0x%llx\n", regs->esr);
-> +       dev_warn(rtk->dev, "  FAR    = 0x%llx\n", regs->far);
-> +       dev_warn(rtk->dev, "  SP     = 0x%llx\n", regs->sp);
->         dev_warn(rtk->dev, "\n");
->
->         for (i = 0; i < 31; i += 4) {
-> @@ -172,12 +172,12 @@ static void apple_rtkit_crashlog_dump_regs(struct apple_rtkit *rtk, u8 *bfr,
->                         dev_warn(rtk->dev,
->                                          "  x%02d-x%02d = %016llx %016llx %016llx %016llx\n",
->                                          i, i + 3,
-> -                                        regs.regs[i], regs.regs[i + 1],
-> -                                        regs.regs[i + 2], regs.regs[i + 3]);
-> +                                        regs->regs[i], regs->regs[i + 1],
-> +                                        regs->regs[i + 2], regs->regs[i + 3]);
->                 else
->                         dev_warn(rtk->dev,
->                                          "  x%02d-x%02d = %016llx %016llx %016llx\n", i, i + 3,
-> -                                        regs.regs[i], regs.regs[i + 1], regs.regs[i + 2]);
-> +                                        regs->regs[i], regs->regs[i + 1], regs->regs[i + 2]);
->         }
->
->         dev_warn(rtk->dev, "\n");
-> --
-> 2.35.1
->
->
-
+     Arnd
