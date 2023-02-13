@@ -1,57 +1,57 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619CE399
-	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 16:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4AD399
+	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 16:44:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1676306667;
+	s=mimecast20190719; t=1676306691;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MsgfwTosbRUQDzEfsJb6jddw2oFK8bsqV0kBqfN76bI=;
-	b=a6KGUW1D6Xmqw8ZdMbse5zS8IBoJ91M4ZCx1HH0X2A3CfROeCPnFQzrGPKwg/XJ2a1RKtO
-	8tP4u0nZKgU4cBCnKTpKKKGTuYdBq9SKJEHFeIJHKaLJ6W7N6OSOwgCNo7pc/OHyMet+fM
-	BRnfAum5V99QgKhzlVCPhy40VP9joIY=
+	bh=UiVeaxLirFDaFY10rNqkG8tSY2t/6xI0UAG3XTfGb3c=;
+	b=TkvFP3Aff90YmDZJWD57lqEAZ+ZO5ZZbPxc5Xrs0Xu3YkZyffyj+AdXtgr+lMnffuVM+LG
+	EGaIpoqius30aCFeVCpmmPJpXers7DxrDUGam8KA7/xlpHqqcJv2uXMzdmOhrsR2/ZZHhw
+	ECzTAFh7jvzxYQoAkMWXMQmCf4tdUm0=
 Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
  [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-518-qX6D37m0OX-VbR3h5186cA-1; Mon, 13 Feb 2023 11:44:26 -0500
-X-MC-Unique: qX6D37m0OX-VbR3h5186cA-1
-Received: by mail-ua1-f71.google.com with SMTP id p44-20020a9f382f000000b0060ae73237b3so4581064uad.14
-        for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 08:44:26 -0800 (PST)
+ us-mta-645-4kkuPNfiNNaRNTpFHhKbeA-1; Mon, 13 Feb 2023 11:44:50 -0500
+X-MC-Unique: 4kkuPNfiNNaRNTpFHhKbeA-1
+Received: by mail-ua1-f71.google.com with SMTP id d39-20020ab014aa000000b0068887f32c88so3968762uae.17
+        for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 08:44:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
+        d=1e100.net; s=20210112; t=1676306690;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MsgfwTosbRUQDzEfsJb6jddw2oFK8bsqV0kBqfN76bI=;
-        b=TvrMbKbGC8D7s6r2Dkj92iTeeTcXVBBFTWv8r5HyatyiI12hkyFOT9UqQ2fwikCP96
-         6XSKS4o8Zx6cblJez79ETINesrrJEc9P2B7PQ881SgzftsaaOpVaAO69z4NLsqSaZ5Tu
-         DvRp82pH9tjHQPcuvJXRkVWUbqcZ2cOn6v7lgqN/8WB1/FkhJfTKkzSI7JbJ68Emm7F2
-         Lc7nmoki4UcVvuO5cgq85SlNLzRjv2Q4Xj1ks/5XYtrdsrkNH5l2qfdVYnZCmGLhEccD
-         GklTki8zziLWOWDsKY4rxxIMq0OXEgt5VAi8H6wfSyz6KDB/iJ8/n7NCbYiv2xcjvNYC
-         Hb1A==
-X-Gm-Message-State: AO0yUKUG2JeYT8RHPP/PdKSsvdS8OJLFpxnh1v93Z+Mgq6wkMPoLX6Ro
-	tXo8rF+db6lUKv2/ctSCOAXBCKM+7wrDEvMkq0e3qvl1TH47NtSWjgHkob+69va+PrVZztMWPtA
-	Sql8p5UxercwnsyHpygwB/gyr1RTrurU=
-X-Received: by 2002:ab0:70c1:0:b0:68a:6575:553e with SMTP id r1-20020ab070c1000000b0068a6575553emr862243ual.57.1676306665364;
-        Mon, 13 Feb 2023 08:44:25 -0800 (PST)
-X-Google-Smtp-Source: AK7set/kA7cjqqbQSmhH8hSOVWxtbpxERo8grhio+1GjfUfR4Is7upEaQdca8nbiIJM+1sdaV72AdAi9BA9HF7HjVfg=
-X-Received: by 2002:ab0:70c1:0:b0:68a:6575:553e with SMTP id
- r1-20020ab070c1000000b0068a6575553emr862225ual.57.1676306665093; Mon, 13 Feb
- 2023 08:44:25 -0800 (PST)
+        bh=UiVeaxLirFDaFY10rNqkG8tSY2t/6xI0UAG3XTfGb3c=;
+        b=hfhtxHvAi1K8bwORfeZ21kXr0aPDJz+w5XAxUm/5EfaJBeb4fvOb7yWIPEV+Kupi/g
+         m3aJI0pfhUaRZC3EfAXjPQzFf7tFxMFqq0WS1QjsxHyJK2Gz+m3/TJnbiskR0VnUu50E
+         N5fawjd0ukOuwmiPXAuscXUtZ6TqIuEQKHnG6PQWh5R47pSq7Pf/lsnIKxIBxcVGzS9m
+         uQFjHqkT3z7bCsMX6UcDuvRo0VFCSNVY536sSEokMxSn/+V+QJaMMhsDKDX7WByRC9zR
+         3cGaHxQO5WKyJeCsyJ8f8OGgKMhsayjKYizfwfw1Q9QtvqlIIkpz2GGg1FZq+lDB13i0
+         X2Fg==
+X-Gm-Message-State: AO0yUKV/X2Zv2zCfZCJrjqwL9gCIQZvPuGbcQdxZ8ksHQkRUqWgThYNf
+	UqX6ofGjaTMrwPn8k3NSx2SbdlXl881HQGmp/7GWNLrLnfdReUOttELl2p2wqi1pu0M7Plz92Z+
+	GY0x8zzsx5rwtrh2ApHy7SISEw6Y61gc=
+X-Received: by 2002:a1f:25c5:0:b0:3ea:1a72:aad6 with SMTP id l188-20020a1f25c5000000b003ea1a72aad6mr4103235vkl.15.1676306690098;
+        Mon, 13 Feb 2023 08:44:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set/4GRMKn1CaCe56OzUt9wS+c1AKpIyjFKqfb/QsXBhHQvaRBqw5jCAn8TR4Z814dEoB9KIkVWYMlsPu2zhs/b0=
+X-Received: by 2002:a1f:25c5:0:b0:3ea:1a72:aad6 with SMTP id
+ l188-20020a1f25c5000000b003ea1a72aad6mr4103218vkl.15.1676306689880; Mon, 13
+ Feb 2023 08:44:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230212063813.27622-1-marcan@marcan.st> <20230212063813.27622-3-marcan@marcan.st>
-In-Reply-To: <20230212063813.27622-3-marcan@marcan.st>
+References: <20230212063813.27622-1-marcan@marcan.st> <20230212063813.27622-4-marcan@marcan.st>
+In-Reply-To: <20230212063813.27622-4-marcan@marcan.st>
 From: Eric Curtin <ecurtin@redhat.com>
-Date: Mon, 13 Feb 2023 16:44:09 +0000
-Message-ID: <CAOgh=Fy5PwR6Cf8694nP_wwjoRyhGY+qxvFby7k4N+6XBEaj+w@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] brcmfmac: pcie: Add IDs/properties for BCM4355
+Date: Mon, 13 Feb 2023 16:44:34 +0000
+Message-ID: <CAOgh=Fzb-45xY+Fmkaz1pxgC7Onj-9GktcYtD32RAw+LbeVk0w@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] brcmfmac: pcie: Add IDs/properties for BCM4377
 To: Hector Martin <marcan@marcan.st>
 Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
 	Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
@@ -63,7 +63,8 @@ Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>,
 	Jonas Gorski <jonas.gorski@gmail.com>, asahi@lists.linux.dev, 
 	linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
 	SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Arend van Spriel <arend.vanspriel@broadcom.com>
+	linux-kernel@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
+	Arend van Spriel <arend.vanspriel@broadcom.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
@@ -72,15 +73,11 @@ On Sun, 12 Feb 2023 at 06:45, Hector Martin <marcan@marcan.st> wrote:
 >
 > This chip is present on at least these Apple T2 Macs:
 >
-> * hawaii: MacBook Air 13" (Late 2018)
-> * hawaii: MacBook Air 13" (True Tone, 2019)
+> * tahiti:  MacBook Pro 13" (2020, 2 TB3)
+> * formosa: MacBook Pro 13" (Touch/2019)
+> * fiji:    MacBook Air 13" (Scissor, 2020)
 >
-> Users report seeing PCI revision ID 12 for this chip, which Arend
-> reports should be revision C2, but Apple has the firmware tagged as
-> revision C1. Assume the right cutoff point for firmware versions is
-> revision ID 11 then, and leave older revisions using the non-versioned
-> firmware filename (Apple only uses C1 firmware builds).
->
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 > Reviewed-by: Arend van Spriel <arend.vanspriel@broadcom.com>
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 
@@ -91,64 +88,81 @@ Is mise le meas/Regards,
 Eric Curtin
 
 > ---
->  .../net/wireless/broadcom/brcm80211/brcmfmac/pcie.c    | 10 +++++++++-
->  .../wireless/broadcom/brcm80211/include/brcm_hw_ids.h  |  1 +
->  2 files changed, 10 insertions(+), 1 deletion(-)
+>  drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c      | 1 +
+>  drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c      | 5 +++++
+>  .../net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h    | 2 ++
+>  3 files changed, 8 insertions(+)
 >
+> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
+> index 3e42c2bd0d9a..8073f31be27d 100644
+> --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
+> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/chip.c
+> @@ -733,6 +733,7 @@ static u32 brcmf_chip_tcm_rambase(struct brcmf_chip_priv *ci)
+>         case CY_CC_4373_CHIP_ID:
+>                 return 0x160000;
+>         case CY_CC_43752_CHIP_ID:
+> +       case BRCM_CC_4377_CHIP_ID:
+>                 return 0x170000;
+>         case BRCM_CC_4378_CHIP_ID:
+>                 return 0x352000;
 > diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-> index 96608174a123..7135f889907a 100644
+> index 7135f889907a..d54394885af7 100644
 > --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
 > +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-> @@ -52,6 +52,7 @@ BRCMF_FW_DEF(43602, "brcmfmac43602-pcie");
->  BRCMF_FW_DEF(4350, "brcmfmac4350-pcie");
->  BRCMF_FW_DEF(4350C, "brcmfmac4350c2-pcie");
->  BRCMF_FW_CLM_DEF(4355, "brcmfmac4355-pcie");
-> +BRCMF_FW_CLM_DEF(4355C1, "brcmfmac4355c1-pcie");
->  BRCMF_FW_CLM_DEF(4356, "brcmfmac4356-pcie");
->  BRCMF_FW_CLM_DEF(43570, "brcmfmac43570-pcie");
->  BRCMF_FW_DEF(4358, "brcmfmac4358-pcie");
-> @@ -78,7 +79,8 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
->         BRCMF_FW_ENTRY(BRCM_CC_4350_CHIP_ID, 0x000000FF, 4350C),
->         BRCMF_FW_ENTRY(BRCM_CC_4350_CHIP_ID, 0xFFFFFF00, 4350),
->         BRCMF_FW_ENTRY(BRCM_CC_43525_CHIP_ID, 0xFFFFFFF0, 4365C),
-> -       BRCMF_FW_ENTRY(BRCM_CC_4355_CHIP_ID, 0xFFFFFFFF, 4355),
-> +       BRCMF_FW_ENTRY(BRCM_CC_4355_CHIP_ID, 0x000007FF, 4355),
-> +       BRCMF_FW_ENTRY(BRCM_CC_4355_CHIP_ID, 0xFFFFF800, 4355C1), /* rev ID 12/C2 seen */
->         BRCMF_FW_ENTRY(BRCM_CC_4356_CHIP_ID, 0xFFFFFFFF, 4356),
->         BRCMF_FW_ENTRY(BRCM_CC_43567_CHIP_ID, 0xFFFFFFFF, 43570),
->         BRCMF_FW_ENTRY(BRCM_CC_43569_CHIP_ID, 0xFFFFFFFF, 43570),
-> @@ -1994,6 +1996,11 @@ static int brcmf_pcie_read_otp(struct brcmf_pciedev_info *devinfo)
->         int ret;
+> @@ -63,6 +63,7 @@ BRCMF_FW_DEF(4365C, "brcmfmac4365c-pcie");
+>  BRCMF_FW_DEF(4366B, "brcmfmac4366b-pcie");
+>  BRCMF_FW_DEF(4366C, "brcmfmac4366c-pcie");
+>  BRCMF_FW_DEF(4371, "brcmfmac4371-pcie");
+> +BRCMF_FW_CLM_DEF(4377B3, "brcmfmac4377b3-pcie");
+>  BRCMF_FW_CLM_DEF(4378B1, "brcmfmac4378b1-pcie");
 >
->         switch (devinfo->ci->chip) {
-> +       case BRCM_CC_4355_CHIP_ID:
-> +               coreid = BCMA_CORE_CHIPCOMMON;
-> +               base = 0x8c0;
-> +               words = 0xb2;
-> +               break;
+>  /* firmware config files */
+> @@ -95,6 +96,7 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
+>         BRCMF_FW_ENTRY(BRCM_CC_43664_CHIP_ID, 0xFFFFFFF0, 4366C),
+>         BRCMF_FW_ENTRY(BRCM_CC_43666_CHIP_ID, 0xFFFFFFF0, 4366C),
+>         BRCMF_FW_ENTRY(BRCM_CC_4371_CHIP_ID, 0xFFFFFFFF, 4371),
+> +       BRCMF_FW_ENTRY(BRCM_CC_4377_CHIP_ID, 0xFFFFFFFF, 4377B3), /* revision ID 4 */
+>         BRCMF_FW_ENTRY(BRCM_CC_4378_CHIP_ID, 0xFFFFFFFF, 4378B1), /* revision ID 3 */
+>  };
+>
+> @@ -2001,6 +2003,7 @@ static int brcmf_pcie_read_otp(struct brcmf_pciedev_info *devinfo)
+>                 base = 0x8c0;
+>                 words = 0xb2;
+>                 break;
+> +       case BRCM_CC_4377_CHIP_ID:
 >         case BRCM_CC_4378_CHIP_ID:
 >                 coreid = BCMA_CORE_GCI;
 >                 base = 0x1120;
-> @@ -2590,6 +2597,7 @@ static const struct pci_device_id brcmf_pcie_devid_table[] = {
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_4350_DEVICE_ID, WCC),
->         BRCMF_PCIE_DEVICE_SUB(0x4355, BRCM_PCIE_VENDOR_ID_BROADCOM, 0x4355, WCC),
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_4354_RAW_DEVICE_ID, WCC),
-> +       BRCMF_PCIE_DEVICE(BRCM_PCIE_4355_DEVICE_ID, WCC),
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_4356_DEVICE_ID, WCC),
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_43567_DEVICE_ID, WCC),
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_43570_DEVICE_ID, WCC),
+> @@ -2618,7 +2621,9 @@ static const struct pci_device_id brcmf_pcie_devid_table[] = {
+>         BRCMF_PCIE_DEVICE(BRCM_PCIE_4366_5G_DEVICE_ID, BCA),
+>         BRCMF_PCIE_DEVICE(BRCM_PCIE_4371_DEVICE_ID, WCC),
+>         BRCMF_PCIE_DEVICE(BRCM_PCIE_43596_DEVICE_ID, CYW),
+> +       BRCMF_PCIE_DEVICE(BRCM_PCIE_4377_DEVICE_ID, WCC),
+>         BRCMF_PCIE_DEVICE(BRCM_PCIE_4378_DEVICE_ID, WCC),
+> +
+>         { /* end: all zeroes */ }
+>  };
+>
 > diff --git a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
-> index 28b6cf8ff286..6e27e3966655 100644
+> index 6e27e3966655..896615f57952 100644
 > --- a/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
 > +++ b/drivers/net/wireless/broadcom/brcm80211/include/brcm_hw_ids.h
-> @@ -72,6 +72,7 @@
->  #define BRCM_PCIE_4350_DEVICE_ID       0x43a3
->  #define BRCM_PCIE_4354_DEVICE_ID       0x43df
->  #define BRCM_PCIE_4354_RAW_DEVICE_ID   0x4354
-> +#define BRCM_PCIE_4355_DEVICE_ID       0x43dc
->  #define BRCM_PCIE_4356_DEVICE_ID       0x43ec
->  #define BRCM_PCIE_43567_DEVICE_ID      0x43d3
->  #define BRCM_PCIE_43570_DEVICE_ID      0x43d9
+> @@ -52,6 +52,7 @@
+>  #define BRCM_CC_43664_CHIP_ID          43664
+>  #define BRCM_CC_43666_CHIP_ID          43666
+>  #define BRCM_CC_4371_CHIP_ID           0x4371
+> +#define BRCM_CC_4377_CHIP_ID           0x4377
+>  #define BRCM_CC_4378_CHIP_ID           0x4378
+>  #define CY_CC_4373_CHIP_ID             0x4373
+>  #define CY_CC_43012_CHIP_ID            43012
+> @@ -92,6 +93,7 @@
+>  #define BRCM_PCIE_4366_5G_DEVICE_ID    0x43c5
+>  #define BRCM_PCIE_4371_DEVICE_ID       0x440d
+>  #define BRCM_PCIE_43596_DEVICE_ID      0x4415
+> +#define BRCM_PCIE_4377_DEVICE_ID       0x4488
+>  #define BRCM_PCIE_4378_DEVICE_ID       0x4425
+>
+>  /* brcmsmac IDs */
 > --
 > 2.35.1
 >
