@@ -1,90 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB118F7C
-	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 16:51:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B953AC433D2;
-	Mon, 13 Feb 2023 16:51:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B925F8F7C
+	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 16:57:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD930C433D2;
+	Mon, 13 Feb 2023 16:57:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676307076;
-	bh=cxfmvlcEDyvhLaP1zdMJGR8qwb1ghCxNyOs4BIQWtUQ=;
-	h=Subject:From:In-Reply-To:References:To:Cc:Date:From;
-	b=Jqxqprt1sGLjXp23wbNImpiuk/gPibMur9A/y9fnk2SxKOF3UREh0bxkjBa1dSvbm
-	 nDRSf9bJBldT6x3COrov0AeNGE0c0+X9VZOI+97G3D8pFmJKxN6kxkAshNyPoVYXoz
-	 jb3EXNnq8qLRxAxsRZaROhaOcBjXKLcKSI/36tmm760OxlGkO/JJdf3Xf3PJtBUiLk
-	 ae2RoDeQYnsDJaN/O+d5idalUrJfHpPc4FMCsob+U5KZntu1IwFI2PyWNM7NnOH744
-	 Cx8kfU4fDG8Fk6/Ac5e0bFst967QkqXVgireH4jk02ldGsi3RnPLJdkiymjx4trZen
-	 vJtrQ1QiZcnGQ==
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1676307470;
+	bh=UR7BLhxzxj6i6OmgbH5PXqLQzCAqASbsiOTn+MKHOB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NtkoZIf84NYDce1SvfhrWZlg6JgdiM/Mh+zRfdsJdFGHl630lf8ya2iI5QNt3sIoX
+	 z5M2ydUVAQJ8XO48hiDrK7rHDtHePgtuSm1CXeyuenRqd+cK+5WHEECnrHNFQkdPmn
+	 aP/Nfcbn5hyMzAOJgppysWY1gu2PeWaaQHJDD50EbXfA/Jo2kGiAHkmxXQAK649l7j
+	 /2ohGw6u+p1BiXD5svZKW0MOKYCQJbHJ8nAp5LmHrgn5ZRWAbGEgsBsqZrqbFmHakG
+	 +4Qa0S6O5v++dj/bn6xnzr6s0qPgPvQGKvVjP3RwKs38X0nsvYTMkLljT9cE+CtgrF
+	 jCdbs1qIsSY9A==
+Date: Mon, 13 Feb 2023 09:57:45 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: "Michael Kelley (LINUX)" <mikelley@microsoft.com>
+Cc: Daniel Gomez <dagmcr@gmail.com>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>
+Subject: Re: max_hw_sectors error caused by recent NVMe driver commit
+Message-ID: <Y+psCbPTfF9JkW2c@kbusch-mbp>
+References: <BYAPR21MB1688B4BBFCCCD01C016A62D4D7DF9@BYAPR21MB1688.namprd21.prod.outlook.com>
+ <CAPsT6hnbAA_uCiVjST8VaPgb6TyfBq9nO2S7OPqJX3=YhzBD9g@mail.gmail.com>
+ <BYAPR21MB16882541DC2DA7AB91E58A03D7DD9@BYAPR21MB1688.namprd21.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v4 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
-From: Kalle Valo <kvalo@kernel.org>
-In-Reply-To: <20230212063813.27622-2-marcan@marcan.st>
-References: <20230212063813.27622-2-marcan@marcan.st>
-To: Hector Martin <marcan@marcan.st>
-Cc: Arend van Spriel <aspriel@gmail.com>,
- Franky Lin <franky.lin@broadcom.com>,
- Hante Meuleman <hante.meuleman@broadcom.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Alexander Prutskov <alep@cypress.com>, Ian Lin <ian.lin@infineon.com>,
- Joseph chuang <jiac@cypress.com>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Aditya Garg <gargaditya08@live.com>, Jonas Gorski <jonas.gorski@gmail.com>,
- asahi@lists.linux.dev, linux-wireless@vger.kernel.org,
- brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- Hector Martin <marcan@marcan.st>,
- Arend van Spriel <arend.vanspriel@broadcom.com>
-User-Agent: pwcli/0.1.1-git (https://github.com/kvalo/pwcli/) Python/3.7.3
-Message-ID: <167630706967.12830.157103392387761972.kvalo@kernel.org>
-Date: Mon, 13 Feb 2023 16:51:11 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BYAPR21MB16882541DC2DA7AB91E58A03D7DD9@BYAPR21MB1688.namprd21.prod.outlook.com>
 
-Hector Martin <marcan@marcan.st> wrote:
+On Mon, Feb 13, 2023 at 04:42:31PM +0000, Michael Kelley (LINUX) wrote:
+> Ideally, to support
+> 512 Kbyte transfers, you would want 129 segments (to allow for starting in
+> the middle of a page as describe above).  But the value of max_segments
+> is limited by the NVME driver itself using the value of NVME_MAX_SEGS
+> defined in drivers/nvme/host/pci.c.  The value of 127 is chosen to make
+> sure that the data structure containing the scatterlist fits in a single page.
+> See nvme_pci_alloc_iod_mempool().
 
-> The commit that introduced support for this chip incorrectly claimed it
-> is a Cypress-specific part, while in actuality it is just a variant of
-> BCM4355 silicon (as evidenced by the chip ID).
-> 
-> The relationship between Cypress products and Broadcom products isn't
-> entirely clear but given what little information is available and prior
-> art in the driver, it seems the convention should be that originally
-> Broadcom parts should retain the Broadcom name.
-> 
-> Thus, rename the relevant constants and firmware file. Also rename the
-> specific 89459 PCIe ID to BCM43596, which seems to be the original
-> subvariant name for this PCI ID (as defined in the out-of-tree bcmdhd
-> driver).
-> 
-> Since Cypress added this part and will presumably be providing its
-> supported firmware, we keep the CYW designation for this device.
-> 
-> We also drop the RAW device ID in this commit. We don't do this for the
-> other chips since apparently some devices with them exist in the wild,
-> but there is already a 4355 entry with the Broadcom subvendor and WCC
-> firmware vendor, so adding a generic fallback to Cypress seems
-> redundant (no reason why a device would have the raw device ID *and* an
-> explicitly programmed subvendor).
-> 
-> Fixes: dce45ded7619 ("brcmfmac: Support 89459 pcie")
-> Reviewed-by: Arend van Spriel <arend.vanspriel@broadcom.com>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+Should be 128 possible segements now in -next, but yeah, 129 would be ideal.
 
-4 patches applied to wireless-next.git, thanks.
-
-54f01f56cf63 wifi: brcmfmac: Rename Cypress 89459 to BCM4355
-69005e67ce54 wifi: brcmfmac: pcie: Add IDs/properties for BCM4355
-bf8bbd903f07 wifi: brcmfmac: pcie: Add IDs/properties for BCM4377
-6a142f70774f wifi: brcmfmac: pcie: Perform correct BCM4364 firmware selection
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/patch/20230212063813.27622-2-marcan@marcan.st/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
-
+The limit confuses many because sometimes user space can sometimes get 512kib
+IO to work and other times the same program fails, and all because of physical
+memory continuity that user space isn't always aware of. A sure-fire way to
+never hit that limit is to allocate hugepages.
