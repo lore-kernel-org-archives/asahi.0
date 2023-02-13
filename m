@@ -1,80 +1,263 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C3A33D1
-	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 13:45:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EDEEC433EF;
-	Mon, 13 Feb 2023 13:45:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676295925;
-	bh=Nouoz0V3KyjK32tUvJB+DgTGfTacIM/L0pvOEy6vqCY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=jVh0MJJVi+1/fp6YJ96GyqoKbVAd7tI1aSwMPcL45uCJ/FP5vi4+UkLss+EhGMxrj
-	 C9EPZUyFd/hheaRMRj6P9SgVUWtz1ZbqWLedMdtd17iQS7dmGtOmdcR8Dj21QJLzMK
-	 XDElvldvm/7g2W/LMU6+i+hwGQNrPUVo3xko5uqgJl3c4NCnTSvd67OQ37rusm0U8P
-	 BzdfrTdDjtUZn1pDbtyN292KXs81ZSi+Cv7t1kpR8jGMJXU8OVDzb6o+qgcngZW1TJ
-	 JSXg2igwVTF1/YBmc63wiO/cMzKR5n7FFNdj05g44oGF6HFxK0KjOzPXzlByGWa2Ay
-	 3hObGdMf8bPTg==
-From: Kalle Valo <kvalo@kernel.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: Arend Van Spriel <arend.vanspriel@broadcom.com>,  Aditya Garg <gargaditya08@live.com>,  Ping-Ke Shih <pkshih@realtek.com>,  Arend van Spriel <aspriel@gmail.com>,  Franky Lin <franky.lin@broadcom.com>,  Hante Meuleman <hante.meuleman@broadcom.com>,  "David S. Miller" <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Alexander Prutskov <alep@cypress.com>,  Chi-Hsien Lin <chi-hsien.lin@cypress.com>,  Wright Feng <wright.feng@cypress.com>,  Ian Lin <ian.lin@infineon.com>,  Soontak Lee <soontak.lee@cypress.com>,  Joseph chuang <jiac@cypress.com>,  Sven Peter <sven@svenpeter.dev>,  Alyssa Rosenzweig <alyssa@rosenzweig.io>,  Jonas Gorski <jonas.gorski@gmail.com>,  asahi@lists.linux.dev,  linux-wireless@vger.kernel.org,  brcm80211-dev-list.pdl@broadcom.com,  SHA-cyfmac-dev-list@infineon.com,  netdev@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
-References: <20230210025009.21873-1-marcan@marcan.st>
-	<20230210025009.21873-2-marcan@marcan.st>
-	<0cd45af5812345878faf0dc8fa6b0963@realtek.com>
-	<624c0a20-f4e6-14a5-02a2-eaf7b36e9331@marcan.st>
-	<18640374b38.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-	<e9dbfa3d-6599-94b9-0176-e25bb074b2c7@marcan.st>
-	<BM1PR01MB0931D1A15E7945A0D48B828EB8DF9@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
-	<18640c70048.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-	<180b9e56-fbf4-4d98-3d18-a71f3b15e045@marcan.st>
-Date: Mon, 13 Feb 2023 15:45:17 +0200
-In-Reply-To: <180b9e56-fbf4-4d98-3d18-a71f3b15e045@marcan.st> (Hector Martin's
-	message of "Sun, 12 Feb 2023 04:15:52 +0900")
-Message-ID: <877cwl65n6.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFEA33D1
+	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 14:01:15 +0000 (UTC)
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+	id B91A926F77F; Mon, 13 Feb 2023 15:01:13 +0100 (CET)
+Date: Mon, 13 Feb 2023 15:01:13 +0100
+From: Janne Grunau <j@jannau.net>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 17/17] arm64: dts: apple: t8112: Initial t8112 (M2)
+ device trees
+Message-ID: <20230213140113.GE17933@jannau.net>
+References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
+ <20230202-asahi-t8112-dt-v1-17-cb5442d1c229@jannau.net>
+ <1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-Hector Martin <marcan@marcan.st> writes:
+On 2023-02-13 12:22:11 +0100, Krzysztof Kozlowski wrote:
+> On 12/02/2023 16:41, Janne Grunau wrote:
+> > From: Hector Martin <marcan@marcan.st>
+> > 
+> > This adds device trees for the following devices:
+> >  - Macbook Air (M2, 2022)
+> >  - Macbook Pro 13" (M2, 2022)
+> >  - Mac mini (M2, 2023)
+> > 
+> > Signed-off-by: Hector Martin <marcan@marcan.st>
+> > Co-developed-by: Janne Grunau <j@jannau.net>
+> > Signed-off-by: Janne Grunau <j@jannau.net>
+> > ---
+> >  arch/arm64/boot/dts/apple/Makefile        |    3 +
+> >  arch/arm64/boot/dts/apple/t8112-j413.dts  |   71 ++
+> >  arch/arm64/boot/dts/apple/t8112-j473.dts  |   60 ++
+> >  arch/arm64/boot/dts/apple/t8112-j493.dts  |   60 ++
+> >  arch/arm64/boot/dts/apple/t8112-jxxx.dtsi |   81 ++
+> >  arch/arm64/boot/dts/apple/t8112-pmgr.dtsi | 1141 +++++++++++++++++++++++++++++
+> >  arch/arm64/boot/dts/apple/t8112.dtsi      |  904 +++++++++++++++++++++++
+> >  7 files changed, 2320 insertions(+)
+> > 
+> > diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
+> > index 5a7506ff5ea3..aec5e29cdfb7 100644
+> > --- a/arch/arm64/boot/dts/apple/Makefile
+> > +++ b/arch/arm64/boot/dts/apple/Makefile
+> > @@ -10,3 +10,6 @@ dtb-$(CONFIG_ARCH_APPLE) += t6000-j316s.dtb
+> >  dtb-$(CONFIG_ARCH_APPLE) += t6001-j316c.dtb
+> >  dtb-$(CONFIG_ARCH_APPLE) += t6001-j375c.dtb
+> >  dtb-$(CONFIG_ARCH_APPLE) += t6002-j375d.dtb
+> > +dtb-$(CONFIG_ARCH_APPLE) += t8112-j413.dtb
+> > +dtb-$(CONFIG_ARCH_APPLE) += t8112-j473.dtb
+> > +dtb-$(CONFIG_ARCH_APPLE) += t8112-j493.dtb
+> > diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
+> > new file mode 100644
+> > index 000000000000..0e5b5add92cf
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
+> > @@ -0,0 +1,71 @@
+> > +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> > +/*
+> > + * Apple MacBook Air (M2, 2022)
+> > + *
+> > + * target-type: J413
+> > + *
+> > + * Copyright The Asahi Linux Contributors
+> > + */
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include "t8112.dtsi"
+> > +#include "t8112-jxxx.dtsi"
+> > +
+> > +/ {
+> > +	compatible = "apple,j413", "apple,t8112", "apple,arm-platform";
+> > +	model = "Apple MacBook Air (13-inch, M2, 2022)";
+> > +
+> > +	aliases {
+> > +		bluetooth0 = &bluetooth0;
+> > +		wifi0 = &wifi0;
+> > +	};
+> > +};
+> > +
+> > +/*
+> > + * Force the bus number assignments so that we can declare some of the
+> > + * on-board devices and properties that are populated by the bootloader
+> > + * (such as MAC addresses).
+> > + */
+> > +&port00 {
+> > +	bus-range = <1 1>;
+> > +	wifi0: wifi@0,0 {
+> > +		compatible = "pci14e4,4433";
+> > +		reg = <0x10000 0x0 0x0 0x0 0x0>;
+> > +		/* To be filled by the loader */
+> > +		local-mac-address = [00 10 18 00 00 10];
+> > +		apple,antenna-sku = "XX";
+> > +		brcm,board-type = "apple,hokkaido";
+> > +	};
+> > +
+> > +	bluetooth0: bluetooth@0,1 {
+> > +		compatible = "pci14e4,5f71";
+> > +		reg = <0x10100 0x0 0x0 0x0 0x0>;
+> > +		/* To be filled by the loader */
+> > +		local-bd-address = [00 00 00 00 00 00];
+> > +		brcm,board-type = "apple,hokkaido";
+> > +	};
+> > +};
+> > +
+> > +/*
+> > + * Remove unused PCIe ports
+> > + */
+> > +
+> > +/delete-node/ &port01;
+> 
+> You should not delete devices just because they are unused. Externally
+> visible buses should be just disabled in DTSI and you enable them when
+> needed. Not the opposite way.
+> 
+> What's more, you must node delete nodes just because they are "not
+> used". This not anymore proper description of hardware.
 
->> If Kalle is willing to cleanup the commit message in the current patch you 
->> are lucky. You are free to ask. Otherwise it should be not too much trouble 
->> resubmitting it.
+I agree, this is copied from the M1 and M1 Pro/Max/Ultra devictrees.  
+I'll fix it there as well.
 
-FWIW I can edit commit logs as long as the changes are simple and the
-edit instructions are clear, ie. it takes no more than a minute for me
-to do the edit.
+> 
+> > +/delete-node/ &port02;
+> > +/delete-node/ &port03;
+> > +
+> > +&i2c0 {
+> > +	/* MagSafe port */
+> > +	hpm5: usb-pd@3a {
+> > +		compatible = "apple,cd321x";
+> > +		reg = <0x3a>;
+> > +		interrupt-parent = <&pinctrl_ap>;
+> > +		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
+> > +		interrupt-names = "irq";
+> > +	};
+> > +};
+> > +
+> > +&i2c4 {
+> > +	status = "okay";
+> > +};
+> > diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
+> > new file mode 100644
+> > index 000000000000..55950d0a73c5
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
+> > @@ -0,0 +1,60 @@
+> > +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> > +/*
+> > + * Apple Mac mini (M2, 2023)
+> > + *
+> > + * target-type: J473
+> > + *
+> > + * Copyright The Asahi Linux Contributors
+> > + */
+> > +
+> > +/dts-v1/;
+> 
+> (....)
+> 
+> 
+> > +
+> > +	ps_debug_switch: power-controller@b8 {
+> > +		compatible = "apple,t8112-pmgr-pwrstate", "apple,pmgr-pwrstate";
+> > +		reg = <0xb8 4>;
+> > +		#power-domain-cells = <0>;
+> > +		#reset-cells = <0>;
+> > +		label = "debug_switch";
+> > +		apple,always-on; /* Core AON device */
+> > +	};
+> > +};
+> > +
+> > diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
+> > new file mode 100644
+> > index 000000000000..974443913f6a
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/apple/t8112.dtsi
+> > @@ -0,0 +1,904 @@
+> > +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> > +/*
+> > + * Apple T8112 "M2" SoC
+> > + *
+> > + * Other names: H14G
+> > + *
+> > + * Copyright The Asahi Linux Contributors
+> > + */
+> 
+> 
+> (...)
+> 
+> > +
+> > +		aic: interrupt-controller@23b0c0000 {
+> > +			compatible = "apple,t8112-aic", "apple,aic2";
+> > +			#interrupt-cells = <3>;
+> > +			interrupt-controller;
+> > +			reg = <0x2 0x3b0c0000 0x0 0x8000>,
+> > +				<0x2 0x3b0c8000 0x0 0x4>;
+> > +			reg-names = "core", "event";
+> > +			power-domains = <&ps_aic>;
+> > +
+> > +			affinities {
+> > +				e-core-pmu-affinity {
+> > +					apple,fiq-index = <AIC_CPU_PMU_E>;
+> > +					cpus = <&cpu_e0 &cpu_e1 &cpu_e2 &cpu_e3>;
+> > +				};
+> > +
+> > +				p-core-pmu-affinity {
+> > +					apple,fiq-index = <AIC_CPU_PMU_P>;
+> > +					cpus = <&cpu_p0 &cpu_p1 &cpu_p2 &cpu_p3>;
+> > +				};
+> > +			};
+> > +		};
+> > +
+> > +		pmgr: power-management@23b700000 {
+> > +			compatible = "apple,t8112-pmgr", "apple,pmgr", "syscon", "simple-mfd";
+> 
+> Why this is simple-mfd?
 
-> It's even less trouble to just take it as is, since an extra "v2: " in
-> the commit message doesn't hurt anyone other than those who choose to be
-> hurt by it. And as I said there's *tons* of commits with a changelog
-> like this in Linux. It's not uncommon.
+I suppose because the syscon device is not limited to power domain 
+controls. The dt-bindings in arm/apple/apple,pmgr.yaml specify those 
+compatibles. See the original discussion in:
+
+https://lore.kernel.org/linux-devicetree/57991dac-196e-a76d-831a-d4ac166bfe29@marcan.st/  
+
+> 
+> > +			#address-cells = <1>;
+> > +			#size-cells = <1>;
+> > +			reg = <0x2 0x3b700000 0 0x14000>;
+> > +		};
+> 
+> 
+> > +
+> > +		pmgr_mini: power-management@23d280000 {
+> > +			compatible = "apple,t8112-pmgr", "apple,pmgr", "syscon", "simple-mfd";
+> 
+> Why this is simple-mfd?
+
+see above
+ 
+> > +			#address-cells = <1>;
+> > +			#size-cells = <1>;
+> > +			reg = <0x2 0x3d280000 0 0x4000>;
+> > +		};
 >
-> I swear, some maintainers seem to take a perverse delight in making
-> things as painful as possible for submitters, even when there is
-> approximately zero benefit to the end result. And I say this as a
-> maintainer myself.
->
-> Maybe y'all should be the ones feeling lucky that so many people are
-> willing to put up with all this bullshit to get things upstreamed to
-> Linux. It's literally the worst open source project to upstream things
-> to, by a *very long* shot. I'll respin a v4 if I must, but but it's.
-> Just. This. Kind. Of. Nonsense. Every. Single. Time. And. Every. Single.
-> Time. It's. Something. Different. This stuff burns people out and
-> discourages submissions and turns huge numbers of people off from ever
-> contributing to Linux, and you all need to seriously be aware of that.
 
-I understand it's frustrating but please also try understand us
-maintainers. For example, I have 150 patches in patchwork right now. So
-it's not easy for us maintainers either, far from it.
+thanks
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+Janne 
