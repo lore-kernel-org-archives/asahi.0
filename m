@@ -1,166 +1,90 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18ED8F7C
-	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 16:45:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1676306715;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/wwCIDmg4gbiaNdQ7ncCIBMm2IT8uUjnYU/fITcod04=;
-	b=FvnGUxDNO1wGwOnlcmdMgehJfdHRlQsYTMpKTP55Z4OgszKO/INjyW99/l86E8bRVmplv4
-	9L+rKcyFwG/zGNypZ8iSH/7k+D1Y1HWk69m3Y+/tsrW3r3461o/hRV9qSdGo5/my9DkO8O
-	CFskPAkH14FkhF0iZ9ddATqNFKcGg9g=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-648-JA80l9-XOdCRXcm8kOSA5w-1; Mon, 13 Feb 2023 11:45:12 -0500
-X-MC-Unique: JA80l9-XOdCRXcm8kOSA5w-1
-Received: by mail-ua1-f69.google.com with SMTP id p44-20020a9f382f000000b0060ae73237b3so4581752uad.14
-        for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 08:45:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/wwCIDmg4gbiaNdQ7ncCIBMm2IT8uUjnYU/fITcod04=;
-        b=2w7eYhTploAeYbVVk8FMJdwIcwm+O8rarD40JCW3yrVO8wM/6ycr5GbADMK8/nJwLq
-         qQAFTol1YE1qSDXHvCPVZ2PpQ7VYWuu2bZCyPQTxV/W11LPQfF9YpOCkUDijR27nuSXP
-         KCGXcmdD4ijBp8rh0K0QmtYgtr1sHv3G4oFotcyKRRZGwF/mgRM5P35Dv59gPNKtwCPU
-         SH7MmGwsDioKTmVJ8N55L2yvsLw0jUkvKT0QnnecEnJRzQyIhgm4MdefAkeDssmZMoU2
-         wJC1TW7/JGEqEci9JMLKnyJK0O6IuSGSOueYBZzfasy/1dNXSfG7OynGIjRSorepoZIW
-         KNTw==
-X-Gm-Message-State: AO0yUKUW2W3pIG9ay09Mqqk/u5X64oCyz41oDf/GJ2HbsUi0AolKWM2g
-	SXqmY/+oXyUNK8XVXijF6+BAZcOAPXA51Ccb57AfMM+/S5hVC+rnehOQa3MR4zOgxDYhguDfMsB
-	ekIfpye6kAHuwtvf1ce9tIepUrzsAgg8=
-X-Received: by 2002:a1f:1fce:0:b0:3e8:66ce:a639 with SMTP id f197-20020a1f1fce000000b003e866cea639mr4430597vkf.2.1676306711651;
-        Mon, 13 Feb 2023 08:45:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set+ECI0j8UHCgnPq8BUm9yVEWERse9lHvI7TCEUo+uQnL5QG/1s7KQZjD4S3ShbwZNOCFJIQJabZD8GLGnekubg=
-X-Received: by 2002:a1f:1fce:0:b0:3e8:66ce:a639 with SMTP id
- f197-20020a1f1fce000000b003e866cea639mr4430578vkf.2.1676306711395; Mon, 13
- Feb 2023 08:45:11 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB118F7C
+	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 16:51:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B953AC433D2;
+	Mon, 13 Feb 2023 16:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676307076;
+	bh=cxfmvlcEDyvhLaP1zdMJGR8qwb1ghCxNyOs4BIQWtUQ=;
+	h=Subject:From:In-Reply-To:References:To:Cc:Date:From;
+	b=Jqxqprt1sGLjXp23wbNImpiuk/gPibMur9A/y9fnk2SxKOF3UREh0bxkjBa1dSvbm
+	 nDRSf9bJBldT6x3COrov0AeNGE0c0+X9VZOI+97G3D8pFmJKxN6kxkAshNyPoVYXoz
+	 jb3EXNnq8qLRxAxsRZaROhaOcBjXKLcKSI/36tmm760OxlGkO/JJdf3Xf3PJtBUiLk
+	 ae2RoDeQYnsDJaN/O+d5idalUrJfHpPc4FMCsob+U5KZntu1IwFI2PyWNM7NnOH744
+	 Cx8kfU4fDG8Fk6/Ac5e0bFst967QkqXVgireH4jk02ldGsi3RnPLJdkiymjx4trZen
+	 vJtrQ1QiZcnGQ==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230212063813.27622-1-marcan@marcan.st> <20230212063813.27622-5-marcan@marcan.st>
-In-Reply-To: <20230212063813.27622-5-marcan@marcan.st>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Mon, 13 Feb 2023 16:44:55 +0000
-Message-ID: <CAOgh=FwvbrNT4nSCtctCLLwRa7r2KrRe6BHQ-Q-tb9OjVwCb-A@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] brcmfmac: pcie: Perform correct BCM4364 firmware selection
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v4 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
+From: Kalle Valo <kvalo@kernel.org>
+In-Reply-To: <20230212063813.27622-2-marcan@marcan.st>
+References: <20230212063813.27622-2-marcan@marcan.st>
 To: Hector Martin <marcan@marcan.st>
-Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
-	Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Alexander Prutskov <alep@cypress.com>, Ian Lin <ian.lin@infineon.com>, 
-	Joseph chuang <jiac@cypress.com>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Aditya Garg <gargaditya08@live.com>, 
-	Jonas Gorski <jonas.gorski@gmail.com>, asahi@lists.linux.dev, 
-	linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
-	SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
-	Arend van Spriel <arend.vanspriel@broadcom.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Cc: Arend van Spriel <aspriel@gmail.com>,
+ Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Alexander Prutskov <alep@cypress.com>, Ian Lin <ian.lin@infineon.com>,
+ Joseph chuang <jiac@cypress.com>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Aditya Garg <gargaditya08@live.com>, Jonas Gorski <jonas.gorski@gmail.com>,
+ asahi@lists.linux.dev, linux-wireless@vger.kernel.org,
+ brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Hector Martin <marcan@marcan.st>,
+ Arend van Spriel <arend.vanspriel@broadcom.com>
+User-Agent: pwcli/0.1.1-git (https://github.com/kvalo/pwcli/) Python/3.7.3
+Message-ID: <167630706967.12830.157103392387761972.kvalo@kernel.org>
+Date: Mon, 13 Feb 2023 16:51:11 +0000 (UTC)
 
-On Sun, 12 Feb 2023 at 06:46, Hector Martin <marcan@marcan.st> wrote:
->
-> This chip exists in two revisions (B2=r3 and B3=r4) on different
-> platforms, and was added without regard to doing proper firmware
-> selection or differentiating between them. Fix this to have proper
-> per-revision firmwares and support Apple NVRAM selection.
->
-> Revision B2 is present on at least these Apple T2 Macs:
->
-> kauai:    MacBook Pro 15" (Touch/2018-2019)
-> maui:     MacBook Pro 13" (Touch/2018-2019)
-> lanai:    Mac mini (Late 2018)
-> ekans:    iMac Pro 27" (5K, Late 2017)
->
-> And these non-T2 Macs:
->
-> nihau:    iMac 27" (5K, 2019)
->
-> Revision B3 is present on at least these Apple T2 Macs:
->
-> bali:     MacBook Pro 16" (2019)
-> trinidad: MacBook Pro 13" (2020, 4 TB3)
-> borneo:   MacBook Pro 16" (2019, 5600M)
-> kahana:   Mac Pro (2019)
-> kahana:   Mac Pro (2019, Rack)
-> hanauma:  iMac 27" (5K, 2020)
-> kure:     iMac 27" (5K, 2020, 5700/XT)
->
-> Also fix the firmware interface for 4364, from BCA to WCC.
->
-> Fixes: 24f0bd136264 ("brcmfmac: add the BRCM 4364 found in MacBook Pro 15,2")
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Hector Martin <marcan@marcan.st> wrote:
+
+> The commit that introduced support for this chip incorrectly claimed it
+> is a Cypress-specific part, while in actuality it is just a variant of
+> BCM4355 silicon (as evidenced by the chip ID).
+> 
+> The relationship between Cypress products and Broadcom products isn't
+> entirely clear but given what little information is available and prior
+> art in the driver, it seems the convention should be that originally
+> Broadcom parts should retain the Broadcom name.
+> 
+> Thus, rename the relevant constants and firmware file. Also rename the
+> specific 89459 PCIe ID to BCM43596, which seems to be the original
+> subvariant name for this PCI ID (as defined in the out-of-tree bcmdhd
+> driver).
+> 
+> Since Cypress added this part and will presumably be providing its
+> supported firmware, we keep the CYW designation for this device.
+> 
+> We also drop the RAW device ID in this commit. We don't do this for the
+> other chips since apparently some devices with them exist in the wild,
+> but there is already a 4355 entry with the Broadcom subvendor and WCC
+> firmware vendor, so adding a generic fallback to Cypress seems
+> redundant (no reason why a device would have the raw device ID *and* an
+> explicitly programmed subvendor).
+> 
+> Fixes: dce45ded7619 ("brcmfmac: Support 89459 pcie")
 > Reviewed-by: Arend van Spriel <arend.vanspriel@broadcom.com>
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+4 patches applied to wireless-next.git, thanks.
 
-Is mise le meas/Regards,
+54f01f56cf63 wifi: brcmfmac: Rename Cypress 89459 to BCM4355
+69005e67ce54 wifi: brcmfmac: pcie: Add IDs/properties for BCM4355
+bf8bbd903f07 wifi: brcmfmac: pcie: Add IDs/properties for BCM4377
+6a142f70774f wifi: brcmfmac: pcie: Perform correct BCM4364 firmware selection
 
-Eric Curtin
+-- 
+https://patchwork.kernel.org/project/linux-wireless/patch/20230212063813.27622-2-marcan@marcan.st/
 
-> ---
->  .../net/wireless/broadcom/brcm80211/brcmfmac/pcie.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-> index d54394885af7..f320b6ce8bff 100644
-> --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-> @@ -57,7 +57,8 @@ BRCMF_FW_CLM_DEF(4356, "brcmfmac4356-pcie");
->  BRCMF_FW_CLM_DEF(43570, "brcmfmac43570-pcie");
->  BRCMF_FW_DEF(4358, "brcmfmac4358-pcie");
->  BRCMF_FW_DEF(4359, "brcmfmac4359-pcie");
-> -BRCMF_FW_DEF(4364, "brcmfmac4364-pcie");
-> +BRCMF_FW_CLM_DEF(4364B2, "brcmfmac4364b2-pcie");
-> +BRCMF_FW_CLM_DEF(4364B3, "brcmfmac4364b3-pcie");
->  BRCMF_FW_DEF(4365B, "brcmfmac4365b-pcie");
->  BRCMF_FW_DEF(4365C, "brcmfmac4365c-pcie");
->  BRCMF_FW_DEF(4366B, "brcmfmac4366b-pcie");
-> @@ -88,7 +89,8 @@ static const struct brcmf_firmware_mapping brcmf_pcie_fwnames[] = {
->         BRCMF_FW_ENTRY(BRCM_CC_43570_CHIP_ID, 0xFFFFFFFF, 43570),
->         BRCMF_FW_ENTRY(BRCM_CC_4358_CHIP_ID, 0xFFFFFFFF, 4358),
->         BRCMF_FW_ENTRY(BRCM_CC_4359_CHIP_ID, 0xFFFFFFFF, 4359),
-> -       BRCMF_FW_ENTRY(BRCM_CC_4364_CHIP_ID, 0xFFFFFFFF, 4364),
-> +       BRCMF_FW_ENTRY(BRCM_CC_4364_CHIP_ID, 0x0000000F, 4364B2), /* 3 */
-> +       BRCMF_FW_ENTRY(BRCM_CC_4364_CHIP_ID, 0xFFFFFFF0, 4364B3), /* 4 */
->         BRCMF_FW_ENTRY(BRCM_CC_4365_CHIP_ID, 0x0000000F, 4365B),
->         BRCMF_FW_ENTRY(BRCM_CC_4365_CHIP_ID, 0xFFFFFFF0, 4365C),
->         BRCMF_FW_ENTRY(BRCM_CC_4366_CHIP_ID, 0x0000000F, 4366B),
-> @@ -2003,6 +2005,11 @@ static int brcmf_pcie_read_otp(struct brcmf_pciedev_info *devinfo)
->                 base = 0x8c0;
->                 words = 0xb2;
->                 break;
-> +       case BRCM_CC_4364_CHIP_ID:
-> +               coreid = BCMA_CORE_CHIPCOMMON;
-> +               base = 0x8c0;
-> +               words = 0x1a0;
-> +               break;
->         case BRCM_CC_4377_CHIP_ID:
->         case BRCM_CC_4378_CHIP_ID:
->                 coreid = BCMA_CORE_GCI;
-> @@ -2611,7 +2618,7 @@ static const struct pci_device_id brcmf_pcie_devid_table[] = {
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_43602_2G_DEVICE_ID, WCC),
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_43602_5G_DEVICE_ID, WCC),
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_43602_RAW_DEVICE_ID, WCC),
-> -       BRCMF_PCIE_DEVICE(BRCM_PCIE_4364_DEVICE_ID, BCA),
-> +       BRCMF_PCIE_DEVICE(BRCM_PCIE_4364_DEVICE_ID, WCC),
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_4365_DEVICE_ID, BCA),
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_4365_2G_DEVICE_ID, BCA),
->         BRCMF_PCIE_DEVICE(BRCM_PCIE_4365_5G_DEVICE_ID, BCA),
-> --
-> 2.35.1
->
->
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 
