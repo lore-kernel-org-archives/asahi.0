@@ -1,263 +1,87 @@
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFEA33D1
-	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 14:01:15 +0000 (UTC)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
-	id B91A926F77F; Mon, 13 Feb 2023 15:01:13 +0100 (CET)
-Date: Mon, 13 Feb 2023 15:01:13 +0100
-From: Janne Grunau <j@jannau.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 17/17] arm64: dts: apple: t8112: Initial t8112 (M2)
- device trees
-Message-ID: <20230213140113.GE17933@jannau.net>
-References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
- <20230202-asahi-t8112-dt-v1-17-cb5442d1c229@jannau.net>
- <1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F993222
+	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 14:36:37 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id m14so12435381wrg.13
+        for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 06:36:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZyRvUUDOLHj8CYuZ0RJLhyzA8xLiouj5htg3dqZA0GE=;
+        b=ka7GXad0pjWurOwIo2sN18R12XuPJ/VUcP5ORRRg0SFOshLAoez6fykUgh6kY/fAQR
+         oYbDbhsSiUP1G/D+Z4KoDG7qzCFQxHF8t3ZrwNe4KgoGAj0uvr1IU3wp0SKAF81ORVNz
+         lFy/0JmgGEfmVC8jM1ankVh7dt/iKRJGLsrzoZCkvcDCmFOKrDqngYx25+Q+/3G2PstZ
+         JeA3efksQdm5Wclt/M8JJ9y/717T41Md2FxTTH5jJZzodTsFuIn3XUY9XzykQfyFmzsG
+         VQrCVBjxxUW+KbiFf4MxraHqe9AT9AIjysvJMb3u686KBY228Z7w7aywfRxZB1F6qFqb
+         puoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZyRvUUDOLHj8CYuZ0RJLhyzA8xLiouj5htg3dqZA0GE=;
+        b=2n9xitOkaYRZ0YPgdncYstlD6HMig8fDfkNQKAhVIEle8P4GK9BwkywtRWcKb27c+z
+         7YixF1L+hWKT9mOwxvkY4wbeepdlTDxxCNrsbK7+ntA4rNG5U1VR2FbhIC3JUlHy8+N+
+         5TKGOJRkIyXl3JeaLpwmBpOeo/2IpJyyvUJmiLkdQkAMJsvwSTnKSmZqbQ0OeLtHlzd4
+         TWAWg/76wMaDnHHgm3ufqr7VLBkyngdFVtpX78fYZv2xpWnhrgyyCeg2RHP/uxqytH+l
+         fhkItDAqdu0Ifm9nwGP4kX8pUQYhU1YN1bpZXEU/8dUT9aqrUBAZxVHwuTqd/t8V8/ng
+         kLUA==
+X-Gm-Message-State: AO0yUKVYKwCKjWOJRWzXZaPodF6VwaBVFAmYaifoYxYid7KdjCgWxQvI
+	N9ZDX1qZ48fxoRlplaULARtCFQTUTWu6AYXx
+X-Google-Smtp-Source: AK7set89smbO8qcTdScCI68QdZHh75ELtlhJvOjDZ/gP2sg6ky2NHbQDhknK14ZmHRVJk74gI8I5Fw==
+X-Received: by 2002:a5d:4007:0:b0:2c5:5ebc:d681 with SMTP id n7-20020a5d4007000000b002c55ebcd681mr1584143wrp.16.1676298996138;
+        Mon, 13 Feb 2023 06:36:36 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id j40-20020a05600c1c2800b003dc4480df80sm19312274wms.34.2023.02.13.06.36.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Feb 2023 06:36:35 -0800 (PST)
+Message-ID: <16804864-dce2-d68c-ce81-b6fdeb20a527@linaro.org>
+Date: Mon, 13 Feb 2023 15:36:33 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 17/17] arm64: dts: apple: t8112: Initial t8112 (M2) device
+ trees
+Content-Language: en-US
+To: Janne Grunau <j@jannau.net>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
+ <20230202-asahi-t8112-dt-v1-17-cb5442d1c229@jannau.net>
+ <1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org>
+ <20230213140113.GE17933@jannau.net>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230213140113.GE17933@jannau.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2023-02-13 12:22:11 +0100, Krzysztof Kozlowski wrote:
-> On 12/02/2023 16:41, Janne Grunau wrote:
-> > From: Hector Martin <marcan@marcan.st>
-> > 
-> > This adds device trees for the following devices:
-> >  - Macbook Air (M2, 2022)
-> >  - Macbook Pro 13" (M2, 2022)
-> >  - Mac mini (M2, 2023)
-> > 
-> > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > Co-developed-by: Janne Grunau <j@jannau.net>
-> > Signed-off-by: Janne Grunau <j@jannau.net>
-> > ---
-> >  arch/arm64/boot/dts/apple/Makefile        |    3 +
-> >  arch/arm64/boot/dts/apple/t8112-j413.dts  |   71 ++
-> >  arch/arm64/boot/dts/apple/t8112-j473.dts  |   60 ++
-> >  arch/arm64/boot/dts/apple/t8112-j493.dts  |   60 ++
-> >  arch/arm64/boot/dts/apple/t8112-jxxx.dtsi |   81 ++
-> >  arch/arm64/boot/dts/apple/t8112-pmgr.dtsi | 1141 +++++++++++++++++++++++++++++
-> >  arch/arm64/boot/dts/apple/t8112.dtsi      |  904 +++++++++++++++++++++++
-> >  7 files changed, 2320 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
-> > index 5a7506ff5ea3..aec5e29cdfb7 100644
-> > --- a/arch/arm64/boot/dts/apple/Makefile
-> > +++ b/arch/arm64/boot/dts/apple/Makefile
-> > @@ -10,3 +10,6 @@ dtb-$(CONFIG_ARCH_APPLE) += t6000-j316s.dtb
-> >  dtb-$(CONFIG_ARCH_APPLE) += t6001-j316c.dtb
-> >  dtb-$(CONFIG_ARCH_APPLE) += t6001-j375c.dtb
-> >  dtb-$(CONFIG_ARCH_APPLE) += t6002-j375d.dtb
-> > +dtb-$(CONFIG_ARCH_APPLE) += t8112-j413.dtb
-> > +dtb-$(CONFIG_ARCH_APPLE) += t8112-j473.dtb
-> > +dtb-$(CONFIG_ARCH_APPLE) += t8112-j493.dtb
-> > diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-> > new file mode 100644
-> > index 000000000000..0e5b5add92cf
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-> > @@ -0,0 +1,71 @@
-> > +// SPDX-License-Identifier: GPL-2.0+ OR MIT
-> > +/*
-> > + * Apple MacBook Air (M2, 2022)
-> > + *
-> > + * target-type: J413
-> > + *
-> > + * Copyright The Asahi Linux Contributors
-> > + */
-> > +
-> > +/dts-v1/;
-> > +
-> > +#include "t8112.dtsi"
-> > +#include "t8112-jxxx.dtsi"
-> > +
-> > +/ {
-> > +	compatible = "apple,j413", "apple,t8112", "apple,arm-platform";
-> > +	model = "Apple MacBook Air (13-inch, M2, 2022)";
-> > +
-> > +	aliases {
-> > +		bluetooth0 = &bluetooth0;
-> > +		wifi0 = &wifi0;
-> > +	};
-> > +};
-> > +
-> > +/*
-> > + * Force the bus number assignments so that we can declare some of the
-> > + * on-board devices and properties that are populated by the bootloader
-> > + * (such as MAC addresses).
-> > + */
-> > +&port00 {
-> > +	bus-range = <1 1>;
-> > +	wifi0: wifi@0,0 {
-> > +		compatible = "pci14e4,4433";
-> > +		reg = <0x10000 0x0 0x0 0x0 0x0>;
-> > +		/* To be filled by the loader */
-> > +		local-mac-address = [00 10 18 00 00 10];
-> > +		apple,antenna-sku = "XX";
-> > +		brcm,board-type = "apple,hokkaido";
-> > +	};
-> > +
-> > +	bluetooth0: bluetooth@0,1 {
-> > +		compatible = "pci14e4,5f71";
-> > +		reg = <0x10100 0x0 0x0 0x0 0x0>;
-> > +		/* To be filled by the loader */
-> > +		local-bd-address = [00 00 00 00 00 00];
-> > +		brcm,board-type = "apple,hokkaido";
-> > +	};
-> > +};
-> > +
-> > +/*
-> > + * Remove unused PCIe ports
-> > + */
-> > +
-> > +/delete-node/ &port01;
+On 13/02/2023 15:01, Janne Grunau wrote:
+>>> +
+>>> +		pmgr: power-management@23b700000 {
+>>> +			compatible = "apple,t8112-pmgr", "apple,pmgr", "syscon", "simple-mfd";
+>>
+>> Why this is simple-mfd?
 > 
-> You should not delete devices just because they are unused. Externally
-> visible buses should be just disabled in DTSI and you enable them when
-> needed. Not the opposite way.
+> I suppose because the syscon device is not limited to power domain 
+> controls. The dt-bindings in arm/apple/apple,pmgr.yaml specify those 
+> compatibles. See the original discussion in:
 > 
-> What's more, you must node delete nodes just because they are "not
-> used". This not anymore proper description of hardware.
+> https://lore.kernel.org/linux-devicetree/57991dac-196e-a76d-831a-d4ac166bfe29@marcan.st/  
 
-I agree, this is copied from the M1 and M1 Pro/Max/Ultra devictrees.  
-I'll fix it there as well.
+This did not answer my concerns. There are no children here.
 
-> 
-> > +/delete-node/ &port02;
-> > +/delete-node/ &port03;
-> > +
-> > +&i2c0 {
-> > +	/* MagSafe port */
-> > +	hpm5: usb-pd@3a {
-> > +		compatible = "apple,cd321x";
-> > +		reg = <0x3a>;
-> > +		interrupt-parent = <&pinctrl_ap>;
-> > +		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
-> > +		interrupt-names = "irq";
-> > +	};
-> > +};
-> > +
-> > +&i2c4 {
-> > +	status = "okay";
-> > +};
-> > diff --git a/arch/arm64/boot/dts/apple/t8112-j473.dts b/arch/arm64/boot/dts/apple/t8112-j473.dts
-> > new file mode 100644
-> > index 000000000000..55950d0a73c5
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/apple/t8112-j473.dts
-> > @@ -0,0 +1,60 @@
-> > +// SPDX-License-Identifier: GPL-2.0+ OR MIT
-> > +/*
-> > + * Apple Mac mini (M2, 2023)
-> > + *
-> > + * target-type: J473
-> > + *
-> > + * Copyright The Asahi Linux Contributors
-> > + */
-> > +
-> > +/dts-v1/;
-> 
-> (....)
-> 
-> 
-> > +
-> > +	ps_debug_switch: power-controller@b8 {
-> > +		compatible = "apple,t8112-pmgr-pwrstate", "apple,pmgr-pwrstate";
-> > +		reg = <0xb8 4>;
-> > +		#power-domain-cells = <0>;
-> > +		#reset-cells = <0>;
-> > +		label = "debug_switch";
-> > +		apple,always-on; /* Core AON device */
-> > +	};
-> > +};
-> > +
-> > diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-> > new file mode 100644
-> > index 000000000000..974443913f6a
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-> > @@ -0,0 +1,904 @@
-> > +// SPDX-License-Identifier: GPL-2.0+ OR MIT
-> > +/*
-> > + * Apple T8112 "M2" SoC
-> > + *
-> > + * Other names: H14G
-> > + *
-> > + * Copyright The Asahi Linux Contributors
-> > + */
-> 
-> 
-> (...)
-> 
-> > +
-> > +		aic: interrupt-controller@23b0c0000 {
-> > +			compatible = "apple,t8112-aic", "apple,aic2";
-> > +			#interrupt-cells = <3>;
-> > +			interrupt-controller;
-> > +			reg = <0x2 0x3b0c0000 0x0 0x8000>,
-> > +				<0x2 0x3b0c8000 0x0 0x4>;
-> > +			reg-names = "core", "event";
-> > +			power-domains = <&ps_aic>;
-> > +
-> > +			affinities {
-> > +				e-core-pmu-affinity {
-> > +					apple,fiq-index = <AIC_CPU_PMU_E>;
-> > +					cpus = <&cpu_e0 &cpu_e1 &cpu_e2 &cpu_e3>;
-> > +				};
-> > +
-> > +				p-core-pmu-affinity {
-> > +					apple,fiq-index = <AIC_CPU_PMU_P>;
-> > +					cpus = <&cpu_p0 &cpu_p1 &cpu_p2 &cpu_p3>;
-> > +				};
-> > +			};
-> > +		};
-> > +
-> > +		pmgr: power-management@23b700000 {
-> > +			compatible = "apple,t8112-pmgr", "apple,pmgr", "syscon", "simple-mfd";
-> 
-> Why this is simple-mfd?
+Best regards,
+Krzysztof
 
-I suppose because the syscon device is not limited to power domain 
-controls. The dt-bindings in arm/apple/apple,pmgr.yaml specify those 
-compatibles. See the original discussion in:
-
-https://lore.kernel.org/linux-devicetree/57991dac-196e-a76d-831a-d4ac166bfe29@marcan.st/  
-
-> 
-> > +			#address-cells = <1>;
-> > +			#size-cells = <1>;
-> > +			reg = <0x2 0x3b700000 0 0x14000>;
-> > +		};
-> 
-> 
-> > +
-> > +		pmgr_mini: power-management@23d280000 {
-> > +			compatible = "apple,t8112-pmgr", "apple,pmgr", "syscon", "simple-mfd";
-> 
-> Why this is simple-mfd?
-
-see above
- 
-> > +			#address-cells = <1>;
-> > +			#size-cells = <1>;
-> > +			reg = <0x2 0x3d280000 0 0x4000>;
-> > +		};
->
-
-thanks
-
-Janne 
