@@ -1,117 +1,77 @@
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523F033D1
-	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 12:33:48 +0000 (UTC)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
-	id 7763A26F77E; Mon, 13 Feb 2023 13:33:46 +0100 (CET)
-Date: Mon, 13 Feb 2023 13:33:46 +0100
-From: Janne Grunau <j@jannau.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76D033D1
+	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 12:37:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1122CC4339B;
+	Mon, 13 Feb 2023 12:37:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676291858;
+	bh=uBHjrTWQKkfaPwze/tEkM/PBOCV8FGkdpjBjVEqbGic=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jiwrzEwrU2PFdlUVdVzzWTVdEqD6IhKKf5TLMYAJgikO90BhA6kETslVbsYVLlE7M
+	 UkLhfirCj4SLItq8VgwVeIdscYboRy53D2CnkqpQhZXAXBrrloDKk4JMD5NztaBkRC
+	 aUsC0UPHm2o1PekgC9katxXe+z9TYbAsq/JyH2TLgepyo3LgfzEc02OI/+o/s5LVtL
+	 YoOgP/uxfGacHbegdtVB6jISNO1Koiqp7vbQ8NE8E86tfHcijsymTDFLUlQ9ajQvPT
+	 F0pdJBhyKUpANdwuQDsA2Ch/L1HQxYGt6ZAzOft1MYZtNIT3OrEClZfy6Ww5qAOafO
+	 6SSa53TOqQpTA==
+Date: Mon, 13 Feb 2023 12:37:37 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Janne Grunau <j@jannau.net>
 Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Mark Kettenis <kettenis@openbsd.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/17] dt-bindings: interrupt-controller: apple,aic2: Add
- apple,t8112-aic compatible
-Message-ID: <20230213123346.GB17933@jannau.net>
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 14/17] dt-bindings: sound: apple,mca: Add t8112-mca
+ compatible
+Message-ID: <Y+ovEeS5KSkiHHQ1@sirena.org.uk>
 References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
- <20230202-asahi-t8112-dt-v1-5-cb5442d1c229@jannau.net>
- <2f5a63ba-f4de-da89-7621-3fe1d79cdc94@linaro.org>
+ <20230202-asahi-t8112-dt-v1-14-cb5442d1c229@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hLckiemEQMgkNtNC"
+Content-Disposition: inline
+In-Reply-To: <20230202-asahi-t8112-dt-v1-14-cb5442d1c229@jannau.net>
+X-Cookie: Serving suggestion.
+
+
+--hLckiemEQMgkNtNC
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2f5a63ba-f4de-da89-7621-3fe1d79cdc94@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 2023-02-13 12:12:25 +0100, Krzysztof Kozlowski wrote:
-> On 12/02/2023 16:41, Janne Grunau wrote:
-> > The Apple M2 SoC uses AICv2 and is compatible with the existing driver.
-> > Add its per-SoC compatible.
-> > Since multi-die versions of the M2 are not expected decrease
-> > '#interrupt-cells' to 3 for apple,t8112-aic. This is seamlessly handled
-> > inside the driver.
-> > 
-> > Signed-off-by: Janne Grunau <j@jannau.net>
-> > 
-> > ---
-> > This trivial dt-bindings update should be merged through the asahi-soc
-> > tree to ensure validation of the Apple M2 (t8112) devicetrees in this
-> > series.
-> > ---
-> >  .../bindings/interrupt-controller/apple,aic2.yaml  | 23 +++++++++++++++++++---
-> >  1 file changed, 20 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-> > index 06948c0e36a5..120e23ff668c 100644
-> > --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-> > +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-> > @@ -31,19 +31,22 @@ description: |
-> >  properties:
-> >    compatible:
-> >      items:
-> > -      - const: apple,t6000-aic
-> > +      - enum:
-> > +          - apple,t8112-aic
-> > +          - apple,t6000-aic
-> >        - const: apple,aic2
-> >  
-> >    interrupt-controller: true
-> >  
-> >    '#interrupt-cells':
-> > -    const: 4
-> > +    minimum: 3
-> > +    maximum: 4
-> >      description: |
-> >        The 1st cell contains the interrupt type:
-> >          - 0: Hardware IRQ
-> >          - 1: FIQ
-> >  
-> > -      The 2nd cell contains the die ID.
-> > +      The 2nd cell contains the die ID (optional).
-> >  
-> >        The next cell contains the interrupt number.
-> >          - HW IRQs: interrupt number
-> > @@ -98,6 +101,20 @@ properties:
-> >            - apple,fiq-index
-> >            - cpus
-> >  
-> > +if:
-> 
-> Put it under allOf. After "required:", just like example-schema asks for.
+On Sun, Feb 12, 2023 at 04:41:24PM +0100, Janne Grunau wrote:
 
-moved
+> This trivial dt-bindings update should be merged through the asahi-soc
+> tree to ensure validation of the Apple M2 (t8112) devicetrees in this
+> series.
 
-> > +  properties:
-> > +    compatible:
-> > +      contains:
-> > +        const: apple,t8112-aic
-> > +then:
-> > +  properties:
-> > +    '#interrupt-cells':
-> > +      maximum: 3
-> 
-> Shouldn't this be:
-> const: 3
+Given that we're at -rc8 it seems like it would be more sensible
+to just merge this now so it's in -rc1, it doesn't seem likely
+that everything will get sorted prior to the merge window?
 
-same effect but more explicit, bot changed
+--hLckiemEQMgkNtNC
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > +else:
-> > +  properties:
-> > +    '#interrupt-cells':
-> > +      minimum: 4
-> 
-> const: 4
+-----BEGIN PGP SIGNATURE-----
 
-thanks
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmPqLw0ACgkQJNaLcl1U
+h9Cusgf+KHIMbGjZ94f/3Md7bYbHGXWVbYeqzBW/6+lEkfiiRKOh1voFts8mMAgR
+mq955EflP3IhKLBUuoGwSSLqT51rnR5O/pkjilihYcqhc4WE/GgOm7AI3kopomWN
+FclT/xp6xwg7YIb9J3LcY0CsrpHDyP6xlAdG+Lt2etc++xyp0EA0Hkv+i/QlZDw6
+nomffp+VkEKSYZFPh8KAPWs9yz3MKDLgrUFsOwdLYYT6B4eRcT7c6Vq52E91jxY8
+TW55W285X2sfvt27ZeWL6kou1HHDoySqBO+mfp/ejw4llMuOWngRjqYKrh+E/JJH
+dKHCW35kvUwwnjMsMGTaBK4tfrlC9A==
+=h6Bg
+-----END PGP SIGNATURE-----
 
-Janne
+--hLckiemEQMgkNtNC--
