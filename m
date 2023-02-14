@@ -1,114 +1,98 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30CA07C
-	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 09:11:31 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id ch10so15632137qtb.11
-        for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 01:11:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=W5HgoftjWnKaZB9WMngfkr+9a/dXo/FJFDXK14dxBTY=;
-        b=NHl2Azqc+UQ5FZvagtUU968byxOtD9ULnLCAFP39b1i2dEiKtXKqz8+fdOKvxr0jdm
-         kWHa0YNQ4B7tpXdzBi73woit0rKWknM8c/+ke2zcJZqxcGFcx5j5eMzdrc/ZH32CcJZ+
-         gTMrq7MOnLG6NzBYpiQMIbcL8cnXJCsmL1MwKnOw+QKpWniEuFATkx8xVbtOxJV8GZ4H
-         25JIXxgeIKumCKAR5QjgieJ+i0MILVcxUx4NnvD5UWdJPQb9tgfg+vTEujKOjIHgE6EX
-         uvKcaydNXE7X7Tqa/njVPj7lJYj8A6NUmu3LWuDsT3ivMO1OQrKY5/tjFqdZJF9R0GBI
-         MYfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W5HgoftjWnKaZB9WMngfkr+9a/dXo/FJFDXK14dxBTY=;
-        b=LQBJzui4iVqjgxkC50tVRl6tqwBRIZ2Z4FhuLWmINeBkGy3NaVGRZ7z6CciU2HUF0u
-         HAyur31tTrpYJdmGp5YX0SxcEK7eoGk2ch8TpzF3L5ETtpfPxF+jJ12eoe8BPmF2CbvI
-         B2JUZQGzxcR4HzTUY0MGAz0f1cNgEYxBzLqZTBTYpgIcjKlzMRaXRVq/vVfPZcXPviQV
-         oNcg44VmiyUBk+e8jQB/aLiGvjjiVsjYXZjC+B5k9bU6j4H89MMlA7FT3S7EAxq/cDNk
-         a/ST8HA+XJItbRFkMIHqG/XnxI0GHDNT+UkeYTPlsNLpg2C9m/rp0L4y1uqTY3O7vynr
-         x18w==
-X-Gm-Message-State: AO0yUKXCElhAtTRLVQRlmWZln6zFFtI/KoJ9lg+8yFLUluHR63Mh+vNu
-	aOHlcDrw/FxBG06T/PDGcLZYVPsA4fjssd7qtN8=
-X-Google-Smtp-Source: AK7set+WS/yIY5Z2eiMuhpOsCXR4iacCVtUdbB4RSkt+9yamWmbLhxFi0NSrOCMHriE9cgu/fmpqsFMr2hfCIdqv2Z0=
-X-Received: by 2002:a05:622a:289:b0:3b8:6b33:d92b with SMTP id
- z9-20020a05622a028900b003b86b33d92bmr171615qtw.325.1676365889757; Tue, 14 Feb
- 2023 01:11:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB0867C
+	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 09:19:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id DA0AC41EF0;
+	Tue, 14 Feb 2023 09:18:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1676366344; bh=E9W07H0pU9Jie9tGq5Ks2FwjxVlRsSqR36Tm5FJo4VI=;
+	h=From:To:Cc:Subject:Date;
+	b=OXDduyGoGZ9dQZ8eoE5aO/TuBUcQ13uIPZ4nIvBxNDaN+oLHLnuYFgvULLtF8Dbrx
+	 IO5sH+PBSfNl9ASWwnGfxQsI/lfFiH6iDVbjPrvt0eiPMjGeAOXFokULy7ZIUmuK24
+	 EQB146Xre4N2gJu/1emFCU+JXIb+Eij6hRpTpuzTaLbkzGMoneKkPaEQMmDWYNVujs
+	 aFxGseg3NC/JI/JA5PmUiJoHM2u545nT7ccMBSrMy4FVqoYawTmRhYXmp6Mh+gHoBA
+	 w6ArlWN5Q2npLuoOvUpjcuAm0nhaPZraKORwRM1fUPjTuBCNNe18JA19SN98p6srGV
+	 /mFQbWR8A0kxQ==
+From: Hector Martin <marcan@marcan.st>
+To: Arend van Spriel <aspriel@gmail.com>,
+	Franky Lin <franky.lin@broadcom.com>,
+	Hante Meuleman <hante.meuleman@broadcom.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	asahi@lists.linux.dev,
+	linux-wireless@vger.kernel.org,
+	brcm80211-dev-list.pdl@broadcom.com,
+	SHA-cyfmac-dev-list@infineon.com,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>
+Subject: [PATCH 00/10] BCM4387 / Apple M1 platform support
+Date: Tue, 14 Feb 2023 18:16:51 +0900
+Message-Id: <20230214091651.10178-1-marcan@marcan.st>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230214080034.3828-1-marcan@marcan.st> <20230214080034.3828-3-marcan@marcan.st>
- <CAGRGNgV6YMhBa1bdkf_EQ0Z+nwbfhJkKcTxtc=ukWVMWtvQ2PA@mail.gmail.com> <a9281140-8b9d-41ca-bc2d-3c2d2e78259e@marcan.st>
-In-Reply-To: <a9281140-8b9d-41ca-bc2d-3c2d2e78259e@marcan.st>
-From: Julian Calaby <julian.calaby@gmail.com>
-Date: Tue, 14 Feb 2023 20:11:17 +1100
-Message-ID: <CAGRGNgV2EALagFHKhBwDaySEFMufeK=7shF-yTRtJkFuF+W1Gg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] brcmfmac: pcie: Provide a buffer of random bytes to
- the device
-To: Hector Martin <marcan@marcan.st>
-Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
-	Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Linus Walleij <linus.walleij@linaro.org>, asahi@lists.linux.dev, 
-	linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
-	SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Hector,
+Hi all,
 
-On Tue, Feb 14, 2023 at 8:08 PM Hector Martin <marcan@marcan.st> wrote:
->
-> On 14/02/2023 18.00, Julian Calaby wrote:
-> > Hi Arend,
-> >
-> > On Tue, Feb 14, 2023 at 7:04 PM Hector Martin <marcan@marcan.st> wrote:
-> >>
-> >> Newer Apple firmwares on chipsets without a hardware RNG require the
-> >> host to provide a buffer of 256 random bytes to the device on
-> >> initialization. This buffer is present immediately before NVRAM,
-> >> suffixed by a footer containing a magic number and the buffer length.
-> >>
-> >> This won't affect chips/firmwares that do not use this feature, so do it
-> >> unconditionally for all Apple platforms (those with an Apple OTP).
-> >
-> > Following on from the conversation a year ago, is there a way to
-> > detect chipsets that need these random bytes? While I'm sure Apple is
-> > doing their own special thing for special Apple reasons, it seems
-> > relatively sensible to omit a RNG on lower-cost chipsets, so would
-> > other chipsets need it?
->
-> I think we could include a list of chips known not to have the RNG (I
-> think it's only the ones shipped on T2 machines). The main issue is I
-> don't have access to those machines so it's hard for me to test exactly
-> which ones need it. IIRC Apple's driver unconditionally provides the
-> randomness. I could at least test the newer chips on AS platforms and
-> figure out if they need it to exclude them... but then again, all I can
-> do is test whether they work without the blob, but they might still want
-> it (and simply become less secure without it).
->
-> So I guess the answer is "maybe, I don't know, and it's kind of hard to
-> know for sure"... the joys of reverse engineering hardware without
-> vendor documentation.
->
-> If you mean whether other chips with non-apple firmware can use this, I
-> have no idea. That's probably something for Arend to answer. My gut
-> feeling is Apple added this as part of a hardening mechanism and
-> non-Apple firmware does not use it (and Broadcom then probably started
-> shipping chips with a hardware RNG and firmware that uses it directly
-> across all vendors), in which case the answer is no.
+This series adds the missing bits to support the BCM4387 found in newer
+Apple Silicon platforms and its Apple firmware.
 
-Sorry, I should have been more clear, I wasn't expecting you to know,
-I was asking Arend if he knew.
+* Patches 1-2 add support for hardware oddities of these chips.
+* Patches 3-6 add support for firmware oddities of these chips.
+* Patch 7 adds the IDs themselves
+* Patches 8-10 add support for Apple oddities (also applicable to other
+  chips already upstreamed, but which are still missing this
+  functionality).
 
-Thanks,
+These patches were already reviewed last year as part of v2 of the
+`brcmfmac: Support Apple T2 and M1 platforms` series. This version
+just incorporates a few bits of review feedback from that last round,
+plus rebasing. In particular, I checked that the patches do not
+introduce any cfg80211.c endiannness warnings with make C=2.
+
+Hector Martin (10):
+  brcmfmac: chip: Only disable D11 cores; handle an arbitrary number
+  brcmfmac: chip: Handle 1024-unit sizes for TCM blocks
+  brcmfmac: cfg80211: Add support for scan params v2
+  brcmfmac: feature: Add support for setting feats based on WLC version
+  brcmfmac: cfg80211: Add support for PMKID_V3 operations
+  brcmfmac: cfg80211: Pass the PMK in binary instead of hex
+  brcmfmac: pcie: Add IDs/properties for BCM4387
+  brcmfmac: common: Add support for downloading TxCap blobs
+  brcmfmac: pcie: Load and provide TxCap blobs
+  brcmfmac: common: Add support for external calibration blobs
+
+ .../broadcom/brcm80211/brcmfmac/bus.h         |   1 +
+ .../broadcom/brcm80211/brcmfmac/cfg80211.c    | 310 ++++++++++++------
+ .../broadcom/brcm80211/brcmfmac/chip.c        |  25 +-
+ .../broadcom/brcm80211/brcmfmac/common.c      | 117 +++++--
+ .../broadcom/brcm80211/brcmfmac/common.h      |   2 +
+ .../broadcom/brcm80211/brcmfmac/feature.c     |  49 +++
+ .../broadcom/brcm80211/brcmfmac/feature.h     |   6 +-
+ .../broadcom/brcm80211/brcmfmac/fwil_types.h  | 157 ++++++++-
+ .../wireless/broadcom/brcm80211/brcmfmac/of.c |   7 +
+ .../broadcom/brcm80211/brcmfmac/pcie.c        |  21 ++
+ .../broadcom/brcm80211/include/brcm_hw_ids.h  |   2 +
+ 11 files changed, 567 insertions(+), 130 deletions(-)
 
 -- 
-Julian Calaby
+2.35.1
 
-Email: julian.calaby@gmail.com
-Profile: http://www.google.com/profiles/julian.calaby/
