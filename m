@@ -1,182 +1,69 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F0C10799
-	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 10:38:37 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id d2so14655938pjd.5
-        for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 02:38:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=mtGwFEF4tIxvk0GWmD8S29fczpImLqAF9GKfJ0JQlLI=;
-        b=JMGkTwhUovg1ERr94Sx4m7FYYKoytmT3btJgD97nWqzyDfCFK+SPiQlxjDJaXPU7pi
-         KYPpjBBtHC+xpynhLlgS+5okX8X8YlYoMkT+LmEQczhuf9jv2NJMCLedaxBhC8InLHhv
-         2HtgHPR6rv49O/rlZBKp6zM0OMQuMhRplQC84=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mtGwFEF4tIxvk0GWmD8S29fczpImLqAF9GKfJ0JQlLI=;
-        b=WQSFsq2qJ7JNT22dU9X3hTUPALGPnCUwr8yrj5XJRgCCWGWUB0NBOLiebsKMOtf2l2
-         5sAnnGUCioZiht0u0R9sUTcER/CMRROyfv+v+SebCyVaRwzN5hti1zRyfhqsnjTTmc8S
-         KwkvcN3tf9HwywDvPLAVcET6MBUkObdLfWvF1eh/j8E4dLY/VM3WfNGDGTq2JGVGYGsO
-         u+pApxH40dvVzba/NIb7tcILYviXTblSslY+fyVsXc/o77zq0bO8sBgrWukP8GkYVsb9
-         6HmHlk62karJ4rmFsSN5yoMbpJyuykoFIlH7xnXSlt0xvM6Gc8tl3P2VpEbU19ydyvGW
-         hS+g==
-X-Gm-Message-State: AO0yUKUPi9qIVmacvJIIM8WNIEzQVw79FKoNh46gNJszHGynYqztivWU
-	3BYjJm6BnIQqO8eCzfGYkmltMw==
-X-Google-Smtp-Source: AK7set/S/SXFksJB14IJOqjtSqT+hhqjQlxpZhIyg6M4tyqvzZA0X6fJy2rlts0cIbwCnUfO3KmnHQ==
-X-Received: by 2002:a17:90b:384e:b0:233:bc5a:92fc with SMTP id nl14-20020a17090b384e00b00233bc5a92fcmr1808893pjb.16.1676371116726;
-        Tue, 14 Feb 2023 02:38:36 -0800 (PST)
-Received: from [10.176.68.61] ([192.19.148.250])
-        by smtp.gmail.com with ESMTPSA id l6-20020a17090a4d4600b00233567a978csm2804276pjh.42.2023.02.14.02.38.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Feb 2023 02:38:36 -0800 (PST)
-Message-ID: <b4489e24-e226-4f99-1322-cab6c1269f09@broadcom.com>
-Date: Tue, 14 Feb 2023 11:38:30 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D1510799
+	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 10:44:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id AE5BC3FB17;
+	Tue, 14 Feb 2023 10:44:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1676371452; bh=+3HwTc9ECCiYjn5bB7Ckhk2en8do+vQ2etYA80kGnc0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=K123Gas5KDqjqIqfg5w1nZuAe/HmooRGNhtmN8V/U+mQYp8NICfNSfZ0s0Wh4bpQ8
+	 XW33aBK0RMCM9mhtYWCCD/NqGFafdWaSeV+NrqtLoMZnP6ypdvxuTWM5K/g67emTMg
+	 /HiDf6IU+IvfWgGRSAuHUnvxbH/H4XRDcWmuVSnhsz9I56y2k7S2MAKts28IGHdH6Y
+	 /d8TWEkVVStdNAJSz+7ioXnkRKUltev84u6rYzNFi8CEdEjzwrcdiUMvXyJncTAS7R
+	 oRcaUyhC1/tkbX3nxGv8qOpSiQ5NqROohjBsbi/kLp6syLJt9ZTBeYdH4vWlYAbgPT
+	 WfCQg3aapQDzA==
+Message-ID: <6009e594-ec2e-cf02-842c-91e993d66d36@marcan.st>
+Date: Tue, 14 Feb 2023 19:44:07 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH] brcmfmac: cfg80211: Use WSEC to set SAE password
-To: Hector Martin <marcan@marcan.st>, Arend van Spriel <aspriel@gmail.com>,
- Franky Lin <franky.lin@broadcom.com>,
- Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Double Lo <double.lo@infineon.com>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Linus Walleij <linus.walleij@linaro.org>,
- asahi@lists.linux.dev, linux-wireless@vger.kernel.org,
- brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230214093319.21077-1-marcan@marcan.st>
- <edcabef3-f440-9c15-e69f-845eb6a4de1b@broadcom.com>
- <65548ce6-d2d8-c913-a494-5ac044af2e35@marcan.st>
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-In-Reply-To: <65548ce6-d2d8-c913-a494-5ac044af2e35@marcan.st>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000f08f4205f4a69035"
-
---000000000000f08f4205f4a69035
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 0/2] Apple M2 PMU support
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Janne Grunau <j@jannau.net>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230214-apple_m2_pmu-v1-0-9c9213ab9b63@jannau.net>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20230214-apple_m2_pmu-v1-0-9c9213ab9b63@jannau.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 2/14/2023 11:30 AM, Hector Martin wrote:
-> On 14/02/2023 19.07, Arend van Spriel wrote:
->> + Double Lo
->>
->> On 2/14/2023 10:33 AM, Hector Martin wrote:
->>> Using the WSEC command instead of sae_password seems to be the supported
->>> mechanism on newer firmware, and also how the brcmdhd driver does it.
->>
->> The SAE code in brcmfmac was added by Cypress/Infineon. For my BCA
->> devices that did not work, but this change should be verified on Cypress
->> hardware.
+On 14/02/2023 19.38, Janne Grunau wrote:
+> This small series adds support for the PMU in Apple M2 cores. The PMU
+> itself appears to work in the same way as om M1. We still want to add
+> CPU type specific compatible strings so that we can distinguish counters
+> in the case they count (slightly) different things on different CPU
+> uarchs.
 > 
-> Do you mean the existing SAE code does not work on BCA, or this version
-> doesn't?
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+> Janne Grunau (2):
+>       dt-bindings: arm-pmu: Add PMU compatible strings for Apple M2 cores
+>       drivers/perf: apple_m1: Add Apple M2 support
+> 
+>  Documentation/devicetree/bindings/arm/pmu.yaml |  2 ++
+>  drivers/perf/apple_m1_cpu_pmu.c                | 14 ++++++++++++++
+>  2 files changed, 16 insertions(+)
+> ---
+> base-commit: 1b929c02afd37871d5afb9d498426f83432e71c2
+> change-id: 20230214-apple_m2_pmu-175b75c74d4e
 
-I meant the existing SAE code. I will give your patches a spin on the 
-devices I have.
+For the series,
 
-> I assume/hope this version works for WCC in general, since that is what
-> the Apple-relevant chips are tagged as. If so it sounds like we need a
-> firmware type conditional on this, if CYW needs the existing behavior.
+Reviewed-by: Hector Martin <marcan@marcan.st>
 
-Right. Let's hope we get some feedback from them.
-
-Regards,
-Arend
-
---000000000000f08f4205f4a69035
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
-Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
-HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
-Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
-KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
-Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
-dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
-OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
-MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
-BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
-ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
-zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
-sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
-BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
-N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
-p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
-YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
-bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDzj+FG9afwDzM8/VD3
-OEAktoIpYWzTBtdnTXhbJh7kBzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yMzAyMTQxMDM4MzZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
-AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAHfd29j8VqUp8EsZnZNiFXskzaY5ySgMdD/Io
-EBw2bf0b8IwZHOTki/uBPiD/wBev4Kh+Js4TcAaEMAuwvtey+icr0hqaU9kfG8jjHft2qZVWKOUO
-3qQhzc3mVIqt/Wf9Sfy3SuAT7nQYIeqrbyEt3obFW9MeJoOwzpXyRrlmhgt3AXosZ1ZRG6hzZg5V
-BvYrv/AqJAOUQBUHoHqOKZE/zHl7+hll3WTu5hLvliGzJ1YOsO9h0UE0kit1Advl1gkIWNPkUie5
-Rn0AdTlz8n3/VShwRe6glY1yLlAQ3wGaaAht3MSI67YURhKb5BN3RYgx+++3ZGkSzlisNltcSrrK
-KQ==
---000000000000f08f4205f4a69035--
+- Hector
