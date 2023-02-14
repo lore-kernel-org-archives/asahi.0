@@ -1,161 +1,136 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA927C
-	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 09:34:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 0AF303FA55;
-	Tue, 14 Feb 2023 09:34:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1676367247; bh=uhpRt3+5FIqGahR9GdpBYrp1h2hl6A/u/kJ5dtfJNJw=;
-	h=From:To:Cc:Subject:Date;
-	b=gu2+/FMwES0WX8WVxnej/DMktl5juSIAf11Zi3Y3KkTSrmkcGUkgLoiVBZZ76hUKT
-	 g5kdi3WMQQ5EVDuLkQvJ1QVR+5bIOnNLYN+nHBkU0GPROYCI39DeMr17NsoxNu1B2d
-	 dg8I7yQtc/lCgd4cANW6oanDk6SOuHIvtQqsQpVAzjPqLKeRRSRThHeu/t/yIMOw19
-	 UyHK/PmFAhduCmwDJF+xAvV/D3+R0r7IBbFNuK/h4RQOQ3khrvWqdLNnjHSN5znI/9
-	 79x2lIxL4Hht5c6nkLNbUh+hfiw6IAgo4uGjdwfCgnq3ECikEppKC7zdQLwJwDbAfz
-	 X8Dkpftajh1aw==
-From: Hector Martin <marcan@marcan.st>
-To: Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Arend van Spriel <arend.vanspriel@broadcom.com>,
-	asahi@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
-	brcm80211-dev-list.pdl@broadcom.com,
-	SHA-cyfmac-dev-list@infineon.com,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>
-Subject: [PATCH] brcmfmac: cfg80211: Use WSEC to set SAE password
-Date: Tue, 14 Feb 2023 18:33:19 +0900
-Message-Id: <20230214093319.21077-1-marcan@marcan.st>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2C07C
+	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 09:39:49 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id az4-20020a05600c600400b003dff767a1f1so11063831wmb.2
+        for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 01:39:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=THygiRuxs8VFRu/0SbSjNJKLxf0jtWVPE2Kde3hH/xc=;
+        b=IOFRV/edrvwF9c4q81Z4wz4bc1wtIFjlz6Mn0wLQgGk3ErQN0GVVkR/H3EihKO6Okz
+         IhP2Q/ubloAkgJCcabD7tnopil56y6JpNh6VbLm1KVVzTj8g6JE7NZ5X5BkapMdCrVio
+         NMQS0ZCHyUbnHtPcNVOsybnCV4cMS5rLkbhCCP2tmqb/145duSHPSD+/73UVodcxVChw
+         ujTH52MtR8YtCiGXHWCRtDxA0SN8TmGf6thzVdrWZ4aZOMgNMefl7glfemstx2brSQlz
+         lDnByTV8InzchXfW43uCElzhmRuqT+dEwvbNSS7fuJMh2Nlk52q6N6uUOB7PITIz4Agq
+         c3nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=THygiRuxs8VFRu/0SbSjNJKLxf0jtWVPE2Kde3hH/xc=;
+        b=LpRgTTOJBiMK+CW7CMUcc9L0jN7zRmEfsh3CkrcsLSmtR91wjvdGYjJWeNNGn6cwvi
+         m38pupvoHyWdTDeR42ZKp3poKJrNd6AAgjrey/XMbhWf9WWOxwjKzWhuLeRtRky+CmSA
+         MQZT3l6WrgOGure5bc3o0bUCuQb6ACzu8WWoH0npQOGyXQH9+6eMzmBdR9u7LEv9x3ie
+         8WsDsFLsqV3wBFNvZeXbaQWS8YtpV9XGBPLrYwFO5YNNVvBHC9cCoi+WGVgRvAX5fHKR
+         0OIZyXca1y5rBLHmUsaHr9HZ2j98aNGnupP9OUwroqu7Tz2A4Rbg/a4tmTN1AvEeKdoO
+         MzoQ==
+X-Gm-Message-State: AO0yUKUMkmq4tcEyj/LkjehvM1PWM3JnvqIE1SqRHUO8PbJ+uU778v9s
+	CaG6ul3lJ7WcSmtR4c/FRVbUGJaBcxwDSC7R
+X-Google-Smtp-Source: AK7set/+iKTim4NOP4D/hREumYohxPZoT4caqB5lh3sHrMC+9HMX/g1IGZQqdbiqnhwVcj4VqC+2GA==
+X-Received: by 2002:a05:600c:44c8:b0:3df:30c9:4865 with SMTP id f8-20020a05600c44c800b003df30c94865mr1570277wmo.26.1676367587820;
+        Tue, 14 Feb 2023 01:39:47 -0800 (PST)
+Received: from [192.168.1.109] ([178.197.216.144])
+        by smtp.gmail.com with ESMTPSA id f24-20020a05600c491800b003dc0cb5e3f1sm15557691wmp.46.2023.02.14.01.39.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Feb 2023 01:39:47 -0800 (PST)
+Message-ID: <af7fb166-64e3-6fcd-c270-6dd53bbe96c0@linaro.org>
+Date: Tue, 14 Feb 2023 10:39:45 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH 01/17] dt-bindings: power: apple,pmgr-pwrstate: Add t8112
+ compatible
+Content-Language: en-US
+To: Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
+ <20230202-asahi-t8112-dt-v1-1-cb5442d1c229@jannau.net>
+ <3287867a-456c-ddc3-adbf-90001950c926@linaro.org>
+ <0a33fa04-039f-9a7e-f2a3-2a1a6abc98d4@marcan.st>
+ <5ff55f1c-8f02-abec-2320-c2e0b7db8904@linaro.org>
+ <391ae107-8c10-b14e-c1ad-0fac74951432@marcan.st>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <391ae107-8c10-b14e-c1ad-0fac74951432@marcan.st>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Using the WSEC command instead of sae_password seems to be the supported
-mechanism on newer firmware, and also how the brcmdhd driver does it.
+On 14/02/2023 09:43, Hector Martin wrote:
+> On 14/02/2023 16.50, Krzysztof Kozlowski wrote:
+>> On 14/02/2023 03:24, Hector Martin wrote:
+>>> On 13/02/2023 20.09, Krzysztof Kozlowski wrote:
+>>>> On 12/02/2023 16:41, Janne Grunau wrote:
+>>>>> From: Hector Martin <marcan@marcan.st>
+>>>>>
+>>>>> Add the apple,t8112-pmgr-pwrstate compatible for the Apple M2 SoC.
+>>>>>
+>>>>> This goes after t8103. The sort order logic here is having SoC numeric
+>>>>> code families in release order, and SoCs within each family in release
+>>>>> order:
+>>>>>
+>>>>> - t8xxx (Apple HxxP/G series, "phone"/"tablet" chips)
+>>>>>   - t8103 (Apple H13G/M1)
+>>>>>   - t8112 (Apple H14G/M2)
+>>>>> - t6xxx (Apple HxxJ series, "desktop" chips)
+>>>>>   - t6000 (Apple H13J(S)/M1 Pro)
+>>>>>   - t6001 (Apple H13J(C)/M1 Max)
+>>>>>   - t6002 (Apple H13J(D)/M1 Ultra)
+>>>>>
+>>>>> Note that t600[0-2] share the t6000 compatible where the hardware is
+>>>>> 100% compatible, which is usually the case in this highly related set
+>>>>> of SoCs.
+>>>>>
+>>>>> Signed-off-by: Hector Martin <marcan@marcan.st>
+>>>>>
+>>>>
+>>>> Missing SoB.
+>>>>
+>>>
+>>> I'd rather get an r-b, since this is going back into my tree ;)
+>>
+>> Please follow Linux process which requires SoB chain.
+> 
+> A SoB is not an r-b. I do not upstream patches that are unreviewed. I
+> wrote the patch. Someone needs to review it.
+> 
+> The extra SoB is redundant because this is going back into my tree, I
+> wrote it, and I will be the committer when I apply it. It's a one-liner
+> patch. I know what I wrote. Sure we could record Janne's SoB as a
+> technicality, but it feels silly. What matters more is that the patch
+> gets reviewed, not that on a patch series technicality it ended up being
+> Janne who sent it to the list. I could just pull the patch from my own
+> branch and then it didn't go through Janne so it doesn't need his SoB.
+> But it does need someone's review (because I absolutely refuse to merge
+> my own patches without review, although not every maintainer has that
+> policy unfortunately, which means there's lots of unreviewed code in the
+> kernel).
+> 
+> Please. Let's cut down on the silliness. Please. We're trying to get
+> stuff done here. I'm tired of having to explain every little thing over
+> and over and over again. I really am.
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
-Note: must be applied after:
+Listen, I have no clue whether Janne changed the patch or not. She might
+have rebased it or not. The chain expects that anyone touching the patch
+must leave SoB. I am not providing my reviewes for patches breaking the
+process we have clearly described. I also do not see any problem in
+following the process we have - adding SoB whenever you play with a
+patch and send it. Entire discussion is silly indeed, instead of just
+following the process.
 
-[PATCH 06/10] brcmfmac: cfg80211: Pass the PMK in binary instead of hex
-
-Since that is reviewed and this isn't yet, I expect that will go in
-first anyway.
-
- .../broadcom/brcm80211/brcmfmac/cfg80211.c    | 46 ++++++++-----------
- .../broadcom/brcm80211/brcmfmac/fwil_types.h  |  2 +-
- 2 files changed, 20 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-index 18e6699d4024..e4690d56e7c3 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-@@ -1682,52 +1682,44 @@ static u16 brcmf_map_fw_linkdown_reason(const struct brcmf_event_msg *e)
- 	return reason;
- }
- 
--static int brcmf_set_pmk(struct brcmf_if *ifp, const u8 *pmk_data, u16 pmk_len)
-+static int brcmf_set_wsec(struct brcmf_if *ifp, const u8 *key, u16 key_len, u16 flags)
- {
- 	struct brcmf_pub *drvr = ifp->drvr;
- 	struct brcmf_wsec_pmk_le pmk;
- 	int err;
- 
-+	if (key_len > sizeof(pmk.key)) {
-+		bphy_err(drvr, "key must be less than %zu bytes\n",
-+			 sizeof(pmk.key));
-+		return -EINVAL;
-+	}
-+
- 	memset(&pmk, 0, sizeof(pmk));
- 
--	/* pass pmk directly */
--	pmk.key_len = cpu_to_le16(pmk_len);
--	pmk.flags = cpu_to_le16(0);
--	memcpy(pmk.key, pmk_data, pmk_len);
-+	/* pass key material directly */
-+	pmk.key_len = cpu_to_le16(key_len);
-+	pmk.flags = cpu_to_le16(flags);
-+	memcpy(pmk.key, key, key_len);
- 
--	/* store psk in firmware */
-+	/* store key material in firmware */
- 	err = brcmf_fil_cmd_data_set(ifp, BRCMF_C_SET_WSEC_PMK,
- 				     &pmk, sizeof(pmk));
- 	if (err < 0)
- 		bphy_err(drvr, "failed to change PSK in firmware (len=%u)\n",
--			 pmk_len);
-+			 key_len);
- 
- 	return err;
- }
- 
-+static int brcmf_set_pmk(struct brcmf_if *ifp, const u8 *pmk_data, u16 pmk_len)
-+{
-+	return brcmf_set_wsec(ifp, pmk_data, pmk_len, 0);
-+}
-+
- static int brcmf_set_sae_password(struct brcmf_if *ifp, const u8 *pwd_data,
- 				  u16 pwd_len)
- {
--	struct brcmf_pub *drvr = ifp->drvr;
--	struct brcmf_wsec_sae_pwd_le sae_pwd;
--	int err;
--
--	if (pwd_len > BRCMF_WSEC_MAX_SAE_PASSWORD_LEN) {
--		bphy_err(drvr, "sae_password must be less than %d\n",
--			 BRCMF_WSEC_MAX_SAE_PASSWORD_LEN);
--		return -EINVAL;
--	}
--
--	sae_pwd.key_len = cpu_to_le16(pwd_len);
--	memcpy(sae_pwd.key, pwd_data, pwd_len);
--
--	err = brcmf_fil_iovar_data_set(ifp, "sae_password", &sae_pwd,
--				       sizeof(sae_pwd));
--	if (err < 0)
--		bphy_err(drvr, "failed to set SAE password in firmware (len=%u)\n",
--			 pwd_len);
--
--	return err;
-+	return brcmf_set_wsec(ifp, pwd_data, pwd_len, BRCMF_WSEC_PASSPHRASE);
- }
- 
- static void brcmf_link_down(struct brcmf_cfg80211_vif *vif, u16 reason,
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
-index 792adaf880b4..3ba90878c47d 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
-@@ -574,7 +574,7 @@ struct brcmf_wsec_key_le {
- struct brcmf_wsec_pmk_le {
- 	__le16  key_len;
- 	__le16  flags;
--	u8 key[2 * BRCMF_WSEC_MAX_PSK_LEN + 1];
-+	u8 key[BRCMF_WSEC_MAX_SAE_PASSWORD_LEN];
- };
- 
- /**
--- 
-2.35.1
+Best regards,
+Krzysztof
 
