@@ -1,28 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8241C0B3
-	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 15:57:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 87B13C433AA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9774F2907
+	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 15:57:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 42566C4339E;
 	Tue, 14 Feb 2023 15:57:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1676390262;
-	bh=GPz86XLDJFtm5sktETv7LGbxB+3BUpvXFZ/fjo1wLAY=;
+	bh=mdeu5NwcV69CinND5uBT5R84jgOoioaM9qohNC7tOpE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=H2IilQ8RY3chpEp7FKFgkgVdil1YMWadJ1hnv/YIucCkIUcJ2Wdd5Dekg1H1evbFK
-	 pLUnjW022LDOgAZxDcT9TbbJoKg7yQPVJmR97K/Mdw28LUqDv9aCoGrTvGcJBlA7Ea
-	 nO1qhpUA1nrYU7Crvy2I7ufA+odzm4JSElzXp5zzuMQNUfqgbwcABcsgAd4bbBkq5f
-	 16x74tiMsV8FZ9DhEXq/ViJPjzmr35V5aIzIdFo94gkGuivZLBLRFQWcdcTyaOXn+E
-	 7HMddXlic2YRY+dbq/A9qTYvyajS4WxmHHa5/n5uIZ9lbiflxZpuVdjISMEHbLrLTA
-	 7YX/qBktHhgng==
+	b=kImq1Eu/eUco1cKy5fO30pMN1ISpoQSyckduihp3K54LOKVJC+b7JVUc+frpxbCAv
+	 I9vqVo3A76xgiMKqp/MEn2P7h2HSszKNoo9FJl3pqlG15HhzlRBIGO5ndHWmyVcnn3
+	 303fc+5huukAPp4kjZeMT0a29Wzg4RyBNmDfY8BXc6uzl4Kqnu6sgEyVUAGq/5xoxr
+	 A7Cw95wCoQJ/RnM/0FMPZuZckHz1ZXL1CcLDMRyS8PK/iW5jbv4+7HcuZKd7D67wL/
+	 Yf1a29BSCmt8Yw8BfYAPyZmP5H3bKBPqnHsn7c5KbfDsBAPDyZAoYSSD/l5/SugsmL
+	 Nu/Ck/Zr1xRYQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 767EBC6379F;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D03CC05027;
 	Tue, 14 Feb 2023 15:57:42 +0000 (UTC)
 From: Sasha Finkelstein via B4 Submission Endpoint
  <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Tue, 14 Feb 2023 16:57:27 +0100
-Subject: [PATCH RESEND 2 v7 5/5] MAINTAINERS: Add entries for Apple PWM
- driver
+Date: Tue, 14 Feb 2023 16:57:24 +0100
+Subject: [PATCH RESEND 2 v7 2/5] pwm: Add Apple PWM controller
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -31,7 +30,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230214-fpwm-v7-5-fb0a6bfbd037@gmail.com>
+Message-Id: <20230214-fpwm-v7-2-fb0a6bfbd037@gmail.com>
 References: <20230214-fpwm-v7-0-fb0a6bfbd037@gmail.com>
 In-Reply-To: <20230214-fpwm-v7-0-fb0a6bfbd037@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, 
@@ -44,11 +43,11 @@ To: Thierry Reding <thierry.reding@gmail.com>,
 Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1676390260; l=1109;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1676390260; l=6451;
  i=fnkl.kernel@gmail.com; s=20230213; h=from:subject:message-id;
- bh=GrEUGtM2OJTH5FgLdv6n7LxVKdGyoQJCtx5zNyLu7Uc=;
- b=VbEBD0lmvIFf29a30+kZXONQhIxC/88KjblodB1TNUskgBcgFy1vf9IqyQjp/CqI4WkPwUkG6
- zuu8ZEJ2za5CdHCo5BNB4TRrIt0595zgje25xZPF2h4vWzyVFySJ//O
+ bh=lwp+zNXuVmVlUScBEP6xNgWVKJk43JYJIexegTOlJP8=;
+ b=oYRGnlBbUz3pxzkHeZeRJUzt76rWOQMZs+4stI8QuKdIbAToOZ7Z4igXgn/yjIXU7Kwu+lZjO
+ o7sACGmZVGVDwRmTTZfoFbPYrb1Sg6jQXS7kfZLxMGjSaY0k1nrSUdY
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=7LFSAJtxIWAs9LzCIyX0sSvCZy2wQTyEIu1zch6o804=
 X-Endpoint-Received:
@@ -58,34 +57,216 @@ Reply-To: <fnkl.kernel@gmail.com>
 
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-Add the MAINTAINERS entries for the driver
+Adds the Apple PWM controller driver.
 
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Acked-by: Sven Peter <sven@svenpeter.dev>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/pwm/Kconfig     |  12 ++++
+ drivers/pwm/Makefile    |   1 +
+ drivers/pwm/pwm-apple.c | 159 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 172 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 39ff1a717625..96e50defd646 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1968,6 +1968,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
-+F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
-@@ -1983,6 +1984,7 @@ F:	drivers/mailbox/apple-mailbox.c
- F:	drivers/nvme/host/apple.c
- F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
-+F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
+diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
+index dae023d783a2..8df861b1f4a3 100644
+--- a/drivers/pwm/Kconfig
++++ b/drivers/pwm/Kconfig
+@@ -51,6 +51,18 @@ config PWM_AB8500
+ 	  To compile this driver as a module, choose M here: the module
+ 	  will be called pwm-ab8500.
+ 
++config PWM_APPLE
++	tristate "Apple SoC PWM support"
++	depends on ARCH_APPLE || COMPILE_TEST
++	help
++	  Generic PWM framework driver for PWM controller present on
++	  Apple SoCs
++
++	  Say Y here if you have an ARM Apple laptop, otherwise say N
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called pwm-apple.
++
+ config PWM_ATMEL
+ 	tristate "Atmel PWM support"
+ 	depends on ARCH_AT91 || COMPILE_TEST
+diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
+index 7bf1a29f02b8..19899b912e00 100644
+--- a/drivers/pwm/Makefile
++++ b/drivers/pwm/Makefile
+@@ -2,6 +2,7 @@
+ obj-$(CONFIG_PWM)		+= core.o
+ obj-$(CONFIG_PWM_SYSFS)		+= sysfs.o
+ obj-$(CONFIG_PWM_AB8500)	+= pwm-ab8500.o
++obj-$(CONFIG_PWM_APPLE)		+= pwm-apple.o
+ obj-$(CONFIG_PWM_ATMEL)		+= pwm-atmel.o
+ obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+= pwm-atmel-hlcdc.o
+ obj-$(CONFIG_PWM_ATMEL_TCB)	+= pwm-atmel-tcb.o
+diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c
+new file mode 100644
+index 000000000000..551e07d49bf7
+--- /dev/null
++++ b/drivers/pwm/pwm-apple.c
+@@ -0,0 +1,159 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Driver for the Apple SoC PWM controller
++ *
++ * Copyright The Asahi Linux Contributors
++ *
++ * Limitations:
++ * - The writes to cycle registers are shadowed until a write to
++ *   the control register.
++ * - If both OFF_CYCLES and ON_CYCLES are set to 0, the output
++ *   is a constant off signal.
++ * - When APPLE_PWM_CTRL is set to 0, the output is constant low
++ */
++
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/pwm.h>
++#include <linux/io.h>
++#include <linux/clk.h>
++#include <linux/math64.h>
++
++#define APPLE_PWM_CTRL        0x00
++#define APPLE_PWM_ON_CYCLES   0x1c
++#define APPLE_PWM_OFF_CYCLES  0x18
++
++#define APPLE_PWM_CTRL_ENABLE        BIT(0)
++#define APPLE_PWM_CTRL_MODE          BIT(2)
++#define APPLE_PWM_CTRL_UPDATE        BIT(5)
++#define APPLE_PWM_CTRL_TRIGGER       BIT(9)
++#define APPLE_PWM_CTRL_INVERT        BIT(10)
++#define APPLE_PWM_CTRL_OUTPUT_ENABLE BIT(14)
++
++struct apple_pwm {
++	struct pwm_chip chip;
++	void __iomem *base;
++	u64 clkrate;
++};
++
++static inline struct apple_pwm *to_apple_pwm(struct pwm_chip *chip)
++{
++	return container_of(chip, struct apple_pwm, chip);
++}
++
++static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
++			   const struct pwm_state *state)
++{
++	struct apple_pwm *fpwm;
++
++	if (state->polarity == PWM_POLARITY_INVERSED)
++		return -EINVAL;
++
++	fpwm = to_apple_pwm(chip);
++	if (state->enabled) {
++		u64 on_cycles, off_cycles;
++
++		on_cycles = mul_u64_u64_div_u64(fpwm->clkrate,
++						state->duty_cycle, NSEC_PER_SEC);
++		if (on_cycles > 0xFFFFFFFF)
++			return -ERANGE;
++
++		off_cycles = mul_u64_u64_div_u64(fpwm->clkrate,
++						 state->period, NSEC_PER_SEC) - on_cycles;
++		if (off_cycles > 0xFFFFFFFF)
++			return -ERANGE;
++
++		writel(on_cycles, fpwm->base + APPLE_PWM_ON_CYCLES);
++		writel(off_cycles, fpwm->base + APPLE_PWM_OFF_CYCLES);
++		writel(APPLE_PWM_CTRL_ENABLE | APPLE_PWM_CTRL_OUTPUT_ENABLE | APPLE_PWM_CTRL_UPDATE,
++		       fpwm->base + APPLE_PWM_CTRL);
++	} else {
++		writel(0, fpwm->base + APPLE_PWM_CTRL);
++	}
++	return 0;
++}
++
++static int apple_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
++			   struct pwm_state *state)
++{
++	struct apple_pwm *fpwm;
++	u32 on_cycles, off_cycles, ctrl;
++
++	fpwm = to_apple_pwm(chip);
++
++	ctrl = readl(fpwm->base + APPLE_PWM_CTRL);
++	on_cycles = readl(fpwm->base + APPLE_PWM_ON_CYCLES);
++	off_cycles = readl(fpwm->base + APPLE_PWM_OFF_CYCLES);
++
++	state->enabled = (ctrl & APPLE_PWM_CTRL_ENABLE) && (ctrl & APPLE_PWM_CTRL_OUTPUT_ENABLE);
++	state->polarity = PWM_POLARITY_NORMAL;
++	// on_cycles + off_cycles is 33 bits, NSEC_PER_SEC is 30, there is no overflow
++	state->duty_cycle = DIV64_U64_ROUND_UP((u64)on_cycles * NSEC_PER_SEC, fpwm->clkrate);
++	state->period = DIV64_U64_ROUND_UP(((u64)off_cycles + (u64)on_cycles) *
++					    NSEC_PER_SEC, fpwm->clkrate);
++
++	return 0;
++}
++
++static const struct pwm_ops apple_pwm_ops = {
++	.apply = apple_pwm_apply,
++	.get_state = apple_pwm_get_state,
++	.owner = THIS_MODULE,
++};
++
++static int apple_pwm_probe(struct platform_device *pdev)
++{
++	struct apple_pwm *fpwm;
++	struct clk *clk;
++	int ret;
++
++	fpwm = devm_kzalloc(&pdev->dev, sizeof(*fpwm), GFP_KERNEL);
++	if (!fpwm)
++		return -ENOMEM;
++
++	fpwm->base = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(fpwm->base))
++		return PTR_ERR(fpwm->base);
++
++	clk = devm_clk_get_enabled(&pdev->dev, NULL);
++	if (IS_ERR(clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(clk), "unable to get the clock");
++
++	/*
++	 * Uses the 24MHz system clock on all existing devices, can only
++	 * happen if the device tree is broken
++	 *
++	 * This check is done to prevent an overflow in .apply
++	 */
++	fpwm->clkrate = clk_get_rate(clk);
++	if (fpwm->clkrate > NSEC_PER_SEC)
++		return dev_err_probe(&pdev->dev, -EINVAL, "pwm clock out of range");
++
++	fpwm->chip.dev = &pdev->dev;
++	fpwm->chip.npwm = 1;
++	fpwm->chip.ops = &apple_pwm_ops;
++
++	ret = devm_pwmchip_add(&pdev->dev, &fpwm->chip);
++	if (ret < 0)
++		return dev_err_probe(&pdev->dev, ret, "unable to add pwm chip");
++
++	return 0;
++}
++
++static const struct of_device_id apple_pwm_of_match[] = {
++	{ .compatible = "apple,s5l-fpwm" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, apple_pwm_of_match);
++
++static struct platform_driver apple_pwm_driver = {
++	.probe = apple_pwm_probe,
++	.driver = {
++		.name = "apple-pwm",
++		.of_match_table = apple_pwm_of_match,
++	},
++};
++module_platform_driver(apple_pwm_driver);
++
++MODULE_DESCRIPTION("Apple SoC PWM driver");
++MODULE_LICENSE("Dual MIT/GPL");
 
 -- 
 Git-137.1)
