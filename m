@@ -1,15 +1,15 @@
 Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E39107AF
-	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 11:04:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CB8107AC
+	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 11:04:07 +0000 (UTC)
 Received: from robin.home.jannau.net (p579ad32f.dip0.t-ipconnect.de [87.154.211.47])
-	by soltyk.jannau.net (Postfix) with ESMTPSA id 0CEFB26F792;
+	by soltyk.jannau.net (Postfix) with ESMTPSA id D428526F794;
 	Tue, 14 Feb 2023 12:04:03 +0100 (CET)
 From: Janne Grunau <j@jannau.net>
-Date: Tue, 14 Feb 2023 12:03:18 +0100
-Subject: [PATCH v2 05/16] dt-bindings: interrupt-controller: apple,aic2:
- Add apple,t8112-aic compatible
+Date: Tue, 14 Feb 2023 12:03:20 +0100
+Subject: [PATCH v2 07/16] dt-bindings: mailbox: apple,mailbox: Add t8112
+ compatibles
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -18,7 +18,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230202-asahi-t8112-dt-v2-5-22926a283d92@jannau.net>
+Message-Id: <20230202-asahi-t8112-dt-v2-7-22926a283d92@jannau.net>
 References: <20230202-asahi-t8112-dt-v2-0-22926a283d92@jannau.net>
 In-Reply-To: <20230202-asahi-t8112-dt-v2-0-22926a283d92@jannau.net>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
@@ -26,81 +26,45 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
  Mark Kettenis <kettenis@openbsd.org>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Marc Zyngier <maz@kernel.org>
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1882; i=j@jannau.net;
- h=from:subject:message-id; bh=wApG879qmGNAbNwX8mIgzfzLAGPs9zJLCZHMZaAxgWk=;
- b=owGbwMvMwCG2UNrmdq9+ahrjabUkhuTXWfMdNIpVkp93nr/G8mEl4xMVm/cCPCs+3xWctP++5
- vTAjLr4jlIWBjEOBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABPxvszI8OLrpNOPxBdcv93j
- sSfv2926x+lOLV5mu6LXzIwSUgqQ6GD472J9aZeCPvuLCTP3zc/kk53Z+vmiLK/yq0PP7NS/+6S
- 2MAIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1049; i=j@jannau.net;
+ h=from:subject:message-id; bh=/Ydb0OvT3qJpcDD47D2v6xuRWTuFc9FnhBetr3I9XKM=;
+ b=owGbwMvMwCG2UNrmdq9+ahrjabUkhuTXWfPvM9zrnZ9/uCjLx7PqiozwSv81d7N2HtnCdqK9p
+ +HRpPnnOkpZGMQ4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAFwkmeEXsytTwvMFAV9YJpnk
+ Xu60USz8qVWwxTa8wEXfS/pC9DEFhv9+KdsbDmg4Ovy3Vn2/6bHqdbWzJlVz14rks651d7FkKmU
+ AAA==
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-The Apple M2 SoC uses AICv2 and is compatible with the existing driver.
-Add its per-SoC compatible.
-Since multi-die versions of the M2 are not expected decrease
-'#interrupt-cells' to 3 for apple,t8112-aic. This is seamlessly handled
-inside the driver.
+The mailbox hardware remains unchanged on M2 SoCs so just add its
+per-SoC compatible.
 
-Acked-by: Marc Zyngier <maz@kernel.org>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- .../bindings/interrupt-controller/apple,aic2.yaml  | 23 +++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-index 06948c0e36a5..a99e7ed7c750 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic2.yaml
-@@ -31,19 +31,22 @@ description: |
- properties:
-   compatible:
-     items:
--      - const: apple,t6000-aic
-+      - enum:
-+          - apple,t8112-aic
-+          - apple,t6000-aic
-       - const: apple,aic2
+diff --git a/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml b/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
+index 5c5c328b3134..4c0668e5f0bd 100644
+--- a/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
++++ b/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
+@@ -29,6 +29,7 @@ properties:
+         items:
+           - enum:
+               - apple,t8103-asc-mailbox
++              - apple,t8112-asc-mailbox
+               - apple,t6000-asc-mailbox
+           - const: apple,asc-mailbox-v4
  
-   interrupt-controller: true
+@@ -39,6 +40,7 @@ properties:
+         items:
+           - enum:
+               - apple,t8103-m3-mailbox
++              - apple,t8112-m3-mailbox
+               - apple,t6000-m3-mailbox
+           - const: apple,m3-mailbox-v2
  
-   '#interrupt-cells':
--    const: 4
-+    minimum: 3
-+    maximum: 4
-     description: |
-       The 1st cell contains the interrupt type:
-         - 0: Hardware IRQ
-         - 1: FIQ
- 
--      The 2nd cell contains the die ID.
-+      The 2nd cell contains the die ID (only present on apple,t6000-aic).
- 
-       The next cell contains the interrupt number.
-         - HW IRQs: interrupt number
-@@ -110,6 +113,20 @@ additionalProperties: false
- allOf:
-   - $ref: /schemas/interrupt-controller.yaml#
- 
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        const: apple,t8112-aic
-+then:
-+  properties:
-+    '#interrupt-cells':
-+      const: 3
-+else:
-+  properties:
-+    '#interrupt-cells':
-+      const: 4
-+
- examples:
-   - |
-     soc {
 
 -- 
 2.39.1
