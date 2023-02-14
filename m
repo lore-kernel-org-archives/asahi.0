@@ -1,136 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5029C0B4
-	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 15:57:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 69FD1C433A4;
-	Tue, 14 Feb 2023 15:57:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676390262;
-	bh=T0yrlYh6fLNBmEygIOf06ax4LoeO/yfEvilUDk3ALb0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=vJyOZJRS85OiH26Yuvz9dUda7A9oXYAjobYN/6Od0l+4sV5O7txxj8sCVw3uTKSxf
-	 O1QVipiWdi3So8NwVAXDrXyirSJuhQmBwhzkjuKAzVUau/vHzRoxhlnlAExBrC4eM9
-	 rhof3qeMFEzfoWxuL2tH5d3guOLEza2AKDylFlltPlzVIEzE9Ey273AqkXu3QIb34r
-	 cMcOaASPk/SsjRQlkAGpbP48R2ng4dEgr/0KYodN1dxMUeG3rTwkyHOXDqej03Bs6Z
-	 lJ9xwX/ZmV/fzaxMZ/oEjveDj+Y6CyNdudFWhUVEXIsZDli+kApMvPkiuLVWGXUnjT
-	 GLvmrlrI3nNGA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5751FC61DA4;
-	Tue, 14 Feb 2023 15:57:42 +0000 (UTC)
-From: Sasha Finkelstein via B4 Submission Endpoint
- <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Tue, 14 Feb 2023 16:57:26 +0100
-Subject: [PATCH RESEND 2 v7 4/5] arm64: dts: apple: t600x: Add PWM
- controller
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26481C0B4
+	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 16:12:41 +0000 (UTC)
+Received: by mail-il1-f170.google.com with SMTP id k14so2183138ilo.9
+        for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 08:12:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KRnihi70xYJGr/6gz5qpEvTQHwST9Fxql3Y4ntBLC5k=;
+        b=EpfqnClNxKjoZlrbFpL62FYZ7tlVlOu1wOz6wsnawZgaIutodzq0UrrEWLJf//ObEB
+         6hcpJlQI7C6i017Ly7HfVgIFhDFiB4sXCSyJgwa4JbS3kqOjHJ1gzeo0qWLfsKillCKO
+         LZZqvfp9TBk1Y0Y7iuYMCCZgwCPDt+1c4ZK1upd5MH0t3+TcF5YSb5xCpmHvdvJi7rt7
+         m5oYC50FydU5JS9tKQl6fNfVst2wsIgGMDY70fR0Sm73RbiB0n+09S3Fmp8mCuMhnRnb
+         UZNzNMaT3G/tZki3X4SDe0VlV1zw7npIRL7S7Vbh9JlQxFHq1RenAwGhPEFozwAYM4La
+         R1Yw==
+X-Gm-Message-State: AO0yUKXOXPXeE7fiJnI3jY2ltFM1yJ5T4KHmesOa2z9CmyWKpeDJ9q95
+	asmrGSvAnMrYX3hm4xU0xw==
+X-Google-Smtp-Source: AK7set/cqO9Qce0mfObRTpm3vOV3ZlYDATP6SZUWsNM7rc2huKWe08aD24j9258V3kzTBmHIemtMWA==
+X-Received: by 2002:a05:6e02:144b:b0:315:2d37:993 with SMTP id p11-20020a056e02144b00b003152d370993mr3450061ilo.3.1676391160154;
+        Tue, 14 Feb 2023 08:12:40 -0800 (PST)
+Received: from robh_at_kernel.org (c-73-14-99-67.hsd1.co.comcast.net. [73.14.99.67])
+        by smtp.gmail.com with ESMTPSA id n1-20020a02a901000000b003aed100a51fsm4961315jam.142.2023.02.14.08.12.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Feb 2023 08:12:39 -0800 (PST)
+Received: (nullmailer pid 76716 invoked by uid 1000);
+	Tue, 14 Feb 2023 16:12:34 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230214-fpwm-v7-4-fb0a6bfbd037@gmail.com>
-References: <20230214-fpwm-v7-0-fb0a6bfbd037@gmail.com>
-In-Reply-To: <20230214-fpwm-v7-0-fb0a6bfbd037@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- - <asahi@lists.linux.dev>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Sasha Finkelstein <7d578vix8hzw@opayq.net>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1676390260; l=2061;
- i=fnkl.kernel@gmail.com; s=20230213; h=from:subject:message-id;
- bh=kC8e0IqG+WMbKwdUXKBwuQCvwcxm5IAUASQM0mxJcPI=;
- b=zGEWaepBrbPEkQW+DCCoHr+t9lOmeP0pCzkIVcJZXf01/1a4XZzv1NyxN1Mlf8HrqymEXgxpC
- UYK160mvLHrCGy8/njLg3+Tgsu8mcEYZDktFIQb2iHTSN3bXNKSk90r
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=7LFSAJtxIWAs9LzCIyX0sSvCZy2wQTyEIu1zch6o804=
-X-Endpoint-Received:
- by B4 Submission Endpoint for fnkl.kernel@gmail.com/20230213 with auth_id=28
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: <fnkl.kernel@gmail.com>
+From: Rob Herring <robh@kernel.org>
+To: Martin Povišer <povik+lin@cutebit.org>
+Cc: Janne Grunau <j@jannau.net>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, Hector Martin <marcan@marcan.st>, devicetree@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@svenpeter.dev>, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
+In-Reply-To: <20230214141053.92731-1-povik+lin@cutebit.org>
+References: <20230214141053.92731-1-povik+lin@cutebit.org>
+Message-Id: <167638945429.3790.16067227881981242831.robh@kernel.org>
+Subject: Re: [RFC PATCH] dt-bindings: dma: apple,sio: Add schema
+Date: Tue, 14 Feb 2023 10:12:34 -0600
 
-From: Sasha Finkelstein <7d578vix8hzw@opayq.net>
 
-Adds PWM controller and keyboard backlight bindings for M1 Pro/Max MacBook Pros
+On Tue, 14 Feb 2023 15:10:53 +0100, Martin Povišer wrote:
+> Describe the SIO coprocessor which serves as pretend DMA controller on
+> recent Apple platforms.
+> 
+> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+> ---
+> 
+> Since the schema mentions a loader preparing the binding appropriately,
+> here's a PR with the relevant (WIP) loader code, if anyone wants to look:
+> https://github.com/AsahiLinux/m1n1/pull/286
+> 
+>  .../devicetree/bindings/dma/apple,sio.yaml    | 129 ++++++++++++++++++
+>  1 file changed, 129 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/dma/apple,sio.yaml
+> 
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Acked-by: Hector Martin <marcan@marcan.st>
----
- arch/arm64/boot/dts/apple/t600x-die0.dtsi      |  9 +++++++++
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 18 ++++++++++++++++++
- 2 files changed, 27 insertions(+)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-index 1c41954e3899..9157ae2a9f7f 100644
---- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
-@@ -71,6 +71,15 @@ sio_dart_1: iommu@39b008000 {
- 		power-domains = <&ps_sio_cpu>;
- 	};
- 
-+	fpwm0: pwm@39b030000 {
-+		compatible = "apple,t6000-fpwm", "apple,s5l-fpwm";
-+		reg = <0x3 0x9b030000 0x0 0x4000>;
-+		power-domains = <&ps_fpwm0>;
-+		clocks = <&clkref>;
-+		#pwm-cells = <2>;
-+		status = "disabled";
-+	};
-+
- 	i2c0: i2c@39b040000 {
- 		compatible = "apple,t6000-i2c", "apple,i2c";
- 		reg = <0x3 0x9b040000 0x0 0x4000>;
-diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-index 34906d522f0a..96de7165df6d 100644
---- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-+++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
-@@ -9,6 +9,8 @@
-  * Copyright The Asahi Linux Contributors
-  */
- 
-+#include <dt-bindings/leds/common.h>
-+
- / {
- 	aliases {
- 		serial0 = &serial0;
-@@ -34,6 +36,18 @@ memory@10000000000 {
- 		device_type = "memory";
- 		reg = <0x100 0 0x2 0>; /* To be filled by loader */
- 	};
-+
-+	led-controller {
-+		compatible = "pwm-leds";
-+		led-0 {
-+			pwms = <&fpwm0 0 40000>;
-+			label = "kbd_backlight";
-+			function = LED_FUNCTION_KBD_BACKLIGHT;
-+			color = <LED_COLOR_ID_WHITE>;
-+			max-brightness = <255>;
-+			default-state = "keep";
-+		};
-+	};
- };
- 
- &serial0 {
-@@ -110,5 +124,9 @@ &pcie0_dart_3 {
- 	status = "disabled";
- };
- 
-+&fpwm0 {
-+	status = "okay";
-+};
-+
- /delete-node/ &port02;
- /delete-node/ &port03;
+yamllint warnings/errors:
 
--- 
-Git-137.1)
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/dma/apple,sio.example.dts:24.35-27.11: Warning (node_name_vs_property_name): /example-0/interrupt-controller: node name and property name conflict
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20230214141053.92731-1-povik+lin@cutebit.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
