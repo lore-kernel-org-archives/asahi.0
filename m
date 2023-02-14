@@ -1,128 +1,105 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE993C02
-	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 08:01:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095267C
+	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 08:43:47 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 021AA4267F;
-	Tue, 14 Feb 2023 08:01:42 +0000 (UTC)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 0271C41EF0;
+	Tue, 14 Feb 2023 08:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1676361707; bh=aKnwARwXd9Y7kXM6JWwg7MoyGvJiNp/PyCpUc6DQNog=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=IxuZaZcPAXWh+4LM80B8l4CJl7M594WmlV+Yf1P036e5gCPRAwzuG+GoZP+sD/Ilh
-	 tiYISzhqdBmtnNfglg6yXlrG1c6i6cFvZ8P54SkPw5So2c8cE5LZyzG3DgB5ztgGg6
-	 T0+SUuDTUlpKKRWwjSd6XTE6tG8KQvHVLyLmSvvHtdQk32p4+1dGOQwQUw31g0mL2G
-	 ihHTQScAJ8viYuAsAtJsX9ktqisXH6j5YVpg3KldeFkkVrhMsfN0NhkiQdPBozXDoa
-	 ivN2WPjB8inCg+PTv8OGZGlRndYvWTM79e+/3Z0yJ4qxKnAljdTLLtTj6XBM2B3wTv
-	 +kO9YiQlhX7mw==
-From: Hector Martin <marcan@marcan.st>
-To: Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	asahi@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
-	brcm80211-dev-list.pdl@broadcom.com,
-	SHA-cyfmac-dev-list@infineon.com,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>
-Subject: [PATCH 2/2] brcmfmac: pcie: Provide a buffer of random bytes to the device
-Date: Tue, 14 Feb 2023 17:00:34 +0900
-Message-Id: <20230214080034.3828-3-marcan@marcan.st>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230214080034.3828-1-marcan@marcan.st>
-References: <20230214080034.3828-1-marcan@marcan.st>
+	t=1676364225; bh=IWQwKEGZ+Hyg9S7V/KAooOYXp/6TYVVlk+qy9sZy6/I=;
+	h=Date:To:Cc:References:From:Subject:In-Reply-To;
+	b=icEjcHu0wQAeY610h6yVag+DPRwmCUZq8cQNOunSbto9QMNTiF3AafjXM0teOlHWE
+	 JKq8NYgcPY5+j7DrA6Lhd3/Kqa3dINrkXOkiYZObRiutrz4bW4xQN88i9zipvh7HWu
+	 2FDih2ThCX54wROM3kAtffOajQ0Iux+Rap63Fnf5nFh3TykqWWH8/5I0PbvixNdpY+
+	 ZBNByyfE+HmH6fckVM0HCyskwROilMdSntvfFYCd/mHXTkj+PPPljFZQjLaapaQpPY
+	 PIbekvcSPzbzFhp2kiy6hLYiTu4b0Y5kH2pVbzl7yfFP/fxsNZBL2Zgh1/5kgyc2gk
+	 oq7d50yezWK+Q==
+Message-ID: <391ae107-8c10-b14e-c1ad-0fac74951432@marcan.st>
+Date: Tue, 14 Feb 2023 17:43:40 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
+ <20230202-asahi-t8112-dt-v1-1-cb5442d1c229@jannau.net>
+ <3287867a-456c-ddc3-adbf-90001950c926@linaro.org>
+ <0a33fa04-039f-9a7e-f2a3-2a1a6abc98d4@marcan.st>
+ <5ff55f1c-8f02-abec-2320-c2e0b7db8904@linaro.org>
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 01/17] dt-bindings: power: apple,pmgr-pwrstate: Add t8112
+ compatible
+In-Reply-To: <5ff55f1c-8f02-abec-2320-c2e0b7db8904@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Newer Apple firmwares on chipsets without a hardware RNG require the
-host to provide a buffer of 256 random bytes to the device on
-initialization. This buffer is present immediately before NVRAM,
-suffixed by a footer containing a magic number and the buffer length.
+On 14/02/2023 16.50, Krzysztof Kozlowski wrote:
+> On 14/02/2023 03:24, Hector Martin wrote:
+>> On 13/02/2023 20.09, Krzysztof Kozlowski wrote:
+>>> On 12/02/2023 16:41, Janne Grunau wrote:
+>>>> From: Hector Martin <marcan@marcan.st>
+>>>>
+>>>> Add the apple,t8112-pmgr-pwrstate compatible for the Apple M2 SoC.
+>>>>
+>>>> This goes after t8103. The sort order logic here is having SoC numeric
+>>>> code families in release order, and SoCs within each family in release
+>>>> order:
+>>>>
+>>>> - t8xxx (Apple HxxP/G series, "phone"/"tablet" chips)
+>>>>   - t8103 (Apple H13G/M1)
+>>>>   - t8112 (Apple H14G/M2)
+>>>> - t6xxx (Apple HxxJ series, "desktop" chips)
+>>>>   - t6000 (Apple H13J(S)/M1 Pro)
+>>>>   - t6001 (Apple H13J(C)/M1 Max)
+>>>>   - t6002 (Apple H13J(D)/M1 Ultra)
+>>>>
+>>>> Note that t600[0-2] share the t6000 compatible where the hardware is
+>>>> 100% compatible, which is usually the case in this highly related set
+>>>> of SoCs.
+>>>>
+>>>> Signed-off-by: Hector Martin <marcan@marcan.st>
+>>>>
+>>>
+>>> Missing SoB.
+>>>
+>>
+>> I'd rather get an r-b, since this is going back into my tree ;)
+> 
+> Please follow Linux process which requires SoB chain.
 
-This won't affect chips/firmwares that do not use this feature, so do it
-unconditionally for all Apple platforms (those with an Apple OTP).
+A SoB is not an r-b. I do not upstream patches that are unreviewed. I
+wrote the patch. Someone needs to review it.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- .../broadcom/brcm80211/brcmfmac/pcie.c        | 32 +++++++++++++++++++
- 1 file changed, 32 insertions(+)
+The extra SoB is redundant because this is going back into my tree, I
+wrote it, and I will be the committer when I apply it. It's a one-liner
+patch. I know what I wrote. Sure we could record Janne's SoB as a
+technicality, but it feels silly. What matters more is that the patch
+gets reviewed, not that on a patch series technicality it ended up being
+Janne who sent it to the list. I could just pull the patch from my own
+branch and then it didn't go through Janne so it doesn't need his SoB.
+But it does need someone's review (because I absolutely refuse to merge
+my own patches without review, although not every maintainer has that
+policy unfortunately, which means there's lots of unreviewed code in the
+kernel).
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-index f320b6ce8bff..a7b88ab609c2 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-@@ -15,6 +15,7 @@
- #include <linux/sched/signal.h>
- #include <linux/kthread.h>
- #include <linux/io.h>
-+#include <linux/random.h>
- #include <asm/unaligned.h>
- 
- #include <soc.h>
-@@ -1653,6 +1654,13 @@ brcmf_pcie_init_share_ram_info(struct brcmf_pciedev_info *devinfo,
- 	return 0;
- }
- 
-+struct brcmf_random_seed_footer {
-+	__le32 length;
-+	__le32 magic;
-+};
-+
-+#define BRCMF_RANDOM_SEED_MAGIC		0xfeedc0de
-+#define BRCMF_RANDOM_SEED_LENGTH	0x100
- 
- static int brcmf_pcie_download_fw_nvram(struct brcmf_pciedev_info *devinfo,
- 					const struct firmware *fw, void *nvram,
-@@ -1689,6 +1697,30 @@ static int brcmf_pcie_download_fw_nvram(struct brcmf_pciedev_info *devinfo,
- 			  nvram_len;
- 		memcpy_toio(devinfo->tcm + address, nvram, nvram_len);
- 		brcmf_fw_nvram_free(nvram);
-+
-+		if (devinfo->otp.valid) {
-+			size_t rand_len = BRCMF_RANDOM_SEED_LENGTH;
-+			struct brcmf_random_seed_footer footer = {
-+				.length = cpu_to_le32(rand_len),
-+				.magic = cpu_to_le32(BRCMF_RANDOM_SEED_MAGIC),
-+			};
-+			void *randbuf;
-+
-+			/* Some Apple chips/firmwares expect a buffer of random
-+			 * data to be present before NVRAM
-+			 */
-+			brcmf_dbg(PCIE, "Download random seed\n");
-+
-+			address -= sizeof(footer);
-+			memcpy_toio(devinfo->tcm + address, &footer,
-+				    sizeof(footer));
-+
-+			address -= rand_len;
-+			randbuf = kzalloc(rand_len, GFP_KERNEL);
-+			get_random_bytes(randbuf, rand_len);
-+			memcpy_toio(devinfo->tcm + address, randbuf, rand_len);
-+			kfree(randbuf);
-+		}
- 	} else {
- 		brcmf_dbg(PCIE, "No matching NVRAM file found %s\n",
- 			  devinfo->nvram_name);
--- 
-2.35.1
+Please. Let's cut down on the silliness. Please. We're trying to get
+stuff done here. I'm tired of having to explain every little thing over
+and over and over again. I really am.
 
+- Hector
