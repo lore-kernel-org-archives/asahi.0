@@ -1,93 +1,93 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269317C
-	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 09:04:36 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id c2so16746988qtw.5
-        for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 01:04:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vi73fGmWmjTNDASDZdnfJSIYN1ahtOW91dirgxR/MuM=;
-        b=WrLk7G8ph4exG2WAnUJJd502XIFYTAHK7kRqeS6TTzAVT9cfD4U0gfdU8FLsbcuaA3
-         Iiihd2FqvDAuV0LdFQ4mEo2kZsgHudz4E/JhhI+QILjYhwJolPIGnqdfwRXXvERLpgNi
-         1ZfaXs/fwsxm4KReDYRnzLbgcIh7GsOkB2eX7UHseZaubN6dm4xn0IC0tL9fisRk35Se
-         TpDrW+6vhutfA7JSSxs9CVS+rcynwS34RlyFp4/XdxPzLhHTC7wjoYaWt6BbXaaIXaLv
-         jAAow5jaylKC8E6GaVNsFv+70R1n/HK7UJSb7LSQLYU14vTpm0VY4WPmBh/7YsG3D+nK
-         aG9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vi73fGmWmjTNDASDZdnfJSIYN1ahtOW91dirgxR/MuM=;
-        b=yCttfBDzQ7P7N38KfONriZOR+K925vkwjcWW6K2JiCOkPbD646ng0xYQoPrqAyPPr4
-         0tbqjw2tdIVuxV8ok0H5tnCMDnEjHnQniIsTxsnYa+Z4XkeCRfSk0E8wT1Z4bFVU+489
-         hJF3A/gcLTfKApKZMjMiXqgGk0z7WjQRuCy7NiWnFSFedPqXZAam4/LNTRrNl7H849zy
-         K5X64EkTrm2hoBHiPyvWZZhAz2TT2qhD/9/d3wlBALKx6Az9px0pRo/TgrbIdKVU/5dB
-         ipoQh4pTQeOajweH914mnz7Kg8+O6xwCH5idR4mdmZwHy7TD03Tc9PtlEMBKeQ0mLxJw
-         itvg==
-X-Gm-Message-State: AO0yUKVium8fM6JFQOg/KXFnHBiro2svUAfc/LY2CWfxFi2G70TlcIkH
-	kQ739VBpQ6yLjtfLqqTubyypse7i6WRMWo43uc8=
-X-Google-Smtp-Source: AK7set/BhpTV/KRldVCK+qjZOJbG2cPSpTKVxLlvt7BPL8FEbisiGeB0cyIcDqr2AdNCos9yQyawt9wXz9U+Dy7tdeY=
-X-Received: by 2002:a05:622a:289:b0:3b8:6b33:d92b with SMTP id
- z9-20020a05622a028900b003b86b33d92bmr169724qtw.325.1676365475057; Tue, 14 Feb
- 2023 01:04:35 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE617C
+	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 09:08:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 6110B41EF0;
+	Tue, 14 Feb 2023 09:08:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1676365719; bh=sXctWKw0c/PmrHsXFJH3m9VOhMRLi/XPipzQrk3zinA=;
+	h=Date:To:Cc:References:From:Subject:In-Reply-To;
+	b=ChtawK16CjuYKY74B5JyBTZ/4YMzEtTD5S6ljWIxbb+74vjPQfVijax6j6VDYV43v
+	 LMoAYNQjNBBjzC2J+pMHIGB6daF6MMwF9zOh1te1cWpdnU7TcHXb35ZEuECpo5a4TK
+	 Vag6SiMgO8GZtbsKibs1EhyPceZvjSEOKfCpbewtclfbvFpenEihAXojXY8oI6ZJkp
+	 Gmwg4mMNjnzDLU0AquSZyD4tb1zxGfrKfV9JNNSwkm/lttB97sj/QPyiGJKUzqTMZ9
+	 yItGfPRyBdy96AL7vCEizVMvAJebVZr9myZN5iiefCaSi0OWYiIThtcNdJRSJfvmOK
+	 up1Y8YqwobhJA==
+Message-ID: <a9281140-8b9d-41ca-bc2d-3c2d2e78259e@marcan.st>
+Date: Tue, 14 Feb 2023 18:08:32 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230214080034.3828-1-marcan@marcan.st> <20230214080034.3828-2-marcan@marcan.st>
-In-Reply-To: <20230214080034.3828-2-marcan@marcan.st>
-From: Julian Calaby <julian.calaby@gmail.com>
-Date: Tue, 14 Feb 2023 20:04:22 +1100
-Message-ID: <CAGRGNgWrRvJezq7svHF7iVohxTdkutEkvLHC=QYUVpic5k=DFA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] brcmfmac: acpi: Add support for fetching Apple ACPI properties
-To: Hector Martin <marcan@marcan.st>
-Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
-	Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Linus Walleij <linus.walleij@linaro.org>, asahi@lists.linux.dev, 
-	linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
-	SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Content-Language: en-US
+To: Julian Calaby <julian.calaby@gmail.com>,
+ Arend van Spriel <aspriel@gmail.com>
+Cc: Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Linus Walleij <linus.walleij@linaro.org>, asahi@lists.linux.dev,
+ linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+ SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20230214080034.3828-1-marcan@marcan.st>
+ <20230214080034.3828-3-marcan@marcan.st>
+ <CAGRGNgV6YMhBa1bdkf_EQ0Z+nwbfhJkKcTxtc=ukWVMWtvQ2PA@mail.gmail.com>
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 2/2] brcmfmac: pcie: Provide a buffer of random bytes to
+ the device
+In-Reply-To: <CAGRGNgV6YMhBa1bdkf_EQ0Z+nwbfhJkKcTxtc=ukWVMWtvQ2PA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Hector,
+On 14/02/2023 18.00, Julian Calaby wrote:
+> Hi Arend,
+> 
+> On Tue, Feb 14, 2023 at 7:04 PM Hector Martin <marcan@marcan.st> wrote:
+>>
+>> Newer Apple firmwares on chipsets without a hardware RNG require the
+>> host to provide a buffer of 256 random bytes to the device on
+>> initialization. This buffer is present immediately before NVRAM,
+>> suffixed by a footer containing a magic number and the buffer length.
+>>
+>> This won't affect chips/firmwares that do not use this feature, so do it
+>> unconditionally for all Apple platforms (those with an Apple OTP).
+> 
+> Following on from the conversation a year ago, is there a way to
+> detect chipsets that need these random bytes? While I'm sure Apple is
+> doing their own special thing for special Apple reasons, it seems
+> relatively sensible to omit a RNG on lower-cost chipsets, so would
+> other chipsets need it?
 
-On Tue, Feb 14, 2023 at 7:04 PM Hector Martin <marcan@marcan.st> wrote:
->
-> On DT platforms, the module-instance and antenna-sku-info properties
-> are passed in the DT. On ACPI platforms, module-instance is passed via
-> the analogous Apple device property mechanism, while the antenna SKU
-> info is instead obtained via an ACPI method that grabs it from
-> non-volatile storage.
->
-> Add support for this, to allow proper firmware selection on Apple
-> platforms.
->
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+I think we could include a list of chips known not to have the RNG (I
+think it's only the ones shipped on T2 machines). The main issue is I
+don't have access to those machines so it's hard for me to test exactly
+which ones need it. IIRC Apple's driver unconditionally provides the
+randomness. I could at least test the newer chips on AS platforms and
+figure out if they need it to exclude them... but then again, all I can
+do is test whether they work without the blob, but they might still want
+it (and simply become less secure without it).
 
-Makes sense to me.
+So I guess the answer is "maybe, I don't know, and it's kind of hard to
+know for sure"... the joys of reverse engineering hardware without
+vendor documentation.
 
-Reviewed-by: Julian Calaby <julian.calaby@gmail.com>
+If you mean whether other chips with non-apple firmware can use this, I
+have no idea. That's probably something for Arend to answer. My gut
+feeling is Apple added this as part of a hardening mechanism and
+non-Apple firmware does not use it (and Broadcom then probably started
+shipping chips with a hardware RNG and firmware that uses it directly
+across all vendors), in which case the answer is no.
 
-> ---
->  .../broadcom/brcm80211/brcmfmac/Makefile      |  2 +
->  .../broadcom/brcm80211/brcmfmac/acpi.c        | 51 +++++++++++++++++++
->  .../broadcom/brcm80211/brcmfmac/common.c      |  1 +
->  .../broadcom/brcm80211/brcmfmac/common.h      |  9 ++++
->  4 files changed, 63 insertions(+)
->  create mode 100644 drivers/net/wireless/broadcom/brcm80211/brcmfmac/acpi.c
-
-Thanks,
-
--- 
-Julian Calaby
-
-Email: julian.calaby@gmail.com
-Profile: http://www.google.com/profiles/julian.calaby/
+- Hector
