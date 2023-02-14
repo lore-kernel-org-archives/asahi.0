@@ -1,92 +1,80 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1274290B
-	for <asahi@lists.linux.dev>; Mon, 13 Feb 2023 19:22:48 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 7F86C320076F;
-	Mon, 13 Feb 2023 14:22:47 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Mon, 13 Feb 2023 14:22:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1676316167; x=1676402567; bh=BL5FodN++K
-	TbDK9wvPiZgDMeyaOd6mLCQejb8JmIqo8=; b=ByDTqqTzE0jYpZnzvYZt02rnAX
-	HBZ0RHZ7WAXdvYuH/a1Go5xa4zuD549uu0CKjsKfQE0O/GKIVaXNzvwQNTVI8qAp
-	DGATr8MPT1bUSpMhyeuk4jW8C0Q5lODpF/U7XJmQZ1kF/lglYUut9DYOrNTcTx2+
-	iBGQClnPgITSL7zxjR5c0ZfiZYP623FuC/miNOIXj3yIizqXcaxQRv3r+HEBqgcc
-	c0o2ZKSxXJdt85VC6roavN0Y6Xx/YP6uyO6I/j/8/wt8/7GiORCzhLYLP/UPmRoV
-	Hk6obGljFI5Qg5oEHr92Hxk8wwbgkll/PIjCj1TaxxQ+iK3p1ban7aWnUI4w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1676316167; x=1676402567; bh=BL5FodN++KTbDK9wvPiZgDMeyaOd
-	6mLCQejb8JmIqo8=; b=mCQSIf7Bfrkdmc4+Kjz9sqbpV2yarclg1pDVHoPEO6FQ
-	kG963IFw2YZjKHtr3W+xYy7nPv+I6TnffX39Y9W7AChq+Y/zOOySIs6WMvTDneAY
-	39iGg6mfl8UW7gYL7ENdo9My6GMD/mGR33rQwsaaObqbA6kDF6tmfeHaIgZvnXN0
-	3R/sgQ5UKfmBmSnNnlanI/eWHzi8R6hw2+EWzsH6dzhPk1Tg0PTTtNU0v0RJftKN
-	EAZ9seedqKe2+k5lneJrSXe9b/VEXSiooCamxgJqTecYbM0yI16GHtZJRqg0mEJ2
-	k6Qu/zfNMUXj+pwjP3khDLRczTcyfFKOnsD/pllGYQ==
-X-ME-Sender: <xms:Bo7qYze-_NC7wKcLtHxLOaW2YLHCHKzeui1aUWsYODphEHoJzT9pfQ>
-    <xme:Bo7qY5ODLGPKj4COXYDawrlKH_zSgtLDMZCy9jKlngzP09LVT40yXRfsAlIIOMpHR
-    gyYtC9vMwjuJFwU1os>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeiuddguddvudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
-    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:Bo7qY8hvDvWYrMHI6Vh-w6_IeIGBKsHwFcvw09_zz4qY_qSiXduvnA>
-    <xmx:Bo7qY0-01hAZuWAcp9IWVU8unlz97NsTe0wrIli1UZeeL7ZEHosJfw>
-    <xmx:Bo7qY_uDgQiQQyk_RgPZGF5gKuf7xpQ7HNwozzorM8wmjTbz9xfEeA>
-    <xmx:B47qY1UkeF7egjDy5YZ6ZvCMsTPTuaS4uTvrBlEVYAZNPa6TBCVHQA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 32E90B60089; Mon, 13 Feb 2023 14:22:46 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DFA7C
+	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 02:24:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id A050841DF4;
+	Tue, 14 Feb 2023 02:24:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1676341453; bh=QrvBfs8ixULKSq9GklOrtp9kQ96xkSGonZTX6j4xO+I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Cdtf2ZaKvHQBXUIc/Rzfe4J0xUn+wAGKMfauDfgz+5NtVUJUyrI9HcgPOAC8wUNH8
+	 3uVGq6k1K5g/FBhqVDdUw7UNc+Q4EQcKlY3+5uj3GvA1pB1gswqmAHhqBNVGJa0tUr
+	 81jlXVGF9XhZOikv82qxB38645hNQdsnR8sfxAoTY8vw2kIW/e8zf/qPlQRycQ/0Xp
+	 KAkzKN4uv4gD50pGDi24yuluAyQnfwwTkv6RtNvI3P6KV2Skcavl5/aCMm3QqKUmJJ
+	 CSCz8i0rvJq5qeTRMdTJtf7I7kSwmdrn4z8NcLSz4enPflO6f7Jp4Bp9ete/kyr09i
+	 zZely56M5hsig==
+Message-ID: <0a33fa04-039f-9a7e-f2a3-2a1a6abc98d4@marcan.st>
+Date: Tue, 14 Feb 2023 11:24:08 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <2c8a8539-649c-47d2-b416-6d607cba5956@app.fastmail.com>
-In-Reply-To: 
- <CAOgh=FzCOvv86HG=AhCBDW6cUHDnzq8UPBgmYPR12PNNMRNx0w@mail.gmail.com>
-References: <20230211091302.4576-1-lina@asahilina.net>
- <CAOgh=FzCOvv86HG=AhCBDW6cUHDnzq8UPBgmYPR12PNNMRNx0w@mail.gmail.com>
-Date: Mon, 13 Feb 2023 20:22:28 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Eric Curtin" <ecurtin@redhat.com>, "Asahi Lina" <lina@asahilina.net>
-Cc: "Hector Martin" <marcan@marcan.st>, "Sven Peter" <sven@svenpeter.dev>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soc: apple: rtkit: Do not copy the reg state structure to the
- stack
-Content-Type: text/plain
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 01/17] dt-bindings: power: apple,pmgr-pwrstate: Add t8112
+ compatible
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
+ <20230202-asahi-t8112-dt-v1-1-cb5442d1c229@jannau.net>
+ <3287867a-456c-ddc3-adbf-90001950c926@linaro.org>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <3287867a-456c-ddc3-adbf-90001950c926@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 13, 2023, at 18:15, Eric Curtin wrote:
-> On Sat, 11 Feb 2023 at 09:21, Asahi Lina <lina@asahilina.net> wrote:
+On 13/02/2023 20.09, Krzysztof Kozlowski wrote:
+> On 12/02/2023 16:41, Janne Grunau wrote:
+>> From: Hector Martin <marcan@marcan.st>
 >>
->> The register state struct is 848 bytes, which ends up bloating the
->> apple_rtkit_crashlog_dump_regs stack frame beyond 1024 on some
->> 32-bit platforms, triggering compile warnings.
+>> Add the apple,t8112-pmgr-pwrstate compatible for the Apple M2 SoC.
 >>
->> This doesn't matter for 64BIT/ARM64, but there's also no good reason to
->> copy the structure to the stack in this case. We can use __packed to
->> avoid alignment issues, there are no double-read hazards, and this is a
->> fatal error path so performance does not matter.
+>> This goes after t8103. The sort order logic here is having SoC numeric
+>> code families in release order, and SoCs within each family in release
+>> order:
 >>
->> Fixes: 22991d8d5725 ("soc: apple: rtkit: Add register dump decoding to crashlog")
->> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+>> - t8xxx (Apple HxxP/G series, "phone"/"tablet" chips)
+>>   - t8103 (Apple H13G/M1)
+>>   - t8112 (Apple H14G/M2)
+>> - t6xxx (Apple HxxJ series, "desktop" chips)
+>>   - t6000 (Apple H13J(S)/M1 Pro)
+>>   - t6001 (Apple H13J(C)/M1 Max)
+>>   - t6002 (Apple H13J(D)/M1 Ultra)
+>>
+>> Note that t600[0-2] share the t6000 compatible where the hardware is
+>> 100% compatible, which is usually the case in this highly related set
+>> of SoCs.
+>>
+>> Signed-off-by: Hector Martin <marcan@marcan.st>
+>>
+> 
+> Missing SoB.
+> 
 
-Merged now, thanks a lot for the fix!
+I'd rather get an r-b, since this is going back into my tree ;)
 
-     Arnd
+- Hector
