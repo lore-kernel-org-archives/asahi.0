@@ -1,27 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854062569
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99BCC0B5
 	for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 15:57:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 347A4C433EF;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5763EC433A0;
 	Tue, 14 Feb 2023 15:57:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1676390262;
-	bh=fNduKqqPUYV6F1M5u00Pcrdw5zzaBtWuks1TRf+NJ/0=;
+	bh=bd22GtPmWPipNXDyfrZ2Gq2UCaJZTLghuNgzdi0NEkk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=NutoAAPmhiTsVna0yHCjaRN6lTKVuyIoiSoapq4gLoWLUZsUJ7eRASr5KYUVo9RYb
-	 +bkMVThto8j5RGh4Gs0kq0F4Tk5pxv7oJvI2g6Eb3x6JNaD14oUVIFKJ6qfuJqhhv9
-	 n1mk4Nmf56f8StzBBjx0CJQt1PKXafoVGAtOHMzNT5w44+DE1ENhmIN/qZ4Z+sNNcY
-	 DprT8QWe20jqMPg6JJouP9c0OwFhh+FWi6L1fORGn3wz2vQsZRWcRWZrQh6Y6a50cG
-	 Y3blRSlBMeWDnf1tIIqGGfBH13zgJr5RUG1ZhdmqAKSaE4cNHhECQsycoz+uyEHpNB
-	 LskAckXbv6uyQ==
+	b=sH62gTk6NImWvGPVl8dDoS/JFvO1YcCvrQH63pSk4PpZJeB/aRFOjEisBPedxY/kX
+	 i3VZys1vgY+y/Lk4kCsX8e3q5juUP15AicYp59Q6pwl6DDjj4zbaQEP+G1UcgOYdTd
+	 XDdwPXRUgTw0br2DUMsea9Edkp8eE1Hcx1huQjampU71LxgtPT0rvhb1G9rmWyxSKH
+	 mxhCQRiIVsBpf1YMCLfEw962k7sm7mlrjq2UuTbSNSBhHfEzZj3qcmN+3a51339rae
+	 pjqOb1BOGIcgLAdGj2OtS4fggX+e7DOiobw/D26316BJejJrfcPJCq711r8SQ2g4a7
+	 Sqv2c250whjwQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18A89C6379F;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F63CC64EC7;
 	Tue, 14 Feb 2023 15:57:42 +0000 (UTC)
 From: Sasha Finkelstein via B4 Submission Endpoint
  <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Tue, 14 Feb 2023 16:57:23 +0100
-Subject: [PATCH RESEND 2 v7 1/5] dt-bindings: pwm: Add Apple PWM controller
+Date: Tue, 14 Feb 2023 16:57:25 +0100
+Subject: [PATCH RESEND 2 v7 3/5] arm64: dts: apple: t8103: Add PWM
+ controller
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -30,7 +31,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230214-fpwm-v7-1-fb0a6bfbd037@gmail.com>
+Message-Id: <20230214-fpwm-v7-3-fb0a6bfbd037@gmail.com>
 References: <20230214-fpwm-v7-0-fb0a6bfbd037@gmail.com>
 In-Reply-To: <20230214-fpwm-v7-0-fb0a6bfbd037@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, 
@@ -41,14 +42,13 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1676390260; l=1759;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1676390260; l=2898;
  i=fnkl.kernel@gmail.com; s=20230213; h=from:subject:message-id;
- bh=BeW75+AIFJcFrpFjOZabHWBRDLlSvckpqesK7uzTCx4=;
- b=s+tNMPIU6I5o9UPGsiZm/CArcN1IeGxgbgkzNTohM1pS17BErYBiDP/1d519ZLxoU1YsjgH+V
- d1dh0sEgglWDmRoqnMNxtFFYzJYbAEjaIcu68sEPKJtopT9HMm4O7l8
+ bh=X/0B/iNzJLmduQtxNfWIcVJ9VO4Au0DVrk19Cp1+og4=;
+ b=2Qs/rzTqfOfByMYiDzfa6CMGo+v+mIbZrc0lsg+2odCPm+zufQb6hAHFBeaUCJzxcW0J1aRJK
+ tkJnn7qgCSLD9lJxrmcq07IjdEq9lP8wHwDyC9Kj+I0jW4jyZhEaj54
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=7LFSAJtxIWAs9LzCIyX0sSvCZy2wQTyEIu1zch6o804=
 X-Endpoint-Received:
@@ -58,73 +58,109 @@ Reply-To: <fnkl.kernel@gmail.com>
 
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-Apple SoCs such as the M1 contain a PWM controller used
-among other things to control the keyboard backlight.
+Adds PWM controller and keyboard backlight bindings for M1 MacBooks
 
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Acked-by: Sven Peter <sven@svenpeter.dev>
 ---
- .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    | 51 ++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ arch/arm64/boot/dts/apple/t8103-j293.dts | 17 +++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103-j313.dts | 17 +++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi     |  9 +++++++++
+ 3 files changed, 43 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-new file mode 100644
-index 000000000000..142157bff0cd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-@@ -0,0 +1,51 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
+index 151074109a11..7381dccc1613 100644
+--- a/arch/arm64/boot/dts/apple/t8103-j293.dts
++++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
+@@ -11,10 +11,23 @@
+ 
+ #include "t8103.dtsi"
+ #include "t8103-jxxx.dtsi"
++#include <dt-bindings/leds/common.h>
+ 
+ / {
+ 	compatible = "apple,j293", "apple,t8103", "apple,arm-platform";
+ 	model = "Apple MacBook Pro (13-inch, M1, 2020)";
 +
-+title: Apple FPWM controller
++	led-controller {
++		compatible = "pwm-leds";
++		led-0 {
++			pwms = <&fpwm1 0 40000>;
++			label = "kbd_backlight";
++			function = LED_FUNCTION_KBD_BACKLIGHT;
++			color = <LED_COLOR_ID_WHITE>;
++			max-brightness = <255>;
++			default-state = "keep";
++		};
++	};
+ };
+ 
+ &bluetooth0 {
+@@ -47,3 +60,7 @@ &i2c2 {
+ &i2c4 {
+ 	status = "okay";
+ };
 +
-+maintainers:
-+  - asahi@lists.linux.dev
-+  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++&fpwm1 {
++	status = "okay";
++};
+\ No newline at end of file
+diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
+index bc1f865aa790..1e26aa1ef525 100644
+--- a/arch/arm64/boot/dts/apple/t8103-j313.dts
++++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
+@@ -11,10 +11,23 @@
+ 
+ #include "t8103.dtsi"
+ #include "t8103-jxxx.dtsi"
++#include <dt-bindings/leds/common.h>
+ 
+ / {
+ 	compatible = "apple,j313", "apple,t8103", "apple,arm-platform";
+ 	model = "Apple MacBook Air (M1, 2020)";
 +
-+description: PWM controller used for keyboard backlight on ARM Macs
++	led-controller {
++		compatible = "pwm-leds";
++		led-0 {
++			pwms = <&fpwm1 0 40000>;
++			label = "kbd_backlight";
++			function = LED_FUNCTION_KBD_BACKLIGHT;
++			color = <LED_COLOR_ID_WHITE>;
++			max-brightness = <255>;
++			default-state = "keep";
++		};
++	};
+ };
+ 
+ &bluetooth0 {
+@@ -39,3 +52,7 @@ &pcie0_dart_2 {
+ 
+ /delete-node/ &port01;
+ /delete-node/ &port02;
 +
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - apple,t8103-fpwm
-+          - apple,t6000-fpwm
-+          - apple,t8112-fpwm
-+      - const: apple,s5l-fpwm
++&fpwm1 {
++	status = "okay";
++};
+diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+index 9859219699f4..5300fd115561 100644
+--- a/arch/arm64/boot/dts/apple/t8103.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+@@ -432,6 +432,15 @@ i2c4: i2c@235020000 {
+ 			status = "disabled"; /* only used in J293 */
+ 		};
+ 
++		fpwm1: pwm@235044000 {
++			compatible = "apple,t8103-fpwm", "apple,s5l-fpwm";
++			reg = <0x2 0x35044000 0x0 0x4000>;
++			power-domains = <&ps_fpwm1>;
++			clocks = <&clkref>;
++			#pwm-cells = <2>;
++			status = "disabled";
++		};
 +
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  "#pwm-cells":
-+    const: 2
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    pwm@235044000 {
-+      compatible = "apple,t8103-fpwm", "apple,s5l-fpwm";
-+      reg = <0x35044000 0x4000>;
-+      power-domains = <&ps_fpwm1>;
-+      clocks = <&clkref>;
-+      #pwm-cells = <2>;
-+    };
+ 		serial0: serial@235200000 {
+ 			compatible = "apple,s5l-uart";
+ 			reg = <0x2 0x35200000 0x0 0x1000>;
 
 -- 
 Git-137.1)
