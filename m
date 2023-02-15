@@ -1,70 +1,84 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D612F24
-	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 09:04:23 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-52ee632329dso178491387b3.6
-        for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 01:04:23 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759943C1E
+	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 10:13:14 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-52eb7a5275aso246107227b3.2
+        for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 02:13:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=oY1nkRMg5xIYxJkEJudISp1SsePMPZsPbFvRS2TeTYY=;
-        b=rbaWe+oRzVt/2SLnetpU2Uetj0VRu5i96tclNSePLjUiG/eeF6v2jHAVV+KonBcNDb
-         v27l30iursquX/OPnVQ8FueErDRIpLPGc8LDk5Y61NP+6j9YsBMGDjsZyj0GPrH8XVBt
-         IKckUdR/bYdLNTBpDUhxP3Hprta9kEe8Xs0qP7tYlxlDQfRle3Jx7ePaqkyWg6Ns4Hwr
-         GOP9VKetqUZ1xbptXVWOX13bFKj5ySVw3ieN+CjuzghA/sjQ01x+On3gKCTryVkx2mTB
-         tK8uX1jAzi/T5jUCnwW3W3GjVJ7NLJRDOffeYSjLzrW/EyAIUV6BASdvTs4Rn7y9I9uB
-         /82Q==
+        bh=TChxARwnI0lpB/SBhETxB4OwsG83QsJzGDQ5SFDuIHI=;
+        b=YnA5Um2G6jRmV2vPq6yTc+f3qCg8bJxLYu0M00iWtnL85aZ5NMUQcFoyvhlq5xVscT
+         g/FxUgYK3nZrVcqBMq01M0/gGCKbOcbXgv+qqiMKM/kmW6c5tLNSuRBtBO9NPrV4Dfkv
+         qtu2/GRfCCRqXIATR7QzjRsD0Udxh40USkDw1qXVoGrxYLj6rdex8MJ2vBOB1nVQJjFh
+         4RrFqcGYGrg5mGbLsRrkcsByOUuuDgqUE/L4bvrtcAY4mgNI66TjQXZSEcYGZW/EnCTb
+         Y9BPKr7dM7+ATFt1rVGWp9ZKCZMoQE2mKcGNRyRAMI+koTTOIYDIWr6kGg2PWrFmXKrs
+         cU/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oY1nkRMg5xIYxJkEJudISp1SsePMPZsPbFvRS2TeTYY=;
-        b=zc/gwkfZnLDu6Co9REnxdcReJzJy50KrUUux6izFPhd3XJkmqChOSZ27MMOtu6DyOU
-         n2LgoF08d5mGLQqTsvyZmvyFIvGj3zOj14uJNg3Q/CRnU05MIatfBm7UdkZzJIyyQxhS
-         plBgHii9VCYLF+znQoI6yUvYHL8XMDUzwkbCvnEq/hS4DKVv+Q853bYEX0ae1KUqhmxK
-         J9+VMBMv5C6iOacO2Zz1Yk1UsZVpcC97Emh1q53cRpb+zPC8D1MS8S5zKLSs+0uDO9/u
-         IuKqqObTOpo1fsYbWTftzjmgvXF2Ddo/UpQOC2cm75uqC8XslPRTzbK23gYvfi8vmykq
-         bowg==
-X-Gm-Message-State: AO0yUKULjGhUp65TEbPAPdl+Bb6Na1lv8CSkAADhHhRIJXHn50kTNKju
-	o+xJpH8I2kwP8gUrdnv9by/tUS5yn5g2i69lbBB4gQ==
-X-Google-Smtp-Source: AK7set/fL3py9MtVnDFb7krzubxSrlxFlH3/cnycfcvpNmIE0uFAsbEzQ91Z9mMtjkDuqLB9Qeto8GMaBNULqAVkmrs=
-X-Received: by 2002:a81:a008:0:b0:52a:9161:f533 with SMTP id
- x8-20020a81a008000000b0052a9161f533mr238975ywg.64.1676451863017; Wed, 15 Feb
- 2023 01:04:23 -0800 (PST)
+        bh=TChxARwnI0lpB/SBhETxB4OwsG83QsJzGDQ5SFDuIHI=;
+        b=otDyIH7BagkBVHz0yI8Aa5MBv6qFGnpW0shzvVdOYJkBK0Ecahom2NR44EjuedRdQk
+         xH4ulwXETRXj6T23LuY3IwVQ6TG9QO5E0ASEXD6o/MRxqkcL3A8RL0eSqsuQNTKIQaXJ
+         s4VUd1xuMEy902+/TpEq/mf5z5Xj0ycY4iNowcwriOsHa+Zz1iSRnJNQX2REUvcOUHF/
+         oStNED12+J0D/c3YHdBs5f+A+3LHJA0U/w4j1InvJO/yfMa5R+GYMfa+5Maf76ezXRnt
+         tPZIZGeZYUw7pk8OqcYAe1FKKVIIHsVusJ+8ucF2jzhqWv5n5xvqi+s1F1Elv3FNeUuC
+         dzRg==
+X-Gm-Message-State: AO0yUKV6VER91NNCerpiUiLD47PPqtU/w564PUvY0tmREon1NDXA/1Ga
+	NRzhpRRcf+ZlFfJ93D0LS9SpcV6e9IK7LIlgbIn8Aw==
+X-Google-Smtp-Source: AK7set/ERxZzW3KNVrEUjAzdskHBB0Sb13W2voFJQCEl0GcMl9AuDWEND5R+eHJNT6p08hYHRxzc2W9S3PJRV7hbj7k=
+X-Received: by 2002:a81:a103:0:b0:52e:b3df:cae4 with SMTP id
+ y3-20020a81a103000000b0052eb3dfcae4mr144282ywg.128.1676455993332; Wed, 15 Feb
+ 2023 02:13:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230214092838.17869-1-marcan@marcan.st>
-In-Reply-To: <20230214092838.17869-1-marcan@marcan.st>
+References: <20230214080034.3828-1-marcan@marcan.st> <20230214080034.3828-2-marcan@marcan.st>
+In-Reply-To: <20230214080034.3828-2-marcan@marcan.st>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 15 Feb 2023 10:04:11 +0100
-Message-ID: <CACRpkdaQ6L399pgPAiyOtXkAYhfaOdPWqvVjXacDt0+-Oa7N_Q@mail.gmail.com>
-Subject: Re: [PATCH] brcmfmac: pcie: Add BCM4378B3 support
+Date: Wed, 15 Feb 2023 11:13:01 +0100
+Message-ID: <CACRpkdaeuUuKow2AZPi66gFpDVBB0kqvFJAJNmWB7Mn5gtDG7g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] brcmfmac: acpi: Add support for fetching Apple ACPI properties
 To: Hector Martin <marcan@marcan.st>
 Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
 	Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
 	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Arend van Spriel <arend.vanspriel@broadcom.com>, 
-	asahi@lists.linux.dev, linux-wireless@vger.kernel.org, 
-	brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+	linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
+	SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 14, 2023 at 10:29 AM Hector Martin <marcan@marcan.st> wrote:
+On Tue, Feb 14, 2023 at 9:01 AM Hector Martin <marcan@marcan.st> wrote:
 
-> BCM4378B3 is a new silicon revision of BCM4378 present on the Apple M2
-> 13" MacBook Pro "kyushu". Its PCI revision number is 5.
+> On DT platforms, the module-instance and antenna-sku-info properties
+> are passed in the DT. On ACPI platforms, module-instance is passed via
+> the analogous Apple device property mechanism, while the antenna SKU
+> info is instead obtained via an ACPI method that grabs it from
+> non-volatile storage.
+>
+> Add support for this, to allow proper firmware selection on Apple
+> platforms.
 >
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+It looks like a horrible Apple-ism but I don't know much about ACPI.
+
+The ACPI people are working on device properties to abstract away
+all device properties no matter if they come from ACPI, device tree or,
+ehm Apple-ACPI, but for now I think it is more important to get
+this hardware working upstream and we can think about refactoring
+this into device properties for the longer term.
+
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
 Linus Walleij
