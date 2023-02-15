@@ -1,121 +1,65 @@
-Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2051.outbound.protection.outlook.com [40.92.102.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2B810792
-	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 20:06:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ciOPc4pJUWSKdDcAF8ShrXTtsMyzYJozTXRRo0l+jPf/ud9DUKu9XaeV2UXiIu2ows+tKdauggzEIkLvtPIwlLsYRl1oXQ/J/du+SuA5Cpr9RCJGe79VNLtVU9cZQPG71djAjWJcNN+EGkx9nXVPTYUOC6FtnZXf9As1PmNurgMG0lcjkWtNcHliu/dvzxZ+azheRFoO2ERmFUR5N0QNw9M3IDOqBsQtie4/sUJAhET2nepBF9ljnV5Q8rVOvjIrCX5dHCPT8fKYHSs7uTRKw058z2UgcGbVgtljgFackmv4Yp8I1lBHmogiuH5L953a8TmTHKgo4wnVqbrtFFddVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rPUTIlAUwbjF92IOtkagBNuMhAmlSfKczBIjRMagmCQ=;
- b=Oj0iAGkwP1rXDP/NOL4V/OB88jlIkPDtJUKVk3JpXHG9i+B3fPo25Uo0QEWyklnvJPVpqSEh5vAfrnNrh/y+p84gKHzJ7XCI+ajo3ddEPZ66ukDVnDj2JLMK9ZngRd+FSOjq4TN5wWOgjzCwTytCGecfP9W6bzWoeq6T7rj9wXStVjqA2s4ZeX7qu7/hJirUlDmDd5puz127Fjgf5P1wT8COJznyRdWeAe0h/BPjbYbffZkPLtn6CDIB66pjVium4AL/Xreu3805Gs2eYKl+DutzJ6CtlK/HjGCY+WLYYW30OOhwLjLfsFHoJf21hBIT52cAF+dJu0vYC+DaZB2r4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rPUTIlAUwbjF92IOtkagBNuMhAmlSfKczBIjRMagmCQ=;
- b=gjNYiYqOj0QzARhTqHUbc6OMxdmUkWk+u3MPizZ+VxFNf6WUlEX7ns7jJPnk/A3cHk7YR903wBOmRAUFhTqX9RlrVHXo61IzlYVwdq0QgTlEMx2mZHinJ4xt9yYDgiJUGPUJbLl8BQN2trK7G0E5+7u6LETHZNTqLJTYQiTKsDtQxnmyRbo/KvER6eIfUcRj+g4Im1yAWpbLoEpjXzTPXQl2bQToj9lswyDCEvtQXsx+UVXHNDbXlsuOysjU7IkFf+enPODY8yLn3HgSPbpFQnt6gmLymTcA0d1V/XDEm0F+4Lf1DmNMbz1igBeoZXgADNxNBC9zG1VUpB0+htUIpw==
-Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2::9) by
- PNXPR01MB7292.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:a3::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6111.12; Wed, 15 Feb 2023 20:05:57 +0000
-Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::f156:868f:a45b:aeee]) by BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::f156:868f:a45b:aeee%11]) with mapi id 15.20.6111.012; Wed, 15 Feb
- 2023 20:05:57 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Kalle Valo <kvalo@kernel.org>
-CC: Hector Martin <marcan@marcan.st>, Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>, Hante Meuleman
-	<hante.meuleman@broadcom.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Alexander Prutskov <alep@cypress.com>, Ian Lin
-	<ian.lin@infineon.com>, Joseph chuang <jiac@cypress.com>, Sven Peter
-	<sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jonas Gorski
-	<jonas.gorski@gmail.com>, "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
-	"SHA-cyfmac-dev-list@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Arend van
- Spriel <arend.vanspriel@broadcom.com>
-Subject: Re: [PATCH v4 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
-Thread-Topic: [PATCH v4 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
-Thread-Index: AQHZPqywRfbBFz/y5ke3vwPVMwb+rK7NGWeAgANbEis=
-Date: Wed, 15 Feb 2023 20:05:56 +0000
-Message-ID:
- <BM1PR01MB09318B4189950B6B549C93E6B8A39@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
-References: <20230212063813.27622-2-marcan@marcan.st>
- <167630706967.12830.157103392387761972.kvalo@kernel.org>
-In-Reply-To: <167630706967.12830.157103392387761972.kvalo@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [bcTFr7cLEMh9TB+50phF9k0HQQo2ch82DIEswnZa0wGKK8niS/BBERjVGfVX0cwr]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|PNXPR01MB7292:EE_
-x-ms-office365-filtering-correlation-id: a4e0ba56-db06-4356-f734-08db0f900cf1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- D8p+2rHcSV+2+tVWkLVA/d2/0XtPlQ1UqO2zZBrdYNkhGuon6yLlf+sGPfBwD6Wvi4qd2718dOOwfZwOgSVWSPdM3n4EbXoL0sHKEAlMg0hT8YRonaj2Mn2quVEDsMv+L1nDFpPpe2ixnWFqTz7zTKQKc3MY6UQX1XcOyXDQMuJ+4NJemmPG/QdlYb/GgrUQEUEqG4qVAVu5x/dDzpW2T0s1hnYjuZgotvi5dcNH9k6vTpvQL4BVpyQsSU7ALcgwENrfCs1RsR7v2mW7wCKfebLju/vFzEiUWYrSJiP1f06HbG7LL98pmhQcO0okODKEZP6Q7Iqpva5bMUzi3Y6vIasnTYPn7YnlaABK7z+Z+Dy0B30Rmn0kpOyQHx7PPGwhTbzqD9170QzbU1Phfr+MUL3GUt/rxtqIgV14x5s8PbmBV2UhRe7MCiZqS4dL+tZ1TbA3rZXB3GNXKud5YfCTVIG5SpqZwIPPmEhznZm2Zp28V8zmNt75SmqLBQvzNtafLvB5p9iP7PK8RiMxj4gZVLikH2gEwDsxcQlXQOtIN2idZduK/qaIiV+6ZKZD1cmwigc/nFxbOVj3WymCwdl/nLR5yCoTP852k5+Lx7cnK5/w6HVko8UeXlAEXmghM0VdJstFFfXe3M6SScqSCpoDvA==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?MzFxRTBHNVpVbkNrWE02MGF1MzJjVWVYK0FVSDM3WFRmci9NVUZYVlBuZUcy?=
- =?utf-8?B?NVQwN1NaWDkzdXAwZmlxSWhTMjZ2U0tuSm1jOHNDdzhaUFhmaHVhbkExSFhR?=
- =?utf-8?B?ODhLWjMrNjFwMFFEUGV2a1htakc5SkI4Snhzc1g2MFhyTVB3TVlUOTYyM3VB?=
- =?utf-8?B?OG5MUkI4WFMxWXRVa2JSVG55WlpLdzV5YnB2dzVMRnRRY0REM1IzMERrbW5P?=
- =?utf-8?B?TmMwOFJrMUxUVmIzaHh0UWxGSEVXYThFWVdVM2wzcnVpVGFBQzFRKys3UWll?=
- =?utf-8?B?YWJEMkZzVWtvWmV0M3VXR1RKVEdEc091eStoMzMwdjFqMVhpeEhsRWFxTHJ6?=
- =?utf-8?B?UlZsemNES2lUY2pzSSt2OXNpOXVPanVrSm9nTlAzNnVQaVh1S3J1VTJRSlNQ?=
- =?utf-8?B?dG1PMllNZXZpdFlIZThUcEtDako0L3Q3UVU2QVRXUkcwTWpRdlVMYy8wN0FQ?=
- =?utf-8?B?TUVBTEJvMmJkK1lBRWpnT3ljdi9QcHIzTzMxd1A2dDJpVmRvMVdkbjlzcENs?=
- =?utf-8?B?SWxuaXF6dTlaRFRyTjE2cjk1NU03OXdKZVMzaHNPemhjaHlQaUtYUy9kWWMz?=
- =?utf-8?B?azNZNzdrMmF6YXRWTDRSVDdYVUJkQzdTdVRqTTdCWnhLZXgvZmtGcC9uc3I5?=
- =?utf-8?B?cXZlcTI1am9Jd2U0SzJ3amtZUzBmKzFhMXlsV1BWd3FBM2t0UTRMM3FvOHAz?=
- =?utf-8?B?MmVYK0ZZckpNakNBVGN1Vmg1eTlzdUdkS3VMN290cWtEUlV1NTFBSXBOUGJO?=
- =?utf-8?B?eFFhY2FOQ1l4aXF4QlhJcjFlUHlKRHl0bCtuY2tqeTZLSm9BNjVtU1RSbytJ?=
- =?utf-8?B?b0R5MG12NFJQNUxtUHhEenNsVmp0MUlDdHJ4akxITXR1Q2N5T0RJUmE4Nkgy?=
- =?utf-8?B?eUdtWGc3OERVL29JeEpCWWlRVGM2VGFqVnhMbjBHVHRmcU4xTHdUL3Y2bHMx?=
- =?utf-8?B?WHdiczkySlNVYzVTejcwNWxqY29iNzJCY243WjZJRGR6b2djVFNubGt1NHVW?=
- =?utf-8?B?OGFjVEVSMk1QM0p2NmU1MGtxOExDMXdyOGF4OWZqOVdkS1YyTU52cnBlaC91?=
- =?utf-8?B?NWhjT0VXeWk5dDh3ZExWR3FtRHFBUVFZa0Z4amx1U1E4bFdPVndUL1B2Umg0?=
- =?utf-8?B?eEtXYzFXQ1hWVFZWZlVLb25MdCt3c29vVnUzenh6MEJ2SUZCYnlDRHpMKysy?=
- =?utf-8?B?U1pKS2QyT3lJS2QzZUJVbTBLd2ErYW9oU3pobUVnYzIzcjB5ejRDVVBWSVBo?=
- =?utf-8?B?Yk5jeWhEODZ5NVF3S2dqMkEwdlhHK2ZUUzJTV0h3RlFNWW5pU3ZhaU5heXhZ?=
- =?utf-8?B?UkEyWjVSdWE1ZGVxaUhTTVF4Y3dvaEo5bm9PMFRHRmVTQm1QcSs3RTk3U3lW?=
- =?utf-8?B?ZkxoTytaM2RYcm1pYWE1UCtzRzN1amV5dDI0WDFyNzhuNk5LWC9zUXJHRWk0?=
- =?utf-8?B?bVhQMk53dWdyeGl2U1J6REprN3A0YkxhcGZGY00rZnFpVVNETnlNcy8zb0s4?=
- =?utf-8?B?TGFyTXpLMG1kTUZQa1hidTJuL20vQ2JWOHVFZmlVaUZZWVVNV2RuZ3hWd25Z?=
- =?utf-8?B?TUZNOUVpV05pdytIZFdXeWZWaW1RN2VjdGpmM1dMdHpHNGU2QXBNSWxYNUQ1?=
- =?utf-8?B?eGdGQXd4RmJRaHAxak01NWNJRzU4dHlKdzRtV0VOWnJuVmQxaXhsckJJSUhS?=
- =?utf-8?B?dWI2R05YT1dHdG5Gd1ZEQmNsN01pNUlONzBLNS9CaUZIYjl6Z0wrOTZjRlJF?=
- =?utf-8?B?Y3NrS1hRS1JzWmgyZ3dqK3plYTIwVDgrMnVRR0hEMjZaTG1EVG4vUlZlUVFq?=
- =?utf-8?B?K0NHcGpUQ3FsNEU1Q20zUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E1A6105
+	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 20:46:15 +0000 (UTC)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-16e2c22c3baso206161fac.8
+        for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 12:46:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LRSeJHy2SyPDaHEW/c54mDyRYYoKFp26R/Pea6LkzEc=;
+        b=g0e2F3Es8q8ZpELeX7xEwnrc7xQBxGQ2OEFxz9Fodhd2auccmtsU/9R6YWYn7qmWvR
+         XYaJEgdcyaQWnC55PS9uQZ2qa4XBfUuvh8X1u3XIAuuP3dcJdy1ORqhcyhaSyIyyMgpB
+         OF35SYxyQNSOhAioopHIlV0sxdYjIlX+LyAHQ2NCMavifTaJX/VX/oCKETIafjmPWLbU
+         FnFllovWrh9crTGtFSUxvrwgrtyaJzw5Sth3IRbnNC3WBM8zaYO3u5WgHtTVHd7cmtIk
+         GxgJwZGpvrAjBCFyfJC8LzVuyo9Dw3XIjPnsFwO2A5P/3uhVW12+08o0Qf0uF20JY4yd
+         cqmw==
+X-Gm-Message-State: AO0yUKVesPj+rvPm6FOUdY9qmxmf/XS82fWdbfHRF7ZK2nZ3dph2gWEY
+	o9DS8RECsuQXrlXizq92IQ==
+X-Google-Smtp-Source: AK7set9Qx/gWbtf7g0aqU3LEWnLSu3VeF6+00UZ95YNE+jQ7rAp4apcpfYgMAuHmUQO0WUzv4gkNMA==
+X-Received: by 2002:a05:6870:7392:b0:16d:db03:9efa with SMTP id z18-20020a056870739200b0016ddb039efamr1820371oam.28.1676493974619;
+        Wed, 15 Feb 2023 12:46:14 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id e3-20020a056870c34300b0016dc6d38b16sm5623730oak.23.2023.02.15.12.46.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Feb 2023 12:46:14 -0800 (PST)
+Received: (nullmailer pid 525019 invoked by uid 1000);
+	Wed, 15 Feb 2023 20:46:13 -0000
+Date: Wed, 15 Feb 2023 14:46:13 -0600
+From: Rob Herring <robh@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Mark Rutland <mark.rutland@arm.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: arm-pmu: Add PMU compatible strings for
+ Apple M2 cores
+Message-ID: <167649397316.524961.8297827132612365519.robh@kernel.org>
+References: <20230214-apple_m2_pmu-v1-0-9c9213ab9b63@jannau.net>
+ <20230214-apple_m2_pmu-v1-1-9c9213ab9b63@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4e0ba56-db06-4356-f734-08db0f900cf1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Feb 2023 20:05:56.9635
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNXPR01MB7292
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230214-apple_m2_pmu-v1-1-9c9213ab9b63@jannau.net>
 
-SGkgYWxsDQo+IA0KPiA0IHBhdGNoZXMgYXBwbGllZCB0byB3aXJlbGVzcy1uZXh0LmdpdCwgdGhh
-bmtzLg0KPiANCj4gNTRmMDFmNTZjZjYzIHdpZmk6IGJyY21mbWFjOiBSZW5hbWUgQ3lwcmVzcyA4
-OTQ1OSB0byBCQ000MzU1DQoNClNob3VsZG7igJl0IHRoaXMgcGF0aCBiZSBiYWNrcG9ydGVkIHRv
-IHN0YWJsZSBzbyBhcyB0byBwcmV2ZW50IGRpZmZlcmVudCBmaXJtd2FyZSBuYW1lcyBpbiBkaWZm
-ZXJlbnQga2VybmVscz8=
+
+On Tue, 14 Feb 2023 11:38:01 +0100, Janne Grunau wrote:
+> The PMUs on the Apple M2 cores avalanche and blizzard CPU are compatible
+> with M1 ones. As on M1 we don't know exactly what the counters count so
+> use a distinct compatible for each micro-architecture.
+> Apple's PMU counter description omits a counter for M2 so there
+> is some variation on the interpretation of the counters.
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  Documentation/devicetree/bindings/arm/pmu.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+
+Acked-by: Rob Herring <robh@kernel.org>
+
