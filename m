@@ -1,116 +1,99 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984B87C
-	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 11:42:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1676461371;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4kbdKU98/vo3fMtB/dos++x3HLoxdm3oQAZqZchHYs0=;
-	b=er0FUyHHTA31jO4i/7/5YK/mzqUEyiCTYp2ZiqZp+o6HKOp27jQH7FmKEvzn+LiyX6cbB5
-	w1M8xXRa1HDnn1LIK5V2wCr/ciRebAhKuXCja+G/RrTU7/yar/3QE4zFb+q+KKQYemg3sy
-	aWoLus2zuVia9RrCiDeSvSaVg6WMPs4=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-264-oir9KrVzOwq_DktOQbdNJw-1; Wed, 15 Feb 2023 06:42:50 -0500
-X-MC-Unique: oir9KrVzOwq_DktOQbdNJw-1
-Received: by mail-vs1-f72.google.com with SMTP id p25-20020a0561020e5900b003eb2e441471so4434736vst.13
-        for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 03:42:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4kbdKU98/vo3fMtB/dos++x3HLoxdm3oQAZqZchHYs0=;
-        b=GDG3abhfs0zSBPfUnl5B3YeuIClyEtVyeYjOhSVmXT4JB+VTO8j24/FNp5HsXyGYcw
-         MZUyWvD4Ko6SmBrlw/bYgWhqVZUZgOcu2Q5WOzQaP67ChdlIya6dATt+E04XquIf9mxr
-         qTpVKVi7El9Fu9wwDYu1sLVKaqt8+LDwAHlpVL0AFZcum5Ia8g954STPG3EoU2G97UWW
-         v2gJUfLCuO4T++H+7CWwxy+iyTyEvGcFHp0bZHE3jbAJ+5et1Nqwejo6y0x+vFqHNfkv
-         ClkkqEyPQ4jw9CJj9jJxdVQTYtDg1B3x3aQlxVcT2jlJV5IoaTflZYZSwYr0Wj4EzJlH
-         iQGQ==
-X-Gm-Message-State: AO0yUKWe7QgP8cil3L7f/POv1sN8skaQneY9sjMmFPfmvb0V1Bkn4eoR
-	hBBYwGkFRreJ2Nb5RPtw+4oMX1u5pPYaYZoGWs2PSpYZXlqp2i4AizxlTZgwUBB9ulIIeAfc0b+
-	O6vBxOB5Iln2x/EOftj0nRau5hlhQCZM=
-X-Received: by 2002:a05:6102:34c7:b0:411:bd2e:11ac with SMTP id a7-20020a05610234c700b00411bd2e11acmr287370vst.75.1676461369788;
-        Wed, 15 Feb 2023 03:42:49 -0800 (PST)
-X-Google-Smtp-Source: AK7set+kUPt7gGzhiQgVyz2CNApAZCVfBk6sZ3Tsubo9kL7OIwxXKmGLrqpTGKjxBr7zf81hSPv+GO0q1wH37PJfvTc=
-X-Received: by 2002:a05:6102:34c7:b0:411:bd2e:11ac with SMTP id
- a7-20020a05610234c700b00411bd2e11acmr287362vst.75.1676461369540; Wed, 15 Feb
- 2023 03:42:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8762128F0
+	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 14:45:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47720C433EF
+	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 14:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676472301;
+	bh=J7FR16wSeO0h7U2Rx2QzFOI98aN6QgOwDZqATCeQYVQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=lfElhBWLykO/IJQQRODB6ZD2kRjRd9ASIZp9f8lTKR1+9FgfwaFmqe0HnNRHT9Hl3
+	 JkgU5v3vEdtLPgjeRRcJq3hv3Km6WJFocxQkgUlojqH7alhgWDMRAap4yyKNgWSlFM
+	 VOKpNUIYYpHF2vVio8HrKf+q9cSvm2aoZha9llKLmKv0QphWJ/mxRv0vnCW8R6jklr
+	 6/N5X7ZgJLm/dJ5bLJ2/oN/4kh2OUdKUkAp5UrVWyp3FdeUiiDJBhVtRjbFx85GCMO
+	 FOoM69qE8ueaGL5qtN2q7B9tqqLreXbtKeazbacUgYNmZfg4npkiMi2Sg8mDYWsOhr
+	 e3Fj94sQQv/6w==
+Received: by mail-vk1-f174.google.com with SMTP id a12so7046880vkl.8
+        for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 06:45:01 -0800 (PST)
+X-Gm-Message-State: AO0yUKW9H44tKOewaOXVLgv2TLv0Q//NmWMcgvXRTRNk8KKmXiwj5pHI
+	+qG5sMbl6T+VUKACXfj7++4H7rjrvmrHr1MKGA==
+X-Google-Smtp-Source: AK7set/kjqpJSwgOPQgeLthfUJMRO50WEjm6M46aPnoKXLrEXKV0KxBlqDn2v26BG08pkp0X6ufGr+PEnWMps4WzT6E=
+X-Received: by 2002:a1f:1b83:0:b0:401:42f3:5657 with SMTP id
+ b125-20020a1f1b83000000b0040142f35657mr350241vkb.42.1676472300265; Wed, 15
+ Feb 2023 06:45:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230215-arm_pmu_m1_regression-v1-1-f5a266577c8d@jannau.net> <CAOgh=FwCk1qMUAqkv+aih_=6vJ0SjqyzS9-gW+v+YjEse6V0Yw@mail.gmail.com>
-In-Reply-To: <CAOgh=FwCk1qMUAqkv+aih_=6vJ0SjqyzS9-gW+v+YjEse6V0Yw@mail.gmail.com>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Wed, 15 Feb 2023 11:42:33 +0000
-Message-ID: <CAOgh=Fx_i87_9gGpfPGJ2uNfEK8W=bH=40Dy8J5yYz53qPeRSQ@mail.gmail.com>
-Subject: Re: [PATCH] arm_pmu: Invert fallback armpmu_filter() return value
-To: Janne Grunau <j@jannau.net>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ravi Bangoria <ravi.bangoria@amd.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230214141053.92731-1-povik+lin@cutebit.org> <167638945429.3790.16067227881981242831.robh@kernel.org>
+ <6B75F1A1-E2DE-40D5-AA79-A764C65D8AD2@cutebit.org>
+In-Reply-To: <6B75F1A1-E2DE-40D5-AA79-A764C65D8AD2@cutebit.org>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 15 Feb 2023 08:44:49 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJTHy3ZGUKk1dv3aD+ToxdmvYrjq1JPjHYt7R7LVVZpGQ@mail.gmail.com>
+Message-ID: <CAL_JsqJTHy3ZGUKk1dv3aD+ToxdmvYrjq1JPjHYt7R7LVVZpGQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] dt-bindings: dma: apple,sio: Add schema
+To: =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Janne Grunau <j@jannau.net>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Hector Martin <marcan@marcan.st>, devicetree@vger.kernel.org, 
+	Vinod Koul <vkoul@kernel.org>, Sven Peter <sven@svenpeter.dev>, asahi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 15 Feb 2023 at 11:40, Eric Curtin <ecurtin@redhat.com> wrote:
+On Tue, Feb 14, 2023 at 1:18 PM Martin Povi=C5=A1er <povik+lin@cutebit.org>=
+ wrote:
 >
-> On Wed, 15 Feb 2023 at 11:36, Janne Grunau <j@jannau.net> wrote:
-> >
-> > Fixes a regression in "perf: Rewrite core context handling" for arm_pmu
-> > based drivers without a filter function pointer as the Apple M1 PMU.
-> > The event is ignored if filter() returns 'true' opposite to
-> > filter_match(). The refactoring failed to invert the return value if
-> > arm_pmu has no filter() function pointer of its own.
-> >
-> > Fixes: bd2756811766 ("perf: Rewrite core context handling")
-> > Signed-off-by: Janne Grunau <j@jannau.net>
 >
-> Makes sense we return the inverse of armpmu_filter everywhere else in the code.
+> > On 14. 2. 2023, at 17:12, Rob Herring <robh@kernel.org> wrote:
+> > On Tue, 14 Feb 2023 15:10:53 +0100, Martin Povi=C5=A1er wrote:
+> >> Describe the SIO coprocessor which serves as pretend DMA controller on
+> >> recent Apple platforms.
+> >>
+> >> Signed-off-by: Martin Povi=C5=A1er <povik+lin@cutebit.org>
+> >> ---
+> >>
+> >> Since the schema mentions a loader preparing the binding appropriately=
+,
+> >> here's a PR with the relevant (WIP) loader code, if anyone wants to lo=
+ok:
+> >> https://github.com/AsahiLinux/m1n1/pull/286
+> >>
+> >> .../devicetree/bindings/dma/apple,sio.yaml    | 129 ++++++++++++++++++
+> >> 1 file changed, 129 insertions(+)
+> >> create mode 100644 Documentation/devicetree/bindings/dma/apple,sio.yam=
+l
+> >>
+> >
+> > My bot found errors running 'make DT_CHECKER_FLAGS=3D-m dt_binding_chec=
+k'
+> > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+> >
+> > yamllint warnings/errors:
+> >
+> > dtschema/dtc warnings/errors:
+> > Documentation/devicetree/bindings/dma/apple,sio.example.dts:24.35-27.11=
+: Warning (node_name_vs_property_name): /example-0/interrupt-controller: no=
+de name and property name conflict
+>
+> I saw the warning, but since I had copied that part of the example from
+> apple,admac.yaml I didn=E2=80=99t make much of it. Now that I look at it =
+again,
+> the example in apple,admac doesn=E2=80=99t raise the same warning, how co=
+me?
+>
+> This is just a curiosity since we don=E2=80=99t need the aic node in the =
+example
+> anyway (unlike in apple,admac where it=E2=80=99s needed because of empty =
+entries
+> in interrupts-extended).
 
-or we return the inverse of cpumask_test_cpu rather... copy/paste
-error on my part.
+'interrupts-extended' is why. If the example just has 'interrupts',
+then a fake parent is constructed. It's pretty hacky, but necessary to
+parse the interrupts later on for validation.
 
->
-> Reviewed-by: Eric Curtin <ecurtin@redhat.com>
->
-> Is mise le meas/Regards,
->
-> Eric Curtin
->
-> > ---
-> >  drivers/perf/arm_pmu.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
-> > index 9b593f985805..9cb22f36cf66 100644
-> > --- a/drivers/perf/arm_pmu.c
-> > +++ b/drivers/perf/arm_pmu.c
-> > @@ -556,7 +556,7 @@ static bool armpmu_filter(struct pmu *pmu, int cpu)
-> >         if (ret && armpmu->filter)
-> >                 return armpmu->filter(pmu, cpu);
-> >
-> > -       return ret;
-> > +       return !ret;
-> >  }
-> >
-> >  static ssize_t cpus_show(struct device *dev,
-> >
-> > ---
-> > base-commit: ceaa837f96adb69c0df0397937cd74991d5d821a
-> > change-id: 20230215-arm_pmu_m1_regression-b6dd48d0c792
-> >
-> > Best regards,
-> > --
-> > Janne Grunau <j@jannau.net>
-> >
-> >
-
+Rob
