@@ -1,99 +1,70 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F2D7C
-	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 03:17:12 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id ja21so11406697plb.13
-        for <asahi@lists.linux.dev>; Tue, 14 Feb 2023 19:17:12 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D612F24
+	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 09:04:23 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-52ee632329dso178491387b3.6
+        for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 01:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3HoOW7mnikI/W6qgH9CzqhnH7tqIVURB7YzkTuqqxeg=;
-        b=yRLLo+Y2l9Rqw6rar1SCyG1SxgiM4k2LfTdR7HicsoJ3ot5+CNso463IU5kURN1h86
-         nSFxSUeaFV+/D+mlWEOgnks7/Y7ZVhJVAKTYCKDTrGq9/HdNNX1yUcykVibwEyQ9jpsq
-         fU2wTqpQfQzfy7JvALOZOQzvr7brLByl3XKurkcI3DHXCgcX79yvkS83ZaA37iqJpA4C
-         KDea2/o8hQGM0PGNNPafiUtTbhNWi6DCUjkL8d/7qDUr80FhqUKabcI2fl9lQK7gQu4M
-         02O+3gWIonFsGFOLw244Xs+ECHNZsDJtJA1ZejtNyupqPwLJb7iaz5xgprNxEmyL672c
-         dJKA==
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oY1nkRMg5xIYxJkEJudISp1SsePMPZsPbFvRS2TeTYY=;
+        b=rbaWe+oRzVt/2SLnetpU2Uetj0VRu5i96tclNSePLjUiG/eeF6v2jHAVV+KonBcNDb
+         v27l30iursquX/OPnVQ8FueErDRIpLPGc8LDk5Y61NP+6j9YsBMGDjsZyj0GPrH8XVBt
+         IKckUdR/bYdLNTBpDUhxP3Hprta9kEe8Xs0qP7tYlxlDQfRle3Jx7ePaqkyWg6Ns4Hwr
+         GOP9VKetqUZ1xbptXVWOX13bFKj5ySVw3ieN+CjuzghA/sjQ01x+On3gKCTryVkx2mTB
+         tK8uX1jAzi/T5jUCnwW3W3GjVJ7NLJRDOffeYSjLzrW/EyAIUV6BASdvTs4Rn7y9I9uB
+         /82Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:to:from:cc
-         :in-reply-to:subject:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3HoOW7mnikI/W6qgH9CzqhnH7tqIVURB7YzkTuqqxeg=;
-        b=RAmJkk3TJNGwjsh3oQMQ/WzB9M6JzblUoQ3AThbTvS1axm8rlTFprKI7IZeIPt1e61
-         87H0TKK4EwtdUll354+5nIEEMpwGL2uMKxHJDgfMrwxRPPgN/lO5NzTp0h/8c9EJZJiF
-         mlwQFQHC0VgwGTUqXR2+/O+Mj/pEZJLg3/CqZtwlXiZFr5/6I/3vICDgnZvXWEYr2Pj8
-         plseLvFDWJw6tlzG5Ucbm87Vo7UGg7B7s70I6UHddsCBu8N4iJus40nf/ETTU7KILiCj
-         kJ/JE5KysPB4gYWMLyEqMCvTY+VPhVNot8M516D9EfnNRwneTc2unxBkh2P2ZDVFBB3g
-         /EKQ==
-X-Gm-Message-State: AO0yUKXOuvBPM0GVH+um4+4jU04RyZzydXBcsug/gxQXQ042Cdnw/638
-	5Txg8TkN9IWH7FmFxs9X6oOdOw==
-X-Google-Smtp-Source: AK7set+1aqVANLzDp5HMuErgCQtOQR3yuVXnnsXY/YD+E/CloFSoZS7gNIcwS34GPrlK9OomuYcunQ==
-X-Received: by 2002:a17:903:32c1:b0:19a:6b55:a453 with SMTP id i1-20020a17090332c100b0019a6b55a453mr1399170plr.9.1676431032105;
-        Tue, 14 Feb 2023 19:17:12 -0800 (PST)
-Received: from localhost ([135.180.226.51])
-        by smtp.gmail.com with ESMTPSA id s7-20020a170902988700b00198f2407ea1sm10792632plp.241.2023.02.14.19.17.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Feb 2023 19:17:11 -0800 (PST)
-Date: Tue, 14 Feb 2023 19:17:11 -0800 (PST)
-X-Google-Original-Date: Tue, 14 Feb 2023 19:17:04 PST (-0800)
-Subject:     Re: [PATCH v16 0/9] RISC-V IPI Improvements
-In-Reply-To: <86357k1ihd.wl-maz@kernel.org>
-CC: apatel@ventanamicro.com, Paul Walmsley <paul.walmsley@sifive.com>,
-  tglx@linutronix.de, daniel.lezcano@linaro.org, marcan@marcan.st, sven@svenpeter.dev,
-  alyssa@rosenzweig.io, atishp@atishpatra.org, Alistair Francis <Alistair.Francis@wdc.com>,
-  anup@brainfault.org, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-  asahi@lists.linux.dev
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: Marc Zyngier <maz@kernel.org>
-Message-ID: <mhng-a886c4b4-d748-420f-889b-76ada4f9a432@palmer-ri-x1c9>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oY1nkRMg5xIYxJkEJudISp1SsePMPZsPbFvRS2TeTYY=;
+        b=zc/gwkfZnLDu6Co9REnxdcReJzJy50KrUUux6izFPhd3XJkmqChOSZ27MMOtu6DyOU
+         n2LgoF08d5mGLQqTsvyZmvyFIvGj3zOj14uJNg3Q/CRnU05MIatfBm7UdkZzJIyyQxhS
+         plBgHii9VCYLF+znQoI6yUvYHL8XMDUzwkbCvnEq/hS4DKVv+Q853bYEX0ae1KUqhmxK
+         J9+VMBMv5C6iOacO2Zz1Yk1UsZVpcC97Emh1q53cRpb+zPC8D1MS8S5zKLSs+0uDO9/u
+         IuKqqObTOpo1fsYbWTftzjmgvXF2Ddo/UpQOC2cm75uqC8XslPRTzbK23gYvfi8vmykq
+         bowg==
+X-Gm-Message-State: AO0yUKULjGhUp65TEbPAPdl+Bb6Na1lv8CSkAADhHhRIJXHn50kTNKju
+	o+xJpH8I2kwP8gUrdnv9by/tUS5yn5g2i69lbBB4gQ==
+X-Google-Smtp-Source: AK7set/fL3py9MtVnDFb7krzubxSrlxFlH3/cnycfcvpNmIE0uFAsbEzQ91Z9mMtjkDuqLB9Qeto8GMaBNULqAVkmrs=
+X-Received: by 2002:a81:a008:0:b0:52a:9161:f533 with SMTP id
+ x8-20020a81a008000000b0052a9161f533mr238975ywg.64.1676451863017; Wed, 15 Feb
+ 2023 01:04:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+References: <20230214092838.17869-1-marcan@marcan.st>
+In-Reply-To: <20230214092838.17869-1-marcan@marcan.st>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 15 Feb 2023 10:04:11 +0100
+Message-ID: <CACRpkdaQ6L399pgPAiyOtXkAYhfaOdPWqvVjXacDt0+-Oa7N_Q@mail.gmail.com>
+Subject: Re: [PATCH] brcmfmac: pcie: Add BCM4378B3 support
+To: Hector Martin <marcan@marcan.st>
+Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
+	Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Arend van Spriel <arend.vanspriel@broadcom.com>, 
+	asahi@lists.linux.dev, linux-wireless@vger.kernel.org, 
+	brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 05 Feb 2023 03:04:14 PST (-0800), Marc Zyngier wrote:
-> On Tue, 03 Jan 2023 14:12:12 +0000,
-> Anup Patel <apatel@ventanamicro.com> wrote:
->>
->> This series aims to improve IPI support in Linux RISC-V in following ways:
->>  1) Treat IPIs as normal per-CPU interrupts instead of having custom RISC-V
->>     specific hooks. This also makes Linux RISC-V IPI support aligned with
->>     other architectures.
->>  2) Remote TLB flushes and icache flushes should prefer local IPIs instead
->>     of SBI calls whenever we have specialized hardware (such as RISC-V AIA
->>     IMSIC and RISC-V SWI) which allows S-mode software to directly inject
->>     IPIs without any assistance from M-mode runtime firmware.
->
-> [...]
->
-> I'm queuing patches 3 and 9 via the irqchip tree as they are
-> standalone.
->
-> For the rest, I need an Ack from the riscv maintainers as they change
-> a large amount of arch-specific code, and the couple of irqchip
-> patches depend on these changes.
->
-> Palmer, Paul?
+On Tue, Feb 14, 2023 at 10:29 AM Hector Martin <marcan@marcan.st> wrote:
 
-I haven't gotten time to give this a proper review, but I think we've 
-got enough of a mess with our interrupt handling that it doesn't really 
-matter so
-
-Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
-
-if you want to take it for this cycle that's fine with me, but I'm also 
-fine holding off so it can have a while to bake in linux-next -- there's 
-no real rush for any of this, as there's no hardware yet.
-
+> BCM4378B3 is a new silicon revision of BCM4378 present on the Apple M2
+> 13" MacBook Pro "kyushu". Its PCI revision number is 5.
 >
-> Thanks,
->
-> 	M.
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
