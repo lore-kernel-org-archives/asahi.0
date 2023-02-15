@@ -1,102 +1,121 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2051.outbound.protection.outlook.com [40.92.102.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3697B
-	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 18:22:45 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 1A9E63200918;
-	Wed, 15 Feb 2023 13:22:44 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 15 Feb 2023 13:22:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1676485363; x=
-	1676571763; bh=ZRLk0sIoJitWI4IcgROuMQOwv0KwZO5d0pce1OVSuJ0=; b=E
-	y4A4PJy0716osh+rJplzhQRipm9VeeGrS5BKOSUm5w/g/IxyRe4s5obJEuijPFoT
-	oCZI8k1d2SfRpJkOBJkQi5mnDGwsBPt2t2gumJ1ycx81LeHCVUdO+X4uhBDe+h5E
-	kPd7bYoHmco9W2jHdkHXzh1HtKTdU+jGs3KC2qR1tQwWb42vDQMdwGjbVey0xqPq
-	L1v/CwLyva3GXymdXaxmuJNhoaOt8IOCygKhp/w9de0+eeqwCLjGNHvI+xUGGBdX
-	AcJZQuB90bUdw8BQgnk/X25yS56MmyHE6dSmW8xt0MvRZ+kCGFCZm3IOE/d2fxuL
-	3AiNZyzJEwse8jeo57D9A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1676485363; x=
-	1676571763; bh=ZRLk0sIoJitWI4IcgROuMQOwv0KwZO5d0pce1OVSuJ0=; b=i
-	89zCemRZ9924zfrY/BEKnRwRYmpPGuxv2wWL8Fp9B4JZaxyzOt/WFgcoqZeDWB9P
-	DUfLQirYJ+URiRiaz8eShaUGUmejuRjMBOoad/cwWPNgP1avXzH0M51n6LdV8XKE
-	yGpGcTpzwaaVmfeNvJJ1RyI+1UDxFdmcerH9/lPBFdENw+QCzrMRYI2O4O5bZtKl
-	u9ZBnVwyBtWxhuJXO1wKWMfrF4FwxvctjUMbhDG+dyZkAKrddVuxHaGwDcBZbcYI
-	LhOaMMDOliAJ0lAzkjmGesLMtHpZMFTl3djFUq4olazSXhGtxdeXdamr/LVJaDAk
-	NcFPfc+ntGMg1GGoyrzMA==
-X-ME-Sender: <xms:8iLtYyGzaAIaBFaiNhwNLzF3Usi9jW9qqNAv6hfL4v_1jm4OOXWkOg>
-    <xme:8iLtYzUH5h8P9vcZRF2OdbiFH52yB5DIQCM5YSTB0v_u0B3d-U6U1VpAg9dYoZh-u
-    LygEU8EybKv-XoE7ik>
-X-ME-Received: <xmr:8iLtY8IHp9GyCyoXATZpiPFAB2UTWN1Ldyn3sSHN_hBrndEH1WYnrNwPL1AHW3lC3iVD_qPdyt1qet0WnS_nMjmCOC61WWD2AFBA_83L3VerETurxCqs1H4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeihedguddthecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurheptgfghfggufffkfhfvegjvffose
-    htqhhmtdhhtdejnecuhfhrohhmpefuvhgvnhcurfgvthgvrhcuoehsvhgvnhesshhvvghn
-    phgvthgvrhdruggvvheqnecuggftrfgrthhtvghrnhepvdfhtdduuddvueejueffgfduke
-    dvfeevgfeuieeivdeltdehgeeivefftdetkedunecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:8iLtY8EF0vzfCaCNJB49AvV6Kb_PBQA-fWKTokag73oSkXIslBsilg>
-    <xmx:8iLtY4Wdxz5nUump1OUwuGSTKIx0HrNtK7mWR0cUofNUjNpO0MIMvw>
-    <xmx:8iLtY_MrBiCO8J6Gitc1aQPBeuomNy8yrMginb5wTNADbYiwbyHr1w>
-    <xmx:8yLtYxOblFB1HnHIahFXzz2WSEjFw6KWM-ipajtn7ACUCO5jXtDrUg>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 15 Feb 2023 13:22:42 -0500 (EST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Sven Peter <sven@svenpeter.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2B810792
+	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 20:06:06 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ciOPc4pJUWSKdDcAF8ShrXTtsMyzYJozTXRRo0l+jPf/ud9DUKu9XaeV2UXiIu2ows+tKdauggzEIkLvtPIwlLsYRl1oXQ/J/du+SuA5Cpr9RCJGe79VNLtVU9cZQPG71djAjWJcNN+EGkx9nXVPTYUOC6FtnZXf9As1PmNurgMG0lcjkWtNcHliu/dvzxZ+azheRFoO2ERmFUR5N0QNw9M3IDOqBsQtie4/sUJAhET2nepBF9ljnV5Q8rVOvjIrCX5dHCPT8fKYHSs7uTRKw058z2UgcGbVgtljgFackmv4Yp8I1lBHmogiuH5L953a8TmTHKgo4wnVqbrtFFddVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rPUTIlAUwbjF92IOtkagBNuMhAmlSfKczBIjRMagmCQ=;
+ b=Oj0iAGkwP1rXDP/NOL4V/OB88jlIkPDtJUKVk3JpXHG9i+B3fPo25Uo0QEWyklnvJPVpqSEh5vAfrnNrh/y+p84gKHzJ7XCI+ajo3ddEPZ66ukDVnDj2JLMK9ZngRd+FSOjq4TN5wWOgjzCwTytCGecfP9W6bzWoeq6T7rj9wXStVjqA2s4ZeX7qu7/hJirUlDmDd5puz127Fjgf5P1wT8COJznyRdWeAe0h/BPjbYbffZkPLtn6CDIB66pjVium4AL/Xreu3805Gs2eYKl+DutzJ6CtlK/HjGCY+WLYYW30OOhwLjLfsFHoJf21hBIT52cAF+dJu0vYC+DaZB2r4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rPUTIlAUwbjF92IOtkagBNuMhAmlSfKczBIjRMagmCQ=;
+ b=gjNYiYqOj0QzARhTqHUbc6OMxdmUkWk+u3MPizZ+VxFNf6WUlEX7ns7jJPnk/A3cHk7YR903wBOmRAUFhTqX9RlrVHXo61IzlYVwdq0QgTlEMx2mZHinJ4xt9yYDgiJUGPUJbLl8BQN2trK7G0E5+7u6LETHZNTqLJTYQiTKsDtQxnmyRbo/KvER6eIfUcRj+g4Im1yAWpbLoEpjXzTPXQl2bQToj9lswyDCEvtQXsx+UVXHNDbXlsuOysjU7IkFf+enPODY8yLn3HgSPbpFQnt6gmLymTcA0d1V/XDEm0F+4Lf1DmNMbz1igBeoZXgADNxNBC9zG1VUpB0+htUIpw==
+Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2::9) by
+ PNXPR01MB7292.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:a3::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6111.12; Wed, 15 Feb 2023 20:05:57 +0000
+Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::f156:868f:a45b:aeee]) by BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::f156:868f:a45b:aeee%11]) with mapi id 15.20.6111.012; Wed, 15 Feb
+ 2023 20:05:57 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Kalle Valo <kvalo@kernel.org>
+CC: Hector Martin <marcan@marcan.st>, Arend van Spriel <aspriel@gmail.com>,
+	Franky Lin <franky.lin@broadcom.com>, Hante Meuleman
+	<hante.meuleman@broadcom.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Alexander Prutskov <alep@cypress.com>, Ian Lin
+	<ian.lin@infineon.com>, Joseph chuang <jiac@cypress.com>, Sven Peter
+	<sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Jonas Gorski
+	<jonas.gorski@gmail.com>, "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
+	"SHA-cyfmac-dev-list@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Arend van
+ Spriel <arend.vanspriel@broadcom.com>
+Subject: Re: [PATCH v4 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
+Thread-Topic: [PATCH v4 1/4] wifi: brcmfmac: Rename Cypress 89459 to BCM4355
+Thread-Index: AQHZPqywRfbBFz/y5ke3vwPVMwb+rK7NGWeAgANbEis=
+Date: Wed, 15 Feb 2023 20:05:56 +0000
+Message-ID:
+ <BM1PR01MB09318B4189950B6B549C93E6B8A39@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
+References: <20230212063813.27622-2-marcan@marcan.st>
+ <167630706967.12830.157103392387761972.kvalo@kernel.org>
+In-Reply-To: <167630706967.12830.157103392387761972.kvalo@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [bcTFr7cLEMh9TB+50phF9k0HQQo2ch82DIEswnZa0wGKK8niS/BBERjVGfVX0cwr]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|PNXPR01MB7292:EE_
+x-ms-office365-filtering-correlation-id: a4e0ba56-db06-4356-f734-08db0f900cf1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ D8p+2rHcSV+2+tVWkLVA/d2/0XtPlQ1UqO2zZBrdYNkhGuon6yLlf+sGPfBwD6Wvi4qd2718dOOwfZwOgSVWSPdM3n4EbXoL0sHKEAlMg0hT8YRonaj2Mn2quVEDsMv+L1nDFpPpe2ixnWFqTz7zTKQKc3MY6UQX1XcOyXDQMuJ+4NJemmPG/QdlYb/GgrUQEUEqG4qVAVu5x/dDzpW2T0s1hnYjuZgotvi5dcNH9k6vTpvQL4BVpyQsSU7ALcgwENrfCs1RsR7v2mW7wCKfebLju/vFzEiUWYrSJiP1f06HbG7LL98pmhQcO0okODKEZP6Q7Iqpva5bMUzi3Y6vIasnTYPn7YnlaABK7z+Z+Dy0B30Rmn0kpOyQHx7PPGwhTbzqD9170QzbU1Phfr+MUL3GUt/rxtqIgV14x5s8PbmBV2UhRe7MCiZqS4dL+tZ1TbA3rZXB3GNXKud5YfCTVIG5SpqZwIPPmEhznZm2Zp28V8zmNt75SmqLBQvzNtafLvB5p9iP7PK8RiMxj4gZVLikH2gEwDsxcQlXQOtIN2idZduK/qaIiV+6ZKZD1cmwigc/nFxbOVj3WymCwdl/nLR5yCoTP852k5+Lx7cnK5/w6HVko8UeXlAEXmghM0VdJstFFfXe3M6SScqSCpoDvA==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?MzFxRTBHNVpVbkNrWE02MGF1MzJjVWVYK0FVSDM3WFRmci9NVUZYVlBuZUcy?=
+ =?utf-8?B?NVQwN1NaWDkzdXAwZmlxSWhTMjZ2U0tuSm1jOHNDdzhaUFhmaHVhbkExSFhR?=
+ =?utf-8?B?ODhLWjMrNjFwMFFEUGV2a1htakc5SkI4Snhzc1g2MFhyTVB3TVlUOTYyM3VB?=
+ =?utf-8?B?OG5MUkI4WFMxWXRVa2JSVG55WlpLdzV5YnB2dzVMRnRRY0REM1IzMERrbW5P?=
+ =?utf-8?B?TmMwOFJrMUxUVmIzaHh0UWxGSEVXYThFWVdVM2wzcnVpVGFBQzFRKys3UWll?=
+ =?utf-8?B?YWJEMkZzVWtvWmV0M3VXR1RKVEdEc091eStoMzMwdjFqMVhpeEhsRWFxTHJ6?=
+ =?utf-8?B?UlZsemNES2lUY2pzSSt2OXNpOXVPanVrSm9nTlAzNnVQaVh1S3J1VTJRSlNQ?=
+ =?utf-8?B?dG1PMllNZXZpdFlIZThUcEtDako0L3Q3UVU2QVRXUkcwTWpRdlVMYy8wN0FQ?=
+ =?utf-8?B?TUVBTEJvMmJkK1lBRWpnT3ljdi9QcHIzTzMxd1A2dDJpVmRvMVdkbjlzcENs?=
+ =?utf-8?B?SWxuaXF6dTlaRFRyTjE2cjk1NU03OXdKZVMzaHNPemhjaHlQaUtYUy9kWWMz?=
+ =?utf-8?B?azNZNzdrMmF6YXRWTDRSVDdYVUJkQzdTdVRqTTdCWnhLZXgvZmtGcC9uc3I5?=
+ =?utf-8?B?cXZlcTI1am9Jd2U0SzJ3amtZUzBmKzFhMXlsV1BWd3FBM2t0UTRMM3FvOHAz?=
+ =?utf-8?B?MmVYK0ZZckpNakNBVGN1Vmg1eTlzdUdkS3VMN290cWtEUlV1NTFBSXBOUGJO?=
+ =?utf-8?B?eFFhY2FOQ1l4aXF4QlhJcjFlUHlKRHl0bCtuY2tqeTZLSm9BNjVtU1RSbytJ?=
+ =?utf-8?B?b0R5MG12NFJQNUxtUHhEenNsVmp0MUlDdHJ4akxITXR1Q2N5T0RJUmE4Nkgy?=
+ =?utf-8?B?eUdtWGc3OERVL29JeEpCWWlRVGM2VGFqVnhMbjBHVHRmcU4xTHdUL3Y2bHMx?=
+ =?utf-8?B?WHdiczkySlNVYzVTejcwNWxqY29iNzJCY243WjZJRGR6b2djVFNubGt1NHVW?=
+ =?utf-8?B?OGFjVEVSMk1QM0p2NmU1MGtxOExDMXdyOGF4OWZqOVdkS1YyTU52cnBlaC91?=
+ =?utf-8?B?NWhjT0VXeWk5dDh3ZExWR3FtRHFBUVFZa0Z4amx1U1E4bFdPVndUL1B2Umg0?=
+ =?utf-8?B?eEtXYzFXQ1hWVFZWZlVLb25MdCt3c29vVnUzenh6MEJ2SUZCYnlDRHpMKysy?=
+ =?utf-8?B?U1pKS2QyT3lJS2QzZUJVbTBLd2ErYW9oU3pobUVnYzIzcjB5ejRDVVBWSVBo?=
+ =?utf-8?B?Yk5jeWhEODZ5NVF3S2dqMkEwdlhHK2ZUUzJTV0h3RlFNWW5pU3ZhaU5heXhZ?=
+ =?utf-8?B?UkEyWjVSdWE1ZGVxaUhTTVF4Y3dvaEo5bm9PMFRHRmVTQm1QcSs3RTk3U3lW?=
+ =?utf-8?B?ZkxoTytaM2RYcm1pYWE1UCtzRzN1amV5dDI0WDFyNzhuNk5LWC9zUXJHRWk0?=
+ =?utf-8?B?bVhQMk53dWdyeGl2U1J6REprN3A0YkxhcGZGY00rZnFpVVNETnlNcy8zb0s4?=
+ =?utf-8?B?TGFyTXpLMG1kTUZQa1hidTJuL20vQ2JWOHVFZmlVaUZZWVVNV2RuZ3hWd25Z?=
+ =?utf-8?B?TUZNOUVpV05pdytIZFdXeWZWaW1RN2VjdGpmM1dMdHpHNGU2QXBNSWxYNUQ1?=
+ =?utf-8?B?eGdGQXd4RmJRaHAxak01NWNJRzU4dHlKdzRtV0VOWnJuVmQxaXhsckJJSUhS?=
+ =?utf-8?B?dWI2R05YT1dHdG5Gd1ZEQmNsN01pNUlONzBLNS9CaUZIYjl6Z0wrOTZjRlJF?=
+ =?utf-8?B?Y3NrS1hRS1JzWmgyZ3dqK3plYTIwVDgrMnVRR0hEMjZaTG1EVG4vUlZlUVFq?=
+ =?utf-8?B?K0NHcGpUQ3FsNEU1Q20zUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v7 3/5] arm64: dts: apple: t8103: Add PWM controller
-Date: Wed, 15 Feb 2023 19:22:30 +0100
-Message-Id: <C8BAB390-592D-4337-83A3-80C9CB2A7B2C@svenpeter.dev>
-References: <CAMT+MTQLOZUids4N8Eba5SYOShPGJWqMSaCyF=cmh2KvBE3CaA@mail.gmail.com>
-Cc: =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- thierry.reding@gmail.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st, alyssa@rosenzweig.io,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-In-Reply-To: <CAMT+MTQLOZUids4N8Eba5SYOShPGJWqMSaCyF=cmh2KvBE3CaA@mail.gmail.com>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: iPhone Mail (20D47)
+MIME-Version: 1.0
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4e0ba56-db06-4356-f734-08db0f900cf1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Feb 2023 20:05:56.9635
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNXPR01MB7292
 
-Hi,
-
-
->=20
-> On 15. Feb 2023, at 19:19, Sasha Finkelstein <fnkl.kernel@gmail.com> wrote=
-:
->=20
-> =EF=BB=BFOn Wed, 15 Feb 2023 at 19:04, Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@pengutronix.de> wrote:
->> I'm not the one who will apply this patch, so I cannot say. Having said
->> that, I wonder who will apply. Will this go via the arm tree, or via
->> pwm?
->=20
-> That is a good question: The pwm driver should probably go via the
-> pwm tree, but the device tree changes would be better via asahi-soc.
-> That leaves the bindings as the, "no idea which one".
-> I wouldn't mind hearing from marcan or Krzysztof as to what their
-> thoughts are on how to send it properly.
-
-The usual process is to take the dt-binding changes and the driver through t=
-he subsystem tree (I guess pwm in this case) and the changes to the device t=
-rees themselves through our asahi-soc and then through Arnd=E2=80=99s soc tr=
-ee.
-
-Sven
-
-
+SGkgYWxsDQo+IA0KPiA0IHBhdGNoZXMgYXBwbGllZCB0byB3aXJlbGVzcy1uZXh0LmdpdCwgdGhh
+bmtzLg0KPiANCj4gNTRmMDFmNTZjZjYzIHdpZmk6IGJyY21mbWFjOiBSZW5hbWUgQ3lwcmVzcyA4
+OTQ1OSB0byBCQ000MzU1DQoNClNob3VsZG7igJl0IHRoaXMgcGF0aCBiZSBiYWNrcG9ydGVkIHRv
+IHN0YWJsZSBzbyBhcyB0byBwcmV2ZW50IGRpZmZlcmVudCBmaXJtd2FyZSBuYW1lcyBpbiBkaWZm
+ZXJlbnQga2VybmVscz8=
