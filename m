@@ -1,84 +1,127 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 759943C1E
-	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 10:13:14 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-52eb7a5275aso246107227b3.2
-        for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 02:13:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TChxARwnI0lpB/SBhETxB4OwsG83QsJzGDQ5SFDuIHI=;
-        b=YnA5Um2G6jRmV2vPq6yTc+f3qCg8bJxLYu0M00iWtnL85aZ5NMUQcFoyvhlq5xVscT
-         g/FxUgYK3nZrVcqBMq01M0/gGCKbOcbXgv+qqiMKM/kmW6c5tLNSuRBtBO9NPrV4Dfkv
-         qtu2/GRfCCRqXIATR7QzjRsD0Udxh40USkDw1qXVoGrxYLj6rdex8MJ2vBOB1nVQJjFh
-         4RrFqcGYGrg5mGbLsRrkcsByOUuuDgqUE/L4bvrtcAY4mgNI66TjQXZSEcYGZW/EnCTb
-         Y9BPKr7dM7+ATFt1rVGWp9ZKCZMoQE2mKcGNRyRAMI+koTTOIYDIWr6kGg2PWrFmXKrs
-         cU/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TChxARwnI0lpB/SBhETxB4OwsG83QsJzGDQ5SFDuIHI=;
-        b=otDyIH7BagkBVHz0yI8Aa5MBv6qFGnpW0shzvVdOYJkBK0Ecahom2NR44EjuedRdQk
-         xH4ulwXETRXj6T23LuY3IwVQ6TG9QO5E0ASEXD6o/MRxqkcL3A8RL0eSqsuQNTKIQaXJ
-         s4VUd1xuMEy902+/TpEq/mf5z5Xj0ycY4iNowcwriOsHa+Zz1iSRnJNQX2REUvcOUHF/
-         oStNED12+J0D/c3YHdBs5f+A+3LHJA0U/w4j1InvJO/yfMa5R+GYMfa+5Maf76ezXRnt
-         tPZIZGeZYUw7pk8OqcYAe1FKKVIIHsVusJ+8ucF2jzhqWv5n5xvqi+s1F1Elv3FNeUuC
-         dzRg==
-X-Gm-Message-State: AO0yUKV6VER91NNCerpiUiLD47PPqtU/w564PUvY0tmREon1NDXA/1Ga
-	NRzhpRRcf+ZlFfJ93D0LS9SpcV6e9IK7LIlgbIn8Aw==
-X-Google-Smtp-Source: AK7set/ERxZzW3KNVrEUjAzdskHBB0Sb13W2voFJQCEl0GcMl9AuDWEND5R+eHJNT6p08hYHRxzc2W9S3PJRV7hbj7k=
-X-Received: by 2002:a81:a103:0:b0:52e:b3df:cae4 with SMTP id
- y3-20020a81a103000000b0052eb3dfcae4mr144282ywg.128.1676455993332; Wed, 15 Feb
- 2023 02:13:13 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E4B7C
+	for <asahi@lists.linux.dev>; Wed, 15 Feb 2023 11:17:01 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pSFmQ-0008OF-9D; Wed, 15 Feb 2023 12:16:54 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pSFmO-0055zx-Bq; Wed, 15 Feb 2023 12:16:53 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1pSFmO-003jc6-LK; Wed, 15 Feb 2023 12:16:52 +0100
+Date: Wed, 15 Feb 2023 12:16:52 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: thierry.reding@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st,
+	sven@svenpeter.dev, alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 3/5] arm64: dts: apple: t8103: Add PWM controller
+Message-ID: <20230215111652.lyhebfntqlibtmex@pengutronix.de>
+References: <20230114132508.96600-1-fnkl.kernel@gmail.com>
+ <20230114132508.96600-4-fnkl.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230214080034.3828-1-marcan@marcan.st> <20230214080034.3828-2-marcan@marcan.st>
-In-Reply-To: <20230214080034.3828-2-marcan@marcan.st>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 15 Feb 2023 11:13:01 +0100
-Message-ID: <CACRpkdaeuUuKow2AZPi66gFpDVBB0kqvFJAJNmWB7Mn5gtDG7g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] brcmfmac: acpi: Add support for fetching Apple ACPI properties
-To: Hector Martin <marcan@marcan.st>
-Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
-	Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
-	SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6p3sxojse4xv3o5l"
+Content-Disposition: inline
+In-Reply-To: <20230114132508.96600-4-fnkl.kernel@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
-On Tue, Feb 14, 2023 at 9:01 AM Hector Martin <marcan@marcan.st> wrote:
 
-> On DT platforms, the module-instance and antenna-sku-info properties
-> are passed in the DT. On ACPI platforms, module-instance is passed via
-> the analogous Apple device property mechanism, while the antenna SKU
-> info is instead obtained via an ACPI method that grabs it from
-> non-volatile storage.
->
-> Add support for this, to allow proper firmware selection on Apple
-> platforms.
->
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+--6p3sxojse4xv3o5l
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It looks like a horrible Apple-ism but I don't know much about ACPI.
+On Sat, Jan 14, 2023 at 04:25:06PM +0300, Sasha Finkelstein wrote:
+> Adds PWM controller and keyboard backlight bindings for M1 MacBooks
+>=20
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> Acked-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>  arch/arm64/boot/dts/apple/t8103-j293.dts | 17 +++++++++++++++++
+>  arch/arm64/boot/dts/apple/t8103-j313.dts | 17 +++++++++++++++++
+>  arch/arm64/boot/dts/apple/t8103.dtsi     |  9 +++++++++
+>  3 files changed, 43 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/d=
+ts/apple/t8103-j293.dts
+> index 151074109a11..7381dccc1613 100644
+> --- a/arch/arm64/boot/dts/apple/t8103-j293.dts
+> +++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
+> @@ -11,10 +11,23 @@
+> =20
+>  #include "t8103.dtsi"
+>  #include "t8103-jxxx.dtsi"
+> +#include <dt-bindings/leds/common.h>
+> =20
+>  / {
+>  	compatible =3D "apple,j293", "apple,t8103", "apple,arm-platform";
+>  	model =3D "Apple MacBook Pro (13-inch, M1, 2020)";
+> +
+> +	led-controller {
+> +		compatible =3D "pwm-leds";
+> +		led-0 {
+> +			pwms =3D <&fpwm1 0 40000>;
+> +			label =3D "kbd_backlight";
+> +			function =3D LED_FUNCTION_KBD_BACKLIGHT;
+> +			color =3D <LED_COLOR_ID_WHITE>;
+> +			max-brightness =3D <255>;
+> +			default-state =3D "keep";
+> +		};
+> +	};
+>  };
+> =20
+>  &bluetooth0 {
+> @@ -47,3 +60,7 @@ &i2c2 {
+>  &i2c4 {
+>  	status =3D "okay";
+>  };
+> +
+> +&fpwm1 {
+> +	status =3D "okay";
+> +};
+> \ No newline at end of file
 
-The ACPI people are working on device properties to abstract away
-all device properties no matter if they come from ACPI, device tree or,
-ehm Apple-ACPI, but for now I think it is more important to get
-this hardware working upstream and we can think about refactoring
-this into device properties for the longer term.
+This missing newline looks wrong.
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Otherwise the patch looks fine to me.
 
-Yours,
-Linus Walleij
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--6p3sxojse4xv3o5l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmPsvyEACgkQwfwUeK3K
+7AkOlwf/U3bq2lMyN/O90iDAvjsqHfCLHm3TVOgn4ERdvjgeJ2DxZT1OoblzvJSL
+u+asOEpsEjWrC0+vObmNUdRrZhMzlsLNd64rQyaKVVa6coBE9Ku2LUymxZdEj54N
+HJjfEvXWtKwWEWVOxyVFx3IlcI5tlMVQ+mR+cdP0rg7G7wnBNbv968QY9q3Y6o4w
+PWI+KqYQkgcROrKlkn3Bh9q0WfeKVALU+gOauRW4A9l25zPNed86MqeUUQVNcbDW
+PAmMOnmrpMpzbPJZUXgaGUGsbf/copkFDvg8F53gIBx/r3D5gfYKT4b6CMHRQiPR
+VDTyV6oFsFGcIPBMZeejjj+juTXEjg==
+=Wc+G
+-----END PGP SIGNATURE-----
+
+--6p3sxojse4xv3o5l--
