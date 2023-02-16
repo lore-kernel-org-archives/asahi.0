@@ -1,80 +1,66 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B14325663
-	for <asahi@lists.linux.dev>; Thu, 16 Feb 2023 14:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A3455663
+	for <asahi@lists.linux.dev>; Thu, 16 Feb 2023 14:12:45 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 96DF11042;
-	Thu, 16 Feb 2023 06:03:34 -0800 (PST)
-Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.28.151])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CF3213F703;
-	Thu, 16 Feb 2023 06:02:50 -0800 (PST)
-Date: Thu, 16 Feb 2023 14:02:42 +0000
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 249FB1042;
+	Thu, 16 Feb 2023 06:13:28 -0800 (PST)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0A7143F703;
+	Thu, 16 Feb 2023 06:12:43 -0800 (PST)
 From: Mark Rutland <mark.rutland@arm.com>
-To: Janne Grunau <j@jannau.net>
-Cc: Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
-	Ravi Bangoria <ravi.bangoria@amd.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH] arm_pmu: Invert fallback armpmu_filter() return value
-Message-ID: <Y+43ghGB21FUm2ER@FVFF77S0Q05N.cambridge.arm.com>
-References: <20230215-arm_pmu_m1_regression-v1-1-f5a266577c8d@jannau.net>
+To: linux-arm-kernel@lists.infradead.org
+Cc: asahi@lists.linux.dev,
+	ecurtin@redhat.com,
+	j@jannau.net,
+	lina@asahilina.net,
+	linux-kernel@vger.kernel.org,
+	mark.rutland@arm.com,
+	peterz@infradead.org,
+	ravi.bangoria@amd.com,
+	will@kernel.org
+Subject: [PATCH 0/2] arm_pmu: fix fallout from context handling rewrite
+Date: Thu, 16 Feb 2023 14:12:37 +0000
+Message-Id: <20230216141240.3833272-1-mark.rutland@arm.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230215-arm_pmu_m1_regression-v1-1-f5a266577c8d@jannau.net>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Janne reports [1] that perf has been broken on Apple M1 as of commit:
 
-On Wed, Feb 15, 2023 at 12:27:13PM +0100, Janne Grunau wrote:
-> Fixes a regression in "perf: Rewrite core context handling" for arm_pmu
-> based drivers without a filter function pointer as the Apple M1 PMU.
-> The event is ignored if filter() returns 'true' opposite to
-> filter_match(). The refactoring failed to invert the return value if
-> arm_pmu has no filter() function pointer of its own.
-> 
-> Fixes: bd2756811766 ("perf: Rewrite core context handling")
-> Signed-off-by: Janne Grunau <j@jannau.net>
+  bd27568117664b8b ("perf: Rewrite core context handling")
 
-Thanks for the report and the patch, and apologies for this happening in the
-first place; this has clearly slipped by our testing...
+This is due to changes to pmu::filter_match() and
+arm_pmu::filter_match(), which have been renamed and had their polarity
+inverted, but the conversion was inconsistent, and so in some cases we
+return the opposite result relative to what we had intended. This
+results in consistently losing events on Apple M1.
 
-I think this fix is correct, but I spot that bd2756811766 also broken CHAIN
-event filtering, and made armv8pmu_filter() trivial, so we can get rid of
-arm_pmu::filter() entirely and make this simpler and clearer.
+That commit also (silently) removed the filtering of CHAIN events, which
+is undesireable.
 
-I'm going to send a couple of patches to addres both those issues in a moment,
-with everyone here on Cc.
+These patches fix and simplify the CPU filtering, and replace the CHAIN
+event filtering with early rejection of CHAIN events, which is much
+simpler.
 
 Thanks,
-Mark.
+Mark
 
-> ---
->  drivers/perf/arm_pmu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
-> index 9b593f985805..9cb22f36cf66 100644
-> --- a/drivers/perf/arm_pmu.c
-> +++ b/drivers/perf/arm_pmu.c
-> @@ -556,7 +556,7 @@ static bool armpmu_filter(struct pmu *pmu, int cpu)
->  	if (ret && armpmu->filter)
->  		return armpmu->filter(pmu, cpu);
->  
-> -	return ret;
-> +	return !ret;
->  }
->  
->  static ssize_t cpus_show(struct device *dev,
-> 
-> ---
-> base-commit: ceaa837f96adb69c0df0397937cd74991d5d821a
-> change-id: 20230215-arm_pmu_m1_regression-b6dd48d0c792
-> 
-> Best regards,
-> -- 
-> Janne Grunau <j@jannau.net>
-> 
+[1] https://lore.kernel.org/asahi/20230215-arm_pmu_m1_regression-v1-1-f5a266577c8d@jannau.net/
+
+Mark Rutland (2):
+  arm_pmu: fix event CPU filtering
+  arm64: perf: reject CHAIN events at creation time
+
+ arch/arm64/kernel/perf_event.c | 15 ++++++++-------
+ drivers/perf/arm_pmu.c         |  8 +-------
+ include/linux/perf/arm_pmu.h   |  1 -
+ 3 files changed, 9 insertions(+), 15 deletions(-)
+
+-- 
+2.30.2
+
