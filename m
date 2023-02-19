@@ -1,54 +1,55 @@
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5031367
-	for <asahi@lists.linux.dev>; Sun, 19 Feb 2023 12:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF861367
+	for <asahi@lists.linux.dev>; Sun, 19 Feb 2023 12:42:17 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id BC6DF32000EB;
-	Sun, 19 Feb 2023 07:39:22 -0500 (EST)
+	by mailout.west.internal (Postfix) with ESMTP id 250B03200437;
+	Sun, 19 Feb 2023 07:42:16 -0500 (EST)
 Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Sun, 19 Feb 2023 07:39:23 -0500
+  by compute5.internal (MEProxy); Sun, 19 Feb 2023 07:42:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
 	 h=cc:cc:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1676810362; x=1676896762; bh=k8
-	3A+g7S3ByBVaUJPvDn2um16R3lzsxqFfSEQC5A0ls=; b=oDNhtv0DuSXXtQpIKc
-	aQlBh+GfGOy8X3rS+YYGpM1PX0Hzt4LDfXmpGGxAYFj7BLQkDKv9KbOlZBjlxfaC
-	myRo6/nSwB7dh2Y+vfb3o8PgSSMnslP0KA9ei6aEnKhDipeOq4BYsaVTF+b6ki6f
-	TzZUrWVkvmWMxn9nhAivHiGv98z3WIlZcYFogFN68gWwu5KlsIqk5gTzftaU8V2r
-	QdUC2Fk9f8v1RVmVA07v3SG0S2XKLdvwQI/nlAxGAY67ova5aNyzCaGbAees4fv1
-	hD+jCwlykJXBpW4AOkz7JHCNpsjneSBMlbepZrFABlicKMoZRFgI7kaZ0H6kd0Ic
-	nNcQ==
+	:subject:subject:to:to; s=fm1; t=1676810535; x=1676896935; bh=aY
+	EIOi/mXoLvIOxTB00nEm2fcG/4l2r6BthM9ewwQds=; b=odHxo0HhAyJqFM8g5T
+	nbckLglSwAhTv8dHA1jRF3esdy7gqCQSscWoiO1nVSpUWdlcKMNXogBEP7+sx9cu
+	YS23DC11sy9xj8i70JftzLxYYoj+KIhUCAzIltvm/eaFHhJqWO3LkII+SGgus9Z+
+	4aJwukQCN2VnMPcMTwnRQANho1naAEqlgn1jgDFv29xqsECyrOs45r7Sr4zI8RHD
+	oiGMa8vmmM0QSU8FxMQThNTeZY/V833YTqNXYDsQ7/T4C8ih7XdSOgRicM52z41w
+	qKjNDxu2OmTXuYuI3JdyE9hhY+uGXbSgbkCZP+hVOOFKF9gX+dwYA6hzrHMsdAFs
+	/kgg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1676810362; x=1676896762; bh=k83A+g7S3ByBVaUJPvDn2um16R3l
-	zsxqFfSEQC5A0ls=; b=XnlDmCRzSEgzBbxfME0H9Ry2dnYZzJ5OQA1p1VIi0TAE
-	sZp/Ynij3iqEWylE8StrhX6KCGgtjA2xISN9t2BET9KNcYM4yVlVAsBetqb/qJRB
-	IYa6WyWVvI9AW1sd7syCMqXQKQRSRemZ7AfQImii4kMXaVV6fxLZRxrd0eiB4Lyj
-	l6AjekA2jlr5mVBumSkBj5y+4tPg8llhTdSLsvoXwUUV6jY0QoJc2e5YqNaDmO3C
-	ugKc1JmVc1vIZMWvzemavp4HWSf3vUoohuk4RK2KzaRjVSeoORMmfbMsaooCtvDj
-	MxuIwr1qanzLPtts+IgX+iB3b0P5PCIoRBRc1J8oew==
-X-ME-Sender: <xms:eRjyYxtRmrPRpXv2IOcrMkHTxIk7bum9qoPtiN6TyzYsi53oqt6qug>
-    <xme:eRjyY6fmbJRJM9KuqYWBP4RzyHbRFMpjJA4-IIUZZ_0UTDnxCvOpgF0x9PhHxiq40
-    cPQgWMxfsSbrCTRZhw>
+	fm1; t=1676810535; x=1676896935; bh=aYEIOi/mXoLvIOxTB00nEm2fcG/4
+	l2r6BthM9ewwQds=; b=V8hCZZ7JLOQDrsHzKpNQHwcI4jgeTmxr82bE8zBXiGqM
+	VW2KoYVj9gcU1NsDsUuJ0qdCURsZCB2EPkI+Auxdwkw/MuKDXk/9d7dAXE0ptyW9
+	3jVXtGIF6aP0cOzWfupFKEbv7tSv4DfVVC4iEtVaV7GiUEzio5yMGmjtpypMWy+p
+	obtZ0bM4S8Ne/4rqPy+jOkTPBvBG4JBUjXGnNEvaAVF0nhvpwwNQqqD2L5mvxSap
+	xxNOEJtxAqYOYWu+wSJDn7t6GyKc1Ng15Zz+EBDtoWtmAmbC0Bj76jgkzljmIo1g
+	t2xqXMn/JugPmP4kLeuKj+VMYI1+uMOJfBhbflR5Kw==
+X-ME-Sender: <xms:JxnyYwcCViEZqVSgJvOtuje1Jg8Y1c8uSCbnBmOZ74etkZP7BMbu_Q>
+    <xme:JxnyYyND269spxTFRhzCeQ3AcfCELKKwX7yiyATFLhKzGio1h4R11bylSvl32_r6T
+    jyO4kHTcUlL9FPU2X0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejfedggeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
     vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
-    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
-    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:eRjyY0yX7HTYdp9fBhazdF28JzrOj0IkDoPMblzZaqicXdismFON9Q>
-    <xmx:eRjyY4Mfnv-kasoqKCYIMHmJ6vRqsj1Y2S0_2CTrJA2K_WDiIJTdzQ>
-    <xmx:eRjyYx_hqsmnGFnMW47HsasywQBOCMRVFF2V3Y0KmFfuFZ_9jjwj5A>
-    <xmx:ehjyYxwzelqr5DfRfmZX9pthVMqRZEEYvBBAj8xaDTrqwOwnmRNzzg>
+    grthhtvghrnhepkeelkeduledvvdfhfefhlefgffefgfdvheejgeejhfehjeejgffffeei
+    jedtteejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdr
+    uggvvh
+X-ME-Proxy: <xmx:JxnyYxhgURRVG5sejjh-39kh-292WewvlkQZ1bj13bMhecBqkvI7JQ>
+    <xmx:JxnyY1_m_m0gAdD7yx67UxkE__YeN444IQk0kKkK38FAtiRwhUGCNQ>
+    <xmx:JxnyY8s0WdZ26MUw9sIwvAM2kn7gvEaTLD6LfCy_CywkkDFQ8go6sw>
+    <xmx:JxnyYx_cd9shU-LLDCBghE77xxeFQmysge9QJ4UaCp1hTKHan0uCBg>
 Feedback-ID: i51094778:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 38341A6007C; Sun, 19 Feb 2023 07:39:21 -0500 (EST)
+	id 867CBA6007C; Sun, 19 Feb 2023 07:42:15 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
 Precedence: bulk
@@ -57,66 +58,46 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-Message-Id: <0f49c43d-c6e0-47a9-871b-6fbe4daaa37e@app.fastmail.com>
-In-Reply-To: <20230217141059.392471-12-nick.alcock@oracle.com>
-References: <20230217141059.392471-1-nick.alcock@oracle.com>
- <20230217141059.392471-12-nick.alcock@oracle.com>
-Date: Sun, 19 Feb 2023 13:38:54 +0100
+Message-Id: <782bc40e-842e-448c-89bf-73b3d8666344@app.fastmail.com>
+In-Reply-To: 
+ <20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net>
+References: 
+ <20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net>
+Date: Sun, 19 Feb 2023 13:41:55 +0100
 From: "Sven Peter" <sven@svenpeter.dev>
-To: "Nick Alcock" <nick.alcock@oracle.com>, mcgrof@kernel.org
-Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Hitomi Hasegawa" <hasegawa-hitomi@fujitsu.com>,
- "Hector Martin" <marcan@marcan.st>, "Philipp Zabel" <p.zabel@pengutronix.de>,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 11/24] kbuild, soc: apple: apple-pmgr-pwrstate: remove
- MODULE_LICENSE in non-modules
+To: "Janne Grunau" <j@jannau.net>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Mark Kettenis" <kettenis@openbsd.org>
+Subject: Re: [PATCH 0/2] arch: arm64: dts: apple: Disable unused PCIe ports
 Content-Type: text/plain
 
-On Fri, Feb 17, 2023, at 15:10, Nick Alcock wrote:
-> Since commit 8b41fc4454e ("kbuild: create modules.builtin without
-> Makefile.modbuiltin or tristate.conf"), MODULE_LICENSE declarations
-> are used to identify modules. As a consequence, uses of the macro
-> in non-modules will cause modprobe to misidentify their containing
-> object file as a module when it is not (false positives), and modprobe
-> might succeed rather than failing with a suitable error message.
+On Tue, Feb 14, 2023, at 15:07, Janne Grunau wrote:
+> The t8103 and t600x device trees deleted unused PCIe ports. This was
+> probably done to replicate Apple's device tree which doesn't has nodes
+> for most unused hardware.
+> A more accurate description of the hardware is to disable unused
+> hardware.
 >
-> So remove it in the files in this commit, none of which can be built as
-> modules.
+> This was discovered during the review of the t8112 device trees in
+> https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
 >
-> Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
-> Suggested-by: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: linux-modules@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Hitomi Hasegawa <hasegawa-hitomi@fujitsu.com>
-> Cc: Hector Martin <marcan@marcan.st>
-> Cc: Sven Peter <sven@svenpeter.dev>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: asahi@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
+> Janne Grunau (2):
+>       arm64: dts: apple: t8103: Disable unused PCIe ports
+>       arm64: dts: apple: t600x: Disable unused PCIe ports
 
-Acked-by: Sven Peter <sven@svenpeter.dev>
+For the entire series:
+
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
+
+
+Thanks,
 
 
 Sven
-
-
->  drivers/soc/apple/apple-pmgr-pwrstate.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/soc/apple/apple-pmgr-pwrstate.c 
-> b/drivers/soc/apple/apple-pmgr-pwrstate.c
-> index e1122288409a..2c15474c7b53 100644
-> --- a/drivers/soc/apple/apple-pmgr-pwrstate.c
-> +++ b/drivers/soc/apple/apple-pmgr-pwrstate.c
-> @@ -319,6 +319,5 @@ static struct platform_driver apple_pmgr_ps_driver 
-> = {
-> 
->  MODULE_AUTHOR("Hector Martin <marcan@marcan.st>");
->  MODULE_DESCRIPTION("PMGR power state driver for Apple SoCs");
-> -MODULE_LICENSE("GPL v2");
-> 
->  module_platform_driver(apple_pmgr_ps_driver);
-> -- 
-> 2.39.1.268.g9de2f9a303
