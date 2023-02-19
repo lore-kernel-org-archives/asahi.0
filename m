@@ -1,44 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82380378
-	for <asahi@lists.linux.dev>; Sat, 18 Feb 2023 02:06:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B5E7C433D2;
-	Sat, 18 Feb 2023 02:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1676685977;
-	bh=5xIQ2dHhiBWicvk4sy4hb4AODy+qsSgLqKodHuCFD+M=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=XczH8us6N2O/a4kQ00+R5STZqwpXbgzsZFhXpjsCkPnMhG7BTsRmR9SRi3eGz6X0m
-	 sGzmltNIuo3un6GgNTsFrr5YhS0MQvwN6losC8vL4bAWIVgtIMbajdmIXklxKjECn6
-	 7lFDBs+AUqY3f1vclm7nyZzAXyqANI99vvwClkYekhlwqOmDAMqpPSdTM06H1sIgXi
-	 JxrxxAJxt4bRtC+uIgRTJEGQTFOxrgNxi2TQ6Tq6oglaMminiz/xWnVhTeX3Ct4LVH
-	 6okSBjAkcbHsK0XCdzSnOJVJC+BuHCR9XO7v9Utf/tsdMGXFU5VtQuhfZnPTn0/izv
-	 YKF1C0jQx/Peg==
-Message-ID: <734ae9592bfaef54223f74d17fb9dfd8.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA1CA4F
+	for <asahi@lists.linux.dev>; Sun, 19 Feb 2023 12:36:46 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 2127832000D9;
+	Sun, 19 Feb 2023 07:36:45 -0500 (EST)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Sun, 19 Feb 2023 07:36:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1676810204; x=1676896604; bh=dQ
+	HYQiUC3rK1Tk9ToEOCzWhq7C7C8mrinV1UbDHRWOw=; b=Gh0F6m1mWS9gqpKYhh
+	NfTUbMzOWFxbOnzAPvbQ/f9n6SdJoBBTrl01zCgjWjFwgXB+oTl4N7rZlFl1pl04
+	0Wo+S5HXycooUsxpTYezHx8HpR14pgkhFwU+NNmnxA6N7lNHYGzmYiSwprUt4EjE
+	I/3ERhY4IA9qxatauf9QYcYvpapiNTeZXknuHemeuZOLwI4hTFivg4BFtJGtntW7
+	VAN8H3iKMbT3hNdFF7y0LMbqucFac6lyBGwFOvhPoxUc3+p8MegLPpCjDYY0HbZ6
+	WPT7IKq6JFzRHr9ugi5ysxHCsktMLmhgNYPkARajtdSEwzP7O5AsBvB4MUtNldIM
+	edZg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1676810204; x=1676896604; bh=dQHYQiUC3rK1Tk9ToEOCzWhq7C7C
+	8mrinV1UbDHRWOw=; b=mRv6O+2uKIzV80nzsJPaB37VvG1QqK7ORuJnpaOQwxWa
+	11hg+VQwZNFpeIbnOwvIRqPyKt3GW5ryDpAzckNteLPAiDUrTKaKP91KFY+mz+NL
+	ypwy30sKWMHfCcGNa5tPSuUfNb4/tMFLvENsZH6w2BrSOYJstdRtxomFdi/90nUQ
+	CDq8kJk/ap4c4xeZdfPeMBV2VThxappTORQGyyHcSrggfubPtl+3h/ZoWIf+0O9R
+	qCNH2HlLvIc94HY1TrpMSGLllQ1RehuDyPMw22iVWVDZfoTsPSbTHrUZj9rArXF2
+	Txk72C9eAXBQLb6oMsAG98Vsvsy/ZQmOa5FVbXHdoA==
+X-ME-Sender: <xms:2xfyY0pMRhC4_H_-QMWjlLo4pb1w6xOzzTVFq-fQsQFmNTRLnRi4FQ>
+    <xme:2xfyY6oTp965_ELY1dfyDoMGDLIiAlgt4U32ZlY2-xzMd3_ia2_RqxYO0BCw41ckw
+    WyWfuG3U5jCA3l-oGg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejfedggedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
+    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:2xfyY5Nz5mxom1BuTUVqsKI_iGto7wd0hJ7dJfT8MQApJemAQdBNkA>
+    <xmx:2xfyY76zXLS8U5BLYxRZVnmwswhygHQYfti2VTafcTSTevbz5Q683g>
+    <xmx:2xfyYz4AYchonIPduP1e5DlLFXi0UMBKG7MJ4mrKlXJ2f6gsFJOF2A>
+    <xmx:3BfyY2bcBHJpAurSz2i4ujzwWVqcvBn92OQBJITGI6iB-Uw3bWDZCw>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 01900A6007C; Sun, 19 Feb 2023 07:36:42 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230202-asahi-t8112-dt-v1-13-cb5442d1c229@jannau.net>
-References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net> <20230202-asahi-t8112-dt-v1-13-cb5442d1c229@jannau.net>
-Subject: Re: [PATCH 13/17] dt-bindings: clock: apple,nco: Add t8112-nco compatible
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Sven Peter <sven@svenpeter.dev>, =?utf-8?q?=EF=BF=BDer?= <povik+lin@cutebit.org>
-Date: Fri, 17 Feb 2023 18:06:14 -0800
-User-Agent: alot/0.10
+Mime-Version: 1.0
+Message-Id: <8303bbae-2f98-49fb-8fd6-550ecb272bae@app.fastmail.com>
+In-Reply-To: <20230202-asahi-t8112-dt-v2-16-22926a283d92@jannau.net>
+References: <20230202-asahi-t8112-dt-v2-0-22926a283d92@jannau.net>
+ <20230202-asahi-t8112-dt-v2-16-22926a283d92@jannau.net>
+Date: Sun, 19 Feb 2023 13:36:22 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Janne Grunau" <j@jannau.net>, "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ "Mark Kettenis" <kettenis@openbsd.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 16/16] arm64: dts: apple: t8112: Initial t8112 (M2) device trees
+Content-Type: text/plain
 
-Quoting Janne Grunau (2023-02-12 07:41:23)
-> The block found on Apple's M2 SoC is compatible with the existing driver
-> so add its per-SoC compatible.
->=20
+Hi,
+
+
+On Tue, Feb 14, 2023, at 12:03, Janne Grunau wrote:
+> From: Hector Martin <marcan@marcan.st>
+>
+> This adds device trees for the following devices:
+>  - Macbook Air (M2, 2022)
+>  - Macbook Pro 13" (M2, 2022)
+>  - Mac mini (M2, 2023)
+>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Co-developed-by: Janne Grunau <j@jannau.net>
 > Signed-off-by: Janne Grunau <j@jannau.net>
->=20
 > ---
+>  arch/arm64/boot/dts/apple/Makefile        |    3 +
+>  arch/arm64/boot/dts/apple/t8112-j413.dts  |   63 ++
+>  arch/arm64/boot/dts/apple/t8112-j473.dts  |   54 ++
+>  arch/arm64/boot/dts/apple/t8112-j493.dts  |   52 ++
+>  arch/arm64/boot/dts/apple/t8112-jxxx.dtsi |   81 ++
+>  arch/arm64/boot/dts/apple/t8112-pmgr.dtsi | 1141 +++++++++++++++++++++++++++++
+>  arch/arm64/boot/dts/apple/t8112.dtsi      |  912 +++++++++++++++++++++++
+>  7 files changed, 2306 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/apple/Makefile 
+> b/arch/arm64/boot/dts/apple/Makefile
+> index 5a7506ff5ea3..aec5e29cdfb7 100644
+> --- a/arch/arm64/boot/dts/apple/Makefile
+> +++ b/arch/arm64/boot/dts/apple/Makefile
+> @@ -10,3 +10,6 @@ dtb-$(CONFIG_ARCH_APPLE) += t6000-j316s.dtb
+>  dtb-$(CONFIG_ARCH_APPLE) += t6001-j316c.dtb
+>  dtb-$(CONFIG_ARCH_APPLE) += t6001-j375c.dtb
+>  dtb-$(CONFIG_ARCH_APPLE) += t6002-j375d.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t8112-j413.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t8112-j473.dtb
+> +dtb-$(CONFIG_ARCH_APPLE) += t8112-j493.dtb
+> diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts 
+> b/arch/arm64/boot/dts/apple/t8112-j413.dts
+> new file mode 100644
+> index 000000000000..9e758edeaa82
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
+> @@ -0,0 +1,63 @@
+> +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> +/*
+> + * Apple MacBook Air (M2, 2022)
+> + *
+> + * target-type: J413
+> + *
+> + * Copyright The Asahi Linux Contributors
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "t8112.dtsi"
+> +#include "t8112-jxxx.dtsi"
+> +
+> +/ {
+> +	compatible = "apple,j413", "apple,t8112", "apple,arm-platform";
+> +	model = "Apple MacBook Air (13-inch, M2, 2022)";
+> +
+> +	aliases {
+> +		bluetooth0 = &bluetooth0;
+> +		wifi0 = &wifi0;
+> +	};
+> +};
+> +
+> +/*
+> + * Force the bus number assignments so that we can declare some of the
+> + * on-board devices and properties that are populated by the bootloader
+> + * (such as MAC addresses).
+> + */
+> +&port00 {
+> +	bus-range = <1 1>;
+> +	wifi0: wifi@0,0 {
+> +		compatible = "pci14e4,4433";
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+I'm not sure how these pci compatibles are usually handled. Do they have to
+be added to the dt-bindings Documentation as well or is it fine to just have them
+here since they're not really used to match anything?
+
+Otherwise this looks good to me,
+
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
+
+
+
+Best,
+
+
+Sven
