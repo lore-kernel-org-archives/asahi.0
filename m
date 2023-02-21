@@ -1,197 +1,116 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75428C0B
-	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 19:50:05 +0000 (UTC)
-Received: by mail-qv1-f50.google.com with SMTP id bo10so5291041qvb.12
-        for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 11:50:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EePYiMegOTciLAZsPnWcxPxhjZ6l+MFlb+BerAyQPY8=;
-        b=kFp77tZGRapMD/xntIodwnN0agkk46bzra9O2hXBMMrCYeKHh2cRc2dTdnWGIGw1Yx
-         vNF1cbac8R2OumH0fYsvcLY9xTmoNqAdZlmzedoKjxXUj+M42WQfnFbH6ZC4Dl3Xvszw
-         FR8aUfTEZMQWhG4JPs/JGGUUcCU0pqQUFK7IxeUH2B1YA7HBkpwHsqdrkl4lAe666khi
-         ecYr9fghfUS+HTxbbO3V6C/FK/gcPj5wNFkWzU9hOvsG8TwbiQUUXJO/73G0hGc6VWEp
-         NlcBTDtp+1H+l5MNtwrXEwCfW2XNdITk188yJVV7CDcAk608F7se2NWabQo+C/+4wnOn
-         z1QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EePYiMegOTciLAZsPnWcxPxhjZ6l+MFlb+BerAyQPY8=;
-        b=CFTf9TW9nQ72XiOfl8KLuv4L0Yb9Lkbs6xCI2SXkK759TSOekAxIfFVyz+kvJCPEJg
-         7Lizs8zU2UTGatjs43T9zkkQXCJtR3CZ4Y7D9bGL+gftPH9dn9pAPpivqdBKhRxK66Nw
-         1+X96oFo2gs9JF9O5CPCfYf5V1qIKcVeR7qR3eXvFrqhidsEZcInIYsFcJUKGpVDfx/2
-         YT1YoTLOmZePx9NhJuZdfH26fIdXiKxiR/sNz9kZ2hGn+AEbw5zuufWDNgQSWxoj0EFs
-         wqKImKFiF4rt/+7E9AaKAFTXXFWGM2gcYHfgsfO9UKQhpWQ+gkBT0bJO7tRFvve3t1/Y
-         CGoQ==
-X-Gm-Message-State: AO0yUKUjKdXANh4FAle87G2UB9hJZx0+TCZ/2cWFWUnLnqSh+SS/nm9u
-	PdqVQwGld13FGiLKBcooVyA=
-X-Google-Smtp-Source: AK7set8esdN/bnRslH1891GxUxa8gviTZZGZhxV0W0+1ckhCH9sYqIOsZewRRN/M3UiQ1rqYsDqnUA==
-X-Received: by 2002:ad4:5946:0:b0:56c:37d:51e with SMTP id eo6-20020ad45946000000b0056c037d051emr6687421qvb.22.1677009004676;
-        Tue, 21 Feb 2023 11:50:04 -0800 (PST)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id d123-20020a37b481000000b0071f0d0aaef7sm11459343qkf.80.2023.02.21.11.50.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Feb 2023 11:50:03 -0800 (PST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailauth.nyi.internal (Postfix) with ESMTP id 8C0DD27C0054;
-	Tue, 21 Feb 2023 14:50:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 21 Feb 2023 14:50:03 -0500
-X-ME-Sender: <xms:aiD1Y9gEFM7el3iJ9B9u1EzTFpWZ9Qw0WCZaW205Zbqqa4Wc3qcygA>
-    <xme:aiD1YyA89slgzPereN_JmbS0K6LM2SAEAmjIUHx14gXXw7OF1cc7LrSX1aWnTq9ze
-    w52ZlAgA_ZY5TP_uw>
-X-ME-Received: <xmr:aiD1Y9GxvFy0QSiZ9n8-mw4xZJKm7Bjb38JqleA5twS-gx04eSEOPTwadGM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejjedguddvjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhq
-    uhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrf
-    grthhtvghrnhephedugfduffffteeutddvheeuveelvdfhleelieevtdeguefhgeeuveei
-    udffiedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedt
-    ieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfh
-    higihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:aiD1YyToqHNBnJHE9PT4ZjinnWR3Hs7t-qpcQ_L7DyfOONVW9-iBHw>
-    <xmx:aiD1Y6zz7nSTRr34or559lYqOFthl45--qqwHsuvo62O1oh4Q_h_kg>
-    <xmx:aiD1Y47kIMRE-isf2Wl7b7elVCBAaDIld6lJVIQoRI-8VaqKKT-g8g>
-    <xmx:ayD1Y842ER2ErNK2ZbIHCPbyMOIfsMc_doaTAstyH1bJGRXDFD5xrA>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 21 Feb 2023 14:50:02 -0500 (EST)
-Date: Tue, 21 Feb 2023 11:49:46 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CD28F78
+	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 21:33:57 +0000 (UTC)
+Date: Tue, 21 Feb 2023 21:33:42 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1677015226; x=1677274426;
+	bh=RL72VfktvZSZwLdg205O+81BI72T3ECpaZs8xJd+WO4=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=hGqbBO7ZNdoE/T5azUEw1vSbnkbSMn0R9j9VkfQ1ZOojcmOiLULDzzsh82thOYiQa
+	 fjpdvi9tgiTXcE3z2omjMUzZlBKWAdDcMOs6tW35opwPEa8v0Lps3GNijsHZI0sflo
+	 VNEO9a4tEvkEN1cST/7rCBgULJkWOJ2ZUAzefttPQaTGNLIF8NoBS4bPNDrX16IloD
+	 sQqbgjBXqQhSs3dEH73bC3T/HltUfxNRaE1OdgyrO90aSDYNAxveHrFYjuFx6IcTzp
+	 q2xCeSqnY+2jJbS5kNsbJoPnaaNpfxyUxglFlan2I2sutRKzhVE4DSkUTuSx5ol4k8
+	 rEchqKZ7FpKBg==
 To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	asahi@lists.linux.dev
+From: Heghedus Razvan <heghedus.razvan@protonmail.com>
+Cc: Asahi Lina <lina@asahilina.net>, Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, asahi@lists.linux.dev
 Subject: Re: [PATCH] rust: time: New module for timekeeping functions
-Message-ID: <Y/UgWqgRz2QxUT+t@boqun-archlinux>
-References: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net>
- <87v8jvnqq4.ffs@tglx>
- <Y/TP6as7qqwfcI42@boqun-archlinux>
- <6aa15295-219b-225c-607d-e87e3d51d048@asahilina.net>
- <87bklmonbv.ffs@tglx>
+Message-ID: <p7e4M5-kxxScH56bBMtlzht2_m33oSfMPHtExSVbDn0WIPYBEbiJjr2NvNhqCJotFhmYqH5h27EWPDhfSmmST0D-dSU1Alq4_BzDQUR48FA=@protonmail.com>
+In-Reply-To: <87edqioo1e.ffs@tglx>
+References: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net> <87v8jvnqq4.ffs@tglx> <Y/TP6as7qqwfcI42@boqun-archlinux> <87h6vfnh0f.ffs@tglx> <7b93bf74-abdc-f8c1-9a12-7c7f080f9e19@asahilina.net> <87edqioo1e.ffs@tglx>
+Feedback-ID: 1233518:user:proton
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bklmonbv.ffs@tglx>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 21, 2023 at 08:00:52PM +0100, Thomas Gleixner wrote:
-[...]
-> > I figured we might get a better idea for what to do once a
-> > second user comes along. For example, do we want straight methods like
-> > that or std::ops trait impls? And do we make everything fallible or
-> > panic on overflow or just wrap?
-> >
-> > It also means we basically have to reimplement all of
-> > core::time::Duration if we want to offer an equally ergonomic API with a
-> > 64-bit type (for reference, Duration is a struct with u64 secs and u32
-> > nanoseconds).
-> 
-> As you said yourself: The kernel can't use Rust std lib. So you better
-> implement sensible interfaces which are straight forward and simple to
-> use in the context you are aiming for.
-> 
+On Tuesday, February 21st, 2023 at 8:45 PM, Thomas Gleixner <tglx@linutroni=
+x.de> wrote:
 
-Agreed!
 
-Lina, my suggestion is just to go ahead and add the minimal timestamp
-abstraction, surely you may make some bad decisions about APIs (e.g.
-panic vs returning a Result), but kernel doesn't have a stable internal
-API, so we can always fix things later.
+> On Wed, Feb 22 2023 at 01:31, Asahi Lina wrote:
+>=20
+> > On 22/02/2023 01.02, Thomas Gleixner wrote:
+> >=20
+> > > I'm not rusty enough, but you really want two types:
+> > >=20
+> > > timestamp and timedelta
+> > >=20
+> > > timestamp is an absolute time on a specific clock which is read via
+> > > now() and you can add time deltas to it. The latter is required for
+> > > arming an absolute timer on the clock.
+> > >=20
+> > > timedelta is a relative time and completely independent of any
+> > > clock. That's what you get when you subtract two timestamps, but you =
+can
+> > > also initialize it from a constant or some other source. timedelta ca=
+n
+> > > be used to arm a relative timer on any clock.
+> >=20
+> > If all clocks end up as the same `timestamp` though, then this isn't
+> > fully safe, because you could subtract `timestamp`s that came from
+> > different clocks and the result would be meaningless. That's why the
+> > Rust std Instant is specifically tied to one and only one system clock
+> > on each platform.
+>=20
+>=20
+> Fine, but do you agree that:
+>=20
+> ts1 =3D tboot.now()
+> ...
+> ts2 =3D tboot.now()
+>=20
+> xb =3D ts2 - ts1
+>=20
+> then the result x1 cannot be the same data type as ts1, ts2.
+>=20
+> From a typesafety perspective
+>=20
+> ts1 =3D treal.now()
+> ...
+> ts2 =3D tboot.now()
+>=20
+> x =3D ts2 - ts1
+>=20
+> would be an invalid operation, but
+>=20
+> ts1 =3D treal.now()
+> ...
+> ts2 =3D treal.now()
+>=20
+> xr =3D ts2 - ts1
+>=20
+> is obviously valid.
+>=20
+> But xb abd xr are the same datatype because they represent a time delta.
+>=20
+> That's the same the Rust std time semantics:
+>=20
+> Duration =3D Instance - Instance valid
+> Duration =3D Systemtime - SystemTime valid
+> Duration =3D Systemtime - Instance invalid
+>=20
+> No?
+>=20
+I agree with Thomas on this one. The Rust type system is really powerful an=
+d we should take advantage of it. Time deltas can be enforced to be from th=
+e same clock at compile time.
+Just for the sake of it, I wrote a small example on how this can be achieve=
+: https://play.rust-lang.org/?version=3Dstable&mode=3Ddebug&edition=3D2021&=
+gist=3D1d0f70bb5329b181f203ce7270e2957a
 
-Myself actually do something like below based on your patch, because
-nothing like `now()` ;-)
 
-I'm sure you can do better because as you said, you're the first user
-;-)
+-- Heghedus Razvan (heghedus.razvan@protonmail.com)
 
-Regards,
-Boqun
-
----------->8
-diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
-index 02844db47d34..3398388de0e1 100644
---- a/rust/kernel/time.rs
-+++ b/rust/kernel/time.rs
-@@ -6,16 +6,61 @@
- //! C header: [`include/linux/timekeeping.h`](../../../../include/linux/timekeeping.h)
- 
- use crate::bindings;
--use core::time::Duration;
-+// Re-exports [`Duration`], so that it's easy to provide kernel's own implemention in the future.
-+pub use core::time::Duration;
-+
-+/// A timestamp
-+pub trait TimeStamp: Copy {
-+    /// Gets the current stamp.
-+    fn now() -> Self;
-+
-+    /// Calculates the passed duration since `another`.
-+    fn duration_since(&self, another: Self) -> Duration;
-+
-+
-+    /// Return the duration passed since this stamp was created.
-+    fn elapsed(&self) -> Duration {
-+        let created = self.clone();
-+        self.duration_since(created)
-+    }
-+}
-+
-+/// CLOCK_MONOTONIC timestamps.
-+#[derive(Clone, Copy)]
-+pub struct MonoTime(Duration);
-+
-+impl TimeStamp for MonoTime {
-+    fn now() -> Self {
-+        Self(ktime_get())
-+    }
-+
-+    fn duration_since(&self, another: Self) -> Duration {
-+        ktime_get() - another.0
-+    }
-+}
-+
-+/// CLOCK_BOOTTIME timestamps.
-+#[derive(Clone, Copy)]
-+pub struct BootTime(Duration);
-+
-+impl TimeStamp for BootTime {
-+    fn now() -> Self {
-+        Self(ktime_get_boottime())
-+    }
-+
-+    fn duration_since(&self, another: Self) -> Duration {
-+        ktime_get_boottime() - another.0
-+    }
-+}
- 
- /// Returns the kernel time elapsed since boot, excluding time spent sleeping, as a [`Duration`].
--pub fn ktime_get() -> Duration {
-+fn ktime_get() -> Duration {
-     // SAFETY: Function has no side effects and no inputs.
-     Duration::from_nanos(unsafe { bindings::ktime_get() }.try_into().unwrap())
- }
- 
- /// Returns the kernel time elapsed since boot, including time spent sleeping, as a [`Duration`].
--pub fn ktime_get_boottime() -> Duration {
-+fn ktime_get_boottime() -> Duration {
-     Duration::from_nanos(
-         // SAFETY: Function has no side effects and no variable inputs.
-         unsafe { bindings::ktime_get_with_offset(bindings::tk_offsets_TK_OFFS_BOOT) }
+> Thanks,
+>=20
+> tglx
