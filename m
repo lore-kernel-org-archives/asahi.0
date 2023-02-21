@@ -1,73 +1,134 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1AC38BE3
-	for <asahi@lists.linux.dev>; Mon, 20 Feb 2023 23:40:42 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id c2-20020a9d6842000000b0068bc93e7e34so484285oto.4
-        for <asahi@lists.linux.dev>; Mon, 20 Feb 2023 15:40:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ekp/l7dS7L5c5Y/xNxbb/NDW4G4Mm3+q7ub7U8gNFqI=;
-        b=R/VSokGNzuavJQ2ky7GggrdZk3wrryMzKmj8UMzIhl2ZxqEyBunBAgyw/awBARQWVy
-         5iSBgWS3+ahIZZlHbjbNuK/G8AeQnYlse1KSCBM1u9hCmiEagQ1TaFFsno7kjdrx8Aob
-         VhamH1eSD9ehkMmozXPgqipPsCkV1nwjpjBMW3y+hf0tqyNjdhR4Gak/7aLgFKYykvjt
-         Ae369WM0Vj63cZRhU66c6hYkaU5lx+JqYeOMNzkiuwxQa5hVM3sLb0W2Tn7zuKqzMBpO
-         u0qXsDNLuF6VhrAlCLTpEThVPuFyt1HuYNQnoVY69AT3gImRgtfbAzCOQ4PeHWO4XxZE
-         bl1Q==
-X-Gm-Message-State: AO0yUKU/0HcF99wHOl3k68OiUZevw7s70apwLw2ffoICuWBULIOq8VKB
-	TXsvMyXxO4ZkqlEhWdxmaw==
-X-Google-Smtp-Source: AK7set+WhIJJXW3KarE7h76hVttihFyNtPia99NTQYAWUZQR15okea5lUnoGuYWWkVtOk7sWd61lBw==
-X-Received: by 2002:a9d:19a2:0:b0:68c:1c0d:ab6a with SMTP id k31-20020a9d19a2000000b0068c1c0dab6amr908337otk.13.1676936441767;
-        Mon, 20 Feb 2023 15:40:41 -0800 (PST)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id d2-20020a9d51c2000000b006864816ecd9sm726939oth.59.2023.02.20.15.40.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Feb 2023 15:40:41 -0800 (PST)
-Received: (nullmailer pid 614054 invoked by uid 1000);
-	Mon, 20 Feb 2023 23:40:40 -0000
-Date: Mon, 20 Feb 2023 17:40:40 -0600
-From: Rob Herring <robh@kernel.org>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Janne Grunau <j@jannau.net>, devicetree@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, asahi@lists.linux.dev, dmaengine@vger.kernel.org, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [RFC PATCH v2] dt-bindings: dma: apple,sio: Add schema
-Message-ID: <167693643966.613996.10372170526471864080.robh@kernel.org>
-References: <20230214203637.43630-1-povik+lin@cutebit.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF26E110D
+	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 07:07:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: linasend@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 3663C4212E;
+	Tue, 21 Feb 2023 07:07:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1676963243;
+	bh=A6KIoIu/aWBN1yeja85GO8JYcwY1Qw51Y1+fwsMD53Q=;
+	h=From:Date:Subject:To:Cc;
+	b=XHzIza3Ub/FjJcWrwQHESLsoh9ezdwJTGya8kSVtAe1FKXcEN0itGH1EBuzZ2l74+
+	 gtLrDhK1sAeFoFHh/ZMSjv0j5GYVW1sTIiPHKFLNPqTC4Jr5fRlW/XJ/JAuXP9wcpX
+	 ErcFiyIu/5MUj8CrwvfXsbm4+uK2J2MbJPpL1zkk3CiDCITxaeMI6fsxElrnNMb6U0
+	 LuB938Hfl4B3ajFzIlr9gvQBt8AHVunuie/nrAIv7gpri1T8un7oA/ShRT04xWz2Oc
+	 eK9r1kkNjANKKTE13wHlr5ydHgsM+WxB4AgVqfZiWK4QJq4l15Rk2/up5JO4GT2JF9
+	 yruLTZsgjvvNw==
+From: Asahi Lina <lina@asahilina.net>
+Date: Tue, 21 Feb 2023 16:06:36 +0900
+Subject: [PATCH] rust: time: New module for timekeeping functions
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230214203637.43630-1-povik+lin@cutebit.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net>
+X-B4-Tracking: v=1; b=H4sIAHtt9GMC/x2NQQrDIBAAvxL23AXd5NJ+peSgZqsLqRGtIRDy9
+ yw9zsAwJzSuwg1ewwmVd2myZQX7GCAklyOjLMpAhkZDZDGWjr3gT76M7J6TJTJTGD1o4V1j9NX
+ lkLTJfV1VlsofOf6L93xdNyr3I0hyAAAA
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Wedson Almeida Filho <wedsonaf@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ John Stultz <jstultz@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+ Stephen Boyd <sboyd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1676963239; l=2619;
+ i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
+ bh=A6KIoIu/aWBN1yeja85GO8JYcwY1Qw51Y1+fwsMD53Q=;
+ b=PCyQteOlBV30u4Or1zgaDIULokFbkC+cEOyujN6u6p+d3o8raXypNxbmbQsytrR+KgZlcE0PH
+ i7eGpPhDHZmD+14BL1DMnBTwBEJ2NDnS9UV3DRHqqnwHySW4bZp9LTR
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
+This module is intended to contain functions related to kernel
+timekeeping and time. Initially, this just wraps ktime_get() and
+ktime_get_boottime() and returns them as core::time::Duration instances.
+This is useful for drivers that need to implement simple retry loops and
+timeouts.
 
-On Tue, 14 Feb 2023 21:36:37 +0100, Martin Povišer wrote:
-> Describe the SIO coprocessor which serves as pretend DMA controller on
-> recent Apple platforms.
-> 
-> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
-> ---
-> Since v1:
->  - formatting fixes requested by Rob
->  - dropped provider nodes from example
->  - added 'memory-region' items range
->  - tweaked 'apple,sio-firmware-params' description
-> 
-> Since the schema mentions a loader preparing the binding appropriately,
-> here's a PR with the relevant (WIP) loader code, if anyone wants to look:
-> https://github.com/AsahiLinux/m1n1/pull/286
-> 
-> 
->  .../devicetree/bindings/dma/apple,sio.yaml    | 111 ++++++++++++++++++
->  1 file changed, 111 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/dma/apple,sio.yaml
-> 
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+ rust/bindings/bindings_helper.h |  4 +++-
+ rust/kernel/lib.rs              |  1 +
+ rust/kernel/time.rs             | 25 +++++++++++++++++++++++++
+ 3 files changed, 29 insertions(+), 1 deletion(-)
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 75d85bd6c592..587f3d1c0c9f 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -6,8 +6,10 @@
+  * Sorted alphabetically.
+  */
+ 
+-#include <linux/slab.h>
++#include <linux/ktime.h>
+ #include <linux/refcount.h>
++#include <linux/slab.h>
++#include <linux/timekeeping.h>
+ 
+ /* `bindgen` gets confused at certain things. */
+ const gfp_t BINDINGS_GFP_KERNEL = GFP_KERNEL;
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index 223564f9f0cc..371b1b17570e 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -37,6 +37,7 @@ mod static_assert;
+ pub mod std_vendor;
+ pub mod str;
+ pub mod sync;
++pub mod time;
+ pub mod types;
+ 
+ #[doc(hidden)]
+diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
+new file mode 100644
+index 000000000000..02844db47d34
+--- /dev/null
++++ b/rust/kernel/time.rs
+@@ -0,0 +1,25 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Timekeeping functions.
++//!
++//! C header: [`include/linux/ktime.h`](../../../../include/linux/ktime.h)
++//! C header: [`include/linux/timekeeping.h`](../../../../include/linux/timekeeping.h)
++
++use crate::bindings;
++use core::time::Duration;
++
++/// Returns the kernel time elapsed since boot, excluding time spent sleeping, as a [`Duration`].
++pub fn ktime_get() -> Duration {
++    // SAFETY: Function has no side effects and no inputs.
++    Duration::from_nanos(unsafe { bindings::ktime_get() }.try_into().unwrap())
++}
++
++/// Returns the kernel time elapsed since boot, including time spent sleeping, as a [`Duration`].
++pub fn ktime_get_boottime() -> Duration {
++    Duration::from_nanos(
++        // SAFETY: Function has no side effects and no variable inputs.
++        unsafe { bindings::ktime_get_with_offset(bindings::tk_offsets_TK_OFFS_BOOT) }
++            .try_into()
++            .unwrap(),
++    )
++}
+
+---
+base-commit: 89f5349e0673322857bd432fa23113af56673739
+change-id: 20230221-gpu-up-time-ea9412204c3b
+
+Thank you,
+~~ Lina
 
