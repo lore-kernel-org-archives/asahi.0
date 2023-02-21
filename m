@@ -1,78 +1,120 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F76E4C64
-	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 16:02:43 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1676995361;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mTy3mHOSw0bgUzp6ZeDA/Qw3wRl91nnGoDhM5mRLjqs=;
-	b=YReyvwSHzy6DnYqrf4RxaRGUyHlCDcEXykgA9chLQ0IA5ZY1ljiq0rpWgwjbsR4Oj1plO/
-	1FlNSGRae6OXLwdsr4UmxOXbs3xlVcELvpoxGiQ7CfkLY6ouV3PYN0qbWDXd8DMvKWyFVO
-	gqwfxWc1Rlmrb8AM4V5GXrmZBwv8faWNZmTrlFqhWnsBC5+EBvBExV4SzFUyq3ZCeKL8rA
-	z2T/v4oL8Z3e/zKZzOlN34uwYBhsXXtlBTlDlqoftzQsg+mBU5jXxPtIVDqLaA/lGrAbJl
-	r+qLL5d45oeKXnrBo35OyvMH675AisT+BQMoT3aRbFAPn83EUQEjaKjZR7L6MQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1676995361;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mTy3mHOSw0bgUzp6ZeDA/Qw3wRl91nnGoDhM5mRLjqs=;
-	b=d55FjnATdzhIZkEyw3Hi/IevMHOl0SibWAlgYC0WkS7z5DCuvNaLjSWUIFv9RyBcGJj3nK
-	Z9zrbagXToTflOCw==
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, Alex
- Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>,
- John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- asahi@lists.linux.dev
-Subject: Re: [PATCH] rust: time: New module for timekeeping functions
-In-Reply-To: <Y/TP6as7qqwfcI42@boqun-archlinux>
-References: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net>
- <87v8jvnqq4.ffs@tglx> <Y/TP6as7qqwfcI42@boqun-archlinux>
-Date: Tue, 21 Feb 2023 17:02:40 +0100
-Message-ID: <87h6vfnh0f.ffs@tglx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69776D24
+	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 16:27:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id A3FD13FA55;
+	Tue, 21 Feb 2023 16:27:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1676996847;
+	bh=1Qmc+N085tR+w7y6RozOctPj3HPL1Q8tU2am4x/B8n0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=TwXd7BZkxOFVCVkp6+1oDEHP/hT3TJVJYd5MQdbcXKadi1zNVDYEUu2iraf+l1QMB
+	 C6LCeCHrdCCLoe8B5sK3VEGvRU8ODKjgiV8N6Au6w/vRQHUJCvy4xqng84q4rSbq/p
+	 lWExjsNChrZjSYZzsZ0vRj5HSdS2qKtXQ56Bv9gchZLc57JtbQCucLlRAvYQ4gm1CQ
+	 A7OcZOELDb4K1QsOa5+mShj5CvrKcU9caSDSSaLU0A9DDiuOdEWS6Tw0/el98MZEVR
+	 DxeKYmzSl7QQWW54J+CX7DfEOAB4jeDA7bzS1gK++r6DcI6PAeMxkZeKTLW1FsFQJI
+	 x1QzCnCov7b7g==
+Message-ID: <6aa15295-219b-225c-607d-e87e3d51d048@asahilina.net>
+Date: Wed, 22 Feb 2023 01:27:22 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] rust: time: New module for timekeeping functions
+Content-Language: en-US
+To: Boqun Feng <boqun.feng@gmail.com>, Thomas Gleixner <tglx@linutronix.de>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net>
+ <87v8jvnqq4.ffs@tglx> <Y/TP6as7qqwfcI42@boqun-archlinux>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <Y/TP6as7qqwfcI42@boqun-archlinux>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 21 2023 at 06:06, Boqun Feng wrote:
+On 21/02/2023 23.06, Boqun Feng wrote:
 > On Tue, Feb 21, 2023 at 01:32:51PM +0100, Thomas Gleixner wrote:
->> Similar to 'Instant' 'SystemTime' is strictly bound to CLOCK_REALTIME
->> by specification and there is no way to read CLOCK_TAI.
->> 
-> ..'Instant' and 'SystemTime' are in Rust std, we cannot use them
-> directly, similar as we cannot use userspace libc.
+>> On Tue, Feb 21 2023 at 16:06, Asahi Lina wrote:
+>>> +
+>>> +use crate::bindings;
+>>> +use core::time::Duration;
+>>> +
+>>> +/// Returns the kernel time elapsed since boot, excluding time spent sleeping, as a [`Duration`].
+>>> +pub fn ktime_get() -> Duration {
+>>> +    // SAFETY: Function has no side effects and no inputs.
+>>> +    Duration::from_nanos(unsafe { bindings::ktime_get() }.try_into().unwrap())
+>>
+>> Why is this a Duration? From the spec:
+>>
+> 
+> I agree that returning a Duration may not be ideal, but..
 
-Sure. Was Rust std defined based on SysV from 30 years ago? :)
+>> In my understanding 'Duration' is a time span between two points, while
+>> ktime_get() and ktime_get_boottime() return the current time of
+>> monotonically nondecreasing clocks, i.e. they fall into the 'Instant'
+>> category.
 
-> To me, there seems two options to provide Rust types for kernel time
-> management:
->
+The return values are analogous to `Instant` (which is not available in
+the kernel, so we can't use it anyway), but they can't be the same type
+in that case. `Instant` in std refers to a specific clock and its
+invariants only hold if all instances of the type refer to the same
+clock. So if we want to do something analogous here, we need separate
+types for each clock as Boqun mentioned...
+
+>> Now the problem is that 'Instant' in it's specification is bound to
+>> CLOCK_MONOTONIC and there is no way to express CLOCK_BOOTTIME, but
+>> that's a shortcoming of the spec which ignores CLOCK_BOOTTIME
+>> completely. IOW, that's also a problem for user space.
+
+It's sort of inherent in the idea that all `Instant` instances must
+share the same clock, so there can only be one canonical clock on any
+given platform that is represented by `Instant`.
+
+Of course std could have separate types to support more than one clock,
+but then you'd end up with platform-specific variants... and I don't
+think the goal was to support all possible platform-specific clocks in
+that std API.
+
+That's also why I went with Duration, since that doesn't try to claim
+those invariants and represents "a time duration since boot" in this
+case (measured according to different rules depending on what API you
+call). Basically it punts the problem of not mixing clocks to the API
+user...  which is not ideal, but it's exactly what the C API does.
+ktime_t naturally maps well to Duration since it does not encode any
+clock/epoch information in the type.
+
+> To me, there seems
+> two options to provide Rust types for kernel time management:
+> 
 > *	Use KTime which maps to ktime_t, then we have the similar
 > 	semantics around it: sometimes it's a duration, sometimes it's
 > 	a point of time.. but I know "this is a safe language, you
 > 	should do more" ;-)
->
+> 
 > *	Introduce kernel's own types, e.g. BootTime, RawTime, TAI,
 > 	RealTime, and make them play with Duration (actually I'd prefer
 > 	we have own Duration, because Rust core::time::Duration takes
 > 	more than u64), something like below:
->
->
+> 
+> 
 > 	pub struct BootTime {
 > 	    d: Duration
 > 	}
->
+> 
 > 	impl BootTime {
 > 	    fn now() -> Self {
 > 	        unsafe { BootTime { d: ktime_to_duration(ktime_get_boottime())} }
@@ -83,22 +125,44 @@ Sure. Was Rust std defined based on SysV from 30 years ago? :)
 > 	    fn sub(self, other: Self) -> Duration {
 > 	        ...
 > 	    }
+> 	...
+> 	}
+> 
+> Thoughts?
 
-I'm not rusty enough, but you really want two types:
+I think that's the better approach, but I was hoping to leave that for a
+future patch, especially since right now I'm the only user of this API
+in the upcoming Apple GPU driver and it only uses it to implement some
+really simple timeouts for polled operations, which isn't much API
+coverage... I figured we might get a better idea for what to do once a
+second user comes along. For example, do we want straight methods like
+that or std::ops trait impls? And do we make everything fallible or
+panic on overflow or just wrap?
 
-    timestamp and timedelta
+It also means we basically have to reimplement all of
+core::time::Duration if we want to offer an equally ergonomic API with a
+64-bit type (for reference, Duration is a struct with u64 secs and u32
+nanoseconds).
 
-timestamp is an absolute time on a specific clock which is read via
-now() and you can add time deltas to it. The latter is required for
-arming an absolute timer on the clock.
+>>> +}
+>>> +
+>>> +/// Returns the kernel time elapsed since boot, including time spent sleeping, as a [`Duration`].
+>>> +pub fn ktime_get_boottime() -> Duration {
+>>> +    Duration::from_nanos(
+>>> +        // SAFETY: Function has no side effects and no variable inputs.
+>>> +        unsafe { bindings::ktime_get_with_offset(bindings::tk_offsets_TK_OFFS_BOOT) }
+>>
+>> No. Please use ktime_get_boottime() and not the timekeeping internal function.
 
-timedelta is a relative time and completely independent of any
-clock. That's what you get when you subtract two timestamps, but you can
-also initialize it from a constant or some other source. timedelta can
-be used to arm a relative timer on any clock.
+`ktime_get_boottime()` is static inline, so it will need a manual helper
+wrapper to be callable from Rust (at least until bindgen implements
+automatic helper generation, which I hear is coming soon). I was trying
+to avoid introducing even more helpers, since helpers.c is kind of
+already getting out of hand in my branch with all the stuff that's
+getting added... but I can add it if you don't want me to use
+ktime_get_with_offset(). It'll also be slower this way though (since the
+helper introduces another layer of function calling), and I figured of
+all things we probably want time functions to be fast, since they tend
+to get called a lot...
 
-Playing games with a single type is neither safe nor intuitive, right?
-
-Thanks,
-
-        tglx
+~~ Lina
