@@ -1,27 +1,27 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A06910F6
-	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 16:31:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907E310F6
+	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 16:37:51 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 092973FA55;
-	Tue, 21 Feb 2023 16:31:29 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 4B918419B4;
+	Tue, 21 Feb 2023 16:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1676997093;
-	bh=jy36nlq0P5xs/QWgM6Zr80oO0jn/1vgYkz1bjKsF2gI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=F4qDXdqKF6MZKkXDlcljLC80li+ZPN1ugbdvCvR9PgxTp1Y/4GpXP/kUMmnR/agKB
-	 ZX+FgF7Ab3G5sx//saRUW3rfz7gStFjI544Wzk1+fLkYN9IoRnPfjfpIOdbLLlcbui
-	 535lHeME192rwIDJ2kkpZAecsJn8pQvofTevWVEthoUakqWiqRlQqckSpY5OHWwX2p
-	 ydD2RB3GHkf2xKvgERWFKovlYqqVYngN7d+dlZ1u+Zz1sOhB/i0f59S5/9SFXX0A0l
-	 JeKyijG13bYiXTFFj2o4+RKs98rV+602tr1NqqpyBSUTn3+sIsCbJARNBGIwRs2tyO
-	 m+i+sVGqI1xIQ==
-Message-ID: <7b93bf74-abdc-f8c1-9a12-7c7f080f9e19@asahilina.net>
-Date: Wed, 22 Feb 2023 01:31:28 +0900
+	s=default; t=1676997469;
+	bh=q6BVFwfAIWk2OOLv8SyurVmk8P7KEbhEcGD+6P4fo20=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=w0kjcj7XYcDPhignP+eQ2qVh5HGJmQQ5Rx8/rTVI+M3XKsWAVsJgXHLtFC6yA7tdh
+	 1mIlDwj1XY5GuRUas5orrfa/hBoUc0ADGq41U82jJOlxSw8vTBpQRjsqjTBq8jyQ5E
+	 /vBGrRmen+YGGa5UjbgtXO91BRGyQYlx8DW01OuJgHxVPTTOvnknbJUvH6Je39VRVW
+	 cmgoUfjK/Mc7kcdUZcltbB2VzQ43KtxNNhOUmqPv7ztXJhMD/8h0Jd6QG9Us0HYhva
+	 4GUPYxJXK3f/KF9DcuZmb9kAJh4m6UI/dPxGruORvMh9yk6x/wvYF3ncnGJCXKMBnL
+	 dJ+sO2KR8E6Pw==
+Message-ID: <25f16677-8633-8c06-cf67-8024fae7854f@asahilina.net>
+Date: Wed, 22 Feb 2023 01:37:44 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -32,7 +32,8 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
 Subject: Re: [PATCH] rust: time: New module for timekeeping functions
 Content-Language: en-US
-To: Thomas Gleixner <tglx@linutronix.de>, Boqun Feng <boqun.feng@gmail.com>
+From: Asahi Lina <lina@asahilina.net>
+To: Boqun Feng <boqun.feng@gmail.com>, Thomas Gleixner <tglx@linutronix.de>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>,
  =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
@@ -41,60 +42,33 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  asahi@lists.linux.dev
 References: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net>
  <87v8jvnqq4.ffs@tglx> <Y/TP6as7qqwfcI42@boqun-archlinux>
- <87h6vfnh0f.ffs@tglx>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <87h6vfnh0f.ffs@tglx>
+ <6aa15295-219b-225c-607d-e87e3d51d048@asahilina.net>
+In-Reply-To: <6aa15295-219b-225c-607d-e87e3d51d048@asahilina.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/02/2023 01.02, Thomas Gleixner wrote:
-> On Tue, Feb 21 2023 at 06:06, Boqun Feng wrote:
->> To me, there seems two options to provide Rust types for kernel time
->> management:
->>
->> *	Use KTime which maps to ktime_t, then we have the similar
->> 	semantics around it: sometimes it's a duration, sometimes it's
->> 	a point of time.. but I know "this is a safe language, you
->> 	should do more" ;-)
->>
->> *	Introduce kernel's own types, e.g. BootTime, RawTime, TAI,
->> 	RealTime, and make them play with Duration (actually I'd prefer
->> 	we have own Duration, because Rust core::time::Duration takes
->> 	more than u64), something like below:
->>
->>
->> 	pub struct BootTime {
->> 	    d: Duration
->> 	}
->>
->> 	impl BootTime {
->> 	    fn now() -> Self {
->> 	        unsafe { BootTime { d: ktime_to_duration(ktime_get_boottime())} }
->> 	    }
->> 	    fn add(self, d: Duration) -> Self {
->> 	        <Add a duration, similar to ktime_add>
->> 	    }
->> 	    fn sub(self, other: Self) -> Duration {
->> 	        ...
->> 	    }
-> 
-> I'm not rusty enough, but you really want two types:
-> 
->     timestamp and timedelta
-> 
-> timestamp is an absolute time on a specific clock which is read via
-> now() and you can add time deltas to it. The latter is required for
-> arming an absolute timer on the clock.
-> 
-> timedelta is a relative time and completely independent of any
-> clock. That's what you get when you subtract two timestamps, but you can
-> also initialize it from a constant or some other source. timedelta can
-> be used to arm a relative timer on any clock.
+On 22/02/2023 01.27, Asahi Lina wrote:
+> I think that's the better approach, but I was hoping to leave that for a
+> future patch, especially since right now I'm the only user of this API
+> in the upcoming Apple GPU driver and it only uses it to implement some
+> really simple timeouts for polled operations, which isn't much API
+> coverage... I figured we might get a better idea for what to do once a
+> second user comes along. For example, do we want straight methods like
+> that or std::ops trait impls? And do we make everything fallible or
+> panic on overflow or just wrap?
 
-If all clocks end up as the same `timestamp` though, then this isn't
-fully safe, because you could subtract `timestamp`s that came from
-different clocks and the result would be meaningless. That's why the
-Rust std Instant is specifically tied to one and only one system clock
-on each platform.
+Also, it's probably worth mentioning that this kind of refactor can be
+done without rewriting all the user code. For example, here is how I use
+the APIs:
+
+    let timeout = time::ktime_get() + Duration::from_millis(...);
+    while time::ktime_get() < timeout {
+        [...]
+    }
+
+Even if ktime_get() starts returning another type, as long as it can
+interoperate with core::time::Duration the same way, it will continue to
+compile (and if it only interoperates with a new kernel-specific
+Duration, you'd only have to change the `use` statement at the top).
 
 ~~ Lina
