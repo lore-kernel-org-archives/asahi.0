@@ -1,116 +1,103 @@
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CD28F78
-	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 21:33:57 +0000 (UTC)
-Date: Tue, 21 Feb 2023 21:33:42 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1677015226; x=1677274426;
-	bh=RL72VfktvZSZwLdg205O+81BI72T3ECpaZs8xJd+WO4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=hGqbBO7ZNdoE/T5azUEw1vSbnkbSMn0R9j9VkfQ1ZOojcmOiLULDzzsh82thOYiQa
-	 fjpdvi9tgiTXcE3z2omjMUzZlBKWAdDcMOs6tW35opwPEa8v0Lps3GNijsHZI0sflo
-	 VNEO9a4tEvkEN1cST/7rCBgULJkWOJ2ZUAzefttPQaTGNLIF8NoBS4bPNDrX16IloD
-	 sQqbgjBXqQhSs3dEH73bC3T/HltUfxNRaE1OdgyrO90aSDYNAxveHrFYjuFx6IcTzp
-	 q2xCeSqnY+2jJbS5kNsbJoPnaaNpfxyUxglFlan2I2sutRKzhVE4DSkUTuSx5ol4k8
-	 rEchqKZ7FpKBg==
-To: Thomas Gleixner <tglx@linutronix.de>
-From: Heghedus Razvan <heghedus.razvan@protonmail.com>
-Cc: Asahi Lina <lina@asahilina.net>, Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH] rust: time: New module for timekeeping functions
-Message-ID: <p7e4M5-kxxScH56bBMtlzht2_m33oSfMPHtExSVbDn0WIPYBEbiJjr2NvNhqCJotFhmYqH5h27EWPDhfSmmST0D-dSU1Alq4_BzDQUR48FA=@protonmail.com>
-In-Reply-To: <87edqioo1e.ffs@tglx>
-References: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net> <87v8jvnqq4.ffs@tglx> <Y/TP6as7qqwfcI42@boqun-archlinux> <87h6vfnh0f.ffs@tglx> <7b93bf74-abdc-f8c1-9a12-7c7f080f9e19@asahilina.net> <87edqioo1e.ffs@tglx>
-Feedback-ID: 1233518:user:proton
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A44A8F78;
+	Tue, 21 Feb 2023 21:38:26 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id s26so22727556edw.11;
+        Tue, 21 Feb 2023 13:38:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g2x4QxJv4nKAQD6nmh3v1P/gvRFcvPZ/+reUMK1IHmk=;
+        b=hvcbbxjHy3yfhZZaSoQ20ukzgEnIfEyrMlnC1c8Mj23mZ7Z3onoLj/8XHMhGA9BGdj
+         2e55K/WV6r5hQDtRQOvv6Luyw8hQYXkV9vDaxVFsHD77eysOg2nkgkw+/JjpTCkAeFBN
+         lznssBgKnma18h7wVh5jhzY5IReazXSbGL9j8s7utXvSkeXZmD8s6kMSM7EcRgZLCYyG
+         yYnuxUfUfSGSdRy10QjagUJAF3urpw1t3CZN0Gk6ajP79qxMM1PpbRMsSgckdZqlRUJa
+         cllc8OuefC+uCPx2sarqRn+81n7w22uOi37fJj34mGr+UEKjzYlRxX8OQjb0wgqBB63z
+         ZHhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g2x4QxJv4nKAQD6nmh3v1P/gvRFcvPZ/+reUMK1IHmk=;
+        b=eessbMeaz1upez6VViFmHislNZs8ByvPZ250PEXqILNswKh/5eSRTqTEzfIK2/ucj6
+         KAy7xOlqdbAHhSWDl8Rxk/KMQSH/od34rDioop9qJkcpI856fMxZkTunVBmTrZU3kM+Z
+         QveQ1bZPggA0YZn6Z9ycyCWJKi1x0pxu83tN6tGAhgZN4ubhlQExwNw/fplXABCd/V3r
+         O/nNUQ0/HEutE7L1h6zCWbpQj14WRqOGgzFq8zjI3ErvOdITDaHrCNXHZqzdejaWTgz/
+         0J+rP0l+x+y9NHMpVe6gaQJHb146R1vy3LVzyIOutD+dgkDh3Zdirc0NlHlv8TNcMFIo
+         m36A==
+X-Gm-Message-State: AO0yUKUHXoafaSyldlHODVfYPxlPYURkJLjUvdAx+baw6LhYs2ooCoUS
+	NsO9qitkn2t5nRJSKyROqiwLfltcYRPlbIxxCpo=
+X-Google-Smtp-Source: AK7set+WgWx80yG+IPD6BZtc2LM511WxHd/1uNy9RyymaByA5DzDe9ltu/NxF8DAR1dqIEJxGGjio8OxlPTpsYlt4UQ=
+X-Received: by 2002:a17:907:3d91:b0:8af:2e89:83df with SMTP id
+ he17-20020a1709073d9100b008af2e8983dfmr13559381ejc.6.1677015504149; Tue, 21
+ Feb 2023 13:38:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20230221145021.31993-1-zajec5@gmail.com>
+In-Reply-To: <20230221145021.31993-1-zajec5@gmail.com>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Tue, 21 Feb 2023 22:38:13 +0100
+Message-ID: <CAFBinCDxB=xtz9mtZupBC7J5oxknN1ENHzJ-cFxX4FTDSgZeFQ@mail.gmail.com>
+Subject: Re: [PATCH] nvmem: add explicit config option to read OF fixed cells
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo <a.zummo@towertech.it>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Evgeniy Polyakov <zbr@ioremap.net>, 
+	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-rtc@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tuesday, February 21st, 2023 at 8:45 PM, Thomas Gleixner <tglx@linutroni=
-x.de> wrote:
+Hello Rafa=C5=82,
+
+On Tue, Feb 21, 2023 at 3:50 PM Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com> =
+wrote:
+>
+> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+>
+> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
+> default. This behaviour made sense in early days before adding support
+> for dynamic cells.
+>
+> With every new supported NVMEM device with dynamic cells current
+> behaviour becomes non-optimal. It results in unneeded iterating over DT
+> nodes and may result in false discovery of cells (depending on used DT
+> properties).
+I am not familiar with the recent changes around dynamic cells.
+Is there any discussion/summary that I can read to get up to speed?
+
+My main thought is: if there are many "fixed OF cells" implementations
+and only a few "dynamic" ones - does it make sense to flip the logic
+and introduce a new "use_dynamic_of_cells" flag instead?
 
 
-> On Wed, Feb 22 2023 at 01:31, Asahi Lina wrote:
->=20
-> > On 22/02/2023 01.02, Thomas Gleixner wrote:
-> >=20
-> > > I'm not rusty enough, but you really want two types:
-> > >=20
-> > > timestamp and timedelta
-> > >=20
-> > > timestamp is an absolute time on a specific clock which is read via
-> > > now() and you can add time deltas to it. The latter is required for
-> > > arming an absolute timer on the clock.
-> > >=20
-> > > timedelta is a relative time and completely independent of any
-> > > clock. That's what you get when you subtract two timestamps, but you =
-can
-> > > also initialize it from a constant or some other source. timedelta ca=
-n
-> > > be used to arm a relative timer on any clock.
-> >=20
-> > If all clocks end up as the same `timestamp` though, then this isn't
-> > fully safe, because you could subtract `timestamp`s that came from
-> > different clocks and the result would be meaningless. That's why the
-> > Rust std Instant is specifically tied to one and only one system clock
-> > on each platform.
->=20
->=20
-> Fine, but do you agree that:
->=20
-> ts1 =3D tboot.now()
-> ...
-> ts2 =3D tboot.now()
->=20
-> xb =3D ts2 - ts1
->=20
-> then the result x1 cannot be the same data type as ts1, ts2.
->=20
-> From a typesafety perspective
->=20
-> ts1 =3D treal.now()
-> ...
-> ts2 =3D tboot.now()
->=20
-> x =3D ts2 - ts1
->=20
-> would be an invalid operation, but
->=20
-> ts1 =3D treal.now()
-> ...
-> ts2 =3D treal.now()
->=20
-> xr =3D ts2 - ts1
->=20
-> is obviously valid.
->=20
-> But xb abd xr are the same datatype because they represent a time delta.
->=20
-> That's the same the Rust std time semantics:
->=20
-> Duration =3D Instance - Instance valid
-> Duration =3D Systemtime - SystemTime valid
-> Duration =3D Systemtime - Instance invalid
->=20
-> No?
->=20
-I agree with Thomas on this one. The Rust type system is really powerful an=
-d we should take advantage of it. Time deltas can be enforced to be from th=
-e same clock at compile time.
-Just for the sake of it, I wrote a small example on how this can be achieve=
-: https://play.rust-lang.org/?version=3Dstable&mode=3Ddebug&edition=3D2021&=
-gist=3D1d0f70bb5329b181f203ce7270e2957a
-
-
--- Heghedus Razvan (heghedus.razvan@protonmail.com)
-
-> Thanks,
->=20
-> tglx
+Best regards,
+Martin
