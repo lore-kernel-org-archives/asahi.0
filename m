@@ -1,107 +1,79 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED46A28
-	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 12:32:59 +0000 (UTC)
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1676982771;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tKCc7ZKhDanVma3ABPhFhCDUgxqiBqxzcYUkl0L5zyU=;
-	b=ivgk4gKIT2ewsfr36AojJq3P3xDS8R5OSej9Z9rOJxzKPHQcXLxB2sYdkqzJQBgrK1PgTl
-	b7qbfK9JemyPnKGUxKkctJVCQTyiYABFZUpb20n7J6vaPL4poDmcV1Ybbxnqu07AwxlC8A
-	vEwmCrUaNQ+v4rLvZR0TD1wnANP+XqXAcXmbqIMijd2B1bUVHz2QadmANgQDU87h3CU/VY
-	MrWjC0VME1d/SH0qLP15I4Y5CbMi281vVHPI7C9E1MdUmITKqLtr8zqL11y6FxKh56xxEt
-	XQOmgBnSDDwxsaVMrShWnl5P2lbNrGQqVahduXJpbJDxOnufO0/E0Po+2EO6tA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1676982771;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tKCc7ZKhDanVma3ABPhFhCDUgxqiBqxzcYUkl0L5zyU=;
-	b=xrRRKYKd+4hfsgfj1c6JmXDCae/ImWilT+Fy5Br5ANW0GMjS/GEhTo12TuYKaI/6B14b+r
-	qrWLhbISvYX+srCg==
-To: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, Alex
- Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn?= Roy
- Baron <bjorn3_gh@protonmail.com>, John Stultz <jstultz@google.com>,
- Stephen Boyd <sboyd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH] rust: time: New module for timekeeping functions
-In-Reply-To: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net>
-References: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net>
-Date: Tue, 21 Feb 2023 13:32:51 +0100
-Message-ID: <87v8jvnqq4.ffs@tglx>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA4C46B8
+	for <asahi@lists.linux.dev>; Tue, 21 Feb 2023 13:47:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D7AEC433D2;
+	Tue, 21 Feb 2023 13:47:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1676987237;
+	bh=E1BaK2IwvDddzDnn1BEIWQwSRUe/ogAAmqJRVaYDlf0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=SfzK37HcWplIpjhNZHwIGisfJwsdWEOhDtEAmrc926R4jloA9I5vV/r0EbCqNUQi5
+	 1zN50SS/VyC0i+38H5AGuebmdg1PKRlk17c1xbNmU6NwhtlQFyfzhdPNmh6vm3SdRW
+	 JX+Q/OVCNWqhOGnopzg6oWh02mDQBp1Fr8oHeg6koI5xkkE3Sry0AuYnXDhuZvMRlw
+	 MKaSw2sNmVaRqqbgHDfpH5oq53QiRM+aIO5AqnH1uO4kpPi6N6daPHeqqas5Mz5f+3
+	 Uk0JsDzavYWtdkdlgi1pHsO1dtrH1dxJlnKf6LixslBhOeTg0AxsQWbI1jXxcsflaX
+	 zvW3uheobCUjw==
+From: Mark Brown <broonie@kernel.org>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Mark Kettenis <kettenis@openbsd.org>, Janne Grunau <j@jannau.net>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
+References: <20230202-asahi-t8112-dt-v1-0-cb5442d1c229@jannau.net>
+Subject: Re: (subset) [PATCH 00/17] Device trees for Apple M2 (t8112) based
+ devices
+Message-Id: <167698723536.32575.6135846680290091834.b4-ty@kernel.org>
+Date: Tue, 21 Feb 2023 13:47:15 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.0
 
-On Tue, Feb 21 2023 at 16:06, Asahi Lina wrote:
-> +
-> +use crate::bindings;
-> +use core::time::Duration;
-> +
-> +/// Returns the kernel time elapsed since boot, excluding time spent sleeping, as a [`Duration`].
-> +pub fn ktime_get() -> Duration {
-> +    // SAFETY: Function has no side effects and no inputs.
-> +    Duration::from_nanos(unsafe { bindings::ktime_get() }.try_into().unwrap())
+On Sun, 12 Feb 2023 16:41:10 +0100, Janne Grunau wrote:
+> This series contains dt-bindings updates and device trees for Apple
+> silicon devices based on the M2 SoC (t8112).
+> 
+> Device tree validation depends ont the dart-t8110 bindings queued in
+> the iommu tree for 6.3 [1] and support for "local-mac-address" for
+> brcm,bcm4329-fmac based devices [2]. The latter fixes validation errors
+> for the existing M1 and M1 Pro/Max/Ultra device trees.
+> 
+> [...]
 
-Why is this a Duration? From the spec:
+Applied to
 
-    Duration
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-        A Duration type to represent a span of time, typically used for
-        system timeouts.
+Thanks!
 
-    Instant
+[14/17] dt-bindings: sound: apple,mca: Add t8112-mca compatible
+        commit: b361d5d2464a88184f6e17a6462719ba79180b1a
 
-        A measurement of a monotonically nondecreasing clock. Opaque and
-        useful only with Duration.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-In my understanding 'Duration' is a time span between two points, while
-ktime_get() and ktime_get_boottime() return the current time of
-monotonically nondecreasing clocks, i.e. they fall into the 'Instant'
-category.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Now the problem is that 'Instant' in it's specification is bound to
-CLOCK_MONOTONIC and there is no way to express CLOCK_BOOTTIME, but
-that's a shortcoming of the spec which ignores CLOCK_BOOTTIME
-completely. IOW, that's also a problem for user space.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-This makes sense vs. the other representation:
-
-     SystemTime
-     
-        A measurement of the system clock, useful for talking to
-        external entities like the file system or other processes.
-
-This maps to CLOCK_REALTIME and CLOCK_TAI, i.e. ktime_get_real_ns() and
-ktime_get_clocktai().
-
-Similar to 'Instant' 'SystemTime' is strictly bound to CLOCK_REALTIME
-by specification and there is no way to read CLOCK_TAI.
-
-Please fix this in the spec and do not try to work around that by
-pretending that a clock read is a 'Duration'.
-
-> +}
-> +
-> +/// Returns the kernel time elapsed since boot, including time spent sleeping, as a [`Duration`].
-> +pub fn ktime_get_boottime() -> Duration {
-> +    Duration::from_nanos(
-> +        // SAFETY: Function has no side effects and no variable inputs.
-> +        unsafe { bindings::ktime_get_with_offset(bindings::tk_offsets_TK_OFFS_BOOT) }
-
-No. Please use ktime_get_boottime() and not the timekeeping internal function.
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
+Mark
 
-        tglx
