@@ -1,270 +1,138 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2100.outbound.protection.outlook.com [40.107.10.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77DF10E7
-	for <asahi@lists.linux.dev>; Wed, 22 Feb 2023 17:25:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1677086730; x=1708622730;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=QqvKHblnDf2/TVh9n0CqiC0hBqmmlzHaD81SoAUATbA=;
-  b=Ifx3YqNdVi/0eCckF4H2Koe/Cp8seOhclEHwJjsYaIb/HwIO14fAKFiF
-   4+1llmva269S9v6JInICAQyRhqJ6QK/pgEpqqO+Jcmu2aqlKP0hX9F/3L
-   e7FB4BLsjIGQZy1E3xWTzik5H78DWa4K07baXshnAfh2hWOutC3f/fEEK
-   KZrdAMLPYv+jNdn3OnaOtnHbdHRnCHg4eQ8LYxuFc1DNkafAhDT05v2dK
-   YMzUE/LSje5dW8dNfxG4oVIh2ROayx4hnmj48/IKLu46qArsnhubpxmE9
-   RkH4xJYONhKRoWs453l3YJyGe8EZse4/rA39NV+2XHdwFhy5BQLUzaMz0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="360472238"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="360472238"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 09:25:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10629"; a="735982064"
-X-IronPort-AV: E=Sophos;i="5.97,319,1669104000"; 
-   d="scan'208";a="735982064"
-Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Feb 2023 09:25:26 -0800
-Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pUsru-0000bx-12;
-	Wed, 22 Feb 2023 17:25:26 +0000
-Date: Thu, 23 Feb 2023 01:24:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-arch@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- asahi@lists.linux.dev, amd-gfx@lists.freedesktop.org,
- Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- aaf70d5ad5e2b06a8050c51e278b0c3a14fabef5
-Message-ID: <63f64fe7.ONl1tGtlJc4Z5MEF%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C5F29A8
+	for <asahi@lists.linux.dev>; Wed, 22 Feb 2023 19:55:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LbS0sIDMUFr3Ap8pQGsK4ti4bGn24lLry9gDmUCxufPzKCvf0Z/SDUGVE7twpDBTZJ4X3KlqNKcvQHO7XUFnWbTIeroZ6EcJZFFPgjMovZnDZWJ/lEd6Iusrdn9iIZpzBpsXECfjMJNtwXXouxBBD/PibqssUjfrfJ7VJSFH9c4CTtx2H2iNmYtywk7fLFfLzfLCvRNjRbwRwNRkVZMot2/gOjDmL1MUGyXiNT8qr4BxA/2bcX8kmFrPSugiHj8TRKedJapdM1LcZZONkV4Dpcceo4jI3dKpbXoFDaLFhFC5V8FCTGaEPN7AhzaGKJ17K2DG9BoStZAZVQrnUd36vA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SN6fJ7hGgUL5RimHHH1l5kkeJHYu5D5U839n1wd7v+g=;
+ b=fCzSgLzO5D3U09jLRcMefg9STkB316oj2kW5zyTHExiMgVdbNNQT3v6fiVVaf0UPkCx4FuF5QVcLtE1eIOFwdjV24kHH8V3K0jainpMywQ7zsy/y3E8wiyVHrELkEymK8IdBnJYt6fvg0F9d6Hku2euTAX6vDofv0c+Y+cV/ypn0K/usskv2MkzZaD72VYJlu3qtdAkaZCuqojdCG+f34MqRp5cMlwGHagAmQASGunYWSVLZlmNZbJlhkxn6LCWeZPz4TB7QEbJP+WXqxAOCn7zvR+UVM/ZRZCMcw53OdbbO8Chod85jUQVuzzZZiidrVMRAkF4JG8tmUEJdrMVmxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SN6fJ7hGgUL5RimHHH1l5kkeJHYu5D5U839n1wd7v+g=;
+ b=l+lczL12M7IS6T33jyoC215tr+1k5bWEbCY85DFFMngJ6cFAP/hwCOjv2d3szkStjfIsp/IvBAEQirBcuGoYb/rAzKauBOrHCGiUwa31RTlIsb0NwEm3p1Au2jbBQlNSFqOT8ge016/Pk244ZPgs8TQcbQZ2biqaIZmd9Y6URJU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
+ by CWLP265MB1889.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:49::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.21; Wed, 22 Feb
+ 2023 19:55:39 +0000
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::2f2a:55d4:ea1d:dece]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::2f2a:55d4:ea1d:dece%4]) with mapi id 15.20.6134.019; Wed, 22 Feb 2023
+ 19:55:39 +0000
+Date: Wed, 22 Feb 2023 19:55:37 +0000
+From: Gary Guo <gary@garyguo.net>
+To: Heghedus Razvan <heghedus.razvan@protonmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Asahi Lina <lina@asahilina.net>,
+ Boqun Feng <boqun.feng@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, Alex
+ Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ =?UTF-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, John Stultz
+ <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ asahi@lists.linux.dev
+Subject: Re: [PATCH] rust: time: New module for timekeeping functions
+Message-ID: <20230222195537.3462c1c3.gary@garyguo.net>
+In-Reply-To: <p7e4M5-kxxScH56bBMtlzht2_m33oSfMPHtExSVbDn0WIPYBEbiJjr2NvNhqCJotFhmYqH5h27EWPDhfSmmST0D-dSU1Alq4_BzDQUR48FA=@protonmail.com>
+References: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net>
+	<87v8jvnqq4.ffs@tglx>
+	<Y/TP6as7qqwfcI42@boqun-archlinux>
+	<87h6vfnh0f.ffs@tglx>
+	<7b93bf74-abdc-f8c1-9a12-7c7f080f9e19@asahilina.net>
+	<87edqioo1e.ffs@tglx>
+	<p7e4M5-kxxScH56bBMtlzht2_m33oSfMPHtExSVbDn0WIPYBEbiJjr2NvNhqCJotFhmYqH5h27EWPDhfSmmST0D-dSU1Alq4_BzDQUR48FA=@protonmail.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0244.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:350::10) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:253::10)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|CWLP265MB1889:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f130720-5e06-40a4-dbea-08db150ec57b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	ur8RndepwNhCSuoR/4FapqBxKBQxLgtJ6/9p/M+HWA6w5AvSYqtQ7Eq+6tqj4gW+nGGBjLd5mzS5NTPxbQtR1NpQqrqNvaXN7lNoieI/MNuKKx6RggAHwVoYDzKWLCgIWIoG2wuDq38QA6JKEURCYgUaKYoG8DpfOah4GT+lgkg8k9wDBivJb5W5/oyxpaXIKMscPpL49oGS8ZNt6Hzzm0TLLQfrtT1mYq4h7IhxX88i8BcZeMKxSkcryxj5EWrvqWSXRzf98fe0sMtW3lDrxmFFKdFdWB9w0vAUjOh2EWafbONEELhdiNse/jfgZQ28reIkbA0IDtH0WBxc7qXs2uWncBlqUEmw+LLS+ZrINAfQRnAF0qWv0MJLHbZaT5oPOj9LrExhtu0ZDPbKm64vPv/tI8r0DdbujoaujCQnwl+IqjVuarFRgCWpOLE44/u/MwqFEQ65JP8XuwP7/cdkqnXYqDrRERhcIY/PzXsvQtXgsy0FgexFZLO0fuhq6g2Iw/SLY0qtNX2uIWGjaKzlmBncaRKfdb3Y3e+NK2dZ1ZkMgVx4K8U/SU6/enYjwuWf8JP88g+qa2EIO909wwUezJ6CAHDA1INLNoweys9+7LBWxpUpL6JZCbZ29rfPvgYU
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230025)(366004)(39830400003)(136003)(396003)(376002)(346002)(451199018)(38100700002)(2906002)(5660300002)(8936002)(7416002)(54906003)(186003)(6512007)(26005)(41300700001)(83380400001)(36756003)(2616005)(6916009)(66476007)(66556008)(4326008)(66946007)(8676002)(1076003)(6486002)(86362001)(966005)(478600001)(316002)(6506007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?8NUTQIZqLC7ooFQ1poCYZeKhGZxOmVZuRL4O7ZOXqbuYNmfxamL3x9tF5Iec?=
+ =?us-ascii?Q?rp4RfQgcC7uZQdF56WjbbZX6RmhQxEKL1/kcDNPTtF2W6upALeYvS4H5JtKg?=
+ =?us-ascii?Q?O+wwLCmF20BGHX0TSF3vVpDyifp7GCIhPG3aeW7qqjUpjC6qkuIF7prYiaa/?=
+ =?us-ascii?Q?bwgdODGOdzfDj4iaH7E9N2J0VYbTsn2zupdZccSkHcumebNEO7H/EbNE03R+?=
+ =?us-ascii?Q?o4VkXzJvEqNAOAMC9ezwUKSR13vZV06at8/QW54CSLh/+rd83s8EaG3bvpLz?=
+ =?us-ascii?Q?SUi7mPq8XYS0TdYXxRVhZGzJvbr/JeFfmUudJ9ifOOGCplgXBa2bST+gLv51?=
+ =?us-ascii?Q?YuPHPRUNGZoARyS6v1uqqzoSxsplIQplRmG9cR6//Xvwn72YYdgZ2AJsIkII?=
+ =?us-ascii?Q?7iQHblqCqy6hEEcbwxUzdiLPV87yHKC59hixuwQNhP3fLVYNBHC1qNcYmW8J?=
+ =?us-ascii?Q?Zk0B9cFql5kECz5mTWqghUn3LusByth7Qiw8yPEzawNfnwpFkXejRY9QPiOS?=
+ =?us-ascii?Q?DJU+VEsU6uaq6SwLWvYRntVCW/IapsMo33sXHT348fl3oCAM2k5ZVr6dS1d9?=
+ =?us-ascii?Q?ynqACMFuRQE0dR1Wyus/3BskObbZ0p/dZl43sCLsQ6UeIkj+mnbSNAwSZ/g3?=
+ =?us-ascii?Q?zVbBT9Z0BXdK9YhX4bFGn0ALVrGAytOUJyczq+vRb37U8JCP1Y8btUfJSjl6?=
+ =?us-ascii?Q?NMEFHyXBeBdfb5OWofEQhzpJ47/HIAOfQAylgMhCsW7otBkE9G1j48uDNa4S?=
+ =?us-ascii?Q?J0j3ISiS8rLIlNnO3eAr0/NDtgT0Pz9Cnxzgp8unprfdwe8HjVZxoJ25N5xc?=
+ =?us-ascii?Q?iappDCvwneOMev8TzVVE20CfrLtd1Wf1mStT+ykU7fB86Ho4AuIFhvtP7xUq?=
+ =?us-ascii?Q?x/sV62Q7/MFCo8cb9zdoORUvp+44sA3vGLv/YXy0p2RNYSI3OAID7LCAWijC?=
+ =?us-ascii?Q?dAi7NrJvXohyBCwrDZM26ykpg1RP96TlX0pAfSnODFH3mvMsinankpEv7npv?=
+ =?us-ascii?Q?ZJpDz2AxXNq92s82mwYpN0uZfj0jJ6VS9bylvsqW3BDInymuH+SS6emGBt0k?=
+ =?us-ascii?Q?JXaTlYodFqR5bpjtzOYt6Hc5RTz/lKWu+aK07UruFYFoDX4piSFlbZNzcJGm?=
+ =?us-ascii?Q?Jty03mIyoRW68qK+vUzOoGYAiOX0g5xuQv/tgX0aCMGlzCwikYEaj+ohd6Cd?=
+ =?us-ascii?Q?r/htxlGgH4ZrE4DxzuatGDRpYBrwoB2uFepGRFafEwLxR4cpYjYtarvvpber?=
+ =?us-ascii?Q?9uXi/QpEb/C7GpjBxf1f0GF2eRppMcQXEi9lAWnTdAaaWE+y9E1dkt+o67k/?=
+ =?us-ascii?Q?0qIgOCeSBLmmHJTj8gWtPLaZDCrMonk24YX5fVPk7b5tuvfjFr+O/u9aTDAO?=
+ =?us-ascii?Q?5HovYbkZpHYuevc7aCse+X7hpsaTBUlD6EVQzB73HWJ3SydCqsvdQRf+B7WZ?=
+ =?us-ascii?Q?QlegyoPz0kZEoP85S/Exnyi33NrNjNH/FfYPeI690nOOlqNiWcc+vfIkk8Dl?=
+ =?us-ascii?Q?CITCLgokQdZwug5sGx1I/yVSbnbygUnKsX6OaUIxGrnIBE3HfT/ortOzbCZC?=
+ =?us-ascii?Q?yBRyxSqx5LkiMIZBRPVd5Nfia6xJMmQfho7GI+SV?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f130720-5e06-40a4-dbea-08db150ec57b
+X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2023 19:55:39.1586
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Fotp99F1z/ekB8wiv0slYYBw40q5WK3J+Hu7pNMDKKmiPddfgG6nYVCl/PIhHLW+ML06zRhaGyqAa3RXNB0iNA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB1889
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: aaf70d5ad5e2b06a8050c51e278b0c3a14fabef5  Add linux-next specific files for 20230222
+On Tue, 21 Feb 2023 21:33:42 +0000
+Heghedus Razvan <heghedus.razvan@protonmail.com> wrote:
 
-Error/Warning reports:
+> On Tuesday, February 21st, 2023 at 8:45 PM, Thomas Gleixner <tglx@linutronix.de> wrote:
+> 
+> > That's the same the Rust std time semantics:
+> > 
+> > Duration = Instance - Instance valid
+> > Duration = Systemtime - SystemTime valid
+> > Duration = Systemtime - Instance invalid
+> > 
+> > No?
+> >   
+> I agree with Thomas on this one. The Rust type system is really powerful and we should take advantage of it. Time deltas can be enforced to be from the same clock at compile time.
+> Just for the sake of it, I wrote a small example on how this can be achieve: https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=1d0f70bb5329b181f203ce7270e2957a
+> 
 
-https://lore.kernel.org/oe-kbuild-all/202302062224.ByzeTXh1-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302092211.54EYDhYH-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302111601.jtY4lKrA-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302112104.g75cGHZd-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302170355.Ljqlzucu-lkp@intel.com
-https://lore.kernel.org/oe-kbuild-all/202302210350.lynWcL4t-lkp@intel.com
+`NowTime` don't need the type parameter. Here's a slightly more polished
+version (also with names changed a bit so it looks more "Rusty"):
 
-Error/Warning: (recently discovered and may have been fixed)
+https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=83702f491050da1c67ab9aa129103f7d
 
-Documentation/sphinx/templates/kernel-toc.html: 1:36 Invalid token: #}
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:294:6: warning: no previous prototype for 'optc3_wait_drr_doublebuffer_pending_clear' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn32/dcn32_resource_helpers.c:62:18: warning: variable 'cursor_bpp' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_detection.c:1199: warning: expecting prototype for dc_link_detect_connection_type(). Prototype was for link_detect_connection_type() instead
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_capability.c:1292:32: warning: variable 'result_write_min_hblank' set but not used [-Wunused-but-set-variable]
-drivers/gpu/drm/amd/amdgpu/../display/dc/link/protocols/link_dp_training.c:1586:38: warning: variable 'result' set but not used [-Wunused-but-set-variable]
-include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
-
-Unverified Error/Warning (likely false positive, please contact us if interested):
-
-drivers/iommu/apple-dart.c:1281:1: sparse: sparse: symbol 'apple_dart_pm_ops' was not declared. Should it be static?
-drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c:1087:28: warning: 'tracker' is used uninitialized [-Wuninitialized]
-drivers/thermal/qcom/tsens-v0_1.c:106:40: sparse: sparse: symbol 'tsens_9607_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:26:40: sparse: sparse: symbol 'tsens_8916_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:42:40: sparse: sparse: symbol 'tsens_8939_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:62:40: sparse: sparse: symbol 'tsens_8974_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v0_1.c:84:40: sparse: sparse: symbol 'tsens_8974_backup_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:24:40: sparse: sparse: symbol 'tsens_qcs404_nvmem' was not declared. Should it be static?
-drivers/thermal/qcom/tsens-v1.c:45:40: sparse: sparse: symbol 'tsens_8976_nvmem' was not declared. Should it be static?
-drivers/usb/gadget/composite.c:2082:33: sparse: sparse: restricted __le16 degrades to integer
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
-|-- arm-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- i386-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn32-dcn32_resource_helpers.c:warning:variable-cursor_bpp-set-but-not-used
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- i386-randconfig-s001
-|   |-- drivers-gpu-drm-i915-gem-i915_gem_ttm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-vm_fault_t-assigned-usertype-ret-got-int
-|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
-|-- i386-randconfig-s002
-|   `-- drivers-gpu-drm-i915-gem-i915_gem_ttm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-restricted-vm_fault_t-assigned-usertype-ret-got-int
-|-- i386-randconfig-s003
-|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
-|-- ia64-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_training.c:warning:variable-result-set-but-not-used
-|-- ia64-randconfig-s032-20230222
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-|   |-- drivers-iommu-apple-dart.c:sparse:sparse:symbol-apple_dart_pm_ops-was-not-declared.-Should-it-be-static
-|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
-|-- loongarch-allmodconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-link_detection.c:warning:expecting-prototype-for-dc_link_detect_connection_type().-Prototype-was-for-link_detect_connection_type()-instead
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-link-protocols-link_dp_capability.c:warning:variable-result_write_min_hblank-set-but-not-used
-
-elapsed time: 721m
-
-configs tested: 114
-configs skipped: 3
-
-gcc tested configs:
-alpha                            allyesconfig
-alpha                               defconfig
-arc                              allyesconfig
-arc                                 defconfig
-arc                  randconfig-r043-20230222
-arm                              allmodconfig
-arm                              allyesconfig
-arm                         at91_dt_defconfig
-arm                                 defconfig
-arm                           h3600_defconfig
-arm                            hisi_defconfig
-arm                  randconfig-r046-20230222
-arm64                            allyesconfig
-arm64                               defconfig
-csky                                defconfig
-i386                             allyesconfig
-i386                              debian-10.3
-i386                         debian-10.3-func
-i386                   debian-10.3-kselftests
-i386                        debian-10.3-kunit
-i386                          debian-10.3-kvm
-i386                                defconfig
-i386                          randconfig-a001
-i386                          randconfig-a003
-i386                          randconfig-a005
-i386                          randconfig-a012
-i386                          randconfig-a014
-i386                          randconfig-a016
-i386                          randconfig-c001
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                        generic_defconfig
-ia64                            zx1_defconfig
-loongarch                        allmodconfig
-loongarch                         allnoconfig
-loongarch                           defconfig
-m68k                             allmodconfig
-m68k                                defconfig
-mips                             allmodconfig
-mips                             allyesconfig
-mips                         db1xxx_defconfig
-mips                      maltasmvp_defconfig
-nios2                               defconfig
-parisc                              defconfig
-parisc                generic-32bit_defconfig
-parisc64                            defconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                     asp8347_defconfig
-powerpc                      chrp32_defconfig
-powerpc                      ep88xc_defconfig
-powerpc                 linkstation_defconfig
-powerpc                 mpc834x_itx_defconfig
-powerpc                      pasemi_defconfig
-powerpc                    sam440ep_defconfig
-powerpc                         wii_defconfig
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-s390                             allmodconfig
-s390                             allyesconfig
-s390                                defconfig
-sh                               allmodconfig
-sh                         ap325rxa_defconfig
-sh                            migor_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                          urquell_defconfig
-sparc                               defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                            allnoconfig
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                                  kexec
-x86_64                        randconfig-a002
-x86_64                        randconfig-a004
-x86_64                        randconfig-a006
-x86_64                        randconfig-a011
-x86_64                        randconfig-a013
-x86_64                        randconfig-a015
-x86_64                               rhel-8.3
-xtensa                    smp_lx200_defconfig
-
-clang tested configs:
-arm                     am200epdkit_defconfig
-arm                          ep93xx_defconfig
-arm                          moxart_defconfig
-arm                         socfpga_defconfig
-hexagon                          alldefconfig
-hexagon              randconfig-r041-20230222
-hexagon              randconfig-r045-20230222
-i386                          randconfig-a002
-i386                          randconfig-a004
-i386                          randconfig-a006
-i386                          randconfig-a011
-i386                          randconfig-a013
-i386                          randconfig-a015
-mips                       lemote2f_defconfig
-mips                malta_qemu_32r6_defconfig
-mips                      maltaaprp_defconfig
-mips                      pic32mzda_defconfig
-mips                       rbtx49xx_defconfig
-powerpc                          g5_defconfig
-powerpc                     ksi8560_defconfig
-powerpc               mpc834x_itxgp_defconfig
-powerpc                      obs600_defconfig
-riscv                randconfig-r042-20230222
-s390                 randconfig-r044-20230222
-x86_64                        randconfig-a001
-x86_64                        randconfig-a003
-x86_64                        randconfig-a005
-x86_64                        randconfig-a012
-x86_64                        randconfig-a014
-x86_64                        randconfig-a016
-x86_64                        randconfig-k001
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Best,
+Gary
