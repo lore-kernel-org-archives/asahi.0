@@ -1,134 +1,82 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD8423A5
-	for <asahi@lists.linux.dev>; Wed, 22 Feb 2023 09:43:56 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id ACD3B32007E8;
-	Wed, 22 Feb 2023 04:43:54 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Wed, 22 Feb 2023 04:43:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canishe.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1677059034; x=
-	1677145434; bh=VCMoJbjvZg10keVee9p0giqEJ7Kc4L7pxVFap9ybfZA=; b=y
-	CGVI2lgePlD/1NBruHBn3wL4lzzTzWTTNX7Jat5egzFIBzBXbo9V9VIZvTDVmuAz
-	uhONZpVSltUQfcLmQ+4UvryHdKPh3mWbCbSYX3BInJgGfAMuHArK3DNvyaKNp96Z
-	QPYIp46enPGM9eJJaCO83ONVXIrjxFTigWlJeNxAIB856NwHHmJI/u677DDOa4c9
-	H4gWFE9Jw+y9xhTT7OgBeopSssxL1GFcVQ6ml8uxsjbBUTwS51CPCwTDOKQfPj6t
-	VK8aX02ZvkBfCVd3ZLut+aPDPXbDpxN+JAYftfgXDo2sEAJXC13DhNaScQPX/cWg
-	bOHe2FZiWEHoab+ajfuBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677059034; x=
-	1677145434; bh=VCMoJbjvZg10keVee9p0giqEJ7Kc4L7pxVFap9ybfZA=; b=r
-	ynIIcEjXhd9PuHRDDK/dtkcnvQ5NYUiWJeqWCWyxjzDa1qpEdOHI2S6EyECWWaMA
-	auwovef0BikLJ4Yj3yHjwCQZuzwQ9Qr13mLCN1S8Z4ctGmH7wu+/HkVApsE40nbi
-	iZILcoRRcpthVJfkNLK1EjF0liofL3xT9CoFu7ceAOF6odRnKNM+3MonPlDWNZim
-	jbGgvE/6d8FZPaJzCgQBiBbl/QnAs5aIqhXpVxgzCjp6F5CT/PKV9gqmBSo49Vd0
-	LNGJx7XBvrY6t4VX9fnvOZtUxh11cl7D2KfP+JPboZGlac0UgRjHJA8keD9OBxH7
-	4YRd0sI2xR9l+2LbacKqQ==
-X-ME-Sender: <xms:2eP1Y1y6L604NRigCI4Y9OXZoh1ntdn2BTJhzZEC8nAT7Z7XmHvujA>
-    <xme:2eP1Y1Qdh3sBiZk16m-4Zwyq25KWpUth3eLBVl1areL4EVLpskPxnu12cROhNIcNC
-    n6R4V95oPfRsexu6Q>
-X-ME-Received: <xmr:2eP1Y_VMsdUgngQLvTh68LDzaBuyF_ibp1532O-EWq7QEEg8t5sSDbGkTgaE2rOkwkiDq6rod-ZjZNmXrSu-MpR1MDJuaQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudejledgtdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurheptggguffhjgffvefgkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpefirggv
-    lhgrnhcuufhtvggvlhgvuceoghgsshestggrnhhishhhvgdrtghomheqnecuggftrfgrth
-    htvghrnhepheefvedtuedugeefhfeihffgvddvtefgffeuuddvheefffetleevteekgeff
-    vedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepgh
-    gsshestggrnhhishhhvgdrtghomh
-X-ME-Proxy: <xmx:2eP1Y3hOYfRg4NqEaOCGSnCe69lYgQ7hHJg9Iz_aU4VzoneQrnxozQ>
-    <xmx:2eP1Y3D90RyXt0wiwIaq5Wp88sBwPXaJS9xUvj9ZyoBZTDX0LVUOUw>
-    <xmx:2eP1YwIlQjOugwokx7omOhMmhy0h33CEBXi52MyNAP4WiTWrD7bb0Q>
-    <xmx:2uP1Y0J8k0vNIH0pb0He4D3sOj2eGnKpZ9Fi_L4_UpseJZ7ZOtTWzg>
-Feedback-ID: i57a145e2:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Feb 2023 04:43:52 -0500 (EST)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B175384
+	for <asahi@lists.linux.dev>; Wed, 22 Feb 2023 12:29:06 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-536a5be71a8so122447937b3.2
+        for <asahi@lists.linux.dev>; Wed, 22 Feb 2023 04:29:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WATwXUE02YF5fbDUCE81eH8TPnQ+aGb50aBo4hFIxNk=;
+        b=QiplMiJKUkp/TB3unYMhsHDTD/GjvtyQDJwG9g4AB9HorSIemK9MXheuD28uhMh8Ks
+         AMPGBsz9r8OkKQh0SqQs4teBvRVkJnFdZRcNcE/7RkOrGT2eJtRI7iXwbQWcpFO6gW/3
+         3LPXCeH+qvFquFojltdc4jBWqFvp84lDKoxUsxh82a/aGX3NNKl4i8MMVd5Eer6waXiF
+         MeNhluqpC4vi+0DIMGAINO7VlqHX6IYCxMJ1xlt6yh0NDh3ndRbtN7H17DDCaWQkmZ/u
+         kdgjhpo22NH4PunI5qk82PmqpzCp3bhCe0iUi3OWS6sIhHr43KNfSRQM41FWJGTRg+L7
+         dZYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WATwXUE02YF5fbDUCE81eH8TPnQ+aGb50aBo4hFIxNk=;
+        b=JhwtvN8hNzB+3RCvTagWxMsEfAwgmJ6IvbwAkR69r4ftI/snsK2mD4+PWAlwPkI8Zu
+         HguhkoifdzA1cL50DIp2Mj1P1iX2unSZU7XdNea18GS4tTcRmQPeM6aoXkVhoJSqlzot
+         +GoAVvHjxP/TmB5wzDtNncv3GI/BfccVxjbEbfauvqMK0po7I82c6LaSSRKR2Gberuuv
+         Q6fTv+QzgUtg0GWOE6flu1p3DNmvCZQ849oFxgzrykS6i0Whp49yg0LR5Bzth9BrWE5V
+         R7OxjFq5HgnjFgpNKK+WhChJm9nLokagAnXXerO7JEK7uC/AeLH2RortqHXBC7rcjBzl
+         8RlQ==
+X-Gm-Message-State: AO0yUKV6DglA5+Uwk9VGxxC1tti2gG480cBMq9KUBm7U94pqGAhNr6M1
+	uwPvXcWeDgPkzC9nW1SnqOo+IoMxnRlgZyChW0Y=
+X-Google-Smtp-Source: AK7set9iQGEwnkH6nWOLKIx3MM7kSE/R4iRhOK7Pktwfd/hIpbvEvpG36h+EpIRBkU11LdyJJUgCZPWV2Ry1J0o3GJ0=
+X-Received: by 2002:a81:66c5:0:b0:527:9733:fdee with SMTP id
+ a188-20020a8166c5000000b005279733fdeemr692330ywc.490.1677068945192; Wed, 22
+ Feb 2023 04:29:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.400.51.1.1\))
-Subject: Re: [PATCH] rust: time: New module for timekeeping functions
-From: Gaelan Steele <gbs@canishe.com>
-In-Reply-To: <87zg96n12k.ffs@tglx>
-Date: Wed, 22 Feb 2023 09:43:39 +0000
-Cc: Josh Stone <jistone@redhat.com>,
- Asahi Lina <lina@asahilina.net>,
- Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- John Stultz <jstultz@google.com>,
- Stephen Boyd <sboyd@kernel.org>,
- linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org,
- asahi@lists.linux.dev
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <EE0C3422-B908-4263-B0E8-27B6DFFCF306@canishe.com>
+MIME-Version: 1.0
 References: <20230221-gpu-up-time-v1-1-bf8fe74b7f55@asahilina.net>
- <87v8jvnqq4.ffs@tglx> <65ab5cb1-2dbe-e853-48ea-d1df87706cf0@redhat.com>
- <87zg96n12k.ffs@tglx>
+ <87v8jvnqq4.ffs@tglx> <Y/TP6as7qqwfcI42@boqun-archlinux> <87h6vfnh0f.ffs@tglx>
+ <7b93bf74-abdc-f8c1-9a12-7c7f080f9e19@asahilina.net> <87edqioo1e.ffs@tglx>
+ <CANiq72n-++roTv3yDNOA=Mi_sscBZX3xPdZ6RZ0Oxx+T82pf5A@mail.gmail.com> <87o7pmmtre.ffs@tglx>
+In-Reply-To: <87o7pmmtre.ffs@tglx>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 22 Feb 2023 13:28:53 +0100
+Message-ID: <CANiq72=oPCO=+yksn4qKemp+OkCm-+T54DQz9f3sSD5SQQLRMQ@mail.gmail.com>
+Subject: Re: [PATCH] rust: time: New module for timekeeping functions
 To: Thomas Gleixner <tglx@linutronix.de>
-X-Mailer: Apple Mail (2.3731.400.51.1.1)
+Cc: Asahi Lina <lina@asahilina.net>, Boqun Feng <boqun.feng@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, asahi@lists.linux.dev, 
+	Heghedus Razvan <heghedus.razvan@protonmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, Feb 22, 2023 at 1:24 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> Back to time deltas (or duration types). Independent of the above it
+> might make sense to be type strict about these as well. Especially if we
+> go one step further and have timers based on CLOCK_* which need to be
+> armed by either timestamps for absolute expiry or time deltas for
+> relative to now expiry. I definitely can see a point for requiring
+> matching time delta types there.
 
+Yeah, if you think having several delta types would make sense for
+some use case, or at least prevent some bugs statically (especially if
+you have been similar issues in the past), then I think we should
+eventually do it. Not necessarily now, of course. We should just keep
+it in mind before the types get a lot of use, because it can be easier
+to merge types (if they end up being unneeded) than to split them
+later (double-checking each instance).
 
-> On Feb 21, 2023, at 9:46 PM, Thomas Gleixner <tglx@linutronix.de> =
-wrote:
->=20
-> On Tue, Feb 21 2023 at 09:13, Josh Stone wrote:
->=20
->> On 2/21/23 4:32 AM, Thomas Gleixner wrote:
->>> Now the problem is that 'Instant' in it's specification is bound to
->>> CLOCK_MONOTONIC and there is no way to express CLOCK_BOOTTIME, but
->>> that's a shortcoming of the spec which ignores CLOCK_BOOTTIME
->>> completely. IOW, that's also a problem for user space.
->>=20
->> That's not exactly *specified* -- it's meant to be opaque time. It is
->> documented that this currently uses clock_gettime monotonic on unix
->> targets, but "Disclaimer: These system calls might change over time."
->> CLOCK_MONOTONIC isn't even consistent across unix targets whether =
-that
->> counts suspended time. It's been debated if we should switch to
->> CLOCK_BOOTTIME on Linux, but for now we're sticking to monotonic:
->=20
-> You'll need both when you want to implement substantial parts of the =
-low
-> level user space stack in Rust. Same for CLOCK_TAI.
->=20
-> Thanks,
->=20
->        tglx
+Thanks for all your feedback on this!
 
-std isn=E2=80=99t really designed to provide full coverage of any =
-particular OS
-interface - it has to provide concepts that map cleanly onto Windows and
-every flavor of Unix.[1] Low-level Unix Rust code typically uses the =
-libc
-crate, which just exports everything from libc as an unsafe function, or
-one of several safe wrappers (nix is the most popular one, I=E2=80=99m =
-partial to
-rustix), alongside std.
-
-[1]: std does in cases provide OS-specific functions - for example,
-std::fs::Metadata (~=3D struct stat) has Unix-specific ways to get the
-mode - but again, the goal here is to be broadly useful, not full
-coverage.
-
-Best wishes,
-Gaelan
-
-
+Cheers,
+Miguel
