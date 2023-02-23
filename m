@@ -1,140 +1,166 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2085.outbound.protection.outlook.com [40.92.103.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3267EA92D;
-	Wed, 22 Feb 2023 21:15:08 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id s26so35833193edw.11;
-        Wed, 22 Feb 2023 13:15:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1hpkcdj31Kp+64I0H+8QjpzTiuX76hZTeMvrWdpVOt4=;
-        b=Y95tEBQTvJnja0wiaBFlONHEPFFpg4E5Aidd7Wxu88GO6+Efw9s32CSm6Qrv+mXXKE
-         i5+x1nQprf7tfF0IcJzKPjG26LQSm8lVS+CQndNmsIeuLxTz3Zws+u23ldaG3K54+WIL
-         IKeo6NJCJ7WchtpfymyIpeNWai8L7kAy3lwcxu51e9DNdYZrZ0f3D1Sw8ivAk+CfDKS3
-         Ek4oq62+5hOyx3h0ySU4oZmDiESIURoGhUvHFCUOXpdaqhWIldAEFOJmG9Rfku2zdt2S
-         XHD98cqCLTBp5a+c55IWJPbpd06egfIFbD37YQMjJACS4ZlT8leLyYR4DAvtMaXLTN/X
-         IY6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1hpkcdj31Kp+64I0H+8QjpzTiuX76hZTeMvrWdpVOt4=;
-        b=thMq8KbCqsWNousqpeBo+eweUiagiITTc+gaHhNIqfuvv6xzl/JJDAbv27v1VU74YD
-         az246G5CD7CsZsrpArDluLAPcOV8r9DN4hNc2/J2hnKhTzco95p/becgk2hxT0hKChSg
-         XvB2uHDGm9alk2HuZirBA1ClJgFZE0/Sam14o4nmHbjBUDbnKbVXQFT+m3y+cZwcl8ET
-         PWm6gbUDaKzrvO/4XPrRz1mjjNC/VmZ8lY0PFiUPU26J1t5pJI+08jNzEG6/QzLllZ7f
-         +1EfC54/sodm3ilO4VZFwd1fkC1F59Yq4mTIl1ftGeRg71QlqCE1rC1LvmdMct9OGHgD
-         bsJg==
-X-Gm-Message-State: AO0yUKUhQKeFDG6+7gGWn35yhH41xsqFbdKPN3SH3JI/QwRSvQf3LyTL
-	zx7d9ouGlxuVxlhqzWyDlROga3HbWyde6g8bpUs=
-X-Google-Smtp-Source: AK7set8TXb46bTmDPfzW/xczn6QfGU7MdMXPRf/CaO6cyWdNx+3X84yvibHTXzLWWA/EAH5iiZY+OShEAAHjsEGwRMc=
-X-Received: by 2002:a50:f611:0:b0:4ac:b7c1:9109 with SMTP id
- c17-20020a50f611000000b004acb7c19109mr4476929edn.6.1677100506156; Wed, 22 Feb
- 2023 13:15:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65E728ED
+	for <asahi@lists.linux.dev>; Thu, 23 Feb 2023 15:01:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PC2B5ems2m55Jsl11su6niZ1QF2fe5z187d3KUjkcHjG0CM6sIRHOG5ICRGwAFGCX4ToE8r6VysfEng9MxwxucjQrzfwqAqtvv27z00nikZpYFw0sM6wYUuMKDMgMhUKr8/gnmoNMaGBdi4p+2tjlY2it42GYwRIJK5DLb+gZ54CWDJiwEQXqc6rkBTmABzSHFgLfURNnWyHBWnc9brUS3ecgnPmnj5YvRSG52Y978KRz+feXR+hZo+v3GPGwYuac7EGsb7Gg3Rnfa7Yf9cKnh9SUw+z1C+mJCjRZsbEpHW7U8acyxpSMbE6KpXgJHRYGJSeQHsQxOhbGTZysyeLlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sTbYqBC8FAUIBzj7tk/iPo72DsiVvLEfgZa1iSrltB0=;
+ b=ASMrfnN+obnfKj2vpGcVAkQowcJxNK4coM3tR/6iD8vEr9O65bUYSrSPwQhKIkmh6s6txfHTAj0IBDhT0Lo8icdQav4VrNVwUEdY7dlF47R9C3iCbrDGj8LXSK8wws17f238x4nh6lulDEDnIu0UDA59kNbQTDlTNXc7EXAHFKhSgvLLwYqDuer8vsTgudVwXPK1iVmQ/Ae1C3574Nhjyndw+4U9yD6mvno+NUxwCytONMElbj/YlVomIlIWL5Is83rySDfOI47r5zt7va7abvdZhNl/zBSeMsw4YjzTQNUugXdnuAxwhzsgJCefqWyf5C1x+6xhKpAEER00vxAwzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sTbYqBC8FAUIBzj7tk/iPo72DsiVvLEfgZa1iSrltB0=;
+ b=C5FXD3yma10dhxhMNpbVpC7x5CAq3/BpY1aouutFiRxCC00EHEJzx6DWVwd+a0S1e1aCNVfMMHZdNlolCe1UrJs7QX37S7Sg/g00NeuBm1/BwNWCaKLEvq6xhjX2NYBNorS5fhqNgaNteqWZ5yrQwSTAnqraCw/veVzjl3nvoAuKgWA4WjD98K9e8z9USotgYMlwe6/gOe2TPL1TE3aaMxrMUpmr2R1vcf5pepKha5QIUy//kRPwoi6oGqwZXLYLlBuQjraJnCEHg6WDEV4Qt9Q84elWdKksEl69gAC5fVgA1wzy1lqVO343ETdB5LpsFGYNleyowyU06/RHk21ysA==
+Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2::9) by
+ MAZPR01MB8968.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:d0::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6134.19; Thu, 23 Feb 2023 15:01:49 +0000
+Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::f156:868f:a45b:aeee]) by BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::f156:868f:a45b:aeee%11]) with mapi id 15.20.6156.007; Thu, 23 Feb
+ 2023 15:01:49 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Hector Martin <marcan@marcan.st>
+CC: Arend van Spriel <aspriel@gmail.com>, Franky Lin
+	<franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>,
+	Kalle Valo <kvalo@kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+	<alyssa@rosenzweig.io>, Linus Walleij <linus.walleij@linaro.org>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
+	"SHA-cyfmac-dev-list@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] Apple T2 platform support
+Thread-Topic: [PATCH 0/2] Apple T2 platform support
+Thread-Index: AQHZR5fA6B2arN4fj02dzTxrW7w7KA==
+Date: Thu, 23 Feb 2023 15:01:48 +0000
+Message-ID: <379F9C6D-F98D-4940-A336-F5356F9C1898@live.com>
+References: <20230214080034.3828-1-marcan@marcan.st>
+In-Reply-To: <20230214080034.3828-1-marcan@marcan.st>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [rMVh0onSZI3JfMFM/stkEBlpCw6tqmNW]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|MAZPR01MB8968:EE_
+x-ms-office365-filtering-correlation-id: 53e35224-b17c-4a25-1cb3-08db15aee35b
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ B7Wr0sfZK/1EWwUl2aNmVN9zHY68J2fgkIFoFESGz9RO4Ks1VSN125K1YEvYpOPGx4/21h8Q1AKpfMvpnJp0iOvTfHFpWNAViDMJ2KcnB7kTdP64/7e1aeBU87IvYQLtTg/sb5M2ST4xZxthojS1kqqTHksdYjc2IRRS2m05v4TaP3Coo+FqRRBGi8HD6KBLQdOTHjjH+dT7COTG+CqxEmSo3kd1tltdLF5FPl+skBkCNb4Vm2SHbPw/0WTVJhegnB62TIs0HYpfnBlZEKrcfuuDNx4cdhtMT+3JyxGyq1sE8RBuFB9dNFx5z7Pg9VD+JSQTI5pdgGA7fjBakR2X54kP7B9nVd6ZQmOSUkwWU7QwWt1qsLRxcLK834EVk23WAykuctR/eGH4Wk6SIuOlecQMvnLw3zYR0K06sqnhyUCsu1FP5jqJ45X6nJQLnSEcjCnilwtVnWzIr4aNFdzVGeIyJFz004bZETvTNtcI2ZDPAcVuqywn5fVBxkyUXpXexE5E9JEmnAVjrZOXafI/6XUEYsvq5WgGDH3H1+DFzhSifFdu0SNZ1CsRwEE7rnmSVaVQYan2n98R11C+1WQYaABX0YXmV6+CSS6jpR+HLAu2wmAQn339HxTQV62wBgzWxvOfO+sxL7ouyPkxVvM/8w==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?L1JHVlBZWGg5TlF1U2MrV29SenpJWkZKdkdBYWVHVnd1bXRGTEYvY2NTcHBx?=
+ =?utf-8?B?MnFsMWxlRGd2UXdBbnNFcjVPWnVlUEZiUFk1VlBubUdsZzV1T2tPUE1yUU9W?=
+ =?utf-8?B?Ym1oUnQ4NXVRSW45ME5GamRDaXJGT1dMclFxc2tFK3JFNng1ajJIYnlUVDJl?=
+ =?utf-8?B?RmprRk1QVUpXeXVSRldjMVZHd1ZEb1g1N1p0RG8rS09sM1VWekZ1NXQ5bkxF?=
+ =?utf-8?B?cmE2OTJXZW00YUsza09PMVkwb3hvQ2ZmcG5CWmxoNTc3Tk5SMTNiTGtod2xT?=
+ =?utf-8?B?WmNzeUt6QnhEQ1hKN25qL2h0T05ia2xUNTN1bk4rR1ZJaDZTK2NWcUU1MkZN?=
+ =?utf-8?B?bzZEMWQyNjNWYm5aa0ZHR2t3WGFtV1Y3ZEwvYXF5YjJjR1A5MmNNYnczUzVl?=
+ =?utf-8?B?UkJUWmxSRWNpVFpJcGZrVDJiQk44RU5BTHFpdDRoajlIVjByYzM0MlZtUUtR?=
+ =?utf-8?B?UTBRck5JcDV5eGVvUkpDUXBwZER4eHJyZ2d6SnZiN0pUTFFiVURyUHZEQ3U5?=
+ =?utf-8?B?OVFWQlBwNm14aGdnbnBrSW94NC9VOHdhUUJHOFR4ckNnN2d3WS9FL0JrVmVT?=
+ =?utf-8?B?TmMzN0tIZDB2a09LUjBoYWt6UktCTWJkQ2Fza0poR0NlQ3F0RFcxVnhSZS9V?=
+ =?utf-8?B?czNmRDlBK0RseHJoRkNhS2tsc0FZaDdsRGo5eUZIY2dVSTVHM0ZDSjV4QzJL?=
+ =?utf-8?B?NURiU2hBYVBvZUsxdnFSRDJVemlOWFJ4SUhQWUN0VkgzMkJHN2NwWFJmdGdJ?=
+ =?utf-8?B?L1pLQnNWWXozYlgvNGxJa2NmMHdPWFJQbHBSdElyTTVkVmVRYjhacTM4c3Bx?=
+ =?utf-8?B?RGZLOUcxSEZsNW9DQ0dxcXNiMThuSHZkK2RNQjdkM1ZpcDZCSEkzQ2dUWFVY?=
+ =?utf-8?B?TXNrS3QzZmsxM3p1THBjZmhzUnYvemorNlZzaXRKcHdIRGhYdTN2aGhhNDV4?=
+ =?utf-8?B?NEpCazBNMjhubUQvYzVpL2k5emYyS1lOb3dTM0tLWWVDOE0rT1FJd3JWbEg1?=
+ =?utf-8?B?Vmd5d0hzNzB4UmJNWXU0RFo4RXFyUHdWZ2tRWTVKTndtblVmM3piRmNOaTBa?=
+ =?utf-8?B?bGJkelhxdkhidEt2bW9xbC90dXZwK0Y1Q3JvYmhCSzZsUzlCQTE3RlZ3ejI5?=
+ =?utf-8?B?TGI5ODIxOGdham9JRzJFT2J3K3dFcy9hU0t6enFZR3ZwZ0NTNEdZcG10RjNE?=
+ =?utf-8?B?U3BLNDQ4WE1lMk5nUGhJVWI3V0huWVVLbzVOcVRCaXY5RUxiKzl4cFBhbUho?=
+ =?utf-8?B?aUdSRUsyTE5LcSt2SWplaGltUWlyS1BvbVZ1SkI5bDBjeEtDWVhUU0U2Vytk?=
+ =?utf-8?B?YnJXWTM3THlXcEFiYlM4QmNHclZiSVVsSHo1N3hKVHVkKzUxalJ2UWMzSzIv?=
+ =?utf-8?B?VldQTkpsZ2pRSWdkdjBDU2s3V2w4Wnd4WWtYZVI5d2VnZkdUUGlVOFJ3UEZ3?=
+ =?utf-8?B?WFB4SkxJbWY5aEhIcTBkZVdLS2t3ZDJ2K3BvRWJlRk14RGRuS2ZiR0JDaDRG?=
+ =?utf-8?B?M1ZMcVNZZDVVNHVUTENiSGJENmRpQXAvWFNVVWZVb3lvdHJYQUh2WmtsOFJz?=
+ =?utf-8?B?NDhLeGNrUzZiT2FEd2d5Vi9YYzVEZ3ZVOUNJSWF5S2ZzUTFtWHpkQk9tVHdm?=
+ =?utf-8?B?WTBHdW1tWmhVV3Nld1NPZWdRZFZVNzVPd2tIY0pPeDQrTjJYT1Njdmp5aEgy?=
+ =?utf-8?B?RTd0STNNSnM1b05jODhPemJSck9IamdIYnFyM1pKU1l3RU9waHgxQ2p3PT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <40675B01EA5D794E887D6BA8C5E75222@INDPRD01.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230221145021.31993-1-zajec5@gmail.com> <CAFBinCDxB=xtz9mtZupBC7J5oxknN1ENHzJ-cFxX4FTDSgZeFQ@mail.gmail.com>
- <101a5bdf-870a-a1bb-954d-1d675ecad5a7@gmail.com>
-In-Reply-To: <101a5bdf-870a-a1bb-954d-1d675ecad5a7@gmail.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Wed, 22 Feb 2023 22:14:55 +0100
-Message-ID: <CAFBinCDcDYtdOdikc2ieXjRUkrjgwNKaPYvYZb_v84gh66q=bw@mail.gmail.com>
-Subject: Re: [PATCH] nvmem: add explicit config option to read OF fixed cells
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Claudiu Beznea <claudiu.beznea@microchip.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo <a.zummo@towertech.it>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Evgeniy Polyakov <zbr@ioremap.net>, 
-	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	linux-rtc@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53e35224-b17c-4a25-1cb3-08db15aee35b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2023 15:01:48.5792
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB8968
 
-Hello Rafa=C5=82,
-
-On Tue, Feb 21, 2023 at 11:29 PM Rafa=C5=82 Mi=C5=82ecki <zajec5@gmail.com>=
- wrote:
-[...]
-> > I am not familiar with the recent changes around dynamic cells.
-> > Is there any discussion/summary that I can read to get up to speed?
->
-> Some NVMEM devices don't store specific data at hardcoded offsets. For
-> such devices we have drivers (to become: layouts) that parse their magic
-> content. They discover cells and register them and provide matching with
-> proper DT nodes.
->
-> For bindings see:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D084973e944bec21804f8afb0515b25434438699a
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3Da607a850ba1fa966cbb035544c1588e24a6307df
->
-> For example driver see:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D6e977eaa8280e957b87904b536661550f2a6b3e8
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D207775f7e17b8fd0426a2ac4a5b81e4e1d71849e
->
-> For usage see:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3Dc8442f0fb09ca3d842b9b23d1d0650f649fd10f8
-Thanks, that makes things clearer for me!
-
-> > My main thought is: if there are many "fixed OF cells" implementations
-> > and only a few "dynamic" ones - does it make sense to flip the logic
-> > and introduce a new "use_dynamic_of_cells" flag instead?
->
-> The problem is that there are more cases than just two. We can have:
-> 1. No cells at all
-> 2. Fixed cells in DT
-> 3. Dynamic cells with references in DT
-> 4. Driver specified cells (specified within config)
-> 5. Cells defined in a global table
->
-> So we need to reference DT cells explicitly (we can't just confirm /
-> deny *dynamic* cells).
->
-> Another solution would be to have "no_fixed_of_cells" but:
->
-> 1. Personally I think negation is less clear / easy to follow
->
-> 2. There may be actually more drivers with no fixed cells.
-> I think I modified 18 drivers. It seems devm_nvmem_register() is
-> referenced in 44 places. Few of them may be not actual users but it
-> still seems to be about equal.
-Thanks for this overview of all the special cases. Please add my:
-Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-for the following two drivers:
-- drivers/nvmem/meson-efuse.c
-- drivers/nvmem/meson-mx-efuse.c
-
-
-Best regards,
-Martin
+SGkgSGVjdG9yDQoNCknigJl2ZSBhcHBsaWVkIHRoZSBmb2xsb3dpbmcgcGF0Y2hzZXQgKGFycmFu
+Z2VkIGluIGNocm9ub2xvZ2ljYWwgb3JkZXIpIHRvIGxpbnV4IDYuMiwNCmFuZCB3aWZpIHNlZW1z
+IHRvIGhhdmUgYnJva2VuIG9uIE1hY0Jvb2tQcm8xNiwxIChicmNtZm1hYzQzNjRiMykNCg0KaHR0
+cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYXNhaGkvMjAyMzAyMTIwNjM4MTMuMjc2MjItMS1tYXJjYW5A
+bWFyY2FuLnN0L1QvI3QgKEJDTTQzNTUvNDM2NC80Mzc3IHN1cHBvcnQgJiBpZGVudGlmaWNhdGlv
+biBmaXhlcykNCg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYXNhaGkvMjAyMzAyMTQwODAwMzQu
+MzgyOC0xLW1hcmNhbkBtYXJjYW4uc3QvVC8jdCAoQXBwbGUgVDIgcGxhdGZvcm0gc3VwcG9ydCkN
+Cg0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYXNhaGkvMjAyMzAyMTQwOTE2NTEuMTAxNzgtMS1t
+YXJjYW5AbWFyY2FuLnN0L1QvI3QgKEJDTTQzODcgLyBBcHBsZSBNMSBwbGF0Zm9ybSBzdXBwb3J0
+KQ0KDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9hc2FoaS9iNDQ4OWUyNC1lMjI2LTRmOTktMTMy
+Mi1jYWI2YzEyNjlmMDlAYnJvYWRjb20uY29tL1QvI3QgKGJyY21mbWFjOiBjZmc4MDIxMTogVXNl
+IFdTRUMgdG8gc2V0IFNBRSBwYXNzd29yZCkNCg0KDQpUaGUgbG9ncyBzaG93Og0KDQpGZWIgMjMg
+MjA6MDg6NTcgTWFjQm9vayBrZXJuZWw6IHVzYmNvcmU6IHJlZ2lzdGVyZWQgbmV3IGludGVyZmFj
+ZSBkcml2ZXIgYnJjbWZtYWMNCkZlYiAyMyAyMDowODo1NyBNYWNCb29rIGtlcm5lbDogYnJjbWZt
+YWMgMDAwMDowNTowMC4wOiBlbmFibGluZyBkZXZpY2UgKDAwMDAgLT4gMDAwMikNCkZlYiAyMyAy
+MDowODo1NyBNYWNCb29rIGtlcm5lbDogYnJjbWZtYWM6IGJyY21mX2Z3X2FsbG9jX3JlcXVlc3Q6
+IHVzaW5nIGJyY20vYnJjbWZtYWM0MzY0YjMtcGNpZSBmb3IgY2hpcCBCQ000MzY0LzQNCkZlYiAy
+MyAyMDowODo1NyBNYWNCb29rIGtlcm5lbDogYnJjbWZtYWMgMDAwMDowNTowMC4wOiBEaXJlY3Qg
+ZmlybXdhcmUgbG9hZCBmb3IgYnJjbS9icmNtZm1hYzQzNjRiMy1wY2llLkFwcGxlIEluYy4tTWFj
+Qm9va1BybzE2LDEuYmluIGZhaWxlZCB3aXRoIGVycm9yIC0yDQpGZWIgMjMgMjA6MDg6NTcgTWFj
+Qm9vayBrZXJuZWw6IGJyY21mbWFjIDAwMDA6MDU6MDAuMDogRGlyZWN0IGZpcm13YXJlIGxvYWQg
+Zm9yIGJyY20vYnJjbWZtYWM0MzY0YjMtcGNpZS5iaW4gZmFpbGVkIHdpdGggZXJyb3IgLTINCkZl
+YiAyMyAyMDowODo1NyBNYWNCb29rIGtlcm5lbDogYnJjbWZtYWMgMDAwMDowNTowMC4wOiBicmNt
+Zl9wY2llX3NldHVwOiBEb25nbGUgc2V0dXAgZmFpbGVkDQoNCkkgYWxzbyB0ZXN0ZWQgdGhlIHBh
+dGNoaWVzdCBpbiB0aGUgZm9sbG93aW5nIGxpbmssIGFuZCB3aWZpIG1vc3RseSB3b3JrZWQgdGhl
+cmUgKG9jY2FzaW9uYWxseSBpdCBjb21wbGFpbmVkIGFib3V0IHNvbWUgcGljIGVycm9yLCBJ4oCZ
+bGwgc2F2ZSB0aGUgbG9ncyBuZXh0IHRpbWUgSSBlbmNvdW50ZXIgdGhhdCkgOg0KDQpodHRwczov
+L2dpdGh1Yi5jb20vdDJsaW51eC9saW51eC10Mi1wYXRjaGVzL2Jsb2IvbWFpbi84MDAxLWFzYWhp
+bGludXgtd2lmaS1wYXRjaHNldC5wYXRjaA0KDQpUaGFua3MNCkFkaXR5YQ0KDQo+IE9uIDE0LUZl
+Yi0yMDIzLCBhdCAxOjMwIFBNLCBIZWN0b3IgTWFydGluIDxtYXJjYW5AbWFyY2FuLnN0PiB3cm90
+ZToNCj4gDQo+IEhpIGFsbCwNCj4gDQo+IFRoaXMgc2hvcnQgc2VyaWVzIGFkZHMgdGhlIG1pc3Np
+bmcgYml0cyB0byBzdXBwb3J0IEFwcGxlIFQyIHBsYXRmb3Jtcy4NCj4gDQo+IFRoZXJlIGFyZSB0
+d28gcXVpcmtzOiB0aGVzZSBkZXZpY2VzIGhhdmUgZmlybXdhcmUgdGhhdCByZXF1aXJlcyB0aGUN
+Cj4gaG9zdCB0byBwcm92aWRlIGEgYmxvYiBvZiByYW5kb21uZXNzIGFzIGEgc2VlZCAocHJlc3Vt
+YWJseSBiZWNhdXNlIHRoZQ0KPiBjaGlwc2V0cyBsYWNrIGEgcHJvcGVyIFJORyksIGFuZCB0aGUg
+bW9kdWxlL2FudGVubmEgaW5mb3JtYXRpb24gdGhhdA0KPiBpcyB1c2VkIGZvciBBcHBsZSBmaXJt
+d2FyZSBzZWxlY3Rpb24gYW5kIGNvbWVzIGZyb20gdGhlIERldmljZSBUcmVlDQo+IG9uIEFSTTY0
+IHN5c3RlbXMgKGFscmVhZHkgdXBzdHJlYW0pIG5lZWRzIHRvIGNvbWUgZnJvbSBBQ1BJIG9uIHRo
+ZXNlDQo+IGluc3RlYWQuDQo+IA0KPiBDaGFuZ2VzIHNpbmNlIHRoZSBtZWdhc2VyaWVzIGZyb20g
+YSB+eWVhciBhZ286IG1hZGUgdGhlIEFDUEkgY29kZSBiYWlsDQo+IGlmIHRoZXJlIGlzIG5vIG1v
+ZHVsZS1pbnN0YW5jZSwgc28gd2UgZG9uJ3QgdHJ5IHRvIGdldCB0aGUgYW50ZW5uYQ0KPiBpbmZv
+IGF0IGFsbCBpbiB0aGF0IGNhc2UgKGFzIHN1Z2dlc3RlZCBieSBBcmVuZCkuIE1hZGUgdGhlIHJh
+bmRvbW5lc3MNCj4gY29uZGl0aW9uYWwgb24gYW4gQXBwbGUgT1RQIGJlaW5nIHByZXNlbnQsIHNp
+bmNlIGl0J3Mgbm90IGtub3duIHRvIGJlDQo+IG5lZWRlZCBvbiBub24tQXBwbGUgZmlybXdhcmUu
+DQo+IA0KPiBIZWN0b3IgTWFydGluICgyKToNCj4gIGJyY21mbWFjOiBhY3BpOiBBZGQgc3VwcG9y
+dCBmb3IgZmV0Y2hpbmcgQXBwbGUgQUNQSSBwcm9wZXJ0aWVzDQo+ICBicmNtZm1hYzogcGNpZTog
+UHJvdmlkZSBhIGJ1ZmZlciBvZiByYW5kb20gYnl0ZXMgdG8gdGhlIGRldmljZQ0KPiANCj4gLi4u
+L2Jyb2FkY29tL2JyY204MDIxMS9icmNtZm1hYy9NYWtlZmlsZSAgICAgIHwgIDIgKw0KPiAuLi4v
+YnJvYWRjb20vYnJjbTgwMjExL2JyY21mbWFjL2FjcGkuYyAgICAgICAgfCA1MSArKysrKysrKysr
+KysrKysrKysrDQo+IC4uLi9icm9hZGNvbS9icmNtODAyMTEvYnJjbWZtYWMvY29tbW9uLmMgICAg
+ICB8ICAxICsNCj4gLi4uL2Jyb2FkY29tL2JyY204MDIxMS9icmNtZm1hYy9jb21tb24uaCAgICAg
+IHwgIDkgKysrKw0KPiAuLi4vYnJvYWRjb20vYnJjbTgwMjExL2JyY21mbWFjL3BjaWUuYyAgICAg
+ICAgfCAzMiArKysrKysrKysrKysNCj4gNSBmaWxlcyBjaGFuZ2VkLCA5NSBpbnNlcnRpb25zKCsp
+DQo+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL25ldC93aXJlbGVzcy9icm9hZGNvbS9icmNt
+ODAyMTEvYnJjbWZtYWMvYWNwaS5jDQo+IA0KPiAtLSANCj4gMi4zNS4xDQo+IA0KPiANCg0K
