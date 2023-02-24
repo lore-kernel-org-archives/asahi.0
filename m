@@ -1,96 +1,202 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3992AD58
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 19:22:17 +0000 (UTC)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-536be69eadfso6806257b3.1
-        for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 11:22:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A39DBA51
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 23:56:34 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id r5so1257901qtp.4
+        for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 15:56:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=1dQJ4NeCh2yCYcktvyXPHPtI2YcfoAFO5bG0pt+V4UA=;
-        b=Z7J47KCBMmjnci7204yUSrHA54PyNEiPcbMu5Ng8miUMVQkD+HR4QY9GyRW9KyJFfh
-         gxFIrTY0IEhABroZ9eOc4RT8Q1F3hXyEGgQh7KbL5j21kGbRY0VS2y4dXYGrK53fbdbL
-         vB0SQU4bq7ociZAJhJ68pj14YUqVwCy/OYtmNEqC+KkQKtg5T2C8J6oui6ofREYfH5N1
-         aWQNZymEoVvDWYv54BWvgjvcBjaTm7cR81emeFC2ni7aWahrgIBGmmP2BQM9Kndveih4
-         25BHXzwtU9pVBqtGToE2oViWEskMZPfqGAr3Nqc6z6QNW9Z9LrdMMIlKf4AHkMjwwvw1
-         ZWeQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mg1OhrK00U2abybneZCMDTPfqJM1ATwamgUcjQxT/Ug=;
+        b=GiygabvyzRuFJ8dv+ivRo4TEC+5qtINQFNuDy7WUVNf6VjdtII4weY5pTfheItp32m
+         FAF3kfBxoxVYBIaBU6+ddc0CvpZ6btskJh4DWm7CVnTqHeihGRS8oky97Cy9rpXd6Yiu
+         U0JTpYp60G3Y9W0SruQ+Qk4CMAyqTctP2xfpnmc3jwGzQ7UCuhmL3CbqmbyVIt87U8PX
+         jMy1BcHhv7l59Rb9OYtwpR5LwXlGnyC3CN0WS7NgRAzxXKVnwvethiLcXe6IkXWCdcBI
+         /A1FhsY3XtEiLJ8LizRwRENmtU/Tk6bwlmsmQm0HJdXeUVXMRTBPhVxXpgqp8lqf0Hky
+         1BSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1dQJ4NeCh2yCYcktvyXPHPtI2YcfoAFO5bG0pt+V4UA=;
-        b=rJFhg78rIWgKmiawfHjcYBdnd/ug0fj3/b7uu17gnxd4/W7DWs4TNRuwx5n8VP+821
-         3GsHcUSKj7uI6GGgfkJA9bdo+APVDeRRVigEsz8g4PoPhTzw5c1GnwSGjBjjprfJWi+2
-         JByhtaOaN7G38kRNNN/+B21RTQrvmbioq/OyFRD2BgtFhD3U4NSwlhGh4/2MrYw+To27
-         WmpfY+BUZ17/R7bA3K2KoAO3Y/eUI8x3KG8l7P9c4MbzJhVOndlW0eCC3vP4pzDFL54G
-         C/TBsFsG3yb0961j8zITGOui7JtoRYUPitHm/sjT1SvrFwcixZLe/rtsbOAYrKNwikEy
-         8SGQ==
-X-Gm-Message-State: AO0yUKUrBeO4/kdpwrVBm/Hv4wMON/EkOeshsSQH0mTBHTJIYUqhYbpw
-	c+QHCRvrYIDrlk+WpDrL6SlJGlUZxl90lvMhdIw=
-X-Google-Smtp-Source: AK7set/R28QvGfhJywxPGFReAP8jrRtUhsgcrOepNyTAwgrhq88lC/ubygi9PjkBfq8WRFDXsuYVy4OFA/sALEh3GNY=
-X-Received: by 2002:a81:b606:0:b0:52e:c79a:cda with SMTP id
- u6-20020a81b606000000b0052ec79a0cdamr5092139ywh.10.1677266536672; Fri, 24 Feb
- 2023 11:22:16 -0800 (PST)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Mg1OhrK00U2abybneZCMDTPfqJM1ATwamgUcjQxT/Ug=;
+        b=w0zYtAF08frfZem2oe108J7NCxwXBRRU/xPd32uiwNKLRD4rcWpr/xiJBQjw1fAH0b
+         ZZ/cTR5eUYeWkUsDUnk/q0nqCsZoWm9aGxfcND9vnMYaiUNr+R6K1NsGDS639XzvU60M
+         Vp7nTFi30vBg2LVleO5qdglm5t+7VF+7hWdY085Z4LpAWUCTrJU0NdOuQ6F7nEqbXXBB
+         LpAc+cEHImnF2JmbWSJTlVZqJdhh0RTXqovfRdiZbcmTtQduYlilaWuSwSKQamBvxSz0
+         TceIdxS0YgvyF4CkES6sWDy6vPSLJdoBdiOnKfHD19O+eLOiKjutpbiwXoCmU0a/h51j
+         a6IQ==
+X-Gm-Message-State: AO0yUKUh9JBz/R9NvtQhVnEXUKKzgJP+Ux0JPt2Cz+kOupukDJ3cMp33
+	FcNn82/9Fx2cqEW+azVS0VU=
+X-Google-Smtp-Source: AK7set+CUGse5PQzutt0zUhWY1SRG6tx0fw2YPSB3juRWoaHUjROLJOFGsQFJr0Vbn70qpGsYVHarA==
+X-Received: by 2002:a05:622a:c6:b0:3bf:c665:657 with SMTP id p6-20020a05622a00c600b003bfc6650657mr281115qtw.8.1677282993098;
+        Fri, 24 Feb 2023 15:56:33 -0800 (PST)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id t30-20020a05620a005e00b00742709bc5edsm291976qkt.5.2023.02.24.15.56.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 15:56:32 -0800 (PST)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailauth.nyi.internal (Postfix) with ESMTP id 0933727C0054;
+	Fri, 24 Feb 2023 18:56:31 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Fri, 24 Feb 2023 18:56:32 -0500
+X-ME-Sender: <xms:r075YyXhOKyjdjgVphWHVyKy6cjIrDB_C2iDKSi51bLdZIQxqQLW2A>
+    <xme:r075Y-k2kVqw78n09CMOwAgyd_XbiSjRPOr-VyoaxqoHFU_9M_wxk3LUgxg14yDIZ
+    6hG758rm4MZhBvW2g>
+X-ME-Received: <xmr:r075Y2YPVqsn_xIskHNtbTlLy6bxgqWg1HPpEtVDjE45e7pPW1VC_0Nuv7U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekgedgudehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhu
+    nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehudfgudffffetuedtvdehueevledvhfelleeivedtgeeuhfegueeviedu
+    ffeivdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdei
+    gedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfih
+    igmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:r075Y5WeZTC3YruI4k9p0OVOq-louwPCjoZKGlOXhpqw-N2pMMTckw>
+    <xmx:r075Y8knXovlpj2zQVtOQDHUDN-qqwuCjHu4ga50I7RvMxKL282wGw>
+    <xmx:r075Y-ciCGuJDpogbTh2hnCx3Bn5iTHz-WCKdWNt4MHk0BKL9ggGEQ>
+    <xmx:r075Y1c-shbs9FZq5sSEnT3_PgEBnnigeaSdiVOBRe-oMdLlsNwFuw>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 24 Feb 2023 18:56:30 -0500 (EST)
+Date: Fri, 24 Feb 2023 15:56:05 -0800
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Sven Van Asbroeck <thesven73@gmail.com>,
+	Fox Chen <foxhlchen@gmail.com>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH 5/5] rust: error: Add from_kernel_result!() macro
+Message-ID: <Y/lOlcSpc+d9ytq/@boqun-archlinux>
+References: <20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net>
+ <20230224-rust-error-v1-5-f8f9a9a87303@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
- <20230224-rust-iopt-rtkit-v1-2-49ced3391295@asahilina.net>
- <Y/ieQ0UX/niAG1Hg@kroah.com> <ef3a3638-6381-87ab-d674-644306b6b6ce@asahilina.net>
- <Y/jFeZzZVCpBGvGv@kroah.com> <e6d6d928-4514-55b9-346d-2e5e82220729@arm.com>
- <87de1cd0-a57a-3391-a4b8-599ee0307491@asahilina.net> <59a61ddc-4a96-c846-c12b-0d1e3789683c@arm.com>
- <5a00dcb1-8368-c3ce-6fcb-5932f5eb50a5@asahilina.net>
-In-Reply-To: <5a00dcb1-8368-c3ce-6fcb-5932f5eb50a5@asahilina.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 24 Feb 2023 20:22:05 +0100
-Message-ID: <CANiq72k_NNFsQ=GGCsur34CTYhSFC0m=mHS83mTB8HQCDBcW=w@mail.gmail.com>
-Subject: Re: [PATCH 2/5] rust: device: Add a minimal RawDevice trait
-To: Asahi Lina <lina@asahilina.net>
-Cc: Robin Murphy <robin.murphy@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>, Hector Martin <marcan@marcan.st>, 
-	Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230224-rust-error-v1-5-f8f9a9a87303@asahilina.net>
 
-On Fri, Feb 24, 2023 at 5:23 PM Asahi Lina <lina@asahilina.net> wrote:
->
-> So I guess what I'm saying is that at the end of the day, if we can't
-> get an interface to be 100% safe and sound and usable, that's probably
-> okay. We're still getting a lot of safe mileage out of the other 99%! ^^
+On Fri, Feb 24, 2023 at 05:50:23PM +0900, Asahi Lina wrote:
+> From: Wedson Almeida Filho <wedsonaf@gmail.com>
+> 
+> Add a helper macro to easily return C result codes from a Rust function
+> that calls functions which return a Result<T>.
+> 
+> Lina: Imported from rust-for-linux/rust, originally developed by Wedson
+> as part of file_operations.rs. Added the allow() flags since there is no
+> user in the kernel crate yet and fixed a typo in a comment.
+> 
+> Co-developed-by: Fox Chen <foxhlchen@gmail.com>
+> Signed-off-by: Fox Chen <foxhlchen@gmail.com>
+> Co-developed-by: Miguel Ojeda <ojeda@kernel.org>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> Signed-off-by: Wedson Almeida Filho <wedsonaf@gmail.com>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+>  rust/kernel/error.rs | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+> 
+> diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
+> index cf3d089477d2..8a9222595cd1 100644
+> --- a/rust/kernel/error.rs
+> +++ b/rust/kernel/error.rs
+> @@ -226,3 +226,55 @@ pub(crate) fn from_kernel_err_ptr<T>(ptr: *mut T) -> Result<*mut T> {
+>      }
+>      Ok(ptr)
+>  }
+> +
+> +// TODO: Remove `dead_code` marker once an in-kernel client is available.
+> +#[allow(dead_code)]
+> +pub(crate) fn from_kernel_result_helper<T>(r: Result<T>) -> T
+> +where
+> +    T: From<i16>,
+> +{
+> +    match r {
+> +        Ok(v) => v,
+> +        // NO-OVERFLOW: negative `errno`s are no smaller than `-bindings::MAX_ERRNO`,
+> +        // `-bindings::MAX_ERRNO` fits in an `i16` as per invariant above,
+> +        // therefore a negative `errno` always fits in an `i16` and will not overflow.
+> +        Err(e) => T::from(e.to_kernel_errno() as i16),
+> +    }
+> +}
+> +
+> +/// Transforms a [`crate::error::Result<T>`] to a kernel C integer result.
+> +///
+> +/// This is useful when calling Rust functions that return [`crate::error::Result<T>`]
+> +/// from inside `extern "C"` functions that need to return an integer
+> +/// error result.
+> +///
+> +/// `T` should be convertible from an `i16` via `From<i16>`.
+> +///
+> +/// # Examples
+> +///
+> +/// ```ignore
+> +/// # use kernel::from_kernel_result;
+> +/// # use kernel::bindings;
+> +/// unsafe extern "C" fn probe_callback(
+> +///     pdev: *mut bindings::platform_device,
+> +/// ) -> core::ffi::c_int {
+> +///     from_kernel_result! {
+> +///         let ptr = devm_alloc(pdev)?;
+> +///         bindings::platform_set_drvdata(pdev, ptr);
+> +///         Ok(0)
+> +///     }
+> +/// }
+> +/// ```
+> +// TODO: Remove `unused_macros` marker once an in-kernel client is available.
+> +#[allow(unused_macros)]
+> +macro_rules! from_kernel_result {
 
-We talked a few times about what approach to take for things where a
-fully safe API is not feasible. There have been differing opinions in
-the past.
+This actually doesn't need to be a macro, right? The following function
+version:
 
-One approach would be requiring a "global `unsafe`" so to speak, once,
-somewhere in the API -- it does not improve things much, but at least
-it would make the user acknowledge the pitfalls of that particular
-API/feature/subsystem/hardware/... e.g. for module unloading, one
-could ask for an `unsafe` inside the `module!` macro invocation (like
-`unsafe unloadable: true,`). This would allow for `// SAFETY: ...`
-comments.
+	pub fn from_kernel_result<T, F>(f: F) -> T
+	where
+	    T: From<i16>,
+	    F: FnOnce() -> Result<T>;
 
-Another approach would be declaring some of those "external entities"
-outside the scope of Rust's safety guarantees, like it is done for
-e.g. `/proc/self/mem` in userspace Rust [1]. They would be documented
-wherever relevant, and perhaps we could have an "acknowledged
-soundness holes" list.
+is not bad, the above case then can be written as:
 
-Having said that, of course, what we definitely don't want to allow is
-for subsystems to provide unsound safe APIs for no reason.
+	unsafe extern "C" fn probe_callback(
+	    pdev: *mut bindings::platform_device,
+	) -> core::ffi::c_int {
+	    from_kernel_result(|| {
+		let ptr = devm_alloc(pdev)?;
+		bindings::platform_set_drvdata(pdev, ptr);
+		Ok(0)
+	    })
+	}
 
-[1] https://doc.rust-lang.org/stable/std/os/unix/io/index.html#procselfmem-and-similar-os-features
+less magical, but the control flow is more clear.
 
-Cheers,
-Miguel
+Thoughts?
+
+Regards,
+Boqun
+
+> +    ($($tt:tt)*) => {{
+> +        $crate::error::from_kernel_result_helper((|| {
+> +            $($tt)*
+> +        })())
+> +    }};
+> +}
+> +
+> +// TODO: Remove `unused_imports` marker once an in-kernel client is available.
+> +#[allow(unused_imports)]
+> +pub(crate) use from_kernel_result;
+> 
+> -- 
+> 2.35.1
+> 
