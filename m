@@ -1,117 +1,133 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDB1433D6
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 14:33:00 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 960481042;
-	Fri, 24 Feb 2023 06:33:37 -0800 (PST)
-Received: from [10.57.16.161] (unknown [10.57.16.161])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CFA923F71A;
-	Fri, 24 Feb 2023 06:32:51 -0800 (PST)
-Message-ID: <e6d6d928-4514-55b9-346d-2e5e82220729@arm.com>
-Date: Fri, 24 Feb 2023 14:32:47 +0000
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC38E33D6
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 14:34:35 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id c11so16678735oiw.2
+        for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 06:34:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U7f5POC95tWdgN8iOavzbfp8kNM32j24hhcNafGkcLU=;
+        b=OEIHtp3hjddjSuARK4ULbWTX4MT7gugGdNIgP+ixZSFAmqNxBjhfLGg6lN8V0yrkE+
+         Ecp2AJ1W5kQAScuEqnTDwlTPHkXct0ESXMIa/YbakdRFq137JSsarzhdj01PH5Tj88Fr
+         edMufsLQ7DH4z2/tQM++n6TZ3JpJv0wcI825zlf7yruBKv+ToXuFk+UgD35+8N0KVx0B
+         0XQzWdW+RMHfQ2+IGaI2xIOIm48FoyYMwU6czsFJfWQu0ACpQsMs+vF1VWJSe1vZEgWL
+         PvC4C/2DqEnFsdjTAJyU8OaSTUPg1fD6/Ktb39c8CVwDnaZM/hMqemYhJgtBxMfCl4Kj
+         nIOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U7f5POC95tWdgN8iOavzbfp8kNM32j24hhcNafGkcLU=;
+        b=JqAf/RMr8T2uR/mp4xCUwNZz0xqZu059keL+FyBaqetcptp4l1sPiV7y/odFNJYhsf
+         TUCS2OnzSFyZg15nk/T3iRPkh7kX/MqE7UIrDYppr9yjEuoeosFw4mM2lHzUbX58dv0c
+         Iwpg1be25zgJv7KWErd0XBwDNLaTCLLIEllSHIWVx1gGfin8rh7HHqSwrHxQ5DpD+wZh
+         nSI9UXQSEtYZUSpS7P+PCYyxUo3GHCVrTAYP60R4fEbLPU2RZ6xPbeMqv2eKLxvZtwmb
+         DaZ/yA7gj84N/dRcbbtlMKV14D7lUlkgYvjqODmpLOket4nPQsCVYK7o4roFSVoJdpqn
+         8o6w==
+X-Gm-Message-State: AO0yUKUrergywDEZ0f7Oc2+Ni9nO4JS5TYx5WN55kpUiDdRT67F6+sYk
+	ox4T12CzMPvTX+JBsd2ZErk=
+X-Google-Smtp-Source: AK7set/LXiCHgH1qPHKSkOLgeyFj3sle61LItHwrs68Wk7g+vCtZIo8xVFWpymalNMwyXni2esdGfg==
+X-Received: by 2002:a54:408d:0:b0:384:833:2a79 with SMTP id i13-20020a54408d000000b0038408332a79mr306634oii.48.1677249274683;
+        Fri, 24 Feb 2023 06:34:34 -0800 (PST)
+Received: from tx3000mach.io (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id p129-20020acaf187000000b0037d59e90a07sm657005oih.55.2023.02.24.06.34.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 06:34:34 -0800 (PST)
+From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+To: lina@asahilina.net
+Cc: alex.gaynor@gmail.com,
+	asahi@lists.linux.dev,
+	bjorn3_gh@protonmail.com,
+	boqun.feng@gmail.com,
+	gary@garyguo.net,
+	linux-kernel@vger.kernel.org,
+	ojeda@kernel.org,
+	rust-for-linux@vger.kernel.org,
+	wedsonaf@gmail.com
+Subject: Re: [PATCH 1/2] rust: sync: arc: implement Arc<dyn Any + Send + Sync>::downcast()
+Date: Fri, 24 Feb 2023 11:34:29 -0300
+Message-Id: <20230224143429.754374-1-yakoyoku@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230224-rust-arc-v1-1-568eea613a41@asahilina.net>
+References: <20230224-rust-arc-v1-1-568eea613a41@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH 2/5] rust: device: Add a minimal RawDevice trait
-Content-Language: en-GB
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Asahi Lina <lina@asahilina.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Arnd Bergmann <arnd@arndb.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
- <20230224-rust-iopt-rtkit-v1-2-49ced3391295@asahilina.net>
- <Y/ieQ0UX/niAG1Hg@kroah.com>
- <ef3a3638-6381-87ab-d674-644306b6b6ce@asahilina.net>
- <Y/jFeZzZVCpBGvGv@kroah.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <Y/jFeZzZVCpBGvGv@kroah.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 2023-02-24 14:11, Greg Kroah-Hartman wrote:
-> Thanks for the detailed rust explainations, I'd like to just highlight
-> one thing:
-> 
-> On Fri, Feb 24, 2023 at 10:15:12PM +0900, Asahi Lina wrote:
->> On 24/02/2023 20.23, Greg Kroah-Hartman wrote:
->>> And again, why are bindings needed for a "raw" struct device at all?
->>> Shouldn't the bus-specific wrappings work better?
->>
->> Because lots of kernel subsystems need to be able to accept "any" device
->> and don't care about the bus! That's what this is for.
-> 
-> That's great, but:
-> 
->> All the bus
->> wrappers would implement this so they can be used as an argument for all
->> those subsystems (plus a generic one when you just need to pass around
->> an actual owned generic reference and no longer need bus-specific
->> operations - you can materialize that out of a RawDevice impl, which is
->> when get_device() would be called). That's why I'm introducing this now,
->> because both io_pgtable and rtkit need to take `struct device` pointers
->> on the C side so we need some "generic struct device" view on the Rust side.
-> 
-> In looking at both ftkit and io_pgtable, those seem to be good examples
-> of how "not to use a struct device", so trying to make safe bindings
-> from Rust to these frameworks is very ironic :)
-> 
-> rtkit takes a struct device pointer and then never increments it,
-> despite saving it off, which is unsafe.  It then only uses it to print
-> out messages if things go wrong (or right in some cases), which is odd.
-> So it can get away from using a device pointer entirely, except for the
-> devm_apple_rtkit_init() call, which I doubt you want to call from rust
-> code, right?
-> 
-> for io_pgtable, that's a bit messier, you want to pass in a device that
-> io_pgtable treats as a "device" but again, it is NEVER properly
-> reference counted, AND, it is only needed to try to figure out the bus
-> operations that dma memory should be allocated from for this device.  So
-> what would be better to save off there would be a pointer to the bus,
-> which is constant and soon will be read-only so there are no lifetime
-> rules needed at all (see the major struct bus_type changes going into
-> 6.3-rc1 that will enable that to happen).
-
-FWIW the DMA API *has* to know which specific device it's operating 
-with, since the relevant properties can and do vary even between 
-different devices within a single bus_type (e.g. DMA masks).
-
-In the case of io-pgtable at least, there's no explicit refcounting 
-since the struct device must be the one representing the physical 
-platform/PCI/etc. device consuming the pagetable, so if that were to 
-disappear from underneath its driver while the pagetable is still in 
-use, things would already have gone very very wrong indeed :)
-
-Cheers,
-Robin.
-
-> So the two subsystems you want to call from rust code don't properly
-> handle the reference count of the object you are going to pass into it,
-> and only need it for debugging and iommu stuff, which is really only the
-> bus that the device is on, not good examples to start out with :)
-> 
-> Yeah, this is yack-shaving, sorry, but it's how we clean up core
-> subsystems for apis and implementations that are not really correct and
-> were not noticed at the time.
-> 
-> Can we see some users of this code posted so I can see how struct device
-> is going to work in a rust driver?  That's the thing I worry most about
-> the rust/C interaction here as we have two different ways of thinking
-> about reference counts from the two worlds and putting them together is
-> going to be "interesting", as can be seen here already.
-> 
-> thanks,
-> 
-> greg k-h
+On Fri, Feb 24, 2023 at 05:09:47PM +0900, Asahi Lina wrote:=0D
+> This mirrors the standard library's alloc::sync::Arc::downcast().=0D
+> =0D
+> Based on the Rust standard library implementation, ver 1.62.0,=0D
+> licensed under "Apache-2.0 OR MIT", from:=0D
+> =0D
+>     https://github.com/rust-lang/rust/tree/1.62.0/library/alloc/src=0D
+> =0D
+> For copyright details, please see:=0D
+> =0D
+>     https://github.com/rust-lang/rust/blob/1.62.0/COPYRIGHT=0D
+> =0D
+> Signed-off-by: Asahi Lina <lina@asahilina.net>=0D
+> ---=0D
+>  rust/kernel/sync/arc.rs | 22 ++++++++++++++++++++++=0D
+>  1 file changed, 22 insertions(+)=0D
+> =0D
+> diff --git a/rust/kernel/sync/arc.rs b/rust/kernel/sync/arc.rs=0D
+> index a94e303217c6..752bd7c4699e 100644=0D
+> --- a/rust/kernel/sync/arc.rs=0D
+> +++ b/rust/kernel/sync/arc.rs=0D
+> @@ -22,6 +22,7 @@ use crate::{=0D
+>  };=0D
+>  use alloc::boxed::Box;=0D
+>  use core::{=0D
+> +    any::Any,=0D
+>      fmt,=0D
+>      marker::{PhantomData, Unsize},=0D
+>      mem::{ManuallyDrop, MaybeUninit},=0D
+> @@ -220,6 +221,27 @@ impl<T: 'static> ForeignOwnable for Arc<T> {=0D
+>      }=0D
+>  }=0D
+>  =0D
+> +impl Arc<dyn Any + Send + Sync> {=0D
+> +    /// Attempt to downcast the `Arc<dyn Any + Send + Sync>` to a concre=
+te type.=0D
+> +    // Based on the Rust standard library implementation, ver 1.62.0, wh=
+ich is=0D
+> +    // Apache-2.0 OR MIT.=0D
+> +    pub fn downcast<T>(self) -> core::result::Result<Arc<T>, Self>=0D
+> +    where=0D
+> +        T: Any + Send + Sync,=0D
+> +    {=0D
+> +        if (*self).is::<T>() {=0D
+> +            // SAFETY: We have just checked that the type is correct, so=
+ we can cast the pointer.=0D
+> +            unsafe {=0D
+> +                let ptr =3D self.ptr.cast::<ArcInner<T>>();=0D
+> +                core::mem::forget(self);=0D
+=0D
+I see, we cast the inner pointer of the `Arc` to the target type which=0D
+is wrapped in an `ArcInner` that is then used for another `Arc`. This is=0D
+important as this new value now owns the pointer and, by consequence,=0D
+it is safe to forget the passed `Arc` as it won't leak the pointer.=0D
+Thus, this method is safe.=0D
+=0D
+> +                Ok(Arc::from_inner(ptr))=0D
+> +            }=0D
+> +        } else {=0D
+> +            Err(self)=0D
+> +        }=0D
+> +    }=0D
+> +}=0D
+> +=0D
+>  impl<T: ?Sized> Deref for Arc<T> {=0D
+>      type Target =3D T;=0D
+=0D
+Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>=0D
