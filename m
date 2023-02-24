@@ -1,204 +1,171 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724FA320C
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 10:54:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 70EE74206F;
-	Fri, 24 Feb 2023 10:54:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1677236046;
-	bh=EdCqFOCkFmNCQy+An4xXL1lM8eljicqRMAsCfNlFpXc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=QQ+STDuF5KmAnOI1efDmHlNdV4hDOgItX2AUUxdagG3FUFVa90uZxAGL7b8dUB7Pt
-	 5QjG7nWPiB/Iq8Ltdn2HxdrrDHWPOJb3c0rtMWBaq+tDdwz4TYBgFKoe9oQDJFMyYN
-	 LQFz/vE/drpBjenLI8bhQyU/zpctXEnwUdi3m22lq8s0Sai1gZvvwXgMtsCjXAVlm0
-	 7DayCYMhW3AuA7oiut0NtQNjrGvsadhl7fZI5KOY/UHYi42N1QGIR1ieMKtv0PLF1z
-	 JEbeIJBkLLKjIgRTi5TFHJpEFpZRr4qxYw16W2LiDqglXiENJ78ZjNj0jDto5vxOt8
-	 hRpzEfbVxlyRg==
-From: Asahi Lina <lina@asahilina.net>
-Date: Fri, 24 Feb 2023 19:53:17 +0900
-Subject: [PATCH 5/5] rust: device: Add a stub abstraction for devices
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420693D8C
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 10:56:54 +0000 (UTC)
+X-KPN-MessageId: c61093c4-b431-11ed-a286-005056ab378f
+Received: from smtp.kpnmail.nl (unknown [10.31.155.40])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id c61093c4-b431-11ed-a286-005056ab378f;
+	Fri, 24 Feb 2023 11:55:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=subject:to:from:message-id:date;
+	bh=RJx/5miEEl7ATiBreX1Ka8eC6+Qnya3odTkxawnV0s4=;
+	b=t70F/WwqgOq+6vTGgmhKeGWGGFYzgRpH4PRUMX1Ej6jSZHpgik8vi3ieG9XzNjzqD2WOt3Lmhpu72
+	 ALsSEPT9wkgCL+6QFGCsifajUZxjVHfMtek74m7Yh4LM4Z/tcjR2konV/9kiAo16M0UlC213vEOS9n
+	 hO42tZTuJkqqL7tUrdm59TukKnmowghqj96F+oEEcOlMw0YbQzBkFRG624b3I/dgyQ/DzBhYh923zW
+	 No2rXoXSp5a6qQHzRB7zfCLdCP7qH/UNg43Df6QHm9/OaLTgpZ9oY9eYcIHQsQKtcYms+Tg8b6v+/L
+	 mUODz+cWdAEbL+PbpWE/PjgFup3h3dA==
+X-KPN-MID: 33|LW3smREh+fz2rqxMvkiE7yvX7H+U5iog9wzq7EOEoaKpb7VT5qqIEQys+oTKA6s
+ jA53IiSf5/zwhYREOYfvUcKKWR+ZuBmGwQUoP7FKZYT4=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|4amO9HCyQ/rbm7nIi+U7uLe43otuC/mwMMYAGQFuQ2DW9aKnvwQ3Cm3RrfqxOkg
+ S7jfvNYA1U9CQ84JFUjZA8w==
+X-Originating-IP: 80.61.163.207
+Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id c90cb214-b431-11ed-927e-005056ab7584;
+	Fri, 24 Feb 2023 11:55:44 +0100 (CET)
+Date: Fri, 24 Feb 2023 11:55:43 +0100
+Message-Id: <87r0ufs574.fsf@bloch.sibelius.xs4all.nl>
+From: Mark Kettenis <mark.kettenis@xs4all.nl>
+To: fnkl.kernel@gmail.com
+Cc: marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io,
+	dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, asahi@lists.linux.dev,
+	rydberg@bitmath.org, linux-arm-kernel@lists.infradead.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, fnkl.kernel@gmail.com
+In-Reply-To: <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com> (message from
+	Sasha Finkelstein via B4 Relay on Fri, 24 Feb 2023 11:20:06 +0100)
+Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2 controller
+ bindings.
+References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com> <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230224-rust-iopt-rtkit-v1-5-49ced3391295@asahilina.net>
-References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
-In-Reply-To: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
-To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Wedson Almeida Filho <wedsonaf@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Joerg Roedel <joro@8bytes.org>, Hector Martin <marcan@marcan.st>, 
- Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677236013; l=5017;
- i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=cdKIkyLwKJzj4pWUi4LyfvGZS5F3kfJKVHncm9kraaI=;
- b=OEIdscGIoIcKDDmhOPjbLGxA2i8Nhrg9rQMhaRWYJa7GQDqVwWSu3E/ZXAwXPBLNGXyvChxkV
- TnzkvIyCmpxAoIODcjIWil4i3mShoVRVROu+yHknTma9STuRcYVcEqq
-X-Developer-Key: i=lina@asahilina.net; a=ed25519;
- pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-From: Wedson Almeida Filho <wedsonaf@gmail.com>
+> Date: Fri, 24 Feb 2023 11:20:06 +0100
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-Add a Device type which represents an owned reference to a generic
-struct device. This minimal implementation just handles reference
-counting and allows the user to get the device name.
+Hi Sasha,
 
-Lina: Rewrote commit message, dropped the Amba bits, and squashed in
-simple changes to the core Device code from latter commits in
-rust-for-linux/rust. Also include the rust_helper_dev_get_drvdata
-helper which will be needed by consumers later on anyway.
+> Add bindings for touchscreen controllers attached using the Z2 protocol.
+> Those are present in most Apple devices.
+> 
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+>  .../input/touchscreen/apple,z2-touchscreen.yaml    | 81 ++++++++++++++++++++++
+>  1 file changed, 81 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/apple,z2-touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-touchscreen.yaml
+> new file mode 100644
+> index 000000000000..695594494b1e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/apple,z2-touchscreen.yaml
+> @@ -0,0 +1,81 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/apple,z2-touchscreen.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple touchscreens attached using the Z2 protocol.
+> +
+> +maintainers:
+> +  - asahi@lists.linux.dev
+> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
+> +
+> +description: A series of touschscreen controllers used in Apple products.
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +  - $ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: apple,z2-touchscreen
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts-extended:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  cs-gpios:
+> +    maxItems: 1
+> +
+> +  firmware-name:
+> +    maxItems: 1
 
-Co-developed-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Wedson Almeida Filho <wedsonaf@gmail.com>
-Signed-off-by: Asahi Lina <lina@asahilina.net>
----
- rust/helpers.c        | 13 +++++++++
- rust/kernel/device.rs | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 88 insertions(+), 1 deletion(-)
+What is the motivation for including the firmware name in the device
+tree rather than constructing it in the driver like what is done for
+the broadcom wireless?
 
-diff --git a/rust/helpers.c b/rust/helpers.c
-index 04b9be46e887..54954fd80c77 100644
---- a/rust/helpers.c
-+++ b/rust/helpers.c
-@@ -20,6 +20,7 @@
- 
- #include <linux/bug.h>
- #include <linux/build_bug.h>
-+#include <linux/device.h>
- #include <linux/err.h>
- #include <linux/refcount.h>
- 
-@@ -65,6 +66,18 @@ long rust_helper_PTR_ERR(__force const void *ptr)
- }
- EXPORT_SYMBOL_GPL(rust_helper_PTR_ERR);
- 
-+void *rust_helper_dev_get_drvdata(struct device *dev)
-+{
-+	return dev_get_drvdata(dev);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_dev_get_drvdata);
-+
-+const char *rust_helper_dev_name(const struct device *dev)
-+{
-+	return dev_name(dev);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_dev_name);
-+
- /*
-  * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
-  * as the Rust `usize` type, so we can use it in contexts where Rust
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index 9be021e393ca..e57da622d817 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -4,7 +4,7 @@
- //!
- //! C header: [`include/linux/device.h`](../../../../include/linux/device.h)
- 
--use crate::bindings;
-+use crate::{bindings, str::CStr};
- 
- /// A raw device.
- ///
-@@ -20,4 +20,78 @@ use crate::bindings;
- pub unsafe trait RawDevice {
-     /// Returns the raw `struct device` related to `self`.
-     fn raw_device(&self) -> *mut bindings::device;
-+
-+    /// Returns the name of the device.
-+    fn name(&self) -> &CStr {
-+        let ptr = self.raw_device();
-+
-+        // SAFETY: `ptr` is valid because `self` keeps it alive.
-+        let name = unsafe { bindings::dev_name(ptr) };
-+
-+        // SAFETY: The name of the device remains valid while it is alive (because the device is
-+        // never renamed, per the safety requirement of this trait). This is guaranteed to be the
-+        // case because the reference to `self` outlives the one of the returned `CStr` (enforced
-+        // by the compiler because of their lifetimes).
-+        unsafe { CStr::from_char_ptr(name) }
-+    }
-+}
-+
-+/// A ref-counted device.
-+///
-+/// # Invariants
-+///
-+/// `ptr` is valid, non-null, and has a non-zero reference count. One of the references is owned by
-+/// `self`, and will be decremented when `self` is dropped.
-+pub struct Device {
-+    pub(crate) ptr: *mut bindings::device,
-+}
-+
-+// SAFETY: `Device` only holds a pointer to a C device, which is safe to be used from any thread.
-+unsafe impl Send for Device {}
-+
-+// SAFETY: `Device` only holds a pointer to a C device, references to which are safe to be used
-+// from any thread.
-+unsafe impl Sync for Device {}
-+
-+impl Device {
-+    /// Creates a new device instance.
-+    ///
-+    /// # Safety
-+    ///
-+    /// Callers must ensure that `ptr` is valid, non-null, and has a non-zero reference count.
-+    pub unsafe fn new(ptr: *mut bindings::device) -> Self {
-+        // SAFETY: By the safety requirements, ptr is valid and its refcounted will be incremented.
-+        unsafe { bindings::get_device(ptr) };
-+        // INVARIANT: The safety requirements satisfy all but one invariant, which is that `self`
-+        // owns a reference. This is satisfied by the call to `get_device` above.
-+        Self { ptr }
-+    }
-+
-+    /// Creates a new device instance from an existing [`RawDevice`] instance.
-+    pub fn from_dev(dev: &dyn RawDevice) -> Self {
-+        // SAFETY: The requirements are satisfied by the existence of `RawDevice` and its safety
-+        // requirements.
-+        unsafe { Self::new(dev.raw_device()) }
-+    }
-+}
-+
-+// SAFETY: The device returned by `raw_device` is the one for which we hold a reference.
-+unsafe impl RawDevice for Device {
-+    fn raw_device(&self) -> *mut bindings::device {
-+        self.ptr
-+    }
-+}
-+
-+impl Drop for Device {
-+    fn drop(&mut self) {
-+        // SAFETY: By the type invariants, we know that `self` owns a reference, so it is safe to
-+        // relinquish it now.
-+        unsafe { bindings::put_device(self.ptr) };
-+    }
-+}
-+
-+impl Clone for Device {
-+    fn clone(&self) -> Self {
-+        Device::from_dev(self)
-+    }
- }
+In your example the firmware name includes the directory name.  I
+think that is a bad idea since it makes assumptions about the
+directory layout used for the firmware files on the OS level.  And in
+particular, forcing the firmware to be in a subdirectory named "apple"
+would be awkward for the way we handle firmware in OpenBSD.
 
--- 
-2.35.1
-
+> +
+> +  apple,z2-device-name:
+> +    description: The name to be used for the input device
+> +    $ref: /schemas/types.yaml#/definitions/string
+> +
+> +  touchscreen-size-x: true
+> +  touchscreen-size-y: true
+> +  spi-max-frequency: true
+> +
+> +required:
+> +  - compatible
+> +  - interrupts-extended
+> +  - reset-gpios
+> +  - cs-gpios
+> +  - firmware-name
+> +  - apple,z2-device-name
+> +  - touchscreen-size-x
+> +  - touchscreen-size-y
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    spi {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            touchscreen@0 {
+> +                    compatible = "apple,z2-touchscreen";
+> +                    reg = <0>;
+> +                    spi-max-frequency = <11500000>;
+> +                    reset-gpios = <&pinctrl_ap 139 0>;
+> +                    cs-gpios = <&pinctrl_ap 109 0>;
+> +                    interrupts-extended = <&pinctrl_ap 194 IRQ_TYPE_EDGE_FALLING>;
+> +                    firmware-name = "apple/dfrmtfw-j293.bin";
+> +                    touchscreen-size-x = <23045>;
+> +                    touchscreen-size-y = <640>;
+> +                    apple,z2-device-name = "MacBookPro17,1 Touch Bar";
+> +            };
+> +    };
+> +
+> +...
+> 
+> -- 
+> Git-137.1)
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
