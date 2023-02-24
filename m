@@ -1,86 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318BB539D
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 12:49:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6432AC4339B;
-	Fri, 24 Feb 2023 12:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1677242958;
-	bh=tuYHQ+XarG1U3xH8LjrMRpaLxwbZFcHeJ3I/p1szLFM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bf4Iaj4iXDmYS0So4+Fal8DrBahuMVm6EKJXs2nvuZ4hMPWrFsb9G8tJf2JSDhezH
-	 HFpMRsHoAuTKXu1KGmfVH1gDRZMgMkGqveXnfKdH0gkJLff9TBToX1+SI6ZimmVPEs
-	 rzohnlKDKXbOOYavcCLY0apAoVSGHuK69DL53cqc=
-Date: Fri, 24 Feb 2023 13:49:16 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, Finn Behrens <me@kloenk.dev>,
-	Sumera Priyadarsini <sylphrenadin@gmail.com>
-Subject: Re: [PATCH 3/3] rust: macros: Allow specifying multiple module
- aliases
-Message-ID: <Y/iyTA3Nl5yZ/eMA@kroah.com>
-References: <20230224-rust-macros-v1-0-b39fae46e102@asahilina.net>
- <20230224-rust-macros-v1-3-b39fae46e102@asahilina.net>
- <Y/hpiWDLm0fB0Xp/@kroah.com>
- <5220876d-f226-117a-d8ed-1d380cd3f14e@asahilina.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E36539D
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 13:11:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240C9C433EF;
+	Fri, 24 Feb 2023 13:11:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1677244313;
+	bh=Tmnx99J6rFLY7zffB2aNcRIyYYL1t2F2ABDf+c5GMVg=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=H8k6CqZL6BaGKu4kt8cRObUOvEVkpJEKhdApYVg6IeYEXC2gtxLdBYW1ppWP8kKav
+	 SoXp4+ZtT5XhaS/Fz0mPb7nJkfpiDebE5iiA0pFGO0rNtTb9yd1cfGASCCjVrrcG1L
+	 UERQTMcRRhyfMBU8f8WBfzituuADOczb49H/UEqIN7fw6Jz+5uR95FnDPSiDURt02b
+	 d5UhI1PC544wWJnGezsaDQwqmwKfNasdDgL51ItBY0YU4W/rpbaKddndvkppNA1ikU
+	 Vpl2iEZly25qXuL/rZRcMayED99+CibHweAxKicaXdpee/b/oPHbzhSbI1Dc7+oEs2
+	 VQJcUctif+4kw==
+From: Kalle Valo <kvalo@kernel.org>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Hector Martin <marcan@marcan.st>,  Arend van Spriel <aspriel@gmail.com>,  Franky Lin <franky.lin@broadcom.com>,  Hante Meuleman <hante.meuleman@broadcom.com>,  "David S. Miller" <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Sven Peter <sven@svenpeter.dev>,  Alyssa Rosenzweig <alyssa@rosenzweig.io>,  Linus Walleij <linus.walleij@linaro.org>,  "asahi\@lists.linux.dev" <asahi@lists.linux.dev>,  "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>,  "brcm80211-dev-list.pdl\@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,  "SHA-cyfmac-dev-list\@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,  "netdev\@vger.kernel.org" <netdev@vger.kernel.org>,  "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] Apple T2 platform support
+References: <20230214080034.3828-1-marcan@marcan.st>
+	<379F9C6D-F98D-4940-A336-F5356F9C1898@live.com>
+	<BM1PR01MB09315D50C9380E9CB6471E9EB8A89@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
+Date: Fri, 24 Feb 2023 15:11:46 +0200
+In-Reply-To: <BM1PR01MB09315D50C9380E9CB6471E9EB8A89@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
+	(Aditya Garg's message of "Fri, 24 Feb 2023 13:05:55 +0000")
+Message-ID: <87leknrywd.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5220876d-f226-117a-d8ed-1d380cd3f14e@asahilina.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 24, 2023 at 09:41:08PM +0900, Asahi Lina wrote:
-> On 24/02/2023 16.38, Greg KH wrote:
-> > On Fri, Feb 24, 2023 at 04:25:57PM +0900, Asahi Lina wrote:
-> >> Modules can (and usually do) have multiple alias tags, in order to
-> >> specify multiple possible device matches for autoloading. Allow this by
-> >> changing the alias ModuleInfo field to an Option<Vec<String>>.
-> > 
-> > Note, manually specifying the MODULE_ALIAS is only really ever done for
-> > platform drivers today (and I would argue we need to fix that up),
-> > otherwise the use of MODULE_DEVICE_TABLE() should really really be used
-> > instead of having to manually specify aliases.
-> 
-> That's the plan, I just added this before adding support for
-> MODULE_DEVICE_TABLE() when I first realized that it wasn't yet in there!
-> We were briefly hardcoding the bus aliases for downstream kernels
-> because the depmod stuff couldn't work with the way device ID tables
-> were done in Rust downstream at the time (and I only noticed the first
-> time I tried to build it as a module, since I always develop with
-> monolithic kernels). That's fixed now ^^
-> 
-> However, the issue is that right now the module macro already takes a
-> single optional alias, and that doesn't make sense as an API. We could
-> remove support for this entirely (if I get my Rust MODULE_DEVICE_TABLE()
-> implementation in, there will be zero users of the alias argument as far
-> as I know), or add support for multiple aliases. But I think just
-> leaving it as a single alias doesn't really make sense? It doesn't
-> represent the way module aliases work, which is 0..N.
-> 
-> I'm fine with removing it if people prefer that, I just thought that for
-> something as basic as module metadata we might as well do it properly
-> even if there are no users right now, since it's already half in there...
+Aditya Garg <gargaditya08@live.com> writes:
 
-How about just removing it so that people don't think it is something
-that they really should be doing and adding real MODULE_DEVICE_TABLE()
-support instead?
+>  On 23-Feb-2023, at 8:31 PM, Aditya Garg <gargaditya08@live.com> wrote:
+>
+>  =EF=BB=BFHi Hector
+>
+>  I=E2=80=99ve applied the following patchset (arranged in chronological o=
+rder) to linux 6.2,
+>  and wifi seems to have broken on MacBookPro16,1 (brcmfmac4364b3)
+>
+>  https://lore.kernel.org/asahi/20230212063813.27622-1-marcan@marcan.st/T/=
+#t
+>  (BCM4355/4364/4377 support & identification fixes)
+>
+>  https://lore.kernel.org/asahi/20230214080034.3828-1-marcan@marcan.st/T/#=
+t (Apple T2
+>  platform support)
+>
+>  https://lore.kernel.org/asahi/20230214091651.10178-1-marcan@marcan.st/T/=
+#t (BCM4387
+>  / Apple M1 platform support)
+>
+>  https://lore.kernel.org/asahi/b4489e24-e226-4f99-1322-cab6c1269f09@broad=
+com.com/T/#t
+>  (brcmfmac: cfg80211: Use WSEC to set SAE password)
+>
+>  The logs show:
+>
+>  Feb 23 20:08:57 MacBook kernel: usbcore: registered new interface driver=
+ brcmfmac
+>  Feb 23 20:08:57 MacBook kernel: brcmfmac 0000:05:00.0: enabling device (=
+0000 -> 0002)
+>  Feb 23 20:08:57 MacBook kernel: brcmfmac: brcmf_fw_alloc_request: using
+>  brcm/brcmfmac4364b3-pcie for chip BCM4364/4
+>  Feb 23 20:08:57 MacBook kernel: brcmfmac 0000:05:00.0: Direct firmware l=
+oad for
+>  brcm/brcmfmac4364b3-pcie.Apple Inc.-MacBookPro16,1.bin failed with error=
+ -2
+>  Feb 23 20:08:57 MacBook kernel: brcmfmac 0000:05:00.0: Direct firmware l=
+oad for
+>  brcm/brcmfmac4364b3-pcie.bin failed with error -2
+>  Feb 23 20:08:57 MacBook kernel: brcmfmac 0000:05:00.0: brcmf_pcie_setup:=
+ Dongle setup
+>  failed
+>
+>  I also tested the patchiest in the following link, and wifi mostly worke=
+d there (occasionally it
+>  complained about some pic error, I=E2=80=99ll save the logs next time I =
+encounter that) :
+>
+>  https://github.com/t2linux/linux-t2-patches/blob/main/8001-asahilinux-wi=
+fi-patchset.patch
+>
+>  Thanks
+>  Aditya
+>
+> I just noticed that the patch to ACPI was missing. Adding that fixed the =
+issue.
+>
+> https://github.com/t2linux/linux-t2-patches/blob/main/8005-ACPI-property-=
+Support-strings-in-Apple-_DSM-props.patch
 
-Although the first filesystem that gets written will need the
-MODULE_ALIAS() logic added back, oh well.
+Please don't use HTML, our lists drop those. I'll reply in text/plain so
+that is info is archived.
 
-Anyway, no objection for me for this for now, just trying to point out
-that drivers really should not be using MODULE_ALIAS() at all.
+--=20
+https://patchwork.kernel.org/project/linux-wireless/list/
 
-thanks,
-
-greg k-h
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatc=
+hes
