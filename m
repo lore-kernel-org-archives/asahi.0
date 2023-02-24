@@ -1,72 +1,73 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BCC6125
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 15:33:17 +0000 (UTC)
-From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1677252796; bh=YGinMNYfBj9tPJ7INLC5xM+c2L7Uf1eMU3rGvaMeVic=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=gvMicpRvMrcnvujo94b4P//HAZMsJSPEX6dUJTNPmGGqMUvLcOG0uoWY7QssQm5zC
-	 6wMeg0oEXLabG9bZ+kMeiqnh9j0qrnKtUCbbXc7CJIf4oMyewt/MEqHeLXSkZHSzD4
-	 0cM9EHBJ/VR3jl6vcqO+oLVgQsO4r5vJDLkTc81U=
-To: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] ASoC: apple: mca: Improve handling of unavailable DMA channels
-Date: Fri, 24 Feb 2023 16:33:02 +0100
-Message-Id: <20230224153302.45365-3-povik+lin@cutebit.org>
-In-Reply-To: <20230224153302.45365-1-povik+lin@cutebit.org>
-References: <20230224153302.45365-1-povik+lin@cutebit.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA3B6125
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 15:34:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA4AC433D2;
+	Fri, 24 Feb 2023 15:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1677252875;
+	bh=yqgynGCXjfHPElbDGyjxGTtMq2BNVsC10RR73bI0d14=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EQCCIOMP44xsBGBDCLyxlirfFI/BaNyP4f1UVzZrOaxYFhun01K2AGzChwCDfNowB
+	 L3YsmZTRa560/PRBoxWv69q9Cm3mgHU2wmsv/S8AroDbb/W6Pm36jyCL+8C1OSEPUW
+	 pM8tbmkKmda9zWQwdovIUbhsy186VyN3YaRVjo0k=
+Date: Fri, 24 Feb 2023 16:34:32 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>, Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH 5/5] rust: device: Add a stub abstraction for devices
+Message-ID: <Y/jZCCl4jbKoOiPX@kroah.com>
+References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
+ <20230224-rust-iopt-rtkit-v1-5-49ced3391295@asahilina.net>
+ <Y/idMBIOfFZxXnVM@kroah.com>
+ <26fc1456-0244-a379-0af4-e6adc819545c@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <26fc1456-0244-a379-0af4-e6adc819545c@asahilina.net>
 
-When we fail to obtain a DMA channel, don't return a blanket -EINVAL,
-instead return the original error code if there's one. This makes
-deferring work as it should. Also don't print an error message for
--EPROBE_DEFER.
+On Sat, Feb 25, 2023 at 12:10:47AM +0900, Asahi Lina wrote:
+> >> +impl Device {
+> >> +    /// Creates a new device instance.
+> >> +    ///
+> >> +    /// # Safety
+> >> +    ///
+> >> +    /// Callers must ensure that `ptr` is valid, non-null, and has a non-zero reference count.
+> >> +    pub unsafe fn new(ptr: *mut bindings::device) -> Self {
+> >> +        // SAFETY: By the safety requirements, ptr is valid and its refcounted will be incremented.
+> >> +        unsafe { bindings::get_device(ptr) };
+> > 
+> > You don't check the return value of get_device()?  What if it failed
+> > (hint, it can)?
+> 
+> Really? I looked at the implementation and I don't see how it can fail,
+> as long as the argument is non-NULL and valid... (which is a
+> precondition of this unsafe function). Did I miss something?
 
-Fixes: 4ec8179c212f ("ASoC: apple: mca: Postpone requesting of DMA channels")
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
----
- sound/soc/apple/mca.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+This function has changed a bit over time, but yes, it could fail if
+someone else just dropped the last reference right before you tried to
+grab a new one (look at the implementation of kobject_get()).
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index aea08c7b2ee8..64750db9b963 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -950,10 +950,17 @@ static int mca_pcm_new(struct snd_soc_component *component,
- 		chan = mca_request_dma_channel(cl, i);
- 
- 		if (IS_ERR_OR_NULL(chan)) {
-+			mca_pcm_free(component, rtd->pcm);
-+
-+			if (chan && PTR_ERR(chan) == -EPROBE_DEFER)
-+				return PTR_ERR(chan);
-+
- 			dev_err(component->dev, "unable to obtain DMA channel (stream %d cluster %d): %pe\n",
- 				i, cl->no, chan);
--			mca_pcm_free(component, rtd->pcm);
--			return -EINVAL;
-+
-+			if (!chan)
-+				return -EINVAL;
-+			return PTR_ERR(chan);
- 		}
- 
- 		cl->dma_chans[i] = chan;
--- 
-2.33.0
+Yes, if you "know" you have a non-zero reference count first, it should
+never fail, but how do you know this?  We have the ability to check the
+return value of the function, shouldn't that happen?
 
+thanks,
+
+greg k-h
