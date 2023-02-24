@@ -1,29 +1,29 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95B97C
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 07:26:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E50417EE
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 07:26:35 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id C94FE4248B;
-	Fri, 24 Feb 2023 07:26:26 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 6B55D424B9;
+	Fri, 24 Feb 2023 07:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1677223589;
-	bh=nKGhps5DD27EJVZDy1ee9VeyZsp+Mb8LJV4KHerqhaA=;
-	h=From:Subject:Date:To:Cc;
-	b=zexXCZty7onfsKHpn30fdyS96xk4THjzQTKr2yMbkM3zdVyNT+OA+28iGZxOuXjTx
-	 nArZgrIBmwygvgzL28XQLDWkm2G5/QhIuU21ROMLCQOtzeUtRuiAiHTmdZ7lIFqYIw
-	 7VheS/1xAPZ4H8nFXDPS4FWlazjdlSNp53uF8s4JSns+c+7KVr5m5NhqxLyl8VWRNL
-	 rKcBCq2S+5PapCd8ktIXzn3vemb3Uih8oCBeI/ms00XL6SmFiry3i/WMtR6fsKTPdh
-	 fbtOs6YM8w3+sAfhUD6q3e8MoqPMEyAN9jel8CeCqmfBd/8Uehgh+2z3Ycql/tLPLt
-	 ztIQDkKrtAgig==
+	s=default; t=1677223593;
+	bh=znEXimllrWJvfY/ohmIs0JciCK61gw0J+CRFrn2gudU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=KJoHBpU9113mO+mdOiaJNn+0HklOkWluH51fJFbKl8NYFDEBkIICjJyoRhOLobouU
+	 QzH3np0L6dmJO+aRIahBLIEY3Iby8a9Hzx1zmLHjELLA9UPfIIAYhX+HS+Sty9fe12
+	 EjEwDHNE2btQIyFRnNHPbOb89uShMQmcL8qVqLsTSJMr0JV9CRux2yS2EBram+jfRw
+	 AiFlXtJs3LjNKhuzNRk2X1Qbx6ddH4ZJ/wM1cRlUV5eRq1H9GHSnXEwQaiTU/9hVCL
+	 KQozTR6J4ZTU7R9qa3fDLZVf7JR28dXlz7XpAAG9//vGTtCJwiaQX1W8sbrDKdlaVG
+	 7OIvQV1aXpFQg==
 From: Asahi Lina <lina@asahilina.net>
-Subject: [PATCH 0/3] rust: Miscellaneous macro improvements
-Date: Fri, 24 Feb 2023 16:25:54 +0900
-Message-Id: <20230224-rust-macros-v1-0-b39fae46e102@asahilina.net>
+Date: Fri, 24 Feb 2023 16:25:55 +0900
+Subject: [PATCH 1/3] rust: macros: Make expect_punct() return the Punct
+ directly
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -32,59 +32,94 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAIJm+GMC/x2NQQ6DMAwEv4J8rtWQoLbqV6oenGDAhwZkl6oS4
- u8kHGd3R7uBsQobPJsNlH9iMucC7aWBNFEeGaUvDN754LzvUFf74oeSzoa3EPo4PO6OuIViRDL
- GqJTTVJ1xWa/nvOa1X5QH+Z9vr/e+HwCnv259AAAA
+Message-Id: <20230224-rust-macros-v1-1-b39fae46e102@asahilina.net>
+References: <20230224-rust-macros-v1-0-b39fae46e102@asahilina.net>
+In-Reply-To: <20230224-rust-macros-v1-0-b39fae46e102@asahilina.net>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
  Wedson Almeida Filho <wedsonaf@gmail.com>, 
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
 Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>, 
- Finn Behrens <me@kloenk.dev>, Sumera Priyadarsini <sylphrenadin@gmail.com>
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677223586; l=1588;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677223586; l=2668;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=nKGhps5DD27EJVZDy1ee9VeyZsp+Mb8LJV4KHerqhaA=;
- b=VdMC491l3CXJjysB+gN/JRXZFdOkZ4zQ6Pu9earrHBjrMRmDFmisUcEWdeXDPkPlavbDFC/SK
- UfGto5/oEoUANXtk8nLj3pp1JouQCTSXJHJny8JsYj1HO85DU1d3E73
+ bh=znEXimllrWJvfY/ohmIs0JciCK61gw0J+CRFrn2gudU=;
+ b=H/oQs1/Pt+6iQus1S0oDMkRIMRYO/sCD2ik5qRDSJzQ3aWOjUiTjg2D+qmrDeb1VTO+yDB6ZI
+ XGJ6yp2aYR9Aik6WMEy5SEeA1CISZ8nNhb01BFVy76fEoq2IxnOFK4l
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-Hi everyone!
-
-This short series is part of the set of dependencies for the drm/asahi
-Apple M1/M2 GPU driver.
-
-The first two patches make concat_idents!(bindings::foo, bar) work.
-I use this later in the DRM abstractions to construct DRM IOCTL command
-names [1], which avoids having to import all of bindings::*.
-
-The third patch allows specifying multiple module aliases. Since modules
-can have multiple aliases, the macro naturally needs to be able to take
-an array instead of a single alias. I don't use this in the current
-iteration of the driver, since I introduced proper support for automatic
-modpost alias generation for Rust modules, but it can be useful both to
-remove that support as a blocking factor (we can specify aliases manually
-as a fallback), and for modules which need extra aliases not covered by
-device ID tables.
-
-[1] https://github.com/AsahiLinux/linux/blob/gpu/rebase-20230224/rust/kernel/drm/ioctl.rs#L101
+This makes it mirror the way expect_ident() works, and means we can more
+easily push the result back into the token stream.
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
-Asahi Lina (3):
-      rust: macros: Make expect_punct() return the Punct directly
-      rust: macros: concat_idents: Allow :: paths in the first argument
-      rust: macros: Allow specifying multiple module aliases
- rust/macros/concat_idents.rs | 24 +++++++++++++++++++++---
- rust/macros/helpers.rs       | 14 +++++++++++---
- rust/macros/module.rs        | 34 +++++++++++++++++++++++++++-------
- 3 files changed, 59 insertions(+), 13 deletions(-)
----
-base-commit: 83f978b63fa7ad474ca22d7e2772c5988101c9bd
-change-id: 20230224-rust-macros-633dbf870ae1
+ rust/macros/concat_idents.rs | 2 +-
+ rust/macros/helpers.rs       | 6 +++---
+ rust/macros/module.rs        | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-Thank you,
-~~ Lina
+diff --git a/rust/macros/concat_idents.rs b/rust/macros/concat_idents.rs
+index 7e4b450f3a50..6d955d65016e 100644
+--- a/rust/macros/concat_idents.rs
++++ b/rust/macros/concat_idents.rs
+@@ -15,7 +15,7 @@ fn expect_ident(it: &mut token_stream::IntoIter) -> Ident {
+ pub(crate) fn concat_idents(ts: TokenStream) -> TokenStream {
+     let mut it = ts.into_iter();
+     let a = expect_ident(&mut it);
+-    assert_eq!(expect_punct(&mut it), ',');
++    assert_eq!(expect_punct(&mut it).as_char(), ',');
+     let b = expect_ident(&mut it);
+     assert!(it.next().is_none(), "only two idents can be concatenated");
+     let res = Ident::new(&format!("{a}{b}"), b.span());
+diff --git a/rust/macros/helpers.rs b/rust/macros/helpers.rs
+index cf7ad950dc1e..65706ecc007e 100644
+--- a/rust/macros/helpers.rs
++++ b/rust/macros/helpers.rs
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0
+ 
+-use proc_macro::{token_stream, TokenTree};
++use proc_macro::{token_stream, Punct, TokenTree};
+ 
+ pub(crate) fn try_ident(it: &mut token_stream::IntoIter) -> Option<String> {
+     if let Some(TokenTree::Ident(ident)) = it.next() {
+@@ -38,9 +38,9 @@ pub(crate) fn expect_ident(it: &mut token_stream::IntoIter) -> String {
+     try_ident(it).expect("Expected Ident")
+ }
+ 
+-pub(crate) fn expect_punct(it: &mut token_stream::IntoIter) -> char {
++pub(crate) fn expect_punct(it: &mut token_stream::IntoIter) -> Punct {
+     if let TokenTree::Punct(punct) = it.next().expect("Reached end of token stream for Punct") {
+-        punct.as_char()
++        punct
+     } else {
+         panic!("Expected Punct");
+     }
+diff --git a/rust/macros/module.rs b/rust/macros/module.rs
+index a7e363c2b044..07503b242d2d 100644
+--- a/rust/macros/module.rs
++++ b/rust/macros/module.rs
+@@ -104,7 +104,7 @@ impl ModuleInfo {
+                 );
+             }
+ 
+-            assert_eq!(expect_punct(it), ':');
++            assert_eq!(expect_punct(it).as_char(), ':');
+ 
+             match key.as_str() {
+                 "type" => info.type_ = expect_ident(it),
+@@ -119,7 +119,7 @@ impl ModuleInfo {
+                 ),
+             }
+ 
+-            assert_eq!(expect_punct(it), ',');
++            assert_eq!(expect_punct(it).as_char(), ',');
+ 
+             seen_keys.push(key);
+         }
+
+-- 
+2.35.1
 
