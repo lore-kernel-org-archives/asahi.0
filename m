@@ -1,15 +1,15 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43638610D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF0F6105
 	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 15:29:18 +0000 (UTC)
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1677252145; bh=StaFikSjZpFQ+BUcIlQfwrxM+sCnU+rvBEoVvGQ2nmk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fOvbi5u7TfZbdRb/5lxtFwcD+ebCgEW+egwfuLYdhfzxpB2grc3CsYFX5m3JosTZ3
-	 5CP7I59IxQyKuSrYvD7i+g0nm3Z7Anzbz6LcVbPDatTuX7bCwQrAa765yoNtapNLkx
-	 VYNi76Ina7OQb60oYtDZ5wzW7ec+E3dPHKVJiV+4=
+	t=1677252145; bh=8I53wAm0Lhx1Y1CRpTsp/SrqowkIL26beK+I0BreeKg=;
+	h=From:To:Cc:Subject:Date;
+	b=KzjvnnBtPMLzkpne5ixV1R5vuvAuRq/riSQMn9JedY18pihL2mEdyY4AVhiv2dpX4
+	 2jOIvqTVWjw8jMAAe4igDy0ErG5dXi8IdYScZWKLs1WURJu6IVVQGM4gAmerF6KtlL
+	 uzDbQyJTxoBgbh/cekLbEdEGeCEnorFmhJLgHseg=
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
 	Vinod Koul <vkoul@kernel.org>
@@ -19,11 +19,9 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	linux-arm-kernel@lists.infradead.org,
 	dmaengine@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/3] dmaengine: apple-admac: Fix 'current_tx' not getting freed
-Date: Fri, 24 Feb 2023 16:22:21 +0100
-Message-Id: <20230224152222.26732-2-povik+lin@cutebit.org>
-In-Reply-To: <20230224152222.26732-1-povik+lin@cutebit.org>
-References: <20230224152222.26732-1-povik+lin@cutebit.org>
+Subject: [PATCH 1/3] dmaengine: apple-admac: Handle 'global' interrupt flags
+Date: Fri, 24 Feb 2023 16:22:20 +0100
+Message-Id: <20230224152222.26732-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -33,35 +31,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-In terminate_all we should queue up all submitted descriptors to be
-freed. We do that for the content of the 'issued' and 'submitted' lists,
-but the 'current_tx' descriptor falls through the cracks as it's
-removed from the 'issued' list once it gets assigned to be the current
-descriptor. Explicitly queue up freeing of the 'current_tx' descriptor
-to address a memory leak that is otherwise present.
+In addition to TX channel and RX channel interrupt flags there's
+another class of 'global' interrupt flags with unknown semantics. Those
+weren't being handled up to now, and they are the suspected cause of
+stuck IRQ states that have been sporadically occurring. Check the global
+flags and clear them if raised.
 
 Fixes: b127315d9a78 ("dmaengine: apple-admac: Add Apple ADMAC driver")
 Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 ---
- drivers/dma/apple-admac.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/dma/apple-admac.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-index 00cbfafe0ed9..497bb65b7d6d 100644
+index 90f28bda29c8..00cbfafe0ed9 100644
 --- a/drivers/dma/apple-admac.c
 +++ b/drivers/dma/apple-admac.c
-@@ -512,7 +512,10 @@ static int admac_terminate_all(struct dma_chan *chan)
- 	admac_stop_chan(adchan);
- 	admac_reset_rings(adchan);
+@@ -75,6 +75,7 @@
  
--	adchan->current_tx = NULL;
-+	if (adchan->current_tx) {
-+		list_add_tail(&adchan->current_tx->node, &adchan->to_free);
-+		adchan->current_tx = NULL;
+ #define REG_TX_INTSTATE(idx)		(0x0030 + (idx) * 4)
+ #define REG_RX_INTSTATE(idx)		(0x0040 + (idx) * 4)
++#define REG_GLOBAL_INTSTATE(idx)	(0x0050 + (idx) * 4)
+ #define REG_CHAN_INTSTATUS(ch, idx)	(0x8010 + (ch) * 0x200 + (idx) * 4)
+ #define REG_CHAN_INTMASK(ch, idx)	(0x8020 + (ch) * 0x200 + (idx) * 4)
+ 
+@@ -672,13 +673,14 @@ static void admac_handle_chan_int(struct admac_data *ad, int no)
+ static irqreturn_t admac_interrupt(int irq, void *devid)
+ {
+ 	struct admac_data *ad = devid;
+-	u32 rx_intstate, tx_intstate;
++	u32 rx_intstate, tx_intstate, global_intstate;
+ 	int i;
+ 
+ 	rx_intstate = readl_relaxed(ad->base + REG_RX_INTSTATE(ad->irq_index));
+ 	tx_intstate = readl_relaxed(ad->base + REG_TX_INTSTATE(ad->irq_index));
++	global_intstate = readl_relaxed(ad->base + REG_GLOBAL_INTSTATE(ad->irq_index));
+ 
+-	if (!tx_intstate && !rx_intstate)
++	if (!tx_intstate && !rx_intstate && !global_intstate)
+ 		return IRQ_NONE;
+ 
+ 	for (i = 0; i < ad->nchannels; i += 2) {
+@@ -693,6 +695,12 @@ static irqreturn_t admac_interrupt(int irq, void *devid)
+ 		rx_intstate >>= 1;
+ 	}
+ 
++	if (global_intstate) {
++		dev_warn(ad->dev, "clearing unknown global interrupt flag: %x\n",
++			 global_intstate);
++		writel_relaxed(~(u32) 0, ad->base + REG_GLOBAL_INTSTATE(ad->irq_index));
 +	}
- 	/*
- 	 * Descriptors can only be freed after the tasklet
- 	 * has been killed (in admac_synchronize).
++
+ 	return IRQ_HANDLED;
+ }
+ 
 -- 
 2.33.0
 
