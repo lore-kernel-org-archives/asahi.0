@@ -1,93 +1,81 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BEB6125
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 15:51:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 32FDF3FB17;
-	Fri, 24 Feb 2023 15:51:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1677253905;
-	bh=+KLi0NUptESnmGXbN5DL3EY0IK2dnKR7SFykR2x6pbg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=qUebanJ0CMoI1uNj48ED+JrltoKSOFn/n7Ot86+60A8Mg+TFpThfDS/+dGOr4icGU
-	 M/OW3bwM3kaktG/wGU1NRaTWjIqsdW+EqWvRjw07tuM81O6ELt2QvIggs4ev/vzym0
-	 e3e2QxSWqHJ/DLhvkNkTIsyp+a2HxnNgl//Z4D0tkfl/6Ba9XDLrMyJIiP7/7ilaGZ
-	 Gv95EEBsmdhyRX0DJJqC/o2/8TUZa/y3TP21C3z0wKHYtDsZGZ3Bt+w8GxrT4awG/K
-	 FotZ93kMqfDyaoKmw4ZEWT8Skv1KdXuNvXfwoGOuLOkrRXj7GGXFrcAOulIXJahqQM
-	 7F2lIIc3L77GQ==
-Message-ID: <bd93ed8c-b020-5883-4baa-f9743e395b97@asahilina.net>
-Date: Sat, 25 Feb 2023 00:51:38 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BFC6FBB
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 16:22:04 +0000 (UTC)
+From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1677255722; bh=5doeosS9EHjVo4INuIYpNqv+kkFiPbeHbMYZHjoGVWM=;
+	h=From:To:Cc:Subject:Date;
+	b=G8ZShmzQ+zrOvl6A66hdsEM7QQBjCPXjk1zWtDJaDT8gF3BVhGVnR6C3HfcxhjbeJ
+	 AWCsjd7GvztCq8pMIfE5F5nN/EgBJgRDJfSBHW+ySkqU09iBnihIg6FlbjgFHmwtRN
+	 aHG1X9lB98Yeds3fsNOurHa40DgtwZ5ptNq7OKfA=
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+Subject: [PATCH] soc: apple: rtkit: Crop syslog messages
+Date: Fri, 24 Feb 2023 17:21:59 +0100
+Message-Id: <20230224162159.46348-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 5/5] rust: device: Add a stub abstraction for devices
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
- <20230224-rust-iopt-rtkit-v1-5-49ced3391295@asahilina.net>
- <Y/idMBIOfFZxXnVM@kroah.com>
- <26fc1456-0244-a379-0af4-e6adc819545c@asahilina.net>
- <Y/jZCCl4jbKoOiPX@kroah.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <Y/jZCCl4jbKoOiPX@kroah.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 25/02/2023 00.34, Greg Kroah-Hartman wrote:
-> On Sat, Feb 25, 2023 at 12:10:47AM +0900, Asahi Lina wrote:
->>>> +impl Device {
->>>> +    /// Creates a new device instance.
->>>> +    ///
->>>> +    /// # Safety
->>>> +    ///
->>>> +    /// Callers must ensure that `ptr` is valid, non-null, and has a non-zero reference count.
->>>> +    pub unsafe fn new(ptr: *mut bindings::device) -> Self {
->>>> +        // SAFETY: By the safety requirements, ptr is valid and its refcounted will be incremented.
->>>> +        unsafe { bindings::get_device(ptr) };
->>>
->>> You don't check the return value of get_device()?  What if it failed
->>> (hint, it can)?
->>
->> Really? I looked at the implementation and I don't see how it can fail,
->> as long as the argument is non-NULL and valid... (which is a
->> precondition of this unsafe function). Did I miss something?
-> 
-> This function has changed a bit over time, but yes, it could fail if
-> someone else just dropped the last reference right before you tried to
-> grab a new one (look at the implementation of kobject_get()).
-> 
-> Yes, if you "know" you have a non-zero reference count first, it should
-> never fail, but how do you know this?  We have the ability to check the
-> return value of the function, shouldn't that happen?
+Crop trailing whitespace, null, and newline characters in syslog
+messages received from coprocessors. Notably DCP sends its messages
+including a trailing newline, so prior to this change we would end up
+cluttering the kernel log by repeated newlines at the end of messages.
 
-Well, we know this because it is part of the invariant. If we don't
-uphold invariants, things fall apart... that's why we create safe
-abstractions that don't let you break those invariants after all!
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+---
+ drivers/soc/apple/rtkit.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-In this particular case though, I don't see what we can usefully do
-here. `device_get()` is going to be part of Clone impls and things like
-that which are non-fallible. At most we can assert!() and rust-panic
-(which is a BUG as far as I know) if it fails... would that be preferable?
+diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+index 35ec35aa500d..639f5134d159 100644
+--- a/drivers/soc/apple/rtkit.c
++++ b/drivers/soc/apple/rtkit.c
+@@ -409,11 +409,17 @@ static void apple_rtkit_syslog_rx_init(struct apple_rtkit *rtk, u64 msg)
+ 		rtk->syslog_n_entries, rtk->syslog_msg_size);
+ }
+ 
++static bool should_crop_syslog_char(char c)
++{
++	return c == '\n' || c == '\r' || c == ' ' || c == '\0';
++}
++
+ static void apple_rtkit_syslog_rx_log(struct apple_rtkit *rtk, u64 msg)
+ {
+ 	u8 idx = msg & 0xff;
+ 	char log_context[24];
+ 	size_t entry_size = 0x20 + rtk->syslog_msg_size;
++	int msglen;
+ 
+ 	if (!rtk->syslog_msg_buffer) {
+ 		dev_warn(
+@@ -446,7 +452,13 @@ static void apple_rtkit_syslog_rx_log(struct apple_rtkit *rtk, u64 msg)
+ 			   rtk->syslog_msg_size);
+ 
+ 	log_context[sizeof(log_context) - 1] = 0;
+-	rtk->syslog_msg_buffer[rtk->syslog_msg_size - 1] = 0;
++
++	msglen = rtk->syslog_msg_size - 1;
++	while (msglen > 0 &&
++		   should_crop_syslog_char(rtk->syslog_msg_buffer[msglen - 1]))
++		msglen--;
++
++	rtk->syslog_msg_buffer[msglen] = 0;
+ 	dev_info(rtk->dev, "RTKit: syslog message: %s: %s\n", log_context,
+ 		 rtk->syslog_msg_buffer);
+ 
+-- 
+2.33.0
 
-~~ Lina
