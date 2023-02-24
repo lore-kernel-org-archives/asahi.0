@@ -1,68 +1,238 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E71F524F
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 11:08:55 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id i34so28053851eda.7
-        for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 03:08:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WNMaV7WgelnPDajGIIjEuoHp/ErryWU67TwpipK+OSM=;
-        b=oDuL7Ue9xH8ZoBiA5tN3w6IubU7+wQ4QnW4617I0HaxulfV2N13io+A6bRzXhBEZQl
-         7mMO+lp7ZppdXTw50/Q54r4ccPFfdiGB+2HZpfJpwEWLjxAZ8CGUpcE3A3Xp6/rONF/4
-         gfRhGvKefnWeRtZBQxLqnasfk4Q3rZaAPq6v2FnBfJnSuP0RGmiPr9p59TIZwaNEmS4L
-         mf1JevvOczqi1Wxf7MnTqMyWF0zhXuixPw8FQxbpfxdMFEtX22SDYjYjrJxkZjT7bPFP
-         MtSZwWxdC0V0idELKfYRFexjad3um+WfUdbyRBFHI0hxat1jwBlg2EG3lMBm+XP6mUeD
-         bPXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WNMaV7WgelnPDajGIIjEuoHp/ErryWU67TwpipK+OSM=;
-        b=EIKI3Er32D5lTkbQ3wh9RlJVFsI4h6MXeCLebKuua5oUcsFv4D5HA15KGpMg3Hpzia
-         WZonP76k0crlTlVMwsLpzDMdsUBfYmg51UpnGrccMBKyunzcxuYQhJProNz/NUQabUJN
-         jUQLcvogFNdfwRJ2c+6fhzLML3Kkwm/4wt1BzeknAbvbhbLejn7oOUqE3QYfxOlm+HPd
-         NkwJwjFChFPBo/ZbcGl1OuQsAAOx5+XGyK8X6HUrC1iVlaAcWvnGWyg4OSr+vkuxz1II
-         MGGYrZahKLXUQgtokBn18gPj9cDCOemGSUkQhqJuDhasBjacIyoGx3Su6yFk+IKKZ+hF
-         KcSA==
-X-Gm-Message-State: AO0yUKXO4glkn95oJ1ABQoZAtlhORefK952ZSBuSmYDcBEZGtH9YYBIX
-	C0qOUy80EzXMnbMlFOZy3Q8NXl2KBVfyYFOrzic=
-X-Google-Smtp-Source: AK7set/mimyM80YxsFoZxkhOgklb1+pkk/5rW4IWn20z4RKP/YfJqx8WEPI4Y56SKGrPc7yIrLZhMgLzLSVoksJ3Of4=
-X-Received: by 2002:a50:8a92:0:b0:4ae:e606:432f with SMTP id
- j18-20020a508a92000000b004aee606432fmr8210069edj.0.1677236933400; Fri, 24 Feb
- 2023 03:08:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75E2524F
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 11:19:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8D57C433D2;
+	Fri, 24 Feb 2023 11:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1677237555;
+	bh=+iZyNXPSCvcy7/yyvuzg8vpZUHIVsr9o2KUzCN78T5E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MkEpopIeJNkKcN2GNXg17J3faj5nzjIaHoMT1x1cCaPYUf6qrP0YinojGYLCAFjJ8
+	 2uo+idKfu5VeLk9a843ZNZBazaq+XLVDcbPpo8O5GnIPe8iBycTfv3rfn1HjWb0Fuz
+	 hKp/eGtwdF3N1LnjxuLbLz2i1823tCrIlGrVGSZ4=
+Date: Fri, 24 Feb 2023 12:19:12 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>, Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Neal Gompa <neal@gompa.dev>, rust-for-linux@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH 5/5] rust: device: Add a stub abstraction for devices
+Message-ID: <Y/idMBIOfFZxXnVM@kroah.com>
+References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
+ <20230224-rust-iopt-rtkit-v1-5-49ced3391295@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
- <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com> <e26318db-77b1-4876-8a40-f707d11b5857@app.fastmail.com>
-In-Reply-To: <e26318db-77b1-4876-8a40-f707d11b5857@app.fastmail.com>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Fri, 24 Feb 2023 12:08:42 +0100
-Message-ID: <CAMT+MTQ0bZiGpEFK9w3zncB-ZcCLY_tp1d5Wc0MJUMjWqc61jA@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2
- controller bindings.
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, - <asahi@lists.linux.dev>, 
-	Henrik Rydberg <rydberg@bitmath.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230224-rust-iopt-rtkit-v1-5-49ced3391295@asahilina.net>
 
-On Fri, 24 Feb 2023 at 12:04, Sven Peter <sven@svenpeter.dev> wrote:
-> Now that I thought about this again after the brief discussion we already had:
-> Do we even need to specify the device name? Is there any reason we can't just
-> always use something like "Apple Z2 TouchBar"?
-A similar protocol is used for primary touchscreen on idevices, which
-need different
-userspace handling. This is to make the driver potentially useful for
-people who run
-linux on checkra1n-able devices.
+On Fri, Feb 24, 2023 at 07:53:17PM +0900, Asahi Lina wrote:
+> From: Wedson Almeida Filho <wedsonaf@gmail.com>
+> 
+> Add a Device type which represents an owned reference to a generic
+> struct device. This minimal implementation just handles reference
+> counting and allows the user to get the device name.
+
+What good is just the device name?  I'm all for proper bindings to hook
+up properly to the driver core, but this feels like it's not really
+doing much of anything.
+
+Do you have a real user that we can see how this is interacting?
+
+And what does a driver care about the device name anyway?  It should
+only be using the dev_*() calls to print that info out to the log, and
+never messing around with it in any other format as that's what
+userspace expects.
+
+> Lina: Rewrote commit message, dropped the Amba bits, and squashed in
+> simple changes to the core Device code from latter commits in
+> rust-for-linux/rust. Also include the rust_helper_dev_get_drvdata
+> helper which will be needed by consumers later on anyway.
+> 
+> Co-developed-by: Miguel Ojeda <ojeda@kernel.org>
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+> Signed-off-by: Wedson Almeida Filho <wedsonaf@gmail.com>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+>  rust/helpers.c        | 13 +++++++++
+>  rust/kernel/device.rs | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 88 insertions(+), 1 deletion(-)
+> 
+> diff --git a/rust/helpers.c b/rust/helpers.c
+> index 04b9be46e887..54954fd80c77 100644
+> --- a/rust/helpers.c
+> +++ b/rust/helpers.c
+> @@ -20,6 +20,7 @@
+>  
+>  #include <linux/bug.h>
+>  #include <linux/build_bug.h>
+> +#include <linux/device.h>
+>  #include <linux/err.h>
+>  #include <linux/refcount.h>
+>  
+> @@ -65,6 +66,18 @@ long rust_helper_PTR_ERR(__force const void *ptr)
+>  }
+>  EXPORT_SYMBOL_GPL(rust_helper_PTR_ERR);
+>  
+> +void *rust_helper_dev_get_drvdata(struct device *dev)
+> +{
+> +	return dev_get_drvdata(dev);
+> +}
+> +EXPORT_SYMBOL_GPL(rust_helper_dev_get_drvdata);
+
+No matching dev_set_drvdata()?  What good is getting a random void
+pointer if you couldn't set it in the first place?  :)
+
+> +const char *rust_helper_dev_name(const struct device *dev)
+> +{
+> +	return dev_name(dev);
+> +}
+> +EXPORT_SYMBOL_GPL(rust_helper_dev_name);
+
+Again, why?  What is going to use this?
+
+And I don't really understand the rules you are putting on the name
+string after calling this, more below:
+
+> +
+>  /*
+>   * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
+>   * as the Rust `usize` type, so we can use it in contexts where Rust
+> diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
+> index 9be021e393ca..e57da622d817 100644
+> --- a/rust/kernel/device.rs
+> +++ b/rust/kernel/device.rs
+> @@ -4,7 +4,7 @@
+>  //!
+>  //! C header: [`include/linux/device.h`](../../../../include/linux/device.h)
+>  
+> -use crate::bindings;
+> +use crate::{bindings, str::CStr};
+>  
+>  /// A raw device.
+>  ///
+> @@ -20,4 +20,78 @@ use crate::bindings;
+>  pub unsafe trait RawDevice {
+>      /// Returns the raw `struct device` related to `self`.
+>      fn raw_device(&self) -> *mut bindings::device;
+> +
+> +    /// Returns the name of the device.
+> +    fn name(&self) -> &CStr {
+> +        let ptr = self.raw_device();
+> +
+> +        // SAFETY: `ptr` is valid because `self` keeps it alive.
+> +        let name = unsafe { bindings::dev_name(ptr) };
+> +
+> +        // SAFETY: The name of the device remains valid while it is alive (because the device is
+> +        // never renamed, per the safety requirement of this trait). This is guaranteed to be the
+> +        // case because the reference to `self` outlives the one of the returned `CStr` (enforced
+> +        // by the compiler because of their lifetimes).
+> +        unsafe { CStr::from_char_ptr(name) }
+
+Why can the device never be renamed?  Devices are renamed all the time,
+sometimes when you least expect it (i.e. by userspace).  So how is this
+considered "safe"? and actually correct?
+
+Again, maybe seeing a real user of this might make more sense, but
+as-is, this feels wrong and not needed at all.
+
+
+> +    }
+> +}
+> +
+> +/// A ref-counted device.
+> +///
+> +/// # Invariants
+> +///
+> +/// `ptr` is valid, non-null, and has a non-zero reference count. One of the references is owned by
+> +/// `self`, and will be decremented when `self` is dropped.
+> +pub struct Device {
+> +    pub(crate) ptr: *mut bindings::device,
+> +}
+> +
+> +// SAFETY: `Device` only holds a pointer to a C device, which is safe to be used from any thread.
+> +unsafe impl Send for Device {}
+> +
+> +// SAFETY: `Device` only holds a pointer to a C device, references to which are safe to be used
+> +// from any thread.
+> +unsafe impl Sync for Device {}
+> +
+> +impl Device {
+> +    /// Creates a new device instance.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// Callers must ensure that `ptr` is valid, non-null, and has a non-zero reference count.
+> +    pub unsafe fn new(ptr: *mut bindings::device) -> Self {
+> +        // SAFETY: By the safety requirements, ptr is valid and its refcounted will be incremented.
+> +        unsafe { bindings::get_device(ptr) };
+
+You don't check the return value of get_device()?  What if it failed
+(hint, it can)?
+
+
+> +        // INVARIANT: The safety requirements satisfy all but one invariant, which is that `self`
+> +        // owns a reference. This is satisfied by the call to `get_device` above.
+> +        Self { ptr }
+> +    }
+> +
+> +    /// Creates a new device instance from an existing [`RawDevice`] instance.
+> +    pub fn from_dev(dev: &dyn RawDevice) -> Self {
+
+I am a rust newbie, but I don't understand this "RawDevice" here at all.
+
+
+> +        // SAFETY: The requirements are satisfied by the existence of `RawDevice` and its safety
+> +        // requirements.
+> +        unsafe { Self::new(dev.raw_device()) }
+> +    }
+> +}
+> +
+> +// SAFETY: The device returned by `raw_device` is the one for which we hold a reference.
+> +unsafe impl RawDevice for Device {
+> +    fn raw_device(&self) -> *mut bindings::device {
+> +        self.ptr
+> +    }
+
+What does this raw device do?  What is the relationship to a "real"
+device?  Maybe it's just my lack of rust knowledge here showing, so any
+hints would be appreciated.
+
+> +}
+> +
+> +impl Drop for Device {
+> +    fn drop(&mut self) {
+> +        // SAFETY: By the type invariants, we know that `self` owns a reference, so it is safe to
+> +        // relinquish it now.
+> +        unsafe { bindings::put_device(self.ptr) };
+
+So it is now ok for this to be freed?
+
+One meta-comment, why is any of this needed at all?  No driver should
+ever be dealing with a "raw" struct device pointer at all, right?  They
+should be calling into subsystems that give it a pointer to a
+bus-specific pointer type (gpio, usb, pci, etc.)
+
+So I'm thinking that adding support for "raw" struct device pointers
+feels ripe for abuse in a "the code should not be doing that" type of
+thing.
+
+Unless you are writing a new bus/class in rust?
+
+thanks,
+
+greg k-h
