@@ -1,161 +1,84 @@
-Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2067.outbound.protection.outlook.com [40.92.102.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658AD539D
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 13:22:41 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DjEWdqeyYVv3cw2SPDfB/EzGf+Ow+KwldnodpGBmrBRzzmRe6wOs+sLIVfMbSXEtuPOSvPUh9yoEx6PhthQsnVdWv4mFLKr5r7qxKUoIpwxTPQQx/fP1ujbs4gA+lg+lvo+U+QLioDvYKpoy6/yqhAR633ZsAEOH0dHMcvjZWLw4OLR40qkocRayFBHkuBRQc2RxY6OX+zWYFVR3ByB2PI72O25yvZFkLfU8KZ95wmqSFCk+uhMNibcXOM+nnwzOSEQjuVcuRzFAXtRpMQU3NKW86+R1x2OCB1psysToZIWVz3620615dBHqCILqBwIwM6jyXkoar/t04H9M03zGXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jVpMMAGOuE8VK7thiK8Tm4H3/MWF8qu8KqVcVu1IKbg=;
- b=es2p2SuDHeYw0RV8GCZpUTHOVdA5sdYa0RVMpb1lcMuFs6BGlJHyrA2xbY0pJOcqIug9SFUAMZHwf/W1ZXbUTqMsnZSYXYAkrqQZHMv7PqrhyQ1NxwdSLZfrp19zKlr4SVy3D+aMraPDb4AP9HZ7ccKx1m0t0s22kisosGLgkbykvYnA8KsDflw+g7iRrgwKEwBCm0/XuvFomXBF4WQPV/lHt69ZhceQuP8vsY6b2Y5D9vglVGyP0iZq/3E7xl2Abf9BsCVrPkeZkn0PgqERzoM+E8ecgKsLNfUUqYqVyDYRxbXtlFYRIdhRFeNfu1m6A7K0Eygdsj771SaI0P2YJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jVpMMAGOuE8VK7thiK8Tm4H3/MWF8qu8KqVcVu1IKbg=;
- b=NBUmvt4mVTwI866BpBEB/kOswsXX5R17jE7YMw1HUOv99/eDqi0YpocQZ1NfMZrmBoG/uqKDM3tOU2lP6Lbpn3xbMWcNG0sNDmmtVVYmbvVYMEEtRb3Fb5Di+oOlVeh3SuwXTHVqDvxyF9DJodaJ7Rza4NuOB2ZPlJiysEdMpS1afAuMxVyj8kuC7dU9nUburliunaRV3clTDu1r61oLG+HcaFI1RaqmQ/eRpW3HFg1KTkDgHMe3XugJ3nAXYWlXt0a59AHti2a9oLk+J5B6YBXShQ5G0g+ZInLHaQ07VvKoCt7x2M4t3HAdTyoNJjMnOjFcUrC0I8eelwyv9UXURA==
-Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2::9) by
- MA0PR01MB7596.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:29::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6134.18; Fri, 24 Feb 2023 13:22:33 +0000
-Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::f156:868f:a45b:aeee]) by BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::f156:868f:a45b:aeee%11]) with mapi id 15.20.6156.007; Fri, 24 Feb
- 2023 13:22:33 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Kalle Valo <kvalo@kernel.org>
-CC: Hector Martin <marcan@marcan.st>, Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>, Hante Meuleman
-	<hante.meuleman@broadcom.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
-	<alyssa@rosenzweig.io>, Linus Walleij <linus.walleij@linaro.org>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
-	"SHA-cyfmac-dev-list@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] Apple T2 platform support
-Thread-Topic: [PATCH 0/2] Apple T2 platform support
-Thread-Index: AQHZR5e26B2arN4fj02dzTxrW7w7KK7eEkWHgAABuMaAAALubw==
-Date: Fri, 24 Feb 2023 13:22:33 +0000
-Message-ID:
- <BM1PR01MB09314C99F20D73ED6455B7F7B8A89@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
-References: <20230214080034.3828-1-marcan@marcan.st>
-	<379F9C6D-F98D-4940-A336-F5356F9C1898@live.com>
-	<BM1PR01MB09315D50C9380E9CB6471E9EB8A89@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
- <87leknrywd.fsf@kernel.org>
-In-Reply-To: <87leknrywd.fsf@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [4GFZbDxPC7Ru2ecaJKEgfPMIhGiLCyjZK7YQ0SkWJfWXw0IIXx0OCTvki4EpBLhQ]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|MA0PR01MB7596:EE_
-x-ms-office365-filtering-correlation-id: 8253a01f-ec18-4bfd-4f07-08db166a3009
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- LG/ht0fhCZSQ2CuyBNPZ6Kup7NYM4dEPOkpRxyaYgxOoOQfA5Xs2c1qi1YgG9WXePoliYjTLDZWgI64YwxLll1u+88QlpF7RyJDVdOcSFAd2tUHPI8n8HPZoG7SSGh19LG2OyMN9GTFN0CU+CJebUjoaOhHro5f0KIfVecithMARvnLU8zpJfdZaSvPXGLtVX8zR6w7MXEBJ+WSJLo2dDv0Q+9//RoQGSqWVCzfUU3iNRClbuysV/L5sjlpZngtFSv+IvSyqcBDWw6SMYeaW71POIfHTYP4YzGDhmburyJMZkUX6OGi6vsOiTHmbJeOFjjOAoIBEEuqhvNYUtgjZxZtnemtbLSe/OL4bhGFUI93SetVFu+aYZKTqUMCz0cWH1J8H5XAcqnPm9HXkKJXjjLilpO/Mve2OkgheMWwybSemWmez0R51VA2PjFX1QBL2IzK3UZmdFkFXuKAGJhWoaEHdfetIYEkzOcaP5DQhCWFJf0+LVc4dRIA1yfA7X3MXNhA8Isew5Vp9vP2FfiiMrEH5c5Zi+6mQ9ZZEFkfGjNinW3dMcgBgdmxnMCNA7PnEzlBTwcaJLEmn3buPObbH2WGoVjuagxKO4scmP9LiiAsUGoFVA5EMmY/TAVu8daxtUTtPgFpsblVVFqqX1rowD88P18VhsIIzZGiNkyCElB1sYYVYi60sR39k5Ms2qB1Z
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?c3hrZ1p4UDNMWDVXUmFKbkw2dzl1VDRhRWZWMlI1cDM1UkszcXJFdm5ySzZL?=
- =?utf-8?B?OUl0K0dlN1B5NzJYeWFQQmczV2swcG1MYTF6SktMaW9qRllqMzVkeENOVXU5?=
- =?utf-8?B?dmtvaGNCVjBpSFlxZGdUWmxEUVNXdTBhVjU0ZUh0d3JpZmlBV2Z4Uk16Wk01?=
- =?utf-8?B?azZyVjExc21GSk52aW1MTi9ldFBTU1lWQzNubXNJMlpldmc3aGV2dm5Oakxk?=
- =?utf-8?B?NlBDYXFqaDlmUlZyRzZ3SklpLzZIRWdHMko5Uk1ZQk5GclZTU3pBNXBUb2c4?=
- =?utf-8?B?QWh6Um9MQTgxcDdERGpseVlSUzhnd2YzN0JKWFFwcHhma0E3WGx4TFdWKzJ3?=
- =?utf-8?B?M0tZUlNYV0xIVUt5Nm5PVHJrY29KYkRrN1dIWHh1cFFDeFdQNzM4Q1JBUW5O?=
- =?utf-8?B?WEIxblFhVTdLc3FiME5USHFVVVRXVmZBdGRoaXFoa2xpcVZmRmJrRlNIMzRq?=
- =?utf-8?B?ZFpOL3NzSzc0Q2g4TXhnbktyOEIrSjNOVkJFR0NYZ3NiUHZCWmhDZ2I3YTJT?=
- =?utf-8?B?dU9yRjdjQTczT1E2MlRJNlFTaGJoQ25hZkpVSkZqQU8rUysyQjZ2Nkx0akdJ?=
- =?utf-8?B?M3lmcmlicDc2ZTVBYmtpVkZJZVdrZExOQldnL2FFRVoySUZRbEJDWmFpTUdK?=
- =?utf-8?B?N3k4amFtbTM4OG5kbzZ5ak9DREhoZ1NnV2dnLzVzV3I2LzRyUVNHQkxuN0h3?=
- =?utf-8?B?eEpDdG9mai83UGJsMkRpY2VOMWdXZmExS041cGtZN0N2eDN0aHp2RjQ3b2Zw?=
- =?utf-8?B?cjNIR2VES0NwWXpUT2JVYUUzbjR1elhZbHI1RHk4d2Q0ZlZ5Q1dpVkwzV1NS?=
- =?utf-8?B?cVlkZzUvdzhaSS9MQTBQbGZhZTN4V0ZRN1Y2Qm5DQVdVbnk4OUlYTVVxcXRt?=
- =?utf-8?B?TSs3dHRsbURKMm1NcGxyRTNwd3lNYU93NGZkZngxWlcya1NCb1Fjems4R3Jh?=
- =?utf-8?B?WTRhbitRa0tTWitrQy9ENVNsc3JmRDFSQWJ2dmhwTXRkUmFVdnF0dk8vZ0Zw?=
- =?utf-8?B?OUJHemExckUvSi9PNE81MUgrRFI4NnBZRnl1ZmhNU1dJM3g0UEtnai91ZVFD?=
- =?utf-8?B?S1VQUlB2T3diUjIrOGZ4bnRTMk41bGEzaHR3c2sydFNwM3ZNZG51K0w2cTMy?=
- =?utf-8?B?YitDSTlnanhHK3pPSzBabDk3RWM3OFViQXVBU2R4cGs3dzJlNkZ6UUxRSWw1?=
- =?utf-8?B?UVdZQ2JTQVRId0orbWpuTEVrWGNJdkt3aE5ESUpvdWZYUjJ1RTVDblNndWM0?=
- =?utf-8?B?Zk92MnZ6Vkp1eFFJektjL21NU1FJWXVIeWRiYlJka2ZmTlh3RFMveWR4V1ZD?=
- =?utf-8?B?L2RNcU0yZ25DNW9Zcy9peVhkblJ1KzZ5S2pzRVRsUEhydHloQ3JlYXI3TVFL?=
- =?utf-8?B?SC9rMitxV0xVMjdoOTVlbUpYajdxMktVOXBzVUNheENJQmJKQlFXdmNtSkRY?=
- =?utf-8?B?b3VEUnV1dEdMSFYyNXZNMjVRWGhkUnZzOFFheDNnU0l3Y3A4a0lPaUx5U29n?=
- =?utf-8?B?ZmplZ1hQcXlmU1ZNVFloTFI2MHVYVW9yRTVLTkhlTmYrOTlXK00wc3NwV3Nl?=
- =?utf-8?B?Z0dMdjhDYWdXczU1d3NkeExjSktIczMxWEpHUlAwbzFOTFo4RG51QzVIQXFv?=
- =?utf-8?B?WndUajcxLy9rNXR5ZzlxVVJsUFlTVnJDeVMyZURiSTd6MUJMMmtLeEFmNWpr?=
- =?utf-8?B?VGVyN3B0aWJmZFZQVWdtUnloQ3I0T3RiRG5wbHIrS2l5YjRMMmY5c1pUMFI4?=
- =?utf-8?B?elZKOEFPMnQ4UnpqNUpPL0pWUXlEUElYZ3k2aEpINGpkVmYwVzJraTZ6RkxP?=
- =?utf-8?B?RFJKcjVPWHREbmdSSUlVUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3179539D
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 14:01:21 +0000 (UTC)
+Received: by mail-oo1-f47.google.com with SMTP id p6-20020a4ab386000000b005252182b0e0so649938ooo.6
+        for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 06:01:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cD2V3GFxUMbiUHqwfuQz30DRd9uey95Pb5f4mqZNz5Q=;
+        b=nSQHhui9wzPmOzXMr5aqMMdc/emCD2VEKeowVCo0NrHkcplyLtFZoJHoJSFkK4z40b
+         1Y5bsQqiIwdR5gofZEF35EK9avASKH36E5ex9cJE5wk26qczgQcR+g0acFXnTiiKDgxR
+         PvZla0biMrFKQWZUiXoGS6VgkiqBzncTWilDH6zjbE0U2SVw1hG4kbL7ENtszZEjBb05
+         qptC3JWIkQCUlwk/JXL6N42MpRNrK4D9ejBf0Lzca0apISJPaVzxW40XxUIt1LW/qq0f
+         4QDj1rzPaIjMHxDN33OwyQKN9iTS0IxjFl1iPOh6pz4OLI/4YSXCYDPmBLAYfvu1N4S0
+         XtLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cD2V3GFxUMbiUHqwfuQz30DRd9uey95Pb5f4mqZNz5Q=;
+        b=wcqq2bv84u5kVsJKEqTgiBx52pH5pTNufb7n7NOjOGojrbYcInceawbdlhSDPJaPvM
+         eg/8XEoigYXWY5GxUgnibSIg+IbGIkyLFBZYeOya3X8fSvwks1dTZN6aZyPpgGy3FO/q
+         6UoX3uhK4qbBGY2w/hEkGnpZNh9F0A1JhwgdjQca1vNkZ7bpM/VQ1ctDx8yMxAihfspY
+         NrCE0heMt04BV6FDeDdwa8frdMd1yT2wQvbDyBShjVQ5Pzr4b1Rz/ewDMLyfI+fpC1n0
+         dT5oY8km1t/8K2Ba0kRHSpJAvQZkJvh6Xj1mu9TOQvFwjfkJErDHt4DIXGG/6PjDOgAL
+         BTgQ==
+X-Gm-Message-State: AO0yUKUcHnciDGuS6hm3qBe4qTzN0CKbbAbFVIB2x4AobBgA8SpJrRI7
+	VWWyQZOlBqkf5RyR4+YlViQ=
+X-Google-Smtp-Source: AK7set98zYboFrn/b4D2MBfz+3WRgRRGr0dXxRlba6lrQpOjcTAlP8smsxqbzioF9NIua3JNmHd9sg==
+X-Received: by 2002:a05:6820:61f:b0:51f:e2ab:5535 with SMTP id e31-20020a056820061f00b0051fe2ab5535mr8142396oow.0.1677247280363;
+        Fri, 24 Feb 2023 06:01:20 -0800 (PST)
+Received: from tx3000mach.io (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id v14-20020a9d604e000000b0068bbf5f2e49sm4505958otj.37.2023.02.24.06.01.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Feb 2023 06:01:19 -0800 (PST)
+From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+To: lina@asahilina.net
+Cc: alex.gaynor@gmail.com,
+	asahi@lists.linux.dev,
+	bjorn3_gh@protonmail.com,
+	boqun.feng@gmail.com,
+	gary@garyguo.net,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	masahiroy@kernel.org,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	nicolas@fjasle.eu,
+	ojeda@kernel.org,
+	rust-for-linux@vger.kernel.org,
+	wedsonaf@gmail.com
+Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and driver crates
+Date: Fri, 24 Feb 2023 11:01:13 -0300
+Message-Id: <20230224140113.745953-1-yakoyoku@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8253a01f-ec18-4bfd-4f07-08db166a3009
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2023 13:22:33.0849
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB7596
+Content-Transfer-Encoding: quoted-printable
 
-DQoNCj4gT24gMjQtRmViLTIwMjMsIGF0IDY6NDIgUE0sIEthbGxlIFZhbG8gPGt2YWxvQGtlcm5l
-bC5vcmc+IHdyb3RlOg0KPiANCj4g77u/QWRpdHlhIEdhcmcgPGdhcmdhZGl0eWEwOEBsaXZlLmNv
-bT4gd3JpdGVzOg0KPiANCj4+IE9uIDIzLUZlYi0yMDIzLCBhdCA4OjMxIFBNLCBBZGl0eWEgR2Fy
-ZyA8Z2FyZ2FkaXR5YTA4QGxpdmUuY29tPiB3cm90ZToNCj4+IA0KPj4g77u/SGkgSGVjdG9yDQo+
-PiANCj4+IEnigJl2ZSBhcHBsaWVkIHRoZSBmb2xsb3dpbmcgcGF0Y2hzZXQgKGFycmFuZ2VkIGlu
-IGNocm9ub2xvZ2ljYWwgb3JkZXIpIHRvIGxpbnV4IDYuMiwNCj4+IGFuZCB3aWZpIHNlZW1zIHRv
-IGhhdmUgYnJva2VuIG9uIE1hY0Jvb2tQcm8xNiwxIChicmNtZm1hYzQzNjRiMykNCj4+IA0KPj4g
-aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYXNhaGkvMjAyMzAyMTIwNjM4MTMuMjc2MjItMS1tYXJj
-YW5AbWFyY2FuLnN0L1QvI3QNCj4+IChCQ000MzU1LzQzNjQvNDM3NyBzdXBwb3J0ICYgaWRlbnRp
-ZmljYXRpb24gZml4ZXMpDQo+PiANCj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FzYWhpLzIw
-MjMwMjE0MDgwMDM0LjM4MjgtMS1tYXJjYW5AbWFyY2FuLnN0L1QvI3QgKEFwcGxlIFQyDQo+PiBw
-bGF0Zm9ybSBzdXBwb3J0KQ0KPj4gDQo+PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hc2FoaS8y
-MDIzMDIxNDA5MTY1MS4xMDE3OC0xLW1hcmNhbkBtYXJjYW4uc3QvVC8jdCAoQkNNNDM4Nw0KPj4g
-LyBBcHBsZSBNMSBwbGF0Zm9ybSBzdXBwb3J0KQ0KPj4gDQo+PiBodHRwczovL2xvcmUua2VybmVs
-Lm9yZy9hc2FoaS9iNDQ4OWUyNC1lMjI2LTRmOTktMTMyMi1jYWI2YzEyNjlmMDlAYnJvYWRjb20u
-Y29tL1QvI3QNCj4+IChicmNtZm1hYzogY2ZnODAyMTE6IFVzZSBXU0VDIHRvIHNldCBTQUUgcGFz
-c3dvcmQpDQo+PiANCj4+IFRoZSBsb2dzIHNob3c6DQo+PiANCj4+IEZlYiAyMyAyMDowODo1NyBN
-YWNCb29rIGtlcm5lbDogdXNiY29yZTogcmVnaXN0ZXJlZCBuZXcgaW50ZXJmYWNlIGRyaXZlciBi
-cmNtZm1hYw0KPj4gRmViIDIzIDIwOjA4OjU3IE1hY0Jvb2sga2VybmVsOiBicmNtZm1hYyAwMDAw
-OjA1OjAwLjA6IGVuYWJsaW5nIGRldmljZSAoMDAwMCAtPiAwMDAyKQ0KPj4gRmViIDIzIDIwOjA4
-OjU3IE1hY0Jvb2sga2VybmVsOiBicmNtZm1hYzogYnJjbWZfZndfYWxsb2NfcmVxdWVzdDogdXNp
-bmcNCj4+IGJyY20vYnJjbWZtYWM0MzY0YjMtcGNpZSBmb3IgY2hpcCBCQ000MzY0LzQNCj4+IEZl
-YiAyMyAyMDowODo1NyBNYWNCb29rIGtlcm5lbDogYnJjbWZtYWMgMDAwMDowNTowMC4wOiBEaXJl
-Y3QgZmlybXdhcmUgbG9hZCBmb3INCj4+IGJyY20vYnJjbWZtYWM0MzY0YjMtcGNpZS5BcHBsZSBJ
-bmMuLU1hY0Jvb2tQcm8xNiwxLmJpbiBmYWlsZWQgd2l0aCBlcnJvciAtMg0KPj4gRmViIDIzIDIw
-OjA4OjU3IE1hY0Jvb2sga2VybmVsOiBicmNtZm1hYyAwMDAwOjA1OjAwLjA6IERpcmVjdCBmaXJt
-d2FyZSBsb2FkIGZvcg0KPj4gYnJjbS9icmNtZm1hYzQzNjRiMy1wY2llLmJpbiBmYWlsZWQgd2l0
-aCBlcnJvciAtMg0KPj4gRmViIDIzIDIwOjA4OjU3IE1hY0Jvb2sga2VybmVsOiBicmNtZm1hYyAw
-MDAwOjA1OjAwLjA6IGJyY21mX3BjaWVfc2V0dXA6IERvbmdsZSBzZXR1cA0KPj4gZmFpbGVkDQo+
-PiANCj4+IEkgYWxzbyB0ZXN0ZWQgdGhlIHBhdGNoaWVzdCBpbiB0aGUgZm9sbG93aW5nIGxpbmss
-IGFuZCB3aWZpIG1vc3RseSB3b3JrZWQgdGhlcmUgKG9jY2FzaW9uYWxseSBpdA0KPj4gY29tcGxh
-aW5lZCBhYm91dCBzb21lIHBpYyBlcnJvciwgSeKAmWxsIHNhdmUgdGhlIGxvZ3MgbmV4dCB0aW1l
-IEkgZW5jb3VudGVyIHRoYXQpIDoNCj4+IA0KPj4gaHR0cHM6Ly9naXRodWIuY29tL3QybGludXgv
-bGludXgtdDItcGF0Y2hlcy9ibG9iL21haW4vODAwMS1hc2FoaWxpbnV4LXdpZmktcGF0Y2hzZXQu
-cGF0Y2gNCj4+IA0KPj4gVGhhbmtzDQo+PiBBZGl0eWENCj4+IA0KPj4gSSBqdXN0IG5vdGljZWQg
-dGhhdCB0aGUgcGF0Y2ggdG8gQUNQSSB3YXMgbWlzc2luZy4gQWRkaW5nIHRoYXQgZml4ZWQgdGhl
-IGlzc3VlLg0KPj4gDQo+PiBodHRwczovL2dpdGh1Yi5jb20vdDJsaW51eC9saW51eC10Mi1wYXRj
-aGVzL2Jsb2IvbWFpbi84MDA1LUFDUEktcHJvcGVydHktU3VwcG9ydC1zdHJpbmdzLWluLUFwcGxl
-LV9EU00tcHJvcHMucGF0Y2gNCj4gDQo+IFBsZWFzZSBkb24ndCB1c2UgSFRNTCwgb3VyIGxpc3Rz
-IGRyb3AgdGhvc2UuIEknbGwgcmVwbHkgaW4gdGV4dC9wbGFpbiBzbw0KPiB0aGF0IGlzIGluZm8g
-aXMgYXJjaGl2ZWQuDQo+IA0KSGkNCg0KU29ycnkgZm9yIHRoYXQuIEkgYWN0dWFsbHkgZm9yZ290
-IHRvIGZvcm1hdCB0aGF0IGVtYWlsIGFzIHBsYWluIHRleHQuDQo+IC0tIA0KPiBodHRwczovL3Bh
-dGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtd2lyZWxlc3MvbGlzdC8NCj4gDQo+IGh0
-dHBzOi8vd2lyZWxlc3Mud2lraS5rZXJuZWwub3JnL2VuL2RldmVsb3BlcnMvZG9jdW1lbnRhdGlv
-bi9zdWJtaXR0aW5ncGF0Y2hlcw0K
+On Fri, Feb 24, 2023 at 05:09:47PM +0900, Asahi Lina wrote:=0D
+> The unstable new_uninit feature enables various library APIs to create=0D
+> uninitialized containers, such as `Box::assume_init()`. This is=0D
+> necessary to build abstractions that directly initialize memory at the=0D
+> target location, instead of doing copies through the stack.=0D
+> =0D
+> Will be used by the DRM scheduler abstraction in the kernel crate, and=0D
+> by field-wise initialization (e.g. using `place!()` or a future=0D
+> replacement macro which may itself live in `kernel`) in driver crates.=0D
+=0D
+Very useful to me as some constructors in the USB bindings that I'm=0D
+writting might make use of unitialized memory.=0D
+=0D
+Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>=0D
