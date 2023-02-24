@@ -1,18 +1,18 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F61539D
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 14:11:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A512EC433EF;
-	Fri, 24 Feb 2023 14:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E261539D
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 14:19:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59918C433D2;
+	Fri, 24 Feb 2023 14:19:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1677247868;
-	bh=ILec1+10culSs+4LFcu4lSKq2NAnqzI8CinlFn1UHX0=;
+	s=korg; t=1677248378;
+	bh=5Dip4T8i/Ae6EeytUGwMelRYWHubcfbMstd13xVi0Ow=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X5RRtLW6bsr/7UHfOmsN3l4DkaUpOu9tISvL05vIbTpOsR9fYGuvcHyaMvmyqaBMJ
-	 ZLsK7n4KM2xdKyXZoDZC2QjQcyQtNKZnLtxaG+bu3PkCd9Pj8Bx2Qm6NjymWSWuxJx
-	 3kZpU2ead9fExo/nCjFMJLS+SK4UgO8ZYbOH/gv8=
-Date: Fri, 24 Feb 2023 15:11:05 +0100
+	b=z+F73CiWjvJ2iS0cNIYbdsOpTO+NEbcSKCCnL7Sb30dNuDHVDS4mVXDcHw2PYVEh5
+	 k1FHw50uaIbs5kvP+/8oZI+hDI2oyur0+GnuJtb/QeiesAT0Q+x55HU/MKouE8v8Y0
+	 k6Y8dY34wJ4UWsOePj7T6L7Tp2Urb2eO7zHONlxA=
+Date: Fri, 24 Feb 2023 15:19:36 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Asahi Lina <lina@asahilina.net>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
@@ -27,11 +27,12 @@ Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
 	Neal Gompa <neal@gompa.dev>, rust-for-linux@vger.kernel.org,
 	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
 Subject: Re: [PATCH 2/5] rust: device: Add a minimal RawDevice trait
-Message-ID: <Y/jFeZzZVCpBGvGv@kroah.com>
+Message-ID: <Y/jHeP4LileLYxO8@kroah.com>
 References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
  <20230224-rust-iopt-rtkit-v1-2-49ced3391295@asahilina.net>
  <Y/ieQ0UX/niAG1Hg@kroah.com>
  <ef3a3638-6381-87ab-d674-644306b6b6ce@asahilina.net>
+ <Y/jFeZzZVCpBGvGv@kroah.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,64 +41,68 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ef3a3638-6381-87ab-d674-644306b6b6ce@asahilina.net>
+In-Reply-To: <Y/jFeZzZVCpBGvGv@kroah.com>
 
-Thanks for the detailed rust explainations, I'd like to just highlight
-one thing:
-
-On Fri, Feb 24, 2023 at 10:15:12PM +0900, Asahi Lina wrote:
-> On 24/02/2023 20.23, Greg Kroah-Hartman wrote:
-> > And again, why are bindings needed for a "raw" struct device at all?
-> > Shouldn't the bus-specific wrappings work better?
+On Fri, Feb 24, 2023 at 03:11:05PM +0100, Greg Kroah-Hartman wrote:
+> Thanks for the detailed rust explainations, I'd like to just highlight
+> one thing:
 > 
-> Because lots of kernel subsystems need to be able to accept "any" device
-> and don't care about the bus! That's what this is for.
+> On Fri, Feb 24, 2023 at 10:15:12PM +0900, Asahi Lina wrote:
+> > On 24/02/2023 20.23, Greg Kroah-Hartman wrote:
+> > > And again, why are bindings needed for a "raw" struct device at all?
+> > > Shouldn't the bus-specific wrappings work better?
+> > 
+> > Because lots of kernel subsystems need to be able to accept "any" device
+> > and don't care about the bus! That's what this is for.
+> 
+> That's great, but:
+> 
+> > All the bus
+> > wrappers would implement this so they can be used as an argument for all
+> > those subsystems (plus a generic one when you just need to pass around
+> > an actual owned generic reference and no longer need bus-specific
+> > operations - you can materialize that out of a RawDevice impl, which is
+> > when get_device() would be called). That's why I'm introducing this now,
+> > because both io_pgtable and rtkit need to take `struct device` pointers
+> > on the C side so we need some "generic struct device" view on the Rust side.
+> 
+> In looking at both ftkit and io_pgtable, those seem to be good examples
+> of how "not to use a struct device", so trying to make safe bindings
+> from Rust to these frameworks is very ironic :)
+> 
+> rtkit takes a struct device pointer and then never increments it,
+> despite saving it off, which is unsafe.  It then only uses it to print
+> out messages if things go wrong (or right in some cases), which is odd.
+> So it can get away from using a device pointer entirely, except for the
+> devm_apple_rtkit_init() call, which I doubt you want to call from rust
+> code, right?
+> 
+> for io_pgtable, that's a bit messier, you want to pass in a device that
+> io_pgtable treats as a "device" but again, it is NEVER properly
+> reference counted, AND, it is only needed to try to figure out the bus
+> operations that dma memory should be allocated from for this device.  So
+> what would be better to save off there would be a pointer to the bus,
+> which is constant and soon will be read-only so there are no lifetime
+> rules needed at all (see the major struct bus_type changes going into
+> 6.3-rc1 that will enable that to happen).
+> 
+> So the two subsystems you want to call from rust code don't properly
+> handle the reference count of the object you are going to pass into it,
+> and only need it for debugging and iommu stuff, which is really only the
+> bus that the device is on, not good examples to start out with :)
+> 
+> Yeah, this is yack-shaving, sorry, but it's how we clean up core
+> subsystems for apis and implementations that are not really correct and
+> were not noticed at the time.
+> 
+> Can we see some users of this code posted so I can see how struct device
+> is going to work in a rust driver?  That's the thing I worry most about
+> the rust/C interaction here as we have two different ways of thinking
+> about reference counts from the two worlds and putting them together is
+> going to be "interesting", as can be seen here already.
 
-That's great, but:
-
-> All the bus
-> wrappers would implement this so they can be used as an argument for all
-> those subsystems (plus a generic one when you just need to pass around
-> an actual owned generic reference and no longer need bus-specific
-> operations - you can materialize that out of a RawDevice impl, which is
-> when get_device() would be called). That's why I'm introducing this now,
-> because both io_pgtable and rtkit need to take `struct device` pointers
-> on the C side so we need some "generic struct device" view on the Rust side.
-
-In looking at both ftkit and io_pgtable, those seem to be good examples
-of how "not to use a struct device", so trying to make safe bindings
-from Rust to these frameworks is very ironic :)
-
-rtkit takes a struct device pointer and then never increments it,
-despite saving it off, which is unsafe.  It then only uses it to print
-out messages if things go wrong (or right in some cases), which is odd.
-So it can get away from using a device pointer entirely, except for the
-devm_apple_rtkit_init() call, which I doubt you want to call from rust
-code, right?
-
-for io_pgtable, that's a bit messier, you want to pass in a device that
-io_pgtable treats as a "device" but again, it is NEVER properly
-reference counted, AND, it is only needed to try to figure out the bus
-operations that dma memory should be allocated from for this device.  So
-what would be better to save off there would be a pointer to the bus,
-which is constant and soon will be read-only so there are no lifetime
-rules needed at all (see the major struct bus_type changes going into
-6.3-rc1 that will enable that to happen).
-
-So the two subsystems you want to call from rust code don't properly
-handle the reference count of the object you are going to pass into it,
-and only need it for debugging and iommu stuff, which is really only the
-bus that the device is on, not good examples to start out with :)
-
-Yeah, this is yack-shaving, sorry, but it's how we clean up core
-subsystems for apis and implementations that are not really correct and
-were not noticed at the time.
-
-Can we see some users of this code posted so I can see how struct device
-is going to work in a rust driver?  That's the thing I worry most about
-the rust/C interaction here as we have two different ways of thinking
-about reference counts from the two worlds and putting them together is
-going to be "interesting", as can be seen here already.
+Also, where are you getting your 'struct device' from in the first
+place?  What bus is createing it and giving it to your rust driver?
 
 thanks,
 
