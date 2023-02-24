@@ -1,108 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E36539D
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 13:11:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 240C9C433EF;
-	Fri, 24 Feb 2023 13:11:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1677244313;
-	bh=Tmnx99J6rFLY7zffB2aNcRIyYYL1t2F2ABDf+c5GMVg=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=H8k6CqZL6BaGKu4kt8cRObUOvEVkpJEKhdApYVg6IeYEXC2gtxLdBYW1ppWP8kKav
-	 SoXp4+ZtT5XhaS/Fz0mPb7nJkfpiDebE5iiA0pFGO0rNtTb9yd1cfGASCCjVrrcG1L
-	 UERQTMcRRhyfMBU8f8WBfzituuADOczb49H/UEqIN7fw6Jz+5uR95FnDPSiDURt02b
-	 d5UhI1PC544wWJnGezsaDQwqmwKfNasdDgL51ItBY0YU4W/rpbaKddndvkppNA1ikU
-	 Vpl2iEZly25qXuL/rZRcMayED99+CibHweAxKicaXdpee/b/oPHbzhSbI1Dc7+oEs2
-	 VQJcUctif+4kw==
-From: Kalle Valo <kvalo@kernel.org>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Hector Martin <marcan@marcan.st>,  Arend van Spriel <aspriel@gmail.com>,  Franky Lin <franky.lin@broadcom.com>,  Hante Meuleman <hante.meuleman@broadcom.com>,  "David S. Miller" <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Sven Peter <sven@svenpeter.dev>,  Alyssa Rosenzweig <alyssa@rosenzweig.io>,  Linus Walleij <linus.walleij@linaro.org>,  "asahi\@lists.linux.dev" <asahi@lists.linux.dev>,  "linux-wireless\@vger.kernel.org" <linux-wireless@vger.kernel.org>,  "brcm80211-dev-list.pdl\@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,  "SHA-cyfmac-dev-list\@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,  "netdev\@vger.kernel.org" <netdev@vger.kernel.org>,  "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] Apple T2 platform support
-References: <20230214080034.3828-1-marcan@marcan.st>
-	<379F9C6D-F98D-4940-A336-F5356F9C1898@live.com>
-	<BM1PR01MB09315D50C9380E9CB6471E9EB8A89@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
-Date: Fri, 24 Feb 2023 15:11:46 +0200
-In-Reply-To: <BM1PR01MB09315D50C9380E9CB6471E9EB8A89@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
-	(Aditya Garg's message of "Fri, 24 Feb 2023 13:05:55 +0000")
-Message-ID: <87leknrywd.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A78539D;
+	Fri, 24 Feb 2023 13:14:11 +0000 (UTC)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 65D7D6602FB6;
+	Fri, 24 Feb 2023 13:14:01 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1677244443;
+	bh=Okn4gS1gr349hyYSKqFPtphNu9lynSCGwrmaUsYAV7k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Gm+baLq2JEYoErHccOrY+sq6UkDE63wM7blUSKo5+RWdViPYvsPewvBWLj6KK/Klp
+	 mX0JPGD4xhg/6yWU++Nzbmfnl82cF9liwmH7/V49AdT0JhjKn/9qFXL/MGmI+iFB67
+	 kEGGWDZczMu1ApL71HWexGJDHuCekPnec8VhOqK/IaN4Ec18oW5lZJK5IMSXZwaONx
+	 pW0CUQ3NXQdomYvAUVtmuLd3Bvdsg8AvWF57+1ZZ3pSrcDOBQdPK7V6n01YRtKSLUa
+	 bKRbQR8cYQ9XXXp8GWwxsBTRfmoO71Bj6gti3TX4MnkShBZEDgDb+fHdBMjgfzYc9q
+	 hsCnVl7kz1jdg==
+Message-ID: <c17f94a6-c710-f80e-c2af-9e450f144157@collabora.com>
+Date: Fri, 24 Feb 2023 14:13:59 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH V2] nvmem: add explicit config option to read OF fixed
+ cells
+Content-Language: en-US
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-rtc@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>
+References: <20230224072903.20945-1-zajec5@gmail.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20230224072903.20945-1-zajec5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Aditya Garg <gargaditya08@live.com> writes:
+Il 24/02/23 08:29, Rafał Miłecki ha scritto:
+> From: Rafał Miłecki <rafal@milecki.pl>
+> 
+> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
+> default. This behaviour made sense in early days before adding support
+> for dynamic cells.
+> 
+> With every new supported NVMEM device with dynamic cells current
+> behaviour becomes non-optimal. It results in unneeded iterating over DT
+> nodes and may result in false discovery of cells (depending on used DT
+> properties).
+> 
+> This behaviour has actually caused a problem already with the MTD
+> subsystem. MTD subpartitions were incorrectly treated as NVMEM cells.
+> 
+> Also with upcoming support for NVMEM layouts no new binding or driver
+> should support fixed cells defined in device node.
+> 
+> Solve this by modifying drivers for bindings that support specifying
+> fixed NVMEM cells in DT. Make them explicitly tell NVMEM subsystem to
+> read cells from DT.
+> 
+> It wasn't clear (to me) if rtc and w1 code actually uses fixed cells. I
+> enabled them to don't risk any breakage.
+> 
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> [for drivers/nvmem/meson-{efuse,mx-efuse}.c]
+> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
->  On 23-Feb-2023, at 8:31 PM, Aditya Garg <gargaditya08@live.com> wrote:
->
->  =EF=BB=BFHi Hector
->
->  I=E2=80=99ve applied the following patchset (arranged in chronological o=
-rder) to linux 6.2,
->  and wifi seems to have broken on MacBookPro16,1 (brcmfmac4364b3)
->
->  https://lore.kernel.org/asahi/20230212063813.27622-1-marcan@marcan.st/T/=
-#t
->  (BCM4355/4364/4377 support & identification fixes)
->
->  https://lore.kernel.org/asahi/20230214080034.3828-1-marcan@marcan.st/T/#=
-t (Apple T2
->  platform support)
->
->  https://lore.kernel.org/asahi/20230214091651.10178-1-marcan@marcan.st/T/=
-#t (BCM4387
->  / Apple M1 platform support)
->
->  https://lore.kernel.org/asahi/b4489e24-e226-4f99-1322-cab6c1269f09@broad=
-com.com/T/#t
->  (brcmfmac: cfg80211: Use WSEC to set SAE password)
->
->  The logs show:
->
->  Feb 23 20:08:57 MacBook kernel: usbcore: registered new interface driver=
- brcmfmac
->  Feb 23 20:08:57 MacBook kernel: brcmfmac 0000:05:00.0: enabling device (=
-0000 -> 0002)
->  Feb 23 20:08:57 MacBook kernel: brcmfmac: brcmf_fw_alloc_request: using
->  brcm/brcmfmac4364b3-pcie for chip BCM4364/4
->  Feb 23 20:08:57 MacBook kernel: brcmfmac 0000:05:00.0: Direct firmware l=
-oad for
->  brcm/brcmfmac4364b3-pcie.Apple Inc.-MacBookPro16,1.bin failed with error=
- -2
->  Feb 23 20:08:57 MacBook kernel: brcmfmac 0000:05:00.0: Direct firmware l=
-oad for
->  brcm/brcmfmac4364b3-pcie.bin failed with error -2
->  Feb 23 20:08:57 MacBook kernel: brcmfmac 0000:05:00.0: brcmf_pcie_setup:=
- Dongle setup
->  failed
->
->  I also tested the patchiest in the following link, and wifi mostly worke=
-d there (occasionally it
->  complained about some pic error, I=E2=80=99ll save the logs next time I =
-encounter that) :
->
->  https://github.com/t2linux/linux-t2-patches/blob/main/8001-asahilinux-wi=
-fi-patchset.patch
->
->  Thanks
->  Aditya
->
-> I just noticed that the patch to ACPI was missing. Adding that fixed the =
-issue.
->
-> https://github.com/t2linux/linux-t2-patches/blob/main/8005-ACPI-property-=
-Support-strings-in-Apple-_DSM-props.patch
+[for mtk-efuse.c, nvmem/core.c, nvmem-provider.h]
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Please don't use HTML, our lists drop those. I'll reply in text/plain so
-that is info is archived.
+[MT8192, MT8195 Chromebooks]
+Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
---=20
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatc=
-hes
