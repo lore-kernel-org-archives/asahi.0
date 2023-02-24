@@ -1,65 +1,104 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016DD3D8C
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 11:04:18 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id o12so53750633edb.9
-        for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 03:04:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gdwuEywNYdOYbVwrQQrjrsPur3vIHOPWD3d4XxXbKX0=;
-        b=MSxzV+R1ku+iZcmavQzQwnWy2bxOkcWE8XUdsyKIODORtXEcfVCF4fOVSMRZkPxz4v
-         0bz3EZvLCc1ijoG7YDtTTNdpxoQlB1L4D800QT5A5oZ+D0OLsVCZ1ub27n/XqFmMovnq
-         SZprioKSlochMIlRzGmjukLD8k+x2Dlq4JOjVcBFmMy8aeya6wwmj724nxotIaGxWySO
-         dsAax1prAXEmqO+a01UTHbuPs6m0sy/izKh2WGtxg4JcYdA6rF+MO7Egzn+ndCLlsXtH
-         S/3K6KhM29cuMF62wxyeWl/+ZyhWKhFlaJPSNSun8OjgUNqr+JmZeBI6rxtgfbIgstXP
-         nf9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gdwuEywNYdOYbVwrQQrjrsPur3vIHOPWD3d4XxXbKX0=;
-        b=Kb4brFoxUPtMDMqgiVvGCS+jCMK5XeSXm/dmkQyS8NtbVwxIl29kAjTTdYqlHHBQ/B
-         UCO+4xy2DxsGylE16pKXQW75AWl7sasIJZVKc6yceJVigrYaxzKCcMNxKyIf1yCQsjl+
-         AfKQdh4mnU6+qTQOV9e+O5N/P2vuvTxz8rYfrgJeNyv1fTSQykkcxvNhEKcJAEfTXCKa
-         FzGrg1iAjP61zNZXKSuivmYwLVwIb5IPuyl7KKonnXA5TDvinl4mQCZhOhJjbCyuMDTA
-         pJsUmuZHtzgNGlVQPKS9agYTcFoDdPWjM3eqOrXeNwilO7N+mMn4dqF3DWpjC34fAlyd
-         INXA==
-X-Gm-Message-State: AO0yUKW+QOTXFbzO9s1iScPfz1iKrld4x687yWuG4KRnIMDGaDV2QZCg
-	3EtAoTFv3ZqxA8N0y/LichiaZR8thlsq/B5x4pEH60NLSvYKNg==
-X-Google-Smtp-Source: AK7set9Ir/cY7edp/BficUGznr8dJBEy/FQHiI0VNP5F0lqBK32AocTLjQxCKgd+qQmB67y0eof9R8/Ey6CMcCo7af4=
-X-Received: by 2002:a17:906:2a93:b0:8e8:9fb7:5aa9 with SMTP id
- l19-20020a1709062a9300b008e89fb75aa9mr3890235eje.9.1677236657213; Fri, 24 Feb
- 2023 03:04:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94D4524F
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 11:08:49 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 54AB33200937;
+	Fri, 24 Feb 2023 06:08:48 -0500 (EST)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Fri, 24 Feb 2023 06:08:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1677236927; x=1677323327; bh=KK
+	c/e3/c+gUAR7YNhfs2iVKf3/8vMlHu6FvoTx1kM0Q=; b=h3dkd95IaDHrMsar4P
+	5ZfIW5JSTdVRQy6z9xoYkUnzJYg7yPofrxkbnJZBMmFpc3ZbT9NQq3++zQJqy8w0
+	+NmBryomuKiXCoJ/UPf6uYvAF1R4nDAsf6PflW27PkGFe56kLQ3wuyfDnH/5y4Y0
+	sk/3fVHzgy2qmtmaH8HJ9u1zFehPVH94gxoIOU7hmB2y11ZbEI3sSjO2JbRmAIyK
+	WH56iCUQVH1Ut2awz8eBSLwtC4/m6/x4hKjXIFGlA7oCbzcxL0cJnufMIV/p7Cvk
+	K4njz/oFFBvHveT5bVuIryzCZr5YrBweGgzF1QhA98/AOCUud7lN+17TEe8buxwv
+	xHrw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1677236927; x=1677323327; bh=KKc/e3/c+gUAR7YNhfs2iVKf3/8v
+	MlHu6FvoTx1kM0Q=; b=IM3O6FDRpepQ373V6L66WQMSxqTavvHfvd85D74fenGy
+	0LOIFKbStaLCwMTL0bJ3dbx1sgCObgugiOKdPrmduKqFRLrvawsnxXCp+c9npW4B
+	+z8BzzYSEnnZwJrakTBSwRojiAqdgb1lLtcxiSRvAPkMlsKgR+SoMnZYFjt3y52W
+	XsFQKkifcEMjMX/DHnlqEvujTTl9FH5Z9cp/0OUb8e4Sy7X95gzx2AxQHie7IYjd
+	YFDwcz0+ZXdyCNbfmYRJf4qL10Bn0DpJeVGuYHyzYM2sGRgeABjj/O26Il/fxgGC
+	q3LZJknveJzISIGJbDZ52M9FuPTMiUZWtrsqsLF/6g==
+X-ME-Sender: <xms:v5r4Y7eOL4GPuMpw9qjBwM6NpdS0TmMdyG9C5SAKAMp_7WwOGDSPbg>
+    <xme:v5r4YxNKIkZPx7ZbP9s8XBjCCOG0hFsJjnDPKwGLuKaZy5DqdGUbPK4Ztm7YOb4Xz
+    aOGqZTvIve-xX6Og5U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekfedgvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
+    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:v5r4Y0j0CmYGUuTkyLHHFix-zpqch2wnoIvDJY3iN0TuMJ7H-tqvYg>
+    <xmx:v5r4Y88eZjEDu9eTUxAMlahRfwC2jPeipa9paQKo-MsfMudyJ1sQMA>
+    <xmx:v5r4Y3vcQO1vOMoprK8i0g0Ec75dcueKuJtBX1vbxzBBBrvZBYoPrg>
+    <xmx:v5r4Y4mDU1dxo7kQTVrYDK-EHuSoh_hfJegkhndP1P_vCFSGVcQE4A>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id AD0FCA6007C; Fri, 24 Feb 2023 06:08:47 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-172-g9a2dae1853-fm-20230213.001-g9a2dae18
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Message-Id: <e6c7eb27-1b60-4894-a623-28ca3bccdea5@app.fastmail.com>
+In-Reply-To: 
+ <CAMT+MTQOUd0aSDJ3DPBMfkVwaic=nbRPtfGgu2nduSdCdydcgg@mail.gmail.com>
 References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
- <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com> <87r0ufs574.fsf@bloch.sibelius.xs4all.nl>
-In-Reply-To: <87r0ufs574.fsf@bloch.sibelius.xs4all.nl>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Fri, 24 Feb 2023 12:04:05 +0100
-Message-ID: <CAMT+MTQOUd0aSDJ3DPBMfkVwaic=nbRPtfGgu2nduSdCdydcgg@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2
- controller bindings.
-To: Mark Kettenis <mark.kettenis@xs4all.nl>
-Cc: marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, 
-	dmitry.torokhov@gmail.com, robh+dt@kernel.org, 
-	krzysztof.kozlowski+dt@linaro.org, asahi@lists.linux.dev, rydberg@bitmath.org, 
-	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com>
+ <87r0ufs574.fsf@bloch.sibelius.xs4all.nl>
+ <CAMT+MTQOUd0aSDJ3DPBMfkVwaic=nbRPtfGgu2nduSdCdydcgg@mail.gmail.com>
+Date: Fri, 24 Feb 2023 12:08:27 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Sasha Finkelstein" <fnkl.kernel@gmail.com>,
+ "Mark Kettenis" <mark.kettenis@xs4all.nl>
+Cc: "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+ asahi@lists.linux.dev, "Henrik Rydberg" <rydberg@bitmath.org>,
+ linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2 controller
+ bindings.
+Content-Type: text/plain
 
-On Fri, 24 Feb 2023 at 11:55, Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
+Hi,
 
-> What is the motivation for including the firmware name in the device
-> tree rather than constructing it in the driver like what is done for
-> the broadcom wireless?
-There is no way to identify the device subtype before the firmware is
-uploaded, and so i need some way of figuring out which firmware to use.
+
+On Fri, Feb 24, 2023, at 12:04, Sasha Finkelstein wrote:
+> On Fri, 24 Feb 2023 at 11:55, Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
+>
+>> What is the motivation for including the firmware name in the device
+>> tree rather than constructing it in the driver like what is done for
+>> the broadcom wireless?
+> There is no way to identify the device subtype before the firmware is
+> uploaded, and so i need some way of figuring out which firmware to use.
+
+Some Broadcom bluetooth boards use the compatible of the root node (see
+btbcm_get_board_name in drivers/bluetooth/btbcm.c) which would be "apple,jXXX"
+for Apple Silicon. I believe the Broadcom WiFi driver has similar logic as well
+which marcan had to extend to instead of "brcm,board-type" because different
+WiFi boards can me matched to different Apple Silicon boards. I don't think
+that's the case for this touchscreen though.
+
+
+
+Sven
