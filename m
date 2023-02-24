@@ -1,62 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C656105
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 15:25:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6020FC433EF;
-	Fri, 24 Feb 2023 15:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1677252313;
-	bh=q8uFT+Zib9fXB7CLOrkzVCuFOpx6Cw/p3OvF/WF7BaQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L5nG+aDW3T9iMesh3e6yXeWiV6pfifQvf88GoylAyIsHui9+N5PffPeKLNPxBw91I
-	 P/rdj4Qq0lC71zrgDEyV8qIPBlvjzzlnlVVOPo5jwTupno6ZG3eMX2bkCK9V/RswlN
-	 /PJjEacyrfzIqeTSIF+78+7PWBhCJxRc47MrW49Y=
-Date: Fri, 24 Feb 2023 16:25:11 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH 2/5] rust: device: Add a minimal RawDevice trait
-Message-ID: <Y/jW161RuT7OtlSf@kroah.com>
-References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
- <20230224-rust-iopt-rtkit-v1-2-49ced3391295@asahilina.net>
- <Y/ieQ0UX/niAG1Hg@kroah.com>
- <ef3a3638-6381-87ab-d674-644306b6b6ce@asahilina.net>
- <Y/jFeZzZVCpBGvGv@kroah.com>
- <Y/jHeP4LileLYxO8@kroah.com>
- <bbc824ee-ef4e-40cb-f009-0d693d757869@asahilina.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43638610D
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 15:29:18 +0000 (UTC)
+From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1677252145; bh=StaFikSjZpFQ+BUcIlQfwrxM+sCnU+rvBEoVvGQ2nmk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=fOvbi5u7TfZbdRb/5lxtFwcD+ebCgEW+egwfuLYdhfzxpB2grc3CsYFX5m3JosTZ3
+	 5CP7I59IxQyKuSrYvD7i+g0nm3Z7Anzbz6LcVbPDatTuX7bCwQrAa765yoNtapNLkx
+	 VYNi76Ina7OQb60oYtDZ5wzW7ec+E3dPHKVJiV+4=
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Vinod Koul <vkoul@kernel.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] dmaengine: apple-admac: Fix 'current_tx' not getting freed
+Date: Fri, 24 Feb 2023 16:22:21 +0100
+Message-Id: <20230224152222.26732-2-povik+lin@cutebit.org>
+In-Reply-To: <20230224152222.26732-1-povik+lin@cutebit.org>
+References: <20230224152222.26732-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bbc824ee-ef4e-40cb-f009-0d693d757869@asahilina.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 24, 2023 at 11:44:59PM +0900, Asahi Lina wrote:
-> On 2023/02/24 23:19, Greg Kroah-Hartman wrote:>> Can we see some users
-> of this code posted so I can see how struct device
-> >> is going to work in a rust driver?  That's the thing I worry most about
-> >> the rust/C interaction here as we have two different ways of thinking
-> >> about reference counts from the two worlds and putting them together is
-> >> going to be "interesting", as can be seen here already.
-> > 
-> > Also, where are you getting your 'struct device' from in the first
-> > place?  What bus is createing it and giving it to your rust driver?
-> 
-> That would be platform for my GPU driver, matched via OF compatible.
+In terminate_all we should queue up all submitted descriptors to be
+freed. We do that for the content of the 'issued' and 'submitted' lists,
+but the 'current_tx' descriptor falls through the cracks as it's
+removed from the 'issued' list once it gets assigned to be the current
+descriptor. Explicitly queue up freeing of the 'current_tx' descriptor
+to address a memory leak that is otherwise present.
 
-Ick, a platform device?  The GPU isn't on the PCI bus?  Wow, that's
-horrid...
+Fixes: b127315d9a78 ("dmaengine: apple-admac: Add Apple ADMAC driver")
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+---
+ drivers/dma/apple-admac.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 00cbfafe0ed9..497bb65b7d6d 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -512,7 +512,10 @@ static int admac_terminate_all(struct dma_chan *chan)
+ 	admac_stop_chan(adchan);
+ 	admac_reset_rings(adchan);
+ 
+-	adchan->current_tx = NULL;
++	if (adchan->current_tx) {
++		list_add_tail(&adchan->current_tx->node, &adchan->to_free);
++		adchan->current_tx = NULL;
++	}
+ 	/*
+ 	 * Descriptors can only be freed after the tasklet
+ 	 * has been killed (in admac_synchronize).
+-- 
+2.33.0
+
