@@ -1,29 +1,29 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453ED17FC
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 08:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3414617FC
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 08:00:10 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id CB14A425FF;
-	Fri, 24 Feb 2023 08:00:02 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id E970C42627;
+	Fri, 24 Feb 2023 08:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1677225605;
-	bh=6Wbnei3k6KtVJz9ZI7M1PVB1moPrUHEpETOWDNtBwL8=;
+	s=default; t=1677225608;
+	bh=0Up47y7KEYhekwntYgr5syUpa6Dxb/pGbZHOT4tPwJM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=HNf14lwW2ZiKP2wSRb6ZYYx6kIurcsxTrTnaYTiE6pGBGgNBb46Ayp/vt5XW7NxNN
-	 h44pAvXfwVovff8VmmBWdLlUp6gHjUt1LpSQmKUl6P3JRrW7JwLLsbp1bXXBLjQ+Ar
-	 qSqSZWTSYgMAGbCWtDztaRsnOrDmjGn0LKUjH9+bs9h8EXFJYyJP7Q/D/1R+Bqi8tY
-	 klxNRUOyZMwJJyqUYsWvDJIMpwmO5sdgqY2RmpMzhO587mAC2a1pCNgk16LPtOO24+
-	 3XWeauLuT2R37YdJmBrZUSUbZMi8bEt7hhx19NXNbpyNc4h+zy4HeEq4rhFjf4wM8K
-	 cmoc/rD1KdouA==
+	b=tER4tx7J4m3yFPMir0rEV1nhCYmxofpML4pw1lwQYZhVt3OM2iNb41mFu4itCF3Q4
+	 Vk+V16EjWGKqAGT1XCMFkiH1f4BwehRYbZWCZ7/E+dhMp4hDAxaBZ+xO80N7NSFeoO
+	 1P59zVIfTE+Epbm2JUshFd51dHWmY2yBBz+uWOU9NAGCVFEWN7KWe73/lcClmsWnFs
+	 wrEVjuinO7AJ+Hw2ompz99OxVd54JjTtD9FXuNUOYnuDXRLCF/XH1nErXRz3CsuJZ+
+	 XyDsZjJrbLXKC814dS1xE5WE3jNkKEulgILcNARN6Ow7Nyjdc3TnkU7W2dr4FnN50K
+	 sQDP3r5UapMaA==
 From: Asahi Lina <lina@asahilina.net>
-Date: Fri, 24 Feb 2023 16:59:33 +0900
-Subject: [PATCH 1/2] rust: sync: arc: implement Arc<dyn Any + Send +
- Sync>::downcast()
+Date: Fri, 24 Feb 2023 16:59:34 +0900
+Subject: [PATCH 2/2] rust: sync: arc: Add
+ UniqueArc<MaybeUninit<T>::assume_init()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -32,7 +32,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230224-rust-arc-v1-1-568eea613a41@asahilina.net>
+Message-Id: <20230224-rust-arc-v1-2-568eea613a41@asahilina.net>
 References: <20230224-rust-arc-v1-0-568eea613a41@asahilina.net>
 In-Reply-To: <20230224-rust-arc-v1-0-568eea613a41@asahilina.net>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -42,70 +42,51 @@ To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
 Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
  asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1677225599; l=1738;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1677225599; l=1757;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=6Wbnei3k6KtVJz9ZI7M1PVB1moPrUHEpETOWDNtBwL8=;
- b=pl+lv4Tc3xCIBS5/RLRLXHflMYEspfZVvyeG9O2EVpNFAe5b/JOSXqDeabDbmi3eE4wYUsw3B
- FzcsitZwuTzClhPwm86Jxdx/DHXFqY5N7mORtzgFbDCpcbFGBp+cqZy
+ bh=0Up47y7KEYhekwntYgr5syUpa6Dxb/pGbZHOT4tPwJM=;
+ b=uJ1yTsqKiJ60A7a9DGhqliBpLPZdFYZvgKBN4QFlYL8xz5Fq/DvvPu1HeHmu9Ru9FqBj2uX1Z
+ Y9EbTDTSc0QC01RK+qseEH2NcYWjE1RCHtAH9DyQH9p4mLLqKfKcyLh
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-This mirrors the standard library's alloc::sync::Arc::downcast().
+We can already create `UniqueArc<MaybeUninit<T>>` instances with
+`UniqueArc::try_new_uninit()` and write to them with `write()`. Add
+the missing unsafe `assume_init()` function to promote it to
+`UniqueArc<T>`, so users can do piece-wise initialization of the
+contents instead of doing it all at once as long as they keep the
+invariants (the same requirements as `MaybeUninit::assume_init()`).
 
-Based on the Rust standard library implementation, ver 1.62.0,
-licensed under "Apache-2.0 OR MIT", from:
-
-    https://github.com/rust-lang/rust/tree/1.62.0/library/alloc/src
-
-For copyright details, please see:
-
-    https://github.com/rust-lang/rust/blob/1.62.0/COPYRIGHT
+This mirrors the std `Arc::assume_init()` function. In the kernel,
+since we have `UniqueArc`, arguably this only belongs there since most
+use cases will initialize it immediately after creating it, before
+demoting it to `Arc` to share it.
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
- rust/kernel/sync/arc.rs | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ rust/kernel/sync/arc.rs | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/rust/kernel/sync/arc.rs b/rust/kernel/sync/arc.rs
-index a94e303217c6..752bd7c4699e 100644
+index 752bd7c4699e..b8e9477fe865 100644
 --- a/rust/kernel/sync/arc.rs
 +++ b/rust/kernel/sync/arc.rs
-@@ -22,6 +22,7 @@ use crate::{
- };
- use alloc::boxed::Box;
- use core::{
-+    any::Any,
-     fmt,
-     marker::{PhantomData, Unsize},
-     mem::{ManuallyDrop, MaybeUninit},
-@@ -220,6 +221,27 @@ impl<T: 'static> ForeignOwnable for Arc<T> {
-     }
- }
- 
-+impl Arc<dyn Any + Send + Sync> {
-+    /// Attempt to downcast the `Arc<dyn Any + Send + Sync>` to a concrete type.
-+    // Based on the Rust standard library implementation, ver 1.62.0, which is
-+    // Apache-2.0 OR MIT.
-+    pub fn downcast<T>(self) -> core::result::Result<Arc<T>, Self>
-+    where
-+        T: Any + Send + Sync,
-+    {
-+        if (*self).is::<T>() {
-+            // SAFETY: We have just checked that the type is correct, so we can cast the pointer.
-+            unsafe {
-+                let ptr = self.ptr.cast::<ArcInner<T>>();
-+                core::mem::forget(self);
-+                Ok(Arc::from_inner(ptr))
-+            }
-+        } else {
-+            Err(self)
-+        }
+@@ -512,6 +512,15 @@ impl<T> UniqueArc<MaybeUninit<T>> {
+     /// Converts a `UniqueArc<MaybeUninit<T>>` into a `UniqueArc<T>` by writing a value into it.
+     pub fn write(mut self, value: T) -> UniqueArc<T> {
+         self.deref_mut().write(value);
++        // SAFETY: We have just written the contents fully.
++        unsafe { self.assume_init() }
 +    }
-+}
 +
- impl<T: ?Sized> Deref for Arc<T> {
-     type Target = T;
- 
++    /// Returns a UniqueArc<T>, assuming the MaybeUninit<T> has already been initialized.
++    ///
++    /// # Safety
++    /// The contents of the UniqueArc must have already been fully initialized.
++    pub unsafe fn assume_init(self) -> UniqueArc<T> {
+         let inner = ManuallyDrop::new(self).inner.ptr;
+         UniqueArc {
+             // SAFETY: The new `Arc` is taking over `ptr` from `self.inner` (which won't be
 
 -- 
 2.35.1
