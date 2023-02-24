@@ -1,202 +1,161 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2067.outbound.protection.outlook.com [40.92.102.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688A3539D
-	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 13:15:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id ECC973FA55;
-	Fri, 24 Feb 2023 13:15:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1677244519;
-	bh=JO7LZ+UZTbX7aFX3msEPPny1eqLFld3+UeOQ0vjC2Vs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BtDVDBuvwtoz5SQkWrfz9yQbpj9enVmh2+4C/WkmnHhBHWIq8N/3nHVCYBWLWCSPD
-	 K5kQucd+G5/rGqWQNOQSWWxyQ+S3EYSrp0hiOrsCH8pRLHOn5tVDbr+NtPaqQY0kMz
-	 oj9qAEnw1WOd9sbQbFqe8WIctPAcY1/eMab/vhGIVz8JS99KVXuNbj1X2FR6y0ghx/
-	 PUB5m1bYjjZxGNz6qc2dM4vO7kjahci9PmQ4t3W3gBIoRqQiCcRX9YGt10cTiHVONS
-	 AhMJMTEoMJXnYWRBYBz0hgtKZu/tyYSF+j0crSxBs3m0AmieVSbytfvXVFUW9rIDj7
-	 6VcsRGaLxC3fA==
-Message-ID: <ef3a3638-6381-87ab-d674-644306b6b6ce@asahilina.net>
-Date: Fri, 24 Feb 2023 22:15:12 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658AD539D
+	for <asahi@lists.linux.dev>; Fri, 24 Feb 2023 13:22:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DjEWdqeyYVv3cw2SPDfB/EzGf+Ow+KwldnodpGBmrBRzzmRe6wOs+sLIVfMbSXEtuPOSvPUh9yoEx6PhthQsnVdWv4mFLKr5r7qxKUoIpwxTPQQx/fP1ujbs4gA+lg+lvo+U+QLioDvYKpoy6/yqhAR633ZsAEOH0dHMcvjZWLw4OLR40qkocRayFBHkuBRQc2RxY6OX+zWYFVR3ByB2PI72O25yvZFkLfU8KZ95wmqSFCk+uhMNibcXOM+nnwzOSEQjuVcuRzFAXtRpMQU3NKW86+R1x2OCB1psysToZIWVz3620615dBHqCILqBwIwM6jyXkoar/t04H9M03zGXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jVpMMAGOuE8VK7thiK8Tm4H3/MWF8qu8KqVcVu1IKbg=;
+ b=es2p2SuDHeYw0RV8GCZpUTHOVdA5sdYa0RVMpb1lcMuFs6BGlJHyrA2xbY0pJOcqIug9SFUAMZHwf/W1ZXbUTqMsnZSYXYAkrqQZHMv7PqrhyQ1NxwdSLZfrp19zKlr4SVy3D+aMraPDb4AP9HZ7ccKx1m0t0s22kisosGLgkbykvYnA8KsDflw+g7iRrgwKEwBCm0/XuvFomXBF4WQPV/lHt69ZhceQuP8vsY6b2Y5D9vglVGyP0iZq/3E7xl2Abf9BsCVrPkeZkn0PgqERzoM+E8ecgKsLNfUUqYqVyDYRxbXtlFYRIdhRFeNfu1m6A7K0Eygdsj771SaI0P2YJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jVpMMAGOuE8VK7thiK8Tm4H3/MWF8qu8KqVcVu1IKbg=;
+ b=NBUmvt4mVTwI866BpBEB/kOswsXX5R17jE7YMw1HUOv99/eDqi0YpocQZ1NfMZrmBoG/uqKDM3tOU2lP6Lbpn3xbMWcNG0sNDmmtVVYmbvVYMEEtRb3Fb5Di+oOlVeh3SuwXTHVqDvxyF9DJodaJ7Rza4NuOB2ZPlJiysEdMpS1afAuMxVyj8kuC7dU9nUburliunaRV3clTDu1r61oLG+HcaFI1RaqmQ/eRpW3HFg1KTkDgHMe3XugJ3nAXYWlXt0a59AHti2a9oLk+J5B6YBXShQ5G0g+ZInLHaQ07VvKoCt7x2M4t3HAdTyoNJjMnOjFcUrC0I8eelwyv9UXURA==
+Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2::9) by
+ MA0PR01MB7596.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:29::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6134.18; Fri, 24 Feb 2023 13:22:33 +0000
+Received: from BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::f156:868f:a45b:aeee]) by BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::f156:868f:a45b:aeee%11]) with mapi id 15.20.6156.007; Fri, 24 Feb
+ 2023 13:22:33 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Kalle Valo <kvalo@kernel.org>
+CC: Hector Martin <marcan@marcan.st>, Arend van Spriel <aspriel@gmail.com>,
+	Franky Lin <franky.lin@broadcom.com>, Hante Meuleman
+	<hante.meuleman@broadcom.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+	<alyssa@rosenzweig.io>, Linus Walleij <linus.walleij@linaro.org>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
+	"SHA-cyfmac-dev-list@infineon.com" <SHA-cyfmac-dev-list@infineon.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] Apple T2 platform support
+Thread-Topic: [PATCH 0/2] Apple T2 platform support
+Thread-Index: AQHZR5e26B2arN4fj02dzTxrW7w7KK7eEkWHgAABuMaAAALubw==
+Date: Fri, 24 Feb 2023 13:22:33 +0000
+Message-ID:
+ <BM1PR01MB09314C99F20D73ED6455B7F7B8A89@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
+References: <20230214080034.3828-1-marcan@marcan.st>
+	<379F9C6D-F98D-4940-A336-F5356F9C1898@live.com>
+	<BM1PR01MB09315D50C9380E9CB6471E9EB8A89@BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM>
+ <87leknrywd.fsf@kernel.org>
+In-Reply-To: <87leknrywd.fsf@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [4GFZbDxPC7Ru2ecaJKEgfPMIhGiLCyjZK7YQ0SkWJfWXw0IIXx0OCTvki4EpBLhQ]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BM1PR01MB0931:EE_|MA0PR01MB7596:EE_
+x-ms-office365-filtering-correlation-id: 8253a01f-ec18-4bfd-4f07-08db166a3009
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ LG/ht0fhCZSQ2CuyBNPZ6Kup7NYM4dEPOkpRxyaYgxOoOQfA5Xs2c1qi1YgG9WXePoliYjTLDZWgI64YwxLll1u+88QlpF7RyJDVdOcSFAd2tUHPI8n8HPZoG7SSGh19LG2OyMN9GTFN0CU+CJebUjoaOhHro5f0KIfVecithMARvnLU8zpJfdZaSvPXGLtVX8zR6w7MXEBJ+WSJLo2dDv0Q+9//RoQGSqWVCzfUU3iNRClbuysV/L5sjlpZngtFSv+IvSyqcBDWw6SMYeaW71POIfHTYP4YzGDhmburyJMZkUX6OGi6vsOiTHmbJeOFjjOAoIBEEuqhvNYUtgjZxZtnemtbLSe/OL4bhGFUI93SetVFu+aYZKTqUMCz0cWH1J8H5XAcqnPm9HXkKJXjjLilpO/Mve2OkgheMWwybSemWmez0R51VA2PjFX1QBL2IzK3UZmdFkFXuKAGJhWoaEHdfetIYEkzOcaP5DQhCWFJf0+LVc4dRIA1yfA7X3MXNhA8Isew5Vp9vP2FfiiMrEH5c5Zi+6mQ9ZZEFkfGjNinW3dMcgBgdmxnMCNA7PnEzlBTwcaJLEmn3buPObbH2WGoVjuagxKO4scmP9LiiAsUGoFVA5EMmY/TAVu8daxtUTtPgFpsblVVFqqX1rowD88P18VhsIIzZGiNkyCElB1sYYVYi60sR39k5Ms2qB1Z
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?c3hrZ1p4UDNMWDVXUmFKbkw2dzl1VDRhRWZWMlI1cDM1UkszcXJFdm5ySzZL?=
+ =?utf-8?B?OUl0K0dlN1B5NzJYeWFQQmczV2swcG1MYTF6SktMaW9qRllqMzVkeENOVXU5?=
+ =?utf-8?B?dmtvaGNCVjBpSFlxZGdUWmxEUVNXdTBhVjU0ZUh0d3JpZmlBV2Z4Uk16Wk01?=
+ =?utf-8?B?azZyVjExc21GSk52aW1MTi9ldFBTU1lWQzNubXNJMlpldmc3aGV2dm5Oakxk?=
+ =?utf-8?B?NlBDYXFqaDlmUlZyRzZ3SklpLzZIRWdHMko5Uk1ZQk5GclZTU3pBNXBUb2c4?=
+ =?utf-8?B?QWh6Um9MQTgxcDdERGpseVlSUzhnd2YzN0JKWFFwcHhma0E3WGx4TFdWKzJ3?=
+ =?utf-8?B?M0tZUlNYV0xIVUt5Nm5PVHJrY29KYkRrN1dIWHh1cFFDeFdQNzM4Q1JBUW5O?=
+ =?utf-8?B?WEIxblFhVTdLc3FiME5USHFVVVRXVmZBdGRoaXFoa2xpcVZmRmJrRlNIMzRq?=
+ =?utf-8?B?ZFpOL3NzSzc0Q2g4TXhnbktyOEIrSjNOVkJFR0NYZ3NiUHZCWmhDZ2I3YTJT?=
+ =?utf-8?B?dU9yRjdjQTczT1E2MlRJNlFTaGJoQ25hZkpVSkZqQU8rUysyQjZ2Nkx0akdJ?=
+ =?utf-8?B?M3lmcmlicDc2ZTVBYmtpVkZJZVdrZExOQldnL2FFRVoySUZRbEJDWmFpTUdK?=
+ =?utf-8?B?N3k4amFtbTM4OG5kbzZ5ak9DREhoZ1NnV2dnLzVzV3I2LzRyUVNHQkxuN0h3?=
+ =?utf-8?B?eEpDdG9mai83UGJsMkRpY2VOMWdXZmExS041cGtZN0N2eDN0aHp2RjQ3b2Zw?=
+ =?utf-8?B?cjNIR2VES0NwWXpUT2JVYUUzbjR1elhZbHI1RHk4d2Q0ZlZ5Q1dpVkwzV1NS?=
+ =?utf-8?B?cVlkZzUvdzhaSS9MQTBQbGZhZTN4V0ZRN1Y2Qm5DQVdVbnk4OUlYTVVxcXRt?=
+ =?utf-8?B?TSs3dHRsbURKMm1NcGxyRTNwd3lNYU93NGZkZngxWlcya1NCb1Fjems4R3Jh?=
+ =?utf-8?B?WTRhbitRa0tTWitrQy9ENVNsc3JmRDFSQWJ2dmhwTXRkUmFVdnF0dk8vZ0Zw?=
+ =?utf-8?B?OUJHemExckUvSi9PNE81MUgrRFI4NnBZRnl1ZmhNU1dJM3g0UEtnai91ZVFD?=
+ =?utf-8?B?S1VQUlB2T3diUjIrOGZ4bnRTMk41bGEzaHR3c2sydFNwM3ZNZG51K0w2cTMy?=
+ =?utf-8?B?YitDSTlnanhHK3pPSzBabDk3RWM3OFViQXVBU2R4cGs3dzJlNkZ6UUxRSWw1?=
+ =?utf-8?B?UVdZQ2JTQVRId0orbWpuTEVrWGNJdkt3aE5ESUpvdWZYUjJ1RTVDblNndWM0?=
+ =?utf-8?B?Zk92MnZ6Vkp1eFFJektjL21NU1FJWXVIeWRiYlJka2ZmTlh3RFMveWR4V1ZD?=
+ =?utf-8?B?L2RNcU0yZ25DNW9Zcy9peVhkblJ1KzZ5S2pzRVRsUEhydHloQ3JlYXI3TVFL?=
+ =?utf-8?B?SC9rMitxV0xVMjdoOTVlbUpYajdxMktVOXBzVUNheENJQmJKQlFXdmNtSkRY?=
+ =?utf-8?B?b3VEUnV1dEdMSFYyNXZNMjVRWGhkUnZzOFFheDNnU0l3Y3A4a0lPaUx5U29n?=
+ =?utf-8?B?ZmplZ1hQcXlmU1ZNVFloTFI2MHVYVW9yRTVLTkhlTmYrOTlXK00wc3NwV3Nl?=
+ =?utf-8?B?Z0dMdjhDYWdXczU1d3NkeExjSktIczMxWEpHUlAwbzFOTFo4RG51QzVIQXFv?=
+ =?utf-8?B?WndUajcxLy9rNXR5ZzlxVVJsUFlTVnJDeVMyZURiSTd6MUJMMmtLeEFmNWpr?=
+ =?utf-8?B?VGVyN3B0aWJmZFZQVWdtUnloQ3I0T3RiRG5wbHIrS2l5YjRMMmY5c1pUMFI4?=
+ =?utf-8?B?elZKOEFPMnQ4UnpqNUpPL0pWUXlEUElYZ3k2aEpINGpkVmYwVzJraTZ6RkxP?=
+ =?utf-8?B?RFJKcjVPWHREbmdSSUlVUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 2/5] rust: device: Add a minimal RawDevice trait
-Content-Language: en-US
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
- <20230224-rust-iopt-rtkit-v1-2-49ced3391295@asahilina.net>
- <Y/ieQ0UX/niAG1Hg@kroah.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <Y/ieQ0UX/niAG1Hg@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-42ed3.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB0931.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8253a01f-ec18-4bfd-4f07-08db166a3009
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2023 13:22:33.0849
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0PR01MB7596
 
-On 24/02/2023 20.23, Greg Kroah-Hartman wrote:
-> On Fri, Feb 24, 2023 at 07:53:14PM +0900, Asahi Lina wrote:
->> From: Wedson Almeida Filho <wedsonaf@gmail.com>
->>
->> Add a RawDevice trait which can be implemented by any type representing
->> a device class (such as a PlatformDevice). This is the minimum amount of
->> Device support code required to unblock abstractions that need to take
->> device pointers.
->>
->> Lina: Rewrote commit message, and dropped everything except RawDevice.
->>
->> Co-developed-by: Miguel Ojeda <ojeda@kernel.org>
->> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
->> Signed-off-by: Wedson Almeida Filho <wedsonaf@gmail.com>
->> Signed-off-by: Asahi Lina <lina@asahilina.net>
->> ---
->>  rust/bindings/bindings_helper.h |  1 +
->>  rust/kernel/device.rs           | 23 +++++++++++++++++++++++
->>  rust/kernel/lib.rs              |  1 +
->>  3 files changed, 25 insertions(+)
->>
->> diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
->> new file mode 100644
->> index 000000000000..9be021e393ca
->> --- /dev/null
->> +++ b/rust/kernel/device.rs
->> @@ -0,0 +1,23 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +//! Generic devices that are part of the kernel's driver model.
->> +//!
->> +//! C header: [`include/linux/device.h`](../../../../include/linux/device.h)
->> +
->> +use crate::bindings;
->> +
->> +/// A raw device.
->> +///
->> +/// # Safety
->> +///
->> +/// Implementers must ensure that the `*mut device` returned by [`RawDevice::raw_device`] is
->> +/// related to `self`, that is, actions on it will affect `self`. For example, if one calls
->> +/// `get_device`, then the refcount on the device represented by `self` will be incremented.
-> 
-> What is a "implementer" here?  Rust code?  C code?  Who is calling
-> get_device() here, rust code or the driver code or something else?  How
-> are you matching up the reference logic of this structure with the fact
-> that the driver core actually owns the reference, not any rust code?
-
-This is a Rust trait, so that would be Rust code. In practice that means
-other abstractions for different device buses, and the generic one which
-I sent as patch 5. It's not a structure, so it doesn't have any
-reference logic itself. That would go into the implementing struct (like
-`Device`). What the comment is saying is that other parts of the Rust
-kernel crate may make assumptions about the relationship between the
-lifetime of the struct implementing RawDevice and the lifetime of the
-underlying `struct device`. So for example, it's not legal to return a
-borrowed reference to a `struct device` that might go away before `self`
-does.
-
-We should probably make this `Sealed` too, to make sure no driver can
-even try to implement it (which probably wouldn't make sense)... this
-should only ever be implemented by stuff in the kernel crate.
-
-The reference is owned by whoever owns the reference, no? If you call
-get_device(), you own a new reference to the device (which means you can
-keep the pointer around until you call put_device()). Normally in Rust
-you would have logic where whatever Rust structure that owns a reference
-(which in practice is most things that implement RawDevice) would also
-have a `Clone` trait impl that calls `get_device()` and duplicates
-itself, and a `Drop` trait impl that calls `put_device()`. In Rust
-terms, the Rust structure "owns" the device reference, and whatever code
-creates that structure needs to either be allowed to steal the reference
-from its caller or explicitly call `get_device()`.
-
-You can also elide that in some cases though, like when you're just
-passing a device reference down from a callback into Rust code. Then the
-caller guarantees it has a device reference, which will outlive the
-execution of the callback. So the wrapper that calls user Rust code can
-materialize a RawDevice implementation without calling `get_device()`,
-and then pass a Rust reference to it (which means the downstream code
-can't steal it), and then make sure it gets destroyed without a
-`put_device()` before the callback returns. In Rust terms, that's a code
-path that passes a borrowed reference to the device down into user code.
-
-This kind of ties back to why Rust rather than C... C does not encode
-concepts like "borrowing a reference" or "taking over a reference" in
-the type system, so it's really easy to mess up the refcounting and end
-up with dangling references or leaks. Rust does, so once you wrap a C
-API with the matching Rust semantics, there's no way to mess up and have
-those issues any more.
-
-> 
->> +///
->> +/// Additionally, implementers must ensure that the device is never renamed. Commit a5462516aa99
->> +/// ("driver-core: document restrictions on device_rename()") has details on why `device_rename`
->> +/// should not be used.
-> 
-> As much as I would have liked that, that commit was from 2010 and
-> device_rename() is still being used by some pretty large subsystems
-> (networking and IB) and I don't see that going away any year soon.
-> 
-> So yes, your device will be renamed, so don't mess with the device name
-> like I mentioned in review of path 5/5 in this series.
-
-I think we can just drop that part (and the name stuff) then. Wedson, is
-that okay?
-
-> 
->> +pub unsafe trait RawDevice {
->> +    /// Returns the raw `struct device` related to `self`.
->> +    fn raw_device(&self) -> *mut bindings::device;
-> 
-> Again, what prevents this device from going away?  I don't see a call to
-> get_device() here :(
-
-That would be up to the caller, if it needs to keep the pointer around.
-Think of `raw_device()` as just "please return the `struct device *`
-pointer for yourself, thanks". If you need to store that pointer for
-later, you need to call `get_device()`. But most of the time it will be
-used transiently, and then you don't need to take any references since
-the safety requirement above guarantees that `self` owns a reference.
-The caller then just needs to make sure not to throw away `self` before
-it finishes using the returned pointer.
-
-Keep in mind that this is an internal abstraction, it's there to be
-implemented and used by the kernel crate itself. User code can't
-actually do anything with the returned pointer without using `unsafe`
-(so it's safe to expose this) and can't implement the trait without
-`unsafe` either. But it can take dynamic trait arguments of type
-RawDevice and pass them along, which is perfectly fine. Rust guarantees
-that the right `get_device()` and `put_device()` are called when
-references get cloned or dropped, for owned objects, and for borrowed
-references there is no need to touch the refcount.
-
-> And again, why are bindings needed for a "raw" struct device at all?
-> Shouldn't the bus-specific wrappings work better?
-
-Because lots of kernel subsystems need to be able to accept "any" device
-and don't care about the bus! That's what this is for. All the bus
-wrappers would implement this so they can be used as an argument for all
-those subsystems (plus a generic one when you just need to pass around
-an actual owned generic reference and no longer need bus-specific
-operations - you can materialize that out of a RawDevice impl, which is
-when get_device() would be called). That's why I'm introducing this now,
-because both io_pgtable and rtkit need to take `struct device` pointers
-on the C side so we need some "generic struct device" view on the Rust side.
-
-~~ Lina
+DQoNCj4gT24gMjQtRmViLTIwMjMsIGF0IDY6NDIgUE0sIEthbGxlIFZhbG8gPGt2YWxvQGtlcm5l
+bC5vcmc+IHdyb3RlOg0KPiANCj4g77u/QWRpdHlhIEdhcmcgPGdhcmdhZGl0eWEwOEBsaXZlLmNv
+bT4gd3JpdGVzOg0KPiANCj4+IE9uIDIzLUZlYi0yMDIzLCBhdCA4OjMxIFBNLCBBZGl0eWEgR2Fy
+ZyA8Z2FyZ2FkaXR5YTA4QGxpdmUuY29tPiB3cm90ZToNCj4+IA0KPj4g77u/SGkgSGVjdG9yDQo+
+PiANCj4+IEnigJl2ZSBhcHBsaWVkIHRoZSBmb2xsb3dpbmcgcGF0Y2hzZXQgKGFycmFuZ2VkIGlu
+IGNocm9ub2xvZ2ljYWwgb3JkZXIpIHRvIGxpbnV4IDYuMiwNCj4+IGFuZCB3aWZpIHNlZW1zIHRv
+IGhhdmUgYnJva2VuIG9uIE1hY0Jvb2tQcm8xNiwxIChicmNtZm1hYzQzNjRiMykNCj4+IA0KPj4g
+aHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYXNhaGkvMjAyMzAyMTIwNjM4MTMuMjc2MjItMS1tYXJj
+YW5AbWFyY2FuLnN0L1QvI3QNCj4+IChCQ000MzU1LzQzNjQvNDM3NyBzdXBwb3J0ICYgaWRlbnRp
+ZmljYXRpb24gZml4ZXMpDQo+PiANCj4+IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2FzYWhpLzIw
+MjMwMjE0MDgwMDM0LjM4MjgtMS1tYXJjYW5AbWFyY2FuLnN0L1QvI3QgKEFwcGxlIFQyDQo+PiBw
+bGF0Zm9ybSBzdXBwb3J0KQ0KPj4gDQo+PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hc2FoaS8y
+MDIzMDIxNDA5MTY1MS4xMDE3OC0xLW1hcmNhbkBtYXJjYW4uc3QvVC8jdCAoQkNNNDM4Nw0KPj4g
+LyBBcHBsZSBNMSBwbGF0Zm9ybSBzdXBwb3J0KQ0KPj4gDQo+PiBodHRwczovL2xvcmUua2VybmVs
+Lm9yZy9hc2FoaS9iNDQ4OWUyNC1lMjI2LTRmOTktMTMyMi1jYWI2YzEyNjlmMDlAYnJvYWRjb20u
+Y29tL1QvI3QNCj4+IChicmNtZm1hYzogY2ZnODAyMTE6IFVzZSBXU0VDIHRvIHNldCBTQUUgcGFz
+c3dvcmQpDQo+PiANCj4+IFRoZSBsb2dzIHNob3c6DQo+PiANCj4+IEZlYiAyMyAyMDowODo1NyBN
+YWNCb29rIGtlcm5lbDogdXNiY29yZTogcmVnaXN0ZXJlZCBuZXcgaW50ZXJmYWNlIGRyaXZlciBi
+cmNtZm1hYw0KPj4gRmViIDIzIDIwOjA4OjU3IE1hY0Jvb2sga2VybmVsOiBicmNtZm1hYyAwMDAw
+OjA1OjAwLjA6IGVuYWJsaW5nIGRldmljZSAoMDAwMCAtPiAwMDAyKQ0KPj4gRmViIDIzIDIwOjA4
+OjU3IE1hY0Jvb2sga2VybmVsOiBicmNtZm1hYzogYnJjbWZfZndfYWxsb2NfcmVxdWVzdDogdXNp
+bmcNCj4+IGJyY20vYnJjbWZtYWM0MzY0YjMtcGNpZSBmb3IgY2hpcCBCQ000MzY0LzQNCj4+IEZl
+YiAyMyAyMDowODo1NyBNYWNCb29rIGtlcm5lbDogYnJjbWZtYWMgMDAwMDowNTowMC4wOiBEaXJl
+Y3QgZmlybXdhcmUgbG9hZCBmb3INCj4+IGJyY20vYnJjbWZtYWM0MzY0YjMtcGNpZS5BcHBsZSBJ
+bmMuLU1hY0Jvb2tQcm8xNiwxLmJpbiBmYWlsZWQgd2l0aCBlcnJvciAtMg0KPj4gRmViIDIzIDIw
+OjA4OjU3IE1hY0Jvb2sga2VybmVsOiBicmNtZm1hYyAwMDAwOjA1OjAwLjA6IERpcmVjdCBmaXJt
+d2FyZSBsb2FkIGZvcg0KPj4gYnJjbS9icmNtZm1hYzQzNjRiMy1wY2llLmJpbiBmYWlsZWQgd2l0
+aCBlcnJvciAtMg0KPj4gRmViIDIzIDIwOjA4OjU3IE1hY0Jvb2sga2VybmVsOiBicmNtZm1hYyAw
+MDAwOjA1OjAwLjA6IGJyY21mX3BjaWVfc2V0dXA6IERvbmdsZSBzZXR1cA0KPj4gZmFpbGVkDQo+
+PiANCj4+IEkgYWxzbyB0ZXN0ZWQgdGhlIHBhdGNoaWVzdCBpbiB0aGUgZm9sbG93aW5nIGxpbmss
+IGFuZCB3aWZpIG1vc3RseSB3b3JrZWQgdGhlcmUgKG9jY2FzaW9uYWxseSBpdA0KPj4gY29tcGxh
+aW5lZCBhYm91dCBzb21lIHBpYyBlcnJvciwgSeKAmWxsIHNhdmUgdGhlIGxvZ3MgbmV4dCB0aW1l
+IEkgZW5jb3VudGVyIHRoYXQpIDoNCj4+IA0KPj4gaHR0cHM6Ly9naXRodWIuY29tL3QybGludXgv
+bGludXgtdDItcGF0Y2hlcy9ibG9iL21haW4vODAwMS1hc2FoaWxpbnV4LXdpZmktcGF0Y2hzZXQu
+cGF0Y2gNCj4+IA0KPj4gVGhhbmtzDQo+PiBBZGl0eWENCj4+IA0KPj4gSSBqdXN0IG5vdGljZWQg
+dGhhdCB0aGUgcGF0Y2ggdG8gQUNQSSB3YXMgbWlzc2luZy4gQWRkaW5nIHRoYXQgZml4ZWQgdGhl
+IGlzc3VlLg0KPj4gDQo+PiBodHRwczovL2dpdGh1Yi5jb20vdDJsaW51eC9saW51eC10Mi1wYXRj
+aGVzL2Jsb2IvbWFpbi84MDA1LUFDUEktcHJvcGVydHktU3VwcG9ydC1zdHJpbmdzLWluLUFwcGxl
+LV9EU00tcHJvcHMucGF0Y2gNCj4gDQo+IFBsZWFzZSBkb24ndCB1c2UgSFRNTCwgb3VyIGxpc3Rz
+IGRyb3AgdGhvc2UuIEknbGwgcmVwbHkgaW4gdGV4dC9wbGFpbiBzbw0KPiB0aGF0IGlzIGluZm8g
+aXMgYXJjaGl2ZWQuDQo+IA0KSGkNCg0KU29ycnkgZm9yIHRoYXQuIEkgYWN0dWFsbHkgZm9yZ290
+IHRvIGZvcm1hdCB0aGF0IGVtYWlsIGFzIHBsYWluIHRleHQuDQo+IC0tIA0KPiBodHRwczovL3Bh
+dGNod29yay5rZXJuZWwub3JnL3Byb2plY3QvbGludXgtd2lyZWxlc3MvbGlzdC8NCj4gDQo+IGh0
+dHBzOi8vd2lyZWxlc3Mud2lraS5rZXJuZWwub3JnL2VuL2RldmVsb3BlcnMvZG9jdW1lbnRhdGlv
+bi9zdWJtaXR0aW5ncGF0Y2hlcw0K
