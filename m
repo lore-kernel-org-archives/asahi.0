@@ -1,68 +1,58 @@
-Received: from out-16.mta1.migadu.com (out-16.mta1.migadu.com [95.215.58.16])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EA0194
-	for <asahi@lists.linux.dev>; Sat, 25 Feb 2023 17:08:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8950333CF
+	for <asahi@lists.linux.dev>; Sat, 25 Feb 2023 21:51:57 +0000 (UTC)
+Received: from [192.168.2.94] (unknown [109.252.117.89])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dmitry.osipenko)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E4F886602FA1;
+	Sat, 25 Feb 2023 21:51:48 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1677361909;
+	bh=NcrrHsYtYSHOqzQyTcRyADSjQ71K3Dy7UShnCp0HyYc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=f749W/mhEIbIMi2u0yybeoqTAxuRaia+z4oYfTVYHG1TaL7MEuJ2DBqrIUkwft4Ds
+	 MEP4IIaRZYsc93GMwvggRVtFRJQw09lEJc/0jiWmrBHojdUtL5v1dh/jEKlG/1xgOU
+	 N7k7IBHeiibzralvB8wmf+2gqq9/tq30szbPBFKzD44AbsqJb9gCrHAwK4yT38MrSS
+	 g2FHMrLaYZUwJuaTYbNyqheVisB7FXHLvjIPj7+fdqztlRpltVgIc5V+ec8cH8vZn0
+	 iVR8z5Et0dlufdEZyk32y0nSrFB99MzHTqNcHkEEv/UlGtiEkXdxsmSPLJI1PPM9hA
+	 QvR9Y24g8bc7g==
+Message-ID: <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
+Date: Sun, 26 Feb 2023 00:51:46 +0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1677344879;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y7PlEP+T3ywtdXp5JitW0ulIPd3g9+rROb4eABEC9Xg=;
-	b=FDU2+uKCtdcByFBbeUvmHSI/1MzMFsVdvofgWZzHN6BxQhtr/IhHnha09zIiRD2tfiLxg6
-	+A5tqyviacVbPMpKJC8Pny2nVYHtCnoRSZtLI/v9YXKG4o5C9Bjow/RPvYOSCVNdK/l5oH
-	w4f3ewR2iTLgcI9MU2a+1HgHnEjzPuKBg5oV1/8X10CyXaXWXdUta4M7ND5R8c1DR+ffTB
-	N5MCeWpBklPBHXQ92awTucDOPwdDCgPB7XChP+/ufXiysR1TpD1uDFsKQXMyoI9gSbdRy6
-	dFulp8MXDt3WJ2/77Tz6DfJ8kvkAdgqAh8U0Exm4H8DSutposKawa6A36J0cwA==
-Date: Sat, 25 Feb 2023 17:07:58 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: alyssa@rosenzweig.io
-Message-ID: <96e9949bf7210225515ed48911627743@rosenzweig.io>
-Subject: Re: [PATCH 2/5] rust: device: Add a minimal RawDevice trait
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Asahi Lina"
- <lina@asahilina.net>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Wedson Almeida Filho" <wedsonaf@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- "=?utf-8?B?QmrDtnJuIFJveSBCYXJvbg==?=" <bjorn3_gh@protonmail.com>, "Will
- Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>, "Joerg
- Roedel" <joro@8bytes.org>, "Hector Martin" <marcan@marcan.st>, "Sven
- Peter" <sven@svenpeter.dev>, "Arnd Bergmann" <arnd@arndb.de>, "Rafael J.
- Wysocki" <rafael@kernel.org>, "Neal Gompa" <neal@gompa.dev>,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-In-Reply-To: <Y/jW161RuT7OtlSf@kroah.com>
-References: <Y/jW161RuT7OtlSf@kroah.com>
- <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
- <20230224-rust-iopt-rtkit-v1-2-49ced3391295@asahilina.net>
- <Y/ieQ0UX/niAG1Hg@kroah.com>
- <ef3a3638-6381-87ab-d674-644306b6b6ce@asahilina.net>
- <Y/jFeZzZVCpBGvGv@kroah.com> <Y/jHeP4LileLYxO8@kroah.com>
- <bbc824ee-ef4e-40cb-f009-0d693d757869@asahilina.net>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
+ drm_gem_shmem_get_pages_sgt()
+Content-Language: en-US
+To: Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>, asahi@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+References: <20230205125124.2260-1-lina@asahilina.net>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <20230205125124.2260-1-lina@asahilina.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-February 24, 2023 10:25 AM, "Greg Kroah-Hartman" <gregkh@linuxfoundation.=
-org> wrote:=0A=0A> On Fri, Feb 24, 2023 at 11:44:59PM +0900, Asahi Lina w=
-rote:=0A> =0A>> On 2023/02/24 23:19, Greg Kroah-Hartman wrote:>> Can we s=
-ee some users=0A>> of this code posted so I can see how struct device=0A>=
-> is going to work in a rust driver? That's the thing I worry most about=
-=0A>> the rust/C interaction here as we have two different ways of thinki=
-ng=0A>> about reference counts from the two worlds and putting them toget=
-her is=0A>> going to be "interesting", as can be seen here already.=0A>> =
-=0A>> Also, where are you getting your 'struct device' from in the first=
-=0A>> place? What bus is createing it and giving it to your rust driver?=
-=0A>> =0A>> That would be platform for my GPU driver, matched via OF comp=
-atible.=0A> =0A> Ick, a platform device? The GPU isn't on the PCI bus? Wo=
-w, that's=0A> horrid...=0A=0AThis is bog standard for Arm SoCs... As far =
-as I know, it's all platform devices in the Arm GPU world: Mali, Adreno, =
-Tegra, VideoCore, and yes, Imaginapple. not really sure what good PCI wou=
-ld do for integrated GPUs.
+On 2/5/23 15:51, Asahi Lina wrote:
+> -EXPORT_SYMBOL_GPL(drm_gem_shmem_get_pages_sgt);
+> +EXPORT_SYMBOL(drm_gem_shmem_get_pages_sgt);
+
+Note it was a GPL symbol. I expect that all drm-shmem exports should be GPL.
+
+-- 
+Best regards,
+Dmitry
+
