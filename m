@@ -1,74 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8466317F2
-	for <asahi@lists.linux.dev>; Sat, 25 Feb 2023 07:00:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 891B1C433EF;
-	Sat, 25 Feb 2023 07:00:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1677308428;
-	bh=9DaSSSuAStTE38Q97iKS3CcvRFjMEQ5/vnkZFEYg3SE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XMIAM/1fyPQfueT7qOtYuSG9/ekWAAgoKyxKk0cHSFsnnExkLotQaSSZVn6wi36xm
-	 I7cIbbDr2V+ErQKxLJ0FjdmczNomwBO0NFzEABqU9Djbqz6NDaihOmOZ7nn86q4v29
-	 x1Brl1tRqx/PRc53Zn8Ku2C+AGmLqG6vHVCyagdY=
-Date: Sat, 25 Feb 2023 08:00:24 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Will Deacon <will@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH 2/5] rust: device: Add a minimal RawDevice trait
-Message-ID: <Y/myCFk7EBbh4I2a@kroah.com>
-References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
- <20230224-rust-iopt-rtkit-v1-2-49ced3391295@asahilina.net>
- <Y/ieQ0UX/niAG1Hg@kroah.com>
- <ef3a3638-6381-87ab-d674-644306b6b6ce@asahilina.net>
- <Y/jFeZzZVCpBGvGv@kroah.com>
- <e6d6d928-4514-55b9-346d-2e5e82220729@arm.com>
- <Y/jYdTrsrCyCPXHT@kroah.com>
- <590134fc-a6fd-9d86-ba3f-c621332b65fc@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAB519B
+	for <asahi@lists.linux.dev>; Sat, 25 Feb 2023 12:42:34 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 55EB35C0089;
+	Sat, 25 Feb 2023 07:42:33 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Sat, 25 Feb 2023 07:42:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1677328953; x=
+	1677415353; bh=Izlq7GJvIZYKMQ2vXJDJuy9U6xU3dEpHgXToMZ98+t4=; b=o
+	jxn2sRXB1u3i+gNKQodhwGwkobmlJaCZ9ntxdT5z2+/G1vtIPpj3OmR/dvMK3UnO
+	0i1ZMxTqAaT3/72EsnRwvRMEwzOaLov9f5eUvVuVqoMyNJFP2aL0fFOhNeNEa5by
+	/LQGjiRJdiDBy6l6SCd4SeH9+4WQPLEvISDNKp/vpDhYPdE6RsfEh/IxLdI2qOgd
+	xzFYmv0ixJec52VvpulbpKqUqBSVixXl8qnlk5EH38eRhRGTo6xDBZNauBcgR0pp
+	uXDONOLqVbXsb1qcEjfYTTBK3+ODkY4WuycRO3eYQws1DSWHi/ljXmwvh2eOgYtp
+	yk3DC7+nM8DJeSwrk+k2w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677328953; x=
+	1677415353; bh=Izlq7GJvIZYKMQ2vXJDJuy9U6xU3dEpHgXToMZ98+t4=; b=g
+	0lEiEwZ1s8l6Anbs+TtwYLYW3H4v4BiVVo4BtAA/6MdpGkU2fdXPDszwtaUf4Rnv
+	awd4og41HyfCKVEbmlbHLpcHmskw6AndfO9dgQKpn8RwT1s/7rEjPhjeBRHuJVEz
+	TBWaAzXnYgVox/rMXdAiIJdihQ4JXmO10IFrF1VzDjhiXVHUQtUtzr87Tjlad/p1
+	CIPrQcf0tXBjxkckJQsY66t8gMLvH/vv8U8xmPbtu67Cr/XjOeb5D13acAt8xK+F
+	F2wVO1UvWx9obLj/gVZojeGjOF0xX2qXpjiPFXSFMN3OWbyX1RaHRxc2ZzYnYdWj
+	dbLT2U3d7UcJ6gjXAN9FA==
+X-ME-Sender: <xms:OAL6YxHA_Vhtp5D3IXfI-ldnC3YkxnBxGt0930hWgl9E-DL46ZfVIQ>
+    <xme:OAL6Y2UpPPQScMwvAsdfjlTW7vw06y5_GaJoq5RkGqJ74--CiIL5ojJJdI5OcQba0
+    MROxH1moM_XUmbgXwM>
+X-ME-Received: <xmr:OAL6YzK2SsENoNYeZcWK4N5cJGyOr2yW5iKByisXl1nOqnnYFe6t8M4GoAjAo0e07Uq1x_04O4Ji4qAClwznH_EtizmRlu33Kx9dbf_XY1VI9y2gPpfSJDF7YTK9prbM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekhedgudelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurheptgfghfggufffkfhfvegjvffosehtqhhmtdhhtdejnecuhfhrohhmpefuvhgv
+    nhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrth
+    htvghrnhepvdfhtdduuddvueejueffgfdukedvfeevgfeuieeivdeltdehgeeivefftdet
+    kedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
+    hvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:OAL6Y3HrewNJsgW81Fbz8dNrNh98woFrw1Xz50eLLk26QartykPjxw>
+    <xmx:OAL6Y3WJuheddgGm0q_MG-FZ-5auUUWJSSxlIlQa5HJKKXZByedrtA>
+    <xmx:OAL6YyNBrmAYUG49idrU9tdRs5j_tGdYbNRpQZP9Wbu0O5mh2_1xBw>
+    <xmx:OQL6Y9zuR1ZmXIABQzAIVEHc5W-M_WCfNAlOAlVrn5EZGqpICjIqHw>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 25 Feb 2023 07:42:32 -0500 (EST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Sven Peter <sven@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <590134fc-a6fd-9d86-ba3f-c621332b65fc@arm.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] soc: apple: rtkit: Fix buffer address field width
+Date: Sat, 25 Feb 2023 13:42:19 +0100
+Message-Id: <AE9570F8-6D5E-4314-AD21-21DD8B38D7F1@svenpeter.dev>
+References: <20230224-gpu-up-rtkit-v1-1-671178cb2a5e@asahilina.net>
+Cc: Hector Martin <marcan@marcan.st>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20230224-gpu-up-rtkit-v1-1-671178cb2a5e@asahilina.net>
+To: Asahi Lina <lina@asahilina.net>
+X-Mailer: iPhone Mail (20D47)
 
-On Fri, Feb 24, 2023 at 06:52:04PM +0000, Robin Murphy wrote:
-> > But again, let's see about disconnecting the iommu ops entirely from the
-> > device and just relying on the bus, that should work better, rigth?
-> 
-> Um, other way - iommu_ops have almost finished moving *off* the bus to be
-> per-device. You acked the patch the other week and seemed pleased with it ;)
 
-Oops, yes, sorry, I meant the other way around in my comment, see, it's
-confusing :)
 
-And yes, I want to see your patch series merged, it will make my "clean
-up the driver core lifetime rules" work a lot easier, is it still
-planned for 6.3-rc1?
+> On 24. Feb 2023, at 07:50, Asahi Lina <lina@asahilina.net> wrote:
+>=20
+> =EF=BB=BFThe buffer address field is missing two bits. This matters for th=
+e GPU,
+> which uses upper-half 64-bit addresses on the ASC and those get sign
+> extended from the mailbox message field, so the right number of high
+> bits need to be set.
+>=20
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> --
 
-> But either way that's orthogonal to this case, since the device that
-> io-pgtable deals with cannot have iommu_ops of its own (it *is* the IOMMU,
-> or at least a GPU MMU acting as one).
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
-Agreed, and thanks for the detailed explaination, it makes more sense
-now.  But I still think the pointer reference needs to be incremented
-when saved off to be at least a bit more sane.
 
-thanks,
 
-greg k-h
