@@ -1,90 +1,68 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from out-16.mta1.migadu.com (out-16.mta1.migadu.com [95.215.58.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAB519B
-	for <asahi@lists.linux.dev>; Sat, 25 Feb 2023 12:42:34 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 55EB35C0089;
-	Sat, 25 Feb 2023 07:42:33 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sat, 25 Feb 2023 07:42:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1677328953; x=
-	1677415353; bh=Izlq7GJvIZYKMQ2vXJDJuy9U6xU3dEpHgXToMZ98+t4=; b=o
-	jxn2sRXB1u3i+gNKQodhwGwkobmlJaCZ9ntxdT5z2+/G1vtIPpj3OmR/dvMK3UnO
-	0i1ZMxTqAaT3/72EsnRwvRMEwzOaLov9f5eUvVuVqoMyNJFP2aL0fFOhNeNEa5by
-	/LQGjiRJdiDBy6l6SCd4SeH9+4WQPLEvISDNKp/vpDhYPdE6RsfEh/IxLdI2qOgd
-	xzFYmv0ixJec52VvpulbpKqUqBSVixXl8qnlk5EH38eRhRGTo6xDBZNauBcgR0pp
-	uXDONOLqVbXsb1qcEjfYTTBK3+ODkY4WuycRO3eYQws1DSWHi/ljXmwvh2eOgYtp
-	yk3DC7+nM8DJeSwrk+k2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1677328953; x=
-	1677415353; bh=Izlq7GJvIZYKMQ2vXJDJuy9U6xU3dEpHgXToMZ98+t4=; b=g
-	0lEiEwZ1s8l6Anbs+TtwYLYW3H4v4BiVVo4BtAA/6MdpGkU2fdXPDszwtaUf4Rnv
-	awd4og41HyfCKVEbmlbHLpcHmskw6AndfO9dgQKpn8RwT1s/7rEjPhjeBRHuJVEz
-	TBWaAzXnYgVox/rMXdAiIJdihQ4JXmO10IFrF1VzDjhiXVHUQtUtzr87Tjlad/p1
-	CIPrQcf0tXBjxkckJQsY66t8gMLvH/vv8U8xmPbtu67Cr/XjOeb5D13acAt8xK+F
-	F2wVO1UvWx9obLj/gVZojeGjOF0xX2qXpjiPFXSFMN3OWbyX1RaHRxc2ZzYnYdWj
-	dbLT2U3d7UcJ6gjXAN9FA==
-X-ME-Sender: <xms:OAL6YxHA_Vhtp5D3IXfI-ldnC3YkxnBxGt0930hWgl9E-DL46ZfVIQ>
-    <xme:OAL6Y2UpPPQScMwvAsdfjlTW7vw06y5_GaJoq5RkGqJ74--CiIL5ojJJdI5OcQba0
-    MROxH1moM_XUmbgXwM>
-X-ME-Received: <xmr:OAL6YzK2SsENoNYeZcWK4N5cJGyOr2yW5iKByisXl1nOqnnYFe6t8M4GoAjAo0e07Uq1x_04O4Ji4qAClwznH_EtizmRlu33Kx9dbf_XY1VI9y2gPpfSJDF7YTK9prbM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekhedgudelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurheptgfghfggufffkfhfvegjvffosehtqhhmtdhhtdejnecuhfhrohhmpefuvhgv
-    nhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrth
-    htvghrnhepvdfhtdduuddvueejueffgfdukedvfeevgfeuieeivdeltdehgeeivefftdet
-    kedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
-    hvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:OAL6Y3HrewNJsgW81Fbz8dNrNh98woFrw1Xz50eLLk26QartykPjxw>
-    <xmx:OAL6Y3WJuheddgGm0q_MG-FZ-5auUUWJSSxlIlQa5HJKKXZByedrtA>
-    <xmx:OAL6YyNBrmAYUG49idrU9tdRs5j_tGdYbNRpQZP9Wbu0O5mh2_1xBw>
-    <xmx:OQL6Y9zuR1ZmXIABQzAIVEHc5W-M_WCfNAlOAlVrn5EZGqpICjIqHw>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 25 Feb 2023 07:42:32 -0500 (EST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Sven Peter <sven@svenpeter.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6EA0194
+	for <asahi@lists.linux.dev>; Sat, 25 Feb 2023 17:08:01 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] soc: apple: rtkit: Fix buffer address field width
-Date: Sat, 25 Feb 2023 13:42:19 +0100
-Message-Id: <AE9570F8-6D5E-4314-AD21-21DD8B38D7F1@svenpeter.dev>
-References: <20230224-gpu-up-rtkit-v1-1-671178cb2a5e@asahilina.net>
-Cc: Hector Martin <marcan@marcan.st>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20230224-gpu-up-rtkit-v1-1-671178cb2a5e@asahilina.net>
-To: Asahi Lina <lina@asahilina.net>
-X-Mailer: iPhone Mail (20D47)
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1677344879;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y7PlEP+T3ywtdXp5JitW0ulIPd3g9+rROb4eABEC9Xg=;
+	b=FDU2+uKCtdcByFBbeUvmHSI/1MzMFsVdvofgWZzHN6BxQhtr/IhHnha09zIiRD2tfiLxg6
+	+A5tqyviacVbPMpKJC8Pny2nVYHtCnoRSZtLI/v9YXKG4o5C9Bjow/RPvYOSCVNdK/l5oH
+	w4f3ewR2iTLgcI9MU2a+1HgHnEjzPuKBg5oV1/8X10CyXaXWXdUta4M7ND5R8c1DR+ffTB
+	N5MCeWpBklPBHXQ92awTucDOPwdDCgPB7XChP+/ufXiysR1TpD1uDFsKQXMyoI9gSbdRy6
+	dFulp8MXDt3WJ2/77Tz6DfJ8kvkAdgqAh8U0Exm4H8DSutposKawa6A36J0cwA==
+Date: Sat, 25 Feb 2023 17:07:58 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: alyssa@rosenzweig.io
+Message-ID: <96e9949bf7210225515ed48911627743@rosenzweig.io>
+Subject: Re: [PATCH 2/5] rust: device: Add a minimal RawDevice trait
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Asahi Lina"
+ <lina@asahilina.net>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Wedson Almeida Filho" <wedsonaf@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ "=?utf-8?B?QmrDtnJuIFJveSBCYXJvbg==?=" <bjorn3_gh@protonmail.com>, "Will
+ Deacon" <will@kernel.org>, "Robin Murphy" <robin.murphy@arm.com>, "Joerg
+ Roedel" <joro@8bytes.org>, "Hector Martin" <marcan@marcan.st>, "Sven
+ Peter" <sven@svenpeter.dev>, "Arnd Bergmann" <arnd@arndb.de>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, "Neal Gompa" <neal@gompa.dev>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+In-Reply-To: <Y/jW161RuT7OtlSf@kroah.com>
+References: <Y/jW161RuT7OtlSf@kroah.com>
+ <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
+ <20230224-rust-iopt-rtkit-v1-2-49ced3391295@asahilina.net>
+ <Y/ieQ0UX/niAG1Hg@kroah.com>
+ <ef3a3638-6381-87ab-d674-644306b6b6ce@asahilina.net>
+ <Y/jFeZzZVCpBGvGv@kroah.com> <Y/jHeP4LileLYxO8@kroah.com>
+ <bbc824ee-ef4e-40cb-f009-0d693d757869@asahilina.net>
+X-Migadu-Flow: FLOW_OUT
 
-
-
-> On 24. Feb 2023, at 07:50, Asahi Lina <lina@asahilina.net> wrote:
->=20
-> =EF=BB=BFThe buffer address field is missing two bits. This matters for th=
-e GPU,
-> which uses upper-half 64-bit addresses on the ASC and those get sign
-> extended from the mailbox message field, so the right number of high
-> bits need to be set.
->=20
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> --
-
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
-
-
-
+February 24, 2023 10:25 AM, "Greg Kroah-Hartman" <gregkh@linuxfoundation.=
+org> wrote:=0A=0A> On Fri, Feb 24, 2023 at 11:44:59PM +0900, Asahi Lina w=
+rote:=0A> =0A>> On 2023/02/24 23:19, Greg Kroah-Hartman wrote:>> Can we s=
+ee some users=0A>> of this code posted so I can see how struct device=0A>=
+> is going to work in a rust driver? That's the thing I worry most about=
+=0A>> the rust/C interaction here as we have two different ways of thinki=
+ng=0A>> about reference counts from the two worlds and putting them toget=
+her is=0A>> going to be "interesting", as can be seen here already.=0A>> =
+=0A>> Also, where are you getting your 'struct device' from in the first=
+=0A>> place? What bus is createing it and giving it to your rust driver?=
+=0A>> =0A>> That would be platform for my GPU driver, matched via OF comp=
+atible.=0A> =0A> Ick, a platform device? The GPU isn't on the PCI bus? Wo=
+w, that's=0A> horrid...=0A=0AThis is bog standard for Arm SoCs... As far =
+as I know, it's all platform devices in the Arm GPU world: Mali, Adreno, =
+Tegra, VideoCore, and yes, Imaginapple. not really sure what good PCI wou=
+ld do for integrated GPUs.
