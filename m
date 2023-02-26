@@ -1,276 +1,115 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48E533FC
-	for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 18:17:06 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id r5so4559965qtp.4
-        for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 10:17:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2218F3D6D
+	for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 20:59:38 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-536bbef1c5eso124637497b3.9
+        for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 12:59:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IxTc3RYjx8Z6j1Ud65V9EMwg2hzF0dyvk+bnE0WctnY=;
-        b=gkRVFmZKo/2uiw/LHVqI6QfMX2/cL6pXmY/lyDjRopJFWwBdDsEiLzqNEbrfUPedCG
-         4znjI+8JDm/Usjlb/kDjE8KBKYuP819aBn1TxzhrLSah9LBAmGYZVkyWy8kYF/wacZlA
-         uA8XTCJ1RARBREkcp9Q+YDjppLRTrWBKIWCaaqzw0L4JHj0rARe40Ww9OAaxmMcadQIA
-         vE/YpwzThwjYzQ7NXBsGkE5Py7uAbsalo4CSkSX2iHAgWFfcYE9qAq+NUTI51RtVvKkc
-         LYN2pbY92DqlCQcFKyRo2y3FXKmdAhlee79K6a9N2bnr4IOEGS0TEr9uNlVSLw0NYzqx
-         om+w==
+        bh=/a3uSDlfsqZGmv0N4D8ujOHHg7vKPERtZBqNuW3pgYs=;
+        b=qHaN8xbcrctTIZLJmLgSzE/JjYY4a5wt8mpHQixH3Cpthj7X6bTegUsDqKK3X0ezqc
+         t+3FqVF1QElwmSLcZPo4U0OLbPpjqX/OOHrr6TrhgQcZA3ObniMc6HOvXCMAcrBx1eKz
+         RCZCnNnTQwADm//81Y/FuvuNZBO/iq7QX4hd87kr4dPO8uS+FrCtjzd+mciO/pW/byUd
+         FGzem7IH+wT96mdSI8IR3w72Xe4yAEwq0JQT4m34E7CxQ5jnY0G/BmhU8mqUmwiXVP19
+         9vJef43XC0BjzKkLz5kep6z8dJSDCahWVeDymF6Xn6gOrtfX71S7Ht4U5zdwniWh4hCc
+         sCgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IxTc3RYjx8Z6j1Ud65V9EMwg2hzF0dyvk+bnE0WctnY=;
-        b=TE6fLxnWUXhBtyVqBzMr8VRaB/ihaU+wIrSJ/1hGelL5nHesha0WK2Ljw/aXUuFxVO
-         cUJZr0+TVtaf2rnOAQRV11lXxXKqRGpsBHvrz+oGvjzLJWWgmjXOTVQQrds1joBZQ3M8
-         if9oa/KSMgf340f1vTkpxylyAgD4bA3g/KYo7FzWeHhd1rdU9EnR3wCeMsyHxsHihH8m
-         fKUh5c/gmcX4GJ5ugzru0PCelirC8OVfC0Yf7qZhCYjdzCchsfXKr6K2IAdRMTazU5SC
-         69fnfNYQST05RKN8WK/zQb2n5Rw76O1sqG7nHfN2iOZI7tOfiCEfvpbpnNRrlhRIpCku
-         JaEw==
-X-Gm-Message-State: AO0yUKVScnzYjc8dPm6wsM8vnFfBsUnqZcjXjMUmwV4hE0axt4+fg8Br
-	JgRFQAWP9NajK87mrzh0p0c=
-X-Google-Smtp-Source: AK7set+alyjI6amc+2ubZu1BL2Rz4veyv2vVY8UnIxbvFjxrTEy7GQ3JlpfQv/b3GOWhtOKFcsZySg==
-X-Received: by 2002:ac8:5cc6:0:b0:3b9:bc8c:c1f6 with SMTP id s6-20020ac85cc6000000b003b9bc8cc1f6mr12043316qta.1.1677435425574;
-        Sun, 26 Feb 2023 10:17:05 -0800 (PST)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id o22-20020a05620a15d600b0074235386738sm3404007qkm.37.2023.02.26.10.17.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 10:17:05 -0800 (PST)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailauth.nyi.internal (Postfix) with ESMTP id A01FE27C0054;
-	Sun, 26 Feb 2023 13:17:04 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Sun, 26 Feb 2023 13:17:04 -0500
-X-ME-Sender: <xms:H6L7Y5bSq1DkIEcnWZbfRQUbn37G1Rx4eANoTiKaAiOkl_ryI5NdyA>
-    <xme:H6L7YwaKmTa7oKdKVxjHgjvg_rSDozSezAG5MXfz8FwK1RQ5dIVKvWKkqWRu7NW4P
-    KGdeW9JWXwXSLqRcg>
-X-ME-Received: <xmr:H6L7Y7-ASZoOBlyvPGQ7rOmgHFmdYotn-Kx5Hn1L0jlrsvB60ge7PAg9-WQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekkedgkeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhu
-    nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
-    htthgvrhhnpeejiefhtdeuvdegvddtudffgfegfeehgfdtiedvveevleevhfekhefftdek
-    ieehvdenucffohhmrghinheprhhushhtqdhlrghnghdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgr
-    uhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsoh
-    hquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:H6L7Y3rX7lFA087B6SffnCDnHhXfe7d2L1ldVg2a7-p9jkVfWQCz5A>
-    <xmx:H6L7Y0ofBSVAOmY5ejvO8wBvl_eV2G0wlk1hu_euCbpzezCZiLqe2Q>
-    <xmx:H6L7Y9RqaeJMVH09fZKijateLwZrdJpByon1nUznxjC1rItOtYAS5w>
-    <xmx:IKL7YxgYeu7He99Dm3w80G7vsHjTnDgNllxRMCzqQn7B7Ms6tpIseQ>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 26 Feb 2023 13:17:03 -0500 (EST)
-Date: Sun, 26 Feb 2023 10:16:33 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sven Van Asbroeck <thesven73@gmail.com>,
-	Fox Chen <foxhlchen@gmail.com>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH 5/5] rust: error: Add from_kernel_result!() macro
-Message-ID: <Y/uiAfZnfbbMrQuD@boqun-archlinux>
-References: <20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net>
- <20230224-rust-error-v1-5-f8f9a9a87303@asahilina.net>
- <Y/lOlcSpc+d9ytq/@boqun-archlinux>
- <20230225222340.34d749ee.gary@garyguo.net>
- <Y/rCU1S+GDgIojNf@boqun-archlinux>
- <20230226133606.583cd1d8.gary@garyguo.net>
+        bh=/a3uSDlfsqZGmv0N4D8ujOHHg7vKPERtZBqNuW3pgYs=;
+        b=Fa681j+qBgW2KqWrIOel6drrI77MKx13wmTfVx0SKp0CVvKVzzztIyyCk8iKGjI4+5
+         B4uPph53CSXpLQBq/S34yZ2ZC/AYP0RfSre+a+ultzBGCSXxCgv5M1kzhqtvLz2cJ3k4
+         Mxe6felT0hAAf54yTpAqzuFpjve7Zq+20ohqBWS5HTZOaC8FI7WQAZimHXbwzdF+NRoT
+         GDkU8dH7jMjvQmZANX3ww5a60t/rId1q9MhAoHWUbEaLgJNtV6fKFrjcmoLHXmDtN/ZW
+         flBGjJwvooijNVX+HduPYkZPYiyNVRZOPIbW9Eh76BEM5whzIvI/6nGsnW29Zr3ov+U1
+         UfJw==
+X-Gm-Message-State: AO0yUKVms+ZJA5C1L7jB3nS9hEyuD2YH7ALgNKKznU4AoVDc2XVHmRvT
+	BObIwbPIQSIhQybFBjperumk9b/l6AQHRDt7fCE=
+X-Google-Smtp-Source: AK7set/61TNdgiOUotaSqBJ3oG75bxwjctCYlnS41y9hd20++fxhpwwM2eiH4YykdQu4/DE7h9xuedSgKUzR30dWaCU=
+X-Received: by 2002:a05:690c:c1a:b0:533:9d13:a067 with SMTP id
+ cl26-20020a05690c0c1a00b005339d13a067mr6032856ywb.3.1677445177037; Sun, 26
+ Feb 2023 12:59:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230226133606.583cd1d8.gary@garyguo.net>
+References: <20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net>
+ <20230224-rust-error-v1-5-f8f9a9a87303@asahilina.net> <Y/lOlcSpc+d9ytq/@boqun-archlinux>
+ <20230225222340.34d749ee.gary@garyguo.net> <Y/rCU1S+GDgIojNf@boqun-archlinux>
+ <20230226133606.583cd1d8.gary@garyguo.net> <Y/uiAfZnfbbMrQuD@boqun-archlinux>
+In-Reply-To: <Y/uiAfZnfbbMrQuD@boqun-archlinux>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sun, 26 Feb 2023 21:59:25 +0100
+Message-ID: <CANiq72kTiHF76T0AycM43qj4rUgQpHzBqXujdvk+H2qoDz22AQ@mail.gmail.com>
+Subject: Re: [PATCH 5/5] rust: error: Add from_kernel_result!() macro
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Gary Guo <gary@garyguo.net>, Asahi Lina <lina@asahilina.net>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Sven Van Asbroeck <thesven73@gmail.com>, Fox Chen <foxhlchen@gmail.com>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 26, 2023 at 01:36:06PM +0000, Gary Guo wrote:
-> On Sat, 25 Feb 2023 18:22:11 -0800
-> Boqun Feng <boqun.feng@gmail.com> wrote:
-> 
-> > On Sat, Feb 25, 2023 at 10:23:40PM +0000, Gary Guo wrote:
-> > > On Fri, 24 Feb 2023 15:56:05 -0800
-> > > Boqun Feng <boqun.feng@gmail.com> wrote:
-> > >   
-> > > > On Fri, Feb 24, 2023 at 05:50:23PM +0900, Asahi Lina wrote:  
-> > > > > From: Wedson Almeida Filho <wedsonaf@gmail.com>
-> > > > > 
-> > > > > Add a helper macro to easily return C result codes from a Rust function
-> > > > > that calls functions which return a Result<T>.
-> > > > > 
-> > > > > Lina: Imported from rust-for-linux/rust, originally developed by Wedson
-> > > > > as part of file_operations.rs. Added the allow() flags since there is no
-> > > > > user in the kernel crate yet and fixed a typo in a comment.
-> > > > > 
-> > > > > Co-developed-by: Fox Chen <foxhlchen@gmail.com>
-> > > > > Signed-off-by: Fox Chen <foxhlchen@gmail.com>
-> > > > > Co-developed-by: Miguel Ojeda <ojeda@kernel.org>
-> > > > > Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> > > > > Signed-off-by: Wedson Almeida Filho <wedsonaf@gmail.com>
-> > > > > Signed-off-by: Asahi Lina <lina@asahilina.net>
-> > > > > ---
-> > > > >  rust/kernel/error.rs | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > > > >  1 file changed, 52 insertions(+)
-> > > > > 
-> > > > > diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-> > > > > index cf3d089477d2..8a9222595cd1 100644
-> > > > > --- a/rust/kernel/error.rs
-> > > > > +++ b/rust/kernel/error.rs
-> > > > > @@ -226,3 +226,55 @@ pub(crate) fn from_kernel_err_ptr<T>(ptr: *mut T) -> Result<*mut T> {
-> > > > >      }
-> > > > >      Ok(ptr)
-> > > > >  }
-> > > > > +
-> > > > > +// TODO: Remove `dead_code` marker once an in-kernel client is available.
-> > > > > +#[allow(dead_code)]
-> > > > > +pub(crate) fn from_kernel_result_helper<T>(r: Result<T>) -> T
-> > > > > +where
-> > > > > +    T: From<i16>,
-> > > > > +{
-> > > > > +    match r {
-> > > > > +        Ok(v) => v,
-> > > > > +        // NO-OVERFLOW: negative `errno`s are no smaller than `-bindings::MAX_ERRNO`,
-> > > > > +        // `-bindings::MAX_ERRNO` fits in an `i16` as per invariant above,
-> > > > > +        // therefore a negative `errno` always fits in an `i16` and will not overflow.
-> > > > > +        Err(e) => T::from(e.to_kernel_errno() as i16),
-> > > > > +    }
-> > > > > +}
-> > > > > +
-> > > > > +/// Transforms a [`crate::error::Result<T>`] to a kernel C integer result.
-> > > > > +///
-> > > > > +/// This is useful when calling Rust functions that return [`crate::error::Result<T>`]
-> > > > > +/// from inside `extern "C"` functions that need to return an integer
-> > > > > +/// error result.
-> > > > > +///
-> > > > > +/// `T` should be convertible from an `i16` via `From<i16>`.
-> > > > > +///
-> > > > > +/// # Examples
-> > > > > +///
-> > > > > +/// ```ignore
-> > > > > +/// # use kernel::from_kernel_result;
-> > > > > +/// # use kernel::bindings;
-> > > > > +/// unsafe extern "C" fn probe_callback(
-> > > > > +///     pdev: *mut bindings::platform_device,
-> > > > > +/// ) -> core::ffi::c_int {
-> > > > > +///     from_kernel_result! {
-> > > > > +///         let ptr = devm_alloc(pdev)?;
-> > > > > +///         bindings::platform_set_drvdata(pdev, ptr);
-> > > > > +///         Ok(0)
-> > > > > +///     }
-> > > > > +/// }
-> > > > > +/// ```
-> > > > > +// TODO: Remove `unused_macros` marker once an in-kernel client is available.
-> > > > > +#[allow(unused_macros)]
-> > > > > +macro_rules! from_kernel_result {    
-> > > > 
-> > > > This actually doesn't need to be a macro, right? The following function
-> > > > version:
-> > > > 
-> > > > 	pub fn from_kernel_result<T, F>(f: F) -> T
-> > > > 	where
-> > > > 	    T: From<i16>,
-> > > > 	    F: FnOnce() -> Result<T>;
-> > > > 
-> > > > is not bad, the above case then can be written as:
-> > > > 
-> > > > 	unsafe extern "C" fn probe_callback(
-> > > > 	    pdev: *mut bindings::platform_device,
-> > > > 	) -> core::ffi::c_int {
-> > > > 	    from_kernel_result(|| {
-> > > > 		let ptr = devm_alloc(pdev)?;
-> > > > 		bindings::platform_set_drvdata(pdev, ptr);
-> > > > 		Ok(0)
-> > > > 	    })
-> > > > 	}
-> > > > 
-> > > > less magical, but the control flow is more clear.
-> > > > 
-> > > > Thoughts?  
-> > > 
-> > > I don't think even the closure is necessary? Why not just
-> > > 
-> > >  	pub fn from_kernel_result<T: From<i16>>(r: Result<T>) -> T
-> > > 
-> > > and
-> > > 
-> > >  	unsafe extern "C" fn probe_callback(
-> > >  	    pdev: *mut bindings::platform_device,
-> > >  	) -> core::ffi::c_int {
-> > >  	    from_kernel_result({
-> > >  		let ptr = devm_alloc(pdev)?;  
-> > 
-> > Hmm.. looks like the `?` only "propagating them (the errors) to the
-> > calling *function*":
-> > 
-> > 	https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator
-> > 
-> > , so this doesn't work as we expect:
-> > 
-> > 	https://play.rust-lang.org/?version=stable&mode=debug&edition=2021&gist=64c9039e1da2c436f9f4f5ea46e97e90
-> 
-> Oh, you're absolutely right, I guess I shouldn't be doing code review
-> in the middle of the night...
-> 
+On Sun, Feb 26, 2023 at 7:17=E2=80=AFPM Boqun Feng <boqun.feng@gmail.com> w=
+rote:
+>
+> My preference to function instead of macro here is because I want to
+> avoid the extra level of abstraction and make things explict, so that
+> users and reviewers can understand the API behavior solely based on
+> Rust's types, functions and closures: they are simpler than macros, at
+> least to me ;-)
 
-;-)
+There is one extra problem with the macro: `rustfmt` does not format
+the contents if called with braces (as we currently do).
 
-> However, if we have the try blocks then we should be able to just
-> rewrite it as
-> 
-> 	from_kernel_result(try {
-> 	    ...
-> 	})
-> 
+So when I was cleaning some things up for v8, one of the things I did
+was run manually `rustfmt` on the blocks by removing the macro
+invocation, in commit 77a1a8c952e1 ("rust: kernel: apply `rustfmt` to
+`from_kernel_result!` blocks").
 
-Thank you and Miguel for the references on try blocks, I vaguely
-remember I heard of them, but never take a close look.
+Having said that, it does format it when called with parenthesis
+wrapping the block, so we could do that if we end up with the macro.
 
-> I guess in this sense it might worth keeping this as a macro so we can
-> tweak the implementation from closure to try blocks without having to
-> edit all use sites?
-> 
+> First, I think the macro version here is just a poor-man's try block, in
+> other words, I'd expect explicit use of try blocks intead of
+> `from_kernel_result` when the feature is ready. If that's the case, we
+> need to change the use sites anyway.
 
-My preference to function instead of macro here is because I want to
-avoid the extra level of abstraction and make things explict, so that
-users and reviewers can understand the API behavior solely based on
-Rust's types, functions and closures: they are simpler than macros, at
-least to me ;-)
+Yeah, if we eventually get a better language feature that fits well,
+then we should use it.
 
-Speak of future changes in the implementation:
+> Do both implementation share the same behavior?
 
-First, I think the macro version here is just a poor-man's try block, in
-other words, I'd expect explicit use of try blocks intead of
-`from_kernel_result` when the feature is ready. If that's the case, we
-need to change the use sites anyway.
+Yeah, a `return` will return to the outer caller in the case of a
+`try` block, while it returns to the closure (macro) in the other
+case. Or do you mean something else?
 
-Second, I think the semantics is a little different between try block
-implementation and closure implemention? Consider the following case:
+In that case, I think one could use use a labeled block to `break`
+out, not sure if `try` blocks will allow an easier way.
 
-	// the outer function return a Result<i32>
+We have a case of such a `return` within the closure at `rust/rust` in
+`file.rs`:
 
-	let a = from_kernel_result!({
-		...
-		return Some(0); // x is i32
-		..
-	});
+    from_kernel_result! {
+        let off =3D match whence as u32 {
+            bindings::SEEK_SET =3D> SeekFrom::Start(offset.try_into()?),
+            bindings::SEEK_CUR =3D> SeekFrom::Current(offset),
+            bindings::SEEK_END =3D> SeekFrom::End(offset),
+            _ =3D> return Err(EINVAL),
+        };
+        ...
+        Ok(off as bindings::loff_t)
+    }
 
-	return Some(a + 1);
-
-Do both implementation share the same behavior?
-
-No one can predict the future, but being simple at the beginning sounds
-a good strategy to me.
-
-Regards,
-Boqun
-
-> Best,
-> Gary
+Cheers,
+Miguel
