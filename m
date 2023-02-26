@@ -1,40 +1,40 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62E82560
-	for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 13:40:56 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-536c2a1cc07so107716597b3.5
-        for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 05:40:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677092560
+	for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 13:56:19 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-536cb25982eso107061987b3.13
+        for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 05:56:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=diOfltNJgTI4QcRIe1q5nwxDa2bShFvMq96Z1v8BgWA=;
-        b=AkKeoB145HYWoRCQ1yjWXsdzeVkE0qiJz+4wKixkI7Ch6xKzh514t0xHZDjJKGzLoI
-         qVn8ZyKf42a3Eg2B6XGEcwhmVuSl5kESZASUYfaehA223i7MXVbw1LvKvD/cJI8pg8kl
-         8yh5br1o5/m8vqycAV/nIdSyOlmAlJ+KYprfo1ES02EFLF5ue0wz1gZW1jYH4CfHf2qL
-         PO8UJab3vCXRQbA5MraSbP5Duc3difhxsoKMK5YQKsBQ57L6hQZVXi8xw0fM7VFJcMlJ
-         A7yQ9COhtbl6qv5otPnWR6LKcvjrgx8aFrvrp5aO4SM7yzIJMLvmz8q4M5sc3lbjlEJd
-         mSxQ==
+        bh=s2ts1GdBaI5yZyaOizgF74ytm6/pL7kpF7zQHufJ0bA=;
+        b=VwflOH0TfCHFHLaMPZDGRDSxtmafqNNzSbRl2rpSUkyic0lIiewaF0bHQNH5KsLdeL
+         2U06MboTEgDBNx4v1Nx6/CLD47KC4ITNQRlrzPlWNx0JFJwW+Ny69ucUl6NBv5vwQBOH
+         fDvh/Tz0IyzaIJZSa6QdKLnJL6dyJT3n0+TuJmMQsHr0NH4DDpAzKA/tlkPWIww8bUZY
+         vMjBGlpk0MK5EhDkqn2TECdylbuxwo7b5G7Di4Ob3iS5Flsh3oRrdnXuLrPBwmyza0FH
+         sKKeQBvBIU28uaqDyxUynI5cuY/c+QuIO1pAOuIOF+5vObPpncAz7CaU7ZUnOokvOWyz
+         MNfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=diOfltNJgTI4QcRIe1q5nwxDa2bShFvMq96Z1v8BgWA=;
-        b=sO0u/5QcTsSl1EaVG9N84wmzAow13XvyUtWkKuPeju7PZXxsa+a8dBL+LciRz0jVe/
-         rBDuwtXXdnjrx/7Fm4jPS41MivTQB8FYhJ0yKNHPt02m5pKFTHhmiHNkCWVz/ueXX5WV
-         WcXcuKM7a3B60rUwSqh2JJwIzAgBQYOJlp0OjK+xWoRu5V1ZBK4HHr2TbOdBtSQJpQpB
-         z4xhIJC3iVfWpdeOD2arolc4t/6U7clJFWObI1EZrjBWNuyM8m3KtIVN6DkEld9ZuztB
-         D9ISgJUK+hfIsZ/l1YOcV2SrEjTAISwHsvfkvXHPxRlsQdy4wWSUltUBMurusu8of4Yc
-         NEzw==
-X-Gm-Message-State: AO0yUKUIr40l3jVxibwfFUx6Lacgv0IvL6kh0kFlSD14DoCVCtoQKdMu
-	2M0WFBGVGTeUCmsL4BRB4n53GMA7QuF0LMA9PmI=
-X-Google-Smtp-Source: AK7set9rUznC6grtBh19Slp4e0aFAnHCKuGHYtL6QNpch43NKKm67TVU8yIkH3O4rF9oICebvIigo/oap6HR9vL20lE=
-X-Received: by 2002:a81:ad10:0:b0:52e:bb2d:2841 with SMTP id
- l16-20020a81ad10000000b0052ebb2d2841mr8063756ywh.10.1677418855775; Sun, 26
- Feb 2023 05:40:55 -0800 (PST)
+        bh=s2ts1GdBaI5yZyaOizgF74ytm6/pL7kpF7zQHufJ0bA=;
+        b=w3GiTf0hXdF3mRwbNktWEmcnKdBT/aKQ1Tn2Z9Kwz8PJdmRyWH4evVB+L9kCWAQU0s
+         f/hUV+p4XUmxhptlKEow20+GGdpkxlf01/2xUx3rzSpQ+5e1DIzHJHhklzI/a4UAm8yJ
+         y+pgTJrNApcRzqdaqdqCtcjHhi/o9nhxrcOEMHHQ+z57BsAOPj25xthDViBN07qcr4pR
+         UQt1JOx0Testh2wEk/C2aFWAFzlXfX1Eyh1NLyKOTLl9IppiUhVjFLV/44MYZ7M3iK9N
+         H+f+0olXL7FueEkytDmdb2Umgc4OmzGR1ASBH8xTx99UkMyFBF59ztAhw7e0YWIfLVm0
+         Msow==
+X-Gm-Message-State: AO0yUKUelM17MyExg3RH6sM7S46fgOZrEYVmcmWZySPZlqN08GZA45mO
+	zDFDCHasRgjV+uJ3BtkQgfHUlsUkRE3Mlylm4W7UW7HC
+X-Google-Smtp-Source: AK7set+3MIhcC3XotHdZeApYs7aBgp83b5XfkTiXvXlXQXkp8joYQ4fYn3WpYA8XGIWBYphJvnqD15afjNTs1frIyhk=
+X-Received: by 2002:a81:af5d:0:b0:52e:cea7:f6e3 with SMTP id
+ x29-20020a81af5d000000b0052ecea7f6e3mr8296596ywj.10.1677419778344; Sun, 26
+ Feb 2023 05:56:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -42,45 +42,34 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net>
- <20230224-rust-error-v1-5-f8f9a9a87303@asahilina.net> <Y/lOlcSpc+d9ytq/@boqun-archlinux>
- <20230225222340.34d749ee.gary@garyguo.net> <Y/rCU1S+GDgIojNf@boqun-archlinux>
-In-Reply-To: <Y/rCU1S+GDgIojNf@boqun-archlinux>
+ <20230224-rust-error-v1-2-f8f9a9a87303@asahilina.net> <20230225221921.4b4bc87d.gary@garyguo.net>
+In-Reply-To: <20230225221921.4b4bc87d.gary@garyguo.net>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 26 Feb 2023 14:40:44 +0100
-Message-ID: <CANiq72m8jmW0WEmscR3+C2aiL+FCzYZXj2SrfruCu4UB98ZCYg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] rust: error: Add from_kernel_result!() macro
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, Asahi Lina <lina@asahilina.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+Date: Sun, 26 Feb 2023 14:56:07 +0100
+Message-ID: <CANiq72k7jN4COyGTGUCUc9jdmYcc53FHpOSOd=uLv_NLKR9gPg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] rust: error: Add Error::from_kernel_errno()
+To: Gary Guo <gary@garyguo.net>
+Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Sven Van Asbroeck <thesven73@gmail.com>, Fox Chen <foxhlchen@gmail.com>, 
 	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	asahi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 26, 2023 at 3:22=E2=80=AFAM Boqun Feng <boqun.feng@gmail.com> w=
-rote:
+On Sat, Feb 25, 2023 at 11:19=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
 >
-> Hmm.. looks like the `?` only "propagating them (the errors) to the
-> calling *function*":
->
->         https://doc.rust-lang.org/reference/expressions/operator-expr.htm=
-l#the-question-mark-operator
->
-> , so this doesn't work as we expect:
->
->         https://play.rust-lang.org/?version=3Dstable&mode=3Ddebug&edition=
-=3D2021&gist=3D64c9039e1da2c436f9f4f5ea46e97e90
->
-> Hope I didn't miss something subtle here..
+> Maybe just `from_errno`? I don't know why `kernel` would need to be
+> emphasised here.
 
-There is `feature(try_blocks)` [1] for that:
+Yeah, that sounds good to me. It is clear and we don't use "errno"
+elsewhere. This identifier came from the original import, so before we
+started to think about naming policies.
 
-    https://play.rust-lang.org/?version=3Dnightly&mode=3Ddebug&edition=3D20=
-21&gist=3D8f40663d2ad51e04a13f2da5c4580fc0
-
-[1] https://github.com/rust-lang/rust/issues/31436.
+Though perhaps we can clean it up in a patch later, since we should
+change `to_kernel_errno` below too at the same time. Or if you want to
+send a quick patch for that one, I can put it in first.
 
 Cheers,
 Miguel
