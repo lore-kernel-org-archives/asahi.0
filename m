@@ -1,107 +1,89 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1DD211F
-	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 11:48:49 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id o15so22102254edr.13
-        for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 03:48:49 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0ACA2FB2
+	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 12:10:51 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-536bf92b55cso168443347b3.12
+        for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 04:10:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=metaspace-dk.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=FrL5lYUkqDlmCEsBUKLgTEfbH9XDD8w+e14IRfNrUoc=;
-        b=7rJVxVp/slSrMx5UlCYNy7nCehokTnlhjyxnBBsk6sQmT0bX/mUzeIIbqN4Qm7tEBB
-         rentsmMLfqNGnWAaGcaiNRkaGIBNkMgbzZ5V2kTDW+983it6bpGtdDFEL7ggW/g3G6fi
-         apmDnxQa7x+b062svrIi4FJUmBHWhLN6uKjXwSEdcTRPghB4eTweMz06byLYNSHztmEV
-         k9GNRfGMwco94gGjVER/Il4JQZ9c01eBQJAchBfvEFOZyj8gv9izFTqhanXJxg/FCto3
-         qbzRRejgV+biY6YF/pQnvV6jsoeiwLD3Tw80pwbeZqiD3J7PpsQgvLeGtka3yq2wFAyk
-         QBbQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TRRq/5GQqxIc46hXGY4H3v6xxg8Hsy+ok80SpKG+jLE=;
+        b=IqLxFFvAKgRN8+KOe0Ns1JOXwhb2buHwYp9c+qncSQMzrQbulS72XzKIUFednkliHe
+         MY7myH4FU/xEW2Yvwz4SS1Vv2Qr7LXmdoqkr3layZBlu9vGd7J8FcegnujpoIKWwsZnG
+         YpEV4jSm4JVg0lRxlzhEB9lbVPG7kjgRc4LG5Q8sXVtGdsoi6JGMJUfTX/SKTlAqwLp3
+         HrGrILRs2P7B0PVpvihUIFc3bJeWa3CMvMDGwgtygYIQhA1/l19YsQRoe1ku+w95Yj5v
+         JSEtOfCMXqZ2Z1Z/cTfYPz61A+sRWE0UETcnsHt2dqJ669JwkLU675rGlyycCJnmG5iw
+         uKjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FrL5lYUkqDlmCEsBUKLgTEfbH9XDD8w+e14IRfNrUoc=;
-        b=1JvvN8gUchcnXTdQKPWTmSCDSsGFslpaPmwhkAetDIEhoetNjyWsxqy0Fn0dZTOUCV
-         KQn1+UTYG8XyrTF3T+pnu5tds4l+UmbsqIFnktvUSgZ4GyPLJktu14plKvqFTzoKN+AK
-         6WeRCqmqdEZs5se8952SIGAQo+aSmdR2wRPyiOedG6XJYtsRHxJQlelL1DRdJUlF7Evy
-         qUKqdvmfR70digfmXANLMEvY2UBprM5oMb7GQ6LH/o5rLW00xOfis06+dylyKi5yy4CV
-         JH3XuemslcciLzzaslVhlHDiCXqdzQmXad+yQuiiZM9r7wbprOO+Wkliu5Pt4k5AHf+1
-         3xVA==
-X-Gm-Message-State: AO0yUKXT+p1G4jGIWNNe2Fbudkv+WGXdDfw9/nmqy29EouZMjHxkiys1
-	+T91+7o40VSGtsyZGr/H+fCz3SjfZjvHplk+
-X-Google-Smtp-Source: AK7set+1Xufy3lZTLIWLc/LUY9FQT3FcF0q4uexR/2U7zd+hpwLiFESBhwLurbO+FFlq8cewx0M4Ig==
-X-Received: by 2002:a17:907:6f0e:b0:8f9:ed75:f962 with SMTP id sy14-20020a1709076f0e00b008f9ed75f962mr7928483ejc.18.1677498527989;
-        Mon, 27 Feb 2023 03:48:47 -0800 (PST)
-Received: from localhost ([194.62.217.2])
-        by smtp.gmail.com with ESMTPSA id jr6-20020a170906a98600b008b980c3e013sm3144257ejb.179.2023.02.27.03.48.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 03:48:47 -0800 (PST)
-References: <20230224-rust-arc-v1-0-568eea613a41@asahilina.net>
- <20230224-rust-arc-v1-2-568eea613a41@asahilina.net>
-User-agent: mu4e 1.9.18; emacs 28.2.50
-From: Andreas Hindborg <nmi@metaspace.dk>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn?=
- Roy Baron
- <bjorn3_gh@protonmail.com>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH 2/2] rust: sync: arc: Add
- UniqueArc<MaybeUninit<T>::assume_init()
-Date: Mon, 27 Feb 2023 12:48:34 +0100
-In-reply-to: <20230224-rust-arc-v1-2-568eea613a41@asahilina.net>
-Message-ID: <87y1oj9vmp.fsf@metaspace.dk>
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TRRq/5GQqxIc46hXGY4H3v6xxg8Hsy+ok80SpKG+jLE=;
+        b=AfFJEfdUhmaeelu9hXRHvMjKyFdrnixgxO6RzVjyNX9VMEVlmimAF+LXijqRr2u6zj
+         eApSAmWJlIxuHYTZEgIzIkU5u//oI+BKhMmBuDLhz8u87zNHdvjlWTCqFx7kbyR3Yh14
+         6FjSkIAgyJ/LxbJ37Qf6FPZTKty+Rq0q2P0sYcjA6ydoqi7vH7a7sgVhxDZGR3JgBnTW
+         ciZefTwOjPZeYr7+K/fzS4zRWVYnIgXPqFRe2GSM76eYS/hzMowj6bYQzmuTaU4SKM/u
+         a9hH4ZXeunW+jAf7jryBgPVdfPdD7uNhiQwbPJ/Zmw5ij6VpyXtI6lrG1qEbOUSsifkt
+         s3pg==
+X-Gm-Message-State: AO0yUKUenPIVwXZuIZ1zDjFK0KghWvKvuegYc376c32pWFcoJuHOjV+u
+	v1jzGcM87ETF1C8kNTtiMufZxIgPSoWzDLAUb24=
+X-Google-Smtp-Source: AK7set97eDh3HLuNWh7xikVD1qnW++Lf0g7OIb1Adxk+AuKT0ePWwVzYCq74X4Mdj7MZsHvgV/ayLFmCjEX0qc+YMDA=
+X-Received: by 2002:a81:af1b:0:b0:533:8080:16ee with SMTP id
+ n27-20020a81af1b000000b00533808016eemr10118374ywh.10.1677499850891; Mon, 27
+ Feb 2023 04:10:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net>
+ <20230224-rust-error-v1-5-f8f9a9a87303@asahilina.net> <Y/lOlcSpc+d9ytq/@boqun-archlinux>
+ <20230225222340.34d749ee.gary@garyguo.net> <Y/rCU1S+GDgIojNf@boqun-archlinux>
+ <20230226133606.583cd1d8.gary@garyguo.net> <Y/uiAfZnfbbMrQuD@boqun-archlinux>
+ <CANiq72kTiHF76T0AycM43qj4rUgQpHzBqXujdvk+H2qoDz22AQ@mail.gmail.com> <Y/vZdv6IVmrcP7wR@boqun-archlinux>
+In-Reply-To: <Y/vZdv6IVmrcP7wR@boqun-archlinux>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 27 Feb 2023 13:10:39 +0100
+Message-ID: <CANiq72kHe+BD1ZXjDQD_vWrpx+nBfy8fkjhHa8fx=3Bpk+Uuug@mail.gmail.com>
+Subject: Re: [PATCH 5/5] rust: error: Add from_kernel_result!() macro
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Gary Guo <gary@garyguo.net>, Asahi Lina <lina@asahilina.net>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Sven Van Asbroeck <thesven73@gmail.com>, Fox Chen <foxhlchen@gmail.com>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-Asahi Lina <lina@asahilina.net> writes:
-
-> We can already create `UniqueArc<MaybeUninit<T>>` instances with
-> `UniqueArc::try_new_uninit()` and write to them with `write()`. Add
-> the missing unsafe `assume_init()` function to promote it to
-> `UniqueArc<T>`, so users can do piece-wise initialization of the
-> contents instead of doing it all at once as long as they keep the
-> invariants (the same requirements as `MaybeUninit::assume_init()`).
+On Sun, Feb 26, 2023 at 11:13=E2=80=AFPM Boqun Feng <boqun.feng@gmail.com> =
+wrote:
 >
-> This mirrors the std `Arc::assume_init()` function. In the kernel,
-> since we have `UniqueArc`, arguably this only belongs there since most
-> use cases will initialize it immediately after creating it, before
-> demoting it to `Arc` to share it.
+> Interesting, sounds like a missing feature in `rustfmt` or maybe we
+> don't use the correct config ;-)
+
+It may be coming [1] (I haven't tested if that one would work for us),
+but in general it is hard for `rustfmt` because the contents are not
+necessarily valid Rust code.
+
+[1] https://github.com/rust-lang/rustfmt/pull/5538
+
+> "Yeah" means they have different behaviors, right? ;-)
+
+Yes, sorry for the confusion :)
+
+> Thanks for finding an example! Means we did use return.
 >
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
+> For this particular API, I'd say function right now, `try` blocks if
+> avaiable.
 
-Reviewed-by: Andreas Hindborg <a.hindborg@samsung.com>
+Do you mean going with the closure for the time being and `try` blocks
+when they become stable? Yeah, I think that is a fair approach.
 
->  rust/kernel/sync/arc.rs | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/rust/kernel/sync/arc.rs b/rust/kernel/sync/arc.rs
-> index 752bd7c4699e..b8e9477fe865 100644
-> --- a/rust/kernel/sync/arc.rs
-> +++ b/rust/kernel/sync/arc.rs
-> @@ -512,6 +512,15 @@ impl<T> UniqueArc<MaybeUninit<T>> {
->      /// Converts a `UniqueArc<MaybeUninit<T>>` into a `UniqueArc<T>` by writing a value into it.
->      pub fn write(mut self, value: T) -> UniqueArc<T> {
->          self.deref_mut().write(value);
-> +        // SAFETY: We have just written the contents fully.
-> +        unsafe { self.assume_init() }
-> +    }
-> +
-> +    /// Returns a UniqueArc<T>, assuming the MaybeUninit<T> has already been initialized.
-> +    ///
-> +    /// # Safety
-> +    /// The contents of the UniqueArc must have already been fully initialized.
-> +    pub unsafe fn assume_init(self) -> UniqueArc<T> {
->          let inner = ManuallyDrop::new(self).inner.ptr;
->          UniqueArc {
->              // SAFETY: The new `Arc` is taking over `ptr` from `self.inner` (which won't be
-
+Cheers,
+Miguel
