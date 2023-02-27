@@ -1,137 +1,93 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12F8746B
-	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 16:12:04 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id r5so7214966qtp.4
-        for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 08:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=HVS+XAReNIqkEZr+HHhHNoC0XqayQ7uaPTuLvcoutJg=;
-        b=lk0sxdpjwkeffBxkze1r6VZFwx01PQ5+VQC/bTgDkHrhafr0dPo82eurd/Hq/t5dHL
-         0Aj0T2gcA0Ix4rquId5YzeFAfJEQRBOmfYkJIlyMi8KTNhHprv1/5Wkf6riYC2qvlZ9p
-         +lqitZkHTpPoORHMIomebpTYdRfkYhoMvF0jgTBONGdWwpLKe93WLpDqyclL9Glg+6p7
-         3GGZQDag+OaslA5no/LhLpn1KzLZlCl94EXhzk6yB5mJyUSjzgKmiE5NM36xFnKPIJ9m
-         bzsyHe48ElQPIg1LjHxEx3sqqbsFrd7daWOF9ZFT/XPeuKvKcJkpsp1ohyDGSP06PEm1
-         gajw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HVS+XAReNIqkEZr+HHhHNoC0XqayQ7uaPTuLvcoutJg=;
-        b=0OSjfss0Mu3SZLH5pyym8NLJifOwFpiEWF8lZTDi+L6yXSndPLPk5xFxGDJUzkx1uo
-         XSHr4hAFCFsKzdr7PXCAjFko9rs8ctzJbD+Zvj80ArkrJmF2jaREYXG0J6SGpJTP0jgj
-         lVCoYoBI2Haa/shp+n5rp3QxWkTFcz4H7c4HMNa+xsUBFYfq3RPFrSL/opl9nL7wXkiL
-         krvoETbfRlK6/k2VfhWiiOfc16bcXrRLgGSwWSkvgd0W3Mm7mOwupI6Oet6EWFPR6Pmc
-         pVmJd1vejQU+666v459kEIMoHyoyAyB/PJ9F3DZKLUiPbWhXAnHsWc+BjQ4RM2SjePRn
-         vB1w==
-X-Gm-Message-State: AO0yUKXai0b1eCmjS5kh6fCjXWnW98wJG5SscoCdmb9zPTC6TylqtK8S
-	JWVFuSJzxmNk6nwSpuF3hDY=
-X-Google-Smtp-Source: AK7set8DE/smvk2iugB1Wlsd5cvyAWVwCrm5DHYixBwAorNNTxk1UunRx+yF2yQAkpbX46ZK/yVgHA==
-X-Received: by 2002:a05:622a:18f:b0:3bf:aa39:982b with SMTP id s15-20020a05622a018f00b003bfaa39982bmr32687063qtw.32.1677514323651;
-        Mon, 27 Feb 2023 08:12:03 -0800 (PST)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id n188-20020a37bdc5000000b007425f242cb8sm5144325qkf.66.2023.02.27.08.12.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Feb 2023 08:12:02 -0800 (PST)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailauth.nyi.internal (Postfix) with ESMTP id 7D53927C0054;
-	Mon, 27 Feb 2023 11:12:01 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 27 Feb 2023 11:12:02 -0500
-X-ME-Sender: <xms:UNb8YzVn8FT-9qP6SjrCPvxjqIjt2A5On293QHEHdZGkdX9pny1Q1Q>
-    <xme:UNb8Y7mr54l2qZxmzeyZM9yRhQ5Bc4uSHAgF79ICRv7IA5pljWgiWcSo302BeCjkH
-    3wsXx9TVNqcNYrLYA>
-X-ME-Received: <xmr:UNb8Y_ar2I925ZgRm_KZdaLgCgrXWN1KxDshAAt82lo0uXHrYeF_QDJdzzc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeltddgkeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpeeuohhq
-    uhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrf
-    grthhtvghrnhepgeekgeettdelffekfedtveelueeiudevjeegieekvdegkedufeetfeei
-    iedvueelnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhht
-    hhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquh
-    hnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:UNb8Y-WnawlW9HJeO3csrPPAPLflnOiv0Ilzx36YoyYjliaXZfd4jQ>
-    <xmx:UNb8Y9n-DVVdEbziGEB3qz7Zcd_a_IShmvQ3na6f-FI4BBY4HB_wjw>
-    <xmx:UNb8Y7cU32gY1lIBL1SuzBmfcVrYU-cxp7_b6dmy_oa3oIIOfKLzMw>
-    <xmx:Udb8YzfDT6D-ZHbriXkmHTvvhiUa8QI8d_x_Uq5-e9Mb8iuK6dvdyg>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Feb 2023 11:11:59 -0500 (EST)
-Date: Mon, 27 Feb 2023 08:11:27 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, Asahi Lina <lina@asahilina.net>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sven Van Asbroeck <thesven73@gmail.com>,
-	Fox Chen <foxhlchen@gmail.com>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH 5/5] rust: error: Add from_kernel_result!() macro
-Message-ID: <Y/zWL4aeIRbvwKMI@boqun-archlinux>
-References: <20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net>
- <20230224-rust-error-v1-5-f8f9a9a87303@asahilina.net>
- <Y/lOlcSpc+d9ytq/@boqun-archlinux>
- <20230225222340.34d749ee.gary@garyguo.net>
- <Y/rCU1S+GDgIojNf@boqun-archlinux>
- <20230226133606.583cd1d8.gary@garyguo.net>
- <Y/uiAfZnfbbMrQuD@boqun-archlinux>
- <CANiq72kTiHF76T0AycM43qj4rUgQpHzBqXujdvk+H2qoDz22AQ@mail.gmail.com>
- <Y/vZdv6IVmrcP7wR@boqun-archlinux>
- <CANiq72kHe+BD1ZXjDQD_vWrpx+nBfy8fkjhHa8fx=3Bpk+Uuug@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F24479E0
+	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 17:52:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 991C741A42;
+	Mon, 27 Feb 2023 17:52:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1677520336; bh=TyiSSdv8IGxdjz2utLKhWhCBuUwQHg47VZsc94zgZcw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=lFwzbz1lMl2mgUL8NMvLooNx9YligRkut+5/Iq991BfswLpk+aSlCgQpBFpw8Gvji
+	 H8bPnmw1MtNyS3y7CaA7I36J7x+aq8MzP3fWYUtHoWtj62wHZHtmiMOeaj76Vlti9x
+	 NfOO3VVKzhSDC7dzz8s9EI6vM1a8nspxntvC9LH0lidWpGCp6IUAozrvy3TLH1bC+f
+	 yXhP7uC0uRNbduoZwmYWCAkP3siUwz3sKcKysv5Uxjfb9xpgtxCoU0FNgpxERHxv1K
+	 m21qp+J3UiZxkteZvpdZxsY65jiwwDOQz7lBWRfxsyb66FdcUFiD8UCJChpHEGM7dN
+	 a+R8t5Ub+C7QA==
+Message-ID: <181af6e9-799d-b730-dc14-ee2de2541f35@marcan.st>
+Date: Tue, 28 Feb 2023 02:52:08 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72kHe+BD1ZXjDQD_vWrpx+nBfy8fkjhHa8fx=3Bpk+Uuug@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH] brcmfmac: cfg80211: Use WSEC to set SAE password
+Content-Language: en-US
+To: Arend van Spriel <arend.vanspriel@broadcom.com>,
+ Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Double Lo <double.lo@infineon.com>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Linus Walleij <linus.walleij@linaro.org>,
+ asahi@lists.linux.dev, linux-wireless@vger.kernel.org,
+ brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230214093319.21077-1-marcan@marcan.st>
+ <edcabef3-f440-9c15-e69f-845eb6a4de1b@broadcom.com>
+ <65548ce6-d2d8-c913-a494-5ac044af2e35@marcan.st>
+ <b4489e24-e226-4f99-1322-cab6c1269f09@broadcom.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <b4489e24-e226-4f99-1322-cab6c1269f09@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 27, 2023 at 01:10:39PM +0100, Miguel Ojeda wrote:
-> On Sun, Feb 26, 2023 at 11:13 PM Boqun Feng <boqun.feng@gmail.com> wrote:
-> >
-> > Interesting, sounds like a missing feature in `rustfmt` or maybe we
-> > don't use the correct config ;-)
+On 14/02/2023 19.38, Arend van Spriel wrote:
 > 
-> It may be coming [1] (I haven't tested if that one would work for us),
-> but in general it is hard for `rustfmt` because the contents are not
-> necessarily valid Rust code.
 > 
-> [1] https://github.com/rust-lang/rustfmt/pull/5538
+> On 2/14/2023 11:30 AM, Hector Martin wrote:
+>> On 14/02/2023 19.07, Arend van Spriel wrote:
+>>> + Double Lo
+>>>
+>>> On 2/14/2023 10:33 AM, Hector Martin wrote:
+>>>> Using the WSEC command instead of sae_password seems to be the supported
+>>>> mechanism on newer firmware, and also how the brcmdhd driver does it.
+>>>
+>>> The SAE code in brcmfmac was added by Cypress/Infineon. For my BCA
+>>> devices that did not work, but this change should be verified on Cypress
+>>> hardware.
+>>
+>> Do you mean the existing SAE code does not work on BCA, or this version
+>> doesn't?
 > 
-> > "Yeah" means they have different behaviors, right? ;-)
+> I meant the existing SAE code. I will give your patches a spin on the 
+> devices I have.
 > 
-> Yes, sorry for the confusion :)
+>> I assume/hope this version works for WCC in general, since that is what
+>> the Apple-relevant chips are tagged as. If so it sounds like we need a
+>> firmware type conditional on this, if CYW needs the existing behavior.
 > 
+> Right. Let's hope we get some feedback from them.
 
-No worries, English is the one to blame ;-)
+Any news on this? Nothing from the Cypress guys (nor to any of my
+previous emails about other stuff, for that matter), so if you can
+confirm this works on your chips I'd rather just blindly add the CYW/not
+firmware variant check and call it a day.
 
-> > Thanks for finding an example! Means we did use return.
-> >
-> > For this particular API, I'd say function right now, `try` blocks if
-> > avaiable.
-> 
-> Do you mean going with the closure for the time being and `try` blocks
-> when they become stable? Yeah, I think that is a fair approach.
-> 
+We can't wait forever for them to show up. If they expect their chips to
+continue work with mainline they need to actually interact on the MLs,
+otherwise they should expect us to possibly accidentally break things
+even if we try not to. As far as I can tell they seem completely
+disinterested in talking about anything, and we can't let that block
+progress for everyone else.
 
-Right, and like my original suggestion to Lina, don't use macro for this
-one.
-
-Regards,
-Boqun
-
-> Cheers,
-> Miguel
+- Hector
