@@ -1,75 +1,71 @@
 Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE776AB3
-	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 13:49:01 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-536cd8f6034so176244967b3.10
-        for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 05:49:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D996AB3
+	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 13:52:51 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-536c02eea4dso177663347b3.4
+        for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 05:52:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wsIz50zjyJWoV4yTGujEpF6auIkGsJx425uJLy5GoWg=;
-        b=mziWa4DuN7lEcg+EmTxmyEVoPTTO4f3VzO52ePtD+mVYj9IG8XSb7PqOP5TYipj0LO
-         ZHJICBSNhvI2lS50six5WhTisF/0wkZoRAdJxRI+e3WorN/lQeOwZKAXgzCti1mDzkHc
-         /0iLGth1vrQFUW9e+awc+9LpN3QMOlDSsr7yHvQvq6b8zEcBpmISJcB4iZHhms5tc3mj
-         wpWo2hMsKFdMdeILOuZ1WEfHN8ZxpusxEYo5BLdkKn9jwOZcSCAjwgzL7L2F5hZFC/2L
-         qN2+AthmKkcTemKKw+7pm48M8v9I3Orc7RPmWF2e9zA89PLy4yL0zjirix55oVF7k/6E
-         iSsQ==
+        bh=PpHoYwBSJYrD+dy9oWzkcgpva3nGOcVMTl9avKAE77k=;
+        b=RMNjwlwFyEj0eQRR/s+b/9HN3KQrlK6zHKN7pnqbC9jBEyosiPM3kyuStsDITeQyvk
+         Ml/TMeaxU769rgHfji9Abpixu2Z+RO6Z8YWr5F17A2vHK/r+MrAWGHERHpUPTmton7tl
+         Lnp60HD0KcDhAzTfQiBc+QBREoMcGlyEVpmVMJTdOa3g5Ak9/7aQto2KyNWH7jhFsX9m
+         VkimLpEHfn1AO64/s5z3rnl0iTSfHdDdAN94jsT5drIEI35IvLkZiw/kO/e1/tJycqY8
+         aUi/cYMTiKYA0k8+AQALxCI5R+8+vfe1KC7yuUP3R+nN4AAaYleTTzmzHiM11AXQMnBJ
+         z7Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wsIz50zjyJWoV4yTGujEpF6auIkGsJx425uJLy5GoWg=;
-        b=twTQuLcV0IGMExRIYfmmLfE1a9KCBFmAQehJyIrRlDobAzYgi3W6nFJ5x6dIseE0p/
-         7zrNZNUFAOmyvMKwmIfvYDrrQAUz5bCIIW+6hFPBizZGGIz+imkeMvyiYxXvNeEWZPBk
-         M4H2bHoJCy476IQ56DM/Hw6GdpChEaPN/rU0EEqAk6pcFyvAUy5wBQfd2Qal3wPk58jC
-         sR/Opz3Hzf2h+hw+eIb5P5tB6HU+cdki65XMb5Tj/hFr6lbu/h4ydA8ROzO3qhCaep/D
-         LLEfZmG4qzOlFYESVYAg6oqL4wgjAWKQTStiHoLip/oHTjs7+F3d3DV5mI/7POPcp49s
-         fovQ==
-X-Gm-Message-State: AO0yUKWsh3IoDbW90DId9lkZXy7UqAB+ehhiix0KlycvcgTZidUqkRhM
-	rGH9r08zyPr0+Vk57T8D67mpecmxQ1uapq2ktrU=
-X-Google-Smtp-Source: AK7set/Gy9HX3Hc99cqeB48DmPz48RcGzSSWrCthvZvgP3KcDblaI61+VePiCAujvESdltCKxw7O/OBDCOX8Apm0TNs=
-X-Received: by 2002:a5b:50b:0:b0:a36:3875:564a with SMTP id
- o11-20020a5b050b000000b00a363875564amr7639099ybp.2.1677505740979; Mon, 27 Feb
- 2023 05:49:00 -0800 (PST)
+        bh=PpHoYwBSJYrD+dy9oWzkcgpva3nGOcVMTl9avKAE77k=;
+        b=G2mIULfdl+HzNys42SzxmlFAZfmpG8oRd4iwXdueIgFyYTZw/u2swQANVxF7MpijwQ
+         Ow4TX0l2tZVYdk/F9hTJMCrPfRPhH8R7r0OBMDfHdBBMl21YVf1DnZ4Bs9EcY8XyyPSP
+         klUffmy867iBE/wannJzW9qbKM5kOMQstXW7t3wV+2YNyPZ/iU1GFwKlUr9hLb4MipHu
+         CStXhH4QFvVATFfePmGD+i/G6XKqYnj3UbnjDss3DxB9nuWQvGtrOTCdgXVaqglxLYZx
+         R8OS07U34Sxo5EyyAwsgcyeddCS7O8wrt7eTcu7y6DNRkMRsGKumsEx/mWhRY4TY1JQe
+         63/Q==
+X-Gm-Message-State: AO0yUKXAT4t2vuyu7PSOsl9Ne438jLI3WM579jc9ymIAXfvtOWasUjNf
+	T70e+9vGn2ErP+K4AXHqosNTXHtPX7FZ+tXpuZU=
+X-Google-Smtp-Source: AK7set98yphOPe9BepvIDu25JZbS3zDNASmaTD1t1U0BDqTOdcpo/jqpm7Ks8YTTrowrcWXJsvKGX2uES95BodH11Wg=
+X-Received: by 2002:a05:690c:c1a:b0:533:9d13:a067 with SMTP id
+ cl26-20020a05690c0c1a00b005339d13a067mr8132245ywb.3.1677505970814; Mon, 27
+ Feb 2023 05:52:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net> <87pm9v9rmg.fsf@metaspace.dk>
-In-Reply-To: <87pm9v9rmg.fsf@metaspace.dk>
+References: <20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net>
+ <20230224-rust-error-v1-4-f8f9a9a87303@asahilina.net> <87a60z9qb2.fsf@metaspace.dk>
+In-Reply-To: <87a60z9qb2.fsf@metaspace.dk>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 27 Feb 2023 14:48:50 +0100
-Message-ID: <CANiq72=Q2kUihi2Yve5b9LGZYreEovrgqfjWb8WhPRtNWfq+wA@mail.gmail.com>
-Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and driver crates
+Date: Mon, 27 Feb 2023 14:52:39 +0100
+Message-ID: <CANiq72mxFPs7fcdPMuuhEY0a-iNsbCwc9dumbFHoJm=aiNQvLw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] rust: error: Add a helper to convert a C ERR_PTR to a `Result`
 To: Andreas Hindborg <nmi@metaspace.dk>
 Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, 
 	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
 	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
 	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Sven Van Asbroeck <thesven73@gmail.com>, Fox Chen <foxhlchen@gmail.com>, 
 	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, asahi@lists.linux.dev
+	asahi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 27, 2023 at 2:15=E2=80=AFPM Andreas Hindborg <nmi@metaspace.dk>=
+On Mon, Feb 27, 2023 at 2:43=E2=80=AFPM Andreas Hindborg <nmi@metaspace.dk>=
  wrote:
 >
-> What is the purpose of adding the feature here? The kernel crate seems
-> to compile fine without this.
+> For consistency, if `from_kernel_errno()` should be `from_errno()` this
+> should be `from_err_ptr()` as well?
 
-`rust_allowed_features` is the list of features that crates outside
-`rust/` can use (e.g. drivers).
-
-The goal is to control which unstable features are used outside the
-`kernel` crate and to avoid mistakenly relying on them.
+Sounds good to me.
 
 Cheers,
 Miguel
