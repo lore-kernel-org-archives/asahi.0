@@ -1,161 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2063808
-	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 09:20:39 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id CC7B61F8D4;
-	Mon, 27 Feb 2023 09:20:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1677489637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wBd7m2KrlfppU2Ipuygy+vwFieaF96NsR9iYEStx6LM=;
-	b=KbwCjZgPz3lGGV7WD79xSpz5awt0k8vlLeZ030q7Xn7pjUsSYX0sIF6Y3a/nl2D8SJWWTR
-	oYNkN6NfmEKrkgU1O5YJlBRCggwzxxOeqcDfmTy0JYf605MRVQtTWApKz0/GI1xiERXKIQ
-	KogICrl3UScF1jYlC7sVipslJ24X4fU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1677489637;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wBd7m2KrlfppU2Ipuygy+vwFieaF96NsR9iYEStx6LM=;
-	b=ns9P7o013CdySPfLHHMJHAiSPdCN6dMd00a5O13DdQB8h9Qgast+cyIWRU0vrpiZLNFUCj
-	1BolIwKGtXdAsEBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7E11213912;
-	Mon, 27 Feb 2023 09:20:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id IDLYHeV1/GMrUwAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 27 Feb 2023 09:20:37 +0000
-Message-ID: <c9805cb3-33c9-44ea-dab9-ec2f0624588f@suse.de>
-Date: Mon, 27 Feb 2023 10:20:37 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0981FBD
+	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 10:07:15 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id e37so3094367wri.10
+        for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 02:07:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MqNgqAJx/n0S7+BoW8AS5oVR4jMes+tqXU99MEBiNwI=;
+        b=E1ROgjIM1XNegAMpfrYyY9kkIvGBVnqPPjdVsHT4VHjei6/6FcJ6ycWizoOrBesIdF
+         jtc4IG/+Nrwgwi/sw0Wyss7OYRGBhwWS3KmJcblbx0KtADk7dXpVnxBGnvWUWondngo1
+         iNxNVC9kRih5IbgqIghKKdZBdB26NPToRhvuVKhE2UoXMtTUbVEB1Nya9wwNrGF899w9
+         fOkWG2o7KM1SYCn2yRijDfrqiX1n55TiqvPJ1wVUj5DOAtSp5opGadsbDccFknndUJoL
+         rqxZ1VnLUDHi9pfp1dDdHY+E74ehBrxaere1HDL+zzvfgiHU8DjCkPlesbq6VqhMI1wH
+         mvYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MqNgqAJx/n0S7+BoW8AS5oVR4jMes+tqXU99MEBiNwI=;
+        b=6kUd1y6RNEBaY08secluUjA1lEMBdLZ58Ec9vMbKWQwLCkSgRyl86WuXGIF++qJT09
+         mlSU4ODg/wg7WLna9UbPROkgDlTQzAxKAXrjJvbQbcEK+uD6k+j7aj2l8Iiu8h6iveXb
+         R+9lWLdiwPSnjtH7go8nOSZkpIWuvP8bNltZdVarB9XmBdz9lkot9cWADCGbIGMR339d
+         3Wo3nlitEWRndogg7l99OMDGuBYkvpiaAWR6i9tUwqIslx0S0CgLUi8GuWTozUEhbh0C
+         SCwj+E26UMmopGYIG2g+4578rrCUKGqHacD5jisTprfDqbRm0OdlKTcKpeBFN8B9WiwW
+         5K4A==
+X-Gm-Message-State: AO0yUKVMhYa76PScxPOmCdYMOZBe15UyfedHgKvjXJWKP8qmdJWXGZiz
+	KuVahXqrP8Vredf360LnJvE=
+X-Google-Smtp-Source: AK7set9olwW5SckjSIZrQELzNrVlnXDXFuOGW2+7Md6ZiEesbCdx5GrGgnDZEgw7EmgSd1m2Tc88XA==
+X-Received: by 2002:adf:ee8f:0:b0:2c7:ffd:f483 with SMTP id b15-20020adfee8f000000b002c70ffdf483mr12018660wro.41.1677492433585;
+        Mon, 27 Feb 2023 02:07:13 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id g9-20020a056000118900b002c794495f6fsm6475314wrx.117.2023.02.27.02.07.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 02:07:13 -0800 (PST)
+Date: Mon, 27 Feb 2023 13:07:09 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Marc Zyngier <maz@kernel.org>, asahi@lists.linux.dev,
+	linux-pm@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] cpufreq: apple-soc: Fix an IS_ERR() vs NULL check
+Message-ID: <Y/yAzR6sWvPedLej@kili>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
- drm_gem_shmem_get_pages_sgt()
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>, linux-kernel@vger.kernel.org,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev
-References: <20230205125124.2260-1-lina@asahilina.net>
- <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
- <cc1c34c6-18d1-a8c5-bf70-078e7b7205f8@suse.de>
- <e49127fb-abb9-16fc-42bd-2f380d1bd29d@asahilina.net>
- <3d94a119-dc83-aede-fd39-df7a3ee7cdc0@suse.de>
- <ad89998c-0ede-72da-b8e6-fe1de0f009f1@asahilina.net>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <ad89998c-0ede-72da-b8e6-fe1de0f009f1@asahilina.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------mw61RmEhoZvT0AN7NkxZrjoq"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------mw61RmEhoZvT0AN7NkxZrjoq
-Content-Type: multipart/mixed; boundary="------------0sdaxXuSWHTgXHOP46gNDTuc";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Asahi Lina <lina@asahilina.net>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>, linux-kernel@vger.kernel.org,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev
-Message-ID: <c9805cb3-33c9-44ea-dab9-ec2f0624588f@suse.de>
-Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
- drm_gem_shmem_get_pages_sgt()
-References: <20230205125124.2260-1-lina@asahilina.net>
- <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
- <cc1c34c6-18d1-a8c5-bf70-078e7b7205f8@suse.de>
- <e49127fb-abb9-16fc-42bd-2f380d1bd29d@asahilina.net>
- <3d94a119-dc83-aede-fd39-df7a3ee7cdc0@suse.de>
- <ad89998c-0ede-72da-b8e6-fe1de0f009f1@asahilina.net>
-In-Reply-To: <ad89998c-0ede-72da-b8e6-fe1de0f009f1@asahilina.net>
+The of_iomap() function returns NULL if it fails.  It never returns
+error pointers.  Fix the check accordingly.
 
---------------0sdaxXuSWHTgXHOP46gNDTuc
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Fixes: 6286bbb40576 ("cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states")
+Signed-off-by: Dan Carpenter <error27@gmail.com>
+---
+ drivers/cpufreq/apple-soc-cpufreq.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-SGkNCg0KQW0gMjcuMDIuMjMgdW0gMTA6MDcgc2NocmllYiBBc2FoaSBMaW5hOg0KPiBPbiAy
-Ny8wMi8yMDIzIDE3LjA0LCBUaG9tYXMgWmltbWVybWFubiB3cm90ZToNCj4+IEhpDQo+Pg0K
-Pj4gQW0gMjcuMDIuMjMgdW0gMDg6NTUgc2NocmllYiBBc2FoaSBMaW5hOg0KPj4+IE9uIDI3
-LzAyLzIwMjMgMTYuNDUsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4+PiBIaQ0KPj4+
-Pg0KPj4+PiBBbSAyNS4wMi4yMyB1bSAyMjo1MSBzY2hyaWViIERtaXRyeSBPc2lwZW5rbzoN
-Cj4+Pj4+IE9uIDIvNS8yMyAxNTo1MSwgQXNhaGkgTGluYSB3cm90ZToNCj4+Pj4+PiAtRVhQ
-T1JUX1NZTUJPTF9HUEwoZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXNfc2d0KTsNCj4+Pj4+PiAr
-RVhQT1JUX1NZTUJPTChkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3QpOw0KPj4+Pj4NCj4+
-Pj4+IE5vdGUgaXQgd2FzIGEgR1BMIHN5bWJvbC4gSSBleHBlY3QgdGhhdCBhbGwgZHJtLXNo
-bWVtIGV4cG9ydHMgc2hvdWxkIGJlIEdQTC4NCj4+Pj4NCj4+Pj4gUmlnaHQuIEkgZGlkbid0
-IG5vdGljZSB0aGF0IGNoYW5nZSwgYnV0IGl0J3MgcHJvYmFibHkgbm90IGFsbG93ZWQuIFRo
-aXMNCj4+Pj4gbmVlZHMgdG8gYmUgcmV2ZXJ0ZWQgdG8gYSBHUEwgZXhwb3J0DQo+Pj4NCj4+
-PiBJJ20gc29ycnksIHRoaXMgd2FzIG5vdCBpbnRlbnRpb25hbCEgSSB0aGluayBJIHJlbW92
-ZWQgYW5kIHJlLWFkZGVkIHRoZQ0KPj4+IGV4cG9ydCBhcyBwYXJ0IG9mIG1ha2luZyB0aGUg
-d3JhcHBlciBhbmQgZGlkbid0IG5vdGljZSBpdCB1c2VkIHRvIGJlIF9HUEwuLi4NCj4+Pg0K
-Pj4+IERvIHlvdSB3YW50IG1lIHRvIHNlbmQgYSBwYXRjaCB0byBhZGQgaXQgYmFjaz8NCj4+
-DQo+PiBZZXMsIHBsZWFzZSBkby4gVGhlIEZpeGVzIHRhZyBpcw0KPj4NCj4+ICAgICBGaXhl
-czogZGRkZGVkYWEwZGI5ICgiZHJtL3NobWVtLWhlbHBlcjogRml4IGxvY2tpbmcgZm9yDQo+
-PiBkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3QoKSIpDQo+Pg0KPj4gVGhpcyBjb21taXQg
-aXMgaW4gZHJtLW1pc2MtbmV4dC1maXhlcy4gQnV0IHRoZSBicmFuY2ggaXMgY2xvc2VkIGFs
-cmVhZHkNCj4+IGFzIHdlJ3JlIGluIHRoZSBtaWRkbGUgb2YgdGhlIG1lcmdlIHdpbmRvdy4g
-SSB0aGluayBpdCdzIGJlc3QgdG8gbWVyZ2UNCj4+IHRoZSBmaXggdGhyb3VnaCBkcm0tbWlz
-Yy1maXhlcyBhZnRlciB0aGUgLXJjMSBocyBiZWVuIHRhZ2dlZC4NCj4gDQo+IFNlbnQhIEkg
-YWxzbyBub3RpY2VkIHRoYXQgdGhlcmUgYXJlIHF1aXRlIGEgZmV3IG90aGVyIG5vbi1HUEwg
-ZXhwb3J0cyBpbg0KPiB0aGUgZmlsZSwgd2l0aCBubyByZWFsIGxvZ2ljIHRoYXQgSSBjYW4g
-c2VlLi4uIEknbSBndWVzc2luZyBtb3N0IG9mDQo+IHRob3NlIHdlcmVuJ3QgaW50ZW50aW9u
-YWwgZWl0aGVyPw0KDQpJIGRvbid0IGtub3cuIE15IGd1ZXNzIGlzIHRoYXQgc29tZSBhdXRo
-b3JzIHVzZWQgRVhQT1JUX1NZTUJPTCgpIG91dCBvZiANCmhhYml0IGFuZCBvdGhlcnMgdXNl
-ZCBFWFBPUlRfU1lNQk9MX0dQTCgpIGludGVudGlvbmFsbHkuIEFuZCBub3csIGl0J3MgDQpj
-aGFvdGljLg0KDQpFdmVuIHRoZSBmaWxlJ3MgaW5pdGlhbCBjb21taXQgMjE5NGE2M2E4MThk
-IGNvbnRhaW5zIGJvdGguIEkgYXNzdW1lIHRoYXQgDQpzb21lIG9mIHRoZSBjb2RlIGhhcyBi
-ZWVuIHRha2VuIGZyb20gdGhlIERNQSBoZWxwZXJzLCB3aGljaCBkYXRlIGJhY2sgDQptdWNo
-IGVhcmxpZXIgd2l0aCBfR1BMLW9ubHkgZXhwb3J0cyAoc2VlIGNvbW1pdCBiOWQ0NzQ1MDA1
-NDYpLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiB+fiBMaW5hDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8
-cm5iZXJnLCBHZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRz
-ZsO8aHJlcjogSXZvIFRvdGV2DQo=
+diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
+index c11d22fd84c3..021f423705e1 100644
+--- a/drivers/cpufreq/apple-soc-cpufreq.c
++++ b/drivers/cpufreq/apple-soc-cpufreq.c
+@@ -189,8 +189,8 @@ static int apple_soc_cpufreq_find_cluster(struct cpufreq_policy *policy,
+ 	*info = match->data;
+ 
+ 	*reg_base = of_iomap(args.np, 0);
+-	if (IS_ERR(*reg_base))
+-		return PTR_ERR(*reg_base);
++	if (!*reg_base)
++		return -ENOMEM;
+ 
+ 	return 0;
+ }
+-- 
+2.39.1
 
---------------0sdaxXuSWHTgXHOP46gNDTuc--
-
---------------mw61RmEhoZvT0AN7NkxZrjoq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP8deUFAwAAAAAACgkQlh/E3EQov+CF
-3A/+KXeeYWnQVaA2xRldLu2bj5JUcD7ELnYIMBq3RuR8rqZ/+Yd0EVkZMsZX9l/uVt/TE2KblDHD
-MdICA2LHUaRqjvqUnsKrxOMMe1rWPATEiTlaSOI0nMZXrsU9DI2WfqJfjMcVLaYcE9rhhROKfDSy
-/8wfGcPqaWENLL9E9NArYJfTYWt6MPmpscCuGMzHefzO0eF5deHHW1b4pi+unyZKVBtlfZjuaiYH
-h2w6dahnLIipum/fOLsNYcPou3HdkDj4T/GEPLDNbmEwuiGqUOOLbr8SsFGl4gEfn1BToDMtBYsD
-OfGdNXRMVoPnR4aqkpOAhBLDEQ4qhYx12/OoMueTh0c4Z4vd6MFq2iUccJI13Vim/L6ax0cInczi
-RkAl7hcF0rYfF4CrDUh2a5aeD0aNxfBYc7pny2HBPup6ITg3AUR7ddGdSWMS+5z9cyi0Mvu+YbFW
-W0l1dWwT8DwX6YDMSlnDThN8pWt8c6uIVdKtbTR9piaLS75CIxG9eFe+bWAhfYy0Lh2BnU3Cbocq
-8stB4KBaV7zgBP7iOp2PqtEJHn7jhWbpIP6bxCIBnSPhMGRkENha+ki4aHuWU6QJYsjkY5FvrHl3
-hykgQ6Jq02qdZFYRGr25tHkwv5iFrDhs3P4BIb1ZWau3aqiKRu+xWZpJHi+ar5qKzmNlgFzo205B
-k1g=
-=CqzL
------END PGP SIGNATURE-----
-
---------------mw61RmEhoZvT0AN7NkxZrjoq--
