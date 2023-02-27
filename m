@@ -1,201 +1,129 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4728F3D6D
-	for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 22:13:44 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id cf14so4872930qtb.10
-        for <asahi@lists.linux.dev>; Sun, 26 Feb 2023 14:13:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=YSvtnIwZ5WRViy9d2TMUt/v4cYgNq+s2fM5I8EDWvtc=;
-        b=L4BNZgYJuHmXZh6jpoP1Ok9qx7UtcelHbhasYhA4IjxXL4dlyxMpdyC3rC1qmzJNvP
-         /9IQsj9TzVY3a8ccbhkO3L71/rQUVTG28Co0H+XPVApyxYfTsWtxqgG+WL/MwS1X/+ib
-         SytdzsQviD065IwWMRpEuCPJuPzon7eOjVevuUQ4CTHhiIoP4F28COli8oUlal2NV24O
-         9QWi9kAUMrK5buVW286Sf+2jkLkdsuDBbAzwhZA7hQ9MJpCIToRqGF5BIIT8CZVrpt9M
-         FeAr/Cu5Rh+qEuNYoeK91j322nC0pLdGry0q2LHwNnGpON/6Tmgx8ffhImmXTmI4+roA
-         SV8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YSvtnIwZ5WRViy9d2TMUt/v4cYgNq+s2fM5I8EDWvtc=;
-        b=P208jkjzMeKYKNRiH+ayAHMr52OX3ZZ49GNQAUO1goCKF6xeYHXaBEQJvVTJnXH3oI
-         eFrQN9OcaMNkuu2BImDSE/R02X5BIk5H1yYX5aP2GeEY0u8QwLH+N14+hbcG+cTQfehU
-         vwl/IkI/VYDWcTEW15iZqzdLF9HJahVuKMrH88CZ5gZk7yEU20+m4YPWuoBOZrwwQVXB
-         MMHXAMUu742nsFF8XGUpyW89ekXP0IaIFZ9IL2tFisJxCkuWGEqMY90kVSLTCAAMWNZc
-         3hCeMF+E6DSrIpA9tG8xaewgfFKPVZIgQL4WPaO7BbxSVZMzx0gF6Ba7VVLPKBaYaMt0
-         Sz1g==
-X-Gm-Message-State: AO0yUKWrsNIEypbTUUDw/Q9BuBj7Gu/2qqcFCqktUkqb2Pa3Mr3ABnud
-	wY8k3/tbXaniATFOddIlmi8=
-X-Google-Smtp-Source: AK7set8OSDr9hpaY3SS9NJn62sJ2bXOTexDdPhu2v9fo9Er1B7ekjKM958IsuZx9UXYVFoDTvWAPZQ==
-X-Received: by 2002:a05:622a:14d:b0:3af:4d45:b73 with SMTP id v13-20020a05622a014d00b003af4d450b73mr38461022qtw.33.1677449623091;
-        Sun, 26 Feb 2023 14:13:43 -0800 (PST)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id s67-20020a374546000000b007424239e4casm3693819qka.117.2023.02.26.14.13.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Feb 2023 14:13:42 -0800 (PST)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailauth.nyi.internal (Postfix) with ESMTP id DC8C427C005A;
-	Sun, 26 Feb 2023 17:13:41 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sun, 26 Feb 2023 17:13:41 -0500
-X-ME-Sender: <xms:ldn7Y9MxJP_Xb8X2x5kL8DyZwUd3MB9H_3v_NCxxM1xn59h7UdnjsQ>
-    <xme:ldn7Y__kpldqhgC5CigpCQZFRteHVtnv5UUZpKQpqd_fxMXVAc3YyiERgX1bJa6lo
-    VmBr9DK6FeyfUZhRg>
-X-ME-Received: <xmr:ldn7Y8TyQHhlOWxrMzdLVuLe7ZO3yz1aiZtsNbX16W4isapw4vpqTUsE-XE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudekkedgudefvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepueho
-    qhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtf
-    frrghtthgvrhhnpeeiheefkefgvdefteejjedukefhieevleeffeevheehfeffhfekhfet
-    veffvefhgfenucffohhmrghinheprhhushhtqdhlrghnghdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhht
-    phgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqd
-    gsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:ldn7Y5vhVpdg9h2nrjjzK09-X1mA5DAX1zBOzolz83Wgv46q_qk68w>
-    <xmx:ldn7Y1cV1x8UZgRu72e7OQSzTTvNGi6bfV9m5V-GPAsIMJR9tKnb7g>
-    <xmx:ldn7Y13c2mpU-Wt3-ayaJxTrAQiwbqCHpBjpXfJ5aB1Gdk8pdASLyQ>
-    <xmx:ldn7Y13ABND4N80_SL-DSpTCU0B8VvHieRwiYaLIBETvBFp07bRxtg>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 26 Feb 2023 17:13:40 -0500 (EST)
-Date: Sun, 26 Feb 2023 14:13:10 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>, Asahi Lina <lina@asahilina.net>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sven Van Asbroeck <thesven73@gmail.com>,
-	Fox Chen <foxhlchen@gmail.com>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH 5/5] rust: error: Add from_kernel_result!() macro
-Message-ID: <Y/vZdv6IVmrcP7wR@boqun-archlinux>
-References: <20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net>
- <20230224-rust-error-v1-5-f8f9a9a87303@asahilina.net>
- <Y/lOlcSpc+d9ytq/@boqun-archlinux>
- <20230225222340.34d749ee.gary@garyguo.net>
- <Y/rCU1S+GDgIojNf@boqun-archlinux>
- <20230226133606.583cd1d8.gary@garyguo.net>
- <Y/uiAfZnfbbMrQuD@boqun-archlinux>
- <CANiq72kTiHF76T0AycM43qj4rUgQpHzBqXujdvk+H2qoDz22AQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813827EF
+	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 07:45:24 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B05AD219E7;
+	Mon, 27 Feb 2023 07:45:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1677483922; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m6C2YtCUwbWaNDlaF/RnsiFAj2ARPeeH2f0QMrrp0V0=;
+	b=tkj9gADs54FhfCQ5mHtJEDBpxTtnzZKuwtEhOUAv8h4lVWSR8WmGYKwPNlGcbbQ+fphf93
+	ZREsAsidEp6kxlr3NYkTJbaw+EHwfSm91bY39wqTubrj5iBaNrycU7L8M5dvjoUkCmbw26
+	2DvGnQafqtPlUjW6nHlv3RDUEe3Np50=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1677483922;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m6C2YtCUwbWaNDlaF/RnsiFAj2ARPeeH2f0QMrrp0V0=;
+	b=Qs8Cw9aX3X5J3r6O1OQ7LGuoW/SWeE2HT1Y0baQEI9C2qc6fVR4+pV9CXutWIJayt4b38L
+	54OnwhWY7lwqoHCA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 76DDE13A43;
+	Mon, 27 Feb 2023 07:45:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id f90MHJJf/GNuIgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 27 Feb 2023 07:45:22 +0000
+Message-ID: <cc1c34c6-18d1-a8c5-bf70-078e7b7205f8@suse.de>
+Date: Mon, 27 Feb 2023 08:45:22 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72kTiHF76T0AycM43qj4rUgQpHzBqXujdvk+H2qoDz22AQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
+ drm_gem_shmem_get_pages_sgt()
+Content-Language: en-US
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev
+References: <20230205125124.2260-1-lina@asahilina.net>
+ <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------t3CUJmibwv6xqIDKWGtbfHoK"
 
-On Sun, Feb 26, 2023 at 09:59:25PM +0100, Miguel Ojeda wrote:
-> On Sun, Feb 26, 2023 at 7:17 PM Boqun Feng <boqun.feng@gmail.com> wrote:
-> >
-> > My preference to function instead of macro here is because I want to
-> > avoid the extra level of abstraction and make things explict, so that
-> > users and reviewers can understand the API behavior solely based on
-> > Rust's types, functions and closures: they are simpler than macros, at
-> > least to me ;-)
-> 
-> There is one extra problem with the macro: `rustfmt` does not format
-> the contents if called with braces (as we currently do).
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------t3CUJmibwv6xqIDKWGtbfHoK
+Content-Type: multipart/mixed; boundary="------------SyFyrz6r7HAItUFMrHojnBJz";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Asahi Lina <lina@asahilina.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev
+Message-ID: <cc1c34c6-18d1-a8c5-bf70-078e7b7205f8@suse.de>
+Subject: Re: [PATCH] drm/shmem-helper: Fix locking for
+ drm_gem_shmem_get_pages_sgt()
+References: <20230205125124.2260-1-lina@asahilina.net>
+ <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
+In-Reply-To: <eddfa36c-4553-d392-0047-313002c613d4@collabora.com>
 
-Interesting, sounds like a missing feature in `rustfmt` or maybe we
-don't use the correct config ;-)
+--------------SyFyrz6r7HAItUFMrHojnBJz
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> 
-> So when I was cleaning some things up for v8, one of the things I did
-> was run manually `rustfmt` on the blocks by removing the macro
-> invocation, in commit 77a1a8c952e1 ("rust: kernel: apply `rustfmt` to
-> `from_kernel_result!` blocks").
-> 
-> Having said that, it does format it when called with parenthesis
-> wrapping the block, so we could do that if we end up with the macro.
-> 
-> > First, I think the macro version here is just a poor-man's try block, in
-> > other words, I'd expect explicit use of try blocks intead of
-> > `from_kernel_result` when the feature is ready. If that's the case, we
-> > need to change the use sites anyway.
-> 
-> Yeah, if we eventually get a better language feature that fits well,
-> then we should use it.
-> 
-> > Do both implementation share the same behavior?
-> 
-> Yeah, a `return` will return to the outer caller in the case of a
-> `try` block, while it returns to the closure (macro) in the other
-> case. Or do you mean something else?
-> 
+SGkNCg0KQW0gMjUuMDIuMjMgdW0gMjI6NTEgc2NocmllYiBEbWl0cnkgT3NpcGVua286DQo+
+IE9uIDIvNS8yMyAxNTo1MSwgQXNhaGkgTGluYSB3cm90ZToNCj4+IC1FWFBPUlRfU1lNQk9M
+X0dQTChkcm1fZ2VtX3NobWVtX2dldF9wYWdlc19zZ3QpOw0KPj4gK0VYUE9SVF9TWU1CT0wo
+ZHJtX2dlbV9zaG1lbV9nZXRfcGFnZXNfc2d0KTsNCj4gDQo+IE5vdGUgaXQgd2FzIGEgR1BM
+IHN5bWJvbC4gSSBleHBlY3QgdGhhdCBhbGwgZHJtLXNobWVtIGV4cG9ydHMgc2hvdWxkIGJl
+IEdQTC4NCg0KUmlnaHQuIEkgZGlkbid0IG5vdGljZSB0aGF0IGNoYW5nZSwgYnV0IGl0J3Mg
+cHJvYmFibHkgbm90IGFsbG93ZWQuIFRoaXMgDQpuZWVkcyB0byBiZSByZXZlcnRlZCB0byBh
+IEdQTCBleHBvcnQNCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCg0KLS0gDQpUaG9t
+YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
+ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJl
+cmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xo
+cmVyOiBJdm8gVG90ZXYNCg==
 
-"Yeah" means they have different behaviors, right? ;-)
+--------------SyFyrz6r7HAItUFMrHojnBJz--
 
-Thanks for confirming and I think you get it, but just in case for
-others reading this: if we use the macro way to implement
-`from_kernel_result` as in this patch:
+--------------t3CUJmibwv6xqIDKWGtbfHoK
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-	macro_rules! from_kernel_result {
-	    ($($tt:tt)*) => {{
-		$crate::error::from_kernel_result_helper((|| {
-		    $($tt)*
-		})())
-	    }};
-	}
+-----BEGIN PGP SIGNATURE-----
 
-and later we re-implement with try blocks:
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmP8X5IFAwAAAAAACgkQlh/E3EQov+BE
+eA//W/oNYhh8ARtVjltctdgJdVhT044vycFZPo61yOY3eSRk+80NM8QHwp15+zPlZLCukKOWDd11
+rTNl5kJ2Isax00AWsEnq1yVVRkb+230nx7dCdA++8tCWFdViE2+A7PCRGgFWg433ubX7a9zK1Ble
+m9Jr7AO/WFkaMpcEdLwsK8MXJZ2SNljXNI7GFDVBj3OUsfKJ3zCVydW12ernAtMhii5pVfTKr9GJ
+fYZngHmqlRNR91gxdt433M4FGYGa1FZILHkZ3OPdy+d9vOXX8Z2XlP16CyLmMVtVeY0YyChAre4B
+/S3B5Nr8tf+OlLV8HlnYvdhyT6nRB4MpO48+Q6kM6MheGZM/K5ujcnIOofePnpllinKVVyhAihsl
+5t/v8n+sj412FIG1bptUTRvamB3/qLJUjTdsRq+4N7i75dMMcd6bV8nTitJ59mRYlXu4sPWop3em
+SlBxFwQk1Tj5ZUtLBHErFkQ/usWDEi5jF89jFCLqd8uSjcHCWbLqNGvA3wtuLCztdIwqhaNnnJYz
+ZpywaR8MxzWsgVbjnHs18GVxLMflirZytAH5b2pazntDcGkuU9Y4rFnr38Hu+76s6uofyu3x88Ii
+n3A2rZT7FHcUcoJYiyyEgvTeVOtv/rrhvF/5z/TvNz1p3pST6KUyG8URKkQ4jY8WDDyyV/0auHat
+ED8=
+=QQYM
+-----END PGP SIGNATURE-----
 
-	macro_rules! from_kernel_result {
-	    ($($tt:tt)*) => {{
-		$crate::error::from_kernel_result_helper(try {
-		    $($tt)*
-		})
-	    }};
-	}
-
-the `from_kernel_result` semantics will get changed on the `return`
-statement inside the macro blocks.
-
-And this is another reason why we want to avoid use macros here. Code
-example as below:
-
-	https://play.rust-lang.org/?version=nightly&mode=debug&edition=2021&gist=58ea8b95cdfd6b053561052853b0ac00
-
-`foo_v1` and `foo_v3` has the exact same function body, but behave
-differently.
-
-> In that case, I think one could use use a labeled block to `break`
-> out, not sure if `try` blocks will allow an easier way.
-> 
-> We have a case of such a `return` within the closure at `rust/rust` in
-> `file.rs`:
-
-Thanks for finding an example! Means we did use return.
-
-For this particular API, I'd say function right now, `try` blocks if
-avaiable.
-
-Regards,
-Boqun
-
-> 
->     from_kernel_result! {
->         let off = match whence as u32 {
->             bindings::SEEK_SET => SeekFrom::Start(offset.try_into()?),
->             bindings::SEEK_CUR => SeekFrom::Current(offset),
->             bindings::SEEK_END => SeekFrom::End(offset),
->             _ => return Err(EINVAL),
->         };
->         ...
->         Ok(off as bindings::loff_t)
->     }
-> 
-> Cheers,
-> Miguel
+--------------t3CUJmibwv6xqIDKWGtbfHoK--
