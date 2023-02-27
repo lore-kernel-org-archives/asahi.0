@@ -1,108 +1,75 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF646AB3
-	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 13:47:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id A6CD13FA55;
-	Mon, 27 Feb 2023 13:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1677505663;
-	bh=hgOvyT1rVFtsCiQaChGOxQAFckukb+KMUXXui+J7Pa4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=zNr3jSrDBT/557jd/WO+h6YWcaBqcWD3cGKLZSvuqkW1aIDN4VEavK3aTyizn5sQr
-	 emuDIDm7lCab1xsfk+uii4EtbR1aGTahzVtZn0afFY415twiroV2Bmg3IkFHSfoHiH
-	 CsPXbW9XTg0/InN8MOuBaosDJFDPQChrhlhBhoNwn9bofqHfkRGBsm6cdJReWZRrwg
-	 DVFf4112ixrwgyxfdAYLq5GGKPZ5/HB064lvZJj95jiYpzeTRb9KUbR3vKJjGeYxN2
-	 Pl8hokpnsfXnoW/06zJSCvR+kmQlZYoFWjieaAuWiqTai9/v/rdgz0SgqtHemB033b
-	 GHX1wO8KMYgkg==
-Message-ID: <96cb824e-8251-a329-11e5-3618a4e59bc8@asahilina.net>
-Date: Mon, 27 Feb 2023 22:47:37 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE776AB3
+	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 13:49:01 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-536cd8f6034so176244967b3.10
+        for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 05:49:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wsIz50zjyJWoV4yTGujEpF6auIkGsJx425uJLy5GoWg=;
+        b=mziWa4DuN7lEcg+EmTxmyEVoPTTO4f3VzO52ePtD+mVYj9IG8XSb7PqOP5TYipj0LO
+         ZHJICBSNhvI2lS50six5WhTisF/0wkZoRAdJxRI+e3WorN/lQeOwZKAXgzCti1mDzkHc
+         /0iLGth1vrQFUW9e+awc+9LpN3QMOlDSsr7yHvQvq6b8zEcBpmISJcB4iZHhms5tc3mj
+         wpWo2hMsKFdMdeILOuZ1WEfHN8ZxpusxEYo5BLdkKn9jwOZcSCAjwgzL7L2F5hZFC/2L
+         qN2+AthmKkcTemKKw+7pm48M8v9I3Orc7RPmWF2e9zA89PLy4yL0zjirix55oVF7k/6E
+         iSsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wsIz50zjyJWoV4yTGujEpF6auIkGsJx425uJLy5GoWg=;
+        b=twTQuLcV0IGMExRIYfmmLfE1a9KCBFmAQehJyIrRlDobAzYgi3W6nFJ5x6dIseE0p/
+         7zrNZNUFAOmyvMKwmIfvYDrrQAUz5bCIIW+6hFPBizZGGIz+imkeMvyiYxXvNeEWZPBk
+         M4H2bHoJCy476IQ56DM/Hw6GdpChEaPN/rU0EEqAk6pcFyvAUy5wBQfd2Qal3wPk58jC
+         sR/Opz3Hzf2h+hw+eIb5P5tB6HU+cdki65XMb5Tj/hFr6lbu/h4ydA8ROzO3qhCaep/D
+         LLEfZmG4qzOlFYESVYAg6oqL4wgjAWKQTStiHoLip/oHTjs7+F3d3DV5mI/7POPcp49s
+         fovQ==
+X-Gm-Message-State: AO0yUKWsh3IoDbW90DId9lkZXy7UqAB+ehhiix0KlycvcgTZidUqkRhM
+	rGH9r08zyPr0+Vk57T8D67mpecmxQ1uapq2ktrU=
+X-Google-Smtp-Source: AK7set/Gy9HX3Hc99cqeB48DmPz48RcGzSSWrCthvZvgP3KcDblaI61+VePiCAujvESdltCKxw7O/OBDCOX8Apm0TNs=
+X-Received: by 2002:a5b:50b:0:b0:a36:3875:564a with SMTP id
+ o11-20020a5b050b000000b00a363875564amr7639099ybp.2.1677505740979; Mon, 27 Feb
+ 2023 05:49:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and driver
- crates
-Content-Language: en-US
-To: Andreas Hindborg <nmi@metaspace.dk>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
- Nicolas Schier <nicolas@fjasle.eu>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
- <87pm9v9rmg.fsf@metaspace.dk>
-From: Asahi Lina <lina@asahilina.net>
+References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net> <87pm9v9rmg.fsf@metaspace.dk>
 In-Reply-To: <87pm9v9rmg.fsf@metaspace.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 27 Feb 2023 14:48:50 +0100
+Message-ID: <CANiq72=Q2kUihi2Yve5b9LGZYreEovrgqfjWb8WhPRtNWfq+wA@mail.gmail.com>
+Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and driver crates
+To: Andreas Hindborg <nmi@metaspace.dk>
+Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27/02/2023 22.09, Andreas Hindborg wrote:
-> 
-> Asahi Lina <lina@asahilina.net> writes:
-> 
->> The unstable new_uninit feature enables various library APIs to create
->> uninitialized containers, such as `Box::assume_init()`. This is
->> necessary to build abstractions that directly initialize memory at the
->> target location, instead of doing copies through the stack.
->>
->> Will be used by the DRM scheduler abstraction in the kernel crate, and
->> by field-wise initialization (e.g. using `place!()` or a future
->> replacement macro which may itself live in `kernel`) in driver crates.
->>
->> See [1] [2] [3] for background information.
->>
->> [1] https://github.com/Rust-for-Linux/linux/issues/879
->> [2] https://github.com/Rust-for-Linux/linux/issues/2
->> [3] https://github.com/rust-lang/rust/issues/63291
->>
->> Signed-off-by: Asahi Lina <lina@asahilina.net>
->> ---
->>  rust/kernel/lib.rs     | 1 +
->>  scripts/Makefile.build | 2 +-
->>  2 files changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
->> index 223564f9f0cc..1118cd3e0b5f 100644
->> --- a/rust/kernel/lib.rs
->> +++ b/rust/kernel/lib.rs
->> @@ -17,6 +17,7 @@
->>  #![feature(core_ffi_c)]
->>  #![feature(dispatch_from_dyn)]
->>  #![feature(generic_associated_types)]
->> +#![feature(new_uninit)]
->>  #![feature(receiver_trait)]
->>  #![feature(unsize)]
->>  
->> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
->> index a0d5c6cca76d..0f637e1ca8dc 100644
->> --- a/scripts/Makefile.build
->> +++ b/scripts/Makefile.build
->> @@ -277,7 +277,7 @@ $(obj)/%.lst: $(src)/%.c FORCE
->>  # Compile Rust sources (.rs)
->>  # ---------------------------------------------------------------------------
->>  
->> -rust_allowed_features := core_ffi_c
->> +rust_allowed_features := core_ffi_c,new_uninit
-> 
+On Mon, Feb 27, 2023 at 2:15=E2=80=AFPM Andreas Hindborg <nmi@metaspace.dk>=
+ wrote:
+>
 > What is the purpose of adding the feature here? The kernel crate seems
 > to compile fine without this.
 
-It's for the upcoming DRM abstractions, as I mentioned in the commit
-message. There's so many dependencies that I'm trying to get as much as
-I can early to avoid having to review very big patchsets down the line ^^
+`rust_allowed_features` is the list of features that crates outside
+`rust/` can use (e.g. drivers).
 
-~~ Lina
+The goal is to control which unstable features are used outside the
+`kernel` crate and to avoid mistakenly relying on them.
+
+Cheers,
+Miguel
