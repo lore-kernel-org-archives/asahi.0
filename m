@@ -1,151 +1,145 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FD19459;
-	Tue, 28 Feb 2023 20:22:01 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 2C45A3200916;
-	Tue, 28 Feb 2023 15:22:00 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Tue, 28 Feb 2023 15:22:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1677615719; x=
-	1677702119; bh=p8ZqQhrJ3wpAF4QuT+1zVLuNbpYdyDzeaaN6r1CTKxU=; b=t
-	rlGkeujQfNFXD62Xfz3q4LflZgaZJsFzXo3DQBvFa0VNGFDiZWMh1IeRQwDYHGTK
-	+HZJdsRyEgMRq5tCCgkfO/hWPiuGt4jtVT1oS8hdduw6lXVLsZCkuAD+ZQqxSoEq
-	woW4O9IYhWuLyIVd9iPVLfVgCoIHxiK9Nv4gPsOGZElihm3mh7uPEbEy3tB2wMQC
-	nbK1zQrIbdDphRvyjwFezNWD79Oecx3nIHaJMT6SdsYaGIstMB6hYPbFVXhJSaCb
-	3NUV0/Ta2XNdR3P3hn89Ik2qIx+8hrA5roaMnXBRQ3OZ8KlUnaW9SzeCcQpBNorI
-	RwNNqjvbeeOGpzhotN2wQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1677615719; x=1677702119; bh=p8ZqQhrJ3wpAF
-	4QuT+1zVLuNbpYdyDzeaaN6r1CTKxU=; b=f3lmAnn4WfiAWAm3n4Xyv/uaTT4S4
-	e07toQkoAM1x4TorxcCICgPOVT2nNVQHl5hnaIWwbb6zR29bEhP1kHVKvSUT5w61
-	bMEPRApxa1U2e8V0f4Pt+063ZkM3WCGvR1nQ1ob+wS3TNNwxiUNOR1y7+sEgv2Zp
-	qoHyQqBQyiadW8ogumsqo0PFINYEGL6cr/jjriRimO5ugh5Gg9RgVPumw6vHz4Np
-	CBE0sgP0BvjfNA3zMnR5nwHAD69wI/tKPwtK1L3klmUO5mJDDL77rz+sxNbl4iPp
-	9pO2tTW7QRM+QcPyC948ol5IAtEEjpUhE635amScHqvyhQH7YUYmJ70Lg==
-X-ME-Sender: <xms:Z2L-Y7S9I8oHZwna1yO9-fUM6OYZdVJawak-TZqMKQ3mwr4QkmXqEQ>
-    <xme:Z2L-Y8yZjW9Gf27mLFw0aJOoW7VuuQxCq9RR0ib9RSdHdxFXZ-cEWEeI8xXPLd_eX
-    dJcPZUFnj5Nbx8Tag8>
-X-ME-Received: <xmr:Z2L-Yw0c6F44MRWLzjYf43i22bLTAZH4RjF35zoCtQb0jbRdJIyKDIHB3Qd4o4TTchl2cwTPfScCgx0xMQ0uTqwYeaRS728jwy58LLoV0KQtpmrK47qMZKSjGD12lg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudelfedgjeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufhvvghn
-    ucfrvghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrghtth
-    gvrhhnpeejieehheekgedvjefhveekjefguddtfefhteehtdeiffelkeeiuedufeelkeej
-    geenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvh
-    gvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:Z2L-Y7AL51je9_5K7W9NK3w-lOcHfrFyNyCTxZ-MtQuHsbBySDcJig>
-    <xmx:Z2L-Y0jeYxFm_DrYcSlskAkxfHSGCyFdXLCxd5JTmKO-O3-fpccpRQ>
-    <xmx:Z2L-Y_rwgPwlGn0OWfmyEAWL6PoIIx1HZltUCceFr7lvFZZJSObQUg>
-    <xmx:Z2L-Yzo2fU5t4QrKXyVPYMTy5hW2JvHfSGHS96eBOxwKzlCIFkjYIQ>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Feb 2023 15:21:57 -0500 (EST)
-From: Sven Peter <sven@svenpeter.dev>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	linux-arm-kernel@lists.infradead.org,
-	asahi@lists.linux.dev,
-	iommu@lists.linux.dev,
-	devicetree@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93697371
+	for <asahi@lists.linux.dev>; Tue, 28 Feb 2023 20:54:21 +0000 (UTC)
+X-KPN-MessageId: e59fbc5a-b7a9-11ed-afdd-005056abad63
+Received: from smtp.kpnmail.nl (unknown [10.31.155.39])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id e59fbc5a-b7a9-11ed-afdd-005056abad63;
+	Tue, 28 Feb 2023 21:53:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xs4all.nl; s=xs4all01;
+	h=subject:to:from:message-id:date;
+	bh=fudN8ArySQL4WxjTN7QCK9yq0lwyu6+8SisGWmyX75Q=;
+	b=m0ZY7+3tWMyJ6mV02HESHr2l1pOW5Ed2enycOSfnmV68NXwwPvx7n9SY1s3xRXdYdOjYL7Dv/5yrv
+	 IhOeKbwTQIp72Feoe0LUy3d29YrgAvnEZBqhQ/dlBpN6hr9KPwU7blmQa5NvrTpZsPJvY8kAEv2+vB
+	 NzMiglvb/olKTnwU2wUOiGZEreeC85bnHBRdVOJfHs7SPJX8+2snqtE2gIM9F71Vk2oAKLP+OqsyP8
+	 +aeVRILBb2ua33Nqj4D6gZN5G25yhofl0WKz66g7r5ty9dXV8K8bpV0JAs3av9Qb7jotSDD42iVvtv
+	 LYTRJP3kGQmaiQY13/JhbDYVU2mkOjQ==
+X-KPN-MID: 33|qw/opIog0L/9cUv1FdHJALWLJ+GSjGOJs5JQpYZ1ewEddOVHknQ7JqPBIPb5etM
+ nyGMcY1SMzXWUySHwK25A7xcOIn3ik4pRV0KxPF4B7Hg=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|TyyRfy9x8DGtrDcN80aGHcz+FyBiGyfilCur4PWFuaPgwVH2U9q9D9JZDF365RQ
+ 5+Y79MNe1fW0b87u+FQle2A==
+X-Originating-IP: 80.61.163.207
+Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id e836b37c-b7a9-11ed-ab4c-005056ab7447;
+	Tue, 28 Feb 2023 21:53:10 +0100 (CET)
+Date: Tue, 28 Feb 2023 21:53:09 +0100
+Message-Id: <87wn41qzpm.fsf@bloch.sibelius.xs4all.nl>
+From: Mark Kettenis <mark.kettenis@xs4all.nl>
+To: Hector Martin <marcan@marcan.st>
+Cc: sven@svenpeter.dev, fnkl.kernel@gmail.com, alyssa@rosenzweig.io,
+	dmitry.torokhov@gmail.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, asahi@lists.linux.dev,
+	rydberg@bitmath.org, linux-arm-kernel@lists.infradead.org,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] iommu: dart: Add support for t8103 USB4 DART
-Date: Tue, 28 Feb 2023 21:21:32 +0100
-Message-Id: <20230228202132.4919-5-sven@svenpeter.dev>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
-In-Reply-To: <20230228202132.4919-1-sven@svenpeter.dev>
-References: <20230228202132.4919-1-sven@svenpeter.dev>
+In-Reply-To: <1874e194-5210-460b-3e8f-0f48962f8a47@marcan.st> (message from
+	Hector Martin on Tue, 28 Feb 2023 11:58:28 +0900)
+Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2
+ controller bindings.
+References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
+ <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com>
+ <87r0ufs574.fsf@bloch.sibelius.xs4all.nl>
+ <CAMT+MTQOUd0aSDJ3DPBMfkVwaic=nbRPtfGgu2nduSdCdydcgg@mail.gmail.com>
+ <e6c7eb27-1b60-4894-a623-28ca3bccdea5@app.fastmail.com> <1874e194-5210-460b-3e8f-0f48962f8a47@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-This variant of the regular t8103 DART is used for the two
-USB4/Thunderbolt PCIe controllers. It supports 64 instead of 16 streams
-which requires a slightly different MMIO layout. We also disallow bypass
-support since these DARTs will only ever be used for externally facing
-devices on the USB4 ports.
+> Date: Tue, 28 Feb 2023 11:58:28 +0900
+> From: Hector Martin <marcan@marcan.st>
+> 
+> On 24/02/2023 20.08, Sven Peter wrote:
+> > Hi,
+> > 
+> > 
+> > On Fri, Feb 24, 2023, at 12:04, Sasha Finkelstein wrote:
+> >> On Fri, 24 Feb 2023 at 11:55, Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
+> >>
+> >>> What is the motivation for including the firmware name in the device
+> >>> tree rather than constructing it in the driver like what is done for
+> >>> the broadcom wireless?
+> >> There is no way to identify the device subtype before the firmware is
+> >> uploaded, and so i need some way of figuring out which firmware to use.
+> > 
+> > Some Broadcom bluetooth boards use the compatible of the root node (see
+> > btbcm_get_board_name in drivers/bluetooth/btbcm.c) which would be "apple,jXXX"
+> > for Apple Silicon. I believe the Broadcom WiFi driver has similar logic as well
+> > which marcan had to extend to instead of "brcm,board-type" because different
+> > WiFi boards can me matched to different Apple Silicon boards. I don't think
+> > that's the case for this touchscreen though.
+> 
+> The reason why the brcmfmac stuff needs to construct the firmware name
+> itself is that parts of it come from the OTP contents, so there is no
+> way to know from the bootloader what the right firmware is.
 
-Acked-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
----
- drivers/iommu/apple-dart.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+The name of the "nvram" file is constructed as well, and that uses the
+compatible of the machine (the root of the device tree).  I suppose
+what is special in that case is that several files are tried so a
+single 'firmware-name" property wouldn't cut it.
 
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index 7579c97a9062..b9886d40a4d1 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -81,6 +81,7 @@
- #define DART_T8020_TCR_BYPASS_DAPF      BIT(12)
- 
- #define DART_T8020_TTBR       0x200
-+#define DART_T8020_USB4_TTBR  0x400
- #define DART_T8020_TTBR_VALID BIT(31)
- #define DART_T8020_TTBR_ADDR_FIELD_SHIFT 0
- #define DART_T8020_TTBR_SHIFT 12
-@@ -1184,6 +1185,35 @@ static const struct apple_dart_hw apple_dart_hw_t8103 = {
- 	.ttbr_shift = DART_T8020_TTBR_SHIFT,
- 	.ttbr_count = 4,
- };
-+
-+static const struct apple_dart_hw apple_dart_hw_t8103_usb4 = {
-+	.type = DART_T8020,
-+	.irq_handler = apple_dart_t8020_irq,
-+	.invalidate_tlb = apple_dart_t8020_hw_invalidate_tlb,
-+	.oas = 36,
-+	.fmt = APPLE_DART,
-+	.max_sid_count = 64,
-+
-+	.enable_streams = DART_T8020_STREAMS_ENABLE,
-+	.lock = DART_T8020_CONFIG,
-+	.lock_bit = DART_T8020_CONFIG_LOCK,
-+
-+	.error = DART_T8020_ERROR,
-+
-+	.tcr = DART_T8020_TCR,
-+	.tcr_enabled = DART_T8020_TCR_TRANSLATE_ENABLE,
-+	.tcr_disabled = 0,
-+	.tcr_bypass = 0,
-+
-+	.ttbr = DART_T8020_USB4_TTBR,
-+	.ttbr_valid = DART_T8020_TTBR_VALID,
-+	.ttbr_addr_field_shift = DART_T8020_TTBR_ADDR_FIELD_SHIFT,
-+	.ttbr_shift = DART_T8020_TTBR_SHIFT,
-+	.ttbr_count = 4,
-+
-+	.disable_bypass = true,
-+};
-+
- static const struct apple_dart_hw apple_dart_hw_t6000 = {
- 	.type = DART_T6000,
- 	.irq_handler = apple_dart_t8020_irq,
-@@ -1276,6 +1306,7 @@ DEFINE_SIMPLE_DEV_PM_OPS(apple_dart_pm_ops, apple_dart_suspend, apple_dart_resum
- 
- static const struct of_device_id apple_dart_of_match[] = {
- 	{ .compatible = "apple,t8103-dart", .data = &apple_dart_hw_t8103 },
-+	{ .compatible = "apple,t8103-usb4-dart", .data = &apple_dart_hw_t8103_usb4 },
- 	{ .compatible = "apple,t8110-dart", .data = &apple_dart_hw_t8110 },
- 	{ .compatible = "apple,t6000-dart", .data = &apple_dart_hw_t6000 },
- 	{},
--- 
-2.25.1
+> That is not the case here, so it makes perfect sense to specify the
+> firmware with `firmware-name` (which is a standard DT property).
 
+It certainly provides the flexibility to cater for all potential
+nonsense names Apple comes up with for future hardware.
+
+> As for the layout, both bare names and paths are in common use:
+> 
+> qcom/sm8450-qrd.dts:    firmware-name = "qcom/sm8450/slpi.mbn";
+> ti/k3-am64-main.dtsi:   firmware-name = "am64-main-r5f0_0-fw";
+> 
+> ... but the bare names in particular, judging by some Google searches,
+> are *actually* mapped to bare files in /lib/firmware anyway. So the
+> firmware-name property contains the firmware path in the linux-firmware
+> standard hierarchy, in every case.
+
+Well, I think the device tree should not be tied to a particular OS
+and therefore not be tied to things like linux-firmware.
+
+> I already did the same thing for the touchpad on M2s (which requires
+> analogous Z2 firmware passed to it, just in a different format):
+> 
+> dts/apple/t8112-j413.dts: firmware-name = "apple/tpmtfw-j413.bin";
+> 
+> Why is having a directory a problem for OpenBSD? Regardless of how
+> firmware is handled behind the scenes, it seems logical to organize it
+> by vendor somehow. It seems to me that gratuitously diverging from the
+> standard firmware hierarchy is only going to cause trouble for OpenBSD.
+> Obviously it's fine to store it somewhere other than /lib/firmware or
+> use a completely unrelated mechanism other than files, but why does the
+> *organization* of the firmware have to diverge? There can only be one DT
+> binding, so we need to agree on a way of specifying firmwares that works
+> cross-OS, and I don't see why "apple/foo.bin" couldn't be made to work
+> for everyone in some way or another.
+
+We organize the firmware by driver.  And driver names in *BSD differ
+from Linux since there are different constraints.  The firmware is
+organized by driver because we have separate firmware packages for
+each driver that get installed as-needed by a tool that matches on the
+driver name.
+
+Rather than have the device tree dictate the layout of the firmware
+files, I think it would be better to have the OS driver prepend the
+directory to match the convention of the OS in question.  This is what
+we typically do in OpenBSD.
+
+Now I did indeed forget about the "dockchannel" touchpad firmware that
+I already handle in OpenBSD.  That means I could handle the touchbar
+firmware in the same way.  But that is mostly because these firmwares
+are non-distributable, so we don't have firmware packages for them.
+Instead we rely on the Asahi installer to make the firmware available
+on the EFI partition and the OpenBSD installer to move the firmware in
+place on the root filesystem.
+
+So this isn't a big issue.
+
+Cheers,
+
+Mark
