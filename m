@@ -1,66 +1,74 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309FC28E1
-	for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 22:25:20 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id ee7so32212597edb.2
-        for <asahi@lists.linux.dev>; Mon, 27 Feb 2023 14:25:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=weQbce3Nd/hM6xXy3nvlFQno/x9AdFR4oWdiig5I/6A=;
-        b=q14oy//aCiLK/UNRMDIwpFjscBsMO6yDoMErR7cy8UfFns4rKPcxrzK8GJM/nCVti/
-         Ji03+2jD/2h1yfpaRQ20LwF8wstet9eFax4N4r9jKYTYoYUYoZMlgNxzo4z8bFedN/8h
-         0xVO8957bvxnyX/e8MDVyg/l7PAc1VL8Ym7dzkXiDQcWxbisYtIH0UXQ7oTz80K9OjYM
-         RKHwJnZZjJjSKur+ZJoDiXHZyCO/KlL24jNTmME0fm+i8SNetTJEP7VBtQcKSzsDZV+H
-         C9dxxUjqi2f0bmt7FN7xM8sIA5w5WXpGWjfX4qoyayuyxHcRj+2BMa1dhBWry1wBpHGH
-         KX6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=weQbce3Nd/hM6xXy3nvlFQno/x9AdFR4oWdiig5I/6A=;
-        b=6RO7iwoF+wK0eIG9ABY4h90AN3IYbLfeaKipAL7QgNVjX2O1XhjMogtwrjMCeAjs61
-         qnx136+224+K5cZvMdDqG66ihoTKuSdS1sHsXV8v8ZuXfz8oxt4KIvU+aqlcvb3A4AQC
-         vE4N9vMGGoFKs1LzglO1To3J5nGZ+DZi7gHnFSYg2PZ01gkzlG1RHFdwWaKrp29gcdZo
-         0UjkeoER7l7U/epiF6b8fxXN5/czxH5pyslcS5NuRFy5agwUPvH8sX7jySaQVCIlAoA1
-         YkXrD4xs5jGUCru5ro3RCcq4chx+tyWMaEMuC1Hz3NbO1yXGdJ68tuZo+7D/zEwt4Zqp
-         uNhA==
-X-Gm-Message-State: AO0yUKVErOWNze1Z0eoTE2Udwy69HEIX7u96fQsjIKUO3ZJ2HDkDaHrT
-	0aukqRHVmGii2I65CQQpf1mlz2c6Kkxjp7WWBm0=
-X-Google-Smtp-Source: AK7set8/KolOeO5KtwxAKdFVqWdjyZbfi98she0qCRw8+0k5cqzsBRN7japO9oJpd6gDvmZLnjr3sjZ9mecacJi9Inw=
-X-Received: by 2002:a17:907:a0e:b0:8f7:f3d4:942c with SMTP id
- bb14-20020a1709070a0e00b008f7f3d4942cmr824625ejc.7.1677536718232; Mon, 27 Feb
- 2023 14:25:18 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE72623
+	for <asahi@lists.linux.dev>; Tue, 28 Feb 2023 02:43:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id B2BA541A42;
+	Tue, 28 Feb 2023 02:43:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1677552217; bh=NuKc2S3qmn19MvrLhz9ClzFdWxxviwYmA9lJ0wCcJD4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=CJYespKF0HwDDt3xb5H7cX1sUtHgGCnnJ69XiKoI+lgTJGY82EUyo25qPJOgD/2je
+	 7iHaRB6G6Vl2DL+syENSJPMHbJIWazIy5q0fzLLuMaW9gKnmA6IchflMsP6nMjBkjl
+	 5l1W7xOJT9H5+s9vTdDFPcycjcAo5M8nB1IoGRIST/MUzT0K79wo0S4YhmpQWhXD85
+	 cPjP0qy21cx+pYYKV41Oa4DzK6nqscUFRTLGAvNQ6JA0pfNAxo/qN1/OczlruLUAOe
+	 TzSOnn1fZ270pSzwymQ+h/FXy3YDAoyavWZfQoKrzrgrya8A7c6FklAG+jQZrEVYBm
+	 WI0TVF1m1YnLw==
+Message-ID: <01ce15ee-ad64-6d0d-3b72-9d11eac8d40e@marcan.st>
+Date: Tue, 28 Feb 2023 11:43:31 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 0/4] Driver for Apple Z2 touchscreens.
+Content-Language: en-US
+To: fnkl.kernel@gmail.com, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, - <asahi@lists.linux.dev>,
+ Henrik Rydberg <rydberg@bitmath.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
- <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com> <20230227195139.GA677578-robh@kernel.org>
- <CAMT+MTRodB_+sMtoPxv-gP_+sJAwNb36XuLOGo=HvuCQq6h+gQ@mail.gmail.com> <20230227221426.GA1048218-robh@kernel.org>
-In-Reply-To: <20230227221426.GA1048218-robh@kernel.org>
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Date: Mon, 27 Feb 2023 23:25:06 +0100
-Message-ID: <CAMT+MTTH-DC+1wMFUGNwVM3cYm0B+XVK7wL07khdy1hSjyhDGA@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2
- controller bindings.
-To: Rob Herring <robh@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, - <asahi@lists.linux.dev>, 
-	Henrik Rydberg <rydberg@bitmath.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 27 Feb 2023 at 23:14, Rob Herring <robh@kernel.org> wrote:
-> I know little about libinput, but how would it know about
-> 'apple,z2-device-name'?
->
-The idea was to forward the contents of this property
-into the input device name.
+On 24/02/2023 19.20, Sasha Finkelstein via B4 Relay wrote:
+> Hi.
+> 
+> This series adds support for Apple touchscreens using the Z2 protocol.
+> Those are used as the primary touchscreen on mobile Apple devices, and for the
+> touchbar on laptops using the M-series chips. (T1/T2 laptops have a coprocessor
+> in charge of speaking Z2 to the touchbar).
+> 
+> Sending this as a RFC for now, since this series requires the SPI controller
+> support which is not upstream yet:
+> https://lore.kernel.org/all/20211212034726.26306-1-marcan@marcan.st/
+> 
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+
+Just FWIW, I'm happy to see this get RFCed early (early review is always
+good), but I don't think we should submit it until it actually gets some
+testing in real-world scenarios. That is naturally blocked on having a
+MIPI display driver, since a touchscreen above a dead screen isn't
+terribly useful. Otherwise, we might realize that we have some
+binding/API issues we missed that are harder to fix after the fact.
+
+So let's hold off on submission proper until we have the screen working
+and some basic userspace tooling to go with all this shipping downstream
+and it gets some real-world testing. Hopefully by then I'll have sent
+out the SPI controller driver too :)
+
+- Hector
