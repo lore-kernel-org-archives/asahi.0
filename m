@@ -1,92 +1,135 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from mout-b-105.mailbox.org (mout-b-105.mailbox.org [195.10.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BF5623
-	for <asahi@lists.linux.dev>; Tue, 28 Feb 2023 03:06:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2476E2917
+	for <asahi@lists.linux.dev>; Tue, 28 Feb 2023 09:37:25 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id EE7D13FA55;
-	Tue, 28 Feb 2023 03:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1677553560; bh=wVcS342cqA0YYWvmacgIf9QEQsqALNiDVlYfNtFDUa0=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=WesZhbidz5NnlzU1ruhs6kqvMrgw9FR6q5ZpOXhEMZCiKGClK70ct+JWPWIvdK9JI
-	 btsNOSeFIEUGtUFzUahNNEcvEYb1kDbtK9hQRU02Dztg12zTetnsknyIBmShVl+5Ck
-	 CPR2kpdchCvo/phvemqAKmRhnRmjAlSp5wYEyRUfLZ62HyiIbL89K0M+hK7gKE5KgU
-	 XkyaGM18wDKWxutqMLllXS3LVKS3SLzOnZdhXDqPYIKwVTiERct6CBkv/jneealFu3
-	 fHG5/1heaHvKVMHp96rG8Ul/LBKmwEUx6U7spU6FCBr2gKSERqTJnCdKyz/z1PhA6n
-	 VXyAu6qfmPOuQ==
-Message-ID: <bb82ed53-3c90-69d2-1c92-d8a6f735fc5f@marcan.st>
-Date: Tue, 28 Feb 2023 12:05:55 +0900
+	by mout-b-105.mailbox.org (Postfix) with ESMTPS id 4PQsXj4k9fz9tth;
+	Tue, 28 Feb 2023 10:30:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nyantec.com; s=default;
+	t=1677576613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Bi4OIXDyb2sM777Ha+kervPZF/8SdxTa01qLXizAj9E=;
+	b=E2oZx40qJhRpnOxqow0hYGaXMt3skJHVIKtRaDvjE6GJRrfpbCOiCCap/E6RAlqLWiok06
+	Znz4QT2RqfvV2t+zgYn1vArKmlGNLfmyefZXhv12IZizyw6msqwSVKJZrNZXSu+5GFeDD6
+	kVncADUZew1H07Rj1ie8pNroOZmatrmcKzNUMNImjbN68d0fujX5yAblMGNf0doZ1n5jy0
+	yOX8EPWPzI2V92nIpNWu7Aql+1vOoocnwmert20VHD6GLkkJCfcD1Z9eNuuCUxd6OpNPy7
+	fNefKIH9pwv9+Ifyxs4ZTmM7+SoRaOCSahbuOrANcFL3EbyvW/2xHstkTnUBig==
+From: Finn Behrens <fin@nyantec.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+Subject: Re: [PATCH 1/3] rust: macros: Make expect_punct() return the Punct
+ directly
+Date: Tue, 28 Feb 2023 10:29:59 +0100
+Message-ID: <A74F7C50-1F28-4416-8E99-27B9F63A352B@nyantec.com>
+In-Reply-To: <20230224-rust-macros-v1-1-b39fae46e102@asahilina.net>
+References: <20230224-rust-macros-v1-0-b39fae46e102@asahilina.net>
+ <20230224-rust-macros-v1-1-b39fae46e102@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>, Rob Herring <robh@kernel.org>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- - <asahi@lists.linux.dev>, Henrik Rydberg <rydberg@bitmath.org>,
- linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
- <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com>
- <20230227195139.GA677578-robh@kernel.org>
- <CAMT+MTRodB_+sMtoPxv-gP_+sJAwNb36XuLOGo=HvuCQq6h+gQ@mail.gmail.com>
- <20230227221426.GA1048218-robh@kernel.org>
- <CAMT+MTTH-DC+1wMFUGNwVM3cYm0B+XVK7wL07khdy1hSjyhDGA@mail.gmail.com>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2
- controller bindings.
-In-Reply-To: <CAMT+MTTH-DC+1wMFUGNwVM3cYm0B+XVK7wL07khdy1hSjyhDGA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-On 28/02/2023 07.25, Sasha Finkelstein wrote:
-> On Mon, 27 Feb 2023 at 23:14, Rob Herring <robh@kernel.org> wrote:
->> I know little about libinput, but how would it know about
->> 'apple,z2-device-name'?
->>
-> The idea was to forward the contents of this property
-> into the input device name.
 
-Then you want "label", as Rob said.
 
-But I also agree with Rob that we want per-device compatibles, even if
-we don't use them upfront in the driver. That's what we do everywhere
-else, and it has served us well. I suggest this hierarchy:
+On 24 Feb 2023, at 8:25, Asahi Lina wrote:
 
-compatible = "apple,j293-touchbar", "apple,z2-touchbar",
-"apple,z2-multitouch";
-label = "Apple J293 Touch Bar";
+> This makes it mirror the way expect_ident() works, and means we can mor=
+e
+> easily push the result back into the token stream.
+>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 
-Then let's say a hypothetical touchscreen + touchbar MacBook comes out,
-we end up with:
+Reviewed-by: Finn Behrens <fin@nyantec.com>
 
-compatible = "apple,j789-touchbar", "apple,z2-touchbar",
-"apple,z2-multitouch";
-label = "Apple J789 Touch Bar";
+> ---
+>  rust/macros/concat_idents.rs | 2 +-
+>  rust/macros/helpers.rs       | 6 +++---
+>  rust/macros/module.rs        | 4 ++--
+>  3 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/rust/macros/concat_idents.rs b/rust/macros/concat_idents.r=
+s
+> index 7e4b450f3a50..6d955d65016e 100644
+> --- a/rust/macros/concat_idents.rs
+> +++ b/rust/macros/concat_idents.rs
+> @@ -15,7 +15,7 @@ fn expect_ident(it: &mut token_stream::IntoIter) -> I=
+dent {
+>  pub(crate) fn concat_idents(ts: TokenStream) -> TokenStream {
+>      let mut it =3D ts.into_iter();
+>      let a =3D expect_ident(&mut it);
+> -    assert_eq!(expect_punct(&mut it), ',');
+> +    assert_eq!(expect_punct(&mut it).as_char(), ',');
+>      let b =3D expect_ident(&mut it);
+>      assert!(it.next().is_none(), "only two idents can be concatenated"=
+);
+>      let res =3D Ident::new(&format!("{a}{b}"), b.span());
+> diff --git a/rust/macros/helpers.rs b/rust/macros/helpers.rs
+> index cf7ad950dc1e..65706ecc007e 100644
+> --- a/rust/macros/helpers.rs
+> +++ b/rust/macros/helpers.rs
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>
+> -use proc_macro::{token_stream, TokenTree};
+> +use proc_macro::{token_stream, Punct, TokenTree};
+>
+>  pub(crate) fn try_ident(it: &mut token_stream::IntoIter) -> Option<Str=
+ing> {
+>      if let Some(TokenTree::Ident(ident)) =3D it.next() {
+> @@ -38,9 +38,9 @@ pub(crate) fn expect_ident(it: &mut token_stream::Int=
+oIter) -> String {
+>      try_ident(it).expect("Expected Ident")
+>  }
+>
+> -pub(crate) fn expect_punct(it: &mut token_stream::IntoIter) -> char {
+> +pub(crate) fn expect_punct(it: &mut token_stream::IntoIter) -> Punct {=
 
-compatible = "apple,j789-touchscreen", "apple,z2-touchscreen",
-"apple,z2-multitouch";
-label = "Apple J789 Touchscreen";
+>      if let TokenTree::Punct(punct) =3D it.next().expect("Reached end o=
+f token stream for Punct") {
+> -        punct.as_char()
+> +        punct
+>      } else {
+>          panic!("Expected Punct");
+>      }
+> diff --git a/rust/macros/module.rs b/rust/macros/module.rs
+> index a7e363c2b044..07503b242d2d 100644
+> --- a/rust/macros/module.rs
+> +++ b/rust/macros/module.rs
+> @@ -104,7 +104,7 @@ impl ModuleInfo {
+>                  );
+>              }
+>
+> -            assert_eq!(expect_punct(it), ':');
+> +            assert_eq!(expect_punct(it).as_char(), ':');
+>
+>              match key.as_str() {
+>                  "type" =3D> info.type_ =3D expect_ident(it),
+> @@ -119,7 +119,7 @@ impl ModuleInfo {
+>                  ),
+>              }
+>
+> -            assert_eq!(expect_punct(it), ',');
+> +            assert_eq!(expect_punct(it).as_char(), ',');
+>
+>              seen_keys.push(key);
+>          }
+>
+> -- =
 
-And it all is nicely future-proof. If libinput needs a hint other than
-the device name to figure out what should be treated as a touchscreen or
-not, the driver can use the "apple,z2-touchbar" vs
-"apple,z2-touchscreen" distinction level for that. And if per-device
-quirks are never necessary, we just ignore the model number compatible,
-which is already what we do all over the place in other drivers (but the
-day it becomes necessary, it's ready for us). And if it turns out we
-don't need any of this for a while, the driver can just bind to
-"apple,z2-multitouch" and call it a day.
-
-- Hector
+> 2.35.1
