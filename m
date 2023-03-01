@@ -1,206 +1,317 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85ADA3F
-	for <asahi@lists.linux.dev>; Wed,  1 Mar 2023 03:14:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 45521422CC;
-	Wed,  1 Mar 2023 03:14:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1677640445; bh=UCKwk+pJV4EM3THeVIh/zQc6ljr1BqvcNCGraGweq7c=;
-	h=Date:To:Cc:References:From:Subject:In-Reply-To;
-	b=GjC4bTSb3lPoUPg4uFfDbZKKpZI/vbMVn7zFXGm7iET4RGkt1TLl+hrBeLtrR/UMi
-	 oIC93n48q4HvrUlCxtPovlgb6uLB+Rppplpxxd/3sSwqNJKLom8b5AMxlgb27sW0IV
-	 j8kFnBUnxzpYPWVGF9Nsl0U68qShbEJJEIrxJwab65s7Lcm0Q61P+Q/lTnUVi6aLcH
-	 Gg1dPAcWgLUj4MZloE4xzF4rAt352Fyd+LA8YIIu4msXNtREOIuGHw1G3UiTQaYr67
-	 Wwwc7x9v/McUNhJ8bzs3HQazUwHPRBoXhKtT5ItSUhABDQf5Cl3KJp6l/BJ7eH9ThL
-	 hiCSVlYsr53QQ==
-Message-ID: <c875979d-68f9-6c4e-04ca-af310491b209@marcan.st>
-Date: Wed, 1 Mar 2023 12:13:58 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA1846BD;
+	Wed,  1 Mar 2023 15:45:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1677685527; x=1709221527;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pbp3V9v3IHoln3VTxeY5EiT636+2yaIZ+8lKQgynV7M=;
+  b=I6IpOOPfupzTlvckSIJssDA8Gc7sjzokRw+C5TSENiNm97gpLXMSLvqG
+   1vS1h06ThFGvu4yqsk94Kv2/xxSXu/bT/b3cGKRJqkeR8XD+3t6ziSQCu
+   NaEbD3CXXX/T2SjAqyEdKzJhGYEJX8VD4t81zvV9sYVvfpPbnm3OZIwMv
+   d7/4RAR9Azyp9KbrZn9fU7BYEUUr9M1yRAOIE56/0ZpMeY0IKv9xOLhUb
+   D6TCWKUIg546HBkR/Qtr2IItSCOE4BVNffMh/mvkBIjUv5IQqi/qDTStU
+   egAqxNR3TuWDHoyQq9v7mlSICcXRiQ2bgzHNJk1PDHwkb5sr1CTbJsnsq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="362022174"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
+   d="scan'208";a="362022174"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2023 07:45:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10636"; a="738682476"
+X-IronPort-AV: E=Sophos;i="5.98,225,1673942400"; 
+   d="scan'208";a="738682476"
+Received: from lkp-server01.sh.intel.com (HELO 3895f5c55ead) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 01 Mar 2023 07:45:22 -0800
+Received: from kbuild by 3895f5c55ead with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pXOdu-0006Fj-0Q;
+	Wed, 01 Mar 2023 15:45:22 +0000
+Date: Wed, 01 Mar 2023 23:44:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: loongarch@lists.linux.dev, linux-watchdog@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-arch@vger.kernel.org, asahi@lists.linux.dev,
+ amd-gfx@lists.freedesktop.org,
+ Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 1716a175592aff9549a0c07aac8f9cadd03003f5
+Message-ID: <63ff72ed.GV64WhqVJwrx6pJw%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To: Mark Kettenis <mark.kettenis@xs4all.nl>
-Cc: sven@svenpeter.dev, fnkl.kernel@gmail.com, alyssa@rosenzweig.io,
- dmitry.torokhov@gmail.com, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, asahi@lists.linux.dev,
- rydberg@bitmath.org, linux-arm-kernel@lists.infradead.org,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20230223-z2-for-ml-v1-0-028f2b85dc15@gmail.com>
- <20230223-z2-for-ml-v1-1-028f2b85dc15@gmail.com>
- <87r0ufs574.fsf@bloch.sibelius.xs4all.nl>
- <CAMT+MTQOUd0aSDJ3DPBMfkVwaic=nbRPtfGgu2nduSdCdydcgg@mail.gmail.com>
- <e6c7eb27-1b60-4894-a623-28ca3bccdea5@app.fastmail.com>
- <1874e194-5210-460b-3e8f-0f48962f8a47@marcan.st>
- <87wn41qzpm.fsf@bloch.sibelius.xs4all.nl>
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH RFC 1/4] dt-bindings: input: touchscreen: Add Z2
- controller bindings.
-In-Reply-To: <87wn41qzpm.fsf@bloch.sibelius.xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
-On 01/03/2023 05.53, Mark Kettenis wrote:
->> Date: Tue, 28 Feb 2023 11:58:28 +0900
->> From: Hector Martin <marcan@marcan.st>
->>
->> On 24/02/2023 20.08, Sven Peter wrote:
->>> Hi,
->>>
->>>
->>> On Fri, Feb 24, 2023, at 12:04, Sasha Finkelstein wrote:
->>>> On Fri, 24 Feb 2023 at 11:55, Mark Kettenis <mark.kettenis@xs4all.nl> wrote:
->>>>
->>>>> What is the motivation for including the firmware name in the device
->>>>> tree rather than constructing it in the driver like what is done for
->>>>> the broadcom wireless?
->>>> There is no way to identify the device subtype before the firmware is
->>>> uploaded, and so i need some way of figuring out which firmware to use.
->>>
->>> Some Broadcom bluetooth boards use the compatible of the root node (see
->>> btbcm_get_board_name in drivers/bluetooth/btbcm.c) which would be "apple,jXXX"
->>> for Apple Silicon. I believe the Broadcom WiFi driver has similar logic as well
->>> which marcan had to extend to instead of "brcm,board-type" because different
->>> WiFi boards can me matched to different Apple Silicon boards. I don't think
->>> that's the case for this touchscreen though.
->>
->> The reason why the brcmfmac stuff needs to construct the firmware name
->> itself is that parts of it come from the OTP contents, so there is no
->> way to know from the bootloader what the right firmware is.
-> 
-> The name of the "nvram" file is constructed as well, and that uses the
-> compatible of the machine (the root of the device tree).  I suppose
-> what is special in that case is that several files are tried so a
-> single 'firmware-name" property wouldn't cut it.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 1716a175592aff9549a0c07aac8f9cadd03003f5  Add linux-next specific files for 20230301
 
-No, if you look at the way the name is constructed, some of it comes
-from OTP. The plain compatible stuff is for non-Apple platforms. Apple
-platforms need lookup of nvram/etc per specific fields in the OTP, and
-then we try multiple firmware names from most to least specific because
-the distinction often isn't relevant (but in some cases it is, and this
-even changes from macOS version to macOS version). Our firmware
-extractor actually attempts to prune the firmware tree by deduplicating
-and promoting the most popular variant up towards the root then pruning
-redundant branches, because otherwise we'd end up with hundreds of
-copies or links (which is what macOS does, they don't try multiple
-firmware filenames).
+Error/Warning reports:
 
-If the OTP were easily readable from the bootloader I'd just have thrown
-this in m1n1 and kept a fixed firmware-name property, but that involves
-full PCIe init and power-up of the wlan module and that's way too much
-junk to put in there. Hence, dynamically computing firmware names in the
-kernel driver.
+https://lore.kernel.org/oe-kbuild-all/202302111601.jtY4lKrA-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302201555.OI4N54jb-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202302210350.lynWcL4t-lkp@intel.com
+https://lore.kernel.org/oe-kbuild-all/202303011456.WEPeM0ZN-lkp@intel.com
 
-If it were a simple 1:1 mapping from device tree blob to firmware files,
-I would certainly have advocated for "firmware-name" instead of the more
-complex thing we do now.
+Error/Warning: (recently discovered and may have been fixed)
 
->> That is not the case here, so it makes perfect sense to specify the
->> firmware with `firmware-name` (which is a standard DT property).
-> 
-> It certainly provides the flexibility to cater for all potential
-> nonsense names Apple comes up with for future hardware.
+FAILED: load BTF from vmlinux: No data available
+drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_optc.c:294:6: warning: no previous prototype for 'optc3_wait_drr_doublebuffer_pending_clear' [-Wmissing-prototypes]
+idma64.c:(.text+0x145a): undefined reference to `devm_platform_ioremap_resource'
+include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
 
-We actually make up the firmware names ourselves in the extractor, so
-that's not the reason. But if nothing else I'm pretty sure we already
-have n:1 mappings (M2 Pro/Max laptops almost certainly share the same
-touchpad firmware for at least the same size chassis models, if not all
-4 - haven't looked at that yet though), so using a separate property
-means we don't have to play symlink/hardlink games.
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-> 
->> As for the layout, both bare names and paths are in common use:
->>
->> qcom/sm8450-qrd.dts:    firmware-name = "qcom/sm8450/slpi.mbn";
->> ti/k3-am64-main.dtsi:   firmware-name = "am64-main-r5f0_0-fw";
->>
->> ... but the bare names in particular, judging by some Google searches,
->> are *actually* mapped to bare files in /lib/firmware anyway. So the
->> firmware-name property contains the firmware path in the linux-firmware
->> standard hierarchy, in every case.
-> 
-> Well, I think the device tree should not be tied to a particular OS
-> and therefore not be tied to things like linux-firmware.
+arch/loongarch/include/asm/loongarch.h:226:9: sparse: sparse: too many errors
+drivers/iommu/apple-dart.c:1281:1: sparse: sparse: symbol 'apple_dart_pm_ops' was not declared. Should it be static?
+drivers/usb/gadget/composite.c:2082:33: sparse: sparse: restricted __le16 degrades to integer
+drivers/watchdog/imx2_wdt.c:442:22: sparse: sparse: symbol 'imx_wdt' was not declared. Should it be static?
+drivers/watchdog/imx2_wdt.c:446:22: sparse: sparse: symbol 'imx_wdt_legacy' was not declared. Should it be static?
 
-That's fine, but we need *some* source of truth, and just like the Linux
-kernel tree is the system of record for device tree bindings today, I
-don't see a good reason not to use linux-firmware as the defacto
-standard for firmware organization. There's nothing OS-specific about,
-effectively, a list of identifiers that particular firmwares should be
-listed under. Think of it as a "path key => expected firmware blob"
-mapping. How each OS implements that is up to the OS.
+Error/Warning ids grouped by kconfigs:
 
-This is similar to the whole vendorfw mechanism I constructed for these
-platforms. Sure, it's based on Linuxisms, but the whole thing is trivial
-enough to reimplement on any OS without much trouble (just a
-fixed-format CPIO archive in the ESP at a known path).
+gcc_recent_errors
+|-- arc-allyesconfig
+|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
+|-- arc-randconfig-r001-20230226
+|   `-- FAILED:load-BTF-from-vmlinux:No-data-available
+|-- arm-allmodconfig
+|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
+|-- arm-allyesconfig
+|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
+|-- arm64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|-- arm64-randconfig-r025-20230227
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|-- i386-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+|-- i386-randconfig-s001
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- i386-randconfig-s003
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- loongarch-randconfig-s041-20230226
+|   |-- arch-loongarch-include-asm-loongarch.h:sparse:sparse:too-many-errors
+|   |-- arch-loongarch-kernel-relocate.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-char-cmdline-got-void-noderef-__iomem
+|   |-- drivers-iommu-apple-dart.c:sparse:sparse:symbol-apple_dart_pm_ops-was-not-declared.-Should-it-be-static
+|   |-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|   |-- drivers-watchdog-imx2_wdt.c:sparse:sparse:symbol-imx_wdt-was-not-declared.-Should-it-be-static
+|   `-- drivers-watchdog-imx2_wdt.c:sparse:sparse:symbol-imx_wdt_legacy-was-not-declared.-Should-it-be-static
+|-- loongarch-randconfig-s053-20230226
+|   |-- arch-loongarch-kernel-relocate.c:sparse:sparse:incorrect-type-in-initializer-(different-address-spaces)-expected-char-cmdline-got-void-noderef-__iomem
+|   |-- drivers-iommu-apple-dart.c:sparse:sparse:symbol-apple_dart_pm_ops-was-not-declared.-Should-it-be-static
+|   `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|-- mips-randconfig-s051-20230226
+|   |-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
+|   |-- drivers-watchdog-imx2_wdt.c:sparse:sparse:symbol-imx_wdt-was-not-declared.-Should-it-be-static
+|   `-- drivers-watchdog-imx2_wdt.c:sparse:sparse:symbol-imx_wdt_legacy-was-not-declared.-Should-it-be-static
+|-- nios2-allyesconfig
+|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
+|-- powerpc-allmodconfig
+|   `-- include-asm-generic-div64.h:error:passing-argument-of-__div64_32-from-incompatible-pointer-type
+|-- s390-randconfig-s033-20230226
+|   `-- idma64.c:(.text):undefined-reference-to-devm_platform_ioremap_resource
+|-- x86_64-allnoconfig
+|   `-- Warning:Documentation-devicetree-bindings-usb-rockchip-dwc3.yaml-references-a-file-that-doesn-t-exist:Documentation-devicetree-bindings-phy-phy-rockchip-inno-usb2.yaml
+|-- x86_64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dcn30-dcn30_optc.c:warning:no-previous-prototype-for-optc3_wait_drr_doublebuffer_pending_clear
+`-- x86_64-randconfig-s021
+    `-- drivers-usb-gadget-composite.c:sparse:sparse:restricted-__le16-degrades-to-integer
 
->> I already did the same thing for the touchpad on M2s (which requires
->> analogous Z2 firmware passed to it, just in a different format):
->>
->> dts/apple/t8112-j413.dts: firmware-name = "apple/tpmtfw-j413.bin";
->>
->> Why is having a directory a problem for OpenBSD? Regardless of how
->> firmware is handled behind the scenes, it seems logical to organize it
->> by vendor somehow. It seems to me that gratuitously diverging from the
->> standard firmware hierarchy is only going to cause trouble for OpenBSD.
->> Obviously it's fine to store it somewhere other than /lib/firmware or
->> use a completely unrelated mechanism other than files, but why does the
->> *organization* of the firmware have to diverge? There can only be one DT
->> binding, so we need to agree on a way of specifying firmwares that works
->> cross-OS, and I don't see why "apple/foo.bin" couldn't be made to work
->> for everyone in some way or another.
-> 
-> We organize the firmware by driver.  And driver names in *BSD differ
-> from Linux since there are different constraints.  The firmware is
-> organized by driver because we have separate firmware packages for
-> each driver that get installed as-needed by a tool that matches on the
-> driver name.
+elapsed time: 866m
 
-That's fair, but you can still have another level of hierarchy after the
-driver, no? Or just throw away that level when you parse the
-`firmware-name` if you prefer.
+configs tested: 179
+configs skipped: 11
 
-> Rather than have the device tree dictate the layout of the firmware
-> files, I think it would be better to have the OS driver prepend the
-> directory to match the convention of the OS in question.  This is what
-> we typically do in OpenBSD.
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha        buildonly-randconfig-r001-20230227   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r005-20230227   gcc  
+alpha                randconfig-r026-20230227   gcc  
+alpha                randconfig-r031-20230228   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                  randconfig-r001-20230226   gcc  
+arc                  randconfig-r015-20230226   gcc  
+arc                  randconfig-r043-20230226   gcc  
+arc                  randconfig-r043-20230227   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                     am200epdkit_defconfig   clang
+arm          buildonly-randconfig-r005-20230227   clang
+arm                                 defconfig   gcc  
+arm                        keystone_defconfig   gcc  
+arm                          pxa910_defconfig   gcc  
+arm                  randconfig-c002-20230226   gcc  
+arm                  randconfig-r012-20230226   gcc  
+arm                  randconfig-r035-20230226   clang
+arm                  randconfig-r046-20230226   gcc  
+arm                  randconfig-r046-20230227   clang
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r004-20230227   clang
+arm64                               defconfig   gcc  
+arm64                randconfig-r025-20230227   gcc  
+arm64                randconfig-r036-20230228   gcc  
+csky         buildonly-randconfig-r003-20230227   gcc  
+csky                                defconfig   gcc  
+hexagon      buildonly-randconfig-r001-20230226   clang
+hexagon              randconfig-r015-20230228   clang
+hexagon              randconfig-r041-20230226   clang
+hexagon              randconfig-r041-20230227   clang
+hexagon              randconfig-r045-20230226   clang
+hexagon              randconfig-r045-20230227   clang
+i386                             allyesconfig   gcc  
+i386                         debian-10.3-func   gcc  
+i386                   debian-10.3-kselftests   gcc  
+i386                        debian-10.3-kunit   gcc  
+i386                          debian-10.3-kvm   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230227   clang
+i386                 randconfig-a002-20230227   clang
+i386                 randconfig-a003-20230227   clang
+i386                 randconfig-a004-20230227   clang
+i386                 randconfig-a005-20230227   clang
+i386                 randconfig-a006-20230227   clang
+i386                 randconfig-a011-20230227   gcc  
+i386                 randconfig-a012-20230227   gcc  
+i386                 randconfig-a013-20230227   gcc  
+i386                 randconfig-a014-20230227   gcc  
+i386                 randconfig-a015-20230227   gcc  
+i386                 randconfig-a016-20230227   gcc  
+i386                          randconfig-c001   gcc  
+ia64                             allmodconfig   gcc  
+ia64         buildonly-randconfig-r002-20230226   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r013-20230228   gcc  
+ia64                 randconfig-r021-20230227   gcc  
+ia64                 randconfig-r025-20230226   gcc  
+ia64                 randconfig-r031-20230227   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch    buildonly-randconfig-r006-20230226   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r011-20230227   gcc  
+loongarch            randconfig-r011-20230228   gcc  
+loongarch            randconfig-r036-20230227   gcc  
+m68k                             allmodconfig   gcc  
+m68k                         apollo_defconfig   gcc  
+m68k         buildonly-randconfig-r003-20230226   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r003-20230227   gcc  
+m68k                 randconfig-r016-20230227   gcc  
+m68k                 randconfig-r034-20230228   gcc  
+microblaze   buildonly-randconfig-r006-20230227   gcc  
+microblaze           randconfig-r004-20230227   gcc  
+microblaze           randconfig-r011-20230226   gcc  
+microblaze           randconfig-r014-20230228   gcc  
+microblaze           randconfig-r023-20230227   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                  cavium_octeon_defconfig   clang
+mips                           ci20_defconfig   gcc  
+mips                      loongson3_defconfig   gcc  
+mips                 randconfig-r012-20230227   clang
+mips                 randconfig-r035-20230227   gcc  
+mips                           rs90_defconfig   clang
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r006-20230227   gcc  
+openrisc     buildonly-randconfig-r002-20230227   gcc  
+openrisc             randconfig-r012-20230228   gcc  
+openrisc             randconfig-r014-20230226   gcc  
+openrisc             randconfig-r016-20230226   gcc  
+openrisc             randconfig-r031-20230226   gcc  
+openrisc             randconfig-r034-20230227   gcc  
+parisc                              defconfig   gcc  
+parisc                generic-64bit_defconfig   gcc  
+parisc               randconfig-r033-20230226   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                  iss476-smp_defconfig   gcc  
+powerpc                   motionpro_defconfig   gcc  
+powerpc                 mpc8540_ads_defconfig   gcc  
+powerpc                      obs600_defconfig   clang
+powerpc                      pcm030_defconfig   gcc  
+powerpc                      pmac32_defconfig   clang
+powerpc                         wii_defconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv        buildonly-randconfig-r005-20230226   clang
+riscv                               defconfig   gcc  
+riscv                randconfig-r024-20230226   clang
+riscv                randconfig-r036-20230226   gcc  
+riscv                randconfig-r042-20230226   clang
+riscv                randconfig-r042-20230227   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r002-20230226   gcc  
+s390                 randconfig-r013-20230226   clang
+s390                 randconfig-r044-20230226   clang
+s390                 randconfig-r044-20230227   gcc  
+s390                       zfcpdump_defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                        edosk7760_defconfig   gcc  
+sh                   randconfig-r033-20230227   gcc  
+sh                             sh03_defconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r002-20230227   gcc  
+sparc                randconfig-r005-20230226   gcc  
+sparc                randconfig-r013-20230227   gcc  
+sparc                randconfig-r015-20230227   gcc  
+sparc                randconfig-r022-20230227   gcc  
+sparc                randconfig-r032-20230227   gcc  
+sparc64      buildonly-randconfig-r004-20230226   gcc  
+sparc64              randconfig-r033-20230228   gcc  
+sparc64              randconfig-r035-20230228   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230227   clang
+x86_64               randconfig-a002-20230227   clang
+x86_64               randconfig-a003-20230227   clang
+x86_64               randconfig-a004-20230227   clang
+x86_64               randconfig-a005-20230227   clang
+x86_64               randconfig-a006-20230227   clang
+x86_64               randconfig-a011-20230227   gcc  
+x86_64               randconfig-a012-20230227   gcc  
+x86_64               randconfig-a013-20230227   gcc  
+x86_64               randconfig-a014-20230227   gcc  
+x86_64               randconfig-a015-20230227   gcc  
+x86_64               randconfig-a016-20230227   gcc  
+x86_64                        randconfig-c001   gcc  
+x86_64                        randconfig-k001   clang
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                    rhel-8.3-kselftests   gcc  
+x86_64                         rhel-8.3-kunit   gcc  
+x86_64                           rhel-8.3-kvm   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                           rhel-8.3-syz   gcc  
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r001-20230227   gcc  
+xtensa               randconfig-r003-20230226   gcc  
+xtensa               randconfig-r004-20230226   gcc  
+xtensa               randconfig-r016-20230228   gcc  
+xtensa               randconfig-r023-20230226   gcc  
+xtensa               randconfig-r032-20230226   gcc  
+xtensa               randconfig-r032-20230228   gcc  
 
-The thing is that for better or for worse, some drivers drive devices
-with firmware provided by multiple vendors, and then it can still make
-sense to split off by vendor. E.g. brcmfmac wifi is already in the
-process of diverging into three firmware lineages provided by
-two(/three?) vendors, even if you ignore the entire Apple special
-snowflake case. I expect pain to come out of that one for everyone
-involved... (well, at least for Apple we can always special case
-conditionals on "has OTP" which is effectively the "is Apple" flag).
-ISTR that radeon/amdgpu also ended up with separate roots, but it's
-mixed and with different firmware formats for each and a fallback.
-
-> Now I did indeed forget about the "dockchannel" touchpad firmware that
-> I already handle in OpenBSD.  That means I could handle the touchbar
-> firmware in the same way.  But that is mostly because these firmwares
-> are non-distributable, so we don't have firmware packages for them.
-> Instead we rely on the Asahi installer to make the firmware available
-> on the EFI partition and the OpenBSD installer to move the firmware in
-> place on the root filesystem.
-> 
-> So this isn't a big issue.
-
-:)
-
-(Do let me know if you have any big issues of course, you know I don't
-want to gratuitously make your life hard!)
-
-- Hector
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
