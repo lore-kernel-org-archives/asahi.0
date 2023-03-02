@@ -1,60 +1,79 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34AF623AF
-	for <asahi@lists.linux.dev>; Wed,  1 Mar 2023 18:36:34 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id f13so57756148edz.6
-        for <asahi@lists.linux.dev>; Wed, 01 Mar 2023 10:36:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677695792;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZT/OJ9n++mt401vNDY8xHJSNHWuHKsSIBHt696WINAU=;
-        b=AM+m+uN/GMfoZa8x0kGd9ILKdXLTOuUR42eX+12yd+cajJEuJwDRf7S+NMLKb9/3dT
-         CCEJnwW7v/DV+5rMKvy5veRJtURY0jJvbjq10qTXNbD4G1TiEHNP03aaz3vOPYr+4J+e
-         c1PQAQZYUABegvNFy8LtqkT6Ce9TGgKJScTB34Spb/xScy2qe9i98NeCqsPq4yBEU6F8
-         PnWFSHZnHKpEFR/CYBsAVKMQnioW84wwfS7oxLTClii4+3L0i77KDMoxp9K9ZLZuUh9H
-         KHwcjnaRA7XSq7euj/+N1Ar+Ws3LeiSVr/oH7UVTSjiaqpn9VmxJI2Gtth90BC5XuQvr
-         hDsQ==
-X-Gm-Message-State: AO0yUKXaRdB8aOyEpM8b1gI1iwyYM7jJRdtGkELeHu3bmkMPM7fmu9Dh
-	u5REK+mMvJm/oWUBVvZYeQm+vdalXCyI/SxTOu8=
-X-Google-Smtp-Source: AK7set/H2etJvYe1d1itJBx6hspBD30RZmx5cJZgLeGAW0PK9sgtTvz5euwqOQWEzRFywRWOoz9kl56jMNflDNjzbOs=
-X-Received: by 2002:a17:906:7687:b0:8ad:731:592d with SMTP id
- o7-20020a170906768700b008ad0731592dmr3628118ejm.5.1677695792428; Wed, 01 Mar
- 2023 10:36:32 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 841DB110B;
+	Thu,  2 Mar 2023 15:04:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1556F1FB;
+	Thu,  2 Mar 2023 07:05:05 -0800 (PST)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F5203F67D;
+	Thu,  2 Mar 2023 07:04:20 -0800 (PST)
+Message-ID: <f79c884a-e344-f434-7adb-8b9e3034027c@arm.com>
+Date: Thu, 2 Mar 2023 15:04:16 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Y/yAzR6sWvPedLej@kili> <CAOgh=FyxFuENe6SgJB7aUwPS-ZB_51q6a=zWEcZSAsGqX034hA@mail.gmail.com>
-In-Reply-To: <CAOgh=FyxFuENe6SgJB7aUwPS-ZB_51q6a=zWEcZSAsGqX034hA@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 1 Mar 2023 19:36:21 +0100
-Message-ID: <CAJZ5v0jMm25S2M2g2oB9fE+U1SJO8w5Y87ENwOQ4JpPTAH6XEQ@mail.gmail.com>
-Subject: Re: [PATCH] cpufreq: apple-soc: Fix an IS_ERR() vs NULL check
-To: Eric Curtin <ecurtin@redhat.com>, Dan Carpenter <error27@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Marc Zyngier <maz@kernel.org>, asahi@lists.linux.dev, 
-	linux-pm@vger.kernel.org, kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 2/4] iommu: dart: Add flag to override bypass support
+Content-Language: en-GB
+To: Sven Peter <sven@svenpeter.dev>, Hector Martin <marcan@marcan.st>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev,
+ iommu@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20230228202132.4919-1-sven@svenpeter.dev>
+ <20230228202132.4919-3-sven@svenpeter.dev>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20230228202132.4919-3-sven@svenpeter.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 27, 2023 at 11:26 AM Eric Curtin <ecurtin@redhat.com> wrote:
->
-> On Mon, 27 Feb 2023 at 10:16, Dan Carpenter <error27@gmail.com> wrote:
-> >
-> > The of_iomap() function returns NULL if it fails.  It never returns
-> > error pointers.  Fix the check accordingly.
-> >
-> > Fixes: 6286bbb40576 ("cpufreq: apple-soc: Add new driver to control Apple SoC CPU P-states")
-> > Signed-off-by: Dan Carpenter <error27@gmail.com>
-> > ---
->
-> Nice catch!
->
-> Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+On 28/02/2023 8:21 pm, Sven Peter wrote:
+> The USB4 PCIe DARTs claim to support bypass but we never want to allow
+> that on externally facing ports.
 
-Applied as 6.3-rc material, thanks!
+IOMMU drivers shouldn't be implementing their own individual policies 
+for this - externally-facing ports should be correctly marked as 
+such[1], so that the PCI layer is properly informed, which in turn will 
+be picked up and handled properly by IOMMU core code.
+
+Thanks,
+Robin.
+
+[1] see Documentation/devicetree/bindings/pci/pci.txt
+
+> Acked-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+>   drivers/iommu/apple-dart.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+> index 42666617803d..7d8b2b90cdb6 100644
+> --- a/drivers/iommu/apple-dart.c
+> +++ b/drivers/iommu/apple-dart.c
+> @@ -182,6 +182,8 @@ struct apple_dart_hw {
+>   	u64 ttbr_addr_field_shift;
+>   	u64 ttbr_shift;
+>   	int ttbr_count;
+> +
+> +	bool disable_bypass;
+>   };
+>   
+>   /*
+> @@ -1075,6 +1077,9 @@ static int apple_dart_probe(struct platform_device *pdev)
+>   	dart->pgsize = 1 << FIELD_GET(DART_PARAMS1_PAGE_SHIFT, dart_params[0]);
+>   	dart->supports_bypass = dart_params[1] & DART_PARAMS2_BYPASS_SUPPORT;
+>   
+> +	if (dart->hw->disable_bypass)
+> +		dart->supports_bypass = 0;
+> +
+>   	switch (dart->hw->type) {
+>   	case DART_T8020:
+>   	case DART_T6000:
