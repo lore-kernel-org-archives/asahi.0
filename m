@@ -1,72 +1,76 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424CDBA4F
-	for <asahi@lists.linux.dev>; Tue,  7 Mar 2023 20:22:40 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-53d277c1834so90631687b3.10
-        for <asahi@lists.linux.dev>; Tue, 07 Mar 2023 12:22:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678220559;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OBSyTdrPOJVHUi62H8HJoL0JClhcgKSy5jHuy2pt1Ro=;
-        b=moRxMRhToGIlBlURExNXwaSqcDqloQmsfa6GGj7GDlwLRkD93O48yrUADnGC/lXSPJ
-         V2GzzO1lYJkNgtJqoVmZm0aT4Sm3u3lU7Hi07XGKEzZrWMhuDxKZEopMfzNbLWhpBTRF
-         7slSWL0b0G9RwjS9Zyd0L0Ud3ta6nb20QvbZuFQq7zksZtlo2337D76LNG+yePOD3SBK
-         gQuDRvl5CbKHea+RINhAva920U0ekvqLvXhd6aZ8Rwkcj8C2Bd7qPEcaiPW1of7ifyW+
-         /M6XgrYJklZmaQo+cVa8uBIJEv3il2+ty2MWxddrKfjJrs569x/u9QpK/pcBx2vykkDj
-         dOdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678220559;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OBSyTdrPOJVHUi62H8HJoL0JClhcgKSy5jHuy2pt1Ro=;
-        b=aqWD3Q3KaEp+iidhO1BzL+pg1Z/ro2BCp5YsmVBvnDjyYvzJLMtn9HjLY/saXMzKvN
-         SCDnN1+m0xBSyHh/pvyrBL+b2NjCmjF+NQwmgJSoUFxpXE+N5mbYeUN7EHRGLC1QCtTc
-         jA4rWEUCwxOKKZiaXPCxiRmrsc7C/CW4yViFac6t2Nl42VCeVGYlV9GwUtnrxzMlsMDc
-         LhRdJ+KGSBxdpA0wPx4FCDnKtmobgPj+nTWkMp90zi8SdF6Ha5r9qovFr195Rw1xJLq4
-         FVOV9OCP/rWr3aOwebRJdFr/D2szYOdUfNUmSR/kdTZEarwmaSeizMisogHHQszpzKSV
-         wuXQ==
-X-Gm-Message-State: AO0yUKXysDFb7DvHKRNXVB5SkrTPR0qO+n+33/HR1yxORTQjxHWUxpkR
-	SvkYYwZAkA9oUzIN4BJikBoAd19WU1lvmllT7aQF+j4bR8nEIA==
-X-Google-Smtp-Source: AK7set+L982y6Gqt0c6yuAz3Ny1/mK3S/lN4t37WxZPkJKzOI8RPld789a+1NBfsZIEjJtxEa8/6pZZjmpfINNZCZ/M=
-X-Received: by 2002:a81:ad24:0:b0:52e:bb2d:2841 with SMTP id
- l36-20020a81ad24000000b0052ebb2d2841mr9466387ywh.10.1678220559220; Tue, 07
- Mar 2023 12:22:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88874386
+	for <asahi@lists.linux.dev>; Tue,  7 Mar 2023 22:59:59 +0000 (UTC)
+Received: from robin.home.jannau.net (p54accbe8.dip0.t-ipconnect.de [84.172.203.232])
+	by soltyk.jannau.net (Postfix) with ESMTPSA id E283A26F88D;
+	Tue,  7 Mar 2023 23:59:56 +0100 (CET)
+From: Janne Grunau <j@jannau.net>
+Date: Tue, 07 Mar 2023 23:59:50 +0100
+Subject: [PATCH] PCI: apple: Set only available ports up
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230224-rust-macros-v1-0-b39fae46e102@asahilina.net>
- <20230224-rust-macros-v1-2-b39fae46e102@asahilina.net> <20230225003156.4858d79e.gary@garyguo.net>
-In-Reply-To: <20230225003156.4858d79e.gary@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 7 Mar 2023 21:22:28 +0100
-Message-ID: <CANiq72mSjqkib1gpocT3YbWRMz1Uj68Yh5DTZjthAd+=z_4tSg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] rust: macros: concat_idents: Allow :: paths in the
- first argument
-To: Gary Guo <gary@garyguo.net>
-Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230307-apple_pcie_disabled_ports-v1-1-b32ef91faf19@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAOXBB2QC/x2OUQrDIBAFrxL87hY1pYZepRRZdVMXghFXSiHk7
+ k36OfDmMZsSakyiHsOmGn1YeC0HmMugYsbyJuB0sLLajnrUDrDWhXyNTD6xYFgo+bq2LqCjcXN
+ weHPjpA4/oBCEhiXm8wEFM8P9asH4PhljIfVzVhvN/P0nPF/7/gPJGbNtkgAAAA==
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marc Zyngier <maz@kernel.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Sven Peter <sven@svenpeter.dev>, linux-pci@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+X-Mailer: b4 0.12.2-dev-4f8ba
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1425; i=j@jannau.net;
+ h=from:subject:message-id; bh=l9OFnjvz5hSLpKVP1Knu7cPVnfzmd8YSULsFW4CMVGk=;
+ b=owGbwMvMwCG2UNrmdq9+ahrjabUkhhT2g29ObHdp+FD/Z29UeARP3s0dVl+5j8pMdjrC7p9ju
+ rFumkx7RykLgxgHg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgIlMOczIMHX9vjwmlYQGN0Mt
+ lsUyBfvPvr+lsfac+qOEeEUG1+KAewz/K76lvmLOZbSdxifixcq4btqOC399Lyz1vHODk/XTiaJ
+ J7AA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-On Sat, Feb 25, 2023 at 1:32=E2=80=AFAM Gary Guo <gary@garyguo.net> wrote:
->
-> It seems weird to me that this is called `concat_idents` despite
-> working for more things than just idents.
->
-> How about just implement a simple version of the `paste` macro instead?
+Fixes "interrupt-map" parsing in of_irq_parse_raw() which takes the
+node's availability into account.
 
-Opened https://github.com/Rust-for-Linux/linux/issues/983 in case we
-end up applying the patch.
+This became apparent after disabling unused PCIe ports in the Apple
+silicon device trees instead of disabling them.
 
-Cheers,
-Miguel
+Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
+Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
+Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
+Cc: stable@vger.kernel.org
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ drivers/pci/controller/pcie-apple.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+index 66f37e403a09..f8670a032f7a 100644
+--- a/drivers/pci/controller/pcie-apple.c
++++ b/drivers/pci/controller/pcie-apple.c
+@@ -783,7 +783,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+ 	cfg->priv = pcie;
+ 	INIT_LIST_HEAD(&pcie->ports);
+ 
+-	for_each_child_of_node(dev->of_node, of_port) {
++	for_each_available_child_of_node(dev->of_node, of_port) {
+ 		ret = apple_pcie_setup_port(pcie, of_port);
+ 		if (ret) {
+ 			dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
+
+---
+base-commit: c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
+change-id: 20230307-apple_pcie_disabled_ports-0c17fb7a4738
+
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
+
