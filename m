@@ -1,15 +1,15 @@
 Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6276134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40AE6135
 	for <asahi@lists.linux.dev>; Tue,  7 Mar 2023 12:18:48 +0000 (UTC)
 Received: from robin.home.jannau.net (p54accbe8.dip0.t-ipconnect.de [84.172.203.232])
-	by soltyk.jannau.net (Postfix) with ESMTPSA id 8FDE326F889;
+	by soltyk.jannau.net (Postfix) with ESMTPSA id 1B2CD26F888;
 	Tue,  7 Mar 2023 13:10:11 +0100 (CET)
 From: Janne Grunau <j@jannau.net>
-Date: Tue, 07 Mar 2023 13:10:10 +0100
-Subject: [PATCH v3 04/15] dt-bindings: arm: cpus: Add apple,avalanche &
- blizzard compatibles
+Date: Tue, 07 Mar 2023 13:10:09 +0100
+Subject: [PATCH v3 03/15] dt-bindings: watchdog: apple,wdt: Add t8112-wdt
+ compatible
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -18,7 +18,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230202-asahi-t8112-dt-v3-4-d1a5f6383d95@jannau.net>
+Message-Id: <20230202-asahi-t8112-dt-v3-3-d1a5f6383d95@jannau.net>
 References: <20230202-asahi-t8112-dt-v3-0-d1a5f6383d95@jannau.net>
 In-Reply-To: <20230202-asahi-t8112-dt-v3-0-d1a5f6383d95@jannau.net>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
@@ -30,36 +30,36 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  Janne Grunau <j@jannau.net>, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=726; i=j@jannau.net;
- h=from:subject:message-id; bh=d7EFnNyp4GW9oyQuCElVq0C558+zBtSSmAZe284c8NY=;
- b=owGbwMvMwCG2UNrmdq9+ahrjabUkhhR2zQXKk28pHrlt47xJ7++fX6pHO96dFN1WYdBwteCLQ
- EPBhbcLO0pZGMQ4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAExEu5Xhf4VcvPotSXd3c70/
- 5T4mzvYcbfejzmw7kBPX1CTWWtr2j+En48zzW3d3Ovju9N3k2BbCwnQ7q4tH3X/CM+mkWG/txU3
- sAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=816; i=j@jannau.net;
+ h=from:subject:message-id; bh=ii0IadQVOv7ya4XwtBGFuGJ/mm304g8PFld9ejyrFvc=;
+ b=owGbwMvMwCG2UNrmdq9+ahrjabUkhhR2zQXzY+aFXE9WmPOgUF5Z/1HEMZ8rwlVeL9ZJ9cSuc
+ rDmy9HrKGVhEONgkBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMBGlKoa/8qWvi7rvPeqc/03i
+ XsDUly/bFh1nevdSv9O67atQqPjBnwz/LFa++Tzt//vljTo/Rfk/Tt76I3TfW7lZtQ5l8idurI2
+ V5gYA
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-These are the CPU cores in the Apple silicon M2 SoC.
+The block on the Apple M2 SoC is compatible with the existing driver so
+add its per-SoC compatible.
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- Documentation/devicetree/bindings/arm/cpus.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
-index 01b5a9c689a2..ac79fbb1479d 100644
---- a/Documentation/devicetree/bindings/arm/cpus.yaml
-+++ b/Documentation/devicetree/bindings/arm/cpus.yaml
-@@ -85,6 +85,8 @@ properties:
+diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+index e58c56a6fdf6..3d7e2a2bf1f1 100644
+--- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+@@ -17,6 +17,7 @@ properties:
+     items:
+       - enum:
+           - apple,t8103-wdt
++          - apple,t8112-wdt
+           - apple,t6000-wdt
+       - const: apple,wdt
  
-   compatible:
-     enum:
-+      - apple,avalanche
-+      - apple,blizzard
-       - apple,icestorm
-       - apple,firestorm
-       - arm,arm710t
 
 -- 
 2.39.2
