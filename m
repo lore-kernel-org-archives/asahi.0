@@ -1,246 +1,216 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3870AD49
-	for <asahi@lists.linux.dev>; Tue,  7 Mar 2023 16:18:05 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 048F541DF4;
-	Tue,  7 Mar 2023 16:17:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1678205882;
-	bh=Qw94FegwAslJUaCniB68UUeUX0OwCWRdd88BzdgPXQE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Bq5PvOWNwJHYFmQhlxM7mXUiwYE4dpW4OGTiXLi0dz4416AAQi8EIVK020edvpeoI
-	 MRmpbh+Fg9QzKeLgMX2oVPVeJGkAA+yCUHZfyQRMuLdLMzMybsWEgSllQqjrK2obvb
-	 uuhWDg57cQUvWnPK9qbJbKJlj6ztFWRi5xyfm4xXtfdQTksQxfx7yahzy47cDf6IHl
-	 EmJ0kxZYA6+x3n9X9YkPOtyYRB9otB/Czkj+vCGPFKh85Dc4nPmn+46I+5huY5GE9+
-	 DmJT+qSOcFyA0rh43AJ7DTVxDsXimY9L8YcZ51TS+cAM/7x4yspjeM8gSRXAEK2IPc
-	 D+HcWcb6Nl4gw==
-Message-ID: <687b54e7-b9a6-f37b-e5e6-8972e3670cc1@asahilina.net>
-Date: Wed, 8 Mar 2023 01:17:54 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0756BA35
+	for <asahi@lists.linux.dev>; Tue,  7 Mar 2023 17:32:45 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id p6so14986939plf.0
+        for <asahi@lists.linux.dev>; Tue, 07 Mar 2023 09:32:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1678210365;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a/DFNifw+shgTpCvVLL2+IaasMh1b7gZ7i36M6XC2VY=;
+        b=EqJvAfBhvPQKG4wmingwHT/tofg/oaerE1MXddYFl+AEcW+PU3Idd1JdIrPOC8gNyo
+         hOZI2V2XNSjhH10ySEpiMT2VMC0tzRnvAbJSmFLFoPRAELWvLPoot1AaIx8Hc2hz/RO8
+         Bq5gMdgrJ/rPFy0FqCgvFjFpTbkKWaJmyIJ6snxqoUi9vHXLUFx3RIo5VkZ7UQSd8rSp
+         n2yUEht3UrnimxoCxAtPvMwbo6bTwLuXfBjUXuM2AW4ShSFj4z0ZXco3oAnghFWJ04xT
+         Tl1W1gLd9XFXvfvSvXQtNC5dbRQw3E6ztvpOk3Q5cHRzpQJ/egTCyl+KW5r+upe6CGhD
+         dJRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678210365;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a/DFNifw+shgTpCvVLL2+IaasMh1b7gZ7i36M6XC2VY=;
+        b=Q/Ay/XHCMmxEKE6oRPXebp68g9S1QzkRqsYUWbj0mTSTDYcOOX7nFvvUKQvonQY0Ho
+         Fo3J4zSeIuAXnmGC4Gws91ge8EAW5QEHGB1kedDNGw96fU7v7XgY406UfJNqY2+sE5b/
+         iPObzUpRNrMtApgVymXSk/dPpzx7OyXTmKKKmPNl2inFhcSn0N6FDekdWwx/EBKzJK2q
+         /f1iQ3c5Ak/O0kClaCuT8h4QXEEEn+Qu1BKPr4T1AJapfKqFp8mLDu8zh0BVegsEpO/K
+         h6AwZxvEbXOs3Nr3o4e4E0JxF5PhXPtE2pcRdcnpqGrndqTMICq34P3ee/iMvoYnZScr
+         gUrg==
+X-Gm-Message-State: AO0yUKVgJtMGBzjOEatHzBr0Pf/AhNXr0cNdkXVg6I7jSoc+w5pdEqBn
+	FqlYlO0g82brimx42Opvj3nCjQ==
+X-Google-Smtp-Source: AK7set9Wg1m8RwMirw3U4OahVBkjcOghAarHEF2daXJUo6X8Npq+dxw4XN+fTPAAkCCDEbfp7Z7+TA==
+X-Received: by 2002:a05:6a20:69a6:b0:c7:8779:416d with SMTP id t38-20020a056a2069a600b000c78779416dmr15946784pzk.58.1678210364844;
+        Tue, 07 Mar 2023 09:32:44 -0800 (PST)
+Received: from anup-ubuntu-vm.localdomain ([103.97.165.210])
+        by smtp.gmail.com with ESMTPSA id 1-20020a630301000000b004fb11a7f2d4sm7996185pgd.57.2023.03.07.09.32.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Mar 2023 09:32:44 -0800 (PST)
+From: Anup Patel <apatel@ventanamicro.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Marc Zyngier <maz@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Atish Patra <atishp@atishpatra.org>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	Anup Patel <anup@brainfault.org>,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	Anup Patel <apatel@ventanamicro.com>
+Subject: [PATCH v17 0/7] RISC-V IPI Improvements
+Date: Tue,  7 Mar 2023 23:02:24 +0530
+Message-Id: <20230307173231.2189275-1-apatel@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 00/18] Rust DRM subsystem abstractions (& preview AGX
- driver)
-Content-Language: en-US
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-That was supposed to have Markdown-style section headings, but I forgot
-that b4 considers a leading # as a comment... sorry for the abrupt topic
-changes...
+This series aims to improve IPI support in Linux RISC-V in following ways:
+ 1) Treat IPIs as normal per-CPU interrupts instead of having custom RISC-V
+    specific hooks. This also makes Linux RISC-V IPI support aligned with
+    other architectures.
+ 2) Remote TLB flushes and icache flushes should prefer local IPIs instead
+    of SBI calls whenever we have specialized hardware (such as RISC-V AIA
+    IMSIC and RISC-V SWI) which allows S-mode software to directly inject
+    IPIs without any assistance from M-mode runtime firmware.
 
-The intended headings are below.
+These patches were originally part of the "Linux RISC-V ACLINT Support"
+series but this now a separate series so that it can be merged independently
+of the "Linux RISC-V ACLINT Support" series.
+(Refer, https://lore.kernel.org/lkml/20211007123632.697666-1-anup.patel@wdc.com/)
 
-On 07/03/2023 23.25, Asahi Lina wrote:
-> Hi everyone!
-> 
-> This is my first take on the Rust abstractions for the DRM
-> subsystem. It includes the abstractions themselves, some minor
-> prerequisite changes to the C side, as well as the drm-asahi GPU driver
-> (for reference on how the abstractions are used, but not necessarily
-> intended to land together).
-> 
-> These patches apply on top of the tree at [1], which is based on
-> 6.3-rc1 with a large number of Rust abstraction/support commits added on
-> top. Most of these are not prerequisites for the DRM abstractions
-> themselves, but rather only of the driver.
-> 
-> * #1-12 introduce the abstractions, module by module, with minor C
->   changes before the dependent abstraction.
->   * Patch 10 is a little addition to drm_sched that I ended up needing,
->     but I can pull it out of the abstraction into its own patch if
->     needed.
-> * #13-14 add a minor feature to drm/gem and its abstraction used
->   by the driver.
-> * #15-16 introduce the (unstable) asahi UAPI. This is obviously not
->   ready for merge yet, but comments are welcome!
-> * #17 adds a Rust helper macro to handle GPU core/firmware differences.
->   This probably belongs in the driver at this point, but right now it
->   has to live in rust/macros since there is no mechanism for per-driver
->   proc macros.
-> * #18 adds the driver proper, in one big commit, for reference purposes.
+These patches are also a preparatory patches for the up-coming:
+ 1) Linux RISC-V AIA support
+ 2) Linux RISC-V SWI support
 
-## Background
+These patches can also be found in riscv_ipi_imp_v17 branch at:
+https://github.com/avpatel/linux.git
 
-> I've been working since mid last year on an Apple AGX GPU driver for
-> Linux, using the (at the time) out-of-tree Rust support. As part of this
-> effort, I've been writing safe Rust abstractions for portions of the DRM
-> subsystem.
-> 
-> Now that Rust itself is upstream, I'd like to get all the abstractions
-> upstreamed so we can eventually get the driver upstreamed!
-> 
-> These abstractions have been used by the driver since our release in
-> December [2], in a simpler synchronous-submission form:
-> 
-> * drm::ioctl
-> * drm::device
-> * drm::drv
-> * drm::file
-> * drm::{gem, gem::shmem}
-> * drm::mm
-> 
-> This series adds these too, which are used by the explicit sync refactor
-> of the driver (the version in this series):
-> 
-> * drm::syncobj
-> * drm::sched
-> * dma_fence
-> 
-> The major dependencies for the DRM abstractions themselves are:
-> 
-> * [3] rust: error: Add missing wrappers to convert to/from kernel error codes
-> * [4] rust: Miscellaneous macro improvements
-> * [5] rust: Add a Sealed trait
-> * [6] rust: device: Add a minimal RawDevice trait
-> * [7] rust: Enable the new_uninit feature for kernel and driver crates
-> * [8] rust: ioctl: Add ioctl number manipulation functions
-> * [9] rust: sync: Arc: Any downcasting and assume_init()
-> *     rust: Add `container_of` and `offset_of` macros
-> *     kernel::sync::mutex and dependencies
-> 
-> Most of these (the ones with links) have already been submitted, and I
-> expect all of them to land for 6.4 (the mutex one will likely be last,
-> since there is some refactoring that will happen over the current state
-> to make it more ergonomic to use). The mutex dep is only necessary for
-> drm::mm and dma_fence, and transitively drm::syncobj and drm::sched.
+Changes since v16:
+ - Rebased on Linux-6.3-rc1
+ - Dropped PATCH3 and PATCH9 since these patches are already merged
+ - Added Palmer's Acked-by
 
-## State
+Changes since v15:
+ - Rebased on Linux-6.2-rc2
+ - Added Reviewed-by and Tested-by tags to some of the patches.
 
-> Things work! We've had most of the abstractions in production edge
-> kernels with the driver, and the new explicit sync stuff has passed
-> quite a few torture tests (this is how we found the drm_sched issue,
-> patch 11).
-> 
-> The abstractions are intended to be safe (safety review very welcome!).
-> While writing them, I tried to avoid making any changes to the C side
-> unless absolutely necessary. I understand that it will probably make
-> sense to adjust the C side to make some things easier, but I wanted to
-> start from this as a baseline.
-> 
-> Known issues:
-> 
-> - The existing Rust integration does not currently allow building
->   abstractions as modules, so the Rust abstractions are only available
->   for DRM components that are built in. I added some extra Kconfig
->   symbols to deal with this, so a driver built as a module can depende
->   on having those built in. This should go away in the future (but may
->   not be ready in time for submission... I understand this probably
->   shouldn't be a blocker though?).
-> 
-> - DRM relies heavily on the "subclassing" pattern for driver objects,
->   and this doesn't map well to Rust. I tried several approaches for
->   various bits, so we can see how they work out. In particular, whether
->   wrapper types should pretend to be smart pointers and Deref to their
->   inner driver-specific types, and whether they should be marked as
->   method receivers (Yuck, internal rustc implementation hacks! But
->   Arc<T> already does the same thing and it makes usage in
->   driver-implemented callbacks as `self` possible) are things I'd love
->   to discuss ^^.
-> 
-> - Only what I need for my driver is implemented (plus a small amount of
->   obvious extras where better API completeness makes sense). I think the
->   general idea with Rust abstractions is that we add things as they
->   become necessary.
-> 
-> - The plain GEM vs. GEM-shmem duality ended up with quite a hairy type
->   hierarchy. I'd love to figure out how to make this simpler...
-> 
-> - drm::mm ends up requiring a built-in mutex in the abstraction, instead
->   of delegating that to the user with the usual Rust mutability rules.
->   This is because nodes can be dropped at any time, and those operations
->   need to be synchronized. We could try to avoid forbidding those drops
->   or mark the node type !Send, but that would make it a lot less
->   ergonomic to use...
-> 
-> I'm looking for feedback on the abstractions of all kinds, so we can
-> move towards an upstreamable version. Optimistically, I'd love to get
-> this upstream for 6.5, and the driver for 6.6.
-> 
-> Please feel free to ask any questions about the Rust bits, since I know
-> a lot of this is new to many of the C folks!
+Changes since v14:
+ - Minor fixes in commit description of PATCH3 (as suggested by tglx)
+ - Don't disable parent IPI when CPU goes offline for SBI IPI driver and
+   CLINT driver in PATCH4.
+ - Include Apple AIC driver changes from Marc Z as PATCH9
 
-## About the drm-asahi driver
+Changes since v13:
+ - Included changes suggested by Marc Z in PATCH3
+ - Use chained handlers in PATCH4
+ - Added new PATCH8 to have empty irq_eoi() in RISC-V INTC driver. This
+   avoids the unnecessary mask/unmask dance at time of handling interrupts.
 
-> This is a fairly complete driver for Apple AGX G13 and G14 series GPUs.
-> 
-> The driver today supports the Apple M1, M1 Pro, M1 Max, M1 Ultra, and M2
-> SoCs, across two firmware revisions each. It has an explicit sync UAPI
-> heavily inspired by the upcoming Intel Xe UAPI, designed with Vulkan
-> support in mind. On the Mesa side we currently have a Gallium driver
-> that is mostly already upstream (missing the UAPI bits mostly) and
-> passes the dEQP GLES2/EGL tests, with most of GLES3.0 passing in
-> downstream work-in-progress branches. This is a reverse engineered
-> community driver (we have no hardware documentation of any kind, other
-> than some hints from aspects shared with PowerVR).
-> 
-> While developing the driver, I tried to make use of Rust's safety and
-> lifetime features to provide not just CPU-side safety, but also
-> partial firmware-ABI safety. Thanks to this, it has turned out to be
-> a very stable driver even though GPU firmware crashes are fatal (no
-> restart capability, need to reboot!) and the FW/driver interface is a
-> huge mess of unsafe shared memory structures with complex pointer
-> chains. There are over 70 ABI types and 3000+ lines of firmware ABI type
-> definitions that vary between firmware builds and GPU cores...
-> 
-> In a simpler blocking-submission form, it has been shipping in Asahi
-> Linux edge kernels since December [2], with lots of users and zero (!)
-> reported oopses (and only a couple reports of GPU firmware crashes,
-> though that issue should now be fixed). It has survived OOM scenarios
-> (Rust makes error cleanup easy!), UAPI-level fuzzing, countless broken
-> Mesa builds, uptimes of 40+ days, and more.
-> 
-> The explicit sync refactor significantly increases performance (and
-> potential problems), but this version has survived a lot of torture
-> with dEQP/piglit tests and some manual corner case testing.
-> 
-> In other words, Rust works! ^^
-> 
-> There are some design notes on the driver and further links at [10].
+Changes since v12:
+ - Rebased on Linux-6.1-rc7
+ - Bring-back the IPI optimization in ipi_mux_send_mask() for PATCH3
+ - Call ipi_mux_send() for one target CPU at a time in PATCH3
 
-## Links
+Changes since v11:
+ - Removed ipi_mux_pre/post_handle() callbacks in PATCH3
+ - Removed sturct ipi_mux_ops in PATCH3
+ - Removed parent_virq and data pointer from everywhere in PATCH3
+ - Removed struct ipi_mux_control in PATCH3
+ - Improved function signature of ipi_mux_send() callback in PATCH3
+ - Used unsigned type with atomic operation in PATCH3
 
-> [1] https://github.com/AsahiLinux/linux.git drm-rfc-base-20230307
-> [2] https://asahilinux.org/2022/12/gpu-drivers-now-in-asahi-linux/
-> [3] https://lore.kernel.org/rust-for-linux/20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net/T/
-> [4] https://lore.kernel.org/rust-for-linux/20230224-rust-macros-v1-0-b39fae46e102@asahilina.net/T/
-> [5] https://lore.kernel.org/rust-for-linux/20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net/T/#m515bad2cff7f5a46f55897e6b73c6c2f1fb2c638
-> [6] https://lore.kernel.org/rust-for-linux/20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net/T/#m4c64e390c43b3ff1b8470fc8b37eaf87f6e12c94
-> [7] https://lore.kernel.org/rust-for-linux/CQV7ZNT6LMXI.1XG4YXSH8I7JK@vincent-arch/T/
-> [8] https://lore.kernel.org/rust-for-linux/61f734d6-1497-755f-3632-3f261b890846@asahilina.net/T/
-> [9] https://lore.kernel.org/rust-for-linux/20230224-rust-arc-v1-0-568eea613a41@asahilina.net/T/
-> [10] https://github.com/AsahiLinux/docs/wiki/SW:AGX-driver-notes
+Changes since v10:
+ - Rebased on Linux-6.1-rc5
+ - Drop the "!(pending & ibit)" check in ipi_mux_send_mask() of PATCH3
+ - Disable local interrupts in ipi_mux_send_mask() of PATCH3 because we
+   can be preempted while using a per-CPU temporary variable.
 
-~~ Lina
+Changes since v9:
+ - Rebased on Linux-6.1-rc3
+ - Updated header comment block of ipi-mux.c in PATCH3
+ - Use a struct for global data of ipi-mux.c in PATCH3
+ - Add per-CPU temp cpumask for sending IPIs in PATCH3
+ - Drop the use of fwspec in PATCH3
+ - Use static key for ipi_mux_pre_handle() and ipi_mux_post_handle()
+   in PATCH3
+ - Remove redundant pr_warn_ratelimited() called by ipi_mux_process()
+   in PATCH3
+ - Remove CPUHP thingy from ipi_mux_create() in PATCH3
+
+Changes since v8:
+ - Rebased on Linux-6.0-rc3
+ - Use dummy percpu data as parameter for request_percpu_irq() in PATCH4.
+
+Changes since v7:
+ - Rebased on Linux-6.0-rc1
+ - Use atomic operations to track per-CPU pending and enabled IPIs in PATCH3.
+   (Note: this is inspired from IPI muxing implemented in
+    drivers/irqchip/irq-apple-aic.c)
+ - Made "struct ipi_mux_ops" (added by PATCH3) flexible so that
+   drivers/irqchip/irq-apple-aic.c can adopt it in future.
+
+Changes since v6:
+ - Rebased on Linux-5.19-rc7
+ - Added documentation for struct ipi_mux_ops in PATCH3
+ - Dropped dummy irq_mask()/unmask() in PATCH3
+ - Added const for "ipi_mux_chip" in PATCH3
+ - Removed "type" initialization from ipi_mux_domain_alloc() in PATCH3
+ - Dropped translate() from "ipi_mux_domain_ops" in PATCH3
+ - Improved barrier documentation in ipi_mux_process() of PATCH3
+ - Added percpu check in ipi_mux_create() for parent_virq of PATCH3
+ - Added nr_ipi parameter in ipi_mux_create() of PATCH3
+
+Changes since v5:
+ - Rebased on Linux-5.18-rc3
+ - Used kernel doc style in PATCH3
+ - Removed redundant loop in ipi_mux_process() of PATCH3
+ - Removed "RISC-V" prefix form ipi_mux_chip.name of PATCH3
+ - Removed use of "this patch" in PATCH3 commit description
+ - Addressed few other nit comments in PATCH3
+
+Changes since v4:
+ - Rebased on Linux-5.17
+ - Includes new PATCH3 which adds mechanism to multiplex a single HW IPI
+
+Changes since v3:
+ - Rebased on Linux-5.17-rc6
+ - Updated PATCH2 to not export riscv_set_intc_hwnode_fn()
+ - Simplified riscv_intc_hwnode() in PATCH2
+
+Changes since v2:
+ - Rebased on Linux-5.17-rc4
+ - Updated PATCH2 to not create synthetic INTC fwnode and instead provide
+   a function which allows drivers to directly discover INTC fwnode
+
+Changes since v1:
+ - Use synthetic fwnode for INTC instead of irq_set_default_host() in PATCH2
+
+Anup Patel (7):
+  RISC-V: Clear SIP bit only when using SBI IPI operations
+  irqchip/riscv-intc: Allow drivers to directly discover INTC hwnode
+  RISC-V: Treat IPIs as normal Linux IRQs
+  RISC-V: Allow marking IPIs as suitable for remote FENCEs
+  RISC-V: Use IPIs for remote TLB flush when possible
+  RISC-V: Use IPIs for remote icache flush when possible
+  irqchip/riscv-intc: Add empty irq_eoi() for chained irq handlers
+
+ arch/riscv/Kconfig                |   2 +
+ arch/riscv/include/asm/irq.h      |   4 +
+ arch/riscv/include/asm/sbi.h      |   9 +-
+ arch/riscv/include/asm/smp.h      |  49 ++++++---
+ arch/riscv/kernel/Makefile        |   1 +
+ arch/riscv/kernel/cpu-hotplug.c   |   3 +-
+ arch/riscv/kernel/irq.c           |  21 +++-
+ arch/riscv/kernel/sbi-ipi.c       |  77 ++++++++++++++
+ arch/riscv/kernel/sbi.c           | 100 +++--------------
+ arch/riscv/kernel/smp.c           | 171 +++++++++++++++---------------
+ arch/riscv/kernel/smpboot.c       |   5 +-
+ arch/riscv/mm/cacheflush.c        |   5 +-
+ arch/riscv/mm/tlbflush.c          |  93 +++++++++++++---
+ drivers/clocksource/timer-clint.c |  65 +++++++++---
+ drivers/irqchip/Kconfig           |   1 +
+ drivers/irqchip/irq-riscv-intc.c  |  71 ++++++++-----
+ 16 files changed, 429 insertions(+), 248 deletions(-)
+ create mode 100644 arch/riscv/kernel/sbi-ipi.c
+
+-- 
+2.34.1
+
