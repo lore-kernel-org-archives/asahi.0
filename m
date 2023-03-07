@@ -1,15 +1,15 @@
 Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACF63D78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90123D72
 	for <asahi@lists.linux.dev>; Tue,  7 Mar 2023 12:10:19 +0000 (UTC)
 Received: from robin.home.jannau.net (p54accbe8.dip0.t-ipconnect.de [84.172.203.232])
-	by soltyk.jannau.net (Postfix) with ESMTPSA id 6FA3A26F88D;
-	Tue,  7 Mar 2023 13:10:13 +0100 (CET)
+	by soltyk.jannau.net (Postfix) with ESMTPSA id 00CB926F88C;
+	Tue,  7 Mar 2023 13:10:12 +0100 (CET)
 From: Janne Grunau <j@jannau.net>
-Date: Tue, 07 Mar 2023 13:10:14 +0100
-Subject: [PATCH v3 08/15] dt-bindings: nvme: apple: Add
- apple,t8112-nvme-ans2 compatible string
+Date: Tue, 07 Mar 2023 13:10:13 +0100
+Subject: [PATCH v3 07/15] dt-bindings: mailbox: apple,mailbox: Add t8112
+ compatibles
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -18,7 +18,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230202-asahi-t8112-dt-v3-8-d1a5f6383d95@jannau.net>
+Message-Id: <20230202-asahi-t8112-dt-v3-7-d1a5f6383d95@jannau.net>
 References: <20230202-asahi-t8112-dt-v3-0-d1a5f6383d95@jannau.net>
 In-Reply-To: <20230202-asahi-t8112-dt-v3-0-d1a5f6383d95@jannau.net>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
@@ -30,50 +30,44 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  Janne Grunau <j@jannau.net>, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1270; i=j@jannau.net;
- h=from:subject:message-id; bh=fHBkvAY6XhNS/kXyTd3/WQYda6VSGxdD5gGv92wX0ao=;
- b=owGbwMvMwCG2UNrmdq9+ahrjabUkhhR2zQWRO9lkI1PuGm+QrNx1Wmp5KtOn5VO2WtxPPfXnd
- 9H9+9kvO0pZGMQ4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAExE5TPDH/4bE1fsyZQ57+bN
- a7wg863npS3aPlNcp9w899KWPdnxwg5GhqnCFhu3G1mzu7xY+39yXnPSb/UTh9S913/9EDnJQft
- oAzMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1113; i=j@jannau.net;
+ h=from:subject:message-id; bh=N693tafX0qAFE8W6k3tnxNM5n/k2VjZzvqvkRjvhcps=;
+ b=owGbwMvMwCG2UNrmdq9+ahrjabUkhhR2zQX+ixw9///tz98xx6VW4uDn3hCuCE3PPx1cLRsMv
+ jEKWYR1lLIwiHEwyIopsiRpv+xgWF2jGFP7IAxmDisTyBAGLk4BuMn5DP9dXnid5nh35+qZvMU1
+ LU3RJ95NXJgz6+kzFt2J56p5q3YeZPif+sv65cOCnS1Rx/Iy/9avqkmJON8Xtlbl0KT9S5INyv3
+ YAA==
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-"apple,t8112-nvme-ans2" as found on Apple M2 SoCs is compatible with the
-existing driver. Add its SoC specific compatible string to allow special
-handling if it'll be necessary.
-t8112 uses only 2 power-domains as no 4 and 8 TB configurations are
-offered.
+The mailbox hardware remains unchanged on M2 SoCs so just add its
+per-SoC compatible.
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-index 34dd1cc67124..fc6555724e18 100644
---- a/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-+++ b/Documentation/devicetree/bindings/nvme/apple,nvme-ans.yaml
-@@ -14,6 +14,7 @@ properties:
-     items:
-       - enum:
-           - apple,t8103-nvme-ans2
-+          - apple,t8112-nvme-ans2
-           - apple,t6000-nvme-ans2
-       - const: apple,nvme-ans2
+diff --git a/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml b/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
+index 5c5c328b3134..4c0668e5f0bd 100644
+--- a/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
++++ b/Documentation/devicetree/bindings/mailbox/apple,mailbox.yaml
+@@ -29,6 +29,7 @@ properties:
+         items:
+           - enum:
+               - apple,t8103-asc-mailbox
++              - apple,t8112-asc-mailbox
+               - apple,t6000-asc-mailbox
+           - const: apple,asc-mailbox-v4
  
-@@ -65,7 +66,9 @@ if:
-   properties:
-     compatible:
-       contains:
--        const: apple,t8103-nvme-ans2
-+        enum:
-+          - apple,t8103-nvme-ans2
-+          - apple,t8112-nvme-ans2
- then:
-   properties:
-     power-domains:
+@@ -39,6 +40,7 @@ properties:
+         items:
+           - enum:
+               - apple,t8103-m3-mailbox
++              - apple,t8112-m3-mailbox
+               - apple,t6000-m3-mailbox
+           - const: apple,m3-mailbox-v2
+ 
 
 -- 
 2.39.2
