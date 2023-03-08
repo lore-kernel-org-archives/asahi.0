@@ -1,74 +1,66 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E233657
-	for <asahi@lists.linux.dev>; Wed,  8 Mar 2023 20:57:17 +0000 (UTC)
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-536af432ee5so328630107b3.0
-        for <asahi@lists.linux.dev>; Wed, 08 Mar 2023 12:57:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678309037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UTT8n29DWNd3urgPa1kCRTbJVOAEGECiIIU8nl+Nkjg=;
-        b=LfDjf6FYZTWA5GSZkgEi8KpG8mClAxawA58QJzzzQpRHpAylJ8Ui8zyXXL3vFD9LGB
-         I97hm3W/sKpiwn9wm36pwbGuTvp7gRkAAtV9dhE7w3gImFb2C3uSBfhP0T6lq8/4xTHL
-         FP9D3ATdgkVTTjOhLvtBgvICoSgTaaSLo/RnkFvajnSDZOmOZsiWo8u3U6kRHD3AJtni
-         v87R7WGAKJ1Kvv6ZmgMM8JQpsbIj1QEZx5P1l546HIC8DV010jWiy5PDZERJdRD2M69L
-         92H6LrPUqLzwL+oFb4LLSNI0bFXOLcepOkoIPG3TQBJB8ITp/V3DvyJwgeF2jpnj+Aoi
-         Hgug==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E9A36D
+	for <asahi@lists.linux.dev>; Wed,  8 Mar 2023 23:15:49 +0000 (UTC)
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-17683b570b8so454611fac.13
+        for <asahi@lists.linux.dev>; Wed, 08 Mar 2023 15:15:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678309037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UTT8n29DWNd3urgPa1kCRTbJVOAEGECiIIU8nl+Nkjg=;
-        b=S2Nkck2PzUoSJPAqPHAmq8noJ31cH491qSdp9Sit9bAzKmCqo9vk1UMfPAUU7hKxAB
-         iUbYlEEWLomQQtUXErDpQcVAAXw0GoEUqFm78tWPZg+tZDEbmfy1EP918UxknP5+MEGS
-         Feb+0K1rjDLzdvAIzq6bnlXClj7eLmxw0riCznhPAYmtFdYM58vjrjVgvGYj/uLCBs4V
-         LwCVgPrmg/Er21SaAQ73e/7lIcwxTMuf1ZPz/IDzEcasuynkk+JnUqQ0AeIP0slv78cg
-         6wfgb9Bi/sPsN1NaOaXpcB+8AsnUnF3ElkShi8AevNAdsbV3Ko10/F4JMpYEN9PMFDcz
-         FDIw==
-X-Gm-Message-State: AO0yUKXjIHFqekXAPh4Rvy+0lc3sWcOEW0lkv9PFAQDkMjTt9soOOeyq
-	lsqcoDf0H1QL5qQPi555IGZuSaV9tUm2cvO2Ww0=
-X-Google-Smtp-Source: AK7set+gyItpNI/8KIIH66pLospwhy4B/I9V63tct8DgMY8dLQRXpobXiGACii8Apv2vV5+Zq300kWyV7ixpz86xuEY=
-X-Received: by 2002:a81:a9c8:0:b0:533:9c5b:7278 with SMTP id
- g191-20020a81a9c8000000b005339c5b7278mr12170063ywh.0.1678309037046; Wed, 08
- Mar 2023 12:57:17 -0800 (PST)
+        d=1e100.net; s=20210112; t=1678317348;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AYN1mGvw+BesOGmjKnVjW5qaCYL2NLcUZN6bNj4hymY=;
+        b=B6HM8Onb80UzmTgznebBd92kJ5Jc9euxCqe7mBh0g3u5+0JvDL+zopsSpKc7P+DGNe
+         lRIaWvKWBQiooF3FfPCzL031Zi2AMumCgJOSLccGKxUon7kOZN3mOBZUtBb7xc9KmyIk
+         4CsFsuOvvt2TvyxnXxGYOKpxIEu/1lhz6mCSmy9b+M1pXpf011fwhx2zha1LVkfzT3iv
+         vJc0/cyuct2uGsu6zhGnsBuYKB7fgtS+MXTtDuSMX9zYKIQdEAytZ+i/U7Bi2GIPm3eV
+         ou+MkuCADVk9smFJArQMgJJMkd8VTmY5HNVzOlKIszIkxImLYlGt+QzY7YndLroPwYam
+         NGZg==
+X-Gm-Message-State: AO0yUKWt2sJIWdDVHieN09a5/3hYYZBpebWkLELh06Vn4FQleHBlGvFs
+	1p4GB5ZKhjn3fHJ31AZeuA==
+X-Google-Smtp-Source: AK7set+3Y1yRqQD4GNMNIxwBax8DMgnGF3zYCmHgGncdqoy23QFMf9depa6oFnXU7lhmUYbk+ssRow==
+X-Received: by 2002:a05:6870:a118:b0:172:4d60:d4ef with SMTP id m24-20020a056870a11800b001724d60d4efmr12164922oae.14.1678317348534;
+        Wed, 08 Mar 2023 15:15:48 -0800 (PST)
+Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id zq41-20020a0568718ea900b0017703cd8ff6sm2080703oab.7.2023.03.08.15.15.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Mar 2023 15:15:48 -0800 (PST)
+Received: (nullmailer pid 4055139 invoked by uid 1000);
+	Wed, 08 Mar 2023 23:15:47 -0000
+Date: Wed, 8 Mar 2023 17:15:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: asahi@lists.linux.dev, devicetree@vger.kernel.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>, Sven Peter <sven@svenpeter.dev>, Marc Zyngier <maz@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org, Mark Kettenis <kettenis@openbsd.org>, linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v3 05/15] dt-bindings: interrupt-controller: apple,aic2:
+ Add apple,t8112-aic compatible
+Message-ID: <167831734698.4055079.137179018203660288.robh@kernel.org>
+References: <20230202-asahi-t8112-dt-v3-0-d1a5f6383d95@jannau.net>
+ <20230202-asahi-t8112-dt-v3-5-d1a5f6383d95@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230224-rust-macros-v1-0-b39fae46e102@asahilina.net>
- <20230224-rust-macros-v1-2-b39fae46e102@asahilina.net> <20230225003156.4858d79e.gary@garyguo.net>
-In-Reply-To: <20230225003156.4858d79e.gary@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 8 Mar 2023 21:57:06 +0100
-Message-ID: <CANiq72kaLzV4qajxXjWeDGXLwobhevWcuWLdf9DsZUrc9nGymQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] rust: macros: concat_idents: Allow :: paths in the
- first argument
-To: Gary Guo <gary@garyguo.net>
-Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230202-asahi-t8112-dt-v3-5-d1a5f6383d95@jannau.net>
 
-On Sat, Feb 25, 2023 at 1:32=E2=80=AFAM Gary Guo <gary@garyguo.net> wrote:
->
-> It seems weird to me that this is called `concat_idents` despite
-> working for more things than just idents.
->
-> How about just implement a simple version of the `paste` macro instead?
 
-We discussed this in our latest meeting: what about a change of name
-to `concat_paths`? That addresses the concern plus it avoids sharing
-the name with the unstable `concat_idents` which could be even more
-confusing after this patch.
+On Tue, 07 Mar 2023 13:10:11 +0100, Janne Grunau wrote:
+> The Apple M2 SoC uses AICv2 and is compatible with the existing driver.
+> Add its per-SoC compatible.
+> Since multi-die versions of the M2 are not expected decrease
+> '#interrupt-cells' to 3 for apple,t8112-aic. This is seamlessly handled
+> inside the driver.
+> 
+> Acked-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  .../bindings/interrupt-controller/apple,aic2.yaml  | 22 +++++++++++++++++++---
+>  1 file changed, 19 insertions(+), 3 deletions(-)
+> 
 
-Cheers,
-Miguel
+Reviewed-by: Rob Herring <robh@kernel.org>
+
