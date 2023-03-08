@@ -1,301 +1,211 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD30479CD
-	for <asahi@lists.linux.dev>; Wed,  8 Mar 2023 15:42:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NKjC8oX43M//bhoevDZtzY41sjLOiMLYVb1LcImD4UEw4BuqIMVOq8PbkBp2+0nGyD6NWtuS5deNeNSQ82rB8jBuoWwb2xriJW0e1G8XjZcoWeYng06OQhlBpq8WYyBDbQVtyiqnGZansL1f3kYldMbiH7IS2V7eoZ0wAEpBpDR9LntIhXuf1zAmddCsU+Jm4cFX4JIQNN9j0XP1kq2lVf8phrnO/5TRcr0y4n5oEDxBAKBu9fyATYdV6Lg7H7t7UsPPSlKAGTjIOvJ0dkzGqirDx3QH65NQvGlscqD6/kvg+5CyixbwyG5TpmGE4541UlV0Y+mdcwTGxlEVlddu9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SCRNt3vCcZvQpdhgoNQZq2Xl9owEUwlhakuJ/93hQDY=;
- b=Kxdct5pnYWttFhLtHi/lDyyUZYCHhLnj03ykrIq+WTY7vqquxszoagdrz94skZC1uRpDY8w2e1Oxe10vO5+UhVod65QwwZvFydblJfpF75RiUpnNICHyQs/r9134V/Eu81JsOgYF4NItUmSwiKuVYogNFv0ahMYMd9LlGRsBROpvG04hMiAMkLgJguypBTuiZqdJjkwQJJOALcOWJrQtazFnkh9P/GI8mwuIGRH/40WatkQ8+XxK7Rx+jzQPoaT7W3BvSk3HCh/0BK93j+HNNhuntoWeHzoPwOjbSbcl+glpYavZcyyWEIE1re/UE2qJaNhUDv5ycnuQd8Btr47Svg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SCRNt3vCcZvQpdhgoNQZq2Xl9owEUwlhakuJ/93hQDY=;
- b=Xms1m8oRzU0aMhP5vnI+1UGUkImV9J3pvGOlkekvzVDcT9ZDs8klBSIOwx0UKgQL0vL2dDkPzXHq26k47DYwwqf+t0zQ9IW5n07s+pwVr+cAXZ5l6Hxf9LuLXYwPRJyJN9fPEEjsASXp9T6mrAfAum1htn7FZuPacOiJlF/gJ2c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH0PR12MB5043.namprd12.prod.outlook.com (2603:10b6:610:e2::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.17; Wed, 8 Mar
- 2023 15:42:47 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
- 15:42:47 +0000
-Message-ID: <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
-Date: Wed, 8 Mar 2023 16:42:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
- <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
- <585fa052-4eff-940e-b307-2415c315686a@amd.com>
- <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0074.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::16) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5A179F0;
+	Wed,  8 Mar 2023 16:35:07 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 80F85FF811;
+	Wed,  8 Mar 2023 16:34:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1678293300;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lUqLGRcG0w1R1iyEPwO1Ebbfe3rcU5gyLFk3k2avVAA=;
+	b=aHrGdIQeeaiSvYoxSkLc+KAYSRX4ac2bF5cebMcenP1fS2MSr2Knm0vLB2OazwSvbodCvH
+	ngNLG2Qkv7cwBX15KF36vC4m+gfmMsAw32l/HChTK739+bFor3Ya7fTEwEfCsMB6j8F5IA
+	RzZqXkwxa1dp7Wy86wS7S9tFCtqbmrM2NvGOeOoP02m8zdKIqAymEDeXyy0rwnfnaYf08F
+	8MhV9B8uD4Ht0JD0Hhb1m2PiSPW1P8k7lUrV+dI4RkgATib9HdhOihqM4U60ZNPH2vr68V
+	pF+33zGbMA2taiYfi7KHopl6udaUGxzqC8X2EXQaW80UuRJ95luD65pOC+ArPw==
+Date: Wed, 8 Mar 2023 17:34:53 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy
+ Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad
+ Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson
+ Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Vincent Shih <vincent.sunplus@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo
+ <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-rtc@vger.kernel.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <rafal@milecki.pl>
+Subject: Re: [PATCH V2] nvmem: add explicit config option to read OF fixed
+ cells
+Message-ID: <20230308173256.3837b87b@xps-13>
+In-Reply-To: <20230224072903.20945-1-zajec5@gmail.com>
+References: <20230224072903.20945-1-zajec5@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH0PR12MB5043:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30c4b218-8d6d-41ad-a246-08db1febc454
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	SY5M3FDVotZ3R+Yjx1vhrhBKEysG3m+AJy+dPL0qdwMHPaBN+jXGptpRVMeIWU3yIjg/N3tkyQqFT5DkkGRjubUiPrGUj6Z5yqo5DwHFzdsWR4hK2DywdltiGe1jV7IRIiu9Qqt+Ah68s3xmQMSt0wxhpCx3tXT1p7fHlbUb2pKrUgQycUuusv1sqVaPleHMrGKnD7TPOMLTSZDEaEi+Vm3sT5/LTfnFcUohuEEJ0jHEmpDiT2WvAFEu/UYvbLfaQdfEfIxZu8q1OfQt8eFSR893px5ZyAxkFuYr3pQwGdcbPqYq2abUHKR8gqw9vfvMRKvlHY0Sm1f5IyHEELr7HBi6sx9IBMi0cvNxijUWtnX7g5Q1FPpAW7GCV9c32ZzYFMJ6Eo1omYA8nK39HmdSzXHaG26wwUK9xdaJiopDeego62RfjHeykFUa8lCaZnv3R2kUO7U+g0OOKZDBzJVwCL5SJqDxfEC72QAxJkkFw+b+mtCw4aoBlFSXld6QQ8Fv1FphDLloS3u8hPUxrfbF88hVBXzdNtAZBKHgV5DKnYIwJ3oyrYOa9XMkqoDsqZ7YyMTESmxCi+FShDMfNj1quvd+t3J/KiVbJZVbYxG+SkQihWuxlu9Ura2TCptkSJfjpWlL/BoNyTFvDwW4uYQ5PJRjTa8IhSHG1xpNoW7fob0pTh4qxJDj9aPvSwJPY04Tqsz+Q9K0FQufz6BY9IYsU3BXsuKelVVmugG1xb5Srb8bIRsLju5MJKqexEJuu+u+
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(39860400002)(346002)(136003)(366004)(376002)(396003)(451199018)(2906002)(31686004)(66946007)(4326008)(5660300002)(7416002)(36756003)(8936002)(41300700001)(110136005)(31696002)(66556008)(66476007)(8676002)(86362001)(316002)(54906003)(478600001)(921005)(6486002)(6666004)(38100700002)(6512007)(6506007)(53546011)(186003)(2616005)(83380400001)(66574015)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VVZTVlB3UEl1K0hxU3ltUCtwU2NOQTRYcENYL1FKV2NuenFwdXVlVVhKeHUw?=
- =?utf-8?B?cG1IMElMWStSM1Q5NVcvOTAxSDhCa1FkVTluZDREajRNOWZHbTU5VlVSR2RE?=
- =?utf-8?B?YlF6RkJnWlQ0Q2VsNGkxNFlDT2lMNjE0Y2xYOHBPcE5iNUh3U1RZMVRYdW9n?=
- =?utf-8?B?RHc0Rjc0c3FQaVpYV2djQmlJUTR3bXNPVDV6eFFJQUpLSUJYaUVhd0Urb2NL?=
- =?utf-8?B?YUMzaHpJSE9qNG40LzRQc3JzYzUySjFZcGtEeXdETzZQTUZacndwUHVGR0N1?=
- =?utf-8?B?T2dPT1lJczNMdnNCRnhjVllRd3NDQW44YmRXRThadHh6eGswTnFPZFdOUkw4?=
- =?utf-8?B?c1RXK3FJYlRldmZnMDN1K1FUR0RhbVdha3llZkJuY1I4YnFPb29FQXF3Vk0x?=
- =?utf-8?B?bGZNOFNMZWE5VTZwT1VxMUJ1bmU4K0N2WVQrQ1o2bXZzS1ZQTkpJdDQ2TUl5?=
- =?utf-8?B?QWM2M01VSDBSR2ZsckRIOGdiZVBic2FSc1BuODNORWNkOU5ncklKcmJVZTho?=
- =?utf-8?B?aUpES2J1WkV0WjR6ZXh2WTVrRHlqcGVxMWkxSGVTWEtHMDB2c0QraGJ0S3hE?=
- =?utf-8?B?bHBtUENWeGpEUGYrb1N6amFFMUs0R2ZndEsrSm4wa0x0aXJtUEVHcXBHZFBP?=
- =?utf-8?B?aDIrSElSSVltdnNsZDQ0aFZYbGZPL3kyK0U3WmdZYmtJOTdZNGVicHRIYnRY?=
- =?utf-8?B?RW5BZnh3dWpLeFMvT0pkRWRodUxtZGRYVy8wR0FleGN1MEpDOHB6WEhjajFx?=
- =?utf-8?B?b1BQTVVuajE4TzBEUHErb3FreFRoWlJsajVlc2tkYWtSNW1rVm1MRlN1bnc0?=
- =?utf-8?B?RjUxNGEvSXhyQU83dVB4SllRTWx6L1FYTFZTeG9HeVdzWUZFbHRncHJDcDgr?=
- =?utf-8?B?L3paMEtZd1J5cFV1SCt1eFo5NlAxeXJLQW53NFlML1VjQnRkL0xmVm9ja0tk?=
- =?utf-8?B?NTR0ck9CSTNtSjAvVldKd0lvTGVEcDhGQy9oVGVXYm1aTmRiWk1ISEszZTZ4?=
- =?utf-8?B?cExZR0lOc05LT2hSclJLbXNUNVdnL3NvMXZVdk1WRkYzaUN5RFFkajhNVUNK?=
- =?utf-8?B?NXRseTlpbDA0QnZ6NkNuRm1kZXI1bW05R1UzSlplY3VmbE15N1huZHpJTHlz?=
- =?utf-8?B?cUZHbC9hdlF6aWdOOUpmb1MvTW95eVV0WUZwSHJkbUNBM1lyQW8vSmU0Nm1N?=
- =?utf-8?B?WXNkakRlVEFFU2JBY3hyWTc0dDJxQUJZcndwdVU4N0dzSmZVb0p4Q2VxQis2?=
- =?utf-8?B?OEhydXNaL0xCczlZKzZFM2Z1T3FIVXhQbkE2ZTNPTGYvQ20ycHh3ZG1FMXdR?=
- =?utf-8?B?QXdIYko3T3hOam5ucUN0NUpWNisrSVBnaUExRmhvS2QyQnF2ZHdYbWN0aHFu?=
- =?utf-8?B?UTUrUDcvbTVzcExtL09ydWx1TksxMTlpZWs5amlCTW94QVlZYjNZVmlITmRN?=
- =?utf-8?B?d29UdUgyZGM3SVc0VDM0MEdRMU95MlhaR3gxMktkZG4zREpOa2dXOVdBRFNO?=
- =?utf-8?B?RXY3TEhwN0NqTEhTUnJMeEpnYUp0VW5VcFVlTjY2N3FTcFVOODF2RjljZW93?=
- =?utf-8?B?ZlZKOU1iVDVBSmZvZStUSUVwMHBVbFhGTnFDbmc1UDVEMUdlbGJxaHIzRk5S?=
- =?utf-8?B?bzA4dlgveGdsQUNDa0d5RjI3ZXA0WG9OR2FkSDlBZi9XZFJjd3h2elQvTzdK?=
- =?utf-8?B?dzhjZm91VU1aNzlpaWlmZlFoWUY2UDlaRFNlWGtNbjBSblIrL1BsaVNEUnF1?=
- =?utf-8?B?bnEyTnc2S3UwVjZXRkhIUXBhV29hdzZqQi9tWWNVZHJWZlF4Mm16Zmg3aUNu?=
- =?utf-8?B?NGx1UXc4ekhWS2pNK2w2aXVURGhISk1jVzZGbnR5OWM3MkQ0Rkk5RWZiQUhl?=
- =?utf-8?B?YWdkbGlabjZybFJYb1hVK2g4K0o3YktaMnNMd0NLMGp0c3QwcUtYZmNsWXp2?=
- =?utf-8?B?UWREUHRzaVRneU9BMnFaZ3ZDL012SlNjNUhpM3h4M1pDM2dVYXcvN0lmVDlE?=
- =?utf-8?B?eDh2aXRlbmN1VU9uUkh5dktyY3Q4TnNlRy9iaDVyM0pxOHhpTWVIaUxrbjhk?=
- =?utf-8?B?RUVoK1BIYVo5a3E5OEJpMEU3dUNkV1RZdHhSYUg0RVZHNVVwZDRtRXNpQVBN?=
- =?utf-8?B?c3FydVpuc3ZXQnZSMURtSThKS1prWXZxc2ZNUUM5aDZKeStvSEdzVTloekZD?=
- =?utf-8?Q?/w6J4Qq3PC7rBXzEGEtOfTx/d4Y/ObY4N/JlrYGL0b0N?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30c4b218-8d6d-41ad-a246-08db1febc454
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 15:42:47.7994
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8kCTJe/VeNNy5KSaMLttBB1WZR3Xr8SJYpOfIsQLDrARPjfTNir4KwPkSsXlg/1f
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5043
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Am 08.03.23 um 16:18 schrieb Asahi Lina:
-> On 08/03/2023 19.03, Christian König wrote:
->> Am 08.03.23 um 10:57 schrieb Maarten Lankhorst:
->>> On 2023-03-07 15:25, Asahi Lina wrote:
->>>> drm_sched_fini() currently leaves any pending jobs dangling, which
->>>> causes segfaults and other badness when job completion fences are
->>>> signaled after the scheduler is torn down.
->>>>
->>>> Explicitly detach all jobs from their completion callbacks and free
->>>> them. This makes it possible to write a sensible safe abstraction for
->>>> drm_sched, without having to externally duplicate the tracking of
->>>> in-flight jobs.
->>>>
->>>> This shouldn't regress any existing drivers, since calling
->>>> drm_sched_fini() with any pending jobs is broken and this change should
->>>> be a no-op if there are no pending jobs.
->>>>
->>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>>> ---
->>>>    drivers/gpu/drm/scheduler/sched_main.c | 27
->>>> +++++++++++++++++++++++++--
->>>>    1 file changed, 25 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->>>> b/drivers/gpu/drm/scheduler/sched_main.c
->>>> index 5c0add2c7546..0aab1e0aebdd 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>> @@ -1119,10 +1119,33 @@ EXPORT_SYMBOL(drm_sched_init);
->>>>    void drm_sched_fini(struct drm_gpu_scheduler *sched)
->>>>    {
->>>>        struct drm_sched_entity *s_entity;
->>>> +    struct drm_sched_job *s_job, *tmp;
->>>>        int i;
->>>>    -    if (sched->thread)
->>>> -        kthread_stop(sched->thread);
->>>> +    if (!sched->thread)
->>>> +        return;
->>>> +
->>>> +    /*
->>>> +     * Stop the scheduler, detaching all jobs from their hardware
->>>> callbacks
->>>> +     * and cleaning up complete jobs.
->>>> +     */
->>>> +    drm_sched_stop(sched, NULL);
->>>> +
->>>> +    /*
->>>> +     * Iterate through the pending job list and free all jobs.
->>>> +     * This assumes the driver has either guaranteed jobs are
->>>> already stopped, or that
->>>> +     * otherwise it is responsible for keeping any necessary data
->>>> structures for
->>>> +     * in-progress jobs alive even when the free_job() callback is
->>>> called early (e.g. by
->>>> +     * putting them in its own queue or doing its own refcounting).
->>>> +     */
->>>> +    list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
->>>> +        spin_lock(&sched->job_list_lock);
->>>> +        list_del_init(&s_job->list);
->>>> +        spin_unlock(&sched->job_list_lock);
->>>> +        sched->ops->free_job(s_job);
->>>> +    }
->>> I would stop the kthread first, then delete all jobs without spinlock
->>> since nothing else can race against sched_fini?
->>>
->>> If you do need the spinlock, It would need to guard
->>> list_for_each_entry too.
->> Well this case here actually should not happen in the first place.
-> "This should not happen in the first place" is how you end up with C
-> APIs that have corner cases that lead to kernel oopses...
->
-> The idea with Rust abstractions is that it needs to be actually
-> impossible to create memory safety problems for the user of the
-> abstraction, you can't impose arbitrary constraints like "you must wait
-> for all jobs to finish before destroying the scheduler"... it needs to
-> be intrinsically safe.
->
->> Jobs depend on their device, so as long as there are jobs there should
->> also be a reference to the scheduler.
-> These schedulers are created dynamically per userspace queue. The memory
-> management and reference counting involved make it safe to destroy the
-> scheduler even when behind the scenes hardware jobs are still running,
-> as long as drm_sched itself doesn't crash on fences firing without a
-> scheduler (which is what this patch fixes).
+Hi Rafa=C5=82,
 
-We have originally rejected that approach, but I still think it might 
-work if done right.
+zajec5@gmail.com wrote on Fri, 24 Feb 2023 08:29:03 +0100:
 
-> This is the power of Rust: it forces you to architect your code in a way
-> that you don't have complex high-level dependencies that span the entire
-> driver and are difficult to prove hold. In my driver, you can kill a
-> process and that destroys the drm_sched, closes all GEM objects,
-> everything, even if the GPU is still running jobs from that process. The
-> worst that can happen is that the GPU faults as in-use userspace buffers
-> are unmapped out from under the running user job, but that's fine (GPU
-> faults are recoverable). The actual firmware resources, queues, etc. in
-> use are all kept alive until the commands finish executing (or fault,
-> which is just an abnormal completion), even if the userspace process
-> that owned them is long gone. I've tested this extensively by doing
-> things like large-resolution glmark runs in a loop that get `kill -9`'d
-> repeatedly, and it works very well! Tons of GPU faults but no firmware
-> crashes, no oopses, nothing. And the firmware *will* crash irrecoverably
-> if anything goes wrong with its shared memory structures, so that it
-> doesn't is pretty good evidence that all this works!
+> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+>=20
+> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
+> default. This behaviour made sense in early days before adding support
+> for dynamic cells.
+>=20
+> With every new supported NVMEM device with dynamic cells current
+> behaviour becomes non-optimal. It results in unneeded iterating over DT
+> nodes and may result in false discovery of cells (depending on used DT
+> properties).
+>=20
+> This behaviour has actually caused a problem already with the MTD
+> subsystem. MTD subpartitions were incorrectly treated as NVMEM cells.
 
-Well testing is no prove at all of a correct design.
+That's true, but I expect this to be really MTD specific.
 
->> What could be is that you have allocated a scheduler instance
->> dynamically, but even then you should first tear down all entities and
->> then the scheduler.
-> This is about creating a safe Rust abstraction, so we can't impose
-> requirements on users like that, the abstraction has to take care of it.
-> Unfortunately, the jobs cannot depend on the scheduler at the
-> abstraction level. I tried that (putting a reference counted reference
-> to the scheduler in the job abstraction), but it doesn't work because a
-> job completing can end up dropping the last reference to the scheduler,
-> and then you end up trying to stop and clean up the scheduler from a
-> callback called from the scheduler kthread itself, which deadlocks. We
-> could throw those cleanups into a workqueue or something, but that's
-> just adding bandages around the problem that the drm_sched interface
-> today is just not safe without this patch...
+A concrete proposal below.
 
-Well that won't work like this. The scheduler has a pretty clear tear 
-down procedure.
+> Also with upcoming support for NVMEM layouts no new binding or driver
+> should support fixed cells defined in device node.
 
-And that procedure implies that all entities which might provide jobs 
-are destroyed before the scheduler is destroyed.
+I'm not sure I agree with this statement. We are not preventing new
+binding/driver to use fixed cells, or...? We offer a new way to expose
+nvmem cells with another way than "fixed-offset" and "fixed-size" OF
+nodes.
 
-Destroying the entities in turn cleans up the pending jobs inside of 
-them. We could add a warning when users of this API doesn't do this 
-correctly, but cleaning up incorrect API use is clearly something we 
-don't want here.
+> Solve this by modifying drivers for bindings that support specifying
+> fixed NVMEM cells in DT. Make them explicitly tell NVMEM subsystem to
+> read cells from DT.
+>=20
+> It wasn't clear (to me) if rtc and w1 code actually uses fixed cells. I
+> enabled them to don't risk any breakage.
+>=20
+> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+> [for drivers/nvmem/meson-{efuse,mx-efuse}.c]
+> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> ---
+> V2: Fix stm32-romem.c typo breaking its compilation
+>     Pick Martin's Acked-by
+>     Add paragraph about layouts deprecating use_fixed_of_cells
+> ---
+>  drivers/mtd/mtdcore.c          | 2 ++
+>  drivers/nvmem/apple-efuses.c   | 1 +
+>  drivers/nvmem/core.c           | 8 +++++---
+>  drivers/nvmem/imx-ocotp-scu.c  | 1 +
+>  drivers/nvmem/imx-ocotp.c      | 1 +
+>  drivers/nvmem/meson-efuse.c    | 1 +
+>  drivers/nvmem/meson-mx-efuse.c | 1 +
+>  drivers/nvmem/microchip-otpc.c | 1 +
+>  drivers/nvmem/mtk-efuse.c      | 1 +
+>  drivers/nvmem/qcom-spmi-sdam.c | 1 +
+>  drivers/nvmem/qfprom.c         | 1 +
+>  drivers/nvmem/rave-sp-eeprom.c | 1 +
+>  drivers/nvmem/rockchip-efuse.c | 1 +
+>  drivers/nvmem/sc27xx-efuse.c   | 1 +
+>  drivers/nvmem/sprd-efuse.c     | 1 +
+>  drivers/nvmem/stm32-romem.c    | 1 +
+>  drivers/nvmem/sunplus-ocotp.c  | 1 +
+>  drivers/nvmem/sunxi_sid.c      | 1 +
+>  drivers/nvmem/uniphier-efuse.c | 1 +
+>  drivers/nvmem/zynqmp_nvmem.c   | 1 +
+>  drivers/rtc/nvmem.c            | 1 +
+>  drivers/w1/slaves/w1_ds250x.c  | 1 +
+>  include/linux/nvmem-provider.h | 2 ++
+>  23 files changed, 29 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+> index 0feacb9fbdac..1bb479c0f758 100644
+> --- a/drivers/mtd/mtdcore.c
+> +++ b/drivers/mtd/mtdcore.c
+> @@ -523,6 +523,7 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
+>  	config.dev =3D &mtd->dev;
+>  	config.name =3D dev_name(&mtd->dev);
+>  	config.owner =3D THIS_MODULE;
+> +	config.use_fixed_of_cells =3D of_device_is_compatible(node, "nvmem-cell=
+s");
 
-> Right now, it is not possible to create a safe Rust abstraction for
-> drm_sched without doing something like duplicating all job tracking in
-> the abstraction, or the above backreference + deferred cleanup mess, or
-> something equally silly. So let's just fix the C side please ^^
+I am wondering how mtd specific this is? For me all OF nodes containing
+the nvmem-cells compatible should be treated as cells providers and
+populate nvmem cells as for each children.
 
-Nope, as far as I can see this is just not correctly tearing down the 
-objects in the right order.
+Why don't we just check for this compatible to be present? in
+nvmem_add_cells_from_of() ? And if not we just skip the operation.
 
-So you are trying to do something which is not supposed to work in the 
-first place.
+This way we still follow the bindings (even though using nvmem-cells in
+the compatible property to require cells population was a mistake in
+the first place, as discussed in the devlink thread recently) but there
+is no need for a per-driver config option?
 
-Regards,
-Christian.
+>  	config.reg_read =3D mtd_nvmem_reg_read;
+>  	config.size =3D mtd->size;
+>  	config.word_size =3D 1;
+> @@ -891,6 +892,7 @@ static struct nvmem_device *mtd_otp_nvmem_register(st=
+ruct mtd_info *mtd,
+>  	config.name =3D kasprintf(GFP_KERNEL, "%s-%s", dev_name(&mtd->dev), com=
+patible);
+>  	config.id =3D NVMEM_DEVID_NONE;
+>  	config.owner =3D THIS_MODULE;
+> +	config.use_fixed_of_cells =3D true;
+>  	config.type =3D NVMEM_TYPE_OTP;
+>  	config.root_only =3D true;
+>  	config.ignore_wp =3D true;
+> diff --git a/drivers/nvmem/apple-efuses.c b/drivers/nvmem/apple-efuses.c
+> index 9b7c87102104..0119bac43b2c 100644
+> --- a/drivers/nvmem/apple-efuses.c
+> +++ b/drivers/nvmem/apple-efuses.c
+> @@ -36,6 +36,7 @@ static int apple_efuses_probe(struct platform_device *p=
+dev)
+>  	struct resource *res;
+>  	struct nvmem_config config =3D {
+>  		.dev =3D &pdev->dev,
+> +		.use_fixed_of_cells =3D true,
+>  		.read_only =3D true,
+>  		.reg_read =3D apple_efuses_read,
+>  		.stride =3D sizeof(u32),
+> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+> index 174ef3574e07..6783cd8478d7 100644
+> --- a/drivers/nvmem/core.c
+> +++ b/drivers/nvmem/core.c
+> @@ -844,9 +844,11 @@ struct nvmem_device *nvmem_register(const struct nvm=
+em_config *config)
+>  	if (rval)
+>  		goto err_remove_cells;
+> =20
+> -	rval =3D nvmem_add_cells_from_of(nvmem);
+> -	if (rval)
+> -		goto err_remove_cells;
+> +	if (config->use_fixed_of_cells) {
+> +		rval =3D nvmem_add_cells_from_of(nvmem);
+> +		if (rval)
+> +			goto err_remove_cells;
+> +	}
+> =20
+>  	dev_dbg(&nvmem->dev, "Registering nvmem device %s\n", config->name);
+> =20
 
->
-> So far, drm_sched is the only DRM API that has had such a fundamental
-> API safety issue that I had to make a change like this to the C to make
-> the Rust abstraction possible/reasonable... drm_sched has also been by
-> far the hardest DRM component API to understand from a safety point of
-> view, with the most inconsistent documentation about what the
-> ownership/freeing rules are, and what objects need to outlive what other
-> objects (I had to just read the code to figure most of this out). That's
-> also one nice outcome of writing Rust abstractions: it forces us to make
-> all these rules and invariants explicit, instead of leaving them as
-> unwritten assumptions (almost nobody consistently documents this in C
-> APIs...).
->
-> If I got it right, anyone using the Rust drm_sched abstraction doesn't
-> have to worry about this any more because if they do something that
-> would oops with it, their code won't compile. But I need this patch to
-> be able to make that guarantee...
->
-> ~~ Lina
-
+Thanks,
+Miqu=C3=A8l
