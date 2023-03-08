@@ -1,205 +1,232 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2085.outbound.protection.outlook.com [40.107.243.85])
+Received: from 6.mo584.mail-out.ovh.net (6.mo584.mail-out.ovh.net [188.165.36.253])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81BF8462
-	for <asahi@lists.linux.dev>; Wed,  8 Mar 2023 18:12:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bq8FuZo4qoc19PJ9vj4K3Og+4u0oab0kUFI02LQh7AxINnJjD4ldwYgWUEMNUeojriSutCvFjFswbGyNTyNEuFptsHK/wZAGSJ/vhzuIP1AzL/L9kJbnaAztp56q31LGeg5sg4DXEnc0LjdRw4CtU4f/5Uy4SPrZ5mm7+Dx+dV5P678ZPVlHc/85dw0/WjhC0rHocOG5mCgBr0hw/z+QYQO9zFzoSRmJFI8IHrrhB6TEQEv6J0Czv6ljXQXN7z8aYFdXEX88ec2/cfK+MBKZ3eai+OOGZAlVPAtJ6R0/CVcwfA6E8CS1dFYiMBypzMi6W7oZxC5ERx4MPrQ0zf85wQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OqjJQ7LG7Y1wtHz5kKh6yITz2E3fdXLUKI4tl63gbXs=;
- b=GEijw0fmPWvnGN9OeyfvcDP13dAOnYFf31lYMrf/MbQAMClQ+Jdt+zqtuGDeZzDCR15QQPGqYcWu2flJe/OSKoLxZNdaNpoPP8Lj/9OPobMvjef/4TKrxp38Jf9IXGOspBEi4MUo4x+fE+YCmMcybBpbsjq882pLSF5343v5vkVUwm4L7292xNa3iTdMKfsT8f5ANzpsiZ6uZlN3XHZsihJ5Q0GKmNS1cKJxrdVhwIH4u/KAKfb9Bao9XfJz6MoIGK6QY2PkUEVA9njXf8J5cO8O9g0SygWF4enJgGeWcPMXTiJkVH2ABFAp/LdmKnlQR3I0EVQxYPbSRCnn+jkVZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OqjJQ7LG7Y1wtHz5kKh6yITz2E3fdXLUKI4tl63gbXs=;
- b=oQUoWMGJQlrt4XGMDMVYOBhHRXvEFSUk35nTy6Zt9hu+Kd+LbClRqTFxsXhiiD65//XgVgUlXB4AciRNF7I1Lc3Wq62jRO1uXYX2Bi4dI+UvM0I9OIHbJnhQryv8w2Lc/rQ+k6KWENO6hBrzJ90XSdhcVQEnJ29RYr9IaL/3CYc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CY5PR12MB6348.namprd12.prod.outlook.com (2603:10b6:930:f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6156.28; Wed, 8 Mar
- 2023 18:12:08 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::d23f:bb1:df95:3918%4]) with mapi id 15.20.6178.017; Wed, 8 Mar 2023
- 18:12:08 +0000
-Message-ID: <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
-Date: Wed, 8 Mar 2023 19:12:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
- <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
- <585fa052-4eff-940e-b307-2415c315686a@amd.com>
- <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
- <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
- <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0181.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a4::14) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1498462
+	for <asahi@lists.linux.dev>; Wed,  8 Mar 2023 18:12:20 +0000 (UTC)
+Received: from director5.ghost.mail-out.ovh.net (unknown [10.109.138.21])
+	by mo584.mail-out.ovh.net (Postfix) with ESMTP id 47DCD2718F
+	for <asahi@lists.linux.dev>; Wed,  8 Mar 2023 16:55:53 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-thdkc (unknown [10.108.4.11])
+	by director5.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 753361FE33;
+	Wed,  8 Mar 2023 16:55:46 +0000 (UTC)
+Received: from RCM-web1.webmail.mail.ovh.net ([176.31.238.120])
+	by ghost-submission-6684bf9d7b-thdkc with ESMTPSA
+	id /Qw+GhK+CGScog0A/TOSEw
+	(envelope-from <rafal@milecki.pl>); Wed, 08 Mar 2023 16:55:46 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY5PR12MB6348:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b57cfc6-bf04-44be-93e5-08db2000a123
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	/lyiHdIcocy63gO8Ko/NqkmPDCh4XWqGz3EPoCehfb6Fceu1aM26AIvwsEJ1OoJ/sUwNBIcq4bF5alYB/L3FLtqOeVRNBIFvZxTAOzha85IE8Z4knoEWQigJOQmpKLlZy1+cNDjKy4ZPUnWJAXQu9+0PMjK3+xMwEj+mpenMjCvsKytI6FOglV6su2Hj0qbcawWwOAxnay8QEcpjAbvLgtyhwtuYc54ay6sv8XNUWRntjJvlQ4EctxSdnwg4ICOa8onP0CSGaOT8P+RiA9L7WPJNpvyZqvZIL5f/jT5+o3ueq1fw8JIti8mEoLxEG7o7eMN0bsEd9xAB8xCscGwsfaYuzOCW+dvVX45linAufD1sCfSDCgdrUvfJpynRcnQQwWJpeQAmGPSCVzghfSYxnn5AEeF6IflTVenDqVnSoN6e5H6ntUQ32LiFYNhUC2A03rHyp8jcu08f/Oixk6YUR71Vy7aaaXdMedDvAflwagwSBXCNlnZEyAynfwlVLfSvrs8bEcgtelPOBkRx/Or6LQPUlQ/5mJSzRvftuna7PRjLVQ/suLMvUPkAOuSr3srxQBr1d++tsdq5IkOU/YU9A3V8+YTRpsepFJGLzFD+zZxK0tUuKqUGXAV88WJO/p6tlAXVVouqMLwgVJHyga6sTMqjZBRDEr32zJjJLl9mEgorinA3wx2r8AnBZHFRb9zQL0vtwb+ovlY1sbtkoQuvQ6LLogHm2NJO3Ee2SqiWzoshzl0fwpfr+3QDS3Ul7hPE
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(136003)(396003)(366004)(39860400002)(346002)(376002)(451199018)(6512007)(6486002)(36756003)(6666004)(6506007)(921005)(86362001)(38100700002)(83380400001)(31696002)(186003)(41300700001)(2616005)(66476007)(66556008)(8676002)(2906002)(4326008)(8936002)(31686004)(7416002)(5660300002)(110136005)(478600001)(66946007)(54906003)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RGxkTFRudTZiaTNqWG9OT0ptL0NXTW4vQVhkeVZybDRaUVljR3Jjekk5Yits?=
- =?utf-8?B?YjFpUk5RQzMyOFRZSlBPRFYwUlpxUnBVK2drVE84dC9qbnNaRFlmYlJrbG5U?=
- =?utf-8?B?aTB4Rm1mREJlZzJkTmNEemM4VE9KaWhXUldvSGoxWEY5QUhCZ0Q0UzRVV1Fo?=
- =?utf-8?B?RW1FeENTUmVaTmhGUlRMZmpUS3hCRTdBL0Y2MVhUelFNQ2JXSG9xTTRzSDVW?=
- =?utf-8?B?NHR0Vk1tRFhFQmtSVnhNTGZXTzZKeFVaWmZWRFQ5NVowR3YrWEtZZjUrUS9w?=
- =?utf-8?B?UW9pZ2tMd0x0NUJHRzdyVFN6Z3JnNUVySGdRV2Q1Tkk5STcwRFJjNTlBUmFl?=
- =?utf-8?B?alFOWTcvTSt1aXY5N0FuK000eG1ad0ZkUGpMRmtxVFlUL3ZGbXhldWloNnlZ?=
- =?utf-8?B?Z3ZDY3NWWm15RmdJcE5PdktKZW9hSms4aUVuZVUzcndYSDhPNklMcExGTHZ1?=
- =?utf-8?B?SjN4bUF2S0w3ZkgvYXdySFFHejlyblNremFUUS8yd1VrNkw5TjkzRTFLa0hK?=
- =?utf-8?B?TzBDL0RiRmVsaW9Fd1l0blg3YklxSjdqV1RmQS94bUcrR1VQUnAxZGJJZVJp?=
- =?utf-8?B?VEZldGx4MWhvM3lQMTUyd1JDcDdCMk1TUk5mOWZLWm5SejJGNzNlc0tqeURT?=
- =?utf-8?B?NlVZRENmUjgyWEx2Ri9ReVdhNnh5Zy9YYjkxeW9iYitlRWJFSW0zTFFQZ29L?=
- =?utf-8?B?V3BqREI3Y1lmeEpJMHo1L1BRa2c5WUZLNmJKaFRsWmZxd0V1VnU2dXBXOUxZ?=
- =?utf-8?B?ZS9SUndsWFFXaStSOXJ6ejR0bXZJZWp5MlY5UkNzV1ZUUzRVYTZ5MzIxY1Vl?=
- =?utf-8?B?MDlZa2s4eFF0Rk9PWlV1TXluUWNUM1hFekV4dkp0ZDdvSGdsZGZsNjhieTVm?=
- =?utf-8?B?Z1l5c1NEMUZPVUxCd0RWTW9KdHhrcGV5bEtOdjFPRGt5dDJDWm1qVDVrSHda?=
- =?utf-8?B?Q3ZuNFRSY2lnVGd1NllXZkJheU1WRlljYXRoTVA0Rm9SN3VZTzlLejRQMTF1?=
- =?utf-8?B?WG0rQSszcXVTL0QyeWJ2RlFtVGJKbUI5aXM3RVNuZnovUXhJc1BzbWRTWnZ4?=
- =?utf-8?B?dzZ0T3JkRmcwMVM4MytRZTdTN0JWSUJQTCtKM1F4S29TRFZhdmxXd0FkUjVC?=
- =?utf-8?B?czh0Z2ZYRHN5Rk5kU1lCUTFIRUxkZGFqb29IVG9DaFR0UyttZXZ0UDZlYWts?=
- =?utf-8?B?NWdjS0lrVkJSSnpMaFcxaDhYdkZYRVpLNmJOT2QvK285YkdkS3c3bWJiOVU3?=
- =?utf-8?B?L2NrRFFiOFRmV1ZOSHM1bjIvb2lZSEF4djA0MmZnQjBIQjBiK21qMmhiWEd5?=
- =?utf-8?B?UWxSdG9nblptMkpYOUpFaWZZT1BCTDh2aVRtMnBWS1JmSWZQemdFejdZelpC?=
- =?utf-8?B?RThNOEUrSEZPdWV3NnJiU210aUpEZ3k0NlU1NUY4aVIwWG9lUVJNbWo4OVpU?=
- =?utf-8?B?ZWpXSUhBMXlJMWU5TWVhZlE1THVxdTgzdDhuZUVNYmUzc2dZQTRDb29valNa?=
- =?utf-8?B?YUtzTmtwNTBnRkpseWtPSUNWR2dncTFMNWlZZlJNWFA4bFZaS1JQQUg4cDlG?=
- =?utf-8?B?bHV4OTRrYXNDM3F2eXozc3BPY1RWcWxUeTNMNXJlMFFRREx6VVhWaUZGSFdh?=
- =?utf-8?B?OGN2eHZiWmpKdEN4T1ZQOXl5T1NxZkxIYlZabEp6Lyt4eFU3SC94N3o2THlO?=
- =?utf-8?B?NTVRZjdUUWFNMklrWVdGSGVZWkEzT09JejJJd0d5bFJUUTd4bEhLNS8rNVNJ?=
- =?utf-8?B?dEl2OWNSV09aWDQ1T0RvTk8wcDZrQkl5TlJ2YUNKNmV5ZG5hTk9HQkFibko1?=
- =?utf-8?B?NTE0Vkt5dTlwU3p5ZThZczA1UDlnQkhnUkwrL21pU3M0MVdOMXVvQ2l0ZHc2?=
- =?utf-8?B?VzdlcExmcEZnNWhQUFlaQXNLakJGN0E3Ykd6YTJVOUxubzhyQzA2bFViUUxx?=
- =?utf-8?B?RXB3VzN3UytxaUVQeVl4RlhVVC9zZ2NIZWRrQTMra3p4Ni9oYkNrekZobGdr?=
- =?utf-8?B?N214dElPR3lra25WajZFRGMvVDhmTUx2eHU1TTlvSkVOVi9pekhvNjRwWHRr?=
- =?utf-8?B?bUZSZldCTElmczhCc2t0cUVha3Q4cHVvTGFNaW9KVEY3OEk3cmNyc0xFUnlQ?=
- =?utf-8?B?VDROUSttYzQ3aCt4UURjMHBuN3JEMUZXYmJ0M1Y4NU01bmhlQjBYajVIcSsv?=
- =?utf-8?Q?4fLH3ZdbIyS6ZShzM9T6QEsO2Vpmdczr6J3tGZTiMRgm?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b57cfc6-bf04-44be-93e5-08db2000a123
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2023 18:12:08.1265
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: j/m4wt0MqguVwT1+ys3Rl+2tDDR3/KYhvN9+FmTLzg2DWyg5rNUOiDZIljazPCsA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6348
+Date: Wed, 08 Mar 2023 17:55:46 +0100
+From: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>, Srinivas
+ Kandagatla <srinivas.kandagatla@linaro.org>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy
+ Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad
+ Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson
+ Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Vincent Shih <vincent.sunplus@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo
+ <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-rtc@vger.kernel.org
+Subject: Re: [PATCH V2] nvmem: add explicit config option to read OF fixed
+ cells
+In-Reply-To: <20230308173256.3837b87b@xps-13>
+References: <20230224072903.20945-1-zajec5@gmail.com>
+ <20230308173256.3837b87b@xps-13>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <91ff425b4c901648b1faf34c784f20ad@milecki.pl>
+X-Sender: rafal@milecki.pl
+X-Originating-IP: 194.187.74.233
+X-Webmail-UserID: rafal@milecki.pl
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 13697979742194281287
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrvddufedggeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepggffhffvvefujghffgfkgihitgfgsehtkehjtddtreejnecuhfhrohhmpeftrghfrghlucfoihhlvggtkhhiuceorhgrfhgrlhesmhhilhgvtghkihdrphhlqeenucggtffrrghtthgvrhhnpeejvdelgfeutdfhfeelheegfedtleduleeuvdfgfeefvefhvedtheetjeetfeehgeenucfkphepuddvjedrtddrtddruddpudelgedrudekjedrjeegrddvfeefpddujeeirdefuddrvdefkedruddvtdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehrrghfrghlsehmihhlvggtkhhirdhplheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekgedpmhhouggvpehsmhhtphhouhht
 
-Am 08.03.23 um 18:32 schrieb Asahi Lina:
-> [SNIP]
-> Yes but... none of this cleans up jobs that are already submitted by the
-> scheduler and in its pending list, with registered completion callbacks,
-> which were already popped off of the entities.
->
-> *That* is the problem this patch fixes!
+On 2023-03-08 17:34, Miquel Raynal wrote:
+> Hi Rafał,
+> 
+> zajec5@gmail.com wrote on Fri, 24 Feb 2023 08:29:03 +0100:
+> 
+>> From: Rafał Miłecki <rafal@milecki.pl>
+>> 
+>> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
+>> default. This behaviour made sense in early days before adding support
+>> for dynamic cells.
+>> 
+>> With every new supported NVMEM device with dynamic cells current
+>> behaviour becomes non-optimal. It results in unneeded iterating over 
+>> DT
+>> nodes and may result in false discovery of cells (depending on used DT
+>> properties).
+>> 
+>> This behaviour has actually caused a problem already with the MTD
+>> subsystem. MTD subpartitions were incorrectly treated as NVMEM cells.
+> 
+> That's true, but I expect this to be really MTD specific.
+> 
+> A concrete proposal below.
+> 
+>> Also with upcoming support for NVMEM layouts no new binding or driver
+>> should support fixed cells defined in device node.
+> 
+> I'm not sure I agree with this statement. We are not preventing new
+> binding/driver to use fixed cells, or...? We offer a new way to expose
+> nvmem cells with another way than "fixed-offset" and "fixed-size" OF
+> nodes.
 
-Ah! Yes that makes more sense now.
+ From what I understood all new NVMEM bindings should have cells defined
+in the nvmem-layout { } node. That's what I mean by saying they should
+not be defined in device node (but its "nvmem-layout" instead).
 
->> We could add a warning when users of this API doesn't do this
->> correctly, but cleaning up incorrect API use is clearly something we
->> don't want here.
-> It is the job of the Rust abstractions to make incorrect API use that
-> leads to memory unsafety impossible. So even if you don't want that in
-> C, it's my job to do that for Rust... and right now, I just can't
-> because drm_sched doesn't provide an API that can be safely wrapped
-> without weird bits of babysitting functionality on top (like tracking
-> jobs outside or awkwardly making jobs hold a reference to the scheduler
-> and defer dropping it to another thread).
 
-Yeah, that was discussed before but rejected.
+>> Solve this by modifying drivers for bindings that support specifying
+>> fixed NVMEM cells in DT. Make them explicitly tell NVMEM subsystem to
+>> read cells from DT.
+>> 
+>> It wasn't clear (to me) if rtc and w1 code actually uses fixed cells. 
+>> I
+>> enabled them to don't risk any breakage.
+>> 
+>> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+>> [for drivers/nvmem/meson-{efuse,mx-efuse}.c]
+>> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+>> ---
+>> V2: Fix stm32-romem.c typo breaking its compilation
+>>     Pick Martin's Acked-by
+>>     Add paragraph about layouts deprecating use_fixed_of_cells
+>> ---
+>>  drivers/mtd/mtdcore.c          | 2 ++
+>>  drivers/nvmem/apple-efuses.c   | 1 +
+>>  drivers/nvmem/core.c           | 8 +++++---
+>>  drivers/nvmem/imx-ocotp-scu.c  | 1 +
+>>  drivers/nvmem/imx-ocotp.c      | 1 +
+>>  drivers/nvmem/meson-efuse.c    | 1 +
+>>  drivers/nvmem/meson-mx-efuse.c | 1 +
+>>  drivers/nvmem/microchip-otpc.c | 1 +
+>>  drivers/nvmem/mtk-efuse.c      | 1 +
+>>  drivers/nvmem/qcom-spmi-sdam.c | 1 +
+>>  drivers/nvmem/qfprom.c         | 1 +
+>>  drivers/nvmem/rave-sp-eeprom.c | 1 +
+>>  drivers/nvmem/rockchip-efuse.c | 1 +
+>>  drivers/nvmem/sc27xx-efuse.c   | 1 +
+>>  drivers/nvmem/sprd-efuse.c     | 1 +
+>>  drivers/nvmem/stm32-romem.c    | 1 +
+>>  drivers/nvmem/sunplus-ocotp.c  | 1 +
+>>  drivers/nvmem/sunxi_sid.c      | 1 +
+>>  drivers/nvmem/uniphier-efuse.c | 1 +
+>>  drivers/nvmem/zynqmp_nvmem.c   | 1 +
+>>  drivers/rtc/nvmem.c            | 1 +
+>>  drivers/w1/slaves/w1_ds250x.c  | 1 +
+>>  include/linux/nvmem-provider.h | 2 ++
+>>  23 files changed, 29 insertions(+), 3 deletions(-)
+>> 
+>> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+>> index 0feacb9fbdac..1bb479c0f758 100644
+>> --- a/drivers/mtd/mtdcore.c
+>> +++ b/drivers/mtd/mtdcore.c
+>> @@ -523,6 +523,7 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
+>>  	config.dev = &mtd->dev;
+>>  	config.name = dev_name(&mtd->dev);
+>>  	config.owner = THIS_MODULE;
+>> +	config.use_fixed_of_cells = of_device_is_compatible(node, 
+>> "nvmem-cells");
+> 
+> I am wondering how mtd specific this is? For me all OF nodes containing
+> the nvmem-cells compatible should be treated as cells providers and
+> populate nvmem cells as for each children.
+> 
+> Why don't we just check for this compatible to be present? in
+> nvmem_add_cells_from_of() ? And if not we just skip the operation.
+> 
+> This way we still follow the bindings (even though using nvmem-cells in
+> the compatible property to require cells population was a mistake in
+> the first place, as discussed in the devlink thread recently) but there
+> is no need for a per-driver config option?
 
-The argument was that upper layer needs to wait for the hw to become 
-idle before the scheduler can be destroyed anyway.
+This isn't mtd specific. Please check this patch for all occurrences of
+the:
+use_fixed_of_cells = true
 
->>> Right now, it is not possible to create a safe Rust abstraction for
->>> drm_sched without doing something like duplicating all job tracking in
->>> the abstraction, or the above backreference + deferred cleanup mess, or
->>> something equally silly. So let's just fix the C side please ^^
->> Nope, as far as I can see this is just not correctly tearing down the
->> objects in the right order.
-> There's no API to clean up in-flight jobs in a drm_sched at all.
-> Destroying an entity won't do it. So there is no reasonable way to do
-> this at all...
+The very first one: drivers/nvmem/apple-efuses.c driver for the
+"apple,efuses" binding. That binding supports fixed OF cells, see:
+Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
 
-Yes, this was removed.
 
->> So you are trying to do something which is not supposed to work in the
->> first place.
-> I need to make things that aren't supposed to work impossible to do in
-> the first place, or at least fail gracefully instead of just oopsing
-> like drm_sched does today...
->
-> If you're convinced there's a way to do this, can you tell me exactly
-> what code sequence I need to run to safely shut down a scheduler
-> assuming all entities are already destroyed? You can't ask me for a list
-> of pending jobs (the scheduler knows this, it doesn't make any sense to
-> duplicate that outside), and you can't ask me to just not do this until
-> all jobs complete execution (because then we either end up with the
-> messy deadlock situation I described if I take a reference, or more
-> duplicative in-flight job count tracking and blocking in the free path
-> of the Rust abstraction, which doesn't make any sense either).
-
-Good question. We don't have anybody upstream which uses the scheduler 
-lifetime like this.
-
-Essentially the job list in the scheduler is something we wanted to 
-remove because it causes tons of race conditions during hw recovery.
-
-When you tear down the firmware queue how do you handle already 
-submitted jobs there?
-
-Regards,
-Christian.
-
->
-> ~~ Lina
-
+>>  	config.reg_read = mtd_nvmem_reg_read;
+>>  	config.size = mtd->size;
+>>  	config.word_size = 1;
+>> @@ -891,6 +892,7 @@ static struct nvmem_device 
+>> *mtd_otp_nvmem_register(struct mtd_info *mtd,
+>>  	config.name = kasprintf(GFP_KERNEL, "%s-%s", dev_name(&mtd->dev), 
+>> compatible);
+>>  	config.id = NVMEM_DEVID_NONE;
+>>  	config.owner = THIS_MODULE;
+>> +	config.use_fixed_of_cells = true;
+>>  	config.type = NVMEM_TYPE_OTP;
+>>  	config.root_only = true;
+>>  	config.ignore_wp = true;
+>> diff --git a/drivers/nvmem/apple-efuses.c 
+>> b/drivers/nvmem/apple-efuses.c
+>> index 9b7c87102104..0119bac43b2c 100644
+>> --- a/drivers/nvmem/apple-efuses.c
+>> +++ b/drivers/nvmem/apple-efuses.c
+>> @@ -36,6 +36,7 @@ static int apple_efuses_probe(struct platform_device 
+>> *pdev)
+>>  	struct resource *res;
+>>  	struct nvmem_config config = {
+>>  		.dev = &pdev->dev,
+>> +		.use_fixed_of_cells = true,
+>>  		.read_only = true,
+>>  		.reg_read = apple_efuses_read,
+>>  		.stride = sizeof(u32),
+>> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+>> index 174ef3574e07..6783cd8478d7 100644
+>> --- a/drivers/nvmem/core.c
+>> +++ b/drivers/nvmem/core.c
+>> @@ -844,9 +844,11 @@ struct nvmem_device *nvmem_register(const struct 
+>> nvmem_config *config)
+>>  	if (rval)
+>>  		goto err_remove_cells;
+>> 
+>> -	rval = nvmem_add_cells_from_of(nvmem);
+>> -	if (rval)
+>> -		goto err_remove_cells;
+>> +	if (config->use_fixed_of_cells) {
+>> +		rval = nvmem_add_cells_from_of(nvmem);
+>> +		if (rval)
+>> +			goto err_remove_cells;
+>> +	}
+>> 
+>>  	dev_dbg(&nvmem->dev, "Registering nvmem device %s\n", config->name);
+>> 
+> 
+> Thanks,
+> Miquèl
