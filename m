@@ -1,249 +1,133 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2626263A7
-	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 09:44:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE5C63A7;
+	Thu,  9 Mar 2023 09:48:14 +0000 (UTC)
+Received: from mwalle01.kontron.local. (unknown [213.135.10.150])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 3E0B042037;
-	Thu,  9 Mar 2023 09:44:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1678355048;
-	bh=r/f0kwzIUzQc4guiLm2MeOcHgerUPhPdEcBDwL8JCok=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=DrVFocyAP2o3v1LJypWk5YdWooZAL0/BxJ85CaJflk0WH9/S5lp4HfdBhJJgb9+oa
-	 G0ie5fFvCNP6nWH7IDUsUlXqkDwRAV89ziWYc113CtAQN/zz/2Ewy+KUCeUd53VEpQ
-	 gEejUaQWIo7oEi39ONfemuTfWTm3tfRQVgKq9FrkFTrCc/xHx5UWTaNnKj8UZDFrAR
-	 Tc+WFzknmT5Fx+FLirAjQQQL3k1wsYhb4I90ZJiD5Ln9qbr9gJYIv26GK36Fo+mbaO
-	 1VQ+BFDYKONjUzZOTOQzxS41KAv4+D8mrIg0fqlw62RRV9tCtjB8lKrTHy35j7fX4q
-	 BPBWOo88t1BmQ==
-Message-ID: <9403e89d-a78f-8abd-2869-20da23d89475@asahilina.net>
-Date: Thu, 9 Mar 2023 18:43:59 +0900
+	by mail.3ffe.de (Postfix) with ESMTPSA id 0EF2A127D;
+	Thu,  9 Mar 2023 10:40:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+	t=1678354816;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j6A1cqIav5oN+sJ0Pm8CyKz7tSgwht+condPuImcVwY=;
+	b=zsMPy9kNOSpYIQk2v92UlAChhQ1RPWvR19mptAEqIVjK7y7MtNDhCwb2WjCLD1XqQrz1Lw
+	q8s4RCfCX8HShn15fWBvySjzhsBHUFHE1ZVKHu5VkB4RcwxibgapaU57G1lZ9MaCbGS+ZB
+	d8zZihUMbqMqbCgfK1NPj8qFc6HdOzqsvmbsDviuS3ZwcHJ6DMQw2zRg/+2Ht3+IwL13B9
+	3XbUFM/uL/TIFiDCwAouAEb4qEnSGJF/f7NhSKUHWODVLEtFviq2WFQVuobulTjGODAOt4
+	qJx7Hf6BNV7PeSGwCgjwgSvM/epAZE1St3F3Qp7iV4+07CGebjwrTQ4MPMgtqQ==
+From: Michael Walle <michael@walle.cc>
+To: zajec5@gmail.com
+Cc: a.zummo@towertech.it,
+	agross@kernel.org,
+	alexandre.belloni@bootlin.com,
+	alexandre.torgue@foss.st.com,
+	alyssa@rosenzweig.io,
+	andersson@kernel.org,
+	angelogioacchino.delregno@collabora.com,
+	asahi@lists.linux.dev,
+	baolin.wang@linux.alibaba.com,
+	claudiu.beznea@microchip.com,
+	festevam@gmail.com,
+	hayashi.kunihiko@socionext.com,
+	heiko@sntech.de,
+	jbrunet@baylibre.com,
+	jernej.skrabec@gmail.com,
+	kernel@pengutronix.de,
+	khilman@baylibre.com,
+	konrad.dybcio@linaro.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-imx@nxp.com,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-mtd@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-rtc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	marcan@marcan.st,
+	martin.blumenstingl@googlemail.com,
+	matthias.bgg@gmail.com,
+	mcoquelin.stm32@gmail.com,
+	mhiramat@kernel.org,
+	michal.simek@xilinx.com,
+	miquel.raynal@bootlin.com,
+	neil.armstrong@linaro.org,
+	orsonzhai@gmail.com,
+	rafal@milecki.pl,
+	richard@nod.at,
+	s.hauer@pengutronix.de,
+	samuel@sholland.org,
+	shawnguo@kernel.org,
+	srinivas.kandagatla@linaro.org,
+	sven@svenpeter.dev,
+	vigneshr@ti.com,
+	vincent.sunplus@gmail.com,
+	wens@csie.org,
+	zbr@ioremap.net,
+	zhang.lyra@gmail.com,
+	Michael Walle <michael@walle.cc>
+Subject: Re: [PATCH V2] nvmem: add explicit config option to read OF fixed cells
+Date: Thu,  9 Mar 2023 10:40:10 +0100
+Message-Id: <20230309094010.1051573-1-michael@walle.cc>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230224072903.20945-1-zajec5@gmail.com>
+References: <20230224072903.20945-1-zajec5@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
- <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
- <585fa052-4eff-940e-b307-2415c315686a@amd.com>
- <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
- <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
- <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
- <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
- <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
- <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam: Yes
 
-On 09/03/2023 17.42, Christian König wrote:
-> Am 08.03.23 um 20:37 schrieb Asahi Lina:
->> On 09/03/2023 03.12, Christian König wrote:
->>> Am 08.03.23 um 18:32 schrieb Asahi Lina:
->>>> [SNIP]
->>>> Yes but... none of this cleans up jobs that are already submitted by the
->>>> scheduler and in its pending list, with registered completion callbacks,
->>>> which were already popped off of the entities.
->>>>
->>>> *That* is the problem this patch fixes!
->>> Ah! Yes that makes more sense now.
->>>
->>>>> We could add a warning when users of this API doesn't do this
->>>>> correctly, but cleaning up incorrect API use is clearly something we
->>>>> don't want here.
->>>> It is the job of the Rust abstractions to make incorrect API use that
->>>> leads to memory unsafety impossible. So even if you don't want that in
->>>> C, it's my job to do that for Rust... and right now, I just can't
->>>> because drm_sched doesn't provide an API that can be safely wrapped
->>>> without weird bits of babysitting functionality on top (like tracking
->>>> jobs outside or awkwardly making jobs hold a reference to the scheduler
->>>> and defer dropping it to another thread).
->>> Yeah, that was discussed before but rejected.
->>>
->>> The argument was that upper layer needs to wait for the hw to become
->>> idle before the scheduler can be destroyed anyway.
->> Unfortunately, that's not a requirement you can encode in the Rust type
->> system easily as far as I know, and Rust safety rules mean we need to
->> make it safe even if the upper layer doesn't do this... (or else we have
->> to mark the entire drm_sched abstraction unsafe, but that would be a pity).
-> 
-> Yeah, that should really not be something we should do.
-> 
-> But you could make the scheduler depend on your fw context object, don't 
-> you?
+[as this mentions  nvmem layouts it would have been nice to include me]
 
-Yes, and that would fix the problem for this driver, but it wouldn't
-make the abstraction safe. The thing is we have to make it *impossible*
-to misuse drm_sched in such a way that it crashes, at the Rust
-abstraction level. If we start depending on the driver following rules
-like that, that means the drm_sched abstraction has to be marked unsafe.
+> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
+> default. This behaviour made sense in early days before adding support
+> for dynamic cells.
 
-> Detaching the scheduler from the underlying hw fences is certainly 
-> possible, but we removed that functionality because some people people 
-> tried to force push some Windows recovery module into Linux. We are in 
-> the process of reverting that and cleaning things up once more, but that 
-> will take a while.
+Why is that? It still makes sense, doesn't it?
 
-Okay, but I don't see why that should block the Rust abstractions... I
-don't even need a new API to do that, all I need is to know that
-drm_sched_fini() will do it so it won't crash when the hw fences
-complete later, as this patch does.
+> With every new supported NVMEM device with dynamic cells current
+> behaviour becomes non-optimal. It results in unneeded iterating over DT
+> nodes and may result in false discovery of cells (depending on used DT
+> properties).
 
-> Instead of detaching you could also block for the hw to become idle, but 
-> if you do that synchronous on process termination you run into trouble 
-> as well.
+What false discoveries?
 
-Yes, but again this something that can only be done at the driver level
-so it doesn't solve the safe abstraction problem...
+> This behaviour has actually caused a problem already with the MTD
+> subsystem. MTD subpartitions were incorrectly treated as NVMEM cells.
 
->> The firmware queue is itself reference counted and any firmware queue
->> that has acquired an event notification resource (that is, which is busy
->> with running or upcoming jobs) hands off a reference to itself into the
->> event subsystem, so it can get notified of job completions by the
->> firmware. Then once it becomes idle it unregisters itself, and at that
->> point if it has no owning userspace queue, that would be the last
->> reference and it gets dropped. So we don't tear down firmware queues
->> until they are idle.
-> 
-> And could those fw queue not reference the scheduler?
+But this is solved, correct?
 
-Yes but again, that rule can't be encoded in the abstraction... so that
-makes it unsafe. The goal is to have a safe abstraction, which means
-that all the rules that you need to follow to avoid memory safety issues
-are checked by the Rust compiler.
+> Also with upcoming support for NVMEM layouts no new binding or driver
+> should support fixed cells defined in device node.
 
->> I actually don't know of any way to actively abort jobs on the firmware,
->> so this is pretty much the only option I have. I've even seen
->> long-running compute jobs on macOS run to completion even if you kill
->> the submitting process, so there might be no way to do this at all.
->> Though in practice since we unmap everything from the VM anyway when the
->> userspace stuff gets torn down, almost any normal GPU work is going to
->> immediately fault at that point (macOS doesn't do this because macOS
->> effectively does implicit sync with BO tracking at the kernel level...).
-> 
-> Oh, that is an interesting information. How does macOS do explicit sync 
-> then or isn't that supported at all?
+How would you support older device trees with newer kernels or the
+other way around? I'm not sure I get your motivation to drop handling
+the fixed cells.
 
-They have the equivalent of sync objects at the UAPI level, but they
-also have the implicit stuff and their UAPI seems to always pass a BO
-list to the kernel as far as we could tell, even though it still works
-without it. I think it's a weird hybrid of explicit+implicit sync. From
-the Metal docs:
+> Solve this by modifying drivers for bindings that support specifying
+> fixed NVMEM cells in DT. Make them explicitly tell NVMEM subsystem to
+> read cells from DT.
 
-> By default, Metal tracks the write hazards and synchronizes the resources
-> (see Resource Fundamentals) you create from an MTLDevice and directly bind
-> to a pipeline. However, Metal doesn’t, by default, track resources you
-> allocate from an MTLHeap (see Memory Heaps).
+How can a driver know when there are fixed cells and when not? IOW.
+only new ones can be affected.
 
-So it's both, and you can override it...
+If you want to get rid of the schema for *new* drivers then what
+about having a new child node, something like "nvmem-fixed-cells",
+similar to "nvmem-layout".
 
-At the firmware level, I've never seen Metal use queue barriers yet like
-I do (other than the vertex->fragment ones), so either they always do
-CPU round trips for cross-subqueue sync (render<->compute) or we just
-haven't figured out the magic combination to get it to do that yet.
-Honestly, I suspect they just always do it on the CPU. macOS is pretty
-ugly behind the scenes and it's pretty obvious a lot of their own driver
-was rushed (the firmware seems to support quite a few features the
-driver doesn't... maybe it even has a job abort mechanism, we just
-haven't found it yet).
+And then you'd tell the new drivers to use the new-style dt binding. But
+there are no new drivers yet. So I'm still not sure I get your motivation.
 
-Of course, our goal is to do things better than macOS (and we already do
-some things better!) but getting confident enough about firmware/HW
-details to diverge from what macOS does is tricky and a slow process...
-
->> By the way, I don't really use the hardware recovery stuff right now.
->> I'm not even sure if there is a sensible way I could use it, since as I
->> said we can't exactly abort jobs. I know there are ways to lock up the
->> firmware/GPU, but so far those have all been things the kernel driver
->> can prevent, and I'm not even sure if there is any way to recover from
->> that anyway. The firmware itself has its own timeouts and recovery for
->> "normal" problems. From the point of view of the driver and everything
->> above it, in-flight commands during a GPU fault or timeout are just
->> marked complete by the firmware, after a firmware recovery cycle where
->> the driver gets notified of the problem (that's when we mark the
->> commands failed so we can propagate the error).
-> 
-> Yeah, that's exactly what we are telling our fw people for years that we 
-> need this as well.
-
-Yeah, the ugly bit is that the firmware does a full GPU recovery even on
-simple page faults (which could be handled more gracefully) so even
-stuff like that can possibly break concurrent GPU work.
-
-On the other hand, macOS configures things so page faults are ignored
-and silently return all-00 on reads for shader accesses, which is how
-they implement sparse buffers/textures... and we'll probably have to do
-that to improve reliability against app faults if nothing else. But
-right now the driver enables explicit page faults for everything so we
-can debug Mesa (it's a kernel module param, GPU global and I haven't
-found a way to change it after initial load unfortunately, but it might
-be possible).
-
-I think there's also a way to do actual page fault handling (like swap
-in pages and resume the GPU), but that's one of those firmware features
-Apple's driver just never uses as far as I can tell. There's so much
-unexplored territory...
-
-> 
->> There is no re-submission or anything, userspace just gets told of the problem but
->> the queue survives.
-> 
->> In the future it might be possible to re-submit innocent commands
-> 
-> Long story short: Don't do this! This is what the Windows drivers have 
-> been doing and it creates tons of problems.
-> 
-> Just signal the problem back to userspace and let the user space driver 
-> decide what to do.
-> 
-> The background is that most graphics applications (games etc..) then 
-> rather start on the next frame instead of submitting the current one 
-> again while compute applications make sure that the abort and tell the 
-> user that the calculations might be corrupted and need to be redone.
-
-Then we're good with what we're currently doing, since we already notify
-userspace like that!
-
-Actually I wanted to ask about error notifications. Right now we have an
-out-of-band mechanism to provide detailed fault info to userspace which
-works fine, but in principle it's optional. However, I also mark the hw
- fences as errored when a fault happens (with an errno that describes
-the overall situation), but that never makes it into the drm_sched job
-complete fence. I looked at the drm_sched code and I didn't see any
-error propagation. Is that supposed to work, or am I supposed to
-directly mark the drm_sched side fence as complete, or did I
-misunderstand all this? I get the feeling maybe existing drivers just
-rely on the recovery/timeout/etc paths to mark jobs as errored (since
-those do it explicitly) and never need error forwarding from the hw fence?
-
-~~ Lina
+-michael
