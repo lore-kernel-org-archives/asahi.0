@@ -1,161 +1,109 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D32E9473;
-	Thu,  9 Mar 2023 13:19:30 +0000 (UTC)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id D29391BF203;
-	Thu,  9 Mar 2023 13:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1678367968;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KCS0grjDle8LqIHXYUqxgW9dQGLLuD8q9UNKbRuhYbk=;
-	b=Xwei8LaM7A3PtmP2nNF4x28yyM+iJOS9s9PrMxCrGzZC58KjSVM8cHaBeXrAZI/NtfH/9j
-	r01nhfdqw3Y5E4seWycsQrKTDFGGLW5n7wwD+gr+9XPRGo17l49ulVlJXO+zEXIj6W/wVp
-	xHnGPGBF0BnN6CjB6Mu7s0CWOOvq/3wpWShvMBXpv9A0NVrQOjh4c49bXdwQz2Qj8hWt33
-	zxizmlPdNsdJMSab2n/Xqmakf0DwsfvgnyFw9d/JVszhf957LuH1cfuu0MN5C7gxIvLwp6
-	eigmkj5aTAo76n4kZiDx68XnLa0GLX9JeCOa/Bk5Ds7ImdmzV7EC+0ot+vZz3Q==
-Date: Thu, 9 Mar 2023 14:19:20 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Richard Weinberger
- <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin
- <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman
- <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy
- Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad
- Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson
- Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Vincent Shih <vincent.sunplus@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo
- <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject: Re: [PATCH V3] nvmem: add explicit config option to read OF fixed
- cells
-Message-ID: <20230309141920.1d3f774e@xps-13>
-In-Reply-To: <e845b38c-d0eb-716c-dc51-b89582750f07@gmail.com>
-References: <20230309112028.19215-1-zajec5@gmail.com>
-	<20230309123513.43b7134f@xps-13>
-	<e845b38c-d0eb-716c-dc51-b89582750f07@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF6C9473
+	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 13:36:36 +0000 (UTC)
+Received: from robin.home.jannau.net (p54accbe8.dip0.t-ipconnect.de [84.172.203.232])
+	by soltyk.jannau.net (Postfix) with ESMTPSA id 59BAA26F8B0;
+	Thu,  9 Mar 2023 14:36:29 +0100 (CET)
+From: Janne Grunau <j@jannau.net>
+Date: Thu, 09 Mar 2023 14:36:24 +0100
+Subject: [PATCH v2] PCI: apple: Set only available ports up
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230307-apple_pcie_disabled_ports-v2-1-c3bd1fd278a4@jannau.net>
+X-B4-Tracking: v=1; b=H4sIANfgCWQC/42OTQ6CMBCFr0K6dghTjIAr72EImcJUxpjStJVoC
+ HcXOIHL7+X9LSpyEI7qmi0q8CxRJreBPmWqH8k9GGTYWOlCl0VZVEDev7jzvXA3SCTz4qHzU0g
+ Rih4rayo6V2WttryhyGACuX7cGyjSKHDJNWCXakQNQ9ptPrCVz3Hh3m48SkxT+B6PZtzVf8ZnB
+ ARTarYNWrLY3J7kHL1zx0m167r+AOzk3WLqAAAA
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marc Zyngier <maz@kernel.org>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+ Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Sven Peter <sven@svenpeter.dev>, linux-pci@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.12.2-dev-4f8ba
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2589; i=j@jannau.net;
+ h=from:subject:message-id; bh=QcxEtQIueASZ7Kn8Sieol5sNB26pvJfkFJzVau6FKHs=;
+ b=owGbwMvMwCG2UNrmdq9+ahrjabUkhhTOB3dCEt8/j7NmD8mOOqH08tpn19yD0g8qtv7l4r7KK
+ 7WQLXN3RykLgxgHg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgInY/GFk+F1QKbri/LfszVOY
+ XDzKksw/7M7+savd+fa2t1Mv8ZqqBzD8r55sVrjtfE5u7ue3f89tO7WNb+e5eoaFJ0+vcnAtT7z
+ AzQMA
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 
-Hi Rafa=C5=82,
+Fixes following warning inside of_irq_parse_raw() called from the common
+PCI device probe path.
 
-zajec5@gmail.com wrote on Thu, 9 Mar 2023 13:01:19 +0100:
+  /soc/pcie@690000000/pci@1,0 interrupt-map failed, using interrupt-controller
+  WARNING: CPU: 4 PID: 252 at drivers/of/irq.c:279 of_irq_parse_raw+0x5fc/0x724
+  ...
+  Call trace:
+   of_irq_parse_raw+0x5fc/0x724
+   of_irq_parse_and_map_pci+0x128/0x1d8
+   pci_assign_irq+0xc8/0x140
+   pci_device_probe+0x70/0x188
+   really_probe+0x178/0x418
+   __driver_probe_device+0x120/0x188
+   driver_probe_device+0x48/0x22c
+   __device_attach_driver+0x134/0x1d8
+   bus_for_each_drv+0x8c/0xd8
+   __device_attach+0xdc/0x1d0
+   device_attach+0x20/0x2c
+   pci_bus_add_device+0x5c/0xc0
+   pci_bus_add_devices+0x58/0x88
+   pci_host_probe+0x124/0x178
+   pci_host_common_probe+0x124/0x198 [pci_host_common]
+   apple_pcie_probe+0x108/0x16c [pcie_apple]
+   platform_probe+0xb4/0xdc
 
-> On 9.03.2023 12:35, Miquel Raynal wrote:
-> >> diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-prov=
-ider.h
-> >> index 0262b86194eb..b3c14ce87a65 100644
-> >> --- a/include/linux/nvmem-provider.h
-> >> +++ b/include/linux/nvmem-provider.h
-> >> @@ -73,6 +73,7 @@ struct nvmem_cell_info {
-> >>    * @owner:	Pointer to exporter module. Used for refcounting.
-> >>    * @cells:	Optional array of pre-defined NVMEM cells.
-> >>    * @ncells:	Number of elements in cells.
-> >> + * @use_fixed_of_cells:	Read fixed NVMEM cells from OF. =20
-> >=20
-> > I'm still unhappy with the naming, especially since you explained in
-> > more details the whole plan which involves using a container to put
-> > these fixed cells from now on. In both cases you extract cells from
-> > fixed OF nodes but this boolean needs to be set to true in one
-> > case, and false in the other, which would not make sense.
-> >=20
-> > Also, regarding the bindings changes, I'm fairly happy with the idea,
-> > but if we go this way I would prefer a full series instead of
-> > individual changes with:
-> >=20
-> > - the boolean you introduce here (renamed, at the very least)
-> > - the new bindings =20
->=20
-> I assume you mean fixed-layout.yaml?
+This became apparent after disabling unused PCIe ports in the Apple
+silicon device trees instead of deleting them.
 
-Yes!
+Use for_each_available_child_of_node instead of for_each_child_of_node
+which takes the "status" property into account.
 
-> > - the update of the current provider bindings to take the new bindings
-> >    into account and deprecate the old ones officially =20
->=20
-> What has to be updated in current proceds? It seems to me that:
-> 1. Current NVMEM providers reference nvmem.yaml
-> 2. nvmem.yaml references nvmem-layout.yaml
-> 3. nvmem-layout.yaml references fixed-layout.yaml
->=20
-> what else is missing?
+Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
+Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
+Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
+Cc: stable@vger.kernel.org
+Reviewed-by: Marc Zyngier <maz@kernel.org>
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Changes in v2:
+- rewritten commit message with more details and corrections
+- collected Marc's "Reviewed-by:"
+- Link to v1: https://lore.kernel.org/r/20230307-apple_pcie_disabled_ports-v1-1-b32ef91faf19@jannau.net
+---
+ drivers/pci/controller/pcie-apple.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That's the theory, but then provider bindings should reflect the
-changes as well in their own binding documents.
+diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+index 66f37e403a09..f8670a032f7a 100644
+--- a/drivers/pci/controller/pcie-apple.c
++++ b/drivers/pci/controller/pcie-apple.c
+@@ -783,7 +783,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+ 	cfg->priv = pcie;
+ 	INIT_LIST_HEAD(&pcie->ports);
+ 
+-	for_each_child_of_node(dev->of_node, of_port) {
++	for_each_available_child_of_node(dev->of_node, of_port) {
+ 		ret = apple_pcie_setup_port(pcie, of_port);
+ 		if (ret) {
+ 			dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
 
-IOW, this one (and all its cousins) becomes legacy and must be updated:
+---
+base-commit: c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
+change-id: 20230307-apple_pcie_disabled_ports-0c17fb7a4738
 
-https://elixir.bootlin.com/linux/latest/source/Documentation/devicetree/bin=
-dings/nvmem/imx-ocotp.yaml#L92
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
 
-(and there are many files to update then)
-
->=20
->=20
-> > - support for the new bindings in the core =20
->=20
-> Please, don't get me wrong, but I'm not going to spend more hours on
-> actual coding without approval of chosen path.
-
-Well, you want to make the bindings evolve. Just updating a single
-binding file is not enough, I believe we should at least provide full
-support for the new description. But of course I'm fine discussing what
-description we want first.
-
-> I'll need to have
-> [PATCH V2] dt-bindings: nvmem: layouts: add fixed-layout
-> reviewed/acked first. If you can do that that's great.
->=20
->=20
-> >>    * @keepout:	Optional array of keepout ranges (sorted ascending by s=
-tart).
-> >>    * @nkeepout:	Number of elements in the keepout array.
-> >>    * @type:	Type of the nvmem storage
-> >> @@ -103,6 +104,7 @@ struct nvmem_config {
-> >>   	struct module		*owner;
-> >>   	const struct nvmem_cell_info	*cells;
-> >>   	int			ncells;
-> >> +	bool			use_fixed_of_cells;
-> >>   	const struct nvmem_keepout *keepout;
-> >>   	unsigned int		nkeepout;
-> >>   	enum nvmem_type		type; =20
-> >=20
-> > Thanks,
-> > Miqu=C3=A8l =20
->=20
-
-
-Thanks,
-Miqu=C3=A8l
