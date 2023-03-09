@@ -1,109 +1,153 @@
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF6C9473
-	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 13:36:36 +0000 (UTC)
-Received: from robin.home.jannau.net (p54accbe8.dip0.t-ipconnect.de [84.172.203.232])
-	by soltyk.jannau.net (Postfix) with ESMTPSA id 59BAA26F8B0;
-	Thu,  9 Mar 2023 14:36:29 +0100 (CET)
-From: Janne Grunau <j@jannau.net>
-Date: Thu, 09 Mar 2023 14:36:24 +0100
-Subject: [PATCH v2] PCI: apple: Set only available ports up
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA70C947A
+	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 13:48:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 0EE6F42037;
+	Thu,  9 Mar 2023 13:48:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1678369725;
+	bh=AE3z/Hbuidfh0VnEdFu5MrRvC3cGbJJCXqEsPKkKv1I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=KTG/4UqJc8WfavSUh7tqLucA9Wp0OzX4DyjTmJUOp0sRWjLxntOHlni3Y7XaywGDd
+	 hU4uXroyp55O6O1tp6qYAIxz+d8FeMIxLBPltCQDvMDCPDO11JEXrxE97V9VaoDS2N
+	 JXflI7UOyImooOYtVzFxbWaF3BGr5UNDZFXoGWpcURhEzBPFGOXzZstYOndJg7wJu9
+	 o3zByU3WOc1Ihx4z7svazX+2gQOlWDYn5sacZcA4MLiiP9AsOfzTjfi7Bd36YumoOJ
+	 6aVufEmspdikuXAb6yavwZ2tJ5pzEC4mrfqcvUBqMQeJM0LXdYFW523hFD7GDmEmuG
+	 dd2HP9y7U3aBw==
+Message-ID: <e517dc90-0289-7339-e36e-54ba2635ed1f@asahilina.net>
+Date: Thu, 9 Mar 2023 22:48:37 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230307-apple_pcie_disabled_ports-v2-1-c3bd1fd278a4@jannau.net>
-X-B4-Tracking: v=1; b=H4sIANfgCWQC/42OTQ6CMBCFr0K6dghTjIAr72EImcJUxpjStJVoC
- HcXOIHL7+X9LSpyEI7qmi0q8CxRJreBPmWqH8k9GGTYWOlCl0VZVEDev7jzvXA3SCTz4qHzU0g
- Rih4rayo6V2WttryhyGACuX7cGyjSKHDJNWCXakQNQ9ptPrCVz3Hh3m48SkxT+B6PZtzVf8ZnB
- ARTarYNWrLY3J7kHL1zx0m167r+AOzk3WLqAAAA
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marc Zyngier <maz@kernel.org>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Sven Peter <sven@svenpeter.dev>, linux-pci@vger.kernel.org, 
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.12.2-dev-4f8ba
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2589; i=j@jannau.net;
- h=from:subject:message-id; bh=QcxEtQIueASZ7Kn8Sieol5sNB26pvJfkFJzVau6FKHs=;
- b=owGbwMvMwCG2UNrmdq9+ahrjabUkhhTOB3dCEt8/j7NmD8mOOqH08tpn19yD0g8qtv7l4r7KK
- 7WQLXN3RykLgxgHg6yYIkuS9ssOhtU1ijG1D8Jg5rAygQxh4OIUgInY/GFk+F1QKbri/LfszVOY
- XDzKksw/7M7+savd+fa2t1Mv8ZqqBzD8r55sVrjtfE5u7ue3f89tO7WNb+e5eoaFJ0+vcnAtT7z
- AzQMA
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
+ is torn down
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
+ <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
+ <585fa052-4eff-940e-b307-2415c315686a@amd.com>
+ <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
+ <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
+ <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
+ <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
+ <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
+ <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
+ <9403e89d-a78f-8abd-2869-20da23d89475@asahilina.net>
+ <ac92cea6-89e7-6147-a8fb-8b76e89cdcb6@amd.com>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ac92cea6-89e7-6147-a8fb-8b76e89cdcb6@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Fixes following warning inside of_irq_parse_raw() called from the common
-PCI device probe path.
+On 09/03/2023 20.47, Christian König wrote:
+> Am 09.03.23 um 10:43 schrieb Asahi Lina:
+>> On 09/03/2023 17.42, Christian König wrote:
+>>> Am 08.03.23 um 20:37 schrieb Asahi Lina:
+>>>> On 09/03/2023 03.12, Christian König wrote:
+>>>>> Am 08.03.23 um 18:32 schrieb Asahi Lina:
+>>>>>> [SNIP]
+>>>>>> Yes but... none of this cleans up jobs that are already submitted by the
+>>>>>> scheduler and in its pending list, with registered completion callbacks,
+>>>>>> which were already popped off of the entities.
+>>>>>>
+>>>>>> *That* is the problem this patch fixes!
+>>>>> Ah! Yes that makes more sense now.
+>>>>>
+>>>>>>> We could add a warning when users of this API doesn't do this
+>>>>>>> correctly, but cleaning up incorrect API use is clearly something we
+>>>>>>> don't want here.
+>>>>>> It is the job of the Rust abstractions to make incorrect API use that
+>>>>>> leads to memory unsafety impossible. So even if you don't want that in
+>>>>>> C, it's my job to do that for Rust... and right now, I just can't
+>>>>>> because drm_sched doesn't provide an API that can be safely wrapped
+>>>>>> without weird bits of babysitting functionality on top (like tracking
+>>>>>> jobs outside or awkwardly making jobs hold a reference to the scheduler
+>>>>>> and defer dropping it to another thread).
+>>>>> Yeah, that was discussed before but rejected.
+>>>>>
+>>>>> The argument was that upper layer needs to wait for the hw to become
+>>>>> idle before the scheduler can be destroyed anyway.
+>>>> Unfortunately, that's not a requirement you can encode in the Rust type
+>>>> system easily as far as I know, and Rust safety rules mean we need to
+>>>> make it safe even if the upper layer doesn't do this... (or else we have
+>>>> to mark the entire drm_sched abstraction unsafe, but that would be a pity).
+>>> Yeah, that should really not be something we should do.
+>>>
+>>> But you could make the scheduler depend on your fw context object, don't
+>>> you?
+>> Yes, and that would fix the problem for this driver, but it wouldn't
+>> make the abstraction safe. The thing is we have to make it *impossible*
+>> to misuse drm_sched in such a way that it crashes, at the Rust
+>> abstraction level. If we start depending on the driver following rules
+>> like that, that means the drm_sched abstraction has to be marked unsafe.
+>>
+>>> Detaching the scheduler from the underlying hw fences is certainly
+>>> possible, but we removed that functionality because some people people
+>>> tried to force push some Windows recovery module into Linux. We are in
+>>> the process of reverting that and cleaning things up once more, but that
+>>> will take a while.
+>> Okay, but I don't see why that should block the Rust abstractions...
+> 
+> Because even with removing the fence callback this is inherently unsafe.
+> 
+> You not only need to remove the callback, but also make sure that no 
+> parallel timeout handling is running.
 
-  /soc/pcie@690000000/pci@1,0 interrupt-map failed, using interrupt-controller
-  WARNING: CPU: 4 PID: 252 at drivers/of/irq.c:279 of_irq_parse_raw+0x5fc/0x724
-  ...
-  Call trace:
-   of_irq_parse_raw+0x5fc/0x724
-   of_irq_parse_and_map_pci+0x128/0x1d8
-   pci_assign_irq+0xc8/0x140
-   pci_device_probe+0x70/0x188
-   really_probe+0x178/0x418
-   __driver_probe_device+0x120/0x188
-   driver_probe_device+0x48/0x22c
-   __device_attach_driver+0x134/0x1d8
-   bus_for_each_drv+0x8c/0xd8
-   __device_attach+0xdc/0x1d0
-   device_attach+0x20/0x2c
-   pci_bus_add_device+0x5c/0xc0
-   pci_bus_add_devices+0x58/0x88
-   pci_host_probe+0x124/0x178
-   pci_host_common_probe+0x124/0x198 [pci_host_common]
-   apple_pcie_probe+0x108/0x16c [pcie_apple]
-   platform_probe+0xb4/0xdc
+If by that you mean that the timeout handling functions aren't being
+called by the driver, then that's implied. If the scheduler is being
+dropped, by definition there are no references left to call into the
+scheduler directly from the Rust side. So we only need to worry about
+what drm_sched itself does.
 
-This became apparent after disabling unused PCIe ports in the Apple
-silicon device trees instead of deleting them.
+Right now the cleanup function tears down the timeout work at the end,
+but it probably makes sense to do it at the start? Then if we do that
+and stop the kthread, we can be really sure nothing else is accessing
+the scheduler and we can clean up without taking any locks:
 
-Use for_each_available_child_of_node instead of for_each_child_of_node
-which takes the "status" property into account.
+Roughly:
 
-Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
-Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
-Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
-Cc: stable@vger.kernel.org
-Reviewed-by: Marc Zyngier <maz@kernel.org>
-Signed-off-by: Janne Grunau <j@jannau.net>
----
-Changes in v2:
-- rewritten commit message with more details and corrections
-- collected Marc's "Reviewed-by:"
-- Link to v1: https://lore.kernel.org/r/20230307-apple_pcie_disabled_ports-v1-1-b32ef91faf19@jannau.net
----
- drivers/pci/controller/pcie-apple.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+void drm_sched_fini(struct drm_gpu_scheduler *sched)
+{
+    sched->ready = false; /* Should probably do this first? */
+    kthread_stop(sched->thread);
+    cancel_delayed_work_sync(&sched->work_tdr);
 
-diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-index 66f37e403a09..f8670a032f7a 100644
---- a/drivers/pci/controller/pcie-apple.c
-+++ b/drivers/pci/controller/pcie-apple.c
-@@ -783,7 +783,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
- 	cfg->priv = pcie;
- 	INIT_LIST_HEAD(&pcie->ports);
- 
--	for_each_child_of_node(dev->of_node, of_port) {
-+	for_each_available_child_of_node(dev->of_node, of_port) {
- 		ret = apple_pcie_setup_port(pcie, of_port);
- 		if (ret) {
- 			dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
+    /* Clean up the pending_list here */
+}
 
----
-base-commit: c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
-change-id: 20230307-apple_pcie_disabled_ports-0c17fb7a4738
+I'm also not sure what the rest of the drm_sched_fini() function is
+doing right now. It's going through all entities and removing them, and
+then wakes up entities stuck in drm_sched_entity_flush()... but didn't
+we just agree that the API requires users to tear down entities before
+tearing down the scheduler anyway?
 
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
-
+~~ Lina
