@@ -1,191 +1,145 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78C8BA57
-	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 14:16:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 8735242037;
-	Thu,  9 Mar 2023 14:16:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1678371395;
-	bh=tUUTZQN+QgD1rn1cHyCzhI7aFoqTUUMz0V4QKuTRQe4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HjY8oRPlc2CKr20/2jvE1xNtj9x6nJjr9+b1EGdHtTJOh8GMnTUNULcz049Y2BCc7
-	 zNix/c/l5q04IeQPfaE8EacKG/v3bkO1C4SDe4Jv7CEVNPvuAENth2GdoDWRBxvPpm
-	 SjDtPv89trwUCLVxH/2a6sSJAcw36eKjpLq+W1zVWssd5HHEEbEesEeRj2qGgp5Fn2
-	 XbHgR14z2/1bmxa1zbiQSjiiCh4OkRUc4zj6AHT3MvQv4VN384RsyrlOMLi9KEzZM5
-	 oPddH7HwLjDPcE+kPmXoSXwheMydufOcxaKPxmTTHE6plTgfpKPVlVOSusvbcQcuSG
-	 TsFvLK+TY0Uxg==
-Message-ID: <ac5a748a-bd1c-1076-a17f-42367494976c@asahilina.net>
-Date: Thu, 9 Mar 2023 23:16:25 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A790BA57
+	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 14:19:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1678371544;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A46Usveb628ihXLGsrPj6WsAbS9+1+0iaKdpYzar86s=;
+	b=OhwB1YDyuUCNsCQTb9esoKNKEyMdFj2HASwmIlCplTP/ZfM+eREGFfYuN+8Y3uCPyHZVdy
+	zxDVBOnjqH6vOerDhTzb+aW0NYZMFugUpStNj46PTUjlnvXPrB8JIRlrrgf0ihnBbMgpeN
+	7TnI3C3ScYGG9GPUII2ntvQ1iK5M0SM=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-672-3AjYxz-rMWWE9k0trYNdAw-1; Thu, 09 Mar 2023 09:19:03 -0500
+X-MC-Unique: 3AjYxz-rMWWE9k0trYNdAw-1
+Received: by mail-vs1-f72.google.com with SMTP id o7-20020a67fc07000000b0041ea097b2ebso702947vsq.10
+        for <asahi@lists.linux.dev>; Thu, 09 Mar 2023 06:19:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678371542;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A46Usveb628ihXLGsrPj6WsAbS9+1+0iaKdpYzar86s=;
+        b=1V/2s0qLu+EnP6rq/82s86qTra+vdoe6Q0x/Vxb1HSTX19b9TIdvevA6QcEUBLVeLT
+         JP33m57ymRZw3nv5kBctpZRwpuDkgaSpFb0uWFWNMnISfrUDZ1CxKewYknJPCbu6WtR+
+         4pOPguctk4AcCaDpQSY0bTk3nJi2Wz+p6nqyP038dYMoQPVQ4LnK7Z456TCSg/1u5BVP
+         ss6xKAadYzcwQExfmKKU0Sd3jtWMlrlUc9uZfRImNES2Jt8oQwuL+BfyAnvR1O31PmP2
+         R9a0hiXgDX2Z9+qGtYKN4OXHybVplRk1ioAb7WsOhVYpyJOo3r/wbADVGpXPSaCNR93c
+         jzfg==
+X-Gm-Message-State: AO0yUKVc0C/0kK4PHbnlfrDxgRC26LoCbfxEOpcTkOK6UFbvmRdgAZbl
+	Bo4JajZDVGvFwsQ/M8jkWlzdouINbKu44qnQg4sXNfoNWI6sikpeazayxyIS1DMY1fMUAjy5hQY
+	x/iKqXtEPcNzp4aMfnZIlksFgQItt4JA=
+X-Received: by 2002:a67:e04d:0:b0:421:edef:20d3 with SMTP id n13-20020a67e04d000000b00421edef20d3mr6995855vsl.7.1678371542417;
+        Thu, 09 Mar 2023 06:19:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set+GbGL371KUHWTmORXbHN7Tjs6YLLY5zKR/W6HgrEkQUazVrbBuPXLus+wPFvbQmfj/LAVNLJcgkQoUVm3BAxw=
+X-Received: by 2002:a67:e04d:0:b0:421:edef:20d3 with SMTP id
+ n13-20020a67e04d000000b00421edef20d3mr6995836vsl.7.1678371542065; Thu, 09 Mar
+ 2023 06:19:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 06/18] rust: drm: gem: shmem: Add DRM shmem helper
- abstraction
-Content-Language: en-US
-To: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-Cc: linaro-mm-sig@lists.linaro.org, rust-for-linux@vger.kernel.org,
- Karol Herbst <kherbst@redhat.com>, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Mary <mary@mary.zone>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- linux-sgx@vger.kernel.org, Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, linux-media@vger.kernel.org
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-6-917ff5bc80a8@asahilina.net>
- <ff51483e-2d72-3a7b-0632-58ea36cc3d8e@igalia.com>
- <488728fc-ada2-20a3-79be-8109d891a8cb@asahilina.net>
- <8e091158-7826-1215-e717-081b25f48108@igalia.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <8e091158-7826-1215-e717-081b25f48108@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20230307-apple_pcie_disabled_ports-v2-1-c3bd1fd278a4@jannau.net>
+In-Reply-To: <20230307-apple_pcie_disabled_ports-v2-1-c3bd1fd278a4@jannau.net>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Thu, 9 Mar 2023 14:18:45 +0000
+Message-ID: <CAOgh=FzWgjr+3YzF9u1k2ReKEgeoLykPc83RbGqDDXZ_PnGmnQ@mail.gmail.com>
+Subject: Re: [PATCH v2] PCI: apple: Set only available ports up
+To: Janne Grunau <j@jannau.net>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marc Zyngier <maz@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Sven Peter <sven@svenpeter.dev>, 
+	linux-pci@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 09/03/2023 20.47, Maíra Canal wrote:
-> On 3/9/23 02:25, Asahi Lina wrote:
->> On 08/03/2023 22.38, Maíra Canal wrote:
->>> On 3/7/23 11:25, Asahi Lina wrote:
->>>> The DRM shmem helper includes common code useful for drivers which
->>>> allocate GEM objects as anonymous shmem. Add a Rust abstraction for
->>>> this. Drivers can choose the raw GEM implementation or the shmem layer,
->>>> depending on their needs.
->>>>
->>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>>> ---
->>>>    drivers/gpu/drm/Kconfig         |   5 +
->>>>    rust/bindings/bindings_helper.h |   2 +
->>>>    rust/helpers.c                  |  67 +++++++
->>>>    rust/kernel/drm/gem/mod.rs      |   3 +
->>>>    rust/kernel/drm/gem/shmem.rs    | 381 ++++++++++++++++++++++++++++++++++++++++
->>>>    5 files changed, 458 insertions(+)
->>>>
->>>
->>> [...]
->>>
->>>> +unsafe extern "C" fn gem_create_object<T: DriverObject>(
->>>> +    raw_dev: *mut bindings::drm_device,
->>>> +    size: usize,
->>>> +) -> *mut bindings::drm_gem_object {
->>>> +    // SAFETY: GEM ensures the device lives as long as its objects live,
->>>> +    // so we can conjure up a reference from thin air and never drop it.
->>>> +    let dev = ManuallyDrop::new(unsafe { device::Device::from_raw(raw_dev) });
->>>> +
->>>> +    let inner = match T::new(&*dev, size) {
->>>> +        Ok(v) => v,
->>>> +        Err(e) => return e.to_ptr(),
->>>> +    };
->>>> +
->>>> +    let p = unsafe {
->>>> +        bindings::krealloc(
->>>> +            core::ptr::null(),
->>>> +            Object::<T>::SIZE,
->>>> +            bindings::GFP_KERNEL | bindings::__GFP_ZERO,
->>>> +        ) as *mut Object<T>
->>>> +    };
->>>> +
->>>> +    if p.is_null() {
->>>> +        return ENOMEM.to_ptr();
->>>> +    }
->>>> +
->>>> +    // SAFETY: p is valid as long as the alloc succeeded
->>>> +    unsafe {
->>>> +        addr_of_mut!((*p).dev).write(dev);
->>>> +        addr_of_mut!((*p).inner).write(inner);
->>>> +    }
->>>> +
->>>> +    // SAFETY: drm_gem_shmem_object is safe to zero-init, and
->>>> +    // the rest of Object has been initialized
->>>> +    let new: &mut Object<T> = unsafe { &mut *(p as *mut _) };
->>>> +
->>>> +    new.obj.base.funcs = &Object::<T>::VTABLE;
->>>> +    &mut new.obj.base
->>>> +}
->>>
->>> It would be nice to allow to set wc inside the gem_create_object callback,
->>> as some drivers do it so, like v3d, vc4, panfrost, lima...
->>
->> This is actually a bit tricky to do safely, because we can't just have a
->> callback that takes the drm_gem_shmem_object instance inside
->> gem_create_object because it is not fully initialized yet from the point
->> of view of the gem shmem API. Maybe we could have some sort of temporary
->> proxy object that only lets you do safe things like set map_wc? Or maybe
->> the new() callback could return something like a ShmemTemplate<T> type
->> that contains both the inner data and some miscellaneous fields like the
->> initial map_wc state?
-> 
-> I see that most drivers use this hook to set map_wc and set funcs. What
-> are your thoughts on something like this?
-> 
-> Best Regards,
-> - Maíra Canal
-> 
->  From 61f23f4a39028c9d34d3df58d7640bfcd64e9af9 Mon Sep 17 00:00:00 2001
-> From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-> Date: Thu, 9 Mar 2023 08:24:09 -0300
-> Subject: [PATCH] rust: drm: gem: shmem: Set map_wc on gem_create_object
->   callback
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=UTF-8
-> Content-Transfer-Encoding: 8bit
-> 
-> Some drivers use the gem_create_object callback to define the mapping of
-> the object write-combined (map_wc). Currently, the DRM Rust abstractions
-> doesn't allow such operation. So, add a method to the DriverObject trait
-> to allow drivers to set map_wc on the gem_create_object callback. By
-> default, the method returns false, which is the shmem default value.
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+On Thu, 9 Mar 2023 at 13:43, Janne Grunau <j@jannau.net> wrote:
+>
+> Fixes following warning inside of_irq_parse_raw() called from the common
+> PCI device probe path.
+>
+>   /soc/pcie@690000000/pci@1,0 interrupt-map failed, using interrupt-controller
+>   WARNING: CPU: 4 PID: 252 at drivers/of/irq.c:279 of_irq_parse_raw+0x5fc/0x724
+>   ...
+>   Call trace:
+>    of_irq_parse_raw+0x5fc/0x724
+>    of_irq_parse_and_map_pci+0x128/0x1d8
+>    pci_assign_irq+0xc8/0x140
+>    pci_device_probe+0x70/0x188
+>    really_probe+0x178/0x418
+>    __driver_probe_device+0x120/0x188
+>    driver_probe_device+0x48/0x22c
+>    __device_attach_driver+0x134/0x1d8
+>    bus_for_each_drv+0x8c/0xd8
+>    __device_attach+0xdc/0x1d0
+>    device_attach+0x20/0x2c
+>    pci_bus_add_device+0x5c/0xc0
+>    pci_bus_add_devices+0x58/0x88
+>    pci_host_probe+0x124/0x178
+>    pci_host_common_probe+0x124/0x198 [pci_host_common]
+>    apple_pcie_probe+0x108/0x16c [pcie_apple]
+>    platform_probe+0xb4/0xdc
+>
+> This became apparent after disabling unused PCIe ports in the Apple
+> silicon device trees instead of deleting them.
+>
+> Use for_each_available_child_of_node instead of for_each_child_of_node
+> which takes the "status" property into account.
+>
+> Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
+> Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
+> Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+
+Makes sense.
+
+Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+
+Is mise le meas/Regards,
+
+Eric Curtin
+
 > ---
->   rust/kernel/drm/gem/shmem.rs | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-> index 8f17eba0be99..a7f33b66f60a 100644
-> --- a/rust/kernel/drm/gem/shmem.rs
-> +++ b/rust/kernel/drm/gem/shmem.rs
-> @@ -24,6 +24,11 @@ use gem::BaseObject;
->   pub trait DriverObject: gem::BaseDriverObject<Object<Self>> {
->       /// Parent `Driver` for this object.
->       type Driver: drv::Driver;
-> +
-> +    /// Define the map object write-combined
-> +    fn set_wc() -> bool {
-> +        false
-> +    }
->   }
+> Changes in v2:
+> - rewritten commit message with more details and corrections
+> - collected Marc's "Reviewed-by:"
+> - Link to v1: https://lore.kernel.org/r/20230307-apple_pcie_disabled_ports-v1-1-b32ef91faf19@jannau.net
+> ---
+>  drivers/pci/controller/pcie-apple.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+> index 66f37e403a09..f8670a032f7a 100644
+> --- a/drivers/pci/controller/pcie-apple.c
+> +++ b/drivers/pci/controller/pcie-apple.c
+> @@ -783,7 +783,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+>         cfg->priv = pcie;
+>         INIT_LIST_HEAD(&pcie->ports);
+>
+> -       for_each_child_of_node(dev->of_node, of_port) {
+> +       for_each_available_child_of_node(dev->of_node, of_port) {
+>                 ret = apple_pcie_setup_port(pcie, of_port);
+>                 if (ret) {
+>                         dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
+>
+> ---
+> base-commit: c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
+> change-id: 20230307-apple_pcie_disabled_ports-0c17fb7a4738
+>
+> Best regards,
+> --
+> Janne Grunau <j@jannau.net>
+>
+>
 
-I think if you're going to make it a static function like that, we might
-as well just make it an associated constant like `DEFAULT_WC`? After all
-there is no information gem_create_object gets other than the size so we
-can't really do anything more useful, and `set_wc()` can't do much other
-than return a constant ^^
-
-The only corner case I can think of is cases where the WC mode depends
-on the device (for example, if some devices want to enable it or not
-depending on whether the particular hardware variant is cache-coherent),
-but then it should probably just be part of the return value for T::new
-since that function already gets all available information (device and
-size). But I think a constant works for now, we can always extend it
-when a use case comes for doing more.
-
-~~ Lina
