@@ -1,130 +1,185 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D2DC284
-	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 19:43:34 +0000 (UTC)
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-536bbe5f888so54516567b3.8
-        for <asahi@lists.linux.dev>; Thu, 09 Mar 2023 11:43:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678391013;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6fzFppmaiKwMNk0er/cwV+CNdXpU1VQrp0ms6icnzwQ=;
-        b=farO1s2lLl1ZzC6+RaeHAywmVA8pH4+eSu+hQdD9EidYgOA19kAR9fKQcenYXFpJEq
-         i3MfPhRQbdfjbJTQNjLTZ0oX0aCm2mbIAAtrCThMHktDEX0e9oq48nI4jJIUkTh2fFHZ
-         npOLUp8J03k2yH2COT7eGF0K/b5oC4cSgl4AfERUion2pEb0Eg7V3CnryJnZK9Eji6Tp
-         IRJRVRWutXbyz0xigxp8gKjteJPNIxdjp4OEYTCq98VHw2XoJMDQg3w3JzBR83IDH3ZK
-         GlxUQ43zw/o2/dxlmiQMsf0BvLP/SsY3Py1MMc9t2nQZReVfbYfCkw7knA5L6D43CQkw
-         CD6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678391013;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6fzFppmaiKwMNk0er/cwV+CNdXpU1VQrp0ms6icnzwQ=;
-        b=i2uHjuIbN9EOiNI/gyjlcyjBIV45LZw+fWaUKzZ0GFzbKPrgWqbZeSM2RxtBmnQSHb
-         pMMPcChy8tg7jp2nZCNmsEIeEKgNN6/Ves7P8IBbLMYT7b9Gzflk5hqzW3dmm+W2xvPz
-         8CofgNHloD7C9DnfuSrX9CpttXfy6kz9s0gaI8OwZ1l7SCM8fswVe0VokSMVcvGS9G9+
-         NsF+gqSAsGAF/7PSn3FodxnU2XHMNAxMPVp96+gN+1ADAfwlpD9I4LoQg+Hae4VKg6My
-         dImA6Xm3NEmLLxGIK/SWlp4fRhGibcXHXJK4Nvzr/TyLLn38fvcYPHkSpDWNLJlafREj
-         +2BQ==
-X-Gm-Message-State: AO0yUKVkfPjS4VTd3m2O9hUDTGySDEADTsJuFO1qw07EcHxohaT7z2RS
-	Oyxkg4lVNCPODZC2YBSxbktcDevurPrpn470pL4=
-X-Google-Smtp-Source: AK7set81OVQ0jMTTm9Fysqt7xMJGFBdLCoTZwS68fmOf8B+wf3hflmeCwvASOIQ5OHY6uzAabYbB+3iLzPcgyJVe8l4=
-X-Received: by 2002:a81:a983:0:b0:52e:e095:d840 with SMTP id
- g125-20020a81a983000000b0052ee095d840mr15226417ywh.0.1678391013537; Thu, 09
- Mar 2023 11:43:33 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A25C284
+	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 19:48:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F021C433EF;
+	Thu,  9 Mar 2023 19:48:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678391305;
+	bh=EkoETZpyF72TwLfxVrHUyAiLu2LMN0UlkQ4+4D2jVlM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H9ZQ66zUNK8zTexQVJZW/sMiexOywmWMpOX1GrwOEUCKBZt/L1BY0Y1Fojr8sKiWr
+	 u3U723s/d36zQM4Rjx5b5wUz+0Br0HxPaa/cDJgsgWsL0RkufRihr5KuG5aaTw9wKn
+	 KuK7u4KbsHtKQAoQQWXvpsbQ4DrzimTEOczBMap/Qnnb/t1Ta/cC4HJ7T9Es5iGi+Y
+	 BXbKT2jS4RpqQHIUtJ7TakswZG7B5+UpX2yG7hjOHTZPo5d/4kCUnRZoecGVz/OigN
+	 PjX8B+MH//yXRyCTivJ7WIuiWEbQZGAK2eDQ7peSOxHFp2e1AXjpI/da7Fqr3sN9OH
+	 bXt+bmf+vDnPQ==
+Date: Thu, 9 Mar 2023 19:48:20 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Janne Grunau <j@jannau.net>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Marc Zyngier <maz@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Sven Peter <sven@svenpeter.dev>, linux-pci@vger.kernel.org,
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Conor Dooley <conor.dooley@microchip.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2] PCI: apple: Set only available ports up
+Message-ID: <08aa3766-d7a6-449d-a5cc-ddcf23601c43@spud>
+References: <20230307-apple_pcie_disabled_ports-v2-1-c3bd1fd278a4@jannau.net>
+ <20230309163935.GA1140101@bhelgaas>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
- <20230224-rust-iopt-rtkit-v1-5-49ced3391295@asahilina.net>
- <Y/idMBIOfFZxXnVM@kroah.com> <CANeycqoHwp3URSPGvnNZx+9PdbC90UVFWLwg4w=JBHQnjnGUPA@mail.gmail.com>
- <ZAnB/DozWsir1cIE@kroah.com> <CANeycqrtjKMfpae_DUp-VrDZugJVO7mcbBvUBB+zAc=E6aU4tw@mail.gmail.com>
- <ZAoTNlF+bHyyGs7x@kroah.com>
-In-Reply-To: <ZAoTNlF+bHyyGs7x@kroah.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 9 Mar 2023 20:43:22 +0100
-Message-ID: <CANiq72nkqu+o5QvmLKvk82rJ6b6O2KdC-iYq9zFZFwVyf_Fv9A@mail.gmail.com>
-Subject: Re: [PATCH 5/5] rust: device: Add a stub abstraction for devices
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Wedson Almeida Filho <wedsonaf@gmail.com>, Asahi Lina <lina@asahilina.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Y6suV7oa2FgnRcti"
+Content-Disposition: inline
+In-Reply-To: <20230309163935.GA1140101@bhelgaas>
+
+
+--Y6suV7oa2FgnRcti
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 9, 2023 at 6:11=E2=80=AFPM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> I don't understand, why do you need both of these?  Why can't one just
-> do?  Why would you need one without the other?  I would think that
-> "Device" and "RawDevice" here would be the same thing, that is a way to
-> refer to a "larger" underlying struct device memory chunk in a way that
-> can be passed around without knowing, or caring, what the "real" device
-> type is.
->
-> That sounds like a question, and would return a boolean, not a structure =
-:)
->
-> I don't really understand that, sorry.
+On Thu, Mar 09, 2023 at 10:39:35AM -0600, Bjorn Helgaas wrote:
+> [+cc Daire, Conor for apple/microchip use of ECAM .init() method]
 
-To complement what Wedson wrote, perhaps this helps a bit, since there
-are a few `*Device` things around (I will prefix things with the
-module they are in for clarity):
+It's probably really a Daire question, although he is off in the weeds
+at the moment..
+>=20
+> On Thu, Mar 09, 2023 at 02:36:24PM +0100, Janne Grunau wrote:
+> > Fixes following warning inside of_irq_parse_raw() called from the common
+> > PCI device probe path.
+> >=20
+> >   /soc/pcie@690000000/pci@1,0 interrupt-map failed, using interrupt-con=
+troller
+> >   WARNING: CPU: 4 PID: 252 at drivers/of/irq.c:279 of_irq_parse_raw+0x5=
+fc/0x724
+>=20
+> Based on this commit log, I assume this patch only fixes the warning,
+> and the system *works* just fine either way.  If that's the case, it's
+> debatable whether it meets the stable kernel criteria, although the
+> documented criteria are much stricter than what happens in practice.
+>=20
+> >   ...
+> >   Call trace:
+> >    of_irq_parse_raw+0x5fc/0x724
+> >    of_irq_parse_and_map_pci+0x128/0x1d8
+> >    pci_assign_irq+0xc8/0x140
+> >    pci_device_probe+0x70/0x188
+> >    really_probe+0x178/0x418
+> >    __driver_probe_device+0x120/0x188
+> >    driver_probe_device+0x48/0x22c
+> >    __device_attach_driver+0x134/0x1d8
+> >    bus_for_each_drv+0x8c/0xd8
+> >    __device_attach+0xdc/0x1d0
+> >    device_attach+0x20/0x2c
+> >    pci_bus_add_device+0x5c/0xc0
+> >    pci_bus_add_devices+0x58/0x88
+> >    pci_host_probe+0x124/0x178
+> >    pci_host_common_probe+0x124/0x198 [pci_host_common]
+> >    apple_pcie_probe+0x108/0x16c [pcie_apple]
+> >    platform_probe+0xb4/0xdc
+> >=20
+> > This became apparent after disabling unused PCIe ports in the Apple
+> > silicon device trees instead of deleting them.
+> >=20
+> > Use for_each_available_child_of_node instead of for_each_child_of_node
+> > which takes the "status" property into account.
+> >=20
+> > Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unu=
+sed-v1-0-5ea0d3ddcde3@jannau.net/
+> > Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08c=
+e@linaro.org/
+> > Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
+> > Cc: stable@vger.kernel.org
+> > Reviewed-by: Marc Zyngier <maz@kernel.org>
+> > Signed-off-by: Janne Grunau <j@jannau.net>
+> > ---
+> > Changes in v2:
+> > - rewritten commit message with more details and corrections
+> > - collected Marc's "Reviewed-by:"
+> > - Link to v1: https://lore.kernel.org/r/20230307-apple_pcie_disabled_po=
+rts-v1-1-b32ef91faf19@jannau.net
+> > ---
+> >  drivers/pci/controller/pcie-apple.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controll=
+er/pcie-apple.c
+> > index 66f37e403a09..f8670a032f7a 100644
+> > --- a/drivers/pci/controller/pcie-apple.c
+> > +++ b/drivers/pci/controller/pcie-apple.c
+> > @@ -783,7 +783,7 @@ static int apple_pcie_init(struct pci_config_window=
+ *cfg)
+> >  	cfg->priv =3D pcie;
+> >  	INIT_LIST_HEAD(&pcie->ports);
+> > =20
+> > -	for_each_child_of_node(dev->of_node, of_port) {
+> > +	for_each_available_child_of_node(dev->of_node, of_port) {
+> >  		ret =3D apple_pcie_setup_port(pcie, of_port);
+> >  		if (ret) {
+> >  			dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
+>=20
+> Is this change still needed after 6fffbc7ae137 ("PCI: Honor firmware's
+> device disabled status")?  This is a generic problem, and it would be
+> a lot nicer if we had a generic solution.  But I assume it *is* still
+> needed because Rob gave his Reviewed-by.
+>=20
+> Not related to this patch, but this function looks funny to me.  Most
+> pci_ecam_ops.init functions just set up ECAM-related things.
+>=20
+> In addition to ECAM stuff, apple_pcie_init() and mc_platform_init()
+> also initialize IRQs, clocks, and resets.
+>=20
+> Maybe we shoehorn the IRQ, clock, reset setup into pci_ecam_ops.init
+> because we lack a generic hook for doing those things, but it seems a
+> little muddy conceptually.
 
-  - `device::RawDevice` is a trait, not a struct. This means it is
-just an interface/property/tag/feature. Then types (like structs) can
-say "I support/provide/implement this trait". In this case, it
-requires those types implementing `device::RawDevice` to provide a
-suitable `raw_device()` method.
+"We", and that's very much the royal variety, were in the middle of
+re-working some of this stuff actually.
 
-  - Then, you have `device::Device`. This is an actual struct,
-containing a `struct device *`. It implements `device::RawDevice`, by
-returning the pointer.
+At the moment we're using pci_host_common_probe() as
+platform_driver.probe, but Daire has a patchset where he introduced an
+mc_host_probe() instead, which sets up the clocks.
+The interrupt setup is still done in the pci_ecam_ops.init function
+though, although with a comment added noting that "Address translation
+is up; safe to enable interrupts". The most relevant patch in that
+series is:
+https://lore.kernel.org/linux-pci/20230111125323.1911373-9-daire.mcnamara@m=
+icrochip.com/
 
-  - Then there are others like `platform::Device` or `amba::Device`.
-They are also structs, containing e.g. `struct platform_device *` or
-anything they may need. They implement `device::RawDevice` too if it
-makes sense, say, by returning a pointer to the `->dev` in their C
-struct.
+Robin/Lorenzo had some comments about the dt parsing that needed
+investigation & Daire's off in the weeds, but hopefully we'll get another
+version of that stuff out once he gets back.
+That'll at least move the clock setup out of the ecam bits and provide a
+reason for why we're doing the interrupt setup in pci_ecam_ops.init.
 
-So you have two different kinds of entities here. One is the trait,
-and the others are structs that promise to implement that trait
-correctly, regardless of how each struct manages to do it.
+FWIW, doing it this way was review feedback at some stage during the
+upstreaming process for the driver:
+https://lore.kernel.org/linux-pci/20200709200055.GA763222@bogus/
+Originally, Daire was doing this stuff in platform_device.probe but that
+was 3 years ago, so maybe the winds have changed since then!
 
-The trait can also then provide extra default functionality for those
-that have implemented it. For instance, the `clk_get()` method Wedson
-mentioned can be defined in the trait, and in its body we can call the
-`raw_device()` to do so. `raw_device()` is available because we are
-inside the trait, even if each struct implementing the trait provides
-a different implementation.
+Hope that helps?
+Conor.
 
-Traits are sometimes named after the "main" method they contain, e.g.
-`ToString` may be a trait with a `to_string()` method. Here
-`device::RawDevice` has a `raw_device()` method, so it makes sense in
-that way.
+--Y6suV7oa2FgnRcti
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Wedson was suggesting `device::IsDevice` as an alternative, because
-`device::Device` is taken for the ref-counted device. Of course, other
-arrangements of names could be possible.
+-----BEGIN PGP SIGNATURE-----
 
-`IsDevice` uses Pascal case, so by convention it would be fairly clear
-that it would not be a function returning a boolean. But one may
-expect that it is a trait that implements a `is_device()` method,
-though. (And if that was the case, which it isn't, one could then
-indeed expect that such a method would return the boolean you
-expected).
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZAo4AwAKCRB4tDGHoIJi
+0kXjAP9gzE7+3b8wGo8+7cIJEN3dcnt/5faCnm6i4/n+Lpit/QD8DuPg6PbVD7Mf
+Q+cw1y8yVA7f7Y4Qa5H8AlJTVUWpSw8=
+=LxFO
+-----END PGP SIGNATURE-----
 
-Cheers,
-Miguel
+--Y6suV7oa2FgnRcti--
