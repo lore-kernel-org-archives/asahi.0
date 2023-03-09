@@ -1,130 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4076F6AD9
-	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 11:24:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5187CC433EF;
-	Thu,  9 Mar 2023 11:24:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1678361086;
-	bh=UUP2mfok1s5L/13n4NmG5S7yZyWo6emhjFUNY3+1RNw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qEV5r5g53oJxkHo+D/YrprI6PNCb7ooqU6DQEaDcORDfd1dBfdYuiLU0tG9B8jxIs
-	 2FhjPpkqoZvaScRI8vn7Oh1PoS3oa+h9pYGjI7yhvp0YR3nqRbSgghgn666z4V76EK
-	 HdyeXcealG3qRVHDAG5vyOV+rz3ZYccVXGymiTA8=
-Date: Thu, 9 Mar 2023 12:24:44 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Wedson Almeida Filho <wedsonaf@gmail.com>
-Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Neal Gompa <neal@gompa.dev>, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH 5/5] rust: device: Add a stub abstraction for devices
-Message-ID: <ZAnB/DozWsir1cIE@kroah.com>
-References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
- <20230224-rust-iopt-rtkit-v1-5-49ced3391295@asahilina.net>
- <Y/idMBIOfFZxXnVM@kroah.com>
- <CANeycqoHwp3URSPGvnNZx+9PdbC90UVFWLwg4w=JBHQnjnGUPA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96456AD9;
+	Thu,  9 Mar 2023 11:35:28 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 0D53E1C000A;
+	Thu,  9 Mar 2023 11:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1678361721;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YkCJYe4xTl1nq4LBH2Nzf6GB3+OQQsqPo2Fge4ocTUs=;
+	b=hiIMPBEnM9/0A6RUHYRZqxFHogmol9ukA6pSF9yyH7WStCrXbZROuFrMCgPWYlCuvRnkhD
+	gSVPsluMhNKX56RZrjnI61iTpBTA4waKAQ6JqeRqsvyo/IWOPAl/QL51nSDgAxSyu94yKy
+	PIn9wIRH2IZFlmKfSzqKCR71LaKiGkrD/HSgaRQb245/oFmYH13le2EXgsHsrIH75UqLz3
+	Z11W3tJOxR+vBh6gHjbD5FbyG6FnNCzR4oHH8uG2wNHJnoqWJ9ZmEH7DlYcnZLCUcl1gLD
+	mNnKh0EMvdHeQcM3phRrh+OldNLWfiXLDIRmHeLX33lUlMygrtc3mKklFPVC1A==
+Date: Thu, 9 Mar 2023 12:35:13 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy
+ Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad
+ Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson
+ Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Vincent Shih <vincent.sunplus@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo
+ <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH V3] nvmem: add explicit config option to read OF fixed
+ cells
+Message-ID: <20230309123513.43b7134f@xps-13>
+In-Reply-To: <20230309112028.19215-1-zajec5@gmail.com>
+References: <20230309112028.19215-1-zajec5@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANeycqoHwp3URSPGvnNZx+9PdbC90UVFWLwg4w=JBHQnjnGUPA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Mar 05, 2023 at 03:39:25AM -0300, Wedson Almeida Filho wrote:
-> > > +    /// Returns the name of the device.
-> > > +    fn name(&self) -> &CStr {
-> > > +        let ptr = self.raw_device();
-> > > +
-> > > +        // SAFETY: `ptr` is valid because `self` keeps it alive.
-> > > +        let name = unsafe { bindings::dev_name(ptr) };
-> > > +
-> > > +        // SAFETY: The name of the device remains valid while it is alive (because the device is
-> > > +        // never renamed, per the safety requirement of this trait). This is guaranteed to be the
-> > > +        // case because the reference to `self` outlives the one of the returned `CStr` (enforced
-> > > +        // by the compiler because of their lifetimes).
-> > > +        unsafe { CStr::from_char_ptr(name) }
-> >
-> > Why can the device never be renamed?  Devices are renamed all the time,
-> > sometimes when you least expect it (i.e. by userspace).  So how is this
-> > considered "safe"? and actually correct?
-> >
-> > Again, maybe seeing a real user of this might make more sense, but
-> > as-is, this feels wrong and not needed at all.
-> 
-> This requirement is to allow callers to use the string without having
-> to make a copy of it.
-> 
-> If subsystems/buses are not following what the C documentation says,
-> as you point out in another thread, we have a several options: (a)
-> remove access to names altogether, (b) leave things as they are, then
-> those subsystems wouldn't be able to honour the safety requirements of
-> this trait therefore they wouldn't implement it, (c) make a copy of
-> the string, etc.
+Hi Rafa=C5=82,
 
-How about we fix the documentation in the .c code and also drop this as
-you really don't need it now.
+> diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provide=
+r.h
+> index 0262b86194eb..b3c14ce87a65 100644
+> --- a/include/linux/nvmem-provider.h
+> +++ b/include/linux/nvmem-provider.h
+> @@ -73,6 +73,7 @@ struct nvmem_cell_info {
+>   * @owner:	Pointer to exporter module. Used for refcounting.
+>   * @cells:	Optional array of pre-defined NVMEM cells.
+>   * @ncells:	Number of elements in cells.
+> + * @use_fixed_of_cells:	Read fixed NVMEM cells from OF.
 
-Want to send a patch for the driver core code fix?
+I'm still unhappy with the naming, especially since you explained in
+more details the whole plan which involves using a container to put
+these fixed cells from now on. In both cases you extract cells from
+fixed OF nodes but this boolean needs to be set to true in one
+case, and false in the other, which would not make sense.
 
-> > > +        // owns a reference. This is satisfied by the call to `get_device` above.
-> > > +        Self { ptr }
-> > > +    }
-> > > +
-> > > +    /// Creates a new device instance from an existing [`RawDevice`] instance.
-> > > +    pub fn from_dev(dev: &dyn RawDevice) -> Self {
-> >
-> > I am a rust newbie, but I don't understand this "RawDevice" here at all.
-> 
-> Different buses will have their own Rust "Device" type, for example,
-> pci::Device, amba::Device, platform::Device that wrap their C
-> counterparts pci_dev, amba_device, platform_device.
-> 
-> "RawDevice" is a trait for functionality that is common to all
-> devices. It exposes the "struct device" of each bus/subsystem so that
-> functions that work on any "struct device", for example, `clk_get`,
-> `pr_info`. will automatically work on all subsystems.
+Also, regarding the bindings changes, I'm fairly happy with the idea,
+but if we go this way I would prefer a full series instead of
+individual changes with:
 
-Why is this being called "Raw" then?  Why not just "Device" to follow
-along with the naming scheme that the kernel already uses?
+- the boolean you introduce here (renamed, at the very least)
+- the new bindings
+- the update of the current provider bindings to take the new bindings
+  into account and deprecate the old ones officially
+- support for the new bindings in the core
 
-> For example, as part writing Rust abstractions for a platform devices,
-> we have a platform::Device type, which is wrapper around `struct
-> platform_device`. It has a bunch of associated functions that do
-> things that are specific to the platform bus. But then they also
-> implement the `RawDevice` trait (by implementing `raw_device` that
-> returns &pdev->dev), which allows drivers to call `clk_get` and the
-> printing functions directly.
-> 
-> Let's say `pdev` is a platform device; if we wanted to call `clk_get`
-> in C, we'd do something like:
-> 
-> clk = clk_get(&pdev->dev, NULL);
-> 
-> In Rust, we'd do:
-> 
-> clk = pdev.clk_get(None);
-> 
-> (Note that we didn't have to know that pdev had a field whose type is
-> a `struct device` that we could use to call clk_get on; `RawDevice`
-> encoded this information.)
-> 
-> Does the intent of the abstraction make sense to you now?
+>   * @keepout:	Optional array of keepout ranges (sorted ascending by start=
+).
+>   * @nkeepout:	Number of elements in the keepout array.
+>   * @type:	Type of the nvmem storage
+> @@ -103,6 +104,7 @@ struct nvmem_config {
+>  	struct module		*owner;
+>  	const struct nvmem_cell_info	*cells;
+>  	int			ncells;
+> +	bool			use_fixed_of_cells;
+>  	const struct nvmem_keepout *keepout;
+>  	unsigned int		nkeepout;
+>  	enum nvmem_type		type;
 
-A bit more, yes.  But I want to see some real users before agreeing that
-it is sane :)
-
-thanks,
-
-greg k-h
+Thanks,
+Miqu=C3=A8l
