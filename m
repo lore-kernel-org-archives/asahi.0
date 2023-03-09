@@ -1,306 +1,221 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7785321E;
-	Thu,  9 Mar 2023 08:56:48 +0000 (UTC)
-Received: (Authenticated sender: miquel.raynal@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 0DF70C000C;
-	Thu,  9 Mar 2023 08:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1678352200;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OsU9P3Ur2VchpA2JUh4YcUF6jVWgdCHPblwwuyxuAmM=;
-	b=EW5TlrV4CQ9Mmh3SXctNaJ3E6vLQDFLpT6USUszQ40PiT/G/H4kAE2HOo8ELaXuTkQPE/7
-	PtSBDFGEz5+owBxACqFApT/rEhZ1UxHqNQ0JeqAu7Y49D+uyNiZTkb/3qaS0KlqJ0+rphE
-	qIHERnL/qjJdmjUuJZSbLAMEw5XPfRTXbqn2KpThaanjWeSO5BLuTHqBXNc78c2T3tDPoq
-	gxPCqP0Lav/+NoCIm4vbutUJeL5h6HwWDWnvPFToYQgPMhmyieIQfmBLWAYQ3xf2jWpDDV
-	cBud8//oMxWBO+HUTDJcrxne728LVfY0Y7zyx0qQ98HvdR1wEinFBBmNGtj0Cg==
-Date: Thu, 9 Mar 2023 09:56:31 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Cc: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Richard Weinberger <richard@nod.at>,
- Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam
- <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy
- Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad
- Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson
- Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Vincent Shih <vincent.sunplus@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo
- <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-rtc@vger.kernel.org
-Subject: Re: [PATCH V2] nvmem: add explicit config option to read OF fixed
- cells
-Message-ID: <20230309095631.7b4f610e@xps-13>
-In-Reply-To: <af5dfd4701666d4ea50ec1015b1d2e5c@milecki.pl>
-References: <20230224072903.20945-1-zajec5@gmail.com>
-	<20230308173256.3837b87b@xps-13>
-	<91ff425b4c901648b1faf34c784f20ad@milecki.pl>
-	<20230308190636.7fabab9c@xps-13>
-	<5974d28426057975e701c4a8454b5a13@milecki.pl>
-	<20230308193121.7f5b3d02@xps-13>
-	<930f3549-440d-adac-ae9d-1aa6ef07c44b@gmail.com>
-	<20230309093415.2b1088c8@xps-13>
-	<af5dfd4701666d4ea50ec1015b1d2e5c@milecki.pl>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2080321E
+	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 09:15:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 8699741F78;
+	Thu,  9 Mar 2023 09:14:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1678353304;
+	bh=5NvQExJBE/2u/mwalmBIy0G1FlF3VvdxJMh+roXHaLw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=KbySdjG9+l7bYziRG7wlG0Uny+k+kSCwHuz0PRkGZSuiH0e2GjLTVETfhUFxliLN9
+	 0BgYaDMv6QGsz/z9oI3hs3XE9Us2YKlYl526TjYqlP6x4PcqpDoDN2n1ReOAXKQukZ
+	 xgEWb3sefmBsFzJqIO9TYEt/8g6+Eo3SYTuk8tM1NCers6bdARbpAvPl+2VLDf1d+o
+	 n1baBbYKEeRxORaDt87nOEUNCIH249QGBDwbawpQ1U3+QqD7lXMyAQpnUQbijSSujD
+	 KNEYqNjWXpWm2bbFi8/ZJwNPg7g8x0IkK+FVPXZC5uzG74iwtS0jtnDVLTy9rjYM1N
+	 XCJh32fO005nw==
+Message-ID: <d36046e6-acf5-89a3-46b4-1c813ca925c8@asahilina.net>
+Date: Thu, 9 Mar 2023 18:14:55 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>,
+ Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>,
+ Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+ <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
+ <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
+ <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
+ <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
+ <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
+ <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
+ <b0aa78b2-b432-200a-8953-a80c462fa6ee@amd.com>
+ <c0624252-070e-bd44-2116-93a1d63a1359@asahilina.net>
+ <d1fccceb-ca77-f653-17fc-63168e0da884@amd.com>
+ <9c3dc2ad-11e4-6004-7230-8ca752e3d9f7@asahilina.net>
+ <d544748c-8a2b-7c08-f199-182a56af22be@amd.com>
+ <3e5e0120-50fd-51c0-d817-5b1dc4c14e97@asahilina.net>
+ <f93448e6-4133-8a49-a12e-7a7012cb5409@amd.com>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <f93448e6-4133-8a49-a12e-7a7012cb5409@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Rafa=C5=82,
+On 09/03/2023 17.05, Christian König wrote:
+> Am 09.03.23 um 07:30 schrieb Asahi Lina:
+>> On 09/03/2023 05.14, Christian König wrote:
+>>>> I think you mean wake_up_interruptible(). That would be
+>>>> drm_sched_job_done(), on the fence callback when a job completes, which
+>>>> as I keep saying is the same logic used for
+>>>> hw_rq_count/hw_submission_limit tracking.
+>>> As the documentation to wait_event says:
+>>>
+>>>    * wake_up() has to be called after changing any variable that could
+>>>    * change the result of the wait condition.
+>>>
+>>> So what you essentially try to do here is to skip that and say
+>>> drm_sched_job_done() would call that anyway, but when you read any
+>>> variable to determine that state then as far as I can see nothing is
+>>> guarantying that order.
+>> The driver needs to guarantee that any changes to that state precede a
+>> job completion fence signal of course, that's the entire idea of the
+>> API. It's supposed to represent a check for per-scheduler (or more
+>> specific, but not more global) resources that are released on job
+>> completion. Of course if you misuse the API you could cause a problem,
+>> but what I'm trying to say is that the API as designed and when used as
+>> intended does work properly.
+>>
+>> Put another way: job completions always need to cause the sched main
+>> loop to run an iteration anyway (otherwise we wouldn't make forward
+>> progress), and job completions are exactly the signal that the
+>> can_run_job() condition may have changed.
+>>
+>>> The only other possibility how you could use the callback correctly
+>>> would be to call drm_fence_is_signaled() to query the state of your hw
+>>> submission from the same fence which is then signaled. But then the
+>>> question is once more why you don't give that fence directly to the
+>>> scheduler?
+>> But the driver is supposed to guarantee that the ordering is always 1.
+>> resources freed, 2. fence signaled. So you don't need to check for the
+>> fence, you can just check for the resource state.
+> 
+> Yeah, but this is exactly what the dma_fence framework tried to prevent. 
+> We try very hard to avoid such side channel signaling :)
 
-rafal@milecki.pl wrote on Thu, 09 Mar 2023 09:39:54 +0100:
+Right, and it's fine, I can use the fences directly easily enough. I'm
+just trying to explain why my original idea works too, even if it's not
+the best solution for other reasons!
 
-> On 2023-03-09 09:34, Miquel Raynal wrote:
-> > Hi Rafa=C5=82,
-> >=20
-> > zajec5@gmail.com wrote on Thu, 9 Mar 2023 07:56:05 +0100:
-> >  =20
-> >> On 8.03.2023 19:31, Miquel Raynal wrote: =20
-> >> > Hi Rafa=C5=82,
-> >> >
-> >> > rafal@milecki.pl wrote on Wed, 08 Mar 2023 19:12:32 +0100:
-> >> > =20
-> >> >> On 2023-03-08 19:06, Miquel Raynal wrote: =20
-> >> >>> Hi Rafa=C5=82,
-> >> >>>
-> >> >>> rafal@milecki.pl wrote on Wed, 08 Mar 2023 17:55:46 +0100: =20
-> >> >>>    >>>> On 2023-03-08 17:34, Miquel Raynal wrote: =20
-> >> >>>>> Hi Rafa=C5=82,
-> >> >>>>>
-> >> >>>>> zajec5@gmail.com wrote on Fri, 24 Feb 2023 08:29:03 +0100: =20
-> >> >>>>>   >>>>>> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl> =20
-> >> >>>>>>>> NVMEM subsystem looks for fixed NVMEM cells (specified in DT)=
- by =20
-> >> >>>>>> default. This behaviour made sense in early days before adding =
-support
-> >> >>>>>> for dynamic cells. =20
-> >> >>>>>>>> With every new supported NVMEM device with dynamic cells curr=
-ent =20
-> >> >>>>>> behaviour becomes non-optimal. It results in unneeded iterating=
- over >> DT
-> >> >>>>>> nodes and may result in false discovery of cells (depending on =
-used DT
-> >> >>>>>> properties). =20
-> >> >>>>>>>> This behaviour has actually caused a problem already with the=
- MTD =20
-> >> >>>>>> subsystem. MTD subpartitions were incorrectly treated as NVMEM =
-cells. =20
-> >> >>>>>
-> >> >>>>> That's true, but I expect this to be really MTD specific.
-> >> >>>>>
-> >> >>>>> A concrete proposal below. =20
-> >> >>>>>   >>>>>> Also with upcoming support for NVMEM layouts no new bin=
-ding or driver =20
-> >> >>>>>> should support fixed cells defined in device node. =20
-> >> >>>>>
-> >> >>>>> I'm not sure I agree with this statement. We are not preventing =
-new
-> >> >>>>> binding/driver to use fixed cells, or...? We offer a new way to =
-expose
-> >> >>>>> nvmem cells with another way than "fixed-offset" and "fixed-size=
-" OF
-> >> >>>>> nodes. =20
-> >> >>>>>>   From what I understood all new NVMEM bindings should have cel=
-ls >> defined =20
-> >> >>>> in the nvmem-layout { } node. That's what I mean by saying they s=
-hould
-> >> >>>> not be defined in device node (but its "nvmem-layout" instead). =
-=20
-> >> >>>
-> >> >>> Layouts are just another possibility, either you user the nvmem-ce=
-lls
-> >> >>> compatible and produce nvmem cells with fixed OF nodes, or you use=
- the
-> >> >>> nvmem-layout container. I don't think all new bindings should have
-> >> >>> cells in layouts. It depends if the content is static or not. =20
-> >> >>>    >>>>>> Solve this by modifying drivers for bindings that suppor=
-t specifying =20
-> >> >>>>>> fixed NVMEM cells in DT. Make them explicitly tell NVMEM subsys=
-tem to
-> >> >>>>>> read cells from DT. =20
-> >> >>>>>>>> It wasn't clear (to me) if rtc and w1 code actually uses fixe=
-d cells. >> I =20
-> >> >>>>>> enabled them to don't risk any breakage. =20
-> >> >>>>>>>> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl> =20
-> >> >>>>>> [for drivers/nvmem/meson-{efuse,mx-efuse}.c]
-> >> >>>>>> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.c=
-om>
-> >> >>>>>> ---
-> >> >>>>>> V2: Fix stm32-romem.c typo breaking its compilation
-> >> >>>>>>      Pick Martin's Acked-by
-> >> >>>>>>      Add paragraph about layouts deprecating use_fixed_of_cells
-> >> >>>>>> ---
-> >> >>>>>>   drivers/mtd/mtdcore.c          | 2 ++
-> >> >>>>>>   drivers/nvmem/apple-efuses.c   | 1 +
-> >> >>>>>>   drivers/nvmem/core.c           | 8 +++++---
-> >> >>>>>>   drivers/nvmem/imx-ocotp-scu.c  | 1 +
-> >> >>>>>>   drivers/nvmem/imx-ocotp.c      | 1 +
-> >> >>>>>>   drivers/nvmem/meson-efuse.c    | 1 +
-> >> >>>>>>   drivers/nvmem/meson-mx-efuse.c | 1 +
-> >> >>>>>>   drivers/nvmem/microchip-otpc.c | 1 +
-> >> >>>>>>   drivers/nvmem/mtk-efuse.c      | 1 +
-> >> >>>>>>   drivers/nvmem/qcom-spmi-sdam.c | 1 +
-> >> >>>>>>   drivers/nvmem/qfprom.c         | 1 +
-> >> >>>>>>   drivers/nvmem/rave-sp-eeprom.c | 1 +
-> >> >>>>>>   drivers/nvmem/rockchip-efuse.c | 1 +
-> >> >>>>>>   drivers/nvmem/sc27xx-efuse.c   | 1 +
-> >> >>>>>>   drivers/nvmem/sprd-efuse.c     | 1 +
-> >> >>>>>>   drivers/nvmem/stm32-romem.c    | 1 +
-> >> >>>>>>   drivers/nvmem/sunplus-ocotp.c  | 1 +
-> >> >>>>>>   drivers/nvmem/sunxi_sid.c      | 1 +
-> >> >>>>>>   drivers/nvmem/uniphier-efuse.c | 1 +
-> >> >>>>>>   drivers/nvmem/zynqmp_nvmem.c   | 1 +
-> >> >>>>>>   drivers/rtc/nvmem.c            | 1 +
-> >> >>>>>>   drivers/w1/slaves/w1_ds250x.c  | 1 +
-> >> >>>>>>   include/linux/nvmem-provider.h | 2 ++
-> >> >>>>>>   23 files changed, 29 insertions(+), 3 deletions(-) =20
-> >> >>>>>>>> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c =20
-> >> >>>>>> index 0feacb9fbdac..1bb479c0f758 100644
-> >> >>>>>> --- a/drivers/mtd/mtdcore.c
-> >> >>>>>> +++ b/drivers/mtd/mtdcore.c
-> >> >>>>>> @@ -523,6 +523,7 @@ static int mtd_nvmem_add(struct mtd_info *m=
-td)
-> >> >>>>>>   	config.dev =3D &mtd->dev;
-> >> >>>>>>   	config.name =3D dev_name(&mtd->dev);
-> >> >>>>>>   	config.owner =3D THIS_MODULE;
-> >> >>>>>> +	config.use_fixed_of_cells =3D of_device_is_compatible(node, >=
-> "nvmem-cells"); =20
-> >> >>>>>
-> >> >>>>> I am wondering how mtd specific this is? For me all OF nodes con=
-taining
-> >> >>>>> the nvmem-cells compatible should be treated as cells providers =
-and
-> >> >>>>> populate nvmem cells as for each children.
-> >> >>>>>
-> >> >>>>> Why don't we just check for this compatible to be present? in
-> >> >>>>> nvmem_add_cells_from_of() ? And if not we just skip the operatio=
-n.
-> >> >>>>>
-> >> >>>>> This way we still follow the bindings (even though using nvmem-c=
-ells in
-> >> >>>>> the compatible property to require cells population was a mistak=
-e in
-> >> >>>>> the first place, as discussed in the devlink thread recently) bu=
-t there
-> >> >>>>> is no need for a per-driver config option? =20
-> >> >>>>>> This isn't mtd specific. Please check this patch for all occurr=
-ences >> of =20
-> >> >>>> the:
-> >> >>>> use_fixed_of_cells =3D true =20
-> >> >>>>>> The very first one: drivers/nvmem/apple-efuses.c driver for the=
- =20
-> >> >>>> "apple,efuses" binding. That binding supports fixed OF cells, see:
-> >> >>>> Documentation/devicetree/bindings/nvmem/apple,efuses.yaml =20
-> >> >>>
-> >> >>> I'm saying: based on what has been enforced so far, I would expect=
- all
-> >> >>> fixed cell providers to come with nvmem-cells as compatible, no?
-> >> >>>
-> >> >>> If that's the case we could use that as a common denominator? =20
-> >> >>
-> >> >> Sorry, I don't get it. Have you checked
-> >> >> Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
-> >> >> ?
-> >> >>
-> >> >> It's a NVMEM provied binding with fixed cells that doesn't use
-> >> >> nvmem-cells as compatible. There are many more. =20
-> >> >
-> >> > Oh yeah you're right, I'm mixing things. Well I guess you're right
-> >> > then, it's such a mess, we have to tell the core the parsing method.
-> >> >
-> >> > So maybe another question: do we have other situations than mtd which
-> >> > sometimes expect the nvmem core to parse the OF nodes to populate ce=
-lls,
-> >> > and sometimes not? =20
-> >> >> I'm not aware of that. Please also check my patch. The only case I =
-set =20
-> >> "use_fixed_of_cells" conditionally is mtd code. In other cases it's
-> >> hardcoded to "true". =20
-> >> >> >> > Also, what about "of_children_are_cells" ? Because actually in=
- most =20
-> >> > cases it's a "fixed of cell", so I don't find the current naming
-> >> > descriptive enough for something so touchy. =20
-> >> >> That would be just incorrect because this new config property =20
-> >> ("use_fixed_of_cells") is only about FIXED cells. =20
-> >> >> There are cases of OF children being cells but NOT being fixed cell=
-s. =20
-> >> They should NOT be parsed by the nvmem_add_cells_from_of(). =20
-> >> >> Example: =20
-> >> a607a850ba1f ("dt-bindings: nvmem: u-boot,env: add basic NVMEM cells")
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
-mit/?id=3Da607a850ba1fa966cbb035544c1588e24a6307df =20
-> >=20
-> > This is backwards. That's why layouts have been proposed: having
-> > a clear framework were the nvmem core should or should not play with
-> > the OF children nodes. If each binding is different, you end up with
-> > the mess we have today, where nobody knows how to properly
-> > populate the cells.
-> >=20
-> > Anyway, it's not a big deal either, if the cells are empty we can
-> > easily check that and have *yet another* specific case in the core.
-> >  =20
-> >> So that would result in U-Boot env:
-> >> 1. Having OF children nodes being cells
-> >> 2. Setting "of_children_are_cells" to false (counter-intuitive) to >> =
-avoid nvmem_add_cells_from_of() =20
-> >=20
-> > Agreed. So what about config.ignore_of_children?
-> > - mtd sets this to !is_compatible(nvmem-cells)
-> > - nobody else touches it (the core don't try to parse the cell if it's
-> >   empty so U-Boot env driver works) =20
->=20
-> "ignore_of_children" would have opposite (reversed) meaning to the
-> "use_fixed_of_cells":
-> 1. By default it would be 0 / false
-> 2. By default NVMEM code would NOT ignore OF children nodes
->=20
-> That is what I actually *don't* want.
->=20
-> Having NVMEM core look for fixed cells in device node is undesirable.
+Of course I don't have the context of what other drivers are doing or
+did historically and what the pitfalls are, so I can't know what the
+"right" solution for any of this is in that context. I did my best to
+understand the drm_sched code and come up with a solution that works
+(which it does) without any more info. When I saw the hw submission
+limit stuff, I thought "okay, I need the same thing but with slightly
+more complex logic, so let's add a callback so the driver can customize
+it and do its own inflight counting".
 
-Is it?
+After this discussion, I can see that this is equivalent to doing the
+same check in prepare_job() followed by returning the oldest running
+job's fence (as long as there's no race there... it should be fine if
+the fence reference is taken first, before the resource check, or if
+everything is done within the same critical section taking the firmware
+queue lock), so I'm happy to switch to that and drop this patch.
 
-I think this is the standard case. Most of the time fixed cells are
-the simplest and most direct approach. I don't get why we would like
-to prevent it at some point? Only the more advanced stuff that does not
-fit the purpose of fixed OF cells should go through layouts.
+But keep in mind none of this is documented, and there's no way for us
+driver authors to understand what we're supposed to do without
+documentation. As I said I spent a long time trying to understand
+drm_sched, and then my original attempt missed the drm_sched_fini()
+issue with dangling jobs and Alyssa managed to hit an oops on the test
+branch, I guessed what the problem was from her trace, figured out a way
+to reproduce it (the kill-loop glmark2 thing), and fixed it in the next
+patch in this series. So even trying my best to figure out how to do
+this, reading the code and what scarce docs there are, I managed to miss
+something that caused a potential oops on the first try. If I can't even
+get the API usage right after spending hours on it trying really hard
+not to (because it's not just about my driver, I need the Rust
+abstraction to be safe for any driver), there's no way I'm going to
+divine what approaches to resource/dependency signaling are
+problematic/easy to abuse... the most I can hope for is "I got the
+wrapper right and the API/driver interaction is correct and guarantees
+forward progress if the driver follows the rules".
 
-> I want that feature to be off by default. I want devices to have to
-> enable it explicitly only when it's needed.
+So when I submit something, and you reply with "Well complete NAK",
+that's just not nice. Honestly, I was kind of upset when I got that
+email. It sounded as if you were saying my solution was completely
+broken and couldn't work, but no matter how I looked at it I couldn't
+figure out how it's broken. And then it took several emails to even
+understand what you were suggesting with the prepare_job callback (and
+yes, that works too and is probably harder to abuse than a new
+callback). I'm trying really hard to make this all work and be correct,
+and of course I make mistakes too... but then I look at the code and no
+matter what I can come up with it seems to work and be correct, what am
+I supposed to do? I'm happy to learn and figure out better approaches
+for everything that lead to better drivers, but I need an actual
+explanation of the issues, not just a NAK...
 
-Well, that's exactly the opposite of what nvmem does right now, that's
-maybe why reviewers don't get the interest of the current
-implementation: it has many impacts on users which should not be
-impacted just because we messed with mtd.
+I also would appreciate it if people give me the benefit of the doubt
+and let me explain what I'm doing and how I'm doing it and how this
+hardware works, because the whole thing is subtle to the core and very
+different to other GPUs. Honestly, I don't think any reviewer that
+hasn't spent hours poring over the driver/abstraction code could
+confidently say that a certain subtle sync issue exists at a first pass
+(other than for really obvious bad code sequences). I'm happy to look
+into issues and I definitely want to know what cases to look at and what
+to check for and fix anything we find... but isn't it better if we work
+together instead of shouting "this is broken" at the first hint of
+possible trouble?
 
-Thanks,
-Miqu=C3=A8l
+> But putting that issue aside for a moment. What I don't get is when you 
+> have such intra queue dependencies, then why can't you check that at a 
+> much higher level?
+> 
+> In other words even userspace should be able to predict that for it's 
+> submissions X amount of resources are needed and when all of my 
+> submissions run in parallel that won't work.
+
+Technically yes, but we can't trust userspace to honor this, since
+overflowing the firmware queue breaks everything, so the kernel has to
+do the check... plus we're trying to insulate userspace from the details
+of how work is queued at the firmware. We need to support multiple
+firmware versions including future ones we can't predict yet without
+breaking UAPI, so the less the UAPI depends on firmware details, the
+better. That's why at the UAPI level, this is boiled down to a simpler
+"max commands per submission" limit that gets passed in the params
+struct, which is conservative, and then the kernel can deal with the
+actual in-flight count tracking and only submit things to the hardware
+when they fit.
+
+In the future we could even support job splitting on the kernel side and
+remove the max commands per submission limit altogether (though it
+probably still makes sense to have for other reasons, like bounding how
+much kernel/firmware memory a single queue can consume, so I'm not sure
+this is even worth doing at all).
+
+> Asking the firmware for a status is usually a magnitudes slower than 
+> just computing it before submission.
+
+I'm not asking the firmware for status, I'm just asking my own firmware
+queue code how many slots are currently free in each backing queue.
+That's just based on internal driver state, there is no firmware round trip!
+
+I could technically compute this before submission and figure out how
+much work has been queued and pre-populate fences that ensure we never
+exceed the max, but honestly that's a lot more code to track job sizes
+and I don't think it makes sense when I can just ask "Do we have space?
+No? Okay, return the oldest running job fence for now and try again when
+it completes" in prepare_job(). Maybe it's faster in pathological cases
+to do something fancier, but let's wait until Vulkan works and we can
+run real AAA games and see where the bottlenecks are before going down
+the optimization road ^^
+
+~~ Lina
