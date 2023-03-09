@@ -1,179 +1,161 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942A3944D
-	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 12:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=aPUoKZqvfuD+mphoHGghF/IdQ3Fkrk+RW1l/3m7ZZk4=; b=scrrVscrgKXQEsbE7jZHR5v3Q4
-	RObBukIVBALTABNThGPDZj/Z1rzsesFEndtXmk+Rm2hKoYC89fQMBWxoDgq463GNHzWOr+Te70X4X
-	a2eCONRy4yYZjllIIeq1ZnkqDYU0W9rOPQVI3Qq8m8KPKhDY7J99MpuGAajTuuVprqNkuthzMLCsh
-	shnALKY5Fjrtzi0ewUsOO4L3HWi9sQw9JcpVJbg8A1F8Tad2Lt5HhmRaaUemftBy501uVRiWVXqtP
-	S6ZxRdgyxxsnskvJ8VCCtFqFymFNwXEUUb+3qkNkVb7J8bkV6cn92tOLVA0RDJ+xAdNuuF3CQ72Nm
-	qafTtm4g==;
-Received: from [187.36.234.139] (helo=[192.168.1.195])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1paF5J-001X5J-WF; Thu, 09 Mar 2023 13:09:26 +0100
-Message-ID: <b0d69e2a-9ba6-df31-1887-0d1e69fd148b@igalia.com>
-Date: Thu, 9 Mar 2023 09:09:15 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D32E9473;
+	Thu,  9 Mar 2023 13:19:30 +0000 (UTC)
+Received: (Authenticated sender: miquel.raynal@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id D29391BF203;
+	Thu,  9 Mar 2023 13:19:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1678367968;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KCS0grjDle8LqIHXYUqxgW9dQGLLuD8q9UNKbRuhYbk=;
+	b=Xwei8LaM7A3PtmP2nNF4x28yyM+iJOS9s9PrMxCrGzZC58KjSVM8cHaBeXrAZI/NtfH/9j
+	r01nhfdqw3Y5E4seWycsQrKTDFGGLW5n7wwD+gr+9XPRGo17l49ulVlJXO+zEXIj6W/wVp
+	xHnGPGBF0BnN6CjB6Mu7s0CWOOvq/3wpWShvMBXpv9A0NVrQOjh4c49bXdwQz2Qj8hWt33
+	zxizmlPdNsdJMSab2n/Xqmakf0DwsfvgnyFw9d/JVszhf957LuH1cfuu0MN5C7gxIvLwp6
+	eigmkj5aTAo76n4kZiDx68XnLa0GLX9JeCOa/Bk5Ds7ImdmzV7EC+0ot+vZz3Q==
+Date: Thu, 9 Mar 2023 14:19:20 +0100
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Richard Weinberger
+ <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy
+ Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Konrad
+ Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, Orson
+ Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Vincent Shih <vincent.sunplus@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Kunihiko Hayashi
+ <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>, Alessandro Zummo
+ <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH V3] nvmem: add explicit config option to read OF fixed
+ cells
+Message-ID: <20230309141920.1d3f774e@xps-13>
+In-Reply-To: <e845b38c-d0eb-716c-dc51-b89582750f07@gmail.com>
+References: <20230309112028.19215-1-zajec5@gmail.com>
+	<20230309123513.43b7134f@xps-13>
+	<e845b38c-d0eb-716c-dc51-b89582750f07@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH RFC 01/18] rust: drm: ioctl: Add DRM ioctl abstraction
-Content-Language: en-US
-To: Dave Airlie <airlied@gmail.com>, Asahi Lina <lina@asahilina.net>
-Cc: Karol Herbst <kherbst@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, dri-devel@lists.freedesktop.org,
- Mary <mary@mary.zone>, Gary Guo <gary@garyguo.net>,
- Ella Stanforth <ella@iglunix.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, =?UTF-8?Q?Ma=c3=adra_Canal?=
- <mcanal@igalia.com>, Luben Tuikov <luben.tuikov@amd.com>,
- Alex Gaynor <alex.gaynor@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-media@vger.kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
- rust-for-linux@vger.kernel.org, Boqun Feng <boqun.feng@gmail.com>,
- linaro-mm-sig@lists.linaro.org, Faith Ekstrand
- <faith.ekstrand@collabora.com>, linux-sgx@vger.kernel.org,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- linux-kernel@vger.kernel.org, Jarkko Sakkinen <jarkko@kernel.org>,
- asahi@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
- <c047e11f-33d0-6af4-21c3-adb384b68d8b@igalia.com>
- <93a57598-9deb-85f2-ebd9-8605404c1ef8@asahilina.net>
- <CAPM=9tw6aUUgL63EFhX6W_mQa1ssEmcPjJJHhrssasRVPt76rg@mail.gmail.com>
-From: =?UTF-8?Q?Ma=c3=adra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <CAPM=9tw6aUUgL63EFhX6W_mQa1ssEmcPjJJHhrssasRVPt76rg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 3/9/23 03:15, Dave Airlie wrote:
-> On Thu, 9 Mar 2023 at 15:32, Asahi Lina <lina@asahilina.net> wrote:
->>
->> On 08/03/2023 00.32, Maíra Canal wrote:
->>> On 3/7/23 11:25, Asahi Lina wrote:
->>>> DRM drivers need to be able to declare which driver-specific ioctls they
->>>> support. This abstraction adds the required types and a helper macro to
->>>> generate the ioctl definition inside the DRM driver.
->>>>
->>>> Note that this macro is not usable until further bits of the
->>>> abstraction are in place (but it will not fail to compile on its own, if
->>>> not called).
->>>>
->>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>>> ---
->>>>    drivers/gpu/drm/Kconfig         |   7 ++
->>>>    rust/bindings/bindings_helper.h |   2 +
->>>>    rust/kernel/drm/ioctl.rs        | 147 ++++++++++++++++++++++++++++++++++++++++
->>>>    rust/kernel/drm/mod.rs          |   5 ++
->>>>    rust/kernel/lib.rs              |   2 +
->>>>    5 files changed, 163 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->>>> index dc0f94f02a82..dab8f0f9aa96 100644
->>>> --- a/drivers/gpu/drm/Kconfig
->>>> +++ b/drivers/gpu/drm/Kconfig
->>>> @@ -27,6 +27,13 @@ menuconfig DRM
->>>>         details.  You should also select and configure AGP
->>>>         (/dev/agpgart) support if it is available for your platform.
->>>>
->>>
->>> [...]
->>>
->>>> +
->>>> +/// Declare the DRM ioctls for a driver.
->>>> +///
->>>> +/// Each entry in the list should have the form:
->>>> +///
->>>> +/// `(ioctl_number, argument_type, flags, user_callback),`
->>>> +///
->>>> +/// `argument_type` is the type name within the `bindings` crate.
->>>> +/// `user_callback` should have the following prototype:
->>>> +///
->>>> +/// ```
->>>> +/// fn foo(device: &kernel::drm::device::Device<Self>,
->>>> +///        data: &mut bindings::argument_type,
->>>> +///        file: &kernel::drm::file::File<Self::File>,
->>>> +/// )
->>>> +/// ```
->>>> +/// where `Self` is the drm::drv::Driver implementation these ioctls are being declared within.
->>>> +///
->>>> +/// # Examples
->>>> +///
->>>> +/// ```
->>>> +/// kernel::declare_drm_ioctls! {
->>>> +///     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
->>>> +/// }
->>>> +/// ```
->>>> +///
->>>> +#[macro_export]
->>>> +macro_rules! declare_drm_ioctls {
->>>> +    ( $(($cmd:ident, $struct:ident, $flags:expr, $func:expr)),* $(,)? ) => {
->>>> +        const IOCTLS: &'static [$crate::drm::ioctl::DrmIoctlDescriptor] = {
->>>> +            const _:() = {
->>>> +                let i: u32 = $crate::bindings::DRM_COMMAND_BASE;
->>>> +                // Assert that all the IOCTLs are in the right order and there are no gaps,
->>>> +                // and that the sizeof of the specified type is correct.
->>>
->>> I believe that not necessarily the IOCTLs need to be in the right order and
->>> with no gaps. For example, armada_drm.h has a gap in between 0x00 and
->>> 0x02 and exynos_drm.h also have gaps. Moreover, some drivers, like vgem and
->>> virtgpu, start their IOCTLs with 0x01.
->>
->> Yeah, we talked about this a bit... do you have any ideas about how to
->> design this? I think it should be possible with a const function
->> initializing an array entry by entry, we just need a two-pass macro
->> (once to determine the max ioctl number, then again to actually output
->> the implementation).
->>
->> I'm not sure why drivers would have gaps in the ioctl numbers though...
->> my idea was that new drivers shouldn't need that as far as I can tell
->> (you can't remove APIs after the fact due to UAPI stability guarantees,
->> so as long as you don't have gaps to begin with...). But I guess if
->> we're reimplementing existing drivers in Rust we'll need this... though
->> maybe it makes sense to just say it's not supported and require
->> reimplementations that have holes to just explicitly add dummy ioctls
->> that return EINVAL? We could even provide such a dummy generic ioctl
->> handler on the abstraction side, so drivers just have to add it to the
->> list, or make the macro take a special token that is used for
->> placeholder ioctls that don't exist (which then creates the NULL
->> function pointer that the drm core interprets as invalid)...
-> 
-> I can think of two reason for gaps having appeared:
-> 
-> a) developers wanted to group new uapis at a nice base number.
-> This is never essential it's just makes things easier to read, and
-> allows slotting other ioctls into the gaps later.
-> 
-> b) parallel feature development ends up conflicting then one thread never lands.
-> I've got two-three devs each adding a uAPI, we assign them 0x10, 0x11,
-> 0x12 while they work, then 0x11 never lands because it was a bad idea.
-> 
-> However I think you should be fine enforcing a non-sparse space here
-> unless we want to handle replacing current drivers, as long as it's
-> hard to screw up so you know early.
+Hi Rafa=C5=82,
 
-I guess it would be nice to support old UAPIs for cases of reimplementations.
-Currently, I'm working on a reimplementation of vgem and I ended up having to
-create a dummy IOCTL to deal with the sparse number space. Although creating
-dummy IOCTLs works, I don't believe it is a nice practice.
+zajec5@gmail.com wrote on Thu, 9 Mar 2023 13:01:19 +0100:
 
-Moreover, I believe that if we keep developing new drivers with Rust, cases
-(a) and (b) will end up happening, and maybe the Rust abstractions should
-work like DRM and allow it to happen.
+> On 9.03.2023 12:35, Miquel Raynal wrote:
+> >> diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-prov=
+ider.h
+> >> index 0262b86194eb..b3c14ce87a65 100644
+> >> --- a/include/linux/nvmem-provider.h
+> >> +++ b/include/linux/nvmem-provider.h
+> >> @@ -73,6 +73,7 @@ struct nvmem_cell_info {
+> >>    * @owner:	Pointer to exporter module. Used for refcounting.
+> >>    * @cells:	Optional array of pre-defined NVMEM cells.
+> >>    * @ncells:	Number of elements in cells.
+> >> + * @use_fixed_of_cells:	Read fixed NVMEM cells from OF. =20
+> >=20
+> > I'm still unhappy with the naming, especially since you explained in
+> > more details the whole plan which involves using a container to put
+> > these fixed cells from now on. In both cases you extract cells from
+> > fixed OF nodes but this boolean needs to be set to true in one
+> > case, and false in the other, which would not make sense.
+> >=20
+> > Also, regarding the bindings changes, I'm fairly happy with the idea,
+> > but if we go this way I would prefer a full series instead of
+> > individual changes with:
+> >=20
+> > - the boolean you introduce here (renamed, at the very least)
+> > - the new bindings =20
+>=20
+> I assume you mean fixed-layout.yaml?
 
-Best Regards,
-- Maíra Canal
+Yes!
 
-> 
-> Dave.
+> > - the update of the current provider bindings to take the new bindings
+> >    into account and deprecate the old ones officially =20
+>=20
+> What has to be updated in current proceds? It seems to me that:
+> 1. Current NVMEM providers reference nvmem.yaml
+> 2. nvmem.yaml references nvmem-layout.yaml
+> 3. nvmem-layout.yaml references fixed-layout.yaml
+>=20
+> what else is missing?
+
+That's the theory, but then provider bindings should reflect the
+changes as well in their own binding documents.
+
+IOW, this one (and all its cousins) becomes legacy and must be updated:
+
+https://elixir.bootlin.com/linux/latest/source/Documentation/devicetree/bin=
+dings/nvmem/imx-ocotp.yaml#L92
+
+(and there are many files to update then)
+
+>=20
+>=20
+> > - support for the new bindings in the core =20
+>=20
+> Please, don't get me wrong, but I'm not going to spend more hours on
+> actual coding without approval of chosen path.
+
+Well, you want to make the bindings evolve. Just updating a single
+binding file is not enough, I believe we should at least provide full
+support for the new description. But of course I'm fine discussing what
+description we want first.
+
+> I'll need to have
+> [PATCH V2] dt-bindings: nvmem: layouts: add fixed-layout
+> reviewed/acked first. If you can do that that's great.
+>=20
+>=20
+> >>    * @keepout:	Optional array of keepout ranges (sorted ascending by s=
+tart).
+> >>    * @nkeepout:	Number of elements in the keepout array.
+> >>    * @type:	Type of the nvmem storage
+> >> @@ -103,6 +104,7 @@ struct nvmem_config {
+> >>   	struct module		*owner;
+> >>   	const struct nvmem_cell_info	*cells;
+> >>   	int			ncells;
+> >> +	bool			use_fixed_of_cells;
+> >>   	const struct nvmem_keepout *keepout;
+> >>   	unsigned int		nkeepout;
+> >>   	enum nvmem_type		type; =20
+> >=20
+> > Thanks,
+> > Miqu=C3=A8l =20
+>=20
+
+
+Thanks,
+Miqu=C3=A8l
