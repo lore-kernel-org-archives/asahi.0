@@ -1,125 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F658A29
-	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 16:39:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1E9AC433D2;
-	Thu,  9 Mar 2023 16:39:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678379977;
-	bh=lPti0CqiJyrVN8p1peO9ayPP4zvhtBCZaW4gjRkGXz8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=Hmd9ToL/4LqU26a4rwLzPqQpJBKFO8O+twt93NgBKvVPwnX+l0D9Ol3IV38M5Zao2
-	 ufqkOsdfBfSub5n5DO0TnGDEYsaiszTiNoGQckU+9qAuwLty8/q+buZ1jR2fbFBv3L
-	 WofwK2r/iDZKABvCQJzIRRT27sPnR1a4DG8esc4HeA3S185UFVUDcPgop47s+CGpbP
-	 kipr2ysjLmeFPZ8i0xPt9RfS8OEnhIPOkelIFmJVlBzIKm+c6Jm8yp56gEZb7wbaCd
-	 O4AIRxiBKLbGlH+9cxeilrw30RONRlR2TICcAaj4O9KoCbVqqZJtPPmOtLhV/cabi5
-	 BCrXSROYicgGA==
-Date: Thu, 9 Mar 2023 10:39:35 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marc Zyngier <maz@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Sven Peter <sven@svenpeter.dev>, linux-pci@vger.kernel.org,
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Conor Dooley <conor.dooley@microchip.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2] PCI: apple: Set only available ports up
-Message-ID: <20230309163935.GA1140101@bhelgaas>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B6BA29
+	for <asahi@lists.linux.dev>; Thu,  9 Mar 2023 16:46:51 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id q11-20020a056830440b00b00693c1a62101so1482159otv.0
+        for <asahi@lists.linux.dev>; Thu, 09 Mar 2023 08:46:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678380410;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cZWG9NcS5ykP9v/z+VYKPHVgXZgQF/ixQK++XhQHyv0=;
+        b=ROhuLW1vwLot6HIlrXjC/U39b1KB/ymFHAULRVmJmYTHvQjO2s536s27znTD6vYQWu
+         AFu2hEHRsx9Qnn6RFoma3Ym/Y1zU978Ai1Ga1plXa8U8t1GehznhbW3QR4/760ZuEVVz
+         Bn24Hsb0UDrAjjix9GZ6HUhr81ejX5H2Fc97HDN4N0c9nHwD7w0korwz8LG+GU2a5aer
+         wUMfHXWPnDHqJa2UjK2LVVPfwNI9iV5bCBDnUHwms9DB52WgfElnVq2wA2VlLQXelcXf
+         ixwsnVIu4g4TXIvLwCf5cwB7YdTBqUUAEDuaTxCveN6UMFJY1HyXdrT+yr5d8rlV5rlq
+         Np/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678380410;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cZWG9NcS5ykP9v/z+VYKPHVgXZgQF/ixQK++XhQHyv0=;
+        b=aK2g8Mf1Wr3HCNJoBFEgT0Dbqu1mSq8BVwy6Djp57AsnszSe+VMADrWUF5sKJKtWzw
+         rb1LlDg0EugInCAGiG0aFwSJcW7uWgYcZcwLmvtxVzZvCXQiAhycEEXFnljADIiOKUoR
+         of5ImLe6HA1NkNuvTxVYaI6wOvckBSBzW0WUPtQVbAxj1D8xotMFq9fQiEX2J9hEohg6
+         06mFaEDTSvp2OyD7BVgx6/+KCIafOuI6KpMqqzJBIe6C8Q+HLPfoxiMqSJko0hBZ6pNL
+         nhz9L6PKKDJhdXWkA35oa4iAirZbbYJzI4jXzRDXcCKocpPoiEh7Ai3HVyLzfixom+xD
+         BLlQ==
+X-Gm-Message-State: AO0yUKVeJh96YNu9yGG+jIaCD9fc6vrdxSqDPSgbzcB04flwoA4Vy6RW
+	IUJxEtNe8Jerc8U+NoMyjlEBE66DGcHlV2MK8p4=
+X-Google-Smtp-Source: AK7set+M1B7ieaN3AXAypWhbsj8RaNdd+DzdWjfKY2U1mxetJaLWjUxzCk5xH6bVhSDST/9lCqB7H2rmHqpUQGycVd4=
+X-Received: by 2002:a05:6830:26ca:b0:690:d39d:ee41 with SMTP id
+ m10-20020a05683026ca00b00690d39dee41mr7090562otu.7.1678380410066; Thu, 09 Mar
+ 2023 08:46:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230307-apple_pcie_disabled_ports-v2-1-c3bd1fd278a4@jannau.net>
+References: <20230224-rust-iopt-rtkit-v1-0-49ced3391295@asahilina.net>
+ <20230224-rust-iopt-rtkit-v1-5-49ced3391295@asahilina.net>
+ <Y/idMBIOfFZxXnVM@kroah.com> <CANeycqoHwp3URSPGvnNZx+9PdbC90UVFWLwg4w=JBHQnjnGUPA@mail.gmail.com>
+ <ZAnB/DozWsir1cIE@kroah.com>
+In-Reply-To: <ZAnB/DozWsir1cIE@kroah.com>
+From: Wedson Almeida Filho <wedsonaf@gmail.com>
+Date: Thu, 9 Mar 2023 13:46:39 -0300
+Message-ID: <CANeycqrtjKMfpae_DUp-VrDZugJVO7mcbBvUBB+zAc=E6aU4tw@mail.gmail.com>
+Subject: Re: [PATCH 5/5] rust: device: Add a stub abstraction for devices
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Arnd Bergmann <arnd@arndb.de>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-[+cc Daire, Conor for apple/microchip use of ECAM .init() method]
+On Thu, 9 Mar 2023 at 08:24, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Sun, Mar 05, 2023 at 03:39:25AM -0300, Wedson Almeida Filho wrote:
+> > > > +    /// Returns the name of the device.
+> > > > +    fn name(&self) -> &CStr {
+> > > > +        let ptr = self.raw_device();
+> > > > +
+> > > > +        // SAFETY: `ptr` is valid because `self` keeps it alive.
+> > > > +        let name = unsafe { bindings::dev_name(ptr) };
+> > > > +
+> > > > +        // SAFETY: The name of the device remains valid while it is alive (because the device is
+> > > > +        // never renamed, per the safety requirement of this trait). This is guaranteed to be the
+> > > > +        // case because the reference to `self` outlives the one of the returned `CStr` (enforced
+> > > > +        // by the compiler because of their lifetimes).
+> > > > +        unsafe { CStr::from_char_ptr(name) }
+> > >
+> > > Why can the device never be renamed?  Devices are renamed all the time,
+> > > sometimes when you least expect it (i.e. by userspace).  So how is this
+> > > considered "safe"? and actually correct?
+> > >
+> > > Again, maybe seeing a real user of this might make more sense, but
+> > > as-is, this feels wrong and not needed at all.
+> >
+> > This requirement is to allow callers to use the string without having
+> > to make a copy of it.
+> >
+> > If subsystems/buses are not following what the C documentation says,
+> > as you point out in another thread, we have a several options: (a)
+> > remove access to names altogether, (b) leave things as they are, then
+> > those subsystems wouldn't be able to honour the safety requirements of
+> > this trait therefore they wouldn't implement it, (c) make a copy of
+> > the string, etc.
+>
+> How about we fix the documentation in the .c code and also drop this as
+> you really don't need it now.
+>
+> Want to send a patch for the driver core code fix?
 
-On Thu, Mar 09, 2023 at 02:36:24PM +0100, Janne Grunau wrote:
-> Fixes following warning inside of_irq_parse_raw() called from the common
-> PCI device probe path.
-> 
->   /soc/pcie@690000000/pci@1,0 interrupt-map failed, using interrupt-controller
->   WARNING: CPU: 4 PID: 252 at drivers/of/irq.c:279 of_irq_parse_raw+0x5fc/0x724
+Sure, will do.
 
-Based on this commit log, I assume this patch only fixes the warning,
-and the system *works* just fine either way.  If that's the case, it's
-debatable whether it meets the stable kernel criteria, although the
-documented criteria are much stricter than what happens in practice.
+> > > > +        // owns a reference. This is satisfied by the call to `get_device` above.
+> > > > +        Self { ptr }
+> > > > +    }
+> > > > +
+> > > > +    /// Creates a new device instance from an existing [`RawDevice`] instance.
+> > > > +    pub fn from_dev(dev: &dyn RawDevice) -> Self {
+> > >
+> > > I am a rust newbie, but I don't understand this "RawDevice" here at all.
+> >
+> > Different buses will have their own Rust "Device" type, for example,
+> > pci::Device, amba::Device, platform::Device that wrap their C
+> > counterparts pci_dev, amba_device, platform_device.
+> >
+> > "RawDevice" is a trait for functionality that is common to all
+> > devices. It exposes the "struct device" of each bus/subsystem so that
+> > functions that work on any "struct device", for example, `clk_get`,
+> > `pr_info`. will automatically work on all subsystems.
+>
+> Why is this being called "Raw" then?  Why not just "Device" to follow
+> along with the naming scheme that the kernel already uses?
 
->   ...
->   Call trace:
->    of_irq_parse_raw+0x5fc/0x724
->    of_irq_parse_and_map_pci+0x128/0x1d8
->    pci_assign_irq+0xc8/0x140
->    pci_device_probe+0x70/0x188
->    really_probe+0x178/0x418
->    __driver_probe_device+0x120/0x188
->    driver_probe_device+0x48/0x22c
->    __device_attach_driver+0x134/0x1d8
->    bus_for_each_drv+0x8c/0xd8
->    __device_attach+0xdc/0x1d0
->    device_attach+0x20/0x2c
->    pci_bus_add_device+0x5c/0xc0
->    pci_bus_add_devices+0x58/0x88
->    pci_host_probe+0x124/0x178
->    pci_host_common_probe+0x124/0x198 [pci_host_common]
->    apple_pcie_probe+0x108/0x16c [pcie_apple]
->    platform_probe+0xb4/0xdc
-> 
-> This became apparent after disabling unused PCIe ports in the Apple
-> silicon device trees instead of deleting them.
-> 
-> Use for_each_available_child_of_node instead of for_each_child_of_node
-> which takes the "status" property into account.
-> 
-> Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
-> Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
-> Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
-> Changes in v2:
-> - rewritten commit message with more details and corrections
-> - collected Marc's "Reviewed-by:"
-> - Link to v1: https://lore.kernel.org/r/20230307-apple_pcie_disabled_ports-v1-1-b32ef91faf19@jannau.net
-> ---
->  drivers/pci/controller/pcie-apple.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-> index 66f37e403a09..f8670a032f7a 100644
-> --- a/drivers/pci/controller/pcie-apple.c
-> +++ b/drivers/pci/controller/pcie-apple.c
-> @@ -783,7 +783,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
->  	cfg->priv = pcie;
->  	INIT_LIST_HEAD(&pcie->ports);
->  
-> -	for_each_child_of_node(dev->of_node, of_port) {
-> +	for_each_available_child_of_node(dev->of_node, of_port) {
->  		ret = apple_pcie_setup_port(pcie, of_port);
->  		if (ret) {
->  			dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
+Because it gives us access to underlying raw `struct device` pointer,
+in Rust raw pointers are those unsafe `*mut T` or `*const T`. I'm not
+married to the name though, we should probably look for a better one
+if this one is confusing.
 
-Is this change still needed after 6fffbc7ae137 ("PCI: Honor firmware's
-device disabled status")?  This is a generic problem, and it would be
-a lot nicer if we had a generic solution.  But I assume it *is* still
-needed because Rob gave his Reviewed-by.
+Just "Device" is already taken. It's a ref-counted `struct device` (it
+calls get_device/put_device in the right places automatically,
+guarantees no dandling pointers); it is meant to be used by code that
+needs to hold on to devices when they don't care about the bus. (It in
+fact implements `RawDevice`.)
 
-Not related to this patch, but this function looks funny to me.  Most
-pci_ecam_ops.init functions just set up ECAM-related things.
+ How about `IsDevice`?
 
-In addition to ECAM stuff, apple_pcie_init() and mc_platform_init()
-also initialize IRQs, clocks, and resets.
+Then, for example, the platform bus would implement `IsDevice` for
+`plaform::Device`.
 
-Maybe we shoehorn the IRQ, clock, reset setup into pci_ecam_ops.init
-because we lack a generic hook for doing those things, but it seems a
-little muddy conceptually.
+> > For example, as part writing Rust abstractions for a platform devices,
+> > we have a platform::Device type, which is wrapper around `struct
+> > platform_device`. It has a bunch of associated functions that do
+> > things that are specific to the platform bus. But then they also
+> > implement the `RawDevice` trait (by implementing `raw_device` that
+> > returns &pdev->dev), which allows drivers to call `clk_get` and the
+> > printing functions directly.
+> >
+> > Let's say `pdev` is a platform device; if we wanted to call `clk_get`
+> > in C, we'd do something like:
+> >
+> > clk = clk_get(&pdev->dev, NULL);
+> >
+> > In Rust, we'd do:
+> >
+> > clk = pdev.clk_get(None);
+> >
+> > (Note that we didn't have to know that pdev had a field whose type is
+> > a `struct device` that we could use to call clk_get on; `RawDevice`
+> > encoded this information.)
+> >
+> > Does the intent of the abstraction make sense to you now?
+>
+> A bit more, yes.  But I want to see some real users before agreeing that
+> it is sane :)
 
-Bjorn
+Fair enough.
+
+Cheers,
+-Wedson
