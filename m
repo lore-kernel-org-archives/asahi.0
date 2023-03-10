@@ -1,274 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94633DA8E
-	for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 18:44:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 471FBC4339C;
-	Fri, 10 Mar 2023 18:44:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678473850;
-	bh=A5s93j5kgv60ZrdzgdMarnAT6zI/+K/Ht1b85KjtIJI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Gt2RRi4JC4rhKfAmb1V+7Mk9gnKpEiOlRdJa8uevsBEstajPTic3yKlpFIjqKe2Nq
-	 BynlVZPkN+KwTNNAU7K4xGULbpz3Sl27V8TdhFoHLy5v2el6HKICb19O07iWn6CxiD
-	 Qq5E4lpBtvDAi0Gd7qo3YfHYu20LPdw03w/U5Qtd0RopYEIAgZgsNb0+q1ogMsvFM6
-	 AdehJwVq11tXhPvHg+UbY/5Mn2BunS6bpOzvhfvTvc2mOvEAyuzi49EOYDOPzp84Mp
-	 WM811FmVcqdO24/NmtwgyDGEFMps0Kg3tX4Pj1nbMluXheL9BP+qXSGYggEY8vyUWH
-	 gjDHFLR4u151g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA68C74A4B;
-	Fri, 10 Mar 2023 18:44:10 +0000 (UTC)
-From:
- Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Fri, 10 Mar 2023 19:44:08 +0100
-Subject: [PATCH v8 2/5] pwm: Add Apple PWM controller
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676CE63B5
+	for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 18:57:40 +0000 (UTC)
+Received: by mail-qt1-f179.google.com with SMTP id r5so6856366qtp.4
+        for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 10:57:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678474659;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iYsCaNsSgngNKZcdLQcf6Ufpk9ToxZLFdwVZ9rpQa4I=;
+        b=X08bB+yklbWwlcTtt2aeNgmaxess2TPKnELiAEk9OTqJPHuz+3/M9Tmq+KpCSIfM0f
+         jD0APM2OhnjVRgXxux5Jran0ExHQPN0mQlneMTl6sIrkmKBwNPbgnNqDlrZ0e9vmTRda
+         vjNSQQJBQJ+r7zirpHMIeDU/udZbkxHbku0star9P0mSAMUORFbrWFRMAJcJzUAcYotm
+         Uti2604Hf+UKs07gy9+nPPywgNaEIbCrcDdotdF7kCvsZH9Eapmykh+3okNVcDPNrDdi
+         OD9nWY2u/J4phmSp18O6CqUa5+TewrEkVAjwF7LWgvHms4ak00DKbbJpNhxXOO7NCOM/
+         XZmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678474659;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iYsCaNsSgngNKZcdLQcf6Ufpk9ToxZLFdwVZ9rpQa4I=;
+        b=Oju3PMxDEhBJRV+UjHS61P3EatV0wze6xscRW5oY979Y+84jVeQchrkCWBx43+/Ikh
+         mDqHLZmgMx1oSJX+Ock0B1/7YUzWuo7CPzNtp4V50eJ1/hOQSf8YrBVlPkY7cj7hfsXC
+         +5+7V1klzKxJsdKIr0KCSdAzFHNs3h8lMkkJ091BbCfCDBn0k1ffvKrTCL3wPb8weetN
+         aZjFaanNdHQHBRyO+bd7yExU2gNGwodk6sHyY83p4bZ+1DiTumYFOtElT3YGVGKhojoL
+         aXxAH12cvNXMZfp/3OJmMRClotLeBwnaMiQiUt96aRIuTSLOjuH1AjaxP4llkM/tNpl1
+         xbow==
+X-Gm-Message-State: AO0yUKXWUZktxAU53kBwe7v6Y1kaawWOOJZcb8gOu41j4+yp+rQZebvY
+	RKsFSVYTsEnwmrzouh8Tyug=
+X-Google-Smtp-Source: AK7set+4zSWuXwAS3gf17d063Xj+Ph3v0EPqWJGTs3qx7Dqyh0WAYgbNyBItJeOyToWCKILdkt9WAA==
+X-Received: by 2002:ac8:5e4a:0:b0:3b8:2ea9:a09c with SMTP id i10-20020ac85e4a000000b003b82ea9a09cmr11028163qtx.1.1678474659251;
+        Fri, 10 Mar 2023 10:57:39 -0800 (PST)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id a8-20020aed2788000000b003b62e8b77e7sm342021qtd.68.2023.03.10.10.57.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Mar 2023 10:57:38 -0800 (PST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailauth.nyi.internal (Postfix) with ESMTP id BD05F27C0054;
+	Fri, 10 Mar 2023 13:57:37 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 10 Mar 2023 13:57:37 -0500
+X-ME-Sender: <xms:oH0LZKRLdsP7S-ODRUr5NQxPKLRM043tk4HBpFPML5ny56aOMc1WKA>
+    <xme:oH0LZPyoebzZatMZAuu6P_73GVuEHtNN69KxZr64O2-UPfZdk1ohaIHA1YNTOmA_r
+    KAkwArw5YzolSql6g>
+X-ME-Received: <xmr:oH0LZH2zT9VTIey8ILSfvM1iTiewrf9ia19JsONvub11ZyqXtExdx7oEEi8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddukedguddujecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhq
+    uhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrf
+    grthhtvghrnhepfeduvddvleeigeeugfevffdvffduieeujeeivdduhfeljeeghfegffev
+    fffhkeffnecuffhomhgrihhnpehpthhrrdguvghvnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
+    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:oH0LZGAmUZAA0WaAkOpaN91r1NTQfHex41rDqaXOgp7XltObtE-y4Q>
+    <xmx:oH0LZDhbyzfoZ9B-1L4Zs_Qb4Brv9uR5ds8IbGPyn9TAqabJ4deWLw>
+    <xmx:oH0LZCrDEJ4ut9DJmmL9U5wz_K5XqnyQlUZYnc_Ay2xgLVJ4PQ1cMQ>
+    <xmx:oX0LZPDMVZoKkaOWLRxjIng7KbgqOLDTOoYJ_0CZLCFD9tpM_5bBfg>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 Mar 2023 13:57:36 -0500 (EST)
+Date: Fri, 10 Mar 2023 10:56:31 -0800
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Miguel Ojeda <ojeda@kernel.org>,	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Luben Tuikov <luben.tuikov@amd.com>,	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Karol Herbst <kherbst@redhat.com>,	Ella Stanforth <ella@iglunix.org>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,	Mary <mary@mary.zone>,
+ linux-kernel@vger.kernel.org,	dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org,	linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org,	linux-sgx@vger.kernel.org,
+ asahi@lists.linux.dev
+Subject: Re: [PATCH RFC 02/18] rust: drm: Add Device and Driver abstractions
+Message-ID: <ZAt9X8qDUHQ/YnW8@boqun-archlinux>
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-2-917ff5bc80a8@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20230214-fpwm-v8-2-65518a0d4944@gmail.com>
-References: <20230214-fpwm-v8-0-65518a0d4944@gmail.com>
-In-Reply-To: <20230214-fpwm-v8-0-65518a0d4944@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- - <asahi@lists.linux.dev>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1678473848; l=6524;
- i=fnkl.kernel@gmail.com; s=20230213; h=from:subject:message-id;
- bh=4cKWWrqKae5PqZqP8MFhc2NSJxtnL2SK4hGact1OsuA=;
- b=4cQXVIJxHOe5ss/E4gkh+0E/59+wr38EEUEgLWfGhrs4XmEoXuTmukAZ6JAfCllaEXVDb+wq9
- w6YfM3W0p1xA2E7gUKPwG1757NBp4fskJtyoCVXE8YaO0HltU7L3NFH
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=7LFSAJtxIWAs9LzCIyX0sSvCZy2wQTyEIu1zch6o804=
-X-Endpoint-Received:
- by B4 Relay for fnkl.kernel@gmail.com/20230213 with auth_id=28
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: <fnkl.kernel@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230307-rust-drm-v1-2-917ff5bc80a8@asahilina.net>
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Tue, Mar 07, 2023 at 11:25:27PM +0900, Asahi Lina wrote:
+[...]
+> +
+> +// SAFETY: `Device` only holds a pointer to a C device, which is safe to be used from any thread.
+> +unsafe impl<T: drm::drv::Driver> Send for Device<T> {}
+> +
+> +// SAFETY: `Device` only holds a pointer to a C device, references to which are safe to be used
+> +// from any thread.
+> +unsafe impl<T: drm::drv::Driver> Sync for Device<T> {}
+> +
 
-Adds the Apple PWM controller driver.
+Here is the mind model I use to check whether a type is `Send` or
+`Sync`
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Acked-by: Sven Peter <sven@svenpeter.dev>
-Reviewed-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/pwm/Kconfig     |  12 ++++
- drivers/pwm/Makefile    |   1 +
- drivers/pwm/pwm-apple.c | 159 ++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 172 insertions(+)
+*	If an object of a type can be created on one thread and dropped
+	on the another thread, then it's `Send`.
 
-diff --git a/drivers/pwm/Kconfig b/drivers/pwm/Kconfig
-index dae023d783a2..8df861b1f4a3 100644
---- a/drivers/pwm/Kconfig
-+++ b/drivers/pwm/Kconfig
-@@ -51,6 +51,18 @@ config PWM_AB8500
- 	  To compile this driver as a module, choose M here: the module
- 	  will be called pwm-ab8500.
- 
-+config PWM_APPLE
-+	tristate "Apple SoC PWM support"
-+	depends on ARCH_APPLE || COMPILE_TEST
-+	help
-+	  Generic PWM framework driver for PWM controller present on
-+	  Apple SoCs
-+
-+	  Say Y here if you have an ARM Apple laptop, otherwise say N
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called pwm-apple.
-+
- config PWM_ATMEL
- 	tristate "Atmel PWM support"
- 	depends on ARCH_AT91 || COMPILE_TEST
-diff --git a/drivers/pwm/Makefile b/drivers/pwm/Makefile
-index 7bf1a29f02b8..19899b912e00 100644
---- a/drivers/pwm/Makefile
-+++ b/drivers/pwm/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_PWM)		+= core.o
- obj-$(CONFIG_PWM_SYSFS)		+= sysfs.o
- obj-$(CONFIG_PWM_AB8500)	+= pwm-ab8500.o
-+obj-$(CONFIG_PWM_APPLE)		+= pwm-apple.o
- obj-$(CONFIG_PWM_ATMEL)		+= pwm-atmel.o
- obj-$(CONFIG_PWM_ATMEL_HLCDC_PWM)	+= pwm-atmel-hlcdc.o
- obj-$(CONFIG_PWM_ATMEL_TCB)	+= pwm-atmel-tcb.o
-diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c
-new file mode 100644
-index 000000000000..e028e4675328
---- /dev/null
-+++ b/drivers/pwm/pwm-apple.c
-@@ -0,0 +1,159 @@
-+// SPDX-License-Identifier: GPL-2.0 OR MIT
-+/*
-+ * Driver for the Apple SoC PWM controller
-+ *
-+ * Copyright The Asahi Linux Contributors
-+ *
-+ * Limitations:
-+ * - The writes to cycle registers are shadowed until a write to
-+ *   the control register.
-+ * - If both OFF_CYCLES and ON_CYCLES are set to 0, the output
-+ *   is a constant off signal.
-+ * - When APPLE_PWM_CTRL is set to 0, the output is constant low
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/pwm.h>
-+#include <linux/io.h>
-+#include <linux/clk.h>
-+#include <linux/math64.h>
-+
-+#define APPLE_PWM_CTRL        0x00
-+#define APPLE_PWM_ON_CYCLES   0x1c
-+#define APPLE_PWM_OFF_CYCLES  0x18
-+
-+#define APPLE_PWM_CTRL_ENABLE        BIT(0)
-+#define APPLE_PWM_CTRL_MODE          BIT(2)
-+#define APPLE_PWM_CTRL_UPDATE        BIT(5)
-+#define APPLE_PWM_CTRL_TRIGGER       BIT(9)
-+#define APPLE_PWM_CTRL_INVERT        BIT(10)
-+#define APPLE_PWM_CTRL_OUTPUT_ENABLE BIT(14)
-+
-+struct apple_pwm {
-+	struct pwm_chip chip;
-+	void __iomem *base;
-+	u64 clkrate;
-+};
-+
-+static inline struct apple_pwm *to_apple_pwm(struct pwm_chip *chip)
-+{
-+	return container_of(chip, struct apple_pwm, chip);
-+}
-+
-+static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-+			   const struct pwm_state *state)
-+{
-+	struct apple_pwm *fpwm;
-+
-+	if (state->polarity == PWM_POLARITY_INVERSED)
-+		return -EINVAL;
-+
-+	fpwm = to_apple_pwm(chip);
-+	if (state->enabled) {
-+		u64 on_cycles, off_cycles;
-+
-+		on_cycles = mul_u64_u64_div_u64(fpwm->clkrate,
-+						state->duty_cycle, NSEC_PER_SEC);
-+		if (on_cycles > 0xFFFFFFFF)
-+			on_cycles = 0xFFFFFFFF;
-+
-+		off_cycles = mul_u64_u64_div_u64(fpwm->clkrate,
-+						 state->period, NSEC_PER_SEC) - on_cycles;
-+		if (off_cycles > 0xFFFFFFFF)
-+			return -ERANGE;
-+
-+		writel(on_cycles, fpwm->base + APPLE_PWM_ON_CYCLES);
-+		writel(off_cycles, fpwm->base + APPLE_PWM_OFF_CYCLES);
-+		writel(APPLE_PWM_CTRL_ENABLE | APPLE_PWM_CTRL_OUTPUT_ENABLE | APPLE_PWM_CTRL_UPDATE,
-+		       fpwm->base + APPLE_PWM_CTRL);
-+	} else {
-+		writel(0, fpwm->base + APPLE_PWM_CTRL);
-+	}
-+	return 0;
-+}
-+
-+static int apple_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-+			   struct pwm_state *state)
-+{
-+	struct apple_pwm *fpwm;
-+	u32 on_cycles, off_cycles, ctrl;
-+
-+	fpwm = to_apple_pwm(chip);
-+
-+	ctrl = readl(fpwm->base + APPLE_PWM_CTRL);
-+	on_cycles = readl(fpwm->base + APPLE_PWM_ON_CYCLES);
-+	off_cycles = readl(fpwm->base + APPLE_PWM_OFF_CYCLES);
-+
-+	state->enabled = (ctrl & APPLE_PWM_CTRL_ENABLE) && (ctrl & APPLE_PWM_CTRL_OUTPUT_ENABLE);
-+	state->polarity = PWM_POLARITY_NORMAL;
-+	// on_cycles + off_cycles is 33 bits, NSEC_PER_SEC is 30, there is no overflow
-+	state->duty_cycle = DIV64_U64_ROUND_UP((u64)on_cycles * NSEC_PER_SEC, fpwm->clkrate);
-+	state->period = DIV64_U64_ROUND_UP(((u64)off_cycles + (u64)on_cycles) *
-+					    NSEC_PER_SEC, fpwm->clkrate);
-+
-+	return 0;
-+}
-+
-+static const struct pwm_ops apple_pwm_ops = {
-+	.apply = apple_pwm_apply,
-+	.get_state = apple_pwm_get_state,
-+	.owner = THIS_MODULE,
-+};
-+
-+static int apple_pwm_probe(struct platform_device *pdev)
-+{
-+	struct apple_pwm *fpwm;
-+	struct clk *clk;
-+	int ret;
-+
-+	fpwm = devm_kzalloc(&pdev->dev, sizeof(*fpwm), GFP_KERNEL);
-+	if (!fpwm)
-+		return -ENOMEM;
-+
-+	fpwm->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(fpwm->base))
-+		return PTR_ERR(fpwm->base);
-+
-+	clk = devm_clk_get_enabled(&pdev->dev, NULL);
-+	if (IS_ERR(clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(clk), "unable to get the clock");
-+
-+	/*
-+	 * Uses the 24MHz system clock on all existing devices, can only
-+	 * happen if the device tree is broken
-+	 *
-+	 * This check is done to prevent an overflow in .apply
-+	 */
-+	fpwm->clkrate = clk_get_rate(clk);
-+	if (fpwm->clkrate > NSEC_PER_SEC)
-+		return dev_err_probe(&pdev->dev, -EINVAL, "pwm clock out of range");
-+
-+	fpwm->chip.dev = &pdev->dev;
-+	fpwm->chip.npwm = 1;
-+	fpwm->chip.ops = &apple_pwm_ops;
-+
-+	ret = devm_pwmchip_add(&pdev->dev, &fpwm->chip);
-+	if (ret < 0)
-+		return dev_err_probe(&pdev->dev, ret, "unable to add pwm chip");
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id apple_pwm_of_match[] = {
-+	{ .compatible = "apple,s5l-fpwm" },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, apple_pwm_of_match);
-+
-+static struct platform_driver apple_pwm_driver = {
-+	.probe = apple_pwm_probe,
-+	.driver = {
-+		.name = "apple-pwm",
-+		.of_match_table = apple_pwm_of_match,
-+	},
-+};
-+module_platform_driver(apple_pwm_driver);
-+
-+MODULE_DESCRIPTION("Apple SoC PWM driver");
-+MODULE_LICENSE("Dual MIT/GPL");
+*	If multiple threads can call the immutable functions (i.e.
+	functions with `&self`) of the same object of a type, then the
+	it's `Sync`.
 
--- 
-Git-137.1)
+Maybe it's incomplete, but at least I find it useful to determine
+whether a type is `Send` or `Sync`: it's not just the struct
+representation, the behaviors (functions) of the struct also matter.
 
+If that looks reasonable to you, maybe update the "SAFETY" comments in
+the future version? Thanks ;-)
+
+(I know you brought this up in the meeting, sorry I guess I wasn't fully
+woken when answering you ;-))
+
+Regards,
+Boqun
+
+> +// Make drm::Device work for dev_info!() and friends
+> +unsafe impl<T: drm::drv::Driver> device::RawDevice for Device<T> {
+> +    fn raw_device(&self) -> *mut bindings::device {
+> +        // SAFETY: ptr must be valid per the type invariant
+> +        unsafe { (*self.ptr).dev }
+> +    }
+> +}
+[...]
