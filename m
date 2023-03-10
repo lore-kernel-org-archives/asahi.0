@@ -1,143 +1,104 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676CE63B5
-	for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 18:57:40 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id r5so6856366qtp.4
-        for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 10:57:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678474659;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iYsCaNsSgngNKZcdLQcf6Ufpk9ToxZLFdwVZ9rpQa4I=;
-        b=X08bB+yklbWwlcTtt2aeNgmaxess2TPKnELiAEk9OTqJPHuz+3/M9Tmq+KpCSIfM0f
-         jD0APM2OhnjVRgXxux5Jran0ExHQPN0mQlneMTl6sIrkmKBwNPbgnNqDlrZ0e9vmTRda
-         vjNSQQJBQJ+r7zirpHMIeDU/udZbkxHbku0star9P0mSAMUORFbrWFRMAJcJzUAcYotm
-         Uti2604Hf+UKs07gy9+nPPywgNaEIbCrcDdotdF7kCvsZH9Eapmykh+3okNVcDPNrDdi
-         OD9nWY2u/J4phmSp18O6CqUa5+TewrEkVAjwF7LWgvHms4ak00DKbbJpNhxXOO7NCOM/
-         XZmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678474659;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iYsCaNsSgngNKZcdLQcf6Ufpk9ToxZLFdwVZ9rpQa4I=;
-        b=Oju3PMxDEhBJRV+UjHS61P3EatV0wze6xscRW5oY979Y+84jVeQchrkCWBx43+/Ikh
-         mDqHLZmgMx1oSJX+Ock0B1/7YUzWuo7CPzNtp4V50eJ1/hOQSf8YrBVlPkY7cj7hfsXC
-         +5+7V1klzKxJsdKIr0KCSdAzFHNs3h8lMkkJ091BbCfCDBn0k1ffvKrTCL3wPb8weetN
-         aZjFaanNdHQHBRyO+bd7yExU2gNGwodk6sHyY83p4bZ+1DiTumYFOtElT3YGVGKhojoL
-         aXxAH12cvNXMZfp/3OJmMRClotLeBwnaMiQiUt96aRIuTSLOjuH1AjaxP4llkM/tNpl1
-         xbow==
-X-Gm-Message-State: AO0yUKXWUZktxAU53kBwe7v6Y1kaawWOOJZcb8gOu41j4+yp+rQZebvY
-	RKsFSVYTsEnwmrzouh8Tyug=
-X-Google-Smtp-Source: AK7set+4zSWuXwAS3gf17d063Xj+Ph3v0EPqWJGTs3qx7Dqyh0WAYgbNyBItJeOyToWCKILdkt9WAA==
-X-Received: by 2002:ac8:5e4a:0:b0:3b8:2ea9:a09c with SMTP id i10-20020ac85e4a000000b003b82ea9a09cmr11028163qtx.1.1678474659251;
-        Fri, 10 Mar 2023 10:57:39 -0800 (PST)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id a8-20020aed2788000000b003b62e8b77e7sm342021qtd.68.2023.03.10.10.57.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Mar 2023 10:57:38 -0800 (PST)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailauth.nyi.internal (Postfix) with ESMTP id BD05F27C0054;
-	Fri, 10 Mar 2023 13:57:37 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 10 Mar 2023 13:57:37 -0500
-X-ME-Sender: <xms:oH0LZKRLdsP7S-ODRUr5NQxPKLRM043tk4HBpFPML5ny56aOMc1WKA>
-    <xme:oH0LZPyoebzZatMZAuu6P_73GVuEHtNN69KxZr64O2-UPfZdk1ohaIHA1YNTOmA_r
-    KAkwArw5YzolSql6g>
-X-ME-Received: <xmr:oH0LZH2zT9VTIey8ILSfvM1iTiewrf9ia19JsONvub11ZyqXtExdx7oEEi8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddukedguddujecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhq
-    uhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrf
-    grthhtvghrnhepfeduvddvleeigeeugfevffdvffduieeujeeivdduhfeljeeghfegffev
-    fffhkeffnecuffhomhgrihhnpehpthhrrdguvghvnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
-    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
-    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:oH0LZGAmUZAA0WaAkOpaN91r1NTQfHex41rDqaXOgp7XltObtE-y4Q>
-    <xmx:oH0LZDhbyzfoZ9B-1L4Zs_Qb4Brv9uR5ds8IbGPyn9TAqabJ4deWLw>
-    <xmx:oH0LZCrDEJ4ut9DJmmL9U5wz_K5XqnyQlUZYnc_Ay2xgLVJ4PQ1cMQ>
-    <xmx:oX0LZPDMVZoKkaOWLRxjIng7KbgqOLDTOoYJ_0CZLCFD9tpM_5bBfg>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Mar 2023 13:57:36 -0500 (EST)
-Date: Fri, 10 Mar 2023 10:56:31 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Miguel Ojeda <ojeda@kernel.org>,	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Karol Herbst <kherbst@redhat.com>,	Ella Stanforth <ella@iglunix.org>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,	Mary <mary@mary.zone>,
- linux-kernel@vger.kernel.org,	dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org,	linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,	linux-sgx@vger.kernel.org,
- asahi@lists.linux.dev
-Subject: Re: [PATCH RFC 02/18] rust: drm: Add Device and Driver abstractions
-Message-ID: <ZAt9X8qDUHQ/YnW8@boqun-archlinux>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-2-917ff5bc80a8@asahilina.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0F7E4C1
+	for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 21:47:21 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1paka5-00043Y-LX; Fri, 10 Mar 2023 22:47:17 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1paka1-003GHn-RB; Fri, 10 Mar 2023 22:47:13 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1paka1-003tZx-3f; Fri, 10 Mar 2023 22:47:13 +0100
+Date: Fri, 10 Mar 2023 22:46:58 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: fnkl.kernel@gmail.com
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	- <asahi@lists.linux.dev>, Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v8 2/5] pwm: Add Apple PWM controller
+Message-ID: <20230310214658.424vui3frynit437@pengutronix.de>
+References: <20230214-fpwm-v8-0-65518a0d4944@gmail.com>
+ <20230214-fpwm-v8-2-65518a0d4944@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wbrnvcvhbc5cviao"
 Content-Disposition: inline
-In-Reply-To: <20230307-rust-drm-v1-2-917ff5bc80a8@asahilina.net>
+In-Reply-To: <20230214-fpwm-v8-2-65518a0d4944@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
-On Tue, Mar 07, 2023 at 11:25:27PM +0900, Asahi Lina wrote:
-[...]
+
+--wbrnvcvhbc5cviao
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello Sascha,
+
+On Fri, Mar 10, 2023 at 07:44:08PM +0100, Sasha Finkelstein via B4 Relay wr=
+ote:
+> +static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+> +			   const struct pwm_state *state)
+> +{
+> +	struct apple_pwm *fpwm;
 > +
-> +// SAFETY: `Device` only holds a pointer to a C device, which is safe to be used from any thread.
-> +unsafe impl<T: drm::drv::Driver> Send for Device<T> {}
+> +	if (state->polarity =3D=3D PWM_POLARITY_INVERSED)
+> +		return -EINVAL;
 > +
-> +// SAFETY: `Device` only holds a pointer to a C device, references to which are safe to be used
-> +// from any thread.
-> +unsafe impl<T: drm::drv::Driver> Sync for Device<T> {}
+> +	fpwm =3D to_apple_pwm(chip);
+> +	if (state->enabled) {
+> +		u64 on_cycles, off_cycles;
 > +
+> +		on_cycles =3D mul_u64_u64_div_u64(fpwm->clkrate,
+> +						state->duty_cycle, NSEC_PER_SEC);
+> +		if (on_cycles > 0xFFFFFFFF)
+> +			on_cycles =3D 0xFFFFFFFF;
+> +
+> +		off_cycles =3D mul_u64_u64_div_u64(fpwm->clkrate,
+> +						 state->period, NSEC_PER_SEC) - on_cycles;
+> +		if (off_cycles > 0xFFFFFFFF)
+> +			return -ERANGE;
 
-Here is the mind model I use to check whether a type is `Send` or
-`Sync`
+This is still wrong and needs clamping, too.
 
-*	If an object of a type can be created on one thread and dropped
-	on the another thread, then it's `Send`.
+Best regards
+Uwe
 
-*	If multiple threads can call the immutable functions (i.e.
-	functions with `&self`) of the same object of a type, then the
-	it's `Sync`.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-Maybe it's incomplete, but at least I find it useful to determine
-whether a type is `Send` or `Sync`: it's not just the struct
-representation, the behaviors (functions) of the struct also matter.
+--wbrnvcvhbc5cviao
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If that looks reasonable to you, maybe update the "SAFETY" comments in
-the future version? Thanks ;-)
+-----BEGIN PGP SIGNATURE-----
 
-(I know you brought this up in the meeting, sorry I guess I wasn't fully
-woken when answering you ;-))
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQLpU8ACgkQwfwUeK3K
+7Al6iAf/brzDkPdu7qhixSZXlHEcf+6cCEGjYdch6SwKLkspprLcOrBvHsvEa8ay
+TYG02baQpF4eNbZdPBbBv2b4VOqDOJ92H8Bx7IvfhCQy+fdZkSCiSeXHPteY91Hc
+A56UkrBNesv68qEdfX6e4vtVYZbexHFqgaeTZMPfr8dsqt0ms0RyyMMuT/DhrpPs
+sBTZd7V0IybwXTCEomXUMbxOA1mzWfU05rEz4bPUOS14N9TL8i1Mom8VsZrMD5UH
+bO6F9Y13HCXq8xUgLKZnoxqEEm1E2r6ZunUTSb/RenSaxGE2xx9NlHlTNeyKJR2V
+FYA1FefcQgl8RIZvCowtSH9Y+Lkcvg==
+=MgXN
+-----END PGP SIGNATURE-----
 
-Regards,
-Boqun
-
-> +// Make drm::Device work for dev_info!() and friends
-> +unsafe impl<T: drm::drv::Driver> device::RawDevice for Device<T> {
-> +    fn raw_device(&self) -> *mut bindings::device {
-> +        // SAFETY: ptr must be valid per the type invariant
-> +        unsafe { (*self.ptr).dev }
-> +    }
-> +}
-[...]
+--wbrnvcvhbc5cviao--
