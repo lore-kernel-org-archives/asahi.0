@@ -1,194 +1,190 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17097C974
-	for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 09:58:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 6FBC441A42;
-	Fri, 10 Mar 2023 09:58:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1678442307;
-	bh=LtN6uEnQFoBBfW+UmMREhhL0TvAkXsTHFcube89Rcuw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=CSsTogLbJ3+SxBlBKcTuPYgblHdktTZu1HtKPXoPnaBU+cKpuTN10fypVp6me00ef
-	 eNGwg2sMWRri3vEnU4E0ykBDd9sXMphBoUWkPxumA6xtcEYE9niya2+7j6JjiJ4Y2s
-	 9rxT78EC45uAbC5SXf291ZnB7QuIb8wICC+yup3fbFtMSxmvCEgRQwws/qsoHQ6MnX
-	 ZJAXAXwYg+QQ9hcc2WILdf9BUVfaKDlXPGERhlbAABogVm/qXIDOIXMqqHKTzeVEs3
-	 poikebzHhh6jfA+hrZJi0cvL1GX8ZfXtdRx3T18CW0etJh7KIHy43te+QOsiDojZrG
-	 SbvEOhWTqUk6A==
-Message-ID: <25349030-5cc6-90a2-f1d2-4f9a67c4f194@asahilina.net>
-Date: Fri, 10 Mar 2023 18:58:18 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4A023B1;
+	Fri, 10 Mar 2023 10:43:39 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id b10so4881723ljr.0;
+        Fri, 10 Mar 2023 02:43:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678445017;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6D8DgvSllDpIpjkRMtHsbcOPCoCHnTYInoVGhS4b+QA=;
+        b=nCHfG0VG+xIVMI3Uz30+lCPQjHMFNzvzKvLr/uxFUsFQf3sK0QzWXC1lkMYIpnb+yo
+         kTfC3hUaq8cgGe9xMk6AcbdnaIcg7HQQTQy9FYUYrxXA8lGpEBgL1Dmir6Vjlq8dfPLs
+         C7qPdt6AmXMhTO+LAlZFKkmu7qpBvf+EAlj48MXE+EFWNTkHYnE9PYxJfTlLY0JQzVRe
+         AVPRBJUNvn2rznC1jaKvMtoRuQcxNZy6ZCXkCfDrMOAox6Fj/UPpj2Qw3RPLR5Sm6Qw0
+         QLFfzrkeRntLiy2SEYLW90oHWj4Bztsxrd9uCIC8aMvEDbCJnw1v2hI9WbY/GoLyvewF
+         cJRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678445017;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6D8DgvSllDpIpjkRMtHsbcOPCoCHnTYInoVGhS4b+QA=;
+        b=ckBsvQw+mDDx77i45lKEOvLXzPMX1/omJ+7kmM57pUvgUeJ55yGBk2ZZb5XBeNyd+F
+         ZWaFf14mJtHqaXSaznNywdy0Ev9ss0alRBJBHJybNgQpShNIwPc3v8VOza4rs+SdE9KU
+         x1q4j1k9LTsNL7YQ9ArYyl0lzgHMu+CMf7ch+F/34/5aekUzjhvapz6Ug5IXxHz1SczC
+         efAZKz5VSb4y280jZ4GUJicA1JHrKpoXPx/jx5wF23x0Ncu0cydMlLCnVY4AKbljYp+/
+         8OERoxkCvpxWCaM+emF6Rc5mMqHKHwi6LsRJcaz8fUU7uhxQ7Rt8La/fM4bRlNCnQKZ/
+         3v/g==
+X-Gm-Message-State: AO0yUKVy+hVsnNLvhERCFgxlYHacB9xZ5nC9hv3u9y1LmkjMRe8JoVvw
+	H7Nb2RJxa4FEQOFe6bL1G5g=
+X-Google-Smtp-Source: AK7set+p71/bzHEgwcLpPLO/Pz2JDQS28ccp+iIU3K53kTB52otuWjNtgd3ESU/TF0IRcMCTp5ShaA==
+X-Received: by 2002:a2e:4619:0:b0:290:8289:8cba with SMTP id t25-20020a2e4619000000b0029082898cbamr310434lja.8.1678445017151;
+        Fri, 10 Mar 2023 02:43:37 -0800 (PST)
+Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
+        by smtp.googlemail.com with ESMTPSA id l20-20020a2e9094000000b00297dad1a2b0sm187498ljg.103.2023.03.10.02.43.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Mar 2023 02:43:36 -0800 (PST)
+Message-ID: <453c9298-d64a-aa77-28ba-ac986dfdd722@gmail.com>
+Date: Fri, 10 Mar 2023 11:43:32 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 11/18] drm/scheduler: Clean up jobs when the scheduler
- is torn down
-Content-Language: en-US
-To: Faith Ekstrand <faith.ekstrand@collabora.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>,
- Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-11-917ff5bc80a8@asahilina.net>
- <bbd7c5ee-c2f0-3e19-757d-a9aff1a26d3d@linux.intel.com>
- <585fa052-4eff-940e-b307-2415c315686a@amd.com>
- <3320e497-09c0-6eb6-84c5-bab2e63f28ec@asahilina.net>
- <7b39ef96-3ec5-c492-6e1b-bf065b7c90a2@amd.com>
- <0f14c1ae-0c39-106c-9563-7c1c672154c0@asahilina.net>
- <e18500b5-21a0-77fd-8434-86258cefce5a@amd.com>
- <8696d00a-c642-b080-c19a-b0e619e4b585@asahilina.net>
- <5f0814a3-4be3-a609-d3b3-dd51a4f459a1@amd.com>
- <9403e89d-a78f-8abd-2869-20da23d89475@asahilina.net>
- <777dea65ef81c402d0765b1244b40633c483f4b2.camel@collabora.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <777dea65ef81c402d0765b1244b40633c483f4b2.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
+ Thunderbird/96.0
+Subject: Re: [PATCH V3] nvmem: add explicit config option to read OF fixed
+ cells
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+References: <20230309112028.19215-1-zajec5@gmail.com>
+ <ac94f04b-4b25-81e4-386f-55b0a2c7c85f@linaro.org>
+From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+In-Reply-To: <ac94f04b-4b25-81e4-386f-55b0a2c7c85f@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 10/03/2023 04.59, Faith Ekstrand wrote:
-> On Thu, 2023-03-09 at 18:43 +0900, Asahi Lina wrote:
->> On 09/03/2023 17.42, Christian König wrote:
->>> Long story short: Don't do this! This is what the Windows drivers
->>> have 
->>> been doing and it creates tons of problems.
+On 10.03.2023 10:22, Srinivas Kandagatla wrote:
 > 
-> Yeah, we tried to do a bit of that in the GL days.  It was a bad idea.
-
-I think I should clarify: I was proposing re-queueing innocent jobs from
-innocent queues/VMs that were impacted by a fault. The reason is that we
-may be able to tweak firmware state to force it to do that safely,
-during the firmware recovery cycle, such that an aborted job restarts
-and then subsequent jobs/commands continue as normal. We can't leave it
-to userspace because if we do nothing, the affected job ends up
-incomplete but then everything after it that is already queued still
-runs, and that is definitely a recipe for a bigger mess if userspace
-wants to seamlessly recover. The firmware recovery cycle is a
-"stop-the-world" situation for the GPU (the firmware literally
-busy-loops waiting for the driver to set a continue flag in memory...),
-so that's the only real chance that the driver gets to make decisions
-about what is going to happen next.
-
-Of course, that only works if individual possibly concurrently running
-commands are idempotent, but I think a lot of typical GPU work is? (E.g.
-any render pass without side effects other than the render targets and
-where the background shader does no loads, or even render passes that do
-loads but where all draws are opaque, which are all things the current
-Gallium driver is intimately familiar with since Crazy Tiler
-Optimizations™ need that info to be provided anyway). So I was wondering
-whether it'd make sense to have such an idempotency/restartable flag on
-job submission, and then the driver would do its best to recover and
-rerun it if it gets killed by an unrelated concurrent bad job.
-
-Then again this all depends on an investigation into what we *can* do
-during firmware recovery that hasn't happened at all yet. It might be
-that it isn't safe to do anything really, or that doing things depends
-on touching even deeper firmware state structs that we treat as opaque
-right now and we really don't want to have to touch...
-
-But maybe none of this is worth it in practice, it just sounded like it
-could be useful maybe?
-
-Now that I look at it, we have a lovely "what is this flag doing anyway"
-bit already passed from Mesa through to the firmware we called
-ASAHI_RENDER_SET_WHEN_RELOADING_Z_OR_S which, now that I look at it, is
-actually getting set when any attachment (any color, Z, S) is not being
-cleared for that pass (so it's loaded). That could very well be an "is
-not idempotent" flag... and maybe that means the firmware does this for
-us already? Sounds like something to test... I might have some 16Kx16K
-GLmark runs to do concurrent with an evil faulting job now ^^ (and then
-that also means we need to set it when shaders have side effects and
-stuff, which right now we don't).
-
->>> Just signal the problem back to userspace and let the user space
->>> driver 
->>> decide what to do.
->>>
->>> The background is that most graphics applications (games etc..)
->>> then 
->>> rather start on the next frame instead of submitting the current
->>> one 
->>> again while compute applications make sure that the abort and tell
->>> the 
->>> user that the calculations might be corrupted and need to be
->>> redone.
+> On 09/03/2023 11:20, Rafał Miłecki wrote:
+>> From: Rafał Miłecki <rafal@milecki.pl>
+>>
+>> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
+>> default. This behaviour was totally safe in early days before adding
+>> support for dynamic cells and with simple DT syntax.
+>>
+>> With every new supported NVMEM device with dynamic cells the current
+>> behaviour becomes non-optimal:
+>> 1. It results in unneeded iterating over DT nodes
+>> 2. It may result in false discovery of cells (in case DT subnodes
+>>     contain "reg" property)
+>>
 > 
-> The guarantee that Vulkan makes is that, if you idle the GPU and you
-> haven't gotten a DEVICE_LOST yet, your data is good.  If you get a
-> DEVICE_LOST, all bets are off.  The problem is that, no matter how fast
-> the error propagation may be in the kernel or userspace driver, errors
-> can still show up in strange ways.  An OOB buffer access could end up
-> modifying a shader binary which gets run 3 frames later and causes a
-> corruption.  Once you've faulted, you really have no idea how far back
-> is good or what memory is corrupted.  You have to assume that
-> everything mapped to the GPU VA space is potentially toast.
-
-Yes of course, for the actually faulting VM all bets are off after a
-fault (though we can try a bit harder at least... I have a READ_ONLY BO
-flag now, I should set it on the shader pools!).
-
->> Actually I wanted to ask about error notifications. Right now we have
->> an
->> out-of-band mechanism to provide detailed fault info to userspace
->> which
->> works fine, but in principle it's optional.
+> Am really not sure what is going on here,
+> I did raise some issues with this overall approch to start with at [1] none of which are discussed and now I see v3 :-)
 > 
-> This is fine, in principal.  Because of the nature of errors, async is
-> fine as long as the error shows up eventually.  Faster is better, for
-> sure, but error latency doesn't really matter in practice.
-> 
->> However, I also mark the hw
->>  fences as errored when a fault happens (with an errno that describes
->> the overall situation), but that never makes it into the drm_sched
->> job
->> complete fence. I looked at the drm_sched code and I didn't see any
->> error propagation. Is that supposed to work, or am I supposed to
->> directly mark the drm_sched side fence as complete, or did I
->> misunderstand all this? I get the feeling maybe existing drivers just
->> rely on the recovery/timeout/etc paths to mark jobs as errored (since
->> those do it explicitly) and never need error forwarding from the hw
->> fence?
-> 
-> The end behavior needs to be that all fences for all jobs submitted to
-> the queue get signaled.  That's needed to satisfy the finite time
-> guarantees of dma_fence.  Exactly how that happens (let the job run,
-> abort all the jobs, etc.) is an implementation detail for the driver to
-> decide.  If you want, you can also set a bit on the context (or queue)
-> to mark it as dead and start returning EIO or similar from any ioctls
-> trying to submit more work if you wanted.  Not required but you can.
+> [1] https://lore.kernel.org/lkml/20230309094010.1051573-1-michael@walle.cc/T/#m7706b640979aabf251436e017b8189413661a53a
 
-Fences have an error flag though, does that get reported to userspace
-somehow? I thought it did, but maybe not, or maybe only drm_sched not
-propagating it is the issue?
+I updated commit message to address your concerns. I thought I made it
+clear. I don't know how to emphasize it better.
 
-In other words, absent my fancy stats reporting BO system, what is the
-normal way that an explicit sync driver signals to userspace that the
-job associated with a syncobj has failed?
+I'll try to answer nevertheless, please see below.
 
-(If there is no way, then I'll probably want to change the stats BO
-system to be configurable, so if you ask for no stats/time info, you
-only get overall job status and faults, which has less overhead.)
 
-~~ Lina
+On 9.03.2023 10:37, Srinivas Kandagatla wrote:
+ > On 24/02/2023 07:29, Rafał Miłecki wrote:
+ >> From: Rafał Miłecki <rafal@milecki.pl>
+ >>
+ >> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
+ >> default. This behaviour made sense in early days before adding support
+ >> for dynamic cells.
+ >>
+ >> With every new supported NVMEM device with dynamic cells current
+ >> behaviour becomes non-optimal. It results in unneeded iterating over DT
+ >> nodes and may result in false discovery of cells (depending on used DT
+ >> properties).
+ >
+ >>
+ >> This behaviour has actually caused a problem already with the MTD
+ >> subsystem. MTD subpartitions were incorrectly treated as NVMEM cells.
+ >>
+ >> Also with upcoming support for NVMEM layouts no new binding or driver
+ >> should support fixed cells defined in device node.
+ >
+ > This is not very clear, are you saying that we should not support fixed cells? If that is the case then you are proabably taking this in wrong direction. nvmem was built based on the fact that drivers can read from a fixed offsets. Dynamic cells is something very new, that does not mean that we should ditch fixed cells support in dt.
+
+I DON'T deprecate or drop support for fixed layouts (fixed NVMEM cells).
+Period.
+I WON'T drop support for old binding. We stay backward compatible.
+Period.
+
+In this patch's body I wrote:
+"with the support for NVMEM layouts we may & should have *new* bindings allow fixed NVMEM cells only in the "nvmem-layout" subnode"
+that clearly means I still want to ALLOW fixed NVMEM cells - just in the *nvmem-layout* node.
+
+I want to KEEP support for fixed NVMEM cells.
+I just want them to be preferably defined in the "nvmem-layout" node.
+
+
+ >> Solve this by modifying drivers for bindings that support specifying
+ >> fixed NVMEM cells in DT. Make them explicitly tell NVMEM subsystem to
+ >> read cells from DT.
+ >
+ > Shouldn't this be opposite, let the new providers tell that cells are created at runtime?
+ >
+ > or even better if there is a way to detect if we can set this flag dynamically based on layout/post-processing configuration.
+ >
+ > that should be much cleaner approch.
+
+I tried to address this concert in the following part of commit body:
+
+ > The best approach seems to be making NVMEM core looking for fixed DT
+ > cells in **device** node an opt-in feature. It's a feature that over
+ > time should get deprecated in a favor of using "nvmem-layouts" also for
+ > fixed NVMEM cells.
+
+New NVMEM provider bindings and drivers will get developed. I would
+want all new bindings to use "nvmem-layout" for describing NVMEM cells
+(no matter if fixed or dynamic).
+
+That means all new drivers WILL NOT need to set "use_fixed_of_cells".
+
+So over time "use_fixed_of_cells" will become a minority. It'w would be
+pitty to have every new driver to request NVMEM code to skip looking for
+NVMEM cells in **device** node.
+
+So my answer is: no. I don't believe it should be opposite. Looking for
+fixed NVMEM cells in **device** DT node should be an opt-in.
+
+If by some miracle I manage to get my patches through then you'll forget
+about "use_fixed_of_cells" next month. Noone will need it for any new
+stuff. It'll stay for backward compatibility only.
