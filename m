@@ -1,278 +1,493 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E106E2103
-	for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 09:17:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id C911242458;
-	Fri, 10 Mar 2023 09:16:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1678439823;
-	bh=byVIkKMWTjR5Cmmkm2Sp0a3H/NhMOyuFcm8eO+lduw0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GFcv0+O/5n+8+AJuByxDlTv+ETZEtPpn0IGI1rL3l+wdJRFBLIFKEi20htg6gpqYC
-	 gKhQFbAjkpgl8b9Bom9Oe2pDywjci1y671teftJpwKSbxBfKREWnx0ALiD+lQk48qL
-	 x3u30njGL1YIyrKgvmGBM7/wku/rawL3uupmvSQ4qLNboPqku9ZMK+hun9JP8/mESk
-	 SowUGQcrRTGiiUlgSYHV2LXRlhw78QOqbLOkV4SIGlelO/4ekH6D5av4SdSqx0xxXs
-	 DQcfpvFXU/ONTz6Cnn05CtrYZukcnBM4gdVO0alOrehj5kbxxcFL5VSQ9SKkGpZxSh
-	 Wox7Qpbe39hyQ==
-Message-ID: <146ef94e-d3ac-c978-025a-b3a9ec3026a6@asahilina.net>
-Date: Fri, 10 Mar 2023 18:16:53 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C3223AF
+	for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 09:22:24 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id j2so4382781wrh.9
+        for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 01:22:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1678440142;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yBHifH049WBG51dz7hHRTXNckdb5GbeobOYTO0so4+8=;
+        b=wSZTKGTDgGEsd0U+fOoUz42hzvqeHqKTdrhc+/kOsGrxjIwvh7BnODodTGEVXLXsgK
+         mwdBpY4Jcybkkb7AHTUU0IXoyvDccTI3+uosbiv5IP1fYIgxYR6t1VQz0rXKujInVTG2
+         91rAwrKzxk8KcMGr/p3sv9gv1HX0VKnf1RgCUajkDCsbFklnEo1G3CbqV3AfLnzjbV8m
+         AmTkWqIUpfreRCy9uphWepqlKW/5Bgz3AhLu70CmGCDcpX3HxcGNVaDCYjVOX/AlmQsE
+         GAELMi2yOblLtn02mCC8wgBDav4Q3ePIKJ8QPLH5tpQi1uLwZL+lsGdVfLqVU/HUxyzM
+         +hvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678440142;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yBHifH049WBG51dz7hHRTXNckdb5GbeobOYTO0so4+8=;
+        b=HreqG1KflN968kgrjZABemfvQ33DA90MUK0MGglLOrNVaWYkqraEuILxZhzcfGI1Dp
+         +GB7sLYZ7XcGi6Nzfq/E50NGNBwLAy79PCQu8rW/jKm+wnqIavCDItzdIbMPpW/negb9
+         iXvQEN9wV2Eja/Y3rXeYPViDjBExwVLlKSw6xC2eW/Jf6bYAay5GXdL0dxhCy8jyZaXI
+         ElH6LFziCXUmGMnIqdSU4d2xWhrgrENYAe6UniSoa+j+xeEl2o4Yc7NR+csPEiDmOXwC
+         Frc85V5Zu+RYc4QCJU0+sfTQYn3JIA3a3/ITbIOb6UOhJPAsWUAEEAmOFzCOk1tobp6b
+         ZL8g==
+X-Gm-Message-State: AO0yUKWQxas2YH0Cq1RqV1pRACSZPDahAn/79BYAstts5YsCcIRTY5OJ
+	FPJQSQUV7gNfr6M4tX/P/7i2tQ==
+X-Google-Smtp-Source: AK7set+URM+g4dhmw/956FAllG7UiTJ0M5x27G5BRG7okarPTADsLRczkMdsz5Ggoqr0BaflW6JsQA==
+X-Received: by 2002:a5d:5490:0:b0:2ca:57c1:9abd with SMTP id h16-20020a5d5490000000b002ca57c19abdmr13544439wrv.36.1678440142473;
+        Fri, 10 Mar 2023 01:22:22 -0800 (PST)
+Received: from [192.168.1.195] ([5.133.47.210])
+        by smtp.googlemail.com with ESMTPSA id s10-20020a5d510a000000b002cde25fba30sm1656173wrt.1.2023.03.10.01.22.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Mar 2023 01:22:21 -0800 (PST)
+Message-ID: <ac94f04b-4b25-81e4-386f-55b0a2c7c85f@linaro.org>
+Date: Fri, 10 Mar 2023 09:22:19 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH V3] nvmem: add explicit config option to read OF fixed
+ cells
 Content-Language: en-US
-To: Faith Ekstrand <faith.ekstrand@collabora.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Luben Tuikov <luben.tuikov@amd.com>,
- Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Karol Herbst <kherbst@redhat.com>, Ella Stanforth <ella@iglunix.org>,
- Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
- <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
- <a075d886-0820-b6fb-fcd0-45bfdc75e37d@asahilina.net>
- <2b1060e9-86ba-7e16-14f1-5b5fa63de719@amd.com>
- <9f76bb68-b462-b138-d0ad-d27c972530d4@asahilina.net>
- <a39c6b40-f190-002d-ae1c-8b58c6442df2@amd.com>
- <4bbfc1a3-cfc3-87f4-897b-b6637bac3bd0@asahilina.net>
- <b0aa78b2-b432-200a-8953-a80c462fa6ee@amd.com>
- <c0624252-070e-bd44-2116-93a1d63a1359@asahilina.net>
- <d1fccceb-ca77-f653-17fc-63168e0da884@amd.com>
- <9c3dc2ad-11e4-6004-7230-8ca752e3d9f7@asahilina.net>
- <d544748c-8a2b-7c08-f199-182a56af22be@amd.com>
- <3e5e0120-50fd-51c0-d817-5b1dc4c14e97@asahilina.net>
- <f93448e6-4133-8a49-a12e-7a7012cb5409@amd.com>
- <d36046e6-acf5-89a3-46b4-1c813ca925c8@asahilina.net>
- <f89fad4d05bc1e603fb166569e20102ceb09fb4c.camel@collabora.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <f89fad4d05bc1e603fb166569e20102ceb09fb4c.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>,
+ =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+References: <20230309112028.19215-1-zajec5@gmail.com>
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20230309112028.19215-1-zajec5@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 10/03/2023 03.50, Faith Ekstrand wrote:
-> Jumping in here quick... (Sorry, I was out yesterday and was ignoring
-> my e-mail on Tuesday so I could finally type some compiler code.)
+
+On 09/03/2023 11:20, Rafał Miłecki wrote:
+> From: Rafał Miłecki <rafal@milecki.pl>
 > 
-> On Thu, 2023-03-09 at 18:14 +0900, Asahi Lina wrote:
->> On 09/03/2023 17.05, Christian König wrote:
->>> Am 09.03.23 um 07:30 schrieb Asahi Lina:
->>>> On 09/03/2023 05.14, Christian König wrote:
->>>>>> I think you mean wake_up_interruptible(). That would be
->>>>>> drm_sched_job_done(), on the fence callback when a job
->>>>>> completes, which
->>>>>> as I keep saying is the same logic used for
->>>>>> hw_rq_count/hw_submission_limit tracking.
->>>>> As the documentation to wait_event says:
->>>>>
->>>>>    * wake_up() has to be called after changing any variable
->>>>> that could
->>>>>    * change the result of the wait condition.
->>>>>
->>>>> So what you essentially try to do here is to skip that and say
->>>>> drm_sched_job_done() would call that anyway, but when you read
->>>>> any
->>>>> variable to determine that state then as far as I can see
->>>>> nothing is
->>>>> guarantying that order.
->>>> The driver needs to guarantee that any changes to that state
->>>> precede a
->>>> job completion fence signal of course, that's the entire idea of
->>>> the
->>>> API. It's supposed to represent a check for per-scheduler (or
->>>> more
->>>> specific, but not more global) resources that are released on job
->>>> completion. Of course if you misuse the API you could cause a
->>>> problem,
->>>> but what I'm trying to say is that the API as designed and when
->>>> used as
->>>> intended does work properly.
->>>>
->>>> Put another way: job completions always need to cause the sched
->>>> main
->>>> loop to run an iteration anyway (otherwise we wouldn't make
->>>> forward
->>>> progress), and job completions are exactly the signal that the
->>>> can_run_job() condition may have changed.
->>>>
->>>>> The only other possibility how you could use the callback
->>>>> correctly
->>>>> would be to call drm_fence_is_signaled() to query the state of
->>>>> your hw
->>>>> submission from the same fence which is then signaled. But then
->>>>> the
->>>>> question is once more why you don't give that fence directly to
->>>>> the
->>>>> scheduler?
->>>> But the driver is supposed to guarantee that the ordering is
->>>> always 1.
->>>> resources freed, 2. fence signaled. So you don't need to check
->>>> for the
->>>> fence, you can just check for the resource state.
->>>
->>> Yeah, but this is exactly what the dma_fence framework tried to
->>> prevent. 
->>> We try very hard to avoid such side channel signaling :)
->>
->> Right, and it's fine, I can use the fences directly easily enough.
->> I'm
->> just trying to explain why my original idea works too, even if it's
->> not
->> the best solution for other reasons!
->>
->> Of course I don't have the context of what other drivers are doing or
->> did historically and what the pitfalls are, so I can't know what the
->> "right" solution for any of this is in that context. I did my best to
->> understand the drm_sched code and come up with a solution that works
->> (which it does) without any more info. When I saw the hw submission
->> limit stuff, I thought "okay, I need the same thing but with slightly
->> more complex logic, so let's add a callback so the driver can
->> customize
->> it and do its own inflight counting".
+> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
+> default. This behaviour was totally safe in early days before adding
+> support for dynamic cells and with simple DT syntax.
 > 
-> So, I think there's a difference here between "impossible to implement
-> correctly", "likely to be implemented correctly", and "impossible to
-> implement incorrectly".  It's obviously possible to implement
-> correctly.  You can just always return true or do exactly the same
-> check or do some simple thing where you can guarantee that it will only
-> ever return false when there's a bunch of other stuff in the queue. 
-> That doesn't mean that it's likely to be implemented correctly by some
-> other driver.  Some idiot will come along and try to take advantage of
-> it and cause themselves horrible problems.
+> With every new supported NVMEM device with dynamic cells the current
+> behaviour becomes non-optimal:
+> 1. It results in unneeded iterating over DT nodes
+> 2. It may result in false discovery of cells (in case DT subnodes
+>     contain "reg" property)
 > 
-> And, to be clear, for the purposes of this discussion, we're ALL
-> idiots, myself included.  If there's one thing the DRM community has
-> learned over the years, it's that drivers are so complex that we all
-> turn into idiots at some point, relative to the complexity of the code
-> and hardware behavior.  That's why things like dma_fence are written so
-> incredibly defensively and why we're so harsh about the rules.  It's
-> the rules and not our individual smarts that keep us from making
-> mistakes.  (Kinda like Rust, in a way.)  So while I appreciate the
-> frustration of "I'm just trying to do something that's clearly correct
-> here", that doesn't mean that then next person to come by and fix a bug
-> by tweaking that callback isn't going to screw it up irreparably.  That
-> person may even be you in 6 to 12 months after this e-mail thread is a
-> distant memory.
+
+Am really not sure what is going on here,
+I did raise some issues with this overall approch to start with at [1] 
+none of which are discussed and now I see v3 :-)
+
+[1] 
+https://lore.kernel.org/lkml/20230309094010.1051573-1-michael@walle.cc/T/#m7706b640979aabf251436e017b8189413661a53a
+
+--srini
+> This behaviour has actually caused a problem already with the MTD
+> subsystem and required a fix. MTD subpartitions were incorrectly treated
+> (falsely discovered) as NVMEM cells.
 > 
-> So, yes, does the implementation you have today work without deadlocks
-> or starvation?  Maybe it does.  I've not verified.  Is the suggested
-> callback a giant foot-gun in the already treacherous territory of
-> scheduling and fencing?  Yeah, it probably is and there's another way
-> to implement the same behavior which is likely safer in the long run.
-
-I understand that... I just wish the response had been along the lines
-of "this is a huge footgun for these reasons, and you don't need it
-because you can do it this other way instead", not "the concept is
-completely broken, NAK".
-
-If the discussion were phrased around how the API can be used and
-abused, then I can understand what the concern is. But it was somehow
-always about me and what I'm doing...
-
-> This is clearly going against the idea of having jobs only depend on 
-> fences and nothing else which is mandatory for correct memory management.
-
-That implies what I'm doing breaks memory management (and that it is
-obvious).
-
-> And to make it clear this is unfortunately a complete NAK to this 
-> approach! You can't do this!
-
-Again that I can't do it... and then we got an argument over whether the
-code is actually broken or not. But that doesn't even matter, since the
-issue is how easy the API is to use or misuse, not whether I actually
-misuse it...
-
-I'll switch to prepare_job() fences for the next version, so it's not an
-issue. Using that didn't even cross my mind because, knowing nothing
-about the intended usage here, the prepare_job() callback docs are quite
-obtuse:
-
-> Called when the scheduler is considering scheduling this job next> to get another struct dma_fence for this job to block on. Once i>
-returns NULL, run_job() may be called.
+> Also with the support for NVMEM layouts we may & should have *new*
+> bindings allow fixed NVMEM cells only in the "nvmem-layout" subnode. It
+> means no *new* driver should require NVMEM core support for fixed cells
+> defined in the **device** node.
 > 
-> Can be NULL if no additional preparation to the dependencies are necessary.> Skipped when jobs are killed instead of run.
-
-What's a "dependency"? To me that sounded like execution dependencies,
-and we clearly express those in the jobs themselves ahead of time. But
-it turns out the purpose of this callback is to grab resources just in
-time before execution or block on them becoming available through a
-fence, and then it makes a lot more sense how to use it to do in-flight
-command count limiting.
-
-Aside: now that I understand this, I'm tempted to make the Rust
-signature for this return a Result<(), Fence>. Returning a fence is
-essentially the "error" case here, and that means in the implementation
-you can just do:
-
-if job.foo_res.is_none() {
-    job.foo_res = Some(foo.get_resource()?);
-}
-if job.bar_res.is_none() {
-    job.bar_res = Some(bar.get_resource()?);
-}
-
-As long as all the get_resource() calls return a Result<Resource, Fence>.
-
-There's even more undocumented subtlety here though, since as far as I
-can tell if all the resources aren't always grabbed in the same order,
-or more than one of a single resource is grabbed separately you could
-deadlock or even livelock?
-
-This is theoretical since right now I don't handle this properly at all
-other than the command count limit (I need the command struct fixup
-system for this to be reasonably possible), but for example, I'll need
-1-3 event IDs per job, and if I grab them one by one, you could end up
-deadlocking with all event IDs used by jobs waiting for more. And if I
-don't store them eagerly (so drop the IDs if you can't get all of them),
-then you can end up with livelocks where every scheduler is grabbing an
-ID, then dropping it when we can't get another one, which signals a
-fence for another blocked scheduler to grab another ID, which then drops
-it because it can't get more, etc. So I probably need to grab a number
-of event IDs atomically.
-
-> Also, in a weird way, I think these conversations are sometimes better
-> than documentation.  It took a while to get around to it all but
-> there's a lot of context that was brought together in this e-mail
-> thread that wouldn't have been in the docs no matter how good they are.
-> A lot of it isn't an isolated thing that should clearly be explained in
-> the run_job docs.  It's subtle interactions which happen when all the
-> pieces come together.  I see this complaint a lot about Vulkan as well.
-> There are behaviors which only become evident when you find the right 5
-> pieces of the spec and put them all together and squint.  It'd be good
-> to call those out sometimes but there's no way we can document all of
-> them.
-
-That's true, but I think we could improve things a lot even with just
-better docs and more hyperlinking between docs... For example, the GEM
-and DMA fence docs do have quite a bit of prose that gets you some
-context (even if it's a bit outdated and not complete). But drm_sched
-just has one paragraph and a list giving a high-level design, and then
-goes straight into function docs. It definitely takes putting together
-the sched, fence, dma_resv, etc. docs together to get the big picture,
-but if those docs all at least point at each other and are individually
-reasonably complete, then we'd have a chance ^^
-
-~~ Lina
+> Obviously existing bindings must be supported and old drivers must
+> support old DT syntax.
+> 
+> The best approach seems to be making NVMEM core looking for fixed DT
+> cells in **device** node an opt-in feature. It's a feature that over
+> time should get deprecated in a favor of using "nvmem-layouts" also for
+> fixed NVMEM cells.
+> 
+> Solve this by modifying drivers for those bindings that support
+> specifying fixed NVMEM cells in DT node of **NVMEM device**. Those
+> drivers were picked by reviewing all supported NVMEM bindings. Make
+> those drivers explicitly tell NVMEM subsystem to read cells from DT node
+> of **NVMEM device**.
+> 
+> It wasn't clear (to me) if rtc and w1 code actually uses fixed cells. I
+> enabled them to don't risk any breakage.
+> 
+> The whole change is not a huge game changer. It makes code slightly more
+> optimal (in case you care), a bit less error prone and maybe / hopefully
+> NVMEM code parsing code easier to understand.
+> 
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> [for meson-{efuse,mx-efuse}.c]
+> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> [for mtk-efuse.c, nvmem/core.c, nvmem-provider.h]
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> [MT8192, MT8195 Chromebooks]
+> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> [for microchip-otpc.c]
+> Reviewed-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> [SAMA7G5-EK]
+> Tested-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> ---
+> V2: Fix stm32-romem.c typo breaking its compilation
+>      Pick Martin's Acked-by
+>      Add paragraph about layouts deprecating use_fixed_of_cells
+> V3: Update commit description:
+>      1. Make it clear we're NOT dropping fixed cells support
+>      2. Use nicer words (s/made sense/was totally safe/)
+>      3. Explain fixed cells layout thing
+>      4. Add paragraph with purpose of this commit
+> ---
+>   drivers/mtd/mtdcore.c          | 2 ++
+>   drivers/nvmem/apple-efuses.c   | 1 +
+>   drivers/nvmem/core.c           | 8 +++++---
+>   drivers/nvmem/imx-ocotp-scu.c  | 1 +
+>   drivers/nvmem/imx-ocotp.c      | 1 +
+>   drivers/nvmem/meson-efuse.c    | 1 +
+>   drivers/nvmem/meson-mx-efuse.c | 1 +
+>   drivers/nvmem/microchip-otpc.c | 1 +
+>   drivers/nvmem/mtk-efuse.c      | 1 +
+>   drivers/nvmem/qcom-spmi-sdam.c | 1 +
+>   drivers/nvmem/qfprom.c         | 1 +
+>   drivers/nvmem/rave-sp-eeprom.c | 1 +
+>   drivers/nvmem/rockchip-efuse.c | 1 +
+>   drivers/nvmem/sc27xx-efuse.c   | 1 +
+>   drivers/nvmem/sprd-efuse.c     | 1 +
+>   drivers/nvmem/stm32-romem.c    | 1 +
+>   drivers/nvmem/sunplus-ocotp.c  | 1 +
+>   drivers/nvmem/sunxi_sid.c      | 1 +
+>   drivers/nvmem/uniphier-efuse.c | 1 +
+>   drivers/nvmem/zynqmp_nvmem.c   | 1 +
+>   drivers/rtc/nvmem.c            | 1 +
+>   drivers/w1/slaves/w1_ds250x.c  | 1 +
+>   include/linux/nvmem-provider.h | 2 ++
+>   23 files changed, 29 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
+> index 0feacb9fbdac..1bb479c0f758 100644
+> --- a/drivers/mtd/mtdcore.c
+> +++ b/drivers/mtd/mtdcore.c
+> @@ -523,6 +523,7 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
+>   	config.dev = &mtd->dev;
+>   	config.name = dev_name(&mtd->dev);
+>   	config.owner = THIS_MODULE;
+> +	config.use_fixed_of_cells = of_device_is_compatible(node, "nvmem-cells");
+>   	config.reg_read = mtd_nvmem_reg_read;
+>   	config.size = mtd->size;
+>   	config.word_size = 1;
+> @@ -891,6 +892,7 @@ static struct nvmem_device *mtd_otp_nvmem_register(struct mtd_info *mtd,
+>   	config.name = kasprintf(GFP_KERNEL, "%s-%s", dev_name(&mtd->dev), compatible);
+>   	config.id = NVMEM_DEVID_NONE;
+>   	config.owner = THIS_MODULE;
+> +	config.use_fixed_of_cells = true;
+>   	config.type = NVMEM_TYPE_OTP;
+>   	config.root_only = true;
+>   	config.ignore_wp = true;
+> diff --git a/drivers/nvmem/apple-efuses.c b/drivers/nvmem/apple-efuses.c
+> index 9b7c87102104..0119bac43b2c 100644
+> --- a/drivers/nvmem/apple-efuses.c
+> +++ b/drivers/nvmem/apple-efuses.c
+> @@ -36,6 +36,7 @@ static int apple_efuses_probe(struct platform_device *pdev)
+>   	struct resource *res;
+>   	struct nvmem_config config = {
+>   		.dev = &pdev->dev,
+> +		.use_fixed_of_cells = true,
+>   		.read_only = true,
+>   		.reg_read = apple_efuses_read,
+>   		.stride = sizeof(u32),
+> diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+> index 174ef3574e07..6783cd8478d7 100644
+> --- a/drivers/nvmem/core.c
+> +++ b/drivers/nvmem/core.c
+> @@ -844,9 +844,11 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+>   	if (rval)
+>   		goto err_remove_cells;
+>   
+> -	rval = nvmem_add_cells_from_of(nvmem);
+> -	if (rval)
+> -		goto err_remove_cells;
+> +	if (config->use_fixed_of_cells) {
+> +		rval = nvmem_add_cells_from_of(nvmem);
+> +		if (rval)
+> +			goto err_remove_cells;
+> +	}
+>   
+>   	dev_dbg(&nvmem->dev, "Registering nvmem device %s\n", config->name);
+>   
+> diff --git a/drivers/nvmem/imx-ocotp-scu.c b/drivers/nvmem/imx-ocotp-scu.c
+> index 399e1eb8b4c1..ec5cce7c6697 100644
+> --- a/drivers/nvmem/imx-ocotp-scu.c
+> +++ b/drivers/nvmem/imx-ocotp-scu.c
+> @@ -220,6 +220,7 @@ static int imx_scu_ocotp_write(void *context, unsigned int offset,
+>   
+>   static struct nvmem_config imx_scu_ocotp_nvmem_config = {
+>   	.name = "imx-scu-ocotp",
+> +	.use_fixed_of_cells = true,
+>   	.read_only = false,
+>   	.word_size = 4,
+>   	.stride = 1,
+> diff --git a/drivers/nvmem/imx-ocotp.c b/drivers/nvmem/imx-ocotp.c
+> index e9b52ecb3f72..e37a82f98ba6 100644
+> --- a/drivers/nvmem/imx-ocotp.c
+> +++ b/drivers/nvmem/imx-ocotp.c
+> @@ -616,6 +616,7 @@ static int imx_ocotp_probe(struct platform_device *pdev)
+>   		return PTR_ERR(priv->clk);
+>   
+>   	priv->params = of_device_get_match_data(&pdev->dev);
+> +	imx_ocotp_nvmem_config.use_fixed_of_cells = true;
+>   	imx_ocotp_nvmem_config.size = 4 * priv->params->nregs;
+>   	imx_ocotp_nvmem_config.dev = dev;
+>   	imx_ocotp_nvmem_config.priv = priv;
+> diff --git a/drivers/nvmem/meson-efuse.c b/drivers/nvmem/meson-efuse.c
+> index d6b533497ce1..657e171d5af3 100644
+> --- a/drivers/nvmem/meson-efuse.c
+> +++ b/drivers/nvmem/meson-efuse.c
+> @@ -93,6 +93,7 @@ static int meson_efuse_probe(struct platform_device *pdev)
+>   
+>   	econfig->dev = dev;
+>   	econfig->name = dev_name(dev);
+> +	econfig->use_fixed_of_cells = true;
+>   	econfig->stride = 1;
+>   	econfig->word_size = 1;
+>   	econfig->reg_read = meson_efuse_read;
+> diff --git a/drivers/nvmem/meson-mx-efuse.c b/drivers/nvmem/meson-mx-efuse.c
+> index 13eb14316f46..7cc51391ec9c 100644
+> --- a/drivers/nvmem/meson-mx-efuse.c
+> +++ b/drivers/nvmem/meson-mx-efuse.c
+> @@ -213,6 +213,7 @@ static int meson_mx_efuse_probe(struct platform_device *pdev)
+>   	efuse->config.owner = THIS_MODULE;
+>   	efuse->config.dev = &pdev->dev;
+>   	efuse->config.priv = efuse;
+> +	efuse->config.use_fixed_of_cells = true;
+>   	efuse->config.stride = drvdata->word_size;
+>   	efuse->config.word_size = drvdata->word_size;
+>   	efuse->config.size = SZ_512;
+> diff --git a/drivers/nvmem/microchip-otpc.c b/drivers/nvmem/microchip-otpc.c
+> index 436e0dc4f337..fb920fd7a8fc 100644
+> --- a/drivers/nvmem/microchip-otpc.c
+> +++ b/drivers/nvmem/microchip-otpc.c
+> @@ -261,6 +261,7 @@ static int mchp_otpc_probe(struct platform_device *pdev)
+>   		return ret;
+>   
+>   	mchp_nvmem_config.dev = otpc->dev;
+> +	mchp_nvmem_config.use_fixed_of_cells = true;
+>   	mchp_nvmem_config.size = size;
+>   	mchp_nvmem_config.priv = otpc;
+>   	nvmem = devm_nvmem_register(&pdev->dev, &mchp_nvmem_config);
+> diff --git a/drivers/nvmem/mtk-efuse.c b/drivers/nvmem/mtk-efuse.c
+> index a08e0aedd21c..1947337a121f 100644
+> --- a/drivers/nvmem/mtk-efuse.c
+> +++ b/drivers/nvmem/mtk-efuse.c
+> @@ -45,6 +45,7 @@ static int mtk_efuse_probe(struct platform_device *pdev)
+>   	if (IS_ERR(priv->base))
+>   		return PTR_ERR(priv->base);
+>   
+> +	econfig.use_fixed_of_cells = true;
+>   	econfig.stride = 1;
+>   	econfig.word_size = 1;
+>   	econfig.reg_read = mtk_reg_read;
+> diff --git a/drivers/nvmem/qcom-spmi-sdam.c b/drivers/nvmem/qcom-spmi-sdam.c
+> index f822790db49e..b547def94b5b 100644
+> --- a/drivers/nvmem/qcom-spmi-sdam.c
+> +++ b/drivers/nvmem/qcom-spmi-sdam.c
+> @@ -142,6 +142,7 @@ static int sdam_probe(struct platform_device *pdev)
+>   	sdam->sdam_config.name = "spmi_sdam";
+>   	sdam->sdam_config.id = NVMEM_DEVID_AUTO;
+>   	sdam->sdam_config.owner = THIS_MODULE;
+> +	sdam->sdam_config.use_fixed_of_cells = true;
+>   	sdam->sdam_config.stride = 1;
+>   	sdam->sdam_config.word_size = 1;
+>   	sdam->sdam_config.reg_read = sdam_read;
+> diff --git a/drivers/nvmem/qfprom.c b/drivers/nvmem/qfprom.c
+> index c1e893c8a247..eb126d507561 100644
+> --- a/drivers/nvmem/qfprom.c
+> +++ b/drivers/nvmem/qfprom.c
+> @@ -357,6 +357,7 @@ static int qfprom_probe(struct platform_device *pdev)
+>   {
+>   	struct nvmem_config econfig = {
+>   		.name = "qfprom",
+> +		.use_fixed_of_cells = true,
+>   		.stride = 1,
+>   		.word_size = 1,
+>   		.id = NVMEM_DEVID_AUTO,
+> diff --git a/drivers/nvmem/rave-sp-eeprom.c b/drivers/nvmem/rave-sp-eeprom.c
+> index c456011b75e8..e9b4c7927e37 100644
+> --- a/drivers/nvmem/rave-sp-eeprom.c
+> +++ b/drivers/nvmem/rave-sp-eeprom.c
+> @@ -328,6 +328,7 @@ static int rave_sp_eeprom_probe(struct platform_device *pdev)
+>   	of_property_read_string(np, "zii,eeprom-name", &config.name);
+>   	config.priv		= eeprom;
+>   	config.dev		= dev;
+> +	config.use_fixed_of_cells	= true;
+>   	config.size		= size;
+>   	config.reg_read		= rave_sp_eeprom_reg_read;
+>   	config.reg_write	= rave_sp_eeprom_reg_write;
+> diff --git a/drivers/nvmem/rockchip-efuse.c b/drivers/nvmem/rockchip-efuse.c
+> index e4579de5d014..211f6e7401a9 100644
+> --- a/drivers/nvmem/rockchip-efuse.c
+> +++ b/drivers/nvmem/rockchip-efuse.c
+> @@ -205,6 +205,7 @@ static int rockchip_rk3399_efuse_read(void *context, unsigned int offset,
+>   
+>   static struct nvmem_config econfig = {
+>   	.name = "rockchip-efuse",
+> +	.use_fixed_of_cells = true,
+>   	.stride = 1,
+>   	.word_size = 1,
+>   	.read_only = true,
+> diff --git a/drivers/nvmem/sc27xx-efuse.c b/drivers/nvmem/sc27xx-efuse.c
+> index c825fc902d10..ed5cc4f3e2bc 100644
+> --- a/drivers/nvmem/sc27xx-efuse.c
+> +++ b/drivers/nvmem/sc27xx-efuse.c
+> @@ -248,6 +248,7 @@ static int sc27xx_efuse_probe(struct platform_device *pdev)
+>   	econfig.reg_read = sc27xx_efuse_read;
+>   	econfig.priv = efuse;
+>   	econfig.dev = &pdev->dev;
+> +	econfig.use_fixed_of_cells = true;
+>   	nvmem = devm_nvmem_register(&pdev->dev, &econfig);
+>   	if (IS_ERR(nvmem)) {
+>   		dev_err(&pdev->dev, "failed to register nvmem config\n");
+> diff --git a/drivers/nvmem/sprd-efuse.c b/drivers/nvmem/sprd-efuse.c
+> index 4f1fcbfec394..ef3161645f60 100644
+> --- a/drivers/nvmem/sprd-efuse.c
+> +++ b/drivers/nvmem/sprd-efuse.c
+> @@ -408,6 +408,7 @@ static int sprd_efuse_probe(struct platform_device *pdev)
+>   	econfig.read_only = false;
+>   	econfig.name = "sprd-efuse";
+>   	econfig.size = efuse->data->blk_nums * SPRD_EFUSE_BLOCK_WIDTH;
+> +	econfig.use_fixed_of_cells = true;
+>   	econfig.reg_read = sprd_efuse_read;
+>   	econfig.reg_write = sprd_efuse_write;
+>   	econfig.priv = efuse;
+> diff --git a/drivers/nvmem/stm32-romem.c b/drivers/nvmem/stm32-romem.c
+> index ba779e26937a..a6fc43acb797 100644
+> --- a/drivers/nvmem/stm32-romem.c
+> +++ b/drivers/nvmem/stm32-romem.c
+> @@ -208,6 +208,7 @@ static int stm32_romem_probe(struct platform_device *pdev)
+>   	priv->cfg.priv = priv;
+>   	priv->cfg.owner = THIS_MODULE;
+>   	priv->cfg.type = NVMEM_TYPE_OTP;
+> +	priv->cfg.use_fixed_of_cells = true;
+>   
+>   	priv->lower = 0;
+>   
+> diff --git a/drivers/nvmem/sunplus-ocotp.c b/drivers/nvmem/sunplus-ocotp.c
+> index 52b928a7a6d5..57e3e0833b85 100644
+> --- a/drivers/nvmem/sunplus-ocotp.c
+> +++ b/drivers/nvmem/sunplus-ocotp.c
+> @@ -145,6 +145,7 @@ static int sp_ocotp_read(void *priv, unsigned int offset, void *value, size_t by
+>   
+>   static struct nvmem_config sp_ocotp_nvmem_config = {
+>   	.name = "sp-ocotp",
+> +	.use_fixed_of_cells = true,
+>   	.read_only = true,
+>   	.word_size = 1,
+>   	.size = QAC628_OTP_SIZE,
+> diff --git a/drivers/nvmem/sunxi_sid.c b/drivers/nvmem/sunxi_sid.c
+> index a970f1741cc6..6ab7aa3724a0 100644
+> --- a/drivers/nvmem/sunxi_sid.c
+> +++ b/drivers/nvmem/sunxi_sid.c
+> @@ -156,6 +156,7 @@ static int sunxi_sid_probe(struct platform_device *pdev)
+>   	nvmem_cfg->dev = dev;
+>   	nvmem_cfg->name = "sunxi-sid";
+>   	nvmem_cfg->type = NVMEM_TYPE_OTP;
+> +	nvmem_cfg->use_fixed_of_cells = true;
+>   	nvmem_cfg->read_only = true;
+>   	nvmem_cfg->size = cfg->size;
+>   	nvmem_cfg->word_size = 1;
+> diff --git a/drivers/nvmem/uniphier-efuse.c b/drivers/nvmem/uniphier-efuse.c
+> index aca910b3b6f8..69b9dfe6ab6e 100644
+> --- a/drivers/nvmem/uniphier-efuse.c
+> +++ b/drivers/nvmem/uniphier-efuse.c
+> @@ -53,6 +53,7 @@ static int uniphier_efuse_probe(struct platform_device *pdev)
+>   	econfig.size = resource_size(res);
+>   	econfig.priv = priv;
+>   	econfig.dev = dev;
+> +	econfig.use_fixed_of_cells = true;
+>   	nvmem = devm_nvmem_register(dev, &econfig);
+>   
+>   	return PTR_ERR_OR_ZERO(nvmem);
+> diff --git a/drivers/nvmem/zynqmp_nvmem.c b/drivers/nvmem/zynqmp_nvmem.c
+> index e28d7b133e11..d13750a4c112 100644
+> --- a/drivers/nvmem/zynqmp_nvmem.c
+> +++ b/drivers/nvmem/zynqmp_nvmem.c
+> @@ -58,6 +58,7 @@ static int zynqmp_nvmem_probe(struct platform_device *pdev)
+>   
+>   	priv->dev = dev;
+>   	econfig.dev = dev;
+> +	econfig.use_fixed_of_cells = true;
+>   	econfig.reg_read = zynqmp_nvmem_read;
+>   	econfig.priv = priv;
+>   
+> diff --git a/drivers/rtc/nvmem.c b/drivers/rtc/nvmem.c
+> index 07ede21cee34..5cc039d92257 100644
+> --- a/drivers/rtc/nvmem.c
+> +++ b/drivers/rtc/nvmem.c
+> @@ -21,6 +21,7 @@ int devm_rtc_nvmem_register(struct rtc_device *rtc,
+>   
+>   	nvmem_config->dev = dev;
+>   	nvmem_config->owner = rtc->owner;
+> +	nvmem_config->use_fixed_of_cells = true;
+>   	nvmem = devm_nvmem_register(dev, nvmem_config);
+>   	if (IS_ERR(nvmem))
+>   		dev_err(dev, "failed to register nvmem device for RTC\n");
+> diff --git a/drivers/w1/slaves/w1_ds250x.c b/drivers/w1/slaves/w1_ds250x.c
+> index 7592c7050d1d..538722b41f87 100644
+> --- a/drivers/w1/slaves/w1_ds250x.c
+> +++ b/drivers/w1/slaves/w1_ds250x.c
+> @@ -168,6 +168,7 @@ static int w1_eprom_add_slave(struct w1_slave *sl)
+>   	struct nvmem_device *nvmem;
+>   	struct nvmem_config nvmem_cfg = {
+>   		.dev = &sl->dev,
+> +		.use_fixed_of_cells = true,
+>   		.reg_read = w1_nvmem_read,
+>   		.type = NVMEM_TYPE_OTP,
+>   		.read_only = true,
+> diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+> index 0262b86194eb..b3c14ce87a65 100644
+> --- a/include/linux/nvmem-provider.h
+> +++ b/include/linux/nvmem-provider.h
+> @@ -73,6 +73,7 @@ struct nvmem_cell_info {
+>    * @owner:	Pointer to exporter module. Used for refcounting.
+>    * @cells:	Optional array of pre-defined NVMEM cells.
+>    * @ncells:	Number of elements in cells.
+> + * @use_fixed_of_cells:	Read fixed NVMEM cells from OF.
+>    * @keepout:	Optional array of keepout ranges (sorted ascending by start).
+>    * @nkeepout:	Number of elements in the keepout array.
+>    * @type:	Type of the nvmem storage
+> @@ -103,6 +104,7 @@ struct nvmem_config {
+>   	struct module		*owner;
+>   	const struct nvmem_cell_info	*cells;
+>   	int			ncells;
+> +	bool			use_fixed_of_cells;
+>   	const struct nvmem_keepout *keepout;
+>   	unsigned int		nkeepout;
+>   	enum nvmem_type		type;
