@@ -1,190 +1,154 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4A023B1;
-	Fri, 10 Mar 2023 10:43:39 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id b10so4881723ljr.0;
-        Fri, 10 Mar 2023 02:43:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678445017;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6D8DgvSllDpIpjkRMtHsbcOPCoCHnTYInoVGhS4b+QA=;
-        b=nCHfG0VG+xIVMI3Uz30+lCPQjHMFNzvzKvLr/uxFUsFQf3sK0QzWXC1lkMYIpnb+yo
-         kTfC3hUaq8cgGe9xMk6AcbdnaIcg7HQQTQy9FYUYrxXA8lGpEBgL1Dmir6Vjlq8dfPLs
-         C7qPdt6AmXMhTO+LAlZFKkmu7qpBvf+EAlj48MXE+EFWNTkHYnE9PYxJfTlLY0JQzVRe
-         AVPRBJUNvn2rznC1jaKvMtoRuQcxNZy6ZCXkCfDrMOAox6Fj/UPpj2Qw3RPLR5Sm6Qw0
-         QLFfzrkeRntLiy2SEYLW90oHWj4Bztsxrd9uCIC8aMvEDbCJnw1v2hI9WbY/GoLyvewF
-         cJRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678445017;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6D8DgvSllDpIpjkRMtHsbcOPCoCHnTYInoVGhS4b+QA=;
-        b=ckBsvQw+mDDx77i45lKEOvLXzPMX1/omJ+7kmM57pUvgUeJ55yGBk2ZZb5XBeNyd+F
-         ZWaFf14mJtHqaXSaznNywdy0Ev9ss0alRBJBHJybNgQpShNIwPc3v8VOza4rs+SdE9KU
-         x1q4j1k9LTsNL7YQ9ArYyl0lzgHMu+CMf7ch+F/34/5aekUzjhvapz6Ug5IXxHz1SczC
-         efAZKz5VSb4y280jZ4GUJicA1JHrKpoXPx/jx5wF23x0Ncu0cydMlLCnVY4AKbljYp+/
-         8OERoxkCvpxWCaM+emF6Rc5mMqHKHwi6LsRJcaz8fUU7uhxQ7Rt8La/fM4bRlNCnQKZ/
-         3v/g==
-X-Gm-Message-State: AO0yUKVy+hVsnNLvhERCFgxlYHacB9xZ5nC9hv3u9y1LmkjMRe8JoVvw
-	H7Nb2RJxa4FEQOFe6bL1G5g=
-X-Google-Smtp-Source: AK7set+p71/bzHEgwcLpPLO/Pz2JDQS28ccp+iIU3K53kTB52otuWjNtgd3ESU/TF0IRcMCTp5ShaA==
-X-Received: by 2002:a2e:4619:0:b0:290:8289:8cba with SMTP id t25-20020a2e4619000000b0029082898cbamr310434lja.8.1678445017151;
-        Fri, 10 Mar 2023 02:43:37 -0800 (PST)
-Received: from [192.168.26.149] (ip-194-187-74-233.konfederacka.maverick.com.pl. [194.187.74.233])
-        by smtp.googlemail.com with ESMTPSA id l20-20020a2e9094000000b00297dad1a2b0sm187498ljg.103.2023.03.10.02.43.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Mar 2023 02:43:36 -0800 (PST)
-Message-ID: <453c9298-d64a-aa77-28ba-ac986dfdd722@gmail.com>
-Date: Fri, 10 Mar 2023 11:43:32 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6945F8838;
+	Fri, 10 Mar 2023 16:08:58 +0000 (UTC)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32AFIlWj009172;
+	Fri, 10 Mar 2023 16:08:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : date : subject :
+ mime-version : content-type : content-transfer-encoding : message-id :
+ references : in-reply-to : to : cc; s=pp1;
+ bh=CPjiaxkDrxOhM80KIjTs4JVtVyYlieaiFF9qFB3yuTs=;
+ b=tXavVzjnWXnUWxo/+5gRNAvh+SrSRHn8w7I5IyuwiGH7B/7vhSDBzr8X+SOjp4La5Ofi
+ E8yWW7ATRkL3vyOkkVhvOJuih5cAwAqjwOZNB7TLZtc8R4PrbH0ETKkNlQANATXjPZu7
+ r9zreoSN0NRl592tbnyqE1ixnXvv32rk7kh1QC5Fez8klPSXWb3F69+4DO4JLZ1MYNev
+ SgjY9jPPWVQs/0bAwqDBknyQ6wVkehaMYZQHebz02lw3slEHZeMZYUilAg9OzjwPBh82
+ LrPxVNYRJjF124LC4pgAjm9Ew/iY+2kmrRDybvLWh7fRcABbfoUFY/TsKcczEFnHlSle gw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p873597vq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Mar 2023 16:08:23 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 32AFJhvL012093;
+	Fri, 10 Mar 2023 16:08:22 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3p873597uy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Mar 2023 16:08:22 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+	by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 32A7uOH3030374;
+	Fri, 10 Mar 2023 16:08:19 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3p6g8642fa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 10 Mar 2023 16:08:19 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 32AG8G1F43712872
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 10 Mar 2023 16:08:16 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 23A5720040;
+	Fri, 10 Mar 2023 16:08:16 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A02E52004B;
+	Fri, 10 Mar 2023 16:08:14 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 10 Mar 2023 16:08:14 +0000 (GMT)
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Date: Fri, 10 Mar 2023 17:07:46 +0100
+Subject: [PATCH v8 1/6] s390/ism: Set DMA coherent mask
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:96.0) Gecko/20100101
- Thunderbird/96.0
-Subject: Re: [PATCH V3] nvmem: add explicit config option to read OF fixed
- cells
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-References: <20230309112028.19215-1-zajec5@gmail.com>
- <ac94f04b-4b25-81e4-386f-55b0a2c7c85f@linaro.org>
-From: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-In-Reply-To: <ac94f04b-4b25-81e4-386f-55b0a2c7c85f@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230310-dma_iommu-v8-1-2347dfbed7af@linux.ibm.com>
+References: <20230310-dma_iommu-v8-0-2347dfbed7af@linux.ibm.com>
+In-Reply-To: <20230310-dma_iommu-v8-0-2347dfbed7af@linux.ibm.com>
+To: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1331;
+ i=schnelle@linux.ibm.com; h=from:subject:message-id;
+ bh=QP466Tmuhke9ZpYBaps9u7QPQnPFsiOIACaxA8oBroY=;
+ b=owGbwMvMwCH2Wz534YHOJ2GMp9WSGFK4Q5+vllZav+rNo0U7la52x0cImVZcN1RS98zw3P39X
+ dcKy9xDHaUsDGIcDLJiiiyLupz91hVMMd0T1N8BM4eVCWQIAxenAEyk5BAjw1fbxSKbZiyYNOfX
+ i9e+U6NU79z3+X/DQu1J5mrDsK1bQmIZGaZefqL26+xhvtRDD/vNeD1lsyY9V5Rb46KxIP5eF2/
+ uLW4A
+X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
+ fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: t6DB5i8vhkARvWYCiBWLQXRiiRuyxhWc
+X-Proofpoint-GUID: CyMGare_uRiBCY_5gvYk6zMLo51yZXdw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-10_06,2023-03-10_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ bulkscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 mlxlogscore=999
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2303100124
 
-On 10.03.2023 10:22, Srinivas Kandagatla wrote:
-> 
-> On 09/03/2023 11:20, Rafał Miłecki wrote:
->> From: Rafał Miłecki <rafal@milecki.pl>
->>
->> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
->> default. This behaviour was totally safe in early days before adding
->> support for dynamic cells and with simple DT syntax.
->>
->> With every new supported NVMEM device with dynamic cells the current
->> behaviour becomes non-optimal:
->> 1. It results in unneeded iterating over DT nodes
->> 2. It may result in false discovery of cells (in case DT subnodes
->>     contain "reg" property)
->>
-> 
-> Am really not sure what is going on here,
-> I did raise some issues with this overall approch to start with at [1] none of which are discussed and now I see v3 :-)
-> 
-> [1] https://lore.kernel.org/lkml/20230309094010.1051573-1-michael@walle.cc/T/#m7706b640979aabf251436e017b8189413661a53a
+A future change will convert the DMA API implementation from the
+architecture specific arch/s390/pci/pci_dma.c to using the common code
+drivers/iommu/dma-iommu.c which the utilizes the same IOMMU hardware
+through the s390-iommu driver. Unlike the s390 specific DMA API this
+requires devices to correctly call set the coherent mask to be allowed
+to use IOVAs >2^32 in dma_alloc_coherent(). This was however not done
+for ISM devices. ISM requires such addresses since currently the DMA
+aperture for PCI devices starts at 2^32 and all calls to
+dma_alloc_coherent() would thus fail.
 
-I updated commit message to address your concerns. I thought I made it
-clear. I don't know how to emphasize it better.
+Reviewed-by: Alexandra Winter <wintera@linux.ibm.com>
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/s390/net/ism_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll try to answer nevertheless, please see below.
+diff --git a/drivers/s390/net/ism_drv.c b/drivers/s390/net/ism_drv.c
+index eb7e13486087..a40e3afeaaa8 100644
+--- a/drivers/s390/net/ism_drv.c
++++ b/drivers/s390/net/ism_drv.c
+@@ -661,7 +661,7 @@ static int ism_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (ret)
+ 		goto err_disable;
+ 
+-	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
++	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (ret)
+ 		goto err_resource;
+ 
 
+-- 
+2.37.2
 
-On 9.03.2023 10:37, Srinivas Kandagatla wrote:
- > On 24/02/2023 07:29, Rafał Miłecki wrote:
- >> From: Rafał Miłecki <rafal@milecki.pl>
- >>
- >> NVMEM subsystem looks for fixed NVMEM cells (specified in DT) by
- >> default. This behaviour made sense in early days before adding support
- >> for dynamic cells.
- >>
- >> With every new supported NVMEM device with dynamic cells current
- >> behaviour becomes non-optimal. It results in unneeded iterating over DT
- >> nodes and may result in false discovery of cells (depending on used DT
- >> properties).
- >
- >>
- >> This behaviour has actually caused a problem already with the MTD
- >> subsystem. MTD subpartitions were incorrectly treated as NVMEM cells.
- >>
- >> Also with upcoming support for NVMEM layouts no new binding or driver
- >> should support fixed cells defined in device node.
- >
- > This is not very clear, are you saying that we should not support fixed cells? If that is the case then you are proabably taking this in wrong direction. nvmem was built based on the fact that drivers can read from a fixed offsets. Dynamic cells is something very new, that does not mean that we should ditch fixed cells support in dt.
-
-I DON'T deprecate or drop support for fixed layouts (fixed NVMEM cells).
-Period.
-I WON'T drop support for old binding. We stay backward compatible.
-Period.
-
-In this patch's body I wrote:
-"with the support for NVMEM layouts we may & should have *new* bindings allow fixed NVMEM cells only in the "nvmem-layout" subnode"
-that clearly means I still want to ALLOW fixed NVMEM cells - just in the *nvmem-layout* node.
-
-I want to KEEP support for fixed NVMEM cells.
-I just want them to be preferably defined in the "nvmem-layout" node.
-
-
- >> Solve this by modifying drivers for bindings that support specifying
- >> fixed NVMEM cells in DT. Make them explicitly tell NVMEM subsystem to
- >> read cells from DT.
- >
- > Shouldn't this be opposite, let the new providers tell that cells are created at runtime?
- >
- > or even better if there is a way to detect if we can set this flag dynamically based on layout/post-processing configuration.
- >
- > that should be much cleaner approch.
-
-I tried to address this concert in the following part of commit body:
-
- > The best approach seems to be making NVMEM core looking for fixed DT
- > cells in **device** node an opt-in feature. It's a feature that over
- > time should get deprecated in a favor of using "nvmem-layouts" also for
- > fixed NVMEM cells.
-
-New NVMEM provider bindings and drivers will get developed. I would
-want all new bindings to use "nvmem-layout" for describing NVMEM cells
-(no matter if fixed or dynamic).
-
-That means all new drivers WILL NOT need to set "use_fixed_of_cells".
-
-So over time "use_fixed_of_cells" will become a minority. It'w would be
-pitty to have every new driver to request NVMEM code to skip looking for
-NVMEM cells in **device** node.
-
-So my answer is: no. I don't believe it should be opposite. Looking for
-fixed NVMEM cells in **device** DT node should be an opt-in.
-
-If by some miracle I manage to get my patches through then you'll forget
-about "use_fixed_of_cells" next month. Noone will need it for any new
-stuff. It'll stay for backward compatibility only.
