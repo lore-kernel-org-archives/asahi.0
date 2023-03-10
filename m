@@ -1,100 +1,117 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99384D516
-	for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 17:37:57 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1paggY-0007mJ-EG; Fri, 10 Mar 2023 18:37:42 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1paggU-003E1P-Ot; Fri, 10 Mar 2023 18:37:38 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1paggT-003r2a-68; Fri, 10 Mar 2023 18:37:37 +0100
-Date: Fri, 10 Mar 2023 18:37:35 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: thierry.reding@gmail.com, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, marcan@marcan.st,
-	sven@svenpeter.dev, alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-pwm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 2/5] pwm: Add Apple PWM controller
-Message-ID: <20230310173735.2v4smudck2qgt27y@pengutronix.de>
-References: <20230114132508.96600-1-fnkl.kernel@gmail.com>
- <20230114132508.96600-3-fnkl.kernel@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C944DA8D
+	for <asahi@lists.linux.dev>; Fri, 10 Mar 2023 18:44:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B88BC433D2;
+	Fri, 10 Mar 2023 18:44:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1678473850;
+	bh=9VDi+rkGZZUEFOqtKV0WoGhoAKQoF41aoKOynoKNy1I=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=pGOD7ll63guptCpU4PUV9EL3fSArAR3eHXjg4qP8BZn2Kz7OuYLf885jT4cJYAFdX
+	 s9vheZjXZfFaLpsVzut0fwiZ3hG9AHlv9meJocR2CHbG3DLw2WZHyNYsqpZb9yqe3Z
+	 lAQiWY39okZvKsR3kWrrjgeFUTnUhhr5/q0bz54xtpY2jeWd4Ll0RW4sCd+hMTIaLH
+	 w36YiZnJzprnpANTvIbax7hxRJWjqdUPDCaW3zVR+PrzmVTXeUDT1WkrhN3LrWqM0Q
+	 KMhYpYSF6s2UrrVttbkZtqVuNSe556vbpjEnJRkM2JpUl8epdadZqhENw+DVF+p2z6
+	 Re/PKtaezoozg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C8CAC6FD19;
+	Fri, 10 Mar 2023 18:44:10 +0000 (UTC)
+From:
+ Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
+Subject: [PATCH v8 0/5] PWM and keyboard backlight driver for ARM Macs
+Date: Fri, 10 Mar 2023 19:44:06 +0100
+Message-Id: <20230214-fpwm-v8-0-65518a0d4944@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="27yatcxzmvpgc6bc"
-Content-Disposition: inline
-In-Reply-To: <20230114132508.96600-3-fnkl.kernel@gmail.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: asahi@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHd6C2QC/12Nyw6DIBREf8XcdWkQGyFd9T8aFzwucpOiBgxtY
+ /z3ossuz8zJzAYZE2GGe7NBwkKZ5qmCujRgg55GZOQqg+Ci46K9Mb+8I3PKy95Y5ZxtoapGZ2Q
+ m6cmGQ446r5iOYkno6XPuP4fKgfI6p+95V+SR/i0XyTjzhuveeON4Jx9j1PS62jnCsO/7Dznun
+ 7uxAAAA
+To: Thierry Reding <thierry.reding@gmail.com>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ - <asahi@lists.linux.dev>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Sasha Finkelstein <7d578vix8hzw@opayq.net>
+X-Mailer: b4 0.12.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1678473848; l=1982;
+ i=fnkl.kernel@gmail.com; s=20230213; h=from:subject:message-id;
+ bh=9VDi+rkGZZUEFOqtKV0WoGhoAKQoF41aoKOynoKNy1I=;
+ b=j8gEc4haSzTfWjUIbkJAmBECKuP2NdZuJHbm/V0WBmaoqeVu5goVUQ4iQv6PhTytAwDEDJE1N
+ x6izkUJvLT2Db7DIafMNJL//cJ5FYVl0j5mhintszd5kZ31Wo+mhT4m
+X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
+ pk=7LFSAJtxIWAs9LzCIyX0sSvCZy2wQTyEIu1zch6o804=
+X-Endpoint-Received:
+ by B4 Relay for fnkl.kernel@gmail.com/20230213 with auth_id=28
+X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reply-To: <fnkl.kernel@gmail.com>
 
+Hi,
 
---27yatcxzmvpgc6bc
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This is the v8 of the patch series to add PWM and keyboard
+backlight driver for ARM macs. 
 
-Hello,
+Changes in v1:
+Addressing the review comments.
 
-On Sat, Jan 14, 2023 at 04:25:05PM +0300, Sasha Finkelstein wrote:
-> +static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> +			   const struct pwm_state *state)
-> +{
-> +	struct apple_pwm *fpwm;
-> +
-> +	if (state->polarity =3D=3D PWM_POLARITY_INVERSED)
-> +		return -EINVAL;
-> +
-> +	fpwm =3D to_apple_pwm(chip);
-> +	if (state->enabled) {
-> +		u64 on_cycles, off_cycles;
-> +
-> +		on_cycles =3D mul_u64_u64_div_u64(fpwm->clkrate,
-> +						state->duty_cycle, NSEC_PER_SEC);
-> +		if (on_cycles > 0xFFFFFFFF)
-> +			return -ERANGE;
+Changes in v2:
+Added the reviewed-by and acked-by tags.
+Addressing a review comment.
 
-The idea is to configure the biggest duty_cycle that is not bigger than
-the requested duty_cycle. So don't return an error here, but use
-0xffffffff instead.
+Changes in v3 and v4:
+Addressing the review comments.
 
-I should have catched that in my v4 and my v6 review, sorry, I missed
-that.
+Changes in v5:
+Added t600x device tree changes
 
-Best regards
-Uwe
+Changes in v8:
+Changed the overflow handling to clamp instead of erroring.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+v1: https://www.spinics.net/lists/linux-pwm/msg19500.html
+v2: https://www.spinics.net/lists/linux-pwm/msg19562.html
+v3: https://www.spinics.net/lists/linux-pwm/msg19901.html
+v4: https://www.spinics.net/lists/linux-pwm/msg20093.html
+v5: https://www.spinics.net/lists/linux-pwm/msg20150.html
+v6: https://www.spinics.net/lists/linux-pwm/msg20190.html
+v7: https://lore.kernel.org/r/20230214-fpwm-v7-0-fb0a6bfbd037@gmail.com
 
---27yatcxzmvpgc6bc
-Content-Type: application/pgp-signature; name="signature.asc"
+---
+Sasha Finkelstein (5):
+      dt-bindings: pwm: Add Apple PWM controller
+      pwm: Add Apple PWM controller
+      arm64: dts: apple: t8103: Add PWM controller
+      arm64: dts: apple: t600x: Add PWM controller
+      MAINTAINERS: Add entries for Apple PWM driver
 
------BEGIN PGP SIGNATURE-----
+ .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    |  51 +++++++
+ MAINTAINERS                                        |   2 +
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi          |   9 ++
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi     |  18 +++
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |  17 +++
+ arch/arm64/boot/dts/apple/t8103-j313.dts           |  17 +++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |   9 ++
+ drivers/pwm/Kconfig                                |  12 ++
+ drivers/pwm/Makefile                               |   1 +
+ drivers/pwm/pwm-apple.c                            | 159 +++++++++++++++++++++
+ 10 files changed, 295 insertions(+)
+---
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+change-id: 20230214-fpwm-d8f76bc8ddc1
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmQLat0ACgkQwfwUeK3K
-7Am66wf/U1bdPVcUR8xgM53HsTx0FsGZBiGJwys2OEYRIJmjFcLdwiPAIoqbbHFQ
-t9qU/L0cdxeaaP5Kc9YDoYf2pPWk1/XSEGjyPdAN8VY13mQH118KnrEPX7hU/SkV
-wGGXuRX2CkIbar4DUklIQNLU9xzKgZN0RVToA64TKzTLGztVhp5jePyfFFSNdQvd
-t/ZcBlhbmP2nUM2n0lMvjr2PwmGDLmIx3y0TXVLuxR68SjhPXfK7StpP4tTN+XQe
-V0KFiBzqTeyExVGuBMCcjT6fMkK7rHLq5jPwJd7mhVID91qP//Pnmd7TCY9i4BRS
-G24WJ07T3WSdiRpK6sG76SKhQms8iQ==
-=h9Aj
------END PGP SIGNATURE-----
+Best regards,
+-- 
+Sasha Finkelstein <fnkl.kernel@gmail.com>
 
---27yatcxzmvpgc6bc--
