@@ -1,27 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C2710FA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E56910FB
 	for <asahi@lists.linux.dev>; Sat, 11 Mar 2023 05:06:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D129EC433D2;
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E6AA0C433A4;
 	Sat, 11 Mar 2023 05:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1678511192;
-	bh=PAhBO65+/b8sDxos9NcjPY59ZyKD4hIZ8XfH10uHCyE=;
+	s=k20201202; t=1678511193;
+	bh=T0yrlYh6fLNBmEygIOf06ax4LoeO/yfEvilUDk3ALb0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=aC3cmvG5WUbI8XnFlH5g+RsWWRUePUMQJCLc99Mhm1TGbVjX6JT5vYkc2JiGcgkKs
-	 ZYYf2W0RxfWBAmTIPY7dBraO352tcGfLx7rrAfaMxSXyY4YZQKpJtRnATwxob+9TeF
-	 jSWZMl3WkRGIEcIrs/sqdQKWBC5qzBqVV/OgMOjHCO/uIBqbyGidbmtABL7VNLuI32
-	 t3SMX+IL+hxXR5Q/ak0gp6fDQAwI4lG3dePytbHHZBhuGoVF6GEMSqWTscFAE4spJO
-	 pA2znus/btMSf0qJyH9y4rDxNs+NUMzqHdU/+JMpfq346O4a/kZa+lrefVsGvJGL+G
-	 aObYRdn48e2Qg==
+	b=HbMrAYq4Rz9+uDt3P+AnKbhLmqtYnGg+uc+1OCE8FbThmLaxwlO3/joUfBl/OWynY
+	 SVO7KQYeYmYyO2pymVH3+ShFWJcSohkKIvEQdgzWDau5bjfmOtz3O3DgOluKGIPKkk
+	 e1MPbWzw6rOKz4iLXCIFV7I2Pt4klsTkQiUMM5iONrHZQmhnQI6riNyC7dHYpSBs3N
+	 hprF/6p98/y6GD1ql9Pkij6WUoYXQiP28kof+WUZY38gwz9bG5G2HxvoqDJ22qntTX
+	 nNEMaVz+frnA3OeWf3UR5TAbM2z1m+6f+QMQKI4sEy6wHVrky00jTHd+7tPFyrc0Fh
+	 P2W1GKVFFRwFA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC46BC61DA4;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D07FFC74A5B;
 	Sat, 11 Mar 2023 05:06:32 +0000 (UTC)
 From:
  Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Sat, 11 Mar 2023 06:06:30 +0100
-Subject: [PATCH v9 3/5] arm64: dts: apple: t8103: Add PWM controller
+Date: Sat, 11 Mar 2023 06:06:31 +0100
+Subject: [PATCH v9 4/5] arm64: dts: apple: t600x: Add PWM controller
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -30,7 +30,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230214-fpwm-v9-3-364480b0e4bd@gmail.com>
+Message-Id: <20230214-fpwm-v9-4-364480b0e4bd@gmail.com>
 References: <20230214-fpwm-v9-0-364480b0e4bd@gmail.com>
 In-Reply-To: <20230214-fpwm-v9-0-364480b0e4bd@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, 
@@ -41,13 +41,14 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Sasha Finkelstein <7d578vix8hzw@opayq.net>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1678511189; l=2869;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1678511189; l=2061;
  i=fnkl.kernel@gmail.com; s=20230213; h=from:subject:message-id;
- bh=R6FVHucw/1bUgNYLGZV8OMhopQA9RB5yXaUd/bpvUDM=;
- b=QlzhL+7VWKSAffOI+HC6m4rbI2atafmxBNM91btl65tdzZhToimEL9GzAj730gcfXq1AJ+BdL
- Bug/Xf2FNcoAWKOgQ4X4sU0eWAoU+9hNWnfoFLCn5efa4Ceg6Dw2FU9
+ bh=kC8e0IqG+WMbKwdUXKBwuQCvwcxm5IAUASQM0mxJcPI=;
+ b=mKN5CJ3/JHv+aW2y1Ifk+76oibb0pU6PnIRc7JV5tO05G34HC1Lc9Vr2k+7TCPHceBq5eZesJ
+ lwoe8ZL+wqkCdwJc0itPzVZoUWJ3i70jtHGqql3XJ8TpsLwfCvReNiB
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=7LFSAJtxIWAs9LzCIyX0sSvCZy2wQTyEIu1zch6o804=
 X-Endpoint-Received:
@@ -55,36 +56,59 @@ X-Endpoint-Received:
 X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Reply-To: <fnkl.kernel@gmail.com>
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+From: Sasha Finkelstein <7d578vix8hzw@opayq.net>
 
-Adds PWM controller and keyboard backlight bindings for M1 MacBooks
+Adds PWM controller and keyboard backlight bindings for M1 Pro/Max MacBook Pros
 
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Acked-by: Sven Peter <sven@svenpeter.dev>
+Acked-by: Hector Martin <marcan@marcan.st>
 ---
- arch/arm64/boot/dts/apple/t8103-j293.dts | 17 +++++++++++++++++
- arch/arm64/boot/dts/apple/t8103-j313.dts | 17 +++++++++++++++++
- arch/arm64/boot/dts/apple/t8103.dtsi     |  9 +++++++++
- 3 files changed, 43 insertions(+)
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi      |  9 +++++++++
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 18 ++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
-index 151074109a11..fc55ce0fa40d 100644
---- a/arch/arm64/boot/dts/apple/t8103-j293.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
-@@ -11,10 +11,23 @@
+diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
+index 1c41954e3899..9157ae2a9f7f 100644
+--- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
+@@ -71,6 +71,15 @@ sio_dart_1: iommu@39b008000 {
+ 		power-domains = <&ps_sio_cpu>;
+ 	};
  
- #include "t8103.dtsi"
- #include "t8103-jxxx.dtsi"
++	fpwm0: pwm@39b030000 {
++		compatible = "apple,t6000-fpwm", "apple,s5l-fpwm";
++		reg = <0x3 0x9b030000 0x0 0x4000>;
++		power-domains = <&ps_fpwm0>;
++		clocks = <&clkref>;
++		#pwm-cells = <2>;
++		status = "disabled";
++	};
++
+ 	i2c0: i2c@39b040000 {
+ 		compatible = "apple,t6000-i2c", "apple,i2c";
+ 		reg = <0x3 0x9b040000 0x0 0x4000>;
+diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
+index 34906d522f0a..96de7165df6d 100644
+--- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
+@@ -9,6 +9,8 @@
+  * Copyright The Asahi Linux Contributors
+  */
+ 
 +#include <dt-bindings/leds/common.h>
- 
++
  / {
- 	compatible = "apple,j293", "apple,t8103", "apple,arm-platform";
- 	model = "Apple MacBook Pro (13-inch, M1, 2020)";
+ 	aliases {
+ 		serial0 = &serial0;
+@@ -34,6 +36,18 @@ memory@10000000000 {
+ 		device_type = "memory";
+ 		reg = <0x100 0 0x2 0>; /* To be filled by loader */
+ 	};
 +
 +	led-controller {
 +		compatible = "pwm-leds";
 +		led-0 {
-+			pwms = <&fpwm1 0 40000>;
++			pwms = <&fpwm0 0 40000>;
 +			label = "kbd_backlight";
 +			function = LED_FUNCTION_KBD_BACKLIGHT;
 +			color = <LED_COLOR_ID_WHITE>;
@@ -94,71 +118,17 @@ index 151074109a11..fc55ce0fa40d 100644
 +	};
  };
  
- &bluetooth0 {
-@@ -47,3 +60,7 @@ &i2c2 {
- &i2c4 {
- 	status = "okay";
+ &serial0 {
+@@ -110,5 +124,9 @@ &pcie0_dart_3 {
+ 	status = "disabled";
  };
-+
-+&fpwm1 {
+ 
++&fpwm0 {
 +	status = "okay";
 +};
-diff --git a/arch/arm64/boot/dts/apple/t8103-j313.dts b/arch/arm64/boot/dts/apple/t8103-j313.dts
-index bc1f865aa790..1e26aa1ef525 100644
---- a/arch/arm64/boot/dts/apple/t8103-j313.dts
-+++ b/arch/arm64/boot/dts/apple/t8103-j313.dts
-@@ -11,10 +11,23 @@
- 
- #include "t8103.dtsi"
- #include "t8103-jxxx.dtsi"
-+#include <dt-bindings/leds/common.h>
- 
- / {
- 	compatible = "apple,j313", "apple,t8103", "apple,arm-platform";
- 	model = "Apple MacBook Air (M1, 2020)";
 +
-+	led-controller {
-+		compatible = "pwm-leds";
-+		led-0 {
-+			pwms = <&fpwm1 0 40000>;
-+			label = "kbd_backlight";
-+			function = LED_FUNCTION_KBD_BACKLIGHT;
-+			color = <LED_COLOR_ID_WHITE>;
-+			max-brightness = <255>;
-+			default-state = "keep";
-+		};
-+	};
- };
- 
- &bluetooth0 {
-@@ -39,3 +52,7 @@ &pcie0_dart_2 {
- 
- /delete-node/ &port01;
  /delete-node/ &port02;
-+
-+&fpwm1 {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
-index 9859219699f4..5300fd115561 100644
---- a/arch/arm64/boot/dts/apple/t8103.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8103.dtsi
-@@ -432,6 +432,15 @@ i2c4: i2c@235020000 {
- 			status = "disabled"; /* only used in J293 */
- 		};
- 
-+		fpwm1: pwm@235044000 {
-+			compatible = "apple,t8103-fpwm", "apple,s5l-fpwm";
-+			reg = <0x2 0x35044000 0x0 0x4000>;
-+			power-domains = <&ps_fpwm1>;
-+			clocks = <&clkref>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
- 		serial0: serial@235200000 {
- 			compatible = "apple,s5l-uart";
- 			reg = <0x2 0x35200000 0x0 0x1000>;
+ /delete-node/ &port03;
 
 -- 
 Git-137.1)
