@@ -1,83 +1,117 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D05AE4F6
-	for <asahi@lists.linux.dev>; Sat, 11 Mar 2023 13:53:43 +0000 (UTC)
-X-KPN-MessageId: 07fbba2c-c014-11ed-91cc-005056994fde
-Received: from smtp.kpnmail.nl (unknown [10.31.155.8])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 07fbba2c-c014-11ed-91cc-005056994fde;
-	Sat, 11 Mar 2023 14:52:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=ALu8+PmipZgEw89/BHca117Pe0D8mE1E2egBqYsyknM=;
-	b=sjrN4u6wyciZj9Su2klp6z3W5MCqUI4mPWTKfBbjNphlQpEhkPS4wh3rIecb3c9eaUJOuWTNt1hov
-	 H6aOeQnqLPd+q4DWPnyS3wPBhj9sLhJheCwDHM7/i8vxVeFWNVE6xEa+cl0YinRNOHZiH6oUOAqsP1
-	 Hg0l7NZdPp8ea5f/8s9lBOa4tk4+DEbmNvAtT4uVOZskqqgXIfdUmNDYgoA9Z0efxAVR1/Zqzgogsz
-	 g9ahkxaNZmgg/59ZUTxRRG5crdRNv4pztZGVwXqjc4HZ2TljAjTu7HWhWrmZJOv349Lhf/8DRBElL1
-	 QyC0R1je529u6l/iY0dII4zJt815itg==
-X-KPN-MID: 33|VMtRr8A7spxYaBX6YlEci9XrlWDUmmIYGebVH5TkcyTisB5tkpzSAZc1l3g947k
- GmoE2OYFIfwA6A5NxaH5tNnosy8GNrgIb+RWPh4xV4/U=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|kZZ8dqbp5Z6By5V/8lQMaupPovkbLuGHIJzRTJ7QFsjhtZ3+Snv1SYpmNLmvJAg
- kXcXwGJ6a9eCqgA7x4IvYVw==
-X-Originating-IP: 80.61.163.207
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id f8a10bc9-c013-11ed-9d31-00505699d6e5;
-	Sat, 11 Mar 2023 14:52:33 +0100 (CET)
-Date: Sat, 11 Mar 2023 14:52:32 +0100
-Message-Id: <874jqrcs4f.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: marcan@marcan.st, sven@svenpeter.dev, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, alyssa@rosenzweig.io,
-	joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-	linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev,
-	iommu@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, robh@kernel.org
-In-Reply-To: <20230311133856.63840-2-sven@svenpeter.dev> (message from Sven
-	Peter on Sat, 11 Mar 2023 14:38:54 +0100)
-Subject: Re: [PATCH v3 1/3] dt-bindings: iommu: dart: Add t8103-usb4-dart compatible
-References: <20230311133856.63840-1-sven@svenpeter.dev> <20230311133856.63840-2-sven@svenpeter.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD937B
+	for <asahi@lists.linux.dev>; Sat, 11 Mar 2023 14:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1678543838;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rI9UkkY/zqKs0y6gyqXwPg+4g7Xn+4IOJ0Nvb47KScw=;
+	b=V67J+zgaNf1GQq8hl3ydDDR2LriCRhPkAYfKN6uuWP+XATDgSyu8xWspsgFCSxNp/PLBVO
+	oPVgdj6kOapQSjxCKEgKDxeeFBgufr2/3GAh2mA5evx/ECnZHd3nG3q6MEPCumYv5IYb2V
+	BrOPcjtAs4740p1LdmY3JER3t8RRi7o=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-328--00nnRGJNfSkyGRzWc_4NA-1; Sat, 11 Mar 2023 09:10:32 -0500
+X-MC-Unique: -00nnRGJNfSkyGRzWc_4NA-1
+Received: by mail-vs1-f71.google.com with SMTP id o7-20020a67fc07000000b0041ea097b2ebso2697896vsq.10
+        for <asahi@lists.linux.dev>; Sat, 11 Mar 2023 06:10:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1678543831;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rI9UkkY/zqKs0y6gyqXwPg+4g7Xn+4IOJ0Nvb47KScw=;
+        b=TBOxrQj8O+dboMJg1UFMtJT4VuTcBEJhXJa57ZdPuLVxJiZgfcoTI4+R5NwF0M/2UJ
+         uxBqRnyLg+1FmQNcI13YC/6fkXktCrk1CY5JcwXgXgzv6mu4n3Lncts79HzT1GOmxXw7
+         SUMrmvbcQR+t+QJJP0YRci0zHiJhNtAJYZ348f4dan9ncaloECoxfzUhuEElz0UuWZMW
+         BuVjZ4P4N4FQHb9N0K+OW8nNB1I+F8eM6e70kKbvWLAbdjktC6Kt1rTLdj0TLAIUbnY3
+         rVT9Re69ny6x8AEqXjsDxVRzkNj3B6wUIR3QPOLy30rcfOlnpj3MeQz2Dj2wucEgUEre
+         s3ig==
+X-Gm-Message-State: AO0yUKXj9Eg52RrGvGtNTBzHE/eZpRq0EcpASzsXa17gmc0K+Slg/irw
+	Rhy3AWhEfjRLpL5JD7/msgsx8OaOMDHRVxt5VWHTMMn1Mfzh19eK7PkMD8tYVCQCMHESvRuWUyp
+	ETZO2GRvhjEzXTAd2VDiNvT0greXJPes=
+X-Received: by 2002:a9f:3001:0:b0:68b:817b:eec8 with SMTP id h1-20020a9f3001000000b0068b817beec8mr18498518uab.0.1678543831517;
+        Sat, 11 Mar 2023 06:10:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set8tL22Z64GFZQlBETeAIXfNC/NFYd/MWg33mB4oH3lVXRGgxR03Dz5LsWIgpcSED5a84XZH6Ovr3dXVwTdKMzQ=
+X-Received: by 2002:a9f:3001:0:b0:68b:817b:eec8 with SMTP id
+ h1-20020a9f3001000000b0068b817beec8mr18498509uab.0.1678543831274; Sat, 11 Mar
+ 2023 06:10:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20230311133453.63246-1-sven@svenpeter.dev>
+In-Reply-To: <20230311133453.63246-1-sven@svenpeter.dev>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Sat, 11 Mar 2023 14:10:15 +0000
+Message-ID: <CAOgh=FydD7Or4KBCHaQ-SyRFKx3rBeft1abVjMUMBxvuQbHMjg@mail.gmail.com>
+Subject: Re: [PATCH] PCI: apple: Initialize pcie->nvecs before using it
+To: Sven Peter <sven@svenpeter.dev>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marc Zyngier <maz@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-> From: Sven Peter <sven@svenpeter.dev>
-> Date: Sat, 11 Mar 2023 14:38:54 +0100
-> 
-> This DART variant is found in the t8103 (M1) SoCs and used for the
-> USB4/Thunderbolt PCIe ports. Unlike the regular t8103 DART these support
-> up to 64 SIDs and require a slightly different MMIO layout.
-> 
-> Acked-by: Hector Martin <marcan@marcan.st>
-> Acked-by: Rob Herring <robh@kernel.org>
+On Sat, 11 Mar 2023 at 13:41, Sven Peter <sven@svenpeter.dev> wrote:
+>
+> apple_pcie_setup_port computes ilog2(pcie->nvecs) to setup the number of
+> MSIs available for each port. It is however called before apple_msi_init
+> which actually initializes pcie->nvecs.
+> Luckily, pcie->nvecs is part of kzalloc-ed structure and thus
+> initialized as zero. ilog2(0) happens to be 0xffffffff which then just
+> configures more MSIs in hardware than we actually have. This doesn't
+> break anything because we never hand out those vectors.
+> Let's swap the order of the two calls so that we use the correctly
+> initialized value.
+>
+> Fixes: 476c41ed4597 ("PCI: apple: Implement MSI support")
 > Signed-off-by: Sven Peter <sven@svenpeter.dev>
 
-Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+
+Is mise le meas/Regards,
+
+Eric Curtin
 
 > ---
->  Documentation/devicetree/bindings/iommu/apple,dart.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/iommu/apple,dart.yaml b/Documentation/devicetree/bindings/iommu/apple,dart.yaml
-> index 903edf85d72e..7adb1de455a5 100644
-> --- a/Documentation/devicetree/bindings/iommu/apple,dart.yaml
-> +++ b/Documentation/devicetree/bindings/iommu/apple,dart.yaml
-> @@ -24,6 +24,7 @@ properties:
->    compatible:
->      enum:
->        - apple,t8103-dart
-> +      - apple,t8103-usb4-dart
->        - apple,t8110-dart
->        - apple,t6000-dart
->  
-> -- 
+>  drivers/pci/controller/pcie-apple.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+> index 66f37e403a09..8b7b084cf287 100644
+> --- a/drivers/pci/controller/pcie-apple.c
+> +++ b/drivers/pci/controller/pcie-apple.c
+> @@ -783,6 +783,10 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+>         cfg->priv = pcie;
+>         INIT_LIST_HEAD(&pcie->ports);
+>
+> +       ret = apple_msi_init(pcie);
+> +       if (ret)
+> +               return ret;
+> +
+>         for_each_child_of_node(dev->of_node, of_port) {
+>                 ret = apple_pcie_setup_port(pcie, of_port);
+>                 if (ret) {
+> @@ -792,7 +796,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+>                 }
+>         }
+>
+> -       return apple_msi_init(pcie);
+> +       return 0;
+>  }
+>
+>  static int apple_pcie_probe(struct platform_device *pdev)
+> --
 > 2.25.1
-> 
-> 
-> 
+>
+>
+
