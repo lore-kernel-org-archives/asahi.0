@@ -1,70 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C143A23;
-	Sat, 11 Mar 2023 12:30:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D02C433D2;
-	Sat, 11 Mar 2023 12:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1678537809;
-	bh=2UnpI/uHgbFeseZ6WJQHzE4N7+CfviWl8IBFeSiIEiI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uS6DLm5UPUhxRtPariV7SNAOO1a8pr1NgTwDTl8oE/XZrKVfIv4bRT8BSItVZhwPT
-	 PO4X5imccCh4TQZ52oXXSHDDz+AToomtjCJZfyG/fxUbUmbANKot4EGMf7A9Ez3Kxm
-	 3ODQ267kuCmBOIiHrUSHhXIcIrpjsnh6ZMJlkbmU=
-Date: Sat, 11 Mar 2023 13:30:05 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Hector Martin <marcan@marcan.st>,
-	Alexander Wetzel <alexander@wetzel-home.de>,
-	linux-wireless@vger.kernel.org,
-	Johannes Berg <johannes.berg@intel.com>, johannes@sipsolutions.net,
-	stable@vger.kernel.org, Asahi Linux <asahi@lists.linux.dev>,
-	Ilya <me@0upti.me>, Janne Grunau <j@jannau.net>,
-	LKML <linux-kernel@vger.kernel.org>, regressions@lists.linux.dev
-Subject: Re: [REGRESSION] Patch broke WPA auth: Re: [PATCH v2] wifi:
- cfg80211: Fix use after free for wext
-Message-ID: <ZAx0TWRBlGfv7pNl@kroah.com>
-References: <20230124141856.356646-1-alexander@wetzel-home.de>
- <d6851c2b-7966-6cb4-a51c-7268c60e0a86@marcan.st>
- <02ba45eb-1970-791a-d922-7b325ea51146@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0F27B
+	for <asahi@lists.linux.dev>; Sat, 11 Mar 2023 13:34:58 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 97A4D5C0094;
+	Sat, 11 Mar 2023 08:34:57 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sat, 11 Mar 2023 08:34:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1678541697; x=1678628097; bh=2h
+	vieJeB5EfrLKwyYNa5R+FhNCK+/9JjDOLjM1Jf+jc=; b=jNbGj02MZz+gNFDRwa
+	3JFdV7276641BpyfI0YnEmEh1TEUCWUedMCL0ZfCAdlkdisCYYsb7L3Qu2hzQOeB
+	vaIwrlfoDe/MNrE10KO2cEmp5RWfaJNBSjtR09+VsD2jhgBCcSxyfeTCXkOqGD+e
+	3p3E44EOdVudfmtGe4j7nsYF/wIcMx1JxTGalkAuvoPbCOKFwhXcqppPc6630FM9
+	jF/Y/Q5qVpAoIPSStV1nWD183MtbfYWRmHMt3Zu+4hEcJCT8KtmX5kPp4I19F/YT
+	yaQdxQrHlm2xWwEd9mZqpClUvFvfT/4IweezBRtHX3hUB/dmOaCUF0ntrWtby9xF
+	B3nw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1678541697; x=1678628097; bh=2hvieJeB5EfrL
+	KwyYNa5R+FhNCK+/9JjDOLjM1Jf+jc=; b=j5m8CZ8WRBnzRbJI5gekVQxXj1Uk9
+	1F/3xRBWpNSO6/IKPyDo01AdD7y4hZk9fz1hHM4pxKmnZq8rpwHe11Wxz5kD1wPU
+	Bcu/+IFu39YHPWiqD9NkqukWzc8vdV7whWQbH4D+FZ/QOOp0ZlyiREUEGMgG6+xB
+	ABNVlgjrSrqP+wrVdv1ksFOMT9q4ATmJFqBB15ezsF+51HF/+wwr4kksjHMR7tzo
+	pLuzwKJNlUrjYWgU637wnrRtxGpMm0jengxg9X4tIYVoS78xJjptYFF+ywvwG6/t
+	awANKpoSt2fYMcU4OypWmF14eqHHBCRabnJkYF2nRWQF0zYN6AGaMznYw==
+X-ME-Sender: <xms:gYMMZOqsH3u7ODpbMIDAEECdJPvaMwE-SULqQdKcqPC-wQKIqGn-Ow>
+    <xme:gYMMZMr3hH1dyZhmj0D7Cn4ugTEtUULe3g5LbDjgrH7-cizIadnF0x9lGwnXO5ZFa
+    MeBN3Zawrs5VKSfLcs>
+X-ME-Received: <xmr:gYMMZDNV1XmwNHlIjRbm1X9jMBRhWf7sCtxx9BwMCDsiUX1zxc2IWGnSq4gVBw7U88ijL-uWl4SXL-SHmf4JYiWG_r7jtHEiqZLzk3AtS6GhyQrAUA4-b4dQzmODCg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddvtddgvdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufhvvghnucfr
+    vghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrghtthgvrh
+    hnpeeludffieehueevtdffvedtueelleejuddugfettdevhfefffdvgffhjeehgfelleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnh
+    esshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:gYMMZN6ESJQE5LsFat-67GEvkiso29BATp1f3UOsZ1q7mUrFVQnZUA>
+    <xmx:gYMMZN7KK4e3m-4zTkOpRk00g3ijIEVw_0IMjn3W1la9kAlq5uyThg>
+    <xmx:gYMMZNhwd-8c9u8RHDRoY3jxqgzVH2GfYFiJGwLOD5taCbzgTdHVdg>
+    <xmx:gYMMZHvwn4zmABBadrwGZ1J3VpWWA9pbrX17YlSJa0ekiKgwatZ0Dg>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 11 Mar 2023 08:34:55 -0500 (EST)
+From: Sven Peter <sven@svenpeter.dev>
+To: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Marc Zyngier <maz@kernel.org>
+Cc: Sven Peter <sven@svenpeter.dev>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	linux-pci@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] PCI: apple: Initialize pcie->nvecs before using it
+Date: Sat, 11 Mar 2023 14:34:53 +0100
+Message-Id: <20230311133453.63246-1-sven@svenpeter.dev>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <02ba45eb-1970-791a-d922-7b325ea51146@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 11, 2023 at 12:03:44PM +0100, Hans de Goede wrote:
-> Hi Hector,
-> 
-> On 3/11/23 10:55, Hector Martin wrote:
-> > Hi,
-> > 
-> > This broke WPA auth entirely on brcmfmac (in offload mode) and probably
-> > others, including on stable 6.2.3 and 6.3-rc1 (tested with iwd). Please
-> > revert or fix. Notes below.
-> > 
-> > Reported-by: Ilya <me@0upti.me>
-> > Reported-by: Janne Grunau <j@jannau.net>
-> > 
-> > #regzbot introduced: 015b8cc5e7c4d7
-> > #regzbot monitor:
-> > https://lore.kernel.org/linux-wireless/20230124141856.356646-1-alexander@wetzel-home.de/
-> 
-> I can confirm this bug, I was seeing broken wifi on brcmfmac with 6.3-rc1
-> and I was about to start a git bisect for this this morning when I saw
-> this email.
-> 
-> Reverting 015b8cc5e7c4d7 fixes the broken wifi. Hector, thank you, you
-> just saved me from a bisect on somewhat slow hardware :)
+apple_pcie_setup_port computes ilog2(pcie->nvecs) to setup the number of
+MSIs available for each port. It is however called before apple_msi_init
+which actually initializes pcie->nvecs.
+Luckily, pcie->nvecs is part of kzalloc-ed structure and thus
+initialized as zero. ilog2(0) happens to be 0xffffffff which then just
+configures more MSIs in hardware than we actually have. This doesn't
+break anything because we never hand out those vectors.
+Let's swap the order of the two calls so that we use the correctly
+initialized value.
 
-Great, can someone submit the revert patch to the networking tree so we
-can get this resolved quickly?
+Fixes: 476c41ed4597 ("PCI: apple: Implement MSI support")
+Signed-off-by: Sven Peter <sven@svenpeter.dev>
+---
+ drivers/pci/controller/pcie-apple.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-thanks,
+diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+index 66f37e403a09..8b7b084cf287 100644
+--- a/drivers/pci/controller/pcie-apple.c
++++ b/drivers/pci/controller/pcie-apple.c
+@@ -783,6 +783,10 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+ 	cfg->priv = pcie;
+ 	INIT_LIST_HEAD(&pcie->ports);
+ 
++	ret = apple_msi_init(pcie);
++	if (ret)
++		return ret;
++
+ 	for_each_child_of_node(dev->of_node, of_port) {
+ 		ret = apple_pcie_setup_port(pcie, of_port);
+ 		if (ret) {
+@@ -792,7 +796,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+ 		}
+ 	}
+ 
+-	return apple_msi_init(pcie);
++	return 0;
+ }
+ 
+ static int apple_pcie_probe(struct platform_device *pdev)
+-- 
+2.25.1
 
-greg k-h
