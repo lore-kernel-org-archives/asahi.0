@@ -1,358 +1,438 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3B115AE
-	for <asahi@lists.linux.dev>; Tue, 14 Mar 2023 02:08:29 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id l13so15396651qtv.3
-        for <asahi@lists.linux.dev>; Mon, 13 Mar 2023 19:08:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E208FA939;
+	Tue, 14 Mar 2023 20:06:17 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id fd5so32995177edb.7;
+        Tue, 14 Mar 2023 13:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678759708;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=EWTJH0CSLNac6UVipxWuVXfQaQBNmUQAslbEyp9pC7k=;
-        b=n9GX7fgKLXEEUCs308GhW0N9wL9c7lItfOWri36b1p4qKLfQX8nSK2JNFWDhziddb/
-         AG2xDnaJeKtvJSLJGf2ELiNQrebE5A6RKC3pvYYwyTBsQkUfwtPlbJNFVDEY3+I8FYOX
-         C9ipdeUIRneIBtaCZMFDgPzPWSMBSICHLsBp1/mJHpv7PYjlWjHgIzXOT/e7/5CwIpN0
-         ivpON3P9Hj6WTvo7Z+H2aav1CroOXkqWMLa09WEeSeA9rRRGccjT1r+IjUKV8Th37baN
-         095PMsTEDXI5JtoeqS7WLBp/SlK3HYUmZRoX8Q4qZYDdEw39Es36utttFc8lPfYT0YmQ
-         8KFA==
+        d=gmail.com; s=20210112; t=1678824376;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OjikSDB/A+i4L9BeqERv0l8R/cRWGNu1EDH8YsBPfDg=;
+        b=WhPYLI/Cny3mi6cww7cX6wbq3H92VOuCnEWKRdB6U2tK6BG3rs+aYdOWOJYDJMkf0a
+         YREyt5dhSV4EDSdN3YXUQLBsIucZwPq/g8ic4KrDpZeXc5d1yJ9FbiK60ubHgENmR5D5
+         AAP53U0dQ7M5LI77LqhB/hg3e2yuBptasDRCRWIoWeeiK6v5YIew+G1K9/3S5GpYUOvY
+         QKLtZqoUVDyLcXFxp+NL0kVxXSyrAN+LeHXs7HkVk9yTsuGEcryrqh3wmQVTVLuwQU6z
+         Bjn65mXLdmql8HJo/MZhcBsxZSdc64nEb/gFUi4xL+our/ooo2UtSGFmUvy6UwasRWa1
+         fFhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678759708;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EWTJH0CSLNac6UVipxWuVXfQaQBNmUQAslbEyp9pC7k=;
-        b=N8EnqiNMhtWOHYaSo1T53ePXO1mnU/ApsrGgJxMURONaQIsna135vPEiRaU3hAZnrT
-         1HYy3BppiqFGpQCdalHha3qPcV8ijH6qZG+AFnHX/G90kjIKjTYUZjGJ1z1EZSsh1Bsv
-         zQTmmMKZA4X3z+sVRPYIuT201F/kCkcNRuisjZxX1WV/X1ISvt+ozI6WyLRa2udwOOE6
-         6yY5HCgNj6LwEyeQHa+eopKr94F14TltZ43/EnctR2qC6S3JwyhmI5ALLhQNUgV9FHNh
-         fv1J215BUiUjwdB2SGZYmwokeqobB9tM8R4tYIPSM8h/vNvDgyrXYHYHGVm7eEFaRTZ5
-         hzTA==
-X-Gm-Message-State: AO0yUKW/+lLO3hUIGbGRnPA1fRno21fZrjXrqP4c+St5oeHWljc8TMd2
-	aXoQXIwPSZ3j0Aosqe1Lx20=
-X-Google-Smtp-Source: AK7set/2hv3q6fM3gm5E6q08d2RY+ZIQxFg1BAiQ2LhwTR2QsVn7phoYK2hVcgRM5RAlkcRMukImhA==
-X-Received: by 2002:a05:622a:4d1:b0:3b8:5bc6:deab with SMTP id q17-20020a05622a04d100b003b85bc6deabmr59233513qtx.8.1678759708045;
-        Mon, 13 Mar 2023 19:08:28 -0700 (PDT)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id y13-20020a37f60d000000b00745a27b4b30sm837945qkj.67.2023.03.13.19.08.26
+        d=1e100.net; s=20210112; t=1678824376;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OjikSDB/A+i4L9BeqERv0l8R/cRWGNu1EDH8YsBPfDg=;
+        b=PqQ6n4LTetoUTcy9/B6ph5tw/v38MUADmmqUK5iT6xLZKEZ0+E8Y5mFS/BcdkCz2x/
+         9mVAENERdps5NV0Ql0do3wFoQSdFhY9ibQfemVtYJ2pyFeSf4P67pb6DfI5gRrpj2z7I
+         1okCCqZoIAJYKbSSGk0bbCUqoPoNVRtfN+N/g68ipTJHWO/hcUPm7XpZYPNT11swnM1h
+         6gNTjRTJrXo7KjYnw8tQUFVSoA/S7oNt536ARLwgkEM/ztMsrId00fb8jMtkRGmYQ0Pc
+         fj8r72UhsuP+3cT2qrtdYN/SyRF+V2bkPfiGIBOgPHtlbgwJ7iq66SadkHa4FBC5Vtt6
+         ZxfQ==
+X-Gm-Message-State: AO0yUKULDYP1FwOHn+doMbw2dCx2CsDFCo/KZ0Y9+SF1+mTosbKmTN98
+	xRPJT65ihGBEipUlUtFlnlU=
+X-Google-Smtp-Source: AK7set/OF3AdfTGjwEHlL5tu1CQX7SQa6dKdOeg+TCkjQnwZiD4NH1p423e+b6+vxXGoSHFc7z6hVw==
+X-Received: by 2002:a17:906:32d4:b0:878:7f6e:38a7 with SMTP id k20-20020a17090632d400b008787f6e38a7mr3719709ejk.44.1678824375883;
+        Tue, 14 Mar 2023 13:06:15 -0700 (PDT)
+Received: from jernej-laptop.localnet (82-149-1-233.dynamic.telemach.net. [82.149.1.233])
+        by smtp.gmail.com with ESMTPSA id w11-20020a1709062f8b00b00923bb9f0c36sm1535480eji.127.2023.03.14.13.06.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Mar 2023 19:08:27 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailauth.nyi.internal (Postfix) with ESMTP id 8D3AE27C0054;
-	Mon, 13 Mar 2023 22:08:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 13 Mar 2023 22:08:26 -0400
-X-ME-Sender: <xms:GdcPZJt1YWkkqoCYsYDBkVPciDc8T6htlkbPl662zwk4Fjvvk5nUMw>
-    <xme:GdcPZCdxAovOAOsvq8KslU1q6mRf03lt6uelSCEuHQZd51DVM7y9rNTd3FuvDxr0s
-    0Iws7wunS22ZN0Z_w>
-X-ME-Received: <xmr:GdcPZMyPB3t3_-MbUVlPY3eDeI9Pm3y84orFviyII-Jivc6kYOfBl5jBU38>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrvddvhedggedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    goufhushhpvggtthffohhmrghinhculdegledmnegfrhhlucfvnfffucdlfedmnecujfgu
-    rhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpeeuohhquhhnuc
-    fhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrthht
-    vghrnhepteekvddvjeehvdfhvdetkeekffehveetiedtvdfhvdfhuddvteefgeegtdfggf
-    etnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdhiohenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvg
-    hsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheeh
-    hedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:GdcPZAPuXOrudqbZH1oRHHJIqo5O15dXvhOwWcrEOLBkSpwQfnqduw>
-    <xmx:GdcPZJ_Nb4gzwL0G7nqYXNkAYL3diWg3KQjjxns4i11ZFOArGJOCIg>
-    <xmx:GdcPZAUD0nv8GVxtZKDXmZBo8VBMtJTuftlKZEuxoNyk4QTgfdyqIA>
-    <xmx:GdcPZEsWc10LHl0QgSP2y3Qz_LsrA2Kd2pQxiWkqMc2fCFtBh5XUFA>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Mar 2023 22:08:23 -0400 (EDT)
-Date: Mon, 13 Mar 2023 19:07:09 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Faith Ekstrand <faith.ekstrand@collabora.com>
-Cc: Asahi Lina <lina@asahilina.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Miguel Ojeda <ojeda@kernel.org>,	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Karol Herbst <kherbst@redhat.com>,	Ella Stanforth <ella@iglunix.org>,
- Mary <mary@mary.zone>,	linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,	rust-for-linux@vger.kernel.org,
- linux-media@vger.kernel.org,	linaro-mm-sig@lists.linaro.org,
- linux-sgx@vger.kernel.org,	asahi@lists.linux.dev
-Subject: Re: [PATCH RFC 03/18] rust: drm: file: Add File abstraction
-Message-ID: <ZA/WzQj97lI2rNeK@boqun-archlinux>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-3-917ff5bc80a8@asahilina.net>
- <9ba89e97155400fb379f5101ccb8960d0bcbc025.camel@collabora.com>
- <28fa3f97-4c7c-212e-2be2-fb1c05f7f576@asahilina.net>
- <5a0db63c043adc47b289b3f1d22935a0a63c926e.camel@collabora.com>
+        Tue, 14 Mar 2023 13:06:15 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+ Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Niklas Schnelle <schnelle@linux.ibm.com>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>,
+ Alexandra Winter <wintera@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Yong Wu <yong.wu@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Niklas Schnelle <schnelle@linux.ibm.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-s390@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject:
+ Re: [PATCH v8 2/6] iommu: Allow .iotlb_sync_map to fail and handle s390's
+ -ENOMEM return
+Date: Tue, 14 Mar 2023 21:06:12 +0100
+Message-ID: <3724716.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <20230310-dma_iommu-v8-2-2347dfbed7af@linux.ibm.com>
+References:
+ <20230310-dma_iommu-v8-0-2347dfbed7af@linux.ibm.com>
+ <20230310-dma_iommu-v8-2-2347dfbed7af@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5a0db63c043adc47b289b3f1d22935a0a63c926e.camel@collabora.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Mar 13, 2023 at 12:49:57PM -0500, Faith Ekstrand wrote:
-> On Fri, 2023-03-10 at 07:16 +0900, Asahi Lina wrote:
-> > On 10/03/2023 06.16, Faith Ekstrand wrote:
-> > > On Tue, 2023-03-07 at 23:25 +0900, Asahi Lina wrote:
-> > > > A DRM File is the DRM counterpart to a kernel file structure,
-> > > > representing an open DRM file descriptor. Add a Rust abstraction
-> > > > to
-> > > > allow drivers to implement their own File types that implement
-> > > > the
-> > > > DriverFile trait.
-> > > > 
-> > > > Signed-off-by: Asahi Lina <lina@asahilina.net>
-> > > > ---
-> > > >  rust/bindings/bindings_helper.h |   1 +
-> > > >  rust/kernel/drm/drv.rs          |   7 ++-
-> > > >  rust/kernel/drm/file.rs         | 113
-> > > > ++++++++++++++++++++++++++++++++++++++++
-> > > >  rust/kernel/drm/mod.rs          |   1 +
-> > > >  4 files changed, 120 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/rust/bindings/bindings_helper.h
-> > > > b/rust/bindings/bindings_helper.h
-> > > > index 2a999138c4ae..7d7828faf89c 100644
-> > > > --- a/rust/bindings/bindings_helper.h
-> > > > +++ b/rust/bindings/bindings_helper.h
-> > > > @@ -8,6 +8,7 @@
-> > > >  
-> > > >  #include <drm/drm_device.h>
-> > > >  #include <drm/drm_drv.h>
-> > > > +#include <drm/drm_file.h>
-> > > >  #include <drm/drm_ioctl.h>
-> > > >  #include <linux/delay.h>
-> > > >  #include <linux/device.h>
-> > > > diff --git a/rust/kernel/drm/drv.rs b/rust/kernel/drm/drv.rs
-> > > > index 29a465515dc9..1dcb651e1417 100644
-> > > > --- a/rust/kernel/drm/drv.rs
-> > > > +++ b/rust/kernel/drm/drv.rs
-> > > > @@ -144,6 +144,9 @@ pub trait Driver {
-> > > >      /// Should be either `drm::gem::Object<T>` or
-> > > > `drm::gem::shmem::Object<T>`.
-> > > >      type Object: AllocImpl;
-> > > >  
-> > > > +    /// The type used to represent a DRM File (client)
-> > > > +    type File: drm::file::DriverFile;
-> > > > +
-> > > >      /// Driver metadata
-> > > >      const INFO: DriverInfo;
-> > > >  
-> > > > @@ -213,8 +216,8 @@ macro_rules! drm_device_register {
-> > > >  impl<T: Driver> Registration<T> {
-> > > >      const VTABLE: bindings::drm_driver = drm_legacy_fields! {
-> > > >          load: None,
-> > > > -        open: None, // TODO: File abstraction
-> > > > -        postclose: None, // TODO: File abstraction
-> > > > +        open: Some(drm::file::open_callback::<T::File>),
-> > > > +        postclose:
-> > > > Some(drm::file::postclose_callback::<T::File>),
-> > > >          lastclose: None,
-> > > >          unload: None,
-> > > >          release: None,
-> > > > diff --git a/rust/kernel/drm/file.rs b/rust/kernel/drm/file.rs
-> > > > new file mode 100644
-> > > > index 000000000000..48751e93c38a
-> > > > --- /dev/null
-> > > > +++ b/rust/kernel/drm/file.rs
-> > > > @@ -0,0 +1,113 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> > > > +
-> > > > +//! DRM File objects.
-> > > > +//!
-> > > > +//! C header:
-> > > > [`include/linux/drm/drm_file.h`](../../../../include/linux/drm/dr
-> > > > m_fi
-> > > > le.h)
-> > > > +
-> > > > +use crate::{bindings, drm, error::Result};
-> > > > +use alloc::boxed::Box;
-> > > > +use core::marker::PhantomData;
-> > > > +use core::ops::Deref;
-> > > > +
-> > > > +/// Trait that must be implemented by DRM drivers to represent a
-> > > > DRM
-> > > > File (a client instance).
-> > > > +pub trait DriverFile {
-> > > > +    /// The parent `Driver` implementation for this
-> > > > `DriverFile`.
-> > > > +    type Driver: drm::drv::Driver;
-> > > > +
-> > > > +    /// Open a new file (called when a client opens the DRM
-> > > > device).
-> > > > +    fn open(device: &drm::device::Device<Self::Driver>) ->
-> > > > Result<Box<Self>>;
-> > > > +}
-> > > > +
-> > > > +/// An open DRM File.
-> > > > +///
-> > > > +/// # Invariants
-> > > > +/// `raw` is a valid pointer to a `drm_file` struct.
-> > > > +#[repr(transparent)]
-> > > > +pub struct File<T: DriverFile> {
-> > > > +    raw: *mut bindings::drm_file,
-> > > > +    _p: PhantomData<T>,
-> > > > +}
-> > > > +
-> > > > +pub(super) unsafe extern "C" fn open_callback<T: DriverFile>(
-> > > > +    raw_dev: *mut bindings::drm_device,
-> > > > +    raw_file: *mut bindings::drm_file,
-> > > > +) -> core::ffi::c_int {
-> > > > +    let drm = core::mem::ManuallyDrop::new(unsafe {
-> > > > drm::device::Device::from_raw(raw_dev) });
-> > > 
-> > > Maybe you can help educate me a bit here... This feels like a
-> > > really
-> > > sketchy pattern.  We're creating a Device from a pointer, an
-> > > operation
-> > > which inherently consumes a reference but then marking it
-> > > ManuallyDrop
-> > > so drm_device_put() never gets called.  It took me a while but I
-> > > think
-> > > I figured out what you're trying to do: Make it so all the Rust
-> > > stuff
-> > > works with Device, not drm_device but it still feels really wrong. 
-> > > It
-> > > works, it just feels like there's a lot of unsafe abstraction
-> > > juggling
-> > > happening here and I expect this operation is going to be pretty
-> > > common
-> > > in the Rust abstraction layer.
-> > 
-> > So I think this is going to be a pretty common pattern in this kind
-> > of
-> > abstraction. The problem is that, of course, in C there is no
-> > distinction between an owned reference and a borrowed one. Here we
-> > have
-> > a borrowed reference to a struct drm_device, and we need to turn it
-> > into
-> > a &Device (which is the Rust equivalent type). But for &Device to
-> > exist
-> > we need a Device to exist in the first place, and Device normally
-> > implies ownership of the underlying drm_device.
+Dne petek, 10. marec 2023 ob 17:07:47 CET je Niklas Schnelle napisal(a):
+> On s390 when using a paging hypervisor, .iotlb_sync_map is used to sync
+> mappings by letting the hypervisor inspect the synced IOVA range and
+> updating a shadow table. This however means that .iotlb_sync_map can
+> fail as the hypervisor may run out of resources while doing the sync.
+> This can be due to the hypervisor being unable to pin guest pages, due
+> to a limit on mapped addresses such as vfio_iommu_type1.dma_entry_limit
+> or lack of other resources. Either way such a failure to sync a mapping
+> should result in a DMA_MAPPING_ERROR.
 > 
-> Thanks! Putting it in terms of borrow really helps clear up the
-> difference.
+> Now especially when running with batched IOTLB flushes for unmap it may
+> be that some IOVAs have already been invalidated but not yet synced via
+> .iotlb_sync_map. Thus if the hypervisor indicates running out of
+> resources, first do a global flush allowing the hypervisor to free
+> resources associated with these mappings as well a retry creating the
+> new mappings and only if that also fails report this error to callers.
 > 
-> > We could just acquire a reference here, but then we're needlessly
-> > grabbing a ref only to drop it at the end of the function, which is
-> > pointless when the caller is holding another reference for us while
-> > the
-> > callback runs. And of course Rust likes to claim to offer zero-cost
-> > abstractions, so it would be kind of sad to have to do that... ^^
+> Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> ---
+>  drivers/iommu/amd/iommu.c    |  5 +++--
+>  drivers/iommu/apple-dart.c   |  5 +++--
+>  drivers/iommu/intel/iommu.c  |  5 +++--
+>  drivers/iommu/iommu.c        | 20 ++++++++++++++++----
+>  drivers/iommu/msm_iommu.c    |  5 +++--
+>  drivers/iommu/mtk_iommu.c    |  5 +++--
+>  drivers/iommu/s390-iommu.c   | 29 ++++++++++++++++++++++++-----
+>  drivers/iommu/sprd-iommu.c   |  5 +++--
+>  drivers/iommu/sun50i-iommu.c |  4 +++-
+
+For sun50i:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
+
+>  drivers/iommu/tegra-gart.c   |  5 +++--
+>  include/linux/iommu.h        |  4 ++--
+>  11 files changed, 66 insertions(+), 26 deletions(-)
 > 
-> Yeah, I agree we don't want to take extra references.
+> diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
+> index 5a505ba5467e..ff309bd1bb8f 100644
+> --- a/drivers/iommu/amd/iommu.c
+> +++ b/drivers/iommu/amd/iommu.c
+> @@ -2187,14 +2187,15 @@ static int amd_iommu_attach_device(struct
+> iommu_domain *dom, return ret;
+>  }
 > 
-> > Just doing drm::device::Device::from_raw(raw_dev) is a ticking time
-> > bomb, because we haven't acquired a reference (which would normally
-> > be
-> > required). If that Device ever gets dropped, we've messed up the
-> > refcounting and stolen the caller's reference. We could try to ensure
-> > it
-> > gets passed to core::mem::forget in all paths out, but that gets
-> > error-prone very quickly when trying to cover error paths. So
-> > instead,
-> > we put it into a ManuallyDrop. That takes care of neutering the ref
-> > drop, so we don't have to worry about messing that up. Then the only
-> > remaining safety requirement is that that the ManuallyDrop<Device>
-> > never
-> > escape the callback function, and that's easy to ensure: we only pass
-> > a
-> > &ref to the user (which via auto-deref ends up being a &Device), and
-> > then nothing bad can happen. If the user wants an owned reference to
-> > the
-> > device to keep around, they can call .clone() on it and that's when
-> > the
-> > incref happens.
-> > 
-> > Basically, ManuallyDrop<T> where T is a reference counted type
-> > represents a borrowed reference to a T coming from the C side. You
-> > can
-> > see another use of this pattern in gem::Object, which contains a
-> > ManuallyDrop<Device> that represents a borrowed reference to the
-> > device
-> > that owns that object. The DRM core (as far as I know!) guarantees
-> > that
-> > DRM devices outlive all of their GEM objects, so we can materialize a
-> > borrowed reference and as long as it never leaves the GEM object, it
-> > will be sound. Then we can take &Device references from it whenever
-> > we
-> > want, and the usual Rust borrow checker rules ensure we can't do
-> > something illegal.
+> -static void amd_iommu_iotlb_sync_map(struct iommu_domain *dom,
+> -				     unsigned long iova, size_t 
+size)
+> +static int amd_iommu_iotlb_sync_map(struct iommu_domain *dom,
+> +				    unsigned long iova, size_t 
+size)
+>  {
+>  	struct protection_domain *domain = to_pdomain(dom);
+>  	struct io_pgtable_ops *ops = &domain->iop.iop.ops;
 > 
-> Ok, that all matches my understanding of what I thought was going on. I
-> do wonder if it would be good to wrap this up in a
+>  	if (ops->map_pages)
+>  		domain_flush_np_cache(domain, iova, size);
+> +	return 0;
+>  }
 > 
-> struct DeviceBorrow {
->    dev: ManuallyDrop<Device>
+>  static int amd_iommu_map_pages(struct iommu_domain *dom, unsigned long
+> iova, diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+> index 06169d36eab8..cbed1f87eae9 100644
+> --- a/drivers/iommu/apple-dart.c
+> +++ b/drivers/iommu/apple-dart.c
+> @@ -506,10 +506,11 @@ static void apple_dart_iotlb_sync(struct iommu_domain
+> *domain, apple_dart_domain_flush_tlb(to_dart_domain(domain));
+>  }
+> 
+> -static void apple_dart_iotlb_sync_map(struct iommu_domain *domain,
+> -				      unsigned long iova, size_t 
+size)
+> +static int apple_dart_iotlb_sync_map(struct iommu_domain *domain,
+> +				     unsigned long iova, size_t 
+size)
+>  {
+>  	apple_dart_domain_flush_tlb(to_dart_domain(domain));
+> +	return 0;
+>  }
+> 
+>  static phys_addr_t apple_dart_iova_to_phys(struct iommu_domain *domain,
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index 7c2f4bd33582..b795b2f323e3 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -4745,8 +4745,8 @@ static bool risky_device(struct pci_dev *pdev)
+>  	return false;
+>  }
+> 
+> -static void intel_iommu_iotlb_sync_map(struct iommu_domain *domain,
+> -				       unsigned long iova, size_t 
+size)
+> +static int intel_iommu_iotlb_sync_map(struct iommu_domain *domain,
+> +				      unsigned long iova, size_t 
+size)
+>  {
+>  	struct dmar_domain *dmar_domain = to_dmar_domain(domain);
+>  	unsigned long pages = aligned_nrpages(iova, size);
+> @@ -4756,6 +4756,7 @@ static void intel_iommu_iotlb_sync_map(struct
+> iommu_domain *domain,
+> 
+>  	xa_for_each(&dmar_domain->iommu_array, i, info)
+>  		__mapping_notify_one(info->iommu, dmar_domain, pfn, 
+pages);
+> +	return 0;
+>  }
+> 
+>  static void intel_iommu_remove_dev_pasid(struct device *dev, ioasid_t
+> pasid) diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 10db680acaed..ae549b032a16 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -2410,8 +2410,17 @@ int iommu_map(struct iommu_domain *domain, unsigned
+> long iova, return -EINVAL;
+> 
+>  	ret = __iommu_map(domain, iova, paddr, size, prot, gfp);
+> -	if (ret == 0 && ops->iotlb_sync_map)
+> -		ops->iotlb_sync_map(domain, iova, size);
+> +	if (ret == 0 && ops->iotlb_sync_map) {
+> +		ret = ops->iotlb_sync_map(domain, iova, size);
+> +		if (ret)
+> +			goto out_err;
+> +	}
+> +
+> +	return ret;
+> +
+> +out_err:
+> +	/* undo mappings already done */
+> +	iommu_unmap(domain, iova, size);
+> 
+>  	return ret;
+>  }
+> @@ -2552,8 +2561,11 @@ ssize_t iommu_map_sg(struct iommu_domain *domain,
+> unsigned long iova, sg = sg_next(sg);
+>  	}
+> 
+> -	if (ops->iotlb_sync_map)
+> -		ops->iotlb_sync_map(domain, iova, mapped);
+> +	if (ops->iotlb_sync_map) {
+> +		ret = ops->iotlb_sync_map(domain, iova, mapped);
+> +		if (ret)
+> +			goto out_err;
+> +	}
+>  	return mapped;
+> 
+>  out_err:
+> diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
+> index 454f6331c889..2033716eac78 100644
+> --- a/drivers/iommu/msm_iommu.c
+> +++ b/drivers/iommu/msm_iommu.c
+> @@ -486,12 +486,13 @@ static int msm_iommu_map(struct iommu_domain *domain,
+> unsigned long iova, return ret;
+>  }
+> 
+> -static void msm_iommu_sync_map(struct iommu_domain *domain, unsigned long
+> iova, -			       size_t size)
+> +static int msm_iommu_sync_map(struct iommu_domain *domain, unsigned long
+> iova, +			      size_t size)
+>  {
+>  	struct msm_priv *priv = to_msm_priv(domain);
+> 
+>  	__flush_iotlb_range(iova, size, SZ_4K, false, priv);
+> +	return 0;
+>  }
+> 
+>  static size_t msm_iommu_unmap(struct iommu_domain *domain, unsigned long
+> iova, diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index d5a4955910ff..29769fb5c51e 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -750,12 +750,13 @@ static void mtk_iommu_iotlb_sync(struct iommu_domain
+> *domain, mtk_iommu_tlb_flush_range_sync(gather->start, length, dom->bank);
 > }
 > 
-> impl DeviceBorrow {
->    pub unsafe fn from_raw(*mut bindings::drm_device) -> DeviceBorrow;
-> }
+> -static void mtk_iommu_sync_map(struct iommu_domain *domain, unsigned long
+> iova, -			       size_t size)
+> +static int mtk_iommu_sync_map(struct iommu_domain *domain, unsigned long
+> iova, +			      size_t size)
+>  {
+>  	struct mtk_iommu_domain *dom = to_mtk_domain(domain);
 > 
-> impl Deref<Device> for DeviceBorrow {
->    ...
-> }
+>  	mtk_iommu_tlb_flush_range_sync(iova, size, dom->bank);
+> +	return 0;
+>  }
 > 
-> with documentation, etc.  Seeing a ManuallyDrop which is never dropped
-> sets my rust senses tingling.  Maybe that's too much typing for each
-> object?  I don't want to add a bunch of extra work but this seems like
-> a pretty common pattern we're going to hit everywhere.
+>  static phys_addr_t mtk_iommu_iova_to_phys(struct iommu_domain *domain,
+> diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
+> index fbf59a8db29b..17174b35db11 100644
+> --- a/drivers/iommu/s390-iommu.c
+> +++ b/drivers/iommu/s390-iommu.c
+> @@ -205,6 +205,14 @@ static void s390_iommu_release_device(struct device
+> *dev) __s390_iommu_detach_device(zdev);
+>  }
 > 
+> +
+> +static int zpci_refresh_all(struct zpci_dev *zdev)
+> +{
+> +	return zpci_refresh_trans((u64)zdev->fh << 32, zdev->start_dma,
+> +				  zdev->end_dma - zdev->start_dma 
++ 1);
+> +
+> +}
+> +
+>  static void s390_iommu_flush_iotlb_all(struct iommu_domain *domain)
+>  {
+>  	struct s390_domain *s390_domain = to_s390_domain(domain);
+> @@ -212,8 +220,7 @@ static void s390_iommu_flush_iotlb_all(struct
+> iommu_domain *domain)
+> 
+>  	rcu_read_lock();
+>  	list_for_each_entry_rcu(zdev, &s390_domain->devices, iommu_list) {
+> -		zpci_refresh_trans((u64)zdev->fh << 32, zdev-
+>start_dma,
+> -				   zdev->end_dma - zdev-
+>start_dma + 1);
+> +		zpci_refresh_all(zdev);
+>  	}
+>  	rcu_read_unlock();
+>  }
+> @@ -237,20 +244,32 @@ static void s390_iommu_iotlb_sync(struct iommu_domain
+> *domain, rcu_read_unlock();
+>  }
+> 
+> -static void s390_iommu_iotlb_sync_map(struct iommu_domain *domain,
+> +static int s390_iommu_iotlb_sync_map(struct iommu_domain *domain,
+>  				      unsigned long iova, size_t 
+size)
+>  {
+>  	struct s390_domain *s390_domain = to_s390_domain(domain);
+>  	struct zpci_dev *zdev;
+> +	int ret = 0;
+> 
+>  	rcu_read_lock();
+>  	list_for_each_entry_rcu(zdev, &s390_domain->devices, iommu_list) {
+>  		if (!zdev->tlb_refresh)
+>  			continue;
+> -		zpci_refresh_trans((u64)zdev->fh << 32,
+> -				   iova, size);
+> +		ret = zpci_refresh_trans((u64)zdev->fh << 32,
+> +					 iova, size);
+> +		/*
+> +		 * let the hypervisor discover invalidated entries
+> +		 * allowing it to free IOVAs and unpin pages
+> +		 */
+> +		if (ret == -ENOMEM) {
+> +			ret = zpci_refresh_all(zdev);
+> +			if (ret)
+> +				break;
+> +		}
+>  	}
+>  	rcu_read_unlock();
+> +
+> +	return ret;
+>  }
+> 
+>  static int s390_iommu_validate_trans(struct s390_domain *s390_domain,
+> diff --git a/drivers/iommu/sprd-iommu.c b/drivers/iommu/sprd-iommu.c
+> index ae94d74b73f4..74bcae69653c 100644
+> --- a/drivers/iommu/sprd-iommu.c
+> +++ b/drivers/iommu/sprd-iommu.c
+> @@ -315,8 +315,8 @@ static size_t sprd_iommu_unmap(struct iommu_domain
+> *domain, unsigned long iova, return size;
+>  }
+> 
+> -static void sprd_iommu_sync_map(struct iommu_domain *domain,
+> -				unsigned long iova, size_t size)
+> +static int sprd_iommu_sync_map(struct iommu_domain *domain,
+> +			       unsigned long iova, size_t size)
+>  {
+>  	struct sprd_iommu_domain *dom = to_sprd_domain(domain);
+>  	unsigned int reg;
+> @@ -328,6 +328,7 @@ static void sprd_iommu_sync_map(struct iommu_domain
+> *domain,
+> 
+>  	/* clear IOMMU TLB buffer after page table updated */
+>  	sprd_iommu_write(dom->sdev, reg, 0xffffffff);
+> +	return 0;
+>  }
+> 
+>  static void sprd_iommu_sync(struct iommu_domain *domain,
+> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+> index 2d993d0cea7d..60a983f4a494 100644
+> --- a/drivers/iommu/sun50i-iommu.c
+> +++ b/drivers/iommu/sun50i-iommu.c
+> @@ -402,7 +402,7 @@ static void sun50i_iommu_flush_iotlb_all(struct
+> iommu_domain *domain) spin_unlock_irqrestore(&iommu->iommu_lock, flags);
+>  }
+> 
+> -static void sun50i_iommu_iotlb_sync_map(struct iommu_domain *domain,
+> +static int sun50i_iommu_iotlb_sync_map(struct iommu_domain *domain,
+>  					unsigned long iova, 
+size_t size)
+>  {
+>  	struct sun50i_iommu_domain *sun50i_domain = 
+to_sun50i_domain(domain);
+> @@ -412,6 +412,8 @@ static void sun50i_iommu_iotlb_sync_map(struct
+> iommu_domain *domain, spin_lock_irqsave(&iommu->iommu_lock, flags);
+>  	sun50i_iommu_zap_range(iommu, iova, size);
+>  	spin_unlock_irqrestore(&iommu->iommu_lock, flags);
+> +
+> +	return 0;
+>  }
+> 
+>  static void sun50i_iommu_iotlb_sync(struct iommu_domain *domain,
+> diff --git a/drivers/iommu/tegra-gart.c b/drivers/iommu/tegra-gart.c
+> index a482ff838b53..44966d7b07ba 100644
+> --- a/drivers/iommu/tegra-gart.c
+> +++ b/drivers/iommu/tegra-gart.c
+> @@ -252,10 +252,11 @@ static int gart_iommu_of_xlate(struct device *dev,
+>  	return 0;
+>  }
+> 
+> -static void gart_iommu_sync_map(struct iommu_domain *domain, unsigned long
+> iova, -				size_t size)
+> +static int gart_iommu_sync_map(struct iommu_domain *domain, unsigned long
+> iova, +			       size_t size)
+>  {
+>  	FLUSH_GART_REGS(gart_handle);
+> +	return 0;
+>  }
+> 
+>  static void gart_iommu_sync(struct iommu_domain *domain,
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index 6595454d4f48..932e5532ee33 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -333,8 +333,8 @@ struct iommu_domain_ops {
+>  			      struct iommu_iotlb_gather 
+*iotlb_gather);
+> 
+>  	void (*flush_iotlb_all)(struct iommu_domain *domain);
+> -	void (*iotlb_sync_map)(struct iommu_domain *domain, unsigned long 
+iova,
+> -			       size_t size);
+> +	int (*iotlb_sync_map)(struct iommu_domain *domain, unsigned long 
+iova,
+> +			      size_t size);
+>  	void (*iotlb_sync)(struct iommu_domain *domain,
+>  			   struct iommu_iotlb_gather *iotlb_gather);
 
-I just want to mention, there is a different way to do the abstraction
-here:
 
-similar to https://lore.kernel.org/rust-for-linux/ZA9l0EHCRRr%2Fmyoq@boqun-archlinux
 
-* Define Device as tranparent represention of struct drm_device:
 
-	#[repr(transparent)]
-	struct Device(Opaque<bindings::drm_device>);
-
-* impl `AlwaysRefCounted`[1] for `Device`, therefore we can use
-  `ARef<Device>`[2] as a smart pointer to `drm_device`.
-
-* drm_device related methods are still implemented in `impl Device`
-
-* In `open_callback`, we can just get a `&Device` from `*mut
-  bindings::drm_device` unsafely, and that's all. Or introduce a helper
-  function if we want:
-
-    pub unsafe fn with_device<F>(ptr: *mut drm_device, f: F) -> Result
-    where
-      F: FnOnce(&Device) -> Result
-    {
-    	let d = unsafe { &*ptr };
-	f(d)
-    }
-
-The main difference is that we now treat a pointer to drm_device as a
-reference to the device, not the owner.
-
-It seems we need to also change our driver/device framework to use this
-approach, but it looks better to me.
-
-Regards,
-Boqun
-
-[1]: https://rust-for-linux.github.io/docs/kernel/trait.AlwaysRefCounted.html
-[2]: https://rust-for-linux.github.io/docs/kernel/struct.ARef.html
-
-> ~Faith
