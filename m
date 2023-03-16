@@ -1,276 +1,123 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3EA233CC
-	for <asahi@lists.linux.dev>; Thu, 16 Mar 2023 13:40:46 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id ay8so1293450wmb.1
-        for <asahi@lists.linux.dev>; Thu, 16 Mar 2023 06:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1678974045;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EczCGKLk4fBTHmXyHSJ7ilvmJkZQHqbhf3hkS/Fo9ig=;
-        b=PcXHkg2DYEsN4SGmyoKoPXIk7dghTl5j1DrVQd/I+VAlz8ytLioRVaYUlY0BsynH1D
-         Re0TvwlalBhQsYImYDkeNrZBpsj3te+fCYUSH+1Xmy/rxOPP2nbxuLR3tfsCx4KO/eoZ
-         h9Bz2UewqJAlReH7xWEXkMxtktP7ySRXi5cJc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678974045;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EczCGKLk4fBTHmXyHSJ7ilvmJkZQHqbhf3hkS/Fo9ig=;
-        b=BD2troFPDF8gs0+H5/dG5dRRs2kY9RY7FupNM4p5sw0GZmzi9q5EvZj4x/SLN5s1N/
-         fv6ciQl5E6JXGJlI+JVJPaL+2lJuGTq7eMK9etkYhg5jcu94X7ryRCip4yQwHCj0pzNG
-         HNs2nA8PprbXO24rkOzG61tT3CajCUoVCZqrwCgFOEHpxAAOd9lTty2SAmEtYweoALlg
-         Fpv5pRMPgArc4e+a19ibu6WueFthEL/GjbRdZPJKkK9UU6gTvbi/x/7Em46ovrraX/tw
-         LOWubMLvF7cEXwFcRKQSq4Lncw9YHAEpXXq/24M/FcePai5L5qjYeC7r/lIBZkdVTrxT
-         TSew==
-X-Gm-Message-State: AO0yUKXC0WgVcRhw5/gnrFrKuybr9ydP6CrrTiCs5JZDhaW8sP0jFggJ
-	MZIpSXlM2LyXrUW88A4mAIIkoA==
-X-Google-Smtp-Source: AK7set/fjat3yH3Fc06VMIK6e7qPeFsvuNYHOJTB0RKC8hvnm2dYtyI5Jh2XJJySBg2aaliqjCVONw==
-X-Received: by 2002:a05:600c:3b92:b0:3eb:42f6:ac55 with SMTP id n18-20020a05600c3b9200b003eb42f6ac55mr2688631wms.1.1678974044966;
-        Thu, 16 Mar 2023 06:40:44 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id y16-20020a05600c365000b003ed23845666sm4915002wmq.45.2023.03.16.06.40.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Mar 2023 06:40:44 -0700 (PDT)
-Date: Thu, 16 Mar 2023 14:40:42 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Karol Herbst <kherbst@redhat.com>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Asahi Lina <lina@asahilina.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Ella Stanforth <ella@iglunix.org>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
-Message-ID: <ZBMcWuu+W2zfP64O@phenom.ffwll.local>
-Mail-Followup-To: Karol Herbst <kherbst@redhat.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Asahi Lina <lina@asahilina.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Ella Stanforth <ella@iglunix.org>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
- <cd788ccf-0cf1-85d5-1bf8-efc259bd7e11@amd.com>
- <CACO55tsnCMQt8UW5_UCY139kpZOdNXbMkBkFfUiB12jW5UgVmA@mail.gmail.com>
- <0d6cd23b-8c9e-067d-97ff-aa35dbbcf9bf@amd.com>
- <CACO55tumNMYrcJ0LhnLfTK4DmGLHD-bt3xpXyoPe98V2wmgXQg@mail.gmail.com>
- <269c4fb7-60f6-6778-444d-15703febea58@amd.com>
- <CACO55tuVVnC-_iVmX=SGGVF=0t6kqqr0Cy0pGe3YoppBgUbiXw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A57AD32
+	for <asahi@lists.linux.dev>; Thu, 16 Mar 2023 21:22:25 +0000 (UTC)
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+	id 449DE26F967; Thu, 16 Mar 2023 22:22:17 +0100 (CET)
+Date: Thu, 16 Mar 2023 22:22:17 +0100
+From: Janne Grunau <j@jannau.net>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marc Zyngier <maz@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Sven Peter <sven@svenpeter.dev>, linux-pci@vger.kernel.org,
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Conor Dooley <conor.dooley@microchip.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2] PCI: apple: Set only available ports up
+Message-ID: <20230316212217.GI24656@jannau.net>
+References: <20230307-apple_pcie_disabled_ports-v2-1-c3bd1fd278a4@jannau.net>
+ <20230309163935.GA1140101@bhelgaas>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACO55tuVVnC-_iVmX=SGGVF=0t6kqqr0Cy0pGe3YoppBgUbiXw@mail.gmail.com>
-X-Operating-System: Linux phenom 6.1.0-5-amd64 
+In-Reply-To: <20230309163935.GA1140101@bhelgaas>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, Mar 08, 2023 at 04:19:17PM +0100, Karol Herbst wrote:
-> On Wed, Mar 8, 2023 at 4:09 PM Christian König <christian.koenig@amd.com> wrote:
-> >
-> > Am 08.03.23 um 15:43 schrieb Karol Herbst:
-> > > [SNIP]
-> > > "further"? There was no discussion at all,
-> >
-> > Yeah, well that is exactly what I wanted to archive.
-> >
-> > >   you just started off like
-> > > that. If you think somebody misses that connection, you can point out
-> > > to documentation/videos whatever so the contributor can understand
-> > > what's wrong with an approach. You did that, so that's fine. It's just
-> > > starting off _any_ discussion with a "Well complete NAK" is terrible
-> > > style. I'd feel uncomfortable if that happened to me and I'm sure
-> > > there are enough people like that that we should be more reasonable
-> > > with our replies. Just.. don't.
-> > >
-> > > We are all humans here and people react negatively to such things. And
-> > > if people do it on purpose it just makes it worse.
-> >
-> > I completely see your point, I just don't know how to improve it.
-> >
-> > I don't stop people like this because I want to make them uncomfortable
-> > but because I want to prevent further discussions on that topic.
-> >
-> > In other words how can I make people notice that this is something
-> > fundamental while still being polite?
-
-Ask them to improve the docs. Gets them on board, and for bonus point you
-- can check they actually get it when you review the doc patch
-- get scheduler docs for free
-- have an easily pasteable link for next time around instead of just an
-  aggressive NAK that helps no one really (aside from getting people
-  boiling).
-
-It's not really about being polite but making sure that efficient
-communiction happens and that you don't have to repeat yourself. In rare
-cases you get to type the docs themself when people are too dense to learn
-(like what I had to do with the various dma_fence docs).
-
-> I think a little improvement over this would be to at least wait a few
-> replies before resorting to those strong statements. Just before it
-> becomes a risk in just wasting time.
-
-See above what I'm trying to do. When the message doesn't sink in as
-either a proper doc patch or when linking to the doc patch for next time
-around (because let's face it, this entire concept of "dma_fence committed
-for execution" is extremely trick, there will be repeations of this
-question until we've sunset dma_fence, which is probably decades away).
-
-If the learning does not happen, then it's the time to whack the big
-hammer (and if people don't get it, you can escalate to Dave&me, we have
-tools to make sure people get the message). But this really should be the
-end, not the start of the escalation chain :-)
-
-Cheers, Daniel
-
+On 2023-03-09 10:39:35 -0600, Bjorn Helgaas wrote:
+> [+cc Daire, Conor for apple/microchip use of ECAM .init() method]
 > 
-> > >>>> This is clearly going against the idea of having jobs only depend on
-> > >>>> fences and nothing else which is mandatory for correct memory management.
-> > >>>>
-> > >>> I'm sure it's all documented and there is a design document on how
-> > >>> things have to look like you can point out? Might help to get a better
-> > >>> understanding on how things should be.
-> > >> Yeah, that's the problematic part. We have documented this very
-> > >> extensively:
-> > >> https://www.kernel.org/doc/html/v5.9/driver-api/dma-buf.html#indefinite-dma-fences
-> > >>
-> > >> And both Jason and Daniel gave talks about the underlying problem and
-> > > fyi:
-> > > s/Jason/Faith/g
-> >
-> > +1. I wasn't aware of that.
-> >
-> > >> try to come up with patches to raise warnings when that happens, but
-> > >> people still keep coming up with the same idea over and over again.
-> > >>
-> > > Yes, and we'll have to tell them over and over again. Nothing wrong
-> > > with that. That's just part of maintaining such a big subsystem. And
-> > > that's definitely not a valid reason to phrase things like above.
-> > >
-> > >> It's just that the technical relationship between preventing jobs from
-> > >> running and with that preventing dma_fences from signaling and the core
-> > >> memory management with page faults and shrinkers waiting for those
-> > >> fences is absolutely not obvious.
-> > >>
-> > >> We had at least 10 different teams from different companies falling into
-> > >> the same trap already and either the patches were rejected of hand or
-> > >> had to painfully reverted or mitigated later on.
-> > >>
-> > > Sure, but that's just part of the job. And pointing out fundamental
-> > > mistakes early on is important, but the situation won't get any better
-> > > by being like that. Yes, we'll have to repeat the same words over and
-> > > over again, and yes that might be annoying, but that's just how it is.
-> >
-> > Well I have no problem explaining people why a solution doesn't work.
-> >
-> > But what usually happens is that people don't realize that they need to
-> > back of from a design and completely start over.
-> >
-> > Regards,
-> > Christian.
-> >
-> > >
-> > >> Regards,
-> > >> Christian.
-> > >>
-> > >>>> If the hw is busy with something you need to return the fence for this
-> > >>>> from the prepare_job callback so that the scheduler can be notified when
-> > >>>> the hw is available again.
-> > >>>>
-> > >>>> Regards,
-> > >>>> Christian.
-> > >>>>
-> > >>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> > >>>>> ---
-> > >>>>>     drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
-> > >>>>>     include/drm/gpu_scheduler.h            |  8 ++++++++
-> > >>>>>     2 files changed, 18 insertions(+)
-> > >>>>>
-> > >>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > >>>>> index 4e6ad6e122bc..5c0add2c7546 100644
-> > >>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > >>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > >>>>> @@ -1001,6 +1001,16 @@ static int drm_sched_main(void *param)
-> > >>>>>                 if (!entity)
-> > >>>>>                         continue;
-> > >>>>>
-> > >>>>> +             if (sched->ops->can_run_job) {
-> > >>>>> +                     sched_job = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
-> > >>>>> +                     if (!sched_job) {
-> > >>>>> +                             complete_all(&entity->entity_idle);
-> > >>>>> +                             continue;
-> > >>>>> +                     }
-> > >>>>> +                     if (!sched->ops->can_run_job(sched_job))
-> > >>>>> +                             continue;
-> > >>>>> +             }
-> > >>>>> +
-> > >>>>>                 sched_job = drm_sched_entity_pop_job(entity);
-> > >>>>>
-> > >>>>>                 if (!sched_job) {
-> > >>>>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > >>>>> index 9db9e5e504ee..bd89ea9507b9 100644
-> > >>>>> --- a/include/drm/gpu_scheduler.h
-> > >>>>> +++ b/include/drm/gpu_scheduler.h
-> > >>>>> @@ -396,6 +396,14 @@ struct drm_sched_backend_ops {
-> > >>>>>         struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
-> > >>>>>                                          struct drm_sched_entity *s_entity);
-> > >>>>>
-> > >>>>> +     /**
-> > >>>>> +      * @can_run_job: Called before job execution to check whether the
-> > >>>>> +      * hardware is free enough to run the job.  This can be used to
-> > >>>>> +      * implement more complex hardware resource policies than the
-> > >>>>> +      * hw_submission limit.
-> > >>>>> +      */
-> > >>>>> +     bool (*can_run_job)(struct drm_sched_job *sched_job);
-> > >>>>> +
-> > >>>>>         /**
-> > >>>>>              * @run_job: Called to execute the job once all of the dependencies
-> > >>>>>              * have been resolved.  This may be called multiple times, if
-> > >>>>>
-> >
+> On Thu, Mar 09, 2023 at 02:36:24PM +0100, Janne Grunau wrote:
+> > Fixes following warning inside of_irq_parse_raw() called from the common
+> > PCI device probe path.
+> > 
+> >   /soc/pcie@690000000/pci@1,0 interrupt-map failed, using interrupt-controller
+> >   WARNING: CPU: 4 PID: 252 at drivers/of/irq.c:279 of_irq_parse_raw+0x5fc/0x724
 > 
+> Based on this commit log, I assume this patch only fixes the warning,
+> and the system *works* just fine either way.  If that's the case, it's
+> debatable whether it meets the stable kernel criteria, although the
+> documented criteria are much stricter than what happens in practice.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Yes, it fixes only the warning and hides devices. The present devices 
+still work. I confused myself with the submitted M2 devicetree. It 
+missed information in the dt node of an disabled PCIe port breaking 
+probing of the pcie controller.
+ 
+I agree that the Cc: stable is not necessary. Please drop it or tell me 
+to resend the change.
+ 
+> >   ...
+> >   Call trace:
+> >    of_irq_parse_raw+0x5fc/0x724
+> >    of_irq_parse_and_map_pci+0x128/0x1d8
+> >    pci_assign_irq+0xc8/0x140
+> >    pci_device_probe+0x70/0x188
+> >    really_probe+0x178/0x418
+> >    __driver_probe_device+0x120/0x188
+> >    driver_probe_device+0x48/0x22c
+> >    __device_attach_driver+0x134/0x1d8
+> >    bus_for_each_drv+0x8c/0xd8
+> >    __device_attach+0xdc/0x1d0
+> >    device_attach+0x20/0x2c
+> >    pci_bus_add_device+0x5c/0xc0
+> >    pci_bus_add_devices+0x58/0x88
+> >    pci_host_probe+0x124/0x178
+> >    pci_host_common_probe+0x124/0x198 [pci_host_common]
+> >    apple_pcie_probe+0x108/0x16c [pcie_apple]
+> >    platform_probe+0xb4/0xdc
+> > 
+> > This became apparent after disabling unused PCIe ports in the Apple
+> > silicon device trees instead of deleting them.
+> > 
+> > Use for_each_available_child_of_node instead of for_each_child_of_node
+> > which takes the "status" property into account.
+> > 
+> > Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
+> > Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
+> > Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
+> > Cc: stable@vger.kernel.org
+> > Reviewed-by: Marc Zyngier <maz@kernel.org>
+> > Signed-off-by: Janne Grunau <j@jannau.net>
+> > ---
+> > Changes in v2:
+> > - rewritten commit message with more details and corrections
+> > - collected Marc's "Reviewed-by:"
+> > - Link to v1: https://lore.kernel.org/r/20230307-apple_pcie_disabled_ports-v1-1-b32ef91faf19@jannau.net
+> > ---
+> >  drivers/pci/controller/pcie-apple.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+> > index 66f37e403a09..f8670a032f7a 100644
+> > --- a/drivers/pci/controller/pcie-apple.c
+> > +++ b/drivers/pci/controller/pcie-apple.c
+> > @@ -783,7 +783,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+> >  	cfg->priv = pcie;
+> >  	INIT_LIST_HEAD(&pcie->ports);
+> >  
+> > -	for_each_child_of_node(dev->of_node, of_port) {
+> > +	for_each_available_child_of_node(dev->of_node, of_port) {
+> >  		ret = apple_pcie_setup_port(pcie, of_port);
+> >  		if (ret) {
+> >  			dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
+> 
+> Is this change still needed after 6fffbc7ae137 ("PCI: Honor firmware's
+> device disabled status")?  This is a generic problem, and it would be
+> a lot nicer if we had a generic solution.  But I assume it *is* still
+> needed because Rob gave his Reviewed-by.
+
+6fffbc7ae137 avoids the warning and hides the disabled ports as well. I 
+think we want to keep this change however in the hope that avoiding the 
+port setup of disbled ports saves energy.
+
+Thanks
+
+Janne
