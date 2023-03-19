@@ -1,95 +1,97 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AC4137C
-	for <asahi@lists.linux.dev>; Sun, 19 Mar 2023 11:37:35 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id o12so36582856edb.9
-        for <asahi@lists.linux.dev>; Sun, 19 Mar 2023 04:37:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14007C
+	for <asahi@lists.linux.dev>; Sun, 19 Mar 2023 21:15:00 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id z83so10875494ybb.2
+        for <asahi@lists.linux.dev>; Sun, 19 Mar 2023 14:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679225853;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zjQK98wMTvC2q3E7fdiQTGy4CfE9nib0P1aeqr32BDM=;
-        b=CNN+BQW1qwnIWDvTxDCdF3J/x2g//K0JqhfSGQ0F1o+DOFxtJMpexG7Zg2xkstrcG3
-         N+bDvSoc3N+PX8xxyOpd4P5FQyhLI7jmL6DiHr17l04ctANkt/h/obwznW6Ey2lYYQQU
-         eP2I596H+O3bmLUf6p+46nb/f7yBcuo7lzxfgySwO2BcdcVmDv45qTT7YshpQk33z034
-         C3rS/NaL3yaQbNCXzcGPGc5C4/FRf1ebAXvgljWLU1fDQSFe8a8q04Z4NFFYizrr+uiC
-         AYnUZxGFufy4sIdurjFrVZbDayiYAgPBKzWOFy1RXzaONpIXOOt6Ffh7VM4DM14tCvBD
-         itHg==
+        d=linaro.org; s=google; t=1679260500;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o0iorqXQgWfUsmZ323+Wyn0oeyKtqb16TQ+B351+3qA=;
+        b=PqJlDX0gTYbEtn8Inp0Uq9s7u/HTYqGjD1dgyn2nK1HN81qzYpJ9YK87P3/GK9pyjS
+         NIox5xD6dYqMCgOx32vaNV7CStlqriTHBcn+xVBoWVHv64f9OkeU7yqIs+ePEjrucDlf
+         hLYQeSFr+uU2/M2tfVJ5lrNZIIQBGZMUOQR/x/Pb64/87ScadQHktjIXmYzf0soAd8Cm
+         1/vXcIPIvmyXhvwjyg9zJXzO53/CrLg2sarThltEBai116bRrT//SIC4+loKJSCgmFoX
+         qFt40qfje7rzwaijTzBX1bDxUpXmUPSUnzUEnrOEFINsNM2XFX8efE0qIlI4ANoUsKOX
+         jQCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679225853;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zjQK98wMTvC2q3E7fdiQTGy4CfE9nib0P1aeqr32BDM=;
-        b=Geb1KVR3Zewrra5SNeJpyEMnqWOrspRuAB7YBVcW2YmqXoPZmdzdspQ7tZnEg9RlU1
-         JivSlRKR9Zul6kLTTAL1nrx+eXoxutib/U1rQhWfvq1G1MRHYr5wBAC5V1ktvyMY8xnc
-         Vy8wnLQXxvDeyE4CqNenjkUflsWkXGF4jvwDYqLfpLkA/fcZtxC4tzOFbDwYYjFAp2BK
-         8QVcTH+EsqJcA9WpyI5h1Iq/ADsDMEtLhAYul9BfRBn4ImUsvHvB7Srd3TX49yHHhs/I
-         5VPd3UQ65PcGSQ6G93zGhwvIgPVXOnTgmAHwqNFT5mXFSw0MkTv5jOj5e4zIHB07xdOn
-         fWUQ==
-X-Gm-Message-State: AO0yUKUCFefzmQq7SKRW4nFaC+v7yA9I/Ux/Q6OeptoMzgz2jC6TZNLu
-	z68pnuG9VvUcHz3fz/mQ+i4I4g==
-X-Google-Smtp-Source: AK7set9U0AOSAuCrrvQlU6ITw/snJRIJElKkSVMThrbqvxYqk0NpWETXKzJ097yOzmwdgjDNpq92Zg==
-X-Received: by 2002:a05:6402:c2:b0:4fe:94a2:81be with SMTP id i2-20020a05640200c200b004fe94a281bemr8384168edu.7.1679225853579;
-        Sun, 19 Mar 2023 04:37:33 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:5b5f:f22b:a0b:559d? ([2a02:810d:15c0:828:5b5f:f22b:a0b:559d])
-        by smtp.gmail.com with ESMTPSA id s29-20020a50d49d000000b004fc2a75c6b3sm3408547edi.23.2023.03.19.04.37.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Mar 2023 04:37:33 -0700 (PDT)
-Message-ID: <7098b2cb-eba9-ebae-1edc-f4c934bbd898@linaro.org>
-Date: Sun, 19 Mar 2023 12:37:31 +0100
+        d=1e100.net; s=20210112; t=1679260500;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o0iorqXQgWfUsmZ323+Wyn0oeyKtqb16TQ+B351+3qA=;
+        b=lhdT7UbMHzfOHeFIhEvEeWZUwK5c7vG0lX+MbYvUrpR+0+XNDvdwhBV6XlZUvS4V7/
+         INf/h9FH9ERdsNTuuas6vO9f3o0YPWBBa9cUf85Dh77uRjf4VU+LyqS9ssNey3LNn2r2
+         gUI7/aDxjLpLqHMn6Yh0oln8pOoe7OY0+n07IfeuCly0nSBpRncRPud2ILI/hx/tTIK+
+         MUlm5C/g1Z0xlXNs6T04yYN150VN2/TXawGC3p/zR1DvRBvI9GcAQRrEinnS0fteNkjr
+         viYsj2shseG5o2m3qISWs8Q7pd7HthroMIgxI2CIsrfX0vGRMAmEneZWXiphA8YAKT0V
+         bz/A==
+X-Gm-Message-State: AO0yUKW/UpHzd7tmTT9bAbRcgduKC1yWMf1sKdj58NFzB6qtl1h28zsR
+	vIYBV8PqZBqSxO9J2LcgysOb1Dqg7soXQnviYFs2Wg==
+X-Google-Smtp-Source: AK7set88lgxJVA166ieuR2TTLZeS1J0rp7AfomiAt3xMAZzNkfr7DVMxQnogtWZ9zBjTSPGk/rTQReVq7hLkbmXRmbU=
+X-Received: by 2002:a05:6902:1143:b0:aa9:bd2e:3746 with SMTP id
+ p3-20020a056902114300b00aa9bd2e3746mr2997588ybu.4.1679260499808; Sun, 19 Mar
+ 2023 14:14:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: watchdog: Drop unneeded quotes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Julius Werner <jwerner@chromium.org>, Evan Benn <evanbenn@chromium.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20230317233643.3969019-1-robh@kernel.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230317233643.3969019-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230317233623.3968172-1-robh@kernel.org>
+In-Reply-To: <20230317233623.3968172-1-robh@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sun, 19 Mar 2023 22:14:48 +0100
+Message-ID: <CACRpkdYFJ-q9OT2b7U-CP08XGfdoD-qN3k3C2KBHhnuBdfSi7A@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
+To: Rob Herring <robh@kernel.org>
+Cc: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
+	Damien Le Moal <damien.lemoal@wdc.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
+	Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
+	Wells Lu <wellslutw@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Michal Simek <michal.simek@xilinx.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, patches@opensource.cirrus.com, 
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 18/03/2023 00:36, Rob Herring wrote:
+On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
+
 > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
 > checking for this can be enabled in yamllint.
-> 
+>
 > Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
 
+Less bad examples =3D good.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Best regards,
-Krzysztof
-
+Yours,
+Linus Walleij
