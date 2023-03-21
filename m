@@ -1,348 +1,99 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5DB7C
-	for <asahi@lists.linux.dev>; Mon, 20 Mar 2023 18:17:38 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id t5so13538668edd.7
-        for <asahi@lists.linux.dev>; Mon, 20 Mar 2023 11:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679336256;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WqGMNpSipRdw8b7apACOFeIJhF2ZQ6XFL4UFhdRmF+g=;
-        b=lK2MANal4tGXZhZKtbwxNpYuaIxXP80lnIUqRmeI6tM4jNqHnMrEQ4RgAvzryFYH9X
-         v2Iw/xhqQ/k18W/US5lxoaCSJf/FdMbLZf8q2oICuglzCKfApDUmlE2B9HJVKO3UWng9
-         XC4d04UaO0dITzy6u+HkTg5XHyEC3vGO7QGbHts3QZUKoascyrnkSKq0Wb079VwT6Asd
-         hMcc2dOFb6V+zQDu0AyE4f1t+iFb55Z8zV0S/tCD/RrPwhG0b0kU/1ZrpoK1YKV7vTMc
-         DHDV8fQZmQVfzF7nc03y4ev7Ju8gfRJTfbXPp7maJrOb+UnMZHVwF+Ga7F6Y/zBIFdpn
-         nH5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679336256;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WqGMNpSipRdw8b7apACOFeIJhF2ZQ6XFL4UFhdRmF+g=;
-        b=qtexH+/aKj1Ybrh+d1zFEYBXoHZM4BV8XhklqdAzcW9h9E8myHb9HYbAn+5+LppP+u
-         Yoz9HIuIHyqdE6Bym+CA/auGmtAqw9DJl4e15r+55ePjyVEkQx24bP+HOV/+SsHpY8s/
-         XZ25N+uEPh+gaRIrXFp8AMHSQ+Svhx33PRHUvsKEa/0xpYOSb4Kk8ZKLwM1MoiYJzT37
-         NPNaQJMYRwaw3SCe0wHPMApF8h1kyANjFMitceVQWjLfrpcx1N+d9QH2siaqh6Cb/g0y
-         FptW+RzD+JVxhA1Kc87K/KEo1gLgNFOjHBjzaVmg25J0vpVNn7GspUMaJk5p06965z8C
-         dloQ==
-X-Gm-Message-State: AO0yUKXXy7gf4+lCc3ryQFFWXbk45jnQsU/NxahUsXiwM83u8auL+IXM
-	/MwL91b2lIg3UygEBuG9vXbnzA==
-X-Google-Smtp-Source: AK7set+jAxInWPfvKmfjeCoZgX+UENXYh0g85MPxYm3aRy8olqD8AUQWKYAOvbqHO1Llh2UldffmbA==
-X-Received: by 2002:aa7:d7c7:0:b0:4fa:e1fd:5a30 with SMTP id e7-20020aa7d7c7000000b004fae1fd5a30mr529020eds.19.1679336256291;
-        Mon, 20 Mar 2023 11:17:36 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id w3-20020a50c443000000b004ac54d4da22sm5302952edf.71.2023.03.20.11.17.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 11:17:35 -0700 (PDT)
-Message-ID: <da49e690-326d-4a94-b4c7-58de25159c6d@linaro.org>
-Date: Mon, 20 Mar 2023 18:17:31 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815586FC1
+	for <asahi@lists.linux.dev>; Tue, 21 Mar 2023 08:41:54 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1peXYh-0001Qv-6P; Tue, 21 Mar 2023 09:41:31 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1peXYd-005e94-UY; Tue, 21 Mar 2023 09:41:27 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1peXYd-006hGK-7d; Tue, 21 Mar 2023 09:41:27 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Robin Murphy <robin.murphy@arm.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev,
+	kernel@pengutronix.de
+Subject: [PATCH 02/10] iommu/apple-dart: Convert to platform remove callback returning void
+Date: Tue, 21 Mar 2023 09:41:17 +0100
+Message-Id: <20230321084125.337021-3-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230321084125.337021-1-u.kleine-koenig@pengutronix.de>
+References: <20230321084125.337021-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH] dt-bindings: nvmem: Drop unneeded quotes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Andy Gross
- <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Vincent Shih <vincent.sunplus@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-mediatek@lists.infradead.org
-References: <20230317233640.3968821-1-robh@kernel.org>
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20230317233640.3968821-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1759; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=ZBtPdxjokN/P3yU0G57xGrh/1Tzerjv3QnDoCu8hR6g=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkGW2nyGYlPpqFjPDtwIB6sElzLYMOEYsdurT5N BQRpU1VTfyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZBltpwAKCRCPgPtYfRL+ TnhCB/4sUXIOu/AVp+b1TvMu7aMLmQkM/2lQGygPvhTQuZi6Q74VMFeJffI38rK8HqjhRPuekZu osnTbpXj1+L1jYoX7f22U74/e+xqbnRzwBXi/hfo/wUNfyhS5vxreGURnSyzgSN4V0xR59sqsda JRjvJmqShlFhnqZwaxCh4TRy29jUkePuvI+9Oy4JxUk5ALLovMtFG5IBUYrG8/HfRN6+s/hYg9X fwvZZFmCMYAVo6AaoC6ClfWQQbxXL4/x2xzy+ghEr/e2IMaEnejh8nkt9grixJ9Uv8eq6+aj/5v dl3Pg6G4XmHtt5XDjDjswu/6/VGAwbdqk0yZgZ2kbRIUQbUg
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is (mostly) ignored
+and this typically results in resource leaks. To improve here there is a
+quest to make the remove callback return void. In the first step of this
+quest all drivers are converted to .remove_new() which already returns
+void.
 
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-On 17/03/2023 23:36, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/iommu/apple-dart.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index 06169d36eab8..8af64b57f048 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -1150,7 +1150,7 @@ static int apple_dart_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int apple_dart_remove(struct platform_device *pdev)
++static void apple_dart_remove(struct platform_device *pdev)
+ {
+ 	struct apple_dart *dart = platform_get_drvdata(pdev);
+ 
+@@ -1161,8 +1161,6 @@ static int apple_dart_remove(struct platform_device *pdev)
+ 	iommu_device_sysfs_remove(&dart->iommu);
+ 
+ 	clk_bulk_disable_unprepare(dart->num_clks, dart->clks);
+-
+-	return 0;
+ }
+ 
+ static const struct apple_dart_hw apple_dart_hw_t8103 = {
+@@ -1296,7 +1294,7 @@ static struct platform_driver apple_dart_driver = {
+ 		.pm			= pm_sleep_ptr(&apple_dart_pm_ops),
+ 	},
+ 	.probe	= apple_dart_probe,
+-	.remove	= apple_dart_remove,
++	.remove_new = apple_dart_remove,
+ };
+ 
+ module_platform_driver(apple_dart_driver);
+-- 
+2.39.2
 
-Applied thanks,
-
---srini
-> ---
->   .../devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml      | 2 +-
->   Documentation/devicetree/bindings/nvmem/apple,efuses.yaml       | 2 +-
->   Documentation/devicetree/bindings/nvmem/brcm,nvram.yaml         | 2 +-
->   Documentation/devicetree/bindings/nvmem/fsl,layerscape-sfp.yaml | 2 +-
->   Documentation/devicetree/bindings/nvmem/imx-iim.yaml            | 2 +-
->   Documentation/devicetree/bindings/nvmem/imx-ocotp.yaml          | 2 +-
->   .../devicetree/bindings/nvmem/ingenic,jz4780-efuse.yaml         | 2 +-
->   Documentation/devicetree/bindings/nvmem/mediatek,efuse.yaml     | 2 +-
->   .../devicetree/bindings/nvmem/microchip,sama7g5-otpc.yaml       | 2 +-
->   Documentation/devicetree/bindings/nvmem/mxs-ocotp.yaml          | 2 +-
->   Documentation/devicetree/bindings/nvmem/nintendo-otp.yaml       | 2 +-
->   Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml        | 2 +-
->   Documentation/devicetree/bindings/nvmem/qcom,spmi-sdam.yaml     | 2 +-
->   Documentation/devicetree/bindings/nvmem/rmem.yaml               | 2 +-
->   Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml     | 2 +-
->   .../devicetree/bindings/nvmem/socionext,uniphier-efuse.yaml     | 2 +-
->   Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml     | 2 +-
->   .../devicetree/bindings/nvmem/sunplus,sp7021-ocotp.yaml         | 2 +-
->   18 files changed, 18 insertions(+), 18 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
-> index 14c170c6a86e..296001e7f498 100644
-> --- a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
-> @@ -11,7 +11,7 @@ maintainers:
->     - Maxime Ripard <mripard@kernel.org>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/apple,efuses.yaml b/Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
-> index 5ec8f2bdb3a5..e0860b6b85f3 100644
-> --- a/Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
-> @@ -15,7 +15,7 @@ maintainers:
->     - Sven Peter <sven@svenpeter.dev>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/brcm,nvram.yaml b/Documentation/devicetree/bindings/nvmem/brcm,nvram.yaml
-> index 25033de3ef6b..36def7128fca 100644
-> --- a/Documentation/devicetree/bindings/nvmem/brcm,nvram.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/brcm,nvram.yaml
-> @@ -20,7 +20,7 @@ maintainers:
->     - Rafał Miłecki <rafal@milecki.pl>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/fsl,layerscape-sfp.yaml b/Documentation/devicetree/bindings/nvmem/fsl,layerscape-sfp.yaml
-> index 3b4e6e94cb81..70fb2ad25103 100644
-> --- a/Documentation/devicetree/bindings/nvmem/fsl,layerscape-sfp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/fsl,layerscape-sfp.yaml
-> @@ -14,7 +14,7 @@ description: |
->     unique identifier per part.
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/imx-iim.yaml b/Documentation/devicetree/bindings/nvmem/imx-iim.yaml
-> index 7aac1995cfaf..e9d9d8df4811 100644
-> --- a/Documentation/devicetree/bindings/nvmem/imx-iim.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/imx-iim.yaml
-> @@ -14,7 +14,7 @@ description: |
->     i.MX25, i.MX27, i.MX31, i.MX35, i.MX51 and i.MX53 SoCs.
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/imx-ocotp.yaml b/Documentation/devicetree/bindings/nvmem/imx-ocotp.yaml
-> index d0a239d7e199..9876243ff1e8 100644
-> --- a/Documentation/devicetree/bindings/nvmem/imx-ocotp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/imx-ocotp.yaml
-> @@ -15,7 +15,7 @@ description: |
->     i.MX7D/S, i.MX7ULP, i.MX8MQ, i.MX8MM, i.MX8MN and i.MX8MP SoCs.
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/ingenic,jz4780-efuse.yaml b/Documentation/devicetree/bindings/nvmem/ingenic,jz4780-efuse.yaml
-> index fe2cd7f1afba..e89fd879c968 100644
-> --- a/Documentation/devicetree/bindings/nvmem/ingenic,jz4780-efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/ingenic,jz4780-efuse.yaml
-> @@ -10,7 +10,7 @@ maintainers:
->     - PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/mediatek,efuse.yaml b/Documentation/devicetree/bindings/nvmem/mediatek,efuse.yaml
-> index 75e0a516e59a..d16d42fb98b6 100644
-> --- a/Documentation/devicetree/bindings/nvmem/mediatek,efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/mediatek,efuse.yaml
-> @@ -15,7 +15,7 @@ maintainers:
->     - Lala Lin <lala.lin@mediatek.com>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     $nodename:
-> diff --git a/Documentation/devicetree/bindings/nvmem/microchip,sama7g5-otpc.yaml b/Documentation/devicetree/bindings/nvmem/microchip,sama7g5-otpc.yaml
-> index c3c96fd0baac..a296d348adb4 100644
-> --- a/Documentation/devicetree/bindings/nvmem/microchip,sama7g5-otpc.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/microchip,sama7g5-otpc.yaml
-> @@ -15,7 +15,7 @@ description: |
->     settings, chip identifiers) or user specific data could be stored.
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/mxs-ocotp.yaml b/Documentation/devicetree/bindings/nvmem/mxs-ocotp.yaml
-> index ff317fd7c15b..8938eec22b52 100644
-> --- a/Documentation/devicetree/bindings/nvmem/mxs-ocotp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/mxs-ocotp.yaml
-> @@ -10,7 +10,7 @@ maintainers:
->     - Anson Huang <Anson.Huang@nxp.com>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/nintendo-otp.yaml b/Documentation/devicetree/bindings/nvmem/nintendo-otp.yaml
-> index f93bc50c40d7..6c26800f8b79 100644
-> --- a/Documentation/devicetree/bindings/nvmem/nintendo-otp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/nintendo-otp.yaml
-> @@ -17,7 +17,7 @@ maintainers:
->     - Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-> index 2173fe82317d..e952907ad1d5 100644
-> --- a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-> @@ -10,7 +10,7 @@ maintainers:
->     - Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/qcom,spmi-sdam.yaml b/Documentation/devicetree/bindings/nvmem/qcom,spmi-sdam.yaml
-> index e08504ef3b6e..34818683f80c 100644
-> --- a/Documentation/devicetree/bindings/nvmem/qcom,spmi-sdam.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/qcom,spmi-sdam.yaml
-> @@ -15,7 +15,7 @@ description: |
->     to/from the PBUS.
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/rmem.yaml b/Documentation/devicetree/bindings/nvmem/rmem.yaml
-> index a4a755dcfc43..38a39c9b8c1c 100644
-> --- a/Documentation/devicetree/bindings/nvmem/rmem.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/rmem.yaml
-> @@ -10,7 +10,7 @@ maintainers:
->     - Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml b/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
-> index febee8129aa9..c5403e149080 100644
-> --- a/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
-> @@ -10,7 +10,7 @@ maintainers:
->     - Heiko Stuebner <heiko@sntech.de>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/socionext,uniphier-efuse.yaml b/Documentation/devicetree/bindings/nvmem/socionext,uniphier-efuse.yaml
-> index dc790d2cd9f0..b8bca0599c45 100644
-> --- a/Documentation/devicetree/bindings/nvmem/socionext,uniphier-efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/socionext,uniphier-efuse.yaml
-> @@ -11,7 +11,7 @@ maintainers:
->     - Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     "#address-cells": true
-> diff --git a/Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml b/Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml
-> index 172597cc5c63..a69de3e92282 100644
-> --- a/Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/st,stm32-romem.yaml
-> @@ -16,7 +16,7 @@ maintainers:
->     - Fabrice Gasnier <fabrice.gasnier@foss.st.com>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/sunplus,sp7021-ocotp.yaml b/Documentation/devicetree/bindings/nvmem/sunplus,sp7021-ocotp.yaml
-> index a7644ebbc2ca..8877c2283e9e 100644
-> --- a/Documentation/devicetree/bindings/nvmem/sunplus,sp7021-ocotp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/sunplus,sp7021-ocotp.yaml
-> @@ -11,7 +11,7 @@ maintainers:
->     - Vincent Shih <vincent.sunplus@gmail.com>
->   
->   allOf:
-> -  - $ref: "nvmem.yaml#"
-> +  - $ref: nvmem.yaml#
->   
->   properties:
->     compatible:
