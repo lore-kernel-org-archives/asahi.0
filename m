@@ -1,38 +1,54 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2069.outbound.protection.outlook.com [40.107.20.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125D47C
-	for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 05:19:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MYEp/jMPH+JyC9Q5FnuCkUX1OM1EQzByrR2wj/+bQSQCZK6grz6MkjvRP7pUqjd1+djVzTcaszRinetE3Jq2tZfpMeEvUy3CWaX5kcT5OAkqZ2NZh80jGw/KDJ3SjJtme5S8opSlrNT//DKvA/TuPEC81dBlmpoTsIhFGZ9ho01NaeA5zSl8nSR0E9rF2mcPiaXDsFKKoh8juoFR3n9+9xsq1jk+C7Wh+xcnJucYf2x4So6J8oUPbGj9M9vngmZay3ykVUmpWxFySvgUSBnrWk9eZNutqXRGl/9mGKXi/9vf25Sj1KSldJHwt05xV0rANDPndk1XEWt2wGN4GL+fHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JWhR2rpVLIuodJilrqfXRESXnN4A8xo+YtRVsbOS32I=;
- b=K+r3yl6jCYXs4jJF3BV31nC76MZvpYG+PxnJQAJaDiPIqhs3gOCk8YL8wLabIswF4h1mQJKmN47lt1nua0KHO42kMoTQVOn8VZ/lTXbrxU/AxfvI93f69a+tI/m4NXfNUno7K3P+d4IdvEg0BfT9Na5r0PZGH6ktSO8PwdQVpu2d6uDIMnhDAwxwDaNaKCjgCdZKJshfwpjcv6C3nTlIeOyuNofnDqYsvps2cVlLXpms4torNR6tiK4eywFZT+44NzVtDPpP7lpk5TXytcV/6k+m0OKxWdBFj554pMBAzG6P9D9egrK1kamMhsZK/RNAic5uzYqjN5kuHh5B1SX/fg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JWhR2rpVLIuodJilrqfXRESXnN4A8xo+YtRVsbOS32I=;
- b=dZN2S0ECj3OTPnZ+nkjBuM06MrOLh9bOVsovHNa65sBoXnWhVpc0ETAkIqpS64CjNicTMINJytrOha0Y2NwzGygVDuHYA8S+/TjDU8S27qBJet6r272efGjVkxPI18OKIFBVlGNDjY6VsHkqlYugcyP2jF4Xh3J9AErjaDc9GTsjKAKDp0KfjM9pBNqu+pHhtXdvkniOJ81BBB8adzFoWDNDedeCrMqWbW2DCkgxVIIMhF+5DFvFhKLlSefxKQzmv2sqMJBwhjfsIIbRl3pNkBxTpsu4CRTtRqXj6Z6K7oyjXpt15gaWlcKTU/2RYc9ERA1d0GKC8tBH/a72CNupHQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=suse.com;
-Received: from AS8PR04MB8465.eurprd04.prod.outlook.com (2603:10a6:20b:348::19)
- by VI1PR04MB10027.eurprd04.prod.outlook.com (2603:10a6:800:1e1::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.37; Wed, 22 Mar
- 2023 05:19:41 +0000
-Received: from AS8PR04MB8465.eurprd04.prod.outlook.com
- ([fe80::7bca:4b0c:401e:e1bb]) by AS8PR04MB8465.eurprd04.prod.outlook.com
- ([fe80::7bca:4b0c:401e:e1bb%6]) with mapi id 15.20.6178.037; Wed, 22 Mar 2023
- 05:19:40 +0000
-Message-ID: <9d2a93c6-5e69-efdb-1f6b-c796c3f459d5@suse.com>
-Date: Wed, 22 Mar 2023 13:19:31 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Content-Language: en-US
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6A26FAA
+	for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 14:07:21 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id j3-20020a17090adc8300b0023d09aea4a6so23697354pjv.5
+        for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 07:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fydeos.io; s=fydeos; t=1679494041;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=19V2sxOk7/R16P2+zr++HY3rIKrP79nOLgOgphn9mqY=;
+        b=gMz7KVjP0lXJh9Py/7rdH/ReU2a4LgkcSnyPIzys3WDxTbNKEudOx1/hCytDAHvaRy
+         5ni19nHLPDEmyszBQihNXu8cSHSjBF1vFtYeKgCZfEz/90ceQaIrO53fUsFTipAg5sE6
+         qVU8fIwjI2QSxjXuwP3jEeubCIbSundkYNQpukdVYQDCLwQRGL0GQ/zVAKk8VLoTnJ8y
+         4xGTlnbGZXKnoD94J55A/mQIYMWsrlAdOqWTUI88rPBbe4QAz8z4ZldBXldc3OoAnWhE
+         VZITKkt6jzrnRdCi7tNwURMys2JgN7//Vijpj5qNa36e+99EUO/Fph3ZFDmTuSeIt99p
+         xLyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679494041;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=19V2sxOk7/R16P2+zr++HY3rIKrP79nOLgOgphn9mqY=;
+        b=j5YdAEVDca7BwKAwR/UISAOJ9rqAri04+BVraqGIMNwCFfRX6J80D5S6ai5LfXiENq
+         13xhR5sw6vRTJIARCqwC2fGu/ruyyP/dx+mNDOJtW5UmrHcbqxQC2W2vNr5fLWWbCuFF
+         +Y5WiWHM13wyYFyJHZbuyyRM9rD1h0RACkeRHV6x2pnep6yO+IhfXxmjZ6CedAoxS4Pd
+         qbIGYjJMNhKPagdpzEHMak7KZ789k0ToZIwLGjHEYBBoybnqeOj03VqzkmVYN70pVI5R
+         ZuuL6YZgaEkv8l7gY+JPNSqXB6qgTtm9nEEqdZCbZECWf5UJ6Sq1Ga14+PHCB3+mLHPY
+         waqA==
+X-Gm-Message-State: AO0yUKW56YMW2O5eMOTOTjSzzLfbSftmnW36voxdQd1ZgPo1lSNkU/Uf
+	hUR0TcbobU1C4NTv9UT65WtNXWhDLXgoJ2/7tWQ=
+X-Google-Smtp-Source: AK7set+19ogZAopSWvOc4Y5W4n89m7vpzMD/VKUwim5jStdgVi9pr5+busSR0xckBk9L6dWE0mR9mA==
+X-Received: by 2002:a17:902:e881:b0:1a0:67b1:a777 with SMTP id w1-20020a170902e88100b001a067b1a777mr3472992plg.61.1679494040677;
+        Wed, 22 Mar 2023 07:07:20 -0700 (PDT)
+Received: from [192.168.2.144] ([2a12:a301:2::136c])
+        by smtp.gmail.com with ESMTPSA id y11-20020a1709027c8b00b001943d58268csm10627277pll.55.2023.03.22.07.07.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Mar 2023 07:07:19 -0700 (PDT)
+Message-ID: <9ec1132c-2b33-6022-7680-5bdf8c292ead@fydeos.io>
+Date: Wed, 22 Mar 2023 22:07:13 +0800
+Precedence: bulk
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC PATCH] btrfs-progs: mkfs: Enforce 4k sectorsize by default
 To: Hector Martin <marcan@marcan.st>, Qu Wenruo <quwenruo.btrfs@gmx.com>,
  Neal Gompa <neal@gompa.dev>, linux-btrfs@vger.kernel.org
 Cc: David Sterba <dsterba@suse.cz>, Davide Cavalca <davide@cavalca.name>,
@@ -41,85 +57,78 @@ Cc: David Sterba <dsterba@suse.cz>, Davide Cavalca <davide@cavalca.name>,
 References: <20230321020320.2555362-1-neal@gompa.dev>
  <b4329200-650e-f46e-505a-e5248f187be6@gmx.com>
  <8a52f55e-9b91-c6da-f2f6-eb8ccb87093d@marcan.st>
-From: Qu Wenruo <wqu@suse.com>
-Subject: Re: [RFC PATCH] btrfs-progs: mkfs: Enforce 4k sectorsize by default
+Content-Language: en-US
+From: Su Yue <glass@fydeos.io>
 In-Reply-To: <8a52f55e-9b91-c6da-f2f6-eb8ccb87093d@marcan.st>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL0PR0102CA0019.prod.exchangelabs.com
- (2603:10b6:207:18::32) To AS8PR04MB8465.eurprd04.prod.outlook.com
- (2603:10a6:20b:348::19)
-Precedence: bulk
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR04MB8465:EE_|VI1PR04MB10027:EE_
-X-MS-Office365-Filtering-Correlation-Id: 83bb9065-2a04-4ac8-c263-08db2a9509c5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Gqqf2Sm/1nLgM+zLwxclixfMCGY9WP6Q4c+0YfeGWeJ1djBJsaKtXF23v7bgp8WqG6KnCUZsZCzExNT5Piryxq+AlciYnssrnhftGOeQD1wkMVhIuRvcwg4IqJs/TX5txsO4idk4aTiuJ1WCgWleQ7Wa4rrxI6hj+Z30Ht7I2a6cFWFjnedshKOHAEm6WYUAIEnfkVPM1ewLClvWTAiRZD46jUOJBRlg3cT6nkQyxebDTw6j1P8LlBElyYEO0NBvItIuQ9xwRtgGEOw279DhumA3KYZgsbtnV0rgP8JKjtIVmaEJSD27f9jEAM0+ExNHBEWJBvepxQRhvDlGqWX2i9FuhjqioOl6WLSAuApMc9kplGAWzbtS4fFXgoy8aBW2CDrITY8LiHfymao1QTpPerdlso91isvxYCaD+XQvtjx46qXF4GpZVeGyMANPmn6wg4vYJWphywA0DBsZPe7NrhuxRU6NlCJeFzjo0JBGvVs+qO9UQierSzxDuLknL86uNQ7mrT+eh3CcaqsHR6QzrDqxELdmU6+vLmHYm+3Y/lM5tg7YpsAzB0hHtTZ0QeVyrIWjETMxartQHgHrfrwjZ5kFGulniN6YnOq1EnsDRS0IT95awxksHaKqyYYUltxGGXwJUTrp3s5dPaTI3kz31aVQ9YRpK0z32ofhYBPJ+mYUBKQpXHNmh1w/Nc0GNC7dVXa5YBjCDjeP/5dvVIfW2ogYcGDLXBy5bMhGNg+saJoRR12o8ur/gzhUFA95nxFm+q3RfHUbOS3DDuLWQxigaA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8465.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(396003)(376002)(39850400004)(346002)(366004)(136003)(451199018)(41300700001)(6486002)(966005)(31686004)(2616005)(38100700002)(66946007)(2906002)(83380400001)(8676002)(4326008)(66476007)(66556008)(53546011)(186003)(6506007)(5660300002)(6512007)(54906003)(31696002)(6666004)(110136005)(8936002)(478600001)(316002)(86362001)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WlBZQ3lBRU5aZWlGaXQ0SzRqcDYxMk9NakZLV0hHa1lpZndSeEJtUFNaeVpx?=
- =?utf-8?B?VzA1amRrWWVxdE5LemdiL3FvckluOGFWSDNDeVc1TU0wNFdlYy9Td01DM1Z6?=
- =?utf-8?B?ZGJYVUdvSWpOTTlFd2NNS0N3UklKNnFxcmlaZlVXbkVPc0sveUVXdVhiRG5l?=
- =?utf-8?B?N2FUV3dlSlRUTlBPUUgrRUZVQnZadmxlT2FoV0NYd1BCcGtQVmc3OGM5elgy?=
- =?utf-8?B?VG5iRTd2Z05hTkU4MFUvVVBNbXdDVmV3dEc0SGhpbnliWE9xOGdNcHJWT2Vl?=
- =?utf-8?B?TWVNWDYySFZXc1BiZUlGdXFRTDViZWkzT0N4Q0IvMm1JNDZ5VVNvbm5sZ09P?=
- =?utf-8?B?dGplU3dpUmxuTDhZNmNRcThFUzNFLzVXWWsvT2ZBVmxEWnM2VkxQTE9XYzd2?=
- =?utf-8?B?VDgvcG1EdlhBOHV1TG5Va1lTR0w2VVBYTGp0cHRNRnlsaFpvTzkyYjlkV2FR?=
- =?utf-8?B?YkdBd3YxbUF0ckQzbWtSUEVJZ1Y2NTRnRE1iYmF5TGx0QmU3cWFaVlBhdExD?=
- =?utf-8?B?cUFIUUpIRnVZT2NsTjA4TGl4Vi9YdXk3VFNFUFk2TjhSVUlEb3cra21YbTRP?=
- =?utf-8?B?cllHaDJIUG94Z1pkKzYrWnZ4MU4rZzBJY1UzelI2NWNkMUNYVWJja0s1dGdZ?=
- =?utf-8?B?WUxLVzI0Y0ZDV214YlQ1MEJLR0FlT0xLQnlJeENFeVM5VWtuK1BYdzRrMDRL?=
- =?utf-8?B?RzhCUTRHSWlrS3p5akdQaVVka3pFeE4wazF0Tkd5Y0Y1SkJ5SkdPcXlrOU1J?=
- =?utf-8?B?VFFYTU10ME14R3d2cTZsTXlvYWsxNlpvYlA5L3lvNm4wYnpzRzJVSFk0UVp6?=
- =?utf-8?B?MUJHR1NmWS9aT2U5NDN6OUdsWjN3cEZQWllLaFNTZk5qTzJvRDBGYVZjNTVX?=
- =?utf-8?B?em1LL3AvNjdndkgvdW1KK255Q3dDdUtvQis2RUlqM25KdXF3OU9RdDcvK3NO?=
- =?utf-8?B?a3FBQ3BrNGpBUTl1OVVPS1o0b3ViOXV2M2Q4bXdoNTYyc2Y0aFc3V3Jnc1dq?=
- =?utf-8?B?Z3VIMjlxWGJ6OW40SUp1Q0lxMmJ5TS9laTdsblIyUGFSd0RkYlZxTi9peEhF?=
- =?utf-8?B?VW1GWHoxVkN0TU5KWGhwSDc5U3R4Q1c4Y2VQc3FyYWlaYnEzYkZ0eVhEWGpa?=
- =?utf-8?B?UnpBMWg3Q2RSRWxjSTB5NnZQMEhZaS8vaitrcGIxejErK3VNd3pwc3NFUW54?=
- =?utf-8?B?Z0Iwa1I4Z1hYTU1KeW84L25Kb21SVGtwcnlZMVlWOXJVVWFPaG9SU2hxMDVD?=
- =?utf-8?B?aHVRSkpybnhYWTJ2Si9Ca2FvZ2diWXYwdjNxcEZ4djJIV0drbnFXWnQ0bXBr?=
- =?utf-8?B?VnZWdWYrYkJBTVR6aU1IL093OURoZDg3bXpNeEpUV1ZRaTFNYTdWMXhtYytl?=
- =?utf-8?B?QVRUOVc5RkdScHlub1RCa09ZOE9kYS9JK1dxbkVmRzNXSk5ha1NqeFFTWnBk?=
- =?utf-8?B?cUdOSzRzYytGcmgzSGgxclk3d1g3UHI1ZGVZMXBXdzlHaGJZYkExUW43QzZX?=
- =?utf-8?B?ZGNCazFDVW1IZWJHcXo3WGlkMHR2Q1k3RlNLMDMyQWJzaG5UQnErWWEzRGtR?=
- =?utf-8?B?dGdDb0dwZEhicndvZk8vdXlrZCs3encyWWNSSlhjaDJZVVlOUWZXeEpuVnpS?=
- =?utf-8?B?ODNXbmtaVUlFSnhoNnkzOUlTKzBmdi9scmN0dUk0WFppRjFWdng4VGJUVXFY?=
- =?utf-8?B?MzkvZU9KeVQyaW1PZm8zUE4wbjM4Wi9mT2gyQkVLZWE4cHJQVjhveUs3MXJj?=
- =?utf-8?B?aFp4YzEySjRlSVlCcUNUYW5wSUFsTkFzeVFLMExZRWVBNzc1T0RTNzBtak9H?=
- =?utf-8?B?RXliOFVvbHpIdmlSbHNtYjJRdkhQalkwc2RCZWl0RVFFZ2s5UjdCYmZPNllD?=
- =?utf-8?B?SzV5MERoT1haTlh4bVdmUFA0aFRYa2lWZDZkOHJLdUFPVlVXL3NzWXBwQ3pE?=
- =?utf-8?B?aS8xUHY2Ny9QaXFDUDhEUHpSWjVNL2FCc3Z6OHZscnIraHRpUWoyL1U2MDJP?=
- =?utf-8?B?VTFWNnY2Y3RWL294V2pLakxrT0Fld2doQXJwcjhpRTgvbHdyYXBFR24zQ3Rl?=
- =?utf-8?B?MlNwVFRUZzEzRjBpZGwxRlJiUVUxR3F6UkpXMkk2YkJJMS9tUkc5bCs3TDJi?=
- =?utf-8?B?ZisyV1M3dndZYVJyUUI2bjliYmVEa2FReGs2UVI3cC9YVUdqM0ttSS9BcUpJ?=
- =?utf-8?Q?7ABirkOl7IN/WzXB4nSZkVY=3D?=
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83bb9065-2a04-4ac8-c263-08db2a9509c5
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8465.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2023 05:19:40.7067
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vjKgQlG0Pwu+4rXJBA9aoVduSz74/2qP2C26t3WqKjpxni+hT9ggDKcb+y2mbluz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB10027
 
 
 
 On 2023/3/21 18:07, Hector Martin wrote:
-[...]
+> On 21/03/2023 12.21, Qu Wenruo wrote:
+>>
+>>
+>> On 2023/3/21 10:03, Neal Gompa wrote:
+>>> We have had working subpage support in Btrfs for many cycles now.
+>>> Generally, we do not want people creating filesystems by default
+>>> with non-4k sectorsizes since it creates portability problems.
+>>
+>> My biggest concern for now is, I haven't yet done any subpage testing
+>> for a while.
+>>
+>> The bottle neck is the lack of computing power.
+>>
+>> I only have one decent (RK3588 based SBC, Rock5B) board available for
+>> testing, but it's taken by my daily fstests runs, and it's still using
+>> 4K page size for the aarc64 VM.
+>>
+>> Although I have an backup SBC (the same Rock5B), it's reserved mostly
+>> for upstreaming and testing for the RK3588 SoC.
+>>
+>> Personally speaking, this change would bring a lot of more testing
+>> feedback from Asahi guys, thus would be pretty awesome.
+> 
+> Note that we already have a bunch of people running Fedora Asahi, and as
+> far as I know those images are created on 4K systems and then used on
+> 16K systems, so this should be already getting real-world testing (and
+> will get a lot more once we get to official announcement/release)
+> regardless of the default.
+> 
+> IOW, this change is mostly about people creating secondary btrfs
+> filesystems on Asahi directly, which is relatively niche in comparison.
+> So if you have a subpage bug it's going to hit Asahi users whether this
+> change happens or not :)
+> 
+>>
+>> But on the other hand, I really don't want any big bug screwing up early
+>> adopters, and further damage the reputation of btrfs.
+>>
+>>
+>> Would the Asahi guys gives us some early test results?
+>> (AKA, full fstests runs with 16K page size and 4K sectorsize).
+> 
+> Gave it a shot. Tested with options:
+> 
+> export TEST_DEV=/dev/nvme0n1p6
+> export TEST_DIR=/mnt/test
+> #export SCRATCH_DEV=/dev/nvme0n1p7
+> export SCRATCH_MNT=/mnt/scratch
+> export SCRATCH_DEV_POOL="/dev/nvme0n1p7 /dev/nvme0n1p8 /dev/nvme0n1p9
+> /dev/nvme0n1p10 /dev/nvme0n1p11"
+> export MKFS_OPTIONS="-s 4096"
+> export FSTYP=btrfs
+> 
+> btrfs/012 is broken, the converted FS fails to mount with:
+> 
+> [  784.588172] BTRFS warning (device nvme0n1p7): v1 space cache is not
+> supported for page size 16384 with sectorsize 4096
+> [  784.588199] BTRFS error (device nvme0n1p7): open_ctree failed
+> 
+> btrfs/131 and 136 have the same issue.
+> 
+> btrfs/106 has a size mismatch in the output, but I get the feeling
+> that's just a bad test that assumes 4K somewhere?
 > 
 > btrfs/140 is the first one that looks bad. Looks like the corruption
 > correction didn't work for some reason.
@@ -135,36 +144,6 @@ On 2023/3/21 18:07, Hector Martin wrote:
 > host_ans2.c:1469: tag 12, completed with err BAD_CMD-
 > [ 1240.000775] operation not supported error, dev nvme0n1, sector
 > 2582030751 op 0x0:(READ) flags 0x80700 phys_seg 1 prio class 2
-
-Mind to share the reproducibility?
-
-I tried it with my aarch64 VMs with the following setup:
-
-- Page size 16K
-   The host SoC supports all 4K/16K/64K page size
-
-- Virtio-blk
-   Backed by a NVME drive, with unsafe cache mode (aka, ignoring all file
-   sync)
-
-- Virtual memory 8G
-
-- 4 vCPU cores
-   All pinned to A76 cores, as qemu failed to boot if it's initialized
-   across A76 and A55 cores.
-
-   Paired with the virtio-blk with unsafe cache, the VM should have a
-   very fast storage, while lame CPU perf.
-
-- With extra ASSERT()s in btrfs_submit_bio()
-   Making sure all bios submitted through btrfs_submit_bio() has a non-
-   zero bi_size.
-
-Unfortunately unable to reproduce the problem.
-
-
-If you can reproduce, mind to provide a call trace?
-
 > 
 > Looks like it tried to read 0 blocks? I'm pretty sure that's not a valid
 > block device operation... and then that test hangs because the
@@ -175,34 +154,13 @@ If you can reproduce, mind to provide a call trace?
 > 
 > Excluding that one and moving on, 143 is broken the same way, as are
 > btrfs/265, 266, 267, 269.
-
-Also tried those ones, all passed here...
 > 
 > 213 failed to balance with ENOSPC.
-
-Passed with 5x10G LVs as scratch dev pool.
-
-I hope it's not Apple Silicon too fast to trigger it, or it would be 
-pretty hard to reproduce...
-
 > 
 > btrfs/246 has an output discrepancy, I don't know what's up with that.
-
-This is a limitation on the compressed write support, would update the 
-test case to skip it.
-
 > 
 > generic/251 then failed too, with dmesg logs about failing to trim block
 > groups.
-
-It takes much longer time but still passed here.
-
-I'll try my best to got some runs on real Apple machines meanwhile, but 
-don't expect any improvement on my hardware situation any time soon...
-
-Thanks,
-Qu
-
 > 
 > generic/520 failed with an EBUSY on umount, but I suspect this might be
 > some desktop/systemd stuff trying to use the mount?
@@ -215,8 +173,107 @@ Qu
 > generic/708 failed but that pointed to a known kernel bug that we don't
 > have the fix for yet (this is running on 6.2 + asahi patches).
 > 
+
+As Qu asked for test results on M1 mac mini, I ran above tests on 
+misc-next in my qemu box but no error found. Those tests failed on bare 
+metal
+machines.
+
+
+qemu configuration:
+
+qemu-system-aarch64 \
+     -M virt,highmem=no \
+     -accel hvf -cpu host -name alarm \
+     -smp cpus=8,sockets=1,cores=8,threads=1 -m 10096M \
+     -bios $uefi \
+     -device virtio-gpu -device qemu-xhci,id=xhci -device usb-kbd \
+     -device usb-tablet -device virtio-rng-pci \
+     -nic user,model=virtio,hostfwd=tcp::10022-:22 \
+     -rtc base=localtime,clock=host \
+     -chardev socket,id=mon0,host=localhost,port=63855,server=on,wait=off \
+     -mon chardev=mon0,mode=control,pretty=on \
+     -drive file=${alarm},if=virtio,id=boot,cache=writethrough \
+     -vga none -nographic \
+     -drive file=/dev/disk0s3,if=virtio,cache=unsafe,format=raw \
+     -netdev vmnet-bridged,id=net0,ifname=en1
+
+--
+Su
 > Run output and some select dmesg sections:
 > https://gist.github.com/marcan/822a34266bcaf4f4cffaa6a198b4c616
 > 
 > Let me know if you need anything else.
->
+> 
+>>
+>> If nothing wrong happened, I am very happy to this patch.
+>>
+>> Thanks,
+>> Qu
+>>>
+>>> Signed-off-by: Neal Gompa <neal@gompa.dev>
+>>> ---
+>>>    Documentation/Subpage.rst    |  9 +++++----
+>>>    Documentation/mkfs.btrfs.rst | 11 +++++++----
+>>>    mkfs/main.c                  |  2 +-
+>>>    3 files changed, 13 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/Documentation/Subpage.rst b/Documentation/Subpage.rst
+>>> index 21a495d5..d7e9b241 100644
+>>> --- a/Documentation/Subpage.rst
+>>> +++ b/Documentation/Subpage.rst
+>>> @@ -9,10 +9,11 @@ to the exactly same size of the block and page. On x86_64 this is typically
+>>>    pages, like 64KiB on 64bit ARM or PowerPC. This means filesystems created
+>>>    with 64KiB sector size cannot be mounted on a system with 4KiB page size.
+>>>    
+>>> -While with subpage support, systems with 64KiB page size can create (still needs
+>>> -"-s 4k" option for mkfs.btrfs) and mount filesystems with 4KiB sectorsize,
+>>> -allowing us to push 4KiB sectorsize as default sectorsize for all platforms in the
+>>> -near future.
+>>> +Since v6.3, filesystems are created with a 4KiB sectorsize by default,
+>>> +though it remains possible to create filesystems with other page sizes
+>>> +(such as 64KiB with the "-s 64k" option for mkfs.btrfs). This ensures that
+>>> +new filesystems are compatible across other architecture variants using
+>>> +larger page sizes.
+>>>    
+>>>    Requirements, limitations
+>>>    -------------------------
+>>> diff --git a/Documentation/mkfs.btrfs.rst b/Documentation/mkfs.btrfs.rst
+>>> index ba7227b3..af0b9c03 100644
+>>> --- a/Documentation/mkfs.btrfs.rst
+>>> +++ b/Documentation/mkfs.btrfs.rst
+>>> @@ -116,10 +116,13 @@ OPTIONS
+>>>    -s|--sectorsize <size>
+>>>            Specify the sectorsize, the minimum data block allocation unit.
+>>>    
+>>> -        The default value is the page size and is autodetected. If the sectorsize
+>>> -        differs from the page size, the created filesystem may not be mountable by the
+>>> -        running kernel. Therefore it is not recommended to use this option unless you
+>>> -        are going to mount it on a system with the appropriate page size.
+>>> +        The default value is 4KiB (4096). If larger page sizes (such as 64KiB [16384])
+>>> +        are used, the created filesystem will only mount on systems with a running kernel
+>>> +        running on a matching page size. Therefore it is not recommended to use this option
+>>> +        unless you are going to mount it on a system with the appropriate page size.
+>>> +
+>>> +        .. note::
+>>> +                Versions up to 6.3 set the sectorsize matching to the page size.
+>>>    
+>>>    -L|--label <string>
+>>>            Specify a label for the filesystem. The *string* should be less than 256
+>>> diff --git a/mkfs/main.c b/mkfs/main.c
+>>> index f5e34cbd..5e1834d7 100644
+>>> --- a/mkfs/main.c
+>>> +++ b/mkfs/main.c
+>>> @@ -1207,7 +1207,7 @@ int BOX_MAIN(mkfs)(int argc, char **argv)
+>>>    	}
+>>>    
+>>>    	if (!sectorsize)
+>>> -		sectorsize = (u32)sysconf(_SC_PAGESIZE);
+>>> +		sectorsize = (u32)SZ_4K;
+>>>    	if (btrfs_check_sectorsize(sectorsize))
+>>>    		goto error;
+>>>    
+>>
+> 
+> 
+> - Hector
