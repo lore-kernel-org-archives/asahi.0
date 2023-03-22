@@ -1,279 +1,103 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6A26FAA
-	for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 14:07:21 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id j3-20020a17090adc8300b0023d09aea4a6so23697354pjv.5
-        for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 07:07:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A721FB1
+	for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 14:33:40 +0000 (UTC)
+Received: by mail-qv1-f53.google.com with SMTP id 97so12266832qvb.6
+        for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 07:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fydeos.io; s=fydeos; t=1679494041;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=19V2sxOk7/R16P2+zr++HY3rIKrP79nOLgOgphn9mqY=;
-        b=gMz7KVjP0lXJh9Py/7rdH/ReU2a4LgkcSnyPIzys3WDxTbNKEudOx1/hCytDAHvaRy
-         5ni19nHLPDEmyszBQihNXu8cSHSjBF1vFtYeKgCZfEz/90ceQaIrO53fUsFTipAg5sE6
-         qVU8fIwjI2QSxjXuwP3jEeubCIbSundkYNQpukdVYQDCLwQRGL0GQ/zVAKk8VLoTnJ8y
-         4xGTlnbGZXKnoD94J55A/mQIYMWsrlAdOqWTUI88rPBbe4QAz8z4ZldBXldc3OoAnWhE
-         VZITKkt6jzrnRdCi7tNwURMys2JgN7//Vijpj5qNa36e+99EUO/Fph3ZFDmTuSeIt99p
-         xLyQ==
+        d=toxicpanda-com.20210112.gappssmtp.com; s=20210112; t=1679495619;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+sHcsfHgkijYU4G5ArbPCjbXXNuq2j7boEZZTal/lLI=;
+        b=XghRYV1zlZMg7wZOtr3HLKtiwGzuXU5LGUZU0mokJyFCwb2vqhxeJElMW5IB30ZPH6
+         QLkj1fzK/z1WGZuHn31IsXjCtW/TyydK23pjN4ZByW6SGsxDTo6tsOu0MhfZ+iqDfwFr
+         qyXDDLV4vKzAE2irob7OqdMhI9iec4m4IIjl8CyLHpZdJuxaqQv60J24aa4yiBGEb3cl
+         wr6AhnV8c0bB3VTjN/r51jvZlCSCL44Wjugq451FtTOOq3MOLYM9LGEsL1Yo2NLVY86t
+         kPONJDYGxuzrO73tZsBTgziy7qO0t3uZGrbqbTtlj0NggJhZoqp+9XeIgPGtppB62dMa
+         1foA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679494041;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=19V2sxOk7/R16P2+zr++HY3rIKrP79nOLgOgphn9mqY=;
-        b=j5YdAEVDca7BwKAwR/UISAOJ9rqAri04+BVraqGIMNwCFfRX6J80D5S6ai5LfXiENq
-         13xhR5sw6vRTJIARCqwC2fGu/ruyyP/dx+mNDOJtW5UmrHcbqxQC2W2vNr5fLWWbCuFF
-         +Y5WiWHM13wyYFyJHZbuyyRM9rD1h0RACkeRHV6x2pnep6yO+IhfXxmjZ6CedAoxS4Pd
-         qbIGYjJMNhKPagdpzEHMak7KZ789k0ToZIwLGjHEYBBoybnqeOj03VqzkmVYN70pVI5R
-         ZuuL6YZgaEkv8l7gY+JPNSqXB6qgTtm9nEEqdZCbZECWf5UJ6Sq1Ga14+PHCB3+mLHPY
-         waqA==
-X-Gm-Message-State: AO0yUKW56YMW2O5eMOTOTjSzzLfbSftmnW36voxdQd1ZgPo1lSNkU/Uf
-	hUR0TcbobU1C4NTv9UT65WtNXWhDLXgoJ2/7tWQ=
-X-Google-Smtp-Source: AK7set+19ogZAopSWvOc4Y5W4n89m7vpzMD/VKUwim5jStdgVi9pr5+busSR0xckBk9L6dWE0mR9mA==
-X-Received: by 2002:a17:902:e881:b0:1a0:67b1:a777 with SMTP id w1-20020a170902e88100b001a067b1a777mr3472992plg.61.1679494040677;
-        Wed, 22 Mar 2023 07:07:20 -0700 (PDT)
-Received: from [192.168.2.144] ([2a12:a301:2::136c])
-        by smtp.gmail.com with ESMTPSA id y11-20020a1709027c8b00b001943d58268csm10627277pll.55.2023.03.22.07.07.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Mar 2023 07:07:19 -0700 (PDT)
-Message-ID: <9ec1132c-2b33-6022-7680-5bdf8c292ead@fydeos.io>
-Date: Wed, 22 Mar 2023 22:07:13 +0800
+        d=1e100.net; s=20210112; t=1679495619;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+sHcsfHgkijYU4G5ArbPCjbXXNuq2j7boEZZTal/lLI=;
+        b=g+lfMCsQyKU0v6sbk4MwvxniisOdgznKz4F4p7otFP3FaK6Dpsg6NfLvPVwJyu+vQA
+         knFBm3OeGESDN4sNl7UoKFYWfGG/bThP3hZvtnOfk0Q7+GN/IMW9S/Qdcvdg50bI6pAJ
+         4jvv40PcJWn9upBx2Ah+/OOpXQntMXgTyWsq5OyhZb/qrF1AXTTWC50MaDCPCvvrrhXz
+         +yG3aniPVUye6xMpLycu1ZEUDGYnooY1MWRZMXkcNwkML0cn01gCXTUfu/48YP8Y5jKB
+         B3XoFP1D9qsFZcEU4/xlLQwkt/KPqIf6NHAzEsvoVEN0ruTuDl4oOn8Deu5EwU85LZVg
+         AnsA==
+X-Gm-Message-State: AO0yUKVCONk66zjgkrbqodY/5xgmLQPmduQXzfeaJc0BecepXkfOxBFB
+	PCxyoAALXrLxj7P3/sJD+0LyiQ==
+X-Google-Smtp-Source: AK7set/rpxfvRJWHxoDmaECKeHXyJ73mNftSquU48ApyT018fkhNL2OBsNxHV9mDSOVBcA4ve/ENOQ==
+X-Received: by 2002:a05:6214:234e:b0:56b:340c:ee1a with SMTP id hu14-20020a056214234e00b0056b340cee1amr6638482qvb.49.1679495619399;
+        Wed, 22 Mar 2023 07:33:39 -0700 (PDT)
+Received: from localhost (cpe-174-109-170-245.nc.res.rr.com. [174.109.170.245])
+        by smtp.gmail.com with ESMTPSA id i4-20020a378604000000b0073b3316bbd0sm11432396qkd.29.2023.03.22.07.33.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Mar 2023 07:33:38 -0700 (PDT)
+Date: Wed, 22 Mar 2023 10:33:38 -0400
+From: Josef Bacik <josef@toxicpanda.com>
+To: Neal Gompa <neal@gompa.dev>
+Cc: Linux BTRFS Development <linux-btrfs@vger.kernel.org>,
+	Anand Jain <anand.jain@oracle.com>,
+	Qu Wenruo <quwenruo.btrfs@gmx.com>, Qu Wenruo <wqu@suse.com>,
+	David Sterba <dsterba@suse.cz>, Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Davide Cavalca <davide@cavalca.name>, Jens Axboe <axboe@fb.com>,
+	Asahi Lina <lina@asahilina.net>,
+	Asahi Linux <asahi@lists.linux.dev>
+Subject: Re: [RFC PATCH v2 0/1] Enforce 4k sectorize by default for mkfs
+Message-ID: <20230322143338.GB2169647@perftesting>
+References: <20230321180610.2620012-1-neal@gompa.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH] btrfs-progs: mkfs: Enforce 4k sectorsize by default
-To: Hector Martin <marcan@marcan.st>, Qu Wenruo <quwenruo.btrfs@gmx.com>,
- Neal Gompa <neal@gompa.dev>, linux-btrfs@vger.kernel.org
-Cc: David Sterba <dsterba@suse.cz>, Davide Cavalca <davide@cavalca.name>,
- Sven Peter <sven@svenpeter.dev>, "axboe@fb.com" <axboe@fb.com>,
- Asahi Linux <asahi@lists.linux.dev>
-References: <20230321020320.2555362-1-neal@gompa.dev>
- <b4329200-650e-f46e-505a-e5248f187be6@gmx.com>
- <8a52f55e-9b91-c6da-f2f6-eb8ccb87093d@marcan.st>
-Content-Language: en-US
-From: Su Yue <glass@fydeos.io>
-In-Reply-To: <8a52f55e-9b91-c6da-f2f6-eb8ccb87093d@marcan.st>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230321180610.2620012-1-neal@gompa.dev>
 
-
-
-On 2023/3/21 18:07, Hector Martin wrote:
-> On 21/03/2023 12.21, Qu Wenruo wrote:
->>
->>
->> On 2023/3/21 10:03, Neal Gompa wrote:
->>> We have had working subpage support in Btrfs for many cycles now.
->>> Generally, we do not want people creating filesystems by default
->>> with non-4k sectorsizes since it creates portability problems.
->>
->> My biggest concern for now is, I haven't yet done any subpage testing
->> for a while.
->>
->> The bottle neck is the lack of computing power.
->>
->> I only have one decent (RK3588 based SBC, Rock5B) board available for
->> testing, but it's taken by my daily fstests runs, and it's still using
->> 4K page size for the aarc64 VM.
->>
->> Although I have an backup SBC (the same Rock5B), it's reserved mostly
->> for upstreaming and testing for the RK3588 SoC.
->>
->> Personally speaking, this change would bring a lot of more testing
->> feedback from Asahi guys, thus would be pretty awesome.
+On Tue, Mar 21, 2023 at 02:06:09PM -0400, Neal Gompa wrote:
+> The Fedora Asahi SIG[0] is working on bringing up support for
+> Apple Silicon Macintosh computers through the Asahi Fedora Remix[1].
 > 
-> Note that we already have a bunch of people running Fedora Asahi, and as
-> far as I know those images are created on 4K systems and then used on
-> 16K systems, so this should be already getting real-world testing (and
-> will get a lot more once we get to official announcement/release)
-> regardless of the default.
+> Apple Silicon Macs are unusual in that they currently require 16k
+> page sizes, which means that the current default for mkfs.btrfs(8)
+> makes a filesystem that is unreadable on x86 PCs and most other ARM
+> PCs.
 > 
-> IOW, this change is mostly about people creating secondary btrfs
-> filesystems on Asahi directly, which is relatively niche in comparison.
-> So if you have a subpage bug it's going to hit Asahi users whether this
-> change happens or not :)
+> Soon, this will be even more of a problem within Apple Silicon Macs
+> as Asahi Lina is working on 4k support to enable x86 emulation[2]
+> and since Linux does not support dynamically switching page sizes at
+> runtime, users will likely regularly switch back and forth depending
+> on their needs.
 > 
->>
->> But on the other hand, I really don't want any big bug screwing up early
->> adopters, and further damage the reputation of btrfs.
->>
->>
->> Would the Asahi guys gives us some early test results?
->> (AKA, full fstests runs with 16K page size and 4K sectorsize).
+> Thus, I'd like to see us finally make the switchover to 4k sectorsize
+> for new filesystems by default, regardless of page size.
 > 
-> Gave it a shot. Tested with options:
+> The initial test run by Hector Martin[3] at request of Qu Wenruo
+> looks promising[4], and I hope we can get this to land upstream soon.
 > 
-> export TEST_DEV=/dev/nvme0n1p6
-> export TEST_DIR=/mnt/test
-> #export SCRATCH_DEV=/dev/nvme0n1p7
-> export SCRATCH_MNT=/mnt/scratch
-> export SCRATCH_DEV_POOL="/dev/nvme0n1p7 /dev/nvme0n1p8 /dev/nvme0n1p9
-> /dev/nvme0n1p10 /dev/nvme0n1p11"
-> export MKFS_OPTIONS="-s 4096"
-> export FSTYP=btrfs
+> This is an update on the initial RFC patch[5], which addresses the
+> documentation feedback from Anand Jain.
 > 
-> btrfs/012 is broken, the converted FS fails to mount with:
-> 
-> [  784.588172] BTRFS warning (device nvme0n1p7): v1 space cache is not
-> supported for page size 16384 with sectorsize 4096
-> [  784.588199] BTRFS error (device nvme0n1p7): open_ctree failed
-> 
-> btrfs/131 and 136 have the same issue.
-> 
-> btrfs/106 has a size mismatch in the output, but I get the feeling
-> that's just a bad test that assumes 4K somewhere?
-> 
-> btrfs/140 is the first one that looks bad. Looks like the corruption
-> correction didn't work for some reason.
-> 
-> ... and then btrfs/142 which is similar actually managed to log a bunch
-> of errors on our NVMe controller. Nice.
-> 
-> [ 1240.000104] nvme-apple 393cc0000.nvme: RTKit: syslog message:
-> host_ans2.c:1564: cmd parsing error for tag 12 fast decode err 0x1
-> [ 1240.000767] nvme0n1: Read(0x2) @ LBA 322753843, 0 blocks, Invalid
-> Field in Command (sct 0x0 / sc 0x2)
-> [ 1240.000771] nvme-apple 393cc0000.nvme: RTKit: syslog message:
-> host_ans2.c:1469: tag 12, completed with err BAD_CMD-
-> [ 1240.000775] operation not supported error, dev nvme0n1, sector
-> 2582030751 op 0x0:(READ) flags 0x80700 phys_seg 1 prio class 2
-> 
-> Looks like it tried to read 0 blocks? I'm pretty sure that's not a valid
-> block device operation... and then that test hangs because the
-> _btrfs_direct_read_on_mirror() common function is completely broken, as
-> it infinite loops if the exec'd command fails (which it does here, with
-> ENOENT). Cc sven/axboe/asahi: I'm pretty sure we should catch
-> upper-layer badness like this before sending it to the controller.
-> 
-> Excluding that one and moving on, 143 is broken the same way, as are
-> btrfs/265, 266, 267, 269.
-> 
-> 213 failed to balance with ENOSPC.
-> 
-> btrfs/246 has an output discrepancy, I don't know what's up with that.
-> 
-> generic/251 then failed too, with dmesg logs about failing to trim block
-> groups.
-> 
-> generic/520 failed with an EBUSY on umount, but I suspect this might be
-> some desktop/systemd stuff trying to use the mount?
-> 
-> generic/563 suggests there may be cgroup accounting issues
-> 
-> generic/619 seems known to be pathologically slow on arm64, so I killed
-> it (https://www.spinics.net/lists/linux-btrfs/msg131553.html).
-> 
-> generic/708 failed but that pointed to a known kernel bug that we don't
-> have the fix for yet (this is running on 6.2 + asahi patches).
+> [0]: https://fedoraproject.org/wiki/SIGs/Asahi
+> [1]: https://asahi-fedora-remix.org/
+> [2]: https://vt.social/@lina/110060963422545117
+> [3]: https://lore.kernel.org/linux-btrfs/fdffeecd-964f-0c69-f869-eb9ceca20263@suse.com/T/#m11d7939de96c43b3a7cdabc7c568d8bcafc7ca83
+> [4]: https://lore.kernel.org/linux-btrfs/fdffeecd-964f-0c69-f869-eb9ceca20263@suse.com/T/#mf382b78a8122b0cb82147a536c85b6a9098a2895
+> [5]: https://lore.kernel.org/linux-btrfs/fdffeecd-964f-0c69-f869-eb9ceca20263@suse.com/T/#t
 > 
 
-As Qu asked for test results on M1 mac mini, I ran above tests on 
-misc-next in my qemu box but no error found. Those tests failed on bare 
-metal
-machines.
+This all looks good to me, you can add
 
+Reviewed-by: Josef Bacik <josef@toxicpanda.com>
 
-qemu configuration:
+I've got a mac studio on the way, I'll add this to our CI testing to make sure
+we've got good coverage of this code going forward.  Thanks,
 
-qemu-system-aarch64 \
-     -M virt,highmem=no \
-     -accel hvf -cpu host -name alarm \
-     -smp cpus=8,sockets=1,cores=8,threads=1 -m 10096M \
-     -bios $uefi \
-     -device virtio-gpu -device qemu-xhci,id=xhci -device usb-kbd \
-     -device usb-tablet -device virtio-rng-pci \
-     -nic user,model=virtio,hostfwd=tcp::10022-:22 \
-     -rtc base=localtime,clock=host \
-     -chardev socket,id=mon0,host=localhost,port=63855,server=on,wait=off \
-     -mon chardev=mon0,mode=control,pretty=on \
-     -drive file=${alarm},if=virtio,id=boot,cache=writethrough \
-     -vga none -nographic \
-     -drive file=/dev/disk0s3,if=virtio,cache=unsafe,format=raw \
-     -netdev vmnet-bridged,id=net0,ifname=en1
-
---
-Su
-> Run output and some select dmesg sections:
-> https://gist.github.com/marcan/822a34266bcaf4f4cffaa6a198b4c616
-> 
-> Let me know if you need anything else.
-> 
->>
->> If nothing wrong happened, I am very happy to this patch.
->>
->> Thanks,
->> Qu
->>>
->>> Signed-off-by: Neal Gompa <neal@gompa.dev>
->>> ---
->>>    Documentation/Subpage.rst    |  9 +++++----
->>>    Documentation/mkfs.btrfs.rst | 11 +++++++----
->>>    mkfs/main.c                  |  2 +-
->>>    3 files changed, 13 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/Documentation/Subpage.rst b/Documentation/Subpage.rst
->>> index 21a495d5..d7e9b241 100644
->>> --- a/Documentation/Subpage.rst
->>> +++ b/Documentation/Subpage.rst
->>> @@ -9,10 +9,11 @@ to the exactly same size of the block and page. On x86_64 this is typically
->>>    pages, like 64KiB on 64bit ARM or PowerPC. This means filesystems created
->>>    with 64KiB sector size cannot be mounted on a system with 4KiB page size.
->>>    
->>> -While with subpage support, systems with 64KiB page size can create (still needs
->>> -"-s 4k" option for mkfs.btrfs) and mount filesystems with 4KiB sectorsize,
->>> -allowing us to push 4KiB sectorsize as default sectorsize for all platforms in the
->>> -near future.
->>> +Since v6.3, filesystems are created with a 4KiB sectorsize by default,
->>> +though it remains possible to create filesystems with other page sizes
->>> +(such as 64KiB with the "-s 64k" option for mkfs.btrfs). This ensures that
->>> +new filesystems are compatible across other architecture variants using
->>> +larger page sizes.
->>>    
->>>    Requirements, limitations
->>>    -------------------------
->>> diff --git a/Documentation/mkfs.btrfs.rst b/Documentation/mkfs.btrfs.rst
->>> index ba7227b3..af0b9c03 100644
->>> --- a/Documentation/mkfs.btrfs.rst
->>> +++ b/Documentation/mkfs.btrfs.rst
->>> @@ -116,10 +116,13 @@ OPTIONS
->>>    -s|--sectorsize <size>
->>>            Specify the sectorsize, the minimum data block allocation unit.
->>>    
->>> -        The default value is the page size and is autodetected. If the sectorsize
->>> -        differs from the page size, the created filesystem may not be mountable by the
->>> -        running kernel. Therefore it is not recommended to use this option unless you
->>> -        are going to mount it on a system with the appropriate page size.
->>> +        The default value is 4KiB (4096). If larger page sizes (such as 64KiB [16384])
->>> +        are used, the created filesystem will only mount on systems with a running kernel
->>> +        running on a matching page size. Therefore it is not recommended to use this option
->>> +        unless you are going to mount it on a system with the appropriate page size.
->>> +
->>> +        .. note::
->>> +                Versions up to 6.3 set the sectorsize matching to the page size.
->>>    
->>>    -L|--label <string>
->>>            Specify a label for the filesystem. The *string* should be less than 256
->>> diff --git a/mkfs/main.c b/mkfs/main.c
->>> index f5e34cbd..5e1834d7 100644
->>> --- a/mkfs/main.c
->>> +++ b/mkfs/main.c
->>> @@ -1207,7 +1207,7 @@ int BOX_MAIN(mkfs)(int argc, char **argv)
->>>    	}
->>>    
->>>    	if (!sectorsize)
->>> -		sectorsize = (u32)sysconf(_SC_PAGESIZE);
->>> +		sectorsize = (u32)SZ_4K;
->>>    	if (btrfs_check_sectorsize(sectorsize))
->>>    		goto error;
->>>    
->>
-> 
-> 
-> - Hector
+Josef
