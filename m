@@ -1,136 +1,108 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B17D30A
-	for <asahi@lists.linux.dev>; Tue, 21 Mar 2023 18:06:47 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id 59so4495207qva.11
-        for <asahi@lists.linux.dev>; Tue, 21 Mar 2023 11:06:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679422006;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CCwEoyRPRdOYo3pD4ba8/CYZK/aWfvb7bEv1tr+fBQQ=;
-        b=Ze5p7IIqjzRmUMXe/1PyEIVC1uA5zmrHTKcEhiMVu2ASHPCMx/HRFZjHt33ASxLJQB
-         ybky4FOY98h3hup7KUyB7WJ9tKAduNyAcyOMn62U2aAouolmJbcvMpbtQ/p/nDx+yBX1
-         yj3/Sa5ySV3VyakXBCraN0s1vG90gIka2JMOuq03TJKaZ81qnqJ5PDqkNB8zXX2/Kapl
-         zheWAj9VbvJtHMW6xrCRo/ggenHx1QJCBQmHKVbT6LQemaVByS364L44uUqmBu5eVXEk
-         UHV/+bybGdJvVx7ExGnGXf+lcWDVyiN99ZeLS4t/pMukacdni2bClCYl1l4x1XvfJxx8
-         pwoQ==
-X-Gm-Message-State: AO0yUKX1OPu0rGny7xWSaoMiEgicUfGUrpdMW4f3+bdeHHc8joqTmVeL
-	Yj1jEsAqwuFCmrkBII46Dvc=
-X-Google-Smtp-Source: AK7set92g5J3kgqvESGE2x8zSiRagaSvdDdsh61XyZ3co89gjS30TmvkjNNjfb6PObCQHxZLVSWf4w==
-X-Received: by 2002:ad4:5b84:0:b0:568:c5e3:a0ce with SMTP id 4-20020ad45b84000000b00568c5e3a0cemr1342205qvp.20.1679422006377;
-        Tue, 21 Mar 2023 11:06:46 -0700 (PDT)
-Received: from Belldandy-Slimbook.infra.opensuse.org (ool-18e49371.dyn.optonline.net. [24.228.147.113])
-        by smtp.gmail.com with ESMTPSA id 84-20020a370c57000000b0074698d81ffasm2328796qkm.44.2023.03.21.11.06.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Mar 2023 11:06:46 -0700 (PDT)
-From: Neal Gompa <neal@gompa.dev>
-To: Linux BTRFS Development <linux-btrfs@vger.kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>,
-	Anand Jain <anand.jain@oracle.com>,
-	Qu Wenruo <quwenruo.btrfs@gmx.com>,
-	Qu Wenruo <wqu@suse.com>,
-	David Sterba <dsterba@suse.cz>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Davide Cavalca <davide@cavalca.name>,
-	Jens Axboe <axboe@fb.com>,
-	Asahi Lina <lina@asahilina.net>,
-	Asahi Linux <asahi@lists.linux.dev>
-Subject: [RFC PATCH v2 1/1] btrfs-progs: mkfs: Enforce 4k sectorsize by default
-Date: Tue, 21 Mar 2023 14:06:10 -0400
-Message-Id: <20230321180610.2620012-2-neal@gompa.dev>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230321180610.2620012-1-neal@gompa.dev>
-References: <20230321180610.2620012-1-neal@gompa.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0759915A9
+	for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 02:26:01 +0000 (UTC)
+Received: from [0.0.0.0] ([149.28.201.231]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MZkpb-1q1XSA3QTX-00WmlU; Wed, 22
+ Mar 2023 03:25:30 +0100
+Message-ID: <c50dba5e-54a4-e546-5fbd-a1a074080b61@gmx.com>
+Date: Wed, 22 Mar 2023 10:25:21 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [RFC PATCH v2 0/1] Enforce 4k sectorize by default for mkfs
+Content-Language: en-US
+To: Neal Gompa <neal@gompa.dev>,
+ Linux BTRFS Development <linux-btrfs@vger.kernel.org>
+Cc: Anand Jain <anand.jain@oracle.com>, Qu Wenruo <wqu@suse.com>,
+ David Sterba <dsterba@suse.cz>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Davide Cavalca <davide@cavalca.name>,
+ Jens Axboe <axboe@fb.com>, Asahi Lina <lina@asahilina.net>,
+ Asahi Linux <asahi@lists.linux.dev>
+References: <20230321180610.2620012-1-neal@gompa.dev>
+From: Qu Wenruo <quwenruo.btrfs@gmx.com>
+In-Reply-To: <20230321180610.2620012-1-neal@gompa.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:z3WQPfoV3/b+iGog5LttiHJHTddX5aJPyflYpXYBGFWhM2zShlJ
+ Te4JM13/vtIHsJ4k2ySRo0zGZw5tx2ao8kQmkrkpSZn8+XyE1KZbUquqHtZo/SXRkZxsFGI
+ ZDSGAEjKRfCPV0/6M99TRZK8u1YhP1KJZGpnp24PWwHcL9B2XpwBsL9x/GlGYhJ+0p537Wv
+ HUnBwyhBUCYioBhjJxmUw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:qwd7tg9ehyo=;rW4uZfQIQqSka3oYoZZT40/cg0j
+ HAoJY8BMtdmwyK1B2MR3u6OrVD2VfWB3UNI0cvbyz2xL95fZJdy+b/XO4cEkuEL7PDPYrlj3F
+ bzgdakS54RyxYeTtFjUH8ATwPtXP8qGqDO6HxKapy6aLGCE2bDdVVYpNqW+W39m/hEeB9EGAL
+ 1PpptBfMADuVPg9oV7u0UEZnaMmy/095m2MPcC+p2QWN9tKSptjJqJA/F8ZMJiKGKh6PfMAzH
+ KHYFtN/s4MetyWxS2fEJD2zEjWUywL0ajjY2YAaepHqOg0LrLDaQ3iT2qilIR7HCQ//b+9+OI
+ tJRN0UR7c6snOWE3lDJ39Mv1amWtGjVsrXQAbR3cYkQZUvJeMPpmKXCa/eJ6/1aazki1mRxbn
+ cpoNVrI066tlXxykp5xEQ8PdNPF3q/vVVpcBGvqCjNeLA2vvYarUtrAfJ/38J8MZ6RddDc+JX
+ LY5JqQTLUJK66OulKMZPJaquFNhCAyd6Uc3A9Jv5Gq4/WiiNASaO931IPlJR4KuJP90AuANhf
+ PiFvOlFD6eOznUSbMEMZ4GcxV0tPlkQUWBww8HHljJRxDC/XQu7/h4bljmHtYljld4i8lG+jP
+ Dtk/o37KC3lM3s2tRHLlq6MDSc6CMSqyegQ+iHU7zouafx5YJDAAbgh5NqEYdzXDkSE7ijXOL
+ 4ozfV+lfe1ySGNfhtNuWfFLjvYyxEUDQLdLLdSZb2r5PThtlhmKmrQMjRQm5AbKw3wbWI+UOG
+ 6EhkjvL6cNLHAsKleZlEuJ/o3mnnuZxS5O6/WEQuuoeyRBvDG9gA+6l8eRCOSqW7nN6vqfY7/
+ xfuBmsAgcdSKa63to+L5VPbXhzMpswV1Y4txwChC/l4oLLGJHKtwNMDlzzJVEDcSP2Lqwn/H9
+ JDspFQsrKKNj4mt7PCBw39P0iNiWD5pUmLPScfC2r8D5YhTjLONuMv1r8mphIR3ZUdN+j0lFK
+ SaEdNMggWZMXj27NYGDOVKuJl5Y=
 
-We have had working subpage support in Btrfs for many cycles now.
-Generally, we do not want people creating filesystems by default
-with non-4k sectorsizes since it creates portability problems.
 
-Signed-off-by: Neal Gompa <neal@gompa.dev>
----
- Documentation/Subpage.rst    | 15 ++++++++-------
- Documentation/mkfs.btrfs.rst | 13 +++++++++----
- mkfs/main.c                  |  2 +-
- 3 files changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/Subpage.rst b/Documentation/Subpage.rst
-index 21a495d5..39ef7d6d 100644
---- a/Documentation/Subpage.rst
-+++ b/Documentation/Subpage.rst
-@@ -9,17 +9,18 @@ to the exactly same size of the block and page. On x86_64 this is typically
- pages, like 64KiB on 64bit ARM or PowerPC. This means filesystems created
- with 64KiB sector size cannot be mounted on a system with 4KiB page size.
- 
--While with subpage support, systems with 64KiB page size can create (still needs
--"-s 4k" option for mkfs.btrfs) and mount filesystems with 4KiB sectorsize,
--allowing us to push 4KiB sectorsize as default sectorsize for all platforms in the
--near future.
-+Since v6.3, filesystems are created with a 4KiB sectorsize by default,
-+though it remains possible to create filesystems with other page sizes
-+(such as 64KiB with the "-s 64k" option for mkfs.btrfs). This ensures that
-+new filesystems are compatible across other architecture variants using
-+larger page sizes.
- 
- Requirements, limitations
- -------------------------
- 
--The initial subpage support has been added in v5.15, although it's still
--considered as experimental at the time of writing (v5.18), most features are
--already working without problems.
-+The initial subpage support has been added in v5.15. Most features are
-+already working without problems. Subpage support is used by default
-+for systems with a non-4KiB page size since v6.3.
- 
- End users can mount filesystems with 4KiB sectorsize and do their usual
- workload, while should not notice any obvious change, as long as the initial
-diff --git a/Documentation/mkfs.btrfs.rst b/Documentation/mkfs.btrfs.rst
-index ba7227b3..16abf0ca 100644
---- a/Documentation/mkfs.btrfs.rst
-+++ b/Documentation/mkfs.btrfs.rst
-@@ -116,10 +116,15 @@ OPTIONS
- -s|--sectorsize <size>
-         Specify the sectorsize, the minimum data block allocation unit.
- 
--        The default value is the page size and is autodetected. If the sectorsize
--        differs from the page size, the created filesystem may not be mountable by the
--        running kernel. Therefore it is not recommended to use this option unless you
--        are going to mount it on a system with the appropriate page size.
-+        By default, the value is 4KiB, but it can be manually set to match the
-+        system page size. However, if the sector size is different from the page
-+        size, the resulting filesystem may not be mountable by the current
-+        kernel, apart from the default 4KiB. Hence, using this option is not
-+        advised unless you intend to mount it on a system with the suitable
-+        page size.
-+
-+        .. note::
-+                Versions prior to 6.3 set the sectorsize matching to the page size.
- 
- -L|--label <string>
-         Specify a label for the filesystem. The *string* should be less than 256
-diff --git a/mkfs/main.c b/mkfs/main.c
-index f5e34cbd..5e1834d7 100644
---- a/mkfs/main.c
-+++ b/mkfs/main.c
-@@ -1207,7 +1207,7 @@ int BOX_MAIN(mkfs)(int argc, char **argv)
- 	}
- 
- 	if (!sectorsize)
--		sectorsize = (u32)sysconf(_SC_PAGESIZE);
-+		sectorsize = (u32)SZ_4K;
- 	if (btrfs_check_sectorsize(sectorsize))
- 		goto error;
- 
--- 
-2.39.2
+On 2023/3/22 02:06, Neal Gompa wrote:
+> The Fedora Asahi SIG[0] is working on bringing up support for
+> Apple Silicon Macintosh computers through the Asahi Fedora Remix[1].
+> 
+> Apple Silicon Macs are unusual in that they currently require 16k
+> page sizes, which means that the current default for mkfs.btrfs(8)
+> makes a filesystem that is unreadable on x86 PCs and most other ARM
+> PCs.
+> 
+> Soon, this will be even more of a problem within Apple Silicon Macs
+> as Asahi Lina is working on 4k support to enable x86 emulation[2]
+> and since Linux does not support dynamically switching page sizes at
+> runtime, users will likely regularly switch back and forth depending
+> on their needs.
+> 
+> Thus, I'd like to see us finally make the switchover to 4k sectorsize
+> for new filesystems by default, regardless of page size.
+> 
+> The initial test run by Hector Martin[3] at request of Qu Wenruo
+> looks promising[4], and I hope we can get this to land upstream soon.
 
+Reviewed-by: Qu Wenruo <wqu@suse.com>
+
+And I'm already pulling my aarch64 VM to run subpage tests again, and 
+this time with 16K page size, just like the one utilized by Asahi Linux 
+project.
+
+The failures reported by Hector is being investigated, and such switch 
+in mkfs would bring more feedback from other distros too.
+Hopefully we can also remove the experimental warning from kernel soon.
+
+Thanks,
+Qu
+
+> 
+> This is an update on the initial RFC patch[5], which addresses the
+> documentation feedback from Anand Jain.
+> 
+> [0]: https://fedoraproject.org/wiki/SIGs/Asahi
+> [1]: https://asahi-fedora-remix.org/
+> [2]: https://vt.social/@lina/110060963422545117
+> [3]: https://lore.kernel.org/linux-btrfs/fdffeecd-964f-0c69-f869-eb9ceca20263@suse.com/T/#m11d7939de96c43b3a7cdabc7c568d8bcafc7ca83
+> [4]: https://lore.kernel.org/linux-btrfs/fdffeecd-964f-0c69-f869-eb9ceca20263@suse.com/T/#mf382b78a8122b0cb82147a536c85b6a9098a2895
+> [5]: https://lore.kernel.org/linux-btrfs/fdffeecd-964f-0c69-f869-eb9ceca20263@suse.com/T/#t
+> 
+> Neal Gompa (1):
+>    btrfs-progs: mkfs: Enforce 4k sectorsize by default
+> 
+>   Documentation/Subpage.rst    | 15 ++++++++-------
+>   Documentation/mkfs.btrfs.rst | 13 +++++++++----
+>   mkfs/main.c                  |  2 +-
+>   3 files changed, 18 insertions(+), 12 deletions(-)
+> 
