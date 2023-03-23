@@ -1,126 +1,179 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9DB3C04
-	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 10:19:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1679566758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=coqjmjk6xTYfq/k9FbHyeBz4n2qs9gX3DbZ21S5gxLM=;
-	b=BmQHZ7+D50t162AmpzzS4W40bDYTmXLUsqPhYna+tFquu0IJ6VWvrMp0GWwlqgmJ3jo82g
-	I1zMoE6qpbYwpz0TUAAeoAJOIZSfDU3QwhqPPNBXcDsp4vhIb+HBmK+8XQ43lMMUj+mzj6
-	cafvJgNIUK1vFNPoPawOMT2N1zBuSV0=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-554-wq_rUSG0ONytQuQNLfGhwQ-1; Thu, 23 Mar 2023 06:19:16 -0400
-X-MC-Unique: wq_rUSG0ONytQuQNLfGhwQ-1
-Received: by mail-ua1-f71.google.com with SMTP id z4-20020ab05cc4000000b0076095468c75so7938192uaf.20
-        for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 03:19:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679566756;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=coqjmjk6xTYfq/k9FbHyeBz4n2qs9gX3DbZ21S5gxLM=;
-        b=NCGZRz5VLMstiFW2mcr7jAF/okZd9oHwoKEfBvGZgwrgQwjKZCgcfvFm/zJjN22CYC
-         21OrpmlGPNg/NQ9Y4J1zVrXyz0QqBQNvHdaVPHG1S4s+u+YVOuy5mJK2IP/4Cd9+2ONb
-         xs+M6zMswsERKzBMFORDhI4yuraxXlAX0lc/jL80DfE26uwebxDNCWpn8tWblNPIhAQ8
-         4Jdo8DJMorc6P7Kb9Igw/R+xCcbfIupAIf7JTnRPS7fRPEmQcdDJEjfRUyUwTY7kkuAP
-         Qlxtmf4GBwLq58x7BLHOtgnH0chulfa7mUoRtkZ6MfsANRRfUqML5qaixsX7kIGWusz8
-         FoFw==
-X-Gm-Message-State: AO0yUKVLYeywWsZbHuXJFoh7Dhyvn4AcwsLsJOnughVbvkgRSXaAafFD
-	P7MN1n6Tlo4AQi6ucIFopFBNYZPDmnotGR5EvFsjfM20DiNtX+x6eq+hiY6umRb5oEX6jFAkKWD
-	9j7MdaLyyI5qxs1OBvVmXEAcxoUHonLQ=
-X-Received: by 2002:a67:c806:0:b0:421:eabb:cd6a with SMTP id u6-20020a67c806000000b00421eabbcd6amr1484065vsk.7.1679566756125;
-        Thu, 23 Mar 2023 03:19:16 -0700 (PDT)
-X-Google-Smtp-Source: AK7set9bO436jAIPrYPp1c17CTG8//r0fD/7JbusN2dBE31dz0Yy7ZQYwg0mGeQ3xuA+3IGEeGVsjShUmMO/0Fz63Is=
-X-Received: by 2002:a67:c806:0:b0:421:eabb:cd6a with SMTP id
- u6-20020a67c806000000b00421eabbcd6amr1484057vsk.7.1679566755845; Thu, 23 Mar
- 2023 03:19:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC24C8F4A
+	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 12:08:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: linasend@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id C95AD421F5;
+	Thu, 23 Mar 2023 12:08:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1679573336;
+	bh=sYPq8DVDqYDKIlu8xuvRRYDZkcKq3MJzONMmKDC0UM4=;
+	h=From:Date:Subject:To:Cc;
+	b=b5r9D30nX6KXu9h9G5IiPVFFfIWwAYiP84ipgYGlmyVxNPiAoEMl+Mp2qj0vyS1NK
+	 bP67cZcyyUX1L+WbQAmENjtiqzVzjt1rhn0U+Lxvvz2Fpor1Sm8Cih3cUZhzNUPixh
+	 u0up56pJmVYi7pNoledGlPqPuz1duVnFMhMWC4XvfGnqXklxAbtogJ/XE4PWHLThMm
+	 rWzjIvJ6gSXq+Sg2OxMHMCF013HVxMWjYiUuvTFqK9FlIh7pVVBF4TKrUmIURnmgvm
+	 Pyc7VsWZDicDZFE2te2a8iegBSqeuvXwW6Vhgoqwn8h5wT1x04r76nsVq0fkfPgEsL
+	 GymOeIrun/HUw==
+From: Asahi Lina <lina@asahilina.net>
+Date: Thu, 23 Mar 2023 21:08:47 +0900
+Subject: [PATCH v2] rust: ioctl: Add ioctl number manipulation functions
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230307-apple_pcie_disabled_ports-v3-1-0dfb908f5976@jannau.net>
-In-Reply-To: <20230307-apple_pcie_disabled_ports-v3-1-0dfb908f5976@jannau.net>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Thu, 23 Mar 2023 10:19:00 +0000
-Message-ID: <CAOgh=Fy6XsRFquqKMvMkbaCpowJf6twmRwkqoo_Fm1_O02n7bQ@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: apple: Set only available ports up
-To: Janne Grunau <j@jannau.net>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marc Zyngier <maz@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Sven Peter <sven@svenpeter.dev>, 
-	linux-pci@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230224-rust-ioctl-v2-1-5325e76a92df@asahilina.net>
+X-B4-Tracking: v=1; b=H4sIAE5BHGQC/22NQQ6CMBBFr2K6tkqnYNSV9zAsBhjoJKSQTiEaw
+ t1tWbt8P//lbUooMIl6njYVaGXhySeA80m1Dv1AmrvECgqwBUCpwyJR89TGUWMFRW+psYh3lYQ
+ GhXQT0LcuK8O8XI933iEf5kA9f47au07sWOIUvkd8NXn921mNNroyJXT2VuHDli8UdDyyx4unq
+ Op933+pCs51yQAAAA==
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Wedson Almeida Filho <wedsonaf@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Arnd Bergmann <arnd@arndb.de>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ asahi@lists.linux.dev, linux-arch@vger.kernel.org, 
+ Asahi Lina <lina@asahilina.net>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1679573333; l=4141;
+ i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
+ bh=sYPq8DVDqYDKIlu8xuvRRYDZkcKq3MJzONMmKDC0UM4=;
+ b=F+5I18tAITjTn4Cl9G85fDVFPqZZZOIJ9kK2woOoY4IUVIUPjhN/89l3WByg3T6/jNMqzVfVB
+ pA27X5lTLFrB2tQUr0JyeTRlIAVG8n7i3ab8VbRAwvS48DYggKDKJ4S
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-On Thu, 23 Mar 2023 at 08:16, Janne Grunau <j@jannau.net> wrote:
->
-> The Apple SoC devicetrees used to delete unused PCIe ports. Avoid to set
-> up disabled PCIe ports to keep the previous behaviour. MacOS initialized
-> also only ports with a known device.
->
-> Use for_each_available_child_of_node instead of for_each_child_of_node
-> which takes the "status" property into account.
->
-> Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
-> Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
-> Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
-> Reviewed-by: Marc Zyngier <maz@kernel.org>
-> Signed-off-by: Janne Grunau <j@jannau.net>
+Add simple 1:1 wrappers of the C ioctl number manipulation functions.
+Since these are macros we cannot bindgen them directly, and since they
+should be usable in const context we cannot use helper wrappers, so
+we'll have to reimplement them in Rust. Thankfully, the C headers do
+declare defines for the relevant bitfield positions, so we don't need
+to duplicate that.
 
-Tested this on Asahi Fedora Remix kernel-edge on Mac Mini M1.
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+Changes in v2:
+- Changed from assert!() to build_assert!() (static_assert!() can't work
+  here)
+- Link to v1: https://lore.kernel.org/r/20230224-rust-ioctl-v1-1-5142d365a934@asahilina.net
+---
+ rust/bindings/bindings_helper.h |  3 +-
+ rust/kernel/ioctl.rs            | 64 +++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/lib.rs              |  1 +
+ 3 files changed, 67 insertions(+), 1 deletion(-)
 
-Tested-by: Eric Curtin <ecurtin@redhat.com>
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 75d85bd6c592..aef60f300be0 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -6,8 +6,9 @@
+  * Sorted alphabetically.
+  */
+ 
+-#include <linux/slab.h>
++#include <linux/ioctl.h>
+ #include <linux/refcount.h>
++#include <linux/slab.h>
+ 
+ /* `bindgen` gets confused at certain things. */
+ const gfp_t BINDINGS_GFP_KERNEL = GFP_KERNEL;
+diff --git a/rust/kernel/ioctl.rs b/rust/kernel/ioctl.rs
+new file mode 100644
+index 000000000000..6cd8e5738b91
+--- /dev/null
++++ b/rust/kernel/ioctl.rs
+@@ -0,0 +1,64 @@
++// SPDX-License-Identifier: GPL-2.0
++#![allow(non_snake_case)]
++
++//! ioctl() number definitions
++//!
++//! C header: [`include/asm-generic/ioctl.h`](../../../../include/asm-generic/ioctl.h)
++
++/// Build an ioctl number, analogous to the C macro of the same name.
++const fn _IOC(dir: u32, ty: u32, nr: u32, size: usize) -> u32 {
++    core::assert!(dir <= bindings::_IOC_DIRMASK);
++    core::assert!(ty <= bindings::_IOC_TYPEMASK);
++    core::assert!(nr <= bindings::_IOC_NRMASK);
++    core::assert!(size <= (bindings::_IOC_SIZEMASK as usize));
++
++    (dir << bindings::_IOC_DIRSHIFT)
++        | (ty << bindings::_IOC_TYPESHIFT)
++        | (nr << bindings::_IOC_NRSHIFT)
++        | ((size as u32) << bindings::_IOC_SIZESHIFT)
++}
++
++/// Build an ioctl number for an argumentless ioctl.
++pub const fn _IO(ty: u32, nr: u32) -> u32 {
++    _IOC(bindings::_IOC_NONE, ty, nr, 0)
++}
++
++/// Build an ioctl number for an read-only ioctl.
++pub const fn _IOR<T>(ty: u32, nr: u32) -> u32 {
++    _IOC(bindings::_IOC_READ, ty, nr, core::mem::size_of::<T>())
++}
++
++/// Build an ioctl number for an write-only ioctl.
++pub const fn _IOW<T>(ty: u32, nr: u32) -> u32 {
++    _IOC(bindings::_IOC_WRITE, ty, nr, core::mem::size_of::<T>())
++}
++
++/// Build an ioctl number for a read-write ioctl.
++pub const fn _IOWR<T>(ty: u32, nr: u32) -> u32 {
++    _IOC(
++        bindings::_IOC_READ | bindings::_IOC_WRITE,
++        ty,
++        nr,
++        core::mem::size_of::<T>(),
++    )
++}
++
++/// Get the ioctl direction from an ioctl number.
++pub const fn _IOC_DIR(nr: u32) -> u32 {
++    (nr >> bindings::_IOC_DIRSHIFT) & bindings::_IOC_DIRMASK
++}
++
++/// Get the ioctl type from an ioctl number.
++pub const fn _IOC_TYPE(nr: u32) -> u32 {
++    (nr >> bindings::_IOC_TYPESHIFT) & bindings::_IOC_TYPEMASK
++}
++
++/// Get the ioctl number from an ioctl number.
++pub const fn _IOC_NR(nr: u32) -> u32 {
++    (nr >> bindings::_IOC_NRSHIFT) & bindings::_IOC_NRMASK
++}
++
++/// Get the ioctl size from an ioctl number.
++pub const fn _IOC_SIZE(nr: u32) -> usize {
++    ((nr >> bindings::_IOC_SIZESHIFT) & bindings::_IOC_SIZEMASK) as usize
++}
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index 223564f9f0cc..7610b18ee642 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -30,6 +30,7 @@ compile_error!("Missing kernel configuration for conditional compilation");
+ mod allocator;
+ mod build_assert;
+ pub mod error;
++pub mod ioctl;
+ pub mod prelude;
+ pub mod print;
+ mod static_assert;
 
-Is mise le meas/Regards,
+---
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+change-id: 20230224-rust-ioctl-a520f3eb3aa8
 
-Eric Curtin
-
-> ---
-> Changes in v3:
-> - dropped Cc: stable
-> - rewritten commit message since the warning is fixed by 6fffbc7ae137 ("PCI: Honor firmware's
-> device disabled status")
-> - Link to v2: https://lore.kernel.org/r/20230307-apple_pcie_disabled_ports-v2-1-c3bd1fd278a4@jannau.net
->
-> Changes in v2:
-> - rewritten commit message with more details and corrections
-> - collected Marc's "Reviewed-by:"
-> - Link to v1: https://lore.kernel.org/r/20230307-apple_pcie_disabled_ports-v1-1-b32ef91faf19@jannau.net
-> ---
->  drivers/pci/controller/pcie-apple.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
-> index 66f37e403a09..f8670a032f7a 100644
-> --- a/drivers/pci/controller/pcie-apple.c
-> +++ b/drivers/pci/controller/pcie-apple.c
-> @@ -783,7 +783,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
->         cfg->priv = pcie;
->         INIT_LIST_HEAD(&pcie->ports);
->
-> -       for_each_child_of_node(dev->of_node, of_port) {
-> +       for_each_available_child_of_node(dev->of_node, of_port) {
->                 ret = apple_pcie_setup_port(pcie, of_port);
->                 if (ret) {
->                         dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
->
-> ---
-> base-commit: c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
-> change-id: 20230307-apple_pcie_disabled_ports-0c17fb7a4738
->
-> Best regards,
-> --
-> Janne Grunau <j@jannau.net>
->
->
+Thank you,
+~~ Lina
 
