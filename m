@@ -1,82 +1,260 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5CF08F6D
-	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 13:05:36 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id b18so5649522ybp.1
-        for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 06:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679576735;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gucyIJVMKP+NqT9WF5OyPIqU6hJihw7ITPbLS8iJbWI=;
-        b=GOGeKOJMQko4GNrdrl0mulhsICJWZdDn90U2cKkLhGP54YTFtiZnLSOnlzxNCdR87d
-         +JK8pY3IBSYeUY2u1ICxEfLMdLl/Num/+fjmL2Hh+VO087ynS7XLoAqedR3r4uwD9E8q
-         zJ+m2gOMkiDGlB8e9jOsPen071tSUipsLC1Jkwb+ukVcRZ8y+3cG4GJTRXs1eoYy45YD
-         Y5OByw1pywvSMjoItJhsl3UD37TQj10qN+muJ3COOPImgYlOALIHF9lOppGtnXMjjZLt
-         EGGJTB7K0fJ9WAVJo3KgwdfWbrqgMlvFy3AVJ3Eh7Qard/+N5PfXMGCe/PiVmgjx5ufH
-         DmFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679576735;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gucyIJVMKP+NqT9WF5OyPIqU6hJihw7ITPbLS8iJbWI=;
-        b=iaJPzvEd5Vq3xct4fkb/uBt0q9hGBdSGPAruSGAd0hs0jcGy3Oth2Bc4aQNm7g09AG
-         vAPPhLGd1N4bvfWKRklP8dyJ76KRGzJ5uL3iDVC96egliVailQB6oUcuXBL6o97DecXe
-         rlEMYkW9JWOB9ebmKPiEZwVL5NmoLawIu6KYsWh6yfLTac0xHn1z6gIDUMQonT+FBFuB
-         70StEt+N+BEkV83Ljzs0OxX1LGTpl+ksPzxp/Sf0bXSqFuRQ65ha03iKHCLGodkb21UA
-         WjaGvthoDfwzn3xpsOJhNp934k4yz27zOrBvAY53TUukyndVy5fNPxi4lIkbCHZW8Bf1
-         DxMg==
-X-Gm-Message-State: AAQBX9eiXxxDXYwyVnT09URYb+0i8GSwrjNaI7QMr8nOmtIHjr+nCek7
-	B/EW/4hXYL7TT+yC5h/hIljG7zfhbqNlu2EBUn8=
-X-Google-Smtp-Source: AKy350amHGvdoGB6oMTdWl9KkL9uI8iQ8PXcVN7k41xhsfQsfPgZsU8wJ6U8gAoeENI2187lnxyCHxpSc/TinLiE3pk=
-X-Received: by 2002:a05:6902:100d:b0:b6d:fc53:c5c0 with SMTP id
- w13-20020a056902100d00b00b6dfc53c5c0mr2121997ybt.1.1679576735709; Thu, 23 Mar
- 2023 06:05:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933C7944E
+	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 13:50:25 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32NDMIE6002590;
+	Thu, 23 Mar 2023 14:42:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=date : from : to :
+ cc : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=selector1; bh=sQzBCRwn0PSkTfpCL6fVZArvZ3V559r88ED5L6dkNfQ=;
+ b=sqOIOV98qbB4h7wX5dg1HQXu19ud+16zOv7nLWSQqlHRQn8oNqxDRDNDMGs5nMylCzoo
+ 0yK/DNmtCZaCrxxz9ALjY8ISZ38DHXOflq2ZsG05NdpKw79HpCbxJBhJBgQO6wOqGA+5
+ 6FBvL5QRUIeKLwt6ID4bjNEp4gCH7j6cVjNhQ4D7kBERx7dgLkDJphgiUpvTdKxVT5Ju
+ DO/BKFB/HmDD6pGfiQWWykmxnASsNFhOE5oyocC7lDcqZvAeMdBDZwf3QilxTh8KhCc5
+ JHUXuzilnOpESAjJwrWQ3GEaPhks0KhO3WMbmpuva+edHaRGDna9ssE7mMr/SxTqqYFi mg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3pfwcu2bb1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 23 Mar 2023 14:42:54 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C0938100040;
+	Thu, 23 Mar 2023 14:42:50 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B20242171F3;
+	Thu, 23 Mar 2023 14:42:03 +0100 (CET)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Thu, 23 Mar
+ 2023 14:42:03 +0100
+Date: Thu, 23 Mar 2023 14:41:56 +0100
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Rob Herring <robh@kernel.org>
+CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Neil Armstrong
+	<neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome
+ Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl
+	<martin.blumenstingl@googlemail.com>,
+        Hector Martin <marcan@marcan.st>, Sven
+ Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        Nicolas
+ Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni
+	<alexandre.belloni@bootlin.com>,
+        Claudiu Beznea
+	<claudiu.beznea@microchip.com>,
+        Michal Simek <michal.simek@xilinx.com>, Peter
+ Rosin <peda@axentia.se>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue
+	<alexandre.torgue@foss.st.com>,
+        <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-i2c@vger.kernel.org>
+Subject: Re: [Linux-stm32] [PATCH] dt-bindings: i2c: Drop unneeded quotes
+Message-ID: <20230323134156.GA4017557@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Peter Rosin <peda@axentia.se>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-amlogic@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org
+References: <20230322173530.3971676-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230224-rust-ioctl-v3-1-3c5f7a6954b5@asahilina.net>
-In-Reply-To: <20230224-rust-ioctl-v3-1-3c5f7a6954b5@asahilina.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Thu, 23 Mar 2023 14:05:24 +0100
-Message-ID: <CANiq72nk+KSz6X0Lxg4kc_Bui=17XhboJ6q6j8gRg7Nsshziug@mail.gmail.com>
-Subject: Re: [PATCH v3] rust: ioctl: Add ioctl number manipulation functions
-To: Asahi Lina <lina@asahilina.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arch@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230322173530.3971676-1-robh@kernel.org>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-03-22_21,2023-03-22_01,2023-02-09_01
 
-On Thu, Mar 23, 2023 at 1:34=E2=80=AFPM Asahi Lina <lina@asahilina.net> wro=
-te:
->
-> Changes in v3:
-> - Actually made the change intended in v2.
-> - Link to v2: https://lore.kernel.org/r/20230224-rust-ioctl-v2-1-5325e76a=
-92df@asahilina.net
->
-> Changes in v2:
-> - Changed from assert!() to build_assert!() (static_assert!() can't work
->   here)
-> - Link to v1: https://lore.kernel.org/r/20230224-rust-ioctl-v1-1-5142d365=
-a934@asahilina.net
+On Wed, Mar 22, 2023 at 12:35:29PM -0500, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml | 4 ++--
+>  Documentation/devicetree/bindings/i2c/apple,i2c.yaml          | 4 ++--
+>  Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml  | 2 +-
+>  Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml     | 4 ++--
+>  Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml       | 4 ++--
+>  Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml | 4 ++--
+>  Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml       | 2 +-
 
-It seems `#[inline(always)]` got added to a few of those, right? (The
-addition looks fine to me, but just to understand if is it an omission
-in the changelog, or an unintended change, or intended for another
-reason).
+Reviewed-by: Alain Volmat <alain.volmat@foss.st.com>
 
-Thanks!
+>  .../devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml          | 4 ++--
+>  8 files changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml b/Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml
+> index 199a354ccb97..26bed558c6b8 100644
+> --- a/Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml
+> @@ -2,8 +2,8 @@
+>  # Copyright 2019 BayLibre, SAS
+>  %YAML 1.2
+>  ---
+> -$id: "http://devicetree.org/schemas/i2c/amlogic,meson6-i2c.yaml#"
+> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +$id: http://devicetree.org/schemas/i2c/amlogic,meson6-i2c.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+>  title: Amlogic Meson I2C Controller
+>  
+> diff --git a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml b/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+> index 4ac61fec90e2..243da7003cec 100644
+> --- a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
+> @@ -1,8 +1,8 @@
+>  # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: "http://devicetree.org/schemas/i2c/apple,i2c.yaml#"
+> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +$id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+>  title: Apple/PASemi I2C controller
+>  
+> diff --git a/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml b/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
+> index ea2303c0e143..6adedd3ec399 100644
+> --- a/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
+> @@ -75,7 +75,7 @@ required:
+>    - clocks
+>  
+>  allOf:
+> -  - $ref: "i2c-controller.yaml"
+> +  - $ref: i2c-controller.yaml
+>    - if:
+>        properties:
+>          compatible:
+> diff --git a/Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml b/Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml
+> index 2e95cda7262a..7a675aa08c44 100644
+> --- a/Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml
+> @@ -1,8 +1,8 @@
+>  # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: "http://devicetree.org/schemas/i2c/cdns,i2c-r1p10.yaml#"
+> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +$id: http://devicetree.org/schemas/i2c/cdns,i2c-r1p10.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+>  title: Cadence I2C controller
+>  
+> diff --git a/Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml b/Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml
+> index 6e0a5686af04..f34cc7ad5a00 100644
+> --- a/Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml
+> @@ -45,7 +45,7 @@ properties:
+>  
+>    i2c-parent:
+>      description: phandle of the I2C bus that this multiplexer's master-side port is connected to
+> -    $ref: "/schemas/types.yaml#/definitions/phandle"
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+>  
+>    mux-gpios:
+>      description: list of GPIOs used to control the muxer
+> @@ -55,7 +55,7 @@ properties:
+>    idle-state:
+>      description: Value to set the muxer to when idle. When no value is given, it defaults to the
+>        last value used.
+> -    $ref: "/schemas/types.yaml#/definitions/uint32"
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+>  
+>  allOf:
+>    - $ref: i2c-mux.yaml
+> diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml b/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml
+> index 0e88c85985b5..9f66a3bb1f80 100644
+> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml
+> @@ -1,8 +1,8 @@
+>  # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: "http://devicetree.org/schemas/i2c/qcom,i2c-geni-qcom.yaml#"
+> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +$id: http://devicetree.org/schemas/i2c/qcom,i2c-geni-qcom.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+>  title: Qualcomm Geni based QUP I2C Controller
+>  
+> diff --git a/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml b/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml
+> index bf396e9466aa..94b75d9f66cd 100644
+> --- a/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml
+> @@ -90,7 +90,7 @@ properties:
+>    st,syscfg-fmp:
+>      description: Use to set Fast Mode Plus bit within SYSCFG when Fast Mode
+>        Plus speed is selected by slave.
+> -    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+>      items:
+>        - items:
+>            - description: phandle to syscfg
+> diff --git a/Documentation/devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml b/Documentation/devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml
+> index 1b598638d457..658ae92fa86d 100644
+> --- a/Documentation/devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml
+> +++ b/Documentation/devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml
+> @@ -1,8 +1,8 @@
+>  # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: "http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#"
+> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +$id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+>  title: Xilinx IIC controller
+>  
+> -- 
+> 2.39.2
+> 
+> _______________________________________________
+> Linux-stm32 mailing list
+> Linux-stm32@st-md-mailman.stormreply.com
+> https://st-md-mailman.stormreply.com/mailman/listinfo/linux-stm32
 
-Cheers,
-Miguel
+Regards,
+Alain
+
