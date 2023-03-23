@@ -1,81 +1,128 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C019D944E
-	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 14:00:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id C05C2420CF;
-	Thu, 23 Mar 2023 14:00:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1679580025;
-	bh=pyc0cPcoQuoGHqD2F1DqtYF/Nqt56WT0AaYfiPSX8UI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=JSXvSaYwT1LMH3sZ6lGpRKg5J7UhlRfFVca97FNzFtb8lRl4Gw4AP7ISYExqBgKLu
-	 YnVgR2at604jbjV/gaj63fx8H8zZrUkZvlFqxJSPHLWAzZxGrYCk9R+rPq99VBsvEJ
-	 pZSSlECO2fxeF4MXyfMWT/EbilcDFVi/DPiV1skvWD9j8B2sONJaEwSw+zpLYAzaVf
-	 YbSLPzmWVuLHhEpeaYfM/VzPlQXH9/yOF0rPF2UPnAi89yUW0WcKs7k6j3FAHW+iCR
-	 EngCFfaOtDEocXoS7yia1fkj+jaQCiSwms8uGB3lP+HeVEbH6p8aXk8H9PNL99dbi6
-	 xIatmpAduZAWQ==
-Message-ID: <be81649f-ff58-8c0a-8594-94ea1bd2ee4a@asahilina.net>
-Date: Thu, 23 Mar 2023 23:00:20 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6089A93A
+	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 16:05:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D8F0C433D2;
+	Thu, 23 Mar 2023 16:05:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1679587557;
+	bh=erq5KugyEyInp+1CXdRbEcUBGVhHqPMfmw0xk7LsNFE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=L0xXih9gDDEX0ABuzTzfOtjKtRBsimvi1+/TLswHlPpI2e3BPFW8PBg4ruainuAZP
+	 P9YfO90YDzM8G1u4DtHoc3XGWG2xoBjRYfffHzwDQz3qISxnsoDXSOgBIodSY+E1oK
+	 FgEXH/WMzwO5hXBg/eA8TwkFD4ajo+kk3BJBrFek++mVQ6gP6VBfj00XbHRHheRGSo
+	 92uKYNuVnMliRoW5gS/WYBS9hO93mkApa4vvXWAR9nNZj5XX1ZlWdfGZ6FlspdQFY5
+	 F2rD4ArgZPN9iJLvFVjg45+BV4GPSYp5FVQ9b672vsE0EQ3ERWxTNf+/C9YGaQd5zv
+	 jXDf1PLw2lDoQ==
+Date: Thu, 23 Mar 2023 11:05:55 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Janne Grunau <j@jannau.net>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marc Zyngier <maz@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Sven Peter <sven@svenpeter.dev>, linux-pci@vger.kernel.org,
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] PCI: apple: Set only available ports up
+Message-ID: <20230323160555.GA2555502@bhelgaas>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v3] rust: ioctl: Add ioctl number manipulation functions
-Content-Language: en-US
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, asahi@lists.linux.dev,
- linux-arch@vger.kernel.org
-References: <20230224-rust-ioctl-v3-1-3c5f7a6954b5@asahilina.net>
- <CANiq72nk+KSz6X0Lxg4kc_Bui=17XhboJ6q6j8gRg7Nsshziug@mail.gmail.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <CANiq72nk+KSz6X0Lxg4kc_Bui=17XhboJ6q6j8gRg7Nsshziug@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230307-apple_pcie_disabled_ports-v3-1-0dfb908f5976@jannau.net>
 
-On 23/03/2023 22.05, Miguel Ojeda wrote:
-> On Thu, Mar 23, 2023 at 1:34 PM Asahi Lina <lina@asahilina.net> wrote:
->>
->> Changes in v3:
->> - Actually made the change intended in v2.
->> - Link to v2: https://lore.kernel.org/r/20230224-rust-ioctl-v2-1-5325e76a92df@asahilina.net
->>
->> Changes in v2:
->> - Changed from assert!() to build_assert!() (static_assert!() can't work
->>    here)
->> - Link to v1: https://lore.kernel.org/r/20230224-rust-ioctl-v1-1-5142d365a934@asahilina.net
+Hi Janne, thanks for the patch!
+
+On Thu, Mar 23, 2023 at 09:10:12AM +0100, Janne Grunau wrote:
+> The Apple SoC devicetrees used to delete unused PCIe ports.
+
+Maybe "used to *omit* unused PCIe ports"?  I assume the DT previously
+did not mention PCIe ports at all, but now the ports are included but
+marked "disabled"?
+
+> Avoid to set
+> up disabled PCIe ports to keep the previous behaviour. MacOS initialized
+> also only ports with a known device.
+
+The patch is fine with me, but the commit log doesn't tell us why we
+want this patch in addition to 6fffbc7ae137 ("PCI: Honor firmware's
+device disabled status"), since your previous response [1] says
+6fffbc7ae137 already does all the above.
+
+I don't have any Apple specs, but from looking at the code, the
+additional benefits of this patch over 6fffbc7ae137 might be:
+
+  - We won't trip over DT issues, like "reset" or "reg" not being
+    defined.
+
+  - We won't allocate needless apple_pcie_port structs.
+
+  - We won't ioremap register space, assert PERST#, setup clocks and
+    IRQs.
+
+  - We won't sleep waiting for things to come up, potentially saving
+    150ms or more for each disabled port.
+
+  - Maybe there's some power savings; I can't tell.
+
+It's probably more detail than necessary to mention *all* of that, but
+the commit log should say *something* about why we want this in
+addition to 6fffbc7ae137.
+
+> Use for_each_available_child_of_node instead of for_each_child_of_node
+> which takes the "status" property into account.
+
+Would you mind adding "()" after the function names, too?  Just my own
+idiosyncrasy to help distinguish them from regular English text.
+
+Bjorn
+
+[1] https://lore.kernel.org/r/20230316212217.GI24656@jannau.net
+
+> Link: https://lore.kernel.org/asahi/20230214-apple_dts_pcie_disable_unused-v1-0-5ea0d3ddcde3@jannau.net/
+> Link: https://lore.kernel.org/asahi/1ea2107a-bb86-8c22-0bbc-82c453ab08ce@linaro.org/
+> Fixes: 1e33888fbe44 ("PCI: apple: Add initial hardware bring-up")
+> Reviewed-by: Marc Zyngier <maz@kernel.org>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+> Changes in v3:
+> - dropped Cc: stable
+> - rewritten commit message since the warning is fixed by 6fffbc7ae137 ("PCI: Honor firmware's
+> device disabled status")
+> - Link to v2: https://lore.kernel.org/r/20230307-apple_pcie_disabled_ports-v2-1-c3bd1fd278a4@jannau.net
 > 
-> It seems `#[inline(always)]` got added to a few of those, right? (The
-> addition looks fine to me, but just to understand if is it an omission
-> in the changelog, or an unintended change, or intended for another
-> reason).
-
-Ah yes, I should've mentioned that! build_assert!() only works for stuff 
-that can be const-optimized at build time, which requires inlining. 
-Otherwise this change immediately causes build failures since generic 
-variants of the functions get compiled (and since they're public 
-functions, cannot be optimized out at link time).
-
+> Changes in v2:
+> - rewritten commit message with more details and corrections
+> - collected Marc's "Reviewed-by:"
+> - Link to v1: https://lore.kernel.org/r/20230307-apple_pcie_disabled_ports-v1-1-b32ef91faf19@jannau.net
+> ---
+>  drivers/pci/controller/pcie-apple.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Thanks!
+> diff --git a/drivers/pci/controller/pcie-apple.c b/drivers/pci/controller/pcie-apple.c
+> index 66f37e403a09..f8670a032f7a 100644
+> --- a/drivers/pci/controller/pcie-apple.c
+> +++ b/drivers/pci/controller/pcie-apple.c
+> @@ -783,7 +783,7 @@ static int apple_pcie_init(struct pci_config_window *cfg)
+>  	cfg->priv = pcie;
+>  	INIT_LIST_HEAD(&pcie->ports);
+>  
+> -	for_each_child_of_node(dev->of_node, of_port) {
+> +	for_each_available_child_of_node(dev->of_node, of_port) {
+>  		ret = apple_pcie_setup_port(pcie, of_port);
+>  		if (ret) {
+>  			dev_err(pcie->dev, "Port %pOF setup fail: %d\n", of_port, ret);
 > 
-> Cheers,
-> Miguel
+> ---
+> base-commit: c9c3395d5e3dcc6daee66c6908354d47bf98cb0c
+> change-id: 20230307-apple_pcie_disabled_ports-0c17fb7a4738
 > 
-
-~~ Lina
-
+> Best regards,
+> -- 
+> Janne Grunau <j@jannau.net>
+> 
