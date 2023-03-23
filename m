@@ -1,142 +1,99 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41834BA44
-	for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 22:17:46 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id o44so10214459qvo.4
-        for <asahi@lists.linux.dev>; Wed, 22 Mar 2023 15:17:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06972565
+	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 07:32:29 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id ek18so82653702edb.6
+        for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 00:32:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679556748;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5krubHHgKYJDCf8X0UvJA7y8q2NbVKxEV7FY/oHuAps=;
+        b=w3awquQKTHeWDx/yCfCfHfdrLUAb+7cmTUbCxlDsTXtHqnC/KTdLvanL3T8U7h9Hn+
+         T2KyJY5oy1yPQyU6mzgUZh1CzH88VAPkqy8k2SW2SwKq45G6DggQbSFKp7id0BSjS8Rp
+         VoHzkI+PUoz4dQKhOTIWOYjtIUHmYVlbCNMKTKatuW6HXvZvM2uiVdheYJwhuBaoVv6r
+         XUFm0HfHybe27otwo9wNuL61H0cKrxmMAqzuTsillUtZ3oANbuyNtcnMhqKcUnzq/u1/
+         nw9/mhXmeh0zZJ/KOLNvHLyQee+sIyAd8AbaOqnSeke6JK3XQ1qUndFUTGYQb65Q7Z6P
+         x2gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679523465;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=70aK4l/Av1Q0QhfxaKrmYC2qim+9lyKEquLp53Fx+C4=;
-        b=LOx7pX/cAmwKARn/cg3yz8jgSAtnRh+xvRVR4b7jgj+xqrnrQlIU4mMbofyRlA1V95
-         Dlk+8jkuUnUK7AovhkRhcogXw31VUssVfhDuH1b9kGUIWipNiIg5eHQoeCc4YlDxtRZ2
-         Rfe1IZziAkBeHMbjDEhnQ9PgxMZr0OGImRhCoMdHSneu5rV+8TJdk6FLvUOeLVmy4r8G
-         iYNJpgDW3MzVOqsJsFobqrU5a1nRXzTXNfhcfU8PXPKknzStb2//Hakdiw3J4F7+DQps
-         PzhwwruJViC4LscZLajbS5a1B7GFTKY7fpfdpy780KVLHlJvf2ULWuX1Vewg5/8Jp8GK
-         U+nw==
-X-Gm-Message-State: AO0yUKU61cCbcj5H3YbVSjY6buxb17YLU2wvMm6oPJ7IyyDiqt2yptEu
-	7Zy5vgkisM0KF5pWOxDEt0Y=
-X-Google-Smtp-Source: AK7set9NTyB/cwAkw8m3AoB/2kQNSwaLbq/ZQCQuFuaNWfCRlVb1Gwri+K4dWxnB8GNbnemet3Y9jg==
-X-Received: by 2002:a05:6214:1947:b0:5d1:d9f3:dd83 with SMTP id q7-20020a056214194700b005d1d9f3dd83mr8305936qvk.7.1679523464959;
-        Wed, 22 Mar 2023 15:17:44 -0700 (PDT)
-Received: from Belldandy-Slimbook.infra.opensuse.org (ool-18e49371.dyn.optonline.net. [24.228.147.113])
-        by smtp.gmail.com with ESMTPSA id j185-20020a37b9c2000000b007465ad44891sm11068443qkf.102.2023.03.22.15.17.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Mar 2023 15:17:44 -0700 (PDT)
-From: Neal Gompa <neal@gompa.dev>
-To: Linux BTRFS Development <linux-btrfs@vger.kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>,
-	Anand Jain <anand.jain@oracle.com>,
-	Qu Wenruo <quwenruo.btrfs@gmx.com>,
-	Qu Wenruo <wqu@suse.com>,
-	David Sterba <dsterba@suse.cz>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Davide Cavalca <davide@cavalca.name>,
-	Jens Axboe <axboe@fb.com>,
-	Asahi Lina <lina@asahilina.net>,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Josef Bacik <josef@toxicpanda.com>
-Subject: [PATCH 1/1] btrfs-progs: mkfs: Enforce 4k sectorsize by default
-Date: Wed, 22 Mar 2023 18:17:14 -0400
-Message-Id: <20230322221714.2702819-2-neal@gompa.dev>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20230322221714.2702819-1-neal@gompa.dev>
-References: <20230322221714.2702819-1-neal@gompa.dev>
+        d=1e100.net; s=20210112; t=1679556748;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5krubHHgKYJDCf8X0UvJA7y8q2NbVKxEV7FY/oHuAps=;
+        b=NtRmSKYnrSX05T5/DEbaG7QExSGF+MCWV2q0K33m9p27JBRylJw+12AXfDghF0bDhU
+         uKrvoqrEdaBiuI6cOXvNWc9okDLOXKgb8KzGk3sLUsnbjcXlhqf4YfcEQi7T0bzVttyW
+         WCGQEq/HN7H40XtN4zJxC5E8AeRAL0fShPXS3GjaKoVRpA9nh4pPalGMVpeJoRxiyZcb
+         k45Wq/Q7hDxPldbfUEXkuZsMe+IYc11hWOxKMiONYAQpoX3gW1ZwyMqGqCJTwopx27uv
+         IlSWKTaAv3bK1ULwks9nfiVBEi+8XnAc1ZeXompvfPFWZ/ixMvRhIUeXsl8cQtjCut2L
+         31cQ==
+X-Gm-Message-State: AO0yUKWyTNEfJ7asEGQZ/wSmpYbxv+a1GFDF4srH4cfXYdx7Vo9SRTpX
+	Ki0JbJQP4dUnU0VYkSgPRwxBbA==
+X-Google-Smtp-Source: AK7set/JB2xOMNVpHVZoowg3tmnBogfsihGn8UMB3eRY9FKEh8TiRmePaafNm/r4PfEQeqBy+Y5BPA==
+X-Received: by 2002:a17:906:1152:b0:930:c417:1ad2 with SMTP id i18-20020a170906115200b00930c4171ad2mr9679120eja.65.1679556747895;
+        Thu, 23 Mar 2023 00:32:27 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:a665:ed1e:3966:c991? ([2a02:810d:15c0:828:a665:ed1e:3966:c991])
+        by smtp.gmail.com with ESMTPSA id v19-20020a1709067d9300b008cff300cf47sm8240016ejo.72.2023.03.23.00.32.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Mar 2023 00:32:27 -0700 (PDT)
+Message-ID: <8fe6ee60-b8e8-e2d1-881d-544e12a7325b@linaro.org>
+Date: Thu, 23 Mar 2023 08:32:26 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] dt-bindings: i2c: Drop unneeded quotes
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Michal Simek <michal.simek@xilinx.com>, Peter Rosin <peda@axentia.se>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+References: <20230322173530.3971676-1-robh@kernel.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230322173530.3971676-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-We have had working subpage support in Btrfs for many cycles now.
-Generally, we do not want people creating filesystems by default
-with non-4k sectorsizes since it creates portability problems.
+On 22/03/2023 18:35, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml | 4 ++--
+>  Documentation/devicetree/bindings/i2c/apple,i2c.yaml          | 4 ++--
+>  Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml  | 2 +-
+>  Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml     | 4 ++--
+>  Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml       | 4 ++--
+>  Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml | 4 ++--
+>  Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml       | 2 +-
+>  .../devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml          | 4 ++--
+>  8 files changed, 14 insertions(+), 14 deletions(-)
+> 
 
-Signed-off-by: Neal Gompa <neal@gompa.dev>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Reviewed-by: Anand Jain <anand.jain@oracle.com>
-Reviewed-by: Qu Wenruo <wqu@suse.com>
-Reviewed-by: Josef Bacik <josef@toxicpanda.com>
-
----
- Documentation/Subpage.rst    | 15 ++++++++-------
- Documentation/mkfs.btrfs.rst | 13 +++++++++----
- mkfs/main.c                  |  2 +-
- 3 files changed, 18 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/Subpage.rst b/Documentation/Subpage.rst
-index 21a495d5..39ef7d6d 100644
---- a/Documentation/Subpage.rst
-+++ b/Documentation/Subpage.rst
-@@ -9,17 +9,18 @@ to the exactly same size of the block and page. On x86_64 this is typically
- pages, like 64KiB on 64bit ARM or PowerPC. This means filesystems created
- with 64KiB sector size cannot be mounted on a system with 4KiB page size.
- 
--While with subpage support, systems with 64KiB page size can create (still needs
--"-s 4k" option for mkfs.btrfs) and mount filesystems with 4KiB sectorsize,
--allowing us to push 4KiB sectorsize as default sectorsize for all platforms in the
--near future.
-+Since v6.3, filesystems are created with a 4KiB sectorsize by default,
-+though it remains possible to create filesystems with other page sizes
-+(such as 64KiB with the "-s 64k" option for mkfs.btrfs). This ensures that
-+new filesystems are compatible across other architecture variants using
-+larger page sizes.
- 
- Requirements, limitations
- -------------------------
- 
--The initial subpage support has been added in v5.15, although it's still
--considered as experimental at the time of writing (v5.18), most features are
--already working without problems.
-+The initial subpage support has been added in v5.15. Most features are
-+already working without problems. Subpage support is used by default
-+for systems with a non-4KiB page size since v6.3.
- 
- End users can mount filesystems with 4KiB sectorsize and do their usual
- workload, while should not notice any obvious change, as long as the initial
-diff --git a/Documentation/mkfs.btrfs.rst b/Documentation/mkfs.btrfs.rst
-index ba7227b3..16abf0ca 100644
---- a/Documentation/mkfs.btrfs.rst
-+++ b/Documentation/mkfs.btrfs.rst
-@@ -116,10 +116,15 @@ OPTIONS
- -s|--sectorsize <size>
-         Specify the sectorsize, the minimum data block allocation unit.
- 
--        The default value is the page size and is autodetected. If the sectorsize
--        differs from the page size, the created filesystem may not be mountable by the
--        running kernel. Therefore it is not recommended to use this option unless you
--        are going to mount it on a system with the appropriate page size.
-+        By default, the value is 4KiB, but it can be manually set to match the
-+        system page size. However, if the sector size is different from the page
-+        size, the resulting filesystem may not be mountable by the current
-+        kernel, apart from the default 4KiB. Hence, using this option is not
-+        advised unless you intend to mount it on a system with the suitable
-+        page size.
-+
-+        .. note::
-+                Versions prior to 6.3 set the sectorsize matching to the page size.
- 
- -L|--label <string>
-         Specify a label for the filesystem. The *string* should be less than 256
-diff --git a/mkfs/main.c b/mkfs/main.c
-index f5e34cbd..5e1834d7 100644
---- a/mkfs/main.c
-+++ b/mkfs/main.c
-@@ -1207,7 +1207,7 @@ int BOX_MAIN(mkfs)(int argc, char **argv)
- 	}
- 
- 	if (!sectorsize)
--		sectorsize = (u32)sysconf(_SC_PAGESIZE);
-+		sectorsize = (u32)SZ_4K;
- 	if (btrfs_check_sectorsize(sectorsize))
- 		goto error;
- 
--- 
-2.39.2
+Best regards,
+Krzysztof
 
