@@ -1,46 +1,34 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EF4320A
-	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 09:11:58 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id d17so11203096wrb.11
-        for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 02:11:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679562716;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=FFw6On5GWKP9Yx/iOzJZ3hP79avgSWRYu5AU8eAnFgg=;
-        b=XrOk5J0nOb+4Bwzoxv40TzazsK0MVkdhumyNdd2X20npfWaqd9fXxZXrjxFw3nvnYD
-         6f8UHlhCTaQm3r2aCP4bdOGtexK5xje6t2s6ihYfpwcwme/6JpaaEm4Cwm8G5Wo1UfJg
-         TwGGIA3TWc8BMxl2GHIrWdD5FOlffGfFVC7BBd4dzNvqXNLDq2uHUqARvfgo/TLztf2W
-         8gKgxl02UlNLZXMppw7giKePav+cv99pOPjJG8sTsXHz3BY2Vs7yR+YrY65CWc3Xbri/
-         ji5itVRKb9o7uC3I5bjPND6l9lLWaio5lcR4tgCG/DjYtF5ipjFwX7mYrRB397D36I7U
-         F2Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679562716;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FFw6On5GWKP9Yx/iOzJZ3hP79avgSWRYu5AU8eAnFgg=;
-        b=NDTjq1ngpty3gLwIv8mml3BAmStyJoi+a9qhFnKJdVUHs6RhcSy+p3CQxM7E//ZIHJ
-         VSpnVmrkoKl+mWiLsyunzoiqYglKTZawOGhLtjrr6pW+87piEkxyY7+ZzwdtDEBllCrw
-         A8SJH1ocQtaM6x3npvgr1lkXEhwxVYPZ+CUdiFiQvIwUIWh8GF+zu0M0vweDR76yd/Fr
-         eG26GzptYWttfBlNqNUBV/uGmyI95SuhxQ/FUgWrzr7hlDFUXv/Swa9j+lDpgNRy0baE
-         R6Ii0WLxHflqPa3uR6mHUNbHgisBIqVTWVCb+0qM1wAQ7fHxi5OZD6OKATq9mgXpTfx9
-         6mpg==
-X-Gm-Message-State: AAQBX9ekbf21PeRS3rJJwIJk8Qvv4b9Mf4XZjD6fNNNSPvvjGK9mh+sj
-	lkwHiQwA+1wkw0TEkHCC4TFEQw==
-X-Google-Smtp-Source: AKy350b92zCNadItJJq5B+JKgVLvHKVmzqOd2qkeIzALoHhVFAZA099EcknZzO4P7ASa8073zZYoaQ==
-X-Received: by 2002:a5d:5003:0:b0:2d7:a918:a2b7 with SMTP id e3-20020a5d5003000000b002d7a918a2b7mr2334209wrt.48.1679562716566;
-        Thu, 23 Mar 2023 02:11:56 -0700 (PDT)
-Received: from [192.168.7.188] (679773502.box.freepro.com. [212.114.21.58])
-        by smtp.gmail.com with ESMTPSA id w2-20020a5d6082000000b002c6d0462163sm15607659wrt.100.2023.03.23.02.11.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Mar 2023 02:11:56 -0700 (PDT)
-Message-ID: <6c0c9b5a-3499-b0b2-ae58-7d5b17039c6f@linaro.org>
-Date: Thu, 23 Mar 2023 10:11:54 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA46033E3
+	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 09:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1679565119; x=1711101119;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=c5AVjfNTyn5jyoWxBV5nksKULO7WagsKTvP/gGAu+pY=;
+  b=kXQqiWVPnjLB84PzKIO7oeWcapHcxU5wuFIi33RYVdQ7miFOy5xUsWnO
+   Q57aWA7G1LYUqaLwkWHxdrcOdPOD7fcQEjMAk032o1F9WrRFCDsXPHq2T
+   pyB5zZ3lmmA5MCBk3fvdel10GKRC3cTuP+C2vPVSO5PtCPN8zNs5LQlP3
+   PTd4+rQZZtae5uZ2AE4dNairsNaOLLNXaHfDAnrSbGHY3nRqGy+NCOFjZ
+   e0queLPuPZ8fezdpwiiNc0OLA89w0EJzzGdHSSCQbUMs1l3fQKz56gpYD
+   8o04l7F3C76ebXECOCn2qaByLqlnN8cN/H02hrrOuheXjJrtUhdK++2AT
+   A==;
+X-IronPort-AV: E=Sophos;i="5.98,283,1673938800"; 
+   d="scan'208";a="203041791"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 23 Mar 2023 02:51:40 -0700
+Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.21; Thu, 23 Mar 2023 02:51:37 -0700
+Received: from [10.12.67.87] (10.10.115.15) by chn-vm-ex03.mchp-main.com
+ (10.10.85.151) with Microsoft SMTP Server id 15.1.2507.21 via Frontend
+ Transport; Thu, 23 Mar 2023 02:51:33 -0700
+Message-ID: <429849c0-1be3-2fc9-185c-9b5630304b13@microchip.com>
+Date: Thu, 23 Mar 2023 10:51:32 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -49,174 +37,48 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
 Subject: Re: [PATCH] dt-bindings: i2c: Drop unneeded quotes
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Michal Simek <michal.simek@xilinx.com>, Peter Rosin <peda@axentia.se>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Neil Armstrong
+	<neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, "Jerome
+ Brunet" <jbrunet@baylibre.com>, Martin Blumenstingl
+	<martin.blumenstingl@googlemail.com>, Hector Martin <marcan@marcan.st>, "Sven
+ Peter" <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea
+	<claudiu.beznea@microchip.com>, Michal Simek <michal.simek@xilinx.com>,
+	"Peter Rosin" <peda@axentia.se>, Andy Gross <agross@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>,
+	"Maxime Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+	<alexandre.torgue@foss.st.com>
+CC: <linux-i2c@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>,
+	<linux-arm-msm@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>
 References: <20230322173530.3971676-1-robh@kernel.org>
-Organization: Linaro Developer Services
+Content-Language: en-US
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Organization: microchip
 In-Reply-To: <20230322173530.3971676-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 22/03/2023 18:35, Rob Herring wrote:
+On 22/03/2023 at 18:35, Rob Herring wrote:
 > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
 > checking for this can be enabled in yamllint.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Rob Herring<robh@kernel.org>
 > ---
->   Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml | 4 ++--
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+[..]
 
->   Documentation/devicetree/bindings/i2c/apple,i2c.yaml          | 4 ++--
 >   Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml  | 2 +-
->   Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml     | 4 ++--
->   Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml       | 4 ++--
->   Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml | 4 ++--
->   Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml       | 2 +-
->   .../devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml          | 4 ++--
->   8 files changed, 14 insertions(+), 14 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml b/Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml
-> index 199a354ccb97..26bed558c6b8 100644
-> --- a/Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml
-> @@ -2,8 +2,8 @@
->   # Copyright 2019 BayLibre, SAS
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/i2c/amlogic,meson6-i2c.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/i2c/amlogic,meson6-i2c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Amlogic Meson I2C Controller
->   
-> diff --git a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml b/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
-> index 4ac61fec90e2..243da7003cec 100644
-> --- a/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/apple,i2c.yaml
-> @@ -1,8 +1,8 @@
->   # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/i2c/apple,i2c.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/i2c/apple,i2c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Apple/PASemi I2C controller
->   
-> diff --git a/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml b/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
-> index ea2303c0e143..6adedd3ec399 100644
-> --- a/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml
-> @@ -75,7 +75,7 @@ required:
->     - clocks
->   
->   allOf:
-> -  - $ref: "i2c-controller.yaml"
-> +  - $ref: i2c-controller.yaml
->     - if:
->         properties:
->           compatible:
-> diff --git a/Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml b/Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml
-> index 2e95cda7262a..7a675aa08c44 100644
-> --- a/Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml
-> @@ -1,8 +1,8 @@
->   # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/i2c/cdns,i2c-r1p10.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/i2c/cdns,i2c-r1p10.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Cadence I2C controller
->   
-> diff --git a/Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml b/Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml
-> index 6e0a5686af04..f34cc7ad5a00 100644
-> --- a/Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml
-> @@ -45,7 +45,7 @@ properties:
->   
->     i2c-parent:
->       description: phandle of the I2C bus that this multiplexer's master-side port is connected to
-> -    $ref: "/schemas/types.yaml#/definitions/phandle"
-> +    $ref: /schemas/types.yaml#/definitions/phandle
->   
->     mux-gpios:
->       description: list of GPIOs used to control the muxer
-> @@ -55,7 +55,7 @@ properties:
->     idle-state:
->       description: Value to set the muxer to when idle. When no value is given, it defaults to the
->         last value used.
-> -    $ref: "/schemas/types.yaml#/definitions/uint32"
-> +    $ref: /schemas/types.yaml#/definitions/uint32
->   
->   allOf:
->     - $ref: i2c-mux.yaml
-> diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml b/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml
-> index 0e88c85985b5..9f66a3bb1f80 100644
-> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml
-> @@ -1,8 +1,8 @@
->   # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/i2c/qcom,i2c-geni-qcom.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/i2c/qcom,i2c-geni-qcom.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Qualcomm Geni based QUP I2C Controller
->   
-> diff --git a/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml b/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml
-> index bf396e9466aa..94b75d9f66cd 100644
-> --- a/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml
-> @@ -90,7 +90,7 @@ properties:
->     st,syscfg-fmp:
->       description: Use to set Fast Mode Plus bit within SYSCFG when Fast Mode
->         Plus speed is selected by slave.
-> -    $ref: "/schemas/types.yaml#/definitions/phandle-array"
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->       items:
->         - items:
->             - description: phandle to syscfg
-> diff --git a/Documentation/devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml b/Documentation/devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml
-> index 1b598638d457..658ae92fa86d 100644
-> --- a/Documentation/devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml
-> @@ -1,8 +1,8 @@
->   # SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->   %YAML 1.2
->   ---
-> -$id: "http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#"
-> -$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +$id: http://devicetree.org/schemas/i2c/xlnx,xps-iic-2.00.a.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->   
->   title: Xilinx IIC controller
->   
+
+for Microchip:
+Reviewed-by: Nicolas Ferre <nicolas.ferre@microchip.com>
+
+Thanks Rob, best regards,
+   Nicolas
+
+-- 
+Nicolas Ferre
 
