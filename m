@@ -1,126 +1,75 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3718A93A
-	for <asahi@lists.linux.dev>; Thu, 23 Mar 2023 16:30:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 29C2E420CF;
-	Thu, 23 Mar 2023 16:29:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1679588998;
-	bh=oNvVr1kFt3SmK/C28H/bAWInhx7VA90WwPgLpowzoxE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=sPErOouVd0l1ICYYe6Ol29w/aHljjg7cNEsNKlDDY9NGBAAvvHr/4+OnOazGB/kh2
-	 C4I0TR9PbjFRz5yfE2vFPkJ+HGOjOC3+SdkwIitW8t8rz9yx+CQnq85sRjf/Jr/OdD
-	 VlzFlwBBb3jJ/vUF2xzFYVwRORaUbQnnV+bVt5bRTrBOoyJpaTS3OSm66j2Sh9jhhH
-	 87KYiYuFN6dAnJVuPiUQjYDG3C8X1tULvZUkFJ1DN8amz+zCz6TcJRKA0QXZn8qnMY
-	 FgfJnqM3fFQiG5RDRMPAtA+Gkn4bnaPayUndjV6CHe7i6F7ZqhrjEnCp+c9MpIfmIA
-	 XDkNE0/wBCzkQ==
-Message-ID: <e5e24cec-f4b5-b641-c860-c157663c1ff8@asahilina.net>
-Date: Fri, 24 Mar 2023 01:29:53 +0900
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B6B26118
+	for <asahi@lists.linux.dev>; Fri, 24 Mar 2023 14:00:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6F4A211FB;
+	Fri, 24 Mar 2023 07:01:23 -0700 (PDT)
+Received: from FVFF77S0Q05N (unknown [10.57.55.116])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B9FE53F71E;
+	Fri, 24 Mar 2023 07:00:37 -0700 (PDT)
+Date: Fri, 24 Mar 2023 14:00:34 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Janne Grunau <j@jannau.net>, Will Deacon <will@kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] drivers/perf: apple_m1: Add Apple M2 support
+Message-ID: <ZB2tAqs/o/QSI4XD@FVFF77S0Q05N>
+References: <20230214-apple_m2_pmu-v1-0-9c9213ab9b63@jannau.net>
+ <20230214-apple_m2_pmu-v1-2-9c9213ab9b63@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v2] rust: xarray: Add an abstraction for XArray
-Content-Language: en-US
-To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Matthew Wilcox <willy@infradead.org>
-Cc: Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
- Neal Gompa <neal@gompa.dev>, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, asahi@lists.linux.dev
-References: <20230224-rust-xarray-v2-1-4eeb0134944c@asahilina.net>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <20230224-rust-xarray-v2-1-4eeb0134944c@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230214-apple_m2_pmu-v1-2-9c9213ab9b63@jannau.net>
 
-
-Why do I always notice mistakes after sending the patch... this is
-missing the comment I intended to add because I edited the file in the
-wrong git checkout. Sorry!
-
-The intended comment is below, I'll roll it into v3 when I make the 
-Error API change.
-
-On 24/03/2023 01.23, Asahi Lina wrote:
-> The XArray is an abstract data type which behaves like a very large
-> array of pointers. Add a Rust abstraction for this data type.
+On Tue, Feb 14, 2023 at 11:38:02AM +0100, Janne Grunau wrote:
+> The PMU itself is compatible with the one found on M1. We still know
+> next to nothing about the counters so keep using CPU uarch specific
+> compatibles/PMU names.
 > 
-> The initial implementation uses explicit locking on get operations and
-> returns a guard which blocks mutation, ensuring that the referenced
-> object remains alive. To avoid excessive serialization, users are
-> expected to use an inner type that can be efficiently cloned (such as
-> Arc<T>), and eagerly clone and drop the guard to unblock other users
-> after a lookup.
-> 
-> Future variants may support using RCU instead to avoid mutex locking.
-> 
-> This abstraction also introduces a reservation mechanism, which can be
-> used by alloc-capable XArrays to reserve a free slot without immediately
-> filling it, and then do so at a later time. If the reservation is
-> dropped without being filled, the slot is freed again for other users,
-> which eliminates the need for explicit cleanup code.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-[...]
-> +impl<T: ForeignOwnable> Drop for XArray<T> {
-> +    fn drop(&mut self) {
-> +        // SAFETY: `self.xa` is valid by the type invariant, and as we have the only reference to
-> +        // the `XArray` we can safely iterate its contents and drop everything.
-> +        unsafe {
-> +            let mut index: core::ffi::c_ulong = 0;
-> +            let mut entry = bindings::xa_find(
-> +                self.xa.get(),
-> +                &mut index,
-> +                core::ffi::c_ulong::MAX,
-> +                bindings::BINDINGS_XA_PRESENT,
-> +            );
-> +            while !entry.is_null() {
-> +                T::from_foreign(entry);
-> +                entry = bindings::xa_find_after(
-> +                    self.xa.get(),
-> +                    &mut index,
-> +                    core::ffi::c_ulong::MAX,
-> +                    bindings::BINDINGS_XA_PRESENT,
-> +                );
-> +            }
-> +
+> Signed-off-by: Janne Grunau <j@jannau.net>
 
-Add for v3:
-> +            // Locked locks are not safe to drop. Normally we would want to try_lock()/unlock() here
-> +            // for safety or something similar, but in this case xa_destroy() is guaranteed to
-> +            // acquire the lock anyway. This will deadlock if a lock guard was improperly dropped,
-> +            // but that is not UB, so it's sufficient for soundness purposes.
+Acked-by: Mark Rutland <mark.rutland@arm.com.
 
-> +            bindings::xa_destroy(self.xa.get());
-> +        }
-> +    }
+Will, I assume that you'll pick this up.
+
+> ---
+>  drivers/perf/apple_m1_cpu_pmu.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
+> index 979a7c2b4f56..83b74c7fe63f 100644
+> --- a/drivers/perf/apple_m1_cpu_pmu.c
+> +++ b/drivers/perf/apple_m1_cpu_pmu.c
+> @@ -559,7 +559,21 @@ static int m1_pmu_fire_init(struct arm_pmu *cpu_pmu)
+>  	return m1_pmu_init(cpu_pmu);
+>  }
+>  
+> +static int m2_pmu_avalanche_init(struct arm_pmu *cpu_pmu)
+> +{
+> +	cpu_pmu->name = "apple_avalanche_pmu";
+> +	return m1_pmu_init(cpu_pmu);
 > +}
 > +
-> +// SAFETY: XArray is thread-safe and all mutation operations are internally locked.
-> +unsafe impl<T: Send + ForeignOwnable> Send for XArray<T> {}
-> +unsafe impl<T: Sync + ForeignOwnable> Sync for XArray<T> {}
+> +static int m2_pmu_blizzard_init(struct arm_pmu *cpu_pmu)
+> +{
+> +	cpu_pmu->name = "apple_blizzard_pmu";
+> +	return m1_pmu_init(cpu_pmu);
+> +}
+> +
+>  static const struct of_device_id m1_pmu_of_device_ids[] = {
+> +	{ .compatible = "apple,avalanche-pmu",	.data = m2_pmu_avalanche_init, },
+> +	{ .compatible = "apple,blizzard-pmu",	.data = m2_pmu_blizzard_init, },
+>  	{ .compatible = "apple,icestorm-pmu",	.data = m1_pmu_ice_init, },
+>  	{ .compatible = "apple,firestorm-pmu",	.data = m1_pmu_fire_init, },
+>  	{ },
 > 
-> ---
-> base-commit: 3ef2e9730ba4bb914dd8654ae34aef3f486c8c58
-> change-id: 20230224-rust-xarray-f503f9e5455e
+> -- 
+> 2.39.1
 > 
-> Thank you,
-> ~~ Lina
-> 
-> 
-
-~~ Lina
-
