@@ -1,89 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2601210B;
-	Fri, 24 Mar 2023 14:34:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AE51C433A0;
-	Fri, 24 Mar 2023 14:34:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679668454;
-	bh=ozq+vH75mAjNkKi3jfaobvjryF3L2Ni1S1Tn6tmagvQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=lwiXRb2iEXrDB+SiECZJsaGr+ZPWpvDVobXKSZxI3R/2BonDrW+T45JU8V4ybQXkf
-	 WpLnx1F2jVOz+eboiDJaGWwG8JzHp+W8OKnzQxEXWIq1g4E1nBUlyqrOn/RqhecPgY
-	 8pY7Mv53TIN43pmE6/SegvDys/Qur4lldwf0dKGTRHtzggZmldApWpq/M/G0n+eZSg
-	 A3me5yZQSwEwtxCSVcCpaM+cw+ptQ1Hpv1QKX5CdY4Vd2wKjMnu6uYZht5FGsBTyhF
-	 OBnRRMLMC5Q1Yns01rzlcZ2fPGF4vchj1Vedc2mx5/hp23hx7F5jOd3WxH/7g7OQ+B
-	 G2cX5HrcJiQEA==
-Received: by mail-pj1-f45.google.com with SMTP id qe8-20020a17090b4f8800b0023f07253a2cso1763702pjb.3;
-        Fri, 24 Mar 2023 07:34:14 -0700 (PDT)
-X-Gm-Message-State: AAQBX9fCMM4iBrUwt99cHIh3FoxduzdT+erdDFG5c75xqUNuYYz4C9Ql
-	H1ZBF7iYnumS82Kk1t4dXmk5ieZJVKhAc0aIqQ==
-X-Google-Smtp-Source: AKy350Y57cQ3/TzcctMtJeBkZVGy3RaGVnEiqyzqBxcgVPo3gFc72P+HHXJ3tIgI+qnw4mjDX3xPaiNQsV4yB10ee/Y=
-X-Received: by 2002:a81:b149:0:b0:543:9065:b225 with SMTP id
- p70-20020a81b149000000b005439065b225mr1122523ywh.5.1679668433642; Fri, 24 Mar
- 2023 07:33:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72207290F
+	for <asahi@lists.linux.dev>; Sat, 25 Mar 2023 14:06:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 6AB8E425DF;
+	Sat, 25 Mar 2023 14:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1679753158; bh=iRVgMjgccoP9yaursTMEMI9WVW3DgtlA0royECk5fgs=;
+	h=Date:To:Cc:From:Subject;
+	b=h7fq6AF546XtiCNIoq3hqAKpQznO05FLOEggOxLbPv3xMF5vv5EQCq6JqEYmF8xiS
+	 NQzCL+uWelz2zzA+cTnpXlgUrs4TWJmyMFOUMNE9vdPavvSFqPkGXE/jm2jez91sim
+	 JnBBWkRYrzERYZFnNyuFK8TZZ3HG6BbUNw/dqL2D+vt2eRWBS98bStnj4btj24lN3H
+	 IYaO1rNLY8Cp059JGdL3zRJUg4Xd18uuBlYtX263Ih+ca4MbwafYYxnAGOELQltu0J
+	 +ghFf2Ey2fIFP5xYuu8gcLjAyxbD/yxAtWvZ1Z2hDouJFIKGHFimW1qllcEnXkisPp
+	 FgaQRQ4TfDmTA==
+Message-ID: <e409bf4d-5415-4524-e7c0-480f5387ce6e@marcan.st>
+Date: Sat, 25 Mar 2023 23:05:53 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230317233623.3968172-1-robh@kernel.org> <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
-In-Reply-To: <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Fri, 24 Mar 2023 09:33:42 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
-Message-ID: <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
-	Damien Le Moal <damien.lemoal@wdc.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
-	Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Emil Renner Berthing <kernel@esmil.dk>, 
-	Jianlong Huang <jianlong.huang@starfivetech.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
-	Wells Lu <wellslutw@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
-	Michal Simek <michal.simek@xilinx.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, patches@opensource.cirrus.com, 
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+To: Qu Wenruo <wqu@suse.com>, Qu Wenruo <quwenruo.btrfs@gmx.com>,
+ Neal Gompa <neal@gompa.dev>, linux-btrfs@vger.kernel.org
+Cc: David Sterba <dsterba@suse.cz>, Davide Cavalca <davide@cavalca.name>,
+ Sven Peter <sven@svenpeter.dev>, "axboe@fb.com" <axboe@fb.com>,
+ Asahi Linux <asahi@lists.linux.dev>
+Content-Language: en-US
+From: Hector Martin <marcan@marcan.st>
+Subject: Re: [RFC PATCH] btrfs-progs: mkfs: Enforce 4k sectorsize by default
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 23, 2023 at 3:40=E2=80=AFAM Linus Walleij <linus.walleij@linaro=
-.org> wrote:
->
-> On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> wr=
-ote:
->
-> > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> > checking for this can be enabled in yamllint.
-> >
-> > Signed-off-by: Rob Herring <robh@kernel.org>
->
-> Should I queue this patch by the way, or do you need it to go into some
-> DT-related tree?
+On 22/03/2023 14.19, Qu Wenruo wrote:
+> 
+> 
+> On 2023/3/21 18:07, Hector Martin wrote:
+> [...]
+>>
+>> btrfs/140 is the first one that looks bad. Looks like the corruption
+>> correction didn't work for some reason.
+>>
+>> ... and then btrfs/142 which is similar actually managed to log a bunch
+>> of errors on our NVMe controller. Nice.
+>>
+>> [ 1240.000104] nvme-apple 393cc0000.nvme: RTKit: syslog message:
+>> host_ans2.c:1564: cmd parsing error for tag 12 fast decode err 0x1
+>> [ 1240.000767] nvme0n1: Read(0x2) @ LBA 322753843, 0 blocks, Invalid
+>> Field in Command (sct 0x0 / sc 0x2)
+>> [ 1240.000771] nvme-apple 393cc0000.nvme: RTKit: syslog message:
+>> host_ans2.c:1469: tag 12, completed with err BAD_CMD-
+>> [ 1240.000775] operation not supported error, dev nvme0n1, sector
+>> 2582030751 op 0x0:(READ) flags 0x80700 phys_seg 1 prio class 2
+> 
+> Mind to share the reproducibility?
 
-Stands on its own. You can take it.
+100% as far as I can tell. I'm using 20G devices for everything. It
+instantly hits that bug.
 
-Rob
+Good news is it's not a btrfs bug though :)
+
+common/dmdust:  DUST_TABLE="0 $DEV_SIZE dust $SCRATCH_DEV 0 512"
+
+The dust device is created with 512 byte sectors, while the NVMe on
+these machines has 4K sectors. Changing that to 4K and the respective
+block size calculation in the tests (142/143) (`physical / 512` ->
+`physical / 4096`) makes it pass. It's not reading 0 bytes, it's reading
+512 bytes (which gets truncated to 0 sectors).
+
+And then that explains why 140 doesn't work: it also assumes 512, but in
+a way that just fails instead of causing kernel explosions. Same with
+btrfs/265, 266, 267, 269.
+
+So there's two problems here: a bunch of tests assume 512 byte sectors,
+and the kernel DM dust device is missing a check that should reject
+creation with an invalid sector size instead of just causing wreckage
+further down the block device chain.
+
+>> 213 failed to balance with ENOSPC.
+> 
+> Passed with 5x10G LVs as scratch dev pool.
+
+5x20G GPT partitions here, and I can reliably repro this one. Maybe it's
+also related to the 4K sectors?
+
+> I hope it's not Apple Silicon too fast to trigger it, or it would be 
+> pretty hard to reproduce...
+
+FWIW, there's also the whole thing where Apple Silicon is *really* good
+at triggering memory ordering and concurrency problems, since it is such
+a wide architecture. I found a bug in the core kernel workqueue code
+that had been there for years on ARM64...
+
+>> generic/251 then failed too, with dmesg logs about failing to trim block
+>> groups.
+> 
+> It takes much longer time but still passed here.
+
+Reliably fails here, and this is another 4K sector one and actually a
+btrfs bug I think. It tries to do discards that are not 4K-aligned.
+Here's the call trace leading to the bad discard attempt:
+
+[   70.571872]  btrfs_issue_discard+0x224/0x260
+[   70.571874]  btrfs_discard_extent+0x128/0x1dc
+[   70.571876]  do_trimming+0xc4/0x220
+[   70.571878]  trim_no_bitmap+0x21c/0x3f0
+[   70.571879]  btrfs_trim_block_group+0x88/0x170
+[   70.571880]  btrfs_trim_fs+0xf0/0x3a0
+[   70.571882]  btrfs_ioctl_fitrim+0x100/0x1dc
+[   70.571885]  btrfs_ioctl+0x1550/0x25bc
+[   70.571887]  __arm64_sys_ioctl+0x464/0xbb0
+[   70.571891]  invoke_syscall.constprop.0+0x78/0xd0
+[   70.571894]  do_el0_svc+0x58/0x170
+[   70.571896]  el0_svc+0x38/0xf0
+[   70.571900]  el0t_64_sync_handler+0xf4/0x120
+[   70.571902]  el0t_64_sync+0x190/0x194
+
+Note that discard size is actually a *separate* device property from
+sector size, so this is doubly wrong. btrfs probably needs to explicitly
+align to the discard size.
+
+> I'll try my best to got some runs on real Apple machines meanwhile, but 
+> don't expect any improvement on my hardware situation any time soon...
+
+Hope you can repro with the 4K sector hint. Last time I had emulate that
+I used a loop device with 4K sectors, but I don't know if that supports
+discard... not sure if there is a better way.
+
+> 
+> Thanks,
+> Qu
+> 
+>>
+>> generic/520 failed with an EBUSY on umount, but I suspect this might be
+>> some desktop/systemd stuff trying to use the mount?
+>>
+>> generic/563 suggests there may be cgroup accounting issues
+>>
+>> generic/619 seems known to be pathologically slow on arm64, so I killed
+>> it (https://www.spinics.net/lists/linux-btrfs/msg131553.html).
+>>
+>> generic/708 failed but that pointed to a known kernel bug that we don't
+>> have the fix for yet (this is running on 6.2 + asahi patches).
+>>
+>> Run output and some select dmesg sections:
+>> https://gist.github.com/marcan/822a34266bcaf4f4cffaa6a198b4c616
+>>
+>> Let me know if you need anything else.
+>>
+> 
+
+- Hector
+
