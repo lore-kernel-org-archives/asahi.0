@@ -1,38 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B6133C0
-	for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 15:01:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46A6EC433D2;
-	Mon, 27 Mar 2023 15:01:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC3C33C0;
+	Mon, 27 Mar 2023 15:01:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2FC4C4339E;
+	Mon, 27 Mar 2023 15:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679929289;
-	bh=yDuzPp/Y8i3wczmI9BSnUwzDQ290RdGPC9bThn+97ek=;
+	s=k20201202; t=1679929296;
+	bh=dsoVd3bOkZ1/OXyt+ZP8t5ze5tdgtMoUGRvUuV6EukM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UTs7O88VfU3zhiuy3PLNuS7OX06Rx5bMfMxS5f/NR7RMa2p0MV06tT1IWZMxduMdJ
-	 xAbWXHXGfvUWHxZ95oneOHex7FKflZfRsGZE/e6fwL6F+keOXHV2f8kNrGKa2hWBrL
-	 0CjHsPSycliu1EfRdgXtlmt89UleSXSMHUKLPrpT1kStBM/uGmJL4ZY8OTJkZWnk7R
-	 r2DM8Zo21V/Gv1RhHPg5o+iOuistJbmKZJ+zZz5Lg2RYvdJ2Yn6cHsW3RJ7t2Crs6W
-	 cgbhohKkN06v4s9YHslWr7sDxQyfxiCcUPTqSuN+ucQ95D7wolnDMw1YsIjpIdZl2L
-	 /2qsfjrsIh1eQ==
+	b=SHPAMbr7ynIEkq5oNWhug9hIbn4LJ0wlRJ6JgemhXBguNbBUPRRDeUdVcqazMWkWC
+	 dk9d8QHtU103JjtWCjNwzZLwSakTbYVoyyZMPznbW2kNkDFCK+lV/7pj97e//rbFdB
+	 KAcjBslm3nZ5BD8UOtzQgE313X4qN68GC8CjlYGQyBtCbPdHgVt918IpKotLwM74ca
+	 Zn52WHW55dJ8f6+KX/RVedxJw0EkqlPTOL1x9rcwK7iDgIZU3Ce79U8tYgcWxannLX
+	 MEStSzPPRTj0snsGEx0UFdc0kYSX/e0hXkgCvgkTLp0pcdTYZYHGlYYERA/m/ZwxGN
+	 9en6lprtJ6hkQ==
 From: Will Deacon <will@kernel.org>
-To: Mark Rutland <mark.rutland@arm.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Janne Grunau <j@jannau.net>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+To: mcgrof@kernel.org,
+	Nick Alcock <nick.alcock@oracle.com>
 Cc: catalin.marinas@arm.com,
 	kernel-team@android.com,
 	Will Deacon <will@kernel.org>,
-	devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-edac@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-actions@lists.infradead.org,
+	linux-serial@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
 	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 0/2] Apple M2 PMU support
-Date: Mon, 27 Mar 2023 16:01:13 +0100
-Message-Id: <167992651494.3835994.856905717068311161.b4-ty@kernel.org>
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH 00/24] MODULE_LICENSE removals, second tranche
+Date: Mon, 27 Mar 2023 16:01:15 +0100
+Message-Id: <167992609868.3834946.4831319626649638477.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230214-apple_m2_pmu-v1-0-9c9213ab9b63@jannau.net>
-References: <20230214-apple_m2_pmu-v1-0-9c9213ab9b63@jannau.net>
+In-Reply-To: <20230217141059.392471-1-nick.alcock@oracle.com>
+References: <20230217141059.392471-1-nick.alcock@oracle.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -42,22 +52,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 14 Feb 2023 11:38:00 +0100, Janne Grunau wrote:
-> This small series adds support for the PMU in Apple M2 cores. The PMU
-> itself appears to work in the same way as om M1. We still want to add
-> CPU type specific compatible strings so that we can distinguish counters
-> in the case they count (slightly) different things on different CPU
-> uarchs.
+On Fri, 17 Feb 2023 14:10:35 +0000, Nick Alcock wrote:
+> This series, based on current modules-next, is part of a treewide cleanup
+> suggested by Luis Chamberlain, to remove the LICENSE_MODULE usage from
+> files/objects that are not tristate.  Due to recent changes to kbuild, these
+> uses are now problematic.  See the commit logs for more details.
 > 
+> (The commit log prefixes and Cc lists are automatically determined using
+> the script mentioned below.  I've eyeballed them, and they seem reasonable:
+> my apologies if they are not.)
 > 
 > [...]
 
-Applied to will (for-next/perf), thanks!
+Applied drivers/perf patch to will (for-next/perf), thanks!
 
-[1/2] dt-bindings: arm-pmu: Add PMU compatible strings for Apple M2 cores
-      https://git.kernel.org/will/c/640a3b7a3d13
-[2/2] drivers/perf: apple_m1: Add Apple M2 support
-      https://git.kernel.org/will/c/7d0bfb7c9977
+[08/24] kbuild, drivers/perf: remove MODULE_LICENSE in non-modules
+        https://git.kernel.org/will/c/a64021d3726a
 
 Cheers,
 -- 
