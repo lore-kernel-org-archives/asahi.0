@@ -1,57 +1,57 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD3F7468
-	for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 19:13:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030767468
+	for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 19:14:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1679944422;
+	s=mimecast20190719; t=1679944456;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=E1zRha7BHAhGg6ATSz7b6xyQOdyDIKVBqdliEZL7zC0=;
-	b=iwQVaKbfPg2IS19GJDO5SSD/v2Yy0dq4vA8IbqBymRhNSEIK4K78cSqi54Vemciz02VOfe
-	ZYEci4aPHi5jGtf3mZjc0WuiQAgqL78fhv6ELvS3cmaZ7EkPKLe+fdDMMaDNftCsm6u8jh
-	HKEU4I4goNN1AbksZHUgNsHULK1ydmQ=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=R6oBo9zgyt6kd8ybd493kKZpaIisYcCPUD4+15shZ6I=;
+	b=ZLnPAi3pq5x31IEN+IXegdUjo2fyiC507T0udm8om2xEudv/GY+DiCsmNEvUmXq3u46945
+	8nFusc3D1SsCj7hUF0IDpeG+isuZH3a+mMEqILP05KKSsik/uC71yW0SCf0EKUtC0CYQCD
+	5OWo/13zyrGwn3AHbjkM9jjRJ6KzRXY=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-342-R5UDqgUFMre14nk9eqwFkQ-1; Mon, 27 Mar 2023 15:13:41 -0400
-X-MC-Unique: R5UDqgUFMre14nk9eqwFkQ-1
-Received: by mail-ua1-f69.google.com with SMTP id l31-20020ab03d9f000000b0073fb003de27so4564598uac.23
-        for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 12:13:41 -0700 (PDT)
+ us-mta-98-g-Zdx1KCM9adIrx3GfYXxg-1; Mon, 27 Mar 2023 15:14:14 -0400
+X-MC-Unique: g-Zdx1KCM9adIrx3GfYXxg-1
+Received: by mail-ua1-f72.google.com with SMTP id n13-20020ab01e4d000000b0076512b30a3bso2484055uak.13
+        for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 12:14:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679944421;
+        d=1e100.net; s=20210112; t=1679944454;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=E1zRha7BHAhGg6ATSz7b6xyQOdyDIKVBqdliEZL7zC0=;
-        b=VdEsTNpR+QmwEYuoSQl0PQjz50FJ7RIDRtL1KWAS5v/xCN/IJzHAYN4OzN90JBClPC
-         Eg3/qRPJfrK5jQvStW0L/+YuNdMYRmKu+sum2yiup9G9rJFSci1SV20a7eJqh+ELdC3n
-         BU37ZUIgiifI5D0eX0YPAVyMZ8wxrVtSVgWXWUEX9uRUy/n2oQS/vj3ZDiWlglmtM9hv
-         BBnAnwQi0ou7u1zRiqy8M/h7dUlNEq+TgKKn7bQKIEbXcpGVgS/C8jB3M9GvqjQ/adQs
-         VAnAvdzI4OHLvG225mxNSa+gQuFDi7M8znRBkwpWrLI3PySGMEBc8ImLAi1oQJCec0QN
-         szRg==
-X-Gm-Message-State: AAQBX9eJnwmJ7zF7JqmvRyYml+jtNlqt+qH4zmsw664FgzjahuzNu2r+
-	/0YhdtXf+EbTnsobUdQdiDYTtEDIn/8piNMybj5+wE2hCX6WQ9iTm0kb5kjJ5trUXIyoYy+hv7P
-	wwRgFW62BwP1hv/hv/Feyd6rJuRJAeUQ=
-X-Received: by 2002:a05:6130:c0d:b0:68e:33d7:7e6b with SMTP id cg13-20020a0561300c0d00b0068e33d77e6bmr7024117uab.1.1679944420933;
-        Mon, 27 Mar 2023 12:13:40 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aaQogn32n+L7ho5TXNxSDqxcL5rz6nhgbIjh/RSrzQQA6apKf0AxmPK9a0UJLy7cSZ4T8TLlgvPPzbQgzK2iU=
-X-Received: by 2002:a05:6130:c0d:b0:68e:33d7:7e6b with SMTP id
- cg13-20020a0561300c0d00b0068e33d77e6bmr7024107uab.1.1679944420622; Mon, 27
- Mar 2023 12:13:40 -0700 (PDT)
+        bh=R6oBo9zgyt6kd8ybd493kKZpaIisYcCPUD4+15shZ6I=;
+        b=qNXrvTILHmuclQ5aJ8d2y6GjSkmF2B4visGZ5aF5YZ5QIHnPmyP+aoxdVE+rL/hIRq
+         pLqA5e0djIDXpYpc2s/8TDz6p9hStCwXLfndxEh3qXTQ1DAI+0cT5z3Z0V8STZ7JLqd/
+         ldcSTu5JmXxrPZsN5t0zya3gEy5f7zYx4xaqb2YAP5mOaU1/gvY7UFOqhDVOKKVNpcCq
+         TOYj7tZG3cL1FRXCjTCWI/6RRq3CVW2xciQ7wgfvj8Lqs60/9didfGe9+FFJjl/1kpnH
+         nEiyZx5V9dTbYsF0W71oLjl9omZV241F7YoX/ZROO1eXIG4iualddSvBKwMY4v7P7kA+
+         jVLA==
+X-Gm-Message-State: AAQBX9e/6DJ2qCq/93jhRqqtvjX+D7fgOJREgMcnciVi9bMCDv1f4pfm
+	bTigQZaSzALzs1c7ixm6FzXdgmKNS+fKwaHhirQinPfEk1ezOmewskpi2e0703MzOAM3v9Q9fKu
+	/36Z25vVjZ59i0J8UJwMci8jI0BENSVE=
+X-Received: by 2002:a1f:94c2:0:b0:43b:ce2e:89f5 with SMTP id w185-20020a1f94c2000000b0043bce2e89f5mr2261070vkd.3.1679944454085;
+        Mon, 27 Mar 2023 12:14:14 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aGKl8HZ9Z+eVtu17x45GHcnHGj0XkMhWL6GbKsINsyHYa99P9v4nA7zglNqeZf26tAGq2BMEqDU9BNf47/tIc=
+X-Received: by 2002:a1f:94c2:0:b0:43b:ce2e:89f5 with SMTP id
+ w185-20020a1f94c2000000b0043bce2e89f5mr2261057vkd.3.1679944453861; Mon, 27
+ Mar 2023 12:14:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230327054838.67353-1-kch@nvidia.com>
-In-Reply-To: <20230327054838.67353-1-kch@nvidia.com>
+References: <20230327054838.67353-1-kch@nvidia.com> <20230327054838.67353-2-kch@nvidia.com>
+In-Reply-To: <20230327054838.67353-2-kch@nvidia.com>
 From: Eric Curtin <ecurtin@redhat.com>
-Date: Mon, 27 Mar 2023 20:13:24 +0100
-Message-ID: <CAOgh=FyVPSmXLJgvsfep0waEoKDT3BsuVg7ZYY=_98A=TYJXng@mail.gmail.com>
-Subject: Re: [PATCH 1/2] nvme-apple: return directly instead of else
+Date: Mon, 27 Mar 2023 20:13:58 +0100
+Message-ID: <CAOgh=Fx3e0M=oRhJ8m_-doRjs2nGfVNVGKq2Z7YsOgz+z34g0w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] nvme-apple: return directly instead of else
 To: Chaitanya Kulkarni <kch@nvidia.com>
 Cc: marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, 
 	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, asahi@lists.linux.dev, 
@@ -60,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 27 Mar 2023 at 06:56, Chaitanya Kulkarni <kch@nvidia.com> wrote:
+On Mon, 27 Mar 2023 at 06:55, Chaitanya Kulkarni <kch@nvidia.com> wrote:
 >
 > There is no need for the else when direct return is used at the end of
 > the function.
@@ -78,20 +78,20 @@ Eric Curtin
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index 5fc5ea196b40..942a3b71a6d5 100644
+> index 942a3b71a6d5..33601494ae50 100644
 > --- a/drivers/nvme/host/apple.c
 > +++ b/drivers/nvme/host/apple.c
-> @@ -209,8 +209,8 @@ static inline struct apple_nvme *queue_to_apple_nvme(struct apple_nvme_queue *q)
+> @@ -217,8 +217,8 @@ static unsigned int apple_nvme_queue_depth(struct apple_nvme_queue *q)
 >  {
 >         if (q->is_adminq)
->                 return container_of(q, struct apple_nvme, adminq);
+>                 return APPLE_NVME_AQ_DEPTH;
 > -       else
-> -               return container_of(q, struct apple_nvme, ioq);
+> -               return APPLE_ANS_MAX_QUEUE_DEPTH;
 > +
-> +       return container_of(q, struct apple_nvme, ioq);
+> +       return APPLE_ANS_MAX_QUEUE_DEPTH;
 >  }
 >
->  static unsigned int apple_nvme_queue_depth(struct apple_nvme_queue *q)
+>  static void apple_nvme_rtkit_crashed(void *cookie)
 > --
 > 2.29.0
 >
