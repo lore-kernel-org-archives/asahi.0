@@ -1,99 +1,110 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030767468
-	for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 19:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1679944456;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R6oBo9zgyt6kd8ybd493kKZpaIisYcCPUD4+15shZ6I=;
-	b=ZLnPAi3pq5x31IEN+IXegdUjo2fyiC507T0udm8om2xEudv/GY+DiCsmNEvUmXq3u46945
-	8nFusc3D1SsCj7hUF0IDpeG+isuZH3a+mMEqILP05KKSsik/uC71yW0SCf0EKUtC0CYQCD
-	5OWo/13zyrGwn3AHbjkM9jjRJ6KzRXY=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-98-g-Zdx1KCM9adIrx3GfYXxg-1; Mon, 27 Mar 2023 15:14:14 -0400
-X-MC-Unique: g-Zdx1KCM9adIrx3GfYXxg-1
-Received: by mail-ua1-f72.google.com with SMTP id n13-20020ab01e4d000000b0076512b30a3bso2484055uak.13
-        for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 12:14:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E3079DD
+	for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 21:52:50 +0000 (UTC)
+Received: by mail-yb1-f182.google.com with SMTP id n125so12615308ybg.7
+        for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 14:52:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1679953969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nLI5m06f2WlStlUywkxHpgfVuIZ5JS/MDTFzEPNuSfU=;
+        b=pOSHTN0gxWzMWkqyiNymvzEciJmMzDynaEbRFezy7nLLDqD1LINJt9Abz9IIuoPrea
+         w6BYlguZiNT/hPuPXgbYFH+nK5VQNYOCmkfeTEJcefvBQi9za56UC8iqta+AKeLauOTu
+         BYL0/iVJoeimYgwvs/tGLDATSN9mnXGj/ZTsNmgMmjZWjqUGqwweml9p3K3ISlDJ3pRy
+         FJb0uOBeoz+CDw0gVfgEvWnExyi8ZW1zUmJYIiBbYreayGe/FxZCi8XsTr1Ox7zjK0S5
+         OocDVIB4YAfd2kuVypBdFKkODtS9bY96MYlXVs23YNcbgJMXbEQCjP9ECgACofB2FL3i
+         aWQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679944454;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R6oBo9zgyt6kd8ybd493kKZpaIisYcCPUD4+15shZ6I=;
-        b=qNXrvTILHmuclQ5aJ8d2y6GjSkmF2B4visGZ5aF5YZ5QIHnPmyP+aoxdVE+rL/hIRq
-         pLqA5e0djIDXpYpc2s/8TDz6p9hStCwXLfndxEh3qXTQ1DAI+0cT5z3Z0V8STZ7JLqd/
-         ldcSTu5JmXxrPZsN5t0zya3gEy5f7zYx4xaqb2YAP5mOaU1/gvY7UFOqhDVOKKVNpcCq
-         TOYj7tZG3cL1FRXCjTCWI/6RRq3CVW2xciQ7wgfvj8Lqs60/9didfGe9+FFJjl/1kpnH
-         nEiyZx5V9dTbYsF0W71oLjl9omZV241F7YoX/ZROO1eXIG4iualddSvBKwMY4v7P7kA+
-         jVLA==
-X-Gm-Message-State: AAQBX9e/6DJ2qCq/93jhRqqtvjX+D7fgOJREgMcnciVi9bMCDv1f4pfm
-	bTigQZaSzALzs1c7ixm6FzXdgmKNS+fKwaHhirQinPfEk1ezOmewskpi2e0703MzOAM3v9Q9fKu
-	/36Z25vVjZ59i0J8UJwMci8jI0BENSVE=
-X-Received: by 2002:a1f:94c2:0:b0:43b:ce2e:89f5 with SMTP id w185-20020a1f94c2000000b0043bce2e89f5mr2261070vkd.3.1679944454085;
-        Mon, 27 Mar 2023 12:14:14 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aGKl8HZ9Z+eVtu17x45GHcnHGj0XkMhWL6GbKsINsyHYa99P9v4nA7zglNqeZf26tAGq2BMEqDU9BNf47/tIc=
-X-Received: by 2002:a1f:94c2:0:b0:43b:ce2e:89f5 with SMTP id
- w185-20020a1f94c2000000b0043bce2e89f5mr2261057vkd.3.1679944453861; Mon, 27
- Mar 2023 12:14:13 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1679953969;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nLI5m06f2WlStlUywkxHpgfVuIZ5JS/MDTFzEPNuSfU=;
+        b=aL7T5UIEdtGp21KMN1fio1+33ALCmlNTqt8pH9EmuIGBdcsavm9sOXJioPa9RnqaxY
+         6ySuB8iMpPkZxhkaeOuuL3SihRop/zas0mMf0vfJT2YYkht91woBbl8qZ0pd9+nHgp+S
+         MwvgdqP6pozmXkj23IVZfftbgfbuK4QV422C3PJOWen9fnn2wEIxceQJAzRhQg2SlmFC
+         pd1fkxMRfI/vOd4rji/KdOLv6NjBqjk9ClGQvk7W+kDwXj7dSLfRpgYCQdTKInthCoDT
+         mnIicdnG4P0CM3D/Cd0eqe8F9pUADiNQ4uJFju9GZ7Pz+NIhOUhY7PlzMxrEgfY2t9lP
+         JXLA==
+X-Gm-Message-State: AAQBX9c4p7aLcJ1vuIGycL9Nz+EjoICpJ4RK/PyeTSW6NFxAlhjL3H0H
+	ptY2RNoEpSn9vOWlufeec811udvt2sYAOk1ancxNMw==
+X-Google-Smtp-Source: AKy350YXWieWPPn4qPNXsbtFZBIPGWFVrw4KqEcgFae4NZrCaiM4DhD+RmS9uESY7KP/zdWUYuSeFcGkhfdSERGtuKw=
+X-Received: by 2002:a25:542:0:b0:a6b:bc64:a0af with SMTP id
+ 63-20020a250542000000b00a6bbc64a0afmr8149446ybf.4.1679953969020; Mon, 27 Mar
+ 2023 14:52:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230327054838.67353-1-kch@nvidia.com> <20230327054838.67353-2-kch@nvidia.com>
-In-Reply-To: <20230327054838.67353-2-kch@nvidia.com>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Mon, 27 Mar 2023 20:13:58 +0100
-Message-ID: <CAOgh=Fx3e0M=oRhJ8m_-doRjs2nGfVNVGKq2Z7YsOgz+z34g0w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] nvme-apple: return directly instead of else
-To: Chaitanya Kulkarni <kch@nvidia.com>
-Cc: marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, 
-	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, asahi@lists.linux.dev, 
-	linux-nvme@lists.infradead.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20230317233623.3968172-1-robh@kernel.org> <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
+ <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
+In-Reply-To: <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 27 Mar 2023 23:52:37 +0200
+Message-ID: <CACRpkdbR_PFSkqeK4xAmxdfdhi332hyax8jAnEa7VXFVp=QEDA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
+To: Rob Herring <robh@kernel.org>
+Cc: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
+	Damien Le Moal <damien.lemoal@wdc.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
+	Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
+	Wells Lu <wellslutw@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Michal Simek <michal.simek@xilinx.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
+	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, patches@opensource.cirrus.com, 
+	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 27 Mar 2023 at 06:55, Chaitanya Kulkarni <kch@nvidia.com> wrote:
+On Fri, Mar 24, 2023 at 3:33=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+> On Thu, Mar 23, 2023 at 3:40=E2=80=AFAM Linus Walleij <linus.walleij@lina=
+ro.org> wrote:
+> > On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> =
+wrote:
+> >
+> > > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> > > checking for this can be enabled in yamllint.
+> > >
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> >
+> > Should I queue this patch by the way, or do you need it to go into some
+> > DT-related tree?
 >
-> There is no need for the else when direct return is used at the end of
-> the function.
->
-> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+> Stands on its own. You can take it.
 
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+This sadly conflicts hard with my "devel" branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/lo=
+g/?h=3Ddevel
 
-Is mise le meas/Regards,
+Cause seems to be major refactorings of Mediatek and Ralink
+bindings.
 
-Eric Curtin
-
-> ---
->  drivers/nvme/host/apple.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
-> index 942a3b71a6d5..33601494ae50 100644
-> --- a/drivers/nvme/host/apple.c
-> +++ b/drivers/nvme/host/apple.c
-> @@ -217,8 +217,8 @@ static unsigned int apple_nvme_queue_depth(struct apple_nvme_queue *q)
->  {
->         if (q->is_adminq)
->                 return APPLE_NVME_AQ_DEPTH;
-> -       else
-> -               return APPLE_ANS_MAX_QUEUE_DEPTH;
-> +
-> +       return APPLE_ANS_MAX_QUEUE_DEPTH;
->  }
->
->  static void apple_nvme_rtkit_crashed(void *cookie)
-> --
-> 2.29.0
->
->
-
+Yours,
+Linus Walleij
