@@ -1,78 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC3C33C0;
-	Mon, 27 Mar 2023 15:01:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2FC4C4339E;
-	Mon, 27 Mar 2023 15:01:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1679929296;
-	bh=dsoVd3bOkZ1/OXyt+ZP8t5ze5tdgtMoUGRvUuV6EukM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SHPAMbr7ynIEkq5oNWhug9hIbn4LJ0wlRJ6JgemhXBguNbBUPRRDeUdVcqazMWkWC
-	 dk9d8QHtU103JjtWCjNwzZLwSakTbYVoyyZMPznbW2kNkDFCK+lV/7pj97e//rbFdB
-	 KAcjBslm3nZ5BD8UOtzQgE313X4qN68GC8CjlYGQyBtCbPdHgVt918IpKotLwM74ca
-	 Zn52WHW55dJ8f6+KX/RVedxJw0EkqlPTOL1x9rcwK7iDgIZU3Ce79U8tYgcWxannLX
-	 MEStSzPPRTj0snsGEx0UFdc0kYSX/e0hXkgCvgkTLp0pcdTYZYHGlYYERA/m/ZwxGN
-	 9en6lprtJ6hkQ==
-From: Will Deacon <will@kernel.org>
-To: mcgrof@kernel.org,
-	Nick Alcock <nick.alcock@oracle.com>
-Cc: catalin.marinas@arm.com,
-	kernel-team@android.com,
-	Will Deacon <will@kernel.org>,
-	linux-gpio@vger.kernel.org,
-	linux-edac@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-actions@lists.infradead.org,
-	linux-serial@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	asahi@lists.linux.dev,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH 00/24] MODULE_LICENSE removals, second tranche
-Date: Mon, 27 Mar 2023 16:01:15 +0100
-Message-Id: <167992609868.3834946.4831319626649638477.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230217141059.392471-1-nick.alcock@oracle.com>
-References: <20230217141059.392471-1-nick.alcock@oracle.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD3F7468
+	for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 19:13:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1679944422;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E1zRha7BHAhGg6ATSz7b6xyQOdyDIKVBqdliEZL7zC0=;
+	b=iwQVaKbfPg2IS19GJDO5SSD/v2Yy0dq4vA8IbqBymRhNSEIK4K78cSqi54Vemciz02VOfe
+	ZYEci4aPHi5jGtf3mZjc0WuiQAgqL78fhv6ELvS3cmaZ7EkPKLe+fdDMMaDNftCsm6u8jh
+	HKEU4I4goNN1AbksZHUgNsHULK1ydmQ=
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
+ [209.85.222.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-342-R5UDqgUFMre14nk9eqwFkQ-1; Mon, 27 Mar 2023 15:13:41 -0400
+X-MC-Unique: R5UDqgUFMre14nk9eqwFkQ-1
+Received: by mail-ua1-f69.google.com with SMTP id l31-20020ab03d9f000000b0073fb003de27so4564598uac.23
+        for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 12:13:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679944421;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E1zRha7BHAhGg6ATSz7b6xyQOdyDIKVBqdliEZL7zC0=;
+        b=VdEsTNpR+QmwEYuoSQl0PQjz50FJ7RIDRtL1KWAS5v/xCN/IJzHAYN4OzN90JBClPC
+         Eg3/qRPJfrK5jQvStW0L/+YuNdMYRmKu+sum2yiup9G9rJFSci1SV20a7eJqh+ELdC3n
+         BU37ZUIgiifI5D0eX0YPAVyMZ8wxrVtSVgWXWUEX9uRUy/n2oQS/vj3ZDiWlglmtM9hv
+         BBnAnwQi0ou7u1zRiqy8M/h7dUlNEq+TgKKn7bQKIEbXcpGVgS/C8jB3M9GvqjQ/adQs
+         VAnAvdzI4OHLvG225mxNSa+gQuFDi7M8znRBkwpWrLI3PySGMEBc8ImLAi1oQJCec0QN
+         szRg==
+X-Gm-Message-State: AAQBX9eJnwmJ7zF7JqmvRyYml+jtNlqt+qH4zmsw664FgzjahuzNu2r+
+	/0YhdtXf+EbTnsobUdQdiDYTtEDIn/8piNMybj5+wE2hCX6WQ9iTm0kb5kjJ5trUXIyoYy+hv7P
+	wwRgFW62BwP1hv/hv/Feyd6rJuRJAeUQ=
+X-Received: by 2002:a05:6130:c0d:b0:68e:33d7:7e6b with SMTP id cg13-20020a0561300c0d00b0068e33d77e6bmr7024117uab.1.1679944420933;
+        Mon, 27 Mar 2023 12:13:40 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aaQogn32n+L7ho5TXNxSDqxcL5rz6nhgbIjh/RSrzQQA6apKf0AxmPK9a0UJLy7cSZ4T8TLlgvPPzbQgzK2iU=
+X-Received: by 2002:a05:6130:c0d:b0:68e:33d7:7e6b with SMTP id
+ cg13-20020a0561300c0d00b0068e33d77e6bmr7024107uab.1.1679944420622; Mon, 27
+ Mar 2023 12:13:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20230327054838.67353-1-kch@nvidia.com>
+In-Reply-To: <20230327054838.67353-1-kch@nvidia.com>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Mon, 27 Mar 2023 20:13:24 +0100
+Message-ID: <CAOgh=FyVPSmXLJgvsfep0waEoKDT3BsuVg7ZYY=_98A=TYJXng@mail.gmail.com>
+Subject: Re: [PATCH 1/2] nvme-apple: return directly instead of else
+To: Chaitanya Kulkarni <kch@nvidia.com>
+Cc: marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, 
+	kbusch@kernel.org, hch@lst.de, sagi@grimberg.me, asahi@lists.linux.dev, 
+	linux-nvme@lists.infradead.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 17 Feb 2023 14:10:35 +0000, Nick Alcock wrote:
-> This series, based on current modules-next, is part of a treewide cleanup
-> suggested by Luis Chamberlain, to remove the LICENSE_MODULE usage from
-> files/objects that are not tristate.  Due to recent changes to kbuild, these
-> uses are now problematic.  See the commit logs for more details.
-> 
-> (The commit log prefixes and Cc lists are automatically determined using
-> the script mentioned below.  I've eyeballed them, and they seem reasonable:
-> my apologies if they are not.)
-> 
-> [...]
+On Mon, 27 Mar 2023 at 06:56, Chaitanya Kulkarni <kch@nvidia.com> wrote:
+>
+> There is no need for the else when direct return is used at the end of
+> the function.
+>
+> Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
 
-Applied drivers/perf patch to will (for-next/perf), thanks!
+Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 
-[08/24] kbuild, drivers/perf: remove MODULE_LICENSE in non-modules
-        https://git.kernel.org/will/c/a64021d3726a
+Is mise le meas/Regards,
 
-Cheers,
--- 
-Will
+Eric Curtin
 
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+> ---
+>  drivers/nvme/host/apple.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> index 5fc5ea196b40..942a3b71a6d5 100644
+> --- a/drivers/nvme/host/apple.c
+> +++ b/drivers/nvme/host/apple.c
+> @@ -209,8 +209,8 @@ static inline struct apple_nvme *queue_to_apple_nvme(struct apple_nvme_queue *q)
+>  {
+>         if (q->is_adminq)
+>                 return container_of(q, struct apple_nvme, adminq);
+> -       else
+> -               return container_of(q, struct apple_nvme, ioq);
+> +
+> +       return container_of(q, struct apple_nvme, ioq);
+>  }
+>
+>  static unsigned int apple_nvme_queue_depth(struct apple_nvme_queue *q)
+> --
+> 2.29.0
+>
+>
+
