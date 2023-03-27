@@ -1,162 +1,118 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2040.outbound.protection.outlook.com [40.107.220.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72207290F
-	for <asahi@lists.linux.dev>; Sat, 25 Mar 2023 14:06:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 6AB8E425DF;
-	Sat, 25 Mar 2023 14:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1679753158; bh=iRVgMjgccoP9yaursTMEMI9WVW3DgtlA0royECk5fgs=;
-	h=Date:To:Cc:From:Subject;
-	b=h7fq6AF546XtiCNIoq3hqAKpQznO05FLOEggOxLbPv3xMF5vv5EQCq6JqEYmF8xiS
-	 NQzCL+uWelz2zzA+cTnpXlgUrs4TWJmyMFOUMNE9vdPavvSFqPkGXE/jm2jez91sim
-	 JnBBWkRYrzERYZFnNyuFK8TZZ3HG6BbUNw/dqL2D+vt2eRWBS98bStnj4btj24lN3H
-	 IYaO1rNLY8Cp059JGdL3zRJUg4Xd18uuBlYtX263Ih+ca4MbwafYYxnAGOELQltu0J
-	 +ghFf2Ey2fIFP5xYuu8gcLjAyxbD/yxAtWvZ1Z2hDouJFIKGHFimW1qllcEnXkisPp
-	 FgaQRQ4TfDmTA==
-Message-ID: <e409bf4d-5415-4524-e7c0-480f5387ce6e@marcan.st>
-Date: Sat, 25 Mar 2023 23:05:53 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76417EA
+	for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 05:49:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jfVM/MlIj6A5q2Dvp/Bi720J6s8+yv0ZUx793k3zMOUvoDVG/8tlpawnNNr9QA1BsaXxXFtF4WdSX5xIieoLnVyCGYNGPG5KN6pru7CXQUnbwc8qv5ClY2tNsIY/nIjTb9Kwm56QcURwEzC4OAkOAljzMxjfmkrV1OPEYgpNdRchdLmzIzvdja8BKDFPef4L4JDV/j0/jiZdTpwDoNecsrlhQnGAUpHC/+X+IuW7vhld3wvY6r35gayoPa/eFIc6jL2fpoeMjM1TpvNtaUxdppYVpVXmOCFHbh2cOcZU+wT2aVndVmyht5nlwNAv5mDt0g2WYn+QaAHOoL6c5sl0gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Zfwhj5uvGehr76Ji3jDXOrOFMYcrbmKaHzBYVuNEBpU=;
+ b=B0SQJTnbOOLMCxJGljspTr+o65Pe1FNashYxgDLiGhmixCO3akr+BpuX6Awx0jn3kFGJ4+cHSvKAuxV/8mkGc+35qaQMlbiW8+HwEbo6M89ckvBoC3sXGtFPvcTOI8vGnTC5CtANDVKT+x7SsdQdo2QdUaxt7E8LN9+ArRepfSdIxNZM4QGRIs0ybUXZyxeOpc4Mkt4TT72Hke1EXtboye3j22EJLHJMibXYxKsgc0XSol63162jq/IKHdl+2PDWGPx6H3ZYgxu2iCQGdOuRUumgjovnHnSh7IvDXhRZH2fZeJVdYkV5tT2vSlT7g/x0n3ZpOmsi5zmEIqYMWOqKEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=marcan.st smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Zfwhj5uvGehr76Ji3jDXOrOFMYcrbmKaHzBYVuNEBpU=;
+ b=EDwiNTCbcR9HfrELtxvVB2pizSMAIQRQfUSxrsP8F9iTAU1LuII9rlpcRucF7ns0sXX9UGKTlXcV9WWf7I4w5RPUFGdQSAjPWbGY/OuqOGUDLVcSGf4COUBZdE6FQl0r8FAaymaCMyZQFWn9j9217CwVI3Pyi0I0tchwpKtWwWtMPRVnQ149HdelPZKEjzcTSXiBYh8je7GE90p5S3T+Ko6TlFtQWebRytT2HhYAa6ctH8HKCsjF1QpX0aaVMZkO5cd4oKCkqMJWMOik7gAkwTOTgcr5UmSduFwvWdOm1lIBsONFG7+nhAq6vcpRffZvp/c8kBXDaCOUBN8gdDG1vQ==
+Received: from BN9PR03CA0163.namprd03.prod.outlook.com (2603:10b6:408:f4::18)
+ by IA1PR12MB8518.namprd12.prod.outlook.com (2603:10b6:208:447::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41; Mon, 27 Mar
+ 2023 05:49:06 +0000
+Received: from BL02EPF000108E9.namprd05.prod.outlook.com
+ (2603:10b6:408:f4:cafe::5b) by BN9PR03CA0163.outlook.office365.com
+ (2603:10b6:408:f4::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6178.41 via Frontend
+ Transport; Mon, 27 Mar 2023 05:49:06 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BL02EPF000108E9.mail.protection.outlook.com (10.167.241.202) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6178.30 via Frontend Transport; Mon, 27 Mar 2023 05:49:06 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Sun, 26 Mar 2023
+ 22:48:47 -0700
+Received: from dev.nvidia.com (10.126.231.37) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Sun, 26 Mar
+ 2023 22:48:45 -0700
+From: Chaitanya Kulkarni <kch@nvidia.com>
+To: <marcan@marcan.st>, <sven@svenpeter.dev>, <alyssa@rosenzweig.io>
+CC: <kbusch@kernel.org>, <hch@lst.de>, <sagi@grimberg.me>,
+	<asahi@lists.linux.dev>, <linux-nvme@lists.infradead.org>, Chaitanya Kulkarni
+	<kch@nvidia.com>
+Subject: [PATCH 1/2] nvme-apple: return directly instead of else
+Date: Sun, 26 Mar 2023 22:48:37 -0700
+Message-ID: <20230327054838.67353-1-kch@nvidia.com>
+X-Mailer: git-send-email 2.29.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-To: Qu Wenruo <wqu@suse.com>, Qu Wenruo <quwenruo.btrfs@gmx.com>,
- Neal Gompa <neal@gompa.dev>, linux-btrfs@vger.kernel.org
-Cc: David Sterba <dsterba@suse.cz>, Davide Cavalca <davide@cavalca.name>,
- Sven Peter <sven@svenpeter.dev>, "axboe@fb.com" <axboe@fb.com>,
- Asahi Linux <asahi@lists.linux.dev>
-Content-Language: en-US
-From: Hector Martin <marcan@marcan.st>
-Subject: Re: [RFC PATCH] btrfs-progs: mkfs: Enforce 4k sectorsize by default
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.126.231.37]
+X-ClientProxiedBy: rnnvmail202.nvidia.com (10.129.68.7) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF000108E9:EE_|IA1PR12MB8518:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8bfba1d-3c07-4509-32fa-08db2e86fa58
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	givR1NF/YkhmR3KfGBqXtFahvOkIyqAUiesoGjD+uXvANErTO3x2UBaa5XKl2UFYS9fT0ugUr8rt7qeGZMkkdjMJN9MbEhc8jcgK5JLl+tnVbFitkaAUfwXgyzt1gkt20EytYTe5Ae21kPEcy9NYE9pI5QFFH2fHLaT45l7vP+x8Brh7yoIpRHyVfyWOhUsOtQuakBjBD+2RkmfGiwmiCJlgZyz/Ufa33EFpzQoR/VBBPvA1ZqDv2bywNlCXtzwAlMzC4dCLufQ8CEx3ABAptvm2cvbLzGwVluYNjGYW7CkY21THl2Y3v0jVcqeWb3AHVAP6VvvSSdLF8kV33l6Vo0dLlxczeH33gd3dnIe9i8TLx5/dan7DHaLpmLK0QyRP49bAqMV0sMtauUEf+TiC0KAiAuR8YIwqQpgPXRcJzHbjlxkJY9OL9fxXyqVe1fs2pXT+AuG3WMsh27lLFPLESuAIETeIlz3utjwufQt3S+JNk0BxppWei8UVf8dCFbPd1D8wYnsPEpGK7QC9Gnupjw/LddrdzXm6kRtyI5TyRc/PR/eaYhZBS488GGxuPZIFb4fuBkwxPy3+mnGoSzkJq2r6ojg2cV4wV5fIH8SrUiYVRx3nMw7S0FEtW5fr6LfoVMOXjkSwY3c0rBBc+1te+cRljzsoumDLRJ0Z67GME8h4myTlpIj7obXhzS9sgH/OKHfRZoJE7z3tADtk0oUImnN3LUV6ZlBUjV7XROILpnXqDNmY5eqGrof/PDOzdm31g0ZqpANcTn6gfNxzTXLWf1pc4dqDlfn0+0aiP6DejjI=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(376002)(39860400002)(396003)(47660400002)(451199021)(40470700004)(36840700001)(46966006)(36756003)(40480700001)(82310400005)(356005)(40460700003)(2906002)(107886003)(6666004)(186003)(2616005)(16526019)(1076003)(478600001)(41300700001)(316002)(4326008)(70206006)(8676002)(54906003)(5660300002)(110136005)(70586007)(4744005)(8936002)(7696005)(7636003)(26005)(82740400003)(83380400001)(336012)(426003)(47076005)(36860700001)(46800400005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2023 05:49:06.1605
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8bfba1d-3c07-4509-32fa-08db2e86fa58
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF000108E9.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8518
 
-On 22/03/2023 14.19, Qu Wenruo wrote:
-> 
-> 
-> On 2023/3/21 18:07, Hector Martin wrote:
-> [...]
->>
->> btrfs/140 is the first one that looks bad. Looks like the corruption
->> correction didn't work for some reason.
->>
->> ... and then btrfs/142 which is similar actually managed to log a bunch
->> of errors on our NVMe controller. Nice.
->>
->> [ 1240.000104] nvme-apple 393cc0000.nvme: RTKit: syslog message:
->> host_ans2.c:1564: cmd parsing error for tag 12 fast decode err 0x1
->> [ 1240.000767] nvme0n1: Read(0x2) @ LBA 322753843, 0 blocks, Invalid
->> Field in Command (sct 0x0 / sc 0x2)
->> [ 1240.000771] nvme-apple 393cc0000.nvme: RTKit: syslog message:
->> host_ans2.c:1469: tag 12, completed with err BAD_CMD-
->> [ 1240.000775] operation not supported error, dev nvme0n1, sector
->> 2582030751 op 0x0:(READ) flags 0x80700 phys_seg 1 prio class 2
-> 
-> Mind to share the reproducibility?
+There is no need for the else when direct return is used at the end of
+the function.
 
-100% as far as I can tell. I'm using 20G devices for everything. It
-instantly hits that bug.
+Signed-off-by: Chaitanya Kulkarni <kch@nvidia.com>
+---
+ drivers/nvme/host/apple.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Good news is it's not a btrfs bug though :)
-
-common/dmdust:  DUST_TABLE="0 $DEV_SIZE dust $SCRATCH_DEV 0 512"
-
-The dust device is created with 512 byte sectors, while the NVMe on
-these machines has 4K sectors. Changing that to 4K and the respective
-block size calculation in the tests (142/143) (`physical / 512` ->
-`physical / 4096`) makes it pass. It's not reading 0 bytes, it's reading
-512 bytes (which gets truncated to 0 sectors).
-
-And then that explains why 140 doesn't work: it also assumes 512, but in
-a way that just fails instead of causing kernel explosions. Same with
-btrfs/265, 266, 267, 269.
-
-So there's two problems here: a bunch of tests assume 512 byte sectors,
-and the kernel DM dust device is missing a check that should reject
-creation with an invalid sector size instead of just causing wreckage
-further down the block device chain.
-
->> 213 failed to balance with ENOSPC.
-> 
-> Passed with 5x10G LVs as scratch dev pool.
-
-5x20G GPT partitions here, and I can reliably repro this one. Maybe it's
-also related to the 4K sectors?
-
-> I hope it's not Apple Silicon too fast to trigger it, or it would be 
-> pretty hard to reproduce...
-
-FWIW, there's also the whole thing where Apple Silicon is *really* good
-at triggering memory ordering and concurrency problems, since it is such
-a wide architecture. I found a bug in the core kernel workqueue code
-that had been there for years on ARM64...
-
->> generic/251 then failed too, with dmesg logs about failing to trim block
->> groups.
-> 
-> It takes much longer time but still passed here.
-
-Reliably fails here, and this is another 4K sector one and actually a
-btrfs bug I think. It tries to do discards that are not 4K-aligned.
-Here's the call trace leading to the bad discard attempt:
-
-[   70.571872]  btrfs_issue_discard+0x224/0x260
-[   70.571874]  btrfs_discard_extent+0x128/0x1dc
-[   70.571876]  do_trimming+0xc4/0x220
-[   70.571878]  trim_no_bitmap+0x21c/0x3f0
-[   70.571879]  btrfs_trim_block_group+0x88/0x170
-[   70.571880]  btrfs_trim_fs+0xf0/0x3a0
-[   70.571882]  btrfs_ioctl_fitrim+0x100/0x1dc
-[   70.571885]  btrfs_ioctl+0x1550/0x25bc
-[   70.571887]  __arm64_sys_ioctl+0x464/0xbb0
-[   70.571891]  invoke_syscall.constprop.0+0x78/0xd0
-[   70.571894]  do_el0_svc+0x58/0x170
-[   70.571896]  el0_svc+0x38/0xf0
-[   70.571900]  el0t_64_sync_handler+0xf4/0x120
-[   70.571902]  el0t_64_sync+0x190/0x194
-
-Note that discard size is actually a *separate* device property from
-sector size, so this is doubly wrong. btrfs probably needs to explicitly
-align to the discard size.
-
-> I'll try my best to got some runs on real Apple machines meanwhile, but 
-> don't expect any improvement on my hardware situation any time soon...
-
-Hope you can repro with the 4K sector hint. Last time I had emulate that
-I used a loop device with 4K sectors, but I don't know if that supports
-discard... not sure if there is a better way.
-
-> 
-> Thanks,
-> Qu
-> 
->>
->> generic/520 failed with an EBUSY on umount, but I suspect this might be
->> some desktop/systemd stuff trying to use the mount?
->>
->> generic/563 suggests there may be cgroup accounting issues
->>
->> generic/619 seems known to be pathologically slow on arm64, so I killed
->> it (https://www.spinics.net/lists/linux-btrfs/msg131553.html).
->>
->> generic/708 failed but that pointed to a known kernel bug that we don't
->> have the fix for yet (this is running on 6.2 + asahi patches).
->>
->> Run output and some select dmesg sections:
->> https://gist.github.com/marcan/822a34266bcaf4f4cffaa6a198b4c616
->>
->> Let me know if you need anything else.
->>
-> 
-
-- Hector
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 5fc5ea196b40..942a3b71a6d5 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -209,8 +209,8 @@ static inline struct apple_nvme *queue_to_apple_nvme(struct apple_nvme_queue *q)
+ {
+ 	if (q->is_adminq)
+ 		return container_of(q, struct apple_nvme, adminq);
+-	else
+-		return container_of(q, struct apple_nvme, ioq);
++
++	return container_of(q, struct apple_nvme, ioq);
+ }
+ 
+ static unsigned int apple_nvme_queue_depth(struct apple_nvme_queue *q)
+-- 
+2.29.0
 
