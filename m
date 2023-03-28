@@ -1,26 +1,26 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4762C1C39
-	for <asahi@lists.linux.dev>; Tue, 28 Mar 2023 10:27:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B62A21
+	for <asahi@lists.linux.dev>; Tue, 28 Mar 2023 10:42:08 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id B85844248B;
-	Tue, 28 Mar 2023 10:27:04 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 3462F4249A;
+	Tue, 28 Mar 2023 10:42:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1679999231; bh=zT2koom/7W4xUS4Q4Sf76XmaDUMDIN5TnyETV511rOM=;
-	h=Date:Subject:To:Cc:From;
-	b=fDoF7aexA/9AcvnCA66GAgO+W9WNbjW5AWw4xVFwRwX9SZRxm/JPZSkZkNOrLK+c+
-	 egHT+pqKAUs0KaLPXW5Tz7oQiNFzxR3gg2KH3rHVq4GJqPIgJ4e2QZcP9v+xl3PYlf
-	 Ba09NK6CXwdD0KmVF3zHVZQlCdPYimKf327UbEI5io6hyajxtf/PxTwOk9+0hvnOuj
-	 jhudG2tMYp6U/rOZ9iOh2gonmOvIx+5FS6rHEjvAXr4RlOKxQrx8S9uxtxQBithol3
-	 l9ursIrP/XS41teW5MAscmRFYEUAeVJ7fiIeAiQ8q+Bpuu+wWcIZvaed1JbJ2CUk2k
-	 ZhobpJ87npbHQ==
-Message-ID: <871beead-1cc8-bb94-7c15-0173dfb11e71@marcan.st>
-Date: Tue, 28 Mar 2023 19:27:02 +0900
+	t=1680000126; bh=X+tCJwEj9E9W5KH6sDGJVxL3ZFMhOCSdA9qiC4FHZCA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=y7p3piqtNVcGIRvZvwDOzg/QOazozDCPCqTl8XI8mPFrKB5F7STzIWsavZwEEK24I
+	 Y/c3fy4wjFU6iassJOlse8hveY8I7QSM1QgNNX9a2hUxQVDR2C5gMhg8VmSvBH3uc+
+	 e5HsAF10N8nszHerOL5tADZTfNPYGXL4kpkcrkqQmM/yy/wiWlxWw+vQvu6ke2ANYw
+	 gPN34xstMjBtwAsoecua3MiSQy3eet/suVSoa2pjT7MT9etXRa7SxYdjxOcCz33WpT
+	 sCDXDhySFmWwPmdnRf2Dm4SiiuiKvUgeaAJPHX9DfBNVaeNHvmk69scME9YO8HvOwy
+	 pRaB+Y+cYLRDA==
+Message-ID: <d0480cda-ffd5-582d-7258-69f0a2b6f947@marcan.st>
+Date: Tue, 28 Mar 2023 19:42:00 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -29,49 +29,52 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] dt-bindings: i2c: Drop unneeded quotes
+Subject: Re: [PATCH v3 00/15] Device trees for Apple M2 (t8112) based devices
 Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
+To: Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Michal Simek <michal.simek@xilinx.com>, Peter Rosin <peda@axentia.se>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+ Mark Kettenis <kettenis@openbsd.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Marc Zyngier <maz@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Wolfram Sang <wsa@kernel.org>, =?UTF-8?Q?Martin_Povi=c5=a1er?=
+ <povik+lin@cutebit.org>, Vinod Koul <vkoul@kernel.org>
+References: <20230202-asahi-t8112-dt-v3-0-d1a5f6383d95@jannau.net>
 From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20230202-asahi-t8112-dt-v3-0-d1a5f6383d95@jannau.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 23/03/2023 02.35, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
+On 07/03/2023 21.10, Janne Grunau wrote:
+> This series contains dt-bindings updates and device trees for Apple
+> silicon devices based on the M2 SoC (t8112).
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml | 4 ++--
->  Documentation/devicetree/bindings/i2c/apple,i2c.yaml          | 4 ++--
->  Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml  | 2 +-
->  Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml     | 4 ++--
->  Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml       | 4 ++--
->  Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml | 4 ++--
->  Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml       | 2 +-
->  .../devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml          | 4 ++--
->  8 files changed, 14 insertions(+), 14 deletions(-)
+> Device tree validation depends on the dart-t8110 bindings queued in
+> the iommu tree for 6.3 [1], PMU updates [2] and support for
+> "local-mac-address" for brcm,bcm4329-fmac based devices [3]. The latter
+> fixes validation errors for the existing M1 and M1 Pro/Max/Ultra device
+> trees.
+> 
+> The device trees are tested with the downstream Asahi Linux kernel and
+> on top of v6.2-rc5. The hardware is of limited use with the upstream
+> kernel. The notebooks miss keyboard/trackpad drivers and usb support.
+> The Mac mini does not yet have a boot framebuffer and lacks usb support
+> as well.
+> 
+> 1: https://lore.kernel.org/linux-iommu/20230113105029.26654-1-marcan@marcan.st/
+> 2: https://lore.kernel.org/linux-devicetree/20230214-apple_m2_pmu-v1-1-9c9213ab9b63@jannau.net/
+> 3: https://lore.kernel.org/linux-devicetree/20230203-dt-bindings-network-class-v2-2-499686795073@jannau.net/
+> 
+> The dt-binding changes in this series are documentation only. All
+> drivers are compatible with the HW on the M2 SoC and are probed based
+> on generic compatibles. The t8112 specific compatibles are added to
+> address t8112 specific quirks in the case they become required.
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
 
-For apple:
-
-Reviewed-by: Hector Martin <marcan@marcan.st>
+Thanks, applied everything except #13 to asahi-soc/dt.
 
 - Hector
 
