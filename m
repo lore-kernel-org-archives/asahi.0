@@ -1,105 +1,159 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BC563CD
-	for <asahi@lists.linux.dev>; Tue, 28 Mar 2023 13:14:54 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 8717B4249A;
-	Tue, 28 Mar 2023 13:14:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1680009292; bh=WRbEluBIEV7jHnCWK701TbH9lXJAyLcM/aZGlX67/Kg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=hXjfxzmy+bjJP1Fpfh00OxQbjMxbWQlrxsqL63NpIge5jgXFjTRR5wNPyCSeQBcSk
-	 wkCjGkpT/0FFpnN9lbfu8Je2zpxtZ0Cdqo4P2ABY/gj3R41LFUJVPELVLWUF6pgzYJ
-	 QqKCycYHxvU+wk4BP7mZDWUeZFmSfZlw6IQgqqPpWkYLWc/+w4k1HBP1JcdtkYD1cU
-	 Fd8NZmGT4dnuSf2Djb5LPI+vLPAuFaq/QKfmWifiLSkveMz24pmrIzMqxwleDr6tUF
-	 jpiUPKv4HZTLGUWsB8SrB9RJfrrwb5Mpe6c980+SSR7rQIerk8ZWshPhil9vABVU4B
-	 iK3Rp26CRo4Rw==
-From: Hector Martin <marcan@marcan.st>
-Date: Tue, 28 Mar 2023 22:14:18 +0900
-Subject: [PATCH 5/5] soc: apple: mailbox: Rename config symbol to
- APPLE_MAILBOX
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6536879C5
+	for <asahi@lists.linux.dev>; Tue, 28 Mar 2023 13:36:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1680010604;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=38WhB1xhz6iO9xwaGoOJESCsJJ1GMow8wYkaX1OpVf0=;
+	b=cznFg6XMfwGXc6k4vXdyQ5Vkq5Z1pzwBSGo/CuLUQ/ihAGv2IVc+CT6O74rsirowiHPYKB
+	h3wyUFwDyLxIoZ7niFj0zHklX8diSCmSXmo7Tu7Sck9+rRq85h+xcSRa/l4EiPQnRttvXm
+	WixAkV5WPB8LCRd/dJFHQ4AldqbgSgk=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-467-pW_aliu9Ps-dVl5DbsuOvQ-1; Tue, 28 Mar 2023 09:36:43 -0400
+X-MC-Unique: pW_aliu9Ps-dVl5DbsuOvQ-1
+Received: by mail-vs1-f72.google.com with SMTP id t22-20020a67d916000000b00425d954c65fso3613079vsj.21
+        for <asahi@lists.linux.dev>; Tue, 28 Mar 2023 06:36:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680010602;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=38WhB1xhz6iO9xwaGoOJESCsJJ1GMow8wYkaX1OpVf0=;
+        b=1AsNPKRs9/F6/hZ+ruZy6xHoXou/5QJf4+hIiRL8TWiSgpSfHrS77T5PG0r3PFnw/w
+         rR2jSyt6VxSRtZJKQix9xBnPwddnPoEiWAdLR/iPalIvMdDkUH8nFVCVFI+oi4ITd99u
+         vPK0S59vtRQyqmGJhBe7lBpk/9Oc2uv20ML45EN9vhSxIgZNqlBnZYn9P2tL6UtpXCMq
+         U2xxSxp/RrldY41q2JC+ZfIJahBqxpJV/H9HLSdP+aW1okFxfr83+tYNdDWNYKS8sTrV
+         5cPYftP6t2iW3wkYM2PWGbHai+p79yG/UNT0ndpRfVjEGnD3We8vdXYT5URtRL0iGPxG
+         iLYA==
+X-Gm-Message-State: AAQBX9coPBtxx0xR96FEydKkL01xjRlCcC4djmE5iGMOL9YdPswdEzQr
+	bCTTI5SutmkVblQyvQ/O97OOoQAJI6Lvd8QwLPY92JjN3G6GusBI/kpT97o7CiHL6OuPeKUMrMV
+	WDc7/d1z6IVE1ke4DoZNEQ3yvjYI3owE=
+X-Received: by 2002:a67:d78d:0:b0:425:dd21:acc8 with SMTP id q13-20020a67d78d000000b00425dd21acc8mr8457956vsj.7.1680010602694;
+        Tue, 28 Mar 2023 06:36:42 -0700 (PDT)
+X-Google-Smtp-Source: AKy350aD49wliP3FptdixB7cu5C7ONZu/9rIPSHjym/CTFrbaUpovBd8LuxZBaGrdm3pSCVMhO5vQdqJWYOKsWvWXH8=
+X-Received: by 2002:a67:d78d:0:b0:425:dd21:acc8 with SMTP id
+ q13-20020a67d78d000000b00425dd21acc8mr8457942vsj.7.1680010602358; Tue, 28 Mar
+ 2023 06:36:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230328-soc-mailbox-v1-5-3953814532fd@marcan.st>
-References: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st>
-In-Reply-To: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st>
-To: Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Janne Grunau <j@jannau.net>
-Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, Hector Martin <marcan@marcan.st>
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1768; i=marcan@marcan.st;
- h=from:subject:message-id; bh=WRbEluBIEV7jHnCWK701TbH9lXJAyLcM/aZGlX67/Kg=;
- b=owGbwMvMwCEm+yP4NEe/cRLjabUkhhSlFzb2Ledid97V2H582/tdDi4XleJzH76YsEH+hFKuc
- HugRn5ERykLgxgHg6yYIkvjid5T3Z7Tz6mrpkyHmcPKBDKEgYtTACZy2YThn73sX8ktsz/XCmyL
- WLRiB2/gbKXa6rBd2ucu9+iUh5VG6TMyfJUXW3JaM3k523sF5f0FttfTaqM3fpMyzqpVT/4WtmA
- jPwA=
-X-Developer-Key: i=marcan@marcan.st; a=openpgp;
- fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
+References: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st> <20230328-soc-mailbox-v1-1-3953814532fd@marcan.st>
+In-Reply-To: <20230328-soc-mailbox-v1-1-3953814532fd@marcan.st>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Tue, 28 Mar 2023 14:36:26 +0100
+Message-ID: <CAOgh=Fwur3_aBhKqRW-JaTKXHJaKhCpvA-9d7ZKhMbRmtGYHWQ@mail.gmail.com>
+Subject: Re: [PATCH 1/5] soc: apple: rtkit: Get rid of apple_rtkit_send_message_wait
+To: Hector Martin <marcan@marcan.st>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Jassi Brar <jassisinghbrar@gmail.com>, Janne Grunau <j@jannau.net>, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-With the original owner of APPLE_MAILBOX removed, let's rename the new
-APPLE_MBOX to the old name. This avoids .config churn for downstream
-users, and leaves us with an identical config symbol and module name as
-before.
+On Tue, 28 Mar 2023 at 14:20, Hector Martin <marcan@marcan.st> wrote:
+>
+> It is fundamentally broken and has no users. Just remove it.
+>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- drivers/soc/apple/Kconfig  | 5 ++---
- drivers/soc/apple/Makefile | 2 +-
- 2 files changed, 3 insertions(+), 4 deletions(-)
+Watched the stream
 
-diff --git a/drivers/soc/apple/Kconfig b/drivers/soc/apple/Kconfig
-index d0e29bbd8c6f..c5203c388bf4 100644
---- a/drivers/soc/apple/Kconfig
-+++ b/drivers/soc/apple/Kconfig
-@@ -17,11 +17,10 @@ config APPLE_PMGR_PWRSTATE
- 	  controls for SoC devices. This driver manages them through the
- 	  generic power domain framework, and also provides reset support.
- 
--config APPLE_MBOX
-+config APPLE_MAILBOX
- 	tristate "Apple SoC mailboxes"
- 	depends on PM
- 	depends on ARCH_APPLE || (64BIT && COMPILE_TEST)
--	depends on !APPLE_MAILBOX
- 	default ARCH_APPLE
- 	help
- 	  Apple SoCs have various co-processors required for certain
-@@ -33,7 +32,7 @@ config APPLE_MBOX
- 
- config APPLE_RTKIT
- 	tristate "Apple RTKit co-processor IPC protocol"
--	depends on APPLE_MBOX
-+	depends on APPLE_MAILBOX
- 	depends on ARCH_APPLE || COMPILE_TEST
- 	default ARCH_APPLE
- 	help
-diff --git a/drivers/soc/apple/Makefile b/drivers/soc/apple/Makefile
-index e52edf6a73da..20feee6f3943 100644
---- a/drivers/soc/apple/Makefile
-+++ b/drivers/soc/apple/Makefile
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-$(CONFIG_APPLE_PMGR_PWRSTATE)	+= apple-pmgr-pwrstate.o
- 
--obj-$(CONFIG_APPLE_MBOX) += apple-mailbox.o
-+obj-$(CONFIG_APPLE_MAILBOX) += apple-mailbox.o
- apple-mailbox-y = mailbox.o
- 
- obj-$(CONFIG_APPLE_RTKIT) += apple-rtkit.o
+Acked-by: Eric Curtin <ecurtin@redhat.com>
 
--- 
-2.40.0
+Is mise le meas/Regards,
+
+Eric Curtin
+
+> ---
+>  drivers/soc/apple/rtkit.c       | 32 --------------------------------
+>  include/linux/soc/apple/rtkit.h | 18 ------------------
+>  2 files changed, 50 deletions(-)
+>
+> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+> index d9f19dc99da5..7c9b9f25bbc1 100644
+> --- a/drivers/soc/apple/rtkit.c
+> +++ b/drivers/soc/apple/rtkit.c
+> @@ -641,38 +641,6 @@ int apple_rtkit_send_message(struct apple_rtkit *rtk, u8 ep, u64 message,
+>  }
+>  EXPORT_SYMBOL_GPL(apple_rtkit_send_message);
+>
+> -int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+> -                                 unsigned long timeout, bool atomic)
+> -{
+> -       DECLARE_COMPLETION_ONSTACK(completion);
+> -       int ret;
+> -       long t;
+> -
+> -       ret = apple_rtkit_send_message(rtk, ep, message, &completion, atomic);
+> -       if (ret < 0)
+> -               return ret;
+> -
+> -       if (atomic) {
+> -               ret = mbox_flush(rtk->mbox_chan, timeout);
+> -               if (ret < 0)
+> -                       return ret;
+> -
+> -               if (try_wait_for_completion(&completion))
+> -                       return 0;
+> -
+> -               return -ETIME;
+> -       } else {
+> -               t = wait_for_completion_interruptible_timeout(
+> -                       &completion, msecs_to_jiffies(timeout));
+> -               if (t < 0)
+> -                       return t;
+> -               else if (t == 0)
+> -                       return -ETIME;
+> -               return 0;
+> -       }
+> -}
+> -EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
+> -
+>  int apple_rtkit_poll(struct apple_rtkit *rtk)
+>  {
+>         return mbox_client_peek_data(rtk->mbox_chan);
+> diff --git a/include/linux/soc/apple/rtkit.h b/include/linux/soc/apple/rtkit.h
+> index fc456f75c131..8c9ca857ccf6 100644
+> --- a/include/linux/soc/apple/rtkit.h
+> +++ b/include/linux/soc/apple/rtkit.h
+> @@ -160,24 +160,6 @@ int apple_rtkit_start_ep(struct apple_rtkit *rtk, u8 endpoint);
+>  int apple_rtkit_send_message(struct apple_rtkit *rtk, u8 ep, u64 message,
+>                              struct completion *completion, bool atomic);
+>
+> -/*
+> - * Send a message to the given endpoint and wait until it has been submitted
+> - * to the hardware FIFO.
+> - * Will return zero on success and a negative error code on failure
+> - * (e.g. -ETIME when the message couldn't be written within the given
+> - * timeout)
+> - *
+> - * @rtk:            RTKit reference
+> - * @ep:             target endpoint
+> - * @message:        message to be sent
+> - * @timeout:        timeout in milliseconds to allow the message transmission
+> - *                  to be completed
+> - * @atomic:         if set to true this function can be called from atomic
+> - *                  context.
+> - */
+> -int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+> -                                 unsigned long timeout, bool atomic);
+> -
+>  /*
+>   * Process incoming messages in atomic context.
+>   * This only guarantees that messages arrive as far as the recv_message_early
+>
+> --
+> 2.40.0
+>
+>
 
