@@ -1,110 +1,77 @@
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E3079DD
-	for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 21:52:50 +0000 (UTC)
-Received: by mail-yb1-f182.google.com with SMTP id n125so12615308ybg.7
-        for <asahi@lists.linux.dev>; Mon, 27 Mar 2023 14:52:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1679953969;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nLI5m06f2WlStlUywkxHpgfVuIZ5JS/MDTFzEPNuSfU=;
-        b=pOSHTN0gxWzMWkqyiNymvzEciJmMzDynaEbRFezy7nLLDqD1LINJt9Abz9IIuoPrea
-         w6BYlguZiNT/hPuPXgbYFH+nK5VQNYOCmkfeTEJcefvBQi9za56UC8iqta+AKeLauOTu
-         BYL0/iVJoeimYgwvs/tGLDATSN9mnXGj/ZTsNmgMmjZWjqUGqwweml9p3K3ISlDJ3pRy
-         FJb0uOBeoz+CDw0gVfgEvWnExyi8ZW1zUmJYIiBbYreayGe/FxZCi8XsTr1Ox7zjK0S5
-         OocDVIB4YAfd2kuVypBdFKkODtS9bY96MYlXVs23YNcbgJMXbEQCjP9ECgACofB2FL3i
-         aWQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679953969;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nLI5m06f2WlStlUywkxHpgfVuIZ5JS/MDTFzEPNuSfU=;
-        b=aL7T5UIEdtGp21KMN1fio1+33ALCmlNTqt8pH9EmuIGBdcsavm9sOXJioPa9RnqaxY
-         6ySuB8iMpPkZxhkaeOuuL3SihRop/zas0mMf0vfJT2YYkht91woBbl8qZ0pd9+nHgp+S
-         MwvgdqP6pozmXkj23IVZfftbgfbuK4QV422C3PJOWen9fnn2wEIxceQJAzRhQg2SlmFC
-         pd1fkxMRfI/vOd4rji/KdOLv6NjBqjk9ClGQvk7W+kDwXj7dSLfRpgYCQdTKInthCoDT
-         mnIicdnG4P0CM3D/Cd0eqe8F9pUADiNQ4uJFju9GZ7Pz+NIhOUhY7PlzMxrEgfY2t9lP
-         JXLA==
-X-Gm-Message-State: AAQBX9c4p7aLcJ1vuIGycL9Nz+EjoICpJ4RK/PyeTSW6NFxAlhjL3H0H
-	ptY2RNoEpSn9vOWlufeec811udvt2sYAOk1ancxNMw==
-X-Google-Smtp-Source: AKy350YXWieWPPn4qPNXsbtFZBIPGWFVrw4KqEcgFae4NZrCaiM4DhD+RmS9uESY7KP/zdWUYuSeFcGkhfdSERGtuKw=
-X-Received: by 2002:a25:542:0:b0:a6b:bc64:a0af with SMTP id
- 63-20020a250542000000b00a6bbc64a0afmr8149446ybf.4.1679953969020; Mon, 27 Mar
- 2023 14:52:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4762C1C39
+	for <asahi@lists.linux.dev>; Tue, 28 Mar 2023 10:27:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id B85844248B;
+	Tue, 28 Mar 2023 10:27:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1679999231; bh=zT2koom/7W4xUS4Q4Sf76XmaDUMDIN5TnyETV511rOM=;
+	h=Date:Subject:To:Cc:From;
+	b=fDoF7aexA/9AcvnCA66GAgO+W9WNbjW5AWw4xVFwRwX9SZRxm/JPZSkZkNOrLK+c+
+	 egHT+pqKAUs0KaLPXW5Tz7oQiNFzxR3gg2KH3rHVq4GJqPIgJ4e2QZcP9v+xl3PYlf
+	 Ba09NK6CXwdD0KmVF3zHVZQlCdPYimKf327UbEI5io6hyajxtf/PxTwOk9+0hvnOuj
+	 jhudG2tMYp6U/rOZ9iOh2gonmOvIx+5FS6rHEjvAXr4RlOKxQrx8S9uxtxQBithol3
+	 l9ursIrP/XS41teW5MAscmRFYEUAeVJ7fiIeAiQ8q+Bpuu+wWcIZvaed1JbJ2CUk2k
+	 ZhobpJ87npbHQ==
+Message-ID: <871beead-1cc8-bb94-7c15-0173dfb11e71@marcan.st>
+Date: Tue, 28 Mar 2023 19:27:02 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230317233623.3968172-1-robh@kernel.org> <CACRpkdYq4jE7Qn1w8iPeGz7vxj_CeZ+H48B0TVYmeF4Tt=kHgA@mail.gmail.com>
- <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
-In-Reply-To: <CAL_JsqL+nF_WwZ-EDpUSD2yrxPLZWxaeb=WpTtPnnbpgcXT7qA@mail.gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 27 Mar 2023 23:52:37 +0200
-Message-ID: <CACRpkdbR_PFSkqeK4xAmxdfdhi332hyax8jAnEa7VXFVp=QEDA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: pinctrl: Drop unneeded quotes
-To: Rob Herring <robh@kernel.org>
-Cc: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
-	Damien Le Moal <damien.lemoal@wdc.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	NXP Linux Team <linux-imx@nxp.com>, Sean Wang <sean.wang@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
-	Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Emil Renner Berthing <kernel@esmil.dk>, 
-	Jianlong Huang <jianlong.huang@starfivetech.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
-	Wells Lu <wellslutw@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
-	Michal Simek <michal.simek@xilinx.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-actions@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, 
-	linux-aspeed@lists.ozlabs.org, openbmc@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, patches@opensource.cirrus.com, 
-	alsa-devel@alsa-project.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH] dt-bindings: i2c: Drop unneeded quotes
+Content-Language: en-US
+To: Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Michal Simek <michal.simek@xilinx.com>, Peter Rosin <peda@axentia.se>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+From: Hector Martin <marcan@marcan.st>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 24, 2023 at 3:33=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
-:
-> On Thu, Mar 23, 2023 at 3:40=E2=80=AFAM Linus Walleij <linus.walleij@lina=
-ro.org> wrote:
-> > On Sat, Mar 18, 2023 at 12:36=E2=80=AFAM Rob Herring <robh@kernel.org> =
-wrote:
-> >
-> > > Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> > > checking for this can be enabled in yamllint.
-> > >
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> >
-> > Should I queue this patch by the way, or do you need it to go into some
-> > DT-related tree?
->
-> Stands on its own. You can take it.
+On 23/03/2023 02.35, Rob Herring wrote:
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/i2c/amlogic,meson6-i2c.yaml | 4 ++--
+>  Documentation/devicetree/bindings/i2c/apple,i2c.yaml          | 4 ++--
+>  Documentation/devicetree/bindings/i2c/atmel,at91sam-i2c.yaml  | 2 +-
+>  Documentation/devicetree/bindings/i2c/cdns,i2c-r1p10.yaml     | 4 ++--
+>  Documentation/devicetree/bindings/i2c/i2c-mux-gpio.yaml       | 4 ++--
+>  Documentation/devicetree/bindings/i2c/qcom,i2c-geni-qcom.yaml | 4 ++--
+>  Documentation/devicetree/bindings/i2c/st,stm32-i2c.yaml       | 2 +-
+>  .../devicetree/bindings/i2c/xlnx,xps-iic-2.00.a.yaml          | 4 ++--
+>  8 files changed, 14 insertions(+), 14 deletions(-)
 
-This sadly conflicts hard with my "devel" branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git/lo=
-g/?h=3Ddevel
+For apple:
 
-Cause seems to be major refactorings of Mediatek and Ralink
-bindings.
+Reviewed-by: Hector Martin <marcan@marcan.st>
 
-Yours,
-Linus Walleij
+- Hector
+
