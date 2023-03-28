@@ -1,26 +1,26 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B62A21
-	for <asahi@lists.linux.dev>; Tue, 28 Mar 2023 10:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE37123A1
+	for <asahi@lists.linux.dev>; Tue, 28 Mar 2023 10:50:45 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 3462F4249A;
-	Tue, 28 Mar 2023 10:42:01 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 567F3425BD;
+	Tue, 28 Mar 2023 10:50:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1680000126; bh=X+tCJwEj9E9W5KH6sDGJVxL3ZFMhOCSdA9qiC4FHZCA=;
+	t=1680000643; bh=Psp2s7G27u3PFSjPrVvcwN9o1kJcqRKqDmtgH/C0pyw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=y7p3piqtNVcGIRvZvwDOzg/QOazozDCPCqTl8XI8mPFrKB5F7STzIWsavZwEEK24I
-	 Y/c3fy4wjFU6iassJOlse8hveY8I7QSM1QgNNX9a2hUxQVDR2C5gMhg8VmSvBH3uc+
-	 e5HsAF10N8nszHerOL5tADZTfNPYGXL4kpkcrkqQmM/yy/wiWlxWw+vQvu6ke2ANYw
-	 gPN34xstMjBtwAsoecua3MiSQy3eet/suVSoa2pjT7MT9etXRa7SxYdjxOcCz33WpT
-	 sCDXDhySFmWwPmdnRf2Dm4SiiuiKvUgeaAJPHX9DfBNVaeNHvmk69scME9YO8HvOwy
-	 pRaB+Y+cYLRDA==
-Message-ID: <d0480cda-ffd5-582d-7258-69f0a2b6f947@marcan.st>
-Date: Tue, 28 Mar 2023 19:42:00 +0900
+	b=UbcSxKZwSdD3PDi3euGm2JEsLZsdONrH89yZvtEdABhuAW0++deIUvZm3fymn5FJx
+	 IGo5x4QWDQO18wwLBpNdZrJAlURkPMI2i7oMfKHrELz+r9HXX/XfwrVyIohu4auvLm
+	 4XPHj1zMVHcEcpFTqRkGni5B7ah8S73+8Z8BX0OMgFLsEfZmxu+XhuQCFx6NLcWxzP
+	 YVlWcKBVoR6F26yCJ20ve4OP73fcQhZerEiigI/7I2oCC8zvTVhQKS4trhgbUobEET
+	 +M7mTwSTW7KWgyVIQ2oRpHRX/lnIKl0OtaG4FSJJXEyZGS0R7yjd2/NTb78Zev6uAW
+	 F+Y6VIdXGgQwQ==
+Message-ID: <7f41e2a7-dc0e-483d-9816-8fb742991b68@marcan.st>
+Date: Tue, 28 Mar 2023 19:50:40 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -29,52 +29,52 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v3 00/15] Device trees for Apple M2 (t8112) based devices
+Subject: Re: [PATCH] soc: apple: rtkit: Fix buffer address field width
 Content-Language: en-US
-To: Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Mark Kettenis <kettenis@openbsd.org>
+To: Asahi Lina <lina@asahilina.net>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Marc Zyngier <maz@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Wolfram Sang <wsa@kernel.org>, =?UTF-8?Q?Martin_Povi=c5=a1er?=
- <povik+lin@cutebit.org>, Vinod Koul <vkoul@kernel.org>
-References: <20230202-asahi-t8112-dt-v3-0-d1a5f6383d95@jannau.net>
+ linux-kernel@vger.kernel.org
+References: <20230224-gpu-up-rtkit-v1-1-671178cb2a5e@asahilina.net>
 From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20230202-asahi-t8112-dt-v3-0-d1a5f6383d95@jannau.net>
+In-Reply-To: <20230224-gpu-up-rtkit-v1-1-671178cb2a5e@asahilina.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 07/03/2023 21.10, Janne Grunau wrote:
-> This series contains dt-bindings updates and device trees for Apple
-> silicon devices based on the M2 SoC (t8112).
+On 24/02/2023 15.49, Asahi Lina wrote:
+> The buffer address field is missing two bits. This matters for the GPU,
+> which uses upper-half 64-bit addresses on the ASC and those get sign
+> extended from the mailbox message field, so the right number of high
+> bits need to be set.
 > 
-> Device tree validation depends on the dart-t8110 bindings queued in
-> the iommu tree for 6.3 [1], PMU updates [2] and support for
-> "local-mac-address" for brcm,bcm4329-fmac based devices [3]. The latter
-> fixes validation errors for the existing M1 and M1 Pro/Max/Ultra device
-> trees.
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+>  drivers/soc/apple/rtkit.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> The device trees are tested with the downstream Asahi Linux kernel and
-> on top of v6.2-rc5. The hardware is of limited use with the upstream
-> kernel. The notebooks miss keyboard/trackpad drivers and usb support.
-> The Mac mini does not yet have a boot framebuffer and lacks usb support
-> as well.
+> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+> index 35ec35aa500d..a02a44a745f6 100644
+> --- a/drivers/soc/apple/rtkit.c
+> +++ b/drivers/soc/apple/rtkit.c
+> @@ -55,7 +55,7 @@ enum {
+>  
+>  #define APPLE_RTKIT_BUFFER_REQUEST	1
+>  #define APPLE_RTKIT_BUFFER_REQUEST_SIZE GENMASK_ULL(51, 44)
+> -#define APPLE_RTKIT_BUFFER_REQUEST_IOVA GENMASK_ULL(41, 0)
+> +#define APPLE_RTKIT_BUFFER_REQUEST_IOVA GENMASK_ULL(43, 0)
+>  
+>  #define APPLE_RTKIT_SYSLOG_TYPE GENMASK_ULL(59, 52)
+>  
 > 
-> 1: https://lore.kernel.org/linux-iommu/20230113105029.26654-1-marcan@marcan.st/
-> 2: https://lore.kernel.org/linux-devicetree/20230214-apple_m2_pmu-v1-1-9c9213ab9b63@jannau.net/
-> 3: https://lore.kernel.org/linux-devicetree/20230203-dt-bindings-network-class-v2-2-499686795073@jannau.net/
+> ---
+> base-commit: 83f978b63fa7ad474ca22d7e2772c5988101c9bd
+> change-id: 20230224-gpu-up-rtkit-f4bc18e78c8a
 > 
-> The dt-binding changes in this series are documentation only. All
-> drivers are compatible with the HW on the M2 SoC and are probed based
-> on generic compatibles. The t8112 specific compatibles are added to
-> address t8112 specific quirks in the case they become required.
+> Thank you,
+> ~~ Lina
 > 
-> Signed-off-by: Janne Grunau <j@jannau.net>
 
-Thanks, applied everything except #13 to asahi-soc/dt.
+Applied to asahi-soc/soc!
 
 - Hector
 
