@@ -1,28 +1,28 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816F27B
-	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 12:04:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7FE7B
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 12:04:56 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id E0317424A5;
-	Wed, 29 Mar 2023 12:04:46 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 19E7E41F46;
+	Wed, 29 Mar 2023 12:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1680091490;
-	bh=yizatryz94HI38ZhrhHNZKorJP2yMGzaneMJyUc/yLs=;
+	s=default; t=1680091494;
+	bh=i4OiR3LCVFp1o7pcdF1+sBJPH/zxSaRWGdgRE2WJDNU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=PqITEoRLJt6wek92hSnvKc+Y1lmrOZsCLkof9zV7pn1ZNqZZWcdU2I15hFi/0iu5E
-	 qAl/+y7C+v5f5jtOnENPkB4CvMhF8EgkbglkUtW8YSNF5/1YDH2cZH1qx0FuegkBws
-	 kl9MQqd6kE/7jb2NLfNZLxQrkEjByz9eOQp/qNQkZO+getG5pn8J369MZyd853W+uc
-	 bVH7NfhyspZ7pd4ArAzCusASEKVEvo8N2LT5iq36AuF2YTdzQjFXscoHiR60iDTs6A
-	 LszjKUuvn0pp7JlYzdskZzmV8QbA/TbPaJ4tWxptPoI3qOR3EJoBp4cCZd4P323+ul
-	 dVl0caXyxuPLw==
+	b=LhnYkk72xZfQ9ysMIZ32YxC6aiSSoincImJAGgNxUoaYeiBX78sfY5rq8WLcal/i+
+	 XZggEobuj3q0kLkwBWwiU1VzJcw7M5MQoytDIm3CSC3xz8lHu3fituOehDia+s9xM9
+	 b0LG3l0mae6+Ne93MosdY45QU/Z1omitZFuDQi/weoTWOpycW1SyqdKAAZCuaseFOc
+	 3uiFUPxxlbUY59CE7drn6qZ/fHmvwND3KiLdMKPtvB8Taj8pQ1B78VQlNGSQOzuT4h
+	 Qndab1aq5ByHy6j6TqikiV8CgHpncvJjdGzpVDkFJqdv+8XxTvj47rjqsxnBd9Wzby
+	 Hh2eeuGFnGuzQ==
 From: Asahi Lina <lina@asahilina.net>
-Date: Wed, 29 Mar 2023 21:04:34 +0900
-Subject: [PATCH v2 2/6] rust: error: Add Error::to_ptr()
+Date: Wed, 29 Mar 2023 21:04:35 +0900
+Subject: [PATCH v2 3/6] rust: error: Add Error::from_errno()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -31,7 +31,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230224-rust-error-v2-2-3900319812da@asahilina.net>
+Message-Id: <20230224-rust-error-v2-3-3900319812da@asahilina.net>
 References: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
 In-Reply-To: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -45,67 +45,66 @@ Cc: Fox Chen <foxhlchen@gmail.com>,
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680091478; l=1617;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680091478; l=1923;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=yizatryz94HI38ZhrhHNZKorJP2yMGzaneMJyUc/yLs=;
- b=g3wfjFA5bNlmO1XJYJc+pIss8D54z8fnJrLrR9I1KnVL0/HzvcuTRtMeiraME/fJKA07ACpAh
- Rb62kJ4bwzLDe8glRgolrXsew//PuOyb/iOnkUki7e2ldOY6UP/20pz
+ bh=VSgp8GJmq0GyyWZ2FrIFWGZbohpKXUspc+RJ4lAro+A=;
+ b=MI7BIrTtZmn6MoA5cs6z3VjONdRNDkoCAfIOu+dk9btyw14filP7UP7mvZNtWRVQSD36I41+j
+ sB23CuOjfluCfsXkohXWQdCKwXyqrrETbQlWVggmrqD6pBoRt9D6iIp
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-This is the Rust equivalent to ERR_PTR(), for use in C callbacks.
-Marked as #[allow(dead_code)] for now, since it does not have any
-consumers yet.
+From: Miguel Ojeda <ojeda@kernel.org>
 
+Add a function to create `Error` values out of a kernel error return,
+which safely upholds the invariant that the error code is well-formed
+(negative and greater than -MAX_ERRNO). If a malformed code is passed
+in, it will be converted to EINVAL.
+
+Lina: Imported from rust-for-linux/rust as authored by Miguel and Fox
+with refactoring from Wedson, renamed from_kernel_errno() to
+from_errno().
+
+Co-developed-by: Fox Chen <foxhlchen@gmail.com>
+Signed-off-by: Fox Chen <foxhlchen@gmail.com>
+Co-developed-by: Wedson Almeida Filho <wedsonaf@gmail.com>
+Signed-off-by: Wedson Almeida Filho <wedsonaf@gmail.com>
+Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+Reviewed-by: Andreas Hindborg <a.hindborg@samsung.com>
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
- rust/helpers.c       | 7 +++++++
- rust/kernel/error.rs | 7 +++++++
- 2 files changed, 14 insertions(+)
+ rust/kernel/error.rs | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/rust/helpers.c b/rust/helpers.c
-index 09a4d93f9d62..89f4cd1e0df3 100644
---- a/rust/helpers.c
-+++ b/rust/helpers.c
-@@ -20,6 +20,7 @@
- 
- #include <linux/bug.h>
- #include <linux/build_bug.h>
-+#include <linux/err.h>
- #include <linux/refcount.h>
- 
- __noreturn void rust_helper_BUG(void)
-@@ -46,6 +47,12 @@ bool rust_helper_refcount_dec_and_test(refcount_t *r)
- }
- EXPORT_SYMBOL_GPL(rust_helper_refcount_dec_and_test);
- 
-+__force void *rust_helper_ERR_PTR(long err)
-+{
-+	return ERR_PTR(err);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_ERR_PTR);
-+
- /*
-  * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
-  * as the Rust `usize` type, so we can use it in contexts where Rust
 diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-index 35894fa35efe..e97e652a1aec 100644
+index e97e652a1aec..659468bd1735 100644
 --- a/rust/kernel/error.rs
 +++ b/rust/kernel/error.rs
-@@ -76,6 +76,13 @@ impl Error {
+@@ -72,6 +72,25 @@ pub mod code {
+ pub struct Error(core::ffi::c_int);
+ 
+ impl Error {
++    /// Creates an [`Error`] from a kernel error code.
++    ///
++    /// It is a bug to pass an out-of-range `errno`. `EINVAL` would
++    /// be returned in such a case.
++    pub(crate) fn from_errno(errno: core::ffi::c_int) -> Error {
++        if errno < -(bindings::MAX_ERRNO as i32) || errno >= 0 {
++            // TODO: Make it a `WARN_ONCE` once available.
++            crate::pr_warn!(
++                "attempted to create `Error` with out of range `errno`: {}",
++                errno
++            );
++            return code::EINVAL;
++        }
++
++        // INVARIANT: The check above ensures the type invariant
++        // will hold.
++        Error(errno)
++    }
++
+     /// Returns the kernel error code.
      pub fn to_errno(self) -> core::ffi::c_int {
          self.0
-     }
-+
-+    /// Returns the error encoded as a pointer.
-+    #[allow(dead_code)]
-+    pub(crate) fn to_ptr<T>(self) -> *mut T {
-+        // SAFETY: Valid as long as self.0 is a valid error
-+        unsafe { bindings::ERR_PTR(self.0.into()) as *mut _ }
-+    }
- }
- 
- impl From<AllocError> for Error {
 
 -- 
 2.40.0
