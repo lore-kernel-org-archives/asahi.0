@@ -1,45 +1,45 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF74AFF4
-	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 14:47:42 +0000 (UTC)
-Received: by mail-oi1-f171.google.com with SMTP id w13so370967oik.2
-        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 07:47:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A6C2582
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 14:49:49 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id bi31so11741831oib.9
+        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 07:49:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680101262;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=gmail.com; s=20210112; t=1680101389;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=OXBqzVlrFRt5YtMWe/wv26dM8rUqdeUJBzFLACIXocU=;
-        b=h8dOBgu5K5HtZFYHFm7gq4Ng+p4q+BT6YRGX0QCSa9PR/lBjQdMhr56cHlFRmPOcwM
-         jEFGueBVPNeP38jfo/uYdMo0VY8fxG3l30CJSKb047fTxjJEcyoP0AeKU097gVPhNdcL
-         UnutSu7hssch1ZespwaVB0CS6B32PXQlB/WFWqKmxT1zqc0NZ4wA7EnzmmhHx8XHQ8nv
-         SB7ky8Hp22VUF1weadMY6LShg4J5RyViSSeyidqV1U1U7iDb5xTpngLl7lZ0kmZCas8y
-         d/OUrY1nTjo207/0SjaHgPF63j4FIh1uXgF8Kp+f441DEdH3gzkGtcjmWrt8+oazbkVF
-         rKCQ==
+        bh=vRqpC2pNLFE0BwqBPX96lUg22eDDLB+g7ixyozfNakU=;
+        b=iMG/FLKtqXGOz1EhsGEHAlEIa33i0ikt2fvQ9xAImPoNz8MT1oWTcp4cAcDKRjhjO8
+         zsPV4Pc2bo17qw2PI7BD+NYAkDBxCFbmZ20eGUWLomD0TCJZ0M7/SYJkNrf369ybiQxx
+         6/KTfQQxvAzeeGZ9emrm8EpyKFvzqX59A/NdQiPML8pxM61+ktxZrTg8sRSlCzKMJKBZ
+         TPmyYsVrdG8yYU8Y/oiNuMS8zy3EIqyB17m/6alrn/HKl/CSj6cFX3EOgkcoiMgSuZGX
+         EFCWfi4Q+ma447ADUJjewkpeY7vMDtCzmOM8iRG7TxDOqm0uoos94PH4AMRiunZx7hTl
+         lWTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680101262;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20210112; t=1680101389;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OXBqzVlrFRt5YtMWe/wv26dM8rUqdeUJBzFLACIXocU=;
-        b=yXk3ZO234cZeAXsrj4MhtQEgG8bDNLDym5om+nuzOGNT2CWHJ8vZ6T2zZc32ab7p06
-         TMBaQkpUl1FnbS8i2ndJ8O0QANqx50aR2F8r2R7ali/bEArtbAR7CTfozeeCuc3NbvPI
-         3DwqinpSLDvJegi76FDk8VuAzHcfjEtcIMJ5krI9jToz9H9rZBl7QM58YW5YUEEJdAL1
-         KklIlxtQQvolLlK5A/SdA6eNPzZfu+LburRUPgR6kUbAXvJcxO8uKNuTAZppMGViSBOb
-         VA4yCpLKdY8cUbKXGHQZZlD8CgLSDXq5YsoGopkY6bkLtKvFy8on5aDQ0eGS9X9e/OSK
-         POig==
-X-Gm-Message-State: AO0yUKWp5AqRKzeiZR5OaLm5VBOjIDY8o3nOTEP7HKZtPfQBLXC1IjUT
-	4/FmQM52ndLiqKfwtMYeIq8=
-X-Google-Smtp-Source: AK7set9pyV7+2EOOD9QC0w1Kjlj4Nucya/1GCIeVTBAJw811qo3Fxz9RUqKEsBnwjcQbApog1WUJ2g==
-X-Received: by 2002:a05:6808:659:b0:383:e7c8:4000 with SMTP id z25-20020a056808065900b00383e7c84000mr8531757oih.13.1680101261977;
-        Wed, 29 Mar 2023 07:47:41 -0700 (PDT)
+        bh=vRqpC2pNLFE0BwqBPX96lUg22eDDLB+g7ixyozfNakU=;
+        b=xxFsUf/N27GtIlBZm1OxTdr5jVelPpGXV/FaKi8UKmqcBHO+0iBaX4iuj6U4W4zLg+
+         BKWWhqqNnSvQYvNvKd729MBdY9pBGSmSrmJfs999Z2gdprEc/EKgVTym1qN6n4moR9hL
+         k1ntGd1r45pPMLyaZXV7HLvnXcHz9+hPdE6K9vJ81NZvGko3JY0YYmw5yhY5R+BvZrZX
+         zXfYg5G8+JFgjvQg0Zis2R2FFY4nPH7LMrWS7LYKYLLTKie017CStQdA0rNMhXzBjih2
+         8dcZJrbyqL8Ju8IVLAADfKBVluZgrkuTrz9aeuP0A5jZqMcQL+IifRHWL5x14MSQ83b0
+         ktjg==
+X-Gm-Message-State: AO0yUKWoodc6ZuryYMdedjJpF88UoOI8voub17hjS9MJoWXsyQReqk2S
+	SLA28VPEmlZ4UeM2WI8t9rE=
+X-Google-Smtp-Source: AK7set9TgXi4XHJUWaDV/8TsTUYmyeTkMiwiPoODzO+yO5pUgrzeWwxA555ocT8N3LcxNIfdR/bH+Q==
+X-Received: by 2002:aca:2b0a:0:b0:386:d4f7:6791 with SMTP id i10-20020aca2b0a000000b00386d4f76791mr8510594oik.37.1680101388925;
+        Wed, 29 Mar 2023 07:49:48 -0700 (PDT)
 Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id s186-20020acac2c3000000b00383cc29d6b2sm13506162oif.51.2023.03.29.07.47.39
+        by smtp.gmail.com with ESMTPSA id e62-20020acab541000000b0038694b7dc09sm4621956oif.55.2023.03.29.07.49.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Mar 2023 07:47:41 -0700 (PDT)
-Message-ID: <0849f870-2d95-8c3a-c7dc-2b18dcee4c65@gmail.com>
-Date: Wed, 29 Mar 2023 11:47:37 -0300
+        Wed, 29 Mar 2023 07:49:48 -0700 (PDT)
+Message-ID: <64a4a0fe-d364-4cd0-e2e5-8e7cfd782ee6@gmail.com>
+Date: Wed, 29 Mar 2023 11:49:44 -0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -48,8 +48,8 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH v2 1/6] rust: error: Rename to_kernel_errno() ->
- to_errno()
+Subject: Re: [PATCH v2 2/6] rust: error: Add Error::to_ptr()
+Content-Language: en-US
 To: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
  Alex Gaynor <alex.gaynor@gmail.com>,
  Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
@@ -60,49 +60,25 @@ Cc: Fox Chen <foxhlchen@gmail.com>, Andreas Hindborg
  <a.hindborg@samsung.com>, rust-for-linux@vger.kernel.org,
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev
 References: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
- <20230224-rust-error-v2-1-3900319812da@asahilina.net>
-Content-Language: en-US
+ <20230224-rust-error-v2-2-3900319812da@asahilina.net>
 From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230224-rust-error-v2-1-3900319812da@asahilina.net>
+In-Reply-To: <20230224-rust-error-v2-2-3900319812da@asahilina.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 3/29/23 09:04, Asahi Lina wrote:
-> This is kernel code, so specifying "kernel" is redundant. Let's simplify
-> things and just call it to_errno().
+> [...]
 > 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->  rust/kernel/error.rs  | 2 +-
->  rust/macros/module.rs | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-> index 5b9751d7ff1d..35894fa35efe 100644
-> --- a/rust/kernel/error.rs
-> +++ b/rust/kernel/error.rs
-> @@ -73,7 +73,7 @@ pub struct Error(core::ffi::c_int);
->  
->  impl Error {
->      /// Returns the kernel error code.
-> -    pub fn to_kernel_errno(self) -> core::ffi::c_int {
-> +    pub fn to_errno(self) -> core::ffi::c_int {
->          self.0
->      }
+> +
+> +    /// Returns the error encoded as a pointer.
+> +    #[allow(dead_code)]
+> +    pub(crate) fn to_ptr<T>(self) -> *mut T {
+> +        // SAFETY: Valid as long as self.0 is a valid error
+> +        unsafe { bindings::ERR_PTR(self.0.into()) as *mut _ }
+> +    }
 >  }
-> diff --git a/rust/macros/module.rs b/rust/macros/module.rs
-> index a7e363c2b044..143336543866 100644
-> --- a/rust/macros/module.rs
-> +++ b/rust/macros/module.rs
-> @@ -258,7 +258,7 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
->                          return 0;
->                      }}
->                      Err(e) => {{
-> -                        return e.to_kernel_errno();
-> +                        return e.to_errno();
->                      }}
->                  }}
->              }}
+>  
+>  impl From<AllocError> for Error {
 > 
 
 Reviewed-by: Martin Rodriguez Reboredo
