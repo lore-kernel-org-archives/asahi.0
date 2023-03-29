@@ -1,29 +1,28 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB151878
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB937B
 	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 11:40:47 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 31D284247C;
-	Wed, 29 Mar 2023 11:40:36 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 558A7424A5;
+	Wed, 29 Mar 2023 11:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1680090039;
-	bh=sgkJirkqva0+PxNuqlvJAdh/8AuGnLCXCYPdCELUlwo=;
-	h=From:Subject:Date:To:Cc;
-	b=uifV4TGE4jPUce3MH0xUpkihM9a6blY7pA0w4nuRwCaPdTtmzVfuyZzz+XAy4sgf7
-	 3SP9PWvGMVJx9mXxuN9qJucuYn0hyvJj4Z4RiaFVuzsPV6SCIt396KgRS33KW5TMgk
-	 AmP08hvqlKjBdTEpHWPYDcJKLjyc4Jwbzu4kb9Q0E919BeW3bh825uXmVrKprPO0Ge
-	 T78jgzSxe3ycFXi2l1xmMBNahsA/CHH5UCWkc3DboTGhET0xxXdZjXMVzqSsIz5rIo
-	 PtPUhD3RmuKo5vdQKhE13TP93OFLTCDDDbrfNS7FKIwGbDDObX6JO29d5Ef6SrT/O7
-	 kIXJ3myU9t5AQ==
+	s=default; t=1680090045;
+	bh=36jyt17+gpMhtBUVGOnMVEqQehMLVw5t+BF+sC4kAO8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=KPAnbJo8Tq/Bj92pG1Isa8rQKjE9Iqk0vQqsUPpIhachljQJImGeJzRfySV62vase
+	 0FbEB2LyLTN98m/ukAUNt/bmQecQ7++tp37YQaaQF303uaoBuFpkJRtFcMDQHJiBJi
+	 n1HGe+HyBRLZcl2sGo/y23Gd1//ncThaGaatsLA9mALLs9y/4NQyEkGM6KWDZ0uOLX
+	 UTj0Fr1LmeP+2LykGDPYF6RKF7A6LwV0JxJSnD5WZaQ+JKcgwkr+Mno1I5XSk5LMGZ
+	 EbtfHMdG+vXhu2Le+VmQOoity6dhyDT0bfI3CaU+dBLCoPP0yUN4SOKDVdyyO1GHmv
+	 Mqj8+KNQnK1ZA==
 From: Asahi Lina <lina@asahilina.net>
-Subject: [PATCH 0/2] rust: Add uapi crate
-Date: Wed, 29 Mar 2023 20:40:17 +0900
-Message-Id: <20230329-rust-uapi-v1-0-ee78f2933726@asahilina.net>
+Date: Wed, 29 Mar 2023 20:40:19 +0900
+Subject: [PATCH 2/2] rust: ioctl: Move to the uapi crate
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -32,9 +31,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKIjJGQC/x2N0QqDMAxFf0XyvDKNFdb9yvAhrZkGRpVEx0D89
- 1UfD/cc7g7GKmzwrHZQ/orJnAs0twrSRHlkJ0NhwBrbusXgdLPVbbSIewTvseFA3YBQ/EjGLir
- lNJ1F9PfLlTmtn3NflN/yu75e/XH8AZU0bYh7AAAA
+Message-Id: <20230329-rust-uapi-v1-2-ee78f2933726@asahilina.net>
+References: <20230329-rust-uapi-v1-0-ee78f2933726@asahilina.net>
+In-Reply-To: <20230329-rust-uapi-v1-0-ee78f2933726@asahilina.net>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
  Wedson Almeida Filho <wedsonaf@gmail.com>, 
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
@@ -42,52 +41,105 @@ To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
 Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
  asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680090036; l=1778;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680090036; l=3405;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=sgkJirkqva0+PxNuqlvJAdh/8AuGnLCXCYPdCELUlwo=;
- b=JAcBC6InJetx1oLYXbylVQ6zXKv9RfrKEn2QqgZdQHk+Hl+tXDUGrONRmBYZgzAXNfUiEqbyH
- 3SRCJz6L1WMDOz0AlTX8hP5En++UM7F5E5e6xAYz7VWKLK1EndDLDX2
+ bh=36jyt17+gpMhtBUVGOnMVEqQehMLVw5t+BF+sC4kAO8=;
+ b=nfZZd5UugBCJimQIF7tuA5PmeTswIM2a3l93eYTyrBNnpczR4cUCJ2lZUU/rtF2f2DzVoYUUd
+ 5PcEeiYQVXfBCBwFrOxAsN2Ylw9JJ8m0Y1YLNgb8qasKBPd5/8YlbmV
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-In general, direct bindgen bindings for C kernel APIs are not intended
-to be used by drivers outside of the `kernel` crate. However, some
-drivers do need to interact directly with UAPI definitions to implement
-userspace APIs.
-
-Instead of making this an exception to the use of the `bindings` crate,
-introduce a new `uapi` crate that will contain only these publicly
-usable definitions. The build logic mirrors the `bindings` crate, but
-there is no helper support since UAPIs are only intended to contain
-constant and type definitions, not function prototypes.
-
-In the future, we would like to extend this to also auto-derive and
-validate certain safety properties for UAPI structure definitions, such
-as that they are safely castable to/from "bag of bits" buffers.
-
-The first patch introduces the `uapi` crate proper and stands on its own,
-while the second patch modifies the ioctl crate (which I sent as a
-separate series) to use the new crate. Miguel: if/once everything looks
-good, feel free to merge just patch #1 and I can squash #2 into the ioctl
-crate, or you can squash it yourself, or just merge both series in
-sequence, whatever works ^^
+Now that we have the uapi crate, this abstraction can use that instead
+of bindings.
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
-Asahi Lina (2):
-      rust: uapi: Add UAPI crate
-      rust: ioctl: Move to the uapi crate
- rust/.gitignore         |  1 +
- rust/Makefile           | 18 ++++++++++++++++--
- rust/kernel/ioctl.rs    | 32 ++++++++++++++++----------------
- rust/kernel/lib.rs      |  1 +
- rust/uapi/lib.rs        | 27 +++++++++++++++++++++++++++
- rust/uapi/uapi_helper.h |  9 +++++++++
- 6 files changed, 70 insertions(+), 18 deletions(-)
----
-base-commit: 5aa20836252a607ce5d3fa96f9807b56e9f6b1ca
-change-id: 20230329-rust-uapi-894421e9a5d2
+ rust/kernel/ioctl.rs | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-Thank you,
-~~ Lina
+diff --git a/rust/kernel/ioctl.rs b/rust/kernel/ioctl.rs
+index b2076113b6a8..007437959395 100644
+--- a/rust/kernel/ioctl.rs
++++ b/rust/kernel/ioctl.rs
+@@ -10,40 +10,40 @@ use crate::build_assert;
+ /// Build an ioctl number, analogous to the C macro of the same name.
+ #[inline(always)]
+ const fn _IOC(dir: u32, ty: u32, nr: u32, size: usize) -> u32 {
+-    build_assert!(dir <= bindings::_IOC_DIRMASK);
+-    build_assert!(ty <= bindings::_IOC_TYPEMASK);
+-    build_assert!(nr <= bindings::_IOC_NRMASK);
+-    build_assert!(size <= (bindings::_IOC_SIZEMASK as usize));
++    build_assert!(dir <= uapi::_IOC_DIRMASK);
++    build_assert!(ty <= uapi::_IOC_TYPEMASK);
++    build_assert!(nr <= uapi::_IOC_NRMASK);
++    build_assert!(size <= (uapi::_IOC_SIZEMASK as usize));
+ 
+-    (dir << bindings::_IOC_DIRSHIFT)
+-        | (ty << bindings::_IOC_TYPESHIFT)
+-        | (nr << bindings::_IOC_NRSHIFT)
+-        | ((size as u32) << bindings::_IOC_SIZESHIFT)
++    (dir << uapi::_IOC_DIRSHIFT)
++        | (ty << uapi::_IOC_TYPESHIFT)
++        | (nr << uapi::_IOC_NRSHIFT)
++        | ((size as u32) << uapi::_IOC_SIZESHIFT)
+ }
+ 
+ /// Build an ioctl number for an argumentless ioctl.
+ #[inline(always)]
+ pub const fn _IO(ty: u32, nr: u32) -> u32 {
+-    _IOC(bindings::_IOC_NONE, ty, nr, 0)
++    _IOC(uapi::_IOC_NONE, ty, nr, 0)
+ }
+ 
+ /// Build an ioctl number for an read-only ioctl.
+ #[inline(always)]
+ pub const fn _IOR<T>(ty: u32, nr: u32) -> u32 {
+-    _IOC(bindings::_IOC_READ, ty, nr, core::mem::size_of::<T>())
++    _IOC(uapi::_IOC_READ, ty, nr, core::mem::size_of::<T>())
+ }
+ 
+ /// Build an ioctl number for an write-only ioctl.
+ #[inline(always)]
+ pub const fn _IOW<T>(ty: u32, nr: u32) -> u32 {
+-    _IOC(bindings::_IOC_WRITE, ty, nr, core::mem::size_of::<T>())
++    _IOC(uapi::_IOC_WRITE, ty, nr, core::mem::size_of::<T>())
+ }
+ 
+ /// Build an ioctl number for a read-write ioctl.
+ #[inline(always)]
+ pub const fn _IOWR<T>(ty: u32, nr: u32) -> u32 {
+     _IOC(
+-        bindings::_IOC_READ | bindings::_IOC_WRITE,
++        uapi::_IOC_READ | uapi::_IOC_WRITE,
+         ty,
+         nr,
+         core::mem::size_of::<T>(),
+@@ -52,20 +52,20 @@ pub const fn _IOWR<T>(ty: u32, nr: u32) -> u32 {
+ 
+ /// Get the ioctl direction from an ioctl number.
+ pub const fn _IOC_DIR(nr: u32) -> u32 {
+-    (nr >> bindings::_IOC_DIRSHIFT) & bindings::_IOC_DIRMASK
++    (nr >> uapi::_IOC_DIRSHIFT) & uapi::_IOC_DIRMASK
+ }
+ 
+ /// Get the ioctl type from an ioctl number.
+ pub const fn _IOC_TYPE(nr: u32) -> u32 {
+-    (nr >> bindings::_IOC_TYPESHIFT) & bindings::_IOC_TYPEMASK
++    (nr >> uapi::_IOC_TYPESHIFT) & uapi::_IOC_TYPEMASK
+ }
+ 
+ /// Get the ioctl number from an ioctl number.
+ pub const fn _IOC_NR(nr: u32) -> u32 {
+-    (nr >> bindings::_IOC_NRSHIFT) & bindings::_IOC_NRMASK
++    (nr >> uapi::_IOC_NRSHIFT) & uapi::_IOC_NRMASK
+ }
+ 
+ /// Get the ioctl size from an ioctl number.
+ pub const fn _IOC_SIZE(nr: u32) -> usize {
+-    ((nr >> bindings::_IOC_SIZESHIFT) & bindings::_IOC_SIZEMASK) as usize
++    ((nr >> uapi::_IOC_SIZESHIFT) & uapi::_IOC_SIZEMASK) as usize
+ }
+
+-- 
+2.40.0
 
