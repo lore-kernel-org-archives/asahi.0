@@ -1,242 +1,72 @@
-Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2094.outbound.protection.outlook.com [40.107.11.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E65C3C0A
-	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 20:42:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lBwE3YcKx9yat3yLcMhCllJbYBpD8hyumC+SQHBJYNmQtbJJistkUoydzIryWyQyOEDBRxNXZhRX1aQmU+dzVensOPwDV4AcOLyN4vNfk+6oVDNlrwK3FDT3kAYBLcz29RPlAw5DDgOo47vEAqGnZJDRokAj7UU5KavVhjBvNQ8n3gb8LNFUeVV/wDGOVN6EWck2JiJfSwH34HcibUrxum0kV9gJXle83JWf7zcUJ6UjQ2uBNUaN0O8Ak9ZFg+4a8W4ZH1vuNs75SFTMFtALIyEQJb/cY6LOAA/aNkOB9P4ob1vIgzQlUvXNXxUY0N4o7g00pJHnBtzBxqZregQ9vA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5IkwpJYO4PenG5tOM021SXA2uj0ZLR/vmXrfJIFG/kY=;
- b=ZP1imgws7g9XRDaGDEkpmQ+UzR3hOVWCn3+PSW/RxePY9mTv/J/WjT9vvQ+uMHKtpOJlkhmx2hWyr/vm+q/yFMa9Ztwd17i2K5VNZf+UJbJdMbXBBJbuh9BHLPvqMzx/dqK8gonjiP5fCuYZVu6A/+fwZ3uq9sIjoj7oLgLD9TmZE7CFVFm/dujdUIudapOsQAs44hqEwzzyMzMlPHREf+vMvzvVfgPdIKiwoHi7yev0XVkLzNtlkBAU90YIr9teLZmMiJFrZuA41B2YOBzpsOsqTKqZjgKVg4q2WeQNNDsIK2zRWQY572hpO1Ix++sjSITi1TJjZqsHhRWFYIvwMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5IkwpJYO4PenG5tOM021SXA2uj0ZLR/vmXrfJIFG/kY=;
- b=BWFczot6odW/NOeAsz/2BDN2m4yreO+atoZAiTbVnpFdJ44PNVTpJIxRjyZMNVmHrFgkOp6mhuCWIqxFbHlDyJqWSHcJk+xDqX8KKfnJtgZbzK7IQzOZtmUv59Q/LDvree0UMOwhuJle7v0q9FozMvvwAb05mLUsBGNSzDeUcm4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
- by CWLP265MB7163.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1f3::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6222.35; Wed, 29 Mar
- 2023 20:42:41 +0000
-Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
- ([fe80::2f2a:55d4:ea1d:dece]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
- ([fe80::2f2a:55d4:ea1d:dece%4]) with mapi id 15.20.6222.035; Wed, 29 Mar 2023
- 20:42:41 +0000
-Date: Wed, 29 Mar 2023 21:42:39 +0100
-From: Gary Guo <gary@garyguo.net>
-To: Asahi Lina <lina@asahilina.net>, asahi@lists.linux.dev
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, =?UTF-8?B?QmrDtnJu?= Roy Baron
- <bjorn3_gh@protonmail.com>, Sven Van Asbroeck <thesven73@gmail.com>, Fox
- Chen <foxhlchen@gmail.com>, Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
- Andreas Hindborg <a.hindborg@samsung.com>, rust-for-linux@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] rust: error: Add a helper to convert a C ERR_PTR
- to a `Result`
-Message-ID: <20230329214239.6a19825a.gary@garyguo.net>
-In-Reply-To: <20230224-rust-error-v2-5-3900319812da@asahilina.net>
-References: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
-	<20230224-rust-error-v2-5-3900319812da@asahilina.net>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO4P123CA0474.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a8::11) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:253::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A88E4CA
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 22:33:32 +0000 (UTC)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-544f7c176easo320881577b3.9
+        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 15:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680129211;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+6LTpXnaShPp/aMOnarhhdVl/37J/Widlt3z574l3DQ=;
+        b=hDaZdrk41ASjkEzCvgtAYPEY93vGhSPpacpR5s/Iztg0al+4OR9WwyGQjxhSKHq7UO
+         LzcKz4yfdWeaSB1y70SzSaGoDXpvTCY9d8st7Iwxx/nMcsvNqg6IzabV6eDouXNXfzad
+         RuOtcr1o2yH+CieYYJhc1J4qsk6NKkwUxlpMccU+BTKG8HqgUvs0COGL18+HDOlY5r9X
+         VzM6DiBkqh/bI8W37K1rHojR3GgmN6zNN9vQSzG6JZDkctQS9CeeRrkpxaQPMnl4qKy+
+         DnebD7e5l++CV0kpc5EDL3X4pmKdBRmTKKbcDrE9qD+HA7TgOEMZD/xw+1Ctid4mAphM
+         TU3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680129211;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+6LTpXnaShPp/aMOnarhhdVl/37J/Widlt3z574l3DQ=;
+        b=pkt6bUyGoAoag1NF2ZDSD1weqIQGtJYTiOrwpQ4qbx0hPipE8OyIJ4YhdmA7f6zG79
+         QjJ3hR9zS8XVjrPacN4574APZViWQUhI/IUj4z+2vMz2LdofCpP+4sOwNYsKAmRPskk1
+         I5tyYDXMOdRs9YL6Z3vNZT6lJsBWyGXRbkgKa0iEdOQH3ZXgV3MFnRrqQ8o+Zfcy88+U
+         XrK5WV/RHDbi1CHrZ64ur3J4vqi0AotVxLsbPnRasgcMXvB2TyaseVertYReWQiSkq03
+         YTMwJHcRKnFeASXimVjuTvG4B205mVaZm4j+bY6XSTQQVNp1Ling6IZDQVw25iSvPUqp
+         YKPg==
+X-Gm-Message-State: AAQBX9cZZXRLVjbMVjnvFxq+jm9f7mdeMc4reimeh/G/D30Uz8jonK96
+	E8zqSHuL4vuTRppnBSND1czDPHnD/jQHPAT+aqc=
+X-Google-Smtp-Source: AKy350aXIUrzCs9LU5BXnUcMqWrHW+cLIALFyiDM1Dcp1H4b4wNsQcU8byHZ7G6UXIIDugN6++uSfCCMcUetOHypZH0=
+X-Received: by 2002:a81:ac46:0:b0:533:8f19:4576 with SMTP id
+ z6-20020a81ac46000000b005338f194576mr10246162ywj.0.1680129211333; Wed, 29 Mar
+ 2023 15:33:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|CWLP265MB7163:EE_
-X-MS-Office365-Filtering-Correlation-Id: 67670cb9-e25d-43b8-15db-08db309623fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	savEbAEgcVRUl2VP73vaD2PkyVyF0qXZuZuyxkiAGbA9+EL1nYLdjcZxvKkMEJuFLelEgWpXjstKameLMHsBZb0bgXkA5mRbQN6JNW/iWaeFm+lEpKUKYORU1qmrGzBeLWsnEzLisB6hfNwgdjbc3Ozjc98tgtyPlbJHR3Wa0NUKF24d+uJ5uDpNtKzl9e1NN/xBLTmZhx9sNGkfKwbqwK/NvCy4uyDYdZIcjEoQfR1bQZ+OpQCw+FXMLKwtSyyBqxLT4mDJQ506YiCwYbhjK/LgyPWClOoAC6sfYdWw43C8G4f38RFofRX6KZdPNcc39xrlQwbvWxZ3qYLE4AnUi1QY5QOlqYdN9YUCnZm7QWTEyoaUFw8bWU75/ecxzvjxGbuYpb4CoOm9nVIXx6JPRqpICMAmMIY/Lk6qpve5kbvfjTuTiuH86t8hk1UAp+gVgkYE43NRokNIDBwurfj9blAxYKrHmRqzlA9ZEadQ1DqVfZX4fquAmviHH0AFq+qwYPGXZpbiP72pzumBTDaAvw789unj4ZrPReZITl+TWruzN+pGhFRQIaUwS0glHwBIG+F9xN8nvSenr8r4oW/QtMZwmAQo0QiPLBYkribj2vw=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(396003)(346002)(366004)(39830400003)(376002)(136003)(451199021)(6506007)(26005)(1076003)(7416002)(6486002)(38100700002)(186003)(2616005)(8936002)(2906002)(5660300002)(6512007)(8676002)(66556008)(478600001)(316002)(36756003)(54906003)(41300700001)(86362001)(66476007)(66946007)(4326008)(83380400001)(81973001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9rktulCcuXSC6EP1Zat3NQPmEyshTRG0tTRDr2QA0SW87DOF9JlTA70c9g2q?=
- =?us-ascii?Q?u54zDp24KSwybTPsAmTe6nyO5I0Dn0KQhEWl7P1G8zL7Nnd7OC76TDH2JPxx?=
- =?us-ascii?Q?LLZTCxMsAJlJzIopb93OqvTFjfFQc3iVcqVh4UuAK3wWJnXApka8AnUuNKv6?=
- =?us-ascii?Q?jJWA5ywhmNiL26aJ21y8FHn/KuFx2OtwxkCvQlORa3c43VRcgLSVW9ic11GE?=
- =?us-ascii?Q?TKPuoFjQrgayX5mQsluowXQEv5qvjjGVvblznDANi8gSdLTe9sLH4dVK0FmI?=
- =?us-ascii?Q?RkNZfUa2IohqZfHX7ygQihdzwGeHeWgdziNjvYF4Yhz5feyn1JZme9VW8U3q?=
- =?us-ascii?Q?BzDYCgdOZy6t+sBN+xVdbMOiqGNdNltVcYvN9vdLcR++/OZQpu9FR54z88DB?=
- =?us-ascii?Q?nKK9QZN69/tXpjwJJGZJpC5t5HblYQR7zCNYDj1/9NmQn8YMlH9rFfIBJs6t?=
- =?us-ascii?Q?5DtYreCU7hkFc3yd9OThHbDuNbk0FIcfCuwY27BOYp3DHrNJBlE8RB95kz2K?=
- =?us-ascii?Q?wE+GJzqQfRUexYux5tl/Hhte5wEsIsYQC7kMIejmuvCLfUca4Ph1zAAExOzF?=
- =?us-ascii?Q?E3UR++03G1en3HRXC0AiAbqD5iRXiQc+pcrWXDJK0cnFugwickgOvHbsVRQD?=
- =?us-ascii?Q?1K6am8/iVs1hn4K/5V0mJ/atwx7ggjeYxz8cjCsngcqAl41fJCazopAr4qe+?=
- =?us-ascii?Q?F4R+VKyMwari/cnKZe4zjkoU0M/Pgiv757XD7OdzHhAlIS249w8lzwAEY92y?=
- =?us-ascii?Q?U42yOgD8WRHud3O4l46vqGHft8U3DWLQBNlcjaWA6TLol5pA1xzxCfzroXeO?=
- =?us-ascii?Q?FF5QSAI+jwAKhcneQraElmZdQmGVWqaz+ZioXkwGUfE1wBzhaf8HQgKUhtYQ?=
- =?us-ascii?Q?G1Fu9+9zAmsUPf4e9KcFWPViUikQEimLeaFe7+J8SHlWdwXjMB0pHgs1JM7f?=
- =?us-ascii?Q?oD31qWngGyGI5SofkA2FuRQQzuSXTtJzNbCrfCh7muCQ0DrRn9FePVLtb7CH?=
- =?us-ascii?Q?mzSuhkLRa/Ydp+pQ6UH3rMnyMhNcftnyHGwgt9qCd1qKB1+WR7FZfKVdiNpE?=
- =?us-ascii?Q?an+XjwHpskOnP9+pwyeCQRlV4j6YX0kt0zyHYJVuomksFyRQIbwGu0Au4/AA?=
- =?us-ascii?Q?U2U7fJQsdkFVvbN9Ddw1izXrSggGOswBdE+PDMZs6O2o8U5F28ZaoLe+XYnp?=
- =?us-ascii?Q?UUnDvT0myPvijTxjvJOUFdEXOt9VOqwo2UCiu9YyQtkGjTAP8bqHhz5RVHh9?=
- =?us-ascii?Q?Xgi1TnLgM24CzurObS82Mw1qqfei5Npk5KKRTxVgeLLOO0UUHqeR9A4khNbW?=
- =?us-ascii?Q?GFUWMmCdORrDnuRqF4igkmj0bcRWuRv3vCHqLgC2P4Hza77uqtetp+zvbpL+?=
- =?us-ascii?Q?V8gEVfkWNzV0PdWXNvJNhDzWct5HegcEtgZ9nlDWHBnouCgkYP5LU9vQuTLj?=
- =?us-ascii?Q?dG6b0uT7AHh+vtPYmlLwojpsrcEo70JfwJms+HvkF1hWGKgtQ6nhAjg7Wuov?=
- =?us-ascii?Q?5Mek0Nbe9RsxtAOeZ1RCjMQaBQRd2LCCKwDTTZjCvt9K/qnrQiSRJ4SJ/7Vd?=
- =?us-ascii?Q?M3cQOQCzkYkcLJFLom3gSdO6vAliMTK2QPge/ryX?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67670cb9-e25d-43b8-15db-08db309623fd
-X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2023 20:42:41.1485
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Mv5xk3BsVyQpeeJ1FS033NM6m72o3TIW14vsxhKR1pnsld92XoNnspEIiOq+2K2ZqVfHH2Y5SVopGqruzEE3Nw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB7163
+References: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
+ <20230224-rust-error-v2-1-3900319812da@asahilina.net> <0849f870-2d95-8c3a-c7dc-2b18dcee4c65@gmail.com>
+ <CANiq72ko9tY4dsK9Srte2oYQp8G=PMyLDTOR33-yNTVXmfyzeA@mail.gmail.com> <2a10a97f-70ba-5216-a527-067deda6a94e@gmail.com>
+In-Reply-To: <2a10a97f-70ba-5216-a527-067deda6a94e@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 30 Mar 2023 00:33:20 +0200
+Message-ID: <CANiq72n=B+OTU+gp6bVExvxhqFiuT=0A7y56AG6A4xSWXG22Gg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] rust: error: Rename to_kernel_errno() -> to_errno()
+To: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Sven Van Asbroeck <thesven73@gmail.com>, Fox Chen <foxhlchen@gmail.com>, 
+	Andreas Hindborg <a.hindborg@samsung.com>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 29 Mar 2023 21:04:37 +0900
-Asahi Lina <lina@asahilina.net> wrote:
+On Wed, Mar 29, 2023 at 8:16=E2=80=AFPM Martin Rodriguez Reboredo
+<yakoyoku@gmail.com> wrote:
+>
+> Ah, yes, they were supposed to have my email with it. I wasn't that
+> livened up when I sent them.
 
-> From: Sven Van Asbroeck <thesven73@gmail.com>
-> 
-> Some kernel C API functions return a pointer which embeds an optional
-> `errno`. Callers are supposed to check the returned pointer with
-> `IS_ERR()` and if this returns `true`, retrieve the `errno` using
-> `PTR_ERR()`.
-> 
-> Create a Rust helper function to implement the Rust equivalent:
-> transform a `*mut T` to `Result<*mut T>`.
-> 
-> Lina: Imported from rust-for-linux/linux, with subsequent refactoring
-> and contributions squashed in and attributed below. Replaced usage of
-> from_kernel_errno_unchecked() with an open-coded constructor, since this
-> is the only user anyway. Renamed the function to from_err_ptr().
-> 
-> Co-developed-by: Boqun Feng <boqun.feng@gmail.com>
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> Co-developed-by: Miguel Ojeda <ojeda@kernel.org>
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> Co-developed-by: Fox Chen <foxhlchen@gmail.com>
-> Signed-off-by: Fox Chen <foxhlchen@gmail.com>
-> Co-developed-by: Gary Guo <gary@garyguo.net>
-> Signed-off-by: Gary Guo <gary@garyguo.net>
-> Signed-off-by: Sven Van Asbroeck <thesven73@gmail.com>
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->  rust/helpers.c       | 12 ++++++++++++
->  rust/kernel/error.rs | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 61 insertions(+)
-> 
-> diff --git a/rust/helpers.c b/rust/helpers.c
-> index 89f4cd1e0df3..04b9be46e887 100644
-> --- a/rust/helpers.c
-> +++ b/rust/helpers.c
-> @@ -53,6 +53,18 @@ __force void *rust_helper_ERR_PTR(long err)
->  }
->  EXPORT_SYMBOL_GPL(rust_helper_ERR_PTR);
->  
-> +bool rust_helper_IS_ERR(__force const void *ptr)
-> +{
-> +	return IS_ERR(ptr);
-> +}
-> +EXPORT_SYMBOL_GPL(rust_helper_IS_ERR);
-> +
-> +long rust_helper_PTR_ERR(__force const void *ptr)
-> +{
-> +	return PTR_ERR(ptr);
-> +}
-> +EXPORT_SYMBOL_GPL(rust_helper_PTR_ERR);
-> +
->  /*
->   * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
->   * as the Rust `usize` type, so we can use it in contexts where Rust
-> diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-> index 4f599c4d1752..6b10129075a7 100644
-> --- a/rust/kernel/error.rs
-> +++ b/rust/kernel/error.rs
-> @@ -177,3 +177,52 @@ pub fn to_result(err: core::ffi::c_int) -> Result {
->          Ok(())
->      }
->  }
-> +
-> +/// Transform a kernel "error pointer" to a normal pointer.
-> +///
-> +/// Some kernel C API functions return an "error pointer" which optionally
-> +/// embeds an `errno`. Callers are supposed to check the returned pointer
-> +/// for errors. This function performs the check and converts the "error pointer"
-> +/// to a normal pointer in an idiomatic fashion.
-> +///
-> +/// # Examples
-> +///
-> +/// ```ignore
-> +/// # use kernel::from_err_ptr;
-> +/// # use kernel::bindings;
-> +/// fn devm_platform_ioremap_resource(
-> +///     pdev: &mut PlatformDevice,
-> +///     index: u32,
-> +/// ) -> Result<*mut core::ffi::c_void> {
-> +///     // SAFETY: FFI call.
-> +///     unsafe {
-> +///         from_err_ptr(bindings::devm_platform_ioremap_resource(
-> +///             pdev.to_ptr(),
-> +///             index,
-> +///         ))
-> +///     }
-> +/// }
-> +/// ```
-> +// TODO: Remove `dead_code` marker once an in-kernel client is available.
-> +#[allow(dead_code)]
-> +pub(crate) fn from_err_ptr<T>(ptr: *mut T) -> Result<*mut T> {
-> +    // CAST: Casting a pointer to `*const core::ffi::c_void` is always valid.
-> +    let const_ptr: *const core::ffi::c_void = ptr.cast();
-> +    // SAFETY: The FFI function does not deref the pointer.
-> +    if unsafe { bindings::IS_ERR(const_ptr) } {
-> +        // SAFETY: The FFI function does not deref the pointer.
-> +        let err = unsafe { bindings::PTR_ERR(const_ptr) };
-> +        // CAST: If `IS_ERR()` returns `true`,
-> +        // then `PTR_ERR()` is guaranteed to return a
-> +        // negative value greater-or-equal to `-bindings::MAX_ERRNO`,
-> +        // which always fits in an `i16`, as per the invariant above.
-> +        // And an `i16` always fits in an `i32`. So casting `err` to
-> +        // an `i32` can never overflow, and is always valid.
-> +        //
-> +        // SAFETY: `IS_ERR()` ensures `err` is a
-> +        // negative value greater-or-equal to `-bindings::MAX_ERRNO`.
+No problem at all! And thanks for reviewing!
 
-The comment here should read `INVARIANT: ` because now you are
-constructing `Error` which have type invariants.
-
-Where is `from_kernel_errno_unchecked`? I believe the `rust` branch
-on GitHub have it, as it's generally good to limit places where type
-invariants are used directly, so the method is used to convert an
-invariant requirement to a safety requirement that is more obvious due
-to use of `unsafe`.
-
-> +        #[cfg_attr(CONFIG_ARM, allow(clippy::unnecessary_cast))]
-
-This should either be gated based on pointer size, or should just be a
-blanket allow without cfg gating.
-
-> +        return Err(Error(err as i32));
-> +    }
-> +    Ok(ptr)
-> +}
-> 
-
-Best,
-Gary
-
+Cheers,
+Miguel
