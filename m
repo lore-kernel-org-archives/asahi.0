@@ -1,220 +1,93 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846EC10E3;
-	Wed, 29 Mar 2023 05:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1680068623; x=1711604623;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C1fML/7RisxPvrLe5CofxF3dlUzqz7mxCBghMI/fiik=;
-  b=ggocGvsnBNcDss+YPVT1dkocpdh9Z/21wia1N7yTc0hR4XoHVuoc81Q4
-   knxC36pgXnSzlZIbOQuLYfR3phiz5rey9Z+altk1uwhOA8vuX8ToOhCP2
-   ox/txTrU0VNSuCuTT36ZVJMwmAcyrRMNQSDOIiUFrBDMSBw2deQn7Wmrp
-   ZuDnOLya3Q2wweHaXfKN/ALj8K+VX704M5wE9Zvner85EIao8UYYx3nws
-   lUSMAdQAn/J4IcT6Xwp4FM2Ktxcwf7lKJV9n6sc4SBo/17WVNeGhOm5WW
-   qPDczmF84yT7+CT14/Ji6nsY0hZzoYiL+KNF3EVexNIxyRxBjnD2AH3Ks
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="340806861"
-X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="340806861"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 22:43:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="808073478"
-X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
-   d="scan'208";a="808073478"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Mar 2023 22:43:39 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1phOaw-000JGq-2F;
-	Wed, 29 Mar 2023 05:43:38 +0000
-Date: Wed, 29 Mar 2023 13:42:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Jassi Brar <jassisinghbrar@gmail.com>, Janne Grunau <j@jannau.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 5/5] soc: apple: mailbox: Rename config symbol to
- APPLE_MAILBOX
-Message-ID: <202303291348.nYR9dkeW-lkp@intel.com>
-References: <20230328-soc-mailbox-v1-5-3953814532fd@marcan.st>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB151878
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 11:40:47 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: linasend@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 31D284247C;
+	Wed, 29 Mar 2023 11:40:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1680090039;
+	bh=sgkJirkqva0+PxNuqlvJAdh/8AuGnLCXCYPdCELUlwo=;
+	h=From:Subject:Date:To:Cc;
+	b=uifV4TGE4jPUce3MH0xUpkihM9a6blY7pA0w4nuRwCaPdTtmzVfuyZzz+XAy4sgf7
+	 3SP9PWvGMVJx9mXxuN9qJucuYn0hyvJj4Z4RiaFVuzsPV6SCIt396KgRS33KW5TMgk
+	 AmP08hvqlKjBdTEpHWPYDcJKLjyc4Jwbzu4kb9Q0E919BeW3bh825uXmVrKprPO0Ge
+	 T78jgzSxe3ycFXi2l1xmMBNahsA/CHH5UCWkc3DboTGhET0xxXdZjXMVzqSsIz5rIo
+	 PtPUhD3RmuKo5vdQKhE13TP93OFLTCDDDbrfNS7FKIwGbDDObX6JO29d5Ef6SrT/O7
+	 kIXJ3myU9t5AQ==
+From: Asahi Lina <lina@asahilina.net>
+Subject: [PATCH 0/2] rust: Add uapi crate
+Date: Wed, 29 Mar 2023 20:40:17 +0900
+Message-Id: <20230329-rust-uapi-v1-0-ee78f2933726@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230328-soc-mailbox-v1-5-3953814532fd@marcan.st>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKIjJGQC/x2N0QqDMAxFf0XyvDKNFdb9yvAhrZkGRpVEx0D89
+ 1UfD/cc7g7GKmzwrHZQ/orJnAs0twrSRHlkJ0NhwBrbusXgdLPVbbSIewTvseFA3YBQ/EjGLir
+ lNJ1F9PfLlTmtn3NflN/yu75e/XH8AZU0bYh7AAAA
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Wedson Almeida Filho <wedsonaf@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+X-Mailer: b4 0.12.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680090036; l=1778;
+ i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
+ bh=sgkJirkqva0+PxNuqlvJAdh/8AuGnLCXCYPdCELUlwo=;
+ b=JAcBC6InJetx1oLYXbylVQ6zXKv9RfrKEn2QqgZdQHk+Hl+tXDUGrONRmBYZgzAXNfUiEqbyH
+ 3SRCJz6L1WMDOz0AlTX8hP5En++UM7F5E5e6xAYz7VWKLK1EndDLDX2
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-Hi Hector,
+In general, direct bindgen bindings for C kernel APIs are not intended
+to be used by drivers outside of the `kernel` crate. However, some
+drivers do need to interact directly with UAPI definitions to implement
+userspace APIs.
 
-I love your patch! Yet something to improve:
+Instead of making this an exception to the use of the `bindings` crate,
+introduce a new `uapi` crate that will contain only these publicly
+usable definitions. The build logic mirrors the `bindings` crate, but
+there is no helper support since UAPIs are only intended to contain
+constant and type definitions, not function prototypes.
 
-[auto build test ERROR on bdfe6de2695c5bccc663a5a7d530f81925d8bc10]
+In the future, we would like to extend this to also auto-derive and
+validate certain safety properties for UAPI structure definitions, such
+as that they are safely castable to/from "bag of bits" buffers.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hector-Martin/soc-apple-rtkit-Get-rid-of-apple_rtkit_send_message_wait/20230328-211648
-base:   bdfe6de2695c5bccc663a5a7d530f81925d8bc10
-patch link:    https://lore.kernel.org/r/20230328-soc-mailbox-v1-5-3953814532fd%40marcan.st
-patch subject: [PATCH 5/5] soc: apple: mailbox: Rename config symbol to APPLE_MAILBOX
-config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230329/202303291348.nYR9dkeW-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d0addf95095d935cdd5940101fbf1b1594b08158
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hector-Martin/soc-apple-rtkit-Get-rid-of-apple_rtkit_send_message_wait/20230328-211648
-        git checkout d0addf95095d935cdd5940101fbf1b1594b08158
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/soc/apple/
+The first patch introduces the `uapi` crate proper and stands on its own,
+while the second patch modifies the ioctl crate (which I sent as a
+separate series) to use the new crate. Miguel: if/once everything looks
+good, feel free to merge just patch #1 and I can squash #2 into the ioctl
+crate, or you can squash it yourself, or just merge both series in
+sequence, whatever works ^^
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202303291348.nYR9dkeW-lkp@intel.com/
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+Asahi Lina (2):
+      rust: uapi: Add UAPI crate
+      rust: ioctl: Move to the uapi crate
+ rust/.gitignore         |  1 +
+ rust/Makefile           | 18 ++++++++++++++++--
+ rust/kernel/ioctl.rs    | 32 ++++++++++++++++----------------
+ rust/kernel/lib.rs      |  1 +
+ rust/uapi/lib.rs        | 27 +++++++++++++++++++++++++++
+ rust/uapi/uapi_helper.h |  9 +++++++++
+ 6 files changed, 70 insertions(+), 18 deletions(-)
+---
+base-commit: 5aa20836252a607ce5d3fa96f9807b56e9f6b1ca
+change-id: 20230329-rust-uapi-894421e9a5d2
 
-All errors (new ones prefixed by >>):
+Thank you,
+~~ Lina
 
-   drivers/soc/apple/mailbox.c: In function 'apple_mbox_send':
->> drivers/soc/apple/mailbox.c:151:24: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-     151 |         writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
-         |                        ^~~~~~~~~~
-   drivers/soc/apple/mailbox.c: In function 'apple_mbox_poll_locked':
->> drivers/soc/apple/mailbox.c:188:28: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     188 |                 msg.msg1 = FIELD_GET(
-         |                            ^~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_PREP +151 drivers/soc/apple/mailbox.c
-
-8b654b5034baba0 Hector Martin 2023-03-28   95  
-8b654b5034baba0 Hector Martin 2023-03-28   96  int apple_mbox_send(struct apple_mbox *mbox, const struct apple_mbox_msg msg,
-8b654b5034baba0 Hector Martin 2023-03-28   97  		    bool atomic)
-8b654b5034baba0 Hector Martin 2023-03-28   98  {
-8b654b5034baba0 Hector Martin 2023-03-28   99  	unsigned long flags;
-8b654b5034baba0 Hector Martin 2023-03-28  100  	int ret;
-8b654b5034baba0 Hector Martin 2023-03-28  101  	u32 mbox_ctrl;
-8b654b5034baba0 Hector Martin 2023-03-28  102  	long t;
-8b654b5034baba0 Hector Martin 2023-03-28  103  
-8b654b5034baba0 Hector Martin 2023-03-28  104  	spin_lock_irqsave(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  105  	mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
-8b654b5034baba0 Hector Martin 2023-03-28  106  
-8b654b5034baba0 Hector Martin 2023-03-28  107  	while (mbox_ctrl & mbox->hw->control_full) {
-8b654b5034baba0 Hector Martin 2023-03-28  108  		if (atomic) {
-8b654b5034baba0 Hector Martin 2023-03-28  109  			ret = readl_poll_timeout_atomic(
-8b654b5034baba0 Hector Martin 2023-03-28  110  				mbox->regs + mbox->hw->a2i_control, mbox_ctrl,
-8b654b5034baba0 Hector Martin 2023-03-28  111  				!(mbox_ctrl & mbox->hw->control_full), 100,
-8b654b5034baba0 Hector Martin 2023-03-28  112  				APPLE_MBOX_TX_TIMEOUT * 1000);
-8b654b5034baba0 Hector Martin 2023-03-28  113  
-8b654b5034baba0 Hector Martin 2023-03-28  114  			if (ret) {
-8b654b5034baba0 Hector Martin 2023-03-28  115  				spin_unlock_irqrestore(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  116  				return ret;
-8b654b5034baba0 Hector Martin 2023-03-28  117  			}
-8b654b5034baba0 Hector Martin 2023-03-28  118  
-8b654b5034baba0 Hector Martin 2023-03-28  119  			break;
-8b654b5034baba0 Hector Martin 2023-03-28  120  		}
-8b654b5034baba0 Hector Martin 2023-03-28  121  		/*
-8b654b5034baba0 Hector Martin 2023-03-28  122  		 * The interrupt is level triggered and will keep firing as long as the
-8b654b5034baba0 Hector Martin 2023-03-28  123  		 * FIFO is empty. It will also keep firing if the FIFO was empty
-8b654b5034baba0 Hector Martin 2023-03-28  124  		 * at any point in the past until it has been acknowledged at the
-8b654b5034baba0 Hector Martin 2023-03-28  125  		 * mailbox level. By acknowledging it here we can ensure that we will
-8b654b5034baba0 Hector Martin 2023-03-28  126  		 * only get the interrupt once the FIFO has been cleared again.
-8b654b5034baba0 Hector Martin 2023-03-28  127  		 * If the FIFO is already empty before the ack it will fire again
-8b654b5034baba0 Hector Martin 2023-03-28  128  		 * immediately after the ack.
-8b654b5034baba0 Hector Martin 2023-03-28  129  		 */
-8b654b5034baba0 Hector Martin 2023-03-28  130  		if (mbox->hw->has_irq_controls) {
-8b654b5034baba0 Hector Martin 2023-03-28  131  			writel_relaxed(mbox->hw->irq_bit_send_empty,
-8b654b5034baba0 Hector Martin 2023-03-28  132  				       mbox->regs + mbox->hw->irq_ack);
-8b654b5034baba0 Hector Martin 2023-03-28  133  		}
-8b654b5034baba0 Hector Martin 2023-03-28  134  		enable_irq(mbox->irq_send_empty);
-8b654b5034baba0 Hector Martin 2023-03-28  135  		reinit_completion(&mbox->tx_empty);
-8b654b5034baba0 Hector Martin 2023-03-28  136  		spin_unlock_irqrestore(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  137  
-8b654b5034baba0 Hector Martin 2023-03-28  138  		t = wait_for_completion_interruptible_timeout(
-8b654b5034baba0 Hector Martin 2023-03-28  139  			&mbox->tx_empty,
-8b654b5034baba0 Hector Martin 2023-03-28  140  			msecs_to_jiffies(APPLE_MBOX_TX_TIMEOUT));
-8b654b5034baba0 Hector Martin 2023-03-28  141  		if (t < 0)
-8b654b5034baba0 Hector Martin 2023-03-28  142  			return t;
-8b654b5034baba0 Hector Martin 2023-03-28  143  		else if (t == 0)
-8b654b5034baba0 Hector Martin 2023-03-28  144  			return -ETIMEDOUT;
-8b654b5034baba0 Hector Martin 2023-03-28  145  
-8b654b5034baba0 Hector Martin 2023-03-28  146  		spin_lock_irqsave(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  147  		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
-8b654b5034baba0 Hector Martin 2023-03-28  148  	}
-8b654b5034baba0 Hector Martin 2023-03-28  149  
-8b654b5034baba0 Hector Martin 2023-03-28  150  	writeq_relaxed(msg.msg0, mbox->regs + mbox->hw->a2i_send0);
-8b654b5034baba0 Hector Martin 2023-03-28 @151  	writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
-8b654b5034baba0 Hector Martin 2023-03-28  152  		       mbox->regs + mbox->hw->a2i_send1);
-8b654b5034baba0 Hector Martin 2023-03-28  153  
-8b654b5034baba0 Hector Martin 2023-03-28  154  	spin_unlock_irqrestore(&mbox->tx_lock, flags);
-8b654b5034baba0 Hector Martin 2023-03-28  155  
-8b654b5034baba0 Hector Martin 2023-03-28  156  	return 0;
-8b654b5034baba0 Hector Martin 2023-03-28  157  }
-8b654b5034baba0 Hector Martin 2023-03-28  158  EXPORT_SYMBOL(apple_mbox_send);
-8b654b5034baba0 Hector Martin 2023-03-28  159  
-8b654b5034baba0 Hector Martin 2023-03-28  160  static irqreturn_t apple_mbox_send_empty_irq(int irq, void *data)
-8b654b5034baba0 Hector Martin 2023-03-28  161  {
-8b654b5034baba0 Hector Martin 2023-03-28  162  	struct apple_mbox *mbox = data;
-8b654b5034baba0 Hector Martin 2023-03-28  163  
-8b654b5034baba0 Hector Martin 2023-03-28  164  	/*
-8b654b5034baba0 Hector Martin 2023-03-28  165  	 * We don't need to acknowledge the interrupt at the mailbox level
-8b654b5034baba0 Hector Martin 2023-03-28  166  	 * here even if supported by the hardware. It will keep firing but that
-8b654b5034baba0 Hector Martin 2023-03-28  167  	 * doesn't matter since it's disabled at the main interrupt controller.
-8b654b5034baba0 Hector Martin 2023-03-28  168  	 * apple_mbox_send will acknowledge it before enabling
-8b654b5034baba0 Hector Martin 2023-03-28  169  	 * it at the main controller again.
-8b654b5034baba0 Hector Martin 2023-03-28  170  	 */
-8b654b5034baba0 Hector Martin 2023-03-28  171  	spin_lock(&mbox->tx_lock);
-8b654b5034baba0 Hector Martin 2023-03-28  172  	disable_irq_nosync(mbox->irq_send_empty);
-8b654b5034baba0 Hector Martin 2023-03-28  173  	complete(&mbox->tx_empty);
-8b654b5034baba0 Hector Martin 2023-03-28  174  	spin_unlock(&mbox->tx_lock);
-8b654b5034baba0 Hector Martin 2023-03-28  175  
-8b654b5034baba0 Hector Martin 2023-03-28  176  	return IRQ_HANDLED;
-8b654b5034baba0 Hector Martin 2023-03-28  177  }
-8b654b5034baba0 Hector Martin 2023-03-28  178  
-8b654b5034baba0 Hector Martin 2023-03-28  179  static int apple_mbox_poll_locked(struct apple_mbox *mbox)
-8b654b5034baba0 Hector Martin 2023-03-28  180  {
-8b654b5034baba0 Hector Martin 2023-03-28  181  	struct apple_mbox_msg msg;
-8b654b5034baba0 Hector Martin 2023-03-28  182  	int ret = 0;
-8b654b5034baba0 Hector Martin 2023-03-28  183  
-8b654b5034baba0 Hector Martin 2023-03-28  184  	u32 mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
-8b654b5034baba0 Hector Martin 2023-03-28  185  
-8b654b5034baba0 Hector Martin 2023-03-28  186  	while (!(mbox_ctrl & mbox->hw->control_empty)) {
-8b654b5034baba0 Hector Martin 2023-03-28  187  		msg.msg0 = readq_relaxed(mbox->regs + mbox->hw->i2a_recv0);
-8b654b5034baba0 Hector Martin 2023-03-28 @188  		msg.msg1 = FIELD_GET(
-8b654b5034baba0 Hector Martin 2023-03-28  189  			APPLE_MBOX_MSG1_MSG,
-8b654b5034baba0 Hector Martin 2023-03-28  190  			readq_relaxed(mbox->regs + mbox->hw->i2a_recv1));
-8b654b5034baba0 Hector Martin 2023-03-28  191  
-8b654b5034baba0 Hector Martin 2023-03-28  192  		mbox->rx(mbox, msg, mbox->cookie);
-8b654b5034baba0 Hector Martin 2023-03-28  193  		ret++;
-8b654b5034baba0 Hector Martin 2023-03-28  194  		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
-8b654b5034baba0 Hector Martin 2023-03-28  195  	}
-8b654b5034baba0 Hector Martin 2023-03-28  196  
-8b654b5034baba0 Hector Martin 2023-03-28  197  	/*
-8b654b5034baba0 Hector Martin 2023-03-28  198  	 * The interrupt will keep firing even if there are no more messages
-8b654b5034baba0 Hector Martin 2023-03-28  199  	 * unless we also acknowledge it at the mailbox level here.
-8b654b5034baba0 Hector Martin 2023-03-28  200  	 * There's no race if a message comes in between the check in the while
-8b654b5034baba0 Hector Martin 2023-03-28  201  	 * loop above and the ack below: If a new messages arrives inbetween
-8b654b5034baba0 Hector Martin 2023-03-28  202  	 * those two the interrupt will just fire again immediately after the
-8b654b5034baba0 Hector Martin 2023-03-28  203  	 * ack since it's level triggered.
-8b654b5034baba0 Hector Martin 2023-03-28  204  	 */
-8b654b5034baba0 Hector Martin 2023-03-28  205  	if (mbox->hw->has_irq_controls) {
-8b654b5034baba0 Hector Martin 2023-03-28  206  		writel_relaxed(mbox->hw->irq_bit_recv_not_empty,
-8b654b5034baba0 Hector Martin 2023-03-28  207  			       mbox->regs + mbox->hw->irq_ack);
-8b654b5034baba0 Hector Martin 2023-03-28  208  	}
-8b654b5034baba0 Hector Martin 2023-03-28  209  
-8b654b5034baba0 Hector Martin 2023-03-28  210  	return ret;
-8b654b5034baba0 Hector Martin 2023-03-28  211  }
-8b654b5034baba0 Hector Martin 2023-03-28  212  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
