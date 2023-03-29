@@ -1,126 +1,108 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB021879
-	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 12:05:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 1C55241F46;
-	Wed, 29 Mar 2023 12:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1680091506;
-	bh=70azhY624dmqDR1WbAO/UkRG4/uvUwfXnn1O/f8fXaM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Dcx7JmfYEJOvEoHOUZ0fYa8ZVFzUaYpAK5mmZz51FeSgXeupwRNpt4uhxB3kdh6Kx
-	 I3WFNita+VmGIE0BV7TYP1oAJ++hgFK3kCyD/ZIiiVYHgm3eJtTnnGOPvdQNtJvqLx
-	 7jbEz+IqnqU8uwkOYIm/cv0zRKszm60IWa1Moh7TW/BS0WcJZZqmR+/PTx+PVKSyz8
-	 0EtFdvd7DtDatbAhe+vvqqku9Q3zPI3vUybkdJ19cst5iehOGWYWIvoAoreY2v5n+w
-	 0nWp4cKK5IAtscHKfWTEJiuxmVJkmnMBcEWQoeb+43MSQm7f0KdChKYYyD5prnOkp/
-	 K9Zfxsz3jgzfw==
-From: Asahi Lina <lina@asahilina.net>
-Date: Wed, 29 Mar 2023 21:04:38 +0900
-Subject: [PATCH v2 6/6] rust: error: Add from_result() helper
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF74AFF4
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 14:47:42 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id w13so370967oik.2
+        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 07:47:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680101262;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OXBqzVlrFRt5YtMWe/wv26dM8rUqdeUJBzFLACIXocU=;
+        b=h8dOBgu5K5HtZFYHFm7gq4Ng+p4q+BT6YRGX0QCSa9PR/lBjQdMhr56cHlFRmPOcwM
+         jEFGueBVPNeP38jfo/uYdMo0VY8fxG3l30CJSKb047fTxjJEcyoP0AeKU097gVPhNdcL
+         UnutSu7hssch1ZespwaVB0CS6B32PXQlB/WFWqKmxT1zqc0NZ4wA7EnzmmhHx8XHQ8nv
+         SB7ky8Hp22VUF1weadMY6LShg4J5RyViSSeyidqV1U1U7iDb5xTpngLl7lZ0kmZCas8y
+         d/OUrY1nTjo207/0SjaHgPF63j4FIh1uXgF8Kp+f441DEdH3gzkGtcjmWrt8+oazbkVF
+         rKCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680101262;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OXBqzVlrFRt5YtMWe/wv26dM8rUqdeUJBzFLACIXocU=;
+        b=yXk3ZO234cZeAXsrj4MhtQEgG8bDNLDym5om+nuzOGNT2CWHJ8vZ6T2zZc32ab7p06
+         TMBaQkpUl1FnbS8i2ndJ8O0QANqx50aR2F8r2R7ali/bEArtbAR7CTfozeeCuc3NbvPI
+         3DwqinpSLDvJegi76FDk8VuAzHcfjEtcIMJ5krI9jToz9H9rZBl7QM58YW5YUEEJdAL1
+         KklIlxtQQvolLlK5A/SdA6eNPzZfu+LburRUPgR6kUbAXvJcxO8uKNuTAZppMGViSBOb
+         VA4yCpLKdY8cUbKXGHQZZlD8CgLSDXq5YsoGopkY6bkLtKvFy8on5aDQ0eGS9X9e/OSK
+         POig==
+X-Gm-Message-State: AO0yUKWp5AqRKzeiZR5OaLm5VBOjIDY8o3nOTEP7HKZtPfQBLXC1IjUT
+	4/FmQM52ndLiqKfwtMYeIq8=
+X-Google-Smtp-Source: AK7set9pyV7+2EOOD9QC0w1Kjlj4Nucya/1GCIeVTBAJw811qo3Fxz9RUqKEsBnwjcQbApog1WUJ2g==
+X-Received: by 2002:a05:6808:659:b0:383:e7c8:4000 with SMTP id z25-20020a056808065900b00383e7c84000mr8531757oih.13.1680101261977;
+        Wed, 29 Mar 2023 07:47:41 -0700 (PDT)
+Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id s186-20020acac2c3000000b00383cc29d6b2sm13506162oif.51.2023.03.29.07.47.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Mar 2023 07:47:41 -0700 (PDT)
+Message-ID: <0849f870-2d95-8c3a-c7dc-2b18dcee4c65@gmail.com>
+Date: Wed, 29 Mar 2023 11:47:37 -0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230224-rust-error-v2-6-3900319812da@asahilina.net>
-References: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
-In-Reply-To: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
-To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Wedson Almeida Filho <wedsonaf@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/6] rust: error: Rename to_kernel_errno() ->
+ to_errno()
+To: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
  Sven Van Asbroeck <thesven73@gmail.com>
-Cc: Fox Chen <foxhlchen@gmail.com>, 
- Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
- Andreas Hindborg <a.hindborg@samsung.com>, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- Asahi Lina <lina@asahilina.net>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680091478; l=2445;
- i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=Ai/iEgQ/fBNHagg7igl9ARuv9+jNWr+C78oJzdHwp1Q=;
- b=FtgUuaSd6mC3+e/DMioQcQS/rPK7XBseDo6+v/MVJi3rTWw7yGSMv3Q7DU/Oyw7ISdeBXG5+d
- BPUZKi78hqqB9vP31WhnZuhDT44q/p8pQiS+4Z+ejaIpN6TNuA0Z4Fz
-X-Developer-Key: i=lina@asahilina.net; a=ed25519;
- pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
+Cc: Fox Chen <foxhlchen@gmail.com>, Andreas Hindborg
+ <a.hindborg@samsung.com>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+References: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
+ <20230224-rust-error-v2-1-3900319812da@asahilina.net>
+Content-Language: en-US
+From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+In-Reply-To: <20230224-rust-error-v2-1-3900319812da@asahilina.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Wedson Almeida Filho <wedsonaf@gmail.com>
+On 3/29/23 09:04, Asahi Lina wrote:
+> This is kernel code, so specifying "kernel" is redundant. Let's simplify
+> things and just call it to_errno().
+> 
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+>  rust/kernel/error.rs  | 2 +-
+>  rust/macros/module.rs | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
+> index 5b9751d7ff1d..35894fa35efe 100644
+> --- a/rust/kernel/error.rs
+> +++ b/rust/kernel/error.rs
+> @@ -73,7 +73,7 @@ pub struct Error(core::ffi::c_int);
+>  
+>  impl Error {
+>      /// Returns the kernel error code.
+> -    pub fn to_kernel_errno(self) -> core::ffi::c_int {
+> +    pub fn to_errno(self) -> core::ffi::c_int {
+>          self.0
+>      }
+>  }
+> diff --git a/rust/macros/module.rs b/rust/macros/module.rs
+> index a7e363c2b044..143336543866 100644
+> --- a/rust/macros/module.rs
+> +++ b/rust/macros/module.rs
+> @@ -258,7 +258,7 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
+>                          return 0;
+>                      }}
+>                      Err(e) => {{
+> -                        return e.to_kernel_errno();
+> +                        return e.to_errno();
+>                      }}
+>                  }}
+>              }}
+> 
 
-Add a helper function to easily return C result codes from a Rust function
-that calls functions which return a Result<T>.
-
-Lina: Imported from rust-for-linux/rust, originally developed by Wedson
-as part of file_operations.rs. Added the allow() flags since there is no
-user in the kernel crate yet and fixed a typo in a comment. Replaced the
-macro with a function taking a closure, per discussion on the ML.
-
-Co-developed-by: Fox Chen <foxhlchen@gmail.com>
-Signed-off-by: Fox Chen <foxhlchen@gmail.com>
-Co-developed-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-Signed-off-by: Wedson Almeida Filho <wedsonaf@gmail.com>
-Signed-off-by: Asahi Lina <lina@asahilina.net>
----
- rust/kernel/error.rs | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
-
-diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-index 6b10129075a7..4d8b19d5967d 100644
---- a/rust/kernel/error.rs
-+++ b/rust/kernel/error.rs
-@@ -226,3 +226,42 @@ pub(crate) fn from_err_ptr<T>(ptr: *mut T) -> Result<*mut T> {
-     }
-     Ok(ptr)
- }
-+
-+/// Calls a closure returning a [`crate::error::Result<T>`] and converts the result to
-+/// a C integer result.
-+///
-+/// This is useful when calling Rust functions that return [`crate::error::Result<T>`]
-+/// from inside `extern "C"` functions that need to return an integer error result.
-+///
-+/// `T` should be convertible from an `i16` via `From<i16>`.
-+///
-+/// # Examples
-+///
-+/// ```ignore
-+/// # use kernel::from_result;
-+/// # use kernel::bindings;
-+/// unsafe extern "C" fn probe_callback(
-+///     pdev: *mut bindings::platform_device,
-+/// ) -> core::ffi::c_int {
-+///     from_result(|| {
-+///         let ptr = devm_alloc(pdev)?;
-+///         bindings::platform_set_drvdata(pdev, ptr);
-+///         Ok(0)
-+///     })
-+/// }
-+/// ```
-+// TODO: Remove `dead_code` marker once an in-kernel client is available.
-+#[allow(dead_code)]
-+pub(crate) fn from_result<T, F>(f: F) -> T
-+where
-+    T: From<i16>,
-+    F: FnOnce() -> Result<T>,
-+{
-+    match f() {
-+        Ok(v) => v,
-+        // NO-OVERFLOW: negative `errno`s are no smaller than `-bindings::MAX_ERRNO`,
-+        // `-bindings::MAX_ERRNO` fits in an `i16` as per invariant above,
-+        // therefore a negative `errno` always fits in an `i16` and will not overflow.
-+        Err(e) => T::from(e.to_errno() as i16),
-+    }
-+}
-
--- 
-2.40.0
-
+Reviewed-by: Martin Rodriguez Reboredo
