@@ -1,45 +1,45 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081492F30
-	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 15:22:00 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id 61-20020a9d02c3000000b0069fe8de3139so8398786otl.1
-        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 08:22:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270B32F30
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 15:28:46 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-17aaa51a911so16587614fac.5
+        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 08:28:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680103320;
+        d=gmail.com; s=20210112; t=1680103725;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6iilm+JqipfIQ47s9BYxmX6VNLXMk9cec4gpmAXoeJo=;
-        b=NMua3BbWCnxs2JMZct3X4hWla8xmo45OeMMMFqZj/IsfYxsaUhMok9FUPMYYTsaFKH
-         GhjNfEXDAJQa/WgipoYgerxwIAFofh/RgjIcOtwv6RbgnRjXKC9usXiE0KHvlzHcUtbe
-         4k6DTVNbdyqWotQCoRSaI7LirnPLfxs/J9cVaTR4hIF2FztfQ5gb9dZSRB6Wyyexc0pE
-         8sPKCs3h5KeyFYfdO+hpY60cT9EuLiR31lxFVIeBJ8zkokzkNNCIu0zVaoJsYAFNdcAr
-         WNObttuKupqdnO3jqYJ4N671buF2hmDdusCQZonP4sa/1ySHahZLqhg4qTj2VhrFB+/i
-         QxhA==
+        bh=I/0qYcjpAAKRuBZ39NrE5H4YmMIUNZBowPVzOCdw31g=;
+        b=J0rnh8tOyV6nyKFSNlBg9zhfe5I0kCzHK+GFOHljGYDX8gjKeqf9oqxhlxvkRTwKhp
+         DWjsCE1cwAtxRlM6tnp8MHJJIa6/lb3qcaUPHjHyPVh0YPse8KfH6Kc3sNYz8cJ8aFui
+         +5h8QHvRnm5nl45scpyNuThRzNJ/FS1Uv7BGnzbkRG9XmwSUYcByJj0+OthIIy7Oxahm
+         Xnvll1t8ItqcyRgZInPh8LYZIkvONTn4f125W4c+MtxQM6I/67bLz2XVBkh7Ayw21Ct1
+         3rdaRT8R/wNQRsMu3utuLHd9/GntbCyBp8q/L40pO8ppxswtJYwv2ieBG1NMpmxk8Obv
+         DjNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680103320;
+        d=1e100.net; s=20210112; t=1680103725;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6iilm+JqipfIQ47s9BYxmX6VNLXMk9cec4gpmAXoeJo=;
-        b=15pCej3f+kosoRPlD5GHATNJ6mErp+yPcWsGuhzxCEnxiigX/Mv1gxY+xLMymEXEbf
-         cED5t0pLOuHxvFM5pr2k0Wrerx+ScQ2Q3KnJct4o8CNx6siyupk+5H55RG7EU3xC7fRj
-         FYqOxSOmbcJiXzP2HWZRTCmvjh2xT+H35MyFUxFn2MFTUbRj/ZVkMPXMZF8BQb1ZXJBW
-         cVM3VmVW3G+waFAra7clXyf1PsDeW0WRAU1k0xfUmtwCvGbRNL8sCf6Hjtwx3zwEZVm0
-         THsNJYE+cH6DfoGKcY58OmiAvbXTcu0xS5OQtwxb3C4xfrK3Pwv8l9iiDWrEGg2MorUU
-         3FAA==
-X-Gm-Message-State: AAQBX9dx8miHhBlJ8eee9awEqr/QpI1eZAoH8M7OWZ0fV6+CD8pFC7vt
-	I7/Acu1EnOuDEuRAF5t4rKk=
-X-Google-Smtp-Source: AKy350Zk2WM/EXY8rAROoYtM+7neoCd8zUWUKV6/zmpLvM0rOiiAgGbfVfQu0lajJwYRBbolBXCl+g==
-X-Received: by 2002:a9d:480f:0:b0:6a1:3101:8e29 with SMTP id c15-20020a9d480f000000b006a131018e29mr5768189otf.18.1680103320108;
-        Wed, 29 Mar 2023 08:22:00 -0700 (PDT)
+        bh=I/0qYcjpAAKRuBZ39NrE5H4YmMIUNZBowPVzOCdw31g=;
+        b=GPQ2MqQ/2vhHTYyGztnXScYBgWLiXNTcbt1WVIiupZeVDo0UWBF86D9CFqKgt8kl4z
+         RBttSDwPgelHhll4VQE0Sdqkc2x1e9S3m0MaJzQZkz5YNIGQEBjTGg+YCfyNHJiSy1Te
+         lPb9fHkxFnMtzPuS8GOYvOcM5Xwhj185/GqJXJQL1xF1uogV9AXK+4+BfJiDJlS8OsBv
+         iRx9Nm3QIGMQShBie1GEdF83vF/HFcJ5Tfidwp9c/Oz196x59f4L+I8ep2EO/JhoYR61
+         QWnJSxsJ21Bvl5bC8JMOA+IqYyLVOgLJ64oWJyqoly91E37rc2VR+gFoNVsy7Qr4jeme
+         3H5A==
+X-Gm-Message-State: AO0yUKWuS2tJsFMiv+x655AAl2MP8nCdOEDJsVuHzzO8zJfeofuhjU0h
+	Uwa5+kDPv1g8zpPXw5OjCxs=
+X-Google-Smtp-Source: AKy350aQWL881y11040LysOhsXi8xeHNH+bEKwS3hawo3395Fo0RPQK9fEmJb1Q1WOdZF/gD4iiDoA==
+X-Received: by 2002:a05:6870:910c:b0:176:3849:4e96 with SMTP id o12-20020a056870910c00b0017638494e96mr13343721oae.13.1680103725182;
+        Wed, 29 Mar 2023 08:28:45 -0700 (PDT)
 Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id v1-20020a05683018c100b006a13dd5c8a2sm3567305ote.5.2023.03.29.08.21.57
+        by smtp.gmail.com with ESMTPSA id p16-20020a9d76d0000000b0068bd922a244sm14328829otl.20.2023.03.29.08.28.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Mar 2023 08:21:59 -0700 (PDT)
-Message-ID: <061e3d9a-394c-88dd-2de8-84fb207afeab@gmail.com>
-Date: Wed, 29 Mar 2023 12:21:56 -0300
+        Wed, 29 Mar 2023 08:28:44 -0700 (PDT)
+Message-ID: <859172d0-062b-82ba-4df6-e10851b69b31@gmail.com>
+Date: Wed, 29 Mar 2023 12:28:41 -0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH 1/2] rust: uapi: Add UAPI crate
+Subject: Re: [PATCH 2/2] rust: ioctl: Move to the uapi crate
 Content-Language: en-US
 To: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
  Alex Gaynor <alex.gaynor@gmail.com>,
@@ -58,159 +58,103 @@ To: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  asahi@lists.linux.dev
 References: <20230329-rust-uapi-v1-0-ee78f2933726@asahilina.net>
- <20230329-rust-uapi-v1-1-ee78f2933726@asahilina.net>
+ <20230329-rust-uapi-v1-2-ee78f2933726@asahilina.net>
 From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230329-rust-uapi-v1-1-ee78f2933726@asahilina.net>
+In-Reply-To: <20230329-rust-uapi-v1-2-ee78f2933726@asahilina.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 3/29/23 08:40, Asahi Lina wrote:
-> This crate mirrors the `bindings` crate, but will contain only UAPI
-> bindings. Unlike the bindings crate, drivers may directly use this crate
-> if they have to interface with userspace.
-> 
-> Initially, just bind the generic ioctl stuff.
-> 
-> In the future, we would also like to add additional checks to ensure
-> that all types exposed by this crate satisfy UAPI-safety guarantees
-> (that is, they are safely castable to/from a "bag of bits").
+> Now that we have the uapi crate, this abstraction can use that instead
+> of bindings.
 > 
 > Signed-off-by: Asahi Lina <lina@asahilina.net>
 > ---
->  rust/.gitignore         |  1 +
->  rust/Makefile           | 18 ++++++++++++++++--
->  rust/kernel/lib.rs      |  1 +
->  rust/uapi/lib.rs        | 27 +++++++++++++++++++++++++++
->  rust/uapi/uapi_helper.h |  9 +++++++++
->  5 files changed, 54 insertions(+), 2 deletions(-)
+>  rust/kernel/ioctl.rs | 32 ++++++++++++++++----------------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
 > 
-> diff --git a/rust/.gitignore b/rust/.gitignore
-> index 168cb26a31b9..21552992b401 100644
-> --- a/rust/.gitignore
-> +++ b/rust/.gitignore
-> @@ -2,6 +2,7 @@
+> diff --git a/rust/kernel/ioctl.rs b/rust/kernel/ioctl.rs
+> index b2076113b6a8..007437959395 100644
+> --- a/rust/kernel/ioctl.rs
+> +++ b/rust/kernel/ioctl.rs
+> @@ -10,40 +10,40 @@ use crate::build_assert;
+>  /// Build an ioctl number, analogous to the C macro of the same name.
+>  #[inline(always)]
+>  const fn _IOC(dir: u32, ty: u32, nr: u32, size: usize) -> u32 {
+> -    build_assert!(dir <= bindings::_IOC_DIRMASK);
+> -    build_assert!(ty <= bindings::_IOC_TYPEMASK);
+> -    build_assert!(nr <= bindings::_IOC_NRMASK);
+> -    build_assert!(size <= (bindings::_IOC_SIZEMASK as usize));
+> +    build_assert!(dir <= uapi::_IOC_DIRMASK);
+> +    build_assert!(ty <= uapi::_IOC_TYPEMASK);
+> +    build_assert!(nr <= uapi::_IOC_NRMASK);
+> +    build_assert!(size <= (uapi::_IOC_SIZEMASK as usize));
 >  
->  bindings_generated.rs
->  bindings_helpers_generated.rs
-> +uapi_generated.rs
->  exports_*_generated.h
->  doc/
->  test/
-> diff --git a/rust/Makefile b/rust/Makefile
-> index f88d108fbef0..59a327f0fa1a 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -16,6 +16,9 @@ obj-$(CONFIG_RUST) += alloc.o bindings.o kernel.o
->  always-$(CONFIG_RUST) += exports_alloc_generated.h exports_bindings_generated.h \
->      exports_kernel_generated.h
+> -    (dir << bindings::_IOC_DIRSHIFT)
+> -        | (ty << bindings::_IOC_TYPESHIFT)
+> -        | (nr << bindings::_IOC_NRSHIFT)
+> -        | ((size as u32) << bindings::_IOC_SIZESHIFT)
+> +    (dir << uapi::_IOC_DIRSHIFT)
+> +        | (ty << uapi::_IOC_TYPESHIFT)
+> +        | (nr << uapi::_IOC_NRSHIFT)
+> +        | ((size as u32) << uapi::_IOC_SIZESHIFT)
+>  }
 >  
-> +always-$(CONFIG_RUST) += uapi/uapi_generated.rs
-> +obj-$(CONFIG_RUST) += uapi.o
-> +
->  ifdef CONFIG_RUST_BUILD_ASSERT_ALLOW
->  obj-$(CONFIG_RUST) += build_error.o
->  else
-> @@ -288,6 +291,12 @@ $(obj)/bindings/bindings_generated.rs: $(src)/bindings/bindings_helper.h \
->      $(src)/bindgen_parameters FORCE
->  	$(call if_changed_dep,bindgen)
+>  /// Build an ioctl number for an argumentless ioctl.
+>  #[inline(always)]
+>  pub const fn _IO(ty: u32, nr: u32) -> u32 {
+> -    _IOC(bindings::_IOC_NONE, ty, nr, 0)
+> +    _IOC(uapi::_IOC_NONE, ty, nr, 0)
+>  }
 >  
-> +$(obj)/uapi/uapi_generated.rs: private bindgen_target_flags = \
-> +    $(shell grep -v '^\#\|^$$' $(srctree)/$(src)/bindgen_parameters)
-
-This emits a warning with grep about a numeral unnecessarily escaped as
-seen in a patch sent by Vicenzo Palazzo [1].
-
-```
-grep: warning: stray \ before #
-```
-
-> +$(obj)/uapi/uapi_generated.rs: $(src)/uapi/uapi_helper.h \
-> +    $(src)/bindgen_parameters FORCE
-> +	$(call if_changed_dep,bindgen)
-> +
->  # See `CFLAGS_REMOVE_helpers.o` above. In addition, Clang on C does not warn
->  # with `-Wmissing-declarations` (unlike GCC), so it is not strictly needed here
->  # given it is `libclang`; but for consistency, future Clang changes and/or
-> @@ -388,10 +397,15 @@ $(obj)/bindings.o: $(src)/bindings/lib.rs \
->      $(obj)/bindings/bindings_helpers_generated.rs FORCE
->  	$(call if_changed_dep,rustc_library)
+>  /// Build an ioctl number for an read-only ioctl.
+>  #[inline(always)]
+>  pub const fn _IOR<T>(ty: u32, nr: u32) -> u32 {
+> -    _IOC(bindings::_IOC_READ, ty, nr, core::mem::size_of::<T>())
+> +    _IOC(uapi::_IOC_READ, ty, nr, core::mem::size_of::<T>())
+>  }
 >  
-> +$(obj)/uapi.o: $(src)/uapi/lib.rs \
-> +    $(obj)/compiler_builtins.o \
-> +    $(obj)/uapi/uapi_generated.rs FORCE
-> +	$(call if_changed_dep,rustc_library)
-> +
->  $(obj)/kernel.o: private rustc_target_flags = --extern alloc \
-> -    --extern build_error --extern macros --extern bindings
-> +    --extern build_error --extern macros --extern bindings --extern uapi
->  $(obj)/kernel.o: $(src)/kernel/lib.rs $(obj)/alloc.o $(obj)/build_error.o \
-> -    $(obj)/libmacros.so $(obj)/bindings.o FORCE
-> +    $(obj)/libmacros.so $(obj)/bindings.o $(obj)/uapi.o FORCE
->  	$(call if_changed_dep,rustc_library)
+>  /// Build an ioctl number for an write-only ioctl.
+>  #[inline(always)]
+>  pub const fn _IOW<T>(ty: u32, nr: u32) -> u32 {
+> -    _IOC(bindings::_IOC_WRITE, ty, nr, core::mem::size_of::<T>())
+> +    _IOC(uapi::_IOC_WRITE, ty, nr, core::mem::size_of::<T>())
+>  }
 >  
->  endif # CONFIG_RUST
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index 7610b18ee642..63f796781b7c 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -43,6 +43,7 @@ pub mod types;
->  #[doc(hidden)]
->  pub use bindings;
->  pub use macros;
-> +pub use uapi;
+>  /// Build an ioctl number for a read-write ioctl.
+>  #[inline(always)]
+>  pub const fn _IOWR<T>(ty: u32, nr: u32) -> u32 {
+>      _IOC(
+> -        bindings::_IOC_READ | bindings::_IOC_WRITE,
+> +        uapi::_IOC_READ | uapi::_IOC_WRITE,
+>          ty,
+>          nr,
+>          core::mem::size_of::<T>(),
+> @@ -52,20 +52,20 @@ pub const fn _IOWR<T>(ty: u32, nr: u32) -> u32 {
 >  
->  #[doc(hidden)]
->  pub use build_error::build_error;
-> diff --git a/rust/uapi/lib.rs b/rust/uapi/lib.rs
-> new file mode 100644
-> index 000000000000..29f69f3a52de
-> --- /dev/null
-> +++ b/rust/uapi/lib.rs
-> @@ -0,0 +1,27 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! UAPI Bindings.
-> +//!
-> +//! Contains the bindings generated by `bindgen` for UAPI interfaces.
-> +//!
-> +//! This crate may be used directly by drivers that need to interact with
-> +//! userspace APIs.
-> +
-> +#![no_std]
-> +#![feature(core_ffi_c)]
-> +// See <https://github.com/rust-lang/rust-bindgen/issues/1651>.
-> +#![cfg_attr(test, allow(deref_nullptr))]
-> +#![cfg_attr(test, allow(unaligned_references))]
-> +#![cfg_attr(test, allow(unsafe_op_in_unsafe_fn))]
-> +#![allow(
-> +    clippy::all,
-> +    missing_docs,
-> +    non_camel_case_types,
-> +    non_upper_case_globals,
-> +    non_snake_case,
-> +    improper_ctypes,
-> +    unreachable_pub,
-> +    unsafe_op_in_unsafe_fn
-> +)]
-> +
-> +include!(concat!(env!("OBJTREE"), "/rust/uapi/uapi_generated.rs"));
-> diff --git a/rust/uapi/uapi_helper.h b/rust/uapi/uapi_helper.h
-> new file mode 100644
-> index 000000000000..301f5207f023
-> --- /dev/null
-> +++ b/rust/uapi/uapi_helper.h
-> @@ -0,0 +1,9 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Header that contains the headers for which Rust UAPI bindings
-> + * will be automatically generated by `bindgen`.
-> + *
-> + * Sorted alphabetically.
-> + */
-> +
-> +#include <uapi/asm-generic/ioctl.h>
+>  /// Get the ioctl direction from an ioctl number.
+>  pub const fn _IOC_DIR(nr: u32) -> u32 {
+> -    (nr >> bindings::_IOC_DIRSHIFT) & bindings::_IOC_DIRMASK
+> +    (nr >> uapi::_IOC_DIRSHIFT) & uapi::_IOC_DIRMASK
+>  }
+>  
+>  /// Get the ioctl type from an ioctl number.
+>  pub const fn _IOC_TYPE(nr: u32) -> u32 {
+> -    (nr >> bindings::_IOC_TYPESHIFT) & bindings::_IOC_TYPEMASK
+> +    (nr >> uapi::_IOC_TYPESHIFT) & uapi::_IOC_TYPEMASK
+>  }
+>  
+>  /// Get the ioctl number from an ioctl number.
+>  pub const fn _IOC_NR(nr: u32) -> u32 {
+> -    (nr >> bindings::_IOC_NRSHIFT) & bindings::_IOC_NRMASK
+> +    (nr >> uapi::_IOC_NRSHIFT) & uapi::_IOC_NRMASK
+>  }
+>  
+>  /// Get the ioctl size from an ioctl number.
+>  pub const fn _IOC_SIZE(nr: u32) -> usize {
+> -    ((nr >> bindings::_IOC_SIZESHIFT) & bindings::_IOC_SIZEMASK) as usize
+> +    ((nr >> uapi::_IOC_SIZESHIFT) & uapi::_IOC_SIZEMASK) as usize
+>  }
 > 
 
-Link: https://lore.kernel.org/rust-for-linux/20230302132107.210502-1-vincenzopalazzodev@gmail.com/ [1]
-
-Reviewed-by: Martin Rodriguez Reboredo
+Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
