@@ -1,28 +1,28 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7FE7B
-	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 12:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1F07B
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 12:05:00 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 19E7E41F46;
-	Wed, 29 Mar 2023 12:04:50 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 1B3A4424A5;
+	Wed, 29 Mar 2023 12:04:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1680091494;
-	bh=i4OiR3LCVFp1o7pcdF1+sBJPH/zxSaRWGdgRE2WJDNU=;
+	s=default; t=1680091498;
+	bh=D4/twBr+bzIjY4ZGn+sbXBAJvi8KroM1AK8OX54iYyI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=LhnYkk72xZfQ9ysMIZ32YxC6aiSSoincImJAGgNxUoaYeiBX78sfY5rq8WLcal/i+
-	 XZggEobuj3q0kLkwBWwiU1VzJcw7M5MQoytDIm3CSC3xz8lHu3fituOehDia+s9xM9
-	 b0LG3l0mae6+Ne93MosdY45QU/Z1omitZFuDQi/weoTWOpycW1SyqdKAAZCuaseFOc
-	 3uiFUPxxlbUY59CE7drn6qZ/fHmvwND3KiLdMKPtvB8Taj8pQ1B78VQlNGSQOzuT4h
-	 Qndab1aq5ByHy6j6TqikiV8CgHpncvJjdGzpVDkFJqdv+8XxTvj47rjqsxnBd9Wzby
-	 Hh2eeuGFnGuzQ==
+	b=O9YVbyPosEDBz1Y3e376jGTJdPZ56RObMPGEQKs2kbZDSMJLGz0iqM48RP9Bgg4jP
+	 9j92qyyx8XYyVdP9cHvMvyyaXSRb9OtgPm1wKg/eiWnptEAI6XELAMSSY5aNs1Ar58
+	 X9N0AK2DO4ogwJQwYo2KRRQAeLgzB9Wip9ZJ8n6/0XSPCiOka5Xs06nUzf1sWZ5JgZ
+	 LkPFlZMXMaX7E8pZ70aWPsUFsyoarZEJnCR6uF1GjvRmWt+nOWCFN/dmINb2qEsQUW
+	 svC9yWrzKhMMRJH07fzM0S9pvF5tlqwpfp2DDeaywrYCtFsFwugn3rLElXy4x5NthK
+	 px9nunpoJGpJg==
 From: Asahi Lina <lina@asahilina.net>
-Date: Wed, 29 Mar 2023 21:04:35 +0900
-Subject: [PATCH v2 3/6] rust: error: Add Error::from_errno()
+Date: Wed, 29 Mar 2023 21:04:36 +0900
+Subject: [PATCH v2 4/6] rust: error: Add to_result() helper
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -31,7 +31,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230224-rust-error-v2-3-3900319812da@asahilina.net>
+Message-Id: <20230224-rust-error-v2-4-3900319812da@asahilina.net>
 References: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
 In-Reply-To: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -45,66 +45,48 @@ Cc: Fox Chen <foxhlchen@gmail.com>,
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680091478; l=1923;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680091478; l=1246;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=VSgp8GJmq0GyyWZ2FrIFWGZbohpKXUspc+RJ4lAro+A=;
- b=MI7BIrTtZmn6MoA5cs6z3VjONdRNDkoCAfIOu+dk9btyw14filP7UP7mvZNtWRVQSD36I41+j
- sB23CuOjfluCfsXkohXWQdCKwXyqrrETbQlWVggmrqD6pBoRt9D6iIp
+ bh=Pyrepc31fu1j2hIHl+GlAJgfJXkFKrgb4Ue04icQgQk=;
+ b=Qi1Fy6I/4bHQHbB9VuqBIwCJsY+ax2RlS2ro/Kyr4QO8xcgJz+/zdD8IOdnkYaufWCDB//8ot
+ kA5XhtU7hJlADXksO7SehAh9Q98rL6Ptixy/XzzymQEtuAjJBKlp5vR
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-From: Miguel Ojeda <ojeda@kernel.org>
+From: Wedson Almeida Filho <wedsonaf@gmail.com>
 
-Add a function to create `Error` values out of a kernel error return,
-which safely upholds the invariant that the error code is well-formed
-(negative and greater than -MAX_ERRNO). If a malformed code is passed
-in, it will be converted to EINVAL.
+Add a to_result() helper to convert kernel C return values to a Rust
+Result, mapping >=0 values to Ok(()) and negative values to Err(...),
+with Error::from_errno() ensuring that the errno is within range.
 
-Lina: Imported from rust-for-linux/rust as authored by Miguel and Fox
-with refactoring from Wedson, renamed from_kernel_errno() to
-from_errno().
+Lina: Imported from rust-for-linux/rust, originally developed by Wedson
+as part of the AMBA device driver support.
 
-Co-developed-by: Fox Chen <foxhlchen@gmail.com>
-Signed-off-by: Fox Chen <foxhlchen@gmail.com>
-Co-developed-by: Wedson Almeida Filho <wedsonaf@gmail.com>
 Signed-off-by: Wedson Almeida Filho <wedsonaf@gmail.com>
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 Reviewed-by: Andreas Hindborg <a.hindborg@samsung.com>
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
- rust/kernel/error.rs | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ rust/kernel/error.rs | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-index e97e652a1aec..659468bd1735 100644
+index 659468bd1735..4f599c4d1752 100644
 --- a/rust/kernel/error.rs
 +++ b/rust/kernel/error.rs
-@@ -72,6 +72,25 @@ pub mod code {
- pub struct Error(core::ffi::c_int);
- 
- impl Error {
-+    /// Creates an [`Error`] from a kernel error code.
-+    ///
-+    /// It is a bug to pass an out-of-range `errno`. `EINVAL` would
-+    /// be returned in such a case.
-+    pub(crate) fn from_errno(errno: core::ffi::c_int) -> Error {
-+        if errno < -(bindings::MAX_ERRNO as i32) || errno >= 0 {
-+            // TODO: Make it a `WARN_ONCE` once available.
-+            crate::pr_warn!(
-+                "attempted to create `Error` with out of range `errno`: {}",
-+                errno
-+            );
-+            return code::EINVAL;
-+        }
+@@ -167,3 +167,13 @@ impl From<core::convert::Infallible> for Error {
+ /// it should still be modeled as returning a `Result` rather than
+ /// just an [`Error`].
+ pub type Result<T = ()> = core::result::Result<T, Error>;
 +
-+        // INVARIANT: The check above ensures the type invariant
-+        // will hold.
-+        Error(errno)
++/// Converts an integer as returned by a C kernel function to an error if it's negative, and
++/// `Ok(())` otherwise.
++pub fn to_result(err: core::ffi::c_int) -> Result {
++    if err < 0 {
++        Err(Error::from_errno(err))
++    } else {
++        Ok(())
 +    }
-+
-     /// Returns the kernel error code.
-     pub fn to_errno(self) -> core::ffi::c_int {
-         self.0
++}
 
 -- 
 2.40.0
