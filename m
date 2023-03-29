@@ -1,206 +1,89 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E742F30
-	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 16:04:51 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id er13so24406066edb.9
-        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 09:04:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223F463D2
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 18:16:36 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id a30-20020a9d3e1e000000b006a13f728172so5502151otd.3
+        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 11:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680105889;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nB7oKbT3cEdZv982N1zBkd0Ryl/IpZ2NkMoXbgDn468=;
-        b=jxMA6QM9la8UP4NqAnSEAXBd+bAl2GXvlYv5NFdKYrKlh+kGEwWtlUpuQWVAl3uyWd
-         3PqQx+TZ/aiOQmO/z+LZKF5BwE2kcbBbznmL9Yw+P690izJ45nhpv3cOyxpSHB6Wz0Pz
-         ls5gi2P9/bYG3SfjL2LQ8arhCq5h8CocCIqT4pfnW9eaMNyG0/UES1Er6JQTd/aMoXMB
-         fZFCTDzx/4NglskDdcFWUl5om7f195XfWtvwQWLS3oL9FvVzVc+h8t/hO2dI83Rs94ZL
-         rUFIF4JbvUAco68oEsHEN1qXKmxno5kNX3KyI6BBGT+zbNCibIq3buiaNCsh7/d6Q4X4
-         GmZQ==
+        d=gmail.com; s=20210112; t=1680113795;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=somFh1uhW0pZ9Km2n8zQjRO2r+wUA8O/Rj4+D8ShWV0=;
+        b=HIhTQSyU7RjD/NNa0Sgd3HMaFspLoot1hSfelzXW3lLXeb+gghjEUS9R7gtM+cx+C0
+         cPMUc4+8CAR8JrrtRkh4v2Czk5DS3a9qdb8spGAhvqBrQULEPgAQ0gWTnExC1/+nybxt
+         snjL11AAbXxFxf5Z1RsIO8FLmnQYcyXQr5wib8KJDiLbZJGZDvATIl9CbmGlP4q6vFtL
+         aoBD8Ubz8NGFMYsNJAhGnvpKFR/E43cuCMbSGJCyXJxkIrMA8EIYVxj5vx/S+52GEPaG
+         yDtR+kS+9CiGeD1lxudgIcaiTZS6Y2XLh+VWyWnik3jHjwFJeKmQ3ZsxPGLdclICqsq7
+         ckUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105889;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nB7oKbT3cEdZv982N1zBkd0Ryl/IpZ2NkMoXbgDn468=;
-        b=6r4LCeXWZ1H5m7+/OGL2bAJi/rQt5/1LTE26ufveBdwj+CzczeBnhfcTqcMCCPM5uT
-         wt3/UPOMPkXInX/bE2Sv01K62rUIv5H7TbjEWzg21Vfnkb/AZ+ZWmxNIf5jKJ6brcyBj
-         1ESN/e/9NiHTE6lEy3G3iBrPxdSDqOiDWNqp37P8CO+eRxYM3eG1RmlE/sYv1jt3OM9J
-         0ZoNgqSInRqxhP/EikEmZ3TlkACItLQIKZzhVqvDFOc1u/6OsYWhYvflZsGipom6rnn2
-         pbtoWVFSeC9JGCBMB9JHdngLUUJ+0mYon8B+NhqU/tLE8f5PVw0KNyNxtxo8/jAIgcUk
-         RzRQ==
-X-Gm-Message-State: AAQBX9fcHLixKz9ntrFXFiUm1CzsS//sFk+93SDUK1DTUZmysVPfmFab
-	4/tpjs1W3os4sRnkSsEASUjISV2O+veRc2KB5nc=
-X-Google-Smtp-Source: AKy350bERxif8R3/uq/8EtdDLtAHn6Xnhc/4ON9Mo1pql2b9GTT5tWBy0miS8RMnafwNn3Tr9VnUepwup+Iz6uiyzp4=
-X-Received: by 2002:a50:9fef:0:b0:4fc:2096:b15c with SMTP id
- c102-20020a509fef000000b004fc2096b15cmr10258255edf.1.1680105889227; Wed, 29
- Mar 2023 09:04:49 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680113795;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=somFh1uhW0pZ9Km2n8zQjRO2r+wUA8O/Rj4+D8ShWV0=;
+        b=eW2Je1iOfYr+TL073T/fRqQqzYWb+AkTJ0wD1xfJFdsII/GIU/Um4IX/DPRDWq2QCJ
+         PUfZ4pTUK/UAXciI/fAug23EXsSg5AxFVFg4X5+AmYVnDWlr6A8rFOWTyVzeOwQKTH1P
+         5QFkUMe/zC2UI/y+CKxIN43YjvVvojJ1DXhhRVocNpUbEEr9ElkfZsHWI3tDXT2e9IYw
+         /W3PH1xYcJqN6chW1D+WGnK2W87cVWnpMCPsvqW7wATUedP1Qm2Uf+Y3f3E52Ace4CZq
+         Cu3OQ6HCXHqOWsdCIaJzJ98ddMBLRdNcfiFwVlzYixs36K100zTSW+7rNq1bov+aNwWj
+         /bJw==
+X-Gm-Message-State: AAQBX9eZFr6Qy+hv3Hc4GjH/HHWFLStiBpbMAKKIpVU7jI3Mr8MpGB+k
+	h/JENt3prFtrjrp5IgWpghU=
+X-Google-Smtp-Source: AK7set9t1ky4C84DCB0Oa9W5iSm8eMk1sho1/wGcP0jut+StvjNl5/Wwed9jFJUtSLvjILKMX92JiQ==
+X-Received: by 2002:a9d:7e96:0:b0:69d:d4f4:733d with SMTP id m22-20020a9d7e96000000b0069dd4f4733dmr9367901otp.4.1680113795235;
+        Wed, 29 Mar 2023 11:16:35 -0700 (PDT)
+Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id a12-20020a056830008c00b006a11de6cd02sm5663072oto.34.2023.03.29.11.16.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Mar 2023 11:16:34 -0700 (PDT)
+Message-ID: <2a10a97f-70ba-5216-a527-067deda6a94e@gmail.com>
+Date: Wed, 29 Mar 2023 15:16:30 -0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st>
-In-Reply-To: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st>
-From: Jassi Brar <jassisinghbrar@gmail.com>
-Date: Wed, 29 Mar 2023 11:04:37 -0500
-Message-ID: <CABb+yY2=B2p5JhZiBE_mZLe3y16EUgVsUHK62LnRgaKa1-ptLg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] mailbox: apple: Move driver into soc/apple and stop
- using the subsystem
-To: Hector Martin <marcan@marcan.st>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Janne Grunau <j@jannau.net>, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v2 1/6] rust: error: Rename to_kernel_errno() ->
+ to_errno()
+Content-Language: en-US
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Sven Van Asbroeck <thesven73@gmail.com>, Fox Chen <foxhlchen@gmail.com>,
+ Andreas Hindborg <a.hindborg@samsung.com>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+References: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
+ <20230224-rust-error-v2-1-3900319812da@asahilina.net>
+ <0849f870-2d95-8c3a-c7dc-2b18dcee4c65@gmail.com>
+ <CANiq72ko9tY4dsK9Srte2oYQp8G=PMyLDTOR33-yNTVXmfyzeA@mail.gmail.com>
+From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+In-Reply-To: <CANiq72ko9tY4dsK9Srte2oYQp8G=PMyLDTOR33-yNTVXmfyzeA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 28, 2023 at 8:14=E2=80=AFAM Hector Martin <marcan@marcan.st> wr=
-ote:
->
-> Once upon a time, Apple machines had some mailbox hardware, and we had
-> to write a driver for it. And since it was a mailbox, it felt natural to
-> use the Linux mailbox subsystem.
->
-> More than a year later, it has become evident that was not the right
-> decision.
->
-> Linux driver class subsystems generally exist for a few purposes:
-> 1. To allow mixing and matching generic producers and consumers.
-> 2. To implement common code that is likely to be shared across drivers,
->    and do so correctly so correct code only has to be written once.
-> 3. To force drivers into a "correct" design, such that driver authors
->    avoid common pitfalls.
->
-The Mailbox subsystem is meant to serve (2) and possibly (3).
-We never aimed for (1), we can't... because the firmware on the remote
-end is also a part of "local hardware" -- keeping every bit of
-hardware the same, if just the f/w changes you may have to change the
-linux side driver.
+On 3/29/23 12:04, Miguel Ojeda wrote:
+> On Wed, Mar 29, 2023 at 4:47 PM Martin Rodriguez Reboredo
+> <yakoyoku@gmail.com> wrote:
+>>
+>> Reviewed-by: Martin Rodriguez Reboredo
+> 
+> These (in the different patches) are supposed to have
+> <yakoyoku@gmail.com> email when I take them, right? (no need to resend
+> them)
+> 
+> Cheers,
+> Miguel
 
+Ah, yes, they were supposed to have my email with it. I wasn't that
+livened up when I sent them.
 
-> The mailbox subsystem does not do any of the above for us:
-> 1. Mailbox hardware is not generic; "mailbox" is a vague idea, not a
->    standard for communication.
->
-There _can not_ be a standard mailbox implementation without a
-specification -- which doesn't exist.
-
->  Almost all mailbox consumers are tied to
->    one or a few producers. There is practically no mixing and matching
->    possible. We have one (1) consumer subsystem (RTKit) talking to one
->    (1) mailbox driver (apple-mailbox). We might have a second consumer
->    in the future (SEP), but there will still be no useful
->    combinatronics with other drivers.
->
-Sorry I don't follow what you expect.
-
-> 2. The mailbox subsystem implements a bunch of common code for queuing,
->    but we don't need that because our hardware has hardware queues. It
->    also implements a bunch of common code for supporting multiple
->    channels, but we don't need that because our hardware only has one
->    channel (it has "endpoints" but those are just tags that are part of
->    the message).
->
-In note-1, you complain it is not standard/flexible enough, and here
-its support for features, that you don't need, become a problem?
-
-
-> On top of this, the mailbox subsystem makes design
->    decisions unsuitable for our use case. Its queuing implementation
->    has a fixed queue size and fails sends when full instead of pushing
->    back by blocking, which is completely unsuitable for high-traffic
->    mailboxes with hard reliability requirements, such as ours. We've
->    also run into multiple issues around using mailbox in an atomic
->    context (required for SMC reboot/shutdown requests).
->
-I don't think you ever shared the issues you were struggling with.
-Not to mean there can be no limitation but I knew a platform that ran
-a virtual block-device and custom filesystem over the mailbox, and it
-was good for a camera product that needs high bandwidth image
-transfer.
-
-
-> 3. Mailbox doesn't really do much for us as far as driver design.
->    If anything, it has been forcing us to add extra workarounds for the
->    impedance mismatches between the subsystem core and the hardware.
->    Other drivers already are inconsistent in how they use the mailbox
->    core, because the documentation is unclear on various details.
->
-Again, would have helped to know the issues and details you feel missing.
-
-
-> This series offers:
->
-> - A modest reduction in overall code size (-27 net lines excluding #1).
-> - Fixes a pile of bugs related to using the mailbox subsystem and its
->   quirks and limitations (race conditions when messages are already in
->   the queue on startup, atomic issues, the list goes on).
-> - Adds runtime-PM support.
-> - Adds support for the FIFOs in the mailbox hardware, improving
->   performance.
-> - Simplifies code by removing extraneous memory allocations (the
->   mailbox subsystem requires consumers to pass pointers to messages,
->   instead of inlining them, even though messages are usually only one or
->   two registers in size) and the requisite cleanup/freeing in the
->   completion path.
->
-> In addition, it paves the way for future Apple-specific mailbox
-> optimizations, such as adding the ability to de-duplicate message sends
-> if the same message is already known to be in the FIFO (which can be
-> done by keeping a rolling history of recently sent messages). This is
-> useful for doorbell-style messages, which are redundant to send more
-> than once if not yet processed.
->
-> Apple Silicon platforms use these mailboxes pervasively, including as
-> part of the GPU submission hot path. On top of that, bad interactions
-> with firmware coprocessors can cause immediate lockups or crashes with
-> no recovery possible but a reboot. Our requirements for reliability and
-> performance are probably much higher than the average mailbox user, and
-> we'd much rather not have a bunch of common code getting in the way of
-> performance profiling and future optimization. It doesn't make much
-> sense for the mailbox subsystem either, since solving these issues would
-> require major refactoring that is unlikely to provide significant
-> benefit to most other users.
->
-> So let's just call usage of the mailbox subsystem a failed experiment,
-> and move the driver into soc/apple, where we can control the API and can
-> add whatever peculiarities we need for our mailboxes. Farewell, mailbox.
->
-> There are no changes to the DT bindings. This driver has been shipping
-> in Asahi stable kernel packages for a week, with no regressions
-> reported by any users.
->
-> As an additional non-kernel-related benefit, this introduces a direct
-> module dependency between consumers and the mailbox producer. This, in
-> turn, is in the critical path for the NVMe driver on these platforms.
-> Prior to this series, we had to have custom initramfs hooks to add
-> apple-mailbox to distro initramfses, and accidentally removing these
-> hooks would result in a completely unbootable system (there is no way
-> for standard initramfs machinery to detect soft consumer/producer
-> relationships like this, they usually just go looking for block device
-> modules and their direct dependencies). We still need the initramfs
-> hooks for other things, but with this change, completely removing all
-> Apple-related initramfs hooks will at least result in a *bootable*
-> system so you can fix the problem. This has already bit several users,
-> and it also means many more distros have a chance of working out of the
-> box (enough to let you install extra stuff) on these platforms, instead
-> of having a hard requirement that *every single distro* fix up their
-> initramfs generation in order to even boot/install on these platforms at
-> all.
->
-> Jassi: Ideally I'd like to get an ack on this and merge it all through
-> asahi-soc, so we don't have to play things patch-by-patch across
-> multiple merge cycles to avoid potentially broken intermediate states.
->
-Instead of every platform implementing their own message queuing and
-handling mechanism and parsing producer-comsumer links from the DT,
-there is a reusable code in drivers/mailbox.   Which does seem
-inadequate if one comes looking for a "standard/generic" mailbox
-implementation (again, which can not exist).
-
-And there is a reason the reduction in code with this patchset is
-meager -- you anyway have to implement your platform specific stuff.
-But if redoing mailbox overall saves you complexity, I am ok with it.
-
-cheers.
+Thanks
+-> Martin
