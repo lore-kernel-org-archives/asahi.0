@@ -1,149 +1,220 @@
-Received: from out-3.mta1.migadu.com (out-3.mta1.migadu.com [95.215.58.3])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8A4A94D
-	for <asahi@lists.linux.dev>; Tue, 28 Mar 2023 16:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846EC10E3;
+	Wed, 29 Mar 2023 05:43:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1680068623; x=1711604623;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C1fML/7RisxPvrLe5CofxF3dlUzqz7mxCBghMI/fiik=;
+  b=ggocGvsnBNcDss+YPVT1dkocpdh9Z/21wia1N7yTc0hR4XoHVuoc81Q4
+   knxC36pgXnSzlZIbOQuLYfR3phiz5rey9Z+altk1uwhOA8vuX8ToOhCP2
+   ox/txTrU0VNSuCuTT36ZVJMwmAcyrRMNQSDOIiUFrBDMSBw2deQn7Wmrp
+   ZuDnOLya3Q2wweHaXfKN/ALj8K+VX704M5wE9Zvner85EIao8UYYx3nws
+   lUSMAdQAn/J4IcT6Xwp4FM2Ktxcwf7lKJV9n6sc4SBo/17WVNeGhOm5WW
+   qPDczmF84yT7+CT14/Ji6nsY0hZzoYiL+KNF3EVexNIxyRxBjnD2AH3Ks
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="340806861"
+X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
+   d="scan'208";a="340806861"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2023 22:43:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10663"; a="808073478"
+X-IronPort-AV: E=Sophos;i="5.98,299,1673942400"; 
+   d="scan'208";a="808073478"
+Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 28 Mar 2023 22:43:39 -0700
+Received: from kbuild by b613635ddfff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1phOaw-000JGq-2F;
+	Wed, 29 Mar 2023 05:43:38 +0000
+Date: Wed, 29 Mar 2023 13:42:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Jassi Brar <jassisinghbrar@gmail.com>, Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH 5/5] soc: apple: mailbox: Rename config symbol to
+ APPLE_MAILBOX
+Message-ID: <202303291348.nYR9dkeW-lkp@intel.com>
+References: <20230328-soc-mailbox-v1-5-3953814532fd@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1680019986;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u8ARlzbTl5QqSbajziRCI8Zk38P8YAgbzoAWx4qoaCY=;
-	b=zjeGv2B/164RL1wKpUtQEzqBejTvSN3GFtp9J3zdACwe9gXcNw8emp2c1ESj9+QIMElMgI
-	VFGOp5hLiRmXwUbFFZ1cxlxIL1kSAHtVRD5VMzyD00qUDoD9ETrh9mNvKNNagZVKN4OqYr
-	un+ks7TOLlmZQ2Fzllt+/ZtABwncUbMcPV4fQOZB7+dEDRIUR84Zwd7lSj1LfcfjaoEJqd
-	7U5iciAOIpLQ+vzmA4FYvbHHEttWin7T19WzFbBCl3o1FMmlBpxmMhJqmn1YgNmq7ZtrE1
-	/8cBpunpPXFrs/b+xlVz/hBsDB2qn/Nv3rHdD/2AEuTe/yZDz7CzWdm+M05tmQ==
-Date: Tue, 28 Mar 2023 16:13:05 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: alyssa@rosenzweig.io
-Message-ID: <550d7f7b3cc176784d6bd5a636e7b3d9@rosenzweig.io>
-Subject: Re: [PATCH 0/5] mailbox: apple: Move driver into soc/apple and
- stop using the subsystem
-To: "Hector Martin" <marcan@marcan.st>, "Sven Peter" <sven@svenpeter.dev>,
- "Jassi Brar" <jassisinghbrar@gmail.com>, "Janne Grunau" <j@jannau.net>
-Cc: linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st>
-References: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230328-soc-mailbox-v1-5-3953814532fd@marcan.st>
 
-This resolves the firmware crashes related to queue overflow that I hit. =
-Thank you for fixing this, Hector!=0A=0ASeries is=0A=0A    Acked-by: Alys=
-sa Rosenzweig <alyssa@rosenzweig.io>=0A=0A[I'd give a stronger tag but I'=
-m way out of my depths here for review. ++ on the ideas though.]=0A=0AMar=
-ch 28, 2023 9:14 AM, "Hector Martin" <marcan@marcan.st> wrote:=0A=0A> Onc=
-e upon a time, Apple machines had some mailbox hardware, and we had=0A> t=
-o write a driver for it. And since it was a mailbox, it felt natural to=
-=0A> use the Linux mailbox subsystem.=0A> =0A> More than a year later, it=
- has become evident that was not the right=0A> decision.=0A> =0A> Linux d=
-river class subsystems generally exist for a few purposes:=0A> 1. To allo=
-w mixing and matching generic producers and consumers.=0A> 2. To implemen=
-t common code that is likely to be shared across drivers,=0A> and do so c=
-orrectly so correct code only has to be written once.=0A> 3. To force dri=
-vers into a "correct" design, such that driver authors=0A> avoid common p=
-itfalls.=0A> =0A> The mailbox subsystem does not do any of the above for =
-us:=0A> 1. Mailbox hardware is not generic; "mailbox" is a vague idea, no=
-t a=0A> standard for communication. Almost all mailbox consumers are tied=
- to=0A> one or a few producers. There is practically no mixing and matchi=
-ng=0A> possible. We have one (1) consumer subsystem (RTKit) talking to on=
-e=0A> (1) mailbox driver (apple-mailbox). We might have a second consumer=
-=0A> in the future (SEP), but there will still be no useful=0A> combinatr=
-onics with other drivers.=0A> 2. The mailbox subsystem implements a bunch=
- of common code for queuing,=0A> but we don't need that because our hardw=
-are has hardware queues. It=0A> also implements a bunch of common code fo=
-r supporting multiple=0A> channels, but we don't need that because our ha=
-rdware only has one=0A> channel (it has "endpoints" but those are just ta=
-gs that are part of=0A> the message). On top of this, the mailbox subsyst=
-em makes design=0A> decisions unsuitable for our use case. Its queuing im=
-plementation=0A> has a fixed queue size and fails sends when full instead=
- of pushing=0A> back by blocking, which is completely unsuitable for high=
--traffic=0A> mailboxes with hard reliability requirements, such as ours. =
-We've=0A> also run into multiple issues around using mailbox in an atomic=
-=0A> context (required for SMC reboot/shutdown requests).=0A> 3. Mailbox =
-doesn't really do much for us as far as driver design.=0A> If anything, i=
-t has been forcing us to add extra workarounds for the=0A> impedance mism=
-atches between the subsystem core and the hardware.=0A> Other drivers alr=
-eady are inconsistent in how they use the mailbox=0A> core, because the d=
-ocumentation is unclear on various details.=0A> =0A> The interface for ma=
-ilboxes is very simple - basically just a send() and=0A> a receive callba=
-ck. This series quite literally just rips out the=0A> middleman, and conn=
-ects both sides together directly. There just isn't=0A> anything useful t=
-he mailbox common code is doing for us - it's just a=0A> pile of complexi=
-ty in the middle that adds bugs, impedance mismatches,=0A> overhead, and =
-offers no extra features we can use.=0A> =0A> This series offers:=0A> =0A=
-> - A modest reduction in overall code size (-27 net lines excluding #1).=
-=0A> - Fixes a pile of bugs related to using the mailbox subsystem and it=
-s=0A> quirks and limitations (race conditions when messages are already i=
-n=0A> the queue on startup, atomic issues, the list goes on).=0A> - Adds =
-runtime-PM support.=0A> - Adds support for the FIFOs in the mailbox hardw=
-are, improving=0A> performance.=0A> - Simplifies code by removing extrane=
-ous memory allocations (the=0A> mailbox subsystem requires consumers to p=
-ass pointers to messages,=0A> instead of inlining them, even though messa=
-ges are usually only one or=0A> two registers in size) and the requisite =
-cleanup/freeing in the=0A> completion path.=0A> =0A> In addition, it pave=
-s the way for future Apple-specific mailbox=0A> optimizations, such as ad=
-ding the ability to de-duplicate message sends=0A> if the same message is=
- already known to be in the FIFO (which can be=0A> done by keeping a roll=
-ing history of recently sent messages). This is=0A> useful for doorbell-s=
-tyle messages, which are redundant to send more=0A> than once if not yet =
-processed.=0A> =0A> Apple Silicon platforms use these mailboxes pervasive=
-ly, including as=0A> part of the GPU submission hot path. On top of that,=
- bad interactions=0A> with firmware coprocessors can cause immediate lock=
-ups or crashes with=0A> no recovery possible but a reboot. Our requiremen=
-ts for reliability and=0A> performance are probably much higher than the =
-average mailbox user, and=0A> we'd much rather not have a bunch of common=
- code getting in the way of=0A> performance profiling and future optimiza=
-tion. It doesn't make much=0A> sense for the mailbox subsystem either, si=
-nce solving these issues would=0A> require major refactoring that is unli=
-kely to provide significant=0A> benefit to most other users.=0A> =0A> So =
-let's just call usage of the mailbox subsystem a failed experiment,=0A> a=
-nd move the driver into soc/apple, where we can control the API and can=
-=0A> add whatever peculiarities we need for our mailboxes. Farewell, mail=
-box.=0A> =0A> There are no changes to the DT bindings. This driver has be=
-en shipping=0A> in Asahi stable kernel packages for a week, with no regre=
-ssions=0A> reported by any users.=0A> =0A> As an additional non-kernel-re=
-lated benefit, this introduces a direct=0A> module dependency between con=
-sumers and the mailbox producer. This, in=0A> turn, is in the critical pa=
-th for the NVMe driver on these platforms.=0A> Prior to this series, we h=
-ad to have custom initramfs hooks to add=0A> apple-mailbox to distro init=
-ramfses, and accidentally removing these=0A> hooks would result in a comp=
-letely unbootable system (there is no way=0A> for standard initramfs mach=
-inery to detect soft consumer/producer=0A> relationships like this, they =
-usually just go looking for block device=0A> modules and their direct dep=
-endencies). We still need the initramfs=0A> hooks for other things, but w=
-ith this change, completely removing all=0A> Apple-related initramfs hook=
-s will at least result in a *bootable*=0A> system so you can fix the prob=
-lem. This has already bit several users,=0A> and it also means many more =
-distros have a chance of working out of the=0A> box (enough to let you in=
-stall extra stuff) on these platforms, instead=0A> of having a hard requi=
-rement that *every single distro* fix up their=0A> initramfs generation i=
-n order to even boot/install on these platforms at=0A> all.=0A> =0A> Jass=
-i: Ideally I'd like to get an ack on this and merge it all through=0A> as=
-ahi-soc, so we don't have to play things patch-by-patch across=0A> multip=
-le merge cycles to avoid potentially broken intermediate states.=0A> =0A>=
- Signed-off-by: Hector Martin <marcan@marcan.st>=0A> ---=0A> Hector Marti=
-n (5):=0A> soc: apple: rtkit: Get rid of apple_rtkit_send_message_wait=0A=
-> soc: apple: mailbox: Add ASC/M3 mailbox driver=0A> soc: apple: rtkit: P=
-ort to the internal mailbox driver=0A> mailbox: apple: Delete driver=0A> =
-soc: apple: mailbox: Rename config symbol to APPLE_MAILBOX=0A> =0A> MAINT=
-AINERS | 2 -=0A> drivers/mailbox/Kconfig | 12 -=0A> drivers/mailbox/Makef=
-ile | 2 -=0A> drivers/mailbox/apple-mailbox.c | 441 ---------------------=
-----------------=0A> drivers/soc/apple/Kconfig | 15 +-=0A> drivers/soc/ap=
-ple/Makefile | 3 +=0A> drivers/soc/apple/mailbox.c | 434 ++++++++++++++++=
-++++++++++++++++++++=0A> drivers/soc/apple/mailbox.h | 48 ++++=0A> driver=
-s/soc/apple/rtkit-internal.h | 8 +-=0A> drivers/soc/apple/rtkit.c | 133 +=
-++--------=0A> include/linux/apple-mailbox.h | 19 --=0A> include/linux/so=
-c/apple/rtkit.h | 18 --=0A> 12 files changed, 529 insertions(+), 606 dele=
-tions(-)=0A> ---=0A> base-commit: bdfe6de2695c5bccc663a5a7d530f81925d8bc1=
-0=0A> change-id: 20230328-soc-mailbox-3cb6bb2b0b2d=0A> =0A> Best regards,=
-=0A> -- =0A> Hector Martin <marcan@marcan.st>
+Hi Hector,
+
+I love your patch! Yet something to improve:
+
+[auto build test ERROR on bdfe6de2695c5bccc663a5a7d530f81925d8bc10]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hector-Martin/soc-apple-rtkit-Get-rid-of-apple_rtkit_send_message_wait/20230328-211648
+base:   bdfe6de2695c5bccc663a5a7d530f81925d8bc10
+patch link:    https://lore.kernel.org/r/20230328-soc-mailbox-v1-5-3953814532fd%40marcan.st
+patch subject: [PATCH 5/5] soc: apple: mailbox: Rename config symbol to APPLE_MAILBOX
+config: ia64-allmodconfig (https://download.01.org/0day-ci/archive/20230329/202303291348.nYR9dkeW-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d0addf95095d935cdd5940101fbf1b1594b08158
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hector-Martin/soc-apple-rtkit-Get-rid-of-apple_rtkit_send_message_wait/20230328-211648
+        git checkout d0addf95095d935cdd5940101fbf1b1594b08158
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/soc/apple/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202303291348.nYR9dkeW-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_send':
+>> drivers/soc/apple/mailbox.c:151:24: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     151 |         writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+         |                        ^~~~~~~~~~
+   drivers/soc/apple/mailbox.c: In function 'apple_mbox_poll_locked':
+>> drivers/soc/apple/mailbox.c:188:28: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     188 |                 msg.msg1 = FIELD_GET(
+         |                            ^~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_PREP +151 drivers/soc/apple/mailbox.c
+
+8b654b5034baba0 Hector Martin 2023-03-28   95  
+8b654b5034baba0 Hector Martin 2023-03-28   96  int apple_mbox_send(struct apple_mbox *mbox, const struct apple_mbox_msg msg,
+8b654b5034baba0 Hector Martin 2023-03-28   97  		    bool atomic)
+8b654b5034baba0 Hector Martin 2023-03-28   98  {
+8b654b5034baba0 Hector Martin 2023-03-28   99  	unsigned long flags;
+8b654b5034baba0 Hector Martin 2023-03-28  100  	int ret;
+8b654b5034baba0 Hector Martin 2023-03-28  101  	u32 mbox_ctrl;
+8b654b5034baba0 Hector Martin 2023-03-28  102  	long t;
+8b654b5034baba0 Hector Martin 2023-03-28  103  
+8b654b5034baba0 Hector Martin 2023-03-28  104  	spin_lock_irqsave(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  105  	mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+8b654b5034baba0 Hector Martin 2023-03-28  106  
+8b654b5034baba0 Hector Martin 2023-03-28  107  	while (mbox_ctrl & mbox->hw->control_full) {
+8b654b5034baba0 Hector Martin 2023-03-28  108  		if (atomic) {
+8b654b5034baba0 Hector Martin 2023-03-28  109  			ret = readl_poll_timeout_atomic(
+8b654b5034baba0 Hector Martin 2023-03-28  110  				mbox->regs + mbox->hw->a2i_control, mbox_ctrl,
+8b654b5034baba0 Hector Martin 2023-03-28  111  				!(mbox_ctrl & mbox->hw->control_full), 100,
+8b654b5034baba0 Hector Martin 2023-03-28  112  				APPLE_MBOX_TX_TIMEOUT * 1000);
+8b654b5034baba0 Hector Martin 2023-03-28  113  
+8b654b5034baba0 Hector Martin 2023-03-28  114  			if (ret) {
+8b654b5034baba0 Hector Martin 2023-03-28  115  				spin_unlock_irqrestore(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  116  				return ret;
+8b654b5034baba0 Hector Martin 2023-03-28  117  			}
+8b654b5034baba0 Hector Martin 2023-03-28  118  
+8b654b5034baba0 Hector Martin 2023-03-28  119  			break;
+8b654b5034baba0 Hector Martin 2023-03-28  120  		}
+8b654b5034baba0 Hector Martin 2023-03-28  121  		/*
+8b654b5034baba0 Hector Martin 2023-03-28  122  		 * The interrupt is level triggered and will keep firing as long as the
+8b654b5034baba0 Hector Martin 2023-03-28  123  		 * FIFO is empty. It will also keep firing if the FIFO was empty
+8b654b5034baba0 Hector Martin 2023-03-28  124  		 * at any point in the past until it has been acknowledged at the
+8b654b5034baba0 Hector Martin 2023-03-28  125  		 * mailbox level. By acknowledging it here we can ensure that we will
+8b654b5034baba0 Hector Martin 2023-03-28  126  		 * only get the interrupt once the FIFO has been cleared again.
+8b654b5034baba0 Hector Martin 2023-03-28  127  		 * If the FIFO is already empty before the ack it will fire again
+8b654b5034baba0 Hector Martin 2023-03-28  128  		 * immediately after the ack.
+8b654b5034baba0 Hector Martin 2023-03-28  129  		 */
+8b654b5034baba0 Hector Martin 2023-03-28  130  		if (mbox->hw->has_irq_controls) {
+8b654b5034baba0 Hector Martin 2023-03-28  131  			writel_relaxed(mbox->hw->irq_bit_send_empty,
+8b654b5034baba0 Hector Martin 2023-03-28  132  				       mbox->regs + mbox->hw->irq_ack);
+8b654b5034baba0 Hector Martin 2023-03-28  133  		}
+8b654b5034baba0 Hector Martin 2023-03-28  134  		enable_irq(mbox->irq_send_empty);
+8b654b5034baba0 Hector Martin 2023-03-28  135  		reinit_completion(&mbox->tx_empty);
+8b654b5034baba0 Hector Martin 2023-03-28  136  		spin_unlock_irqrestore(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  137  
+8b654b5034baba0 Hector Martin 2023-03-28  138  		t = wait_for_completion_interruptible_timeout(
+8b654b5034baba0 Hector Martin 2023-03-28  139  			&mbox->tx_empty,
+8b654b5034baba0 Hector Martin 2023-03-28  140  			msecs_to_jiffies(APPLE_MBOX_TX_TIMEOUT));
+8b654b5034baba0 Hector Martin 2023-03-28  141  		if (t < 0)
+8b654b5034baba0 Hector Martin 2023-03-28  142  			return t;
+8b654b5034baba0 Hector Martin 2023-03-28  143  		else if (t == 0)
+8b654b5034baba0 Hector Martin 2023-03-28  144  			return -ETIMEDOUT;
+8b654b5034baba0 Hector Martin 2023-03-28  145  
+8b654b5034baba0 Hector Martin 2023-03-28  146  		spin_lock_irqsave(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  147  		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->a2i_control);
+8b654b5034baba0 Hector Martin 2023-03-28  148  	}
+8b654b5034baba0 Hector Martin 2023-03-28  149  
+8b654b5034baba0 Hector Martin 2023-03-28  150  	writeq_relaxed(msg.msg0, mbox->regs + mbox->hw->a2i_send0);
+8b654b5034baba0 Hector Martin 2023-03-28 @151  	writeq_relaxed(FIELD_PREP(APPLE_MBOX_MSG1_MSG, msg.msg1),
+8b654b5034baba0 Hector Martin 2023-03-28  152  		       mbox->regs + mbox->hw->a2i_send1);
+8b654b5034baba0 Hector Martin 2023-03-28  153  
+8b654b5034baba0 Hector Martin 2023-03-28  154  	spin_unlock_irqrestore(&mbox->tx_lock, flags);
+8b654b5034baba0 Hector Martin 2023-03-28  155  
+8b654b5034baba0 Hector Martin 2023-03-28  156  	return 0;
+8b654b5034baba0 Hector Martin 2023-03-28  157  }
+8b654b5034baba0 Hector Martin 2023-03-28  158  EXPORT_SYMBOL(apple_mbox_send);
+8b654b5034baba0 Hector Martin 2023-03-28  159  
+8b654b5034baba0 Hector Martin 2023-03-28  160  static irqreturn_t apple_mbox_send_empty_irq(int irq, void *data)
+8b654b5034baba0 Hector Martin 2023-03-28  161  {
+8b654b5034baba0 Hector Martin 2023-03-28  162  	struct apple_mbox *mbox = data;
+8b654b5034baba0 Hector Martin 2023-03-28  163  
+8b654b5034baba0 Hector Martin 2023-03-28  164  	/*
+8b654b5034baba0 Hector Martin 2023-03-28  165  	 * We don't need to acknowledge the interrupt at the mailbox level
+8b654b5034baba0 Hector Martin 2023-03-28  166  	 * here even if supported by the hardware. It will keep firing but that
+8b654b5034baba0 Hector Martin 2023-03-28  167  	 * doesn't matter since it's disabled at the main interrupt controller.
+8b654b5034baba0 Hector Martin 2023-03-28  168  	 * apple_mbox_send will acknowledge it before enabling
+8b654b5034baba0 Hector Martin 2023-03-28  169  	 * it at the main controller again.
+8b654b5034baba0 Hector Martin 2023-03-28  170  	 */
+8b654b5034baba0 Hector Martin 2023-03-28  171  	spin_lock(&mbox->tx_lock);
+8b654b5034baba0 Hector Martin 2023-03-28  172  	disable_irq_nosync(mbox->irq_send_empty);
+8b654b5034baba0 Hector Martin 2023-03-28  173  	complete(&mbox->tx_empty);
+8b654b5034baba0 Hector Martin 2023-03-28  174  	spin_unlock(&mbox->tx_lock);
+8b654b5034baba0 Hector Martin 2023-03-28  175  
+8b654b5034baba0 Hector Martin 2023-03-28  176  	return IRQ_HANDLED;
+8b654b5034baba0 Hector Martin 2023-03-28  177  }
+8b654b5034baba0 Hector Martin 2023-03-28  178  
+8b654b5034baba0 Hector Martin 2023-03-28  179  static int apple_mbox_poll_locked(struct apple_mbox *mbox)
+8b654b5034baba0 Hector Martin 2023-03-28  180  {
+8b654b5034baba0 Hector Martin 2023-03-28  181  	struct apple_mbox_msg msg;
+8b654b5034baba0 Hector Martin 2023-03-28  182  	int ret = 0;
+8b654b5034baba0 Hector Martin 2023-03-28  183  
+8b654b5034baba0 Hector Martin 2023-03-28  184  	u32 mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+8b654b5034baba0 Hector Martin 2023-03-28  185  
+8b654b5034baba0 Hector Martin 2023-03-28  186  	while (!(mbox_ctrl & mbox->hw->control_empty)) {
+8b654b5034baba0 Hector Martin 2023-03-28  187  		msg.msg0 = readq_relaxed(mbox->regs + mbox->hw->i2a_recv0);
+8b654b5034baba0 Hector Martin 2023-03-28 @188  		msg.msg1 = FIELD_GET(
+8b654b5034baba0 Hector Martin 2023-03-28  189  			APPLE_MBOX_MSG1_MSG,
+8b654b5034baba0 Hector Martin 2023-03-28  190  			readq_relaxed(mbox->regs + mbox->hw->i2a_recv1));
+8b654b5034baba0 Hector Martin 2023-03-28  191  
+8b654b5034baba0 Hector Martin 2023-03-28  192  		mbox->rx(mbox, msg, mbox->cookie);
+8b654b5034baba0 Hector Martin 2023-03-28  193  		ret++;
+8b654b5034baba0 Hector Martin 2023-03-28  194  		mbox_ctrl = readl_relaxed(mbox->regs + mbox->hw->i2a_control);
+8b654b5034baba0 Hector Martin 2023-03-28  195  	}
+8b654b5034baba0 Hector Martin 2023-03-28  196  
+8b654b5034baba0 Hector Martin 2023-03-28  197  	/*
+8b654b5034baba0 Hector Martin 2023-03-28  198  	 * The interrupt will keep firing even if there are no more messages
+8b654b5034baba0 Hector Martin 2023-03-28  199  	 * unless we also acknowledge it at the mailbox level here.
+8b654b5034baba0 Hector Martin 2023-03-28  200  	 * There's no race if a message comes in between the check in the while
+8b654b5034baba0 Hector Martin 2023-03-28  201  	 * loop above and the ack below: If a new messages arrives inbetween
+8b654b5034baba0 Hector Martin 2023-03-28  202  	 * those two the interrupt will just fire again immediately after the
+8b654b5034baba0 Hector Martin 2023-03-28  203  	 * ack since it's level triggered.
+8b654b5034baba0 Hector Martin 2023-03-28  204  	 */
+8b654b5034baba0 Hector Martin 2023-03-28  205  	if (mbox->hw->has_irq_controls) {
+8b654b5034baba0 Hector Martin 2023-03-28  206  		writel_relaxed(mbox->hw->irq_bit_recv_not_empty,
+8b654b5034baba0 Hector Martin 2023-03-28  207  			       mbox->regs + mbox->hw->irq_ack);
+8b654b5034baba0 Hector Martin 2023-03-28  208  	}
+8b654b5034baba0 Hector Martin 2023-03-28  209  
+8b654b5034baba0 Hector Martin 2023-03-28  210  	return ret;
+8b654b5034baba0 Hector Martin 2023-03-28  211  }
+8b654b5034baba0 Hector Martin 2023-03-28  212  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
