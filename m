@@ -1,160 +1,206 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270B32F30
-	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 15:28:46 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-17aaa51a911so16587614fac.5
-        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 08:28:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E742F30
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 16:04:51 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id er13so24406066edb.9
+        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 09:04:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680103725;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I/0qYcjpAAKRuBZ39NrE5H4YmMIUNZBowPVzOCdw31g=;
-        b=J0rnh8tOyV6nyKFSNlBg9zhfe5I0kCzHK+GFOHljGYDX8gjKeqf9oqxhlxvkRTwKhp
-         DWjsCE1cwAtxRlM6tnp8MHJJIa6/lb3qcaUPHjHyPVh0YPse8KfH6Kc3sNYz8cJ8aFui
-         +5h8QHvRnm5nl45scpyNuThRzNJ/FS1Uv7BGnzbkRG9XmwSUYcByJj0+OthIIy7Oxahm
-         Xnvll1t8ItqcyRgZInPh8LYZIkvONTn4f125W4c+MtxQM6I/67bLz2XVBkh7Ayw21Ct1
-         3rdaRT8R/wNQRsMu3utuLHd9/GntbCyBp8q/L40pO8ppxswtJYwv2ieBG1NMpmxk8Obv
-         DjNQ==
+        d=gmail.com; s=20210112; t=1680105889;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nB7oKbT3cEdZv982N1zBkd0Ryl/IpZ2NkMoXbgDn468=;
+        b=jxMA6QM9la8UP4NqAnSEAXBd+bAl2GXvlYv5NFdKYrKlh+kGEwWtlUpuQWVAl3uyWd
+         3PqQx+TZ/aiOQmO/z+LZKF5BwE2kcbBbznmL9Yw+P690izJ45nhpv3cOyxpSHB6Wz0Pz
+         ls5gi2P9/bYG3SfjL2LQ8arhCq5h8CocCIqT4pfnW9eaMNyG0/UES1Er6JQTd/aMoXMB
+         fZFCTDzx/4NglskDdcFWUl5om7f195XfWtvwQWLS3oL9FvVzVc+h8t/hO2dI83Rs94ZL
+         rUFIF4JbvUAco68oEsHEN1qXKmxno5kNX3KyI6BBGT+zbNCibIq3buiaNCsh7/d6Q4X4
+         GmZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680103725;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I/0qYcjpAAKRuBZ39NrE5H4YmMIUNZBowPVzOCdw31g=;
-        b=GPQ2MqQ/2vhHTYyGztnXScYBgWLiXNTcbt1WVIiupZeVDo0UWBF86D9CFqKgt8kl4z
-         RBttSDwPgelHhll4VQE0Sdqkc2x1e9S3m0MaJzQZkz5YNIGQEBjTGg+YCfyNHJiSy1Te
-         lPb9fHkxFnMtzPuS8GOYvOcM5Xwhj185/GqJXJQL1xF1uogV9AXK+4+BfJiDJlS8OsBv
-         iRx9Nm3QIGMQShBie1GEdF83vF/HFcJ5Tfidwp9c/Oz196x59f4L+I8ep2EO/JhoYR61
-         QWnJSxsJ21Bvl5bC8JMOA+IqYyLVOgLJ64oWJyqoly91E37rc2VR+gFoNVsy7Qr4jeme
-         3H5A==
-X-Gm-Message-State: AO0yUKWuS2tJsFMiv+x655AAl2MP8nCdOEDJsVuHzzO8zJfeofuhjU0h
-	Uwa5+kDPv1g8zpPXw5OjCxs=
-X-Google-Smtp-Source: AKy350aQWL881y11040LysOhsXi8xeHNH+bEKwS3hawo3395Fo0RPQK9fEmJb1Q1WOdZF/gD4iiDoA==
-X-Received: by 2002:a05:6870:910c:b0:176:3849:4e96 with SMTP id o12-20020a056870910c00b0017638494e96mr13343721oae.13.1680103725182;
-        Wed, 29 Mar 2023 08:28:45 -0700 (PDT)
-Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id p16-20020a9d76d0000000b0068bd922a244sm14328829otl.20.2023.03.29.08.28.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Mar 2023 08:28:44 -0700 (PDT)
-Message-ID: <859172d0-062b-82ba-4df6-e10851b69b31@gmail.com>
-Date: Wed, 29 Mar 2023 12:28:41 -0300
+        d=1e100.net; s=20210112; t=1680105889;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nB7oKbT3cEdZv982N1zBkd0Ryl/IpZ2NkMoXbgDn468=;
+        b=6r4LCeXWZ1H5m7+/OGL2bAJi/rQt5/1LTE26ufveBdwj+CzczeBnhfcTqcMCCPM5uT
+         wt3/UPOMPkXInX/bE2Sv01K62rUIv5H7TbjEWzg21Vfnkb/AZ+ZWmxNIf5jKJ6brcyBj
+         1ESN/e/9NiHTE6lEy3G3iBrPxdSDqOiDWNqp37P8CO+eRxYM3eG1RmlE/sYv1jt3OM9J
+         0ZoNgqSInRqxhP/EikEmZ3TlkACItLQIKZzhVqvDFOc1u/6OsYWhYvflZsGipom6rnn2
+         pbtoWVFSeC9JGCBMB9JHdngLUUJ+0mYon8B+NhqU/tLE8f5PVw0KNyNxtxo8/jAIgcUk
+         RzRQ==
+X-Gm-Message-State: AAQBX9fcHLixKz9ntrFXFiUm1CzsS//sFk+93SDUK1DTUZmysVPfmFab
+	4/tpjs1W3os4sRnkSsEASUjISV2O+veRc2KB5nc=
+X-Google-Smtp-Source: AKy350bERxif8R3/uq/8EtdDLtAHn6Xnhc/4ON9Mo1pql2b9GTT5tWBy0miS8RMnafwNn3Tr9VnUepwup+Iz6uiyzp4=
+X-Received: by 2002:a50:9fef:0:b0:4fc:2096:b15c with SMTP id
+ c102-20020a509fef000000b004fc2096b15cmr10258255edf.1.1680105889227; Wed, 29
+ Mar 2023 09:04:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 2/2] rust: ioctl: Move to the uapi crate
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230329-rust-uapi-v1-0-ee78f2933726@asahilina.net>
- <20230329-rust-uapi-v1-2-ee78f2933726@asahilina.net>
-From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230329-rust-uapi-v1-2-ee78f2933726@asahilina.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st>
+In-Reply-To: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st>
+From: Jassi Brar <jassisinghbrar@gmail.com>
+Date: Wed, 29 Mar 2023 11:04:37 -0500
+Message-ID: <CABb+yY2=B2p5JhZiBE_mZLe3y16EUgVsUHK62LnRgaKa1-ptLg@mail.gmail.com>
+Subject: Re: [PATCH 0/5] mailbox: apple: Move driver into soc/apple and stop
+ using the subsystem
+To: Hector Martin <marcan@marcan.st>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Janne Grunau <j@jannau.net>, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/29/23 08:40, Asahi Lina wrote:
-> Now that we have the uapi crate, this abstraction can use that instead
-> of bindings.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
->  rust/kernel/ioctl.rs | 32 ++++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
-> 
-> diff --git a/rust/kernel/ioctl.rs b/rust/kernel/ioctl.rs
-> index b2076113b6a8..007437959395 100644
-> --- a/rust/kernel/ioctl.rs
-> +++ b/rust/kernel/ioctl.rs
-> @@ -10,40 +10,40 @@ use crate::build_assert;
->  /// Build an ioctl number, analogous to the C macro of the same name.
->  #[inline(always)]
->  const fn _IOC(dir: u32, ty: u32, nr: u32, size: usize) -> u32 {
-> -    build_assert!(dir <= bindings::_IOC_DIRMASK);
-> -    build_assert!(ty <= bindings::_IOC_TYPEMASK);
-> -    build_assert!(nr <= bindings::_IOC_NRMASK);
-> -    build_assert!(size <= (bindings::_IOC_SIZEMASK as usize));
-> +    build_assert!(dir <= uapi::_IOC_DIRMASK);
-> +    build_assert!(ty <= uapi::_IOC_TYPEMASK);
-> +    build_assert!(nr <= uapi::_IOC_NRMASK);
-> +    build_assert!(size <= (uapi::_IOC_SIZEMASK as usize));
->  
-> -    (dir << bindings::_IOC_DIRSHIFT)
-> -        | (ty << bindings::_IOC_TYPESHIFT)
-> -        | (nr << bindings::_IOC_NRSHIFT)
-> -        | ((size as u32) << bindings::_IOC_SIZESHIFT)
-> +    (dir << uapi::_IOC_DIRSHIFT)
-> +        | (ty << uapi::_IOC_TYPESHIFT)
-> +        | (nr << uapi::_IOC_NRSHIFT)
-> +        | ((size as u32) << uapi::_IOC_SIZESHIFT)
->  }
->  
->  /// Build an ioctl number for an argumentless ioctl.
->  #[inline(always)]
->  pub const fn _IO(ty: u32, nr: u32) -> u32 {
-> -    _IOC(bindings::_IOC_NONE, ty, nr, 0)
-> +    _IOC(uapi::_IOC_NONE, ty, nr, 0)
->  }
->  
->  /// Build an ioctl number for an read-only ioctl.
->  #[inline(always)]
->  pub const fn _IOR<T>(ty: u32, nr: u32) -> u32 {
-> -    _IOC(bindings::_IOC_READ, ty, nr, core::mem::size_of::<T>())
-> +    _IOC(uapi::_IOC_READ, ty, nr, core::mem::size_of::<T>())
->  }
->  
->  /// Build an ioctl number for an write-only ioctl.
->  #[inline(always)]
->  pub const fn _IOW<T>(ty: u32, nr: u32) -> u32 {
-> -    _IOC(bindings::_IOC_WRITE, ty, nr, core::mem::size_of::<T>())
-> +    _IOC(uapi::_IOC_WRITE, ty, nr, core::mem::size_of::<T>())
->  }
->  
->  /// Build an ioctl number for a read-write ioctl.
->  #[inline(always)]
->  pub const fn _IOWR<T>(ty: u32, nr: u32) -> u32 {
->      _IOC(
-> -        bindings::_IOC_READ | bindings::_IOC_WRITE,
-> +        uapi::_IOC_READ | uapi::_IOC_WRITE,
->          ty,
->          nr,
->          core::mem::size_of::<T>(),
-> @@ -52,20 +52,20 @@ pub const fn _IOWR<T>(ty: u32, nr: u32) -> u32 {
->  
->  /// Get the ioctl direction from an ioctl number.
->  pub const fn _IOC_DIR(nr: u32) -> u32 {
-> -    (nr >> bindings::_IOC_DIRSHIFT) & bindings::_IOC_DIRMASK
-> +    (nr >> uapi::_IOC_DIRSHIFT) & uapi::_IOC_DIRMASK
->  }
->  
->  /// Get the ioctl type from an ioctl number.
->  pub const fn _IOC_TYPE(nr: u32) -> u32 {
-> -    (nr >> bindings::_IOC_TYPESHIFT) & bindings::_IOC_TYPEMASK
-> +    (nr >> uapi::_IOC_TYPESHIFT) & uapi::_IOC_TYPEMASK
->  }
->  
->  /// Get the ioctl number from an ioctl number.
->  pub const fn _IOC_NR(nr: u32) -> u32 {
-> -    (nr >> bindings::_IOC_NRSHIFT) & bindings::_IOC_NRMASK
-> +    (nr >> uapi::_IOC_NRSHIFT) & uapi::_IOC_NRMASK
->  }
->  
->  /// Get the ioctl size from an ioctl number.
->  pub const fn _IOC_SIZE(nr: u32) -> usize {
-> -    ((nr >> bindings::_IOC_SIZESHIFT) & bindings::_IOC_SIZEMASK) as usize
-> +    ((nr >> uapi::_IOC_SIZESHIFT) & uapi::_IOC_SIZEMASK) as usize
->  }
-> 
+On Tue, Mar 28, 2023 at 8:14=E2=80=AFAM Hector Martin <marcan@marcan.st> wr=
+ote:
+>
+> Once upon a time, Apple machines had some mailbox hardware, and we had
+> to write a driver for it. And since it was a mailbox, it felt natural to
+> use the Linux mailbox subsystem.
+>
+> More than a year later, it has become evident that was not the right
+> decision.
+>
+> Linux driver class subsystems generally exist for a few purposes:
+> 1. To allow mixing and matching generic producers and consumers.
+> 2. To implement common code that is likely to be shared across drivers,
+>    and do so correctly so correct code only has to be written once.
+> 3. To force drivers into a "correct" design, such that driver authors
+>    avoid common pitfalls.
+>
+The Mailbox subsystem is meant to serve (2) and possibly (3).
+We never aimed for (1), we can't... because the firmware on the remote
+end is also a part of "local hardware" -- keeping every bit of
+hardware the same, if just the f/w changes you may have to change the
+linux side driver.
 
-Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+
+> The mailbox subsystem does not do any of the above for us:
+> 1. Mailbox hardware is not generic; "mailbox" is a vague idea, not a
+>    standard for communication.
+>
+There _can not_ be a standard mailbox implementation without a
+specification -- which doesn't exist.
+
+>  Almost all mailbox consumers are tied to
+>    one or a few producers. There is practically no mixing and matching
+>    possible. We have one (1) consumer subsystem (RTKit) talking to one
+>    (1) mailbox driver (apple-mailbox). We might have a second consumer
+>    in the future (SEP), but there will still be no useful
+>    combinatronics with other drivers.
+>
+Sorry I don't follow what you expect.
+
+> 2. The mailbox subsystem implements a bunch of common code for queuing,
+>    but we don't need that because our hardware has hardware queues. It
+>    also implements a bunch of common code for supporting multiple
+>    channels, but we don't need that because our hardware only has one
+>    channel (it has "endpoints" but those are just tags that are part of
+>    the message).
+>
+In note-1, you complain it is not standard/flexible enough, and here
+its support for features, that you don't need, become a problem?
+
+
+> On top of this, the mailbox subsystem makes design
+>    decisions unsuitable for our use case. Its queuing implementation
+>    has a fixed queue size and fails sends when full instead of pushing
+>    back by blocking, which is completely unsuitable for high-traffic
+>    mailboxes with hard reliability requirements, such as ours. We've
+>    also run into multiple issues around using mailbox in an atomic
+>    context (required for SMC reboot/shutdown requests).
+>
+I don't think you ever shared the issues you were struggling with.
+Not to mean there can be no limitation but I knew a platform that ran
+a virtual block-device and custom filesystem over the mailbox, and it
+was good for a camera product that needs high bandwidth image
+transfer.
+
+
+> 3. Mailbox doesn't really do much for us as far as driver design.
+>    If anything, it has been forcing us to add extra workarounds for the
+>    impedance mismatches between the subsystem core and the hardware.
+>    Other drivers already are inconsistent in how they use the mailbox
+>    core, because the documentation is unclear on various details.
+>
+Again, would have helped to know the issues and details you feel missing.
+
+
+> This series offers:
+>
+> - A modest reduction in overall code size (-27 net lines excluding #1).
+> - Fixes a pile of bugs related to using the mailbox subsystem and its
+>   quirks and limitations (race conditions when messages are already in
+>   the queue on startup, atomic issues, the list goes on).
+> - Adds runtime-PM support.
+> - Adds support for the FIFOs in the mailbox hardware, improving
+>   performance.
+> - Simplifies code by removing extraneous memory allocations (the
+>   mailbox subsystem requires consumers to pass pointers to messages,
+>   instead of inlining them, even though messages are usually only one or
+>   two registers in size) and the requisite cleanup/freeing in the
+>   completion path.
+>
+> In addition, it paves the way for future Apple-specific mailbox
+> optimizations, such as adding the ability to de-duplicate message sends
+> if the same message is already known to be in the FIFO (which can be
+> done by keeping a rolling history of recently sent messages). This is
+> useful for doorbell-style messages, which are redundant to send more
+> than once if not yet processed.
+>
+> Apple Silicon platforms use these mailboxes pervasively, including as
+> part of the GPU submission hot path. On top of that, bad interactions
+> with firmware coprocessors can cause immediate lockups or crashes with
+> no recovery possible but a reboot. Our requirements for reliability and
+> performance are probably much higher than the average mailbox user, and
+> we'd much rather not have a bunch of common code getting in the way of
+> performance profiling and future optimization. It doesn't make much
+> sense for the mailbox subsystem either, since solving these issues would
+> require major refactoring that is unlikely to provide significant
+> benefit to most other users.
+>
+> So let's just call usage of the mailbox subsystem a failed experiment,
+> and move the driver into soc/apple, where we can control the API and can
+> add whatever peculiarities we need for our mailboxes. Farewell, mailbox.
+>
+> There are no changes to the DT bindings. This driver has been shipping
+> in Asahi stable kernel packages for a week, with no regressions
+> reported by any users.
+>
+> As an additional non-kernel-related benefit, this introduces a direct
+> module dependency between consumers and the mailbox producer. This, in
+> turn, is in the critical path for the NVMe driver on these platforms.
+> Prior to this series, we had to have custom initramfs hooks to add
+> apple-mailbox to distro initramfses, and accidentally removing these
+> hooks would result in a completely unbootable system (there is no way
+> for standard initramfs machinery to detect soft consumer/producer
+> relationships like this, they usually just go looking for block device
+> modules and their direct dependencies). We still need the initramfs
+> hooks for other things, but with this change, completely removing all
+> Apple-related initramfs hooks will at least result in a *bootable*
+> system so you can fix the problem. This has already bit several users,
+> and it also means many more distros have a chance of working out of the
+> box (enough to let you install extra stuff) on these platforms, instead
+> of having a hard requirement that *every single distro* fix up their
+> initramfs generation in order to even boot/install on these platforms at
+> all.
+>
+> Jassi: Ideally I'd like to get an ack on this and merge it all through
+> asahi-soc, so we don't have to play things patch-by-patch across
+> multiple merge cycles to avoid potentially broken intermediate states.
+>
+Instead of every platform implementing their own message queuing and
+handling mechanism and parsing producer-comsumer links from the DT,
+there is a reusable code in drivers/mailbox.   Which does seem
+inadequate if one comes looking for a "standard/generic" mailbox
+implementation (again, which can not exist).
+
+And there is a reason the reduction in code with this patchset is
+meager -- you anyway have to implement your platform specific stuff.
+But if redoing mailbox overall saves you complexity, I am ok with it.
+
+cheers.
