@@ -1,72 +1,216 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAC92F30
-	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 15:05:02 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id r187so19700817ybr.6
-        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 08:05:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081492F30
+	for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 15:22:00 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id 61-20020a9d02c3000000b0069fe8de3139so8398786otl.1
+        for <asahi@lists.linux.dev>; Wed, 29 Mar 2023 08:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680102301;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IbthZAg2EI6S7hVKN4zQsrXR4eiiYbr1ymfLGy5VzFk=;
-        b=O5b3QarlhM2wVotMDKJUIS9Ke9T+0xCUt+Firm4XuSeUk+ujnTGb8urU0KFo8uZmBM
-         i2AJTxnng7A+PGuSX8Ie/c1+e13XP/7vwk6ggHZh4iWh6Zxo5r/m+eo06fvF1ihMfHf9
-         eSiz6oVNMU8aboEpamh6FZ1vip17ca6B5bDUUlKuINTJ7HL9+JGDT5Ws9SQ1LA57zyLI
-         RvK7NxzJ1fR2gca5un2xJYkhBUmesWtP+RMuJW9R21aVXOhV4olFh6KMyyW01NiYvjNF
-         kc6DiySPtYSASr44CsUvHPhW6pqdc3BYm64nW9fHf+OxZ2seO6ZBclngdyL2pf2nkQP4
-         MdRw==
+        d=gmail.com; s=20210112; t=1680103320;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6iilm+JqipfIQ47s9BYxmX6VNLXMk9cec4gpmAXoeJo=;
+        b=NMua3BbWCnxs2JMZct3X4hWla8xmo45OeMMMFqZj/IsfYxsaUhMok9FUPMYYTsaFKH
+         GhjNfEXDAJQa/WgipoYgerxwIAFofh/RgjIcOtwv6RbgnRjXKC9usXiE0KHvlzHcUtbe
+         4k6DTVNbdyqWotQCoRSaI7LirnPLfxs/J9cVaTR4hIF2FztfQ5gb9dZSRB6Wyyexc0pE
+         8sPKCs3h5KeyFYfdO+hpY60cT9EuLiR31lxFVIeBJ8zkokzkNNCIu0zVaoJsYAFNdcAr
+         WNObttuKupqdnO3jqYJ4N671buF2hmDdusCQZonP4sa/1ySHahZLqhg4qTj2VhrFB+/i
+         QxhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680102301;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IbthZAg2EI6S7hVKN4zQsrXR4eiiYbr1ymfLGy5VzFk=;
-        b=By5llZ+UTWNFdXb3Hq3SJzWwdabPMMtqR0BgbylVZh/JTW9Ua6bqdZUuUZawYj0W4m
-         vX715qRlGW6N0HSKFdPPK680+gfOkl//kfrORdocgQvUOfyOJdTzjfc2RKq6TYjG76fJ
-         pxn5LL6PK58ASYLsAwKoRodKW9QLHoER26W86EQ2pRKUf0zKXaTlrYX6BYNTNXHyVrq7
-         NwAfLYy8RyT0c1zxVVH/EHVtOD+yZu6Lwrit5B3uA+RTIs3dOc5u1N/L5Wxz72FpB1Kp
-         eFuQoEB7EOPoPmw+TbI93P7cbEb8GNIMShi90+8DAyf90uOcTY47ktPVjH3/bmMsL7/r
-         zpjw==
-X-Gm-Message-State: AAQBX9c3HiKPhVqwZZy2VJPkb2XEe8Mv7phY1sPZ/eBXzf3XrRv3k/aC
-	hkZ9yAOQPp9ZXwVwugQS+3a9kVPX8MYzwrY2UUo=
-X-Google-Smtp-Source: AKy350bX9861FLdgC2783Ji32zVywDnx4KhoXmIAZH6o1cbNCCb8RVfB1pT+qcgCDnwsz6YsabM/NughBZ3ZsnXR2kU=
-X-Received: by 2002:a05:6902:1004:b0:b75:968e:f282 with SMTP id
- w4-20020a056902100400b00b75968ef282mr12771867ybt.11.1680102301286; Wed, 29
- Mar 2023 08:05:01 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680103320;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6iilm+JqipfIQ47s9BYxmX6VNLXMk9cec4gpmAXoeJo=;
+        b=15pCej3f+kosoRPlD5GHATNJ6mErp+yPcWsGuhzxCEnxiigX/Mv1gxY+xLMymEXEbf
+         cED5t0pLOuHxvFM5pr2k0Wrerx+ScQ2Q3KnJct4o8CNx6siyupk+5H55RG7EU3xC7fRj
+         FYqOxSOmbcJiXzP2HWZRTCmvjh2xT+H35MyFUxFn2MFTUbRj/ZVkMPXMZF8BQb1ZXJBW
+         cVM3VmVW3G+waFAra7clXyf1PsDeW0WRAU1k0xfUmtwCvGbRNL8sCf6Hjtwx3zwEZVm0
+         THsNJYE+cH6DfoGKcY58OmiAvbXTcu0xS5OQtwxb3C4xfrK3Pwv8l9iiDWrEGg2MorUU
+         3FAA==
+X-Gm-Message-State: AAQBX9dx8miHhBlJ8eee9awEqr/QpI1eZAoH8M7OWZ0fV6+CD8pFC7vt
+	I7/Acu1EnOuDEuRAF5t4rKk=
+X-Google-Smtp-Source: AKy350Zk2WM/EXY8rAROoYtM+7neoCd8zUWUKV6/zmpLvM0rOiiAgGbfVfQu0lajJwYRBbolBXCl+g==
+X-Received: by 2002:a9d:480f:0:b0:6a1:3101:8e29 with SMTP id c15-20020a9d480f000000b006a131018e29mr5768189otf.18.1680103320108;
+        Wed, 29 Mar 2023 08:22:00 -0700 (PDT)
+Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
+        by smtp.gmail.com with ESMTPSA id v1-20020a05683018c100b006a13dd5c8a2sm3567305ote.5.2023.03.29.08.21.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Mar 2023 08:21:59 -0700 (PDT)
+Message-ID: <061e3d9a-394c-88dd-2de8-84fb207afeab@gmail.com>
+Date: Wed, 29 Mar 2023 12:21:56 -0300
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230224-rust-error-v2-0-3900319812da@asahilina.net>
- <20230224-rust-error-v2-1-3900319812da@asahilina.net> <0849f870-2d95-8c3a-c7dc-2b18dcee4c65@gmail.com>
-In-Reply-To: <0849f870-2d95-8c3a-c7dc-2b18dcee4c65@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 29 Mar 2023 17:04:50 +0200
-Message-ID: <CANiq72ko9tY4dsK9Srte2oYQp8G=PMyLDTOR33-yNTVXmfyzeA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] rust: error: Rename to_kernel_errno() -> to_errno()
-To: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-Cc: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Sven Van Asbroeck <thesven73@gmail.com>, Fox Chen <foxhlchen@gmail.com>, 
-	Andreas Hindborg <a.hindborg@samsung.com>, rust-for-linux@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/2] rust: uapi: Add UAPI crate
+Content-Language: en-US
+To: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20230329-rust-uapi-v1-0-ee78f2933726@asahilina.net>
+ <20230329-rust-uapi-v1-1-ee78f2933726@asahilina.net>
+From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+In-Reply-To: <20230329-rust-uapi-v1-1-ee78f2933726@asahilina.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 29, 2023 at 4:47=E2=80=AFPM Martin Rodriguez Reboredo
-<yakoyoku@gmail.com> wrote:
->
-> Reviewed-by: Martin Rodriguez Reboredo
+On 3/29/23 08:40, Asahi Lina wrote:
+> This crate mirrors the `bindings` crate, but will contain only UAPI
+> bindings. Unlike the bindings crate, drivers may directly use this crate
+> if they have to interface with userspace.
+> 
+> Initially, just bind the generic ioctl stuff.
+> 
+> In the future, we would also like to add additional checks to ensure
+> that all types exposed by this crate satisfy UAPI-safety guarantees
+> (that is, they are safely castable to/from a "bag of bits").
+> 
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> ---
+>  rust/.gitignore         |  1 +
+>  rust/Makefile           | 18 ++++++++++++++++--
+>  rust/kernel/lib.rs      |  1 +
+>  rust/uapi/lib.rs        | 27 +++++++++++++++++++++++++++
+>  rust/uapi/uapi_helper.h |  9 +++++++++
+>  5 files changed, 54 insertions(+), 2 deletions(-)
+> 
+> diff --git a/rust/.gitignore b/rust/.gitignore
+> index 168cb26a31b9..21552992b401 100644
+> --- a/rust/.gitignore
+> +++ b/rust/.gitignore
+> @@ -2,6 +2,7 @@
+>  
+>  bindings_generated.rs
+>  bindings_helpers_generated.rs
+> +uapi_generated.rs
+>  exports_*_generated.h
+>  doc/
+>  test/
+> diff --git a/rust/Makefile b/rust/Makefile
+> index f88d108fbef0..59a327f0fa1a 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -16,6 +16,9 @@ obj-$(CONFIG_RUST) += alloc.o bindings.o kernel.o
+>  always-$(CONFIG_RUST) += exports_alloc_generated.h exports_bindings_generated.h \
+>      exports_kernel_generated.h
+>  
+> +always-$(CONFIG_RUST) += uapi/uapi_generated.rs
+> +obj-$(CONFIG_RUST) += uapi.o
+> +
+>  ifdef CONFIG_RUST_BUILD_ASSERT_ALLOW
+>  obj-$(CONFIG_RUST) += build_error.o
+>  else
+> @@ -288,6 +291,12 @@ $(obj)/bindings/bindings_generated.rs: $(src)/bindings/bindings_helper.h \
+>      $(src)/bindgen_parameters FORCE
+>  	$(call if_changed_dep,bindgen)
+>  
+> +$(obj)/uapi/uapi_generated.rs: private bindgen_target_flags = \
+> +    $(shell grep -v '^\#\|^$$' $(srctree)/$(src)/bindgen_parameters)
 
-These (in the different patches) are supposed to have
-<yakoyoku@gmail.com> email when I take them, right? (no need to resend
-them)
+This emits a warning with grep about a numeral unnecessarily escaped as
+seen in a patch sent by Vicenzo Palazzo [1].
 
-Cheers,
-Miguel
+```
+grep: warning: stray \ before #
+```
+
+> +$(obj)/uapi/uapi_generated.rs: $(src)/uapi/uapi_helper.h \
+> +    $(src)/bindgen_parameters FORCE
+> +	$(call if_changed_dep,bindgen)
+> +
+>  # See `CFLAGS_REMOVE_helpers.o` above. In addition, Clang on C does not warn
+>  # with `-Wmissing-declarations` (unlike GCC), so it is not strictly needed here
+>  # given it is `libclang`; but for consistency, future Clang changes and/or
+> @@ -388,10 +397,15 @@ $(obj)/bindings.o: $(src)/bindings/lib.rs \
+>      $(obj)/bindings/bindings_helpers_generated.rs FORCE
+>  	$(call if_changed_dep,rustc_library)
+>  
+> +$(obj)/uapi.o: $(src)/uapi/lib.rs \
+> +    $(obj)/compiler_builtins.o \
+> +    $(obj)/uapi/uapi_generated.rs FORCE
+> +	$(call if_changed_dep,rustc_library)
+> +
+>  $(obj)/kernel.o: private rustc_target_flags = --extern alloc \
+> -    --extern build_error --extern macros --extern bindings
+> +    --extern build_error --extern macros --extern bindings --extern uapi
+>  $(obj)/kernel.o: $(src)/kernel/lib.rs $(obj)/alloc.o $(obj)/build_error.o \
+> -    $(obj)/libmacros.so $(obj)/bindings.o FORCE
+> +    $(obj)/libmacros.so $(obj)/bindings.o $(obj)/uapi.o FORCE
+>  	$(call if_changed_dep,rustc_library)
+>  
+>  endif # CONFIG_RUST
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index 7610b18ee642..63f796781b7c 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -43,6 +43,7 @@ pub mod types;
+>  #[doc(hidden)]
+>  pub use bindings;
+>  pub use macros;
+> +pub use uapi;
+>  
+>  #[doc(hidden)]
+>  pub use build_error::build_error;
+> diff --git a/rust/uapi/lib.rs b/rust/uapi/lib.rs
+> new file mode 100644
+> index 000000000000..29f69f3a52de
+> --- /dev/null
+> +++ b/rust/uapi/lib.rs
+> @@ -0,0 +1,27 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! UAPI Bindings.
+> +//!
+> +//! Contains the bindings generated by `bindgen` for UAPI interfaces.
+> +//!
+> +//! This crate may be used directly by drivers that need to interact with
+> +//! userspace APIs.
+> +
+> +#![no_std]
+> +#![feature(core_ffi_c)]
+> +// See <https://github.com/rust-lang/rust-bindgen/issues/1651>.
+> +#![cfg_attr(test, allow(deref_nullptr))]
+> +#![cfg_attr(test, allow(unaligned_references))]
+> +#![cfg_attr(test, allow(unsafe_op_in_unsafe_fn))]
+> +#![allow(
+> +    clippy::all,
+> +    missing_docs,
+> +    non_camel_case_types,
+> +    non_upper_case_globals,
+> +    non_snake_case,
+> +    improper_ctypes,
+> +    unreachable_pub,
+> +    unsafe_op_in_unsafe_fn
+> +)]
+> +
+> +include!(concat!(env!("OBJTREE"), "/rust/uapi/uapi_generated.rs"));
+> diff --git a/rust/uapi/uapi_helper.h b/rust/uapi/uapi_helper.h
+> new file mode 100644
+> index 000000000000..301f5207f023
+> --- /dev/null
+> +++ b/rust/uapi/uapi_helper.h
+> @@ -0,0 +1,9 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Header that contains the headers for which Rust UAPI bindings
+> + * will be automatically generated by `bindgen`.
+> + *
+> + * Sorted alphabetically.
+> + */
+> +
+> +#include <uapi/asm-generic/ioctl.h>
+> 
+
+Link: https://lore.kernel.org/rust-for-linux/20230302132107.210502-1-vincenzopalazzodev@gmail.com/ [1]
+
+Reviewed-by: Martin Rodriguez Reboredo
