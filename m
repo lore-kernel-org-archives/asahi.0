@@ -1,73 +1,120 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 254C01FB1;
-	Fri, 31 Mar 2023 08:02:48 +0000 (UTC)
-Received: from 8bytes.org (p200300c27714bc0086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:7714:bc00:86ad:4f9d:2505:dd0d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 9A614244F13;
-	Fri, 31 Mar 2023 10:02:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1680249762;
-	bh=HhNt/vf0jJLpApM2a8CXLarqNpXt1SlWBho4pzL7iyM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=56hwbbzU761AwpD69MbRihRBiQQoeH3NTg9qiGBW/D1DgCtMhCKCMziSN01J6Fl23
-	 9b/Y/GwSZua/dgn1MSocXyeo1/UcKyQXn5j4RP9Qm0j+OfOxsoozYaKimJUZkIEcQM
-	 +itRz2SSFAKa6ogBGBHGgoFjSu4bU72jbWccFF5ripuFT7iy4Uqc0fuHd7DqXPSy7x
-	 JIa4qAuvo2+TkcWE118aA8aflUW5dL2BYZfy0qNo0AnLAjjKB4WgnUHxiGtcL5dSMz
-	 472kWknwpAKwJ/JTnvJkTfJwXlLOb6oPujqeJ5F4cWmgmHb655GjNVqk/rPJOliKgD
-	 ZRe0kVywMiYIA==
-Date: Fri, 31 Mar 2023 10:02:40 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Will Deacon <will@kernel.org>, Lu Baolu <baolu.lu@linux.intel.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Sai Prakash Ranjan <quic_saipraka@quicinc.com>,
-	Jon Nettleton <jon@solid-run.com>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Yicong Yang <yangyicong@hisilicon.com>,
-	Nicolin Chen <nicolinc@nvidia.com>, Rob Clark <robdclark@gmail.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-	kernel@pengutronix.de, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 00/10] iommu: Convert to platform remove callback
- returning void
-Message-ID: <ZCaToJfq6CSsgpB+@8bytes.org>
-References: <20230321084125.337021-1-u.kleine-koenig@pengutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915B7258B
+	for <asahi@lists.linux.dev>; Fri, 31 Mar 2023 12:37:33 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-544f7c176easo412069967b3.9
+        for <asahi@lists.linux.dev>; Fri, 31 Mar 2023 05:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1680266252;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E6lKdgk6THqQzNp4VvxVKewKaHaWOnEhQknxk2acjn0=;
+        b=ZMrC7RQQSpVfgy/SHMpfC+E2QpLMDaY5/yaDkSHUKYAESGTlYtEL7g/qRUeknQy91P
+         zUvgfNL0L6h3FNfh9c8D2HFAFVYOCP9WG625XToYyxYEiXALrCS5KsLDkaIeSbXlXde1
+         eg6UEhsSIBdX6MmhPhtTRLpJ9X4gdd+QI1NZNQSGtPnmNcH0Md5Wv/wDx/8mZJzSNT7K
+         vAZIJkR9VzoIqc5aO0g4o0xB+IpDOheOKDhB6ttu5EMPirHAV26dyaOz/pB9Dw1cQhWl
+         Nw5HjfOlvF3F0OheAjfDdZPbDekSVJ+CefyXJevdAGQrjbRZSi8YsUnd1+evdQw6Mb3h
+         4YIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680266252;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E6lKdgk6THqQzNp4VvxVKewKaHaWOnEhQknxk2acjn0=;
+        b=o4KjSYQY3kUslxHcOe1XYkXEdZlm5g2oKDaWXzSMcP/MzyJnDg5CmmF3fPzs4l7jAz
+         H2fC1cJjMNvKTD9k2fZqxOlnqk1CU3xF91xOSe86O8J8yWsLVLedNcqtpKVbWZTS79u8
+         Ud+hTZlKQL+Wrv+ilPb1cc0uXzDEof026Qjqc/+Md6UN8hbIa3B3RZPo3VttVHoaAgUg
+         W3r9XlDblAKpoBfod8O/6K+Aw8HhhIRHG7uNmu0GuPO84XwQBP6n9yAoWSP2HbgctKVQ
+         7fpuA6whKkb0vphR6qNV+DmF1BytKpcrzhYBi78pQlH0eegBAr4PnZQWoJpJI9wmO3jg
+         u72A==
+X-Gm-Message-State: AAQBX9dDJDcwTChn/0G6pWJKa/+q7IKOTEQLCQotyG9rSm8IqJlGx4sw
+	CurgAgsYQDOaydZj9kzmgYU5Q0fBci2ojOGfmZBJKQ==
+X-Google-Smtp-Source: AKy350aQG4pTb9063C5UpGPTZlWu/1jB1S9bOfbEf1bci1cyW8YxugalTaCiIXNAm4RWMBbCrWxYKS+tBxFA+9FzOXI=
+X-Received: by 2002:a81:c84a:0:b0:541:753d:32f9 with SMTP id
+ k10-20020a81c84a000000b00541753d32f9mr13384037ywl.9.1680266252481; Fri, 31
+ Mar 2023 05:37:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230321084125.337021-1-u.kleine-koenig@pengutronix.de>
+References: <20230330200402.2731992-1-robh@kernel.org>
+In-Reply-To: <20230330200402.2731992-1-robh@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 31 Mar 2023 14:37:21 +0200
+Message-ID: <CACRpkdYwM5Kw4XB9S5qoqdK-boiYp2iu=LRZ-B-vJb1k9fNnig@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: pinctrl: Drop unneeded quotes
+To: Rob Herring <robh@kernel.org>
+Cc: =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
+	Damien Le Moal <damien.lemoal@wdc.com>, Charles Keepax <ckeepax@opensource.cirrus.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, Dong Aisheng <aisheng.dong@nxp.com>, 
+	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	NXP Linux Team <linux-imx@nxp.com>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Heiko Stuebner <heiko@sntech.de>, 
+	Tomasz Figa <tomasz.figa@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Emil Renner Berthing <kernel@esmil.dk>, 
+	Jianlong Huang <jianlong.huang@starfivetech.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
+	Wells Lu <wellslutw@gmail.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
+	Michal Simek <michal.simek@xilinx.com>, Cristian Ciocaltea <cristian.ciocaltea@gmail.com>, 
+	Maxime Ripard <mripard@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, 
+	=?UTF-8?Q?Fern=C3=A1ndez_Rojas?= <noltari@gmail.com>, 
+	Jonas Gorski <jonas.gorski@gmail.com>, - <patches@opensource.cirrus.com>, 
+	Patrick Rudolph <patrick.rudolph@9elements.com>, Peng Fan <peng.fan@nxp.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Rahul Tanwar <rahul.tanwar@linux.intel.com>, 
+	Chris Packham <chris.packham@alliedtelesis.co.nz>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Lars Povlsen <lars.povlsen@microchip.com>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
+	Chris Brandt <chris.brandt@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Gareth Williams <gareth.williams.jx@renesas.com>, Phil Edworthy <phil.edworthy@renesas.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Masahiro Yamada <yamada.masahiro@socionext.com>, 
+	Drew Fustini <drew@beagleboard.org>, 
+	Krishna Potthuri <lakshmi.sai.krishna.potthuri@xilinx.com>, 
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-actions@lists.infradead.org, 
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org, 
+	openbmc@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 21, 2023 at 09:41:15AM +0100, Uwe Kleine-König wrote:
-> Uwe Kleine-König (10):
->   iommu/arm-smmu: Drop if with an always false condition
->   iommu/apple-dart: Convert to platform remove callback returning void
->   iommu/arm-smmu-v3: Convert to platform remove callback returning void
->   iommu/arm-smmu: Convert to platform remove callback returning void
->   iommu/ipmmu-vmsa: Convert to platform remove callback returning void
->   iommu/msm: Convert to platform remove callback returning void
->   iommu/mtk: Convert to platform remove callback returning void
->   iommu/mtk_iommu_v1: Convert to platform remove callback returning void
->   iommu/omap: Convert to platform remove callback returning void
->   iommu/sprd: Convert to platform remove callback returning void
+On Thu, Mar 30, 2023 at 10:05=E2=80=AFPM Rob Herring <robh@kernel.org> wrot=
+e:
 
-Applied, thanks.
+> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
+> checking for this can be enabled in yamllint.
+>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Acked-by: Hector Martin <marcan@marcan.st>
+> Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Reviewed-by: Heiko Stuebner <heiko@sntech.de> #rockchip
+> Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> v2:
+>  - Rebase on pinctrl tree
+
+I applied it quickly before something else changes!
+
+Thanks for respinning, and thanks as always for driving these changes.
+
+Yours,
+Linus Walleij
