@@ -1,28 +1,27 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D9E612E
-	for <asahi@lists.linux.dev>; Mon,  3 Apr 2023 14:19:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EBF7CC433AC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04D3569D
+	for <asahi@lists.linux.dev>; Mon,  3 Apr 2023 14:19:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B5CB8C4339C;
 	Mon,  3 Apr 2023 14:19:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680531571;
-	bh=xos0D3fdVMOEBHPjf3QnnSL9IaeLNOEWbSRuMsqb6NY=;
+	s=k20201202; t=1680531570;
+	bh=I2XCbxG9Cbk2qSclumqecDS7C4Bp3/lDRqXhcL+ocBo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=cPreWi25h4D37MPFSspPF5ffsqnkBojuJ5TzxQnHk17vm7sRyLPUIerYtGP+BS7Dx
-	 r5DRnHyjThyLYxwaYT55jmk/dgguYVlsvITMUe6g1xHqQMUF3FUJ4DZs8ccLNCCTSi
-	 uRlm/ujyrhzAz2rjmTjTduiGRUaoSQuikOKUS3LI+8IEzY67QU3xv3G8W9Yo69//O5
-	 br3dX+6di28hbNGqgjYlB8Q+t7z5GiUGhqyM1W4j1GcPbxC5f9BzbKivpCsv7zTfJA
-	 clJJKjogFCNbDl75C+YaWhSBRz3TqPqd9CTjl5qaSXK9Q9dkvOcPlqJW5FofmyR2iZ
-	 70dpLEJJ/ou8g==
+	b=OgdnG2BjHoXDgR8FvFMFVT3PPtnozlBqAuzBkxejQDz6peADWPYvVG+246aqJh6YS
+	 Oo8HHoLB4Nx5jjOCSMDt5+XT9NlNyziIbX7BBkShXpKO80q0xlg6rVTrfvgfudIEYM
+	 LvFTZqCWItqqpkYqNOoAaU2wg4/DFDh7/Mq59xwLocrY0hdIyNAb1BKIVn5m35TdOD
+	 qF4Sr+XQLw8wPVLbamIbNWC+0DciG7qzGOQbEsNocI6jb5AlV7VrvfWGrBiWhmarUo
+	 BLENzNtxT1GyYcGJJKgCGDZpZcBkXRZsz2TMDsc/htcXUSBmO9MSjdGnm0UhOu7aoi
+	 ci1uyLncNrApw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCBF2C76188;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A51EEC761A6;
 	Mon,  3 Apr 2023 14:19:30 +0000 (UTC)
 From:
  Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Mon, 03 Apr 2023 16:19:23 +0200
-Subject: [PATCH RESEND v9 5/5] MAINTAINERS: Add entries for Apple PWM
- driver
+Date: Mon, 03 Apr 2023 16:19:19 +0200
+Subject: [PATCH RESEND v9 1/5] dt-bindings: pwm: Add Apple PWM controller
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -31,7 +30,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230214-fpwm-v9-5-f3094107b16b@gmail.com>
+Message-Id: <20230214-fpwm-v9-1-f3094107b16b@gmail.com>
 References: <20230214-fpwm-v9-0-f3094107b16b@gmail.com>
 In-Reply-To: <20230214-fpwm-v9-0-f3094107b16b@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>, 
@@ -42,13 +41,14 @@ To: Thierry Reding <thierry.reding@gmail.com>,
  Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>
 Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680531567; l=1107;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680531567; l=1757;
  i=fnkl.kernel@gmail.com; s=20230213; h=from:subject:message-id;
- bh=LLne2FY01Cv3xyTc7PhP8exvB0cc4KD6LuWejuJIf7s=;
- b=MR4jjRFtVJL+7RMElEN4l2EhDD5LBOXeL1lW+mDBdzPVj20NpMVkY8UoGEZgo4pCAZz9arb3m
- PvRgRQJ70jjAeY+jXcCaTpL3Hma9PwWktzylk8d/Nc/GwNrBEaFCy0n
+ bh=fzyNZVqrFDfSog+FhRnUURMW1j9jGTz6NT8Jga2kj0o=;
+ b=wDTSDAUYv+YS7AQm51X0oCt+TNnZit097fgSHKyaRA8XFZb1Bigm3JPCyRN/bU2glqWtE1K1x
+ azQ0CiYprBRCOUhptGHBTYOuUaHmO3IRn3VirrYCzdTjaJXRSAFM/K0
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=7LFSAJtxIWAs9LzCIyX0sSvCZy2wQTyEIu1zch6o804=
 X-Endpoint-Received:
@@ -58,34 +58,73 @@ Reply-To: <fnkl.kernel@gmail.com>
 
 From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-Add the MAINTAINERS entries for the driver
+Apple SoCs such as the M1 contain a PWM controller used
+among other things to control the keyboard backlight.
 
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Acked-by: Sven Peter <sven@svenpeter.dev>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    | 51 ++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8d5bc223f305..7c0b7c2bb55f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1955,6 +1955,7 @@ F:	Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
- F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
-+F:	Documentation/devicetree/bindings/pwm/pwm-apple.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
-@@ -1970,6 +1971,7 @@ F:	drivers/mailbox/apple-mailbox.c
- F:	drivers/nvme/host/apple.c
- F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
-+F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
+diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+new file mode 100644
+index 000000000000..142157bff0cd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
+@@ -0,0 +1,51 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Apple FPWM controller
++
++maintainers:
++  - asahi@lists.linux.dev
++  - Sasha Finkelstein <fnkl.kernel@gmail.com>
++
++description: PWM controller used for keyboard backlight on ARM Macs
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - apple,t8103-fpwm
++          - apple,t6000-fpwm
++          - apple,t8112-fpwm
++      - const: apple,s5l-fpwm
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  "#pwm-cells":
++    const: 2
++
++required:
++  - compatible
++  - reg
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    pwm@235044000 {
++      compatible = "apple,t8103-fpwm", "apple,s5l-fpwm";
++      reg = <0x35044000 0x4000>;
++      power-domains = <&ps_fpwm1>;
++      clocks = <&clkref>;
++      #pwm-cells = <2>;
++    };
 
 -- 
 Git-143)
