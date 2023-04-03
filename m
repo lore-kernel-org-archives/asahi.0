@@ -1,29 +1,29 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF0528E7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4C228F4
 	for <asahi@lists.linux.dev>; Mon,  3 Apr 2023 09:34:07 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 49C1642037;
-	Mon,  3 Apr 2023 09:33:55 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 4CFCB423BA;
+	Mon,  3 Apr 2023 09:34:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1680514438;
-	bh=QF2xjWnU+Upz2uOIFUZSXuBfb3X3n6mqz6fHktFg6Y0=;
-	h=From:Subject:Date:To:Cc;
-	b=o5jY98udMPDyja3v8O2S6/AWf2UgvbLViBr5/ajaIdUj9nULu5Km1ruc+rG+tJrqN
-	 j9+V05imSeFYFO2aPw5atEqYJdsZbcttgr6LV9jxh1uxF6mg75tjZzn/6GOPy37GI9
-	 MaXZ3mVyskBwzdWamR4I1j8mZxVHZbqKqh0xNa+aOjjxY1CQYcE4IzgnD/Zp6Vz9kf
-	 uiGllrswYtk3m3DMCom7+lnI01D89/Di1LYetwhkp77vTdXLSx8Q2LaQrpe10wDVcy
-	 IcSzsJ4L7HjlP5dv++rwhBiFacrD0SRTVDfsJ+Dt9eCSH+35Zf/QpeV2trdFgGfj97
-	 Gczju5SOnvxLg==
+	s=default; t=1680514445;
+	bh=SDM5ek/CE6FiKqreYBHfMz3sZGIrU/VxZUpt63EoDg4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=LmOYmscjE3LwgLD9P9o4Ci8hz4+jSYPZvRUlSSUpCYBmsCQCqPNounJCXWtPyd3Dc
+	 XoW9EgpI5XYSLM8a5gJlnfmYOGj2DYah5413Ob113FUniByPvTfA3GacsYCOnGqmV2
+	 E+byz0Y0cL6xq6/M7DHJ5exwj5NmWv1gRXTL4J8x6nnOIQdH9QUJgthWPZ6hNgPjxu
+	 w+Q+uSfS12tTSgMTjtHkZkc3xvSFycNcC+lb+WoIO16mnQKr2rcWf8t5nIf3WhDTgA
+	 zmUwWUoX7ahUQp/sIvR8q3pkFv7G0JAi97dUc0s4Dx9Gh6eB2OMyb8W7VT9A6377OP
+	 WK9v6fwhcVoHg==
 From: Asahi Lina <lina@asahilina.net>
-Subject: [PATCH v2 0/2] rust: Add uapi crate
-Date: Mon, 03 Apr 2023 18:33:51 +0900
-Message-Id: <20230329-rust-uapi-v2-0-bca5fb4d4a12@asahilina.net>
+Date: Mon, 03 Apr 2023 18:33:53 +0900
+Subject: [PATCH v2 2/2] rust: ioctl: Add ioctl number manipulation
+ functions
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -32,10 +32,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAH+dKmQC/22Nyw6CMBBFf8V07RA6RR6u/A/DYoDBTmIKaaHRE
- P7dwtrluY+cTQX2wkHdL5vyHCXI5BLg9aJ6S+7FIENihTma3GADfg0LrDQL1E1RoOaGbgOqtO8
- oMHSeXG+PRywzA77XRzV7HuVzap5tYithmfz3tEZ9pP8EUUMOzFU9YmNMheWDAll5i6PM8aLaf
- d9/WFad5sEAAAA=
+Message-Id: <20230329-rust-uapi-v2-2-bca5fb4d4a12@asahilina.net>
+References: <20230329-rust-uapi-v2-0-bca5fb4d4a12@asahilina.net>
+In-Reply-To: <20230329-rust-uapi-v2-0-bca5fb4d4a12@asahilina.net>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
  Wedson Almeida Filho <wedsonaf@gmail.com>, 
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
@@ -45,61 +44,117 @@ Cc: Martin Rodriguez Reboredo <yakoyoku@gmail.com>,
  linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
  asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680514434; l=2079;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680514434; l=3343;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=QF2xjWnU+Upz2uOIFUZSXuBfb3X3n6mqz6fHktFg6Y0=;
- b=cexXIb2Ua4kAUE1Fqp7maY6ZSva2VPVE2kt7u1P+uTfDgFL4Y3TdGVrlRHs/vcMi2nrhkSnet
- WwkIHk2S416CzTv/1vmbbVeTVq8UpJBhkZhx7nek15DU3izf+PONyw8
+ bh=SDM5ek/CE6FiKqreYBHfMz3sZGIrU/VxZUpt63EoDg4=;
+ b=LHDkVMUjIhnbPwKIIJMWnc8W7YRkmeOb6N304PCQzDppQzdlX/TcgenWDUJDtfPsp/sGbVj48
+ cpNbG13R5njA1zH3eTmFV8FL4Uv0D/p2BKjs2k2w2uQJ+7d9J4S8GOm
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-In general, direct bindgen bindings for C kernel APIs are not intended
-to be used by drivers outside of the `kernel` crate. However, some
-drivers do need to interact directly with UAPI definitions to implement
-userspace APIs.
-
-Instead of making this an exception to the use of the `bindings` crate,
-introduce a new `uapi` crate that will contain only these publicly
-usable definitions. The build logic mirrors the `bindings` crate, but
-there is no helper support since UAPIs are only intended to contain
-constant and type definitions, not function prototypes.
-
-In the future, we would like to extend this to also auto-derive and
-validate certain safety properties for UAPI structure definitions, such
-as that they are safely castable to/from "bag of bits" buffers.
-
-The first patch introduces the `uapi` crate proper and stands on its own,
-while the second patch introduces the `ioctl` module in the kernel crate
-that uses it.
-
-(Miguel: this series should apply stand-alone now)
+Add simple 1:1 wrappers of the C ioctl number manipulation functions.
+Since these are macros we cannot bindgen them directly, and since they
+should be usable in const context we cannot use helper wrappers, so
+we'll have to reimplement them in Rust. Thankfully, the C headers do
+declare defines for the relevant bitfield positions, so we don't need
+to duplicate that.
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
-Changes in v2:
-- Fixed the trailing '\' warning (mirroring the fix from Vicenzo
-  Palazzo)
-- Pulled in the ioctl module patch into this series. Per the discussion
-  in the meeting, this could be moved into the uapi crate in principle,
-  but we can decide to do that later since the whole buildsystem is
-  likely to undergo major changes anyway.
-- Link to v1: https://lore.kernel.org/r/20230329-rust-uapi-v1-0-ee78f2933726@asahilina.net
+ rust/kernel/ioctl.rs | 71 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ rust/kernel/lib.rs   |  1 +
+ 2 files changed, 72 insertions(+)
 
----
-Asahi Lina (2):
-      rust: uapi: Add UAPI crate
-      rust: ioctl: Add ioctl number manipulation functions
- rust/.gitignore         |  1 +
- rust/Makefile           | 18 +++++++++++--
- rust/kernel/ioctl.rs    | 71 +++++++++++++++++++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs      |  2 ++
- rust/uapi/lib.rs        | 27 +++++++++++++++++++
- rust/uapi/uapi_helper.h |  9 +++++++
- 6 files changed, 126 insertions(+), 2 deletions(-)
----
-base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-change-id: 20230329-rust-uapi-894421e9a5d2
+diff --git a/rust/kernel/ioctl.rs b/rust/kernel/ioctl.rs
+new file mode 100644
+index 000000000000..007437959395
+--- /dev/null
++++ b/rust/kernel/ioctl.rs
+@@ -0,0 +1,71 @@
++// SPDX-License-Identifier: GPL-2.0
++#![allow(non_snake_case)]
++
++//! ioctl() number definitions
++//!
++//! C header: [`include/asm-generic/ioctl.h`](../../../../include/asm-generic/ioctl.h)
++
++use crate::build_assert;
++
++/// Build an ioctl number, analogous to the C macro of the same name.
++#[inline(always)]
++const fn _IOC(dir: u32, ty: u32, nr: u32, size: usize) -> u32 {
++    build_assert!(dir <= uapi::_IOC_DIRMASK);
++    build_assert!(ty <= uapi::_IOC_TYPEMASK);
++    build_assert!(nr <= uapi::_IOC_NRMASK);
++    build_assert!(size <= (uapi::_IOC_SIZEMASK as usize));
++
++    (dir << uapi::_IOC_DIRSHIFT)
++        | (ty << uapi::_IOC_TYPESHIFT)
++        | (nr << uapi::_IOC_NRSHIFT)
++        | ((size as u32) << uapi::_IOC_SIZESHIFT)
++}
++
++/// Build an ioctl number for an argumentless ioctl.
++#[inline(always)]
++pub const fn _IO(ty: u32, nr: u32) -> u32 {
++    _IOC(uapi::_IOC_NONE, ty, nr, 0)
++}
++
++/// Build an ioctl number for an read-only ioctl.
++#[inline(always)]
++pub const fn _IOR<T>(ty: u32, nr: u32) -> u32 {
++    _IOC(uapi::_IOC_READ, ty, nr, core::mem::size_of::<T>())
++}
++
++/// Build an ioctl number for an write-only ioctl.
++#[inline(always)]
++pub const fn _IOW<T>(ty: u32, nr: u32) -> u32 {
++    _IOC(uapi::_IOC_WRITE, ty, nr, core::mem::size_of::<T>())
++}
++
++/// Build an ioctl number for a read-write ioctl.
++#[inline(always)]
++pub const fn _IOWR<T>(ty: u32, nr: u32) -> u32 {
++    _IOC(
++        uapi::_IOC_READ | uapi::_IOC_WRITE,
++        ty,
++        nr,
++        core::mem::size_of::<T>(),
++    )
++}
++
++/// Get the ioctl direction from an ioctl number.
++pub const fn _IOC_DIR(nr: u32) -> u32 {
++    (nr >> uapi::_IOC_DIRSHIFT) & uapi::_IOC_DIRMASK
++}
++
++/// Get the ioctl type from an ioctl number.
++pub const fn _IOC_TYPE(nr: u32) -> u32 {
++    (nr >> uapi::_IOC_TYPESHIFT) & uapi::_IOC_TYPEMASK
++}
++
++/// Get the ioctl number from an ioctl number.
++pub const fn _IOC_NR(nr: u32) -> u32 {
++    (nr >> uapi::_IOC_NRSHIFT) & uapi::_IOC_NRMASK
++}
++
++/// Get the ioctl size from an ioctl number.
++pub const fn _IOC_SIZE(nr: u32) -> usize {
++    ((nr >> uapi::_IOC_SIZESHIFT) & uapi::_IOC_SIZEMASK) as usize
++}
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index afec0792d982..63f796781b7c 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -30,6 +30,7 @@ compile_error!("Missing kernel configuration for conditional compilation");
+ mod allocator;
+ mod build_assert;
+ pub mod error;
++pub mod ioctl;
+ pub mod prelude;
+ pub mod print;
+ mod static_assert;
 
-Thank you,
-~~ Lina
+-- 
+2.40.0
 
