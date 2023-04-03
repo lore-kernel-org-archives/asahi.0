@@ -1,131 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from GBR01-CWL-obe.outbound.protection.outlook.com (mail-cwlgbr01on2113.outbound.protection.outlook.com [40.107.11.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04D3569D
-	for <asahi@lists.linux.dev>; Mon,  3 Apr 2023 14:19:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B5CB8C4339C;
-	Mon,  3 Apr 2023 14:19:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1680531570;
-	bh=I2XCbxG9Cbk2qSclumqecDS7C4Bp3/lDRqXhcL+ocBo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=OgdnG2BjHoXDgR8FvFMFVT3PPtnozlBqAuzBkxejQDz6peADWPYvVG+246aqJh6YS
-	 Oo8HHoLB4Nx5jjOCSMDt5+XT9NlNyziIbX7BBkShXpKO80q0xlg6rVTrfvgfudIEYM
-	 LvFTZqCWItqqpkYqNOoAaU2wg4/DFDh7/Mq59xwLocrY0hdIyNAb1BKIVn5m35TdOD
-	 qF4Sr+XQLw8wPVLbamIbNWC+0DciG7qzGOQbEsNocI6jb5AlV7VrvfWGrBiWhmarUo
-	 BLENzNtxT1GyYcGJJKgCGDZpZcBkXRZsz2TMDsc/htcXUSBmO9MSjdGnm0UhOu7aoi
-	 ci1uyLncNrApw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A51EEC761A6;
-	Mon,  3 Apr 2023 14:19:30 +0000 (UTC)
-From:
- Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Mon, 03 Apr 2023 16:19:19 +0200
-Subject: [PATCH RESEND v9 1/5] dt-bindings: pwm: Add Apple PWM controller
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5C56FA1
+	for <asahi@lists.linux.dev>; Mon,  3 Apr 2023 15:26:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L9e1jvad2Pb1kypZEvHfpQ/UOk9Ce6Md3pWqG+sMYoc2jrMUm3+zvrC/Q4qvpGaZ6mg/TQ14zfdnTH6w64WzRAdyZ090VaylUdNqsJH35At2YXNMx6EpKCdjPfXUo+UTeugwhcdVmcSosRDvCVKPnLRbSEUzatpp+OfN5Mn1769O0Gwwiu1Bwd3F28+LjuNo8lDh7ue2cSexFMloeAOOaQ4vu4fNVhcYXCEHoIly70hsC2Y252Y6eVTTQI5SpERFmriXVBbYnTacKn0oRie2yL76/PwSbkXoRwGiUZo4G93jiTAmQdSL32Kk6SU5Bd1fNrJLlAfvbod599bwydXJ1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s6q9hNQ/sDy1kt7vP3YeRs2LfI9ZaQX4oAAYG4ifw8E=;
+ b=k9Wq1JLvO8mTf2T9lqg49GctSykmP52hm8OoWyoP1u/YrSW9ci69kvLS/2coTAGrMHV20MZ3u/gj8q412OOUcqMAknvn1sXP21w4g8c1L1a2bPI/cpekpnNOPWHjWHWdsdXA+5fOHgAuTyUXL4QI2ygz18Ekeo0BnWEbX16MW8K4f3WiNboDpvc+BJPsiksL2DvkqZ5fe6yswqdM0C5V7XRAzu8jacT9FCl1QLaa2RFl4FeuIkue3+ftwuRDIoZu2sNUj+nEhkO11uMXP+uyqWkY6MBJsQyzRyf+xd1MAd4/qN8aOn1xrDPea3mCbc4+Ama9BDhJ5Ao5U59ZLC/+fg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s6q9hNQ/sDy1kt7vP3YeRs2LfI9ZaQX4oAAYG4ifw8E=;
+ b=dCWo/Pr1b+9WhjF1OUCdVGBs7iElwe8QrvmKkPJBk/n0Lj93lkw3FpUg3FV9LQ2R4kY6hFbVjP7ryiLVkBayxrZE2eRPbCgY7a+P6Qxlqy8RRR+GyMcqqJjj697irNaYxV2ExhPKL5f1URwcuS1/8w4JcFrfuTduvpmMtjYlop0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
+ by LO0P265MB6327.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2c8::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6254.33; Mon, 3 Apr
+ 2023 15:26:12 +0000
+Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::e1a3:5e38:b483:8161]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::e1a3:5e38:b483:8161%5]) with mapi id 15.20.6254.033; Mon, 3 Apr 2023
+ 15:26:10 +0000
+Date: Mon, 3 Apr 2023 16:26:09 +0100
+From: Gary Guo <gary@garyguo.net>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, =?UTF-8?B?QmrDtnJu?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Andreas Hindborg <a.hindborg@samsung.com>,
+ Vincenzo Palazzo <vincenzopalazzodev@gmail.com>, Martin Rodriguez Reboredo
+ <yakoyoku@gmail.com>, Benno Lossin <y86-dev@protonmail.com>,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] rust: sync: arc: Add
+ UniqueArc<MaybeUninit<T>::assume_init()
+Message-ID: <20230403162609.286db824.gary@garyguo.net>
+In-Reply-To: <20230224-rust-arc-v2-2-5c97a865b276@asahilina.net>
+References: <20230224-rust-arc-v2-0-5c97a865b276@asahilina.net>
+	<20230224-rust-arc-v2-2-5c97a865b276@asahilina.net>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P265CA0001.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:62::13) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:253::10)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230214-fpwm-v9-1-f3094107b16b@gmail.com>
-References: <20230214-fpwm-v9-0-f3094107b16b@gmail.com>
-In-Reply-To: <20230214-fpwm-v9-0-f3094107b16b@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- - <asahi@lists.linux.dev>, Sasha Finkelstein <fnkl.kernel@gmail.com>, 
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680531567; l=1757;
- i=fnkl.kernel@gmail.com; s=20230213; h=from:subject:message-id;
- bh=fzyNZVqrFDfSog+FhRnUURMW1j9jGTz6NT8Jga2kj0o=;
- b=wDTSDAUYv+YS7AQm51X0oCt+TNnZit097fgSHKyaRA8XFZb1Bigm3JPCyRN/bU2glqWtE1K1x
- azQ0CiYprBRCOUhptGHBTYOuUaHmO3IRn3VirrYCzdTjaJXRSAFM/K0
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=7LFSAJtxIWAs9LzCIyX0sSvCZy2wQTyEIu1zch6o804=
-X-Endpoint-Received:
- by B4 Relay for fnkl.kernel@gmail.com/20230213 with auth_id=28
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: <fnkl.kernel@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|LO0P265MB6327:EE_
+X-MS-Office365-Filtering-Correlation-Id: bfe8589d-d944-48ed-84b5-08db3457c0dd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	4dh9egI2k4N4koHodIwsdxGA7D//HLUicisulDpbUwZxPEPCP6O6mf3aZAV1aLdBQpg9nmXXWO3PXLfmJqW5gefX1bfwnnnVJAzClPBs4zPxJGu8URyykzEBGtd4gTWREW1pkObsFdk9r5xcskmt4SCWpBiYAlmBEmkGrb/MnbOLtPKdl/dpMJTkffllyTYbuQZtWGtQHABizofmikfpe7WdUd/Hk0xGzqjuZtdO1UrOlmUSnXY2tKlvRqfJz9lcKPgDB7TLMrZGqjsMIknrQbtWhLMNMECW4w+FPkNd4Q7Fc/eTN3EhvgXa/kyYU5wsPwAlr3/Kdxn0Ix2ccrr3Xir5Dgb7nkWvzSheSl6t8Q3KffkWUEhn4WpoQJMHj2BlMco0vuNvsv3h0suOQnWldasQIEDV2R+titIe2QeZMSZKLbjhzDS+mSnEy7EXgnbUfeB67TFgegkdHHHLWU8VfEvEH91aQztwq81iYlNZ+z/qiIBuU7uIuXcTD/y39YzHCn2WQ9n4AHbNPaAvZO9feyW4speAjczEi8yeaa8HTewXHtr6/Cjw2l3zcgqHIK0t
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(136003)(366004)(376002)(396003)(39830400003)(346002)(451199021)(8676002)(6916009)(66556008)(66946007)(66476007)(54906003)(316002)(478600001)(4326008)(8936002)(7416002)(41300700001)(5660300002)(38100700002)(6486002)(186003)(83380400001)(2616005)(6506007)(26005)(1076003)(6512007)(86362001)(36756003)(2906002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?E0Z2Ct0SYy0N26ADnYhgxUO+Upkva7SgwXcw4RpuwOWfJ3IBeFU4i5ivupZ0?=
+ =?us-ascii?Q?pP6L2dViuwC3FVeT+b6A/qJlqsoFXv4jCUNWf6GJDYWF4mdk5z4eb0vrXwRV?=
+ =?us-ascii?Q?B6009WeUVN5oXW1vMuFE07d25xQoA0V+5+9A4+ObgPg1jpX/JVIesc6geTyT?=
+ =?us-ascii?Q?BJmCdkh/F7k143CUQineqwd+g5wvyCNxFAneCrdiC+SDd/VQ+NyQnUiwuzdg?=
+ =?us-ascii?Q?7J+xpZwRrBcrW3lMA/He4FP9iW6EYwgYgLxuu37kPVVQCsQNIvMtjsGZZyQP?=
+ =?us-ascii?Q?ASyma6bCmE/pXKN7oPMfNbSRUelcncPscddwCrzo9I6SLIL1jDfTr8Rb3i9l?=
+ =?us-ascii?Q?NdUws0w4msOytRQCepmTY4yMZa0mbVNEuIit9hN+XDDdWx+vxd6RzVy1gYY1?=
+ =?us-ascii?Q?FZ6JXpwWeB+hhgmsBH3Fu1rXQ+hah0zUk24Rmf0oBhsX/T3cTkglsYW8IzQ6?=
+ =?us-ascii?Q?otDx6h3XwJMCJUENl2Eg8QbsG/bN9k1psM8/zzx79CheFuNreZD+HQj/qeXb?=
+ =?us-ascii?Q?Farka0ly+2gw9KbKiothfy3+WcyCRswXdn6xMizjEd4H70z8yCSkOkSdKXkq?=
+ =?us-ascii?Q?CTv7QWUk4IfGpiwIsmzLqSM4YaZZcZrcgeNLnJqiXJJs/nFw8YjocexpuOXF?=
+ =?us-ascii?Q?hUenwYBu+NqdZBLofVjv3IGpQ2IKufwsxZxVW5NM4UxYoVrTIZfLPGVT7WX9?=
+ =?us-ascii?Q?OK4ePuv4vT1jIsRlBT6uBwKS0mkKkxDPrfSUqDX8OU0rVpaHnGFL3gghq4j9?=
+ =?us-ascii?Q?/K/nDoWgNW6AL9cHICYRI0lI7WPAE+RJ6OriJ+psPfWl1v2WOZNW2AcsAkYC?=
+ =?us-ascii?Q?K7lBSlEq2aL357D4wTiNMaBGLtX3OgeRtmWhjdgrBxnyhrVV5ZBV8WUeHXNz?=
+ =?us-ascii?Q?EaFyJv7oy/4gWY46TbDX17PlMLBOWIOBJ+58bRa/NMsz0S31AO8KgN9rVzUP?=
+ =?us-ascii?Q?eossgZfrNktHX13Bd+aOC0IQ/4rnGAqGAJrUPmiAMs04V74JtnOoJVLOakjl?=
+ =?us-ascii?Q?Jpjf3BI3DJE4naVZ4mdsGULVa6hLu8IOVSb2OMIUjcQNAPfsnhn70loclfJQ?=
+ =?us-ascii?Q?7QTozTXSb2o/BTJxBwzjqF70kWaZa5Qeb6b1JkqtkA3T4E1M/oqX3vaiKqnz?=
+ =?us-ascii?Q?aycGXo4DUQNs3mCFlCgetOz1xRyMKea0jBpQEhd+dFobq9p13xXw1r0IX7XQ?=
+ =?us-ascii?Q?Yn5RP9Ms/uojNvsezp3o3U1uJ05x1AiNId0akg2vpV0f6AbWjgpjocwq9h+a?=
+ =?us-ascii?Q?lmoG5GzZK33pGN0v+XEQ53F+2HR1Da3d1hKMvN3linHCIjs8mTwZcmM9KFo2?=
+ =?us-ascii?Q?cWrWSBp/ArHPVzcNpClm3816SNhpXimH6b+L7vZkwCXCBQXKm7NvE2dFLe8l?=
+ =?us-ascii?Q?ihBGhRKQut5tkYw+wjrPKw/MZKc7tBJNkcL1Lhm4lFqr0MIN4mjytHF5NF0s?=
+ =?us-ascii?Q?Mfr3OMnC39y0gzT6R+rez6NErfCrtOT49XK8S0HKn6u7NyokP9SAjHGRSj4U?=
+ =?us-ascii?Q?5iu9BS2EdGHP1R3BJ7QeRC6Nm3V7RreqcmewtjkcoYLWTWHf979ZE3JmfcCf?=
+ =?us-ascii?Q?n0FNTK+3/6xtP6JhmbZm5R+Pd11qNnhB0UaUuYoH?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfe8589d-d944-48ed-84b5-08db3457c0dd
+X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2023 15:26:10.6755
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: On8ziUw1agqY63zr8SjLHaGbRt8cwWcDbESOVSFGS0KegLJy1flOsJ/zQl7fHPGODJYUX2IuthDzX1EeQwzReQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB6327
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Mon, 03 Apr 2023 19:01:12 +0900
+Asahi Lina <lina@asahilina.net> wrote:
 
-Apple SoCs such as the M1 contain a PWM controller used
-among other things to control the keyboard backlight.
+> We can already create `UniqueArc<MaybeUninit<T>>` instances with
+> `UniqueArc::try_new_uninit()` and write to them with `write()`. Add
+> the missing unsafe `assume_init()` function to promote it to
+> `UniqueArc<T>`, so users can do piece-wise initialization of the
+> contents instead of doing it all at once as long as they keep the
+> invariants (the same requirements as `MaybeUninit::assume_init()`).
+> 
+> This mirrors the std `Arc::assume_init()` function. In the kernel,
+> since we have `UniqueArc`, arguably this only belongs there since most
+> use cases will initialize it immediately after creating it, before
+> demoting it to `Arc` to share it.
+> 
+> Co-authored-by: Benno Lossin <y86-dev@protonmail.com>
+> Signed-off-by: Benno Lossin <y86-dev@protonmail.com>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Acked-by: Sven Peter <sven@svenpeter.dev>
----
- .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    | 51 ++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-diff --git a/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-new file mode 100644
-index 000000000000..142157bff0cd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-@@ -0,0 +1,51 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/pwm/apple,s5l-fpwm.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Apple FPWM controller
-+
-+maintainers:
-+  - asahi@lists.linux.dev
-+  - Sasha Finkelstein <fnkl.kernel@gmail.com>
-+
-+description: PWM controller used for keyboard backlight on ARM Macs
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - apple,t8103-fpwm
-+          - apple,t6000-fpwm
-+          - apple,t8112-fpwm
-+      - const: apple,s5l-fpwm
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  "#pwm-cells":
-+    const: 2
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    pwm@235044000 {
-+      compatible = "apple,t8103-fpwm", "apple,s5l-fpwm";
-+      reg = <0x35044000 0x4000>;
-+      power-domains = <&ps_fpwm1>;
-+      clocks = <&clkref>;
-+      #pwm-cells = <2>;
-+    };
-
--- 
-Git-143)
+> ---
+>  rust/kernel/sync/arc.rs | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/rust/kernel/sync/arc.rs b/rust/kernel/sync/arc.rs
+> index b904ed898d3a..b664b41e473d 100644
+> --- a/rust/kernel/sync/arc.rs
+> +++ b/rust/kernel/sync/arc.rs
+> @@ -489,6 +489,17 @@ impl<T> UniqueArc<MaybeUninit<T>> {
+>      /// Converts a `UniqueArc<MaybeUninit<T>>` into a `UniqueArc<T>` by writing a value into it.
+>      pub fn write(mut self, value: T) -> UniqueArc<T> {
+>          self.deref_mut().write(value);
+> +        // SAFETY: We have just written the contents fully.
+> +        unsafe { self.assume_init() }
+> +    }
+> +
+> +    /// Unsafely assume that `self` is initialized.
+> +    ///
+> +    /// # Safety
+> +    ///
+> +    /// The caller guarantees that the value behind this pointer has been initialized. It is
+> +    /// *immediate* UB to call this when the value is not initialized.
+> +    pub unsafe fn assume_init(self) -> UniqueArc<T> {
+>          let inner = ManuallyDrop::new(self).inner.ptr;
+>          UniqueArc {
+>              // SAFETY: The new `Arc` is taking over `ptr` from `self.inner` (which won't be
+> 
 
