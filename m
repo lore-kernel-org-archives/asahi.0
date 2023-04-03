@@ -1,28 +1,28 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3BC28F4
-	for <asahi@lists.linux.dev>; Mon,  3 Apr 2023 09:48:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C13428F4
+	for <asahi@lists.linux.dev>; Mon,  3 Apr 2023 09:48:29 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 3F5D64212E;
-	Mon,  3 Apr 2023 09:48:20 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 365F3423BA;
+	Mon,  3 Apr 2023 09:48:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1680515303;
-	bh=rLpv9N/MuJdWjBDskv5c1QhUT6HdCop84/bSBVygqeY=;
+	s=default; t=1680515307;
+	bh=RPuHJ6R232r0hFYOL7uwv1XyiKxx1ILr03e3JPbKDFw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=P4AuYska6w6taph8lKaPQjWDuQWv0/U++vpi25iK/tGHl8+k0ScMPJqDtHS5w6OQk
-	 Y2xSwFeE/ppJ2dUMq76+75ztihktpRfMi3K237uiyULMRjw8ExgQcJS0zufJOJhc1N
-	 2cfoKzUAHdaYYIdx9toL8ZCHGBRIepXZOLBqNQx0lvWVShgnbxuo7g38eLCrsLX/Qd
-	 V+vCxcq/cYAcI3uHvIn5bWoonkMEPLaLwf8v1W+8zp9z5cQMFzvOLHIHyS80xGG8ji
-	 Tgt0QDpqEghlsRV8qCI4xraips5EJFpKKFxzKG8SB4+5Ndg0RTXwZROWQmZkBQJhhD
-	 oF3vJZNDPOOng==
+	b=KQG/jE6FxwK7RjGbmyVlAV5GM0iFmOq0z0+oWzGPINY5h9xVL1AlD3exE8L32Zagv
+	 fkl60XlcK1WQcWom42C/V/xcjxye5weRSFGDCeA9ewuIVwKTt2w9oIOdSMN2n0Y7SM
+	 JT8fDP0Jtt3/4a/mKQCz/bdRTVPHEygr8ecDXKJEKC1s+c/ltUrD9vgbDJzBrTZeNr
+	 aVzTjz0z0sV4PeE2BFCv6XCKioxvQsMqHsxMu2IF5f4o1t3tkEyfyIUkxeCArtRNDw
+	 kTMohxBuHSJDr6Dr1eaG4U5x0QNXG+YS65LXrTWs5i/k8bk6334hlWTdNUmV6rt5xZ
+	 mSbSLr3Rz335w==
 From: Asahi Lina <lina@asahilina.net>
-Date: Mon, 03 Apr 2023 18:48:10 +0900
-Subject: [PATCH v3 1/6] rust: error: Rename to_kernel_errno() -> to_errno()
+Date: Mon, 03 Apr 2023 18:48:11 +0900
+Subject: [PATCH v3 2/6] rust: error: Add Error::to_ptr()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -31,7 +31,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230224-rust-error-v3-1-03779bddc02b@asahilina.net>
+Message-Id: <20230224-rust-error-v3-2-03779bddc02b@asahilina.net>
 References: <20230224-rust-error-v3-0-03779bddc02b@asahilina.net>
 In-Reply-To: <20230224-rust-error-v3-0-03779bddc02b@asahilina.net>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -45,51 +45,68 @@ Cc: Fox Chen <foxhlchen@gmail.com>,
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680515295; l=1299;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680515295; l=1683;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=rLpv9N/MuJdWjBDskv5c1QhUT6HdCop84/bSBVygqeY=;
- b=9nrnwa52xgS4clQ3rmGPD/khl8o3VTE2q12KEAtx4dfi0zZ9q7qGssXBpVKJN5iqp/2XvrYZ9
- b0oMHm+OeghAiE5VWRiit7j0+M5na4OVUQKEkLB5eUGHUddgfgIFxJd
+ bh=RPuHJ6R232r0hFYOL7uwv1XyiKxx1ILr03e3JPbKDFw=;
+ b=hvY3vvMJfh3KKdhSs9ptvvbGhmtEqmj3Guf8UT/y6cT43cn8ztSn1XJcxaGoNdJpUghwjyGUB
+ EKJxa2nN8G3BNausNRjwPXuzOebAa0Gvuqe+0ePdMhXkiN5ZSGOGfrn
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-This is kernel code, so specifying "kernel" is redundant. Let's simplify
-things and just call it to_errno().
+This is the Rust equivalent to ERR_PTR(), for use in C callbacks.
+Marked as #[allow(dead_code)] for now, since it does not have any
+consumers yet.
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
 Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
- rust/kernel/error.rs  | 2 +-
- rust/macros/module.rs | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ rust/helpers.c       | 7 +++++++
+ rust/kernel/error.rs | 7 +++++++
+ 2 files changed, 14 insertions(+)
 
+diff --git a/rust/helpers.c b/rust/helpers.c
+index 09a4d93f9d62..89f4cd1e0df3 100644
+--- a/rust/helpers.c
++++ b/rust/helpers.c
+@@ -20,6 +20,7 @@
+ 
+ #include <linux/bug.h>
+ #include <linux/build_bug.h>
++#include <linux/err.h>
+ #include <linux/refcount.h>
+ 
+ __noreturn void rust_helper_BUG(void)
+@@ -46,6 +47,12 @@ bool rust_helper_refcount_dec_and_test(refcount_t *r)
+ }
+ EXPORT_SYMBOL_GPL(rust_helper_refcount_dec_and_test);
+ 
++__force void *rust_helper_ERR_PTR(long err)
++{
++	return ERR_PTR(err);
++}
++EXPORT_SYMBOL_GPL(rust_helper_ERR_PTR);
++
+ /*
+  * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
+  * as the Rust `usize` type, so we can use it in contexts where Rust
 diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
-index 5b9751d7ff1d..35894fa35efe 100644
+index 35894fa35efe..154d0ca6e2dc 100644
 --- a/rust/kernel/error.rs
 +++ b/rust/kernel/error.rs
-@@ -73,7 +73,7 @@ pub struct Error(core::ffi::c_int);
- 
- impl Error {
-     /// Returns the kernel error code.
--    pub fn to_kernel_errno(self) -> core::ffi::c_int {
-+    pub fn to_errno(self) -> core::ffi::c_int {
+@@ -76,6 +76,13 @@ impl Error {
+     pub fn to_errno(self) -> core::ffi::c_int {
          self.0
      }
++
++    /// Returns the error encoded as a pointer.
++    #[allow(dead_code)]
++    pub(crate) fn to_ptr<T>(self) -> *mut T {
++        // SAFETY: self.0 is a valid error due to its invariant.
++        unsafe { bindings::ERR_PTR(self.0.into()) as *mut _ }
++    }
  }
-diff --git a/rust/macros/module.rs b/rust/macros/module.rs
-index a7e363c2b044..143336543866 100644
---- a/rust/macros/module.rs
-+++ b/rust/macros/module.rs
-@@ -258,7 +258,7 @@ pub(crate) fn module(ts: TokenStream) -> TokenStream {
-                         return 0;
-                     }}
-                     Err(e) => {{
--                        return e.to_kernel_errno();
-+                        return e.to_errno();
-                     }}
-                 }}
-             }}
+ 
+ impl From<AllocError> for Error {
 
 -- 
 2.40.0
