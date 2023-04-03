@@ -1,28 +1,30 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F9D28F4
-	for <asahi@lists.linux.dev>; Mon,  3 Apr 2023 09:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2405A28F4
+	for <asahi@lists.linux.dev>; Mon,  3 Apr 2023 09:48:21 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id C65E842118;
-	Mon,  3 Apr 2023 09:33:58 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 4463F41E64;
+	Mon,  3 Apr 2023 09:48:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1680514441;
-	bh=bFkXHFNyb9LVEKt1rmM5zqGTtOh4DagUhZhRSzQ4E0w=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=JyUb9QqWj9s1yHTD9z5oE80E8+X2RfzLpsv7cQPYVDN9Rp2/jb7nzqydLxRmu9K5f
-	 z8dHVozLqhI9z1DG+v8ugeLPPhrDeMBWXUXiQenszpXeRypoSBnb3pHA1DJlpjdxTa
-	 SXAeeAOpjmsq2f8rVZ9J+kt8/9ULIhpydP9oHkvxw/81sTLBRudmBDPtSqYmwUtvLd
-	 xLzIUxNC7G47wFIc7akWTfbyRJr6aqgMvMsBwpQeeFTZIa75XD8IVpypI3u+amUZ+x
-	 uc/VNCcD63IIfXnBOKeDo6q/Jz89KYyfBdkRCuu5Gs2MSGWu2jJAMBEW8nHwc8tBFo
-	 pEemOPXDYFT0Q==
+	s=default; t=1680515299;
+	bh=03IUxiM2NYytsEqkQE0lVeut6Us6UiwebZUlwtHiGAw=;
+	h=From:Subject:Date:To:Cc;
+	b=aoUxhbKxLFpvEJeDumfIatd9IjwP2zReeLidrQ1Ep5+PVvi6js4j9xBpeVqGfzXmy
+	 o438S0uS1YXY0hhlkh+L34mCmGIrxUlPu5+urHmz8HBvbbTmVNVheRpUZJJ+SlAHwW
+	 UPdHHqEVBrS9yB0oWXZZMKbxpdSzDPS//LUSa1chCqk+CUMxJw84mkte31t7YiaWZ+
+	 3uj5w57+t+JEMxiVdlLdtWMhQ5t04c/dE6i1nQSihEviQTcvD5jKGUcz2UoDExmQg4
+	 cGN4+lQx8tI8zI6cvsF4JKaX5uIXhzIIP787AVgj6OZsl/xCnqElBpziEsPFkrcgrn
+	 RGDLOmmyvy0IQ==
 From: Asahi Lina <lina@asahilina.net>
-Date: Mon, 03 Apr 2023 18:33:52 +0900
-Subject: [PATCH v2 1/2] rust: uapi: Add UAPI crate
+Subject: [PATCH v3 0/6] rust: error: Add missing wrappers to convert
+ to/from kernel error codes
+Date: Mon, 03 Apr 2023 18:48:09 +0900
+Message-Id: <20230224-rust-error-v3-0-03779bddc02b@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -31,164 +33,98 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230329-rust-uapi-v2-1-bca5fb4d4a12@asahilina.net>
-References: <20230329-rust-uapi-v2-0-bca5fb4d4a12@asahilina.net>
-In-Reply-To: <20230329-rust-uapi-v2-0-bca5fb4d4a12@asahilina.net>
+X-B4-Tracking: v=1; b=H4sIANmgKmQC/3WNzQ7CIBAGX8Vwdht+jAVPvofxsKUgJIaapRJN0
+ 3cXejR6nN3MNwvLjqLL7LRbGLkSc5xSBbXfMRsw3RzEsTKTXCou5QHomWdwRBOBl7oXfrCG955
+ VYcDsYCBMNjSlHDsFZEV7Pcj5+No6l2vlEPM80XvLFtGuPwtFAAevvUGDuldcnTFjiPeYsEtuZ
+ m2qyP+6rLoynCthtJAjfuvrun4A9VVoMgIBAAA=
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
  Wedson Almeida Filho <wedsonaf@gmail.com>, 
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
  =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Arnd Bergmann <arnd@arndb.de>
-Cc: Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+ Sven Van Asbroeck <thesven73@gmail.com>
+Cc: Fox Chen <foxhlchen@gmail.com>, 
+ Martin Rodriguez Reboredo <yakoyoku@gmail.com>, 
+ Andreas Hindborg <a.hindborg@samsung.com>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1680514434; l=4738;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1680515295; l=2833;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=bFkXHFNyb9LVEKt1rmM5zqGTtOh4DagUhZhRSzQ4E0w=;
- b=goFV/tzbT+4lsSATOIankvn8nz7knSO1zBLYhh+zALKhcNHcpnwreuVmlqtMaKKfRo0LE5nux
- /ePmu9+0tTFBER+BRzUJQKyObx6U7/fmKkcJ+pJGRM3g2USByhKauMV
+ bh=03IUxiM2NYytsEqkQE0lVeut6Us6UiwebZUlwtHiGAw=;
+ b=AEvTg7zbHfH1jU1Nbh1O5xfdN5frIkRqX2gs26fdTWv1Oydau6SiA0q51h0OP0PTgMgdeJvdu
+ wlnzkf+pIgxBOIKxCX14E7suJNdfxb//pkXsNoq83FYVeWPulNAZWWv
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-This crate mirrors the `bindings` crate, but will contain only UAPI
-bindings. Unlike the bindings crate, drivers may directly use this crate
-if they have to interface with userspace.
+Hi everyone!
 
-Initially, just bind the generic ioctl stuff.
+This series is part of the set of dependencies for the drm/asahi
+Apple M1/M2 GPU driver.
 
-In the future, we would also like to add additional checks to ensure
-that all types exposed by this crate satisfy UAPI-safety guarantees
-(that is, they are safely castable to/from a "bag of bits").
+It adds a bunch of missing wrappers in kernel::error, which are useful
+to convert to/from kernel error codes. Since these will be used by many
+abstractions coming up soon, I think it makes sense to merge them as
+soon as possible instead of bundling them with the first user. Hence,
+they have allow() tags to silence dead code warnings. These can be
+removed as soon as the first user is in the kernel crate.
 
-Reviewed-by: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
+Getting this in first allows the subsequent abstractions to be merged in
+any order, so we don't have to worry about piecewise rebasing and fixing
+conflicts in the Error wrappers. See [1] for a complete tree with the DRM
+abstractions and all other miscellaneous work-in-progress prerequisites
+rebased on top of mainline.
+
+Most of these have been extracted from the rust-for-linux/rust branch,
+with author attribution to the first/primary author and Co-developed-by:
+for everyone else who touched the code.
+
+Attribution changes:
+- One of the patches had Miguel's old email in the tags, updated that per
+  his request.
+- Wedson's email changed from @google.com to @gmail.com (I understand
+  this is the current one).
+
+Sven: There is one patch from you in this series, do you want to send it
+yourself directly? I understand Wedson and Miguel are okay with me
+sending stuff on their behalf.
+
+[1] https://github.com/Rust-for-Linux/linux/pull/969/commits
+
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
- rust/.gitignore         |  1 +
- rust/Makefile           | 18 ++++++++++++++++--
- rust/kernel/lib.rs      |  1 +
- rust/uapi/lib.rs        | 27 +++++++++++++++++++++++++++
- rust/uapi/uapi_helper.h |  9 +++++++++
- 5 files changed, 54 insertions(+), 2 deletions(-)
+Changes in v3:
+- Re-introduced from_errno_unchecked() (but private to this module since
+  it has no outside users) and used it in from_err_ptr().
+- Updated safety comment in to_ptr().
+- Link to v2: https://lore.kernel.org/r/20230224-rust-error-v2-0-3900319812da@asahilina.net
 
-diff --git a/rust/.gitignore b/rust/.gitignore
-index 168cb26a31b9..21552992b401 100644
---- a/rust/.gitignore
-+++ b/rust/.gitignore
-@@ -2,6 +2,7 @@
- 
- bindings_generated.rs
- bindings_helpers_generated.rs
-+uapi_generated.rs
- exports_*_generated.h
- doc/
- test/
-diff --git a/rust/Makefile b/rust/Makefile
-index f88d108fbef0..f81fdefec0ab 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -16,6 +16,9 @@ obj-$(CONFIG_RUST) += alloc.o bindings.o kernel.o
- always-$(CONFIG_RUST) += exports_alloc_generated.h exports_bindings_generated.h \
-     exports_kernel_generated.h
- 
-+always-$(CONFIG_RUST) += uapi/uapi_generated.rs
-+obj-$(CONFIG_RUST) += uapi.o
-+
- ifdef CONFIG_RUST_BUILD_ASSERT_ALLOW
- obj-$(CONFIG_RUST) += build_error.o
- else
-@@ -288,6 +291,12 @@ $(obj)/bindings/bindings_generated.rs: $(src)/bindings/bindings_helper.h \
-     $(src)/bindgen_parameters FORCE
- 	$(call if_changed_dep,bindgen)
- 
-+$(obj)/uapi/uapi_generated.rs: private bindgen_target_flags = \
-+    $(shell grep -v '^#\|^$$' $(srctree)/$(src)/bindgen_parameters)
-+$(obj)/uapi/uapi_generated.rs: $(src)/uapi/uapi_helper.h \
-+    $(src)/bindgen_parameters FORCE
-+	$(call if_changed_dep,bindgen)
-+
- # See `CFLAGS_REMOVE_helpers.o` above. In addition, Clang on C does not warn
- # with `-Wmissing-declarations` (unlike GCC), so it is not strictly needed here
- # given it is `libclang`; but for consistency, future Clang changes and/or
-@@ -388,10 +397,15 @@ $(obj)/bindings.o: $(src)/bindings/lib.rs \
-     $(obj)/bindings/bindings_helpers_generated.rs FORCE
- 	$(call if_changed_dep,rustc_library)
- 
-+$(obj)/uapi.o: $(src)/uapi/lib.rs \
-+    $(obj)/compiler_builtins.o \
-+    $(obj)/uapi/uapi_generated.rs FORCE
-+	$(call if_changed_dep,rustc_library)
-+
- $(obj)/kernel.o: private rustc_target_flags = --extern alloc \
--    --extern build_error --extern macros --extern bindings
-+    --extern build_error --extern macros --extern bindings --extern uapi
- $(obj)/kernel.o: $(src)/kernel/lib.rs $(obj)/alloc.o $(obj)/build_error.o \
--    $(obj)/libmacros.so $(obj)/bindings.o FORCE
-+    $(obj)/libmacros.so $(obj)/bindings.o $(obj)/uapi.o FORCE
- 	$(call if_changed_dep,rustc_library)
- 
- endif # CONFIG_RUST
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 223564f9f0cc..afec0792d982 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -42,6 +42,7 @@ pub mod types;
- #[doc(hidden)]
- pub use bindings;
- pub use macros;
-+pub use uapi;
- 
- #[doc(hidden)]
- pub use build_error::build_error;
-diff --git a/rust/uapi/lib.rs b/rust/uapi/lib.rs
-new file mode 100644
-index 000000000000..29f69f3a52de
---- /dev/null
-+++ b/rust/uapi/lib.rs
-@@ -0,0 +1,27 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! UAPI Bindings.
-+//!
-+//! Contains the bindings generated by `bindgen` for UAPI interfaces.
-+//!
-+//! This crate may be used directly by drivers that need to interact with
-+//! userspace APIs.
-+
-+#![no_std]
-+#![feature(core_ffi_c)]
-+// See <https://github.com/rust-lang/rust-bindgen/issues/1651>.
-+#![cfg_attr(test, allow(deref_nullptr))]
-+#![cfg_attr(test, allow(unaligned_references))]
-+#![cfg_attr(test, allow(unsafe_op_in_unsafe_fn))]
-+#![allow(
-+    clippy::all,
-+    missing_docs,
-+    non_camel_case_types,
-+    non_upper_case_globals,
-+    non_snake_case,
-+    improper_ctypes,
-+    unreachable_pub,
-+    unsafe_op_in_unsafe_fn
-+)]
-+
-+include!(concat!(env!("OBJTREE"), "/rust/uapi/uapi_generated.rs"));
-diff --git a/rust/uapi/uapi_helper.h b/rust/uapi/uapi_helper.h
-new file mode 100644
-index 000000000000..301f5207f023
---- /dev/null
-+++ b/rust/uapi/uapi_helper.h
-@@ -0,0 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Header that contains the headers for which Rust UAPI bindings
-+ * will be automatically generated by `bindgen`.
-+ *
-+ * Sorted alphabetically.
-+ */
-+
-+#include <uapi/asm-generic/ioctl.h>
+Changes in v2:
+- Removed the redundant _kernel from various function names.
+- Replaced the from_result!{} macro with a from_result() function taking a closure.
+- Link to v1: https://lore.kernel.org/r/20230224-rust-error-v1-0-f8f9a9a87303@asahilina.net
 
--- 
-2.40.0
+---
+Asahi Lina (2):
+      rust: error: Rename to_kernel_errno() -> to_errno()
+      rust: error: Add Error::to_ptr()
+
+Miguel Ojeda (1):
+      rust: error: Add Error::from_errno{_unchecked}()
+
+Sven Van Asbroeck (1):
+      rust: error: Add a helper to convert a C ERR_PTR to a `Result`
+
+Wedson Almeida Filho (2):
+      rust: error: Add to_result() helper
+      rust: error: Add from_result() helper
+ rust/helpers.c        |  19 +++++++
+ rust/kernel/error.rs  | 137 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ rust/macros/module.rs |   2 +-
+ 3 files changed, 156 insertions(+), 2 deletions(-)
+---
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+change-id: 20230224-rust-error-f2871fbc907f
+
+Thank you,
+~~ Lina
 
