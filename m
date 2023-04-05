@@ -1,183 +1,116 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39821A56
-	for <asahi@lists.linux.dev>; Wed,  5 Apr 2023 12:36:48 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5005c57f95cso44125a12.1
-        for <asahi@lists.linux.dev>; Wed, 05 Apr 2023 05:36:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1680698206; x=1683290206;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=E6iWx9EB6J3L8iIop1bmZ+pNlziIEisMA1uL8RnykGc=;
-        b=Mhpu4CDBYYy7UnbecnwaJGBwUWEJJZkdvrEefXyX2r+r4FENpB1qkR+tX4rIEcLLNc
-         HUVfqZlrktiiC1UivQlXrKHRQSwPD9fmbGSjOmWfxRDbCoEgopYVA0XuQ3TzQrDsGHl8
-         V/sMzxOY9dAQhT6ShYmtLicdzfCt+/18NkPTo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680698206; x=1683290206;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=E6iWx9EB6J3L8iIop1bmZ+pNlziIEisMA1uL8RnykGc=;
-        b=S7NnCr8E/ZYVLlLHQZt7Cg7CcskrFX/aQ9hD5/H5rNtxHiZJHiKe7IpbmHn22t6XAA
-         AX+IB1/auql+OwABtOgj6e5D0B5TTNoMWTaZWYYEeWZWJAkl5PiErjBeVcRZdzzJiRe4
-         R6f/OCxver558I/jqiaxRHna1DnY8RWFx42zaLtBa/+71wHx/2mdRUcKKOTXzQkieESC
-         dziQd53s3E5gv+QyMqH6tRw3+ELyySBG1WmMQNmWYPQwXR250H1jxSZWf6Vq5qicuGgz
-         75ME3o8xXGiBjEY32s6w5/wTKS1dv0uOQJbaYRNRHU7ClMuv9x2sjUA/m2uc3QdfKi0N
-         dQWw==
-X-Gm-Message-State: AAQBX9eqgyXVxQGw6xhQWorCAQRgvIMXqdO1Xjmu8loT40g3LtdcAFAQ
-	1KPHPnvlTxtiw0PRNAc4i3XCkQ==
-X-Google-Smtp-Source: AKy350YIBJGEKIbnfG5Qb41ZqY8oW3SBwxFUxtFvD5haG8Sd7EjZxbYnmEZUvlkuPcFwlyaw2lVQPg==
-X-Received: by 2002:a05:6402:d0e:b0:502:e50:3358 with SMTP id eb14-20020a0564020d0e00b005020e503358mr1779099edb.3.1680698206345;
-        Wed, 05 Apr 2023 05:36:46 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id q16-20020a50aa90000000b004af6c5f1805sm7265301edc.52.2023.04.05.05.36.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Apr 2023 05:36:45 -0700 (PDT)
-Date: Wed, 5 Apr 2023 14:36:43 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Asahi Lina <lina@asahilina.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Karol Herbst <kherbst@redhat.com>,
-	Ella Stanforth <ella@iglunix.org>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH RFC 04/18] rust: drm: gem: Add GEM object abstraction
-Message-ID: <ZC1rW+ZktoC9fBaX@phenom.ffwll.local>
-Mail-Followup-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Asahi Lina <lina@asahilina.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Karol Herbst <kherbst@redhat.com>,
-	Ella Stanforth <ella@iglunix.org>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-4-917ff5bc80a8@asahilina.net>
- <ZC1WwJDr1iqSQnYs@phenom.ffwll.local>
- <CANiq72=h9qKrpkY2K962__rs-JLsmWxPXocx040ZeDSKGf_Brw@mail.gmail.com>
- <ZC1aEZpgZLkq8xTv@phenom.ffwll.local>
- <CANiq72=hoVw566orbDYcJyw2+SFfxpR1rdJVbbR3kkrjJUASww@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F1FA5E;
+	Wed,  5 Apr 2023 13:02:14 +0000 (UTC)
+Received: from ip4d1634d3.dynamic.kabel-deutschland.de ([77.22.52.211] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1pk2lE-0006xn-Nr; Wed, 05 Apr 2023 15:01:12 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Orson Zhai <orsonzhai@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Chunyan Zhang <zhang.lyra@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, linux-rtc@vger.kernel.org,
+ Michael Walle <michael@walle.cc>,
+ =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject:
+ Re: [PATCH V4] nvmem: add explicit config option to read old syntax fixed OF
+ cells
+Date: Wed, 05 Apr 2023 15:01:10 +0200
+Message-ID: <4767237.ejJDZkT8p0@diego>
+In-Reply-To: <20230403225540.1931-1-zajec5@gmail.com>
+References: <20230403225540.1931-1-zajec5@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72=hoVw566orbDYcJyw2+SFfxpR1rdJVbbR3kkrjJUASww@mail.gmail.com>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 05, 2023 at 02:32:12PM +0200, Miguel Ojeda wrote:
-> On Wed, Apr 5, 2023 at 1:23 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > Ok if this is just interim I think it's fine. Would still be good to have
-> > the MAINTAINERS entry though even just to cover the interim state. Least
-> > because I'm assuming that when things are split up you'd still want to
-> > keep the rust list on cc for the rust parts, even when they move into
-> > subsystems?
-> 
-> Sorry, I missed to reply the second part of your email -- replying here.
-> 
-> Currently, the subsystem's code is under `rust/` (though modules can
-> go already into other folders). One of the reasons was technical
-> simplicity, and a nice side effect is that we could bootstrap things
-> while getting C maintainers involved over time.
-> 
-> To accomplish that, the guidelines for contributing Rust code are that
-> the respective maintainers need to be at least Cc'd, even if the files
-> do not hit the `F:` fields for the time being -- see [1]. But, for us,
-> ideally, the maintainers will take the changes through their tree,
-> instead of going through the Rust one, since that is the end goal.
-> 
-> And, of course, if you already want to have `F:` fields for the Rust
-> code, that is even better! (Whether those should be in the same entry
-> or in a new one, it is up to you, of course, and whether it is a
-> different set of people / level of support / etc.)
-> 
-> Then, when the `kernel` crate split happens, we can move the code
-> directly under whatever folders it should be naturally, when their
-> maintainers are ready. For some subsystems, that may mean they do not
-> need any `F:` fields since they are already covered (e.g. if they did
-> not create a new entry for Rust code only). And for cases like yours,
-> where you already had `F:` fields, it means the move of the files can
-> be done right away as soon as the split happens.
-> 
-> In short, we would definitely welcome if you add `F:` fields already
-> (whether in existing or new entries) -- it would mean you are ahead of
-> the curve! :)
-> 
-> As for the mailing list, yes, for the time being, I ask that all
-> changes to please be sent to the Rust list, so that everybody that
-> wants to follow the Rust progress has everything in a single place, so
-> that we try to remain consistent in the beginning on e.g. coding
-> guidelines, so that Rust reviewers can help spot mistakes, and so on
-> and so forth.
-> 
-> But, as Rust grows in the kernel, as systems become non-experimental,
-> and as maintainers take ownership of the code, that should eventually
-> go away and let things be as usual with C code. Then the Rust
-> subsystem (and its list) will become smaller, and it will be the
-> subsystem (and the discussion place) for anything not covered by other
-> subsystems, such as core Rust abstractions and types, Rust
-> infrastructure and so on.
-> 
-> How does that sound?
+Am Dienstag, 4. April 2023, 00:55:40 CEST schrieb Rafa=C5=82 Mi=C5=82ecki:
+> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+>=20
+> Binding for fixed NVMEM cells defined directly as NVMEM device subnodes
+> has been deprecated. It has been replaced by the "fixed-layout" NVMEM
+> layout binding.
+>=20
+> New syntax is meant to be clearer and should help avoiding imprecise
+> bindings.
+>=20
+> NVMEM subsystem already supports the new binding. It should be a good
+> idea to limit support for old syntax to existing drivers that actually
+> support & use it (we can't break backward compatibility!). That way we
+> additionally encourage new bindings & drivers to ignore deprecated
+> binding.
+>=20
+> It wasn't clear (to me) if rtc and w1 code actually uses old syntax
+> fixed cells. I enabled them to don't risk any breakage.
+>=20
+> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+> [for meson-{efuse,mx-efuse}.c]
+> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> [for mtk-efuse.c, nvmem/core.c, nvmem-provider.h]
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+> [MT8192, MT8195 Chromebooks]
+> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabor=
+a.com>
+> [for microchip-otpc.c]
+> Reviewed-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+> [SAMA7G5-EK]
+> Tested-by: Claudiu Beznea <claudiu.beznea@microchip.com>
 
-Yeah sounds all great!
+> diff --git a/drivers/nvmem/rockchip-efuse.c b/drivers/nvmem/rockchip-efus=
+e.c
+> index e4579de5d014..adc8bc70cffa 100644
+> --- a/drivers/nvmem/rockchip-efuse.c
+> +++ b/drivers/nvmem/rockchip-efuse.c
+> @@ -205,6 +205,7 @@ static int rockchip_rk3399_efuse_read(void *context, =
+unsigned int offset,
+> =20
+>  static struct nvmem_config econfig =3D {
+>  	.name =3D "rockchip-efuse",
+> +	.add_legacy_fixed_of_cells =3D true,
+>  	.stride =3D 1,
+>  	.word_size =3D 1,
+>  	.read_only =3D true,
 
-I think interim at least a separate rust drm entry
-would be good, to make sure we always cc both rust and dri-devel. Once
-it's too much for you and you generally trust the dri-devel folks to not
-design stupid interfaces, we can then drop that and only ping rust folks
-when needed. I do expect that's some years out though.
--Daniel
+for rockchip-efuse.c
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-> 
-> [1] https://rust-for-linux.com/contributing#the-rust-subsystem (I may
-> reorganize this to be Rust's `P:` field, by the way)
-> 
-> Cheers,
-> Miguel
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
