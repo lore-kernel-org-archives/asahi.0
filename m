@@ -1,52 +1,91 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCA328F3;
-	Tue,  4 Apr 2023 17:09:56 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id r16so24646134oij.5;
-        Tue, 04 Apr 2023 10:09:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C37A38
+	for <asahi@lists.linux.dev>; Wed,  5 Apr 2023 11:08:53 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-4fd1f2a0f82so32100a12.1
+        for <asahi@lists.linux.dev>; Wed, 05 Apr 2023 04:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1680692932; x=1683284932;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SFDimBbN528TL8xt9crjcXDnbMBSLe3C0z50ivey3EI=;
+        b=ZNomdFYgbAEwHS2jPwlp6zYqVrRZxsDAwk5V2WI0djY96tXgNyWAUcBk+d4Ig3jZSa
+         /GyD+pZcpRiCtvWiO5oq3QOrvUIq4ZzCsTRXQ45v/ou8j5I9pqg2C8gln8rMS2uHXSl1
+         T+2M3J1iRHN/hmQdz/23+qloMcA17rvPKJWnQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680628195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DQfDPbeHzXvhNMP21e47HMs1Ss6VjJ3ppCcbbXGV5fo=;
-        b=mHddsklseJkRqSVAmDAdPn2U56RGjcpL1SSieI9cms1ikCvYepdjxuOMz8Q76xtyfi
-         fcisaw+W//X2kSWzct5YjfpNZLCH7TV0l3tLp4YWunFH5JMPsm0O+OPfjRIWDhP9V5kM
-         ViYB2eQBBTU+KInrmsS75f8m5WFe1mLkwSDrMn6Pu0/PIgnGnrzGSHA2Xm21lrmONOFu
-         gWU02iAqbIPNIHU6yRcicnQAc30sNpHf/TqYpa5r9HNMzHH6ihtyYKcFpCj4o/VwgYN1
-         2lDvtbW0MoEWy07AH4RKV0lb7PU8j7D0rJDBOGBTz2nu2BPRVULBpXWz8i4s9wXgy2t1
-         d3fw==
-X-Gm-Message-State: AAQBX9cExPcqrOcFdWPZS0tC0GlvZJTykb7nhjUYnWfvG9hQfks+DNyi
-	SgZStErLEcAESk8Bgj37ng==
-X-Google-Smtp-Source: AKy350ZZ7BG/vNzA7V0xxF/wFLGRBOLHnE+ociOtzhxPFF1JrYNXX4h2mrA1aYYKqBLL6ePOmatUBA==
-X-Received: by 2002:a05:6808:3a99:b0:378:9c1:514e with SMTP id fb25-20020a0568083a9900b0037809c1514emr1312221oib.42.1680628194745;
-        Tue, 04 Apr 2023 10:09:54 -0700 (PDT)
-Received: from robh_at_kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id o184-20020acabec1000000b003646062e83bsm5388522oif.29.2023.04.04.10.09.53
+        d=1e100.net; s=20210112; t=1680692932; x=1683284932;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SFDimBbN528TL8xt9crjcXDnbMBSLe3C0z50ivey3EI=;
+        b=paRcgs6CmF2jzXOvzBkqqHjBSHaIbzEyXkXI3QayHcX9qJXrUeSySO0Y+q9WDvpMS9
+         LbRbjiaHdRyhC7wkAtsenrQfkN+cf79UPPL5ZzXGGw+GfNgmM6SPbpNt+BuKkbnmYxo7
+         gwWwwv7GXPmUUMWgr8TrvlzDIQod07tyD9UaP3Mxo85EoTaQot5MhO9wGtA7cCsbITQP
+         /pmGiQ04BwYvdQ6TXUGF3MHQUDvpV/SMD5z0OXEwZGotxXmsf+eyCyrup+nbjTyogIZx
+         NO4AazgMKZ+g9yPDmVFFrKY52MYlTt2zBo0ym0llcL7MTgXJNGHZt42ZuWDHaVxzdTZ+
+         3SoQ==
+X-Gm-Message-State: AAQBX9eokbFFWIMc7ytdwLxZY2BQPwKouIabdthgZs/TzFVwwqh/pbNi
+	R3H/5RMY5D9spmbof44VZYDevg==
+X-Google-Smtp-Source: AKy350a27WBCUNn2TaytucC4Gmeq2m4PHUBrkdMPqvS7Q1CetS4XugtCzzL7kpX+0BRzLav3s77hkQ==
+X-Received: by 2002:a05:6402:524e:b0:4fd:2978:d80 with SMTP id t14-20020a056402524e00b004fd29780d80mr1516218edd.1.1680692931632;
+        Wed, 05 Apr 2023 04:08:51 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id t12-20020a170906608c00b0093d0867a65csm7327542ejj.175.2023.04.05.04.08.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Apr 2023 10:09:54 -0700 (PDT)
-Received: (nullmailer pid 133735 invoked by uid 1000);
-	Tue, 04 Apr 2023 17:09:52 -0000
-Date: Tue, 4 Apr 2023 12:09:52 -0500
-From: Rob Herring <robh@kernel.org>
-To: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Julius Werner <jwerner@chromium.org>, 
-	Evan Benn <evanbenn@chromium.org>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@microchip.com>, Florian Fainelli <f.fainelli@gmail.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH] dt-bindings: watchdog: Drop unneeded quotes
-Message-ID: <20230404170952.GF49361-robh@kernel.org>
-References: <20230317233643.3969019-1-robh@kernel.org>
+        Wed, 05 Apr 2023 04:08:51 -0700 (PDT)
+Date: Wed, 5 Apr 2023 13:08:48 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Luben Tuikov <luben.tuikov@amd.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Karol Herbst <kherbst@redhat.com>,
+	Ella Stanforth <ella@iglunix.org>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH RFC 04/18] rust: drm: gem: Add GEM object abstraction
+Message-ID: <ZC1WwJDr1iqSQnYs@phenom.ffwll.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Luben Tuikov <luben.tuikov@amd.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Karol Herbst <kherbst@redhat.com>,
+	Ella Stanforth <ella@iglunix.org>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-4-917ff5bc80a8@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -55,27 +94,522 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230317233643.3969019-1-robh@kernel.org>
+In-Reply-To: <20230307-rust-drm-v1-4-917ff5bc80a8@asahilina.net>
+X-Operating-System: Linux phenom 6.1.0-7-amd64
 
-On Fri, Mar 17, 2023 at 06:36:42PM -0500, Rob Herring wrote:
-> Cleanup bindings dropping unneeded quotes. Once all these are fixed,
-> checking for this can be enabled in yamllint.
+Meta: I'm trying to unblock myself by limiting each reply to a narrow-ish
+topic. Otherwise it's just too much. Here's the first.
+
+On Tue, Mar 07, 2023 at 11:25:29PM +0900, Asahi Lina wrote:
+> The DRM GEM subsystem is the DRM memory management subsystem used by
+> most modern drivers. Add a Rust abstraction to allow Rust DRM driver
+> implementations to use it.
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 > ---
->  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 +-
->  Documentation/devicetree/bindings/watchdog/apple,wdt.yaml       | 2 +-
->  Documentation/devicetree/bindings/watchdog/arm-smc-wdt.yaml     | 2 +-
->  .../devicetree/bindings/watchdog/atmel,sama5d4-wdt.yaml         | 2 +-
->  .../devicetree/bindings/watchdog/brcm,bcm7038-wdt.yaml          | 2 +-
->  .../devicetree/bindings/watchdog/faraday,ftwdt010.yaml          | 2 +-
->  Documentation/devicetree/bindings/watchdog/fsl-imx7ulp-wdt.yaml | 2 +-
->  Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml   | 2 +-
->  Documentation/devicetree/bindings/watchdog/renesas,wdt.yaml     | 2 +-
->  Documentation/devicetree/bindings/watchdog/snps,dw-wdt.yaml     | 2 +-
->  .../devicetree/bindings/watchdog/socionext,uniphier-wdt.yaml    | 2 +-
->  Documentation/devicetree/bindings/watchdog/st,stm32-iwdg.yaml   | 2 +-
->  Documentation/devicetree/bindings/watchdog/ti,rti-wdt.yaml      | 2 +-
->  13 files changed, 13 insertions(+), 13 deletions(-)
+>  rust/bindings/bindings_helper.h |   1 +
+>  rust/helpers.c                  |  23 +++
+>  rust/kernel/drm/drv.rs          |   4 +-
+>  rust/kernel/drm/gem/mod.rs      | 374 ++++++++++++++++++++++++++++++++++++++++
+>  rust/kernel/drm/mod.rs          |   1 +
+>  5 files changed, 401 insertions(+), 2 deletions(-)
+> 
+> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+> index 7d7828faf89c..7183dfe6473f 100644
+> --- a/rust/bindings/bindings_helper.h
+> +++ b/rust/bindings/bindings_helper.h
+> @@ -9,6 +9,7 @@
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_drv.h>
+>  #include <drm/drm_file.h>
+> +#include <drm/drm_gem.h>
+>  #include <drm/drm_ioctl.h>
+>  #include <linux/delay.h>
+>  #include <linux/device.h>
+> diff --git a/rust/helpers.c b/rust/helpers.c
+> index 73b2ce607f27..78ec4162b03b 100644
+> --- a/rust/helpers.c
+> +++ b/rust/helpers.c
+> @@ -18,6 +18,7 @@
+>   * accidentally exposed.
+>   */
+>  
+> +#include <drm/drm_gem.h>
+>  #include <linux/bug.h>
+>  #include <linux/build_bug.h>
+>  #include <linux/device.h>
+> @@ -374,6 +375,28 @@ void rust_helper_init_completion(struct completion *c)
+>  }
+>  EXPORT_SYMBOL_GPL(rust_helper_init_completion);
+>  
+> +#ifdef CONFIG_DRM
+> +
+> +void rust_helper_drm_gem_object_get(struct drm_gem_object *obj)
+> +{
+> +	drm_gem_object_get(obj);
+> +}
+> +EXPORT_SYMBOL_GPL(rust_helper_drm_gem_object_get);
+> +
+> +void rust_helper_drm_gem_object_put(struct drm_gem_object *obj)
+> +{
+> +	drm_gem_object_put(obj);
+> +}
+> +EXPORT_SYMBOL_GPL(rust_helper_drm_gem_object_put);
+> +
+> +__u64 rust_helper_drm_vma_node_offset_addr(struct drm_vma_offset_node *node)
+> +{
+> +	return drm_vma_node_offset_addr(node);
+> +}
+> +EXPORT_SYMBOL_GPL(rust_helper_drm_vma_node_offset_addr);
 
-Applied, thanks.
+Uh all the rust helper wrappers for all the kernel in a single file does
+not sound good. Can we not split these up into each subsystem, and then
+maybe instead of sprinkling #ifdef all over a .c file Make the compilation
+of that file conditional on rust support (plus whatever other Kconfig gate
+the other c files has already)?
+
+Otherwise if rust adoption picks up there's going to be endless amounts of
+cross-subsystem conflicts.
+
+Also similarly, can we perhaps split up the bindings_helper.h file in a
+per-subsystem way?
+
+
+> +
+> +#endif
+> +
+>  /*
+>   * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
+>   * as the Rust `usize` type, so we can use it in contexts where Rust
+> diff --git a/rust/kernel/drm/drv.rs b/rust/kernel/drm/drv.rs
+> index 1dcb651e1417..c138352cb489 100644
+> --- a/rust/kernel/drm/drv.rs
+> +++ b/rust/kernel/drm/drv.rs
+> @@ -126,7 +126,7 @@ pub struct AllocOps {
+
+Similary I guess this needs to be all under rust for rust reasons. I'm
+assuming that the plan is that rust patches in here get acked/reviewed by
+rust people, but then merged through the drm subsystem? At least long term
+I think that's the least painful way.
+
+Meaning we need a MAINTAINERS entry for rust/kernel/drm which adds
+dri-devel for review and the usual git repos somewhere earlier in the
+series.
+-Daniel
+
+>  }
+>  
+>  /// Trait for memory manager implementations. Implemented internally.
+> -pub trait AllocImpl: Sealed {
+> +pub trait AllocImpl: Sealed + drm::gem::IntoGEMObject {
+>      /// The C callback operations for this memory manager.
+>      const ALLOC_OPS: AllocOps;
+>  }
+> @@ -263,7 +263,7 @@ impl<T: Driver> Registration<T> {
+>              drm,
+>              registered: false,
+>              vtable,
+> -            fops: Default::default(), // TODO: GEM abstraction
+> +            fops: drm::gem::create_fops(),
+>              _pin: PhantomPinned,
+>              _p: PhantomData,
+>          })
+> diff --git a/rust/kernel/drm/gem/mod.rs b/rust/kernel/drm/gem/mod.rs
+> new file mode 100644
+> index 000000000000..8a7d99613718
+> --- /dev/null
+> +++ b/rust/kernel/drm/gem/mod.rs
+> @@ -0,0 +1,374 @@
+> +// SPDX-License-Identifier: GPL-2.0 OR MIT
+> +
+> +//! DRM GEM API
+> +//!
+> +//! C header: [`include/linux/drm/drm_gem.h`](../../../../include/linux/drm/drm_gem.h)
+> +
+> +use alloc::boxed::Box;
+> +
+> +use crate::{
+> +    bindings,
+> +    drm::{device, drv, file},
+> +    error::{to_result, Result},
+> +    prelude::*,
+> +};
+> +use core::{mem, mem::ManuallyDrop, ops::Deref, ops::DerefMut};
+> +
+> +/// GEM object functions, which must be implemented by drivers.
+> +pub trait BaseDriverObject<T: BaseObject>: Sync + Send + Sized {
+> +    /// Create a new driver data object for a GEM object of a given size.
+> +    fn new(dev: &device::Device<T::Driver>, size: usize) -> Result<Self>;
+> +
+> +    /// Open a new handle to an existing object, associated with a File.
+> +    fn open(
+> +        _obj: &<<T as IntoGEMObject>::Driver as drv::Driver>::Object,
+> +        _file: &file::File<<<T as IntoGEMObject>::Driver as drv::Driver>::File>,
+> +    ) -> Result {
+> +        Ok(())
+> +    }
+> +
+> +    /// Close a handle to an existing object, associated with a File.
+> +    fn close(
+> +        _obj: &<<T as IntoGEMObject>::Driver as drv::Driver>::Object,
+> +        _file: &file::File<<<T as IntoGEMObject>::Driver as drv::Driver>::File>,
+> +    ) {
+> +    }
+> +}
+> +
+> +/// Trait that represents a GEM object subtype
+> +pub trait IntoGEMObject: Sized + crate::private::Sealed {
+> +    /// Owning driver for this type
+> +    type Driver: drv::Driver;
+> +
+> +    /// Returns a pointer to the raw `drm_gem_object` structure, which must be valid as long as
+> +    /// this owning object is valid.
+> +    fn gem_obj(&self) -> *mut bindings::drm_gem_object;
+> +
+> +    /// Returns a reference to the raw `drm_gem_object` structure, which must be valid as long as
+> +    /// this owning object is valid.
+> +    fn gem_ref(&self) -> &bindings::drm_gem_object {
+> +        // SAFETY: gem_obj() must be valid per the above requirement.
+> +        unsafe { &*self.gem_obj() }
+> +    }
+> +
+> +    /// Converts a pointer to a `drm_gem_object` into a pointer to this type.
+> +    fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Self;
+> +}
+> +
+> +/// Trait which must be implemented by drivers using base GEM objects.
+> +pub trait DriverObject: BaseDriverObject<Object<Self>> {
+> +    /// Parent `Driver` for this object.
+> +    type Driver: drv::Driver;
+> +}
+> +
+> +unsafe extern "C" fn free_callback<T: DriverObject>(obj: *mut bindings::drm_gem_object) {
+> +    // SAFETY: All of our objects are Object<T>.
+> +    let this = crate::container_of!(obj, Object<T>, obj) as *mut Object<T>;
+> +
+> +    // SAFETY: The pointer we got has to be valid
+> +    unsafe { bindings::drm_gem_object_release(obj) };
+> +
+> +    // SAFETY: All of our objects are allocated via Box<>, and we're in the
+> +    // free callback which guarantees this object has zero remaining references,
+> +    // so we can drop it
+> +    unsafe { Box::from_raw(this) };
+> +}
+> +
+> +unsafe extern "C" fn open_callback<T: BaseDriverObject<U>, U: BaseObject>(
+> +    raw_obj: *mut bindings::drm_gem_object,
+> +    raw_file: *mut bindings::drm_file,
+> +) -> core::ffi::c_int {
+> +    // SAFETY: The pointer we got has to be valid.
+> +    let file = unsafe {
+> +        file::File::<<<U as IntoGEMObject>::Driver as drv::Driver>::File>::from_raw(raw_file)
+> +    };
+> +    let obj =
+> +        <<<U as IntoGEMObject>::Driver as drv::Driver>::Object as IntoGEMObject>::from_gem_obj(
+> +            raw_obj,
+> +        );
+> +
+> +    // SAFETY: from_gem_obj() returns a valid pointer as long as the type is
+> +    // correct and the raw_obj we got is valid.
+> +    match T::open(unsafe { &*obj }, &file) {
+> +        Err(e) => e.to_kernel_errno(),
+> +        Ok(()) => 0,
+> +    }
+> +}
+> +
+> +unsafe extern "C" fn close_callback<T: BaseDriverObject<U>, U: BaseObject>(
+> +    raw_obj: *mut bindings::drm_gem_object,
+> +    raw_file: *mut bindings::drm_file,
+> +) {
+> +    // SAFETY: The pointer we got has to be valid.
+> +    let file = unsafe {
+> +        file::File::<<<U as IntoGEMObject>::Driver as drv::Driver>::File>::from_raw(raw_file)
+> +    };
+> +    let obj =
+> +        <<<U as IntoGEMObject>::Driver as drv::Driver>::Object as IntoGEMObject>::from_gem_obj(
+> +            raw_obj,
+> +        );
+> +
+> +    // SAFETY: from_gem_obj() returns a valid pointer as long as the type is
+> +    // correct and the raw_obj we got is valid.
+> +    T::close(unsafe { &*obj }, &file);
+> +}
+> +
+> +impl<T: DriverObject> IntoGEMObject for Object<T> {
+> +    type Driver = T::Driver;
+> +
+> +    fn gem_obj(&self) -> *mut bindings::drm_gem_object {
+> +        &self.obj as *const _ as *mut _
+> +    }
+> +
+> +    fn from_gem_obj(obj: *mut bindings::drm_gem_object) -> *mut Object<T> {
+> +        crate::container_of!(obj, Object<T>, obj) as *mut Object<T>
+> +    }
+> +}
+> +
+> +/// Base operations shared by all GEM object classes
+> +pub trait BaseObject: IntoGEMObject {
+> +    /// Returns the size of the object in bytes.
+> +    fn size(&self) -> usize {
+> +        self.gem_ref().size
+> +    }
+> +
+> +    /// Creates a new reference to the object.
+> +    fn reference(&self) -> ObjectRef<Self> {
+> +        // SAFETY: Having a reference to an Object implies holding a GEM reference
+> +        unsafe {
+> +            bindings::drm_gem_object_get(self.gem_obj());
+> +        }
+> +        ObjectRef {
+> +            ptr: self as *const _,
+> +        }
+> +    }
+> +
+> +    /// Creates a new handle for the object associated with a given `File`
+> +    /// (or returns an existing one).
+> +    fn create_handle(
+> +        &self,
+> +        file: &file::File<<<Self as IntoGEMObject>::Driver as drv::Driver>::File>,
+> +    ) -> Result<u32> {
+> +        let mut handle: u32 = 0;
+> +        // SAFETY: The arguments are all valid per the type invariants.
+> +        to_result(unsafe {
+> +            bindings::drm_gem_handle_create(file.raw() as *mut _, self.gem_obj(), &mut handle)
+> +        })?;
+> +        Ok(handle)
+> +    }
+> +
+> +    /// Looks up an object by its handle for a given `File`.
+> +    fn lookup_handle(
+> +        file: &file::File<<<Self as IntoGEMObject>::Driver as drv::Driver>::File>,
+> +        handle: u32,
+> +    ) -> Result<ObjectRef<Self>> {
+> +        // SAFETY: The arguments are all valid per the type invariants.
+> +        let ptr = unsafe { bindings::drm_gem_object_lookup(file.raw() as *mut _, handle) };
+> +
+> +        if ptr.is_null() {
+> +            Err(ENOENT)
+> +        } else {
+> +            Ok(ObjectRef {
+> +                ptr: ptr as *const _,
+> +            })
+> +        }
+> +    }
+> +
+> +    /// Creates an mmap offset to map the object from userspace.
+> +    fn create_mmap_offset(&self) -> Result<u64> {
+> +        // SAFETY: The arguments are valid per the type invariant.
+> +        to_result(unsafe {
+> +            // TODO: is this threadsafe?
+> +            bindings::drm_gem_create_mmap_offset(self.gem_obj())
+> +        })?;
+> +        Ok(unsafe {
+> +            bindings::drm_vma_node_offset_addr(&self.gem_ref().vma_node as *const _ as *mut _)
+> +        })
+> +    }
+> +}
+> +
+> +impl<T: IntoGEMObject> BaseObject for T {}
+> +
+> +/// A base GEM object.
+> +#[repr(C)]
+> +pub struct Object<T: DriverObject> {
+> +    obj: bindings::drm_gem_object,
+> +    // The DRM core ensures the Device exists as long as its objects exist, so we don't need to
+> +    // manage the reference count here.
+> +    dev: ManuallyDrop<device::Device<T::Driver>>,
+> +    inner: T,
+> +}
+> +
+> +impl<T: DriverObject> Object<T> {
+> +    /// The size of this object's structure.
+> +    pub const SIZE: usize = mem::size_of::<Self>();
+> +
+> +    const OBJECT_FUNCS: bindings::drm_gem_object_funcs = bindings::drm_gem_object_funcs {
+> +        free: Some(free_callback::<T>),
+> +        open: Some(open_callback::<T, Object<T>>),
+> +        close: Some(close_callback::<T, Object<T>>),
+> +        print_info: None,
+> +        export: None,
+> +        pin: None,
+> +        unpin: None,
+> +        get_sg_table: None,
+> +        vmap: None,
+> +        vunmap: None,
+> +        mmap: None,
+> +        vm_ops: core::ptr::null_mut(),
+> +    };
+> +
+> +    /// Create a new GEM object.
+> +    pub fn new(dev: &device::Device<T::Driver>, size: usize) -> Result<UniqueObjectRef<Self>> {
+> +        let mut obj: Box<Self> = Box::try_new(Self {
+> +            // SAFETY: This struct is expected to be zero-initialized
+> +            obj: unsafe { mem::zeroed() },
+> +            // SAFETY: The drm subsystem guarantees that the drm_device will live as long as
+> +            // the GEM object lives, so we can conjure a reference out of thin air.
+> +            dev: ManuallyDrop::new(unsafe { device::Device::from_raw(dev.ptr) }),
+> +            inner: T::new(dev, size)?,
+> +        })?;
+> +
+> +        obj.obj.funcs = &Self::OBJECT_FUNCS;
+> +        to_result(unsafe {
+> +            bindings::drm_gem_object_init(dev.raw() as *mut _, &mut obj.obj, size)
+> +        })?;
+> +
+> +        let obj_ref = UniqueObjectRef {
+> +            ptr: Box::leak(obj),
+> +        };
+> +
+> +        Ok(obj_ref)
+> +    }
+> +
+> +    /// Returns the `Device` that owns this GEM object.
+> +    pub fn dev(&self) -> &device::Device<T::Driver> {
+> +        &self.dev
+> +    }
+> +}
+> +
+> +impl<T: DriverObject> crate::private::Sealed for Object<T> {}
+> +
+> +impl<T: DriverObject> Deref for Object<T> {
+> +    type Target = T;
+> +
+> +    fn deref(&self) -> &Self::Target {
+> +        &self.inner
+> +    }
+> +}
+> +
+> +impl<T: DriverObject> DerefMut for Object<T> {
+> +    fn deref_mut(&mut self) -> &mut Self::Target {
+> +        &mut self.inner
+> +    }
+> +}
+> +
+> +impl<T: DriverObject> drv::AllocImpl for Object<T> {
+> +    const ALLOC_OPS: drv::AllocOps = drv::AllocOps {
+> +        gem_create_object: None,
+> +        prime_handle_to_fd: Some(bindings::drm_gem_prime_handle_to_fd),
+> +        prime_fd_to_handle: Some(bindings::drm_gem_prime_fd_to_handle),
+> +        gem_prime_import: None,
+> +        gem_prime_import_sg_table: None,
+> +        gem_prime_mmap: Some(bindings::drm_gem_prime_mmap),
+> +        dumb_create: None,
+> +        dumb_map_offset: None,
+> +        dumb_destroy: None,
+> +    };
+> +}
+> +
+> +/// A reference-counted shared reference to a base GEM object.
+> +pub struct ObjectRef<T: IntoGEMObject> {
+> +    // Invariant: the pointer is valid and initialized, and this ObjectRef owns a reference to it.
+> +    ptr: *const T,
+> +}
+> +
+> +/// SAFETY: GEM object references are safe to share between threads.
+> +unsafe impl<T: IntoGEMObject> Send for ObjectRef<T> {}
+> +unsafe impl<T: IntoGEMObject> Sync for ObjectRef<T> {}
+> +
+> +impl<T: IntoGEMObject> Clone for ObjectRef<T> {
+> +    fn clone(&self) -> Self {
+> +        self.reference()
+> +    }
+> +}
+> +
+> +impl<T: IntoGEMObject> Drop for ObjectRef<T> {
+> +    fn drop(&mut self) {
+> +        // SAFETY: Having an ObjectRef implies holding a GEM reference.
+> +        // The free callback will take care of deallocation.
+> +        unsafe {
+> +            bindings::drm_gem_object_put((*self.ptr).gem_obj());
+> +        }
+> +    }
+> +}
+> +
+> +impl<T: IntoGEMObject> Deref for ObjectRef<T> {
+> +    type Target = T;
+> +
+> +    fn deref(&self) -> &Self::Target {
+> +        // SAFETY: The pointer is valid per the invariant
+> +        unsafe { &*self.ptr }
+> +    }
+> +}
+> +
+> +/// A unique reference to a base GEM object.
+> +pub struct UniqueObjectRef<T: IntoGEMObject> {
+> +    // Invariant: the pointer is valid and initialized, and this ObjectRef owns the only reference
+> +    // to it.
+> +    ptr: *mut T,
+> +}
+> +
+> +impl<T: IntoGEMObject> UniqueObjectRef<T> {
+> +    /// Downgrade this reference to a shared reference.
+> +    pub fn into_ref(self) -> ObjectRef<T> {
+> +        let ptr = self.ptr as *const _;
+> +        core::mem::forget(self);
+> +
+> +        ObjectRef { ptr }
+> +    }
+> +}
+> +
+> +impl<T: IntoGEMObject> Drop for UniqueObjectRef<T> {
+> +    fn drop(&mut self) {
+> +        // SAFETY: Having a UniqueObjectRef implies holding a GEM
+> +        // reference. The free callback will take care of deallocation.
+> +        unsafe {
+> +            bindings::drm_gem_object_put((*self.ptr).gem_obj());
+> +        }
+> +    }
+> +}
+> +
+> +impl<T: IntoGEMObject> Deref for UniqueObjectRef<T> {
+> +    type Target = T;
+> +
+> +    fn deref(&self) -> &Self::Target {
+> +        // SAFETY: The pointer is valid per the invariant
+> +        unsafe { &*self.ptr }
+> +    }
+> +}
+> +
+> +impl<T: IntoGEMObject> DerefMut for UniqueObjectRef<T> {
+> +    fn deref_mut(&mut self) -> &mut Self::Target {
+> +        // SAFETY: The pointer is valid per the invariant
+> +        unsafe { &mut *self.ptr }
+> +    }
+> +}
+> +
+> +pub(super) fn create_fops() -> bindings::file_operations {
+> +    bindings::file_operations {
+> +        owner: core::ptr::null_mut(),
+> +        open: Some(bindings::drm_open),
+> +        release: Some(bindings::drm_release),
+> +        unlocked_ioctl: Some(bindings::drm_ioctl),
+> +        #[cfg(CONFIG_COMPAT)]
+> +        compat_ioctl: Some(bindings::drm_compat_ioctl),
+> +        #[cfg(not(CONFIG_COMPAT))]
+> +        compat_ioctl: None,
+> +        poll: Some(bindings::drm_poll),
+> +        read: Some(bindings::drm_read),
+> +        llseek: Some(bindings::noop_llseek),
+> +        mmap: Some(bindings::drm_gem_mmap),
+> +        ..Default::default()
+> +    }
+> +}
+> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
+> index a767942d0b52..c44760a1332f 100644
+> --- a/rust/kernel/drm/mod.rs
+> +++ b/rust/kernel/drm/mod.rs
+> @@ -5,4 +5,5 @@
+>  pub mod device;
+>  pub mod drv;
+>  pub mod file;
+> +pub mod gem;
+>  pub mod ioctl;
+> 
+> -- 
+> 2.35.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
