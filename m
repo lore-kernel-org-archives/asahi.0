@@ -1,179 +1,141 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2076.outbound.protection.outlook.com [40.107.100.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304CD7470
-	for <asahi@lists.linux.dev>; Wed,  5 Apr 2023 18:23:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AsE7ddGjCESrXmWDs0TubItMzn+wTVlTE/WCLAapZN9PEXwVcuPzpexHXbTiqkAUZ/9qJPFtq2hobET1pZrctklGjnEWAuV+cgFTDToHBVmkBYt7U3tUyrC9XjCGBXgcxOJxLl6OiNUlbLpptGkyGrKpFYr4zeiVkka26fAnvLRnPwe5r1TMUf1aawaLLdaji3Em7f6t+U6R4ZBQ5L5aK7qLnqp8Uc48D6Xc4N70kJsd/ktgDOHqMzuSunatl2bSzZvk+j/ICbJgzsIdQGPToFEPR7ivvLdKQ8srDrRvfqjdySv9oylv+4U3XFFGJn3q7BCAPB/UmP27FNExzSw6tQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XyV4Oo8W9PFipzAyIxXlJomh9ZdUsww7SX35J7vs0os=;
- b=ntHx0JtiQJwMldoxx3kpJpAuWHnW+8DVPtdTRg5A/cW4Y/pIdrHiYluGrI045ZfCdUENyZ7Jn6+rcpWmkL/9U0uQBorw+ruFz0YORdNx9BxfeYGCFAL2jpz3exfQBD8ESpY0/vPd4b/FNB+K6/zoVUVaYQdJeXy13X6dYWx2tYtrB5PENWBT7zHI8Fn7lG6c5EavzBzDc8oN5O+WwZAQ+sizXTFNoifty0jKRrNfwQhqHjC2Zj2aWMmgiicJi0RH7hDxyZssaO1w1d6sTeBdCspX1XhwxtFJJGjlXPRIr6tLmIm8mPvRajm1/2RdyL4lT8pCeHvZhBo7U+PaeC91fQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XyV4Oo8W9PFipzAyIxXlJomh9ZdUsww7SX35J7vs0os=;
- b=V5OLEMLUbfbh87O35VuQhcaYG7fZISRvJbvpc97qZ057XyTpd92yZyx3IK4+WIJVmDiXbqduJydIM2SMoGfaZcA3RA5yRFHTftoc2G3OVMtqFwJhbHaz63RxL4AYiBq2rSSUYJ1Xl7N8awXMllKRVOX0jb4uLuHXrW1CLXgGTFI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com (2603:10b6:5:38::25) by
- PH7PR12MB7428.namprd12.prod.outlook.com (2603:10b6:510:203::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6254.33; Wed, 5 Apr 2023 18:23:36 +0000
-Received: from DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8299:158a:c296:de80]) by DM6PR12MB3370.namprd12.prod.outlook.com
- ([fe80::8299:158a:c296:de80%6]) with mapi id 15.20.6254.033; Wed, 5 Apr 2023
- 18:23:36 +0000
-Message-ID: <9bce7374-ef67-75d0-4040-870ba131819e@amd.com>
-Date: Wed, 5 Apr 2023 14:23:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Content-Language: en-CA
-To: Asahi Lina <lina@asahilina.net>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230406-scheduler-uaf-2-v1-1-972531cf0a81@asahilina.net>
-From: Luben Tuikov <luben.tuikov@amd.com>
-Subject: Re: [PATCH] drm/scheduler: Fix UAF race in
- drm_sched_entity_push_job()
-In-Reply-To: <20230406-scheduler-uaf-2-v1-1-972531cf0a81@asahilina.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0471.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:d6::22) To DM6PR12MB3370.namprd12.prod.outlook.com
- (2603:10b6:5:38::25)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241673234
+	for <asahi@lists.linux.dev>; Wed,  5 Apr 2023 19:29:07 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-947a47eb908so59785966b.0
+        for <asahi@lists.linux.dev>; Wed, 05 Apr 2023 12:29:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1680722945;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HjS4xiLUH8Vl6mwX+ydicDNhQfS/HlIJ5pcb18flIFA=;
+        b=FBmtIvVfM4pGQI0Ecn5kpWqT9ewv/aw4Fo78eRrx1HwuZBp4iXUV5H057Luk2hvw2u
+         ulz9ur/hM3WMIFn4fbzHBA2uvVARF0Kv0zsR5L7enELuauqiMc0abH4qMusRV/lI+9z6
+         rMCS6thBW9YJ4KbSlkrUTkyEBTGwzwnZC74V4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680722945;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HjS4xiLUH8Vl6mwX+ydicDNhQfS/HlIJ5pcb18flIFA=;
+        b=trTR9sgv5MNiUYr0G0GjemzkYVLDfTBxm76UXrnjQR07kwcd+z//FGarUL7askzP1Z
+         Fg6gTobFYXi3sUeVE+HhYj2P7MHcrHAnqWxVhz8QSoYHYrm1ZU+kEFoB4P+WoqVTIyG6
+         tpoaQIJtclAud5KIugqfRvW29Me+IrWhT9GqbdMYlh8yEV4Dqjr8oUbqAx7iYTZNDkSp
+         RaPM+7Gb/gzHTM+4Wo2DKr5jmsd1gnEY5rvP4wer6Mr6M/AZUnRAeWQpxdazNAdMBOE/
+         El3qZr3GtC9R8mLSp1/RYA6XC6jv7EI/zMtMU/sttm100wI3Y9NeUrlUV5RUkdB7aiQK
+         U6Bw==
+X-Gm-Message-State: AAQBX9fMC/ukma2AWz3OUL1NnVpOgAhurkxmzOiZ5iPzvKYqi/kkPABR
+	GPUPXUK/kplAsBWoDP3RvFB0bQ==
+X-Google-Smtp-Source: AKy350YXaXE3UsMcWjKsIKz3/lGkR1neWBZc+WNbMetS2a0zQrsKbODyiNsB5M3OyGWh53lfa89J9Q==
+X-Received: by 2002:a05:6402:524e:b0:500:3fd0:25a8 with SMTP id t14-20020a056402524e00b005003fd025a8mr3953373edd.0.1680722945234;
+        Wed, 05 Apr 2023 12:29:05 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id cq5-20020a056402220500b005023ddb37eesm7596632edb.8.2023.04.05.12.29.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Apr 2023 12:29:04 -0700 (PDT)
+Date: Wed, 5 Apr 2023 21:29:02 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Asahi Lina <lina@asahilina.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Luben Tuikov <luben.tuikov@amd.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Karol Herbst <kherbst@redhat.com>,
+	Ella Stanforth <ella@iglunix.org>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH RFC 12/18] rust: drm: sched: Add GPU scheduler abstraction
+Message-ID: <ZC3L/uinmOwI+FbI@phenom.ffwll.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Luben Tuikov <luben.tuikov@amd.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Karol Herbst <kherbst@redhat.com>,
+	Ella Stanforth <ella@iglunix.org>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-12-917ff5bc80a8@asahilina.net>
+ <ZC2XBfJGAdNMQjpZ@phenom.ffwll.local>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3370:EE_|PH7PR12MB7428:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d05666d-3ee6-40fd-a9e1-08db3602deb0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	yPVkLt8eNuw4Rx2t4P4WydFB6biFgLCVOeEGvhTwhIWcS2Gsh8ykjiuc9LhfnOOYBnfBZr5MGNUbhKvqrWC/+KB2kqx1GOrzo/Hcrup1YBMQTHQ+3V+EBRFu6lBaESjQ4xlDsJL35tsLeGdB4VeiPyBmzBfTrvoW1g5x2LlM9Af3KaoBLL5Yx7Ebz66HdGzfucrFXOEvexRNK0dyBSIYQPBClXSi7+MK911v9zE7EEmLIKt5Jo+DdmTmRRkizgFSfKKYegttLbKgXXuWK3z+fdE2cB8vTNaE6oUVU2fu9JfwpCx5cy9IyJrGkp3bkoOUT+GtVA8LhMIpj30MCQkqcGef78topaCEWTxvDmiMEn7uHH8b7zwP2fTAW6rlrqTkE4KTYWehDJYBd5Xx+xp9dCOLBpPYwt+bC8xLu0G+RcS9+ZoTD99TXgpttknL6BK67aqY5pDa4mLUaq8oqJzxLI6zQtwNL6tLUrpY4H4gE96tOKFDK5CoR/JtYNUfAvOMyG7WoKt82zq31nEfBc7k6cqdBbqG/DslSAm2Ja4kJm7RFAFh8LW9gmbEz5Qev1h2GohWsuaWq7n8xys3gRHtjrgg0n2s694/gkXEWaYWMsueYRV1QM5iiZTF4Q1cIWwzg3X8EFNIEOO9gmqEo6YJaw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3370.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(39860400002)(346002)(366004)(136003)(451199021)(31696002)(86362001)(8676002)(36756003)(6486002)(66946007)(66556008)(66476007)(41300700001)(4326008)(6666004)(110136005)(316002)(186003)(6506007)(44832011)(5660300002)(8936002)(38100700002)(2906002)(53546011)(478600001)(6512007)(2616005)(26005)(83380400001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SDFvMFJUNjFZRFFQWjI4SkNkYi9rdkUyYWpCdENJRUFHVU5WUVV1Tndic2Jp?=
- =?utf-8?B?cllnREE0My9QSDQxNXpvd0l1RFFkMFRvdnpEKzUwblRJbEFiSlJGOFpjSTBY?=
- =?utf-8?B?QkY3SVArckppamJlQTFIM1VCeEVXYXRZOGx4RG91ZUVTcHdkWkxFTDRzR2gy?=
- =?utf-8?B?a2huZDU2WFJPTkM1YllYRTVTaWp3SXM1Y0ZPYTkzVWx1NVJpM0tCMGNEYWFa?=
- =?utf-8?B?TlFpOFlJd2NtVEJRUGYyaThtTUtwRGxUL0RhVzlxWlduMTZWcU81Z2VJajNr?=
- =?utf-8?B?Q1NyU1RJSlRLU0pwL3pET0h4dzJtczJmQXk1bmZXbXVDbmFSMDBpNGFCcDdG?=
- =?utf-8?B?L2JvR3JCNmVkZldMM0Rtckx2T2JaWExEeHk2czVBdVJnaVVVWVQ0Nk82N3RV?=
- =?utf-8?B?dkV6YU5jOVJRVU9mVHBoVGJlbjdzRFlwdklFSHI1NmhQaUNPKzR6aWFzcDB2?=
- =?utf-8?B?L3pGR3R3V3dmaTFmVklRN1loa3R4aTF6Qm04aFhScVFpUjdMdGRIbjZMRUdl?=
- =?utf-8?B?eGdWdFVzaVdPOFV1OEdDTE9sbE9hSHdFYWtZcFNrWVZWTndQdjk2dUxGMEUw?=
- =?utf-8?B?cWJ6c0RLZlNDSmlVa1I5eVZzN2l2K0ZwQXRBaDN6eEdGUWtQMzhwcWFXWjhj?=
- =?utf-8?B?ZTBxN0psZGZCQUxtSGJHT0hrRml6ZENldlFFQUlZamhoYkw1OUN4TGhnMW1R?=
- =?utf-8?B?VzhRalAyTXByaTdyS3VhZzZDZ3RLQW1XbUJOb003V1ZwYm5xUlJvQlRveTdE?=
- =?utf-8?B?aTBXMFk2T3czOEpKbWdXRUloaWxGQURkaTBsWjc3WE9tSlp3UTVod25VaVZ1?=
- =?utf-8?B?dzd4Nkc0UnVoN0VCN2lKcmJKQ2hVdWlGc3oyeWZyTFJDY3oxUy9VZm9RRnhM?=
- =?utf-8?B?eTlxdWJsaXRETmtQa09aVzdMZWFYeUJDWTlOTDJsUzJHWDdGWmtRUklRQTlK?=
- =?utf-8?B?K1VUaXNhVzhsektEMElJd2Fvbm84aDY1WmlDK2s2QWJTMEs4VGRBVVEyL0x0?=
- =?utf-8?B?U0dESzR6T1BsUC9ZZExtRVN2QkNHOTA0Nnp4c3NQZXlDTWhISmlLbzVVUnNX?=
- =?utf-8?B?dzkzQ2tsS3hGTEJMMUZWSTVYOUEwMVlKYnVBWDJrelBZcUh5Q0lOQm5YNGZu?=
- =?utf-8?B?cUFRUzVaWXVLaEp2OVpoNVVYOXhVeW94VmwwUmRMdnhwbEZMTGRhVEVGRnVH?=
- =?utf-8?B?NmYvL0ZndmFzbmowUm1ybFZiRHcxNHJzcGxXMzRFY3dwYW5WY1lmaTN2SXlh?=
- =?utf-8?B?NFVuaUkzTlQvaEdxUGZvUTFMNU9uRGNkcjQrWEg2bXVKTWNWeDNNaStHbVRx?=
- =?utf-8?B?d0ZoME9tRjFYbEtNRU55UVU4NTlWUnY0YUFGWnE2MDZOOG5kSmdkZGpjMWR2?=
- =?utf-8?B?MjRNZG9ZN3lPc3oyWm1LTVlRRXNsa0xRQnAyaGplWDVwSGpQd1NsOVpwQlFk?=
- =?utf-8?B?TFBjR2x1UTcvNnVhMDdwaTZZUERjV1JYT0FpZldRcG5OeWpZcDZDaFhDZkVu?=
- =?utf-8?B?VGNNMVZGcWlQeWpFTGZXeEk5QTlXbGRTcFljQlEzWlpYSHpYMFFWc3VscWdn?=
- =?utf-8?B?azRSUkxHU0owTm1MM0Y1T2pVQUV4VU1oYUwvdlphRUhOY3o3RW1pZHl5QXh5?=
- =?utf-8?B?ekF4ZlZWRWxndyswWGVwQTVKS2xBS0s4aC92TjZYbU5RWjhXcVFNSGlXZE42?=
- =?utf-8?B?ckw3anQvaFY4aFBqY2RVdHI5YTJVUWk2NHRjU2Jlc1R2S3I4dkp2a2Frc3Mx?=
- =?utf-8?B?WitpYmVFbUtFU1JDaE1uUmxHbnVENG9kNnVzVWZnQTVmeGtRbkhVOWtEMDlM?=
- =?utf-8?B?YitTZlJBdXp1R0QvMDRkYzlyVDEvZER5eDRwcjRvaXZla2ZxeU04eGE4UEVm?=
- =?utf-8?B?K1RnODJ2clRMUzQ2a0hTMDVwaGF3cDdaKzIrUjcvdW51cHQ0Qng3RWhrL2xG?=
- =?utf-8?B?d2tRZ3hNRUROQ0gydWNMbFJIWlVVQWtwcWZxWnU0blg3aG5sbnZrUzNGc0Vn?=
- =?utf-8?B?TDFmczVtZTlWTWoyMDVWeE1CclNSTDN2cFIwbGF1ZTMwS2g1M0VJdDVNRnhD?=
- =?utf-8?B?dG5Sd2VBaHUvV0thVSszZS9Yc1JPcW9OR0pJTW5NcnhaL0YwaHRuckJXdnNl?=
- =?utf-8?Q?7S7GwBnZMtNWsuGX6CXtxaXrH?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d05666d-3ee6-40fd-a9e1-08db3602deb0
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3370.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2023 18:23:35.8434
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6Y0CHZ1M+7gPmBEXTi1zqkCgrDVxwDompNMC6Leg9C+ECACFB9QOq8OzFCPTDhwv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7428
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZC2XBfJGAdNMQjpZ@phenom.ffwll.local>
+X-Operating-System: Linux phenom 6.1.0-7-amd64 
 
-On 2023-04-05 12:37, Asahi Lina wrote:
-> After a job is pushed into the queue, it is owned by the scheduler core
-> and may be freed at any time, so we can't write nor read the submit
-> timestamp after that point.
+On Wed, Apr 05, 2023 at 05:43:01PM +0200, Daniel Vetter wrote:
+> On Tue, Mar 07, 2023 at 11:25:37PM +0900, Asahi Lina wrote:
+> > +/// An armed DRM scheduler job (not yet submitted)
+> > +pub struct ArmedJob<'a, T: JobImpl>(Box<Job<T>>, PhantomData<&'a T>);
+> > +
+> > +impl<'a, T: JobImpl> ArmedJob<'a, T> {
+> > +    /// Returns the job fences
+> > +    pub fn fences(&self) -> JobFences<'_> {
+> > +        JobFences(unsafe { &mut *self.0.job.s_fence })
+> > +    }
+> > +
+> > +    /// Push the job for execution into the scheduler
+> > +    pub fn push(self) {
+> > +        // After this point, the job is submitted and owned by the scheduler
+> > +        let ptr = match self {
+> > +            ArmedJob(job, _) => Box::<Job<T>>::into_raw(job),
+> > +        };
 > 
-> Fixes oopses observed with the drm/asahi driver, found with kASAN.
+> If I get this all right then this all makes sure that drivers can't use
+> the job after push and they don't forgot to call arm.
 > 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
+> What I'm not seeing is how we force drivers to call push once they've
+> called arm? I haven't check what the code does, but from the docs it
+> sounds like if you don't call push then drop will get called. Which wreaks
+> the book-keeping on an armed job. Or is there someting that prevents
+> ArmedJob<T> from having the Drop trait and so the only way to not go boom
+> is by pushing it?
+> 
+> Googling for "rust undroppable" seems to indicate that this isn't a thing
+> rust can do?
 
-That's a good fix! Thanks for fixing this. I'll push
-this through drm-misc-next and drm-misc-fixes, if there
-are no objections.
+Another thing that I just realized: The driver must ensure that the
+arm->push sequence on a given drm_sched_entity isn't interrupte by another
+thread doing the same, i.e. you need to wrap it all in a lock, and it
+always needs to be the same lock for a given entity.
 
-Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
-
-Regards,
-Luben
-
->  drivers/gpu/drm/scheduler/sched_entity.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index 15d04a0ec623..e0a8890a62e2 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -507,12 +507,19 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->  {
->  	struct drm_sched_entity *entity = sched_job->entity;
->  	bool first;
-> +	ktime_t submit_ts;
->  
->  	trace_drm_sched_job(sched_job, entity);
->  	atomic_inc(entity->rq->sched->score);
->  	WRITE_ONCE(entity->last_user, current->group_leader);
-> +
-> +	/*
-> +	 * After the sched_job is pushed into the entity queue, it may be
-> +	 * completed and freed up at any time. We can no longer access it.
-> +	 * Make sure to set the submit_ts first, to avoid a race.
-> +	 */
-> +	sched_job->submit_ts = submit_ts = ktime_get();
->  	first = spsc_queue_push(&entity->job_queue, &sched_job->queue_node);
-> -	sched_job->submit_ts = ktime_get();
->  
->  	/* first job wakes up scheduler */
->  	if (first) {
-> @@ -529,7 +536,7 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->  		spin_unlock(&entity->rq_lock);
->  
->  		if (drm_sched_policy == DRM_SCHED_POLICY_FIFO)
-> -			drm_sched_rq_update_fifo(entity, sched_job->submit_ts);
-> +			drm_sched_rq_update_fifo(entity, submit_ts);
->  
->  		drm_sched_wakeup(entity->rq->sched);
->  	}
-> 
-> ---
-> base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-> change-id: 20230406-scheduler-uaf-2-44cf8faed245
-> 
-> Thank you,
-> ~~ Lina
-> 
-
+I have no idea how to guarantee that, but I guess somehow we should?
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
