@@ -1,116 +1,201 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F1FA5E;
-	Wed,  5 Apr 2023 13:02:14 +0000 (UTC)
-Received: from ip4d1634d3.dynamic.kabel-deutschland.de ([77.22.52.211] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1pk2lE-0006xn-Nr; Wed, 05 Apr 2023 15:01:12 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Michal Simek <michal.simek@xilinx.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-rtc@vger.kernel.org,
- Michael Walle <michael@walle.cc>,
- =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject:
- Re: [PATCH V4] nvmem: add explicit config option to read old syntax fixed OF
- cells
-Date: Wed, 05 Apr 2023 15:01:10 +0200
-Message-ID: <4767237.ejJDZkT8p0@diego>
-In-Reply-To: <20230403225540.1931-1-zajec5@gmail.com>
-References: <20230403225540.1931-1-zajec5@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993962C9A
+	for <asahi@lists.linux.dev>; Wed,  5 Apr 2023 13:40:23 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5029d4d90fbso54145a12.0
+        for <asahi@lists.linux.dev>; Wed, 05 Apr 2023 06:40:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1680702022; x=1683294022;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b9JAWiy7ir3X1MkEG4eNi/e4F+J8Za1YQw6cD7xkcWQ=;
+        b=I5E2dILRk/qwr/JqR3XN+WpGsAtsDJaxeFQY1kUaSs0iN97G9an9tQIRfByNhSo3Fv
+         Ff7L1Qa6nX+1WNgzPrDJCXNhBjfKdK+ltAGeuDGEIOao3yXMv9PbqZW75aBC3kcWfhHT
+         GgTwkxsMaG6WpXcP3/tIq5SA+L5RLr7H0a6uQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680702022; x=1683294022;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=b9JAWiy7ir3X1MkEG4eNi/e4F+J8Za1YQw6cD7xkcWQ=;
+        b=2MYY9ajzB0/riaAP/XBg1phAZX3n31VwWkD1qCPKKtqlxdNlL2QR7SqGaCX3nWiOfr
+         pmj3LxxdXg+6BPT5M5yJ+zQ1extl1BrDaAM6HzagzvJOsdN0+a+BAQrVeS6oxAGDXJ8C
+         TfcgCVgU87pOuyN8WW/XMNBPB8i5pd/QZS/xRXgBLpGNQ689aBrdob0cnrICh/yjrz77
+         EBCCa6rE6CgG3NgPnLUltinu1U426hjjMZK5bSub4SK5ux028q/v6Ey1ncxd6PKChdxA
+         IgPJl/UaYoRwnEe8ve4JhIvcR7325sfEUUVejhrqvQiJJf158gDV6ifdrTuzQvYig/3A
+         B0cA==
+X-Gm-Message-State: AAQBX9fVTN6T6ZhYst9l/hW1hVV8aYJjVX7PrqOPIjBnPJ36tygSzyev
+	hebhQgYC9vFJFN4JWEroTesbBw==
+X-Google-Smtp-Source: AKy350b3xCy9gL5DOFrdll8pOoEph0xjt04z4AL+Sh79KZNLfnPVo8bTbbVanjj+1/+QMr0G8qmUvA==
+X-Received: by 2002:a05:6402:4413:b0:502:1f7b:f0a6 with SMTP id y19-20020a056402441300b005021f7bf0a6mr2233711eda.0.1680702021702;
+        Wed, 05 Apr 2023 06:40:21 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id s25-20020a50d499000000b005027dd7c403sm6937947edi.66.2023.04.05.06.40.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Apr 2023 06:40:21 -0700 (PDT)
+Date: Wed, 5 Apr 2023 15:40:19 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Luben Tuikov <luben.tuikov@amd.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Karol Herbst <kherbst@redhat.com>,
+	Ella Stanforth <ella@iglunix.org>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH RFC 10/18] drm/scheduler: Add can_run_job callback
+Message-ID: <ZC16Q8MhHEcutX1b@phenom.ffwll.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Luben Tuikov <luben.tuikov@amd.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Karol Herbst <kherbst@redhat.com>,
+	Ella Stanforth <ella@iglunix.org>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230307-rust-drm-v1-10-917ff5bc80a8@asahilina.net>
+X-Operating-System: Linux phenom 6.1.0-7-amd64
 
-Am Dienstag, 4. April 2023, 00:55:40 CEST schrieb Rafa=C5=82 Mi=C5=82ecki:
-> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
->=20
-> Binding for fixed NVMEM cells defined directly as NVMEM device subnodes
-> has been deprecated. It has been replaced by the "fixed-layout" NVMEM
-> layout binding.
->=20
-> New syntax is meant to be clearer and should help avoiding imprecise
-> bindings.
->=20
-> NVMEM subsystem already supports the new binding. It should be a good
-> idea to limit support for old syntax to existing drivers that actually
-> support & use it (we can't break backward compatibility!). That way we
-> additionally encourage new bindings & drivers to ignore deprecated
-> binding.
->=20
-> It wasn't clear (to me) if rtc and w1 code actually uses old syntax
-> fixed cells. I enabled them to don't risk any breakage.
->=20
-> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> [for meson-{efuse,mx-efuse}.c]
-> Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> [for mtk-efuse.c, nvmem/core.c, nvmem-provider.h]
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
-ora.com>
-> [MT8192, MT8195 Chromebooks]
-> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabor=
-a.com>
-> [for microchip-otpc.c]
-> Reviewed-by: Claudiu Beznea <claudiu.beznea@microchip.com>
-> [SAMA7G5-EK]
-> Tested-by: Claudiu Beznea <claudiu.beznea@microchip.com>
+On Tue, Mar 07, 2023 at 11:25:35PM +0900, Asahi Lina wrote:
+> Some hardware may require more complex resource utilization accounting
+> than the simple job count supported by drm_sched internally. Add a
+> can_run_job callback to allow drivers to implement more logic before
+> deciding whether to run a GPU job.
+> 
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 
-> diff --git a/drivers/nvmem/rockchip-efuse.c b/drivers/nvmem/rockchip-efus=
-e.c
-> index e4579de5d014..adc8bc70cffa 100644
-> --- a/drivers/nvmem/rockchip-efuse.c
-> +++ b/drivers/nvmem/rockchip-efuse.c
-> @@ -205,6 +205,7 @@ static int rockchip_rk3399_efuse_read(void *context, =
-unsigned int offset,
-> =20
->  static struct nvmem_config econfig =3D {
->  	.name =3D "rockchip-efuse",
-> +	.add_legacy_fixed_of_cells =3D true,
->  	.stride =3D 1,
->  	.word_size =3D 1,
->  	.read_only =3D true,
+Ok scheduler rules, or trying to summarize the entire discussion:
 
-for rockchip-efuse.c
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+dma_fence rules are very tricky. The two main chapters in the docs are
 
+https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#dma-fence-cross-driver-contract
+https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html?highlight=dma_buf#indefinite-dma-fences
 
+Unforutunately I don't think it's possible to check this at compile time,
+thus far all we can do is validate at runtime. I've posted two patches for
+this:
+
+https://lore.kernel.org/dri-devel/20201023122216.2373294-17-daniel.vetter@ffwll.ch/
+https://lore.kernel.org/dri-devel/20201023122216.2373294-20-daniel.vetter@ffwll.ch/
+
+Unfortunately most drivers are buggy and get this completely wrong, so
+realistically we'd need to make this a per-driver opt-out and annotate all
+current drivers. Well except amdgpu is correct by now I think (they'd
+still need to test that). And Rob Clark is working on patches to fix up
+msm.
+
+I think best here is if you work together with Rob to make sure these
+annotations are mandatory for any rust drivers (I don't want new buggy
+drivers at least). Would also be great to improve the kerneldoc for all
+the driver hooks to explain these restrictions and link to the relevant
+kerneldocs (there's also one for the dma_fence signalling annotations
+which might be worth linking too).
+
+I don't see any way to make this explicit in rust types, it's really only
+something runtime tests (using lockdep) can catch. Somewhat disappointing.
+
+For the other things discussed here:
+
+- Option<Dma_Fence> as the return value for ->prepare_job makes sense to
+  me.
+
+- I don't see any way a driver can use ->can_run_job without breaking the
+  above rules, that really doesn't sound like a good idea to me.
+
+Cheers, Daniel
+
+> ---
+>  drivers/gpu/drm/scheduler/sched_main.c | 10 ++++++++++
+>  include/drm/gpu_scheduler.h            |  8 ++++++++
+>  2 files changed, 18 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 4e6ad6e122bc..5c0add2c7546 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -1001,6 +1001,16 @@ static int drm_sched_main(void *param)
+>  		if (!entity)
+>  			continue;
+>  
+> +		if (sched->ops->can_run_job) {
+> +			sched_job = to_drm_sched_job(spsc_queue_peek(&entity->job_queue));
+> +			if (!sched_job) {
+> +				complete_all(&entity->entity_idle);
+> +				continue;
+> +			}
+> +			if (!sched->ops->can_run_job(sched_job))
+> +				continue;
+> +		}
+> +
+>  		sched_job = drm_sched_entity_pop_job(entity);
+>  
+>  		if (!sched_job) {
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 9db9e5e504ee..bd89ea9507b9 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -396,6 +396,14 @@ struct drm_sched_backend_ops {
+>  	struct dma_fence *(*prepare_job)(struct drm_sched_job *sched_job,
+>  					 struct drm_sched_entity *s_entity);
+>  
+> +	/**
+> +	 * @can_run_job: Called before job execution to check whether the
+> +	 * hardware is free enough to run the job.  This can be used to
+> +	 * implement more complex hardware resource policies than the
+> +	 * hw_submission limit.
+> +	 */
+> +	bool (*can_run_job)(struct drm_sched_job *sched_job);
+> +
+>  	/**
+>           * @run_job: Called to execute the job once all of the dependencies
+>           * have been resolved.  This may be called multiple times, if
+> 
+> -- 
+> 2.35.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
