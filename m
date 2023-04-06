@@ -1,27 +1,26 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF84A29
-	for <asahi@lists.linux.dev>; Thu,  6 Apr 2023 05:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6F2ECA
+	for <asahi@lists.linux.dev>; Thu,  6 Apr 2023 07:18:12 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id AFC0C42494;
-	Thu,  6 Apr 2023 05:09:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1680757796;
-	bh=zLLtvp1wx7c1UDNlTKe6kg9bIIg37y5fJnKwZQvAJ2Q=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=DQ1+ZlgRBNIfMYWHR2U9G4uiVDt3T6qab2toMmETW55z0zVv/P+2cm3zPOGUlFSu4
-	 zI1mDctpjgbkItPQ0HnHTtOu888Zbe0524eMsrZ1dgYL6Gfe+5eZOFJyHhFj/4WBZs
-	 SPfg/f0jUT8JFTfLAdqwbw1o5A0/Yt3Xz5aOOqzKHDtD48ZhujGPtn2HUZEQfU/dOD
-	 qnVlGPkiGW1lERp8POXcFrsQ+sGwayWhcxPjEWWGG1t6v+UDQR7LiV02M2uerw+MOK
-	 G1irCrwEJi3N5UolxXP6P4vHFNtHB7M+OGUo/D7OAdrev9aSdO39GnsQYI6/h2Gweb
-	 ycpfc29EV5hXQ==
-Message-ID: <df68305d-fbf0-8f03-d9fb-4502632beec6@asahilina.net>
-Date: Thu, 6 Apr 2023 14:09:48 +0900
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 7006642463;
+	Thu,  6 Apr 2023 07:18:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1680765489; bh=e70UwBute4HAoZJh+nxQBtfBPLvA9NDh9kwubSF5MIY=;
+	h=Date:To:Cc:From:Subject;
+	b=SGZHa/ng2HRa2VBLu8w/J/QKi0mDuTL0458I1X/lX/UA91ME/izT/mZ5mJNefiJZQ
+	 sAFmE6e7XH245Rayty/3/jShvtsNtt0frKxAgahWLZm4zz8R+Z9uIQhWzrtZ/wagWN
+	 kre+SRKOs0f8/4ercrfkn78R8r4W0e9o6ys48evrBL4JuP0LDAzluutvl263OureHQ
+	 8qHM4PGfqgrgi2ocV5OZo92ySkmwuzkz1/g/X2Obtxx+Vt7daP7SlvZOWejhchHSW2
+	 sg+EU/bPS3ZFmRkb49nv0U0TywDCzlmjZ3ilwtCK1BMqBpYljLAELmSIPMdIm/LJ7Z
+	 XAnDDkLnl07Jw==
+Message-ID: <7263df01-aebc-2db5-f074-4805e0ae9fbc@marcan.st>
+Date: Thu, 6 Apr 2023 16:18:05 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -30,96 +29,96 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi driver for Apple AGX
- GPUs
 Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Karol Herbst <kherbst@redhat.com>,
- Ella Stanforth <ella@iglunix.org>,
- Faith Ekstrand <faith.ekstrand@collabora.com>, Mary <mary@mary.zone>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-sgx@vger.kernel.org,
- asahi@lists.linux.dev, David Airlie <airlied@gmail.com>
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
- <ZC2JPR3fGm0uE9yW@phenom.ffwll.local>
- <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
-In-Reply-To: <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: SoC Team <soc@kernel.org>
+Cc: Asahi Linux <asahi@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+From: Hector Martin <marcan@marcan.st>
+Subject: [GIT PULL] Apple SoC DT updates for 6.4
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Same as the prior email, this was supposed to go to Daniel...
+Hi SoC folks,
 
-On 06/04/2023 14.02, Asahi Lina wrote:
-> On 05/04/2023 23.44, Daniel Vetter wrote:
->> On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
->>> +/// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
->>> +pub(crate) fn lookup_handle(file: &DrmFile, handle: u32) -> Result<ObjectRef> {
->>> +    Ok(ObjectRef::new(shmem::Object::lookup_handle(file, handle)?))
->>> +}
->>
->> So maybe my expectations for rust typing is a bit too much, but I kinda
->> expected this to be fully generic:
->>
->> - trait Driver (drm_driver) knows the driver's object type
->> - a generic create_handle function could ensure that for drm_file (which
->>     is always for a specific drm_device and hence Driver) can ensure at the
->>     type level that you only put the right objects into the drm_file
->> - a generic lookup_handle function on the drm_file knows the Driver trait
->>     and so can give you back the right type right away.
->>
->> Why the wrapping, what do I miss?
-> 
-> Sigh, so this is one of the many ways I'm trying to work around the
-> "Rust doesn't do subclasses" problem (so we can figure out what the best
-> one is ^^).
-> 
-> The generic shmem::Object::lookup_handle() call *is* fully generic and
-> will get you back a driver-specific object. But since Rust doesn't do
-> subclassing, what you get back isn't a driver-specific type T, but
-> rather a (reference to a) shmem::Object<T>. T represents the inner
-> driver-specific data/functionality (only), and the outer
-> shmem::Object<T> includes the actual drm_gem_shmem_object plus a T. This
-> is backwards from C, where you expect the opposite situation where T
-> contains a shmem object, but that just doesn't work with Rust because
-> there's no way to build a safe API around that model as far as I know.
-> 
-> Now the problem is from the higher layers I want object operations that
-> interact with the shmem::Object<T> (that is, they call generic GEM
-> functions on the object). Options so far:
-> 
-> 1. Add an outer wrapper and put that functionality there.
-> 2. Just have the functions on T as helpers, so you need to call
-> T::foo(obj) instead of obj.foo().
-> 3. Use the undocumented method receiver trait thing to make
-> shmem::Object<T> a valid `self` type, plus add auto-Deref to
-> shmem::Object. Then obj.foo() works.
-> 
-> #1 is what I use here. #2 is how the driver-specific File ioctl
-> callbacks are implemented, and also sched::Job<T>. #3 is used for fence
-> callbacks (FenceObject<T>). None of them are great, and I'd love to hear
-> what people think of the various options...
-> 
-> There are other unexplored options, like in this GEM case it could be
-> covered with a driver-internal auxiliary trait impl'd on
-> shmem::Object<T> buuut that doesn't work when you actually need
-> callbacks on T itself to circle back to shmem::Object<T>, as is the case
-> with File/Job/FenceObject.
-> 
-> ~~ Lina
-> 
+Please merge these DT changes for 6.4.
 
-~~ Lina
+For this cycle we have the M2 DT series (which didn't make 6.3) as well as
+minor PCIe disable fixes on the older platforms.
 
+-Hector
+
+The following changes since commit fe15c26ee26efa11741a7b632e9f23b01aca4cc6:
+
+  Linux 6.3-rc1 (2023-03-05 14:52:03 -0800)
+
+are available in the Git repository at:
+
+  https://github.com/AsahiLinux/linux.git tags/asahi-soc-dt-6.4
+
+for you to fetch changes up to 8d59efc33fdaa2c82072b4d3ba5f67d7dd9270d0:
+
+  arm64: dts: apple: t600x: Disable unused PCIe ports (2023-03-28 20:07:02 +0900)
+
+----------------------------------------------------------------
+Apple SoC DT updates for 6.4.
+
+This time we have the M2 (t8112) device trees and compatible updates,
+as well as a minor fix for PCIe ports on the prior models.
+
+----------------------------------------------------------------
+Hector Martin (2):
+      dt-bindings: power: apple,pmgr-pwrstate: Add t8112 compatible
+      arm64: dts: apple: t8112: Initial t8112 (M2) device trees
+
+Janne Grunau (14):
+      dt-bindings: arm: apple: apple,pmgr: Add t8112-pmgr compatible
+      dt-bindings: watchdog: apple,wdt: Add t8112-wdt compatible
+      dt-bindings: arm: cpus: Add apple,avalanche & blizzard compatibles
+      dt-bindings: interrupt-controller: apple,aic2: Add apple,t8112-aic compatible
+      dt-bindings: iommu: apple,sart: Add apple,t8112-sart compatible string
+      dt-bindings: mailbox: apple,mailbox: Add t8112 compatibles
+      dt-bindings: nvme: apple: Add apple,t8112-nvme-ans2 compatible string
+      dt-bindings: pci: apple,pcie: Add t8112 support
+      dt-bindings: pinctrl: apple,pinctrl: Add apple,t8112-pinctrl compatible
+      dt-bindings: i2c: apple,i2c: Add apple,t8112-i2c compatible
+      dt-bindings: clock: apple,nco: Add t8112-nco compatible
+      dt-bindings: arm: apple: Add t8112 j413/j473/j493 compatibles
+      arm64: dts: apple: t8103: Disable unused PCIe ports
+      arm64: dts: apple: t600x: Disable unused PCIe ports
+
+ Documentation/devicetree/bindings/arm/apple.yaml   |   15 +
+ .../devicetree/bindings/arm/apple/apple,pmgr.yaml  |    1 +
+ Documentation/devicetree/bindings/arm/cpus.yaml    |    2 +
+ .../devicetree/bindings/clock/apple,nco.yaml       |    1 +
+ .../devicetree/bindings/i2c/apple,i2c.yaml         |    1 +
+ .../bindings/interrupt-controller/apple,aic2.yaml  |   22 +-
+ .../devicetree/bindings/iommu/apple,sart.yaml      |   10 +-
+ .../devicetree/bindings/mailbox/apple,mailbox.yaml |    2 +
+ .../devicetree/bindings/nvme/apple,nvme-ans.yaml   |    5 +-
+ .../devicetree/bindings/pci/apple,pcie.yaml        |    1 +
+ .../devicetree/bindings/pinctrl/apple,pinctrl.yaml |    1 +
+ .../bindings/power/apple,pmgr-pwrstate.yaml        |    1 +
+ .../devicetree/bindings/watchdog/apple,wdt.yaml    |    1 +
+ arch/arm64/boot/dts/apple/Makefile                 |    3 +
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi          |    4 +
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi     |   11 -
+ arch/arm64/boot/dts/apple/t600x-j375.dtsi          |   11 +
+ arch/arm64/boot/dts/apple/t8103-j274.dts           |   10 +
+ arch/arm64/boot/dts/apple/t8103-j293.dts           |   15 -
+ arch/arm64/boot/dts/apple/t8103-j313.dts           |   15 -
+ arch/arm64/boot/dts/apple/t8103-j456.dts           |   10 +
+ arch/arm64/boot/dts/apple/t8103-j457.dts           |   11 +-
+ arch/arm64/boot/dts/apple/t8103.dtsi               |    4 +
+ arch/arm64/boot/dts/apple/t8112-j413.dts           |   63 ++
+ arch/arm64/boot/dts/apple/t8112-j473.dts           |   54 +
+ arch/arm64/boot/dts/apple/t8112-j493.dts           |   52 +
+ arch/arm64/boot/dts/apple/t8112-jxxx.dtsi          |   81 ++
+ arch/arm64/boot/dts/apple/t8112-pmgr.dtsi          | 1140 ++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi               |  912 ++++++++++++++++
+ 29 files changed, 2403 insertions(+), 56 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/apple/t8112-j413.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8112-j473.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8112-j493.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8112-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8112.dtsi
