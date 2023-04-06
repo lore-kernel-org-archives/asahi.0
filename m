@@ -1,44 +1,44 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549813211
-	for <asahi@lists.linux.dev>; Thu,  6 Apr 2023 11:25:53 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-502aa0f24daso126721a12.1
-        for <asahi@lists.linux.dev>; Thu, 06 Apr 2023 04:25:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB233211
+	for <asahi@lists.linux.dev>; Thu,  6 Apr 2023 11:27:04 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-502aa0f24daso126879a12.1
+        for <asahi@lists.linux.dev>; Thu, 06 Apr 2023 04:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1680780351;
+        d=ffwll.ch; s=google; t=1680780422;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hroPDDqbeK3KP3ft/vk5XXJhx4hlY+C3UjJVTgzuyfY=;
-        b=VRl9UtQfF7A9tPxqhu/i6AA4YLuIE9ggXBEL9ZyuchaTkPNo7wuDK+vnz2hQ+0/bPw
-         TSIKhRD6SA4Z5er4CXRULeRH39V+Y0WalgcRvaUTx8mpQ0PNTxILEYv9A50gi0EUOKyM
-         42dwpNZOXYiJD2zR/Mrh1SlgOPF/McxwSXF90=
+        bh=kAw/L7Dpu+b4V/xTQbdmukEYxphyameFjwcA8l9wSDg=;
+        b=fHznqF7eG0vW5uKwPQTw3TEorgKpPJ44tWqMMS1bLZ8rioYwh7YDjGNxggq2rQvCZ7
+         PbYvtRYuNsql5s87NsBOLtpy0e59OGQtXTGQvCdPIFc+azXSxjy/OLskHoTa5IkreieM
+         FS1QTRK4LC/0xWp87GMiqXMdQRh1CRUD50XRo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680780351;
+        d=1e100.net; s=20210112; t=1680780422;
         h=in-reply-to:content-disposition:mime-version:references
          :mail-followup-to:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hroPDDqbeK3KP3ft/vk5XXJhx4hlY+C3UjJVTgzuyfY=;
-        b=7gepb+o9p0Ixp9BJt3PRdYE1b2weSydtDCh8Rb8V+I0+6nmt6y+1NwgorXhXMqMdoz
-         1jE+JWNMRoobr4aVCNgtcXBzJZAooXc12vTcoB2t9EGmbX40bVIr1nQFd1RLE+eVAHcZ
-         cIjnyNBTrGrbBtq8+uOyo1mKGgQqeuLijHrXemr9Vj7bWL2uL0KC0hA5RVFBQB1Wm1jh
-         +XCrwoBkVkdUKNBMUKGuovNTWn5cCJxaawJfgE2Cip9ahAwzHk3EtTYdqgoqR756YDjZ
-         S0Aa2Wdx7Gtv2szT1k1+cHndvKjpSYhk6IqBf3FPzTyrz2sckAESXj635fgPqurtRLqh
-         P5Mw==
-X-Gm-Message-State: AAQBX9fdsAmwthtdFppYhJMxHI9abW8QzTeqiaudPcNuQvQ5Tm9COmBg
-	e+qn1msbP/qCaEWObvCoKhtgVw==
-X-Google-Smtp-Source: AKy350YPfn28LG1fbLn36Juw7fvJRCV/Dyp+bOKOoRgXlKhXaL/TLKj7dKKe5UkKfvhy3hU+bF/k9A==
-X-Received: by 2002:a17:906:2219:b0:92f:39d9:1e50 with SMTP id s25-20020a170906221900b0092f39d91e50mr4936235ejs.3.1680780351274;
-        Thu, 06 Apr 2023 04:25:51 -0700 (PDT)
+        bh=kAw/L7Dpu+b4V/xTQbdmukEYxphyameFjwcA8l9wSDg=;
+        b=lYfG8zxOYOk4F2N02ekV2CgGpZ3BNPeagk2a+D0EBw/clM6VC//A+yYIMEpd3FSDLg
+         pjSWc53nq0qt5eCIhaZEGyN1FMRd06h7y7RG6vQdqZp6S8GhDUxproxVOW3tfCZh569N
+         iUMDJNsvUlP2hSkGoHuIB82gNadQsy5mF5FBZmTHG/RHKH1vKtMK9KktfCWsMzOxfuu0
+         /4Va2XExAnrVZazjqC374ND5Ty0TD3HIy7bubA3Zi3pRGbmsbAnm1NzyOdf30nrVcnvg
+         u7V9bVqstxuACz2xNLU1iiZzprIRZkQbwdWNGjXyFpN5kbuYeDaFGHuESt6KY32rAsQe
+         KBUA==
+X-Gm-Message-State: AAQBX9fNkN4TJwiX5TyQTGiFG+9Vv5dWLNRAEJLi3udasMjteoXJN+Yn
+	/1xfP2S8vMEWaDo2gyeEATxl8A==
+X-Google-Smtp-Source: AKy350bptijxOtOZSpadNvp+R7+33XZwiCa/nVw1qp46SFOgNKauNT/gV1Qtm6GB1bmElAsuJbDFCg==
+X-Received: by 2002:a17:906:208a:b0:947:bff2:1c2b with SMTP id 10-20020a170906208a00b00947bff21c2bmr4207639ejq.1.1680780422562;
+        Thu, 06 Apr 2023 04:27:02 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id p14-20020a1709061b4e00b00930a4e5b46bsm672302ejg.211.2023.04.06.04.25.50
+        by smtp.gmail.com with ESMTPSA id n5-20020a170906840500b0093fa8c2e877sm687738ejx.80.2023.04.06.04.27.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 04:25:50 -0700 (PDT)
-Date: Thu, 6 Apr 2023 13:25:48 +0200
+        Thu, 06 Apr 2023 04:27:02 -0700 (PDT)
+Date: Thu, 6 Apr 2023 13:26:59 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Asahi Lina <lina@asahilina.net>
-Cc: David Airlie <airlied@gmail.com>,
+Cc: Daniel Vetter <daniel@ffwll.ch>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
@@ -59,12 +59,12 @@ Cc: David Airlie <airlied@gmail.com>,
 	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
 	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi
- driver for Apple AGX GPUs
-Message-ID: <ZC6sPBuH3vz7vMO2@phenom.ffwll.local>
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev,
+	David Airlie <airlied@gmail.com>
+Subject: Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi driver for Apple AGX
+ GPUs
+Message-ID: <ZC6sgxnPaQTnApmI@phenom.ffwll.local>
 Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
-	David Airlie <airlied@gmail.com>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
@@ -85,11 +85,13 @@ Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
 	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
 	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev,
+	David Airlie <airlied@gmail.com>
 References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
  <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
- <ZC2JPR3fGm0uE9yW@phenom.ffwll.local>
- <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
+ <ZC2HtBOaoUAzVCVH@phenom.ffwll.local>
+ <8d28f1d3-14b0-78c5-aa16-e81e2a8a3685@asahilina.net>
+ <6c7b9a98-bcd0-29e6-af72-a2fcae10148c@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -98,78 +100,135 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6200f93d-6d95-5d03-cc1c-22d7924d66eb@asahilina.net>
+In-Reply-To: <6c7b9a98-bcd0-29e6-af72-a2fcae10148c@asahilina.net>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 
-On Thu, Apr 06, 2023 at 02:02:55PM +0900, Asahi Lina wrote:
-> On 05/04/2023 23.44, Daniel Vetter wrote:
-> > On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
-> > > +/// Look up a GEM object handle for a `File` and return an `ObjectRef` for it.
-> > > +pub(crate) fn lookup_handle(file: &DrmFile, handle: u32) -> Result<ObjectRef> {
-> > > +    Ok(ObjectRef::new(shmem::Object::lookup_handle(file, handle)?))
-> > > +}
-> > 
-> > So maybe my expectations for rust typing is a bit too much, but I kinda
-> > expected this to be fully generic:
-> > 
-> > - trait Driver (drm_driver) knows the driver's object type
-> > - a generic create_handle function could ensure that for drm_file (which
-> >    is always for a specific drm_device and hence Driver) can ensure at the
-> >    type level that you only put the right objects into the drm_file
-> > - a generic lookup_handle function on the drm_file knows the Driver trait
-> >    and so can give you back the right type right away.
-> > 
-> > Why the wrapping, what do I miss?
+On Thu, Apr 06, 2023 at 02:09:21PM +0900, Asahi Lina wrote:
+> Argh. This (and my other reply) was supposed to go to Daniel, but
+> Thunderbird... just dropped that recipient? And then my silly brain saw all
+> the Cc:s go to To: and figured it was some weird consolidation and so I
+> moved everything to Cc: except the only name that started with "Da" and...
+> yeah, that wasn't the same person.
 > 
-> Sigh, so this is one of the many ways I'm trying to work around the "Rust
-> doesn't do subclasses" problem (so we can figure out what the best one is
-> ^^).
-> 
-> The generic shmem::Object::lookup_handle() call *is* fully generic and will
-> get you back a driver-specific object. But since Rust doesn't do
-> subclassing, what you get back isn't a driver-specific type T, but rather a
-> (reference to a) shmem::Object<T>. T represents the inner driver-specific
-> data/functionality (only), and the outer shmem::Object<T> includes the
-> actual drm_gem_shmem_object plus a T. This is backwards from C, where you
-> expect the opposite situation where T contains a shmem object, but that just
-> doesn't work with Rust because there's no way to build a safe API around
-> that model as far as I know.
+> Sorry for the confusion... I have no idea why Thunderbird hates Daniel...
 
-Ah I think I just got confused. I did untangle (I think at least) the
-Object<T> trick, I guess the only thing that confused me here is why this
-is in the shmem module? Or is that the rust problem again?
-
-I'd kinda have expected that we'd have a gem::Object<T> here that the
-lookup_handle function returns. So for the shmem case I guess that would
-then be gem::Object<shmem::Object<T>> for the driver type T with driver
-specific stuff? I guess not very pretty ...
-
-> Now the problem is from the higher layers I want object operations that
-> interact with the shmem::Object<T> (that is, they call generic GEM functions
-> on the object). Options so far:
-> 
-> 1. Add an outer wrapper and put that functionality there.
-> 2. Just have the functions on T as helpers, so you need to call T::foo(obj)
-> instead of obj.foo().
-> 3. Use the undocumented method receiver trait thing to make shmem::Object<T>
-> a valid `self` type, plus add auto-Deref to shmem::Object. Then obj.foo()
-> works.
-> 
-> #1 is what I use here. #2 is how the driver-specific File ioctl callbacks
-> are implemented, and also sched::Job<T>. #3 is used for fence callbacks
-> (FenceObject<T>). None of them are great, and I'd love to hear what people
-> think of the various options...
-> 
-> There are other unexplored options, like in this GEM case it could be
-> covered with a driver-internal auxiliary trait impl'd on shmem::Object<T>
-> buuut that doesn't work when you actually need callbacks on T itself to
-> circle back to shmem::Object<T>, as is the case with File/Job/FenceObject.
-
-Ok I think I'm completely lost here. But I also havent' looked at how this
-is all really used in the driver, it's really just the shmem:: module in
-the lookup_handle function which looked strange to me.
+Don't worry, I get cc'ed on so much stuff that whether I'm cc'ed or not
+has zero impact on whether I'll read a mail or not. It just kinda
+disappears into the big lable:cc bucket ...
 -Daniel
+
+> 
+> On 06/04/2023 13.44, Asahi Lina wrote:
+> > On 05/04/2023 23.37, Daniel Vetter wrote:
+> > > On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
+> > > > +/// A generic monotonically incrementing ID used to uniquely identify object instances within the
+> > > > +/// driver.
+> > > > +pub(crate) struct ID(AtomicU64);
+> > > > +
+> > > > +impl ID {
+> > > > +    /// Create a new ID counter with a given value.
+> > > > +    fn new(val: u64) -> ID {
+> > > > +        ID(AtomicU64::new(val))
+> > > > +    }
+> > > > +
+> > > > +    /// Fetch the next unique ID.
+> > > > +    pub(crate) fn next(&self) -> u64 {
+> > > > +        self.0.fetch_add(1, Ordering::Relaxed)
+> > > > +    }
+> > > > +}
+> > > 
+> > > Continuing the theme of me commenting on individual things, I stumbled
+> > > over this because I noticed that there's a lot of id based lookups where I
+> > > don't expect them, and started chasing.
+> > > 
+> > > - For ids use xarray, not atomic counters. Yes I know dma_fence timelines
+> > >     gets this wrong, this goes back to an innocent time where we didn't
+> > >     allocate more than one timeline per engine, and no one fixed it since
+> > >     then. Yes u64 should be big enough for everyone :-/
+> > > 
+> > > - Attaching ID spaces to drm_device is also not great. drm is full of
+> > >     these mistakes. Much better if their per drm_file and so private to each
+> > >     client.
+> > > 
+> > > - They shouldn't be used for anything else than uapi id -> kernel object
+> > >     lookup at the beginning of ioctl code, and nowhere else. At least from
+> > >     skimming it seems like these are used all over the driver codebase,
+> > >     which does freak me out. At least on the C side that's a clear indicator
+> > >     for a refcount/lockin/data structure model that's not thought out at
+> > >     all.
+> > > 
+> > > What's going on here, what do I miss?
+> > 
+> > These aren't UAPI IDs, they are driver-internal IDs (the UAPI IDs do use
+> > xarray and are per-File). Most of them are just for debugging, so that
+> > when I enable full debug spam I have some way to correlate different
+> > things that are happening together (this subset of interleaved log lines
+> > relate to the same submission). Basically just object names that are
+> > easier to read (and less of a security leak) than pointers and
+> > guaranteed not to repeat. You could get rid of most of them and it
+> > wouldn't affect the driver design, it just makes it very hard to see
+> > what's going on with debug logs ^^;
+> > 
+> > There are only two that are ever used for non-debugging purposes: the VM
+> > ID, and the File ID. Both are per-device global IDs attached to the VMs
+> > (not the UAPI VM objects, but rather the underlyng MMU address space
+> > managers they represent, including the kernel-internal ones) and to
+> > Files themselves. They are used for destroying GEM objects: since the
+> > objects are also device-global across multiple clients, I need a way to
+> > do things like "clean up all mappings for this File" or "clean up all
+> > mappings for this VM". There's an annoying circular reference between
+> > GEM objects and their mappings, which is why this is explicitly coded
+> > out in destroy paths instead of naturally happening via Drop semantics
+> > (without that cleanup code, the circular reference leaks it).
+> > 
+> > So e.g. when a File does a GEM close or explicitly asks for all mappings
+> > of an object to be removed, it goes out to the (possibly shared) GEM
+> > object and tells it to drop all mappings marked as owned by that unique
+> > File ID. When an explicit "unmap all in VM" op happens, it asks the GEM
+> > object to drop all mappings for that underlying VM ID. Similarly, when a
+> > UAPI VM object is dropped (in the Drop impl, so both explicitly and when
+> > the whole File/xarray is dropped and such), that does an explicit unmap
+> > of a special dummy object it owns which would otherwise leak since it is
+> > not tracked as a GEM object owned by that File and therefore not handled
+> > by GEM closing. And again along the same lines, the allocators in
+> > alloc.rs explicitly destroy the mappings for their backing GEM objects
+> > on Drop. All this is due to that annoying circular reference between VMs
+> > and GEM objects that I'm not sure how to fix.
+> > 
+> > Note that if I *don't* do this (or forget to do it somewhere) the
+> > consequence is just that we leak memory, and if you try to destroy the
+> > wrong IDs somehow the worst that can happen is you unmap things you
+> > shouldn't and fault the GPU (or, in the kernel or kernel-managed user VM
+> > cases, potentially the firmware). Rust safety guarantees still keep
+> > things from going entirely off the rails within the kernel, since
+> > everything that matters is reference counted (which is why these
+> > reference cycles are possible at all).
+> > 
+> > This all started when I was looking at the panfrost driver for
+> > reference. It does the same thing except it uses actual pointers to the
+> > owning entities instead of IDs, and pointer comparison (see
+> > panfrost_gem_close). Of course you could try do that in Rust too
+> > (literally storing and comparing raw pointers that aren't owned
+> > references), but then you're introducing a Pin<> requirement on those
+> > objects to make their addresses stable and it feels way more icky and
+> > error-prone than unique IDs (since addresses can be reused). panfrost
+> > only has a single mmu (what I call the raw VM) per File while I have an
+> > arbitrary number, which is why I end up with the extra
+> > distinction/complexity of both File and VM IDs, but the concept is the same.
+> > 
+> > Some of this is going to be refactored when I implement arbitrary VM
+> > range mapping/unmapping, which would be a good time to improve this...
+> > but is there something particularly wrong/broken about the way I'm doing
+> > it now that I missed? I figured unique u64 IDs would be a pretty safe
+> > way to identify entities and cleanup the mappings when needed.
+> > 
+> > ~~ Lina
+> > 
+> 
+> ~~ Lina
+> 
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
-hvettp://blog.ffwll.ch
+http://blog.ffwll.ch
