@@ -1,96 +1,128 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1492320D
-	for <asahi@lists.linux.dev>; Thu,  6 Apr 2023 18:44:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1680806647;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=KuWqlFWscCHky7PklpK8/27+L+0fHpmQONWaBu1fu8I=;
-	b=NdkoF3ycB6oGqkb8DFctBc/BSVYIk14/yhVBLlz4/mcdaLCrJHYq4s8CXglxKYl/9S8DA9
-	MKt3DbanqbZCIweQqF/43W+p2B6ugm6g18WaHPSQeMtKOKzFpA+Itc0567DdYxkZhpkg7i
-	tf7Nd9UsDFBMEAZUWbGzsVOJB2ORk7I=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-449-Ib0EkVZGPfOmNzVjgRgwVw-1; Thu, 06 Apr 2023 14:44:06 -0400
-X-MC-Unique: Ib0EkVZGPfOmNzVjgRgwVw-1
-Received: by mail-qk1-f199.google.com with SMTP id 72-20020a37044b000000b0074694114c09so18018029qke.4
-        for <asahi@lists.linux.dev>; Thu, 06 Apr 2023 11:44:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1E22F3A
+	for <asahi@lists.linux.dev>; Thu,  6 Apr 2023 22:51:48 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-930129be52dso144144266b.1
+        for <asahi@lists.linux.dev>; Thu, 06 Apr 2023 15:51:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680806646;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KuWqlFWscCHky7PklpK8/27+L+0fHpmQONWaBu1fu8I=;
-        b=KE7G6XZh/qGps3/8Tj/vcpZ+EuZCkQwrwdcmRMfpsBYLO9V4HhOfqCEexxydibGK8y
-         shX89j7FvnQ7JiMJEkS7d+W8M/hP570L9TYpxjTJl3+wOukpUiX1H7iS+NM/pLsAire7
-         FhxhVPsZ2sj2b52AsrfwlT//WdwUCD3UkifQQQmvFIcD3psV5QadsFFgf53fW4hN1dRB
-         fperRq95/d4X8uUEs7K5qKWB5wDdw2qsiBrGs5aL0g/shxyCuNaeL7oB5AJfJ7zf51Zg
-         pegLpGenGWxKh4zazj1aiK3D3sC27oq93ZhSWnm5QlyvBrLFDVfA9jpS3MYu9LDI1WFo
-         kpPw==
-X-Gm-Message-State: AAQBX9dF+rrpsMoeLvFO2lvwI1Vx3d8BWtvtdVUYg3cYFtSk7UlGgqTl
-	oJSzPRucGflVKjr2gyqYyKJk0rgRatELlho199jk0NzJk/gBUlrrldXRRZXnFtjxi5nR7VM2uju
-	jc3OcP33usNILsMg=
-X-Received: by 2002:a05:6214:e43:b0:56f:728:19d4 with SMTP id o3-20020a0562140e4300b0056f072819d4mr395408qvc.26.1680806645964;
-        Thu, 06 Apr 2023 11:44:05 -0700 (PDT)
-X-Google-Smtp-Source: AKy350b2ByVQmJQEcdujhQzaXx6wnS67JdUovCAIB/18ORCzUQZUmTu9kF7vDna0IuEg2GJV05SvOw==
-X-Received: by 2002:a05:6214:e43:b0:56f:728:19d4 with SMTP id o3-20020a0562140e4300b0056f072819d4mr395378qvc.26.1680806645607;
-        Thu, 06 Apr 2023 11:44:05 -0700 (PDT)
-Received: from dell-per740-01.7a2m.lab.eng.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
-        by smtp.gmail.com with ESMTPSA id c79-20020ae9ed52000000b0074411b03972sm668481qkg.51.2023.04.06.11.44.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 11:44:05 -0700 (PDT)
-From: Tom Rix <trix@redhat.com>
-To: marcan@marcan.st,
-	sven@svenpeter.dev,
-	alyssa@rosenzweig.io,
-	p.zabel@pengutronix.de
-Cc: asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Tom Rix <trix@redhat.com>
-Subject: [PATCH] soc: apple: apple-pmgr-pwrstate: set varaiable apple_pmgr_reset_ops storage-class-specifier to static
-Date: Thu,  6 Apr 2023 14:44:02 -0400
-Message-Id: <20230406184402.1956429-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
+        d=1e100.net; s=20210112; t=1680821505; x=1683413505;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=H/Yq+RogF4NLB0ytnE2c8qbIFYDpm8Av/BOMlLi7ICo=;
+        b=shwfOxB4ykBByPckJKUD42GJE6sDWfoeSa28AMr8d21fTTkETD3cmlthc4C7HgTkIJ
+         wsdeBg9rwdJTEPIg4lmcuKxyZ1BWdHZgjFcec1zyJRF3xdQpVp/xBR8U3b58yAEj+RSo
+         Ebu4MkCitEqkLUJmhHcaPBqeHzfcCcdZzKq92riDPrpy/uKNOftS9LjT3cp3i6vdbI1o
+         YwElxSPY8pqS1XIjxK1RNUXizax+DvMa4Ipc36nQhI+kKwwgmEH2rU5NnCHnHLPOLRvR
+         doKPPI3sqe2cV1z0BFBXDaNTWruy87jRMX75AgWaH3aMqHK9BUs+cPQYGB7DF7x+sEkI
+         /EyQ==
+X-Gm-Message-State: AAQBX9cXgYvXNeM5kp4KLiVOzFjksbD9IStxgV2twcR6CIeJCBItJRbt
+	3cmzY058Ah0tZE1JgmLJU/Wnh2Q2VOsouzG5
+X-Google-Smtp-Source: AKy350ZkwX+QQivNa1FwJK7t4LWfEaGCYc64E8nG98xW1pRLdG4phRvV7Pela0SEGUVhZ+vC+l7J+g==
+X-Received: by 2002:aa7:d906:0:b0:504:6437:4369 with SMTP id a6-20020aa7d906000000b0050464374369mr782912edr.40.1680821505547;
+        Thu, 06 Apr 2023 15:51:45 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id d20-20020a50cd54000000b005027dd7c403sm1248954edj.66.2023.04.06.15.51.43
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Apr 2023 15:51:45 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id l17so4843369ejp.8
+        for <asahi@lists.linux.dev>; Thu, 06 Apr 2023 15:51:43 -0700 (PDT)
+X-Received: by 2002:a17:907:7b81:b0:949:d4ef:f6ff with SMTP id
+ ne1-20020a1709077b8100b00949d4eff6ffmr70090ejc.0.1680821503642; Thu, 06 Apr
+ 2023 15:51:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
+References: <20230322221714.2702819-1-neal@gompa.dev> <20230322221714.2702819-2-neal@gompa.dev>
+ <ce66a6b0-01e2-990a-326a-9730083a436e@oracle.com>
+In-Reply-To: <ce66a6b0-01e2-990a-326a-9730083a436e@oracle.com>
+From: Neal Gompa <neal@gompa.dev>
+Date: Thu, 6 Apr 2023 18:51:07 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je9tccy8Xs=MzrfVRPiy667uv+BXoJVAPZLPvFELT_Vy6g@mail.gmail.com>
+Message-ID: <CAEg-Je9tccy8Xs=MzrfVRPiy667uv+BXoJVAPZLPvFELT_Vy6g@mail.gmail.com>
+Subject: Re: [PATCH 1/1] btrfs-progs: mkfs: Enforce 4k sectorsize by default
+To: Anand Jain <anand.jain@oracle.com>
+Cc: Linux BTRFS Development <linux-btrfs@vger.kernel.org>, Qu Wenruo <wqu@suse.com>, 
+	David Sterba <dsterba@suse.cz>, Qu Wenruo <quwenruo.btrfs@gmx.com>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Davide Cavalca <davide@cavalca.name>, Jens Axboe <axboe@fb.com>, Asahi Lina <lina@asahilina.net>, 
+	Asahi Linux <asahi@lists.linux.dev>, Josef Bacik <josef@toxicpanda.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-smatch reports
-drivers/soc/apple/apple-pmgr-pwrstate.c:180:32: warning: symbol
-  'apple_pmgr_reset_ops' was not declared. Should it be static?
+On Sat, Apr 1, 2023 at 1:31=E2=80=AFAM Anand Jain <anand.jain@oracle.com> w=
+rote:
+>
+>
+> [ fixed table format ]
+>
+> Comparing btrfs sectorsize=3D64K with sectorsize=3D4K on an aarch64
+> virtual host with PAGESIZE=3D64k shows that switching to sectorsize
+> (ss) =3D4K by default for buffered IO has a low impact, while the
+> direct IO performance is improved by roughly 21% to 152% for
+> various fio block sizes as shown below.
+>
+>
+> aarch64 PAGESIZE=3D64K
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Buffered IO:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> FIO bs  ss=3D64k ss=3D4k   diff
+> K       MB/s   MB/s    %
+> 4        752    755
+> 8        783    832    +6
+> 64      1066   1173    +10
+> 128     1120   1098    +2
+> 256     1112   1079    -3
+>
+>
+> Dierct IO:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> FIO bs ss=3D64k  ss=3D4k  diff
+> K      MB/s    MB/s   %
+> 4       54      106   +96
+> 8      107      270   +152
+> 64     737      894   +21
+> 128    862     1130   +31
+> 256    846     1103   +30
+>
+>
+> FIO config file:
+>
+> [global]
+> directory=3D/mnt/scratch
+> allrandrepeat=3D1
+> readwrite=3Dreadwrite
+> ioengine=3Dio_uring
+> iodepth=3D256
+> end_fsync=3D1
+> fallocate=3Dnone
+> group_reporting
+> gtod_reduce=3D1
+> numjobs=3D8
+> size=3D10G
+> stonewall
+>
+> [fio-direct-4k]
+> direct=3D1 <-- changed as appropriate
+> bs=3D4k    <---changed as appropriate
+>
 
-This variable is only used in one file so should be static.
+Well, it's nice to see that there are performance advantages to using
+4k block sizes everywhere. :)
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/soc/apple/apple-pmgr-pwrstate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can we get this committed to btrfs-progs then?
 
-diff --git a/drivers/soc/apple/apple-pmgr-pwrstate.c b/drivers/soc/apple/apple-pmgr-pwrstate.c
-index a3e2bc1d2686..e456f6e04658 100644
---- a/drivers/soc/apple/apple-pmgr-pwrstate.c
-+++ b/drivers/soc/apple/apple-pmgr-pwrstate.c
-@@ -177,7 +177,7 @@ static int apple_pmgr_reset_status(struct reset_controller_dev *rcdev, unsigned
- 	return !!(reg & APPLE_PMGR_RESET);
- }
- 
--const struct reset_control_ops apple_pmgr_reset_ops = {
-+static const struct reset_control_ops apple_pmgr_reset_ops = {
- 	.assert		= apple_pmgr_reset_assert,
- 	.deassert	= apple_pmgr_reset_deassert,
- 	.reset		= apple_pmgr_reset_reset,
--- 
-2.27.0
 
+
+--
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
