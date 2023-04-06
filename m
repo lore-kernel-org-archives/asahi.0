@@ -1,196 +1,225 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEA02F28
-	for <asahi@lists.linux.dev>; Thu,  6 Apr 2023 09:49:00 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-930bc91df7bso128379766b.1
-        for <asahi@lists.linux.dev>; Thu, 06 Apr 2023 02:49:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42374EDF
+	for <asahi@lists.linux.dev>; Thu,  6 Apr 2023 10:42:37 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-502208f7cb3so120047a12.0
+        for <asahi@lists.linux.dev>; Thu, 06 Apr 2023 03:42:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1680774538;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aDwrP3AJyNgCVfwTeR5DD8c7qrP0LtIWfiov4Z3AarM=;
-        b=cstLYe7M4RoxLG29+q0M6d7Lm5hfQEeU3UG61zxe8QVyXdYljKPBzpCJHnzcKEABSa
-         0OGVHekcbqLxOesJvFlIiwjJUmbcLSzV5nbaivV08Rpxv/E7QBYqBKdIP/LorG1wgfHc
-         udnXrNomIhQJLByUElhfl7ovERpDrSY54m02E=
+        d=ffwll.ch; s=google; t=1680777755;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=x2EwCL0AFXZZ8YwKqAyWoojJfcvb5ngG6+UanFOKsDQ=;
+        b=csgpv7GsHWmshCspaMJ+ziVYnLWxnvUvCM+aC0+HxGdGfY2Xdfpxxz/aakUOmoXaPe
+         42Oa0mGUOiYOLPDiNTJLot04l5D2aZAaXJu6F8bmwDXHHBkERGK3TFdPkPoWNppsQu6a
+         Y/0j7/5RSo4ePx9mDnHI5VNVNY9U3pj49FyGI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680774538;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aDwrP3AJyNgCVfwTeR5DD8c7qrP0LtIWfiov4Z3AarM=;
-        b=7O5fqSNOp3WvwEhgO4bXLaJ2hrqmXiIZkGmLWaHSXqVTLhRxsFTRU1EgkM2CU0jWNd
-         cW9sWixDeToD7hnX/shSS4eslyhQyQAQk7lrLK9hXnL7w3bib1jJUuYLS/8b8lnVen3k
-         oVFmg8pb1aPd7Me6g4T7bT3fAvpogGRP9o9qb3bMqaDYlVmDICZ+2Kq7lnnzZN7IwodR
-         PwfhGWbkeic1S0qmNuGmG/6fMljj+9QJxQ+3PvQUb4zpGkvOfFktJoJ3Sqgm5UyiLLT/
-         koH0BYghR8OkgUqrWEdlZ/yi2gW/OHemGmZ/S8OTEtUflFownMHs/T3QfIHoxGcew0XM
-         RvNQ==
-X-Gm-Message-State: AAQBX9cz3t1n5qHgbgPfCb9Qd0jHHTgUoLfb1lH6LuzTLXqLsa/EXQ4T
-	cES3vPnALAiK3Yn+B+w0NE2ZcA==
-X-Google-Smtp-Source: AKy350Z0g0Bo4tFTGxtpF07AEU8bHqYdbH9guA26p5+I5RST2ZBfr8PxxEqR2cMj6wyMxRMTmvQ+Hg==
-X-Received: by 2002:a17:906:2216:b0:947:bff2:1c2d with SMTP id s22-20020a170906221600b00947bff21c2dmr5909987ejs.3.1680774538287;
-        Thu, 06 Apr 2023 02:48:58 -0700 (PDT)
+        d=1e100.net; s=20210112; t=1680777755;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=x2EwCL0AFXZZ8YwKqAyWoojJfcvb5ngG6+UanFOKsDQ=;
+        b=mHr6Si+9Nk866wTsB9aFoD5/5GDmbSXEMIm0Y91zmsbylp0xRH80QZnWXG0aOBVT/p
+         /nXfLl6g9J/fgrl430zcBq9MDW5AjIanqdZMCwZwWZA3EDrUml6IehREKkr2GSVh3Mxj
+         +pVFCDgLRjQ3mTKs7CoHBYPm+vKTrdj4YvaCVULbYxXeoTtO/jiPYk52y0LtI2L2rqi5
+         0v+VeiagT+3yehfmSIV8EV73C8teGW1r/ERtqgeuTOrHv01Vc7KdaG3TxMm5uGHyFb1w
+         tdM9Nqytp+VW9RorPwH03jntzeedewJ6p7pmGnMUYHbzRzs5Pe96C9hpGfZFKTQfIThy
+         oA0g==
+X-Gm-Message-State: AAQBX9c5ywEU3TpgLQ+w1LrUnA4ZOKCjqtIUWUvVbVwCw4crC0N8q1Bv
+	D+u64siIJ5tNoMP4RC9s61Beqg==
+X-Google-Smtp-Source: AKy350YAaOXz/ToKcxJs43819jxrSJWe03kE7L5fC9Q03wDmhHKDqCSvdqNWR67gqNhLDwkex/m2pw==
+X-Received: by 2002:a17:906:3f12:b0:947:8734:a058 with SMTP id c18-20020a1709063f1200b009478734a058mr4411545ejj.4.1680777755375;
+        Thu, 06 Apr 2023 03:42:35 -0700 (PDT)
 Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id qb19-20020a1709077e9300b00948da767832sm581534ejc.152.2023.04.06.02.48.57
+        by smtp.gmail.com with ESMTPSA id gr12-20020a170906e2cc00b0092595899cfcsm648531ejb.53.2023.04.06.03.42.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Apr 2023 02:48:57 -0700 (PDT)
-Date: Thu, 6 Apr 2023 11:48:55 +0200
+        Thu, 06 Apr 2023 03:42:34 -0700 (PDT)
+Date: Thu, 6 Apr 2023 12:42:32 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
 To: Asahi Lina <lina@asahilina.net>
-Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+Cc: David Airlie <airlied@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
-Message-ID: <ZC6Vh2gG91zXUKJW@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
 	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
 	Luben Tuikov <luben.tuikov@amd.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Karol Herbst <kherbst@redhat.com>,
+	Ella Stanforth <ella@iglunix.org>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 18/18] drm/asahi: Add the Asahi
+ driver for Apple AGX GPUs
+Message-ID: <ZC6iGNxDGjGEPMqf@phenom.ffwll.local>
+Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
 	David Airlie <airlied@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, asahi@lists.linux.dev
-References: <20230406-scheduler-uaf-1-v1-1-8e5662269d25@asahilina.net>
- <6b3433ee-0712-f789-51ee-3047ead9bb79@amd.com>
- <cfbaceae-6d40-a8b3-e449-6473be234d2d@asahilina.net>
- <180bd178-e3c0-85e3-785e-fc8a216cf65e@amd.com>
- <df226249-734e-cb9e-8bc0-1eff625277e0@asahilina.net>
- <4ea53272-6324-96e6-ab29-82bccb624683@asahilina.net>
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Luben Tuikov <luben.tuikov@amd.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Karol Herbst <kherbst@redhat.com>,
+	Ella Stanforth <ella@iglunix.org>,
+	Faith Ekstrand <faith.ekstrand@collabora.com>,
+	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
+References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
+ <20230307-rust-drm-v1-18-917ff5bc80a8@asahilina.net>
+ <ZC2HtBOaoUAzVCVH@phenom.ffwll.local>
+ <8d28f1d3-14b0-78c5-aa16-e81e2a8a3685@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4ea53272-6324-96e6-ab29-82bccb624683@asahilina.net>
+In-Reply-To: <8d28f1d3-14b0-78c5-aa16-e81e2a8a3685@asahilina.net>
 X-Operating-System: Linux phenom 6.1.0-7-amd64 
 
-On Thu, Apr 06, 2023 at 06:27:27PM +0900, Asahi Lina wrote:
-> On 06/04/2023 18.15, Asahi Lina wrote:
-> > On 06/04/2023 18.06, Christian König wrote:
-> > > Am 06.04.23 um 10:49 schrieb Asahi Lina:
-> > > > On 06/04/2023 17.29, Christian König wrote:
-> > > > > Am 05.04.23 um 18:34 schrieb Asahi Lina:
-> > > > > > A signaled scheduler fence can outlive its scheduler, since fences are
-> > > > > > independently reference counted.
-> > > > > 
-> > > > > Well that is actually not correct. Schedulers are supposed to stay
-> > > > > around until the hw they have been driving is no longer present.
-> > > > 
-> > > > But the fences can outlive that. You can GPU render into an imported
-> > > > buffer, which attaches a fence to it. Then the GPU goes away but the
-> > > > fence is still attached to the buffer. Then you oops when you cat that
-> > > > debugfs file...
-> > > 
-> > > No, exactly that's the point you wouldn't ops.
-> > > 
-> > > > 
-> > > > My use case does this way more often (since schedulers are tied to
-> > > > UAPI objects), which is how I found this, but as far as I can tell
-> > > > this is already broken for all drivers on unplug/unbind/anything else
-> > > > that would destroy the schedulers with fences potentially referenced
-> > > > on separate scanout devices or at any other DMA-BUF consumer.
-> > > 
-> > > Even if a GPU is hot plugged the data structures for it should only go
-> > > away with the last reference, since the scheduler fence is referencing
-> > > the hw fence and the hw fence in turn is referencing the driver this
-> > > shouldn't happen.
+On Thu, Apr 06, 2023 at 01:44:22PM +0900, Asahi Lina wrote:
+> On 05/04/2023 23.37, Daniel Vetter wrote:
+> > On Tue, Mar 07, 2023 at 11:25:43PM +0900, Asahi Lina wrote:
+> > > +/// A generic monotonically incrementing ID used to uniquely identify object instances within the
+> > > +/// driver.
+> > > +pub(crate) struct ID(AtomicU64);
+> > > +
+> > > +impl ID {
+> > > +    /// Create a new ID counter with a given value.
+> > > +    fn new(val: u64) -> ID {
+> > > +        ID(AtomicU64::new(val))
+> > > +    }
+> > > +
+> > > +    /// Fetch the next unique ID.
+> > > +    pub(crate) fn next(&self) -> u64 {
+> > > +        self.0.fetch_add(1, Ordering::Relaxed)
+> > > +    }
+> > > +}
 > > 
-> > So those fences can potentially keep half the driver data structures
-> > alive just for existing in a signaled state? That doesn't seem sensible
-> > (and it definitely doesn't work for our use case where schedulers can be
-> > created and destroyed freely, it could lead to way too much junk
-> > sticking around in memory).
-
-This is why the split betwen the hw fence and the public sched fence.
-Because once the hw fence stuff is sorted it should all be able to go
-away, without the public fence keeping everything alive.
-
-> > > > > E.g. the reference was scheduler_fence->hw_fence->driver->scheduler.
-> > > > 
-> > > > It's up to drivers not to mess that up, since the HW fence has the
-> > > > same requirements that it can outlive other driver objects, just like
-> > > > any other fence. That's not something the scheduler has to be
-> > > > concerned with, it's a driver correctness issue.
-> > > > 
-> > > > Of course, in C you have to get it right yourself, while with correct
-> > > > Rust abstractions will cause your code to fail to compile if you do it
-> > > > wrong ^^
-> > > > 
-> > > > In my particular case, the hw_fence is a very dumb object that has no
-> > > > references to anything, only an ID and a pending op count. Jobs hold
-> > > > references to it and decrement it until it signals, not the other way
-> > > > around. So that object can live forever regardless of whether the rest
-> > > > of the device is gone.
-> > > 
-> > > That is then certainly a bug. This won't work that way, and the timelime
-> > > name is just the tip of the iceberg here.
-> > > 
-> > > The fence reference count needs to keep both the scheduler and driver
-> > > alive. Otherwise you could for example unload the module and immediately
-> > > ops because your fence_ops go away.
+> > Continuing the theme of me commenting on individual things, I stumbled
+> > over this because I noticed that there's a lot of id based lookups where I
+> > don't expect them, and started chasing.
 > > 
-> > Yes, I realized the module issue after writing the email. But that's the
-> > *only* thing it needs to hold a reference to! Which is much more
-> > sensible than keeping a huge chunk of UAPI-adjacent data structures
-> > alive for a signaled fence that for all we know might stick around
-> > forever attached to some buffer.
+> > - For ids use xarray, not atomic counters. Yes I know dma_fence timelines
+> >    gets this wrong, this goes back to an innocent time where we didn't
+> >    allocate more than one timeline per engine, and no one fixed it since
+> >    then. Yes u64 should be big enough for everyone :-/
 > > 
-> > > > > Your use case is now completely different to that and this won't work
-> > > > > any more.
-> > > > > 
-> > > > > This here might just be the first case where that breaks.
-> > > > 
-> > > > This bug already exists, it's just a lot rarer for existing use
-> > > > cases... but either way Xe is doing the same thing I am, so I'm not
-> > > > the only one here either.
-> > > 
-> > > No it doesn't. You just have implemented the references differently than
-> > > they are supposed to be.
-> > > 
-> > > Fixing this one occasion here would mitigate that immediate ops, but
-> > > doesn't fix the fundamental problem.
+> > - Attaching ID spaces to drm_device is also not great. drm is full of
+> >    these mistakes. Much better if their per drm_file and so private to each
+> >    client.
 > > 
-> > Honestly, at this point I'm starting to doubt whether we want to use
-> > drm_scheduler at all, because it clearly wasn't designed for our use
-> > case and every time I try to fix something your answer has been "you're
-> > using it wrong", and at the same time the practically nonexistent
-> > documentation makes it impossible to know how it was actually designed
-> > to be used.
+> > - They shouldn't be used for anything else than uapi id -> kernel object
+> >    lookup at the beginning of ioctl code, and nowhere else. At least from
+> >    skimming it seems like these are used all over the driver codebase,
+> >    which does freak me out. At least on the C side that's a clear indicator
+> >    for a refcount/lockin/data structure model that's not thought out at
+> >    all.
+> > 
+> > What's going on here, what do I miss?
 > 
-> Also, requiring that the hw_fence keep the scheduler alive (which is
-> documented nowhere) is a completely ridiculous lifetime requirement and
-> layering violation across multiple subsystems. I have no idea how I'd make
-> Rust abstractions uphold that requirement safely without doing something
-> silly like having abstraction-specific hw_fence wrappers, and then you run
-> into deadlocks due to the scheduler potentially being dropped from the
-> job_done callback when the fence reference is dropped and just... no,
-> please. This is terrible. If you don't want me to fix it we'll have to find
-> another way because I can't work with this.
+> These aren't UAPI IDs, they are driver-internal IDs (the UAPI IDs do use
+> xarray and are per-File). Most of them are just for debugging, so that when
+> I enable full debug spam I have some way to correlate different things that
+> are happening together (this subset of interleaved log lines relate to the
+> same submission). Basically just object names that are easier to read (and
+> less of a security leak) than pointers and guaranteed not to repeat. You
+> could get rid of most of them and it wouldn't affect the driver design, it
+> just makes it very hard to see what's going on with debug logs ^^;
 
-So generally the hw fence keeps the underlying gpu ctx alive, and the gpu
-context keeps the gpu vm alive. Pretty much has to, or your gpu starts
-executing stuff that's freed.
+Hm generally we just print the kernel addresses with the right printk
+modifiers. Those filter/hash addresses if you have the right paranoia
+settings enabled. I guess throwing in a debug id doesn't hurt, but would
+be good to make that a lot more clearer.
 
-Now for fw scheduler gpu ctx isn't just drm_sched_entity, but also
-drm_scheduler. Plus whatever driver stuff you have lying around for a ctx.
-Plus ofc a reference to the vm, which might in turn keep a ton of gem_bo
-alive.
+I haven't read the full driver yet because I'm still too much lost, that's
+why I guess I missed the xarray stuff on the file. I'll try and go
+understand that.
 
-Still I'm not seeing where the fundamental issue is in this refcount
-scheme, or where it's silly? Mapping this all to Rust correctly is a
-challenge for sure, and also untangling the assumption that drm_scheduler
-is suddenly a lot more dynamic object (see my other reply), but
-fundamentally calling this all silly and terrible I don't understand ...
+For the big topic below I need to think more.
 -Daniel
+ 
+> There are only two that are ever used for non-debugging purposes: the VM ID,
+> and the File ID. Both are per-device global IDs attached to the VMs (not the
+> UAPI VM objects, but rather the underlyng MMU address space managers they
+> represent, including the kernel-internal ones) and to Files themselves. They
+> are used for destroying GEM objects: since the objects are also
+> device-global across multiple clients, I need a way to do things like "clean
+> up all mappings for this File" or "clean up all mappings for this VM".
+> There's an annoying circular reference between GEM objects and their
+> mappings, which is why this is explicitly coded out in destroy paths instead
+> of naturally happening via Drop semantics (without that cleanup code, the
+> circular reference leaks it).
+> 
+> So e.g. when a File does a GEM close or explicitly asks for all mappings of
+> an object to be removed, it goes out to the (possibly shared) GEM object and
+> tells it to drop all mappings marked as owned by that unique File ID. When
+> an explicit "unmap all in VM" op happens, it asks the GEM object to drop all
+> mappings for that underlying VM ID. Similarly, when a UAPI VM object is
+> dropped (in the Drop impl, so both explicitly and when the whole File/xarray
+> is dropped and such), that does an explicit unmap of a special dummy object
+> it owns which would otherwise leak since it is not tracked as a GEM object
+> owned by that File and therefore not handled by GEM closing. And again along
+> the same lines, the allocators in alloc.rs explicitly destroy the mappings
+> for their backing GEM objects on Drop. All this is due to that annoying
+> circular reference between VMs and GEM objects that I'm not sure how to fix.
+> 
+> Note that if I *don't* do this (or forget to do it somewhere) the
+> consequence is just that we leak memory, and if you try to destroy the wrong
+> IDs somehow the worst that can happen is you unmap things you shouldn't and
+> fault the GPU (or, in the kernel or kernel-managed user VM cases,
+> potentially the firmware). Rust safety guarantees still keep things from
+> going entirely off the rails within the kernel, since everything that
+> matters is reference counted (which is why these reference cycles are
+> possible at all).
+> 
+> This all started when I was looking at the panfrost driver for reference. It
+> does the same thing except it uses actual pointers to the owning entities
+> instead of IDs, and pointer comparison (see panfrost_gem_close). Of course
+> you could try do that in Rust too (literally storing and comparing raw
+> pointers that aren't owned references), but then you're introducing a Pin<>
+> requirement on those objects to make their addresses stable and it feels way
+> more icky and error-prone than unique IDs (since addresses can be reused).
+> panfrost only has a single mmu (what I call the raw VM) per File while I
+> have an arbitrary number, which is why I end up with the extra
+> distinction/complexity of both File and VM IDs, but the concept is the same.
+> 
+> Some of this is going to be refactored when I implement arbitrary VM range
+> mapping/unmapping, which would be a good time to improve this... but is
+> there something particularly wrong/broken about the way I'm doing it now
+> that I missed? I figured unique u64 IDs would be a pretty safe way to
+> identify entities and cleanup the mappings when needed.
+> 
+> ~~ Lina
+> 
+> _______________________________________________
+> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
