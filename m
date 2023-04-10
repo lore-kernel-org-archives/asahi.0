@@ -1,174 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BB71C3E
-	for <asahi@lists.linux.dev>; Sun,  9 Apr 2023 09:18:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6D133C433EF;
-	Sun,  9 Apr 2023 09:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681031928;
-	bh=c2I0yJTyQr3Uyst/ro4wytwPfIU+WGszhyD9VTJ7OqU=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=iQ678+S5SD4L2NIJKyc6o7UoG6nKCLzPMuC57jnBRsYv/BddCSFczRmsPavRk7Pxk
-	 tbgp9cxLBM1czMMRRk4ReElYd3rKH8pVyuJBP5RlPR9SQewtORy7DcFwtVXkYhgJIe
-	 //dQULHyFtYoL6X+ER4JcGz//BZ6t7Sx/SjNf0pxsTSyvhGWl35/kWqBSuIHmrl5qE
-	 KKfdxeapb9GUOIpvmTlXZoGM9yA+UdDgSZuL9KwZ9PwbRK2AWdgkJAJid025BF9h18
-	 gqYo8Fz8SF6ul23EakKCq5U7nkdCnBj7fLKeox5aF0+fWnZ8vMyrDpEkPeV9xPrMK+
-	 JeyfUUwkafSwg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9C6C77B70;
-	Sun,  9 Apr 2023 09:18:48 +0000 (UTC)
-From:
- Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Sun, 09 Apr 2023 11:18:46 +0200
-Subject: [PATCH] arm64: dts: apple: t8112: Add PWM controller
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A225E17D4
+	for <asahi@lists.linux.dev>; Mon, 10 Apr 2023 02:54:14 +0000 (UTC)
+Received: by mail-yb1-f176.google.com with SMTP id u13so3531857ybu.5
+        for <asahi@lists.linux.dev>; Sun, 09 Apr 2023 19:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1681095253; x=1683687253;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=68hFqK4w8HaSDUtj3lg9PKOMpgnSuCAOnFcquas933k=;
+        b=IjZnrt9C8yXtdC/ohkFj9vbfN0I5CrHdGt6RXZhkRTqVcM4PMjWP/8xUL9vbh8GGdo
+         v454lLMWWjhwjJ+VwzO4RTWzcsPINmuMQDfY6mX3OxL3T2JUR5wc/5FIZLCPAdV2aAV1
+         2nqWJ6HPIB8NtV7TS3pFPZtZQnmgfufw/AHgIz6Yzu5VN/QU1pp1FvkXrmUm+DXClkya
+         jatyStfza2n5Pf+HX832FAHLOmaxuJz5KC6QlcmgrizkjCKQByCyTfEjLGbUN1xSnDmZ
+         lhd2umXNlbGwYnA/By0TG4KlvBR25fY1c8TeMp/RFKkT3DtALIkJ9fKFGpKgBbmgsV/c
+         Yy7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1681095253; x=1683687253;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=68hFqK4w8HaSDUtj3lg9PKOMpgnSuCAOnFcquas933k=;
+        b=uMFdAY875c1VSgeqkL89bbLI/r7EDPA8Czo96F7i8Ii4XpyLDXpY4GAhizfapucrCY
+         nrVPZ1gCE9Xd3H2coZmqY99DlHlrvq1S+OiFeX1tpWIydwOTexXVegZlzN/1NvxtegU+
+         QcOzUlxRgdkz7no5I7/eHrbFMqbn6OOY8wGtvd1XswBfoGwrn/NsiIM/8VMqZmOVDVHN
+         ZKd30ri1h8Y8i9O/1O/k8OmhCS5B9BFVpMLnS3BGdFNCpyp3YaydUltYn67nwFW58dXE
+         4vSaUjLInS6I5zcGV8NKAU8gzQcUxIVVOnB1+K6JH9bzKXtPqDuTIeQGd10b3l968nB4
+         +AcA==
+X-Gm-Message-State: AAQBX9eEU2Gh6cqqvPHngY0oCIiWr1GVr7sBEsfU0tuZwP8hdTg5N0NG
+	cczT/+vZ2ceF93F2hLK5SL2bSyOuhok9kptYroY=
+X-Google-Smtp-Source: AKy350Zt7Ncm7oRHxX7FoJD7gllamV44wOZFNwP7hZX6GC9TeqVGMSrkLhxzsHnsz947jvbOVKIpBCQsnTS1VTe26eY=
+X-Received: by 2002:a25:7781:0:b0:b8e:cad0:6e57 with SMTP id
+ s123-20020a257781000000b00b8ecad06e57mr3253999ybc.11.1681095253548; Sun, 09
+ Apr 2023 19:54:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230409-t8112-fpwm-v1-1-feffa5f8b99b@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAPaCMmQC/x2NywrCMBAAf6Xs2cW8lOqvFA/bZGv2YFqyRYXSf
- zf1OAzDbKBchRXu3QaV36Iylwb21EHMVJ6MkhqDM86bYG649tY6nJbPC82Vgw8x+kufoAUjKeN
- YqcR8JKSUBXWO57Qeeqk8yff/Gh77/gOATlWmewAAAA==
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: b4 0.12.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1681031927; l=3074;
- i=fnkl.kernel@gmail.com; s=20230213; h=from:subject:message-id;
- bh=oZH+o0OuBKtAeL1N+AILko2fVUAecOJUeYZVbst1W5o=;
- b=C18AutLzDFanW7c9JjMjZfk0eZAnVX7s7KUp5iGQQ+Xga9D+G1Fwk2ky0g2IDzDC1+b6xsTgs
- 6muF/T8FkQ9AAYwfsTeW9Q/xO9EOCGv3VJO3ck8bLAS5cJohh33NURk
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=7LFSAJtxIWAs9LzCIyX0sSvCZy2wQTyEIu1zch6o804=
-X-Endpoint-Received:
- by B4 Relay for fnkl.kernel@gmail.com/20230213 with auth_id=28
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: <fnkl.kernel@gmail.com>
+References: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+In-Reply-To: <20230224-rust-new_uninit-v1-1-c951443d9e26@asahilina.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 10 Apr 2023 04:54:02 +0200
+Message-ID: <CANiq72ma7p9q8Usos6=Opv+YwzOXKgLXj6EEBUsfY2OY7KniGg@mail.gmail.com>
+Subject: Re: [PATCH] rust: Enable the new_uninit feature for kernel and driver crates
+To: Asahi Lina <lina@asahilina.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Fri, Feb 24, 2023 at 9:10=E2=80=AFAM Asahi Lina <lina@asahilina.net> wro=
+te:
+>
+> The unstable new_uninit feature enables various library APIs to create
+> uninitialized containers, such as `Box::assume_init()`. This is
+> necessary to build abstractions that directly initialize memory at the
+> target location, instead of doing copies through the stack.
+>
+> Will be used by the DRM scheduler abstraction in the kernel crate, and
+> by field-wise initialization (e.g. using `place!()` or a future
+> replacement macro which may itself live in `kernel`) in driver crates.
+>
+> See [1] [2] [3] for background information.
+>
+> [1] https://github.com/Rust-for-Linux/linux/issues/879
+> [2] https://github.com/Rust-for-Linux/linux/issues/2
+> [3] https://github.com/rust-lang/rust/issues/63291
 
-This patch adds the device tree entries for the PWM controller
-present on M2 macbooks that is connected to the keyboard backlight.
+Applied to `rust-next` (reworded to use `Link` tags). Thanks!
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
- arch/arm64/boot/dts/apple/t8112-j413.dts | 17 +++++++++++++++++
- arch/arm64/boot/dts/apple/t8112-j493.dts | 17 +++++++++++++++++
- arch/arm64/boot/dts/apple/t8112.dtsi     |  9 +++++++++
- 3 files changed, 43 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-index 9e758edeaa82..6f69658623bf 100644
---- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-@@ -11,6 +11,7 @@
- 
- #include "t8112.dtsi"
- #include "t8112-jxxx.dtsi"
-+#include <dt-bindings/leds/common.h>
- 
- / {
- 	compatible = "apple,j413", "apple,t8112", "apple,arm-platform";
-@@ -20,6 +21,18 @@ aliases {
- 		bluetooth0 = &bluetooth0;
- 		wifi0 = &wifi0;
- 	};
-+
-+	led-controller {
-+		compatible = "pwm-leds";
-+		led-0 {
-+			pwms = <&fpwm1 0 40000>;
-+			label = "kbd_backlight";
-+			function = LED_FUNCTION_KBD_BACKLIGHT;
-+			color = <LED_COLOR_ID_WHITE>;
-+			max-brightness = <255>;
-+			default-state = "keep";
-+		};
-+	};
- };
- 
- /*
-@@ -61,3 +74,7 @@ hpm5: usb-pd@3a {
- &i2c4 {
- 	status = "okay";
- };
-+
-+&fpwm1 {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-index 8552c15be265..0ad908349f55 100644
---- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-+++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-@@ -11,6 +11,7 @@
- 
- #include "t8112.dtsi"
- #include "t8112-jxxx.dtsi"
-+#include <dt-bindings/leds/common.h>
- 
- / {
- 	compatible = "apple,j493", "apple,t8112", "apple,arm-platform";
-@@ -20,6 +21,18 @@ aliases {
- 		bluetooth0 = &bluetooth0;
- 		wifi0 = &wifi0;
- 	};
-+
-+	led-controller {
-+		compatible = "pwm-leds";
-+		led-0 {
-+			pwms = <&fpwm1 0 40000>;
-+			label = "kbd_backlight";
-+			function = LED_FUNCTION_KBD_BACKLIGHT;
-+			color = <LED_COLOR_ID_WHITE>;
-+			max-brightness = <255>;
-+			default-state = "keep";
-+		};
-+	};
- };
- 
- /*
-@@ -50,3 +63,7 @@ bluetooth0: bluetooth@0,1 {
- &i2c4 {
- 	status = "okay";
- };
-+
-+&fpwm1 {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index 698a436e7dac..1666e6ab250b 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -458,6 +458,15 @@ i2c4: i2c@235020000 {
- 			status = "disabled";
- 		};
- 
-+		fpwm1: pwm@235044000 {
-+			compatible = "apple,t8112-fpwm", "apple,s5l-fpwm";
-+			reg = <0x2 0x35044000 0x0 0x4000>;
-+			power-domains = <&ps_fpwm1>;
-+			clocks = <&clkref>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
- 		serial0: serial@235200000 {
- 			compatible = "apple,s5l-uart";
- 			reg = <0x2 0x35200000 0x0 0x1000>;
-
----
-base-commit: 8d59efc33fdaa2c82072b4d3ba5f67d7dd9270d0
-change-id: 20230409-t8112-fpwm-06e434cc358d
-
-Best regards,
--- 
-Sasha Finkelstein <fnkl.kernel@gmail.com>
-
+Cheers,
+Miguel
