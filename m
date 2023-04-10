@@ -1,76 +1,74 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FB317D4
-	for <asahi@lists.linux.dev>; Mon, 10 Apr 2023 03:43:43 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-54e40113cf3so119000927b3.12
-        for <asahi@lists.linux.dev>; Sun, 09 Apr 2023 20:43:43 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC51717D4
+	for <asahi@lists.linux.dev>; Mon, 10 Apr 2023 03:47:54 +0000 (UTC)
+Received: by mail-yb1-f174.google.com with SMTP id f188so35263818ybb.3
+        for <asahi@lists.linux.dev>; Sun, 09 Apr 2023 20:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681098223; x=1683690223;
+        d=gmail.com; s=20210112; t=1681098473; x=1683690473;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aAEMO45BhOISY8Il2XgEX/kFiJjek2ES5jcqD/mIP3w=;
-        b=IkJgD55SKcRru/KkoeHpgzFDWM0eSVn9wpWr+7PUiIyxX6bNjY8KYouplV3P+8+1+d
-         Zr8u2+/CkL3eEwyzo4N/G48ZteVTuul3nFs+TnShDDmSctntBv0IrESBW7eHoJ+DWeiH
-         69mdSWFNV0b44z+4hCC0cPOvxgxh2M8RsyBiPlJETOBzEChoRQpaK+9H/CyjpMWBq2Lo
-         UxF+ViHClT90L2Qj+vZcrX7C9uY1/lJJ5AhSaLl3neP+WryQzvrfIYrSPfyvEIohSKuK
-         SzFVUgGKVHbrZcG9ZrcgZbKMlsFhoUpcM4mcsFA/tQ4ipB1A5h0ticvy+MqJwqp+Plvu
-         HuSw==
+        bh=hl6Ldr2ffJls2zPrC5MBUC142PJZp6NGW4lSlfYrLXo=;
+        b=ksvDpJOqSnK4D9i61295t8pix74Twg9CUAER6KKwgaw88XWTXMopY0cDxvrPBazEOE
+         wDPov8tkV2qdZBkehRdGO8sBF86F0qlA2EA0HqV761wbJvCjZ/6uK49gMm2ib8PFsnNy
+         3pazCUXTICAEL+Z3B3/Z9ESZiZIHUTyEyNLsg9iKfbiPkBfbAZbqJClyZ1kUzdtX/nUt
+         i+qIhMt0P0I2/MlSB4cOIgpYwHlWk83+y2z8EbqgzJXKIaRCIBYaEuRtWYWFzqERxwLJ
+         BXobngkak/04YJCo4/57fReySCxvDwcY6kAV/e6UVqOaWzmoNfPoTDT2eSRPuDn9bAAp
+         gd5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681098223; x=1683690223;
+        d=1e100.net; s=20210112; t=1681098473; x=1683690473;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aAEMO45BhOISY8Il2XgEX/kFiJjek2ES5jcqD/mIP3w=;
-        b=i9GpfFgZPfsAOFgMiYYpfPtpOpI1IHysjUDpPcHglL+tnxwEgOloJ3V5fjXmYEfPGs
-         3zTr3GAFTuBkm7V/s5xLdtflBW4znoMrFi5XMFIZUSb8hkT8sKXSKY5EVgfCT0u5U+ha
-         2Pz98ZkZuc3WTKB/8NZ+jjpbBO2b0emqd5YWmG2OrLEAH3xyivEK1QBrbYiAoOzM4+XL
-         x/lBWPi2LXPLIAKx11trTVSrwsNMnrG0S52yY5s7yBVunl9kYHPlC1F6K/kY2X3VWDlV
-         616eWGUGbw6aK5A1WC6f101lsp1yfWFHpFe9gWeUX9ziZPotmcgVDtwZaK+ZvzfYnjQa
-         NOzw==
-X-Gm-Message-State: AAQBX9cLieSgEOxJfgeOhWWAbjJ4skKO7S0Wm2QnuVuk1nbHVl+l3FfN
-	UUbX6X50QwX2UWjqgPi/Z3rpWkZcDwcSDePaTZQ=
-X-Google-Smtp-Source: AKy350bCmqk3jof3BCKTVENyhnOqOjIW0PWUvsv789++M6zuwALUjNvHWRbkZqmzvwF6j9ZvESorNJpiTYRGY40119M=
-X-Received: by 2002:a81:ae17:0:b0:533:8f19:4576 with SMTP id
- m23-20020a81ae17000000b005338f194576mr5218650ywh.0.1681098222747; Sun, 09 Apr
- 2023 20:43:42 -0700 (PDT)
+        bh=hl6Ldr2ffJls2zPrC5MBUC142PJZp6NGW4lSlfYrLXo=;
+        b=g9IuNeg+DhKx/hpi6nvisqo68ajZ5gITc6IrMTqyKGRSEqzFB/z73C3E5rI6Bd1CfJ
+         musaWrcHLjZ6VAvyhdZbEjj0GvAUoUCydpoE1cHqVvBR3ilTT7Co7/XVCi2ffzvoxETS
+         JQJ7f3ZKzHEYfu8++hWwgaD/cCWqnkU5uLvKtuVKcpxhyNUI5prh8o5Fyw0seoX1Dbo+
+         jXvmlIL0PE+WqyVaeDycktIWhNlELn3UGr44T5gsHQDAuIEP0iSHiPfmT68/xv3T8fvr
+         rGsfAtaTB0Q4+D8t0I9OkeQY5OeRRsxlmnK0EoeUaZChrzkGA10BB3+AAjKUfl4JDOEe
+         2wJg==
+X-Gm-Message-State: AAQBX9fhdeGbXEg5JA9WcEg0f4JS97u0Z8pS/5iPdjA/57cuQWzsphBo
+	JG0ee45AVhBBy5igj7umKjjGaRzArDIlK4piUqY=
+X-Google-Smtp-Source: AKy350adDkkKnqOW4IGrkQPJIh22w8D9fGmOFWzJSCxBaRnkc8GB5Q1maI+xS6wpp75pqDl+eMIkiQqUgTNVD4ZsXqY=
+X-Received: by 2002:a25:50d1:0:b0:b6b:d3f3:45af with SMTP id
+ e200-20020a2550d1000000b00b6bd3f345afmr8883100ybb.1.1681098473651; Sun, 09
+ Apr 2023 20:47:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230224-rust-macros-v2-1-7396e8b7018d@asahilina.net>
-In-Reply-To: <20230224-rust-macros-v2-1-7396e8b7018d@asahilina.net>
+References: <20230224-rust-arc-v2-0-5c97a865b276@asahilina.net>
+In-Reply-To: <20230224-rust-arc-v2-0-5c97a865b276@asahilina.net>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 10 Apr 2023 05:43:32 +0200
-Message-ID: <CANiq72=j8iDJSTbLJ__r3XAk8tHC8cFFqRjj7YN3zO=8CYQWBg@mail.gmail.com>
-Subject: Re: [PATCH v2] rust: macros: Allow specifying multiple module aliases
+Date: Mon, 10 Apr 2023 05:47:42 +0200
+Message-ID: <CANiq72=XwyK=EgFOU1jqMCFcoyjUc63WSu498ZhKVAg5CBaV7g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] rust: sync: Arc: Any downcasting and assume_init()
 To: Asahi Lina <lina@asahilina.net>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
 	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
 	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Andreas Hindborg <a.hindborg@samsung.com>, Vincenzo Palazzo <vincenzopalazzodev@gmail.com>, 
+	Martin Rodriguez Reboredo <yakoyoku@gmail.com>, Benno Lossin <y86-dev@protonmail.com>, 
 	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev, Finn Behrens <me@kloenk.dev>, 
-	Sumera Priyadarsini <sylphrenadin@gmail.com>, Vincenzo Palazzo <vincenzopalazzodev@gmail.com>
+	asahi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 23, 2023 at 1:35=E2=80=AFPM Asahi Lina <lina@asahilina.net> wro=
+On Mon, Apr 3, 2023 at 12:01=E2=80=AFPM Asahi Lina <lina@asahilina.net> wro=
 te:
 >
-> Modules can (and usually do) have multiple alias tags, in order to
-> specify multiple possible device matches for autoloading. Allow this by
-> changing the alias ModuleInfo field to an Option<Vec<String>>.
+> Hi everyone,
 >
-> Note: For normal device IDs this is autogenerated by modpost (which is
-> not properly integrated with Rust support yet), so it is useful to be
-> able to manually add device match aliases for now, and should still be
-> useful in the future for corner cases that modpost does not handle.
+> This short series is part of the set of dependencies for the drm/asahi
+> Apple M1/M2 GPU driver.
 >
-> This pulls in the expect_group() helper from the rfl/rust branch
-> (with credit to authors).
+> The two patches simply add two missing features to the kernel Arc
+> implementation which are present in the Rust std version: `Any`
+> downcasting and `assume_init()`.
 
 Applied to `rust-next`. Thanks!
 
