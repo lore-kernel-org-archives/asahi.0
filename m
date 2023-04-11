@@ -1,105 +1,150 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C1317D4
-	for <asahi@lists.linux.dev>; Mon, 10 Apr 2023 03:50:02 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id y186so3522518yby.13
-        for <asahi@lists.linux.dev>; Sun, 09 Apr 2023 20:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1681098601; x=1683690601;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FZzELvV3936iXZzgHBjpzCyX1go0GJ69vN7WBZJ+Bv8=;
-        b=oYMStYGmVv3HL4vWXaCMfmE9e0uqk4VH59VWFzrCtXudhoDJbN8PmpWJi5dE1kiA3G
-         So1YzteaHFY8FMz7Dsnt5ygflYfEST8dtNOROQMi24j/nKAinlEM+PAdmPiFPC9+Cx/7
-         u5q33alY9hBc6JsHCfXzq7EzWgjXS4Q0LPmUd9scNGzID9zc9RzHc4ArrTIAy2H78Ufi
-         UB4JHaY3vsc6U9WVMCb7CXm2fn2HtlYT98pj1qhEQ7yWagEtWnqzh6hi2FquRWeh55i6
-         h+LD0OkWZ5iwXYjlkOs4tYJWqA9BDK45OTlRYavTOF58xSJhwV/8AvpcRRlAingIFstX
-         ZVbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681098601; x=1683690601;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FZzELvV3936iXZzgHBjpzCyX1go0GJ69vN7WBZJ+Bv8=;
-        b=tqpqIOBLgd3Qc43oWLbC792zfma1uzyVs6qUBA2s6sdbL7G/hmOptMpYhYnQuVu6Zf
-         KPleRMMDW/8WHWC5spEMvd0SSxirFlC6PfYDcDyRks4Fw8B+b93bj03yxLf+DC7wirTv
-         i/rz7Y3xaKXTd4Cd8BJCs0gxggqJYEbkbN4yLoDHyxMRfW9oEL8WQ9T3tTXLaMqvIcqp
-         h9q1PPhnwHiGlynELuAl12hqmsCCAkXFxEIqXhDM3ok4B+s8KIqxItrFQ4hMBfyrhf3p
-         I6WBRpdyIU7vqwBWn+p8SgeTdJ62ucTUM9LV0A/IF2slpjkpTuNwN5/Zwe8hydI6CGL2
-         9aYQ==
-X-Gm-Message-State: AAQBX9cPhbJpGP8K8tF0sx1ETIr+Ytkqb5JUbz/Lv14TkKvi+hQeWyaY
-	a2N15rraOzuHsng0/trBvJyllWJQBEuaBQTWbBQ=
-X-Google-Smtp-Source: AKy350beTI/QDlgxCjoujRd1i6AdLQRQCrsIL4G8pwbvogSpdTNDF02ae9Ouw6+ToOIU1AJR9Zxn09lripExTPu2FeQ=
-X-Received: by 2002:a25:3157:0:b0:b8e:db4a:a366 with SMTP id
- x84-20020a253157000000b00b8edb4aa366mr3084603ybx.11.1681098601651; Sun, 09
- Apr 2023 20:50:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853B08F4D
+	for <asahi@lists.linux.dev>; Tue, 11 Apr 2023 15:55:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 5C0B141F72;
+	Tue, 11 Apr 2023 15:55:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1681228523;
+	bh=0KFpXLyxRFISS+Ok78SUbTpjO3mej+5SYnKp4vu77tU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=hOObcoIiPm5nhpMj85/3ogUsMGJrj56TwD86fbkKjYVe/c110SbKsDbRTHUqG+5FE
+	 KmykrTUYIo3fmB5oK8tKQwztpD7oZdbeonfpHRQyZwZRhtFVpam7IQJ2C23OYQjE5e
+	 4HuKdCxVPJEDldq15KUrCiYLTGcnDWbbEWJ09Vo2WECsGjOZialoojz/PXFTPqsT/x
+	 YcGiZ6tYyE75PNRD0lOlz4u8diH104iZtfWmVI8ZDtoQK1MeH9lAAwVo0q7MbT9EXb
+	 U/YFgOASC0xPcI52P9Hysioz6uGprvR24xMnkh4DJHBgziClpKr5qir2Yucvf2O8f/
+	 3aXJWmfVDpYpQ==
+Message-ID: <1bb98ef1-727a-45d6-3cf6-39765fe99c5c@asahilina.net>
+Date: Wed, 12 Apr 2023 00:55:18 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230224-rust-error-v3-0-03779bddc02b@asahilina.net>
-In-Reply-To: <20230224-rust-error-v3-0-03779bddc02b@asahilina.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 10 Apr 2023 05:49:50 +0200
-Message-ID: <CANiq72=M6GcMv67GYMCmJ=FUCD03rKSP5en7TfDTFw85qudfRw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] rust: error: Add missing wrappers to convert
- to/from kernel error codes
-To: Asahi Lina <lina@asahilina.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Sven Van Asbroeck <thesven73@gmail.com>, Fox Chen <foxhlchen@gmail.com>, 
-	Martin Rodriguez Reboredo <yakoyoku@gmail.com>, Andreas Hindborg <a.hindborg@samsung.com>, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH v3] rust: xarray: Add an abstraction for XArray
+Content-Language: en-US
+To: Gary Guo <gary@garyguo.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Matthew Wilcox <willy@infradead.org>,
+ Martin Rodriguez Reboredo <yakoyoku@gmail.com>, Neal Gompa <neal@gompa.dev>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20230224-rust-xarray-v3-1-04305b1173a5@asahilina.net>
+ <20230404152516.0368a92b.gary@garyguo.net>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <20230404152516.0368a92b.gary@garyguo.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 3, 2023 at 11:48=E2=80=AFAM Asahi Lina <lina@asahilina.net> wro=
-te:
->
-> Hi everyone!
->
-> This series is part of the set of dependencies for the drm/asahi
-> Apple M1/M2 GPU driver.
->
-> It adds a bunch of missing wrappers in kernel::error, which are useful
-> to convert to/from kernel error codes. Since these will be used by many
-> abstractions coming up soon, I think it makes sense to merge them as
-> soon as possible instead of bundling them with the first user. Hence,
-> they have allow() tags to silence dead code warnings. These can be
-> removed as soon as the first user is in the kernel crate.
->
-> Getting this in first allows the subsequent abstractions to be merged in
-> any order, so we don't have to worry about piecewise rebasing and fixing
-> conflicts in the Error wrappers. See [1] for a complete tree with the DRM
-> abstractions and all other miscellaneous work-in-progress prerequisites
-> rebased on top of mainline.
->
-> Most of these have been extracted from the rust-for-linux/rust branch,
-> with author attribution to the first/primary author and Co-developed-by:
-> for everyone else who touched the code.
->
-> Attribution changes:
-> - One of the patches had Miguel's old email in the tags, updated that per
->   his request.
-> - Wedson's email changed from @google.com to @gmail.com (I understand
->   this is the current one).
->
-> Sven: There is one patch from you in this series, do you want to send it
-> yourself directly? I understand Wedson and Miguel are okay with me
-> sending stuff on their behalf.
->
-> [1] https://github.com/Rust-for-Linux/linux/pull/969/commits
+On 04/04/2023 23.25, Gary Guo wrote:
+> On Mon, 03 Apr 2023 19:14:23 +0900
+> Asahi Lina <lina@asahilina.net> wrote:
+> 
+>> The XArray is an abstract data type which behaves like a very large
+>> array of pointers. Add a Rust abstraction for this data type.
+>>
+>> The initial implementation uses explicit locking on get operations and
+>> returns a guard which blocks mutation, ensuring that the referenced
+>> object remains alive. To avoid excessive serialization, users are
+>> expected to use an inner type that can be efficiently cloned (such as
+>> Arc<T>), and eagerly clone and drop the guard to unblock other users
+>> after a lookup.
+>>
+>> Future variants may support using RCU instead to avoid mutex locking.
+>>
+>> This abstraction also introduces a reservation mechanism, which can be
+>> used by alloc-capable XArrays to reserve a free slot without immediately
+>> filling it, and then do so at a later time. If the reservation is
+>> dropped without being filled, the slot is freed again for other users,
+>> which eliminates the need for explicit cleanup code.
+>>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
+>>
+>> Hi everyone!
+>>
+>> This abstraction is part of the set of dependencies for the drm/asahi
+>> Apple M1/M2 GPU driver.
+>>
+>> The branch at [1] contains the full series of patches rebased on
+>> upstream leading to the complete driver, for reference on how it is
+>> intended to be used.
+>>
+>> Thank you everyone who helped review this on GitHub [2]! I hope I didn't
+>> forget any CCs...
+>>
+>> Note that I dropped the convenience `Deref` impl for `Guard`, since I
+>> couldn't figure out how to do it safely. Suggestions welcome, or we can
+>> leave it for a future improvement ^^
+>>
+>> [1] https://github.com/AsahiLinux/linux/tree/gpu/rebase-20230224
+>> [2] https://github.com/Rust-for-Linux/linux/pull/952
+>>
+>> Changes in v3:
+>> - Updated to the error v2/v3 series API.
+>> - Renamed `err` to `ret` for consistency with the other instance.
+>> - Link to v2: https://lore.kernel.org/r/20230224-rust-xarray-v2-1-4eeb0134944c@asahilina.net
+>> Changes in v2:
+>> - Added Pin requirement for all XArray operations, to close a
+>>    soundness hole due to the lock in the XArray (locks are not safe to
+>>    move while locked). Creation does not require pinning in place, since
+>>    the lock cannot be acquired at that point.
+>> - Added safety note to Drop impl about why we don't need to do the lock
+>>    unlock dance to ensure soundness in case of a dropped lock guard.
+>> - Downstream drm/asahi driver was also rebased on this version to prove
+>>    it works (previously it was still on a pre-v1 version).
+>> - This still depends on the Error series (v1). v2 of that will need a
+>>    trivial rename of Error::from_kernel_errno -> Error::from_errno. If
+>>    this version of XArray ends up looking good, I'll send a trivial v4 of
+>>    XArray with the rename, after sending the v2 of the Error series.
+>> - Link to v1: https://lore.kernel.org/r/20230224-rust-xarray-v1-1-80f0904ce5d3@asahilina.net
+>> ---
+>>   rust/bindings/bindings_helper.h |  17 +++
+>>   rust/helpers.c                  |  37 +++++
+>>   rust/kernel/lib.rs              |   1 +
+>>   rust/kernel/xarray.rs           | 302 ++++++++++++++++++++++++++++++++++++++++
+>>   4 files changed, 357 insertions(+)
+>>
+[snip]
+>> +    /// Replaces an entry with a new value, returning the old value (if any).
+>> +    pub fn replace(self: Pin<&Self>, index: usize, value: T) -> Result<Option<T>> {
+>> +        let new = value.into_foreign();
+>> +        // SAFETY: `new` just came from into_foreign(), and we dismiss this guard if
+>> +        // the xa_store operation succeeds and takes ownership of the pointer.
+>> +        let guard = ScopeGuard::new(|| unsafe {
+>> +            T::from_foreign(new);
+>> +        });
+>> +
+>> +        // SAFETY: `self.xa` is always valid by the type invariant, and we are storing
+>> +        // a `T::into_foreign()` result which upholds the later invariants.
+>> +        let old = unsafe {
+>> +            bindings::xa_store(
+>> +                self.xa.get(),
+>> +                index.try_into()?,
+>> +                new as *mut _,
+>> +                bindings::GFP_KERNEL,
+>> +            )
+>> +        };
+> 
+> XArray's doc says the pointer must be 4-byte aligned, but I didn't see
+> any checks.
 
-Added (and then removed in later commits) two `#[allow(dead_code)]`s
-as needed to make it compile.
+Hmm... should we just assert that at runtime here?
 
-Applied to `rust-next`. Thanks!
+I doubt any reasonable boxed type will ever have a non-aligned address 
+in practice, but I guess it's technically not impossible. Maybe we 
+should just add it to the contract for ForeignOwnable?
 
-Cheers,
-Miguel
+~~ Lina
+
