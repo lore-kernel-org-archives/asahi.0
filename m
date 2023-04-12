@@ -1,150 +1,63 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853B08F4D
-	for <asahi@lists.linux.dev>; Tue, 11 Apr 2023 15:55:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 5C0B141F72;
-	Tue, 11 Apr 2023 15:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1681228523;
-	bh=0KFpXLyxRFISS+Ok78SUbTpjO3mej+5SYnKp4vu77tU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=hOObcoIiPm5nhpMj85/3ogUsMGJrj56TwD86fbkKjYVe/c110SbKsDbRTHUqG+5FE
-	 KmykrTUYIo3fmB5oK8tKQwztpD7oZdbeonfpHRQyZwZRhtFVpam7IQJ2C23OYQjE5e
-	 4HuKdCxVPJEDldq15KUrCiYLTGcnDWbbEWJ09Vo2WECsGjOZialoojz/PXFTPqsT/x
-	 YcGiZ6tYyE75PNRD0lOlz4u8diH104iZtfWmVI8ZDtoQK1MeH9lAAwVo0q7MbT9EXb
-	 U/YFgOASC0xPcI52P9Hysioz6uGprvR24xMnkh4DJHBgziClpKr5qir2Yucvf2O8f/
-	 3aXJWmfVDpYpQ==
-Message-ID: <1bb98ef1-727a-45d6-3cf6-39765fe99c5c@asahilina.net>
-Date: Wed, 12 Apr 2023 00:55:18 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931E49472
+	for <asahi@lists.linux.dev>; Wed, 12 Apr 2023 19:43:05 +0000 (UTC)
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-1842df7cb53so15069617fac.10
+        for <asahi@lists.linux.dev>; Wed, 12 Apr 2023 12:43:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1681328584; x=1683920584;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=IdB/hLt0KneusiaDF2I1jfYOiiJrqd1wU01GfkTo2zM=;
+        b=bLidngYk5mUNNRfOUqyt3rv5G80gPT2hTit3Q5VhFMu+z3G4vs4I1mLVQiFFCFnS73
+         9tjbLHC3vIlRedrsVSfS0ESlSN/wB/T3ZSiIaNv/BCd7Y1x7jOe6tbKO190HdUN07I9Z
+         3WeuxgMxAPQVvIs7R/uJr2pxN5hXtqCAImCcO+1gfPa1srm29U4PBLqihF/0m/ZW9x+m
+         EgSqqfGTZGm4PfM7qyuKNxmF9EdZbHTszb5JkCRFDcx9pPUIgrznyjLaimrGirbKFRP6
+         2EeLypOWxZKMXEltMqlRJ1w6TbPaDqkwhD7UUzpk2EfNiEwdGJlK13Nrn1oKvaUH34R7
+         zVQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1681328584; x=1683920584;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IdB/hLt0KneusiaDF2I1jfYOiiJrqd1wU01GfkTo2zM=;
+        b=Q09TPkLVDcD1lzdQxKHuq3dzcJPZQfYOELkKDtuCX/8bngm4a5ddFmt1K13b0kLfwD
+         Dq51djq4mDmmjBO6zk/z8j06Ys0eqEkHsFAaDiTtpcS1zwEB0yGaQB1rnZS/Q6uHlteE
+         /kaJO1+GBmXCQgZ8+015m7uuPSPHOpKE7qq/1Wc7CrNKIRZulu32a0c6jN+Ci9G+Hb+O
+         cSfyTgW7OlgKI0y+KL7Nx2wwP2AWdTTT4VpGWiFFeLxT/j+RkVuqP5BuDA448O2Vi/3j
+         v84mWkloJUNQyi/LFGMHB1JZeQbF09Br/ZLbtbMXAdNTChwkfWyq+Iq6ZjIp8WO2kJsH
+         8qWA==
+X-Gm-Message-State: AAQBX9fOlO5fWGQD9vYJrs3XBqKxAIU4zhShCh8SBXc2UgjKeEHhOD3O
+	knt71rRO4GXs1M7LFBPRNoT1FjmsiSPcyl1vyE6BziExLnuP6Q==
+X-Google-Smtp-Source: AKy350ZD3g9VjU/1de6/dEtOQI0Kcc2/jhSKFPG3vfHzGufxdBOMX6EtAF/DJRrGffTz2XpYPvv4jYMeOpki3yXV99k=
+X-Received: by 2002:a05:6870:b252:b0:187:773a:3930 with SMTP id
+ b18-20020a056870b25200b00187773a3930mr21444oam.9.1681328584357; Wed, 12 Apr
+ 2023 12:43:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH v3] rust: xarray: Add an abstraction for XArray
-Content-Language: en-US
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Matthew Wilcox <willy@infradead.org>,
- Martin Rodriguez Reboredo <yakoyoku@gmail.com>, Neal Gompa <neal@gompa.dev>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230224-rust-xarray-v3-1-04305b1173a5@asahilina.net>
- <20230404152516.0368a92b.gary@garyguo.net>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <20230404152516.0368a92b.gary@garyguo.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Robert Landers <landers.robert@gmail.com>
+Date: Wed, 12 Apr 2023 21:42:51 +0200
+Message-ID: <CAPzBOBMymQq8MeDxPCcEgMdr=p_VZ_pz=fP8H7hFjONGHtVzfQ@mail.gmail.com>
+Subject: subscription fails from spam assassin
+To: asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 04/04/2023 23.25, Gary Guo wrote:
-> On Mon, 03 Apr 2023 19:14:23 +0900
-> Asahi Lina <lina@asahilina.net> wrote:
-> 
->> The XArray is an abstract data type which behaves like a very large
->> array of pointers. Add a Rust abstraction for this data type.
->>
->> The initial implementation uses explicit locking on get operations and
->> returns a guard which blocks mutation, ensuring that the referenced
->> object remains alive. To avoid excessive serialization, users are
->> expected to use an inner type that can be efficiently cloned (such as
->> Arc<T>), and eagerly clone and drop the guard to unblock other users
->> after a lookup.
->>
->> Future variants may support using RCU instead to avoid mutex locking.
->>
->> This abstraction also introduces a reservation mechanism, which can be
->> used by alloc-capable XArrays to reserve a free slot without immediately
->> filling it, and then do so at a later time. If the reservation is
->> dropped without being filled, the slot is freed again for other users,
->> which eliminates the need for explicit cleanup code.
->>
->> Signed-off-by: Asahi Lina <lina@asahilina.net>
->> ---
->>
->> Hi everyone!
->>
->> This abstraction is part of the set of dependencies for the drm/asahi
->> Apple M1/M2 GPU driver.
->>
->> The branch at [1] contains the full series of patches rebased on
->> upstream leading to the complete driver, for reference on how it is
->> intended to be used.
->>
->> Thank you everyone who helped review this on GitHub [2]! I hope I didn't
->> forget any CCs...
->>
->> Note that I dropped the convenience `Deref` impl for `Guard`, since I
->> couldn't figure out how to do it safely. Suggestions welcome, or we can
->> leave it for a future improvement ^^
->>
->> [1] https://github.com/AsahiLinux/linux/tree/gpu/rebase-20230224
->> [2] https://github.com/Rust-for-Linux/linux/pull/952
->>
->> Changes in v3:
->> - Updated to the error v2/v3 series API.
->> - Renamed `err` to `ret` for consistency with the other instance.
->> - Link to v2: https://lore.kernel.org/r/20230224-rust-xarray-v2-1-4eeb0134944c@asahilina.net
->> Changes in v2:
->> - Added Pin requirement for all XArray operations, to close a
->>    soundness hole due to the lock in the XArray (locks are not safe to
->>    move while locked). Creation does not require pinning in place, since
->>    the lock cannot be acquired at that point.
->> - Added safety note to Drop impl about why we don't need to do the lock
->>    unlock dance to ensure soundness in case of a dropped lock guard.
->> - Downstream drm/asahi driver was also rebased on this version to prove
->>    it works (previously it was still on a pre-v1 version).
->> - This still depends on the Error series (v1). v2 of that will need a
->>    trivial rename of Error::from_kernel_errno -> Error::from_errno. If
->>    this version of XArray ends up looking good, I'll send a trivial v4 of
->>    XArray with the rename, after sending the v2 of the Error series.
->> - Link to v1: https://lore.kernel.org/r/20230224-rust-xarray-v1-1-80f0904ce5d3@asahilina.net
->> ---
->>   rust/bindings/bindings_helper.h |  17 +++
->>   rust/helpers.c                  |  37 +++++
->>   rust/kernel/lib.rs              |   1 +
->>   rust/kernel/xarray.rs           | 302 ++++++++++++++++++++++++++++++++++++++++
->>   4 files changed, 357 insertions(+)
->>
-[snip]
->> +    /// Replaces an entry with a new value, returning the old value (if any).
->> +    pub fn replace(self: Pin<&Self>, index: usize, value: T) -> Result<Option<T>> {
->> +        let new = value.into_foreign();
->> +        // SAFETY: `new` just came from into_foreign(), and we dismiss this guard if
->> +        // the xa_store operation succeeds and takes ownership of the pointer.
->> +        let guard = ScopeGuard::new(|| unsafe {
->> +            T::from_foreign(new);
->> +        });
->> +
->> +        // SAFETY: `self.xa` is always valid by the type invariant, and we are storing
->> +        // a `T::into_foreign()` result which upholds the later invariants.
->> +        let old = unsafe {
->> +            bindings::xa_store(
->> +                self.xa.get(),
->> +                index.try_into()?,
->> +                new as *mut _,
->> +                bindings::GFP_KERNEL,
->> +            )
->> +        };
-> 
-> XArray's doc says the pointer must be 4-byte aligned, but I didn't see
-> any checks.
+Hello,
 
-Hmm... should we just assert that at runtime here?
+I'm going to take a shot in the dark that this works like other
+mailing lists and that simply mailing the list will still deliver the
+email, I just won't get the replies unless someone intentionally
+emails me back.
 
-I doubt any reasonable boxed type will ever have a non-aligned address 
-in practice, but I guess it's technically not impossible. Maybe we 
-should just add it to the contract for ForeignOwnable?
+Anyway, I tried subscribing per the instructions on the website,
+however, my subscription bounces back with a 550 'Blocked by
+SpamAssassin'. This seems unintentional and might be a bug? I'm not
+sure who to contact, but maybe you do.
 
-~~ Lina
-
+Robert Landers
+Software Engineer
+Utrecht NL
