@@ -1,379 +1,89 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4D32CA5
-	for <asahi@lists.linux.dev>; Thu, 13 Apr 2023 09:24:03 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-505048d50aeso177552a12.0
-        for <asahi@lists.linux.dev>; Thu, 13 Apr 2023 02:24:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1681377841; x=1683969841;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=njfKQpwLuv9TM47N/8Q44JKVE3mB36cKGfD6ZSMFaBE=;
-        b=EpRabewTf14VvElILrLEJatAS47TvJfs81peIsQ94s+dmaW++3x2x8tODlZ6l1yBtN
-         LrT6Bt5U/KEK2PS9WktPnrnreCYGHIFA8GndZ6gMj9DN9AwCUH0Y6U6Szi/LeXl3Cihu
-         uOKVavtaRS2RcDiWSbmx8CJSudF/h7SFcuU9E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681377841; x=1683969841;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=njfKQpwLuv9TM47N/8Q44JKVE3mB36cKGfD6ZSMFaBE=;
-        b=c3D+FfNr0VSfQKLUS2vj0aXcJWdAPzWIYwvX7VVXT+3ujsgQrY4+KVIFubyrv9ke/E
-         vvFAb6N7nYWt7QqnMo/Qwp9STnluxA/L1iaMh6z6CHMHYGtCse3vt3J37eUshcfU1m4f
-         JOmX0mUCYMrql9zvO0YStbVwdhpOV7bKO5Y4H+1IaULCwTaKzDXWUzB6QY1sR3iRBqnY
-         Y6ZBqWkpT4r0Nl5Mvy/LiFFTHhL9UiRNsoMqDpOJym8ZveYQtq0DOaaEYrdRACJqyO/v
-         TW1hCwNHlj+LsbpK0qMm0orXi65VerQZVWkLBjofEjmEWIlC+wxJ2PjdakJRB0/98p2d
-         gudw==
-X-Gm-Message-State: AAQBX9d9x49+Ar7PyijNBaHbegIYudpnnkJWQb+dpIa20bYVCRfztQ3x
-	j5KDc019Pdy2PUAT/6k3D1GZhg==
-X-Google-Smtp-Source: AKy350YQ6zAXTaLzpC/COJc60JZlW4nm7Tqb3mO4pquC2nITZvuCWwMbff4F81iA5Se0zE8ajB0UhQ==
-X-Received: by 2002:a17:906:7297:b0:94a:5f0d:d9d6 with SMTP id b23-20020a170906729700b0094a5f0dd9d6mr1671149ejl.4.1681377841465;
-        Thu, 13 Apr 2023 02:24:01 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id u24-20020a1709064ad800b0094dffd03d7asm680000ejt.182.2023.04.13.02.24.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Apr 2023 02:24:01 -0700 (PDT)
-Date: Thu, 13 Apr 2023 11:23:58 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Karol Herbst <kherbst@redhat.com>,
-	Ella Stanforth <ella@iglunix.org>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH RFC 01/18] rust: drm: ioctl: Add DRM ioctl abstraction
-Message-ID: <ZDfKLjKOfDHkEc1V@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Karol Herbst <kherbst@redhat.com>,
-	Ella Stanforth <ella@iglunix.org>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BF51C10
+	for <asahi@lists.linux.dev>; Sun, 16 Apr 2023 12:42:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 580D3447CF;
+	Sun, 16 Apr 2023 12:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1681648947; bh=Mkd1JPhb3nS2pj7N8smN5I/IKmBOuca+sSQG67P1+dk=;
+	h=From:Subject:Date:To:Cc;
+	b=vVkaE07bZiUVG7gtA4MidB59VajJKt1rkQ4TQGlkO4MKwOFudLwx3dJXVcRnTg1XZ
+	 klkdsoZq3VOLGGjFk5YY/Xwy5JFwvu/V1mZ6w0TeVegzhI7rJKMANTqUjsIDDgpWZR
+	 FGfgF/nAUxRNlnW8mWUMf6BgNSG65YwukgL9C71vhRaY3JTlK76FJNPbmjVIh7vKJH
+	 gnJGHs3HeadL7sFbkXdAlRR54jBYrY/kHbWa/8oiDoeNM66e7wWGi7Rbw+UmxwygqC
+	 8OzX4TBZ+w5cVvzZYE17g/Vgf34FxOhZ5A8xlRGo0lg3UWspAmA04v6Nn3nWUQvmim
+	 V66w5/8fNIEmg==
+From: Hector Martin <marcan@marcan.st>
+Subject: [PATCH 0/2] brcmfmac: Demote some kernel errors to info
+Date: Sun, 16 Apr 2023 21:42:16 +0900
+Message-Id: <20230416-brcmfmac-noise-v1-0-f0624e408761@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230307-rust-drm-v1-1-917ff5bc80a8@asahilina.net>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACjtO2QC/x2NQQqDMBBFryKzbjBOShCvUrqYxInOwiiTWgTx7
+ o1dvvd5/BMKq3CBoTlB+StF1lyhezQQZ8oTGxkrA1p09tl5EzQuaaFo8iqFDQbi3vXOJxyhRoG
+ qDEo5znf28RaPNqjkad/ufVNOcvwPX+/r+gEA4845gAAAAA==
+To: Arend van Spriel <aspriel@gmail.com>, 
+ Franky Lin <franky.lin@broadcom.com>, 
+ Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ "John W. Linville" <linville@tuxdriver.com>
+Cc: linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
+ SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ Hector Martin <marcan@marcan.st>, stable@vger.kernel.org
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1405; i=marcan@marcan.st;
+ h=from:subject:message-id; bh=Mkd1JPhb3nS2pj7N8smN5I/IKmBOuca+sSQG67P1+dk=;
+ b=owGbwMvMwCEm+yP4NEe/cRLjabUkhhTrt7ru07SCfl5rmW3R5x16bpXI86Mc6klakxYp7Y+Te
+ GETl3C/o5SFQYyDQVZMkaXxRO+pbs/p59RVU6bDzGFlAhnCwMUpABP5mcLI8NXrfNq2qTnZNflc
+ y7uYv+Su4xC6mGH/P0Pi8wXZDQl2DYwMF9+5r1/orvoxO1pC14GNn+FpBN+Ok4/L+IR/KBcdaDr
+ GAAA=
+X-Developer-Key: i=marcan@marcan.st; a=openpgp;
+ fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
-On Tue, Mar 07, 2023 at 11:25:26PM +0900, Asahi Lina wrote:
-> DRM drivers need to be able to declare which driver-specific ioctls they
-> support. This abstraction adds the required types and a helper macro to
-> generate the ioctl definition inside the DRM driver.
-> 
-> Note that this macro is not usable until further bits of the
-> abstraction are in place (but it will not fail to compile on its own, if
-> not called).
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
+brcmfmac has some messages that are KERN_ERR even though they are
+harmless. This is spooking and confusing people, because they end up
+being the *only* kernel messages on their boot console with common
+error-only printk levels (at least on Apple Macs).
 
-A bunch of thoughts/questions:
+Then, when their system does not boot to a GUI for some other reason,
+the brcmfmac errors are the only thing on their TTY (which also does
+not show a login prompt on tty1 in typical systemd setups) and they are
+thoroughly confused into believing their problem has something to do
+with brcmfmac.
 
-- You have the pub functions to create ioctl numbers, but it looks like
-  most drivers just do this in the C uapi headers instead and then use the
-  direct number from the bindings? I wonder whether we shouldn't just use
-  that as standard way, since in the end we do need the C headers for
-  userspace to use the ioctls/structs. Or could we generate the headers
-  from rust?
+Seriously, I've had 10 or so people mention this by now, and multiple
+confused Reddit threads about it. Let's fix it.
 
-- More type safety would be nice. You have the one for device, but not yet
-  for DrmFile. At least if I read the examples in asahi/vgem right. Also
-  the FIXME for how to make sure you generate the table for the right kind
-  of driver would be nice to fix.
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+Hector Martin (2):
+      wifi: brcmfmac: Demote vendor-specific attach/detach messages to info
+      wifi: brcmfmac: Demote p2p unknown frame error to info (once)
 
-- Type safety against the size of the struct an ioctl number is great!
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/core.c | 4 ++--
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c | 4 ++--
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c      | 4 ++--
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/wcc/core.c | 4 ++--
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+---
+base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
+change-id: 20230416-brcmfmac-noise-2bae83836f2d
 
-- I wonder whether we could adjust the type according to _IOR/W/RW, i.e.
-  if you have W then your ioctl function is Result<Struct>, if not then
-  Result<()> since it's just errno, and you get the paramater only when
-  you have R set. We had in the past confusions where people got this
-  wrong and wondered why their parameters don't make it to userspace.
-
-- There's also the question of drm_ioctl() zero-extending the ioctl
-  parameter struct both ways (i.e. kernel kernel or newer userspace). I
-  think trying to encode that with Some() is overkill, but maybe worth a
-  thought.
-
-- It would be _really_ great if rust ioctl abstractions enforce
-  https://dri.freedesktop.org/docs/drm/process/botching-up-ioctls.html at
-  the type level, i.e. everything naturally aligned, no gaps, all that
-  stuff. This would also hold for get/put_user and all these things (I
-  didn't look into that stuff yet in the drivers when you pull in entire
-  arrays).
-
-Cheers, Daniel
-> ---
->  drivers/gpu/drm/Kconfig         |   7 ++
->  rust/bindings/bindings_helper.h |   2 +
->  rust/kernel/drm/ioctl.rs        | 147 ++++++++++++++++++++++++++++++++++++++++
->  rust/kernel/drm/mod.rs          |   5 ++
->  rust/kernel/lib.rs              |   2 +
->  5 files changed, 163 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index dc0f94f02a82..dab8f0f9aa96 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -27,6 +27,13 @@ menuconfig DRM
->  	  details.  You should also select and configure AGP
->  	  (/dev/agpgart) support if it is available for your platform.
->  
-> +# Rust abstractions cannot be built as modules currently, so force them as
-> +# bool by using these intermediate symbols. In the future these could be
-> +# tristate once abstractions themselves can be built as modules.
-> +config RUST_DRM
-> +	bool "Rust support for the DRM subsystem"
-> +	depends on DRM=y
-> +
->  config DRM_MIPI_DBI
->  	tristate
->  	depends on DRM
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-> index 91bb7906ca5a..2687bef1676f 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -6,6 +6,7 @@
->   * Sorted alphabetically.
->   */
->  
-> +#include <drm/drm_ioctl.h>
->  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/dma-mapping.h>
-> @@ -23,6 +24,7 @@
->  #include <linux/sysctl.h>
->  #include <linux/timekeeping.h>
->  #include <linux/xarray.h>
-> +#include <uapi/drm/drm.h>
->  
->  /* `bindgen` gets confused at certain things. */
->  const gfp_t BINDINGS_GFP_KERNEL = GFP_KERNEL;
-> diff --git a/rust/kernel/drm/ioctl.rs b/rust/kernel/drm/ioctl.rs
-> new file mode 100644
-> index 000000000000..10304efbd5f1
-> --- /dev/null
-> +++ b/rust/kernel/drm/ioctl.rs
-> @@ -0,0 +1,147 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +#![allow(non_snake_case)]
-> +
-> +//! DRM IOCTL definitions.
-> +//!
-> +//! C header: [`include/linux/drm/drm_ioctl.h`](../../../../include/linux/drm/drm_ioctl.h)
-> +
-> +use crate::ioctl;
-> +
-> +const BASE: u32 = bindings::DRM_IOCTL_BASE as u32;
-> +
-> +/// Construct a DRM ioctl number with no argument.
-> +pub const fn IO(nr: u32) -> u32 {
-> +    ioctl::_IO(BASE, nr)
-> +}
-> +
-> +/// Construct a DRM ioctl number with a read-only argument.
-> +pub const fn IOR<T>(nr: u32) -> u32 {
-> +    ioctl::_IOR::<T>(BASE, nr)
-> +}
-> +
-> +/// Construct a DRM ioctl number with a write-only argument.
-> +pub const fn IOW<T>(nr: u32) -> u32 {
-> +    ioctl::_IOW::<T>(BASE, nr)
-> +}
-> +
-> +/// Construct a DRM ioctl number with a read-write argument.
-> +pub const fn IOWR<T>(nr: u32) -> u32 {
-> +    ioctl::_IOWR::<T>(BASE, nr)
-> +}
-> +
-> +/// Descriptor type for DRM ioctls. Use the `declare_drm_ioctls!{}` macro to construct them.
-> +pub type DrmIoctlDescriptor = bindings::drm_ioctl_desc;
-> +
-> +/// This is for ioctl which are used for rendering, and require that the file descriptor is either
-> +/// for a render node, or if it’s a legacy/primary node, then it must be authenticated.
-> +pub const AUTH: u32 = bindings::drm_ioctl_flags_DRM_AUTH;
-> +
-> +/// This must be set for any ioctl which can change the modeset or display state. Userspace must
-> +/// call the ioctl through a primary node, while it is the active master.
-> +///
-> +/// Note that read-only modeset ioctl can also be called by unauthenticated clients, or when a
-> +/// master is not the currently active one.
-> +pub const MASTER: u32 = bindings::drm_ioctl_flags_DRM_MASTER;
-> +
-> +/// Anything that could potentially wreak a master file descriptor needs to have this flag set.
-> +///
-> +/// Current that’s only for the SETMASTER and DROPMASTER ioctl, which e.g. logind can call to force
-> +/// a non-behaving master (display compositor) into compliance.
-> +///
-> +/// This is equivalent to callers with the SYSADMIN capability.
-> +pub const ROOT_ONLY: u32 = bindings::drm_ioctl_flags_DRM_ROOT_ONLY;
-> +
-> +/// Whether drm_ioctl_desc.func should be called with the DRM BKL held or not. Enforced as the
-> +/// default for all modern drivers, hence there should never be a need to set this flag.
-> +///
-> +/// Do not use anywhere else than for the VBLANK_WAIT IOCTL, which is the only legacy IOCTL which
-> +/// needs this.
-> +pub const UNLOCKED: u32 = bindings::drm_ioctl_flags_DRM_UNLOCKED;
-> +
-> +/// This is used for all ioctl needed for rendering only, for drivers which support render nodes.
-> +/// This should be all new render drivers, and hence it should be always set for any ioctl with
-> +/// `AUTH` set. Note though that read-only query ioctl might have this set, but have not set
-> +/// DRM_AUTH because they do not require authentication.
-> +pub const RENDER_ALLOW: u32 = bindings::drm_ioctl_flags_DRM_RENDER_ALLOW;
-> +
-> +/// Declare the DRM ioctls for a driver.
-> +///
-> +/// Each entry in the list should have the form:
-> +///
-> +/// `(ioctl_number, argument_type, flags, user_callback),`
-> +///
-> +/// `argument_type` is the type name within the `bindings` crate.
-> +/// `user_callback` should have the following prototype:
-> +///
-> +/// ```
-> +/// fn foo(device: &kernel::drm::device::Device<Self>,
-> +///        data: &mut bindings::argument_type,
-> +///        file: &kernel::drm::file::File<Self::File>,
-> +/// )
-> +/// ```
-> +/// where `Self` is the drm::drv::Driver implementation these ioctls are being declared within.
-> +///
-> +/// # Examples
-> +///
-> +/// ```
-> +/// kernel::declare_drm_ioctls! {
-> +///     (FOO_GET_PARAM, drm_foo_get_param, ioctl::RENDER_ALLOW, my_get_param_handler),
-> +/// }
-> +/// ```
-> +///
-> +#[macro_export]
-> +macro_rules! declare_drm_ioctls {
-> +    ( $(($cmd:ident, $struct:ident, $flags:expr, $func:expr)),* $(,)? ) => {
-> +        const IOCTLS: &'static [$crate::drm::ioctl::DrmIoctlDescriptor] = {
-> +            const _:() = {
-> +                let i: u32 = $crate::bindings::DRM_COMMAND_BASE;
-> +                // Assert that all the IOCTLs are in the right order and there are no gaps,
-> +                // and that the sizeof of the specified type is correct.
-> +                $(
-> +                    let cmd: u32 = $crate::macros::concat_idents!($crate::bindings::DRM_IOCTL_, $cmd);
-> +                    ::core::assert!(i == $crate::ioctl::_IOC_NR(cmd));
-> +                    ::core::assert!(core::mem::size_of::<$crate::bindings::$struct>() == $crate::ioctl::_IOC_SIZE(cmd));
-> +                    let i: u32 = i + 1;
-> +                )*
-> +            };
-> +
-> +            let ioctls = &[$(
-> +                $crate::bindings::drm_ioctl_desc {
-> +                    cmd: $crate::macros::concat_idents!($crate::bindings::DRM_IOCTL_, $cmd) as u32,
-> +                    func: {
-> +                        #[allow(non_snake_case)]
-> +                        unsafe extern "C" fn $cmd(
-> +                                raw_dev: *mut $crate::bindings::drm_device,
-> +                                raw_data: *mut ::core::ffi::c_void,
-> +                                raw_file_priv: *mut $crate::bindings::drm_file,
-> +                        ) -> core::ffi::c_int {
-> +                            // SAFETY: We never drop this, and the DRM core ensures the device lives
-> +                            // while callbacks are being called.
-> +                            //
-> +                            // FIXME: Currently there is nothing enforcing that the types of the
-> +                            // dev/file match the current driver these ioctls are being declared
-> +                            // for, and it's not clear how to enforce this within the type system.
-> +                            let dev = ::core::mem::ManuallyDrop::new(unsafe {
-> +                                $crate::drm::device::Device::from_raw(raw_dev)
-> +                            });
-> +                            // SAFETY: This is just the ioctl argument, which hopefully has the right type
-> +                            // (we've done our best checking the size).
-> +                            let data = unsafe { &mut *(raw_data as *mut $crate::bindings::$struct) };
-> +                            // SAFETY: This is just the DRM file structure
-> +                            let file = unsafe { $crate::drm::file::File::from_raw(raw_file_priv) };
-> +
-> +                            match $func(&*dev, data, &file) {
-> +                                Err(e) => e.to_kernel_errno(),
-> +                                Ok(i) => i.try_into().unwrap_or(ERANGE.to_kernel_errno()),
-> +                            }
-> +                        }
-> +                        Some($cmd)
-> +                    },
-> +                    flags: $flags,
-> +                    name: $crate::c_str!(::core::stringify!($cmd)).as_char_ptr(),
-> +                }
-> +            ),*];
-> +            ioctls
-> +        };
-> +    };
-> +}
-> diff --git a/rust/kernel/drm/mod.rs b/rust/kernel/drm/mod.rs
-> new file mode 100644
-> index 000000000000..9ec6d7cbcaf3
-> --- /dev/null
-> +++ b/rust/kernel/drm/mod.rs
-> @@ -0,0 +1,5 @@
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT
-> +
-> +//! DRM subsystem abstractions.
-> +
-> +pub mod ioctl;
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index 7903490816bf..cb23d24c6718 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -37,6 +37,8 @@ mod build_assert;
->  pub mod delay;
->  pub mod device;
->  pub mod driver;
-> +#[cfg(CONFIG_RUST_DRM)]
-> +pub mod drm;
->  pub mod error;
->  pub mod io_buffer;
->  pub mod io_mem;
-> 
-> -- 
-> 2.35.1
-> 
-
+Best regards,
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Hector Martin <marcan@marcan.st>
+
