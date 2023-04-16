@@ -1,28 +1,28 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BF51C10
-	for <asahi@lists.linux.dev>; Sun, 16 Apr 2023 12:42:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A6E1C11
+	for <asahi@lists.linux.dev>; Sun, 16 Apr 2023 12:42:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 580D3447CF;
-	Sun, 16 Apr 2023 12:42:23 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id B4EEA4542C;
+	Sun, 16 Apr 2023 12:42:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1681648947; bh=Mkd1JPhb3nS2pj7N8smN5I/IKmBOuca+sSQG67P1+dk=;
-	h=From:Subject:Date:To:Cc;
-	b=vVkaE07bZiUVG7gtA4MidB59VajJKt1rkQ4TQGlkO4MKwOFudLwx3dJXVcRnTg1XZ
-	 klkdsoZq3VOLGGjFk5YY/Xwy5JFwvu/V1mZ6w0TeVegzhI7rJKMANTqUjsIDDgpWZR
-	 FGfgF/nAUxRNlnW8mWUMf6BgNSG65YwukgL9C71vhRaY3JTlK76FJNPbmjVIh7vKJH
-	 gnJGHs3HeadL7sFbkXdAlRR54jBYrY/kHbWa/8oiDoeNM66e7wWGi7Rbw+UmxwygqC
-	 8OzX4TBZ+w5cVvzZYE17g/Vgf34FxOhZ5A8xlRGo0lg3UWspAmA04v6Nn3nWUQvmim
-	 V66w5/8fNIEmg==
+	t=1681648956; bh=yD2+V/6602TyeACtf+m7TBnMWq/Sw60NZXOpbCGsSqg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=AiCTa6wc4QW9XlF0ho5bUUiy9lL3GXpG1qxIXq/FxqT1NtkfplOJSRLQuGmVgKrl7
+	 jNgW+FKGh8lH11fOHwes8piDE3z68CPPCHPq0tocRTivc8GwA86pc1KJcRM2k6RogH
+	 9mmBDkxu8KQiHa6zWcPAs0QIps57nmyhAwd+KBhDcxBA9diTIuzPm06FHtItC1g1yE
+	 tZwdRFAIY15sPZgWCTubhFaz8ikm387jr6JQKIKIE/uFKjvswfpLPGqtL/iK1e50mT
+	 DziFt+w0PJOAQZ3e82AZw3UnbcWv6/21rYWHrvAp6PIpXep5lprbEeafI22HyZ83ja
+	 Xz9MFIiB6bmcg==
 From: Hector Martin <marcan@marcan.st>
-Subject: [PATCH 0/2] brcmfmac: Demote some kernel errors to info
-Date: Sun, 16 Apr 2023 21:42:16 +0900
-Message-Id: <20230416-brcmfmac-noise-v1-0-f0624e408761@marcan.st>
+Date: Sun, 16 Apr 2023 21:42:18 +0900
+Subject: [PATCH 2/2] wifi: brcmfmac: Demote p2p unknown frame error to info
+ (once)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -31,9 +31,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACjtO2QC/x2NQQqDMBBFryKzbjBOShCvUrqYxInOwiiTWgTx7
- o1dvvd5/BMKq3CBoTlB+StF1lyhezQQZ8oTGxkrA1p09tl5EzQuaaFo8iqFDQbi3vXOJxyhRoG
- qDEo5znf28RaPNqjkad/ufVNOcvwPX+/r+gEA4845gAAAAA==
+Message-Id: <20230416-brcmfmac-noise-v1-2-f0624e408761@marcan.st>
+References: <20230416-brcmfmac-noise-v1-0-f0624e408761@marcan.st>
+In-Reply-To: <20230416-brcmfmac-noise-v1-0-f0624e408761@marcan.st>
 To: Arend van Spriel <aspriel@gmail.com>, 
  Franky Lin <franky.lin@broadcom.com>, 
  Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
@@ -43,47 +43,42 @@ To: Arend van Spriel <aspriel@gmail.com>,
 Cc: linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com, 
  SHA-cyfmac-dev-list@infineon.com, netdev@vger.kernel.org, 
  linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- Hector Martin <marcan@marcan.st>, stable@vger.kernel.org
+ Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1405; i=marcan@marcan.st;
- h=from:subject:message-id; bh=Mkd1JPhb3nS2pj7N8smN5I/IKmBOuca+sSQG67P1+dk=;
- b=owGbwMvMwCEm+yP4NEe/cRLjabUkhhTrt7ru07SCfl5rmW3R5x16bpXI86Mc6klakxYp7Y+Te
- GETl3C/o5SFQYyDQVZMkaXxRO+pbs/p59RVU6bDzGFlAhnCwMUpABP5mcLI8NXrfNq2qTnZNflc
- y7uYv+Su4xC6mGH/P0Pi8wXZDQl2DYwMF9+5r1/orvoxO1pC14GNn+FpBN+Ok4/L+IR/KBcdaDr
- GAAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1085; i=marcan@marcan.st;
+ h=from:subject:message-id; bh=yD2+V/6602TyeACtf+m7TBnMWq/Sw60NZXOpbCGsSqg=;
+ b=owGbwMvMwCEm+yP4NEe/cRLjabUkhhTrt3oMF5/Lbl/yODR8+vXl531+/t5d7/g5VZPhyNIPt
+ gy73RxvdJSyMIhxMMiKKbI0nug91e05/Zy6asp0mDmsTGBDuDgFYCJCrxgZ9p3hq1z6a/npbXMn
+ iF/7dea1YVC4jq9i69EFiaEz+dr+zWH4X/GjeYXylFMPNvwMeBu/4PaW4JtvNfovPVA42BGV8+X
+ XYnYA
 X-Developer-Key: i=marcan@marcan.st; a=openpgp;
  fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
-brcmfmac has some messages that are KERN_ERR even though they are
-harmless. This is spooking and confusing people, because they end up
-being the *only* kernel messages on their boot console with common
-error-only printk levels (at least on Apple Macs).
+This one is also spooking people when they see it in their boot console.
+It's not fatal, so it shouldn't really be a noisy error.
 
-Then, when their system does not boot to a GUI for some other reason,
-the brcmfmac errors are the only thing on their TTY (which also does
-not show a login prompt on tty1 in typical systemd setups) and they are
-thoroughly confused into believing their problem has something to do
-with brcmfmac.
-
-Seriously, I've had 10 or so people mention this by now, and multiple
-confused Reddit threads about it. Let's fix it.
-
+Fixes: 18e2f61db3b7 ("brcmfmac: P2P action frame tx.")
 Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
-Hector Martin (2):
-      wifi: brcmfmac: Demote vendor-specific attach/detach messages to info
-      wifi: brcmfmac: Demote p2p unknown frame error to info (once)
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/core.c | 4 ++--
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c | 4 ++--
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c      | 4 ++--
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/wcc/core.c | 4 ++--
- 4 files changed, 8 insertions(+), 8 deletions(-)
----
-base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-change-id: 20230416-brcmfmac-noise-2bae83836f2d
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
+index d4492d02e4ea..071b0706d137 100644
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
+@@ -1793,8 +1793,8 @@ bool brcmf_p2p_send_action_frame(struct brcmf_cfg80211_info *cfg,
+ 		/* do not configure anything. it will be */
+ 		/* sent with a default configuration     */
+ 	} else {
+-		bphy_err(drvr, "Unknown Frame: category 0x%x, action 0x%x\n",
+-			 category, action);
++		bphy_info_once(drvr, "Unknown Frame: category 0x%x, action 0x%x\n",
++			       category, action);
+ 		return false;
+ 	}
+ 
 
-Best regards,
 -- 
-Hector Martin <marcan@marcan.st>
+2.40.0
 
