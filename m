@@ -1,26 +1,26 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524291C30
-	for <asahi@lists.linux.dev>; Mon, 17 Apr 2023 09:19:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59D51C30
+	for <asahi@lists.linux.dev>; Mon, 17 Apr 2023 09:20:17 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id AF5D342404;
-	Mon, 17 Apr 2023 09:19:37 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 6243242404;
+	Mon, 17 Apr 2023 09:20:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1681723181; bh=frGGl/SueB8zDDanXT+8MSbrFf+w013HktHuXgfQFII=;
+	t=1681723215; bh=9jlVu198RfqwmaRiA8SNqHWeiiqMm+RyqmhZGbIcPz4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=d3r/XQjjpRmnKOn6gqDZX6a0czfKALdekPl084QtoSGIIBxHkv7Apz6IBEByzgMBL
-	 /i7fGBFIYxIKVwDJsJ4em8yOSTK7OggUc3x8iLYkUsK7fo+MGfhP1acpAt/3WB2p8K
-	 PWgDUutpc1eLl+E77tUcDHMTsSsTnMk+Mvy0NhVICk7K0SJCskaKKctGWXyPB15PZN
-	 sLifQPTLjQt+Wo0398gtpHBu+1L8kYhvAJ7X8dzwdpafJeuPle7Qix0Wb8g9vqvncA
-	 qS9bQoLQnYaPddEGPLOkRRsFEYh0IMGcGRfi6ohaBpitJVrsoMDxNehECqAVBxOQvY
-	 cmVxGbAF2lkng==
-Message-ID: <3d1acabd-ac0a-d0f2-3dd7-62165549e9dc@marcan.st>
-Date: Mon, 17 Apr 2023 18:19:34 +0900
+	b=w+ZM745qp5UA4iaN2535iZH+6vIHrUS7ZsqW+Tn+nml+2ZaejGEwCZmHQ+yw67cOU
+	 xCftyDtFkXnUbWInwP055JUKGLb/arnH0FyKwvdK8e4CQyrI73IFVMzVZCgKZJuhc7
+	 P6OxoJsRpfh4o1nJ9YhVgJ7GxQbKh4rMhZzbx2Uk/DQAF2kA3wBa1dsFA4j9P8Gyqn
+	 cE5XrjSXjKuJ4xNTrt4Asib4SYtjrAIiiBvJTvKZgg+B8UFPBD/X8TeMXomemIqqJV
+	 g/NBZ/xnsv4ENfC0XY7iAv03oVsX8XnZyzOpjPzYDZ2oqz8H2wsIWdJxhTWYFwQwu2
+	 fTYRBSRrvQqiQ==
+Message-ID: <c366d449-542f-8365-9f04-74da4ef847be@marcan.st>
+Date: Mon, 17 Apr 2023 18:20:11 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -29,85 +29,136 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH RESEND v9 0/5] PWM and keyboard backlight driver for ARM
- Macs
+Subject: Re: [PATCH] arm64: dts: apple: t8112: Add PWM controller
 Content-Language: en-US
-To: fnkl.kernel@gmail.com, Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- - <asahi@lists.linux.dev>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Sasha Finkelstein <7d578vix8hzw@opayq.net>
-References: <20230214-fpwm-v9-0-f3094107b16b@gmail.com>
+To: fnkl.kernel@gmail.com, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20230409-t8112-fpwm-v1-1-feffa5f8b99b@gmail.com>
 From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20230214-fpwm-v9-0-f3094107b16b@gmail.com>
+In-Reply-To: <20230409-t8112-fpwm-v1-1-feffa5f8b99b@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/04/2023 23.19, Sasha Finkelstein via B4 Relay wrote:
-> Hi,
+On 09/04/2023 18.18, Sasha Finkelstein via B4 Relay wrote:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 > 
-> This is the v9 of the patch series to add PWM and keyboard
-> backlight driver for ARM macs.
+> This patch adds the device tree entries for the PWM controller
+> present on M2 macbooks that is connected to the keyboard backlight.
 > 
-> Changes in v1:
-> Addressing the review comments.
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> ---
+>  arch/arm64/boot/dts/apple/t8112-j413.dts | 17 +++++++++++++++++
+>  arch/arm64/boot/dts/apple/t8112-j493.dts | 17 +++++++++++++++++
+>  arch/arm64/boot/dts/apple/t8112.dtsi     |  9 +++++++++
+>  3 files changed, 43 insertions(+)
 > 
-> Changes in v2:
-> Added the reviewed-by and acked-by tags.
-> Addressing a review comment.
-> 
-> Changes in v3 and v4:
-> Addressing the review comments.
-> 
-> Changes in v5:
-> Added t600x device tree changes
-> 
-> Changes in v8:
-> Changed the overflow handling to clamp instead of erroring.
-> 
-> Changes in v9:
-> Missed a spot where clamping should be applied. Fixed that.
-> 
-> v1: https://www.spinics.net/lists/linux-pwm/msg19500.html
-> v2: https://www.spinics.net/lists/linux-pwm/msg19562.html
-> v3: https://www.spinics.net/lists/linux-pwm/msg19901.html
-> v4: https://www.spinics.net/lists/linux-pwm/msg20093.html
-> v5: https://www.spinics.net/lists/linux-pwm/msg20150.html
-> v6: https://www.spinics.net/lists/linux-pwm/msg20190.html
-> v7: https://lore.kernel.org/r/20230214-fpwm-v7-0-fb0a6bfbd037@gmail.com
-> v8: https://lore.kernel.org/r/20230214-fpwm-v8-0-65518a0d4944@gmail.com
+> diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
+> index 9e758edeaa82..6f69658623bf 100644
+> --- a/arch/arm64/boot/dts/apple/t8112-j413.dts
+> +++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
+> @@ -11,6 +11,7 @@
+>  
+>  #include "t8112.dtsi"
+>  #include "t8112-jxxx.dtsi"
+> +#include <dt-bindings/leds/common.h>
+>  
+>  / {
+>  	compatible = "apple,j413", "apple,t8112", "apple,arm-platform";
+> @@ -20,6 +21,18 @@ aliases {
+>  		bluetooth0 = &bluetooth0;
+>  		wifi0 = &wifi0;
+>  	};
+> +
+> +	led-controller {
+> +		compatible = "pwm-leds";
+> +		led-0 {
+> +			pwms = <&fpwm1 0 40000>;
+> +			label = "kbd_backlight";
+> +			function = LED_FUNCTION_KBD_BACKLIGHT;
+> +			color = <LED_COLOR_ID_WHITE>;
+> +			max-brightness = <255>;
+> +			default-state = "keep";
+> +		};
+> +	};
+>  };
+>  
+>  /*
+> @@ -61,3 +74,7 @@ hpm5: usb-pd@3a {
+>  &i2c4 {
+>  	status = "okay";
+>  };
+> +
+> +&fpwm1 {
+> +	status = "okay";
+> +};
+> diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
+> index 8552c15be265..0ad908349f55 100644
+> --- a/arch/arm64/boot/dts/apple/t8112-j493.dts
+> +++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
+> @@ -11,6 +11,7 @@
+>  
+>  #include "t8112.dtsi"
+>  #include "t8112-jxxx.dtsi"
+> +#include <dt-bindings/leds/common.h>
+>  
+>  / {
+>  	compatible = "apple,j493", "apple,t8112", "apple,arm-platform";
+> @@ -20,6 +21,18 @@ aliases {
+>  		bluetooth0 = &bluetooth0;
+>  		wifi0 = &wifi0;
+>  	};
+> +
+> +	led-controller {
+> +		compatible = "pwm-leds";
+> +		led-0 {
+> +			pwms = <&fpwm1 0 40000>;
+> +			label = "kbd_backlight";
+> +			function = LED_FUNCTION_KBD_BACKLIGHT;
+> +			color = <LED_COLOR_ID_WHITE>;
+> +			max-brightness = <255>;
+> +			default-state = "keep";
+> +		};
+> +	};
+>  };
+>  
+>  /*
+> @@ -50,3 +63,7 @@ bluetooth0: bluetooth@0,1 {
+>  &i2c4 {
+>  	status = "okay";
+>  };
+> +
+> +&fpwm1 {
+> +	status = "okay";
+> +};
+> diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
+> index 698a436e7dac..1666e6ab250b 100644
+> --- a/arch/arm64/boot/dts/apple/t8112.dtsi
+> +++ b/arch/arm64/boot/dts/apple/t8112.dtsi
+> @@ -458,6 +458,15 @@ i2c4: i2c@235020000 {
+>  			status = "disabled";
+>  		};
+>  
+> +		fpwm1: pwm@235044000 {
+> +			compatible = "apple,t8112-fpwm", "apple,s5l-fpwm";
+> +			reg = <0x2 0x35044000 0x0 0x4000>;
+> +			power-domains = <&ps_fpwm1>;
+> +			clocks = <&clkref>;
+> +			#pwm-cells = <2>;
+> +			status = "disabled";
+> +		};
+> +
+>  		serial0: serial@235200000 {
+>  			compatible = "apple,s5l-uart";
+>  			reg = <0x2 0x35200000 0x0 0x1000>;
 > 
 > ---
-> Sasha Finkelstein (5):
->       dt-bindings: pwm: Add Apple PWM controller
->       pwm: Add Apple PWM controller
->       arm64: dts: apple: t8103: Add PWM controller
->       arm64: dts: apple: t600x: Add PWM controller
->       MAINTAINERS: Add entries for Apple PWM driver
-> 
->  .../devicetree/bindings/pwm/apple,s5l-fpwm.yaml    |  51 +++++++
->  MAINTAINERS                                        |   2 +
->  arch/arm64/boot/dts/apple/t600x-die0.dtsi          |   9 ++
->  arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi     |  18 +++
->  arch/arm64/boot/dts/apple/t8103-j293.dts           |  17 +++
->  arch/arm64/boot/dts/apple/t8103-j313.dts           |  17 +++
->  arch/arm64/boot/dts/apple/t8103.dtsi               |   9 ++
->  drivers/pwm/Kconfig                                |  12 ++
->  drivers/pwm/Makefile                               |   1 +
->  drivers/pwm/pwm-apple.c                            | 159 +++++++++++++++++++++
->  10 files changed, 295 insertions(+)
-> ---
-> base-commit: fe15c26ee26efa11741a7b632e9f23b01aca4cc6
-> change-id: 20230214-fpwm-d8f76bc8ddc1
-> 
-> Best regards,
+> base-commit: 8d59efc33fdaa2c82072b4d3ba5f67d7dd9270d0
+> change-id: 20230409-t8112-fpwm-06e434cc358d
 
-Applied #3-#4 to asahi-soc/dt, thanks!
+Applied to asahi-soc/dt, thanks!
 
 - Hector
 
