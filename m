@@ -1,70 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5401848
-	for <asahi@lists.linux.dev>; Mon, 17 Apr 2023 05:21:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1B89C433D2;
-	Mon, 17 Apr 2023 05:21:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1681708906;
-	bh=jiGbgFYo45rHlUklkyRi1i+LiExpFhzQE1G1wquv1eo=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=vCFGFQls0h5iCAa6IGkKsU7GUAgtM4MrmUdSYXLO6V5VM2GXZx2V9933wlJ24+uUz
-	 3dMTO/QObZchE++xEbxtOKEpebM/expOoHFq753wdzcVWsKKs2A5KuBlpUUWbvutgA
-	 dlcq7YRR7cMGgcDHv2jqE+2zAC1j1oaybi1K+sFJ9OqR7jTpsOHhajpPg3W4HuwDvx
-	 3qRl1m5RZVYGJqsJTTGhzGPqfIlXhIFpxWfGiGTs2vFzj4/HGEGqnLQbXKuVe0h7Zv
-	 +9nizZwc4k/tJE2GMrgIsxwJdRonRZheEnOM2DtBetVFTqQhDeQb/TohNGi6MQUdis
-	 +lCfbjYWx1R9g==
-From: Kalle Valo <kvalo@kernel.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: Arend van Spriel <aspriel@gmail.com>,  Franky Lin <franky.lin@broadcom.com>,  Hante Meuleman <hante.meuleman@broadcom.com>,  "David S. Miller" <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  "John W. Linville" <linville@tuxdriver.com>,  linux-wireless@vger.kernel.org,  brcm80211-dev-list.pdl@broadcom.com,  SHA-cyfmac-dev-list@infineon.com,  netdev@vger.kernel.org,  linux-kernel@vger.kernel.org,  asahi@lists.linux.dev
-Subject: Re: [PATCH 2/2] wifi: brcmfmac: Demote p2p unknown frame error to info (once)
-References: <20230416-brcmfmac-noise-v1-0-f0624e408761@marcan.st>
-	<20230416-brcmfmac-noise-v1-2-f0624e408761@marcan.st>
-Date: Mon, 17 Apr 2023 08:21:41 +0300
-In-Reply-To: <20230416-brcmfmac-noise-v1-2-f0624e408761@marcan.st> (Hector
-	Martin's message of "Sun, 16 Apr 2023 21:42:18 +0900")
-Message-ID: <871qkjxevu.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536E71848
+	for <asahi@lists.linux.dev>; Mon, 17 Apr 2023 07:54:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 18D6C4212E;
+	Mon, 17 Apr 2023 07:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1681718080; bh=9BgjppDTP78o93QzzyDV1mwP9TOqlheAYnzrgGrUZvs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=eLdiolIPfg0qDBvve6LIvtScZrynBCa3ibW75H4luminZX8h3ma+SdY/5AV9T+2u6
+	 4MU53gW6ne8k2AFtYieKV6xUmBcFYhfHt/5/5BDDID3ltJq8dZKjudCMETmfiBiqbU
+	 hV0Yrnq0uTfWuJPV1ugZsCU/fM/2dLHo9NgPqfiv7wHZvmH98Iie9iWlcJT75reqEw
+	 VL/7zPMKCgqpDI6R9qLy1HTRaNuLz3g8kpqbDv9fg9MDLZkT6ZH6ULdsT/yXU7VObc
+	 T42OVJU/Au5qj/Vs/wpQ5kmhH0nveANqT/8ZcSkSI9TukCzW0SYfBE+Kn+kCDjeQIp
+	 kO/G4VJjlxXfQ==
+Message-ID: <8b2e7bb9-3681-0265-01bc-e7abdd0d08b8@marcan.st>
+Date: Mon, 17 Apr 2023 16:54:33 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.9.0
+Subject: Re: [PATCH 1/2] wifi: brcmfmac: Demote vendor-specific attach/detach
+ messages to info
+Content-Language: en-US
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin
+ <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>,
+ Kalle Valo <kvalo@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, "John W. Linville"
+ <linville@tuxdriver.com>, linux-wireless@vger.kernel.org,
+ brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ stable@vger.kernel.org
+References: <20230416-brcmfmac-noise-v1-0-f0624e408761@marcan.st>
+ <20230416-brcmfmac-noise-v1-1-f0624e408761@marcan.st>
+ <2023041631-crying-contour-5e11@gregkh>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <2023041631-crying-contour-5e11@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hector Martin <marcan@marcan.st> writes:
+On 16/04/2023 21.46, Greg KH wrote:
+> On Sun, Apr 16, 2023 at 09:42:17PM +0900, Hector Martin wrote:
+>> People are getting spooked by brcmfmac errors on their boot console.
+>> There's no reason for these messages to be errors.
+>>
+>> Cc: stable@vger.kernel.org
+>> Fixes: d6a5c562214f ("wifi: brcmfmac: add support for vendor-specific firmware api")
+>> Signed-off-by: Hector Martin <marcan@marcan.st>
+>> ---
+>>  drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/core.c | 4 ++--
+>>  drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c | 4 ++--
+>>  drivers/net/wireless/broadcom/brcm80211/brcmfmac/wcc/core.c | 4 ++--
+>>  3 files changed, 6 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/core.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/core.c
+>> index ac3a36fa3640..c83bc435b257 100644
+>> --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/core.c
+>> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/core.c
+>> @@ -12,13 +12,13 @@
+>>  
+>>  static int brcmf_bca_attach(struct brcmf_pub *drvr)
+>>  {
+>> -	pr_err("%s: executing\n", __func__);
+>> +	pr_info("%s: executing\n", __func__);
+> 
+> Why are these here at all?  Please just remove these entirely, you can
+> get this information normally with ftrace.
+> 
+> Or, just delete these functions, why have empty ones at all?
 
-> This one is also spooking people when they see it in their boot console.
-> It's not fatal, so it shouldn't really be a noisy error.
->
-> Fixes: 18e2f61db3b7 ("brcmfmac: P2P action frame tx.")
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> ---
->  drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
-> index d4492d02e4ea..071b0706d137 100644
-> --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
-> +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/p2p.c
-> @@ -1793,8 +1793,8 @@ bool brcmf_p2p_send_action_frame(struct brcmf_cfg80211_info *cfg,
->  		/* do not configure anything. it will be */
->  		/* sent with a default configuration     */
->  	} else {
-> -		bphy_err(drvr, "Unknown Frame: category 0x%x, action 0x%x\n",
-> -			 category, action);
-> +		bphy_info_once(drvr, "Unknown Frame: category 0x%x, action 0x%x\n",
-> +			       category, action);
->  		return false;
->  	}
+This is a new WIP code path that Arend introduced which currently
+deliberately does nothing (but is intended to hold firmware vendor
+specific init in the future). So we can just drop the messages, but I
+don't think we want to remove the code entirely.
 
-What about changing this to a debug message so that it's not shown at
-all in normal operation? I don't see what value this message gives to a
-user.
+- Hector
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
