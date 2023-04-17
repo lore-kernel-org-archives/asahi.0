@@ -1,26 +1,26 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59D51C30
-	for <asahi@lists.linux.dev>; Mon, 17 Apr 2023 09:20:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB341C30
+	for <asahi@lists.linux.dev>; Mon, 17 Apr 2023 09:26:40 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 6243242404;
-	Mon, 17 Apr 2023 09:20:13 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id AFEA441F72;
+	Mon, 17 Apr 2023 09:26:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1681723215; bh=9jlVu198RfqwmaRiA8SNqHWeiiqMm+RyqmhZGbIcPz4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=w+ZM745qp5UA4iaN2535iZH+6vIHrUS7ZsqW+Tn+nml+2ZaejGEwCZmHQ+yw67cOU
-	 xCftyDtFkXnUbWInwP055JUKGLb/arnH0FyKwvdK8e4CQyrI73IFVMzVZCgKZJuhc7
-	 P6OxoJsRpfh4o1nJ9YhVgJ7GxQbKh4rMhZzbx2Uk/DQAF2kA3wBa1dsFA4j9P8Gyqn
-	 cE5XrjSXjKuJ4xNTrt4Asib4SYtjrAIiiBvJTvKZgg+B8UFPBD/X8TeMXomemIqqJV
-	 g/NBZ/xnsv4ENfC0XY7iAv03oVsX8XnZyzOpjPzYDZ2oqz8H2wsIWdJxhTWYFwQwu2
-	 fTYRBSRrvQqiQ==
-Message-ID: <c366d449-542f-8365-9f04-74da4ef847be@marcan.st>
-Date: Mon, 17 Apr 2023 18:20:11 +0900
+	t=1681723598; bh=tJwzVZqrJCl1Nyb8wS/o4gf6vdrybmwtTAfNdsp9wDM=;
+	h=Date:To:Cc:From:Subject;
+	b=lknILKwdHgQpfTmPOHNLybhGJVO0onZFLgdWamk3MSaG5DJMu5I6Cok1vyPWogrqI
+	 wdytm7AqZsTnrxrFy6a6xGSB7J5SqYYKrkfTQ12oWHnUdDSxXPJUVRAYs+IMfZCTFa
+	 2foJo4xCEz/mtxEGn7uBueKEog6Q502vLcHWtVksp6cVRcgC+xLgnxg7iNRvZ754Nd
+	 e4M/H+ZjXGVIyD+K9G1g1UlW4YR6MC1L6Ud9lYI0uIzEAxr6SmKAntOAxIUHw3uTDZ
+	 DKR4C9Yg0OBJB32AHFFj70iDschANJQ2Y8xYBiyl4ctCkErlGvwKiuZ6B8IIx4y7Zb
+	 htyIAS0gCZL9Q==
+Message-ID: <d0862463-acb3-ce83-6493-281a833ec87e@marcan.st>
+Date: Mon, 17 Apr 2023 18:26:35 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -29,136 +29,57 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.9.0
-Subject: Re: [PATCH] arm64: dts: apple: t8112: Add PWM controller
 Content-Language: en-US
-To: fnkl.kernel@gmail.com, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230409-t8112-fpwm-v1-1-feffa5f8b99b@gmail.com>
+To: SoC Team <soc@kernel.org>
+Cc: Asahi Linux <asahi@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
 From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20230409-t8112-fpwm-v1-1-feffa5f8b99b@gmail.com>
+Subject: [GIT PULL] Apple SoC DT updates for 6.4 (v2)
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/04/2023 18.18, Sasha Finkelstein via B4 Relay wrote:
-> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> 
-> This patch adds the device tree entries for the PWM controller
-> present on M2 macbooks that is connected to the keyboard backlight.
-> 
-> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
-> ---
->  arch/arm64/boot/dts/apple/t8112-j413.dts | 17 +++++++++++++++++
->  arch/arm64/boot/dts/apple/t8112-j493.dts | 17 +++++++++++++++++
->  arch/arm64/boot/dts/apple/t8112.dtsi     |  9 +++++++++
->  3 files changed, 43 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/apple/t8112-j413.dts b/arch/arm64/boot/dts/apple/t8112-j413.dts
-> index 9e758edeaa82..6f69658623bf 100644
-> --- a/arch/arm64/boot/dts/apple/t8112-j413.dts
-> +++ b/arch/arm64/boot/dts/apple/t8112-j413.dts
-> @@ -11,6 +11,7 @@
->  
->  #include "t8112.dtsi"
->  #include "t8112-jxxx.dtsi"
-> +#include <dt-bindings/leds/common.h>
->  
->  / {
->  	compatible = "apple,j413", "apple,t8112", "apple,arm-platform";
-> @@ -20,6 +21,18 @@ aliases {
->  		bluetooth0 = &bluetooth0;
->  		wifi0 = &wifi0;
->  	};
-> +
-> +	led-controller {
-> +		compatible = "pwm-leds";
-> +		led-0 {
-> +			pwms = <&fpwm1 0 40000>;
-> +			label = "kbd_backlight";
-> +			function = LED_FUNCTION_KBD_BACKLIGHT;
-> +			color = <LED_COLOR_ID_WHITE>;
-> +			max-brightness = <255>;
-> +			default-state = "keep";
-> +		};
-> +	};
->  };
->  
->  /*
-> @@ -61,3 +74,7 @@ hpm5: usb-pd@3a {
->  &i2c4 {
->  	status = "okay";
->  };
-> +
-> +&fpwm1 {
-> +	status = "okay";
-> +};
-> diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
-> index 8552c15be265..0ad908349f55 100644
-> --- a/arch/arm64/boot/dts/apple/t8112-j493.dts
-> +++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
-> @@ -11,6 +11,7 @@
->  
->  #include "t8112.dtsi"
->  #include "t8112-jxxx.dtsi"
-> +#include <dt-bindings/leds/common.h>
->  
->  / {
->  	compatible = "apple,j493", "apple,t8112", "apple,arm-platform";
-> @@ -20,6 +21,18 @@ aliases {
->  		bluetooth0 = &bluetooth0;
->  		wifi0 = &wifi0;
->  	};
-> +
-> +	led-controller {
-> +		compatible = "pwm-leds";
-> +		led-0 {
-> +			pwms = <&fpwm1 0 40000>;
-> +			label = "kbd_backlight";
-> +			function = LED_FUNCTION_KBD_BACKLIGHT;
-> +			color = <LED_COLOR_ID_WHITE>;
-> +			max-brightness = <255>;
-> +			default-state = "keep";
-> +		};
-> +	};
->  };
->  
->  /*
-> @@ -50,3 +63,7 @@ bluetooth0: bluetooth@0,1 {
->  &i2c4 {
->  	status = "okay";
->  };
-> +
-> +&fpwm1 {
-> +	status = "okay";
-> +};
-> diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-> index 698a436e7dac..1666e6ab250b 100644
-> --- a/arch/arm64/boot/dts/apple/t8112.dtsi
-> +++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-> @@ -458,6 +458,15 @@ i2c4: i2c@235020000 {
->  			status = "disabled";
->  		};
->  
-> +		fpwm1: pwm@235044000 {
-> +			compatible = "apple,t8112-fpwm", "apple,s5l-fpwm";
-> +			reg = <0x2 0x35044000 0x0 0x4000>;
-> +			power-domains = <&ps_fpwm1>;
-> +			clocks = <&clkref>;
-> +			#pwm-cells = <2>;
-> +			status = "disabled";
-> +		};
-> +
->  		serial0: serial@235200000 {
->  			compatible = "apple,s5l-uart";
->  			reg = <0x2 0x35200000 0x0 0x1000>;
-> 
-> ---
-> base-commit: 8d59efc33fdaa2c82072b4d3ba5f67d7dd9270d0
-> change-id: 20230409-t8112-fpwm-06e434cc358d
+Hi SoC folks,
 
-Applied to asahi-soc/dt, thanks!
+Please merge these DT changes for 6.4.
+
+A bit late this cycle, this adds the PWM controllers and keyboard
+backlight nodes. That driver is also on the way to 6.4.
 
 - Hector
 
+The following changes since commit 8d59efc33fdaa2c82072b4d3ba5f67d7dd9270d0:
+
+  arm64: dts: apple: t600x: Disable unused PCIe ports (2023-03-28 20:07:02 +0900)
+
+are available in the Git repository at:
+
+  https://github.com/AsahiLinux/linux.git tags/asahi-soc-dt-6.4-v2
+
+for you to fetch changes up to 50aa09ac18fac94a907d26dca21aff5507373fb1:
+
+  arm64: dts: apple: t8112: Add PWM controller (2023-04-17 17:27:57 +0900)
+
+----------------------------------------------------------------
+Apple SoC DT updates for 6.4 (v2).
+
+A late addition to the tree, adding the PWM controllers and associated
+keyboard backlight nodes, since that driver and its bindings are now
+on the way to 6.4.
+
+----------------------------------------------------------------
+Sasha Finkelstein (3):
+      arm64: dts: apple: t8103: Add PWM controller
+      arm64: dts: apple: t600x: Add PWM controller
+      arm64: dts: apple: t8112: Add PWM controller
+
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi      |  9 +++++++++
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi | 18 ++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103-j293.dts       | 17 +++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103-j313.dts       | 17 +++++++++++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi           |  9 +++++++++
+ arch/arm64/boot/dts/apple/t8112-j413.dts       | 17 +++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112-j493.dts       | 17 +++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi           |  9 +++++++++
+ 8 files changed, 113 insertions(+)
+
+- Hector
