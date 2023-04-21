@@ -1,162 +1,70 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3E71FA0
-	for <asahi@lists.linux.dev>; Tue, 18 Apr 2023 08:45:38 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f167d0cbb7so5632315e9.0
-        for <asahi@lists.linux.dev>; Tue, 18 Apr 2023 01:45:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F206FD7
+	for <asahi@lists.linux.dev>; Fri, 21 Apr 2023 23:48:50 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-5529f3b8623so12817637b3.2
+        for <asahi@lists.linux.dev>; Fri, 21 Apr 2023 16:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1681807536; x=1684399536;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=oT5P+C8jhcnVktHuaT8CaiAl2LYwjoUSuguqcQQFtp4=;
-        b=FanzCFjomRlpL2OEofMz+oVxq6i4uNv2gnUp26WfZ6CbrvGoNxpyzRO9DB2aHjvVIJ
-         4FuOuc/fGLggIde9ottv4hvvZ79pRU1XLEWxMvks+oPAJDypRw0e29W4MMGhJ9zamOBp
-         J180c50wDd4N8ucvs5m1gzu/gaE1gGElKXC40=
+        d=gmail.com; s=20221208; t=1682120929; x=1684712929;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tLOHSowAq3qXxVnp8tQm0eq1f2X6Iz2Ob1qD9V70Jyc=;
+        b=N6FlboiknJp6c3M8T/xFon/pnuArObgBjhHXYdXy6bl1PlLUyDQjS14PTHy1fKFBrg
+         H+RBH0tYkzYHl46iJGFKYpFtJ75H+ecQGmLEEUb7S0pGJgAt69lH/1IS5quQ4qLwVtOf
+         u+ld1xcGZYVvnFj4d15tuSkaK3IjGK78unsQvKt87YWucazsEpoMeN1iaYAOqkFi+CWm
+         TQ4BgDHIdIGicv6TisI5OPxaD+b9U8Ml9PH/0mvWs+WhwytJKZAWXtnW9WLZm2M/Mj86
+         +oQltTkY7/D2T0daxBxOa/5JCL3CSOG6SQ6rcu7E9bbeEPTFmVC07Lwe71fo11cFe2vW
+         t7nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681807536; x=1684399536;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oT5P+C8jhcnVktHuaT8CaiAl2LYwjoUSuguqcQQFtp4=;
-        b=BhA8rIqLV1ZMO+Zm/McgOjp5c1TjIyAVPONakhVY1swqumn5LLLM5SxmPvdh18K0s0
-         tTWf2b1OKJmXh48+4bPsoABmnvINidOsdt/S8sA6CjQj1bRYKFF/cubFOCD0J0gd5eHj
-         OdxlbWUvAkoA/84O4H5DOHRP6bJAVjlbdpwb7C1i6mT6Cwhg5Wdu/zvZJurloa2MqDLY
-         csDeGxfXm1KN1B540FleY5L1COxpuYKcpYsyc25aL4EZpP2XQPkDR4soZwyPjB7cvvAH
-         RaWAn+504bjnxrtjWCQiHpj/Zs1Jf2CQh1fc+pUExnCyZ43XRG+MbYBd8hOQ+iRglmHp
-         JDlA==
-X-Gm-Message-State: AAQBX9fYX7Tz6JjXXL3+5VlXO/dG5yJmHZEhAIseTrTyyHrh3NtUmpC2
-	S+djiokoVzTxuAeWr2UuFSI8ew==
-X-Google-Smtp-Source: AKy350YvSEYDzOeKn9KFoIbnr6WuwyMxchvWtx3lAPsn13XE0E7uVmL1Lmr9GjC6iusO9jxxDaLSeA==
-X-Received: by 2002:a05:600c:3d18:b0:3f1:7490:e595 with SMTP id bh24-20020a05600c3d1800b003f17490e595mr3737876wmb.2.1681807536442;
-        Tue, 18 Apr 2023 01:45:36 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
-        by smtp.gmail.com with ESMTPSA id u7-20020a7bcb07000000b003ee70225ed2sm14293806wmj.15.2023.04.18.01.45.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Apr 2023 01:45:35 -0700 (PDT)
-Date: Tue, 18 Apr 2023 10:45:33 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Asahi Lina <lina@asahilina.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Karol Herbst <kherbst@redhat.com>,
-	Ella Stanforth <ella@iglunix.org>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH RFC 12/18] rust: drm: sched: Add GPU scheduler abstraction
-Message-ID: <ZD5YrQ52Yn1np8ve@phenom.ffwll.local>
-Mail-Followup-To: Asahi Lina <lina@asahilina.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Luben Tuikov <luben.tuikov@amd.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Karol Herbst <kherbst@redhat.com>,
-	Ella Stanforth <ella@iglunix.org>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Mary <mary@mary.zone>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-sgx@vger.kernel.org, asahi@lists.linux.dev
-References: <20230307-rust-drm-v1-0-917ff5bc80a8@asahilina.net>
- <20230307-rust-drm-v1-12-917ff5bc80a8@asahilina.net>
- <ZC2XBfJGAdNMQjpZ@phenom.ffwll.local>
- <ZC3L/uinmOwI+FbI@phenom.ffwll.local>
+        d=1e100.net; s=20221208; t=1682120929; x=1684712929;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tLOHSowAq3qXxVnp8tQm0eq1f2X6Iz2Ob1qD9V70Jyc=;
+        b=bi7yA2BdddFr5w/21FUsZzRusKjjffL70Y0Lyg6j5YmThg8YmEWlCNP3fsihKBJA0P
+         ecERUHc4AmQQlBoNVMlg3EHNjAJ7zW2hi991/1ss7h2pKURv3PLDsKmh4zERN7O0Gzl0
+         yo4WwYNd2czy9Ri0//oV6ENykOue4VRT1zDeWJDIRyNk96deh9rpsOT92whcXx+r49wN
+         BV1AOTr33xMqLii1rUgUpKUCKdgrZlr/jjytXA2tH19Vi6US/U1z51MKXIiB+8qgveJZ
+         6SVGATvDps7h58DMy9eBe0tXJiMSeycwH35Cydn0AucWLnstXGz5Iu3nZIEqKA7xYnKC
+         tS4g==
+X-Gm-Message-State: AAQBX9frp2swIV6F24J3Z8lnivmHpGYhJbjz7bJl3sWiVIwM5e+DUiL7
+	eoWqX6tFWv/8vIghc7755E/ZVTS8nXDLwZBtpFg=
+X-Google-Smtp-Source: AKy350YUefHIkuKUui23iIRLtVxZ0q1CQI13Km7pDYoawxBws41dSc8jEVMIOQP++qYawwQ+uNh0e0QPUs+F1eVk7RQ=
+X-Received: by 2002:a81:8302:0:b0:54f:9b01:b353 with SMTP id
+ t2-20020a818302000000b0054f9b01b353mr3028442ywf.9.1682120929644; Fri, 21 Apr
+ 2023 16:48:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZC3L/uinmOwI+FbI@phenom.ffwll.local>
-X-Operating-System: Linux phenom 6.1.0-7-amd64 
+References: <20230329-rust-uapi-v2-0-bca5fb4d4a12@asahilina.net>
+In-Reply-To: <20230329-rust-uapi-v2-0-bca5fb4d4a12@asahilina.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 22 Apr 2023 01:48:38 +0200
+Message-ID: <CANiq72kZcDfV-hz6ku93RFxg3eOYfNp1d=-GWYy97T8maoZpMQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] rust: Add uapi crate
+To: Asahi Lina <lina@asahilina.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Martin Rodriguez Reboredo <yakoyoku@gmail.com>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 05, 2023 at 09:29:02PM +0200, Daniel Vetter wrote:
-> On Wed, Apr 05, 2023 at 05:43:01PM +0200, Daniel Vetter wrote:
-> > On Tue, Mar 07, 2023 at 11:25:37PM +0900, Asahi Lina wrote:
-> > > +/// An armed DRM scheduler job (not yet submitted)
-> > > +pub struct ArmedJob<'a, T: JobImpl>(Box<Job<T>>, PhantomData<&'a T>);
-> > > +
-> > > +impl<'a, T: JobImpl> ArmedJob<'a, T> {
-> > > +    /// Returns the job fences
-> > > +    pub fn fences(&self) -> JobFences<'_> {
-> > > +        JobFences(unsafe { &mut *self.0.job.s_fence })
-> > > +    }
-> > > +
-> > > +    /// Push the job for execution into the scheduler
-> > > +    pub fn push(self) {
-> > > +        // After this point, the job is submitted and owned by the scheduler
-> > > +        let ptr = match self {
-> > > +            ArmedJob(job, _) => Box::<Job<T>>::into_raw(job),
-> > > +        };
-> > 
-> > If I get this all right then this all makes sure that drivers can't use
-> > the job after push and they don't forgot to call arm.
-> > 
-> > What I'm not seeing is how we force drivers to call push once they've
-> > called arm? I haven't check what the code does, but from the docs it
-> > sounds like if you don't call push then drop will get called. Which wreaks
-> > the book-keeping on an armed job. Or is there someting that prevents
-> > ArmedJob<T> from having the Drop trait and so the only way to not go boom
-> > is by pushing it?
-> > 
-> > Googling for "rust undroppable" seems to indicate that this isn't a thing
-> > rust can do?
-> 
-> Another thing that I just realized: The driver must ensure that the
-> arm->push sequence on a given drm_sched_entity isn't interrupte by another
-> thread doing the same, i.e. you need to wrap it all in a lock, and it
-> always needs to be the same lock for a given entity.
-> 
-> I have no idea how to guarantee that, but I guess somehow we should?
+On Mon, Apr 3, 2023 at 11:34=E2=80=AFAM Asahi Lina <lina@asahilina.net> wro=
+te:
+>
+> The first patch introduces the `uapi` crate proper and stands on its own,
+> while the second patch introduces the `ioctl` module in the kernel crate
+> that uses it.
 
-Ok I was wrong here, pushing the job is optional, but the locking rules
-are still the same.
+Applied to `rust-next`, with added support for the `rustdoc` and
+`rusttest` targets, since we want to keep those working. Thanks!
 
-I think we can solve this in rust with:
-- passing &mut Entity to a new submit_job function. that way locking rules
-  are left to the driver, which I think is best.
-- the submit_job also takes a closure, and passes the armed job as a &mut
-  ArmedJob to it. That way we guarantee that the armed job never survives
-  longer than the mutex guard (or whatever trick the driver is using) for
-  the Entity
-- that closure probably should have Result return type which submit_job
-  just passes on, because some drivers (when you support userptr that is)
-  need to be able to bail out. since the ArmedJob is borred it shouldn't
-  be able to escape through the return value
-- only ArmedJob has push_job
-
-I think with that we fully uphold the drm_sched arm/push_job contract on
-the rust side?
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Cheers,
+Miguel
