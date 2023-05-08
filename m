@@ -1,26 +1,45 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312623214
-	for <asahi@lists.linux.dev>; Mon, 24 Apr 2023 17:39:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 00704423B9;
-	Mon, 24 Apr 2023 17:33:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1682357592; bh=gwns/JY9UIKvokQvDSCU7rSnjruu6AE43wgqMKuoIuM=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=GNvfcIzybt79CRSSlX+vUc7Bty1vbGv6LUy2241ZpjRS6cxHV8rqgQszq6TQspxVB
-	 /R1IyyPqi9YurZ+vXX+vHey+RW+hL+kgR9Kg+8TAl9d0vaEC0NLcYzK1diwY0bYApr
-	 2vCxhQD2TIIws/ILlzI1lUxTg5qG/w+yKJcIt/weXNidw4angZMKqty49LSMDS3M/w
-	 tpwJwj4LTurMVeAv64qRJhM41XMzveamB5oml6Vd/2yDCrcy9MLBjUsVsDgGMc890c
-	 0yNu5Q+Ey2RYAZSWXVVVqXFZmPWxJCLNB1M9NJHQALW1loCkuGw6PauGSYnbt1gPlw
-	 bntZFtnrsorjg==
-Message-ID: <27d6f62d-5f4c-2f43-a663-a3cd93326403@marcan.st>
-Date: Tue, 25 Apr 2023 02:33:08 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F25BA93B
+	for <asahi@lists.linux.dev>; Mon,  8 May 2023 09:36:33 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-50bc3088b7aso8367200a12.3
+        for <asahi@lists.linux.dev>; Mon, 08 May 2023 02:36:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683538591; x=1686130591;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+gQynKHq/j0rouitkQ61mRMZDG5anZgmqsztbwdlNZc=;
+        b=DymGYpSMNyruICBmlBVGENxrUAxCQg/9cXLgCRaamSdE/dEF2PWDcI2NMgDIRJyj0k
+         AiDSeiLGwe73bHrNxQwjuoRCedlA2Yal3AQs/a4zdKuNhJDj6FOpRSWRybzpa3q9yppa
+         +6MwAuSI8a26ybP1A3zGDXHJ/8ehNfai1ak7usI0MarlRYSoOOKoX3CP++uMCQHkckTB
+         6/TfU7klsLFfkBTZylAh3wU4x8ZIoNloePBOYGxoc8QRhqNcfEvKc14v8pEagcyo6SJG
+         voc7He/24Y+xohlSkDq2rH+Bz57fvqz51ITqXFlyKTsYLwLADR1wROlLMbTlnGJu1Q2V
+         2bzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683538591; x=1686130591;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+gQynKHq/j0rouitkQ61mRMZDG5anZgmqsztbwdlNZc=;
+        b=N6VcGNRgks76hKoQ1ArBKAGDeNAfRobl9IzLGpzpemRuB2elLoJsr5y+l0tlKkh+Qc
+         fx4g85IBqdkOOUKS2NGY+WW1y5x0IJzBAaxsuEniIFB9wTIFeC5kEfawfQ2iiPrSuHJi
+         L6ky+jF9U13bEc0s9LVPQ/r2oD59r5wohhzApREA97iFDoQuuLWSZF1sYSiPtbH2nPx/
+         2jL/A0L3qi3OZnGWGZQ4Z6cuU6WSjOLUp8ys3A61TBAMd28CTSFgXYCOkXDnr6oTKCaF
+         KMXNX2XSS1sj5AR5Dmc/Y/3NzBsPbltXQQ6sb48YFEeUHIpWx8qnOMLHtALk0UxNLpbr
+         STIg==
+X-Gm-Message-State: AC+VfDz2ytYDbhzK5Lz+9E6BvKGUSqlUdlrMbbqnGrxRVY4eGxd/UYPf
+	biTN3LH+V+60zVhY19GAWTxLuA==
+X-Google-Smtp-Source: ACHHUZ5UdACRM4IQ+9A7GHj+UIVY449LpLW4cKn7SLTKxOHi6oMQ6t5zDTtgkejS5Yu2tSpaPeYsQQ==
+X-Received: by 2002:a17:906:fe07:b0:953:8249:1834 with SMTP id wy7-20020a170906fe0700b0095382491834mr7734490ejb.16.1683538591535;
+        Mon, 08 May 2023 02:36:31 -0700 (PDT)
+Received: from ?IPV6:2a02:810d:15c0:828:50e0:ebdf:b755:b300? ([2a02:810d:15c0:828:50e0:ebdf:b755:b300])
+        by smtp.gmail.com with ESMTPSA id f12-20020a05640214cc00b005068fe6f3d8sm5921749edx.87.2023.05.08.02.36.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 May 2023 02:36:30 -0700 (PDT)
+Message-ID: <7fcdfc56-3dc6-b103-afd5-21984940c495@linaro.org>
+Date: Mon, 8 May 2023 11:36:29 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -28,200 +47,44 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Subject: Re: [PATCH 0/5] mailbox: apple: Move driver into soc/apple and stop
- using the subsystem
+ Thunderbird/102.11.0
+Subject: Re: [PATCH RESEND v9 5/5] MAINTAINERS: Add entries for Apple PWM
+ driver
 Content-Language: en-US
-From: Hector Martin <marcan@marcan.st>
-To: Jassi Brar <jassisinghbrar@gmail.com>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Janne Grunau <j@jannau.net>,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20230328-soc-mailbox-v1-0-3953814532fd@marcan.st>
- <CABb+yY2=B2p5JhZiBE_mZLe3y16EUgVsUHK62LnRgaKa1-ptLg@mail.gmail.com>
- <f12bafa5-1589-5bcb-5f92-edb7be54efef@marcan.st>
- <CABb+yY1k9LSFb5kVe7bGhiubJ0jTDkFqYsGjobP=KjywXk_yuA@mail.gmail.com>
- <2dce2e9f-a279-ba62-9443-c863219fa27e@marcan.st>
-In-Reply-To: <2dce2e9f-a279-ba62-9443-c863219fa27e@marcan.st>
+To: fnkl.kernel@gmail.com, Thierry Reding <thierry.reding@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ - <asahi@lists.linux.dev>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20230214-fpwm-v9-0-f3094107b16b@gmail.com>
+ <20230214-fpwm-v9-5-f3094107b16b@gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20230214-fpwm-v9-5-f3094107b16b@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 31/03/2023 13.14, Hector Martin wrote:
-> On 31/03/2023 01.35, Jassi Brar wrote:
->> On Wed, Mar 29, 2023 at 5:53 PM Hector Martin <marcan@marcan.st> wrote:
->>> On 30/03/2023 01.04, Jassi Brar wrote:
->>
->>>>> On top of this, the mailbox subsystem makes design
->>>>>    decisions unsuitable for our use case. Its queuing implementation
->>>>>    has a fixed queue size and fails sends when full instead of pushing
->>>>>    back by blocking, which is completely unsuitable for high-traffic
->>>>>    mailboxes with hard reliability requirements, such as ours. We've
->>>>>    also run into multiple issues around using mailbox in an atomic
->>>>>    context (required for SMC reboot/shutdown requests).
->>>>>
->>>> I don't think you ever shared the issues you were struggling with.
->>>
->>> I did try to send a patch clarifying/cleaning up inconsistent usage of
->>> the atomic codepath in other drivers, and you rejected it. At that point
->>> I gave up in trying to contribute to cleaning up the existing mess,
->>> because you're clearly not interested.
->>>
->> You mean  https://lore.kernel.org/lkml/20220502090225.26478-6-marcan@marcan.st/
->> Now I see where this code-rage comes from.
->>
->> But let me clarify even more...
->>  You do not kill some api just because you don't need that and/or you
->> think that is "stupid" because you can't see past your own use-case.
+On 03/04/2023 16:19, Sasha Finkelstein via B4 Relay wrote:
+> From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 > 
-> It is general Linux kernel policy not to have internal APIs with zero
-> users. The Rust folks get pushback all the time for upstreaming stuff
-> piecewise even though in that case there are known, upcoming,
-> in-the-pipeline users (we do that too with rtkit but we always have
-> upcoming users downstream and we're small enough nobody notices and
-> complains :P). Having dead APIs that nobody uses and nobody can point at
-> an upcoming use case for is technical debt. That's why my first patch in
-> this series cleans up one of those on our side.
+> Add the MAINTAINERS entries for the driver
 > 
->>> This issue is clearly known, and it doesn't take a lot of thinking to
->>> realize that *any* queue length limit coupled with hard-fails on message
->>> sends instead of pushback is just unsuitable for many use cases. Maybe
->>> all existing mailbox users have intrinsically synchronous use cases that
->>> keep the queue idle enough, or maybe they're just broken only in corner
->>> cases that haven't come back to the mailbox subsystem yet. Either way,
->>> as far as I'm concerned this is broken by design in the general case.
->>>
->> You may be surprised but I do understand hardcoding limits on buffer
->> size is taboo.... unless benefits outweigh fingerpointing :)
-> 
-> Using a fixed size buffer is not the problem, having no blocking
-> mechanism when it gets full is the problem.
-> 
->> 2) The api relies on last_tx_done() to make sure we submit data only
->> when we have an all-clear ...
-> 
-> That's not the issue, the issue is putting stuff *into* the queue, not
-> taking it *out* of the queue and sending it to the hardware.
-> 
->> which is a platform specific way to
->> ensure signal will physically reach the remote (whether data is
->> accepted or not is upto the upper layer protocol and that's why it is
->> recommended to pass pointer to data, rather than data as the signal).
->> The way api is recommended (not required) to be used,  the limit on
->> TX_QUEUE_LEN(20), is not impactful beyond the fifo size of the
->> controller. Though I am open to idea of seeing if tx failure should be
->> considered a possiblity even after last_tx_done.
-> 
-> If I do this:
-> 
-> for (int i = 0; i < 30; i++) {
->     mbox_send_message(...);
-> }
-> 
-> Then, unless the remote is fast enough to accept messages faster than
-> the CPU can send them, some of those sends will fail and refuse to send
-> data, once the subsystem side queue is full.
-> 
-> That is broken because it either loses data or forces the user to
-> implement retry poll loops, neither of which is appropriate. The mailbox
-> subsystem knows when the hardware can send data, it can properly block
-> the send on that signal (which is exactly what my refactor in this
-> series does when the hardware queue gets full).
-> 
-> If we instead wait for the tx completion stuff before sending, then that
-> defeats the point of having a queue because you'd be waiting for each
-> prior message before sending a new one. And then you need to keep track
-> of the last completion. And it requires a global serialization on the
-> client side anyway unless you can guarantee you have less than
-> QUEUE_SIZE clients. And you still have the issue of having to keep the
-> message data around until that completion fires, which is more code and
-> allocator overhead over just passing it inline, since it's a tiny amount
-> of data. Etc etc etc.
-> 
-> It is a bad API, using it properly and reliably requires basically
-> re-implementing part of the subsystem logic in the consumer to work
-> around the issues.
-> 
->>  Iirc on lkml, people have reported using 1000s tx calls per second
->> within this queue limit. I don't know how you tried to interpret that
->> limit but would have helped to know your issue.
-> 
-> For reference: Our GPU benchmarks will easily hit 18000+ TX calls per
-> second through mailbox, even more for some corner cases (this is why I
-> want to implement coalescing when the HW queue already has identical
-> doorbells, to reduce that). More importantly, although the GPU side
-> firmware is usually fast at processing this (it has an IRQ handler and
-> its own doorbell coalescing), when GPU faults or errors happen it has
-> latency spikes, and then we *must* block mailbox sends until it is ready
-> to handle messages again. Dropping messages on the floor is not an
-> option. This *has* to be 100% reliable or users' machines crash.
-> 
->>>
->>>> But if redoing mailbox overall saves you complexity, I am ok with it.
->>>
->>> Is that an ack? :-)
->>>
->> You sound like being trapped in a bad marriage with mailbox :)    And
->> I really don't want you to stay in a rewardless situation --- I have
->> actually asked some platforms during RFCs if mailbox is really useful
->> for them (usually SMC/HVC based useage), but they found use.
-> 
->> Please make sure it is not just code-rage of your patchset being
->> rejected, and indeed there are things you can't do with the api.
-> 
-> It isn't. There's no code rage here, that patch was a long time ago.
-> What that patch told me was that cleaning up mailbox to work for us was
-> going to be an uphill battle, and then over the course of the year+
-> after that it has become very evident that there is a lot of work to do
-> to make mailbox work for us. Hence, the conclusion that we're better off
-> without. Honestly, at this point, even without that rejection I'd still
-> want to move away because there's just so much work to do to get all the
-> features we need and bugs we're hitting fixed and no realistic way to
-> test other consumers/drivers to make sure we don't break them in the
-> process.
-> 
->> Because the api can not have Zero impact on any platform's
->> implementation and my ack here could be used as a precedent for every
->> platform to implement their own tx/rx queues and dt handling and move
->> into drivers/soc/.
-> 
-> As I said, there's a very clear sign here that this is the right move:
-> the overall code size goes down. After this series we have:
-> 
-> - Less code in total (much less actually executing)
-> - That works better
-> - And is easier to understand and debug
-> - And requires less maintenance effort to improve
-> 
-> If other platforms come to the same conclusion for their use case then
-> yes, they should move away from mailbox as well. I would expect that
-> might be the case for a subset, not all, of users. If more users follow,
-> that should be a sign to you that the mailbox subsystem isn't as useful
-> as you'd like :)
-> 
-> Put another way: common code should actually save you lines of code. If
-> it's causing you to spend more lines of code to use it properly than it
-> saves, it is not useful and does not actually improve the situation.
-> 
->> A couple years later someone will see it doesn't> make sense every> platform is doing the same thing in driver/soc/ and
->> maybe it s a good idea to have some drivers/mailbox/ to hold the
->> common code.
-> 
-> If they are really doing the same thing, sure. And then might be a good
-> time to re-think mailbox and what it should do and how it should offer
-> this common code to drivers, in a way that works for more users and
-> actually saves everyone time and maintenance effort, with less burden.
-> 
->> I am also aware I am just a volunteer at mailbox and can not dictate
->> what you do with your platform. So, is there anything like
->> Neither-acked-nor-objected-but-left-to-soc-by ?  ;)
-> 
-> Not really, because it's your subsystem so we do actually need you to
-> ack the driver deletion patch if it's going to go through our tree.
-> That's the rules. "Acked" doesn't mean "I am happy with this", it means
-> "I am okay with this" ;)
+> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+> Acked-by: Sven Peter <sven@svenpeter.dev>
 
-Ping? :-)
+Sasha,
 
-- Hector
+You got here report of warning:
+https://lore.kernel.org/all/202304041117.YfOAPGQc-lkp@intel.com/
+
+Don't ignore it, but send a new version which fixes it. Since Thierry
+was not Cced on docs build failure, he applied entire patch. In such
+case it is expected that you will do something about it, not just skip it.
+
+I'll apply the fix from Lukas.
+
+Best regards,
+Krzysztof
 
