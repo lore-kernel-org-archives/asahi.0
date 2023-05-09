@@ -1,51 +1,51 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1CE111BC;
-	Mon,  8 May 2023 21:20:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFF098BEA;
+	Tue,  9 May 2023 11:00:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683580813; x=1715116813;
+  t=1683630033; x=1715166033;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZXD+ewt6EPlLmAFkTGfXobVhsHMapRgravjPxFdOVE4=;
-  b=mE6EdNhy5MvllEsol5mDBtfzSVVTfkm5D1e4mMmSnAGSm4rWzmjRiVVi
-   PAUjLGus/XR5zGvJO0ovhEVu4aYP9I+A6sv9GQizWpNf8bntdjOuIPJlq
-   mbfsHJ14TzcsaAgt2z/LLsS1JYjvSS0DfjFPrCFDRdOwMnxSnC/MGgQkh
-   CIAFhHAqAeMVwolTTkay3Cx9hNCDr4UPNmT2EMDsZxJWBJEbzxjcOlwpb
-   nexdFIMR9qxBtbakQF79S6kjx/v68YBw1aAmQz2nmip/dlEHlYiXGhbzZ
-   8b9gza/bSs1yh4nW67ptiU9e64/KBzRgmb3KcPJyFL+kxgxJW0Id9nczg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="436079609"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="436079609"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 14:19:47 -0700
+  bh=ZAugAsSP1MFsa5ZKGdlMLronpk78T7eWaPGGGpSlRoM=;
+  b=Xp/nVXHPpbA8HUuzpmS6r9rf0h9ucQxKXxkq2mfOuT1RbbuqIpYh1qsj
+   9QTXJeC9O11Mn9OdD/tSPSfoqimO9bI73wouAup9X0KExUWpgrxPyA3fI
+   1pYzPwoLJgg2l4nz9tHLPwcZ0NIlC+4aEF+kDx4MBj2eA75Sy069WgpU6
+   hk3NBWEB6UlKEC13TqSRP5Fs0nUVyc/bJk7iI84Zptqb/4hP5VFm4juVt
+   loQEESvRCoaSpQ2GKslYyjBpDtxQ0GI6iUPR/8J2O8kBZwoAkW3ExAMKR
+   vasKsBICKJI3qEBN1GgZLwRE19JpRym1NejjO1MFk55I3KjuXqZOwxU05
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="349929589"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
+   d="scan'208";a="349929589"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 04:00:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="692727524"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="692727524"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="945243629"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
+   d="scan'208";a="945243629"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 May 2023 14:19:42 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 09 May 2023 04:00:09 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pw8Gk-0001QT-02;
-	Mon, 08 May 2023 21:19:42 +0000
-Date: Tue, 9 May 2023 05:19:22 +0800
+	id 1pwL4j-00026e-27;
+	Tue, 09 May 2023 11:00:09 +0000
+Date: Tue, 9 May 2023 18:59:19 +0800
 From: kernel test robot <lkp@intel.com>
 To: Lizhe <sensor1010@163.com>, marcan@marcan.st, sven@svenpeter.dev,
 	alyssa@rosenzweig.io, linus.walleij@linaro.org,
 	neil.armstrong@linaro.org, mcoquelin.stm32@gmail.com,
 	alexandre.torgue@foss.st.com, daniel@zonque.org,
 	haojian.zhuang@gmail.com, robert.jarzmik@free.fr
-Cc: oe-kbuild-all@lists.linux.dev, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-oxnas@groups.io,
-	linux-stm32@st-md-mailman.stormreply.com,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-oxnas@groups.io, linux-stm32@st-md-mailman.stormreply.com,
 	Lizhe <sensor1010@163.com>
 Subject: Re: [PATCH] dirvers/pinctrl.c : using pinctrl_dev->dev to obtain
  struct device * dev
-Message-ID: <202305090411.OyJRHVis-lkp@intel.com>
+Message-ID: <202305091858.pJaUy3Gt-lkp@intel.com>
 References: <20230508154043.11859-1-sensor1010@163.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -62,7 +62,7 @@ Hi Lizhe,
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next linus/master v6.4-rc1 next-20230508]
+[also build test ERROR on linusw-pinctrl/for-next linus/master v6.4-rc1 next-20230509]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
@@ -71,8 +71,8 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Lizhe/dirvers-pinctrl-c-u
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
 patch link:    https://lore.kernel.org/r/20230508154043.11859-1-sensor1010%40163.com
 patch subject: [PATCH] dirvers/pinctrl.c : using pinctrl_dev->dev to obtain struct device * dev
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230509/202305090411.OyJRHVis-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+config: i386-randconfig-a001-20230508 (https://download.01.org/0day-ci/archive/20230509/202305091858.pJaUy3Gt-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -82,85 +82,28 @@ reproduce (this is a W=1 build):
         git checkout 83751a28d7f5223597b6742300796fb80362dc20
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305090411.OyJRHVis-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305091858.pJaUy3Gt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/pinctrl/pinctrl-stmfx.c:12:
-   drivers/pinctrl/pinctrl-stmfx.c: In function 'stmfx_pinctrl_probe':
->> drivers/pinctrl/pinctrl-stmfx.c:714:25: error: 'pctldev' undeclared (first use in this function); did you mean 'pci_dev'?
-     714 |                 dev_err(pctldev->dev, "gpio_chip registration failed\n");
-         |                         ^~~~~~~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/pinctrl/pinctrl-stmfx.c:714:17: note: in expansion of macro 'dev_err'
-     714 |                 dev_err(pctldev->dev, "gpio_chip registration failed\n");
-         |                 ^~~~~~~
-   drivers/pinctrl/pinctrl-stmfx.c:714:25: note: each undeclared identifier is reported only once for each function it appears in
-     714 |                 dev_err(pctldev->dev, "gpio_chip registration failed\n");
-         |                         ^~~~~~~
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/pinctrl/pinctrl-stmfx.c:714:17: note: in expansion of macro 'dev_err'
-     714 |                 dev_err(pctldev->dev, "gpio_chip registration failed\n");
-         |                 ^~~~~~~
---
-   In file included from include/linux/printk.h:564,
-                    from include/asm-generic/bug.h:22,
-                    from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/io.h:11,
-                    from drivers/pinctrl/pxa/pinctrl-pxa2xx.c:9:
-   drivers/pinctrl/pxa/pinctrl-pxa2xx.c: In function 'pxa2xx_pmx_gpio_set_direction':
->> drivers/pinctrl/pxa/pinctrl-pxa2xx.c:94:24: error: invalid use of undefined type 'struct pinctrl_dev'
-      94 |         dev_dbg(pctldev->dev, "set_direction(pin=%d): dir=%d\n",
-         |                        ^~
-   include/linux/dynamic_debug.h:222:29: note: in definition of macro '__dynamic_func_call_cls'
-     222 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
-     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:271:9: note: in expansion of macro '_dynamic_func_call'
-     271 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/pinctrl/pxa/pinctrl-pxa2xx.c:94:9: note: in expansion of macro 'dev_dbg'
-      94 |         dev_dbg(pctldev->dev, "set_direction(pin=%d): dir=%d\n",
-         |         ^~~~~~~
-   drivers/pinctrl/pxa/pinctrl-pxa2xx.c: In function 'pxa2xx_pmx_set_mux':
-   drivers/pinctrl/pxa/pinctrl-pxa2xx.c:159:24: error: invalid use of undefined type 'struct pinctrl_dev'
-     159 |         dev_dbg(pctldev->dev, "set_mux(pin=%d): af=%d dir=%d\n",
-         |                        ^~
-   include/linux/dynamic_debug.h:222:29: note: in definition of macro '__dynamic_func_call_cls'
-     222 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
-     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:271:9: note: in expansion of macro '_dynamic_func_call'
-     271 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
-     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/pinctrl/pxa/pinctrl-pxa2xx.c:159:9: note: in expansion of macro 'dev_dbg'
-     159 |         dev_dbg(pctldev->dev, "set_mux(pin=%d): af=%d dir=%d\n",
-         |         ^~~~~~~
+>> drivers/pinctrl/pinctrl-stmfx.c:714:11: error: use of undeclared identifier 'pctldev'
+                   dev_err(pctldev->dev, "gpio_chip registration failed\n");
+                           ^
+   drivers/pinctrl/pinctrl-stmfx.c:727:11: error: use of undeclared identifier 'pctldev'
+                   dev_err(pctldev->dev, "cannot request irq%d\n", irq);
+                           ^
+   drivers/pinctrl/pinctrl-stmfx.c:731:11: error: use of undeclared identifier 'pctldev'
+           dev_info(pctldev->dev,
+                    ^
+   3 errors generated.
 
 
-vim +714 drivers/pinctrl/pinctrl-stmfx.c
+vim +/pctldev +714 drivers/pinctrl/pinctrl-stmfx.c
 
    638	
    639	static int stmfx_pinctrl_probe(struct platform_device *pdev)
