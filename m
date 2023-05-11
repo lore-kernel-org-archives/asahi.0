@@ -1,77 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392F663F
-	for <asahi@lists.linux.dev>; Thu, 11 May 2023 05:36:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A862FC433EF;
-	Thu, 11 May 2023 05:36:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683783385;
-	bh=lZHIGykf0/w5SWyGFtUgZIwxhpIradYJaIud1dnBpBc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ozh5dAUYF1mfWYlZJO31hcG6KboNE1ojUnqgKeV9ar+mpD2P1YHv6kyN30RLDTclB
-	 U8EW63E2dRkW5cmgkZmbrqfRfGm/GEIyls8w8ATk0WHWrq2C410l3GO0oIXAsKRjuu
-	 PNaSvVtUHaZgbouset5V9rQtB63HMNFVOyJWUvUhjQO0qj9Tqw5uicfIzw9RHBOOI7
-	 sETV0bBCb9oFd59dkKXcEedcB7U4mQV5KCrH8rmoGpi4jVIjqGt+xqK8H97smXGlHq
-	 B4U3GDfrhrDROk8EH/hISp2/p1mkh47pOpZfiiof+I33t8IxdVHitWTd/Cp1hbDvNp
-	 UezXXq2XEmwdQ==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Andrew Davis <afd@ti.com>, Shi Fu <shifu0704@thundersoft.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, kevin-lu@ti.com, 
- alsa-devel@alsa-project.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-In-Reply-To: <20230509153412.62847-1-povik+lin@cutebit.org>
-References: <20230509153412.62847-1-povik+lin@cutebit.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: Adjust #sound-dai-cells on TI's
- single-DAI codecs
-Message-Id: <168378338222.323079.1310653155844733439.b4-ty@kernel.org>
-Date: Thu, 11 May 2023 14:36:22 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7687117725
+	for <asahi@lists.linux.dev>; Thu, 11 May 2023 13:15:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683810940; x=1715346940;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=8XQL7bYEaCNAsPYfNtNmF5YMRERIojn4B8v+BqlhGOQ=;
+  b=LYakeTPoNl1T47aBjSUnD+7lZPvXWyN4gTI5NpJIaxz0q4r5UzKEx6jZ
+   n5gccSpRXUi8Rbyo3jxR7xJcZHcSYtXPgiEa4XerKZb+ccTs+qJTsQGGX
+   ZghIOTQUBVTWnlFHRjjLvKKTdQKOWikAQOLgj15LR1iWAe19qCzrGpvnQ
+   ftbt7oM8s3EReRFYgIZ7NeIlgvREwFXu+Cn6atbLsjKxmWjGhtk8cWNPk
+   sJQLVOiNZfBMsqdYyeUvIgO5f2TWI6piTTXAa8LBjXWtRlWm5LbQmZrc6
+   EFEZkOp5Ps45zHr0CPQQN19cym3HJ2/Uc9MrWhQMsiQn9s28VNO5y1vNW
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="378619610"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="378619610"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 06:15:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="650169921"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="650169921"
+Received: from jsanche3-mobl1.ger.corp.intel.com (HELO ijarvine-MOBL2.ger.corp.intel.com) ([10.252.39.112])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 06:15:35 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-pci@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH 11/17] Bluetooth: hci_bcm4377: Use pcie_lnkctl_clear_and_set() for changing LNKCTL
+Date: Thu, 11 May 2023 16:14:35 +0300
+Message-Id: <20230511131441.45704-12-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230511131441.45704-1-ilpo.jarvinen@linux.intel.com>
+References: <20230511131441.45704-1-ilpo.jarvinen@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13-dev-bfdf5
 
-On Tue, 09 May 2023 17:34:12 +0200, Martin Povišer wrote:
-> A bunch of TI's codecs have binding schemas which force #sound-dai-cells
-> to one despite those codecs only having a single DAI. Allow for bindings
-> with zero DAI cells and deprecate the former non-zero value.
-> 
-> 
+Don't assume that only the driver would be accessing LNKCTL. ASPM
+policy changes can trigger write to LNKCTL outside of driver's control.
 
-Applied to
+Use pcie_lnkctl_clear_and_set() which does proper locking to avoid
+losing concurrent updates to the register value.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Suggested-by: Lukas Wunner <lukas@wunner.de>
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ drivers/bluetooth/hci_bcm4377.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks!
-
-[1/1] ASoC: dt-bindings: Adjust #sound-dai-cells on TI's single-DAI codecs
-      commit: efb2bfd7b3d210c479b9361c176d7426e5eb8663
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index 19ad0e788646..e2b489f678d9 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -2232,8 +2232,7 @@ static void bcm4377_disable_aspm(struct bcm4377_data *bcm4377)
+ 	 * or if the BIOS hasn't handed over control to us. We must *always*
+ 	 * disable ASPM for this device due to hardware errata though.
+ 	 */
+-	pcie_capability_clear_word(bcm4377->pdev, PCI_EXP_LNKCTL,
+-				   PCI_EXP_LNKCTL_ASPMC);
++	pcie_lnkctl_clear_and_set(bcm4377->pdev, PCI_EXP_LNKCTL_ASPMC, 0);
+ }
+ 
+ static void bcm4377_pci_free_irq_vectors(void *data)
+-- 
+2.30.2
 
