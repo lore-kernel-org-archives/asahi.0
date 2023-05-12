@@ -1,80 +1,81 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6672115
-	for <asahi@lists.linux.dev>; Thu, 11 May 2023 17:08:28 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-50bc075d6b2so16398622a12.0
-        for <asahi@lists.linux.dev>; Thu, 11 May 2023 10:08:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683824907; x=1686416907;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W7pSkCu4jw+MIqLM1X/GSl2Ww2yA7vaTQ5eDNYGJp+k=;
-        b=J31xoz4Ek1HYwjey22pRfKmWA07NmmCjA8326SQ9D9ewwvDE0Wnx1uKLrJJgoEYrlg
-         1GrCv7/iLST7Fra9rl2qVFB/g8kP3GZDQgvu75F8ZzsE3nqCHzO0RNKErHPGyrGtl4NK
-         4lMQOMqWzy/aFu3LSOAMcNysSPXuJdZ2bzRPfqGy6yriUl0bJG+tT/HQBjZEj1+cT1Gw
-         5ft0pvlLPcF4kcFAZw/Y+ZWgcJAUzwiAvTcltIH4/9zf8TjINCPYi6xqHnzWRKXp8TGj
-         FgeIgg5l2Yuy48phBjILEWpgVdLliEjQXo0Praa632cAAVvHtebVjMkDHDANxT8DIURe
-         A67A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683824907; x=1686416907;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W7pSkCu4jw+MIqLM1X/GSl2Ww2yA7vaTQ5eDNYGJp+k=;
-        b=kgDVXvtcW1hd6A411XuYEEoytnnjB8YUJylrZi1+P3hOZOc8hJfBt8Qdjxm/9qUAeQ
-         u7/ZFQV8mJZkgNyZP+z/5eZly4J8ijtjByNlor7jonJgS69Li+MgQnWa7VzPmE6npEDq
-         H1leVg2WcUyBjVqIPv0FAVhXx9r6gfkoUFAf47/+8BIChV8sCRt9+PZKN/lltkDXYvs+
-         /ptLRpgjU9YyzdGLgEbW12Vs59hkP0ZCH14dkdUNTRAB+NEDZZqW5e5iRBHAL987/Gvn
-         KVwe2hRp5S542ekkaGkIbnA8UptLzhDrKwHho6tOO1tOqtAP2j2BC/HGo1BryNVW4F2O
-         CNKA==
-X-Gm-Message-State: AC+VfDz7wGlB3c/4/cS6hIsJ9HIp/TtXyNmGqaPOBym7eVRGrfLTa6eO
-	0WUzksKfNXmz7yfRMM57L5f3kA==
-X-Google-Smtp-Source: ACHHUZ7Mq8DfwN2CS1Qv3Zb95a/ZqyQv3M1eXU6+CuA4vYkR4lU3I3lNaZpnt0FSbPkEAtWs090WiQ==
-X-Received: by 2002:a17:907:6e03:b0:96a:440b:d5dc with SMTP id sd3-20020a1709076e0300b0096a440bd5dcmr5278769ejc.54.1683824906914;
-        Thu, 11 May 2023 10:08:26 -0700 (PDT)
-Received: from ?IPV6:2a02:810d:15c0:828:d7cd:1be6:f89d:7218? ([2a02:810d:15c0:828:d7cd:1be6:f89d:7218])
-        by smtp.gmail.com with ESMTPSA id f20-20020a17090660d400b00965ac8f8a3dsm4264298ejk.173.2023.05.11.10.08.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 10:08:26 -0700 (PDT)
-Message-ID: <47ddf347-f6f9-742d-949a-c7a315dfdf24@linaro.org>
-Date: Thu, 11 May 2023 19:08:25 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5FEA3C
+	for <asahi@lists.linux.dev>; Fri, 12 May 2023 04:19:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A43DC433D2;
+	Fri, 12 May 2023 04:19:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683865156;
+	bh=4s4KOPxQfAXypy16Av6XmHSDrmy9tNN6WXw+g/9wnHQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=j3CJjGPpWDT7Glm2BMa065FlUj70/0FGFOkIbhxL6k16GYWlytEatJxmvyWbcJrzU
+	 F9XcUagNSHPXr1ECnP+0eifccc409/rP2vsT4zzJ0Nmb1A0Co8sWuW+Zu0V4D0oLnL
+	 nzfHLgJWhFF/5cdTYBFvhj6h+C0a8ZTDH95aeKkPVh0qQXWCKhNz6WNHpOj+ypB0pb
+	 JMZUNZcfXTD1IXEzl2J86VIFeJYZZNulmCWb/3EVWTKCknxuqzc7Ilra4bsPvbii+P
+	 GV03buZNAG3LYnZu/wDqqSHJq4H6qMmxvgJXIEiuywQc8WLc7stcG2HzXT4aIEkfd1
+	 o+40KJIsjKidg==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: asahi@lists.linux.dev, alsa-devel@alsa-project.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20230511150546.8499-1-povik+lin@cutebit.org>
+References: <20230511150546.8499-1-povik+lin@cutebit.org>
+Subject: Re: [PATCH v2 0/2] ASoC SSM3515 codec driver
+Message-Id: <168386515280.352974.12145582382045315561.b4-ty@kernel.org>
+Date: Fri, 12 May 2023 13:19:12 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: Add adi,ssm3515 amp schema
-Content-Language: en-US
-To: =?UTF-8?Q?Martin_Povi=c5=a1er?= <povik+lin@cutebit.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>,
- =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>
-Cc: asahi@lists.linux.dev, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20230511150546.8499-1-povik+lin@cutebit.org>
- <20230511150546.8499-2-povik+lin@cutebit.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20230511150546.8499-2-povik+lin@cutebit.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.13-dev-bfdf5
 
-On 11/05/2023 17:05, Martin Povišer wrote:
-> Add a DT schema for the SSM3515 amp by Analog Devices. It's a simple
-> mono amplifier with digital input.
+On Thu, 11 May 2023 17:05:44 +0200, Martin Povišer wrote:
+> Analog Devices SSM3515 is a simple speaker amp that Apple is
+> using in their 2021 iMacs, possibly elsewhere. This is a v2
+> of an ASoC driver for those, to be used with upcoming ASoC
+> support (in upstream kernels anyway) of those platforms.
 > 
-> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
-> ---
+> Martin
+> 
+> [...]
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Applied to
 
-Best regards,
-Krzysztof
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: dt-bindings: Add adi,ssm3515 amp schema
+      commit: 51208a4d303b78642c5d5b35fb9ce963a84d21d0
+[2/2] ASoC: ssm3515: Add new amp driver
+      commit: 4ac690bbae02e26e36e133becd86babb657126ef
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
