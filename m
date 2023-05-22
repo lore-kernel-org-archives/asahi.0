@@ -1,103 +1,89 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [77.93.223.253])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346281DDC7;
-	Tue, 16 May 2023 07:58:24 +0000 (UTC)
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 359491427A;
+	Mon, 22 May 2023 16:10:05 +0000 (UTC)
+Received: from 8bytes.org (p200300c2773e310086ad4f9d2505dd0d.dip0.t-ipconnect.de [IPv6:2003:c2:773e:3100:86ad:4f9d:2505:dd0d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 022691617A9;
-	Tue, 16 May 2023 09:58:20 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=none dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tesarici.cz; s=mail;
-	t=1684223901; bh=vgp/F7g/spz90YI9EAe5zEYmTaqdHJkzRNoRv0QNyqo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PiKtJUDXeLIXLILtSnIYL0BWgkz+1wtz3Skq/knjoFpezpja2UdK19+qCjZ7PudN3
-	 Y30ABlU9VOPl9n8xKjK5pH/3a8JiDL195rF6HNNpdMHP6wArDy70+Zi6x/LxqQIQlu
-	 ibT19G77KLEtOH9rfxVy+qRNl4Bzq6+qxaP4382xqIziuSKvlMU3p8RupyFg5U5W/o
-	 tFWS2oTyGYyMLRjdnCK2qeWtiHho1mdvnndZuLvLV1+H80+qAAYo8Pq83ef4A8xA4R
-	 +bQXyF5Kf4JJ/L0goFRsCBPLCj0g5AtWa0385zU9r4oMTsoeg4N3n8jhCgkY5fSenZ
-	 tDBAOVxUZcDdg==
-Date: Tue, 16 May 2023 09:58:19 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+	by mail.8bytes.org (Postfix) with ESMTPSA id 0771D2434D7;
+	Mon, 22 May 2023 18:10:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
+	s=default; t=1684771803;
+	bh=IEYacWChjS8pqW2eXYZUvSMLj48VE4JauxQLZBxYtqA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dsW1m+Y4pRxReMA3YAV1dR7xSpCrEFNRWPSoWZvvgL9y9t+B8nkXGdS5pIZgE/Mxc
+	 jDkmtQgdl3dVqv6n3e4yCwCoQwKfP4wgVU7uooQ8pyt47lwv0bvnKcPDbqciBPuGzz
+	 QflQuvzLHWoxNs4RdcEri8p72xuZLmU5YY/fJNWHmC0sEkQSGm+KOysLl+ctiUYkJ4
+	 7Qlh+elGqPq5y9QZv4ABmp2fOJsDSjiUh+6IV6ASZ54RN9zWxU/tU36JULF7zRzETM
+	 EVBM6Dq0OgEW2aYEblrwJsY5LuCTfZP55UCddCCkbSfFJKvpE/vQhuL22KcZwPL64w
+	 mMOPCB+3NQIhg==
+Date: Mon, 22 May 2023 18:10:01 +0200
+From: Joerg Roedel <joro@8bytes.org>
 To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>, Robin
- Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, Gerd Bayer
- <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>, Pierre Morel
- <pmorel@linux.ibm.com>, Alexandra Winter <wintera@linux.ibm.com>, Heiko
- Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Alexander
- Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Suravee
- Suthikulpanit <suravee.suthikulpanit@amd.com>, Hector Martin
- <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, David Woodhouse <dwmw2@infradead.org>, Lu Baolu
- <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>, Bjorn Andersson
- <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, Yong Wu
- <yong.wu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Orson Zhai
- <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan
- Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Thierry
- Reding <thierry.reding@gmail.com>, Krishna Reddy <vdumpa@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-s390@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 1/6] s390/ism: Set DMA coherent mask
-Message-ID: <20230516095819.78442f09@meshulam.tesarici.cz>
-In-Reply-To: <20230310-dma_iommu-v9-1-65bb8edd2beb@linux.ibm.com>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+	Wenjia Zhang <wenjia@linux.ibm.com>,
+	Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Julian Ruess <julianr@linux.ibm.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	Alexandra Winter <wintera@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 6/6] iommu/dma: Make flush queue sizes and timeout
+ driver configurable
+Message-ID: <ZGuT2R42SWFHmklu@8bytes.org>
 References: <20230310-dma_iommu-v9-0-65bb8edd2beb@linux.ibm.com>
-	<20230310-dma_iommu-v9-1-65bb8edd2beb@linux.ibm.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
+ <20230310-dma_iommu-v9-6-65bb8edd2beb@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230310-dma_iommu-v9-6-65bb8edd2beb@linux.ibm.com>
 
-On Mon, 15 May 2023 11:15:51 +0200
-Niklas Schnelle <schnelle@linux.ibm.com> wrote:
+On Mon, May 15, 2023 at 11:15:56AM +0200, Niklas Schnelle wrote:
+> In the s390 IOMMU driver a large fixed queue size and timeout is then
+> set together with single queue mode bringing its performance on s390
+> paged memory guests on par with the previous s390 specific DMA API
+> implementation.
 
-> A future change will convert the DMA API implementation from the
-> architecture specific arch/s390/pci/pci_dma.c to using the common code
-> drivers/iommu/dma-iommu.c which the utilizes the same IOMMU hardware
-> through the s390-iommu driver. Unlike the s390 specific DMA API this
-> requires devices to correctly call set the coherent mask to be allowed
-> to use IOVAs >2^32 in dma_alloc_coherent(). This was however not done
-> for ISM devices. ISM requires such addresses since currently the DMA
-> aperture for PCI devices starts at 2^32 and all calls to
-> dma_alloc_coherent() would thus fail.
-> 
-> Reviewed-by: Alexandra Winter <wintera@linux.ibm.com>
-> Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> ---
->  drivers/s390/net/ism_drv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/s390/net/ism_drv.c b/drivers/s390/net/ism_drv.c
-> index 8acb9eba691b..1399b5dc646c 100644
-> --- a/drivers/s390/net/ism_drv.c
-> +++ b/drivers/s390/net/ism_drv.c
-> @@ -660,7 +660,7 @@ static int ism_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	if (ret)
->  		goto err_disable;
->  
-> -	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
-> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+Hmm, the right flush-queue size and timeout settings are more a function
+of the endpoint device and device driver than of the iommu driver, no? I
+think something like this could also help solving the recently reported
+scalability problems in the fq-code, if done right.
 
-Ah. I love this change. I have already wondered a few times if the
-coherent DMA mask for this device may actually be different from
-dma_mask. Now I know. ;-)
+Regards,
 
-Thanks!
+	Joerg
 
-Petr T
