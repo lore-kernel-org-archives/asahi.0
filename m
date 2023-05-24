@@ -1,214 +1,155 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEADEEEDE;
-	Tue, 23 May 2023 13:37:18 +0000 (UTC)
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34NDSIMF005983;
-	Tue, 23 May 2023 13:36:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=z7spHrtrmZ67UDugotEBvSpqHnqw9d1kgSzqBqUyyH8=;
- b=l5uV2H3ANZt7cmqCfqUK5iS9kT0j0cD2CAjfqHTCGgJkRbP3QBIsXTwqRZt2wQX0lI/K
- uMnNa3cTxU6YXpQlj233RxDVbXdBt6Zte8kNBs8NkH75pYYPLPK24T+jobk4K/3eu+fx
- 630m5oGuTHAlOtHNoCpIsVOlatZQ1lDpZGDYSZQ21dB0kv2OGYBzIZDznKF3kSlNDvl/
- AVKMM8aBKX4IVHOwnhXMaY0Eoya6Gtmu+rqNQXi/NZOzk4gTc7Myn/AUWGR2EDDelmaJ
- y9+s0c6p3YmEAfNC7agEkSinBX8RLB52Tsd+zw/bGkU+klE60Ex065xFYNSLtemrnMkX MA== 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDA960876;
+	Wed, 24 May 2023 14:54:07 +0000 (UTC)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34OEnupv023360;
+	Wed, 24 May 2023 14:53:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : date : subject :
+ mime-version : content-type : content-transfer-encoding : message-id :
+ references : in-reply-to : to : cc; s=pp1;
+ bh=K1ceBo8oBz97cqIN7NIgj9rIYC6qSR/oJdYjykMdHW8=;
+ b=OiIL/Ca+DNz6t1Och1049chXvS8BTIoyOp8u+j3hfWG8HiaQCOK7uTza4lxLFKGVariK
+ D+snIjJJ5AhMGvdS+cGHoZvC89cyPE2QW36L/1HozGImVKq+w7WaZOiKDXaNRdgRZrh6
+ X/040RVJysgrmBJQRchJE99SVeuyIA+DbzW/GzdLBiTXZ/ALFBSgNtB+9O9xSHTXFqmu
+ gUKVj2bTaqgTNbLYqtoU1XktrQpY0FSWusUqpJuw8Ij+B2QW0TioIxDjAZv4ELeAoIHF
+ 3f6npBzij7obwzMbmOwhPgu+xPc3z0d1SX89Gjeg3I+Lp0ovttfIjF/EzIMwOrvaut7/ YQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qrws21ke0-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qsmpm01re-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 May 2023 13:36:43 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34NDSYQS009096;
-	Tue, 23 May 2023 13:36:41 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qrws21j46-1
+	Wed, 24 May 2023 14:53:28 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34OEqWC6030205;
+	Wed, 24 May 2023 14:53:27 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com [159.122.73.70])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qsmpm01qx-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 May 2023 13:36:41 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-	by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34N8atFS000463;
-	Tue, 23 May 2023 13:36:03 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3qppe097k8-1
+	Wed, 24 May 2023 14:53:27 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+	by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34OCNhYg029074;
+	Wed, 24 May 2023 14:53:25 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3qppc11nru-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 23 May 2023 13:36:03 +0000
+	Wed, 24 May 2023 14:53:24 +0000
 Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34NDZxfm14418472
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34OErLg923659020
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 23 May 2023 13:35:59 GMT
+	Wed, 24 May 2023 14:53:21 GMT
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AE48220043;
-	Tue, 23 May 2023 13:35:59 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 4544920043;
+	Wed, 24 May 2023 14:53:21 +0000 (GMT)
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7F73E2004B;
-	Tue, 23 May 2023 13:35:57 +0000 (GMT)
-Received: from [9.171.22.235] (unknown [9.171.22.235])
+	by IMSVA (Postfix) with ESMTP id 641EE2004F;
+	Wed, 24 May 2023 14:53:19 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
 	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 23 May 2023 13:35:57 +0000 (GMT)
-Message-ID: <5935f5ffdead164cfaedd067cd948d7c551a99ac.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 5/6] iommu/dma: Allow a single FQ in addition to
- per-CPU FQs
+	Wed, 24 May 2023 14:53:19 +0000 (GMT)
 From: Niklas Schnelle <schnelle@linux.ibm.com>
-To: Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-        Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
-        Wenjia Zhang <wenjia@linux.ibm.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter
- <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
- <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian
- Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle
- <svens@linux.ibm.com>,
-        Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>, Sven
- Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David
- Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Andy
- Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad
- Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias
- Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer
- <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin
- Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding
- <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan
- Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Tue, 23 May 2023 15:35:57 +0200
-In-Reply-To: <b1e53f39-5e0b-a09d-2954-cdc9e8592b67@arm.com>
-References: <20230310-dma_iommu-v9-0-65bb8edd2beb@linux.ibm.com>
-	 <20230310-dma_iommu-v9-5-65bb8edd2beb@linux.ibm.com>
-	 <b1e53f39-5e0b-a09d-2954-cdc9e8592b67@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 8LV3zvez_FivvhCrjxTltho7FnbQWNLm
-X-Proofpoint-ORIG-GUID: kjDiC2gMyraUPuAC5gMZ4Q10X1c7HWl8
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+Date: Wed, 24 May 2023 16:53:04 +0200
+Subject: [PATCH v10 1/6] s390/ism: Set DMA coherent mask
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230310-dma_iommu-v10-1-f1fbd8310854@linux.ibm.com>
+References: <20230310-dma_iommu-v10-0-f1fbd8310854@linux.ibm.com>
+In-Reply-To: <20230310-dma_iommu-v10-0-f1fbd8310854@linux.ibm.com>
+To: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
+        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Niklas Schnelle <schnelle@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.12.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1376;
+ i=schnelle@linux.ibm.com; h=from:subject:message-id;
+ bh=c2AUHQeLSNc+e1q7e31+UGNVymw7M3BeuxQZt/EM8Cs=;
+ b=owGbwMvMwCH2Wz534YHOJ2GMp9WSGFLyVO7Oj6k69bhO4HXHw/kWijMZY4Mvd21ZHVBmWrLm1
+ Qn+VRMdO0pZGMQ4GGTFFFkWdTn7rSuYYronqL8DZg4rE8gQBi5OAZjIQhmGfypBb20P+Heum/BG
+ t3W3t+LUz7ceNH98xq8a7TLH4iTX1peMDD8jFU3+hp07eXcRw/HwAxy/+y/Hq7lc8pgddNWb3a/
+ ClBUA
+X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
+ fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: tW_0F9zVMfihTA3vmlWx3bBHRxFbRoB0
+X-Proofpoint-GUID: hjqN-wxPtO6IqyJSRj_SLLQGZ-5XqL57
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-23_09,2023-05-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 adultscore=0
- mlxscore=0 suspectscore=0 lowpriorityscore=0 mlxlogscore=999 spamscore=0
- malwarescore=0 impostorscore=0 priorityscore=1501 bulkscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305230106
+ definitions=2023-05-24_09,2023-05-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ lowpriorityscore=0 adultscore=0 clxscore=1015 impostorscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305240119
 
-On Mon, 2023-05-22 at 17:26 +0100, Robin Murphy wrote:
-> On 2023-05-15 10:15, Niklas Schnelle wrote:
-> > In some virtualized environments, including s390 paged memory guests,
-> > IOTLB flushes are used to update IOMMU shadow tables. Due to this, they
-> > are much more expensive than in typical bare metal environments or
-> > non-paged s390 guests. In addition they may parallelize more poorly in
-> > virtualized environments. This changes the trade off for flushing IOVAs
-> > such that minimizing the number of IOTLB flushes trumps any benefit of
-> > cheaper queuing operations or increased paralellism.
-> >=20
-> > In this scenario per-CPU flush queues pose several problems. Firstly
-> > per-CPU memory is often quite limited prohibiting larger queues.
-> > Secondly collecting IOVAs per-CPU but flushing via a global timeout
-> > reduces the number of IOVAs flushed for each timeout especially on s390
-> > where PCI interrupts may not be bound to a specific CPU.
-> >=20
-> > Let's introduce a single flush queue mode that reuses the same queue
-> > logic but only allocates a single global queue. This mode can be
-> > selected as a flag bit in a new dma_iommu_options struct which can be
-> > modified from its defaults by IOMMU drivers implementing a new
-> > ops.tune_dma_iommu() callback. As a first user the s390 IOMMU driver
-> > selects the single queue mode if IOTLB flushes are needed on map which
-> > indicates shadow table use. With the unchanged small FQ size and
-> > timeouts this setting is worse than per-CPU queues but a follow up patch
-> > will make the FQ size and timeout variable. Together this allows the
-> > common IOVA flushing code to more closely resemble the global flush
-> > behavior used on s390's previous internal DMA API implementation.
-> >=20
-> > Link: https://lore.kernel.org/linux-iommu/3e402947-61f9-b7e8-1414-fde00=
-6257b6f@arm.com/
-> > Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com> #s390
-> > Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> > ---
-> >   drivers/iommu/dma-iommu.c  | 163 ++++++++++++++++++++++++++++++++++--=
----------
-> >   drivers/iommu/dma-iommu.h  |   4 +-
-> >   drivers/iommu/iommu.c      |  18 +++--
-> >   drivers/iommu/s390-iommu.c |  10 +++
-> >   include/linux/iommu.h      |  21 ++++++
-> >   5 files changed, 169 insertions(+), 47 deletions(-)
-> >=20
----8<---
-> >=20=20=20
-> > +/**
-> > + * struct dma_iommu_options - Options for dma-iommu
-> > + *
-> > + * @flags: Flag bits for enabling/disabling dma-iommu settings
-> > + *
-> > + * This structure is intended to provide IOMMU drivers a way to influe=
-nce the
-> > + * behavior of the dma-iommu DMA API implementation. This allows optim=
-izing for
-> > + * example for a virtualized environment with slow IOTLB flushes.
-> > + */
-> > +struct dma_iommu_options {
-> > +#define IOMMU_DMA_OPTS_PER_CPU_QUEUE	(0L << 0)
-> > +#define IOMMU_DMA_OPTS_SINGLE_QUEUE	(1L << 0)
-> > +	u64	flags;
-> > +};
->=20
-> I think for now this can just use a bit in dev_iommu to indicate that=20
-> the device will prefer a global flush queue; s390 can set that in=20
-> .probe_device, then iommu_dma_init_domain() can propagate it to an=20
-> equivalent flag in the cookie (possibly even a new cookie type?) that=20
-> iommu_dma_init_fq() can then consume. Then just make the s390 parameters=
-=20
-> from patch #6 the standard parameters for a global queue.
->=20
-> Thanks,
-> Robin.
+A future change will convert the DMA API implementation from the
+architecture specific arch/s390/pci/pci_dma.c to using the common code
+drivers/iommu/dma-iommu.c which the utilizes the same IOMMU hardware
+through the s390-iommu driver. Unlike the s390 specific DMA API this
+requires devices to correctly set the coherent mask to be allowed to use
+IOVAs >2^32 in dma_alloc_coherent(). This was however not done for ISM
+devices. ISM requires such addresses since currently the DMA aperture
+for PCI devices starts at 2^32 and all calls to dma_alloc_coherent()
+would thus fail.
 
-Working on this now. How about I move the struct dma_iommu_options
-definition into dma-iommu.c keeping it as part of struct
-iommu_dma_cookie. That way we can still have the flags, timeout and
-queue size organized the same but internal to dma-iommu.c. We then set
-them in iommu_dma_init_domain() triggered by a "shadow_on_flush" flag
-in struct dev_iommu. That way we can keep most of the same code but
-only add a single flag as external interface. The flag would also be an
-explicit fact about a distinctly IOMMU device thing just stating that
-the IOTLB flushes do extra shadowing work. This leaves the decision to
-then use a longer timeout and queue size within the responsibility of
-dma-iommu.c. I think that's overall a better match of responsibilities.
+Reviewed-by: Alexandra Winter <wintera@linux.ibm.com>
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+---
+ drivers/s390/net/ism_drv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Niklas
+diff --git a/drivers/s390/net/ism_drv.c b/drivers/s390/net/ism_drv.c
+index 8acb9eba691b..1399b5dc646c 100644
+--- a/drivers/s390/net/ism_drv.c
++++ b/drivers/s390/net/ism_drv.c
+@@ -660,7 +660,7 @@ static int ism_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (ret)
+ 		goto err_disable;
+ 
+-	ret = dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
++	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+ 	if (ret)
+ 		goto err_resource;
+ 
+
+-- 
+2.39.2
+
