@@ -1,526 +1,216 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCE618AF6;
-	Wed, 24 May 2023 15:25:39 +0000 (UTC)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34OEcweZ019842;
-	Wed, 24 May 2023 14:53:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : date : subject :
- content-type : message-id : references : in-reply-to : to : cc :
- content-transfer-encoding : mime-version; s=pp1;
- bh=IzlxeNo78UMt0Yrgh7QG59mKw5LdQg1V3BHRX+E+AeM=;
- b=l0QWBpPnYmfJUiKNOz40SGzUCp7l+++pwHWkoRiNEZFBkkLtqZD2XrXJ4/t1XoVugiNb
- K+chUMfagPGrlhYdCgmuqjlIv7+1xphl8+FCO6DJ+Hx39/00JI8mhFn2qnqugrnNPH87
- /I5dEOhPONw3PRIQrRd7QyEvvlzwmFO7cL23GyXqU1KDEGP+nT9LA5uAy2fVDwv41sdS
- uawxVz6EnZu5v8Wl8t30/Ppt4dRzupmYSVW43LrWI0MpCy0n4+iEXQVy9jJ/R79GjPUg
- w4PRYYsPz/X8adIQitf/NIS+IeCC4vxX4HCVj/0HWyLsivZNaNUiZLVbe8JGxDG56tlg MA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qskj5atry-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 May 2023 14:53:34 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 34OE7RWC016702;
-	Wed, 24 May 2023 14:53:33 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qskj5atqb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 May 2023 14:53:33 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
-	by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34O3jGU7024243;
-	Wed, 24 May 2023 14:53:30 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3qppdk20y3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 May 2023 14:53:30 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34OErQ9r21758572
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 24 May 2023 14:53:26 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BD62E20040;
-	Wed, 24 May 2023 14:53:26 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 140A920043;
-	Wed, 24 May 2023 14:53:26 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 24 May 2023 14:53:26 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-Date: Wed, 24 May 2023 16:53:08 +0200
-Subject: [PATCH v10 5/6] iommu/dma: Allow a single FQ in addition to
- per-CPU FQs
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20230310-dma_iommu-v10-5-f1fbd8310854@linux.ibm.com>
-References: <20230310-dma_iommu-v10-0-f1fbd8310854@linux.ibm.com>
-In-Reply-To: <20230310-dma_iommu-v10-0-f1fbd8310854@linux.ibm.com>
-To: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.12.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12259;
- i=schnelle@linux.ibm.com; h=from:subject:message-id;
- bh=0QcjXKngai77hyfAd6D7hoyzqbWl6/AojhUTh2oTVAs=;
- b=owGbwMvMwCH2Wz534YHOJ2GMp9WSGFLyVO595d96aG7hXUX5cIuTT4OXu0b2lkwWiptaKnnvR
- fKTpzOndJSyMIhxMMiKKbIs6nL2W1cwxXRPUH8HzBxWJpAhDFycAjARLylGhkvN7j67njHo7qrY
- 8pKB+YXpQw3++jdd+6+qf1wcpMW4kJfhn9321m+m358K5jVI7JFZ+JVzphbDx8VOd69xVuz/snl
- CHi8A
-X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
- fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: kwIkx5r8cOOeQkibODrmrvpFFf2h2GU9
-X-Proofpoint-ORIG-GUID: CYlIz4mswF_IIjYnDmdq2P48RZli0V62
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4010539B
+	for <asahi@lists.linux.dev>; Thu,  1 Jun 2023 07:33:51 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1q4coI-0002fI-SS; Thu, 01 Jun 2023 09:33:26 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1q4coF-004Iia-Ri; Thu, 01 Jun 2023 09:33:23 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1q4coF-00A54n-3w; Thu, 01 Jun 2023 09:33:23 +0200
+Date: Thu, 1 Jun 2023 09:33:22 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Thor Thayer <thor.thayer@linux.intel.com>,
+	Elie Morisse <syniurge@gmail.com>,
+	Shyam Sundar S K <shyam-sundar.s-k@amd.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	ye xingchen <ye.xingchen@zte.com.cn>,
+	Krzysztof Adamski <krzysztof.adamski@nokia.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Allison Randal <allison@lohutok.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Wolfram Sang <wsa@kernel.org>, Kamal Dasu <kdasu.kdev@gmail.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jochen Friedrich <jochen@scram.de>,
+	Benson Leung <bleung@chromium.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Baruch Siach <baruch@tkos.co.il>,
+	Jean-Marie Verdun <verdun@hpe.com>,
+	Nick Hawkins <nick.hawkins@hpe.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Oleksij Rempel <linux@rempel-privat.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Chris Pringle <chris.pringle@phabrix.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Julia Lawall <Julia.Lawall@inria.fr>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Khalil Blaiech <kblaiech@nvidia.com>,
+	Asmaa Mnebhi <asmaa@nvidia.com>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Michael Shych <michaelsh@nvidia.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	Qii Wang <qii.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Stefan Roese <sr@denx.de>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Peter Korsgaard <peter@korsgaard.com>, Andrew Lunn <andrew@lunn.ch>,
+	Robert Richter <rric@kernel.org>, Tony Lindgren <tony@atomide.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Vignesh R <vigneshr@ti.com>, Michael Ellerman <mpe@ellerman.id.au>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Rob Herring <robh@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Loic Poulain <loic.poulain@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jim Cromie <jim.cromie@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Wei Chen <harperchen1110@gmail.com>,
+	George Cherian <gcherian@marvell.com>,
+	Peter Rosin <peda@axentia.se>,
+	Peter Korsgaard <peter.korsgaard@barco.com>,
+	linux-aspeed@lists.ozlabs.org,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Jan Dabros <jsd@semihalf.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Guenter Roeck <groeck@chromium.org>,
+	linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	chrome-platform@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+	Benjamin Fair <benjaminfair@google.com>,
+	linux-rockchip@lists.infradead.org, openbmc@lists.ozlabs.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nancy Yuen <yuenn@google.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-sunxi@lists.linux.dev, Joel Stanley <joel@jms.id.au>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-arm-msm@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-omap@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	linux-arm-kernel@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	Patrick Venture <venture@google.com>, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Dmitry Osipenko <digetx@gmail.com>, asahi@lists.linux.dev,
+	kernel@pengutronix.de, linuxppc-dev@lists.ozlabs.org,
+	linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 00/89] i2c: Convert to platform remove callback returning
+ void
+Message-ID: <20230601073322.ww25ajaurktqsryr@pengutronix.de>
+References: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-24_09,2023-05-24_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
- malwarescore=0 clxscore=1015 priorityscore=1501 mlxlogscore=828
- spamscore=0 adultscore=0 suspectscore=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2304280000 definitions=main-2305240119
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t3p72aozx6nadzgj"
+Content-Disposition: inline
+In-Reply-To: <20230508205306.1474415-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
-In some virtualized environments, including s390 paged memory guests,
-IOTLB flushes are used to update IOMMU shadow tables. Due to this, they
-are much more expensive than in typical bare metal environments or
-non-paged s390 guests. In addition they may parallelize poorly in
-virtualized environments. This changes the trade off for flushing IOVAs
-such that minimizing the number of IOTLB flushes trumps any benefit of
-cheaper queuing operations or increased paralellism.
 
-In this scenario per-CPU flush queues pose several problems. Firstly
-per-CPU memory is often quite limited prohibiting larger queues.
-Secondly collecting IOVAs per-CPU but flushing via a global timeout
-reduces the number of IOVAs flushed for each timeout especially on s390
-where PCI interrupts may not be bound to a specific CPU.
+--t3p72aozx6nadzgj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Let's introduce a single flush queue mode that reuses the same queue
-logic but only allocates a single global queue. This mode is selected by
-dma-iommu if a newly introduced .shadow_on_flush flag is set in struct
-dev_iommu. As a first user the s390 IOMMU driver sets this flag during
-probe_device. With the unchanged small FQ size and timeouts this setting
-is worse than per-CPU queues but a follow up patch will make the FQ size
-and timeout variable. Together this allows the common IOVA flushing code
-to more closely resemble the global flush behavior used on s390's
-previous internal DMA API implementation.
+[Dropped Phil Edworthy from recipents as his email address has problems]
 
-Link: https://lore.kernel.org/linux-iommu/3e402947-61f9-b7e8-1414-fde006257b6f@arm.com/
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com> #s390
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- drivers/iommu/dma-iommu.c  | 177 ++++++++++++++++++++++++++++++++++-----------
- drivers/iommu/iommu.c      |  20 +----
- drivers/iommu/s390-iommu.c |   3 +
- include/linux/iommu.h      |   2 +
- 4 files changed, 142 insertions(+), 60 deletions(-)
+Hello,
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 7a9f0b0bddbd..85f629769b42 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -43,14 +43,23 @@ enum iommu_dma_cookie_type {
- 	IOMMU_DMA_MSI_COOKIE,
- };
- 
-+struct dma_iommu_options {
-+#define IOMMU_DMA_OPTS_PER_CPU_QUEUE	0L
-+#define IOMMU_DMA_OPTS_SINGLE_QUEUE	BIT(0)
-+	u64	flags;
-+};
-+
- struct iommu_dma_cookie {
- 	enum iommu_dma_cookie_type	type;
- 	union {
- 		/* Full allocator for IOMMU_DMA_IOVA_COOKIE */
- 		struct {
- 			struct iova_domain	iovad;
--
--			struct iova_fq __percpu *fq;	/* Flush queue */
-+			/* Flush queue */
-+			union {
-+				struct iova_fq	*single_fq;
-+				struct iova_fq	__percpu *percpu_fq;
-+			};
- 			/* Number of TLB flushes that have been started */
- 			atomic64_t		fq_flush_start_cnt;
- 			/* Number of TLB flushes that have been finished */
-@@ -67,6 +76,8 @@ struct iommu_dma_cookie {
- 
- 	/* Domain for flush queue callback; NULL if flush queue not in use */
- 	struct iommu_domain		*fq_domain;
-+	/* Options for dma-iommu use */
-+	struct dma_iommu_options	options;
- 	struct mutex			mutex;
- };
- 
-@@ -124,7 +135,7 @@ static inline unsigned int fq_ring_add(struct iova_fq *fq)
- 	return idx;
- }
- 
--static void fq_ring_free(struct iommu_dma_cookie *cookie, struct iova_fq *fq)
-+static void fq_ring_free_locked(struct iommu_dma_cookie *cookie, struct iova_fq *fq)
- {
- 	u64 counter = atomic64_read(&cookie->fq_flush_finish_cnt);
- 	unsigned int idx;
-@@ -145,6 +156,15 @@ static void fq_ring_free(struct iommu_dma_cookie *cookie, struct iova_fq *fq)
- 	}
- }
- 
-+static void fq_ring_free(struct iommu_dma_cookie *cookie, struct iova_fq *fq)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&fq->lock, flags);
-+	fq_ring_free_locked(cookie, fq);
-+	spin_unlock_irqrestore(&fq->lock, flags);
-+}
-+
- static void fq_flush_iotlb(struct iommu_dma_cookie *cookie)
- {
- 	atomic64_inc(&cookie->fq_flush_start_cnt);
-@@ -152,23 +172,29 @@ static void fq_flush_iotlb(struct iommu_dma_cookie *cookie)
- 	atomic64_inc(&cookie->fq_flush_finish_cnt);
- }
- 
-+static void fq_flush_percpu(struct iommu_dma_cookie *cookie)
-+{
-+	int cpu;
-+
-+	for_each_possible_cpu(cpu) {
-+		struct iova_fq *fq;
-+
-+		fq = per_cpu_ptr(cookie->percpu_fq, cpu);
-+		fq_ring_free(cookie, fq);
-+	}
-+}
-+
- static void fq_flush_timeout(struct timer_list *t)
- {
- 	struct iommu_dma_cookie *cookie = from_timer(cookie, t, fq_timer);
--	int cpu;
- 
- 	atomic_set(&cookie->fq_timer_on, 0);
- 	fq_flush_iotlb(cookie);
- 
--	for_each_possible_cpu(cpu) {
--		unsigned long flags;
--		struct iova_fq *fq;
--
--		fq = per_cpu_ptr(cookie->fq, cpu);
--		spin_lock_irqsave(&fq->lock, flags);
--		fq_ring_free(cookie, fq);
--		spin_unlock_irqrestore(&fq->lock, flags);
--	}
-+	if (cookie->options.flags & IOMMU_DMA_OPTS_SINGLE_QUEUE)
-+		fq_ring_free(cookie, cookie->single_fq);
-+	else
-+		fq_flush_percpu(cookie);
- }
- 
- static void queue_iova(struct iommu_dma_cookie *cookie,
-@@ -188,7 +214,11 @@ static void queue_iova(struct iommu_dma_cookie *cookie,
- 	 */
- 	smp_mb();
- 
--	fq = raw_cpu_ptr(cookie->fq);
-+	if (cookie->options.flags & IOMMU_DMA_OPTS_SINGLE_QUEUE)
-+		fq = cookie->single_fq;
-+	else
-+		fq = raw_cpu_ptr(cookie->percpu_fq);
-+
- 	spin_lock_irqsave(&fq->lock, flags);
- 
- 	/*
-@@ -196,11 +226,11 @@ static void queue_iova(struct iommu_dma_cookie *cookie,
- 	 * flushed out on another CPU. This makes the fq_full() check below less
- 	 * likely to be true.
- 	 */
--	fq_ring_free(cookie, fq);
-+	fq_ring_free_locked(cookie, fq);
- 
- 	if (fq_full(fq)) {
- 		fq_flush_iotlb(cookie);
--		fq_ring_free(cookie, fq);
-+		fq_ring_free_locked(cookie, fq);
- 	}
- 
- 	idx = fq_ring_add(fq);
-@@ -219,31 +249,90 @@ static void queue_iova(struct iommu_dma_cookie *cookie,
- 			  jiffies + msecs_to_jiffies(IOVA_FQ_TIMEOUT));
- }
- 
--static void iommu_dma_free_fq(struct iommu_dma_cookie *cookie)
-+static void iommu_dma_free_fq_single(struct iova_fq *fq)
-+{
-+	int idx;
-+
-+	if (!fq)
-+		return;
-+	fq_ring_for_each(idx, fq)
-+		put_pages_list(&fq->entries[idx].freelist);
-+	vfree(fq);
-+}
-+
-+static void iommu_dma_free_fq_percpu(struct iova_fq __percpu *percpu_fq)
- {
- 	int cpu, idx;
- 
--	if (!cookie->fq)
--		return;
--
--	del_timer_sync(&cookie->fq_timer);
- 	/* The IOVAs will be torn down separately, so just free our queued pages */
- 	for_each_possible_cpu(cpu) {
--		struct iova_fq *fq = per_cpu_ptr(cookie->fq, cpu);
-+		struct iova_fq *fq = per_cpu_ptr(percpu_fq, cpu);
- 
- 		fq_ring_for_each(idx, fq)
- 			put_pages_list(&fq->entries[idx].freelist);
- 	}
- 
--	free_percpu(cookie->fq);
-+	free_percpu(percpu_fq);
-+}
-+
-+static void iommu_dma_free_fq(struct iommu_dma_cookie *cookie)
-+{
-+	if (!cookie->fq_domain)
-+		return;
-+
-+	del_timer_sync(&cookie->fq_timer);
-+	if (cookie->options.flags & IOMMU_DMA_OPTS_SINGLE_QUEUE)
-+		iommu_dma_free_fq_single(cookie->single_fq);
-+	else
-+		iommu_dma_free_fq_percpu(cookie->percpu_fq);
-+}
-+
-+static void iommu_dma_init_one_fq(struct iova_fq *fq)
-+{
-+	int i;
-+
-+	fq->head = 0;
-+	fq->tail = 0;
-+
-+	spin_lock_init(&fq->lock);
-+
-+	for (i = 0; i < IOVA_FQ_SIZE; i++)
-+		INIT_LIST_HEAD(&fq->entries[i].freelist);
-+}
-+
-+static int iommu_dma_init_fq_single(struct iommu_dma_cookie *cookie)
-+{
-+	struct iova_fq *queue;
-+
-+	queue = vzalloc(sizeof(*queue));
-+	if (!queue)
-+		return -ENOMEM;
-+	iommu_dma_init_one_fq(queue);
-+	cookie->single_fq = queue;
-+
-+	return 0;
-+}
-+
-+static int iommu_dma_init_fq_percpu(struct iommu_dma_cookie *cookie)
-+{
-+	struct iova_fq __percpu *queue;
-+	int cpu;
-+
-+	queue = alloc_percpu(struct iova_fq);
-+	if (!queue)
-+		return -ENOMEM;
-+
-+	for_each_possible_cpu(cpu)
-+		iommu_dma_init_one_fq(per_cpu_ptr(queue, cpu));
-+	cookie->percpu_fq = queue;
-+	return 0;
- }
- 
- /* sysfs updates are serialised by the mutex of the group owning @domain */
- int iommu_dma_init_fq(struct iommu_domain *domain)
- {
- 	struct iommu_dma_cookie *cookie = domain->iova_cookie;
--	struct iova_fq __percpu *queue;
--	int i, cpu;
-+	int rc;
- 
- 	if (cookie->fq_domain)
- 		return 0;
-@@ -251,26 +340,16 @@ int iommu_dma_init_fq(struct iommu_domain *domain)
- 	atomic64_set(&cookie->fq_flush_start_cnt,  0);
- 	atomic64_set(&cookie->fq_flush_finish_cnt, 0);
- 
--	queue = alloc_percpu(struct iova_fq);
--	if (!queue) {
-+	if (cookie->options.flags & IOMMU_DMA_OPTS_SINGLE_QUEUE)
-+		rc = iommu_dma_init_fq_single(cookie);
-+	else
-+		rc = iommu_dma_init_fq_percpu(cookie);
-+
-+	if (rc) {
- 		pr_warn("iova flush queue initialization failed\n");
- 		return -ENOMEM;
- 	}
- 
--	for_each_possible_cpu(cpu) {
--		struct iova_fq *fq = per_cpu_ptr(queue, cpu);
--
--		fq->head = 0;
--		fq->tail = 0;
--
--		spin_lock_init(&fq->lock);
--
--		for (i = 0; i < IOVA_FQ_SIZE; i++)
--			INIT_LIST_HEAD(&fq->entries[i].freelist);
--	}
--
--	cookie->fq = queue;
--
- 	timer_setup(&cookie->fq_timer, fq_flush_timeout, 0);
- 	atomic_set(&cookie->fq_timer_on, 0);
- 	/*
-@@ -297,6 +376,7 @@ static struct iommu_dma_cookie *cookie_alloc(enum iommu_dma_cookie_type type)
- 	if (cookie) {
- 		INIT_LIST_HEAD(&cookie->msi_page_list);
- 		cookie->type = type;
-+		cookie->options.flags = IOMMU_DMA_OPTS_PER_CPU_QUEUE;
- 	}
- 	return cookie;
- }
-@@ -585,9 +665,18 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
- 	if (ret)
- 		goto done_unlock;
- 
--	/* If the FQ fails we can simply fall back to strict mode */
--	if (domain->type == IOMMU_DOMAIN_DMA_FQ && iommu_dma_init_fq(domain))
--		domain->type = IOMMU_DOMAIN_DMA;
-+	if (domain->type == IOMMU_DOMAIN_DMA_FQ) {
-+		/* Expensive shadowing IOTLB flushes require some tuning */
-+		if (dev->iommu->shadow_on_flush)
-+			cookie->options.flags |= IOMMU_DMA_OPTS_SINGLE_QUEUE;
-+
-+		/* If the FQ fails we can simply fall back to strict mode */
-+		if (iommu_dma_init_fq(domain)) {
-+			domain->type = IOMMU_DOMAIN_DMA;
-+			if (dev->iommu->shadow_on_flush)
-+				cookie->options.flags &= ~IOMMU_DMA_OPTS_SINGLE_QUEUE;
-+		}
-+	}
- 
- 	ret = iova_reserve_iommu_regions(dev, domain);
- 
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 51f816367205..f1dcfa3f1a1b 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2440,17 +2440,8 @@ int iommu_map(struct iommu_domain *domain, unsigned long iova,
- 		return -EINVAL;
- 
- 	ret = __iommu_map(domain, iova, paddr, size, prot, gfp);
--	if (ret == 0 && ops->iotlb_sync_map) {
--		ret = ops->iotlb_sync_map(domain, iova, size);
--		if (ret)
--			goto out_err;
--	}
--
--	return ret;
--
--out_err:
--	/* undo mappings already done */
--	iommu_unmap(domain, iova, size);
-+	if (ret == 0 && ops->iotlb_sync_map)
-+		ops->iotlb_sync_map(domain, iova, size);
- 
- 	return ret;
- }
-@@ -2591,11 +2582,8 @@ ssize_t iommu_map_sg(struct iommu_domain *domain, unsigned long iova,
- 			sg = sg_next(sg);
- 	}
- 
--	if (ops->iotlb_sync_map) {
--		ret = ops->iotlb_sync_map(domain, iova, mapped);
--		if (ret)
--			goto out_err;
--	}
-+	if (ops->iotlb_sync_map)
-+		ops->iotlb_sync_map(domain, iova, mapped);
- 	return mapped;
- 
- out_err:
-diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
-index 71b177910eec..7b58ffda372c 100644
---- a/drivers/iommu/s390-iommu.c
-+++ b/drivers/iommu/s390-iommu.c
-@@ -467,6 +467,9 @@ static struct iommu_device *s390_iommu_probe_device(struct device *dev)
- 	if (zdev->end_dma > ZPCI_TABLE_SIZE_RT - 1)
- 		zdev->end_dma = ZPCI_TABLE_SIZE_RT - 1;
- 
-+	if (zdev->tlb_refresh)
-+		dev->iommu->shadow_on_flush = 1;
-+
- 	return &zdev->iommu_dev;
- }
- 
-diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-index 58891eddc2c4..258e6f238ffa 100644
---- a/include/linux/iommu.h
-+++ b/include/linux/iommu.h
-@@ -403,6 +403,7 @@ struct iommu_fault_param {
-  * @priv:	 IOMMU Driver private data
-  * @max_pasids:  number of PASIDs this device can consume
-  * @attach_deferred: the dma domain attachment is deferred
-+ * @shadow_on_flush: IOTLB flushes are used to sync shadow tables
-  *
-  * TODO: migrate other per device data pointers under iommu_dev_data, e.g.
-  *	struct iommu_group	*iommu_group;
-@@ -416,6 +417,7 @@ struct dev_iommu {
- 	void				*priv;
- 	u32				max_pasids;
- 	u32				attach_deferred:1;
-+	u32				shadow_on_flush:1;
- };
- 
- int iommu_device_register(struct iommu_device *iommu,
+On Mon, May 08, 2023 at 10:51:37PM +0200, Uwe Kleine-K=F6nig wrote:
+> this series convers the drivers below drivers/i2c to the .remove_new()
+> callback of struct platform_driver(). The motivation is to make the
+> remove callback less prone for errors and wrong assumptions. See commit
+> 5c5a7680e67b ("platform: Provide a remove callback that returns no
+> value") for a more detailed rationale.
+>=20
+> All but one driver already returned zero unconditionally in their
+> .remove() callback, so converting them to .remove_new() is trivial.
+> i2c-davinci has two patches in this series, first the error path is
+> improved to not return an error code, then it's converted as the others
+> drivers are.
+>=20
+> The two davinci patches are also the only interdependency in this
+> series. I was unsure if I should split the series in two, the busses and
+> the mux changes; if convenient these can be applied independent of each
+> other.
 
--- 
-2.39.2
+I wonder how this series will go in. My expectation was that Wolfram
+picks up the whole series via his tree?!
 
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--t3p72aozx6nadzgj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmR4ScIACgkQj4D7WH0S
+/k5tFwgAlOnFyNSd/y+RTxXNPFfhdLDFrGmy0vVlKgNWr54rj45mpn2vKbWNVNMh
+uHJkfu86+59kw2Z0mV0P0MetDeJReqHGuXrjQe87Pkus+gNIQ6yV0pH5TFAVpTxR
+eD04UBlV5+o939pFIOX+jBdeGDvPcSeECFfwxplSVVvUU6jJ6g0LiCDNdn6eNxHD
+g2Dnl8SpsU1t5iM62pyjZlBoscqvjfFiBCGdT80CmYeMPJM5UnBEdJOmpybfa8Ce
+scJdDvHFUP2jh1LC+0RQ43raxUyZon0Lie6tT6IbAoOXUiTqpcZ6NOhyobMzOcHq
+FIkEZoeC8nKcmthV7foaEY5TgzmK+w==
+=LLVA
+-----END PGP SIGNATURE-----
+
+--t3p72aozx6nadzgj--
