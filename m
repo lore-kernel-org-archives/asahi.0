@@ -1,43 +1,42 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4303FC8E6
-	for <asahi@lists.linux.dev>; Fri,  7 Jul 2023 14:04:49 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2b6f52e1c5cso30064301fa.1
-        for <asahi@lists.linux.dev>; Fri, 07 Jul 2023 07:04:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0F419BB2
+	for <asahi@lists.linux.dev>; Tue, 11 Jul 2023 14:21:11 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4fba74870abso8664047e87.0
+        for <asahi@lists.linux.dev>; Tue, 11 Jul 2023 07:21:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688738687; x=1691330687;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4sXML62c+yFPRbDSYafRH6BnTPPBo1FmIeRXiEVvoz4=;
-        b=g98aymrYA8zDV231rNQrnKVclgn0H4N2GuKBHsDELfkIsb0QnjTG+ctQIIUKnsWp4j
-         KmOS6OWL/v9qyQ4XJd6FfjVwDiWnrqc2pKx7o5isTpnv0fAnu1u9EMhCx1rKcOai/T+A
-         NidHb/FTvnfSgxVZkDobhZULe2O2ZFb9+zsDrGAWHovltbC/H05f3+0PZIjGEZX8JjI4
-         NpJOBLsouVPK1cC0stSkPj8pngbmsepUrwZF9KqXyd+tvMfPo/mXiH9KrglvOu8U0KT7
-         riRdun6q9E1utBztnSJHShXUjHwCMwxUVms9fnYEAWlaQh7GqRbESAqE8ssFQiHxIuBK
-         ldNQ==
+        d=linaro.org; s=google; t=1689085269; x=1691677269;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SXan3BQLOGVU26VVDfqibPbUTvNWRP/07Lp3Hf/FNck=;
+        b=v+mHN2SVEnVJcp3xHqHG4HYw8/3PwR4fx8NCBXEa4ESvoRFJpL6xL3/oOrCK+4bHcS
+         0QKprE5NuH69UOGgpfDZO2rvk7qZf40rVc1W/UV31uUX+PEQHhmbfkxi2jYn2DqSN1pa
+         83bG1WtxP5Y6hV9TgjbTBF/avWfYYbyN9YyGKSXr5g4LzTiaMf55q5wUjNqZrXxgz6mr
+         yfwcmOGQ0Pbgrl3s6/rRUCvRZKkS5rgGJCG9bKCrxjVeIWuiRN4SNKSkm3t0CJGZXhGc
+         NssgB1bWmpNYpCbJeZtNChbQvQagUJMW/acuu37jr9a3SKllDiF2rHY+5ZDcPlzr59zH
+         qY7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688738687; x=1691330687;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4sXML62c+yFPRbDSYafRH6BnTPPBo1FmIeRXiEVvoz4=;
-        b=j8WaWxyKNN4tbbvbZfoyfn4htBTPAIM9JV5aTENAypC5h4jGjsYBsDQrxrAPMPVPmv
-         oWsBNg1f4M/08nK/1h+bk3QSaIjdNhtfNf0/vkq6WshChV1dN4zchK0kN2hK3Az1IJQU
-         5sOBJYsZLh6q7F2MaPv77JZ6/l4I8KjiefFKuf71vH3h9NfbNOjj73Kc86XDl9Hi69TG
-         waOc5EzKGC7hxebe1gACntkezYK/ICwiJCRwnEpprOdQuFtOyA9WWxGKa634SPFe+Sta
-         6iQ5zOD50F34Usz3q8WxqJw4J4mFiM+XHHgPGbyihttW/RdNf1R8xjRT/Lr095oi21y4
-         6o1g==
-X-Gm-Message-State: ABy/qLZACx2nzD+5x4uaNmvW/ADvZe1f5uYLT8WQjefrOaqT2zE+ZcCb
-	BSd4J52RosZq5GA/H1O5FWn6tw==
-X-Google-Smtp-Source: APBJJlFJRHcHjPxKIKBEsHDjPcXRyoiBK2mBftJUZjn4Ch6s3fn8Za1if7mpBpiPudhx2Cm45tyKyA==
-X-Received: by 2002:a2e:a0d7:0:b0:2b6:e536:a2a3 with SMTP id f23-20020a2ea0d7000000b002b6e536a2a3mr4569253ljm.19.1688738687256;
-        Fri, 07 Jul 2023 07:04:47 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1689085269; x=1691677269;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SXan3BQLOGVU26VVDfqibPbUTvNWRP/07Lp3Hf/FNck=;
+        b=YPMyj56dD3pxTd8U64urkOUe4A6cCQGxCHy+7jnOLSYaea1Tx5+0hXBnkXPLluedA+
+         Y6MgKDl2U01lfyeExafK5uPNW/zdP7Zbo6/TtIRlNZplsYMPMCGb207kbcSbleo36Jgz
+         LeE1GRTzZGudwItJtAf04dcwWaTPuVAjUzxkNUkyIUp3yKCe7i8AHAe1UGL2rJZf310H
+         IsR0OU+7JuxIOByHfR7/PpLv4EJ0Fza4IqFjthYPeqk853eMwJqsctXuDSAO6nx8ifsv
+         /XIck2r3G18X4hRuJKgZrzJC5CPdALOydRCna/fWIIpEKgeab9cP4odJXPTjhtLIvikS
+         /nog==
+X-Gm-Message-State: ABy/qLY5c9RNSvh08MV0/5w0lrsGNL5T5ZjNu6DL25Nm++MAcKR2KCoT
+	y6lTNq1N7BsrDpWrIIvtVgoqHE4WMrarnYmH4v0=
+X-Google-Smtp-Source: APBJJlF/tD2PTLs1zZYNjcNoPQ6bP2DE1k5mx9xYe5Ulksm+zK79IQNLAEUlrHt6/v+3TKR4FlVmoQ==
+X-Received: by 2002:a05:6512:b99:b0:4f8:68a3:38d5 with SMTP id b25-20020a0565120b9900b004f868a338d5mr16890335lfv.66.1689085249578;
+        Tue, 11 Jul 2023 07:20:49 -0700 (PDT)
 Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
-        by smtp.gmail.com with ESMTPSA id u21-20020a2e8555000000b002b6cb25e3f1sm760341ljj.108.2023.07.07.07.04.46
+        by smtp.gmail.com with ESMTPSA id j14-20020ac2550e000000b004f9fdb0ed8esm333145lfk.304.2023.07.11.07.20.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 07:04:46 -0700 (PDT)
+        Tue, 11 Jul 2023 07:20:49 -0700 (PDT)
 From: Ulf Hansson <ulf.hansson@linaro.org>
 To: Arnd Bergmann <arnd@arndb.de>,
 	Olof Johansson <olof@lixom.net>
@@ -49,12 +48,10 @@ Cc: Ulf Hansson <ulf.hansson@linaro.org>,
 	Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev
-Subject: [PATCH 04/18] soc: apple: Move power-domain driver to the genpd dir
-Date: Fri,  7 Jul 2023 16:04:20 +0200
-Message-Id: <20230707140434.723349-5-ulf.hansson@linaro.org>
+Subject: [PATCH v2 04/18] soc: apple: Move power-domain driver to the genpd dir
+Date: Tue, 11 Jul 2023 16:20:45 +0200
+Message-Id: <20230711142045.751570-1-ulf.hansson@linaro.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230707140434.723349-1-ulf.hansson@linaro.org>
-References: <20230707140434.723349-1-ulf.hansson@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -62,6 +59,10 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+
+To simplify with maintenance let's move the apple power-domain driver to
+the new genpd directory. Going forward, patches are intended to be managed
+through a separate git tree, according to MAINTAINERS.
 
 Cc: Hector Martin <marcan@marcan.st>
 Cc: Sven Peter <sven@svenpeter.dev>
@@ -79,7 +80,7 @@ Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
  rename drivers/{soc/apple/apple-pmgr-pwrstate.c => genpd/apple/pmgr-pwrstate.c} (100%)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 9b8c9ae2375d..98a6847c8c3b 100644
+index ab583b8c5b97..caa221fd0c11 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
 @@ -1904,6 +1904,7 @@ F:	drivers/bluetooth/hci_bcm4377.c
@@ -112,15 +113,15 @@ similarity index 100%
 rename from drivers/soc/apple/apple-pmgr-pwrstate.c
 rename to drivers/genpd/apple/pmgr-pwrstate.c
 diff --git a/drivers/soc/apple/Makefile b/drivers/soc/apple/Makefile
-index 20feee6f3943..302ec8184535 100644
+index e293770cf66d..b241e6a65e5b 100644
 --- a/drivers/soc/apple/Makefile
 +++ b/drivers/soc/apple/Makefile
 @@ -1,6 +1,4 @@
  # SPDX-License-Identifier: GPL-2.0-only
 -obj-$(CONFIG_APPLE_PMGR_PWRSTATE)	+= apple-pmgr-pwrstate.o
 -
- obj-$(CONFIG_APPLE_MAILBOX) += apple-mailbox.o
- apple-mailbox-y = mailbox.o
+ obj-$(CONFIG_APPLE_RTKIT) += apple-rtkit.o
+ apple-rtkit-y = rtkit.o rtkit-crashlog.o
  
 -- 
 2.34.1
