@@ -1,128 +1,58 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0F419BB2
-	for <asahi@lists.linux.dev>; Tue, 11 Jul 2023 14:21:11 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4fba74870abso8664047e87.0
-        for <asahi@lists.linux.dev>; Tue, 11 Jul 2023 07:21:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689085269; x=1691677269;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SXan3BQLOGVU26VVDfqibPbUTvNWRP/07Lp3Hf/FNck=;
-        b=v+mHN2SVEnVJcp3xHqHG4HYw8/3PwR4fx8NCBXEa4ESvoRFJpL6xL3/oOrCK+4bHcS
-         0QKprE5NuH69UOGgpfDZO2rvk7qZf40rVc1W/UV31uUX+PEQHhmbfkxi2jYn2DqSN1pa
-         83bG1WtxP5Y6hV9TgjbTBF/avWfYYbyN9YyGKSXr5g4LzTiaMf55q5wUjNqZrXxgz6mr
-         yfwcmOGQ0Pbgrl3s6/rRUCvRZKkS5rgGJCG9bKCrxjVeIWuiRN4SNKSkm3t0CJGZXhGc
-         NssgB1bWmpNYpCbJeZtNChbQvQagUJMW/acuu37jr9a3SKllDiF2rHY+5ZDcPlzr59zH
-         qY7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689085269; x=1691677269;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SXan3BQLOGVU26VVDfqibPbUTvNWRP/07Lp3Hf/FNck=;
-        b=YPMyj56dD3pxTd8U64urkOUe4A6cCQGxCHy+7jnOLSYaea1Tx5+0hXBnkXPLluedA+
-         Y6MgKDl2U01lfyeExafK5uPNW/zdP7Zbo6/TtIRlNZplsYMPMCGb207kbcSbleo36Jgz
-         LeE1GRTzZGudwItJtAf04dcwWaTPuVAjUzxkNUkyIUp3yKCe7i8AHAe1UGL2rJZf310H
-         IsR0OU+7JuxIOByHfR7/PpLv4EJ0Fza4IqFjthYPeqk853eMwJqsctXuDSAO6nx8ifsv
-         /XIck2r3G18X4hRuJKgZrzJC5CPdALOydRCna/fWIIpEKgeab9cP4odJXPTjhtLIvikS
-         /nog==
-X-Gm-Message-State: ABy/qLY5c9RNSvh08MV0/5w0lrsGNL5T5ZjNu6DL25Nm++MAcKR2KCoT
-	y6lTNq1N7BsrDpWrIIvtVgoqHE4WMrarnYmH4v0=
-X-Google-Smtp-Source: APBJJlF/tD2PTLs1zZYNjcNoPQ6bP2DE1k5mx9xYe5Ulksm+zK79IQNLAEUlrHt6/v+3TKR4FlVmoQ==
-X-Received: by 2002:a05:6512:b99:b0:4f8:68a3:38d5 with SMTP id b25-20020a0565120b9900b004f868a338d5mr16890335lfv.66.1689085249578;
-        Tue, 11 Jul 2023 07:20:49 -0700 (PDT)
-Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
-        by smtp.gmail.com with ESMTPSA id j14-20020ac2550e000000b004f9fdb0ed8esm333145lfk.304.2023.07.11.07.20.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jul 2023 07:20:49 -0700 (PDT)
-From: Ulf Hansson <ulf.hansson@linaro.org>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFAE1F959
+	for <asahi@lists.linux.dev>; Wed, 12 Jul 2023 12:25:44 +0000 (UTC)
+From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
+	t=1689164175; bh=+zOGmx788boa/WYXZXSHp10404gZAezs3tbSbvOFB78=;
+	h=From:To:Cc:Subject:Date;
+	b=BF176sWh4JM2x4jua53SLTlTaPARQF0ojuXmYrv9uAmkjpOYD5SEQjqgqBUdRa7k+
+	 UfVMB8eg56f96s9vLZ8J8Ook3eMiAZ1GbuCV5ENtGFG/ySGPUb5EfePufHvt05BauU
+	 MTIXM46AYN89Tg6O68FePXWW6Zgmc9R7Q8eRZsYo=
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: asahi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev
-Subject: [PATCH v2 04/18] soc: apple: Move power-domain driver to the genpd dir
-Date: Tue, 11 Jul 2023 16:20:45 +0200
-Message-Id: <20230711142045.751570-1-ulf.hansson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+Subject: [PATCH] MAINTAINERS: Redo addition of ssm3515 to APPLE SOUND
+Date: Wed, 12 Jul 2023 14:15:56 +0200
+Message-Id: <20230712121556.93500-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-To simplify with maintenance let's move the apple power-domain driver to
-the new genpd directory. Going forward, patches are intended to be managed
-through a separate git tree, according to MAINTAINERS.
+The MAINTAINERS entries added in commit 4ac690bbae02 ("ASoC: ssm3515:
+Add new amp driver") were later erased in a merge commit. Re-add those.
 
-Cc: Hector Martin <marcan@marcan.st>
-Cc: Sven Peter <sven@svenpeter.dev>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: <asahi@lists.linux.dev>
-Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Mark Brown <broonie@kernel.org>
+Fixes: af53b00fa3ac ("Merge tag 'v6.4-rc2' into asoc-6.5 to get fixes for CI")
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
 ---
- MAINTAINERS                                                     | 1 +
- drivers/genpd/Makefile                                          | 1 +
- drivers/genpd/apple/Makefile                                    | 2 ++
- .../apple/apple-pmgr-pwrstate.c => genpd/apple/pmgr-pwrstate.c} | 0
- drivers/soc/apple/Makefile                                      | 2 --
- 5 files changed, 4 insertions(+), 2 deletions(-)
- create mode 100644 drivers/genpd/apple/Makefile
- rename drivers/{soc/apple/apple-pmgr-pwrstate.c => genpd/apple/pmgr-pwrstate.c} (100%)
+ MAINTAINERS | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index ab583b8c5b97..caa221fd0c11 100644
+index 3be1bdfe8ecc..be7e662c653b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1904,6 +1904,7 @@ F:	drivers/bluetooth/hci_bcm4377.c
- F:	drivers/clk/clk-apple-nco.c
- F:	drivers/cpufreq/apple-soc-cpufreq.c
- F:	drivers/dma/apple-admac.c
-+F:	drivers/genpd/apple/
- F:	drivers/i2c/busses/i2c-pasemi-core.c
- F:	drivers/i2c/busses/i2c-pasemi-platform.c
- F:	drivers/iommu/apple-dart.c
-diff --git a/drivers/genpd/Makefile b/drivers/genpd/Makefile
-index cdba3b9f0c75..91d4a3808981 100644
---- a/drivers/genpd/Makefile
-+++ b/drivers/genpd/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- obj-y					+= actions/
- obj-y					+= amlogic/
-+obj-y					+= apple/
-diff --git a/drivers/genpd/apple/Makefile b/drivers/genpd/apple/Makefile
-new file mode 100644
-index 000000000000..53665af630be
---- /dev/null
-+++ b/drivers/genpd/apple/Makefile
-@@ -0,0 +1,2 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+obj-$(CONFIG_APPLE_PMGR_PWRSTATE)	+= pmgr-pwrstate.o
-diff --git a/drivers/soc/apple/apple-pmgr-pwrstate.c b/drivers/genpd/apple/pmgr-pwrstate.c
-similarity index 100%
-rename from drivers/soc/apple/apple-pmgr-pwrstate.c
-rename to drivers/genpd/apple/pmgr-pwrstate.c
-diff --git a/drivers/soc/apple/Makefile b/drivers/soc/apple/Makefile
-index e293770cf66d..b241e6a65e5b 100644
---- a/drivers/soc/apple/Makefile
-+++ b/drivers/soc/apple/Makefile
-@@ -1,6 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--obj-$(CONFIG_APPLE_PMGR_PWRSTATE)	+= apple-pmgr-pwrstate.o
--
- obj-$(CONFIG_APPLE_RTKIT) += apple-rtkit.o
- apple-rtkit-y = rtkit.o rtkit-crashlog.o
+@@ -1865,9 +1865,11 @@ M:	Martin Povišer <povik+lin@cutebit.org>
+ L:	asahi@lists.linux.dev
+ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+ S:	Maintained
++F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
+ F:	Documentation/devicetree/bindings/sound/apple,*
+ F:	sound/soc/apple/*
+ F:	sound/soc/codecs/cs42l83-i2c.c
++F:	sound/soc/codecs/ssm3515.c
  
+ ARM/APPLE MACHINE SUPPORT
+ M:	Hector Martin <marcan@marcan.st>
 -- 
-2.34.1
+2.38.3
 
