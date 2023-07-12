@@ -1,23 +1,27 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFAE1F959
-	for <asahi@lists.linux.dev>; Wed, 12 Jul 2023 12:25:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5596D2AB4F
+	for <asahi@lists.linux.dev>; Wed, 12 Jul 2023 13:38:12 +0000 (UTC)
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1689164175; bh=+zOGmx788boa/WYXZXSHp10404gZAezs3tbSbvOFB78=;
+	t=1689169090; bh=9EOsQhAYQoUHrxxW1o4tOwQwmHnRQW2U6mF0UYSSSzM=;
 	h=From:To:Cc:Subject:Date;
-	b=BF176sWh4JM2x4jua53SLTlTaPARQF0ojuXmYrv9uAmkjpOYD5SEQjqgqBUdRa7k+
-	 UfVMB8eg56f96s9vLZ8J8Ook3eMiAZ1GbuCV5ENtGFG/ySGPUb5EfePufHvt05BauU
-	 MTIXM46AYN89Tg6O68FePXWW6Zgmc9R7Q8eRZsYo=
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
+	b=eTM5xnnz3rQZ/KuptxBnqUJbtMSzL7q1JgVdE213d2Pyu+QPqJ+Ght27fhIg3OTJU
+	 N+aWLP/326GePEWx4LkSLz5n+DScz2WoA30A4TgxpNqAkYLVAF1R3JoFMx+Bt3/YoE
+	 L/itxbqcX0i1ICEXFEQ4Qt/tS1peqOrYvPb2yrag=
+To: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
 Cc: asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-Subject: [PATCH] MAINTAINERS: Redo addition of ssm3515 to APPLE SOUND
-Date: Wed, 12 Jul 2023 14:15:56 +0200
-Message-Id: <20230712121556.93500-1-povik+lin@cutebit.org>
+	dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Apple SIO driver
+Date: Wed, 12 Jul 2023 15:38:04 +0200
+Message-Id: <20230712133806.4450-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -27,32 +31,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The MAINTAINERS entries added in commit 4ac690bbae02 ("ASoC: ssm3515:
-Add new amp driver") were later erased in a merge commit. Re-add those.
+Hi all,
 
-Cc: Mark Brown <broonie@kernel.org>
-Fixes: af53b00fa3ac ("Merge tag 'v6.4-rc2' into asoc-6.5 to get fixes for CI")
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+see attached a driver for the SIO coprocessor found on recent Apple
+SoCs. This coprocessor provides general DMA services, it can feed
+many peripherals but so far it seems it will only be useful for
+audio output over HDMI/DisplayPort. So the driver here only supports
+the DMA_CYCLIC mode of transactions with the focus being on audio.
+There's a downstream prototype ALSA driver the DMA driver is being
+tested against.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3be1bdfe8ecc..be7e662c653b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1865,9 +1865,11 @@ M:	Martin Povišer <povik+lin@cutebit.org>
- L:	asahi@lists.linux.dev
- L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
- S:	Maintained
-+F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
- F:	Documentation/devicetree/bindings/sound/apple,*
- F:	sound/soc/apple/*
- F:	sound/soc/codecs/cs42l83-i2c.c
-+F:	sound/soc/codecs/ssm3515.c
- 
- ARM/APPLE MACHINE SUPPORT
- M:	Hector Martin <marcan@marcan.st>
+Some of the boilerplate code in implementing the dmaengine interface
+was lifted from apple-admac.c. Among other things these two drivers
+have in common that they implement the DMA_CYCLIC regime on top of
+hardware/coprocessor layer supporting linear transactions only.
+
+The binding schema saw two RFC rounds before and has a reviewed-by
+from Rob.
+https://lore.kernel.org/asahi/167693643966.613996.10372170526471864080.robh@kernel.org
+
+Best regards,
+Martin
+
+Martin Povišer (2):
+  dt-bindings: dma: apple,sio: Add schema
+  dmaengine: apple-sio: Add Apple SIO driver
+
+ .../devicetree/bindings/dma/apple,sio.yaml    | 111 ++
+ MAINTAINERS                                   |   2 +
+ drivers/dma/Kconfig                           |  10 +
+ drivers/dma/Makefile                          |   1 +
+ drivers/dma/apple-sio.c                       | 956 ++++++++++++++++++
+ 5 files changed, 1080 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/dma/apple,sio.yaml
+ create mode 100644 drivers/dma/apple-sio.c
+
 -- 
 2.38.3
 
