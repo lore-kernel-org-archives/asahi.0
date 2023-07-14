@@ -1,27 +1,27 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F139A13700
-	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 12:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9053713700;
+	Fri, 14 Jul 2023 12:20:45 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id E69225BC3A;
-	Fri, 14 Jul 2023 12:13:18 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 5BCE45BC3A;
+	Fri, 14 Jul 2023 12:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1689336801;
-	bh=DWYGMsjKYj46JY4sKn+xsGrKzmhqcYG/7k01RE2MggE=;
+	s=default; t=1689337243;
+	bh=q12Qwj+UFcN/hmM9dyysrsMJNXrCP5EuxwmiEGdWI7E=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RNhUBcX3s0W+Zvu0qcG7y44YsnhK7RpOcztyyvrMh4jUpqdIFUVdsaAtArdvI1kvF
-	 dDnG9Olp8Gy2TsoGTNCL+gDNa2Gw005Qp90wuziuT4GFdKqu5atYBh0k92rJ8CaCem
-	 XklwuamNyNKzIhLkHHTkx4hOhA4OvR70m3hKOxwQgKV7w+AUDpmMjVfiItubxZv6TQ
-	 8qxRm3K1ajK/2drxgdAttjR3J5mfWIlw66+Taag37MLlrZkYdwOnPOJzdgwMcLZeKW
-	 pOtvcCgo4y+pwtfCIVXjlwysoirNNJfRqUHJsMMxwSGFjFTTCKdt8DTT301ONw5dfJ
-	 232IHUwkNx4GA==
-Message-ID: <7e53bc1f-7d1e-fb1c-be45-f03c5bbb8965@asahilina.net>
-Date: Fri, 14 Jul 2023 21:13:16 +0900
+	b=dGoxRgj4JUtxeGGNaBqKEc54nT4JcDtePc4VRm5fhtcYMtYe5mRAHViK6uxX+SYOP
+	 FKqiOewThyJJMVmuZy4v9+bvPZAGwflij8DGkuyDt53SM0uSOD5Wly/7DOQ0hjv5QX
+	 IRllewRErO3nCmmx4QQHeogtx2exf/owP1ucRFL3ICH7k+zvKVewAPBWVE/tRSUZzw
+	 GGOqhMznaH1mrnwV0G9Hgbfw3ZnhxzAUBRf+sxpih2Jlj0M4/mi/r3T1tXObKkJqBf
+	 rUOpznp47PQwSA9ZVN+JHs5+Y3l1/Hzn33ORXVNf1wKJOzkhKr/cyIV6sSK3t+ubCd
+	 SgsfFDNHmbynw==
+Message-ID: <f974e5a4-1211-5ad7-4864-f3e210499e5e@asahilina.net>
+Date: Fri, 14 Jul 2023 21:20:35 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -30,194 +30,95 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.11.0
-Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
+Subject: Re: [PATCH RFC 00/11] rust: Implicit lock class creation & Arc
+ Lockdep integration
 Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
- <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
- <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
- <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
- <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
- <6b473196-9f87-d6c8-b289-18f80de78f0a@asahilina.net>
- <003eb810-654e-3a2b-0756-d62440c2d419@amd.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: alex.gaynor@gmail.com, alyssa@rosenzweig.io, asahi@lists.linux.dev,
+ benno.lossin@proton.me, bjorn3_gh@protonmail.com, boqun.feng@gmail.com,
+ daniel@ffwll.ch, gary@garyguo.net, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev, marcan@marcan.st,
+ masahiroy@kernel.org, nathan@kernel.org, ndesaulniers@google.com,
+ nicolas@fjasle.eu, ojeda@kernel.org, rust-for-linux@vger.kernel.org,
+ sven@svenpeter.dev, trix@redhat.com, wedsonaf@gmail.com
+References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
+ <20230714101337.2193665-1-aliceryhl@google.com>
 From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <003eb810-654e-3a2b-0756-d62440c2d419@amd.com>
+In-Reply-To: <20230714101337.2193665-1-aliceryhl@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 14/07/2023 19.18, Christian König wrote:
-> Am 14.07.23 um 12:06 schrieb Asahi Lina:
->> On 14/07/2023 18.57, Christian König wrote:
->>> Am 14.07.23 um 11:49 schrieb Asahi Lina:
->>>> On 14/07/2023 17.43, Christian König wrote:
->>>>> Am 14.07.23 um 10:21 schrieb Asahi Lina:
->>>>>> A signaled scheduler fence can outlive its scheduler, since fences
->>>>>> are
->>>>>> independencly reference counted. Therefore, we can't reference the
->>>>>> scheduler in the get_timeline_name() implementation.
->>>>>>
->>>>>> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
->>>>>> dma-bufs reference fences from GPU schedulers that no longer exist.
->>>>>>
->>>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>>>>> ---
->>>>>>      drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
->>>>>>      drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
->>>>>>      include/drm/gpu_scheduler.h              | 5 +++++
->>>>>>      3 files changed, 14 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>> b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>> index b2bbc8a68b30..17f35b0b005a 100644
->>>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>> @@ -389,7 +389,12 @@ static bool
->>>>>> drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->>>>>>                 /*
->>>>>>               * Fence is from the same scheduler, only need to wait
->>>>>> for
->>>>>> -         * it to be scheduled
->>>>>> +         * it to be scheduled.
->>>>>> +         *
->>>>>> +         * Note: s_fence->sched could have been freed and
->>>>>> reallocated
->>>>>> +         * as another scheduler. This false positive case is okay,
->>>>>> as if
->>>>>> +         * the old scheduler was freed all of its jobs must have
->>>>>> +         * signaled their completion fences.
->>>>>
->>>>> This is outright nonsense. As long as an entity for a scheduler exists
->>>>> it is not allowed to free up this scheduler.
->>>>>
->>>>> So this function can't be called like this.
->>>>
->>>> As I already explained, the fences can outlive their scheduler. That
->>>> means *this* entity certainly exists for *this* scheduler, but the
->>>> *dependency* fence might have come from a past scheduler that was
->>>> already destroyed along with all of its entities, and its address
->>>> reused.
->>>
->>> Well this is function is not about fences, this function is a callback
->>> for the entity.
+On 14/07/2023 19.13, Alice Ryhl wrote:
+> Asahi Lina <lina@asahilina.net> writes:
+>> Begone, lock classes!
 >>
->> That deals with dependency fences, which could have come from any
->> arbitrary source, including another entity and another scheduler.
+>> As discussed in meetings/etc, we would really like to support implicit
+>> lock class creation for Rust code. Right now, lock classes are created
+>> using macros and passed around (similar to C). Unfortunately, Rust
+>> macros don't look like Rust functions, which means adding lockdep to a
+>> type is a breaking API change. This makes Rust mutex creation rather
+>> ugly, with the new_mutex!() macro and friends.
+>>
+>> Implicit lock classes have to be unique per instantiation code site.
+>> Notably, with Rust generics and monomorphization, this is not the same
+>> as unique per generated code instance. If this weren't the case, we
+>> could use inline functions and asm!() magic to try to create lock
+>> classes that have the right uniqueness semantics. But that doesn't work,
+>> since it would create too many lock classes for the same actual lock
+>> creation in the source code.
+>>
+>> But Rust does have one trick we can use: it can track the caller
+>> location (as file:line:column), across multiple functions. This works
+>> using an implicit argument that gets passed around, which is exactly the
+>> thing we do for lock classes. The tricky bit is that, while the value of
+>> these Location objects has the semantics we want (unique value per
+>> source code location), there is no guarantee that they are deduplicated
+>> in memory.
+>>
+>> So we use a hash table, and map Location values to lock classes. Et
+>> voila, implicit lock class support!
+>>
+>> This lets us clean up the Mutex & co APIs and make them look a lot more
+>> Rust-like, but it also means we can now throw Lockdep into more APIs
+>> without breaking the API. And so we can pull a neat trick: adding
+>> Lockdep support into Arc<T>. This catches cases where the Arc Drop
+>> implementation could create a locking correctness violation only when
+>> the reference count drops to 0 at that particular drop site, which is
+>> otherwise not detectable unless that condition actually happens at
+>> runtime. Since Drop is "magic" in Rust and Drop codepaths very difficult
+>> to audit, this helps a lot.
+>>
+>> For the initial RFC, this implements the new API only for Mutex. If this
+>> looks good, I can extend it to CondVar & friends in the next version.
+>> This series also folds in a few related minor dependencies / changes
+>> (like the pin_init mutex stuff).
 > 
-> No, they can't. Signaling is certainly mandatory to happen before things
-> are released even if we allow to decouple the dma_fence from it's issuer.
-
-That's exactly what I'm saying in my comment. That the fence must be 
-signaled if its creator no longer exists, therefore it's okay to 
-inadvertently wait on its scheduled fence instead of its finished fence 
-(if that one was intended) since everything needs to be signaled at that 
-point anyway.
-
->>
->>>>
->>>> Christian, I'm really getting tired of your tone. I don't appreciate
->>>> being told my comments are "outright nonsense" when you don't even
->>>> take the time to understand what the issue is and what I'm trying to
->>>> do/document. If you aren't interested in working with me, I'm just
->>>> going to give up on drm_sched, wait until Rust gets workqueue support,
->>>> and reimplement it in Rust. You can keep your broken fence lifetime
->>>> semantics and I'll do my own thing.
->>>
->>> I'm certainly trying to help here, but you seem to have unrealistic
->>> expectations.
->>
->> I don't think expecting not to be told my changes are "outright
->> nonsense" is an unrealistic expectation. If you think it is, maybe
->> that's yet another indicator of the culture problems the kernel
->> community has...
+> I'm not convinced that this is the right compromise. Moving lockdep
+> class creation to runtime sounds unfortunate, especially since this
+> makes them fallible due to memory allocations (I think?).
 > 
-> Well I'm just pointing out that you don't seem to understand the
-> background of the things and just think this is a bug instead of
-> intentional behavior.
+> I would be inclined to keep using macros for this.
 
-I made a change, I explained why that change works with a portion of the 
-existing code by updating a comment, and you called that nonsense. It's 
-not even a bug, I'm trying to explain why this part isn't a bug even 
-with the expectation that fences don't outlive the scheduler. This is 
-because I went through the code trying to find problems this approach 
-would cause, ran into this tricky case, thought about it for a while, 
-realized it wasn't a problem, and figured it needed a comment.
+Most people were very enthusiastic about this change in the meetings... 
+it wasn't even my own idea ^^
 
->>> I perfectly understand what you are trying to do, but you don't seem to
->>> understand that this functionality here isn't made for your use case.
->>
->> I do, that's why I'm trying to change things. Right now, this
->> functionality isn't even properly documented, which is why I thought
->> it could be used for my use case, and slowly discovered otherwise.
->> Daniel suggested documenting it, then fixing the mismatches between
->> documentation and reality, which is what I'm doing here.
-> 
-> Well I know Daniel for something like 10-15 years or so, I'm pretty sure
-> that he meant that you document the existing state because otherwise
-> this goes against usual patch submission approaches.
-> 
->>
->>> We can adjust the functionality to better match your requirements, but
->>> you can't say it is broken because it doesn't work when you use it not
->>> in the way it is intended to be used.
->>
->> I'm saying the idea that a random dma-buf holds onto a chain of
->> references that prevents unloading a driver module that wrote into it
->> (and keeps a bunch of random unrelated objects alive) is a broken
->> state of affairs.
-> 
-> Well no, this is intentional design. Otherwise the module and with it
-> the operations pointer the fences rely on go away.
+I don't think the fallibility is an issue. Lockdep is a debugging tool, 
+and it doesn't have to handle all possible circumstances perfectly. If 
+you are debugging normal lock issues you probably shouldn't be running 
+out of RAM, and if you are debugging OOM situations the lock keys would 
+normally have been created long before you reach an OOM situation, since 
+they would be created the first time a relevant lock class is used. More 
+objects of the same class don't cause any more allocations. And the code 
+has a fallback for the OOM case, where it just uses the Location object 
+as a static lock class. That's not ideal and degrades the quality of the 
+lockdep results, but it shouldn't completely break anything.
 
-But this is a drm_sched fence, not a driver fence. That's the point, 
-that they should be decoupled. The driver is free to unload and only 
-drm_sched would need to stay loaded so its fences continue to be valid. 
-Except that's not what happens right now. Right now the drm_sched fence 
-hangs onto the hw fence and the whole thing is supposed to keep the 
-whole scheduler alive for things not to go boom.
-
-> We already discussed
-> that over 10 years ago when Marten came up with the initial dma_fence
-> design.
-> 
-> The resulting problems are very well known and I completely agree that
-> they are undesirable, but this is how the framework works and not just
-> the scheduler but the rest of the DMA-buf framework as well.
-
-So it's undesirable but you don't want me to change things...
-
-> 
->> It may or may not trickle down to actual problems for users (I would
->> bet it does in some cases but I don't know for sure), but it's a
->> situation that doesn't make any sense.
->>
->> I know I'm triggering actual breakage with my new use case due to
->> this, which is why I'm trying to improve things. But the current state
->> of affairs just doesn't make any sense even if it isn't causing kernel
->> oopses today with other drivers.
->>
->>> You can go ahead and try to re-implement the functionality in Rust, but
->>> then I would reject that pointing out that this should probably be an
->>> extension to the existing code.
->>
->> You keep rejecting my attempts at extending the existing code...
-> 
-> Well I will try to improve here and push you into the right direction
-> instead.
-
-What is the right direction?
-
-So far it's looking more and more like wait until we get workqueues in 
-Rust, write a trivial scheduler in the driver, and give up on this whole 
-drm_sched thing. Please tell me if there is a better way, because so far 
-all you've done is tell me my attempts are not the right way, and 
-demotivated me from working on drm_sched at all.
+The advantages of being able to throw lockdep checking into arbitrary 
+types, like the Arc<T> thing, are pretty significant. It closes a major 
+correctness checking issue we have with Rust and its automagic Drop 
+implementations that are almost impossible to properly audit for 
+potential locking issues. I think that alone makes this worth it, even 
+if you don't use it for normal mutex creation...
 
 ~~ Lina
 
