@@ -1,381 +1,672 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465D31549B
-	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 17:16:10 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-52164adea19so941299a12.1
-        for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 10:16:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689354968; x=1691946968;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r2RXNekYfM5171RgGB71xpzycQCjffPM2bUadpzvdYM=;
-        b=kY/0v+8unNJQcfq5G4tka0qTrueA3NR7SZbTQflBgHhr9g09QpGjiK78+3Uhb6BqHU
-         ckweVFmcxBY8DVkL0GNCuQ9XyFWGKAo4c+2bHPGyLAT1m5xe5uQyAJH0nTYYyQ2I/a1O
-         EvNaBkvoHnY5VyoNjDswB3Ba+yjnrQDQLVi+foHbDEmUevCPnJMMZ6mupxdhxpDqu+jP
-         bA4+DE7TbJAxLRtbo7qfS7J1mRsaXE5vJ1fZ4GQxPCCqnwUxUx372QY9BpffHLNYZZwP
-         3u75uiHJ7cxfjxHBg3n7bgyyC4WTNr0PgSlaynoEZPLhMfAFOUBmJ/KhKtxzsO8BJiK5
-         a41g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BC9A14A83;
+	Fri, 14 Jul 2023 17:44:39 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7836164a08aso89038139f.1;
+        Fri, 14 Jul 2023 10:44:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689354968; x=1691946968;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r2RXNekYfM5171RgGB71xpzycQCjffPM2bUadpzvdYM=;
-        b=fKP4RkcU72BJ4gCxd87t5K8xH/3jIfpbHY7SFcgMteJ+yuEzZdz5AdOTtqR0V+EQ3Q
-         cuALAQdHXiNJbI1AD7liWRLmqIKr8JDJK5uHzYTYZBAiFWdvB+ZM8/CeGj16Ud6ez+IX
-         6lQksW75DGgKt4drPtzg2z75uc/gFq3ElcmaHeYyQsSyxOULZO3PwllCbydyzKSUz8te
-         2jfrOCVyn11HS8NvThH0Ydnd6EbzhLuoaPojT52TDJNf1RvGPNOQjUCtm0O2atpAkSo4
-         U1cWzTbekVWyHGcxOzzKvdwYzzjN+95Xnczh9FfUxdlNxWXkb+ksXCFn/mXIEROQVQ4p
-         Sw/Q==
-X-Gm-Message-State: ABy/qLYIftqO9E1Ae0WCBl7xhrtHRKYEihFu4OZsDP0fhQpD3REkpQWa
-	c8I173FoFIFouXVlOtSYVPM=
-X-Google-Smtp-Source: APBJJlFLC6kFNEtpH6puqR796JdKyi+W0W5hMTNHayoZCKJ9vd9Ezy1JD4td+bxuWPimRwVkekS7HA==
-X-Received: by 2002:a17:906:841:b0:991:cfce:7a09 with SMTP id f1-20020a170906084100b00991cfce7a09mr3864728ejd.67.1689354967936;
-        Fri, 14 Jul 2023 10:16:07 -0700 (PDT)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id cw13-20020a170906c78d00b0098748422178sm5630042ejb.56.2023.07.14.10.16.05
+        d=1e100.net; s=20221208; t=1689356678; x=1691948678;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VtjcGGt85IZMCa+mEEA7O0gZ6wqolQXg/0SyxtwNezE=;
+        b=Ibm/p3GoREbcGk3+5W5tzCu/x1Mb/+j+Gm/yG5TDfABwVw9ZcVKPR2wshFrGoGe7WG
+         yG7OgK4jJ3dJcyl7ybIjTFSLOQF3/QX8GZCm3ZuOYQE4VVUwz668OhQaFeYdooQ/GQ66
+         FhXPx2WR+9e3VRkznzGX5IEUqcUTSg/ZaXlZ8GnEe603ykJdU8cKMRq/LacJ09Hd9u8Q
+         DdLTqUq7qwhfO+MxKubQkZ+6MhgyNiapKF1dVRlQVvMpzmr9GmwnmMtgCDM+fkrwcvDh
+         +I4nLjUqOhJwuENba9+BAFO7uCPnIAENnfcMsT/DXZAuOevJJYDWSN0k4cAbQErZAL//
+         wYiA==
+X-Gm-Message-State: ABy/qLZFkGEuwOjxHyAFUUjHMdtH8HOr4pg5854QT6CzSggBi6qXKsJF
+	4R8YjOCLc99uVdfy2RC3DQ==
+X-Google-Smtp-Source: APBJJlGQtIflGF1mT3Lwdz2E7oxJQCR+E1W9CJR407r7zma02hoqOmUhTsVE3Jg4rsZdBeQyxbHKsQ==
+X-Received: by 2002:a6b:902:0:b0:786:98bd:66d4 with SMTP id t2-20020a6b0902000000b0078698bd66d4mr5912011ioi.15.1689356678173;
+        Fri, 14 Jul 2023 10:44:38 -0700 (PDT)
+Received: from robh_at_kernel.org ([64.188.179.250])
+        by smtp.gmail.com with ESMTPSA id m17-20020a02cdd1000000b0042bc199556dsm2811774jap.21.2023.07.14.10.44.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jul 2023 10:16:07 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailauth.nyi.internal (Postfix) with ESMTP id 1746A27C005C;
-	Fri, 14 Jul 2023 13:16:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 14 Jul 2023 13:16:05 -0400
-X-ME-Sender: <xms:04KxZCID6QkDcWQn3gkVwhjFPTnoHp-GxQ-gHjQwlQRcx4zoWwZRZA>
-    <xme:04KxZKL9VDjmrijoIe3HccSHl6Uw7hApzH3bCkRx2CHQYN_3M75Of5YcC6lCg8XWn
-    qoashTWVDmDHehhwA>
-X-ME-Received: <xmr:04KxZCvix5wArhaXEF8Si9GdacDSr0pgIB5bAqJwnoJG-5_uMYCJibUoIHc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrfeeigdduudduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhu
-    nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
-    htthgvrhhnpeffleejleehveelteeltedugffhhedvkefgvdehfeeiffeihfeigfdvtdeu
-    hfdtteenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhenuc
-    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhn
-    odhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejje
-    ekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhn
-    rghmvg
-X-ME-Proxy: <xmx:04KxZHZa1WQpui9cc9r6sV0JMYXPjXV5dWe5_oOYe7pjHcutNhe4fQ>
-    <xmx:04KxZJZMKZO27ZRC_VLeBpVMPPyM5o5A_vvRzA97TPYYDPMro_ydKQ>
-    <xmx:04KxZDD8kvJAhSMI91zO2atGV8Enx4_ZRqyvy-hg7H-9qQDNLxeJZQ>
-    <xmx:1IKxZPz1DkENhY7hLVEGBMW5WHAbFRZx5PLQOE7LQFfZzdiPe8EJ7g>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 14 Jul 2023 13:16:03 -0400 (EDT)
-Date: Fri, 14 Jul 2023 10:15:59 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	John Stultz <jstultz@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Stephen Boyd <sboyd@kernel.org>, Josh Stone <jistone@redhat.com>,
-	Gaelan Steele <gbs@canishe.com>,
-	Heghedus Razvan <heghedus.razvan@protonmail.com>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH v2] rust: time: New module for timekeeping functions
-Message-ID: <ZLGCz00r9T0LfEbC@boqun-archlinux>
-References: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
+        Fri, 14 Jul 2023 10:44:37 -0700 (PDT)
+Received: (nullmailer pid 4054684 invoked by uid 1000);
+	Fri, 14 Jul 2023 17:44:33 -0000
+From: Rob Herring <robh@kernel.org>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Vinod Koul <vkoul@kernel.org>, 
+	Ludovic Desroches <ludovic.desroches@microchip.com>, Tudor Ambarus <tudor.ambarus@linaro.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
+	Viresh Kumar <vireshk@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Li Yang <leoyang.li@nxp.com>, Zhang Wei <zw@zh-kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Sean Wang <sean.wang@mediatek.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Sinan Kaya <okaya@kernel.org>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Laxman Dewangan <ldewangan@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+	Michal Simek <michal.simek@amd.com>
+Cc: devicetree@vger.kernel.org, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: [PATCH] dmaengine: Explicitly include correct DT includes
+Date: Fri, 14 Jul 2023 11:44:28 -0600
+Message-Id: <20230714174430.4054533-1-robh@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 14, 2023 at 04:55:01PM +0900, Asahi Lina wrote:
-> This module is intended to contain functions related to kernel
-> timekeeping and time.
-> 
-> Initially, this implements an abstraction for a time Instant (analogous
-> to the Rust std::time::Instant) that represents an opaque instant in
-> time. Unlike the std Instant, this is a generic type that is bound to a
-> specific clock source, so that only Instants from the same clock source
-> can be subtracted/compared.
-> 
-> Then we implement the relevant clocks available to the kernel:
-> KernelTime (CLOCK_MONOTONIC), BootTime (CLOCK_BOOTTIME),
-> RealTime (CLOCK_REALTIME), and TaiTime.
-> 
-> Co-developed-by: Heghedus Razvan <heghedus.razvan@protonmail.com>
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
-> 
-> Based on the feedback to v1, now we have proper type checking for kernel
-> time. I decided to implement marker traits for monotonic vs. wallclock
-> time sources, since it's useful to be able to safely implement different
-> semantics conditional on that, but that left me with a name conflict of
-> the Monotonic trait with the CLOCK_MONOTONIC / "default ktime" clock
-> source. I ended up calling it KernelTime since it's the most fundamental
-> kernel timesource, but suggestions welcome!
-> 
-> Heghedus: I think I need a signoff on this since this is based on the
-> playground demo you wrote in the feedback to v1. Can you provide that? I
-> can fold it into v3 (if there is one, otherwise Miguel can probably just
-> add it when he applies it). Thanks!
-> ---
->  rust/bindings/bindings_helper.h |   2 +
->  rust/helpers.c                  |  16 +++++
->  rust/kernel/lib.rs              |   1 +
->  rust/kernel/time.rs             | 150 ++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 169 insertions(+)
-> 
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-> index 3e601ce2548d..eddfdf887364 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -8,9 +8,11 @@
->  
->  #include <linux/errname.h>
->  #include <linux/slab.h>
-> +#include <linux/ktime.h>
->  #include <linux/refcount.h>
->  #include <linux/wait.h>
->  #include <linux/sched.h>
-> +#include <linux/timekeeping.h>
->  
->  /* `bindgen` gets confused at certain things. */
->  const gfp_t BINDINGS_GFP_KERNEL = GFP_KERNEL;
-> diff --git a/rust/helpers.c b/rust/helpers.c
-> index bb594da56137..eff092302e23 100644
-> --- a/rust/helpers.c
-> +++ b/rust/helpers.c
-> @@ -26,6 +26,7 @@
->  #include <linux/mutex.h>
->  #include <linux/spinlock.h>
->  #include <linux/sched/signal.h>
-> +#include <linux/timekeeping.h>
->  #include <linux/wait.h>
->  
->  __noreturn void rust_helper_BUG(void)
-> @@ -135,6 +136,21 @@ void rust_helper_put_task_struct(struct task_struct *t)
->  }
->  EXPORT_SYMBOL_GPL(rust_helper_put_task_struct);
->  
-> +ktime_t rust_helper_ktime_get_real(void) {
-> +	return ktime_get_real();
-> +}
-> +EXPORT_SYMBOL_GPL(rust_helper_ktime_get_real);
-> +
-> +ktime_t rust_helper_ktime_get_boottime(void) {
-> +	return ktime_get_boottime();
-> +}
-> +EXPORT_SYMBOL_GPL(rust_helper_ktime_get_boottime);
-> +
-> +ktime_t rust_helper_ktime_get_clocktai(void) {
-> +	return ktime_get_clocktai();
-> +}
-> +EXPORT_SYMBOL_GPL(rust_helper_ktime_get_clocktai);
-> +
->  /*
->   * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
->   * as the Rust `usize` type, so we can use it in contexts where Rust
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index 85b261209977..52c91484c5d8 100644
-> --- a/rust/kernel/lib.rs
-> +++ b/rust/kernel/lib.rs
-> @@ -42,6 +42,7 @@
->  pub mod str;
->  pub mod sync;
->  pub mod task;
-> +pub mod time;
->  pub mod types;
->  
->  #[doc(hidden)]
-> diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
-> new file mode 100644
-> index 000000000000..f3bfeed20145
-> --- /dev/null
-> +++ b/rust/kernel/time.rs
-> @@ -0,0 +1,150 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! Timekeeping functions.
-> +//!
-> +//! C header: [`include/linux/ktime.h`](../../../../include/linux/ktime.h)
-> +//! C header: [`include/linux/timekeeping.h`](../../../../include/linux/timekeeping.h)
-> +
-> +use crate::{bindings, pr_err};
-> +use core::marker::PhantomData;
-> +use core::time::Duration;
-> +
-> +/// Represents a clock, that is, a unique time source.
-> +pub trait Clock: Sized {}
-> +
-> +/// A time source that can be queried for the current time.
-> +pub trait Now: Clock {
+The DT of_device.h and of_platform.h date back to the separate
+of_platform_bus_type before it as merged into the regular platform bus.
+As part of that merge prepping Arm DT support 13 years ago, they
+"temporarily" include each other. They also include platform_device.h
+and of.h. As a result, there's a pretty much random mix of those include
+files used throughout the tree. In order to detangle these headers and
+replace the implicit includes with struct declarations, users need to
+explicitly include the correct includes.
 
-Is there a `Clock` that we cannot get the current time? ;-)
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ drivers/dma/apple-admac.c                      | 3 ++-
+ drivers/dma/at_hdmac.c                         | 2 +-
+ drivers/dma/bcm-sba-raid.c                     | 4 +++-
+ drivers/dma/bestcomm/bestcomm.c                | 4 +---
+ drivers/dma/dma-jz4780.c                       | 1 -
+ drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c | 1 -
+ drivers/dma/dw/rzn1-dmamux.c                   | 4 +++-
+ drivers/dma/fsl-qdma.c                         | 4 ++--
+ drivers/dma/fsl_raid.c                         | 3 ++-
+ drivers/dma/fsldma.c                           | 3 ++-
+ drivers/dma/img-mdc-dma.c                      | 1 -
+ drivers/dma/imx-dma.c                          | 2 +-
+ drivers/dma/imx-sdma.c                         | 1 -
+ drivers/dma/lpc18xx-dmamux.c                   | 4 +++-
+ drivers/dma/mediatek/mtk-cqdma.c               | 1 -
+ drivers/dma/mediatek/mtk-hsdma.c               | 1 -
+ drivers/dma/mediatek/mtk-uart-apdma.c          | 1 -
+ drivers/dma/mpc512x_dma.c                      | 4 ++--
+ drivers/dma/mxs-dma.c                          | 1 -
+ drivers/dma/nbpfaxi.c                          | 1 -
+ drivers/dma/owl-dma.c                          | 3 ++-
+ drivers/dma/ppc4xx/adma.c                      | 2 +-
+ drivers/dma/qcom/hidma.c                       | 2 +-
+ drivers/dma/sh/shdmac.c                        | 1 -
+ drivers/dma/sprd-dma.c                         | 2 +-
+ drivers/dma/stm32-dmamux.c                     | 4 +++-
+ drivers/dma/stm32-mdma.c                       | 1 -
+ drivers/dma/sun6i-dma.c                        | 2 +-
+ drivers/dma/tegra186-gpc-dma.c                 | 2 +-
+ drivers/dma/tegra20-apb-dma.c                  | 1 -
+ drivers/dma/tegra210-adma.c                    | 3 ++-
+ drivers/dma/ti/dma-crossbar.c                  | 5 +++--
+ drivers/dma/ti/edma.c                          | 1 -
+ drivers/dma/ti/k3-udma-private.c               | 2 ++
+ drivers/dma/ti/k3-udma.c                       | 1 -
+ drivers/dma/ti/omap-dma.c                      | 2 +-
+ drivers/dma/xgene-dma.c                        | 3 ++-
+ drivers/dma/xilinx/xilinx_dma.c                | 4 ++--
+ drivers/dma/xilinx/zynqmp_dma.c                | 3 ++-
+ 39 files changed, 46 insertions(+), 44 deletions(-)
 
-> +    /// Returns the current time for this clock.
-> +    fn now() -> Instant<Self>;
-> +}
-> +
-> +/// Marker trait for clock sources that are guaranteed to be monotonic.
-> +pub trait Monotonic {}
-> +
-> +/// Marker trait for clock sources that represent a calendar (wall clock)
-> +/// relative to the UNIX epoch.
-> +pub trait WallTime {}
-> +
-> +/// An instant in time associated with a given clock source.
-> +#[derive(Debug)]
-> +pub struct Instant<T: Clock> {
-> +    nanoseconds: i64,
-> +    _type: PhantomData<T>,
-> +}
-> +
-> +impl<T: Clock> Clone for Instant<T> {
-> +    fn clone(&self) -> Self {
-> +        *self
-> +    }
-> +}
-> +
-> +impl<T: Clock> Copy for Instant<T> {}
-> +
-> +impl<T: Clock> Instant<T> {
-> +    fn new(nanoseconds: i64) -> Self {
-> +        Instant {
-> +            nanoseconds,
-> +            _type: PhantomData,
-> +        }
-> +    }
-> +
-> +    /// Returns the time elapsed since an earlier Instant<t>, or
-> +    /// None if the argument is a later Instant.
-> +    pub fn since(&self, earlier: Instant<T>) -> Option<Duration> {
-> +        if earlier.nanoseconds > self.nanoseconds {
-> +            None
-> +        } else {
-> +            // Casting to u64 and subtracting is guaranteed to give the right
-> +            // result for all inputs, as long as the condition we checked above
-> +            // holds.
-> +            Some(Duration::from_nanos(
-> +                self.nanoseconds as u64 - earlier.nanoseconds as u64,
-> +            ))
-> +        }
-> +    }
-> +}
-> +
-> +impl<T: Clock + Now + Monotonic> Instant<T> {
-> +    /// Returns the time elapsed since this Instant<T>.
-> +    ///
-> +    /// This is guaranteed to return a positive result, since
-> +    /// it is only implemented for monotonic clocks.
-> +    pub fn elapsed(&self) -> Duration {
-> +        T::now().since(*self).unwrap_or_else(|| {
-> +            pr_err!(
-> +                "Monotonic clock {} went backwards!",
-> +                core::any::type_name::<T>()
-> +            );
-> +            Duration::ZERO
-> +        })
-> +    }
-> +}
-> +
-> +/// Contains the various clock source types available to the kernel.
-> +pub mod clock {
-> +    use super::*;
-> +
-> +    /// A clock representing the default kernel time source.
-> +    ///
-> +    /// This is `CLOCK_MONOTONIC` (though it is not the only
-> +    /// monotonic clock) and also the default clock used by
-> +    /// `ktime_get()` in the C API.
-> +    ///
-> +    /// This is like `BootTime`, but does not include time
-> +    /// spent sleeping.
-> +
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 4cf8da77bdd9..3af795635c5c 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -10,8 +10,9 @@
+ #include <linux/device.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/platform_device.h>
+ #include <linux/reset.h>
+ #include <linux/spinlock.h>
+ #include <linux/interrupt.h>
+diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
+index ee3a219e3a89..b2876f67471f 100644
+--- a/drivers/dma/at_hdmac.c
++++ b/drivers/dma/at_hdmac.c
+@@ -20,7 +20,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/overflow.h>
+-#include <linux/of_device.h>
++#include <linux/of_platform.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+diff --git a/drivers/dma/bcm-sba-raid.c b/drivers/dma/bcm-sba-raid.c
+index 064761289a73..94ea35330eb5 100644
+--- a/drivers/dma/bcm-sba-raid.c
++++ b/drivers/dma/bcm-sba-raid.c
+@@ -35,7 +35,9 @@
+ #include <linux/mailbox_client.h>
+ #include <linux/mailbox/brcm-message.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/raid/pq.h>
+ 
+diff --git a/drivers/dma/bestcomm/bestcomm.c b/drivers/dma/bestcomm/bestcomm.c
+index eabbcfcaa7cb..466dd9919c4a 100644
+--- a/drivers/dma/bestcomm/bestcomm.c
++++ b/drivers/dma/bestcomm/bestcomm.c
+@@ -14,9 +14,7 @@
+ #include <linux/slab.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <asm/io.h>
+ #include <asm/irq.h>
+ #include <asm/mpc52xx.h>
+diff --git a/drivers/dma/dma-jz4780.c b/drivers/dma/dma-jz4780.c
+index 9c1a6e9a9c03..adbd47bd6adf 100644
+--- a/drivers/dma/dma-jz4780.c
++++ b/drivers/dma/dma-jz4780.c
+@@ -13,7 +13,6 @@
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+diff --git a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+index 796b6caf0bab..dd02f84e404d 100644
+--- a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
++++ b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+@@ -21,7 +21,6 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/dw/rzn1-dmamux.c b/drivers/dma/dw/rzn1-dmamux.c
+index f9912c3dd4d7..4fb8508419db 100644
+--- a/drivers/dma/dw/rzn1-dmamux.c
++++ b/drivers/dma/dw/rzn1-dmamux.c
+@@ -5,8 +5,10 @@
+  * Based on TI crossbar driver written by Peter Ujfalusi <peter.ujfalusi@ti.com>
+  */
+ #include <linux/bitops.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/soc/renesas/r9a06g032-sysctrl.h>
+ #include <linux/types.h>
+diff --git a/drivers/dma/fsl-qdma.c b/drivers/dma/fsl-qdma.c
+index eddb2688f234..a8cc8a4bc610 100644
+--- a/drivers/dma/fsl-qdma.c
++++ b/drivers/dma/fsl-qdma.c
+@@ -13,10 +13,10 @@
+ 
+ #include <linux/module.h>
+ #include <linux/delay.h>
+-#include <linux/of_irq.h>
+-#include <linux/of_platform.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+ #include <linux/dma-mapping.h>
++#include <linux/platform_device.h>
+ 
+ #include "virt-dma.h"
+ #include "fsldma.h"
+diff --git a/drivers/dma/fsl_raid.c b/drivers/dma/fsl_raid.c
+index fdf3500d96a9..0b9ca93ce3dc 100644
+--- a/drivers/dma/fsl_raid.c
++++ b/drivers/dma/fsl_raid.c
+@@ -60,9 +60,10 @@
+  */
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_irq.h>
+-#include <linux/of_address.h>
+ #include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/dmapool.h>
+ #include <linux/dmaengine.h>
+diff --git a/drivers/dma/fsldma.c b/drivers/dma/fsldma.c
+index f8459cc5315d..ddcf736d283d 100644
+--- a/drivers/dma/fsldma.c
++++ b/drivers/dma/fsldma.c
+@@ -28,9 +28,10 @@
+ #include <linux/delay.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/dmapool.h>
++#include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_irq.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/fsldma.h>
+ #include "dmaengine.h"
+ #include "fsldma.h"
+diff --git a/drivers/dma/img-mdc-dma.c b/drivers/dma/img-mdc-dma.c
+index ad084552640f..9be0d3226e19 100644
+--- a/drivers/dma/img-mdc-dma.c
++++ b/drivers/dma/img-mdc-dma.c
+@@ -17,7 +17,6 @@
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/imx-dma.c b/drivers/dma/imx-dma.c
+index f040751690af..114f254b9f50 100644
+--- a/drivers/dma/imx-dma.c
++++ b/drivers/dma/imx-dma.c
+@@ -21,7 +21,7 @@
+ #include <linux/clk.h>
+ #include <linux/dmaengine.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+ 
+ #include <asm/irq.h>
+diff --git a/drivers/dma/imx-sdma.c b/drivers/dma/imx-sdma.c
+index 7a912f90c2a9..51012bd39900 100644
+--- a/drivers/dma/imx-sdma.c
++++ b/drivers/dma/imx-sdma.c
+@@ -31,7 +31,6 @@
+ #include <linux/dmaengine.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/workqueue.h>
+ 
+diff --git a/drivers/dma/lpc18xx-dmamux.c b/drivers/dma/lpc18xx-dmamux.c
+index df98cae8792b..2b6436f4b193 100644
+--- a/drivers/dma/lpc18xx-dmamux.c
++++ b/drivers/dma/lpc18xx-dmamux.c
+@@ -12,8 +12,10 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/mfd/syscon.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/spinlock.h>
+ 
+diff --git a/drivers/dma/mediatek/mtk-cqdma.c b/drivers/dma/mediatek/mtk-cqdma.c
+index 9ae92b8940ef..324b7387b1b9 100644
+--- a/drivers/dma/mediatek/mtk-cqdma.c
++++ b/drivers/dma/mediatek/mtk-cqdma.c
+@@ -18,7 +18,6 @@
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/mediatek/mtk-hsdma.c b/drivers/dma/mediatek/mtk-hsdma.c
+index 69cc61c0b262..64120767d983 100644
+--- a/drivers/dma/mediatek/mtk-hsdma.c
++++ b/drivers/dma/mediatek/mtk-hsdma.c
+@@ -17,7 +17,6 @@
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/mediatek/mtk-uart-apdma.c b/drivers/dma/mediatek/mtk-uart-apdma.c
+index a1517ef1f4a0..69366ba5db65 100644
+--- a/drivers/dma/mediatek/mtk-uart-apdma.c
++++ b/drivers/dma/mediatek/mtk-uart-apdma.c
+@@ -16,7 +16,6 @@
+ #include <linux/kernel.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/mpc512x_dma.c b/drivers/dma/mpc512x_dma.c
+index 4a51fdbf5aa9..1104017320b8 100644
+--- a/drivers/dma/mpc512x_dma.c
++++ b/drivers/dma/mpc512x_dma.c
+@@ -36,11 +36,11 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/slab.h>
++#include <linux/of.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/of_irq.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ 
+ #include <linux/random.h>
+ 
+diff --git a/drivers/dma/mxs-dma.c b/drivers/dma/mxs-dma.c
+index acc4d53e4630..cfb9962417ef 100644
+--- a/drivers/dma/mxs-dma.c
++++ b/drivers/dma/mxs-dma.c
+@@ -21,7 +21,6 @@
+ #include <linux/module.h>
+ #include <linux/stmp_device.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/list.h>
+ #include <linux/dma/mxs-dma.h>
+diff --git a/drivers/dma/nbpfaxi.c b/drivers/dma/nbpfaxi.c
+index e72e8c10355e..0b2f96fd8bf0 100644
+--- a/drivers/dma/nbpfaxi.c
++++ b/drivers/dma/nbpfaxi.c
+@@ -15,7 +15,6 @@
+ #include <linux/log2.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+diff --git a/drivers/dma/owl-dma.c b/drivers/dma/owl-dma.c
+index 95a462a1f511..e745f0c67094 100644
+--- a/drivers/dma/owl-dma.c
++++ b/drivers/dma/owl-dma.c
+@@ -20,8 +20,9 @@
+ #include <linux/io.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include "virt-dma.h"
+ 
+diff --git a/drivers/dma/ppc4xx/adma.c b/drivers/dma/ppc4xx/adma.c
+index 686c270ef710..f9b82dff3387 100644
+--- a/drivers/dma/ppc4xx/adma.c
++++ b/drivers/dma/ppc4xx/adma.c
+@@ -28,7 +28,7 @@
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+ #include <linux/of_irq.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <asm/dcr.h>
+ #include <asm/dcr-regs.h>
+ #include "adma.h"
+diff --git a/drivers/dma/qcom/hidma.c b/drivers/dma/qcom/hidma.c
+index 344525c3a32f..5baf7e593ea5 100644
+--- a/drivers/dma/qcom/hidma.c
++++ b/drivers/dma/qcom/hidma.c
+@@ -45,12 +45,12 @@
+ #include <linux/dmaengine.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/list.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
+ #include <linux/property.h>
+ #include <linux/delay.h>
+ #include <linux/acpi.h>
+diff --git a/drivers/dma/sh/shdmac.c b/drivers/dma/sh/shdmac.c
+index 5aafe548ca5f..6f881d7d2f79 100644
+--- a/drivers/dma/sh/shdmac.c
++++ b/drivers/dma/sh/shdmac.c
+@@ -23,7 +23,6 @@
+ #include <linux/module.h>
+ #include <linux/notifier.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/rculist.h>
+diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
+index 2b639adb48ba..168aa0bd73a0 100644
+--- a/drivers/dma/sprd-dma.c
++++ b/drivers/dma/sprd-dma.c
+@@ -15,7 +15,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/dma/stm32-dmamux.c b/drivers/dma/stm32-dmamux.c
+index e415bd9f4f2b..8d77e2a7939a 100644
+--- a/drivers/dma/stm32-dmamux.c
++++ b/drivers/dma/stm32-dmamux.c
+@@ -15,8 +15,10 @@
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
+ #include <linux/slab.h>
+diff --git a/drivers/dma/stm32-mdma.c b/drivers/dma/stm32-mdma.c
+index 1d0e9dd72ab3..0de234022c6d 100644
+--- a/drivers/dma/stm32-mdma.c
++++ b/drivers/dma/stm32-mdma.c
+@@ -24,7 +24,6 @@
+ #include <linux/log2.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+index ebfd29888b2f..2469efddf540 100644
+--- a/drivers/dma/sun6i-dma.c
++++ b/drivers/dma/sun6i-dma.c
+@@ -14,8 +14,8 @@
+ #include <linux/dmapool.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/reset.h>
+ #include <linux/slab.h>
+diff --git a/drivers/dma/tegra186-gpc-dma.c b/drivers/dma/tegra186-gpc-dma.c
+index 8f67f453a492..33b101001100 100644
+--- a/drivers/dma/tegra186-gpc-dma.c
++++ b/drivers/dma/tegra186-gpc-dma.c
+@@ -13,7 +13,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/minmax.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/reset.h>
+diff --git a/drivers/dma/tegra20-apb-dma.c b/drivers/dma/tegra20-apb-dma.c
+index cc6b91f48979..063022f9df76 100644
+--- a/drivers/dma/tegra20-apb-dma.c
++++ b/drivers/dma/tegra20-apb-dma.c
+@@ -17,7 +17,6 @@
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
+-#include <linux/of_device.h>
+ #include <linux/of_dma.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm.h>
+diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
+index b97004036071..e557bada1510 100644
+--- a/drivers/dma/tegra210-adma.c
++++ b/drivers/dma/tegra210-adma.c
+@@ -8,9 +8,10 @@
+ #include <linux/clk.h>
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+ #include <linux/of_irq.h>
++#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
+ 
+diff --git a/drivers/dma/ti/dma-crossbar.c b/drivers/dma/ti/dma-crossbar.c
+index f744ddbbbad7..7f17ee87a6dc 100644
+--- a/drivers/dma/ti/dma-crossbar.c
++++ b/drivers/dma/ti/dma-crossbar.c
+@@ -3,14 +3,15 @@
+  *  Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com
+  *  Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
+  */
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/err.h>
+ #include <linux/init.h>
+ #include <linux/list.h>
+ #include <linux/io.h>
+-#include <linux/of_address.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
++#include <linux/of_platform.h>
+ 
+ #define TI_XBAR_DRA7		0
+ #define TI_XBAR_AM335X		1
+diff --git a/drivers/dma/ti/edma.c b/drivers/dma/ti/edma.c
+index 9ea91c640c32..aa8e2e8ac260 100644
+--- a/drivers/dma/ti/edma.c
++++ b/drivers/dma/ti/edma.c
+@@ -20,7 +20,6 @@
+ #include <linux/of_dma.h>
+ #include <linux/of_irq.h>
+ #include <linux/of_address.h>
+-#include <linux/of_device.h>
+ #include <linux/pm_runtime.h>
+ 
+ #include <linux/platform_data/edma.h>
+diff --git a/drivers/dma/ti/k3-udma-private.c b/drivers/dma/ti/k3-udma-private.c
+index 85e00701473c..05228bf00033 100644
+--- a/drivers/dma/ti/k3-udma-private.c
++++ b/drivers/dma/ti/k3-udma-private.c
+@@ -3,6 +3,8 @@
+  *  Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com
+  *  Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
+  */
++#include <linux/of.h>
++#include <linux/of_platform.h>
+ 
+ int xudma_navss_psil_pair(struct udma_dev *ud, u32 src_thread, u32 dst_thread)
+ {
+diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
+index eb4dc5fffe64..30fd2f386f36 100644
+--- a/drivers/dma/ti/k3-udma.c
++++ b/drivers/dma/ti/k3-udma.c
+@@ -20,7 +20,6 @@
+ #include <linux/sys_soc.h>
+ #include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
+ #include <linux/of_irq.h>
+ #include <linux/workqueue.h>
+ #include <linux/completion.h>
+diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
+index 02e1c08c596d..cf96cf915c0c 100644
+--- a/drivers/dma/ti/omap-dma.c
++++ b/drivers/dma/ti/omap-dma.c
+@@ -16,8 +16,8 @@
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_device.h>
+ 
+ #include "../virt-dma.h"
+ 
+diff --git a/drivers/dma/xgene-dma.c b/drivers/dma/xgene-dma.c
+index 3589b4ef50b8..bb4ff8c86733 100644
+--- a/drivers/dma/xgene-dma.c
++++ b/drivers/dma/xgene-dma.c
+@@ -18,8 +18,9 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/irq.h>
++#include <linux/mod_devicetable.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/platform_device.h>
+ 
+ #include "dmaengine.h"
+ 
+diff --git a/drivers/dma/xilinx/xilinx_dma.c b/drivers/dma/xilinx/xilinx_dma.c
+index ac09f0e5f58d..8a4c98d28dfc 100644
+--- a/drivers/dma/xilinx/xilinx_dma.c
++++ b/drivers/dma/xilinx/xilinx_dma.c
+@@ -41,10 +41,10 @@
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+-#include <linux/of_address.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_platform.h>
+ #include <linux/of_irq.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/clk.h>
+ #include <linux/io-64-nonatomic-lo-hi.h>
+diff --git a/drivers/dma/xilinx/zynqmp_dma.c b/drivers/dma/xilinx/zynqmp_dma.c
+index 9360f43b8e0f..bd8c3cc2eaab 100644
+--- a/drivers/dma/xilinx/zynqmp_dma.c
++++ b/drivers/dma/xilinx/zynqmp_dma.c
+@@ -11,8 +11,9 @@
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/of_dma.h>
+-#include <linux/of_platform.h>
++#include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/clk.h>
+ #include <linux/io-64-nonatomic-lo-hi.h>
+-- 
+2.40.1
 
-Could you add one example for each `*Time` type? Not only they can show
-people how to use the API, but also we can use them to generate unit
-tests:
-
-	https://lore.kernel.org/rust-for-linux/20230614180837.630180-1-ojeda@kernel.orge 
-
-If you want to test your examples, you can either apply that patchset or
-use the rust-dev branch:
-
-	https://github.com/Rust-for-Linux/linux.git rust-dev
-
-I use the following command to run tests:
-
-	./tools/testing/kunit/kunit.py run --make_options LLVM=1 --arch x86_64 --kconfig_add CONFIG_RUST=y
-
-Thanks!
-
-Regards,
-Boqun
-
-> +    pub struct KernelTime;
-> +
-> +    impl Clock for KernelTime {}
-> +    impl Monotonic for KernelTime {}
-> +    impl Now for KernelTime {
-> +        fn now() -> Instant<Self> {
-> +            Instant::<Self>::new(unsafe { bindings::ktime_get() })
-> +        }
-> +    }
-> +
-> +    /// A clock representing the time elapsed since boot.
-> +    ///
-> +    /// This is `CLOCK_MONOTONIC` (though it is not the only
-> +    /// monotonic clock) and also the default clock used by
-> +    /// `ktime_get()` in the C API.
-> +    ///
-> +    /// This is like `KernelTime`, but does include time
-> +    /// spent sleeping.
-> +    pub struct BootTime;
-> +
-> +    impl Clock for BootTime {}
-> +    impl Monotonic for BootTime {}
-> +    impl Now for BootTime {
-> +        fn now() -> Instant<Self> {
-> +            Instant::<Self>::new(unsafe { bindings::ktime_get_boottime() })
-> +        }
-> +    }
-> +
-> +    /// A clock representing TAI time.
-> +    ///
-> +    /// This clock is not monotonic and can be changed from userspace.
-> +    /// However, it is not affected by leap seconds.
-> +    pub struct TaiTime;
-> +
-> +    impl Clock for TaiTime {}
-> +    impl WallTime for TaiTime {}
-> +    impl Now for TaiTime {
-> +        fn now() -> Instant<Self> {
-> +            Instant::<Self>::new(unsafe { bindings::ktime_get_clocktai() })
-> +        }
-> +    }
-> +
-> +    /// A clock representing wall clock time.
-> +    ///
-> +    /// This clock is not monotonic and can be changed from userspace.
-> +    pub struct RealTime;
-> +
-> +    impl Clock for RealTime {}
-> +    impl WallTime for RealTime {}
-> +    impl Now for RealTime {
-> +        fn now() -> Instant<Self> {
-> +            Instant::<Self>::new(unsafe { bindings::ktime_get_real() })
-> +        }
-> +    }
-> +}
-> 
-> ---
-> base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-> change-id: 20230714-rust-time-10dd9ed25333
-> 
-> Thank you,
-> ~~ Lina
-> 
