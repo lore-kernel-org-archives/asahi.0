@@ -1,24 +1,28 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532667C
-	for <asahi@lists.linux.dev>; Thu, 13 Jul 2023 00:16:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DE45C433CC;
-	Thu, 13 Jul 2023 00:16:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689207391;
-	bh=eySvdiHt0nvShNYD0dPWcUpDt+Gp3/9d9uPK51mRSJ4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=d1Xt2Jn3aX6zpDurP2+FCcxFmaBNLqSmLS4Zgw+jUIF2roRiz2bZeegv3rSn653hN
-	 JSRaGEQ8YgzZIAFpDVsum37d1Tiah+O2s+U9ZXtt5X9oyg226FEByFLT+7nnrJRlkb
-	 kraJg6EZVEsmdnRvz1pJvvgpU0X8ByRTlwgJDrPvI5tKjXGUj20y9pJdh0JorMPAHF
-	 rE+voyycljIKTXKEPzEZsmmiBKKhZ6Em8/rysNtbHLlm6XB8mI2CixNl3laMYmTu3u
-	 wi0N81+ZR6X09Q07sAzpDNLwtOorkggInFvawhY51LIIoKhpIzc8aphVSMQPm4cj2+
-	 uKkskateeZV9Q==
-From: Mark Brown <broonie@kernel.org>
-Date: Thu, 13 Jul 2023 01:14:01 +0100
-Subject: [PATCH 48/48] ASoC: wm9713: Update to use maple tree register
- cache
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23757499
+	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 08:06:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: linasend@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 269E95BAE8;
+	Fri, 14 Jul 2023 07:55:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1689321319;
+	bh=7J6No4Uq+18pRNDNsxGUwdq6k7ZetFTxJmVCqu0gelc=;
+	h=From:Date:Subject:To:Cc;
+	b=0XXctXa8kAUwqUR/n14lJzAp1QSwB4QVYeTBiOsv07KBbD6NvF6XF73BDiRjxaldA
+	 L2A7a62Y5JE8n4pAqEf4GGzbkejs/EuMTKpOIlxO6oMAxZ7d4mpT2x7jOZJXCxFb2S
+	 iIHDs92fj0sV4K48baDpfQdTTWaTKcLuQU7JwUN4uo34nWeLtCMMVxxOQeh0aouLg6
+	 zlaXXK8eVEREW+a1ZIF7LE93+fo/vVZa0iR367TjUSSOpeisKx5Y+gq7AD0m9d5Irj
+	 WExg0duPuLNEP3ehs0DOUCo890NEr5Ql1OsX7Q0Sk5uM1btsArfvz9I/Zafk2K5uNq
+	 c7tnSZxM5TxXA==
+From: Asahi Lina <lina@asahilina.net>
+Date: Fri, 14 Jul 2023 16:55:01 +0900
+Subject: [PATCH v2] rust: time: New module for timekeeping functions
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -27,57 +31,288 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230713-asoc-cirrus-maple-v1-48-a62651831735@kernel.org>
-References: <20230713-asoc-cirrus-maple-v1-0-a62651831735@kernel.org>
-In-Reply-To: <20230713-asoc-cirrus-maple-v1-0-a62651831735@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- James Schulman <james.schulman@cirrus.com>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: patches@opensource.cirrus.com, alsa-devel@alsa-project.org, 
- asahi@lists.linux.dev, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.13-dev-099c9
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1092; i=broonie@kernel.org;
- h=from:subject:message-id; bh=eySvdiHt0nvShNYD0dPWcUpDt+Gp3/9d9uPK51mRSJ4=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBkr0HRShdMLpPh/QY4YGuJRmn8dfk8SMFLeNE6h
- ce5j0Ttz4qJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZK9B0QAKCRAk1otyXVSH
- 0O3JB/4qj2IcnrCuzWlGbEJKY9hEOk6cmL/fFRpYrEdvoG1cpd/vy5X8J80DZWwsAD84oW2mY1K
- VWU8C/8m5jJaA2U1wufZr5z880cBaQXCGRWTWW5L1ch0FtIyp8L5hm1zrwTytIJCSgRCa4onpYg
- Hpdvqx569cZta53hYBV80ICtdXGTNH+ewKWEwU1oTLk6v9x6DoKAUpYdy4xrrNSSX61yF2+mWOK
- P8tLhYceWRaOJsT/o75YCmeth3tWB2btGoD3IK3Sc51B4HaVayBPGQ4lETsdpi0TYoLSEklCpPO
- d4tp/+41gfiHzWGn6O4o3DIMWSEpKhHO0PXs7hzfxYW06qV2
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Message-Id: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
+X-B4-Tracking: v=1; b=H4sIAFT/sGQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
+ vPSU3UzU4B8JSMDI2MDc0MT3aLS4hLdkszcVF1Dg5QUy9QUI1NjY2MloPqCotS0zAqwWdGxtbU
+ AYS2TUFsAAAA=
+To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Wedson Almeida Filho <wedsonaf@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ John Stultz <jstultz@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+ Stephen Boyd <sboyd@kernel.org>, Josh Stone <jistone@redhat.com>, 
+ Gaelan Steele <gbs@canishe.com>, 
+ Heghedus Razvan <heghedus.razvan@protonmail.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1689321314; l=8468;
+ i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
+ bh=7J6No4Uq+18pRNDNsxGUwdq6k7ZetFTxJmVCqu0gelc=;
+ b=HpiQKFG0rAdsT7ooEpKBQ1fhz3+0ARMyc8DgriWfRofBJbVXrK3y3rBG0HRIM0Ja4hnOFqG8e
+ O6Bd+SjWBAZB2M8WGX8ZawAVdoKqD+hx6KCJhJjK/5HojC5Vm5BNgDD
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-The maple tree register cache is based on a much more modern data structure
-than the rbtree cache and makes optimisation choices which are probably
-more appropriate for modern systems than those made by the rbtree cache. In
-v6.5 it has also acquired the ability to generate multi-register writes in
-sync operations, bringing performance up to parity with the rbtree cache
-there.
+This module is intended to contain functions related to kernel
+timekeeping and time.
 
-Update the wm9713 driver to use the more modern data structure.
+Initially, this implements an abstraction for a time Instant (analogous
+to the Rust std::time::Instant) that represents an opaque instant in
+time. Unlike the std Instant, this is a generic type that is bound to a
+specific clock source, so that only Instants from the same clock source
+can be subtracted/compared.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Then we implement the relevant clocks available to the kernel:
+KernelTime (CLOCK_MONOTONIC), BootTime (CLOCK_BOOTTIME),
+RealTime (CLOCK_REALTIME), and TaiTime.
+
+Co-developed-by: Heghedus Razvan <heghedus.razvan@protonmail.com>
+Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
- sound/soc/codecs/wm9713.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/wm9713.c b/sound/soc/codecs/wm9713.c
-index 5d2e54e06e30..64b69316e4c7 100644
---- a/sound/soc/codecs/wm9713.c
-+++ b/sound/soc/codecs/wm9713.c
-@@ -727,7 +727,7 @@ static const struct regmap_config wm9713_regmap_config = {
- 	.reg_stride = 2,
- 	.val_bits = 16,
- 	.max_register = 0x7e,
--	.cache_type = REGCACHE_RBTREE,
-+	.cache_type = REGCACHE_MAPLE,
+Based on the feedback to v1, now we have proper type checking for kernel
+time. I decided to implement marker traits for monotonic vs. wallclock
+time sources, since it's useful to be able to safely implement different
+semantics conditional on that, but that left me with a name conflict of
+the Monotonic trait with the CLOCK_MONOTONIC / "default ktime" clock
+source. I ended up calling it KernelTime since it's the most fundamental
+kernel timesource, but suggestions welcome!
+
+Heghedus: I think I need a signoff on this since this is based on the
+playground demo you wrote in the feedback to v1. Can you provide that? I
+can fold it into v3 (if there is one, otherwise Miguel can probably just
+add it when he applies it). Thanks!
+---
+ rust/bindings/bindings_helper.h |   2 +
+ rust/helpers.c                  |  16 +++++
+ rust/kernel/lib.rs              |   1 +
+ rust/kernel/time.rs             | 150 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 169 insertions(+)
+
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 3e601ce2548d..eddfdf887364 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -8,9 +8,11 @@
  
- 	.reg_defaults = wm9713_reg_defaults,
- 	.num_reg_defaults = ARRAY_SIZE(wm9713_reg_defaults),
+ #include <linux/errname.h>
+ #include <linux/slab.h>
++#include <linux/ktime.h>
+ #include <linux/refcount.h>
+ #include <linux/wait.h>
+ #include <linux/sched.h>
++#include <linux/timekeeping.h>
+ 
+ /* `bindgen` gets confused at certain things. */
+ const gfp_t BINDINGS_GFP_KERNEL = GFP_KERNEL;
+diff --git a/rust/helpers.c b/rust/helpers.c
+index bb594da56137..eff092302e23 100644
+--- a/rust/helpers.c
++++ b/rust/helpers.c
+@@ -26,6 +26,7 @@
+ #include <linux/mutex.h>
+ #include <linux/spinlock.h>
+ #include <linux/sched/signal.h>
++#include <linux/timekeeping.h>
+ #include <linux/wait.h>
+ 
+ __noreturn void rust_helper_BUG(void)
+@@ -135,6 +136,21 @@ void rust_helper_put_task_struct(struct task_struct *t)
+ }
+ EXPORT_SYMBOL_GPL(rust_helper_put_task_struct);
+ 
++ktime_t rust_helper_ktime_get_real(void) {
++	return ktime_get_real();
++}
++EXPORT_SYMBOL_GPL(rust_helper_ktime_get_real);
++
++ktime_t rust_helper_ktime_get_boottime(void) {
++	return ktime_get_boottime();
++}
++EXPORT_SYMBOL_GPL(rust_helper_ktime_get_boottime);
++
++ktime_t rust_helper_ktime_get_clocktai(void) {
++	return ktime_get_clocktai();
++}
++EXPORT_SYMBOL_GPL(rust_helper_ktime_get_clocktai);
++
+ /*
+  * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
+  * as the Rust `usize` type, so we can use it in contexts where Rust
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index 85b261209977..52c91484c5d8 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -42,6 +42,7 @@
+ pub mod str;
+ pub mod sync;
+ pub mod task;
++pub mod time;
+ pub mod types;
+ 
+ #[doc(hidden)]
+diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
+new file mode 100644
+index 000000000000..f3bfeed20145
+--- /dev/null
++++ b/rust/kernel/time.rs
+@@ -0,0 +1,150 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Timekeeping functions.
++//!
++//! C header: [`include/linux/ktime.h`](../../../../include/linux/ktime.h)
++//! C header: [`include/linux/timekeeping.h`](../../../../include/linux/timekeeping.h)
++
++use crate::{bindings, pr_err};
++use core::marker::PhantomData;
++use core::time::Duration;
++
++/// Represents a clock, that is, a unique time source.
++pub trait Clock: Sized {}
++
++/// A time source that can be queried for the current time.
++pub trait Now: Clock {
++    /// Returns the current time for this clock.
++    fn now() -> Instant<Self>;
++}
++
++/// Marker trait for clock sources that are guaranteed to be monotonic.
++pub trait Monotonic {}
++
++/// Marker trait for clock sources that represent a calendar (wall clock)
++/// relative to the UNIX epoch.
++pub trait WallTime {}
++
++/// An instant in time associated with a given clock source.
++#[derive(Debug)]
++pub struct Instant<T: Clock> {
++    nanoseconds: i64,
++    _type: PhantomData<T>,
++}
++
++impl<T: Clock> Clone for Instant<T> {
++    fn clone(&self) -> Self {
++        *self
++    }
++}
++
++impl<T: Clock> Copy for Instant<T> {}
++
++impl<T: Clock> Instant<T> {
++    fn new(nanoseconds: i64) -> Self {
++        Instant {
++            nanoseconds,
++            _type: PhantomData,
++        }
++    }
++
++    /// Returns the time elapsed since an earlier Instant<t>, or
++    /// None if the argument is a later Instant.
++    pub fn since(&self, earlier: Instant<T>) -> Option<Duration> {
++        if earlier.nanoseconds > self.nanoseconds {
++            None
++        } else {
++            // Casting to u64 and subtracting is guaranteed to give the right
++            // result for all inputs, as long as the condition we checked above
++            // holds.
++            Some(Duration::from_nanos(
++                self.nanoseconds as u64 - earlier.nanoseconds as u64,
++            ))
++        }
++    }
++}
++
++impl<T: Clock + Now + Monotonic> Instant<T> {
++    /// Returns the time elapsed since this Instant<T>.
++    ///
++    /// This is guaranteed to return a positive result, since
++    /// it is only implemented for monotonic clocks.
++    pub fn elapsed(&self) -> Duration {
++        T::now().since(*self).unwrap_or_else(|| {
++            pr_err!(
++                "Monotonic clock {} went backwards!",
++                core::any::type_name::<T>()
++            );
++            Duration::ZERO
++        })
++    }
++}
++
++/// Contains the various clock source types available to the kernel.
++pub mod clock {
++    use super::*;
++
++    /// A clock representing the default kernel time source.
++    ///
++    /// This is `CLOCK_MONOTONIC` (though it is not the only
++    /// monotonic clock) and also the default clock used by
++    /// `ktime_get()` in the C API.
++    ///
++    /// This is like `BootTime`, but does not include time
++    /// spent sleeping.
++
++    pub struct KernelTime;
++
++    impl Clock for KernelTime {}
++    impl Monotonic for KernelTime {}
++    impl Now for KernelTime {
++        fn now() -> Instant<Self> {
++            Instant::<Self>::new(unsafe { bindings::ktime_get() })
++        }
++    }
++
++    /// A clock representing the time elapsed since boot.
++    ///
++    /// This is `CLOCK_MONOTONIC` (though it is not the only
++    /// monotonic clock) and also the default clock used by
++    /// `ktime_get()` in the C API.
++    ///
++    /// This is like `KernelTime`, but does include time
++    /// spent sleeping.
++    pub struct BootTime;
++
++    impl Clock for BootTime {}
++    impl Monotonic for BootTime {}
++    impl Now for BootTime {
++        fn now() -> Instant<Self> {
++            Instant::<Self>::new(unsafe { bindings::ktime_get_boottime() })
++        }
++    }
++
++    /// A clock representing TAI time.
++    ///
++    /// This clock is not monotonic and can be changed from userspace.
++    /// However, it is not affected by leap seconds.
++    pub struct TaiTime;
++
++    impl Clock for TaiTime {}
++    impl WallTime for TaiTime {}
++    impl Now for TaiTime {
++        fn now() -> Instant<Self> {
++            Instant::<Self>::new(unsafe { bindings::ktime_get_clocktai() })
++        }
++    }
++
++    /// A clock representing wall clock time.
++    ///
++    /// This clock is not monotonic and can be changed from userspace.
++    pub struct RealTime;
++
++    impl Clock for RealTime {}
++    impl WallTime for RealTime {}
++    impl Now for RealTime {
++        fn now() -> Instant<Self> {
++            Instant::<Self>::new(unsafe { bindings::ktime_get_real() })
++        }
++    }
++}
 
--- 
-2.39.2
+---
+base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+change-id: 20230714-rust-time-10dd9ed25333
+
+Thank you,
+~~ Lina
 
