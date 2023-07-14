@@ -1,28 +1,29 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23757499
-	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 08:06:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E4AC8ED
+	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 08:21:37 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: linasend@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 269E95BAE8;
-	Fri, 14 Jul 2023 07:55:14 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 54FF75BAE8;
+	Fri, 14 Jul 2023 08:21:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1689321319;
-	bh=7J6No4Uq+18pRNDNsxGUwdq6k7ZetFTxJmVCqu0gelc=;
-	h=From:Date:Subject:To:Cc;
-	b=0XXctXa8kAUwqUR/n14lJzAp1QSwB4QVYeTBiOsv07KBbD6NvF6XF73BDiRjxaldA
-	 L2A7a62Y5JE8n4pAqEf4GGzbkejs/EuMTKpOIlxO6oMAxZ7d4mpT2x7jOZJXCxFb2S
-	 iIHDs92fj0sV4K48baDpfQdTTWaTKcLuQU7JwUN4uo34nWeLtCMMVxxOQeh0aouLg6
-	 zlaXXK8eVEREW+a1ZIF7LE93+fo/vVZa0iR367TjUSSOpeisKx5Y+gq7AD0m9d5Irj
-	 WExg0duPuLNEP3ehs0DOUCo890NEr5Ql1OsX7Q0Sk5uM1btsArfvz9I/Zafk2K5uNq
-	 c7tnSZxM5TxXA==
+	s=default; t=1689322895;
+	bh=7LaE8gDQp5a1iynAfRg1d1jsyri669yUm6LM+c+fXeg=;
+	h=From:Subject:Date:To:Cc;
+	b=UgOOMtT/nFZfrWhhlW4xZ6o892ww1exUx7uhNua+wOM7l2SsLPE45su02/Pcb3cb9
+	 TcPsvZNiq/deby8jTeEfspKikZb38fHEesCMAviL+VmU0M8SRKWz+q1OvLW69Z2edg
+	 VxrvEzRY9bC8mWF8oUWHhl85vPey7GBAHQMYt3umax2JHUuQoGidLi4d4wREWFJwpL
+	 zlGHJYxeRn2dy/DcQNPrNtduqdKgo4mV3e9D/ZXlF3VbCXL5nN2eUJJAbI9hFAy78G
+	 ZaF8hjd+ZvMVI5iBCHQsgkL8vA/7bbdL9RoAe60Ymb0ISMgtqnfm5sqgUkKK407BNq
+	 lETcX3BQOtscQ==
 From: Asahi Lina <lina@asahilina.net>
-Date: Fri, 14 Jul 2023 16:55:01 +0900
-Subject: [PATCH v2] rust: time: New module for timekeeping functions
+Subject: [PATCH 0/3] DRM scheduler documentation & bug fixes
+Date: Fri, 14 Jul 2023 17:21:28 +0900
+Message-Id: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -31,287 +32,92 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
-X-B4-Tracking: v=1; b=H4sIAFT/sGQC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
- vPSU3UzU4B8JSMDI2MDc0MT3aLS4hLdkszcVF1Dg5QUy9QUI1NjY2MloPqCotS0zAqwWdGxtbU
- AYS2TUFsAAAA=
-To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Wedson Almeida Filho <wedsonaf@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- John Stultz <jstultz@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
- Stephen Boyd <sboyd@kernel.org>, Josh Stone <jistone@redhat.com>, 
- Gaelan Steele <gbs@canishe.com>, 
- Heghedus Razvan <heghedus.razvan@protonmail.com>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+X-B4-Tracking: v=1; b=H4sIAIgFsWQC/x3LSwqAMAxF0a1IxgaqFkS3Ig6sfdoM/NCACKV7t
+ zg8XG4iRRQojVWiiEdUrrOgqStaw3LuYPHF1Jq2M31j2ceDdQ3wvMkL5cE6LMZ2zqGnct0Rfyj
+ TNOf8AZODU3hhAAAA
+To: Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Faith Ekstrand <faith.ekstrand@collabora.com>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
  asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1689321314; l=8468;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1689322891; l=3816;
  i=lina@asahilina.net; s=20230221; h=from:subject:message-id;
- bh=7J6No4Uq+18pRNDNsxGUwdq6k7ZetFTxJmVCqu0gelc=;
- b=HpiQKFG0rAdsT7ooEpKBQ1fhz3+0ARMyc8DgriWfRofBJbVXrK3y3rBG0HRIM0Ja4hnOFqG8e
- O6Bd+SjWBAZB2M8WGX8ZawAVdoKqD+hx6KCJhJjK/5HojC5Vm5BNgDD
+ bh=7LaE8gDQp5a1iynAfRg1d1jsyri669yUm6LM+c+fXeg=;
+ b=RD6jS9hPk9Ng458Wf9vj0cVu5zbGFCK8e/BYOvUyQkZPw0JH1LoJWPboPFvY9KDwoZf+/M19K
+ iQDoGu52PTvAZj6WsJE645nIhkFQbMejqFfOjJ1Fwbn2ZCrNHAmCjiy
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=Qn8jZuOtR1m5GaiDfTrAoQ4NE1XoYVZ/wmt5YtXWFC4=
 
-This module is intended to contain functions related to kernel
-timekeeping and time.
+Based on the previous discussion while I was writing the Rust
+abstractions for the DRM scheduler, it looks like we're overdue for some
+documentation.
 
-Initially, this implements an abstraction for a time Instant (analogous
-to the Rust std::time::Instant) that represents an opaque instant in
-time. Unlike the std Instant, this is a generic type that is bound to a
-specific clock source, so that only Instants from the same clock source
-can be subtracted/compared.
+This series first attempts to document what I've learned about the
+scheduler and what I believe should be the *intended* lifetime
+semantics, and then fixes a few bugs that result from that:
 
-Then we implement the relevant clocks available to the kernel:
-KernelTime (CLOCK_MONOTONIC), BootTime (CLOCK_BOOTTIME),
-RealTime (CLOCK_REALTIME), and TaiTime.
+1. The DRM scheduler fences cannot be required to be outlived by the
+   scheduler. This is non-negotiable. The whole point of these fences is
+   to decouple the underlying hardware/driver from consumers, such as
+   dma-bufs with an attached fence. If this requirement were not met,
+   then we'd have to somehow keep the scheduler and all the driver
+   components associated with it alive as long as a dma-buf with an
+   attached drm_sched fence is alive, which could be indefinitely even
+   after the hardware that produced that dma-buf is long gone. Consider,
+   for example, using a hot-pluggable GPU to write to a dma-buf in main
+   memory, which gets presented on an integrated display controller, and
+   then the GPU is unplugged. That buffer could potentially live
+   forever, we can't block GPU driver cleanup on that.
 
-Co-developed-by: Heghedus Razvan <heghedus.razvan@protonmail.com>
+2. Make the DRM scheduler properly clean up jobs on shutdown, such that
+   we can support the use case of tearing down the scheduler with
+   in-flight jobs. This is important to cleanly support the firmware
+   scheduling use case, where the DRM scheduler is attached to a file
+   (which we want to be able to tear down quickly when userspace closes
+   it) while firmware could continue to (attempt to) run in-flight jobs
+   after that point. The major missing codepath to make this work is
+   detaching jobs from their HW fences on scheduler shutdown, so
+   implement that. This also makes writing a safe Rust abstraction
+   plausible, since otherwise we'd have to add a huge pile of complexity
+   to that side in order to enforce the invariant that the scheduler
+   outlives its jobs (including setting up a workqueue to handle
+   scheduler teardown and other craziness, which is an unacceptable
+   level of complexity for what should be a lightweight abstraction).
+
+I believe there *may* still be at least one UAF-type bug related to case
+2 above, but it's very hard to trigger and I wasn't able to figure out
+what causes it the one time I saw it recently. Other than that, things
+look quite robust on the Asahi driver with these patches, even when
+trying to break things by killing GPU consumers in a tight loop and
+things like that. If we agree this is a good way forward, I think this
+is a good start even if there's still a bug lurking somewhere.
+
+Aside (but related to the previous discussion): the can_run_job thing
+is gone, I'm using fences returned from prepare() now and that works
+well (and actually fixes one corner case related to wait contexts I'd
+missed), so hopefully that's OK with everyone ^^
+
+Changes from the previous version of patch #2: explicitly signal
+detached job fences with an error. I'd missed that and I think it's what
+was causing us some rare lockups due to fences never getting signaled.
+
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
-
-Based on the feedback to v1, now we have proper type checking for kernel
-time. I decided to implement marker traits for monotonic vs. wallclock
-time sources, since it's useful to be able to safely implement different
-semantics conditional on that, but that left me with a name conflict of
-the Monotonic trait with the CLOCK_MONOTONIC / "default ktime" clock
-source. I ended up calling it KernelTime since it's the most fundamental
-kernel timesource, but suggestions welcome!
-
-Heghedus: I think I need a signoff on this since this is based on the
-playground demo you wrote in the feedback to v1. Can you provide that? I
-can fold it into v3 (if there is one, otherwise Miguel can probably just
-add it when he applies it). Thanks!
----
- rust/bindings/bindings_helper.h |   2 +
- rust/helpers.c                  |  16 +++++
- rust/kernel/lib.rs              |   1 +
- rust/kernel/time.rs             | 150 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 169 insertions(+)
-
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index 3e601ce2548d..eddfdf887364 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -8,9 +8,11 @@
- 
- #include <linux/errname.h>
- #include <linux/slab.h>
-+#include <linux/ktime.h>
- #include <linux/refcount.h>
- #include <linux/wait.h>
- #include <linux/sched.h>
-+#include <linux/timekeeping.h>
- 
- /* `bindgen` gets confused at certain things. */
- const gfp_t BINDINGS_GFP_KERNEL = GFP_KERNEL;
-diff --git a/rust/helpers.c b/rust/helpers.c
-index bb594da56137..eff092302e23 100644
---- a/rust/helpers.c
-+++ b/rust/helpers.c
-@@ -26,6 +26,7 @@
- #include <linux/mutex.h>
- #include <linux/spinlock.h>
- #include <linux/sched/signal.h>
-+#include <linux/timekeeping.h>
- #include <linux/wait.h>
- 
- __noreturn void rust_helper_BUG(void)
-@@ -135,6 +136,21 @@ void rust_helper_put_task_struct(struct task_struct *t)
- }
- EXPORT_SYMBOL_GPL(rust_helper_put_task_struct);
- 
-+ktime_t rust_helper_ktime_get_real(void) {
-+	return ktime_get_real();
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_ktime_get_real);
-+
-+ktime_t rust_helper_ktime_get_boottime(void) {
-+	return ktime_get_boottime();
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_ktime_get_boottime);
-+
-+ktime_t rust_helper_ktime_get_clocktai(void) {
-+	return ktime_get_clocktai();
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_ktime_get_clocktai);
-+
- /*
-  * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
-  * as the Rust `usize` type, so we can use it in contexts where Rust
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index 85b261209977..52c91484c5d8 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -42,6 +42,7 @@
- pub mod str;
- pub mod sync;
- pub mod task;
-+pub mod time;
- pub mod types;
- 
- #[doc(hidden)]
-diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
-new file mode 100644
-index 000000000000..f3bfeed20145
---- /dev/null
-+++ b/rust/kernel/time.rs
-@@ -0,0 +1,150 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Timekeeping functions.
-+//!
-+//! C header: [`include/linux/ktime.h`](../../../../include/linux/ktime.h)
-+//! C header: [`include/linux/timekeeping.h`](../../../../include/linux/timekeeping.h)
-+
-+use crate::{bindings, pr_err};
-+use core::marker::PhantomData;
-+use core::time::Duration;
-+
-+/// Represents a clock, that is, a unique time source.
-+pub trait Clock: Sized {}
-+
-+/// A time source that can be queried for the current time.
-+pub trait Now: Clock {
-+    /// Returns the current time for this clock.
-+    fn now() -> Instant<Self>;
-+}
-+
-+/// Marker trait for clock sources that are guaranteed to be monotonic.
-+pub trait Monotonic {}
-+
-+/// Marker trait for clock sources that represent a calendar (wall clock)
-+/// relative to the UNIX epoch.
-+pub trait WallTime {}
-+
-+/// An instant in time associated with a given clock source.
-+#[derive(Debug)]
-+pub struct Instant<T: Clock> {
-+    nanoseconds: i64,
-+    _type: PhantomData<T>,
-+}
-+
-+impl<T: Clock> Clone for Instant<T> {
-+    fn clone(&self) -> Self {
-+        *self
-+    }
-+}
-+
-+impl<T: Clock> Copy for Instant<T> {}
-+
-+impl<T: Clock> Instant<T> {
-+    fn new(nanoseconds: i64) -> Self {
-+        Instant {
-+            nanoseconds,
-+            _type: PhantomData,
-+        }
-+    }
-+
-+    /// Returns the time elapsed since an earlier Instant<t>, or
-+    /// None if the argument is a later Instant.
-+    pub fn since(&self, earlier: Instant<T>) -> Option<Duration> {
-+        if earlier.nanoseconds > self.nanoseconds {
-+            None
-+        } else {
-+            // Casting to u64 and subtracting is guaranteed to give the right
-+            // result for all inputs, as long as the condition we checked above
-+            // holds.
-+            Some(Duration::from_nanos(
-+                self.nanoseconds as u64 - earlier.nanoseconds as u64,
-+            ))
-+        }
-+    }
-+}
-+
-+impl<T: Clock + Now + Monotonic> Instant<T> {
-+    /// Returns the time elapsed since this Instant<T>.
-+    ///
-+    /// This is guaranteed to return a positive result, since
-+    /// it is only implemented for monotonic clocks.
-+    pub fn elapsed(&self) -> Duration {
-+        T::now().since(*self).unwrap_or_else(|| {
-+            pr_err!(
-+                "Monotonic clock {} went backwards!",
-+                core::any::type_name::<T>()
-+            );
-+            Duration::ZERO
-+        })
-+    }
-+}
-+
-+/// Contains the various clock source types available to the kernel.
-+pub mod clock {
-+    use super::*;
-+
-+    /// A clock representing the default kernel time source.
-+    ///
-+    /// This is `CLOCK_MONOTONIC` (though it is not the only
-+    /// monotonic clock) and also the default clock used by
-+    /// `ktime_get()` in the C API.
-+    ///
-+    /// This is like `BootTime`, but does not include time
-+    /// spent sleeping.
-+
-+    pub struct KernelTime;
-+
-+    impl Clock for KernelTime {}
-+    impl Monotonic for KernelTime {}
-+    impl Now for KernelTime {
-+        fn now() -> Instant<Self> {
-+            Instant::<Self>::new(unsafe { bindings::ktime_get() })
-+        }
-+    }
-+
-+    /// A clock representing the time elapsed since boot.
-+    ///
-+    /// This is `CLOCK_MONOTONIC` (though it is not the only
-+    /// monotonic clock) and also the default clock used by
-+    /// `ktime_get()` in the C API.
-+    ///
-+    /// This is like `KernelTime`, but does include time
-+    /// spent sleeping.
-+    pub struct BootTime;
-+
-+    impl Clock for BootTime {}
-+    impl Monotonic for BootTime {}
-+    impl Now for BootTime {
-+        fn now() -> Instant<Self> {
-+            Instant::<Self>::new(unsafe { bindings::ktime_get_boottime() })
-+        }
-+    }
-+
-+    /// A clock representing TAI time.
-+    ///
-+    /// This clock is not monotonic and can be changed from userspace.
-+    /// However, it is not affected by leap seconds.
-+    pub struct TaiTime;
-+
-+    impl Clock for TaiTime {}
-+    impl WallTime for TaiTime {}
-+    impl Now for TaiTime {
-+        fn now() -> Instant<Self> {
-+            Instant::<Self>::new(unsafe { bindings::ktime_get_clocktai() })
-+        }
-+    }
-+
-+    /// A clock representing wall clock time.
-+    ///
-+    /// This clock is not monotonic and can be changed from userspace.
-+    pub struct RealTime;
-+
-+    impl Clock for RealTime {}
-+    impl WallTime for RealTime {}
-+    impl Now for RealTime {
-+        fn now() -> Instant<Self> {
-+            Instant::<Self>::new(unsafe { bindings::ktime_get_real() })
-+        }
-+    }
-+}
-
+Asahi Lina (3):
+      drm/scheduler: Add more documentation
+      drm/scheduler: Fix UAF in drm_sched_fence_get_timeline_name
+      drm/scheduler: Clean up jobs when the scheduler is torn down.
+ drivers/gpu/drm/scheduler/sched_entity.c |  7 ++-
+ drivers/gpu/drm/scheduler/sched_fence.c  |  4 +-
+ drivers/gpu/drm/scheduler/sched_main.c   | 90 ++++++++++++++++++++++++++++++--
+ include/drm/gpu_scheduler.h              |  5 ++
+ 4 files changed, 99 insertions(+), 7 deletions(-)
 ---
 base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-change-id: 20230714-rust-time-10dd9ed25333
+change-id: 20230714-drm-sched-fixes-94bea043bbe7
 
 Thank you,
 ~~ Lina
