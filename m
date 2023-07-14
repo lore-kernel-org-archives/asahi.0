@@ -1,81 +1,195 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC413EEA8
-	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 15:02:06 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-c7a5600d04dso1932732276.3
-        for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 08:02:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A114414264;
+	Fri, 14 Jul 2023 15:21:15 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-991f956fb5aso255381866b.0;
+        Fri, 14 Jul 2023 08:21:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689346925; x=1691938925;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20221208; t=1689348073; x=1691940073;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WZZ9EOh8YDl35VB0YBYDo9hjgSAIvlerdtM+lWHSm5g=;
-        b=JTzzYDbIAeBHNT3Mk2cmNycCC3b97HGw6Wa6P0kp0mxr2C0KJFDPLSxJq8Pd6EzUUh
-         bIjQvzVXcsD1bkZFQ3umgFq9TqY3tY8Vprh3ciL/qkwidOnt0es1ZnABBhViELmcW8yE
-         7hdoifxju13ojhAoxCW+wwfWHB4F/2wrVUxW2PJQxG+IMSqKaI+ydKOWklkKQA4Wto5C
-         rogJtvx1NQYCG44jC1GrVj0i//rc8q1aYevxx9mKh/QMzrQE31PClFfhAFpn5qJoA6/B
-         PFHvMyG72+PLz7aLqg3R3/vCyN/mdmHx0ftxLv9lQP4Bawm7+5d8f4tAFt0fKL0pnrXL
-         xAwg==
+        bh=B6EWyZrZTRUnDLqfmzBc9BCzhKd7v1QVcOcDm6JSV+s=;
+        b=EMWTX/o66jAYPaLdDO9WokfvxmdzqLwCazsDOLmdp91IiV+2HgwyPKHHC212eXc1MR
+         0QdQIvkUuqhgoKmymajEDGbm0RRrzlVgmv1JX0Ei8ZgN9Pv7vFg5PDxX9gP2ZDre6rg2
+         gMuFKULYyp0MnJFq0BJNAda3kAXZUYGYRs6c8RYd5cZ2tZuVY98zwWFNpjtwZCZUtKA+
+         He29roOFPku2r/nywCj0eNHS1CSQAZp/77qXGwB7HnkheRyUdi5M3VW+dSl2jxrMgRVQ
+         toKJQd8pEnMQqamb6Zqp8Pg9i63/xoXHgWE+KJkjOep2eCACpZNSPwXthxmBSkXmt3qg
+         v0rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689346925; x=1691938925;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20221208; t=1689348073; x=1691940073;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WZZ9EOh8YDl35VB0YBYDo9hjgSAIvlerdtM+lWHSm5g=;
-        b=frTy1zIJ5onL5r1AOcuUy4m76bpiYX0V3wHpQcFDI3+dIyqmz5E/Ts/MKLJLMc+zOy
-         ZxJ7aKnpWm5Qj9mnz/oKaHW1v89fP9TsQp+kIqf/FVnzLjVinjNMIqmZVyIOjEu4r0Vl
-         TtSlr9iISnQwScgJ2ybaOw0fgFpUZZbjUQdhDAvKEdvFYbbytvDUT9xXFFRmL4pvbqO6
-         Z90pkHawPY2faV9/4ngZL3ZG4lKIzEgd/cVxk+GW0XaS09cTP7rzMIhUFuKS9DNOs8K5
-         y25lclYSrop3OdWw4QrWga2JBlmOhUZV7lPg/REiMIj9mTrhSH3HGJ2p3g4sQx3MWj0/
-         Fj4Q==
-X-Gm-Message-State: ABy/qLYEZ7G5fTAgOQJNeQd1z6/rSLyrbKTZzhQ3wdAamzybTChXbfgj
-	X4cpKMo2HYld93Z1yUuZblMwi7CZCSB4IU+BJrw=
-X-Google-Smtp-Source: APBJJlERpcU28hgT0T3bIglk0iGT0bmn1uOnaSOpkfR/IyTnKpYwVO97D+A/LlLF6zHeeOjIm0fNWn+04UB37NV0GbY=
-X-Received: by 2002:a25:c0c8:0:b0:c4f:43d7:7daf with SMTP id
- c191-20020a25c0c8000000b00c4f43d77dafmr4055869ybf.1.1689346925288; Fri, 14
- Jul 2023 08:02:05 -0700 (PDT)
+        bh=B6EWyZrZTRUnDLqfmzBc9BCzhKd7v1QVcOcDm6JSV+s=;
+        b=HvVvaTRP7aSjHw/NIknSkhrhJxG3rciGcd+ixu6GVz27R5Yf7uMG7evBtF5UzBI+Mw
+         C5BPC/9a4Ey/EK6oHD4w+VgOIyBO917rTRR+YugCzHcJ9WqiYP+a5RSN6Tk2hacQRien
+         Sr5sbIk8PelB4tHpD59mgg74VUd6npivV7MRE8VgPrMEf4FTpTtt2Mjgx1bcNAmqX8RP
+         mojpCBe3ST7Mh/O/Tzp7nf3brOoNIhpUu/0rKDbG6uHKxQn08BugYK1z7aDUgy0pWY8F
+         2u3ArXo5nhLLwdJGas/aNQxQUCb7YkzYEns32iJLPyLSUE5UqZgGYsIc6Pk0+56tokR1
+         wR3Q==
+X-Gm-Message-State: ABy/qLZWjzyWmNssRUwYrn6MOdAYtxIhC7cr7rGFPNzyEIQgVngCnHVZ
+	l/bNty7grJ75IH7kqbfPkO0=
+X-Google-Smtp-Source: APBJJlGsjormWvTRUCS9mKkmz2zcSCRmFetdfRsijk7Xv2zqTZvKLFQk2WTTGK3htj/KSCVnQZTghg==
+X-Received: by 2002:a17:906:7496:b0:993:d617:bdc8 with SMTP id e22-20020a170906749600b00993d617bdc8mr4727852ejl.7.1689348073313;
+        Fri, 14 Jul 2023 08:21:13 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id kb9-20020a1709070f8900b009894b476310sm5521816ejc.163.2023.07.14.08.21.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Jul 2023 08:21:12 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailauth.nyi.internal (Postfix) with ESMTP id 9581C27C0054;
+	Fri, 14 Jul 2023 11:21:09 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Fri, 14 Jul 2023 11:21:09 -0400
+X-ME-Sender: <xms:42exZHFPnmnsqSlvpoTzDYBO-Hgb1dxQChEn4pHv5LtIRI_JIBw5gw>
+    <xme:42exZEV16bWU57L3_42vg1gVIj_P_ukRuOBXUAbHI_nCEM3-cCZiTNZ9_SC3NzdBz
+    mVpiVTbUGPxgCU9tA>
+X-ME-Received: <xmr:42exZJJEvxzBMTzqlWg1PUUEuQdYZq-Z6yIrk7yWWHGoynDmKcAULvYRyog>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrfeeigdekjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhn
+    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
+    htvghrnhephedugfduffffteeutddvheeuveelvdfhleelieevtdeguefhgeeuveeiudff
+    iedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsg
+    hoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieeg
+    qddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigi
+    hmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:42exZFHKhiwCooNTRUdv0BNUxOhJ-iXXTsePesVzkInkwuGCP1PXnA>
+    <xmx:42exZNWuGAydsuDWN5_PvTJAlx5RLryDzSAuAuvBEltQ0D-LOHAlOw>
+    <xmx:42exZANr2LZxAbKe3uN9CvOfrsgE4fDZrQJq0wtWod9uchSb5K82sw>
+    <xmx:5WexZCep91DeCSedF65Yb2bAlc2T5_cCSWJlQJ5oHdPwWWnp1JYc6g>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 14 Jul 2023 11:21:07 -0400 (EDT)
+Date: Fri, 14 Jul 2023 08:21:05 -0700
+From: Boqun Feng <boqun.feng@gmail.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: lina@asahilina.net, alex.gaynor@gmail.com, alyssa@rosenzweig.io,
+	asahi@lists.linux.dev, benno.lossin@proton.me,
+	bjorn3_gh@protonmail.com, daniel@ffwll.ch, gary@garyguo.net,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, marcan@marcan.st, masahiroy@kernel.org,
+	nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
+	ojeda@kernel.org, rust-for-linux@vger.kernel.org,
+	sven@svenpeter.dev, trix@redhat.com, wedsonaf@gmail.com
+Subject: Re: [PATCH RFC 00/11] rust: Implicit lock class creation & Arc
+ Lockdep integration
+Message-ID: <ZLFn4RPiK3ig9I5M@Boquns-Mac-mini.home>
+References: <f974e5a4-1211-5ad7-4864-f3e210499e5e@asahilina.net>
+ <20230714135926.382695-1-aliceryhl@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAPDJoNv1HW-5uCj21PX3t23rJ+sbTL4Gm5pDis8HGJ-VTr4dug@mail.gmail.com>
- <20230714140201.383439-1-aliceryhl@google.com>
-In-Reply-To: <20230714140201.383439-1-aliceryhl@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 14 Jul 2023 17:01:53 +0200
-Message-ID: <CANiq72n8-b992D4RbwUtuEUxXfJYQLNwfibgWSyspx-HYJ8+8A@mail.gmail.com>
-Subject: Re: [PATCH] rust: kernel: str: Implement Debug for CString
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: ariel.miculas@gmail.com, alex.gaynor@gmail.com, asahi@lists.linux.dev, 
-	benno.lossin@proton.me, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, 
-	gary@garyguo.net, lina@asahilina.net, linux-kernel@vger.kernel.org, 
-	ojeda@kernel.org, rust-for-linux@vger.kernel.org, wedsonaf@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230714135926.382695-1-aliceryhl@google.com>
 
-On Fri, Jul 14, 2023 at 4:02=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
-rote:
->
-> Adding some sort of motivation usually works quite well, e.g.:
->
-> Make it possible to use a CString with the `pr_*` macros directly, that
-> is, instead of
->
->         pr_debug!("trying to open {:?}\n", &*filename);
->
-> we can now write
->
->         pr_debug!("trying to open {:?}\n", filename);
+On Fri, Jul 14, 2023 at 01:59:26PM +0000, Alice Ryhl wrote:
+> Asahi Lina <lina@asahilina.net> writes:
+> > On 14/07/2023 19.13, Alice Ryhl wrote:
+> > > Asahi Lina <lina@asahilina.net> writes:
+> > >> Begone, lock classes!
+> > >>
+> > >> As discussed in meetings/etc, we would really like to support implicit
+> > >> lock class creation for Rust code. Right now, lock classes are created
 
-Indeed, this would be the most important bit, i.e. answering the "why?".
+Thanks for looking into this! Could you also copy locking maintainers in
+the next version?
 
-The "what?" and the "how?" are pretty much explained by the title, but
-it is also fine giving more details (but if the implementation
-requires an explanation, then it is usually best to write an actual
-source code comment instead).
+> > >> using macros and passed around (similar to C). Unfortunately, Rust
+> > >> macros don't look like Rust functions, which means adding lockdep to a
+> > >> type is a breaking API change. This makes Rust mutex creation rather
+> > >> ugly, with the new_mutex!() macro and friends.
+> > >>
+> > >> Implicit lock classes have to be unique per instantiation code site.
+> > >> Notably, with Rust generics and monomorphization, this is not the same
+> > >> as unique per generated code instance. If this weren't the case, we
+> > >> could use inline functions and asm!() magic to try to create lock
+> > >> classes that have the right uniqueness semantics. But that doesn't work,
+> > >> since it would create too many lock classes for the same actual lock
+> > >> creation in the source code.
+> > >>
+> > >> But Rust does have one trick we can use: it can track the caller
+> > >> location (as file:line:column), across multiple functions. This works
+> > >> using an implicit argument that gets passed around, which is exactly the
+> > >> thing we do for lock classes. The tricky bit is that, while the value of
+> > >> these Location objects has the semantics we want (unique value per
+> > >> source code location), there is no guarantee that they are deduplicated
+> > >> in memory.
+> > >>
+> > >> So we use a hash table, and map Location values to lock classes. Et
+> > >> voila, implicit lock class support!
+> > >>
+> > >> This lets us clean up the Mutex & co APIs and make them look a lot more
+> > >> Rust-like, but it also means we can now throw Lockdep into more APIs
+> > >> without breaking the API. And so we can pull a neat trick: adding
+> > >> Lockdep support into Arc<T>. This catches cases where the Arc Drop
+> > >> implementation could create a locking correctness violation only when
+> > >> the reference count drops to 0 at that particular drop site, which is
+> > >> otherwise not detectable unless that condition actually happens at
+> > >> runtime. Since Drop is "magic" in Rust and Drop codepaths very difficult
+> > >> to audit, this helps a lot.
+> > >>
+> > >> For the initial RFC, this implements the new API only for Mutex. If this
+> > >> looks good, I can extend it to CondVar & friends in the next version.
+> > >> This series also folds in a few related minor dependencies / changes
+> > >> (like the pin_init mutex stuff).
+> > > 
+> > > I'm not convinced that this is the right compromise. Moving lockdep
+> > > class creation to runtime sounds unfortunate, especially since this
+> > > makes them fallible due to memory allocations (I think?).
+> > > 
+> > > I would be inclined to keep using macros for this.
+> > 
+> > Most people were very enthusiastic about this change in the meetings... 
+> > it wasn't even my own idea ^^
+> 
+> I don't think I was in that meeting. Anyway,
+>  
+> > I don't think the fallibility is an issue. Lockdep is a debugging tool, 
+> > and it doesn't have to handle all possible circumstances perfectly. If 
+> > you are debugging normal lock issues you probably shouldn't be running 
+> > out of RAM, and if you are debugging OOM situations the lock keys would 
+> > normally have been created long before you reach an OOM situation, since 
+> > they would be created the first time a relevant lock class is used. More 
+> > objects of the same class don't cause any more allocations. And the code 
+> > has a fallback for the OOM case, where it just uses the Location object 
+> > as a static lock class. That's not ideal and degrades the quality of the 
+> > lockdep results, but it shouldn't completely break anything.
+> 
+> If you have a fallback when the allocation fails, that helps ...
+> 
+> You say that Location objects are not necessarily unique per file
+> location. In practice, how often are they not unique? Always just using
+> the Location object as a static lock class seems like it would
+> significantly simplify this proposal.
+> 
 
-Cheers,
-Miguel
+Agreed. For example, `caller_lock_class_inner` has a Mutex critical
+section in it (for the hash table synchronization), that makes it
+impossible to be called in preemption disabled contexts, which limits
+the usage.
+
+Regards,
+Boqun
+
+> > The advantages of being able to throw lockdep checking into arbitrary 
+> > types, like the Arc<T> thing, are pretty significant. It closes a major 
+> > correctness checking issue we have with Rust and its automagic Drop 
+> > implementations that are almost impossible to properly audit for 
+> > potential locking issues. I think that alone makes this worth it, even 
+> > if you don't use it for normal mutex creation...
+> 
+> I do agree that there is value in being able to more easily detect
+> potential deadlocks involving destructors of ref-counted values. I once
+> had a case of that myself, though lockdep was able to catch it without
+> this change because it saw the refcount hit zero in the right place.
+> 
+> Alice
+> 
