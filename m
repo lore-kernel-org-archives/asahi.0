@@ -1,199 +1,117 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2085.outbound.protection.outlook.com [40.107.94.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928C2F9FE
-	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 09:57:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d2htelgq7Glb6v3CoiwHuJlL3uF9HC+ZxSFSE2xnj1lix2CnPx75M4X7kuGtPE2Vn9kEf2plLtqn1oIMay3LB1QztKBUR67rOLiS8Oj5ZqHbyebK2jAWGvJR9xUXfAhTkzUjlsJOIVpXq7SoR0TSxcZ8H5v8IxtgMx0BpelQ9QOCaEapatEAHZq2BdgBk9bihHjPjpkGd68mUc2SfdjaTCdlbVLAWb4EMkdsLiUB4H3VWMXFxuSC/zn/DmnxNAAwIrdroYqtmXsPaYmRlcZxrfmcnmAr7CdHsvjfiZvvlWE9kgV6dF5dBYald7hg4SKPuenZVdK6rGjlYD/zGFkhSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zowt3R4gpRblp2S1kd007f/Xwd68vk6XjXZWASLYM0I=;
- b=gnp6m56a5Otdzzp8ieLNYVo705OOm3So4K5QDqjtyPPlh8KndttVnubnKuMTuuL++wudJCaHxBGuw8MvIQ+TTkjY3Hg6443hr8ffCGGtcgvbFzTodmRXC0HarpDY4O43hvsLeBOt6SJuwsfMKKaeC2b4ftWFVlQ6/0PcPjOeKPuxgKxSZHx5q1rkAP8K7RSj+t8+nmFEVnBDGJPWvQeTVAQH+sMaR4feJrqhFO9sOKiJ9x9jc21SiyW6RqDt1y7lN1qPfC2Sj36zp7FkXpibG4MhNfzmcBt9N7JBZchk7IUoO8dguyC/4aKycvrcWnCEarMHyO5vh02HbNxMhFbpVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zowt3R4gpRblp2S1kd007f/Xwd68vk6XjXZWASLYM0I=;
- b=1+KAQQZneMJ8sd9mAwFkTbTL3+Ga4Syxm7/7Lc2yKZyiDkzTYb73qWv4gHPK7LP6VczTgnOzHIm89MSGDN5jLNxMulM2wyFRot1eQxasla/JWYLme1pGQEa/GPZPdbzL2G2ShRRQUlLM23IUb978nEYMxkDU6oGdTrIBXzORAfg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SA3PR12MB7974.namprd12.prod.outlook.com (2603:10b6:806:307::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.27; Fri, 14 Jul
- 2023 09:57:08 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::669f:5dca:d38a:9921]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::669f:5dca:d38a:9921%4]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
- 09:57:08 +0000
-Message-ID: <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
-Date: Fri, 14 Jul 2023 11:57:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
- drm_sched_fence_get_timeline_name
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>, Luben Tuikov <luben.tuikov@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
- <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
- <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
- <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0053.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6379911188
+	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 10:05:29 +0000 (UTC)
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-51e0d7c6293so1036516a12.3
+        for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 03:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689329127; x=1691921127;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q5MF44XQzouX2FbGdHpxAthvfg7u3iO2oNPh/cM8NKE=;
+        b=apJ81VA8GA3jTnw53j82PIZMpXO2K7A7oa/aWR/pG0xVkTrMRoSr2WO7woWzhaKgks
+         Qiu5Ef2OtOLcCCthMBik8jre5JgKbOQ296jPDHO+0XBtbeQZ3GCV++0K6RdSFg4RJLtx
+         HI5xt3Zx+SZVy5n98a+5XUHMB8tMTj6+uvbS9OppSt9LaXPRTaCyk7dj/0vpRi483Q/w
+         mMeuWWvg9oj5KISbLCA6AXRIem3Ndp1x+G4RQ0XIlDX39FHUS6Q4CERdEKP9pZtXSvxP
+         St538WJiTpZgiaPMGVu8ypTZGB9xPR5JNHSI92L2DHBK2iYWCB6Zt6EOsYaik2bKgOu7
+         3ZHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689329127; x=1691921127;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q5MF44XQzouX2FbGdHpxAthvfg7u3iO2oNPh/cM8NKE=;
+        b=WUoGXf5Lr6gQdWAm8BU3xpRfbO8YGmQPfflYuiYwgR2CPhWWV1GpgpGoMTdJejckl5
+         9fB/qFm09bKha5ciIMlsTEXZef7/JddYQKAbQdR3cceGnJBToegHldoZaguV7S58fS9v
+         EkMI3zgrzdAwqLsfJMSTAdlUiMQ20y2ITkck6yWhLKr7mPt46TN6qKDn0qDgvg3Ja+j2
+         zoxxZ3HcKkTf966viBuIiI4+md6557yOvhBQ9korW+Y9oL+Aq2xiyZGXDDH8AN+URPPd
+         j0gdNJ1MirOSaoT4ZiCkt5hNUe1cgxgicoKJWGwH6fePyvNowzEh/MxIQYBS+Q8qvUo/
+         UI6Q==
+X-Gm-Message-State: ABy/qLb/D0KDBa8JlpKlqdPLMVOGrV2AsqepUdkTgcgE4HmNv1YHrHQ7
+	qe9/npTBtcJ3ZblwPivJADICXlG06tLg/QA=
+X-Google-Smtp-Source: APBJJlHwVKX/eQQLU8nLjAGvJpMaB1Jw8Jm+qhCHiVH05w5ZGIxlbFTKtQ7Ig8Do+3M/gB90uk1NNJRpAEM9C74=
+X-Received: from aliceryhl.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:6c8])
+ (user=aliceryhl job=sendgmr) by 2002:a50:9f07:0:b0:510:dd95:da5d with SMTP id
+ b7-20020a509f07000000b00510dd95da5dmr19412edf.4.1689329127461; Fri, 14 Jul
+ 2023 03:05:27 -0700 (PDT)
+Date: Fri, 14 Jul 2023 10:05:25 +0000
+In-Reply-To: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SA3PR12MB7974:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e8b3b93-8a35-40c5-50f4-08db8450af49
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	2J52WrKfa0XVqVr+zt0VYXceQfjCYKoYR6oMR2DbMRcCnPN8jNOpie9FtJgXGZuTAdj4IiCDJkoIEnMZ5di+w9l++u1wxagy3OcSW5lywpDMzjoxpvlwtkgiOT6BoSDZ6wFQvUDPsxkWz7gSKm1cpyer949597w7RYUJtEzciAki4gKt2JZCOf9UEoJumBIWdJMzxtJMCXY2/Jt9N28a0BiPMrOCCxn8cuLrohSaNVmaei9tSkMWOKqjfwMF0XKdKrFfC9whLZyFJ16Mu/mIQzhWptmJnUOhcFYivrMVX9Nfxr4kphGhda4Iz2piDaiFcYG2lu8IMr6JOB9c/QbCkLtbMDtgB3bdaGd6gS2dpz9z7L1Mn3Rb2AB1hXa84KM5s81tjbXSVTli3dtd1aeVOTNQhxD9zx1ZzkqclSLFZ/Xi42U1hJ4bhbgZ08l5uNVeoJkafpqQFgY8CZmD+BJcnJrlCHiK/TT9IQoiqqljkGRRfy1wVdhJPWHkKuJ5du+XSY9h7rYOpdIkz7Wle6r8a8bO0WWJzSBM08rYUw+LgnamFeTM0dHJ6Jn58PHSwfBwb+kTIu2ovk5MQ9oJFLe8bbptx0AYIFYq5U6JZYiJCRvM0M4dNl0jEMZGY9Y/xtqrF09MpocRlx3vj0/1lNcjrQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(366004)(39860400002)(396003)(136003)(451199021)(478600001)(66574015)(83380400001)(2616005)(6486002)(6512007)(6666004)(110136005)(4326008)(66946007)(66556008)(66476007)(54906003)(6506007)(186003)(31686004)(8936002)(8676002)(38100700002)(5660300002)(41300700001)(316002)(2906002)(31696002)(7416002)(86362001)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VnArSXA2UnZNalZQOWRVNUxhSXN4b010VGRWb0x1dlhCZ1FYMExkd0FqVjFD?=
- =?utf-8?B?WUtKWmRYRWVyNk4vN3ZVUjdjUm93RW02blRYandkaG02Q1lwRVJKTjZ6bkxX?=
- =?utf-8?B?aU9OM0R2V1JldTROQVUwdXJ2MDB3WVppSFNycGJmM0pEckN1OUhpN3FIc3po?=
- =?utf-8?B?VFRSalJ2b0g3Vk55bXBYS3FsVG9sSS9MQTZUVkJyeE9OM1lpTlc5cjRnTGw1?=
- =?utf-8?B?ZmxMcEhaOHJhZU9NR1B5SUJzTDhnWFZaUE13MlFSRHBybmxLNkJnOGhhdmo1?=
- =?utf-8?B?TjdBUy9YR2hqV2p3MmpZYWRwNmZVSi9sMm9FNXFPUUhOcUFhVE9RcjRVYmVB?=
- =?utf-8?B?NlBFYnkxT043cmsrV1pldk45MnpKTld0MW5qM1QvNHBOZ3dtRm13V1pKRmlB?=
- =?utf-8?B?akpuRFluWFFCbDJUemh2ZHdEaHpsZmNVdVpVTEc0NktvTmdyZEJ1ZXpRa1Zh?=
- =?utf-8?B?TlF0TTA1dFhCZzFQWCtCOFBYZnc2L2VOL3QwbndHMXpkZElmczFRTDZCNHA1?=
- =?utf-8?B?TlhvWkJxa28wL3g4RVVYUW9nRXlrSWZuR2lzanNNMEdoelVVL2RlUGV1RHdw?=
- =?utf-8?B?SndKeldxSHk3SHBXbU84UlZHL2ZRcm5pdHkxbGplRW02ME9CMzNFcFp3MWZ2?=
- =?utf-8?B?eXZYVWVVSG9KODJqMFZDbWtjTHdzRGsxbzRWSkpBSGpFU3RRWUZMc0lyeUk2?=
- =?utf-8?B?d25FY0tKMUV6SHoyelVCQjQvc0xsaDN0TXdhSHk1SUtRbnVseHF4NldzblV3?=
- =?utf-8?B?Z3hpeGo3UUJnNU4zWnpjZkIwSWFiUk5YUGtrZUNJdW05TGtmd3hhZ00rcFZ0?=
- =?utf-8?B?VU1VZkdWbUJGeFB5UEVkNHl6dnVySDVMVDNuL01ybnhtallFcllRTzZQZ2kz?=
- =?utf-8?B?S0IwVHJ6bXNjYXlxbnVkdFRvUUcrR3R6UGRYVWN4a2FOQ3V1ZkppcXI5Nndx?=
- =?utf-8?B?YnJsTVYxWm5ITFF5OGcwUldtYnF6WGJYd2ZMWnZmSnJ6S2xjRkhJY1E3RVZD?=
- =?utf-8?B?RzgvTTR1SzVvU0tsTW5SazQ3MWt0azZWaFgyeWtPVmd0d1R0Um10VGp4RDB2?=
- =?utf-8?B?L1ZiVEYvcCt4Sm9PL3hQMzhJK1lCOCtVZVVMS2VrREZiUTJ3Rk83MUozS2pF?=
- =?utf-8?B?YlVIb1RET3M5bDc4bnNJYlBFNkFDaWczVDF2MXZkaE5QZHRJbzc1UkdOUUdk?=
- =?utf-8?B?QnRIQVJvYUJFZHdIYm1MSFBUanpibnFaM0hRNkNSeXQzZFEvejE5cVhyVjNO?=
- =?utf-8?B?L3R0c3JvaHlhUTBDRXJkbUNmc05oeFJaeWQ1dUFseSt4RmliOTUyb29Nakl2?=
- =?utf-8?B?ajU5MThzcktnbkJWVDlaZnNSZzFLWUd6UFpWSjhmTk16eHpTb0wzVktHSHg2?=
- =?utf-8?B?eHJJZUZFcnkrN3hWdUJubzZzbTVWblVvU0lBd2R5SzVieWM3VDVmT1cvZytF?=
- =?utf-8?B?dXF6MzgycmN6Y3FIMnB6NWVJTFBBRGNoNHEzNDlqaUsvRG5jaXJPbjMrTVJR?=
- =?utf-8?B?R3RFMjk0R2p5R0hPeE40TWZ6Sm1aU1F6TDZXMjAvc0IweUhZUG1mV2dRSmc0?=
- =?utf-8?B?NExCdWt4SXhNTHlLRFIzRm40c1RMUW11T3BieFFJZ3VvOHNDNTJtc3Q4Uk85?=
- =?utf-8?B?QU5EK2l2WC9VNm05aUE1WGhuUkhpRjBJRDVVeG5tSHMzMUFYbGVGY0l4V2ox?=
- =?utf-8?B?aXBmQ0ZGaTUyVEVzZWs0U1JKQUlKRG9iaGtzeFloUmZWaHlUbEhKTE1FaklM?=
- =?utf-8?B?Y3dmZ3pJVWVDVjc5OWJNbFFaY1NZblpGQUpoOURHUFJpUFh6OS9HeDBMdnYw?=
- =?utf-8?B?d0FQeFJkZFZlYzQrZXVENEpVZ3hkaklFL09oeTNvZ3M0RVVhU0RnbVFSaGxQ?=
- =?utf-8?B?WnJWTzNzTlFIZUxWTEVNeFRYSzZUR0R3Uy8vTmtOcGIxNWxaRVJWamxMcUNH?=
- =?utf-8?B?MEZlbzc5dGlpV3JaanlkMWRtU1VkWDVFTGsvVzBwRXBOQml0YWEyVkpad0oy?=
- =?utf-8?B?ZDduSmRvb0tXZHR2QWFqY1kwamk3MXAzVkxMWk5JWDduVHhBTVVjTWNnSm4y?=
- =?utf-8?B?Nk5venh6eGNvbDFXWTZMVnc0cUNxN3V1OVN0V2JuVUJMQVo0clB0N1czS0J6?=
- =?utf-8?B?Q0c5OXN6cjhMMnNPQUhzV2orb1ZNcHlVUmZNMm1DdVVjbkZ6aTk1eE9hQTVk?=
- =?utf-8?Q?sV/4BI/1SYOshFacLhiCD37Ovf4K3JvlH+2Odzr7iMnP?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e8b3b93-8a35-40c5-50f4-08db8450af49
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 09:57:07.9736
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kVfrTz4tkLGi2JRoKNYIocpnGqkptRDHhbL6DKIJkhlz4WdyHmazaW9ZcA9V3bBz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7974
+Mime-Version: 1.0
+References: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
+X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
+Message-ID: <20230714100525.2192448-1-aliceryhl@google.com>
+Subject: Re: [PATCH v2] rust: time: New module for timekeeping functions
+From: Alice Ryhl <aliceryhl@google.com>
+To: lina@asahilina.net
+Cc: alex.gaynor@gmail.com, asahi@lists.linux.dev, bjorn3_gh@protonmail.com, 
+	boqun.feng@gmail.com, gary@garyguo.net, gbs@canishe.com, 
+	heghedus.razvan@protonmail.com, jistone@redhat.com, jstultz@google.com, 
+	linux-kernel@vger.kernel.org, ojeda@kernel.org, 
+	rust-for-linux@vger.kernel.org, sboyd@kernel.org, tglx@linutronix.de, 
+	wedsonaf@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Am 14.07.23 um 11:49 schrieb Asahi Lina:
-> On 14/07/2023 17.43, Christian König wrote:
->> Am 14.07.23 um 10:21 schrieb Asahi Lina:
->>> A signaled scheduler fence can outlive its scheduler, since fences are
->>> independencly reference counted. Therefore, we can't reference the
->>> scheduler in the get_timeline_name() implementation.
->>>
->>> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
->>> dma-bufs reference fences from GPU schedulers that no longer exist.
->>>
->>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>> ---
->>>    drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
->>>    drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
->>>    include/drm/gpu_scheduler.h              | 5 +++++
->>>    3 files changed, 14 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c 
->>> b/drivers/gpu/drm/scheduler/sched_entity.c
->>> index b2bbc8a68b30..17f35b0b005a 100644
->>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>> @@ -389,7 +389,12 @@ static bool 
->>> drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->>>               /*
->>>             * Fence is from the same scheduler, only need to wait for
->>> -         * it to be scheduled
->>> +         * it to be scheduled.
->>> +         *
->>> +         * Note: s_fence->sched could have been freed and reallocated
->>> +         * as another scheduler. This false positive case is okay, 
->>> as if
->>> +         * the old scheduler was freed all of its jobs must have
->>> +         * signaled their completion fences.
->>
->> This is outright nonsense. As long as an entity for a scheduler exists
->> it is not allowed to free up this scheduler.
->>
->> So this function can't be called like this.
->
-> As I already explained, the fences can outlive their scheduler. That 
-> means *this* entity certainly exists for *this* scheduler, but the 
-> *dependency* fence might have come from a past scheduler that was 
-> already destroyed along with all of its entities, and its address reused.
+Asahi Lina <lina@asahilina.net> writes:
+> +/// Marker trait for clock sources that represent a calendar (wall clock)
+> +/// relative to the UNIX epoch.
+> +pub trait WallTime {}
 
-Well this is function is not about fences, this function is a callback 
-for the entity.
+What's the purpose of this trait? Perhaps it should have a method to get
+the UNIX epoch as an Instant?
 
->
-> Christian, I'm really getting tired of your tone. I don't appreciate 
-> being told my comments are "outright nonsense" when you don't even 
-> take the time to understand what the issue is and what I'm trying to 
-> do/document. If you aren't interested in working with me, I'm just 
-> going to give up on drm_sched, wait until Rust gets workqueue support, 
-> and reimplement it in Rust. You can keep your broken fence lifetime 
-> semantics and I'll do my own thing.
+> +    /// Returns the time elapsed since an earlier Instant<t>, or
+> +    /// None if the argument is a later Instant.
+> +    pub fn since(&self, earlier: Instant<T>) -> Option<Duration> {
+> +        if earlier.nanoseconds > self.nanoseconds {
+> +            None
+> +        } else {
+> +            // Casting to u64 and subtracting is guaranteed to give the right
+> +            // result for all inputs, as long as the condition we checked above
+> +            // holds.
+> +            Some(Duration::from_nanos(
+> +                self.nanoseconds as u64 - earlier.nanoseconds as u64,
+> +            ))
 
-I'm certainly trying to help here, but you seem to have unrealistic 
-expectations.
+It looks like you intend to use wrapping semantics for this subtraction
+so that self=1,earlier=-1 results in a difference of two.
 
-I perfectly understand what you are trying to do, but you don't seem to 
-understand that this functionality here isn't made for your use case.
+In that case, you should explicitly use `.wrapping_sub` instead to
+convey your intent.
 
-We can adjust the functionality to better match your requirements, but 
-you can't say it is broken because it doesn't work when you use it not 
-in the way it is intended to be used.
+I guess you could also use `abs_diff`, which takes two i64s and returns
+an u64.
 
-You can go ahead and try to re-implement the functionality in Rust, but 
-then I would reject that pointing out that this should probably be an 
-extension to the existing code.
+> +/// Contains the various clock source types available to the kernel.
+> +pub mod clock {
+> +    use super::*;
+> +
+> +    /// A clock representing the default kernel time source.
+> +    ///
+> +    /// This is `CLOCK_MONOTONIC` (though it is not the only
+> +    /// monotonic clock) and also the default clock used by
+> +    /// `ktime_get()` in the C API.
+> +    ///
+> +    /// This is like `BootTime`, but does not include time
+> +    /// spent sleeping.
+> +
+> +    pub struct KernelTime;
+> +
+> +    impl Clock for KernelTime {}
+> +    impl Monotonic for KernelTime {}
+> +    impl Now for KernelTime {
+> +        fn now() -> Instant<Self> {
+> +            Instant::<Self>::new(unsafe { bindings::ktime_get() })
+> +        }
+> +    }
 
-Christian.
+We usually add a SAFETY comment even if it is trivial.
 
->
-> ~~ Lina
->
+// SAFETY: Just an FFI call without any safety requirements.
+
+Alice
 
