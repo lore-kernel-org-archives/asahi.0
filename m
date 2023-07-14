@@ -1,85 +1,81 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B1E20E8
-	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 14:02:04 +0000 (UTC)
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-c83284edf0eso1698215276.3
-        for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 07:02:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC413EEA8
+	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 15:02:06 +0000 (UTC)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-c7a5600d04dso1932732276.3
+        for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 08:02:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689343323; x=1691935323;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2RX/r2ODC8fCu29Ed3cujFRc453JSyfT5sPImsob4JU=;
-        b=BwbXGxAdGDSa8Hh7hYoUt1tjxNITodRy4Ie5C9Ve5VjqA6Jp+nyRz/A8pfmVILcQ64
-         waqrj3jD33fIlouxPLj8xVZ7jMJXPFpzZZfFIhJRa14Ko7B0PJ9XRY1ZTwTG/bpqLs6Y
-         BruFqcKyT0EUFnXIdp0TIxtA3LQR0nYcxTlVMiwkz4IRgvYemxzWVSA3T8g404mRVp3+
-         3dri6WPbfsCB8AwLXDoA9muP0F2W+o/cAaLBQOFQLs1sYckvS7fBVKqH65bEOBGc7dsw
-         FK3QzCp5BfBLk4FUwZ4FZA1gNaX3R8wrbNX3RrAAV2tNGAFQZlGdMBItHrESM9ihMcph
-         sZHQ==
+        d=gmail.com; s=20221208; t=1689346925; x=1691938925;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WZZ9EOh8YDl35VB0YBYDo9hjgSAIvlerdtM+lWHSm5g=;
+        b=JTzzYDbIAeBHNT3Mk2cmNycCC3b97HGw6Wa6P0kp0mxr2C0KJFDPLSxJq8Pd6EzUUh
+         bIjQvzVXcsD1bkZFQ3umgFq9TqY3tY8Vprh3ciL/qkwidOnt0es1ZnABBhViELmcW8yE
+         7hdoifxju13ojhAoxCW+wwfWHB4F/2wrVUxW2PJQxG+IMSqKaI+ydKOWklkKQA4Wto5C
+         rogJtvx1NQYCG44jC1GrVj0i//rc8q1aYevxx9mKh/QMzrQE31PClFfhAFpn5qJoA6/B
+         PFHvMyG72+PLz7aLqg3R3/vCyN/mdmHx0ftxLv9lQP4Bawm7+5d8f4tAFt0fKL0pnrXL
+         xAwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689343323; x=1691935323;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=2RX/r2ODC8fCu29Ed3cujFRc453JSyfT5sPImsob4JU=;
-        b=C30OGifdd3Qgid8iIKuqV9Z6P7GGIUat3tgcewoeQrLhYPiCfQn61c64pVlw2Md7nD
-         yAS6hNlGqdasKPvmxJ2urKiiiklr2RYlEKoieBGqtqPWUMwVxia+jpkbFfbHjxgaJmxE
-         jq8SsCod0WtnZEQp1wlmi6o5K2yT1pbJq5Kw7ftoqhUoylJFws1wVoSp5pzy/JJ6ROZc
-         S5GUYWMiW2zcuuC0JmZLYPCOpTtohSNfnpL2eTtdRhVcw3XwHH38gplMB9fCi3TSJJSf
-         PIO456AoIFSmh3w80ARZSnM/vu8rt0WusaEDQ3XW/IRu+TD4VQU+bOJKMsCj49UNkY+r
-         TlnA==
-X-Gm-Message-State: ABy/qLa4d7Og4VK+CjPJ8UefVTU5+TbvxANl2UiXlzhlLxeE3Tb2YSE6
-	JBMAHY7Zb5otfeFgfhMBCHJZ2HK0Jr+wIF8=
-X-Google-Smtp-Source: APBJJlGzu1LO19CXBMx8FKjaV6KIVSfUtdfZqayTOkYrzFmODQN5OrWCNNNYNkUzckjgrty4qCCNo3lYvl3ikgU=
-X-Received: from aliceryhl.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:6c8])
- (user=aliceryhl job=sendgmr) by 2002:a25:d8d6:0:b0:c62:d787:3acc with SMTP id
- p205-20020a25d8d6000000b00c62d7873accmr25193ybg.2.1689343323690; Fri, 14 Jul
- 2023 07:02:03 -0700 (PDT)
-Date: Fri, 14 Jul 2023 14:02:01 +0000
-In-Reply-To: <CAPDJoNv1HW-5uCj21PX3t23rJ+sbTL4Gm5pDis8HGJ-VTr4dug@mail.gmail.com>
+        d=1e100.net; s=20221208; t=1689346925; x=1691938925;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WZZ9EOh8YDl35VB0YBYDo9hjgSAIvlerdtM+lWHSm5g=;
+        b=frTy1zIJ5onL5r1AOcuUy4m76bpiYX0V3wHpQcFDI3+dIyqmz5E/Ts/MKLJLMc+zOy
+         ZxJ7aKnpWm5Qj9mnz/oKaHW1v89fP9TsQp+kIqf/FVnzLjVinjNMIqmZVyIOjEu4r0Vl
+         TtSlr9iISnQwScgJ2ybaOw0fgFpUZZbjUQdhDAvKEdvFYbbytvDUT9xXFFRmL4pvbqO6
+         Z90pkHawPY2faV9/4ngZL3ZG4lKIzEgd/cVxk+GW0XaS09cTP7rzMIhUFuKS9DNOs8K5
+         y25lclYSrop3OdWw4QrWga2JBlmOhUZV7lPg/REiMIj9mTrhSH3HGJ2p3g4sQx3MWj0/
+         Fj4Q==
+X-Gm-Message-State: ABy/qLYEZ7G5fTAgOQJNeQd1z6/rSLyrbKTZzhQ3wdAamzybTChXbfgj
+	X4cpKMo2HYld93Z1yUuZblMwi7CZCSB4IU+BJrw=
+X-Google-Smtp-Source: APBJJlERpcU28hgT0T3bIglk0iGT0bmn1uOnaSOpkfR/IyTnKpYwVO97D+A/LlLF6zHeeOjIm0fNWn+04UB37NV0GbY=
+X-Received: by 2002:a25:c0c8:0:b0:c4f:43d7:7daf with SMTP id
+ c191-20020a25c0c8000000b00c4f43d77dafmr4055869ybf.1.1689346925288; Fri, 14
+ Jul 2023 08:02:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
 References: <CAPDJoNv1HW-5uCj21PX3t23rJ+sbTL4Gm5pDis8HGJ-VTr4dug@mail.gmail.com>
-X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
-Message-ID: <20230714140201.383439-1-aliceryhl@google.com>
+ <20230714140201.383439-1-aliceryhl@google.com>
+In-Reply-To: <20230714140201.383439-1-aliceryhl@google.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 14 Jul 2023 17:01:53 +0200
+Message-ID: <CANiq72n8-b992D4RbwUtuEUxXfJYQLNwfibgWSyspx-HYJ8+8A@mail.gmail.com>
 Subject: Re: [PATCH] rust: kernel: str: Implement Debug for CString
-From: Alice Ryhl <aliceryhl@google.com>
-To: ariel.miculas@gmail.com
-Cc: alex.gaynor@gmail.com, asahi@lists.linux.dev, benno.lossin@proton.me, 
-	bjorn3_gh@protonmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
-	lina@asahilina.net, linux-kernel@vger.kernel.org, ojeda@kernel.org, 
-	rust-for-linux@vger.kernel.org, wedsonaf@gmail.com
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: ariel.miculas@gmail.com, alex.gaynor@gmail.com, asahi@lists.linux.dev, 
+	benno.lossin@proton.me, bjorn3_gh@protonmail.com, boqun.feng@gmail.com, 
+	gary@garyguo.net, lina@asahilina.net, linux-kernel@vger.kernel.org, 
+	ojeda@kernel.org, rust-for-linux@vger.kernel.org, wedsonaf@gmail.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Asahi Lina <lina@asahilina.net> writes:
-> On 14/07/2023 18.48, Alice Ryhl wrote:
->> Asahi Lina <lina@asahilina.net> writes:
->>> Trivial implementation.
->>>
->>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->> 
->> The commit message is a bit short, but the change itself looks fine.
->> 
->> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-> 
-> It's so trivial I just didn't know what else to write... suggestions 
-> welcome (for this or next time I have a patch like this) ^^
-> 
-> ~ Lina
+On Fri, Jul 14, 2023 at 4:02=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
+rote:
+>
+> Adding some sort of motivation usually works quite well, e.g.:
+>
+> Make it possible to use a CString with the `pr_*` macros directly, that
+> is, instead of
+>
+>         pr_debug!("trying to open {:?}\n", &*filename);
+>
+> we can now write
+>
+>         pr_debug!("trying to open {:?}\n", filename);
 
-Adding some sort of motivation usually works quite well, e.g.:
+Indeed, this would be the most important bit, i.e. answering the "why?".
 
-Make it possible to use a CString with the `pr_*` macros directly, that
-is, instead of
+The "what?" and the "how?" are pretty much explained by the title, but
+it is also fine giving more details (but if the implementation
+requires an explanation, then it is usually best to write an actual
+source code comment instead).
 
-	pr_debug!("trying to open {:?}\n", &*filename);
-
-we can now write
-
-	pr_debug!("trying to open {:?}\n", filename);
-
-Alice
-
+Cheers,
+Miguel
