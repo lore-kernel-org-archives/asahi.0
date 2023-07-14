@@ -1,66 +1,102 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B712D51F
-	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 09:48:54 +0000 (UTC)
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-993c2d9e496so105017366b.0
-        for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 02:48:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1689328133; x=1691920133;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LgB9Mhn/4by5bCjJpUEX/UcsNdb0bdjrrqXERtCyeLI=;
-        b=C3GVqpZj6i0V8gkeGoO6N72GIt8HeLW1V5EMHZbZAE7/3bqd+2NE3EZ8b624qO0BD3
-         jTO0ejZIZ84R7+1oKeHt05CyuT8Yx571+hljrlG5bjx1A1tD1ebv55QLpfBRWvTwo4AF
-         GzCHxriMdWWJVLRQKR+UjdxcFE3HjYbbFlnfTPROo/NYJ+hrJAVz/+FBBQYzZd4j2l7+
-         NJDISCiRb0ci+5wZj6nIp6DrgMm7Wj6aX5gOS4SEwwMGtbmLUrQbwlhBZT/VSrNLaG1X
-         qJ5wEbRmzJVJbeja9uKq4s2N1dI/cKc9HshqAOGM81iO2tuSTFwCkfsqx/D/Rb7xc8X2
-         Bqlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689328133; x=1691920133;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LgB9Mhn/4by5bCjJpUEX/UcsNdb0bdjrrqXERtCyeLI=;
-        b=WgcGWTmeaXcUyGZUxlGDyU4VscMMMCnBDtH9c9aB/5K9Jh/FX4ki7Z4q4OLKqaOSDf
-         H43clkcJkYU3JOR+WeUIt0B58dnuyiW6hvWFlgLPGk2z1mQ2axnrs6GAgC8cVwNGCD3u
-         bSKwMz8f9UwFAOFMGWfkCbVrVXcMGB3Lu3Mqeq7typJDFgaovzrGptHqZZKPWhkULtBJ
-         kY3rHZSyuGLBoPoB1LYYIIjC2kCsIfJQjZoh1hoS/+URTNmYrBKS6Bhs6lwjzfpduMpR
-         uM2ObWtvlIKOH5Gge8d5bEVROxgeYt9EboVFz86+9ebCg3u0uVZbU82AhD2qO3qcW23Z
-         1NGA==
-X-Gm-Message-State: ABy/qLbyB98Hka6myahiEGzI41iCBtq/QwYO+E/ReV7v63d4eicGTZjY
-	mrArMnh06LzFI1Lv6YIBnBxzDbtk8oeC0kA=
-X-Google-Smtp-Source: APBJJlFX3YPOyr7+HJnYzpBJU6w92y6qG7Iwif9vTDearcfvz9cn3ZRfZBU1/7bS7OzWLsIsm/mXxa4S1pwPyb0=
-X-Received: from aliceryhl.c.googlers.com ([fda3:e722:ac3:cc00:31:98fb:c0a8:6c8])
- (user=aliceryhl job=sendgmr) by 2002:a17:907:2c78:b0:98e:10f5:db52 with SMTP
- id ib24-20020a1709072c7800b0098e10f5db52mr9590ejc.7.1689328133162; Fri, 14
- Jul 2023 02:48:53 -0700 (PDT)
-Date: Fri, 14 Jul 2023 09:48:44 +0000
-In-Reply-To: <20230714-cstring-debug-v1-1-4e7c3018dd4f@asahilina.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AB7FC03
+	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 09:49:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 9CAD05BC37;
+	Fri, 14 Jul 2023 09:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1689328188;
+	bh=PC7GXXNDk15CT3rU7hYCpLMfS9lNq6DXUxfJ9HZPrS8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=IPcsl7xZXqCSToAEy5I5oBtveILmM0LY+CIKTH+8cdBXnHWwvnXsOO1cLA46v9EfB
+	 xKmn/5TjJe3mMVTePdJ6HnHIQ1iNSWbNCduyWSaxLJnQbJ3TQMrgDFxLZ8ki1p1y66
+	 DZwq3nqBRlNzHp+5kXs+g7FttPXb8lTbV3zR1lFc37QCtDh5vky4MOnIpeXd+jKwKM
+	 MCQ7P5+87K6HuPRVJ+J8GZAzfSkNyc9Cj6ZcHiqrK+gojmeo+T7mwV1i2hOxw/V+UG
+	 RX3Q+PiMLcg1aANo/TfYm8M7Fn7dBQr1KQOiTvfyZ4eNDnf/XFMQAY0ZjS9bdHWIVI
+	 yL2JF5gtnDbTA==
+Message-ID: <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+Date: Fri, 14 Jul 2023 18:49:44 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20230714-cstring-debug-v1-1-4e7c3018dd4f@asahilina.net>
-X-Mailer: git-send-email 2.41.0.255.g8b1d071c50-goog
-Message-ID: <20230714094844.2189906-1-aliceryhl@google.com>
-Subject: Re: [PATCH] rust: kernel: str: Implement Debug for CString
-From: Alice Ryhl <aliceryhl@google.com>
-To: lina@asahilina.net
-Cc: alex.gaynor@gmail.com, asahi@lists.linux.dev, benno.lossin@proton.me, 
-	bjorn3_gh@protonmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
-	linux-kernel@vger.kernel.org, ojeda@kernel.org, 
-	rust-for-linux@vger.kernel.org, wedsonaf@gmail.com, 
-	Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+ <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Asahi Lina <lina@asahilina.net> writes:
-> Trivial implementation.
+On 14/07/2023 17.43, Christian König wrote:
+> Am 14.07.23 um 10:21 schrieb Asahi Lina:
+>> A signaled scheduler fence can outlive its scheduler, since fences are
+>> independencly reference counted. Therefore, we can't reference the
+>> scheduler in the get_timeline_name() implementation.
+>>
+>> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
+>> dma-bufs reference fences from GPU schedulers that no longer exist.
+>>
+>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>> ---
+>>    drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+>>    drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
+>>    include/drm/gpu_scheduler.h              | 5 +++++
+>>    3 files changed, 14 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+>> index b2bbc8a68b30..17f35b0b005a 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -389,7 +389,12 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>>    
+>>    		/*
+>>    		 * Fence is from the same scheduler, only need to wait for
+>> -		 * it to be scheduled
+>> +		 * it to be scheduled.
+>> +		 *
+>> +		 * Note: s_fence->sched could have been freed and reallocated
+>> +		 * as another scheduler. This false positive case is okay, as if
+>> +		 * the old scheduler was freed all of its jobs must have
+>> +		 * signaled their completion fences.
 > 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
+> This is outright nonsense. As long as an entity for a scheduler exists
+> it is not allowed to free up this scheduler.
+> 
+> So this function can't be called like this.
 
-The commit message is a bit short, but the change itself looks fine.
+As I already explained, the fences can outlive their scheduler. That 
+means *this* entity certainly exists for *this* scheduler, but the 
+*dependency* fence might have come from a past scheduler that was 
+already destroyed along with all of its entities, and its address reused.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Christian, I'm really getting tired of your tone. I don't appreciate 
+being told my comments are "outright nonsense" when you don't even take 
+the time to understand what the issue is and what I'm trying to 
+do/document. If you aren't interested in working with me, I'm just going 
+to give up on drm_sched, wait until Rust gets workqueue support, and 
+reimplement it in Rust. You can keep your broken fence lifetime 
+semantics and I'll do my own thing.
+
+~~ Lina
 
