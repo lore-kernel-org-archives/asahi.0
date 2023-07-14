@@ -1,43 +1,41 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2069.outbound.protection.outlook.com [40.107.101.69])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1867B11CA4
-	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 10:29:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CVO8DsN8wvFQWZ0A3pwjIkuP4dZXB8EQyOlSFfmRfIRjMmEb/JM9ToHtxk024VRx/mbF8hSRf7O5sCSCuTr6mij+gkQqHL7+abj1N6tUwRqwnKK9cK2CkvuLFEhIJCYbleAhv4WLbsIx+QoJFjdS2OVzQkFa6UVRTP6YLgflRQyQVqVw5GmI6HafWA+c7R49a9U/yXpsKM/iNCbym2Ny9SrmXJKY62Oj/TllmYCGkjLFxHVVoi8Oc9d6X3EknBR8cFOU/FDTQ7CsusRRJCg5gx1LHAxMhtuniPrLJ174oz5GWUIMe+GgH91sR5T07GwJqPj5DfjXF/U7UjIVHv8O+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Uk7XgoR0H9rSzgeyp2txvURhnj56vw55MpRyAO8LqKY=;
- b=fW71j0KienKi2v2JKNdkHkLGI0Zov9rNXd3kIQUwq47r3YzswCkm4ZSM+t/bNrXQQ/uMaWlT7nPhBYBocC2dVyiMbOGWJUMFgz7rzAlK07XFW+1puGNTbuNGZUXynR+42tISr7NIGYgxl5q23VRSekeaA4jMDFvUmLZqhdpbHq7f3yOIjLL14hPA692ljlcN14F50x2Eq7MhFPMKuu5q4yj9b1WNr3pBOHIe4FfGZGsx9dsyxnCmestGK3rRospS5ZJdU8Qq1z0OtnzK6srJOm1j78JYP+hO0M7lT9k6Vt0H6ox7L12xpd039aRFeMCWtjZtRalgPrLFPe5HJ1nO4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Uk7XgoR0H9rSzgeyp2txvURhnj56vw55MpRyAO8LqKY=;
- b=U+nxNvGVNHm8Kyr3RXkyOHYybrHN5bi9sY3dq0uOnJPmLKPk+S/yzF61niYAl0/+D6ZClG3ong+BUdG/iyC+8gE2M4lPSw0S2vh1XRdKDmI7mVrZwpH2SMmh3UbNNQOwh+BYlOZRYjeW437tWmf6ULD+txEqiy8QxhHRjEnhqfc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by CH0PR12MB5090.namprd12.prod.outlook.com (2603:10b6:610:bd::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.27; Fri, 14 Jul
- 2023 10:29:26 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::669f:5dca:d38a:9921]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::669f:5dca:d38a:9921%4]) with mapi id 15.20.6588.027; Fri, 14 Jul 2023
- 10:29:26 +0000
-Message-ID: <1f0ffb6b-eb85-311b-90d1-702d36cb3826@amd.com>
-Date: Fri, 14 Jul 2023 12:29:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F139A13700
+	for <asahi@lists.linux.dev>; Fri, 14 Jul 2023 12:13:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id E69225BC3A;
+	Fri, 14 Jul 2023 12:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1689336801;
+	bh=DWYGMsjKYj46JY4sKn+xsGrKzmhqcYG/7k01RE2MggE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RNhUBcX3s0W+Zvu0qcG7y44YsnhK7RpOcztyyvrMh4jUpqdIFUVdsaAtArdvI1kvF
+	 dDnG9Olp8Gy2TsoGTNCL+gDNa2Gw005Qp90wuziuT4GFdKqu5atYBh0k92rJ8CaCem
+	 XklwuamNyNKzIhLkHHTkx4hOhA4OvR70m3hKOxwQgKV7w+AUDpmMjVfiItubxZv6TQ
+	 8qxRm3K1ajK/2drxgdAttjR3J5mfWIlw66+Taag37MLlrZkYdwOnPOJzdgwMcLZeKW
+	 pOtvcCgo4y+pwtfCIVXjlwysoirNNJfRqUHJsMMxwSGFjFTTCKdt8DTT301ONw5dfJ
+	 232IHUwkNx4GA==
+Message-ID: <7e53bc1f-7d1e-fb1c-be45-f03c5bbb8965@asahilina.net>
+Date: Fri, 14 Jul 2023 21:13:16 +0900
+Precedence: bulk
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
+ Thunderbird/102.11.0
 Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
  drm_sched_fence_get_timeline_name
 Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>, Luben Tuikov <luben.tuikov@amd.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
 Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
@@ -45,236 +43,181 @@ Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
 References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
  <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
  <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
- <5c7278b9-e63e-4ddf-1988-1e02087fb988@asahilina.net>
- <65d5237c-ef85-845f-6a8e-818e78d74bf4@amd.com>
- <768fbf06-130d-6980-1915-9bbd53f73671@asahilina.net>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-In-Reply-To: <768fbf06-130d-6980-1915-9bbd53f73671@asahilina.net>
+ <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+ <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+ <6b473196-9f87-d6c8-b289-18f80de78f0a@asahilina.net>
+ <003eb810-654e-3a2b-0756-d62440c2d419@amd.com>
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <003eb810-654e-3a2b-0756-d62440c2d419@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0148.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
-Precedence: bulk
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CH0PR12MB5090:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba6c402b-a3b7-4fad-baa4-08db845532d9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	oX7MC4/nHVHNLDGd3kECenCzFBkb08/3rHjOzjKtpZjL+x1R0Evd/dr35B93vY9iAAFscML3TfUjxseRktD3g0uemEnixa98hUdV6Vc6YZFmB+cFtKoC2ZiECz3/A6IxzX3TEsNkSWxtpk6lmIr6iaQzq39jkplbWFe2pJStDNj+KZP8kXia9GLLd7bG2xg1ptqbAsy6k4cl5XjQhvO37nnTnZZXBcaZzNEWICzYWheK5+qp7vVuG8HRFkT0DvaAxh9vWHPeK4LKemwWJMo5gFjOog4/l2JTZcSLFASsdefZh2/SIQGW0qLDXwR0Bz2QlJF6ghAoqASYIUyiUvdKGbD2wSNiqHrPmtxWlOj+q5H1wrT6mZGQGP6E2Fxx6idbzuSej1CwFNSvu4D6ABV2B1pTk2eq70wBd53a3rpvojPZoFOHU1UoqfKa7PXDbiEYabDKUfeD3yyUQlkPYGeOYAtXL5IUd+5nOO1QcCZR14zVKYRsEXMW6LBgu6fu74ey2cV63GQ3HREwdLQn8AVgTUK+3NMOp5WF/tAFBOzjbkmsXu7NGGvqmmY/AgX9jUT5phDBIAP4Lp/hIu4Jfp3X63NJ6WUcVOvoN4cefXGtmlM4l7iaPGCYjN+F14FiAA5MUWcg9Llo9xqae8CmdEPavw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(136003)(366004)(39860400002)(396003)(346002)(451199021)(478600001)(6506007)(6512007)(6486002)(6666004)(8936002)(8676002)(66574015)(83380400001)(7416002)(5660300002)(2616005)(316002)(41300700001)(31696002)(86362001)(2906002)(31686004)(186003)(38100700002)(36756003)(66556008)(66476007)(4326008)(66946007)(110136005)(54906003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QXdZOG5rdnlkcXNUQ3VWa0VTUFJBdVdqZVlvdi9EcDUyNWlTUWFEcXNDcmV3?=
- =?utf-8?B?WkE5UHg2ZmNYNkNpcWd5cXU0ZUlENVFHSVUxWnY3WGdpbHBCd2FWN3duNllP?=
- =?utf-8?B?MytGbmZ1bkgzU1UyRGJmU0piR081ak9id0tOOW1lQmRtQ3FBT0xrTFQ1b1pG?=
- =?utf-8?B?YTJUbC9JYmsvWkczK2o0SW9CdlNmUTdZeGovTFhnRWpzNmZycUFHNTFYU29F?=
- =?utf-8?B?YlBybk9seDlxYmZjUEMwakhmcE95YUlvbm9kVmRiKyt4UUNwL3IrN00xbGk3?=
- =?utf-8?B?WjhJcGZtcGxIOFFKbWwraXIwQWJpN1cxckxOV05VWW42YWRQb1p4OENsemI1?=
- =?utf-8?B?WHo3KzlRcVlydWtkUHdaVkRxMlFIRjNvZ2tyZ2FORk1tRndqMGlqc2kzSnVN?=
- =?utf-8?B?d3ZtRU1ZTm1XWUhoOTJ6S1BpK1lmVWloeHNuRXpyM01HMkE4Sk9LWlV1Z0Mw?=
- =?utf-8?B?SGwvU0syeWNqNmFRaDBWZmdhdUlRSUZUTEx0cE5uOExxeUlSeFJmSzFseUU3?=
- =?utf-8?B?U2dIS281bVFWRUIza1VHRFpkNytGeVZHQk1OSXFxSUluYlRoTWlhNElQazVX?=
- =?utf-8?B?b2pRRlZPSnZaMmJXdld3dklJaS81cGsveTVZQjFQeHNhOCswUUIvYzlwNGlv?=
- =?utf-8?B?RnE0Y0tpbTI5YkxucUg5bFRxRDRMcHdEVkNGUVRhR0VFSFhWMEFkaFl4Uk82?=
- =?utf-8?B?eE9id3NlNEgydTRndlh3WmZ6TFBiUWQwRzh1b3pYSFRJRkdmUVd6WlhoOEIy?=
- =?utf-8?B?aHJoRXJVN1VVOFlpWERSQzRueVZTaHVYY0VYYTNCaFFwN1pWRVF3dEI1d2NJ?=
- =?utf-8?B?dkVQNGk3SCs1MmZUQUEyYzlnb1Zka0dDaUN6UnFHZWtlRWVZRjJjMHBZMjFy?=
- =?utf-8?B?Zjc0RmpqYTZWOWxvdjFXRjFvc2hyNm0vQ2gvZk8vZ21heUhPdlhIbGZwWHlI?=
- =?utf-8?B?YVhpUVVLQXBwREhXQ3JheFA2b0JtZUZUSWF3RmJFbGFDUStDNnNudUwzNURa?=
- =?utf-8?B?QlQwZjZDZUxETGcrRlFKZWREQjhPWGVNK1R0WnR6SVlyRVp4NVZ5OEQ4UWxV?=
- =?utf-8?B?T3cvZWJRK1NUTTk1eFpZeHJLWTN0alZEcHh5cG1TWk9xWlVMRnYvU2dHcHkr?=
- =?utf-8?B?L3RIR1F2Vm9OMHRyRVd6YXhDem4reUZPMjZCMGg2MGtWMHhPWmlaNTluTFJj?=
- =?utf-8?B?U0JuZjZ5L1RtaHA5U2dOUnFhcEVWbXJUNVJZcmRYR1FrMUcvK2hlY1d3MU1x?=
- =?utf-8?B?Qy9qYlFCNTF2V0NEYlNMZ2FYejBSeTJQMXNSaGV3bFRxbU1tdGx4K1pVU0NX?=
- =?utf-8?B?djAxbTk3UW1ncEFjbDNqRU5nVXVYOTZORUY1UUVDZlVjOFl6aDdOUWR6UUNU?=
- =?utf-8?B?OXdEelhCSk9VOGpucmlLb2cxZlNkUHZDNDJKcVZYVXF2RDFxaVJOaHJ1V0Q2?=
- =?utf-8?B?ZldlUTdtYnJ2L3BhblpwalBPTE9JVFBYRC9EN2h4NWZTTk85dU9tMWZWalNl?=
- =?utf-8?B?eVVaVVowN3J6YXpkbHg5V0tkR2ErSEZFWEp2MTdyRys5endmV0NzVENOTFVv?=
- =?utf-8?B?dW9oV3U2OFNCenVnQWpRd29qc29TK3NmbkcwVEtTSW11Njl5a2toU3NjUjFO?=
- =?utf-8?B?U2xmaDUvV3VFa2JKdzRzR25lUGVpV0QvNWduYStGTGg2REt2akhsSTJzNCtv?=
- =?utf-8?B?aDdhakRlMFpLTkp4dWRwWmhCekJNaldNL3lPZUN5SVFodUcrMDVGUGhwai9B?=
- =?utf-8?B?RjZ5WjZyeUNlUGRHVVNHNkcyR2hyd0EyZVN2SEFhZDBCR0tDZVlwRlpPZ0Ey?=
- =?utf-8?B?blBXN3JVVXFiUDFmVDllUkFUUG52SFRFRDVzRFBWYUZ5ajl5cHB6RkJmcSt4?=
- =?utf-8?B?SFM0L05tYjA0dTFDeW91MXF4OExHTW9KQ3BNZUh6UldIdFNZRVpsTnZtcEN4?=
- =?utf-8?B?ajVhdzVjc244Q2NPY0xIQjJoUTk4alpLdWVKR3F0U0pRYnJOcmhsY1NVM3da?=
- =?utf-8?B?N25NLzRac0duZEwzd2ZPR2lMaWVUNWV0dHN4cGVKUDVBSTc0MHgrUUJhTXVQ?=
- =?utf-8?B?eDJBdVNHWDRpRGZRVjNjM2xNQkxYRUNVMjhEZkdSbWhyY0lZSFYvTTFPRkN5?=
- =?utf-8?B?czJVQ3hrRy94WG9tUDJYNXJXMGZVOFV4bS8wWW1GSlNIVy9tL1V1MnlCMFVP?=
- =?utf-8?Q?4GAjqUFXMvfkbRiyM08yl9eNr0e7vrjFvdSR91h7mJg9?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba6c402b-a3b7-4fad-baa4-08db845532d9
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2023 10:29:26.4704
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tr+7die20xwSJ+YSnhIQ0vq/qS8UjNzZkLu1p1D2Vhuntlgguxb27eu7ljMix6aU
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB5090
 
-Am 14.07.23 um 12:07 schrieb Asahi Lina:
-> On 14/07/2023 18.51, Christian König wrote:
->> Am 14.07.23 um 11:44 schrieb Asahi Lina:
->>> On 14/07/2023 17.43, Christian König wrote:
->>>> Am 14.07.23 um 10:21 schrieb Asahi Lina:
->>>>> A signaled scheduler fence can outlive its scheduler, since fences 
->>>>> are
->>>>> independencly reference counted. Therefore, we can't reference the
->>>>> scheduler in the get_timeline_name() implementation.
+On 14/07/2023 19.18, Christian König wrote:
+> Am 14.07.23 um 12:06 schrieb Asahi Lina:
+>> On 14/07/2023 18.57, Christian König wrote:
+>>> Am 14.07.23 um 11:49 schrieb Asahi Lina:
+>>>> On 14/07/2023 17.43, Christian König wrote:
+>>>>> Am 14.07.23 um 10:21 schrieb Asahi Lina:
+>>>>>> A signaled scheduler fence can outlive its scheduler, since fences
+>>>>>> are
+>>>>>> independencly reference counted. Therefore, we can't reference the
+>>>>>> scheduler in the get_timeline_name() implementation.
+>>>>>>
+>>>>>> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
+>>>>>> dma-bufs reference fences from GPU schedulers that no longer exist.
+>>>>>>
+>>>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>>>>> ---
+>>>>>>      drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+>>>>>>      drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
+>>>>>>      include/drm/gpu_scheduler.h              | 5 +++++
+>>>>>>      3 files changed, 14 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>> b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>> index b2bbc8a68b30..17f35b0b005a 100644
+>>>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>>>> @@ -389,7 +389,12 @@ static bool
+>>>>>> drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>>>>>>                 /*
+>>>>>>               * Fence is from the same scheduler, only need to wait
+>>>>>> for
+>>>>>> -         * it to be scheduled
+>>>>>> +         * it to be scheduled.
+>>>>>> +         *
+>>>>>> +         * Note: s_fence->sched could have been freed and
+>>>>>> reallocated
+>>>>>> +         * as another scheduler. This false positive case is okay,
+>>>>>> as if
+>>>>>> +         * the old scheduler was freed all of its jobs must have
+>>>>>> +         * signaled their completion fences.
 >>>>>
->>>>> Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
->>>>> dma-bufs reference fences from GPU schedulers that no longer exist.
+>>>>> This is outright nonsense. As long as an entity for a scheduler exists
+>>>>> it is not allowed to free up this scheduler.
 >>>>>
->>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>>>> ---
->>>>>     drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
->>>>>     drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
->>>>>     include/drm/gpu_scheduler.h              | 5 +++++
->>>>>     3 files changed, 14 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
->>>>> b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>> index b2bbc8a68b30..17f35b0b005a 100644
->>>>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>>>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>> @@ -389,7 +389,12 @@ static bool
->>>>> drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->>>>>                /*
->>>>>              * Fence is from the same scheduler, only need to wait 
->>>>> for
->>>>> -         * it to be scheduled
->>>>> +         * it to be scheduled.
->>>>> +         *
->>>>> +         * Note: s_fence->sched could have been freed and 
->>>>> reallocated
->>>>> +         * as another scheduler. This false positive case is okay,
->>>>> as if
->>>>> +         * the old scheduler was freed all of its jobs must have
->>>>> +         * signaled their completion fences.
+>>>>> So this function can't be called like this.
 >>>>
->>>> This is outright nonsense. As long as an entity for a scheduler exists
->>>> it is not allowed to free up this scheduler.
+>>>> As I already explained, the fences can outlive their scheduler. That
+>>>> means *this* entity certainly exists for *this* scheduler, but the
+>>>> *dependency* fence might have come from a past scheduler that was
+>>>> already destroyed along with all of its entities, and its address
+>>>> reused.
+>>>
+>>> Well this is function is not about fences, this function is a callback
+>>> for the entity.
+>>
+>> That deals with dependency fences, which could have come from any
+>> arbitrary source, including another entity and another scheduler.
+> 
+> No, they can't. Signaling is certainly mandatory to happen before things
+> are released even if we allow to decouple the dma_fence from it's issuer.
+
+That's exactly what I'm saying in my comment. That the fence must be 
+signaled if its creator no longer exists, therefore it's okay to 
+inadvertently wait on its scheduled fence instead of its finished fence 
+(if that one was intended) since everything needs to be signaled at that 
+point anyway.
+
+>>
 >>>>
->>>> So this function can't be called like this.
->>>>
->>>>>              */
->>>>>             fence = dma_fence_get(&s_fence->scheduled);
->>>>>             dma_fence_put(entity->dependency);
->>>>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c
->>>>> b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>> index ef120475e7c6..06a0eebcca10 100644
->>>>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
->>>>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
->>>>> @@ -68,7 +68,7 @@ static const char
->>>>> *drm_sched_fence_get_driver_name(struct dma_fence *fence)
->>>>>     static const char *drm_sched_fence_get_timeline_name(struct
->>>>> dma_fence *f)
->>>>>     {
->>>>>         struct drm_sched_fence *fence = to_drm_sched_fence(f);
->>>>> -    return (const char *)fence->sched->name;
->>>>> +    return (const char *)fence->sched_name;
->>>>>     }
->>>>>        static void drm_sched_fence_free_rcu(struct rcu_head *rcu)
->>>>> @@ -216,6 +216,8 @@ void drm_sched_fence_init(struct drm_sched_fence
->>>>> *fence,
->>>>>         unsigned seq;
->>>>>            fence->sched = entity->rq->sched;
->>>>> +    strlcpy(fence->sched_name, entity->rq->sched->name,
->>>>> +        sizeof(fence->sched_name));
->>>>>         seq = atomic_inc_return(&entity->fence_seq);
->>>>>         dma_fence_init(&fence->scheduled,
->>>>> &drm_sched_fence_ops_scheduled,
->>>>>                    &fence->lock, entity->fence_context, seq);
->>>>> diff --git a/include/drm/gpu_scheduler.h 
->>>>> b/include/drm/gpu_scheduler.h
->>>>> index e95b4837e5a3..4fa9523bd47d 100644
->>>>> --- a/include/drm/gpu_scheduler.h
->>>>> +++ b/include/drm/gpu_scheduler.h
->>>>> @@ -305,6 +305,11 @@ struct drm_sched_fence {
->>>>>              * @lock: the lock used by the scheduled and the finished
->>>>> fences.
->>>>>              */
->>>>>         spinlock_t            lock;
->>>>> +        /**
->>>>> +         * @sched_name: the name of the scheduler that owns this
->>>>> fence. We
->>>>> +     * keep a copy here since fences can outlive their scheduler.
->>>>> +         */
->>>>> +    char sched_name[16];
->>>>
->>>> This just mitigates the problem, but doesn't fix it.
+>>>> Christian, I'm really getting tired of your tone. I don't appreciate
+>>>> being told my comments are "outright nonsense" when you don't even
+>>>> take the time to understand what the issue is and what I'm trying to
+>>>> do/document. If you aren't interested in working with me, I'm just
+>>>> going to give up on drm_sched, wait until Rust gets workqueue support,
+>>>> and reimplement it in Rust. You can keep your broken fence lifetime
+>>>> semantics and I'll do my own thing.
 >>>
->>> Could you point out any remaining issues so we can fix them? Right now
->>> this absolutely *is* broken and this fixes the breakage I observed. If
->>> there are other bugs remaining, I'd like to know what they are so I
->>> can fix them.
->>>
->>>> The real issue is that the hw fence is kept around much longer than
->>>> that.
->>>
->>> As far as I know, the whole point of scheduler fences is to decouple
->>> the hw fences from the consumers.
+>>> I'm certainly trying to help here, but you seem to have unrealistic
+>>> expectations.
 >>
->> Well yes and no. The decoupling is for the signaling, it's not
->> decoupling the lifetime.
->
-> When I spoke with Daniel I understood the intent was also to decouple 
-> the lifetime.
+>> I don't think expecting not to be told my changes are "outright
+>> nonsense" is an unrealistic expectation. If you think it is, maybe
+>> that's yet another indicator of the culture problems the kernel
+>> community has...
+> 
+> Well I'm just pointing out that you don't seem to understand the
+> background of the things and just think this is a bug instead of
+> intentional behavior.
 
-Yes, we discussed that a long long time ago as well.
+I made a change, I explained why that change works with a portion of the 
+existing code by updating a comment, and you called that nonsense. It's 
+not even a bug, I'm trying to explain why this part isn't a bug even 
+with the expectation that fences don't outlive the scheduler. This is 
+because I went through the code trying to find problems this approach 
+would cause, ran into this tricky case, thought about it for a while, 
+realized it wasn't a problem, and figured it needed a comment.
 
-We *wanted* to decouple the dma_fence lifetime, it's just not done that 
-way because of problems with that approach.
-
->
->>> I already talked with Daniel about this. The current behavior is
->>> broken. These fences can live forever. It is broken to require that
->>> they outlive the driver that produced them.
->>>
->>>> Additional to that I'm not willing to increase the scheduler fence 
->>>> size
->>>> like that just to decouple them from the scheduler.
->>>
->>> Did you read my explanation on the cover letter as to how this is just
->>> broken right now? We need to fix this. If you have a better suggestion
->>> I'll take it. Doing nothing is not an option.
+>>> I perfectly understand what you are trying to do, but you don't seem to
+>>> understand that this functionality here isn't made for your use case.
 >>
->> Well this isn't broken at all. This works exactly like intended, you
->> just want to use it for something it wasn't made for.
+>> I do, that's why I'm trying to change things. Right now, this
+>> functionality isn't even properly documented, which is why I thought
+>> it could be used for my use case, and slowly discovered otherwise.
+>> Daniel suggested documenting it, then fixing the mismatches between
+>> documentation and reality, which is what I'm doing here.
+> 
+> Well I know Daniel for something like 10-15 years or so, I'm pretty sure
+> that he meant that you document the existing state because otherwise
+> this goes against usual patch submission approaches.
+> 
 >>
->> That scheduler fences could be changed to outlive the scheduler which
->> issued them is possible, but this is certainly a new requirement.
+>>> We can adjust the functionality to better match your requirements, but
+>>> you can't say it is broken because it doesn't work when you use it not
+>>> in the way it is intended to be used.
 >>
->> Especially since we need to grab additional references to make sure that
->> the module isn't unloaded in such a case.
->
-> Yes, that's a remaining issue. The fences need to grab a module 
-> reference to make sure drm_sched doesn't get unloaded until they're 
-> all really gone. I can add that in v2.
+>> I'm saying the idea that a random dma-buf holds onto a chain of
+>> references that prevents unloading a driver module that wrote into it
+>> (and keeps a bunch of random unrelated objects alive) is a broken
+>> state of affairs.
+> 
+> Well no, this is intentional design. Otherwise the module and with it
+> the operations pointer the fences rely on go away.
 
-You also need to come up with an idea to prevent races with the deadline 
-handling. See drm_sched_fence_set_deadline_finished().
+But this is a drm_sched fence, not a driver fence. That's the point, 
+that they should be decoupled. The driver is free to unload and only 
+drm_sched would need to stay loaded so its fences continue to be valid. 
+Except that's not what happens right now. Right now the drm_sched fence 
+hangs onto the hw fence and the whole thing is supposed to keep the 
+whole scheduler alive for things not to go boom.
 
->
-> It would also be desirable to drop the hw fence as soon as it signals, 
-> instead of keeping a reference to it forever.
+> We already discussed
+> that over 10 years ago when Marten came up with the initial dma_fence
+> design.
+> 
+> The resulting problems are very well known and I completely agree that
+> they are undesirable, but this is how the framework works and not just
+> the scheduler but the rest of the DMA-buf framework as well.
 
-Yeah, agree. Problem here again is that this is easier said than done in 
-a non-racy way.
+So it's undesirable but you don't want me to change things...
 
-Christian.
+> 
+>> It may or may not trickle down to actual problems for users (I would
+>> bet it does in some cases but I don't know for sure), but it's a
+>> situation that doesn't make any sense.
+>>
+>> I know I'm triggering actual breakage with my new use case due to
+>> this, which is why I'm trying to improve things. But the current state
+>> of affairs just doesn't make any sense even if it isn't causing kernel
+>> oopses today with other drivers.
+>>
+>>> You can go ahead and try to re-implement the functionality in Rust, but
+>>> then I would reject that pointing out that this should probably be an
+>>> extension to the existing code.
+>>
+>> You keep rejecting my attempts at extending the existing code...
+> 
+> Well I will try to improve here and push you into the right direction
+> instead.
 
->
-> ~~ Lina
->
+What is the right direction?
+
+So far it's looking more and more like wait until we get workqueues in 
+Rust, write a trivial scheduler in the driver, and give up on this whole 
+drm_sched thing. Please tell me if there is a better way, because so far 
+all you've done is tell me my attempts are not the right way, and 
+demotivated me from working on drm_sched at all.
+
+~~ Lina
 
