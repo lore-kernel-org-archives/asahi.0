@@ -1,104 +1,78 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6197A15A1
-	for <asahi@lists.linux.dev>; Sat, 15 Jul 2023 08:14:11 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.nyi.internal (Postfix) with ESMTP id F41985C0100;
-	Sat, 15 Jul 2023 04:14:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Sat, 15 Jul 2023 04:14:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ryhl.io; h=cc:cc
-	:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
-	1689408849; x=1689495249; bh=Xoj9Xm8/Xd98EhXuvKJw7gbcAWTuMt5qlTz
-	hZaCUcZA=; b=czFIb1Ix5sBw+Rqrc0P3Peeqt0KeEURhXqDTthtOOBeUl9DvOuy
-	bEWb4uA2Bh6Pm37J7v7HCYowYHWxa0c1Y7OGzJGRh0IBk1NlTfGijlbNnp/noqmY
-	8dCtQJrn17wgj1qK0cLdwwW4b51NGP7SsxODD8o4dzlkXcdsz2H1E1/8WyXBVVq4
-	cRxd74RBWVkRQaIzefTOZcxf50OFDfLs/F7JyGyLB4wSe/ci0daNyJjdz7LHS+sj
-	/yblcF8x6vlAHH18XiyjY6RsMIzj8BYKdMImX/4BkoknrSTXIpHIkpfWGL/4Vec0
-	GFZlB/BpiJnieWC2YCw/5t9LkC42Pdpo5Qw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1689408849; x=1689495249; bh=Xoj9Xm8/Xd98EhXuvKJw7gbcAWTuMt5qlTz
-	hZaCUcZA=; b=gmeQg4/7x7VYZZrbBBgR60o0iPUsDUGHvlK3EnRnOp5kd5k6Evn
-	vyMM/w4/4/p4FkwBheuRofnr1p9aoRPizjlQMUjH7LxxmDxhk6QpDtZ4RQNXTJzT
-	nncO6Qor3DtZ2HOnKUljXNOroJoLDDA3qZfkUCyexBW+JEaf946uWn04I+iahg2f
-	EtJGYw+AA+N3GIXBcapXfGFiIf84ajxGq441FJ/3XShLT08lUnRg5asIanG6jE1X
-	o2+nwvlo0H6uxaryfSxdxzzWC0gwA+ZTBxwi5n489QZ6zGvv6THIXzBgQblB14zc
-	qzlvRQRfXGrWwFJI3hmomiBHkYqjjqgcvmA==
-X-ME-Sender: <xms:UVWyZJ_OJ7KSi3hE3G8ZZdKuyTLj3YLGXkOi8NWHpjPiEoS0gDps2A>
-    <xme:UVWyZNvvH0NEy3xVF2tNYbxszi5xgJ_MHL0lEn-mdaSVxRRfzAOz_mgxL5-V277su
-    0dwQzndOd7gB4pAuw>
-X-ME-Received: <xmr:UVWyZHA6XEUVhkAh_PhYMvw1OFLDJNfDGQs5z1NCZxxtEee1fgbl5snm8s4BLKdAcQJSxji4bbsWHnjAYDb16A6WaGbctVuUtJlAcw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrfeekgddtvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefkffggfgfuvfevfhfhjggtgfesthejredttdefjeenucfhrhhomheptehlihgt
-    vgcutfihhhhluceorghlihgtvgesrhihhhhlrdhioheqnecuggftrfgrthhtvghrnhephe
-    duuddvteekvdektdduledugfffhfdugeejgeeuvdevtdetveejheehiefffeegnecuvehl
-    uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihgtvgesrh
-    ihhhhlrdhioh
-X-ME-Proxy: <xmx:UVWyZNft6Kic2apmVeAQTXD0roaE2Mgf-5apK0gRIZjvxlibVqwHjQ>
-    <xmx:UVWyZOMyVCEvfnUZecWmGTzX_cO3rCZRrz8BcwDwozoACLPpcMmwhw>
-    <xmx:UVWyZPk4vBrz0V-dp46IibsEqSjKOu-OI3WnvqwxIhwD8dvzKnTscQ>
-    <xmx:UVWyZFmVcr17fcBSgNQSE2YVSlB6pZGryGBHIh-rmPS90n5yK5LaCA>
-Feedback-ID: i56684263:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 15 Jul 2023 04:14:06 -0400 (EDT)
-Message-ID: <37795dc7-a121-b30b-76de-1ba6dd705c5e@ryhl.io>
-Date: Sat, 15 Jul 2023 10:14:57 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDDD15CD
+	for <asahi@lists.linux.dev>; Sat, 15 Jul 2023 10:00:46 +0000 (UTC)
+Date: Sat, 15 Jul 2023 10:00:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1689415244; x=1689674444;
+	bh=QnF59vl5+yCYRQpMrd2L/uF0PGzIplpwVi1jkdKlyBY=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=Q6UkrPgLIIJU7b8/F8r0FqjyX9koF7x8ThbaXuvrSa7L4b74Qox63R8l+kmRz1f/j
+	 9+yOUhlEaqz4mkzyHnHVStt4Sakh07G3jaOIJ4FnNQRb5pLXdP8Wx2J6+CUnN5r8Xv
+	 b1dvJYa0D1OWk7CmYnMXJUI1fbT6naJlSsTB2PJwNM9fSgTu+WOTyKHri8Huy2XAUy
+	 L3becJS07dyXOF1lBcc2o1lDqFn1yTKJAuRN+ckEe5jI1X+EnRFl34xSGBB+rqRDLv
+	 VH0lNDVEwwau/55u820bNeTME6csSA4DBU+wjnc9/LZj0C7WPIjEq6CxqW64iE9Pn3
+	 sIVvdspHn0G3g==
+To: Asahi Lina <lina@asahilina.net>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH] rust: kernel: str: Implement Debug for CString
+Message-ID: <Fri3hO6JBOzZwR7YKGQqy8HYwzn_ciV2HgjLNm36zwf1p8BsWCSrecnz-00K2dsztvOI1c2PP7cd_Kh6xjFVjbsX6U7qAPqvsdsi7WaaVow=@proton.me>
+In-Reply-To: <20230714-cstring-debug-v1-1-4e7c3018dd4f@asahilina.net>
+References: <20230714-cstring-debug-v1-1-4e7c3018dd4f@asahilina.net>
+Feedback-ID: 71780778:user:proton
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2] rust: time: New module for timekeeping functions
-Content-Language: en-US, da
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>,
- Josh Stone <jistone@redhat.com>, Gaelan Steele <gbs@canishe.com>,
- Heghedus Razvan <heghedus.razvan@protonmail.com>
-References: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
- <87r0pax9a6.ffs@tglx>
-From: Alice Ryhl <alice@ryhl.io>
-In-Reply-To: <87r0pax9a6.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 7/15/23 03:17, Thomas Gleixner wrote:
-> On Fri, Jul 14 2023 at 16:55, Asahi Lina wrote:
->> +ktime_t rust_helper_ktime_get_real(void) {
->> +	return ktime_get_real();
->> +}
->> +EXPORT_SYMBOL_GPL(rust_helper_ktime_get_real);
+On 14.07.23 11:19, Asahi Lina wrote:
+> Trivial implementation.
+>=20
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
+
+With a better commit message you can add
+
+Reviewed-by: Benno Lossin <benno.lossin@proton.me>
+
+--=20
+Cheers,
+Benno
+
+> ---
+>   rust/kernel/str.rs | 6 ++++++
+>   1 file changed, 6 insertions(+)
+>=20
+> diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
+> index c9dd3bf59e34..a94e396d39e1 100644
+> --- a/rust/kernel/str.rs
+> +++ b/rust/kernel/str.rs
+> @@ -606,6 +606,12 @@ fn try_from(cstr: &'a CStr) -> Result<CString, Alloc=
+Error> {
+>       }
+>   }
+>=20
+> +impl fmt::Debug for CString {
+> +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+> +        fmt::Debug::fmt(&**self, f)
+> +    }
+> +}
+> +
+>   /// A convenience alias for [`core::format_args`].
+>   #[macro_export]
+>   macro_rules! fmt {
+>=20
+> ---
+> base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+> change-id: 20230714-cstring-debug-ca021fe0ad78
+>=20
+> Thank you,
+> ~~ Lina
 > 
-> Colour me confused. But why does this need another export?
-> 
-> This just creates yet another layer of duct tape. If it's unsafe from
-> the rust perspective then wrapping it into rust_"unsafe_function" does not
-> make it any better.
-> 
-> Why on earth can't you use the actual C interfaces diretly which are
-> already exported?
-
-Currently, you can't call inline C functions directly from Rust. So we 
-wrap them in non-inline functions for now.
-
-It's something we definitely want to fix, but it hasn't been fixed yet.
-
-Alice
