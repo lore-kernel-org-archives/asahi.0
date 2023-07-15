@@ -1,78 +1,199 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from out-27.mta1.migadu.com (out-27.mta1.migadu.com [95.215.58.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDDD15CD
-	for <asahi@lists.linux.dev>; Sat, 15 Jul 2023 10:00:46 +0000 (UTC)
-Date: Sat, 15 Jul 2023 10:00:34 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1689415244; x=1689674444;
-	bh=QnF59vl5+yCYRQpMrd2L/uF0PGzIplpwVi1jkdKlyBY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Q6UkrPgLIIJU7b8/F8r0FqjyX9koF7x8ThbaXuvrSa7L4b74Qox63R8l+kmRz1f/j
-	 9+yOUhlEaqz4mkzyHnHVStt4Sakh07G3jaOIJ4FnNQRb5pLXdP8Wx2J6+CUnN5r8Xv
-	 b1dvJYa0D1OWk7CmYnMXJUI1fbT6naJlSsTB2PJwNM9fSgTu+WOTyKHri8Huy2XAUy
-	 L3becJS07dyXOF1lBcc2o1lDqFn1yTKJAuRN+ckEe5jI1X+EnRFl34xSGBB+rqRDLv
-	 VH0lNDVEwwau/55u820bNeTME6csSA4DBU+wjnc9/LZj0C7WPIjEq6CxqW64iE9Pn3
-	 sIVvdspHn0G3g==
-To: Asahi Lina <lina@asahilina.net>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH] rust: kernel: str: Implement Debug for CString
-Message-ID: <Fri3hO6JBOzZwR7YKGQqy8HYwzn_ciV2HgjLNm36zwf1p8BsWCSrecnz-00K2dsztvOI1c2PP7cd_Kh6xjFVjbsX6U7qAPqvsdsi7WaaVow=@proton.me>
-In-Reply-To: <20230714-cstring-debug-v1-1-4e7c3018dd4f@asahilina.net>
-References: <20230714-cstring-debug-v1-1-4e7c3018dd4f@asahilina.net>
-Feedback-ID: 71780778:user:proton
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE2215CD
+	for <asahi@lists.linux.dev>; Sat, 15 Jul 2023 14:14:35 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1689430474;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Exn0iOvVonsyS0RrlLSc0WGJin7aNNSG8UVnuWPxU9U=;
+	b=t/W/IPYE3d7Jq/unFMsbXJLxEErOfxhf4yu6/72S9Q+SjRgLquoMqkKQezx0JsO0jec71+
+	yd+XLox94l1Rfe6tP4f0GcgRUtGtt/xPEv/GSU+tBZQvYVqiAN/zt3VjScJGnhmQmSz8m7
+	MMDRXTatfmE2t5WRkGqzmkO7/LO4PLUROW1+MkN1rDaKE7DhehIwcvxF1MR0d9uLTXMfka
+	Ef8flkwck6XqlzG6u4sO0BSYHaVQp2pEPPvulTePYrEPcZP8KhFLY5KLGZpCYWc2o0YCiQ
+	xWXhEW24YGpZ9EVSG627zq5mggx8+PTHVDLZdqxUlRhTv+WXAtsJ43TJhIf2ow==
+Date: Sat, 15 Jul 2023 14:14:32 +0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: alyssa@rosenzweig.io
+Message-ID: <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
+TLS-Required: No
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
+To: "Luben Tuikov" <luben.tuikov@amd.com>,
+ "=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?=" <christian.koenig@amd.com>, "Asahi
+ Lina" <lina@asahilina.net>, "David Airlie" <airlied@gmail.com>, "Daniel
+ Vetter" <daniel@ffwll.ch>, "Sumit Semwal" <sumit.semwal@linaro.org>
+Cc: "Faith Ekstrand" <faith.ekstrand@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, asahi@lists.linux.dev
+In-Reply-To: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
+References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
+ <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+ <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+ <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+ <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 14.07.23 11:19, Asahi Lina wrote:
-> Trivial implementation.
->=20
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
+15 July 2023 at 00:03, "Luben Tuikov" <luben.tuikov@amd.com> wrote:
 
-With a better commit message you can add
 
-Reviewed-by: Benno Lossin <benno.lossin@proton.me>
+>=20
+>=20On 2023-07-14 05:57, Christian K=C3=B6nig wrote:
+>=20
+>=20>=20
+>=20> Am 14.07.23 um 11:49 schrieb Asahi Lina:
+> >=20
+>=20> >=20
+>=20> > On 14/07/2023 17.43, Christian K=C3=B6nig wrote:
+> > >=20
+>=20>=20
+>=20>  Am 14.07.23 um 10:21 schrieb Asahi Lina:
+> >  A signaled scheduler fence can outlive its scheduler, since fences a=
+re
+> >  independencly reference counted. Therefore, we can't reference the
+> >  scheduler in the get_timeline_name() implementation.
+> >=20
+>=20>  Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when share=
+d
+> >  dma-bufs reference fences from GPU schedulers that no longer exist.
+> >=20
+>=20>  Signed-off-by: Asahi Lina <lina@asahilina.net>
+> >  ---
+> >  =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+> >  =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_fence.c=C2=A0 | 4 +++-
+> >  =C2=A0=C2=A0 include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 5 +++++
+> >  =C2=A0=C2=A0 3 files changed, 14 insertions(+), 2 deletions(-)
+> >=20
+>=20>  diff --git a/drivers/gpu/drm/scheduler/sched_entity.c=20
+>=20>  b/drivers/gpu/drm/scheduler/sched_entity.c
+> >  index b2bbc8a68b30..17f35b0b005a 100644
+> >  --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> >  +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> >  @@ -389,7 +389,12 @@ static bool=20
+>=20>  drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity=
+)
+> >  =C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 /*
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *=
+ Fence is from the same scheduler, only need to wait for
+> >  -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it to be schedul=
+ed
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it to be schedul=
+ed.
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Note: s_fence->s=
+ched could have been freed and reallocated
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * as another sched=
+uler. This false positive case is okay,=20
+>=20>  as if
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * the old schedule=
+r was freed all of its jobs must have
+> >  +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * signaled their c=
+ompletion fences.
+> >=20
+>=20>  This is outright nonsense. As long as an entity for a scheduler ex=
+ists
+> >  it is not allowed to free up this scheduler.
+> >=20
+>=20>  So this function can't be called like this.
+> >=20
+>=20> >=20
+>=20> > As I already explained, the fences can outlive their scheduler. T=
+hat=20
+>=20> >  means *this* entity certainly exists for *this* scheduler, but t=
+he=20
+>=20> >  *dependency* fence might have come from a past scheduler that wa=
+s=20
+>=20> >  already destroyed along with all of its entities, and its addres=
+s reused.
+> > >=20
+>=20>=20
+>=20>=20=20
+>=20>  Well this is function is not about fences, this function is a call=
+back=20
+>=20>  for the entity.
+> >=20=20
+>=20>=20
+>=20> >=20
+>=20> > Christian, I'm really getting tired of your tone. I don't appreci=
+ate=20
+>=20> >  being told my comments are "outright nonsense" when you don't ev=
+en=20
+>=20> >  take the time to understand what the issue is and what I'm tryin=
+g to=20
+>=20> >  do/document. If you aren't interested in working with me, I'm ju=
+st=20
+>=20> >  going to give up on drm_sched, wait until Rust gets workqueue su=
+pport,=20
+>=20> >  and reimplement it in Rust. You can keep your broken fence lifet=
+ime=20
+>=20> >  semantics and I'll do my own thing.
+> > >=20
+>=20>=20
+>=20>=20=20
+>=20>  I'm certainly trying to help here, but you seem to have unrealisti=
+c=20
+>=20>  expectations.
+> >=20=20
+>=20>  I perfectly understand what you are trying to do, but you don't se=
+em to=20
+>=20>  understand that this functionality here isn't made for your use ca=
+se.
+> >=20=20
+>=20>  We can adjust the functionality to better match your requirements,=
+ but=20
+>=20>  you can't say it is broken because it doesn't work when you use it=
+ not=20
+>=20>  in the way it is intended to be used.
+> >=20
+>=20
+> I believe "adjusting" functionality to fit some external requirements,
+> may have unintended consequences, requiring yet more and more "adjustme=
+nts".
+> (Or may allow (new) drivers to do wild things which may lead to wild re=
+sults. :-) )
+>=20
+>=20We need to be extra careful and wary of this.
 
---=20
-Cheers,
-Benno
+Either drm/scheduler is common code that we should use for our driver, in=
+ which case we need to "adjust" it to fit the requirements of a safe Rust=
+ abstraction usable for AGX. Or, drm/scheduler is not common code intende=
+d for drivers with our requirements, and then we need to be able to write=
+ our own scheduler.
 
-> ---
->   rust/kernel/str.rs | 6 ++++++
->   1 file changed, 6 insertions(+)
->=20
-> diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-> index c9dd3bf59e34..a94e396d39e1 100644
-> --- a/rust/kernel/str.rs
-> +++ b/rust/kernel/str.rs
-> @@ -606,6 +606,12 @@ fn try_from(cstr: &'a CStr) -> Result<CString, Alloc=
-Error> {
->       }
->   }
->=20
-> +impl fmt::Debug for CString {
-> +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-> +        fmt::Debug::fmt(&**self, f)
-> +    }
-> +}
-> +
->   /// A convenience alias for [`core::format_args`].
->   #[macro_export]
->   macro_rules! fmt {
->=20
-> ---
-> base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-> change-id: 20230714-cstring-debug-ca021fe0ad78
->=20
-> Thank you,
-> ~~ Lina
-> 
+AMD has NAK'd both options, effectively NAK'ing the driver.
+
+I will ask a simple yes/no question: Should we use drm/sched?
+
+If yes, it will need patches like these, and AMD needs to be ok with that=
+ and stop NAK'ing them on sight becuase they don't match the existing req=
+uirements.
+
+If no, we will write our own scheduler in Rust, and AMD needs to be ok wi=
+th that and not NAK it on sight because it's not drm/sched.
+
+Which is it?
+
+Note if we write a Rust scheduler, drm/sched and amdgpu will be unaffecte=
+d. If we do that and AMD comes back and NAKs it -- as said in this thread=
+ would "probably" happen -- then it is impossible for us to upstream a dr=
+iver regardless of whether we use drm/sched.
+
+Lina has been polite and accommodating while AMD calls her code "outright=
+ nonsense" and gets "outright NAK"s, and puts her into an impossible catc=
+h-22 where no matter what she does it's NAK'd.
+
+That's not ok.
