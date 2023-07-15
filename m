@@ -1,154 +1,203 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3141253AF;
-	Fri, 14 Jul 2023 20:38:02 +0000 (UTC)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-1b049163c93so1547645fac.3;
-        Fri, 14 Jul 2023 13:38:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689367081; x=1691959081;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W89cgNy1eNMzHOiNr0LRyucV1brLsczr4weQChBoiQg=;
-        b=f9kMHGWeKmTB6HbLltAi4/fyW22V2tWlSzB4grilg1liYKvNB8vtXLS/OKa836RCJf
-         GL8qyoT1a7m1v2QJ5czSZdtD7UHD/GUhIZFP+If6GRN2F9EQdHLnAHDp2kLFylDtzT9u
-         +ynfreEUnSLmwbOqDSIVdrCly8rnqnHjdSHv/Ko5yNlvGfhmXEzjUHl8ErcY6IwgVxiC
-         ekIR3UirrbE48novxPQLRwYTPnoioKjFo5y5rysdA0nmuwyN2HaX117MllsThEcBw2G8
-         VSSqFEc6N5zsDUzBYGNlweI5B4GQwnO1Qpofnu/Prx0YpndEP0Yh4WWC/40Zn8BcKFVE
-         0fTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689367081; x=1691959081;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W89cgNy1eNMzHOiNr0LRyucV1brLsczr4weQChBoiQg=;
-        b=kSCYCfcp1t3c6mAnHFFtBGoR6eFu4W9VKvzFHxOVIYBHJaZKr4qSHQhGWPu+DObel0
-         1lJeAObCDEAeykpgCTQRP2I87de5/j8fP1nl3OJ+86ZqrckjpxKNLGKHElu+FTX9Mafg
-         6yrZYh1hV1KuxOStjFQj7bONs8GRjhSscHOO55hoV1rSqwq8WPs2ScsYUdtzl55vrHLz
-         yroMfOuq/k/j4ISWN/qx/PmBot+NzWf+cFYdAkv2T1WkzECpa/ogUypClIi1TYCBPW2r
-         MYUV77BlznsjSqDX8G9hGpgcFZOtg2f+ADZzsFmtMxz0I2nnZpbz4CttVvkZ2rGhx7It
-         Anvg==
-X-Gm-Message-State: ABy/qLbqKneB5IkzJdhaRO8JCtGo/gmfLVV2S9viEyYG0hi2IAtLmUDR
-	G1idOP9FGyOxPX7z5PKDRyk=
-X-Google-Smtp-Source: APBJJlHVyCp5IxFJ6qO/h2cfiutewACkZl9hi48ptZGNOKVH0KtFwusHVfRsonFsvr6QR1es6WjUVQ==
-X-Received: by 2002:a05:6870:934a:b0:1a2:c181:5c85 with SMTP id j10-20020a056870934a00b001a2c1815c85mr6561375oak.9.1689367081191;
-        Fri, 14 Jul 2023 13:38:01 -0700 (PDT)
-Received: from [192.168.54.90] (static.220.238.itcsa.net. [190.15.220.238])
-        by smtp.gmail.com with ESMTPSA id ee23-20020a056870c81700b001a69e7efd13sm4403908oab.5.2023.07.14.13.37.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jul 2023 13:38:00 -0700 (PDT)
-Message-ID: <28a747bb-2d14-61b6-b5b5-54f8a162155a@gmail.com>
-Date: Fri, 14 Jul 2023 16:56:17 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBDB7EC
+	for <asahi@lists.linux.dev>; Sat, 15 Jul 2023 01:17:56 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1689383874;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eHk2tOCqQMTJhAv0OhLX1AImQflejUiinIzgDnEw15o=;
+	b=4FfZzhpgC69m4IIl+wXu19M/lJvDJ2/smwPCfc9uu2TrAfng9K9zKXo8YDVCPUfKG6pjn6
+	W0nuuS8sXuXGR5mmsDKiXhv90LkpZ9PltSc4qUT58Y1IyksSP/ofwrrAcqTsJ6AW9s/dh7
+	ND2f+FwR3HteWdsfTidwRBO7zxuSQ2Z7nD1LRgVVL+Rj2eXqVd6wxxiJj4Sdq8EK3WJ9N6
+	Opn0wa2B1b90aVAs7vMeyBRlDriY6zzpeBevexoPfHkFr60PlFS9QsSaTOM0CSNHokmMT7
+	aUYrCSAVaGkwjqlTfLzmLsxOa8P1Sitmj0KVqLCa51+d5QmgMm9Dy5Dp+0YWZg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1689383874;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eHk2tOCqQMTJhAv0OhLX1AImQflejUiinIzgDnEw15o=;
+	b=Mvu8OEbiZ2tqFwZjYX93HcfO5oGZFo+VN91sd5JBlc2gjlhA7jjCtowATAKIw2w7OIvM4F
+	PPg1FFjo8aphc0Ag==
+To: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>, Alex
+ Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn?= Roy
+ Baron <bjorn3_gh@protonmail.com>, John Stultz <jstultz@google.com>,
+ Stephen Boyd <sboyd@kernel.org>, Josh Stone <jistone@redhat.com>, Gaelan
+ Steele <gbs@canishe.com>, Heghedus Razvan <heghedus.razvan@protonmail.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
+Subject: Re: [PATCH v2] rust: time: New module for timekeeping functions
+In-Reply-To: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
+References: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
+Date: Sat, 15 Jul 2023 03:17:53 +0200
+Message-ID: <87r0pax9a6.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH RFC 07/11] rust: sync: Implement dynamic lockdep class
- creation
-Content-Language: en-US
-To: Asahi Lina <lina@asahilina.net>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=c3=b6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>, Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- Nicolas Schier <nicolas@fjasle.eu>, Tom Rix <trix@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
- <20230714-classless_lockdep-v1-7-229b9671ce31@asahilina.net>
-From: Martin Rodriguez Reboredo <yakoyoku@gmail.com>
-In-Reply-To: <20230714-classless_lockdep-v1-7-229b9671ce31@asahilina.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On 7/14/23 06:13, Asahi Lina wrote:
-> Using macros to create lock classes all over the place is unergonomic,
-> and makes it impossible to add new features that require lock classes to
-> code such as Arc<> without changing all callers.
-> 
-> Rust has the ability to track the caller's identity by file/line/column
-> number, and we can use that to dynamically generate lock classes
-> instead.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> ---
-> [...]
+Lina!
+
+On Fri, Jul 14 2023 at 16:55, Asahi Lina wrote:
+> +ktime_t rust_helper_ktime_get_real(void) {
+> +	return ktime_get_real();
+> +}
+> +EXPORT_SYMBOL_GPL(rust_helper_ktime_get_real);
+
+Colour me confused. But why does this need another export?
+
+This just creates yet another layer of duct tape. If it's unsafe from
+the rust perspective then wrapping it into rust_"unsafe_function" does not
+make it any better.
+
+Why on earth can't you use the actual C interfaces diretly which are
+already exported?
+
+> +use crate::{bindings, pr_err};
+> +use core::marker::PhantomData;
+> +use core::time::Duration;
 > +
-> +const LOCK_CLASS_BUCKETS: usize = 1024;
+> +/// Represents a clock, that is, a unique time source.
+> +pub trait Clock: Sized {}
 > +
-> +#[track_caller]
-> +fn caller_lock_class_inner() -> Result<&'static DynLockClassKey> {
-> +    // This is just a hack to make the below static array initialization work.
-> +    #[allow(clippy::declare_interior_mutable_const)]
-> +    const ATOMIC_PTR: AtomicPtr<Mutex<Vec<&'static DynLockClassKey>>> =
-> +        AtomicPtr::new(core::ptr::null_mut());
-> +
-> +    #[allow(clippy::complexity)]
-> +    static LOCK_CLASSES: [AtomicPtr<Mutex<Vec<&'static DynLockClassKey>>>; LOCK_CLASS_BUCKETS] =
-> +        [ATOMIC_PTR; LOCK_CLASS_BUCKETS];
-> +
-> +    let loc = core::panic::Location::caller();
-> +    let loc_key = LocationKey::new(loc);
-> +
-> +    let index = (loc_key.hash % (LOCK_CLASS_BUCKETS as u64)) as usize;
-> +    let slot = &LOCK_CLASSES[index];
-> +
-> +    let mut ptr = slot.load(Ordering::Relaxed);
-> +    if ptr.is_null() {
-> +        let new_element = Box::pin_init(new_mutex!(Vec::new()))?;
-> +
-> +        if let Err(e) = slot.compare_exchange(
-> +            core::ptr::null_mut(),
-> +            // SAFETY: We never move out of this Box
-> +            Box::into_raw(unsafe { Pin::into_inner_unchecked(new_element) }),
-> +            Ordering::Relaxed,
-> +            Ordering::Relaxed,
-> +        ) {
-> +            // SAFETY: We just got this pointer from `into_raw()`
-> +            unsafe { Box::from_raw(e) };
-> +        }
-> +
-> +        ptr = slot.load(Ordering::Relaxed);
-> +        assert!(!ptr.is_null());
-> +    }
-> +
-> +    // SAFETY: This mutex was either just created above or previously allocated,
-> +    // and we never free these objects so the pointer is guaranteed to be valid.
-> +    let mut guard = unsafe { (*ptr).lock() };
-> +
-> +    for i in guard.iter() {
-> +        if i.loc == loc_key {
-> +            return Ok(i);
+> +/// A time source that can be queried for the current time.
+
+I doubt you can read anything else than current time from a time
+source. At least the C side does not provide time traveling interfaces
+unless the underlying hardware goes south.
+
+> +pub trait Now: Clock {
+> +impl<T: Clock> Instant<T> {
+> +    fn new(nanoseconds: i64) -> Self {
+> +        Instant {
+> +            nanoseconds,
+> +            _type: PhantomData,
 > +        }
 > +    }
 > +
-> +    // We immediately leak the class, so it becomes 'static
-> +    let new_class = Box::leak(Box::try_new(DynLockClassKey {
-> +        key: Opaque::zeroed(),
-> +        loc: loc_key,
-> +        name: CString::try_from_fmt(fmt!("{}:{}:{}", loc.file(), loc.line(), loc.column()))?,
-> +    })?);
-> +
-> +    // SAFETY: This is safe to call with a pointer to a dynamically allocated lockdep key,
-> +    // and we never free the objects so it is safe to never unregister the key.
-> +    unsafe { bindings::lockdep_register_key(new_class.key.get()) };
-> +
-> +    guard.try_push(new_class)?;
-> +
-> +    Ok(new_class)
+> +    /// Returns the time elapsed since an earlier Instant<t>, or
+> +    /// None if the argument is a later Instant.
+> +    pub fn since(&self, earlier: Instant<T>) -> Option<Duration> {
+> +        if earlier.nanoseconds > self.nanoseconds {
+> +            None
+> +        } else {
+> +            // Casting to u64 and subtracting is guaranteed to give the right
+> +            // result for all inputs, as long as the condition we checked above
+> +            // holds.
+> +            Some(Duration::from_nanos(
+> +                self.nanoseconds as u64 - earlier.nanoseconds as u64,
+
+Clever, but any timestamp greater than KTIME_MAX or less than 0 for such
+a comparison is invalid. I'm too lazy to do the math for you..
+
+> +            ))
+> +        }
+> +    }
 > +}
 > +
-> [...]
+> +impl<T: Clock + Now + Monotonic> Instant<T> {
+> +    /// Returns the time elapsed since this Instant<T>.
+> +    ///
+> +    /// This is guaranteed to return a positive result, since
+> +    /// it is only implemented for monotonic clocks.
+> +    pub fn elapsed(&self) -> Duration {
+> +        T::now().since(*self).unwrap_or_else(|| {
+> +            pr_err!(
+> +                "Monotonic clock {} went backwards!",
+> +                core::any::type_name::<T>()
 
-Is there any problem if we have many `DynLockClassKey`s leaked or not?
+Can you please write this in one line?
+
+ +            pr_err!("Monotonic clock {} went backwards!", core::any::type_name::<T>()
+
+The above is unreadable gunk for no reason.
+
+> +/// Contains the various clock source types available to the kernel.
+> +pub mod clock {
+> +    use super::*;
+> +
+> +    /// A clock representing the default kernel time source.
+> +    ///
+> +    /// This is `CLOCK_MONOTONIC` (though it is not the only
+> +    /// monotonic clock) and also the default clock used by
+> +    /// `ktime_get()` in the C API.
+
+This "(though it is not the only monotonic clock)" phrase is irritating
+at best. CLOCK_MONOTONIC is well defined as the other CLOCK_* variants.
+
+> +    ///
+> +    /// This is like `BootTime`, but does not include time
+> +    /// spent sleeping.
+> +
+> +    pub struct KernelTime;
+> +
+> +    impl Clock for KernelTime {}
+> +    impl Monotonic for KernelTime {}
+> +    impl Now for KernelTime {
+> +        fn now() -> Instant<Self> {
+> +            Instant::<Self>::new(unsafe { bindings::ktime_get() })
+> +        }
+> +    }
+> +
+> +    /// A clock representing the time elapsed since boot.
+> +    ///
+> +    /// This is `CLOCK_MONOTONIC` (though it is not the only
+> +    /// monotonic clock) and also the default clock used by
+> +    /// `ktime_get()` in the C API.
+
+The wonders of copy and pasta...
+
+> +    ///
+> +    /// This is like `KernelTime`, but does include time
+> +    /// spent sleeping.
+
+Can you please expand your editors line wrap limit to the year 2023
+standards? This looks like a IBM 2260 terminal.
+
+> +    /// A clock representing TAI time.
+> +    ///
+> +    /// This clock is not monotonic and can be changed from userspace.
+> +    /// However, it is not affected by leap seconds.
+
+I'm not impressed by this at all.
+
+Lots of copy and pasta with zero content. I don't see how this is an
+improvement over the admittedly lousy or non-existant kernel interface
+documentations.
+
+I thought Rust is set out to be better, but obviously it's just another
+variant of copy & pasta and sloppy wrappers with useless documentation
+around some admittedly not well documented, but well understood C
+interfaces.
+
+So the right approach to this is:
+
+ 1) Extend the kernel C-API documentations first if required
+
+ 2) Build your wrapper so that it can refer to the documentation which
+    was either there already or got refined/added in #1
+
+ 3) Add one clock per patch with a proper changelog and not some
+    wholesale drop it all.
+
+It's well documented in Documentation/process/*, no?
+
+Thanks,
+
+        tglx
+
+
+
+
+
+
+
