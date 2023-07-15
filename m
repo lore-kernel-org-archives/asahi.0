@@ -1,59 +1,54 @@
-Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2126.outbound.protection.outlook.com [40.107.10.126])
+Received: from GBR01-LO2-obe.outbound.protection.outlook.com (mail-lo2gbr01on2132.outbound.protection.outlook.com [40.107.10.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5745115B8;
-	Sat, 15 Jul 2023 14:52:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B4A13732
+	for <asahi@lists.linux.dev>; Sat, 15 Jul 2023 15:33:29 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dNvS4zEtyG8zaXI23VmKjTUTl86kuWKrLs1UmHuJn3wfMzOi5CHtTgctmCvLVBdmp1QxVd7ZKAKJwrfHRZaGUf1lerEOTGE8f4Vg1c7AsqQ1l+/2nrZapgKxIeFbL7XtY0IfzKN/f0yXDmZNz9534Lg0U8KNhTA+KWi+fahmY+8M9nxFv50/Ub9wQ9SPziDb4cF7KkuKY3k86nZ0NaMKNtM0gMBgkwLfLLLS0tNpRdoCWtln3ccBCIoh4PI/raZdTbGiIqw1Fl2J88HjKJkdxLZY5Kkw888F1rD4DI3YJF/MzdsjCBhClZeeRRgDNTptIHqkqCzr2H2le31l07HVAQ==
+ b=mcP8H/ROzS4NpdrDvaBv31jFV1rmSrPIuDUhdbWq6vZYLNz3eDJOgzC2c1NYzHRbD/WLfDR64ULRBvcE2qDRVbDAAyBi/AZjoX+/4tZI+OU59MYlYwHWNTa4UT4FavaiC+tqn+T7rF15vLSUj0FVi+rLsq2+Rk8KMH3FyYvs7FoYRthtSSJ270ssnrt25JWQNR5xwPZ1bcuLpoH0XH1N6h0HSg72tsRGGqUUuPn41MQ4uwId/F5GRV2HzglRT2YJmRgdK5e0CKo/24+OS7Y9E01ZFXS6HnubDJ69sHkLzCseRAT3QjqnohY39A1WlsZnA+pT0zI/bcRbIpjjE6p2aw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WPWATc+9D19MzC4IbUaWB1fhVmvN6k2Zas2FyV/Sn2M=;
- b=oWMM4nSwITZUfpgpOYtLAPBWjo1cB36aVtvlOLwjr6OOxJq8CZn3vptA3Z30VjFPDxhXjeh/k5UhcyYvT487Uij5OBktHOxo3Ok5F+b7ttJUJAXODAf6swJQOuIHo50gs6CYDnMW0/Uv5IPC1++QA7ZL7/oX2MAdyCudBllnjR/Ievf1VWRENTwv4iqeFlxjZLa0l8v9bovkLm974ezSVlpJrdVHKLRqpxs+cO8arF8ikwMyzwrIddjNZa1rnfeKtEmEKCvbzpb42fQAEhZXlctrjGod8Htl3rB+kfu9Bje25z6skDW3aa+THyizLmxwRX1B88xic7CyHPel9ZK5uQ==
+ bh=awJzxiqI7DffwN51fCYaXyH9+qrvpBxlYteVmOZ3fwg=;
+ b=eDoeNnaDdPp17MYP0uCQMBmotzc01NxC9kzKjrXIywkifu3EvoEIQDpC1vfWqsHNvUwtV3yCRiFLkPuzKE53cV2TKa7EM0t9RWBycQPAtDo5+EpuV4v/nLcbDMOHNBZPA7NDaR7qK9FyXP1M8rm4IPLaqxrM9CqoGaWcQsvpZXLO5ZH3JjD7y5cbJY9eO22AC0AGUajGwxGRgZJYtNUmsGEfsQmlSUtMSnxxfIsXSz+fEpfD6yEYG76JwlIPu9ig5AKMjivMEg5GP1V7Bp4tvnyoAvS1WdLW4RxpnHkg1/346fahxHrKjWZ0dQlM7UjEQH6uTViNgY3hLsc64AeaYg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
  dkim=pass header.d=garyguo.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WPWATc+9D19MzC4IbUaWB1fhVmvN6k2Zas2FyV/Sn2M=;
- b=xM+fLaH0dFxbNUR/crDrJvauZKOYkCoMteIMpLmYrHtA0WreXUfkFaIz9N1Ib7cEiiNSvyKCT7WFZ6jw4W3fNUjA5bH584KiAac5WAXc4wkfnZ3UlqoKKB/z1UfBPX6GblFS7YlErATVAnstv+KPDiLhx7alNGy1hU3MCCdS0lM=
+ bh=awJzxiqI7DffwN51fCYaXyH9+qrvpBxlYteVmOZ3fwg=;
+ b=BVnYhmgVq+R986sdx3Eo2yOlLYFVHWmLiJEYw3isHpuj4ig1Lo8NgB+ELbn2SfKqXjZKcjdKKokn4HIHJAIzwqRxrpIzUG/0E21CUTGJmnVmgAcktjClZgAOk6kUxOq6cHuIZ8N8qLCk/7pJsnSvSKss7PriADygy17rQ41lV4M=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=garyguo.net;
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:253::10)
- by CWLP265MB7180.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1f6::5) with
+ by CWLP265MB7163.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1f3::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Sat, 15 Jul
- 2023 14:52:31 +0000
+ 2023 15:33:26 +0000
 Received: from LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::25e2:a08b:cd9c:c3c9]) by LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  ([fe80::25e2:a08b:cd9c:c3c9%3]) with mapi id 15.20.6588.028; Sat, 15 Jul 2023
- 14:52:31 +0000
-Date: Sat, 15 Jul 2023 15:52:29 +0100
+ 15:33:26 +0000
+Date: Sat, 15 Jul 2023 16:33:24 +0100
 From: Gary Guo <gary@garyguo.net>
 To: Asahi Lina <lina@asahilina.net>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
  Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng
  <boqun.feng@gmail.com>, =?UTF-8?B?QmrDtnJu?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Masahiro
- Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nick
- Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>,
- Tom Rix <trix@redhat.com>, Daniel Vetter <daniel@ffwll.ch>, Hector Martin
- <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH RFC 04/11] rust: siphash: Add a simple siphash
- abstraction
-Message-ID: <20230715155229.6cb338dd.gary@garyguo.net>
-In-Reply-To: <20230714-classless_lockdep-v1-4-229b9671ce31@asahilina.net>
-References: <20230714-classless_lockdep-v1-0-229b9671ce31@asahilina.net>
-	<20230714-classless_lockdep-v1-4-229b9671ce31@asahilina.net>
+ <bjorn3_gh@protonmail.com>, John Stultz <jstultz@google.com>, Thomas
+ Gleixner <tglx@linutronix.de>, Stephen Boyd <sboyd@kernel.org>, Josh Stone
+ <jistone@redhat.com>, Gaelan Steele <gbs@canishe.com>, Heghedus Razvan
+ <heghedus.razvan@protonmail.com>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH v2] rust: time: New module for timekeeping functions
+Message-ID: <20230715163324.348dfc0b.gary@garyguo.net>
+In-Reply-To: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
+References: <20230714-rust-time-v2-1-f5aed84218c4@asahilina.net>
 X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P123CA0079.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:138::12) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P123CA0475.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a8::12) To LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
  (2603:10a6:600:253::10)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -62,175 +57,340 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|CWLP265MB7180:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac078316-7ac2-438f-111b-08db85431ddf
+X-MS-TrafficTypeDiagnostic: LO2P265MB5183:EE_|CWLP265MB7163:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5b9e0db-7907-4334-d02b-08db8548d533
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	rf+NcnqU/xtsXZmbLd6sBiHUNuoMVcSMIZ3jd88obzdn50noNQMA49mjrvhpAo5Q5FbAkKxbuI7HxGJi9sPsuNK9fyMqdCHFAOEVPwdzKwvaYAUdH733C423LUTf7dgCzp2ZN0sV6zlhod2dziLxyTLiOUbKKfTtTUQkWi5NZzJRRNj+Sja02FpSjWQuXqrFX7T4yGthR3mQtB18lNC0ea4ZDKbD+ZZJkHF3xPCDhRpzTUt5og2QeEBPHi4l4H7fUYQjGt6TexeljbeOxyvZELlAkedEgZ4BoV6xW78K9Z9q9pr5BvrvMmwSDc7eg5BOMUhxva3Iyog7ERt3Yb7hZUwSsWtLUJeO+dOxttR9eijBFVyndxVMrMidKY7pg1nT5bflTxOCVa4TJGcVTIke5OujuRkM7V3Xh+c/GUa702bAN7YNG58fY2wNRI2Z36O5tdRxzlUwFx3d6ZmjQYXVwqNsRD+jCKVCO6qeuM2G28hCOWio9Pd/jIVkrcuPwCl38+7WPH/eWirnVv+SuKQE/Nj6sR2aH2VibXL5XbagJQMaXGAlfG1UoUFSCo4nE7Qv
+	oCwAaIWrqMF+sLzVIbux9XMNwVyxV93F+B1IGt0+5lobKa1zUQXQwsAvVBrtuwz9B3xqt5npp58INQj1ayfQWacGejOlEHp+KN6EfsL9fOs5LTQll5FJbGYtAbwnrKmxbcwZeMWOUyPqjdENhC3svDwXpj1Ql1rpivOx56r4MCSYOKbuoOToJDzhehbpp3mlYXN0PVr6HaOX4XdUflyJUsv126fWsb3GiVreUWxIPU/nJ1Ra3XKPbgxcWybUEENeyPQLe1xH2GyeVi2tig+wY5prTaIC3LbkhQfSRsarCOCJ/ftzmKlMc5hByD1mGQt1THcN0aXxXVAzwDaznNSDFifdq/UoRyAo8IHuF3p3KfEn1JNGdbTsVlvH5PlawI+W6kTZIveHMXL5nDZL0KNQZtBtmJPOWNSsblSrboec/v1+XKdfu8PvQd36zcu8+/cXT7O+uOSSvLkNO/r1LgDoXUM9g6yKnWpEjrJcKRskys/Ll0DzBB3xMj28ip5193+kwAcrqQaP4YM6WnwO5aHl1dYWX+n2N4iNsQzQbAFLnb/Tqw0cM8K3n5JuE1nvW5A4
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(396003)(39830400003)(346002)(376002)(366004)(136003)(451199021)(54906003)(38100700002)(6486002)(478600001)(41300700001)(8676002)(5660300002)(8936002)(66946007)(66556008)(66476007)(6916009)(4326008)(316002)(2616005)(186003)(83380400001)(6512007)(6506007)(1076003)(26005)(86362001)(36756003)(7416002)(2906002);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(376002)(346002)(366004)(39840400004)(396003)(136003)(451199021)(41300700001)(8936002)(8676002)(26005)(1076003)(6506007)(66899021)(54906003)(478600001)(66946007)(66556008)(66476007)(6916009)(4326008)(316002)(6512007)(36756003)(6486002)(38100700002)(86362001)(83380400001)(2906002)(2616005)(5660300002)(7416002)(186003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?YSCalzzJpv1RyWdfFhyFcaTtzEm2L3AvLHW8RIhJhs95j9DnQst9CO1kw7/k?=
- =?us-ascii?Q?ZNbzZ0CwX2dCsRInWLc0JAXgxZK3+3Fb49b/I+69M+hhFDMx5ARiBt2WDyDy?=
- =?us-ascii?Q?/NAbCviG0OG0pFwAOeU0gtNSj63VIXiQo7p/li/QEMPTE31kOm+73U2KUn7O?=
- =?us-ascii?Q?1ikIftc2WxHWcOtKfnM46Kl05+xFVhPRF6FFReB+Q/3z8DfswITMH0GkiYPs?=
- =?us-ascii?Q?+FaGAGJ8VDJhqzXs1MF6THI39sf6HwSQfePsITXDT/1Va0gjll2luscUo+H1?=
- =?us-ascii?Q?HSaiZIOhv53LSaxF6Om11MDhxio+GU4pzl/9W8/Twr0rHGXEAEJ3zkL9eRe3?=
- =?us-ascii?Q?I9Rq6///bYT6hfKnLvgR+yjBTk0ye/yvRZz8lzBxeyeCVR++jWzgfDEfeMMe?=
- =?us-ascii?Q?rCaj5tlf8hLzYucokawM77i1RZAcGnz6dIkArolXNVN4ztq9OGGGoUGljXtK?=
- =?us-ascii?Q?0b9lCOiprz0VvThxanR/5zGB7v5MuP4qpsG7ASNlZrwhuTJMEVGmcz2l8efO?=
- =?us-ascii?Q?Cj1VUz8pIDg692cydkM2F6od1mcEeB9oEKof2CzowwWP1mZsubRmSdrbrhzl?=
- =?us-ascii?Q?KgP5oReZafec1PD6evP8VgtYQKFLaPrHmonwHJGit6KSqgll8I7nCH45cVch?=
- =?us-ascii?Q?5ch0ZdLEipPVm4X/ZgXtUB0PeBB40NShPQpoV4d0scewWaScWerRIm2nHNfZ?=
- =?us-ascii?Q?JvJM9j/tpjNyRX05+o7KjmMzLq6FKSzQTghD+DSf5Q2ypK2F9lKLKB5SumXx?=
- =?us-ascii?Q?ajzukKLXaZFJz53TmvrUMsup2ZnNgPpF5DWRQrnxeBRw5uEr9yPpXtv8qfMR?=
- =?us-ascii?Q?MA+VRMUiFoyNKE8MhTkKusQo8K36ppgAjQgLK4DKfs43ICHvETeNNNADJTo8?=
- =?us-ascii?Q?URC23f0fwPXIvH3ftGOr1McaV8jfnnYaV2ArV23p/AJbEQ/CFblewK+6xyAY?=
- =?us-ascii?Q?r2u3f+2g1171GIEvfg2RrxPQK1F62uqCZG97kqz5qjeJc3YeFq7j7Bob3rFB?=
- =?us-ascii?Q?TY/y25apZKvJJsVy1exp/kKVeOq7q4iOULLOOAV1ayVHUwbYk7BQH8/7ccHB?=
- =?us-ascii?Q?Hx/mAOruQG+ZMOOi8bOdRYzSnqVFqV8otCPNH9JwvIWHZvbBesDSFlt9dxFm?=
- =?us-ascii?Q?keCZC53mfQqFqlDP7kmWiGVY3ISlu16R1Ze/IYApRIqd4DV9zXK/l3kJGOrA?=
- =?us-ascii?Q?qIgm1f7U0IWAfsBR8Rfq2yj3Wy3pPeJErLNYkasfRlndvxO7zYAT5wOfKk6a?=
- =?us-ascii?Q?y5OtEvfSpvP3QiCEUX6qOlmZM0q0foYRC+10CoEceK2hRTi1iVqo0IISO/Gl?=
- =?us-ascii?Q?GyLXA0/PgXRXg7t3uElYKycvYuEcNJVS2xzSXwIulY1icR3Q1XmmUW8PaCf4?=
- =?us-ascii?Q?YF1F6NJH/tPiaMk9tGS1TmNfCBTBfAy0EQqbFSPUa5MnMWgSsxLzeBTg/hMF?=
- =?us-ascii?Q?9TDgI2oF7OziVwjZhq4D1NHNOfKVNg3mvNzv4Ws8LvkRVvFZHMYz1Ke9VoCT?=
- =?us-ascii?Q?oHWczmzw9kLkRErHX+7T2RSStrwCn5FL9zOpVa1D8xtUrKJbyexFdB0h2vPp?=
- =?us-ascii?Q?Yghyrjqji8dV1W0caQAG3aJx9IwntL70h11qAc+T?=
+	=?us-ascii?Q?eZ1gLry9EsYaE/8vQy5SV4ZtrYG83vOcxr4XmK8u1m7GrrqEHctxXlIqACEa?=
+ =?us-ascii?Q?nnfmO/grkP0l/mfdx5Sv4FZHxQzZqoYZgnSdRYgBGPQUoJq0Sg7Jstcc+5tx?=
+ =?us-ascii?Q?/9K0S1+XCltUsT+xvZMor2nMhvfDKoq7tj2FJVvXEaZ8dySvz2aRbZHVEhWG?=
+ =?us-ascii?Q?jH/svu6eCeHJ9kZZ8b3AtENoV/HWlc3xgK7cvi2R2UKpja+nPY5Tg9IThQj9?=
+ =?us-ascii?Q?YHTFnpRKj4TbZsK+2jLFDCCdjIQjE1WbCwvAQECmdQ/wCFnHpumhNRkp4i/F?=
+ =?us-ascii?Q?DznZZlEN6uMEQ/Pz8WfQPQS7C2zEXVWUl0HfTP1CNy3rRCduS9CPFiDDf6lL?=
+ =?us-ascii?Q?hfpVOmxCzss7ZPKeO+MMsG126SGNfU5QjTeMAFYIOJmQVEvWO+wcbpi8O7Ph?=
+ =?us-ascii?Q?EnuLptQ9YVemwIKwWu2DZ/9nrXJNlsAkF1WJf/oOtv1fhOWgFXPHhsXEN/W4?=
+ =?us-ascii?Q?a+LxCqvVW12VK5IXudTZ73oFf5RY2XFvZgZNZU8aKwHhhZ1pQaUwAQZk0Wwc?=
+ =?us-ascii?Q?U47p+i7dpGY3NoPE7Hdg9amb2IQzoo1EyxNWe7w11ufuSbm90Vh4et+for3Z?=
+ =?us-ascii?Q?/8wvoSFyVxYGDiQD6XpEyLDxvhXcjFWdmzwkhlt/FHb16jfgdCChCX+k4u0M?=
+ =?us-ascii?Q?2+qdSOPS/qK7WaRp5c4ZinSKDuBUuv0PdTWYb9m49aZqt8h/QtaRj8OYjHc2?=
+ =?us-ascii?Q?Yg/peQMq9HCP+tuW0etxx+29i8Eywsa4x8fyOSsCaS9leLDLEgpyBaosnIFR?=
+ =?us-ascii?Q?eJdUCl8Cdw8+roqPjxtbxeqUpTcjyN+JDklWMHOdu2NW4Pw6BJy/66ApV94r?=
+ =?us-ascii?Q?RyWPDlJ/BCecpZ5JT1rzLVVNbAUTt2YrPE+FoDNrPl9CYsyHi0hps228MkOZ?=
+ =?us-ascii?Q?uUOi48YRb9LlMHYTI9E7MOSWW7O/uA7rYb5WQrxZqOjvdz8l9ct5EVis/w91?=
+ =?us-ascii?Q?R1VbY+Wzq1FZiqmTvLsZJ+OKAvImarovh6L6/E3XUz4H9tTB9P6qN5Rhztyd?=
+ =?us-ascii?Q?jg5SPID9VeoRIqajqNiQ84dkutHUUJFBNrPedia9hXRRlMsFVYZK97NOhqR2?=
+ =?us-ascii?Q?cuteHmREEiC9eRiR9CZ90JFXtqKCzB0eX+0uD9UL4WNgskEUXrU5lXjrBDAm?=
+ =?us-ascii?Q?qGfqRejSnnueskbVmPbx18Vf3cDUfwogamPMxU4ZlRNNp5tIfzvbY3JtLxnt?=
+ =?us-ascii?Q?3/3j6LeA1yDG/MA0tz356C1E9xE9baXoUZHFxp0UIeSANGU4Ap8Dz4LYV5To?=
+ =?us-ascii?Q?vhtuV5FY+XBIp7xb5r41xyFTMdv5j2VUhbG0QJ31pziYg5jIPAI0RaMhYiT2?=
+ =?us-ascii?Q?YFKKgkx/V+Y3GSxchde97Bn6ioq8cJwXPQ+noRihkr32WQnp1QiuM+0X48aW?=
+ =?us-ascii?Q?BSC0QlnFIJ0ZzBuWujdy5kJlVTJ/5g/WYRJyTGjY47oUNYSZg7eaCoN0sms8?=
+ =?us-ascii?Q?DdDmtNAydkROtmJJBhch6bxBmEgnqojzTENt/B5AvxFZcUn+Ep9XBqVQV7RT?=
+ =?us-ascii?Q?eKuXYaeeEOeEKY6GxIAutPQkHrSe2GTfcCofwv43PxJl8IlVmOgOjtPirNm8?=
+ =?us-ascii?Q?qtW7sNhvP4JCnJBKJv1FDyB9xwFqy3N+xTjzgVln?=
 X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac078316-7ac2-438f-111b-08db85431ddf
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5b9e0db-7907-4334-d02b-08db8548d533
 X-MS-Exchange-CrossTenant-AuthSource: LO2P265MB5183.GBRP265.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2023 14:52:31.4935
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2023 15:33:26.5855
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qEYOyXIpBFpdZzeU4yclYKLyCq+6/lj9Rx6I0/MyRkGe8lxxjHzweyCNtbPi7eD4FAN2M9mak6CK8UFxkx5e9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB7180
+X-MS-Exchange-CrossTenant-UserPrincipalName: TXVK033wUua+HySwwqkWHRU2QoCV0JoDqC0TO6G0WA2hn/P9by4jXnjVKY3sbWe2MMThe/5qr3gpM7Bui/x24g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB7163
 
-On Fri, 14 Jul 2023 18:13:56 +0900
+On Fri, 14 Jul 2023 16:55:01 +0900
 Asahi Lina <lina@asahilina.net> wrote:
 
-> This simple wrapper allows Rust code to use the Hasher interface with
-> the kernel siphash implementation. No fancy features supported for now,
-> just basic bag-of-bytes hashing. No guarantee that hash outputs will
-> remain stable in the future either.
+> This module is intended to contain functions related to kernel
+> timekeeping and time.
 > 
+> Initially, this implements an abstraction for a time Instant (analogous
+> to the Rust std::time::Instant) that represents an opaque instant in
+> time. Unlike the std Instant, this is a generic type that is bound to a
+> specific clock source, so that only Instants from the same clock source
+> can be subtracted/compared.
+> 
+> Then we implement the relevant clocks available to the kernel:
+> KernelTime (CLOCK_MONOTONIC), BootTime (CLOCK_BOOTTIME),
+> RealTime (CLOCK_REALTIME), and TaiTime.
+> 
+> Co-developed-by: Heghedus Razvan <heghedus.razvan@protonmail.com>
 > Signed-off-by: Asahi Lina <lina@asahilina.net>
+
+The API seems much nicer. Comments inline below.
+
 > ---
->  rust/bindings/bindings_helper.h |  1 +
->  rust/helpers.c                  |  8 ++++++++
->  rust/kernel/lib.rs              |  1 +
->  rust/kernel/siphash.rs          | 39 +++++++++++++++++++++++++++++++++++++++
->  4 files changed, 49 insertions(+)
+> 
+> Based on the feedback to v1, now we have proper type checking for kernel
+> time. I decided to implement marker traits for monotonic vs. wallclock
+> time sources, since it's useful to be able to safely implement different
+> semantics conditional on that, but that left me with a name conflict of
+> the Monotonic trait with the CLOCK_MONOTONIC / "default ktime" clock
+> source. I ended up calling it KernelTime since it's the most fundamental
+> kernel timesource, but suggestions welcome!
+> 
+> Heghedus: I think I need a signoff on this since this is based on the
+> playground demo you wrote in the feedback to v1. Can you provide that? I
+> can fold it into v3 (if there is one, otherwise Miguel can probably just
+> add it when he applies it). Thanks!
+> ---
+>  rust/bindings/bindings_helper.h |   2 +
+>  rust/helpers.c                  |  16 +++++
+>  rust/kernel/lib.rs              |   1 +
+>  rust/kernel/time.rs             | 150 ++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 169 insertions(+)
 > 
 > diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-> index 3e601ce2548d..52f32e423b04 100644
+> index 3e601ce2548d..eddfdf887364 100644
 > --- a/rust/bindings/bindings_helper.h
 > +++ b/rust/bindings/bindings_helper.h
-> @@ -10,6 +10,7 @@
+> @@ -8,9 +8,11 @@
+>  
+>  #include <linux/errname.h>
 >  #include <linux/slab.h>
+> +#include <linux/ktime.h>
 >  #include <linux/refcount.h>
 >  #include <linux/wait.h>
-> +#include <linux/siphash.h>
 >  #include <linux/sched.h>
+> +#include <linux/timekeeping.h>
 >  
 >  /* `bindgen` gets confused at certain things. */
+>  const gfp_t BINDINGS_GFP_KERNEL = GFP_KERNEL;
 > diff --git a/rust/helpers.c b/rust/helpers.c
-> index bb594da56137..1ed71315d1eb 100644
+> index bb594da56137..eff092302e23 100644
 > --- a/rust/helpers.c
 > +++ b/rust/helpers.c
-> @@ -24,6 +24,7 @@
->  #include <linux/errname.h>
->  #include <linux/refcount.h>
+> @@ -26,6 +26,7 @@
 >  #include <linux/mutex.h>
-> +#include <linux/siphash.h>
 >  #include <linux/spinlock.h>
 >  #include <linux/sched/signal.h>
+> +#include <linux/timekeeping.h>
 >  #include <linux/wait.h>
-> @@ -135,6 +136,13 @@ void rust_helper_put_task_struct(struct task_struct *t)
+>  
+>  __noreturn void rust_helper_BUG(void)
+> @@ -135,6 +136,21 @@ void rust_helper_put_task_struct(struct task_struct *t)
 >  }
 >  EXPORT_SYMBOL_GPL(rust_helper_put_task_struct);
 >  
-> +u64 rust_helper_siphash(const void *data, size_t len,
-> +			const siphash_key_t *key)
-> +{
-> +	return siphash(data, len, key);
+> +ktime_t rust_helper_ktime_get_real(void) {
+> +	return ktime_get_real();
 > +}
-> +EXPORT_SYMBOL_GPL(rust_helper_siphash);
+> +EXPORT_SYMBOL_GPL(rust_helper_ktime_get_real);
+> +
+> +ktime_t rust_helper_ktime_get_boottime(void) {
+> +	return ktime_get_boottime();
+> +}
+> +EXPORT_SYMBOL_GPL(rust_helper_ktime_get_boottime);
+> +
+> +ktime_t rust_helper_ktime_get_clocktai(void) {
+> +	return ktime_get_clocktai();
+> +}
+> +EXPORT_SYMBOL_GPL(rust_helper_ktime_get_clocktai);
 > +
 >  /*
 >   * We use `bindgen`'s `--size_t-is-usize` option to bind the C `size_t` type
 >   * as the Rust `usize` type, so we can use it in contexts where Rust
 > diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> index 85b261209977..8fb39078b85c 100644
+> index 85b261209977..52c91484c5d8 100644
 > --- a/rust/kernel/lib.rs
 > +++ b/rust/kernel/lib.rs
-> @@ -36,6 +36,7 @@
->  pub mod ioctl;
->  pub mod prelude;
->  pub mod print;
-> +pub mod siphash;
->  mod static_assert;
+> @@ -42,6 +42,7 @@
+>  pub mod str;
+>  pub mod sync;
+>  pub mod task;
+> +pub mod time;
+>  pub mod types;
+>  
 >  #[doc(hidden)]
->  pub mod std_vendor;
-> diff --git a/rust/kernel/siphash.rs b/rust/kernel/siphash.rs
+> diff --git a/rust/kernel/time.rs b/rust/kernel/time.rs
 > new file mode 100644
-> index 000000000000..e13a17cd5a93
+> index 000000000000..f3bfeed20145
 > --- /dev/null
-> +++ b/rust/kernel/siphash.rs
-> @@ -0,0 +1,39 @@
+> +++ b/rust/kernel/time.rs
+> @@ -0,0 +1,150 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +
-> +//! A core::hash::Hasher wrapper for the kernel siphash implementation.
+> +//! Timekeeping functions.
 > +//!
-> +//! This module allows Rust code to use the kernel's siphash implementation
-> +//! to hash Rust objects.
+> +//! C header: [`include/linux/ktime.h`](../../../../include/linux/ktime.h)
+> +//! C header: [`include/linux/timekeeping.h`](../../../../include/linux/timekeeping.h)
 > +
-> +use core::hash::Hasher;
+> +use crate::{bindings, pr_err};
+> +use core::marker::PhantomData;
+> +use core::time::Duration;
 > +
-> +/// A Hasher implementation that uses the kernel siphash implementation.
-> +#[derive(Default)]
-> +pub struct SipHasher {
-> +    // SipHash state is 4xu64, but the Linux implementation
-> +    // doesn't expose incremental hashing so let's just chain
-> +    // individual SipHash calls for now, which return a u64
-> +    // hash.
-
-This is actually quite a big difference, which makes me think that this
-hasher probably shouldn't be called `SipHasher`.
-
-Actually, do we need a strong hash? Given that lock dep is only for
-debugging purposes, I think we can use fnv, or even just fx hash?
-They're all simple enough to be implemented in a couple of lines in
-Rust and wouldn't need to call into FFI.
-
-> +    state: u64,
+> +/// Represents a clock, that is, a unique time source.
+> +pub trait Clock: Sized {}
+> +
+> +/// A time source that can be queried for the current time.
+> +pub trait Now: Clock {
+> +    /// Returns the current time for this clock.
+> +    fn now() -> Instant<Self>;
 > +}
 > +
-> +impl SipHasher {
-> +    /// Create a new SipHasher with zeroed state.
-> +    pub fn new() -> Self {
-> +        SipHasher { state: 0 }
+> +/// Marker trait for clock sources that are guaranteed to be monotonic.
+> +pub trait Monotonic {}
+> +
+> +/// Marker trait for clock sources that represent a calendar (wall clock)
+> +/// relative to the UNIX epoch.
+> +pub trait WallTime {}
+> +
+> +/// An instant in time associated with a given clock source.
+> +#[derive(Debug)]
+
+We probably want a manual Debug impl, but that could be left to a
+future patch.
+
+> +pub struct Instant<T: Clock> {
+> +    nanoseconds: i64,
+> +    _type: PhantomData<T>,
+> +}
+
+Do we want to pick a default type parameter? The `KernelTime` could be
+a good default, given that it's `ktime_get`.
+
+> +
+> +impl<T: Clock> Clone for Instant<T> {
+> +    fn clone(&self) -> Self {
+> +        *self
 > +    }
 > +}
 > +
-> +impl Hasher for SipHasher {
-> +    fn finish(&self) -> u64 {
-> +        self.state
+> +impl<T: Clock> Copy for Instant<T> {}
+> +
+> +impl<T: Clock> Instant<T> {
+> +    fn new(nanoseconds: i64) -> Self {
+> +        Instant {
+> +            nanoseconds,
+> +            _type: PhantomData,
+> +        }
 > +    }
 > +
-> +    fn write(&mut self, bytes: &[u8]) {
-> +        let key = bindings::siphash_key_t {
-> +            key: [self.state, 0],
-> +        };
-> +
-> +        self.state = unsafe { bindings::siphash(bytes.as_ptr() as *const _, bytes.len(), &key) };
+> +    /// Returns the time elapsed since an earlier Instant<t>, or
+> +    /// None if the argument is a later Instant.
+> +    pub fn since(&self, earlier: Instant<T>) -> Option<Duration> {
+> +        if earlier.nanoseconds > self.nanoseconds {
+> +            None
+> +        } else {
+> +            // Casting to u64 and subtracting is guaranteed to give the right
+> +            // result for all inputs, as long as the condition we checked above
+> +            // holds.
+> +            Some(Duration::from_nanos(
+> +                self.nanoseconds as u64 - earlier.nanoseconds as u64,
+
+`wrapping_sub` as other people have already point out.
+
+> +            ))
+> +        }
 > +    }
 > +}
+> +
+> +impl<T: Clock + Now + Monotonic> Instant<T> {
+> +    /// Returns the time elapsed since this Instant<T>.
+> +    ///
+> +    /// This is guaranteed to return a positive result, since
+> +    /// it is only implemented for monotonic clocks.
+> +    pub fn elapsed(&self) -> Duration {
+> +        T::now().since(*self).unwrap_or_else(|| {
+> +            pr_err!(
+> +                "Monotonic clock {} went backwards!",
+> +                core::any::type_name::<T>()
+> +            );
+> +            Duration::ZERO
+> +        })
+> +    }
+> +}
+> +
+> +/// Contains the various clock source types available to the kernel.
+> +pub mod clock {
+> +    use super::*;
+> +
+> +    /// A clock representing the default kernel time source.
+> +    ///
+> +    /// This is `CLOCK_MONOTONIC` (though it is not the only
+> +    /// monotonic clock) and also the default clock used by
+> +    /// `ktime_get()` in the C API.
+> +    ///
+> +    /// This is like `BootTime`, but does not include time
+> +    /// spent sleeping.
+> +
+
+Extra line
+
+> +    pub struct KernelTime;
+
+I feel that the struct names are a bit awkward, but couldn't think of
+any better suggestions...
+
+> +
+> +    impl Clock for KernelTime {}
+> +    impl Monotonic for KernelTime {}
+> +    impl Now for KernelTime {
+> +        fn now() -> Instant<Self> {
+> +            Instant::<Self>::new(unsafe { bindings::ktime_get() })
+> +        }
+> +    }
+> +
+> +    /// A clock representing the time elapsed since boot.
+> +    ///
+> +    /// This is `CLOCK_MONOTONIC` (though it is not the only
+> +    /// monotonic clock) and also the default clock used by
+> +    /// `ktime_get()` in the C API.
+> +    ///
+> +    /// This is like `KernelTime`, but does include time
+> +    /// spent sleeping.
+> +    pub struct BootTime;
+> +
+> +    impl Clock for BootTime {}
+> +    impl Monotonic for BootTime {}
+> +    impl Now for BootTime {
+> +        fn now() -> Instant<Self> {
+> +            Instant::<Self>::new(unsafe { bindings::ktime_get_boottime() })
+> +        }
+> +    }
+> +
+> +    /// A clock representing TAI time.
+> +    ///
+> +    /// This clock is not monotonic and can be changed from userspace.
+> +    /// However, it is not affected by leap seconds.
+> +    pub struct TaiTime;
+> +
+> +    impl Clock for TaiTime {}
+> +    impl WallTime for TaiTime {}
+> +    impl Now for TaiTime {
+> +        fn now() -> Instant<Self> {
+> +            Instant::<Self>::new(unsafe { bindings::ktime_get_clocktai() })
+> +        }
+> +    }
+> +
+> +    /// A clock representing wall clock time.
+> +    ///
+> +    /// This clock is not monotonic and can be changed from userspace.
+> +    pub struct RealTime;
+> +
+> +    impl Clock for RealTime {}
+> +    impl WallTime for RealTime {}
+> +    impl Now for RealTime {
+> +        fn now() -> Instant<Self> {
+> +            Instant::<Self>::new(unsafe { bindings::ktime_get_real() })
+> +        }
+> +    }
+> +}
+> 
+> ---
+> base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+> change-id: 20230714-rust-time-10dd9ed25333
+> 
+> Thank you,
+> ~~ Lina
 > 
 
