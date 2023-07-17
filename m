@@ -1,296 +1,224 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mo-csw-fb.securemx.jp (mo-csw-fb1115.securemx.jp [210.130.202.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD9610955
-	for <asahi@lists.linux.dev>; Mon, 17 Jul 2023 22:45:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 36C474248B;
-	Mon, 17 Jul 2023 22:45:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1689633931;
-	bh=cFcJjQIV42C+z+n9/7F0zifjtePcKTUMN6UJ4kfxt/U=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RKu7/tu9M8MvBnQjKMUMytcMOB/zh4NtqzmYNdxo/kcvwVB8j/CjLzUFR+1McxWe7
-	 +7q4xeJFP4H8Q3QZNNVPbZ63VzZal8n+4/eIB+bFmcqSm95l6O8JKvS1sqoCsnIQay
-	 zoa3UgB6UMmMrIqvqgahjZHtWXPyIMdbYGebvWnZvOHxSPiJH2kTmmnLojV+5kJvVH
-	 Jc3W/CUUZKWd7qviSBtoZ4Sg6xo2WQSguCve1vrN+4lXN4XDSwYFir0Dt77WAfV+Is
-	 HBLI1+KM+4VRCtZ67Xa6ePYgHHc1m8jpKT14biuRR6utv0h4DsdlcxGiXU7nqd0JAN
-	 6HYKya0/KM1sA==
-Message-ID: <4587c699-5a59-d465-01f4-1bc2fbef7a12@asahilina.net>
-Date: Tue, 18 Jul 2023 07:45:26 +0900
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429CB111A3;
+	Mon, 17 Jul 2023 23:34:07 +0000 (UTC)
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1115) id 36HMfnqk008713; Tue, 18 Jul 2023 07:41:50 +0900
+Received: by mo-csw.securemx.jp (mx-mo-csw1121) id 36HMdLjs3368785; Tue, 18 Jul 2023 07:39:22 +0900
+X-Iguazu-Qid: 2rWhJyZQYTbdVtsDZo
+X-Iguazu-QSIG: v=2; s=0; t=1689633561; q=2rWhJyZQYTbdVtsDZo; m=hbg/GokJOW88gVJsa48UiVYt95EJoEMnNIJ24aPs+4k=
+Received: from imx12-a.toshiba.co.jp ([38.106.60.135])
+	by relay.securemx.jp (mx-mr1122) id 36HMdAqU2024109
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 18 Jul 2023 07:39:11 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ix3S2ymLBsPL5aB/WX//vzwvTkn38vxAQp4wuwTPqe/D1i8z/hBO+dS+cs0s/i/RlZqp6ZTwIuxKtm0d2RYAhNLJdRxvDgzvWCjS5FVtoFBdpnuQvhxu3GI6ZK1HNJEVy7pKWDPtCfnbkl4rJv+CIdtrS/8UHRcvhnNEMDQJf2MLQFfx9gsEZqxVYUiXiAPEI780H7VqHyV6gPXraeyc3RohiL19+syM7HVhI4GGpPK+GED0Zod02qx4a2R/XdcxQdIGw5wlWD1hZ1k6uID6Hfi5s5b0/5ZsINy5xTomUb46xkcBgjQXEU+xmBbfcRktQJvYbeGKuKEghvnSQkOjbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PVykzySwJpYcPUmkwHiVkpkYGIAvueolxxj/pfXEZEY=;
+ b=nF5znQd0hWeJILbUylGAMrJxhh9971/b5yQuoZUmyt6xRBDwJib9hQOKhjXsCFEG/IXgeGhWmRLVIsFPBLYQE4nuuHN/ZgzZQNyou+Wz+7bvcig598+NNiaTqaRiQI/Zr3RcN2ANRuxUJVcdT3atop8SaD+ceaxfTJu19tN4HvO+sZj75URJDC6vvc5ELkKgZHdA0pzahPV7+eKYxpsaDwET7P9i+vG8YkADjKtEXlNGpH5QTfhWlBrMTmYSMZ0Eu8SIV9nsiX6pliJVKuiBxCxnxuu5ifyRbyX9ghQJBnEwZOb38RV0jumn+bN3cEZOSZts8zc3ygr8nd4TmZdRFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=toshiba.co.jp; dmarc=pass action=none
+ header.from=toshiba.co.jp; dkim=pass header.d=toshiba.co.jp; arc=none
+From: <nobuhiro1.iwamatsu@toshiba.co.jp>
+To: <robh@kernel.org>, <thierry.reding@gmail.com>,
+        <u.kleine-koenig@pengutronix.de>, <marcan@marcan.st>,
+        <sven@svenpeter.dev>, <alyssa@rosenzweig.io>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <claudiu.beznea@microchip.com>, <bleung@chromium.org>,
+        <groeck@chromium.org>, <shawnguo@kernel.org>, <s.hauer@pengutronix.de>,
+        <kernel@pengutronix.de>, <festevam@gmail.com>, <linux-imx@nxp.com>,
+        <paul@crapouillou.net>, <vz@mleia.com>, <neil.armstrong@linaro.org>,
+        <khilman@baylibre.com>, <jbrunet@baylibre.com>,
+        <martin.blumenstingl@googlemail.com>, <conor.dooley@microchip.com>,
+        <daire.mcnamara@microchip.com>, <matthias.bgg@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>, <palmer@dabbelt.com>,
+        <paul.walmsley@sifive.com>, <michael@walle.cc>, <orsonzhai@gmail.com>,
+        <baolin.wang@linux.alibaba.com>, <zhang.lyra@gmail.com>,
+        <wens@csie.org>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+        <hammerh0314@gmail.com>, <jonathanh@nvidia.com>
+CC: <devicetree@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <asahi@lists.linux.dev>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <chrome-platform@lists.linux.dev>, <linux-mips@vger.kernel.org>,
+        <linux-amlogic@lists.infradead.org>, <linux-riscv@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+        <linux-tegra@vger.kernel.org>
+Subject: RE: [PATCH] pwm: Explicitly include correct DT includes
+Thread-Topic: [PATCH] pwm: Explicitly include correct DT includes
+Thread-Index: AQHZtnuOZnDWlkRtFkevk2lzTg3PG6++kY5w
+Date: Mon, 17 Jul 2023 22:39:05 +0000
+X-TSB-HOP2: ON
+Message-ID: 
+ <TYWPR01MB9420C0C22F51CA8DAF482B81923BA@TYWPR01MB9420.jpnprd01.prod.outlook.com>
+References: <20230714174852.4062251-1-robh@kernel.org>
+In-Reply-To: <20230714174852.4062251-1-robh@kernel.org>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=toshiba.co.jp;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYWPR01MB9420:EE_|TY3PR01MB9683:EE_
+x-ms-office365-filtering-correlation-id: 3e65e535-dc8b-43a8-50a3-08db8716a089
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ kcEKIZH9a4Mgw1ka3mFFZNrACZQ8RKiqJ8lU/BbVUjKKOkyBlxuimcIFEGrNJyc/ZVPB1dc0ZPnj1hY+5ZUd1xYRHUudoyb4XxRORVjBj6zKEjtyOnR43KAiZihISKYWoLAhiUEmMN4XH+/EJdEjwH1iY+TUa3/pvMZdpmmQ36k0wHIGfkXPxF+0SNIH9gbkU+6jNWJMGmdcAJ+tBEEgPWsJrL7zbTMyVuI2HZLrqsMN3J1SGgHPE5KtmAES01HpgGRcxSd97KDst0rmodelvr0AwfPf3yQs6cDAhgYbE9j9CZcmUC916MwkEQLvxcM+WpJ0eK3xwRFbzg9HK5BArQeakdKFuNy2SYuRFjjMFQQn2/Q9ellgSjAUxjpC1PUDE9ri/cACsWZvRHZ6DoO1pgmmQjKUIHtZ8XK20t0Abb37FmKR9xQq6BQYqYLrSW3QNUTIzsbxaRRqgLwIYdSLdmTqo88k12N2cdds3xaJUhEx5XkyzZ8PlEbSUadgqZaSGQpJ8pVubCgRNLA8pHJWkt1wuq/MUwY5vFU0XqWWdpBCXPjK7UtvrcwSEX0nHc50gXEMVnJPYaiyYDHEaz14kYqfRdEFfjnkOHSADm4iFjuJPMyrgEwtaari07XM4ybVsPJaxjIUuj7gK8W5YVWbAg==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB9420.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(136003)(39860400002)(376002)(396003)(366004)(451199021)(38070700005)(38100700002)(8936002)(8676002)(33656002)(2906002)(83380400001)(66574015)(52536014)(6506007)(26005)(5660300002)(53546011)(55016003)(921005)(122000001)(186003)(7406005)(7416002)(86362001)(316002)(7696005)(71200400001)(4326008)(110136005)(66946007)(54906003)(66556008)(66476007)(64756008)(66446008)(76116006)(478600001)(41300700001)(9686003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?bkN5N2htNlEwZkN6d3FQd2I3UHJZRWNEODc4dzZkd1JFTUcyL045TitLZWxU?=
+ =?utf-8?B?bGJKRkJ6NFdhcnEvZzZXWE0vUUFRaTVwQUpSQm9tMThLTVB5NU5Hajg1ODJ3?=
+ =?utf-8?B?WU5zMTdtZ0Iwc2tRVTc4MUdPNnRXUWtyZGJIT0VPMHA4ZzF5c20wZk1XVW82?=
+ =?utf-8?B?a01nb3ZvS1luRHBaSEtMNHdSTWhUdnNXVnhNRkk1K1ErLzlMdll0QWpteTdh?=
+ =?utf-8?B?YmR1VnNNQzlpeitlNFp6UHhFaVd0NHpuSFJmc01QMmtCaHEwQ1NrOFdjcWV0?=
+ =?utf-8?B?L1BzUlZEQ2tORmw0bWtvZEpFTDJMZ3U1UWY1RHlwY3Q5OWFkNnRJQmdCL281?=
+ =?utf-8?B?aDJHNmQ5VnBJamV2Qmp5Ly9GeWRyMUFQb211NGd6ZGFxZVNDcHQrNWh1cG9r?=
+ =?utf-8?B?ZmtzcERLMGIxQyt5MUo2Sk0ydFBrOHV0TFRoNU5MUHgwZWZ3c3JPQWx0VXdL?=
+ =?utf-8?B?Nnc1bzVDZ3AvcE1OazltZkZwK2hQTU9HWWpXZzl1Z0FQaWNwOExjZTJOZlNr?=
+ =?utf-8?B?SytFRkNPMXBjdlRROHd4ZEt4MmRuNHZXaVJUNVVEcUN0S1J1MCtPMXoxNzBG?=
+ =?utf-8?B?ZEthaHkxRjZhZk1iKzM3QzVINkwzWjR1UzJQTFZoRHFTcEdma3Y1bTFxczd0?=
+ =?utf-8?B?ME1LNHl5bjNvRW94eG5KR1JUSGhsM1JJdmRCT09KL2E0TndHMWgzWlFRWHpE?=
+ =?utf-8?B?QlJqZTdFN3JUN1VvRlhOMWEzNDdmTFRWYWN6dXF4aUVQZG1IanI2cFB2V1Rj?=
+ =?utf-8?B?WmhoUTVubkRNYXc5RkdubFdzYUtCQkt3Q2tqTVdmeHNRYVgrclMyNVFSdG85?=
+ =?utf-8?B?azdFYXRON1RrczJWUGFKYXBPRDJaUmdMTUpxV01tNGJUWEQ2djE3VHIzM09s?=
+ =?utf-8?B?ZThON3A0TlkzVGJNUW1zajJEcWQwVWFBWTlQb0U0QXMyMnJLd2N3ZHVWUW1S?=
+ =?utf-8?B?YmdqbndyaDBORkxKWVNTSDZvYm4xMTVWbTNyZnJVRi8xemFzSnpYQVNNK2FJ?=
+ =?utf-8?B?MjhRRlMya2lGVG5lSldNM1M1bHFTZ2RTVGlOSVQyNG9wa2swdGpsa3lnQzNh?=
+ =?utf-8?B?ci95SWpjOTh5ZVFVck9QVnBGbTZPS1Y2TWNxQ2RvVGVscGhLTlF5RktuVzhk?=
+ =?utf-8?B?ckNVYTFIMFJVYVQvU2tjS3lWYWpPVWtrcFNhY2p2MDRsM2dVcDZsUkVRdEpS?=
+ =?utf-8?B?emVpNzczVTF6R3pSMEZQU1M1YVhwbjdXQVJXd2hkY085WmMxQUh5U1NqaEhl?=
+ =?utf-8?B?enVLbXgxbXJndWdYeC9XL0JkWXkyQnlBaitPa3puZ0hnMm9lZVlGNEVoUFBG?=
+ =?utf-8?B?ZS96ZElMU0k4cCtNOUtINVY0NTNrUFlxMFR6eXZLTTFEai9taG1BbUliSFBI?=
+ =?utf-8?B?WFhpbjVtRTdib2N3U2JvZmx6VGNVVU9qMjd5c1pJOEZJTXYzMEdsNHBDQTc2?=
+ =?utf-8?B?d3FHRkVWYUl2cGM0bDVldnhEMHBvYi9wUHBkeGtJSnU4MDdQVG9hWm9hdGpI?=
+ =?utf-8?B?cU9DT0ZoSWhBMXUyNW9UNzlRTHgya2g5Z1RQbHBocjVBcGhsN1AzL3lvbi81?=
+ =?utf-8?B?MGdJUjdFZEJ4Qy96V1FvSXYrY3c2Y0Z6UG1iYTNCZjNRMGtUOHpCeEw2aCtk?=
+ =?utf-8?B?eXloWStpSy9kckNVZ1JWcU9pZEp5SUtnRExsN2QzMHk5QkR2UmtlakQ3d2R3?=
+ =?utf-8?B?QzgzbzFYVytmc0YxNG1zQ3dxQkdaY0dpWmFxaUhlem9EUE5ZcU5GbmlFaW9S?=
+ =?utf-8?B?UHpIUnBmd2toVmFSak5MaVgvOUxhSEoyQW0vSElia0REWjRiVytrRkdaMUJw?=
+ =?utf-8?B?UHVoT21ZcGlMYTBWMXhHTlppT2kwYkJIUk9mcEl4SDlHRTlhZjdaZmRjTFox?=
+ =?utf-8?B?OHJOZ1BZOHFjUXczaHF1OGZWNlk0aTdoUWI0T2F6QVFXUVNBdkMxL2tGV2Ry?=
+ =?utf-8?B?dWY5cWRBdmxRNWp1eCt4clNSdlhHMUJsQ1B0STFDcWpWc0JtbCtURjdOK0Z1?=
+ =?utf-8?B?K2h4ME04SlRMNWU2bGJncEhBZmhUdU45SFdCRWRrWlFucUl2Y3RUZjM4MUJJ?=
+ =?utf-8?B?UDhNUElOM01ZSVl2U3A4THR6Sm01NnBFQ1VmTi8yMGNVQ0lSWjZpSUR1VEQx?=
+ =?utf-8?B?VzF2aHREMGMxS0JaRDdnck5tZ1pubUl6elpCOXpIdXlWK0JueEMrSmZRNkF0?=
+ =?utf-8?B?N1E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 3/3] drm/scheduler: Clean up jobs when the scheduler is
- torn down.
-Content-Language: en-US
-To: Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
- <20230714-drm-sched-fixes-v1-3-c567249709f7@asahilina.net>
- <9343165f-2533-f363-4942-719ee9b7d2a4@amd.com>
- <99f9003f-d959-fff3-361a-25b2f47efc88@asahilina.net>
- <49a33f61-91b5-22ee-78b5-c7dd7c0d4a46@amd.com>
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <49a33f61-91b5-22ee-78b5-c7dd7c0d4a46@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	=?utf-8?B?dXdrOFJlYkk2ODVPTnZyREplUEdpYVF1eHRaeFovOFNtb0c0Z1dnV2tMRGZZ?=
+ =?utf-8?B?RnMrR1pwWUF5S3NZRW9ZUzhjTGFpK1NtUHRpTHdsMVhlNEN3dVZDNk5vNThP?=
+ =?utf-8?B?VWJOekJ2elZuaHdtZCtlQjh2bERjaDcxekh4aVA0Y1NoVUxVckNmR2RHa3Nv?=
+ =?utf-8?B?R2l3TWN4Z2ViTEtWSzlheDJ1eTFWU21HZVllQ0s2a2RwZ29NSEJhWGhib1ZB?=
+ =?utf-8?B?QUFTdlptS2hPMXpKb3NGNVF1QmVvVWlJYWpUeWtHZ01Ya2xCamRLc09vZStr?=
+ =?utf-8?B?RGZUYWVTQ1hqTHlVdFg1a0J0aVluWklKTlZLOVV1UHVhWXB1TFBvckRpWEpT?=
+ =?utf-8?B?UXVOMEZGaXdqS1duSHRBU3dXdGRXSFd3Z0t0cDFTMkh1SzQ3Zm1rVnhnbmR0?=
+ =?utf-8?B?LzNCdm41alZrSFdUK0RXQ05ZWFY3d3lKd0U4VC9WSDkwMkwxNWVQVWtWZGJU?=
+ =?utf-8?B?ZGJtK3prNUNkUzlGOFB4Mk1HWlNPRXYxVGRoYW1nbzRVaytyWXFSc05SZ2do?=
+ =?utf-8?B?d1pXKys2WHU4S05RU1lkSzFzRVUzNXVHLzRmTGVLdDY4TWNmVkxuTVEzNEFF?=
+ =?utf-8?B?alZGenlGTlFZeFdGL3R3QkpORHFMcXoxVFN4bmlLZzVaTExRWkpsSnBEQkFI?=
+ =?utf-8?B?c01SeDl0ckRPYXRqakJNM1hmNi9ndUFjTTVjZG1RZ1Fqb1R4dXZVeUp6ajJK?=
+ =?utf-8?B?ZXpqNE1QTjVzUTFUUkVpMXJwbmVndHBFN2VTREFWcXRWbTF3bHdSeC9FYmow?=
+ =?utf-8?B?NGkwcktTN09TUEp3bzREN3B6aThyR0Ezb2FTQ09OS3krUWU4d0w2QThuSDRW?=
+ =?utf-8?B?RlB0bXhTUE42VGVDK3U3NkJGTWN2dkRkUWhodGhpbWlqdWVlWCtUS2NwdkFI?=
+ =?utf-8?B?eEJ1UTRBdDBMMmp6aGVxNGVUdTNveTBUa0NvdkthVUFSb3kwQmV4SzRicmNp?=
+ =?utf-8?B?blFTdHBWQ3UzNVNyQkQzQTdDVFFVL1d4OUpSMzdsaXFZKzA1TWRvaDFKUmJL?=
+ =?utf-8?B?MjBZcjJ5cmQ0bE50a29Zc0t1L1JDZk9ZSytvRHhZSkQ1Qk5DWkU2S01oTm9M?=
+ =?utf-8?B?bVdsb2J6QU9hRUFKQjZxc3VOclQvOHRuNGoyMVd1TDZtYkRrNmJTMStpRjNK?=
+ =?utf-8?B?UXg3WjUvYmgxaG14QWhGZmUrYmVSMEhlQnI2YzNQMVEzbnU4dG1DNHZsSHpI?=
+ =?utf-8?B?YXRsc2JPZVgzQlZKTktldGdYV3NjY21VelF1elE5bnZYOTdIcHIxNWtjV2xZ?=
+ =?utf-8?B?ajR0bFVHRWxpYklDVCtVRFNHVklyNWpYeWtFSWMvRE5WdEU4bnd3elBLWXlr?=
+ =?utf-8?B?STd4cFoyYzlia1FybzNPYVc5a3habU1HSHFHQ3psZE15ZmJkY1FHditUcEY1?=
+ =?utf-8?B?Zk9IMUt5NG1UT2prY3JPU2dPSmRkRVRVSjFtQVJsRlI5NGM4NEN1aERJRWl3?=
+ =?utf-8?B?YjBhZ0lEbzFZUFU3QUdKQmNDZDdjWG8yamcwRHdZL2tSYzNWZTFLbjN6RWVX?=
+ =?utf-8?B?SWxOMlI5bHNJenZrYWlxdVRjM0xoNWZQY3VtZ1NZbmpKMjVTZU8rcTZnQzlh?=
+ =?utf-8?B?TEtNTmdDVktZeGE3VytwZ3dsaTBkZTd5eXZ5eE5jWGZ5WDNwaW1xYkpLUDc2?=
+ =?utf-8?B?UGVCWFRtVXlhTSsxNldBZUszbXplMkRuWUdKZUphOE51c0ZSK0ZBczNkTUts?=
+ =?utf-8?B?a3dHNE1kK1ZCL2JneEZDVE4wWmtUOENQZUlobmx1OGlRQnNkMkZUbEk4WkxB?=
+ =?utf-8?B?Vk1zQXJPNFFOYjRoSk1qM0xQVFR3dTl2QW94L1MyRVZpR2xUcW05ekgwdUdI?=
+ =?utf-8?B?L3A0alVIb1RxWVFQRDlVdzN2OTUxUnpPRVg0ZjdRVmhCVGxsd2pFcnVuQlBx?=
+ =?utf-8?B?b0VWVm5POWR3ajcvWFQ3U251Z0VsWksyaXdKVWVtSFFqbHhTSEswUjZKSDNG?=
+ =?utf-8?B?aS91VFJVT21Vc1gzekJYNFJXTkk0c3QxblN2b0FObXFlbTNybGxXYVF1a29n?=
+ =?utf-8?B?aElsajczcXhKS0svcjRHUTNxTGtBem1zaU14eWFjVjd2UXdONVhTY2lwQ2d1?=
+ =?utf-8?B?c3ozbEo3STRvRFFNSENDazMxN0VrUUcxMnIzRlMxQ2F2RjEyd1ptMU03Z0Zq?=
+ =?utf-8?B?cGRqRDhoK1R1QUFEc1h5OXdPeVNKb2xzcXVIVC9sTXV4Z0Jmb1crRVQxRWFC?=
+ =?utf-8?Q?kF3SCwT7QzYbCnI0yj+3ogThTUhlnS3opycmHE0vsiPx?=
+X-OriginatorOrg: toshiba.co.jp
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB9420.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e65e535-dc8b-43a8-50a3-08db8716a089
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2023 22:39:05.5061
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f109924e-fb71-4ba0-b2cc-65dcdf6fbe4f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: B4jTJ7i6NDZsLa7/ld7qvU5wbP3/d5IzCd20kvxQhYG0xwCGHcaQZTqyzgyTqvln1BEsJuYavuYFJXy/vaBy0l+Al7ToplXnAUUVVQZmBzdnJfhm7zB6EWx+6M+6cXl2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB9683
 
-On 18/07/2023 02.40, Luben Tuikov wrote:
-> On 2023-07-16 03:51, Asahi Lina wrote:
->> On 15/07/2023 16.14, Luben Tuikov wrote:
->>> On 2023-07-14 04:21, Asahi Lina wrote:
->>>> drm_sched_fini() currently leaves any pending jobs dangling, which
->>>> causes segfaults and other badness when job completion fences are
->>>> signaled after the scheduler is torn down.
->>>
->>> If there are pending jobs, ideally we want to call into the driver,
->>> so that it can release resources it may be holding for those.
->>> The idea behind "pending" is that they are pending in the hardware
->>> and we don't know their state until signalled/the callback called.
->>> (Or unless the device is reset and we get a notification of that fact.)
->>
->> That's what the job->free_job() callback does, then the driver is free
->> to do whatever it wants with those jobs. A driver could opt to
->> synchronously kill those jobs (if it can) or account for them
->> separately/asynchronously.
->>
->> What this patch basically says is that if you destroy a scheduler with
->> pending jobs, it immediately considers them terminated with an error,
->> and returns ownership back to the driver for freeing. Then the driver
->> can decide how to handle the rest and whatever the underlying hardware
->> state is.
->>
->>>> Explicitly detach all jobs from their completion callbacks and free
->>>> them. This makes it possible to write a sensible safe abstraction for
->>>> drm_sched, without having to externally duplicate the tracking of
->>>> in-flight jobs.
->>>>
->>>> This shouldn't regress any existing drivers, since calling
->>>> drm_sched_fini() with any pending jobs is broken and this change should
->>>> be a no-op if there are no pending jobs.
->>>
->>> While this statement is true on its own, it kind of contradicts
->>> the premise of the first paragraph.
->>
->> I mean right *now* it's broken, before this patch. I'm trying to make it
->> safe, but it shouldn't regress any exiting drivers since if they trigger
->> this code path they are broken today.
-> 
-> Not sure about other drivers--they can speak for themselves and the CC list
-> should include them--please use "dim add-missing-cc" and make sure
-> that the Git commit description contains the Cc tags--then git send-email
-> will populate the SMTP CC. Feel free to add more Cc tags on top of that.
-
-I use `b4 prep -c` which I think does the same thing? I just ran it 
-again and it only added 'linaro-mm-sig@lists.linaro.org', not sure why 
-that one wasn't there. Am I missing anything else?
-
->>
->>>
->>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>>> ---
->>>>    drivers/gpu/drm/scheduler/sched_main.c | 32 ++++++++++++++++++++++++++++++--
->>>>    1 file changed, 30 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>>> index 1f3bc3606239..a4da4aac0efd 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>> @@ -1186,10 +1186,38 @@ EXPORT_SYMBOL(drm_sched_init);
->>>>    void drm_sched_fini(struct drm_gpu_scheduler *sched)
->>>>    {
->>>>    	struct drm_sched_entity *s_entity;
->>>> +	struct drm_sched_job *s_job, *tmp;
->>>>    	int i;
->>>>    
->>>> -	if (sched->thread)
->>>> -		kthread_stop(sched->thread);
->>>> +	if (!sched->thread)
->>>> +		return;
->>>> +
->>>> +	/*
->>>> +	 * Stop the scheduler, detaching all jobs from their hardware callbacks
->>>> +	 * and cleaning up complete jobs.
->>>> +	 */
->>>> +	drm_sched_stop(sched, NULL);
->>>> +
->>>> +	/*
->>>> +	 * Iterate through the pending job list and free all jobs.
->>>> +	 * This assumes the driver has either guaranteed jobs are already stopped, or that
->>>> +	 * otherwise it is responsible for keeping any necessary data structures for
->>>> +	 * in-progress jobs alive even when the free_job() callback is called early (e.g. by
->>>> +	 * putting them in its own queue or doing its own refcounting).
->>>> +	 */
->>>> +	list_for_each_entry_safe(s_job, tmp, &sched->pending_list, list) {
->>>> +		spin_lock(&sched->job_list_lock);
->>>> +		list_del_init(&s_job->list);
->>>> +		spin_unlock(&sched->job_list_lock);
->>>> +
->>>> +		dma_fence_set_error(&s_job->s_fence->finished, -ESRCH);
->>>> +		drm_sched_fence_finished(s_job->s_fence);
->>>
->>> I'd imagine it's better to rebase this on top of drm-misc-next where
->>> drm_sched_fence_finished() takes one more parameter--the error.
->>
->> Ah, sure! I can do that.
-> 
-> It's worth posting it as a stand-alone patch. Please make sure to add Cc tags
-> into the commit description--use "dim add-missing-cc", perhaps also
-> git-blame and git-log might help with additional Cc. "scripts/get_maintainer.pl"
-> for files unaffected by this commit. (dim add-missing-cc uses get_maintainer.pl
-> for affected files.)
-> 
-> Feel free to post it stand-alone and we'll let the natural review process take over. :-)
-
-I already posted this one as part of the bindings RFC and the other one 
-stand-alone, and they got NAKed by Christian, that's why it's a specific 
-series for sched now with the docs, per Daniel's suggestion... now 
-you're saying I should post them stand-alone again... ?
-
->>
->>>
->>>> +
->>>> +		WARN_ON(s_job->s_fence->parent);
->>>> +		sched->ops->free_job(s_job);
->>>> +	}
->>>> +
->>>> +	kthread_stop(sched->thread);
->>>>    
->>>>    	for (i = DRM_SCHED_PRIORITY_COUNT - 1; i >= DRM_SCHED_PRIORITY_MIN; i--) {
->>>>    		struct drm_sched_rq *rq = &sched->sched_rq[i];
->>>>
->>>
->>> Conceptually I don't mind this patch--I see what it is trying to achieve,
->>> but technically, we want the driver to detect GPU removal and return shared
->>> resources back, such as "jobs", which DRM is also aware of.
->>
->> I think you missed the context of why I'm doing this, so in short: my
-> 
-> As a general rule of thumb, in my writing emails I try to avoid using
-> "you" and "I" as much as possible--it sets this divisive stage, and it
-> can get misrepresented, especially in email.
-> 
-> As is the case in research literature, if I absolutely have to use a pronoun--which
-> rarely happens, I always use "we", and this is the most number of "I"-s I've used
-> in a long while.
-> 
->> use case (like Xe's) involves using a separate drm_sched instance *per
->> file* since these queues are scheduled directly by the firmware. So this
->> isn't about GPU removal, but rather about a GPU context going away while
->> jobs are in flight (e.g. the process got killed). We want that to
->> quickly kill the "DRM view" of the world, including signaling all the
->> fences with an error and freeing resources like the scheduler itself.
->>
->> In the case of this particular GPU, there is no known way to actively
->> and synchronously abort GPU jobs, so we need to let them run to
->> completion (or failure), but we don't want that to block process cleanup
->> and freeing a bunch of high-level resources. The driver is architected
->> roughly along the lines of a firmware abstraction layer that maps to the
->> firmware shared memory structures, and then a layer on top that
->> implements the DRM view. When a process gets killed, the DRM side (which
->> includes the scheduler, etc.) gets torn down immediately, and it makes
->> sense to handle this cleanup inside drm_sched since it already has a
->> view into what jobs are in flight. Otherwise, I would have to duplicate
->> job tracking in the driver (actually worse: in the Rust abstraction for
->> safety), which doesn't make much sense.
->>
->> But what I *do* have in the driver is tracking of the firmware
->> structures. So when the drm_sched gets torn down and all the jobs
->> killed, the underlying firmware jobs do run to completion, and the
->> resources they use are all cleaned up after that (it's all reference
->> counted).
-> 
-> The ref-count definitely helps here.
-> 
->> The primitive involved here is that in-flight firmware jobs
->> are assigned an event completion slot, and that keeps a reference to
->> them from a global array until the events fire and all the jobs are
->> known to have completed. This keeps things memory-safe, since we
->> absolutely cannot free/destroy firmware structures while they are in use
->> (otherwise the firmware crashes, which is fatal on these GPUs - requires
->> a full system reboot to recover).
->>
->> In practice, with the VM map model that we use, what ends up happening
->> when a process gets killed is that all the user objects for in-flight
->> jobs get unmapped, which usually causes the GPU hardware (not firmware)
->> to fault. This then triggers early termination of jobs anyway via the
->> firmware fault recovery flow. But even that takes some short amount of
->> time, and by then all the drm_sched stuff is long gone and we're just
->> dealing with the in-flight firmware stuff.
->>
->>> In the case where we're initiating the tear, we should notify the driver that
->>> we're about to forget jobs (resources), so that it knows to return them back
->>> or that it shouldn't notify us for them (since we've notified we're forgetting them.)
->>
->> That contradicts Christian's comment. I tried to document that (after
->> this patch) the scheduler no longer cares about hw fences and whether
->> they are signaled or not after it's destroyed, and I got a strongly
->> worded NAK for it. Sooo... which is it? Is it okay for drivers not to
->> signal the hw fence after a scheduler teardown, or not?
-> 
-> Christian is correct in that we don't want to hang upstream control
-> to the whims of a low-level device driver.
-> 
->> But really, I don't see a use case for an explicit "about to forget job"
->> callback. The job free callback already serves the purpose of telling
-> 
-> Long time ago, in a galaxy far far away, this was needed in order
-> to prevent device write-DMA into non-existing (random) memory. As
-> this is not the case anymore, go with Christian's comment.
-> 
->> the driver to clean up resources associated with a job. If it wants to
->> synchronously abort things there, it could easily take over its own
->> fence signaling and do something with the underlying stuff if the fence
->> is not signaled yet.
->>
->> In my case, since the driver is written in Rust and free_job() just maps
->> to the destructor (Drop impl), that just ends up freeing a bunch of
->> memory and other objects, and I don't particularly care about the state
->> of the firmware side any more after that. The flow is the same whether
->> it was a successful job completion, a failure, or an early destruction
->> due to the drm_sched getting torn down.
->>
->>> (Note also that in this latter case, traditionally, the device would be reset,
->>> so that we can guarantee that it has forgotten all shared resources which
->>> we are to tear up. This is somewhat more complicated with GPUs, thus the method
->>> pointed out above.)
->>
->> Yeah, in the firmware scheduling case we can't do this at all unless the
->> firmware has an explicit teardown/forget op (which I'm not aware of) and
->> a full GPU reset isn't something we can do either. Hence we just let the
->> underlying jobs complete. In practice they tend to die pretty quickly
->> anyway once all the buffers are unmapped.
-> 
-> Perhaps in the future, as more complex workloads are deferred to this
-> hardware and driver, a real-time requirement might be needed for this
-> "tend to die pretty quickly", that that there's some guarantee of
-> work resuming in some finite time.
-
-That's not something we can control. This hardware is reverse-engineered 
-and we don't get to write the firmware (it's signed). Maybe there is a 
-job cancel op, and maybe we'll find it some day, or maybe not. I've 
-certainly never seen macOS do anything like that, including in very 
-blatant cases like a 30-second compute job. On macOS it kept running to 
-completion even after I killed the process. We can't make the 
-hardware/firmware do something it can't do.
-
-At least there's firmware preemption though, so a rogue long-running job 
-shouldn't block everything else.
-
-~~ Lina
+SGksDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUm9iIEhlcnJpbmcg
+PHJvYmhAa2VybmVsLm9yZz4NCj4gU2VudDogU2F0dXJkYXksIEp1bHkgMTUsIDIwMjMgMjo0OSBB
+TQ0KPiBUbzogVGhpZXJyeSBSZWRpbmcgPHRoaWVycnkucmVkaW5nQGdtYWlsLmNvbT47IFV3ZSBL
+bGVpbmUtS8O2bmlnDQo+IDx1LmtsZWluZS1rb2VuaWdAcGVuZ3V0cm9uaXguZGU+OyBIZWN0b3Ig
+TWFydGluIDxtYXJjYW5AbWFyY2FuLnN0PjsNCj4gU3ZlbiBQZXRlciA8c3ZlbkBzdmVucGV0ZXIu
+ZGV2PjsgQWx5c3NhIFJvc2VuendlaWcNCj4gPGFseXNzYUByb3Nlbnp3ZWlnLmlvPjsgTmljb2xh
+cyBGZXJyZSA8bmljb2xhcy5mZXJyZUBtaWNyb2NoaXAuY29tPjsNCj4gQWxleGFuZHJlIEJlbGxv
+bmkgPGFsZXhhbmRyZS5iZWxsb25pQGJvb3RsaW4uY29tPjsgQ2xhdWRpdSBCZXpuZWENCj4gPGNs
+YXVkaXUuYmV6bmVhQG1pY3JvY2hpcC5jb20+OyBCZW5zb24gTGV1bmcgPGJsZXVuZ0BjaHJvbWl1
+bS5vcmc+Ow0KPiBHdWVudGVyIFJvZWNrIDxncm9lY2tAY2hyb21pdW0ub3JnPjsgU2hhd24gR3Vv
+DQo+IDxzaGF3bmd1b0BrZXJuZWwub3JnPjsgU2FzY2hhIEhhdWVyIDxzLmhhdWVyQHBlbmd1dHJv
+bml4LmRlPjsNCj4gUGVuZ3V0cm9uaXggS2VybmVsIFRlYW0gPGtlcm5lbEBwZW5ndXRyb25peC5k
+ZT47IEZhYmlvIEVzdGV2YW0NCj4gPGZlc3RldmFtQGdtYWlsLmNvbT47IE5YUCBMaW51eCBUZWFt
+IDxsaW51eC1pbXhAbnhwLmNvbT47IFBhdWwNCj4gQ2VyY3VlaWwgPHBhdWxAY3JhcG91aWxsb3Uu
+bmV0PjsgVmxhZGltaXIgWmFwb2xza2l5IDx2ekBtbGVpYS5jb20+OyBOZWlsDQo+IEFybXN0cm9u
+ZyA8bmVpbC5hcm1zdHJvbmdAbGluYXJvLm9yZz47IEtldmluIEhpbG1hbg0KPiA8a2hpbG1hbkBi
+YXlsaWJyZS5jb20+OyBKZXJvbWUgQnJ1bmV0IDxqYnJ1bmV0QGJheWxpYnJlLmNvbT47IE1hcnRp
+bg0KPiBCbHVtZW5zdGluZ2wgPG1hcnRpbi5ibHVtZW5zdGluZ2xAZ29vZ2xlbWFpbC5jb20+OyBD
+b25vciBEb29sZXkNCj4gPGNvbm9yLmRvb2xleUBtaWNyb2NoaXAuY29tPjsgRGFpcmUgTWNOYW1h
+cmENCj4gPGRhaXJlLm1jbmFtYXJhQG1pY3JvY2hpcC5jb20+OyBNYXR0aGlhcyBCcnVnZ2VyDQo+
+IDxtYXR0aGlhcy5iZ2dAZ21haWwuY29tPjsgQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8NCj4g
+PGFuZ2Vsb2dpb2FjY2hpbm8uZGVscmVnbm9AY29sbGFib3JhLmNvbT47IFBhbG1lciBEYWJiZWx0
+DQo+IDxwYWxtZXJAZGFiYmVsdC5jb20+OyBQYXVsIFdhbG1zbGV5IDxwYXVsLndhbG1zbGV5QHNp
+Zml2ZS5jb20+Ow0KPiBNaWNoYWVsIFdhbGxlIDxtaWNoYWVsQHdhbGxlLmNjPjsgT3Jzb24gWmhh
+aSA8b3Jzb256aGFpQGdtYWlsLmNvbT47DQo+IEJhb2xpbiBXYW5nIDxiYW9saW4ud2FuZ0BsaW51
+eC5hbGliYWJhLmNvbT47IENodW55YW4gWmhhbmcNCj4gPHpoYW5nLmx5cmFAZ21haWwuY29tPjsg
+Q2hlbi1ZdSBUc2FpIDx3ZW5zQGNzaWUub3JnPjsgSmVybmVqIFNrcmFiZWMNCj4gPGplcm5lai5z
+a3JhYmVjQGdtYWlsLmNvbT47IFNhbXVlbCBIb2xsYW5kIDxzYW11ZWxAc2hvbGxhbmQub3JnPjsN
+Cj4gSGFtbWVyIEhzaWVoIDxoYW1tZXJoMDMxNEBnbWFpbC5jb20+OyBKb25hdGhhbiBIdW50ZXIN
+Cj4gPGpvbmF0aGFuaEBudmlkaWEuY29tPjsgaXdhbWF0c3Ugbm9idWhpcm8o5bKp5p2+IOS/oea0
+iyDil4vvvKTvvKnvvLTvvKPilqHvvKTvvKnvvLQNCj4g4peL77yv77yz77y0KSA8bm9idWhpcm8x
+Lml3YW1hdHN1QHRvc2hpYmEuY28uanA+DQo+IENjOiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9y
+ZzsgbGludXgtcHdtQHZnZXIua2VybmVsLm9yZzsNCj4gbGludXgta2VybmVsQHZnZXIua2VybmVs
+Lm9yZzsgYXNhaGlAbGlzdHMubGludXguZGV2Ow0KPiBsaW51eC1hcm0ta2VybmVsQGxpc3RzLmlu
+ZnJhZGVhZC5vcmc7IGNocm9tZS1wbGF0Zm9ybUBsaXN0cy5saW51eC5kZXY7DQo+IGxpbnV4LW1p
+cHNAdmdlci5rZXJuZWwub3JnOyBsaW51eC1hbWxvZ2ljQGxpc3RzLmluZnJhZGVhZC5vcmc7DQo+
+IGxpbnV4LXJpc2N2QGxpc3RzLmluZnJhZGVhZC5vcmc7IGxpbnV4LW1lZGlhdGVrQGxpc3RzLmlu
+ZnJhZGVhZC5vcmc7DQo+IGxpbnV4LXN1bnhpQGxpc3RzLmxpbnV4LmRldjsgbGludXgtdGVncmFA
+dmdlci5rZXJuZWwub3JnDQo+IFN1YmplY3Q6IFtQQVRDSF0gcHdtOiBFeHBsaWNpdGx5IGluY2x1
+ZGUgY29ycmVjdCBEVCBpbmNsdWRlcw0KPiANCj4gVGhlIERUIG9mX2RldmljZS5oIGFuZCBvZl9w
+bGF0Zm9ybS5oIGRhdGUgYmFjayB0byB0aGUgc2VwYXJhdGUNCj4gb2ZfcGxhdGZvcm1fYnVzX3R5
+cGUgYmVmb3JlIGl0IGFzIG1lcmdlZCBpbnRvIHRoZSByZWd1bGFyIHBsYXRmb3JtIGJ1cy4NCj4g
+QXMgcGFydCBvZiB0aGF0IG1lcmdlIHByZXBwaW5nIEFybSBEVCBzdXBwb3J0IDEzIHllYXJzIGFn
+bywgdGhleSAidGVtcG9yYXJpbHkiDQo+IGluY2x1ZGUgZWFjaCBvdGhlci4gVGhleSBhbHNvIGlu
+Y2x1ZGUgcGxhdGZvcm1fZGV2aWNlLmggYW5kIG9mLmguIEFzIGEgcmVzdWx0LA0KPiB0aGVyZSdz
+IGEgcHJldHR5IG11Y2ggcmFuZG9tIG1peCBvZiB0aG9zZSBpbmNsdWRlIGZpbGVzIHVzZWQgdGhy
+b3VnaG91dCB0aGUNCj4gdHJlZS4gSW4gb3JkZXIgdG8gZGV0YW5nbGUgdGhlc2UgaGVhZGVycyBh
+bmQgcmVwbGFjZSB0aGUgaW1wbGljaXQgaW5jbHVkZXMgd2l0aA0KPiBzdHJ1Y3QgZGVjbGFyYXRp
+b25zLCB1c2VycyBuZWVkIHRvIGV4cGxpY2l0bHkgaW5jbHVkZSB0aGUgY29ycmVjdCBpbmNsdWRl
+cy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+DQoN
+CkZvciBkcml2ZXJzL3B3bS9wd20tdmlzY29udGkuYzoNClJldmlld2VkLWJ5OiBOb2J1aGlybyBJ
+d2FtYXRzdSA8bm9idWhpcm8xLml3YW1hdHN1QHRvc2hpYmEuY28uanA+DQoNCkJlc3QgcmVnYXJk
+cywNCiAgTm9idWhpcm8NCg==
 
