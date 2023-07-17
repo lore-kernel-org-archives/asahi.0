@@ -1,315 +1,264 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BACAD46;
-	Mon, 17 Jul 2023 12:23:57 +0000 (UTC)
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36HAmqLh011829;
-	Mon, 17 Jul 2023 11:02:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : date : subject :
- mime-version : content-type : content-transfer-encoding : message-id :
- references : in-reply-to : to : cc; s=pp1;
- bh=QfC7DpEZwICZV9UBYgnbi/++ZFK6DVmVl7p0Ucfk0Fk=;
- b=Q0EIlGhfYHPud9WRJbdDOHrFiTE/i/2HekziaS/w3DCVB2ylt5A8D+8mFWPsK1pASbCW
- t2Te6ecmWjuCE/5Ad1LBupwn1bfdURtXsNFn/79RCXsIBa4hW8pnKB0Fqd15eLyr+t52
- j6Joa6JG/DKsgPOCAx/ZKKNhOBfxj/5kz64fENsROlhQBaxog9xxIAlqEe9RDbZ5FCut
- sBXObbf2qkvC+Rey1WKnhHQUtxyDu7nEv4plKHgDDEgE5oK7qRaX+fp5JpHeXpiGsQGl
- MI97hnB+HB1b4KfZAtjngOZWU6ec6iWUlOe1KOzizI1QE3/qPThvhdypj1oQOmjodE2U FQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rw47cra4x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Jul 2023 11:02:06 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36HAnqxO014230;
-	Mon, 17 Jul 2023 11:02:05 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rw47cra42-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Jul 2023 11:02:05 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
-	by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 36H8s7bS005651;
-	Mon, 17 Jul 2023 11:02:02 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3rujqe148f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Jul 2023 11:02:02 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 36HB1w3516450168
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 17 Jul 2023 11:01:59 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D277E20040;
-	Mon, 17 Jul 2023 11:01:58 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 502762004B;
-	Mon, 17 Jul 2023 11:01:57 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 17 Jul 2023 11:01:57 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-Date: Mon, 17 Jul 2023 13:00:06 +0200
-Subject: [PATCH v11 6/6] iommu/dma: Use a large flush queue and timeout for
- shadow_on_flush
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0156253DE
+	for <asahi@lists.linux.dev>; Mon, 17 Jul 2023 15:55:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YlkPIEnRPC+dG8hjwPX98u9BVmEXALKAXhyiDDMBwxyO6Hmu5mLjfFrqC/0Ndz/XuI97rCPKFVr642MaTUxkHpTh6xcsyK9GKBH4o7l4gLhtIBQAU+PYJw3ejPD8OevD32OkpoBblbF2unAlcRmfZ+wPZM78yInSMBAD6F/yp8jR6GRK7hshwI8Eu2Lfrtz0O49WoPEFh9K5gG5zlHpeWm8u6OvynrgoEvLc9wQKsSDFWwLQ5u5zC9INE+XQrIzjX+3Rnts1v5Zs/nxcfPodftwQnLtEDkkerC86iodv/Zm9aMphhNX3e7ipvFT/0K3oNqK5rAgc5KCr/i1sUdhW/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qsgMCit+eK5h2CgPZgwdQGiemPnSTWmd+AOLmXd6Q0E=;
+ b=GP9iW/JTLWdv5eClmA3pMo5kEm/tPfUBhtzV18+09gstk72NxsHvESLLelIg+s81cY4O+AJRf4CK3mZWxBXAqisY1E7VBLOWAsPJ9me1AfvMpKpRhd5LXBF/a62eUlH8u3NIpcOyDns+6kYon9EnkIhuT65p21hrPDljBgwuyvcwK8O3OEtSX5sTqhHF1AlWWHkxy5SdXqbYJzMHIpWevYQjY74la5O7PqVEmuF7i90DUhKMV3ifIsOh1fgkNxFJ5B6N02XjK2U4BGYeFcA52GsjCR0vPynOgtpBoBDxYEbVqzPOxqxzlV6LVBDTMeIaSE78Z8FXY9FBsVfSEuLg8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qsgMCit+eK5h2CgPZgwdQGiemPnSTWmd+AOLmXd6Q0E=;
+ b=D5xlgQ6JXtAlLJv5p4XXFIglIvoFGqU9LowwHTD6oJF7EJvH2VG1exkvdz5QWqOdaLuP9ZkrCWVmzVN3sPfARpssJVgZBguEi1pNHg+I8jobxbBXAMDf37x6zyosNGeMq0fjAALIMftIZSKPa4lQ6OZltQz7BlWdPoXe5o15/XU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com (2603:10b6:a03:df::29)
+ by IA1PR12MB6411.namprd12.prod.outlook.com (2603:10b6:208:388::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6588.31; Mon, 17 Jul
+ 2023 15:55:11 +0000
+Received: from BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::142:d8f:e6bb:695d]) by BYAPR12MB3589.namprd12.prod.outlook.com
+ ([fe80::142:d8f:e6bb:695d%4]) with mapi id 15.20.6588.031; Mon, 17 Jul 2023
+ 15:55:11 +0000
+Message-ID: <a42bd218-6eb5-6ddb-bbb4-d25118c59f40@amd.com>
+Date: Mon, 17 Jul 2023 17:55:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
+Content-Language: en-US
+To: alyssa@rosenzweig.io, Luben Tuikov <luben.tuikov@amd.com>,
+ Asahi Lina <lina@asahilina.net>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, asahi@lists.linux.dev
+References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
+ <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+ <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+ <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+ <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+ <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0221.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ac::17) To BYAPR12MB3589.namprd12.prod.outlook.com
+ (2603:10b6:a03:df::29)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230717-dma_iommu-v11-6-a7a0b83c355c@linux.ibm.com>
-References: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
-In-Reply-To: <20230717-dma_iommu-v11-0-a7a0b83c355c@linux.ibm.com>
-To: Joerg Roedel <joro@8bytes.org>, Matthew Rosato <mjrosato@linux.ibm.com>,
-        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6725;
- i=schnelle@linux.ibm.com; h=from:subject:message-id;
- bh=hMEGQADFlKz/+dWnWnhcMKyntVQEqF5IqIj7yvUb6Nc=;
- b=owGbwMvMwCH2Wz534YHOJ2GMp9WSGFK2yk/Z7u21YMrlG4zLk9JnvZ7/T1z4aNL51Fn1e88LL
- 1kxJ/7V5o5SFgYxDgZZMUWWRV3OfusKppjuCervgJnDygQyhIGLUwAm4hPMyLBNbKIOl6rflsCP
- J74a83TuuBtmJz81wCfRLi0ks13r5x1Ghu9um92VxXmdeDh93abutD73atPHbOcZVTfv13eVfPp
- wgh8A
-X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
- fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: ECeJRw806_zvpwQSyh4hcjMvvBtQhpYk
-X-Proofpoint-ORIG-GUID: 3vwgh8YSMhNi-_G1hUFZ_rpvWw3yEpI7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-07-17_08,2023-07-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
- adultscore=0 clxscore=1015 bulkscore=0 suspectscore=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2306200000
- definitions=main-2307170096
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3589:EE_|IA1PR12MB6411:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2a48391-58e8-42f5-1b50-08db86de33ce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	4LYbNKH/HtJMDJBc5eaQOUTpIJ3SRdm07VUlUjbiqyDzGvjLQHoOqyyILTusp3zZHnzOWubbIcMGB2nv4MuuSBgaY61bEiR1EGnNfSi6+2wYd7FspQXoqLN4h5ZcmUzr1tiwHEh6qF2Dqm60HWYUXYQ5S6lkWdoJnNUz7FVMVfmYprJvyeRPhZtazxm1mxHawyMrhpXN2s2FLZDnFy2jZEEF8TGbYSHKoowYtjQpWBznagqj97FC+3y/6aLGvO7uvbwPhEqpRTP1RR0jBOzMraTc7brQqp+vmmWkvckEmjSvb7dM5Bia0r0pVH0icOTUGiZeDVoCaGMMmLbDFXXqjt8x8DSGtuC+mS5G2LTonI8JwPwRXwIbf1h7It8z9vLPvYCwYXs0rep39dZZn5iIXqnZeWipjreX8rXBcEqjdG8Y7FlfA7QVFpliFnQ3f5s6M4Ps+yfXAlNzoqStCaEpLs+4z+vztX4uvgaradtk7Xef1xBaIM6FmeAEqVuvy5YC9TUt/zGEELAAAEr25WGfDv/QxVg3YBC98kn5rkwyxdE3Rf7ie8AeXMtVIq/qAQxHmbjXYk5FgeUrr/T6S8QA0QTS7cR/yaBAUYaaiEfo6YCqlDgR78BvIlqaqNrGMo8zLhZZQiIdYNwx6IPuVwRtfw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3589.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(136003)(366004)(396003)(39860400002)(451199021)(31686004)(6486002)(6666004)(478600001)(110136005)(83380400001)(2616005)(31696002)(86362001)(66574015)(2906002)(186003)(6506007)(53546011)(6512007)(38100700002)(66476007)(66946007)(66556008)(41300700001)(4326008)(316002)(7416002)(8676002)(5660300002)(36756003)(8936002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NmFPVzA4K1dlRTJqTG8zY2VKTzk2dDNHY2s1VTRLQS9pQUFTazFQc0h3a2dO?=
+ =?utf-8?B?K0pQaWIzOVFBYnF3eTlZVjcrOE1JZFZOcTBNQUY1bHlPRndGLy9tWFhuNm54?=
+ =?utf-8?B?Q0ZWU2I2Z3VCSWFlNTdEY0lMQjZPRHFVTW1hUGVNaGFqclBKVUF0MjZCRW50?=
+ =?utf-8?B?cUdiUGZkVmRobmRXdWlBK0hZNEJTTmROMVdyVmViR2lyMmo0Z2ZiZFV5UHFC?=
+ =?utf-8?B?YTdHMnFtU0YvOGNqT3JMM29FNXZYZzhCUzBhNjB4NXRXekJ6Z3FKemc1emlO?=
+ =?utf-8?B?TTZXUlRHbmR0V0w1Rm8zSmNvSEl5ZnhJcXhCektPb28yQW9EQy9oWVNtLzc4?=
+ =?utf-8?B?TDdZM3RvZTVubXEyS1VpVkVTc0hyYkRESGtXNGlRVy9BOWpaejhaQkxISVhT?=
+ =?utf-8?B?VlMvU2ltd0t5RGJrSXpkMlVxWitScG1pWUV0WGR5Q2srNndGM3h0WHFaaXB5?=
+ =?utf-8?B?c3hvdjFuM1BiUm90bEIwUEFXY1cyTmV3aXdSUVBWb1JZNEI4b0RFYS9kbEpn?=
+ =?utf-8?B?L0J3enN0TU9sZUdJdXZHYWhjbDN1aHVOTWdBN2d4S0lQdWd6NlI0anF0VDAr?=
+ =?utf-8?B?WDc3SFl0aXpLTVFaeVAzaGs3TkVjNkxoQ3lSQ204b0prUzIyODVUV0ZhQ2JM?=
+ =?utf-8?B?VWhnbThmcmEvV0ZvZHlVTVFrYkZnT2J2aWlmbGJ3bHh5VHlOZy90Yno2dnhh?=
+ =?utf-8?B?OXI3dWdXN3FRRGNvS0RhMHRYNURmc1daS1ZEYWlGZjhoWGRwRUExZnd1NS9U?=
+ =?utf-8?B?c29FMVRONHg1c21VSi8wUExVT0pkLzkveXZWQzJqQTJZMWlRNENUMzRQWExI?=
+ =?utf-8?B?UklNSjVtdUJCRTFBR1hEaXYyT1F5NXAycUVmQ0dyOVJFcW9NMUhzZVBvWGxk?=
+ =?utf-8?B?MGxITENOeWlkcUdvR1lXTW42NXVhNWxKbHVZK3N3RTVYeFlQbnNjb1R2UjlQ?=
+ =?utf-8?B?OHdoYmtYbTNWc1Z1bWpIVmFUTVR3czVWbmdYai9MMDAxQnJJd0dRaTZqdzI0?=
+ =?utf-8?B?aTd2ODkwc2syeDhMSUtGTnZRTzN5Y0ptQlI2RzNNdFppL1dyUHlnaWZDazgr?=
+ =?utf-8?B?bjZJOFUxTjBuNHdBdlhvU21XVU8vVE5xVE8zMm1HRTdLSVlac1J1MjN6VG5l?=
+ =?utf-8?B?aTZ3Z3RPV3lWZ1VJNG9sU052ZVlCblZJRkljMklvQXhZbElYTktPMzBzenBl?=
+ =?utf-8?B?UEZpSllqRVd3cmw0cmpXcVU4U0Z3NnIwb1ZmWGVUb2pQZTV4bDBQeFljU1hh?=
+ =?utf-8?B?ZmhZNm5ZU1pqckhNTFJTYndsT0ZKSEgvYkZUd01TNmJVUUp1T1hOckFJWVU4?=
+ =?utf-8?B?RmhKODY2VTh3UUpUQUhEb0xtT2RqMXpodEVuSjdWSDlUeHI2dWtTUWlZcEhu?=
+ =?utf-8?B?MmJBMG52MWgrcEw0WC9zTkVGZVh1NkxSSjJBck1ncDRoOTZSN3VwTUZUOEJS?=
+ =?utf-8?B?bzRZODVvMlJYUFFmNXBXM25TeG96UVZvR2NUMzFuMUlTK3NFNFlaakEwRFhZ?=
+ =?utf-8?B?Y3R6Q0xhMXZjUnpJVXlJN3AyUkF1emxlYXlPVzNLTG9jeHcydGlGVUttLzZs?=
+ =?utf-8?B?QWVHYWVZWi9TMkFSQnFpMzh4ajkwc1Mwa2RFeHBwZ05kY0VxdUJ3d2ZETHFn?=
+ =?utf-8?B?TzBjWENGR2wyWEVmZVcvd3dJRkE2ZFp3R1QwSlN4VDMwUEl1S0NnaTdFWlF4?=
+ =?utf-8?B?cjJSbXV0RWJVQm56b2l4OW1ESEw5VzFJMS9yYVZPWS80aGZCSDY3Yk4xOXU0?=
+ =?utf-8?B?ZlQrT3NQUjhLTzBaUWZBeWMwZG91SCtxcGZrV1VVQ2RaUE1NNll6MGpSL1hi?=
+ =?utf-8?B?UkR3RFg0OTZTbWoyVm53cERaRU9XN0RlV1o5TjlJdDZlaGF5OUZ3V2ZGR0pq?=
+ =?utf-8?B?NzNvQm12WXlqRGRDaWVaSTVFS2lsWFlLWmt1TjAvRGJ1RDYrZUpHdVNCemlz?=
+ =?utf-8?B?eC80THlpaHVSdnIzQW5zelpBOGYyVnZvaFpzK1JhMjRLQUJ4Skc3SU9xQUFs?=
+ =?utf-8?B?aUdQMEFUOXU4NHA4bHM4SmZBMzVsVDBtODR5M1d4VkZ0c0FsOWN6V3NxMUpy?=
+ =?utf-8?B?ODhoN3kwMmpBeVpOZFZsQ2wyTXljcjYwWnNrazNhMUJTL3dic3BVdzRXeWJm?=
+ =?utf-8?B?Y1FZRitKMlVBTEVqNDgvTjQrWXdlbm8zWEl1dXZEUHlRUHoxWWFsNEVpMGo1?=
+ =?utf-8?Q?Y5E2D7GoTEo4h64wyA9H/08fBWk11Mh0hoimv6mJR+3i?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2a48391-58e8-42f5-1b50-08db86de33ce
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR12MB3589.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2023 15:55:11.5755
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j0qvQT1RCsq7XGfkETZewjBxAPxu1oVRBoPENC1qSfkww7BrPDk7nC1nj1j0+vLR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6411
 
-Flush queues currently use a fixed compile time size of 256 entries.
-This being a power of 2 allows the compiler to use shift and mask
-instead of more expensive modulo operations. With per-CPU flush queues
-larger queue sizes would hit per-CPU allocation limits, with a single
-flush queue these limits do not apply however. Also with single queues
-being particularly suitable for virtualized environments with expensive
-IOTLB flushes these benefit especially from larger queues and thus fewer
-flushes.
+Am 15.07.23 um 16:14 schrieb alyssa@rosenzweig.io:
+> 15 July 2023 at 00:03, "Luben Tuikov" <luben.tuikov@amd.com> wrote:
+>> On 2023-07-14 05:57, Christian König wrote:
+>>
+>>> Am 14.07.23 um 11:49 schrieb Asahi Lina:
+>>>
+>>>> On 14/07/2023 17.43, Christian König wrote:
+>>>>
+>>>   Am 14.07.23 um 10:21 schrieb Asahi Lina:
+>>>   A signaled scheduler fence can outlive its scheduler, since fences are
+>>>   independencly reference counted. Therefore, we can't reference the
+>>>   scheduler in the get_timeline_name() implementation.
+>>>
+>>>   Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
+>>>   dma-bufs reference fences from GPU schedulers that no longer exist.
+>>>
+>>>   Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>>   ---
+>>>      drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
+>>>      drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
+>>>      include/drm/gpu_scheduler.h              | 5 +++++
+>>>      3 files changed, 14 insertions(+), 2 deletions(-)
+>>>
+>>>   diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>   b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>   index b2bbc8a68b30..17f35b0b005a 100644
+>>>   --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>>>   +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>>>   @@ -389,7 +389,12 @@ static bool
+>>>   drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>>>                 /*
+>>>               * Fence is from the same scheduler, only need to wait for
+>>>   -         * it to be scheduled
+>>>   +         * it to be scheduled.
+>>>   +         *
+>>>   +         * Note: s_fence->sched could have been freed and reallocated
+>>>   +         * as another scheduler. This false positive case is okay,
+>>>   as if
+>>>   +         * the old scheduler was freed all of its jobs must have
+>>>   +         * signaled their completion fences.
+>>>
+>>>   This is outright nonsense. As long as an entity for a scheduler exists
+>>>   it is not allowed to free up this scheduler.
+>>>
+>>>   So this function can't be called like this.
+>>>
+>>>> As I already explained, the fences can outlive their scheduler. That
+>>>>   means *this* entity certainly exists for *this* scheduler, but the
+>>>>   *dependency* fence might have come from a past scheduler that was
+>>>>   already destroyed along with all of its entities, and its address reused.
+>>>>
+>>>   
+>>>   Well this is function is not about fences, this function is a callback
+>>>   for the entity.
+>>>   
+>>>
+>>>> Christian, I'm really getting tired of your tone. I don't appreciate
+>>>>   being told my comments are "outright nonsense" when you don't even
+>>>>   take the time to understand what the issue is and what I'm trying to
+>>>>   do/document. If you aren't interested in working with me, I'm just
+>>>>   going to give up on drm_sched, wait until Rust gets workqueue support,
+>>>>   and reimplement it in Rust. You can keep your broken fence lifetime
+>>>>   semantics and I'll do my own thing.
+>>>>
+>>>   
+>>>   I'm certainly trying to help here, but you seem to have unrealistic
+>>>   expectations.
+>>>   
+>>>   I perfectly understand what you are trying to do, but you don't seem to
+>>>   understand that this functionality here isn't made for your use case.
+>>>   
+>>>   We can adjust the functionality to better match your requirements, but
+>>>   you can't say it is broken because it doesn't work when you use it not
+>>>   in the way it is intended to be used.
+>>>
+>> I believe "adjusting" functionality to fit some external requirements,
+>> may have unintended consequences, requiring yet more and more "adjustments".
+>> (Or may allow (new) drivers to do wild things which may lead to wild results. :-) )
+>>
+>> We need to be extra careful and wary of this.
+> Either drm/scheduler is common code that we should use for our driver, in which case we need to "adjust" it to fit the requirements of a safe Rust abstraction usable for AGX.
 
-To this end re-order struct iova_fq so we can use a dynamic array and
-introduce the flush queue size and timeouts as new options in the
-dma_iommu_options struct. So as not to lose the shift and mask
-optimization, use a power of 2 for the length and use explicit shift and
-mask instead of letting the compiler optimize this.
+Well this is the fundamental disagreement we have. As far as I can see 
+you don't need to adjust anything in the common drm/scheduler code.
 
-A large queue size and 1 second timeout is then set for the shadow on
-flush case set by s390 paged memory guests. This then brings performance
-on par with the previous s390 specific DMA API implementation.
+That code works with quite a bunch of different drivers, including the 
+Intel XE which has similar requirements to your work here.
 
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com> #s390
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- drivers/iommu/dma-iommu.c | 50 +++++++++++++++++++++++++++++++----------------
- 1 file changed, 33 insertions(+), 17 deletions(-)
+We can talk about gradually improving the common code, but as Luben 
+already wrote as well this needs to be done very carefully.
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 4ada8b9749c9..bebc0804ff53 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -46,7 +46,9 @@ enum iommu_dma_cookie_type {
- struct dma_iommu_options {
- #define IOMMU_DMA_OPTS_PER_CPU_QUEUE	0L
- #define IOMMU_DMA_OPTS_SINGLE_QUEUE	BIT(0)
--	u64	flags;
-+	u64		flags;
-+	size_t		fq_size;
-+	unsigned int	fq_timeout;
- };
- 
- struct iommu_dma_cookie {
-@@ -95,10 +97,12 @@ static int __init iommu_dma_forcedac_setup(char *str)
- early_param("iommu.forcedac", iommu_dma_forcedac_setup);
- 
- /* Number of entries per flush queue */
--#define IOVA_FQ_SIZE	256
-+#define IOVA_DEFAULT_FQ_SIZE	256
-+#define IOVA_SINGLE_FQ_SIZE	32768
- 
- /* Timeout (in ms) after which entries are flushed from the queue */
--#define IOVA_FQ_TIMEOUT	10
-+#define IOVA_DEFAULT_FQ_TIMEOUT	10
-+#define IOVA_SINGLE_FQ_TIMEOUT	1000
- 
- /* Flush queue entry for deferred flushing */
- struct iova_fq_entry {
-@@ -110,18 +114,19 @@ struct iova_fq_entry {
- 
- /* Per-CPU flush queue structure */
- struct iova_fq {
--	struct iova_fq_entry entries[IOVA_FQ_SIZE];
--	unsigned int head, tail;
- 	spinlock_t lock;
-+	unsigned int head, tail;
-+	unsigned int mod_mask;
-+	struct iova_fq_entry entries[];
- };
- 
- #define fq_ring_for_each(i, fq) \
--	for ((i) = (fq)->head; (i) != (fq)->tail; (i) = ((i) + 1) % IOVA_FQ_SIZE)
-+	for ((i) = (fq)->head; (i) != (fq)->tail; (i) = ((i) + 1) & (fq)->mod_mask)
- 
- static inline bool fq_full(struct iova_fq *fq)
- {
- 	assert_spin_locked(&fq->lock);
--	return (((fq->tail + 1) % IOVA_FQ_SIZE) == fq->head);
-+	return (((fq->tail + 1) & fq->mod_mask) == fq->head);
- }
- 
- static inline unsigned int fq_ring_add(struct iova_fq *fq)
-@@ -130,7 +135,7 @@ static inline unsigned int fq_ring_add(struct iova_fq *fq)
- 
- 	assert_spin_locked(&fq->lock);
- 
--	fq->tail = (idx + 1) % IOVA_FQ_SIZE;
-+	fq->tail = (idx + 1) & fq->mod_mask;
- 
- 	return idx;
- }
-@@ -152,7 +157,7 @@ static void fq_ring_free_locked(struct iommu_dma_cookie *cookie, struct iova_fq
- 			       fq->entries[idx].iova_pfn,
- 			       fq->entries[idx].pages);
- 
--		fq->head = (fq->head + 1) % IOVA_FQ_SIZE;
-+		fq->head = (fq->head + 1) & fq->mod_mask;
- 	}
- }
- 
-@@ -246,7 +251,7 @@ static void queue_iova(struct iommu_dma_cookie *cookie,
- 	if (!atomic_read(&cookie->fq_timer_on) &&
- 	    !atomic_xchg(&cookie->fq_timer_on, 1))
- 		mod_timer(&cookie->fq_timer,
--			  jiffies + msecs_to_jiffies(IOVA_FQ_TIMEOUT));
-+			  jiffies + msecs_to_jiffies(cookie->options.fq_timeout));
- }
- 
- static void iommu_dma_free_fq_single(struct iova_fq *fq)
-@@ -287,27 +292,29 @@ static void iommu_dma_free_fq(struct iommu_dma_cookie *cookie)
- 		iommu_dma_free_fq_percpu(cookie->percpu_fq);
- }
- 
--static void iommu_dma_init_one_fq(struct iova_fq *fq)
-+static void iommu_dma_init_one_fq(struct iova_fq *fq, size_t fq_size)
- {
- 	int i;
- 
- 	fq->head = 0;
- 	fq->tail = 0;
-+	fq->mod_mask = fq_size - 1;
- 
- 	spin_lock_init(&fq->lock);
- 
--	for (i = 0; i < IOVA_FQ_SIZE; i++)
-+	for (i = 0; i < fq_size; i++)
- 		INIT_LIST_HEAD(&fq->entries[i].freelist);
- }
- 
- static int iommu_dma_init_fq_single(struct iommu_dma_cookie *cookie)
- {
-+	size_t fq_size = cookie->options.fq_size;
- 	struct iova_fq *queue;
- 
--	queue = vzalloc(sizeof(*queue));
-+	queue = vzalloc(struct_size(queue, entries, fq_size));
- 	if (!queue)
- 		return -ENOMEM;
--	iommu_dma_init_one_fq(queue);
-+	iommu_dma_init_one_fq(queue, fq_size);
- 	cookie->single_fq = queue;
- 
- 	return 0;
-@@ -315,15 +322,17 @@ static int iommu_dma_init_fq_single(struct iommu_dma_cookie *cookie)
- 
- static int iommu_dma_init_fq_percpu(struct iommu_dma_cookie *cookie)
- {
-+	size_t fq_size = cookie->options.fq_size;
- 	struct iova_fq __percpu *queue;
- 	int cpu;
- 
--	queue = alloc_percpu(struct iova_fq);
-+	queue = __alloc_percpu(struct_size(queue, entries, fq_size),
-+			       __alignof__(*queue));
- 	if (!queue)
- 		return -ENOMEM;
- 
- 	for_each_possible_cpu(cpu)
--		iommu_dma_init_one_fq(per_cpu_ptr(queue, cpu));
-+		iommu_dma_init_one_fq(per_cpu_ptr(queue, cpu), fq_size);
- 	cookie->percpu_fq = queue;
- 	return 0;
- }
-@@ -377,6 +386,8 @@ static struct iommu_dma_cookie *cookie_alloc(enum iommu_dma_cookie_type type)
- 		INIT_LIST_HEAD(&cookie->msi_page_list);
- 		cookie->type = type;
- 		cookie->options.flags = IOMMU_DMA_OPTS_PER_CPU_QUEUE;
-+		cookie->options.fq_size = IOVA_DEFAULT_FQ_SIZE;
-+		cookie->options.fq_timeout = IOVA_DEFAULT_FQ_TIMEOUT;
- 	}
- 	return cookie;
- }
-@@ -696,14 +707,19 @@ static int iommu_dma_init_domain(struct iommu_domain *domain, dma_addr_t base,
- 
- 	if (domain->type == IOMMU_DOMAIN_DMA_FQ) {
- 		/* Expensive shadowing IOTLB flushes require some tuning */
--		if (dev->iommu->shadow_on_flush)
-+		if (dev->iommu->shadow_on_flush) {
- 			cookie->options.flags |= IOMMU_DMA_OPTS_SINGLE_QUEUE;
-+			cookie->options.fq_timeout = IOVA_SINGLE_FQ_TIMEOUT;
-+			cookie->options.fq_size = IOVA_SINGLE_FQ_SIZE;
-+		}
- 
- 		/* If the FQ fails we can simply fall back to strict mode */
- 		if (!device_iommu_capable(dev, IOMMU_CAP_DEFERRED_FLUSH) ||
- 		    iommu_dma_init_fq(domain)) {
- 			domain->type = IOMMU_DOMAIN_DMA;
- 			cookie->options.flags &= ~IOMMU_DMA_OPTS_SINGLE_QUEUE;
-+			cookie->options.fq_timeout = IOVA_DEFAULT_FQ_TIMEOUT;
-+			cookie->options.fq_size = IOVA_DEFAULT_FQ_SIZE;
- 		}
- 	}
- 
+>   Or, drm/scheduler is not common code intended for drivers with our requirements, and then we need to be able to write our own scheduler.
+>
+> AMD has NAK'd both options, effectively NAK'ing the driver.
+>
+> I will ask a simple yes/no question: Should we use drm/sched?
 
--- 
-2.39.2
+Well, yes.
 
+>
+> If yes, it will need patches like these,
+
+No, you don't.
+
+First of all you need to try to adjust your driver to match the 
+requirements of drm/scheduler and *not* the other way around.
+
+>   and AMD needs to be ok with that and stop NAK'ing them on sight becuase they don't match the existing requirements.
+>
+> If no, we will write our own scheduler in Rust, and AMD needs to be ok with that and not NAK it on sight because it's not drm/sched.
+>
+> Which is it?
+>
+> Note if we write a Rust scheduler, drm/sched and amdgpu will be unaffected. If we do that and AMD comes back and NAKs it -- as said in this thread would "probably" happen -- then it is impossible for us to upstream a driver regardless of whether we use drm/sched.
+>
+> Lina has been polite and accommodating while AMD calls her code "outright nonsense" and gets "outright NAK"s, and puts her into an impossible catch-22 where no matter what she does it's NAK'd.
+
+Well as far as I can see I'm totally polite as well.
+
+Pointing out that approaches doesn't seem to make sense and NAKing 
+patches is a perfectly normal part of the review process.
+
+What you need to to is to take a step back and ask yourself why this 
+here is facing so much rejection from our side. I have to admit that I 
+don't seem to be good at explaining that, cause we are obviously talking 
+past each other, but you don't seem to try hard to understand what I'm 
+pointing out either.
+
+> That's not ok.
+
+As far as I can see it is.
+
+As maintainer of a commonly used component my first duty is to preserve 
+the status quo and prevent modifications which are not well thought 
+through. And to be honest those changes here strongly looks like Lina is 
+just adjusting the code to match her requirements without looking left 
+and right first.
+
+Regards,
+Christian.
