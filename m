@@ -1,70 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B7A93C15
-	for <asahi@lists.linux.dev>; Sun, 16 Jul 2023 12:51:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F05AC433C7;
-	Sun, 16 Jul 2023 12:51:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2B717C5;
+	Mon, 17 Jul 2023 04:01:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 041D3C433C8;
+	Mon, 17 Jul 2023 04:01:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689511883;
-	bh=qQluAUUph6dF5He95iJDv4ieY+bdVsSmL6RVQ7lj5tc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=t0IAKjqNq47RRobIBj6/Zax5qws7wyeI5aUjJM6CAMvHFEVjvEpddgen5QvmAwZtk
-	 ZUhb42B14BHFb0Xm1lLWOkzjcRUEPeHLHfLvgV1reg9M/RUQgPsu94/2vodeVHAxo9
-	 9kkT0j5wgbGMhj30HZvydkny5erHXNVJa1praUoAcvkwu0GTK3zz27XsGPk1VWo/T6
-	 gwdliXaw2zQ+CQv+a9GZavxmhnk3S3uOtKxE7Y9s76VrNsAq56oKCZRZDnnnaOQt8O
-	 7Sm4QyI19ioJgS5U+CajNRj1xTRdduXiaaj9S768BfcJaZMIjXnPgxH7KJSs61a4On
-	 FH4ZTLUJRuyUA==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20230712121556.93500-1-povik+lin@cutebit.org>
-References: <20230712121556.93500-1-povik+lin@cutebit.org>
-Subject: Re: [PATCH] MAINTAINERS: Redo addition of ssm3515 to APPLE SOUND
-Message-Id: <168951188236.111741.1672794813094209175.b4-ty@kernel.org>
-Date: Sun, 16 Jul 2023 13:51:22 +0100
+	s=k20201202; t=1689566491;
+	bh=Q8HivdgN0OL6bq4ZKkophdSmpX3+e7PbxMGhWwxCixw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MujKx3gpE5F0rZ+QF6LHP/GxGfyKVj6s/STk9hmgJplxJlC2KXY41ikMHBwMeD2hd
+	 oX++frOrOtZJnkkuokutw+COM5rPP2wM0pGJDKL/ZB1KOTyHocXlzgnPopWcoGYRBw
+	 yYOBTHWyoZy3d1OQWiXPT3yZCDz7W2n+2TWgmZ83xEvS7HxIMzbnsqykDUAJI/jJ0L
+	 Dr+awOKq718H3u3A257V8fnE/X8/X83DGtaSoQsSPld/P/Wigxc1ez8gj+Iy201Sst
+	 bxwqR3N7fMgf6vMTpGlr0OvdWnr62wOfRFaE69idR7bcupDKEu/MaUNqmoDG8V5EYh
+	 RpaPsFQYnP4Gg==
+Date: Mon, 17 Jul 2023 12:01:22 +0800
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Michael Walle <michael@walle.cc>, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hammer Hsieh <hammerh0314@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
+Message-ID: <ZLS9EleWQlyY+jv3@google.com>
+References: <20230714174852.4062251-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13-dev-099c9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230714174852.4062251-1-robh@kernel.org>
 
-On Wed, 12 Jul 2023 14:15:56 +0200, Martin Povišer wrote:
-> The MAINTAINERS entries added in commit 4ac690bbae02 ("ASoC: ssm3515:
-> Add new amp driver") were later erased in a merge commit. Re-add those.
+On Fri, Jul 14, 2023 at 11:48:50AM -0600, Rob Herring wrote:
+> The DT of_device.h and of_platform.h date back to the separate
+> of_platform_bus_type before it as merged into the regular platform bus.
+> As part of that merge prepping Arm DT support 13 years ago, they
+> "temporarily" include each other. They also include platform_device.h
+> and of.h. As a result, there's a pretty much random mix of those include
+> files used throughout the tree. In order to detangle these headers and
+> replace the implicit includes with struct declarations, users need to
+> explicitly include the correct includes.
 > 
-> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] MAINTAINERS: Redo addition of ssm3515 to APPLE SOUND
-      commit: e8bf1741c14eb8e4a4e1364d45aeeab66660ab9b
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+For pwm-cros-ec.c:
+Reviewed-by: Tzung-Bi Shih <tzungbi@kernel.org>
