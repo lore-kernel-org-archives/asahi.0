@@ -1,141 +1,75 @@
-Received: from 4.mo583.mail-out.ovh.net (4.mo583.mail-out.ovh.net [178.33.111.247])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF2F253C8
-	for <asahi@lists.linux.dev>; Tue, 18 Jul 2023 10:35:24 +0000 (UTC)
-Received: from director2.ghost.mail-out.ovh.net (unknown [10.109.143.209])
-	by mo583.mail-out.ovh.net (Postfix) with ESMTP id 918CA25C32
-	for <asahi@lists.linux.dev>; Tue, 18 Jul 2023 09:19:55 +0000 (UTC)
-Received: from ghost-submission-6684bf9d7b-mn4ct (unknown [10.109.138.229])
-	by director2.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 9177E1FEB2;
-	Tue, 18 Jul 2023 09:19:49 +0000 (UTC)
-Received: from RCM-web4.webmail.mail.ovh.net ([176.31.235.81])
-	by ghost-submission-6684bf9d7b-mn4ct with ESMTPSA
-	id gQ79HjVZtmSJDgAAInjvQA
-	(envelope-from <rafal@milecki.pl>); Tue, 18 Jul 2023 09:19:49 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABACDC2E4
+	for <asahi@lists.linux.dev>; Tue, 18 Jul 2023 12:07:28 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 36I6sZJf028650;
+	Tue, 18 Jul 2023 07:07:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=PODMain02222019; bh=GO0frG2MMRLQ68A
+	EIKXd4M9vzSlrAHKSIAcc+fFbHuQ=; b=G5wBaythIVIVsEmRrdiRBESewhSB3+e
+	sJ6aSUaOeDbKNHzTmF0zXnoX7pvl0DtuAny7HhO8bFnE1jk1805Wehiu/aoMV/pD
+	lkh2E3L12AZNnK8LhumSYkKR7YxMINnTL3NMpeFkziwMg2/QSgxF1rVTeTuo92Wo
+	N05gMH/Mmcr1LyIdiJYd3EwDolLRwHEKF6l2TDTtvMLqmNxluxrVjrDSG/vbQg40
+	4CZcXwyfUk0IJOOtLNVuqj/tUewfKYHyxSewsT9EBMq8buk1J8OTdy427bi8vvWd
+	7AbnDBW8tGcKJ7OPsib39VCgWOv/0EI6JwJJQ/hMHJ3aLpsGBjs/5dg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3rus6gub6a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jul 2023 07:07:07 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.30; Tue, 18 Jul
+ 2023 13:07:05 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.2.1118.30 via Frontend
+ Transport; Tue, 18 Jul 2023 13:07:05 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 672613563;
+	Tue, 18 Jul 2023 12:07:05 +0000 (UTC)
+Date: Tue, 18 Jul 2023 12:07:05 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Mark Brown <broonie@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>,
+        James Schulman
+	<james.schulman@cirrus.com>,
+        David Rhodes <david.rhodes@cirrus.com>,
+        "Richard
+ Fitzgerald" <rf@opensource.cirrus.com>,
+        Martin =?utf-8?Q?Povi=C5=A1er?=
+	<povik+lin@cutebit.org>,
+        <patches@opensource.cirrus.com>, <alsa-devel@alsa-project.org>,
+        <asahi@lists.linux.dev>
+Subject: Re: [PATCH 00/48] ASoC: cirrus: Use the maple tree register cache
+Message-ID: <20230718120705.GF103419@ediswmail.ad.cirrus.com>
+References: <20230713-asoc-cirrus-maple-v1-0-a62651831735@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 18 Jul 2023 11:19:49 +0200
-From: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>, Srinivas
- Kandagatla <srinivas.kandagatla@linaro.org>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Alessandro Zummo <a.zummo@towertech.it>,
- Vignesh Raghavendra <vigneshr@ti.com>, Kunihiko Hayashi
- <hayashi.kunihiko@socionext.com>, linux-mtd@lists.infradead.org, Miquel
- Raynal <miquel.raynal@bootlin.com>, Evgeniy Polyakov <zbr@ioremap.net>,
- Fabio Estevam <festevam@gmail.com>,
- linux-stm32@st-md-mailman.stormreply.com, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Heiko Stuebner <heiko@sntech.de>,
- linux-rtc@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Richard
- Weinberger <richard@nod.at>, Michal Simek <michal.simek@xilinx.com>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, linux-rockchip@lists.infradead.org,
- Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>, NXP Linux Team
- <linux-imx@nxp.com>, Vincent Shih <vincent.sunplus@gmail.com>, Orson Zhai
- <orsonzhai@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>,
- linux-sunxi@lists.linux.dev, asahi@lists.linux.dev, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Sven Peter <sven@svenpeter.dev>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,
- linux-arm-msm@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
- linux-mediatek@lists.infradead.org, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>, Hector Martin <marcan@marcan.st>,
- linux-kernel@vger.kernel.org, Konrad Dybcio <konrad.dybcio@linaro.org>,
- Michael Walle <michael@walle.cc>, Masami Hiramatsu <mhiramat@kernel.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, Kevin Hilman
- <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea
- <claudiu.beznea@microchip.com>
-Subject: Re: [Linux-stm32] [PATCH V4] nvmem: add explicit config option to
- read old syntax fixed OF cells
-In-Reply-To: <e5a8524c-8961-9ff0-db30-3b648345319e@pengutronix.de>
-References: <20230403225540.1931-1-zajec5@gmail.com>
- <e5a8524c-8961-9ff0-db30-3b648345319e@pengutronix.de>
-User-Agent: Roundcube Webmail/1.4.13
-Message-ID: <d51234ebc05d2b9fe44625299c103caa@milecki.pl>
-X-Sender: rafal@milecki.pl
-X-Originating-IP: 31.11.218.106
-X-Webmail-UserID: rafal@milecki.pl
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 6429732894367460296
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedviedrgeeggdduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeggfffhvfevufgjfhgfkfigihgtgfesthejjhdttdervdenucfhrhhomheptfgrfhgrlhcuofhilhgvtghkihcuoehrrghfrghlsehmihhlvggtkhhirdhplheqnecuggftrfgrthhtvghrnhepgfeuleeuteetfeeuhefhhffgtedvgeejfeelffeuvdfhueffvdehgeeuveeuhfelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfedurdduuddrvddukedruddtiedpudejiedrfedurddvfeehrdekudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoehrrghfrghlsehmihhlvggtkhhirdhplheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheekfedpmhhouggvpehsmhhtphhouhht
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20230713-asoc-cirrus-maple-v1-0-a62651831735@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-ORIG-GUID: l3auyVJa9nGtNzmovPez2lrJFEm55LP7
+X-Proofpoint-GUID: l3auyVJa9nGtNzmovPez2lrJFEm55LP7
+X-Proofpoint-Spam-Reason: safe
 
-Hi Ahmad,
-
-On 2023-07-18 11:08, Ahmad Fatoum wrote:
->> diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
->> index 60670b2f70b9..334adbae3690 100644
->> --- a/drivers/mtd/mtdcore.c
->> +++ b/drivers/mtd/mtdcore.c
->> @@ -522,6 +522,7 @@ static int mtd_nvmem_add(struct mtd_info *mtd)
->>  	config.dev = &mtd->dev;
->>  	config.name = dev_name(&mtd->dev);
->>  	config.owner = THIS_MODULE;
->> +	config.add_legacy_fixed_of_cells = of_device_is_compatible(node, 
->> "nvmem-cells");
+On Thu, Jul 13, 2023 at 01:13:13AM +0100, Mark Brown wrote:
+> The maple tree register register cache is now able to generate multi
+> register writes which was the last big feature of the rbtree cache that
+> it didn't support so let's update drivers to use the cache with the more
+> modern data structure.
 > 
-> How does the new binding look like in this situation?
-> 
-> Before it was:
-> 
-> &{flash/partitions} {
-> 	compatible = "fixed-partitions";
-> 	#address-cells = <1>;
-> 	#size-cells = <1>;
-> 
-> 	partition@0 {
-> 		compatible = "nvmem-cells";
-> 		reg = <0 0x100>;
-> 		#address-cells = <1>;
-> 		#size-cells = <1>;
-> 
-> 		calib@1 {
-> 			reg = <1 1>;
-> 		};
-> 	}
-> };
-> 
-> It it now the same, but s/"nvmem-cells"/"fixed-layout"/ ?
+> ---
 
-Please take a look at those commits and examples:
+Series looks good to me.
 
-bd912c991d2e ("dt-bindings: nvmem: layouts: add fixed-layout")
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=bd912c991d2ef079a32558f057b8663bcf1fb6fc
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-fa7fbe53ecdc ("dt-bindings: nvmem: convert base example to use NVMEM 
-fixed cells layout")
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fa7fbe53ecdc4e7d549a9f73a40e257b0046b4b9
-
-
-Basically you need a "nvmem-layout" node with:
-compatible = "fixed-layout";
-
-So in your case that would be:
-
-&{flash/partitions} {
-	compatible = "fixed-partitions";
-
-	partition@0 {
-		reg = <0 0x100>;
-
-		nvmem-layout {
-			compatible = "fixed-layout";
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			calib@1 {
-				reg = <1 1>;
-			};
-		};
-	}
-};
+Thanks,
+Charles
