@@ -1,122 +1,114 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11451C2C4;
-	Tue, 18 Jul 2023 16:48:11 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-997c4107d62so300615366b.0;
-        Tue, 18 Jul 2023 09:48:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1689698890; x=1692290890;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MxgES3BpLxLkuAQSfF376O2dgB3POpxIXa9v11XKlt8=;
-        b=GSB/0slICBQXXeMd+NGpsRB5c+0ByDReXKw+orYgYQq2RJdstoprKFbPLEkKciBdsp
-         rmEC282mW/pYkBzlUIIDtgNGg0F9kWgx4I+YNpijp55k4iIAt1eZKIsocpYsPxqg1fyh
-         Q3R/w7Ldp09ABfQD3kKSAmvKS4aXXpru4Y7lzQWl23X0Lo0rA1h7fSLxlpcb7jwHCCSD
-         Brv9LoM+swz+Q5OYqvmI6zwffricGmOIAu69PNSRun4FR0++xLrOCmoXORzQkmzenIjR
-         tNQj7yE0ewDp9mPOCOP3wmnbxNdryAMHuiHvOYh6gsTa4t8CZ/gZUb9d1X32s+9XX4I4
-         JjLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689698890; x=1692290890;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MxgES3BpLxLkuAQSfF376O2dgB3POpxIXa9v11XKlt8=;
-        b=gU/LPj/Q4czK0Xrp4nfgeVR0GpTIJyY8/PZMZ37+4rKF+z9E9lHK2ql11ANFUf1E6I
-         Ln0oUpQWpwu10ce9lVUOtt/0waArbsLm1EeDimSgSdA1qi9U8Ln6OwdAN5Y7CaQyOkLn
-         ufVb0ecUTs2R1oNcVT1go8VguLhqjLwfMvYSVbseRq1E6qEDTkNfTX5AFVJnXpqfVPU4
-         lLLPydCKaYXpY/Lzq+ulgZkHUbPr7IsUEooW8BU6pmiBTe2SNcGxS8o8c+/z6TDDruaP
-         9xADoxQuJnnQvkGXeSA6A2x0oVbKGWqw3u3t8QmztNOjtvFmV7hUaOv7WR/ik/OWHpWD
-         XKCw==
-X-Gm-Message-State: ABy/qLa2HAyT7jFRdjYg4tLHGQkr9wSalFUOKPm5UOzdnzpFBJfi2sve
-	0I0N9nk9kUlppjFhoYt87Is=
-X-Google-Smtp-Source: APBJJlHVfpT7oRxHjFxKYYht0qM12l1bj5Q1nOdH5tkOxNUCra5xKYA87e6QCCsNRylAXwWgakq7zQ==
-X-Received: by 2002:a17:906:fe4a:b0:982:cfe2:32fe with SMTP id wz10-20020a170906fe4a00b00982cfe232femr443653ejb.63.1689698889889;
-        Tue, 18 Jul 2023 09:48:09 -0700 (PDT)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id bn14-20020a170906c0ce00b009925cbafeaasm1228257ejb.100.2023.07.18.09.48.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Jul 2023 09:48:09 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailauth.nyi.internal (Postfix) with ESMTP id ADB8D27C0054;
-	Tue, 18 Jul 2023 12:48:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Tue, 18 Jul 2023 12:48:06 -0400
-X-ME-Sender: <xms:RcK2ZEQB5oiRym1RKTc6LFHCm7v0Gxlt_FbRdocm5iPe2wZ6qf-gUw>
-    <xme:RcK2ZBy-t1kWHjOtlpaCfJipx_3zXKlcA9TBrRN24IagcFHfwa7oz8l8HnZw42uMP
-    HpnHhAbOBeU68CweQ>
-X-ME-Received: <xmr:RcK2ZB1yOcnDJFoirqM9KE377ZmM7BHe31H-ZaI_LY-YvJhqzWj3QrFHR8g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrgeeggddutdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhu
-    nhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehudfgudffffetuedtvdehueevledvhfelleeivedtgeeuhfegueeviedu
-    ffeivdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdei
-    gedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfih
-    igmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:RcK2ZIAQm-dJWH5olI7z0f3vA6BqIffn9i86VDFjCNl8lT230ty2UA>
-    <xmx:RcK2ZNjKHGBgrDcIimePN4BiPJXhkD3afhI2WhPJNli2kJUKhGpnag>
-    <xmx:RcK2ZEoKh5oX7uSvujEEOzPxajdj7w0wOfW-QQuiR1ZyXp4x2ZrDfQ>
-    <xmx:RsK2ZOYF2dFP5IZWCzcCuYhAvbbkpgh5-ICuEizrWA4RnTa5TF1EaQ>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Jul 2023 12:48:04 -0400 (EDT)
-Date: Tue, 18 Jul 2023 09:48:01 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: Alice Ryhl <aliceryhl@google.com>, lina@asahilina.net,
-	alex.gaynor@gmail.com, alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	benno.lossin@proton.me, bjorn3_gh@protonmail.com, daniel@ffwll.ch,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev, marcan@marcan.st, masahiroy@kernel.org,
-	nathan@kernel.org, ndesaulniers@google.com, nicolas@fjasle.eu,
-	ojeda@kernel.org, rust-for-linux@vger.kernel.org,
-	sven@svenpeter.dev, trix@redhat.com, wedsonaf@gmail.com
-Subject: Re: [PATCH RFC 00/11] rust: Implicit lock class creation & Arc
- Lockdep integration
-Message-ID: <ZLbCQX4uS5kk8U1q@boqun-archlinux>
-References: <f974e5a4-1211-5ad7-4864-f3e210499e5e@asahilina.net>
- <20230714135926.382695-1-aliceryhl@google.com>
- <20230715152554.5b585d22.gary@garyguo.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0321642E
+	for <asahi@lists.linux.dev>; Tue, 18 Jul 2023 18:19:07 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qLpHp-0001oG-KQ; Tue, 18 Jul 2023 20:19:01 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qLpHk-000Qmh-Pb; Tue, 18 Jul 2023 20:18:56 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qLpHj-005unZ-MY; Tue, 18 Jul 2023 20:18:55 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pwm@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: [PATCH 03/18] pwm: apple: Make use of devm_pwmchip_alloc() function
+Date: Tue, 18 Jul 2023 20:18:34 +0200
+Message-Id: <20230718181849.3947851-4-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
+References: <20230718181849.3947851-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230715152554.5b585d22.gary@garyguo.net>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2035; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=RLlnp/gj3zph2q9sZt8AjzN71Y6ak9HYYE2ntCXMNkc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBkttbqRpSTaTVcfcq0cczklQJyQ5gZuouDUKFjX CgpeSZ6K+aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZLbW6gAKCRCPgPtYfRL+ TpVUB/4xLmZoenE8ucyYsWre1w5sRDBePNVTckEQ763oMjV/bpOwycK3X73TUpaBwgT0M/SScAB +F3nRJdHwQPlZLYNZ5FkIhVN+CLijwiTDvQ+lHRNtNp6B1lkZGndqnXBMTQp8qDnwDCGxi9k7Xd enLF1QDCSCKzX1isnU3e61sLgE4KyYoQyI/xpNFPCdd6gFHeesLd1C+jQXiOzW8706CyIxdxV/b eUy7hZBkUitVPqpny8zoqIfVQr8flxyJGM/53bW9cZJSJBpvwN8U4B3erMDDu+wYbaVft2bIiX7 OBvj73rg4B5uAkQqoBWT12X/ZOl8CTGNhOwOtepB6nOB7BQg
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
-On Sat, Jul 15, 2023 at 03:25:54PM +0100, Gary Guo wrote:
-[...]
-> > > I don't think the fallibility is an issue. Lockdep is a debugging tool, 
-> > > and it doesn't have to handle all possible circumstances perfectly. If 
-> > > you are debugging normal lock issues you probably shouldn't be running 
-> > > out of RAM, and if you are debugging OOM situations the lock keys would 
-> > > normally have been created long before you reach an OOM situation, since 
-> > > they would be created the first time a relevant lock class is used. More 
-> > > objects of the same class don't cause any more allocations. And the code 
-> > > has a fallback for the OOM case, where it just uses the Location object 
-> > > as a static lock class. That's not ideal and degrades the quality of the 
-> > > lockdep results, but it shouldn't completely break anything.  
-> > 
-> > If you have a fallback when the allocation fails, that helps ...
-> 
-> I am pretty sure lockdep needs to do some internal allocation anyway
-> because only address matters for lock class keys. So some extra
-> allocation probably is fine...
-> 
+This prepares the pwm-apple driver to further changes of the pwm core
+outlined in the commit introducing devm_pwmchip_alloc(). There is no
+intended semantical change and the driver should behave as before.
 
-Lockdep uses a few static arrays for its own allocation, but doesn't use
-"external" allocatin (i.e. kalloc() and its friends. IIUC, originally
-this has to do in this way to avoid recursive calls like:
-lockdep->slab->lockdep, but now lockdep has a recursion counter, that's
-not a problem any more. However, it's still better that lockdep can work
-on its own without relying on other components.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/pwm/pwm-apple.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-Regards,
-Boqun
+diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c
+index a38a62edd713..cc045a719cbb 100644
+--- a/drivers/pwm/pwm-apple.c
++++ b/drivers/pwm/pwm-apple.c
+@@ -31,14 +31,13 @@
+ #define APPLE_PWM_CTRL_OUTPUT_ENABLE BIT(14)
+ 
+ struct apple_pwm {
+-	struct pwm_chip chip;
+ 	void __iomem *base;
+ 	u64 clkrate;
+ };
+ 
+ static inline struct apple_pwm *to_apple_pwm(struct pwm_chip *chip)
+ {
+-	return container_of(chip, struct apple_pwm, chip);
++	return pwmchip_priv(chip);
+ }
+ 
+ static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+@@ -103,14 +102,17 @@ static const struct pwm_ops apple_pwm_ops = {
+ 
+ static int apple_pwm_probe(struct platform_device *pdev)
+ {
++	struct pwm_chip *chip;
+ 	struct apple_pwm *fpwm;
+ 	struct clk *clk;
+ 	int ret;
+ 
+-	fpwm = devm_kzalloc(&pdev->dev, sizeof(*fpwm), GFP_KERNEL);
+-	if (!fpwm)
++	chip = devm_pwmchip_alloc(&pdev->dev, sizeof(*fpwm));
++	if (!chip)
+ 		return -ENOMEM;
+ 
++	fpwm = to_apple_pwm(chip);
++
+ 	fpwm->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(fpwm->base))
+ 		return PTR_ERR(fpwm->base);
+@@ -129,11 +131,10 @@ static int apple_pwm_probe(struct platform_device *pdev)
+ 	if (fpwm->clkrate > NSEC_PER_SEC)
+ 		return dev_err_probe(&pdev->dev, -EINVAL, "pwm clock out of range");
+ 
+-	fpwm->chip.dev = &pdev->dev;
+-	fpwm->chip.npwm = 1;
+-	fpwm->chip.ops = &apple_pwm_ops;
++	chip->npwm = 1;
++	chip->ops = &apple_pwm_ops;
+ 
+-	ret = devm_pwmchip_add(&pdev->dev, &fpwm->chip);
++	ret = devm_pwmchip_add(&pdev->dev, chip);
+ 	if (ret < 0)
+ 		return dev_err_probe(&pdev->dev, ret, "unable to add pwm chip");
+ 
+-- 
+2.39.2
+
