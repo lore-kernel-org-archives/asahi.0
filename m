@@ -1,114 +1,96 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F360818C25
-	for <asahi@lists.linux.dev>; Thu, 20 Jul 2023 18:55:57 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 893063200124;
-	Thu, 20 Jul 2023 14:55:56 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Thu, 20 Jul 2023 14:55:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1689879356; x=
-	1689965756; bh=VlXcKq8r5CvDv0CQjr1ifJgqgPG6o4lzBf7CAsOaYZM=; b=Z
-	9dpjKXFJx6E45rGhQTEV52gxvEbjHOelVthAwRJS6cG8c6GxcCx//r0a3GUSoHkX
-	yUqFaRRQS5dB8URGVRxLIXnel2gk2wqziQqQxDo6HPQ8Q3RXE2BxySHNO232FIuM
-	xtuHcPRuHzr6c1zkLDANxy7BBf5EdepwPtYuWnDdufESlLxbqykO3lLbrh25KgPJ
-	12j6mpjWOWbW9rhuayi20DR3wwdgsaRtcVIGSHqUzfyk8qVnQHI9Dc+uiXdJZt+5
-	wbMVlvUjJiGaMBBgXnNk+FkHVFLY5d8/9opd6DjF7QZb80Em+dYw3t8/OnQK9cU1
-	gnN1l8FLjEXiKm1SQaVVw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1689879356; x=1689965756; bh=VlXcKq8r5CvDv
-	0CQjr1ifJgqgPG6o4lzBf7CAsOaYZM=; b=MR+lC1CyfZRZhHHseDJBYoY1Nowk+
-	rXvJx/agWc6q5w2QrSUUbh+EaZf6+V9ZJE/4SZWH1eKQXU80CeEgJr5QbX7hshww
-	a2UDx4PUy0oY5QGMUBvQskEhOUy9CkwPXFr5kEvLxtdsfBMbaCZfpDuxakvIX3pS
-	3hmhUkFCIYS3rzujR/Z29cZYoenR5IMHNcWenOnijNdtSoEtOH8DC2vO7DLc0B5k
-	gLL/8/UTdvsq3L1UYqD6jXId4D6CqEoDUt8unX/eAcAZXeGmWPijTUjOUJlU7fT5
-	PRMqllQ+ICabl2km7yJzEvUHEsuy0AWnZtfzCQOQWUPQ0Jls5gprQXrQw==
-X-ME-Sender: <xms:O4O5ZCKrcphA5Ki_6B6jEoHmSvxi1q-uf7-S6pajJ_UuTQHkybOH_A>
-    <xme:O4O5ZKKF4XXiXqve39sE0cVhw-95f1P5Yjbgg7Cq-uQUuTBbf9NLYI-re04SBf2A6
-    RqXwmVK6rtfWf9JS2M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrhedtgdduvdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
-    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
-    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
-    ieevieeunecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomh
-    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:O4O5ZCvKzXNfZoowqJSQQMHfK6sTe80gSOgKTfWAg9JYIJFlcPQ58g>
-    <xmx:O4O5ZHYiySCowtqcO0lst1ko5KBkldl20bkaPEHAccB_zoHec0P6CQ>
-    <xmx:O4O5ZJZ0pf9JBp6lvzyztia23uQvRVlulcUQtISU_K5gTwZSEH8INw>
-    <xmx:PIO5ZIUREdiI16X5iWkZR3SqelLO0ht1PVeND3tlGGPkiTUGb7F8zw>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A139CA60077; Thu, 20 Jul 2023 14:55:55 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-531-gfdfa13a06d-fm-20230703.001-gfdfa13a0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE9314011;
+	Thu, 20 Jul 2023 23:19:03 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6682909acadso912404b3a.3;
+        Thu, 20 Jul 2023 16:19:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1689895143; x=1690499943;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ibwR2n2ofWT45eqyn7NdkOyxsAPd/bEJkQ0/gWWZPag=;
+        b=lXzYCfCVbZ0XFYr4h1U2cA+eanuunlakdjkGeq0zjbSuUw92kuJhjFPvqvehuVM/MR
+         d6dOtACrgZmq8zypv+uqPq27NBSop8KuKAXQi67hPm6KDQofw6Yw0FXh6k9v2DvsE86X
+         +nczzNvFdpB+JoZriycHeOUDYK3ot62KqY8Vl2sKo6vyYx+5c7vKJ3uH2W5qhIrVkqbC
+         FZTbUZVOgEAoGKoluTWSJ2gVKi4phOzNoClt0OAILWaUHGMYWP4KBtxtGvbNjSQ9RwnI
+         LkM4RtiLcmFhEMj+9v5MKT+ezh7OeqI+otg//ZyvMXzGEBxQ4MIUm67RjBehPHBgORLM
+         avow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689895143; x=1690499943;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ibwR2n2ofWT45eqyn7NdkOyxsAPd/bEJkQ0/gWWZPag=;
+        b=Zf2xXrP0/wwK95ZYF0Eg34KFId+wni3t3Or2uo2KJLygamYHFasu8wtSXXxC3I8fvA
+         Dg61wpeGpYbiOQVpaDg7JJm/601a/zHsvTt62ft1+MHneUj3qet8//ozlqBs9YAuzEeI
+         tIyej+cofdoCyCYtN6JeGJvTM1OtVwclVgF0CbJE4DdloiRimppnj+b6PjDLpiGMAiom
+         +mS9h82GSEUZ8TJMzD94Zpa/+jkVjK9Hry/5UEerRTjTD1Qi1IBjNWtZutwUAd5X3ydn
+         /6pjxNlXOFLGDaE24uFMyIqnCZDs5UmCxMiHg9E1/HErTWPJZJfoZqnTeT8RHIvR1ETi
+         zEjQ==
+X-Gm-Message-State: ABy/qLbjJ0qvLjDw/B8Rhw+4t4Y67uzr2kyugbQWW5kCb3gdEWboS+mC
+	sAf76CY3uYWheZL8Jbohq/E=
+X-Google-Smtp-Source: APBJJlFUvtKV9g3xN8yZiX1eceYAxHrBp30rIaSA9fDoBvJ552sVhZUdbrWXiZ8RM+whGFBzTee4pQ==
+X-Received: by 2002:a05:6a00:814:b0:668:7292:b2c2 with SMTP id m20-20020a056a00081400b006687292b2c2mr321769pfk.2.1689895143276;
+        Thu, 20 Jul 2023 16:19:03 -0700 (PDT)
+Received: from ubuntu777.domain.name (36-228-98-231.dynamic-ip.hinet.net. [36.228.98.231])
+        by smtp.gmail.com with ESMTPSA id k17-20020aa78211000000b00682562bf477sm1708783pfi.82.2023.07.20.16.19.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 16:19:02 -0700 (PDT)
+From: Min-Hua Chen <minhuadotchen@gmail.com>
+To: sven@svenpeter.dev
+Cc: alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	iommu@lists.linux.dev,
+	joro@8bytes.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	marcan@marcan.st,
+	minhuadotchen@gmail.com,
+	robin.murphy@arm.com,
+	will@kernel.org
+Subject: Re: [PATCH] iommu/apple-dart: mark apple_dart_pm_ops static
+Date: Fri, 21 Jul 2023 07:18:59 +0800
+Message-Id: <20230720231859.3699-1-minhuadotchen@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <f176c331-f8cf-4a44-8ada-7d9c958b17ca@app.fastmail.com>
+References: <f176c331-f8cf-4a44-8ada-7d9c958b17ca@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <1e16e400-0dbb-4ba1-a0a5-2380b50fa60a@app.fastmail.com>
-In-Reply-To: <20230719223848.138363-1-minhuadotchen@gmail.com>
-References: <20230719223848.138363-1-minhuadotchen@gmail.com>
-Date: Thu, 20 Jul 2023 20:55:34 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Min-Hua Chen" <minhuadotchen@gmail.com>,
- "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Philipp Zabel" <p.zabel@pengutronix.de>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] soc: apple: apple-pmgr-pwrstate: mark apple_pmgr_reset_ops static
-Content-Type: text/plain
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+Hi Sven,
 
-
-On Thu, Jul 20, 2023, at 00:38, Min-Hua Chen wrote:
-> This patch fixes the following sparse warnings:
+>On Thu, Jul 20, 2023, at 00:20, Min-Hua Chen wrote:
+>> This patch fixes the following sprse warning:
 >
-> drivers/soc/apple/apple-pmgr-pwrstate.c:180:32: sparse: warning: symbol 
-> 'apple_pmgr_reset_ops' was not declared. Should it be static?
+>typo: sparse
+
+thanks for catching this.
+
+>>
+>> drivers/iommu/apple-dart.c:1279:1: sparse: warning: symbol 
+>> 'apple_dart_pm_ops' was not declared. Should it be static?
+>>
+>> No functional change intended.
+>>
+>> Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
+>> ---
 >
-> No functional change intended.
+>Acked-by: Sven Peter <sven@svenpeter.dev>
+
+I'll submit v2 with your Acked-by tag.
+
+thanks,
+Min-Hua
+
+>Thanks,
 >
-> Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
-> ---
-
-Acked-by: Sven Peter <sven@svenpeter.dev>
-
-
-Thanks,
-
-
-Sven
-
->  drivers/soc/apple/apple-pmgr-pwrstate.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/soc/apple/apple-pmgr-pwrstate.c 
-> b/drivers/soc/apple/apple-pmgr-pwrstate.c
-> index d62a776c89a1..9467235110f4 100644
-> --- a/drivers/soc/apple/apple-pmgr-pwrstate.c
-> +++ b/drivers/soc/apple/apple-pmgr-pwrstate.c
-> @@ -177,7 +177,7 @@ static int apple_pmgr_reset_status(struct 
-> reset_controller_dev *rcdev, unsigned
->  	return !!(reg & APPLE_PMGR_RESET);
->  }
-> 
-> -const struct reset_control_ops apple_pmgr_reset_ops = {
-> +static const struct reset_control_ops apple_pmgr_reset_ops = {
->  	.assert		= apple_pmgr_reset_assert,
->  	.deassert	= apple_pmgr_reset_deassert,
->  	.reset		= apple_pmgr_reset_reset,
-> -- 
-> 2.34.1
+>Sven
+
