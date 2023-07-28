@@ -1,40 +1,42 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2050.outbound.protection.outlook.com [40.107.95.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B031A3D78
-	for <asahi@lists.linux.dev>; Fri, 21 Jul 2023 10:33:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 3F35041E2F;
-	Fri, 21 Jul 2023 10:33:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1689935608;
-	bh=zA7QqkJrQHaeSCtuze/bEJkPxa8Nq0sBwRpV2KfaplM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=0dmLnmuW463tIZx3DZBoHYkR/UjVmGKZD6d047N7vinsmPGJMS+FAMoK9FVUhyzD+
-	 9wLwx5b9rFRuHmHxeB6jWpG3U4wNMNcmomsjUfwAiyHj2dzt+7GPmyFBfg56A3oMUD
-	 54dsIX7pBTLkx/AysHrsElm46ssB488fgqmCIoW6z6EYakwixVRUzwY3gj25dGm3dG
-	 sKj5G2BhyYmrCPORj/5pZPXijpnhgyNHUj6buLdepCYuwtitLUxL1FRivlAf1wPF+f
-	 oBob4KIfChQaaLOQwj1Zj/eE4GQW1GhTr8CLstpPVKbI2ufNhnOCNL7JaB2PTiqlZx
-	 WjTfTL3BFdkxw==
-Message-ID: <f5de10fa-57d6-a3d0-1cf9-084491aa6025@asahilina.net>
-Date: Fri, 21 Jul 2023 19:33:22 +0900
-Precedence: bulk
-X-Mailing-List: asahi@lists.linux.dev
-List-Id: <asahi.lists.linux.dev>
-List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8FA2F35
+	for <asahi@lists.linux.dev>; Fri, 28 Jul 2023 07:48:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SWAJuP8qDZ1URwz1NAJpR8lp1Z8en/Fhq/f4otsTVxj2wKlcEg2DseGOf3E3KvPjZvnAjdb5o7m3kizzY+CoZ/wgOeHBLSiX/ydc2ziA98HdnMnNGQdjYHgK6lwlm7uhpw+vwI2HjJ9XmqQ2/9GR1BFrcGhiJN2KDVpLhO80Dtmf1MKF5US3z54rIksAEGjbQnZV3wK1F4zyMTf3BZvMgtzKCczBUtdyfyNN44geXUvFeH1hT6jexS/Qqj58Bl3dUMDjFZxOV7ZO9cw/R4U1ZD9Po9C050DRguQTmIJy3XepZ+H7OBHdkNnEq94Akj/h/LKrnl5jH3jjSxJEZtOLtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kUtRkU2qSJu3pyoknVwthFs/x9px43gzIplaqesgUWE=;
+ b=E9l04td+0PhSRf0xR/KbcWJU1XoWMcDhjhTjJyWtRCtmlcmgagItQSOp6eTTQ1N7Z0WrfAXUYHhBX1fDsGiGt68mEY/mM6FVXgjHOkjck9jePNFSD5gbRhYlr6q2/gYrwR8abev77qWV8XXxMu0Q1NYLNAEMzq5kraY904QxrOXwa0/C4XjJmDPJddJkf5Dqrhr+AFrAgAou4LDPohi4qo6iAtxHrhHCXlOFpyEaTQQ1PRagxp6NTQ0/09vcaSQzZ1wk2uoAYIoOlZWvEDkfiP0+Or7K7KTvXXUgJ+vi63T9fd1m/aEBE0XRu6418u258mdSARulWe+QNBGDdRjm4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kUtRkU2qSJu3pyoknVwthFs/x9px43gzIplaqesgUWE=;
+ b=PVAVWr2crAL7KjMiKafhs1ffMRS7xUYYkghrovcihSx0Brvx8OyUbCa91SdjwpVqIx/OREo2owDByHG3wDPaMWcWq7DceluRBRbSLWeLDoO+G32OI/ZCV6YrMQ5d/nByZa+5YCPUlUPOCeWtJbbRt/RUMcLT1hBVV+G+vYvx8IA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by SN7PR12MB8169.namprd12.prod.outlook.com (2603:10b6:806:32f::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6631.29; Fri, 28 Jul
+ 2023 07:48:37 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::3d:c14:667a:1c81%4]) with mapi id 15.20.6631.026; Fri, 28 Jul 2023
+ 07:48:37 +0000
+Message-ID: <43bbd12b-4754-92d1-4000-1ba928d2a8d4@amd.com>
+Date: Fri, 28 Jul 2023 09:48:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
  drm_sched_fence_get_timeline_name
-To: Luben Tuikov <luben.tuikov@amd.com>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- alyssa@rosenzweig.io, David Airlie <airlied@gmail.com>,
+Content-Language: en-US
+To: Asahi Lina <lina@asahilina.net>, alyssa@rosenzweig.io,
+ Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
  Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
 Cc: Faith Ekstrand <faith.ekstrand@collabora.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -48,308 +50,106 @@ References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
  <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
  <a42bd218-6eb5-6ddb-bbb4-d25118c59f40@amd.com>
  <7b564e55-a9b7-0585-3cf1-d1f132f9a918@asahilina.net>
- <daf48d76-ceee-c82d-a63a-e8e7770a9d83@amd.com>
-Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <daf48d76-ceee-c82d-a63a-e8e7770a9d83@amd.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+In-Reply-To: <7b564e55-a9b7-0585-3cf1-d1f132f9a918@asahilina.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0066.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4b::17) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+Precedence: bulk
+X-Mailing-List: asahi@lists.linux.dev
+List-Id: <asahi.lists.linux.dev>
+List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB8169:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b72c003-ce33-4dae-c304-08db8f3f0cdb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	AvasP7egU9mH/wCNSwzBUPmTiIfccNEtCtPnt2h+1D9wrk3iWHk9u8+htqzSEcqMfhsnv0PgeKimM7BIEwTtN5b/F1W44L3venjzgnULcbmkajoeLS6krySHWDoa4OhMU10vwW0wgXc7TFRhZcXpfYZ3X9hCPgrXwL5clfwyQ78NoDSsqLz5/3yE+f8U758VhZulVWAeCUpnSW/Hi5y4rDIzSdkVXW6jCnepuV1tf4pFZWytjiH7RhwXSPmOV6nLMgIkArxzo30F8h3sZsarpj8N9NEDH0gu+RJ1RbLVALkZqsKBsHU3jiudp/cX+aa3/MlJbi6OXrKvudfUs99WoRdT5FoCBNYFo3gK2X5sIjZ8H6LKA2Lfx38TxKDs8oow/Jyl8/wfU2oEwDZt6AvNdjvr4q15sf4X1xWaiv0XouhdUHAG1RMn90yF8BemVuvJTqc1S09h/mSUTvKofP5UwmYOMNb1fLHfOP19yq0kTkRYn6B+Vxp2yMBlK/nXzmjW50nloVvRve/cyQJZCUukkZiApPmpdAanVCEbP5Y5pSvdHyOvrG41f8/ldMLjmkwBAMb4R98K5/dnqYfU3K9yjI0FKe8lyMbJybqKUr7EEGM1ve//PEfUSr2gF0Cc4bCR0nPjKLm65+mi3qxrLcz2eA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(39860400002)(396003)(346002)(366004)(136003)(451199021)(2906002)(316002)(8936002)(8676002)(7416002)(5660300002)(4744005)(41300700001)(36756003)(86362001)(31696002)(6512007)(6486002)(6666004)(478600001)(6506007)(186003)(110136005)(2616005)(66946007)(31686004)(38100700002)(66556008)(4326008)(66476007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cExDWitDTTN6Q0Rmc2Z2SkUyVU92bTVDSVhLZDVQc3VycVB3VW50cm1zbDlq?=
+ =?utf-8?B?ajJBMFZVUXdtVm8wU1FON1MwRWlpMHpUTFBDNTNGODlDVE4yc21sNmpXTWNB?=
+ =?utf-8?B?bGlrRjNuOC80U0tuV2dUbDhSWWQ0d29jTVJJRnArbStyUjZpeUU1Sk85bGky?=
+ =?utf-8?B?WjlHQzUyWnZ4ay9lNzZZb1BJMDhydGxJSlBlVm1Ka2pMMXRSa2k4Nm1ITVZs?=
+ =?utf-8?B?aUFwZ2tpVEFpNWpZOG1BWmpOSUxPOExpTFhWK0Y2NjkvZEQzZ3lRbXNvRDky?=
+ =?utf-8?B?TUJPaWhGK2l6VG85VXhwT250djNMcDNvbFdYei9QTXQ5OExlZzFKdDRXS0xu?=
+ =?utf-8?B?Ym04SDIxVzNBUHZsS2dEczlZWGZlSllHMktWOFRPQktUbFBTTHlQd29lTDhz?=
+ =?utf-8?B?dDdna1gyZ1NRZ29MSm9VWlBCZ3A4Uk1EajZtQXpKU0tMOFlzS09OT0xCZmNU?=
+ =?utf-8?B?MVVuYmJSR2ZWS3NKNnp6VnNWeXljUGNKZXBOMEo2MWFEQnVCMUtFLzdiTE81?=
+ =?utf-8?B?dTNmcU5OY0F5d3dsRzhwb0tHbWVMV0xybXhCd3ViMWJLeVc0YTZBZUd2a21m?=
+ =?utf-8?B?VkFEdnRlUGJwNGxCU2s5SCtwY3F5M1ZLdFJ4TExOR0xMU05OdkwwaWc3bVQy?=
+ =?utf-8?B?WkM0bVRITEhoUjN5R3pNYVZ5K3FEMk1SbzZGK3hldmNFY2ZWSW5oNWR1OU1a?=
+ =?utf-8?B?eVhXMlBIZnZKL1FkVU9nNjFGM1pvR1ZxUVdKVFV6K0l0TEFKSmtBK3RTYXRB?=
+ =?utf-8?B?V0VraTlxUmh4Y2Vxd0k0Qm5qZkNVZGIxRTcrS3VFODh3ZkJIcHFQSmNDeVo4?=
+ =?utf-8?B?MVdDaWliU2h2Z2N3cnRlekszeGQ3K0NKeUV1U2xKalJoOVRwVVBFMERqckJF?=
+ =?utf-8?B?S01lU3dLbnZYOUpocnZjUFZjdWNZaUNYTlhaL0dmQXdqcVVhNVJjcTVKV0Rm?=
+ =?utf-8?B?OTNBSk96N3dtWHc5ZlBkNjR5ZlhxVk4vdEk2MzF6b25WNXNNT3NtN0ZwZm4v?=
+ =?utf-8?B?c1pGTXVIU2hTcFBTaUtnU2hkZ1lVUXlKS3FkbDBONW43dnFIZUhCOW9nS2Fk?=
+ =?utf-8?B?TC8zdVBtQUVsdHlXMzFudkxyd1I0TEZBb1FEc0k2d0U0YkZMcGZncTZPK3J4?=
+ =?utf-8?B?bGNkU0wvOGlLcDZyNzJldk50L25lWlNvSUhHSGQyMEtieHhiUFF2Skh5UXIx?=
+ =?utf-8?B?c1VHVUd2ZHkzTjhxQXl0eHB6aDdacVExb1hZaEYxYTlRQWRjMG5tV0VYUTlU?=
+ =?utf-8?B?R2JCZDZFOEtxbEZkeEtrMzFGSlNtSjRtdXQrWG8zNk8xNVdpTmpnMmh6d1Nw?=
+ =?utf-8?B?bUg4ZjJZMWpDNytkakxDNXpaUmp3Y1FNam82MTd1N1BoYmFuZno0M0lZYXJw?=
+ =?utf-8?B?M04vUmp2Z2ppNHo1OVhXT0VTR3kvMkJPemlBZk90ZUJXWDVEK0Y3dUxKRkdG?=
+ =?utf-8?B?QmdFcm83b0NoMWxRc3BWdHM3MHJLS09hVCtLZWhLQ0syVmFlR05rQS9sWkhi?=
+ =?utf-8?B?dkhxQmk4TUdqY0paZ2k4ZGU3ZDg3RTQ0cnh5WTExQk1UMnFvaHRxSVFwZkkr?=
+ =?utf-8?B?bndSV0Jpc3RjWHVNMERob0QwTy9iQ09nc0lBMHFqbE9Cc3FJaHJnNTB1eTJS?=
+ =?utf-8?B?MUNidjZhUEtTMmRiL0VTa0grRkxRdlcwdHJZcGFMTWlXemZBdkE0anEvblJk?=
+ =?utf-8?B?UFNLYVRGZWVzd0tpcCtOdkZhVWZWZWtWdWs3SzNYd3NiZ0JpNXBUUmErR0RY?=
+ =?utf-8?B?cTRwYVBiSGVmZmdpQ3MxQ2dxWEdtUXQrL1hEZ2Y5TDBpTzhOL1BoYWJ2R3ZX?=
+ =?utf-8?B?ZkpYQkZOVFFMTVZ3bUNXdktFemtwQ2ZFMm96Q1cvU1h2bGcvNTg4NXllQVQ1?=
+ =?utf-8?B?VTd0aDFzZEJWTjJlZzY2UEVrSkYrMVNaVFVUSXRhbUtyWlNCT2IwOWFWYXgx?=
+ =?utf-8?B?cnVXS3N2MkJucUU3cVUzMHZLNGlTdUdMajJTQmF4YXU5U1NDQ2ExOHdwN0R5?=
+ =?utf-8?B?djdib1lEdDVwRThreE0wV2txRnFhMlZMcjRBVUlRMUcwdUl2TUlRRGNBYkp4?=
+ =?utf-8?B?TW1ITmtVOUs1MU5QVjlBUlZiRm9rWU9rVHdsQnBzZW5sQ0w4alhnWmNJdGFS?=
+ =?utf-8?B?NFQwS0hIMEJwV0tCZHVFRkhRUENpS2s3SExFTUkrMk0xWU9hREppalRBR3Fm?=
+ =?utf-8?Q?4qRhexDC1i7ZMBGtqDtLZZ84o/dC32xmpw1EWn2YGJWE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b72c003-ce33-4dae-c304-08db8f3f0cdb
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2023 07:48:36.7282
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iEG6lPIx0Kb59e+dn1Jr6z24CZHg6fpPchrFtKLR9/kJjjYba5cjBdoAVUxLeQbd
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8169
 
-On 18/07/2023 14.45, Luben Tuikov wrote:
-> On 2023-07-17 22:35, Asahi Lina wrote:
->> On 18/07/2023 00.55, Christian König wrote:
->>> Am 15.07.23 um 16:14 schrieb alyssa@rosenzweig.io:
->>>> 15 July 2023 at 00:03, "Luben Tuikov" <luben.tuikov@amd.com> wrote:
->>>>> On 2023-07-14 05:57, Christian König wrote:
->>>>>
->>>>>> Am 14.07.23 um 11:49 schrieb Asahi Lina:
->>>>>>
->>>>>>> On 14/07/2023 17.43, Christian König wrote:
->>>>>>>
->>>>>>     Am 14.07.23 um 10:21 schrieb Asahi Lina:
->>>>>>     A signaled scheduler fence can outlive its scheduler, since fences are
->>>>>>     independencly reference counted. Therefore, we can't reference the
->>>>>>     scheduler in the get_timeline_name() implementation.
->>>>>>
->>>>>>     Fixes oopses on `cat /sys/kernel/debug/dma_buf/bufinfo` when shared
->>>>>>     dma-bufs reference fences from GPU schedulers that no longer exist.
->>>>>>
->>>>>>     Signed-off-by: Asahi Lina <lina@asahilina.net>
->>>>>>     ---
->>>>>>        drivers/gpu/drm/scheduler/sched_entity.c | 7 ++++++-
->>>>>>        drivers/gpu/drm/scheduler/sched_fence.c  | 4 +++-
->>>>>>        include/drm/gpu_scheduler.h              | 5 +++++
->>>>>>        3 files changed, 14 insertions(+), 2 deletions(-)
->>>>>>
->>>>>>     diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>>     b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>>     index b2bbc8a68b30..17f35b0b005a 100644
->>>>>>     --- a/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>>     +++ b/drivers/gpu/drm/scheduler/sched_entity.c
->>>>>>     @@ -389,7 +389,12 @@ static bool
->>>>>>     drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
->>>>>>                   /*
->>>>>>                 * Fence is from the same scheduler, only need to wait for
->>>>>>     -         * it to be scheduled
->>>>>>     +         * it to be scheduled.
->>>>>>     +         *
->>>>>>     +         * Note: s_fence->sched could have been freed and reallocated
->>>>>>     +         * as another scheduler. This false positive case is okay,
->>>>>>     as if
->>>>>>     +         * the old scheduler was freed all of its jobs must have
->>>>>>     +         * signaled their completion fences.
->>>>>>
->>>>>>     This is outright nonsense. As long as an entity for a scheduler exists
->>>>>>     it is not allowed to free up this scheduler.
->>>>>>
->>>>>>     So this function can't be called like this.
->>>>>>
->>>>>>> As I already explained, the fences can outlive their scheduler. That
->>>>>>>     means *this* entity certainly exists for *this* scheduler, but the
->>>>>>>     *dependency* fence might have come from a past scheduler that was
->>>>>>>     already destroyed along with all of its entities, and its address reused.
->>>>>>>
->>>>>>     
->>>>>>     Well this is function is not about fences, this function is a callback
->>>>>>     for the entity.
->>>>>>     
->>>>>>
->>>>>>> Christian, I'm really getting tired of your tone. I don't appreciate
->>>>>>>     being told my comments are "outright nonsense" when you don't even
->>>>>>>     take the time to understand what the issue is and what I'm trying to
->>>>>>>     do/document. If you aren't interested in working with me, I'm just
->>>>>>>     going to give up on drm_sched, wait until Rust gets workqueue support,
->>>>>>>     and reimplement it in Rust. You can keep your broken fence lifetime
->>>>>>>     semantics and I'll do my own thing.
->>>>>>>
->>>>>>     
->>>>>>     I'm certainly trying to help here, but you seem to have unrealistic
->>>>>>     expectations.
->>>>>>     
->>>>>>     I perfectly understand what you are trying to do, but you don't seem to
->>>>>>     understand that this functionality here isn't made for your use case.
->>>>>>     
->>>>>>     We can adjust the functionality to better match your requirements, but
->>>>>>     you can't say it is broken because it doesn't work when you use it not
->>>>>>     in the way it is intended to be used.
->>>>>>
->>>>> I believe "adjusting" functionality to fit some external requirements,
->>>>> may have unintended consequences, requiring yet more and more "adjustments".
->>>>> (Or may allow (new) drivers to do wild things which may lead to wild results. :-) )
->>>>>
->>>>> We need to be extra careful and wary of this.
->>>> Either drm/scheduler is common code that we should use for our driver, in which case we need to "adjust" it to fit the requirements of a safe Rust abstraction usable for AGX.
->>>
->>> Well this is the fundamental disagreement we have. As far as I can see
->>> you don't need to adjust anything in the common drm/scheduler code.
->>>
->>> That code works with quite a bunch of different drivers, including the
->>> Intel XE which has similar requirements to your work here.
->>>
->>> We can talk about gradually improving the common code, but as Luben
->>> already wrote as well this needs to be done very carefully.
->>>
->>>>     Or, drm/scheduler is not common code intended for drivers with our requirements, and then we need to be able to write our own scheduler.
->>>>
->>>> AMD has NAK'd both options, effectively NAK'ing the driver.
->>>>
->>>> I will ask a simple yes/no question: Should we use drm/sched?
->>>
->>> Well, yes.
->>>
->>>>
->>>> If yes, it will need patches like these,
->>>
->>> No, you don't.
->>>
->>> First of all you need to try to adjust your driver to match the
->>> requirements of drm/scheduler and *not* the other way around.
->>>
->>>>     and AMD needs to be ok with that and stop NAK'ing them on sight becuase they don't match the existing requirements.
->>>>
->>>> If no, we will write our own scheduler in Rust, and AMD needs to be ok with that and not NAK it on sight because it's not drm/sched.
->>>>
->>>> Which is it?
->>>>
->>>> Note if we write a Rust scheduler, drm/sched and amdgpu will be unaffected. If we do that and AMD comes back and NAKs it -- as said in this thread would "probably" happen -- then it is impossible for us to upstream a driver regardless of whether we use drm/sched.
->>>>
->>>> Lina has been polite and accommodating while AMD calls her code "outright nonsense" and gets "outright NAK"s, and puts her into an impossible catch-22 where no matter what she does it's NAK'd.
->>>
->>> Well as far as I can see I'm totally polite as well.
->>>
->>> Pointing out that approaches doesn't seem to make sense and NAKing
->>> patches is a perfectly normal part of the review process.
->>>
->>> What you need to to is to take a step back and ask yourself why this
->>> here is facing so much rejection from our side. I have to admit that I
->>> don't seem to be good at explaining that, cause we are obviously talking
->>> past each other, but you don't seem to try hard to understand what I'm
->>> pointing out either.
->>>
->>>> That's not ok.
->>>
->>> As far as I can see it is.
->>>
->>> As maintainer of a commonly used component my first duty is to preserve
->>> the status quo and prevent modifications which are not well thought
->>> through. And to be honest those changes here strongly looks like Lina is
->>> just adjusting the code to match her requirements without looking left
->>> and right first.
->>>
->>> Regards,
->>> Christian.
->>>
->>>
->>
->> I give up. You are ignoring everything we say, and rejecting everything
->> we suggest. We've already explained why drm_sched doesn't work for us.
->> I'm tired of repeating the same explanation over and over again only to
->> be ignored and told I'm wrong.
->>
->> I'll start working on a new, much simpler Rust-native scheduler based on
->> the workqueue Rust abstractions which are in review.
->>
->> ~~ Lina
->>
-> 
-> Perhaps it is worth having a reset and just trying to clarify requirements
-> one at a time, even if that involves describing a change on a single line
-> in a single file.
+Am 18.07.23 um 04:35 schrieb Asahi Lina:
+> On 18/07/2023 00.55, Christian König wrote:
+>> [SNIP]
+>
+> I give up. You are ignoring everything we say, and rejecting 
+> everything we suggest. We've already explained why drm_sched doesn't 
+> work for us. I'm tired of repeating the same explanation over and over 
+> again only to be ignored and told I'm wrong.
 
-I've already tried to explain the issue. The DRM scheduler design, as it 
-stands today, makes it impractical to write a safe Rust abstraction for 
-it. This is a fact. Christian has repeatedly NAKed my attempts at 
-changing it to make such a safe abstraction possible, and is clearly 
-opposed to the fundamental lifetime requirements change I am trying to 
-make here. Therefore, we are at an impasse.
+I'm not telling you that you are wrong in any way. What I'm pointing out 
+is that your solution won't work upstream and you need to take a step 
+back and think about why this won't work.
 
-It's unfortunate, but given this situation, the DRM scheduler will not 
-be available to Rust DRM drivers. I thought the goal of the DRM 
-subsystem common code was to cater to multiple drivers and usage 
-approaches, with an emphasis on doing things "right" and avoiding design 
-issues that are common mistakes in driver design. Clearly, this is not 
-the case for all of DRM, at least not the DRM scheduler.
+>
+> I'll start working on a new, much simpler Rust-native scheduler based 
+> on the workqueue Rust abstractions which are in review.
 
-In software engineering, complex lifetime requirements are an 
-anti-pattern, which is one reason why Rust draws a line between safe and 
-unsafe APIs. For a safe API, it is up to the API developer to design it 
-such that it cannot be misused in a way that causes memory safety 
-issues, and the only lifetime requirements it can impose are those that 
-can be expressed in the Rust type system and statically checked at 
-compile time. The DRM scheduler's complex chain of lifetime requirements 
-cannot, and wrapping it in enough glue to remove those lifetime 
-requirements would require about as much code as just rewriting it, as 
-well as add unacceptable duplication and overhead.
+Please note that when you are implementing a dma_fence interface you 
+also need my acknowledgement to get this upstream.
 
-In kernel Rust, we strive to only have safe APIs for components which 
-have no fundamental reason for being unsafe (things like direct memory 
-mapping and raw hardware access). The DRM scheduler does not fall into 
-one of those "inherently unsafe" categories, so it doesn't make sense to 
-provide a raw unsafe API for it. Doing so would just expose Rust code to 
-the kind of subtle safety implications that cause memory problems every 
-day in C. If I were to use drm_sched's unsafe API "as is" in my driver, 
-it would *by far* be the least auditable, most complex usage of unsafe 
-code in the entire driver, and I have no confidence that I would be able 
-to get it right and keep it right as the driver changes.
+Additional to that Dave and Daniel might have objections to this as well.
 
-I don't see a reason why this cannot be simply fixed in drm_sched, but 
-Christian disagrees, and has repeatedly (and strongly) NAKed my attempts 
-at doing so, and indeed NAKed the entire premise of the change in 
-lifetime requirements itself. So here we are. There is no solution that 
-will work for everyone that involves drm_sched.
+Regards,
+Christian.
 
-So I don't have a choice other than to just not use drm_sched and roll 
-my own. I will happily move that Rust implementation to common code if 
-another Rust driver comes along and wants to use it. I'm not sure if 
-that kind of thing can be easily made available to C drivers in reverse, 
-but I guess we'll cross that bridge when a C driver expresses interest 
-in using it.
-
-So far it seems existing C drivers are happy with drm_sched's design and 
-complex lifetime requirements, even though they aren't even documented. 
-Perhaps they managed to reverse engineer them from the source, or 
-someone told the authors about it (certainly nobody told me when I 
-started using drm_sched). Or maybe a bunch of the drm_scheduler users 
-are actually broken and have memory safety issues in corner cases. I 
-don't know, though if I had to bet, I'd bet on the second option.
-
-Actually, let's do a quick search and find out!
-
-panfrost_remove() -> panfrost_device_fini() -> panfrost_job_fini() -> 
-drm_sched_fini()
-
-There is a direct, synchronous path between device removal and 
-destroying the DRM scheduler. At no point does it wait for any jobs to 
-complete. That's what patch #3 in this series tries to fix.
-
-In fact, it doesn't even keep the entities alive! It calls 
-drm_dev_unregister() before everything else, but as the docs for the DRM 
-driver lifetimes clearly say (see, docs!), objects visible to userspace 
-must survive that and only be released from the release callback. 
-drm_sched entities are created/destroyed from 
-panfrost_job_open()/panfrost_job_close(), which are called from 
-panfrost_open() and panfrost_postclose(), which are the userspace file 
-open/close functions.
-
-That one I fix in the Rust abstraction already (that one's relatively 
-easy to fix), so it doesn't need a drm_sched patch from my point of 
-view, but it is yet another subtle, undocumented lifetime requirement 
-that is, evidently, impossible to know about and get right without 
-documentation.
-
-Meanwhile, panfrost_fence_ops has no remove() callback, which means 
-there is no reference path stopping device removal (and therefore 
-scheduler teardown) or even module unload while driver fences are still 
-alive. That leads to the UAF patch #2 in this series tries to fix.
-
-In other words, as far as I can tell, the panfrost driver gets 
-*everything* wrong when it comes to the DRM scheduler lifetime 
-requirements, and will crash and burn if the driver is unbound while 
-jobs are in flight, anyone has a file descriptor open at all, or even if 
-any shared buffer holding a DRM scheduler fence from it is bound to the 
-display controller at that time.
-
-This is why this kind of design is not allowed in Rust. Because nobody 
-gets it right. *Especially* not without docs. I assumed, like the 
-authors of the Panfrost driver clearly assumed, that the DRM scheduler 
-API would not have these crazy undocumented hidden requirements. The 
-only reason I found out the hard way is I happen to create and destroy 
-schedulers all the time, not just once globally, so I would hit the bugs 
-and dangling pointers much more often than Panfrost users who, most 
-likely, never unbind their devices. But we both have the same problem.
-
-I think I've done all I can to explain the issues and try to fix them, 
-so the ball is in your court now. If you want to keep the current 
-design, that's fine, but Rust code will not be a drm_sched user in that 
-case. And the rest of the DRM folks in the C world will have to contend 
-with these issues and fix all the problems in the C drivers (I'm sure 
-panfrost isn't the only one, it's just literally the first one I looked at).
-
-As for me, I'm happy to write a simple workqueue-based Rust scheduler 
-suitable for firmware-managed scheduler devices. Honestly, at this 
-point, I have very little faith left in my ability to fix all these 
-issues in drm_sched (I know there's at least one more lurking, I saw a 
-NULL deref but I wasn't able to reproduce it nor divine how it possibly 
-happened). That, combined with the hostility from the AMD folks about my 
-attempts to improve drm_sched even just a little bit, makes that 
-decision very easy.
-
-Farewell, DRM scheduler. It was nice trying to work with you, but things 
-just didn't work out. I won't be submitting a v2 to this series myself. 
-Please ping me if you fix all these fundamental design issues with 
-drm_sched and think I might actually be able to use it safely in Rust 
-one day. If the API design is solid and safe and the implementation done 
-in a way that inspires confidence at that time maybe we can yank out my 
-Rust solution when the time comes and switch back to drm_sched.
-
-Just please don't expect me to do the work any more, I've done 
-everything I can and this now has to come from you, not me. I've spent 
-way more time understanding drm_sched, auditing its code, understanding 
-its design intent, trying to fix it, and getting yelled at for it than 
-it would take to write a new, clean, safe Rust scheduler. I don't regret 
-some of the time spent (some of the implementation details of drm_sched 
-have taught me useful things), but I'm not prepared to spend any more, 
-sorry.
-
-~~ Lina
+>
+> ~~ Lina
+>
 
