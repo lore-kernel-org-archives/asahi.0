@@ -1,67 +1,131 @@
-Received: from mail-4325.protonmail.ch (mail-4325.protonmail.ch [185.70.43.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBA91DA2B
-	for <asahi@lists.linux.dev>; Fri,  4 Aug 2023 20:48:06 +0000 (UTC)
-Date: Fri, 04 Aug 2023 20:47:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1691182083; x=1691441283;
-	bh=dVK5thJG/d4WivXGlKQOT3yBXYSFaIU8V67BLTyAtb8=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=WrMiBN4JgBzYbnlldhzOUEst9xyxM54o6kIsL1GtXaGkqVm5cEocmJBXdDtKRn8Lg
-	 Qzk8ONS+yURsMPyghqTePuido4SQW5ifAs+lm5eYtZqKTXIjoJaIX3V9Z7S6VTX/nK
-	 3gDloL6sB0nIYCpymefriFIGgeqnxnml3lm5lKZ9qH6dMAxf/MjxPLW3ic/3tEcEdE
-	 qYIPTs40hsOfP9xltxgCg871XujGp+gERqh8CkKKvjp8ZwSUI0rW6TMqdCFcuo1lMe
-	 XnXPbrgmT908dfTcUE/FAfxThrjErBKp+2wHaR7fWkPsUgDeRIicXfWbg07lzKEBDu
-	 /ytbabGE0JqpQ==
-To: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "asahi@lists.linux.dev" <asahi@lists.linux.dev>
-From: a20line <a20line@proton.me>
-Cc: "arnd@arndb.de" <arnd@arndb.de>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "marcan@marcan.st" <marcan@marcan.st>, "sven@svenpeter.dev" <sven@svenpeter.dev>, "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>
-Subject: Discrepancies in Asahi Linux patch submissions
-Message-ID: <T3ZEuG8R3BUdqIoCdT3Yp_hQSvz4M0zTtZR3teIKQaaxI3VCxOm6QXDzq-Ub46rkpT-v688CZNmBwnjFP2x5LWhMeWUr-rjOdTKrL_L7k50=@proton.me>
-Feedback-ID: 82752623:user:proton
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A320910EA;
+	Sat,  5 Aug 2023 20:36:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8402EC433C7;
+	Sat,  5 Aug 2023 20:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1691267773;
+	bh=HV9N1662vFNg45/injmUeZzoXqqRaYKc6xS67ObhrCE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T8b37KpHrfdrHcPTjbp9eehNf/qy/zQ094uspwpe3knxbV/SAwFyOO+iL6poGeRt5
+	 mmN2THgQL8TANiBbUZTIqmUiv0S7zyq3SAoSc1CzwM7lN991SYLqic8rCimc7bWwRI
+	 Vu7ZXvkbMfRfxqG+wpJINgbL+2KpSYU+uMd2Pk44r5RPsQzRq94XsuoRFZfLcF3djQ
+	 F5MggUSz0nkmmAejuORlF5VcmTYFbpwgyjqW04dzJAO9QAMzfqz5myArTvUzYEHRfd
+	 0AdEI801aM4xbN8FAEhz4+QIYaCxO1e4lYxIngw3YRdHEiuSSaRBpD/K+KyiSmsD0z
+	 8QDHViYep2Zwg==
+Date: Sat, 5 Aug 2023 22:36:10 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Andy Shevchenko <andy@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Alexander Shiyan <shc_work@mail.ru>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Michael Walle <michael@walle.cc>, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Hammer Hsieh <hammerh0314@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Sean Anderson <sean.anderson@seco.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Anjelique Melendez <quic_amelende@quicinc.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Luca Weiss <luca@z3ntu.xyz>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] pwm: Manage owner assignment implicitly for
+ drivers
+Message-ID: <20230805203610.jl7eea2lasmg2as2@intel.intel>
+References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
+ <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
 
-An investigation has uncovered that many Linux patches regarding the Linux =
-on Apple Silicon project, otherwise known as "Asahi Linux", are being submi=
-tted under false pretenses.
+Hi Uwe,
 
-Specifically, the person that calls themselves "Asahi Lina" is actually Hec=
-tor Marcan. There is no such person as "Asahi Lina", and Kernel policy spec=
-ifically prohibits the submission of patches under fake names or anonymous =
-aliases. The developer code of origin states that real names must be used a=
-nd that "pseudonyms or anonymous contributions" are not allowed.
+On Fri, Aug 04, 2023 at 04:27:06PM +0200, Uwe Kleine-König wrote:
+> Instead of requiring each driver to care for assigning the owner member
+> of struct pwm_ops, handle that implicitly using a macro. Note that the
+> owner member has to be moved to struct pwm_chip, as the ops structure
+> usually lives in read-only memory and so cannot be modified.
+> 
+> The upside is that new lowlevel drivers cannot forget the assignment and
+> save one line each. The pwm-crc driver didn't assign .owner, that's not
+> a problem in practise though as the driver cannot be compiled as a
 
-How do we know that Asahi Lina is Hector?
+/practise/practice/
 
-This screencap was taken from one of Asahi Lina's streams: https://files.ca=
-tbox.moe/bcmnmr.png. You can clearly see that he breaks character for a mom=
-ent when he tries to switch his home directory from his "Asahi" persona to =
-his real world identity as Hector Marcan.
+> module.
+> 
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-He has also done streams were he seamlessly transitions from his "Hector" i=
-dentity to his "Asahi Lina" identity, like this one: https://www.youtube.co=
-m/watch?v=3DeffHrj0qmwk (archived: https://ghostarchive.org/varchive/effHrj=
-0qmwk).
+Acked-by: Andi Shyti <andi.shyti@kernel.org> 
 
-Asahi Lina has also made statements such as: "If you want to support my wor=
-k, you can donate to marcan=E2=80=99s Asahi Linux support fund on GitHub Sp=
-onsors or Patreon, which helps me out too!"
-This is only some of the evidence that corroborates to Hector Marcan being =
-Asahi Lina.
-
-Each piece of evidence, on their own, might not mean much. But put together=
- it puts a compelling argument that Asahi Lina *is* Hector Marcan. There ar=
-e countless patches that have been submitted under these false pretenses, s=
-uch as https://lore.kernel.org/asahi/5780e4c4-b0a0-382f-d659-9c4722a3582c@a=
-sahilina.net/ . To ensure fairness in Kernel submission processes, Hector s=
-hould retire the use of the "Asahi Lina" character when it regards to the s=
-ubmission of patches to the Linux Kernel.
+Thanks,
+Andi
