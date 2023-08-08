@@ -1,45 +1,123 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2009A101C9;
-	Mon,  7 Aug 2023 12:28:37 +0000 (UTC)
-Received: from 8bytes.org (pd9fe94eb.dip0.t-ipconnect.de [217.254.148.235])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id D568B2802C0;
-	Mon,  7 Aug 2023 14:28:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1691411317;
-	bh=Zf7mBjtKumP8S/ql7gFmyW5785yudzSFvZ6h4B2GBmw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N+Fusk53UgSQxfDMm5/1mvjjk+EoXfNDGrX1RWXalVYnCZciXaflypYS/1a4YXRIa
-	 no0MzYQ8/XTsXFbV2XYR6EaxLl18vnGCGvESY6Oh6lR7TavG9w86qELIfDwd/IQ5l8
-	 z65tqvKzGMTnZD+9GJJHeCh7Omq1kWiaA4DKtBRZabkx1D0nF1z0zHNyxBSHwqQIHV
-	 W70SfT42fM51+n2Du+dCIoONYmnPl3uWnMt3q0vBk1IToz4HS//OjI3UtMU2hTKRZ/
-	 OPIlfxpmyQea7QuM152P/UrnYUNEd1qW5qG4f+lD0M+CHzjbzSSEI4Q4QFjSTVV2XM
-	 6k6WT0KizjpVA==
-Date: Mon, 7 Aug 2023 14:28:35 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Min-Hua Chen <minhuadotchen@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iommu/apple-dart: mark apple_dart_pm_ops static
-Message-ID: <ZNDjc0XdP9MnNyxr@8bytes.org>
-References: <20230720232155.3923-1-minhuadotchen@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE571097B
+	for <asahi@lists.linux.dev>; Tue,  8 Aug 2023 13:18:42 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-5768a7e3adbso95604487b3.0
+        for <asahi@lists.linux.dev>; Tue, 08 Aug 2023 06:18:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1691500721; x=1692105521;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cCJVGIzRWp3n6+ocRSshdb4+bDJCLF8hHPywBz67DZU=;
+        b=iy7zswmtYx6ZYNzYmCG5rqHRjdv+HqB8GrEKYccjle/8dJ9x1OShHO9OgMow0zFYho
+         RJhCC40wkFuTTf25ecgjND4T7pSlTzynELSybpF4Tq9lm0vpF/1WhH9PVjPDo3D92r0t
+         vE0MwfGWmp5O6GeDRRPpN190ezwOTKyeDzoh+6spHPvGNcXvDC15NYX5Fh6AdODwNh9i
+         u+xgCMzltAjprgtTTXUMnRSMUGU88rU5hQybpWcAAj9weIpW1fiVIhA90pqCkvmL6npO
+         3XYinfPiJb8jbNTnaImLtOznhk/zT3v7clUSSq2VXwojFDvEIz4Ap+Wto2wlmlxEy3FT
+         jTzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691500721; x=1692105521;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cCJVGIzRWp3n6+ocRSshdb4+bDJCLF8hHPywBz67DZU=;
+        b=UjDDun0o4pBbSKA2bC7Xr2YR6OFGcAmI01o3tdu/jZLIrS+pDligDRC39gc+rUuTUQ
+         wP0uMrihLwt/zE0SF+mOxzGHl+2KSH9RUjbifXXZGjjnUcRXMNpstWxe7RyrhlKXLW/C
+         SKmrqHNN/xd6Za/0Rue+WuPu99Fj4gDZUE/yDT2gRONG8ZX5q7qdl9xRwzdM6fzpFeu4
+         cN7aoMbk7y3NxRgSifFxvlZoH+H0FR7OE41aXiiTtyzVkXJQj0hGFNjjzIr+WHhOlJsh
+         dQxciHsQ8kN5bKBRsgEvCd/Vd+LzJIzAs8JPs6FFrgWsaUP788nJ+DOkvG+xD798UtLh
+         JjyQ==
+X-Gm-Message-State: AOJu0YyJ9Q2G0gj2zt1Rz8mXGhNzdG++sRO7gwpEDtPGx3pUwY9vt865
+	AHc0v8+lbvilx//esDBXpv4dGLg0YcQSPz7VLMT7qA==
+X-Google-Smtp-Source: AGHT+IGCQegfute4wq8vuctRCNyh2F9D25HtOrYRCxA1KPyHbK9gB5btAs+lYOVd+Us7kHls2/CFh6KxK9tgT70dyU8=
+X-Received: by 2002:a25:d14e:0:b0:cee:80e:23af with SMTP id
+ i75-20020a25d14e000000b00cee080e23afmr3349036ybg.11.1691500721596; Tue, 08
+ Aug 2023 06:18:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230720232155.3923-1-minhuadotchen@gmail.com>
+References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 8 Aug 2023 15:18:30 +0200
+Message-ID: <CACRpkdZ4OqLywBhCkDmA6bEkf3rfHpCODba9Rhx36fuP8ywt6Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] pwm: Manage owner assignment implicitly for drivers
+To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Andy Shevchenko <andy@kernel.org>, Douglas Anderson <dianders@chromium.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Alexander Shiyan <shc_work@mail.ru>, 
+	Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Paul Cercueil <paul@crapouillou.net>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Conor Dooley <conor.dooley@microchip.com>, Daire McNamara <daire.mcnamara@microchip.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	=?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
+	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>, 
+	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Chunyan Zhang <zhang.lyra@gmail.com>, Fabrice Gasnier <fabrice.gasnier@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, 
+	Hammer Hsieh <hammerh0314@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>, 
+	Michal Simek <michal.simek@amd.com>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Anjelique Melendez <quic_amelende@quicinc.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Luca Weiss <luca@z3ntu.xyz>, 
+	Bjorn Andersson <quic_bjorande@quicinc.com>, linux-pwm@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-leds@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
+	chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org, 
+	linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 21, 2023 at 07:21:54AM +0800, Min-Hua Chen wrote:
-> Signed-off-by: Min-Hua Chen <minhuadotchen@gmail.com>
-> Acked-by: Sven Peter <sven@svenpeter.dev>
+On Fri, Aug 4, 2023 at 4:28=E2=80=AFPM Uwe Kleine-K=C3=B6nig
+<u.kleine-koenig@pengutronix.de> wrote:
 
-Applied, thanks.
+> (implicit) v1 of this series can be found at
+> https://lore.kernel.org/linux-pwm/20230803140633.138165-1-u.kleine-koenig=
+@pengutronix.de .
+>
+> Changes since then only affect documentation that I missed to adapt befor=
+e.
+> Thanks to Laurent for catching that
+>
+> Best regards
+> Uwe
+>
+> Uwe Kleine-K=C3=B6nig (2):
+>   pwm: Manage owner assignment implicitly for drivers
+>   pwm: crc: Allow compilation as module and with COMPILE_TEST
+
+Clearly the right thing to do! Nice patches.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
