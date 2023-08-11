@@ -1,65 +1,109 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E811FB3;
-	Fri, 11 Aug 2023 07:15:16 +0000 (UTC)
-Received: from kwepemi500008.china.huawei.com (unknown [172.30.72.57])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4RMZjr1Ht1zqSdV;
-	Fri, 11 Aug 2023 15:12:16 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 11 Aug
- 2023 15:15:07 +0800
-From: Ruan Jinjie <ruanjinjie@huawei.com>
-To: <perex@perex.cz>, <tiwai@suse.com>, <claudiu.beznea@tuxon.dev>,
-	<lgirdwood@gmail.com>, <broonie@kernel.org>, <nicolas.ferre@microchip.com>,
-	<alexandre.belloni@bootlin.com>, <peda@axentia.se>, <lars@metafoo.de>,
-	<nuno.sa@analog.com>, <povik+lin@cutebit.org>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <samuel@sholland.org>, <robh@kernel.org>,
-	<u.kleine-koenig@pengutronix.de>, <alsa-devel@alsa-project.org>,
-	<linux-arm-kernel@lists.infradead.org>, <asahi@lists.linux.dev>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557141E1C4;
+	Fri, 11 Aug 2023 07:50:01 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 72C5D21872;
+	Fri, 11 Aug 2023 07:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1691740199; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3fZI4ubGx1w5dDIafD7wxZftQKheaAMKXq/LEXkbPbQ=;
+	b=UBlAiTnFydLHlpW0t6OltknqJTgJzP9hwcDRGxM8Ye4l0vsd4bqu3ESVY+4kePN5XZFKul
+	nrttAVzhEl3LiLj8i/uT7qAC5XM7rExA+nAr/P0SjDYkPM3XUld+M9z1MwMMnJooqCp1Iv
+	SKirDRtqqYAMMKlZtpRzJPpv+XPo7WQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1691740199;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3fZI4ubGx1w5dDIafD7wxZftQKheaAMKXq/LEXkbPbQ=;
+	b=EZ4x6JSgn5rCeN0jITX1s7u7T/CVEwhiqEOBiDxd1hjgDNO88skXCcnZaZO17n8hkhBoYG
+	lCzf1uYyuaEVG6Dg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F4091138E2;
+	Fri, 11 Aug 2023 07:49:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 4hsBOibo1WT/bgAAMHmgww
+	(envelope-from <tiwai@suse.de>); Fri, 11 Aug 2023 07:49:58 +0000
+Date: Fri, 11 Aug 2023 09:49:58 +0200
+Message-ID: <87msyyrpax.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Ruan Jinjie <ruanjinjie@huawei.com>
+Cc: <perex@perex.cz>,
+	<tiwai@suse.com>,
+	<claudiu.beznea@tuxon.dev>,
+	<lgirdwood@gmail.com>,
+	<broonie@kernel.org>,
+	<nicolas.ferre@microchip.com>,
+	<alexandre.belloni@bootlin.com>,
+	<peda@axentia.se>,
+	<lars@metafoo.de>,
+	<nuno.sa@analog.com>,
+	<povik+lin@cutebit.org>,
+	<wens@csie.org>,
+	<jernej.skrabec@gmail.com>,
+	<samuel@sholland.org>,
+	<robh@kernel.org>,
+	<u.kleine-koenig@pengutronix.de>,
+	<alsa-devel@alsa-project.org>,
+	<linux-arm-kernel@lists.infradead.org>,
+	<asahi@lists.linux.dev>,
 	<linux-sunxi@lists.linux.dev>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH -next 4/5] ASoC: ssm3515: Remove redundant of_match_ptr()
-Date: Fri, 11 Aug 2023 15:14:25 +0800
-Message-ID: <20230811071426.2343133-5-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230811071426.2343133-1-ruanjinjie@huawei.com>
+Subject: Re: [PATCH -next 5/5] ALSA: Remove redundant of_match_ptr()
+In-Reply-To: <20230811071426.2343133-6-ruanjinjie@huawei.com>
 References: <20230811071426.2343133-1-ruanjinjie@huawei.com>
+	<20230811071426.2343133-6-ruanjinjie@huawei.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.90.53.73]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemi500008.china.huawei.com (7.221.188.139)
-X-CFilter-Loop: Reflected
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 
-The driver depends on CONFIG_OF, it is not necessary to use
-of_match_ptr() here.
+On Fri, 11 Aug 2023 09:14:26 +0200,
+Ruan Jinjie wrote:
+> 
+> The driver depends on CONFIG_OF, it is not necessary to use
+> of_match_ptr() here.
+> 
+> Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
 
-Signed-off-by: Ruan Jinjie <ruanjinjie@huawei.com>
----
- sound/soc/codecs/ssm3515.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
-diff --git a/sound/soc/codecs/ssm3515.c b/sound/soc/codecs/ssm3515.c
-index 008cb3eb5758..8c6665677a17 100644
---- a/sound/soc/codecs/ssm3515.c
-+++ b/sound/soc/codecs/ssm3515.c
-@@ -437,7 +437,7 @@ MODULE_DEVICE_TABLE(of, ssm3515_of_match);
- static struct i2c_driver ssm3515_i2c_driver = {
- 	.driver = {
- 		.name = "ssm3515",
--		.of_match_table = of_match_ptr(ssm3515_of_match),
-+		.of_match_table = ssm3515_of_match,
- 	},
- 	.probe = ssm3515_i2c_probe,
- };
--- 
-2.34.1
 
+thanks,
+
+Takashi
+
+> ---
+>  sound/drivers/serial-generic.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/drivers/serial-generic.c b/sound/drivers/serial-generic.c
+> index b0262541802a..c8db6c75d133 100644
+> --- a/sound/drivers/serial-generic.c
+> +++ b/sound/drivers/serial-generic.c
+> @@ -366,7 +366,7 @@ MODULE_DEVICE_TABLE(of, snd_serial_generic_dt_ids);
+>  static struct serdev_device_driver snd_serial_generic_driver = {
+>  	.driver	= {
+>  		.name		= "snd-serial-generic",
+> -		.of_match_table	= of_match_ptr(snd_serial_generic_dt_ids),
+> +		.of_match_table	= snd_serial_generic_dt_ids,
+>  	},
+>  	.probe	= snd_serial_generic_probe,
+>  };
+> -- 
+> 2.34.1
+> 
