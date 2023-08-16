@@ -1,101 +1,117 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DFB2CA9
-	for <asahi@lists.linux.dev>; Wed, 16 Aug 2023 08:06:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1692173203;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5NYlQ6R+ho+fnJBrOKcQIXp+73Tu96nMnvzgk7T5vh8=;
-	b=AytO6yyvOT1ZdKR2+5zYXnf+EA14PlogtPlhdBpvTU0i7xWXOsvSIhMy4/ZyD97Mg7E+r3
-	FH8mzZpfDNymJdEKxhiIDMHmT8gE1mWuo6LH3i+/vk8gEl6rcc8PP9q1EE30qIyx0zobKZ
-	cjJVnN85qp6v8pTryJ2BfgWZD5NAyms=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-110-vi1VwlV9OV-8wTc0faqmKw-1; Wed, 16 Aug 2023 04:06:41 -0400
-X-MC-Unique: vi1VwlV9OV-8wTc0faqmKw-1
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-6bc56f23c65so7651344a34.2
-        for <asahi@lists.linux.dev>; Wed, 16 Aug 2023 01:06:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692173201; x=1692778001;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5NYlQ6R+ho+fnJBrOKcQIXp+73Tu96nMnvzgk7T5vh8=;
-        b=arq2ZfHOdUqVjs+dVheIRIaNOsFlMejvKnFce9QHRkILYWUBJPMwgFtaXfr7GeTK0l
-         rIvQ/JKMz/s7y1S0Io4pJt34XDWpJHw9Aq8eCed4Wv9unUpDxXDxlQbrDC9/F83uhcxi
-         OPsyOt6DjZ3cmcgcpCDlqig9efwzqxOpKhswO+5sxo5+LnI/mbUSoFiDz6af1UrBBOCX
-         F5ohZNbokJtVAtyQg7//jexe1sIcRCmhWZiLZjjFjk/jd/k3iT6pLBUdLSbbnmeSFtCD
-         Bt081zgfp9bb5uXV1poVYJxIfmAPP6NwLituJEzcuYaOBlLo5i3fzem3CpD8XAzm9iRa
-         S3RQ==
-X-Gm-Message-State: AOJu0YzBjPuR25mEapNoDsamkTV9c9IgCKtgBbWGOxQMWycCAnJjjcvy
-	iEnpwM5PMVo8Z4eiLOmvQlkdz11AD+MZln4p1cPLocsAcXuCowIeCOn8AqlgvNTHbSZa+dqIzlC
-	HFYnztqdbmZNOkNQu1oK7ZL+0Jur/5lQ=
-X-Received: by 2002:a9d:628d:0:b0:6bc:e2a8:6e3c with SMTP id x13-20020a9d628d000000b006bce2a86e3cmr915276otk.27.1692173201207;
-        Wed, 16 Aug 2023 01:06:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFDuIz1EwHRFYsD4wfjIgmt5dQC6InhDDyFofPxDmWddYppthFgY97S2EkA9DbP9cOF0JyGraczcOEAMvex21w=
-X-Received: by 2002:a9d:628d:0:b0:6bc:e2a8:6e3c with SMTP id
- x13-20020a9d628d000000b006bce2a86e3cmr915269otk.27.1692173200996; Wed, 16 Aug
- 2023 01:06:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AF05CBC
+	for <asahi@lists.linux.dev>; Wed, 16 Aug 2023 11:04:10 +0000 (UTC)
+Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
+	id 1qWEJt-00EAYb-2i
+	for asahi@lists.linux.dev;
+	Wed, 16 Aug 2023 06:04:09 -0500
+X-Failed-Recipients: asahi@lists.linux.dev
+Auto-Submitted: auto-replied
+From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
+To: asahi@lists.linux.dev
+References: <20230816120406.444E5852DC7BE3EF@lists.linux.dev>
+Content-Type: multipart/report; report-type=delivery-status; boundary=1692183849-eximdsn-2096302883
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230816014449.2988332-1-liaoyu15@huawei.com>
-In-Reply-To: <20230816014449.2988332-1-liaoyu15@huawei.com>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Wed, 16 Aug 2023 09:06:04 +0100
-Message-ID: <CAOgh=FxNtyrh9k1V-QgZDvcR9cSK2wJmg2hus_wj8fcO0GJR_A@mail.gmail.com>
-Subject: Re: [PATCH -next] soc: apple: rtkit: Use PTR_ERR_OR_ZERO() to
- simplify code
-To: Yu Liao <liaoyu15@huawei.com>
-Cc: marcan@marcan.st, sven@svenpeter.dev, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, liwei391@huawei.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Subject: Mail delivery failed: returning message to sender
+Message-Id: <E1qWEJt-00EAYb-2i@ns-196.awsdns-24.com>
+Date: Wed, 16 Aug 2023 06:04:09 -0500
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - 
+X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
+X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
 
-On Wed, 16 Aug 2023 at 02:54, Yu Liao <liaoyu15@huawei.com> wrote:
->
-> Return PTR_ERR_OR_ZERO() instead of return 0 or PTR_ERR() to
-> simplify code.
->
-> Signed-off-by: Yu Liao <liaoyu15@huawei.com>
+--1692183849-eximdsn-2096302883
+Content-type: text/plain; charset=us-ascii
 
-Yup, same thing, more concise.
+This message was created automatically by mail delivery software.
 
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+A message that you sent could not be delivered to one or more of its
+recipients. This is a permanent error. The following address(es) failed:
 
-Is mise le meas/Regards,
+  asahi@lists.linux.dev
+    host smtp.subspace.kernel.org [44.238.234.78]
+    SMTP error from remote mail server after end of data:
+    550 5.7.1 Blocked by SpamAssassin
 
-Eric Curtin
+--1692183849-eximdsn-2096302883
+Content-type: message/delivery-status
 
-> ---
->  drivers/soc/apple/rtkit.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
-> index d9f19dc99da5..9ad4f2bd05e9 100644
-> --- a/drivers/soc/apple/rtkit.c
-> +++ b/drivers/soc/apple/rtkit.c
-> @@ -706,9 +706,7 @@ static int apple_rtkit_request_mbox_chan(struct apple_rtkit *rtk)
->                 rtk->mbox_chan =
->                         mbox_request_channel(&rtk->mbox_cl, rtk->mbox_idx);
->
-> -       if (IS_ERR(rtk->mbox_chan))
-> -               return PTR_ERR(rtk->mbox_chan);
-> -       return 0;
-> +       return PTR_ERR_OR_ZERO(rtk->mbox_chan);
->  }
->
->  struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
-> --
-> 2.25.1
->
->
+Reporting-MTA: dns; ns-196.awsdns-24.com
 
+Action: failed
+Final-Recipient: rfc822;asahi@lists.linux.dev
+Status: 5.0.0
+Remote-MTA: dns; smtp.subspace.kernel.org
+Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
+
+--1692183849-eximdsn-2096302883
+Content-type: message/rfc822
+
+Return-path: <asahi@lists.linux.dev>
+Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:53308)
+	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <asahi@lists.linux.dev>)
+	id 1qWEJr-00E9ef-2C
+	for asahi@lists.linux.dev;
+	Wed, 16 Aug 2023 06:04:07 -0500
+From: lists.linux.devAdministrator<asahi@lists.linux.dev>
+To: asahi@lists.linux.dev
+Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
+Date: 16 Aug 2023 12:04:06 +0100
+Message-ID: <20230816120406.444E5852DC7BE3EF@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+
+<html><head><title></title>
+<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+</head>
+<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
+or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
+/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
+ined Messages Report</b> </font>&nbsp;</font><br>asahi@lists.linux.dev<div>=
+16-08-2023, 08:00AM <br>&nbsp;<br>Dear asahi,</div><div><br>
+4 messages addressed to you are currently on hold awaiting your further act=
+ion. You can release all of your held messages and permit or block future e=
+mails from the senders, or manage messages individually.<br><br>
+<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
+nxX?clientID=3Dasahi@lists.linux.dev" target=3D"_blank" data-saferedirectur=
+l=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D=
+%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX=
+-xB2LHrk7CvessvAOsg">Review all</a>
+&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
+cFJkycxN8DaPanxX?clientID=3Dasahi@lists.linux.dev" target=3D"_blank" data-s=
+aferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B=
+%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAF=
+QjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
+&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
+bcFJkycxN8DaPanxX?clientID=3Dasahi@lists.linux.dev" target=3D"_blank" data-=
+saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5=
+B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DA=
+FQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Information=
+: <br>
+To view your entire quarantine inbox or manage your preferences, <a href=3D=
+"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
+ID=3Dasahi@lists.linux.dev" target=3D"_blank" data-saferedirecturl=3D"https=
+://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&amp;so=
+urce=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2LHrk7C=
+vessvAOsg">Click Here</a><br><br>The system generated this notice on 16-08-=
+2023, at 09:00AM<br>Do not reply to this automated message.<br>
+&copy; 2023 lists.linux.dev. All rights reserved.</div></div>
+</body></html>
+
+--1692183849-eximdsn-2096302883--
