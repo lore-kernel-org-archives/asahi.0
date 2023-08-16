@@ -1,227 +1,59 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53308BF8
-	for <asahi@lists.linux.dev>; Mon, 14 Aug 2023 07:41:27 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3524894f8f.0
-        for <asahi@lists.linux.dev>; Mon, 14 Aug 2023 00:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1691998886; x=1692603686;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=zitqku576TZpQnQPr3Oh2ohHuEFbeZPBBxEvo1sZc+Q=;
-        b=c2ibWsrtxlpOl2l93H8I7dwO30O1xssdh4p/RrE2q8N2J8sUQOiLfPy4jrHUDNecWQ
-         B9Xl7UbuevI0/fpeC3Cqz4JjJBdAc1fM3Sx+NRxxOWZwKyMRK3wSy1FRjBCN1vRcCJ3V
-         iNaGpXWAcpuPTu7ilq8+T4iAp1Du1dTft6ZdWvtZ4YteQjS4RMAl8rEkUzkK3U48fPQ3
-         Ta+6PDHsz/O7Bxk8FyAYZKsv9wLW0hBYeG+zmWBSRbPB9cFQZwP3sWc7W4O0II/GdFDH
-         XLs0zYerpdo1H3GjEXSiYzl+d1vN7CnfVNDwP6MnTibEClBZjnwlup1Vh8wpi7JEvqyE
-         zjQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691998886; x=1692603686;
-        h=content-transfer-encoding:in-reply-to:organization:references:cc:to
-         :content-language:subject:reply-to:from:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zitqku576TZpQnQPr3Oh2ohHuEFbeZPBBxEvo1sZc+Q=;
-        b=I/x64/UG7VynU4Ncp6OBb22yBBmuPr6i+RduRNH162rIrB0qOQgwrDSdHFi0CuvH9N
-         xa8Qg3GFyy/bY5Shfemzu82osHSP07XaEJo232YtAh8VlfY8gyZUUi970uaC0CT52flN
-         5zf41DpBrpGIB34MiQbqPGVUwUeQjcUaGesCYJTMGmeEx85+BGetc2SxxWd0URMUvmFA
-         henpiKSIBwprYidedrDXvT/RREp3AayQZV+MvFbZfyWISvAee8H5QSsG5lEq8F52RhNC
-         uMzKYildV70kf1MrIpr0Ry2rLzc1eSapR5MtT90UUdk0QZ7wg15ibg7AEMm818iPU0a/
-         Wtrg==
-X-Gm-Message-State: AOJu0YwSrA8nV/bQ4ru5/RXdRWctSYSdnYLU3fMDffxqLqeNCkwC0FMC
-	CJDl7DC6ZT8nwLRoHBEKOHw16g==
-X-Google-Smtp-Source: AGHT+IFYfAjXxtZPBAO6xzW1e3FH1h7mkoQ3yNtVsbL8sLdvSW5eTgH/X76mW18QMBp5iOQDIcXGqw==
-X-Received: by 2002:adf:ee87:0:b0:317:5e0d:c249 with SMTP id b7-20020adfee87000000b003175e0dc249mr6776837wro.35.1691998885785;
-        Mon, 14 Aug 2023 00:41:25 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0? ([2a01:e0a:982:cbb0:a3d8:b217:d82c:9bc0])
-        by smtp.gmail.com with ESMTPSA id k3-20020a5d6283000000b00317643a93f4sm13507243wru.96.2023.08.14.00.41.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Aug 2023 00:41:25 -0700 (PDT)
-Message-ID: <81500a13-0fed-e9d4-7f51-552b888a98e1@linaro.org>
-Date: Mon, 14 Aug 2023 09:41:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AAC07F0
+	for <asahi@lists.linux.dev>; Wed, 16 Aug 2023 01:48:10 +0000 (UTC)
+Received: from dggpeml500003.china.huawei.com (unknown [172.30.72.53])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4RQWCK6tClzNmY6;
+	Wed, 16 Aug 2023 09:44:29 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by dggpeml500003.china.huawei.com
+ (7.185.36.200) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 16 Aug
+ 2023 09:48:01 +0800
+From: Yu Liao <liaoyu15@huawei.com>
+To: <marcan@marcan.st>, <sven@svenpeter.dev>, <alyssa@rosenzweig.io>,
+	<asahi@lists.linux.dev>
+CC: <liaoyu15@huawei.com>, <liwei391@huawei.com>
+Subject: [PATCH -next] soc: apple: rtkit: Use PTR_ERR_OR_ZERO() to simplify code
+Date: Wed, 16 Aug 2023 09:44:49 +0800
+Message-ID: <20230816014449.2988332-1-liaoyu15@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v2 1/2] pwm: Manage owner assignment implicitly for
- drivers
-Content-Language: en-US
-To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Andy Shevchenko <andy@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Alexander Shiyan <shc_work@mail.ru>, Benson Leung <bleung@chromium.org>,
- Guenter Roeck <groeck@chromium.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Paul Cercueil <paul@crapouillou.net>, Vladimir Zapolskiy <vz@mleia.com>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Conor Dooley <conor.dooley@microchip.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
- Heiko Stuebner <heiko@sntech.de>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Michael Walle <michael@walle.cc>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Hammer Hsieh <hammerh0314@gmail.com>, Jonathan Hunter
- <jonathanh@nvidia.com>, Nobuhiro Iwamatsu
- <nobuhiro1.iwamatsu@toshiba.co.jp>, Sean Anderson <sean.anderson@seco.com>,
- Michal Simek <michal.simek@amd.com>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Anjelique Melendez <quic_amelende@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
- Bjorn Andersson <quic_bjorande@quicinc.com>, linux-pwm@vger.kernel.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-leds@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- chrome-platform@lists.linux.dev, linux-mips@vger.kernel.org,
- linux-amlogic@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-References: <20230804142707.412137-1-u.kleine-koenig@pengutronix.de>
- <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
-Organization: Linaro Developer Services
-In-Reply-To: <20230804142707.412137-2-u.kleine-koenig@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpeml500003.china.huawei.com (7.185.36.200)
+X-CFilter-Loop: Reflected
 
-On 04/08/2023 16:27, Uwe Kleine-König wrote:
-> Instead of requiring each driver to care for assigning the owner member
-> of struct pwm_ops, handle that implicitly using a macro. Note that the
-> owner member has to be moved to struct pwm_chip, as the ops structure
-> usually lives in read-only memory and so cannot be modified.
-> 
-> The upside is that new lowlevel drivers cannot forget the assignment and
-> save one line each. The pwm-crc driver didn't assign .owner, that's not
-> a problem in practise though as the driver cannot be compiled as a
-> module.
-> 
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->   drivers/gpio/gpio-mvebu.c             |  1 -
->   drivers/gpu/drm/bridge/ti-sn65dsi86.c |  1 -
->   drivers/leds/rgb/leds-qcom-lpg.c      |  1 -
->   drivers/pwm/core.c                    | 24 ++++++++++++++----------
->   drivers/pwm/pwm-ab8500.c              |  1 -
->   drivers/pwm/pwm-apple.c               |  1 -
->   drivers/pwm/pwm-atmel-hlcdc.c         |  1 -
->   drivers/pwm/pwm-atmel-tcb.c           |  1 -
->   drivers/pwm/pwm-atmel.c               |  1 -
->   drivers/pwm/pwm-bcm-iproc.c           |  1 -
->   drivers/pwm/pwm-bcm-kona.c            |  1 -
->   drivers/pwm/pwm-bcm2835.c             |  1 -
->   drivers/pwm/pwm-berlin.c              |  1 -
->   drivers/pwm/pwm-brcmstb.c             |  1 -
->   drivers/pwm/pwm-clk.c                 |  1 -
->   drivers/pwm/pwm-clps711x.c            |  1 -
->   drivers/pwm/pwm-cros-ec.c             |  1 -
->   drivers/pwm/pwm-dwc.c                 |  1 -
->   drivers/pwm/pwm-ep93xx.c              |  1 -
->   drivers/pwm/pwm-fsl-ftm.c             |  1 -
->   drivers/pwm/pwm-hibvt.c               |  1 -
->   drivers/pwm/pwm-img.c                 |  1 -
->   drivers/pwm/pwm-imx-tpm.c             |  1 -
->   drivers/pwm/pwm-imx1.c                |  1 -
->   drivers/pwm/pwm-imx27.c               |  1 -
->   drivers/pwm/pwm-intel-lgm.c           |  1 -
->   drivers/pwm/pwm-iqs620a.c             |  1 -
->   drivers/pwm/pwm-jz4740.c              |  1 -
->   drivers/pwm/pwm-keembay.c             |  1 -
->   drivers/pwm/pwm-lp3943.c              |  1 -
->   drivers/pwm/pwm-lpc18xx-sct.c         |  1 -
->   drivers/pwm/pwm-lpc32xx.c             |  1 -
->   drivers/pwm/pwm-lpss.c                |  1 -
->   drivers/pwm/pwm-mediatek.c            |  1 -
->   drivers/pwm/pwm-meson.c               |  1 -
+Return PTR_ERR_OR_ZERO() instead of return 0 or PTR_ERR() to
+simplify code.
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org> # pwm-meson
+Signed-off-by: Yu Liao <liaoyu15@huawei.com>
+---
+ drivers/soc/apple/rtkit.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
->   drivers/pwm/pwm-microchip-core.c      |  1 -
->   drivers/pwm/pwm-mtk-disp.c            |  1 -
->   drivers/pwm/pwm-mxs.c                 |  1 -
->   drivers/pwm/pwm-ntxec.c               |  1 -
->   drivers/pwm/pwm-omap-dmtimer.c        |  1 -
->   drivers/pwm/pwm-pca9685.c             |  1 -
->   drivers/pwm/pwm-pxa.c                 |  1 -
->   drivers/pwm/pwm-raspberrypi-poe.c     |  1 -
->   drivers/pwm/pwm-rcar.c                |  1 -
->   drivers/pwm/pwm-renesas-tpu.c         |  1 -
->   drivers/pwm/pwm-rockchip.c            |  1 -
->   drivers/pwm/pwm-rz-mtu3.c             |  1 -
->   drivers/pwm/pwm-samsung.c             |  1 -
->   drivers/pwm/pwm-sifive.c              |  1 -
->   drivers/pwm/pwm-sl28cpld.c            |  1 -
->   drivers/pwm/pwm-spear.c               |  1 -
->   drivers/pwm/pwm-sprd.c                |  1 -
->   drivers/pwm/pwm-sti.c                 |  1 -
->   drivers/pwm/pwm-stm32-lp.c            |  1 -
->   drivers/pwm/pwm-stm32.c               |  1 -
->   drivers/pwm/pwm-stmpe.c               |  1 -
->   drivers/pwm/pwm-sun4i.c               |  1 -
->   drivers/pwm/pwm-sunplus.c             |  1 -
->   drivers/pwm/pwm-tegra.c               |  1 -
->   drivers/pwm/pwm-tiecap.c              |  1 -
->   drivers/pwm/pwm-tiehrpwm.c            |  1 -
->   drivers/pwm/pwm-twl-led.c             |  2 --
->   drivers/pwm/pwm-twl.c                 |  2 --
->   drivers/pwm/pwm-visconti.c            |  1 -
->   drivers/pwm/pwm-vt8500.c              |  1 -
->   drivers/pwm/pwm-xilinx.c              |  1 -
->   drivers/staging/greybus/pwm.c         |  1 -
->   include/linux/pwm.h                   | 10 ++++++----
->   68 files changed, 20 insertions(+), 82 deletions(-)
-> 
-
-<snip>
-
-> diff --git a/drivers/pwm/pwm-meson.c b/drivers/pwm/pwm-meson.c
-> index 25519cddc2a9..5bea53243ed2 100644
-> --- a/drivers/pwm/pwm-meson.c
-> +++ b/drivers/pwm/pwm-meson.c
-> @@ -335,7 +335,6 @@ static const struct pwm_ops meson_pwm_ops = {
->   	.free = meson_pwm_free,
->   	.apply = meson_pwm_apply,
->   	.get_state = meson_pwm_get_state,
-> -	.owner = THIS_MODULE,
->   };
->   
->   static const char * const pwm_meson8b_parent_names[] = {
-
-<snip>
+diff --git a/drivers/soc/apple/rtkit.c b/drivers/soc/apple/rtkit.c
+index d9f19dc99da5..9ad4f2bd05e9 100644
+--- a/drivers/soc/apple/rtkit.c
++++ b/drivers/soc/apple/rtkit.c
+@@ -706,9 +706,7 @@ static int apple_rtkit_request_mbox_chan(struct apple_rtkit *rtk)
+ 		rtk->mbox_chan =
+ 			mbox_request_channel(&rtk->mbox_cl, rtk->mbox_idx);
+ 
+-	if (IS_ERR(rtk->mbox_chan))
+-		return PTR_ERR(rtk->mbox_chan);
+-	return 0;
++	return PTR_ERR_OR_ZERO(rtk->mbox_chan);
+ }
+ 
+ struct apple_rtkit *apple_rtkit_init(struct device *dev, void *cookie,
+-- 
+2.25.1
 
