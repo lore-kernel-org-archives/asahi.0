@@ -1,43 +1,44 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E581C287
-	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:05 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-565f58f4db5so316691a12.0
-        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5961C294
+	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:06 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-68866e64bceso263594b3a.3
+        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1692316745; x=1692921545;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vdyN/fj86XQDqOrrbJ+rbs9RYAU+LL5JiAfmLxUgxMI=;
-        b=oBAxpd/FRve5XlrsrxBsKrpB9KrQpqxMLqtzRew+3AXlkD3fhn6Z/EWeioXVIsD6kj
-         3UN9nAIQlgnxjePwywSbPfWa9tfyA8y/aDDAQVK3PTHWjac9q1kudJxi0AAh+o2xrvjm
-         PvMz6QfhB+OTlJil0oC0LSXa2xCQpDnGbbsRQ=
+        bh=dBjA6KErHDu0Uq7ocuNM+LgPWR0uNQWWk8bvJOF1pHA=;
+        b=ipztNTVV3yAPojkuInZpeWP55VSHmCKMjx7Qw3GONj5VQVfyNCIgFM+g/LHs8z+Hpj
+         mvoPqpGTxMMOouc1tIoedViD6LGP0PvFCe5rYSoNm3ANbBT1TrL/LATtS/QqzzC46abi
+         T4wZKcYxOxH5lsvuitKrmsY0fxRQPS5Jzk5pE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1692316745; x=1692921545;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vdyN/fj86XQDqOrrbJ+rbs9RYAU+LL5JiAfmLxUgxMI=;
-        b=k67o/ZrqVQwjwIGxfFzMyMp33qxAjKs/483wBhTLRfeEg/KWT8xhD5h+pGqEF/49Co
-         mkJZwUQItzpzXWAlq7ldppej92OkMCDI/8bLf7Mf7a9vz9qS9Bk0mY7aAjj/K8f2mfRq
-         QYU5go4bYlXOTDgxV56ryN69MPja+pWz3UIqaPKHKEylfH2k7ziLydp8lacPBOxrkBhK
-         MPsIOeFR5WWuds8A/r0BjojIqgy4O+ZRwUTWyOVFX5v45sST3GhtDHX9pv3JfGQK9pqd
-         /tv+2ern6xilsGcNY18KUqUfY5CJEQBXngvhJGmzRUseZ7zD5x1lWMjpf3kMuDWK1ZR6
-         501w==
-X-Gm-Message-State: AOJu0Yw40G8w1q4SULfN95CrO7XvyeRXcN3Mpokfpjokn5Gg0uNnNPyS
-	giYrRncjwxmTmcScCTX2jODNKw==
-X-Google-Smtp-Source: AGHT+IFLA/CIxbmsvmuWSrpKDShZC6V6vXLs3lxX1Dmv57MIgyNPYM0mdX/sp44i54mRWraeoWHmIg==
-X-Received: by 2002:a17:90b:3ecb:b0:268:1f64:cefc with SMTP id rm11-20020a17090b3ecb00b002681f64cefcmr735024pjb.49.1692316744997;
-        Thu, 17 Aug 2023 16:59:04 -0700 (PDT)
+        bh=dBjA6KErHDu0Uq7ocuNM+LgPWR0uNQWWk8bvJOF1pHA=;
+        b=A0uzEeK66a4VMfpw9YeJfvcfHD7u7DKDETHEc6hhpDS/NLY8KGhdpfq5kPcaUIvsJb
+         gO9jvsRSWPi21cBwk32UW2cNsDK/2I97CbVk9w4MRMQTmqNAcnlrVvxD8CURGQjnigdF
+         r6MeTFCT0NFx4B/bk3DfWtUPZNiHjO/VrcfX7j3HeRl0Nb2byeD6JRoy2wUIGnYzS0gi
+         /LLjS+YRY5oWh75KIT/VVGiqJoYtRD1FPDx9aJXF6x6gKLWFYWaX3gioSdizj87Heuew
+         U6sle+W1qhGdXxjWKoMdagO8dkodDYTsziIoAsSBKbREp6DLw01rmXoRxs6v7z3wy/+e
+         BdHQ==
+X-Gm-Message-State: AOJu0YzQDde9xmK8clxdTXqsTcqaNj4bt+cPHL3aJ0TQMqhQXYVCynuW
+	AjBAd7j6YlA8cvDOGi19DeGtNA==
+X-Google-Smtp-Source: AGHT+IER/QCxL/LyPPuwtZ5fJJ0VY7Pw/rhGOAVFZGQWf10lLKJNQ6c96NXosk6/Ent/I/AwzA7fWQ==
+X-Received: by 2002:a05:6a00:cce:b0:686:5a11:a434 with SMTP id b14-20020a056a000cce00b006865a11a434mr1288402pfv.3.1692316745516;
+        Thu, 17 Aug 2023 16:59:05 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id 30-20020a17090a001e00b00263b9e75aecsm374450pja.41.2023.08.17.16.59.01
+        by smtp.gmail.com with ESMTPSA id j19-20020a62b613000000b00686dd062207sm303138pff.150.2023.08.17.16.59.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 17 Aug 2023 16:59:03 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Vinod Koul <vkoul@kernel.org>
 Cc: Kees Cook <keescook@chromium.org>,
+	Green Wan <green.wan@sifive.com>,
 	dmaengine@vger.kernel.org,
 	Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -50,7 +51,6 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Andy Gross <agross@kernel.org>,
 	Bjorn Andersson <andersson@kernel.org>,
 	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Green Wan <green.wan@sifive.com>,
 	Orson Zhai <orsonzhai@gmail.com>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	Chunyan Zhang <zhang.lyra@gmail.com>,
@@ -78,9 +78,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-tegra@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 06/21] dmaengine: moxart-dma: Annotate struct moxart_desc with __counted_by
-Date: Thu, 17 Aug 2023 16:58:43 -0700
-Message-Id: <20230817235859.49846-6-keescook@chromium.org>
+Subject: [PATCH 09/21] dmaengine: sf-pdma: Annotate struct sf_pdma with __counted_by
+Date: Thu, 17 Aug 2023 16:58:46 -0700
+Message-Id: <20230817235859.49846-9-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230817235428.never.111-kees@kernel.org>
 References: <20230817235428.never.111-kees@kernel.org>
@@ -90,19 +90,19 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1707; i=keescook@chromium.org;
- h=from:subject; bh=w8ccArCK59lLgZlEqE1v4MzImMqgGYgm/+wOZMSMxlo=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRAGAtj6QDi3SIiqD7IGrGC/+0Gb9g0S4VM8
- u1mMmM3RH+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QAAKCRCJcvTf3G3A
- JqYDD/9/+1NFbYoLFAkSnMt+6wz7PrKIBUx8STNwFYd5uLkUDOxm+oYRPkP4DFdI1hDEam8anpu
- y9+IVtxhhyEqt/4mNDt8+9FNBIhzcvuNJuJpJ0nFALFYv8nhl13P/zs7SQ1xyHCLGToHg3qIUQY
- unQgnT0GPGBhgoqd0PlT9GoIPLWgvAopUg58S0v0OIzsgJWZO1gDpLLVfTiaEkysoR4QaIyY0Tf
- 4HuqwDb3Wg0PUlSxnMi8WoIvZ23/AsEOEHerD8XkZKM+2AH2MTl54S6lJTH1xnz7xXNUa1jB3c9
- PvD1AuoczbYJ4PTTeVOqvkENjm2GG3ToHGqlGDsRGOFX8cqhCjbvPFR+6rgPWn7akaROfbszdzT
- AlNECT/TCNDtS+oXRgchrXfLns90wz9SiNpXVuxnWVVWNNMcc5GctK+cRF9c7+kOJTphcbDS5QI
- bpisH48oEtOPOZQO5iS/ucJ4tuFlKmA9+1EY4QYSUcr9N0Og/+Sz6AV5qbQyY8Cd4z/KF3g1jK8
- RF4QrfyW7zK+r0nIhITM2Ldoh2wTEn6/g6WbgST49AoGB/zXJJgLnveuswjG5rP4s8k7Aeo5XC9
- VNR067SFeZAGtJCkpUEAXZ1KYjafWfD7xO5/9mQhxYrn2vBkjwlhsNRz6alIogRUVGo2AbOldIj PpoxZOFiyCFqmxQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1179; i=keescook@chromium.org;
+ h=from:subject; bh=dwauH20Q6xP+4LjfvKyJpROFf0PoQOEsyr9XswCqTTo=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRAkodXaKGN3V1cUAy87CQjDpadxCYl1kOBd
+ DBX6VSqtKqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QAAKCRCJcvTf3G3A
+ JhaWD/0XQBG0IAu8uYIo6t2lBljNvRssqu8rPbwygr+clzyF6mT4ykHSqyehzafLdrnxfXUPnQy
+ 7BXo7qTX/oOe1mMmwnZYjE73otVC/9AG7HD+0i1rpKjSIX1y0le1b27SkDT1VdkFNlTusQCkHFg
+ N3qVIdjMWBWwJkTzFR9rfsDQ6XzoTOw905VArPKp6G9jxz7DuCezAKXTuv4BpHoiKAZDDh2vuLz
+ enaGQRuFi2KS4XamCm/yHnJAuch2CCUiMdV67KWMK21AjDP+MBiMpySm50hyDgoa+xj7Luu0FFE
+ qsPtCNeN4wS0lLVMcqh7o8Trt0KEmujaOHtO7RTEoaMPkF5tDXDbc6VRyZTmQ6mtSfZ7nwzqhCi
+ 1PW3zrheQxQAES85LM8xFRwN9g+ziQ36L5iJzjYXN0KBMovPVI0h7NiFtKGVCh7ky3Jljdi9Ukv
+ Alk4rWFr8Za6dePWPce8DRR6N5QhqfRajF8DekFiE3w38UdfEjjTY1xybDZ2AogeV7rkyLtxPyc
+ 3a6W2kiYw8Z7qmcKgsC5yF//aE5NhmtceubIVx0OhZwyljwhIJfjee+SSLqXrFmkeyn42jMoxKx
+ Pa7DzAc6Kq8z1tUF8leTymViabKoo6SP81mWA3tXaPNpW0RNU6FkA5BfjD1MQgRH4Y3D0t14ieo fgf64ePLeCeyjxg==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -112,49 +112,31 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct moxart_desc.
-Additionally, since the element count member must be set before accessing
-the annotated flexible array member, move its initialization earlier.
+As found with Coccinelle[1], add __counted_by for struct sf_pdma.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
 Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Green Wan <green.wan@sifive.com>
 Cc: dmaengine@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/dma/moxart-dma.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/dma/sf-pdma/sf-pdma.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma/moxart-dma.c b/drivers/dma/moxart-dma.c
-index 7565ad98ba66..c1dd5716a46d 100644
---- a/drivers/dma/moxart-dma.c
-+++ b/drivers/dma/moxart-dma.c
-@@ -124,7 +124,7 @@ struct moxart_desc {
- 	unsigned int			dma_cycles;
- 	struct virt_dma_desc		vd;
- 	uint8_t				es;
--	struct moxart_sg		sg[];
-+	struct moxart_sg		sg[] __counted_by(sglen);
+diff --git a/drivers/dma/sf-pdma/sf-pdma.h b/drivers/dma/sf-pdma/sf-pdma.h
+index 5c398a83b491..d05772b5d8d3 100644
+--- a/drivers/dma/sf-pdma/sf-pdma.h
++++ b/drivers/dma/sf-pdma/sf-pdma.h
+@@ -113,7 +113,7 @@ struct sf_pdma {
+ 	void __iomem            *membase;
+ 	void __iomem            *mappedbase;
+ 	u32			n_chans;
+-	struct sf_pdma_chan	chans[];
++	struct sf_pdma_chan	chans[] __counted_by(n_chans);
  };
  
- struct moxart_chan {
-@@ -309,6 +309,7 @@ static struct dma_async_tx_descriptor *moxart_prep_slave_sg(
- 	d = kzalloc(struct_size(d, sg, sg_len), GFP_ATOMIC);
- 	if (!d)
- 		return NULL;
-+	d->sglen = sg_len;
- 
- 	d->dma_dir = dir;
- 	d->dev_addr = dev_addr;
-@@ -319,8 +320,6 @@ static struct dma_async_tx_descriptor *moxart_prep_slave_sg(
- 		d->sg[i].len = sg_dma_len(sgent);
- 	}
- 
--	d->sglen = sg_len;
--
- 	ch->error = 0;
- 
- 	return vchan_tx_prep(&ch->vc, &d->vd, tx_flags);
+ #endif /* _SF_PDMA_H */
 -- 
 2.34.1
 
