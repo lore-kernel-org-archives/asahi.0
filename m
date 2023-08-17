@@ -1,117 +1,146 @@
-Received: from chg.server2.ideacentral.com (unknown [108.163.232.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AF05CBC
-	for <asahi@lists.linux.dev>; Wed, 16 Aug 2023 11:04:10 +0000 (UTC)
-Received: from mailnull by ns-196.awsdns-24.com with local (Exim 4.96)
-	id 1qWEJt-00EAYb-2i
-	for asahi@lists.linux.dev;
-	Wed, 16 Aug 2023 06:04:09 -0500
-X-Failed-Recipients: asahi@lists.linux.dev
-Auto-Submitted: auto-replied
-From: Mail Delivery System <Mailer-Daemon@ns-196.awsdns-24.com>
-To: asahi@lists.linux.dev
-References: <20230816120406.444E5852DC7BE3EF@lists.linux.dev>
-Content-Type: multipart/report; report-type=delivery-status; boundary=1692183849-eximdsn-2096302883
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D611BB58
+	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:01 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1bf0b24d925so2811455ad.3
+        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1692316740; x=1692921540;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KnDKyGKtXCldI9QXtpCv/6I5lmu0QC4pcInlXQTO858=;
+        b=DAWnaYSCcJsZ2VJyNMzhkr9UoSPe49NdfERuR/9MtkDayZn4oxbL0bdBJw+2iMhj4p
+         Lfnut52cWciE2RYd6WqwqMkE73qCE3FMBqJtuUplIPAdNFGT2sciOaegXwD5JeA9wmBC
+         wH+Nd56QJZy0nXGsWO1k9ZmYPEY10CEJMGfAs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692316740; x=1692921540;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KnDKyGKtXCldI9QXtpCv/6I5lmu0QC4pcInlXQTO858=;
+        b=Gloxt6UYSvBSdCUWpfIrDuERtJfYUuRAECl67VtF8200zDTbJv5jP2meHkp7aQtqxw
+         FFLG204LSzpSparrE/2VOJRLYngRi5tmk59/9dCBOIW+w/FKUPMlazD03i76LFx1e9qD
+         1NRcUM4En3yo0YuvhWHwAh/wDjCyVeXKAYRqwFb1cjRRV/JBJj/T8gbwdx0VPK5OtBRw
+         Si0h37XLs2wVCCdPiTWtkwNz+Cbbh8iYZ5tB2qQi5H7ZorPVdID1gzIpVWrqtDTcVlbi
+         jSo9x8kzSIJ1wZGcJcOqJ1U31mHU/ty6o9QUoo6zEU01xU9266AcuikNAEKjtPqbPogb
+         fnSw==
+X-Gm-Message-State: AOJu0YwdlEsQw0v7E+Kpwn2k/tTfeUakC+jqK3v/tLVZE7lEYCcI02xm
+	8cp1BfzJQ4QP3t4/Dp0R3+8+dA==
+X-Google-Smtp-Source: AGHT+IEKQeHBko22jcPNb2f0023mzEzUj0EzLavg9CKweO8UgR8weVOyzF9lXaJff3D81Nl8HJWsDg==
+X-Received: by 2002:a17:902:d386:b0:1b6:bced:1dc2 with SMTP id e6-20020a170902d38600b001b6bced1dc2mr897825pld.0.1692316740592;
+        Thu, 17 Aug 2023 16:59:00 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id e16-20020a17090301d000b001ab2b4105ddsm343739plh.60.2023.08.17.16.58.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Aug 2023 16:58:59 -0700 (PDT)
+From: Kees Cook <keescook@chromium.org>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Kees Cook <keescook@chromium.org>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	dmaengine@vger.kernel.org,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Zhou Wang <wangzhou1@hisilicon.com>,
+	Jie Hai <haijie1@huawei.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Green Wan <green.wan@sifive.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jordy Zomer <jordy@pwning.systems>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org,
+	llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH 01/21] dmaengine: apple-admac: Annotate struct admac_data with __counted_by
+Date: Thu, 17 Aug 2023 16:58:38 -0700
+Message-Id: <20230817235859.49846-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230817235428.never.111-kees@kernel.org>
+References: <20230817235428.never.111-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Mail delivery failed: returning message to sender
-Message-Id: <E1qWEJt-00EAYb-2i@ns-196.awsdns-24.com>
-Date: Wed, 16 Aug 2023 06:04:09 -0500
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - ns-196.awsdns-24.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - 
-X-Get-Message-Sender-Via: ns-196.awsdns-24.com: sender_ident via received_protocol == local: mailnull/primary_hostname/system user
-X-Authenticated-Sender: ns-196.awsdns-24.com: mailnull
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1268; i=keescook@chromium.org;
+ h=from:subject; bh=+yUzAqwh85bIB2bobXU6XticjxS12rqU/iamdolC6VQ=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rQ/2TY8D9mRgdw2CyM3qyEw53h74QZCcomFf
+ /5CQW+uVY+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60PwAKCRCJcvTf3G3A
+ JuA5EACo65ZRVDO2T369DZ8mHVU3mjAd/qj4wNjNG75A+15aqgtGCNtC6y1ULsuPGJRjpu+YGZP
+ SfVM5TtRf0xD87KOcvyvFhAhPiCX72b/bgH9K0QC/ZaG1pKs6GWhko/TzVqRHfrpQsCvGik2Yzy
+ /Ap7x9pHLr4VpCDYMvdQ14aFHpyOdx8aYtHDA1mIwxQ4TDTYiVQswfNl0mxvkRtEdJ0aF0c6FGj
+ c9Wi2wkrXJHPrMQNxrQim9W2JlTKVKqRl6IyIWbLVtIEMGlyxG8ugMc6VyaVucZndxlIJN4xQ2U
+ 4sKFedJC4XevUTeDtgLJljcdkZQYpR5uvtS3BwAjRtNvH8giuUMrCs4zKPb2YCLieX8/hx/nZsw
+ LwLJVqdCPZkQpFt/V09vvrOi9GyNaOqsByUl/+H3p8MLDp7nfIh16KZMxacwYBLfAtNXeXxTA5o
+ nHyQushjVS9VAp60zhFlRDfTvOWDHIwRoopc1a8UxDwov6pxVzEyIwLE4cIGB7XObcyon7BHN1p
+ g7p84kopAehxM0BeoZMMZ9Y1NLeaTbLIf/zC46QyF5KBHtNgFBrK7VksizS80pxLQD4vfPM+FwY
+ lETjtxkrjbwEOfezCh0YL2gfzl8DLG5uX9D15KXxo5RYGhkzXhDubRLrlu2qf5J+KDBnU3umWrb OEEXY2wqf3bd9Rg==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
---1692183849-eximdsn-2096302883
-Content-type: text/plain; charset=us-ascii
+Prepare for the coming implementation by GCC and Clang of the __counted_by
+attribute. Flexible array members annotated with __counted_by can have
+their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+functions).
 
-This message was created automatically by mail delivery software.
+As found with Coccinelle[1], add __counted_by for struct admac_data.
 
-A message that you sent could not be delivered to one or more of its
-recipients. This is a permanent error. The following address(es) failed:
+[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
-  asahi@lists.linux.dev
-    host smtp.subspace.kernel.org [44.238.234.78]
-    SMTP error from remote mail server after end of data:
-    550 5.7.1 Blocked by SpamAssassin
+Cc: Vinod Koul <vkoul@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>
+Cc: Sven Peter <sven@svenpeter.dev>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: asahi@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: dmaengine@vger.kernel.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ drivers/dma/apple-admac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---1692183849-eximdsn-2096302883
-Content-type: message/delivery-status
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 3af795635c5c..ff46260b6ebc 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -128,7 +128,7 @@ struct admac_data {
+ 	int irq;
+ 	int irq_index;
+ 	int nchannels;
+-	struct admac_chan channels[];
++	struct admac_chan channels[] __counted_by(nchannels);
+ };
+ 
+ struct admac_tx {
+-- 
+2.34.1
 
-Reporting-MTA: dns; ns-196.awsdns-24.com
-
-Action: failed
-Final-Recipient: rfc822;asahi@lists.linux.dev
-Status: 5.0.0
-Remote-MTA: dns; smtp.subspace.kernel.org
-Diagnostic-Code: smtp; 550 5.7.1 Blocked by SpamAssassin
-
---1692183849-eximdsn-2096302883
-Content-type: message/rfc822
-
-Return-path: <asahi@lists.linux.dev>
-Received: from v-104-153-108-120.unman-vds.premium-chicago.nfoservers.com ([104.153.108.120]:53308)
-	by ns-196.awsdns-24.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <asahi@lists.linux.dev>)
-	id 1qWEJr-00E9ef-2C
-	for asahi@lists.linux.dev;
-	Wed, 16 Aug 2023 06:04:07 -0500
-From: lists.linux.devAdministrator<asahi@lists.linux.dev>
-To: asahi@lists.linux.dev
-Subject: =?UTF-8?B?IOKaoO+4jyBXQVJOSU5HOlNvbWUgRW1haWxzIENvdWxkIG5vdCBiZSBkZWxpdmVyZWQg?=
-Date: 16 Aug 2023 12:04:06 +0100
-Message-ID: <20230816120406.444E5852DC7BE3EF@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/html
-Content-Transfer-Encoding: quoted-printable
-
-<!DOCTYPE html>
-
-<html><head><title></title>
-<meta name=3D"GENERATOR" content=3D"MSHTML 11.00.9600.19003">
-<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
-</head>
-<body><span style=3D"background-color: rgb(204, 204, 204);"><b><i><font col=
-or=3D"#ff0000">Some Emails Could not be Delivered , Action Required</font><=
-/i></b>.</span><div><br><font color=3D"#3d85c6"><font size=3D"4"><b>Quarant=
-ined Messages Report</b> </font>&nbsp;</font><br>asahi@lists.linux.dev<div>=
-16-08-2023, 08:00AM <br>&nbsp;<br>Dear asahi,</div><div><br>
-4 messages addressed to you are currently on hold awaiting your further act=
-ion. You can release all of your held messages and permit or block future e=
-mails from the senders, or manage messages individually.<br><br>
-<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPa=
-nxX?clientID=3Dasahi@lists.linux.dev" target=3D"_blank" data-saferedirectur=
-l=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D=
-%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX=
--xB2LHrk7CvessvAOsg">Review all</a>
-&nbsp; &nbsp;<a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGb=
-cFJkycxN8DaPanxX?clientID=3Dasahi@lists.linux.dev" target=3D"_blank" data-s=
-aferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B=
-%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAF=
-QjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Release all</a>
-&nbsp; &nbsp; <a href=3D"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRG=
-bcFJkycxN8DaPanxX?clientID=3Dasahi@lists.linux.dev" target=3D"_blank" data-=
-saferedirecturl=3D"https://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5=
-B%5B-Email-%5D%5D&amp;source=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DA=
-FQjCNFFwLZWfJX-xB2LHrk7CvessvAOsg">Block all</a><br><br>Further Information=
-: <br>
-To view your entire quarantine inbox or manage your preferences, <a href=3D=
-"https://ipfs.io/ipfs/Qmak1oxePK5rUrFTQbZYckBAUWmRGbcFJkycxN8DaPanxX?client=
-ID=3Dasahi@lists.linux.dev" target=3D"_blank" data-saferedirecturl=3D"https=
-://www.google.com/url?q=3Dhttps://bentdree.ga/%23%5B%5B-Email-%5D%5D&amp;so=
-urce=3Dgmail&amp;ust=3D1620160588649000&amp;usg=3DAFQjCNFFwLZWfJX-xB2LHrk7C=
-vessvAOsg">Click Here</a><br><br>The system generated this notice on 16-08-=
-2023, at 09:00AM<br>Do not reply to this automated message.<br>
-&copy; 2023 lists.linux.dev. All rights reserved.</div></div>
-</body></html>
-
---1692183849-eximdsn-2096302883--
