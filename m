@@ -1,47 +1,46 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA55F1C29C
-	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:08 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-68730bafa6bso1052833b3a.1
-        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373C41C2A0
+	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:09 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bf092a16c9so3250665ad.0
+        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1692316748; x=1692921548;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V0kK2+3d+yiGwIKod7tAy7TFaHWZ7E5+177fueAct/8=;
-        b=hsCjUwllgjqgnFtDBr302edLntwmqFMb2tjxSM0F2KLywUR1T2qWiokFqCgsixWScn
-         vr+ifD5w6Aj4JONDrH0M5DZoCakUeGfmHHiWsWaup/P9GeC1F9prcku9j8zWYsPcEqe0
-         0BL4rkzR3ZXfDE82c9HgH/7iPg1ZBtp/rPUaE=
+        bh=Qbk9gosnKIp08S/xYiEcOv0NGE11Fcq8+yFR6hKeZl4=;
+        b=We5THsrSooRnKlLqw9tsvHDOMpwbaNmF0BBfWlEdqKx2whcvHUB3/3Nxnbv8kankrP
+         ngzJvZ78BmFun5D8FTqUK7yECWGDuNSs8nnYSt+szp/HVdj0Hz8U3/CANZnqoK34MCCe
+         MA70pdExv7wbfRu11mRB3fe0J8dGqfcEDgzTY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1692316748; x=1692921548;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=V0kK2+3d+yiGwIKod7tAy7TFaHWZ7E5+177fueAct/8=;
-        b=JwMhbXK/agY+jRtPpVev1Tw+txgyqXANR06uUskcZ6OousAmRBrvkFykK8KnjUK6Rj
-         yaph3Q9yO+DGgtjdEfZCpm9ashXvksoA4p0Sk9q1YebIXH88fVNuHBxeLf3y1umfvIER
-         U9qvHLQYsgtXlg73MSwRmSRnyh/dma4z4d4QGyoFYNTSaNIbcPF+E5uTI9ahTKrTa+qR
-         RiaR6xcI0RnOvGgg0XZJ7g2kAnvGf1CP/Lsb53UyL8mLgVAyKvUTviZAFbpc4MJLNvdH
-         wvqoY7HIv0Ye98FbRFKFPv5KVB3BVA7kdAFwwfL7LGYNC/ZZs85x9dVTdilU89O9ee6n
-         BUOA==
-X-Gm-Message-State: AOJu0Yzz0goPHCPLvOqxf0KZk1PwcgIYy6dSVVxOrbc0SguEcqjZ2UrD
-	t2SYmEjjgxWFMjp4xpTTWudXkQ==
-X-Google-Smtp-Source: AGHT+IH/IPZEu2hD4vXoHg+QeGyl/JNpbC5Ce8fholtE5OspKAUfjQ5VF5f7w3cDph9sQgTbEz2k+w==
-X-Received: by 2002:a05:6a00:138c:b0:688:79c6:1c13 with SMTP id t12-20020a056a00138c00b0068879c61c13mr1187966pfg.9.1692316747963;
-        Thu, 17 Aug 2023 16:59:07 -0700 (PDT)
+        bh=Qbk9gosnKIp08S/xYiEcOv0NGE11Fcq8+yFR6hKeZl4=;
+        b=V6ahIGm8R8+hmFNIRixTakplk87hYLFLt30vROHUkdDkPQocsqsyF9cje3SXGjSD/t
+         f10o8LUPfl9MJGacjwj02vF8ohk+ebDdl5CYeG9IhcXQlOwv0kcTF6Iyjw7raJlpHbbm
+         nFP/22E5h9hrM3v+Jxy6c58iDSvrvLFV6ZlInOs4TWa9XtfrUiCev/+NsIB3JgUIZ/5O
+         dv+cZ938LyQXKMLqbLN6JQ1UxIsPmVfmsd28S0fiyW17c0X9Dobm2RB9d03NQluAWtR6
+         gsIWWAAvN0nT/zl5X99EkJU4FKkMTNUzaM/rR7Dh91tNAePVA7JhYEcrveJCcMqq0Ejs
+         Kgng==
+X-Gm-Message-State: AOJu0YzxuHjMkqAhoGprvhhL8az7mGetpn8kqhGJZJjEYQ8uuTmAHVDd
+	Ymq9fSNJaQRAST4FL5TphK2VKg==
+X-Google-Smtp-Source: AGHT+IFYtfKiEi65BafAB2jOWU0NC4RgSIrq5NI/UmYeQhLAwxzE2a0uXe3xVhrjkkkWcuKL9BkieQ==
+X-Received: by 2002:a17:903:32c7:b0:1bc:2d43:c747 with SMTP id i7-20020a17090332c700b001bc2d43c747mr1132580plr.38.1692316748627;
+        Thu, 17 Aug 2023 16:59:08 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id b1-20020aa78701000000b0068895d26b79sm330575pfo.10.2023.08.17.16.59.01
+        by smtp.gmail.com with ESMTPSA id o4-20020a1709026b0400b001b06c106844sm329849plk.151.2023.08.17.16.59.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 17 Aug 2023 16:59:03 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Vinod Koul <vkoul@kernel.org>
 Cc: Kees Cook <keescook@chromium.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
 	dmaengine@vger.kernel.org,
 	Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -51,10 +50,10 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
 	Zhou Wang <wangzhou1@hisilicon.com>,
 	Jie Hai <haijie1@huawei.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
 	Green Wan <green.wan@sifive.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
 	Patrice Chotard <patrice.chotard@foss.st.com>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
@@ -74,13 +73,14 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-tegra@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 07/21] dmaengine: qcom: bam_dma: Annotate struct bam_async_desc with __counted_by
-Date: Thu, 17 Aug 2023 16:58:44 -0700
-Message-Id: <20230817235859.49846-7-keescook@chromium.org>
+Subject: [PATCH 10/21] dmaengine: sprd: Annotate struct sprd_dma_dev with __counted_by
+Date: Thu, 17 Aug 2023 16:58:47 -0700
+Message-Id: <20230817235859.49846-10-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230817235428.never.111-kees@kernel.org>
 References: <20230817235428.never.111-kees@kernel.org>
@@ -90,19 +90,19 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1277; i=keescook@chromium.org;
- h=from:subject; bh=EQ7cpalnAKUyzLqTacn9WNqARa63ulJkEyu4D2Ryyyc=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRAitRrc5HSuDDp9nSRHlzoamdndhZaOduWN
- UM/7/lcEfqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QAAKCRCJcvTf3G3A
- JqFGEACsptEBgA3lauCtB5TOKqtQKh3P+mbX/mtGO8a9W0CiYk5jSkW8FeW+uEEu9jqPlOe2zp6
- VSn60+wScZZEY+K3j1v/qMyWWXD45XjY50dVtFHtTJRPTWyVPBQ26JpXBlcUIxJWVXE+qEqu8xs
- nM9fAd0Q4raL9j6gTyl4Q/H57pFGmekGp6X011FxYjG06ztC8X1kYIpW+n5spozri+LKhexD5l+
- 7n6syLTt5CG3eI4MTbgFf8b9KsEIvIWoY1Xf5nTs2KenjD0o0oNK4KkAX788uTSFtpS3uXYjuXU
- cUTm2k9PIAJsA1uPnVdTPyJwq3oFeBvteGhQS+eNCYOjz7Q8uncrDTyrjgfhAx5cgVXDD9iXEPW
- 14ufmJkFuOH7MBsTRhtKaPqnoDu8zW+Cxh7oaKTqN3nGiXHq9Dx0kckpHyQNC+Tr/NsEfp+KGA7
- iZgUEQZJRnMlRXZUj7gHdrvhU2nXB4JCmDY2wDoJBkNJzMCKFpGtaCDFxsaS9VOyd8o6SdV+ek4
- gQxjEcG6VcYNhBec8cPzkPHJRX52CUyMWCs9+V/DOtst7ojlX1ZxoNbO+fFYC9vpV3qMFhsDshK
- xwSv51OKzq3KOFZdMPD0yf7xcDItQXPgtLzfS2NeB6hSlD07ZusYdvsF/hh2k9j9TYtPAgKyHl+ /onf0nURDF25ejQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1254; i=keescook@chromium.org;
+ h=from:subject; bh=CkATBvf5Eu9BpZa9tpHWppJbisXYFVKIBdsrzK5V8yw=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRANeKobCkjcxAIpRUeN++tkJMAFPhdDrI+y
+ Set5Q0bJ4iJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QAAKCRCJcvTf3G3A
+ JtchD/9IeFdJIfhD70qMFzTh17aMHZHHEP8s1InFpgPNODtO4bqhp0Limusj01mwZljKb0D++Wt
+ tj3VZ+n4u2wcw5NhCdPA2L0vPBIWHn2fhR9TPF3/hUP4jnvqxSptXhDXWcUXo4BXNUwM0F3h4ZJ
+ LkvOOxbe7pis6HoDHp6i+dyNNYT1XuqVP2CX/9ppLiZwTTIyT1cZfQz62Q17kTp/j8kI6l3NF2W
+ bR5x/idI3KcznCWZn3tY9MjzGvkyj170ybOxwM32psy/JHlpUricZwSTv2hiilfk47q2BqgvohY
+ g1kL4/JGAjM/0WvjYhX8tA+tLGk4mfmYLDQwVjG1E7lXJnOx1uZ9ulk989VGZnHFsJUf5F/AMYB
+ JvDnm1/uX5IOYdvs+MpL4BDtDX5t493UcQSyISCNbtlnrdR3A5BO9I0M5W/azRl+/IrHnNHkXAw
+ krk34gifRsHYNue2eis71TJmxibjclezk6B7jWoxvw3gfHoUEukq7EBVfCkvrAmLjXC1bbpaEJb
+ 1M0vTO5nOwBXw2SMBRTdFjNk41oeZ+K+3y33mlh+Vxmh0G2AhUOJeeMTVuj3oRbS8F9Rfr+ksMP
+ ECv/fLPFeXhWd9tmWsMsyEYmuNaDcmt6SUMT6Y9/iQiRBzhMtRAjzAzyFj8jwTp9gpx+xwU3TDW Zu1vaS8NrxfvhnA==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -112,34 +112,33 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct bam_async_desc.
+As found with Coccinelle[1], add __counted_by for struct sprd_dma_dev.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
 Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Andy Gross <agross@kernel.org>
-Cc: Bjorn Andersson <andersson@kernel.org>
-Cc: Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org
+Cc: Orson Zhai <orsonzhai@gmail.com>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: Chunyan Zhang <zhang.lyra@gmail.com>
 Cc: dmaengine@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/dma/qcom/bam_dma.c | 2 +-
+ drivers/dma/sprd-dma.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
-index 4c3eb972039d..65b89bb7a56b 100644
---- a/drivers/dma/qcom/bam_dma.c
-+++ b/drivers/dma/qcom/bam_dma.c
-@@ -74,7 +74,7 @@ struct bam_async_desc {
- 	struct list_head desc_node;
- 	enum dma_transfer_direction dir;
- 	size_t length;
--	struct bam_desc_hw desc[];
-+	struct bam_desc_hw desc[] __counted_by(num_desc);
+diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
+index 168aa0bd73a0..07871dcc4593 100644
+--- a/drivers/dma/sprd-dma.c
++++ b/drivers/dma/sprd-dma.c
+@@ -212,7 +212,7 @@ struct sprd_dma_dev {
+ 	struct clk		*ashb_clk;
+ 	int			irq;
+ 	u32			total_chns;
+-	struct sprd_dma_chn	channels[];
++	struct sprd_dma_chn	channels[] __counted_by(total_chns);
  };
  
- enum bam_reg {
+ static void sprd_dma_free_desc(struct virt_dma_desc *vd);
 -- 
 2.34.1
 
