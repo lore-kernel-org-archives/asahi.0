@@ -1,44 +1,45 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5961C294
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2921C297
 	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:06 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-68866e64bceso263594b3a.3
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-564b6276941so306280a12.3
         for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692316745; x=1692921545;
+        d=chromium.org; s=google; t=1692316746; x=1692921546;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dBjA6KErHDu0Uq7ocuNM+LgPWR0uNQWWk8bvJOF1pHA=;
-        b=ipztNTVV3yAPojkuInZpeWP55VSHmCKMjx7Qw3GONj5VQVfyNCIgFM+g/LHs8z+Hpj
-         mvoPqpGTxMMOouc1tIoedViD6LGP0PvFCe5rYSoNm3ANbBT1TrL/LATtS/QqzzC46abi
-         T4wZKcYxOxH5lsvuitKrmsY0fxRQPS5Jzk5pE=
+        bh=b5fo4SAlFZblqGlj3AOCCnMbC1x74PqOTDSdnlOgmQc=;
+        b=Bm5yXs/7C7SrMAj5NYLLnKAg8in4eJxveBbF4DO2ZjTd3wvxKBVyaWbMsbIdgjBk1G
+         Hi55+qF7vYuSjUdxaCq3KNt8Tr5loAJ4JV9fNliA5JjgX4O8ToCJfH5hMhlyoJP+XXFu
+         Vjs5RDTopNiXlWJl6j/wjh/5LopbcqoukMzus=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692316745; x=1692921545;
+        d=1e100.net; s=20221208; t=1692316746; x=1692921546;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dBjA6KErHDu0Uq7ocuNM+LgPWR0uNQWWk8bvJOF1pHA=;
-        b=A0uzEeK66a4VMfpw9YeJfvcfHD7u7DKDETHEc6hhpDS/NLY8KGhdpfq5kPcaUIvsJb
-         gO9jvsRSWPi21cBwk32UW2cNsDK/2I97CbVk9w4MRMQTmqNAcnlrVvxD8CURGQjnigdF
-         r6MeTFCT0NFx4B/bk3DfWtUPZNiHjO/VrcfX7j3HeRl0Nb2byeD6JRoy2wUIGnYzS0gi
-         /LLjS+YRY5oWh75KIT/VVGiqJoYtRD1FPDx9aJXF6x6gKLWFYWaX3gioSdizj87Heuew
-         U6sle+W1qhGdXxjWKoMdagO8dkodDYTsziIoAsSBKbREp6DLw01rmXoRxs6v7z3wy/+e
-         BdHQ==
-X-Gm-Message-State: AOJu0YzQDde9xmK8clxdTXqsTcqaNj4bt+cPHL3aJ0TQMqhQXYVCynuW
-	AjBAd7j6YlA8cvDOGi19DeGtNA==
-X-Google-Smtp-Source: AGHT+IER/QCxL/LyPPuwtZ5fJJ0VY7Pw/rhGOAVFZGQWf10lLKJNQ6c96NXosk6/Ent/I/AwzA7fWQ==
-X-Received: by 2002:a05:6a00:cce:b0:686:5a11:a434 with SMTP id b14-20020a056a000cce00b006865a11a434mr1288402pfv.3.1692316745516;
-        Thu, 17 Aug 2023 16:59:05 -0700 (PDT)
+        bh=b5fo4SAlFZblqGlj3AOCCnMbC1x74PqOTDSdnlOgmQc=;
+        b=b2yPzVhODz8+4aJLsItoynZxPfJgiN3R4xqsaFHaghg8mWzuNN5qewfJsmOjpRTg83
+         2WxsUw08th/wZiZoaJIham+wNZjt84CRG2n25G1A+DG1A5nqN8Oeig0Dfm/bcGESdXw0
+         KRUSVOg6Ohjsh/uLiHOMD3McuXhAKeWdqovjyfLymmtGSLNTsL9aqApgmQ/XKAiEK21V
+         WaIWpYE+fAP0qEddbvHAKdvl4GSDwZV+5yZl5sZat+bZeZA6GERXRVZTjmzpJS1pzecr
+         Fo1NfbMY1OCv4LcLSbs63L7CLXTAumsRzmOngVojEz5Wz30NRzUODmTX4qLIINol7WAG
+         knNA==
+X-Gm-Message-State: AOJu0Yw7rMdG6dC+tQB6MNE4vmnvKowRmPeApwwIUH+MK8lgbBtWWwfw
+	rX9/CNKpM+wki4bYu81mwhCkvw==
+X-Google-Smtp-Source: AGHT+IEdMYKnrjBUAvE0ru71ZoYllBiARB+b9n/0lQdAuapi28gfRsr/R7sjhWjkmiBp/Woqb8QO3A==
+X-Received: by 2002:a05:6a21:78a5:b0:131:a21:9f96 with SMTP id bf37-20020a056a2178a500b001310a219f96mr1649983pzc.6.1692316746157;
+        Thu, 17 Aug 2023 16:59:06 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id j19-20020a62b613000000b00686dd062207sm303138pff.150.2023.08.17.16.59.02
+        by smtp.gmail.com with ESMTPSA id u16-20020a62ed10000000b00682669dc19bsm296091pfh.201.2023.08.17.16.59.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 17 Aug 2023 16:59:03 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Vinod Koul <vkoul@kernel.org>
 Cc: Kees Cook <keescook@chromium.org>,
-	Green Wan <green.wan@sifive.com>,
+	Zhou Wang <wangzhou1@hisilicon.com>,
+	Jie Hai <haijie1@huawei.com>,
 	dmaengine@vger.kernel.org,
 	Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -46,11 +47,10 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Ludovic Desroches <ludovic.desroches@microchip.com>,
 	Tudor Ambarus <tudor.ambarus@linaro.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
-	Zhou Wang <wangzhou1@hisilicon.com>,
-	Jie Hai <haijie1@huawei.com>,
 	Andy Gross <agross@kernel.org>,
 	Bjorn Andersson <andersson@kernel.org>,
 	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Green Wan <green.wan@sifive.com>,
 	Orson Zhai <orsonzhai@gmail.com>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
 	Chunyan Zhang <zhang.lyra@gmail.com>,
@@ -78,9 +78,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-tegra@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 09/21] dmaengine: sf-pdma: Annotate struct sf_pdma with __counted_by
-Date: Thu, 17 Aug 2023 16:58:46 -0700
-Message-Id: <20230817235859.49846-9-keescook@chromium.org>
+Subject: [PATCH 05/21] dmaengine: hisilicon: Annotate struct hisi_dma_dev with __counted_by
+Date: Thu, 17 Aug 2023 16:58:42 -0700
+Message-Id: <20230817235859.49846-5-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230817235428.never.111-kees@kernel.org>
 References: <20230817235428.never.111-kees@kernel.org>
@@ -90,19 +90,7 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1179; i=keescook@chromium.org;
- h=from:subject; bh=dwauH20Q6xP+4LjfvKyJpROFf0PoQOEsyr9XswCqTTo=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRAkodXaKGN3V1cUAy87CQjDpadxCYl1kOBd
- DBX6VSqtKqJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QAAKCRCJcvTf3G3A
- JhaWD/0XQBG0IAu8uYIo6t2lBljNvRssqu8rPbwygr+clzyF6mT4ykHSqyehzafLdrnxfXUPnQy
- 7BXo7qTX/oOe1mMmwnZYjE73otVC/9AG7HD+0i1rpKjSIX1y0le1b27SkDT1VdkFNlTusQCkHFg
- N3qVIdjMWBWwJkTzFR9rfsDQ6XzoTOw905VArPKp6G9jxz7DuCezAKXTuv4BpHoiKAZDDh2vuLz
- enaGQRuFi2KS4XamCm/yHnJAuch2CCUiMdV67KWMK21AjDP+MBiMpySm50hyDgoa+xj7Luu0FFE
- qsPtCNeN4wS0lLVMcqh7o8Trt0KEmujaOHtO7RTEoaMPkF5tDXDbc6VRyZTmQ6mtSfZ7nwzqhCi
- 1PW3zrheQxQAES85LM8xFRwN9g+ziQ36L5iJzjYXN0KBMovPVI0h7NiFtKGVCh7ky3Jljdi9Ukv
- Alk4rWFr8Za6dePWPce8DRR6N5QhqfRajF8DekFiE3w38UdfEjjTY1xybDZ2AogeV7rkyLtxPyc
- 3a6W2kiYw8Z7qmcKgsC5yF//aE5NhmtceubIVx0OhZwyljwhIJfjee+SSLqXrFmkeyn42jMoxKx
- Pa7DzAc6Kq8z1tUF8leTymViabKoo6SP81mWA3tXaPNpW0RNU6FkA5BfjD1MQgRH4Y3D0t14ieo fgf64ePLeCeyjxg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1221; i=keescook@chromium.org; h=from:subject; bh=wAhaXdpkO4UhROqbBEzwnUztv43Z9vPtGenl3m44PI8=; b=owEBbAKT/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRAdafn2BXNub2CVczBzS1nMrcCu/W1l7fmc oQMCeB3hAmJAjIEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QAAKCRCJcvTf3G3A JiDKD/jzQjtA/rejP0UfKxnwSb1Bs9ETBWk/rP2eCU65spDyZslCdJJKzJuu7MicgCSEPDfNPg6 xaxgsDv0fnzJthUj1b7GYgIJW4Ev/EFiMgpDPhlkjPeabqKRWZZxyEgFvhJU73k5H4w9d+hkXBe +dTfjZFVsH0hEK2sD9pdYpWoDrGsGfvB969UPwgcSelEYZSrHRb0kyaQWL5oOnurAP5e3KthrFp ll8wy38odnrUKDahwF8NPUamJcVbFBudhg16PZL3IhE3NtZV9tjMQtrMiwy7G2uhHqhd1w6bQXk lXZWrzzAqgpnUayVPMrVptkfVuD0dViVQEwjPjma3woC/B8FZa7ymi5O/geVC/ugDZlVZcu/4XR WddDqRioBq6b2M2HnQDKsyArKe8jj6Lq/WFaQM+xHiUptWNl3rqG2dRzd+ksTdn+fmfPnzhhxr9 cLZFoy8XzDMZ4yU0IBzoZBY0pSrIKPxJjMwsjtTkwmM+fflGR86LOt+ClFW7/FgWk9ZARIt88bj hZgS8SwCeRYEviYdtimOfiDhjAZXaDRYEMzpVonw/x42ays3FO9x405hS5QD/Lfd9z4TB9WJPg/ JBOX/lvE+vJHEnJJFJbpLdY+bOR+uhcTApAmU/ggJr4cRtC8l64Hw5lDostncXilc6oEPpzpmNL OQDT2dm/jOCGN
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -112,31 +100,32 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct sf_pdma.
+As found with Coccinelle[1], add __counted_by for struct hisi_dma_dev.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
 Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Green Wan <green.wan@sifive.com>
+Cc: Zhou Wang <wangzhou1@hisilicon.com>
+Cc: Jie Hai <haijie1@huawei.com>
 Cc: dmaengine@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/dma/sf-pdma/sf-pdma.h | 2 +-
+ drivers/dma/hisi_dma.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma/sf-pdma/sf-pdma.h b/drivers/dma/sf-pdma/sf-pdma.h
-index 5c398a83b491..d05772b5d8d3 100644
---- a/drivers/dma/sf-pdma/sf-pdma.h
-+++ b/drivers/dma/sf-pdma/sf-pdma.h
-@@ -113,7 +113,7 @@ struct sf_pdma {
- 	void __iomem            *membase;
- 	void __iomem            *mappedbase;
- 	u32			n_chans;
--	struct sf_pdma_chan	chans[];
-+	struct sf_pdma_chan	chans[] __counted_by(n_chans);
+diff --git a/drivers/dma/hisi_dma.c b/drivers/dma/hisi_dma.c
+index c1350a36fddd..4c47bff81064 100644
+--- a/drivers/dma/hisi_dma.c
++++ b/drivers/dma/hisi_dma.c
+@@ -163,7 +163,7 @@ struct hisi_dma_dev {
+ 	u32 chan_depth;
+ 	enum hisi_dma_reg_layout reg_layout;
+ 	void __iomem *queue_base; /* queue region start of register */
+-	struct hisi_dma_chan chan[];
++	struct hisi_dma_chan chan[] __counted_by(chan_num);
  };
  
- #endif /* _SF_PDMA_H */
+ #ifdef CONFIG_DEBUG_FS
 -- 
 2.34.1
 
