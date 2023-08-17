@@ -1,52 +1,50 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D611BB58
-	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:01 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1bf0b24d925so2811455ad.3
-        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21A91C285
+	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:02 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-26813478800so280509a91.1
+        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692316740; x=1692921540;
+        d=chromium.org; s=google; t=1692316742; x=1692921542;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KnDKyGKtXCldI9QXtpCv/6I5lmu0QC4pcInlXQTO858=;
-        b=DAWnaYSCcJsZ2VJyNMzhkr9UoSPe49NdfERuR/9MtkDayZn4oxbL0bdBJw+2iMhj4p
-         Lfnut52cWciE2RYd6WqwqMkE73qCE3FMBqJtuUplIPAdNFGT2sciOaegXwD5JeA9wmBC
-         wH+Nd56QJZy0nXGsWO1k9ZmYPEY10CEJMGfAs=
+        bh=9IIJznhYZqet29caE60ZbA2pqDUDYoC2Ni193sUkBvY=;
+        b=lfMuDWZkxFbnsbKKPqOUzD1QUbR6DkcVXQOk5J3buEXsWhNksf1iNd/44SHWaESHDl
+         j+hryvuSMYcAsCnshdpn8g7l690Dju9CViGdao/7iFYQDsHrXDRk3T+86i+QcOSUH9RM
+         5AHRTVcWEztYIcVzyPlCMdNzqMi555hFHkeoE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692316740; x=1692921540;
+        d=1e100.net; s=20221208; t=1692316742; x=1692921542;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KnDKyGKtXCldI9QXtpCv/6I5lmu0QC4pcInlXQTO858=;
-        b=Gloxt6UYSvBSdCUWpfIrDuERtJfYUuRAECl67VtF8200zDTbJv5jP2meHkp7aQtqxw
-         FFLG204LSzpSparrE/2VOJRLYngRi5tmk59/9dCBOIW+w/FKUPMlazD03i76LFx1e9qD
-         1NRcUM4En3yo0YuvhWHwAh/wDjCyVeXKAYRqwFb1cjRRV/JBJj/T8gbwdx0VPK5OtBRw
-         Si0h37XLs2wVCCdPiTWtkwNz+Cbbh8iYZ5tB2qQi5H7ZorPVdID1gzIpVWrqtDTcVlbi
-         jSo9x8kzSIJ1wZGcJcOqJ1U31mHU/ty6o9QUoo6zEU01xU9266AcuikNAEKjtPqbPogb
-         fnSw==
-X-Gm-Message-State: AOJu0YwdlEsQw0v7E+Kpwn2k/tTfeUakC+jqK3v/tLVZE7lEYCcI02xm
-	8cp1BfzJQ4QP3t4/Dp0R3+8+dA==
-X-Google-Smtp-Source: AGHT+IEKQeHBko22jcPNb2f0023mzEzUj0EzLavg9CKweO8UgR8weVOyzF9lXaJff3D81Nl8HJWsDg==
-X-Received: by 2002:a17:902:d386:b0:1b6:bced:1dc2 with SMTP id e6-20020a170902d38600b001b6bced1dc2mr897825pld.0.1692316740592;
-        Thu, 17 Aug 2023 16:59:00 -0700 (PDT)
+        bh=9IIJznhYZqet29caE60ZbA2pqDUDYoC2Ni193sUkBvY=;
+        b=inH85NTEg99uLHQPi3XkZ7cj0D9lQfgX9hApcfgBeXck8Bss8ZC558bxMzt/LSRfSk
+         TnqO1/bXqd8UnbS5YzQ4/k7Fob6wk3w5OlptQ4fWAO6DB6aDbssNsjU8AQ73XoBXjlJs
+         yfvDvaHku/QGHjyIKvPTifjzd1WifbCbIfZkpB7ibXNJn7vRY0nzha2iN9/cVruH7ORB
+         UPvYbLFBYL8PslyZbN5srWLj49+4RhkQb04dx5SyD3mWG5zdysAgXHJyVo48HcQLdsWj
+         4HVBBYBaHLmxkJ/+BF93L+nHlPJ/FUW13DdBm2aOLyBpiVswTLPFWdCjDcKn2drAVHSd
+         D97Q==
+X-Gm-Message-State: AOJu0Yxple+23a7UOfukG6AGNC5Ybtkfc7NBBRI72QjyF2mJ4sfUdygg
+	TlTAbZPrpxal8MhzjjI/n155QQ==
+X-Google-Smtp-Source: AGHT+IE65dJQjfZK41wRT3vTQIMQrQ1msHGo0xfJJM2cHVIfGc5VRcslgbukfOm/ii0qD36iiH5rJg==
+X-Received: by 2002:a17:90a:ff05:b0:26d:ae3:f6a7 with SMTP id ce5-20020a17090aff0500b0026d0ae3f6a7mr935986pjb.21.1692316742244;
+        Thu, 17 Aug 2023 16:59:02 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id e16-20020a17090301d000b001ab2b4105ddsm343739plh.60.2023.08.17.16.58.59
+        by smtp.gmail.com with ESMTPSA id bt11-20020a17090af00b00b002680ef05c40sm334830pjb.55.2023.08.17.16.58.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 17 Aug 2023 16:58:59 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Vinod Koul <vkoul@kernel.org>
 Cc: Kees Cook <keescook@chromium.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	dmaengine@vger.kernel.org,
 	Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	dmaengine@vger.kernel.org,
 	Ludovic Desroches <ludovic.desroches@microchip.com>,
 	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
 	Zhou Wang <wangzhou1@hisilicon.com>,
 	Jie Hai <haijie1@huawei.com>,
 	Andy Gross <agross@kernel.org>,
@@ -73,14 +71,16 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
 	Tom Rix <trix@redhat.com>,
 	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-arm-msm@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	linux-tegra@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 01/21] dmaengine: apple-admac: Annotate struct admac_data with __counted_by
-Date: Thu, 17 Aug 2023 16:58:38 -0700
-Message-Id: <20230817235859.49846-1-keescook@chromium.org>
+Subject: [PATCH 03/21] dmaengine: axi-dmac: Annotate struct axi_dmac_desc with __counted_by
+Date: Thu, 17 Aug 2023 16:58:40 -0700
+Message-Id: <20230817235859.49846-3-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230817235428.never.111-kees@kernel.org>
 References: <20230817235428.never.111-kees@kernel.org>
@@ -90,19 +90,19 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1268; i=keescook@chromium.org;
- h=from:subject; bh=+yUzAqwh85bIB2bobXU6XticjxS12rqU/iamdolC6VQ=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rQ/2TY8D9mRgdw2CyM3qyEw53h74QZCcomFf
- /5CQW+uVY+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60PwAKCRCJcvTf3G3A
- JuA5EACo65ZRVDO2T369DZ8mHVU3mjAd/qj4wNjNG75A+15aqgtGCNtC6y1ULsuPGJRjpu+YGZP
- SfVM5TtRf0xD87KOcvyvFhAhPiCX72b/bgH9K0QC/ZaG1pKs6GWhko/TzVqRHfrpQsCvGik2Yzy
- /Ap7x9pHLr4VpCDYMvdQ14aFHpyOdx8aYtHDA1mIwxQ4TDTYiVQswfNl0mxvkRtEdJ0aF0c6FGj
- c9Wi2wkrXJHPrMQNxrQim9W2JlTKVKqRl6IyIWbLVtIEMGlyxG8ugMc6VyaVucZndxlIJN4xQ2U
- 4sKFedJC4XevUTeDtgLJljcdkZQYpR5uvtS3BwAjRtNvH8giuUMrCs4zKPb2YCLieX8/hx/nZsw
- LwLJVqdCPZkQpFt/V09vvrOi9GyNaOqsByUl/+H3p8MLDp7nfIh16KZMxacwYBLfAtNXeXxTA5o
- nHyQushjVS9VAp60zhFlRDfTvOWDHIwRoopc1a8UxDwov6pxVzEyIwLE4cIGB7XObcyon7BHN1p
- g7p84kopAehxM0BeoZMMZ9Y1NLeaTbLIf/zC46QyF5KBHtNgFBrK7VksizS80pxLQD4vfPM+FwY
- lETjtxkrjbwEOfezCh0YL2gfzl8DLG5uX9D15KXxo5RYGhkzXhDubRLrlu2qf5J+KDBnU3umWrb OEEXY2wqf3bd9Rg==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1664; i=keescook@chromium.org;
+ h=from:subject; bh=5nTriTvU6hERX/iI4Nl8dL1Ec/4B+oHOGqi2OU9g6Qg=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rQ/kvuY7+Gn5tKJWg/r4cXZIgImGLVHbUCZB
+ DFLPZ2NhGWJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60PwAKCRCJcvTf3G3A
+ JhvpD/wNYxu2CIOowdUv5/Gwd94bn/HKEspBIm29MnOZtnaUtavl0IWVwMhW1P/8HQl9woaPfLG
+ 6Aq1zIhFa0dMdc/NApNTy4232MZ5m0W2yU1vsE4DoahHlSo99Wb5IXEpmYQoW3Ogcru8iTI6RWE
+ X+O5eTwn/TrdoEplK1g6rsrSovVWaEWuKQPOdUcN0zVf0YFUcRqB5ErOnPXhT+eeEQosMKckapy
+ xAlbAopfCGNa55AO8pK6DeF9558RwA8t+1v8gtPAtBrx0xl98gWhKtK4YNcorE0C/IQnmvzBmtM
+ E5wFOLjYn9E36ScSEdLRXdOLC0TOh1hT2mgx4IlClvnnj6ejHDSwQKih3mT+CnD0ir9WDUWyX9C
+ bGjxWt4DBLFpP42ZKN1lFVD3p1UsDwQf1sVM/JJZZWUREKtwdy/Jm8jzHw9j/hLep56o7cJQuzK
+ COT8j10NMt/uMFOu3Th8H23KqtaUnz7XDdZv2DXz4gkrLBWqttX9OJsyxN0brY84f6Lmu+2P50E
+ la+wH9n2H1f6jFY8wmjqrrLqTCvhPaXHM7/yl9TlA3zM2OgrLbARzLsJcM3sEBnJTMszTBziErj
+ Bn7kZG3N8z1rIg4yzutknyAVMFixUdrTgZ968m671TSetEtKj/KknSzomKzfesrG9oL7QZZRtXi zZtgQ/94fa+v75Q==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -112,35 +112,47 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct admac_data.
+As found with Coccinelle[1], add __counted_by for struct axi_dmac_desc.
+Additionally, since the element count member must be set before accessing
+the annotated flexible array member, move its initialization earlier.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
 Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>
-Cc: Sven Peter <sven@svenpeter.dev>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Lars-Peter Clausen <lars@metafoo.de>
 Cc: dmaengine@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/dma/apple-admac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma/dma-axi-dmac.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-index 3af795635c5c..ff46260b6ebc 100644
---- a/drivers/dma/apple-admac.c
-+++ b/drivers/dma/apple-admac.c
-@@ -128,7 +128,7 @@ struct admac_data {
- 	int irq;
- 	int irq_index;
- 	int nchannels;
--	struct admac_chan channels[];
-+	struct admac_chan channels[] __counted_by(nchannels);
+diff --git a/drivers/dma/dma-axi-dmac.c b/drivers/dma/dma-axi-dmac.c
+index fc7cdad37161..b9f85cb20d3e 100644
+--- a/drivers/dma/dma-axi-dmac.c
++++ b/drivers/dma/dma-axi-dmac.c
+@@ -117,7 +117,7 @@ struct axi_dmac_desc {
+ 	unsigned int num_submitted;
+ 	unsigned int num_completed;
+ 	unsigned int num_sgs;
+-	struct axi_dmac_sg sg[];
++	struct axi_dmac_sg sg[] __counted_by(num_sgs);
  };
  
- struct admac_tx {
+ struct axi_dmac_chan {
+@@ -484,12 +484,11 @@ static struct axi_dmac_desc *axi_dmac_alloc_desc(unsigned int num_sgs)
+ 	desc = kzalloc(struct_size(desc, sg, num_sgs), GFP_NOWAIT);
+ 	if (!desc)
+ 		return NULL;
++	desc->num_sgs = num_sgs;
+ 
+ 	for (i = 0; i < num_sgs; i++)
+ 		desc->sg[i].id = AXI_DMAC_SG_UNUSED;
+ 
+-	desc->num_sgs = num_sgs;
+-
+ 	return desc;
+ }
+ 
 -- 
 2.34.1
 
