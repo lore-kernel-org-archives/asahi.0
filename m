@@ -1,47 +1,48 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373C41C2A0
-	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:09 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1bf092a16c9so3250665ad.0
-        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322E61C2A3
+	for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 23:59:10 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-3a7f74134e7so233873b6e.1
+        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 16:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692316748; x=1692921548;
+        d=chromium.org; s=google; t=1692316749; x=1692921549;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qbk9gosnKIp08S/xYiEcOv0NGE11Fcq8+yFR6hKeZl4=;
-        b=We5THsrSooRnKlLqw9tsvHDOMpwbaNmF0BBfWlEdqKx2whcvHUB3/3Nxnbv8kankrP
-         ngzJvZ78BmFun5D8FTqUK7yECWGDuNSs8nnYSt+szp/HVdj0Hz8U3/CANZnqoK34MCCe
-         MA70pdExv7wbfRu11mRB3fe0J8dGqfcEDgzTY=
+        bh=aFfpOm3BUPwNUFmD6NhnAMbQ/2S0ir/QqXgwBqevnLk=;
+        b=EqYcViRLy+hIr+dGw8oMOHY5NdZUL3VGgCCB1DCYkyJCtv9U0YnPuWHnP6ypMyMFrr
+         Vk0YDZNsPMj8eHr69pt/3dPEPWWe0DnNmDTipbpAdcFo51ZUD3H+79JZFkylV+sVqmZL
+         fM7pL/eKGfT2nw6+cn3duAt/BNduGqjmY/D3o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692316748; x=1692921548;
+        d=1e100.net; s=20221208; t=1692316749; x=1692921549;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Qbk9gosnKIp08S/xYiEcOv0NGE11Fcq8+yFR6hKeZl4=;
-        b=V6ahIGm8R8+hmFNIRixTakplk87hYLFLt30vROHUkdDkPQocsqsyF9cje3SXGjSD/t
-         f10o8LUPfl9MJGacjwj02vF8ohk+ebDdl5CYeG9IhcXQlOwv0kcTF6Iyjw7raJlpHbbm
-         nFP/22E5h9hrM3v+Jxy6c58iDSvrvLFV6ZlInOs4TWa9XtfrUiCev/+NsIB3JgUIZ/5O
-         dv+cZ938LyQXKMLqbLN6JQ1UxIsPmVfmsd28S0fiyW17c0X9Dobm2RB9d03NQluAWtR6
-         gsIWWAAvN0nT/zl5X99EkJU4FKkMTNUzaM/rR7Dh91tNAePVA7JhYEcrveJCcMqq0Ejs
-         Kgng==
-X-Gm-Message-State: AOJu0YzxuHjMkqAhoGprvhhL8az7mGetpn8kqhGJZJjEYQ8uuTmAHVDd
-	Ymq9fSNJaQRAST4FL5TphK2VKg==
-X-Google-Smtp-Source: AGHT+IFYtfKiEi65BafAB2jOWU0NC4RgSIrq5NI/UmYeQhLAwxzE2a0uXe3xVhrjkkkWcuKL9BkieQ==
-X-Received: by 2002:a17:903:32c7:b0:1bc:2d43:c747 with SMTP id i7-20020a17090332c700b001bc2d43c747mr1132580plr.38.1692316748627;
-        Thu, 17 Aug 2023 16:59:08 -0700 (PDT)
+        bh=aFfpOm3BUPwNUFmD6NhnAMbQ/2S0ir/QqXgwBqevnLk=;
+        b=O01RwGGxE3wtimJ6tjw2G+9bCtK2UE8EmT0G4IPJG2MW/RE/lT6lq3Knarq6XAsOz2
+         Bcd6lqjj0hYvC6P4gbMEjhsJPGJZAut3ob9TI874YkeH2HEw3gq8/LLZeD9/zTqtbo7k
+         IyfzGvcXwo18r/lvYdLfHwkzGSHoUdAkKUY2MF481VdYGqzg4ecgTTjXAQH3qYfTspqR
+         o8RmYRHGEKn3fiZaUSH2k8tFj0FB7Htnc3iS/LHiERW8bMPKiOSAIHjOef6DSiLvDLcs
+         U48OrbWJXXB8jWiploeegNPlSk8SnocQuw/jtNO6LTf9XYTCQayK899aOqPEY/KQBtbC
+         paVA==
+X-Gm-Message-State: AOJu0YwUTk+Tq5XhrFHe6Py3LsVIy5c4kd4/2Vk6ZMQ8KpWC1ElH9Zdy
+	RPCis7eF39dU14mGv1si2bwQNw==
+X-Google-Smtp-Source: AGHT+IHtstSGrCASuEyhbAzUFkHex296TETFK9xFy7uimzuBnpJ+27CsVn7a16vwqiJacwvtpQrDaw==
+X-Received: by 2002:a54:4098:0:b0:3a7:7bd3:7a7d with SMTP id i24-20020a544098000000b003a77bd37a7dmr1133716oii.23.1692316749254;
+        Thu, 17 Aug 2023 16:59:09 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id o4-20020a1709026b0400b001b06c106844sm329849plk.151.2023.08.17.16.59.02
+        by smtp.gmail.com with ESMTPSA id n7-20020a6543c7000000b005658d3a46d7sm195752pgp.84.2023.08.17.16.59.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 17 Aug 2023 16:59:03 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Vinod Koul <vkoul@kernel.org>
 Cc: Kees Cook <keescook@chromium.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	dmaengine@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
 	Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
@@ -54,9 +55,10 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Bjorn Andersson <andersson@kernel.org>,
 	Konrad Dybcio <konrad.dybcio@linaro.org>,
 	Green Wan <green.wan@sifive.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
 	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
 	Laxman Dewangan <ldewangan@nvidia.com>,
 	Jon Hunter <jonathanh@nvidia.com>,
 	Thierry Reding <thierry.reding@gmail.com>,
@@ -72,15 +74,13 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Tom Rix <trix@redhat.com>,
 	linux-kernel@vger.kernel.org,
 	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
 	linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
 	linux-tegra@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 10/21] dmaengine: sprd: Annotate struct sprd_dma_dev with __counted_by
-Date: Thu, 17 Aug 2023 16:58:47 -0700
-Message-Id: <20230817235859.49846-10-keescook@chromium.org>
+Subject: [PATCH 12/21] dmaengine: stm32-dma: Annotate struct stm32_dma_desc with __counted_by
+Date: Thu, 17 Aug 2023 16:58:49 -0700
+Message-Id: <20230817235859.49846-12-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230817235428.never.111-kees@kernel.org>
 References: <20230817235428.never.111-kees@kernel.org>
@@ -90,19 +90,19 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1254; i=keescook@chromium.org;
- h=from:subject; bh=CkATBvf5Eu9BpZa9tpHWppJbisXYFVKIBdsrzK5V8yw=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRANeKobCkjcxAIpRUeN++tkJMAFPhdDrI+y
- Set5Q0bJ4iJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QAAKCRCJcvTf3G3A
- JtchD/9IeFdJIfhD70qMFzTh17aMHZHHEP8s1InFpgPNODtO4bqhp0Limusj01mwZljKb0D++Wt
- tj3VZ+n4u2wcw5NhCdPA2L0vPBIWHn2fhR9TPF3/hUP4jnvqxSptXhDXWcUXo4BXNUwM0F3h4ZJ
- LkvOOxbe7pis6HoDHp6i+dyNNYT1XuqVP2CX/9ppLiZwTTIyT1cZfQz62Q17kTp/j8kI6l3NF2W
- bR5x/idI3KcznCWZn3tY9MjzGvkyj170ybOxwM32psy/JHlpUricZwSTv2hiilfk47q2BqgvohY
- g1kL4/JGAjM/0WvjYhX8tA+tLGk4mfmYLDQwVjG1E7lXJnOx1uZ9ulk989VGZnHFsJUf5F/AMYB
- JvDnm1/uX5IOYdvs+MpL4BDtDX5t493UcQSyISCNbtlnrdR3A5BO9I0M5W/azRl+/IrHnNHkXAw
- krk34gifRsHYNue2eis71TJmxibjclezk6B7jWoxvw3gfHoUEukq7EBVfCkvrAmLjXC1bbpaEJb
- 1M0vTO5nOwBXw2SMBRTdFjNk41oeZ+K+3y33mlh+Vxmh0G2AhUOJeeMTVuj3oRbS8F9Rfr+ksMP
- ECv/fLPFeXhWd9tmWsMsyEYmuNaDcmt6SUMT6Y9/iQiRBzhMtRAjzAzyFj8jwTp9gpx+xwU3TDW Zu1vaS8NrxfvhnA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3177; i=keescook@chromium.org;
+ h=from:subject; bh=4L1vW+SexsLQ4jAjdxhKOyEQSjWuUKIs12iHtuVmifc=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRAY4GtRmAVHf6Ya9dY+gshf8QSkUD7pnmTh
+ rHHqQiA5g2JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QAAKCRCJcvTf3G3A
+ JkvpEACe4GyFK86EwP8rAzGWpbQmF4TLiOHpR/Sq37SBWAGhApzKHiufbeypSkbGVsc9zm8k6ox
+ HqRPculRTXgBz6x5KLRagVnv6DvDL7Iz/CpcJo2cWK4ar0q8QnmYHWS6srfDmg7X2FS+zXcbV9b
+ NgSTHPpW+Nm4j438UvFT7/zD5q5vDmD6KhRNDdvoJHlRVEuZHZTntNyzawnhyTbnhLQtndJ8D9B
+ 2XWAvz31M9/B7kXy3mdeWDAHS93cup09V731uJhDp2vl18OV2uu4ADKpwql478KUkL1/YQCXlqu
+ MkwLExvrtT9pHo/FT6Kc4jg20iN0lHgOECgTK+knaJzWdKkTP30N0xQY+/BLEURfiZ3zccqfGJ3
+ UQZSWxAWNhoDuwTvXMKczoJuCdQXuiM3LXEAkmQ7On812q7pqXHbwB4kiy6pWOMgbjmdeb+R//J
+ xfTexss8BN1pf/RxPxWh7Chb4ZJ8NdVrkZBCHYaIRyq5auYyZthjKwR79bj1hXOk7XzTHzpxnx1
+ rGYLSr63iThlFrUS+YwRldwE0xr7Kr7jgLVJkxC1tWSMA6e6tTOT1sOgg1SW0m13ukSAD3EK1FP
+ faU8ba7KBOiO+J/s1i9j8OuxVMhUyNOYgZ8J667chD62Kn6PLWJan8xTbP4Dp3W/LZotOBsL30w oFDolQxdjzT8sBQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -112,33 +112,87 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct sprd_dma_dev.
+As found with Coccinelle[1], add __counted_by for struct stm32_dma_desc.
+Additionally, since the element count member must be set before accessing
+the annotated flexible array member, move its initialization earlier.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
 Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Orson Zhai <orsonzhai@gmail.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
 Cc: dmaengine@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/dma/sprd-dma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma/stm32-dma.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
-index 168aa0bd73a0..07871dcc4593 100644
---- a/drivers/dma/sprd-dma.c
-+++ b/drivers/dma/sprd-dma.c
-@@ -212,7 +212,7 @@ struct sprd_dma_dev {
- 	struct clk		*ashb_clk;
- 	int			irq;
- 	u32			total_chns;
--	struct sprd_dma_chn	channels[];
-+	struct sprd_dma_chn	channels[] __counted_by(total_chns);
+diff --git a/drivers/dma/stm32-dma.c b/drivers/dma/stm32-dma.c
+index 5c36811aa134..a732b3807b11 100644
+--- a/drivers/dma/stm32-dma.c
++++ b/drivers/dma/stm32-dma.c
+@@ -191,7 +191,7 @@ struct stm32_dma_desc {
+ 	struct virt_dma_desc vdesc;
+ 	bool cyclic;
+ 	u32 num_sgs;
+-	struct stm32_dma_sg_req sg_req[];
++	struct stm32_dma_sg_req sg_req[] __counted_by(num_sgs);
  };
  
- static void sprd_dma_free_desc(struct virt_dma_desc *vd);
+ /**
+@@ -1105,6 +1105,7 @@ static struct dma_async_tx_descriptor *stm32_dma_prep_slave_sg(
+ 	desc = kzalloc(struct_size(desc, sg_req, sg_len), GFP_NOWAIT);
+ 	if (!desc)
+ 		return NULL;
++	desc->num_sgs = sg_len;
+ 
+ 	/* Set peripheral flow controller */
+ 	if (chan->dma_sconfig.device_fc)
+@@ -1141,8 +1142,6 @@ static struct dma_async_tx_descriptor *stm32_dma_prep_slave_sg(
+ 			desc->sg_req[i].chan_reg.dma_sm1ar += sg_dma_len(sg);
+ 		desc->sg_req[i].chan_reg.dma_sndtr = nb_data_items;
+ 	}
+-
+-	desc->num_sgs = sg_len;
+ 	desc->cyclic = false;
+ 
+ 	return vchan_tx_prep(&chan->vchan, &desc->vdesc, flags);
+@@ -1216,6 +1215,7 @@ static struct dma_async_tx_descriptor *stm32_dma_prep_dma_cyclic(
+ 	desc = kzalloc(struct_size(desc, sg_req, num_periods), GFP_NOWAIT);
+ 	if (!desc)
+ 		return NULL;
++	desc->num_sgs = num_periods;
+ 
+ 	for (i = 0; i < num_periods; i++) {
+ 		desc->sg_req[i].len = period_len;
+@@ -1232,8 +1232,6 @@ static struct dma_async_tx_descriptor *stm32_dma_prep_dma_cyclic(
+ 		if (!chan->trig_mdma)
+ 			buf_addr += period_len;
+ 	}
+-
+-	desc->num_sgs = num_periods;
+ 	desc->cyclic = true;
+ 
+ 	return vchan_tx_prep(&chan->vchan, &desc->vdesc, flags);
+@@ -1254,6 +1252,7 @@ static struct dma_async_tx_descriptor *stm32_dma_prep_dma_memcpy(
+ 	desc = kzalloc(struct_size(desc, sg_req, num_sgs), GFP_NOWAIT);
+ 	if (!desc)
+ 		return NULL;
++	desc->num_sgs = num_sgs;
+ 
+ 	threshold = chan->threshold;
+ 
+@@ -1283,8 +1282,6 @@ static struct dma_async_tx_descriptor *stm32_dma_prep_dma_memcpy(
+ 		desc->sg_req[i].chan_reg.dma_sndtr = xfer_count;
+ 		desc->sg_req[i].len = xfer_count;
+ 	}
+-
+-	desc->num_sgs = num_sgs;
+ 	desc->cyclic = false;
+ 
+ 	return vchan_tx_prep(&chan->vchan, &desc->vdesc, flags);
 -- 
 2.34.1
 
