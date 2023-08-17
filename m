@@ -1,53 +1,50 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B522376
-	for <asahi@lists.linux.dev>; Fri, 18 Aug 2023 00:08:39 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6887bc25e6bso276242b3a.1
-        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 17:08:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266C136D
+	for <asahi@lists.linux.dev>; Fri, 18 Aug 2023 00:08:37 +0000 (UTC)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-1c50438636fso172461fac.1
+        for <asahi@lists.linux.dev>; Thu, 17 Aug 2023 17:08:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1692317318; x=1692922118;
+        d=chromium.org; s=google; t=1692317317; x=1692922117;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NC/8wS4E+U+x06AU4gX4E6qCdkVp40klqA0jeKErXPo=;
-        b=g704C2h6GYIxjInJTKA/FnY6+rfPDG5j1XzFWY5B/q4Ve69EQ5ifrmXqKSZ4yJlVuC
-         L1vrGlTrSLu4FzGxH0VjiIND5KbGMWcP+/CLN9EaNQHLa9z8y+mjmq0xZ5FvA5J+d8bH
-         AvOOEN5NAMFEHzMWe9HkuB026ROd2q2yDrwMQ=
+        bh=BJAStmqEWJCV11M3alF7g0EvIWbhKJ8cHn0i1bzIQ+w=;
+        b=G9dQNpeCDU6vSJDa21UY/Mw8p61U6Pa3T/VNTD0N6eKEN/xkSyFSPxwZJMlrumbxF2
+         yxFdU1Mqtc9PVDPeUdJTTI/byEwzyL9clggs4DITweNemWAvyD4OqipRB0RiiEHV+Yrn
+         46u3CyfTS3MTL8L9LrHEhkvbP1CddmUGW3Su4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692317318; x=1692922118;
+        d=1e100.net; s=20221208; t=1692317317; x=1692922117;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NC/8wS4E+U+x06AU4gX4E6qCdkVp40klqA0jeKErXPo=;
-        b=ZzXg1zKJ06X0KE+E1H13iOLBzrVwfFzp9zkgBjOzIP4Nfxiu3wrUSm63yhbs2pArIw
-         4pQrXbt2FQyATIa49zfakAzeTlDGzog4xi8QXPiUgdN/QRa7HstpdG//6E+8D6NrRa1D
-         svBSwOUbJLnNocWds8680WevIxHoBRGqIkEV54z7JXl17le1mXVrs8GDp7x8JfluWbaL
-         GPFxFi/cd/O4QP6GA6X1s4EEFuGBs+cgjBb3C0N5mHLVdlx9L/eYkKQaNyJxth/E24jj
-         N8dCsSmwRFnE43QE95w8sLMx5PeX8zz4unkeH8A0gRshQYZid9fYaRxOFwJGdhGsUIYT
-         M/tQ==
-X-Gm-Message-State: AOJu0YyricigEhrUAZVJiGxIZy6sXta1+IT/w2bQxPzkasc81hS5A07C
-	D7Z4jRPCz9fFwYbhxWQcGYyvrQ==
-X-Google-Smtp-Source: AGHT+IF8+0sOvpzh2S++9Gld77ion3LJ0vBuHR01Sdz45qfUXSxfnCpMtZxXVIqRA118ewYlXUkYRw==
-X-Received: by 2002:a05:6a00:1ac9:b0:688:6d56:521e with SMTP id f9-20020a056a001ac900b006886d56521emr1317235pfv.33.1692317318596;
-        Thu, 17 Aug 2023 17:08:38 -0700 (PDT)
+        bh=BJAStmqEWJCV11M3alF7g0EvIWbhKJ8cHn0i1bzIQ+w=;
+        b=M9zSsAfaO8vg+OhpKUq+pvRuFOVeXL+GhECk4KLqQfEKPDsI2RKV8H8a3qD5FWamQk
+         uhefTX0Vg+XLjCGzopL9hDwhWGhv2dgcupnDpMW1FYgFlGtWc6OCbkZz8ZZx/QBOhgnW
+         8IJtN1RzJQMku8A+GZ/4B5RqptjTA9uaPy47PzFbZYy0nMS1cC41Yo5ktcXva+crbiOg
+         HBHLNAHGWQmFP/NgV6BpNUt/yJIgFxSUCuI0od1FjZjxJAhBqjA7wafsCmHL4cYrLdcL
+         9p9NhGFD6TY4kadvtzViBoHAKYPEqr8S/6ZlwKejE3CpOtEfotPloUjOz17if+V7BaTa
+         JbyQ==
+X-Gm-Message-State: AOJu0YwV3IpbktK6/mED8hqS6CsYsffFqZyYTfkmr1/uynbE00zqJpGg
+	7LPWiqSnmyf98THrDifcQh8jxw==
+X-Google-Smtp-Source: AGHT+IFkVSQqkmXL975Xr4Tk7VbbfLZbWMUu/vztJf9RRnyAzWDuQtXtUyT8v9C9jYYePa2KPNQ1rw==
+X-Received: by 2002:a05:6870:9127:b0:1bc:d479:ed70 with SMTP id o39-20020a056870912700b001bcd479ed70mr1130390oae.25.1692317317112;
+        Thu, 17 Aug 2023 17:08:37 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id g24-20020a62e318000000b0068890a249a7sm320566pfh.21.2023.08.17.17.08.35
+        by smtp.gmail.com with ESMTPSA id n10-20020a17090a670a00b0025c1cfdb93esm349211pjj.13.2023.08.17.17.08.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 17 Aug 2023 17:08:35 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
 To: Vinod Koul <vkoul@kernel.org>
 Cc: Kees Cook <keescook@chromium.org>,
-	Yu Kuai <yukuai3@huawei.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jordy Zomer <jordy@pwning.systems>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
 	dmaengine@vger.kernel.org,
 	Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
 	Zhou Wang <wangzhou1@hisilicon.com>,
 	Jie Hai <haijie1@huawei.com>,
@@ -64,9 +61,12 @@ Cc: Kees Cook <keescook@chromium.org>,
 	Laxman Dewangan <ldewangan@nvidia.com>,
 	Jon Hunter <jonathanh@nvidia.com>,
 	Thierry Reding <thierry.reding@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
 	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jordy Zomer <jordy@pwning.systems>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
 	Tom Rix <trix@redhat.com>,
@@ -78,9 +78,9 @@ Cc: Kees Cook <keescook@chromium.org>,
 	linux-tegra@vger.kernel.org,
 	llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 21/21] dmaengine: usb-dmac: Annotate struct usb_dmac_desc with __counted_by
-Date: Thu, 17 Aug 2023 16:58:58 -0700
-Message-Id: <20230817235859.49846-21-keescook@chromium.org>
+Subject: [PATCH 18/21] dmaengine: ti: omap-dma: Annotate struct omap_desc with __counted_by
+Date: Thu, 17 Aug 2023 16:58:55 -0700
+Message-Id: <20230817235859.49846-18-keescook@chromium.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230817235428.never.111-kees@kernel.org>
 References: <20230817235428.never.111-kees@kernel.org>
@@ -90,19 +90,19 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1376; i=keescook@chromium.org;
- h=from:subject; bh=4hPk4/3zaGHWUOFawsMJcft57ZMEf+1nR8QKiVCA4No=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRBx2JZWreayfOXQj+zy3mCR8g7RE9H3jYXD
- QMZ4dudGRKJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QQAKCRCJcvTf3G3A
- Jp9HD/9n5ghwAXv8nh4Qxc3XxAqZYeaVe7x9jiT60JfcdraN+/WY5bCHGWqSG+fEhFggmfo5FzD
- 6GTpkvqX4ivg0We7ceDtG9SqkhPKEwBoWXm5kM3ufbbJwiEqbpLxXE6rGBWN3mdgA5blDa8bbWc
- KLb++Nzd5KDDkGXg/axNw6uWdNsFTdjs2mEYp5W1xlwxEi0epibZy0UbOMb6nxKlJkjNhczwCqq
- IWq1Bw/Ae3nCP438KrwWZnn/JF2WlRIPvE8xs/0SKRCj98Z+48u05ACIA9QHLOxZndnbvgxOl8M
- foh7xCqYg5eM/WEPWppoyzbLHGJSV9/qaPNMwP2jrQwvmcnXBAHldywCU4ph8Qwg6sZVGPDToXo
- XCxB37cp4A3dlZMKY7xLwUfHC3SuDR+QdUzRIoDvEXkp1TyCKi++OiBC0uTaKct2ByLXJPSVQR+
- uy3fKNevuOa90s32XtmeSp7MXKeob7Q9/OCUebWEjkp99oIw0wOYS+1w2IzcA6sN2HpB5BF7cZZ
- 4UAMrAMw7McvG4xOSA/GpJYEWADYtQ5vLhrRp6Y8iZ0oJ7Edber817/7F6PO9r2jFJfXsuJhDG3
- ouohBYPImYbsHXqZvi2GsrhhdFI0GpWJ+WKPDAuoIZdvIq1pl5K5No6qWy49KQhB8FH+nfUe9ye H7z7nLEZJUAVhhQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1732; i=keescook@chromium.org;
+ h=from:subject; bh=KkqTKiy8rqvFYl8aW58GCbimShLAkaRsCHzcvcCWSRw=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBk3rRBNQrQGSxUXSXTSL+LF23xeHTG1HiHDx+NZ
+ DxNL9D2ClaJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZN60QQAKCRCJcvTf3G3A
+ JstED/45VAohOEERN7C2lIV4zZVuC4OumCYP+mNrRtNtNzgTirqKjGCFbY5TkcbFBX9k7DrLDgS
+ O13YhKpbYpdvbWnGSeyb3uF+VGAi5gnoUyIqwH/qwyDHFXcWuO48mXo+cu/8YLZeJxa5E+W/SNR
+ Dg83cQ0lXZmMqd8yYOc4SRNUpXBQGklpsswWwAaTe5TXdvq0b4jFPboIw88TEncJSXUKgmOajZC
+ Bw259+NR+DyoqUms3n4xhOKHZYZcE/pVrnWV0dydmbg9C0arCn5GLThkZD05+PV5iKgN1AJmxTc
+ hCzGYVh8UU74S3XB0OAIRRum0P/QVS65aFVd5ncstN3ivfSpgvS3F5wZh3bfEBY7rlt+meDWGNO
+ kHm+TZ6D/Tru1vy3ISGD5DeUovqDen5gLBUN20wYUyEKCSWKzd5LzRAu1W3uoHXFz6HpdEaa3jn
+ LIxAZTHuCeJ+sKoxAbf5nBMCfqUXZ/KB7jP7yzf/c2SB3hVND2jeQLo3WiaoMLsvBRHb2/D36dp
+ h3JI9oFzJ0Oqo+tpdhBFiAGpUPqnLYk7MVqaIGrgT8DlN7QB/i/hzHQFmk85WOkneZu/WYLZL3w
+ iLBlUGubkbGblD5s2sp0LMWS0T/r9yUD8u8ndim38nSwUlyLw9CObnOXtj+udrDiMzpNOcZW/OL v3VOa7tcLzm25MQ==
 X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
@@ -112,35 +112,50 @@ their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 functions).
 
-As found with Coccinelle[1], add __counted_by for struct usb_dmac_desc.
+As found with Coccinelle[1], add __counted_by for struct omap_desc.
+Additionally, since the element count member must be set before accessing
+the annotated flexible array member, move its initialization earlier.
 
 [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
 Cc: Vinod Koul <vkoul@kernel.org>
-Cc: Yu Kuai <yukuai3@huawei.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jordy Zomer <jordy@pwning.systems>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>
 Cc: dmaengine@vger.kernel.org
 Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- drivers/dma/sh/usb-dmac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/dma/ti/omap-dma.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/dma/sh/usb-dmac.c b/drivers/dma/sh/usb-dmac.c
-index b14cf350b669..4cfcd23e3268 100644
---- a/drivers/dma/sh/usb-dmac.c
-+++ b/drivers/dma/sh/usb-dmac.c
-@@ -57,7 +57,7 @@ struct usb_dmac_desc {
- 	u32 residue;
- 	struct list_head node;
- 	dma_cookie_t done_cookie;
--	struct usb_dmac_sg sg[];
-+	struct usb_dmac_sg sg[] __counted_by(sg_allocated_len);
+diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
+index cf96cf915c0c..11ac3fc0a52a 100644
+--- a/drivers/dma/ti/omap-dma.c
++++ b/drivers/dma/ti/omap-dma.c
+@@ -124,7 +124,7 @@ struct omap_desc {
+ 	uint32_t csdp;		/* CSDP value */
+ 
+ 	unsigned sglen;
+-	struct omap_sg sg[];
++	struct omap_sg sg[] __counted_by(sglen);
  };
  
- #define to_usb_dmac_desc(vd)	container_of(vd, struct usb_dmac_desc, vd)
+ enum {
+@@ -1005,6 +1005,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_slave_sg(
+ 	d = kzalloc(struct_size(d, sg, sglen), GFP_ATOMIC);
+ 	if (!d)
+ 		return NULL;
++	d->sglen = sglen;
+ 
+ 	d->dir = dir;
+ 	d->dev_addr = dev_addr;
+@@ -1120,8 +1121,6 @@ static struct dma_async_tx_descriptor *omap_dma_prep_slave_sg(
+ 		}
+ 	}
+ 
+-	d->sglen = sglen;
+-
+ 	/* Release the dma_pool entries if one allocation failed */
+ 	if (ll_failed) {
+ 		for (i = 0; i < d->sglen; i++) {
 -- 
 2.34.1
 
