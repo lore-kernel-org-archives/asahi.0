@@ -1,163 +1,115 @@
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DB28478;
-	Fri, 18 Aug 2023 03:55:40 +0000 (UTC)
-Received: from eig-obgw-6003a.ext.cloudfilter.net ([10.0.30.151])
-	by cmsmtp with ESMTP
-	id WmuKq3TyeQFHRWqaKqwQXR; Fri, 18 Aug 2023 03:55:40 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id WqaKqAKE2oeMqWqaKqvgGT; Fri, 18 Aug 2023 03:55:40 +0000
-X-Authority-Analysis: v=2.4 cv=F9xEy4tN c=1 sm=1 tr=0 ts=64deebbc
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=WzbPXH4gqzPVN0x6HrNMNA==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=IkcTkHD0fZMA:10 a=UttIx32zK-AA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=cm27Pg_UAAAA:8 a=HvF037n1xESchLcPDVoA:9
- a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=xmb-EsYY8bH0VWELuYED:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=/CaltAbw9kXoOTkGA4OE5zZGNtQe7YqeZHvxU27zSHI=; b=VFqmbvP9jPcq9FBHlW1rFOuXzs
-	4RdFRuq2koYRsFuYDT1gW+hRskGxauToUbJXGS7bg6l1gqxSnac7swgcT2LY1YO88rrKxDk9SrHtK
-	YJmfIrT0+m9POf2vT+fntaW8A3jvgxmiAykLEc/XWdXWptNurdcYARUYDdj6kNhZWE4hTBEXGw7A8
-	GcJ8yfJTqrVqDr8mQv7ZnZSXEKAHcR2RkXjhqZDp1huw1Ab9cKICWRU4YLFBJmJA/BG2Yvmix4cWZ
-	hl7RpAwdNwdXoxnTGnxvW+0O4orZrO7i0zKMuBTpnz5ubwDz4XlWL4uxKZKQbax9TcRP3Wnu/NEaI
-	KzssiFFQ==;
-Received: from 187-162-21-192.static.axtel.net ([187.162.21.192]:51454 helo=[192.168.15.8])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1qWp0a-001CPk-2l;
-	Thu, 17 Aug 2023 21:14:40 -0500
-Message-ID: <a21ec18e-21be-2715-f125-a7ec67c2cb02@embeddedor.com>
-Date: Thu, 17 Aug 2023 20:15:39 -0600
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2DE14F70;
+	Fri, 18 Aug 2023 07:19:36 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4fe3b86cec1so821680e87.2;
+        Fri, 18 Aug 2023 00:19:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1692343174; x=1692947974;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3WLOotOOz6Whg1Mj8YD4tZ6eErSJfZzqhK5ewDoU7mk=;
+        b=IajLjVccbpcsXfF6OU5/ko/nIqNPbKcFd6e2aT5W9pBlW3XQUm0m8EFelVlZe6qRYL
+         hWfKGC6zkHirHD0Vk6UA4I7/2OUev/lpIE9w4wAGxOAcRDp9fy8tvwY3PaRb713hq5Gl
+         Ys5PXLIU5EDvX9oI3MBIkzEaQc7cILrdOSuLwl1tEdn8tlxG3g2fibsJ/q6uhZAu2ku7
+         aE18AjUnFuVL9CSUtFtOHehtPsngPwBUaJYyEiaOqsSEZyqN18nC2K89Z4vNHRSAU4rp
+         RAR3IFqyKlGJRvP7D4qX+wkF2V7I7PY6OmNwO+F3SO9HC6Tuim6u5wHSzb3xNeRTA52I
+         RWEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1692343174; x=1692947974;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3WLOotOOz6Whg1Mj8YD4tZ6eErSJfZzqhK5ewDoU7mk=;
+        b=kjDT68ADJldH/HJC8nfM9k4xjJX7BG3/g7rKoOG1PP5HJ7k0mmiKCh3uvnCffkciWv
+         prY2dZKvLVTCtpYYiHyrTcxUwkwKFTR9TNMnHzxUkGhrxFxfJBCWwqmphFMgUUZdlXeQ
+         TsYXl+i9RZZF7Et1ovHZlgSgx0wk+MPVuR7i+abZyelt7cu3MfNuIVbvhmmjYa2kJMHU
+         5bUZcE9LOo9SECeNhKqxQdr59+20CXzPsnJmOYz/kbROvSkkyZ3MYARoXnMQhuQn3QU4
+         f9/KGqQQdFOPMjHLW+PrbMAo+BiS+eQ4ABkYLpF0IGaN3sHoPFNeAUA6GSXDWyMqyOCp
+         8Kug==
+X-Gm-Message-State: AOJu0YzpaxrbLjnxd+YYJwxGTuvCFmyg9LmsEA/aqEbz768za3pnBFzx
+	KgjLY+4jumPUWzv2hvehqWO8w5R4cdze8J+XN+0=
+X-Google-Smtp-Source: AGHT+IEH6Jq48dkRZ4ezmCDNiEhdIsVUoXZNVTgzFF8vUlSHsXfot+cfT4CogWsvKA/tHn7Z/98bxJ7Qo34oYIi4M4s=
+X-Received: by 2002:a05:6512:2202:b0:4fe:ef9:c8d0 with SMTP id
+ h2-20020a056512220200b004fe0ef9c8d0mr1268562lfu.35.1692343174179; Fri, 18 Aug
+ 2023 00:19:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH 18/21] dmaengine: ti: omap-dma: Annotate struct omap_desc
- with __counted_by
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>, Vinod Koul <vkoul@kernel.org>
-Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>, dmaengine@vger.kernel.org,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Tudor Ambarus <tudor.ambarus@linaro.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Zhou Wang <wangzhou1@hisilicon.com>,
- Jie Hai <haijie1@huawei.com>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Green Wan <green.wan@sifive.com>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Patrice Chotard <patrice.chotard@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Laxman Dewangan <ldewangan@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>, Yu Kuai <yukuai3@huawei.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jordy Zomer <jordy@pwning.systems>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org,
- llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-References: <20230817235428.never.111-kees@kernel.org>
- <20230817235859.49846-18-keescook@chromium.org>
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <20230817235859.49846-18-keescook@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.21.192
-X-Source-L: No
-X-Exim-ID: 1qWp0a-001CPk-2l
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-21-192.static.axtel.net ([192.168.15.8]) [187.162.21.192]:51454
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 9
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfDr1vlC3VZXGiaI+em1TpUlxGjg5JIKtQM95TQfX6Ha834LEYhx6n/hUyjTW6X6HniasPf72qOj9rTEcQaBSDXgqxAs+V5lPJu24TPqQasJoFKVGhhu0
- r4Q1tSk5eR/ULG29K5N4FQGjeqvatecGhmWzmxiq0GcEbqrRohXL9TmzcQ5ERl8hEPyH1Tg4vFdR376PmmxSvzjM84dS4Q5fkuROs8rHVgQLTb6608/w4MDC
- JSbt9P/iJlDSPOYFUfwTZw==
+References: <20230817235428.never.111-kees@kernel.org> <20230817235859.49846-10-keescook@chromium.org>
+In-Reply-To: <20230817235859.49846-10-keescook@chromium.org>
+From: Chunyan Zhang <zhang.lyra@gmail.com>
+Date: Fri, 18 Aug 2023 15:18:57 +0800
+Message-ID: <CAAfSe-s_XMzqMLsGpvZoeDBm8+ugJwTYoCDC7g0Yx4dJgsJ6wA@mail.gmail.com>
+Subject: Re: [PATCH 10/21] dmaengine: sprd: Annotate struct sprd_dma_dev with __counted_by
+To: Kees Cook <keescook@chromium.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, dmaengine@vger.kernel.org, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ludovic Desroches <ludovic.desroches@microchip.com>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Zhou Wang <wangzhou1@hisilicon.com>, Jie Hai <haijie1@huawei.com>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Green Wan <green.wan@sifive.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Laxman Dewangan <ldewangan@nvidia.com>, 
+	Jon Hunter <jonathanh@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Yu Kuai <yukuai3@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jordy Zomer <jordy@pwning.systems>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 8/17/23 17:58, Kees Cook wrote:
+On Fri, 18 Aug 2023 at 07:59, Kees Cook <keescook@chromium.org> wrote:
+>
 > Prepare for the coming implementation by GCC and Clang of the __counted_by
 > attribute. Flexible array members annotated with __counted_by can have
 > their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 > (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 > functions).
-> 
-> As found with Coccinelle[1], add __counted_by for struct omap_desc.
-> Additionally, since the element count member must be set before accessing
-> the annotated flexible array member, move its initialization earlier.
-> 
+>
+> As found with Coccinelle[1], add __counted_by for struct sprd_dma_dev.
+>
 > [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-> 
+>
 > Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+> Cc: Orson Zhai <orsonzhai@gmail.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
 > Cc: dmaengine@vger.kernel.org
 > Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+Acked-by: Chunyan Zhang <zhang.lyra@gmail.com>
 
-Thanks
---
-Gustavo
+Thanks,
+Chunyan
 
 > ---
->   drivers/dma/ti/omap-dma.c | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
-> index cf96cf915c0c..11ac3fc0a52a 100644
-> --- a/drivers/dma/ti/omap-dma.c
-> +++ b/drivers/dma/ti/omap-dma.c
-> @@ -124,7 +124,7 @@ struct omap_desc {
->   	uint32_t csdp;		/* CSDP value */
->   
->   	unsigned sglen;
-> -	struct omap_sg sg[];
-> +	struct omap_sg sg[] __counted_by(sglen);
->   };
->   
->   enum {
-> @@ -1005,6 +1005,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_slave_sg(
->   	d = kzalloc(struct_size(d, sg, sglen), GFP_ATOMIC);
->   	if (!d)
->   		return NULL;
-> +	d->sglen = sglen;
->   
->   	d->dir = dir;
->   	d->dev_addr = dev_addr;
-> @@ -1120,8 +1121,6 @@ static struct dma_async_tx_descriptor *omap_dma_prep_slave_sg(
->   		}
->   	}
->   
-> -	d->sglen = sglen;
-> -
->   	/* Release the dma_pool entries if one allocation failed */
->   	if (ll_failed) {
->   		for (i = 0; i < d->sglen; i++) {
+>  drivers/dma/sprd-dma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
+> index 168aa0bd73a0..07871dcc4593 100644
+> --- a/drivers/dma/sprd-dma.c
+> +++ b/drivers/dma/sprd-dma.c
+> @@ -212,7 +212,7 @@ struct sprd_dma_dev {
+>         struct clk              *ashb_clk;
+>         int                     irq;
+>         u32                     total_chns;
+> -       struct sprd_dma_chn     channels[];
+> +       struct sprd_dma_chn     channels[] __counted_by(total_chns);
+>  };
+>
+>  static void sprd_dma_free_desc(struct virt_dma_desc *vd);
+> --
+> 2.34.1
+>
