@@ -1,115 +1,125 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2DE14F70;
-	Fri, 18 Aug 2023 07:19:36 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4fe3b86cec1so821680e87.2;
-        Fri, 18 Aug 2023 00:19:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD0C4689
+	for <asahi@lists.linux.dev>; Fri, 18 Aug 2023 09:29:31 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-523bf06f7f8so830961a12.1
+        for <asahi@lists.linux.dev>; Fri, 18 Aug 2023 02:29:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1692343174; x=1692947974;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3WLOotOOz6Whg1Mj8YD4tZ6eErSJfZzqhK5ewDoU7mk=;
-        b=IajLjVccbpcsXfF6OU5/ko/nIqNPbKcFd6e2aT5W9pBlW3XQUm0m8EFelVlZe6qRYL
-         hWfKGC6zkHirHD0Vk6UA4I7/2OUev/lpIE9w4wAGxOAcRDp9fy8tvwY3PaRb713hq5Gl
-         Ys5PXLIU5EDvX9oI3MBIkzEaQc7cILrdOSuLwl1tEdn8tlxG3g2fibsJ/q6uhZAu2ku7
-         aE18AjUnFuVL9CSUtFtOHehtPsngPwBUaJYyEiaOqsSEZyqN18nC2K89Z4vNHRSAU4rp
-         RAR3IFqyKlGJRvP7D4qX+wkF2V7I7PY6OmNwO+F3SO9HC6Tuim6u5wHSzb3xNeRTA52I
-         RWEQ==
+        d=linaro.org; s=google; t=1692350969; x=1692955769;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jTPWfjzgiS6MREC/CQy9YZ7a0Ba4pXdxJTPBP//ZxkQ=;
+        b=ChP1wEg29yXYxpK7J9uqfILfPe/L9xBS0HNQPXH54y1zGDEvcdwljY5HVw15zrjTzx
+         VpGb3h1ffXsIXv8NTndpsLQEcYlTmf6GA/8cPAvQ5OUfezNHFsG8dA4nQbmzYXZ+EEL/
+         +E2hg2SAdUHITLhvITSusy2v1ZLvoO2kw3JiBht3/qHk2OjQyiKqn5GvDCtklD/qqqOS
+         WHA7JqYdvqZ/Rjg0POkhOL40Q+5AYUtbCVBLV0PI/oamzCz/eMWcPzEw4/GQHHTTUYwt
+         OWzP/mRyk+KkHBFUux84C272URdVjJQPiQUdj9yjv5T/igPb7VaLMxL8ciSwoEZ9ARB8
+         hxvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692343174; x=1692947974;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3WLOotOOz6Whg1Mj8YD4tZ6eErSJfZzqhK5ewDoU7mk=;
-        b=kjDT68ADJldH/HJC8nfM9k4xjJX7BG3/g7rKoOG1PP5HJ7k0mmiKCh3uvnCffkciWv
-         prY2dZKvLVTCtpYYiHyrTcxUwkwKFTR9TNMnHzxUkGhrxFxfJBCWwqmphFMgUUZdlXeQ
-         TsYXl+i9RZZF7Et1ovHZlgSgx0wk+MPVuR7i+abZyelt7cu3MfNuIVbvhmmjYa2kJMHU
-         5bUZcE9LOo9SECeNhKqxQdr59+20CXzPsnJmOYz/kbROvSkkyZ3MYARoXnMQhuQn3QU4
-         f9/KGqQQdFOPMjHLW+PrbMAo+BiS+eQ4ABkYLpF0IGaN3sHoPFNeAUA6GSXDWyMqyOCp
-         8Kug==
-X-Gm-Message-State: AOJu0YzpaxrbLjnxd+YYJwxGTuvCFmyg9LmsEA/aqEbz768za3pnBFzx
-	KgjLY+4jumPUWzv2hvehqWO8w5R4cdze8J+XN+0=
-X-Google-Smtp-Source: AGHT+IEH6Jq48dkRZ4ezmCDNiEhdIsVUoXZNVTgzFF8vUlSHsXfot+cfT4CogWsvKA/tHn7Z/98bxJ7Qo34oYIi4M4s=
-X-Received: by 2002:a05:6512:2202:b0:4fe:ef9:c8d0 with SMTP id
- h2-20020a056512220200b004fe0ef9c8d0mr1268562lfu.35.1692343174179; Fri, 18 Aug
- 2023 00:19:34 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1692350969; x=1692955769;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jTPWfjzgiS6MREC/CQy9YZ7a0Ba4pXdxJTPBP//ZxkQ=;
+        b=h/UpkXA4bjHzs0yt1yXDqEz2pt0J5YALKBjknH468h3ZWKCiVBdM8HNUjVHrKEO2zY
+         ql47Q+9FILUsy6qCpPjFyUwEdueNkKEovLlyzyF9DAYyWiMtmgZpVPVrpo2AvYl88nU4
+         Mg231rgSetiYYQ5CW6z2h/SjKPa+oxg1lC3J5cTwuI/crAyxroMYpeC8uyOzp05fbGp2
+         Uzg4oOBHzGmT9a56SXZZRQE3ccg2XkcxlGI0LppyMCAdyFb7aXG8rOKQtFn0bSNmQAvK
+         dbN+QAtVtlef/CQVzT3BftFO/thkJJIBo+7x2GIQy8I8iSZnMYlC2726uIeqmkJYgD5Q
+         HpIA==
+X-Gm-Message-State: AOJu0YyGIkO6I1doE+RclswC4W+d1eJv0MZPmWJzI6YRPpLwkCnI6aVt
+	0JHjf44V0SHIEw4xPDjTilEUsw==
+X-Google-Smtp-Source: AGHT+IHd1/56PSeqitQJGalEGxXcH26drQEeAdG2dzNVUp/FxWHNv/06+iWRebGIeZUvbnvpxSWWDA==
+X-Received: by 2002:a05:6402:5154:b0:525:466c:5fda with SMTP id n20-20020a056402515400b00525466c5fdamr1836205edd.28.1692350969335;
+        Fri, 18 Aug 2023 02:29:29 -0700 (PDT)
+Received: from [192.168.0.107] ([79.115.63.195])
+        by smtp.gmail.com with ESMTPSA id e26-20020a056402149a00b005233deb30aesm857895edv.10.2023.08.18.02.29.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Aug 2023 02:29:28 -0700 (PDT)
+Message-ID: <d1c285ff-5eef-4dae-dde0-8946162f19ac@linaro.org>
+Date: Fri, 18 Aug 2023 10:29:24 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230817235428.never.111-kees@kernel.org> <20230817235859.49846-10-keescook@chromium.org>
-In-Reply-To: <20230817235859.49846-10-keescook@chromium.org>
-From: Chunyan Zhang <zhang.lyra@gmail.com>
-Date: Fri, 18 Aug 2023 15:18:57 +0800
-Message-ID: <CAAfSe-s_XMzqMLsGpvZoeDBm8+ugJwTYoCDC7g0Yx4dJgsJ6wA@mail.gmail.com>
-Subject: Re: [PATCH 10/21] dmaengine: sprd: Annotate struct sprd_dma_dev with __counted_by
-To: Kees Cook <keescook@chromium.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, dmaengine@vger.kernel.org, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ludovic Desroches <ludovic.desroches@microchip.com>, 
-	Tudor Ambarus <tudor.ambarus@linaro.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Zhou Wang <wangzhou1@hisilicon.com>, Jie Hai <haijie1@huawei.com>, 
-	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Green Wan <green.wan@sifive.com>, 
-	Patrice Chotard <patrice.chotard@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Laxman Dewangan <ldewangan@nvidia.com>, 
-	Jon Hunter <jonathanh@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Yu Kuai <yukuai3@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jordy Zomer <jordy@pwning.systems>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-tegra@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.1
+Subject: Re: [PATCH 02/21] dmaengine: at_hdmac: Annotate struct at_desc with
+ __counted_by
+To: Kees Cook <keescook@chromium.org>, Vinod Koul <vkoul@kernel.org>
+Cc: Ludovic Desroches <ludovic.desroches@microchip.com>,
+ linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Lars-Peter Clausen <lars@metafoo.de>, Zhou Wang <wangzhou1@hisilicon.com>,
+ Jie Hai <haijie1@huawei.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, Green Wan <green.wan@sifive.com>,
+ Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Patrice Chotard <patrice.chotard@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Laxman Dewangan <ldewangan@nvidia.com>, Jon Hunter <jonathanh@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Yu Kuai <yukuai3@huawei.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jordy Zomer <jordy@pwning.systems>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-tegra@vger.kernel.org, llvm@lists.linux.dev,
+ linux-hardening@vger.kernel.org
+References: <20230817235428.never.111-kees@kernel.org>
+ <20230817235859.49846-2-keescook@chromium.org>
+Content-Language: en-US
+From: Tudor Ambarus <tudor.ambarus@linaro.org>
+In-Reply-To: <20230817235859.49846-2-keescook@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 18 Aug 2023 at 07:59, Kees Cook <keescook@chromium.org> wrote:
->
+
+
+On 8/18/23 00:58, Kees Cook wrote:
 > Prepare for the coming implementation by GCC and Clang of the __counted_by
 > attribute. Flexible array members annotated with __counted_by can have
 > their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
 > (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
 > functions).
->
-> As found with Coccinelle[1], add __counted_by for struct sprd_dma_dev.
->
+> 
+> As found with Coccinelle[1], add __counted_by for struct at_desc.
+> 
 > [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
->
+> 
 > Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Orson Zhai <orsonzhai@gmail.com>
-> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+> Cc: Ludovic Desroches <ludovic.desroches@microchip.com>
+> Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
+> Cc: linux-arm-kernel@lists.infradead.org
 > Cc: dmaengine@vger.kernel.org
 > Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Acked-by: Chunyan Zhang <zhang.lyra@gmail.com>
-
-Thanks,
-Chunyan
-
+Reviewed-by: Tudor Ambarus <tudor.ambarus@linaro.org>
 > ---
->  drivers/dma/sprd-dma.c | 2 +-
+>  drivers/dma/at_hdmac.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
-> index 168aa0bd73a0..07871dcc4593 100644
-> --- a/drivers/dma/sprd-dma.c
-> +++ b/drivers/dma/sprd-dma.c
-> @@ -212,7 +212,7 @@ struct sprd_dma_dev {
->         struct clk              *ashb_clk;
->         int                     irq;
->         u32                     total_chns;
-> -       struct sprd_dma_chn     channels[];
-> +       struct sprd_dma_chn     channels[] __counted_by(total_chns);
+> 
+> diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
+> index b2876f67471f..b66c7f416881 100644
+> --- a/drivers/dma/at_hdmac.c
+> +++ b/drivers/dma/at_hdmac.c
+> @@ -239,7 +239,7 @@ struct at_desc {
+>  	bool				memset_buffer;
+>  	dma_addr_t			memset_paddr;
+>  	int				*memset_vaddr;
+> -	struct atdma_sg			sg[];
+> +	struct atdma_sg			sg[] __counted_by(sglen);
 >  };
->
->  static void sprd_dma_free_desc(struct virt_dma_desc *vd);
-> --
-> 2.34.1
->
+>  
+>  /*--  Channels  --------------------------------------------------------*/
