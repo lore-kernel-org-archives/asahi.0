@@ -1,31 +1,47 @@
-Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42BEB8469
-	for <asahi@lists.linux.dev>; Sun, 10 Sep 2023 19:05:27 +0000 (UTC)
-Received: by soltyk.jannau.net (Postfix, from userid 1000)
-	id 0A026270477; Sun, 10 Sep 2023 20:58:48 +0200 (CEST)
-Date: Sun, 10 Sep 2023 20:58:48 +0200
-From: Janne Grunau <j@jannau.net>
-To: Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
-Message-ID: <ZP4R6KKglD55jj0A@jannau.net>
-References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr [80.12.242.15])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45E788469
+	for <asahi@lists.linux.dev>; Sun, 10 Sep 2023 20:23:45 +0000 (UTC)
+Received: from [192.168.1.18] ([86.243.2.178])
+	by smtp.orange.fr with ESMTPA
+	id fQqjqzpvD0408fQqjqaHQK; Sun, 10 Sep 2023 22:16:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1694376968;
+	bh=RKE0XROMFTZ69Gm317IVP+Ru3SLHlplqDelJtYvM1po=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=BBC51B1Sbtz0f4sl/qpUwpRpyKq085Zkcx8+6V1LUaXSEcmUlw+wYNJPuKJNTbi6D
+	 qn4jGCJu6FhX2ErsBZLPU+8zG+o5H0mokvHXpyn/TepkpFETWpx3xjuZ7mn3XCjkpZ
+	 af0Z6OWnx9r7EhrKeTYCj2lzne0eeE7dTaTv+zFdCZmIa3XT52VWlGxqlxd9Q+B3xu
+	 rZws69OYxsCYXU5NlX+tqMbPGGKmkcn0xR9MYWoP3taFsYiOaOP2s62HBkjPK4AeyN
+	 jqoGdGOAlqmYMN7SQJ7gBScbw2RGz6UworUavwwr0nOQg3W+Yit5nsac/NKUsd/KKQ
+	 dH/aPV3OPoWpA==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 10 Sep 2023 22:16:07 +0200
+X-ME-IP: 86.243.2.178
+Message-ID: <0b6ad379-049a-5152-12e5-77c62ffc4541@wanadoo.fr>
+Date: Sun, 10 Sep 2023 22:16:05 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
+Content-Language: fr
+To: j@jannau.net, Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 In-Reply-To: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2023-09-10 18:39:39 +0200, Janne Grunau via B4 Relay wrote:
+Le 10/09/2023 à 18:39, Janne Grunau via B4 Relay a écrit :
 > From: Janne Grunau <j@jannau.net>
 > 
 > Multiple power domains need to be handled explicitly in each driver. The
@@ -40,38 +56,38 @@ On 2023-09-10 18:39:39 +0200, Janne Grunau via B4 Relay wrote:
 > 
 > Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
->  drivers/gpu/drm/tiny/simpledrm.c | 106 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 106 insertions(+)
+>   drivers/gpu/drm/tiny/simpledrm.c | 106 +++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 106 insertions(+)
 > 
 > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
 > index ff86ba1ae1b8..efedede57d42 100644
 > --- a/drivers/gpu/drm/tiny/simpledrm.c
 > +++ b/drivers/gpu/drm/tiny/simpledrm.c
 > @@ -6,6 +6,7 @@
->  #include <linux/of_address.h>
->  #include <linux/platform_data/simplefb.h>
->  #include <linux/platform_device.h>
+>   #include <linux/of_address.h>
+>   #include <linux/platform_data/simplefb.h>
+>   #include <linux/platform_device.h>
 > +#include <linux/pm_domain.h>
->  #include <linux/regulator/consumer.h>
->  
->  #include <drm/drm_aperture.h>
+>   #include <linux/regulator/consumer.h>
+>   
+>   #include <drm/drm_aperture.h>
 > @@ -227,6 +228,12 @@ struct simpledrm_device {
->  	unsigned int regulator_count;
->  	struct regulator **regulators;
->  #endif
+>   	unsigned int regulator_count;
+>   	struct regulator **regulators;
+>   #endif
 > +	/* power-domains */
 > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
 > +	int pwr_dom_count;
 > +	struct device **pwr_dom_devs;
 > +	struct device_link **pwr_dom_links;
 > +#endif
->  
->  	/* simplefb settings */
->  	struct drm_display_mode mode;
+>   
+>   	/* simplefb settings */
+>   	struct drm_display_mode mode;
 > @@ -468,6 +475,102 @@ static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
->  }
->  #endif
->  
+>   }
+>   #endif
+>   
 > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
 > +/*
 > + * Generic power domain handling code.
@@ -98,16 +114,9 @@ On 2023-09-10 18:39:39 +0200, Janne Grunau via B4 Relay wrote:
 > +{
 > +	int i;
 > +	struct simpledrm_device *sdev = /*(struct simpledrm_device *)*/res;
-
-commented cast, removed locally for v2
-
 > +
 > +
 > +	drm_err(&sdev->dev, "% power-domains count:%d\n", __func__, sdev->pwr_dom_count);
-
-broken log statement as pointed out by kernel test robot, not ment to be 
-included in this change. removed locally for v2
-
 > +	if (sdev->pwr_dom_count <= 1)
 > +		return;
 > +
@@ -157,6 +166,12 @@ included in this change. removed locally for v2
 > +				"pm_domain_attach_by_id(%u) failed: %d\n", i, ret);
 > +		}
 > +
+
+sdev->pwr_dom_devs[i] can be an ERR_PTR here.
+Maybe a break or a continue missing after drm_err() above?
+
+CJ
+
 > +		sdev->pwr_dom_links[i] = device_link_add(dev,
 > +							 sdev->pwr_dom_devs[i],
 > +							 DL_FLAG_STATELESS |
@@ -164,7 +179,34 @@ included in this change. removed locally for v2
 > +							 DL_FLAG_RPM_ACTIVE);
 > +		if (!sdev->pwr_dom_links[i])
 > +			drm_err(&sdev->dev, "failed to link power-domain %u\n", i);
+> +	}
+> +
+> +	return devm_add_action_or_reset(dev, simpledrm_device_detach_genpd, sdev);
+> +}
+> +#else
+> +static int simpledrm_device_attach_genpd(struct simpledrm_device *sdev)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> +
+>   /*
+>    * Modesetting
+>    */
+> @@ -651,6 +754,9 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+>   	if (ret)
+>   		return ERR_PTR(ret);
+>   	ret = simpledrm_device_init_regulators(sdev);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +	ret = simpledrm_device_attach_genpd(sdev);
+>   	if (ret)
+>   		return ERR_PTR(ret);
+>   
+> 
+> ---
+> base-commit: 15d30b46573d75f5cb58cfacded8ebab9c76a2b0
+> change-id: 20230910-simpledrm-multiple-power-domains-f41efa6ad9bc
+> 
+> Best regards,
 
-wrong format specifier for int, fixed locally for v2
-
-Janne
