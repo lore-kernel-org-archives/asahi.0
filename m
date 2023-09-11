@@ -1,247 +1,238 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A9AF51E
-	for <asahi@lists.linux.dev>; Mon, 11 Sep 2023 12:26:18 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2F09F1F8A6;
-	Mon, 11 Sep 2023 12:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1694435171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=HT4Y4nq/J5g00fCgUPdjuBKcMR4zQ+Ni+YCDnYKeA54=;
-	b=DDZzAoUEucLB9oIlC9fTncVKsqTQbFWodv/VxDq0cCWDfxARJfhFUmfEuypnINVC3jJDcA
-	GJmyTV8ObdFU/9dX8SK+ROSQGAWheM1hsH7HefacTTxFLK0jSjWe1k32+pTy/M1JpFz1pU
-	BhQ6vBb9nP6WRzlg+baY5nb7NkhItZw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1694435171;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=HT4Y4nq/J5g00fCgUPdjuBKcMR4zQ+Ni+YCDnYKeA54=;
-	b=idQKo5LSb2MP7w21NOZsgcYbVUBd155j1ZDgrAeXcW+433mEqv7jQhacClZVkGjJp/yNff
-	WlcJ1HsplNeG7fBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0547F139CC;
-	Mon, 11 Sep 2023 12:26:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id z+csAGMH/2QuCgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 11 Sep 2023 12:26:11 +0000
-Message-ID: <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
-Date: Mon, 11 Sep 2023 14:26:10 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A8D11705
+	for <asahi@lists.linux.dev>; Mon, 11 Sep 2023 14:43:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1694443407; x=1725979407;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=g6LNZoXHOiKMGWRLpT6oIKoFZc/vg7KVOmyjC4U+09E=;
+  b=MGKPMBjR5rbo1YsvW0rTxMCBmZEcSRLfFUPssP0sb13UJPjDc3AyIB26
+   j0byfCrmnoYkxnN/eiPe02HPp6A4vs+kQQbFwfyiBBQPRnjgjHnBjH3Bs
+   kM48B7SZBbv5EkIdAIjw5CDEZZwXu9jAsQCVN69YZjDR0fTLLRP6P6ly7
+   Z7NpyOsiH+zoHm9K2hWDkMQWMliqUoz+ueg7f7fbcPznCZSKMTglqJsxI
+   OBza59S8zGwN7QwRoFqLN/ZKa7mV1Q5cApfpfdoifOItpw/5oSDLuVh3D
+   FSnHOpnwDvVyMAAmpuTxg86oBY5QVVT4Ubw6EkL4eZY3IKtYg9qfXHnmI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="381904369"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="381904369"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 07:43:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10830"; a="917045930"
+X-IronPort-AV: E=Sophos;i="6.02,244,1688454000"; 
+   d="scan'208";a="917045930"
+Received: from kschuele-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.63.119])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2023 07:43:22 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, j@jannau.net, Javier Martinez
+ Canillas <javierm@redhat.com>, David Airlie <airlied@gmail.com>, Daniel
+ Vetter <daniel@ffwll.ch>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev
+Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
+In-Reply-To: <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+ <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
+Date: Mon, 11 Sep 2023 17:43:20 +0300
+Message-ID: <87tts0epo7.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
-Content-Language: en-US
-To: j@jannau.net, Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev
-References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------4M8cdUHyfNjDPiRMngCSk0qn"
+Content-Type: text/plain
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------4M8cdUHyfNjDPiRMngCSk0qn
-Content-Type: multipart/mixed; boundary="------------kpzYvdaKcjH0xuuH5zw29EU8";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: j@jannau.net, Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- asahi@lists.linux.dev
-Message-ID: <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
-Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
-References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
-In-Reply-To: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+On Mon, 11 Sep 2023, Thomas Zimmermann <tzimmermann@suse.de> wrote:
+> Hi
+>
+> Am 10.09.23 um 18:39 schrieb Janne Grunau via B4 Relay:
+>> From: Janne Grunau <j@jannau.net>
+>> 
+>> Multiple power domains need to be handled explicitly in each driver. The
+>> driver core can not handle it automatically since it is not aware of
+>> power sequencing requirements the hardware might have. This is not a
+>> problem for simpledrm since everything is expected to be powered on by
+>> the bootloader. simpledrm has just ensure it remains powered on during
+>> its lifetime.
+>> This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
+>> systems. The HDMI output initialized by the bootloader requires keeping
+>> the display controller and a DP phy power domain on.
+>> 
+>> Signed-off-by: Janne Grunau <j@jannau.net>
+>> ---
+>>   drivers/gpu/drm/tiny/simpledrm.c | 106 +++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 106 insertions(+)
+>> 
+>> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+>> index ff86ba1ae1b8..efedede57d42 100644
+>> --- a/drivers/gpu/drm/tiny/simpledrm.c
+>> +++ b/drivers/gpu/drm/tiny/simpledrm.c
+>> @@ -6,6 +6,7 @@
+>>   #include <linux/of_address.h>
+>>   #include <linux/platform_data/simplefb.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/pm_domain.h>
+>>   #include <linux/regulator/consumer.h>
+>>   
+>>   #include <drm/drm_aperture.h>
+>> @@ -227,6 +228,12 @@ struct simpledrm_device {
+>>   	unsigned int regulator_count;
+>>   	struct regulator **regulators;
+>>   #endif
+>> +	/* power-domains */
+>> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+>> +	int pwr_dom_count;
+>> +	struct device **pwr_dom_devs;
+>> +	struct device_link **pwr_dom_links;
+>> +#endif
+>>   
+>>   	/* simplefb settings */
+>>   	struct drm_display_mode mode;
+>> @@ -468,6 +475,102 @@ static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
+>>   }
+>>   #endif
+>>   
+>> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+>> +/*
+>> + * Generic power domain handling code.
+>> + *
+>> + * Here we handle the power-domains properties of our "simple-framebuffer"
+>> + * dt node. This is only necessary if there is more than one power-domain.
+>> + * A single power-domains is handled automatically by the driver core. Multiple
+>> + * power-domains have to be handled by drivers since the driver core can't know
+>> + * the correct power sequencing. Power sequencing is not an issue for simpledrm
+>> + * since the bootloader has put the power domains already in the correct state.
+>> + * simpledrm has only to ensure they remain active for its lifetime.
+>> + *
+>> + * When the driver unloads, we detach from the power-domains.
+>> + *
+>> + * We only complain about errors here, no action is taken as the most likely
+>> + * error can only happen due to a mismatch between the bootloader which set
+>> + * up the "simple-framebuffer" dt node, and the PM domain providers in the
+>> + * device tree. Chances are that there are no adverse effects, and if there are,
+>> + * a clean teardown of the fb probe will not help us much either. So just
+>> + * complain and carry on, and hope that the user actually gets a working fb at
+>> + * the end of things.
+>> + */
+>> +static void simpledrm_device_detach_genpd(void *res)
+>> +{
+>> +	int i;
+>> +	struct simpledrm_device *sdev = /*(struct simpledrm_device *)*/res;
+>> +
+>> +
+>> +	drm_err(&sdev->dev, "% power-domains count:%d\n", __func__, sdev->pwr_dom_count);
+>
+> If anything, drm_dbg()
 
---------------kpzYvdaKcjH0xuuH5zw29EU8
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Drive-by comment, drm_dbg() already prints the function, there's no need
+to use __func__.
 
-SGkNCg0KQW0gMTAuMDkuMjMgdW0gMTg6Mzkgc2NocmllYiBKYW5uZSBHcnVuYXUgdmlhIEI0
-IFJlbGF5Og0KPiBGcm9tOiBKYW5uZSBHcnVuYXUgPGpAamFubmF1Lm5ldD4NCj4gDQo+IE11
-bHRpcGxlIHBvd2VyIGRvbWFpbnMgbmVlZCB0byBiZSBoYW5kbGVkIGV4cGxpY2l0bHkgaW4g
-ZWFjaCBkcml2ZXIuIFRoZQ0KPiBkcml2ZXIgY29yZSBjYW4gbm90IGhhbmRsZSBpdCBhdXRv
-bWF0aWNhbGx5IHNpbmNlIGl0IGlzIG5vdCBhd2FyZSBvZg0KPiBwb3dlciBzZXF1ZW5jaW5n
-IHJlcXVpcmVtZW50cyB0aGUgaGFyZHdhcmUgbWlnaHQgaGF2ZS4gVGhpcyBpcyBub3QgYQ0K
-PiBwcm9ibGVtIGZvciBzaW1wbGVkcm0gc2luY2UgZXZlcnl0aGluZyBpcyBleHBlY3RlZCB0
-byBiZSBwb3dlcmVkIG9uIGJ5DQo+IHRoZSBib290bG9hZGVyLiBzaW1wbGVkcm0gaGFzIGp1
-c3QgZW5zdXJlIGl0IHJlbWFpbnMgcG93ZXJlZCBvbiBkdXJpbmcNCj4gaXRzIGxpZmV0aW1l
-Lg0KPiBUaGlzIGlzIHJlcXVpcmVkIG9uIEFwcGxlIHNpbGljb24gTTIgYW5kIE0yIFByby9N
-YXgvVWx0cmEgZGVza3RvcA0KPiBzeXN0ZW1zLiBUaGUgSERNSSBvdXRwdXQgaW5pdGlhbGl6
-ZWQgYnkgdGhlIGJvb3Rsb2FkZXIgcmVxdWlyZXMga2VlcGluZw0KPiB0aGUgZGlzcGxheSBj
-b250cm9sbGVyIGFuZCBhIERQIHBoeSBwb3dlciBkb21haW4gb24uDQo+IA0KPiBTaWduZWQt
-b2ZmLWJ5OiBKYW5uZSBHcnVuYXUgPGpAamFubmF1Lm5ldD4NCj4gLS0tDQo+ICAgZHJpdmVy
-cy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgfCAxMDYgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEwNiBpbnNlcnRpb25z
-KCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJt
-LmMgYi9kcml2ZXJzL2dwdS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPiBpbmRleCBmZjg2YmEx
-YWUxYjguLmVmZWRlZGU1N2Q0MiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rp
-bnkvc2ltcGxlZHJtLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJt
-LmMNCj4gQEAgLTYsNiArNiw3IEBADQo+ICAgI2luY2x1ZGUgPGxpbnV4L29mX2FkZHJlc3Mu
-aD4NCj4gICAjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGF0YS9zaW1wbGVmYi5oPg0KPiAg
-ICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4gKyNpbmNsdWRlIDxsaW51
-eC9wbV9kb21haW4uaD4NCj4gICAjaW5jbHVkZSA8bGludXgvcmVndWxhdG9yL2NvbnN1bWVy
-Lmg+DQo+ICAgDQo+ICAgI2luY2x1ZGUgPGRybS9kcm1fYXBlcnR1cmUuaD4NCj4gQEAgLTIy
-Nyw2ICsyMjgsMTIgQEAgc3RydWN0IHNpbXBsZWRybV9kZXZpY2Ugew0KPiAgIAl1bnNpZ25l
-ZCBpbnQgcmVndWxhdG9yX2NvdW50Ow0KPiAgIAlzdHJ1Y3QgcmVndWxhdG9yICoqcmVndWxh
-dG9yczsNCj4gICAjZW5kaWYNCj4gKwkvKiBwb3dlci1kb21haW5zICovDQo+ICsjaWYgZGVm
-aW5lZCBDT05GSUdfT0YgJiYgZGVmaW5lZCBDT05GSUdfUE1fR0VORVJJQ19ET01BSU5TDQo+
-ICsJaW50IHB3cl9kb21fY291bnQ7DQo+ICsJc3RydWN0IGRldmljZSAqKnB3cl9kb21fZGV2
-czsNCj4gKwlzdHJ1Y3QgZGV2aWNlX2xpbmsgKipwd3JfZG9tX2xpbmtzOw0KPiArI2VuZGlm
-DQo+ICAgDQo+ICAgCS8qIHNpbXBsZWZiIHNldHRpbmdzICovDQo+ICAgCXN0cnVjdCBkcm1f
-ZGlzcGxheV9tb2RlIG1vZGU7DQo+IEBAIC00NjgsNiArNDc1LDEwMiBAQCBzdGF0aWMgaW50
-IHNpbXBsZWRybV9kZXZpY2VfaW5pdF9yZWd1bGF0b3JzKHN0cnVjdCBzaW1wbGVkcm1fZGV2
-aWNlICpzZGV2KQ0KPiAgIH0NCj4gICAjZW5kaWYNCj4gICANCj4gKyNpZiBkZWZpbmVkIENP
-TkZJR19PRiAmJiBkZWZpbmVkIENPTkZJR19QTV9HRU5FUklDX0RPTUFJTlMNCj4gKy8qDQo+
-ICsgKiBHZW5lcmljIHBvd2VyIGRvbWFpbiBoYW5kbGluZyBjb2RlLg0KPiArICoNCj4gKyAq
-IEhlcmUgd2UgaGFuZGxlIHRoZSBwb3dlci1kb21haW5zIHByb3BlcnRpZXMgb2Ygb3VyICJz
-aW1wbGUtZnJhbWVidWZmZXIiDQo+ICsgKiBkdCBub2RlLiBUaGlzIGlzIG9ubHkgbmVjZXNz
-YXJ5IGlmIHRoZXJlIGlzIG1vcmUgdGhhbiBvbmUgcG93ZXItZG9tYWluLg0KPiArICogQSBz
-aW5nbGUgcG93ZXItZG9tYWlucyBpcyBoYW5kbGVkIGF1dG9tYXRpY2FsbHkgYnkgdGhlIGRy
-aXZlciBjb3JlLiBNdWx0aXBsZQ0KPiArICogcG93ZXItZG9tYWlucyBoYXZlIHRvIGJlIGhh
-bmRsZWQgYnkgZHJpdmVycyBzaW5jZSB0aGUgZHJpdmVyIGNvcmUgY2FuJ3Qga25vdw0KPiAr
-ICogdGhlIGNvcnJlY3QgcG93ZXIgc2VxdWVuY2luZy4gUG93ZXIgc2VxdWVuY2luZyBpcyBu
-b3QgYW4gaXNzdWUgZm9yIHNpbXBsZWRybQ0KPiArICogc2luY2UgdGhlIGJvb3Rsb2FkZXIg
-aGFzIHB1dCB0aGUgcG93ZXIgZG9tYWlucyBhbHJlYWR5IGluIHRoZSBjb3JyZWN0IHN0YXRl
-Lg0KPiArICogc2ltcGxlZHJtIGhhcyBvbmx5IHRvIGVuc3VyZSB0aGV5IHJlbWFpbiBhY3Rp
-dmUgZm9yIGl0cyBsaWZldGltZS4NCj4gKyAqDQo+ICsgKiBXaGVuIHRoZSBkcml2ZXIgdW5s
-b2Fkcywgd2UgZGV0YWNoIGZyb20gdGhlIHBvd2VyLWRvbWFpbnMuDQo+ICsgKg0KPiArICog
-V2Ugb25seSBjb21wbGFpbiBhYm91dCBlcnJvcnMgaGVyZSwgbm8gYWN0aW9uIGlzIHRha2Vu
-IGFzIHRoZSBtb3N0IGxpa2VseQ0KPiArICogZXJyb3IgY2FuIG9ubHkgaGFwcGVuIGR1ZSB0
-byBhIG1pc21hdGNoIGJldHdlZW4gdGhlIGJvb3Rsb2FkZXIgd2hpY2ggc2V0DQo+ICsgKiB1
-cCB0aGUgInNpbXBsZS1mcmFtZWJ1ZmZlciIgZHQgbm9kZSwgYW5kIHRoZSBQTSBkb21haW4g
-cHJvdmlkZXJzIGluIHRoZQ0KPiArICogZGV2aWNlIHRyZWUuIENoYW5jZXMgYXJlIHRoYXQg
-dGhlcmUgYXJlIG5vIGFkdmVyc2UgZWZmZWN0cywgYW5kIGlmIHRoZXJlIGFyZSwNCj4gKyAq
-IGEgY2xlYW4gdGVhcmRvd24gb2YgdGhlIGZiIHByb2JlIHdpbGwgbm90IGhlbHAgdXMgbXVj
-aCBlaXRoZXIuIFNvIGp1c3QNCj4gKyAqIGNvbXBsYWluIGFuZCBjYXJyeSBvbiwgYW5kIGhv
-cGUgdGhhdCB0aGUgdXNlciBhY3R1YWxseSBnZXRzIGEgd29ya2luZyBmYiBhdA0KPiArICog
-dGhlIGVuZCBvZiB0aGluZ3MuDQo+ICsgKi8NCj4gK3N0YXRpYyB2b2lkIHNpbXBsZWRybV9k
-ZXZpY2VfZGV0YWNoX2dlbnBkKHZvaWQgKnJlcykNCj4gK3sNCj4gKwlpbnQgaTsNCj4gKwlz
-dHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldiA9IC8qKHN0cnVjdCBzaW1wbGVkcm1fZGV2
-aWNlICopKi9yZXM7DQo+ICsNCj4gKw0KPiArCWRybV9lcnIoJnNkZXYtPmRldiwgIiUgcG93
-ZXItZG9tYWlucyBjb3VudDolZFxuIiwgX19mdW5jX18sIHNkZXYtPnB3cl9kb21fY291bnQp
-Ow0KDQpJZiBhbnl0aGluZywgZHJtX2RiZygpDQoNCj4gKwlpZiAoc2Rldi0+cHdyX2RvbV9j
-b3VudCA8PSAxKQ0KPiArCQlyZXR1cm47DQo+ICsNCj4gKwlmb3IgKGkgPSBzZGV2LT5wd3Jf
-ZG9tX2NvdW50IC0gMTsgaSA+PSAwOyBpLS0pIHsNCj4gKwkJaWYgKCFzZGV2LT5wd3JfZG9t
-X2xpbmtzW2ldKQ0KPiArCQkJZGV2aWNlX2xpbmtfZGVsKHNkZXYtPnB3cl9kb21fbGlua3Nb
-aV0pOw0KPiArCQlpZiAoIUlTX0VSUl9PUl9OVUxMKHNkZXYtPnB3cl9kb21fZGV2c1tpXSkp
-DQo+ICsJCQlkZXZfcG1fZG9tYWluX2RldGFjaChzZGV2LT5wd3JfZG9tX2RldnNbaV0sIHRy
-dWUpOw0KPiArCX0NCj4gK30NCj4gKw0KPiArc3RhdGljIGludCBzaW1wbGVkcm1fZGV2aWNl
-X2F0dGFjaF9nZW5wZChzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2RldikNCj4gK3sNCj4g
-KwlzdHJ1Y3QgZGV2aWNlICpkZXYgPSBzZGV2LT5kZXYuZGV2Ow0KPiArCWludCBpOw0KPiAr
-DQo+ICsJc2Rldi0+cHdyX2RvbV9jb3VudCA9IG9mX2NvdW50X3BoYW5kbGVfd2l0aF9hcmdz
-KGRldi0+b2Zfbm9kZSwgInBvd2VyLWRvbWFpbnMiLA0KPiArCQkJCQkJCSAiI3Bvd2VyLWRv
-bWFpbi1jZWxscyIpOw0KPiArCS8qDQo+ICsJICogU2luZ2xlIHBvd2VyLWRvbWFpbiBkZXZp
-Y2VzIGFyZSBoYW5kbGVkIGJ5IGRyaXZlciBjb3JlIG5vdGhpbmcgdG8gZG8NCj4gKwkgKiBo
-ZXJlLiBUaGUgc2FtZSBmb3IgZGV2aWNlIG5vZGVzIHdpdGhvdXQgInBvd2VyLWRvbWFpbnMi
-IHByb3BlcnR5Lg0KPiArCSAqLw0KPiArCWlmIChzZGV2LT5wd3JfZG9tX2NvdW50IDw9IDEp
-DQo+ICsJCXJldHVybiAwOw0KPiArDQo+ICsJc2Rldi0+cHdyX2RvbV9kZXZzID0gZGV2bV9r
-Y2FsbG9jKGRldiwgc2Rldi0+cHdyX2RvbV9jb3VudCwNCj4gKwkJCQkJICAgICAgIHNpemVv
-Zigqc2Rldi0+cHdyX2RvbV9kZXZzKSwNCj4gKwkJCQkJICAgICAgIEdGUF9LRVJORUwpOw0K
-PiArCWlmICghc2Rldi0+cHdyX2RvbV9kZXZzKQ0KPiArCQlyZXR1cm4gLUVOT01FTTsNCj4g
-Kw0KPiArCXNkZXYtPnB3cl9kb21fbGlua3MgPSBkZXZtX2tjYWxsb2MoZGV2LCBzZGV2LT5w
-d3JfZG9tX2NvdW50LA0KPiArCQkJCQkJc2l6ZW9mKCpzZGV2LT5wd3JfZG9tX2xpbmtzKSwN
-Cj4gKwkJCQkJCUdGUF9LRVJORUwpOw0KPiArCWlmICghc2Rldi0+cHdyX2RvbV9saW5rcykN
-Cj4gKwkJcmV0dXJuIC1FTk9NRU07DQo+ICsNCj4gKwlmb3IgKGkgPSAwOyBpIDwgc2Rldi0+
-cHdyX2RvbV9jb3VudDsgaSsrKSB7DQo+ICsJCXNkZXYtPnB3cl9kb21fZGV2c1tpXSA9IGRl
-dl9wbV9kb21haW5fYXR0YWNoX2J5X2lkKGRldiwgaSk7DQo+ICsJCWlmIChJU19FUlIoc2Rl
-di0+cHdyX2RvbV9kZXZzW2ldKSkgew0KPiArCQkJaW50IHJldCA9IFBUUl9FUlIoc2Rldi0+
-cHdyX2RvbV9kZXZzW2ldKTsNCj4gKwkJCWlmIChyZXQgPT0gLUVQUk9CRV9ERUZFUikgew0K
-PiArCQkJCXNpbXBsZWRybV9kZXZpY2VfZGV0YWNoX2dlbnBkKHNkZXYpOw0KPiArCQkJCXJl
-dHVybiBQVFJfRVJSKHNkZXYtPnB3cl9kb21fZGV2c1tpXSk7DQo+ICsJCQl9DQo+ICsJCQlk
-cm1fZXJyKCZzZGV2LT5kZXYsDQo+ICsJCQkJInBtX2RvbWFpbl9hdHRhY2hfYnlfaWQoJXUp
-IGZhaWxlZDogJWRcbiIsIGksIHJldCk7DQoNClRoZSBkcml2ZXIncyBub3QgcmVhbGx5IGZh
-aWxpbmcgdG8gaW5pdGlhbGl6ZSBBRkFJQ1QuIENBbGxpbmcgZHJtX3dhcm4oKSANCm1pZ2h0
-IGJlIG1vcmUgYXBwcm9wcmlhdGUuDQoNCj4gKwkJfQ0KPiArDQo+ICsJCXNkZXYtPnB3cl9k
-b21fbGlua3NbaV0gPSBkZXZpY2VfbGlua19hZGQoZGV2LA0KPiArCQkJCQkJCSBzZGV2LT5w
-d3JfZG9tX2RldnNbaV0sDQo+ICsJCQkJCQkJIERMX0ZMQUdfU1RBVEVMRVNTIHwNCj4gKwkJ
-CQkJCQkgRExfRkxBR19QTV9SVU5USU1FIHwNCj4gKwkJCQkJCQkgRExfRkxBR19SUE1fQUNU
-SVZFKTsNCj4gKwkJaWYgKCFzZGV2LT5wd3JfZG9tX2xpbmtzW2ldKQ0KPiArCQkJZHJtX2Vy
-cigmc2Rldi0+ZGV2LCAiZmFpbGVkIHRvIGxpbmsgcG93ZXItZG9tYWluICV1XG4iLCBpKTsN
-Cg0KQWxzbyBkcm1fd2FybigpID8NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiArCX0N
-Cj4gKw0KPiArCXJldHVybiBkZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBzaW1wbGVk
-cm1fZGV2aWNlX2RldGFjaF9nZW5wZCwgc2Rldik7DQo+ICt9DQo+ICsjZWxzZQ0KPiArc3Rh
-dGljIGludCBzaW1wbGVkcm1fZGV2aWNlX2F0dGFjaF9nZW5wZChzdHJ1Y3Qgc2ltcGxlZHJt
-X2RldmljZSAqc2RldikNCj4gK3sNCj4gKwlyZXR1cm4gMDsNCj4gK30NCj4gKyNlbmRpZg0K
-PiArDQo+ICAgLyoNCj4gICAgKiBNb2Rlc2V0dGluZw0KPiAgICAqLw0KPiBAQCAtNjUxLDYg
-Kzc1NCw5IEBAIHN0YXRpYyBzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2ltcGxlZHJtX2Rl
-dmljZV9jcmVhdGUoc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4gICAJaWYgKHJldCkNCj4g
-ICAJCXJldHVybiBFUlJfUFRSKHJldCk7DQo+ICAgCXJldCA9IHNpbXBsZWRybV9kZXZpY2Vf
-aW5pdF9yZWd1bGF0b3JzKHNkZXYpOw0KPiArCWlmIChyZXQpDQo+ICsJCXJldHVybiBFUlJf
-UFRSKHJldCk7DQo+ICsJcmV0ID0gc2ltcGxlZHJtX2RldmljZV9hdHRhY2hfZ2VucGQoc2Rl
-dik7DQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiAgIA0K
-PiANCj4gLS0tDQo+IGJhc2UtY29tbWl0OiAxNWQzMGI0NjU3M2Q3NWY1Y2I1OGNmYWNkZWQ4
-ZWJhYjljNzZhMmIwDQo+IGNoYW5nZS1pZDogMjAyMzA5MTAtc2ltcGxlZHJtLW11bHRpcGxl
-LXBvd2VyLWRvbWFpbnMtZjQxZWZhNmFkOWJjDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQoNCi0t
-IA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0Ug
-U29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5
-MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywg
-QW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5i
-ZXJnKQ0K
+BR,
+Jani.
 
---------------kpzYvdaKcjH0xuuH5zw29EU8--
+>
+>> +	if (sdev->pwr_dom_count <= 1)
+>> +		return;
+>> +
+>> +	for (i = sdev->pwr_dom_count - 1; i >= 0; i--) {
+>> +		if (!sdev->pwr_dom_links[i])
+>> +			device_link_del(sdev->pwr_dom_links[i]);
+>> +		if (!IS_ERR_OR_NULL(sdev->pwr_dom_devs[i]))
+>> +			dev_pm_domain_detach(sdev->pwr_dom_devs[i], true);
+>> +	}
+>> +}
+>> +
+>> +static int simpledrm_device_attach_genpd(struct simpledrm_device *sdev)
+>> +{
+>> +	struct device *dev = sdev->dev.dev;
+>> +	int i;
+>> +
+>> +	sdev->pwr_dom_count = of_count_phandle_with_args(dev->of_node, "power-domains",
+>> +							 "#power-domain-cells");
+>> +	/*
+>> +	 * Single power-domain devices are handled by driver core nothing to do
+>> +	 * here. The same for device nodes without "power-domains" property.
+>> +	 */
+>> +	if (sdev->pwr_dom_count <= 1)
+>> +		return 0;
+>> +
+>> +	sdev->pwr_dom_devs = devm_kcalloc(dev, sdev->pwr_dom_count,
+>> +					       sizeof(*sdev->pwr_dom_devs),
+>> +					       GFP_KERNEL);
+>> +	if (!sdev->pwr_dom_devs)
+>> +		return -ENOMEM;
+>> +
+>> +	sdev->pwr_dom_links = devm_kcalloc(dev, sdev->pwr_dom_count,
+>> +						sizeof(*sdev->pwr_dom_links),
+>> +						GFP_KERNEL);
+>> +	if (!sdev->pwr_dom_links)
+>> +		return -ENOMEM;
+>> +
+>> +	for (i = 0; i < sdev->pwr_dom_count; i++) {
+>> +		sdev->pwr_dom_devs[i] = dev_pm_domain_attach_by_id(dev, i);
+>> +		if (IS_ERR(sdev->pwr_dom_devs[i])) {
+>> +			int ret = PTR_ERR(sdev->pwr_dom_devs[i]);
+>> +			if (ret == -EPROBE_DEFER) {
+>> +				simpledrm_device_detach_genpd(sdev);
+>> +				return PTR_ERR(sdev->pwr_dom_devs[i]);
+>> +			}
+>> +			drm_err(&sdev->dev,
+>> +				"pm_domain_attach_by_id(%u) failed: %d\n", i, ret);
+>
+> The driver's not really failing to initialize AFAICT. CAlling drm_warn() 
+> might be more appropriate.
+>
+>> +		}
+>> +
+>> +		sdev->pwr_dom_links[i] = device_link_add(dev,
+>> +							 sdev->pwr_dom_devs[i],
+>> +							 DL_FLAG_STATELESS |
+>> +							 DL_FLAG_PM_RUNTIME |
+>> +							 DL_FLAG_RPM_ACTIVE);
+>> +		if (!sdev->pwr_dom_links[i])
+>> +			drm_err(&sdev->dev, "failed to link power-domain %u\n", i);
+>
+> Also drm_warn() ?
+>
+> Best regards
+> Thomas
+>
+>> +	}
+>> +
+>> +	return devm_add_action_or_reset(dev, simpledrm_device_detach_genpd, sdev);
+>> +}
+>> +#else
+>> +static int simpledrm_device_attach_genpd(struct simpledrm_device *sdev)
+>> +{
+>> +	return 0;
+>> +}
+>> +#endif
+>> +
+>>   /*
+>>    * Modesetting
+>>    */
+>> @@ -651,6 +754,9 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
+>>   	if (ret)
+>>   		return ERR_PTR(ret);
+>>   	ret = simpledrm_device_init_regulators(sdev);
+>> +	if (ret)
+>> +		return ERR_PTR(ret);
+>> +	ret = simpledrm_device_attach_genpd(sdev);
+>>   	if (ret)
+>>   		return ERR_PTR(ret);
+>>   
+>> 
+>> ---
+>> base-commit: 15d30b46573d75f5cb58cfacded8ebab9c76a2b0
+>> change-id: 20230910-simpledrm-multiple-power-domains-f41efa6ad9bc
+>> 
+>> Best regards,
 
---------------4M8cdUHyfNjDPiRMngCSk0qn
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmT/B2IFAwAAAAAACgkQlh/E3EQov+Ca
-GhAArL3TRY+oyOxEkqlrxxZuCcKkj2M6aU6FLjW8zbN6SfT0fhoHFhjnaai7n5pE35yzQYEylleG
-CkEt33cwaAm4tT4ErV5IUOpMYizzAuk6Q273SwizxbJiw6Wulp89wXldSMAoeLZFoNrolqG4YzX+
-8cpvv4zPCCgm+B2HNaH6AZCQsZsy6ACLaHjkP1zMhS5XF6g5X8GKYK+2B7ShEHI8OO93fK2M1f6+
-t6vypQ2fKcWSGl4rjP9G02MNg5OtFug3UbrCHRV7410DAFbWowOZqSh+wETgV20YgWsQrbYoOiCF
-TNnkcNBywndTr/uh+PPiqSOaj9VxTV4UjEwgjVB69ectqm6fZ79GW37ZYcX4wYnBPS5h6yw+AvzD
-ZfKVD7vB9a5GqxDTH/6o7FP1MwZ2Io1+TC5pVI5+psF319YJNEL7X2zYXdauQOEMQYwpfOPGQZ7P
-AWImrNefJQTNK4DmkYInb7S5ZqrO6uFJxLHLWPDft7MG0gW+D49n7T/pP+J7oa7Yv8Kq7v/AgOHb
-glu9xMpwwcNLo0oh8vPYZ66c5CwQO/f9tfJx4UZK+CN35vsVg5ikVAWadX/k0oWYGF9il6/u2cFn
-KCtNr5b7OEwFX3pWRu7EUBnni5Tzhzpv3KfYZ6gl/enoXT8oweerdUbYeRK+GLyNp0sfeV2AGI8x
-0co=
-=kcaf
------END PGP SIGNATURE-----
-
---------------4M8cdUHyfNjDPiRMngCSk0qn--
+-- 
+Jani Nikula, Intel Open Source Graphics Center
