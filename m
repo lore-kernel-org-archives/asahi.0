@@ -1,23 +1,23 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4838F20EB;
-	Mon, 11 Sep 2023 04:31:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4DDE8C43395;
-	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08F520EB;
+	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 593E7C43395;
+	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1694406700;
-	bh=pbAerbSrA6wtl03zwwLTf0Gh4fXZYxeyY96kgyZ05tI=;
+	s=k20201202; t=1694407740;
+	bh=4lLgVJb3LOG8DBSrlEzmuFBXuW0+M3lIby4bathQEJQ=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=QIti3GvauOwy1aj9y3J9zF2jiDuygqmg43kCqbd3Kb3iSGIl+HvKtQm8IasA3LZiA
-	 vsoi333PTEwbjLgLuxGTK9Ofia/GO6zyz5Xem8A62jAXUwzwW0wOpTREiXh0+V6QmC
-	 zQ8q2/BqnZu3wZnsEWPxhLVrUwxNUHNYRXo7WS/Mc8P3GXG4ti/oPpVx/u9zDtQk0M
-	 nHTf+l5re0BnfXig+WBfRsimMgWur9LEyd13k3og7giF6esJxMfrFbyR6ocBf8ltzL
-	 /JivbD2fQyGr1NlX3mICqhzpPbEEXJJDhcwraJZP+bIXBtvPO/WVo+DgJ0fjy7CuJJ
-	 OOQ4GoF5EI1BQ==
+	b=C6/eNd9fiXyxGRt5Q8ahEQOhSgCzOfaDjiTl1H8jdUB7+nyLMvI8Z8jnvHGjBdQ49
+	 pDudL3FXplQYq7jTK8HLgIy9ITXlxnbVaDIU/4PMDDSn6qJkGjrWtox5bdK/GK3F5p
+	 C4G4DS2Wf1CiQbnf16oHi2/OLxkMc9s/eBeQrSQGCwpUsCE1in9Is3GDGfvYRWlM/7
+	 2tlXMXWIRD3zJvcrlFXk8QeGnir5Z0kGUyv09GiSS8f+5ARo1lX8qkv1qJbHYp6gz6
+	 YuEAVFmOzlKTCXnu+2B+mWUy9DGN2PXOf9rTw2PXn8k2N7iypmSeDiYERSZBfuV9XL
+	 EZljecptFgb1A==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2FA91E21EC2;
-	Mon, 11 Sep 2023 04:31:40 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 3D213E21EC1;
+	Mon, 11 Sep 2023 04:49:00 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -29,8 +29,8 @@ Content-Transfer-Encoding: 8bit
 Subject: Re: [PATCH] pwm: Explicitly include correct DT includes
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169440670019.22573.2422972280084635660.git-patchwork-notify@kernel.org>
-Date: Mon, 11 Sep 2023 04:31:40 +0000
+ <169440774024.22573.12945048122079663648.git-patchwork-notify@kernel.org>
+Date: Mon, 11 Sep 2023 04:49:00 +0000
 References: <20230714174852.4062251-1-robh@kernel.org>
 In-Reply-To: <20230714174852.4062251-1-robh@kernel.org>
 To: Rob Herring <robh@kernel.org>
@@ -57,7 +57,7 @@ Cc: thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de,
 
 Hello:
 
-This patch was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-next)
 by Thierry Reding <thierry.reding@gmail.com>:
 
 On Fri, 14 Jul 2023 11:48:50 -0600 you wrote:
