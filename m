@@ -1,229 +1,162 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2104.outbound.protection.outlook.com [40.107.113.104])
+Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FEA8BFA
-	for <asahi@lists.linux.dev>; Mon, 11 Sep 2023 23:48:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=obdxKJ0zR/2iRrmX2eq1ALCAfgf90K651TZDlw7tR2uDmw5Eba49o36WQBJiva393TrnaRPgckUYgjOMMbYeorPZgGvLAyF50fvfasiag9zbQQxVYtOxiy3mbthLX5eX3NRmo9rWjKnJZ7ARakafd5SI2G/BvIYbkN4GGPPFhsQuF7PLimAbxN142fdCFMR/wI01g/9P7FT2SDAkHdzlhbZEJ4YTUNQWV6/qh0pkJA5MTeno/ZNJUvQe2ubpWowA2YDHNpZ5AjtpvjBUG26uVMCEVfT7ipC+DEnD7MNAru0Dd6+alZMKCKoBtFVTJuSksLjppkwr45cthxUFLYP6jA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uEmrwCdAvX4BKcNpTjYbu2cqnnR6iBgDAu+mhxqSmFo=;
- b=HOp5IQKXzowe2ziPlPVHRf5uf7uM5owb6baepY1L42S3eQa5gPMU1bU6+L9RqK49Tn6XzQw9EpsIev0gWRW6bUJ6OKCiJV5oh6vQvo87ZxrPPC8YNOMFmZb2c4WrQ0Q6swiVWDozMpXY0TtewhDN0keD/0YmX0y+e5iYQ0MChWI94Lx8SYISydGvGEOtLUq5qZiJYb/UFdgJRVElHX8WosNvicSOfHd4Y840tDviwiIMYeE6Rd0BIW/hGpNbqXYnH+ATEIB4lKc6dAbJver+GP8+4HQBwlMmqw3u48e2Dsla52A/y/kqGn5BcwZctYqtv6ZiE9o4Exixi4TOSZVGaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uEmrwCdAvX4BKcNpTjYbu2cqnnR6iBgDAu+mhxqSmFo=;
- b=CAIhyDrkVHB/LKvOCybi0nv7KthCqgwubST0zdy0zeBNkK7Z87gVrD2t6UzaSDJyXwrakOuex51wSWyK0AeGXKlVR5g1aftkici9E0R/ujmtBx57DYER9DPUzoXvUuo7IlF/diVwPvtm7xZP+W7Gs0Ooy+llYlBXkYCfYq91jic=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by OSRPR01MB11567.jpnprd01.prod.outlook.com (2603:1096:604:22d::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6768.35; Mon, 11 Sep
- 2023 23:48:52 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::8c08:d94c:8e54:9b5d]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::8c08:d94c:8e54:9b5d%6]) with mapi id 15.20.6768.036; Mon, 11 Sep 2023
- 23:48:52 +0000
-Message-ID: <87sf7kqnj0.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: =?ISO-8859-1?Q?=22Martin_Povi=C5=A1er=22?= <povik+lin@cutebit.org>,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org, asahi@lists.linux.dev
-Subject: [PATCH 17/54] ASoC: apple: convert not to use asoc_xxx()
-In-Reply-To: <87h6o0s275.wl-kuninori.morimoto.gx@renesas.com>
-References: <87h6o0s275.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 11 Sep 2023 23:48:52 +0000
-X-ClientProxiedBy: TYCP286CA0108.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::14) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE04A17C2
+	for <asahi@lists.linux.dev>; Tue, 12 Sep 2023 06:44:23 +0000 (UTC)
+Received: by soltyk.jannau.net (Postfix, from userid 1000)
+	id D9EEF270487; Tue, 12 Sep 2023 08:44:15 +0200 (CEST)
+Date: Tue, 12 Sep 2023 08:44:15 +0200
+From: Janne Grunau <j@jannau.net>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
+Message-ID: <ZQAIv3KchAMsXgIr@jannau.net>
+References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
+ <0b6ad379-049a-5152-12e5-77c62ffc4541@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: OS3PR01MB8426:EE_|OSRPR01MB11567:EE_
-X-MS-Office365-Filtering-Correlation-Id: bfacacd4-15d8-4de3-8230-08dbb321a725
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	GCyMRU3pemVeckJn7Qu8WYmrUtgFsMgtbmmOv55pOMlrPvgCegw9VxbWzohGtkvuYD/NMopltL+YUqUIOtETGtypfgyz5s3xlZEZmvj5bR0HHknqLlINWpqlQ27cYtUTG5YxVplTqtWVPbCXHrFK9NSJh/A+PHDdxe5n8JEo0HOXQIhHuaxMUijdET5pIROWLlL8OQI53dc3tbdYVxYoAiVlD+IlEPrU31EZLG84A7oQinilH7wE+cjjBhKbYtYN/m+IfR5RfNoG9DMY8XLVSOKWIGfxTG1jgJJwIuVIqKW0s/eNKmtFbsW2PeOluQ0l0qL2jQpgf3tMZygK9D10ARWzNA1heaicpzRQ0+BHjwOlkbNsMhJTeFZq5XPmsUxNo09SQSQjqXAyfdNZH0J1rU+Gq34nw+wZ9V9YczkygjnHR9wDfYDzAtDXS+sRt+o4Xx1KKfqRi2WA54fhA3fN//GEtbbldwx+qLLmxwmxfNoivaSmxAMAUQz26MI1bEQfhmmwjD7u0+xBcGK1yRoCTiWxTIuRdyfY3egFK1LNEhJfuMUF/v/1THfVdg6hfv0tVPBePIirtg+1gKJJ2np4JDnMOV0J3eDHVK1aat3gvkv8La0Unk4llZkmQz6GF9V7g5VNDgBOYUunRa8z9QAJHK8+6Zv+679dWn1jtFJtD2U=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(39860400002)(346002)(396003)(376002)(136003)(47660400002)(186009)(1800799009)(451199024)(6506007)(52116002)(6486002)(6512007)(478600001)(83380400001)(2616005)(26005)(2906002)(66556008)(66946007)(66476007)(41300700001)(110136005)(5660300002)(8676002)(4326008)(8936002)(86362001)(36756003)(38100700002)(38350700002)(316002)(46800400005)(21314003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?J4xi4IADM5yq0/OJnWFAsghlaveGMZrie+eXQsy3VcvlYTcCb3GG74g3COXp?=
- =?us-ascii?Q?mNR43624187tqS88j8uu0KG+TMUOatQWJzacTrjwH8W9oPBsMNW7Mv1vkH+s?=
- =?us-ascii?Q?Zs4CMdTlDrZRZs2egunkWQdpIGw7gVabcuUX1XAulx34gR+VJPzhmLdarRK1?=
- =?us-ascii?Q?KLMIHBDN79fDfJeH+6gT+QzjlAunf1I1iFnGm+9R0UeDTfdWtELGNZJVwcxx?=
- =?us-ascii?Q?3XDr3g5vyWLg7CCesDEBcoNBx5+ENWzcxW/itcmiSjLvUCMe2vdH96f1mYPk?=
- =?us-ascii?Q?oYCpEsSt6tmdPE1vKCAuth5cFj1aGCmpxAzZ05eQV4bAR60f8l7usDV1BvG6?=
- =?us-ascii?Q?xrNrtxPjDhp1B63reNjWatk0hVa4Gxfu86qSFqaa48bj8HOCPadhfeHGlcuP?=
- =?us-ascii?Q?ypdqRqwhIFh8sOArbo7dcFGjVUZpIxZ8/qH6xVM7uxfLBRU4nkUVHx+/duVb?=
- =?us-ascii?Q?gKD/NPvA9PeWQ8qthAOsXimoGb9yxVfH3S2qVtww1J8s8OiGJrLZ+7+ai6/U?=
- =?us-ascii?Q?mF7sI5IGDfjAlmHkcKkwxtaZKtDP2M/tnJlN6YSDlbxjnK+cmOFYUOg5U7Np?=
- =?us-ascii?Q?f9jfSPbSUPA5EZ2YHGrzi4qB5O/0aw40ggfNt/VzJg7a7t32GAB/nWI1CSeU?=
- =?us-ascii?Q?QEFpVgsUej+lnzomaZpyrZs2dEw+NvYnMMxpZCaygm7fPwDnWdJ9SfSqzXnU?=
- =?us-ascii?Q?I5Mlnmpj93xNVExCIYDiY5Id7o/BDctDLB8hSZTLt2LUAsfj6q73+XUlZLze?=
- =?us-ascii?Q?+p2jPKQFD5xYwGz8cS4ZSMBSOGN5Ema6RTOtKCEG8UJ4mdHF/XDWPxiQLjFO?=
- =?us-ascii?Q?+ArGrfz5Fgk5PuMrhSXxq5/KPowBf9Lwbohc0i6NdT/3yWrW3CQS2Ib4NB2O?=
- =?us-ascii?Q?Rjmv7AzB3b1AiqP61sH3GNppf9NC9XW0VUwgX0qCx5b0AVfFRPAeTInTMiIA?=
- =?us-ascii?Q?EUvHcid3Kw3/Xx4pwZcwgmOx6AHEY15pZTEeGDcnqUwR79Mt8iCt3pKyodF1?=
- =?us-ascii?Q?L0+g56Lojf+tS/ReYsy12Pw5yqxsilaCnRQpmszDgzBpiIvDzMjWLRtUvT8k?=
- =?us-ascii?Q?B6v73HeMlcx8Y3zZPEN4z26y0kwUgUb2NXu/i08iBd6PWjlMyMOxErVqN2Aj?=
- =?us-ascii?Q?X3ygtSMfw7LzyPwv2bEpNWExOI/DFey7kqcWn8/5odhptaKbSPAr+ahYJ7tG?=
- =?us-ascii?Q?XiUSJbm9ChDJfaCjrOx3JEHzl65zo2wMjILOcpge0ftWGRlrWgjOr5kqET8l?=
- =?us-ascii?Q?x9zZ3eH+BjLwZdm04MQWWxKROBb6XJxMjyocAF9grvbBwIFORSH4TPgZEdtO?=
- =?us-ascii?Q?nFBSyQRwaoyUlJlXA9o326Mz4ajWO7LdAhqfIvmSlgz60U5oB/SNx9lF0MSH?=
- =?us-ascii?Q?Lnuv3Si0DsQZJUvJWQRvZKr/pDbelL/c7aFM2SgAcriI2CZDA6yIK0d67yOf?=
- =?us-ascii?Q?7US92zb60dD6xF8+f1pGhotacnBwfHi7ruUA69UWh971pzk0roLUaBvZNoOV?=
- =?us-ascii?Q?W0szv9BVT/0i05IjsXkehNQ9kxlWQKVjWqUDMMPHYNyQV75z5yqo7PrUIdo+?=
- =?us-ascii?Q?gHvaQaJ1F9JhV1hyla1kESZYK8Rvr7A5v9NWvLvGAUUJ34fhc0gIQWY4ZY8K?=
- =?us-ascii?Q?31iWKxfkpPKM/ttqRFodfW0=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfacacd4-15d8-4de3-8230-08dbb321a725
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2023 23:48:52.5381
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /2CAkQ5fR9MkvwxY2ZlYEIgiDUDG6EfGH0XoaJR+/wGizcPwwi6rMpT2bZvkEj/mM0/gEOMU9Fqz1BzSRQnUEIK/bS0a5eMNTScHXqStbyD3EZ98LWoRuCNRLTm6/eDu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11567
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0b6ad379-049a-5152-12e5-77c62ffc4541@wanadoo.fr>
 
-ASoC is now unified asoc_xxx() into snd_soc_xxx().
-This patch convert asoc_xxx() to snd_soc_xxx().
+On 2023-09-10 22:16:05 +0200, Christophe JAILLET wrote:
+> Le 10/09/2023 à 18:39, Janne Grunau via B4 Relay a écrit :
+> > From: Janne Grunau <j@jannau.net>
+> > 
+> > Multiple power domains need to be handled explicitly in each driver. The
+> > driver core can not handle it automatically since it is not aware of
+> > power sequencing requirements the hardware might have. This is not a
+> > problem for simpledrm since everything is expected to be powered on by
+> > the bootloader. simpledrm has just ensure it remains powered on during
+> > its lifetime.
+> > This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
+> > systems. The HDMI output initialized by the bootloader requires keeping
+> > the display controller and a DP phy power domain on.
+> > 
+> > Signed-off-by: Janne Grunau <j@jannau.net>
+> > ---
+> >   drivers/gpu/drm/tiny/simpledrm.c | 106 +++++++++++++++++++++++++++++++++++++++
+> >   1 file changed, 106 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
+> > index ff86ba1ae1b8..efedede57d42 100644
+> > --- a/drivers/gpu/drm/tiny/simpledrm.c
+> > +++ b/drivers/gpu/drm/tiny/simpledrm.c
+> > @@ -6,6 +6,7 @@
+> >   #include <linux/of_address.h>
+> >   #include <linux/platform_data/simplefb.h>
+> >   #include <linux/platform_device.h>
+> > +#include <linux/pm_domain.h>
+> >   #include <linux/regulator/consumer.h>
+> >   #include <drm/drm_aperture.h>
+> > @@ -227,6 +228,12 @@ struct simpledrm_device {
+> >   	unsigned int regulator_count;
+> >   	struct regulator **regulators;
+> >   #endif
+> > +	/* power-domains */
+> > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+> > +	int pwr_dom_count;
+> > +	struct device **pwr_dom_devs;
+> > +	struct device_link **pwr_dom_links;
+> > +#endif
+> >   	/* simplefb settings */
+> >   	struct drm_display_mode mode;
+> > @@ -468,6 +475,102 @@ static int simpledrm_device_init_regulators(struct simpledrm_device *sdev)
+> >   }
+> >   #endif
+> > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
+> > +/*
+> > + * Generic power domain handling code.
+> > + *
+> > + * Here we handle the power-domains properties of our "simple-framebuffer"
+> > + * dt node. This is only necessary if there is more than one power-domain.
+> > + * A single power-domains is handled automatically by the driver core. Multiple
+> > + * power-domains have to be handled by drivers since the driver core can't know
+> > + * the correct power sequencing. Power sequencing is not an issue for simpledrm
+> > + * since the bootloader has put the power domains already in the correct state.
+> > + * simpledrm has only to ensure they remain active for its lifetime.
+> > + *
+> > + * When the driver unloads, we detach from the power-domains.
+> > + *
+> > + * We only complain about errors here, no action is taken as the most likely
+> > + * error can only happen due to a mismatch between the bootloader which set
+> > + * up the "simple-framebuffer" dt node, and the PM domain providers in the
+> > + * device tree. Chances are that there are no adverse effects, and if there are,
+> > + * a clean teardown of the fb probe will not help us much either. So just
+> > + * complain and carry on, and hope that the user actually gets a working fb at
+> > + * the end of things.
+> > + */
+> > +static void simpledrm_device_detach_genpd(void *res)
+> > +{
+> > +	int i;
+> > +	struct simpledrm_device *sdev = /*(struct simpledrm_device *)*/res;
+> > +
+> > +
+> > +	drm_err(&sdev->dev, "% power-domains count:%d\n", __func__, sdev->pwr_dom_count);
+> > +	if (sdev->pwr_dom_count <= 1)
+> > +		return;
+> > +
+> > +	for (i = sdev->pwr_dom_count - 1; i >= 0; i--) {
+> > +		if (!sdev->pwr_dom_links[i])
+> > +			device_link_del(sdev->pwr_dom_links[i]);
+> > +		if (!IS_ERR_OR_NULL(sdev->pwr_dom_devs[i]))
+> > +			dev_pm_domain_detach(sdev->pwr_dom_devs[i], true);
+> > +	}
+> > +}
+> > +
+> > +static int simpledrm_device_attach_genpd(struct simpledrm_device *sdev)
+> > +{
+> > +	struct device *dev = sdev->dev.dev;
+> > +	int i;
+> > +
+> > +	sdev->pwr_dom_count = of_count_phandle_with_args(dev->of_node, "power-domains",
+> > +							 "#power-domain-cells");
+> > +	/*
+> > +	 * Single power-domain devices are handled by driver core nothing to do
+> > +	 * here. The same for device nodes without "power-domains" property.
+> > +	 */
+> > +	if (sdev->pwr_dom_count <= 1)
+> > +		return 0;
+> > +
+> > +	sdev->pwr_dom_devs = devm_kcalloc(dev, sdev->pwr_dom_count,
+> > +					       sizeof(*sdev->pwr_dom_devs),
+> > +					       GFP_KERNEL);
+> > +	if (!sdev->pwr_dom_devs)
+> > +		return -ENOMEM;
+> > +
+> > +	sdev->pwr_dom_links = devm_kcalloc(dev, sdev->pwr_dom_count,
+> > +						sizeof(*sdev->pwr_dom_links),
+> > +						GFP_KERNEL);
+> > +	if (!sdev->pwr_dom_links)
+> > +		return -ENOMEM;
+> > +
+> > +	for (i = 0; i < sdev->pwr_dom_count; i++) {
+> > +		sdev->pwr_dom_devs[i] = dev_pm_domain_attach_by_id(dev, i);
+> > +		if (IS_ERR(sdev->pwr_dom_devs[i])) {
+> > +			int ret = PTR_ERR(sdev->pwr_dom_devs[i]);
+> > +			if (ret == -EPROBE_DEFER) {
+> > +				simpledrm_device_detach_genpd(sdev);
+> > +				return PTR_ERR(sdev->pwr_dom_devs[i]);
+> > +			}
+> > +			drm_err(&sdev->dev,
+> > +				"pm_domain_attach_by_id(%u) failed: %d\n", i, ret);
+> > +		}
+> > +
+> 
+> sdev->pwr_dom_devs[i] can be an ERR_PTR here.
+> Maybe a break or a continue missing after drm_err() above?
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- sound/soc/apple/mca.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+yes, a continue is missing, added, locally for v2.
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index ce77934f3eef3..9f64a9e74c541 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -546,7 +546,7 @@ static int mca_set_bclk_ratio(struct snd_soc_dai *dai, unsigned int ratio)
- 
- static int mca_fe_get_port(struct snd_pcm_substream *substream)
- {
--	struct snd_soc_pcm_runtime *fe = asoc_substream_to_rtd(substream);
-+	struct snd_soc_pcm_runtime *fe = snd_soc_substream_to_rtd(substream);
- 	struct snd_soc_pcm_runtime *be;
- 	struct snd_soc_dpcm *dpcm;
- 
-@@ -559,7 +559,7 @@ static int mca_fe_get_port(struct snd_pcm_substream *substream)
- 	if (!be)
- 		return -EINVAL;
- 
--	return mca_dai_to_cluster(asoc_rtd_to_cpu(be, 0))->no;
-+	return mca_dai_to_cluster(snd_soc_rtd_to_cpu(be, 0))->no;
- }
- 
- static int mca_fe_hw_params(struct snd_pcm_substream *substream,
-@@ -700,7 +700,7 @@ static bool mca_be_started(struct mca_cluster *cl)
- static int mca_be_startup(struct snd_pcm_substream *substream,
- 			  struct snd_soc_dai *dai)
- {
--	struct snd_soc_pcm_runtime *be = asoc_substream_to_rtd(substream);
-+	struct snd_soc_pcm_runtime *be = snd_soc_substream_to_rtd(substream);
- 	struct snd_soc_pcm_runtime *fe;
- 	struct mca_cluster *cl = mca_dai_to_cluster(dai);
- 	struct mca_cluster *fe_cl;
-@@ -721,7 +721,7 @@ static int mca_be_startup(struct snd_pcm_substream *substream,
- 	if (!fe)
- 		return -EINVAL;
- 
--	fe_cl = mca_dai_to_cluster(asoc_rtd_to_cpu(fe, 0));
-+	fe_cl = mca_dai_to_cluster(snd_soc_rtd_to_cpu(fe, 0));
- 
- 	if (mca_be_started(cl)) {
- 		/*
-@@ -811,8 +811,8 @@ static int mca_set_runtime_hwparams(struct snd_soc_component *component,
- static int mca_pcm_open(struct snd_soc_component *component,
- 			struct snd_pcm_substream *substream)
- {
--	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
--	struct mca_cluster *cl = mca_dai_to_cluster(asoc_rtd_to_cpu(rtd, 0));
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct mca_cluster *cl = mca_dai_to_cluster(snd_soc_rtd_to_cpu(rtd, 0));
- 	struct dma_chan *chan = cl->dma_chans[substream->stream];
- 	int ret;
- 
-@@ -830,7 +830,7 @@ static int mca_hw_params(struct snd_soc_component *component,
- 			 struct snd_pcm_substream *substream,
- 			 struct snd_pcm_hw_params *params)
- {
--	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct dma_chan *chan = snd_dmaengine_pcm_get_chan(substream);
- 	struct dma_slave_config slave_config;
- 	int ret;
-@@ -857,7 +857,7 @@ static int mca_hw_params(struct snd_soc_component *component,
- static int mca_close(struct snd_soc_component *component,
- 		     struct snd_pcm_substream *substream)
- {
--	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 
- 	if (rtd->dai_link->no_pcm)
- 		return 0;
-@@ -868,7 +868,7 @@ static int mca_close(struct snd_soc_component *component,
- static int mca_trigger(struct snd_soc_component *component,
- 		       struct snd_pcm_substream *substream, int cmd)
- {
--	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 
- 	if (rtd->dai_link->no_pcm)
- 		return 0;
-@@ -877,7 +877,7 @@ static int mca_trigger(struct snd_soc_component *component,
- 	 * Before we do the PCM trigger proper, insert an opportunity
- 	 * to reset the frontend's SERDES.
- 	 */
--	mca_fe_early_trigger(substream, cmd, asoc_rtd_to_cpu(rtd, 0));
-+	mca_fe_early_trigger(substream, cmd, snd_soc_rtd_to_cpu(rtd, 0));
- 
- 	return snd_dmaengine_pcm_trigger(substream, cmd);
- }
-@@ -885,7 +885,7 @@ static int mca_trigger(struct snd_soc_component *component,
- static snd_pcm_uframes_t mca_pointer(struct snd_soc_component *component,
- 				     struct snd_pcm_substream *substream)
- {
--	struct snd_soc_pcm_runtime *rtd = asoc_substream_to_rtd(substream);
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 
- 	if (rtd->dai_link->no_pcm)
- 		return -ENOTSUPP;
-@@ -911,7 +911,7 @@ static void mca_pcm_free(struct snd_soc_component *component,
- 			 struct snd_pcm *pcm)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_pcm_chip(pcm);
--	struct mca_cluster *cl = mca_dai_to_cluster(asoc_rtd_to_cpu(rtd, 0));
-+	struct mca_cluster *cl = mca_dai_to_cluster(snd_soc_rtd_to_cpu(rtd, 0));
- 	unsigned int i;
- 
- 	if (rtd->dai_link->no_pcm)
-@@ -933,7 +933,7 @@ static void mca_pcm_free(struct snd_soc_component *component,
- static int mca_pcm_new(struct snd_soc_component *component,
- 		       struct snd_soc_pcm_runtime *rtd)
- {
--	struct mca_cluster *cl = mca_dai_to_cluster(asoc_rtd_to_cpu(rtd, 0));
-+	struct mca_cluster *cl = mca_dai_to_cluster(snd_soc_rtd_to_cpu(rtd, 0));
- 	unsigned int i;
- 
- 	if (rtd->dai_link->no_pcm)
--- 
-2.25.1
+thanks
 
+Janne
