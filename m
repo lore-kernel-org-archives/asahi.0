@@ -1,35 +1,35 @@
 Received: from soltyk.jannau.net (soltyk.jannau.net [144.76.91.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE04A17C2
-	for <asahi@lists.linux.dev>; Tue, 12 Sep 2023 06:44:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA1A171C3
+	for <asahi@lists.linux.dev>; Tue, 12 Sep 2023 06:47:40 +0000 (UTC)
 Received: by soltyk.jannau.net (Postfix, from userid 1000)
-	id D9EEF270487; Tue, 12 Sep 2023 08:44:15 +0200 (CEST)
-Date: Tue, 12 Sep 2023 08:44:15 +0200
+	id 39E73270487; Tue, 12 Sep 2023 08:47:38 +0200 (CEST)
+Date: Tue, 12 Sep 2023 08:47:38 +0200
 From: Janne Grunau <j@jannau.net>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
 	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
 	asahi@lists.linux.dev
 Subject: Re: [PATCH] drm/simpledrm: Add support for multiple "power-domains"
-Message-ID: <ZQAIv3KchAMsXgIr@jannau.net>
+Message-ID: <ZQAJioLtr5LXciha@jannau.net>
 References: <20230910-simpledrm-multiple-power-domains-v1-1-f8718aefc685@jannau.net>
- <0b6ad379-049a-5152-12e5-77c62ffc4541@wanadoo.fr>
+ <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0b6ad379-049a-5152-12e5-77c62ffc4541@wanadoo.fr>
+In-Reply-To: <3efb0304-df1a-4038-a716-a910b53c1445@suse.de>
 
-On 2023-09-10 22:16:05 +0200, Christophe JAILLET wrote:
-> Le 10/09/2023 à 18:39, Janne Grunau via B4 Relay a écrit :
+On 2023-09-11 14:26:10 +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 10.09.23 um 18:39 schrieb Janne Grunau via B4 Relay:
 > > From: Janne Grunau <j@jannau.net>
 > > 
 > > Multiple power domains need to be handled explicitly in each driver. The
@@ -102,6 +102,12 @@ On 2023-09-10 22:16:05 +0200, Christophe JAILLET wrote:
 > > +
 > > +
 > > +	drm_err(&sdev->dev, "% power-domains count:%d\n", __func__, sdev->pwr_dom_count);
+> 
+> If anything, drm_dbg()
+
+see my own reply, was never supposed to be there, removed locally
+
+> 
 > > +	if (sdev->pwr_dom_count <= 1)
 > > +		return;
 > > +
@@ -149,14 +155,26 @@ On 2023-09-10 22:16:05 +0200, Christophe JAILLET wrote:
 > > +			}
 > > +			drm_err(&sdev->dev,
 > > +				"pm_domain_attach_by_id(%u) failed: %d\n", i, ret);
+> 
+> The driver's not really failing to initialize AFAICT. CAlling drm_warn()
+> might be more appropriate.
+
+copied from simpledrm_device_init_regulators() but I agree that 
+drm_warn() is more appropiate. change locally for v2.
+
 > > +		}
 > > +
+> > +		sdev->pwr_dom_links[i] = device_link_add(dev,
+> > +							 sdev->pwr_dom_devs[i],
+> > +							 DL_FLAG_STATELESS |
+> > +							 DL_FLAG_PM_RUNTIME |
+> > +							 DL_FLAG_RPM_ACTIVE);
+> > +		if (!sdev->pwr_dom_links[i])
+> > +			drm_err(&sdev->dev, "failed to link power-domain %u\n", i);
 > 
-> sdev->pwr_dom_devs[i] can be an ERR_PTR here.
-> Maybe a break or a continue missing after drm_err() above?
+> Also drm_warn() ?
 
-yes, a continue is missing, added, locally for v2.
+changed
 
-thanks
-
+Thanks,
 Janne
