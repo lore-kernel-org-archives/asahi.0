@@ -1,269 +1,139 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5BF33D2
-	for <asahi@lists.linux.dev>; Tue, 12 Sep 2023 22:47:37 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-52f3ba561d9so717585a12.1
-        for <asahi@lists.linux.dev>; Tue, 12 Sep 2023 15:47:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AB8208A9
+	for <asahi@lists.linux.dev>; Thu, 14 Sep 2023 11:17:17 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4ff8f2630e3so1455347e87.1
+        for <asahi@lists.linux.dev>; Thu, 14 Sep 2023 04:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1694690236; x=1695295036; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i01ZwhFKlrFFwp2TeTntBDNdPU8fSl314WlanHljcec=;
+        b=E8cdl8pYeSIQDKmx9MiRhxhv6exUKKt4S850J0gnVnc9KZOX7n+PMF4yokmVW4tf/M
+         RmEjT3MwTLWgxrQlIm8P8untaD1LseEz80vbdbQxRT4QJSBGG2gTHrpa4Vcr49B8dAF8
+         ZfxYo5LwZTXInQx3ctz5DLWWhO0pj70lknHzDqFzux2QZ4yJ+mNeYOmNFNUnLw7JouOw
+         EmzSccfnY/r5vQYin/cRwqrICAcXDnCDD14WJ7SqqpVMPG41RtGkQ9V2BlSqw+xoqLLA
+         PQwrFnsIev/9R2SwR7/2wP0/YX3vxO1UaBNlD9P7DvLEoM8eefiZtL4My3wMm9r4Nhj3
+         LutQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694558855; x=1695163655;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JPQmiOiJEVpUypTzrtCNWvG84b8X0egdVXAFfU36T2Y=;
-        b=vY8S8W7B05iVY+dg3dERqrUOXFgdYezv1HyudbE5B6Ceg5gQfjNxeSCnPF6xLwUdi1
-         0tlBla3fcP53hzi9sPecTuDXoUhy4LPg9G18w00qM0mkgMB67xmXBJhs8Zv08u3eWvDJ
-         wOyiu3Db3m2QoxmVgga4aagGim/1vYyRb7KhViut33WUUXVrmZ4IgeIW/ohfXK2kZ0OO
-         Zf+vtl4cLhcFNPd9IVHtG2sIc5Q4AptGrr4VRVI4QHhofsLar79YLYWK493VcBuUnyTz
-         zQM/tStossWVEN9i3dPvzRxD/H/izJAm9p6IGedQ8syuSp0l0E316dVvlIEpYbmi8Qg/
-         1kyQ==
-X-Gm-Message-State: AOJu0YyRXlKkDXMhWKtq6YPLFM8zkOwYO1Xf5GAo2MuqVZajnfUwvSi5
-	5wvaqW2BUX4BvD1jmv+U477JCJQbbuVvqx0o
-X-Google-Smtp-Source: AGHT+IE+9/MOjVBSV0k869k2mLhKffsh6jbHmjzTw7ZVJxDXY906TPZMdRfkVE9UrDZQaRj/GNsn8Q==
-X-Received: by 2002:a05:6402:2794:b0:52e:33ad:1c45 with SMTP id b20-20020a056402279400b0052e33ad1c45mr5592206ede.11.1694558854657;
-        Tue, 12 Sep 2023 15:47:34 -0700 (PDT)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
-        by smtp.gmail.com with ESMTPSA id b7-20020aa7c6c7000000b0052328d4268asm6446691eds.81.2023.09.12.15.47.33
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Sep 2023 15:47:34 -0700 (PDT)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-9ad8d0be93aso74042866b.0
-        for <asahi@lists.linux.dev>; Tue, 12 Sep 2023 15:47:33 -0700 (PDT)
-X-Received: by 2002:a17:907:96a4:b0:9a5:c38d:6b75 with SMTP id
- hd36-20020a17090796a400b009a5c38d6b75mr5511540ejc.15.1694558853578; Tue, 12
- Sep 2023 15:47:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694690236; x=1695295036;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i01ZwhFKlrFFwp2TeTntBDNdPU8fSl314WlanHljcec=;
+        b=bqvec1et/Nq50GBDOdDUjnBDtq+5UOhcwOlUS0YZuHhDP/1Da124C3qOmhHwv3IWNF
+         SmfsxtRa7is7Y2DKDHEw+wOx7E+imxCK3iAVHWQkqdyyxPWUjzG3FfSVnjzWfhRJrVk+
+         shn9aCeaBVmQzZS7rcjMYUoiiHefBMp8yfF/fESG+yoH6VLO9HljQX6Oth26Gsb56ML3
+         DMJJ0gNQu0x7w2DInrH2Obj9qPgF4I7OCYFfDtTjkQ8Isc9+LHpGc0tipTp4u7bBvr//
+         12wWoHgqxXh/u9dwT6+DgygTxrMttUvrchmTbSvuQAPgFewDdo8SapgW6w1BjcHTtXPp
+         g2ZQ==
+X-Gm-Message-State: AOJu0Yymbey6GHa8UeoYZHmueBkS1bCbQ9XaKypGXhj5jLOUVjFHbKLz
+	epWIeR/2PpWFcgtg4xmmgsSyQA==
+X-Google-Smtp-Source: AGHT+IGDjoyTHtzNmJttlaj3jNDjN0HhiwRNEyZ8rwnvs9ZEjBQwpDBAiyBTONV+SlXcQ/a1Fasksw==
+X-Received: by 2002:a05:6512:312c:b0:4fe:7dcc:3dc1 with SMTP id p12-20020a056512312c00b004fe7dcc3dc1mr4103999lfd.44.1694690236028;
+        Thu, 14 Sep 2023 04:17:16 -0700 (PDT)
+Received: from uffe-tuxpro14.. (h-94-254-63-18.NA.cust.bahnhof.se. [94.254.63.18])
+        by smtp.gmail.com with ESMTPSA id a28-20020ac2521c000000b005008cd93961sm233024lfl.192.2023.09.14.04.17.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Sep 2023 04:17:15 -0700 (PDT)
+From: Ulf Hansson <ulf.hansson@linaro.org>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev
+Subject: [PATCH 04/17] pmdomain: apple: Move Kconfig option to the pmdomain subsystem
+Date: Thu, 14 Sep 2023 13:17:12 +0200
+Message-Id: <20230914111712.586522-1-ulf.hansson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
-In-Reply-To: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
-From: Neal Gompa <neal@gompa.dev>
-Date: Tue, 12 Sep 2023 18:46:56 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je8i4P8r-5EUikS=6wy5_3OvufeLzfLWkB+SgMq-nkpArA@mail.gmail.com>
-Message-ID: <CAEg-Je8i4P8r-5EUikS=6wy5_3OvufeLzfLWkB+SgMq-nkpArA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/simpledrm: Add support for multiple "power-domains"
-To: j@jannau.net
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Javier Martinez Canillas <javierm@redhat.com>, 
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 12, 2023 at 4:22=E2=80=AFPM Janne Grunau via B4 Relay
-<devnull+j.jannau.net@kernel.org> wrote:
->
-> From: Janne Grunau <j@jannau.net>
->
-> Multiple power domains need to be handled explicitly in each driver. The
-> driver core can not handle it automatically since it is not aware of
-> power sequencing requirements the hardware might have. This is not a
-> problem for simpledrm since everything is expected to be powered on by
-> the bootloader. simpledrm has just ensure it remains powered on during
-> its lifetime.
-> This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
-> systems. The HDMI output initialized by the bootloader requires keeping
-> the display controller and a DP phy power domain on.
->
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
-> Changes in v2:
-> - removed broken drm_err() log statement only ment for debugging
-> - removed commented cast
-> - use correct format spcifier for 'int' in log statement
-> - add 'continue;' after failure to get device for power_domain
-> - use drm_warn() in non fatal error cases
-> - removed duplicate PTR_ERR conversion
-> - Link to v1: https://lore.kernel.org/r/20230910-simpledrm-multiple-power=
--domains-v1-1-f8718aefc685@jannau.net
-> ---
->  drivers/gpu/drm/tiny/simpledrm.c | 105 +++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 105 insertions(+)
->
-> diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simp=
-ledrm.c
-> index ff86ba1ae1b8..9c597461d1e2 100644
-> --- a/drivers/gpu/drm/tiny/simpledrm.c
-> +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> @@ -6,6 +6,7 @@
->  #include <linux/of_address.h>
->  #include <linux/platform_data/simplefb.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_domain.h>
->  #include <linux/regulator/consumer.h>
->
->  #include <drm/drm_aperture.h>
-> @@ -227,6 +228,12 @@ struct simpledrm_device {
->         unsigned int regulator_count;
->         struct regulator **regulators;
->  #endif
-> +       /* power-domains */
-> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
-> +       int pwr_dom_count;
-> +       struct device **pwr_dom_devs;
-> +       struct device_link **pwr_dom_links;
-> +#endif
->
->         /* simplefb settings */
->         struct drm_display_mode mode;
-> @@ -468,6 +475,101 @@ static int simpledrm_device_init_regulators(struct =
-simpledrm_device *sdev)
->  }
->  #endif
->
-> +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
-> +/*
-> + * Generic power domain handling code.
-> + *
-> + * Here we handle the power-domains properties of our "simple-framebuffe=
-r"
-> + * dt node. This is only necessary if there is more than one power-domai=
-n.
-> + * A single power-domains is handled automatically by the driver core. M=
-ultiple
-> + * power-domains have to be handled by drivers since the driver core can=
-'t know
-> + * the correct power sequencing. Power sequencing is not an issue for si=
-mpledrm
-> + * since the bootloader has put the power domains already in the correct=
- state.
-> + * simpledrm has only to ensure they remain active for its lifetime.
-> + *
-> + * When the driver unloads, we detach from the power-domains.
-> + *
-> + * We only complain about errors here, no action is taken as the most li=
-kely
-> + * error can only happen due to a mismatch between the bootloader which =
-set
-> + * up the "simple-framebuffer" dt node, and the PM domain providers in t=
-he
-> + * device tree. Chances are that there are no adverse effects, and if th=
-ere are,
-> + * a clean teardown of the fb probe will not help us much either. So jus=
-t
-> + * complain and carry on, and hope that the user actually gets a working=
- fb at
-> + * the end of things.
-> + */
-> +static void simpledrm_device_detach_genpd(void *res)
-> +{
-> +       int i;
-> +       struct simpledrm_device *sdev =3D res;
-> +
-> +       if (sdev->pwr_dom_count <=3D 1)
-> +               return;
-> +
-> +       for (i =3D sdev->pwr_dom_count - 1; i >=3D 0; i--) {
-> +               if (!sdev->pwr_dom_links[i])
-> +                       device_link_del(sdev->pwr_dom_links[i]);
-> +               if (!IS_ERR_OR_NULL(sdev->pwr_dom_devs[i]))
-> +                       dev_pm_domain_detach(sdev->pwr_dom_devs[i], true)=
-;
-> +       }
-> +}
-> +
-> +static int simpledrm_device_attach_genpd(struct simpledrm_device *sdev)
-> +{
-> +       struct device *dev =3D sdev->dev.dev;
-> +       int i;
-> +
-> +       sdev->pwr_dom_count =3D of_count_phandle_with_args(dev->of_node, =
-"power-domains",
-> +                                                        "#power-domain-c=
-ells");
-> +       /*
-> +        * Single power-domain devices are handled by driver core nothing=
- to do
-> +        * here. The same for device nodes without "power-domains" proper=
-ty.
-> +        */
-> +       if (sdev->pwr_dom_count <=3D 1)
-> +               return 0;
-> +
-> +       sdev->pwr_dom_devs =3D devm_kcalloc(dev, sdev->pwr_dom_count,
-> +                                              sizeof(*sdev->pwr_dom_devs=
-),
-> +                                              GFP_KERNEL);
-> +       if (!sdev->pwr_dom_devs)
-> +               return -ENOMEM;
-> +
-> +       sdev->pwr_dom_links =3D devm_kcalloc(dev, sdev->pwr_dom_count,
-> +                                               sizeof(*sdev->pwr_dom_lin=
-ks),
-> +                                               GFP_KERNEL);
-> +       if (!sdev->pwr_dom_links)
-> +               return -ENOMEM;
-> +
-> +       for (i =3D 0; i < sdev->pwr_dom_count; i++) {
-> +               sdev->pwr_dom_devs[i] =3D dev_pm_domain_attach_by_id(dev,=
- i);
-> +               if (IS_ERR(sdev->pwr_dom_devs[i])) {
-> +                       int ret =3D PTR_ERR(sdev->pwr_dom_devs[i]);
-> +                       if (ret =3D=3D -EPROBE_DEFER) {
-> +                               simpledrm_device_detach_genpd(sdev);
-> +                               return ret;
-> +                       }
-> +                       drm_warn(&sdev->dev,
-> +                                "pm_domain_attach_by_id(%u) failed: %d\n=
-", i, ret);
-> +                       continue;
-> +               }
-> +
-> +               sdev->pwr_dom_links[i] =3D device_link_add(dev,
-> +                                                        sdev->pwr_dom_de=
-vs[i],
-> +                                                        DL_FLAG_STATELES=
-S |
-> +                                                        DL_FLAG_PM_RUNTI=
-ME |
-> +                                                        DL_FLAG_RPM_ACTI=
-VE);
-> +               if (!sdev->pwr_dom_links[i])
-> +                       drm_warn(&sdev->dev, "failed to link power-domain=
- %d\n", i);
-> +       }
-> +
-> +       return devm_add_action_or_reset(dev, simpledrm_device_detach_genp=
-d, sdev);
-> +}
-> +#else
-> +static int simpledrm_device_attach_genpd(struct simpledrm_device *sdev)
-> +{
-> +       return 0;
-> +}
-> +#endif
-> +
->  /*
->   * Modesetting
->   */
-> @@ -651,6 +753,9 @@ static struct simpledrm_device *simpledrm_device_crea=
-te(struct drm_driver *drv,
->         if (ret)
->                 return ERR_PTR(ret);
->         ret =3D simpledrm_device_init_regulators(sdev);
-> +       if (ret)
-> +               return ERR_PTR(ret);
-> +       ret =3D simpledrm_device_attach_genpd(sdev);
->         if (ret)
->                 return ERR_PTR(ret);
->
->
-> ---
-> base-commit: 15d30b46573d75f5cb58cfacded8ebab9c76a2b0
-> change-id: 20230910-simpledrm-multiple-power-domains-f41efa6ad9bc
->
-> Best regards,
-> --
-> Janne Grunau <j@jannau.net>
->
->
+The Kconfig option belongs closer to the corresponding implementation,
+hence let's move it from the soc subsystem to the pmdomain subsystem.
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
+Cc: Hector Martin <marcan@marcan.st>
+Cc: Sven Peter <sven@svenpeter.dev>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+Cc: <asahi@lists.linux.dev>
+Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+---
+ drivers/pmdomain/Kconfig       |  1 +
+ drivers/pmdomain/apple/Kconfig | 18 ++++++++++++++++++
+ drivers/soc/apple/Kconfig      | 13 -------------
+ 3 files changed, 19 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/pmdomain/apple/Kconfig
 
+diff --git a/drivers/pmdomain/Kconfig b/drivers/pmdomain/Kconfig
+index 07d2f8165abe..55a9ca191849 100644
+--- a/drivers/pmdomain/Kconfig
++++ b/drivers/pmdomain/Kconfig
+@@ -3,5 +3,6 @@ menu "Power Domains Support"
+ 
+ source "drivers/pmdomain/actions/Kconfig"
+ source "drivers/pmdomain/amlogic/Kconfig"
++source "drivers/pmdomain/apple/Kconfig"
+ 
+ endmenu
+diff --git a/drivers/pmdomain/apple/Kconfig b/drivers/pmdomain/apple/Kconfig
+new file mode 100644
+index 000000000000..12237cbcfaa9
+--- /dev/null
++++ b/drivers/pmdomain/apple/Kconfig
+@@ -0,0 +1,18 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++if ARCH_APPLE || COMPILE_TEST
++
++config APPLE_PMGR_PWRSTATE
++	bool "Apple SoC PMGR power state control"
++	depends on PM
++	select REGMAP
++	select MFD_SYSCON
++	select PM_GENERIC_DOMAINS
++	select RESET_CONTROLLER
++	default ARCH_APPLE
++	help
++	  The PMGR block in Apple SoCs provides high-level power state
++	  controls for SoC devices. This driver manages them through the
++	  generic power domain framework, and also provides reset support.
++
++endif
+diff --git a/drivers/soc/apple/Kconfig b/drivers/soc/apple/Kconfig
+index a1596fefacff..eff486a77337 100644
+--- a/drivers/soc/apple/Kconfig
++++ b/drivers/soc/apple/Kconfig
+@@ -4,19 +4,6 @@ if ARCH_APPLE || COMPILE_TEST
+ 
+ menu "Apple SoC drivers"
+ 
+-config APPLE_PMGR_PWRSTATE
+-	bool "Apple SoC PMGR power state control"
+-	depends on PM
+-	select REGMAP
+-	select MFD_SYSCON
+-	select PM_GENERIC_DOMAINS
+-	select RESET_CONTROLLER
+-	default ARCH_APPLE
+-	help
+-	  The PMGR block in Apple SoCs provides high-level power state
+-	  controls for SoC devices. This driver manages them through the
+-	  generic power domain framework, and also provides reset support.
+-
+ config APPLE_RTKIT
+ 	tristate "Apple RTKit co-processor IPC protocol"
+ 	depends on MAILBOX
+-- 
+2.34.1
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
