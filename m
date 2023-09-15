@@ -1,45 +1,37 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.145.221.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D642DDD1
-	for <asahi@lists.linux.dev>; Fri, 15 Sep 2023 09:45:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1694771150;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F1VBwuYXQUntYei3UdowzwFY82byxmtnNnjvSqOT3Vs=;
-	b=DG98/YMwmd5GsczuAJdp9bIcbwTf4jD9V4zURg9sBBkx8R+3yqU2KBJWqtNCaVbWABH4g5
-	lrwMqgMG95tpZhBL1TUWLFOLoiaRmwT4eDNr8FPrahJFUvVsTqWWdfHy9tXE9jWcSjb7hS
-	MQGQq3/IVyhcAta7Uc8zg2+zl17kl50=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-2-xMXlcYkJO9yrOVE5FjZlhg-1; Fri, 15 Sep 2023 05:45:47 -0400
-X-MC-Unique: xMXlcYkJO9yrOVE5FjZlhg-1
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2748d60c072so881728a91.1
-        for <asahi@lists.linux.dev>; Fri, 15 Sep 2023 02:45:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0190263A5
+	for <asahi@lists.linux.dev>; Fri, 15 Sep 2023 10:21:52 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-9aa0495f9cfso670227066b.1
+        for <asahi@lists.linux.dev>; Fri, 15 Sep 2023 03:21:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694771146; x=1695375946;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F1VBwuYXQUntYei3UdowzwFY82byxmtnNnjvSqOT3Vs=;
-        b=bGBhjgfhyAgkjW+nxNoO4evfYxVY12o7jxgxjUobDAB2tvE2rHrR4Tyw7cxodLaTF5
-         MiL5zfHLOY2agHV6EZ3FJoZPkB2T6Zyw6ghHWFw4lqu5ZC18MG24DOFaauLM3hRhjkP3
-         pPXhonG7HdhOZsKRkvAEShgZnfN4AsuG4Wzwd5iCo/lLq8wXST5VBuSlD7bC8x0z0ABE
-         B9R7T4FkehLB0qzC7o5k+3Ecz2BkY29UWFyR836J8Xm9yypvP5JSXHT39acKkTQZgP1q
-         mP8Hlv++cbEcCYx9aIUu9InGF1lL/whIi+SQeWD4sSBrAOYJsrzQoU2hZaG4rAiEXwvH
-         EVvQ==
-X-Gm-Message-State: AOJu0YwFvKIpfEKHTc/K9mEKZeDHdHClJywZEZQsS/e4+r0vffVU57QT
-	xKgBLtak3MOmuFGdSyJMdSi79gvna6bx/K5NqYS/qVeAeI8OvSq+85sWAMj6sGqbl2fH9VYBHrw
-	gfX89nTqplGZ8zx5UO4oNjm/VWkw1PO8=
-X-Received: by 2002:a17:90a:488e:b0:25c:8b5e:814 with SMTP id b14-20020a17090a488e00b0025c8b5e0814mr905167pjh.44.1694771146514;
-        Fri, 15 Sep 2023 02:45:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG+w0KCMY2aOS5+Qti0qYHaaiMfOlm1MoZJGYHxoE7tu1gXi7tNdwS+brqiPhBxoPCU8oo/3Z3q4o6FnaJnUN8=
-X-Received: by 2002:a17:90a:488e:b0:25c:8b5e:814 with SMTP id
- b14-20020a17090a488e00b0025c8b5e0814mr905153pjh.44.1694771146206; Fri, 15 Sep
- 2023 02:45:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694773311; x=1695378111;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DeroP2FcWVhozmtBWEw7Me43OWeaZ0iYsWXzbmy9YxQ=;
+        b=bGZDjovwJWHu6rd6fcQIrclxVcilBLXajSG1kSL60Kyi6I/rppF5PSzUcxVESInkAg
+         u6FpH5Np1lNKF9PYhpJ39q+dFcATDP4QqEl+WNJ7NC3d7LOyD4chBTjG82vdGqC5rEE2
+         9AIHZYmzzhjko65Faq5lNXJC7BcWTCG8eiMw32qx39pSAFvtbO7a83J2mBG20YGixORl
+         pgU+klfD1jbnnIjgmXqdfl9XLQLhsiNkZsNbzvqMeg4Dry9pBWwH/XT0zUNyDbE4vRQZ
+         tyM+08lqDcL9CF+yHNtGOObFg5g5XNNEH5rzzUxiPHAFwX5KjM5agoEzP2GJWAfLieWQ
+         KxRQ==
+X-Gm-Message-State: AOJu0YzOl6qDEOvU/mEtLj5rd6fbqA9B5bRHx3txr1e/diG3gKdCU81u
+	qXkh+RH4rTBNaswWcUpjX4uBrixoDqkJRQ==
+X-Google-Smtp-Source: AGHT+IFyW1nCIDMSn7ogFPm9lgo1l4HNS+7zDTq9ByCfw5BcrZqENvL/QAjMmSixrOkGSZOZTC7NWw==
+X-Received: by 2002:a17:906:9b8d:b0:9a1:8993:9532 with SMTP id dd13-20020a1709069b8d00b009a189939532mr6753431ejc.30.1694773310486;
+        Fri, 15 Sep 2023 03:21:50 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
+        by smtp.gmail.com with ESMTPSA id fy20-20020a170906b7d400b009ada9f7217asm2214242ejb.88.2023.09.15.03.21.49
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Sep 2023 03:21:49 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-52f3ba561d9so4294592a12.1
+        for <asahi@lists.linux.dev>; Fri, 15 Sep 2023 03:21:49 -0700 (PDT)
+X-Received: by 2002:a05:6402:2695:b0:52e:4789:bee2 with SMTP id
+ w21-20020a056402269500b0052e4789bee2mr6586101edd.6.1694773309157; Fri, 15 Sep
+ 2023 03:21:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -48,9 +40,10 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20230915092003.658361-1-ulf.hansson@linaro.org> <20230915092003.658361-5-ulf.hansson@linaro.org>
 In-Reply-To: <20230915092003.658361-5-ulf.hansson@linaro.org>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Fri, 15 Sep 2023 10:45:10 +0100
-Message-ID: <CAOgh=FzNordx=_YMiQs2Uj6JQ7Ctqqi=XZbbRAY9cS-F8v68RA@mail.gmail.com>
+From: Neal Gompa <neal@gompa.dev>
+Date: Fri, 15 Sep 2023 06:21:12 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je-hNCuKfr_g1Wrp7uYWMmoj4=3NY86oR1wEqPc1wX9jqw@mail.gmail.com>
+Message-ID: <CAEg-Je-hNCuKfr_g1Wrp7uYWMmoj4=3NY86oR1wEqPc1wX9jqw@mail.gmail.com>
 Subject: Re: [PATCH v2 04/17] pmdomain: apple: Move Kconfig option to the
  pmdomain subsystem
 To: Ulf Hansson <ulf.hansson@linaro.org>
@@ -58,11 +51,11 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, linux-pm@vge
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
 	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 15 Sept 2023 at 10:29, Ulf Hansson <ulf.hansson@linaro.org> wrote:
+On Fri, Sep 15, 2023 at 5:29=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.org=
+> wrote:
 >
 > The Kconfig option belongs closer to the corresponding implementation,
 > hence let's move it from the soc subsystem to the pmdomain subsystem.
@@ -72,15 +65,6 @@ On Fri, 15 Sept 2023 at 10:29, Ulf Hansson <ulf.hansson@linaro.org> wrote:
 > Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>
 > Cc: <asahi@lists.linux.dev>
 > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
-
-This patch in the patchset looks the same as yesterday, so...
-
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
-
-Is mise le meas/Regards,
-
-Eric Curtin
-
 > ---
 >  drivers/pmdomain/Kconfig       |  1 +
 >  drivers/pmdomain/apple/Kconfig | 18 ++++++++++++++++++
@@ -99,7 +83,8 @@ Eric Curtin
 > +source "drivers/pmdomain/apple/Kconfig"
 >
 >  endmenu
-> diff --git a/drivers/pmdomain/apple/Kconfig b/drivers/pmdomain/apple/Kconfig
+> diff --git a/drivers/pmdomain/apple/Kconfig b/drivers/pmdomain/apple/Kcon=
+fig
 > new file mode 100644
 > index 000000000000..12237cbcfaa9
 > --- /dev/null
@@ -120,7 +105,8 @@ Eric Curtin
 > +       help
 > +         The PMGR block in Apple SoCs provides high-level power state
 > +         controls for SoC devices. This driver manages them through the
-> +         generic power domain framework, and also provides reset support.
+> +         generic power domain framework, and also provides reset support=
+.
 > +
 > +endif
 > diff --git a/drivers/soc/apple/Kconfig b/drivers/soc/apple/Kconfig
@@ -142,7 +128,8 @@ Eric Curtin
 > -       help
 > -         The PMGR block in Apple SoCs provides high-level power state
 > -         controls for SoC devices. This driver manages them through the
-> -         generic power domain framework, and also provides reset support.
+> -         generic power domain framework, and also provides reset support=
+.
 > -
 >  config APPLE_RTKIT
 >         tristate "Apple RTKit co-processor IPC protocol"
@@ -152,3 +139,9 @@ Eric Curtin
 >
 >
 
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+
+
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
