@@ -1,159 +1,161 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDF7DF43
-	for <asahi@lists.linux.dev>; Fri, 15 Sep 2023 11:47:21 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-d7f1bc4ece3so2039098276.1
-        for <asahi@lists.linux.dev>; Fri, 15 Sep 2023 04:47:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AA01B26D
+	for <asahi@lists.linux.dev>; Fri, 15 Sep 2023 20:08:31 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1bc0d39b52cso21620175ad.2
+        for <asahi@lists.linux.dev>; Fri, 15 Sep 2023 13:08:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694778440; x=1695383240; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pKvJMFgrnKfiKIEIwaAMBoyLZ9Folrq2rV1ccO7Uz70=;
-        b=wia2OC2QegGVACxQoN/BOOwUpdHZeuYZjqkzm9bXz2Fa9SSY0IJlraInoghnkd0cXa
-         u66Fj8pmt8gMcnKidBr34pM76Rxo8eu3uIoBBYTnsSJa4LfgjCSlgHCi8wJw6opB6plK
-         QZxwYQNXDoURfkIWmXdk8QoqCNikxYMtgPrb+QPyhQ5zj8KLEAkGAbJqrcgU5uGjnny/
-         xEhQ0QAUsMunRZLJ1gJufBzxXLDzCPwZgdmACVfSESIES3IX7tfkRqNiijDooDfmqSy7
-         19oexfp7SNNMw6kHt0uo7kllL6Xzy2IzbR6FlBvTbq2jC1IdB17Fz7sbyDTEEL8vSHth
-         I/4g==
+        d=chromium.org; s=google; t=1694808511; x=1695413311; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=isVDFfcbmknUPWknowT7LS08Cb3UMEcuJeNo2USTgKI=;
+        b=GgOVoNVnc27EC/BdTtKQB5sOKmocOOC3DZUDXfV2seGHuwp3fwD5Vk6awTXH20VRZI
+         oDyu0dllTEohUHzOuqdOgHJ1EsgV3mtm2STWLyUqyIjolmP9kJ06KhTw8fvLReCDNK5w
+         ijZ8rvFc6qu/MzWu7k2OtVZSpPMaWOvAXzTRs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694778440; x=1695383240;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pKvJMFgrnKfiKIEIwaAMBoyLZ9Folrq2rV1ccO7Uz70=;
-        b=SAAItosZP+9OTos9pLUD6ZzGNtyM8oEPfODFj9m0eKFGIL0R824SKZzXrNvYHx0mMo
-         iMXY+l85XKqEd5bvEHEHL02RDs0azYhfZi5XEpQnRtNB/i4ZrTecED1LihYhSoczYo+Z
-         JP1jG1/T3INs6qhMOrpf8+flk+QAIPoOL5Sj9G8FePwbSA5CK7vW55nCMIq2CoHlOL74
-         ZiBkbfhPFwOGG9P8Dz44UJvhBbRG2QcRY6vkni4DFzYM4LyXRSJqPQMbnkFt9+167rVD
-         fttXIEE1tJuwVsZQNb7Hx6qYG5J1xHtfUX3aHfwvAl3qg1rCshRPE8kUz2Gn5zj+zcMk
-         NK6A==
-X-Gm-Message-State: AOJu0YzRts/Sv5/7InzCg/fEDxeIRJHYKqleONqJMUvcrnTjXYc+/Br6
-	4S+pBTZHnlFozboHVdf7n4tWZxWpK0UMmWoeu0fpjA==
-X-Google-Smtp-Source: AGHT+IHNjbPocfOapzruHHkOSM0gBYdeN9YzEb9OGi/a0yQ9a+TId3ZzRP/xtB5m5r4YaOhU3X77DPcN8RZinfnXLMw=
-X-Received: by 2002:a25:d450:0:b0:d81:61fd:ef5d with SMTP id
- m77-20020a25d450000000b00d8161fdef5dmr1350219ybf.27.1694778440112; Fri, 15
- Sep 2023 04:47:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1694808511; x=1695413311;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=isVDFfcbmknUPWknowT7LS08Cb3UMEcuJeNo2USTgKI=;
+        b=tNfv7Tdt2QcW0rPjClaRIbS2a6UCZFKT70j8/elOJf8BleOaCLEueG8gYiatk8/WjN
+         A8ntGMiwt+UdM5fRGDQWboZHN1YYfNCf8rsuiXf4JafWgt96dpHovE8RgS6yDfOpo0Xe
+         eiQNlnpoJIY5oedYGCBLYRWntR0JXp9icd+ffPwZ+//FWnbTSKvmprGwoRXmcufkyd7P
+         P6+6FyjErOnWy1JZJkM6GTSbkB8Vpsb9QJMbdVGlTUyR2xU1RQEf3KOHjkvm9doU9uuC
+         vDJhOtF7XYf7AfecxqSp32fIl6HfLJVsiYxN8PiwQqMrJrL3Fy5NlUyqHPgh29C2AnmV
+         FAKQ==
+X-Gm-Message-State: AOJu0YyH9YRuCMfKKR0dqFlxq9jyI9gIWFDCu4pdQdqPe8sbgb6o7BCI
+	LRTylo8y2pPOyFm+QVZwmCYq3Q==
+X-Google-Smtp-Source: AGHT+IFm1+jtAdP9L1K8FAr0YTZKF7Q+zfhuSjHQY9X6olemmW7O/o5ALrmJsBZbi3qT/JSSHdFxlQ==
+X-Received: by 2002:a17:902:ce85:b0:1bc:5924:2da2 with SMTP id f5-20020a170902ce8500b001bc59242da2mr3104460plg.56.1694808511445;
+        Fri, 15 Sep 2023 13:08:31 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id a5-20020a1709027d8500b001b896686c78sm3845010plm.66.2023.09.15.13.08.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Sep 2023 13:08:30 -0700 (PDT)
+Date: Fri, 15 Sep 2023 13:08:30 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Zhou Wang <wangzhou1@hisilicon.com>, Jie Hai <haijie1@huawei.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Green Wan <green.wan@sifive.com>, Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jordy Zomer <jordy@pwning.systems>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	dmaengine@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-tegra@vger.kernel.org, llvm@lists.linux.dev,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 00/21] dmaengine: Annotate with __counted_by
+Message-ID: <202309151307.F3341BD5A@keescook>
+References: <20230817235428.never.111-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230915092003.658361-1-ulf.hansson@linaro.org>
- <20230915092003.658361-5-ulf.hansson@linaro.org> <CAOgh=FzNordx=_YMiQs2Uj6JQ7Ctqqi=XZbbRAY9cS-F8v68RA@mail.gmail.com>
-In-Reply-To: <CAOgh=FzNordx=_YMiQs2Uj6JQ7Ctqqi=XZbbRAY9cS-F8v68RA@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 15 Sep 2023 13:46:44 +0200
-Message-ID: <CAPDyKFpYRwDGbYajVK8MMDjf=0ab-ZpMH2QXKUsVAFy0kh-iYA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/17] pmdomain: apple: Move Kconfig option to the
- pmdomain subsystem
-To: Eric Curtin <ecurtin@redhat.com>, Neal Gompa <neal@gompa.dev>
-Cc: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230817235428.never.111-kees@kernel.org>
 
-+ Neal
+Hi,
 
-On Fri, 15 Sept 2023 at 11:45, Eric Curtin <ecurtin@redhat.com> wrote:
->
-> On Fri, 15 Sept 2023 at 10:29, Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> >
-> > The Kconfig option belongs closer to the corresponding implementation,
-> > hence let's move it from the soc subsystem to the pmdomain subsystem.
-> >
-> > Cc: Hector Martin <marcan@marcan.st>
-> > Cc: Sven Peter <sven@svenpeter.dev>
-> > Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-> > Cc: <asahi@lists.linux.dev>
-> > Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
->
-> This patch in the patchset looks the same as yesterday, so...
->
-> Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+Just a ping on the series... how do these look to you, Vinod?
 
-Yes my bad, again. I forgot to add yours and Neal's tags, sorry.
+If you want I can carry them in my tree. Please let me know.
 
 Thanks!
 
-Kind regards
-Uffe
+-Kees
 
->
-> Is mise le meas/Regards,
->
-> Eric Curtin
->
-> > ---
-> >  drivers/pmdomain/Kconfig       |  1 +
-> >  drivers/pmdomain/apple/Kconfig | 18 ++++++++++++++++++
-> >  drivers/soc/apple/Kconfig      | 13 -------------
-> >  3 files changed, 19 insertions(+), 13 deletions(-)
-> >  create mode 100644 drivers/pmdomain/apple/Kconfig
-> >
-> > diff --git a/drivers/pmdomain/Kconfig b/drivers/pmdomain/Kconfig
-> > index 03c8991ad0fd..482d9e970e14 100644
-> > --- a/drivers/pmdomain/Kconfig
-> > +++ b/drivers/pmdomain/Kconfig
-> > @@ -3,5 +3,6 @@ menu "PM Domains"
-> >
-> >  source "drivers/pmdomain/actions/Kconfig"
-> >  source "drivers/pmdomain/amlogic/Kconfig"
-> > +source "drivers/pmdomain/apple/Kconfig"
-> >
-> >  endmenu
-> > diff --git a/drivers/pmdomain/apple/Kconfig b/drivers/pmdomain/apple/Kconfig
-> > new file mode 100644
-> > index 000000000000..12237cbcfaa9
-> > --- /dev/null
-> > +++ b/drivers/pmdomain/apple/Kconfig
-> > @@ -0,0 +1,18 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +if ARCH_APPLE || COMPILE_TEST
-> > +
-> > +config APPLE_PMGR_PWRSTATE
-> > +       bool "Apple SoC PMGR power state control"
-> > +       depends on PM
-> > +       select REGMAP
-> > +       select MFD_SYSCON
-> > +       select PM_GENERIC_DOMAINS
-> > +       select RESET_CONTROLLER
-> > +       default ARCH_APPLE
-> > +       help
-> > +         The PMGR block in Apple SoCs provides high-level power state
-> > +         controls for SoC devices. This driver manages them through the
-> > +         generic power domain framework, and also provides reset support.
-> > +
-> > +endif
-> > diff --git a/drivers/soc/apple/Kconfig b/drivers/soc/apple/Kconfig
-> > index a1596fefacff..eff486a77337 100644
-> > --- a/drivers/soc/apple/Kconfig
-> > +++ b/drivers/soc/apple/Kconfig
-> > @@ -4,19 +4,6 @@ if ARCH_APPLE || COMPILE_TEST
-> >
-> >  menu "Apple SoC drivers"
-> >
-> > -config APPLE_PMGR_PWRSTATE
-> > -       bool "Apple SoC PMGR power state control"
-> > -       depends on PM
-> > -       select REGMAP
-> > -       select MFD_SYSCON
-> > -       select PM_GENERIC_DOMAINS
-> > -       select RESET_CONTROLLER
-> > -       default ARCH_APPLE
-> > -       help
-> > -         The PMGR block in Apple SoCs provides high-level power state
-> > -         controls for SoC devices. This driver manages them through the
-> > -         generic power domain framework, and also provides reset support.
-> > -
-> >  config APPLE_RTKIT
-> >         tristate "Apple RTKit co-processor IPC protocol"
-> >         depends on MAILBOX
-> > --
-> > 2.34.1
-> >
-> >
->
+On Thu, Aug 17, 2023 at 04:58:37PM -0700, Kees Cook wrote:
+> Hi,
+> 
+> This annotates several structures with the coming __counted_by attribute
+> for bounds checking of flexible arrays at run-time. For more details, see
+> commit dd06e72e68bc ("Compiler Attributes: Add __counted_by macro").
+> 
+> Thanks!
+> 
+> -Kees
+> 
+> Kees Cook (21):
+>   dmaengine: apple-admac: Annotate struct admac_data with __counted_by
+>   dmaengine: at_hdmac: Annotate struct at_desc with __counted_by
+>   dmaengine: axi-dmac: Annotate struct axi_dmac_desc with __counted_by
+>   dmaengine: fsl-edma: Annotate struct fsl_edma_desc with __counted_by
+>   dmaengine: hisilicon: Annotate struct hisi_dma_dev with __counted_by
+>   dmaengine: moxart-dma: Annotate struct moxart_desc with __counted_by
+>   dmaengine: qcom: bam_dma: Annotate struct bam_async_desc with
+>     __counted_by
+>   dmaengine: sa11x0: Annotate struct sa11x0_dma_desc with __counted_by
+>   dmaengine: sf-pdma: Annotate struct sf_pdma with __counted_by
+>   dmaengine: sprd: Annotate struct sprd_dma_dev with __counted_by
+>   dmaengine: st_fdma: Annotate struct st_fdma_desc with __counted_by
+>   dmaengine: stm32-dma: Annotate struct stm32_dma_desc with __counted_by
+>   dmaengine: stm32-mdma: Annotate struct stm32_mdma_desc with
+>     __counted_by
+>   dmaengine: stm32-mdma: Annotate struct stm32_mdma_device with
+>     __counted_by
+>   dmaengine: tegra: Annotate struct tegra_dma_desc with __counted_by
+>   dmaengine: tegra210-adma: Annotate struct tegra_adma with __counted_by
+>   dmaengine: ti: edma: Annotate struct edma_desc with __counted_by
+>   dmaengine: ti: omap-dma: Annotate struct omap_desc with __counted_by
+>   dmaengine: uniphier-xdmac: Annotate struct uniphier_xdmac_desc with
+>     __counted_by
+>   dmaengine: uniphier-xdmac: Annotate struct uniphier_xdmac_device with
+>     __counted_by
+>   dmaengine: usb-dmac: Annotate struct usb_dmac_desc with __counted_by
+> 
+>  drivers/dma/apple-admac.c      |  2 +-
+>  drivers/dma/at_hdmac.c         |  2 +-
+>  drivers/dma/dma-axi-dmac.c     |  5 ++---
+>  drivers/dma/fsl-edma-common.h  |  2 +-
+>  drivers/dma/hisi_dma.c         |  2 +-
+>  drivers/dma/moxart-dma.c       |  5 ++---
+>  drivers/dma/qcom/bam_dma.c     |  2 +-
+>  drivers/dma/sa11x0-dma.c       |  6 +++---
+>  drivers/dma/sf-pdma/sf-pdma.h  |  2 +-
+>  drivers/dma/sh/usb-dmac.c      |  2 +-
+>  drivers/dma/sprd-dma.c         |  2 +-
+>  drivers/dma/st_fdma.h          |  2 +-
+>  drivers/dma/stm32-dma.c        | 11 ++++-------
+>  drivers/dma/stm32-mdma.c       |  9 ++++-----
+>  drivers/dma/tegra186-gpc-dma.c |  2 +-
+>  drivers/dma/tegra210-adma.c    |  2 +-
+>  drivers/dma/ti/edma.c          |  2 +-
+>  drivers/dma/ti/omap-dma.c      |  5 ++---
+>  drivers/dma/uniphier-xdmac.c   |  8 ++++----
+>  19 files changed, 33 insertions(+), 40 deletions(-)
+> 
+> -- 
+> 2.34.1
+> 
+
+-- 
+Kees Cook
