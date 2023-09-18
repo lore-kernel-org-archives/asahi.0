@@ -1,256 +1,163 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032CB6FB2
-	for <asahi@lists.linux.dev>; Mon, 18 Sep 2023 07:11:16 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 486A4219A8;
-	Mon, 18 Sep 2023 07:11:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1695021075; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=oOwgRgw91cgbtAcRn5os3ar11h1r1R+PsmxxHUw9CYs=;
-	b=WOs4Eq9M3cq8LotrI++Hn5eT9yv50ppTWBZamsb1PKcTcbVYsPRLfevevcWKH8/bk4+bp6
-	7BItGGjHt9VnAm04eufwg8vxzCTL4CjsSRDnjNeXCjS3OMP1iDGjoGjU8eO0WKL0crfKWL
-	iCQzDGFFxV4hmTaKYVQoKGaTHJwc5/Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1695021075;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=oOwgRgw91cgbtAcRn5os3ar11h1r1R+PsmxxHUw9CYs=;
-	b=P5a/2N5wzuQ9d0Fv+Wt/WKMNsqM3MatVEhPV+PMSf63nQs0PXVySxULIhq/r7lZ7PMOwvf
-	yBdBgYlZ0zGiOuCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1B24C13480;
-	Mon, 18 Sep 2023 07:11:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id cj+aBRP4B2VpTAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Mon, 18 Sep 2023 07:11:15 +0000
-Message-ID: <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
-Date: Mon, 18 Sep 2023 09:11:14 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708AF1CAA4
+	for <asahi@lists.linux.dev>; Mon, 18 Sep 2023 13:20:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695043219; x=1726579219;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=fG2lEBkT7mIaWcABDtYlaKTuVQodmkE/Rpx2qX2kUFA=;
+  b=aK86d0A3YnVdChzVFZOg08jb7R0DQrmixnYJymxjWfTiOUovbeLVZtyj
+   vyekFHUzwltYI5uHOAD1g+GgysBGDddnJ3kyAqGEDGbYUKN97rwuJkOgi
+   g98S1PvsTFrbaF1MDjRULwLoVgiOfsGfqNdha3idymU5O3rVI3AgQ0Kel
+   yUQPOaVcFrNTpop1uv359pjyAfY9yMcJGdO5ZbDdzct9FE2eCZUDinFJN
+   q2bZWWzFlcYpCmjXFtnNLhAeq16sJpd1PwRoQv+Qi1Gf94kf9iFgc8Rqa
+   xbCB0nke3qoWkZU1wThhJ3QYVHLFERSHeMF6DpHZuVLHbImGa0SK0NcAg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="446113438"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="446113438"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:12:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="811342282"
+X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
+   d="scan'208";a="811342282"
+Received: from nprotaso-mobl1.ccr.corp.intel.com (HELO ijarvine-mobl2.ger.corp.intel.com) ([10.252.49.156])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:12:38 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To: linux-pci@vger.kernel.org,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	linux-kernel@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-bluetooth@vger.kernel.org
+Cc: ath10k@lists.infradead.org,
+	ath11k@lists.infradead.org,
+	ath12k@lists.infradead.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rdma@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [PATCH v2 06/13] Bluetooth: hci_bcm4377: Convert aspm disable to quirk
+Date: Mon, 18 Sep 2023 16:10:56 +0300
+Message-Id: <20230918131103.24119-7-ilpo.jarvinen@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20230918131103.24119-1-ilpo.jarvinen@linux.intel.com>
+References: <20230918131103.24119-1-ilpo.jarvinen@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/simpledrm: Add support for multiple
- "power-domains"
-Content-Language: en-US
-To: j@jannau.net, Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------08nQr1HV2T99ulAM7fxadKRt"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------08nQr1HV2T99ulAM7fxadKRt
-Content-Type: multipart/mixed; boundary="------------3OAjWk978fNDAxouHzC5fa0L";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: j@jannau.net, Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-Message-ID: <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
-Subject: Re: [PATCH v2] drm/simpledrm: Add support for multiple
- "power-domains"
-References: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
-In-Reply-To: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
+pci_disable_link_state() was made reliable regardless of ASPM CONFIG
+and OS being disallowed to change ASPM states to allow drivers to rely
+on pci_disable_link_state() working.
 
---------------3OAjWk978fNDAxouHzC5fa0L
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Remove driver working around unreliable pci_disable_link_state() from
+hci_bcm4377 driver and add a PCI quirk to disable ASPM.
 
-SGkNCg0KQW0gMTIuMDkuMjMgdW0gMjI6MjIgc2NocmllYiBKYW5uZSBHcnVuYXUgdmlhIEI0
-IFJlbGF5Og0KPiBGcm9tOiBKYW5uZSBHcnVuYXUgPGpAamFubmF1Lm5ldD4NCj4gDQo+IE11
-bHRpcGxlIHBvd2VyIGRvbWFpbnMgbmVlZCB0byBiZSBoYW5kbGVkIGV4cGxpY2l0bHkgaW4g
-ZWFjaCBkcml2ZXIuIFRoZQ0KPiBkcml2ZXIgY29yZSBjYW4gbm90IGhhbmRsZSBpdCBhdXRv
-bWF0aWNhbGx5IHNpbmNlIGl0IGlzIG5vdCBhd2FyZSBvZg0KPiBwb3dlciBzZXF1ZW5jaW5n
-IHJlcXVpcmVtZW50cyB0aGUgaGFyZHdhcmUgbWlnaHQgaGF2ZS4gVGhpcyBpcyBub3QgYQ0K
-PiBwcm9ibGVtIGZvciBzaW1wbGVkcm0gc2luY2UgZXZlcnl0aGluZyBpcyBleHBlY3RlZCB0
-byBiZSBwb3dlcmVkIG9uIGJ5DQo+IHRoZSBib290bG9hZGVyLiBzaW1wbGVkcm0gaGFzIGp1
-c3QgZW5zdXJlIGl0IHJlbWFpbnMgcG93ZXJlZCBvbiBkdXJpbmcNCj4gaXRzIGxpZmV0aW1l
-Lg0KPiBUaGlzIGlzIHJlcXVpcmVkIG9uIEFwcGxlIHNpbGljb24gTTIgYW5kIE0yIFByby9N
-YXgvVWx0cmEgZGVza3RvcA0KPiBzeXN0ZW1zLiBUaGUgSERNSSBvdXRwdXQgaW5pdGlhbGl6
-ZWQgYnkgdGhlIGJvb3Rsb2FkZXIgcmVxdWlyZXMga2VlcGluZw0KPiB0aGUgZGlzcGxheSBj
-b250cm9sbGVyIGFuZCBhIERQIHBoeSBwb3dlciBkb21haW4gb24uDQo+IA0KPiBTaWduZWQt
-b2ZmLWJ5OiBKYW5uZSBHcnVuYXUgPGpAamFubmF1Lm5ldD4NCg0KQXMgYSBzaW1wbGVkcm0g
-cGF0Y2g6DQoNClJldmlld2VkLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5A
-c3VzZS5kZT4NCg0KRG8geW91IHdhbnQgdG8gd2FpdCBmb3IgYW5vdGhlciByZXZpZXcgZnJv
-bSAgc29tZW9uZSB3aXRoIA0KcG93ZXItbWFuYWdlbWVudCBleHBlcnRpc2U/DQoNCkRvIHdl
-IG5lZWQgYSBzaW1pbGFyIHBhdGNoIGZvciBvZmRybT8NCg0KQmVzdCByZWdhcmRzDQpUaG9t
-YXMNCg0KPiAtLS0NCj4gQ2hhbmdlcyBpbiB2MjoNCj4gLSByZW1vdmVkIGJyb2tlbiBkcm1f
-ZXJyKCkgbG9nIHN0YXRlbWVudCBvbmx5IG1lbnQgZm9yIGRlYnVnZ2luZw0KPiAtIHJlbW92
-ZWQgY29tbWVudGVkIGNhc3QNCj4gLSB1c2UgY29ycmVjdCBmb3JtYXQgc3BjaWZpZXIgZm9y
-ICdpbnQnIGluIGxvZyBzdGF0ZW1lbnQNCj4gLSBhZGQgJ2NvbnRpbnVlOycgYWZ0ZXIgZmFp
-bHVyZSB0byBnZXQgZGV2aWNlIGZvciBwb3dlcl9kb21haW4NCj4gLSB1c2UgZHJtX3dhcm4o
-KSBpbiBub24gZmF0YWwgZXJyb3IgY2FzZXMNCj4gLSByZW1vdmVkIGR1cGxpY2F0ZSBQVFJf
-RVJSIGNvbnZlcnNpb24NCj4gLSBMaW5rIHRvIHYxOiBodHRwczovL2xvcmUua2VybmVsLm9y
-Zy9yLzIwMjMwOTEwLXNpbXBsZWRybS1tdWx0aXBsZS1wb3dlci1kb21haW5zLXYxLTEtZjg3
-MThhZWZjNjg1QGphbm5hdS5uZXQNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL3Rpbnkv
-c2ltcGxlZHJtLmMgfCAxMDUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEwNSBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMgYi9kcml2ZXJzL2dw
-dS9kcm0vdGlueS9zaW1wbGVkcm0uYw0KPiBpbmRleCBmZjg2YmExYWUxYjguLjljNTk3NDYx
-ZDFlMiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMN
-Cj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL3Rpbnkvc2ltcGxlZHJtLmMNCj4gQEAgLTYsNiAr
-Niw3IEBADQo+ICAgI2luY2x1ZGUgPGxpbnV4L29mX2FkZHJlc3MuaD4NCj4gICAjaW5jbHVk
-ZSA8bGludXgvcGxhdGZvcm1fZGF0YS9zaW1wbGVmYi5oPg0KPiAgICNpbmNsdWRlIDxsaW51
-eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9wbV9kb21haW4uaD4N
-Cj4gICAjaW5jbHVkZSA8bGludXgvcmVndWxhdG9yL2NvbnN1bWVyLmg+DQo+ICAgDQo+ICAg
-I2luY2x1ZGUgPGRybS9kcm1fYXBlcnR1cmUuaD4NCj4gQEAgLTIyNyw2ICsyMjgsMTIgQEAg
-c3RydWN0IHNpbXBsZWRybV9kZXZpY2Ugew0KPiAgIAl1bnNpZ25lZCBpbnQgcmVndWxhdG9y
-X2NvdW50Ow0KPiAgIAlzdHJ1Y3QgcmVndWxhdG9yICoqcmVndWxhdG9yczsNCj4gICAjZW5k
-aWYNCj4gKwkvKiBwb3dlci1kb21haW5zICovDQo+ICsjaWYgZGVmaW5lZCBDT05GSUdfT0Yg
-JiYgZGVmaW5lZCBDT05GSUdfUE1fR0VORVJJQ19ET01BSU5TDQo+ICsJaW50IHB3cl9kb21f
-Y291bnQ7DQo+ICsJc3RydWN0IGRldmljZSAqKnB3cl9kb21fZGV2czsNCj4gKwlzdHJ1Y3Qg
-ZGV2aWNlX2xpbmsgKipwd3JfZG9tX2xpbmtzOw0KPiArI2VuZGlmDQo+ICAgDQo+ICAgCS8q
-IHNpbXBsZWZiIHNldHRpbmdzICovDQo+ICAgCXN0cnVjdCBkcm1fZGlzcGxheV9tb2RlIG1v
-ZGU7DQo+IEBAIC00NjgsNiArNDc1LDEwMSBAQCBzdGF0aWMgaW50IHNpbXBsZWRybV9kZXZp
-Y2VfaW5pdF9yZWd1bGF0b3JzKHN0cnVjdCBzaW1wbGVkcm1fZGV2aWNlICpzZGV2KQ0KPiAg
-IH0NCj4gICAjZW5kaWYNCj4gICANCj4gKyNpZiBkZWZpbmVkIENPTkZJR19PRiAmJiBkZWZp
-bmVkIENPTkZJR19QTV9HRU5FUklDX0RPTUFJTlMNCj4gKy8qDQo+ICsgKiBHZW5lcmljIHBv
-d2VyIGRvbWFpbiBoYW5kbGluZyBjb2RlLg0KPiArICoNCj4gKyAqIEhlcmUgd2UgaGFuZGxl
-IHRoZSBwb3dlci1kb21haW5zIHByb3BlcnRpZXMgb2Ygb3VyICJzaW1wbGUtZnJhbWVidWZm
-ZXIiDQo+ICsgKiBkdCBub2RlLiBUaGlzIGlzIG9ubHkgbmVjZXNzYXJ5IGlmIHRoZXJlIGlz
-IG1vcmUgdGhhbiBvbmUgcG93ZXItZG9tYWluLg0KPiArICogQSBzaW5nbGUgcG93ZXItZG9t
-YWlucyBpcyBoYW5kbGVkIGF1dG9tYXRpY2FsbHkgYnkgdGhlIGRyaXZlciBjb3JlLiBNdWx0
-aXBsZQ0KPiArICogcG93ZXItZG9tYWlucyBoYXZlIHRvIGJlIGhhbmRsZWQgYnkgZHJpdmVy
-cyBzaW5jZSB0aGUgZHJpdmVyIGNvcmUgY2FuJ3Qga25vdw0KPiArICogdGhlIGNvcnJlY3Qg
-cG93ZXIgc2VxdWVuY2luZy4gUG93ZXIgc2VxdWVuY2luZyBpcyBub3QgYW4gaXNzdWUgZm9y
-IHNpbXBsZWRybQ0KPiArICogc2luY2UgdGhlIGJvb3Rsb2FkZXIgaGFzIHB1dCB0aGUgcG93
-ZXIgZG9tYWlucyBhbHJlYWR5IGluIHRoZSBjb3JyZWN0IHN0YXRlLg0KPiArICogc2ltcGxl
-ZHJtIGhhcyBvbmx5IHRvIGVuc3VyZSB0aGV5IHJlbWFpbiBhY3RpdmUgZm9yIGl0cyBsaWZl
-dGltZS4NCj4gKyAqDQo+ICsgKiBXaGVuIHRoZSBkcml2ZXIgdW5sb2Fkcywgd2UgZGV0YWNo
-IGZyb20gdGhlIHBvd2VyLWRvbWFpbnMuDQo+ICsgKg0KPiArICogV2Ugb25seSBjb21wbGFp
-biBhYm91dCBlcnJvcnMgaGVyZSwgbm8gYWN0aW9uIGlzIHRha2VuIGFzIHRoZSBtb3N0IGxp
-a2VseQ0KPiArICogZXJyb3IgY2FuIG9ubHkgaGFwcGVuIGR1ZSB0byBhIG1pc21hdGNoIGJl
-dHdlZW4gdGhlIGJvb3Rsb2FkZXIgd2hpY2ggc2V0DQo+ICsgKiB1cCB0aGUgInNpbXBsZS1m
-cmFtZWJ1ZmZlciIgZHQgbm9kZSwgYW5kIHRoZSBQTSBkb21haW4gcHJvdmlkZXJzIGluIHRo
-ZQ0KPiArICogZGV2aWNlIHRyZWUuIENoYW5jZXMgYXJlIHRoYXQgdGhlcmUgYXJlIG5vIGFk
-dmVyc2UgZWZmZWN0cywgYW5kIGlmIHRoZXJlIGFyZSwNCj4gKyAqIGEgY2xlYW4gdGVhcmRv
-d24gb2YgdGhlIGZiIHByb2JlIHdpbGwgbm90IGhlbHAgdXMgbXVjaCBlaXRoZXIuIFNvIGp1
-c3QNCj4gKyAqIGNvbXBsYWluIGFuZCBjYXJyeSBvbiwgYW5kIGhvcGUgdGhhdCB0aGUgdXNl
-ciBhY3R1YWxseSBnZXRzIGEgd29ya2luZyBmYiBhdA0KPiArICogdGhlIGVuZCBvZiB0aGlu
-Z3MuDQo+ICsgKi8NCj4gK3N0YXRpYyB2b2lkIHNpbXBsZWRybV9kZXZpY2VfZGV0YWNoX2dl
-bnBkKHZvaWQgKnJlcykNCj4gK3sNCj4gKwlpbnQgaTsNCj4gKwlzdHJ1Y3Qgc2ltcGxlZHJt
-X2RldmljZSAqc2RldiA9IHJlczsNCj4gKw0KPiArCWlmIChzZGV2LT5wd3JfZG9tX2NvdW50
-IDw9IDEpDQo+ICsJCXJldHVybjsNCj4gKw0KPiArCWZvciAoaSA9IHNkZXYtPnB3cl9kb21f
-Y291bnQgLSAxOyBpID49IDA7IGktLSkgew0KPiArCQlpZiAoIXNkZXYtPnB3cl9kb21fbGlu
-a3NbaV0pDQo+ICsJCQlkZXZpY2VfbGlua19kZWwoc2Rldi0+cHdyX2RvbV9saW5rc1tpXSk7
-DQo+ICsJCWlmICghSVNfRVJSX09SX05VTEwoc2Rldi0+cHdyX2RvbV9kZXZzW2ldKSkNCj4g
-KwkJCWRldl9wbV9kb21haW5fZGV0YWNoKHNkZXYtPnB3cl9kb21fZGV2c1tpXSwgdHJ1ZSk7
-DQo+ICsJfQ0KPiArfQ0KPiArDQo+ICtzdGF0aWMgaW50IHNpbXBsZWRybV9kZXZpY2VfYXR0
-YWNoX2dlbnBkKHN0cnVjdCBzaW1wbGVkcm1fZGV2aWNlICpzZGV2KQ0KPiArew0KPiArCXN0
-cnVjdCBkZXZpY2UgKmRldiA9IHNkZXYtPmRldi5kZXY7DQo+ICsJaW50IGk7DQo+ICsNCj4g
-KwlzZGV2LT5wd3JfZG9tX2NvdW50ID0gb2ZfY291bnRfcGhhbmRsZV93aXRoX2FyZ3MoZGV2
-LT5vZl9ub2RlLCAicG93ZXItZG9tYWlucyIsDQo+ICsJCQkJCQkJICIjcG93ZXItZG9tYWlu
-LWNlbGxzIik7DQo+ICsJLyoNCj4gKwkgKiBTaW5nbGUgcG93ZXItZG9tYWluIGRldmljZXMg
-YXJlIGhhbmRsZWQgYnkgZHJpdmVyIGNvcmUgbm90aGluZyB0byBkbw0KPiArCSAqIGhlcmUu
-IFRoZSBzYW1lIGZvciBkZXZpY2Ugbm9kZXMgd2l0aG91dCAicG93ZXItZG9tYWlucyIgcHJv
-cGVydHkuDQo+ICsJICovDQo+ICsJaWYgKHNkZXYtPnB3cl9kb21fY291bnQgPD0gMSkNCj4g
-KwkJcmV0dXJuIDA7DQo+ICsNCj4gKwlzZGV2LT5wd3JfZG9tX2RldnMgPSBkZXZtX2tjYWxs
-b2MoZGV2LCBzZGV2LT5wd3JfZG9tX2NvdW50LA0KPiArCQkJCQkgICAgICAgc2l6ZW9mKCpz
-ZGV2LT5wd3JfZG9tX2RldnMpLA0KPiArCQkJCQkgICAgICAgR0ZQX0tFUk5FTCk7DQo+ICsJ
-aWYgKCFzZGV2LT5wd3JfZG9tX2RldnMpDQo+ICsJCXJldHVybiAtRU5PTUVNOw0KPiArDQo+
-ICsJc2Rldi0+cHdyX2RvbV9saW5rcyA9IGRldm1fa2NhbGxvYyhkZXYsIHNkZXYtPnB3cl9k
-b21fY291bnQsDQo+ICsJCQkJCQlzaXplb2YoKnNkZXYtPnB3cl9kb21fbGlua3MpLA0KPiAr
-CQkJCQkJR0ZQX0tFUk5FTCk7DQo+ICsJaWYgKCFzZGV2LT5wd3JfZG9tX2xpbmtzKQ0KPiAr
-CQlyZXR1cm4gLUVOT01FTTsNCj4gKw0KPiArCWZvciAoaSA9IDA7IGkgPCBzZGV2LT5wd3Jf
-ZG9tX2NvdW50OyBpKyspIHsNCj4gKwkJc2Rldi0+cHdyX2RvbV9kZXZzW2ldID0gZGV2X3Bt
-X2RvbWFpbl9hdHRhY2hfYnlfaWQoZGV2LCBpKTsNCj4gKwkJaWYgKElTX0VSUihzZGV2LT5w
-d3JfZG9tX2RldnNbaV0pKSB7DQo+ICsJCQlpbnQgcmV0ID0gUFRSX0VSUihzZGV2LT5wd3Jf
-ZG9tX2RldnNbaV0pOw0KPiArCQkJaWYgKHJldCA9PSAtRVBST0JFX0RFRkVSKSB7DQo+ICsJ
-CQkJc2ltcGxlZHJtX2RldmljZV9kZXRhY2hfZ2VucGQoc2Rldik7DQo+ICsJCQkJcmV0dXJu
-IHJldDsNCj4gKwkJCX0NCj4gKwkJCWRybV93YXJuKCZzZGV2LT5kZXYsDQo+ICsJCQkJICJw
-bV9kb21haW5fYXR0YWNoX2J5X2lkKCV1KSBmYWlsZWQ6ICVkXG4iLCBpLCByZXQpOw0KPiAr
-CQkJY29udGludWU7DQo+ICsJCX0NCj4gKw0KPiArCQlzZGV2LT5wd3JfZG9tX2xpbmtzW2ld
-ID0gZGV2aWNlX2xpbmtfYWRkKGRldiwNCj4gKwkJCQkJCQkgc2Rldi0+cHdyX2RvbV9kZXZz
-W2ldLA0KPiArCQkJCQkJCSBETF9GTEFHX1NUQVRFTEVTUyB8DQo+ICsJCQkJCQkJIERMX0ZM
-QUdfUE1fUlVOVElNRSB8DQo+ICsJCQkJCQkJIERMX0ZMQUdfUlBNX0FDVElWRSk7DQo+ICsJ
-CWlmICghc2Rldi0+cHdyX2RvbV9saW5rc1tpXSkNCj4gKwkJCWRybV93YXJuKCZzZGV2LT5k
-ZXYsICJmYWlsZWQgdG8gbGluayBwb3dlci1kb21haW4gJWRcbiIsIGkpOw0KPiArCX0NCj4g
-Kw0KPiArCXJldHVybiBkZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQoZGV2LCBzaW1wbGVkcm1f
-ZGV2aWNlX2RldGFjaF9nZW5wZCwgc2Rldik7DQo+ICt9DQo+ICsjZWxzZQ0KPiArc3RhdGlj
-IGludCBzaW1wbGVkcm1fZGV2aWNlX2F0dGFjaF9nZW5wZChzdHJ1Y3Qgc2ltcGxlZHJtX2Rl
-dmljZSAqc2RldikNCj4gK3sNCj4gKwlyZXR1cm4gMDsNCj4gK30NCj4gKyNlbmRpZg0KPiAr
-DQo+ICAgLyoNCj4gICAgKiBNb2Rlc2V0dGluZw0KPiAgICAqLw0KPiBAQCAtNjUxLDYgKzc1
-Myw5IEBAIHN0YXRpYyBzdHJ1Y3Qgc2ltcGxlZHJtX2RldmljZSAqc2ltcGxlZHJtX2Rldmlj
-ZV9jcmVhdGUoc3RydWN0IGRybV9kcml2ZXIgKmRydiwNCj4gICAJaWYgKHJldCkNCj4gICAJ
-CXJldHVybiBFUlJfUFRSKHJldCk7DQo+ICAgCXJldCA9IHNpbXBsZWRybV9kZXZpY2VfaW5p
-dF9yZWd1bGF0b3JzKHNkZXYpOw0KPiArCWlmIChyZXQpDQo+ICsJCXJldHVybiBFUlJfUFRS
-KHJldCk7DQo+ICsJcmV0ID0gc2ltcGxlZHJtX2RldmljZV9hdHRhY2hfZ2VucGQoc2Rldik7
-DQo+ICAgCWlmIChyZXQpDQo+ICAgCQlyZXR1cm4gRVJSX1BUUihyZXQpOw0KPiAgIA0KPiAN
-Cj4gLS0tDQo+IGJhc2UtY29tbWl0OiAxNWQzMGI0NjU3M2Q3NWY1Y2I1OGNmYWNkZWQ4ZWJh
-YjljNzZhMmIwDQo+IGNoYW5nZS1pZDogMjAyMzA5MTAtc2ltcGxlZHJtLW11bHRpcGxlLXBv
-d2VyLWRvbWFpbnMtZjQxZWZhNmFkOWJjDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQoNCi0tIA0K
-VGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29m
-dHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2
-MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5k
-cmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJn
-KQ0K
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+---
+ drivers/bluetooth/hci_bcm4377.c | 20 --------------------
+ drivers/pci/quirks.c            |  3 +++
+ 2 files changed, 3 insertions(+), 20 deletions(-)
 
---------------3OAjWk978fNDAxouHzC5fa0L--
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index 19ad0e788646..2348ee2380db 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -490,7 +490,6 @@ struct bcm4377_data;
+  * clear_pciecfg_subsystem_ctrl_bit19: Set to true if bit 19 in the
+  *                                     vendor-specific subsystem control
+  *                                     register has to be cleared
+- * disable_aspm: Set to true if ASPM must be disabled due to hardware errata
+  * broken_ext_scan: Set to true if the chip erroneously claims to support
+  *                  extended scanning
+  * broken_mws_transport_config: Set to true if the chip erroneously claims to
+@@ -509,7 +508,6 @@ struct bcm4377_hw {
+ 
+ 	unsigned long has_bar0_core2_window2 : 1;
+ 	unsigned long clear_pciecfg_subsystem_ctrl_bit19 : 1;
+-	unsigned long disable_aspm : 1;
+ 	unsigned long broken_ext_scan : 1;
+ 	unsigned long broken_mws_transport_config : 1;
+ 
+@@ -2222,20 +2220,6 @@ static int bcm4377_probe_of(struct bcm4377_data *bcm4377)
+ 	return 0;
+ }
+ 
+-static void bcm4377_disable_aspm(struct bcm4377_data *bcm4377)
+-{
+-	pci_disable_link_state(bcm4377->pdev,
+-			       PCIE_LINK_STATE_L0S | PCIE_LINK_STATE_L1);
+-
+-	/*
+-	 * pci_disable_link_state can fail if either CONFIG_PCIEASPM is disabled
+-	 * or if the BIOS hasn't handed over control to us. We must *always*
+-	 * disable ASPM for this device due to hardware errata though.
+-	 */
+-	pcie_capability_clear_word(bcm4377->pdev, PCI_EXP_LNKCTL,
+-				   PCI_EXP_LNKCTL_ASPMC);
+-}
+-
+ static void bcm4377_pci_free_irq_vectors(void *data)
+ {
+ 	pci_free_irq_vectors(data);
+@@ -2288,9 +2272,6 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		return -ENODEV;
+ 	}
+ 
+-	if (bcm4377->hw->disable_aspm)
+-		bcm4377_disable_aspm(bcm4377);
+-
+ 	ret = pci_reset_function_locked(pdev);
+ 	if (ret)
+ 		dev_warn(
+@@ -2448,7 +2429,6 @@ static const struct bcm4377_hw bcm4377_hw_variants[] = {
+ 		.otp_offset = 0x4120,
+ 		.bar0_window1 = 0x1800b000,
+ 		.bar0_window2 = 0x1810c000,
+-		.disable_aspm = true,
+ 		.broken_ext_scan = true,
+ 		.send_ptb = bcm4377_send_ptb,
+ 	},
+diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
+index eeec1d6f9023..d6ab0e98013f 100644
+--- a/drivers/pci/quirks.c
++++ b/drivers/pci/quirks.c
+@@ -2502,6 +2502,9 @@ static void quirk_disable_aspm_l0s_l1(struct pci_dev *dev)
+  */
+ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ASMEDIA, 0x1080, quirk_disable_aspm_l0s_l1);
+ 
++/* BCM4377 must always disable ASPM due to hardware errata. */
++DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_BROADCOM, 0x5fa0, quirk_disable_aspm_l0s_l1);
++
+ /*
+  * Some Pericom PCIe-to-PCI bridges in reverse mode need the PCIe Retrain
+  * Link bit cleared after starting the link retrain process to allow this
+-- 
+2.30.2
 
---------------08nQr1HV2T99ulAM7fxadKRt
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmUH+BIFAwAAAAAACgkQlh/E3EQov+Dj
-lQ//QAlIQCh0oczgEBlbMObkbNYUaG1+p78wMqBxEqMxXj3SvZtzGdGpJKGdkaYIrV41A0HpuguE
-LUCPi9yv9qc4gelpLx/zgZ84T+P961CdG4V/v3JyLM+18Id933i8mJFXe3NbfJz/zF9JYp7VpCzy
-CiQW7JLwEqkxNuH16mgOtOr7/zSlJxWGWXGdUMLKTDDcgYwCj0+DSibCy2BsTSe5i67cT5tsBNCm
-coil7YWfiUiaaZtig8E6nUHaSqSdy5+GvUnLmvHIrXmUpjMS949QJh/Txi4+WiCdguZLR2e8gsFM
-MD/3x1mbbALJQ+znz2UJrMhXZDs3yPNPjJRf8eW8SoXUUuwWCbdKYybWadq4v55AsoP0n7oX66r0
-zJ88JosJkQhvFxbIN9jtLe5rWW68iRQoLwhRgP7nhil5pJbVbGUMhYSqU7NuTt9YuZnNMW9KS8EH
-m0JGGX48agbTBb4OqBplay8snfnEvtf+qLmEIpJG/IrgyckgAFZ0YycEfcr/K2R0uYQZiopZLb+V
-AgqEhgfaiwoZFqxMrNvtQSz3se5c9F1JECmQ/EsoN0ggeLD98+blbDaNYRSDxgKDVNT6gIJ9oPLX
-7rZdtNNjzzaZd7Z+Ti9L8Qn+v80OLUPmcYAYwJIQmUCMQw0GzTolLgBLxgu4zhZXL85h8ke9DOQv
-yQo=
-=38ae
------END PGP SIGNATURE-----
-
---------------08nQr1HV2T99ulAM7fxadKRt--
