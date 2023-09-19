@@ -1,54 +1,55 @@
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1361C2E640
-	for <asahi@lists.linux.dev>; Tue, 19 Sep 2023 13:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E0B8466
+	for <asahi@lists.linux.dev>; Tue, 19 Sep 2023 13:36:34 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id CFB7D5C01A1;
-	Tue, 19 Sep 2023 09:35:24 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id 0A3D15C00A5;
+	Tue, 19 Sep 2023 09:36:34 -0400 (EDT)
 Received: from imap47 ([10.202.2.97])
-  by compute5.internal (MEProxy); Tue, 19 Sep 2023 09:35:24 -0400
+  by compute5.internal (MEProxy); Tue, 19 Sep 2023 09:36:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1695130524; x=
-	1695216924; bh=bzYopflC5Ycg8A2mJPw24w/sj5t1CGgoOnaSWed8JPs=; b=G
-	xkvsvm1Lv3PVPu/1d0UOhoBRpcl6vGaXwglXl7zL/K2X4XwXEcu26QIVR96ZqJ9D
-	ve09wgF21jfWJmXoRdEVt4GRq+wP8NEDQhF+bnIBsehFnzxw1gDCoxOeXNfsEctx
-	dsDNbVOkNYx93GJzeQJLRdOI1t5vszmAOJnXyILewQu/uD2AiEqSii94BQd4l97M
-	bFlGX6j0M1nit11hzi2d52OMqb2LU7a+1HhvpyvwYmsfxwbkLpzqs7B6VtPFqNzn
-	P+cM6CdSyPmT5RFV8aAuhSW0fZ3WZqfVQwqqEjYERFarlYudYxv6vyRj3Yvv477d
-	0ZXUhUYSwKh+niWI9+Kow==
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1695130594; x=1695216994; bh=G3Kkrzt0AGrrY/tjL0EyntUuI
+	Bb8mCCGj+mtTnmx+Q8=; b=UnODe/CFFm/fKyGaSWbPPfJGyccMgh1Fl4ql7J8B2
+	9jTTCbW7SBL9mmZVXktU9NHHOKE59vNmIt0/3PhYLyfB2ct9PpB2TtdW2GrTNk0N
+	p54KxQZhj60LKixvUfYSDQa4v3EbvN8Xt+LCAGQGVQ26IZGNwzMCGuce3Gghezi+
+	NDemRIJWikj5y3YJh93ZKtlx/6vlOGJnSRujwbi6RlScOarSzktohPxAwVVayDgE
+	wc1G63LzMMrc7gbgXgfjjE3fjf+QuIdkFrVuooWiII9CtYxJ0KGYCqtctLBBxlXB
+	a0MaGet4EcXXzcNEDj0hlAAITshodNu2ZUQSCM82e95IQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1695130524; x=1695216924; bh=bzYopflC5Ycg8
-	A2mJPw24w/sj5t1CGgoOnaSWed8JPs=; b=cJ40j89MtlxPv1P76qx03WptbAU0Y
-	N1XDGCPeqOJ+a+vXaaujdtlx2+ahVGHk1BuhjHklocmR6jgySY+AtophrMYRUTaZ
-	1l48dPYYaHWmH+0dKwI6+toRv1FwmMDchseSCaqqavhEAt14mrhsWoOpocM16XN0
-	+yhL3h2SDsGVt4lZ496YIi6UcOKCeRg1PHd1F31zKPHbLO1Vc9XQel+QPZqvExZm
-	EQwN00GMvYFHicAGxbYTNEU2Bz5nopZ44sPybpkcZQmk0rXPbkbEoJ9eQ9BtlAxq
-	2GXV5V5yAE4roHzux5EVGepdzDWWZuKfmdNGvKdIAPy9wNvMrI54cAkAA==
-X-ME-Sender: <xms:m6MJZeYPlnBDGfO9EiuXstpqZbWk8fH-neCoq2pQXg1LBVz7MVpoYQ>
-    <xme:m6MJZRaFKyZX62E7ATL4RRdobt_AbADJtLsolBlpya6eHc1mrOtyPvhwZC3Z6gEel
-    tFWq9FbO5p8htHy6oY>
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1695130594; x=1695216994; bh=G3Kkrzt0AGrrY/tjL0EyntUuIBb8mCCGj+m
+	tTnmx+Q8=; b=Ki98uDeNfz0jsUIT+QrBfvj6hR3UdAj0JGP0Kk0m3is6XGITVnc
+	DitfO8Z+GtWWohKTB22DWPAWKANFWZvwpnHoOdj68y6C4Z7ADQwwOPv0cl9n2b+x
+	ySjituYs4vc8wTr6657lSCf6nuZlPaevwRT+ZlC5EloYB2OJvQKrFkiBrlsDjKms
+	R/4JDdefME8w8YDPy5+wnxG2+Fya9/liDAL5qCMMKpXum+43+FmCAvT5DhfpQlfI
+	HT3jt59lJiwFge+hvLDqbVFgQ4bt7cNR/bPeevGW7CpYG9z9TksRHzzWy5ZpkhSc
+	+qvxWapAs7q7hQNor2DKBFbtWnh42FwH2mg==
+X-ME-Sender: <xms:4KMJZbW9LbqWPcHkGh_DlPuxCBkGLtv3JnsYlVzXjKzSIeeti7RIhg>
+    <xme:4KMJZTmAvH4L7z_nGaP5KdfIvqOZiks__CHr-LlmDmPx7zd2plYewMvSEyaWyUHFk
+    jKbOhCbS2QMQUW6WgU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudekuddgfeeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
-    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
-    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
-    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:m6MJZY_GwRUhftXlMxJCw9Rv6bQwZ82is_lAZf-TKrplb4vS0jHQrA>
-    <xmx:m6MJZQpxna4jNlTNejkmH80f-rv4cqSCu4syUY6nzphWXsb3uwRQ0Q>
-    <xmx:m6MJZZrhE-qHyacNyyye8opYDn8qgylQyWjL5D1DjksUzl8hLjTzzg>
-    <xmx:nKMJZSA0wjtME7UWU_7b4iBqgE-CqN8PVX8G9dgEPNlQhHa6DoT0wA>
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdfu
+    vhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtf
+    frrghtthgvrhhnpeevhedthffgffelhedujefgueduudeutdefleevvdetudelhfeihfdv
+    ffelteeuudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:4KMJZXYmYuvL3nH0_SgD_kNdsC7XHLClfVBAmruidR-V60B6y3P-MQ>
+    <xmx:4KMJZWXQA3WzRBb5zCu-QYvcA4iZm-q-O5n5rA4kxuHe43SgaGHuSg>
+    <xmx:4KMJZVk9Oi99N4mk7qm3lIUI4afyU90X7PI_XuVzNp7f82_pACbMKw>
+    <xmx:4qMJZdNsFBGmk6guzMsje_BoEdpEh-d6HrZzup8N865hs4SPZgsPDA>
 Feedback-ID: i51094778:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 93789A60077; Tue, 19 Sep 2023 09:35:23 -0400 (EDT)
+	id 0378AA60077; Tue, 19 Sep 2023 09:36:31 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.9.0-alpha0-761-gece9e40c48-fm-20230913.001-gece9e40c
 Precedence: bulk
@@ -57,57 +58,51 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <c6dd2daf-f833-4c2f-9a67-640fb2c424fc@app.fastmail.com>
-In-Reply-To: <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
-References: 
- <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
- <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
-Date: Tue, 19 Sep 2023 15:34:56 +0200
+Message-Id: <aabaa49f-8988-42c0-bf8e-2266005e2155@app.fastmail.com>
+In-Reply-To: <20230918131103.24119-7-ilpo.jarvinen@linux.intel.com>
+References: <20230918131103.24119-1-ilpo.jarvinen@linux.intel.com>
+ <20230918131103.24119-7-ilpo.jarvinen@linux.intel.com>
+Date: Tue, 19 Sep 2023 15:36:10 +0200
 From: "Sven Peter" <sven@svenpeter.dev>
-To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Janne Grunau" <j@jannau.net>,
- "Javier Martinez Canillas" <javierm@redhat.com>,
- "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-Subject: Re: [PATCH v2] drm/simpledrm: Add support for multiple "power-domains"
-Content-Type: text/plain
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ linux-pci@vger.kernel.org, "Bjorn Helgaas" <helgaas@kernel.org>,
+ "Lorenzo Pieralisi" <lorenzo.pieralisi@arm.com>,
+ "Rob Herring" <robh@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ "Lukas Wunner" <lukas@wunner.de>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Heiner Kallweit" <hkallweit1@gmail.com>,
+ "Emmanuel Grumbach" <emmanuel.grumbach@intel.com>,
+ linux-kernel@vger.kernel.org, "Hector Martin" <marcan@marcan.st>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ "Marcel Holtmann" <marcel@holtmann.org>,
+ "Johan Hedberg" <johan.hedberg@gmail.com>,
+ "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>,
+ "Bjorn Helgaas" <bhelgaas@google.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org
+Cc: ath10k@lists.infradead.org, ath11k@lists.infradead.org,
+ ath12k@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
+ linux-mediatek@lists.infradead.org, linux-rdma@vger.kernel.org,
+ linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 06/13] Bluetooth: hci_bcm4377: Convert aspm disable to quirk
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-
-On Mon, Sep 18, 2023, at 09:11, Thomas Zimmermann wrote:
-> Hi
+On Mon, Sep 18, 2023, at 15:10, Ilpo J=C3=A4rvinen wrote:
+> pci_disable_link_state() was made reliable regardless of ASPM CONFIG
+> and OS being disallowed to change ASPM states to allow drivers to rely
+> on pci_disable_link_state() working.
 >
-> Am 12.09.23 um 22:22 schrieb Janne Grunau via B4 Relay:
->> From: Janne Grunau <j@jannau.net>
->> 
->> Multiple power domains need to be handled explicitly in each driver. The
->> driver core can not handle it automatically since it is not aware of
->> power sequencing requirements the hardware might have. This is not a
->> problem for simpledrm since everything is expected to be powered on by
->> the bootloader. simpledrm has just ensure it remains powered on during
->> its lifetime.
->> This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
->> systems. The HDMI output initialized by the bootloader requires keeping
->> the display controller and a DP phy power domain on.
->> 
->> Signed-off-by: Janne Grunau <j@jannau.net>
+> Remove driver working around unreliable pci_disable_link_state() from
+> hci_bcm4377 driver and add a PCI quirk to disable ASPM.
 >
-> As a simpledrm patch:
->
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
->
-> Do you want to wait for another review from  someone with 
-> power-management expertise?
+> Signed-off-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+> ---
 
-I can't claim to have a lot of genpd experience but we use very similar
-code in a few other M1/M2 drivers that also require multiple power domains
-to be up without any sequencing constraints. So for whatever it's worth:
-
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
+Acked-by: Sven Peter <sven@svenpeter.dev>
 
 
-Best,
-
+Thanks,
 
 Sven
