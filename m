@@ -1,296 +1,113 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BFA1C698
-	for <asahi@lists.linux.dev>; Tue, 19 Sep 2023 13:34:30 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qiapy-0004ag-Bz; Tue, 19 Sep 2023 15:32:22 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qiapm-007T2h-H7; Tue, 19 Sep 2023 15:32:10 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1qiapm-0030dV-1Z; Tue, 19 Sep 2023 15:32:10 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Olivier Dautricourt <olivierdautricourt@gmail.com>,
-	Stefan Roese <sr@denx.de>,
-	dmaengine@vger.kernel.org,
-	kernel@pengutronix.de,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	Rob Herring <robh@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	linux-mips@vger.kernel.org,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Li Yang <leoyang.li@nxp.com>,
-	Zhang Wei <zw@zh-kernel.org>,
-	linuxppc-dev@lists.ozlabs.org,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org,
-	=?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	linux-actions@lists.infradead.org,
-	ye xingchen <ye.xingchen@zte.com.cn>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org,
-	Sinan Kaya <okaya@kernel.org>,
-	Green Wan <green.wan@sifive.com>,
-	Kees Cook <keescook@chromium.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Pavel Machek <pavel@denx.de>,
-	Hien Huynh <hien.huynh.px@renesas.com>,
-	Yangtao Li <frank.li@vivo.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	linux-tegra@vger.kernel.org,
-	Lizhi Hou <lizhi.hou@amd.com>,
-	Brian Xu <brian.xu@amd.com>,
-	Raj Kumar Rampelli <raj.kumar.rampelli@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Peter Korsgaard <peter@korsgaard.com>,
-	Liu Shixin <liushixin2@huawei.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Harini Katakam <harini.katakam@amd.com>,
-	Swati Agarwal <swati.agarwal@amd.com>
-Subject: [PATCH 00/59] dma: Convert to platform remove callback returning void
-Date: Tue, 19 Sep 2023 15:31:08 +0200
-Message-Id: <20230919133207.1400430-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.40.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1361C2E640
+	for <asahi@lists.linux.dev>; Tue, 19 Sep 2023 13:35:25 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id CFB7D5C01A1;
+	Tue, 19 Sep 2023 09:35:24 -0400 (EDT)
+Received: from imap47 ([10.202.2.97])
+  by compute5.internal (MEProxy); Tue, 19 Sep 2023 09:35:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1695130524; x=
+	1695216924; bh=bzYopflC5Ycg8A2mJPw24w/sj5t1CGgoOnaSWed8JPs=; b=G
+	xkvsvm1Lv3PVPu/1d0UOhoBRpcl6vGaXwglXl7zL/K2X4XwXEcu26QIVR96ZqJ9D
+	ve09wgF21jfWJmXoRdEVt4GRq+wP8NEDQhF+bnIBsehFnzxw1gDCoxOeXNfsEctx
+	dsDNbVOkNYx93GJzeQJLRdOI1t5vszmAOJnXyILewQu/uD2AiEqSii94BQd4l97M
+	bFlGX6j0M1nit11hzi2d52OMqb2LU7a+1HhvpyvwYmsfxwbkLpzqs7B6VtPFqNzn
+	P+cM6CdSyPmT5RFV8aAuhSW0fZ3WZqfVQwqqEjYERFarlYudYxv6vyRj3Yvv477d
+	0ZXUhUYSwKh+niWI9+Kow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; t=1695130524; x=1695216924; bh=bzYopflC5Ycg8
+	A2mJPw24w/sj5t1CGgoOnaSWed8JPs=; b=cJ40j89MtlxPv1P76qx03WptbAU0Y
+	N1XDGCPeqOJ+a+vXaaujdtlx2+ahVGHk1BuhjHklocmR6jgySY+AtophrMYRUTaZ
+	1l48dPYYaHWmH+0dKwI6+toRv1FwmMDchseSCaqqavhEAt14mrhsWoOpocM16XN0
+	+yhL3h2SDsGVt4lZ496YIi6UcOKCeRg1PHd1F31zKPHbLO1Vc9XQel+QPZqvExZm
+	EQwN00GMvYFHicAGxbYTNEU2Bz5nopZ44sPybpkcZQmk0rXPbkbEoJ9eQ9BtlAxq
+	2GXV5V5yAE4roHzux5EVGepdzDWWZuKfmdNGvKdIAPy9wNvMrI54cAkAA==
+X-ME-Sender: <xms:m6MJZeYPlnBDGfO9EiuXstpqZbWk8fH-neCoq2pQXg1LBVz7MVpoYQ>
+    <xme:m6MJZRaFKyZX62E7ATL4RRdobt_AbADJtLsolBlpya6eHc1mrOtyPvhwZC3Z6gEel
+    tFWq9FbO5p8htHy6oY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedviedrudekuddgfeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedfufhv
+    vghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrf
+    grthhtvghrnhepleevgfegffehvedtieevhfekheeftedtjeetudevieehveevieelgffh
+    ieevieeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshhvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:m6MJZY_GwRUhftXlMxJCw9Rv6bQwZ82is_lAZf-TKrplb4vS0jHQrA>
+    <xmx:m6MJZQpxna4jNlTNejkmH80f-rv4cqSCu4syUY6nzphWXsb3uwRQ0Q>
+    <xmx:m6MJZZrhE-qHyacNyyye8opYDn8qgylQyWjL5D1DjksUzl8hLjTzzg>
+    <xmx:nKMJZSA0wjtME7UWU_7b4iBqgE-CqN8PVX8G9dgEPNlQhHa6DoT0wA>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 93789A60077; Tue, 19 Sep 2023 09:35:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-761-gece9e40c48-fm-20230913.001-gece9e40c
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9667; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=tGUgNdNJQ695fgG9hIgTJQYL5sxpmWlzE5DMR2kZNlc=; b=owGbwMvMwMXY3/A7olbonx/jabUkhlTOhWtLjCu3xIpJ1tk3pezRVeg6rNEtxCXsJlBVr3bg4 JsVOpWdjMYsDIxcDLJiiiz2jWsyrarkIjvX/rsMM4iVCWQKAxenAEzkswoHw8LXkzrq3WIZnyZn aDe1hsff5brekVkqVSd8df29f+t2cdtpMkbG78qb8uKDwde10aIPVgm0X7ny/lVz+smb71SUb7J xyvxVulO8zvUwd4/x0Whm+cTGTLOCeV3JkRcNr8wwuZreMUVY8kHD2pPn117dY5Fto654or3K8f sqi8W2N/1L155KfcOtv2n+FvO/qydtUTc/oswgXVFsrClsxGPCcDjMYGpegdZvrrg1VTKTRfksL u0qrGsVeHsgupv1eFFxzMaFFz5+t++K27owNfJt5Dutw60Srt0Mcr+Fl+aebbn+kMud5zL/5YB7 7xJ3/1q8wHTpjvwssxsKusdMtT28XU4UHvVZPSfY58hHAA==
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: asahi@lists.linux.dev
+Message-Id: <c6dd2daf-f833-4c2f-9a67-640fb2c424fc@app.fastmail.com>
+In-Reply-To: <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
+References: 
+ <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
+ <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de>
+Date: Tue, 19 Sep 2023 15:34:56 +0200
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>, "Janne Grunau" <j@jannau.net>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "David Airlie" <airlied@gmail.com>, "Daniel Vetter" <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+Subject: Re: [PATCH v2] drm/simpledrm: Add support for multiple "power-domains"
+Content-Type: text/plain
 
-Hello,
-
-this series convert nearly all platform drivers below drivers/dma to use
-.remove_new(). The motivation is to get rid of an integer return code
-that is (mostly) ignored by the platform driver core and error prone on
-the driver side.
-
-See commit 5c5a7680e67b ("platform: Provide a remove callback that
-returns no value") for an extended explanation and the eventual goal.
-
-There are 4 drivers I didn't convert in this series:
-
-	drivers/dma/milbeaut-hdmac.c
-	drivers/dma/milbeaut-xdmac.c
-	drivers/dma/uniphier-mdmac.c
-	drivers/dma/uniphier-xdmac.c
-
-These all might return early in .remove() if dmaengine_terminate_sync()
-fails. I only looked deeper into the first one, and this shows exactly
-the error that is easy to make with .remove() returning an int: When
-returning early from .remove(), some cleanup (here:
-dma_async_device_unregister()) is skipped. So the dma device stays
-known, but the device is still unregistered and the devm allocated stuff
-(here e.g. *mdev) is freed. So it can probably easily happen, that
-something tries to use the dma device and this will likely result in an
-oops.
-
-I don't know enough about the dma framework to address this properly,
-maybe someone else knows what to do?
-
-There are no interdependencies between the patches. As there are still
-quite a few drivers to convert, I'm happy about every patch that makes
-it in. So even if there is a merge conflict with one patch until you
-apply or I picked a wrong subject prefix, please apply the remainder of
-this series anyhow.
-
-Best regards
-Uwe
+Hi,
 
 
-Uwe Kleine-König (59):
-  dma: altera-msgdma: Convert to platform remove callback returning void
-  dma: apple-admac: Convert to platform remove callback returning void
-  dma: at_hdmac: Convert to platform remove callback returning void
-  dma: at_xdmac: Convert to platform remove callback returning void
-  dma: bcm-sba-raid: Convert to platform remove callback returning void
-  dma: bcm2835-dma: Convert to platform remove callback returning void
-  dma: bestcomm: bestcomm: Convert to platform remove callback returning
-    void
-  dma: dma-axi-dmac: Convert to platform remove callback returning void
-  dma: dma-jz4780: Convert to platform remove callback returning void
-  dma: dw-axi-dmac: dw-axi-dmac-platform: Convert to platform remove
-    callback returning void
-  dma: dw: platform: Convert to platform remove callback returning void
-  dma: fsl-edma-main: Convert to platform remove callback returning void
-  dma: fsl-qdma: Convert to platform remove callback returning void
-  dma: fsl_raid: Convert to platform remove callback returning void
-  dma: fsldma: Convert to platform remove callback returning void
-  dma: idma64: Convert to platform remove callback returning void
-  dma: img-mdc-dma: Convert to platform remove callback returning void
-  dma: imx-dma: Convert to platform remove callback returning void
-  dma: imx-sdma: Convert to platform remove callback returning void
-  dma: k3dma: Convert to platform remove callback returning void
-  dma: mcf-edma-main: Convert to platform remove callback returning void
-  dma: mediatek: mtk-cqdma: Convert to platform remove callback
-    returning void
-  dma: mediatek: mtk-hsdma: Convert to platform remove callback
-    returning void
-  dma: mediatek: mtk-uart-apdma: Convert to platform remove callback
-    returning void
-  dma: mmp_pdma: Convert to platform remove callback returning void
-  dma: mmp_tdma: Convert to platform remove callback returning void
-  dma: moxart-dma: Convert to platform remove callback returning void
-  dma: mpc512x_dma: Convert to platform remove callback returning void
-  dma: mv_xor_v2: Convert to platform remove callback returning void
-  dma: nbpfaxi: Convert to platform remove callback returning void
-  dma: owl-dma: Convert to platform remove callback returning void
-  dma: ppc4xx: adma: Convert to platform remove callback returning void
-  dma: pxa_dma: Convert to platform remove callback returning void
-  dma: qcom: bam_dma: Convert to platform remove callback returning void
-  dma: qcom: hidma: Convert to platform remove callback returning void
-  dma: qcom: qcom_adm: Convert to platform remove callback returning
-    void
-  dma: sa11x0-dma: Convert to platform remove callback returning void
-  dma: sf-pdma: sf-pdma: Convert to platform remove callback returning
-    void
-  dma: sh: rcar-dmac: Convert to platform remove callback returning void
-  dma: sh: rz-dmac: Convert to platform remove callback returning void
-  dma: sh: shdmac: Convert to platform remove callback returning void
-  dma: sh: usb-dmac: Convert to platform remove callback returning void
-  dma: sprd-dma: Convert to platform remove callback returning void
-  dma: st_fdma: Convert to platform remove callback returning void
-  dma: sun4i-dma: Convert to platform remove callback returning void
-  dma: sun6i-dma: Convert to platform remove callback returning void
-  dma: tegra186-gpc-dma: Convert to platform remove callback returning
-    void
-  dma: tegra20-apb-dma: Convert to platform remove callback returning
-    void
-  dma: tegra210-adma: Convert to platform remove callback returning void
-  dma: ti: cppi41: Convert to platform remove callback returning void
-  dma: ti: edma: Convert to platform remove callback returning void
-  dma: ti: omap-dma: Convert to platform remove callback returning void
-  dma: timb_dma: Convert to platform remove callback returning void
-  dma: txx9dmac: Convert to platform remove callback returning void
-  dma: xgene-dma: Convert to platform remove callback returning void
-  dma: xilinx: xdma: Convert to platform remove callback returning void
-  dma: xilinx: xilinx_dma: Convert to platform remove callback returning
-    void
-  dma: xilinx: xilinx_dpdma: Convert to platform remove callback
-    returning void
-  dma: xilinx: zynqmp_dma: Convert to platform remove callback returning
-    void
+On Mon, Sep 18, 2023, at 09:11, Thomas Zimmermann wrote:
+> Hi
+>
+> Am 12.09.23 um 22:22 schrieb Janne Grunau via B4 Relay:
+>> From: Janne Grunau <j@jannau.net>
+>> 
+>> Multiple power domains need to be handled explicitly in each driver. The
+>> driver core can not handle it automatically since it is not aware of
+>> power sequencing requirements the hardware might have. This is not a
+>> problem for simpledrm since everything is expected to be powered on by
+>> the bootloader. simpledrm has just ensure it remains powered on during
+>> its lifetime.
+>> This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
+>> systems. The HDMI output initialized by the bootloader requires keeping
+>> the display controller and a DP phy power domain on.
+>> 
+>> Signed-off-by: Janne Grunau <j@jannau.net>
+>
+> As a simpledrm patch:
+>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> Do you want to wait for another review from  someone with 
+> power-management expertise?
 
- drivers/dma/altera-msgdma.c                    |  6 ++----
- drivers/dma/apple-admac.c                      |  6 ++----
- drivers/dma/at_hdmac.c                         |  6 ++----
- drivers/dma/at_xdmac.c                         |  6 ++----
- drivers/dma/bcm-sba-raid.c                     |  6 ++----
- drivers/dma/bcm2835-dma.c                      |  6 ++----
- drivers/dma/bestcomm/bestcomm.c                |  6 ++----
- drivers/dma/dma-axi-dmac.c                     |  6 ++----
- drivers/dma/dma-jz4780.c                       |  6 ++----
- drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c |  6 ++----
- drivers/dma/dw/platform.c                      |  6 ++----
- drivers/dma/fsl-edma-main.c                    |  6 ++----
- drivers/dma/fsl-qdma.c                         |  5 ++---
- drivers/dma/fsl_raid.c                         |  6 ++----
- drivers/dma/fsldma.c                           |  6 ++----
- drivers/dma/idma64.c                           |  6 ++----
- drivers/dma/img-mdc-dma.c                      |  6 ++----
- drivers/dma/imx-dma.c                          |  6 ++----
- drivers/dma/imx-sdma.c                         |  5 ++---
- drivers/dma/k3dma.c                            |  5 ++---
- drivers/dma/mcf-edma-main.c                    |  6 ++----
- drivers/dma/mediatek/mtk-cqdma.c               |  6 ++----
- drivers/dma/mediatek/mtk-hsdma.c               |  6 ++----
- drivers/dma/mediatek/mtk-uart-apdma.c          |  6 ++----
- drivers/dma/mmp_pdma.c                         |  5 ++---
- drivers/dma/mmp_tdma.c                         |  6 ++----
- drivers/dma/moxart-dma.c                       |  6 ++----
- drivers/dma/mpc512x_dma.c                      |  6 ++----
- drivers/dma/mv_xor_v2.c                        |  6 ++----
- drivers/dma/nbpfaxi.c                          |  6 ++----
- drivers/dma/owl-dma.c                          |  6 ++----
- drivers/dma/ppc4xx/adma.c                      |  5 ++---
- drivers/dma/pxa_dma.c                          |  5 ++---
- drivers/dma/qcom/bam_dma.c                     |  6 ++----
- drivers/dma/qcom/hidma.c                       |  6 ++----
- drivers/dma/qcom/qcom_adm.c                    |  6 ++----
- drivers/dma/sa11x0-dma.c                       |  6 ++----
- drivers/dma/sf-pdma/sf-pdma.c                  |  6 ++----
- drivers/dma/sh/rcar-dmac.c                     |  6 ++----
- drivers/dma/sh/rz-dmac.c                       |  6 ++----
- drivers/dma/sh/shdmac.c                        |  6 ++----
- drivers/dma/sh/usb-dmac.c                      |  6 ++----
- drivers/dma/sprd-dma.c                         |  5 ++---
- drivers/dma/st_fdma.c                          |  6 ++----
- drivers/dma/sun4i-dma.c                        |  6 ++----
- drivers/dma/sun6i-dma.c                        |  6 ++----
- drivers/dma/tegra186-gpc-dma.c                 |  6 ++----
- drivers/dma/tegra20-apb-dma.c                  |  6 ++----
- drivers/dma/tegra210-adma.c                    |  6 ++----
- drivers/dma/ti/cppi41.c                        |  5 ++---
- drivers/dma/ti/edma.c                          |  6 ++----
- drivers/dma/ti/omap-dma.c                      |  6 ++----
- drivers/dma/timb_dma.c                         |  5 ++---
- drivers/dma/txx9dmac.c                         | 10 ++++------
- drivers/dma/xgene-dma.c                        |  6 ++----
- drivers/dma/xilinx/xdma.c                      |  6 ++----
- drivers/dma/xilinx/xilinx_dma.c                |  6 ++----
- drivers/dma/xilinx/xilinx_dpdma.c              |  6 ++----
- drivers/dma/xilinx/zynqmp_dma.c                |  6 ++----
- 59 files changed, 120 insertions(+), 229 deletions(-)
+I can't claim to have a lot of genpd experience but we use very similar
+code in a few other M1/M2 drivers that also require multiple power domains
+to be up without any sequencing constraints. So for whatever it's worth:
+
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
 
-base-commit: 29e400e3ea486bf942b214769fc9778098114113
--- 
-2.40.1
+Best,
 
+
+Sven
