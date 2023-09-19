@@ -1,68 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708AF1CAA4
-	for <asahi@lists.linux.dev>; Mon, 18 Sep 2023 13:20:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1695043219; x=1726579219;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=fG2lEBkT7mIaWcABDtYlaKTuVQodmkE/Rpx2qX2kUFA=;
-  b=aK86d0A3YnVdChzVFZOg08jb7R0DQrmixnYJymxjWfTiOUovbeLVZtyj
-   vyekFHUzwltYI5uHOAD1g+GgysBGDddnJ3kyAqGEDGbYUKN97rwuJkOgi
-   g98S1PvsTFrbaF1MDjRULwLoVgiOfsGfqNdha3idymU5O3rVI3AgQ0Kel
-   yUQPOaVcFrNTpop1uv359pjyAfY9yMcJGdO5ZbDdzct9FE2eCZUDinFJN
-   q2bZWWzFlcYpCmjXFtnNLhAeq16sJpd1PwRoQv+Qi1Gf94kf9iFgc8Rqa
-   xbCB0nke3qoWkZU1wThhJ3QYVHLFERSHeMF6DpHZuVLHbImGa0SK0NcAg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="446113438"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="446113438"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:12:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10837"; a="811342282"
-X-IronPort-AV: E=Sophos;i="6.02,156,1688454000"; 
-   d="scan'208";a="811342282"
-Received: from nprotaso-mobl1.ccr.corp.intel.com (HELO ijarvine-mobl2.ger.corp.intel.com) ([10.252.49.156])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2023 06:12:38 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-pci@vger.kernel.org,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-	linux-kernel@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F0C5252
+	for <asahi@lists.linux.dev>; Tue, 19 Sep 2023 13:32:24 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qiapp-0004ai-Gn; Tue, 19 Sep 2023 15:32:13 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qiapm-007T2n-Tl; Tue, 19 Sep 2023 15:32:10 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1qiapm-0030db-Ip; Tue, 19 Sep 2023 15:32:10 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-bluetooth@vger.kernel.org
-Cc: ath10k@lists.infradead.org,
-	ath11k@lists.infradead.org,
-	ath12k@lists.infradead.org,
-	intel-wired-lan@lists.osuosl.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rdma@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v2 06/13] Bluetooth: hci_bcm4377: Convert aspm disable to quirk
-Date: Mon, 18 Sep 2023 16:10:56 +0300
-Message-Id: <20230918131103.24119-7-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20230918131103.24119-1-ilpo.jarvinen@linux.intel.com>
-References: <20230918131103.24119-1-ilpo.jarvinen@linux.intel.com>
+	dmaengine@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: [PATCH 02/59] dma: apple-admac: Convert to platform remove callback returning void
+Date: Tue, 19 Sep 2023 15:31:10 +0200
+Message-Id: <20230919133207.1400430-3-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230919133207.1400430-1-u.kleine-koenig@pengutronix.de>
+References: <20230919133207.1400430-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -70,94 +38,62 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1804; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=4cB0nw0yRieunGEduwbEFfSDJhK0MVnXD1ukbBmrjFc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlCaGvXdbPaKXCELiF60wFgzJrODKGuGkxDr4uF v6NfyFey3mJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZQmhrwAKCRCPgPtYfRL+ TnJuB/9Ytvtvi3cRL9ZOU1ix4RRTQzUaiCnjhzfwyy7LYPKgzsSCJB7vHlQE4G3OuYrEdLZwyou RdoHe3e9rgLob2PuPw/05x7MFT6bpoDr1TPuLdbTyb579GC8f7kg0RKH5IQ+PYn1TqwBrXdcM16 KGDcFLzmtLa3e+wUIw/iyshugOp6fAFgcpRcfgcCYB8XDtYfOULOfzwoUzLYH9EJwIDRjuKJawi ++jGRFsdHqlUODBGBujtzXAuPmrMdHxEoNkWzxhbF3hz827ILv77sd9b3gXEwtDX3x0A0bBWxUq W2F6julJDk+8F4NecdHe9VuPkm2wj+SwwGqNmn7iFZV3GF2K
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
-pci_disable_link_state() was made reliable regardless of ASPM CONFIG
-and OS being disallowed to change ASPM states to allow drivers to rely
-on pci_disable_link_state() working.
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new() which already returns void. Eventually after all drivers
+are converted, .remove_new() is renamed to .remove().
 
-Remove driver working around unreliable pci_disable_link_state() from
-hci_bcm4377 driver and add a PCI quirk to disable ASPM.
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/bluetooth/hci_bcm4377.c | 20 --------------------
- drivers/pci/quirks.c            |  3 +++
- 2 files changed, 3 insertions(+), 20 deletions(-)
+ drivers/dma/apple-admac.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
-index 19ad0e788646..2348ee2380db 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -490,7 +490,6 @@ struct bcm4377_data;
-  * clear_pciecfg_subsystem_ctrl_bit19: Set to true if bit 19 in the
-  *                                     vendor-specific subsystem control
-  *                                     register has to be cleared
-- * disable_aspm: Set to true if ASPM must be disabled due to hardware errata
-  * broken_ext_scan: Set to true if the chip erroneously claims to support
-  *                  extended scanning
-  * broken_mws_transport_config: Set to true if the chip erroneously claims to
-@@ -509,7 +508,6 @@ struct bcm4377_hw {
- 
- 	unsigned long has_bar0_core2_window2 : 1;
- 	unsigned long clear_pciecfg_subsystem_ctrl_bit19 : 1;
--	unsigned long disable_aspm : 1;
- 	unsigned long broken_ext_scan : 1;
- 	unsigned long broken_mws_transport_config : 1;
- 
-@@ -2222,20 +2220,6 @@ static int bcm4377_probe_of(struct bcm4377_data *bcm4377)
- 	return 0;
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 3af795635c5c..46bb02858561 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -925,7 +925,7 @@ static int admac_probe(struct platform_device *pdev)
+ 	return err;
  }
  
--static void bcm4377_disable_aspm(struct bcm4377_data *bcm4377)
--{
--	pci_disable_link_state(bcm4377->pdev,
--			       PCIE_LINK_STATE_L0S | PCIE_LINK_STATE_L1);
--
--	/*
--	 * pci_disable_link_state can fail if either CONFIG_PCIEASPM is disabled
--	 * or if the BIOS hasn't handed over control to us. We must *always*
--	 * disable ASPM for this device due to hardware errata though.
--	 */
--	pcie_capability_clear_word(bcm4377->pdev, PCI_EXP_LNKCTL,
--				   PCI_EXP_LNKCTL_ASPMC);
--}
--
- static void bcm4377_pci_free_irq_vectors(void *data)
+-static int admac_remove(struct platform_device *pdev)
++static void admac_remove(struct platform_device *pdev)
  {
- 	pci_free_irq_vectors(data);
-@@ -2288,9 +2272,6 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		return -ENODEV;
- 	}
+ 	struct admac_data *ad = platform_get_drvdata(pdev);
  
--	if (bcm4377->hw->disable_aspm)
--		bcm4377_disable_aspm(bcm4377);
+@@ -933,8 +933,6 @@ static int admac_remove(struct platform_device *pdev)
+ 	dma_async_device_unregister(&ad->dma);
+ 	free_irq(ad->irq, ad);
+ 	reset_control_rearm(ad->rstc);
 -
- 	ret = pci_reset_function_locked(pdev);
- 	if (ret)
- 		dev_warn(
-@@ -2448,7 +2429,6 @@ static const struct bcm4377_hw bcm4377_hw_variants[] = {
- 		.otp_offset = 0x4120,
- 		.bar0_window1 = 0x1800b000,
- 		.bar0_window2 = 0x1810c000,
--		.disable_aspm = true,
- 		.broken_ext_scan = true,
- 		.send_ptb = bcm4377_send_ptb,
- 	},
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index eeec1d6f9023..d6ab0e98013f 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -2502,6 +2502,9 @@ static void quirk_disable_aspm_l0s_l1(struct pci_dev *dev)
-  */
- DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ASMEDIA, 0x1080, quirk_disable_aspm_l0s_l1);
+-	return 0;
+ }
  
-+/* BCM4377 must always disable ASPM due to hardware errata. */
-+DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_BROADCOM, 0x5fa0, quirk_disable_aspm_l0s_l1);
-+
- /*
-  * Some Pericom PCIe-to-PCI bridges in reverse mode need the PCIe Retrain
-  * Link bit cleared after starting the link retrain process to allow this
+ static const struct of_device_id admac_of_match[] = {
+@@ -949,7 +947,7 @@ static struct platform_driver apple_admac_driver = {
+ 		.of_match_table = admac_of_match,
+ 	},
+ 	.probe = admac_probe,
+-	.remove = admac_remove,
++	.remove_new = admac_remove,
+ };
+ module_platform_driver(apple_admac_driver);
+ 
 -- 
-2.30.2
+2.40.1
 
