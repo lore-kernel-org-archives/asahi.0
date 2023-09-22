@@ -1,143 +1,103 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B633AC2E
-	for <asahi@lists.linux.dev>; Wed, 20 Sep 2023 14:07:03 +0000 (UTC)
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-773ca5c1503so240898985a.2
-        for <asahi@lists.linux.dev>; Wed, 20 Sep 2023 07:07:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695218822; x=1695823622;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y/W4N5r426GKb9x1dneBJYVT4qJsb+kwhD7PIIfH2cA=;
-        b=lHY9Ks07RN53IFVc8uBNAgd8ktFPhNl6aVgSMGCWocvGIlO9V1krjiFztZarjZrQYA
-         E/+qt1b3BWEESauDXoo4bNIBWVH5wntwgkSgLGh3YPz4ZG9h8tcH3lwX5ZliCnd9ldsU
-         U5/f6mNHQUCTPBeEWcOG1eVAaLa1eENNh43Tri8esbhGzInXvGvrK1QBVJtxcil+NCkE
-         Empih/dMvZaCH5DSPCIqPyzLPMh5uTT3QdbcT42LSaEpi8yUPVhPpSjJWpZxPcUiz0ZV
-         Sq3p3bzGPwwVM0NrthnPhTGyj3+7nb9JWz9nNjeemy/G9IdTiOezifS35MFnuiWnqfx0
-         X58A==
-X-Gm-Message-State: AOJu0YxEnRlUuZmclGbg4bLkjJhWCv+1bAgWXsIpB52jZkAeUKcJ4J3Z
-	rsrs0xPl4XA0XI8sXgxwq3k=
-X-Google-Smtp-Source: AGHT+IGt/gXIL3E8KsfDBSN3PzrNo2mxFinif+HNB4o1UFl9Rr3eOyrdjvzhYA3ko4Bz5kwdAoO7gA==
-X-Received: by 2002:a05:6214:716:b0:649:cbd0:8127 with SMTP id c22-20020a056214071600b00649cbd08127mr2149035qvz.57.1695218822560;
-        Wed, 20 Sep 2023 07:07:02 -0700 (PDT)
-Received: from Belldandy-Slimbook.tail03774.ts.net (ool-18e49371.dyn.optonline.net. [24.228.147.113])
-        by smtp.gmail.com with ESMTPSA id v1-20020a0cdd81000000b006589375b888sm345447qvk.67.2023.09.20.07.07.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Sep 2023 07:07:01 -0700 (PDT)
-From: Neal Gompa <neal@gompa.dev>
-To: Linux BTRFS Development <linux-btrfs@vger.kernel.org>
-Cc: Neal Gompa <neal@gompa.dev>,
-	Anand Jain <anand.jain@oracle.com>,
-	Qu Wenruo <quwenruo.btrfs@gmx.com>,
-	Qu Wenruo <wqu@suse.com>,
-	David Sterba <dsterba@suse.cz>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Davide Cavalca <davide@cavalca.name>,
-	Jens Axboe <axboe@fb.com>,
-	Asahi Lina <lina@asahilina.net>,
-	Asahi Linux <asahi@lists.linux.dev>,
-	Josef Bacik <josef@toxicpanda.com>
-Subject: [PATCH v2 1/1] btrfs-progs: mkfs: Enforce 4k sectorsize by default
-Date: Wed, 20 Sep 2023 10:06:14 -0400
-Message-ID: <20230920140635.2066172-2-neal@gompa.dev>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230920140635.2066172-1-neal@gompa.dev>
-References: <20230920140635.2066172-1-neal@gompa.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388763D3A9;
+	Fri, 22 Sep 2023 13:48:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id E9BE24203C;
+	Fri, 22 Sep 2023 13:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1695390035; bh=wnRMaJBOS2DBNUxEtrGxJj6grzGED1qsQnxvwl3853Q=;
+	h=From:Date:Subject:To:Cc;
+	b=EL+kQP6z2D1r/FcD1TXdu49qUlyYgYgj0amx/V7WZ9ABEa/REXdo+1rVGrP5gIKpu
+	 geBzkpMjccNNO5cAGwX2nbtGyBjoKy0G5FwgpoB5xobEZXQdtOe4vKBrZLUavK08HW
+	 cxRQAeVZdV2m+EYqL0bjS3NA7Gx6HxP6jFJuxVMLBGyCsm8TtvhygKKpF+bi49b166
+	 4uC99oKwrAvYnU20loGtw829HDNtfL3B/s8vNfiSEgQLcGJsg+7mTo/gTrDZpa+Gaq
+	 y4U7QZohJ04few8TmHtIC1vkcmc1HvG3dD6Hs2nOw42BMUobiKs9v5wkoPn7dhvDlS
+	 gG8UbmaElcWNw==
+From: Hector Martin <marcan@marcan.st>
+Date: Fri, 22 Sep 2023 22:40:20 +0900
+Subject: [PATCH REGRESSION] iommu: Only allocate FQ domains for IOMMUs that
+ support them
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230922-iommu-type-regression-v1-1-1ed3825b2c38@marcan.st>
+X-B4-Tracking: v=1; b=H4sIAEOZDWUC/x3Myw5AQAxA0V+RrjUZRYRfEQuPDl14pIOQiX83L
+ O/iXA+OVdhBFXlQPsXJuoRI4gj6qV1GRhlCAxlKTUmEss7zgfu9MSqPyu4TSHmX2SwdbFEYCHZ
+ TtnL937p5nhd8EatbZwAAAA==
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+ Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Jerry Snitselaar <jsnitsel@redhat.com>
+Cc: Joerg Roedel <jroedel@suse.de>, Neal Gompa <neal@gompa.dev>, 
+ "Justin M. Forbes" <jforbes@fedoraproject.org>, iommu@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, stable@vger.kernel.org, 
+ regressions@lists.linux.dev, Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1654; i=marcan@marcan.st;
+ h=from:subject:message-id; bh=wnRMaJBOS2DBNUxEtrGxJj6grzGED1qsQnxvwl3853Q=;
+ b=owGbwMvMwCUm+yP4NEe/cRLjabUkhlTemf6MGpdr17EecAmcefbUi4gtXz2fGH8+UWdeZCSzT
+ uqnx3arjlIWBjEuBlkxRZbGE72nuj2nn1NXTZkOM4eVCWQIAxenAEyk4gvDT8bEBMkPJ67IfVtn
+ yV+s31PwoTNX+83atU/P8m3g375coYeRoX/Oi7b2+oKDy0Sr3eZP3Hw85t/sV/OsFJfeuW7EPyn
+ HgRkA
+X-Developer-Key: i=marcan@marcan.st; a=openpgp;
+ fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
-We have had working subpage support in Btrfs for many cycles now.
-Generally, we do not want people creating filesystems by default
-with non-4k sectorsizes since it creates portability problems.
+Commit a4fdd9762272 ("iommu: Use flush queue capability") hid the
+IOMMU_DOMAIN_DMA_FQ domain type from domain allocation. A check was
+introduced in iommu_dma_init_domain() to fall back if not supported, but
+this check runs too late: by that point, devices have been attached to
+the IOMMU, and the IOMMU driver might not expect FQ domains at
+ops->attach_dev() time.
 
-Signed-off-by: Neal Gompa <neal@gompa.dev>
+Ensure that we immediately clamp FQ domains to plain DMA if not
+supported by the driver at device attach time, not later.
 
-Reviewed-by: Anand Jain <anand.jain@oracle.com>
-Reviewed-by: Qu Wenruo <wqu@suse.com>
-Reviewed-by: Josef Bacik <josef@toxicpanda.com>
+This regressed apple-dart in v6.5.
+
+Cc: regressions@lists.linux.dev
+Cc: stable@vger.kernel.org
+Fixes: a4fdd9762272 ("iommu: Use flush queue capability")
+Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- Documentation/Subpage.rst    | 17 +++++++++--------
- Documentation/mkfs.btrfs.rst | 13 +++++++++----
- mkfs/main.c                  |  2 +-
- 3 files changed, 19 insertions(+), 13 deletions(-)
+ drivers/iommu/iommu.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/Subpage.rst b/Documentation/Subpage.rst
-index c762b6a3..c9c42341 100644
---- a/Documentation/Subpage.rst
-+++ b/Documentation/Subpage.rst
-@@ -9,18 +9,19 @@ to the exactly same size of the block and page. On x86_64 this is typically
- pages, like 64KiB on 64bit ARM or PowerPC. This means filesystems created
- with 64KiB sector size cannot be mounted on a system with 4KiB page size.
+diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+index 3bfc56df4f78..12464eaa8d91 100644
+--- a/drivers/iommu/iommu.c
++++ b/drivers/iommu/iommu.c
+@@ -2039,6 +2039,15 @@ static int __iommu_attach_device(struct iommu_domain *domain,
+ 	if (unlikely(domain->ops->attach_dev == NULL))
+ 		return -ENODEV;
  
--While with subpage support systems with 64KiB page size can create
--and mount filesystems with 4KiB sectorsize.  This still needs to use option "-s
--4k" option for :command:`mkfs.btrfs`.
-+Since v6.6, filesystems are created with a 4KiB sectorsize by default,
-+though it remains possible to create filesystems with other page sizes
-+(such as 64KiB with the "-s 64k" option for :command:`mkfs.btrfs`). This
-+ensures that new filesystems are compatible across other architecture
-+variants using larger page sizes.
- 
- Requirements, limitations
- -------------------------
- 
--The initial subpage support has been added in v5.15, although it's still
--considered as experimental, most features are already working without problems.
--On a 64KiB page system filesystem with 4KiB sectorsize can be mounted and used
--as usual as long as the initial mount succeeds. There are cases a mount will be
--rejected when verifying compatible features.
-+The initial subpage support has been added in v5.15. Most features are
-+already working without problems. On a 64KiB page system, a filesystem with
-+4KiB sectorsize can be mounted and used as long as the initial mount succeeds.
-+Subpage support is used by default for systems with a non-4KiB page size since v6.6.
- 
- Please refer to status page of :ref:`status-subpage-block-size` for
- compatibility.
-diff --git a/Documentation/mkfs.btrfs.rst b/Documentation/mkfs.btrfs.rst
-index 1fca7448..034473f4 100644
---- a/Documentation/mkfs.btrfs.rst
-+++ b/Documentation/mkfs.btrfs.rst
-@@ -122,10 +122,15 @@ OPTIONS
- -s|--sectorsize <size>
-         Specify the sectorsize, the minimum data block allocation unit.
- 
--        The default value is the page size and is autodetected. If the sectorsize
--        differs from the page size, the created filesystem may not be mountable by the
--        running kernel. Therefore it is not recommended to use this option unless you
--        are going to mount it on a system with the appropriate page size.
-+        By default, the value is 4KiB, but it can be manually set to match the
-+        system page size. However, if the sector size is different from the page
-+        size, the resulting filesystem may not be mountable by the current
-+        kernel, apart from the default 4KiB. Hence, using this option is not
-+        advised unless you intend to mount it on a system with the suitable
-+        page size.
++	/*
++	 * Ensure we do not try to attach devices to FQ domains if the
++	 * IOMMU does not support them. We can safely fall back to
++	 * non-FQ.
++	 */
++	if (domain->type == IOMMU_DOMAIN_DMA_FQ &&
++	    !device_iommu_capable(dev, IOMMU_CAP_DEFERRED_FLUSH))
++		domain->type = IOMMU_DOMAIN_DMA;
 +
-+        .. note::
-+                Versions prior to 6.6 set the sectorsize matching to the page size.
- 
- -L|--label <string>
-         Specify a label for the filesystem. The *string* should be less than 256
-diff --git a/mkfs/main.c b/mkfs/main.c
-index 1c5d668e..bd2e4350 100644
---- a/mkfs/main.c
-+++ b/mkfs/main.c
-@@ -1204,7 +1204,7 @@ int BOX_MAIN(mkfs)(int argc, char **argv)
- 	}
- 
- 	if (!sectorsize)
--		sectorsize = (u32)sysconf(_SC_PAGESIZE);
-+		sectorsize = (u32)SZ_4K;
- 	if (btrfs_check_sectorsize(sectorsize))
- 		goto error;
- 
+ 	ret = domain->ops->attach_dev(domain, dev);
+ 	if (ret)
+ 		return ret;
+
+---
+base-commit: ce9ecca0238b140b88f43859b211c9fdfd8e5b70
+change-id: 20230922-iommu-type-regression-25b4f43df770
+
+Best regards,
 -- 
-2.41.0
+Hector Martin <marcan@marcan.st>
 
