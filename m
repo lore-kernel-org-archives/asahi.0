@@ -1,100 +1,117 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671C042BEC
-	for <asahi@lists.linux.dev>; Fri, 22 Sep 2023 17:16:08 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1c47309a8ccso28065775ad.1
-        for <asahi@lists.linux.dev>; Fri, 22 Sep 2023 10:16:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB41436B5
+	for <asahi@lists.linux.dev>; Fri, 22 Sep 2023 17:50:52 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-692b2bdfce9so685270b3a.3
+        for <asahi@lists.linux.dev>; Fri, 22 Sep 2023 10:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695402967; x=1696007767; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ICBL/Q4jbf7cf4gR4zY8Pazn4MfjoBlTiYldqzQrKlk=;
-        b=RdV6OnnT5VQPxEKcVJ77ryBYMzMaOZrAEpBovo4Yh6+SBlnxTJHQys11yLgB4+KvgT
-         DKf4AyVaUZc9aG24UAGJ7TfqVsGk6GzMQXrv2IMGhLcvsvmOkJgJrWJGCsTNEdjMgJvm
-         a1a8N8dzeHOhwvahkaXrQvzLhmPvghM7CjQNo=
+        d=chromium.org; s=google; t=1695405052; x=1696009852; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3oEkxAEP7bGPEZ+qBOxMzwux9ypcm6j3kmlQze2cxoU=;
+        b=HGwpJyMRHNSqwTstxiW1hv6jGAUu6OnxOoGpm2rOKHDODFoPhgXiq4CkiT58GjnylE
+         dEAULKYGI48SEMe0SvsAkjuGu352dJ9tZTPdLemcyvg7m74e12Je5FkkqxSi+3B7Y6ce
+         BNOG9RfMoT7xWJSgDioCmny9d5vlji5p5UJ/8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695402967; x=1696007767;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ICBL/Q4jbf7cf4gR4zY8Pazn4MfjoBlTiYldqzQrKlk=;
-        b=nnyi0cd3BWUJMyMVyV5ix9PX8YvNvTJ56OlhvcgmPuzWWdt05IhBPUFuaFe3RyDgDO
-         bCw0t/llIgVQyOhJ57NCS/GHZDp3O3sbHB19yU/UCG1aq6JJJOzLCAAFQtOCHsTkO6Nx
-         MjxuutWhdPKF6yXTKVSybv1K1k5Rbx2v7+qjCZBqiql/URSTMBShcbZOOGFcFqFdAve0
-         yPEM3KPANghU5EFTi9chePY3Bxb1DeYSi0SlWoHQ26hiim4yB+N9Qm1jMuQ21LV1cOt+
-         7teA+Qi77Wf+F99rqFR+/ARagX3HNO9saBG7Wv5ob+LtjxAf4ZC/S3IXAhX9Swi1T5q3
-         3dag==
-X-Gm-Message-State: AOJu0YyYRwMKbVm/Ty8+Z2WXPm+GKjn2m7UKXqH1ZjUlPeJdJMsVGSPp
-	FzoUpsgImh0NENWxEa/yKe2vhw==
-X-Google-Smtp-Source: AGHT+IEetMJnHs5bBcV9L3R6HPyKeQTS1z7sgSklrhHfcojQhz5I0wr5ShzBfZ21ocAxIbhohXa34w==
-X-Received: by 2002:a17:902:a416:b0:1c5:ecfc:2650 with SMTP id p22-20020a170902a41600b001c5ecfc2650mr2175732plq.14.1695402967593;
-        Fri, 22 Sep 2023 10:16:07 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1695405052; x=1696009852;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3oEkxAEP7bGPEZ+qBOxMzwux9ypcm6j3kmlQze2cxoU=;
+        b=lMRcH9tGN2jc3pgm03G/Hg5/EABp2kYMDVFcBWh7FzW/NilI5X9FW45Yu78//RdH54
+         q8FuCV1JllB0FMLQCa26EUqCWDZaI21b9hTNw+V6tNLRed9+EyoPSX/Oi5YcMPumJGlq
+         4yrW6ngJHWPRmGHcrU66R+vEimHelRb+WqmI8Y5CjSqtyK9rjMtCU7XDVSOwTTAMUW93
+         vzlhwEu8t0yrMAl/JGLEF2jhDJbV1ciQmwgqFSDQ2sQKN7JpN520T8ISs2eNWfyEmQ4x
+         JXtvNTXZVa5+NzmlfZQUV5pyhszREHY2u6OWGAASD2UZ24AU0AsCL4u+EPEzs7ySNFyq
+         CVgg==
+X-Gm-Message-State: AOJu0YxIU5J8yArlnJt/SajFQL5mxiXOzMUilEE8GirkJOptTmE3/w/7
+	SifMNsh7dNjKibgSz6ACJoqjrg==
+X-Google-Smtp-Source: AGHT+IEjIxVG8g4i5F7jtY8rsnOQ8bukvGhYoHuCsgCOuo++tH0bwxcSf5hGt6Xn7RmONgTG1ZnFfA==
+X-Received: by 2002:a05:6a00:2d0b:b0:68e:2d9d:b0cc with SMTP id fa11-20020a056a002d0b00b0068e2d9db0ccmr170192pfb.6.1695405052057;
+        Fri, 22 Sep 2023 10:50:52 -0700 (PDT)
 Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id ji18-20020a170903325200b001bdbe6c86a9sm3742195plb.225.2023.09.22.10.16.07
+        by smtp.gmail.com with ESMTPSA id x18-20020a62fb12000000b0068fe6ad4e18sm3484364pfm.157.2023.09.22.10.50.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 10:16:07 -0700 (PDT)
-Date: Fri, 22 Sep 2023 10:16:06 -0700
+        Fri, 22 Sep 2023 10:50:51 -0700 (PDT)
 From: Kees Cook <keescook@chromium.org>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Zhou Wang <wangzhou1@hisilicon.com>, Jie Hai <haijie1@huawei.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Green Wan <green.wan@sifive.com>, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Yu Kuai <yukuai3@huawei.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jordy Zomer <jordy@pwning.systems>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Kees Cook <keescook@chromium.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev,
+	alsa-devel@alsa-project.org,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	dmaengine@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-tegra@vger.kernel.org, llvm@lists.linux.dev,
+	Tom Rix <trix@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev,
 	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 00/21] dmaengine: Annotate with __counted_by
-Message-ID: <202309221015.AB63726@keescook>
-References: <20230817235428.never.111-kees@kernel.org>
- <202309151307.F3341BD5A@keescook>
+Subject: [PATCH] ASoC: apple: mca: Annotate struct mca_data with __counted_by
+Date: Fri, 22 Sep 2023 10:50:50 -0700
+Message-Id: <20230922175050.work.819-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202309151307.F3341BD5A@keescook>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1312; i=keescook@chromium.org;
+ h=from:subject:message-id; bh=j4yqmKRzUCzvjLbfaqNFg/RfKie7KU/QXR2i1mhhyZg=;
+ b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdP657tnli5eAN/8roOFU78C7eb8FJ8g94j9+
+ W70ZL/MvxiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3T+gAKCRCJcvTf3G3A
+ JhkwEACoXPDQbe9ClOALZy20QDUufFBZZdIyVDd7vsffjD0NADca1ZAdJibsqdbv0WoKOHbe7dg
+ F8Qn9PbceKIap9s4b67hMoSvLv/sRH+NJCuoMirhWdpYRQguwiegMtsMUFcYpoZbJxhsugsZe9t
+ DK+ZzfTvFpFasQA9noJDlpzCnqoAk40oyu7hfxITKafl8jzz2KF54cvC9Ou9KHC06x/dfuyUh3Z
+ +cmap5XZ3PqL5al8/8bcWjwRep86fpLPje6ZowtIA8Xz6rF7RHkhB8rzFhH6PM2GYovTHn0sJpI
+ +pM58i4vueNt/36/5tWQf7yEhHUKyebeEHhEMsMRopJ0EYttF2K4LrdNc0UD/GHQZfvXr3pJ3TB
+ vspNBhikEwP/27a3H+GMjqo6WIjzMyesedSKO1UvQRx/Sb9Z06KQfe3crNNJQS6alyp2TzjbfQy
+ 5gN8LH2Zy5ftPZWfWKFD/E4LWcSC+j6ATdxgH6xHRu/HZYAYHNAriuf8cp5wbT2hhPy36aGjuBq
+ Qpw2w7PeKkGdpUHShbLmHqpy7JVnuKcdJ2I7b7BjXcQxlx0jahM77cytS0CSOqHHMpQRiVYQ+W8
+ 0zmAS/02v7hvny2scuMrpPhpW1fuR7xhIcXejJX0R3d1NNsYsRZ8qVoiJEvRSdm53xxORkZWxEE
+ +bzZBeY tCA1uhOQ==
+X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 15, 2023 at 01:08:30PM -0700, Kees Cook wrote:
-> Just a ping on the series... how do these look to you, Vinod?
-> 
-> If you want I can carry them in my tree. Please let me know.
+Prepare for the coming implementation by GCC and Clang of the __counted_by
+attribute. Flexible array members annotated with __counted_by can have
+their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+functions).
 
-I'm now carrying this in my for-next/hardening tree. Let me know if
-you'd prefer I drop it.
+As found with Coccinelle[1], add __counted_by for struct mca_data.
 
-Thanks!
+[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 
--Kees
+Cc: "Martin Povišer" <povik+lin@cutebit.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev
+Cc: alsa-devel@alsa-project.org
+Signed-off-by: Kees Cook <keescook@chromium.org>
+---
+ sound/soc/apple/mca.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+index ce77934f3eef..99e547ef95e6 100644
+--- a/sound/soc/apple/mca.c
++++ b/sound/soc/apple/mca.c
+@@ -161,7 +161,7 @@ struct mca_data {
+ 	struct mutex port_mutex;
+ 
+ 	int nclusters;
+-	struct mca_cluster clusters[];
++	struct mca_cluster clusters[] __counted_by(nclusters);
+ };
+ 
+ static void mca_modify(struct mca_cluster *cl, int regoffset, u32 mask, u32 val)
 -- 
-Kees Cook
+2.34.1
+
