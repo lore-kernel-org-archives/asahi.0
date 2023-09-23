@@ -1,117 +1,131 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB41436B5
-	for <asahi@lists.linux.dev>; Fri, 22 Sep 2023 17:50:52 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-692b2bdfce9so685270b3a.3
-        for <asahi@lists.linux.dev>; Fri, 22 Sep 2023 10:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1695405052; x=1696009852; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3oEkxAEP7bGPEZ+qBOxMzwux9ypcm6j3kmlQze2cxoU=;
-        b=HGwpJyMRHNSqwTstxiW1hv6jGAUu6OnxOoGpm2rOKHDODFoPhgXiq4CkiT58GjnylE
-         dEAULKYGI48SEMe0SvsAkjuGu352dJ9tZTPdLemcyvg7m74e12Je5FkkqxSi+3B7Y6ce
-         BNOG9RfMoT7xWJSgDioCmny9d5vlji5p5UJ/8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695405052; x=1696009852;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3oEkxAEP7bGPEZ+qBOxMzwux9ypcm6j3kmlQze2cxoU=;
-        b=lMRcH9tGN2jc3pgm03G/Hg5/EABp2kYMDVFcBWh7FzW/NilI5X9FW45Yu78//RdH54
-         q8FuCV1JllB0FMLQCa26EUqCWDZaI21b9hTNw+V6tNLRed9+EyoPSX/Oi5YcMPumJGlq
-         4yrW6ngJHWPRmGHcrU66R+vEimHelRb+WqmI8Y5CjSqtyK9rjMtCU7XDVSOwTTAMUW93
-         vzlhwEu8t0yrMAl/JGLEF2jhDJbV1ciQmwgqFSDQ2sQKN7JpN520T8ISs2eNWfyEmQ4x
-         JXtvNTXZVa5+NzmlfZQUV5pyhszREHY2u6OWGAASD2UZ24AU0AsCL4u+EPEzs7ySNFyq
-         CVgg==
-X-Gm-Message-State: AOJu0YxIU5J8yArlnJt/SajFQL5mxiXOzMUilEE8GirkJOptTmE3/w/7
-	SifMNsh7dNjKibgSz6ACJoqjrg==
-X-Google-Smtp-Source: AGHT+IEjIxVG8g4i5F7jtY8rsnOQ8bukvGhYoHuCsgCOuo++tH0bwxcSf5hGt6Xn7RmONgTG1ZnFfA==
-X-Received: by 2002:a05:6a00:2d0b:b0:68e:2d9d:b0cc with SMTP id fa11-20020a056a002d0b00b0068e2d9db0ccmr170192pfb.6.1695405052057;
-        Fri, 22 Sep 2023 10:50:52 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id x18-20020a62fb12000000b0068fe6ad4e18sm3484364pfm.157.2023.09.22.10.50.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 10:50:51 -0700 (PDT)
-From: Kees Cook <keescook@chromium.org>
-To: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Kees Cook <keescook@chromium.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev,
-	alsa-devel@alsa-project.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	llvm@lists.linux.dev,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] ASoC: apple: mca: Annotate struct mca_data with __counted_by
-Date: Fri, 22 Sep 2023 10:50:50 -0700
-Message-Id: <20230922175050.work.819-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1866D18E07;
+	Sat, 23 Sep 2023 12:22:11 +0000 (UTC)
+Received: from eig-obgw-6008a.ext.cloudfilter.net ([10.0.30.227])
+	by cmsmtp with ESMTP
+	id jnFeqHUzdbK1Vk1eFql752; Sat, 23 Sep 2023 12:22:11 +0000
+Received: from gator4166.hostgator.com ([108.167.133.22])
+	by cmsmtp with ESMTPS
+	id k1eEqTG8SsKmik1eFqLTsS; Sat, 23 Sep 2023 12:22:11 +0000
+X-Authority-Analysis: v=2.4 cv=JOMoDuGb c=1 sm=1 tr=0 ts=650ed873
+ a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=P7XfKmiOJ4/qXqHZrN7ymg==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=IkcTkHD0fZMA:10 a=zNV7Rl7Rt7sA:10 a=wYkD_t78qR0A:10 a=NEAV23lmAAAA:8
+ a=NwbpVL58AAAA:8 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=iox4zFpeAAAA:8
+ a=foHCeV_ZAAAA:8 a=cm27Pg_UAAAA:8 a=HvF037n1xESchLcPDVoA:9 a=QEXdDO2ut3YA:10
+ a=tNWvAHffTtQgx3ZTRG8Q:22 a=AjGcO6oz07-iQ99wixmX:22 a=WzC6qhA0u3u7Ye7llzcV:22
+ a=h8a9FgHX5U4dIE3jaWyr:22 a=xmb-EsYY8bH0VWELuYED:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=MSqzGt9UPF/qfrZg382/BJIq8GRlN4t6fuaOHKqouVk=; b=h3eHSGppG8aL2sTqNmwGzFk8RX
+	bCel+HJ6ZDApjZGTwxq6N6Y4051hjdcyd9Z/364iEtKUFRiodOhNGBiU9g0JmzsatzaMG7Vr+rmFk
+	rEbNLVLT97eRpw57p7VaUE4JvXh/FByGB7FVtAbd9fCCmOBMWUznMij6EuaOb1b/WrzBa23gZZg27
+	uIdBaDQVcrLzZ1DnI98JiaovZq+wJ6C5meVeTi5za/74sJ90ySNgsUdtaNXQrDAbd+rBCrVpeRYbf
+	NU7AmJk7ac6oM7dJQqXfFKbna27k6FKOOXtpz9FurtiBD5p7NRnBofkQNypLKa2kLipwFOKSuYedm
+	7EZUSL7A==;
+Received: from [94.239.20.48] (port=49974 helo=[192.168.1.98])
+	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.96)
+	(envelope-from <gustavo@embeddedor.com>)
+	id 1qjy1T-003YxY-0f;
+	Sat, 23 Sep 2023 03:29:55 -0500
+Message-ID: <5b288203-e26d-9fd2-fc5f-e30e78f0202e@embeddedor.com>
+Date: Sat, 23 Sep 2023 10:30:59 -0600
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1312; i=keescook@chromium.org;
- h=from:subject:message-id; bh=j4yqmKRzUCzvjLbfaqNFg/RfKie7KU/QXR2i1mhhyZg=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlDdP657tnli5eAN/8roOFU78C7eb8FJ8g94j9+
- W70ZL/MvxiJAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZQ3T+gAKCRCJcvTf3G3A
- JhkwEACoXPDQbe9ClOALZy20QDUufFBZZdIyVDd7vsffjD0NADca1ZAdJibsqdbv0WoKOHbe7dg
- F8Qn9PbceKIap9s4b67hMoSvLv/sRH+NJCuoMirhWdpYRQguwiegMtsMUFcYpoZbJxhsugsZe9t
- DK+ZzfTvFpFasQA9noJDlpzCnqoAk40oyu7hfxITKafl8jzz2KF54cvC9Ou9KHC06x/dfuyUh3Z
- +cmap5XZ3PqL5al8/8bcWjwRep86fpLPje6ZowtIA8Xz6rF7RHkhB8rzFhH6PM2GYovTHn0sJpI
- +pM58i4vueNt/36/5tWQf7yEhHUKyebeEHhEMsMRopJ0EYttF2K4LrdNc0UD/GHQZfvXr3pJ3TB
- vspNBhikEwP/27a3H+GMjqo6WIjzMyesedSKO1UvQRx/Sb9Z06KQfe3crNNJQS6alyp2TzjbfQy
- 5gN8LH2Zy5ftPZWfWKFD/E4LWcSC+j6ATdxgH6xHRu/HZYAYHNAriuf8cp5wbT2hhPy36aGjuBq
- Qpw2w7PeKkGdpUHShbLmHqpy7JVnuKcdJ2I7b7BjXcQxlx0jahM77cytS0CSOqHHMpQRiVYQ+W8
- 0zmAS/02v7hvny2scuMrpPhpW1fuR7xhIcXejJX0R3d1NNsYsRZ8qVoiJEvRSdm53xxORkZWxEE
- +bzZBeY tCA1uhOQ==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] ASoC: apple: mca: Annotate struct mca_data with
+ __counted_by
+Content-Language: en-US
+To: Kees Cook <keescook@chromium.org>, =?UTF-8?Q?Martin_Povi=c5=a1er?=
+ <povik+lin@cutebit.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ asahi@lists.linux.dev, alsa-devel@alsa-project.org,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+ linux-hardening@vger.kernel.org
+References: <20230922175050.work.819-kees@kernel.org>
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+In-Reply-To: <20230922175050.work.819-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 94.239.20.48
+X-Source-L: No
+X-Exim-ID: 1qjy1T-003YxY-0f
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.1.98]) [94.239.20.48]:49974
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 0
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfJJ/7D0x0D+r6ZwXBAKoEVXWYFns2Ueg8KpfcQwxd/zvvl3sdvGXSNeDA5uKqj5ycveYUB/aO+5BNbh1CZe+z0ZpBIXe8GxNIoizM7uJCERgEfWodv86
+ aFdkCLUYJj71bWnfqiAEVwAlC2MuWpNhHT1rGiajiEvMRHJRXhZkEQsqckhWVTThyLPpYhRfZA1i++ffuozYGoBKVLvtXrn536ARW0huZn84BvmH9ysJObAn
+ 4a2HFJIgO61xR1IwT/B0pA==
 
-Prepare for the coming implementation by GCC and Clang of the __counted_by
-attribute. Flexible array members annotated with __counted_by can have
-their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-(for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-functions).
 
-As found with Coccinelle[1], add __counted_by for struct mca_data.
 
-[1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+On 9/22/23 11:50, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct mca_data.
+> 
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
+> 
+> Cc: "Martin Povišer" <povik+lin@cutebit.org>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: asahi@lists.linux.dev
+> Cc: alsa-devel@alsa-project.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-Cc: "Martin Povišer" <povik+lin@cutebit.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: asahi@lists.linux.dev
-Cc: alsa-devel@alsa-project.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- sound/soc/apple/mca.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index ce77934f3eef..99e547ef95e6 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -161,7 +161,7 @@ struct mca_data {
- 	struct mutex port_mutex;
- 
- 	int nclusters;
--	struct mca_cluster clusters[];
-+	struct mca_cluster clusters[] __counted_by(nclusters);
- };
- 
- static void mca_modify(struct mca_cluster *cl, int regoffset, u32 mask, u32 val)
+Thanks
 -- 
-2.34.1
+Gustavo
 
+> ---
+>   sound/soc/apple/mca.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+> index ce77934f3eef..99e547ef95e6 100644
+> --- a/sound/soc/apple/mca.c
+> +++ b/sound/soc/apple/mca.c
+> @@ -161,7 +161,7 @@ struct mca_data {
+>   	struct mutex port_mutex;
+>   
+>   	int nclusters;
+> -	struct mca_cluster clusters[];
+> +	struct mca_cluster clusters[] __counted_by(nclusters);
+>   };
+>   
+>   static void mca_modify(struct mca_cluster *cl, int regoffset, u32 mask, u32 val)
