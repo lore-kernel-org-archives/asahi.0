@@ -1,84 +1,77 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E048B65B;
-	Sun, 24 Sep 2023 07:49:48 +0000 (UTC)
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1qkJrw-0003js-LP; Sun, 24 Sep 2023 09:49:32 +0200
-Message-ID: <16f0e113-9103-408f-bf5f-9f90442c99ed@leemhuis.info>
-Date: Sun, 24 Sep 2023 09:49:31 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5977215B0;
+	Mon, 25 Sep 2023 02:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1695609015; x=1727145015;
+  h=message-id:date:mime-version:cc:subject:to:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=38lEStwphX64OpE2A2DbRTLCtqjQh1vzpQGGTEpXLCk=;
+  b=nRdjH2JMUjRmbDjIN3a7v0l5XovMXCgIJzhPrn4Iik5TA2cPV+ihbGwX
+   Q20OV2F1fF9YIGk/6wHPRLF1VsOb0Q8wxnUQNQ8BZN0TyiQ+XGK5HYH5n
+   3wQtZtkrIIRNUHmp+ktaLS19IfUmxOSCewqq+xAEew+TQ3Ac0w6UUICjh
+   PgbQzID7RgcLr2uTmQC8Kt+A51V9w1s6o/Scsp/pTD2DxWhr4rByDt5TB
+   w1cMAfPWYwkh4EbLXoiC7WGki/QpiUnikC+j4wXApKURYwgC1poA1WwA0
+   3pxMUiP6+sZDwcWxEY6IRc0bDsS3DeqKhC50WcOnkYmGTmz4SDYJpHd89
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="380026686"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="380026686"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2023 19:30:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10843"; a="741746070"
+X-IronPort-AV: E=Sophos;i="6.03,174,1694761200"; 
+   d="scan'208";a="741746070"
+Received: from allen-box.sh.intel.com (HELO [10.239.159.127]) ([10.239.159.127])
+  by orsmga007.jf.intel.com with ESMTP; 24 Sep 2023 19:30:08 -0700
+Message-ID: <4c3bc724-e162-98d7-1ecd-0ed8950bbb34@linux.intel.com>
+Date: Mon, 25 Sep 2023 10:26:54 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH REGRESSION] iommu: Only allocate FQ domains for IOMMUs
- that support them
-Content-Language: en-US, de-DE
-To: Hector Martin <marcan@marcan.st>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Jerry Snitselaar <jsnitsel@redhat.com>
-Cc: Joerg Roedel <jroedel@suse.de>, Neal Gompa <neal@gompa.dev>,
- "Justin M. Forbes" <jforbes@fedoraproject.org>, iommu@lists.linux.dev,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, stable@vger.kernel.org,
- regressions@lists.linux.dev
-References: <20230922-iommu-type-regression-v1-1-1ed3825b2c38@marcan.st>
-From: "Linux regression tracking #adding (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <20230922-iommu-type-regression-v1-1-1ed3825b2c38@marcan.st>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Cc: baolu.lu@linux.intel.com
+Subject: Re: [PATCH 1/8] iommu: Move IOMMU_DOMAIN_BLOCKED global statics to
+ ops->blocked_domain
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+ Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+ linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+ Hector Martin <marcan@marcan.st>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
+ Sven Peter <sven@svenpeter.dev>, Will Deacon <will@kernel.org>
+References: <1-v1-8060f06462cc+c0a39-dart_paging_jgg@nvidia.com>
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <1-v1-8060f06462cc+c0a39-dart_paging_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1695541789;de4ea16e;
-X-HE-SMSGID: 1qkJrw-0003js-LP
 
-[TLDR: I'm adding this report to the list of tracked Linux kernel
-regressions; the text you find below is based on a few templates
-paragraphs you might have encountered already in similar form.
-See link in footer if these mails annoy you.]
-
-On 22.09.23 15:40, Hector Martin wrote:
-> Commit a4fdd9762272 ("iommu: Use flush queue capability") hid the
-> IOMMU_DOMAIN_DMA_FQ domain type from domain allocation. A check was
-> introduced in iommu_dma_init_domain() to fall back if not supported, but
-> this check runs too late: by that point, devices have been attached to
-> the IOMMU, and the IOMMU driver might not expect FQ domains at
-> ops->attach_dev() time.
+On 9/23/23 1:07 AM, Jason Gunthorpe wrote:
+> Following the pattern of identity domains, just assign the BLOCKED domain
+> global statics to a value in ops. Update the core code to use the global
+> static directly.
 > 
-> Ensure that we immediately clamp FQ domains to plain DMA if not
-> supported by the driver at device attach time, not later.
+> Update powerpc to use the new scheme and remove its empty domain_alloc
+> callback.
 > 
-> This regressed apple-dart in v6.5.
-> [...]
+> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
+> ---
+>   arch/powerpc/kernel/iommu.c | 9 +--------
+>   drivers/iommu/iommu.c       | 2 ++
+>   include/linux/iommu.h       | 3 +++
+>   3 files changed, 6 insertions(+), 8 deletions(-)
 
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
-Thanks for the report. To be sure the issue doesn't fall through the
-cracks unnoticed, I'm adding it to regzbot, the Linux kernel regression
-tracking bot:
-
-#regzbot ^introduced a4fdd9762272
-#regzbot title iommu: apple-dart regressed
-#regzbot monitor:
-https://lore.kernel.org/all/20230922-iommu-type-regression-v2-1-689b2ba9b673@marcan.st/
-#regzbot fix: iommu/apple-dart: Handle DMA_FQ domains in attach_dev()
-#regzbot ignore-activity
-
-This isn't a regression? This issue or a fix for it are already
-discussed somewhere else? It was fixed already? You want to clarify when
-the regression started to happen? Or point out I got the title or
-something else totally wrong? Then just reply and tell me -- ideally
-while also telling regzbot about it, as explained by the page listed in
-the footer of this mail.
-
-Developers: When fixing the issue, remember to add 'Link:' tags pointing
-to the report (the parent of this mail). See page linked in footer for
-details.
-
-Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
---
-Everything you wanna know about Linux kernel regression tracking:
-https://linux-regtracking.leemhuis.info/about/#tldr
-That page also explains what to do if mails like this annoy you.
+Best regards,
+baolu
