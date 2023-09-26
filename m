@@ -1,122 +1,182 @@
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3D430D06
-	for <asahi@lists.linux.dev>; Tue, 26 Sep 2023 16:08:35 +0000 (UTC)
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-48feedb90d2so3106827e0c.1
-        for <asahi@lists.linux.dev>; Tue, 26 Sep 2023 09:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1695744514; x=1696349314; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6oDat+15Yv8jvHk03dbPKuk8zwd+AnRHF/euH49EJVQ=;
-        b=F+8ytQ4T4mrjhevvFxDynTYOXa3OJ4NpfISo4iKdfmWkSmy6bwI0o5U8bx58bD31WZ
-         S+s4oau84wS4FY5S4OrD1IxerH0G1SdviD3xGv3qJaUqs+4pUR1GXWCthlR0Jymtm8v6
-         JL4nqJPDDOzAVIocwhzTkK2dE0VWo8fWyUncYvmeWBZET6Vy9y8SIWzxCgCmR4MwHkPK
-         0Y53WeGuVLTvHs/JganVxNqaahMbAo2Cuby2jX+cgF7191DZEbYfMjXpGqgauMski/Zl
-         O/Rr3+dVuVCvBl2p/75rg4yEAWS5ML8V/KLpu2XS8p7KD5M/uRe4lVBPpUMdygC28JUa
-         00ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695744514; x=1696349314;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6oDat+15Yv8jvHk03dbPKuk8zwd+AnRHF/euH49EJVQ=;
-        b=BQam0SAp/eI1Zpowk8bHoorGLlG1VCJrEw8vEinkZQ5UrzLuvFryWl0dQO1XvaEXFN
-         z9dEp9w+kgc4VspvFpjvNEv78tj5E/8x1JVRI1Utd6GDsbVPWtL6Jv1KPU2wl2n0fxlK
-         zf1HG5foCJRJcx+QUTvyTOnQNQZnCZGTfiji1G/XSF7tWLlPUo1Vr08gxBd3zOpiueeZ
-         DTkszAAPXdJ2iitEXfSZ8pMCu412YAK5Wtdeqa4gHX8cRlvWh6/FkCB8T2jSRS1k+ZLK
-         UGVZZX+MgBPTT96TYBSQICxz4zr72r5VSSl/QU/LisGgGC6nLGRgrWtY3dfCSggTWDgy
-         Ltfw==
-X-Gm-Message-State: AOJu0YxuYjeqYkHnisfD1X6eb+TP8dpydlHLXz9EPwGaG/2cITpWmHZx
-	MO2b/8xvn4EDSboCvTkoXg/aBA==
-X-Google-Smtp-Source: AGHT+IFDQgBrhIPwgsFhbivVL+D36TCzBymyRjeSj3OWewpTHgWhOtDO4u30/jSZ3MjQP6HcqK5sVA==
-X-Received: by 2002:a1f:c582:0:b0:48f:9778:2b9f with SMTP id v124-20020a1fc582000000b0048f97782b9fmr6177336vkf.11.1695744514328;
-        Tue, 26 Sep 2023 09:08:34 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-26-201.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.26.201])
-        by smtp.gmail.com with ESMTPSA id d8-20020a0cb2c8000000b0065b13180892sm1817688qvf.16.2023.09.26.09.08.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Sep 2023 09:08:33 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1qlAbw-001Evg-HO;
-	Tue, 26 Sep 2023 13:08:32 -0300
-Date: Tue, 26 Sep 2023 13:08:32 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Joerg Roedel <joro@8bytes.org>
-Cc: Niklas Schnelle <schnelle@linux.ibm.com>,
-	Matthew Rosato <mjrosato@linux.ibm.com>,
-	Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9391338BC8;
+	Tue, 26 Sep 2023 18:49:49 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.west.internal (Postfix) with ESMTP id CC8572B001CA;
+	Tue, 26 Sep 2023 14:49:46 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Tue, 26 Sep 2023 14:49:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1695754186; x=1695757786; bh=0L
+	1PD+J2hFF8IKoDu/MxIMXd7klBa9ifKTbkZPpjaR0=; b=uKO9ejLNJ7Zmi8z7Dg
+	SOqdFdZRPTeaskHX/lo6oOGnDLyHKoDR5D+BQ1F1diF74CmSwwLI1OIyII36Ar37
+	ZbbJ+DR+0UBN3u8cJpDq1zpSt7FeYDg6Gq8Y3Epz1Xj1wga+hwx6aP0n7TrPQpdm
+	YYvSvjr62MqVtocgvhLNcuOimmgwhwQkFEjbvo5BSkzcbDc4JF0UkCuTFUNfChda
+	6/vcAREJ/ju+OQyiZ+U6fSz7DtEq0aASSO8gTJNaWN7Bw25a/iAkSodqHF1kt+0t
+	y7aAhLMKgkaotrw/5YBhB34K0NUcLcZbnuwyknXoE8DoNQGa0A4sD/r2gvAwOf3y
+	c+0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=i449149f6.fm2; t=1695754186; x=1695757786; bh=0L1
+	PD+J2hFF8IKoDu/MxIMXd7klBa9ifKTbkZPpjaR0=; b=C7gC5alTUJ0K6c73X+E
+	96mUJAjtwBzBQMMjA0NUEEk4TGRQujJmO8SId3+VLUxTuoXzSlVsl9+A5zzcD7FF
+	ws2CMwJns2nrL0s4hvE95tCVw9YgaWg/QNFPLDwhRodQiGl0II8woXPsCLJILThJ
+	AlX1Dzdq47CQa8nlXsSHdB68f/rE0yuQDJHRW1HPHS7yRYi/WcI2VKBCkq/Jh69E
+	t+DA27tDqb+q3EybpyWc4rbpu5+AuukB3OVknAopMbDuK3f2I8heXk7nASPKLhIa
+	7H3GOs8ZG/vZeGI+JBDj2tioh07lvTRAjQMkgc5377KjLKNfBHF8dy6SUsa7dl8x
+	2OQ==
+X-ME-Sender: <xms:xycTZUzwfNLOLgbjNoD9mgIFhXCCzF32VGpVMyAoa8Om11gk-g4yrA>
+    <xme:xycTZYS0HJVwmlKXTUmW4-WacaP52EQxKlNIkBokdMSsACMBdQuwKMtGTRQ-DG1tz
+    qchmoIi6IJfvNHkeWc>
+X-ME-Received: <xmr:xycTZWXMdyBPL2N0ZWflVdJrk4GSuuZVyC_xnZ5OIxXOgDj4KXXUZdhyiuqd7b6dwAMt0r3rVRLO4RWi0rUdvjhgMpla480TtA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvjedrtddtgddutdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomheplfgrnhhn
+    vgcuifhruhhnrghuuceojhgrnhhnvgesjhgrnhhnrghurdhnvghtqeenucggtffrrghtth
+    gvrhhnpeegueegvddtgfehuedutdevieehgeefteejteetvdegueelhfdtieeujeeugeeh
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjrg
+    hnnhgvsehjrghnnhgruhdrnhgvth
+X-ME-Proxy: <xmx:xycTZSgxpLyMQ5FoHEAsxvJRJgLLR6A4nxo0OoflqRmd3imSwIb71Q>
+    <xmx:xycTZWCiNhOXGeyHNENvh6BYx5O3d5e1q5uyhZ9mKpMX4RQHMPdnuA>
+    <xmx:xycTZTL_i7U69W6caDFFPlmhVNf0Vz76_NpixOMLXp-jYv4WGHY7Vw>
+    <xmx:yScTZcSrh-wY715vb6CW-PI06FXBHXnuqDKdaIakZ7sYr0p_2B7znZa7IHQ>
+Feedback-ID: i449149f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 Sep 2023 14:49:43 -0400 (EDT)
+Date: Tue, 26 Sep 2023 20:49:41 +0200
+From: Janne Grunau <janne@jannau.net>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	Hector Martin <marcan@marcan.st>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
 	Robin Murphy <robin.murphy@arm.com>,
-	Gerd Bayer <gbayer@linux.ibm.com>,
-	Julian Ruess <julianr@linux.ibm.com>,
-	Pierre Morel <pmorel@linux.ibm.com>,
-	Alexandra Winter <wintera@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
- IOTLB flushing
-Message-ID: <20230926160832.GM13795@ziepe.ca>
-References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
- <ZRLy_AaJiXxZ2AfK@8bytes.org>
+	Sven Peter <sven@svenpeter.dev>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 5/8] iommu/dart: Use static global identity domains
+Message-ID: <ZRMnxQvYErphUs1M@robin>
+References: <0-v1-8060f06462cc+c0a39-dart_paging_jgg@nvidia.com>
+ <5-v1-8060f06462cc+c0a39-dart_paging_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZRLy_AaJiXxZ2AfK@8bytes.org>
+In-Reply-To: <5-v1-8060f06462cc+c0a39-dart_paging_jgg@nvidia.com>
 
-On Tue, Sep 26, 2023 at 05:04:28PM +0200, Joerg Roedel wrote:
-> Hi Niklas,
+Hej,
+
+On Fri, Sep 22, 2023 at 02:07:56PM -0300, Jason Gunthorpe wrote:
+> Move to the new static global for identity domains. Move the identity
+> specific code to apple_dart_attach_dev_identity().
 > 
-> On Fri, Aug 25, 2023 at 12:11:15PM +0200, Niklas Schnelle wrote:
-> > Niklas Schnelle (6):
-> >       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM return
-> >       s390/pci: prepare is_passed_through() for dma-iommu
-> >       s390/pci: Use dma-iommu layer
-> >       iommu/s390: Disable deferred flush for ISM devices
-> >       iommu/dma: Allow a single FQ in addition to per-CPU FQs
-> >       iommu/dma: Use a large flush queue and timeout for shadow_on_flush
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/iommu/apple-dart.c | 41 ++++++++++++++++++++++++++++----------
+>  1 file changed, 30 insertions(+), 11 deletions(-)
 > 
-> Turned out this series has non-trivial conflicts with Jasons
-> default-domain work so I had to remove it from the IOMMU tree for now.
-> Can you please rebase it to the latest iommu/core branch and re-send? I
-> will take it into the tree again then.
+> diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+> index 6bc2ad2207c3da..424f779ccc34df 100644
+> --- a/drivers/iommu/apple-dart.c
+> +++ b/drivers/iommu/apple-dart.c
+> @@ -658,11 +658,7 @@ static int apple_dart_attach_dev(struct iommu_domain *domain,
+>  	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
+>  	struct apple_dart_domain *dart_domain = to_dart_domain(domain);
+>  
+> -	if (cfg->stream_maps[0].dart->force_bypass &&
+> -	    domain->type != IOMMU_DOMAIN_IDENTITY)
+> -		return -EINVAL;
+> -	if (!cfg->stream_maps[0].dart->supports_bypass &&
+> -	    domain->type == IOMMU_DOMAIN_IDENTITY)
+> +	if (cfg->stream_maps[0].dart->force_bypass)
+>  		return -EINVAL;
+>  
+>  	ret = apple_dart_finalize_domain(domain, cfg);
+> @@ -683,15 +679,37 @@ static int apple_dart_attach_dev(struct iommu_domain *domain,
+>  		for_each_stream_map(i, cfg, stream_map)
+>  			apple_dart_hw_disable_dma(stream_map);
+>  		break;
+> -	case IOMMU_DOMAIN_IDENTITY:
+> -		for_each_stream_map(i, cfg, stream_map)
+> -			apple_dart_hw_enable_bypass(stream_map);
+> -		break;
+> +	default:
+> +		return -EINVAL;
+>  	}
+>  
+>  	return ret;
+>  }
+>  
+> +static int apple_dart_attach_dev_identity(struct iommu_domain *domain,
+> +					  struct device *dev)
+> +{
+> +	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
+> +	struct apple_dart_stream_map *stream_map;
+> +	int i;
+> +
+> +	if (!cfg->stream_maps[0].dart->supports_bypass)
+> +		return -EINVAL;
+> +
+> +	for_each_stream_map(i, cfg, stream_map)
+> +		apple_dart_hw_enable_bypass(stream_map);
+> +	return 0;
+> +}
+> +
+> +static const struct iommu_domain_ops apple_dart_identity_ops = {
+> +	.attach_dev = apple_dart_attach_dev_identity,
+> +};
+> +
+> +static struct iommu_domain apple_dart_identity_domain = {
+> +	.type = IOMMU_DOMAIN_IDENTITY,
+> +	.ops = &apple_dart_identity_ops,
+> +};
+> +
+>  static struct iommu_device *apple_dart_probe_device(struct device *dev)
+>  {
+>  	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
+> @@ -722,7 +740,7 @@ static struct iommu_domain *apple_dart_domain_alloc(unsigned int type)
+>  	struct apple_dart_domain *dart_domain;
+>  
+>  	if (type != IOMMU_DOMAIN_DMA && type != IOMMU_DOMAIN_UNMANAGED &&
+> -	    type != IOMMU_DOMAIN_IDENTITY && type != IOMMU_DOMAIN_BLOCKED)
+> +	    type != IOMMU_DOMAIN_BLOCKED)
+>  		return NULL;
+>  
+>  	dart_domain = kzalloc(sizeof(*dart_domain), GFP_KERNEL);
+> @@ -732,7 +750,7 @@ static struct iommu_domain *apple_dart_domain_alloc(unsigned int type)
+>  	mutex_init(&dart_domain->init_lock);
+>  
+>  	/* no need to allocate pgtbl_ops or do any other finalization steps */
+> -	if (type == IOMMU_DOMAIN_IDENTITY || type == IOMMU_DOMAIN_BLOCKED)
+> +	if (type == IOMMU_DOMAIN_BLOCKED)
+>  		dart_domain->finalized = true;
+>  
+>  	return &dart_domain->domain;
+> @@ -947,6 +965,7 @@ static void apple_dart_get_resv_regions(struct device *dev,
+>  }
+>  
+>  static const struct iommu_ops apple_dart_iommu_ops = {
+> +	.identity_domain = &apple_dart_identity_domain,
+>  	.domain_alloc = apple_dart_domain_alloc,
+>  	.probe_device = apple_dart_probe_device,
+>  	.release_device = apple_dart_release_device,
 
-Niklas, I think you just 'take yours' to resolve this. All the
-IOMMU_DOMAIN_PLATFORM related and .default_domain = parts should be
-removed. Let me know if you need anything
+Reviewed-by: Janne Grunau <j@jannau.net>
 
-Thanks,
-Jason
+best reagrds,
+Janne
