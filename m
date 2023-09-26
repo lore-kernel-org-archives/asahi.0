@@ -1,256 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C76826E09
-	for <asahi@lists.linux.dev>; Tue, 26 Sep 2023 15:07:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 819E1C433C7;
-	Tue, 26 Sep 2023 15:06:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1695740829;
-	bh=K3gxoBXAbqKdlJDLl87Mn9L+joQrIbNCK51zUnZ9EAE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JxG6TRAOQsYrDn+s6S5ZDC6YKeOnxHdoElOS6kG/+BSIto+xynvW0yv2Iq0ETp+VL
-	 55HkIsza3Ng5N8kYa8tjTWA79quQYliETN4DIiWfe8g7gmc8T8IQ3lSn9wh0AYJZar
-	 k1xMVu8vpAxxDLqNsPEbfeH26Fc2+C6YXw8x+RlRqNjI7TjhF8ECkngqHVkqIyFfI0
-	 zGOYO4p3kE1qLVym92QIL+bg38BLF75YQpuAT/PxGA5oZPpDJAtgT6aole91i6nxke
-	 Jn1/4LNpn28veBh2xopLLwWBTFOjV1F5zZ/ttUM/OyGSmGKLqSltVuQe5gczE5wUh5
-	 IOpeqbY0s+CNw==
-From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?q?Amadeusz_S=C3=85=EF=BF=BDawi=C3=85=EF=BF=BDski?= <amadeuszx.slawinski@linux.intel.com>, 
- =?utf-8?q?Andreas_F=C3=83=C2=A4r_ber?= <afaerber@suse.de>, 
- =?utf-8?q?Martin_Pov_i=C3=85=C2=A1er?= <povik+lin@cutebit.org>, 
- =?utf-8?q?N=C3=83=C2=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
- =?utf-8?q?Pawe=C3=85=EF=BF=BD_Anikiel?= <pan@semihalf.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=83=C2=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Alper Nebi Yasak <alpernebiyasak@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
- Arnd Bergmann <arnd@arndb.de>, Ban Tao <fengzheng923@gmail.com>, 
- Banajit Goswami <bgoswami@quicinc.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Chen-Yu Tsai <wens@csie.org>, Chunxu Li <chunxu.li@mediatek.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Curtis Malainey <cujomalainey@chromium.org>, 
- Daniel Baluta <daniel.baluta@nxp.com>, Daniel Mack <daniel@zonque.org>, 
- David Rhodes <david.rhodes@cirrus.com>, 
- Haojian Zhuang <haojian.zhuang@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
- James Schulman <james.schulman@cirrus.com>, 
- Jarkko Nikula <jarkko.nikula@bitmer.com>, Jaroslav Kysela <perex@perex.cz>, 
- Jason Montleon <jmontleo@redhat.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jerome Brunet <jbrunet@baylibre.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Judy Hsiao <judyhsiao@chromium.org>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Kevin Hilman <khilman@baylibre.com>, 
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Lars-Peter Clausen <lars@metafoo.de>, Liam Girdwood <lgirdwood@gmail.com>, 
- Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
- Manivannan Sadhasivam <mani@kernel.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Max Filippov <jcmvbkbc@gmail.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Oder Chiou <oder_chiou@realtek.com>, 
- Olivier Moysan <olivier.moysan@foss.st.com>, 
- Orson Zhai <orsonzhai@gmail.com>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>, 
- Rander Wang <rander.wang@intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Ray Jui <rjui@broadcom.com>, Ricardo Ribalda Delgado <ribalda@chromium.org>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Robert Jarzmik <robert.jarzmik@free.fr>, 
- Samuel Holland <samuel@sholland.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Scott Branden <sbranden@broadcom.com>, Shawn Guo <shawnguo@kernel.org>, 
- Shengjiu Wang <shengjiu.wang@gmail.com>, 
- Simon Trimmer <simont@opensource.cirrus.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Stephan Gerhold <stephan@gerhold.net>, 
- Svyatoslav Ryhel <clamor95@gmail.com>, 
- Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Trevor Wu <trevor.wu@mediatek.com>, 
- V sujith kumar Reddy <Vsujithkumar.Reddy@amd.com>, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Vinod Koul <vkoul@kernel.org>, 
- Walker Chen <walker.chen@starfivetech.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Yangtao Li <frank.li@vivo.com>, YingKun Meng <mengyingkun@loongson.cn>, 
- Yong Zhi <yong.zhi@intel.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?utf-8?q?P=C3=83=C2=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
- Fabio Estevam <festevam@gmail.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Nicolin Chen <nicoleotsuka@gmail.com>, 
- Sanyog Kale <sanyog.r.kale@intel.com>, Takashi Iwai <tiwai@suse.de>, 
- alsa-devel@alsa-project.org, asahi@lists.linux.dev, 
- linux-actions@lists.infradead.org
-In-Reply-To: <87h6o0s275.wl-kuninori.morimoto.gx@renesas.com>
-References: <87h6o0s275.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH 00/54] ASoC: convert asoc_xxx() to snd_soc_xxx()
-Message-Id: <169574081322.2649266.11829849428516551598.b4-ty@kernel.org>
-Date: Tue, 26 Sep 2023 17:06:53 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3D430D06
+	for <asahi@lists.linux.dev>; Tue, 26 Sep 2023 16:08:35 +0000 (UTC)
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-48feedb90d2so3106827e0c.1
+        for <asahi@lists.linux.dev>; Tue, 26 Sep 2023 09:08:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1695744514; x=1696349314; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6oDat+15Yv8jvHk03dbPKuk8zwd+AnRHF/euH49EJVQ=;
+        b=F+8ytQ4T4mrjhevvFxDynTYOXa3OJ4NpfISo4iKdfmWkSmy6bwI0o5U8bx58bD31WZ
+         S+s4oau84wS4FY5S4OrD1IxerH0G1SdviD3xGv3qJaUqs+4pUR1GXWCthlR0Jymtm8v6
+         JL4nqJPDDOzAVIocwhzTkK2dE0VWo8fWyUncYvmeWBZET6Vy9y8SIWzxCgCmR4MwHkPK
+         0Y53WeGuVLTvHs/JganVxNqaahMbAo2Cuby2jX+cgF7191DZEbYfMjXpGqgauMski/Zl
+         O/Rr3+dVuVCvBl2p/75rg4yEAWS5ML8V/KLpu2XS8p7KD5M/uRe4lVBPpUMdygC28JUa
+         00ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1695744514; x=1696349314;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6oDat+15Yv8jvHk03dbPKuk8zwd+AnRHF/euH49EJVQ=;
+        b=BQam0SAp/eI1Zpowk8bHoorGLlG1VCJrEw8vEinkZQ5UrzLuvFryWl0dQO1XvaEXFN
+         z9dEp9w+kgc4VspvFpjvNEv78tj5E/8x1JVRI1Utd6GDsbVPWtL6Jv1KPU2wl2n0fxlK
+         zf1HG5foCJRJcx+QUTvyTOnQNQZnCZGTfiji1G/XSF7tWLlPUo1Vr08gxBd3zOpiueeZ
+         DTkszAAPXdJ2iitEXfSZ8pMCu412YAK5Wtdeqa4gHX8cRlvWh6/FkCB8T2jSRS1k+ZLK
+         UGVZZX+MgBPTT96TYBSQICxz4zr72r5VSSl/QU/LisGgGC6nLGRgrWtY3dfCSggTWDgy
+         Ltfw==
+X-Gm-Message-State: AOJu0YxuYjeqYkHnisfD1X6eb+TP8dpydlHLXz9EPwGaG/2cITpWmHZx
+	MO2b/8xvn4EDSboCvTkoXg/aBA==
+X-Google-Smtp-Source: AGHT+IFDQgBrhIPwgsFhbivVL+D36TCzBymyRjeSj3OWewpTHgWhOtDO4u30/jSZ3MjQP6HcqK5sVA==
+X-Received: by 2002:a1f:c582:0:b0:48f:9778:2b9f with SMTP id v124-20020a1fc582000000b0048f97782b9fmr6177336vkf.11.1695744514328;
+        Tue, 26 Sep 2023 09:08:34 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-26-201.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.26.201])
+        by smtp.gmail.com with ESMTPSA id d8-20020a0cb2c8000000b0065b13180892sm1817688qvf.16.2023.09.26.09.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Sep 2023 09:08:33 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1qlAbw-001Evg-HO;
+	Tue, 26 Sep 2023 13:08:32 -0300
+Date: Tue, 26 Sep 2023 13:08:32 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Niklas Schnelle <schnelle@linux.ibm.com>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Gerd Bayer <gbayer@linux.ibm.com>,
+	Julian Ruess <julianr@linux.ibm.com>,
+	Pierre Morel <pmorel@linux.ibm.com>,
+	Alexandra Winter <wintera@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v12 0/6] iommu/dma: s390 DMA API conversion and optimized
+ IOTLB flushing
+Message-ID: <20230926160832.GM13795@ziepe.ca>
+References: <20230825-dma_iommu-v12-0-4134455994a7@linux.ibm.com>
+ <ZRLy_AaJiXxZ2AfK@8bytes.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-099c9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZRLy_AaJiXxZ2AfK@8bytes.org>
 
-On Mon, 11 Sep 2023 23:46:38 +0000, Kuninori Morimoto wrote:
-> ASoC is using 2 type of prefix (asoc_xxx() vs snd_soc_xxx()), but there
-> is no particular reason about that [1].
-> To reduce confusing, standarding these to snd_soc_xxx() is sensible.
+On Tue, Sep 26, 2023 at 05:04:28PM +0200, Joerg Roedel wrote:
+> Hi Niklas,
 > 
-> This patch adds asoc_xxx() macro to keep compatible for a while.
-> It will be removed if all drivers were switched to new style.
+> On Fri, Aug 25, 2023 at 12:11:15PM +0200, Niklas Schnelle wrote:
+> > Niklas Schnelle (6):
+> >       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM return
+> >       s390/pci: prepare is_passed_through() for dma-iommu
+> >       s390/pci: Use dma-iommu layer
+> >       iommu/s390: Disable deferred flush for ISM devices
+> >       iommu/dma: Allow a single FQ in addition to per-CPU FQs
+> >       iommu/dma: Use a large flush queue and timeout for shadow_on_flush
 > 
-> [...]
+> Turned out this series has non-trivial conflicts with Jasons
+> default-domain work so I had to remove it from the IOMMU tree for now.
+> Can you please rebase it to the latest iommu/core branch and re-send? I
+> will take it into the tree again then.
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[01/54] ASoC: soc.h: convert asoc_xxx() to snd_soc_xxx()
-        commit: 1d5a2b5dd0a8d2b2b535b5266699429dbd48e62f
-[02/54] ASoC: simple_card_utils.h: convert not to use asoc_xxx()
-        commit: b5a95c5bf6d6953d05b2c12acc8c07783232bea9
-[03/54] ASoC: sh: convert not to use asoc_xxx()
-        commit: c4ccfe4e5fa5d36a418bdb78dbe00a97b77954f9
-[04/54] ASoC: ti: convert not to use asoc_xxx()
-        commit: 1af529320d56e99f0745e432966d5f6652353b99
-[05/54] ASoC: arm: convert not to use asoc_xxx()
-        commit: 3cdd333a36dae6c56ffceedce8737cca23b632ba
-[06/54] ASoC: amd: convert not to use asoc_xxx()
-        commit: d4f23dcd6906ad8f76df046bad9a0dea353c4543
-[07/54] ASoC: bcm: convert not to use asoc_xxx()
-        commit: aa435567d75fd5128d45141f81278abf1f7d47c4
-[08/54] ASoC: dwc: convert not to use asoc_xxx()
-        commit: f8af41a3ac938e3764d89f7e05b0a8d130f6075a
-[09/54] ASoC: fsl: convert not to use asoc_xxx()
-        commit: 14ec63f678e8beaaa1005ccae6c112bf672ba2b3
-[10/54] ASoC: img: convert not to use asoc_xxx()
-        commit: cc807acede357e2d05969bc52073f1ad678f4677
-[11/54] ASoC: mxs: convert not to use asoc_xxx()
-        commit: 59b8f7185ed402a90782e0e8b25ccf9284a7e8e3
-[12/54] ASoC: pxa: convert not to use asoc_xxx()
-        commit: 2f688d1ea1cc167fdc0a65d3b2f77dd752d55117
-[13/54] ASoC: stm: convert not to use asoc_xxx()
-        commit: d69bd6dbc651ba86fe40f4cc6b125a7fb3f4be51
-[14/54] ASoC: au1x: convert not to use asoc_xxx()
-        commit: 2162d45392c69b7976e5e294c2104236b15e47c1
-[15/54] ASoC: qcom: convert not to use asoc_xxx()
-        commit: 9b1a2dfa8a00ff10550d6ca103f494c60f13cb03
-[16/54] ASoC: sprd: convert not to use asoc_xxx()
-        commit: a87a5c6ee44e0a50f29268bab8b11d8da418af41
-[17/54] ASoC: apple: convert not to use asoc_xxx()
-        commit: 2bbb49e294acb690340693f5f54dc6ef29641d54
-[18/54] ASoC: atmel: convert not to use asoc_xxx()
-        commit: 6547effc3aea50cc3c60874f9a65a19f4919ef9d
-[19/54] ASoC: meson: convert not to use asoc_xxx()
-        commit: 0d102e68e1075dbfb24d35c29bf9e64e7936b9f8
-[20/54] ASoC: sunxi: convert not to use asoc_xxx()
-        commit: 7912371430a49daaa63a2098aa8c944a1ecb0b9b
-[21/54] ASoC: tegra: convert not to use asoc_xxx()
-        commit: 436f4c706c22682b357dbdb97a6196449293e2a8
-[22/54] ASoC: ux500: convert not to use asoc_xxx()
-        commit: 3a0901d771d77c6a6be45e0a912c246d1ddee05b
-[23/54] ASoC: google: convert not to use asoc_xxx()
-        commit: 08b7174fb8d126e607e385e34b9e1da4f3be274f
-[24/54] ASoC: cirrus: convert not to use asoc_xxx()
-        commit: 1880a434948346f00509ad9a9f0885a66e5432d0
-[25/54] ASoC: generic: convert not to use asoc_xxx()
-        commit: b4b7de99c6da461315bfcce28018ab9f660c913b
-[26/54] ASoC: samsung: convert not to use asoc_xxx()
-        commit: 21b6cd54c98efedd29a2f8c92c3ee64fb324f4ec
-[27/54] ASoC: extensa: convert not to use asoc_xxx()
-        commit: c578d73e919b4805fbddf278627af1302b6246ec
-[28/54] ASoC: kirkwood: convert not to use asoc_xxx()
-        commit: fe4c755de065b156ddc884a5b21b38e7063468b1
-[29/54] ASoC: loongson: convert not to use asoc_xxx()
-        commit: 5f444041c1d225bcc8f44dc4b027eb41e2f2f175
-[30/54] ASoC: mediatek: convert not to use asoc_xxx()
-        (no commit info)
-[31/54] ASoC: rockchip: convert not to use asoc_xxx()
-        commit: 1a72df807968d259987f4e08fa7e2c92e3710717
-[32/54] ASoC: starfive: convert not to use asoc_xxx()
-        commit: b551aafeb9f6f5bce299f08c3799fb58e8372293
-[33/54] ASoC: uniphier: convert not to use asoc_xxx()
-        commit: 91941d84038ef392370172053cb8e0ca62ae9e56
-[34/54] ASoC: soundwire: convert not to use asoc_xxx()
-        commit: 50cd92e0c8d35d634275ae29f769244ad26b41fa
-[35/54] ASoC: intel: convert not to use asoc_xxx()
-        (no commit info)
-[36/54] ASoC: intel: avs: convert not to use asoc_xxx()
-        commit: 5d2d1a48a2f7734aee273303fadbb5929b5b8d37
-[37/54] ASoC: codec: wm: convert not to use asoc_xxx()
-        commit: 221a3d283ee57e75f68f83157d3a1c7cc88a5fa9
-[38/54] ASoC: codec: rt5677: convert not to use asoc_xxx()
-        commit: 4cfa9963faa42eb71550e7697df0889b66c11898
-[39/54] ASoC: codec: cs47lxx: convert not to use asoc_xxx()
-        commit: a62886e3e74552ce91a4de2a9012cfac678ab4a8
-[40/54] ASoC: sof: convert not to use asoc_xxx()
-        (no commit info)
-[41/54] ASoC: sof: amd: convert not to use asoc_xxx()
-        commit: b787e09f590656da9b2e5bd3e2484121368b6561
-[42/54] ASoC: sof: intel: convert not to use asoc_xxx()
-        commit: e79a972539628b626c4eb68e0c0341ffca1d6217
-[43/54] ASoC: sof: mediatek: convert not to use asoc_xxx()
-        commit: 80b72082e9677026f8874b3db6bf417f473a74cf
-[44/54] ASoC: soc-dai: convert not to use asoc_xxx()
-        commit: 52d98d06eb0bf26312b26fb2d7aa19ddad2a9288
-[45/54] ASoC: soc-pcm: convert not to use asoc_xxx()
-        commit: 2679a5b2f7d99e3a733cb229c95b4c2e78d17b23
-[46/54] ASoC: soc-core: convert not to use asoc_xxx()
-        commit: eeec74aa0ff8af329b9a4504a59a568b93ab2a0f
-[47/54] ASoC: soc-dapm: convert not to use asoc_xxx()
-        commit: 36570f3222fdfbcdd4cda28d4367efc17661290f
-[48/54] ASoC: soc-link: convert not to use asoc_xxx()
-        commit: 9099904bac50385721ef2e0d7e54a412f7527975
-[49/54] ASoC: soc-utils: convert not to use asoc_xxx()
-        commit: b1f96e94e860f7dfecedb30fc08e19424892b660
-[50/54] ASoC: soc-topology: convert not to use asoc_xxx()
-        commit: 8bfbdb18e2fd25385caece357a715cc058c40726
-[51/54] ASoC: soc-compress: convert not to use asoc_xxx()
-        commit: 28b11fd4ab604ff8a3650d10e37c2d1d93873b7b
-[52/54] ASoC: soc-component: convert not to use asoc_xxx()
-        commit: c35691ffcdbd57049d23ff4a596dd28635aabcdc
-[53/54] ASoC: soc-generic-dmaengine-pcm: convert not to use asoc_xxx()
-        commit: c067b1f83ea46346a352c2e43ac80f2166172d8a
-[54/54] ASoC: remove asoc_xxx() compatible macro
-        (no commit info)
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Niklas, I think you just 'take yours' to resolve this. All the
+IOMMU_DOMAIN_PLATFORM related and .default_domain = parts should be
+removed. Let me know if you need anything
 
 Thanks,
-Mark
-
+Jason
