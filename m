@@ -1,320 +1,144 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2041.outbound.protection.outlook.com [40.107.223.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119F111714
-	for <asahi@lists.linux.dev>; Wed, 27 Sep 2023 11:42:25 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-d81f079fe73so12538292276.3
-        for <asahi@lists.linux.dev>; Wed, 27 Sep 2023 04:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695814945; x=1696419745; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aIt1l7/IgUpo4k3Bjm4G/lamSevl4u5gHJJCk6sbhjY=;
-        b=jGeH0nNvilOvg9ERvq2/XnaygM2ntDRgJE3k9foTPpYFliTQKUk4oOu0vD16UpSOJS
-         veuuAn0oA+lthdKHNyERlPnhGEyUXoZ+JkdC26bcmBVNkOY7FFgv6Wj37+CathlgKLM0
-         yRKlKftpEWkzC2gvppRz1dATTRnz+srYmghdh3IJVSOrrhoiMSlwXHcvUJCyl61r7Apt
-         ngUpPJgBxwuyg6RW79MYZ5dPYeA5AkyL/dOaZ6yKP/EGQTlYvwt2AxPybexrN1CzIDlh
-         6Ps2sMay7eIrWRw7g4Ax0jbhOBtEjsS26s4BSCqPiOm9L+X8IP/awF50SOJxgaW0UO9g
-         ayJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695814945; x=1696419745;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aIt1l7/IgUpo4k3Bjm4G/lamSevl4u5gHJJCk6sbhjY=;
-        b=nFECdf58UXfkTPZCx10O39kjisYPRDwp0JaY4yOgob+d3S4N3XaGmJh2GJS4IGj70+
-         rqGTCHV/QPUWoa73RT5czcXT+KC9k7rTzrqiBwVKvlsLfPokS4g6BadhDxYCBIgQuvh7
-         sj4SeFQuRGRcB8nD7MX7rgqrV4rV26CldcWqS8NCM7pvOOjb5xmkfSdNy8iSMwKH83E6
-         vzBP8YraG10b6GUUFY8G+iEDiwXr6uFG+50Mu1EiC4eKPemPU4RuRKBxSz3Ch32sRwpj
-         +VfsDIjbwfH3KF+U4iFAaHdC5Yb3FFMbzFoTCm01zooYnAGQwsFNsMLvaXByMyk2KnI/
-         tt4Q==
-X-Gm-Message-State: AOJu0YxQNMCQzqW1Zo0JH7fClLuI4dkgaKVlVjWZdgn0sttgfl3iOUM+
-	PLR4nHupALW4MquCmd7i9Crjv+3kuBvdqmXC+sOIUA==
-X-Google-Smtp-Source: AGHT+IHBVFquJJT8K4Rl86v3hUqmDvjlekCjqCBE5F8bmAbHvZ8Ouu4MachaenQPWgpZPR02xLIw1xRN9sVjV4UBFTI=
-X-Received: by 2002:a25:dccb:0:b0:d81:ce57:571a with SMTP id
- y194-20020a25dccb000000b00d81ce57571amr1701528ybe.54.1695814944913; Wed, 27
- Sep 2023 04:42:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B32328E1F;
+	Wed, 27 Sep 2023 12:59:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k+0dlD50TL/ZMKJ8VU+RK+Yiue5qnkr4YJdeib+61ssZmX/+6XO52IDZF62VqGKNC84Wh8fWOg3GFluAfrMqi13f1U3XysZEKRwATOetiWgB61po95cnYVq7tqCJel1RI0ayUz4roeIOx4wYv+kCVWlQRDcUuHIqBrdgwq6eVjT6w5lIng4GvMkR+k+uWqINyPB9cC5oyrHoslFjYP/V1VBxYwxGapg2cVbcnnYdXIzYuOv1NTU7PEtydV38v8EZBkIRFdgHGySodec6wzSCqqSRm0d8Bqd72TuX4uv8vWkucq2FL/VQWAGYPnB1PvDlapUlPmcDI8htcBgtPCxxTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ITfwk1MmcjuHQKGlcYPiiTrPDyk19y8gQhAnRH7FHlU=;
+ b=loZWg1SxvDXCarhWQnkqU9nBfA3bzbJeenLAKzmbZvfsTzZCTRJvBiryLmvRq1tirCQVPAz5naEPTuhijEBOfsb2XngS/FUtsgrz/kta+e1ChBzIyUFVihkzTAW2XfVDNfIx8J81VYeGej3L3pQu9dVHWyNCYGwIH/GHHh+iQomQU2hApHplXVNbz6j8RUUkI5hpdDzVwoRSyoexifIs6+DeNnKFG8fTApG7LB6i3D7T1/H17hsE1pdKDuyNK5hZ6hAcRIYyyq3rS/Ud/TIOVatz2bNln2HfuLY9CyXNXH/yicX4U+NP4HeFJVqiIg9F2jLfrou2PsMgHqcKI2HFDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ITfwk1MmcjuHQKGlcYPiiTrPDyk19y8gQhAnRH7FHlU=;
+ b=dXOiR9kVsYBC27xCuHwlsckubX/KWWUn8QCkuaKO6OczwBhQfZ8SLwk885IlIJW2TN7DO99W7wMfvJeHyq5LnRATN2oaUBwK0841c11piGwpmDNcte8yHs8fYycg8nU8ZHJqxM/22i9nn8m1j0aeym2mX+0b/TTvII65w+K5xrn3YkJj+8x+T2sWaW6t8Vc4zLDeGWgahOto0js6KWonnMFkwZF4RJ2/yZh6bOfLbK4/6y9Lu0rRZlvphft6Kj6XUFhFnlrE1qOdbCwuqTqOXjOdjbLw0EkIex/VJ62BvhPiusWpotbZaf0zxwL1K0mPfyYXerW8V5gKngljvQqzZA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by BL0PR12MB4899.namprd12.prod.outlook.com (2603:10b6:208:1cf::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6838.21; Wed, 27 Sep
+ 2023 12:59:27 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::3f66:c2b6:59eb:78c2]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::3f66:c2b6:59eb:78c2%5]) with mapi id 15.20.6838.016; Wed, 27 Sep 2023
+ 12:59:27 +0000
+Date: Wed, 27 Sep 2023 09:59:25 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Janne Grunau <j@jannau.net>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
+	Joerg Roedel <joro@8bytes.org>, Kevin Tian <kevin.tian@intel.com>,
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	Hector Martin <marcan@marcan.st>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sven Peter <sven@svenpeter.dev>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 6/8] iommu/dart: Move the blocked domain support to a
+ global static
+Message-ID: <20230927125925.GT13733@nvidia.com>
+References: <0-v1-8060f06462cc+c0a39-dart_paging_jgg@nvidia.com>
+ <6-v1-8060f06462cc+c0a39-dart_paging_jgg@nvidia.com>
+ <ZRMrZJ1HgpULWeyv@robin>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZRMrZJ1HgpULWeyv@robin>
+X-ClientProxiedBy: MN2PR01CA0064.prod.exchangelabs.com (2603:10b6:208:23f::33)
+ To LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230912-simpledrm-multiple-power-domains-v2-1-01b66bfb1980@jannau.net>
- <ff8e4a01-9a58-45bf-a743-08f4f6027251@suse.de> <CAMuHMdV9Ahp2ACYfRbnnnMbn9Cps939uwCQM+Md_PcCKYG=piw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV9Ahp2ACYfRbnnnMbn9Cps939uwCQM+Md_PcCKYG=piw@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 27 Sep 2023 13:41:49 +0200
-Message-ID: <CAPDyKFodCrFPVTdNo8VBG8FHs26MVaY9WcOmYyu7YwjahvuzTA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/simpledrm: Add support for multiple "power-domains"
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, j@jannau.net, 
-	Javier Martinez Canillas <javierm@redhat.com>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Kevin Hilman <khilman@kernel.org>, Linux PM list <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BL0PR12MB4899:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3aea5661-c71c-414f-6578-08dbbf599491
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Xw6OwZHtGKK15B6l0wFGMsc3MprE9mdYp/6+DxNFTFiBKEzbL4XizmRY5WCQujn+CeRqWZt6vfMsQE+A0KQKXj9RY8GGbJ7mpZ+rqr7MACNXVH2ElhuULaDUholNGP3LiT/oRdRO0zCH26sYhnHYbQMh2PbpLnZFs0E704j5bTpBKqH3ydPnQTjY60R4C9V0MT84PBDGK3n5Tn/REwhVHibhRzAW3dbiUt6A7Z+WTTRbdIzisRWdZ1dFiKJ+O2kqyYbNWnvmd2O+RJsRr1K1BTrJf4qAPDy9oXlqjEXmGLWacKxQCGWAq4Gg+sNRRfbBdVn5iQFQbr8Nj0sCw+WKgyds6gBr4uMfEEo1gBK7qvJmAJhZIrVHyTqcjcf2DAByDx2+HC1vKmViaE612yR2RojXJC5OHRV9TreUdIwjxlX+dtK4lWYTVunSpWr4tYrm+nnjVZ35f5thLSxNDfdiLmDiXqGxUC9+qXd7I0sJIxOVZKz53jrNQWK1A+t+04StdzI191ZHDPztbCDq7Svx+vgqRs1L3bz62LYJyzdCYZV8anMjnJA2ckLRu8VZfnCWNdL1HDAlSoUmISHE5nxye9MSJYpxqAGwd5wU6Jr+q4k=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(366004)(136003)(39860400002)(376002)(230922051799003)(186009)(451199024)(1800799009)(6916009)(4326008)(7416002)(66476007)(66556008)(26005)(66946007)(1076003)(15650500001)(8676002)(8936002)(5660300002)(41300700001)(2906002)(33656002)(478600001)(38100700002)(6512007)(316002)(54906003)(36756003)(6506007)(6486002)(83380400001)(2616005)(86362001)(781001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?6Y3jfop/etktEUUSSypZvphTriYkqINAG/lK9OKySAM6u+34RbGS3DxVsKU5?=
+ =?us-ascii?Q?67GvmSYpLQ4iapW25sEusJk21oD4HvL5kpHIyaFUAIddDrypryfPZgnG1Bs0?=
+ =?us-ascii?Q?yqm7iSju/Zu5RLrFNj7HTCtNGjk4Mc3rmJjm3Us3ntyAjUCO0lWSX03AVlcw?=
+ =?us-ascii?Q?YFpRmeOXsHg5uP6kOymogapWYJKMesejWMWajIpRWdyJnm1GbKh8IUGgxfl/?=
+ =?us-ascii?Q?1MHZ/O90vhdw1i4XUBQ10skVTuCm+UPK6VZOFGhNWsvRbds5i1wG04RKtzsY?=
+ =?us-ascii?Q?oVfM7qL7fT1iZQFmD6ZYFvXZzJEqzKzbnIgG3uOEvRjOn2JiP4JP9d0LIvbZ?=
+ =?us-ascii?Q?n/uMGTAR1Kd565mtlM7k6yKwe8IJl/JaEiXgCkrwd5Icol8ZwxlE6b9rIQSV?=
+ =?us-ascii?Q?QoIjh+41DQ1yccIrY5ir1PXg9yZqCUgD4ojyDJIseJBG++inGnZ49EDDy3GB?=
+ =?us-ascii?Q?/Ey3N87VwzrYkAOrwLU30QRm1feYc5ILiL7tsD60Yw0/MyQDjXvFLkimZblA?=
+ =?us-ascii?Q?vNqUytaI9CYn6/+2JMp73J0PHgeoeNXMFwWHbjoeyxtbQXDAMJ3t9/n9DVZY?=
+ =?us-ascii?Q?IXx6Lm5qeqkwb11tc3WLR0EB2p/KVYCQVVfK4imY6Z+e3dMP+njYRz1S/YE8?=
+ =?us-ascii?Q?7GTQbAyZyPPFUD6yyQOgt84eHd7eXZEpTFjwi4cKN2BM8cRMXE4soQRiVbrd?=
+ =?us-ascii?Q?+M+IujujNm+UTeyPvb2+ILp4NQoNeqD6eh+7hKosnzU8KoIw5XSglqsXV9BK?=
+ =?us-ascii?Q?uc72R3sZeNaFZkPXX/d3ldtD2nViMfrerlvLSLoiElBaA7X0Nq0iBqDMPTyO?=
+ =?us-ascii?Q?Bwr7gjmn3C/+Qk1W017qeVHb1qdTVt5dMs/Tkfb9bL/ZEpPr/3oVWJOtJMZc?=
+ =?us-ascii?Q?IhHf5sxPQEOJBmANU7jV/F9aKHhjUoFhhapJ/V8Dk4czYxcru9A13hcCwMLN?=
+ =?us-ascii?Q?2iRujh3jgaaewWvdomBNiu6SlaO4CUeVxDqbNIzPoHiVZDzy91GCSH5BADTS?=
+ =?us-ascii?Q?8XpifQxd/sPkZvxPb3vNGerXSCzbqfUILb43otHQcEfpwgPvn9nf0DncrHyi?=
+ =?us-ascii?Q?OpIaxImTGQ34J1lVxX/sEyJq97uTraOtawoQFMtwITdBbIDJHxqMGwE3rHoB?=
+ =?us-ascii?Q?L+yJza1qHGC4mkfxajK5HJmyj0TsNqvtpmdo8wKGNbl2DhMy3/VuH4U2cOww?=
+ =?us-ascii?Q?bLU2pXznRioXdODDAPiauDDx6JjUYzdsv6LQiL+VSQu9aRRTNtH4EaWCd7fe?=
+ =?us-ascii?Q?IW/0GktW9+whBRS+dKkJlXeyLe/vy3Gu998D7Jjuy5qHW6XzGpoXgyFBUupI?=
+ =?us-ascii?Q?ymx2A3YbGtXowCJnmiCojtwcX8Tk5VnSQ/FMTqIdjulSM1h5ZQAw6yQO8/5a?=
+ =?us-ascii?Q?xF+H96qDpKLBs0/rUkYSebSjpbx5XmcAnH5nguiDsSWnkVb23rndXnRUK64F?=
+ =?us-ascii?Q?IstA/ww6nZi3dj7R/wvhX8Ultw0Cm5VLA70u9TaibHzF9ikgVYk5RNbM6CPV?=
+ =?us-ascii?Q?QP7d9NTBK0dIEBQiL7eUzEQGm5o6UgxkrhSCql61rdXzC/3Ap23ZtmeWG4GI?=
+ =?us-ascii?Q?Xdz7kqLeR5r30Y2MvKqOFQf3r9ylcZWrUQLMEn6a?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3aea5661-c71c-414f-6578-08dbbf599491
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2023 12:59:26.9748
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q7KemYPRYBtNPBLNAQE0Wng4PssYT7Njhd8WwgijPbA0Y3nNyHaD/91VdxWphIXW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4899
 
-On Tue, 26 Sept 2023 at 09:32, Geert Uytterhoeven <geert@linux-m68k.org> wr=
-ote:
->
-> CC genpd
->
-> On Mon, Sep 18, 2023 at 10:24=E2=80=AFAM Thomas Zimmermann <tzimmermann@s=
-use.de> wrote:
-> > Am 12.09.23 um 22:22 schrieb Janne Grunau via B4 Relay:
-> > > From: Janne Grunau <j@jannau.net>
-> > >
-> > > Multiple power domains need to be handled explicitly in each driver. =
-The
-> > > driver core can not handle it automatically since it is not aware of
-> > > power sequencing requirements the hardware might have. This is not a
-> > > problem for simpledrm since everything is expected to be powered on b=
-y
-> > > the bootloader. simpledrm has just ensure it remains powered on durin=
-g
-> > > its lifetime.
-> > > This is required on Apple silicon M2 and M2 Pro/Max/Ultra desktop
-> > > systems. The HDMI output initialized by the bootloader requires keepi=
-ng
-> > > the display controller and a DP phy power domain on.
-> > >
-> > > Signed-off-by: Janne Grunau <j@jannau.net>
->
-> Thanks for your patch, which is now commit 61df9ca231075e70
-> ("drm/simpledrm: Add support for multiple "power-domains"") in
-> drm-misc/for-linux-next.
->
-> > As a simpledrm patch:
-> >
-> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >
-> > Do you want to wait for another review from  someone with
-> > power-management expertise?
->
-> Yeah, why not? Let's CC them, so they become aware...
->
-> > Do we need a similar patch for ofdrm?
+On Tue, Sep 26, 2023 at 09:05:08PM +0200, Janne Grunau wrote:
+> > +static int apple_dart_attach_dev_blocked(struct iommu_domain *domain,
+> > +					 struct device *dev)
+> > +{
+> > +	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
+> > +	struct apple_dart_stream_map *stream_map;
+> > +	int i;
+> > +
+> > +	if (cfg->stream_maps[0].dart->force_bypass)
+> > +		return -EINVAL;
+> 
+> unrelated to this change as this keeps the current behavior but I think
+> force_bypass should not override IOMMU_DOMAIN_BLOCKED.
 
-Drivers/subsystems for devices that are attached to multiple PM
-domains are getting more and more common. Clearly there is boilerplate
-code in drivers that we could get rid of, by using some common helper
-functions to deal with attach/detach.
+That would be great, dart is the only driver that can fail blocked..
 
-I believe there have been some attempts to add such helpers too, but
-we didn't quite reach a point where those were ready to be applied. It
-sounds like someone (me? :-)) needs to find some time to revisit this.
-Until then, there is no other way than having each driver to deal with
-this.
+> It is set if the CPU page size is smaller than dart's page
+> size. Obviously dart can't translate in that situation but it should
+> be still possible to block it completely.
 
-Kind regards
-Uffe
+Wonderful, actually it probably shouldn't even support allocating a
+paging domain if it can't support PAGE_SIZE mappings?
 
-> >
-> > Best regards
-> > Thomas
-> >
-> > > ---
-> > > Changes in v2:
-> > > - removed broken drm_err() log statement only ment for debugging
-> > > - removed commented cast
-> > > - use correct format spcifier for 'int' in log statement
-> > > - add 'continue;' after failure to get device for power_domain
-> > > - use drm_warn() in non fatal error cases
-> > > - removed duplicate PTR_ERR conversion
-> > > - Link to v1: https://lore.kernel.org/r/20230910-simpledrm-multiple-p=
-ower-domains-v1-1-f8718aefc685@jannau.net
-> > > ---
-> > >   drivers/gpu/drm/tiny/simpledrm.c | 105 ++++++++++++++++++++++++++++=
-+++++++++++
-> > >   1 file changed, 105 insertions(+)
-> > >
-> > > diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/=
-simpledrm.c
-> > > index ff86ba1ae1b8..9c597461d1e2 100644
-> > > --- a/drivers/gpu/drm/tiny/simpledrm.c
-> > > +++ b/drivers/gpu/drm/tiny/simpledrm.c
-> > > @@ -6,6 +6,7 @@
-> > >   #include <linux/of_address.h>
-> > >   #include <linux/platform_data/simplefb.h>
-> > >   #include <linux/platform_device.h>
-> > > +#include <linux/pm_domain.h>
-> > >   #include <linux/regulator/consumer.h>
-> > >
-> > >   #include <drm/drm_aperture.h>
-> > > @@ -227,6 +228,12 @@ struct simpledrm_device {
-> > >       unsigned int regulator_count;
-> > >       struct regulator **regulators;
-> > >   #endif
-> > > +     /* power-domains */
-> > > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
-> > > +     int pwr_dom_count;
-> > > +     struct device **pwr_dom_devs;
-> > > +     struct device_link **pwr_dom_links;
-> > > +#endif
-> > >
-> > >       /* simplefb settings */
-> > >       struct drm_display_mode mode;
-> > > @@ -468,6 +475,101 @@ static int simpledrm_device_init_regulators(str=
-uct simpledrm_device *sdev)
-> > >   }
-> > >   #endif
-> > >
-> > > +#if defined CONFIG_OF && defined CONFIG_PM_GENERIC_DOMAINS
-> > > +/*
-> > > + * Generic power domain handling code.
-> > > + *
-> > > + * Here we handle the power-domains properties of our "simple-frameb=
-uffer"
-> > > + * dt node. This is only necessary if there is more than one power-d=
-omain.
-> > > + * A single power-domains is handled automatically by the driver cor=
-e. Multiple
-> > > + * power-domains have to be handled by drivers since the driver core=
- can't know
-> > > + * the correct power sequencing. Power sequencing is not an issue fo=
-r simpledrm
-> > > + * since the bootloader has put the power domains already in the cor=
-rect state.
-> > > + * simpledrm has only to ensure they remain active for its lifetime.
-> > > + *
-> > > + * When the driver unloads, we detach from the power-domains.
-> > > + *
-> > > + * We only complain about errors here, no action is taken as the mos=
-t likely
-> > > + * error can only happen due to a mismatch between the bootloader wh=
-ich set
-> > > + * up the "simple-framebuffer" dt node, and the PM domain providers =
-in the
-> > > + * device tree. Chances are that there are no adverse effects, and i=
-f there are,
-> > > + * a clean teardown of the fb probe will not help us much either. So=
- just
-> > > + * complain and carry on, and hope that the user actually gets a wor=
-king fb at
-> > > + * the end of things.
-> > > + */
-> > > +static void simpledrm_device_detach_genpd(void *res)
-> > > +{
-> > > +     int i;
-> > > +     struct simpledrm_device *sdev =3D res;
-> > > +
-> > > +     if (sdev->pwr_dom_count <=3D 1)
-> > > +             return;
-> > > +
-> > > +     for (i =3D sdev->pwr_dom_count - 1; i >=3D 0; i--) {
-> > > +             if (!sdev->pwr_dom_links[i])
-> > > +                     device_link_del(sdev->pwr_dom_links[i]);
-> > > +             if (!IS_ERR_OR_NULL(sdev->pwr_dom_devs[i]))
-> > > +                     dev_pm_domain_detach(sdev->pwr_dom_devs[i], tru=
-e);
-> > > +     }
-> > > +}
-> > > +
-> > > +static int simpledrm_device_attach_genpd(struct simpledrm_device *sd=
-ev)
-> > > +{
-> > > +     struct device *dev =3D sdev->dev.dev;
-> > > +     int i;
-> > > +
-> > > +     sdev->pwr_dom_count =3D of_count_phandle_with_args(dev->of_node=
-, "power-domains",
-> > > +                                                      "#power-domain=
--cells");
-> > > +     /*
-> > > +      * Single power-domain devices are handled by driver core nothi=
-ng to do
-> > > +      * here. The same for device nodes without "power-domains" prop=
-erty.
-> > > +      */
-> > > +     if (sdev->pwr_dom_count <=3D 1)
-> > > +             return 0;
-> > > +
-> > > +     sdev->pwr_dom_devs =3D devm_kcalloc(dev, sdev->pwr_dom_count,
-> > > +                                            sizeof(*sdev->pwr_dom_de=
-vs),
-> > > +                                            GFP_KERNEL);
-> > > +     if (!sdev->pwr_dom_devs)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     sdev->pwr_dom_links =3D devm_kcalloc(dev, sdev->pwr_dom_count,
-> > > +                                             sizeof(*sdev->pwr_dom_l=
-inks),
-> > > +                                             GFP_KERNEL);
-> > > +     if (!sdev->pwr_dom_links)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     for (i =3D 0; i < sdev->pwr_dom_count; i++) {
-> > > +             sdev->pwr_dom_devs[i] =3D dev_pm_domain_attach_by_id(de=
-v, i);
-> > > +             if (IS_ERR(sdev->pwr_dom_devs[i])) {
-> > > +                     int ret =3D PTR_ERR(sdev->pwr_dom_devs[i]);
-> > > +                     if (ret =3D=3D -EPROBE_DEFER) {
-> > > +                             simpledrm_device_detach_genpd(sdev);
-> > > +                             return ret;
-> > > +                     }
-> > > +                     drm_warn(&sdev->dev,
-> > > +                              "pm_domain_attach_by_id(%u) failed: %d=
-\n", i, ret);
-> > > +                     continue;
-> > > +             }
-> > > +
-> > > +             sdev->pwr_dom_links[i] =3D device_link_add(dev,
-> > > +                                                      sdev->pwr_dom_=
-devs[i],
-> > > +                                                      DL_FLAG_STATEL=
-ESS |
-> > > +                                                      DL_FLAG_PM_RUN=
-TIME |
-> > > +                                                      DL_FLAG_RPM_AC=
-TIVE);
-> > > +             if (!sdev->pwr_dom_links[i])
-> > > +                     drm_warn(&sdev->dev, "failed to link power-doma=
-in %d\n", i);
-> > > +     }
-> > > +
-> > > +     return devm_add_action_or_reset(dev, simpledrm_device_detach_ge=
-npd, sdev);
-> > > +}
-> > > +#else
-> > > +static int simpledrm_device_attach_genpd(struct simpledrm_device *sd=
-ev)
-> > > +{
-> > > +     return 0;
-> > > +}
-> > > +#endif
-> > > +
-> > >   /*
-> > >    * Modesetting
-> > >    */
-> > > @@ -651,6 +753,9 @@ static struct simpledrm_device *simpledrm_device_=
-create(struct drm_driver *drv,
-> > >       if (ret)
-> > >               return ERR_PTR(ret);
-> > >       ret =3D simpledrm_device_init_regulators(sdev);
-> > > +     if (ret)
-> > > +             return ERR_PTR(ret);
-> > > +     ret =3D simpledrm_device_attach_genpd(sdev);
-> > >       if (ret)
-> > >               return ERR_PTR(ret);
-> > >
-> > >
-> > > ---
-> > > base-commit: 15d30b46573d75f5cb58cfacded8ebab9c76a2b0
-> > > change-id: 20230910-simpledrm-multiple-power-domains-f41efa6ad9bc
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                 -- Linus Torvalds
+> How do we manage this? I can write a patch either to the current state
+> or based on this series.
+
+Let me just add a patch to this series to remove that test with your
+explanation, that will avoid patch ordering troubles.
+
+Thanks,
+Jason
