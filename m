@@ -1,114 +1,145 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128F311715
-	for <asahi@lists.linux.dev>; Fri, 29 Sep 2023 08:57:47 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-9a58dbd5daeso1850076866b.2
-        for <asahi@lists.linux.dev>; Fri, 29 Sep 2023 01:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1695977866; x=1696582666; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nsBQLJ6Ogoic+1/xmfT0u8ONBi3qeWxubxgbbL3TF8o=;
-        b=xm0rvKkchFu+6Jvaf2qXoBfOI3X7hrKlEbCcbcDKuSxmEkPfZX5z/s4mLTSoYiJLKz
-         WeZJsBtt/AUAzZrcTrxigmw3q4GkbOXM1PTxAHcgtKaKwfpxRG7RdKs++9XIgxBGNgU5
-         pUr+DfRKhePRrXPoz70cDb0Qiy5MViTdTGnLw2hNaBOrUdAWAJkdflWVLdx48W8w4PMP
-         9WaaNFJLbIHCwkcSwfrEnZt2bwDcmGoh0P8s5BvVLRLRP3LgbhjETjaT5uv1Daomyidv
-         bAbMD0LajjW+Bq6gH9GwxO/d13YjqYkK963Gjqawitkifdivoh/N1n1gPPf6lr32/Oki
-         PiGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695977866; x=1696582666;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nsBQLJ6Ogoic+1/xmfT0u8ONBi3qeWxubxgbbL3TF8o=;
-        b=jKTAE5+USUd70QqiDrToQCxnIzkdExnlCgvMZn6ldSQrsbVQMhOUhCK/Fg+Fy88HVl
-         pd0sd17ibf6sMgMSzjGBLsfpo44n8zIbx72QSUW0HOxnD+c4s02kgnUs4g6tEHeusVqA
-         wRsfC/4hNKu4C2hEFHv8LmsJ6e8nY+69FzXS618DantmRkXKRiCLjxTStr3XWIN0G3cj
-         nicVhPyOmVkkWlucfe+6iFyPkc0qN00bpnYjGw5VwNsAr0FTImgRqc1nzegIdmm5N3gj
-         XqCCy6tq0bCW6ReepsPK378pUXWzUleqHVNJBilN9lm3EQSGKR57rI6JAPh/HQDx7Pic
-         RBSA==
-X-Gm-Message-State: AOJu0YybdIcKIa/7L2x2XYBECHZJe2+Y6PvnpgswwB1IbuZlxAU3uHOq
-	3pDkhfItuYMhiVmbhXazxxRCtg==
-X-Google-Smtp-Source: AGHT+IEsrmtSBffKc4/0WejFkmq1arFW3oxGMi3C1GOThUgoHMTSmFySeXvpixD0/kTwmWhaMqbTUQ==
-X-Received: by 2002:a17:906:28e:b0:9b2:b749:ff93 with SMTP id 14-20020a170906028e00b009b2b749ff93mr2957352ejf.24.1695977866113;
-        Fri, 29 Sep 2023 01:57:46 -0700 (PDT)
-Received: from srini-hackbase.lan ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id w27-20020a17090633db00b009a2235ed496sm12339806eja.141.2023.09.29.01.57.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Sep 2023 01:57:45 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-To: =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <zajec5@gmail.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Claudiu Beznea <claudiu.beznea@microchip.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Alessandro Zummo <a.zummo@towertech.it>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Evgeniy Polyakov <zbr@ioremap.net>, linux-mtd@lists.infradead.org, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
- linux-rtc@vger.kernel.org, Michael Walle <michael@walle.cc>, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
- Michal Simek <michal.simek@amd.com>
-In-Reply-To: <20230927204446.4231-1-zajec5@gmail.com>
-References: <20230927204446.4231-1-zajec5@gmail.com>
-Subject: Re: [PATCH V5] nvmem: add explicit config option to read old
- syntax fixed OF cells
-Message-Id: <169597786418.99756.8731565742524355843.b4-ty@linaro.org>
-Date: Fri, 29 Sep 2023 09:57:44 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25071864F;
+	Fri, 29 Sep 2023 12:57:21 +0000 (UTC)
+Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38TCoxb4013374;
+	Fri, 29 Sep 2023 12:56:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=QqTTLT9aZkvqLOeMtXOrEvkTt7kMlZSB0+m85iN5u54=;
+ b=Och/FWQTgIJwiibkwBGlGRsTVsD/QPfi3WiMg33KXn9WnrnZXGt5r+QaO1ZlNYrQVdaT
+ SZTg6yVNXrNvYQDLdurQLzmMP2ZUuqXfqunhs3fQc1zO+9g4+1R27YxA2v0kwNuWERkD
+ WTd2iHpODkJjr93yC2xadbFRuQzK/52kK31ggGBQBMR4pGsSaR8NRPQAcvKXrLRVR73N
+ r6hVD9QLzsnJyCku33qAZGQMTzQ2kSOVN3XZ+IOLK4P5kZQ+4weW/cW+CJRkWAg4CiiG
+ UuuoRmBc+zdjtC7mjHIFQT2LI/KnUWrFjsVqlAwjF+6hltohqQ7NC/+8hYNGgOawKtgY 7w== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tdxxnr3pm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Sep 2023 12:56:38 +0000
+Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 38TCpPrI014220;
+	Fri, 29 Sep 2023 12:56:37 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tdxxnr3p0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Sep 2023 12:56:37 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38TCZGqp008250;
+	Fri, 29 Sep 2023 12:56:36 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3tabbnvpnx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 29 Sep 2023 12:56:36 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38TCuZgC5243498
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 29 Sep 2023 12:56:35 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4648A5804B;
+	Fri, 29 Sep 2023 12:56:35 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E78BB58063;
+	Fri, 29 Sep 2023 12:56:30 +0000 (GMT)
+Received: from [9.61.175.8] (unknown [9.61.175.8])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 29 Sep 2023 12:56:30 +0000 (GMT)
+Message-ID: <2513a9d4-ac92-2e50-4861-bb65465cf1ae@linux.ibm.com>
+Date: Fri, 29 Sep 2023 08:56:30 -0400
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v13 4/6] iommu/s390: Disable deferred flush for ISM
+ devices
+Content-Language: en-US
+To: Niklas Schnelle <schnelle@linux.ibm.com>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter
+ <wintera@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev
+ <agordeev@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang
+ <baolin.wang@linux.alibaba.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Krishna Reddy
+ <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20230928-dma_iommu-v13-0-9e5fc4dacc36@linux.ibm.com>
+ <20230928-dma_iommu-v13-4-9e5fc4dacc36@linux.ibm.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <20230928-dma_iommu-v13-4-9e5fc4dacc36@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: uTzj7zKg3b0sQ930cOsKCPRxfgqwTFsD
+X-Proofpoint-GUID: XNXEAeo9ExEttPSRC78HhL_bg28OSuTv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-09-29_10,2023-09-28_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0 mlxscore=0
+ bulkscore=0 priorityscore=1501 spamscore=0 malwarescore=0 phishscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2309290107
 
-
-On Wed, 27 Sep 2023 22:44:46 +0200, Rafał Miłecki wrote:
-> Binding for fixed NVMEM cells defined directly as NVMEM device subnodes
-> has been deprecated. It has been replaced by the "fixed-layout" NVMEM
-> layout binding.
+On 9/28/23 10:31 AM, Niklas Schnelle wrote:
+> ISM devices are virtual PCI devices used for cross-LPAR communication.
+> Unlike real PCI devices ISM devices do not use the hardware IOMMU but
+> inspects IOMMU translation tables directly on IOTLB flush (s390 RPCIT
+> instruction).
 > 
-> New syntax is meant to be clearer and should help avoiding imprecise
-> bindings.
+> ISM devices keep their DMA allocations static and only very rarely DMA
+> unmap at all. For each IOTLB flush that occurs after unmap the ISM
+> devices will however inspect the area of the IOVA space indicated by the
+> flush. This means that for the global IOTLB flushes used by the flush
+> queue mechanism the entire IOVA space would be inspected. In principle
+> this would be fine, albeit potentially unnecessarily slow, it turns out
+> however that ISM devices are sensitive to seeing IOVA addresses that are
+> currently in use in the IOVA range being flushed. Seeing such in-use
+> IOVA addresses will cause the ISM device to enter an error state and
+> become unusable.
 > 
-> [...]
+> Fix this by claiming IOMMU_CAP_DEFERRED_FLUSH only for non-ISM devices.
+> This makes sure IOTLB flushes only cover IOVAs that have been unmapped
+> and also restricts the range of the IOTLB flush potentially reducing
+> latency spikes.
+> 
+> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
 
-Applied, thanks!
+Looks like my review tag from v12 got dropped on accident -- no changes since prior version and still looks good to me so
 
-[1/1] nvmem: add explicit config option to read old syntax fixed OF cells
-      commit: ee73a9fae540adbb432bd2854a82409515c7c892
-
-Best regards,
--- 
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
+Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
