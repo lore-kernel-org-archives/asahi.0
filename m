@@ -1,145 +1,125 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25071864F;
-	Fri, 29 Sep 2023 12:57:21 +0000 (UTC)
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 38TCoxb4013374;
-	Fri, 29 Sep 2023 12:56:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=QqTTLT9aZkvqLOeMtXOrEvkTt7kMlZSB0+m85iN5u54=;
- b=Och/FWQTgIJwiibkwBGlGRsTVsD/QPfi3WiMg33KXn9WnrnZXGt5r+QaO1ZlNYrQVdaT
- SZTg6yVNXrNvYQDLdurQLzmMP2ZUuqXfqunhs3fQc1zO+9g4+1R27YxA2v0kwNuWERkD
- WTd2iHpODkJjr93yC2xadbFRuQzK/52kK31ggGBQBMR4pGsSaR8NRPQAcvKXrLRVR73N
- r6hVD9QLzsnJyCku33qAZGQMTzQ2kSOVN3XZ+IOLK4P5kZQ+4weW/cW+CJRkWAg4CiiG
- UuuoRmBc+zdjtC7mjHIFQT2LI/KnUWrFjsVqlAwjF+6hltohqQ7NC/+8hYNGgOawKtgY 7w== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tdxxnr3pm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Sep 2023 12:56:38 +0000
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 38TCpPrI014220;
-	Fri, 29 Sep 2023 12:56:37 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3tdxxnr3p0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Sep 2023 12:56:37 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 38TCZGqp008250;
-	Fri, 29 Sep 2023 12:56:36 GMT
-Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3tabbnvpnx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 29 Sep 2023 12:56:36 +0000
-Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
-	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 38TCuZgC5243498
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 29 Sep 2023 12:56:35 GMT
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4648A5804B;
-	Fri, 29 Sep 2023 12:56:35 +0000 (GMT)
-Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E78BB58063;
-	Fri, 29 Sep 2023 12:56:30 +0000 (GMT)
-Received: from [9.61.175.8] (unknown [9.61.175.8])
-	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri, 29 Sep 2023 12:56:30 +0000 (GMT)
-Message-ID: <2513a9d4-ac92-2e50-4861-bb65465cf1ae@linux.ibm.com>
-Date: Fri, 29 Sep 2023 08:56:30 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB211C2B
+	for <asahi@lists.linux.dev>; Sat, 30 Sep 2023 08:19:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EE15DC433C8;
+	Sat, 30 Sep 2023 08:19:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696061971;
+	bh=M7ntc2U7ytqmb0p5ElJpWPn5HTPfSg5aIA/l+S9kpQ8=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=SEDL+KoMw9E7kNJD/VeOA3pa/RrO8yjgMVLtc4FcwU/P8j7SxJmH5O8LgW8ovA841
+	 trFmNvwKI3YoEyjjUJyNq0HFbw6bgLuU3dSE4KBoyd/7lpS4eMdjQLPgTCYb76pkw8
+	 mQDZjp0sbwAL/W6v4cKujSuZUpDTyHmhWj1jyeFDW8mdhPHRPhbKQopOZ+qx3XmeQe
+	 x0akqlxGRqF4DY7hxxM7wa5R6DQFZjorw+Y6yV/H2gZ+/r0+MyybDAFI0jTQ6dI3ZW
+	 oyt3A4yFEbcnbXbI6zIJaUeT1vY6MVJyVi/1rOmiqvBFR3DSQnlGwym7LM7Y+cGTao
+	 ACE2onYm4fmEA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF554E77362;
+	Sat, 30 Sep 2023 08:19:30 +0000 (UTC)
+From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Date: Sat, 30 Sep 2023 10:19:26 +0200
+Subject: [PATCH] watchdog: apple: Deactivate on suspend
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v13 4/6] iommu/s390: Disable deferred flush for ISM
- devices
-Content-Language: en-US
-To: Niklas Schnelle <schnelle@linux.ibm.com>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Wenjia Zhang <wenjia@linux.ibm.com>,
-        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Gerd Bayer <gbayer@linux.ibm.com>, Julian Ruess <julianr@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Alexandra Winter
- <wintera@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev
- <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-        Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Yong Wu <yong.wu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Orson Zhai <orsonzhai@gmail.com>,
-        Baolin Wang
- <baolin.wang@linux.alibaba.com>,
-        Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Krishna Reddy
- <vdumpa@nvidia.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux.dev, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20230928-dma_iommu-v13-0-9e5fc4dacc36@linux.ibm.com>
- <20230928-dma_iommu-v13-4-9e5fc4dacc36@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <20230928-dma_iommu-v13-4-9e5fc4dacc36@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: uTzj7zKg3b0sQ930cOsKCPRxfgqwTFsD
-X-Proofpoint-GUID: XNXEAeo9ExEttPSRC78HhL_bg28OSuTv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-09-29_10,2023-09-28_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0 mlxscore=0
- bulkscore=0 priorityscore=1501 spamscore=0 malwarescore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2309180000 definitions=main-2309290107
+Message-Id: <20230930-apple-watchdog-suspend-v1-1-1998c0be9fd7@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAA3aF2UC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2MDS2MD3cSCgpxU3fLEkuSMlPx03eLS4oLUvBRd8zRzYwtjQ0Njg7QkJaD
+ mgqLUtMwKsMHRsbW1AAVOok1oAAAA
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Wim Van Sebroeck <wim@linux-watchdog.org>, 
+ Guenter Roeck <linux@roeck-us.net>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2007; i=j@jannau.net;
+ h=from:subject:message-id; bh=+tQiILihRq5o4N62Yd4BUwts5HYkI5tfzlOjXU3MCSQ=;
+ b=owGbwMvMwCG2UNrmdq9+ahrjabUkhlTxW4KTvB7z2UddmJ6rPD/L5aGfgFxyUCR/5qFClbwo+
+ YLZpqs7SlkYxDgYZMUUWZK0X3YwrK5RjKl9EAYzh5UJZAgDF6cATOSVPMP/iL75jLdTnDPNFrpY
+ iG5aWeomdapyIjufzK5Fr/ZXdZgFMTK89XdY5lUubBX3a7fkvQOJl6cKsiydf2zdvNr8X7cCY1o
+ ZAA==
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
+X-Original-From: Janne Grunau <j@jannau.net>
+Reply-To: <j@jannau.net>
 
-On 9/28/23 10:31 AM, Niklas Schnelle wrote:
-> ISM devices are virtual PCI devices used for cross-LPAR communication.
-> Unlike real PCI devices ISM devices do not use the hardware IOMMU but
-> inspects IOMMU translation tables directly on IOTLB flush (s390 RPCIT
-> instruction).
-> 
-> ISM devices keep their DMA allocations static and only very rarely DMA
-> unmap at all. For each IOTLB flush that occurs after unmap the ISM
-> devices will however inspect the area of the IOVA space indicated by the
-> flush. This means that for the global IOTLB flushes used by the flush
-> queue mechanism the entire IOVA space would be inspected. In principle
-> this would be fine, albeit potentially unnecessarily slow, it turns out
-> however that ISM devices are sensitive to seeing IOVA addresses that are
-> currently in use in the IOVA range being flushed. Seeing such in-use
-> IOVA addresses will cause the ISM device to enter an error state and
-> become unusable.
-> 
-> Fix this by claiming IOMMU_CAP_DEFERRED_FLUSH only for non-ISM devices.
-> This makes sure IOTLB flushes only cover IOVAs that have been unmapped
-> and also restricts the range of the IOTLB flush potentially reducing
-> latency spikes.
-> 
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
+From: Janne Grunau <j@jannau.net>
 
-Looks like my review tag from v12 got dropped on accident -- no changes since prior version and still looks good to me so
+The watchdog remains active after putting the system into suspend. Add
+PM callbacks to deactivate the watchdog on suspend an re-activate it on
+resume.
 
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ drivers/watchdog/apple_wdt.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
+index eddeb0fede89..2167e0ba705e 100644
+--- a/drivers/watchdog/apple_wdt.c
++++ b/drivers/watchdog/apple_wdt.c
+@@ -173,6 +173,8 @@ static int apple_wdt_probe(struct platform_device *pdev)
+ 	if (!wdt->clk_rate)
+ 		return -EINVAL;
+ 
++	platform_set_drvdata(pdev, wdt);
++
+ 	wdt->wdd.ops = &apple_wdt_ops;
+ 	wdt->wdd.info = &apple_wdt_info;
+ 	wdt->wdd.max_timeout = U32_MAX / wdt->clk_rate;
+@@ -190,6 +192,28 @@ static int apple_wdt_probe(struct platform_device *pdev)
+ 	return devm_watchdog_register_device(dev, &wdt->wdd);
+ }
+ 
++static int __maybe_unused apple_wdt_resume(struct device *dev)
++{
++	struct apple_wdt *wdt = dev_get_drvdata(dev);
++
++	if (watchdog_active(&wdt->wdd) || watchdog_hw_running(&wdt->wdd))
++		apple_wdt_start(&wdt->wdd);
++
++	return 0;
++}
++
++static int __maybe_unused apple_wdt_suspend(struct device *dev)
++{
++	struct apple_wdt *wdt = dev_get_drvdata(dev);
++
++	if (watchdog_active(&wdt->wdd) || watchdog_hw_running(&wdt->wdd))
++		apple_wdt_stop(&wdt->wdd);
++
++	return 0;
++}
++
++static SIMPLE_DEV_PM_OPS(apple_wdt_pm_ops, apple_wdt_suspend, apple_wdt_resume);
++
+ static const struct of_device_id apple_wdt_of_match[] = {
+ 	{ .compatible = "apple,wdt" },
+ 	{},
+@@ -200,6 +224,7 @@ static struct platform_driver apple_wdt_driver = {
+ 	.driver = {
+ 		.name = "apple-watchdog",
+ 		.of_match_table = apple_wdt_of_match,
++		.pm = pm_sleep_ptr(&apple_wdt_pm_ops),
+ 	},
+ 	.probe = apple_wdt_probe,
+ };
+
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230930-apple-watchdog-suspend-7f73831130fb
+
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
+
