@@ -1,426 +1,150 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5422D6AB4
-	for <asahi@lists.linux.dev>; Tue,  3 Oct 2023 07:40:16 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-32325534cfaso604927f8f.3
-        for <asahi@lists.linux.dev>; Tue, 03 Oct 2023 00:40:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1696318814; x=1696923614; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2wvbK6s7OvtDcWmvoxppQzOHIcOTeHzaR32GGWBnZZE=;
-        b=IM+WgSpknWfs/r+dQAdywlg/A1kHwcXfuB4yf4PfKj7LP+K8mnxjYwq22xMLbN1NGK
-         D5PyUsav+hHVuRw9ncPWS6uoiiRWNbZGzm2cQjlaIB4nH52qF3XeFtKK6hJQR9ZgmTR3
-         5+sOwrJyWj09v8ByjwuD6MF5qI7rRVFNWtgV2VxaeLcELK4BibUL5BedFWJxDldneU13
-         Cd2DN7EtFcoEfqrFKUE9p7R3WvIEUY6y5GDx0w632vFlfJqKVWsnxfvZdaJ53vGJyEgt
-         7HPK1av8kPa8XOZep2DD2c7F1ykh7MQt8jNeHecIULxQfXBNgRv/KvrcvuoAW9SjkjAF
-         dq5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696318814; x=1696923614;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :references:cc:to:content-language:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=2wvbK6s7OvtDcWmvoxppQzOHIcOTeHzaR32GGWBnZZE=;
-        b=Jwmu742YsqlGN8eiqJg65sRcfJ8rSB6htdnjVawT9azNyBpqUHe9if1lloXj2Gicjk
-         EzrXqHkg3BpzaI6khnqeDmSt9rCJoPgbd6lMagwr15GSKWhuKoZ5zKhj7pmYVaKkgujK
-         +glnB08deRdMe2RFxIblvdTNMc0+E+bjFV1E6ZG05mM9V6dsjFuwOkBf4KYeh68WyPhc
-         oAuEITs4+0rrSXf0hwT4bdt0SLX5CRoQ9t5lEloUJIg/gp85ILQiTyBJ9FYmP00dszXD
-         oKoaB8EGyE/IEfADbLbRFAnk1ydsYQQR5Qv2LDdSINdvEjTuj0QVwP7wyF7TT/hhUYQh
-         X/jw==
-X-Gm-Message-State: AOJu0YxSV83jhQHL2EQgqj6sRSq4k/SroEiDH3+NHQHxfw1ee3ncNdfM
-	Wrcoc51xdTGB8DOF347mwuHDIg==
-X-Google-Smtp-Source: AGHT+IEpIvjpG2kKdpSMfKhuVOJyQlosAaPrtTQ17ctuZLYtHvqlbO1nckJJyR4yES1hfLCC0GkUOQ==
-X-Received: by 2002:a05:6000:1005:b0:319:7b66:7800 with SMTP id a5-20020a056000100500b003197b667800mr10795957wrx.55.1696318814255;
-        Tue, 03 Oct 2023 00:40:14 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:982:cbb0:e31a:fe1c:e925:9858? ([2a01:e0a:982:cbb0:e31a:fe1c:e925:9858])
-        by smtp.gmail.com with ESMTPSA id l7-20020a05600012c700b0031c52e81490sm884647wrx.72.2023.10.03.00.40.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Oct 2023 00:40:13 -0700 (PDT)
-Message-ID: <7c18a0f6-48a9-4ec9-90d0-3fe7268e93ad@linaro.org>
-Date: Tue, 3 Oct 2023 09:40:10 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8039763C3;
+	Wed,  4 Oct 2023 08:55:37 +0000 (UTC)
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3947iwHF012341;
+	Wed, 4 Oct 2023 08:55:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=G3eu+o+jYD03B/2vSJeSyHMaPAmhLz8sTDvwliqmwig=;
+ b=nrDyw1lemn6qjWyVMj3sPDfdFNS9l7wW/iKCjClC7OUsa6+ht2ViFRM8NGyb9gcdm2//
+ blnHtikqM0XjxwPNAT2iessUtljLlrysFBeKvvUUarAYKOMzkLKSWKCBLgxxglF3pTTy
+ FGjYxK8svlZEBvT3aB+ns6eDfy1v8+xdb/tusDYFgSjIWOZ0cWjVcu3fKofAfRjxubVJ
+ 3lIvgwdbeRqBOnJKkA3u2/M3L4WSD1qkXlS2xmjALMcSHdLiS12Q4YwDX/i+veXLzrt2
+ jh35/Bej0beB3jfo2p+W4AeivIvNZZAIbipIuNgSrwiItrO3JfM54xctCClt6bCrcFNB 9A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3th3f4aejd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Oct 2023 08:55:07 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 39480Iv9021327;
+	Wed, 4 Oct 2023 08:55:06 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3th3f4aehx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Oct 2023 08:55:06 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3948oUL2025047;
+	Wed, 4 Oct 2023 08:55:05 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3texcyad4s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Oct 2023 08:55:04 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3948t17r7471696
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 4 Oct 2023 08:55:01 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AA9A62004B;
+	Wed,  4 Oct 2023 08:55:01 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E8AA820040;
+	Wed,  4 Oct 2023 08:54:58 +0000 (GMT)
+Received: from [9.171.77.142] (unknown [9.171.77.142])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  4 Oct 2023 08:54:58 +0000 (GMT)
+Message-ID: <dec2767815f6f765c452a025ccec1ce6d3635cdd.camel@linux.ibm.com>
+Subject: Re: [PATCH v13 0/6] iommu/dma: s390 DMA API conversion and
+ optimized IOTLB flushing
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: Joerg Roedel <joro@8bytes.org>
+Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Will Deacon <will@kernel.org>,
+        Wenjia Zhang <wenjia@linux.ibm.com>,
+        Robin Murphy <robin.murphy@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Gerd Bayer <gbayer@linux.ibm.com>,
+        Julian
+ Ruess <julianr@linux.ibm.com>,
+        Pierre Morel <pmorel@linux.ibm.com>,
+        Alexandra Winter <wintera@linux.ibm.com>,
+        Heiko Carstens
+ <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev
+ <agordeev@linux.ibm.com>,
+        Christian Borntraeger
+ <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Suravee
+ Suthikulpanit <suravee.suthikulpanit@amd.com>,
+        Hector Martin
+ <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Lu Baolu
+ <baolu.lu@linux.intel.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson
+ <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Yong Wu
+ <yong.wu@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Orson Zhai
+ <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Chunyan
+ Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec
+ <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        Thierry
+ Reding <thierry.reding@gmail.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-s390@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux.dev, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org
+Date: Wed, 04 Oct 2023 10:54:58 +0200
+In-Reply-To: <ZRpqaJEQLRDp5b1L@8bytes.org>
+References: <20230928-dma_iommu-v13-0-9e5fc4dacc36@linux.ibm.com>
+	 <ZRpqaJEQLRDp5b1L@8bytes.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH V2] dt-bindings: nvmem: move deprecated cells binding to
- its own file
-Content-Language: en-US, fr
-To: =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Vincent Shih <vincent.sunplus@gmail.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Christian Marangi <ansuelsmth@gmail.com>, Anson Huang <Anson.Huang@nxp.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Lala Lin <lala.lin@mediatek.com>, Komal Bajaj <quic_kbajaj@quicinc.com>,
- Kumar Thella <sthella@codeaurora.org>,
- Keiji Hayashibara <hayashibara.keiji@socionext.com>,
- linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-rtc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-References: <20231003064018.7502-1-zajec5@gmail.com>
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro Developer Services
-In-Reply-To: <20231003064018.7502-1-zajec5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: -eMPc60Y5y2woUrjzjpWax0AtUM-alm0
+X-Proofpoint-GUID: ubAyYZVvTV1Zj6WBmrCFf5U92Rsidz7u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.267,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-04_01,2023-10-02_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 spamscore=0 phishscore=0 mlxlogscore=501 mlxscore=0
+ adultscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2309180000 definitions=main-2310040049
 
-On 03/10/2023 08:40, Rafał Miłecki wrote:
-> From: Rafał Miłecki <rafal@milecki.pl>
-> 
-> Support for old NVMEM fixed cells was deprecated in favour of
-> "fixed-layout". It's still part of the nvmem.yaml though and may be
-> unknowingly used by new bindings added without much of analyze.
-> 
-> To make it more difficult to accidentally support old syntax move its
-> binding to separated file with "deprecated" in its name.
-> 
-> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
-> ---
-> V2: Fix path to nvmem-deprecated-cells.yaml in amlogic,meson6-rtc.yaml
-> 
->   .../devicetree/bindings/mtd/mtd.yaml          |  7 ++++-
->   .../bindings/mtd/partitions/nvmem-cells.yaml  |  1 +
->   .../nvmem/amlogic,meson-gxbb-efuse.yaml       |  1 +
->   .../bindings/nvmem/amlogic,meson6-efuse.yaml  |  1 +
+On Mon, 2023-10-02 at 08:59 +0200, Joerg Roedel wrote:
+> On Thu, Sep 28, 2023 at 04:31:34PM +0200, Niklas Schnelle wrote:
+> > Niklas Schnelle (6):
+> >       iommu: Allow .iotlb_sync_map to fail and handle s390's -ENOMEM re=
+turn
+> >       s390/pci: prepare is_passed_through() for dma-iommu
+> >       s390/pci: Use dma-iommu layer
+> >       iommu/s390: Disable deferred flush for ISM devices
+> >       iommu/dma: Allow a single FQ in addition to per-CPU FQs
+> >       iommu/dma: Use a large flush queue and timeout for shadow_on_flus=
+h
+>=20
+> Applied, thanks Niklas.
+>=20
 
-For Amlogic/Meson bindings:
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+Thank you Joerg. During some more testing I've found a minor issue
+where resetting the debug statistics still used the now obsolete
+counters that should have been removed. So I'll send a follow up patch,
+sorry for not noticing this sooner.
 
->   .../bindings/nvmem/apple,efuses.yaml          |  1 +
->   .../devicetree/bindings/nvmem/imx-ocotp.yaml  |  1 +
->   .../bindings/nvmem/mediatek,efuse.yaml        |  1 +
->   .../nvmem/microchip,sama7g5-otpc.yaml         |  1 +
->   .../devicetree/bindings/nvmem/mxs-ocotp.yaml  |  1 +
->   .../nvmem/nvmem-deprecated-cells.yaml         | 28 +++++++++++++++++++
->   .../devicetree/bindings/nvmem/nvmem.yaml      |  9 ------
->   .../bindings/nvmem/qcom,qfprom.yaml           |  1 +
->   .../bindings/nvmem/qcom,sec-qfprom.yaml       |  1 +
->   .../bindings/nvmem/qcom,spmi-sdam.yaml        |  1 +
->   .../bindings/nvmem/rockchip,otp.yaml          |  1 +
->   .../bindings/nvmem/rockchip-efuse.yaml        |  1 +
->   .../nvmem/socionext,uniphier-efuse.yaml       |  1 +
->   .../bindings/nvmem/sunplus,sp7021-ocotp.yaml  |  1 +
->   .../bindings/rtc/amlogic,meson6-rtc.yaml      |  1 +
->   19 files changed, 50 insertions(+), 10 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/nvmem/nvmem-deprecated-cells.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/mtd/mtd.yaml b/Documentation/devicetree/bindings/mtd/mtd.yaml
-> index b82ca03e969c..f322290ee516 100644
-> --- a/Documentation/devicetree/bindings/mtd/mtd.yaml
-> +++ b/Documentation/devicetree/bindings/mtd/mtd.yaml
-> @@ -43,7 +43,12 @@ patternProperties:
->       deprecated: true
->   
->     "^otp(-[0-9]+)?$":
-> -    $ref: ../nvmem/nvmem.yaml#
-> +    type: object
-> +
-> +    allOf:
-> +      - $ref: ../nvmem/nvmem.yaml#
-> +      - $ref: ../nvmem/nvmem-deprecated-cells.yaml#
-> +
->       unevaluatedProperties: false
->   
->       description: |
-> diff --git a/Documentation/devicetree/bindings/mtd/partitions/nvmem-cells.yaml b/Documentation/devicetree/bindings/mtd/partitions/nvmem-cells.yaml
-> index 5474d63268dc..9518281007af 100644
-> --- a/Documentation/devicetree/bindings/mtd/partitions/nvmem-cells.yaml
-> +++ b/Documentation/devicetree/bindings/mtd/partitions/nvmem-cells.yaml
-> @@ -19,6 +19,7 @@ maintainers:
->   allOf:
->     - $ref: /schemas/mtd/partitions/partition.yaml#
->     - $ref: /schemas/nvmem/nvmem.yaml#
-> +  - $ref: /schemas/nvmem/nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/amlogic,meson-gxbb-efuse.yaml b/Documentation/devicetree/bindings/nvmem/amlogic,meson-gxbb-efuse.yaml
-> index e49c2754ff55..9801fe6f91b5 100644
-> --- a/Documentation/devicetree/bindings/nvmem/amlogic,meson-gxbb-efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/amlogic,meson-gxbb-efuse.yaml
-> @@ -11,6 +11,7 @@ maintainers:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml b/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml
-> index 84b3dfd21e09..b5cf740f96fa 100644
-> --- a/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/amlogic,meson6-efuse.yaml
-> @@ -12,6 +12,7 @@ maintainers:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/apple,efuses.yaml b/Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
-> index e0860b6b85f3..d3abdafdbca0 100644
-> --- a/Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/apple,efuses.yaml
-> @@ -16,6 +16,7 @@ maintainers:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/imx-ocotp.yaml b/Documentation/devicetree/bindings/nvmem/imx-ocotp.yaml
-> index 99e60d713dac..be1314454bec 100644
-> --- a/Documentation/devicetree/bindings/nvmem/imx-ocotp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/imx-ocotp.yaml
-> @@ -16,6 +16,7 @@ description: |
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/mediatek,efuse.yaml b/Documentation/devicetree/bindings/nvmem/mediatek,efuse.yaml
-> index 7ec2988b597e..cf5f9e22bb7e 100644
-> --- a/Documentation/devicetree/bindings/nvmem/mediatek,efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/mediatek,efuse.yaml
-> @@ -16,6 +16,7 @@ maintainers:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     $nodename:
-> diff --git a/Documentation/devicetree/bindings/nvmem/microchip,sama7g5-otpc.yaml b/Documentation/devicetree/bindings/nvmem/microchip,sama7g5-otpc.yaml
-> index a296d348adb4..cc25f2927682 100644
-> --- a/Documentation/devicetree/bindings/nvmem/microchip,sama7g5-otpc.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/microchip,sama7g5-otpc.yaml
-> @@ -16,6 +16,7 @@ description: |
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/mxs-ocotp.yaml b/Documentation/devicetree/bindings/nvmem/mxs-ocotp.yaml
-> index a9b822aeaa7e..f43186f98607 100644
-> --- a/Documentation/devicetree/bindings/nvmem/mxs-ocotp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/mxs-ocotp.yaml
-> @@ -11,6 +11,7 @@ maintainers:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/nvmem-deprecated-cells.yaml b/Documentation/devicetree/bindings/nvmem/nvmem-deprecated-cells.yaml
-> new file mode 100644
-> index 000000000000..951af28bbfb3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/nvmem/nvmem-deprecated-cells.yaml
-> @@ -0,0 +1,28 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/nvmem/nvmem-deprecated-cells.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NVMEM old syntax for fixed cells
-> +
-> +maintainers:
-> +  - Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> +
-> +description: |
-> +  Before introducing NVMEM layouts all NVMEM (fixed) cells were defined
-> +  as direct device subnodes. That syntax was replaced by "fixed-layout"
-> +  and is deprecated now. No new bindings should use it.
-> +
-> +patternProperties:
-> +  "@[0-9a-f]+(,[0-7])?$":
-> +    type: object
-> +    allOf:
-> +      - $ref: layouts/fixed-cell.yaml
-> +      - properties:
-> +          compatible: false
-> +    deprecated: true
-> +
-> +additionalProperties: true
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/nvmem/nvmem.yaml b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
-> index 9f921d940142..4fd015d402ce 100644
-> --- a/Documentation/devicetree/bindings/nvmem/nvmem.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/nvmem.yaml
-> @@ -46,15 +46,6 @@ properties:
->         container may reference more advanced (dynamic) layout
->         parsers.
->   
-> -patternProperties:
-> -  "@[0-9a-f]+(,[0-7])?$":
-> -    type: object
-> -    allOf:
-> -      - $ref: layouts/fixed-cell.yaml
-> -      - properties:
-> -          compatible: false
-> -    deprecated: true
-> -
->   additionalProperties: true
->   
->   examples:
-> diff --git a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-> index 8740938c32eb..8c8f05d9eaf1 100644
-> --- a/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/qcom,qfprom.yaml
-> @@ -11,6 +11,7 @@ maintainers:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/qcom,sec-qfprom.yaml b/Documentation/devicetree/bindings/nvmem/qcom,sec-qfprom.yaml
-> index 9b133f783d29..2ada2099946d 100644
-> --- a/Documentation/devicetree/bindings/nvmem/qcom,sec-qfprom.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/qcom,sec-qfprom.yaml
-> @@ -16,6 +16,7 @@ description:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/qcom,spmi-sdam.yaml b/Documentation/devicetree/bindings/nvmem/qcom,spmi-sdam.yaml
-> index cd980def97b8..068bedf5dbc9 100644
-> --- a/Documentation/devicetree/bindings/nvmem/qcom,spmi-sdam.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/qcom,spmi-sdam.yaml
-> @@ -16,6 +16,7 @@ description: |
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml b/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml
-> index 9c6eff788928..a44d44b32809 100644
-> --- a/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml
-> @@ -49,6 +49,7 @@ required:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->     - if:
->         properties:
-> diff --git a/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml b/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
-> index c5403e149080..b80fd8d1ae5b 100644
-> --- a/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
-> @@ -11,6 +11,7 @@ maintainers:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/socionext,uniphier-efuse.yaml b/Documentation/devicetree/bindings/nvmem/socionext,uniphier-efuse.yaml
-> index efccc5aacbe0..e27cbae2d63a 100644
-> --- a/Documentation/devicetree/bindings/nvmem/socionext,uniphier-efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/socionext,uniphier-efuse.yaml
-> @@ -12,6 +12,7 @@ maintainers:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/nvmem/sunplus,sp7021-ocotp.yaml b/Documentation/devicetree/bindings/nvmem/sunplus,sp7021-ocotp.yaml
-> index da3f1de7d281..af97eeb8316c 100644
-> --- a/Documentation/devicetree/bindings/nvmem/sunplus,sp7021-ocotp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/sunplus,sp7021-ocotp.yaml
-> @@ -12,6 +12,7 @@ maintainers:
->   
->   allOf:
->     - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-> diff --git a/Documentation/devicetree/bindings/rtc/amlogic,meson6-rtc.yaml b/Documentation/devicetree/bindings/rtc/amlogic,meson6-rtc.yaml
-> index 8bf7d3a9be98..3a4551253e3e 100644
-> --- a/Documentation/devicetree/bindings/rtc/amlogic,meson6-rtc.yaml
-> +++ b/Documentation/devicetree/bindings/rtc/amlogic,meson6-rtc.yaml
-> @@ -13,6 +13,7 @@ maintainers:
->   allOf:
->     - $ref: rtc.yaml#
->     - $ref: /schemas/nvmem/nvmem.yaml#
-> +  - $ref: /schemas/nvmem/nvmem-deprecated-cells.yaml#
->   
->   properties:
->     compatible:
-
+Thanks,
+Niklas
