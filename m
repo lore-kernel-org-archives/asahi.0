@@ -1,152 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064758477;
-	Wed,  4 Oct 2023 14:01:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 055FFC433C8;
-	Wed,  4 Oct 2023 14:01:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696428093;
-	bh=y7A3aMRH9gnGrrmHxP5ejCSQJTaKPFDLh4HiX31OO6A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nQCGCOT/prT51SQtqAHiBuyvKyN9Wxp5LYAl51mmy8BAB4WUAsxqrLAP6jZ1SkO+1
-	 euZ5ZOZkKvNssZoE+1KTOXETop6Hsm3ijRrAIUUD3F7GRNxn4JH9MUo99rOY/mQh0Q
-	 5y+F3A04snyi9gANFaGwriFhAVhrzlbwaR4i594ML6tArJK5pkxncewQNm4dlFJQS1
-	 +bT7TYevXRVSe2gyTD7oF6WMDU5eMNN27g1hjf+G1fv6/1MWQhdGFLc5Bb4H7R12BY
-	 qVaLi/e8VgORs2C95jcf2TJM25KWGUc2hUBxi6eB5b8GHqiqffbSy0U90ufwqOVimr
-	 dwpuMk1ToLzjA==
-Date: Wed, 4 Oct 2023 19:31:29 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 2/2] dmaengine: apple-sio: Add Apple SIO driver
-Message-ID: <ZR1wOT7Gat/BiOr4@matsya>
-References: <20230828170013.75820-1-povik+lin@cutebit.org>
- <20230828170013.75820-3-povik+lin@cutebit.org>
- <ZR1kz7Sil8onc1uC@matsya>
- <06444557-414A-4710-88A0-620975BB258A@cutebit.org>
- <ZR1smXBXyx7xDEmg@matsya>
- <C054722F-B1E0-4F4E-A45D-5F603738249C@cutebit.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E5A10EF
+	for <asahi@lists.linux.dev>; Thu,  5 Oct 2023 10:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+Received: from i53875a3c.versanet.de ([83.135.90.60] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1qoLAi-0004BA-Lx; Thu, 05 Oct 2023 12:01:32 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Vincent Shih <vincent.sunplus@gmail.com>,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Christian Marangi <ansuelsmth@gmail.com>, Anson Huang <Anson.Huang@nxp.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Lala Lin <lala.lin@mediatek.com>, Komal Bajaj <quic_kbajaj@quicinc.com>,
+ Kumar Thella <sthella@codeaurora.org>,
+ Keiji Hayashibara <hayashibara.keiji@socionext.com>,
+ linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
+ linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-rtc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject:
+ Re: [PATCH V2] dt-bindings: nvmem: move deprecated cells binding to its own
+ file
+Date: Thu, 05 Oct 2023 12:01:30 +0200
+Message-ID: <2829805.88bMQJbFj6@diego>
+In-Reply-To: <20231003064018.7502-1-zajec5@gmail.com>
+References: <20231003064018.7502-1-zajec5@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <C054722F-B1E0-4F4E-A45D-5F603738249C@cutebit.org>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On 04-10-23, 15:52, Martin Povišer wrote:
-> 
-> > On 4. 10. 2023, at 15:46, Vinod Koul <vkoul@kernel.org> wrote:
-> > 
-> > On 04-10-23, 15:32, Martin Povišer wrote:
-> > 
-> >>>> + * There are two kinds of 'transaction descriptors' in play here.
-> >>>> + *
-> >>>> + * There's the struct sio_tx, and the struct dma_async_tx_descriptor embedded
-> >>>> + * inside, which jointly represent a transaction to the dmaengine subsystem.
-> >>>> + * At this time we only support those transactions to be cyclic.
-> >>>> + *
-> >>>> + * Then there are the coprocessor descriptors, which is what the coprocessor
-> >>>> + * knows and understands. These don't seem to have a cyclic regime, so we can't
-> >>>> + * map the dmaengine transaction on an exact coprocessor counterpart. Instead
-> >>>> + * we continually queue up many coprocessor descriptors to implement a cyclic
-> >>>> + * transaction.
-> >>>> + *
-> >>>> + * The number below is the maximum of how far ahead (how many) coprocessor
-> >>>> + * descriptors we should be queuing up, per channel, for a cyclic transaction.
-> >>>> + * Basically it's a made-up number.
-> >>>> + */
-> >>>> +#define SIO_MAX_NINFLIGHT 4
-> >>> 
-> >>> you meant SIO_MAX_INFLIGHT if not what is NINFLIGHT?
-> >> 
-> >> I mean the number is arbitrary, it doesn’t reflect any coprocessor limit since
-> >> I haven’t run the tests to figure one out. It's supposed to be a small reasonable
-> >> number.
-> > 
-> > Sorry that was not my question. Should this macro be SIO_MAX_NINFLIGHT
-> > or SIO_MAX_INFLIGHT..?
-> 
-> Yeah, I realized after I sent the reply, sorry. I don’t know what you would
-> interpret to be the difference between NINFLIGHT and INFLIGHT, in my book
-> both would be the "number of inflight” in the context here.
+Am Dienstag, 3. Oktober 2023, 08:40:18 CEST schrieb Rafa=C5=82 Mi=C5=82ecki:
+> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+>=20
+> Support for old NVMEM fixed cells was deprecated in favour of
+> "fixed-layout". It's still part of the nvmem.yaml though and may be
+> unknowingly used by new bindings added without much of analyze.
+>=20
+> To make it more difficult to accidentally support old syntax move its
+> binding to separated file with "deprecated" in its name.
+>=20
+> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
+> ---
+> V2: Fix path to nvmem-deprecated-cells.yaml in amlogic,meson6-rtc.yaml
+>=20
 
-No worries, I wante to check that was on purpose, it is fine
+>  .../bindings/nvmem/rockchip,otp.yaml          |  1 +
+>  .../bindings/nvmem/rockchip-efuse.yaml        |  1 +
+
+> diff --git a/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml b/=
+Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml
+> index 9c6eff788928..a44d44b32809 100644
+> --- a/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml
+> +++ b/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml
+> @@ -49,6 +49,7 @@ required:
+> =20
+>  allOf:
+>    - $ref: nvmem.yaml#
+> +  - $ref: nvmem-deprecated-cells.yaml#
+> =20
+>    - if:
+>        properties:
+> diff --git a/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml =
+b/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
+> index c5403e149080..b80fd8d1ae5b 100644
+> --- a/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
+> +++ b/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
+> @@ -11,6 +11,7 @@ maintainers:
+> =20
+>  allOf:
+>    - $ref: nvmem.yaml#
+> +  - $ref: nvmem-deprecated-cells.yaml#
+> =20
+>  properties:
+>    compatible:
+
+=46or Rockchip OTP and Efuse bindngs:
+Acked-by: Heiko Stuebner <heiko@sntech.de>
 
 
-> >>>> +static int sio_device_config(struct dma_chan *chan,
-> >>>> +      struct dma_slave_config *config)
-> >>>> +{
-> >>>> + struct sio_chan *siochan = to_sio_chan(chan);
-> >>>> + struct sio_data *sio = siochan->host;
-> >>>> + bool is_tx = sio_chan_direction(siochan->no) == DMA_MEM_TO_DEV;
-> >>>> + struct sio_shmem_chan_config *cfg = sio->shmem;
-> >>>> + int ret;
-> >>>> +
-> >>>> + switch (is_tx ? config->dst_addr_width : config->src_addr_width) {
-> >>>> + case DMA_SLAVE_BUSWIDTH_1_BYTE:
-> >>>> + cfg->datashape = 0;
-> >>>> + break;
-> >>>> + case DMA_SLAVE_BUSWIDTH_2_BYTES:
-> >>>> + cfg->datashape = 1;
-> >>>> + break;
-> >>>> + case DMA_SLAVE_BUSWIDTH_4_BYTES:
-> >>>> + cfg->datashape = 2;
-> >>>> + break;
-> >>>> + default:
-> >>>> + return -EINVAL;
-> >>>> + }
-> >>>> +
-> >>>> + cfg->fifo = 0x800;
-> >>>> + cfg->limit = 0x800;
-> >>>> + cfg->threshold = 0x800;
-> >>>> + dma_wmb();
-> >>> 
-> >>> ??
-> >> 
-> >> Again, shared memory
-> >> 
-> >>>> +
-> >>>> + ret = sio_call(sio, FIELD_PREP(SIOMSG_TYPE, MSG_CONFIGURE) |
-> >>>> +     FIELD_PREP(SIOMSG_EP, siochan->no));
-> >>> 
-> >>> this does not sound okay, can you explain why this call is here
-> >> 
-> >> We are sending the configuration to the coprocessor, it will NACK
-> >> it if invalid, seems very fitting here.
-> > 
-> > I dont this so, purpose of the device_config() is to send peripheral
-> > config to driver for use on the next descriptor which is submitted. So
-> > sending to co-processor now (when we might even have a txn going on)
-> > does not seem right
-> > 
-> > What would be the behaviour if already a txn is progressing on the
-> > co-processor
-> 
-> I have no idea.
-> 
-> OK, though is that necessarily part of the dmaengine interface? I ask
-
-Yes, the configuration is applied on next descriptor that is prepared
-
-See: Documentation/driver-api/dmaengine/provider.rst
-"  - This command should NOT perform synchronously, or on any
-    currently queued transfers, but only on subsequent ones"
-
-> because the other driver I have written (apple-admac.c) does basically
-> the same, only it applies the new configuration in MMIO registers rather
-> than sending it to a coprocessor, but the end result is the same:
-> the configuration gets checked for validity, and applied right away.
-
-That should be fixed too :-)
-
--- 
-~Vinod
