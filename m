@@ -1,33 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFC4273F9;
-	Fri,  6 Oct 2023 16:16:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3645F28692
+	for <asahi@lists.linux.dev>; Fri,  6 Oct 2023 20:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFkTvMoc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89291C433C7;
-	Fri,  6 Oct 2023 16:16:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1696608982;
-	bh=nn2PakBIGbgtsjEPpxAO4jVlLqjVjHADYSnUr1qUXew=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lFkTvMoc5xPxQnjGQFbbukgR7nGvQnaMUmIi8cIFrTDFwzZVKr9iEZ8kf9UwtmkqS
-	 JjVmj8vB0ZE3TTOhwWGNB1o+JGF1B090dzJEdIgroxf4E0ngIgy808gaNyUPH5DIJl
-	 J26870g4clx/9i8PyhovxrsBJET6ud3yGuLTEpzfK6WP1sXVcDOKmAYFwmPgx7Hx42
-	 TgUnvqo/j6K5BNN2TivJ1Z+rTg5nraUATk/swrNf592B9syT+5kdlaHuidRWPb9A8x
-	 eVXAhvs+zO1q6xgZPse0VgS1i3yG6J3XpznXuO3teSMIwX7oX5V6lQddll6CHRjwHj
-	 1rUD3xOytS4kg==
-Received: (nullmailer pid 4022504 invoked by uid 1000);
-	Fri, 06 Oct 2023 16:16:16 -0000
-Date: Fri, 6 Oct 2023 11:16:16 -0500
-From: Rob Herring <robh@kernel.org>
-To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, Komal Bajaj <quic_kbajaj@quicinc.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Sascha Hauer <s.hauer@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Andy Gross <agross@kernel.org>, Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, NXP Linux Team <linux-imx@nxp.com>, linux-rockchip@lists.infradead.org, linux-rtc@vger.kernel.org, linux-mtd@lists.infradead.org, Vincent Shih <vincent.sunplus@gmail.com>, Christian Marangi <ansuelsmth@gmail.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, Kumar Thella <sthella@codeaurora.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, devicetree@vger.kernel.org, Bjorn Andersson <andersson@kernel.org>, Anson Huang <Anson.Huang@nxp.com>, linux-kernel@vger.kernel.org, A
- ndrew-CT Chen <andrew-ct.chen@mediatek.com>, linux-arm-msm@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, Konrad Dybcio <konrad.dybcio@linaro.org>, Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, Keiji Hayashibara <hayashibara.keiji@socionext.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Alessandro Zummo <a.zummo@towertech.it>, Lala Lin <lala.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org, Vignesh Raghavendra <vigneshr@ti.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, Shawn Guo <shawnguo@kernel.org>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, Richard Weinberger <richard@nod.at>, Sven Peter <sven@svenpeter.dev>, Rob Herring <robh+dt@kernel.org>, Jerome Brunet <jbrunet@baylibre.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [PATCH V2] dt-bindings: nvmem: move deprecated cells binding to
- its own file
-Message-ID: <169660897594.4022464.17777045780008018792.robh@kernel.org>
-References: <20231003064018.7502-1-zajec5@gmail.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EsXlfWcD"
+Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-57be3d8e738so1332077eaf.1
+        for <asahi@lists.linux.dev>; Fri, 06 Oct 2023 13:22:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1696623777; x=1697228577; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=v8kAE0L3XYT2zduhiLheo6/OoQQtkbHtadi2JLu6gYg=;
+        b=EsXlfWcDkF7d8EuSgiFYgTX5HS3WpRXG0NVBIHqMHzpGJ4Mtp+T5U9HbW3dbsa8vEY
+         1pdQqgDxhQUqucGXeQF5Df+kQkEWulMW93lSWiWjlNAb848+s4u4AC1TWK1lT9HN26GH
+         /nEz9zKoXOSZXAz2Kd4LKq5j5PYgoV6jLPb6U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1696623777; x=1697228577;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v8kAE0L3XYT2zduhiLheo6/OoQQtkbHtadi2JLu6gYg=;
+        b=NEni84P0duHRO19HYB87TFvAXwHddFTD7F629W9OCMWrGuHcs+p6wSI03sARuMJ9XF
+         gTrgEOEBK1xVa6KP2yNb+nHZjrBaH8L21TOJOvMGedVvku1IFEeZwQ6xP9bQZYzd8GTR
+         Swzs+08girf7VmpO8C4L/MvtTe3DEex3AKpjq7gySMUANfDk2RIuaDzEvQvpIIwEq0b3
+         SOLhAtzHct06l4doxpJ1CiiQXR7la4fyieb+1q7Btmx+FMd7NXndvGnZeRnSVzl117OJ
+         2+ZKh4iBBekLQu3881g9ZBlcVgIDykjCCS7npqPWVCIXIwhpvlRme/tavND8xx6VYnkg
+         u8JQ==
+X-Gm-Message-State: AOJu0YzVgfS/iNzt7qdH4Ds5wjGh+usNRDkg3yRCJr10BlM03eSPTgu/
+	lsnIt2SvWpywdprWU+mhx0OR6g==
+X-Google-Smtp-Source: AGHT+IFJgYFdXQLoiEQmx+lFHyuC0qUrDFQKLIKGfw/wrLmvAN6GJdpM5ZD/9ihDG8TtTiEFnZjYhg==
+X-Received: by 2002:a05:6358:9691:b0:164:8742:525 with SMTP id o17-20020a056358969100b0016487420525mr1346056rwa.17.1696623777190;
+        Fri, 06 Oct 2023 13:22:57 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id 19-20020a17090a1a1300b00273744e6eccsm4271576pjk.12.2023.10.06.13.22.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Oct 2023 13:22:56 -0700 (PDT)
+Date: Fri, 6 Oct 2023 13:22:55 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev,
+	alsa-devel@alsa-project.org, Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] ASoC: apple: mca: Annotate struct mca_data with
+ __counted_by
+Message-ID: <202310061321.E7247C52B@keescook>
+References: <20230922175050.work.819-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -37,45 +62,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231003064018.7502-1-zajec5@gmail.com>
+In-Reply-To: <20230922175050.work.819-kees@kernel.org>
 
+On Fri, Sep 22, 2023 at 10:50:50AM -0700, Kees Cook wrote:
+> Prepare for the coming implementation by GCC and Clang of the __counted_by
+> attribute. Flexible array members annotated with __counted_by can have
+> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
+> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> functions).
+> 
+> As found with Coccinelle[1], add __counted_by for struct mca_data.
 
-On Tue, 03 Oct 2023 08:40:18 +0200, Rafał Miłecki wrote:
-> From: Rafał Miłecki <rafal@milecki.pl>
+Friendly ping. Mark, can you pick this up please?
+
+Thanks!
+
+-Kees
+
 > 
-> Support for old NVMEM fixed cells was deprecated in favour of
-> "fixed-layout". It's still part of the nvmem.yaml though and may be
-> unknowingly used by new bindings added without much of analyze.
+> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
 > 
-> To make it more difficult to accidentally support old syntax move its
-> binding to separated file with "deprecated" in its name.
-> 
-> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+> Cc: "Martin Povišer" <povik+lin@cutebit.org>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: asahi@lists.linux.dev
+> Cc: alsa-devel@alsa-project.org
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 > ---
-> V2: Fix path to nvmem-deprecated-cells.yaml in amlogic,meson6-rtc.yaml
+>  sound/soc/apple/mca.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  .../devicetree/bindings/mtd/mtd.yaml          |  7 ++++-
->  .../bindings/mtd/partitions/nvmem-cells.yaml  |  1 +
->  .../nvmem/amlogic,meson-gxbb-efuse.yaml       |  1 +
->  .../bindings/nvmem/amlogic,meson6-efuse.yaml  |  1 +
->  .../bindings/nvmem/apple,efuses.yaml          |  1 +
->  .../devicetree/bindings/nvmem/imx-ocotp.yaml  |  1 +
->  .../bindings/nvmem/mediatek,efuse.yaml        |  1 +
->  .../nvmem/microchip,sama7g5-otpc.yaml         |  1 +
->  .../devicetree/bindings/nvmem/mxs-ocotp.yaml  |  1 +
->  .../nvmem/nvmem-deprecated-cells.yaml         | 28 +++++++++++++++++++
->  .../devicetree/bindings/nvmem/nvmem.yaml      |  9 ------
->  .../bindings/nvmem/qcom,qfprom.yaml           |  1 +
->  .../bindings/nvmem/qcom,sec-qfprom.yaml       |  1 +
->  .../bindings/nvmem/qcom,spmi-sdam.yaml        |  1 +
->  .../bindings/nvmem/rockchip,otp.yaml          |  1 +
->  .../bindings/nvmem/rockchip-efuse.yaml        |  1 +
->  .../nvmem/socionext,uniphier-efuse.yaml       |  1 +
->  .../bindings/nvmem/sunplus,sp7021-ocotp.yaml  |  1 +
->  .../bindings/rtc/amlogic,meson6-rtc.yaml      |  1 +
->  19 files changed, 50 insertions(+), 10 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/nvmem/nvmem-deprecated-cells.yaml
+> diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+> index ce77934f3eef..99e547ef95e6 100644
+> --- a/sound/soc/apple/mca.c
+> +++ b/sound/soc/apple/mca.c
+> @@ -161,7 +161,7 @@ struct mca_data {
+>  	struct mutex port_mutex;
+>  
+>  	int nclusters;
+> -	struct mca_cluster clusters[];
+> +	struct mca_cluster clusters[] __counted_by(nclusters);
+>  };
+>  
+>  static void mca_modify(struct mca_cluster *cl, int regoffset, u32 mask, u32 val)
+> -- 
+> 2.34.1
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
-
+-- 
+Kees Cook
