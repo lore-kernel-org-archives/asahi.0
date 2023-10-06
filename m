@@ -1,115 +1,156 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E5A10EF
-	for <asahi@lists.linux.dev>; Thu,  5 Oct 2023 10:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-Received: from i53875a3c.versanet.de ([83.135.90.60] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1qoLAi-0004BA-Lx; Thu, 05 Oct 2023 12:01:32 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Conor Dooley <conor+dt@kernel.org>,
- =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- Vincent Shih <vincent.sunplus@gmail.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Christian Marangi <ansuelsmth@gmail.com>, Anson Huang <Anson.Huang@nxp.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Lala Lin <lala.lin@mediatek.com>, Komal Bajaj <quic_kbajaj@quicinc.com>,
- Kumar Thella <sthella@codeaurora.org>,
- Keiji Hayashibara <hayashibara.keiji@socionext.com>,
- linux-mtd@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-amlogic@lists.infradead.org, asahi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-rtc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
-Subject:
- Re: [PATCH V2] dt-bindings: nvmem: move deprecated cells binding to its own
- file
-Date: Thu, 05 Oct 2023 12:01:30 +0200
-Message-ID: <2829805.88bMQJbFj6@diego>
-In-Reply-To: <20231003064018.7502-1-zajec5@gmail.com>
-References: <20231003064018.7502-1-zajec5@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8CF273C8
+	for <asahi@lists.linux.dev>; Fri,  6 Oct 2023 15:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="tDEEQbdM"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 6B244421F5;
+	Fri,  6 Oct 2023 15:35:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1696606505; bh=1Z3KuS4rx7bn81F7tENVoClM2+k0q9jEwhyEsQupDdg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=tDEEQbdME4GndqtMiJjqUz60zNKaoTQs54bDYzA3C+4rfhhCUurDvHhJ/5g5pAUy9
+	 xk752ySe5+znYA4nkQR58bXz+iMXc5RhN2ZOvxSRfu2dClUk/HYUqgnVsq1Lrr9DE0
+	 2OcOzBFQS9i3YtGWY4Gzd7cEs7JrdXYIkniRfHAazudq5lgXhuWEXY4mbRZAm9Gyfg
+	 wZSkg+d3lUOEGay9QVxMz5rhJiTXjoLqbuLAAPgcv8Aba20uckBd6rNsvcyrKhwLhx
+	 PGUWairqUkk9w3dC3Tl0C+SFI/wZqlK6Loc1v9pVX+FtnvN8mn7xotDa3YIuWUtEmX
+	 XI8jU4DlhGGEA==
+Message-ID: <3c5a3e7a-b332-4a77-51ba-bed3cad1e79f@marcan.st>
+Date: Sat, 7 Oct 2023 00:34:54 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: On brcm80211 maintenance and support
+Content-Language: en-US
+To: Kalle Valo <kvalo@kernel.org>, Julian Calaby <julian.calaby@gmail.com>
+Cc: Dmitry Antipov <dmantipov@yandex.ru>,
+ "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+ "lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>,
+ Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>,
+ SHA-cyfmac-dev-list@infineon.com, brcm80211-dev-list.pdl@broadcom.com,
+ Asahi Linux <asahi@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>
+References: <6f78e624-62ee-3ae5-1db4-a0411566def8@yandex.ru>
+ <CAGRGNgU7aySyUny9aG_+wXiKJ7j1weosa-rZDY4_WAXbq-3ABg@mail.gmail.com>
+ <87ttr454bh.fsf@kernel.org>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <87ttr454bh.fsf@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Am Dienstag, 3. Oktober 2023, 08:40:18 CEST schrieb Rafa=C5=82 Mi=C5=82ecki:
-> From: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
->=20
-> Support for old NVMEM fixed cells was deprecated in favour of
-> "fixed-layout". It's still part of the nvmem.yaml though and may be
-> unknowingly used by new bindings added without much of analyze.
->=20
-> To make it more difficult to accidentally support old syntax move its
-> binding to separated file with "deprecated" in its name.
->=20
-> Signed-off-by: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> ---
-> V2: Fix path to nvmem-deprecated-cells.yaml in amlogic,meson6-rtc.yaml
->=20
+On 06/10/2023 21.21, Kalle Valo wrote:
+> Julian Calaby <julian.calaby@gmail.com> writes:
+> 
+>> Hi Dmitry,
+>>
+>> (relevant people and lists CC'd)
+>>
+>> On Fri, Oct 6, 2023 at 3:16 AM Dmitry Antipov <dmantipov@yandex.ru> wrote:
+>>>
+>>> Kalle,
+>>>
+>>> what's an actual status of brcm80211 driver? It seems
+>>> that the relevant MAINTAINERS entries are no longer
+>>> useful, and [1] states that Broadcom is just "disappeared".
+>>
+>> Arend hasn't posted since February:
+>> https://lore.kernel.org/linux-wireless/63f72045-e51d-d9a4-a0ed-c221bcdcee03@gmail.com/
+>>
+>> Franky is still reviewing things as of early August:
+>> https://lore.kernel.org/linux-wireless/CA+8PC_evb-6Y3dKnAN4BN=ODEVxY5-cDb6Lc72u0j1WBtx7p1A@mail.gmail.com/
+>>
+>> Hante hasn't posted since 2018:
+>> https://lore.kernel.org/linux-wireless/4f6223b8083ed69432493a37d4f45b69@mail.gmail.com/
+>>
+>> Hector Martin has a bunch of Apple-specific patches downstream in the
+>> Asahi Linux kernel and has been looking for guidance on how to
+>> upstream it without any real answers:
+>> https://lore.kernel.org/linux-wireless/181af6e9-799d-b730-dc14-ee2de2541f35@marcan.st/
+>>
+>> There's also speculation that the Raspberry Pi people have downstream
+>> patches too, but I haven't been able to find anything concrete in a
+>> very brief search.
+> 
+> Thanks for the research, that is helpful.
+> 
+>> Finally, the Cypress / Infineon people appear to be uninterested in
+>> discussing the driver.
+>>
+>> I think it's pretty safe to say that this driver is nearly
+>> unmaintained by Broadcom, definitely unmaintained by Cypress /
+>> Infineon and Arend is unable to answer questions relating to anything
+>> beyond the code as-written.
+>>
+>> Kalle, should this driver get orphaned?
+> 
+> We definitely need to consider that but let's first wait for Arend to
+> comment.
+> 
 
->  .../bindings/nvmem/rockchip,otp.yaml          |  1 +
->  .../bindings/nvmem/rockchip-efuse.yaml        |  1 +
+For better or worse, if nobody else does, I'm willing to sign up to
+maintain the chips shipping on Apple ARM64 machines (i.e. BCM4378,
+BCM4387, BCM4388 - that last one I have bringup for downstream, just got
+it done this week) and partially BCM4377 as a bonus (since I have access
+to an older Intel Mac with that one, and already did bringup for it,
+though my access is sporadic). I'm already playing part time maintainer
+anyway (other folks have already sent us patches I'll have to upstream),
+and we need this driver to keep working and continue to support new chips.
 
-> diff --git a/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml b/=
-Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml
-> index 9c6eff788928..a44d44b32809 100644
-> --- a/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/rockchip,otp.yaml
-> @@ -49,6 +49,7 @@ required:
-> =20
->  allOf:
->    - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
-> =20
->    - if:
->        properties:
-> diff --git a/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml =
-b/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
-> index c5403e149080..b80fd8d1ae5b 100644
-> --- a/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
-> +++ b/Documentation/devicetree/bindings/nvmem/rockchip-efuse.yaml
-> @@ -11,6 +11,7 @@ maintainers:
-> =20
->  allOf:
->    - $ref: nvmem.yaml#
-> +  - $ref: nvmem-deprecated-cells.yaml#
-> =20
->  properties:
->    compatible:
+I don't have much time to work on new feature development beyond the
+basics (STA mode) but I will gladly take patches to add/fix new stuff
+from others and test them. I'm in a decently good position to test
+across all the aforementioned chips, and even ship that stuff ahead of
+time in our downstream tree and get tons of user testing before it goes
+upstream. Someone already volunteered a patch to fix AP mode that is
+going into our next downstream kernel builds as well as 6GHz support
+from someone else. I also have a decently modern home WiFi network
+(UniFi) so I can set up test SSIDs with specific characteristics and
+whatnot.
 
-=46or Rockchip OTP and Efuse bindngs:
-Acked-by: Heiko Stuebner <heiko@sntech.de>
+However, I make no promises about any other chips. I *especially* make
+no promises about Cypress / Infineon variants, since as far as I can
+tell they seem completely uninterested in working with anyone. If they
+were consistent it wouldn't be a big deal, but it seems they are
+increasingly forking the firmware ABI, and without cooperation from them
+there is just no chance whatsoever to support their stuff, and I'm not
+going to sign up to do their job. I have more than enough work figuring
+out Broadcom's chips without their help.
 
+As for Broadcom, the right logic to gate firmware API structure changes
+is often anyone's guess. Sometimes they have actual feature flags we can
+use, sometimes they don't, and when it's based on WL version there's no
+chance anyone outside of Broadcom knows what the specific supported
+branches are with accuracy. So basically, any time we get this wrong we
+might break some chips/firmwares, and there is no way to know. All I can
+do is make sure the chips Apple ships work with the firmwares Apple
+ships. No more, no less.
+
+For reference on just how painful this is without Broadcom's help, this
+week I spent an entire day figuring out a single line of code that I had
+to remove (gate) to stop BCM4388 firmware from crashing and asserting on
+startup. And that is having access to (some random fork I found on
+GitHub of) the "open source" bcmdhd driver with support for that chip -
+even with that, it's picking out a needle in a haystack, and I often end
+up porting/reimplementing random features from it we don't actually need
+just hoping I can eventually find the "magic" thing that makes it work.
+This time around, lovely Broadcom even decided to censor out some
+headers so I had to reverse engineer some stuff by tracing what Apple's
+driver does. It can be done, and I will get it done, but only for our
+chips, there is no chance in hell I can afford to spend time on anything
+else.
+
+- Hector
 
