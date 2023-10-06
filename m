@@ -1,115 +1,97 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3645F28692
-	for <asahi@lists.linux.dev>; Fri,  6 Oct 2023 20:22:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E9338FA6;
+	Fri,  6 Oct 2023 20:53:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EsXlfWcD"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-57be3d8e738so1332077eaf.1
-        for <asahi@lists.linux.dev>; Fri, 06 Oct 2023 13:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1696623777; x=1697228577; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=v8kAE0L3XYT2zduhiLheo6/OoQQtkbHtadi2JLu6gYg=;
-        b=EsXlfWcDkF7d8EuSgiFYgTX5HS3WpRXG0NVBIHqMHzpGJ4Mtp+T5U9HbW3dbsa8vEY
-         1pdQqgDxhQUqucGXeQF5Df+kQkEWulMW93lSWiWjlNAb848+s4u4AC1TWK1lT9HN26GH
-         /nEz9zKoXOSZXAz2Kd4LKq5j5PYgoV6jLPb6U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696623777; x=1697228577;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v8kAE0L3XYT2zduhiLheo6/OoQQtkbHtadi2JLu6gYg=;
-        b=NEni84P0duHRO19HYB87TFvAXwHddFTD7F629W9OCMWrGuHcs+p6wSI03sARuMJ9XF
-         gTrgEOEBK1xVa6KP2yNb+nHZjrBaH8L21TOJOvMGedVvku1IFEeZwQ6xP9bQZYzd8GTR
-         Swzs+08girf7VmpO8C4L/MvtTe3DEex3AKpjq7gySMUANfDk2RIuaDzEvQvpIIwEq0b3
-         SOLhAtzHct06l4doxpJ1CiiQXR7la4fyieb+1q7Btmx+FMd7NXndvGnZeRnSVzl117OJ
-         2+ZKh4iBBekLQu3881g9ZBlcVgIDykjCCS7npqPWVCIXIwhpvlRme/tavND8xx6VYnkg
-         u8JQ==
-X-Gm-Message-State: AOJu0YzVgfS/iNzt7qdH4Ds5wjGh+usNRDkg3yRCJr10BlM03eSPTgu/
-	lsnIt2SvWpywdprWU+mhx0OR6g==
-X-Google-Smtp-Source: AGHT+IFJgYFdXQLoiEQmx+lFHyuC0qUrDFQKLIKGfw/wrLmvAN6GJdpM5ZD/9ihDG8TtTiEFnZjYhg==
-X-Received: by 2002:a05:6358:9691:b0:164:8742:525 with SMTP id o17-20020a056358969100b0016487420525mr1346056rwa.17.1696623777190;
-        Fri, 06 Oct 2023 13:22:57 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id 19-20020a17090a1a1300b00273744e6eccsm4271576pjk.12.2023.10.06.13.22.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Oct 2023 13:22:56 -0700 (PDT)
-Date: Fri, 6 Oct 2023 13:22:55 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Mark Brown <broonie@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev,
-	alsa-devel@alsa-project.org, Nathan Chancellor <nathan@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qykK950d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DF79C433C7;
+	Fri,  6 Oct 2023 20:53:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1696625635;
+	bh=oauOVFT+PrZQ4LbhFiEvzNY1S0t5n89QX4XT55V6IgI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qykK950dTH96BIMrlSxNk8F7VgVWrjQ0wm/EHPGYwP5AOi5ayH7AvATp2Jboup2WN
+	 axuuvRZOQBYLh+2+I9jQgJha4Zf+IeSiNhyq+NK4ucPmIkE+VkrIzU8fqG2Z8zZoe9
+	 IJp/cG6FvEdOrZFJ5oeN7J3ZL1EUesyalkvY19j+lDFGS1HFG4T+eezRSDgLGhTf0v
+	 yVYjdpujB0aRzaD6bzgIiLF6qRYP8j6i+n6hTeUeNqnuHG3KvPYO+c5RSFwfmB4Rbb
+	 QPAeXKkDWm8gDryJqedpgaWo3Y0nqLR+AkKYWIKEgr3kNdQ7LdCG1hpT6cEDbbuYW4
+	 92aS+GaFg3bdg==
+Date: Fri, 6 Oct 2023 21:53:49 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, alsa-devel@alsa-project.org,
+	Nathan Chancellor <nathan@kernel.org>,
 	Nick Desaulniers <ndesaulniers@google.com>,
 	Tom Rix <trix@redhat.com>, linux-kernel@vger.kernel.org,
 	llvm@lists.linux.dev, linux-hardening@vger.kernel.org
 Subject: Re: [PATCH] ASoC: apple: mca: Annotate struct mca_data with
  __counted_by
-Message-ID: <202310061321.E7247C52B@keescook>
+Message-ID: <6c7db067-78f2-4637-8064-3dc7c0489b90@sirena.org.uk>
 References: <20230922175050.work.819-kees@kernel.org>
+ <202310061321.E7247C52B@keescook>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xBZ5y17+t2QN5UsW"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230922175050.work.819-kees@kernel.org>
+In-Reply-To: <202310061321.E7247C52B@keescook>
+X-Cookie: Rome wasn't burnt in a day.
 
-On Fri, Sep 22, 2023 at 10:50:50AM -0700, Kees Cook wrote:
-> Prepare for the coming implementation by GCC and Clang of the __counted_by
-> attribute. Flexible array members annotated with __counted_by can have
-> their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOUNDS
-> (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
-> functions).
-> 
-> As found with Coccinelle[1], add __counted_by for struct mca_data.
 
-Friendly ping. Mark, can you pick this up please?
+--xBZ5y17+t2QN5UsW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+On Fri, Oct 06, 2023 at 01:22:55PM -0700, Kees Cook wrote:
+> On Fri, Sep 22, 2023 at 10:50:50AM -0700, Kees Cook wrote:
 
--Kees
+> > Prepare for the coming implementation by GCC and Clang of the __counted=
+_by
+> > attribute. Flexible array members annotated with __counted_by can have
+> > their accesses bounds-checked at run-time checking via CONFIG_UBSAN_BOU=
+NDS
+> > (for array indexing) and CONFIG_FORTIFY_SOURCE (for strcpy/memcpy-family
+> > functions).
+> >=20
+> > As found with Coccinelle[1], add __counted_by for struct mca_data.
+>=20
+> Friendly ping. Mark, can you pick this up please?
 
-> 
-> [1] https://github.com/kees/kernel-tools/blob/trunk/coccinelle/examples/counted_by.cocci
-> 
-> Cc: "Martin Povišer" <povik+lin@cutebit.org>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: asahi@lists.linux.dev
-> Cc: alsa-devel@alsa-project.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  sound/soc/apple/mca.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-> index ce77934f3eef..99e547ef95e6 100644
-> --- a/sound/soc/apple/mca.c
-> +++ b/sound/soc/apple/mca.c
-> @@ -161,7 +161,7 @@ struct mca_data {
->  	struct mutex port_mutex;
->  
->  	int nclusters;
-> -	struct mca_cluster clusters[];
-> +	struct mca_cluster clusters[] __counted_by(nclusters);
->  };
->  
->  static void mca_modify(struct mca_cluster *cl, int regoffset, u32 mask, u32 val)
-> -- 
-> 2.34.1
-> 
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
 
--- 
-Kees Cook
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
+
+--xBZ5y17+t2QN5UsW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUgc9wACgkQJNaLcl1U
+h9AThAf/TVx58WnyibTJozFRT7p4/Ow/TjcP0UNKN4akoSmOUCmaCr8FAebKU1+t
+wj1hcUXFXVIQP/EWLB2hf0pPGxzF0pIcx0gGGl46bSCFO0jXks35z0iGcMniCiNA
+kSZf/TswG7Guf6j2vwKiwa5eDnnbjtRMzHsW0WZ5UQxslZwRORs/Uvhj80RsfPQ2
+NeWrMXwVNs7kmVPS9+12eYUG62+dyFwMKqDhsFraoKIyzUZkIlM+EWi0P9oRm87V
+1PyWUzk/CjTMyZpeWWBoj+Q3vtlPIpcFePRpM+LfCN7muZyWQbAvqJqyJgqhW3Iv
+mx+Kp3meL06isrlLlnnkOBAXrvPRkQ==
+=9Vt7
+-----END PGP SIGNATURE-----
+
+--xBZ5y17+t2QN5UsW--
