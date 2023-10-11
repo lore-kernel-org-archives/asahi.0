@@ -1,87 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295F41094E
-	for <asahi@lists.linux.dev>; Wed, 11 Oct 2023 10:32:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8039FC18
+	for <asahi@lists.linux.dev>; Wed, 11 Oct 2023 10:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CYMpOSJ1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F1F8C433C8;
-	Wed, 11 Oct 2023 10:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697020326;
-	bh=YpVnFf88K6rUjKFbnY+e3X6H6+xalRDI8tt76wKoDSE=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=CYMpOSJ1oBCEb9hjmwBTRVPjGnkNUa/B1J8J/u6Wi0AetVlMO4B00Oa9TGtB+0mip
-	 Kahn9CI3WeICx7rspMYweeHhRPc2aYB0cap+4RwcDDVJ4VLAnErEeSPnql99DIMT28
-	 fhTnCDKIJb6uRod2yFaAf7B7CZppj7HJRU9sIYxFmUcvlCZY8mejyPCGBMY5gzhxlA
-	 gNNEbcNN3RVR4jz3FYMOxbRkfcYysBiePpdLfoZ0d9y0QRF/SoVyDtnGDN20HbY9Dw
-	 w6/uxycQMHCDEM9GkWnUEpYwP60yUDB1erG287tZT7oVWJfCEl8RMUrDWdLdAdpiG1
-	 UNY08Ms6PNvBw==
-From: Kalle Valo <kvalo@kernel.org>
-To: Phil Elwell <phil@raspberrypi.com>
-Cc: Neal Gompa <neal@gompa.dev>,  Hector Martin <marcan@marcan.st>,  Dmitry
- Antipov <dmantipov@yandex.ru>,  "linux-wireless@vger.kernel.org"
- <linux-wireless@vger.kernel.org>,  "lvc-project@linuxtesting.org"
- <lvc-project@linuxtesting.org>,  Arend van Spriel <aspriel@gmail.com>,
-  Franky Lin <franky.lin@broadcom.com>,  Hante Meuleman
- <hante.meuleman@broadcom.com>,  SHA-cyfmac-dev-list@infineon.com,
-  brcm80211-dev-list.pdl@broadcom.com,  Asahi Linux
- <asahi@lists.linux.dev>,  LKML <linux-kernel@vger.kernel.org>,  Julian
- Calaby <julian.calaby@gmail.com>,  Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: Re: On brcm80211 maintenance and support
-References: <6f78e624-62ee-3ae5-1db4-a0411566def8@yandex.ru>
-	<CAGRGNgU7aySyUny9aG_+wXiKJ7j1weosa-rZDY4_WAXbq-3ABg@mail.gmail.com>
-	<87ttr454bh.fsf@kernel.org>
-	<3c5a3e7a-b332-4a77-51ba-bed3cad1e79f@marcan.st>
-	<e1ee4d76-f717-a67c-8099-7b91192ba1ca@yandex.ru>
-	<e470902a-35eb-9bb4-7a9e-167f985c98bb@marcan.st>
-	<CAEg-Je-mpcrEoM_nD3_8A=gZhdWpn3hxfGZNEfGRNupGwRdetw@mail.gmail.com>
-	<CAMEGJJ3jeOK2WbW7YP4=y2E0Z7GnffHiqZhgAmXJjKchv3jG+A@mail.gmail.com>
-Date: Wed, 11 Oct 2023 13:32:01 +0300
-In-Reply-To: <CAMEGJJ3jeOK2WbW7YP4=y2E0Z7GnffHiqZhgAmXJjKchv3jG+A@mail.gmail.com>
-	(Phil Elwell's message of "Tue, 10 Oct 2023 16:35:37 +0100")
-Message-ID: <87a5sp4fha.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="jGGOt2Zy"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5a7c011e113so21298547b3.1
+        for <asahi@lists.linux.dev>; Wed, 11 Oct 2023 03:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1697021130; x=1697625930; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YL127oscJH6gp+yTxggd3LK31C8e1HyGUVVsaS6zp14=;
+        b=jGGOt2ZynalWbbxwGpIjl84YRd9PNhqDBw+q9dB3jgbs1O1uIHop6ZhnmvPw7uRRYB
+         DK7G/+opNQ1T0gzY0VvcACHyXsnUldcwUg5cE+eCvWWr/9dUGdYpjMZQlHgbSq1c+evL
+         pHJjE2K1psc43xpxabk0oskHisP+PICrxKC6OHduQVTN0bDna6au2OcI2/9CdyGZ60t0
+         4KA+TIrd8I4m0UVmrzgd4HIRSqgD2Hch/yqcSAILgFUb8XqJZp6s5GpuY0yBeSCTz0LJ
+         V2jaSCQWE8bPc+vhbNQ0rvAaOZ8Ggci0GWBSHJn7JoyurquBN3t7Yh0BnEZK7WYcyD0F
+         PLHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697021130; x=1697625930;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YL127oscJH6gp+yTxggd3LK31C8e1HyGUVVsaS6zp14=;
+        b=ItA5ViKkgfIA46L2HHazWchYLHZCqQ+jXK+VL1B3nGEVtIO+w4/MXeuX8zEegqnNpX
+         b+f06HbCqqBBMeHD7EUEJzSqTdd3zTqFW7hI7ZtWy2uj5lyk1Nb3lWQybSyCiLctEjpB
+         CM+iT7J68DMTHGUNMYwt0OJxgiG7LTWR5Ara645o1wpUkpX2ZtPPiHw5/LCUmDTQJDwg
+         ZbhOZaVMBM/OAVPdwJBwrAAslZ2O+OkdTorkosKHCvqzuNNT7vn9O097+fOPxAoft/5S
+         afXmg6qgWDz7+MWZriShRiY8rKsU1VRKKOlL/XW1vU43NFOgWKWhhi/jhVFyAEN3BWi5
+         HETA==
+X-Gm-Message-State: AOJu0YwS3i+nugOxfEUbY6Q96TFkF20pRjfZmo6yQvW110zKML3mnU1c
+	gWRfVwqWCYyZC9BU1+TUl0XhClJ2AwJ2VhUqe2n7aw==
+X-Google-Smtp-Source: AGHT+IEVy8EiOeFMRwy82Ir7VUyJ+VT9Vb2TmVUBB9wyYFi+w/lohD+ek63I+hZOrWHuWUg2Bmz6JRy1diehmTzQzwc=
+X-Received: by 2002:a25:aaad:0:b0:d9a:526a:2514 with SMTP id
+ t42-20020a25aaad000000b00d9a526a2514mr4809848ybi.62.1697021130679; Wed, 11
+ Oct 2023 03:45:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <6f78e624-62ee-3ae5-1db4-a0411566def8@yandex.ru>
+ <CAGRGNgU7aySyUny9aG_+wXiKJ7j1weosa-rZDY4_WAXbq-3ABg@mail.gmail.com>
+ <87ttr454bh.fsf@kernel.org> <3c5a3e7a-b332-4a77-51ba-bed3cad1e79f@marcan.st>
+ <e1ee4d76-f717-a67c-8099-7b91192ba1ca@yandex.ru> <e470902a-35eb-9bb4-7a9e-167f985c98bb@marcan.st>
+ <CAEg-Je-mpcrEoM_nD3_8A=gZhdWpn3hxfGZNEfGRNupGwRdetw@mail.gmail.com>
+ <CAMEGJJ3jeOK2WbW7YP4=y2E0Z7GnffHiqZhgAmXJjKchv3jG+A@mail.gmail.com> <87a5sp4fha.fsf@kernel.org>
+In-Reply-To: <87a5sp4fha.fsf@kernel.org>
+From: Phil Elwell <phil@raspberrypi.com>
+Date: Wed, 11 Oct 2023 11:45:19 +0100
+Message-ID: <CAMEGJJ35-D5ReGsfUwhOxKE1OC6NaBWoAGudBp=QRkuLU5BYnA@mail.gmail.com>
+Subject: Re: On brcm80211 maintenance and support
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Dmitry Antipov <dmantipov@yandex.ru>, 
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>, 
+	"lvc-project@linuxtesting.org" <lvc-project@linuxtesting.org>, Arend van Spriel <aspriel@gmail.com>, 
+	Franky Lin <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>, 
+	SHA-cyfmac-dev-list@infineon.com, brcm80211-dev-list.pdl@broadcom.com, 
+	Asahi Linux <asahi@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>, 
+	Julian Calaby <julian.calaby@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Phil Elwell <phil@raspberrypi.com> writes:
+Hi Kalle,
 
-> This is just a quick note to say that Raspberry Pi obviously has a
-> vested interest in the future of the brcmfmac driver. In our
-> downstream tree we use the upstream driver largely unmodified - there
-> are a handful of patches that tinker around the edges, the largest of
-> which is in the area of firmware location and being phased out - no
-> patches from Infineon/Cypress, Synaptics or Broadcom.
+On Wed, 11 Oct 2023 at 11:32, Kalle Valo <kvalo@kernel.org> wrote:
 >
-> We're very much WiFi users as opposed to WiFi developers, but if
-> there's something useful we can contribute then please speak up and
-> I'll see what we can do.
+> Phil Elwell <phil@raspberrypi.com> writes:
+>
+> > This is just a quick note to say that Raspberry Pi obviously has a
+> > vested interest in the future of the brcmfmac driver. In our
+> > downstream tree we use the upstream driver largely unmodified - there
+> > are a handful of patches that tinker around the edges, the largest of
+> > which is in the area of firmware location and being phased out - no
+> > patches from Infineon/Cypress, Synaptics or Broadcom.
+> >
+> > We're very much WiFi users as opposed to WiFi developers, but if
+> > there's something useful we can contribute then please speak up and
+> > I'll see what we can do.
+>
+> Is it possible to run upstream vanilla kernels on a Raspberry Pi? For
+> example at least once a month take latest wireless-next[1], install it
+> to a Raspberry Pi and run some simple wireless tests. If any regressions
+> are found report that to linux-wireless. Preferably with a bisect log to
+> easily find the offending commit.
+>
+> Testing patches before they are applied would be even more helpful,
+> especially for the risky ones. We have a hard "no regressions" rule so
+> earlier we catch the regressions the better.
+>
+> I also wonder should there be a dedicated brcm80211 specific mailing
+> list? That way people who want to help could easily follow and discuss
+> brcm80211 development, and no need to follow linux-wireless. For example
+> we do that with ath12k driver.
 
-Is it possible to run upstream vanilla kernels on a Raspberry Pi? For
-example at least once a month take latest wireless-next[1], install it
-to a Raspberry Pi and run some simple wireless tests. If any regressions
-are found report that to linux-wireless. Preferably with a bisect log to
-easily find the offending commit.
+It's a very busy time for us at the moment, but a monthly-ish wireless
+smoke test sounds reasonable. Hopefully once we have a process for
+that then occasional regression checks on upcoming patches would
+become possible.
 
-Testing patches before they are applied would be even more helpful,
-especially for the risky ones. We have a hard "no regressions" rule so
-earlier we catch the regressions the better.
+A dedicated brcm80211 mailing list would be good - I'd definitely sign up.
 
-I also wonder should there be a dedicated brcm80211 specific mailing
-list? That way people who want to help could easily follow and discuss
-brcm80211 development, and no need to follow linux-wireless. For example
-we do that with ath12k driver.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git/
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+Phil
