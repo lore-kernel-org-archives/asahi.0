@@ -1,123 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3487185C;
-	Mon, 16 Oct 2023 07:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBE92031F
+	for <asahi@lists.linux.dev>; Mon, 16 Oct 2023 10:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PcjYNHTj"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 14A24C433C7;
-	Mon, 16 Oct 2023 07:13:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697440414;
-	bh=xNlXAuE+bCPUAWJr1nwMfcT6VUi0d0nMbIyJW/0hZW8=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=PcjYNHTjD/zqBiMcLKzPl6308JDp1LgAibKKMuFEsec11g5fAofXcmS5E3JbMI0mi
-	 0zg+X8vMWKbomehNTxU7efFC8Ym3+Yvc531ud2TSlUs0uoG6+kBNKQ1RnEmnq+S0ix
-	 XA6AgGhwyjkT/+wdFOp5xkCgTjZ/Niyye89F7uhCvoCDfZmYZ2kl95zVB4qXUj5Pxk
-	 i6TaPDnRL2zkQcHFfkgm1DtdaSzBOx21E+OQAg9lBU++5ZikE2PmyXlBx3R39a82yj
-	 uQGi7K9hx/tHN5cJfYeDAA6CjeMxzlyx68cGXHLHUdehH/gtGU4bG0l2JqoDb40071
-	 85I0VkblLnygg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA340CDB465;
-	Mon, 16 Oct 2023 07:13:33 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Mon, 16 Oct 2023 09:13:08 +0200
-Subject: [PATCH] Bluetooth: hci_bcm4377: Mark bcm4378/bcm4387 as
- BROKEN_LE_CODED
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J7tvADzl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1697451715;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xGjF9yN2JU4rsRBxh81TQLA4dxrIk2DTJW01EJMcc44=;
+	b=J7tvADzlVd1+BtY1TcY80IV5tTSXUCM8XpWUCTXVLfwCBmqcW3uzlP9yEpvTsZ9xH3uy4I
+	oNT/0yiTfD8yaH/0iGs9BWiPPnyrFmU5ZpIghlHz0RxhukZ5WR71UXnjlpW6oxUCE12V12
+	T28kgI+KxuM5sHfRI3rU50uqrML9k/I=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-529-AgamO-hzNQqFRVljagsuXg-1; Mon, 16 Oct 2023 06:21:53 -0400
+X-MC-Unique: AgamO-hzNQqFRVljagsuXg-1
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-27d797630b3so998148a91.0
+        for <asahi@lists.linux.dev>; Mon, 16 Oct 2023 03:21:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697451712; x=1698056512;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xGjF9yN2JU4rsRBxh81TQLA4dxrIk2DTJW01EJMcc44=;
+        b=wj0ATpeMQbFIZwWKjeK9KdBMaFnDPKm4CDglVdSrYHVY6idK9nmNA2l4FjxBm4t8Wv
+         rsMTg8eriH6/oUUsIwpMI/PjokiYZ/s3Qyd2JFb6Y/B1M0DLgYJdFfpEGBGX5eXIUp2C
+         rkrOHlV26Qvp5d8taVLBTziEzHwEd7DqAPKruB1y9L1Avvo9g5YZn6kapK1ulaUWZRZ5
+         lZ1KE+Whfb+FaC1SryyG3DwB7N4nlL7TJn3vVhoXTwduEuaJfkXUlr7mrZlOI4F927zn
+         ZKaW+yRbYdZX5TT6xwXJ7mDTm651Jlk2EuxEJwkfVeVhSa6Qn6pkqmy8EPXoFuSRPDy9
+         +9Xw==
+X-Gm-Message-State: AOJu0YwAp96IvQnQBHyhdbGMWIHfXCZXz/zB0AacZfOya8IjBLGvHxbw
+	gNvbiPTZ3Q6eDfF/F1vGkdvWB4oTBUaZv66OBaev96QdZsYSx8LKWtypnElJkNYrKIwwetLdVhb
+	sxSqBRMiZbPGF8ccueaOIiL3erQgntGw=
+X-Received: by 2002:a17:90b:1bcf:b0:27d:5568:e867 with SMTP id oa15-20020a17090b1bcf00b0027d5568e867mr9777226pjb.9.1697451712622;
+        Mon, 16 Oct 2023 03:21:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHh4w2kfgA6irj9S5H8CD7jiE2fT+aEXo0NBodAdw0sHrdeKFRvizHig84xpQz0v52lUAoqIUCPBOCW+1adeO8=
+X-Received: by 2002:a17:90b:1bcf:b0:27d:5568:e867 with SMTP id
+ oa15-20020a17090b1bcf00b0027d5568e867mr9777213pjb.9.1697451712327; Mon, 16
+ Oct 2023 03:21:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id:
- <20231016-bt-bcm4377-quirk-broken-le-coded-v1-1-52ea69d3c979@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAIPiLGUC/x3NywrCMBBG4Vcps3YgaWovvoq4aJJfHaqJTlSE0
- nc3uPw256xUoIJCh2YlxUeK5FRhdw2F65wuYInV1JrWWWN79i/24d65YeDnW3Rhr3lB4hs45Ij
- I+2nqxxEudLOhmnkozvL9L46nbfsB4PTdgHIAAAA=
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Marcel Holtmann <marcel@holtmann.org>, 
- Johan Hedberg <johan.hedberg@gmail.com>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>, 
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
- regressions@lists.linux.dev, stable@vger.kernel.org
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2372; i=j@jannau.net;
- h=from:subject:message-id; bh=tGCXqB0xwKnmC4wp0Z2D26g3zMlTAh/Veq7m/j3H66A=;
- b=owGbwMvMwCG2UNrmdq9+ahrjabUkhlSdR3N8Ll/eFrPoypqAqzppXl93h7Rt0NBQeXLi9fkna
- 0KuBzFEdJSyMIhxMMiKKbIkab/sYFhdoxhT+yAMZg4rE8gQBi5OAZiIsDUjQ98EJ1aXF7zHfXwE
- Hc/YvDj59n/7livy05TF44sudn3dVMzIsITZmXeuLEvwp6v/0hZNCFrCdki8cunOZ5O0uEWPph6
- /yAsA
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: <j@jannau.net>
+References: <20231016-apple-watchdog-suspend-v2-1-7ffff8042dbc@jannau.net>
+In-Reply-To: <20231016-apple-watchdog-suspend-v2-1-7ffff8042dbc@jannau.net>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Mon, 16 Oct 2023 11:21:16 +0100
+Message-ID: <CAOgh=Fy-=wJGcLOp1kn+Zd0H0+KysCQK3a7CwFyZLLvZ5W2Ekw@mail.gmail.com>
+Subject: Re: [PATCH v2] watchdog: apple: Deactivate on suspend
+To: j@jannau.net
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-From: Janne Grunau <j@jannau.net>
+On Mon, 16 Oct 2023 at 08:05, Janne Grunau via B4 Relay
+<devnull+j.jannau.net@kernel.org> wrote:
+>
+> From: Janne Grunau <j@jannau.net>
+>
+> The watchdog remains active after putting the system into suspend. Add
+> PM callbacks to deactivate the watchdog on suspend an re-activate it on
+> resume.
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
 
-bcm4378 and bcm4387 claim to support LE Coded PHY but fail to pair
-(reliably) with BLE devices if it is enabled.
-On bcm4378 pairing usually succeeds after 2-3 tries. On bcm4387
-pairing appears to be completely broken.
+Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 
-Cc: stable@vger.kernel.org # 6.4.y+
-Link: https://discussion.fedoraproject.org/t/mx-master-3-bluetooth-mouse-doesnt-connect/87072/33
-Link: https://github.com/AsahiLinux/linux/issues/177
-Fixes: 288c90224eec ("Bluetooth: Enable all supported LE PHY by default")
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- drivers/bluetooth/hci_bcm4377.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Is mise le meas/Regards,
 
-diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
-index 19ad0e788646..a61757835695 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -512,6 +512,7 @@ struct bcm4377_hw {
- 	unsigned long disable_aspm : 1;
- 	unsigned long broken_ext_scan : 1;
- 	unsigned long broken_mws_transport_config : 1;
-+	unsigned long broken_le_coded : 1;
- 
- 	int (*send_calibration)(struct bcm4377_data *bcm4377);
- 	int (*send_ptb)(struct bcm4377_data *bcm4377,
-@@ -2372,6 +2373,8 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		set_bit(HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG, &hdev->quirks);
- 	if (bcm4377->hw->broken_ext_scan)
- 		set_bit(HCI_QUIRK_BROKEN_EXT_SCAN, &hdev->quirks);
-+	if (bcm4377->hw->broken_le_coded)
-+		set_bit(HCI_QUIRK_BROKEN_LE_CODED, &hdev->quirks);
- 
- 	pci_set_drvdata(pdev, bcm4377);
- 	hci_set_drvdata(hdev, bcm4377);
-@@ -2461,6 +2464,7 @@ static const struct bcm4377_hw bcm4377_hw_variants[] = {
- 		.bar0_core2_window2 = 0x18107000,
- 		.has_bar0_core2_window2 = true,
- 		.broken_mws_transport_config = true,
-+		.broken_le_coded = true,
- 		.send_calibration = bcm4378_send_calibration,
- 		.send_ptb = bcm4378_send_ptb,
- 	},
-@@ -2474,6 +2478,7 @@ static const struct bcm4377_hw bcm4377_hw_variants[] = {
- 		.has_bar0_core2_window2 = true,
- 		.clear_pciecfg_subsystem_ctrl_bit19 = true,
- 		.broken_mws_transport_config = true,
-+		.broken_le_coded = true,
- 		.send_calibration = bcm4387_send_calibration,
- 		.send_ptb = bcm4378_send_ptb,
- 	},
+Eric Curtin
 
----
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-change-id: 20231016-bt-bcm4377-quirk-broken-le-coded-599688e3c4a0
-
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
+> ---
+> Changes in v2:
+> - use DEFINE_SIMPLE_DEV_PM_OPS
+> - Link to v1: https://lore.kernel.org/r/20230930-apple-watchdog-suspend-v1-1-1998c0be9fd7@jannau.net
+> ---
+>  drivers/watchdog/apple_wdt.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>
+> diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
+> index eddeb0fede89..d4f739932f0b 100644
+> --- a/drivers/watchdog/apple_wdt.c
+> +++ b/drivers/watchdog/apple_wdt.c
+> @@ -173,6 +173,8 @@ static int apple_wdt_probe(struct platform_device *pdev)
+>         if (!wdt->clk_rate)
+>                 return -EINVAL;
+>
+> +       platform_set_drvdata(pdev, wdt);
+> +
+>         wdt->wdd.ops = &apple_wdt_ops;
+>         wdt->wdd.info = &apple_wdt_info;
+>         wdt->wdd.max_timeout = U32_MAX / wdt->clk_rate;
+> @@ -190,6 +192,28 @@ static int apple_wdt_probe(struct platform_device *pdev)
+>         return devm_watchdog_register_device(dev, &wdt->wdd);
+>  }
+>
+> +static int apple_wdt_resume(struct device *dev)
+> +{
+> +       struct apple_wdt *wdt = dev_get_drvdata(dev);
+> +
+> +       if (watchdog_active(&wdt->wdd) || watchdog_hw_running(&wdt->wdd))
+> +               apple_wdt_start(&wdt->wdd);
+> +
+> +       return 0;
+> +}
+> +
+> +static int apple_wdt_suspend(struct device *dev)
+> +{
+> +       struct apple_wdt *wdt = dev_get_drvdata(dev);
+> +
+> +       if (watchdog_active(&wdt->wdd) || watchdog_hw_running(&wdt->wdd))
+> +               apple_wdt_stop(&wdt->wdd);
+> +
+> +       return 0;
+> +}
+> +
+> +static DEFINE_SIMPLE_DEV_PM_OPS(apple_wdt_pm_ops, apple_wdt_suspend, apple_wdt_resume);
+> +
+>  static const struct of_device_id apple_wdt_of_match[] = {
+>         { .compatible = "apple,wdt" },
+>         {},
+> @@ -200,6 +224,7 @@ static struct platform_driver apple_wdt_driver = {
+>         .driver = {
+>                 .name = "apple-watchdog",
+>                 .of_match_table = apple_wdt_of_match,
+> +               .pm = pm_sleep_ptr(&apple_wdt_pm_ops),
+>         },
+>         .probe = apple_wdt_probe,
+>  };
+>
+> ---
+> base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+> change-id: 20230930-apple-watchdog-suspend-7f73831130fb
+>
+> Best regards,
+> --
+> Janne Grunau <j@jannau.net>
+>
+>
 
