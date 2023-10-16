@@ -1,130 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22717185C;
-	Mon, 16 Oct 2023 07:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3487185C;
+	Mon, 16 Oct 2023 07:13:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eQjhdoS+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1D16C433C8;
-	Mon, 16 Oct 2023 07:11:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PcjYNHTj"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 14A24C433C7;
+	Mon, 16 Oct 2023 07:13:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697440284;
-	bh=l/Vg0iqD0UinYyhUjSctEB0Snsg6BWXcoeOBRlbiWVo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eQjhdoS+1/ZbY7r7aCl4mEZfIRzNj8u8LuOfVGzSusDASPitargYnsYw9tT3MGbuO
-	 dksuSRmLlsJbz6o9+Bgiowr32+F3wSIAGB8wopQZXqskxZeOVFgsrSvrbsN7SVGraZ
-	 F51Eod6EE9WT54cumc16W2O33m49je59N1u0hVb+xaBZAKganjKryU4L8dAUpW6Zvt
-	 +CV2w+u+ucaLt8APuI3i0qb2CpsQAfRnQ3eNaaWoFwvU492Xu3sGGeGlb+EbnXwjzs
-	 k4r0tS7DIEQRjq1F8iICV3sMyCVzfcQTqXFKa/4h6BRymEqukSuaGs3X//kZlu11nb
-	 3SMm4G/rWfEYw==
-Date: Mon, 16 Oct 2023 12:41:20 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] dmaengine: apple-sio: Add Apple SIO driver
-Message-ID: <ZSziGA6ao+KG3l8q@matsya>
-References: <20231013164936.60718-1-povik+lin@cutebit.org>
- <20231013164936.60718-3-povik+lin@cutebit.org>
+	s=k20201202; t=1697440414;
+	bh=xNlXAuE+bCPUAWJr1nwMfcT6VUi0d0nMbIyJW/0hZW8=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=PcjYNHTjD/zqBiMcLKzPl6308JDp1LgAibKKMuFEsec11g5fAofXcmS5E3JbMI0mi
+	 0zg+X8vMWKbomehNTxU7efFC8Ym3+Yvc531ud2TSlUs0uoG6+kBNKQ1RnEmnq+S0ix
+	 XA6AgGhwyjkT/+wdFOp5xkCgTjZ/Niyye89F7uhCvoCDfZmYZ2kl95zVB4qXUj5Pxk
+	 i6TaPDnRL2zkQcHFfkgm1DtdaSzBOx21E+OQAg9lBU++5ZikE2PmyXlBx3R39a82yj
+	 uQGi7K9hx/tHN5cJfYeDAA6CjeMxzlyx68cGXHLHUdehH/gtGU4bG0l2JqoDb40071
+	 85I0VkblLnygg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA340CDB465;
+	Mon, 16 Oct 2023 07:13:33 +0000 (UTC)
+From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Date: Mon, 16 Oct 2023 09:13:08 +0200
+Subject: [PATCH] Bluetooth: hci_bcm4377: Mark bcm4378/bcm4387 as
+ BROKEN_LE_CODED
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231013164936.60718-3-povik+lin@cutebit.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id:
+ <20231016-bt-bcm4377-quirk-broken-le-coded-v1-1-52ea69d3c979@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAIPiLGUC/x3NywrCMBBG4Vcps3YgaWovvoq4aJJfHaqJTlSE0
+ nc3uPw256xUoIJCh2YlxUeK5FRhdw2F65wuYInV1JrWWWN79i/24d65YeDnW3Rhr3lB4hs45Ij
+ I+2nqxxEudLOhmnkozvL9L46nbfsB4PTdgHIAAAA=
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Marcel Holtmann <marcel@holtmann.org>, 
+ Johan Hedberg <johan.hedberg@gmail.com>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ regressions@lists.linux.dev, stable@vger.kernel.org
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2372; i=j@jannau.net;
+ h=from:subject:message-id; bh=tGCXqB0xwKnmC4wp0Z2D26g3zMlTAh/Veq7m/j3H66A=;
+ b=owGbwMvMwCG2UNrmdq9+ahrjabUkhlSdR3N8Ll/eFrPoypqAqzppXl93h7Rt0NBQeXLi9fkna
+ 0KuBzFEdJSyMIhxMMiKKbIkab/sYFhdoxhT+yAMZg4rE8gQBi5OAZiIsDUjQ98EJ1aXF7zHfXwE
+ Hc/YvDj59n/7livy05TF44sudn3dVMzIsITZmXeuLEvwp6v/0hZNCFrCdki8cunOZ5O0uEWPph6
+ /yAsA
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
+X-Original-From: Janne Grunau <j@jannau.net>
+Reply-To: <j@jannau.net>
 
-On 13-10-23, 18:49, Martin Povišer wrote:
+From: Janne Grunau <j@jannau.net>
 
-> +static struct dma_async_tx_descriptor *sio_prep_dma_cyclic(
+bcm4378 and bcm4387 claim to support LE Coded PHY but fail to pair
+(reliably) with BLE devices if it is enabled.
+On bcm4378 pairing usually succeeds after 2-3 tries. On bcm4387
+pairing appears to be completely broken.
 
-this should generate a check warning, typically lines should not end with a '('
+Cc: stable@vger.kernel.org # 6.4.y+
+Link: https://discussion.fedoraproject.org/t/mx-master-3-bluetooth-mouse-doesnt-connect/87072/33
+Link: https://github.com/AsahiLinux/linux/issues/177
+Fixes: 288c90224eec ("Bluetooth: Enable all supported LE PHY by default")
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ drivers/bluetooth/hci_bcm4377.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-> +		struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
-> +		size_t period_len, enum dma_transfer_direction direction,
-> +		unsigned long flags)
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index 19ad0e788646..a61757835695 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -512,6 +512,7 @@ struct bcm4377_hw {
+ 	unsigned long disable_aspm : 1;
+ 	unsigned long broken_ext_scan : 1;
+ 	unsigned long broken_mws_transport_config : 1;
++	unsigned long broken_le_coded : 1;
+ 
+ 	int (*send_calibration)(struct bcm4377_data *bcm4377);
+ 	int (*send_ptb)(struct bcm4377_data *bcm4377,
+@@ -2372,6 +2373,8 @@ static int bcm4377_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		set_bit(HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG, &hdev->quirks);
+ 	if (bcm4377->hw->broken_ext_scan)
+ 		set_bit(HCI_QUIRK_BROKEN_EXT_SCAN, &hdev->quirks);
++	if (bcm4377->hw->broken_le_coded)
++		set_bit(HCI_QUIRK_BROKEN_LE_CODED, &hdev->quirks);
+ 
+ 	pci_set_drvdata(pdev, bcm4377);
+ 	hci_set_drvdata(hdev, bcm4377);
+@@ -2461,6 +2464,7 @@ static const struct bcm4377_hw bcm4377_hw_variants[] = {
+ 		.bar0_core2_window2 = 0x18107000,
+ 		.has_bar0_core2_window2 = true,
+ 		.broken_mws_transport_config = true,
++		.broken_le_coded = true,
+ 		.send_calibration = bcm4378_send_calibration,
+ 		.send_ptb = bcm4378_send_ptb,
+ 	},
+@@ -2474,6 +2478,7 @@ static const struct bcm4377_hw bcm4377_hw_variants[] = {
+ 		.has_bar0_core2_window2 = true,
+ 		.clear_pciecfg_subsystem_ctrl_bit19 = true,
+ 		.broken_mws_transport_config = true,
++		.broken_le_coded = true,
+ 		.send_calibration = bcm4387_send_calibration,
+ 		.send_ptb = bcm4378_send_ptb,
+ 	},
 
-also helps to align with the open brace to something like:
-static struct dma_async_tx_descriptor *
-sio_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
-                    size_t period_len, enum dma_transfer_direction direction,
-                    unsigned long flags)
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20231016-bt-bcm4377-quirk-broken-le-coded-599688e3c4a0
 
-> +static bool sio_fill_in_locked(struct sio_chan *siochan);
-> +
-> +static void sio_handle_issue_ack(struct sio_chan *siochan, void *cookie, bool ok)
-> +{
-> +	dma_cookie_t tx_cookie = (unsigned long) cookie;
-
-space not required after a cast
-
-> +static struct dma_chan *sio_dma_of_xlate(struct of_phandle_args *dma_spec,
-> +					 struct of_dma *ofdma)
-> +{
-> +	struct sio_data *sio = (struct sio_data *) ofdma->of_dma_data;
-
-drop space after cast here too
-
-> +static int sio_device_config(struct dma_chan *chan,
-> +			     struct dma_slave_config *config)
-> +{
-> +	struct sio_chan *siochan = to_sio_chan(chan);
-> +	struct sio_data *sio = siochan->host;
-> +	bool is_tx = sio_chan_direction(siochan->no) == DMA_MEM_TO_DEV;
-> +	struct sio_shmem_chan_config *cfg_shmem = sio->shmem;
-> +	struct sio_shmem_chan_config cfg;
-> +	int ret;
-> +
-> +	switch (is_tx ? config->dst_addr_width : config->src_addr_width) {
-> +	case DMA_SLAVE_BUSWIDTH_1_BYTE:
-> +		cfg.datashape = 0;
-> +		break;
-> +	case DMA_SLAVE_BUSWIDTH_2_BYTES:
-> +		cfg.datashape = 1;
-> +		break;
-> +	case DMA_SLAVE_BUSWIDTH_4_BYTES:
-> +		cfg.datashape = 2;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	cfg.fifo = 0x800;
-> +	cfg.limit = 0x800;
-> +	cfg.threshold = 0x800;
-
-what do these values represent, should this not be passed by the client
-
-> +static int sio_alloc_shmem(struct sio_data *sio)
-> +{
-> +	dma_addr_t iova;
-> +	int err;
-> +
-> +	sio->shmem = dma_alloc_coherent(sio->dev, SIO_SHMEM_SIZE,
-> +					&iova, GFP_KERNEL);
-> +	if (!sio->shmem)
-> +		return -ENOMEM;
-> +
-> +	sio->shmem_desc_base = (struct sio_coproc_desc *) (sio->shmem + 56);
-
-here too
-
-> +static int sio_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *np = pdev->dev.of_node;
-> +	struct sio_data *sio;
-> +	struct dma_device *dma;
-> +	int nchannels;
-> +	int err, i;
-> +
-> +	err = of_property_read_u32(np, "dma-channels", &nchannels);
-
-why not use device_property_read_u32()
+Best regards,
 -- 
-~Vinod
+Janne Grunau <j@jannau.net>
+
