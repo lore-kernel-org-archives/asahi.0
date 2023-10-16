@@ -1,131 +1,130 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C84814F7C
-	for <asahi@lists.linux.dev>; Mon, 16 Oct 2023 06:58:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22717185C;
+	Mon, 16 Oct 2023 07:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLLcfRYm"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 03FAFC433C8;
-	Mon, 16 Oct 2023 06:58:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eQjhdoS+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1D16C433C8;
+	Mon, 16 Oct 2023 07:11:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1697439490;
-	bh=FHQfrAU/xjJpgKY08sCcFZAYGfGwFAR9AtGWyzajUJ8=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=DLLcfRYm2nzzK/Cwn+yscomAdyf1xnIIAKpRPA+rKP113kNuZ0A/qTkrX0k+GnWDz
-	 YaOHdFmqZNmYARTRlF+DlcejcAYSTtVBR8nyWsB8d7pfm+aXBAvI057LMya1tznLdD
-	 Fy2VRh6/7sHE1bUeqM5rgDBHwt68ywgMzypj83ywc52+I+xZNgIriHvn3C/GAlgOpR
-	 Z/bA2Rww9sd2xxN1bHSZc8swL47trqGRqbwazmpiRXH0FcU8wxWNIoO18Pif0Fz6oU
-	 lLX5DgHSbtmAyvqTUWmEahHQ2R9865gL+ZZx6Ud21j1V5voUWJ5VrVeWIY1bXI7zz1
-	 ViljCIEqLuxfA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2588CDB465;
-	Mon, 16 Oct 2023 06:58:09 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Mon, 16 Oct 2023 08:58:01 +0200
-Subject: [PATCH v2] watchdog: apple: Deactivate on suspend
+	s=k20201202; t=1697440284;
+	bh=l/Vg0iqD0UinYyhUjSctEB0Snsg6BWXcoeOBRlbiWVo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eQjhdoS+1/ZbY7r7aCl4mEZfIRzNj8u8LuOfVGzSusDASPitargYnsYw9tT3MGbuO
+	 dksuSRmLlsJbz6o9+Bgiowr32+F3wSIAGB8wopQZXqskxZeOVFgsrSvrbsN7SVGraZ
+	 F51Eod6EE9WT54cumc16W2O33m49je59N1u0hVb+xaBZAKganjKryU4L8dAUpW6Zvt
+	 +CV2w+u+ucaLt8APuI3i0qb2CpsQAfRnQ3eNaaWoFwvU492Xu3sGGeGlb+EbnXwjzs
+	 k4r0tS7DIEQRjq1F8iICV3sMyCVzfcQTqXFKa/4h6BRymEqukSuaGs3X//kZlu11nb
+	 3SMm4G/rWfEYw==
+Date: Mon, 16 Oct 2023 12:41:20 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] dmaengine: apple-sio: Add Apple SIO driver
+Message-ID: <ZSziGA6ao+KG3l8q@matsya>
+References: <20231013164936.60718-1-povik+lin@cutebit.org>
+ <20231013164936.60718-3-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231016-apple-watchdog-suspend-v2-1-7ffff8042dbc@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAPneLGUC/4WNQQ6DIBREr2L+ur8BWShd9R6NC4SP0DRIALWN8
- e6lXqCZ1Ztk3uyQKXnKcGt2SLT67OdQob00oJ0KE6E3laFlrWBSMFQxvgg3VbQz84R5yZGCwc5
- 2ohecC2ZHqOOYyPr3KX4MlZ3PZU6f82flv/avcuVYI2Wv2UjSmu7+VCGo5RqowHAcxxdCaA19v
- QAAAA==
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2139; i=j@jannau.net;
- h=from:subject:message-id; bh=qR9R65p5QA5TUKQf3OVfeiREsktHYZDElKSYt9mdCaI=;
- b=owGbwMvMwCG2UNrmdq9+ahrjabUkhlSd+wx/NBy7ua6cvxDYVJ11IvDv3N0fMlL+PeG4sD5p7
- wrx1fNlO0pZGMQ4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAEyk7jAjw+9qGZ/YyzM3vGxZ
- ph2y4NYj3sZ/wvf+q2w6eS+uyCMg6Rcjw2KGzTM/HKwSb0xVqO013fhUyrBh44fI2hccKvsZhPt
- ZeAA=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: <j@jannau.net>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231013164936.60718-3-povik+lin@cutebit.org>
 
-From: Janne Grunau <j@jannau.net>
+On 13-10-23, 18:49, Martin Povišer wrote:
 
-The watchdog remains active after putting the system into suspend. Add
-PM callbacks to deactivate the watchdog on suspend an re-activate it on
-resume.
+> +static struct dma_async_tx_descriptor *sio_prep_dma_cyclic(
 
-Signed-off-by: Janne Grunau <j@jannau.net>
----
-Changes in v2:
-- use DEFINE_SIMPLE_DEV_PM_OPS
-- Link to v1: https://lore.kernel.org/r/20230930-apple-watchdog-suspend-v1-1-1998c0be9fd7@jannau.net
----
- drivers/watchdog/apple_wdt.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+this should generate a check warning, typically lines should not end with a '('
 
-diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
-index eddeb0fede89..d4f739932f0b 100644
---- a/drivers/watchdog/apple_wdt.c
-+++ b/drivers/watchdog/apple_wdt.c
-@@ -173,6 +173,8 @@ static int apple_wdt_probe(struct platform_device *pdev)
- 	if (!wdt->clk_rate)
- 		return -EINVAL;
- 
-+	platform_set_drvdata(pdev, wdt);
-+
- 	wdt->wdd.ops = &apple_wdt_ops;
- 	wdt->wdd.info = &apple_wdt_info;
- 	wdt->wdd.max_timeout = U32_MAX / wdt->clk_rate;
-@@ -190,6 +192,28 @@ static int apple_wdt_probe(struct platform_device *pdev)
- 	return devm_watchdog_register_device(dev, &wdt->wdd);
- }
- 
-+static int apple_wdt_resume(struct device *dev)
-+{
-+	struct apple_wdt *wdt = dev_get_drvdata(dev);
-+
-+	if (watchdog_active(&wdt->wdd) || watchdog_hw_running(&wdt->wdd))
-+		apple_wdt_start(&wdt->wdd);
-+
-+	return 0;
-+}
-+
-+static int apple_wdt_suspend(struct device *dev)
-+{
-+	struct apple_wdt *wdt = dev_get_drvdata(dev);
-+
-+	if (watchdog_active(&wdt->wdd) || watchdog_hw_running(&wdt->wdd))
-+		apple_wdt_stop(&wdt->wdd);
-+
-+	return 0;
-+}
-+
-+static DEFINE_SIMPLE_DEV_PM_OPS(apple_wdt_pm_ops, apple_wdt_suspend, apple_wdt_resume);
-+
- static const struct of_device_id apple_wdt_of_match[] = {
- 	{ .compatible = "apple,wdt" },
- 	{},
-@@ -200,6 +224,7 @@ static struct platform_driver apple_wdt_driver = {
- 	.driver = {
- 		.name = "apple-watchdog",
- 		.of_match_table = apple_wdt_of_match,
-+		.pm = pm_sleep_ptr(&apple_wdt_pm_ops),
- 	},
- 	.probe = apple_wdt_probe,
- };
+> +		struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
+> +		size_t period_len, enum dma_transfer_direction direction,
+> +		unsigned long flags)
 
----
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-change-id: 20230930-apple-watchdog-suspend-7f73831130fb
+also helps to align with the open brace to something like:
+static struct dma_async_tx_descriptor *
+sio_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf_addr, size_t buf_len,
+                    size_t period_len, enum dma_transfer_direction direction,
+                    unsigned long flags)
 
-Best regards,
+> +static bool sio_fill_in_locked(struct sio_chan *siochan);
+> +
+> +static void sio_handle_issue_ack(struct sio_chan *siochan, void *cookie, bool ok)
+> +{
+> +	dma_cookie_t tx_cookie = (unsigned long) cookie;
+
+space not required after a cast
+
+> +static struct dma_chan *sio_dma_of_xlate(struct of_phandle_args *dma_spec,
+> +					 struct of_dma *ofdma)
+> +{
+> +	struct sio_data *sio = (struct sio_data *) ofdma->of_dma_data;
+
+drop space after cast here too
+
+> +static int sio_device_config(struct dma_chan *chan,
+> +			     struct dma_slave_config *config)
+> +{
+> +	struct sio_chan *siochan = to_sio_chan(chan);
+> +	struct sio_data *sio = siochan->host;
+> +	bool is_tx = sio_chan_direction(siochan->no) == DMA_MEM_TO_DEV;
+> +	struct sio_shmem_chan_config *cfg_shmem = sio->shmem;
+> +	struct sio_shmem_chan_config cfg;
+> +	int ret;
+> +
+> +	switch (is_tx ? config->dst_addr_width : config->src_addr_width) {
+> +	case DMA_SLAVE_BUSWIDTH_1_BYTE:
+> +		cfg.datashape = 0;
+> +		break;
+> +	case DMA_SLAVE_BUSWIDTH_2_BYTES:
+> +		cfg.datashape = 1;
+> +		break;
+> +	case DMA_SLAVE_BUSWIDTH_4_BYTES:
+> +		cfg.datashape = 2;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	cfg.fifo = 0x800;
+> +	cfg.limit = 0x800;
+> +	cfg.threshold = 0x800;
+
+what do these values represent, should this not be passed by the client
+
+> +static int sio_alloc_shmem(struct sio_data *sio)
+> +{
+> +	dma_addr_t iova;
+> +	int err;
+> +
+> +	sio->shmem = dma_alloc_coherent(sio->dev, SIO_SHMEM_SIZE,
+> +					&iova, GFP_KERNEL);
+> +	if (!sio->shmem)
+> +		return -ENOMEM;
+> +
+> +	sio->shmem_desc_base = (struct sio_coproc_desc *) (sio->shmem + 56);
+
+here too
+
+> +static int sio_probe(struct platform_device *pdev)
+> +{
+> +	struct device_node *np = pdev->dev.of_node;
+> +	struct sio_data *sio;
+> +	struct dma_device *dma;
+> +	int nchannels;
+> +	int err, i;
+> +
+> +	err = of_property_read_u32(np, "dma-channels", &nchannels);
+
+why not use device_property_read_u32()
 -- 
-Janne Grunau <j@jannau.net>
-
+~Vinod
