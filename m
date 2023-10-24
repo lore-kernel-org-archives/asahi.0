@@ -1,145 +1,117 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1629469F
-	for <asahi@lists.linux.dev>; Sun, 22 Oct 2023 16:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FD6FBFB
+	for <asahi@lists.linux.dev>; Tue, 24 Oct 2023 14:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nN71oLBk"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3b2b1ad7ee6so1710390b6e.2
-        for <asahi@lists.linux.dev>; Sun, 22 Oct 2023 09:48:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697993289; x=1698598089; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=zaC0k6XVBVVgzv+xMwI1MNbASVkxCUyoOYu0hkRSSx8=;
-        b=nN71oLBkiyW4luMnnf0HNruMFlrgIU+7xgNqgLrwvL2iqWQgS1yIc3xovRzbAxeyoL
-         L1koKtYeMoqIaDALPf/mgEiz5M9m/wRjt23VZ4Mas2AR0A1ewc2lTQshyf+2/mx81tTX
-         ykm5wx6hfFSIcktR2IT43i+8Zo1m+FvPV5+czgjq39xg0lEzgGsADIanEcAWRZQ9Grjp
-         70lvVmArCcF7rvcm3Tce5cYt/P9TiSGLRJAMCO/032F74vd6zBBI0GCKb3bia7RxhlxT
-         TOizK5D1+gy09p2kJLc/Bbe4phm3IW0Hlpp9+IC//e5uV4ZuoLw1ZmDis4E0meAFMrGn
-         dJ4g==
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-oi1-f169.google.com with SMTP id 5614622812f47-3b2ec9a79bdso3280195b6e.3
+        for <asahi@lists.linux.dev>; Tue, 24 Oct 2023 07:25:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697993289; x=1698598089;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zaC0k6XVBVVgzv+xMwI1MNbASVkxCUyoOYu0hkRSSx8=;
-        b=M15JijrRdiNujRqFiYB340/ZZLUlbarNeoTEHIHI3gFah600+gCFDIkRRQzchQkC2s
-         Aj5e/jrv5yjpAozywtjZB3Q8EyVO4a1Bv5ydQ5ZMNX9iojYWXvrlt7twJQUGNI/HkytY
-         dO63qRyFaHKyoH0PT6V/eiVXS+biqaFhKk0n5eZ7ZyplkzyDtGgMc98NpQGhl9z2Banv
-         Vhh9rqRLRTe9MdyGlAoeTQgNkL2H8rXDLKCvoQokKyni4o27Q7OubPRcUO88GW4lNYlc
-         pZdHwBpHj+pTW/SslFVNRAYBDUKukKa4afcro3cRwDm01GIil6BI3YDENAwVeFKmDehQ
-         tXeg==
-X-Gm-Message-State: AOJu0YxaB98r6CAsOz+6DhAtypwsij40fOdfR4J+lGPLAKhfc4rZqqmK
-	GWuqSEQ6/pDOnPPprdjrV/8=
-X-Google-Smtp-Source: AGHT+IGpkNvGgZVMKkF8ZxGYFUTvP28BBBEKhlGAJdl1GmJbCGwO7rIiSfOHfkeIf2OwE4ATpvi6Ig==
-X-Received: by 2002:a05:6358:9146:b0:140:f6ab:b11e with SMTP id r6-20020a056358914600b00140f6abb11emr8468882rwr.28.1697993288607;
-        Sun, 22 Oct 2023 09:48:08 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id f10-20020a631f0a000000b0056b27af8715sm4456037pgf.43.2023.10.22.09.48.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Oct 2023 09:48:08 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c6149f04-4cf6-8dcc-3aca-d926f49a34d7@roeck-us.net>
-Date: Sun, 22 Oct 2023 09:48:07 -0700
+        d=1e100.net; s=20230601; t=1698157503; x=1698762303;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sTENRnFDH/MiSBA8uB23f0CHV3Zm50OBvimHwqLqTLY=;
+        b=pe8G16oDXMBIXEuKVppAIqGiib5jMBUP6t4JUEf3yYJwVPeu+2EYJkpHIXO7SXnaFX
+         TWbPI7R7CKImUS+UWi/bOk36StY9e+08KVirad8PgtMygNBx8oGqQTT3VNQZkEBN8Klw
+         6yw4bDtnK6GwLU/Y2r3rDCuLV7bVPUO998X07B8zf+6dIAZrKVm/JZe0LwgpD8IT0GkR
+         evTyMpIzdOdc2WZdEepkL+ztv0WeYN5BOMTKJGzsK+vah7o/eNrl8+4X1gSV1QqxyOKk
+         YaM8zvIBuHKLsggFmWb5Q+q8eEio1lPh1PtXs0JLB1qtUV/1+PTZX7vghWQAqZOw/Uno
+         w10A==
+X-Gm-Message-State: AOJu0Yxw+NzxYtek86I3eXcT9v5s6coOdzvgOINzHLjwbiLGA/NLaN4T
+	7qst0CDiSTcLIknnzXaeWg==
+X-Google-Smtp-Source: AGHT+IFi+wUzpHfgZ8zfKt641YNAo4P94oG7imu28ijkctLr8rSHz5f9MF1hyEAgXwXwercbvcmRUQ==
+X-Received: by 2002:a05:6870:1f0c:b0:1e9:bbfe:6457 with SMTP id pd12-20020a0568701f0c00b001e9bbfe6457mr15080276oab.6.1698157502801;
+        Tue, 24 Oct 2023 07:25:02 -0700 (PDT)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id k7-20020a056870d38700b001e9a7280a30sm2187892oag.0.2023.10.24.07.24.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 07:25:02 -0700 (PDT)
+Received: (nullmailer pid 3693654 invoked by uid 1000);
+	Tue, 24 Oct 2023 14:24:57 -0000
+Date: Tue, 24 Oct 2023 09:24:57 -0500
+From: Rob Herring <robh@kernel.org>
+To: =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Hector Martin <marcan@marcan.st>, 
+	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Vincent Shih <vincent.sunplus@gmail.com>, Alessandro Zummo <a.zummo@towertech.it>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Christian Marangi <ansuelsmth@gmail.com>, Anson Huang <Anson.Huang@nxp.com>, 
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Lala Lin <lala.lin@mediatek.com>, 
+	Komal Bajaj <quic_kbajaj@quicinc.com>, Kumar Thella <sthella@codeaurora.org>, 
+	Keiji Hayashibara <hayashibara.keiji@socionext.com>, linux-mtd@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org, 
+	asahi@lists.linux.dev, linux-arm-msm@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-rtc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>
+Subject: Re: [PATCH V2] dt-bindings: nvmem: move deprecated cells binding to
+ its own file
+Message-ID: <20231024142457.GA3684864-robh@kernel.org>
+References: <20231003064018.7502-1-zajec5@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2] watchdog: apple: Deactivate on suspend
-Content-Language: en-US
-To: j@jannau.net, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231016-apple-watchdog-suspend-v2-1-7ffff8042dbc@jannau.net>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <20231016-apple-watchdog-suspend-v2-1-7ffff8042dbc@jannau.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231003064018.7502-1-zajec5@gmail.com>
 
-On 10/15/23 23:58, Janne Grunau via B4 Relay wrote:
-> From: Janne Grunau <j@jannau.net>
+On Tue, Oct 03, 2023 at 08:40:18AM +0200, Rafał Miłecki wrote:
+> From: Rafał Miłecki <rafal@milecki.pl>
 > 
-> The watchdog remains active after putting the system into suspend. Add
-> PM callbacks to deactivate the watchdog on suspend an re-activate it on
-> resume.
+> Support for old NVMEM fixed cells was deprecated in favour of
+> "fixed-layout". It's still part of the nvmem.yaml though and may be
+> unknowingly used by new bindings added without much of analyze.
 > 
-> Signed-off-by: Janne Grunau <j@jannau.net>
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
+> To make it more difficult to accidentally support old syntax move its
+> binding to separated file with "deprecated" in its name.
+> 
+> Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
 > ---
-> Changes in v2:
-> - use DEFINE_SIMPLE_DEV_PM_OPS
-> - Link to v1: https://lore.kernel.org/r/20230930-apple-watchdog-suspend-v1-1-1998c0be9fd7@jannau.net
-> ---
->   drivers/watchdog/apple_wdt.c | 25 +++++++++++++++++++++++++
->   1 file changed, 25 insertions(+)
+> V2: Fix path to nvmem-deprecated-cells.yaml in amlogic,meson6-rtc.yaml
 > 
-> diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
-> index eddeb0fede89..d4f739932f0b 100644
-> --- a/drivers/watchdog/apple_wdt.c
-> +++ b/drivers/watchdog/apple_wdt.c
-> @@ -173,6 +173,8 @@ static int apple_wdt_probe(struct platform_device *pdev)
->   	if (!wdt->clk_rate)
->   		return -EINVAL;
->   
-> +	platform_set_drvdata(pdev, wdt);
-> +
->   	wdt->wdd.ops = &apple_wdt_ops;
->   	wdt->wdd.info = &apple_wdt_info;
->   	wdt->wdd.max_timeout = U32_MAX / wdt->clk_rate;
-> @@ -190,6 +192,28 @@ static int apple_wdt_probe(struct platform_device *pdev)
->   	return devm_watchdog_register_device(dev, &wdt->wdd);
->   }
->   
-> +static int apple_wdt_resume(struct device *dev)
-> +{
-> +	struct apple_wdt *wdt = dev_get_drvdata(dev);
-> +
-> +	if (watchdog_active(&wdt->wdd) || watchdog_hw_running(&wdt->wdd))
-> +		apple_wdt_start(&wdt->wdd);
-> +
-> +	return 0;
-> +}
-> +
-> +static int apple_wdt_suspend(struct device *dev)
-> +{
-> +	struct apple_wdt *wdt = dev_get_drvdata(dev);
-> +
-> +	if (watchdog_active(&wdt->wdd) || watchdog_hw_running(&wdt->wdd))
-> +		apple_wdt_stop(&wdt->wdd);
-> +
-> +	return 0;
-> +}
-> +
-> +static DEFINE_SIMPLE_DEV_PM_OPS(apple_wdt_pm_ops, apple_wdt_suspend, apple_wdt_resume);
-> +
->   static const struct of_device_id apple_wdt_of_match[] = {
->   	{ .compatible = "apple,wdt" },
->   	{},
-> @@ -200,6 +224,7 @@ static struct platform_driver apple_wdt_driver = {
->   	.driver = {
->   		.name = "apple-watchdog",
->   		.of_match_table = apple_wdt_of_match,
-> +		.pm = pm_sleep_ptr(&apple_wdt_pm_ops),
->   	},
->   	.probe = apple_wdt_probe,
->   };
-> 
-> ---
-> base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-> change-id: 20230930-apple-watchdog-suspend-7f73831130fb
-> 
-> Best regards,
+>  .../devicetree/bindings/mtd/mtd.yaml          |  7 ++++-
+>  .../bindings/mtd/partitions/nvmem-cells.yaml  |  1 +
+>  .../nvmem/amlogic,meson-gxbb-efuse.yaml       |  1 +
+>  .../bindings/nvmem/amlogic,meson6-efuse.yaml  |  1 +
+>  .../bindings/nvmem/apple,efuses.yaml          |  1 +
+>  .../devicetree/bindings/nvmem/imx-ocotp.yaml  |  1 +
+>  .../bindings/nvmem/mediatek,efuse.yaml        |  1 +
+>  .../nvmem/microchip,sama7g5-otpc.yaml         |  1 +
+>  .../devicetree/bindings/nvmem/mxs-ocotp.yaml  |  1 +
+>  .../nvmem/nvmem-deprecated-cells.yaml         | 28 +++++++++++++++++++
+>  .../devicetree/bindings/nvmem/nvmem.yaml      |  9 ------
+>  .../bindings/nvmem/qcom,qfprom.yaml           |  1 +
+>  .../bindings/nvmem/qcom,sec-qfprom.yaml       |  1 +
+>  .../bindings/nvmem/qcom,spmi-sdam.yaml        |  1 +
+>  .../bindings/nvmem/rockchip,otp.yaml          |  1 +
+>  .../bindings/nvmem/rockchip-efuse.yaml        |  1 +
+>  .../nvmem/socionext,uniphier-efuse.yaml       |  1 +
+>  .../bindings/nvmem/sunplus,sp7021-ocotp.yaml  |  1 +
+>  .../bindings/rtc/amlogic,meson6-rtc.yaml      |  1 +
+>  19 files changed, 50 insertions(+), 10 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/nvmem/nvmem-deprecated-cells.yaml
 
+You missed allwinner,sun4i-a10-sid.yaml and at24.yaml 
+(arch/arm/boot/dts/broadcom/bcm53016-meraki-mr32.dts). Maybe we want to 
+fix the latter case because at24 will continually have new users.
+
+Rob
