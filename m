@@ -1,121 +1,229 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BB92E627
-	for <asahi@lists.linux.dev>; Wed, 25 Oct 2023 15:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C00926E32
+	for <asahi@lists.linux.dev>; Wed, 25 Oct 2023 16:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cisco.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="BxnfYtrD"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5840fe01176so3531486eaf.1
-        for <asahi@lists.linux.dev>; Wed, 25 Oct 2023 08:58:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1698249514; x=1698854314; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xh9TIQAzLGtY8IKnRXxYUTC8KDsKOaw81BBkG/qg5HY=;
-        b=BxnfYtrDJt72LZuOQ+cVPe5JP1mQ844xJBN9dhFUjUAtutDVs/BOL3e5F0WzHcpn0n
-         879RicYYh8lfjRqiIS+7MfKh4FlLWMbR/khacvAtNhkPw0T5k7JZaOt2v7LWZl6yzbjx
-         4F+DkWajeXyre6InyaG71905X9ggu2lJGiICu+PoNoQwXNkcE9/RJrO4RzpKY5RoMTuh
-         uUgS4RiPQaiZ5oTeO727vzvC8RmbYaJPCX+WcuR9W4MRfe/go+m1GTeijbpljT8ZdiaW
-         9DsARHvWIWH8Hq8Sc+SETpRZZcISfPjy9bmcTCb2qDZ7f43szKtFlwkpsSBhxVV7ZNNk
-         bcPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698249514; x=1698854314;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xh9TIQAzLGtY8IKnRXxYUTC8KDsKOaw81BBkG/qg5HY=;
-        b=btqS/vKtKNvOjRVqtJPQyTdK3DEsPPn1EVvXP1ExH78tLeWsRW5E+IpQ3JpLH9w7vJ
-         U6fjqZaLkV/UwGPqCuCleWtf1lfQBi6v3PKLqhhK6O2mZ5c9NPbnPbZ2Jy9ZvP5SH9f/
-         lEQdjHovehdckbPmsUH2rKxus5XhObcuk04S8jE//KRppNjbQe/EzlD5o/uHw8G5V/VZ
-         pJptoGrFiik70MtSEFSU/BW28QMpp5IB84OnK6Wm0lAsZQPSKxN3OVDVRz8X2LnfO+1n
-         YKrIUM8ExoUb+RL6q0WWvSOUYbQDOjPBfZ2hpJGg6UjkOfUBS5aUMr8FJgcgbKn7S/4f
-         ecTw==
-X-Gm-Message-State: AOJu0YzITmtlZAYz5U1zlD2njhU7hZccuAT3URcY03wehd6MkzWhj1F9
-	XPp7r5A+YKhGgKjTcoGVM0fXMw==
-X-Google-Smtp-Source: AGHT+IFzIsrHLnoP3SfHHNSS732Byz8xbCh6I9WGwH1qvCmSKAsaFlHdvXIydQDBYtQoTuLU7GaqVw==
-X-Received: by 2002:a4a:bd05:0:b0:581:ff09:62e4 with SMTP id n5-20020a4abd05000000b00581ff0962e4mr15571716oop.2.1698249513815;
-        Wed, 25 Oct 2023 08:58:33 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-26-201.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.26.201])
-        by smtp.gmail.com with ESMTPSA id y4-20020a4aaa44000000b0057e66fa004dsm26569oom.47.2023.10.25.08.58.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 08:58:33 -0700 (PDT)
-From: jgg@ziepe.ca
-X-Google-Original-From: Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1qvgHA-004tcE-CG;
-	Wed, 25 Oct 2023 12:58:32 -0300
-Date: Wed, 25 Oct 2023 12:58:32 -0300
-To: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	David Woodhouse <dwmw2@infradead.org>, iommu@lists.linux.dev,
-	Kevin Tian <kevin.tian@intel.com>,
-	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-	Hector Martin <marcan@marcan.st>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sven Peter <sven@svenpeter.dev>, Will Deacon <will@kernel.org>
-Cc: Lu Baolu <baolu.lu@linux.intel.com>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v2 0/9] iommu: Convert dart & iommufd to the new
- domain_alloc_paging()
-Message-ID: <20231025155832.GA1167025@nvidia.com>
-References: <0-v2-bff223cf6409+282-dart_paging_jgg@nvidia.com>
+	dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b="UbHdEhql";
+	dkim=pass (1024-bit key) header.d=cisco.com header.i=@cisco.com header.b="oFUDbj21"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=1216; q=dns/txt; s=iport;
+  t=1698250791; x=1699460391;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=72O1JVfrMZfSzETYO7dQDjQyEGNZizdfWFRas7lRlEc=;
+  b=UbHdEhqlGqtjBZsf+jNCLwvi/CADB+hoMyIWRyl6MjrOi9+6hj61fvXD
+   S1e8+UTfyL3Om4akAW9RxlgUb3+tp8wyC8Nm9rEkV0T5SFfyOO1tt/32z
+   ReZ9/2TVKkNTaFrM93D9DdhSf0jYriHHbIGYa5ZZEeD7PboAZcJTiYOL4
+   M=;
+X-CSE-ConnectionGUID: /Rt/7HfSTwiJJu20t2//Cg==
+X-CSE-MsgGUID: mGbXvJ1LQzmUEDo+976Y8A==
+X-IPAS-Result: =?us-ascii?q?A0BVAAA9PzllmIsNJK1aHQEBAQEJARIBBQUBQCWBGAYBC?=
+ =?us-ascii?q?wGBZlJ4WzxIhFKDTAOFLYZAgiWSWIslgSUDVg8BAQENAQFEBAEBhQYCFocCA?=
+ =?us-ascii?q?iY2Bw4BAgICAQEBAQMCAwEBAQEBAQECAQEFAQEBAgEHBBQBAQEBAQEBAR4ZB?=
+ =?us-ascii?q?Q4QJ4VoDYZNAQEBAxIREQwBATcBDwIBCBgCAiYCAgIwFRACBA4FCBqCXIJfA?=
+ =?us-ascii?q?wGnaQGBQAKKKHqBMoEBggkBAQYEBbJsCYEaLgGICQGBUIg2JxuBSUSEPz6CY?=
+ =?us-ascii?q?QKBYBeDRIJog3WCLYMPBzKBSVmDLymEAogOCVUjR3AbAwcDgQMQKwcELRsHB?=
+ =?us-ascii?q?gkWGBUlBlEELSQJExI+BIFngVEKgQM/Dw4RgkIrNjYZS4JbCRUMNU12ECoEF?=
+ =?us-ascii?q?BeBEQRqHxUeEiUREhcNAwh2HQIRIzwDBQMENAoVDQshBRRDA0QGSgsDAhoFA?=
+ =?us-ascii?q?wMEgTYFDR4CEBoGDScDAxlNAhAUAx4dAwMGAwsxAzCBHgxZA2wfNgk8CwQMH?=
+ =?us-ascii?q?wI5DSsnA0QdQAN4PTUUG0Qpni+EBHo7dHWSMYMvAUmuMAqEDKEgSQOpZJg8o?=
+ =?us-ascii?q?w2FGwIEAgQFAg4BAQaBagkqO4EgcBUagwhSGQ+OIBmDX495djsCBwEKAQEDC?=
+ =?us-ascii?q?YtKAQE?=
+IronPort-PHdr: A9a23:xXpflhwMca8rPYHXCzMRngc9DxPP853uNQITr50/hK0LLuKo/o/pO
+ wrU4vA+xFPKXICO8/tfkKKWqKHvX2Uc/IyM+G4Pap1CVhIJyI0WkgUsDdTDCBjTJ//xZCt8F
+ 8NHBxd+53/uCUFOA47lYkHK5Hi77DocABL6YANwJ+/oHofJp8+2zOu1vZbUZlYAiD+0e7gnN
+ Byttk2RrpwPnIJ4I6Atyx3E6ndJYLFQwmVlZBqfyh39/cy3upVk9kxt
+IronPort-Data: A9a23:Ha2swaKVUcq+3XBKFE+R/pUlxSXFcZb7ZxGr2PjKsXjdYENS32dUn
+ zBLXDuFa/eKNjHxctkgPYiz8U4CusKGyt5iGgcd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcYZsCCea/0/xWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVvW0
+ T/Oi5eHYgT8g2Qpajh8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKmWDNrfnL
+ wpr5OjRElLxp3/BOPv8+lrIWhFirorpAOS7oiE+t55OLfR1jndaPq4TbJLwYKrM4tmDt4gZJ
+ N5l7fRcReq1V0HBsLx1bvVWL81xFep85PiYAXaEjdOS7W/bKSPwmbIpJ05jaOX0+s4vaY1P3
+ fUcLDZIZReZiqfohrm6UeJrwM8kKaEHPqtG5Somlm+fVK1gGMuSK0nJzYcwMDMYj8VPFuvab
+ tExYjt0ZxOGaBpKUrsSIMtkxb/x2yClLlW0rnqQiqAH/UqK6DVj1YXAHN2WK4PUdJV8yxPwS
+ mXupjSlXU5y2Mak4TOe+3KtruvOhj/gHoYTEqCosPJnnjWuKnc7ARkSUx6wpuO0zxD4UNNEI
+ EtS8S0rxUQvyKC1Zp7HQ1rngHC/ggEdefhNSbUmskbK4aWBtm51GVM4ZjJGbdUnsuo/Sjory
+ kKFkrvV6dpH7ez9pZW1q+j8kN+iBcQGBTRZPHNZFGPp9/Gm8d5r0EOeJjp2OPPt5uAZDw0c1
+ NxjQMIWq7gVkckNv0lQ1Q+Z2Wv0znQlo/Jc2+k6dmuh6gU8b4m/asn2r1Pa9v1Hao2eSzFtX
+ UToeeDAt4ji7rnUyURhpdnh+pn1vZ5p1xWA2DZS82EJrWjFxpJaVdk4DMtCDEloKN0YXjTif
+ VXevwhcjLcKYir6NPAtOd7tW5RwpUQFKTgDfq6NBjapSsUgHDJrAAk1DaJt9zm3yRN1wf1X1
+ WmzKJr1Ux729piLPBLvF7tCjtfHNwg1xHjYQtjg3g+73L+FDEN5up9bWGZimtsRtfveyC2Mq
+ o43H5LTl313DrakCgGJqtF7ELz/BSVhbXwAg5YJJrfrz8sPMDxJNsI9Npt+K9U7wv4EyLagE
+ 7PUchYw9WcTTEbvcG2iQntic7joG514qBoG0eYEZz5EB1BLjV6T0Zoi
+IronPort-HdrOrdr: A9a23:fwch8qyAmuT17/AvA6JcKrPxUOgkLtp133Aq2lEZdPULSL36qy
+ n+ppQmPEHP6Qr5AEtQ6OxoWJPtfZvdnaQFmLX4pd+ZLUfbURiTXfFfBOzZsnzd8kzFh6FgPM
+ JbAspD4bLLfCVHZKrBkW6F+pMbsae6GcOT9KfjJhVWPH1Xgshbhm8TZHf/YylLrUt9dOUE/f
+ Gnl7J6Tk+bCA4qh7OAdwI4tob41rv2vaOjSyQrQzQg7w6Dhy6p7rnVLzi0ty11bxp/hZ0Z3S
+ zgiQLW2oWP2svX9vbb7QDuxqUTvOGk5spIBcSKhMRQAC7rkByUaINoXKDHlCwpocm0gWxa0u
+ XkklMFBYBe+nnRdma6rV/GwA/7ygsj7Hfk1BuxnWbjm8rkXzg3YvAxwL6xMyGpr3bIjusMlp
+ 6j7Fjp7qa/yimwxBgV0uK4EC2CUHDE+kbK39Rj1UC3GrFuG4O55bZvjn+9Vq1wXx4TLOscYb
+ VT5Aa23ocKTXqKK3/epWVh29qqQzA6GQqHWFELvoiP3yFRh20R9TpT+CUzpAZJyHsGcegO28
+ 3UdqBz0L1eRM4faqxwQO8HXMusE2TIBRbBKnibL1jrHLwOfyulke+63JwloOWxPJAYxpo7n5
+ rMFFteqG4pYkrrTcmDxodC/BzBSHi0GT7t1sZd7Z5kvaCUfsunDQSTDFQ118ewqfQWBcPWH/
+ 61JZJNGvfmaXDjHI5YtjeOEqW66UNuJvH9luxLLG5m+Pi7X7ECntarBMruGA==
+X-Talos-CUID: 9a23:Ge15pWzGNmfpKmcpj6mWBgVTINxiLV3T90vPIm2aFDwxVOfSDnSfrfY=
+X-Talos-MUID: 9a23:9tArNAVDWZoOzvzq/DrDjgF8Fp5M2rarNW0hltZX5Je1ZQUlbg==
+X-IronPort-Anti-Spam-Filtered: true
+Received: from alln-core-6.cisco.com ([173.36.13.139])
+  by rcdn-iport-8.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 16:18:41 +0000
+Received: from rcdn-opgw-4.cisco.com (rcdn-opgw-4.cisco.com [72.163.7.165])
+	by alln-core-6.cisco.com (8.15.2/8.15.2) with ESMTPS id 39PGIfY8016724
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <asahi@lists.linux.dev>; Wed, 25 Oct 2023 16:18:41 GMT
+X-CSE-ConnectionGUID: 1Bi7zO/TTX6hKhEMmGYV8A==
+X-CSE-MsgGUID: gJ9wIajtQ22HAM8mYZQTGA==
+Authentication-Results: rcdn-opgw-4.cisco.com; dkim=pass (signature verified) header.i=@cisco.com; spf=Pass smtp.mailfrom=amiculas@cisco.com; dmarc=pass (p=quarantine dis=none) d=cisco.com
+X-IronPort-AV: E=Sophos;i="6.03,250,1694736000"; 
+   d="scan'208";a="5699731"
+Received: from mail-bn8nam12lp2168.outbound.protection.outlook.com (HELO NAM12-BN8-obe.outbound.protection.outlook.com) ([104.47.55.168])
+  by rcdn-opgw-4.cisco.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 16:18:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OIUjSERK/o4rGmaAt5GTQm1LffeXRcma5Ge+BFErNHD1lgQ5MUQ6JBFMgUUFVrcW+0Rv2acNNyLQbiUBFP+wuBdqEHiJIDN7ZU48e63fyP7EiWP2oBGLByfwo2tku37zFU8Yh3eoppvUzIK/InqiurbsoGjVoaK+vXeN7Q5BSBeJgOmp/xm8md+jwHFokaRrqIxLGofv6FJblrE2YFcIWKeCCZGNCjqRsIKiLlyS+7dPzZ6sMI6D6Yc2b+ieWejnFGCnB661weHxSKqKFG1hCkzd/6h889xHTpUz1D11APYfTk3ZFi3YhGyIMxaQwZfZ9WBlL3i67YZUJKUyvdIFKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=72O1JVfrMZfSzETYO7dQDjQyEGNZizdfWFRas7lRlEc=;
+ b=BOTUxxtIsicsgTlOK2X3SRkEXu2LlAhXFMLiWXC79Rn0pKdu4KTDdBJAzOEjv7qOxGjKEruDHpWtKWc4PvQoIc7GKBtzRGMByo27SIFd89NE7Uy4i2AsCsaKvwwqnMLhM8j3YI2uNUqkkZ/9tdfY5bYliI6gY9DN905Zoq/gqwEV3HCVlQdlYc8d+VTuQIVgk8Tyx5q3VBbraq2+ieMuQa9DhIJ2xFgB1fNi7WdjrECVLr+8Hv+z4Tgv0VIe5YMlrqZX7EatPfGjOAUeMqsYhyHslHuBvlq3TcpOPfEDpXtINGih6cpQiB35NURZ3++tE3vH5Oly+VV+z8b5nqxWSw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cisco.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=72O1JVfrMZfSzETYO7dQDjQyEGNZizdfWFRas7lRlEc=;
+ b=oFUDbj2112v+w1FqxlqafZ7TKQTYEqwwnNVJE+Q87ITdkPFwc/d6KxC0hKcDFqJH9a22XTq1SjV0eoq5R4DSswIKPmWzTdzP289mHy616vi+CCjRg2GgVpi2WGIMDcptUcTbSUmGdYNlxoM6foLz45H7cZO2oo24cpqxLC1siII=
+Received: from CH0PR11MB5299.namprd11.prod.outlook.com (2603:10b6:610:be::21)
+ by PH0PR11MB4998.namprd11.prod.outlook.com (2603:10b6:510:32::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.26; Wed, 25 Oct
+ 2023 16:18:38 +0000
+Received: from CH0PR11MB5299.namprd11.prod.outlook.com
+ ([fe80::dbd8:84b0:9c4:d12b]) by CH0PR11MB5299.namprd11.prod.outlook.com
+ ([fe80::dbd8:84b0:9c4:d12b%5]) with mapi id 15.20.6907.032; Wed, 25 Oct 2023
+ 16:18:38 +0000
+From: "Ariel Miculas (amiculas)" <amiculas@cisco.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+CC: Alice Ryhl <aliceryhl@google.com>,
+        "ariel.miculas@gmail.com"
+	<ariel.miculas@gmail.com>,
+        "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>,
+        "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+        "benno.lossin@proton.me"
+	<benno.lossin@proton.me>,
+        "bjorn3_gh@protonmail.com"
+	<bjorn3_gh@protonmail.com>,
+        "boqun.feng@gmail.com" <boqun.feng@gmail.com>,
+        "gary@garyguo.net" <gary@garyguo.net>,
+        "lina@asahilina.net"
+	<lina@asahilina.net>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "ojeda@kernel.org" <ojeda@kernel.org>,
+        "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
+        "wedsonaf@gmail.com" <wedsonaf@gmail.com>
+Subject: Re: [PATCH] rust: kernel: str: Implement Debug for CString
+Thread-Topic: [PATCH] rust: kernel: str: Implement Debug for CString
+Thread-Index: AQHaB17pyf2qEV03vUqsAMeJkagKAw==
+Date: Wed, 25 Oct 2023 16:18:38 +0000
+Message-ID: <hwqyfgbzbnquby5v6zby4u4pbyezzcsttt4ee5x7lw5etpv7se@kvarclpucc7w>
+References:
+ <CAPDJoNv1HW-5uCj21PX3t23rJ+sbTL4Gm5pDis8HGJ-VTr4dug@mail.gmail.com>
+ <20230714140201.383439-1-aliceryhl@google.com>
+ <CANiq72n8-b992D4RbwUtuEUxXfJYQLNwfibgWSyspx-HYJ8+8A@mail.gmail.com>
+In-Reply-To:
+ <CANiq72n8-b992D4RbwUtuEUxXfJYQLNwfibgWSyspx-HYJ8+8A@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CH0PR11MB5299:EE_|PH0PR11MB4998:EE_
+x-ms-office365-filtering-correlation-id: 1b5c99b9-3cf3-416b-c916-08dbd5760be8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ /Y8oRzrfyfrWKjgG/k790K+d1OHnayrl3u1c857ijn1ezpHdD9bP7w6vrmqIns4x9bzLgiDln08qBqKg3H7fHNMEnd7J1hObQI/5fA3mSaCZO42xj4JgZFAPvZ4mKdtIbGpQNLVjKSYQmVQk9ZffuDnHbwb+2JpfoEOt/QZV1LB6GgWFH2qGLPhW1NIJU2+AbK5G4mmWlCnVlmXkzgmdfnQgRSUb7yYyWJh3oBBg7Rs7/ZR4hQAvrpOpMK9GFJthTUPaCjuBymE3nkFS2Ph+viNiZ3Cqq6irtHBucnBE54NBmqsYVzH1TW9i7pA1QC/NsQa1eSXe59FNvXNTYZ3jFVr35WEH/wHaoeuCbaXols3LacrycnwH6WhUoYwjI9D1JgdTfghhXFTO4O3VasMsabl9sWO9viPunGTUt2ag6LXJ2x0TlK+Hx7upq54pRx+9tLwtNnwT40eAhQpGAKBOrqsrlZl6e/rUHp1YQ8QG3ueLp1BNZor7DJvJyG0VxuJ2XfVFid6ngcmtwIxUGZaJpzZv58mZV1LQOG5EjsJNWAcZgBnz84wcOxpg5FVyOT330sxIhMs+Uu8u41lVDGx8sf5zujL9XUpV5GqjdYol0zvMenFRPTAwXHICK69jmnbQ
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB5299.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(136003)(366004)(39860400002)(396003)(376002)(346002)(230922051799003)(1800799009)(451199024)(64100799003)(186009)(64756008)(9686003)(316002)(66446008)(66946007)(66476007)(54906003)(76116006)(66556008)(6916009)(91956017)(26005)(6506007)(53546011)(6512007)(38070700009)(71200400001)(478600001)(4744005)(8936002)(5660300002)(8676002)(7416002)(4326008)(38100700002)(41300700001)(86362001)(2906002)(33716001)(122000001)(6486002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?ZFc3K2JiZnMwUlpacTNYQkpYMDBYd3BGZFJsR1pHMmNhTmIwM21vN2hncENI?=
+ =?utf-8?B?VWRiTzBlZ1NGdnNJQVpCRlV4L21NVkpXa2tlT2tZQWI5dHM3WVdhUU1haXU0?=
+ =?utf-8?B?bXFSZE5YVDB3QmZQeVpuT0VTcThqNVhFOGEzSSt6cDFWMW1xMWtzK0N3cy9u?=
+ =?utf-8?B?QTNZM09pc0JYaXcrQkk3M01odElnMVdtZEROOURkY2JScXZMNVZLaVFSdjF4?=
+ =?utf-8?B?Y3lrUkd4K3BkRkVzT2ZtS1ZxcDVpMm1FTDRPeDZTNy9OV29CeEhVQlZOdVg5?=
+ =?utf-8?B?ZXA1UVVjMGtkQXM5Sk5nb2h2UVJuSEZEVStGTjJ6Zk43MjdONkhQRi9XbnpF?=
+ =?utf-8?B?MW54VmEvbEFLWXFObkhsdHY0TlZoM094aHhaeGtoR3E3WDRNWlJzbUhES2dS?=
+ =?utf-8?B?YVh6K3Z6dCttb09iWG1WYzNwVHl3cDlZaE1FYUhvVDJtN2tLK1VUY1hXME5t?=
+ =?utf-8?B?TFRDMXdESEpaOVR1V0dIZFV5UjhXYlZIWGtHTDZscWYwMXhsK09oVStJc2Nw?=
+ =?utf-8?B?SitEZ2drVS9xRCtiNFVBNGY0eHpqelVFbU84cUw3bUM0UjRXa00zUUZEY0Iy?=
+ =?utf-8?B?M2t1RVE4WWVoSHZrbkJHWkNzRHJoQmx0djFqZzZSNWJseTR2RDJ6UTlMVE1v?=
+ =?utf-8?B?NkFIdnByK3dsaUNiVXRhdHMyTTlydXFzM0dKOTlQbnNZT2REVVU2a0YzYTJ6?=
+ =?utf-8?B?N3lGN2M3cWQ2M3l6cDFwTC9OaFdwbCtjbGpiaUpGQ2FHZXRSdFZNd0NaVkJj?=
+ =?utf-8?B?NURJL0FJcXBkbzQ1dWJidEpqeEpEUkZ0YVNnL0FueTlRN0lvQkVmNXRiN2hw?=
+ =?utf-8?B?SmZPZzFvKzR0TzRhVGVlK29ZcDVmbDAxM0JKZVg1eC8xRHNpRmpJS2JCaXVF?=
+ =?utf-8?B?ZnRQN1R0bkN5eFpCMk0zbXNycmZnMitKczdGVFJjWGwraTd1Rk1QNWl1Rld6?=
+ =?utf-8?B?TEM3eUhKa3pMb1lnaVU4eXVyb2t0TmJsSTMzUlhlUjNmd3BBTTdEQVpVWSt1?=
+ =?utf-8?B?bnMyZ3dNQVplN3NEUHM4VEVUZVpYTkVBaE5pRDdWOUU1VExNUXhZZmptT1Rl?=
+ =?utf-8?B?M3NsNkhmWWhZaTJTR0lyT2xiWkV2K2NlS1hHaDBrU1ZLTUJhUThWUDVzMFJR?=
+ =?utf-8?B?L0tHNHlaU1NjajZsb2gyd1J1UytDdENhd2VVbWR5Y0hCY1g5cnhKMVMyNTBV?=
+ =?utf-8?B?aU10Q3NKU3g4Z1hyL2gwWVAwZGt2R243dWEyUGVacjN5Y1pUVFZmZk5ESUFN?=
+ =?utf-8?B?bUlqOWNWNTJ6ZlFFem5kTm45TmJyanpPcWJuZXV3R1lKcXdZb1ZqMDNONzJw?=
+ =?utf-8?B?d0M5bVNJWmFpOXYrRnY0Nk0yR2I2VTNjeGJ4cmk4RlprT1RJR2JjZGNETHZq?=
+ =?utf-8?B?K1pmTUU5UFZBNnNkaXlhMnVnMktoK0pTekR1WVVlSDNZdE1BamxqK3RNZEV3?=
+ =?utf-8?B?QlRjSmxlSUtCQWVNbHZuTjdCakdCS1BDelYxRkZWeUZSWis5UFpGNWY5Z3o5?=
+ =?utf-8?B?Y3pTeTdiY0J0M0treitVM2gxNDg1M08vVEJ1QjRiVXNaK2tFMXVJTVRVRkx4?=
+ =?utf-8?B?VGRqeEMwZmUxM3RNK243ckZkQkJrb0dtUjRlQXh5WktweXJyVEdVMVlaQis3?=
+ =?utf-8?B?dnVZclBmSzVxL2pTUDlGelp1MTVEcVgwZHFQeEx6TWllVTkwV1VZR0tHMzBT?=
+ =?utf-8?B?aFNURzhvYnRZOW1GeEFtMEp2OTNjWjVwWFdVRlhYRG5CeU41WExOSWo0amhU?=
+ =?utf-8?B?MVV1V2hKNERvekpjTXV3d0ZGTUczcVlnYVN4QmxwRnNmaXBEVEp1WHVtU24r?=
+ =?utf-8?B?K20rNU10d1JHcnV0RHlMU1RCK0VPM3ZmRTlEcnZFdHR2R1M0MDB3OVE1TGo4?=
+ =?utf-8?B?ZUdpZFJ0UVlJTFlxc2xnLy90RUJpVXRqdXhxa1BUYkI4WEFnWW01RTFEN0Vj?=
+ =?utf-8?B?eHhSeVhnTmpCL2xtM0tVT2JDa3d5TDQ3NXFMcXZrSVhtdWdDVHVHQ096Zmln?=
+ =?utf-8?B?Wm10ajhZRWZjQmJ4UTNmRWlWSkt2aXdyVW52UmFCbFR5djQ4M2tNb3lMeVVo?=
+ =?utf-8?B?Yi9zTm5LK09FdzJodm5IVE9PQVk2Mys5L3VORHFvKzYvRjd5b0h3cURQT20w?=
+ =?utf-8?Q?CxJq2Ad/c5t1dLXmNWWrXW9nj?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <722F02AB8C72004CA6E72E5D6BB2C2D8@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0-v2-bff223cf6409+282-dart_paging_jgg@nvidia.com>
+X-OriginatorOrg: cisco.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB5299.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b5c99b9-3cf3-416b-c916-08dbd5760be8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2023 16:18:38.5525
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4aRi3OJIv+/ag/xNv2aZwDb9L5UcdG5XuliWzfzMh5MaD/Kj/IL8QqzmLONMaLXK6Dtvl5jP8ymZE4B4eMtn5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4998
+X-Outbound-SMTP-Client: 72.163.7.165, rcdn-opgw-4.cisco.com
+X-Outbound-Node: alln-core-6.cisco.com
 
-On Wed, Sep 27, 2023 at 08:47:30PM -0300, Jason Gunthorpe wrote:
-> Continue converting drivers to the new interface. Introduce
-> ops->blocked_domain to hold the global static BLOCKED domain and convert
-> all drivers supporting BLOCKED to use it.
-> 
-> This makes it trivial for dart and iommufd to convert over to
-> domain_alloc_paging().
-> 
-> There are six drivers remaining:
-> 
-> drivers/iommu/amd/iommu.c:      .domain_alloc = amd_iommu_domain_alloc,
-> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:    .domain_alloc           = arm_smmu_domain_alloc,
-> drivers/iommu/arm/arm-smmu/arm-smmu.c:  .domain_alloc           = arm_smmu_domain_alloc,
-> drivers/iommu/fsl_pamu_domain.c:        .domain_alloc   = fsl_pamu_domain_alloc,
-> drivers/iommu/intel/iommu.c:    .domain_alloc           = intel_iommu_domain_alloc,
-> drivers/iommu/virtio-iommu.c:   .domain_alloc           = viommu_domain_alloc,
-> 
-> v2:
->  - Rebase to Joerg's for-next
->  - New patch to remove force_bypass, as discussed with Janne
->  - Move some hunks between patches to accommodate Robin's change to the
->    attach_dev switch
-> v1: https://lore.kernel.org/r/0-v1-8060f06462cc+c0a39-dart_paging_jgg@nvidia.com
-> 
-> Jason Gunthorpe (9):
->   iommu: Move IOMMU_DOMAIN_BLOCKED global statics to ops->blocked_domain
->   iommu/vt-d: Update the definition of the blocking domain
->   iommu/vt-d: Use ops->blocked_domain
->   iommufd: Convert to alloc_domain_paging()
-
-Joerg can you grab these for this cycle please
-
->   iommu/dart: Use static global identity domains
->   iommu/dart: Move the blocked domain support to a global static
->   iommu/dart: Convert to domain_alloc_paging()
->   iommu/dart: Call apple_dart_finalize_domain() as part of
->     alloc_paging()
->   iommu/dart: Remove the force_bypass variable
-
-I will poke more dart related people to get a tested-by, maybe next
-cycle.
-
-The arm patches at least need this
-
-Thanks,
-Jason
+T24gMjMvMDcvMTQgMDU6MDFQTSwgTWlndWVsIE9qZWRhIHdyb3RlOg0KPiBPbiBGcmksIEp1bCAx
+NCwgMjAyMyBhdCA0OjAy4oCvUE0gQWxpY2UgUnlobCA8YWxpY2VyeWhsQGdvb2dsZS5jb20+IHdy
+b3RlOg0KPiA+DQo+ID4gQWRkaW5nIHNvbWUgc29ydCBvZiBtb3RpdmF0aW9uIHVzdWFsbHkgd29y
+a3MgcXVpdGUgd2VsbCwgZS5nLjoNCj4gPg0KPiA+IE1ha2UgaXQgcG9zc2libGUgdG8gdXNlIGEg
+Q1N0cmluZyB3aXRoIHRoZSBgcHJfKmAgbWFjcm9zIGRpcmVjdGx5LCB0aGF0DQo+ID4gaXMsIGlu
+c3RlYWQgb2YNCj4gPg0KPiA+ICAgICAgICAgcHJfZGVidWchKCJ0cnlpbmcgdG8gb3BlbiB7Oj99
+XG4iLCAmKmZpbGVuYW1lKTsNCj4gPg0KPiA+IHdlIGNhbiBub3cgd3JpdGUNCj4gPg0KPiA+ICAg
+ICAgICAgcHJfZGVidWchKCJ0cnlpbmcgdG8gb3BlbiB7Oj99XG4iLCBmaWxlbmFtZSk7DQo+IA0K
+PiBJbmRlZWQsIHRoaXMgd291bGQgYmUgdGhlIG1vc3QgaW1wb3J0YW50IGJpdCwgaS5lLiBhbnN3
+ZXJpbmcgdGhlICJ3aHk/Ii4NCj4gDQo+IFRoZSAid2hhdD8iIGFuZCB0aGUgImhvdz8iIGFyZSBw
+cmV0dHkgbXVjaCBleHBsYWluZWQgYnkgdGhlIHRpdGxlLCBidXQNCj4gaXQgaXMgYWxzbyBmaW5l
+IGdpdmluZyBtb3JlIGRldGFpbHMgKGJ1dCBpZiB0aGUgaW1wbGVtZW50YXRpb24NCj4gcmVxdWly
+ZXMgYW4gZXhwbGFuYXRpb24sIHRoZW4gaXQgaXMgdXN1YWxseSBiZXN0IHRvIHdyaXRlIGFuIGFj
+dHVhbA0KPiBzb3VyY2UgY29kZSBjb21tZW50IGluc3RlYWQpLg0KPiANCj4gQ2hlZXJzLA0KPiBN
+aWd1ZWwNCg0KQW55IGZvbGxvdy11cCBvbiB0aGlzPyBJdCBzdXJlIHdvdWxkIG1ha2UgbXkgbG9n
+Z2luZyBjbGVhbmVyLg0KDQpDaGVlcnMsDQpBcmllbA==
