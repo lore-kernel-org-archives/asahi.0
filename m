@@ -1,19 +1,19 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6120B9447
-	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 17:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB03DDB4
+	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 17:09:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cutebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b="WhNR04b0"
+	dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b="oy969q+1"
 From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1698599255; bh=ks4YNEeD+10vbFjJV7lXcOdJALOf9YJioNyXbYuueZ4=;
+	t=1698598869; bh=3obvFsIjM96yZObtxW8n9rYv9PO/4hd8o4iHKP3fPHU=;
 	h=From:To:Cc:Subject:Date;
-	b=WhNR04b0rix8q+fydz8QLE8l0Jbg9vV0oQmSEQPk3WQDkG90trynJCdKo6ZO1P9kF
-	 mWIuTT0iOqMEGjftybZIoAwKvoS71TxwNuzHQUVP3K+/H+RxksYhmcaaftRFlyyy9u
-	 /Q1wcgc4Uv3cK0NVPqE8Fx8Dxe0BKa/1jCEKR4+4=
+	b=oy969q+11rxbPH9cmRXxn2HzOTPuGmb0VMsz2ddR9KK/ynvf7bXNiYZ59vwv4s2By
+	 i0bAABtuznqJQtxeSHwIhKUpL9GgtlZLi2tLJi4Es2OLo/FehsMGXHRSPmEROM6Cj2
+	 9/C9VVpp43XUb2TQFXhnEdPFw/Geu2MCQp+l5uZE=
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
 	Vinod Koul <vkoul@kernel.org>
@@ -22,10 +22,10 @@ Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	linux-arm-kernel@lists.infradead.org,
 	dmaengine@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
-Subject: [PATCH v2] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
-Date: Sun, 29 Oct 2023 18:07:04 +0100
-Message-Id: <20231029170704.82238-1-povik+lin@cutebit.org>
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik@cutebit.org>
+Subject: [PATCH] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
+Date: Sun, 29 Oct 2023 18:00:53 +0100
+Message-Id: <20231029170053.82146-1-povik+lin@cutebit.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -45,11 +45,9 @@ around). Keeping the upper bits untouched, like the macOS driver does,
 fixes this issue.
 
 Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Martin Povišer <povik+lin@cutebit.org>
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+Reviewed-by: Martin Povišer <povik@cutebit.org>
+Signed-off-by: Martin Povišer <povik@cutebit.org>
 ---
-Change in v2: fixed my (Martin's) address
-
  drivers/dma/apple-admac.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
