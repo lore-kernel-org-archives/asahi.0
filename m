@@ -1,31 +1,32 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 878D863B5
-	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 07:25:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C126AD9
+	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 07:36:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="q6ey1cT5"
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="bnnk1XQQ"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 024E34265F;
-	Sun, 29 Oct 2023 07:25:01 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 1E359424CD;
+	Sun, 29 Oct 2023 07:36:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1698564303; bh=UYUL/wMA6Ti0u7fhPRwjFJPX4/q5JU6SDIoDqlMdU5s=;
-	h=From:Date:Subject:To:Cc;
-	b=q6ey1cT5QTGsgm7dllX6MnmULi0FHGHGVcLsZVeyZASg8b2LPpZIMDKMng9byVY8b
-	 GQ19lYeYHYmDWzcIrSs0rxtMlezAygm3Kj/vEsTyXRHbEI8yPYnSEB18g3TMcv2j/D
-	 KQNRjkERKAdtzB+58lNTvPNIuoRd3Qf6bn0Yj+IoME/SUpWQRL6OtA1wYKRa3S2XcI
-	 Eqz+mCSHKRelLAhpRoN8bysEfRfEqqPR13KWAZGT/DotEeiazjfw1pOB29MHoqFQ2c
-	 DrqEQQ9OTcZdXROmsfB7YZaEeRCL0oYnaly0edC+Njv0pQ5sq9wArQx2bT/aH60N8S
-	 bCZDkdehghYyw==
+	t=1698564989; bh=J0zgcxPjp5BUqvbSyYqWUSG1B5jCLisVcnulOfZED+g=;
+	h=From:Subject:Date:To:Cc;
+	b=bnnk1XQQE2mkFBIjhYatXHmk8AEQ0cx2jldSK0pjyDqo0HWI4v0KwBClg6jBEUEN1
+	 /dza41h1Ko0b+EkMzG7c5Ap1OqYm7I5cKPfPXr0Mj2UXuE8fFAqA7EQtSWrII8Ph/h
+	 +6S66MJ7t/pT4S69JfCP9J0DlhAD9ljruosv4OrYvGRkDAkeGBtjsR22EuzFIdF+/h
+	 Nmcn7RVyeRPMzngTP8j/o/yxk3aAtxX5LlajLHn/vaera4fdaJ9ic1QDYvNhBm83jT
+	 BiUzuCDEZ5MtiAEom6T0+XJ2mCzSP6OzqeVRUtvdxM/fmG9qNGPrXY3qZvkHUyywZ6
+	 aWQL9axW8o5Jw==
 From: Hector Martin <marcan@marcan.st>
-Date: Sun, 29 Oct 2023 16:24:55 +0900
-Subject: [PATCH] usb: Ignore endpoints in non-zero altsettings
+Subject: [PATCH 0/2] USB fixes: (Re)implement timeouts
+Date: Sun, 29 Oct 2023 16:36:15 +0900
+Message-Id: <20231029-usb-fixes-5-v1-0-54bb13001f54@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -34,61 +35,67 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231029-usb-fixes-4-v1-1-fe973dde7e59@marcan.st>
-X-B4-Tracking: v=1; b=H4sIAMYIPmUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2NDAyNL3dLiJN20zIrUYl0T3aREM0tjw8TkNCNDcyWgjoKiVLAUUEN0bG0
- tAAeIFaVdAAAA
+X-B4-Tracking: v=1; b=H4sIAG8LPmUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2NDAyNL3dLiJN20zIrUYl1T3eREC/OkpNSUJBODZCWgjoKiVLAUUEN0bG0
+ tAHEsKxhdAAAA
 To: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>
 Cc: Mark Kettenis <kettenis@openbsd.org>, Neal Gompa <neal@gompa.dev>, 
  u-boot@lists.denx.de, asahi@lists.linux.dev, 
  Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1275; i=marcan@marcan.st;
- h=from:subject:message-id; bh=UYUL/wMA6Ti0u7fhPRwjFJPX4/q5JU6SDIoDqlMdU5s=;
- b=owGbwMvMwCEm+yP4NEe/cRLjabUkhlQ7jrMTmWuDJ6Yz1hxKmjZvj3maYUT0BNYrlvW+Emuv3
- uE+OPFcRykLgxgHg6yYIkvjid5T3Z7Tz6mrpkyHmcPKBDKEgYtTACYyg4WR4WPKn9d+71POSJoY
- bDT5Gas1sWcyd+D7jfxbg8MSNzzrsmf4X5175MbKsmrn4ivM22fUxQtdCPyxQV9ut1/sDV+mAPc
- ERgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2037; i=marcan@marcan.st;
+ h=from:subject:message-id; bh=J0zgcxPjp5BUqvbSyYqWUSG1B5jCLisVcnulOfZED+g=;
+ b=owGbwMvMwCEm+yP4NEe/cRLjabUkhlQ77gqPpVVcy2rnzT/cPEP16H5Jk9NlS+aWmbJ8Kks+3
+ rpqOY9ZRykLgxgHg6yYIkvjid5T3Z7Tz6mrpkyHmcPKBDKEgYtTACYiFc3w32Euf/oR5eOf/Jzy
+ by5/+8uArZZhS+/EG5zbHs3SOBb8eQ3DP6X3YtX6taVJLBYv7h54uciqlyPb7d+TxY2P084ZXiv
+ qZAEA
 X-Developer-Key: i=marcan@marcan.st; a=openpgp;
  fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
-We currently do not really handle altsettings properly, and no driver
-uses them. Ignore the respective endpoint descriptors for secondary
-altsettings, to avoid creating duplicate endpoint records in the
-interface.
+A long time ago, the USB code was interrupt-driven and used top-level
+timeout handling. This has long been obsolete, and that code is just
+broken dead cruft. HC drivers instead hardcode timeouts today.
 
-This will have to be revisited if/when we have a driver that needs
-altsettings to work properly.
+We need to be able to specify timeouts explicitly to handle cases like
+USB hard disks spinning up, without having ridiculously long timeouts
+across the board (which would cause endless waiting when things go
+wrong anywhere else). So, it's time to rip out the old broken nonsense
+and actually pass through timeouts to USB host controller drivers, so
+they can be implemented properly.
+
+This series adds the necessary top-level scaffolding for control/bulk
+timeouts, and implements them in xHCI. I didn't bother with interrupt
+transfers, since I figure those probably never need long timeouts
+anyway.
+
+The platform I deal with only has xHCI, so I'll leave implementing this
+for EHCI/OHCI to someone else if anyone cares :)
+
+This series needs to be applied after [1], since the xHCI changes depend
+on changes made there.
+
+[1] https://lore.kernel.org/u-boot/20231029-usb-fixes-1-v2-0-623533f6316e@marcan.st/
 
 Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- common/usb.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Hector Martin (2):
+      usb: Pass through timeout to drivers
+      usb: xhci: Hook up timeouts
 
-diff --git a/common/usb.c b/common/usb.c
-index aad13fd9c557..90f72fda00bc 100644
---- a/common/usb.c
-+++ b/common/usb.c
-@@ -463,6 +463,15 @@ static int usb_parse_config(struct usb_device *dev,
- 				puts("Endpoint descriptor out of order!\n");
- 				break;
- 			}
-+			if (if_desc->num_altsetting > 1) {
-+				/*
-+				 * Ignore altsettings, which can trigger duplicate
-+				 * endpoint errors below. Revisit this when some
-+				 * driver actually needs altsettings with differing
-+				 * endpoint setups.
-+				 */
-+				break;
-+			}
- 			epno = dev->config.if_desc[ifno].no_of_ep;
- 			if_desc = &dev->config.if_desc[ifno];
- 			if (epno >= USB_MAXENDPOINTS) {
-
+ common/usb.c                    | 21 ++-------------------
+ drivers/usb/host/ehci-hcd.c     |  5 +++--
+ drivers/usb/host/ohci-hcd.c     |  5 +++--
+ drivers/usb/host/r8a66597-hcd.c |  5 +++--
+ drivers/usb/host/usb-sandbox.c  |  6 ++++--
+ drivers/usb/host/usb-uclass.c   |  9 +++++----
+ drivers/usb/host/xhci-ring.c    | 32 ++++++++++++++++++++------------
+ drivers/usb/host/xhci.c         | 28 ++++++++++++++++------------
+ include/usb.h                   | 10 ++++++----
+ include/usb/xhci.h              | 14 ++++++++++----
+ 10 files changed, 72 insertions(+), 63 deletions(-)
 ---
-base-commit: 8ad1c9c26f7740806a162818b790d4a72f515b7e
-change-id: 20231029-usb-fixes-4-ba6931acf217
+base-commit: 3d5d748e4d66b98109669c05d0c473fe67795801
+change-id: 20231029-usb-fixes-5-ca87bbedb40c
 
 Best regards,
 -- 
