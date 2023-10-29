@@ -1,97 +1,111 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A7E389
-	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 14:36:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012FE389
+	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 14:37:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5230a22cfd1so6157414a12.1
-        for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 07:36:51 -0700 (PDT)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-53dfc28a2afso5743572a12.1
+        for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 07:37:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698590209; x=1699195009;
+        d=1e100.net; s=20230601; t=1698590272; x=1699195072;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZQSmnqte/YS0gnA72GqEYQS6BYIWW/IXAm8JEmiPV4o=;
-        b=T3QZ/Ij02UG+1BApBm0evbR9A9dDBfHUCrwg3yoTdNhzuHw6bxez+O4i7DAMazXN3Z
-         PEusBshAlMeHweLBk4t3Av/FmsIH8Q3laHbSVMAOnP0rD2RrjsC+37JSgTq9on4AHFu/
-         V49XtvPYafb10nZ4KD0+UZ9qiH3vdrhOrBDs5Y5lxaQgO8qc25Xa9AFihVT3mEYUU4RU
-         tVWyRD3AB3zyDbtiLV6WvPa8NPXxiULvwowDW6RoRxvvSTlHkovXIv4EveUtpriDB85h
-         jV2lf/BwUefOmizqAUXVmjy3BJr7UXT5RwpRuxrAcpDkcXhANUQOs4oygRA5Q0p/e1Lv
-         UljA==
-X-Gm-Message-State: AOJu0Yxty8Fjj6yKk4PhAIaTUpT4xtdiwPSYxnGvfn6Ox4GW1EPUbv3x
-	khnZMx/SqlMWk5W46uwpCEVWK3JJf+x6TA==
-X-Google-Smtp-Source: AGHT+IGLtutzXDcKM3MMqtGHRiXn/nVj9ZyLWgrHhzHhoyJ9Fi5Ci/Q0g4HppkZBFcPdaCGaUrvsSQ==
-X-Received: by 2002:a17:907:7ba2:b0:9ae:82b4:e306 with SMTP id ne34-20020a1709077ba200b009ae82b4e306mr6611117ejc.62.1698590209013;
-        Sun, 29 Oct 2023 07:36:49 -0700 (PDT)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id s8-20020a1709066c8800b009ad7fc17b2asm4388692ejr.224.2023.10.29.07.36.48
+        bh=f+CbmyRxF4VUwyySze5hLqducEioPMLXYFdj1Fi2dXk=;
+        b=C8yA54Bx7cSsh6hDm0bH5nvoHezderiABbEjbHPN2XyvNCTzpleYs2y6OXDqznOTNX
+         FdUB+d/reQ6cbeSeecgsoRmovm6UH8/7uIHpA+NPi7OgSqwiVe7p2nTSDwYW1LpnSb44
+         d45KJP8UB48O15Yl7NmW7GHFpk3pA2f/zop7KkLm6hy7NTpRmLLxVZ24Zt+qDIiTWisf
+         AWfJnZrS4lIt73x2REIWmT/d1HVh/PL1lbDcQc/nTfh0VVPbQ8QjDiRK+r8pmBsaDoot
+         fibEMDgBCXVuUWM21HL838VOoew/SOrwV7DF0/UMNyiYK3tTHtGD+sXj2/vVjG0aVSDr
+         AhEQ==
+X-Gm-Message-State: AOJu0Ywu0EuAII3P7ERVcN5Xgy7nDj4YMHk/SYS0hQ7mQKMYNxXLADfk
+	Zi3ODwqdFwgBLFZxOUz8O6BfW5MLRYm0mw==
+X-Google-Smtp-Source: AGHT+IHxWgct/AYrGcpBic/97j58NAn7eXQwKdX/VDgyT7PVZzqvGCTVKTgpV+dL0SE2FWuNb4dP4A==
+X-Received: by 2002:a17:907:9807:b0:9bf:b8f7:1fcd with SMTP id ji7-20020a170907980700b009bfb8f71fcdmr6753090ejc.14.1698590272425;
+        Sun, 29 Oct 2023 07:37:52 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
+        by smtp.gmail.com with ESMTPSA id rh22-20020a17090720f600b00997e99a662bsm4381330ejb.20.2023.10.29.07.37.52
         for <asahi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 29 Oct 2023 07:36:48 -0700 (PDT)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-9d242846194so110849666b.1
-        for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 07:36:48 -0700 (PDT)
-X-Received: by 2002:a17:906:dc8b:b0:9ae:52fb:2202 with SMTP id
- cs11-20020a170906dc8b00b009ae52fb2202mr7347961ejc.40.1698590208337; Sun, 29
- Oct 2023 07:36:48 -0700 (PDT)
+        Sun, 29 Oct 2023 07:37:52 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-9d216597f64so135576166b.3
+        for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 07:37:52 -0700 (PDT)
+X-Received: by 2002:a17:906:db0d:b0:9c7:58cd:b57 with SMTP id
+ xj13-20020a170906db0d00b009c758cd0b57mr6821776ejb.37.1698590272121; Sun, 29
+ Oct 2023 07:37:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231029-usb-fixes-3-v1-0-0153210a7f55@marcan.st>
-In-Reply-To: <20231029-usb-fixes-3-v1-0-0153210a7f55@marcan.st>
+References: <20231029-usb-fixes-4-v1-1-fe973dde7e59@marcan.st>
+In-Reply-To: <20231029-usb-fixes-4-v1-1-fe973dde7e59@marcan.st>
 From: Neal Gompa <neal@gompa.dev>
-Date: Sun, 29 Oct 2023 10:36:11 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je81t+Ty8sQVOomETNti=htz=gj4Lr1jQb0ucoNDXoqkPw@mail.gmail.com>
-Message-ID: <CAEg-Je81t+Ty8sQVOomETNti=htz=gj4Lr1jQb0ucoNDXoqkPw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] USB fixes: Mass Storage bugs & 64bit support
+Date: Sun, 29 Oct 2023 10:37:15 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je-iXWXQC=QFEh2bS4hDv52Tp1ZTwYzCdSf7rBuYm4Se5g@mail.gmail.com>
+Message-ID: <CAEg-Je-iXWXQC=QFEh2bS4hDv52Tp1ZTwYzCdSf7rBuYm4Se5g@mail.gmail.com>
+Subject: Re: [PATCH] usb: Ignore endpoints in non-zero altsettings
 To: Hector Martin <marcan@marcan.st>
 Cc: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
 	Mark Kettenis <kettenis@openbsd.org>, u-boot@lists.denx.de, asahi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 29, 2023 at 3:23=E2=80=AFAM Hector Martin <marcan@marcan.st> wr=
+On Sun, Oct 29, 2023 at 3:25=E2=80=AFAM Hector Martin <marcan@marcan.st> wr=
 ote:
 >
-> This series fixes some bugs in the USBMS driver and adds 64-bit LBA
-> support. This is required to make USB HDDs >=3D4TB work.
+> We currently do not really handle altsettings properly, and no driver
+> uses them. Ignore the respective endpoint descriptors for secondary
+> altsettings, to avoid creating duplicate endpoint records in the
+> interface.
 >
-> Note that the increased timeout won't actually work right now, due to
-> broken handling in the underlying USB infrastructure. That will be fixed
-> in a follow-up series, which depends on [1] being applied first. The
-> USBMS part is logically stand-alone and can be applied in parallel
-> before that.
->
-> [1] https://lore.kernel.org/u-boot/20231029-usb-fixes-1-v2-0-623533f6316e=
-@marcan.st/
+> This will have to be revisited if/when we have a driver that needs
+> altsettings to work properly.
 >
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 > ---
-> Hector Martin (4):
->       scsi: Fix a bunch of SCSI definitions.
->       usb: storage: Increase read/write timeout
->       usb: storage: Use the correct CBW lengths
->       usb: storage: Implement 64-bit LBA support
+>  common/usb.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
->  common/usb_storage.c | 164 ++++++++++++++++++++++++++++++++++++++++++---=
-------
->  drivers/ata/ahci.c   |   9 ++-
->  drivers/scsi/scsi.c  |   4 +-
->  include/scsi.h       |   8 ++-
->  4 files changed, 150 insertions(+), 35 deletions(-)
+> diff --git a/common/usb.c b/common/usb.c
+> index aad13fd9c557..90f72fda00bc 100644
+> --- a/common/usb.c
+> +++ b/common/usb.c
+> @@ -463,6 +463,15 @@ static int usb_parse_config(struct usb_device *dev,
+>                                 puts("Endpoint descriptor out of order!\n=
+");
+>                                 break;
+>                         }
+> +                       if (if_desc->num_altsetting > 1) {
+> +                               /*
+> +                                * Ignore altsettings, which can trigger =
+duplicate
+> +                                * endpoint errors below. Revisit this wh=
+en some
+> +                                * driver actually needs altsettings with=
+ differing
+> +                                * endpoint setups.
+> +                                */
+> +                               break;
+> +                       }
+>                         epno =3D dev->config.if_desc[ifno].no_of_ep;
+>                         if_desc =3D &dev->config.if_desc[ifno];
+>                         if (epno >=3D USB_MAXENDPOINTS) {
+>
 > ---
 > base-commit: 8ad1c9c26f7740806a162818b790d4a72f515b7e
-> change-id: 20231029-usb-fixes-3-c72f829ba61b
+> change-id: 20231029-usb-fixes-4-ba6931acf217
+>
 
-Series LGTM.
+Irritating, but makes sense.
 
 Reviewed-by: Neal Gompa <neal@gompa.dev>
 
 
---=20
+
+--
 =E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
 =BC=81/ Always, there's only one truth!
