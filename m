@@ -1,79 +1,71 @@
 Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB03DDB4
-	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 17:09:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A72DDB4
+	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 17:10:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cutebit.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b="oy969q+1"
-From: =?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>
+	dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b="gWSwdjK4"
+Content-Type: text/plain;
+	charset=utf-8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1698598869; bh=3obvFsIjM96yZObtxW8n9rYv9PO/4hd8o4iHKP3fPHU=;
-	h=From:To:Cc:Subject:Date;
-	b=oy969q+11rxbPH9cmRXxn2HzOTPuGmb0VMsz2ddR9KK/ynvf7bXNiYZ59vwv4s2By
-	 i0bAABtuznqJQtxeSHwIhKUpL9GgtlZLi2tLJi4Es2OLo/FehsMGXHRSPmEROM6Cj2
-	 9/C9VVpp43XUb2TQFXhnEdPFw/Geu2MCQp+l5uZE=
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik@cutebit.org>
-Subject: [PATCH] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
-Date: Sun, 29 Oct 2023 18:00:53 +0100
-Message-Id: <20231029170053.82146-1-povik+lin@cutebit.org>
+	t=1698599452; bh=qqFFfHBHXxc/vngEYN7PGSdvv72J5iWHr+qOTphN6Io=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=gWSwdjK4WQs8sn+bwfMnOmyLeSs2iQt1mq45yaHM3oreInK8s1UO7jN5IiKTeO+bC
+	 fGaz5XZnbSq5149tfmhcXo6wryLDzl8PGWBS6Lt1xsLjVYH5hr6LzcVjfRDNWIA4ZW
+	 in+71aaNRTNvrn+SEYjAjyiL+ZH1A27ER1tbzA08=
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.700.6\))
+Subject: Re: [PATCH] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
+From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+In-Reply-To: <20231029170053.82146-1-povik+lin@cutebit.org>
+Date: Sun, 29 Oct 2023 18:10:41 +0100
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ asahi@lists.linux.dev,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ dmaengine@vger.kernel.org,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <00401D09-6037-44AE-91CC-34379ED9589E@cutebit.org>
+References: <20231029170053.82146-1-povik+lin@cutebit.org>
+To: Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>,
+ Vinod Koul <vkoul@kernel.org>
 
-From: Hector Martin <marcan@marcan.st>
 
-For RX channels, REG_BUS_WIDTH seems to default to a value of 0xf00, and
-macOS preserves the upper bits when setting the configuration in the
-lower ones. If we reset the upper bits to 0, this causes framing errors
-on suspend/resume (the data stream "tears" and channels get swapped
-around). Keeping the upper bits untouched, like the macOS driver does,
-fixes this issue.
+> On 29. 10. 2023, at 18:00, Martin Povi=C5=A1er <povik+lin@cutebit.org> =
+wrote:
+>=20
+> From: Hector Martin <marcan@marcan.st>
+>=20
+> For RX channels, REG_BUS_WIDTH seems to default to a value of 0xf00, =
+and
+> macOS preserves the upper bits when setting the configuration in the
+> lower ones. If we reset the upper bits to 0, this causes framing =
+errors
+> on suspend/resume (the data stream "tears" and channels get swapped
+> around). Keeping the upper bits untouched, like the macOS driver does,
+> fixes this issue.
+>=20
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Reviewed-by: Martin Povi=C5=A1er <povik@cutebit.org>
+> Signed-off-by: Martin Povi=C5=A1er <povik@cutebit.org>
+> ---
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Martin Povišer <povik@cutebit.org>
-Signed-off-by: Martin Povišer <povik@cutebit.org>
----
- drivers/dma/apple-admac.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Please take up v2 instead. I slipped in the wrong email address in here,
+which I don=E2=80=99t want to subscribe for kernel spam with.
 
-diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-index 5b63996640d9..9588773dd2eb 100644
---- a/drivers/dma/apple-admac.c
-+++ b/drivers/dma/apple-admac.c
-@@ -57,6 +57,8 @@
- 
- #define REG_BUS_WIDTH(ch)	(0x8040 + (ch) * 0x200)
- 
-+#define BUS_WIDTH_WORD_SIZE	GENMASK(3, 0)
-+#define BUS_WIDTH_FRAME_SIZE	GENMASK(7, 4)
- #define BUS_WIDTH_8BIT		0x00
- #define BUS_WIDTH_16BIT		0x01
- #define BUS_WIDTH_32BIT		0x02
-@@ -740,7 +742,8 @@ static int admac_device_config(struct dma_chan *chan,
- 	struct admac_data *ad = adchan->host;
- 	bool is_tx = admac_chan_direction(adchan->no) == DMA_MEM_TO_DEV;
- 	int wordsize = 0;
--	u32 bus_width = 0;
-+	u32 bus_width = readl_relaxed(ad->base + REG_BUS_WIDTH(adchan->no)) &
-+		~(BUS_WIDTH_WORD_SIZE | BUS_WIDTH_FRAME_SIZE);
- 
- 	switch (is_tx ? config->dst_addr_width : config->src_addr_width) {
- 	case DMA_SLAVE_BUSWIDTH_1_BYTE:
--- 
-2.38.3
+=
+https://lore.kernel.org/dmaengine/20231029170704.82238-1-povik+lin@cutebit=
+.org/T/#u
+
+Thanks!
+
+Kind regards,
+Martin
 
