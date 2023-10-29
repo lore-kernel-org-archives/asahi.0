@@ -1,71 +1,80 @@
-Received: from hutie.ust.cz (hutie.ust.cz [185.8.165.127])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A72DDB4
-	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 17:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cutebit.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cutebit.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CAA101CA
+	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 17:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=cutebit.org header.i=@cutebit.org header.b="gWSwdjK4"
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cutebit.org; s=mail;
-	t=1698599452; bh=qqFFfHBHXxc/vngEYN7PGSdvv72J5iWHr+qOTphN6Io=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=gWSwdjK4WQs8sn+bwfMnOmyLeSs2iQt1mq45yaHM3oreInK8s1UO7jN5IiKTeO+bC
-	 fGaz5XZnbSq5149tfmhcXo6wryLDzl8PGWBS6Lt1xsLjVYH5hr6LzcVjfRDNWIA4ZW
-	 in+71aaNRTNvrn+SEYjAjyiL+ZH1A27ER1tbzA08=
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="nNNmpwJ8"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 8FBB987817;
+	Sun, 29 Oct 2023 18:34:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1698600862;
+	bh=vtsUQ3UVxzVpzijcPJkTbNBla41I55UWvfWY7VJ2/Pc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=nNNmpwJ82VlP7FaWdpzFfQ5nNDejqxsSwwaABCy9f9bQvBsV7vJiXJ6e29bgwQzo4
+	 dMXSn2sGPkUH7BSay6xcFA3lzRLxow/wlO1q8xYi8m66Cjk7Gf7XWY9JDNOLW5ucC1
+	 yRPEGAsOUjSMyntqNSqLq2RER9QVbVjGTpc4o+pDkSEnRtV/ddih7qvIJtbREUfMcm
+	 QNJrORukSwl/IhRLAl8DH7usqdJ4EZ9dFX2zxd46e4kV548Gy6F0+NRJsQP41s8wyF
+	 q4TBjN+jy99gRsbiEZq43XWmuTfCuPwJ6ZUiMEGPaKAXQthcc/w4JExcDiFY+wfD4l
+	 3XotVltb0yEYQ==
+Message-ID: <12ee2427-8589-4b9c-b530-37fad068cc85@denx.de>
+Date: Sun, 29 Oct 2023 18:33:42 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.700.6\))
-Subject: Re: [PATCH] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
-From: =?utf-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-In-Reply-To: <20231029170053.82146-1-povik+lin@cutebit.org>
-Date: Sun, 29 Oct 2023 18:10:41 +0100
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- asahi@lists.linux.dev,
- linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
- dmaengine@vger.kernel.org,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <00401D09-6037-44AE-91CC-34379ED9589E@cutebit.org>
-References: <20231029170053.82146-1-povik+lin@cutebit.org>
-To: Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>,
- Vinod Koul <vkoul@kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] usb: storage: Implement 64-bit LBA support
+To: Hector Martin <marcan@marcan.st>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Mark Kettenis <kettenis@openbsd.org>, Neal Gompa <neal@gompa.dev>,
+ u-boot@lists.denx.de, asahi@lists.linux.dev
+References: <20231029-usb-fixes-3-v1-0-0153210a7f55@marcan.st>
+ <20231029-usb-fixes-3-v1-4-0153210a7f55@marcan.st>
+ <c3cfba5e-46cb-4fec-8e0d-b8aa1b9c0098@denx.de>
+ <1db9cfab-4e89-2308-e398-8ea283079314@marcan.st>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <1db9cfab-4e89-2308-e398-8ea283079314@marcan.st>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
+On 10/29/23 16:54, Hector Martin wrote:
+> On 29/10/2023 21.11, Marek Vasut wrote:
+>> On 10/29/23 08:23, Hector Martin wrote:
+>>> This makes things work properly on devices with >= 2 TiB
+>>> capacity. If u-boot is built without CONFIG_SYS_64BIT_LBA,
+>>> the capacity will be clamped at 2^32 - 1 sectors.
+>>>
+>>> Signed-off-by: Hector Martin <marcan@marcan.st>
+>>> ---
+>>>    common/usb_storage.c | 132 ++++++++++++++++++++++++++++++++++++++++++++-------
+>>>    1 file changed, 114 insertions(+), 18 deletions(-)
+>>>
+>>> diff --git a/common/usb_storage.c b/common/usb_storage.c
+>>> index 95507ffbce48..3035f2ee9868 100644
+>>> --- a/common/usb_storage.c
+>>> +++ b/common/usb_storage.c
+>>> @@ -66,7 +66,7 @@
+>>>    static const unsigned char us_direction[256/8] = {
+>>>    	0x28, 0x81, 0x14, 0x14, 0x20, 0x01, 0x90, 0x77,
+>>>    	0x0C, 0x20, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00,
+>>> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01,
+>>> +	0x00, 0x01, 0x00, 0x40, 0x00, 0x01, 0x00, 0x01,
+>>
+>> What changed here ?
+> 
+> This is an incomplete bitmap specifying the data transfer direction for
+> every possible SCSI command ID. I'm adding the new commands I'm now using.
 
-> On 29. 10. 2023, at 18:00, Martin Povi=C5=A1er <povik+lin@cutebit.org> =
-wrote:
->=20
-> From: Hector Martin <marcan@marcan.st>
->=20
-> For RX channels, REG_BUS_WIDTH seems to default to a value of 0xf00, =
-and
-> macOS preserves the upper bits when setting the configuration in the
-> lower ones. If we reset the upper bits to 0, this causes framing =
-errors
-> on suspend/resume (the data stream "tears" and channels get swapped
-> around). Keeping the upper bits untouched, like the macOS driver does,
-> fixes this issue.
->=20
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Reviewed-by: Martin Povi=C5=A1er <povik@cutebit.org>
-> Signed-off-by: Martin Povi=C5=A1er <povik@cutebit.org>
-> ---
-
-Please take up v2 instead. I slipped in the wrong email address in here,
-which I don=E2=80=99t want to subscribe for kernel spam with.
-
-=
-https://lore.kernel.org/dmaengine/20231029170704.82238-1-povik+lin@cutebit=
-.org/T/#u
-
-Thanks!
-
-Kind regards,
-Martin
-
+Can you please add a code comment here, so others wouldn't ponder about 
+this too ?
