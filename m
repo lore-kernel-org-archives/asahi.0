@@ -1,111 +1,97 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494423AC22
-	for <asahi@lists.linux.dev>; Fri, 27 Oct 2023 19:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0416D17C8
+	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 06:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IqFN4VCH"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-53e08b60febso3758500a12.1
-        for <asahi@lists.linux.dev>; Fri, 27 Oct 2023 12:42:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698435775; x=1699040575; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MjCNJUH4XI4ZJeN1+OaSxgenZOZV/PYnVyqlHJ9C/nw=;
-        b=IqFN4VCHUGxp4GQ+z7LoFqAlM6OYBDGlOdwkSDFZjFb2nyLhiu3JoAfkdm3jjtm2ri
-         scc5eNZ0kYYKTiCJQ5IY8UyMQ7CLA7riXWCqpiCifMmINZw2f5A9QqtZ+iNGkyZkRyxs
-         56nl2cbm6XzRUJcbmq9FOfi9WIgQHXK71fWFQw8aEhHIWwZfMDk8cCtJ1riH4iBHPgkk
-         suZh5NgDDYX16kqbPLZHVlMFWZxdPxkrcm1v4mOUrlCc22OtbybRkaZSfnhDNfJBoZZ2
-         UVhKQeSIpU+/LedsLXuylYpjtnpaQoVg5lPf3hANqWcsujuN5vtPxlGRy6t6kug0hPD4
-         pcKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698435775; x=1699040575;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MjCNJUH4XI4ZJeN1+OaSxgenZOZV/PYnVyqlHJ9C/nw=;
-        b=mPI+qBVdqFVNfBKj3Ql9OB6L+0htgfcy5gsTpiNryFgtMj3I8BU2EMW+ZEEonikKEP
-         hUVxVS4k9R+31+K2Ij8nliPt6yfZ1TxvQKR4oASGtYb5d/4mmXEf+jqW/IXnoHYs9zaF
-         y7x8yIpBWibTJZCdai8rNnm4tvA/RpBJcKlYtoTUpJMWtvnZwNdhCC5uUx1tMmSWp6vx
-         Pt12Bvr0JTkI68O94l4cJHi2stGYpthzPNFYaLaUvrn5XfV11AW+5TeTgdKjuW+tZlcW
-         Y4R0nUObjWhc35h6NpBxJHchLqOftnAPviSPKQgfQtMn8UthDHXviVVvEBcDJ3uKYNCn
-         18uA==
-X-Gm-Message-State: AOJu0YwMMp0ywU5vfelM8sa33ORTxwvgfCwxn4w2Itpr5PNYJtMoJwGI
-	URYQ8kiVo544//d8lgyyVmB3cBaqVOhBB7H3y+s=
-X-Google-Smtp-Source: AGHT+IGAryab5AiuJkZtlFTy+YnT9Zz66ged/cD0vmWVeQ4aLi1S27h6W2XcolXR+5hM0tSIMk8je87rxfha67owFC0=
-X-Received: by 2002:a50:aad0:0:b0:53e:8e09:524d with SMTP id
- r16-20020a50aad0000000b0053e8e09524dmr3094815edc.5.1698435775252; Fri, 27 Oct
- 2023 12:42:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="xzGwAQIB"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 1CBD74269A;
+	Sun, 29 Oct 2023 06:38:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1698561519; bh=+uNlvOQTliC68AiSD0644nsVxzLYR2l34Apw6zfhJVw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=xzGwAQIBPb+40EdpXEo6mGaKTKzni4qpIgyqVskGs+1F8Vs3JNhAp1sLla+8iNfez
+	 yBW4IZBClWsFDu/LT0NTiXSduglH76wXXCopliaUgVx6K5ANu5KNt/CLsDjTIOXFNR
+	 0qthENx378BKXjbVM1zyvFE8fR8FMUCYNGRTEn+pDJAZWARx/Ci+t5rsWtUA219Rri
+	 FEgT82JI40eiGnUOz/46fBHr199tDLDVk0QWlgB7KGBF5OSP1+zo5s2JvCEnaCdWHl
+	 Z91JzccL0BcLSmxesFNi1HF6KhXrAGS3mr1/fis6mppE5vOoFDgIAZjHizdEoOM0K0
+	 HDnRzo8obX/mQ==
+From: Hector Martin <marcan@marcan.st>
+Date: Sun, 29 Oct 2023 15:37:40 +0900
+Subject: [PATCH v2 3/8] usb: xhci: Allow context state errors when halting
+ an endpoint
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231027-usb-fixes-1-v1-0-1c879bbcd928@marcan.st> <CAEg-Je-o+xSG-Yxtqt=+HAZds_HO62dtkAZ64kon_a6xG5SaOA@mail.gmail.com>
-In-Reply-To: <CAEg-Je-o+xSG-Yxtqt=+HAZds_HO62dtkAZ64kon_a6xG5SaOA@mail.gmail.com>
-From: Neal Gompa <ngompa13@gmail.com>
-Date: Fri, 27 Oct 2023 15:42:18 -0400
-Message-ID: <CAEg-Je_Heanyggk=p2V3x4y1qJ9=eR50RCj-ZZvFnmy0aKbmeA@mail.gmail.com>
-Subject: Re: [PATCH 0/8] USB fixes: xHCI error handling
-To: Hector Martin <marcan@marcan.st>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
-	Mark Kettenis <kettenis@openbsd.org>, u-boot@lists.denx.de, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231029-usb-fixes-1-v2-3-623533f6316e@marcan.st>
+References: <20231029-usb-fixes-1-v2-0-623533f6316e@marcan.st>
+In-Reply-To: <20231029-usb-fixes-1-v2-0-623533f6316e@marcan.st>
+To: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>
+Cc: Mark Kettenis <kettenis@openbsd.org>, Neal Gompa <neal@gompa.dev>, 
+ u-boot@lists.denx.de, asahi@lists.linux.dev, 
+ Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1562; i=marcan@marcan.st;
+ h=from:subject:message-id; bh=+uNlvOQTliC68AiSD0644nsVxzLYR2l34Apw6zfhJVw=;
+ b=owGbwMvMwCEm+yP4NEe/cRLjabUkhlTbv/eMWs2i5V6G6ypP03r3+cR9SRW2d0/qG3U+vux8v
+ 6vpk+iLjlIWBjEOBlkxRZbGE72nuj2nn1NXTZkOM4eVCWQIAxenAEyk7zcjw+3zu8ym+TnGruFs
+ OKM8aWdsWrRW1dNdIotyg5mezGBfupqRYe+k3AMzGl6U3WRfXHlVxI/776yTct3lBS/nRRX0/Hi
+ fygMA
+X-Developer-Key: i=marcan@marcan.st; a=openpgp;
+ fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
-On Fri, Oct 27, 2023 at 2:58=E2=80=AFPM Neal Gompa <neal@gompa.dev> wrote:
->
-> On Thu, Oct 26, 2023 at 7:26=E2=80=AFPM Hector Martin <marcan@marcan.st> =
-wrote:
-> >
-> > This series is the first of a few bundles of USB fixes we have been
-> > carrying downstream on the Asahi U-Boot branch for a few months.
-> >
-> > Most importantly, this related set of patches makes xHCI error/stall
-> > recovery more robust (or work at all in some cases). There are also a
-> > couple patches fixing other xHCI bugs and adding better debug logs.
-> >
-> > I believe this should fix this Fedora bug too:
-> >
-> > https://bugzilla.redhat.com/show_bug.cgi?id=3D2244305
-> >
-> > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > ---
-> > Hector Martin (8):
-> >       usb: xhci: Guard all calls to xhci_wait_for_event
-> >       usb: xhci: Better error handling in abort_td()
-> >       usb: xhci: Allow context state errors when halting an endpoint
-> >       usb: xhci: Recover from halted non-control endpoints
-> >       usb: xhci: Fail on attempt to queue TRBs to a halted endpoint
-> >       usb: xhci: Do not panic on event timeouts
-> >       usb: xhci: Fix DMA address calculation in queue_trb
-> >       usb: xhci: Add more debugging
-> >
-> >  drivers/usb/host/xhci-ring.c | 100 +++++++++++++++++++++++++++++++++++=
---------
-> >  drivers/usb/host/xhci.c      |   9 ++++
-> >  include/usb/xhci.h           |   2 +
-> >  3 files changed, 92 insertions(+), 19 deletions(-)
-> > ---
-> > base-commit: fb428b61819444b9337075f49c72f326f5d12085
-> > change-id: 20231027-usb-fixes-1-83bfc7013012
-> >
->
-> The series looks reasonable and has worked quite well in Fedora Asahi.
->
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
->
+There is a race where an endpoint may halt by itself while we are trying
+to halt it, which results in a context state error. See xHCI 4.6.9 which
+mentions this case.
 
-Resending now that I'm subscribed to the U-Boot mailing list...
+This also avoids BUGging when we attempt to stop an endpoint which was
+already stopped to begin with, which is probably a bug elsewhere but
+not a good reason to crash.
 
-Reviewed-by: Neal Gompa <ngompa13@gmail.com>
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+ drivers/usb/host/xhci-ring.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index d21e76e0bdb6..e02a6e300c4f 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -545,6 +545,7 @@ static void abort_td(struct usb_device *udev, int ep_index)
+ 	struct xhci_ctrl *ctrl = xhci_get_ctrl(udev);
+ 	struct xhci_ring *ring =  ctrl->devs[udev->slot_id]->eps[ep_index].ring;
+ 	union xhci_trb *event;
++	xhci_comp_code comp;
+ 	trb_type type;
+ 	u64 addr;
+ 	u32 field;
+@@ -573,10 +574,11 @@ static void abort_td(struct usb_device *udev, int ep_index)
+ 		printf("abort_td: Expected a TRB_TRANSFER TRB first\n");
+ 	}
+ 
++	comp = GET_COMP_CODE(le32_to_cpu(event->event_cmd.status));
+ 	BUG_ON(type != TRB_COMPLETION ||
+ 		TRB_TO_SLOT_ID(le32_to_cpu(event->event_cmd.flags))
+-		!= udev->slot_id || GET_COMP_CODE(le32_to_cpu(
+-		event->event_cmd.status)) != COMP_SUCCESS);
++		!= udev->slot_id || (comp != COMP_SUCCESS && comp
++		!= COMP_CTX_STATE));
+ 	xhci_acknowledge_event(ctrl);
+ 
+ 	addr = xhci_trb_virt_to_dma(ring->enq_seg,
 
+-- 
+2.41.0
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
