@@ -1,31 +1,31 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0941109
-	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 06:38:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90081C2F
+	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 06:38:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="o829k8iC"
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="v3szJg+o"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 9D1BD42699;
-	Sun, 29 Oct 2023 06:38:34 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 92E074269B;
+	Sun, 29 Oct 2023 06:38:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1698561516; bh=GHn3v5LlOeMlC6cj+xN5ckRq+X6ZOTSSgSh4Uz7JtTw=;
+	t=1698561521; bh=cTK2n4nJfIjhYgrfnO7KnHAERQlBK/UrEyzwgBcEO6g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=o829k8iCPBaIwiyYqbh5rgWzOtWWjMgBUy5IvyxF20LxZDJeaOv6oOkphIV0Y9Wms
-	 JO2a8bJ8B9+tzed3TqN0NywNd+wJbYnAUQZDFe38ASDep4dpWzQktdWEzMEZhWW7rZ
-	 sKB/CoQBaLQkv0l9jLLn91J8Q2JFVwo1zPcPSnKwIR6xNuyg5YOo2nwnMkK2Euvl2e
-	 ACSUrkhTgQs9dqHh9NUtxQ/RaKjodRikLVCfd5BrZt0CeXP0W/DYJqs7iSSSf/OVGA
-	 6ot5TSvEBUKmCCpswuAa34XHdk7xJcAd0kTpFHLBYXFQRNwWT7k7EwFaXI5TIKs5Hm
-	 HMMyxCw3b6zuQ==
+	b=v3szJg+o8SkecUdDH1JrL+PYIRmw9vlnqoRfgA/a44tsgG3gyflWFo7Djo1TkDoWE
+	 lTS90Sjtkspvu2eXhNVuNawtP+NIwvpqdzUGfbhSw+5OfeBFedonKgrPUfy6YG8gmV
+	 qEe7DpLepC46Qq5KBxkBhC/E6yjcj5Zo3lq2+3pZC2+MCS3rujCGQQzAoYmFQU6Rpm
+	 pDHfkzQpFAagq/gdH16rtlC90TKvk5qBpUtfp4nbrbc+GDZpiFZHhsYVh49uz7nQWE
+	 UylLxkx+BKYO3iy9B7eU7X7PGMfnbc5z60DqgqApoOk9fmD7gWbRUyc7y0HXHCJ+Z2
+	 CaEGTKpKeKo3w==
 From: Hector Martin <marcan@marcan.st>
-Date: Sun, 29 Oct 2023 15:37:39 +0900
-Subject: [PATCH v2 2/8] usb: xhci: Better error handling in abort_td()
+Date: Sun, 29 Oct 2023 15:37:41 +0900
+Subject: [PATCH v2 4/8] usb: xhci: Recover from halted bulk endpoints
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -34,7 +34,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231029-usb-fixes-1-v2-2-623533f6316e@marcan.st>
+Message-Id: <20231029-usb-fixes-1-v2-4-623533f6316e@marcan.st>
 References: <20231029-usb-fixes-1-v2-0-623533f6316e@marcan.st>
 In-Reply-To: <20231029-usb-fixes-1-v2-0-623533f6316e@marcan.st>
 To: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>
@@ -42,103 +42,44 @@ Cc: Mark Kettenis <kettenis@openbsd.org>, Neal Gompa <neal@gompa.dev>,
  u-boot@lists.denx.de, asahi@lists.linux.dev, 
  Hector Martin <marcan@marcan.st>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3266; i=marcan@marcan.st;
- h=from:subject:message-id; bh=GHn3v5LlOeMlC6cj+xN5ckRq+X6ZOTSSgSh4Uz7JtTw=;
- b=owGbwMvMwCEm+yP4NEe/cRLjabUkhlTbv3eZjQJCf1+yymt886ls89r7Fh+701NfZddN2bPwV
- znruwl9HaUsDGIcDLJiiiyNJ3pPdXtOP6eumjIdZg4rE8gQBi5OAZiI20aGP5xF664sWizAdp2J
- dYujXou0tb3xN8GvVovf/mBu2Lf/3ClGhpkvX75hzSjJk/+u2jLfpE4o26Bx4aQJSSV6wu98X2Q
- YMAMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1200; i=marcan@marcan.st;
+ h=from:subject:message-id; bh=cTK2n4nJfIjhYgrfnO7KnHAERQlBK/UrEyzwgBcEO6g=;
+ b=owGbwMvMwCEm+yP4NEe/cRLjabUkhlTbv/eXpU16sq9V09/S6o1MeOUz5SQHxjmnlrL877Bd4
+ fHnHTtrRykLgxgHg6yYIkvjid5T3Z7Tz6mrpkyHmcPKBDKEgYtTACaSupLhr2BJ+MzKO/wROVoK
+ xvw8+cvO3ufa112bW++a3NSyrFJIlOEP/5bQFwyLeY8at55y3bG0kPfCOlsrZnkHo22r9MPvXmb
+ kBgA=
 X-Developer-Key: i=marcan@marcan.st; a=openpgp;
  fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
-If the xHC has a problem with our STOP ENDPOINT command, it is likely to
-return a completion directly instead of first a transfer event for the
-in-progress transfer. Handle that more gracefully.
-
-We still BUG() on the error code, but at least we don't end up timing
-out on the event and ending up with unexpected event errors.
+There is currently no codepath to recover from this case. In principle
+we could require that the upper layer do this explicitly, but let's just
+do it in xHCI when the next bulk transfer is started, since that
+reasonably implies whatever caused the problem has been dealt with.
 
 Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- drivers/usb/host/xhci-ring.c | 34 ++++++++++++++++++++++------------
- include/usb/xhci.h           |  2 ++
- 2 files changed, 24 insertions(+), 12 deletions(-)
+ drivers/usb/host/xhci-ring.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index d0960812a47b..d21e76e0bdb6 100644
+index e02a6e300c4f..db8b8f200250 100644
 --- a/drivers/usb/host/xhci-ring.c
 +++ b/drivers/usb/host/xhci-ring.c
-@@ -466,7 +466,8 @@ union xhci_trb *xhci_wait_for_event(struct xhci_ctrl *ctrl, trb_type expected)
- 			continue;
+@@ -671,6 +671,14 @@ int xhci_bulk_tx(struct usb_device *udev, unsigned long pipe,
  
- 		type = TRB_FIELD_TO_TYPE(le32_to_cpu(event->event_cmd.flags));
--		if (type == expected)
-+		if (type == expected ||
-+		    (expected == TRB_NONE && type != TRB_PORT_STATUS))
- 			return event;
+ 	ep_ctx = xhci_get_ep_ctx(ctrl, virt_dev->out_ctx, ep_index);
  
- 		if (type == TRB_PORT_STATUS)
-@@ -544,27 +545,36 @@ static void abort_td(struct usb_device *udev, int ep_index)
- 	struct xhci_ctrl *ctrl = xhci_get_ctrl(udev);
- 	struct xhci_ring *ring =  ctrl->devs[udev->slot_id]->eps[ep_index].ring;
- 	union xhci_trb *event;
-+	trb_type type;
- 	u64 addr;
- 	u32 field;
- 
- 	xhci_queue_command(ctrl, 0, udev->slot_id, ep_index, TRB_STOP_RING);
- 
--	event = xhci_wait_for_event(ctrl, TRB_TRANSFER);
-+	event = xhci_wait_for_event(ctrl, TRB_NONE);
- 	if (!event)
- 		return;
- 
--	field = le32_to_cpu(event->trans_event.flags);
--	BUG_ON(TRB_TO_SLOT_ID(field) != udev->slot_id);
--	BUG_ON(TRB_TO_EP_INDEX(field) != ep_index);
--	BUG_ON(GET_COMP_CODE(le32_to_cpu(event->trans_event.transfer_len
--		!= COMP_STOP)));
--	xhci_acknowledge_event(ctrl);
-+	type = TRB_FIELD_TO_TYPE(le32_to_cpu(event->event_cmd.flags));
-+	if (type == TRB_TRANSFER) {
-+		field = le32_to_cpu(event->trans_event.flags);
-+		BUG_ON(TRB_TO_SLOT_ID(field) != udev->slot_id);
-+		BUG_ON(TRB_TO_EP_INDEX(field) != ep_index);
-+		BUG_ON(GET_COMP_CODE(le32_to_cpu(event->trans_event.transfer_len
-+			!= COMP_STOP)));
-+		xhci_acknowledge_event(ctrl);
- 
--	event = xhci_wait_for_event(ctrl, TRB_COMPLETION);
--	if (!event)
--		return;
-+		event = xhci_wait_for_event(ctrl, TRB_COMPLETION);
-+		if (!event)
-+			return;
-+		type = TRB_FIELD_TO_TYPE(le32_to_cpu(event->event_cmd.flags));
- 
--	BUG_ON(TRB_TO_SLOT_ID(le32_to_cpu(event->event_cmd.flags))
-+	} else {
-+		printf("abort_td: Expected a TRB_TRANSFER TRB first\n");
-+	}
++	/*
++	 * If the endpoint was halted due to a prior error, resume it before
++	 * the next transfer. It is the responsibility of the upper layer to
++	 * have dealt with whatever caused the error.
++	 */
++	if ((le32_to_cpu(ep_ctx->ep_info) & EP_STATE_MASK) == EP_STATE_HALTED)
++		reset_ep(udev, ep_index);
 +
-+	BUG_ON(type != TRB_COMPLETION ||
-+		TRB_TO_SLOT_ID(le32_to_cpu(event->event_cmd.flags))
- 		!= udev->slot_id || GET_COMP_CODE(le32_to_cpu(
- 		event->event_cmd.status)) != COMP_SUCCESS);
- 	xhci_acknowledge_event(ctrl);
-diff --git a/include/usb/xhci.h b/include/usb/xhci.h
-index 4a4ac10229ac..04d16a256bbd 100644
---- a/include/usb/xhci.h
-+++ b/include/usb/xhci.h
-@@ -901,6 +901,8 @@ union xhci_trb {
- 
- /* TRB type IDs */
- typedef enum {
-+	/* reserved, used as a software sentinel */
-+	TRB_NONE = 0,
- 	/* bulk, interrupt, isoc scatter/gather, and control data stage */
- 	TRB_NORMAL = 1,
- 	/* setup stage for control transfers */
+ 	ring = virt_dev->eps[ep_index].ring;
+ 	/*
+ 	 * How much data is (potentially) left before the 64KB boundary?
 
 -- 
 2.41.0
