@@ -1,87 +1,90 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819A6101CF
-	for <asahi@lists.linux.dev>; Sun, 29 Oct 2023 17:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDB5D2F2
+	for <asahi@lists.linux.dev>; Mon, 30 Oct 2023 09:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="t/ybVs/v"
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id 2F7C887832;
-	Sun, 29 Oct 2023 18:34:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1698600863;
-	bh=TKu9WwWqzq61umxRiJRksc7E6tayF3qZjJsjLmauFYY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=t/ybVs/vvwACk1HsAez01d7kMDa5wXNWVxKsqbs2Szi0EGZrRvrjJqlnpjLONPcPu
-	 TdF5FrlI2/r/IZH5sZkMoNzh5KAc1lCZtuvL9lKeihHTfif+Grq3A40PheuCuMxrFb
-	 PqN5FRyEi36G28o+bZa0+VU7UARuvCXgE+beTZqO/z8aXq/q3nnKmOhPSbHLw7amOF
-	 STWK83OQOYz6qIqPaZN5NmFCEH1SoiJCfr3nYknLVVKcgeVqXlRF+zAwyDJvTpFA2w
-	 NC3fc7DaJDXLI4YD6h2WP0ezV00hI/qeLQ5ek57rR1syCqAfIv2UVYMojM+rQWSj3l
-	 vggIvpeH89phQ==
-Message-ID: <5d791e0a-bcd3-44f9-bf39-a47390ec012e@denx.de>
-Date: Sun, 29 Oct 2023 18:34:05 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rn5kRE6u"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5079f3f3d7aso6349661e87.1
+        for <asahi@lists.linux.dev>; Mon, 30 Oct 2023 02:03:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698656598; x=1699261398; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cYFH7qp0u3X29NywKpoP1IyU1hw7BcleLqoH2m7DO8E=;
+        b=rn5kRE6uAduQTT+6KdsMccKVD5W8UKfYDX76apl4XJqOkn7EA79laeMJTPLwU9OYnZ
+         O4xdn+56ShJJHx4dvk+sziOdcRUExw3xZCYz3RlrgqPYZvwbjs853m0Mmkh29mTgs9TO
+         gkH2qJqcj8Jpz+7ujOiZ9+gg8Hdy2w51Kxsopv8gqwqWZd8gSmDC45QCXQcMuTaSo0qt
+         oTChqSDwF5roGcD5//rchBhErmHGN7+B8kSyseIU4Ci/f41OMKoxZv8ZmiAkdBxafURz
+         P60wfevLUOhEwBfPOkgntaVlsfYG/rc+kD/t7RffwBYLtj4KQFHPCpp7M7RRNG72Ievn
+         tiww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698656598; x=1699261398;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cYFH7qp0u3X29NywKpoP1IyU1hw7BcleLqoH2m7DO8E=;
+        b=sCOzW0+N5gKlLtusrobPxHxfyGHNCmgOcRlYOKmni3d8Jm99PxQ1I2RtsPtM66UWpS
+         wGoRUXWv7Q7nR0gYQgxoyXErAoFLTn6sXPemTNMEq4+RLm8tbPB7UGVAGCsYD9uI2T7z
+         LE4nUE8iTdJpWO9vQDHCxdJxy2ey2nfAfIxmDb85xIPSvXHKWED4IP7QgfubRCvkEOY3
+         EHiALJSB6ly2BRxVboKvLrCe3tT6KNUM4xHJYSHfKHE0Mmp+QHik8ViKDBXZfEReXnFC
+         AJy+h/Q94E9uuhqp/lB0+e8RKp6SxE8H2ZE5mIMEgGFPkywczGYNXoG+PVXX2EgSCWrs
+         wIOA==
+X-Gm-Message-State: AOJu0YzS/YIdq1rdcrFFueevjI8HSfijJnmvyOreZd99RpxzC61uZ1UP
+	GlCdprQNpR2hmdgGN2D0Vs60hQ==
+X-Google-Smtp-Source: AGHT+IEhqt5JyMuDyehB8tfDt0aSGJIzli2DgC7Bp6/VFUQmD21VwzJ1TqPJN1de7TiMAV9dumwFyA==
+X-Received: by 2002:a05:6512:6d1:b0:507:c7ae:32cc with SMTP id u17-20020a05651206d100b00507c7ae32ccmr8087977lff.41.1698656597789;
+        Mon, 30 Oct 2023 02:03:17 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id s10-20020a05600c45ca00b0040772138bb7sm12176139wmo.2.2023.10.30.02.03.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Oct 2023 02:03:17 -0700 (PDT)
+Date: Mon, 30 Oct 2023 12:03:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Janne Grunau <j@jannau.net>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: [PATCH] iommu/dart: Fix return code in
+ apple_dart_domain_alloc_paging()
+Message-ID: <b85e0715-3224-4f45-ad6b-ebb9f08c015d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: Ignore endpoints in non-zero altsettings
-Content-Language: en-US
-To: Hector Martin <marcan@marcan.st>, Bin Meng <bmeng.cn@gmail.com>
-Cc: Mark Kettenis <kettenis@openbsd.org>, Neal Gompa <neal@gompa.dev>,
- u-boot@lists.denx.de, asahi@lists.linux.dev
-References: <20231029-usb-fixes-4-v1-1-fe973dde7e59@marcan.st>
- <2a2c6186-5854-4bbb-ad12-d8b2062a7a63@denx.de>
- <c3f6d8de-dff7-f0e1-4c87-9eb56e0c6eb8@marcan.st>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <c3f6d8de-dff7-f0e1-4c87-9eb56e0c6eb8@marcan.st>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-On 10/29/23 16:50, Hector Martin wrote:
-> On 29/10/2023 21.04, Marek Vasut wrote:
->> On 10/29/23 08:24, Hector Martin wrote:
->>> We currently do not really handle altsettings properly, and no driver
->>> uses them. Ignore the respective endpoint descriptors for secondary
->>> altsettings, to avoid creating duplicate endpoint records in the
->>> interface.
->>>
->>> This will have to be revisited if/when we have a driver that needs
->>> altsettings to work properly.
->>>
->>> Signed-off-by: Hector Martin <marcan@marcan.st>
->>> ---
->>>    common/usb.c | 9 +++++++++
->>>    1 file changed, 9 insertions(+)
->>>
->>> diff --git a/common/usb.c b/common/usb.c
->>> index aad13fd9c557..90f72fda00bc 100644
->>> --- a/common/usb.c
->>> +++ b/common/usb.c
->>> @@ -463,6 +463,15 @@ static int usb_parse_config(struct usb_device *dev,
->>>    				puts("Endpoint descriptor out of order!\n");
->>>    				break;
->>>    			}
->>> +			if (if_desc->num_altsetting > 1) {
->>> +				/*
->>> +				 * Ignore altsettings, which can trigger duplicate
->>> +				 * endpoint errors below. Revisit this when some
->>> +				 * driver actually needs altsettings with differing
->>> +				 * endpoint setups.
->>> +				 */
->>
->> How do you trigger this error ?
->>
-> 
-> Plug in a device with altsettings, like most sound cards or UVC devices.
+The apple_dart_domain_alloc_paging() function is supposed to return NULL
+on error.  Returning an error pointer will lead to an Oops in
+__iommu_domain_alloc().
 
-Please add that to the commit message.
+Fixes: 482feb5c6492 ("iommu/dart: Call apple_dart_finalize_domain() as part of alloc_paging()")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/iommu/apple-dart.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index ee05f4824bfa..cb38a7a826dc 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -761,7 +761,7 @@ static struct iommu_domain *apple_dart_domain_alloc_paging(struct device *dev)
+ 		ret = apple_dart_finalize_domain(dart_domain, cfg);
+ 		if (ret) {
+ 			kfree(dart_domain);
+-			return ERR_PTR(ret);
++			return NULL;
+ 		}
+ 	}
+ 	return &dart_domain->domain;
+-- 
+2.42.0
+
