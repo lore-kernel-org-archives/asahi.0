@@ -1,57 +1,63 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDB5D2F2
-	for <asahi@lists.linux.dev>; Mon, 30 Oct 2023 09:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159B112E5B
+	for <asahi@lists.linux.dev>; Mon, 30 Oct 2023 11:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rn5kRE6u"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5079f3f3d7aso6349661e87.1
-        for <asahi@lists.linux.dev>; Mon, 30 Oct 2023 02:03:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="XSHOzEjD"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-77896da2118so306825785a.1
+        for <asahi@lists.linux.dev>; Mon, 30 Oct 2023 04:56:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698656598; x=1699261398; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cYFH7qp0u3X29NywKpoP1IyU1hw7BcleLqoH2m7DO8E=;
-        b=rn5kRE6uAduQTT+6KdsMccKVD5W8UKfYDX76apl4XJqOkn7EA79laeMJTPLwU9OYnZ
-         O4xdn+56ShJJHx4dvk+sziOdcRUExw3xZCYz3RlrgqPYZvwbjs853m0Mmkh29mTgs9TO
-         gkH2qJqcj8Jpz+7ujOiZ9+gg8Hdy2w51Kxsopv8gqwqWZd8gSmDC45QCXQcMuTaSo0qt
-         oTChqSDwF5roGcD5//rchBhErmHGN7+B8kSyseIU4Ci/f41OMKoxZv8ZmiAkdBxafURz
-         P60wfevLUOhEwBfPOkgntaVlsfYG/rc+kD/t7RffwBYLtj4KQFHPCpp7M7RRNG72Ievn
-         tiww==
+        d=ziepe.ca; s=google; t=1698667013; x=1699271813; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gQKrKJYeQqI408ZiaZJRkmFH/H0/KalWqC8BKV3SRh4=;
+        b=XSHOzEjDdRXT7qlVdWyBtFdwG0fLKCdo5FKV4T/cjix9R7CxUhYABmdL6j0jlRYy6Z
+         +8OPU3AnAG58uESlOtckurlXvoJrNM5sxKu5LRRB+SJZBJ0lZLzX3cZebM5bA40XB1wq
+         2JSkbzmtiQSBiryHmNVnJWhdJ4/r4d//QpeiZg9o2M1b1SajMUnHG8GmsDwtSPcIwbW6
+         85C9s+x77k4eUV0D0BMZC8DktrEp7plAmq88MM9GF/WL5W7y2gWJmhBLSvIOj6TuSlj6
+         Z3n2PegSGT05vcq9S+5GqHc5gKKritZ7xw1GEvv2cT0oCGZ7UHZSPQtan8bPASU+mnEw
+         pnaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698656598; x=1699261398;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cYFH7qp0u3X29NywKpoP1IyU1hw7BcleLqoH2m7DO8E=;
-        b=sCOzW0+N5gKlLtusrobPxHxfyGHNCmgOcRlYOKmni3d8Jm99PxQ1I2RtsPtM66UWpS
-         wGoRUXWv7Q7nR0gYQgxoyXErAoFLTn6sXPemTNMEq4+RLm8tbPB7UGVAGCsYD9uI2T7z
-         LE4nUE8iTdJpWO9vQDHCxdJxy2ey2nfAfIxmDb85xIPSvXHKWED4IP7QgfubRCvkEOY3
-         EHiALJSB6ly2BRxVboKvLrCe3tT6KNUM4xHJYSHfKHE0Mmp+QHik8ViKDBXZfEReXnFC
-         AJy+h/Q94E9uuhqp/lB0+e8RKp6SxE8H2ZE5mIMEgGFPkywczGYNXoG+PVXX2EgSCWrs
-         wIOA==
-X-Gm-Message-State: AOJu0YzS/YIdq1rdcrFFueevjI8HSfijJnmvyOreZd99RpxzC61uZ1UP
-	GlCdprQNpR2hmdgGN2D0Vs60hQ==
-X-Google-Smtp-Source: AGHT+IEhqt5JyMuDyehB8tfDt0aSGJIzli2DgC7Bp6/VFUQmD21VwzJ1TqPJN1de7TiMAV9dumwFyA==
-X-Received: by 2002:a05:6512:6d1:b0:507:c7ae:32cc with SMTP id u17-20020a05651206d100b00507c7ae32ccmr8087977lff.41.1698656597789;
-        Mon, 30 Oct 2023 02:03:17 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id s10-20020a05600c45ca00b0040772138bb7sm12176139wmo.2.2023.10.30.02.03.17
+        d=1e100.net; s=20230601; t=1698667013; x=1699271813;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gQKrKJYeQqI408ZiaZJRkmFH/H0/KalWqC8BKV3SRh4=;
+        b=V1mYeV2YyhCLw59vtXv/h0VymeOK9q36+Z++UKEmKfmITxYKYUZioaZcXSrB4H2UBq
+         HpEQHirOcwwd4w3yNUDHSQAcQSsIwJXdN9L0pEdFCkSJRHUWJIzhOojzUoFzduUXM9SI
+         MRSI1Nz/+B8InJnqHCteOckPyuanqlkHrG6+rhFnXnpsN633AHa/p1O0s5rf3bQZOsbm
+         xhJMqKrJfFBCQ+ze7Uaea8mndsbAD1hinMlSLANxvTRZtcICfYjQEsjaJxOXG1HYoE18
+         j2WuF3mgcUtAZvznSr8lqxWQEifIY+YrwkutRbrYNyYuIoTRyzXeG9s/v8IdZArnPGB5
+         K5Cw==
+X-Gm-Message-State: AOJu0Yz1cZqs98VJrl/pi3ll7hqJ38XGnToG0G+R5vkM+clAgJA6W0PL
+	P+/rjyDsI6KTyQWZNUJFjT/QwA==
+X-Google-Smtp-Source: AGHT+IGlo1N1nWgqEHCTfKHD4x4QvCUlpDbIj3E4lfEj8khCJx1F+5pIBfZ7gBWPby1i734LKGkdUg==
+X-Received: by 2002:a05:620a:4395:b0:778:909b:58c8 with SMTP id a21-20020a05620a439500b00778909b58c8mr8857446qkp.78.1698667012846;
+        Mon, 30 Oct 2023 04:56:52 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-26-201.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.26.201])
+        by smtp.gmail.com with ESMTPSA id r29-20020a05620a03dd00b00767da9b6ae9sm3242228qkm.11.2023.10.30.04.56.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 02:03:17 -0700 (PDT)
-Date: Mon, 30 Oct 2023 12:03:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
+        Mon, 30 Oct 2023 04:56:51 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1qxQt0-006eIL-QP;
+	Mon, 30 Oct 2023 08:56:50 -0300
+Date: Mon, 30 Oct 2023 08:56:50 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
 	Robin Murphy <robin.murphy@arm.com>, Janne Grunau <j@jannau.net>,
 	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	iommu@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: [PATCH] iommu/dart: Fix return code in
+Subject: Re: [PATCH] iommu/dart: Fix return code in
  apple_dart_domain_alloc_paging()
-Message-ID: <b85e0715-3224-4f45-ad6b-ebb9f08c015d@moroto.mountain>
+Message-ID: <20231030115650.GC691768@ziepe.ca>
+References: <b85e0715-3224-4f45-ad6b-ebb9f08c015d@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -60,31 +66,22 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+In-Reply-To: <b85e0715-3224-4f45-ad6b-ebb9f08c015d@moroto.mountain>
 
-The apple_dart_domain_alloc_paging() function is supposed to return NULL
-on error.  Returning an error pointer will lead to an Oops in
-__iommu_domain_alloc().
+On Mon, Oct 30, 2023 at 12:03:12PM +0300, Dan Carpenter wrote:
+> The apple_dart_domain_alloc_paging() function is supposed to return NULL
+> on error.  Returning an error pointer will lead to an Oops in
+> __iommu_domain_alloc().
+> 
+> Fixes: 482feb5c6492 ("iommu/dart: Call apple_dart_finalize_domain() as part of alloc_paging()")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/iommu/apple-dart.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Fixes: 482feb5c6492 ("iommu/dart: Call apple_dart_finalize_domain() as part of alloc_paging()")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/iommu/apple-dart.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-index ee05f4824bfa..cb38a7a826dc 100644
---- a/drivers/iommu/apple-dart.c
-+++ b/drivers/iommu/apple-dart.c
-@@ -761,7 +761,7 @@ static struct iommu_domain *apple_dart_domain_alloc_paging(struct device *dev)
- 		ret = apple_dart_finalize_domain(dart_domain, cfg);
- 		if (ret) {
- 			kfree(dart_domain);
--			return ERR_PTR(ret);
-+			return NULL;
- 		}
- 	}
- 	return &dart_domain->domain;
--- 
-2.42.0
+Really need to fix this so the function does return ERR_PTR..
 
+Thanks,
+Jason
