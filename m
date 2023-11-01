@@ -1,105 +1,107 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F3410A37
-	for <asahi@lists.linux.dev>; Tue, 31 Oct 2023 00:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-507d7b73b74so7014846e87.3
-        for <asahi@lists.linux.dev>; Mon, 30 Oct 2023 17:00:56 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E118162B
+	for <asahi@lists.linux.dev>; Wed,  1 Nov 2023 00:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="EiJAHhPm"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-66d0169cf43so40821076d6.3
+        for <asahi@lists.linux.dev>; Tue, 31 Oct 2023 17:47:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1698799668; x=1699404468; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KtTZeU1qyZPr5NnJG5tqBE/Hw8vzn/1VxFwr17IS4sA=;
+        b=EiJAHhPm43OKsa4Euh+q+pnuZ6t0CpgngdrPY/sHuoAczU4lGDqHxpWUvMht28zyjV
+         tF3rieSBZV+Qz8kz9N5KCRhjNe33Kos0ppZSsk7ewHxyZ4WK0vT2V1EhhqFECHrIcvtH
+         BZ0yPdUpLHODhfJZ1YnV55ah7QWXO3XaHybmLCP/wJ5/R0FPpj4l2a+YPQxQqgHVHyg9
+         8ivJol01Fqv/NhZU9XPmzpc1Y7yLfp9CdyZd5mARy9pgCaR45zyd+aMlt1K6mhkV3h9A
+         9MoQD5rpTwaTsIAdCz5GVDMbGCh0h16TY2SyKxj1shnrt45Vf+2Fv1bEcpNLbbGG67v0
+         pZFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698710455; x=1699315255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6ZVJKfi+PzDUAtiv1q8ocAV1+Plo8zxDJySpo+IH4+c=;
-        b=hOoA/YuMDNqfOchMDohkfYqWmmdvM1zUjWYHGjIwEkMNeWhmGkGnBGlhUAtFt1L0R2
-         tlh9sQ5V93dEk+5NijJJclqzcES8jf7ccGQFUxLIdQr31UOi1Mfg/a3pdPRbs+uLXBCk
-         ZEX2CJOs/k1csG63KqdfTk5ItMagaKj/TQRyQhWysl5epqBXET+FKxFynas//P+b9wXg
-         t30rhgLNfksLVhM6x+AdGh29rDT/Fke4wx49Dq7rg3C7UXmwbuka5cnhv4K+cj8RtWYe
-         X5ZYFqOdqjdbn1MqZKEEVhfpwpgU0xLxJ3NYx35/bPNLFn/saHq8X7WWwBpnDkvmSyWJ
-         5EJw==
-X-Gm-Message-State: AOJu0YyNKJ+GxOCnE4yt+u7VLhfdSC2hNpqxj3ESfMrAypLlXsnzGKwE
-	4ALnyasVz+F60bnoKvsHeqc4h5ChyxLCW2fR
-X-Google-Smtp-Source: AGHT+IEaFmxTbhWcEYVCf7JDKDp+KAguFbZobn/lWLus3tToCKlLnIdlDKLwr3eKowEf91AfJE8D0g==
-X-Received: by 2002:a19:2d02:0:b0:508:12f4:dc9a with SMTP id k2-20020a192d02000000b0050812f4dc9amr7850043lfj.67.1698710454383;
-        Mon, 30 Oct 2023 17:00:54 -0700 (PDT)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
-        by smtp.gmail.com with ESMTPSA id g26-20020a056402181a00b0053e8f1f79afsm168478edy.30.2023.10.30.17.00.53
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Oct 2023 17:00:53 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-9c2a0725825so814494466b.2
-        for <asahi@lists.linux.dev>; Mon, 30 Oct 2023 17:00:53 -0700 (PDT)
-X-Received: by 2002:a17:907:8f0d:b0:9bf:5771:a8cf with SMTP id
- wg13-20020a1709078f0d00b009bf5771a8cfmr6271380ejc.70.1698710453646; Mon, 30
- Oct 2023 17:00:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698799668; x=1699404468;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KtTZeU1qyZPr5NnJG5tqBE/Hw8vzn/1VxFwr17IS4sA=;
+        b=UhNg4uKsLmq0dIFB8x4w76pw6N0uG0Uchfu8i595k0Z9wV2qBo8zr/1b2/amOqZ+wZ
+         ZbMpzhIF3K4bDOHiqqCLoKwxvgzx3Wo0+luTzNapcCiUEcASB1GqrR/BNoaZAAtXt2Dp
+         1z4bQCHwCj6EsEOzNqE9H5VjEKTF9TBz+A2uR4U7K1q9IH0TEuZMhDoPtcebpfjAgnvB
+         0QvQi8v2OFSRbcTkG3sqvCI9h3LaXCe+uKflS30nL5vYhER3loBrDMPdSx21tCfu5gXT
+         DtGsmjsQ/GYtOH+IqB2MFXf85pZZLzi5x6EMowRrK+e5q5+jJL0HlLXt1VhGB8+xsCh4
+         4Yow==
+X-Gm-Message-State: AOJu0YxGXzHskltWlZsjksVX9v6zOu67SVITz588KmY04gisu10n4JSy
+	MYWBtIdVbaKNOZo59a5vDIkOCw==
+X-Google-Smtp-Source: AGHT+IGBoZF6m4BoEcXMbgmscTRORzSW7sDdPYnhLQJDO7yeyyH3b7tmen41fCbsn0gHL99uZVHZtw==
+X-Received: by 2002:ad4:574b:0:b0:66d:775:d1af with SMTP id q11-20020ad4574b000000b0066d0775d1afmr17062290qvx.59.1698799668692;
+        Tue, 31 Oct 2023 17:47:48 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-26-201.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.26.201])
+        by smtp.gmail.com with ESMTPSA id i5-20020ad44ba5000000b0065b22afe53csm997511qvw.94.2023.10.31.17.47.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Oct 2023 17:47:48 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1qxzOd-0080uo-GZ;
+	Tue, 31 Oct 2023 21:47:47 -0300
+Date: Tue, 31 Oct 2023 21:47:47 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Janne Grunau <j@jannau.net>,
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] iommu/dart: Fix return code in
+ apple_dart_domain_alloc_paging()
+Message-ID: <20231101004747.GK691768@ziepe.ca>
+References: <b85e0715-3224-4f45-ad6b-ebb9f08c015d@moroto.mountain>
+ <20231030115650.GC691768@ziepe.ca>
+ <d42a8cb4-dd0d-407e-8659-915ca821e1f6@kadam.mountain>
+ <20231030123823.GD691768@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231030142620.818663-2-robh@kernel.org>
-In-Reply-To: <20231030142620.818663-2-robh@kernel.org>
-From: Neal Gompa <neal@gompa.dev>
-Date: Mon, 30 Oct 2023 20:00:16 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je9CsN2-GYL9hnwwYhX=B8P-M1tZfmdrQNrWtGOMTWiChA@mail.gmail.com>
-Message-ID: <CAEg-Je9CsN2-GYL9hnwwYhX=B8P-M1tZfmdrQNrWtGOMTWiChA@mail.gmail.com>
-Subject: Re: [RESEND PATCH] soc: apple: mailbox: Add explicit include of platform_device.h
-To: Rob Herring <robh@kernel.org>
-Cc: soc@kernel.org, Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231030123823.GD691768@ziepe.ca>
 
-On Mon, Oct 30, 2023 at 10:27=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
-e:
->
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other and pull in various other headers. In
-> preparation to fix this, adjust the includes for what is actually needed.
->
-> platform_device.h is implicitly included by of_platform.h, but that's goi=
-ng
-> to be removed.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Note this was added in the merge window and missed the last round.
->
-> Arnd, Can you apply this directly.
->
-> ---
->  drivers/soc/apple/mailbox.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/soc/apple/mailbox.c b/drivers/soc/apple/mailbox.c
-> index 0cbd172f435e..780199bf351e 100644
-> --- a/drivers/soc/apple/mailbox.c
-> +++ b/drivers/soc/apple/mailbox.c
-> @@ -26,6 +26,7 @@
->  #include <linux/module.h>
->  #include <linux/of.h>
->  #include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/spinlock.h>
->  #include <linux/types.h>
-> --
-> 2.42.0
->
->
+On Mon, Oct 30, 2023 at 09:38:23AM -0300, Jason Gunthorpe wrote:
+> On Mon, Oct 30, 2023 at 03:00:56PM +0300, Dan Carpenter wrote:
+> > On Mon, Oct 30, 2023 at 08:56:50AM -0300, Jason Gunthorpe wrote:
+> > > On Mon, Oct 30, 2023 at 12:03:12PM +0300, Dan Carpenter wrote:
+> > > > The apple_dart_domain_alloc_paging() function is supposed to return NULL
+> > > > on error.  Returning an error pointer will lead to an Oops in
+> > > > __iommu_domain_alloc().
+> > > > 
+> > > > Fixes: 482feb5c6492 ("iommu/dart: Call apple_dart_finalize_domain() as part of alloc_paging()")
+> > > > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > > ---
+> > > >  drivers/iommu/apple-dart.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> > > 
+> > > Really need to fix this so the function does return ERR_PTR..
+> > 
+> > It's called as a function pointer.  Changing that will create a
+> > backporting hazard unless we rename the pointer or something.
+> 
+> You can make that argument about almost any change in the kernel..
+> 
+> IMHO we needed an annotation like __user/__iomem/etc to indicate
+> ERR_PTR so at least there is some hope of trivially finding it.
 
-Pretty obvious patch.
+I was thinking about this some more, I think I prefer we fix the core
+code to accept the ERR_PTR and just start moving gently in that
+direction. I was working on some other stuff and it is starting to get
+really confusing that only this op is different.
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
+I'll send a patch
 
-
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+Jason
