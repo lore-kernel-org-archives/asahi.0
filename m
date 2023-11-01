@@ -1,43 +1,40 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAC01C17
-	for <asahi@lists.linux.dev>; Wed,  1 Nov 2023 06:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CF76FAE
+	for <asahi@lists.linux.dev>; Wed,  1 Nov 2023 08:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UiSptMRI"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9c603e235d1so1012945166b.3
-        for <asahi@lists.linux.dev>; Tue, 31 Oct 2023 23:59:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="BDNHIYrM"
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-1d542f05b9aso1331114fac.1
+        for <asahi@lists.linux.dev>; Wed, 01 Nov 2023 01:13:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698821993; x=1699426793; darn=lists.linux.dev;
+        d=ffwll.ch; s=google; t=1698826421; x=1699431221; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OoRJsZQA0JRmj7+Zm7KWg2a0Vv+QGemQYHWSkunKRm8=;
-        b=UiSptMRI7nTO/apYZKGpq7Q0erUtDXhd3RMUuPh4aaBAeJdl98GjMCruJ2LzV61tfi
-         KNzB7wnTvaGB4mlVbWbOd3UqDzRoU5pB320CoABn0W40sJpLh5diTERBDPx9m4LswrHv
-         am3WQEzR2j/r0God5s2a+4BZ2soXK7g2CFODFGZ05bpqsaHktNxN7C+0gRWtBI7IWJcu
-         Moho4muEdBNiFiPC4Bq2wHRPAiNto/nA5AjhJAQLufjs9BsplxNIMFgSYMPsiIIotxVk
-         YyDHaVns6gf9dy+FTh5OtIMoTayLhK32FV9T7WIqj9iZ0SWPd/BmtALOPuV0VfSjQZwx
-         1QOA==
+        bh=iTrJrLiBbNpY45EDAaoUQiZijsCyasehzQFvLcrvRfE=;
+        b=BDNHIYrMIPcNeVWJTsZjgJsb+yk1kQD/szsMpABG7O+YDg8MVuPjpLFDIda7SNdTDu
+         qCXT5fLLzNIr4YR/ocTthjfwb94w5mQteBIggoo89qWjnmohICV+AnC8oipb+QzOAND0
+         cmQTeAHigZkAoZQmKTiPLB33HlZnlqUbHXwLc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698821993; x=1699426793;
+        d=1e100.net; s=20230601; t=1698826421; x=1699431221;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OoRJsZQA0JRmj7+Zm7KWg2a0Vv+QGemQYHWSkunKRm8=;
-        b=Q2+J9foakeZ4x5SebuIEqdmV6yeb0yidHjbx556XIq5E2U+v4vZ0rK/4HEJmj+gyWK
-         U33E++xJrd+eQxdVp+0nb0OmLWM7kJNhoOSnsO7RRfJXz3DXx2W9sKfYtUEjd2ADZ1Ck
-         tzjAxZOQmWHwlbVvUOsT6naNEtcM27+jSRy48o0n9UkaaI8pXtiYvQgdn4A4D7rIR/NG
-         ciAQKz/hTe9TmG0xsBJr7H227xoj0gCn2zshcRz5Xb5mS5F7aXRXWfeTgm84Oiz3aOpu
-         4P+Xn1pVqSX0i6RP0reU80isGUvCVz9D7fp2lJjyXM6lCJ8mcqYxI9OPoyIriNkMri2w
-         aoPQ==
-X-Gm-Message-State: AOJu0YzYMgBJA0JToOXWiF0LfXb5N28k5CCbWovxg9+MIAw6ZX16+bZr
-	7ItU0uhWxO9xPUL+q8V8XuYloG825oopTCDE2FM=
-X-Google-Smtp-Source: AGHT+IEr42YbSo5u1ztwgfEXuJgcVFbGHH6ew8zc8QEvevYhY3xgiLLyXDW3jKmYJXFF/eUQO4FOj43/eeqO2NRVnLo=
-X-Received: by 2002:a17:907:36cd:b0:9be:5ab2:73c2 with SMTP id
- bj13-20020a17090736cd00b009be5ab273c2mr1135771ejc.58.1698821992749; Tue, 31
- Oct 2023 23:59:52 -0700 (PDT)
+        bh=iTrJrLiBbNpY45EDAaoUQiZijsCyasehzQFvLcrvRfE=;
+        b=Kzb/tV9A3r9SbGwaPcaV70YgketLTUPtH13m37pnPJkrhkzgsUYX96yNr662HlUtlo
+         pxfaGe55lLdgEYDmLdZsW4O3tHSY49P4SDOEIgGH7y7rsIO4X8qSZDQT1SOkXZ9oHqEk
+         ktOD3pQxhczLU7ftlRuVHIVoRF7OJRPzAvLoPb1yxYsZMJo/CdOujhSoKdypZ6zaWI8e
+         R7VOqOowzGOmP/2FuPc3DTBALOWvNLxfeQ32Wemj7M9xsDg3w8QNdp/lpJbSEVhj9cC1
+         W1/DKq7xr2FjvaPKML95/t1TOYVQwDVImdIvG8QTpFVG6MBCLoy38aHLFLLUp8yNmb99
+         VuJw==
+X-Gm-Message-State: AOJu0Yys24JtoGLKOTdTQxhH31VMog5fhVHGTpxVcyg+nIiNlvKdzW9r
+	ukq/OIUU/iVgD10NODb0t14FQq2H5SuxdV4oTD8o0A==
+X-Google-Smtp-Source: AGHT+IHNo6PSvmt4/ey9BXcYHKsI5T5cP/oapm7vIEpZ5K+zWs51oNxmCWeDe0/qnVahB9OScvTSqBGtBMtX0xcfODM=
+X-Received: by 2002:a05:6870:af44:b0:1e9:8ab9:11ca with SMTP id
+ uy4-20020a056870af4400b001e98ab911camr19772936oab.3.1698826421144; Wed, 01
+ Nov 2023 01:13:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -50,44 +47,65 @@ References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com> <20230714-drm-sched-f
  <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com> <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
  <a42bd218-6eb5-6ddb-bbb4-d25118c59f40@amd.com> <7b564e55-a9b7-0585-3cf1-d1f132f9a918@asahilina.net>
  <daf48d76-ceee-c82d-a63a-e8e7770a9d83@amd.com> <f5de10fa-57d6-a3d0-1cf9-084491aa6025@asahilina.net>
- <200e9d74-7191-b1ed-e5f3-775827550853@amd.com>
-In-Reply-To: <200e9d74-7191-b1ed-e5f3-775827550853@amd.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Wed, 1 Nov 2023 16:59:40 +1000
-Message-ID: <CAPM=9txcC9+ZePA5onJxtQr+nBe8UcA3_Kp5Da3zjKL7ZB4JPQ@mail.gmail.com>
+ <200e9d74-7191-b1ed-e5f3-775827550853@amd.com> <CAPM=9txcC9+ZePA5onJxtQr+nBe8UcA3_Kp5Da3zjKL7ZB4JPQ@mail.gmail.com>
+In-Reply-To: <CAPM=9txcC9+ZePA5onJxtQr+nBe8UcA3_Kp5Da3zjKL7ZB4JPQ@mail.gmail.com>
+From: Daniel Vetter <daniel@ffwll.ch>
+Date: Wed, 1 Nov 2023 09:13:29 +0100
+Message-ID: <CAKMK7uG0G02ierkgAmJE1gfLto08LK5twGUEX1qN+qk9-AavYA@mail.gmail.com>
 Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in drm_sched_fence_get_timeline_name
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Asahi Lina <lina@asahilina.net>, Luben Tuikov <luben.tuikov@amd.com>, alyssa@rosenzweig.io, 
-	Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Faith Ekstrand <faith.ekstrand@collabora.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	asahi@lists.linux.dev
+To: Dave Airlie <airlied@gmail.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Asahi Lina <lina@asahilina.net>, Luben Tuikov <luben.tuikov@amd.com>, alyssa@rosenzweig.io, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Faith Ekstrand <faith.ekstrand@collabora.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, asahi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
+On Wed, 1 Nov 2023 at 07:59, Dave Airlie <airlied@gmail.com> wrote:
 >
-> Well, to make it clear once more: Signaling a dma_fence from the
-> destructor of a reference counted object is very problematic! This will
-> be rejected no matter if you do that in C or in Rust.
+> >
+> > Well, to make it clear once more: Signaling a dma_fence from the
+> > destructor of a reference counted object is very problematic! This will
+> > be rejected no matter if you do that in C or in Rust.
+> >
+> > What we can do is to make it safe in the sense that you don't access
+> > freed up memory by using the scheduler fences even more as wrapper
+> > around the hardware fence as we do now. But this quite a change and
+> > requires a bit more than just hacking around
+> > drm_sched_fence_get_timeline_name().
 >
-> What we can do is to make it safe in the sense that you don't access
-> freed up memory by using the scheduler fences even more as wrapper
-> around the hardware fence as we do now. But this quite a change and
-> requires a bit more than just hacking around
-> drm_sched_fence_get_timeline_name().
+> I really think this needs to be documented if nothing else out of this thread.
+>
+> Clearly nobody is going to get it right and hidden here in this
+> thread, this info isn't useful.
+>
+> Can we have some sort of design document for the dma-fence/scheduler
+> interactions written and we can try and refine it with solutions on
+> the list, because I'm tired of people proposing things and NAK's
+> getting thrown around without anything to point people at.
+>
+> The next NAK I see on the list will mean I block all patches from the
+> sender until they write a documentation patch, because seriously this
+> stuff is too hard for someone to just keep it in their head and expect
+> everyone else to understand from reading the code.
 
-I really think this needs to be documented if nothing else out of this thread.
+I very much like the idea that NAK replies are counted as "you've just
+volunteered yourself for some documentation patches so that next time
+around you can reply with a link to the docs instead of just a NAK".
 
-Clearly nobody is going to get it right and hidden here in this
-thread, this info isn't useful.
+I don't think we'll get out of these discussions otherwise, since
+currently we have undocumented, but very tricky semantics of the
+drm/sched codebase for ringbuffer scheduling which is extended to fw
+scheduling in also very tricky ways, with not entirely clear impacts
+on semantics of all the drm/sched things. And as a result we just pile
+up enormous amounts of threads where I think the only thing assured is
+that people talk past each another.
 
-Can we have some sort of design document for the dma-fence/scheduler
-interactions written and we can try and refine it with solutions on
-the list, because I'm tired of people proposing things and NAK's
-getting thrown around without anything to point people at.
+Converting NAKs into doc patches should at least eventually get rid of
+the worst confusions we're dealing with here.
 
-The next NAK I see on the list will mean I block all patches from the
-sender until they write a documentation patch, because seriously this
-stuff is too hard for someone to just keep it in their head and expect
-everyone else to understand from reading the code.
-
-Dave.
+Cheers, Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
