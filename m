@@ -1,107 +1,93 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E118162B
-	for <asahi@lists.linux.dev>; Wed,  1 Nov 2023 00:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADAC01C17
+	for <asahi@lists.linux.dev>; Wed,  1 Nov 2023 06:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="EiJAHhPm"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-66d0169cf43so40821076d6.3
-        for <asahi@lists.linux.dev>; Tue, 31 Oct 2023 17:47:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UiSptMRI"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9c603e235d1so1012945166b.3
+        for <asahi@lists.linux.dev>; Tue, 31 Oct 2023 23:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1698799668; x=1699404468; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KtTZeU1qyZPr5NnJG5tqBE/Hw8vzn/1VxFwr17IS4sA=;
-        b=EiJAHhPm43OKsa4Euh+q+pnuZ6t0CpgngdrPY/sHuoAczU4lGDqHxpWUvMht28zyjV
-         tF3rieSBZV+Qz8kz9N5KCRhjNe33Kos0ppZSsk7ewHxyZ4WK0vT2V1EhhqFECHrIcvtH
-         BZ0yPdUpLHODhfJZ1YnV55ah7QWXO3XaHybmLCP/wJ5/R0FPpj4l2a+YPQxQqgHVHyg9
-         8ivJol01Fqv/NhZU9XPmzpc1Y7yLfp9CdyZd5mARy9pgCaR45zyd+aMlt1K6mhkV3h9A
-         9MoQD5rpTwaTsIAdCz5GVDMbGCh0h16TY2SyKxj1shnrt45Vf+2Fv1bEcpNLbbGG67v0
-         pZFQ==
+        d=gmail.com; s=20230601; t=1698821993; x=1699426793; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=OoRJsZQA0JRmj7+Zm7KWg2a0Vv+QGemQYHWSkunKRm8=;
+        b=UiSptMRI7nTO/apYZKGpq7Q0erUtDXhd3RMUuPh4aaBAeJdl98GjMCruJ2LzV61tfi
+         KNzB7wnTvaGB4mlVbWbOd3UqDzRoU5pB320CoABn0W40sJpLh5diTERBDPx9m4LswrHv
+         am3WQEzR2j/r0God5s2a+4BZ2soXK7g2CFODFGZ05bpqsaHktNxN7C+0gRWtBI7IWJcu
+         Moho4muEdBNiFiPC4Bq2wHRPAiNto/nA5AjhJAQLufjs9BsplxNIMFgSYMPsiIIotxVk
+         YyDHaVns6gf9dy+FTh5OtIMoTayLhK32FV9T7WIqj9iZ0SWPd/BmtALOPuV0VfSjQZwx
+         1QOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698799668; x=1699404468;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KtTZeU1qyZPr5NnJG5tqBE/Hw8vzn/1VxFwr17IS4sA=;
-        b=UhNg4uKsLmq0dIFB8x4w76pw6N0uG0Uchfu8i595k0Z9wV2qBo8zr/1b2/amOqZ+wZ
-         ZbMpzhIF3K4bDOHiqqCLoKwxvgzx3Wo0+luTzNapcCiUEcASB1GqrR/BNoaZAAtXt2Dp
-         1z4bQCHwCj6EsEOzNqE9H5VjEKTF9TBz+A2uR4U7K1q9IH0TEuZMhDoPtcebpfjAgnvB
-         0QvQi8v2OFSRbcTkG3sqvCI9h3LaXCe+uKflS30nL5vYhER3loBrDMPdSx21tCfu5gXT
-         DtGsmjsQ/GYtOH+IqB2MFXf85pZZLzi5x6EMowRrK+e5q5+jJL0HlLXt1VhGB8+xsCh4
-         4Yow==
-X-Gm-Message-State: AOJu0YxGXzHskltWlZsjksVX9v6zOu67SVITz588KmY04gisu10n4JSy
-	MYWBtIdVbaKNOZo59a5vDIkOCw==
-X-Google-Smtp-Source: AGHT+IGBoZF6m4BoEcXMbgmscTRORzSW7sDdPYnhLQJDO7yeyyH3b7tmen41fCbsn0gHL99uZVHZtw==
-X-Received: by 2002:ad4:574b:0:b0:66d:775:d1af with SMTP id q11-20020ad4574b000000b0066d0775d1afmr17062290qvx.59.1698799668692;
-        Tue, 31 Oct 2023 17:47:48 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-26-201.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.26.201])
-        by smtp.gmail.com with ESMTPSA id i5-20020ad44ba5000000b0065b22afe53csm997511qvw.94.2023.10.31.17.47.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 17:47:48 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1qxzOd-0080uo-GZ;
-	Tue, 31 Oct 2023 21:47:47 -0300
-Date: Tue, 31 Oct 2023 21:47:47 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Janne Grunau <j@jannau.net>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] iommu/dart: Fix return code in
- apple_dart_domain_alloc_paging()
-Message-ID: <20231101004747.GK691768@ziepe.ca>
-References: <b85e0715-3224-4f45-ad6b-ebb9f08c015d@moroto.mountain>
- <20231030115650.GC691768@ziepe.ca>
- <d42a8cb4-dd0d-407e-8659-915ca821e1f6@kadam.mountain>
- <20231030123823.GD691768@ziepe.ca>
+        d=1e100.net; s=20230601; t=1698821993; x=1699426793;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OoRJsZQA0JRmj7+Zm7KWg2a0Vv+QGemQYHWSkunKRm8=;
+        b=Q2+J9foakeZ4x5SebuIEqdmV6yeb0yidHjbx556XIq5E2U+v4vZ0rK/4HEJmj+gyWK
+         U33E++xJrd+eQxdVp+0nb0OmLWM7kJNhoOSnsO7RRfJXz3DXx2W9sKfYtUEjd2ADZ1Ck
+         tzjAxZOQmWHwlbVvUOsT6naNEtcM27+jSRy48o0n9UkaaI8pXtiYvQgdn4A4D7rIR/NG
+         ciAQKz/hTe9TmG0xsBJr7H227xoj0gCn2zshcRz5Xb5mS5F7aXRXWfeTgm84Oiz3aOpu
+         4P+Xn1pVqSX0i6RP0reU80isGUvCVz9D7fp2lJjyXM6lCJ8mcqYxI9OPoyIriNkMri2w
+         aoPQ==
+X-Gm-Message-State: AOJu0YzYMgBJA0JToOXWiF0LfXb5N28k5CCbWovxg9+MIAw6ZX16+bZr
+	7ItU0uhWxO9xPUL+q8V8XuYloG825oopTCDE2FM=
+X-Google-Smtp-Source: AGHT+IEr42YbSo5u1ztwgfEXuJgcVFbGHH6ew8zc8QEvevYhY3xgiLLyXDW3jKmYJXFF/eUQO4FOj43/eeqO2NRVnLo=
+X-Received: by 2002:a17:907:36cd:b0:9be:5ab2:73c2 with SMTP id
+ bj13-20020a17090736cd00b009be5ab273c2mr1135771ejc.58.1698821992749; Tue, 31
+ Oct 2023 23:59:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231030123823.GD691768@ziepe.ca>
+References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com> <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+ <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+ <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com> <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+ <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com> <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
+ <a42bd218-6eb5-6ddb-bbb4-d25118c59f40@amd.com> <7b564e55-a9b7-0585-3cf1-d1f132f9a918@asahilina.net>
+ <daf48d76-ceee-c82d-a63a-e8e7770a9d83@amd.com> <f5de10fa-57d6-a3d0-1cf9-084491aa6025@asahilina.net>
+ <200e9d74-7191-b1ed-e5f3-775827550853@amd.com>
+In-Reply-To: <200e9d74-7191-b1ed-e5f3-775827550853@amd.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Wed, 1 Nov 2023 16:59:40 +1000
+Message-ID: <CAPM=9txcC9+ZePA5onJxtQr+nBe8UcA3_Kp5Da3zjKL7ZB4JPQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in drm_sched_fence_get_timeline_name
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Asahi Lina <lina@asahilina.net>, Luben Tuikov <luben.tuikov@amd.com>, alyssa@rosenzweig.io, 
+	Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Faith Ekstrand <faith.ekstrand@collabora.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Oct 30, 2023 at 09:38:23AM -0300, Jason Gunthorpe wrote:
-> On Mon, Oct 30, 2023 at 03:00:56PM +0300, Dan Carpenter wrote:
-> > On Mon, Oct 30, 2023 at 08:56:50AM -0300, Jason Gunthorpe wrote:
-> > > On Mon, Oct 30, 2023 at 12:03:12PM +0300, Dan Carpenter wrote:
-> > > > The apple_dart_domain_alloc_paging() function is supposed to return NULL
-> > > > on error.  Returning an error pointer will lead to an Oops in
-> > > > __iommu_domain_alloc().
-> > > > 
-> > > > Fixes: 482feb5c6492 ("iommu/dart: Call apple_dart_finalize_domain() as part of alloc_paging()")
-> > > > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > > ---
-> > > >  drivers/iommu/apple-dart.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > 
-> > > Really need to fix this so the function does return ERR_PTR..
-> > 
-> > It's called as a function pointer.  Changing that will create a
-> > backporting hazard unless we rename the pointer or something.
-> 
-> You can make that argument about almost any change in the kernel..
-> 
-> IMHO we needed an annotation like __user/__iomem/etc to indicate
-> ERR_PTR so at least there is some hope of trivially finding it.
+>
+> Well, to make it clear once more: Signaling a dma_fence from the
+> destructor of a reference counted object is very problematic! This will
+> be rejected no matter if you do that in C or in Rust.
+>
+> What we can do is to make it safe in the sense that you don't access
+> freed up memory by using the scheduler fences even more as wrapper
+> around the hardware fence as we do now. But this quite a change and
+> requires a bit more than just hacking around
+> drm_sched_fence_get_timeline_name().
 
-I was thinking about this some more, I think I prefer we fix the core
-code to accept the ERR_PTR and just start moving gently in that
-direction. I was working on some other stuff and it is starting to get
-really confusing that only this op is different.
+I really think this needs to be documented if nothing else out of this thread.
 
-I'll send a patch
+Clearly nobody is going to get it right and hidden here in this
+thread, this info isn't useful.
 
-Jason
+Can we have some sort of design document for the dma-fence/scheduler
+interactions written and we can try and refine it with solutions on
+the list, because I'm tired of people proposing things and NAK's
+getting thrown around without anything to point people at.
+
+The next NAK I see on the list will mean I block all patches from the
+sender until they write a documentation patch, because seriously this
+stuff is too hard for someone to just keep it in their head and expect
+everyone else to understand from reading the code.
+
+Dave.
