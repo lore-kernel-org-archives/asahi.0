@@ -1,586 +1,173 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0734128DAB;
-	Mon,  6 Nov 2023 14:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-587af6285c0so207705eaf.1;
-        Mon, 06 Nov 2023 06:36:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699281400; x=1699886200;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2cdR2/VKi6UPuhkYIfGhIxLOEjAPCEY76bcIkQ8v+Ms=;
-        b=sHQq8uYC8xO9rmbrjw1w39R1vQYh6Mv6VGjDHm6+Ab/5x+pTDiJyrBMw60rO61efoE
-         EWrtTwwdu3rAcMNMA4UXR4r62pLwnFl0l9RE51Z+qG7ZnSghVbPKef/uWHsRh5zOTCX4
-         uzOY0ArTZCPhnkt7HDiVTTJzlpz+668AzXVmjI/CeFmtZRgUAIZV7F00jDeaeZt8As1h
-         4yFA7oQiNZ8w8Jn/YNXXFp7zgsaf/ERMysScxh3h5XaRkj8HIPXYmhiE1PqhCvw/fj7O
-         qjgIQEsMykUwoA5QSolYkoZfy7M1nFUdn74gTaZC+KKt/6N2X7p2phz+sLVovwsiFX3/
-         lXdA==
-X-Gm-Message-State: AOJu0Yy7uroYjUs7f8eC3+AtDYJKoXvnJ1Z4kniYARaK+sl7k/PC090w
-	BZ89LqVWF7DW/FDSWFhqy+O4zEh9jsxaxN0WDO0=
-X-Google-Smtp-Source: AGHT+IHbe2zI3U23b+PVzNucg829Wp6e2Bcxf0uK0hh0lJZt2GaAY1e0EjSPEFsMQ2ih3YgyFNGuBSiBcA14YA5OhH8=
-X-Received: by 2002:a4a:3390:0:b0:587:947b:31f4 with SMTP id
- q138-20020a4a3390000000b00587947b31f4mr5630046ooq.1.1699281399853; Mon, 06
- Nov 2023 06:36:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9C11FD2
+	for <asahi@lists.linux.dev>; Tue,  7 Nov 2023 06:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="CbqR6KMr"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 2F4D541A42;
+	Tue,  7 Nov 2023 06:05:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1699337148; bh=xxiIjvDbAksu9Y0ctF1XaFpoIJj+/zvV5fHsF1bZhWE=;
+	h=From:Date:Subject:To:Cc;
+	b=CbqR6KMrHZj9VLynVWP+/xA9O8EBvwGhCoiLtoxy2Gtv6X3uY2SuPrdKhzVs5KEXP
+	 axj76Y5/95D36x2sUYdzp1uvsMDwx+dnuhjMYiz/yGdarzNoiykiw8Rp7Jl8o1vWYp
+	 sRtxRuR/5i/DqGOrQ0l/uda7z6FjIgdGf9Xgp5JOerQQPcO28LAMgO2iWeccSCCy0i
+	 myqPyGS1B5UNjkZ+o2HMeLXlo4igKykO2CQkKs6VFZJ2JWj3twQU3E4n9ox35AfqkH
+	 zyONO/Ja59+x+SN5KKjLd9+hBO0bIn3LwQyRaNyvtvVVvqqFQu/yWgr6SCWY+b/kmv
+	 SE4yY1UbiYb5Q==
+From: Hector Martin <marcan@marcan.st>
+Date: Tue, 07 Nov 2023 15:05:31 +0900
+Subject: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com> <10-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-In-Reply-To: <10-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 6 Nov 2023 15:36:28 +0100
-Message-ID: <CAJZ5v0hh4xUDxWOjDhdczAuMVS-1HneukrqoDvMQgQ6EmeXejQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 10/17] acpi: Do not use dev->iommu within acpi_iommu_configure()
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: acpica-devel@lists.linuxfoundation.org, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev, 
-	Lu Baolu <baolu.lu@linux.intel.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org, 
-	David Woodhouse <dwmw2@infradead.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Hanjun Guo <guohanjun@huawei.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Christoph Hellwig <hch@lst.de>, iommu@lists.linux.dev, 
-	Jean-Philippe Brucker <jean-philippe@linaro.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Joerg Roedel <joro@8bytes.org>, "K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>, 
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org, 
-	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Hector Martin <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Robert Moore <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, Sven Peter <sven@svenpeter.dev>, 
-	Thierry Reding <thierry.reding@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>, 
-	virtualization@lists.linux-foundation.org, Wei Liu <wei.liu@kernel.org>, 
-	Will Deacon <will@kernel.org>, Zhenhua Huang <quic_zhenhuah@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+X-B4-Tracking: v=1; b=H4sIAKrTSWUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI2NDQwNz3aSi5Ny03MRk3fKCRGNdy1TTNDOzVIukVGMTJaCegqLUtMwKsHn
+ RsbW1AGedk2VfAAAA
+To: Arend van Spriel <aspriel@gmail.com>, 
+ Franky Lin <franky.lin@broadcom.com>, 
+ Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>
+Cc: Daniel Berlin <dberlin@dberlin.org>, linux-wireless@vger.kernel.org, 
+ brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3904; i=marcan@marcan.st;
+ h=from:subject:message-id; bh=xxiIjvDbAksu9Y0ctF1XaFpoIJj+/zvV5fHsF1bZhWE=;
+ b=owGbwMvMwCUm+yP4NEe/cRLjabUkhlTPyztmvH8ycYLr6kUKfp8LOWw7r6s2+TX9ODqZ557ei
+ a+HCtOlO0pZGMS4GGTFFFkaT/Se6vacfk5dNWU6zBxWJpAhDFycAjARpSCG/8GvbKvezs6a+urN
+ 0W/fHZctLo3OMovf6ZdReXnZtQXKt0UY/jsY6c+TjG31uZ8b/+1CVMlnbrl14YE7hR4FPJq6583
+ jU8wA
+X-Developer-Key: i=marcan@marcan.st; a=openpgp;
+ fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
-On Fri, Nov 3, 2023 at 5:45=E2=80=AFPM Jason Gunthorpe <jgg@nvidia.com> wro=
-te:
->
-> This call chain is using dev->iommu->fwspec to pass around the fwspec
-> between the three parts (acpi_iommu_configure(), acpi_iommu_fwspec_init()=
-,
-> iommu_probe_device()).
->
-> However there is no locking around the accesses to dev->iommu, so this is
-> all racy.
->
-> Allocate a clean, local, fwspec at the start of acpu_iommu_configure(),
-> pass it through all functions on the stack to fill it with data, and
-> finally pass it into iommu_probe_device_fwspec() which will load it into
-> dev->iommu under a lock.
->
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+Using the WSEC command instead of sae_password seems to be the supported
+mechanism on newer firmware, and also how the brcmdhd driver does it.
 
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+According to user reports [1], the sae_password codepath doesn't actually
+work on machines with Cypress chips anyway, so no harm in removing it.
 
-> ---
->  drivers/acpi/arm64/iort.c | 39 ++++++++---------
->  drivers/acpi/scan.c       | 89 ++++++++++++++++++---------------------
->  drivers/acpi/viot.c       | 44 ++++++++++---------
->  drivers/iommu/iommu.c     |  5 +--
->  include/acpi/acpi_bus.h   |  8 ++--
->  include/linux/acpi_iort.h |  3 +-
->  include/linux/acpi_viot.h |  5 ++-
->  include/linux/iommu.h     |  2 +
->  8 files changed, 97 insertions(+), 98 deletions(-)
->
-> diff --git a/drivers/acpi/arm64/iort.c b/drivers/acpi/arm64/iort.c
-> index 6496ff5a6ba20d..accd01dcfe93f5 100644
-> --- a/drivers/acpi/arm64/iort.c
-> +++ b/drivers/acpi/arm64/iort.c
-> @@ -1218,10 +1218,9 @@ static bool iort_pci_rc_supports_ats(struct acpi_i=
-ort_node *node)
->         return pci_rc->ats_attribute & ACPI_IORT_ATS_SUPPORTED;
->  }
->
-> -static int iort_iommu_xlate(struct device *dev, struct acpi_iort_node *n=
-ode,
-> -                           u32 streamid)
-> +static int iort_iommu_xlate(struct iommu_fwspec *fwspec, struct device *=
-dev,
-> +                           struct acpi_iort_node *node, u32 streamid)
->  {
-> -       const struct iommu_ops *ops;
->         struct fwnode_handle *iort_fwnode;
->
->         if (!node)
-> @@ -1239,17 +1238,14 @@ static int iort_iommu_xlate(struct device *dev, s=
-truct acpi_iort_node *node,
->          * in the kernel or not, defer the IOMMU configuration
->          * or just abort it.
->          */
-> -       ops =3D iommu_ops_from_fwnode(iort_fwnode);
-> -       if (!ops)
-> -               return iort_iommu_driver_enabled(node->type) ?
-> -                      -EPROBE_DEFER : -ENODEV;
-> -
-> -       return acpi_iommu_fwspec_init(dev, streamid, iort_fwnode, ops);
-> +       return acpi_iommu_fwspec_init(fwspec, dev, streamid, iort_fwnode,
-> +                                     iort_iommu_driver_enabled(node->typ=
-e));
->  }
->
->  struct iort_pci_alias_info {
->         struct device *dev;
->         struct acpi_iort_node *node;
-> +       struct iommu_fwspec *fwspec;
->  };
->
->  static int iort_pci_iommu_init(struct pci_dev *pdev, u16 alias, void *da=
-ta)
-> @@ -1260,7 +1256,7 @@ static int iort_pci_iommu_init(struct pci_dev *pdev=
-, u16 alias, void *data)
->
->         parent =3D iort_node_map_id(info->node, alias, &streamid,
->                                   IORT_IOMMU_TYPE);
-> -       return iort_iommu_xlate(info->dev, parent, streamid);
-> +       return iort_iommu_xlate(info->fwspec, info->dev, parent, streamid=
-);
->  }
->
->  static void iort_named_component_init(struct device *dev,
-> @@ -1280,7 +1276,8 @@ static void iort_named_component_init(struct device=
- *dev,
->                 dev_warn(dev, "Could not add device properties\n");
->  }
->
-> -static int iort_nc_iommu_map(struct device *dev, struct acpi_iort_node *=
-node)
-> +static int iort_nc_iommu_map(struct iommu_fwspec *fwspec, struct device =
-*dev,
-> +                            struct acpi_iort_node *node)
->  {
->         struct acpi_iort_node *parent;
->         int err =3D -ENODEV, i =3D 0;
-> @@ -1293,13 +1290,13 @@ static int iort_nc_iommu_map(struct device *dev, =
-struct acpi_iort_node *node)
->                                                    i++);
->
->                 if (parent)
-> -                       err =3D iort_iommu_xlate(dev, parent, streamid);
-> +                       err =3D iort_iommu_xlate(fwspec, dev, parent, str=
-eamid);
->         } while (parent && !err);
->
->         return err;
->  }
->
-> -static int iort_nc_iommu_map_id(struct device *dev,
-> +static int iort_nc_iommu_map_id(struct iommu_fwspec *fwspec, struct devi=
-ce *dev,
->                                 struct acpi_iort_node *node,
->                                 const u32 *in_id)
->  {
-> @@ -1308,7 +1305,7 @@ static int iort_nc_iommu_map_id(struct device *dev,
->
->         parent =3D iort_node_map_id(node, *in_id, &streamid, IORT_IOMMU_T=
-YPE);
->         if (parent)
-> -               return iort_iommu_xlate(dev, parent, streamid);
-> +               return iort_iommu_xlate(fwspec, dev, parent, streamid);
->
->         return -ENODEV;
->  }
-> @@ -1322,15 +1319,16 @@ static int iort_nc_iommu_map_id(struct device *de=
-v,
->   *
->   * Returns: 0 on success, <0 on failure
->   */
-> -int iort_iommu_configure_id(struct device *dev, const u32 *id_in)
-> +int iort_iommu_configure_id(struct iommu_fwspec *fwspec, struct device *=
-dev,
-> +                           const u32 *id_in)
->  {
->         struct acpi_iort_node *node;
->         int err =3D -ENODEV;
->
->         if (dev_is_pci(dev)) {
-> -               struct iommu_fwspec *fwspec;
->                 struct pci_bus *bus =3D to_pci_dev(dev)->bus;
-> -               struct iort_pci_alias_info info =3D { .dev =3D dev };
-> +               struct iort_pci_alias_info info =3D { .dev =3D dev,
-> +                                                   .fwspec =3D fwspec };
->
->                 node =3D iort_scan_node(ACPI_IORT_NODE_PCI_ROOT_COMPLEX,
->                                       iort_match_node_callback, &bus->dev=
-);
-> @@ -1341,8 +1339,7 @@ int iort_iommu_configure_id(struct device *dev, con=
-st u32 *id_in)
->                 err =3D pci_for_each_dma_alias(to_pci_dev(dev),
->                                              iort_pci_iommu_init, &info);
->
-> -               fwspec =3D dev_iommu_fwspec_get(dev);
-> -               if (fwspec && iort_pci_rc_supports_ats(node))
-> +               if (iort_pci_rc_supports_ats(node))
->                         fwspec->flags |=3D IOMMU_FWSPEC_PCI_RC_ATS;
->         } else {
->                 node =3D iort_scan_node(ACPI_IORT_NODE_NAMED_COMPONENT,
-> @@ -1350,8 +1347,8 @@ int iort_iommu_configure_id(struct device *dev, con=
-st u32 *id_in)
->                 if (!node)
->                         return -ENODEV;
->
-> -               err =3D id_in ? iort_nc_iommu_map_id(dev, node, id_in) :
-> -                             iort_nc_iommu_map(dev, node);
-> +               err =3D id_in ? iort_nc_iommu_map_id(fwspec, dev, node, i=
-d_in) :
-> +                             iort_nc_iommu_map(fwspec, dev, node);
->
->                 if (!err)
->                         iort_named_component_init(dev, node);
-> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-> index fbabde001a23a2..1e01a8e0316867 100644
-> --- a/drivers/acpi/scan.c
-> +++ b/drivers/acpi/scan.c
-> @@ -1543,74 +1543,67 @@ int acpi_dma_get_range(struct device *dev, const =
-struct bus_dma_region **map)
->  }
->
->  #ifdef CONFIG_IOMMU_API
-> -int acpi_iommu_fwspec_init(struct device *dev, u32 id,
-> -                          struct fwnode_handle *fwnode,
-> -                          const struct iommu_ops *ops)
-> +int acpi_iommu_fwspec_init(struct iommu_fwspec *fwspec, struct device *d=
-ev,
-> +                          u32 id, struct fwnode_handle *fwnode,
-> +                          bool iommu_driver_available)
->  {
-> -       int ret =3D iommu_fwspec_init(dev, fwnode, ops);
-> +       int ret;
->
-> -       if (!ret)
-> -               ret =3D iommu_fwspec_add_ids(dev, &id, 1);
-> -
-> -       return ret;
-> -}
-> -
-> -static inline const struct iommu_ops *acpi_iommu_fwspec_ops(struct devic=
-e *dev)
-> -{
-> -       struct iommu_fwspec *fwspec =3D dev_iommu_fwspec_get(dev);
-> -
-> -       return fwspec ? fwspec->ops : NULL;
-> +       ret =3D iommu_fwspec_assign_iommu(fwspec, dev, fwnode);
-> +       if (ret) {
-> +               if (ret =3D=3D -EPROBE_DEFER && !iommu_driver_available)
-> +                       return -ENODEV;
-> +               return ret;
-> +       }
-> +       return iommu_fwspec_append_ids(fwspec, &id, 1);
->  }
->
->  static int acpi_iommu_configure_id(struct device *dev, const u32 *id_in)
->  {
->         int err;
-> -       const struct iommu_ops *ops;
-> +       struct iommu_fwspec *fwspec;
->
-> -       /*
-> -        * If we already translated the fwspec there is nothing left to d=
-o,
-> -        * return the iommu_ops.
-> -        */
-> -       ops =3D acpi_iommu_fwspec_ops(dev);
-> -       if (ops)
-> -               return 0;
-> +       fwspec =3D iommu_fwspec_alloc();
-> +       if (IS_ERR(fwspec))
-> +               return PTR_ERR(fwspec);
->
-> -       err =3D iort_iommu_configure_id(dev, id_in);
-> -       if (err && err !=3D -EPROBE_DEFER)
-> -               err =3D viot_iommu_configure(dev);
-> +       err =3D iort_iommu_configure_id(fwspec, dev, id_in);
-> +       if (err =3D=3D -ENODEV)
-> +               err =3D viot_iommu_configure(fwspec, dev);
-> +       if (err =3D=3D -ENODEV || err =3D=3D -EPROBE_DEFER)
-> +               goto err_free;
-> +       if (err)
-> +               goto err_log;
->
-> -       /*
-> -        * If we have reason to believe the IOMMU driver missed the initi=
-al
-> -        * iommu_probe_device() call for dev, replay it to get things in =
-order.
-> -        */
-> -       if (!err && dev->bus)
-> -               err =3D iommu_probe_device(dev);
-> -
-> -       /* Ignore all other errors apart from EPROBE_DEFER */
-> -       if (err =3D=3D -EPROBE_DEFER) {
-> -               return err;
-> -       } else if (err) {
-> -               dev_dbg(dev, "Adding to IOMMU failed: %d\n", err);
-> -               return -ENODEV;
-> +       err =3D iommu_probe_device_fwspec(dev, fwspec);
-> +       if (err) {
-> +               /*
-> +                * Ownership for fwspec always passes into
-> +                * iommu_probe_device_fwspec()
-> +                */
-> +               fwspec =3D NULL;
-> +               goto err_log;
->         }
-> -       if (!acpi_iommu_fwspec_ops(dev))
-> -               return -ENODEV;
-> -       return 0;
-> +
-> +err_log:
-> +       dev_dbg(dev, "Adding to IOMMU failed: %d\n", err);
-> +err_free:
-> +       iommu_fwspec_dealloc(fwspec);
-> +       return err;
->  }
->
->  #else /* !CONFIG_IOMMU_API */
->
-> -int acpi_iommu_fwspec_init(struct device *dev, u32 id,
-> -                          struct fwnode_handle *fwnode,
-> -                          const struct iommu_ops *ops)
-> +int acpi_iommu_fwspec_init(struct iommu_fwspec *fwspec, struct device *d=
-ev,
-> +                          u32 id, struct fwnode_handle *fwnode,
-> +                          bool iommu_driver_available)
->  {
->         return -ENODEV;
->  }
->
-> -static const struct iommu_ops *acpi_iommu_configure_id(struct device *de=
-v,
-> -                                                      const u32 *id_in)
-> +static const int acpi_iommu_configure_id(struct device *dev, const u32 *=
-id_in)
->  {
-> -       return NULL;
-> +       return -ENODEV;
->  }
->
->  #endif /* !CONFIG_IOMMU_API */
-> diff --git a/drivers/acpi/viot.c b/drivers/acpi/viot.c
-> index c8025921c129b2..33b511dd202d15 100644
-> --- a/drivers/acpi/viot.c
-> +++ b/drivers/acpi/viot.c
-> @@ -304,11 +304,9 @@ void __init acpi_viot_init(void)
->         acpi_put_table(hdr);
->  }
->
-> -static int viot_dev_iommu_init(struct device *dev, struct viot_iommu *vi=
-ommu,
-> -                              u32 epid)
-> +static int viot_dev_iommu_init(struct iommu_fwspec *fwspec, struct devic=
-e *dev,
-> +                              struct viot_iommu *viommu, u32 epid)
->  {
-> -       const struct iommu_ops *ops;
-> -
->         if (!viommu)
->                 return -ENODEV;
->
-> @@ -316,19 +314,20 @@ static int viot_dev_iommu_init(struct device *dev, =
-struct viot_iommu *viommu,
->         if (device_match_fwnode(dev, viommu->fwnode))
->                 return -EINVAL;
->
-> -       ops =3D iommu_ops_from_fwnode(viommu->fwnode);
-> -       if (!ops)
-> -               return IS_ENABLED(CONFIG_VIRTIO_IOMMU) ?
-> -                       -EPROBE_DEFER : -ENODEV;
-> -
-> -       return acpi_iommu_fwspec_init(dev, epid, viommu->fwnode, ops);
-> +       return acpi_iommu_fwspec_init(fwspec, dev, epid, viommu->fwnode,
-> +                                     IS_ENABLED(CONFIG_VIRTIO_IOMMU));
->  }
->
-> +struct viot_pci_alias_info {
-> +       struct device *dev;
-> +       struct iommu_fwspec *fwspec;
-> +};
-> +
->  static int viot_pci_dev_iommu_init(struct pci_dev *pdev, u16 dev_id, voi=
-d *data)
->  {
->         u32 epid;
->         struct viot_endpoint *ep;
-> -       struct device *aliased_dev =3D data;
-> +       struct viot_pci_alias_info *info =3D data;
->         u32 domain_nr =3D pci_domain_nr(pdev->bus);
->
->         list_for_each_entry(ep, &viot_pci_ranges, list) {
-> @@ -339,14 +338,15 @@ static int viot_pci_dev_iommu_init(struct pci_dev *=
-pdev, u16 dev_id, void *data)
->                         epid =3D ((domain_nr - ep->segment_start) << 16) =
+This makes WPA3 work with iwd, or with wpa_supplicant pending a support
+patchset [2].
+
+[1] https://rachelbythebay.com/w/2023/11/06/wpa3/
+[2] http://lists.infradead.org/pipermail/hostap/2023-July/041653.html
+
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+ .../broadcom/brcm80211/brcmfmac/cfg80211.c         | 46 +++++++++-------------
+ .../broadcom/brcm80211/brcmfmac/fwil_types.h       |  2 +-
+ 2 files changed, 20 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+index 2a90bb24ba77..138af70a33b8 100644
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+@@ -1687,52 +1687,44 @@ static u16 brcmf_map_fw_linkdown_reason(const struct brcmf_event_msg *e)
+ 	return reason;
+ }
+ 
+-static int brcmf_set_pmk(struct brcmf_if *ifp, const u8 *pmk_data, u16 pmk_len)
++static int brcmf_set_wsec(struct brcmf_if *ifp, const u8 *key, u16 key_len, u16 flags)
+ {
+ 	struct brcmf_pub *drvr = ifp->drvr;
+ 	struct brcmf_wsec_pmk_le pmk;
+ 	int err;
+ 
++	if (key_len > sizeof(pmk.key)) {
++		bphy_err(drvr, "key must be less than %zu bytes\n",
++			 sizeof(pmk.key));
++		return -EINVAL;
++	}
 +
->                                 dev_id - ep->bdf_start + ep->endpoint_id;
->
-> -                       return viot_dev_iommu_init(aliased_dev, ep->viomm=
-u,
-> -                                                  epid);
-> +                       return viot_dev_iommu_init(info->fwspec, info->de=
-v,
-> +                                                  ep->viommu, epid);
->                 }
->         }
->         return -ENODEV;
->  }
->
-> -static int viot_mmio_dev_iommu_init(struct platform_device *pdev)
-> +static int viot_mmio_dev_iommu_init(struct iommu_fwspec *fwspec,
-> +                                   struct platform_device *pdev)
->  {
->         struct resource *mem;
->         struct viot_endpoint *ep;
-> @@ -357,8 +357,8 @@ static int viot_mmio_dev_iommu_init(struct platform_d=
-evice *pdev)
->
->         list_for_each_entry(ep, &viot_mmio_endpoints, list) {
->                 if (ep->address =3D=3D mem->start)
-> -                       return viot_dev_iommu_init(&pdev->dev, ep->viommu=
-,
-> -                                                  ep->endpoint_id);
-> +                       return viot_dev_iommu_init(fwspec, &pdev->dev,
-> +                                                  ep->viommu, ep->endpoi=
-nt_id);
->         }
->         return -ENODEV;
->  }
-> @@ -369,12 +369,16 @@ static int viot_mmio_dev_iommu_init(struct platform=
-_device *pdev)
->   *
->   * Return: 0 on success, <0 on failure
->   */
-> -int viot_iommu_configure(struct device *dev)
-> +int viot_iommu_configure(struct iommu_fwspec *fwspec, struct device *dev=
-)
->  {
-> -       if (dev_is_pci(dev))
-> +       if (dev_is_pci(dev)) {
-> +               struct viot_pci_alias_info info =3D { .dev =3D dev,
-> +                                                   .fwspec =3D fwspec };
->                 return pci_for_each_dma_alias(to_pci_dev(dev),
-> -                                             viot_pci_dev_iommu_init, de=
-v);
-> +                                             viot_pci_dev_iommu_init, &i=
-nfo);
-> +       }
->         else if (dev_is_platform(dev))
-> -               return viot_mmio_dev_iommu_init(to_platform_device(dev));
-> +               return viot_mmio_dev_iommu_init(fwspec,
-> +                                               to_platform_device(dev));
->         return -ENODEV;
->  }
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index 15dbe2d9eb24c2..9cfba9d12d1400 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -2960,9 +2960,8 @@ const struct iommu_ops *iommu_ops_from_fwnode(struc=
-t fwnode_handle *fwnode)
->         return ops;
->  }
->
-> -static int iommu_fwspec_assign_iommu(struct iommu_fwspec *fwspec,
-> -                                    struct device *dev,
-> -                                    struct fwnode_handle *iommu_fwnode)
-> +int iommu_fwspec_assign_iommu(struct iommu_fwspec *fwspec, struct device=
- *dev,
-> +                             struct fwnode_handle *iommu_fwnode)
->  {
->         const struct iommu_ops *ops;
->
-> diff --git a/include/acpi/acpi_bus.h b/include/acpi/acpi_bus.h
-> index 254685085c825c..70f97096c776e4 100644
-> --- a/include/acpi/acpi_bus.h
-> +++ b/include/acpi/acpi_bus.h
-> @@ -12,6 +12,8 @@
->  #include <linux/device.h>
->  #include <linux/property.h>
->
-> +struct iommu_fwspec;
-> +
->  /* TBD: Make dynamic */
->  #define ACPI_MAX_HANDLES       10
->  struct acpi_handle_list {
-> @@ -625,9 +627,9 @@ struct acpi_pci_root {
->
->  bool acpi_dma_supported(const struct acpi_device *adev);
->  enum dev_dma_attr acpi_get_dma_attr(struct acpi_device *adev);
-> -int acpi_iommu_fwspec_init(struct device *dev, u32 id,
-> -                          struct fwnode_handle *fwnode,
-> -                          const struct iommu_ops *ops);
-> +int acpi_iommu_fwspec_init(struct iommu_fwspec *fwspec, struct device *d=
-ev,
-> +                          u32 id, struct fwnode_handle *fwnode,
-> +                          bool iommu_driver_available);
->  int acpi_dma_get_range(struct device *dev, const struct bus_dma_region *=
-*map);
->  int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
->                            const u32 *input_id);
-> diff --git a/include/linux/acpi_iort.h b/include/linux/acpi_iort.h
-> index 1cb65592c95dd3..80794ec45d1693 100644
-> --- a/include/linux/acpi_iort.h
-> +++ b/include/linux/acpi_iort.h
-> @@ -40,7 +40,8 @@ void iort_put_rmr_sids(struct fwnode_handle *iommu_fwno=
-de,
->                        struct list_head *head);
->  /* IOMMU interface */
->  int iort_dma_get_ranges(struct device *dev, u64 *size);
-> -int iort_iommu_configure_id(struct device *dev, const u32 *id_in);
-> +int iort_iommu_configure_id(struct iommu_fwspec *fwspec, struct device *=
-dev,
-> +                           const u32 *id_in);
->  void iort_iommu_get_resv_regions(struct device *dev, struct list_head *h=
-ead);
->  phys_addr_t acpi_iort_dma_get_max_cpu_address(void);
->  #else
-> diff --git a/include/linux/acpi_viot.h b/include/linux/acpi_viot.h
-> index a5a12243156377..f1874cb6d43c09 100644
-> --- a/include/linux/acpi_viot.h
-> +++ b/include/linux/acpi_viot.h
-> @@ -8,11 +8,12 @@
->  #ifdef CONFIG_ACPI_VIOT
->  void __init acpi_viot_early_init(void);
->  void __init acpi_viot_init(void);
-> -int viot_iommu_configure(struct device *dev);
-> +int viot_iommu_configure(struct iommu_fwspec *fwspec, struct device *dev=
-);
->  #else
->  static inline void acpi_viot_early_init(void) {}
->  static inline void acpi_viot_init(void) {}
-> -static inline int viot_iommu_configure(struct device *dev)
-> +static inline int viot_iommu_configure(struct iommu_fwspec *fwspec,
-> +                                      struct device *dev)
->  {
->         return -ENODEV;
->  }
-> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> index c5a5e2b5e2cc2a..27e4605d498850 100644
-> --- a/include/linux/iommu.h
-> +++ b/include/linux/iommu.h
-> @@ -688,6 +688,8 @@ void iommu_fwspec_dealloc(struct iommu_fwspec *fwspec=
-);
->  int iommu_fwspec_of_xlate(struct iommu_fwspec *fwspec, struct device *de=
-v,
->                           struct fwnode_handle *iommu_fwnode,
->                           struct of_phandle_args *iommu_spec);
-> +int iommu_fwspec_assign_iommu(struct iommu_fwspec *fwspec, struct device=
- *dev,
-> +                             struct fwnode_handle *iommu_fwnode);
->
->  int iommu_fwspec_init(struct device *dev, struct fwnode_handle *iommu_fw=
-node,
->                       const struct iommu_ops *ops);
-> --
-> 2.42.0
->
+ 	memset(&pmk, 0, sizeof(pmk));
+ 
+-	/* pass pmk directly */
+-	pmk.key_len = cpu_to_le16(pmk_len);
+-	pmk.flags = cpu_to_le16(0);
+-	memcpy(pmk.key, pmk_data, pmk_len);
++	/* pass key material directly */
++	pmk.key_len = cpu_to_le16(key_len);
++	pmk.flags = cpu_to_le16(flags);
++	memcpy(pmk.key, key, key_len);
+ 
+-	/* store psk in firmware */
++	/* store key material in firmware */
+ 	err = brcmf_fil_cmd_data_set(ifp, BRCMF_C_SET_WSEC_PMK,
+ 				     &pmk, sizeof(pmk));
+ 	if (err < 0)
+ 		bphy_err(drvr, "failed to change PSK in firmware (len=%u)\n",
+-			 pmk_len);
++			 key_len);
+ 
+ 	return err;
+ }
+ 
++static int brcmf_set_pmk(struct brcmf_if *ifp, const u8 *pmk_data, u16 pmk_len)
++{
++	return brcmf_set_wsec(ifp, pmk_data, pmk_len, 0);
++}
++
+ static int brcmf_set_sae_password(struct brcmf_if *ifp, const u8 *pwd_data,
+ 				  u16 pwd_len)
+ {
+-	struct brcmf_pub *drvr = ifp->drvr;
+-	struct brcmf_wsec_sae_pwd_le sae_pwd;
+-	int err;
+-
+-	if (pwd_len > BRCMF_WSEC_MAX_SAE_PASSWORD_LEN) {
+-		bphy_err(drvr, "sae_password must be less than %d\n",
+-			 BRCMF_WSEC_MAX_SAE_PASSWORD_LEN);
+-		return -EINVAL;
+-	}
+-
+-	sae_pwd.key_len = cpu_to_le16(pwd_len);
+-	memcpy(sae_pwd.key, pwd_data, pwd_len);
+-
+-	err = brcmf_fil_iovar_data_set(ifp, "sae_password", &sae_pwd,
+-				       sizeof(sae_pwd));
+-	if (err < 0)
+-		bphy_err(drvr, "failed to set SAE password in firmware (len=%u)\n",
+-			 pwd_len);
+-
+-	return err;
++	return brcmf_set_wsec(ifp, pwd_data, pwd_len, BRCMF_WSEC_PASSPHRASE);
+ }
+ 
+ static void brcmf_link_down(struct brcmf_cfg80211_vif *vif, u16 reason,
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
+index 611d1a6aabb9..b68c46caabe8 100644
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
+@@ -584,7 +584,7 @@ struct brcmf_wsec_key_le {
+ struct brcmf_wsec_pmk_le {
+ 	__le16  key_len;
+ 	__le16  flags;
+-	u8 key[2 * BRCMF_WSEC_MAX_PSK_LEN + 1];
++	u8 key[BRCMF_WSEC_MAX_SAE_PASSWORD_LEN];
+ };
+ 
+ /**
+
+---
+base-commit: ffc253263a1375a65fa6c9f62a893e9767fbebfa
+change-id: 20231107-brcmfmac-wpa3-9e5f66e8be34
+
+Best regards,
+-- 
+Hector Martin <marcan@marcan.st>
+
