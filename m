@@ -1,78 +1,156 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3141078E;
-	Wed,  8 Nov 2023 16:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-6ce31c4a653so4337187a34.3;
-        Wed, 08 Nov 2023 08:41:14 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96D132C88
+	for <asahi@lists.linux.dev>; Wed,  8 Nov 2023 18:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lTB630qi"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2c7369df9d6so19520611fa.1
+        for <asahi@lists.linux.dev>; Wed, 08 Nov 2023 10:13:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699467180; x=1700071980; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XyM6VQ+HEN7IzJJ5bMoPN5/yYHnG+EAx9sBxv2Z/Ai8=;
+        b=lTB630qi65Y5TVvHAeJxy6Z423xDWZ55HS4Byjvo3NrNQ4sGwUrohlqqQ2lGLApTnL
+         7eUEXPGFU1CB9W4xjBqZaQyR3QCJOxzlcAth6eO+Ueq6rGDuotSPC6LaOhsviZp+M04x
+         LaQ3hZ39lHjREeQidQqMH+t+53/bvfN3FsNJpOxRz2TJYJlplq7YjQwWi357ERH8xbMC
+         KhutA+0KIGYBLmWieByrUrnrY0vXhbp7z+2e2fwcbG0MehqLRzRS355VekErULZ82Ue2
+         i2j6g0r0cZKJftJFni0t8axGc5HuT+QFjiYbjvRKj7LwOi1q3QWMCZ4Wb3Z+6IlAawyU
+         07Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699461673; x=1700066473;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TSxL3MDH/hHWV3cRZwmMwvNKyaUEVCBXJu1BFVWJHwQ=;
-        b=KfGUK2yI2eQq5rMLvsMvf3LeGXlHYyEIxEwbOVchnyaQTrWcSQwtyBPjzWtLYk+Yx5
-         nM8FNxuPoIufNY7oU789faPUgSKBmOykPi+8C6nw8GdXvwgm+7t+Gtop1PohisvSt0GF
-         WgKO2yCSvUXCREjglYW0aRUrU+1YpzQMohNh+ZJa1EfjuILtBcraL7y7hr9XKm4JN+MH
-         sdU8m7ofEEVvdt0m0Zx5K925cOCShkrNNMIii+WniU38k9VqpsOi4iMCXrX2nPEIaq3y
-         Jbq77eDMQPiq1ORP3LgJf2OLqORayj0f8H9HEg12rD3BVv3OelIkRRGH/r57DUfmat/l
-         RHPg==
-X-Gm-Message-State: AOJu0YyNidY2NWRJT3oyxFLBoHOnZGH+SYTIk9FvFlT5aDGLNuFO+1dO
-	rxpx5D+9x5RbaJKVN0oZYQ==
-X-Google-Smtp-Source: AGHT+IEf+6ItAebPYovhnFoCTcGgM9HQB5LAxzETm5MftRlfTvL6If9mI5W6oa4ALafvno12x6nzlw==
-X-Received: by 2002:a9d:744e:0:b0:6b7:43eb:c1a with SMTP id p14-20020a9d744e000000b006b743eb0c1amr2306497otk.36.1699461673654;
-        Wed, 08 Nov 2023 08:41:13 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id e2-20020a9d7302000000b006ce32816a35sm1940528otk.81.2023.11.08.08.41.12
+        d=1e100.net; s=20230601; t=1699467180; x=1700071980;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XyM6VQ+HEN7IzJJ5bMoPN5/yYHnG+EAx9sBxv2Z/Ai8=;
+        b=CKvo0FGylnNp7x4KPxKjxUkX5JClvP0VPeNFDf9vQazaNGQoYbL2KE6PoZsPt0IBuc
+         tyhjPpQgOGmp+08WVP3mXkfyG2mbEtX9MxgOVbBMizDHH4zPFfVNLqBy8WvuQ/K+T355
+         nL0AaogLIm3ErazZe5qtP46qicaBgrDmvauIget06nmSsLAYsEfR7wZDdasyhTdVoXKM
+         +IOhC4tOz5orKTb/RHVtcuop4KsLPz4klhH6IuZ8o6E8cmTmi8skdrYmqko4/hxg98lf
+         nBzubqGoRm1XKGylo099TGIKPud9CjiIrqzKd+fSM/+6jCGRAghuCO27o0cOs/0k7Zez
+         rlkA==
+X-Gm-Message-State: AOJu0YyIUrSfzbJhmDHCE0qAixNF77quwJNBdEcjTYy2PBTg3T7d6e9w
+	l08h3YAN349x0Gkn7fq7Tgy2Xw==
+X-Google-Smtp-Source: AGHT+IEAPIM/7orU2/kUz+9e+TY8CYDTNJKLdVzPi+Pze4e6FKjzPA1Tq2W37LpeXm1IyotL7oPMlg==
+X-Received: by 2002:a2e:8e7b:0:b0:2c5:582:fd8d with SMTP id t27-20020a2e8e7b000000b002c50582fd8dmr2179335ljk.30.1699467179768;
+        Wed, 08 Nov 2023 10:12:59 -0800 (PST)
+Received: from [10.1.1.118] ([80.111.64.44])
+        by smtp.gmail.com with ESMTPSA id d20-20020a05600c4c1400b003fd2d3462fcsm739766wmp.1.2023.11.08.10.12.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 08:41:13 -0800 (PST)
-Received: (nullmailer pid 2364307 invoked by uid 1000);
-	Wed, 08 Nov 2023 16:41:11 -0000
-Date: Wed, 8 Nov 2023 10:41:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Julius Werner <jwerner@chromium.org>, linux-watchdog@vger.kernel.org, 
-	Justin Chen <justinpopo6@gmail.com>, Oleksij Rempel <linux@rempel-privat.de>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-sunxi@lists.linux.dev, 
-	Evan Benn <evanbenn@chromium.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, asahi@lists.linux.dev, 
-	Sven Peter <sven@svenpeter.dev>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
-	Hector Martin <marcan@marcan.st>, Jamie Iles <jamie@jamieiles.com>, 
-	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, Baruch Siach <baruch@tkos.co.il>, 
-	linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
-	=?UTF-8?B?77+9ZWNraQ==?= <rafal@milecki.pl>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Marc Zyngier <maz@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/2] dt-bindings: watchdog: intel,keembay: reference
- common watchdog schema
-Message-ID: <169946167110.2364244.9399282289978694454.robh@kernel.org>
-References: <20231105184154.43700-1-krzysztof.kozlowski@linaro.org>
- <20231105184154.43700-2-krzysztof.kozlowski@linaro.org>
+        Wed, 08 Nov 2023 10:12:58 -0800 (PST)
+Message-ID: <e57f11915745674521b8c73d88a198a0b9c32c21.camel@linaro.org>
+Subject: Re: [PATCH RFC 12/17] iommu: Make iommu_ops_from_fwnode() static
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: Jason Gunthorpe <jgg@nvidia.com>,
+ acpica-devel@lists.linuxfoundation.org,  Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>, Catalin Marinas
+ <catalin.marinas@arm.com>,  Dexuan Cui <decui@microsoft.com>,
+ devicetree@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,  Frank
+ Rowand <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>, Haiyang
+ Zhang <haiyangz@microsoft.com>, Christoph Hellwig <hch@lst.de>,
+ iommu@lists.linux.dev,  Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>, 
+ "K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
+ linux-acpi@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org,  linux-mips@vger.kernel.org,
+ linux-riscv@lists.infradead.org,  linux-snps-arc@lists.infradead.org,
+ linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>, Lorenzo
+ Pieralisi <lpieralisi@kernel.org>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Hector Martin <marcan@marcan.st>, Palmer
+ Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Robert Moore
+ <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>,  Robin Murphy
+ <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, Suravee
+ Suthikulpanit <suravee.suthikulpanit@amd.com>, Sven Peter
+ <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>, Thomas
+ Bogendoerfer <tsbogend@alpha.franken.de>, Krishna Reddy
+ <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>, 
+ virtualization@lists.linux-foundation.org, Wei Liu <wei.liu@kernel.org>,
+ Will Deacon <will@kernel.org>
+Cc: Zhenhua Huang <quic_zhenhuah@quicinc.com>
+Date: Wed, 08 Nov 2023 18:12:56 +0000
+In-Reply-To: <12-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+References: <12-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4-1 
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231105184154.43700-2-krzysztof.kozlowski@linaro.org>
 
+Hi Jason,
 
-On Sun, 05 Nov 2023 19:41:54 +0100, Krzysztof Kozlowski wrote:
-> Reference common watchdog.yaml schema to allow "timeout-sec" property
-> and enforce proper device node name.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Fri, 2023-11-03 at 13:44 -0300, Jason Gunthorpe wrote:
+> There are no external callers now.
+>=20
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  .../devicetree/bindings/watchdog/intel,keembay-wdt.yaml      | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
+> =C2=A0drivers/iommu/iommu.c | 3 ++-
+> =C2=A0include/linux/iommu.h | 6 ------
+> =C2=A02 files changed, 2 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 62c82a28cd5db3..becd1b881e62dc 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -2945,7 +2945,8 @@ bool iommu_default_passthrough(void)
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL_GPL(iommu_default_passthrough);
+> =C2=A0
+> -const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle
+> *fwnode)
+> +static const struct iommu_ops *
+> +iommu_ops_from_fwnode(struct fwnode_handle *fwnode)
+> =C2=A0{
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0const struct iommu_ops *o=
+ps =3D NULL;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct iommu_device *iomm=
+u;
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index 27e4605d498850..37948eee8d7394 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -701,7 +701,6 @@ static inline void iommu_fwspec_free(struct
+> device *dev)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev->iommu->fwspec =3D NU=
+LL;
+> =C2=A0}
+> =C2=A0int iommu_fwspec_add_ids(struct device *dev, u32 *ids, int num_ids)=
+;
+> -const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle
+> *fwnode);
+> =C2=A0int iommu_fwspec_append_ids(struct iommu_fwspec *fwspec, u32 *ids,
+> int num_ids);
+> =C2=A0
+> =C2=A0static inline struct iommu_fwspec *dev_iommu_fwspec_get(struct
+> device *dev)
+> @@ -1044,11 +1043,6 @@ static inline int iommu_fwspec_add_ids(struct
+> device *dev, u32 *ids,
+> =C2=A0}
+> =C2=A0
+> =C2=A0static inline
+> -const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle
+> *fwnode)
+> -{
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return NULL;
+> -}
+> -
+> =C2=A0static inline int
+> =C2=A0iommu_dev_enable_feature(struct device *dev, enum iommu_dev_feature=
+s
+> feat)
 
-Acked-by: Rob Herring <robh@kernel.org>
+This leaves the extra line with 'static inline', it should also be
+removed.
+
+Cheers,
+Andre'
 
