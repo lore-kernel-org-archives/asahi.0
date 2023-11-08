@@ -1,173 +1,103 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9C11FD2
-	for <asahi@lists.linux.dev>; Tue,  7 Nov 2023 06:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC282D51A;
+	Wed,  8 Nov 2023 08:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="CbqR6KMr"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 2F4D541A42;
-	Tue,  7 Nov 2023 06:05:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1699337148; bh=xxiIjvDbAksu9Y0ctF1XaFpoIJj+/zvV5fHsF1bZhWE=;
-	h=From:Date:Subject:To:Cc;
-	b=CbqR6KMrHZj9VLynVWP+/xA9O8EBvwGhCoiLtoxy2Gtv6X3uY2SuPrdKhzVs5KEXP
-	 axj76Y5/95D36x2sUYdzp1uvsMDwx+dnuhjMYiz/yGdarzNoiykiw8Rp7Jl8o1vWYp
-	 sRtxRuR/5i/DqGOrQ0l/uda7z6FjIgdGf9Xgp5JOerQQPcO28LAMgO2iWeccSCCy0i
-	 myqPyGS1B5UNjkZ+o2HMeLXlo4igKykO2CQkKs6VFZJ2JWj3twQU3E4n9ox35AfqkH
-	 zyONO/Ja59+x+SN5KKjLd9+hBO0bIn3LwQyRaNyvtvVVvqqFQu/yWgr6SCWY+b/kmv
-	 SE4yY1UbiYb5Q==
-From: Hector Martin <marcan@marcan.st>
-Date: Tue, 07 Nov 2023 15:05:31 +0900
-Subject: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eGv830VZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699430474; x=1730966474;
+  h=message-id:date:mime-version:cc:subject:to:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=waktInfzOKtDW0E1oxAKk3EhbspNu0YVHIgYOQNzgfM=;
+  b=eGv830VZu/h48EEjXQoZ1P5X0i07nYT87xghWfqFuh2aS0yFIK/67CRF
+   Do0F40Nwz8o5PkWkHK1ObKgE+MLjf4BR1+FBT9mEW79kZN6NQ9Gp40di7
+   dxRWHTBUFaEYEa5e6sb6Y7EiEy4Dxhm6l0FXxSnr06Kc0KA4XoqCbmgou
+   cLLlYGcW54YtHLCwoD8d/w66oRuYs5jrrkDM2CNrQuR57dTnUzeaHwtVu
+   Sv/HcQzFaonYUhah7EwIAwIsbf85gL/kmnLyhuKI/1hjp3XpsmOXB2W4a
+   dL1b3yRQ1n8CwcrR3ORPqg9dJX7JD5G6FoZOJn0+VJ8fcOa91h3dIz7dW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="369050174"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="369050174"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 00:01:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="833411924"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="833411924"
+Received: from blu2-mobl.ccr.corp.intel.com (HELO [10.254.215.63]) ([10.254.215.63])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 00:01:01 -0800
+Message-ID: <99edf0cf-a570-43de-a79a-a040a403607e@linux.intel.com>
+Date: Wed, 8 Nov 2023 16:01:00 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Cc: baolu.lu@linux.intel.com, Zhenhua Huang <quic_zhenhuah@quicinc.com>
+Subject: Re: [PATCH RFC 01/17] iommu: Remove struct iommu_ops *iommu from
+ arch_setup_dma_ops()
+To: Jason Gunthorpe <jgg@nvidia.com>, acpica-devel@lists.linuxfoundation.org,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, Catalin Marinas <catalin.marinas@arm.com>,
+ Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org,
+ David Woodhouse <dwmw2@infradead.org>, Frank Rowand
+ <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Christoph Hellwig <hch@lst.de>,
+ iommu@lists.linux.dev, Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
+ linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Hector Martin
+ <marcan@marcan.st>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Robert Moore <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
+ virtualization@lists.linux-foundation.org, Wei Liu <wei.liu@kernel.org>,
+ Will Deacon <will@kernel.org>
+References: <1-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+Content-Language: en-US
+From: Baolu Lu <baolu.lu@linux.intel.com>
+In-Reply-To: <1-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
-X-B4-Tracking: v=1; b=H4sIAKrTSWUC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI2NDQwNz3aSi5Ny03MRk3fKCRGNdy1TTNDOzVIukVGMTJaCegqLUtMwKsHn
- RsbW1AGedk2VfAAAA
-To: Arend van Spriel <aspriel@gmail.com>, 
- Franky Lin <franky.lin@broadcom.com>, 
- Hante Meuleman <hante.meuleman@broadcom.com>, Kalle Valo <kvalo@kernel.org>
-Cc: Daniel Berlin <dberlin@dberlin.org>, linux-wireless@vger.kernel.org, 
- brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
- Hector Martin <marcan@marcan.st>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3904; i=marcan@marcan.st;
- h=from:subject:message-id; bh=xxiIjvDbAksu9Y0ctF1XaFpoIJj+/zvV5fHsF1bZhWE=;
- b=owGbwMvMwCUm+yP4NEe/cRLjabUkhlTPyztmvH8ycYLr6kUKfp8LOWw7r6s2+TX9ODqZ557ei
- a+HCtOlO0pZGMS4GGTFFFkaT/Se6vacfk5dNWU6zBxWJpAhDFycAjARpSCG/8GvbKvezs6a+urN
- 0W/fHZctLo3OMovf6ZdReXnZtQXKt0UY/jsY6c+TjG31uZ8b/+1CVMlnbrl14YE7hR4FPJq6583
- jU8wA
-X-Developer-Key: i=marcan@marcan.st; a=openpgp;
- fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
-Using the WSEC command instead of sae_password seems to be the supported
-mechanism on newer firmware, and also how the brcmdhd driver does it.
+On 2023/11/4 0:44, Jason Gunthorpe wrote:
+> This is not being used to pass ops, it is just a way to tell if an
+> iommu driver was probed. These days this can be detected directly via
+> device_iommu_mapped(). Call device_iommu_mapped() in the two places that
+> need to check it and remove the iommu parameter everywhere.
+> 
+> Signed-off-by: Jason Gunthorpe<jgg@nvidia.com>
+> ---
+>   arch/arc/mm/dma.c               |  2 +-
+>   arch/arm/mm/dma-mapping-nommu.c |  2 +-
+>   arch/arm/mm/dma-mapping.c       | 10 +++++-----
+>   arch/arm64/mm/dma-mapping.c     |  4 ++--
+>   arch/mips/mm/dma-noncoherent.c  |  2 +-
+>   arch/riscv/mm/dma-noncoherent.c |  2 +-
+>   drivers/acpi/scan.c             |  3 +--
+>   drivers/hv/hv_common.c          |  2 +-
+>   drivers/of/device.c             |  2 +-
+>   include/linux/dma-map-ops.h     |  4 ++--
+>   10 files changed, 16 insertions(+), 17 deletions(-)
 
-According to user reports [1], the sae_password codepath doesn't actually
-work on machines with Cypress chips anyway, so no harm in removing it.
-
-This makes WPA3 work with iwd, or with wpa_supplicant pending a support
-patchset [2].
-
-[1] https://rachelbythebay.com/w/2023/11/06/wpa3/
-[2] http://lists.infradead.org/pipermail/hostap/2023-July/041653.html
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- .../broadcom/brcm80211/brcmfmac/cfg80211.c         | 46 +++++++++-------------
- .../broadcom/brcm80211/brcmfmac/fwil_types.h       |  2 +-
- 2 files changed, 20 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-index 2a90bb24ba77..138af70a33b8 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-@@ -1687,52 +1687,44 @@ static u16 brcmf_map_fw_linkdown_reason(const struct brcmf_event_msg *e)
- 	return reason;
- }
- 
--static int brcmf_set_pmk(struct brcmf_if *ifp, const u8 *pmk_data, u16 pmk_len)
-+static int brcmf_set_wsec(struct brcmf_if *ifp, const u8 *key, u16 key_len, u16 flags)
- {
- 	struct brcmf_pub *drvr = ifp->drvr;
- 	struct brcmf_wsec_pmk_le pmk;
- 	int err;
- 
-+	if (key_len > sizeof(pmk.key)) {
-+		bphy_err(drvr, "key must be less than %zu bytes\n",
-+			 sizeof(pmk.key));
-+		return -EINVAL;
-+	}
-+
- 	memset(&pmk, 0, sizeof(pmk));
- 
--	/* pass pmk directly */
--	pmk.key_len = cpu_to_le16(pmk_len);
--	pmk.flags = cpu_to_le16(0);
--	memcpy(pmk.key, pmk_data, pmk_len);
-+	/* pass key material directly */
-+	pmk.key_len = cpu_to_le16(key_len);
-+	pmk.flags = cpu_to_le16(flags);
-+	memcpy(pmk.key, key, key_len);
- 
--	/* store psk in firmware */
-+	/* store key material in firmware */
- 	err = brcmf_fil_cmd_data_set(ifp, BRCMF_C_SET_WSEC_PMK,
- 				     &pmk, sizeof(pmk));
- 	if (err < 0)
- 		bphy_err(drvr, "failed to change PSK in firmware (len=%u)\n",
--			 pmk_len);
-+			 key_len);
- 
- 	return err;
- }
- 
-+static int brcmf_set_pmk(struct brcmf_if *ifp, const u8 *pmk_data, u16 pmk_len)
-+{
-+	return brcmf_set_wsec(ifp, pmk_data, pmk_len, 0);
-+}
-+
- static int brcmf_set_sae_password(struct brcmf_if *ifp, const u8 *pwd_data,
- 				  u16 pwd_len)
- {
--	struct brcmf_pub *drvr = ifp->drvr;
--	struct brcmf_wsec_sae_pwd_le sae_pwd;
--	int err;
--
--	if (pwd_len > BRCMF_WSEC_MAX_SAE_PASSWORD_LEN) {
--		bphy_err(drvr, "sae_password must be less than %d\n",
--			 BRCMF_WSEC_MAX_SAE_PASSWORD_LEN);
--		return -EINVAL;
--	}
--
--	sae_pwd.key_len = cpu_to_le16(pwd_len);
--	memcpy(sae_pwd.key, pwd_data, pwd_len);
--
--	err = brcmf_fil_iovar_data_set(ifp, "sae_password", &sae_pwd,
--				       sizeof(sae_pwd));
--	if (err < 0)
--		bphy_err(drvr, "failed to set SAE password in firmware (len=%u)\n",
--			 pwd_len);
--
--	return err;
-+	return brcmf_set_wsec(ifp, pwd_data, pwd_len, BRCMF_WSEC_PASSPHRASE);
- }
- 
- static void brcmf_link_down(struct brcmf_cfg80211_vif *vif, u16 reason,
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
-index 611d1a6aabb9..b68c46caabe8 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/fwil_types.h
-@@ -584,7 +584,7 @@ struct brcmf_wsec_key_le {
- struct brcmf_wsec_pmk_le {
- 	__le16  key_len;
- 	__le16  flags;
--	u8 key[2 * BRCMF_WSEC_MAX_PSK_LEN + 1];
-+	u8 key[BRCMF_WSEC_MAX_SAE_PASSWORD_LEN];
- };
- 
- /**
-
----
-base-commit: ffc253263a1375a65fa6c9f62a893e9767fbebfa
-change-id: 20231107-brcmfmac-wpa3-9e5f66e8be34
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 
 Best regards,
--- 
-Hector Martin <marcan@marcan.st>
-
+baolu
