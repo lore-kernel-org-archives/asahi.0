@@ -1,43 +1,38 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2064.outbound.protection.outlook.com [40.107.94.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E023C36B1A;
-	Wed,  8 Nov 2023 19:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Okr8wsay"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nCzV3zqGRwGfZRRYn40OKH7OcmXqx4emEQwQ2uAHHvKkb9MBFPFICSCAYNYRZk9vvgYG3quVjeG15W6HIwkCcbkc3tlqBTLEdGrkQnRdBeX1T2ukOhTnkhhOZuMZoVNMgqfaO7uJyHCeNokVQBo+EYOMylmo62wY1YBhRDklwcJP5YjLcPU2/yDBRCO9fYRORVulYIdhQQh0qQ6Wuvrnoe9cFlC0iLRkcPbcttfKf48F9OKftIUd+/VnbsVXqE34gABql0KnhTnBJRx5t4NqtlEnS0DRqCaVUH1HH1UIz+TArbyiXW6st7i8F9mhE9TVKK8b9Kgkt/nhE991BTKtGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bhI/syNnnLZfO82lXNasbC8mRMqQloP0BGi253z0Ies=;
- b=Y9P7O19asJZsOrnEEJloKFDwEKQxw44gol70UA8BPAQoz5OmlqO75SSNK0/lGac/Yp4L1VSu3YHH/jJcqruxUQfxhfpeSeMKurYVoSombdEeBLRxwLGlAn4vVjLU5N1ArOsz9tmPMspo/ALscNSr54rXNgkOid89UDU9tFQEN/kRor0UVNsqvgv991xLuZGi1dU2AD+9GME4R1vnXZM8vvRb3mru1wGJURNNcrB8YgO/zJm3tNBNGGFnBkQ9tcls2jnIQQ/zmzh2yqa7y6XtKZ0vMpXMGvvlWkem4xybKKM5QPD44WTjPvu5exUxKbNYzPRCVjAIkhr90g3iJXReYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bhI/syNnnLZfO82lXNasbC8mRMqQloP0BGi253z0Ies=;
- b=Okr8wsayB1BTwoC/SF8LFsrGPbL2sn/TgLmSDf1XLrQXoWuVvAbiDrhv3/0II1b0aUFZ2T/DGplFdb+8FoIIgLhcRwoA5Q2kQqWQCfGCljy+CLJXONAVlW1TghPoVnIYn14/Y0NBU4rM1OgVhOzfMPahd0kqABB2/eEr0lLF4oiyuy5xjjQDMAT72iYYR1mtOdbny05S7ON81a/U52+y4xiEroHdo8QUi9oa4tWJGjEMxIKCrc4dTB1kJeE5CDU1t9D0RK8PNi9tO6fEEc5JWUicL9UwSARTE32UZGYDUr4NV1gvcCZLItwhb8lUOEerw8G8waxu6ECbYlm8BehWrw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by BL0PR12MB4884.namprd12.prod.outlook.com (2603:10b6:208:1ca::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.29; Wed, 8 Nov
- 2023 19:22:09 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.6977.018; Wed, 8 Nov 2023
- 19:22:09 +0000
-Date: Wed, 8 Nov 2023 15:22:07 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: =?utf-8?B?QW5kcsOp?= Draszik <andre.draszik@linaro.org>
-Cc: Zhenhua Huang <quic_zhenhuah@quicinc.com>,
-	acpica-devel@lists.linuxfoundation.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4B814AA6;
+	Sun, 12 Nov 2023 17:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1ce1603f5cdso4680455ad.3;
+        Sun, 12 Nov 2023 09:35:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699810524; x=1700415324;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WoHWK6gINi+EEwKTGP1Dg7yIjtZGVaNrtn4vb+1P0Pc=;
+        b=BGrtT3QAxqFErpZgzazFu4i3SSKPO9WSnFfkuGM6dSPzms0/DRxpIBp+W74haJOzSn
+         HI0ONqvt2ffesiI4FhW0o5z8hWgBd4FY//0l1kIUAibmaKOMRxGkjsP8EC9CZUIDHdsM
+         01UGic/HvPDlpu0QY13R5i69iZiAhCsTb4S6QCxXnPF3xWpZ6cYdMuAOjYimLhy95qJt
+         rqUrix1XvNwlzkV4StyUFWP/5+yon8ySykx1k5M5MpKkNDlpBfg8viS4Q4FrXsFUv+Rb
+         1okyvPBaIalPa/ruNDE5ft3VWP2yu8b1VasOR1Md7uW8OGKRsTwkHiuyIyBrr8Jx3Gm1
+         WCcA==
+X-Gm-Message-State: AOJu0YzXRd4lYJGzWMVT4hnfq9LmMhN5jAXdmjAGmQ7l0Jxj2s/RHVkL
+	6JhNrZlW88iaRKrvTq2bY0Q=
+X-Google-Smtp-Source: AGHT+IFd+7BefBv/n/fSSGw7xmysLeuCAiNT7/refCQp1UZ16kLfECcyF3DpQcfnxFHM4Pm1w5+ajw==
+X-Received: by 2002:a17:902:b618:b0:1cc:138a:287b with SMTP id b24-20020a170902b61800b001cc138a287bmr2491072pls.3.1699810524296;
+        Sun, 12 Nov 2023 09:35:24 -0800 (PST)
+Received: from localhost ([156.39.10.100])
+        by smtp.gmail.com with ESMTPSA id b5-20020a170903228500b001cc32f46757sm2761359plh.107.2023.11.12.09.35.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Nov 2023 09:35:23 -0800 (PST)
+Date: Sun, 12 Nov 2023 09:35:23 -0800
+From: Moritz Fischer <mdf@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: acpica-devel@lists.linuxfoundation.org,
 	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
 	Lu Baolu <baolu.lu@linux.intel.com>,
@@ -72,95 +67,218 @@ Cc: Zhenhua Huang <quic_zhenhuah@quicinc.com>,
 	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
 	Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
 	virtualization@lists.linux-foundation.org,
-	Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH RFC 00/17] Solve iommu probe races around iommu_fwspec
-Message-ID: <20231108192207.GV4488@nvidia.com>
+	Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>,
+	Zhenhua Huang <quic_zhenhuah@quicinc.com>
+Subject: Re: [PATCH RFC 01/17] iommu: Remove struct iommu_ops *iommu from
+ arch_setup_dma_ops()
+Message-ID: <ZVEM23qFzLnnXiEz@archbook>
 References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
- <d6664edcccd81edc5caa54e8da43b5c571a3ea76.camel@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d6664edcccd81edc5caa54e8da43b5c571a3ea76.camel@linaro.org>
-X-ClientProxiedBy: SN7PR04CA0181.namprd04.prod.outlook.com
- (2603:10b6:806:126::6) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+ <1-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|BL0PR12MB4884:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0ab60bf-adcf-42c9-ccac-08dbe0900060
-X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	gJjK4yfFfRd8HivVDOWysBZIAEQFz8CLebpcVIMK017+pIGgezWjN4pBfT/LD1Dt8NWCw6RptD4sooCyaGgDZbLpq+6Fnrsq/ClAJEr4ZrVUHFDyvw9ESIMycoSpzTNng29sFmnF8wsfe5Hu/nqyW5APwUr1RlE7I6VuDV54DkAxyJIXbAsJzx/PyD6UkRe5NTxzI5HTMOsTGNNVg3CbnSZQ8YxAQkLGl4ZZLF9I3dn4qWdTUCvciwU/iOn09XI+BOssVZ6pTb0y0HzjePtohaohNajphWAxS/FgW+Orv1XZ2Vv+bh+UjBVWUnT/8OCB79dj217hhwpeimkjXDa1+SfqgPOS1V0N9vFtTPuuq6op5wtMDfE0KXNvrJ/cUHu+WmD+to+roCCATBntstZ0pymT3ath995pCRmThrbXcdHM7H91XCRR1/22BzTMottlISO+Uee3bpjhqAnnSMrpqEfknkvkKYQFP7a+CP1++nF1zfC/07lpVdmxHU/YHlKXYTV8gnX4a9EF4E6MznSHZkFcWBwRftDCRKzVP3CwFV709ysRDK5bMAWa7HfQOt2Q
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(136003)(346002)(366004)(39860400002)(376002)(230922051799003)(64100799003)(451199024)(1800799009)(186009)(33656002)(36756003)(6506007)(5660300002)(8676002)(4326008)(8936002)(6486002)(6512007)(41300700001)(2906002)(7416002)(2616005)(4744005)(7406005)(316002)(54906003)(6916009)(26005)(1076003)(66556008)(66946007)(478600001)(66476007)(86362001)(38100700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VnNQSVppNVIrM2RsSGtkSkFaRmNwZ1lJSTBwSlJoRjdYZTBLbW14UjJFdHA4?=
- =?utf-8?B?NzRlVVZaM1U5Q21BZWc3bURrVTZKU09CTXhibVZNemJsS1lLTllnT245WnpI?=
- =?utf-8?B?SUNmT1BSK04zd0tJMEhiOWRBRDRDNk9WOXBYMk5TcEY5RG5lNlJtWWNweDRB?=
- =?utf-8?B?YlQ1VHhVK1ROQ1Rib0xsVEJ0TTB4WFYxYW1sSmU2aW5WYm4yNTRhdmh1TW54?=
- =?utf-8?B?Z3pDbGlsSWhISmRHVnlsSTNoTjczNnRIeWVqaGFERG9ZT1NJaXpEWTF6Ti9q?=
- =?utf-8?B?dXJKdTZYU1RXTWdtVy8xbGVVWnMwSU50YkI3TFZjb0NhWGp0Z1ZnUm1Geitt?=
- =?utf-8?B?dzF1VTU3QkNGR3FkSytYN0hQb3N0ZU93c1Bta3F6ZmZoWkRkZUl2dTFUWk5X?=
- =?utf-8?B?cWluQ2o0SDhYUCtDU1pPUUlCVTV4OC9YQmttbEFEcUVmdzFXcHhOUzJFemZU?=
- =?utf-8?B?SVB5Z0djYnY1OTFaTXg0QU1WS2I3TEp6cDFncmNyOTBtQkxuQUxDYXNVRDRr?=
- =?utf-8?B?Q2tqdG9ISXRmVDZNOS91YzhmRjRsbS8wdnBXQXhHd1NxNnRha1FGYXI5Y0VP?=
- =?utf-8?B?WkR5b2djbkp2eVJIZVdlZklacGZXQ3g0aC92ZVBpSzR1SnU4eW5zMDdBa01R?=
- =?utf-8?B?aXNTZTVrTjFaeUR6cDQrWElEUkw0cjdDREc2ejJtVjNzRlArRDhEZGJOcXZG?=
- =?utf-8?B?K2Zvc1Mva3NkZU1oeFNuME5BYWhDYUpscmhOSGVSYmdBVlVVQnQ2ajJhLzZP?=
- =?utf-8?B?RkVrUWpZY1RXbXo5cmtaQ2tRRFczUlltM2ZURVVoalg5TWJmVDM4YmZrVXUx?=
- =?utf-8?B?cUpFL2ZDeHZVR1NNbXZrMFpZcmlWSnA4SDkzcW5xendPcEQ1Q2NOYkRMS2ZU?=
- =?utf-8?B?Z2tsM2tXS2k3QW4zUDhhUTdzOFlGQXVxazlTZVM3bXRoTVQvUlZOSm1qNTZu?=
- =?utf-8?B?WXlEaXVoZm9zS2lXMTJtYUF2SjdoTkVYZW1DN1B6VWlPd3oweS9kYjl5cy9q?=
- =?utf-8?B?bWxlTForOWdTbnk2VDZjOXQwK2FXbEYycTJBS09xRHF1cjQ5ZFNjL3A0OVE4?=
- =?utf-8?B?eXFvR3pjYmFJWFByWjVYZlFocVIxQTZaelI3d3h6ZHJ4NWFzcGxWTlJ1THEz?=
- =?utf-8?B?ZzdoZXdGanFLZHpjMmxsNjkxelFWRi9nRmVuRkRrYkp0TlhkUWlkQk5DNEVL?=
- =?utf-8?B?ZXVUVWpCZWZOTXpBNmlJMzlqUFJ3YlZac3lwTVFJNHpiQ3BwZUtmdFFSVjA3?=
- =?utf-8?B?djdhSXNmUVk0TjdxM2FLR3ZoSlU4Vi9pOXdHeVI1NXAvdTBybkxNaEtZem55?=
- =?utf-8?B?Sm5NWnFXeFNTSm9RSjg4bjkzYzljcGpKQnNJSGFhUkVZWlMrenpLMlZla2pH?=
- =?utf-8?B?UVQwVXBKM3JjQkt0REFrOXhJZ0RPQ2x2WmVaY3poeHo2T2dmenZKYUljMUp5?=
- =?utf-8?B?OGF0S1psSDRHZUIweFZRYUFac2JydGMvVkk3K3ZJSnFhSlVTNUhaL3lnVDlU?=
- =?utf-8?B?Z1RvMkNQNVFCMHh1QW1YZFpUeERJblZSaFNOQ3ZxMHloNVMvTVpRMmRrOHpu?=
- =?utf-8?B?L0gwQjU0SmdvWXErdlN4QUxua0NwdWZ5bzcva2R6SC9rbVFsN2dyMVI0VVB2?=
- =?utf-8?B?Y3poSDlHeUxtQkdLYlQ4bE95d1FXSGphdHlKbXdmOWE1L21XUzFNYjB4bHlH?=
- =?utf-8?B?UEU2WE5ESHBIM3RyWmlKaStnWE1iZUdKK0NqanZXeHpWcE4xUUpCNTVLOURK?=
- =?utf-8?B?bDdWZFQ1NCtWbmdLOGo0enIzTFByTloxbmlTam04QXMyNWtaaENnaUdZV1JY?=
- =?utf-8?B?a2NaMVd3aHplak1pYU81K1VBbWVzWStyOFFZQVpFK3hqRjY2eXVEZ1NKdFFj?=
- =?utf-8?B?cHFPbEdZNGlxNUtBL1A2Mll1R0VrdGJoS251bE1qQTI3SzBuRE80a3poRHRJ?=
- =?utf-8?B?WWpNbkppK2tzdDlIM2xTMjc1U0kzZlY3TnJBNEg0ZE9JSDh3d01MaUN4ZkZU?=
- =?utf-8?B?a1YzTGM4ZjJuM3Z6OTVTUm95Rk54ekIveXlCaVMwZTZpMzlFQlIxK0lzRktv?=
- =?utf-8?B?RXNTU1dNWXNZTE5oVUdwL3pWQlE4cEFyUS95YXVxUXZOTVptakRHN1hsOUVk?=
- =?utf-8?Q?OZhk=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0ab60bf-adcf-42c9-ccac-08dbe0900060
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2023 19:22:09.1244
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xHLey/g4iVAxmaibMCMXp0RFpBSIvC1cJKJHiXUfEsdys9J/0xAEAfbfwVg+yc8w
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4884
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
 
-On Wed, Nov 08, 2023 at 06:34:58PM +0000, André Draszik wrote:
+On Fri, Nov 03, 2023 at 01:44:46PM -0300, Jason Gunthorpe wrote:
+> This is not being used to pass ops, it is just a way to tell if an
+> iommu driver was probed. These days this can be detected directly via
+> device_iommu_mapped(). Call device_iommu_mapped() in the two places that
+> need to check it and remove the iommu parameter everywhere.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 
-> For me, it's working fine so far on master, and I've also done my own back port
-> to 6.1 and am currently testing both. An official back port once finalised
-> could be useful, though :-)
-
-Great, I'll post a non-RFC version next week (LPC permitting)
-
-BTW, kbuild 0-day caught your note in the other email and a bunch of
-other wonky stuff I've fixed on the github version.
-
-Thanks,
-Jason
+Reviewed-by: Moritz Fischer <mdf@kernel.org>
+> ---
+>  arch/arc/mm/dma.c               |  2 +-
+>  arch/arm/mm/dma-mapping-nommu.c |  2 +-
+>  arch/arm/mm/dma-mapping.c       | 10 +++++-----
+>  arch/arm64/mm/dma-mapping.c     |  4 ++--
+>  arch/mips/mm/dma-noncoherent.c  |  2 +-
+>  arch/riscv/mm/dma-noncoherent.c |  2 +-
+>  drivers/acpi/scan.c             |  3 +--
+>  drivers/hv/hv_common.c          |  2 +-
+>  drivers/of/device.c             |  2 +-
+>  include/linux/dma-map-ops.h     |  4 ++--
+>  10 files changed, 16 insertions(+), 17 deletions(-)
+> 
+> diff --git a/arch/arc/mm/dma.c b/arch/arc/mm/dma.c
+> index 2a7fbbb83b7056..197707bc765889 100644
+> --- a/arch/arc/mm/dma.c
+> +++ b/arch/arc/mm/dma.c
+> @@ -91,7 +91,7 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+>   * Plug in direct dma map ops.
+>   */
+>  void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> -			const struct iommu_ops *iommu, bool coherent)
+> +			bool coherent)
+>  {
+>  	/*
+>  	 * IOC hardware snoops all DMA traffic keeping the caches consistent
+> diff --git a/arch/arm/mm/dma-mapping-nommu.c b/arch/arm/mm/dma-mapping-nommu.c
+> index cfd9c933d2f09c..b94850b579952a 100644
+> --- a/arch/arm/mm/dma-mapping-nommu.c
+> +++ b/arch/arm/mm/dma-mapping-nommu.c
+> @@ -34,7 +34,7 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+>  }
+>  
+>  void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> -			const struct iommu_ops *iommu, bool coherent)
+> +			bool coherent)
+>  {
+>  	if (IS_ENABLED(CONFIG_CPU_V7M)) {
+>  		/*
+> diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+> index 5409225b4abc06..6c359a3af8d9c7 100644
+> --- a/arch/arm/mm/dma-mapping.c
+> +++ b/arch/arm/mm/dma-mapping.c
+> @@ -1713,7 +1713,7 @@ void arm_iommu_detach_device(struct device *dev)
+>  EXPORT_SYMBOL_GPL(arm_iommu_detach_device);
+>  
+>  static void arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> -				    const struct iommu_ops *iommu, bool coherent)
+> +				    bool coherent)
+>  {
+>  	struct dma_iommu_mapping *mapping;
+>  
+> @@ -1748,7 +1748,7 @@ static void arm_teardown_iommu_dma_ops(struct device *dev)
+>  #else
+>  
+>  static void arm_setup_iommu_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> -				    const struct iommu_ops *iommu, bool coherent)
+> +				    bool coherent)
+>  {
+>  }
+>  
+> @@ -1757,7 +1757,7 @@ static void arm_teardown_iommu_dma_ops(struct device *dev) { }
+>  #endif	/* CONFIG_ARM_DMA_USE_IOMMU */
+>  
+>  void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> -			const struct iommu_ops *iommu, bool coherent)
+> +			bool coherent)
+>  {
+>  	/*
+>  	 * Due to legacy code that sets the ->dma_coherent flag from a bus
+> @@ -1776,8 +1776,8 @@ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+>  	if (dev->dma_ops)
+>  		return;
+>  
+> -	if (iommu)
+> -		arm_setup_iommu_dma_ops(dev, dma_base, size, iommu, coherent);
+> +	if (device_iommu_mapped(dev))
+> +		arm_setup_iommu_dma_ops(dev, dma_base, size, coherent);
+>  
+>  	xen_setup_dma_ops(dev);
+>  	dev->archdata.dma_ops_setup = true;
+> diff --git a/arch/arm64/mm/dma-mapping.c b/arch/arm64/mm/dma-mapping.c
+> index 3cb101e8cb29ba..61886e43e3a10f 100644
+> --- a/arch/arm64/mm/dma-mapping.c
+> +++ b/arch/arm64/mm/dma-mapping.c
+> @@ -47,7 +47,7 @@ void arch_teardown_dma_ops(struct device *dev)
+>  #endif
+>  
+>  void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> -			const struct iommu_ops *iommu, bool coherent)
+> +			bool coherent)
+>  {
+>  	int cls = cache_line_size_of_cpu();
+>  
+> @@ -58,7 +58,7 @@ void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+>  		   ARCH_DMA_MINALIGN, cls);
+>  
+>  	dev->dma_coherent = coherent;
+> -	if (iommu)
+> +	if (device_iommu_mapped(dev))
+>  		iommu_setup_dma_ops(dev, dma_base, dma_base + size - 1);
+>  
+>  	xen_setup_dma_ops(dev);
+> diff --git a/arch/mips/mm/dma-noncoherent.c b/arch/mips/mm/dma-noncoherent.c
+> index 3c4fc97b9f394b..0f3cec663a12cd 100644
+> --- a/arch/mips/mm/dma-noncoherent.c
+> +++ b/arch/mips/mm/dma-noncoherent.c
+> @@ -138,7 +138,7 @@ void arch_sync_dma_for_cpu(phys_addr_t paddr, size_t size,
+>  
+>  #ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
+>  void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> -		const struct iommu_ops *iommu, bool coherent)
+> +		bool coherent)
+>  {
+>  	dev->dma_coherent = coherent;
+>  }
+> diff --git a/arch/riscv/mm/dma-noncoherent.c b/arch/riscv/mm/dma-noncoherent.c
+> index b76e7e192eb183..f91fa741c41211 100644
+> --- a/arch/riscv/mm/dma-noncoherent.c
+> +++ b/arch/riscv/mm/dma-noncoherent.c
+> @@ -135,7 +135,7 @@ void arch_dma_prep_coherent(struct page *page, size_t size)
+>  }
+>  
+>  void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> -		const struct iommu_ops *iommu, bool coherent)
+> +			bool coherent)
+>  {
+>  	WARN_TAINT(!coherent && riscv_cbom_block_size > ARCH_DMA_MINALIGN,
+>  		   TAINT_CPU_OUT_OF_SPEC,
+> diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> index 691d4b7686ee7e..a6891ad0ceee2c 100644
+> --- a/drivers/acpi/scan.c
+> +++ b/drivers/acpi/scan.c
+> @@ -1636,8 +1636,7 @@ int acpi_dma_configure_id(struct device *dev, enum dev_dma_attr attr,
+>  	if (PTR_ERR(iommu) == -EPROBE_DEFER)
+>  		return -EPROBE_DEFER;
+>  
+> -	arch_setup_dma_ops(dev, 0, U64_MAX,
+> -				iommu, attr == DEV_DMA_COHERENT);
+> +	arch_setup_dma_ops(dev, 0, U64_MAX, attr == DEV_DMA_COHERENT);
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/hv/hv_common.c b/drivers/hv/hv_common.c
+> index ccad7bca3fd3da..fd938b6dfa7ed4 100644
+> --- a/drivers/hv/hv_common.c
+> +++ b/drivers/hv/hv_common.c
+> @@ -489,7 +489,7 @@ void hv_setup_dma_ops(struct device *dev, bool coherent)
+>  	 * Hyper-V does not offer a vIOMMU in the guest
+>  	 * VM, so pass 0/NULL for the IOMMU settings
+>  	 */
+> -	arch_setup_dma_ops(dev, 0, 0, NULL, coherent);
+> +	arch_setup_dma_ops(dev, 0, 0, coherent);
+>  }
+>  EXPORT_SYMBOL_GPL(hv_setup_dma_ops);
+>  
+> diff --git a/drivers/of/device.c b/drivers/of/device.c
+> index 1ca42ad9dd159d..65c71be71a8d45 100644
+> --- a/drivers/of/device.c
+> +++ b/drivers/of/device.c
+> @@ -193,7 +193,7 @@ int of_dma_configure_id(struct device *dev, struct device_node *np,
+>  	dev_dbg(dev, "device is%sbehind an iommu\n",
+>  		iommu ? " " : " not ");
+>  
+> -	arch_setup_dma_ops(dev, dma_start, size, iommu, coherent);
+> +	arch_setup_dma_ops(dev, dma_start, size, coherent);
+>  
+>  	if (!iommu)
+>  		of_dma_set_restricted_buffer(dev, np);
+> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+> index f2fc203fb8a1a2..2cb98a12c50348 100644
+> --- a/include/linux/dma-map-ops.h
+> +++ b/include/linux/dma-map-ops.h
+> @@ -426,10 +426,10 @@ bool arch_dma_unmap_sg_direct(struct device *dev, struct scatterlist *sg,
+>  
+>  #ifdef CONFIG_ARCH_HAS_SETUP_DMA_OPS
+>  void arch_setup_dma_ops(struct device *dev, u64 dma_base, u64 size,
+> -		const struct iommu_ops *iommu, bool coherent);
+> +		bool coherent);
+>  #else
+>  static inline void arch_setup_dma_ops(struct device *dev, u64 dma_base,
+> -		u64 size, const struct iommu_ops *iommu, bool coherent)
+> +		u64 size, bool coherent)
+>  {
+>  }
+>  #endif /* CONFIG_ARCH_HAS_SETUP_DMA_OPS */
+> -- 
+> 2.42.0
+> 
