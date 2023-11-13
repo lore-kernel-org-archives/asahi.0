@@ -1,53 +1,53 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D2A23767
-	for <asahi@lists.linux.dev>; Mon, 13 Nov 2023 20:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5231E2420C
+	for <asahi@lists.linux.dev>; Mon, 13 Nov 2023 20:13:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hm4gRkCB"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BTAMur/c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1699906357;
+	s=mimecast20190719; t=1699906408;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
 	bh=sqWGwV812/CXYndzj2W50PA7KOMPm+tHC+e+xjD2/M0=;
-	b=Hm4gRkCBuIO9rmOii3qGBKiY2plZL5PcCwmmp7SN/T+J1tLfgYnvCmGz43FSmkwPF+dJy5
-	PM14dTgEOMqc+QehedM7btPN5Gl5eHElUYTKgE773fxtgBZAWjHT58+n5vNsku8UeDHKX2
-	pi/oCIxSWN25n2Dzg4bgjkKK/7D5C0E=
-Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
- [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	b=BTAMur/cBw2cWs7noaCA7jACSGU6/fvCxXI4GJgjtzQYKK2uSIjJubLxewIvr1eKap3KxK
+	okVLNJjrjh79wGXuQUJU3CJDv2c8C3wHRnDIMnjE7dvjZ80shYOXX5AV8C16fIIsH0ZUWh
+	jVvWHxvR5bZzXFBHvR2B3c+tOforPGk=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-583-EsMfvY2JNPeCdHPr-A-9cA-1; Mon, 13 Nov 2023 15:12:36 -0500
-X-MC-Unique: EsMfvY2JNPeCdHPr-A-9cA-1
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-5a7cc433782so56334417b3.3
-        for <asahi@lists.linux.dev>; Mon, 13 Nov 2023 12:12:36 -0800 (PST)
+ us-mta-594-owkyo_KKOgWbfn23b915fg-1; Mon, 13 Nov 2023 15:13:27 -0500
+X-MC-Unique: owkyo_KKOgWbfn23b915fg-1
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-670b32845a7so54811666d6.3
+        for <asahi@lists.linux.dev>; Mon, 13 Nov 2023 12:13:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699906356; x=1700511156;
+        d=1e100.net; s=20230601; t=1699906406; x=1700511206;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=sqWGwV812/CXYndzj2W50PA7KOMPm+tHC+e+xjD2/M0=;
-        b=l4/6OcgkFBRcG5Gw8Fkz/VPvLSKGv2HPRPc+CrflNF8cSOnJieN06xAyQj5iWsrJHh
-         b6AjHDlfQW5OA9xOUBYFM14r8unCidSguC6fyIrCcnRx7dlpaDnecQToFXkIL/bPmhHd
-         LgGQmR+86h9KY6DDd/vxls+8V2heiheeWMhxAZzW+6jQ91z5ALe2i5BWJXcAvSjH5IOh
-         QFsRe4vP7YFj5ZH9N8XErTaGqn4mgmUlNdh9K45bSQzAW0UPymJy3i47u4QSABmRyJz3
-         hwPFvAJMzr75lgomniPm8q6Fx9jWCvdu/po8cE5RVHrxRNCMOZSsuUKDfh4ywu8XHDlv
-         9DIw==
-X-Gm-Message-State: AOJu0YwQ/VNpSTsU7CVKL+zn7Km1kmfxMcwAhX+S3fm/L+kw/L23/iqx
-	XvSvKcPMUIsp+BqBCh3VUkXftVqLT2vAErqjH+/OC90gHC45XNzevY8Ee11Oc/PDoaYcCveUjBy
-	NgphncjuYmRujHD4=
-X-Received: by 2002:a81:a1c8:0:b0:5a7:b8e6:6441 with SMTP id y191-20020a81a1c8000000b005a7b8e66441mr5681658ywg.16.1699906356200;
-        Mon, 13 Nov 2023 12:12:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE8TAFaS4ERYYFs+8jp6ZPsOwc5cP1r90IboZbxfRfwy6gwcqiZWRR9jIiN36BiWY+6zJFv5g==
-X-Received: by 2002:a81:a1c8:0:b0:5a7:b8e6:6441 with SMTP id y191-20020a81a1c8000000b005a7b8e66441mr5681632ywg.16.1699906355905;
-        Mon, 13 Nov 2023 12:12:35 -0800 (PST)
+        b=B3nq4KlHErbi8YwzZ03cSvvySklN8KqYsCfjTIn5e83vYdvsZkhCoQ9Vg5F5q4jzeh
+         mOfr0e1IHgNrQCMJo/GU0HUIsSe75qFHp1MBxkPUql+mRcv2g99/c+crqDbnyJP8rlS4
+         U1l1Zom74iz7aEyzWS+fDQbmUkdp04S9sQu1wsYeNXvOrZ//Nu88unLs/eCErKCslHau
+         5QrEey/cSkfvJqvU+sELlBWAAnA7rwQ9B8PU+XPAqRWuaTLa8k2fNYqxerp4gUmQxypR
+         2m1/m6rWLMnGN8XoUNqoz3F6zFpVi+w7tsJYeSxvd3jEolPsdq2J4wZ2ZmBgskgoRDB8
+         dO7w==
+X-Gm-Message-State: AOJu0YxwViWo7xwGec0ZDBcboA1SJOgTIJGHXsmdgix5KqLdvg5gWX8R
+	hxB2DGOLWyZ0mAf7FnrZZEJWqm7vBihZ4/6IAd/oZtISEJtm2WqAghmsGFS9SwW4FJBEN73od8I
+	wUnQyHDMO0LDzMQo=
+X-Received: by 2002:ad4:4bad:0:b0:65b:2660:f577 with SMTP id i13-20020ad44bad000000b0065b2660f577mr248806qvw.3.1699906406578;
+        Mon, 13 Nov 2023 12:13:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFsDIxiixJLIxKwkxODRjUhycdO5JesTQ8JOYTeYOzxmk+ReEPp+gf8876uIJbrOmvoudG57Q==
+X-Received: by 2002:ad4:4bad:0:b0:65b:2660:f577 with SMTP id i13-20020ad44bad000000b0065b2660f577mr248760qvw.3.1699906406355;
+        Mon, 13 Nov 2023 12:13:26 -0800 (PST)
 Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id a10-20020a0dd80a000000b005a7ba08b2acsm1972894ywe.0.2023.11.13.12.12.35
+        by smtp.gmail.com with ESMTPSA id c4-20020a05621401c400b006754772bfd4sm2302000qvt.21.2023.11.13.12.13.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Nov 2023 12:12:35 -0800 (PST)
-Date: Mon, 13 Nov 2023 13:12:34 -0700
+        Mon, 13 Nov 2023 12:13:25 -0800 (PST)
+Date: Mon, 13 Nov 2023 13:13:24 -0700
 From: Jerry Snitselaar <jsnitsel@redhat.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: acpica-devel@lists.linuxfoundation.org, 
@@ -73,17 +73,18 @@ Cc: acpica-devel@lists.linuxfoundation.org,
 	Vineet Gupta <vgupta@kernel.org>, virtualization@lists.linux-foundation.org, 
 	Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>, 
 	Zhenhua Huang <quic_zhenhuah@quicinc.com>
-Subject: Re: [PATCH RFC 09/17] iommu: Add iommu_fwspec_append_ids()
-Message-ID: <xv2544jtubq5aefvzaiabazmz5uf32alw6blcdbvsui6wn37ep@vpykzk2vvyp5>
+Subject: Re: [PATCH RFC 10/17] acpi: Do not use dev->iommu within
+ acpi_iommu_configure()
+Message-ID: <aqbuvpgu577fdpf4ndhoghfgewki7lg4hf2yewljonxf6y6oxv@xisq2p5bi3kb>
 References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
- <9-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+ <10-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <9-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+In-Reply-To: <10-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
