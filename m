@@ -1,130 +1,128 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2068.outbound.protection.outlook.com [40.92.103.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F642BA31;
-	Tue, 14 Nov 2023 04:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD15811715
+	for <asahi@lists.linux.dev>; Tue, 14 Nov 2023 06:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="P4U9JNsZ"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AE4dQxp015496;
-	Tue, 14 Nov 2023 04:57:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=Ut+LP/oQgS6AHmq27TArlkMKu8wbNEjr6zcLsTELHGU=;
- b=P4U9JNsZ9twinkAM6crKSroq7yTQNIGWmkH2jnosKDAz9K5IrD0KC+OFma4jfeDqxQq+
- Jios5YHkR/P1oDpeARKJM2+nQJAHIoy/AU39G733GUA7X/t+IfSA/Um81F8A6iCtQL26
- XG4dtUswJSuAwmlGjkGcZuNFHb330V24H5OqAeBwm6fW/02agttPnGwa8mYMhC8YNPDL
- TSKl5hj7Y9fOX8//4nAwpHHKR4ae/Pebp5Zv8rijSDAyEzEk9K9W2+AIslRM+tKCuR55
- lfIA8BS+uF4K4AD8r57Ipm+m83CMrPvY4hiFvL9PLI1Y49qIQrtqpSe+/TUS76UcnzFQ vA== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ubuswrmww-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Nov 2023 04:57:04 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AE4v2nN010730
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Nov 2023 04:57:02 GMT
-Received: from [10.239.132.245] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 13 Nov
- 2023 20:56:53 -0800
-Message-ID: <ee647939-3f47-4b82-b1e4-a0c9414a1e8e@quicinc.com>
-Date: Tue, 14 Nov 2023 12:56:43 +0800
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="Ds8K+TyS"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h13caaxWL9fVsz7BVtImElMBhJiQroRTm3KsAJbnlH3YEHmq/k9w1g2sm71bo54d0Yjcpn7lFRtjl11RRCiutQQ/1kVkyAybIaZK/szQrN0r9JUPFAzsdOPQvZ38mu1bsP4BNRrBK8T9ky2xn8krR9c0s/2GtS45R4qtNgw02Bwe5bne3nStLFolZUTZORQpLR3HfmMBJSrAgdUrM5AS4wNBGfg3QxUg8nkkvv4d92G6SxU5/BN5U2q2ET2mLmBAu/UUnwEhr/U/2IX74AR8kRD10sSoqDePUdrMqH+xFWvzViLKohIHW//gyINmyzkMm71iO/zXsrWKXl9Fj71tWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QbzkXzVsFtcM3iXheria0GhiSeb0Ae1yapzk4CxO6qY=;
+ b=EvFbOqcv5X9gVJQCfGFFHnWqr+vdQDmHf2KWMNiPOlR5KWUwXPzvEqjP7eOnTM/nBUPbsVANpGHhPeLLId7k3pc1otO1iueeR8La69QW7Y37QhCPSuSiyYHwAfwgqIsWFYSvcGYTA7RUDP9klyBvlzf1u3jaIcCq70wk8S0+dVjhQls9duFeEr9Y6aeZmyKV4N9iYgOjLDqKbhSL//jmWLY2lGaUfNeoRkTbf6n575PDb5TR4laNmE1rDcQd+bnBafqOB4DXuFzouiFu96WrxtAyj4Wge9upzTpO/eNPhlP05GVK06owoAYeWLsQLOGuA8G8hKZG+USmz419C7UP2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QbzkXzVsFtcM3iXheria0GhiSeb0Ae1yapzk4CxO6qY=;
+ b=Ds8K+TySKC/lIx5cIBLgUA20Gkb027L+8la8li7eSvxtNx+fntvokZFs9LsWavbOcdFQUa1sTTnxGU18JRkkywfM45elsGsox4ZPuWaxPAuaaqSwNMjnKZVgE8PLyUE/47uWZOjeLEiMROWU1z3JEptZmUn1fs70q9fghEriNXSYiTxBXULbiUQGwX9o+EJqWPdrCz6e9DUboDwsd+XBuRpwJzcfcouvzCXePddVvPL/kXwTDbmvA1pj0jbDGem+u9izELzek3QaIU6SXHm1lmfqo8amwhE3PomFPpEpILnqtKBVsjPhbop15C/kGgoKM6YYnJqkObWZKc5snq56aw==
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
+ PN2P287MB0776.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:136::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6977.31; Tue, 14 Nov 2023 06:23:31 +0000
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::6037:db64:7000:119f]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::6037:db64:7000:119f%6]) with mapi id 15.20.6977.029; Tue, 14 Nov 2023
+ 06:23:30 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+CC: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa
+ Rosenzweig <alyssa@rosenzweig.io>, Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz
+	<luiz.dentz@gmail.com>, Orlando Chamberlain <orlandoch.dev@gmail.com>, Kerem
+ Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>, Asahi Linux
+ Mailing List <asahi@lists.linux.dev>, Linux Kernel Mailing List
+	<linux-kernel@vger.kernel.org>, Linux Bluetooth
+	<linux-bluetooth@vger.kernel.org>
+Subject: Re: [REGRESSION] Bluetooth is not working on Macs with BCM4377 chip
+ starting from kernel 6.5
+Thread-Topic: [REGRESSION] Bluetooth is not working on Macs with BCM4377 chip
+ starting from kernel 6.5
+Thread-Index: AQHaFnQHPuYl63BuYUeFaxX8dCI6lbB45gMAgABzQcc=
+Date: Tue, 14 Nov 2023 06:23:30 +0000
+Message-ID:
+ <MA0P287MB021794BCCCFB5EA57C1C3B69B8B2A@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
+References: <22582194-DE99-45E5-ABEE-C1C7900DA523@live.com>
+ <ZVKxtD2Mt_eVyttJ@archie.me>
+In-Reply-To: <ZVKxtD2Mt_eVyttJ@archie.me>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [FBP5oihz24auSv4QRjlTZFWGnPGs/WC8T914uBzIUxUs5JkQosRV3vI8x0ghisNw]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN2P287MB0776:EE_
+x-ms-office365-filtering-correlation-id: d6f88b50-c9ad-4aaa-49aa-08dbe4da38c0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ SFbk7OZkp5G7hBO4hfX3vKKZpYAn82Hpq4HyeutMaTNIbKWyzavdk9Nzkb7bpsWbCHYaBaqLnqORHEq8BrSaIgR/k9gOly/vM2b3PZ2Y6NI5e7c4sBOQrdF13AZNK2SR9ykzNMh98w2HCZ3Zyl8tgtu/iF++PwIW7XTAhXzEdmhcj1R3APmDIX6Kp6wLO4v5mb0e0vDwB4uDPZW/vgOVYkp3YMmcEQ7BJPoiJ5aYRBg8/9+vLNvrUBMsbT7g9zrV4P7XtA8KaR3DZhpjcE6Kih0vUjFKxb5vIaUuB4IShlcT+CqrhtMVixGPNaJ+0qBzc2Z0UKUbZOFnp2ERmTPQoJ5E0Hy42aTjZ+X4RRjy0cU1XwfirvYk/Y0X/2ZbidHy5BnuFD/WNyMnFdSf6A+80mFGG7qDvdUkpYo51biCDTuA6l+wkLzSsgkY0vc4LT1bx3umLj5EHQHAfj0nu4V/xwhC0hfOveRqTyfz30HkTfdAm7WRC05TLH3jeohVvsUEOwYqVdjroLk95bzOaaO3A6vAW4vIvFcX2YTv9t5gMNBU3vR9IxcPyMX9juTar+FbPchWgzJHsuBNsTm24q1pdPeLg2Y6PRXE/rzUpca0rzA=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?YXlueWRsNG5NWEhtQlYrRERLcHBJU1Z2Yko0NHJWMHVLSVpQcVZocWFnNWRi?=
+ =?utf-8?B?UWRHN29HSXV5RkV4QjhocUIxNEVUTE5ZL3dRbmcvYzRXMHg4K09KRFZ5a3pX?=
+ =?utf-8?B?WGxjcTRwMUd5eGRyYWgxenlKYStyVDYvMXB5Mzl0RW40ajl5bmNndVZ6d1Vs?=
+ =?utf-8?B?eDhITExtMmNTU1ljVTVwS1V0RXo5TkVzYy9CZE1ZN01LRDFVaTFkem9HSG1a?=
+ =?utf-8?B?UW9YcmxEelp0dHoxN21yR2p6eHBqRWhXMWUwQno5eUtxcWxXY3lKTmtGaUN3?=
+ =?utf-8?B?aXgzdmR6WlRUOTNIRG9QMVpGL1RZa25wQjI5aEpWUzRubnFaTEMxTTJ3STJY?=
+ =?utf-8?B?cDFWV2Q4ejhnajVJcmMwekorcFpYTCs1dG5NQ2FjQ25XWXViZVpjNjA4bVY2?=
+ =?utf-8?B?T2dET2lpYitiV1lHdUJrMnVGNTZtbVljWFVoQWcwVVZCMDhEc3p1cmtHS3do?=
+ =?utf-8?B?dHBmR1NibnZsaEJabjdUR21oazk2NHdQT0NGTFVYT09sVmhBZnFlT3JQWEJl?=
+ =?utf-8?B?VkNJVHdxa2trdmJSekhpcjc5ZEcyOHlIdFluVFRkd1d1N3UydzRtMnYwMldz?=
+ =?utf-8?B?dEcxVi8rOUZlZFFMcFk4MXZmRDFyeGh6b0F6OGtoYitLTUlIZFkvZ0p6ZDVp?=
+ =?utf-8?B?S1dTR1Q5NlczTElQSnV1czdnNWVaM1ZDNlpqVUpJNjBmZGdvcmtLV2E4MXBP?=
+ =?utf-8?B?UUVoUGdVckFpODQvcGh5T2F1NE5kYStZTWx2NG5QUS93cENBbWpRaC9xckVa?=
+ =?utf-8?B?ZHFPODlHTnRvck1yRndjZmNxYlBJMURHcWIycDY5c2RNejJoK0twY1NCWnFP?=
+ =?utf-8?B?WmhqMmcrdTgvdE43ZE96VmkrZ0thYTJMWmJRMTE2ZFc1azcrb2J5bjdaVmhC?=
+ =?utf-8?B?R0tSakRuWCs5blg0SUFLQ2hoa1c1ZTA5WCs1ZUZpK2JOK3FwTW9yU0prYVhL?=
+ =?utf-8?B?SWtpYnFWRFVSRmg5QzY1dlZaSkN0QUxsMWNJbTBwVHBvQVd5VXd1dXFnOSsy?=
+ =?utf-8?B?YmpzUHRSYllnUGlsbzNESjFDTTRlaHdxb0ZQZXRLYXY1VUswZUd1MXQ0YUdt?=
+ =?utf-8?B?Ni9NeWlzNnpQTS8ydW82aUJLWDdnTnV5Wk5ZUmM2eTJyMzJwcmpmcTZZZlYv?=
+ =?utf-8?B?d2tCM2NPbzFoQ0JZSUxLNFZncE1hOTNoblRIdnRUK3ZQdndnbjlHcmRTTlMx?=
+ =?utf-8?B?YW1QbEZxc0xtbUgrQktYM3IrSHpBbStNMnM1aGxKMjFmMkFmZjVCSG5GRFJ6?=
+ =?utf-8?B?L1VlS0s0alRHTmxVMVRYQUtQakozM3ROZGFDZGFZRURpdmlNYmlXbXg3bEFY?=
+ =?utf-8?B?MkVVZjJPYmFDOXJ3YTM3NnNZSGZaQ3pwU3c1d1ZkU1ErclZEOElBWHRpTHhG?=
+ =?utf-8?B?VlYxMEZMSjk1bENSMXY3R2NlYjdkZXk2V3FzbXN4czBITnVrNTd0NWwxS3ht?=
+ =?utf-8?B?VHNwbUw1RXNlQzU1dFdBcEZOWUp2ZWdHZDhwMVBOeWZvWEZvcTcyeEFBWFBD?=
+ =?utf-8?B?bDJ5UXZMSFBPR2w1VFNFbm5VUlNyWDVVSHNSYzhzSS96LzFjL0djZ20vM3NS?=
+ =?utf-8?B?RmRjMXllNXAvdFBuQXJGMlJCTlIvS3NCR3daZmZhTS8wbnVtaHZycE4zbm1h?=
+ =?utf-8?B?QlQ3VmZKbGQ5eldVYnFkYW5iQi9iVUp0RUgvY244THhxSnpMREpMSzZuSXZa?=
+ =?utf-8?B?WEEvNnFJb0hQU1RlNjRicHFVTmpoQTFJSlRRNENvZnVQZkEvWTZZZGNRPT0=?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 00/17] Solve iommu probe races around iommu_fwspec
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, <acpica-devel@lists.linuxfoundation.org>,
-        Alyssa Rosenzweig
-	<alyssa@rosenzweig.io>,
-        Albert Ou <aou@eecs.berkeley.edu>, <asahi@lists.linux.dev>,
-        Lu Baolu <baolu.lu@linux.intel.com>,
-        Catalin Marinas
-	<catalin.marinas@arm.com>,
-        Dexuan Cui <decui@microsoft.com>, <devicetree@vger.kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Frank
- Rowand <frowand.list@gmail.com>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        Haiyang
- Zhang <haiyangz@microsoft.com>,
-        Christoph Hellwig <hch@lst.de>, <iommu@lists.linux.dev>,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
-        "K.
- Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
-        <linux-acpi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-hyperv@vger.kernel.org>, <linux-mips@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>,
-        <linux-snps-arc@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Lorenzo
- Pieralisi <lpieralisi@kernel.org>,
-        Marek Szyprowski
-	<m.szyprowski@samsung.com>,
-        Hector Martin <marcan@marcan.st>, Palmer Dabbelt
-	<palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "Rafael J.
- Wysocki" <rafael@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Rob
- Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Sudeep
- Holla <sudeep.holla@arm.com>,
-        Suravee Suthikulpanit
-	<suravee.suthikulpanit@amd.com>,
-        Sven Peter <sven@svenpeter.dev>,
-        Thierry
- Reding <thierry.reding@gmail.com>,
-        Thomas Bogendoerfer
-	<tsbogend@alpha.franken.de>,
-        Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta
-	<vgupta@kernel.org>,
-        <virtualization@lists.linux-foundation.org>,
-        Wei Liu
-	<wei.liu@kernel.org>, Will Deacon <will@kernel.org>
-References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-From: Zhenhua Huang <quic_zhenhuah@quicinc.com>
-In-Reply-To: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: W9mLspwTBqhYvV5ajR8gt_t_BuX4RknD
-X-Proofpoint-ORIG-GUID: W9mLspwTBqhYvV5ajR8gt_t_BuX4RknD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-14_03,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 clxscore=1011 mlxlogscore=917
- impostorscore=0 adultscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
- mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311140037
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-bafef.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6f88b50-c9ad-4aaa-49aa-08dbe4da38c0
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Nov 2023 06:23:30.9090
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB0776
 
-Thanks Jason.
-
-On 2023/11/4 0:44, Jason Gunthorpe wrote:
-> This is a more complete solution that the first attempt here:
-> https://lore.kernel.org/r/1698825902-10685-1-git-send-email-quic_zhenhuah@quicinc.com
-> 
-> I haven't been able to test this on any HW that touches these paths, so if
-> some people with HW can help get it in shape it can become non-RFC.
-
-Thank you for addressing it quickly with a thorough way. I have 
-backported it to Android common kernel 6.1 and tested basic sanity well.
-I will share these to OEMs and see if they can reproduce further, thanks.
-
-Thanks,
-Zhenhua
+DQoNCj4gT24gMTQtTm92LTIwMjMsIGF0IDU6MDHigK9BTSwgQmFnYXMgU2FuamF5YSA8YmFnYXNk
+b3RtZUBnbWFpbC5jb20+IHdyb3RlOg0KPiANCj4g77u/T24gTW9uLCBOb3YgMTMsIDIwMjMgYXQg
+MDg6NTc6MzVQTSArMDAwMCwgQWRpdHlhIEdhcmcgd3JvdGU6DQo+PiBTdGFydGluZyBmcm9tIGtl
+cm5lbCA2LjUsIGEgcmVncmVzc2lvbiBpbiB0aGUga2VybmVsIGlzIGNhdXNpbmcgQmx1ZXRvb3Ro
+IHRvIG5vdCB3b3JrIG9uIFQyIE1hY3Mgd2l0aCBCQ000Mzc3IGNoaXAuDQo+PiANCj4+IEpvdXJu
+YWxjdGwgb2Yga2VybmVsIDYuNC44IHdoaWNoIGhhcyBCbHVldG9vdGggd29ya2luZyBpcyBnaXZl
+biBoZXJlOiBodHRwczovL3Bhc3RlYmluLmNvbS91OVUza2JGSg0KPj4gDQo+PiBKb3VybmFsY3Rs
+IG9mIGtlcm5lbCA2LjUuMiwgd2hpY2ggaGFzIEJsdWV0b290aCBicm9rZW4gaXMgZ2l2ZW4gaGVy
+ZTogaHR0cHM6Ly9wYXN0ZWJpbi5jb20vYVZITkZNUnMNCj4+IA0KPj4gQWxzbywgdGhlIGJ1ZyBo
+YXNu4oCZdCBiZWVuIGZpeGVkIGV2ZW4gaW4gNi42LjEsIGFzIHJlcG9ydGVkIGJ5IHVzZXJzLg0K
+PiANCj4gQ2FuIHlvdSBiaXNlY3QgdGhpcyByZWdyZXNzaW9uIHBsZWFzZT8NCg0KU2luY2UgSSBk
+b24ndCBoYXZlIGFjY2VzcyB0byB0aGlzIGhhcmR3YXJlLCBpdCdzIG5vdCBwb3NzaWJsZSBmb3Ig
+bWUgdG8gYmlzZWN0IHRoaXMgcmVncmVzc2lvbi4gTGV0J3MgaG9wZSBzb21lb25lIGlzIGFibGUg
+dG8gZG8gc28gdGhvdWdoLg0K
