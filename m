@@ -1,159 +1,130 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D77822F0F
-	for <asahi@lists.linux.dev>; Mon, 13 Nov 2023 23:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F642BA31;
+	Tue, 14 Nov 2023 04:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gDnZGryz"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2802b744e52so4667478a91.0
-        for <asahi@lists.linux.dev>; Mon, 13 Nov 2023 15:31:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699918263; x=1700523063; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kDZ1cIdWgAZuXI5ozto7uEtbIC72lCm4PFb4eXmL6CE=;
-        b=gDnZGryzi+ruPCMhtP7Zp3dgQt0o3Tw9EPKg9sGwO8+wemog/OdSLYnkivAtS4Ojtm
-         ACHeylj3+QcGl6Vx9FCCdjub+MwpvoFEjTryPEl7N0wN2oV+gvVSxEiit3mLRE8ksZPb
-         7VPPKTdUt0WHV/FiDdKK4S5xYF/dbgeEs3+csMVOv3Z/QWOFDEsLCUqhX8lL+t+txSEl
-         ODBoMkQvKjno1JYHDHvyJK+sQjhvCH7yjX7eZK5OO6FZshZFAiMjKVxkRv5IjbhuOLR6
-         LIHclGn8jX3eZWerK5i+G/rKTysYYHJnIZbRIYpUwpQoYjqYZpuJi9HtIRRRYRj+AKza
-         P56g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699918263; x=1700523063;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kDZ1cIdWgAZuXI5ozto7uEtbIC72lCm4PFb4eXmL6CE=;
-        b=b+lEo/D8ezI9CwQvrNjS+kKRnCxcp8eWJOrF5YbfZWRI8V60OPpKAwJEUQOZWGCgza
-         yradYJ/nEKpCMJCFD5+nsqjH4eSN5viSn5RsgNN2DzWV7wiZ2WGD5VCZloJyh0YHxWwg
-         UyLdFNW5QrD+C0u8TNEw/QoJ9q/0E3LVKvOMaikav8MOjgtOw7etBX39aRe6RSxtP+o+
-         6QkOuDJt2OaD7YytaQlCfX3FVXtZvU+W7BYIDKm43o2Bu3UmkoR6bn2tyrCs7Y5rMD11
-         serKvEHMMgsWbf8TB8W6u2W2y3B9f4AikVtINTyjK7tII/0pL7JSkDY4nlP2ovHIhHDv
-         eMuA==
-X-Gm-Message-State: AOJu0YyetA6jvlYS/TP6Qqv+wb2jwpK5+iAUzDQT+voQWbT6TQokTaAS
-	jHcGBO2g0iYar6W57DZCpQI=
-X-Google-Smtp-Source: AGHT+IHxx+SJCVs7SPPaBNARSsTIQL2a78Bq6VjpoYvEXoFTIZ8zIJb8O8RxQL5Rcvn7Bfimz39oGg==
-X-Received: by 2002:a17:90b:180f:b0:280:4af4:1a41 with SMTP id lw15-20020a17090b180f00b002804af41a41mr1507089pjb.15.1699918263286;
-        Mon, 13 Nov 2023 15:31:03 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id k9-20020a170902694900b001cc0e3a29a8sm4529918plt.89.2023.11.13.15.31.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Nov 2023 15:31:02 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 8131A101BF818; Tue, 14 Nov 2023 06:31:00 +0700 (WIB)
-Date: Tue, 14 Nov 2023 06:31:00 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: Orlando Chamberlain <orlandoch.dev@gmail.com>,
-	Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Bluetooth <linux-bluetooth@vger.kernel.org>
-Subject: Re: [REGRESSION] Bluetooth is not working on Macs with BCM4377 chip
- starting from kernel 6.5
-Message-ID: <ZVKxtD2Mt_eVyttJ@archie.me>
-References: <22582194-DE99-45E5-ABEE-C1C7900DA523@live.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="P4U9JNsZ"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AE4dQxp015496;
+	Tue, 14 Nov 2023 04:57:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=Ut+LP/oQgS6AHmq27TArlkMKu8wbNEjr6zcLsTELHGU=;
+ b=P4U9JNsZ9twinkAM6crKSroq7yTQNIGWmkH2jnosKDAz9K5IrD0KC+OFma4jfeDqxQq+
+ Jios5YHkR/P1oDpeARKJM2+nQJAHIoy/AU39G733GUA7X/t+IfSA/Um81F8A6iCtQL26
+ XG4dtUswJSuAwmlGjkGcZuNFHb330V24H5OqAeBwm6fW/02agttPnGwa8mYMhC8YNPDL
+ TSKl5hj7Y9fOX8//4nAwpHHKR4ae/Pebp5Zv8rijSDAyEzEk9K9W2+AIslRM+tKCuR55
+ lfIA8BS+uF4K4AD8r57Ipm+m83CMrPvY4hiFvL9PLI1Y49qIQrtqpSe+/TUS76UcnzFQ vA== 
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ubuswrmww-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Nov 2023 04:57:04 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AE4v2nN010730
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Nov 2023 04:57:02 GMT
+Received: from [10.239.132.245] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Mon, 13 Nov
+ 2023 20:56:53 -0800
+Message-ID: <ee647939-3f47-4b82-b1e4-a0c9414a1e8e@quicinc.com>
+Date: Tue, 14 Nov 2023 12:56:43 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6D6G11eLM7jDJgCQ"
-Content-Disposition: inline
-In-Reply-To: <22582194-DE99-45E5-ABEE-C1C7900DA523@live.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 00/17] Solve iommu probe races around iommu_fwspec
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>, <acpica-devel@lists.linuxfoundation.org>,
+        Alyssa Rosenzweig
+	<alyssa@rosenzweig.io>,
+        Albert Ou <aou@eecs.berkeley.edu>, <asahi@lists.linux.dev>,
+        Lu Baolu <baolu.lu@linux.intel.com>,
+        Catalin Marinas
+	<catalin.marinas@arm.com>,
+        Dexuan Cui <decui@microsoft.com>, <devicetree@vger.kernel.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Frank
+ Rowand <frowand.list@gmail.com>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        Haiyang
+ Zhang <haiyangz@microsoft.com>,
+        Christoph Hellwig <hch@lst.de>, <iommu@lists.linux.dev>,
+        Jean-Philippe Brucker <jean-philippe@linaro.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+        "K.
+ Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
+        <linux-acpi@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-hyperv@vger.kernel.org>, <linux-mips@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>,
+        <linux-snps-arc@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Lorenzo
+ Pieralisi <lpieralisi@kernel.org>,
+        Marek Szyprowski
+	<m.szyprowski@samsung.com>,
+        Hector Martin <marcan@marcan.st>, Palmer Dabbelt
+	<palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "Rafael J.
+ Wysocki" <rafael@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Rob
+ Herring <robh+dt@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Sudeep
+ Holla <sudeep.holla@arm.com>,
+        Suravee Suthikulpanit
+	<suravee.suthikulpanit@amd.com>,
+        Sven Peter <sven@svenpeter.dev>,
+        Thierry
+ Reding <thierry.reding@gmail.com>,
+        Thomas Bogendoerfer
+	<tsbogend@alpha.franken.de>,
+        Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta
+	<vgupta@kernel.org>,
+        <virtualization@lists.linux-foundation.org>,
+        Wei Liu
+	<wei.liu@kernel.org>, Will Deacon <will@kernel.org>
+References: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+From: Zhenhua Huang <quic_zhenhuah@quicinc.com>
+In-Reply-To: <0-v1-5f734af130a3+34f-iommu_fwspec_jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: W9mLspwTBqhYvV5ajR8gt_t_BuX4RknD
+X-Proofpoint-ORIG-GUID: W9mLspwTBqhYvV5ajR8gt_t_BuX4RknD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-14_03,2023-11-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 clxscore=1011 mlxlogscore=917
+ impostorscore=0 adultscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ mlxscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311140037
 
+Thanks Jason.
 
---6D6G11eLM7jDJgCQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2023/11/4 0:44, Jason Gunthorpe wrote:
+> This is a more complete solution that the first attempt here:
+> https://lore.kernel.org/r/1698825902-10685-1-git-send-email-quic_zhenhuah@quicinc.com
+> 
+> I haven't been able to test this on any HW that touches these paths, so if
+> some people with HW can help get it in shape it can become non-RFC.
 
-On Mon, Nov 13, 2023 at 08:57:35PM +0000, Aditya Garg wrote:
-> Starting from kernel 6.5, a regression in the kernel is causing Bluetooth=
- to not work on T2 Macs with BCM4377 chip.
->=20
-> Journalctl of kernel 6.4.8 which has Bluetooth working is given here: htt=
-ps://pastebin.com/u9U3kbFJ
->=20
-> Journalctl of kernel 6.5.2, which has Bluetooth broken is given here: htt=
-ps://pastebin.com/aVHNFMRs
->=20
-> Also, the bug hasn=E2=80=99t been fixed even in 6.6.1, as reported by use=
-rs.
+Thank you for addressing it quickly with a thorough way. I have 
+backported it to Android common kernel 6.1 and tested basic sanity well.
+I will share these to OEMs and see if they can reproduce further, thanks.
 
-Can you bisect this regression please?
-
->=20
-> Some relevant bits imo:
->=20
->     =E2=80=A2 Sep 19 21:24:36 RudyUbuMbp kernel: hci_bcm4377 0000:73:00.1=
-: can't disable ASPM; OS doesn't have ASPM control
->=20
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: Call Trace:
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: <TASK>
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: dump_stack_lvl+0x48/0x70
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: dump_stack+0x10/0x20
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: __ubsan_handle_shift_out=
-_of_bounds+0x156/0x310
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: ? ttwu_do_activate+0x80/=
-0x290
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: ? raw_spin_rq_unlock+0x1=
-0/0x40
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: ? try_to_wake_up+0x292/0=
-x6c0
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: ? sched_slice+0x76/0x140
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: ? reweight_entity+0x15c/=
-0x170
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: __reg_op.cold+0x14/0x38
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: bitmap_release_region+0x=
-e/0x20
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: bcm4377_handle_ack+0x8c/=
-0x130 [hci_bcm4377]
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: bcm4377_poll_completion_=
-ring+0x196/0x330 [hci_bcm4377]
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: ? rcu_gp_kthread_wake+0x=
-57/0x90
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: bcm4377_irq+0x77/0x140 [=
-hci_bcm4377]
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: __handle_irq_event_percp=
-u+0x4c/0x1b0
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: handle_irq_event+0x39/0x=
-80
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: handle_edge_irq+0x8c/0x2=
-50
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: __common_interrupt+0x4f/=
-0x110
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: common_interrupt+0x45/0x=
-b0
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: asm_common_interrupt+0x2=
-7/0x40
->     =E2=80=A2 Nov 14 01:29:28 RudyUbuMbp kernel: RIP: 0033:0x7f17b5fd8bca
-
-Anyway, thanks for the regression report. I'm adding it to regzbot:
-
-#regzbot ^introduced: v6.4..v6.5
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---6D6G11eLM7jDJgCQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZVKxsQAKCRD2uYlJVVFO
-o7pdAQCnfRXRPTO65yNiy5w0iigPO8iwskixInYi/GKY5Njt/wD/Zkgd2bApc+JF
-H8fRsVcs7KNkBGy8IHSdCWeFO/IWLw4=
-=vFNS
------END PGP SIGNATURE-----
-
---6D6G11eLM7jDJgCQ--
+Thanks,
+Zhenhua
