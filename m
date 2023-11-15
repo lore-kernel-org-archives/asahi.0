@@ -1,53 +1,53 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD473EA87
-	for <asahi@lists.linux.dev>; Wed, 15 Nov 2023 14:45:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21482D022
+	for <asahi@lists.linux.dev>; Wed, 15 Nov 2023 14:54:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eMisUO8G"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JWHStGJM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700059545;
+	s=mimecast20190719; t=1700060049;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=sqWGwV812/CXYndzj2W50PA7KOMPm+tHC+e+xjD2/M0=;
-	b=eMisUO8GETcoW33XgbVvGFoZSGvcs6sr8qGR7HdNuy6l7n+3b1r3cCgVaaTc4rmVnvIdFs
-	esAP0rORkrKtXky+DkVYgB6FJ4yK+vA/nAux7Gys3mK38+iEZ1SFTozp/AS0YvkuyBj+qC
-	QN055SZdG2DH06ofT8KRCvBNYieATAE=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=1FlIYAXhM/ERDubCadB5WwuUe+5s0MuhfY1IPTS1Qc0=;
+	b=JWHStGJM88jGe/q5f8vrrxlo4hUJlOjY8I/eoB+acUopDKN1/+AMqZ4ZqsyS6y+AJfOITp
+	Fhy/iyHy456Te5Sxw8yhfOhrDBRKkcvcdpsXOyIF8jDE75C0IK9zOqIdf9wA4k0fqiJEJ8
+	GJtLtt6OdkCMA0aiLCestTSWcRNva5M=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-641-5fVlZ2YgOz2LlPpwzhX7ag-1; Wed, 15 Nov 2023 09:45:44 -0500
-X-MC-Unique: 5fVlZ2YgOz2LlPpwzhX7ag-1
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-581dcaf04e6so6879956eaf.1
-        for <asahi@lists.linux.dev>; Wed, 15 Nov 2023 06:45:44 -0800 (PST)
+ us-mta-203-Up1TrqEXOAy0HACTPidmZA-1; Wed, 15 Nov 2023 09:54:08 -0500
+X-MC-Unique: Up1TrqEXOAy0HACTPidmZA-1
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-779ffb552eeso804281185a.3
+        for <asahi@lists.linux.dev>; Wed, 15 Nov 2023 06:54:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700059543; x=1700664343;
+        d=1e100.net; s=20230601; t=1700060047; x=1700664847;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sqWGwV812/CXYndzj2W50PA7KOMPm+tHC+e+xjD2/M0=;
-        b=c3uLHtCWsIw0Skm+RW/M9NxRsFLcwLw7F6FdJDtNKlXvYh/ZGuKBa8nBk5kvTEQ7gM
-         KSkxPz2XAOa15TIN6c61kzSYid20/4XvG+9K890AFOdchWD3ammX1TQ39BfAKECb70Gz
-         K0TWpn8W5Y0WvRWLGLoS8lKFsW/YdiJ7N1GqFZo4slwPKiyt8VR5haRTyfmnN5V1GBUc
-         hBj7aJijVv8RPrCGmhwgv7qgizZPgUpDtRkOrtOimnt6dKbBLxe1yVAWjEwgma7WH5X8
-         HNu8/OuL1KF/hxInSRJp7KDTrhgRsSDAGacMRt/0433WpSfEilDH+Ng/4Z5TcPVBJXUZ
-         hJBg==
-X-Gm-Message-State: AOJu0YxrxTXfaGauAJ3QCF5DpyYC3x2Z22uTRHP6QsXmBAhECC9soTPo
-	+BUaFfaY6zJDnddQ/kI5kBkXBJ/IOJZKDA4hcXr3k0i+Ulo96BM1EN2YGOM4C7qPwZ2ZZiNMnJ0
-	e6LMd50mHuCSyCvw=
-X-Received: by 2002:a05:6358:919a:b0:16b:c64b:5dad with SMTP id j26-20020a056358919a00b0016bc64b5dadmr7077933rwa.10.1700059543533;
-        Wed, 15 Nov 2023 06:45:43 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHcJVORPEWxErQUmTJ/FpxcV4QjvJjDEY7Ir6ZH3gFB8P/4S+/kGnZXTGDIbciHJXITaJ6Zhw==
-X-Received: by 2002:a05:6358:919a:b0:16b:c64b:5dad with SMTP id j26-20020a056358919a00b0016bc64b5dadmr7077772rwa.10.1700059540988;
-        Wed, 15 Nov 2023 06:45:40 -0800 (PST)
+        bh=1FlIYAXhM/ERDubCadB5WwuUe+5s0MuhfY1IPTS1Qc0=;
+        b=A2qQI6a0bTd69xb/5/1jJk7GqiolFtu8zEXvP/910zZZfKuOkcglrEbznrXxOjEpWd
+         IWaFyAMaNl5yItflYAhQRKy5hvDVHEHFJOS3Fwv2xjrH++uRZViYYWFX6CF5VH8o+nW/
+         YlyisQkbL+cW5ZvNRqwChdAUKCgl8fksmHk/CPJs3uvvyqAUU1F1QHHwViuNW313jrUc
+         cgXtiWwIChmZzVDhzChBYXGnzlhs9DJ7vLqo+fRwuLptsGTxNa52YsWpmV6LCrQ0M5ey
+         ASDXozhV0KJd2GbeKiu0n3aYZtKSes9UzDMW+I5XtS/yLda5ZTo/ACBa1rXYbbIcEV7o
+         l7zg==
+X-Gm-Message-State: AOJu0YyTqil55d9MDrvm9zTn/2x2dqbhl0vmIIQAiK6/KTapiXIzNIjT
+	9tH0QQiW7XomSHWAm0DnROhY+XU5/IOiTee1Rw8JICVugZ82WiL8Xla6eg5+X9qP5PJNsgQBsAQ
+	iQs+Fi4ls1qApZC4=
+X-Received: by 2002:a05:620a:560b:b0:77b:b34e:6262 with SMTP id vu11-20020a05620a560b00b0077bb34e6262mr6700762qkn.46.1700060047605;
+        Wed, 15 Nov 2023 06:54:07 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE8Q+hB6LwGEOpBjf0tTy48HeUIb95APpcQR8cIO4M7kaLSCpN0/vvs5U/8Y5mL2TRIxjAUaQ==
+X-Received: by 2002:a05:620a:560b:b0:77b:b34e:6262 with SMTP id vu11-20020a05620a560b00b0077bb34e6262mr6700714qkn.46.1700060047365;
+        Wed, 15 Nov 2023 06:54:07 -0800 (PST)
 Received: from localhost (ip98-179-76-75.ph.ph.cox.net. [98.179.76.75])
-        by smtp.gmail.com with ESMTPSA id v10-20020a0cf90a000000b00655d6d31470sm577985qvn.43.2023.11.15.06.45.40
+        by smtp.gmail.com with ESMTPSA id dx8-20020a05620a608800b0076cc0a6e127sm3521399qkb.116.2023.11.15.06.54.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 06:45:40 -0800 (PST)
-Date: Wed, 15 Nov 2023 07:45:39 -0700
+        Wed, 15 Nov 2023 06:54:07 -0800 (PST)
+Date: Wed, 15 Nov 2023 07:54:05 -0700
 From: Jerry Snitselaar <jsnitsel@redhat.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
@@ -74,22 +74,23 @@ Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	Christoph Hellwig <hch@lst.de>, Moritz Fischer <mdf@kernel.org>, 
 	Zhenhua Huang <quic_zhenhuah@quicinc.com>, "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
 	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 04/17] acpi: Do not return struct iommu_ops from
- acpi_iommu_configure_id()
-Message-ID: <qmb2wshxcq75o43xikgw3ks6d72yyiranapupkwmwcm5b4vkgp@mgm36neokikv>
+Subject: Re: [PATCH v2 00/17] Solve iommu probe races around iommu_fwspec
+Message-ID: <ah7jh6pi5o3s47mz5y4tms46fvpbmaisw6orom6tke2vdsqejm@qvjnxhejqs5i>
 References: <0-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
- <4-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <4-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+In-Reply-To: <0-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
+Did patch 12 v2 get sent? I'm not seeing it locally, nor in lore, and b4 doesn't find it when pulling then thread.
+
+Regards,
+Jerry
 
