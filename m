@@ -1,170 +1,250 @@
-Received: from IND01-BMX-obe.outbound.protection.outlook.com (mail-bmxind01olkn2086.outbound.protection.outlook.com [40.92.103.86])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5449013FE1
-	for <asahi@lists.linux.dev>; Sat, 18 Nov 2023 19:31:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840D865F;
+	Sun, 19 Nov 2023 08:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="PSc6hZVM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WYHGFtbgA2I8CwkAWyrud3qWjIIHiGIzG6AJNNKa2xwkiI6ZQxRFaumPxBQaMM5mfGDAv28WQIaQgXHfh4DDh6NHNhHFsjm76/3E5Ps63M4uBuko3ysMaUmE3AugsJopyh67ACtbBC7MBlN94i2JV6eN0hlEhF0gt1YyKDaFJ3W5z8y6HYP7w6mWm7H2bKZ0uz3o2T8C4ckZeZc12Z7Rot9hsy4cjPikW0AgjF5C7LbGzYkf+4lC9excfjj4greUFdReBqu137v7jp3AcWh8byFCI1a1OE3qQiKwpadfc6fnwC09eq4IEjyKo7Wafs6T/b+EnHUuynD6nrz/vMkyZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z/uaUJsHZJ6QDHmTCzow9+T1z4pQfDdLSN/bnHMrbq0=;
- b=KPfOTZEdn5+Gm2LRbPhf1d/e0Jsrf9JMLRxqMFqWgVfQCopfRsFuLFWxpSN3qtwMVBbMR3JPTa0zTSQl/JL9/YOmOUf2jUtLv9vs6VLRtFWvttbjxEGZuFhuysvbldyj2ihxH8Cj82FEghpt9t+HJ/7zV69eW5M9pgyQ55jMW+tgXZt5HEqL+D2Mu/bEeoG6TcGiZCrfZRhP3xrnijGLn+rjSSE/R9lKZdCJwucJqAaXMa/oouUApFJt4ZjyULLSw9J1DgIaSqE5yHvch7fWOIXgFrd3qDFGlgCvQARh4zBGSvdWwRVerH7oxbgknTpx7ZrVKDhkpXeibH9vYZUEhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z/uaUJsHZJ6QDHmTCzow9+T1z4pQfDdLSN/bnHMrbq0=;
- b=PSc6hZVM7keaRMUTXr3L90KcUWQqSvOWevmKoovsC+9++iJQQ0N0zuks3x3b+wDYKOAgr9xJo5JExevg1sV/1rw1KZci8OdwpM4uPAm87R8IncBiFAN/NgxgEBHuhGzNyP6Mm7CAwYgwtQ26woEsE4Nq6YJ4HzpGdigu3O5IarZhGjuXoie9uNGhF2+GIXjhaBG9nu1csqpqHjGtuavX/La7yPu7XPJ+26t9H4FkavS6Bp6hREVxMAICmj2052ZXitwKHKO7Ikjom8zhXB4nUMV0XvA27Po7e/uJt7wpL1CgQU2QwNrD45WmnAicWp5kfTthgmEIMHB4ZORHq0EvXw==
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
- PN2P287MB1801.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b1::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7002.25; Sat, 18 Nov 2023 19:31:01 +0000
-Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::6037:db64:7000:119f]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
- ([fe80::6037:db64:7000:119f%7]) with mapi id 15.20.7002.026; Sat, 18 Nov 2023
- 19:31:01 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: Hector Martin <marcan@marcan.st>
-CC: Bagas Sanjaya <bagasdotme@gmail.com>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Marcel Holtmann
-	<marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto
- von Dentz <luiz.dentz@gmail.com>, Orlando Chamberlain
-	<orlandoch.dev@gmail.com>, Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi
-	<admin@kodeit.net>, Asahi Linux Mailing List <asahi@lists.linux.dev>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Bluetooth
-	<linux-bluetooth@vger.kernel.org>, "j@jannau.net" <j@jannau.net>
-Subject: Re: [REGRESSION] Bluetooth is not working on Macs with BCM4377 chip
- starting from kernel 6.5
-Thread-Topic: [REGRESSION] Bluetooth is not working on Macs with BCM4377 chip
- starting from kernel 6.5
-Thread-Index:
- AQHaFnQHPuYl63BuYUeFaxX8dCI6lbB45gMAgABzQceAAAopgIAAEGgAgAASIACAAAuGgIAG7NMA
-Date: Sat, 18 Nov 2023 19:31:00 +0000
-Message-ID: <0900292C-5E74-471A-B789-A1D35D1BBBF7@live.com>
-References: <22582194-DE99-45E5-ABEE-C1C7900DA523@live.com>
- <ZVKxtD2Mt_eVyttJ@archie.me>
- <MA0P287MB021794BCCCFB5EA57C1C3B69B8B2A@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
- <88fcc70e-9f4b-eeb9-d826-03fa4c40e7c3@marcan.st>
- <e2909986-34b5-3ae2-cf5c-a1f8c46a1e0a@marcan.st>
- <6574A65F-3C4D-4E26-8848-F12C38668478@live.com>
- <03cdd06c-3991-dbf8-6068-e76384db8240@marcan.st>
-In-Reply-To: <03cdd06c-3991-dbf8-6068-e76384db8240@marcan.st>
-Accept-Language: en-IN, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn: [llvpse+Vem3z3GK2b86kCQMKyKxCZu4o4mF9Q6dm3to4dP4BtZ4HyIxnOEGniG3j]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN2P287MB1801:EE_
-x-ms-office365-filtering-correlation-id: 07df2145-7dad-4b50-7bc4-08dbe86ce53f
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 9IPWQaHnSHFHXHvvzcpiZsCo4bkrbdnbybuG/bRx1tz/iv/ETSrJB9ALbWfJ38N4xAg/I3ixSB9Ft1XoZn8yqTJy3lUK1dvwlbIFeiBP1nwpK0pDB74Id+0dAnsT/uviw3NDSF+cHZ6tfus+Uc5zi8/V0XmGvea6ezHth6qfBCFr6T5+dCjwchEA3jdbE/sbIP/nYbcxNmmncB1wbg+nXKQ8Ug87xokH6CRyWte4fAA/Y1I9J7mtqVZ4TYsAz/MrJE1uFaN8rfzgDMFkiRfiPleHj0iCpwxc9hfkPxgaPlfjH4Ha6eM2uM7/BpdaZ/7AL86pAZeUQt1yV/8R57F7AqGK3Sc25ikNTFVhMBcqtbjLk99nGvhoqJAfS9za6jPvkSNU2tfe5ImeemjCor/Y++TGx4JiNgvwMJMbM4YOZKgf8NoF06vmJukmxx4MGBhf8dLgcDzKFzGL1EKLfyPhRw7xV96IaWVJ+wKG2ZJDpxn8nWWy0bnkQKADaJWDYHBKSJolPv/TuPZacL6/5tajvYdpgVLloZx8bSDmK9iNZ2IkW7F3qqANdo7CbBYfsp53ifGFutHxob1jYr7LRpRyAvE/jbn3zLNPGWLqQPJXYQ5oG3MY8KHB5j4lZrjn3Wh6v6sNDgMRGzixxQuWxTxscw==
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?U0lpeDJYZ1ZNMEYyckQxT0t5YjAvNkJiZUpWdHUxNU1yT1dCL0xDa3V3Ykxw?=
- =?utf-8?B?VzNRYXpFck9yK25OajRWaWxja2o5akdtdmtPMXFHWUNKL0g5Ym5meitNU1lp?=
- =?utf-8?B?SjBIYzJvVXphS2YrTzhYTGtKZDRFaEI1ZHR1MDhFL1BpSmg0ZnVRSVNZclhk?=
- =?utf-8?B?OXNrSWFlWWhJOGxZaUNmbHJJbENqSUJBcEFtcEM0UkIvSHd3TENwRFRSek9X?=
- =?utf-8?B?dStlSW5qVlVpWlpsTVNGU1VlSzFISGl2dFZuQUVnTDNWQmF5cFFqbEthN0dC?=
- =?utf-8?B?ME1jNzUySVdldWZaWG1vWFloWkZpOU1aWXBrWWZxZ2lhVzVIaWFCNnVpbzNj?=
- =?utf-8?B?emdYRGppTk9BUHpFYjlkakhRUWx6QWlnL2M3L0JWU0VpU0VNQTE4UXlDNWdQ?=
- =?utf-8?B?czcxRWlOK2xNbm9nRENzckxTV0ZIRjQ3cEtkRHpJOVV3ZWpRQVQ2WjJ3ZXJn?=
- =?utf-8?B?dFl3UmJobGovK1crUFY3YmwraytVYzZUQzdGa1NwKzZNS1hCYjM2c1ovZElk?=
- =?utf-8?B?WGhJdC90ZGZyckJ1VURNdndGU0pvdUhLNnR0enEvVzZpWGxKUmlXSmxvM010?=
- =?utf-8?B?RFEya0I2TG8zaHFuU29tZnhGV0w5NURYR292Y1VOUHdrVSt0YURQcGkzV2Y3?=
- =?utf-8?B?bmhJYkpxdEVWcjduWUJmWnd5STlUbHpXUVNmM2NyQ0VpZitPcjNxNlhFVG5G?=
- =?utf-8?B?SG1GWG1DUTE5Z3NFVUg0V3cwWm5XVVFiRi94Nm9ZMWVsbTRJbnJrUkR6bVBL?=
- =?utf-8?B?ZUNKVGoxbXZHTXZ0bU1OY01GVnBtVlFUVVpEV09xbDQ4ZUd1Wmt5dmN0YlI0?=
- =?utf-8?B?TCsvdGw3N2pYMGNXaTJ4Z1NDL1VEeXIvdG1oTnZKaTVIbms0Szh0TXZrNXor?=
- =?utf-8?B?SU02MnZPNHNUVDNkR0NiUnhmcmhld2pvVGdaNmtSUGFIbURDT1h4MmxuQStO?=
- =?utf-8?B?REpVemtLTHJjRzd6bk42RG5UNWM0WmdwT0lrYVJkcFl6a0wxWUw2TElMcGcy?=
- =?utf-8?B?cWdFblZWbkpSdHFSRXJSSUE2VWl1TDBYTy9DekJ6TGFYMmV0MXFQeUFtam5G?=
- =?utf-8?B?NlNhcVlxbjNza2xZNDBTK0RDS3hjYmZMWWlaT0xabDMwNkZKNHlUa0xOaEpY?=
- =?utf-8?B?ajlWaEFtdDVKTTR2QzZDYzBZN2F6ODlDYndvOTlpV3N1SjNvSURNaGFqY2Z4?=
- =?utf-8?B?b3U2Y0UvU3dmZXJ2bThaRVZwaTBFWUpTSG1JOW45NHVGblpya2FCVjZNVE9a?=
- =?utf-8?B?KzN0RjhrVi91UXp6MWRHZlQrWHRJL0QrbnZSdEIzMDNOZHBKRGs3VkZCNWhw?=
- =?utf-8?B?MjgrNGkxWnVGTmNkbUsrV0h2ZEp4d1lwU1F6cnRKWXVMRE94NmpCMDdlMW8v?=
- =?utf-8?B?N081YnZ2TWpwQm92aDhETXlKYkpIbjZ0N0Z2bmZXU0dOTE5xbVZHYklGelB2?=
- =?utf-8?B?VVRVc0kxblhMQkJkTlNCWTUyZXk1RFVDRnVOVUQ3L294ekp4TlZ6QU82eExC?=
- =?utf-8?B?LzFETndTcDNPb1pkWTd0ajVMTFNMWHIzUnVzcjZDeWlNdTJLYzZYK1BOVGtP?=
- =?utf-8?B?a1cxa0lKNllZcFp1N3lsbktkZFZ0enUyY21XbVd5TngxVFJFYkp6R3VkeVpI?=
- =?utf-8?B?VVY1VTE3WGViSGlJRUg1ZC8rUERubUdmVTgyUktkUlp0bnJ5MGNSbExnbjZ1?=
- =?utf-8?B?WWoySW9MSGt4RHFVK2pDT0tMSmVYeUV4U25RbTVUVTdnbmliOFIyTjgxY1FJ?=
- =?utf-8?Q?wBSyIWeXs1Oy65lfRE=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <651515DD0CFE134D9804AD3F639320B1@INDP287.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="fnmZORRU"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id DD580447DB;
+	Sun, 19 Nov 2023 08:10:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1700381447; bh=GM+if5fLHpvJrFY5qSih6je/CvwvPPLKRrXfiPD5JZ0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=fnmZORRU99JAVouDyTggPcE3iI5afMoj+u2Q93VQ586jKo2M/q9GZEdwubNM4sfTG
+	 O/GNq8IBB2FxoNxqr+83D6QLnNoyRUshU83ipS6MAOREVA4UCBzzO13RzDdjxIUQMP
+	 eudSVW93AZc92wzpKNKzYiJbsCHq3HNLwf37Q4rYng+gvpQzwQv6Hir4FQs3pVEOHW
+	 PWvxNrEeCr6uJqj6WxIZxJOcGOrqTmHPOFdam47KxGPA3SBUOixBt51uEWtRaaJNpU
+	 +oztbcTSFkScA/2bBEJM1o2bzkZzy2rOmG6UsRBkmN8P7aMUR0GoioW59JerR3gTgu
+	 E9BI6sjTeb8xw==
+Message-ID: <20a7ef6d-a8ca-4bd8-ad7e-11856db617a2@marcan.st>
+Date: Sun, 19 Nov 2023 17:10:30 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-bafef.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07df2145-7dad-4b50-7bc4-08dbe86ce53f
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2023 19:31:00.2927
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB1801
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/17] iommu: Add iommu_fwspec_alloc/dealloc()
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>, acpica-devel@lists.linux.dev,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Albert Ou <aou@eecs.berkeley.edu>,
+ asahi@lists.linux.dev, Catalin Marinas <catalin.marinas@arm.com>,
+ Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org,
+ David Woodhouse <dwmw2@infradead.org>, Frank Rowand
+ <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
+ linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, patches@lists.linux.dev,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Robert Moore <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
+ virtualization@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
+ Will Deacon <will@kernel.org>
+Cc: =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
+ Jerry Snitselaar <jsnitsel@redhat.com>, Moritz Fischer <mdf@kernel.org>,
+ Zhenhua Huang <quic_zhenhuah@quicinc.com>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Rob Herring <robh@kernel.org>
+References: <6-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <6-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gT24gMTQtTm92LTIwMjMsIGF0IDM6MTTigK9QTSwgSGVjdG9yIE1hcnRpbiA8bWFyY2Fu
-QG1hcmNhbi5zdD4gd3JvdGU6DQo+IA0KPiBPbiAxNC8xMS8yMDIzIDE4LjAzLCBBZGl0eWEgR2Fy
-ZyB3cm90ZToNCj4+IA0KPj4gDQo+Pj4gT24gMTQtTm92LTIwMjMsIGF0IDE6MjjigK9QTSwgSGVj
-dG9yIE1hcnRpbiA8bWFyY2FuQG1hcmNhbi5zdD4gd3JvdGU6DQo+Pj4gDQo+Pj4gT24gMTQvMTEv
-MjAyMyAxNS41OSwgSGVjdG9yIE1hcnRpbiB3cm90ZToNCj4+Pj4gT24gMTQvMTEvMjAyMyAxNS4y
-MywgQWRpdHlhIEdhcmcgd3JvdGU6DQo+Pj4+PiANCj4+Pj4+IA0KPj4+Pj4+IE9uIDE0LU5vdi0y
-MDIzLCBhdCA1OjAx4oCvQU0sIEJhZ2FzIFNhbmpheWEgPGJhZ2FzZG90bWVAZ21haWwuY29tPiB3
-cm90ZToNCj4+Pj4+PiANCj4+Pj4+PiDvu79PbiBNb24sIE5vdiAxMywgMjAyMyBhdCAwODo1Nzoz
-NVBNICswMDAwLCBBZGl0eWEgR2FyZyB3cm90ZToNCj4+Pj4+Pj4gU3RhcnRpbmcgZnJvbSBrZXJu
-ZWwgNi41LCBhIHJlZ3Jlc3Npb24gaW4gdGhlIGtlcm5lbCBpcyBjYXVzaW5nIEJsdWV0b290aCB0
-byBub3Qgd29yayBvbiBUMiBNYWNzIHdpdGggQkNNNDM3NyBjaGlwLg0KPj4+Pj4+PiANCj4+Pj4+
-Pj4gSm91cm5hbGN0bCBvZiBrZXJuZWwgNi40Ljggd2hpY2ggaGFzIEJsdWV0b290aCB3b3JraW5n
-IGlzIGdpdmVuIGhlcmU6IGh0dHBzOi8vcGFzdGViaW4uY29tL3U5VTNrYkZKDQo+Pj4+Pj4+IA0K
-Pj4+Pj4+PiBKb3VybmFsY3RsIG9mIGtlcm5lbCA2LjUuMiwgd2hpY2ggaGFzIEJsdWV0b290aCBi
-cm9rZW4gaXMgZ2l2ZW4gaGVyZTogaHR0cHM6Ly9wYXN0ZWJpbi5jb20vYVZITkZNUnMNCj4+Pj4+
-Pj4gDQo+Pj4+Pj4+IEFsc28sIHRoZSBidWcgaGFzbuKAmXQgYmVlbiBmaXhlZCBldmVuIGluIDYu
-Ni4xLCBhcyByZXBvcnRlZCBieSB1c2Vycy4NCj4+Pj4+PiANCj4+Pj4+PiBDYW4geW91IGJpc2Vj
-dCB0aGlzIHJlZ3Jlc3Npb24gcGxlYXNlPw0KPj4+Pj4gDQo+Pj4+PiBTaW5jZSBJIGRvbid0IGhh
-dmUgYWNjZXNzIHRvIHRoaXMgaGFyZHdhcmUsIGl0J3Mgbm90IHBvc3NpYmxlIGZvciBtZSB0byBi
-aXNlY3QgdGhpcyByZWdyZXNzaW9uLiBMZXQncyBob3BlIHNvbWVvbmUgaXMgYWJsZSB0byBkbyBz
-byB0aG91Z2guDQo+Pj4+IA0KPj4+PiBJdCdzIG5vdCBhIHJlZ3Jlc3Npb24sIGl0IHdhcyBhbHdh
-eXMgYnJva2VuLiBJJ20gc2VuZGluZyBhIHBhdGNoLg0KPj4+PiANCj4+Pj4gLSBIZWN0b3INCj4+
-PiANCj4+PiBZb3UgYXJlIHF1aXRlIGxpa2VseSBjb25mbGF0aW5nIHR3byBwcm9ibGVtcy4gVGhl
-IHVic2FuIGlzc3VlIHlvdSBxdW90ZWQNCj4+PiB3YXMgYWx3YXlzIHRoZXJlIGFuZCB0aGUgcGF0
-Y2ggSSBqdXN0IHNlbnQgZml4ZXMgaXQsIGJ1dCBpdCBhbG1vc3QNCj4+PiBjZXJ0YWlubHkgYWx3
-YXlzIHdvcmtlZCBmaW5lIGluIHByYWN0aWNlIHdpdGhvdXQgdWJzYW4uDQo+Pj4gDQo+Pj4gVGhl
-IEJsdWV0b290aCBwcm9ibGVtIHlvdSBhcmUgcmVmZXJyaW5nIHRvIGlzIGxpa2VseSAqc3BlY2lm
-aWMgdG8NCj4+PiBCbHVldG9vdGggTEUgZGV2aWNlcyogYW5kIHRoZSByZWdyZXNzaW9uIHdhcyBp
-bnRyb2R1Y2VkIGJ5IDI4OGM5MDIyNGUNCj4+PiBhbmQgZml4ZWQgYnkgNDFlOWNkZWE5Yywgd2hp
-Y2ggaXMgYWxzbyBpbiA2LjUuMTEgYW5kIDYuNi4xLg0KPj4+IA0KPj4+IElmIEJsdWV0b290aCBp
-cyBicm9rZW4gaW4gKnNvbWUgb3RoZXIgd2F5KiBpbiA2LjYuMSB0aGVuIHdlIG5lZWQgYQ0KPj4+
-IHByb3BlciByZXBvcnQgb3IgYSBiaXNlY3QuIFlvdXIgbG9ncyBkb24ndCBzaG93IGFueSBpc3N1
-ZXMgb3RoZXIgdGhhbg0KPj4+IHRoZSB1YnNhbiBub2lzZSwgd2hpY2ggaXMgbm90IGEgcmVncmVz
-c2lvbi4NCj4+PiANCj4+PiAtIEhlY3Rvcg0KPj4+IA0KPj4gDQo+PiBVQlNBTiBub2lzZSBzZWVt
-cyB0byBiZSBmaXhlZCwgQmx1ZXRvb3RoIG5vdCB3b3JraW5nIHRob3VnaA0KPj4gDQo+PiBodHRw
-czovL3Bhc3RlYmluLmNvbS9IZVZ2TVZrNA0KPj4gDQo+PiBJbGwgdHJ5IHNldHRpbmcgLmJyb2tl
-bl9sZV9jb2RlZCA9IHRydWUsDQo+IA0KPiBOb3cgeW91IGhhdmUgYSBwcm9iZSB0aW1lb3V0LCB3
-aGljaCB5b3UgZGlkbid0IGhhdmUgYmVmb3JlLiBUaGF0J3MgYQ0KPiBkaWZmZXJlbnQgcHJvYmxl
-bS4NCj4gDQo+IFBsZWFzZSB0cnkgdGhpcyBjb21taXQgYW5kIHNlZSBpZiBpdCBoZWxwczoNCj4g
-DQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9Bc2FoaUxpbnV4L2xpbnV4L2NvbW1pdC84ZWM3NzBiNGY3
-OGZjMTQ2Mjk3MDUyMDZlMmRiNTRkOWQ2NDM5Njg2DQo+IA0KPiBJZiBpdCdzIHRoaXMgdGhlbiBp
-dCdzIHN0aWxsIG5vdCBhIHJlZ3Jlc3Npb24sIGl0J3MgcHJvYmFibHkganVzdCByYW5kb20NCj4g
-Y2hhbmNlIHNpbmNlIEkgdGhpbmsgdGhlIG9sZCB0aW1lb3V0IHZhbHVlIHdhcyBib3JkZXJsaW5l
-IGZvciB0aGUgb2xkZXINCj4gY2hpcHMuDQo+IA0KPiAtIEhlY3Rvcg0KPiANCg0KDQpIaQ0KDQpJ
-IHJlY2VudGx5IGdvdCBhIGtlcm5lbCB0ZXN0ZWQgd2l0aCB0aGlzIHBhdGNoIGFzIHdlbGwgYXMg
-d2l0aCAuYnJva2VuX2xlX2NvZGVkID0gdHJ1ZSwNCkhlcmUgYXJlIHRoZSBsb2dzOiBodHRwczov
-L3Bhc3RlYmluLmNvbS9CcGZKdUpLWQ0KDQpBbHNvLCB3aXRob3V0IC5icm9rZW5fbGVfY29kZWQg
-PSB0cnVlLCB0aGUgYmx1ZXRvb3RoIGRvZXNuJ3Qgd29yaywgYXMgc3BlY2lmaWVkIGluIG15IHBy
-ZXZpb3VzIGVtYWlsLg==
+On 2023/11/15 23:05, Jason Gunthorpe wrote:
+> Allow fwspec to exist independently from the dev->iommu by providing
+> functions to allow allocating and freeing the raw struct iommu_fwspec.
+> 
+> Reflow the existing paths to call the new alloc/dealloc functions.
+> 
+> Reviewed-by: Jerry Snitselaar <jsnitsel@redhat.com>
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/iommu/iommu.c | 82 ++++++++++++++++++++++++++++++++-----------
+>  include/linux/iommu.h | 11 +++++-
+>  2 files changed, 72 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 18a82a20934d53..86bbb9e75c7e03 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -361,10 +361,8 @@ static void dev_iommu_free(struct device *dev)
+>  	struct dev_iommu *param = dev->iommu;
+>  
+>  	dev->iommu = NULL;
+> -	if (param->fwspec) {
+> -		fwnode_handle_put(param->fwspec->iommu_fwnode);
+> -		kfree(param->fwspec);
+> -	}
+> +	if (param->fwspec)
+> +		iommu_fwspec_dealloc(param->fwspec);
+>  	kfree(param);
+>  }
+>  
+> @@ -2920,10 +2918,61 @@ const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle *fwnode)
+>  	return ops;
+>  }
+>  
+> +static int iommu_fwspec_assign_iommu(struct iommu_fwspec *fwspec,
+> +				     struct device *dev,
+> +				     struct fwnode_handle *iommu_fwnode)
+> +{
+> +	const struct iommu_ops *ops;
+> +
+> +	if (fwspec->iommu_fwnode) {
+> +		/*
+> +		 * fwspec->iommu_fwnode is the first iommu's fwnode. In the rare
+> +		 * case of multiple iommus for one device they must point to the
+> +		 * same driver, checked via same ops.
+> +		 */
+> +		ops = iommu_ops_from_fwnode(iommu_fwnode);
+
+This carries over a related bug from the original code: If a device has
+two IOMMUs and the first one probes but the second one defers, ops will
+be NULL here and the check will fail with EINVAL.
+
+Adding a check for that case here fixes it:
+
+		if (!ops)
+			return driver_deferred_probe_check_state(dev);
+
+With that, for the whole series:
+
+Tested-by: Hector Martin <marcan@marcan.st>
+
+I can't specifically test for the probe races the series intends to fix
+though, since that bug we only hit extremely rarely. I'm just testing
+that nothing breaks.
+
+> +		if (fwspec->ops != ops)
+> +			return -EINVAL;
+> +		return 0;
+> +	}
+> +
+> +	if (!fwspec->ops) {
+> +		ops = iommu_ops_from_fwnode(iommu_fwnode);
+> +		if (!ops)
+> +			return driver_deferred_probe_check_state(dev);
+> +		fwspec->ops = ops;
+> +	}
+> +
+> +	of_node_get(to_of_node(iommu_fwnode));
+> +	fwspec->iommu_fwnode = iommu_fwnode;
+> +	return 0;
+> +}
+> +
+> +struct iommu_fwspec *iommu_fwspec_alloc(void)
+> +{
+> +	struct iommu_fwspec *fwspec;
+> +
+> +	fwspec = kzalloc(sizeof(*fwspec), GFP_KERNEL);
+> +	if (!fwspec)
+> +		return ERR_PTR(-ENOMEM);
+> +	return fwspec;
+> +}
+> +
+> +void iommu_fwspec_dealloc(struct iommu_fwspec *fwspec)
+> +{
+> +	if (!fwspec)
+> +		return;
+> +
+> +	if (fwspec->iommu_fwnode)
+> +		fwnode_handle_put(fwspec->iommu_fwnode);
+> +	kfree(fwspec);
+> +}
+> +
+>  int iommu_fwspec_init(struct device *dev, struct fwnode_handle *iommu_fwnode,
+>  		      const struct iommu_ops *ops)
+>  {
+>  	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+> +	int ret;
+>  
+>  	if (fwspec)
+>  		return ops == fwspec->ops ? 0 : -EINVAL;
+> @@ -2931,29 +2980,22 @@ int iommu_fwspec_init(struct device *dev, struct fwnode_handle *iommu_fwnode,
+>  	if (!dev_iommu_get(dev))
+>  		return -ENOMEM;
+>  
+> -	fwspec = kzalloc(sizeof(*fwspec), GFP_KERNEL);
+> -	if (!fwspec)
+> -		return -ENOMEM;
+> +	fwspec = iommu_fwspec_alloc();
+> +	if (IS_ERR(fwspec))
+> +		return PTR_ERR(fwspec);
+>  
+> -	of_node_get(to_of_node(iommu_fwnode));
+> -	fwspec->iommu_fwnode = iommu_fwnode;
+>  	fwspec->ops = ops;
+> +	ret = iommu_fwspec_assign_iommu(fwspec, dev, iommu_fwnode);
+> +	if (ret) {
+> +		iommu_fwspec_dealloc(fwspec);
+> +		return ret;
+> +	}
+> +
+>  	dev_iommu_fwspec_set(dev, fwspec);
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(iommu_fwspec_init);
+>  
+> -void iommu_fwspec_free(struct device *dev)
+> -{
+> -	struct iommu_fwspec *fwspec = dev_iommu_fwspec_get(dev);
+> -
+> -	if (fwspec) {
+> -		fwnode_handle_put(fwspec->iommu_fwnode);
+> -		kfree(fwspec);
+> -		dev_iommu_fwspec_set(dev, NULL);
+> -	}
+> -}
+> -EXPORT_SYMBOL_GPL(iommu_fwspec_free);
+>  
+>  int iommu_fwspec_add_ids(struct device *dev, u32 *ids, int num_ids)
+>  {
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index e98a4ca8f536b7..c7c68cb59aa4dc 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -813,9 +813,18 @@ struct iommu_sva {
+>  	struct iommu_domain		*domain;
+>  };
+>  
+> +struct iommu_fwspec *iommu_fwspec_alloc(void);
+> +void iommu_fwspec_dealloc(struct iommu_fwspec *fwspec);
+> +
+>  int iommu_fwspec_init(struct device *dev, struct fwnode_handle *iommu_fwnode,
+>  		      const struct iommu_ops *ops);
+> -void iommu_fwspec_free(struct device *dev);
+> +static inline void iommu_fwspec_free(struct device *dev)
+> +{
+> +	if (!dev->iommu)
+> +		return;
+> +	iommu_fwspec_dealloc(dev->iommu->fwspec);
+> +	dev->iommu->fwspec = NULL;
+> +}
+>  int iommu_fwspec_add_ids(struct device *dev, u32 *ids, int num_ids);
+>  const struct iommu_ops *iommu_ops_from_fwnode(struct fwnode_handle *fwnode);
+>  
+
+- Hector
