@@ -1,30 +1,30 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F8012B92
-	for <asahi@lists.linux.dev>; Mon, 20 Nov 2023 11:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F98F1944C
+	for <asahi@lists.linux.dev>; Mon, 20 Nov 2023 12:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="BZKXe/i2"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="CeJ4XBTN"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 766F34195A;
-	Mon, 20 Nov 2023 11:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1700478458; bh=StbzyAS5+LLhtN73q/gFPznopbGCKLhwnROcQMkw3Hw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BZKXe/i2Iu9fxFblxAq/aMYbruLvqE/BYFshIMAmLgr1icRClZBpLOmCVRcVZt+g5
-	 JTC2ZsCZGPCBOiJKKMQX7WeGvbRhWgKY7Qv2rxJHTNcUL2Gc357hnq38wwdU0bNqph
-	 suSgy0SSE/YK5UWxiz1rH7nwfxy64lAj/Zc/hjkWJYLId0UeE4vfmBRdeGtkgYZwIP
-	 IMvqBxg1s9vqRTUGTkxbgEHDZCxV+6vEqoJ5BDuGKQKu/NRWK7Sjp8nJi/P2/gLRdJ
-	 1u07INrpu/vgeDgPdF5UBq8J+s/AeeEF7lZvqRWONGtHBLJ9u40eiptteIxz5Rch3X
-	 hyC0kJlGOjSbQ==
-Message-ID: <3b5aedb4-da00-4ae2-a60f-685dba949223@marcan.st>
-Date: Mon, 20 Nov 2023 20:07:32 +0900
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 6B22D8749E;
+	Mon, 20 Nov 2023 13:16:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1700482560;
+	bh=wbsFnCsp44d09f9wwWpCoRJesUP2HPRp1f1psdsNUxs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CeJ4XBTNQrq2sGU1cXrgDUr0V8zE6CtnLqLby/y9Wf+yTzkEysOHPA97l+dbW4OCR
+	 vM7qthLRZjrTxkC3S5THJ6IryZ40nWIa+UVa5aMwMFvjwEWzgu0/vVgGWevZJ4VviZ
+	 86koxyKd2nvU435otbS6XrVfyAOgn5xvU6RGMadSkz6HFZcEQQqTOgg2tFRRh7BQty
+	 B/ypMSB1mCKjKlih4c0Nm2Zqz/zn5FpJAig0XFDNusY6MqRwcYmMx1YqvAShp9Agys
+	 6Mf9Z9MtZ0+JrprFR+t+WW36q2hPY6+ju3Rnd7u/x8vzHW/P1fCZLZIdEc8UsmnrLQ
+	 EZJ3yIrFPFUfg==
+Message-ID: <51d7ba01-bb22-4246-b67b-675511ca0be2@denx.de>
+Date: Mon, 20 Nov 2023 13:15:59 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -32,128 +32,55 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Bluetooth is not working on Macs with BCM4377 chip
- starting from kernel 6.5
+Subject: Re: [PATCH 0/8] USB fixes: xHCI error handling
 Content-Language: en-US
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Orlando Chamberlain <orlandoch.dev@gmail.com>,
- Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Bluetooth <linux-bluetooth@vger.kernel.org>,
- "j@jannau.net" <j@jannau.net>
-References: <22582194-DE99-45E5-ABEE-C1C7900DA523@live.com>
- <ZVKxtD2Mt_eVyttJ@archie.me>
- <MA0P287MB021794BCCCFB5EA57C1C3B69B8B2A@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
- <88fcc70e-9f4b-eeb9-d826-03fa4c40e7c3@marcan.st>
- <e2909986-34b5-3ae2-cf5c-a1f8c46a1e0a@marcan.st>
- <6574A65F-3C4D-4E26-8848-F12C38668478@live.com>
- <03cdd06c-3991-dbf8-6068-e76384db8240@marcan.st>
- <0900292C-5E74-471A-B789-A1D35D1BBBF7@live.com>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <0900292C-5E74-471A-B789-A1D35D1BBBF7@live.com>
-Content-Type: text/plain; charset=UTF-8
+To: Hector Martin <marcan@marcan.st>, Shantur Rathore <i@shantur.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Mark Kettenis <kettenis@openbsd.org>,
+ u-boot@lists.denx.de, asahi@lists.linux.dev
+References: <20231027-usb-fixes-1-v1-0-1c879bbcd928@marcan.st>
+ <fe844c63-0c44-469c-a4e0-f0e1f2ac63fc@denx.de>
+ <CAHc5_t2WFZH65MJENGvC6u21ETcRn47ceQd8jrHV9DVmmM10Vw@mail.gmail.com>
+ <3b662808-e047-4023-a00c-1b6728bd5c86@denx.de>
+ <cdb3df49-1ba3-4b87-bc2e-57c71a7ce725@marcan.st>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <cdb3df49-1ba3-4b87-bc2e-57c71a7ce725@marcan.st>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-
-
-On 2023/11/19 4:31, Aditya Garg wrote:
+On 11/20/23 11:45, Hector Martin wrote:
 > 
 > 
->> On 14-Nov-2023, at 3:14 PM, Hector Martin <marcan@marcan.st> wrote:
->>
->> On 14/11/2023 18.03, Aditya Garg wrote:
->>>
->>>
->>>> On 14-Nov-2023, at 1:28 PM, Hector Martin <marcan@marcan.st> wrote:
+> On 2023/11/20 11:09, Marek Vasut wrote:
+>> On 11/20/23 00:17, Shantur Rathore wrote:
+>>> On Sun, Nov 19, 2023 at 8:08 PM Marek Vasut <marex@denx.de> wrote:
 >>>>
->>>> On 14/11/2023 15.59, Hector Martin wrote:
->>>>> On 14/11/2023 15.23, Aditya Garg wrote:
->>>>>>
->>>>>>
->>>>>>> On 14-Nov-2023, at 5:01 AM, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>>>>>>
->>>>>>> ﻿On Mon, Nov 13, 2023 at 08:57:35PM +0000, Aditya Garg wrote:
->>>>>>>> Starting from kernel 6.5, a regression in the kernel is causing Bluetooth to not work on T2 Macs with BCM4377 chip.
->>>>>>>>
->>>>>>>> Journalctl of kernel 6.4.8 which has Bluetooth working is given here: https://pastebin.com/u9U3kbFJ
->>>>>>>>
->>>>>>>> Journalctl of kernel 6.5.2, which has Bluetooth broken is given here: https://pastebin.com/aVHNFMRs
->>>>>>>>
->>>>>>>> Also, the bug hasn’t been fixed even in 6.6.1, as reported by users.
->>>>>>>
->>>>>>> Can you bisect this regression please?
->>>>>>
->>>>>> Since I don't have access to this hardware, it's not possible for me to bisect this regression. Let's hope someone is able to do so though.
+>>>> On 10/27/23 01:16, Hector Martin wrote:
+>>>>> This series is the first of a few bundles of USB fixes we have been
+>>>>> carrying downstream on the Asahi U-Boot branch for a few months.
 >>>>>
->>>>> It's not a regression, it was always broken. I'm sending a patch.
+>>>>> Most importantly, this related set of patches makes xHCI error/stall
+>>>>> recovery more robust (or work at all in some cases). There are also a
+>>>>> couple patches fixing other xHCI bugs and adding better debug logs.
 >>>>>
->>>>> - Hector
+>>>>> I believe this should fix this Fedora bug too:
+>>>>>
+>>>>> https://bugzilla.redhat.com/show_bug.cgi?id=2244305
 >>>>
->>>> You are quite likely conflating two problems. The ubsan issue you quoted
->>>> was always there and the patch I just sent fixes it, but it almost
->>>> certainly always worked fine in practice without ubsan.
->>>>
->>>> The Bluetooth problem you are referring to is likely *specific to
->>>> Bluetooth LE devices* and the regression was introduced by 288c90224e
->>>> and fixed by 41e9cdea9c, which is also in 6.5.11 and 6.6.1.
->>>>
->>>> If Bluetooth is broken in *some other way* in 6.6.1 then we need a
->>>> proper report or a bisect. Your logs don't show any issues other than
->>>> the ubsan noise, which is not a regression.
->>>>
->>>> - Hector
->>>>
+>>>> Was there ever a V2 of these patches I might've missed ?
 >>>
->>> UBSAN noise seems to be fixed, Bluetooth not working though
->>>
->>> https://pastebin.com/HeVvMVk4
->>>
->>> Ill try setting .broken_le_coded = true,
+>>> Is it this one?
+>>> https://patchwork.ozlabs.org/project/uboot/list/?series=379807
 >>
->> Now you have a probe timeout, which you didn't have before. That's a
->> different problem.
+>> I think so, thanks.
 >>
->> Please try this commit and see if it helps:
->>
->> https://github.com/AsahiLinux/linux/commit/8ec770b4f78fc14629705206e2db54d9d6439686
->>
->> If it's this then it's still not a regression, it's probably just random
->> chance since I think the old timeout value was borderline for the older
->> chips.
->>
->> - Hector
->>
+>> And uh, my question therefore it, is there a V3 which addresses the 3/8
+>> and 8/8 comment ?
 > 
-> 
-> Hi
-> 
-> I recently got a kernel tested with this patch as well as with .broken_le_coded = true,
-> Here are the logs: https://pastebin.com/BpfJuJKY
-> 
-> Also, without .broken_le_coded = true, the bluetooth doesn't work, as specified in my previous email.
+> Not yet, no. Sorry, I probably won't have time to work on this in a
+> while, currently busy with other stuff.
 
-So are you saying everything works now? If not, what doesn't work?
-"Bluetooth doesn't work" isn't useful information, especially in the
-absence of any useful error messages. You can't just dump dmesg logs at
-us, you have to *describe* what the problem is.
-
-If broken_le_coded = true "fixed" it then "bluetooth doesn't work" was a
-terrible bug report. What that quirk does is make *connecting/pairing to
-Bluetooth LE devices* work. Non-BLE devices already worked, the
-controller worked, scanning worked, etc. All that is useful information
-if you want to get support for issues. We can't magically divine what's
-wrong if you just send us a dmesg and say "it's broken". We need
-detailed information about exactly what works and what doesn't (e.g. the
-controller not showing up at all is VERY different from it showing up
-but not finding your device). The only reason we guessed this here is
-that this was a known issue that affected other chips. If we ever run
-into a 4377-specific issue that only you can reproduce, "bluetooth
-doesn't work" and no error logs really isn't going to get it fixed.
-
-- Hector
+I can probably fix the patches up myself if that is fine with you, I'd 
+really like to get these fixes into the release soon. Would that be OK 
+with you ?
