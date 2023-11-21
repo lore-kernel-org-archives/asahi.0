@@ -1,192 +1,329 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2064.outbound.protection.outlook.com [40.107.101.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CE35811A;
-	Tue, 21 Nov 2023 16:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="F4CE7A0/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MJLUljYF0oYZ+OVERCBrXO0jNocEtLxzJsFxeh1evjDusHjFH6R3n8qH5HIpu2oM4L3IwbhHwicUEpDVrh9tZJfDfUq3qKp9i9tZ5zGT0wG6vMnf/TJ/OSEl4/t6lu7mQ35T9wW0yXOtfj1TCKFTrd8B81Be1EZccOFy5WfhfoNdAGdGiOvf53EdaOB4XM4bbgc7zILZJiiQGQLh5f7R57zgWoNnrw6r88KDeF0AlFeroyDGDgIie7M9B9gdIYtyeEW+P5uASQsRK3yL6xLtWiJu3cSW22sqT7S7U5aCI4lasNzzIp4psGqCYXAWTRKctqm2oU+HTkB17u+f3ohU8w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EaWajGbtNv2+IFIOz3uXT43RSyWI+LMZKih8z1s/+FM=;
- b=Y7QcIQGcob65IDPY7bgnSlM5TgrYaSIY1gtlSQ8XwTCufQ7+79tAOgWiVjJyDrOkggY8VEwv5/ZQdLWi1jRC2vBxegZmgo/kYK1Ryggst3Rzag4EBRztPGG5rp/tQ5lyKAaMhZ4bMEtK+2njWNzaJqNAol4s01nKL4rIZYImovF6JbOI1CGFL6bqJ+f9D1WTlhZ84n1toBvl7N+527DruOocKzoRakaOOlNM6iU4EKlXCNItqJz6n2m2sf4uZ1KUEBspKAh7CVDOyAh1eIsjZ6qF5Xgq297MvMPKWG+6dYvmlCf/8kt9E2ffxHIw3XtVErWEA+0CbirEtgsLMweUOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EaWajGbtNv2+IFIOz3uXT43RSyWI+LMZKih8z1s/+FM=;
- b=F4CE7A0/1BBMYnmTbfBpKnyGbWxFjKJIs4vG9pp+K3ZkrsWjdsSZLViFxKLkfvGgg+6dt4G31Jcuhxto02n866v+Qw/10kkFc14ihKc5lfxIb07/P9QbKT/5WfRri4KZgM/D3Rj/cRv636QE48MMUTXL4Mq7KaQM2kxhNiaQNzurTPI8OEv5actnpPQWVH6mLmUlMKGGa+mFTvAJOBMcENvYjMiEjUxkfDxxpSXqNaNMh2s7MmFgxCkkEGCfqDpsCmdehEMGzM/CTUKyBXNHXv+mPo8Gh9kTybBERGzB2lqNThT9BMJ4wUdHszpYzTNHmtbqv1jAp5pWB31hsXyBeg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DM4PR12MB5392.namprd12.prod.outlook.com (2603:10b6:5:39f::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Tue, 21 Nov
- 2023 16:01:00 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7002.027; Tue, 21 Nov 2023
- 16:01:00 +0000
-Date: Tue, 21 Nov 2023 12:00:58 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org,
-	David Woodhouse <dwmw2@infradead.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
-	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, patches@lists.linux.dev,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Robert Moore <robert.moore@intel.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
-	virtualization@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 06/17] iommu: Add iommu_fwspec_alloc/dealloc()
-Message-ID: <20231121160058.GG6083@nvidia.com>
-References: <6-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
- <20a7ef6d-a8ca-4bd8-ad7e-11856db617a2@marcan.st>
- <1eb12c35-e64e-4c32-af99-8743dc2ec266@marcan.st>
- <20231119141329.GA6083@nvidia.com>
- <90855bbf-e845-4e4d-a713-df71d1e477d2@marcan.st>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <90855bbf-e845-4e4d-a713-df71d1e477d2@marcan.st>
-X-ClientProxiedBy: DS7P222CA0011.NAMP222.PROD.OUTLOOK.COM (2603:10b6:8:2e::18)
- To LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E101C35895
+	for <asahi@lists.linux.dev>; Tue, 21 Nov 2023 16:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF964FEC;
+	Tue, 21 Nov 2023 08:03:45 -0800 (PST)
+Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.34.196])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0E1173F6C4;
+	Tue, 21 Nov 2023 08:02:57 -0800 (PST)
+Date: Tue, 21 Nov 2023 16:02:55 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Ian Rogers <irogers@google.com>
+Cc: Marc Zyngier <maz@kernel.org>, Hector Martin <marcan@marcan.st>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	James Clark <james.clark@arm.com>, linux-perf-users@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Asahi Linux <asahi@lists.linux.dev>
+Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since
+ v6.5
+Message-ID: <ZVzUr7TWEYPoZrWX@FVFF77S0Q05N.cambridge.arm.com>
+References: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
+ <86pm03z0kw.wl-maz@kernel.org>
+ <86o7fnyvrq.wl-maz@kernel.org>
+ <ZVzPUjOiH6zpUlz5@FVFF77S0Q05N.cambridge.arm.com>
+ <CAP-5=fUB75DCL4+8YO62iPVsnxoeXGv5cLmT7eP2bHNs=xoMdg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB5392:EE_
-X-MS-Office365-Filtering-Correlation-Id: b60a5d6c-a677-4371-2df0-08dbeaab0e00
-X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	FTtJY+Zp8L/mr0DZ74nEcpNjuAuWsKl8zf3rw26PdP2lT0BoRPehDWYgg+B2J6oHQEL0AuYqsZOvWnEOzW3XGEm/KVvsSGhlfvdlOQ/5DJZ2+LQBUYZThlPOSZK0wwS3aTyrh0pE9T57M+GHd/u9DP2yUBC8z+oE1I1eA3lNiKpEz/J8XhA3n7P8GOTreR+DvQ/9qxVI/+mAolIzonibsmBgQKAfspVLECsyTW1Yv9+p+bIwwcO5rjq24HAr+ei+G4Ru+KcfIwnYR/vM2oMCTewKgox1+P6q4iNTjb8+zUMRchrEs374gIViHal+urgWclV86TwpwztTfYi4FApO9MD9XDc9vDg3g6qc6Wm9HwGumheXfGJqMHO+lTwhxC5ol33QpAS0452D232rGALwi5tQZUhLraQYz4PJJNxrsMdibmLzqcx4PSDx561eGa5Kln0yQtLwobnleumDrAhXEUECf3KOLbT79oD7Y2A0EV51286+NLSU9ltD2jr2fjtEe0QQFgY4WNup32w8m06B1a5KnG4j7yb5Sv3qd3LfxZIft6yOxVwOSaY6uRu/GgX0
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(346002)(136003)(366004)(396003)(230922051799003)(186009)(451199024)(64100799003)(1800799012)(66556008)(66476007)(66946007)(316002)(54906003)(6916009)(6506007)(6512007)(36756003)(2616005)(26005)(478600001)(6486002)(1076003)(38100700002)(83380400001)(33656002)(86362001)(5660300002)(7416002)(7406005)(2906002)(8676002)(4326008)(8936002)(41300700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?65UkRiaimReLhAAAV4TyNayB+V6XJJqGoZQ356Mq7ae211pi+rtqxqBVAHrY?=
- =?us-ascii?Q?bqNkrO1IIBJ1qndaItdgk3k96WlcexQ8zo9vJ/mJyWWW1lW0PGAfEf7Z7qqn?=
- =?us-ascii?Q?QMibbdch2k7laEsW8jmtXoBsflm/e1ZBN/3ZljBhhmg82in0lcKVZwpTpmSK?=
- =?us-ascii?Q?+tvx+h6sMetLoIJYkCr7T8ykzZqg+2q0am3OXMFmmPzO7v8wp563NtV4VWk4?=
- =?us-ascii?Q?GcOiuhTZJ3Oo2iQ1p3gy13ngra+7+g0Jj4OUXT+HOvwr0Qu9o+4aFOxQIfGF?=
- =?us-ascii?Q?8cNabQgiPPUBiTxKEq1hK0DmTUtnAPBKNip3D1d+KkRgANQttKW7CqGhDiq6?=
- =?us-ascii?Q?TJUV6RG9g7ZQ8Nih740HVvrTf5V206P/JYBbqj+FcupVXBPrA5VQhrAeL7sf?=
- =?us-ascii?Q?H4vRcjEXIWa4NHlusZwpTE7I8RZqSFHmbwzbEq59O+Lia8kSsTKi9IbgdnfP?=
- =?us-ascii?Q?aiDkNscxqfbNZSQJ5FlR8fgH2UGvM2idhnKUsUD9V08VfALFTaibGjdQxmMy?=
- =?us-ascii?Q?ilskqHbysLyDwaoZG9MlqXepIexq93dgnK9SJv6dyM2S/QvywoJsGtAEQ744?=
- =?us-ascii?Q?51ewGw8gd/jes4PwCjJOHcGevXlOa+TJbeAeJ9/+BCEt+UYojas0ds43g6Fg?=
- =?us-ascii?Q?8XCENwPk/OM/oMlHxr2J6YHcT9Iax0U3C8ZK5PVsqOb/NAIg6wrbvM+jPYuo?=
- =?us-ascii?Q?HFljF7o0oRV0DGkAZiWGL9X+Q0z1v0HDBo2Ljm5mE/bnkok60wUixBQ7z2P7?=
- =?us-ascii?Q?oxnh1mNxaNfTRt6ozXxxQpzQ7coZulRE17jBu9aC4Divjo6dOZ6Xr0FKWyIQ?=
- =?us-ascii?Q?AbpO91VoGax3BTX6sZs5du3/Z0WXr8em5BfUZ6HFgrN8D9BDAeJ2CqE7M0A7?=
- =?us-ascii?Q?pT8osfSGFj+Mt5DjSdO8aYV6fB7tQl7ZNQmNji0dsMI+VY+w4yswpbAbXlOG?=
- =?us-ascii?Q?9SVLZeANVDfdDtbBQrGTNmtJZB/zEbfj5eVQ7mqre96JM3iPR13roKa24jj3?=
- =?us-ascii?Q?VXsc/bh6FGdUAhJnvkNK5K91JVT/oWDjQbPgSkQeuFW8eZYVyAehBP2qjl3e?=
- =?us-ascii?Q?IQo1etQ4lOGpexoZaxzuxdXUN3SGsF2a2zFJ+ScCccnvSoGXPI2Yit1nujmu?=
- =?us-ascii?Q?b77mVm0qHG86bBrMGXTVpvfsAwTGPp+m86x0/Wyx2OeYzZj+QHcSxRC/meDD?=
- =?us-ascii?Q?gFKYAVC2TWMH3Hp9xfYmft8rgR3PkncZjekJMUhJdamePLC0/L+nFUKyEyS0?=
- =?us-ascii?Q?Cx1F0mnA30zuoynV5ncHmUoJmKEf200u2v4b7ki60oK96zlNnJorrSc/j2aJ?=
- =?us-ascii?Q?4RVDgYmxThPxTNUkloL2BJEyzXQX97sfPaVlUqcz7df7Z3mRzHZUdMy5bOsx?=
- =?us-ascii?Q?gbrnb4l2kdyfIKgawnvNiBrB4YR4gFgBmlljH2dT3kAF1hjSjqKgBd18UqH9?=
- =?us-ascii?Q?uK+1nb5Is32O2AkvNiZ/KqrPkNRz06+QKzrVIC6pN1Iq2k1VKXngSgjkYY6M?=
- =?us-ascii?Q?KgD+KweI3Tw/LxrcbaDQqZLHSbuR5Pa6/9DPloTYXCLhL9LHHlbhxbPxT5a5?=
- =?us-ascii?Q?cxYkrH6ZBFU5B7ZU+QYo+I90vjvhgdOESUR5Ztlw?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b60a5d6c-a677-4371-2df0-08dbeaab0e00
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 16:00:59.9732
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SNTOnKA8Xw3mgTSwaX2a/2yBVEIInTXzKlBh6jNLABuux4SegzlAyaZGUe48Dyrp
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5392
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP-5=fUB75DCL4+8YO62iPVsnxoeXGv5cLmT7eP2bHNs=xoMdg@mail.gmail.com>
 
-On Tue, Nov 21, 2023 at 03:47:48PM +0900, Hector Martin wrote:
-> > Which is sensitive only to !NULL fwspec, and if EPROBE_DEFER is
-> > returned fwspec will be freed and dev->iommu->fwspec will be NULL
-> > here.
-> > 
-> > In the NULL case it does a 'bus probe' with a NULL fwspec and all the
-> > fwspec drivers return immediately from their probe functions.
-> > 
-> > Did I miss something?
+On Tue, Nov 21, 2023 at 07:46:57AM -0800, Ian Rogers wrote:
+> On Tue, Nov 21, 2023 at 7:40 AM Mark Rutland <mark.rutland@arm.com> wrote:
+> >
+> > On Tue, Nov 21, 2023 at 03:24:25PM +0000, Marc Zyngier wrote:
+> > > On Tue, 21 Nov 2023 13:40:31 +0000,
+> > > Marc Zyngier <maz@kernel.org> wrote:
+> > > >
+> > > > [Adding key people on Cc]
+> > > >
+> > > > On Tue, 21 Nov 2023 12:08:48 +0000,
+> > > > Hector Martin <marcan@marcan.st> wrote:
+> > > > >
+> > > > > Perf broke on all Apple ARM64 systems (tested almost everything), and
+> > > > > according to maz also on Juno (so, probably all big.LITTLE) since v6.5.
+> > > >
+> > > > I can confirm that at least on 6.7-rc2, perf is pretty busted on any
+> > > > asymmetric ARM platform. It isn't clear what criteria is used to pick
+> > > > the PMU, but nothing works anymore.
+> > > >
+> > > > The saving grace in my case is that Debian still ships a 6.1 perftool
+> > > > package, but that's obviously not going to last.
+> > > >
+> > > > I'm happy to test potential fixes.
+> > >
+> > > At Mark's request, I've dumped a couple of perf (as of -rc2) runs with
+> > > -vvv.  And it is quite entertaining (this is taskset to an 'icestorm'
+> > > CPU):
+> >
+> > IIUC the tool is doing the wrong thing here and overriding explicit
+> > ${pmu}/${event}/ events with PERF_TYPE_HARDWARE events rather than events using
+> > that ${pmu}'s type and event namespace.
+> >
+> > Regardless of the *new* ABI that allows PERF_TYPE_HARDWARE events to be
+> > targetted to a specific PMU, it's semantically wrong to rewrite events like
+> > this since ${pmu}/${event}/ is not necessarily equivalent to a similarly-named
+> > PERF_COUNT_HW_${EVENT}.
 > 
-> apple_dart is not a fwspec driver and doesn't do that :-)
+> If you name a PMU and an event then the event should only be opened on
+> that PMU, 100% agree. There's a bunch of output, but when the legacy
+> cycles event is opened it appears to be because it was explicitly
+> requested.
 
-It implements of_xlate that makes it a driver using the fwspec probe
-path.
+I think you've missed that the named PMU events are being erreously transformed
+into PERF_TYPE_HARDWARE events. Look at the -vvv output, e.g.
 
-The issue is in apple-dart. Its logic for avoiding bus probe vs
-fwspec probe is not correct.
+  Opening: apple_firestorm_pmu/cycles/
+  ------------------------------------------------------------
+  perf_event_attr:
+    type                             0 (PERF_TYPE_HARDWARE)
+    size                             136
+    config                           0 (PERF_COUNT_HW_CPU_CYCLES)
+    sample_type                      IDENTIFIER
+    read_format                      TOTAL_TIME_ENABLED|TOTAL_TIME_RUNNING
+    disabled                         1
+    inherit                          1
+    enable_on_exec                   1
+    exclude_guest                    1
+  ------------------------------------------------------------
+  sys_perf_event_open: pid 1045843  cpu -1  group_fd -1  flags 0x8 = 4
 
-It does:
+... which should not be PERF_TYPE_HARDWARE && PERF_COUNT_HW_CPU_CYCLES.
 
-static int apple_dart_of_xlate(struct device *dev, struct of_phandle_args *args)
-{
- [..]
- 	dev_iommu_priv_set(dev, cfg);
+Marc said that he bisected the issue down to commit:
 
+  5ea8f2ccffb23983 ("perf parse-events: Support hardware events as terms")
 
-Then:
+... so it looks like something is going wrong when the events are being parsed,
+e.g. losing the HW PMU information?
 
-static struct iommu_device *apple_dart_probe_device(struct device *dev)
-{
-	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
-	struct apple_dart_stream_map *stream_map;
-	int i;
+Thanks,
+Mark.
 
-	if (!cfg)
-		return ERR_PTR(-ENODEV);
-
-Which leaks the cfg memory on rare error cases and wrongly allows the
-driver to probe without a fwspec, which I think is what you are
-hitting.
-
-It should be
-
-       if (!dev_iommu_fwspec_get(dev) || !cfg)
-		return ERR_PTR(-ENODEV);
-
-To ensure the driver never probes on the bus path.
-
-Clearing the dev->iommu in the core code has the side effect of
-clearing (and leaking) the cfg which would hide this issue.
-
-Jason
+>
+> 
+> Thanks,
+> Ian
+> 
+> > Mark.
+> >
+> > > <quote>
+> > > maz@valley-girl:~/hot-poop/arm-platforms/tools/perf$ sudo taskset -c 0 ./perf stat -vvv -e apple_icestorm_pmu/cycles/ -e
+> > >  apple_firestorm_pmu/cycles/ -e cycles ls
+> > > Using CPUID 0x00000000612f0280
+> > > Attempt to add: apple_icestorm_pmu/cycles=0/
+> > > ..after resolving event: apple_icestorm_pmu/cycles=0/
+> > > Opening: unknown-hardware:HG
+> > > ------------------------------------------------------------
+> > > perf_event_attr:
+> > >   type                             0 (PERF_TYPE_HARDWARE)
+> > >   config                           0xb00000000
+> > >   disabled                         1
+> > > ------------------------------------------------------------
+> > > sys_perf_event_open: pid 0  cpu -1  group_fd -1  flags 0x8
+> > > sys_perf_event_open failed, error -95
+> > > Attempt to add: apple_firestorm_pmu/cycles=0/
+> > > ..after resolving event: apple_firestorm_pmu/cycles=0/
+> > > Control descriptor is not initialized
+> > > Opening: apple_icestorm_pmu/cycles/
+> > > ------------------------------------------------------------
+> > > perf_event_attr:
+> > >   type                             0 (PERF_TYPE_HARDWARE)
+> > >   size                             136
+> > >   config                           0 (PERF_COUNT_HW_CPU_CYCLES)
+> > >   sample_type                      IDENTIFIER
+> > >   read_format                      TOTAL_TIME_ENABLED|TOTAL_TIME_RUNNING
+> > >   disabled                         1
+> > >   inherit                          1
+> > >   enable_on_exec                   1
+> > >   exclude_guest                    1
+> > > ------------------------------------------------------------
+> > > sys_perf_event_open: pid 1045843  cpu -1  group_fd -1  flags 0x8 = 3
+> > > Opening: apple_firestorm_pmu/cycles/
+> > > ------------------------------------------------------------
+> > > perf_event_attr:
+> > >   type                             0 (PERF_TYPE_HARDWARE)
+> > >   size                             136
+> > >   config                           0 (PERF_COUNT_HW_CPU_CYCLES)
+> > >   sample_type                      IDENTIFIER
+> > >   read_format                      TOTAL_TIME_ENABLED|TOTAL_TIME_RUNNING
+> > >   disabled                         1
+> > >   inherit                          1
+> > >   enable_on_exec                   1
+> > >   exclude_guest                    1
+> > > ------------------------------------------------------------
+> > > sys_perf_event_open: pid 1045843  cpu -1  group_fd -1  flags 0x8 = 4
+> > > Opening: cycles
+> > > ------------------------------------------------------------
+> > > perf_event_attr:
+> > >   type                             0 (PERF_TYPE_HARDWARE)
+> > >   size                             136
+> > >   config                           0 (PERF_COUNT_HW_CPU_CYCLES)
+> > >   sample_type                      IDENTIFIER
+> > >   read_format                      TOTAL_TIME_ENABLED|TOTAL_TIME_RUNNING
+> > >   disabled                         1
+> > >   inherit                          1
+> > >   enable_on_exec                   1
+> > >   exclude_guest                    1
+> > > ------------------------------------------------------------
+> > > sys_perf_event_open: pid 1045843  cpu -1  group_fd -1  flags 0x8 = 5
+> > > arch                  builtin-diff.o      builtin-mem.o        common-cmds.h    perf-completion.sh
+> > > bench                 builtin-evlist.c    builtin-probe.c      CREDITS          perf.h
+> > > Build                 builtin-evlist.o    builtin-probe.o      design.txt       perf-in.o
+> > > builtin-annotate.c    builtin-ftrace.c    builtin-record.c     dlfilters        perf-iostat
+> > > builtin-annotate.o    builtin-ftrace.o    builtin-record.o     Documentation    perf-iostat.sh
+> > > builtin-bench.c               builtin.h           builtin-report.c     FEATURE-DUMP     perf.o
+> > > builtin-bench.o               builtin-help.c      builtin-report.o     include          perf-read-vdso.c
+> > > builtin-buildid-cache.c  builtin-help.o      builtin-sched.c   jvmti            perf-sys.h
+> > > builtin-buildid-cache.o  builtin-inject.c    builtin-script.c  libapi   PERF-VERSION-FILE
+> > > builtin-buildid-list.c        builtin-inject.o    builtin-script.o     libperf          perf-with-kcore
+> > > builtin-buildid-list.o        builtin-kallsyms.c  builtin-stat.c       libsubcmd        pmu-events
+> > > builtin-c2c.c         builtin-kallsyms.o  builtin-stat.o       libsymbol        python
+> > > builtin-c2c.o         builtin-kmem.c      builtin-timechart.c  Makefile         python_ext_build
+> > > builtin-config.c      builtin-kvm.c       builtin-top.c        Makefile.config  scripts
+> > > builtin-config.o      builtin-kvm.o       builtin-top.o        Makefile.perf    tests
+> > > builtin-daemon.c      builtin-kwork.c     builtin-trace.c      MANIFEST         trace
+> > > builtin-daemon.o      builtin-list.c      builtin-version.c    perf             ui
+> > > builtin-data.c                builtin-list.o      builtin-version.o    perf-archive     util
+> > > builtin-data.o                builtin-lock.c      check-headers.sh     perf-archive.sh
+> > > builtin-diff.c                builtin-mem.c       command-list.txt     perf.c
+> > > apple_icestorm_pmu/cycles/: -1: 0 873709 0
+> > > apple_firestorm_pmu/cycles/: -1: 0 873709 0
+> > > cycles: -1: 0 873709 0
+> > > apple_icestorm_pmu/cycles/: 0 873709 0
+> > > apple_firestorm_pmu/cycles/: 0 873709 0
+> > > cycles: 0 873709 0
+> > >
+> > >  Performance counter stats for 'ls':
+> > >
+> > >      <not counted>      apple_icestorm_pmu/cycles/                                              (0.00%)
+> > >      <not counted>      apple_firestorm_pmu/cycles/                                             (0.00%)
+> > >      <not counted>      cycles                                                                  (0.00%)
+> > >
+> > >        0.000002250 seconds time elapsed
+> > >
+> > >        0.000000000 seconds user
+> > >        0.000000000 seconds sys
+> > > </quote>
+> > >
+> > > If I run the same thing on another CPU cluster (firestorm), I get
+> > > this:
+> > >
+> > > <quote>
+> > > maz@valley-girl:~/hot-poop/arm-platforms/tools/perf$ sudo taskset -c 2 ./perf stat -vvv -e apple_icestorm_pmu/cycles/ -e
+> > >  apple_firestorm_pmu/cycles/ -e cycles ls
+> > > Using CPUID 0x00000000612f0280
+> > > Attempt to add: apple_icestorm_pmu/cycles=0/
+> > > ..after resolving event: apple_icestorm_pmu/cycles=0/
+> > > Opening: unknown-hardware:HG
+> > > ------------------------------------------------------------
+> > > perf_event_attr:
+> > >   type                             0 (PERF_TYPE_HARDWARE)
+> > >   config                           0xb00000000
+> > >   disabled                         1
+> > > ------------------------------------------------------------
+> > > sys_perf_event_open: pid 0  cpu -1  group_fd -1  flags 0x8
+> > > sys_perf_event_open failed, error -95
+> > > Attempt to add: apple_firestorm_pmu/cycles=0/
+> > > ..after resolving event: apple_firestorm_pmu/cycles=0/
+> > > Control descriptor is not initialized
+> > > Opening: apple_icestorm_pmu/cycles/
+> > > ------------------------------------------------------------
+> > > perf_event_attr:
+> > >   type                             0 (PERF_TYPE_HARDWARE)
+> > >   size                             136
+> > >   config                           0 (PERF_COUNT_HW_CPU_CYCLES)
+> > >   sample_type                      IDENTIFIER
+> > >   read_format                      TOTAL_TIME_ENABLED|TOTAL_TIME_RUNNING
+> > >   disabled                         1
+> > >   inherit                          1
+> > >   enable_on_exec                   1
+> > >   exclude_guest                    1
+> > > ------------------------------------------------------------
+> > > sys_perf_event_open: pid 1045925  cpu -1  group_fd -1  flags 0x8 = 3
+> > > Opening: apple_firestorm_pmu/cycles/
+> > > ------------------------------------------------------------
+> > > perf_event_attr:
+> > >   type                             0 (PERF_TYPE_HARDWARE)
+> > >   size                             136
+> > >   config                           0 (PERF_COUNT_HW_CPU_CYCLES)
+> > >   sample_type                      IDENTIFIER
+> > >   read_format                      TOTAL_TIME_ENABLED|TOTAL_TIME_RUNNING
+> > >   disabled                         1
+> > >   inherit                          1
+> > >   enable_on_exec                   1
+> > >   exclude_guest                    1
+> > > ------------------------------------------------------------
+> > > sys_perf_event_open: pid 1045925  cpu -1  group_fd -1  flags 0x8 = 4
+> > > Opening: cycles
+> > > ------------------------------------------------------------
+> > > perf_event_attr:
+> > >   type                             0 (PERF_TYPE_HARDWARE)
+> > >   size                             136
+> > >   config                           0 (PERF_COUNT_HW_CPU_CYCLES)
+> > >   sample_type                      IDENTIFIER
+> > >   read_format                      TOTAL_TIME_ENABLED|TOTAL_TIME_RUNNING
+> > >   disabled                         1
+> > >   inherit                          1
+> > >   enable_on_exec                   1
+> > >   exclude_guest                    1
+> > > ------------------------------------------------------------
+> > > sys_perf_event_open: pid 1045925  cpu -1  group_fd -1  flags 0x8 = 5
+> > > arch                  builtin-diff.o      builtin-mem.o        common-cmds.h    perf-completion.sh
+> > > bench                 builtin-evlist.c    builtin-probe.c      CREDITS          perf.h
+> > > Build                 builtin-evlist.o    builtin-probe.o      design.txt       perf-in.o
+> > > builtin-annotate.c    builtin-ftrace.c    builtin-record.c     dlfilters        perf-iostat
+> > > builtin-annotate.o    builtin-ftrace.o    builtin-record.o     Documentation    perf-iostat.sh
+> > > builtin-bench.c               builtin.h           builtin-report.c     FEATURE-DUMP     perf.o
+> > > builtin-bench.o               builtin-help.c      builtin-report.o     include          perf-read-vdso.c
+> > > builtin-buildid-cache.c  builtin-help.o      builtin-sched.c   jvmti            perf-sys.h
+> > > builtin-buildid-cache.o  builtin-inject.c    builtin-script.c  libapi   PERF-VERSION-FILE
+> > > builtin-buildid-list.c        builtin-inject.o    builtin-script.o     libperf          perf-with-kcore
+> > > builtin-buildid-list.o        builtin-kallsyms.c  builtin-stat.c       libsubcmd        pmu-events
+> > > builtin-c2c.c         builtin-kallsyms.o  builtin-stat.o       libsymbol        python
+> > > builtin-c2c.o         builtin-kmem.c      builtin-timechart.c  Makefile         python_ext_build
+> > > builtin-config.c      builtin-kvm.c       builtin-top.c        Makefile.config  scripts
+> > > builtin-config.o      builtin-kvm.o       builtin-top.o        Makefile.perf    tests
+> > > builtin-daemon.c      builtin-kwork.c     builtin-trace.c      MANIFEST         trace
+> > > builtin-daemon.o      builtin-list.c      builtin-version.c    perf             ui
+> > > builtin-data.c                builtin-list.o      builtin-version.o    perf-archive     util
+> > > builtin-data.o                builtin-lock.c      check-headers.sh     perf-archive.sh
+> > > builtin-diff.c                builtin-mem.c       command-list.txt     perf.c
+> > > apple_icestorm_pmu/cycles/: -1: 1035101 469125 469125
+> > > apple_firestorm_pmu/cycles/: -1: 1035035 469125 469125
+> > > cycles: -1: 1034653 469125 469125
+> > > apple_icestorm_pmu/cycles/: 1035101 469125 469125
+> > > apple_firestorm_pmu/cycles/: 1035035 469125 469125
+> > > cycles: 1034653 469125 469125
+> > >
+> > >  Performance counter stats for 'ls':
+> > >
+> > >          1,035,101      apple_icestorm_pmu/cycles/
+> > >          1,035,035      apple_firestorm_pmu/cycles/
+> > >          1,034,653      cycles
+> > >
+> > >        0.000001333 seconds time elapsed
+> > >
+> > >        0.000000000 seconds user
+> > >        0.000000000 seconds sys
+> > > </quote>
+> > >
+> > > which doesn't make any sense either. I really don't understand what
+> > > this PERF_TYPE_HARDWARE does here (the *real* types are 10 and 11),
+> > > nor what this 'cycle=0' stuff is.
+> > >
+> > > /puzzled
+> > >
+> > >       M.
+> > >
+> > > --
+> > > Without deviation from the norm, progress is not possible.
