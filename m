@@ -1,30 +1,30 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6E6495C2
-	for <asahi@lists.linux.dev>; Tue, 21 Nov 2023 12:09:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36ADC4878B
+	for <asahi@lists.linux.dev>; Tue, 21 Nov 2023 12:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="o3tsAP39"
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="r2IeCQq4"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 42BE542118;
-	Tue, 21 Nov 2023 12:08:52 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 4C73F41D83;
+	Tue, 21 Nov 2023 12:16:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1700568533; bh=izpovA0XHb89VRrGlum7I7YsipyerFuXhLb0jEFlzB4=;
-	h=Date:To:From:Subject:Cc;
-	b=o3tsAP39aOWCf2InCItbLug8RNYooAAn10p4t1Uiq4fCQxp3UcnqgJoU3XuEb8frn
-	 pGWdSs8OVwDZAlJy68MEs6p/W4cfxudO1LppS5ET7Nmi7uQVWSDfwk/0tu3Fec59at
-	 4pN1uJ8uijvfztdmQNmWRIDctx2BtjAVN0qCpFEVbC0ISw/SCK+ctX5Jg2Aa1ma+aN
-	 +I/fACBQJE5HBd+J4V1kZIfGKA9jfM0+Os9M4hlIdy68mTYe/Ti4p+rAKpdfj2MlhU
-	 H3Wh+bSDZWP8qopJxkHcHkt6hf2CIFt3v5zKs1X0NAOBWHYrRwSgA6pW5AzeScdFQ4
-	 lHVsG8gD6Fs7g==
-Message-ID: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
-Date: Tue, 21 Nov 2023 21:08:48 +0900
+	t=1700569008; bh=iMeRzervuoudDuGdhL6yX2feFImvQm3SAtDHF37I57s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=r2IeCQq429ic+JyT9x/9Ch2c+AqAnZ2/FRs8iJmEjkL5FDbywPnA8ojG3Rjd9q1w7
+	 p8qCWUCIcbEJhe1F+aLxTAXUlvmwNTlQus1DMprVEqaRatWfi6i673AHnZaQ5Lj68t
+	 iXRTwlXGZioyvc62UBVZ29XnGCkD6a/F5H6o8LOQT6UxpqJik76oxJaWwWqHxtHkKF
+	 zfrOW8pd5gKp9V2tZXqehSeJuWO09yunle0lRdUDfoMOhpQKmv2hOtPi0zLBH9XHTZ
+	 ii6X/0OfRUjOFjuJkZdM0/wKrcjqUwJYwK2CwwnzzFWIm1HqzzZcnoRBAXvaQyV4+E
+	 kZ83sgdG3BEtQ==
+Message-ID: <e4d254a6-3244-4b0b-a2bb-f48824e02995@marcan.st>
+Date: Tue, 21 Nov 2023 21:16:42 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -32,78 +32,151 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] Bluetooth is not working on Macs with BCM4377 chip
+ starting from kernel 6.5
 Content-Language: en-US
-To: linux-perf-users@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Orlando Chamberlain <orlandoch.dev@gmail.com>,
+ Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Bluetooth <linux-bluetooth@vger.kernel.org>,
+ "j@jannau.net" <j@jannau.net>
+References: <22582194-DE99-45E5-ABEE-C1C7900DA523@live.com>
+ <ZVKxtD2Mt_eVyttJ@archie.me>
+ <MA0P287MB021794BCCCFB5EA57C1C3B69B8B2A@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
+ <88fcc70e-9f4b-eeb9-d826-03fa4c40e7c3@marcan.st>
+ <e2909986-34b5-3ae2-cf5c-a1f8c46a1e0a@marcan.st>
+ <6574A65F-3C4D-4E26-8848-F12C38668478@live.com>
+ <03cdd06c-3991-dbf8-6068-e76384db8240@marcan.st>
+ <0900292C-5E74-471A-B789-A1D35D1BBBF7@live.com>
+ <3b5aedb4-da00-4ae2-a60f-685dba949223@marcan.st>
+ <MA0P287MB0217A68FDF5E0DC22F19D3DCB8BBA@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
 From: Hector Martin <marcan@marcan.st>
-Subject: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.5
-Cc: Marc Zyngier <maz@kernel.org>, Asahi Linux <asahi@lists.linux.dev>
+In-Reply-To: <MA0P287MB0217A68FDF5E0DC22F19D3DCB8BBA@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-Perf broke on all Apple ARM64 systems (tested almost everything), and
-according to maz also on Juno (so, probably all big.LITTLE) since v6.5.
-
-Test command:
-
-sudo taskset -c 0 ./perf stat -e apple_icestorm_pmu/cycles/ -e
-apple_firestorm_pmu/cycles/ -e cycles ls
-
-Since this is taskset to CPU #0 (LITTLE core, icestorm), only events for
-icestorm are expected.
-
-I bisected the breakage to two distinct points:
-
-5ea8f2ccffb is the first bad commit. With its parent, the output is as
-expected (same as v6.4):
-
-         3,297,462      apple_icestorm_pmu/cycles/
-
-     <not counted>      apple_firestorm_pmu/cycles/
-                       (0.00%)
-     <not counted>      cycles
-                       (0.00%)
-
-With 5ea8f2ccffb everything breaks:
-
-   <not supported>      apple_icestorm_pmu/cycles/
-
-   <not supported>      apple_firestorm_pmu/cycles/
-
-     <not counted>      cycles
-                       (0.00%)
-
-Somewhere along the way to 82fe2e45cdb00 things get even worse (didn't
-bother bisecting this range). With its parent:
-
-   <not supported>      apple_icestorm_pmu/cycles/
-
-   <not supported>      apple_firestorm_pmu/cycles/
-
-   <not supported>      apple_icestorm_pmu/cycles/
-
-   <not supported>      apple_firestorm_pmu/cycles/
-
-Then 82fe2e45cdb00 leads to the current v6.5 behavior:
-
-     <not counted>      apple_icestorm_pmu/cycles/
-                       (0.00%)
-     <not counted>      apple_firestorm_pmu/cycles/
-                       (0.00%)
-     <not counted>      cycles
-                       (0.00%)
-
-If I taskset the task to CPU#2 (big core, firestorm), I get events:
-
-         1,454,858      apple_icestorm_pmu/cycles/
-
-         1,454,760      apple_firestorm_pmu/cycles/
-
-         1,454,384      cycles
+Content-Transfer-Encoding: 8bit
 
 
-So the current behavior is that all output seems to come from the
-firestorm PMU event counter, regardless of requested event.
 
-This is all unchanged and still broken in v6.7-rc2.
+On 2023/11/21 20:42, Aditya Garg wrote:
+> 
+> 
+>> On 20-Nov-2023, at 4:37 PM, Hector Martin <marcan@marcan.st> wrote:
+>>
+>> ﻿
+>>
+>>> On 2023/11/19 4:31, Aditya Garg wrote:
+>>>
+>>>
+>>>>> On 14-Nov-2023, at 3:14 PM, Hector Martin <marcan@marcan.st> wrote:
+>>>>
+>>>> On 14/11/2023 18.03, Aditya Garg wrote:
+>>>>>
+>>>>>
+>>>>>> On 14-Nov-2023, at 1:28 PM, Hector Martin <marcan@marcan.st> wrote:
+>>>>>>
+>>>>>> On 14/11/2023 15.59, Hector Martin wrote:
+>>>>>>> On 14/11/2023 15.23, Aditya Garg wrote:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>> On 14-Nov-2023, at 5:01 AM, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>>>>>>>>>
+>>>>>>>>> ﻿On Mon, Nov 13, 2023 at 08:57:35PM +0000, Aditya Garg wrote:
+>>>>>>>>>> Starting from kernel 6.5, a regression in the kernel is causing Bluetooth to not work on T2 Macs with BCM4377 chip.
+>>>>>>>>>>
+>>>>>>>>>> Journalctl of kernel 6.4.8 which has Bluetooth working is given here: https://pastebin.com/u9U3kbFJ
+>>>>>>>>>>
+>>>>>>>>>> Journalctl of kernel 6.5.2, which has Bluetooth broken is given here: https://pastebin.com/aVHNFMRs
+>>>>>>>>>>
+>>>>>>>>>> Also, the bug hasn’t been fixed even in 6.6.1, as reported by users.
+>>>>>>>>>
+>>>>>>>>> Can you bisect this regression please?
+>>>>>>>>
+>>>>>>>> Since I don't have access to this hardware, it's not possible for me to bisect this regression. Let's hope someone is able to do so though.
+>>>>>>>
+>>>>>>> It's not a regression, it was always broken. I'm sending a patch.
+>>>>>>>
+>>>>>>> - Hector
+>>>>>>
+>>>>>> You are quite likely conflating two problems. The ubsan issue you quoted
+>>>>>> was always there and the patch I just sent fixes it, but it almost
+>>>>>> certainly always worked fine in practice without ubsan.
+>>>>>>
+>>>>>> The Bluetooth problem you are referring to is likely *specific to
+>>>>>> Bluetooth LE devices* and the regression was introduced by 288c90224e
+>>>>>> and fixed by 41e9cdea9c, which is also in 6.5.11 and 6.6.1.
+>>>>>>
+>>>>>> If Bluetooth is broken in *some other way* in 6.6.1 then we need a
+>>>>>> proper report or a bisect. Your logs don't show any issues other than
+>>>>>> the ubsan noise, which is not a regression.
+>>>>>>
+>>>>>> - Hector
+>>>>>>
+>>>>>
+>>>>> UBSAN noise seems to be fixed, Bluetooth not working though
+>>>>>
+>>>>> https://pastebin.com/HeVvMVk4
+>>>>>
+>>>>> Ill try setting .broken_le_coded = true,
+>>>>
+>>>> Now you have a probe timeout, which you didn't have before. That's a
+>>>> different problem.
+>>>>
+>>>> Please try this commit and see if it helps:
+>>>>
+>>>> https://github.com/AsahiLinux/linux/commit/8ec770b4f78fc14629705206e2db54d9d6439686
+>>>>
+>>>> If it's this then it's still not a regression, it's probably just random
+>>>> chance since I think the old timeout value was borderline for the older
+>>>> chips.
+>>>>
+>>>> - Hector
+>>>>
+>>>
+>>>
+>>> Hi
+>>>
+>>> I recently got a kernel tested with this patch as well as with .broken_le_coded = true,
+>>> Here are the logs: https://pastebin.com/BpfJuJKY
+>>>
+>>> Also, without .broken_le_coded = true, the bluetooth doesn't work, as specified in my previous email.
+>>
+>> So are you saying everything works now? If not, what doesn't work?
+>> "Bluetooth doesn't work" isn't useful information, especially in the
+>> absence of any useful error messages. You can't just dump dmesg logs at
+>> us, you have to *describe* what the problem is.
+>>
+> My bad for not specifying that. The user reports that the Bluetooth device is not recognised at all.
+> 
+> Also, broken_le_coded = true did not "fix" it.
+> 
+> Talking about dmesg, well not getting any logs regarding this message indeed is a frustrating thing for me, and bisecting seems to be the only option in my mind rn.
+> 
+
+What does that mean? The controller or the device? Can you initiate a
+scan? Does it find any devices? Is pairing broken or just connecting?
+Was the device paired before or after the breaking change? *What* device
+are you trying to use/pair?
+
+What do these commands say?
+
+$ bluetoothctl show
+$ bluetoothctl devices
+
+Since the kernel isn't logging any errors, have you looked at syslog to
+see what the whole userspace side has to say? If an operation is failing
+*something* should be logging an error.
+
+*Please*, we need proper detailed bug reports if you want this to get
+fixed. I'm sure you're aware of what a reasonable bug report is. Please
+teach your user how to provide useful information. Otherwise yes, it's
+going to be on you to bisect it since there's nothing we can do with
+zero details and useful logs.
 
 - Hector
