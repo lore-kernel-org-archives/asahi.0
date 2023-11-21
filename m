@@ -1,182 +1,73 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36ADC4878B
-	for <asahi@lists.linux.dev>; Tue, 21 Nov 2023 12:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D2551C40;
+	Tue, 21 Nov 2023 13:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="r2IeCQq4"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 4C73F41D83;
-	Tue, 21 Nov 2023 12:16:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1700569008; bh=iMeRzervuoudDuGdhL6yX2feFImvQm3SAtDHF37I57s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=r2IeCQq429ic+JyT9x/9Ch2c+AqAnZ2/FRs8iJmEjkL5FDbywPnA8ojG3Rjd9q1w7
-	 p8qCWUCIcbEJhe1F+aLxTAXUlvmwNTlQus1DMprVEqaRatWfi6i673AHnZaQ5Lj68t
-	 iXRTwlXGZioyvc62UBVZ29XnGCkD6a/F5H6o8LOQT6UxpqJik76oxJaWwWqHxtHkKF
-	 zfrOW8pd5gKp9V2tZXqehSeJuWO09yunle0lRdUDfoMOhpQKmv2hOtPi0zLBH9XHTZ
-	 ii6X/0OfRUjOFjuJkZdM0/wKrcjqUwJYwK2CwwnzzFWIm1HqzzZcnoRBAXvaQyV4+E
-	 kZ83sgdG3BEtQ==
-Message-ID: <e4d254a6-3244-4b0b-a2bb-f48824e02995@marcan.st>
-Date: Tue, 21 Nov 2023 21:16:42 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLRQMdk1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87374C433CC;
+	Tue, 21 Nov 2023 13:40:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700574034;
+	bh=SzEJSARPBu356MnqKuppWjOHsICMADRQevq4Qbw7fLE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OLRQMdk1ttntlk5HgMqe1X6VIwSYnAkEzWqHWW0Ity5Z4JPORqmgTl99QXcoKLiQu
+	 +fZ+ZZJogC4pTjB4S6Mb1EMw+cVSNL3gMowOB1pzr19jcuA00B2zx3sJdtYrKUxiCI
+	 M5h0d8oLdwnFKckUondaPNxJhBK8uR8oNIoz0DS5VcWCsk2tOmYyUrDLDE2HW+bbVx
+	 9eRalFATDp4mqlEPIX1eFfGGy4KRmIrJ0+XDhNT1hecYgsMZdIVrG6ojUy6yV5u5T6
+	 8ONldjRV9AgPDwm0OQMPZnqMStqDT+LS3sNfS2X/vMcO009u1VJyo8CkcN0SSmCLju
+	 th5iBaTWQ0T4Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1r5QzQ-00F5sJ-3K;
+	Tue, 21 Nov 2023 13:40:32 +0000
+Date: Tue, 21 Nov 2023 13:40:31 +0000
+Message-ID: <86pm03z0kw.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Hector Martin <marcan@marcan.st>, 	Arnaldo Carvalho de Melo
+   <acme@redhat.com>,	Ian Rogers <irogers@google.com>, 	James Clark <james.clark@arm.com>
+Cc: linux-perf-users@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Asahi Linux <asahi@lists.linux.dev>,
+ 	Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.5
+In-Reply-To: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
+References: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] Bluetooth is not working on Macs with BCM4377 chip
- starting from kernel 6.5
-Content-Language: en-US
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Orlando Chamberlain <orlandoch.dev@gmail.com>,
- Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Bluetooth <linux-bluetooth@vger.kernel.org>,
- "j@jannau.net" <j@jannau.net>
-References: <22582194-DE99-45E5-ABEE-C1C7900DA523@live.com>
- <ZVKxtD2Mt_eVyttJ@archie.me>
- <MA0P287MB021794BCCCFB5EA57C1C3B69B8B2A@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
- <88fcc70e-9f4b-eeb9-d826-03fa4c40e7c3@marcan.st>
- <e2909986-34b5-3ae2-cf5c-a1f8c46a1e0a@marcan.st>
- <6574A65F-3C4D-4E26-8848-F12C38668478@live.com>
- <03cdd06c-3991-dbf8-6068-e76384db8240@marcan.st>
- <0900292C-5E74-471A-B789-A1D35D1BBBF7@live.com>
- <3b5aedb4-da00-4ae2-a60f-685dba949223@marcan.st>
- <MA0P287MB0217A68FDF5E0DC22F19D3DCB8BBA@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <MA0P287MB0217A68FDF5E0DC22F19D3DCB8BBA@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: marcan@marcan.st, acme@redhat.com, irogers@google.com, james.clark@arm.com, linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, mark.rutland@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
+[Adding key people on Cc]
 
-
-On 2023/11/21 20:42, Aditya Garg wrote:
+On Tue, 21 Nov 2023 12:08:48 +0000,
+Hector Martin <marcan@marcan.st> wrote:
 > 
-> 
->> On 20-Nov-2023, at 4:37 PM, Hector Martin <marcan@marcan.st> wrote:
->>
->> ﻿
->>
->>> On 2023/11/19 4:31, Aditya Garg wrote:
->>>
->>>
->>>>> On 14-Nov-2023, at 3:14 PM, Hector Martin <marcan@marcan.st> wrote:
->>>>
->>>> On 14/11/2023 18.03, Aditya Garg wrote:
->>>>>
->>>>>
->>>>>> On 14-Nov-2023, at 1:28 PM, Hector Martin <marcan@marcan.st> wrote:
->>>>>>
->>>>>> On 14/11/2023 15.59, Hector Martin wrote:
->>>>>>> On 14/11/2023 15.23, Aditya Garg wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>>> On 14-Nov-2023, at 5:01 AM, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>>>>>>>>
->>>>>>>>> ﻿On Mon, Nov 13, 2023 at 08:57:35PM +0000, Aditya Garg wrote:
->>>>>>>>>> Starting from kernel 6.5, a regression in the kernel is causing Bluetooth to not work on T2 Macs with BCM4377 chip.
->>>>>>>>>>
->>>>>>>>>> Journalctl of kernel 6.4.8 which has Bluetooth working is given here: https://pastebin.com/u9U3kbFJ
->>>>>>>>>>
->>>>>>>>>> Journalctl of kernel 6.5.2, which has Bluetooth broken is given here: https://pastebin.com/aVHNFMRs
->>>>>>>>>>
->>>>>>>>>> Also, the bug hasn’t been fixed even in 6.6.1, as reported by users.
->>>>>>>>>
->>>>>>>>> Can you bisect this regression please?
->>>>>>>>
->>>>>>>> Since I don't have access to this hardware, it's not possible for me to bisect this regression. Let's hope someone is able to do so though.
->>>>>>>
->>>>>>> It's not a regression, it was always broken. I'm sending a patch.
->>>>>>>
->>>>>>> - Hector
->>>>>>
->>>>>> You are quite likely conflating two problems. The ubsan issue you quoted
->>>>>> was always there and the patch I just sent fixes it, but it almost
->>>>>> certainly always worked fine in practice without ubsan.
->>>>>>
->>>>>> The Bluetooth problem you are referring to is likely *specific to
->>>>>> Bluetooth LE devices* and the regression was introduced by 288c90224e
->>>>>> and fixed by 41e9cdea9c, which is also in 6.5.11 and 6.6.1.
->>>>>>
->>>>>> If Bluetooth is broken in *some other way* in 6.6.1 then we need a
->>>>>> proper report or a bisect. Your logs don't show any issues other than
->>>>>> the ubsan noise, which is not a regression.
->>>>>>
->>>>>> - Hector
->>>>>>
->>>>>
->>>>> UBSAN noise seems to be fixed, Bluetooth not working though
->>>>>
->>>>> https://pastebin.com/HeVvMVk4
->>>>>
->>>>> Ill try setting .broken_le_coded = true,
->>>>
->>>> Now you have a probe timeout, which you didn't have before. That's a
->>>> different problem.
->>>>
->>>> Please try this commit and see if it helps:
->>>>
->>>> https://github.com/AsahiLinux/linux/commit/8ec770b4f78fc14629705206e2db54d9d6439686
->>>>
->>>> If it's this then it's still not a regression, it's probably just random
->>>> chance since I think the old timeout value was borderline for the older
->>>> chips.
->>>>
->>>> - Hector
->>>>
->>>
->>>
->>> Hi
->>>
->>> I recently got a kernel tested with this patch as well as with .broken_le_coded = true,
->>> Here are the logs: https://pastebin.com/BpfJuJKY
->>>
->>> Also, without .broken_le_coded = true, the bluetooth doesn't work, as specified in my previous email.
->>
->> So are you saying everything works now? If not, what doesn't work?
->> "Bluetooth doesn't work" isn't useful information, especially in the
->> absence of any useful error messages. You can't just dump dmesg logs at
->> us, you have to *describe* what the problem is.
->>
-> My bad for not specifying that. The user reports that the Bluetooth device is not recognised at all.
-> 
-> Also, broken_le_coded = true did not "fix" it.
-> 
-> Talking about dmesg, well not getting any logs regarding this message indeed is a frustrating thing for me, and bisecting seems to be the only option in my mind rn.
-> 
+> Perf broke on all Apple ARM64 systems (tested almost everything), and
+> according to maz also on Juno (so, probably all big.LITTLE) since v6.5.
 
-What does that mean? The controller or the device? Can you initiate a
-scan? Does it find any devices? Is pairing broken or just connecting?
-Was the device paired before or after the breaking change? *What* device
-are you trying to use/pair?
+I can confirm that at least on 6.7-rc2, perf is pretty busted on any
+asymmetric ARM platform. It isn't clear what criteria is used to pick
+the PMU, but nothing works anymore.
 
-What do these commands say?
+The saving grace in my case is that Debian still ships a 6.1 perftool
+package, but that's obviously not going to last.
 
-$ bluetoothctl show
-$ bluetoothctl devices
+I'm happy to test potential fixes.
 
-Since the kernel isn't logging any errors, have you looked at syslog to
-see what the whole userspace side has to say? If an operation is failing
-*something* should be logging an error.
+	M.
 
-*Please*, we need proper detailed bug reports if you want this to get
-fixed. I'm sure you're aware of what a reasonable bug report is. Please
-teach your user how to provide useful information. Otherwise yes, it's
-going to be on you to bisect it since there's nothing we can do with
-zero details and useful logs.
-
-- Hector
+-- 
+Without deviation from the norm, progress is not possible.
