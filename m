@@ -1,223 +1,98 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824684F215
-	for <asahi@lists.linux.dev>; Wed, 22 Nov 2023 16:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4CEF219E8
+	for <asahi@lists.linux.dev>; Wed, 22 Nov 2023 23:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gjyFVHzn"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-50aa698b384so4862e87.0
-        for <asahi@lists.linux.dev>; Wed, 22 Nov 2023 08:59:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1700672384; x=1701277184; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q2ZTg1sahQKBI/4w3s7AGEAAD0RXpuVE+lN1wQkXOvg=;
-        b=gjyFVHzn1L8Yqwt7Ip8Z8WkRT1Yp32YYImVNbrRlYe/0l+0STI6NArzURmZygKXYUA
-         gSLCRgl6aILGrHwU0iNBIEzfxQobnFZ/sej3c0GXsRa99H2vj5eonIvk1IYr04z5l9+y
-         4pOaVEi8rhkn+/PDco6+Gb5XeQ3WG2xSRKH6MROeWChXPS3+UIlmUUd5didcFhbYLDA3
-         W0/pX+W24Ny8uucloKc2laZF+8AAy7APkck2A4x6Usl1llM18tBYfAx0bbJlAVofkJ0G
-         1g1J7lK18phSvQgtUw5Q1d1+DRdakfNvgmwKK0SHrx1AvF38snSm8IvmJebKkxSnpF1h
-         5/oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700672384; x=1701277184;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q2ZTg1sahQKBI/4w3s7AGEAAD0RXpuVE+lN1wQkXOvg=;
-        b=ueNjg6+BgBn6ptdBwABc3OC+GMEgGZhG8Cv6SzEyMOsNezE2DhDIu/0TOhvYx6LR8o
-         VeNiJckSvTQVUyEOxk/Vp1uOmDWrQ2SRxdO/IA7RhvPE9wCgyR6c/YyK7UzpwpYmFYZA
-         ItmzLbF+qgkk1qgvHz5eZplJhyWTU5W0VQdSSstLL1g1zNcB7eUIgokaY19CRvA8yXNt
-         /+/m+6p4UrxcRc+UYH+9KWB/hNFhcg7ohM8k9yMo2v1tiJOoPtFhbPLTRcGtmbIkfU8O
-         bGnWaVAmXuRKmN9bFYucSS5iAMn99Mw5bcWqwVMU3J8voaiReR9oplFmcBpuzXP0U/h1
-         m7Dg==
-X-Gm-Message-State: AOJu0YxMvb8cjjuo9stGuNWhLTzhJO49n6+2SM5b1FZ7EwNPtgc9w4xB
-	f2enn+Erp4g97a8EONBf8SEkmVnKqe8Rqros0U0UWg==
-X-Google-Smtp-Source: AGHT+IEP4gTL5VUr/6Iw3lypRE1j4fSWCUZowchISdtiNaQXyLKjo1tBNIsT/hc+A6/JRU2bL9fe9LzJlVqMfDtGZ0k=
-X-Received: by 2002:a05:6512:1585:b0:50a:519d:5a8a with SMTP id
- bp5-20020a056512158500b0050a519d5a8amr80736lfb.5.1700672384173; Wed, 22 Nov
- 2023 08:59:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="EJhSA78A"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 5579887671;
+	Thu, 23 Nov 2023 00:52:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1700697163;
+	bh=MfMtXu9oCMCJQk9r9TxXb60YIWYQLiOl2RLjKSNovJc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EJhSA78A7QS5wcQTN8n/5kJPfQgaDAVv7DVq0s3W19k+alj8P0EHSrXDoocO8QWpX
+	 NYuuMAsovbi3NMRbjaWVhVkLkHuclrM0h82v3ry6kVDaxk+3BwoNk1HWAkV4vhK0Jr
+	 kdJD9p7KjAcJ/5ZjEANVkAdY2i8y38Oaq6YS3hWTchTYYIYOXKQwC1FeJJIM70mXPo
+	 i6Oll5xZapoTrooP50wIwuByqDJwdAfkNRZctPmFXLIMmQniHJOnthoAXcAojbCR1A
+	 rDrzwqtoYVKOpJc7psUE95fbpOeIZ6/rTcmxBmG63OZcDgEVnbx6DcOYoqxUJiH/bz
+	 zqXGJk0xEY5vA==
+Message-ID: <e9675b13-41e8-442a-ac02-3a625c31ee22@denx.de>
+Date: Thu, 23 Nov 2023 00:52:40 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <ZVzPUjOiH6zpUlz5@FVFF77S0Q05N.cambridge.arm.com>
- <CAP-5=fUB75DCL4+8YO62iPVsnxoeXGv5cLmT7eP2bHNs=xoMdg@mail.gmail.com>
- <ZVzUr7TWEYPoZrWX@FVFF77S0Q05N.cambridge.arm.com> <CAP-5=fUWm7efu3xdUBbiifs_KNU1igwAxbXmum=V38SjHQHtXg@mail.gmail.com>
- <ZVzXjz_0nYbmSGPQ@FVFF77S0Q05N.cambridge.arm.com> <CAP-5=fWLGOCWv=wp2xsi4AVxfbS8KhkmtkMwOA4yVrz791=Z8Q@mail.gmail.com>
- <ZV38ParIEYWOjt6T@FVFF77S0Q05N> <CAP-5=fUxBv4kbXyLrD5G-=wyRh6tKEJMy5qX0_86wQXxT79dJw@mail.gmail.com>
- <ZV4nj-_q4hHaf8Wl@FVFF77S0Q05N> <CAP-5=fWtHYr9J2izkNmTpfKvdEdt0ViELJ1Gsih6H9XBTE83UA@mail.gmail.com>
- <ZV4yd3oz2Ykl/N5Q@kernel.org>
-In-Reply-To: <ZV4yd3oz2Ykl/N5Q@kernel.org>
-From: Ian Rogers <irogers@google.com>
-Date: Wed, 22 Nov 2023 08:59:32 -0800
-Message-ID: <CAP-5=fU==+UoF64AZz5HAwcL2xSDxLfyS1Q+SQ0d2SGwFC8j5A@mail.gmail.com>
-Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.5
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Arnaldo Carvalho de Melo <acme@redhat.com>, James Clark <james.clark@arm.com>, 
-	linux-perf-users@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	Asahi Linux <asahi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] USB fixes: xHCI error handling
+Content-Language: en-US
+To: Hector Martin <marcan@marcan.st>, Shantur Rathore <i@shantur.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Mark Kettenis <kettenis@openbsd.org>,
+ u-boot@lists.denx.de, asahi@lists.linux.dev
+References: <20231027-usb-fixes-1-v1-0-1c879bbcd928@marcan.st>
+ <fe844c63-0c44-469c-a4e0-f0e1f2ac63fc@denx.de>
+ <CAHc5_t2WFZH65MJENGvC6u21ETcRn47ceQd8jrHV9DVmmM10Vw@mail.gmail.com>
+ <3b662808-e047-4023-a00c-1b6728bd5c86@denx.de>
+ <cdb3df49-1ba3-4b87-bc2e-57c71a7ce725@marcan.st>
+ <51d7ba01-bb22-4246-b67b-675511ca0be2@denx.de>
+ <f6df901a-245a-494a-952a-c9bace244fdc@marcan.st>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <f6df901a-245a-494a-952a-c9bace244fdc@marcan.st>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On Wed, Nov 22, 2023 at 8:55=E2=80=AFAM Arnaldo Carvalho de Melo
-<acme@kernel.org> wrote:
->
-> Em Wed, Nov 22, 2023 at 08:29:58AM -0800, Ian Rogers escreveu:
-> > I can look at doing an event parser change like:
-> >
-> > ```
-> > diff --git a/tools/perf/util/parse-events.c b/tools/perf/util/parse-eve=
-nts.c
-> > index aa2f5c6fc7fc..9a18fda525d2 100644
-> > --- a/tools/perf/util/parse-events.c
-> > +++ b/tools/perf/util/parse-events.c
-> > @@ -986,7 +986,8 @@ static int config_term_pmu(struct perf_event_attr *=
-attr,
-> >                                                           err_str,
-> > /*help=3D*/NULL);
-> >                        return -EINVAL;
-> >                }
-> > -               if (perf_pmu__supports_legacy_cache(pmu)) {
-> > +               if (perf_pmu__supports_legacy_cache(pmu) &&
-> > +                   !perf_pmu__have_event(pmu, term->val.str)) {
-> >                        attr->type =3D PERF_TYPE_HW_CACHE;
-> >                        return
-> > parse_events__decode_legacy_cache(term->config, pmu->type,
-> >                                                                 &attr->=
-config);
-> > @@ -1004,10 +1005,15 @@ static int config_term_pmu(struct perf_event_at=
-tr *attr,
-> >                                                           err_str,
-> > /*help=3D*/NULL);
-> >                        return -EINVAL;
-> >                }
-> > -               attr->type =3D PERF_TYPE_HARDWARE;
-> > -               attr->config =3D term->val.num;
-> > -               if (perf_pmus__supports_extended_type())
-> > -                       attr->config |=3D (__u64)pmu->type << PERF_PMU_=
-TYPE_SHIFT;
-> > +               if (perf_pmu__have_event(pmu, term->val.str)) {
-> > +                       /* If the PMU has a sysfs or json event prefer
-> > it over legacy. ARM requires this. */
-> > +                       term->term_type =3D PARSE_EVENTS__TERM_TYPE_USE=
-R;
-> > +               } else {
-> > +                       attr->type =3D PERF_TYPE_HARDWARE;
-> > +                       attr->config =3D term->val.num;
-> > +                       if (perf_pmus__supports_extended_type())
-> > +                               attr->config |=3D (__u64)pmu->type <<
-> > PERF_PMU_TYPE_SHIFT;
-> > +               }
-> >                return 0;
-> >        }
-> >        if (term->type_term =3D=3D PARSE_EVENTS__TERM_TYPE_USER ||
-> > ```
-> > (note: this is incomplete as term->val.str isn't populated for
-> > PARSE_EVENTS__TERM_TYPE_HARDWARE)
->
-> Yeah, I had to apply manually as your MUA mangled it, then it didn't
-> build, had to remove some consts, then there was a struct member
-> mistake, after all fixed I get to the patch below, but it now segfaults,
-> probably what you mention...
->
-> root@roc-rk3399-pc:~# strace -e perf_event_open taskset -c 4,5 perf stat =
--v -e cycles,armv8_cortex_a53/cycles/,armv8_cortex_a72/cycles/ echo
-> Using CPUID 0x00000000410fd082
-> perf_event_open({type=3DPERF_TYPE_HARDWARE, size=3D0 /* PERF_ATTR_SIZE_??=
-? */, config=3D0x7<<32|PERF_COUNT_HW_CPU_CYCLES, sample_period=3D0, sample_=
-type=3D0, read_format=3D0, disabled=3D1, precise_ip=3D0 /* arbitrary skid *=
-/, ...}, 0, -1, -1, PERF_FLAG_FD_CLOEXEC) =3D -1 ENOENT (No such file or di=
-rectory)
-> --- SIGSEGV {si_signo=3DSIGSEGV, si_code=3DSEGV_MAPERR, si_addr=3DNULL} -=
---
-> +++ killed by SIGSEGV +++
-> Segmentation fault
-> root@roc-rk3399-pc:~#
+On 11/21/23 07:46, Hector Martin wrote:
+> 
+> 
+> On 2023/11/20 21:15, Marek Vasut wrote:
+>> On 11/20/23 11:45, Hector Martin wrote:
+>>>
+>>>
+>>> On 2023/11/20 11:09, Marek Vasut wrote:
+>>>> On 11/20/23 00:17, Shantur Rathore wrote:
+>>>>> On Sun, Nov 19, 2023 at 8:08 PM Marek Vasut <marex@denx.de> wrote:
+>>>>>>
+>>>>>> On 10/27/23 01:16, Hector Martin wrote:
+>>>>>>> This series is the first of a few bundles of USB fixes we have been
+>>>>>>> carrying downstream on the Asahi U-Boot branch for a few months.
+>>>>>>>
+>>>>>>> Most importantly, this related set of patches makes xHCI error/stall
+>>>>>>> recovery more robust (or work at all in some cases). There are also a
+>>>>>>> couple patches fixing other xHCI bugs and adding better debug logs.
+>>>>>>>
+>>>>>>> I believe this should fix this Fedora bug too:
+>>>>>>>
+>>>>>>> https://bugzilla.redhat.com/show_bug.cgi?id=2244305
+>>>>>>
+>>>>>> Was there ever a V2 of these patches I might've missed ?
+>>>>>
+>>>>> Is it this one?
+>>>>> https://patchwork.ozlabs.org/project/uboot/list/?series=379807
+>>>>
+>>>> I think so, thanks.
+>>>>
+>>>> And uh, my question therefore it, is there a V3 which addresses the 3/8
+>>>> and 8/8 comment ?
+>>>
+>>> Not yet, no. Sorry, I probably won't have time to work on this in a
+>>> while, currently busy with other stuff.
+>>
+>> I can probably fix the patches up myself if that is fine with you, I'd
+>> really like to get these fixes into the release soon. Would that be OK
+>> with you ?
+>>
+> 
+> Of course, I would appreciate that :)
 
-Right, I have something further along that fails tests. I'll try to
-send out an RFC today, but given the Intel behavior change =C2=AF\_(=E3=83=
-=84)_/=C2=AF
-But Intel don't appear to have an issue having two things called, for
-example, cycles and them both being a cycles event so they may not
-care. It is only ARM's PMUs that appear broken in this way.
-
-Thanks,
-Ian
-
-> - Arnaldo
->
-> diff --git a/tools/perf/util/parse-events.c b/tools/perf/util/parse-event=
-s.c
-> index aa2f5c6fc7fc..1e648454cc49 100644
-> --- a/tools/perf/util/parse-events.c
-> +++ b/tools/perf/util/parse-events.c
-> @@ -976,7 +976,7 @@ static int config_term_pmu(struct perf_event_attr *at=
-tr,
->                            struct parse_events_error *err)
->  {
->         if (term->type_term =3D=3D PARSE_EVENTS__TERM_TYPE_LEGACY_CACHE) =
-{
-> -               const struct perf_pmu *pmu =3D perf_pmus__find_by_type(at=
-tr->type);
-> +               struct perf_pmu *pmu =3D perf_pmus__find_by_type(attr->ty=
-pe);
->
->                 if (!pmu) {
->                         char *err_str;
-> @@ -986,7 +986,8 @@ static int config_term_pmu(struct perf_event_attr *at=
-tr,
->                                                            err_str, /*hel=
-p=3D*/NULL);
->                         return -EINVAL;
->                 }
-> -               if (perf_pmu__supports_legacy_cache(pmu)) {
-> +               if (perf_pmu__supports_legacy_cache(pmu) &&
-> +                   !perf_pmu__have_event(pmu, term->val.str)) {
->                         attr->type =3D PERF_TYPE_HW_CACHE;
->                         return parse_events__decode_legacy_cache(term->co=
-nfig, pmu->type,
->                                                                  &attr->c=
-onfig);
-> @@ -994,7 +995,7 @@ static int config_term_pmu(struct perf_event_attr *at=
-tr,
->                         term->type_term =3D PARSE_EVENTS__TERM_TYPE_USER;
->         }
->         if (term->type_term =3D=3D PARSE_EVENTS__TERM_TYPE_HARDWARE) {
-> -               const struct perf_pmu *pmu =3D perf_pmus__find_by_type(at=
-tr->type);
-> +               struct perf_pmu *pmu =3D perf_pmus__find_by_type(attr->ty=
-pe);
->
->                 if (!pmu) {
->                         char *err_str;
-> @@ -1004,10 +1005,15 @@ static int config_term_pmu(struct perf_event_attr=
- *attr,
->                                                            err_str, /*hel=
-p=3D*/NULL);
->                         return -EINVAL;
->                 }
-> -               attr->type =3D PERF_TYPE_HARDWARE;
-> -               attr->config =3D term->val.num;
-> -               if (perf_pmus__supports_extended_type())
-> -                       attr->config |=3D (__u64)pmu->type << PERF_PMU_TY=
-PE_SHIFT;
-> +               if (perf_pmu__have_event(pmu, term->val.str)) {
-> +                       /* If the PMU has a sysfs or JSON event prefer it=
- over legacy. ARM requires this. */
-> +                       term->type_term =3D PARSE_EVENTS__TERM_TYPE_USER;
-> +               } else {
-> +                       attr->type =3D PERF_TYPE_HARDWARE;
-> +                       attr->config =3D term->val.num;
-> +                       if (perf_pmus__supports_extended_type())
-> +                           attr->config |=3D (__u64)pmu->type << PERF_PM=
-U_TYPE_SHIFT;
-> +               }
->                 return 0;
->         }
->         if (term->type_term =3D=3D PARSE_EVENTS__TERM_TYPE_USER ||
+I picked a subset to usb/master and fixed a subset, for the rest I 
+really do need your input on those patches.
