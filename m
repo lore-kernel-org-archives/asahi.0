@@ -1,289 +1,168 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2E624B30
-	for <asahi@lists.linux.dev>; Wed, 22 Nov 2023 16:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E4E4D137;
+	Wed, 22 Nov 2023 16:55:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Jzr7Ae0K"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-548c6efc020so18290a12.0
-        for <asahi@lists.linux.dev>; Wed, 22 Nov 2023 08:33:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1700670811; x=1701275611; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V13X5cgXkOfNsIQgifu6v4picILliPQOlpnNGPt0bLg=;
-        b=Jzr7Ae0KYBVZrPugwL+oB36jpekOteRIV76aZUqde6s44zgPPS1sE3FyKRFdv62799
-         aEiAYXvIh5+tAIp68CtwHejS56/S9HSqU2wM6vdlZlzDu0YEeOuKtFxZ8/HNLU91rx8K
-         z4IGMvBaNoW747QuqbKmOQkDXGoZrdPXNK+c+nJxsCzlOw7iEi+pxKUFAD7vtd+wdPal
-         06ZyRf+Ek6dfuX5qVt1pMIwzlv4KDENsZAWPW1oBgVmUadXmpEwMtlh9yttd108YIkNK
-         WoIfarKlz+hTcZYTVCHNKgSWLmWRcVIPhJZ4GxZKgSoykTfPFrldEBVNMOUrPlDW+JpU
-         UA9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700670811; x=1701275611;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V13X5cgXkOfNsIQgifu6v4picILliPQOlpnNGPt0bLg=;
-        b=peM0Ywu9uhl34RvcdQKXNneug2E9b8sf9PYm0cVv6zLA2BCtH9fPQ0+O8yMILaQxY9
-         U5dN5gGw9luio0rHgdC370xfrZGmchQlaRCvXm6rUQBdmaDTo3pVyhNRu75Pe8mx5E7g
-         /2y+UB0zUENhlBjS4TGtlOwY9XjusgJx/LUrcckcU4mBwO6WpDvitBdAkMbXSOiaYlK+
-         JQv4zt3DAois3ul39qCjD2kd8nR/hBpP7jb/yiKwcvxwV0uFMef0FoTlUoTULaNmhyRx
-         cEcEmac53n0ipVU3KuufxdrN6Jgh5HFc4s1UtfzKE+LkSilzG02TSqdL2oCIRjMEu3d9
-         W7zA==
-X-Gm-Message-State: AOJu0YwU76grvLAvKyYC+2TAVetSUW6RugN+tQqhlmypms+jw+ZhUbiZ
-	Q7oCQcUH5QSCI+DH5UJGO1HE4b3IaXnSWd0vgbrtcV2ojMkFMBHmoswlYg==
-X-Google-Smtp-Source: AGHT+IGSQlE19HpyFXd8z0yOZys3g0WVhEmcceVhn3anh2Dzh4IhoPRCIKqLJpSnO8iFl7Jt5nksLcaIThFi7stlKDY=
-X-Received: by 2002:a05:6402:27cd:b0:547:e5b:6e17 with SMTP id
- c13-20020a05640227cd00b005470e5b6e17mr216640ede.2.1700670810541; Wed, 22 Nov
- 2023 08:33:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mFrg54gH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED266C433C7;
+	Wed, 22 Nov 2023 16:55:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700672122;
+	bh=XtZvgLADNlJjF3CcuU8HxQP4DWF/LbbIw8RHhj3IkrM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mFrg54gHiLOzWFDHZDSev0swVEl65IU2NvNmLySHloTSJBhDI6QQZE73gV92PnD0M
+	 yh4jo6s4eipjfQZ2BGg1iS4NQnxvan3GKF64/AE43b/oEjligQ6Oipxfm/UQMAm+hH
+	 2Nq3FwPLmuvLgdVpLMWP2IDhIjFY/ciT27DDc6XEusD2FdwQ364C38widBbIlVVOgm
+	 D2EAAeTxzZWgJ4jMC2YSp1Yrnw6cW6gYYqWbAbtUfR1TXgKBPEY5t6Q02BH3MH9gQ8
+	 nt+bgJfCR0DeILG9EKypgowMUvMcHf70KImiI7wtJEVvVpnygDBe98H5cumCEoJVUR
+	 iYM9wliiYSWsQ==
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+	id 6825940094; Wed, 22 Nov 2023 13:55:19 -0300 (-03)
+Date: Wed, 22 Nov 2023 13:55:19 -0300
+From: Arnaldo Carvalho de Melo <acme@kernel.org>
+To: Ian Rogers <irogers@google.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
+	Hector Martin <marcan@marcan.st>,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	James Clark <james.clark@arm.com>, linux-perf-users@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Asahi Linux <asahi@lists.linux.dev>
+Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since
+ v6.5
+Message-ID: <ZV4yd3oz2Ykl/N5Q@kernel.org>
+References: <ZVzPUjOiH6zpUlz5@FVFF77S0Q05N.cambridge.arm.com>
+ <CAP-5=fUB75DCL4+8YO62iPVsnxoeXGv5cLmT7eP2bHNs=xoMdg@mail.gmail.com>
+ <ZVzUr7TWEYPoZrWX@FVFF77S0Q05N.cambridge.arm.com>
+ <CAP-5=fUWm7efu3xdUBbiifs_KNU1igwAxbXmum=V38SjHQHtXg@mail.gmail.com>
+ <ZVzXjz_0nYbmSGPQ@FVFF77S0Q05N.cambridge.arm.com>
+ <CAP-5=fWLGOCWv=wp2xsi4AVxfbS8KhkmtkMwOA4yVrz791=Z8Q@mail.gmail.com>
+ <ZV38ParIEYWOjt6T@FVFF77S0Q05N>
+ <CAP-5=fUxBv4kbXyLrD5G-=wyRh6tKEJMy5qX0_86wQXxT79dJw@mail.gmail.com>
+ <ZV4nj-_q4hHaf8Wl@FVFF77S0Q05N>
+ <CAP-5=fWtHYr9J2izkNmTpfKvdEdt0ViELJ1Gsih6H9XBTE83UA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <ZVzPUjOiH6zpUlz5@FVFF77S0Q05N.cambridge.arm.com>
- <CAP-5=fUB75DCL4+8YO62iPVsnxoeXGv5cLmT7eP2bHNs=xoMdg@mail.gmail.com>
- <ZVzUr7TWEYPoZrWX@FVFF77S0Q05N.cambridge.arm.com> <CAP-5=fUWm7efu3xdUBbiifs_KNU1igwAxbXmum=V38SjHQHtXg@mail.gmail.com>
- <ZVzXjz_0nYbmSGPQ@FVFF77S0Q05N.cambridge.arm.com> <CAP-5=fWLGOCWv=wp2xsi4AVxfbS8KhkmtkMwOA4yVrz791=Z8Q@mail.gmail.com>
- <930bfb9a-dcbe-4385-9ae3-26e2aa14c50e@marcan.st> <ZV38z3+p2S2ETtzG@kernel.org>
- <ZV4i_lrhbOVdEpwH@FVFF77S0Q05N> <CAP-5=fXxdt4-j7ea=3oXpqyfOQEmSRYBugzND0r+gZUd5sMi1w@mail.gmail.com>
- <ZV4rubQsiiAPoM1s@kernel.org>
-In-Reply-To: <ZV4rubQsiiAPoM1s@kernel.org>
-From: Ian Rogers <irogers@google.com>
-Date: Wed, 22 Nov 2023 08:33:18 -0800
-Message-ID: <CAP-5=fV8W6dK95u9uuchtrZLES0joNEmFKvdBq2JGEEUeecKUQ@mail.gmail.com>
-Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.5
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, Hector Martin <marcan@marcan.st>, 
-	Marc Zyngier <maz@kernel.org>, Arnaldo Carvalho de Melo <acme@redhat.com>, James Clark <james.clark@arm.com>, 
-	linux-perf-users@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	Asahi Linux <asahi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAP-5=fWtHYr9J2izkNmTpfKvdEdt0ViELJ1Gsih6H9XBTE83UA@mail.gmail.com>
+X-Url: http://acmel.wordpress.com
 
-On Wed, Nov 22, 2023 at 8:26=E2=80=AFAM Arnaldo Carvalho de Melo
-<acme@kernel.org> wrote:
->
-> Em Wed, Nov 22, 2023 at 08:04:26AM -0800, Ian Rogers escreveu:
-> > On Wed, Nov 22, 2023 at 7:49=E2=80=AFAM Mark Rutland <mark.rutland@arm.=
-com> wrote:
-> > >
-> > > On Wed, Nov 22, 2023 at 10:06:23AM -0300, Arnaldo Carvalho de Melo wr=
-ote:
-> > > > Em Wed, Nov 22, 2023 at 12:23:27PM +0900, Hector Martin escreveu:
-> > > > > On 2023/11/22 1:38, Ian Rogers wrote:
-> > > > > > On Tue, Nov 21, 2023 at 8:15=E2=80=AFAM Mark Rutland <mark.rutl=
-and@arm.com> wrote:
-> > > > > >> On Tue, Nov 21, 2023 at 08:09:37AM -0800, Ian Rogers wrote:
-> > > > > >>> On Tue, Nov 21, 2023 at 8:03=E2=80=AFAM Mark Rutland <mark.ru=
-tland@arm.com> wrote:
-> > > > > >>>> On Tue, Nov 21, 2023 at 07:46:57AM -0800, Ian Rogers wrote:
-> > > > > >>>>> On Tue, Nov 21, 2023 at 7:40=E2=80=AFAM Mark Rutland <mark.=
-rutland@arm.com> wrote:
-> > > > > >>>>>> On Tue, Nov 21, 2023 at 03:24:25PM +0000, Marc Zyngier wro=
-te:
-> > > > > >>>>>>> On Tue, 21 Nov 2023 13:40:31 +0000,
-> > > > > >>>>>>> Marc Zyngier <maz@kernel.org> wrote:
-> > > > > >>>>>>>>
-> > > > > >>>>>>>> [Adding key people on Cc]
-> > > > > >>>>>>>>
-> > > > > >>>>>>>> On Tue, 21 Nov 2023 12:08:48 +0000,
-> > > > > >>>>>>>> Hector Martin <marcan@marcan.st> wrote:
-> > > > > >>>>>>>>>
-> > > > > >>>>>>>>> Perf broke on all Apple ARM64 systems (tested almost ev=
-erything), and
-> > > > > >>>>>>>>> according to maz also on Juno (so, probably all big.LIT=
-TLE) since v6.5.
-> > > > > >>>>>>>>
-> > > > > >>>>>>>> I can confirm that at least on 6.7-rc2, perf is pretty b=
-usted on any
-> > > > > >>>>>>>> asymmetric ARM platform. It isn't clear what criteria is=
- used to pick
-> > > > > >>>>>>>> the PMU, but nothing works anymore.
-> > > > > >>>>>>>>
-> > > > > >>>>>>>> The saving grace in my case is that Debian still ships a=
- 6.1 perftool
-> > > > > >>>>>>>> package, but that's obviously not going to last.
-> > > > > >>>>>>>>
-> > > > > >>>>>>>> I'm happy to test potential fixes.
-> > > > > >>>>>>>
-> > > > > >>>>>>> At Mark's request, I've dumped a couple of perf (as of -r=
-c2) runs with
-> > > > > >>>>>>> -vvv.  And it is quite entertaining (this is taskset to a=
-n 'icestorm'
-> > > > > >>>>>>> CPU):
-> > > > > >>>>>>
-> > > > > >>>>>> IIUC the tool is doing the wrong thing here and overriding=
- explicit
-> > > > > >>>>>> ${pmu}/${event}/ events with PERF_TYPE_HARDWARE events rat=
-her than events using
-> > > > > >>>>>> that ${pmu}'s type and event namespace.
-> > > > > >>>>>>
-> > > > > >>>>>> Regardless of the *new* ABI that allows PERF_TYPE_HARDWARE=
- events to be
-> > > > > >>>>>> targetted to a specific PMU, it's semantically wrong to re=
-write events like
-> > > > > >>>>>> this since ${pmu}/${event}/ is not necessarily equivalent =
-to a similarly-named
-> > > > > >>>>>> PERF_COUNT_HW_${EVENT}.
-> > > > > >>>>>
-> > > > > >>>>> If you name a PMU and an event then the event should only b=
-e opened on
-> > > > > >>>>> that PMU, 100% agree. There's a bunch of output, but when t=
-he legacy
-> > > > > >>>>> cycles event is opened it appears to be because it was expl=
-icitly
-> > > > > >>>>> requested.
-> > > > > >>>>
-> > > > > >>>> I think you've missed that the named PMU events are being er=
-reously transformed
-> > > > > >>>> into PERF_TYPE_HARDWARE events. Look at the -vvv output, e.g=
-.
-> > > > > >>>>
-> > > > > >>>>   Opening: apple_firestorm_pmu/cycles/
-> > > > > >>>>   ----------------------------------------------------------=
---
-> > > > > >>>>   perf_event_attr:
-> > > > > >>>>     type                             0 (PERF_TYPE_HARDWARE)
-> > > > > >>>>     size                             136
-> > > > > >>>>     config                           0 (PERF_COUNT_HW_CPU_CY=
-CLES)
-> > > > > >>>>     sample_type                      IDENTIFIER
-> > > > > >>>>     read_format                      TOTAL_TIME_ENABLED|TOTA=
-L_TIME_RUNNING
-> > > > > >>>>     disabled                         1
-> > > > > >>>>     inherit                          1
-> > > > > >>>>     enable_on_exec                   1
-> > > > > >>>>     exclude_guest                    1
-> > > > > >>>>   ----------------------------------------------------------=
---
-> > > > > >>>>   sys_perf_event_open: pid 1045843  cpu -1  group_fd -1  fla=
-gs 0x8 =3D 4
-> > > > > >>>>
-> > > > > >>>> ... which should not be PERF_TYPE_HARDWARE && PERF_COUNT_HW_=
-CPU_CYCLES.
-> > > > > >>>>
-> > > > > >>>> Marc said that he bisected the issue down to commit:
-> > > > > >>>>
-> > > > > >>>>   5ea8f2ccffb23983 ("perf parse-events: Support hardware eve=
-nts as terms")
-> > > > > >>>>
-> > > > > >>>> ... so it looks like something is going wrong when the event=
-s are being parsed,
-> > > > > >>>> e.g. losing the HW PMU information?
-> > > > > >>>
-> > > > > >>> Ok, I think I'm getting confused by other things. This looks =
-like the issue.
-> > > > > >>>
-> > > > > >>> I think it may be working as intended, but not how you intend=
-ed :-) If
-> > > > > >>> a core PMU is listed and then a legacy event, the legacy even=
-t should
-> > > >
-> > > > The point is that "cycles" when prefixed with "pmu/" shouldn't be
-> > > > considered "cycles" as HW/0, in that setting it is "cycles" for tha=
-t
-> > > > PMU.
-> > >
-> > > Exactly.
-> > >
-> > > > (but we only have "cpu_cycles" for at least the a53 and a72 PMUs I
-> > > > have access in a Libre Computer rockchip 3399-pc hybrid board, if w=
-e use
-> > > > it, then we get what we want/had before, see below):
-> > >
-> > > Both Cortex-A53 and Cortex-A72 have the common PMUv3 events, so they =
-have
-> > > "cpu_cycles" and "bus_cycles".
-> > >
-> > > The Apple PMUs that Hector and Marc anre using don't follow the PMUv3
-> > > architecture, and just have a "cycles" event.
-> > >
-> > > [...]
-> > >
-> > > > So what we need here seems to be to translate the generic term "cyc=
-les"
-> > > > to "cpu_cycles" when a PMU is explicitely passed in the event name =
-and
-> > > > it doesn't have "cycles" and then just retry.
-> > >
-> > > I'm not sure we need to map that.
-> > >
-> > > My thinking is:
-> > >
-> > > * If the user asks for "cycles" without a PMU name, that should use t=
-he
-> > >   PERF_TYPE_HARDWARE cycles event. The ARM PMUs handle that correctly=
- when the
-> > >   event is directed to them.
-> > >
-> > > * If the user asks for "${pmu}/cycles/", that should only use the "cy=
-cles"
-> > >   event in that PMU's namespace, not PERF_TYPE_HARDWARE.
-> > >
-> > > * If we need a way so say "use the PERF_TYPE_HARDWARE cycles event on=
- ${pmu}",
-> > >   then we should have a new syntax for that (e.g. as we have for raw =
-events),
-> > >   e.g. it would be possible to have "pmu/hw:cycles/" or something lik=
-e that.
-> > >
-> > > That way there's no ambiguity.
-> >
-> > This would break cpu_core/LLC-load-misses/ on Intel hybrid as the
-> > LLC-load-misses event is legacy and not advertised in either sysfs or
-> > in json.
->
-> Indeed:
->
-> [root@quaco ~]# ls /sys/devices/cpu/events/
-> branch-instructions  bus-cycles    cache-references  instructions  mem-st=
-ores  topdown-fetch-bubbles     topdown-recovery-bubbles.scale  topdown-slo=
-ts-retired  topdown-total-slots.scale
-> branch-misses        cache-misses  cpu-cycles        mem-loads     ref-cy=
-cles  topdown-recovery-bubbles  topdown-slots-issued            topdown-tot=
-al-slots
-> [root@quaco ~]# strace -e perf_event_open perf stat -e cpu/LLC-load-misse=
-s/ echo
-> perf_event_open({type=3DPERF_TYPE_HW_CACHE, size=3D0x88 /* PERF_ATTR_SIZE=
-_??? */, config=3DPERF_COUNT_HW_CACHE_RESULT_MISS<<16|PERF_COUNT_HW_CACHE_O=
-P_READ<<8|PERF_COUNT_HW_CACHE_LL, sample_period=3D0, sample_type=3DPERF_SAM=
-PLE_IDENTIFIER, read_format=3DPERF_FORMAT_TOTAL_TIME_ENABLED|PERF_FORMAT_TO=
-TAL_TIME_RUNNING, disabled=3D1, inherit=3D1, enable_on_exec=3D1, precise_ip=
-=3D0 /* arbitrary skid */, exclude_guest=3D1, ...}, 41467, -1, -1, PERF_FLA=
-G_FD_CLOEXEC) =3D 3
->
-> --- SIGCHLD {si_signo=3DSIGCHLD, si_code=3DCLD_EXITED, si_pid=3D41467, si=
-_uid=3D0, si_status=3D0, si_utime=3D0, si_stime=3D0} ---
->
->  Performance counter stats for 'echo':
->
->              1,015      cpu/LLC-load-misses/
->
->        0.005167119 seconds time elapsed
->
->        0.000821000 seconds user
->        0.004105000 seconds sys
->
->
-> --- SIGCHLD {si_signo=3DSIGCHLD, si_code=3DSI_USER, si_pid=3D41466, si_ui=
-d=3D0} ---
-> +++ exited with 0 +++
-> [root@quaco ~]#
->
-> Is it difficult to before doing the current expansion to
-> PERF_TYPE_HARDWARE/PERF_HW_CPU_CYCLES just check if there is an event
-> with the name specified in the PMU specified, if there is, use that.
+Em Wed, Nov 22, 2023 at 08:29:58AM -0800, Ian Rogers escreveu:
+> I can look at doing an event parser change like:
+> 
+> ```
+> diff --git a/tools/perf/util/parse-events.c b/tools/perf/util/parse-events.c
+> index aa2f5c6fc7fc..9a18fda525d2 100644
+> --- a/tools/perf/util/parse-events.c
+> +++ b/tools/perf/util/parse-events.c
+> @@ -986,7 +986,8 @@ static int config_term_pmu(struct perf_event_attr *attr,
+>                                                           err_str,
+> /*help=*/NULL);
+>                        return -EINVAL;
+>                }
+> -               if (perf_pmu__supports_legacy_cache(pmu)) {
+> +               if (perf_pmu__supports_legacy_cache(pmu) &&
+> +                   !perf_pmu__have_event(pmu, term->val.str)) {
+>                        attr->type = PERF_TYPE_HW_CACHE;
+>                        return
+> parse_events__decode_legacy_cache(term->config, pmu->type,
+>                                                                 &attr->config);
+> @@ -1004,10 +1005,15 @@ static int config_term_pmu(struct perf_event_attr *attr,
+>                                                           err_str,
+> /*help=*/NULL);
+>                        return -EINVAL;
+>                }
+> -               attr->type = PERF_TYPE_HARDWARE;
+> -               attr->config = term->val.num;
+> -               if (perf_pmus__supports_extended_type())
+> -                       attr->config |= (__u64)pmu->type << PERF_PMU_TYPE_SHIFT;
+> +               if (perf_pmu__have_event(pmu, term->val.str)) {
+> +                       /* If the PMU has a sysfs or json event prefer
+> it over legacy. ARM requires this. */
+> +                       term->term_type = PARSE_EVENTS__TERM_TYPE_USER;
+> +               } else {
+> +                       attr->type = PERF_TYPE_HARDWARE;
+> +                       attr->config = term->val.num;
+> +                       if (perf_pmus__supports_extended_type())
+> +                               attr->config |= (__u64)pmu->type <<
+> PERF_PMU_TYPE_SHIFT;
+> +               }
+>                return 0;
+>        }
+>        if (term->type_term == PARSE_EVENTS__TERM_TYPE_USER ||
+> ```
+> (note: this is incomplete as term->val.str isn't populated for
+> PARSE_EVENTS__TERM_TYPE_HARDWARE)
 
-Agreed and I've sent an early cut of this. The issue is that then we
-end up changing the encoding on Intel. I also don't see why ARM
-doesn't just fix their PMU.
+Yeah, I had to apply manually as your MUA mangled it, then it didn't
+build, had to remove some consts, then there was a struct member
+mistake, after all fixed I get to the patch below, but it now segfaults,
+probably what you mention...
 
-Thanks,
-Ian
+root@roc-rk3399-pc:~# strace -e perf_event_open taskset -c 4,5 perf stat -v -e cycles,armv8_cortex_a53/cycles/,armv8_cortex_a72/cycles/ echo
+Using CPUID 0x00000000410fd082
+perf_event_open({type=PERF_TYPE_HARDWARE, size=0 /* PERF_ATTR_SIZE_??? */, config=0x7<<32|PERF_COUNT_HW_CPU_CYCLES, sample_period=0, sample_type=0, read_format=0, disabled=1, precise_ip=0 /* arbitrary skid */, ...}, 0, -1, -1, PERF_FLAG_FD_CLOEXEC) = -1 ENOENT (No such file or directory)
+--- SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=NULL} ---
++++ killed by SIGSEGV +++
+Segmentation fault
+root@roc-rk3399-pc:~#
 
-> - Arnaldo
+- Arnaldo
+
+diff --git a/tools/perf/util/parse-events.c b/tools/perf/util/parse-events.c
+index aa2f5c6fc7fc..1e648454cc49 100644
+--- a/tools/perf/util/parse-events.c
++++ b/tools/perf/util/parse-events.c
+@@ -976,7 +976,7 @@ static int config_term_pmu(struct perf_event_attr *attr,
+ 			   struct parse_events_error *err)
+ {
+ 	if (term->type_term == PARSE_EVENTS__TERM_TYPE_LEGACY_CACHE) {
+-		const struct perf_pmu *pmu = perf_pmus__find_by_type(attr->type);
++		struct perf_pmu *pmu = perf_pmus__find_by_type(attr->type);
+ 
+ 		if (!pmu) {
+ 			char *err_str;
+@@ -986,7 +986,8 @@ static int config_term_pmu(struct perf_event_attr *attr,
+ 							   err_str, /*help=*/NULL);
+ 			return -EINVAL;
+ 		}
+-		if (perf_pmu__supports_legacy_cache(pmu)) {
++		if (perf_pmu__supports_legacy_cache(pmu) &&
++		    !perf_pmu__have_event(pmu, term->val.str)) {
+ 			attr->type = PERF_TYPE_HW_CACHE;
+ 			return parse_events__decode_legacy_cache(term->config, pmu->type,
+ 								 &attr->config);
+@@ -994,7 +995,7 @@ static int config_term_pmu(struct perf_event_attr *attr,
+ 			term->type_term = PARSE_EVENTS__TERM_TYPE_USER;
+ 	}
+ 	if (term->type_term == PARSE_EVENTS__TERM_TYPE_HARDWARE) {
+-		const struct perf_pmu *pmu = perf_pmus__find_by_type(attr->type);
++		struct perf_pmu *pmu = perf_pmus__find_by_type(attr->type);
+ 
+ 		if (!pmu) {
+ 			char *err_str;
+@@ -1004,10 +1005,15 @@ static int config_term_pmu(struct perf_event_attr *attr,
+ 							   err_str, /*help=*/NULL);
+ 			return -EINVAL;
+ 		}
+-		attr->type = PERF_TYPE_HARDWARE;
+-		attr->config = term->val.num;
+-		if (perf_pmus__supports_extended_type())
+-			attr->config |= (__u64)pmu->type << PERF_PMU_TYPE_SHIFT;
++		if (perf_pmu__have_event(pmu, term->val.str)) {
++			/* If the PMU has a sysfs or JSON event prefer it over legacy. ARM requires this. */
++			term->type_term = PARSE_EVENTS__TERM_TYPE_USER;
++		} else {
++			attr->type = PERF_TYPE_HARDWARE;
++			attr->config = term->val.num;
++			if (perf_pmus__supports_extended_type())
++			    attr->config |= (__u64)pmu->type << PERF_PMU_TYPE_SHIFT;
++		}
+ 		return 0;
+ 	}
+ 	if (term->type_term == PARSE_EVENTS__TERM_TYPE_USER ||
