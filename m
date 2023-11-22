@@ -1,164 +1,242 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A72B54BF2
-	for <asahi@lists.linux.dev>; Tue, 21 Nov 2023 23:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F471847E
+	for <asahi@lists.linux.dev>; Wed, 22 Nov 2023 03:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LQcxcKD9"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3b6d88dbaa3so4020157b6e.1
-        for <asahi@lists.linux.dev>; Tue, 21 Nov 2023 15:43:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700610208; x=1701215008; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nBS+DVGQWY8oXSxEgPe4ez0bnbZp4j8xClzB0D/ObR8=;
-        b=LQcxcKD9aLI8lCfd99QvGcLnUtTydbvSZ7/PTfjq2u8Sn/Xsn9nn25z1VpZBAWw8HV
-         w3Bcp6jQJOYytHoetpX5utVuWZPUw4UIjxgMTLxv7a00akPyGepHuxQ0p+13EKmZ7i6q
-         y4T80LurpWgk3M+BugnQjLy61QeO+fDt+1im6Y1ng2kv/qGPf0UuF60z0+RhVYqc4ER6
-         V9y2VIOpSI30uomlX3UTp5UNb8AMb8HVPj9IP+n9oD6vVhG0orMajZkcd4ZPmDwmJomL
-         ArE+32cd7DQ/ZV8b4CntAn9KesvxRhP9ZeP/rlccx2jPSknyZXzTOfIqP57W65XCW9/t
-         dhjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700610208; x=1701215008;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nBS+DVGQWY8oXSxEgPe4ez0bnbZp4j8xClzB0D/ObR8=;
-        b=hLj82WULrkON1K0+uHIU24BFtZSvuMyuNQ3CrPjkycye6inGvrBFxULgsDQC8Pqf+t
-         T34kM+3bVkEdWpqo6Q5cU+/SI+GX+ZxOjWo2bTzhZmmx+1P/gy1GeMz2z2mzPb8oz7TA
-         kiITKyACbgs/R7aiwSMy7gras7y2c1/eB/HQEeXpLsIosPujcxb2l8rw4oggi8f0ueAW
-         IZAMNNrLyywuOdu42bBo/3m39+HzUI4dc5KX+dVKJjntkYOBY96cbosS1e3491pPsxr+
-         y/IXEv54gqlM/3YratxUZtdyHRI2HGnal8313OMkuTDqfP+YitNcKpV9+GUKwb9tSv52
-         xctQ==
-X-Gm-Message-State: AOJu0YxiNslvxdZN6eKJGYCbLTu4bXSbrUFDrMCTQVTRT9IFLEC+FehT
-	hlKXWGhjHUuZmC+Y5QvCDhc=
-X-Google-Smtp-Source: AGHT+IHZ6/VS/djvTTtSjXXmpmFyVh1llZ04rQQ0TgJw5/LQzTx02CtBWjROC9dZrUGxzj3LMx4Y1w==
-X-Received: by 2002:a05:6808:1407:b0:3b2:dcff:9e54 with SMTP id w7-20020a056808140700b003b2dcff9e54mr1108746oiv.24.1700610208258;
-        Tue, 21 Nov 2023 15:43:28 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id bw1-20020a056a02048100b005c216d903bdsm5980436pgb.89.2023.11.21.15.43.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 15:43:27 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id DB697102106EA; Wed, 22 Nov 2023 06:43:24 +0700 (WIB)
-Date: Wed, 22 Nov 2023 06:43:24 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Linux perf Profiling <linux-perf-users@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>,
-	Ian Rogers <irogers@google.com>,
-	Kan Liang <kan.liang@linux.intel.com>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>
-Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since
- v6.5
-Message-ID: <ZV1AnNB2CSbAUFVg@archie.me>
-References: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="ZRYkYaiI"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 39644447AA;
+	Wed, 22 Nov 2023 03:23:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1700623413; bh=rtXVApGwa8ftTxbLhp+YfRE6O5FW8Zz5eF4VEvMHC5w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ZRYkYaiIHUbIJ6O90RUA0KkCuAmWaQP464BlJsC0N4EznUZQ5rmsemsbMdAjpqkup
+	 xhHEchuTe1dwBUuEUUBwfj87J8bI4w/hIKoWI2N+DBDP9Uu4oBlZL2pFJMH9mR5+j8
+	 l2/7tjaVCVI/k3mAaRgcQVnfBdSOy8p6EN8nKQI9QtEqTboNUHuaJGR1l1n6sabB11
+	 B0pFlys3mHd605Nq5KNFYmnnO3c1eOA6T6lFUONraGzWWqOfhEGTIUbskwilmlxTJY
+	 xs9j7PmqjCnZaXDezsaK62PdpM4wlDrL2YyOPLuvhwsmTL8UNiNCh4bWD5HCFRZhdZ
+	 dZ2kg0HxQJtew==
+Message-ID: <930bfb9a-dcbe-4385-9ae3-26e2aa14c50e@marcan.st>
+Date: Wed, 22 Nov 2023 12:23:27 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fu/8SvnJ7Xc8DEer"
-Content-Disposition: inline
-In-Reply-To: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since
+ v6.5
+Content-Language: en-US
+To: Ian Rogers <irogers@google.com>, Mark Rutland <mark.rutland@arm.com>
+Cc: Marc Zyngier <maz@kernel.org>, Arnaldo Carvalho de Melo
+ <acme@redhat.com>, James Clark <james.clark@arm.com>,
+ linux-perf-users@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Asahi Linux <asahi@lists.linux.dev>
+References: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
+ <86pm03z0kw.wl-maz@kernel.org> <86o7fnyvrq.wl-maz@kernel.org>
+ <ZVzPUjOiH6zpUlz5@FVFF77S0Q05N.cambridge.arm.com>
+ <CAP-5=fUB75DCL4+8YO62iPVsnxoeXGv5cLmT7eP2bHNs=xoMdg@mail.gmail.com>
+ <ZVzUr7TWEYPoZrWX@FVFF77S0Q05N.cambridge.arm.com>
+ <CAP-5=fUWm7efu3xdUBbiifs_KNU1igwAxbXmum=V38SjHQHtXg@mail.gmail.com>
+ <ZVzXjz_0nYbmSGPQ@FVFF77S0Q05N.cambridge.arm.com>
+ <CAP-5=fWLGOCWv=wp2xsi4AVxfbS8KhkmtkMwOA4yVrz791=Z8Q@mail.gmail.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <CAP-5=fWLGOCWv=wp2xsi4AVxfbS8KhkmtkMwOA4yVrz791=Z8Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
---fu/8SvnJ7Xc8DEer
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 21, 2023 at 09:08:48PM +0900, Hector Martin wrote:
-> Perf broke on all Apple ARM64 systems (tested almost everything), and
-> according to maz also on Juno (so, probably all big.LITTLE) since v6.5.
->=20
-> Test command:
->=20
-> sudo taskset -c 0 ./perf stat -e apple_icestorm_pmu/cycles/ -e
-> apple_firestorm_pmu/cycles/ -e cycles ls
->=20
-> Since this is taskset to CPU #0 (LITTLE core, icestorm), only events for
-> icestorm are expected.
->=20
-> I bisected the breakage to two distinct points:
->=20
-> 5ea8f2ccffb is the first bad commit. With its parent, the output is as
-> expected (same as v6.4):
->=20
->          3,297,462      apple_icestorm_pmu/cycles/
->=20
->      <not counted>      apple_firestorm_pmu/cycles/
->                        (0.00%)
->      <not counted>      cycles
->                        (0.00%)
->=20
-> With 5ea8f2ccffb everything breaks:
->=20
->    <not supported>      apple_icestorm_pmu/cycles/
->=20
->    <not supported>      apple_firestorm_pmu/cycles/
->=20
->      <not counted>      cycles
->                        (0.00%)
->=20
-> Somewhere along the way to 82fe2e45cdb00 things get even worse (didn't
-> bother bisecting this range). With its parent:
->=20
->    <not supported>      apple_icestorm_pmu/cycles/
->=20
->    <not supported>      apple_firestorm_pmu/cycles/
->=20
->    <not supported>      apple_icestorm_pmu/cycles/
->=20
->    <not supported>      apple_firestorm_pmu/cycles/
->=20
-> Then 82fe2e45cdb00 leads to the current v6.5 behavior:
->=20
->      <not counted>      apple_icestorm_pmu/cycles/
->                        (0.00%)
->      <not counted>      apple_firestorm_pmu/cycles/
->                        (0.00%)
->      <not counted>      cycles
->                        (0.00%)
->=20
-> If I taskset the task to CPU#2 (big core, firestorm), I get events:
->=20
->          1,454,858      apple_icestorm_pmu/cycles/
->=20
->          1,454,760      apple_firestorm_pmu/cycles/
->=20
->          1,454,384      cycles
->=20
->=20
-> So the current behavior is that all output seems to come from the
-> firestorm PMU event counter, regardless of requested event.
->=20
-> This is all unchanged and still broken in v6.7-rc2.
->=20
+On 2023/11/22 1:38, Ian Rogers wrote:
+> On Tue, Nov 21, 2023 at 8:15 AM Mark Rutland <mark.rutland@arm.com> wrote:
+>>
+>> On Tue, Nov 21, 2023 at 08:09:37AM -0800, Ian Rogers wrote:
+>>> On Tue, Nov 21, 2023 at 8:03 AM Mark Rutland <mark.rutland@arm.com> wrote:
+>>>>
+>>>> On Tue, Nov 21, 2023 at 07:46:57AM -0800, Ian Rogers wrote:
+>>>>> On Tue, Nov 21, 2023 at 7:40 AM Mark Rutland <mark.rutland@arm.com> wrote:
+>>>>>>
+>>>>>> On Tue, Nov 21, 2023 at 03:24:25PM +0000, Marc Zyngier wrote:
+>>>>>>> On Tue, 21 Nov 2023 13:40:31 +0000,
+>>>>>>> Marc Zyngier <maz@kernel.org> wrote:
+>>>>>>>>
+>>>>>>>> [Adding key people on Cc]
+>>>>>>>>
+>>>>>>>> On Tue, 21 Nov 2023 12:08:48 +0000,
+>>>>>>>> Hector Martin <marcan@marcan.st> wrote:
+>>>>>>>>>
+>>>>>>>>> Perf broke on all Apple ARM64 systems (tested almost everything), and
+>>>>>>>>> according to maz also on Juno (so, probably all big.LITTLE) since v6.5.
+>>>>>>>>
+>>>>>>>> I can confirm that at least on 6.7-rc2, perf is pretty busted on any
+>>>>>>>> asymmetric ARM platform. It isn't clear what criteria is used to pick
+>>>>>>>> the PMU, but nothing works anymore.
+>>>>>>>>
+>>>>>>>> The saving grace in my case is that Debian still ships a 6.1 perftool
+>>>>>>>> package, but that's obviously not going to last.
+>>>>>>>>
+>>>>>>>> I'm happy to test potential fixes.
+>>>>>>>
+>>>>>>> At Mark's request, I've dumped a couple of perf (as of -rc2) runs with
+>>>>>>> -vvv.  And it is quite entertaining (this is taskset to an 'icestorm'
+>>>>>>> CPU):
+>>>>>>
+>>>>>> IIUC the tool is doing the wrong thing here and overriding explicit
+>>>>>> ${pmu}/${event}/ events with PERF_TYPE_HARDWARE events rather than events using
+>>>>>> that ${pmu}'s type and event namespace.
+>>>>>>
+>>>>>> Regardless of the *new* ABI that allows PERF_TYPE_HARDWARE events to be
+>>>>>> targetted to a specific PMU, it's semantically wrong to rewrite events like
+>>>>>> this since ${pmu}/${event}/ is not necessarily equivalent to a similarly-named
+>>>>>> PERF_COUNT_HW_${EVENT}.
+>>>>>
+>>>>> If you name a PMU and an event then the event should only be opened on
+>>>>> that PMU, 100% agree. There's a bunch of output, but when the legacy
+>>>>> cycles event is opened it appears to be because it was explicitly
+>>>>> requested.
+>>>>
+>>>> I think you've missed that the named PMU events are being erreously transformed
+>>>> into PERF_TYPE_HARDWARE events. Look at the -vvv output, e.g.
+>>>>
+>>>>   Opening: apple_firestorm_pmu/cycles/
+>>>>   ------------------------------------------------------------
+>>>>   perf_event_attr:
+>>>>     type                             0 (PERF_TYPE_HARDWARE)
+>>>>     size                             136
+>>>>     config                           0 (PERF_COUNT_HW_CPU_CYCLES)
+>>>>     sample_type                      IDENTIFIER
+>>>>     read_format                      TOTAL_TIME_ENABLED|TOTAL_TIME_RUNNING
+>>>>     disabled                         1
+>>>>     inherit                          1
+>>>>     enable_on_exec                   1
+>>>>     exclude_guest                    1
+>>>>   ------------------------------------------------------------
+>>>>   sys_perf_event_open: pid 1045843  cpu -1  group_fd -1  flags 0x8 = 4
+>>>>
+>>>> ... which should not be PERF_TYPE_HARDWARE && PERF_COUNT_HW_CPU_CYCLES.
+>>>>
+>>>> Marc said that he bisected the issue down to commit:
+>>>>
+>>>>   5ea8f2ccffb23983 ("perf parse-events: Support hardware events as terms")
+>>>>
+>>>> ... so it looks like something is going wrong when the events are being parsed,
+>>>> e.g. losing the HW PMU information?
+>>>
+>>> Ok, I think I'm getting confused by other things. This looks like the issue.
+>>>
+>>> I think it may be working as intended, but not how you intended :-) If
+>>> a core PMU is listed and then a legacy event, the legacy event should
+>>> be opened on the core PMU as a legacy event with the extended type
+>>> set. This is to allow things like legacy cache events to be opened on
+>>> a specified PMU. Legacy event names match with a higher priority than
+>>> those in sysfs or json as they are hard coded.
+>>
+>> That has never been the case previously, so this is user-visible breakage, and
+>> it prevents users from being able to do the right thing, so I think that's a
+>> broken design.
+> 
+> So the problem was caused by ARM and Intel doing two different things.
+> Intel did at least contribute to the perf tool in support for their
+> BIG.little/hybrid, so that's why the semantics match their approach.
+> 
+>>> Presumably the expectation was that by advertising a cycles event, presumably
+>>> in sysfs, then this is what would be matched.
+>>
+>> I expect that if I ask for ${pmu}/${event}/, that PMU is used, and the event
+>> *in that PMU's namespace* is used. Overriding that breaks long-established
+>> practice and provides users with no recourse to get the behavioru they expect
+>> (and previosuly had).
+> 
+> On ARM but not Intel.
+> 
+>> I do think that (regardless of whther this was the sematnic you intended)
+>> silently overriding events with legacy events is a bug, and one we should fix.
+>> As I mentioned in another reply, just because the events have the same name
+>> does not mean that they are semantically the same, so we're liable to give
+>> people the wrong numbers anyhow.
+>>
+>> Can we fix this?
+> 
+> So I'd like to fix this, some things from various conversations:
+> 
+> 1) we lack testing. Our testing relies on the sysfs of the machine
+> being run on, which is better than nothing. I think ideally we'd have
+> a collection of zipped up sysfs directories and then we could have a
+> test that asserts on ARM you get the behavior you want.
+> 
+> 2) for RISC-V they want to make the legacy event matching something in
+> user land to simplify the PMU driver.
+> 
+> 3) I'd like to get rid of the PMU json interface. My idea is to
+> convert json events/metrics into sysfs style files, zip these up and
+> then link them into the perf binary. On Intel the json is 70% of the
+> binary (7MB out of 10MB) and we may get this down to 3MB with this
+> approach. The json lookup would need to incorporate the cpuid matching
+> that currently exists. When we look up an event I'd like the approach
+> to be like unionfs with a specified but configurable order. Users
+> could provide directories of their own events/metrics for various
+> PMUs, and then this approach could be used to help with (1).
+> 
+> Those proposals are not something to add as a -rc fix, so what I think
+> you're asking for here is a "if ARM" fix somewhere in the event
+> parsing. That's of course possible but it will cause problems if you
+> did say:
+> 
+> perf stat -e arm_pmu/LLC-load-misses/ ...
+> 
+> as I doubt the PMU driver is advertising this legacy event in sysfs
+> and the "if ARM" logic would presumably be trying to disable legacy
+> events in the term list for the ARM PMU.
+> 
+> Given all of this, is anything actually broken and needing a fix for 6.7?
 
-Thanks for the regression report (and it has been handled well already).
-I'm adding it to regzbot for tracking:
+You literally cannot use perf correctly on ARM big.LITTLE systems since
+6.5, while it worked fine on 6.4. So, yes, it's broken and it needs
+fixing. This is a major regression.
 
-#regzbot ^introduced: 5ea8f2ccffb239
+$ taskset -c 0 perf stat -e apple_icestorm_pmu/cycles/ echo
 
---=20
-An old man doll... just what I always wanted! - Clara
 
---fu/8SvnJ7Xc8DEer
-Content-Type: application/pgp-signature; name="signature.asc"
+ Performance counter stats for 'echo':
 
------BEGIN PGP SIGNATURE-----
+     <not counted>      apple_icestorm_pmu/cycles/u
+                       (0.00%)
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZV1AlwAKCRD2uYlJVVFO
-o8aCAP9VLRaP2SCBxEoyHuPgsn0Q5WQW3SmEqOCX6a8pq9iEYAD9FltPgjVA6zjk
-h9C6hLjE6H67lgw50GnDhziUTCtluAY=
-=9D7c
------END PGP SIGNATURE-----
+       0.001385544 seconds time elapsed
 
---fu/8SvnJ7Xc8DEer--
+       0.001375000 seconds user
+       0.000000000 seconds sys
+
+
+$ taskset -c 2 perf stat -e apple_firestorm_pmu/cycles/ echo
+
+
+ Performance counter stats for 'echo':
+
+           169,965      apple_firestorm_pmu/cycles/u
+
+
+       0.000466667 seconds time elapsed
+
+       0.000475000 seconds user
+       0.000000000 seconds sys
+
+
+Both of those should return counts. One does not, and it doesn't even
+seem to be predictable which one you get. *On my particular system, it
+is currently impossible to get any performance counter data from the E
+cores, as far as I can tell, no matter how you invoke perf*.
+
+Feel free to argue semantics as to what went wrong or how it should be
+fixed, but there is no question that this is a regression that requires
+a fix. Perf is currently simply broken here, where it wasn't in 6.4.
+
+- Hector
