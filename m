@@ -1,236 +1,132 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB2D1173D
-	for <asahi@lists.linux.dev>; Thu, 23 Nov 2023 04:33:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49FC2031F;
+	Thu, 23 Nov 2023 09:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CecVgBXV"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-548db776f6cso3643a12.1
-        for <asahi@lists.linux.dev>; Wed, 22 Nov 2023 20:33:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1700713996; x=1701318796; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wHYFGmfIL28khD5t+/nzZLl2KHtCKuHF6ms78F8Fe70=;
-        b=CecVgBXV7cfaGeFTMJ/B94QSF3Vc3elcaBdsEcBeenqp7ZbrGFNpBK0ZJJL5JEoeo1
-         2ZpnCASpjiV/zMeeEv+g6fDbdiAGYdn89yIcwBimen3nw+WmIakroT3zseXKSRrISN2/
-         ss86aA2V/wC28CEPswruRnMOyrRUyagsp02KfGdYx/X311V0qiD0a3DPBhFoHVls6ruo
-         ShC6KHu+7irM3+5Vls+nAVHBzCFG6CEzhcKCUM2xJ9VdHjdtEXPx9o9esJ66+c7IiWs8
-         DS6hVpCeDHV/SpfHxaFtdivou6OrDLV6Iq4vRqsh54kK/7v1779ZtWxUTnuvOUMEh+TZ
-         X1xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700713996; x=1701318796;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wHYFGmfIL28khD5t+/nzZLl2KHtCKuHF6ms78F8Fe70=;
-        b=pP8NxneTmc00Pc+v72/CdjH/PDEl2TKec3cj+3jd/bDC9fS8H6KfJ8Au9/lbUzupZ9
-         dhESvqApENd2Ur9+eEL1tSbiUADWxbxI2q8JKBTRyGs7ncxScBWZZi4v5r5l3D9CF9wU
-         H5sDsVg6HC8zRBRNACUp9KE9Y5ukw/v2yEJp4ZFlYc33v8SbCM4y+kMpc0TLpaXDUJej
-         S2Kg9jk+U5LKRbdOTQ3l1R38SRtSmUrSXH5OiB/n9DIudXjJgpSTVkRK2fhG4ikk9k3K
-         KHpBN9LbnymiFK/Plvyrxd/0vDBtvrKND5aoXDI76i2n3Of6OA/8gWO09WrT9i75As2f
-         durg==
-X-Gm-Message-State: AOJu0YwcsS3UesVwv0/2RcCjTp7m0EBnSReIpAlQ7lf+zAqT0ustpLWw
-	LhNT5YysX5ASSLT+d9jXYWs6NvxzZv0UonlvYg8kyw==
-X-Google-Smtp-Source: AGHT+IHs5+fqXcXd6ogn/DfeaeTkDYlrlCqReCllXHbGsBBw6ajb2Kavkb8kz1MLsS7u9oYhFeF+v3hNOungmV1z2Y0=
-X-Received: by 2002:a05:6402:1cbc:b0:547:3f1:84e0 with SMTP id
- cz28-20020a0564021cbc00b0054703f184e0mr211893edb.7.1700713995667; Wed, 22 Nov
- 2023 20:33:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="bEylMheX"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 9BDB241EF0;
+	Thu, 23 Nov 2023 09:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1700730528; bh=tKvmM8VauJ2SKlC76Ts+IMS9Y0f1D93gbN6PS2aS1RQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=bEylMheXkP1AY7uDhyUgpvOvmafAgnH8kYOyGsGvzSEm3AG0TuKGO12XpHG7pIpPk
+	 7DWjDpQ/2UVGkEBlWmpkMsK+kkFSTbFl2mNZf+evyauyJJjLkxYiIMvQnQZccc7GYl
+	 eyA+fRFKB/4nH2lfKLFZ7jOWf+ZnhEEAdxplIRYiCSC8oH9YCENIvFOPHr97tQOVpS
+	 vFMyIE8sCHGbUWmMQTW6+kNNQZA2kAYPQ/d2k1mzDzQUzP4vU581SpL8b4NQXqoDyL
+	 Nq2SuV6KB6PtAtBepsn6kZamgJlbVvwi56sMxTDqNBWGfHkerXitbj24KAHWAlJH6q
+	 nnb+VrbjJRB5A==
+Message-ID: <ab23469f-19ce-4681-afc9-65518730b51b@marcan.st>
+Date: Thu, 23 Nov 2023 18:08:33 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <ZVzPUjOiH6zpUlz5@FVFF77S0Q05N.cambridge.arm.com>
- <CAP-5=fUB75DCL4+8YO62iPVsnxoeXGv5cLmT7eP2bHNs=xoMdg@mail.gmail.com>
- <ZVzUr7TWEYPoZrWX@FVFF77S0Q05N.cambridge.arm.com> <CAP-5=fUWm7efu3xdUBbiifs_KNU1igwAxbXmum=V38SjHQHtXg@mail.gmail.com>
- <ZVzXjz_0nYbmSGPQ@FVFF77S0Q05N.cambridge.arm.com> <CAP-5=fWLGOCWv=wp2xsi4AVxfbS8KhkmtkMwOA4yVrz791=Z8Q@mail.gmail.com>
- <ZV38ParIEYWOjt6T@FVFF77S0Q05N> <CAP-5=fUxBv4kbXyLrD5G-=wyRh6tKEJMy5qX0_86wQXxT79dJw@mail.gmail.com>
- <ZV4nj-_q4hHaf8Wl@FVFF77S0Q05N> <CAP-5=fWtHYr9J2izkNmTpfKvdEdt0ViELJ1Gsih6H9XBTE83UA@mail.gmail.com>
- <ZV4yd3oz2Ykl/N5Q@kernel.org> <CAP-5=fU==+UoF64AZz5HAwcL2xSDxLfyS1Q+SQ0d2SGwFC8j5A@mail.gmail.com>
-In-Reply-To: <CAP-5=fU==+UoF64AZz5HAwcL2xSDxLfyS1Q+SQ0d2SGwFC8j5A@mail.gmail.com>
-From: Ian Rogers <irogers@google.com>
-Date: Wed, 22 Nov 2023 20:33:03 -0800
-Message-ID: <CAP-5=fVE-GayAsg0PVf+WZuLh_KJAd2ErG2qvNROjhQOLYp=4w@mail.gmail.com>
-Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.5
-To: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Arnaldo Carvalho de Melo <acme@redhat.com>, James Clark <james.clark@arm.com>, 
-	linux-perf-users@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	Asahi Linux <asahi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/17] iommu: Add iommu_fwspec_alloc/dealloc()
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: acpica-devel@lists.linux.dev, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
+ Catalin Marinas <catalin.marinas@arm.com>, Dexuan Cui <decui@microsoft.com>,
+ devicetree@vger.kernel.org, David Woodhouse <dwmw2@infradead.org>,
+ Frank Rowand <frowand.list@gmail.com>, Hanjun Guo <guohanjun@huawei.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>, Len Brown <lenb@kernel.org>,
+ linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
+ linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, patches@lists.linux.dev,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Robert Moore <robert.moore@intel.com>, Rob Herring <robh+dt@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Sudeep Holla <sudeep.holla@arm.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Thierry Reding <thierry.reding@gmail.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Krishna Reddy <vdumpa@nvidia.com>, Vineet Gupta <vgupta@kernel.org>,
+ virtualization@lists.linux.dev, Wei Liu <wei.liu@kernel.org>,
+ Will Deacon <will@kernel.org>
+References: <6-v2-36a0088ecaa7+22c6e-iommu_fwspec_jgg@nvidia.com>
+ <20a7ef6d-a8ca-4bd8-ad7e-11856db617a2@marcan.st>
+ <1eb12c35-e64e-4c32-af99-8743dc2ec266@marcan.st>
+ <20231119141329.GA6083@nvidia.com>
+ <90855bbf-e845-4e4d-a713-df71d1e477d2@marcan.st>
+ <20231121160058.GG6083@nvidia.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20231121160058.GG6083@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 22, 2023 at 8:59=E2=80=AFAM Ian Rogers <irogers@google.com> wro=
-te:
->
-> On Wed, Nov 22, 2023 at 8:55=E2=80=AFAM Arnaldo Carvalho de Melo
-> <acme@kernel.org> wrote:
-> >
-> > Em Wed, Nov 22, 2023 at 08:29:58AM -0800, Ian Rogers escreveu:
-> > > I can look at doing an event parser change like:
-> > >
-> > > ```
-> > > diff --git a/tools/perf/util/parse-events.c b/tools/perf/util/parse-e=
-vents.c
-> > > index aa2f5c6fc7fc..9a18fda525d2 100644
-> > > --- a/tools/perf/util/parse-events.c
-> > > +++ b/tools/perf/util/parse-events.c
-> > > @@ -986,7 +986,8 @@ static int config_term_pmu(struct perf_event_attr=
- *attr,
-> > >                                                           err_str,
-> > > /*help=3D*/NULL);
-> > >                        return -EINVAL;
-> > >                }
-> > > -               if (perf_pmu__supports_legacy_cache(pmu)) {
-> > > +               if (perf_pmu__supports_legacy_cache(pmu) &&
-> > > +                   !perf_pmu__have_event(pmu, term->val.str)) {
-> > >                        attr->type =3D PERF_TYPE_HW_CACHE;
-> > >                        return
-> > > parse_events__decode_legacy_cache(term->config, pmu->type,
-> > >                                                                 &attr=
-->config);
-> > > @@ -1004,10 +1005,15 @@ static int config_term_pmu(struct perf_event_=
-attr *attr,
-> > >                                                           err_str,
-> > > /*help=3D*/NULL);
-> > >                        return -EINVAL;
-> > >                }
-> > > -               attr->type =3D PERF_TYPE_HARDWARE;
-> > > -               attr->config =3D term->val.num;
-> > > -               if (perf_pmus__supports_extended_type())
-> > > -                       attr->config |=3D (__u64)pmu->type << PERF_PM=
-U_TYPE_SHIFT;
-> > > +               if (perf_pmu__have_event(pmu, term->val.str)) {
-> > > +                       /* If the PMU has a sysfs or json event prefe=
-r
-> > > it over legacy. ARM requires this. */
-> > > +                       term->term_type =3D PARSE_EVENTS__TERM_TYPE_U=
-SER;
-> > > +               } else {
-> > > +                       attr->type =3D PERF_TYPE_HARDWARE;
-> > > +                       attr->config =3D term->val.num;
-> > > +                       if (perf_pmus__supports_extended_type())
-> > > +                               attr->config |=3D (__u64)pmu->type <<
-> > > PERF_PMU_TYPE_SHIFT;
-> > > +               }
-> > >                return 0;
-> > >        }
-> > >        if (term->type_term =3D=3D PARSE_EVENTS__TERM_TYPE_USER ||
-> > > ```
-> > > (note: this is incomplete as term->val.str isn't populated for
-> > > PARSE_EVENTS__TERM_TYPE_HARDWARE)
-> >
-> > Yeah, I had to apply manually as your MUA mangled it, then it didn't
-> > build, had to remove some consts, then there was a struct member
-> > mistake, after all fixed I get to the patch below, but it now segfaults=
-,
-> > probably what you mention...
-> >
-> > root@roc-rk3399-pc:~# strace -e perf_event_open taskset -c 4,5 perf sta=
-t -v -e cycles,armv8_cortex_a53/cycles/,armv8_cortex_a72/cycles/ echo
-> > Using CPUID 0x00000000410fd082
-> > perf_event_open({type=3DPERF_TYPE_HARDWARE, size=3D0 /* PERF_ATTR_SIZE_=
-??? */, config=3D0x7<<32|PERF_COUNT_HW_CPU_CYCLES, sample_period=3D0, sampl=
-e_type=3D0, read_format=3D0, disabled=3D1, precise_ip=3D0 /* arbitrary skid=
- */, ...}, 0, -1, -1, PERF_FLAG_FD_CLOEXEC) =3D -1 ENOENT (No such file or =
-directory)
-> > --- SIGSEGV {si_signo=3DSIGSEGV, si_code=3DSEGV_MAPERR, si_addr=3DNULL}=
- ---
-> > +++ killed by SIGSEGV +++
-> > Segmentation fault
-> > root@roc-rk3399-pc:~#
->
-> Right, I have something further along that fails tests. I'll try to
-> send out an RFC today, but given the Intel behavior change =C2=AF\_(=E3=
-=83=84)_/=C2=AF
-> But Intel don't appear to have an issue having two things called, for
-> example, cycles and them both being a cycles event so they may not
-> care. It is only ARM's PMUs that appear broken in this way.
+On 2023/11/22 1:00, Jason Gunthorpe wrote:
+> On Tue, Nov 21, 2023 at 03:47:48PM +0900, Hector Martin wrote:
+>>> Which is sensitive only to !NULL fwspec, and if EPROBE_DEFER is
+>>> returned fwspec will be freed and dev->iommu->fwspec will be NULL
+>>> here.
+>>>
+>>> In the NULL case it does a 'bus probe' with a NULL fwspec and all the
+>>> fwspec drivers return immediately from their probe functions.
+>>>
+>>> Did I miss something?
+>>
+>> apple_dart is not a fwspec driver and doesn't do that :-)
+> 
+> It implements of_xlate that makes it a driver using the fwspec probe
+> path.
+> 
+> The issue is in apple-dart. Its logic for avoiding bus probe vs
+> fwspec probe is not correct.
+> 
+> It does:
+> 
+> static int apple_dart_of_xlate(struct device *dev, struct of_phandle_args *args)
+> {
+>  [..]
+>  	dev_iommu_priv_set(dev, cfg);
+> 
+> 
+> Then:
+> 
+> static struct iommu_device *apple_dart_probe_device(struct device *dev)
+> {
+> 	struct apple_dart_master_cfg *cfg = dev_iommu_priv_get(dev);
+> 	struct apple_dart_stream_map *stream_map;
+> 	int i;
+> 
+> 	if (!cfg)
+> 		return ERR_PTR(-ENODEV);
+> 
+> Which leaks the cfg memory on rare error cases and wrongly allows the
+> driver to probe without a fwspec, which I think is what you are
+> hitting.
+> 
+> It should be
+> 
+>        if (!dev_iommu_fwspec_get(dev) || !cfg)
+> 		return ERR_PTR(-ENODEV);
+> 
+> To ensure the driver never probes on the bus path.
+> 
+> Clearing the dev->iommu in the core code has the side effect of
+> clearing (and leaking) the cfg which would hide this issue.
 
-To workaround the PMU bug posted:
-https://lore.kernel.org/lkml/20231123042922.834425-1-irogers@google.com/
+Aha! Yes, that makes it work with only the first change. I'll throw the
+apple-dart fix into our tree (and submit it once I get to clearing out
+the branch; the affected consumer driver isn't upstream yet so this
+isn't particularly urgent).
 
-Thanks,
-Ian
-
-> Thanks,
-> Ian
->
-> > - Arnaldo
-> >
-> > diff --git a/tools/perf/util/parse-events.c b/tools/perf/util/parse-eve=
-nts.c
-> > index aa2f5c6fc7fc..1e648454cc49 100644
-> > --- a/tools/perf/util/parse-events.c
-> > +++ b/tools/perf/util/parse-events.c
-> > @@ -976,7 +976,7 @@ static int config_term_pmu(struct perf_event_attr *=
-attr,
-> >                            struct parse_events_error *err)
-> >  {
-> >         if (term->type_term =3D=3D PARSE_EVENTS__TERM_TYPE_LEGACY_CACHE=
-) {
-> > -               const struct perf_pmu *pmu =3D perf_pmus__find_by_type(=
-attr->type);
-> > +               struct perf_pmu *pmu =3D perf_pmus__find_by_type(attr->=
-type);
-> >
-> >                 if (!pmu) {
-> >                         char *err_str;
-> > @@ -986,7 +986,8 @@ static int config_term_pmu(struct perf_event_attr *=
-attr,
-> >                                                            err_str, /*h=
-elp=3D*/NULL);
-> >                         return -EINVAL;
-> >                 }
-> > -               if (perf_pmu__supports_legacy_cache(pmu)) {
-> > +               if (perf_pmu__supports_legacy_cache(pmu) &&
-> > +                   !perf_pmu__have_event(pmu, term->val.str)) {
-> >                         attr->type =3D PERF_TYPE_HW_CACHE;
-> >                         return parse_events__decode_legacy_cache(term->=
-config, pmu->type,
-> >                                                                  &attr-=
->config);
-> > @@ -994,7 +995,7 @@ static int config_term_pmu(struct perf_event_attr *=
-attr,
-> >                         term->type_term =3D PARSE_EVENTS__TERM_TYPE_USE=
-R;
-> >         }
-> >         if (term->type_term =3D=3D PARSE_EVENTS__TERM_TYPE_HARDWARE) {
-> > -               const struct perf_pmu *pmu =3D perf_pmus__find_by_type(=
-attr->type);
-> > +               struct perf_pmu *pmu =3D perf_pmus__find_by_type(attr->=
-type);
-> >
-> >                 if (!pmu) {
-> >                         char *err_str;
-> > @@ -1004,10 +1005,15 @@ static int config_term_pmu(struct perf_event_at=
-tr *attr,
-> >                                                            err_str, /*h=
-elp=3D*/NULL);
-> >                         return -EINVAL;
-> >                 }
-> > -               attr->type =3D PERF_TYPE_HARDWARE;
-> > -               attr->config =3D term->val.num;
-> > -               if (perf_pmus__supports_extended_type())
-> > -                       attr->config |=3D (__u64)pmu->type << PERF_PMU_=
-TYPE_SHIFT;
-> > +               if (perf_pmu__have_event(pmu, term->val.str)) {
-> > +                       /* If the PMU has a sysfs or JSON event prefer =
-it over legacy. ARM requires this. */
-> > +                       term->type_term =3D PARSE_EVENTS__TERM_TYPE_USE=
-R;
-> > +               } else {
-> > +                       attr->type =3D PERF_TYPE_HARDWARE;
-> > +                       attr->config =3D term->val.num;
-> > +                       if (perf_pmus__supports_extended_type())
-> > +                           attr->config |=3D (__u64)pmu->type << PERF_=
-PMU_TYPE_SHIFT;
-> > +               }
-> >                 return 0;
-> >         }
-> >         if (term->type_term =3D=3D PARSE_EVENTS__TERM_TYPE_USER ||
+- Hector
