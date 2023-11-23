@@ -1,30 +1,30 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977D621108
-	for <asahi@lists.linux.dev>; Thu, 23 Nov 2023 10:20:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B01C224E1
+	for <asahi@lists.linux.dev>; Thu, 23 Nov 2023 10:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="f9vhNyIe"
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="XxkZfjLN"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 0EAB14245E;
-	Thu, 23 Nov 2023 10:20:46 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 77D794195A;
+	Thu, 23 Nov 2023 10:26:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1700734849; bh=TnIpe5+vYibOehFo39KJIQUXdlzRb5h5RBqVCFGk+Hg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=f9vhNyIeRFEF+Rjf46M9ZYxGk9Ln13zWMZnIx8lXeQlaIHQMETwK96em/GykOzW5+
-	 LuLZNOnMcLh4uOsI3FSrGV3aGiz8dIZwjHWUUgq5u7HjNkiE1yU6pPngRsNOKvHozE
-	 yjpNE2KP4qyFyQPlLzyJAcNV4hB9w3mdaN5Xbe/gXyKZe4b1hwiDrr4g+e+B/WlJtU
-	 9wFlmMhxbG0uBeyDUAbUG7sAmGZIBUpq7D8Ff6ROqEF+npYU50Z/9Bc5T3BfQlfXbq
-	 rXBwrCY6Fz8WabnFEYG2NMauWVsADpAwdGH7tSu6VztGqDf6a1/uP2hnRrc/Nr7FEF
-	 6KDCcJ6A7yuwA==
-Message-ID: <e8aef878-bd70-4dba-856c-61d9065ca327@marcan.st>
-Date: Thu, 23 Nov 2023 19:20:43 +0900
+	t=1700735170; bh=AQUS7y0k1D4MxuZLfUGrxD0KkPeCCI69rVkyOJ2dp5w=;
+	h=Date:To:Cc:From:Subject;
+	b=XxkZfjLN/KFIvWV/cnzEOI8m85rzPVQOovz/fF44BuflyZK6BuHYiHxlfddFyTjO4
+	 B2V1TesljHfkniG0zJXmhOC7a4YLM0QE9iThvzZ9PSh8RoCbRYTUM7w1xrB5sZ8tFU
+	 smgFa2bmXc5BcLdcSVUL97vkZXFaWzvOqyC7s7Mqlo9aHhNRT+WM7NJoTimAyAFMbi
+	 sRKqgjFuAWM1Nk6gb4CdaH8IVktyJCzWRY2AWXKRTRCCQotXFjCM+Ct9681zCB2rgP
+	 +cAVr6v+IVrmhMMaXZ8fQ2myhf8ewN2jCOqS17Qcj8TsELs1OVI1iShWXn5yI0Y8ZK
+	 jMv4lrxjWD8ow==
+Message-ID: <6e64472e-c55d-4499-9a61-da59cfd28021@marcan.st>
+Date: Thu, 23 Nov 2023 19:26:07 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -32,37 +32,71 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH] soc: apple: mailbox: Add explicit include of
- platform_device.h
 Content-Language: en-US
-To: Rob Herring <robh@kernel.org>, soc@kernel.org,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20231030142620.818663-2-robh@kernel.org>
+To: soc@kernel.org
+Cc: Asahi Linux <asahi@lists.linux.dev>, LKML <linux-kernel@vger.kernel.org>,
+ linux-arm-kernel@lists.infradead.org
 From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20231030142620.818663-2-robh@kernel.org>
+Subject: [GIT PULL] Apple SoC mailbox updates for 6.8
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2023/10/30 23:26, Rob Herring wrote:
-> The DT of_device.h and of_platform.h date back to the separate
-> of_platform_bus_type before it as merged into the regular platform bus.
-> As part of that merge prepping Arm DT support 13 years ago, they
-> "temporarily" include each other and pull in various other headers. In
-> preparation to fix this, adjust the includes for what is actually needed.
-> 
-> platform_device.h is implicitly included by of_platform.h, but that's going
-> to be removed.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> Note this was added in the merge window and missed the last round.
-> 
-> Arnd, Can you apply this directly.
+Hi SoC folks,
 
-Just noticed this but I'm confused. I never sent Arnd the pull for this,
-so it's not upstream nor on the way yet. I've applied it to
-asahi-soc/mailbox though. Thanks for reminding me, I'll send the pull now :)
+Please merge these Apple mailbox changes for 6.8.
+
+This moves the mailbox driver out of the mailbox framework and into SoC.
+This was long discussed months back and has been cooking in linux-next
+for a while, so it's time to get it merged.
+
+Rebased on v6.7-rc1 with only some trivial Kbuild/Makefile conflicts.
 
 - Hector
+
+The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+
+  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+
+are available in the Git repository at:
+
+  https://github.com/AsahiLinux/linux.git tags/asahi-soc-mailbox-6.8
+
+for you to fetch changes up to 4dae8c047a70307d83d912afbda2e2c94de155b6:
+
+  soc: apple: mailbox: Add explicit include of platform_device.h (2023-11-23 19:10:47 +0900)
+
+----------------------------------------------------------------
+Apple SoC mailbox updates for 6.8
+
+This moves the mailbox driver out of the mailbox subsystem and into SoC,
+next to its only consumer (RTKit). It has been cooking in linux-next for
+a long while, so it's time to pull it in.
+
+----------------------------------------------------------------
+Hector Martin (5):
+      soc: apple: rtkit: Get rid of apple_rtkit_send_message_wait
+      soc: apple: mailbox: Add ASC/M3 mailbox driver
+      soc: apple: rtkit: Port to the internal mailbox driver
+      mailbox: apple: Delete driver
+      soc: apple: mailbox: Rename config symbol to APPLE_MAILBOX
+
+Rob Herring (1):
+      soc: apple: mailbox: Add explicit include of platform_device.h
+
+ MAINTAINERS                        |   2 -
+ drivers/mailbox/Kconfig            |  12 -
+ drivers/mailbox/Makefile           |   2 -
+ drivers/mailbox/apple-mailbox.c    | 441 -------------------------------------
+ drivers/soc/apple/Kconfig          |  15 +-
+ drivers/soc/apple/Makefile         |   4 +
+ drivers/soc/apple/mailbox.c        | 437 ++++++++++++++++++++++++++++++++++++
+ drivers/soc/apple/mailbox.h        |  48 ++++
+ drivers/soc/apple/rtkit-internal.h |   8 +-
+ drivers/soc/apple/rtkit.c          | 133 +++--------
+ include/linux/apple-mailbox.h      |  19 --
+ include/linux/soc/apple/rtkit.h    |  18 --
+ 12 files changed, 533 insertions(+), 606 deletions(-)
+ delete mode 100644 drivers/mailbox/apple-mailbox.c
+ create mode 100644 drivers/soc/apple/mailbox.c
+ create mode 100644 drivers/soc/apple/mailbox.h
+ delete mode 100644 include/linux/apple-mailbox.h
