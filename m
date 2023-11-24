@@ -1,84 +1,62 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E52663D983
-	for <asahi@lists.linux.dev>; Thu, 23 Nov 2023 17:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C8A9B1042;
-	Thu, 23 Nov 2023 09:16:28 -0800 (PST)
-Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.26.148])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B38C3F7A6;
-	Thu, 23 Nov 2023 09:15:41 -0800 (PST)
-Date: Thu, 23 Nov 2023 17:15:33 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: James Clark <james.clark@arm.com>
-Cc: Ian Rogers <irogers@google.com>, Marc Zyngier <maz@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-perf-users@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Asahi Linux <asahi@lists.linux.dev>
-Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since
- v6.5
-Message-ID: <ZV-ItX1eMeIdo_00@FVFF77S0Q05N.cambridge.arm.com>
-References: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
- <86pm03z0kw.wl-maz@kernel.org>
- <86o7fnyvrq.wl-maz@kernel.org>
- <ZV9gThJ52slPHqlV@FVFF77S0Q05N.cambridge.arm.com>
- <CAP-5=fW8exsmUg_9K09Oy6T4ZAvvD7ZbZN2sxODdqisZOR6mUA@mail.gmail.com>
- <ZV-CUlQhlkdOzfFZ@FVFF77S0Q05N.cambridge.arm.com>
- <96fa7b1a-9f64-315b-c767-e582db55c7a4@arm.com>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E5E16432;
+	Fri, 24 Nov 2023 13:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTzGzVWZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6203C43397;
+	Fri, 24 Nov 2023 13:33:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700832803;
+	bh=uoPeOd9O4SgQkdeE6NWSU3YB1DPElD4w0UIMSK4oJHU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=GTzGzVWZV+39lerM0qSCYf+1y8RdZ8n7t8PU66/S7rCtUkPt1dA/Dj18tWlK6GmeV
+	 opYFxwcixBvCQj7UQCpzeuCNacBDXgDwKXfC9cGVLp5V91JO4I52XkpWpM/Mg0TOJW
+	 iRvAXbNg65mBuGbSptYLdWpg0pJpStgi8GN7/omibD1sMN7nK9yPAcilAaleHgLOW+
+	 uBL9XiWuZiwiRQXisv8hPK8F2r8uz1V5XRKy4xBcpjNO2SRGIzEgvpWkeCiIrDxHOc
+	 fhEtaHFzd3UMW4c1NXtglt3U4YaRGurdMhlH2mOdjLKZGGMt+bQ9/AgR2Fa4FqV93H
+	 twZPW16ItI1iw==
+From: Vinod Koul <vkoul@kernel.org>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20231029170704.82238-1-povik+lin@cutebit.org>
+References: <20231029170704.82238-1-povik+lin@cutebit.org>
+Subject: Re: [PATCH v2] dmaengine: apple-admac: Keep upper bits of
+ REG_BUS_WIDTH
+Message-Id: <170083280044.771517.11806054531627846759.b4-ty@kernel.org>
+Date: Fri, 24 Nov 2023 19:03:20 +0530
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <96fa7b1a-9f64-315b-c767-e582db55c7a4@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.3
 
-On Thu, Nov 23, 2023 at 05:08:43PM +0000, James Clark wrote:
-> On 23/11/2023 16:48, Mark Rutland wrote:
-> > Ah, so IIUC what's happening is:
-> > 
-> > 1) Userspace tries to detect extended type support, with a cycles event
-> >    directed to one of the CPU PMUs. The attr for this does not have
-> >    exclude_guest set.
-> > 
-> > 2) In the kernel, the core perf code sees the extended hw type id, and directs
-> >    this towards the correct PMU (apple_icestorm_pmu).
-> > 
-> > 3) The PMU driver looks at the attr, sees exclude_guest is not set, and returns
-> >    -EOPNOTSUPP, exactly as it would regardless of whether the extended hw type
-> >    is used.
-> > 
-> >    Note: this happens to be a difference between x86 PMUs and the apple_* PMUs,
-> >    but this is a legitimate part of the perf ABI, not an arm-specific quirk or
-> >    bug.
-> > 
-> > 4) Userspace receives -EOPNOTSUPP, and so decide the extended hw_type is not
-> >    supported (even though the kernel does support the extended hw type id, and
-> >    the event was rejected for orthogonal reasons).
 
-> > It sounds like we need to make (4) more robust? I'm not immediately sure how, 
-> > given the rats nest of returns in perf_event_open(), but I'm happy to try to
-> > help with that.
+On Sun, 29 Oct 2023 18:07:04 +0100, Martin Povišer wrote:
+> For RX channels, REG_BUS_WIDTH seems to default to a value of 0xf00, and
+> macOS preserves the upper bits when setting the configuration in the
+> lower ones. If we reset the upper bits to 0, this causes framing errors
+> on suspend/resume (the data stream "tears" and channels get swapped
+> around). Keeping the upper bits untouched, like the macOS driver does,
+> fixes this issue.
 > 
-> It might be worth reporting extended HW ID support in the caps folder of
-> the PMU so that Perf can look there instead of trying to open the event.
-> It's something that we know will always be on or always be off so it
-> doesn't make sense to try to discover it by opening an event.
+> [...]
 
-Yep, I'm open to that idea. I'm more than happy to expose something that
-indicates "this PMU supports the extended HW ID" and/or "this kernel supports
-the extended HW ID".
+Applied, thanks!
 
-Given that the actual PMU drivers don't see the extended cap, and that's
-handled by the core, I'd like to make the core logic unconditional and remove
-the kernel-internal PERF_PMU_CAP_EXTENDED_HW_TYPE cap. So I'd lean towards the
-"this kernel supports the extended HW ID" option.
+[1/1] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
+      commit: 306f5df81fcc89b462fbeb9dbe26d9a8ad7c7582
 
-Thanks,
-Mark.
+Best regards,
+-- 
+~Vinod
+
+
