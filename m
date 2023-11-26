@@ -1,62 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E5E16432;
-	Fri, 24 Nov 2023 13:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C2ACA56;
+	Sun, 26 Nov 2023 15:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GTzGzVWZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6203C43397;
-	Fri, 24 Nov 2023 13:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700832803;
-	bh=uoPeOd9O4SgQkdeE6NWSU3YB1DPElD4w0UIMSK4oJHU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=GTzGzVWZV+39lerM0qSCYf+1y8RdZ8n7t8PU66/S7rCtUkPt1dA/Dj18tWlK6GmeV
-	 opYFxwcixBvCQj7UQCpzeuCNacBDXgDwKXfC9cGVLp5V91JO4I52XkpWpM/Mg0TOJW
-	 iRvAXbNg65mBuGbSptYLdWpg0pJpStgi8GN7/omibD1sMN7nK9yPAcilAaleHgLOW+
-	 uBL9XiWuZiwiRQXisv8hPK8F2r8uz1V5XRKy4xBcpjNO2SRGIzEgvpWkeCiIrDxHOc
-	 fhEtaHFzd3UMW4c1NXtglt3U4YaRGurdMhlH2mOdjLKZGGMt+bQ9/AgR2Fa4FqV93H
-	 twZPW16ItI1iw==
-From: Vinod Koul <vkoul@kernel.org>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20231029170704.82238-1-povik+lin@cutebit.org>
-References: <20231029170704.82238-1-povik+lin@cutebit.org>
-Subject: Re: [PATCH v2] dmaengine: apple-admac: Keep upper bits of
- REG_BUS_WIDTH
-Message-Id: <170083280044.771517.11806054531627846759.b4-ty@kernel.org>
-Date: Fri, 24 Nov 2023 19:03:20 +0530
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="e9CvtPcb";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qRKwNWyX"
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 180905C0112;
+	Sun, 26 Nov 2023 10:17:13 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Sun, 26 Nov 2023 10:17:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to; s=fm1; t=1701011833; x=1701098233; bh=QF
+	o1C7nf0MwnRndvr35f92S5FiUlHM7+325TxLkWkMo=; b=e9CvtPcbMsXDV7nN2s
+	33kDEtKN1YM4Fe6zqjOGHuIo1MNEbN5KXxsxjbcJA83Yh3+qeNS1kU0yGLpVKFJ0
+	Ui0lbztiYsLtXgJwwX/Wqw1SW/+V9EOYJf18IlxlM8RJ/UUEvIyMjLAM4JZAOb2V
+	x2aJZGtailchpXo6fDBkc6gFuWb8G5dytf2j2xo6hWKM1XiacyCmfngVhLm6h0kT
+	cie56h/lBEAZEqfjg8gh9RiSBnr3pawI3KxO/RWmt1VrUujOGXxCmR0ZCGEetNVd
+	Z+wnxqd0sPM9nsfI6HTQBdA21TN82l0OOFmCIEjUhvllzB+JqEw4Sxya+v1vKJMr
+	IPmw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1701011833; x=1701098233; bh=QFo1C7nf0MwnR
+	ndvr35f92S5FiUlHM7+325TxLkWkMo=; b=qRKwNWyXT8W10kHBnVo1h/CL/ADES
+	LTNBm/q6spdLF6gZbVjH54HwV5b/vtrGHraeqTysT0RuZMcmljAYx6Vls0ZeSunE
+	Ut5Brwx0Ptsh9xraQuo9zhewwHw+fhm7SJOvoppLvWzNBW117XS3iVIJLgfcQJDs
+	6JPVQQy1SHs6mCF3CGVZmlaemI4bL239g6zOtCnxWPfGpmHnXDynshDts51LhrkM
+	SK6siQtV9zkyds1hLuM1LnjpC+iWM5inyTjpdwsvxHfVk0BNWqpv9MjMaIPb6XLv
+	fpZpo0BdCKu5zlNTX6/8smP9bwftyduLJDGBoNvkG8f6UL7Q8HmD9w6TA==
+X-ME-Sender: <xms:eGFjZSjLUQyCq9G80ghEzFYVXz3yQ_uGWLyj_XUYqda1SYJ56Q3cmA>
+    <xme:eGFjZTCML_wgvSqZ7oa6-coh1f-8Vj_Yzqh6dQOGpiOgYJn8BrH3DTbFUhcnHe-vG
+    hyPqbRKESm3MRS-ytY>
+X-ME-Received: <xmr:eGFjZaEo0uv01VOKf_8jNA3k4sZbLbvmIpYWKdsRZ9XQrMRVoMV5gXveXRyMeYPtKHjpaTGZxgiHJC-i4hQqopQpaLRSJRlX2coEIIuz5FetkoCJWu69p8pVcnZ9o0E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrudehledgjeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufhvvghnucfr
+    vghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrghtthgvrh
+    hnpeeludffieehueevtdffvedtueelleejuddugfettdevhfefffdvgffhjeehgfelleen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvhgvnh
+    esshhvvghnphgvthgvrhdruggvvh
+X-ME-Proxy: <xmx:eGFjZbReS5BHUjZ7cy3whRM2VpKb-bfYx9hS34v-rfJMTWHrOmhFsg>
+    <xmx:eGFjZfzOYMm7XeERhn2kedAVfU0p8qPLbWSDv9A7JbSruv7MKIw8nQ>
+    <xmx:eGFjZZ4lZZH1xs16TrcaZb7VtC8iM9I6dIwMGkJjtW6egrXxVdyRKQ>
+    <xmx:eWFjZSqV9NBPbDcREE_8VXXhu1OiVQbzOp1ro0xgcbwu7LOoBOm5ww>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 26 Nov 2023 10:17:10 -0500 (EST)
+From: Sven Peter <sven@svenpeter.dev>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	asahi@lists.linux.dev,
+	iommu@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/3] Apple M1 USB4/Thunderbolt DART support
+Date: Sun, 26 Nov 2023 16:16:58 +0100
+Message-Id: <20231126151701.16534-1-sven@svenpeter.dev>
+X-Mailer: git-send-email 2.39.3 (Apple Git-145)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.12.3
 
+Hi,
 
-On Sun, 29 Oct 2023 18:07:04 +0100, Martin Povišer wrote:
-> For RX channels, REG_BUS_WIDTH seems to default to a value of 0xf00, and
-> macOS preserves the upper bits when setting the configuration in the
-> lower ones. If we reset the upper bits to 0, this causes framing errors
-> on suspend/resume (the data stream "tears" and channels get swapped
-> around). Keeping the upper bits untouched, like the macOS driver does,
-> fixes this issue.
-> 
-> [...]
+The M1 SoCs have a second slightly different variant of the regular
+DART used for the USB4 PCIe ports. It supports 64 instead of 16 streams
+which requires a minor change to the MMIO layout.
+There seems to be no way to tell them apart from the regular DARTs by
+just looking at the DART_PARAMs register so we have to add a new
+compatible for those.
 
-Applied, thanks!
+Changes since v3:
+  none
 
-[1/1] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
-      commit: 306f5df81fcc89b462fbeb9dbe26d9a8ad7c7582
+Changes since v2:
+  - drop the manual bypass disable
+  - added Rob's tag
 
-Best regards,
+Changes since v1:
+  - apple,t8103-usb4-dart instead of apple,t8103-dart-usb4 as the
+    compatible
+  - collected Hector's tags
+
+Best,
+
+Sven
+
+Sven Peter (3):
+  dt-bindings: iommu: dart: Add t8103-usb4-dart compatible
+  iommu: dart: Write to all DART_T8020_STREAM_SELECT
+  iommu: dart: Add support for t8103 USB4 DART
+
+ .../devicetree/bindings/iommu/apple,dart.yaml |  1 +
+ drivers/iommu/apple-dart.c                    | 35 +++++++++++++++++--
+ 2 files changed, 34 insertions(+), 2 deletions(-)
+
 -- 
-~Vinod
-
+2.34.1
 
