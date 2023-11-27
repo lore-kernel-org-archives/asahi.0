@@ -1,38 +1,60 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE956182A2;
-	Mon, 27 Nov 2023 10:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="4YRrXkYs"
-Received: from 8bytes.org (p4ffe1e67.dip0.t-ipconnect.de [79.254.30.103])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 69D241A6E90;
-	Mon, 27 Nov 2023 11:18:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1701080290;
-	bh=+9XZsv2MkSw2ep1fiHnmE+Po3/h00hYAxkvBiSQeloM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=4YRrXkYsLXB/rmy11VvYsY25P6pCK+6+3Ojbhgxhg6yTy/v6TkybXY0SdX6BCgdRh
-	 8rrpUJL6ZIB/CqY1o+pRDED2bhBhRHRJBP23HHKhg558PYeKkEr10gqtbPn+zyqMZM
-	 mJL8Bukn/4rgHn/qhAxi57iov5BKqBJ1rLW5sqoaN0psxHPl/gSsdKWIHlAVuCQ0CD
-	 4bzApBKojQ0a58dFXER37NOtMLculE+C9Wkzg6DBnE0uJ4HWmIyz2UMJV0Aiii/vnL
-	 NFRcD9u1dqhy9SOYz/bIHesVLkxNwvqha3JgvF5GTwb5QTygTnAJM2SNRNLggNfsAz
-	 PZ+amGWVqZQaQ==
-Date: Mon, 27 Nov 2023 11:18:08 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Hector Martin <marcan@marcan.st>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] iommu: dart: Use readl instead of readl_relaxed for
- consistency
-Message-ID: <ZWRs4Cq_X8Bm3btp@8bytes.org>
-References: <20231126162009.17934-1-sven@svenpeter.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB15834562
+	for <asahi@lists.linux.dev>; Mon, 27 Nov 2023 16:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toxicpanda.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=toxicpanda-com.20230601.gappssmtp.com header.i=@toxicpanda-com.20230601.gappssmtp.com header.b="rUKbxk9Y"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5c8c26cf056so44796497b3.1
+        for <asahi@lists.linux.dev>; Mon, 27 Nov 2023 08:07:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=toxicpanda-com.20230601.gappssmtp.com; s=20230601; t=1701101227; x=1701706027; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R0X43bDr5cjDi5fuHxxsDsh8V+3EmZKapeWWbTvrBlA=;
+        b=rUKbxk9YLKtM9Yr12ucIRoIA9GuJ0zyw52vVmtCypfS3vYNi7v+FUnZDOL6MnUww9e
+         n7PpCwWg3Vooy0sQ+/h9O+ZcJsS9hXX9OL/FLjPm1QNyVMJUYuux3y3tboNNJNd/pU1U
+         dozdzh7FcuLEKvatLilgaSlU2A/MOFttw+C3yD/RV68uTPW6YOottHLoMwp70ZzSB1hc
+         PJg5siiKpBegAj6WtUGnKQ0PQGhaoxyKa+0OlqGDva6R/8XkH5ZON+5v4p/T09hUPsXQ
+         GwqarkYEjpVv+upneX/MVd2lqN9Xe5KIldTRXia5CWPhvlkJPqhfVfWmfzbb2Nd44W2v
+         v8Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701101227; x=1701706027;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R0X43bDr5cjDi5fuHxxsDsh8V+3EmZKapeWWbTvrBlA=;
+        b=g75AZe6wnNiMkIZdLbif+Z1jwR/WzLWQ+QQt9a1krIxdlzObhNUeBT9T1WWgrZvijG
+         ZMF1l6qYQIUXgGM+01JyqiV6Ej5GBZtaEgw3hkvAxaJ+AsHTAx/FanCwmAibU9QY+bQM
+         DrRN/5W7iuNQF6anPTazOl6i8dT7u+4dMtYn+GwxW1z9xtBkLWLMrk65dOQLAC8Hh2cI
+         wX77ETKJJwyJ2d7006n9Pi79BFZLLhYo0kydTkLRaKSCuGUO6mSCzwT2En54nqPn25l5
+         H/IXH0cAX/Ac/1F1yC16LVeCjefqkQ8uXuyGn31IfGKIYx9UtUCzNt9hsoKsQSeDdyAh
+         IFSA==
+X-Gm-Message-State: AOJu0YxBvateFpROYtzoKweFTv4rH/lAWrZjZ6qoiL/bZJuhM22YEaQn
+	wW0gpVxsRGDXLqwzDi6pSR2tGw==
+X-Google-Smtp-Source: AGHT+IHATw6Rbur2TSAVcg15XMVzcMVALzHGkYvmB39Sp4N7Ngeawq8PipONQMn2m9xPsAgUzMXjlg==
+X-Received: by 2002:a0d:e885:0:b0:5cd:6dd1:b3dc with SMTP id r127-20020a0de885000000b005cd6dd1b3dcmr12226081ywe.29.1701101226582;
+        Mon, 27 Nov 2023 08:07:06 -0800 (PST)
+Received: from localhost (076-182-020-124.res.spectrum.com. [76.182.20.124])
+        by smtp.gmail.com with ESMTPSA id p8-20020a819808000000b005ce2e66394esm2694661ywg.70.2023.11.27.08.07.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 08:07:06 -0800 (PST)
+Date: Mon, 27 Nov 2023 11:07:05 -0500
+From: Josef Bacik <josef@toxicpanda.com>
+To: Neal Gompa <neal@gompa.dev>
+Cc: Linux BTRFS Development <linux-btrfs@vger.kernel.org>,
+	Anand Jain <anand.jain@oracle.com>,
+	Qu Wenruo <quwenruo.btrfs@gmx.com>, Qu Wenruo <wqu@suse.com>,
+	David Sterba <dsterba@suse.cz>, Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Davide Cavalca <davide@cavalca.name>, Jens Axboe <axboe@fb.com>,
+	Asahi Lina <lina@asahilina.net>,
+	Asahi Linux <asahi@lists.linux.dev>
+Subject: Re: [PATCH v4 0/1] Enforce 4k sectorize by default for mkfs
+Message-ID: <20231127160705.GC2366036@perftesting>
+References: <20231116160235.2708131-1-neal@gompa.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,24 +63,40 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231126162009.17934-1-sven@svenpeter.dev>
+In-Reply-To: <20231116160235.2708131-1-neal@gompa.dev>
 
-On Sun, Nov 26, 2023 at 05:20:09PM +0100, Sven Peter wrote:
-> While the readl_relaxed in apple_dart_suspend is correct the rest of the
-> driver uses the non-relaxed variants everywhere and the single
-> readl_relaxed is inconsistent and possibly confusing.
+On Thu, Nov 16, 2023 at 11:02:23AM -0500, Neal Gompa wrote:
+> The Fedora Asahi SIG[0] is working on bringing up support for
+> Apple Silicon Macintosh computers through the Fedora Asahi Remix[1].
 > 
-> Signed-off-by: Sven Peter <sven@svenpeter.dev>
-> ---
->  drivers/iommu/apple-dart.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Apple Silicon Macs are unusual in that they currently require 16k
+> page sizes, which means that the current default for mkfs.btrfs(8)
+> makes a filesystem that is unreadable on x86 PCs and most other ARM
+> PCs.
+> 
+> This is now even more of a problem within Apple Silicon Macs as it is now
+> possible to nest 4K Fedora Linux VMs on 16K Fedora Asahi Remix machines to
+> enable performant x86 emulation[2] and the host storage needs to be compatible
+> for both environments.
+> 
+> Thus, I'd like to see us finally make the switchover to 4k sectorsize
+> for new filesystems by default, regardless of page size.
+> 
+> The initial test run by Hector Martin[3] at request of Qu Wenruo
+> looked promising[4], and we've been running with this behavior on
+> Fedora Linux since Fedora Linux 36 (at around 6.2) with no issues.
+> 
 
-Applied, thanks.
+This is a good change and well documented.  This isn't being ignored, it's just
+a policy change that we have to be conservative about considering.  We only in
+the last 3 months have added a Apple Silicon machine to our testing
+infrastructure (running Fedora Asahi fwiw) to make sure we're getting consistent
+subpage-blocksize testing.  Generally speaking it's been fine, we've fixed a few
+things and haven't broken anything, but it's still comes with some risks when
+compared to the default of using the pagesize.
 
-In the future, can you please use "iommu/apple-dart:" as the prefix for
-you patch subject-lines? That fits better into the overall convention in
-the iommu-tree, thanks.
+We will continue to discuss this amongst ourselves and figure out what we think
+would be a reasonable timeframe to make this switch and let you know what we're
+thinking ASAP.  Thanks,
 
-Regards,
-
-	Joerg
+Josef
