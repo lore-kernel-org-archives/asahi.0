@@ -1,47 +1,47 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8075CD39
-	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 20:49:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0397E5D48C
+	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 20:49:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="PWEmsD3o"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-da41acaea52so5398068276.3
-        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 12:49:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="Xko5rNb6"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-67a3fabcee3so1812496d6.0
+        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 12:49:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701204588; x=1701809388; darn=lists.linux.dev;
+        d=soleen.com; s=google; t=1701204589; x=1701809389; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jRGmXGqyJzQ9dzCxzy8J7vcwlH74KXpuX5+P/ckDUHQ=;
-        b=PWEmsD3oIbfz4S0QR6BgGu72ZIj4rezi7y/AxtoFNCTfYij9EhFyKKDPmUyUSXp0Tl
-         arUqGw/2I1N+AN+u34IUgG3kx7PFS8FTxzwII9NL2oan4fy6kCkLF3uwTpkTOgZ1QyAq
-         l+WUIO6wR3znoLdgnO8UZvpc+wVeJ5n3daYc2tSYPHOdu5PQ0PEpjW7Be1XC/cCyydze
-         jDzZtzJdaq3QcOlTOx88DIap4uSyiDonxRIWO20//Pbnucwh5QFT3dGfqi3jxGBspXA8
-         1wYhVs8jYczW7RyvgSfUPy16owuHK7Mb3plrQ8oZ04Z4lmYNzcjpYFzR+fE0yHqkpFQw
-         2kcw==
+        bh=GuhRNW8EraGxCVOazJoq98oeC/940DRf0iOPJkOnyXY=;
+        b=Xko5rNb6oDZNdBRrZxxbEubTVlzLov53UBwkw0RijvH8EQ5g3kQiqEAojwfmid5Iq3
+         cvV0eZwkKzANN8qgLs4SuygzahgU/nWQ4Nfy1ozlN0cCAs6mnnLafgWNTnOQTu8sVmhU
+         w4zWOZ9Ce+0cpOUJP2fXQtWxD5bunxHd3clMl66rdN6XWJOAs0nDEmDsDrHNhgRmyiXP
+         PBJyVwLRGy31bNwJTOkNW+PLj/ODpY47q0G6mXYXsgmaMts+0yzEtM+Os20fe3GiD1VA
+         uhLgx2gr0C74vSd/TWiqsgXsmQ2okaMnzXWWTRo6NlUSrlyn6KmH9utowrPveBrdCXUH
+         N2aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701204588; x=1701809388;
+        d=1e100.net; s=20230601; t=1701204589; x=1701809389;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jRGmXGqyJzQ9dzCxzy8J7vcwlH74KXpuX5+P/ckDUHQ=;
-        b=S+BBQyL6aM8g+IWWZkWW2zctpBvocvzQ/ecEZUSFQeoS1KKLX4DMp9jQzv7yqqUPg+
-         rq98MtZfOXaJCymdSHnYRsilLJIcZaLN78LqQ0toyQUd9rr4Og8awLfT377M7j5SaXb9
-         ciIB9CK3Gey2NBzVQmhKJmTadwidGQ8lxOlvd4UWG9J7XFd5eLmaRlse5HWYFbqBFdgk
-         nVvaDVzL/wx82wTZvt8aFd5hHwlQfvjf+DrzuZoetqzOrG8urMjFR3gYWqNig1sNTSiX
-         r39/6nUe10yArM3wXx2UEe9TXf5g4z1KtnBwTKTrOXKeosGfRCks94LXFBv9BCLaZRYX
-         cneA==
-X-Gm-Message-State: AOJu0YwbZhzCGeOo5KYI4tYCxwzFG1J3dz9sdn9SCvAtNFx30sgh9uNq
-	f0wAOflvcB2AAj/xUFdxX30SlQ==
-X-Google-Smtp-Source: AGHT+IE78UUsr3+phF/56bFMU/5eN5UKiQDczVpHvT25XLH3DszV1HuF5Eb6PvW6XiPusog1uQd9qQ==
-X-Received: by 2002:a05:6902:20f:b0:da0:c615:e4a6 with SMTP id j15-20020a056902020f00b00da0c615e4a6mr16658576ybs.24.1701204587831;
-        Tue, 28 Nov 2023 12:49:47 -0800 (PST)
+        bh=GuhRNW8EraGxCVOazJoq98oeC/940DRf0iOPJkOnyXY=;
+        b=tBTVJE4U8KwDvMroxHePmroUaU7k4D5zHKTKSivkloh/xb0LvUXRLqiDoiqS8bYBIa
+         sFlPHHO6LmjrcocA0E9gZ1JambBlBWHr2fXBxl2/Y5W7Z7xKU0WuxdPfJIPi65cJBEet
+         q4of6RnJkJGW7DWzWXLXcrdkiDKuaLWDQON13tlGJrriR/MS6l7poRYoTpZ2ZTymr6D7
+         TMiO2Efkp8l2hzkL4XzLEWMf03l8WF2q77b+GpUHI8WBrMPZMDCfsKKr7Dl+iRI7lB+1
+         m9qeP7bicbtp12HPKGKXxgtlAbufX10dNfbeG2YkkjVQRcZWhMqFS8MVBQHCibqDyDZf
+         Dq9Q==
+X-Gm-Message-State: AOJu0YwBle1p86++VnNkA08fcI32gOWL12JlgMfHbVFZOpdaK6I8h2bZ
+	C1D3/uNIG34TGZeylAjMkM11MQ==
+X-Google-Smtp-Source: AGHT+IGPu3upFAdCP6yNYmrLD/qlosIlP36YcCIt0RdR7fCBV7LNnnJ4icXgqHOsHyLuFzh/n11wOA==
+X-Received: by 2002:a05:6214:1c0b:b0:67a:4546:9895 with SMTP id u11-20020a0562141c0b00b0067a45469895mr14672496qvc.12.1701204589666;
+        Tue, 28 Nov 2023 12:49:49 -0800 (PST)
 Received: from soleen.c.googlers.com.com (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
-        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.47
+        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 12:49:47 -0800 (PST)
+        Tue, 28 Nov 2023 12:49:49 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: akpm@linux-foundation.org,
 	alex.williamson@redhat.com,
@@ -95,9 +95,9 @@ To: akpm@linux-foundation.org,
 	wens@csie.org,
 	will@kernel.org,
 	yu-cheng.yu@intel.com
-Subject: [PATCH 07/16] iommu/exynos: use page allocation function provided by iommu-pages.h
-Date: Tue, 28 Nov 2023 20:49:29 +0000
-Message-ID: <20231128204938.1453583-8-pasha.tatashin@soleen.com>
+Subject: [PATCH 09/16] iommu/iommufd: use page allocation function provided by iommu-pages.h
+Date: Tue, 28 Nov 2023 20:49:31 +0000
+Message-ID: <20231128204938.1453583-10-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 In-Reply-To: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
 References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
@@ -109,63 +109,35 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert iommu/exynos-iommu.c to use the new page allocation functions
+Convert iommu/iommufd/* files to use the new page allocation functions
 provided in iommu-pages.h.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- drivers/iommu/exynos-iommu.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/iommu/iommufd/iova_bitmap.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/iommu/exynos-iommu.c b/drivers/iommu/exynos-iommu.c
-index 2c6e9094f1e9..3eab0ae65a4f 100644
---- a/drivers/iommu/exynos-iommu.c
-+++ b/drivers/iommu/exynos-iommu.c
-@@ -22,6 +22,8 @@
- #include <linux/pm_runtime.h>
- #include <linux/slab.h>
+diff --git a/drivers/iommu/iommufd/iova_bitmap.c b/drivers/iommu/iommufd/iova_bitmap.c
+index 0a92c9eeaf7f..6b8575b93f17 100644
+--- a/drivers/iommu/iommufd/iova_bitmap.c
++++ b/drivers/iommu/iommufd/iova_bitmap.c
+@@ -253,7 +253,7 @@ struct iova_bitmap *iova_bitmap_alloc(unsigned long iova, size_t length,
+ 	bitmap->iova = iova;
+ 	bitmap->length = length;
+ 	mapped->iova = iova;
+-	mapped->pages = (struct page **)__get_free_page(GFP_KERNEL);
++	mapped->pages = iommu_alloc_page(GFP_KERNEL);
+ 	if (!mapped->pages) {
+ 		rc = -ENOMEM;
+ 		goto err;
+@@ -284,7 +284,7 @@ void iova_bitmap_free(struct iova_bitmap *bitmap)
+ 	iova_bitmap_put(bitmap);
  
-+#include "iommu-pages.h"
-+
- typedef u32 sysmmu_iova_t;
- typedef u32 sysmmu_pte_t;
- static struct iommu_domain exynos_identity_domain;
-@@ -900,11 +902,11 @@ static struct iommu_domain *exynos_iommu_domain_alloc_paging(struct device *dev)
- 	if (!domain)
- 		return NULL;
- 
--	domain->pgtable = (sysmmu_pte_t *)__get_free_pages(GFP_KERNEL, 2);
-+	domain->pgtable = iommu_alloc_pages(GFP_KERNEL, 2);
- 	if (!domain->pgtable)
- 		goto err_pgtable;
- 
--	domain->lv2entcnt = (short *)__get_free_pages(GFP_KERNEL | __GFP_ZERO, 1);
-+	domain->lv2entcnt = iommu_alloc_pages(GFP_KERNEL, 1);
- 	if (!domain->lv2entcnt)
- 		goto err_counter;
- 
-@@ -930,9 +932,9 @@ static struct iommu_domain *exynos_iommu_domain_alloc_paging(struct device *dev)
- 	return &domain->domain;
- 
- err_lv2ent:
--	free_pages((unsigned long)domain->lv2entcnt, 1);
-+	iommu_free_pages(domain->lv2entcnt, 1);
- err_counter:
--	free_pages((unsigned long)domain->pgtable, 2);
-+	iommu_free_pages(domain->pgtable, 2);
- err_pgtable:
- 	kfree(domain);
- 	return NULL;
-@@ -973,8 +975,8 @@ static void exynos_iommu_domain_free(struct iommu_domain *iommu_domain)
- 					phys_to_virt(base));
- 		}
- 
--	free_pages((unsigned long)domain->pgtable, 2);
--	free_pages((unsigned long)domain->lv2entcnt, 1);
-+	iommu_free_pages(domain->pgtable, 2);
-+	iommu_free_pages(domain->lv2entcnt, 1);
- 	kfree(domain);
- }
+ 	if (mapped->pages) {
+-		free_page((unsigned long)mapped->pages);
++		iommu_free_page(mapped->pages);
+ 		mapped->pages = NULL;
+ 	}
  
 -- 
 2.43.0.rc2.451.g8631bc7472-goog
