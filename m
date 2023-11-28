@@ -1,134 +1,191 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6C44439F
-	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 21:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a00a9d677fcso813334766b.0
-        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 13:25:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C25244395
+	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 21:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kSd8hIzs"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-9fffa4c4f43so821070166b.3
+        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 13:34:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701207274; x=1701812074; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8NXFzGfhAzOfJO06Gf5RsXFoYKrXmtsSvTLzk7MbcCk=;
+        b=kSd8hIzswciYWMCQxPyGklw/do7mkRmXRHKpOc/T9kjeCxiTmzB3TlVuCP1itDdqBJ
+         79iLSBAWloOyHaN9ZcleCe1GGV0JXJ4j/mlF4MLwq+pP4ZyUVFQUyNcqn+TR0RzFVDyR
+         +TD0Pkz0dkDZ5B+yRqhBnOyk7XkoJR3gUX22gNewri7lPgDG6msVSzDu51DnEKc7zVsQ
+         qRv2a6zCFPaf6wizzDBkyqocyBq3XubRHPn7tK9oJebUZnIyAyLQa8iFqNlaa80Xoewp
+         zuALj5eyKW5rRIuDksy384xCH7Bawv0mN9eiQ1T08P1j/ord9i8kJAB0278UOSlRT1GV
+         iVlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701206705; x=1701811505;
+        d=1e100.net; s=20230601; t=1701207274; x=1701812074;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vmxS5DBFoTg5GQNf3Vd7mws9a9zrp/m1jCwPRvpR82Q=;
-        b=vECKwHAyPNusyW+MYRbeQ+8lI1Zn4kuxZZ/Y/c8+IGXXy1WkxDCxAOi64jxm95jTAe
-         N+9rnz1CNYZ3JbXlRRAyq1KWKGO2I2IUhwmsN7yu3vOGFLzUk7mgiyB/Ixl6oKutHjCW
-         00M2n6gK9vcqR6S1Eh8kMSzTsJBBDCNXH9tLI2aFSX8NMrjDerbiZnEZkIRr/GJPDZv+
-         sKQfZyApM5pFOyUjWKro9jJ4S/+H+IcHvsv9lrxZFaH9zGM4JHS0flzXW3mRt4K7nPw6
-         8NNrA94Rl3o2XP06HOAzmyWoiyyHYdV+Ipl8LpgmSZafsg6FescwlUp10NITL2xsEPbR
-         xshg==
-X-Gm-Message-State: AOJu0YzvCYEv7T3ZW9Erm1Fvxf3jro0C1V0Swo3OAt8SHV1W2ePzzVzX
-	09rGie0yOJVTwNu3+XXIxkHayisy2Abv4hBa
-X-Google-Smtp-Source: AGHT+IE868vciGFx/VVhZMQEYzDXFR8TJiqRu45Gl+UiQjAQ23rG8GUBT47PGC4FGVqzNs54U8tXDA==
-X-Received: by 2002:a17:906:190:b0:a16:31b6:f6fd with SMTP id 16-20020a170906019000b00a1631b6f6fdmr1799795ejb.5.1701206704498;
-        Tue, 28 Nov 2023 13:25:04 -0800 (PST)
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
-        by smtp.gmail.com with ESMTPSA id hg12-20020a170906f34c00b00a10f3030e11sm2057834ejb.1.2023.11.28.13.25.04
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Nov 2023 13:25:04 -0800 (PST)
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-54b18dbf148so5161436a12.1
-        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 13:25:04 -0800 (PST)
-X-Received: by 2002:a17:906:209c:b0:a12:231f:65d with SMTP id
- 28-20020a170906209c00b00a12231f065dmr3886214ejq.48.1701206704110; Tue, 28 Nov
- 2023 13:25:04 -0800 (PST)
+        bh=8NXFzGfhAzOfJO06Gf5RsXFoYKrXmtsSvTLzk7MbcCk=;
+        b=Zf4cbhyyDBhNaSw2IZj55VuaUPE6Veu3TmMftqyi4ylGpea5KCBY/O9+IuGY4Msh4e
+         MgowihgvhHuDiQrcCqDvvlaxiAJsdnJtoSr+3jsTYkL0qUyTWBvrOP3aJReMLagPMO1x
+         aiBGRDAntwf2ronKFS6VjBStpndh3MN3rqmuI1rQnbv2r8T2wNgA1N/DeNZk1RFSbIG7
+         TEhCWUvUBVuf+80AP9gPeJjet/mxgl4DY+uuF+dLuVCsMzcK2tOkEeChFnKeLOzEB94o
+         daXmnRLr0N1P4z5ymd19VtzqHgDVxODoQtbmqzvObSTfD3TrFMXfNJ+ueVgXYfPuv0ND
+         LUjA==
+X-Gm-Message-State: AOJu0YyB3OP3dLakOeA7sXRHRi2OcYpGtfS40wItyNsrsDYUHeT/SwTK
+	ouIn+688bljXFWaGSUBn+QpuScZwOeWxe1i0qVOp9w==
+X-Google-Smtp-Source: AGHT+IFrrdaJl+8CDzGqIseL+lJ7M7KDt9GszVwJUOFBD/DHsSLfgFwP8+NKKfkfsTtyJyGUtnD8OJJylXlFpNkSb5g=
+X-Received: by 2002:a17:906:b248:b0:a04:cc0e:ff3b with SMTP id
+ ce8-20020a170906b24800b00a04cc0eff3bmr12465188ejb.27.1701207274446; Tue, 28
+ Nov 2023 13:34:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231116160235.2708131-1-neal@gompa.dev> <20231127160705.GC2366036@perftesting>
- <fb78d997-cb99-4b98-8042-bdcdbff22b88@marcan.st> <f229058e-4f5d-4bd0-9016-41b133688443@suse.com>
-In-Reply-To: <f229058e-4f5d-4bd0-9016-41b133688443@suse.com>
-From: Neal Gompa <neal@gompa.dev>
-Date: Tue, 28 Nov 2023 16:24:27 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je8r0K0k8UMcAafxXyrNuxJrxJbGhkwvo10pUw+rxhCa8g@mail.gmail.com>
-Message-ID: <CAEg-Je8r0K0k8UMcAafxXyrNuxJrxJbGhkwvo10pUw+rxhCa8g@mail.gmail.com>
-Subject: Re: [PATCH v4 0/1] Enforce 4k sectorize by default for mkfs
-To: Qu Wenruo <wqu@suse.com>
-Cc: Hector Martin <marcan@marcan.st>, Josef Bacik <josef@toxicpanda.com>, 
-	Linux BTRFS Development <linux-btrfs@vger.kernel.org>, Anand Jain <anand.jain@oracle.com>, 
-	Qu Wenruo <quwenruo.btrfs@gmx.com>, David Sterba <dsterba@suse.cz>, 
-	Sven Peter <sven@svenpeter.dev>, Davide Cavalca <davide@cavalca.name>, Jens Axboe <axboe@fb.com>, 
-	Asahi Lina <lina@asahilina.net>, Asahi Linux <asahi@lists.linux.dev>
+References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
+In-Reply-To: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Tue, 28 Nov 2023 13:33:55 -0800
+Message-ID: <CAJD7tkb1FqTqwONrp2nphBDkEamQtPCOFm0208H3tp0Gq2OLMQ@mail.gmail.com>
+Subject: Re: [PATCH 00/16] IOMMU memory observability
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alex.williamson@redhat.com, 
+	alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
+	baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org, 
+	corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, 
+	heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com, 
+	jernej.skrabec@gmail.com, jgg@ziepe.ca, jonathanh@nvidia.com, joro@8bytes.org, 
+	kevin.tian@intel.com, krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, mst@redhat.com, m.szyprowski@samsung.com, 
+	netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org, 
+	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, virtualization@lists.linux.dev, 
+	wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 28, 2023 at 2:57=E2=80=AFPM Qu Wenruo <wqu@suse.com> wrote:
+On Tue, Nov 28, 2023 at 12:49=E2=80=AFPM Pasha Tatashin
+<pasha.tatashin@soleen.com> wrote:
 >
+> From: Pasha Tatashin <tatashin@google.com>
 >
+> IOMMU subsystem may contain state that is in gigabytes. Majority of that
+> state is iommu page tables. Yet, there is currently, no way to observe
+> how much memory is actually used by the iommu subsystem.
 >
-> On 2023/11/29 01:31, Hector Martin wrote:
-> >
-> >
-> > On 2023/11/28 1:07, Josef Bacik wrote:
-> >> On Thu, Nov 16, 2023 at 11:02:23AM -0500, Neal Gompa wrote:
-> >>> The Fedora Asahi SIG[0] is working on bringing up support for
-> >>> Apple Silicon Macintosh computers through the Fedora Asahi Remix[1].
-> >>>
-> >>> Apple Silicon Macs are unusual in that they currently require 16k
-> >>> page sizes, which means that the current default for mkfs.btrfs(8)
-> >>> makes a filesystem that is unreadable on x86 PCs and most other ARM
-> >>> PCs.
-> >>>
-> >>> This is now even more of a problem within Apple Silicon Macs as it is=
- now
-> >>> possible to nest 4K Fedora Linux VMs on 16K Fedora Asahi Remix machin=
-es to
-> >>> enable performant x86 emulation[2] and the host storage needs to be c=
-ompatible
-> >>> for both environments.
-> >>>
-> >>> Thus, I'd like to see us finally make the switchover to 4k sectorsize
-> >>> for new filesystems by default, regardless of page size.
-> >>>
-> >>> The initial test run by Hector Martin[3] at request of Qu Wenruo
-> >>> looked promising[4], and we've been running with this behavior on
-> >>> Fedora Linux since Fedora Linux 36 (at around 6.2) with no issues.
-> >>>
-> >>
-> >> This is a good change and well documented.  This isn't being ignored, =
-it's just
-> >> a policy change that we have to be conservative about considering.  We=
- only in
-> >> the last 3 months have added a Apple Silicon machine to our testing
-> >> infrastructure (running Fedora Asahi fwiw) to make sure we're getting =
-consistent
-> >> subpage-blocksize testing.  Generally speaking it's been fine, we've f=
-ixed a few
-> >> things and haven't broken anything, but it's still comes with some ris=
-ks when
-> >> compared to the default of using the pagesize.
-> >>
-> >> We will continue to discuss this amongst ourselves and figure out what=
- we think
-> >> would be a reasonable timeframe to make this switch and let you know w=
-hat we're
-> >> thinking ASAP.  Thanks,
-> >
-> > Reminder that the Raspberry Pi 5 is also shipping with 16K pages by
-> > default now. The clock is ticking for an ever-growing stream of people
-> > upset that they can't mount/data-rescue/etc their rPi5 NAS disks from a=
-n
-> > x86 machine ;)
+> This patch series solves this problem by adding both observability to
+> all pages that are allocated by IOMMU, and also accountability, so
+> admins can limit the amount if via cgroups.
 >
-> As long as they are using 5.15+ kernel, they should be able to mount and
-> use their RPI NAS with disks from x86 machines.
+> The system-wide observability is using /proc/meminfo:
+> SecPageTables:    438176 kB
 >
-> The change is only for the default mkfs options.
+> Contains IOMMU and KVM memory.
 >
+> Per-node observability:
+> /sys/devices/system/node/nodeN/meminfo
+> Node N SecPageTables:    422204 kB
+>
+> Contains IOMMU and KVM memory memory in the given NUMA node.
+>
+> Per-node IOMMU only observability:
+> /sys/devices/system/node/nodeN/vmstat
+> nr_iommu_pages 105555
+>
+> Contains number of pages IOMMU allocated in the given node.
 
-Right, and the thing is, it's fairly common for the disks to be
-formatted from a Raspberry Pi. So until some kind of support for using
-any sector size on any architecture regardless of page size lands,
-this is going to be a big problem.
+Does it make sense to have a KVM-only entry there as well?
 
+In that case, if SecPageTables in /proc/meminfo is found to be
+suspiciously high, it should be easy to tell which component is
+contributing most usage through vmstat. I understand that users can do
+the subtraction, but we wouldn't want userspace depending on that, in
+case a third class of "secondary" page tables emerges that we want to
+add to SecPageTables. The in-kernel implementation can do the
+subtraction for now if it makes sense though.
 
-
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+>
+> Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
+>
+> With the change, iova_stress[1] stops as limit is reached:
+>
+> # ./iova_stress
+> iova space:     0T      free memory:   497G
+> iova space:     1T      free memory:   495G
+> iova space:     2T      free memory:   493G
+> iova space:     3T      free memory:   491G
+>
+> stops as limit is reached.
+>
+> This series encorporates suggestions that came from the discussion
+> at LPC [2].
+>
+> [1] https://github.com/soleen/iova_stress
+> [2] https://lpc.events/event/17/contributions/1466
+>
+> Pasha Tatashin (16):
+>   iommu/vt-d: add wrapper functions for page allocations
+>   iommu/amd: use page allocation function provided by iommu-pages.h
+>   iommu/io-pgtable-arm: use page allocation function provided by
+>     iommu-pages.h
+>   iommu/io-pgtable-dart: use page allocation function provided by
+>     iommu-pages.h
+>   iommu/io-pgtable-arm-v7s: use page allocation function provided by
+>     iommu-pages.h
+>   iommu/dma: use page allocation function provided by iommu-pages.h
+>   iommu/exynos: use page allocation function provided by iommu-pages.h
+>   iommu/fsl: use page allocation function provided by iommu-pages.h
+>   iommu/iommufd: use page allocation function provided by iommu-pages.h
+>   iommu/rockchip: use page allocation function provided by iommu-pages.h
+>   iommu/sun50i: use page allocation function provided by iommu-pages.h
+>   iommu/tegra-smmu: use page allocation function provided by
+>     iommu-pages.h
+>   iommu: observability of the IOMMU allocations
+>   iommu: account IOMMU allocated memory
+>   vhost-vdpa: account iommu allocations
+>   vfio: account iommu allocations
+>
+>  Documentation/admin-guide/cgroup-v2.rst |   2 +-
+>  Documentation/filesystems/proc.rst      |   4 +-
+>  drivers/iommu/amd/amd_iommu.h           |   8 -
+>  drivers/iommu/amd/init.c                |  91 +++++-----
+>  drivers/iommu/amd/io_pgtable.c          |  13 +-
+>  drivers/iommu/amd/io_pgtable_v2.c       |  20 +-
+>  drivers/iommu/amd/iommu.c               |  13 +-
+>  drivers/iommu/dma-iommu.c               |   8 +-
+>  drivers/iommu/exynos-iommu.c            |  14 +-
+>  drivers/iommu/fsl_pamu.c                |   5 +-
+>  drivers/iommu/intel/dmar.c              |  10 +-
+>  drivers/iommu/intel/iommu.c             |  47 ++---
+>  drivers/iommu/intel/iommu.h             |   2 -
+>  drivers/iommu/intel/irq_remapping.c     |  10 +-
+>  drivers/iommu/intel/pasid.c             |  12 +-
+>  drivers/iommu/intel/svm.c               |   7 +-
+>  drivers/iommu/io-pgtable-arm-v7s.c      |   9 +-
+>  drivers/iommu/io-pgtable-arm.c          |   7 +-
+>  drivers/iommu/io-pgtable-dart.c         |  37 ++--
+>  drivers/iommu/iommu-pages.h             | 231 ++++++++++++++++++++++++
+>  drivers/iommu/iommufd/iova_bitmap.c     |   6 +-
+>  drivers/iommu/rockchip-iommu.c          |  14 +-
+>  drivers/iommu/sun50i-iommu.c            |   7 +-
+>  drivers/iommu/tegra-smmu.c              |  18 +-
+>  drivers/vfio/vfio_iommu_type1.c         |   8 +-
+>  drivers/vhost/vdpa.c                    |   3 +-
+>  include/linux/mmzone.h                  |   5 +-
+>  mm/vmstat.c                             |   3 +
+>  28 files changed, 415 insertions(+), 199 deletions(-)
+>  create mode 100644 drivers/iommu/iommu-pages.h
+>
+> --
+> 2.43.0.rc2.451.g8631bc7472-goog
+>
+>
