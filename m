@@ -1,102 +1,93 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB15834562
-	for <asahi@lists.linux.dev>; Mon, 27 Nov 2023 16:07:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=toxicpanda.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=toxicpanda.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402615C090
+	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 15:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toxicpanda-com.20230601.gappssmtp.com header.i=@toxicpanda-com.20230601.gappssmtp.com header.b="rUKbxk9Y"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5c8c26cf056so44796497b3.1
-        for <asahi@lists.linux.dev>; Mon, 27 Nov 2023 08:07:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=toxicpanda-com.20230601.gappssmtp.com; s=20230601; t=1701101227; x=1701706027; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R0X43bDr5cjDi5fuHxxsDsh8V+3EmZKapeWWbTvrBlA=;
-        b=rUKbxk9YLKtM9Yr12ucIRoIA9GuJ0zyw52vVmtCypfS3vYNi7v+FUnZDOL6MnUww9e
-         n7PpCwWg3Vooy0sQ+/h9O+ZcJsS9hXX9OL/FLjPm1QNyVMJUYuux3y3tboNNJNd/pU1U
-         dozdzh7FcuLEKvatLilgaSlU2A/MOFttw+C3yD/RV68uTPW6YOottHLoMwp70ZzSB1hc
-         PJg5siiKpBegAj6WtUGnKQ0PQGhaoxyKa+0OlqGDva6R/8XkH5ZON+5v4p/T09hUPsXQ
-         GwqarkYEjpVv+upneX/MVd2lqN9Xe5KIldTRXia5CWPhvlkJPqhfVfWmfzbb2Nd44W2v
-         v8Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701101227; x=1701706027;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R0X43bDr5cjDi5fuHxxsDsh8V+3EmZKapeWWbTvrBlA=;
-        b=g75AZe6wnNiMkIZdLbif+Z1jwR/WzLWQ+QQt9a1krIxdlzObhNUeBT9T1WWgrZvijG
-         ZMF1l6qYQIUXgGM+01JyqiV6Ej5GBZtaEgw3hkvAxaJ+AsHTAx/FanCwmAibU9QY+bQM
-         DrRN/5W7iuNQF6anPTazOl6i8dT7u+4dMtYn+GwxW1z9xtBkLWLMrk65dOQLAC8Hh2cI
-         wX77ETKJJwyJ2d7006n9Pi79BFZLLhYo0kydTkLRaKSCuGUO6mSCzwT2En54nqPn25l5
-         H/IXH0cAX/Ac/1F1yC16LVeCjefqkQ8uXuyGn31IfGKIYx9UtUCzNt9hsoKsQSeDdyAh
-         IFSA==
-X-Gm-Message-State: AOJu0YxBvateFpROYtzoKweFTv4rH/lAWrZjZ6qoiL/bZJuhM22YEaQn
-	wW0gpVxsRGDXLqwzDi6pSR2tGw==
-X-Google-Smtp-Source: AGHT+IHATw6Rbur2TSAVcg15XMVzcMVALzHGkYvmB39Sp4N7Ngeawq8PipONQMn2m9xPsAgUzMXjlg==
-X-Received: by 2002:a0d:e885:0:b0:5cd:6dd1:b3dc with SMTP id r127-20020a0de885000000b005cd6dd1b3dcmr12226081ywe.29.1701101226582;
-        Mon, 27 Nov 2023 08:07:06 -0800 (PST)
-Received: from localhost (076-182-020-124.res.spectrum.com. [76.182.20.124])
-        by smtp.gmail.com with ESMTPSA id p8-20020a819808000000b005ce2e66394esm2694661ywg.70.2023.11.27.08.07.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 08:07:06 -0800 (PST)
-Date: Mon, 27 Nov 2023 11:07:05 -0500
-From: Josef Bacik <josef@toxicpanda.com>
-To: Neal Gompa <neal@gompa.dev>
-Cc: Linux BTRFS Development <linux-btrfs@vger.kernel.org>,
-	Anand Jain <anand.jain@oracle.com>,
-	Qu Wenruo <quwenruo.btrfs@gmx.com>, Qu Wenruo <wqu@suse.com>,
-	David Sterba <dsterba@suse.cz>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Davide Cavalca <davide@cavalca.name>, Jens Axboe <axboe@fb.com>,
-	Asahi Lina <lina@asahilina.net>,
-	Asahi Linux <asahi@lists.linux.dev>
-Subject: Re: [PATCH v4 0/1] Enforce 4k sectorize by default for mkfs
-Message-ID: <20231127160705.GC2366036@perftesting>
-References: <20231116160235.2708131-1-neal@gompa.dev>
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="ogqIkfiD"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 0671645F18;
+	Tue, 28 Nov 2023 15:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1701183720; bh=75+rL0teZ8g+m52S+qdkHz3Z4j+DntaIdyqECmrs7X0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=ogqIkfiDct8lrw6p316x++V3cm5AyJHo/AJt2iSA2chDU2lC/fL9butVRBm4zPpGp
+	 eKeDcLk5I/8ghILKF0EBGCPzXEulht6wJ8DkupOsKg+SbDVIAs0q+dEuoeoOWxjtkR
+	 +Xud+2vwREeAGkfnFl8fceInM83bArIO7xbGSQtiQPIdXvdg1iXi5jbVFM/hfqVyNx
+	 rLxpHFcK4CSPAEUks5o2D8Qy0UgaMBWGftMvoA/wN3mxdkCqsNHy7N6PkndNlHg4ud
+	 msgWODB0/2uSHJrs1wxResix0aDHzBngBJpfxbe01aT35ZHCIx77NNN7Ur60aptE5C
+	 tg+vCUy7M9d3Q==
+Message-ID: <fb78d997-cb99-4b98-8042-bdcdbff22b88@marcan.st>
+Date: Wed, 29 Nov 2023 00:01:53 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231116160235.2708131-1-neal@gompa.dev>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/1] Enforce 4k sectorize by default for mkfs
+Content-Language: en-US
+To: Josef Bacik <josef@toxicpanda.com>, Neal Gompa <neal@gompa.dev>
+Cc: Linux BTRFS Development <linux-btrfs@vger.kernel.org>,
+ Anand Jain <anand.jain@oracle.com>, Qu Wenruo <quwenruo.btrfs@gmx.com>,
+ Qu Wenruo <wqu@suse.com>, David Sterba <dsterba@suse.cz>,
+ Sven Peter <sven@svenpeter.dev>, Davide Cavalca <davide@cavalca.name>,
+ Jens Axboe <axboe@fb.com>, Asahi Lina <lina@asahilina.net>,
+ Asahi Linux <asahi@lists.linux.dev>
+References: <20231116160235.2708131-1-neal@gompa.dev>
+ <20231127160705.GC2366036@perftesting>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <20231127160705.GC2366036@perftesting>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 16, 2023 at 11:02:23AM -0500, Neal Gompa wrote:
-> The Fedora Asahi SIG[0] is working on bringing up support for
-> Apple Silicon Macintosh computers through the Fedora Asahi Remix[1].
-> 
-> Apple Silicon Macs are unusual in that they currently require 16k
-> page sizes, which means that the current default for mkfs.btrfs(8)
-> makes a filesystem that is unreadable on x86 PCs and most other ARM
-> PCs.
-> 
-> This is now even more of a problem within Apple Silicon Macs as it is now
-> possible to nest 4K Fedora Linux VMs on 16K Fedora Asahi Remix machines to
-> enable performant x86 emulation[2] and the host storage needs to be compatible
-> for both environments.
-> 
-> Thus, I'd like to see us finally make the switchover to 4k sectorsize
-> for new filesystems by default, regardless of page size.
-> 
-> The initial test run by Hector Martin[3] at request of Qu Wenruo
-> looked promising[4], and we've been running with this behavior on
-> Fedora Linux since Fedora Linux 36 (at around 6.2) with no issues.
-> 
 
-This is a good change and well documented.  This isn't being ignored, it's just
-a policy change that we have to be conservative about considering.  We only in
-the last 3 months have added a Apple Silicon machine to our testing
-infrastructure (running Fedora Asahi fwiw) to make sure we're getting consistent
-subpage-blocksize testing.  Generally speaking it's been fine, we've fixed a few
-things and haven't broken anything, but it's still comes with some risks when
-compared to the default of using the pagesize.
 
-We will continue to discuss this amongst ourselves and figure out what we think
-would be a reasonable timeframe to make this switch and let you know what we're
-thinking ASAP.  Thanks,
+On 2023/11/28 1:07, Josef Bacik wrote:
+> On Thu, Nov 16, 2023 at 11:02:23AM -0500, Neal Gompa wrote:
+>> The Fedora Asahi SIG[0] is working on bringing up support for
+>> Apple Silicon Macintosh computers through the Fedora Asahi Remix[1].
+>>
+>> Apple Silicon Macs are unusual in that they currently require 16k
+>> page sizes, which means that the current default for mkfs.btrfs(8)
+>> makes a filesystem that is unreadable on x86 PCs and most other ARM
+>> PCs.
+>>
+>> This is now even more of a problem within Apple Silicon Macs as it is now
+>> possible to nest 4K Fedora Linux VMs on 16K Fedora Asahi Remix machines to
+>> enable performant x86 emulation[2] and the host storage needs to be compatible
+>> for both environments.
+>>
+>> Thus, I'd like to see us finally make the switchover to 4k sectorsize
+>> for new filesystems by default, regardless of page size.
+>>
+>> The initial test run by Hector Martin[3] at request of Qu Wenruo
+>> looked promising[4], and we've been running with this behavior on
+>> Fedora Linux since Fedora Linux 36 (at around 6.2) with no issues.
+>>
+> 
+> This is a good change and well documented.  This isn't being ignored, it's just
+> a policy change that we have to be conservative about considering.  We only in
+> the last 3 months have added a Apple Silicon machine to our testing
+> infrastructure (running Fedora Asahi fwiw) to make sure we're getting consistent
+> subpage-blocksize testing.  Generally speaking it's been fine, we've fixed a few
+> things and haven't broken anything, but it's still comes with some risks when
+> compared to the default of using the pagesize.
+> 
+> We will continue to discuss this amongst ourselves and figure out what we think
+> would be a reasonable timeframe to make this switch and let you know what we're
+> thinking ASAP.  Thanks,
 
-Josef
+Reminder that the Raspberry Pi 5 is also shipping with 16K pages by
+default now. The clock is ticking for an ever-growing stream of people
+upset that they can't mount/data-rescue/etc their rPi5 NAS disks from an
+x86 machine ;)
+
+- Hector
