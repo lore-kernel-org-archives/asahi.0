@@ -1,51 +1,51 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7BD58AC2
-	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 23:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1005C3C2
+	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 23:53:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="RcVYmO1E"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-58d9dcdf201so1231723eaf.2
-        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 15:52:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="S7cvX4lt"
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-587b1231dbeso3328621eaf.3
+        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 15:53:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1701215575; x=1701820375; darn=lists.linux.dev;
+        d=ziepe.ca; s=google; t=1701215638; x=1701820438; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dXv094b88Raz91Cnddakeh7QBolGZXMUWA5anR7QIWc=;
-        b=RcVYmO1EX482Epp6eqRmuv5iv0amfwWonSDySwhazxgtMkv0CTOfFvC7olNCbVVGOw
-         yLt3BBOhzjimh724KtJeZgtWNopIFA2gEuCVGdAY+jcVTvj3nKHKMcAYy3CIzpudf5/8
-         77NPmVIxeZiaiXYIh7S8OgFKqGe5oInoeBcCnczXW8EJ+wqxssrCDY1I5MW5MWGVBqwd
-         tOvcJW7NPc3cbaNW2MMXj9sI7JC0dyPU0yLUccXDb5MX1NrNe1WFZfA4iixhFpw2QY1L
-         RDOtSi4Eyj9QUsLIoygpaZW3h5rd46BWO/aTHX425Lfd0PH8cMe7/B6AnrFnLJBEymWU
-         HuvQ==
+        bh=IEFdBGBIPfDPsFioHp1AVnDQQb24hQej9vfPWpRMMTA=;
+        b=S7cvX4ltKA2W5vX3M3S9YY+oDJ0zMseaDv2GXbs22IYf+lgAmryJdrSkZvG1tTLm6+
+         0ZV1VRHyzD5C2ipcfraF+JNs4QRaW5XM1R5JY5I5eIonAuiwEvjMstxPV37cuM6Bvxzg
+         KuOQSrAyIylsCFTFNr1SZmJYH8Fbksse08pyFa1knV+gZEOS5q1tKsvvQOi0e3c5ce5/
+         B/hpL2lYHoSM8C0XcGLwOuexib3kBl4xBZYLoApDKR+nKszNTUFhutStzrh4lJpHAFW+
+         9d2WKKOjm2Bm5m9HlRfu5WEk6ujG5vCGzenkJPS6dNdzO6a3BOydUreKQRTC4/OzWQaL
+         mqXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701215575; x=1701820375;
+        d=1e100.net; s=20230601; t=1701215638; x=1701820438;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dXv094b88Raz91Cnddakeh7QBolGZXMUWA5anR7QIWc=;
-        b=sp5CvA8cgkWDJR4SUFfRQjzkCFiMHHUYMQXuhCZbzirf9KtM9ceWfUovs7LzueZiev
-         0bjDrKKMkDRv9QUzaxl96N8z2nRo7G9JKSc8W0mekLtTf6A+kh76N6Vc4dj+c0hy1hNs
-         SW0eC0eZC0Y7MLJ2AkIkUczowdnOWNQ+qZbjRmgQd7JXjKqRW9SPdPxoc9EXyEItaGfg
-         jZP5CaLt8/bofrfkbCZjhovN7Mmvu+8L9Qg1bCyMDZG/TzY1uM4ctAy/VLWq20LG8SKF
-         J8BHyIWRM2Gon/vUrpD7J59dM6MOee9vzZrgdb+MoAQu47+E/3T0kiBcRUszqWbjOnvn
-         +uiw==
-X-Gm-Message-State: AOJu0YzcLaNUBnRMOlD/oYm2jwL/0yEIMXGqSrx8EYHkg2AFXnptWoX1
-	5ThyvcvgL49F1aX5xNhVuDwJNg==
-X-Google-Smtp-Source: AGHT+IGTztmrmgvPYpbtvzl17b62XmnK8+OH49tY+wjVCnGNXRfv5SNHBNwBBGUuA+R8HKGpsMl7yw==
-X-Received: by 2002:a05:6870:5d93:b0:1f0:656b:5b99 with SMTP id fu19-20020a0568705d9300b001f0656b5b99mr24892940oab.11.1701215575150;
-        Tue, 28 Nov 2023 15:52:55 -0800 (PST)
+        bh=IEFdBGBIPfDPsFioHp1AVnDQQb24hQej9vfPWpRMMTA=;
+        b=ml6y6mpTQ1qAMitWI0JC6fZB2EP1sEqSAz0l/aBkGZA0vsQ1YCTMrQZvMS+/rGccRL
+         XBhCscU+d4fEmLbQTYLv22weErnGK6KUH3AhoZbT0YH65gxYupwj+0D+Re99acXn7wuG
+         BcJWlmQoJIgicTTk3+wrPm7E+ry0YZpx7jckWyVB9on+dHreQ0hD3K/ddxwR2MCPX/ib
+         +Q+CVbuK+HrIUvealzGzRGG9JQsrN4lzG9L+/ZD7FNhSh3xVkoHs3wnlGNcEW1XSY31j
+         6vwYCwJplbqOB0aKJAXvTHa8ejBGwDVpTwEh/fOygPlClzCbJof7fblpZ6qr+wdKjsjd
+         og7w==
+X-Gm-Message-State: AOJu0Yw8P/H8s+46LXTXHuvvQxq5PpkEX5IRxyHuHt9EDlWLG5ebalcU
+	RSYK7vw57jHA0stVNRfjzfDEDw==
+X-Google-Smtp-Source: AGHT+IG+JvDO46eVb/i8IDuwEuHhA2SVxYkTSZoGtbM2c6nncwzUAA0+bA0p676nl1Is/JNEkvg0HA==
+X-Received: by 2002:a05:6820:160a:b0:58d:9bb6:c38c with SMTP id bb10-20020a056820160a00b0058d9bb6c38cmr7347167oob.3.1701215638582;
+        Tue, 28 Nov 2023 15:53:58 -0800 (PST)
 Received: from ziepe.ca (hlfxns017vw-142-134-23-187.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.134.23.187])
-        by smtp.gmail.com with ESMTPSA id z23-20020a9d62d7000000b006ce2fce83cbsm1060465otk.25.2023.11.28.15.52.54
+        by smtp.gmail.com with ESMTPSA id 63-20020a4a0342000000b0058ad7b0b1a8sm2117307ooi.13.2023.11.28.15.53.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 15:52:54 -0800 (PST)
+        Tue, 28 Nov 2023 15:53:58 -0800 (PST)
 Received: from jgg by wakko with local (Exim 4.95)
 	(envelope-from <jgg@ziepe.ca>)
-	id 1r87ss-005jIP-2h;
-	Tue, 28 Nov 2023 19:52:54 -0400
-Date: Tue, 28 Nov 2023 19:52:54 -0400
+	id 1r87tt-005jIw-Fu;
+	Tue, 28 Nov 2023 19:53:57 -0400
+Date: Tue, 28 Nov 2023 19:53:57 -0400
 From: Jason Gunthorpe <jgg@ziepe.ca>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>
 Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
@@ -70,11 +70,10 @@ Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
 	tomas.mudrunka@gmail.com, vdumpa@nvidia.com,
 	virtualization@lists.linux.dev, wens@csie.org, will@kernel.org,
 	yu-cheng.yu@intel.com
-Subject: Re: [PATCH 09/16] iommu/iommufd: use page allocation function
- provided by iommu-pages.h
-Message-ID: <20231128235254.GE1312390@ziepe.ca>
+Subject: Re: [PATCH 16/16] vfio: account iommu allocations
+Message-ID: <20231128235357.GF1312390@ziepe.ca>
 References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-10-pasha.tatashin@soleen.com>
+ <20231128204938.1453583-17-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -83,18 +82,17 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231128204938.1453583-10-pasha.tatashin@soleen.com>
+In-Reply-To: <20231128204938.1453583-17-pasha.tatashin@soleen.com>
 
-On Tue, Nov 28, 2023 at 08:49:31PM +0000, Pasha Tatashin wrote:
-> Convert iommu/iommufd/* files to use the new page allocation functions
-> provided in iommu-pages.h.
+On Tue, Nov 28, 2023 at 08:49:38PM +0000, Pasha Tatashin wrote:
+> iommu allocations should be accounted in order to allow admins to
+> monitor and limit the amount of iommu memory.
 > 
 > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 > ---
->  drivers/iommu/iommufd/iova_bitmap.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/vfio/vfio_iommu_type1.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 
-This is a short term allocation, it should not be counted, that is why
-it is already not using GFP_KERNEL_ACCOUNT.
+You should send the seperately and directly to Alex.
 
 Jason
