@@ -1,155 +1,134 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE00C42ABA
-	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 20:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="KAkhIpYC"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-67a35b68c34so18752486d6.3
-        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 12:49:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701204596; x=1701809396; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YSGX0jW3To7/xuABL7QXXsr1KCFhu7Z9tThr0mLMrMc=;
-        b=KAkhIpYCqOBLLrojVB77d6P8fCDKbqdBh74lZXjTXZlQVWt9lUtMlWcGYvQrS5wF8N
-         TjEMHn4RlbI7ARSl5o50SM/pN4oZg3mY+v3nG30R5/FPKE9s2pszJj6daGJ+ydiEpM0h
-         pIsmUscmMTIqZoN4188qRd+QQmtrtbzWnP7vOxmrpPorezqlTS9CKEcfQa6l+4U7t9ND
-         U5vZqdLUfKVc/kOcPgo11afUrYtt3lkr2cm+FF+g3ErvYVo6In3qA+II+zp7zrKgDkIM
-         hgi172jQUZUKqYIblBDNVHBf5bY2LLo8D42BsYuOTBxzAlc+TRxqbm+b5wB4EZKo0B2n
-         frPw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6C44439F
+	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 21:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a00a9d677fcso813334766b.0
+        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 13:25:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701204596; x=1701809396;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1701206705; x=1701811505;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YSGX0jW3To7/xuABL7QXXsr1KCFhu7Z9tThr0mLMrMc=;
-        b=Gn1p/PVPKH9gE2S1O96ncacGPo17mPjg378q7uFzYJZtQW8E0AOlYh63hf+g2RCxwC
-         RPtVvke9ztpuralB5rDaFH9xZNMY6++nbwhSbNVvMWxWQpn5xK68RuQBbfKRTPxyjqN6
-         XOoag8hrDNLhWRskj9TKhFon7BWZEgBvVY/7DcYYwgXDM7L2Xa0fhcbtTpwVm/WCIll1
-         KrvNjf6kENfmyvw1H4WiHvtCN3D1hfIEZBm40Ln3B7OVk0tOwmXXkUg2PPufwxRMgMgi
-         BGTlGDt+ysG9xBVCOZ90WopCpiSXcCm2WSXNT6mxjl/Tlk4y7u5V00zeyzrWAyoSmUBn
-         AK8A==
-X-Gm-Message-State: AOJu0YxWIf43G5J4PUOl+Yb6pKcyNLNIMQ/E/pBWfaXK1in/ORIIidQX
-	Az7jcnbzvDA729Df86f8Y9pIyA==
-X-Google-Smtp-Source: AGHT+IH3XyzLx3HqaxxWdryJd33MqMJHkx6z6Xt3swBEGkMdx9JQSLka9GW0WH1FkTVqo27TzFUimQ==
-X-Received: by 2002:a05:6214:246f:b0:67a:4ba1:84d5 with SMTP id im15-20020a056214246f00b0067a4ba184d5mr7928400qvb.16.1701204596396;
-        Tue, 28 Nov 2023 12:49:56 -0800 (PST)
-Received: from soleen.c.googlers.com.com (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
-        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 12:49:56 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: akpm@linux-foundation.org,
-	alex.williamson@redhat.com,
-	alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com,
-	bhelgaas@google.com,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	david@redhat.com,
-	dwmw2@infradead.org,
-	hannes@cmpxchg.org,
-	heiko@sntech.de,
-	iommu@lists.linux.dev,
-	jasowang@redhat.com,
-	jernej.skrabec@gmail.com,
-	jgg@ziepe.ca,
-	jonathanh@nvidia.com,
-	joro@8bytes.org,
-	kevin.tian@intel.com,
-	krzysztof.kozlowski@linaro.org,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	lizefan.x@bytedance.com,
-	marcan@marcan.st,
-	mhiramat@kernel.org,
-	mst@redhat.com,
-	m.szyprowski@samsung.com,
-	netdev@vger.kernel.org,
-	pasha.tatashin@soleen.com,
-	paulmck@kernel.org,
-	rdunlap@infradead.org,
-	robin.murphy@arm.com,
-	samuel@sholland.org,
-	suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev,
-	thierry.reding@gmail.com,
-	tj@kernel.org,
-	tomas.mudrunka@gmail.com,
-	vdumpa@nvidia.com,
-	virtualization@lists.linux.dev,
-	wens@csie.org,
-	will@kernel.org,
-	yu-cheng.yu@intel.com
-Subject: [PATCH 16/16] vfio: account iommu allocations
-Date: Tue, 28 Nov 2023 20:49:38 +0000
-Message-ID: <20231128204938.1453583-17-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
-In-Reply-To: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
+        bh=vmxS5DBFoTg5GQNf3Vd7mws9a9zrp/m1jCwPRvpR82Q=;
+        b=vECKwHAyPNusyW+MYRbeQ+8lI1Zn4kuxZZ/Y/c8+IGXXy1WkxDCxAOi64jxm95jTAe
+         N+9rnz1CNYZ3JbXlRRAyq1KWKGO2I2IUhwmsN7yu3vOGFLzUk7mgiyB/Ixl6oKutHjCW
+         00M2n6gK9vcqR6S1Eh8kMSzTsJBBDCNXH9tLI2aFSX8NMrjDerbiZnEZkIRr/GJPDZv+
+         sKQfZyApM5pFOyUjWKro9jJ4S/+H+IcHvsv9lrxZFaH9zGM4JHS0flzXW3mRt4K7nPw6
+         8NNrA94Rl3o2XP06HOAzmyWoiyyHYdV+Ipl8LpgmSZafsg6FescwlUp10NITL2xsEPbR
+         xshg==
+X-Gm-Message-State: AOJu0YzvCYEv7T3ZW9Erm1Fvxf3jro0C1V0Swo3OAt8SHV1W2ePzzVzX
+	09rGie0yOJVTwNu3+XXIxkHayisy2Abv4hBa
+X-Google-Smtp-Source: AGHT+IE868vciGFx/VVhZMQEYzDXFR8TJiqRu45Gl+UiQjAQ23rG8GUBT47PGC4FGVqzNs54U8tXDA==
+X-Received: by 2002:a17:906:190:b0:a16:31b6:f6fd with SMTP id 16-20020a170906019000b00a1631b6f6fdmr1799795ejb.5.1701206704498;
+        Tue, 28 Nov 2023 13:25:04 -0800 (PST)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com. [209.85.208.44])
+        by smtp.gmail.com with ESMTPSA id hg12-20020a170906f34c00b00a10f3030e11sm2057834ejb.1.2023.11.28.13.25.04
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 13:25:04 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-54b18dbf148so5161436a12.1
+        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 13:25:04 -0800 (PST)
+X-Received: by 2002:a17:906:209c:b0:a12:231f:65d with SMTP id
+ 28-20020a170906209c00b00a12231f065dmr3886214ejq.48.1701206704110; Tue, 28 Nov
+ 2023 13:25:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231116160235.2708131-1-neal@gompa.dev> <20231127160705.GC2366036@perftesting>
+ <fb78d997-cb99-4b98-8042-bdcdbff22b88@marcan.st> <f229058e-4f5d-4bd0-9016-41b133688443@suse.com>
+In-Reply-To: <f229058e-4f5d-4bd0-9016-41b133688443@suse.com>
+From: Neal Gompa <neal@gompa.dev>
+Date: Tue, 28 Nov 2023 16:24:27 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je8r0K0k8UMcAafxXyrNuxJrxJbGhkwvo10pUw+rxhCa8g@mail.gmail.com>
+Message-ID: <CAEg-Je8r0K0k8UMcAafxXyrNuxJrxJbGhkwvo10pUw+rxhCa8g@mail.gmail.com>
+Subject: Re: [PATCH v4 0/1] Enforce 4k sectorize by default for mkfs
+To: Qu Wenruo <wqu@suse.com>
+Cc: Hector Martin <marcan@marcan.st>, Josef Bacik <josef@toxicpanda.com>, 
+	Linux BTRFS Development <linux-btrfs@vger.kernel.org>, Anand Jain <anand.jain@oracle.com>, 
+	Qu Wenruo <quwenruo.btrfs@gmx.com>, David Sterba <dsterba@suse.cz>, 
+	Sven Peter <sven@svenpeter.dev>, Davide Cavalca <davide@cavalca.name>, Jens Axboe <axboe@fb.com>, 
+	Asahi Lina <lina@asahilina.net>, Asahi Linux <asahi@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-iommu allocations should be accounted in order to allow admins to
-monitor and limit the amount of iommu memory.
+On Tue, Nov 28, 2023 at 2:57=E2=80=AFPM Qu Wenruo <wqu@suse.com> wrote:
+>
+>
+>
+> On 2023/11/29 01:31, Hector Martin wrote:
+> >
+> >
+> > On 2023/11/28 1:07, Josef Bacik wrote:
+> >> On Thu, Nov 16, 2023 at 11:02:23AM -0500, Neal Gompa wrote:
+> >>> The Fedora Asahi SIG[0] is working on bringing up support for
+> >>> Apple Silicon Macintosh computers through the Fedora Asahi Remix[1].
+> >>>
+> >>> Apple Silicon Macs are unusual in that they currently require 16k
+> >>> page sizes, which means that the current default for mkfs.btrfs(8)
+> >>> makes a filesystem that is unreadable on x86 PCs and most other ARM
+> >>> PCs.
+> >>>
+> >>> This is now even more of a problem within Apple Silicon Macs as it is=
+ now
+> >>> possible to nest 4K Fedora Linux VMs on 16K Fedora Asahi Remix machin=
+es to
+> >>> enable performant x86 emulation[2] and the host storage needs to be c=
+ompatible
+> >>> for both environments.
+> >>>
+> >>> Thus, I'd like to see us finally make the switchover to 4k sectorsize
+> >>> for new filesystems by default, regardless of page size.
+> >>>
+> >>> The initial test run by Hector Martin[3] at request of Qu Wenruo
+> >>> looked promising[4], and we've been running with this behavior on
+> >>> Fedora Linux since Fedora Linux 36 (at around 6.2) with no issues.
+> >>>
+> >>
+> >> This is a good change and well documented.  This isn't being ignored, =
+it's just
+> >> a policy change that we have to be conservative about considering.  We=
+ only in
+> >> the last 3 months have added a Apple Silicon machine to our testing
+> >> infrastructure (running Fedora Asahi fwiw) to make sure we're getting =
+consistent
+> >> subpage-blocksize testing.  Generally speaking it's been fine, we've f=
+ixed a few
+> >> things and haven't broken anything, but it's still comes with some ris=
+ks when
+> >> compared to the default of using the pagesize.
+> >>
+> >> We will continue to discuss this amongst ourselves and figure out what=
+ we think
+> >> would be a reasonable timeframe to make this switch and let you know w=
+hat we're
+> >> thinking ASAP.  Thanks,
+> >
+> > Reminder that the Raspberry Pi 5 is also shipping with 16K pages by
+> > default now. The clock is ticking for an ever-growing stream of people
+> > upset that they can't mount/data-rescue/etc their rPi5 NAS disks from a=
+n
+> > x86 machine ;)
+>
+> As long as they are using 5.15+ kernel, they should be able to mount and
+> use their RPI NAS with disks from x86 machines.
+>
+> The change is only for the default mkfs options.
+>
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- drivers/vfio/vfio_iommu_type1.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Right, and the thing is, it's fairly common for the disks to be
+formatted from a Raspberry Pi. So until some kind of support for using
+any sector size on any architecture regardless of page size lands,
+this is going to be a big problem.
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index eacd6ec04de5..b2854d7939ce 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -1436,7 +1436,7 @@ static int vfio_iommu_map(struct vfio_iommu *iommu, dma_addr_t iova,
- 	list_for_each_entry(d, &iommu->domain_list, next) {
- 		ret = iommu_map(d->domain, iova, (phys_addr_t)pfn << PAGE_SHIFT,
- 				npage << PAGE_SHIFT, prot | IOMMU_CACHE,
--				GFP_KERNEL);
-+				GFP_KERNEL_ACCOUNT);
- 		if (ret)
- 			goto unwind;
- 
-@@ -1750,7 +1750,8 @@ static int vfio_iommu_replay(struct vfio_iommu *iommu,
- 			}
- 
- 			ret = iommu_map(domain->domain, iova, phys, size,
--					dma->prot | IOMMU_CACHE, GFP_KERNEL);
-+					dma->prot | IOMMU_CACHE,
-+					GFP_KERNEL_ACCOUNT);
- 			if (ret) {
- 				if (!dma->iommu_mapped) {
- 					vfio_unpin_pages_remote(dma, iova,
-@@ -1845,7 +1846,8 @@ static void vfio_test_domain_fgsp(struct vfio_domain *domain, struct list_head *
- 			continue;
- 
- 		ret = iommu_map(domain->domain, start, page_to_phys(pages), PAGE_SIZE * 2,
--				IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE, GFP_KERNEL);
-+				IOMMU_READ | IOMMU_WRITE | IOMMU_CACHE,
-+				GFP_KERNEL_ACCOUNT);
- 		if (!ret) {
- 			size_t unmapped = iommu_unmap(domain->domain, start, PAGE_SIZE);
- 
--- 
-2.43.0.rc2.451.g8631bc7472-goog
 
+
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
