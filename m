@@ -1,47 +1,47 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806D35C06A
-	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 20:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D08339AFF
+	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 20:49:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="he1thAPN"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-77bcbc14899so340453785a.1
-        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 12:49:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="E9wyufm+"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-5cc86fcea4fso49860297b3.3
+        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 12:49:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701204585; x=1701809385; darn=lists.linux.dev;
+        d=soleen.com; s=google; t=1701204587; x=1701809387; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4JJWGGhifJfmWwzsRRAotq/YxAL9K3n4NSfU3ou+3rE=;
-        b=he1thAPN8ZD80tPPN3+n/juUJYtQALS6dzc6qfukaJVzb5VepWc+yICz58Yqz0xxBX
-         6iwPIGXEK47G151edQYSa2nNBOhUssrVUl9H1S7uhP7FvwrUiKulewJW2c32pr6vIdDh
-         SAClDCXt1zEvaSqccUn9VG34hhWouw+5St7ykNTsLWRWEBsstprDqXLXEAGk1V+kcqs8
-         YIK2SvaeWaQq1od9yT6Gjuy38dN/ZszUBT1ialhkRtlQCgQwUIpPloAWgGMX6RjZn5ao
-         tua9kdM9RUAFP9jrBUly6reX0ZgE6kbvDZAKf6jlPdrITsvxTZNMgmFYlPIP3fTWdqEY
-         dhhA==
+        bh=9pzjq4U1m3Jk3/Q2EGDhq/3TlS/Ht1C4D8j4bsFObkQ=;
+        b=E9wyufm+H5XNasMOoi5VkTSymFbGQMwuoA7Pn3soBcT27SFU1/oGnyO1boedMyBBsS
+         3n15C1afURjzKaPgv/POGoPj8LCssh096Z3OlnxZgWVnWkWVnBc4NBb2O7D8xTpOKj3b
+         3+k7NmaxImOrOsECqlEjO78Hls66iOpBs1IMdJeuT83/4R0voL8LhPv1jOGXFnk1Fz2L
+         8H6xkuv5pzsumlhJnRAmZiOEto2VaHzlc1n6hCHM65FEbMVe9mepa0IVEuyXeLwnwqUQ
+         rTz6mLJB1ICUC+e7vh7/O9aAdHNwtoP5l8xvkfHi4QMCkf0N9gdJKpZt3A44xiD7kIeu
+         RPFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701204585; x=1701809385;
+        d=1e100.net; s=20230601; t=1701204587; x=1701809387;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4JJWGGhifJfmWwzsRRAotq/YxAL9K3n4NSfU3ou+3rE=;
-        b=izARbo5cqDINnloVR+IaEVKX5P6VeQtfCHEoq8L+mkJ50/SRxFzOdAfnT/oKSPgTPC
-         fCvJsE/Vob+wkFgLYjAZCt0uHCsA3widtAYBgz8gsaK5ZB0FsVNbmqyZI9mnuO5nwhwx
-         ipERWudMAYrRy6g552ZwmxXa/N8//VwlJpMaN1BHpKvooXY6LPCHjLxsGNND58TC1ZwN
-         PgkyqgV9tlLi+xotKGXnC/9oZR+lDSIwFfmyyVkjgAsDPC35LaMXZwaxg4APWgYgFIYL
-         2H462QulXZdeLaqlzDI4tTjH4arau7qMkRVcF6w3120v/5JpCl+EthoBpm1NVsiQiZBU
-         wjLQ==
-X-Gm-Message-State: AOJu0YzuBIJURpqkAbHKbGcX0Y1qsu+dA0e0tBG2GD2+tf0dIaT0fImQ
-	2xbflt5JkJHdwTu4HD1518q8gA==
-X-Google-Smtp-Source: AGHT+IEDZ/ij59NC+/N0WE8v2site2Dd8U3b4CDvl6tiF76N0ZJEMNbYN0ZJKJUKEFAmf3sLjyNRCw==
-X-Received: by 2002:ad4:5499:0:b0:67a:5744:264c with SMTP id pv25-20020ad45499000000b0067a5744264cmr3635072qvb.55.1701204585073;
-        Tue, 28 Nov 2023 12:49:45 -0800 (PST)
+        bh=9pzjq4U1m3Jk3/Q2EGDhq/3TlS/Ht1C4D8j4bsFObkQ=;
+        b=tmfXu9v3N32Lje//wzo3G7HpO48l7GnjDRfPG+afsnbmwCZN4y79rHg6l0ie6Ohjft
+         IQtfnyj8PnhwOjuqXf1M76PPfrcQobH5x5Ct4cDZQfooyMNmOIJNNGKYHPBDkZWlu1Fx
+         EYnv8EiEO4kVQaUX7+4mAwnJ+GZWZ4tzH0HSU9WTCXZh/1pA0FM69IiKANPcc8hxK6jz
+         SaG1LMduHRbwVJLEeoZivHJsU/jL+SZcwkFD7ADQrZMzuFPOuRceE5mrAkKX1NBZ+PQu
+         KnYhCeJ+W+tN1H1q8ZvmBmolnZyqW76g5Y4bKElMB6q5CTyrhXVJeO5M8v/YRGn54vgT
+         4CNQ==
+X-Gm-Message-State: AOJu0Yw86hLxG7SFsy2+6pmKgoO/3fiMo9+8heMMfGMnxFagwIvHZMAl
+	t+fuI2nCEC9gfJma5WuBKvyZ9w==
+X-Google-Smtp-Source: AGHT+IE/Byn/8N8Vta6BS83r49MMC2Wgiev3AoCZv/F2NdDhJZ9+kkS7XfcNeLYX07tpu8Z2obgTjA==
+X-Received: by 2002:a81:87c2:0:b0:5c0:fc45:a249 with SMTP id x185-20020a8187c2000000b005c0fc45a249mr12000775ywf.40.1701204586847;
+        Tue, 28 Nov 2023 12:49:46 -0800 (PST)
 Received: from soleen.c.googlers.com.com (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
-        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.44
+        by smtp.gmail.com with ESMTPSA id d11-20020a0cfe8b000000b0067a56b6adfesm1056863qvs.71.2023.11.28.12.49.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 12:49:44 -0800 (PST)
+        Tue, 28 Nov 2023 12:49:46 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: akpm@linux-foundation.org,
 	alex.williamson@redhat.com,
@@ -95,9 +95,9 @@ To: akpm@linux-foundation.org,
 	wens@csie.org,
 	will@kernel.org,
 	yu-cheng.yu@intel.com
-Subject: [PATCH 04/16] iommu/io-pgtable-dart: use page allocation function provided by iommu-pages.h
-Date: Tue, 28 Nov 2023 20:49:26 +0000
-Message-ID: <20231128204938.1453583-5-pasha.tatashin@soleen.com>
+Subject: [PATCH 06/16] iommu/dma: use page allocation function provided by iommu-pages.h
+Date: Tue, 28 Nov 2023 20:49:28 +0000
+Message-ID: <20231128204938.1453583-7-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
 In-Reply-To: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
 References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
@@ -109,114 +109,54 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert iommu/io-pgtable-dart.c to use the new page allocation functions
+Convert iommu/dma-iommu.c to use the new page allocation functions
 provided in iommu-pages.h.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- drivers/iommu/io-pgtable-dart.c | 37 +++++++++++++--------------------
- 1 file changed, 14 insertions(+), 23 deletions(-)
+ drivers/iommu/dma-iommu.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/io-pgtable-dart.c b/drivers/iommu/io-pgtable-dart.c
-index 74b1ef2b96be..ad28031e1e93 100644
---- a/drivers/iommu/io-pgtable-dart.c
-+++ b/drivers/iommu/io-pgtable-dart.c
-@@ -23,6 +23,7 @@
- #include <linux/types.h>
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 85163a83df2f..822adad464c2 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -31,6 +31,7 @@
+ #include <linux/vmalloc.h>
  
- #include <asm/barrier.h>
+ #include "dma-iommu.h"
 +#include "iommu-pages.h"
  
- #define DART1_MAX_ADDR_BITS	36
- 
-@@ -106,18 +107,12 @@ static phys_addr_t iopte_to_paddr(dart_iopte pte,
- 	return paddr;
- }
- 
--static void *__dart_alloc_pages(size_t size, gfp_t gfp,
--				    struct io_pgtable_cfg *cfg)
-+static void *__dart_alloc_pages(size_t size, gfp_t gfp)
+ struct iommu_dma_msi_page {
+ 	struct list_head	list;
+@@ -874,7 +875,7 @@ static dma_addr_t __iommu_dma_map(struct device *dev, phys_addr_t phys,
+ static void __iommu_dma_free_pages(struct page **pages, int count)
  {
- 	int order = get_order(size);
--	struct page *p;
- 
- 	VM_BUG_ON((gfp & __GFP_HIGHMEM));
--	p = alloc_pages(gfp | __GFP_ZERO, order);
--	if (!p)
--		return NULL;
--
--	return page_address(p);
-+	return iommu_alloc_pages(gfp, order);
+ 	while (count--)
+-		__free_page(pages[count]);
++		__iommu_free_page(pages[count]);
+ 	kvfree(pages);
  }
  
- static int dart_init_pte(struct dart_io_pgtable *data,
-@@ -262,13 +257,13 @@ static int dart_map_pages(struct io_pgtable_ops *ops, unsigned long iova,
+@@ -912,7 +913,8 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
+ 			order_size = 1U << order;
+ 			if (order_mask > order_size)
+ 				alloc_flags |= __GFP_NORETRY;
+-			page = alloc_pages_node(nid, alloc_flags, order);
++			page = __iommu_alloc_pages_node(nid, alloc_flags,
++							order);
+ 			if (!page)
+ 				continue;
+ 			if (order)
+@@ -1572,7 +1574,7 @@ static void *iommu_dma_alloc_pages(struct device *dev, size_t size,
  
- 	/* no L2 table present */
- 	if (!pte) {
--		cptep = __dart_alloc_pages(tblsz, gfp, cfg);
-+		cptep = __dart_alloc_pages(tblsz, gfp);
- 		if (!cptep)
- 			return -ENOMEM;
+ 	page = dma_alloc_contiguous(dev, alloc_size, gfp);
+ 	if (!page)
+-		page = alloc_pages_node(node, gfp, get_order(alloc_size));
++		page = __iommu_alloc_pages_node(node, gfp, get_order(alloc_size));
+ 	if (!page)
+ 		return NULL;
  
- 		pte = dart_install_table(cptep, ptep, 0, data);
- 		if (pte)
--			free_pages((unsigned long)cptep, get_order(tblsz));
-+			iommu_free_pages(cptep, get_order(tblsz));
- 
- 		/* L2 table is present (now) */
- 		pte = READ_ONCE(*ptep);
-@@ -419,8 +414,7 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
- 	cfg->apple_dart_cfg.n_ttbrs = 1 << data->tbl_bits;
- 
- 	for (i = 0; i < cfg->apple_dart_cfg.n_ttbrs; ++i) {
--		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL,
--					   cfg);
-+		data->pgd[i] = __dart_alloc_pages(DART_GRANULE(data), GFP_KERNEL);
- 		if (!data->pgd[i])
- 			goto out_free_data;
- 		cfg->apple_dart_cfg.ttbr[i] = virt_to_phys(data->pgd[i]);
-@@ -429,9 +423,10 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
- 	return &data->iop;
- 
- out_free_data:
--	while (--i >= 0)
--		free_pages((unsigned long)data->pgd[i],
--			   get_order(DART_GRANULE(data)));
-+	while (--i >= 0) {
-+		iommu_free_pages(data->pgd[i],
-+				 get_order(DART_GRANULE(data)));
-+	}
- 	kfree(data);
- 	return NULL;
- }
-@@ -439,6 +434,7 @@ apple_dart_alloc_pgtable(struct io_pgtable_cfg *cfg, void *cookie)
- static void apple_dart_free_pgtable(struct io_pgtable *iop)
- {
- 	struct dart_io_pgtable *data = io_pgtable_to_data(iop);
-+	int order = get_order(DART_GRANULE(data));
- 	dart_iopte *ptep, *end;
- 	int i;
- 
-@@ -449,15 +445,10 @@ static void apple_dart_free_pgtable(struct io_pgtable *iop)
- 		while (ptep != end) {
- 			dart_iopte pte = *ptep++;
- 
--			if (pte) {
--				unsigned long page =
--					(unsigned long)iopte_deref(pte, data);
--
--				free_pages(page, get_order(DART_GRANULE(data)));
--			}
-+			if (pte)
-+				iommu_free_pages(iopte_deref(pte, data), order);
- 		}
--		free_pages((unsigned long)data->pgd[i],
--			   get_order(DART_GRANULE(data)));
-+		iommu_free_pages(data->pgd[i], order);
- 	}
- 
- 	kfree(data);
 -- 
 2.43.0.rc2.451.g8631bc7472-goog
 
