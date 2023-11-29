@@ -1,98 +1,114 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1005C3C2
-	for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 23:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2FC371
+	for <asahi@lists.linux.dev>; Wed, 29 Nov 2023 00:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="S7cvX4lt"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-587b1231dbeso3328621eaf.3
-        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 15:53:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3/xL26my"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-549070a04baso8221900a12.3
+        for <asahi@lists.linux.dev>; Tue, 28 Nov 2023 16:25:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1701215638; x=1701820438; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IEFdBGBIPfDPsFioHp1AVnDQQb24hQej9vfPWpRMMTA=;
-        b=S7cvX4ltKA2W5vX3M3S9YY+oDJ0zMseaDv2GXbs22IYf+lgAmryJdrSkZvG1tTLm6+
-         0ZV1VRHyzD5C2ipcfraF+JNs4QRaW5XM1R5JY5I5eIonAuiwEvjMstxPV37cuM6Bvxzg
-         KuOQSrAyIylsCFTFNr1SZmJYH8Fbksse08pyFa1knV+gZEOS5q1tKsvvQOi0e3c5ce5/
-         B/hpL2lYHoSM8C0XcGLwOuexib3kBl4xBZYLoApDKR+nKszNTUFhutStzrh4lJpHAFW+
-         9d2WKKOjm2Bm5m9HlRfu5WEk6ujG5vCGzenkJPS6dNdzO6a3BOydUreKQRTC4/OzWQaL
-         mqXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701215638; x=1701820438;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1701217542; x=1701822342; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IEFdBGBIPfDPsFioHp1AVnDQQb24hQej9vfPWpRMMTA=;
-        b=ml6y6mpTQ1qAMitWI0JC6fZB2EP1sEqSAz0l/aBkGZA0vsQ1YCTMrQZvMS+/rGccRL
-         XBhCscU+d4fEmLbQTYLv22weErnGK6KUH3AhoZbT0YH65gxYupwj+0D+Re99acXn7wuG
-         BcJWlmQoJIgicTTk3+wrPm7E+ry0YZpx7jckWyVB9on+dHreQ0hD3K/ddxwR2MCPX/ib
-         +Q+CVbuK+HrIUvealzGzRGG9JQsrN4lzG9L+/ZD7FNhSh3xVkoHs3wnlGNcEW1XSY31j
-         6vwYCwJplbqOB0aKJAXvTHa8ejBGwDVpTwEh/fOygPlClzCbJof7fblpZ6qr+wdKjsjd
-         og7w==
-X-Gm-Message-State: AOJu0Yw8P/H8s+46LXTXHuvvQxq5PpkEX5IRxyHuHt9EDlWLG5ebalcU
-	RSYK7vw57jHA0stVNRfjzfDEDw==
-X-Google-Smtp-Source: AGHT+IG+JvDO46eVb/i8IDuwEuHhA2SVxYkTSZoGtbM2c6nncwzUAA0+bA0p676nl1Is/JNEkvg0HA==
-X-Received: by 2002:a05:6820:160a:b0:58d:9bb6:c38c with SMTP id bb10-20020a056820160a00b0058d9bb6c38cmr7347167oob.3.1701215638582;
-        Tue, 28 Nov 2023 15:53:58 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-134-23-187.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.134.23.187])
-        by smtp.gmail.com with ESMTPSA id 63-20020a4a0342000000b0058ad7b0b1a8sm2117307ooi.13.2023.11.28.15.53.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Nov 2023 15:53:58 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1r87tt-005jIw-Fu;
-	Tue, 28 Nov 2023 19:53:57 -0400
-Date: Tue, 28 Nov 2023 19:53:57 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
-	alim.akhtar@samsung.com, alyssa@rosenzweig.io,
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com,
-	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net,
-	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
-	heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
-	jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
-	kevin.tian@intel.com, krzysztof.kozlowski@linaro.org,
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
-	marcan@marcan.st, mhiramat@kernel.org, mst@redhat.com,
-	m.szyprowski@samsung.com, netdev@vger.kernel.org,
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
-	samuel@sholland.org, suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com,
-	virtualization@lists.linux.dev, wens@csie.org, will@kernel.org,
-	yu-cheng.yu@intel.com
-Subject: Re: [PATCH 16/16] vfio: account iommu allocations
-Message-ID: <20231128235357.GF1312390@ziepe.ca>
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-17-pasha.tatashin@soleen.com>
+        bh=s79KKQuQOw+McryaEibHTjOFNeepmOvGc+6XuFBzp3c=;
+        b=3/xL26mybxeDHoh6r2hUF90hyhXIxfWjVIe+a20aUsIZEdGfKwBickDCSgOhaQSEPS
+         N1gf6FAlODpvdmXm5GPc3aWtggdhSIglAxbrtByrk1wrskfSATF+Kg2gCI4pCDhf3LJA
+         ZjaKgDfO//c8T/QpQPVpyRSeKrvTHka0etZwJ/DLZiUzSV31WBdid4pL3Jy3X/BZsTVA
+         HLK2TDZHjt2ce7RPfZmK67GiHZNO5j9ZRehzpO75ENvD+75jRnXzUgCJ6sMxiltM/05V
+         sCyoKb9DdShMa532a2O4lVUCNCPfao/orZMr/BaQULQj6yG4kA/a/et7gvBMhdzZ8Fpk
+         b+qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701217542; x=1701822342;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s79KKQuQOw+McryaEibHTjOFNeepmOvGc+6XuFBzp3c=;
+        b=U5njE4uk3gTR4jluWdGQleoz8YTWHvRuma6l9AscdyjsR1WEDc242vBpqxKw1ELIya
+         bTJ1oQ7SUck5FqxYNlI6JZ3/VbmoCJBlVLeG2tst045E9EihwGWLQQbqB++4u0Cq2Yfr
+         lmArr45t2fHL+EPQB8tMOjSgCrvPfgjAneU32TjP+bFMq3v6DGMupBA9bPNI10OiosFx
+         3EQeoEUfgA/bD6VGYOzmbPvP8f4vOKY7GAgWred4kknGvEL8vMj9TKHfmH/lkebKiV5l
+         u35jGK/MNiypG2k1X79J9IgHzC0ejZb3/fL1CaBLEh6T8/TbsDiACK+WINLbud7gfg7w
+         LU9w==
+X-Gm-Message-State: AOJu0YzSfrhU+Tl/vAouRoNU7sqdSLKBHUfrP+1hrmOqBKVimCkMoxoS
+	sQzST+FxDJjMP68corMB9rKKcbzsqBo+ybm6GC6+zw==
+X-Google-Smtp-Source: AGHT+IFhvJD8pcFDSUkXj7rCXo1krioxrjZU+Fh9ydxhF7LIckb5ecLVgf1lGuB42STpvzRSm1nEjeoSzXAsfJKhmOQ=
+X-Received: by 2002:a17:906:1091:b0:a0c:c09f:65fe with SMTP id
+ u17-20020a170906109100b00a0cc09f65femr7312731eju.38.1701217542589; Tue, 28
+ Nov 2023 16:25:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231128204938.1453583-17-pasha.tatashin@soleen.com>
+References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
+ <CAJD7tkb1FqTqwONrp2nphBDkEamQtPCOFm0208H3tp0Gq2OLMQ@mail.gmail.com>
+ <CA+CK2bB3nHfu1Z6_6fqN3YTAzKXMiJ12MOWpbs8JY7rQo4Fq0g@mail.gmail.com>
+ <CAJD7tkZZNhf4KGV+7N+z8NFpJrvyeNudXU-WdVeE8Rm9pobfgQ@mail.gmail.com> <20231128235214.GD1312390@ziepe.ca>
+In-Reply-To: <20231128235214.GD1312390@ziepe.ca>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Tue, 28 Nov 2023 16:25:03 -0800
+Message-ID: <CAJD7tkbbq6bHtPn7yE3wSS693OSthh1eBDvF-_MWZfDMXDYPKw@mail.gmail.com>
+Subject: Re: [PATCH 00/16] IOMMU memory observability
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, akpm@linux-foundation.org, 
+	alex.williamson@redhat.com, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jasowang@redhat.com, jernej.skrabec@gmail.com, 
+	jonathanh@nvidia.com, joro@8bytes.org, kevin.tian@intel.com, 
+	krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, mst@redhat.com, m.szyprowski@samsung.com, 
+	netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org, 
+	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, virtualization@lists.linux.dev, 
+	wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 28, 2023 at 08:49:38PM +0000, Pasha Tatashin wrote:
-> iommu allocations should be accounted in order to allow admins to
-> monitor and limit the amount of iommu memory.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> ---
->  drivers/vfio/vfio_iommu_type1.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+On Tue, Nov 28, 2023 at 3:52=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
+e:
+>
+> On Tue, Nov 28, 2023 at 03:03:30PM -0800, Yosry Ahmed wrote:
+> > > Yes, another counter for KVM could be added. On the other hand KVM
+> > > only can be computed by subtracting one from another as there are onl=
+y
+> > > two types of secondary page tables, KVM and IOMMU:
+> > >
+> > > /sys/devices/system/node/node0/meminfo
+> > > Node 0 SecPageTables:    422204 kB
+> > >
+> > >  /sys/devices/system/node/nodeN/vmstat
+> > > nr_iommu_pages 105555
+> > >
+> > > KVM only =3D SecPageTables - nr_iommu_pages * PAGE_SIZE / 1024
+> > >
+> >
+> > Right, but as I mention above, if userspace starts depending on this
+> > equation, we won't be able to add any more classes of "secondary" page
+> > tables to SecPageTables. I'd like to avoid that if possible. We can do
+> > the subtraction in the kernel.
+>
+> What Sean had suggested was that SecPageTables was always intended to
+> account all the non-primary mmu memory used by page tables. If this is
+> the case we shouldn't be trying to break it apart into finer
+> counters. These are big picture counters, not detailed allocation by
+> owner counters.
 
-You should send the seperately and directly to Alex.
+Right, I agree with that, but if SecPageTables includes page tables
+from multiple sources, and it is observed to be suspiciously high, the
+logical next step is to try to find the culprit, right?
 
-Jason
+>
+> Jason
