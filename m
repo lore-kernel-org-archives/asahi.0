@@ -1,170 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0067CED0;
-	Wed, 29 Nov 2023 12:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E75D1DFC9
+	for <asahi@lists.linux.dev>; Wed, 29 Nov 2023 12:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7LzFukE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E359C433C8;
-	Wed, 29 Nov 2023 12:55:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701262523;
-	bh=EjcKHBcdIRPeS1Jr3Xl1RByJy2jdZRnaeHgtLca5xvw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B7LzFukE5dLDnjFimKjS9MzsDlyjw2TystsfEqKZQoF3X0ypDR27ShYPrtl8a4hDA
-	 NJpjxQGGyxZWEsXW8iuNcZhKohbcA/aqSnTm0M4FaNA2iGO+NYSrUn6Py4Nri/ePlp
-	 6q+xpqSCX/D4UrdrxiaqNtzCTiHavix0EiBQCRhmLqMpgR0ZYgs/JzAEoWb+9i5JTB
-	 Oe+1+75v5eXMmJzgFHrdDl81TfuAg+2NbIX93el81U7iGTeg6IV4SGN5q4PuHW91Kd
-	 ubXJDdo+ZPM5cWSGL7AsbHeYdmv+aYCsKzrJkAOks6DDY5k/SnNe6msZhjyp96wYb4
-	 GEiHLnbD5cmcA==
-Date: Wed, 29 Nov 2023 13:55:04 +0100
-From: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: David Airlie <airlied@gmail.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Albert Ou <aou@eecs.berkeley.edu>, asahi@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Danilo Krummrich <dakr@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Dexuan Cui <decui@microsoft.com>, devicetree@vger.kernel.org,
-	dmaengine@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	David Woodhouse <dwmw2@infradead.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>, iommu@lists.linux.dev,
-	Jon Hunter <jonathanh@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
-	Karol Herbst <kherbst@redhat.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>, Len Brown <lenb@kernel.org>,
-	linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-hyperv@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-snps-arc@lists.infradead.org,
-	linux-tegra@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-	Lyude Paul <lyude@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	nouveau@lists.freedesktop.org, Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Vineet Gupta <vgupta@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Wei Liu <wei.liu@kernel.org>, Will Deacon <will@kernel.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
-	Jerry Snitselaar <jsnitsel@redhat.com>,
-	Hector Martin <marcan@marcan.st>, Moritz Fischer <mdf@kernel.org>,
-	patches@lists.linux.dev,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>
-Subject: Re: [PATCH 10/10] ACPI: IORT: Allow COMPILE_TEST of IORT
-Message-ID: <ZWc0qPWzNWPkL8vt@lpieralisi>
-References: <0-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
- <10-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="Bv9W7brZ"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 3E97D46CC5;
+	Wed, 29 Nov 2023 12:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1701262722; bh=dvn/AHV4uV8LPPwOHZFferkVUsOTGQDImvgHa8sr44U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=Bv9W7brZR73xkZYE4DRHPPgyh5FxeTnhqnjT79A/q6vCY86PdZVwRa/Cofs72HEIw
+	 UMcrJyT3VPVJtTUFjJGUtMo1jMGqU6b9Aq6fwa0NzAaznqxCzybW4yCv0+BpXJ0hal
+	 0woYoCWApzvo5uMfy6rVfq7wyTEOifxxCRyyuD2woV5L4C7siYRvqDysxYkKbSPKKM
+	 J0EXjuGvUjCVEeEQsucTDt7JS/SM6miw11zdg4Ntjm9uAcOFsqqajjvGoSJ/2aTYsi
+	 XizWw+HNjANV8AjWTor3iFID1Ohiul+DDU5AvPcszk042hLI5nudWE+UBt+rkpIn1j
+	 QUsCaW9Q+ZqQA==
+Message-ID: <aaee6d4f-4e89-4bc7-8a7e-03ffc8b81a34@marcan.st>
+Date: Wed, 29 Nov 2023 21:58:35 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <10-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/1] Enforce 4k sectorize by default for mkfs
+Content-Language: en-US
+To: Neal Gompa <neal@gompa.dev>, Qu Wenruo <wqu@suse.com>
+Cc: Josef Bacik <josef@toxicpanda.com>,
+ Linux BTRFS Development <linux-btrfs@vger.kernel.org>,
+ Anand Jain <anand.jain@oracle.com>, Qu Wenruo <quwenruo.btrfs@gmx.com>,
+ David Sterba <dsterba@suse.cz>, Sven Peter <sven@svenpeter.dev>,
+ Davide Cavalca <davide@cavalca.name>, Jens Axboe <axboe@fb.com>,
+ Asahi Lina <lina@asahilina.net>, Asahi Linux <asahi@lists.linux.dev>
+References: <20231116160235.2708131-1-neal@gompa.dev>
+ <20231127160705.GC2366036@perftesting>
+ <fb78d997-cb99-4b98-8042-bdcdbff22b88@marcan.st>
+ <f229058e-4f5d-4bd0-9016-41b133688443@suse.com>
+ <CAEg-Je8r0K0k8UMcAafxXyrNuxJrxJbGhkwvo10pUw+rxhCa8g@mail.gmail.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <CAEg-Je8r0K0k8UMcAafxXyrNuxJrxJbGhkwvo10pUw+rxhCa8g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 28, 2023 at 08:48:06PM -0400, Jason Gunthorpe wrote:
-> The arm-smmu driver can COMPILE_TEST on x86, so expand this to also
-> enable the IORT code so it can be COMPILE_TEST'd too.
+
+
+On 2023/11/29 6:24, Neal Gompa wrote:
+> On Tue, Nov 28, 2023 at 2:57 PM Qu Wenruo <wqu@suse.com> wrote:
+>>
+>>
+>>
+>> On 2023/11/29 01:31, Hector Martin wrote:
+>>>
+>>>
+>>> On 2023/11/28 1:07, Josef Bacik wrote:
+>>>> On Thu, Nov 16, 2023 at 11:02:23AM -0500, Neal Gompa wrote:
+>>>>> The Fedora Asahi SIG[0] is working on bringing up support for
+>>>>> Apple Silicon Macintosh computers through the Fedora Asahi Remix[1].
+>>>>>
+>>>>> Apple Silicon Macs are unusual in that they currently require 16k
+>>>>> page sizes, which means that the current default for mkfs.btrfs(8)
+>>>>> makes a filesystem that is unreadable on x86 PCs and most other ARM
+>>>>> PCs.
+>>>>>
+>>>>> This is now even more of a problem within Apple Silicon Macs as it is now
+>>>>> possible to nest 4K Fedora Linux VMs on 16K Fedora Asahi Remix machines to
+>>>>> enable performant x86 emulation[2] and the host storage needs to be compatible
+>>>>> for both environments.
+>>>>>
+>>>>> Thus, I'd like to see us finally make the switchover to 4k sectorsize
+>>>>> for new filesystems by default, regardless of page size.
+>>>>>
+>>>>> The initial test run by Hector Martin[3] at request of Qu Wenruo
+>>>>> looked promising[4], and we've been running with this behavior on
+>>>>> Fedora Linux since Fedora Linux 36 (at around 6.2) with no issues.
+>>>>>
+>>>>
+>>>> This is a good change and well documented.  This isn't being ignored, it's just
+>>>> a policy change that we have to be conservative about considering.  We only in
+>>>> the last 3 months have added a Apple Silicon machine to our testing
+>>>> infrastructure (running Fedora Asahi fwiw) to make sure we're getting consistent
+>>>> subpage-blocksize testing.  Generally speaking it's been fine, we've fixed a few
+>>>> things and haven't broken anything, but it's still comes with some risks when
+>>>> compared to the default of using the pagesize.
+>>>>
+>>>> We will continue to discuss this amongst ourselves and figure out what we think
+>>>> would be a reasonable timeframe to make this switch and let you know what we're
+>>>> thinking ASAP.  Thanks,
+>>>
+>>> Reminder that the Raspberry Pi 5 is also shipping with 16K pages by
+>>> default now. The clock is ticking for an ever-growing stream of people
+>>> upset that they can't mount/data-rescue/etc their rPi5 NAS disks from an
+>>> x86 machine ;)
+>>
+>> As long as they are using 5.15+ kernel, they should be able to mount and
+>> use their RPI NAS with disks from x86 machines.
+>>
+>> The change is only for the default mkfs options.
+>>
 > 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/acpi/Kconfig        | 2 --
->  drivers/acpi/Makefile       | 2 +-
->  drivers/acpi/arm64/Kconfig  | 1 +
->  drivers/acpi/arm64/Makefile | 2 +-
->  drivers/iommu/Kconfig       | 1 +
->  5 files changed, 4 insertions(+), 4 deletions(-)
+> Right, and the thing is, it's fairly common for the disks to be
+> formatted from a Raspberry Pi. So until some kind of support for using
+> any sector size on any architecture regardless of page size lands,
+> this is going to be a big problem.
 > 
-> diff --git a/drivers/acpi/Kconfig b/drivers/acpi/Kconfig
-> index f819e760ff195a..3b7f77b227d13a 100644
-> --- a/drivers/acpi/Kconfig
-> +++ b/drivers/acpi/Kconfig
-> @@ -541,9 +541,7 @@ config ACPI_PFRUT
->  	  To compile the drivers as modules, choose M here:
->  	  the modules will be called pfr_update and pfr_telemetry.
->  
-> -if ARM64
->  source "drivers/acpi/arm64/Kconfig"
-> -endif
->  
->  config ACPI_PPTT
->  	bool
-> diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
-> index eaa09bf52f1760..4e77ae37b80726 100644
-> --- a/drivers/acpi/Makefile
-> +++ b/drivers/acpi/Makefile
-> @@ -127,7 +127,7 @@ obj-y				+= pmic/
->  video-objs			+= acpi_video.o video_detect.o
->  obj-y				+= dptf/
->  
-> -obj-$(CONFIG_ARM64)		+= arm64/
-> +obj-y				+= arm64/
->  
->  obj-$(CONFIG_ACPI_VIOT)		+= viot.o
->  
-> diff --git a/drivers/acpi/arm64/Kconfig b/drivers/acpi/arm64/Kconfig
-> index b3ed6212244c1e..537d49d8ace69e 100644
-> --- a/drivers/acpi/arm64/Kconfig
-> +++ b/drivers/acpi/arm64/Kconfig
-> @@ -11,6 +11,7 @@ config ACPI_GTDT
->  
->  config ACPI_AGDI
->  	bool "Arm Generic Diagnostic Dump and Reset Device Interface"
-> +	depends on ARM64
->  	depends on ARM_SDE_INTERFACE
->  	help
->  	  Arm Generic Diagnostic Dump and Reset Device Interface (AGDI) is
-> diff --git a/drivers/acpi/arm64/Makefile b/drivers/acpi/arm64/Makefile
-> index 143debc1ba4a9d..71d0e635599390 100644
-> --- a/drivers/acpi/arm64/Makefile
-> +++ b/drivers/acpi/arm64/Makefile
-> @@ -4,4 +4,4 @@ obj-$(CONFIG_ACPI_IORT) 	+= iort.o
->  obj-$(CONFIG_ACPI_GTDT) 	+= gtdt.o
->  obj-$(CONFIG_ACPI_APMT) 	+= apmt.o
->  obj-$(CONFIG_ARM_AMBA)		+= amba.o
-> -obj-y				+= dma.o init.o
-> +obj-$(CONFIG_ARM64)		+= dma.o init.o
-> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-> index 7673bb82945b6c..309378e76a9bc9 100644
-> --- a/drivers/iommu/Kconfig
-> +++ b/drivers/iommu/Kconfig
-> @@ -318,6 +318,7 @@ config ARM_SMMU
->  	select IOMMU_API
->  	select IOMMU_IO_PGTABLE_LPAE
->  	select ARM_DMA_USE_IOMMU if ARM
-> +	select ACPI_IORT if ACPI
->  	help
->  	  Support for implementations of the ARM System MMU architecture
->  	  versions 1 and 2.
-> -- 
 
-I don't think it should be done this way. Is the goal compile testing
-IORT code ? If so, why are we forcing it through the SMMU (only because
-it can be compile tested while eg SMMUv3 driver can't ?) menu entry ?
+Yup, I meant what I said.
 
-This looks a bit artificial (and it is unclear from the Kconfig
-file why only that driver selects IORT, it looks like eg the SMMUv3
-does not have the same dependency - there is also the SMMUv3 perf
-driver to consider).
+Someone sets up a rPi5 as a NAS, formats the disk from it, as you would
+normally when setting up such a thing from scratch. Later, the rPi stops
+working, as rPis often do. This person's data is now *completely
+inaccessible* until they find another Raspberry Pi 5 or an Apple Silicon
+laptop.
 
-Maybe we can move IORT code into drivers/acpi and add a silent config
-option there with a dependency on ARM64 || COMPILE_TEST.
+This is going to be *common*. And since the 16K decision is made at
+format time, these people are going to be oblivious until they find
+themselves with an urgent need to acquire a Raspberry Pi 5 to access
+their data at all, and then they're going to be mad. So the longer you
+wait to flip the switch, the more people unaware of their own data's
+fragile accessibility condition you will build up, and the more upset
+people you're going to have even long after the change was finally made.
 
-Don't know but at least it is clearer. As for the benefits of compile
-testing IORT code - yes the previous patch is a warning to fix but
-I am not so sure about the actual benefits.
-
-Thanks,
-Lorenzo
+- Hector
