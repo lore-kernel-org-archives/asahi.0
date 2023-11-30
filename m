@@ -1,191 +1,148 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8236C4CB2D
-	for <asahi@lists.linux.dev>; Thu, 30 Nov 2023 03:39:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-54b545ec229so335368a12.0
-        for <asahi@lists.linux.dev>; Wed, 29 Nov 2023 19:39:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701315567; x=1701920367;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bQP1qqNba8IhD9QjDsAo6CwQPCHKTZzSvNK1nrtQJzI=;
-        b=oLnUWjHNdTWO6gg5HMIVdp9SBpty56JnMfpa1dssi8u33GHMbGeMIZpcNCA6b7A/bR
-         4kdKWqOGe/SI6BXY7ssXCYVXeM1r2UNiKa//pbDcO/PSkI4QZv9uRtgJwXiiJUPaBxVn
-         wI4x6tdaEXiZ6xwb5L3EJAG/RNNvu3enN1LmPHU9Nonx8JIbfSG6AKx0HVVMs90gckI0
-         dw29f/z+T3em+g6JFBtxl/qgvQHd41kHvYBZwv7bxVAYjOZlN81aslyVLtZLgYD42T4a
-         el3eU8+TQn3+a95xFmco3MS1AfZFnExSFppvier7bOAiKCB+gIBlg4n50jxjgzK2FVvg
-         fQnw==
-X-Gm-Message-State: AOJu0YwUm48ooILNlduRNm5G7fHF9SF8zQ5QwHt00Tib5ce89D1qpSiq
-	46+pYu62YcU6AiuVVBdM7z87cjDmFhaYzadn
-X-Google-Smtp-Source: AGHT+IEeLKWwh9GYYU0DJTfqCxqd4Uac9gmvzFYuUMgZQrbg4YxW2g/3dnuEL8fvgaylA+rhklEJ9g==
-X-Received: by 2002:aa7:cf89:0:b0:54b:2a9e:3b28 with SMTP id z9-20020aa7cf89000000b0054b2a9e3b28mr10665787edx.22.1701315566800;
-        Wed, 29 Nov 2023 19:39:26 -0800 (PST)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
-        by smtp.gmail.com with ESMTPSA id w24-20020a50fa98000000b0054ac62f1638sm110334edr.46.2023.11.29.19.39.26
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 19:39:26 -0800 (PST)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a132acb67b5so61530366b.3
-        for <asahi@lists.linux.dev>; Wed, 29 Nov 2023 19:39:26 -0800 (PST)
-X-Received: by 2002:a17:906:510:b0:9be:30c2:b8ff with SMTP id
- j16-20020a170906051000b009be30c2b8ffmr13359405eja.61.1701315565815; Wed, 29
- Nov 2023 19:39:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8B118E01;
+	Thu, 30 Nov 2023 11:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hS29cAae"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEC73C433C7;
+	Thu, 30 Nov 2023 11:12:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701342762;
+	bh=GGfXE9jnMr/28RJ1AbOcy/7HFYYF7xL3m95Mfm15Tps=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hS29cAaeUtXdeK+kiZWZ8qW3M4rlyGHM7IrFWTDxn8Nt0aXiAvnbAmRc/aoZ3Gp0j
+	 V7SRDf/8hQJMNOEslGbmVEQwuQ3v/n0aab4QU6apKhqRzbBW1fGVCc4o5+lNiYt0iI
+	 /7/amZz6HtQ5TNJ7z/1iEkJX2GzxXQ/d0Y8W3VVN2EeZqpbt6InWklo12ZeEHk9H/Z
+	 dLnoiGTasJF7l2Ws/GUmhIMMkZ/lsrZ8w7RC7r6TB1mn3zon1xzXFqjFmv6WUa2sKK
+	 u5jJfB5MNcKrcJC5o7DP2m9wYEaZRsNjXWMH0W1KpYnQMkdMULlFup8a//0ud2c0XX
+	 Dh6gxHxqd0DdA==
+Date: Thu, 30 Nov 2023 12:12:26 +0100
+From: Lorenzo Pieralisi <lpieralisi@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: linux-hyperv@vger.kernel.org, Karol Herbst <kherbst@redhat.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jerry Snitselaar <jsnitsel@redhat.com>,
+	dri-devel@lists.freedesktop.org, patches@lists.linux.dev,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Hanjun Guo <guohanjun@huawei.com>, linux-riscv@lists.infradead.org,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Wei Liu <wei.liu@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jon Hunter <jonathanh@nvidia.com>, linux-acpi@vger.kernel.org,
+	iommu@lists.linux.dev, Danilo Krummrich <dakr@redhat.com>,
+	nouveau@lists.freedesktop.org, linux-snps-arc@lists.infradead.org,
+	Len Brown <lenb@kernel.org>, devicetree@vger.kernel.org,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Will Deacon <will@kernel.org>, Sven Peter <sven@svenpeter.dev>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Vineet Gupta <vgupta@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	Moritz Fischer <mdf@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	linux-tegra@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Vinod Koul <vkoul@kernel.org>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Hector Martin <marcan@marcan.st>, linux-mips@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, asahi@lists.linux.dev,
+	Sudeep Holla <sudeep.holla@arm.com>, dmaengine@vger.kernel.org,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>
+Subject: Re: [PATCH 10/10] ACPI: IORT: Allow COMPILE_TEST of IORT
+Message-ID: <ZWhuGl1l5V5b+w4P@lpieralisi>
+References: <0-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+ <10-v1-720585788a7d+811b-iommu_fwspec_p1_jgg@nvidia.com>
+ <ZWc0qPWzNWPkL8vt@lpieralisi>
+ <20231129191240.GZ436702@nvidia.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231116160235.2708131-1-neal@gompa.dev> <20231127160705.GC2366036@perftesting>
- <fb78d997-cb99-4b98-8042-bdcdbff22b88@marcan.st> <f229058e-4f5d-4bd0-9016-41b133688443@suse.com>
- <CAEg-Je8r0K0k8UMcAafxXyrNuxJrxJbGhkwvo10pUw+rxhCa8g@mail.gmail.com>
- <aaee6d4f-4e89-4bc7-8a7e-03ffc8b81a34@marcan.st> <c87f6f12-15ef-4860-a3c8-7038c51eddb1@gmx.com>
-In-Reply-To: <c87f6f12-15ef-4860-a3c8-7038c51eddb1@gmx.com>
-From: Neal Gompa <neal@gompa.dev>
-Date: Wed, 29 Nov 2023 22:38:48 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je_fQ0Q832UkvrShG61Ff93ctQ8VE+M4PBbYXk0uuqpWxQ@mail.gmail.com>
-Message-ID: <CAEg-Je_fQ0Q832UkvrShG61Ff93ctQ8VE+M4PBbYXk0uuqpWxQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/1] Enforce 4k sectorize by default for mkfs
-To: Qu Wenruo <quwenruo.btrfs@gmx.com>
-Cc: Hector Martin <marcan@marcan.st>, Qu Wenruo <wqu@suse.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Linux BTRFS Development <linux-btrfs@vger.kernel.org>, Anand Jain <anand.jain@oracle.com>, 
-	David Sterba <dsterba@suse.cz>, Sven Peter <sven@svenpeter.dev>, 
-	Davide Cavalca <davide@cavalca.name>, Jens Axboe <axboe@fb.com>, Asahi Lina <lina@asahilina.net>, 
-	Asahi Linux <asahi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231129191240.GZ436702@nvidia.com>
 
-On Wed, Nov 29, 2023 at 3:28=E2=80=AFPM Qu Wenruo <quwenruo.btrfs@gmx.com> =
-wrote:
->
->
->
-> On 2023/11/29 23:28, Hector Martin wrote:
-> >
-> >
-> > On 2023/11/29 6:24, Neal Gompa wrote:
-> >> On Tue, Nov 28, 2023 at 2:57=E2=80=AFPM Qu Wenruo <wqu@suse.com> wrote=
-:
-> >>>
-> >>>
-> >>>
-> >>> On 2023/11/29 01:31, Hector Martin wrote:
-> >>>>
-> >>>>
-> >>>> On 2023/11/28 1:07, Josef Bacik wrote:
-> >>>>> On Thu, Nov 16, 2023 at 11:02:23AM -0500, Neal Gompa wrote:
-> >>>>>> The Fedora Asahi SIG[0] is working on bringing up support for
-> >>>>>> Apple Silicon Macintosh computers through the Fedora Asahi Remix[1=
-].
-> >>>>>>
-> >>>>>> Apple Silicon Macs are unusual in that they currently require 16k
-> >>>>>> page sizes, which means that the current default for mkfs.btrfs(8)
-> >>>>>> makes a filesystem that is unreadable on x86 PCs and most other AR=
-M
-> >>>>>> PCs.
-> >>>>>>
-> >>>>>> This is now even more of a problem within Apple Silicon Macs as it=
- is now
-> >>>>>> possible to nest 4K Fedora Linux VMs on 16K Fedora Asahi Remix mac=
-hines to
-> >>>>>> enable performant x86 emulation[2] and the host storage needs to b=
-e compatible
-> >>>>>> for both environments.
-> >>>>>>
-> >>>>>> Thus, I'd like to see us finally make the switchover to 4k sectors=
-ize
-> >>>>>> for new filesystems by default, regardless of page size.
-> >>>>>>
-> >>>>>> The initial test run by Hector Martin[3] at request of Qu Wenruo
-> >>>>>> looked promising[4], and we've been running with this behavior on
-> >>>>>> Fedora Linux since Fedora Linux 36 (at around 6.2) with no issues.
-> >>>>>>
-> >>>>>
-> >>>>> This is a good change and well documented.  This isn't being ignore=
-d, it's just
-> >>>>> a policy change that we have to be conservative about considering. =
- We only in
-> >>>>> the last 3 months have added a Apple Silicon machine to our testing
-> >>>>> infrastructure (running Fedora Asahi fwiw) to make sure we're getti=
-ng consistent
-> >>>>> subpage-blocksize testing.  Generally speaking it's been fine, we'v=
-e fixed a few
-> >>>>> things and haven't broken anything, but it's still comes with some =
-risks when
-> >>>>> compared to the default of using the pagesize.
-> >>>>>
-> >>>>> We will continue to discuss this amongst ourselves and figure out w=
-hat we think
-> >>>>> would be a reasonable timeframe to make this switch and let you kno=
-w what we're
-> >>>>> thinking ASAP.  Thanks,
-> >>>>
-> >>>> Reminder that the Raspberry Pi 5 is also shipping with 16K pages by
-> >>>> default now. The clock is ticking for an ever-growing stream of peop=
-le
-> >>>> upset that they can't mount/data-rescue/etc their rPi5 NAS disks fro=
-m an
-> >>>> x86 machine ;)
-> >>>
-> >>> As long as they are using 5.15+ kernel, they should be able to mount =
-and
-> >>> use their RPI NAS with disks from x86 machines.
-> >>>
-> >>> The change is only for the default mkfs options.
-> >>>
-> >>
-> >> Right, and the thing is, it's fairly common for the disks to be
-> >> formatted from a Raspberry Pi. So until some kind of support for using
-> >> any sector size on any architecture regardless of page size lands,
-> >> this is going to be a big problem.
-> >>
-> >
-> > Yup, I meant what I said.
-> >
-> > Someone sets up a rPi5 as a NAS, formats the disk from it, as you would
-> > normally when setting up such a thing from scratch. Later, the rPi stop=
-s
-> > working, as rPis often do. This person's data is now *completely
-> > inaccessible* until they find another Raspberry Pi 5 or an Apple Silico=
-n
-> > laptop.
-> Got it.
->
-> I am putting too much trust on RPI, as my experience is pretty good so
-> far (just for VM hosting and running fstests), thus I though everyone
-> would just go x86->aarch64, at least for NAS hosting/VM testing...
->
-> >
-> > This is going to be *common*. And since the 16K decision is made at
-> > format time, these people are going to be oblivious until they find
-> > themselves with an urgent need to acquire a Raspberry Pi 5 to access
-> > their data at all, and then they're going to be mad. So the longer you
-> > wait to flip the switch, the more people unaware of their own data's
-> > fragile accessibility condition you will build up, and the more upset
-> > people you're going to have even long after the change was finally made=
-.
->
-> In that case, I'm totally fine to support the switch of default sector
-> size, sooner than later.
->
-> With Asahi already running 4K sector sizes, and I have not received any
-> death thread for the loss of one's data, I believe the prerequisite for
-> the switch is already here.
->
-> And even if there are hidden bugs, default to 4K is in fact going to
-> make it faster to get reports and fixed.
->
+On Wed, Nov 29, 2023 at 03:12:40PM -0400, Jason Gunthorpe wrote:
+> On Wed, Nov 29, 2023 at 01:55:04PM +0100, Lorenzo Pieralisi wrote:
+> 
+> > I don't think it should be done this way. Is the goal compile testing
+> > IORT code ? 
+> 
+> Yes
+> 
+> > If so, why are we forcing it through the SMMU (only because
+> > it can be compile tested while eg SMMUv3 driver can't ?) menu entry ?
+> 
+> Because something needs to select it, and SMMU is one of the places
+> that are implicitly using it.
+> 
+> It isn't (and shouldn't be) a user selectable kconfig. Currently the
+> only thing that selects it is the ARM64 master kconfig.
 
-For what it's worth, this change was applied at the Fedora level, so
-*all* architectures have been using 4k sectorize by default for some
-time now, including Fedora Asahi (ARM 16k) and Fedora POWER (64k).
+I never said it should be a user selectable kconfig. I said that
+I don't like using the SMMU entry (only) to select it just because
+that entry allows COMPILE_TEST.
 
+> > This looks a bit artificial (and it is unclear from the Kconfig
+> > file why only that driver selects IORT, it looks like eg the SMMUv3
+> > does not have the same dependency - there is also the SMMUv3 perf
+> > driver to consider).
+> 
+> SMMUv3 doesn't COMPILE_TEST so it picks up the dependency transitivity
+> through ARM64. I'm not sure why IORT was put as a global ARM64 kconfig
+> dependency and not put in the places that directly need it.
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+Because IORT is used by few ARM64 system IPs (that are enabled by
+default, eg GIC), it makes sense to have a generic ARM64 select (if ACPI).
+
+> "perf driver" ? There is a bunch of GIC stuff that uses this too but I
+> don't know if it compile tests.
+
+"SMMUv3 perf driver" drivers/perf/arm_smmuv3_pmu.c
+
+> > Maybe we can move IORT code into drivers/acpi and add a silent config
+> > option there with a dependency on ARM64 || COMPILE_TEST.
+> 
+> That seems pretty weird to me, this is the right way to approach it,
+> IMHO. Making an entire directory condition is pretty incompatible with
+> COMPILE_TEST as a philosophy.
+
+That's not what I was suggesting. I was suggesting to move iort.c (or
+some portions of it) into drivers/acpi if we care enough to compile test
+it on arches !ARM64.
+
+It is also weird to have a file in drivers/acpi/arm64 that you want
+to compile test on other arches IMO (and I don't think it is very useful
+to compile test it either).
+
+> > Don't know but at least it is clearer. As for the benefits of compile
+> > testing IORT code - yes the previous patch is a warning to fix but
+> > I am not so sure about the actual benefits.
+> 
+> IMHO COMPILE_TEST is an inherently good thing. It makes development
+> easier for everyone because you have a less fractured code base to
+> work with.
+
+I am talking about IORT code, not COMPILE_TEST as a whole.
+
+I am not sure what "less fractured" means in this context.
+
+Anyway - it is not a big deal either way but I don't like selecting
+ACPI_IORT only on kconfig entries that allow COMPILE_TEST to implicitly
+compile test it so *if* we want to do it we will have to do it
+differently.
+
+Thanks,
+Lorenzo
