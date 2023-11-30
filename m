@@ -1,183 +1,158 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.186])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8239C55C11
-	for <asahi@lists.linux.dev>; Thu, 30 Nov 2023 20:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72995A0E5
+	for <asahi@lists.linux.dev>; Thu, 30 Nov 2023 20:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="OtI6WQbj"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-77bcbc14899so70523285a.1
-        for <asahi@lists.linux.dev>; Thu, 30 Nov 2023 12:15:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="FjaGKIGn"
+X-KPN-MessageId: 66024aa6-8fc1-11ee-90ec-00505699b430
+Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
+	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+	id 66024aa6-8fc1-11ee-90ec-00505699b430;
+	Thu, 30 Nov 2023 21:45:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1701375317; x=1701980117; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Nk58INbxx30xLOHUnMGn9OdPuZubp6H+G9gT2CVk01Q=;
-        b=OtI6WQbjmPVTHJL5CFttKD1VI6bmrIqH084vSFPazHNCnOO8qvBZb3EOj4Z69+m8fI
-         S5pNtsTowq7PfXfSsDOZOP7tcxq4EyLQPIKfbC/C9dTvUEHfCxoaHBYGq7Bg/4MRbf+J
-         aANKiRTwrfceEhHikfyqd6G6Ebn6V71Ln8evymZtrsd0+IGVgw/HP7TpCAMhkk5B3YTk
-         MEe2Dlad9iXZTqoJHPtzpQDl848tAAiJrcQfUZbkSMMlBSyH6JtxZRocpq9iGr2Mhygh
-         mves4rKW/NKOIHHjZXmHyE/O5VDAoDem4+t7Qx089gh3RvgUfC0sEns6K69ULguZ1arG
-         HzOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701375317; x=1701980117;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Nk58INbxx30xLOHUnMGn9OdPuZubp6H+G9gT2CVk01Q=;
-        b=I6bLGqZJ3yIfVSWXRhzfMomPqx2aNJ3h6F/Y5ZglXsRnKnW23LUda0GoNCU/ltFcvJ
-         MHowfgbf9KxEzTix/z5tWlbvWnmt2RlF8mRhiUtEKUXivNBVG7m/w8f2+218vW0JpoF1
-         2TfgTFw2OUZjx4/uM+jOM+DGl4Yp1n14NrmdflPnxzb8WLM3WlQxqTCZ3lTwLMwyjtGS
-         vOIv8j1wuOafw8W9l7IumOzD6ErSfyaSPmMUobVNfYvnr5vN/hLgWOf8tjw0WVvMwfB6
-         e2DZ0g+f2fwJGT//FGUzSqyGGbyDg5vemc+T2p04uX70/vG26YHGAeI4X9RSfWTNj1G2
-         /bmA==
-X-Gm-Message-State: AOJu0Yzg8MhjDLMAaUe1uQMGMtiJ+sj/dX/n+mx7jZb/CBShGh/yzadu
-	I1brGV1YPTmi1q7c/Hl3UsoonQ==
-X-Google-Smtp-Source: AGHT+IGvd2g71GGje9dR/iX9F2NrVDVxx6CHTrqO1K3GZh4lvqRPIVhnZdc8oub8jQLvnHQLKAhyCg==
-X-Received: by 2002:a05:6214:16d:b0:67a:2942:988 with SMTP id y13-20020a056214016d00b0067a29420988mr18670319qvs.21.1701375317117;
-        Thu, 30 Nov 2023 12:15:17 -0800 (PST)
-Received: from soleen.c.googlers.com.com (55.87.194.35.bc.googleusercontent.com. [35.194.87.55])
-        by smtp.gmail.com with ESMTPSA id e1-20020a0cb441000000b0067a35608186sm795252qvf.28.2023.11.30.12.15.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 12:15:16 -0800 (PST)
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: akpm@linux-foundation.org,
-	alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io,
-	asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com,
-	bhelgaas@google.com,
-	cgroups@vger.kernel.org,
-	corbet@lwn.net,
-	david@redhat.com,
-	dwmw2@infradead.org,
-	hannes@cmpxchg.org,
-	heiko@sntech.de,
-	iommu@lists.linux.dev,
-	jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com,
-	joro@8bytes.org,
-	krzysztof.kozlowski@linaro.org,
-	linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	lizefan.x@bytedance.com,
-	marcan@marcan.st,
-	mhiramat@kernel.org,
-	m.szyprowski@samsung.com,
-	pasha.tatashin@soleen.com,
-	paulmck@kernel.org,
-	rdunlap@infradead.org,
-	robin.murphy@arm.com,
-	samuel@sholland.org,
-	suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev,
-	thierry.reding@gmail.com,
-	tj@kernel.org,
-	tomas.mudrunka@gmail.com,
-	vdumpa@nvidia.com,
-	wens@csie.org,
-	will@kernel.org,
-	yu-cheng.yu@intel.com
-Subject: [PATCH v2 10/10] iommu: account IOMMU allocated memory
-Date: Thu, 30 Nov 2023 20:15:04 +0000
-Message-ID: <20231130201504.2322355-11-pasha.tatashin@soleen.com>
-X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
-In-Reply-To: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
-References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+	d=xs4all.nl; s=xs4all01;
+	h=subject:to:from:message-id:date;
+	bh=wRBnsSMpxk47NJ9LiZMl2l9xDx5Ziq6j0PVG+dHYc8E=;
+	b=FjaGKIGnL1kmmFtqU119hjr2sC41M0kRKWSkc8AoMpUarPVjUVcM5vnZihxBM/w+mfPRoL4tzlWK7
+	 JhcIDfWC8MKD61Iof+svt2GH3w4xI4lhc9O3B0PL9UPRzO3ZlOO00/liaAabqa/ovzrQ2qDOQQmANn
+	 daQycUkWZtIUpT7fn+brF2ZqzMvQsIrtwUqMheMM0xr0mAW6VHkuhFXOpw61pjlXXf+TswJ4v+/sY8
+	 J7sDUTKvj+EG1/QQtiku9ePjYyNALknYsRAn87MXyDGZ0DBrjSV6S4w+b1jHA5xsb6mhgNqI6ABeFS
+	 O87MOBpRqoclCe/tsRmn1GLUi0s9w1Q==
+X-KPN-MID: 33|wlX5AGLjZlt2jPjJLv3etq/dRXWbwi9deqQDFBCGGGqLuy3NlZzNo3yQyljvBG8
+ Gb4AosDeod+nJTy/1LhSUn0b1gshynD7WHrErsY19uFg=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|f+xYDDl8aMRj13hriGoQmFLoHCZSjtNrJZZGvkJ4GRomUqiBggRrbqJAYQtyxzG
+ UwK5xMJLuTRDscwbOVdI36w==
+Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
+	by smtp.xs4all.nl (Halon) with ESMTPSA
+	id 6965e7d2-8fc1-11ee-ac85-00505699b758;
+	Thu, 30 Nov 2023 21:45:36 +0100 (CET)
+Date: Thu, 30 Nov 2023 21:45:35 +0100
+Message-Id: <87jzpz0y34.fsf@bloch.sibelius.xs4all.nl>
+From: Mark Kettenis <mark.kettenis@xs4all.nl>
+To: j@jannau.net
+Cc: kettenis@openbsd.org, trini@konsulko.com, u-boot@lists.denx.de,
+	asahi@lists.linux.dev
+In-Reply-To: <20231130-apple_t602x_extend_memmap-v1-1-cd96b251d2dc@jannau.net>
+	(message from Janne Grunau via B4 Relay on Thu, 30 Nov 2023 13:42:22
+	+0100)
+Subject: Re: [PATCH] arm: apple: t602x: Add missing MMIO regions to memmap
+References: <20231130-apple_t602x_extend_memmap-v1-1-cd96b251d2dc@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-In order to be able to limit the amount of memory that is allocated
-by IOMMU subsystem, the memory must be accounted.
+> From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+> Date: Thu, 30 Nov 2023 13:42:22 +0100
+> 
+> From: Janne Grunau <j@jannau.net>
+> 
+> The memory maps for Apple's M2 Pro/Max/Ultra left MMIO space out which
+> was not used by any driver at the time. The display out exposed as
+> simple-framebuffer use a power-domain controlled by a device in an
+> unmapped region.
+> Add a map covering this region as well as another MMIO region in the
+> range 0x4'0000'0000 - 0x5'0000'0000. The added regions cover all MMIO
+> annotated in Apple's device tree in this range.
+> 
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>  arch/arm/mach-apple/board.c | 48 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 48 insertions(+)
 
-Account IOMMU as part of the secondary pagetables as it was discussed
-at LPC.
+Hi Janne,
 
-The value of SecPageTables now contains mmeory allocation by IOMMU
-and KVM.
+Is there a reason why you can't use a SZ_1G mapping for the blocks
+where you're using a SZ_512M mapping?  With SZ_1G the mapping code
+will use a 1G block descriptor which avoids another level of page
+tables.
 
-Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 2 +-
- Documentation/filesystems/proc.rst      | 4 ++--
- drivers/iommu/iommu-pages.h             | 2 ++
- include/linux/mmzone.h                  | 2 +-
- 4 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 3f85254f3cef..e004e05a7cde 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1418,7 +1418,7 @@ PAGE_SIZE multiple when read back.
- 	  sec_pagetables
- 		Amount of memory allocated for secondary page tables,
- 		this currently includes KVM mmu allocations on x86
--		and arm64.
-+		and arm64 and IOMMU page tables.
- 
- 	  percpu (npn)
- 		Amount of memory used for storing per-cpu kernel
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 49ef12df631b..86f137a9b66b 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1110,8 +1110,8 @@ KernelStack
- PageTables
-               Memory consumed by userspace page tables
- SecPageTables
--              Memory consumed by secondary page tables, this currently
--              currently includes KVM mmu allocations on x86 and arm64.
-+              Memory consumed by secondary page tables, this currently includes
-+              KVM mmu and IOMMU allocations on x86 and arm64.
- NFS_Unstable
-               Always zero. Previous counted pages which had been written to
-               the server, but has not been committed to stable storage.
-diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
-index 69895a355c0c..cdd257585284 100644
---- a/drivers/iommu/iommu-pages.h
-+++ b/drivers/iommu/iommu-pages.h
-@@ -27,6 +27,7 @@ static inline void __iommu_alloc_account(struct page *pages, int order)
- 	const long pgcnt = 1l << order;
- 
- 	mod_node_page_state(page_pgdat(pages), NR_IOMMU_PAGES, pgcnt);
-+	mod_lruvec_page_state(pages, NR_SECONDARY_PAGETABLE, pgcnt);
- }
- 
- /**
-@@ -39,6 +40,7 @@ static inline void __iommu_free_account(struct page *pages, int order)
- 	const long pgcnt = 1l << order;
- 
- 	mod_node_page_state(page_pgdat(pages), NR_IOMMU_PAGES, -pgcnt);
-+	mod_lruvec_page_state(pages, NR_SECONDARY_PAGETABLE, -pgcnt);
- }
- 
- /**
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 1a4d0bba3e8b..aaabb385663c 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -199,7 +199,7 @@ enum node_stat_item {
- 	NR_KERNEL_SCS_KB,	/* measured in KiB */
- #endif
- 	NR_PAGETABLE,		/* used for pagetables */
--	NR_SECONDARY_PAGETABLE, /* secondary pagetables, e.g. KVM pagetables */
-+	NR_SECONDARY_PAGETABLE, /* secondary pagetables, KVM & IOMMU */
- #ifdef CONFIG_IOMMU_SUPPORT
- 	NR_IOMMU_PAGES,		/* # of pages allocated by IOMMU */
- #endif
--- 
-2.43.0.rc2.451.g8631bc7472-goog
-
+> diff --git a/arch/arm/mach-apple/board.c b/arch/arm/mach-apple/board.c
+> index 47393babbc..e05ec431bc 100644
+> --- a/arch/arm/mach-apple/board.c
+> +++ b/arch/arm/mach-apple/board.c
+> @@ -370,6 +370,22 @@ static struct mm_region t6020_mem_map[] = {
+>  		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+>  			 PTE_BLOCK_NON_SHARE |
+>  			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
+> +	}, {
+> +		/* I/O */
+> +		.virt = 0x400000000,
+> +		.phys = 0x400000000,
+> +		.size = SZ_512M,
+> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+> +			PTE_BLOCK_NON_SHARE |
+> +			PTE_BLOCK_PXN | PTE_BLOCK_UXN
+> +	}, {
+> +		/* I/O */
+> +		.virt = 0x480000000,
+> +		.phys = 0x480000000,
+> +		.size = SZ_1G,
+> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+> +			PTE_BLOCK_NON_SHARE |
+> +			PTE_BLOCK_PXN | PTE_BLOCK_UXN
+>  	}, {
+>  		/* I/O */
+>  		.virt = 0x580000000,
+> @@ -471,6 +487,22 @@ static struct mm_region t6022_mem_map[] = {
+>  		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+>  			 PTE_BLOCK_NON_SHARE |
+>  			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
+> +	}, {
+> +		/* I/O */
+> +		.virt = 0x400000000,
+> +		.phys = 0x400000000,
+> +		.size = SZ_512M,
+> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+> +			PTE_BLOCK_NON_SHARE |
+> +			PTE_BLOCK_PXN | PTE_BLOCK_UXN
+> +	}, {
+> +		/* I/O */
+> +		.virt = 0x480000000,
+> +		.phys = 0x480000000,
+> +		.size = SZ_1G,
+> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+> +			PTE_BLOCK_NON_SHARE |
+> +			PTE_BLOCK_PXN | PTE_BLOCK_UXN
+>  	}, {
+>  		/* I/O */
+>  		.virt = 0x580000000,
+> @@ -551,6 +583,22 @@ static struct mm_region t6022_mem_map[] = {
+>  		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+>  			 PTE_BLOCK_NON_SHARE |
+>  			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
+> +	}, {
+> +		/* I/O */
+> +		.virt = 0x2400000000,
+> +		.phys = 0x2400000000,
+> +		.size = SZ_512M,
+> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+> +			PTE_BLOCK_NON_SHARE |
+> +			PTE_BLOCK_PXN | PTE_BLOCK_UXN
+> +	}, {
+> +		/* I/O */
+> +		.virt = 0x2480000000,
+> +		.phys = 0x2480000000,
+> +		.size = SZ_1G,
+> +		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+> +			PTE_BLOCK_NON_SHARE |
+> +			PTE_BLOCK_PXN | PTE_BLOCK_UXN
+>  	}, {
+>  		/* I/O */
+>  		.virt = 0x2580000000,
+> 
+> ---
+> base-commit: 43f2873fa98b1da6eb56d756315c7bd7db63db27
+> change-id: 20231130-apple_t602x_extend_memmap-c82c522ca8c0
+> 
+> Best regards,
+> -- 
+> Janne Grunau <j@jannau.net>
+> 
+> 
