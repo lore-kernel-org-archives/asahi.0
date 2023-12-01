@@ -1,84 +1,154 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A295FEE3
-	for <asahi@lists.linux.dev>; Thu, 30 Nov 2023 22:41:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901D459539
+	for <asahi@lists.linux.dev>; Fri,  1 Dec 2023 07:12:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="Z3J6oPqm"
-X-KPN-MessageId: 6036e971-8fd1-11ee-91e7-005056994fde
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 6036e971-8fd1-11ee-91e7-005056994fde;
-	Thu, 30 Nov 2023 23:39:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=2OivNAWDJ/fDOL7LZYDg+lojuKIM5Agl15aqduX2omQ=;
-	b=Z3J6oPqmokJeXABIxy4d00Th3Z3YJMTeX5mwa7TkiIl3kYnzwbfSZzsVI8qX7kPb+0zyOce50Ucyf
-	 UYL3+e+OthfVBS9yT6KqPG8dnt6Huf7GdoIEBSgsae03hP+yIDm9dTp0cZnTgNGgzcZV1A+TUe4YSy
-	 mFODDVqHDYfZ6ilnPyq3VHzc/fgdEDrAcpXGao6nQ+q1hEz/a+DyzFURBM+thqJm9I60Q0qt/l9Yuh
-	 6EowAyh9MEw55UcNlGf6LVO6GvZIMSxnNpQ2JbU88Rpm/J4WZuH41Cq0+HyNMD4MFrU7YSEudqwAAC
-	 n0fSErgYRcyR0d00alMibfopO20LLXA==
-X-KPN-MID: 33|BqJ8hhLV5FdQ9krl4wlZCN+SkRxZnBl9BK89JJZ7ejubqVqr7Yg0k5RIN/gi1QP
- EoAnNtLYdX6/5GTALVEuMx/MeVYVioA9vf4dtw8jD+WQ=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|UxTze5NWJ0PikZvZnzhDqMXEy1pVUr/sb/MpyIwkk9ikWg/ld70m/xvOfgowfW1
- gB14CTIysFJrgIm2YVzfWSQ==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 620779ca-8fd1-11ee-9dc8-00505699772e;
-	Thu, 30 Nov 2023 23:39:55 +0100 (CET)
-Date: Thu, 30 Nov 2023 23:39:55 +0100
-Message-Id: <87h6l227d0.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: "Janne Grunau" <j@jannau.net>
-Cc: kettenis@openbsd.org, trini@konsulko.com, u-boot@lists.denx.de,
-	asahi@lists.linux.dev
-In-Reply-To: <6ff006e0-941d-477a-b3d9-01986d317a04@app.fastmail.com>
-	(j@jannau.net)
-Subject: Re: [PATCH] arm: apple: t602x: Add missing MMIO regions to memmap
-References: <20231130-apple_t602x_extend_memmap-v1-1-cd96b251d2dc@jannau.net>
- <87jzpz0y34.fsf@bloch.sibelius.xs4all.nl> <6ff006e0-941d-477a-b3d9-01986d317a04@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxXSHwV6"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ECAD7C433C7;
+	Fri,  1 Dec 2023 07:12:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701414761;
+	bh=8N1J3QWe6AzjnB1qNd2Ibpl8hQoVr/uqtIOKzKOJ1dw=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=lxXSHwV6EBOg5MEdIDthqDSp26XFZxuQOerNbvvL6vt3vPnVet4086qZBF53ZiI7p
+	 +nEqcsNmOVN396+XEUNea2eVuIma+LTM32tWiOKdFVcJa/rd6qqAClBfiM0G3Hj2vo
+	 HBrbnYdOKvWR233DxP3QMuEQzOfAxG23TBEbPKhlxzmuWh0gxVjRvmUJEDom5mVpE7
+	 1o02ZsPu9F8xF2lvvn1PXhqbE8YGdkYSjdQnwoW4v+7GVZnArEVAJ/D8F4mVefjelV
+	 9I+fQY7ZS/yX0uQLJZnhC2ML2tiHWzNiWB5S+nyR5DBv5Xq9BMW7Inbo+a26Jiew72
+	 DSScIKfqvpGeA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA27C4167B;
+	Fri,  1 Dec 2023 07:12:40 +0000 (UTC)
+From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Date: Fri, 01 Dec 2023 08:12:33 +0100
+Subject: [PATCH v2] arm: apple: t602x: Add missing MMIO regions to memmap
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20231201-apple_t602x_extend_memmap-v2-1-a3831a0f3105@jannau.net>
+X-B4-Tracking: v=1; b=H4sIAGCHaWUC/42NQQ6CMBBFr0JmbU07BIKuvIchTZ2OUiOlaSvBE
+ O5u5QQu30v++yskjo4TnKsVIs8uuckXwEMFNBj/YOFsYUCJtVK1FCaEF+vcSlw0L5m91SOPowm
+ COqQGkUxHEso+RL67ZW9f+8KDS3mKn/1qVj/7T3VWQgmyp/aGjbJo6fI03pv30XOGftu2L7vGO
+ cnDAAAA
+To: Mark Kettenis <kettenis@openbsd.org>, Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.denx.de, asahi@lists.linux.dev
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3003; i=j@jannau.net;
+ h=from:subject:message-id; bh=4FSp+FL6oA+RNFZSKEu4rSlOBmR9+tDcRmnu9XGpMIo=;
+ b=owGbwMvMwCG2UNrmdq9+ahrjabUkhtTM9vQlP0Jy9i5Rmv9Ut3ej37U5TVuZxJd//3VGLHvTo
+ 62O930/d5SyMIhxMMiKKbIkab/sYFhdoxhT+yAMZg4rE8gQBi5OAZgI13JGhquG6VNnbZds9mO9
+ c2pmn/y5tXukleYGcnIpX2s4ZbhbQ5uR4a9V6MHdD1aofJ3dzckkssptLu/yDIW2gBjXdhGhCLM
+ ZLAA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
+X-Original-From: Janne Grunau <j@jannau.net>
+Reply-To: <j@jannau.net>
 
-> Date: Thu, 30 Nov 2023 23:04:36 +0100
-> From: "Janne Grunau" <j@jannau.net>
-> 
-> Hej Mark,
-> 
-> On Thu, Nov 30, 2023, at 21:45, Mark Kettenis wrote:
-> >> From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-> >> Date: Thu, 30 Nov 2023 13:42:22 +0100
-> >> 
-> >> From: Janne Grunau <j@jannau.net>
-> >> 
-> >> The memory maps for Apple's M2 Pro/Max/Ultra left MMIO space out which
-> >> was not used by any driver at the time. The display out exposed as
-> >> simple-framebuffer use a power-domain controlled by a device in an
-> >> unmapped region.
-> >> Add a map covering this region as well as another MMIO region in the
-> >> range 0x4'0000'0000 - 0x5'0000'0000. The added regions cover all MMIO
-> >> annotated in Apple's device tree in this range.
-> >> 
-> >> Signed-off-by: Janne Grunau <j@jannau.net>
-> >> ---
-> >>  arch/arm/mach-apple/board.c | 48 +++++++++++++++++++++++++++++++++++++++++++++
-> >>  1 file changed, 48 insertions(+)
-> >
-> > Hi Janne,
-> >
-> > Is there a reason why you can't use a SZ_1G mapping for the blocks
-> > where you're using a SZ_512M mapping?  With SZ_1G the mapping code
-> > will use a 1G block descriptor which avoids another level of page
-> > tables.
-> 
-> no reason except that SZ_512M was sufficient to cover all devices in
-> Apple DT.  Shall I resend the patch?
+From: Janne Grunau <j@jannau.net>
 
-Yes please!
+The memory maps for Apple's M2 Pro/Max/Ultra left MMIO space out which
+was not used by any driver at the time. The display out exposed as
+simple-framebuffer use a power-domain controlled by a device in an
+unmapped region.
+Add a map covering this region as well as another MMIO region in the
+range 0x4'0000'0000 - 0x5'0000'0000. The added regions cover all MMIO
+annotated in Apple's device tree in this range.
+
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Changes in v2:
+- use SZ_1G as block size
+- Link to v1: https://lore.kernel.org/r/20231130-apple_t602x_extend_memmap-v1-1-cd96b251d2dc@jannau.net
+---
+ arch/arm/mach-apple/board.c | 48 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+diff --git a/arch/arm/mach-apple/board.c b/arch/arm/mach-apple/board.c
+index 47393babbc..7a6151a972 100644
+--- a/arch/arm/mach-apple/board.c
++++ b/arch/arm/mach-apple/board.c
+@@ -370,6 +370,22 @@ static struct mm_region t6020_mem_map[] = {
+ 		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+ 			 PTE_BLOCK_NON_SHARE |
+ 			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O */
++		.virt = 0x400000000,
++		.phys = 0x400000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			PTE_BLOCK_NON_SHARE |
++			PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O */
++		.virt = 0x480000000,
++		.phys = 0x480000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			PTE_BLOCK_NON_SHARE |
++			PTE_BLOCK_PXN | PTE_BLOCK_UXN
+ 	}, {
+ 		/* I/O */
+ 		.virt = 0x580000000,
+@@ -471,6 +487,22 @@ static struct mm_region t6022_mem_map[] = {
+ 		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+ 			 PTE_BLOCK_NON_SHARE |
+ 			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O */
++		.virt = 0x400000000,
++		.phys = 0x400000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			PTE_BLOCK_NON_SHARE |
++			PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O */
++		.virt = 0x480000000,
++		.phys = 0x480000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			PTE_BLOCK_NON_SHARE |
++			PTE_BLOCK_PXN | PTE_BLOCK_UXN
+ 	}, {
+ 		/* I/O */
+ 		.virt = 0x580000000,
+@@ -551,6 +583,22 @@ static struct mm_region t6022_mem_map[] = {
+ 		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
+ 			 PTE_BLOCK_NON_SHARE |
+ 			 PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O */
++		.virt = 0x2400000000,
++		.phys = 0x2400000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			PTE_BLOCK_NON_SHARE |
++			PTE_BLOCK_PXN | PTE_BLOCK_UXN
++	}, {
++		/* I/O */
++		.virt = 0x2480000000,
++		.phys = 0x2480000000,
++		.size = SZ_1G,
++		.attrs = PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
++			PTE_BLOCK_NON_SHARE |
++			PTE_BLOCK_PXN | PTE_BLOCK_UXN
+ 	}, {
+ 		/* I/O */
+ 		.virt = 0x2580000000,
+
+---
+base-commit: 43f2873fa98b1da6eb56d756315c7bd7db63db27
+change-id: 20231130-apple_t602x_extend_memmap-c82c522ca8c0
+
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
+
