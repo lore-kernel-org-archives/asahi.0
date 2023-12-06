@@ -1,166 +1,116 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8836C623
-	for <asahi@lists.linux.dev>; Sat,  2 Dec 2023 00:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c9b8363683so34515601fa.3
-        for <asahi@lists.linux.dev>; Fri, 01 Dec 2023 16:55:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701478502; x=1702083302;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=N9Q0mqrHI60oqqAcl92jZhbzuOKaiPGGNZGxwhtg0Ow=;
-        b=OQCDIEf1dl18byD1tTGkSDf+UrARPpt3izEq/A7DWd7m4MDj/HAmuPuOXWpD58syKd
-         9i2IfsWKEFWY7oi4d6LJmaPxdjBO+ClRW3ROfExP6nYRa0ZmJW2zYIQx/khMkuFpn+fb
-         1TMVQQgPU1NSSkLmFOFLie28q/I9KeENnmZUKW5kqbZvSr04KjxF4CQrbwc/hDABEh5a
-         EBCP3KLDHPjGg6tmeMmP1+wxGHQnA31oLoSOLW/NPWgEO/nEqVmFvneeo4l7j0zDudy2
-         EDkSv23BOV0znsbo7VP1QQrN2r5pwLLg55NsW6ggiPtRdmrum8yvxdqJI+dC+PKvQxqF
-         5Z7A==
-X-Gm-Message-State: AOJu0Yxz9cTUM7QWvNr4NBbwJ56yWkNXSfucyF7KtypyCMceuNspW6N+
-	h5RdSrnqkIvX9VX5e8Ok6qeSjZxzeFlscX1o
-X-Google-Smtp-Source: AGHT+IFV/5mQ3clPFqSxHLAO7IommyzxIkqLuBToMCWRcspyoK90K5mPkJi+HHJ8Br7visUtD9Tt9g==
-X-Received: by 2002:a2e:350f:0:b0:2c9:d874:6f01 with SMTP id z15-20020a2e350f000000b002c9d8746f01mr1286861ljz.94.1701478501616;
-        Fri, 01 Dec 2023 16:55:01 -0800 (PST)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
-        by smtp.gmail.com with ESMTPSA id w11-20020a2e300b000000b002c01ff8442fsm554391ljw.130.2023.12.01.16.55.01
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 16:55:01 -0800 (PST)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50be58a751cso303027e87.2
-        for <asahi@lists.linux.dev>; Fri, 01 Dec 2023 16:55:01 -0800 (PST)
-X-Received: by 2002:a05:6512:793:b0:50b:d763:fe69 with SMTP id
- x19-20020a056512079300b0050bd763fe69mr1151445lfr.132.1701478500997; Fri, 01
- Dec 2023 16:55:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D582A34CDA
+	for <asahi@lists.linux.dev>; Wed,  6 Dec 2023 11:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rAqOC-0006SN-QW; Wed, 06 Dec 2023 12:48:28 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rAqOC-00DwuD-43; Wed, 06 Dec 2023 12:48:28 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rAqOB-00FQzQ-RA; Wed, 06 Dec 2023 12:48:27 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: kernel@pengutronix.de,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pwm@vger.kernel.org
+Subject: [PATCH v4 045/115] pwm: apple: Make use of devm_pwmchip_alloc() function
+Date: Wed,  6 Dec 2023 12:43:59 +0100
+Message-ID:  <bd5e8b3ea3b17f64f10418ac9214dab025b00972.1701860672.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231201-apple_t602x_extend_memmap-v2-1-a3831a0f3105@jannau.net>
-In-Reply-To: <20231201-apple_t602x_extend_memmap-v2-1-a3831a0f3105@jannau.net>
-From: Neal Gompa <neal@gompa.dev>
-Date: Fri, 1 Dec 2023 19:54:24 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je-xkN6fP3_M84XaAbOutXuOR-K8GrybNA--SqTdQgEGKA@mail.gmail.com>
-Message-ID: <CAEg-Je-xkN6fP3_M84XaAbOutXuOR-K8GrybNA--SqTdQgEGKA@mail.gmail.com>
-Subject: Re: [PATCH v2] arm: apple: t602x: Add missing MMIO regions to memmap
-To: j@jannau.net
-Cc: Mark Kettenis <kettenis@openbsd.org>, Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2027; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=H/RSyrPQVoPBPHhFRtxTr/CSeZbddhD6RGCOV6q7+1A=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlcF6V1Epgti1xujvaXjqhsNLwQlW5a2CuH3bzA 3a0pavAjWaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZXBelQAKCRCPgPtYfRL+ TtL0B/91sy7TDyXtcU0s0Gk4eKxqOcRdDqDh6/b1Q6vr2qYFALhXjW5VZAqx6ySvl5UD9FzhXMg d1xOqK9T5zCxaqvfRQEvKoV3tC8MrgTF09/S6OPQOLj7hjMx2DPg6XSmKZUw5Rf8/yMq0oiI/qx AsjeUnCYndlBlFggljlaxWX+N8DwH8JCfYcN4QQDzSfe7ebpMEbb8dMsR1b0WReff45qLYXu+qx +PPlFvEHN8Ul1xCfEUDHhdXtHxXCU+/MlatAn6v8CBED84+Ok+ZTQKm1QggXH5/gJ+fqQcUSm/b Ar+6qBj5S7TZGoZuYBWprVCw6TzjmH4ZxjucAeOnRI5S4sZm
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
-On Fri, Dec 1, 2023 at 2:12=E2=80=AFAM Janne Grunau via B4 Relay
-<devnull+j.jannau.net@kernel.org> wrote:
->
-> From: Janne Grunau <j@jannau.net>
->
-> The memory maps for Apple's M2 Pro/Max/Ultra left MMIO space out which
-> was not used by any driver at the time. The display out exposed as
-> simple-framebuffer use a power-domain controlled by a device in an
-> unmapped region.
-> Add a map covering this region as well as another MMIO region in the
-> range 0x4'0000'0000 - 0x5'0000'0000. The added regions cover all MMIO
-> annotated in Apple's device tree in this range.
->
-> Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
-> Changes in v2:
-> - use SZ_1G as block size
-> - Link to v1: https://lore.kernel.org/r/20231130-apple_t602x_extend_memma=
-p-v1-1-cd96b251d2dc@jannau.net
-> ---
->  arch/arm/mach-apple/board.c | 48 +++++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 48 insertions(+)
->
-> diff --git a/arch/arm/mach-apple/board.c b/arch/arm/mach-apple/board.c
-> index 47393babbc..7a6151a972 100644
-> --- a/arch/arm/mach-apple/board.c
-> +++ b/arch/arm/mach-apple/board.c
-> @@ -370,6 +370,22 @@ static struct mm_region t6020_mem_map[] =3D {
->                 .attrs =3D PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
->                          PTE_BLOCK_NON_SHARE |
->                          PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +       }, {
-> +               /* I/O */
-> +               .virt =3D 0x400000000,
-> +               .phys =3D 0x400000000,
-> +               .size =3D SZ_1G,
-> +               .attrs =3D PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +                       PTE_BLOCK_NON_SHARE |
-> +                       PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +       }, {
-> +               /* I/O */
-> +               .virt =3D 0x480000000,
-> +               .phys =3D 0x480000000,
-> +               .size =3D SZ_1G,
-> +               .attrs =3D PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +                       PTE_BLOCK_NON_SHARE |
-> +                       PTE_BLOCK_PXN | PTE_BLOCK_UXN
->         }, {
->                 /* I/O */
->                 .virt =3D 0x580000000,
-> @@ -471,6 +487,22 @@ static struct mm_region t6022_mem_map[] =3D {
->                 .attrs =3D PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
->                          PTE_BLOCK_NON_SHARE |
->                          PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +       }, {
-> +               /* I/O */
-> +               .virt =3D 0x400000000,
-> +               .phys =3D 0x400000000,
-> +               .size =3D SZ_1G,
-> +               .attrs =3D PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +                       PTE_BLOCK_NON_SHARE |
-> +                       PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +       }, {
-> +               /* I/O */
-> +               .virt =3D 0x480000000,
-> +               .phys =3D 0x480000000,
-> +               .size =3D SZ_1G,
-> +               .attrs =3D PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +                       PTE_BLOCK_NON_SHARE |
-> +                       PTE_BLOCK_PXN | PTE_BLOCK_UXN
->         }, {
->                 /* I/O */
->                 .virt =3D 0x580000000,
-> @@ -551,6 +583,22 @@ static struct mm_region t6022_mem_map[] =3D {
->                 .attrs =3D PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
->                          PTE_BLOCK_NON_SHARE |
->                          PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +       }, {
-> +               /* I/O */
-> +               .virt =3D 0x2400000000,
-> +               .phys =3D 0x2400000000,
-> +               .size =3D SZ_1G,
-> +               .attrs =3D PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +                       PTE_BLOCK_NON_SHARE |
-> +                       PTE_BLOCK_PXN | PTE_BLOCK_UXN
-> +       }, {
-> +               /* I/O */
-> +               .virt =3D 0x2480000000,
-> +               .phys =3D 0x2480000000,
-> +               .size =3D SZ_1G,
-> +               .attrs =3D PTE_BLOCK_MEMTYPE(MT_DEVICE_NGNRNE) |
-> +                       PTE_BLOCK_NON_SHARE |
-> +                       PTE_BLOCK_PXN | PTE_BLOCK_UXN
->         }, {
->                 /* I/O */
->                 .virt =3D 0x2580000000,
->
-> ---
-> base-commit: 43f2873fa98b1da6eb56d756315c7bd7db63db27
-> change-id: 20231130-apple_t602x_extend_memmap-c82c522ca8c0
->
+This prepares the pwm-apple driver to further changes of the pwm core
+outlined in the commit introducing devm_pwmchip_alloc(). There is no
+intended semantical change and the driver should behave as before.
 
-LGTM.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/pwm/pwm-apple.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
+diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c
+index 4d755b628d9e..6e58aca2f13c 100644
+--- a/drivers/pwm/pwm-apple.c
++++ b/drivers/pwm/pwm-apple.c
+@@ -32,14 +32,13 @@
+ #define APPLE_PWM_CTRL_OUTPUT_ENABLE BIT(14)
+ 
+ struct apple_pwm {
+-	struct pwm_chip chip;
+ 	void __iomem *base;
+ 	u64 clkrate;
+ };
+ 
+ static inline struct apple_pwm *to_apple_pwm(struct pwm_chip *chip)
+ {
+-	return container_of(chip, struct apple_pwm, chip);
++	return pwmchip_get_drvdata(chip);
+ }
+ 
+ static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+@@ -103,13 +102,16 @@ static const struct pwm_ops apple_pwm_ops = {
+ 
+ static int apple_pwm_probe(struct platform_device *pdev)
+ {
++	struct pwm_chip *chip;
+ 	struct apple_pwm *fpwm;
+ 	struct clk *clk;
+ 	int ret;
+ 
+-	fpwm = devm_kzalloc(&pdev->dev, sizeof(*fpwm), GFP_KERNEL);
+-	if (!fpwm)
+-		return -ENOMEM;
++	chip = devm_pwmchip_alloc(&pdev->dev, 1, sizeof(*fpwm));
++	if (IS_ERR(chip))
++		return PTR_ERR(chip);
++
++	fpwm = to_apple_pwm(chip);
+ 
+ 	fpwm->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(fpwm->base))
+@@ -129,11 +131,9 @@ static int apple_pwm_probe(struct platform_device *pdev)
+ 	if (fpwm->clkrate > NSEC_PER_SEC)
+ 		return dev_err_probe(&pdev->dev, -EINVAL, "pwm clock out of range");
+ 
+-	fpwm->chip.dev = &pdev->dev;
+-	fpwm->chip.npwm = 1;
+-	fpwm->chip.ops = &apple_pwm_ops;
++	chip->ops = &apple_pwm_ops;
+ 
+-	ret = devm_pwmchip_add(&pdev->dev, &fpwm->chip);
++	ret = devm_pwmchip_add(&pdev->dev, chip);
+ 	if (ret < 0)
+ 		return dev_err_probe(&pdev->dev, ret, "unable to add pwm chip");
+ 
+-- 
+2.42.0
 
-
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
