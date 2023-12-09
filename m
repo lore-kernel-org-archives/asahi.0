@@ -1,53 +1,62 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C931548F
-	for <asahi@lists.linux.dev>; Sat,  9 Dec 2023 14:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=konsulko.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=konsulko.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C75749D;
+	Sat,  9 Dec 2023 23:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=konsulko.com header.i=@konsulko.com header.b="LnxjJPkc"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5de93b677f4so12994817b3.2
-        for <asahi@lists.linux.dev>; Sat, 09 Dec 2023 06:23:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eChTRoem"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-40c256ffdbcso35488035e9.2;
+        Sat, 09 Dec 2023 15:12:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1702131801; x=1702736601; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lHcrVMdJq0sD4JbIeT5FBjhpcCUCEVcGkJCuSRTVYiE=;
-        b=LnxjJPkcXAD7RZtzWHFI4sMvjN1Q/kgAd7pMZuMNJRYHB19S63twZtPr3UpuqpVrRz
-         jkAYwmaN88lCGKCeIayreoDy0ShUNhOw1I+sw6taNvfMDfTAkiKDVorJAWdGNnQp7TkK
-         su1LmYXsFhOYgciYU6UOCJyXKOhfHnwq6KSZg=
+        d=gmail.com; s=20230601; t=1702163561; x=1702768361; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fyY7xuerRfmnEXL+mjQb56JPNlX5ZA5VFzoyWh1LMIk=;
+        b=eChTRoemshcH9kCclcJrI2LEp2U0ax2taKpJNZK2CNTuwvAxCr2Gj+ZPSgXredSFxe
+         tTEifgm9s4yXas/VEqZZitOwlZU+QMTk1eRaQWNCqARK/gpG4PsXYDGtuX5PiHDjDa3Y
+         G77lXm1RlPH2WbFaDtq8JHPuUR2opPh0k4/NYclF50vrT1RB3kZkIVm+CE0sfkAmSyHN
+         FRk9l1fYxQb/xHGbqSu0GvHFDXGrU3YKO0qfYPGzGtUfZSys8IcRbK199Mz+9HvPmD7o
+         4vKon0Tgjx6Mv0HjJOa4z5IWc/0lTr4/ntQT4EoPTp6Tvwp5ItXypv/e+x0Alv4yeWPF
+         HBCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702131801; x=1702736601;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lHcrVMdJq0sD4JbIeT5FBjhpcCUCEVcGkJCuSRTVYiE=;
-        b=rgbz2u0icI7WmKmRPSyUDAyp5QdyUHNuL/vJKJi93PEn0miEgkl4fy8WVp4syWCZ7C
-         RlzQFcxOrj3x4NO7v49CA4m6Jx2uW4/3ifM6KpTHxomrjYHK+s3q/MqTmQVRHllbJhi2
-         2wREEaZWnMEDCnSGiKHgz5qbvdniiQ+nNQpzrjxlZN+/iqLr4BHFR4jcJukK4lBiGUxI
-         XEET61e5bgEzgcNEyRHOmuGVWKHeOPXzzKqTYo5+RSb16BJ8gIeHM9ZnsKs7bOkYRofz
-         OmdTNsg3ZyL/Xy5WbjBmHu4qPyAJGzBN2fMhU8fhoD64DiF4Qy1WtfhLifOCxsD2a7iA
-         HBNw==
-X-Gm-Message-State: AOJu0Yxjpe087bcR6D30UWBifMnZPftkJ66ivoDyPUVJNrLsvfmQefSh
-	kWEwwL/Er8MJjV7RI2lrxdTktg==
-X-Google-Smtp-Source: AGHT+IH4SrdK6hldLT4XKvZbg8MYhbAZrp5KabFOL+iJzxQagm1R0K6sUL9B0zE6BRNYFgGLyWcroA==
-X-Received: by 2002:a0d:f641:0:b0:5d7:1940:7d6c with SMTP id g62-20020a0df641000000b005d719407d6cmr1122762ywf.67.1702131801649;
-        Sat, 09 Dec 2023 06:23:21 -0800 (PST)
-Received: from [127.0.1.1] (2603-6081-7b00-6400-b2bd-da43-c83a-80e1.res6.spectrum.com. [2603:6081:7b00:6400:b2bd:da43:c83a:80e1])
-        by smtp.gmail.com with ESMTPSA id p5-20020a0dff05000000b005d38b70b3easm1516817ywf.19.2023.12.09.06.23.20
+        d=1e100.net; s=20230601; t=1702163561; x=1702768361;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fyY7xuerRfmnEXL+mjQb56JPNlX5ZA5VFzoyWh1LMIk=;
+        b=Zh1W4JMg3B/Dx+VytBYX3Md4pgdRMkMGGON96s2oVL9Kci4Yn5fqIjLKhn0AWEgN0x
+         DpwMpNiVy4+9npxVR08Yi+5KOlMCKIppTG5v9TO5rgeBLk8qaJvmqif/GPUaNd21z5h/
+         75qMTUPWOfMr7IdUaQ2QpcRdy+zYe/bOwbJQPcEfTAlFerMADAiq+fPaWgMKUO+Szvql
+         dBU70ENjyhY29/iIWEQGpK89aC99OXIVTEQS1aZW0CTWCxok+rSAjK6763vVDBhUGR48
+         sDM5OjRI5ForhfPoMPDNxDS+HzVxtx9u0nYep8ED/yGV8m7q4gVeSbQ5VmtH3ssnrWjw
+         BTIQ==
+X-Gm-Message-State: AOJu0Yx2ZmYkO2k++FdGzrUy4zSI349l25c+tGmD8CGxN8bE8aRCCZS3
+	qUji6siES+/QV4jNzC0px8Y=
+X-Google-Smtp-Source: AGHT+IFdQhHVp2q3+OtY4B0AVXmBxuggoKt0nW2hBV9K4p3VmS1uZOxsooZUrel6k9hnzvgD0bYoDg==
+X-Received: by 2002:a1c:6a16:0:b0:40c:25f6:4585 with SMTP id f22-20020a1c6a16000000b0040c25f64585mr991729wmc.73.1702163561253;
+        Sat, 09 Dec 2023 15:12:41 -0800 (PST)
+Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
+        by smtp.gmail.com with ESMTPSA id w10-20020a05600c474a00b0040b2c195523sm10130953wmo.31.2023.12.09.15.12.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Dec 2023 06:23:21 -0800 (PST)
-From: Tom Rini <trini@konsulko.com>
-To: Mark Kettenis <kettenis@openbsd.org>, Janne Grunau <j@jannau.net>
-Cc: u-boot@lists.denx.de, asahi@lists.linux.dev
-In-Reply-To: <20231201-apple_t602x_extend_memmap-v2-1-a3831a0f3105@jannau.net>
-References: <20231201-apple_t602x_extend_memmap-v2-1-a3831a0f3105@jannau.net>
-Subject: Re: [PATCH v2] arm: apple: t602x: Add missing MMIO regions to
- memmap
-Message-Id: <170213180090.3401106.15464501368527379682.b4-ty@konsulko.com>
-Date: Sat, 09 Dec 2023 09:23:20 -0500
+        Sat, 09 Dec 2023 15:12:40 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] iommu/apple-dart: Fix spelling mistake "grups" -> "groups"
+Date: Sat,  9 Dec 2023 23:12:40 +0000
+Message-Id: <20231209231240.4056082-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -55,24 +64,28 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+Content-Transfer-Encoding: 8bit
 
-On Fri, 01 Dec 2023 08:12:33 +0100, Janne Grunau wrote:
+There is a spelling mistake in a dev_err message. Fix it.
 
-> The memory maps for Apple's M2 Pro/Max/Ultra left MMIO space out which
-> was not used by any driver at the time. The display out exposed as
-> simple-framebuffer use a power-domain controlled by a device in an
-> unmapped region.
-> Add a map covering this region as well as another MMIO region in the
-> range 0x4'0000'0000 - 0x5'0000'0000. The added regions cover all MMIO
-> annotated in Apple's device tree in this range.
-> 
-> [...]
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/iommu/apple-dart.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied to u-boot/master, thanks!
-
+diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
+index 7438e9c82ba9..497a516747bd 100644
+--- a/drivers/iommu/apple-dart.c
++++ b/drivers/iommu/apple-dart.c
+@@ -911,7 +911,7 @@ static struct iommu_group *apple_dart_device_group(struct device *dev)
+ 
+ 		ret = apple_dart_merge_master_cfg(group_master_cfg, cfg);
+ 		if (ret) {
+-			dev_err(dev, "Failed to merge DART IOMMU grups.\n");
++			dev_err(dev, "Failed to merge DART IOMMU groups.\n");
+ 			iommu_group_put(group);
+ 			res = ERR_PTR(ret);
+ 			goto out;
 -- 
-Tom
-
+2.39.2
 
