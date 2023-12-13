@@ -1,131 +1,75 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E80265A82
-	for <asahi@lists.linux.dev>; Tue, 12 Dec 2023 21:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD9wF-0001Oy-5K; Tue, 12 Dec 2023 22:05:11 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD9wE-00FQEY-2C; Tue, 12 Dec 2023 22:05:10 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD9wD-001snP-Ol; Tue, 12 Dec 2023 22:05:09 +0100
-Date: Tue, 12 Dec 2023 22:05:09 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-leds@vger.kernel.org, chrome-platform@lists.linux.dev,
-	linux-samsung-soc@vger.kernel.org,
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-staging@lists.linux.dev,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-pwm@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	asahi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH v4 000/115] pwm: Fix lifetime issues for pwm_chips
-Message-ID: <20231212210509.focpb63fbmahqij3@pengutronix.de>
-References: <cover.1701860672.git.u.kleine-koenig@pengutronix.de>
- <ZXM4CdJxg-XrYhkn@orome.fritz.box>
- <20231208185033.e6ty2cajcfle6dgk@pengutronix.de>
- <ZXbzcFTnDTKoZAta@orome.fritz.box>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A356818
+	for <asahi@lists.linux.dev>; Wed, 13 Dec 2023 18:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AV7URd7X"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-5e263e43ff2so15739767b3.0
+        for <asahi@lists.linux.dev>; Wed, 13 Dec 2023 10:43:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702493013; x=1703097813; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/Py7pGp8pdHDiaozPkIU0AHzFq8SxGOJ+oThpJ6qUk8=;
+        b=AV7URd7XNkV3/h32kOitrGA8RypwMRalChuBP5a2AsZeKqUHk3rwhAN3uG8DTDu1Es
+         +4doW/+r1YepHJ8U5+olwMlTxpJtJyoKZQE9RDejK0Mxf8UoBaaEOv7JUSHFxgsHdVUL
+         MoK/TltoNJkyMFTC9MEa+nEBTslwBWbQUTpLBjWGKgUGpkt8wfrFLcEPkRnCz70lTCs1
+         Yc2d+tSlPmsDriqkNNoq4M27qanry1uFQfJKsfHLuRl1E2e9VVt2kfJLx5N/k2DwEVdg
+         mtgXnq3n+5IBtvyYfDlHlWMY1wzYvmCpGki9/WHAMrl3HSpGiiH7owbDygjCYhxsmFXB
+         +29Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702493013; x=1703097813;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/Py7pGp8pdHDiaozPkIU0AHzFq8SxGOJ+oThpJ6qUk8=;
+        b=YMSGj/lZsheV2CZjN0d9OzcW2TEdYXjDVPGD84DqGSE5ATxIAeUAhDW8m3qiVqeCXv
+         mQuEg54Y/dRNGf+hq/BF0dhvEryC2jHYVn2bfKBNPHdsGEbVS3OL4THMafS3K7/hqkVp
+         m7MO/MTPtq7MQjcFvdRFRJPO3WzFmdicXoyY/E/ZICtYxh7PTdXZ9HZmWML0LigWmIq/
+         3MKWdWThUjjaQH5ExApKNW5eN0lcQWfOGxt0wVSELBfcymbh7U1qvhNNQ5nTzuCT6liK
+         dBeueH0xuoDqQERzOn9qHyn0G+xNlXZH0DmWOC6qNP3X3k2LmHiRd3zIDPmz4DCAGmJ1
+         MYLQ==
+X-Gm-Message-State: AOJu0YybkwxL22ZZjCBOrGlX6PS1OdvjKTVe9vifpruUrGI502LW3noI
+	BYof7euxlKrZdewoWVqLa6G1Ck4QbqnLsCYnXH0=
+X-Google-Smtp-Source: AGHT+IFB4zWxh1M3w3CvBzyO4rpXYYmJgL1IXBNWAJoRVWom5OIFB/LGcpzZKJ1btMxOVZajc1S1A+iIyRqn5nNfjNY=
+X-Received: by 2002:a0d:dc83:0:b0:5d3:9fcb:b699 with SMTP id
+ f125-20020a0ddc83000000b005d39fcbb699mr7277271ywe.49.1702493013147; Wed, 13
+ Dec 2023 10:43:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gyt34nc3mm25zmmf"
-Content-Disposition: inline
-In-Reply-To: <ZXbzcFTnDTKoZAta@orome.fritz.box>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: asahi@lists.linux.dev
-
-
---gyt34nc3mm25zmmf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+References: <20230714-cstring-debug-v1-1-4e7c3018dd4f@asahilina.net>
+In-Reply-To: <20230714-cstring-debug-v1-1-4e7c3018dd4f@asahilina.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 13 Dec 2023 19:43:21 +0100
+Message-ID: <CANiq72n0OiZ8_Ot8-PxU2rV8k+qrAdk_6tvCiWDMMVr7R7nbsg@mail.gmail.com>
+Subject: Re: [PATCH] rust: kernel: str: Implement Debug for CString
+To: Asahi Lina <lina@asahilina.net>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, rust-for-linux@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello Thierry,
+On Fri, Jul 14, 2023 at 11:19=E2=80=AFAM Asahi Lina <lina@asahilina.net> wr=
+ote:
+>
+> Trivial implementation.
+>
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 
-On Mon, Dec 11, 2023 at 12:33:04PM +0100, Thierry Reding wrote:
-> On Fri, Dec 08, 2023 at 07:50:33PM +0100, Uwe Kleine-K=F6nig wrote:
-> > You don't need to touch all drivers because you didn't change struct
-> > pwm_chip::dev yet. (If you really want, you don't need to change that,
-> > but then you have some duplication as chip->dev holds the same value as
-> > priv->dev.parent in the end.)
->=20
-> I don't think that's a problem. These are for two logically separate
-> things, after all.
+Applied to `rust-next` with the commit message from Alice.
 
-How are they different? I'd say one is the initializer for the other and
-(ideally) unused after that. With that interpretation they are indeed
-different, but then it's ugly that the initializer keeps staying around.
+Thanks everyone!
 
-> Duplication can also sometimes be useful to simplify
-> things. There are plently of cases where we use local variables for the
-> same reason.
-
-local variables go away though after the respective function is left.
-chip->dev and its copy priv->dev.parent stay around for the full
-lifetime of the chip.
-
-> > > @@ -58,23 +60,24 @@ static struct pwm_chip *pwmchip_find_by_name(cons=
-t char *name)
-> > > =20
-> > >  static int pwm_device_request(struct pwm_device *pwm, const char *la=
-bel)
-> > >  {
-> > > +	struct pwm_chip *chip =3D pwm->priv->chip;
-> >=20
-> > With my approach getting the chip of a struct pwm_device is only one
-> > pointer dereference away. You need two.
->=20
-> None of the functions here are called very often, so even if this isn't
-> optimized away it would hardly matter.
-
-I'd say pwm_apply_state() at least matters. Also I think that making a
-slow path quicker is a good thing.=20
-
-I wonder how we'll converge to an approach that can go into the
-mainline given that we both have our strong opinions.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---gyt34nc3mm25zmmf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4ywQACgkQj4D7WH0S
-/k4AOQf/Rn+1it6Pa2jcb+shcSHEefw76NASZ1jTJwzdnczaZca+4/TdY0/HLE/V
-27TLO93Qd9e4o0E4uFjg/T9KbZy+cu9WxiCJ9LgBEhgPaLIWe9opiDarsy2BNLJi
-e6lERFOmyBoG3USP7t/iEQn5C+0+gC6/pcPVWk8TJO/mc2kr8ioQRsaHtaE0AsX0
-hpZS0GH+ypW5d1saF+TMkSDV4QUzmTaXxsSDqG9/vnXhjln6wlriyIo2gJI2qQ6R
-gBrGVWoz8SnG3OjfGZwo9KhL+KPTbjIba4erb1KbE9j9Ul7c3xF/nA6GcTwU/IcQ
-6WQMUp7Ez5oG8txpknnsR9R2Iimimw==
-=APXJ
------END PGP SIGNATURE-----
-
---gyt34nc3mm25zmmf--
+Cheers,
+Miguel
