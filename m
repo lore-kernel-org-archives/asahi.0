@@ -1,165 +1,301 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B58D224E8
-	for <asahi@lists.linux.dev>; Wed, 13 Dec 2023 22:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BC167B72
+	for <asahi@lists.linux.dev>; Thu, 14 Dec 2023 17:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MSt5dQdV";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="y+ramPYM";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MSt5dQdV";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="y+ramPYM"
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [10.150.64.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B5FF422388;
-	Wed, 13 Dec 2023 22:32:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702506744;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NLxWRvPs1mky6vAQPllCiusVf2PFFSDCc6DJ5VExyyo=;
-	b=MSt5dQdVBW/CbeQfQNT5YFTpg7kt+F2vDR3Qi0TRFviyM4QknkTldSLqooqU4sACryIRvy
-	oeQH5fH6rGq6u9HcEmXt9Iq+r46znlkKrcJmyPKNG9VwJ0JrvyF9b9gvGe4jF5cAKhMRdd
-	wLAHTwcs/MaxOFA6wxfBowCCdio6OXU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702506744;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NLxWRvPs1mky6vAQPllCiusVf2PFFSDCc6DJ5VExyyo=;
-	b=y+ramPYMPUQhwuerxiu5u+KS9LwlvoM9MEQ3a7liNqECUGXQiqWUOykWdS8nVKIAstVCdI
-	TirJxFASlDLxLIBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1702506744;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NLxWRvPs1mky6vAQPllCiusVf2PFFSDCc6DJ5VExyyo=;
-	b=MSt5dQdVBW/CbeQfQNT5YFTpg7kt+F2vDR3Qi0TRFviyM4QknkTldSLqooqU4sACryIRvy
-	oeQH5fH6rGq6u9HcEmXt9Iq+r46znlkKrcJmyPKNG9VwJ0JrvyF9b9gvGe4jF5cAKhMRdd
-	wLAHTwcs/MaxOFA6wxfBowCCdio6OXU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1702506744;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NLxWRvPs1mky6vAQPllCiusVf2PFFSDCc6DJ5VExyyo=;
-	b=y+ramPYMPUQhwuerxiu5u+KS9LwlvoM9MEQ3a7liNqECUGXQiqWUOykWdS8nVKIAstVCdI
-	TirJxFASlDLxLIBw==
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 762301391D;
-	Wed, 13 Dec 2023 22:32:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id TBUHHPgwemXZNQAAn2gu4w
-	(envelope-from <dsterba@suse.cz>); Wed, 13 Dec 2023 22:32:24 +0000
-Date: Wed, 13 Dec 2023 23:25:29 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Neal Gompa <neal@gompa.dev>
-Cc: Linux BTRFS Development <linux-btrfs@vger.kernel.org>,
-	Anand Jain <anand.jain@oracle.com>,
-	Qu Wenruo <quwenruo.btrfs@gmx.com>, Qu Wenruo <wqu@suse.com>,
-	David Sterba <dsterba@suse.cz>, Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Davide Cavalca <davide@cavalca.name>, Jens Axboe <axboe@fb.com>,
-	Asahi Lina <lina@asahilina.net>,
-	Asahi Linux <asahi@lists.linux.dev>
-Subject: Re: [PATCH v4 0/1] Enforce 4k sectorize by default for mkfs
-Message-ID: <20231213222529.GF3001@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-References: <20231116160235.2708131-1-neal@gompa.dev>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yH6gZ2GQ"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-35f8865cc32so2305ab.0
+        for <asahi@lists.linux.dev>; Thu, 14 Dec 2023 09:58:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702576706; x=1703181506; darn=lists.linux.dev;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=o8hhXPzgTkSbGrZlVoxMVSGKEuHWo76SGrFtR2YZpAU=;
+        b=yH6gZ2GQWqipCZfoHCvykPA89n7MMF6N6Rxw7mJUTQA6T7VuMS7s6alKyHyQAaKB9D
+         FFGeZX/nfQ4P23xLGut3kNRCeOMxCvSoWSL48LluFT5KkKpxmLnW+JV15Yc6TsiC6XZd
+         DRGJQXLnaxV3YcrLNhqnmymyRmtzwCW8YgjtULAkInVcLUmUgOAZ2s3vAhABlOmElK4B
+         GwEGXYMF8Hr3rAbekjXyqXOxlCFlS0QmsnqKShin3XJILw3N36aWm6EmAhF50tMKcdZx
+         Qq7q+4FAo23sYlxWUs2twHbc58qkdmtFebGmJ8QS280VOrX8tKXBemepD+y9YcFY7kxV
+         BVuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702576706; x=1703181506;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o8hhXPzgTkSbGrZlVoxMVSGKEuHWo76SGrFtR2YZpAU=;
+        b=XXtDWLRwusns7JWTUEfThqMePXYYxEmObihzdSNRVZknh9TZ6SJI7D+y3fVGPI7gli
+         SZpxwIH1W/wK+wvp4PB7yCMS0RoSCW10iHfXF3qyssG+YmAeSfM/+Dry+Pf6wxmGqKiH
+         KprGAMH5muIGIbOlvS30MfFKj0PTa4yxFNI7iQJf/KrjnkVrrjMLNtDo0u73njz9a6K8
+         Ww/EGClRusMB/4xj7hs4kPjUTonKPW/ZhdzYKCk/Ckt6W6/iAtIlNIaSfo/60WbB1Z8T
+         wl1EEs/denWvDZKaQs7n96txaMkwnbJx9lT01p+wsF2CLPiKMyyGe41q5wCFSYDQTyWn
+         tkaw==
+X-Gm-Message-State: AOJu0YwIA34wnomRZ0yODYEGrbu3WOqm/9sKqYm56YyXRUIo6Ci17ACa
+	sQLGb7j+/lKa6uW93rt9dD4Eew==
+X-Google-Smtp-Source: AGHT+IHmJZOc6yIjryc1hqs+mSoywAgy/Kw7JX+y+PxO7dXRpBhV7x9zJfpibywCzeGN/8UCDSSJcQ==
+X-Received: by 2002:a05:6e02:4a3:b0:35f:7497:181a with SMTP id e3-20020a056e0204a300b0035f7497181amr419773ils.2.1702576705658;
+        Thu, 14 Dec 2023 09:58:25 -0800 (PST)
+Received: from [2620:0:1008:15:740b:4c24:bdb6:a42a] ([2620:0:1008:15:740b:4c24:bdb6:a42a])
+        by smtp.gmail.com with ESMTPSA id ba1-20020a170902720100b001d09c539c95sm12769653plb.90.2023.12.14.09.58.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Dec 2023 09:58:25 -0800 (PST)
+Date: Thu, 14 Dec 2023 09:58:23 -0800 (PST)
+From: David Rientjes <rientjes@google.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+cc: Andrew Morton <akpm@linux-foundation.org>, alim.akhtar@samsung.com, 
+    alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+    bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, 
+    david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
+    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
+    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
+Subject: Re: [PATCH v2 01/10] iommu/vt-d: add wrapper functions for page
+ allocations
+In-Reply-To: <20231130201504.2322355-2-pasha.tatashin@soleen.com>
+Message-ID: <776e17af-ae25-16a0-f443-66f3972b00c0@google.com>
+References: <20231130201504.2322355-1-pasha.tatashin@soleen.com> <20231130201504.2322355-2-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231116160235.2708131-1-neal@gompa.dev>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -1.00
-X-Spam-Flag: NO
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -1.01
-X-Spamd-Result: default: False [-1.01 / 50.00];
-	 HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 REPLYTO_ADDR_EQ_FROM(0.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 TO_DN_ALL(0.00)[];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-0.01)[46.92%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmx.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[12];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[vger.kernel.org,oracle.com,gmx.com,suse.com,suse.cz,marcan.st,svenpeter.dev,cavalca.name,fb.com,asahilina.net,lists.linux.dev];
-	 RCVD_TLS_ALL(0.00)[]
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Nov 16, 2023 at 11:02:23AM -0500, Neal Gompa wrote:
-> The Fedora Asahi SIG[0] is working on bringing up support for
-> Apple Silicon Macintosh computers through the Fedora Asahi Remix[1].
-> 
-> Apple Silicon Macs are unusual in that they currently require 16k
-> page sizes, which means that the current default for mkfs.btrfs(8)
-> makes a filesystem that is unreadable on x86 PCs and most other ARM
-> PCs.
-> 
-> This is now even more of a problem within Apple Silicon Macs as it is now
-> possible to nest 4K Fedora Linux VMs on 16K Fedora Asahi Remix machines to
-> enable performant x86 emulation[2] and the host storage needs to be compatible
-> for both environments.
-> 
-> Thus, I'd like to see us finally make the switchover to 4k sectorsize
-> for new filesystems by default, regardless of page size.
-> 
-> The initial test run by Hector Martin[3] at request of Qu Wenruo
-> looked promising[4], and we've been running with this behavior on
-> Fedora Linux since Fedora Linux 36 (at around 6.2) with no issues.
-> 
-> === Changelog ===
-> 
-> v4: Fixed minor errors in the cover letter and patch subject
-> 
-> v3: Refreshed cover letter, rebased to latest, updated doc references for v6.7
-> 
-> v2: Rebased to latest, updated doc references for v6.6
-> 
-> Final v1: Collected Reviewed-by tags for inclusion.
-> 
-> RFC v2: Addressed documentation feedback
-> 
-> RFC v1: Initial submission
-> 
-> [0]: https://fedoraproject.org/wiki/SIGs/Asahi
-> [1]: https://fedora-asahi-remix.org/
-> [2]: https://sinrega.org/2023-10-06-using-microvms-for-gaming-on-fedora-asahi/
-> [3]: https://lore.kernel.org/linux-btrfs/fdffeecd-964f-0c69-f869-eb9ceca20263@suse.com/T/#m11d7939de96c43b3a7cdabc7c568d8bcafc7ca83
-> [4]: https://lore.kernel.org/linux-btrfs/fdffeecd-964f-0c69-f869-eb9ceca20263@suse.com/T/#mf382b78a8122b0cb82147a536c85b6a9098a2895
-> 
-> Neal Gompa (1):
->   btrfs-progs: mkfs: Enforce 4k sectorsize by default
+On Thu, 30 Nov 2023, Pasha Tatashin wrote:
 
-FYI, current plan is to add the change to 6.7 release with ETA in
-January. We've discussed this and given the increasing demand for that
-from various distros and testing coverage so done far it seems that it's
-sufficient.
+> diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
+> new file mode 100644
+> index 000000000000..2332f807d514
+> --- /dev/null
+> +++ b/drivers/iommu/iommu-pages.h
+> @@ -0,0 +1,199 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) 2023, Google LLC.
+> + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> + */
+> +
+> +#ifndef __IOMMU_PAGES_H
+> +#define __IOMMU_PAGES_H
+> +
+> +#include <linux/vmstat.h>
+> +#include <linux/gfp.h>
+> +#include <linux/mm.h>
+> +
+> +/*
+> + * All page allocation that are performed in the IOMMU subsystem must use one of
+> + * the functions below.  This is necessary for the proper accounting as IOMMU
+> + * state can be rather large, i.e. multiple gigabytes in size.
+> + */
+> +
+> +/**
+> + * __iommu_alloc_pages_node - allocate a zeroed page of a given order from
+> + * specific NUMA node.
+> + * @nid: memory NUMA node id
+
+NUMA_NO_NODE if no locality requirements?
+
+> + * @gfp: buddy allocator flags
+> + * @order: page order
+> + *
+> + * returns the head struct page of the allocated page.
+> + */
+> +static inline struct page *__iommu_alloc_pages_node(int nid, gfp_t gfp,
+> +						    int order)
+> +{
+> +	struct page *pages;
+
+s/pages/page/ here and later in this file.
+
+> +
+> +	pages = alloc_pages_node(nid, gfp | __GFP_ZERO, order);
+> +	if (!pages)
+
+unlikely()?
+
+> +		return NULL;
+> +
+> +	return pages;
+> +}
+> +
+> +/**
+> + * __iommu_alloc_pages - allocate a zeroed page of a given order.
+> + * @gfp: buddy allocator flags
+> + * @order: page order
+> + *
+> + * returns the head struct page of the allocated page.
+> + */
+> +static inline struct page *__iommu_alloc_pages(gfp_t gfp, int order)
+> +{
+> +	struct page *pages;
+> +
+> +	pages = alloc_pages(gfp | __GFP_ZERO, order);
+> +	if (!pages)
+> +		return NULL;
+> +
+> +	return pages;
+> +}
+> +
+> +/**
+> + * __iommu_alloc_page_node - allocate a zeroed page at specific NUMA node.
+> + * @nid: memory NUMA node id
+> + * @gfp: buddy allocator flags
+> + *
+> + * returns the struct page of the allocated page.
+> + */
+> +static inline struct page *__iommu_alloc_page_node(int nid, gfp_t gfp)
+> +{
+> +	return __iommu_alloc_pages_node(nid, gfp, 0);
+> +}
+> +
+> +/**
+> + * __iommu_alloc_page - allocate a zeroed page
+> + * @gfp: buddy allocator flags
+> + *
+> + * returns the struct page of the allocated page.
+> + */
+> +static inline struct page *__iommu_alloc_page(gfp_t gfp)
+> +{
+> +	return __iommu_alloc_pages(gfp, 0);
+> +}
+> +
+> +/**
+> + * __iommu_free_pages - free page of a given order
+> + * @pages: head struct page of the page
+
+I think "pages" implies more than one page, this is just a (potentially 
+compound) page?
+
+> + * @order: page order
+> + */
+> +static inline void __iommu_free_pages(struct page *pages, int order)
+> +{
+> +	if (!pages)
+> +		return;
+> +
+> +	__free_pages(pages, order);
+> +}
+> +
+> +/**
+> + * __iommu_free_page - free page
+> + * @page: struct page of the page
+> + */
+> +static inline void __iommu_free_page(struct page *page)
+> +{
+> +	__iommu_free_pages(page, 0);
+> +}
+> +
+> +/**
+> + * iommu_alloc_pages_node - allocate a zeroed page of a given order from
+> + * specific NUMA node.
+> + * @nid: memory NUMA node id
+> + * @gfp: buddy allocator flags
+> + * @order: page order
+> + *
+> + * returns the virtual address of the allocated page
+> + */
+> +static inline void *iommu_alloc_pages_node(int nid, gfp_t gfp, int order)
+> +{
+> +	struct page *pages = __iommu_alloc_pages_node(nid, gfp, order);
+> +
+> +	if (!pages)
+> +		return NULL;
+> +
+> +	return page_address(pages);
+> +}
+> +
+> +/**
+> + * iommu_alloc_pages - allocate a zeroed page of a given order
+> + * @gfp: buddy allocator flags
+> + * @order: page order
+> + *
+> + * returns the virtual address of the allocated page
+> + */
+> +static inline void *iommu_alloc_pages(gfp_t gfp, int order)
+> +{
+> +	struct page *pages = __iommu_alloc_pages(gfp, order);
+> +
+> +	if (!pages)
+> +		return NULL;
+> +
+> +	return page_address(pages);
+> +}
+> +
+> +/**
+> + * iommu_alloc_page_node - allocate a zeroed page at specific NUMA node.
+> + * @nid: memory NUMA node id
+> + * @gfp: buddy allocator flags
+> + *
+> + * returns the virtual address of the allocated page
+> + */
+> +static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
+> +{
+> +	return iommu_alloc_pages_node(nid, gfp, 0);
+> +}
+> +
+> +/**
+> + * iommu_alloc_page - allocate a zeroed page
+> + * @gfp: buddy allocator flags
+> + *
+> + * returns the virtual address of the allocated page
+> + */
+> +static inline void *iommu_alloc_page(gfp_t gfp)
+> +{
+> +	return iommu_alloc_pages(gfp, 0);
+> +}
+> +
+> +/**
+> + * iommu_free_pages - free page of a given order
+> + * @virt: virtual address of the page to be freed.
+> + * @order: page order
+> + */
+> +static inline void iommu_free_pages(void *virt, int order)
+> +{
+> +	if (!virt)
+> +		return;
+> +
+> +	__iommu_free_pages(virt_to_page(virt), order);
+> +}
+> +
+> +/**
+> + * iommu_free_page - free page
+> + * @virt: virtual address of the page to be freed.
+> + */
+> +static inline void iommu_free_page(void *virt)
+> +{
+> +	iommu_free_pages(virt, 0);
+> +}
+> +
+> +/**
+> + * iommu_free_pages_list - free a list of pages.
+> + * @pages: the head of the lru list to be freed.
+
+Document the locking requirements for this?
+
+> + */
+> +static inline void iommu_free_pages_list(struct list_head *pages)
+> +{
+> +	while (!list_empty(pages)) {
+> +		struct page *p = list_entry(pages->prev, struct page, lru);
+> +
+> +		list_del(&p->lru);
+> +		put_page(p);
+> +	}
+> +}
+> +
+> +#endif	/* __IOMMU_PAGES_H */
+> -- 
+> 2.43.0.rc2.451.g8631bc7472-goog
+> 
+> 
+> 
