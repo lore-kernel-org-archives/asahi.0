@@ -1,44 +1,43 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9EA697AB
-	for <asahi@lists.linux.dev>; Thu, 14 Dec 2023 19:19:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC0756398
+	for <asahi@lists.linux.dev>; Fri, 15 Dec 2023 21:11:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="KFdxvfk6"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-203349901d5so1157848fac.0
-        for <asahi@lists.linux.dev>; Thu, 14 Dec 2023 11:19:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="iUgE4Icz"
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2031b9c8389so716929fac.1
+        for <asahi@lists.linux.dev>; Fri, 15 Dec 2023 13:11:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1702581566; x=1703186366; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZGqN9VyFA6bGzLMvanbVJ9xu/V9dzBL2qAxRA0SNydY=;
-        b=KFdxvfk6guHkpEr2kJSX7z/hQiI98cPrPMTSbCiE6fclIY18VoDxgoquMmwzTUIsqN
-         MeoP2WHStzKUTTgPWimBRuMxYfH40129kiP5CNGLXLifTS/QrYiD7cehoT+USJvSN4JN
-         t0sU3HpbnlQ4TFGW9iTcAfzctAq/E8j74zxpXiVXWHR7HfoILTxV2galP6mJokfpESaY
-         9mOz8LCNhbDgYPzJuWPLet4YNMaLNHK1R/ioyyBNdaozvOBZ5T98qFzjcD0NgwkpRvYX
-         vfJM3MDYZNVZR1IWHPCeR5mgaSdgbzMBMDhCI8q9UEttLV9I19M+0DKyhnfH65U0NIo6
-         5f3w==
+        d=soleen.com; s=google; t=1702674715; x=1703279515; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=b9KJ+4BbcKeSEG7077PFa7FVZHENUrxS+8ivlb7RAxY=;
+        b=iUgE4IczE0XSg3lo4kslaX18/Nt46O72aZ6cXya6lCJIINRCUZcPp1L8VS9VrJmc/Y
+         kUCY41SxznYXtVElnHJEjYbTWVQrI5Svh2rfu1gcvVaqymq0L+m3iPTFpT2pyKzDSzQ9
+         Q2nmxQddw3F32PvuzhcNw/msinCHTMXQmoHPhBfsQFSbB6xFD63jrrPobBsBprz3krPk
+         Q3Sl5e6z4WPiiTrb1iHDZQf/3F/NGVTOk0xDkKgSdfcCSv3ZFzJBx+NuzXJfvglfrre9
+         7wIOv2s0ZlNHCy+EQYMIC2CJfq66KpXKcpUP4oyhp/1ezURjLXXAzVcvc1/PwMstfl2Q
+         0CbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702581566; x=1703186366;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZGqN9VyFA6bGzLMvanbVJ9xu/V9dzBL2qAxRA0SNydY=;
-        b=W2Mb7FUojnyDZGiOQrOKlABWuqHnFPWF1ijd83iy0Cdx42B4gLB5tMPQkBKoGnnzIr
-         rg8BwQ5TIY59F3HpsGz6G3Pq4BohQopxAICey9XgQoSJlPfLX9MSvdaWe+dyhT8Z3FkD
-         rzg7Oi0R8EfMglifvbMYnbRwkaTuRBYNPFtKUaxDwTHA35sVjePhKKLWyp7nsaj/RuvE
-         M+yU6JtZc998SVsVAmQkIaAIP2VjT50IAjMPs6IgxNlZWN6mK0GjUr8qU8GL1FN63UjF
-         Ic/FZ0rx9Fjrx3LScOIFOsqAhc71bsiyycV8TT9bXtgd9wUilNDEnZvMdLmkOvPhXhqK
-         QSgg==
-X-Gm-Message-State: AOJu0YxN15LnV75bJx4YOyweO2WAjmxIA//KjncZ3r/tCECALYLWPxZi
-	4EHon8lSEYW42TdQAaQtwvV8Z6A9BXnshJMMFGCjoQ==
-X-Google-Smtp-Source: AGHT+IHAnrtenlddaWtCyLx9aBi69QrVuHVWG2rdYXiv2yuQ5vKdApOHPoLr5i+XPih06QNJDodZZT5+m5u6D1Em/48=
-X-Received: by 2002:a05:6871:4099:b0:1ff:805:b3e6 with SMTP id
- kz25-20020a056871409900b001ff0805b3e6mr13641663oab.6.1702581566484; Thu, 14
- Dec 2023 11:19:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702674715; x=1703279515;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b9KJ+4BbcKeSEG7077PFa7FVZHENUrxS+8ivlb7RAxY=;
+        b=MWCZb+T3FTcDWH3mWBoaAnoWx3oUE0s+7X9O0l5esxrpt6pgUEvLIxBSKQTHoh6T/O
+         MoBl2FYkG65du91SRR04bmy9Zp6Smy3fV6Hg3SJmbUvYVfbHNL5r2ArKI90/Z5aDgCga
+         xyggQKuHaLgK1hC1jqDdOFhe9puIKQmDquPiGE+ujO0pgo1kNIWyg8UBO7bd+WQXlD5d
+         EtwiOY67tF/+gnsv95Gfhk77FR4kH1uS/KpKIGpFtpyBaRLIPWhKJ2Vn1m45n+8t3Wtj
+         kCZLJh7k1cRMFIJs+7KqcCRatHEjjG3ARmLC+XQGOk4eQbk+LeXxV+skA0HEIFmp3Lep
+         Af/A==
+X-Gm-Message-State: AOJu0YzpSYFZJjMueSDkj5vExnGVwvRvPZxJaXirvc7prcGSywTfy4Bd
+	1NZfe7R4gNbfkx7Xtp1RJvZ3rqoB/1Qbx7BccQEqKQ==
+X-Google-Smtp-Source: AGHT+IFHrLpndT4XCwAesdcyNwQf00aMOvX02D4/8uxdog8acvbjKfsi57jpp2aqEyynfGVCKlt0IXuLjUhCsHgb3nk=
+X-Received: by 2002:a05:6870:c09:b0:203:7ccc:b6e8 with SMTP id
+ le9-20020a0568700c0900b002037cccb6e8mr1214533oab.25.1702674715317; Fri, 15
+ Dec 2023 13:11:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -46,12 +45,12 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
- <20231130201504.2322355-10-pasha.tatashin@soleen.com> <88519685-abfb-e2f8-38b4-d94340b40d1d@google.com>
-In-Reply-To: <88519685-abfb-e2f8-38b4-d94340b40d1d@google.com>
+ <20231130201504.2322355-11-pasha.tatashin@soleen.com> <c0d23d3e-39e6-57af-fd38-eb1b885d7da4@google.com>
+In-Reply-To: <c0d23d3e-39e6-57af-fd38-eb1b885d7da4@google.com>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 14 Dec 2023 14:18:49 -0500
-Message-ID: <CA+CK2bD-phEK4aWQv-xK74_uR_agRN+cmt5Wq-a8YVB1Gm_gVA@mail.gmail.com>
-Subject: Re: [PATCH v2 09/10] iommu: observability of the IOMMU allocations
+Date: Fri, 15 Dec 2023 16:11:18 -0500
+Message-ID: <CA+CK2bD0Wz8mzB_BGKEYKCHRJKKVwr0CPK7OOC0tD_Sxi5Rp5g@mail.gmail.com>
+Subject: Re: [PATCH v2 10/10] iommu: account IOMMU allocated memory
 To: David Rientjes <rientjes@google.com>
 Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
 	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
@@ -69,31 +68,34 @@ Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io,
 	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
 	will@kernel.org, yu-cheng.yu@intel.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 14, 2023 at 12:59=E2=80=AFPM David Rientjes <rientjes@google.co=
-m> wrote:
+> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> > index 3f85254f3cef..e004e05a7cde 100644
+> > --- a/Documentation/admin-guide/cgroup-v2.rst
+> > +++ b/Documentation/admin-guide/cgroup-v2.rst
+> > @@ -1418,7 +1418,7 @@ PAGE_SIZE multiple when read back.
+> >         sec_pagetables
+> >               Amount of memory allocated for secondary page tables,
+> >               this currently includes KVM mmu allocations on x86
+> > -             and arm64.
+> > +             and arm64 and IOMMU page tables.
 >
-> On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+> Hmm, if existing users are parsing this field and alerting when it exceeds
+> an expected value (a cloud provider, let's say), is it safe to add in a
+> whole new set of page tables?
 >
-> > Add NR_IOMMU_PAGES into node_stat_item that counts number of pages
-> > that are allocated by the IOMMU subsystem.
-> >
-> > The allocations can be view per-node via:
-> > /sys/devices/system/node/nodeN/vmstat.
-> >
-> > For example:
-> >
-> > $ grep iommu /sys/devices/system/node/node*/vmstat
-> > /sys/devices/system/node/node0/vmstat:nr_iommu_pages 106025
-> > /sys/devices/system/node/node1/vmstat:nr_iommu_pages 3464
-> >
-> > The value is in page-count, therefore, in the above example
-> > the iommu allocations amount to ~428M.
-> >
-> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> Acked-by: David Rientjes <rientjes@google.com>
+> I understand the documentation allows for it, but I think potential impact
+> on userspace would be more interesting.
 
-Thank you,
+Hi David,
+
+This is something that was discussed at LPC'23. I also was proposing a
+separate counter for iommu page tables, but it was noted that we
+specifically have sec_pagetables called this way to include all non
+regular CPU page tables, and we should therefore account for them
+together.
+
+Please also see this discussion from the previous version of this patch series:
+https://lore.kernel.org/all/CAJD7tkb1FqTqwONrp2nphBDkEamQtPCOFm0208H3tp0Gq2OLMQ@mail.gmail.com/
+
 Pasha
