@@ -1,101 +1,70 @@
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC0756398
-	for <asahi@lists.linux.dev>; Fri, 15 Dec 2023 21:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D6C18ED8;
+	Sun, 17 Dec 2023 11:25:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="iUgE4Icz"
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2031b9c8389so716929fac.1
-        for <asahi@lists.linux.dev>; Fri, 15 Dec 2023 13:11:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1702674715; x=1703279515; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=b9KJ+4BbcKeSEG7077PFa7FVZHENUrxS+8ivlb7RAxY=;
-        b=iUgE4IczE0XSg3lo4kslaX18/Nt46O72aZ6cXya6lCJIINRCUZcPp1L8VS9VrJmc/Y
-         kUCY41SxznYXtVElnHJEjYbTWVQrI5Svh2rfu1gcvVaqymq0L+m3iPTFpT2pyKzDSzQ9
-         Q2nmxQddw3F32PvuzhcNw/msinCHTMXQmoHPhBfsQFSbB6xFD63jrrPobBsBprz3krPk
-         Q3Sl5e6z4WPiiTrb1iHDZQf/3F/NGVTOk0xDkKgSdfcCSv3ZFzJBx+NuzXJfvglfrre9
-         7wIOv2s0ZlNHCy+EQYMIC2CJfq66KpXKcpUP4oyhp/1ezURjLXXAzVcvc1/PwMstfl2Q
-         0CbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702674715; x=1703279515;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b9KJ+4BbcKeSEG7077PFa7FVZHENUrxS+8ivlb7RAxY=;
-        b=MWCZb+T3FTcDWH3mWBoaAnoWx3oUE0s+7X9O0l5esxrpt6pgUEvLIxBSKQTHoh6T/O
-         MoBl2FYkG65du91SRR04bmy9Zp6Smy3fV6Hg3SJmbUvYVfbHNL5r2ArKI90/Z5aDgCga
-         xyggQKuHaLgK1hC1jqDdOFhe9puIKQmDquPiGE+ujO0pgo1kNIWyg8UBO7bd+WQXlD5d
-         EtwiOY67tF/+gnsv95Gfhk77FR4kH1uS/KpKIGpFtpyBaRLIPWhKJ2Vn1m45n+8t3Wtj
-         kCZLJh7k1cRMFIJs+7KqcCRatHEjjG3ARmLC+XQGOk4eQbk+LeXxV+skA0HEIFmp3Lep
-         Af/A==
-X-Gm-Message-State: AOJu0YzpSYFZJjMueSDkj5vExnGVwvRvPZxJaXirvc7prcGSywTfy4Bd
-	1NZfe7R4gNbfkx7Xtp1RJvZ3rqoB/1Qbx7BccQEqKQ==
-X-Google-Smtp-Source: AGHT+IFHrLpndT4XCwAesdcyNwQf00aMOvX02D4/8uxdog8acvbjKfsi57jpp2aqEyynfGVCKlt0IXuLjUhCsHgb3nk=
-X-Received: by 2002:a05:6870:c09:b0:203:7ccc:b6e8 with SMTP id
- le9-20020a0568700c0900b002037cccb6e8mr1214533oab.25.1702674715317; Fri, 15
- Dec 2023 13:11:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkHZ+kMD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92137C433C8;
+	Sun, 17 Dec 2023 11:25:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702812321;
+	bh=TmnrD4vc0nBG8oADqeg7z4TLXQC5wn/RLZ+koydjQZU=;
+	h=Subject:From:In-Reply-To:References:To:Cc:Date:From;
+	b=IkHZ+kMDsKcCB9CNMWFkeohhONco+WX37vTFyfbrsFR+I2zS5aG5xPiSxFqskcd9t
+	 YNDChQtobblkG44+bOrlyPjCsa83j2JIyuhLU94qND+Pl+VBIEx0VTyMcLvDeAsfto
+	 A13wv+TumMOApSm9nUv/i/mN/C57bKcxY846+pocLLdWExfngjz41c4gpv6ZWsexim
+	 nKPRc1k1Ug89qcCJbnEBF1F6xaUwi2H9G8oDMAiJAGFyZGP5qhIGreeDVh6ox1kY7/
+	 gvR6aB8Rh9CH7bcTc38NIps195/RZnP6keoAoD60QH3uHnnMYGOlTio35PfKiPcuV9
+	 d9Lpl8iwT+gRg==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
- <20231130201504.2322355-11-pasha.tatashin@soleen.com> <c0d23d3e-39e6-57af-fd38-eb1b885d7da4@google.com>
-In-Reply-To: <c0d23d3e-39e6-57af-fd38-eb1b885d7da4@google.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 15 Dec 2023 16:11:18 -0500
-Message-ID: <CA+CK2bD0Wz8mzB_BGKEYKCHRJKKVwr0CPK7OOC0tD_Sxi5Rp5g@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] iommu: account IOMMU allocated memory
-To: David Rientjes <rientjes@google.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
+From: Kalle Valo <kvalo@kernel.org>
+In-Reply-To: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+To: Hector Martin <marcan@marcan.st>
+Cc: Arend van Spriel <aspriel@gmail.com>,
+ Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>,
+ Daniel Berlin <dberlin@dberlin.org>, linux-wireless@vger.kernel.org,
+ brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ Hector Martin <marcan@marcan.st>
+User-Agent: pwcli/0.1.1-git (https://github.com/kvalo/pwcli/) Python/3.11.2
+Message-ID: <170281231651.2255653.7498073085103487666.kvalo@kernel.org>
+Date: Sun, 17 Dec 2023 11:25:18 +0000 (UTC)
 
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> > index 3f85254f3cef..e004e05a7cde 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -1418,7 +1418,7 @@ PAGE_SIZE multiple when read back.
-> >         sec_pagetables
-> >               Amount of memory allocated for secondary page tables,
-> >               this currently includes KVM mmu allocations on x86
-> > -             and arm64.
-> > +             and arm64 and IOMMU page tables.
->
-> Hmm, if existing users are parsing this field and alerting when it exceeds
-> an expected value (a cloud provider, let's say), is it safe to add in a
-> whole new set of page tables?
->
-> I understand the documentation allows for it, but I think potential impact
-> on userspace would be more interesting.
+Hector Martin <marcan@marcan.st> wrote:
 
-Hi David,
+> Using the WSEC command instead of sae_password seems to be the supported
+> mechanism on newer firmware, and also how the brcmdhd driver does it.
+> 
+> According to user reports [1], the sae_password codepath doesn't actually
+> work on machines with Cypress chips anyway, so no harm in removing it.
+> 
+> This makes WPA3 work with iwd, or with wpa_supplicant pending a support
+> patchset [2].
+> 
+> [1] https://rachelbythebay.com/w/2023/11/06/wpa3/
+> [2] http://lists.infradead.org/pipermail/hostap/2023-July/041653.html
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
 
-This is something that was discussed at LPC'23. I also was proposing a
-separate counter for iommu page tables, but it was noted that we
-specifically have sec_pagetables called this way to include all non
-regular CPU page tables, and we should therefore account for them
-together.
+Arend, what do you think?
 
-Please also see this discussion from the previous version of this patch series:
-https://lore.kernel.org/all/CAJD7tkb1FqTqwONrp2nphBDkEamQtPCOFm0208H3tp0Gq2OLMQ@mail.gmail.com/
+We recently talked about people testing brcmfmac patches, has anyone else
+tested this?
 
-Pasha
+-- 
+https://patchwork.kernel.org/project/linux-wireless/patch/20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+
