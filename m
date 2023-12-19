@@ -1,253 +1,148 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494711A592
-	for <asahi@lists.linux.dev>; Tue, 19 Dec 2023 13:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6D41BDF4
+	for <asahi@lists.linux.dev>; Tue, 19 Dec 2023 14:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="NbRfwU6f"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-40c39e936b4so52354035e9.1
-        for <asahi@lists.linux.dev>; Tue, 19 Dec 2023 05:46:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bxcnjuH1"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-67f2a5d8a05so25748776d6.3
+        for <asahi@lists.linux.dev>; Tue, 19 Dec 2023 06:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1702993606; x=1703598406; darn=lists.linux.dev;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c8/t9kNdSKhh1uLkTXYoYYWvenHrfY2HzW4S5nrad6Q=;
-        b=NbRfwU6fIuhkeAmpKpZtUnPbMtmDjOuOMbV5AncyrW8TKw27xYv+GwDHO6H+6HxZAL
-         YdpvbOwR4ONJh2gdx9eN2Y2wXGh17Dh0WUnawSIQ4+uBtwrRK0FxXEi2zRQxa0tLKtdL
-         tI8xxjsh5vDkT4VF8Q8DwQvsfUuKrqlLZZgig=
+        d=gmail.com; s=20230601; t=1702996001; x=1703600801; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wM23hrtmmwZJoFn95qL7Z6AlVX+PhKPgm+RhZG4LXDU=;
+        b=bxcnjuH1JD4fuQsX7AWXvhRQqvUz7M2mhMHElE1OjoXapoTaZQzULLEK+oEGnjjvkZ
+         XXPIFV/2ez3UNnG3iCTY456wuhX/q1nSQMQqECmKqQvfdIBNe4yLSxtZtQ4k7Lp41vb/
+         p18nh0ZNjrp0bFOArt29Tr4OccdK+F6rtr0aYXMntIjtRrQEhE4suMeH3L1VTH/gdq+/
+         zzjoJh+sqH7+cO8uO5ZkS2ANDIYdfWU0rFeKYy/bGn9V4X7A7MRgXj8YmFLaT7PMcoXw
+         QYnIEPTEzVacCoscRWZE6TNuQw1tTFH7gxGoD208Zxz7JNTXMdS0k6fDQoDwfIl9jxFX
+         z1Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702993606; x=1703598406;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=c8/t9kNdSKhh1uLkTXYoYYWvenHrfY2HzW4S5nrad6Q=;
-        b=E/pPvE2knykjtmjQf0WQFFoytG+4Slc9zEJ6i8ikpMfTv53aGddfhfSz7Fw5/rpESy
-         58NmIS/JXkyOHdeerWhSwytoYyZtsz7QgZIoRvi/uLxKNPTf+iq6sRTIJtDpfAn4+wJv
-         mGuRQmyEeSgUHvDAORmznuJG0RPpYbeNgu/s5XtgQh4In3joZJK+7wU0xXRdII5FpeEh
-         I0ROr+lWgEhiaULV40aRQV6hEUry6lp4p2eYHeBYBBqDtBU+WgxFB3E19J+TsH/8OVRc
-         Mmx2E2SQYyObOPT8QD09S1JJ1Czz1cSzlrOjpVZNBNm9Ndm1FMhuR4aTpZdANBD/tnIx
-         c2GA==
-X-Gm-Message-State: AOJu0YzgZ99zbAbH2JKzP57V+IFeSIV7v7JNjOR2ZIvc4rRatnaG/RQl
-	G75uwlOSoc2fvyF5OntYU0v1Qw==
-X-Google-Smtp-Source: AGHT+IEbzg3ErhCpt9+P7xydXI5ETaL23Rp+pZqSFODTqxlAWqFnJEnnyA6jZYCNVj//p010Y0fvfg==
-X-Received: by 2002:a05:600c:46c9:b0:40c:6b60:3458 with SMTP id q9-20020a05600c46c900b0040c6b603458mr2060112wmo.305.1702993606513;
-        Tue, 19 Dec 2023 05:46:46 -0800 (PST)
-Received: from [10.176.68.61] ([192.19.148.250])
-        by smtp.gmail.com with ESMTPSA id fa18-20020a05600c519200b0040b48690c49sm2852802wmb.6.2023.12.19.05.46.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 05:46:45 -0800 (PST)
-Message-ID: <c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
-Date: Tue, 19 Dec 2023 14:46:43 +0100
+        d=1e100.net; s=20230601; t=1702996001; x=1703600801;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wM23hrtmmwZJoFn95qL7Z6AlVX+PhKPgm+RhZG4LXDU=;
+        b=faOD4/8cHCzhrnklKjLAOFYc1ayJ0udQ19dj2kyICN7Dipv0J73CyjYwCKdVjJkN61
+         JGNRkl3MwQ144eFVxC0XJ/6k415iKWvO8YSeXMEiKyR+J1VckUhH3swVqs7hDBb5xGmN
+         I6ydceR+8couXUjh5AVgagHRpFuWdHR862iV7DLNRt4XoLdRCx/YYK6TmKY7a/k7JkqL
+         2dWydydt6JgX5e3WnB+kjm8eBDedvsZhA1fTcbjGaqxI9YfG88xLO7ts1VvHLg9ZJVEY
+         vKTi7ktBtSiRjmTvoAi66390MoJgZo+bQ5w8cLg3MsI9K6azCKyM81irNevgyPycNrDP
+         DlVg==
+X-Gm-Message-State: AOJu0Yy95UaCkUdBy5JRpYcbNeecXdO3GxOvydN6v5AympJMvy0T3AI9
+	5Ot6/n8I8ue4Ljngxdk8/9oZDj/8q7JNiA6IDaE=
+X-Google-Smtp-Source: AGHT+IHx9eDarbPTGhFlRlrMZrUjj0C9/fRBqeQRfE6exoHoYzUvUicFz01LayrhuIRerOGpu2U2D9uwGjwIoB8Ox40=
+X-Received: by 2002:a05:6214:5287:b0:67f:3f4f:82c9 with SMTP id
+ kj7-20020a056214528700b0067f3f4f82c9mr4575429qvb.45.1702996001532; Tue, 19
+ Dec 2023 06:26:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
-To: Hector Martin <marcan@marcan.st>, Kalle Valo <kvalo@kernel.org>
-Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin
- <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>,
- Daniel Berlin <dberlin@dberlin.org>, linux-wireless@vger.kernel.org,
- brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev
 References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
  <170281231651.2255653.7498073085103487666.kvalo@kernel.org>
  <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st>
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-Autocrypt: addr=arend.vanspriel@broadcom.com; keydata=
- xsFNBGP96SABEACfErEjSRi7TA1ttHYaUM3GuirbgqrNvQ41UJs1ag1T0TeyINqG+s6aFuO8
- evRHRnyAqTjMQoo4tkfy21XQX/OsBlgvMeNzfs6jnVwlCVrhqPkX5g5GaXJnO3c4AvXHyWik
- SOd8nOIwt9MNfGn99tkRAmmsLaMiVLzYfg+n3kNDsqgylcSahbd+gVMq+32q8QA+L1B9tAkM
- UccmSXuhilER70gFMJeM9ZQwD/WPOQ2jHpd0hDVoQsTbBxZZnr2GSjSNr7r5ilGV7a3uaRUU
- HLWPOuGUngSktUTpjwgGYZ87Edp+BpxO62h0aKMyjzWNTkt6UVnMPOwvb70hNA2v58Pt4kHh
- 8ApHky6IepI6SOCcMpUEHQuoKxTMw/pzmlb4A8PY//Xu/SJF8xpkpWPVcQxNTqkjbpazOUw3
- 12u4EK1lzwH7wjnhM3Fs5aNBgyg+STS1VWIwoXJ7Q2Z51odh0XecsjL8EkHbp9qHdRvZQmMu
- Ns8lBPBkzpS7y2Q6Sp7DcRvDfQQxPrE2sKxKLZVGcRYAD90r7NANryRA/i+785MSPUNSTWK3
- MGZ3Xv3fY7phISvYAklVn/tYRh88Zthf6iDuq86m5mr+qOO8s1JnCz6uxd/SSWLVOWov9Gx3
- uClOYpVsUSu3utTta3XVcKVMWG/M+dWkbdt2KES2cv4P5twxyQARAQABzS9BcmVuZCB2YW4g
- U3ByaWVsIDxhcmVuZC52YW5zcHJpZWxAYnJvYWRjb20uY29tPsLBhwQTAQgAMRYhBLX1Z69w
- T4l/vfdb0pZ6NOIYA/1RBQJj/ek9AhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQlno04hgD/VGw
- 8A//VEoGTamfCks+a12yFtT1d/GjDdf3i9agKMk3esn08JwjJ96x9OFFl2vFaQCSiefeXITR
- K4T/yT+n/IXntVWT3pOBfb343cAPjpaZvBMh8p32z3CuV1H0Y+753HX7gdWTEojGWaWmKkZh
- w3nGoRZQEeAcwcF3gMNwsM5Gemj7aInIhRLUeoKh/0yV85lNE1D7JkyNheQ+v91DWVj5/a9X
- 7kiL18fH1iC9kvP3lq5VE54okpGqUj5KE5pmHNFBp7HZO3EXFAd3Zxm9ol5ic9tggY0oET28
- ucARi1wXLD/oCf1R9sAoWfSTnvOcJjG+kUwK7T+ZHTF8YZ4GAT3k5EwZ2Mk3+Rt62R81gzRF
- A6+zsewqdymbpwgyPDKcJ8YUHbqvspMQnPTmXNk+7p7fXReVPOYFtzzfBGSCByIkh1bB45jO
- +TM5ZbMmhsUbqA0dFT5JMHjJIaGmcw21ocgBcLsJ730fbLP/L08udgWHywPoq7Ja7lj5W0io
- ZDLz5uQ6CEER6wzD07vZwSl/NokljVexnOrwbR3wIhdr6B0Hc/0Bh7T8gpeM+QcK6EwJBG7A
- xCHLEacOuKo4jinf94YQrOEMnOmvucuQRm9CIwZrQ69Mg6rLn32pA4cK4XWQN1N3wQXnRUnb
- MTymLAoxE4MInhDVsZCtIDFxMVvBUgZiZZszN33OwU0EY/3pIgEQAN35Ii1Hn90ghm/qlvz/
- L+wFi3PTQ90V6UKPv5Q5hq+1BtLA6aj2qmdFBO9lgO9AbzHo8Eizrgtxp41GkKTgHuYChijI
- kdhTVPm+Pv44N/3uHUeFhN3wQ3sTs1ZT/0HhwXt8JvjqbhvtNmoGosZvpUCTwiyM1VBF/ICT
- ltzFmXd5z7sEuDyZcz9Q1t1Bb2cmbhp3eIgLmVA4Lc9ZS3sK1UMgSDwaR4KYBhF0OKMC1OH8
- M5jfcPHR8OLTLIM/Thw0YIUiYfj6lWwWkb82qa4IQvIEmz0LwvHkaLU1TCXbehO0pLWB9HnK
- r3nofx5oMfhu+cMa5C6g3fBB8Z43mDi2m/xM6p5c3q/EybOxBzhujeKN7smBTlkvAdwQfvuD
- jKr9lvrC2oKIjcsO+MxSGY4zRU0WKr4KD720PV2DCn54ZcOxOkOGR624d5bhDbjw1l2r+89V
- WLRLirBZn7VmWHSdfq5Xl9CyHT1uY6X9FRr3sWde9kA/C7Z2tqy0MevXAz+MtavOJb9XDUlI
- 7Bm0OPe5BTIuhtLvVZiW4ivT2LJOpkokLy2K852u32Z1QlOYjsbimf77avcrLBplvms0D7j6
- OaKOq503UKfcSZo3lF70J5UtJfXy64noI4oyVNl1b+egkV2iSXifTGGzOjt50/efgm1bKNkX
- iCVOYt9sGTrVhiX1ABEBAAHCwXYEGAEIACAWIQS19WevcE+Jf733W9KWejTiGAP9UQUCY/3p
- PgIbDAAKCRCWejTiGAP9UaC/EACZvViKrMkFooyACGaukqIo/s94sGuqxj308NbZ4g5jgy/T
- +lYBzlurnFmIbJESFOEq0MBZorozDGk+/p8pfAh4S868i1HFeLivVIujkcL6unG1UYEnnJI9
- uSwUbEqgA8vwdUPEGewYkPH6AaQoh1DdYGOleQqDq1Mo62xu+bKstYHpArzT2islvLdrBtjD
- MEzYThskDgDUk/aGPgtPlU9mB7IiBnQcqbS/V5f01ZicI1esy9ywnlWdZCHy36uTUfacshpz
- LsTCSKICXRotA0p6ZiCQloW7uRH28JFDBEbIOgAcuXGojqYx5vSM6o+03W9UjKkBGYFCqjIy
- Ku843p86Ky4JBs5dAXN7msLGLhAhtiVx8ymeoLGMoYoxqIoqVNaovvH9y1ZHGqS/IYXWf+jE
- H4MX7ucv4N8RcsoMGzXyi4UbBjxgljAhTYs+c5YOkbXfkRqXQeECOuQ4prsc6/zxGJf7MlPy
- NKowQLrlMBGXT4NnRNV0+yHmusXPOPIqQCKEtbWSx9s2slQxmXukPYvLnuRJqkPkvrTgjn5d
- eSE0Dkhni4292/Nn/TnZf5mxCNWH1p3dz/vrT6EIYk2GSJgCLoTkCcqaM6+5E4IwgYOq3UYu
- AAgeEbPV1QeTVAPrntrLb0t0U5vdwG7Xl40baV9OydTv7ghjYZU349w1d5mdxg==
-In-Reply-To: <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000fd9375060cdd18bd"
+ <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st> <c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
+In-Reply-To: <c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Wed, 20 Dec 2023 01:26:30 +1100
+Message-ID: <CAGRGNgW0h_uqHn0rKwGx0L41R+YgzgWPEh83kSKVCeqfCDeOug@mail.gmail.com>
+Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
+To: Arend van Spriel <arend.vanspriel@broadcom.com>, Kalle Valo <kvalo@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Arend van Spriel <aspriel@gmail.com>, 
+	Franky Lin <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>, 
+	Daniel Berlin <dberlin@dberlin.org>, linux-wireless@vger.kernel.org, 
+	brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---000000000000fd9375060cdd18bd
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Arend and Kalle,
 
-On 12/19/2023 12:01 PM, Hector Martin wrote:
-> 
-> 
-> On 2023/12/19 17:52, Arend Van Spriel wrote:
->> On December 17, 2023 12:25:23 PM Kalle Valo <kvalo@kernel.org> wrote:
->>
->>> Hector Martin <marcan@marcan.st> wrote:
->>>
->>>> Using the WSEC command instead of sae_password seems to be the supported
->>>> mechanism on newer firmware, and also how the brcmdhd driver does it.
->>>>
->>>> According to user reports [1], the sae_password codepath doesn't actually
->>>> work on machines with Cypress chips anyway, so no harm in removing it.
->>>>
->>>> This makes WPA3 work with iwd, or with wpa_supplicant pending a support
->>>> patchset [2].
->>>>
->>>> [1] https://rachelbythebay.com/w/2023/11/06/wpa3/
->>>> [2] http://lists.infradead.org/pipermail/hostap/2023-July/041653.html
->>>>
->>>> Signed-off-by: Hector Martin <marcan@marcan.st>
->>>> Reviewed-by: Neal Gompa <neal@gompa.dev>
->>>
->>> Arend, what do you think?
->>>
->>> We recently talked about people testing brcmfmac patches, has anyone else
->>> tested this?
->>
->> Not sure I already replied so maybe I am repeating myself. I would prefer
->> to keep the Cypress sae_password path as well although it reportedly does
->> not work. The vendor support in the driver can be used to accommodate for
->> that. The other option would be to have people with Cypress chipset test
->> this patch. If that works for both we can consider dropping the
->> sae_password path.
->>
->> Regards,
->> Arend
-> 
-> So, if nobody from Cypress chimes in ever, and nobody cares nor tests
-> Cypress chipsets, are we keeping any and all existing Cypress code-paths
-> as bitrotting code forever and adding gratuitous conditionals every time
-> any functionality needs to change "just in case it breaks Cypress" even
-> though it has been tested compatible on Broadcom chipsets/firmware?
-> 
-> Because that's not sustainable long term.
+On Wed, Dec 20, 2023 at 12:47=E2=80=AFAM Arend van Spriel
+<arend.vanspriel@broadcom.com> wrote:
+>
+> On 12/19/2023 12:01 PM, Hector Martin wrote:
+> >
+> >
+> > On 2023/12/19 17:52, Arend Van Spriel wrote:
+> >> On December 17, 2023 12:25:23 PM Kalle Valo <kvalo@kernel.org> wrote:
+> >>
+> >>> Hector Martin <marcan@marcan.st> wrote:
+> >>>
+> >>>> Using the WSEC command instead of sae_password seems to be the suppo=
+rted
+> >>>> mechanism on newer firmware, and also how the brcmdhd driver does it=
+.
+> >>>>
+> >>>> According to user reports [1], the sae_password codepath doesn't act=
+ually
+> >>>> work on machines with Cypress chips anyway, so no harm in removing i=
+t.
+> >>>>
+> >>>> This makes WPA3 work with iwd, or with wpa_supplicant pending a supp=
+ort
+> >>>> patchset [2].
+> >>>>
+> >>>> [1] https://rachelbythebay.com/w/2023/11/06/wpa3/
+> >>>> [2] http://lists.infradead.org/pipermail/hostap/2023-July/041653.htm=
+l
+> >>>>
+> >>>> Signed-off-by: Hector Martin <marcan@marcan.st>
+> >>>> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> >>>
+> >>> Arend, what do you think?
+> >>>
+> >>> We recently talked about people testing brcmfmac patches, has anyone =
+else
+> >>> tested this?
+> >>
+> >> Not sure I already replied so maybe I am repeating myself. I would pre=
+fer
+> >> to keep the Cypress sae_password path as well although it reportedly d=
+oes
+> >> not work. The vendor support in the driver can be used to accommodate =
+for
+> >> that. The other option would be to have people with Cypress chipset te=
+st
+> >> this patch. If that works for both we can consider dropping the
+> >> sae_password path.
+> >>
+> >> Regards,
+> >> Arend
+> >
+> > So, if nobody from Cypress chimes in ever, and nobody cares nor tests
+> > Cypress chipsets, are we keeping any and all existing Cypress code-path=
+s
+> > as bitrotting code forever and adding gratuitous conditionals every tim=
+e
+> > any functionality needs to change "just in case it breaks Cypress" even
+> > though it has been tested compatible on Broadcom chipsets/firmware?
+> >
+> > Because that's not sustainable long term.
+>
+> You should look into WEXT just for the fun of it. If it were up to me
+> and a bunch of other people that would have been gone decades ago. Maybe
+> a bad example if the sae_password is indeed not working, but the Cypress
+> chipset is used in RPi3 and RPi4 so there must be a couple of users.
 
-You should look into WEXT just for the fun of it. If it were up to me 
-and a bunch of other people that would have been gone decades ago. Maybe 
-a bad example if the sae_password is indeed not working, but the Cypress 
-chipset is used in RPi3 and RPi4 so there must be a couple of users.
+There are reports that WPA3 is broken on the Cypress chipsets the
+Raspberry Pis are using and this patch fixes it:
+https://rachelbythebay.com/w/2023/11/06/wpa3/
 
-Regards,
-Arend
+Based on that, it appears that all known users of WPA3 capable
+hardware with this driver require this fix.
 
-Regards,
-Arend
+Thanks,
 
---000000000000fd9375060cdd18bd
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+--=20
+Julian Calaby
 
-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
-2Gzj3QNJRLsZu1TLyOyBBIr/BE7UiY3RabgRzknBGAPmzhS+fmyM8OtM5BYBsFBrSUFtZZO2p/tf
-Nbc24J2zf2peoZ8MK+7WQqummYlOnz+FyDkA9EybeNMcS5C+xi/PAgMBAAGjggHdMIIB2TAOBgNV
-HQ8BAf8EBAMCBaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJl
-Lmdsb2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYI
-KwYBBQUHMAGGNWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24y
-Y2EyMDIwME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3
-dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqG
-OGh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3Js
-MCcGA1UdEQQgMB6BHGFyZW5kLnZhbnNwcmllbEBicm9hZGNvbS5jb20wEwYDVR0lBAwwCgYIKwYB
-BQUHAwQwHwYDVR0jBBgwFoAUljPR5lgXWzR1ioFWZNW+SN6hj88wHQYDVR0OBBYEFIikAXd8CEtv
-ZbDflDRnf3tuStPuMA0GCSqGSIb3DQEBCwUAA4IBAQCdS5XCYx6k2GGZui9DlFsFm75khkqAU7rT
-zBX04sJU1+B1wtgmWTVIzW7ugdtDZ4gzaV0S9xRhpDErjJaltxPbCylb1DEsLj+AIvBR34caW6ZG
-sQk444t0HPb29HnWYj+OllIGMbdJWr0/P95ZrKk2bP24ub3ZP/8SyzrohfIba9WZKMq6g2nTLZE3
-BtkeSGJx/8dy0h8YmRn+adOrxKXHxhSL8BNn8wsmIZyYWe6fRcBtO3Ks2DOLyHCdkoFlN8x9VUQF
-N2ulEgqCbRKkx+qNirW86eF138lr1gRxzclu/38ko//MmkAYR/+hP3WnBll7zbpIt0jc9wyFkSqH
-p8a1MYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1z
-YTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIMTv1t
-bpIzNUky46LXMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDqmgwfiVEmejnZR97x
-5I+mXKsSE+wttujRxr9I/CPyUzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yMzEyMTkxMzQ2NDZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCGSAFl
-AwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEBBzAL
-BglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAvjRyzatSP6L7N1A4uRsdu3JfDQYWoLYUTot1
-pjtY6Jy9FTZQ2xtkUrEVwapzwa4S9r/s8B5Tj8krx4bcL+P+VQM/ZqoJR/976PGK7AURGHsRTY70
-OZ/wfVBJHcuoimhN/29ELSGEStTm9olUwIC4iiPq+FuHz25ujtucXMnLfox7t6r2vjX/xA2QAW0R
-5dM00HOIt8ioN9Y34LEwQRIUhb8HQO9j3RPkYHQAxlaIlLt3sKij/clR61J8ZGftvli/ozFd8E9Q
-yRLp5wEjaupq6Q1Pk8xn7kCdRSgWOQZUoz0ggrW2WGoy7sGZIGI1pPYKhQ1eoou3NdlGcc2U6sAw
-+A==
---000000000000fd9375060cdd18bd--
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
