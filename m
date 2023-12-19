@@ -1,51 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D87713FE3;
-	Tue, 19 Dec 2023 08:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686931548F
+	for <asahi@lists.linux.dev>; Tue, 19 Dec 2023 11:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DousJW5s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 646F1C433C7;
-	Tue, 19 Dec 2023 08:57:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702976241;
-	bh=uFQlqLQP1G7wjfdANmp5BLEZwEILv8d1iFYDF7MRx6I=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=DousJW5sjM7HJvwYXPYiinIAEyL5QyeWPfBccOPDbCW9/vX6nAuGHK8CYUk92nNCr
-	 WVvnmY7iNQAXEyVd0FGlNlwBSFhyPA10aY+f9fEL3jatPPRT2zHJUNfbWHnhH3EQan
-	 wEJ8M3i4AF5vXnFdOxVdQPCcSAcnYlUbthzzkclg8btFNWh+fnsgXZuhplku7n/kZF
-	 WHHLO/DYbF/MnNgm1uDsaGt2DhJ9txxWy3+DDwR1uVKQflE1+sWs8vkkCfpjFZKj6a
-	 /G8dcSSrNWlHFDBSG8FthDg8VyyHeEHi1EOSg8AtmrH2s4evGToRVDJOdX6hl9vWP8
-	 l7LJlbtqdEzCg==
-From: Kalle Valo <kvalo@kernel.org>
-To: Arend Van Spriel <arend.vanspriel@broadcom.com>
-Cc: Hector Martin <marcan@marcan.st>,  Arend van Spriel <aspriel@gmail.com>,
-  Franky Lin <franky.lin@broadcom.com>,  Hante Meuleman
- <hante.meuleman@broadcom.com>,  Daniel Berlin <dberlin@dberlin.org>,
-  <linux-wireless@vger.kernel.org>,  <brcm80211-dev-list.pdl@broadcom.com>,
-  <SHA-cyfmac-dev-list@infineon.com>,  <linux-kernel@vger.kernel.org>,
-  <asahi@lists.linux.dev>
-Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
-References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
-	<170281231651.2255653.7498073085103487666.kvalo@kernel.org>
-	<18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-Date: Tue, 19 Dec 2023 10:57:17 +0200
-In-Reply-To: <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-	(Arend Van Spriel's message of "Tue, 19 Dec 2023 09:52:23 +0100")
-Message-ID: <877clash76.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="EmhvUoL1"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 82ED647326;
+	Tue, 19 Dec 2023 11:01:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1702983707; bh=mZHa/PlWUTBOSVq8chMFTuSNQbSxKM92GV2NvSK0zF0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=EmhvUoL1tIGeLq2pn9Dvyg+n1e5zqt/RFDtFPkLDe59K0/mG/pEDvdop2h66UahQa
+	 0iY/dc2b1tIJ3MKTxla/+VdNfcCPqMtyDeC1eRNKYLlS4s8t0QvESt5ZEgzAOmKGW5
+	 FdiyYoSPwwdFHKGqSpfkDxYDK4yrAvwKH5GBz0zRxa1TUioPgIfTbtriNYYyeJId+d
+	 Vd3IWEPkJO99Czk+oFbW5fFpNVuEQcMatqKZ4VXnx4R8bpL2AHrK/SD+5pPjqBoH1J
+	 lqW58x8/dZDlZWa1/ALuuWhAMLIvNPkqSJe9n1mWSUsf6CO9JVoqmgjrj8Q5EGYqn7
+	 6O47tUAAVKGDg==
+Message-ID: <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st>
+Date: Tue, 19 Dec 2023 20:01:39 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
+To: Arend Van Spriel <arend.vanspriel@broadcom.com>,
+ Kalle Valo <kvalo@kernel.org>
+Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin
+ <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>,
+ Daniel Berlin <dberlin@dberlin.org>, linux-wireless@vger.kernel.org,
+ brcm80211-dev-list.pdl@broadcom.com, SHA-cyfmac-dev-list@infineon.com,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+ <170281231651.2255653.7498073085103487666.kvalo@kernel.org>
+ <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+Content-Language: en-US
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Arend Van Spriel <arend.vanspriel@broadcom.com> writes:
 
+
+On 2023/12/19 17:52, Arend Van Spriel wrote:
 > On December 17, 2023 12:25:23 PM Kalle Valo <kvalo@kernel.org> wrote:
->
+> 
 >> Hector Martin <marcan@marcan.st> wrote:
 >>
 >>> Using the WSEC command instead of sae_password seems to be the supported
@@ -67,17 +75,23 @@ Arend Van Spriel <arend.vanspriel@broadcom.com> writes:
 >>
 >> We recently talked about people testing brcmfmac patches, has anyone else
 >> tested this?
->
-> Not sure I already replied so maybe I am repeating myself. I would
-> prefer to keep the Cypress sae_password path as well although it
-> reportedly does not work. The vendor support in the driver can be used
-> to accommodate for that. The other option would be to have people with
-> Cypress chipset test this patch. If that works for both we can
-> consider dropping the sae_password path.
+> 
+> Not sure I already replied so maybe I am repeating myself. I would prefer 
+> to keep the Cypress sae_password path as well although it reportedly does 
+> not work. The vendor support in the driver can be used to accommodate for 
+> that. The other option would be to have people with Cypress chipset test 
+> this patch. If that works for both we can consider dropping the 
+> sae_password path.
+> 
+> Regards,
+> Arend
 
-Ok, thanks for checking.
+So, if nobody from Cypress chimes in ever, and nobody cares nor tests
+Cypress chipsets, are we keeping any and all existing Cypress code-paths
+as bitrotting code forever and adding gratuitous conditionals every time
+any functionality needs to change "just in case it breaks Cypress" even
+though it has been tested compatible on Broadcom chipsets/firmware?
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+Because that's not sustainable long term.
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+- Hector
