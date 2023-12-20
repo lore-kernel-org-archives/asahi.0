@@ -1,67 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D384185D;
-	Wed, 20 Dec 2023 15:55:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A352246431
+	for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 16:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AfZuHwHt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DE81C433C7;
-	Wed, 20 Dec 2023 15:55:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703087752;
-	bh=ljBVQFPPMODMjkz27mK+HvRvrQ2qgtBuUctiUK99lTU=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=AfZuHwHtUUThfYKrshL7QiFG3Oa+621djFBCRJLsYLw2mZ5P5fl9acub90I+Zf3bA
-	 7tJTOc6yxfzbk5g3EGNcC1pD2Vpb6nZWANoj20GZ3kxNbhK6n3ukliee3g80cixhiN
-	 dDnlDk3EbIhQqIYKr2tGntA8o4BrtlIMkcaSC53v25SoD4M+E3cYLRM+BgX3XHcgM0
-	 Ck2saQ3QgFjAEQ+co/lO0c2lXytaDXH+u99+bpc6I6S4YBI5VKV1I+PZGGwKmZ2LnO
-	 BUCCYAmfVDH6+OcjJwFVZ5uEfEaq0YKfV0LQMnvwBeubrqGIzE3zLAAb7wCE4Hw8Jm
-	 o1RycnaLAX5Jg==
-From: Kalle Valo <kvalo@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Hector Martin <marcan@marcan.st>,  Daniel Berlin <dberlin@dberlin.org>,
-  Arend van Spriel <arend.vanspriel@broadcom.com>,  Arend van Spriel
- <aspriel@gmail.com>,  Franky Lin <franky.lin@broadcom.com>,  Hante
- Meuleman <hante.meuleman@broadcom.com>,  SHA-cyfmac-dev-list@infineon.com,
-  asahi@lists.linux.dev,  brcm80211-dev-list.pdl@broadcom.com,
-  linux-kernel@vger.kernel.org,  linux-wireless@vger.kernel.org,  David
- Airlie <airlied@redhat.com>,  Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
-References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
-	<170281231651.2255653.7498073085103487666.kvalo@kernel.org>
-	<18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-	<1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st>
-	<c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
-	<CAF4BwTXNtu30DAgBXo4auDaDK0iWc9Ch8f=EH+facQ-_F-oMUQ@mail.gmail.com>
-	<87r0jiqmnx.fsf@kernel.org>
-	<01bd8c68-1b9c-49b2-8ace-1c7d1b5192ad@marcan.st>
-	<CAHk-=whDLKZZEuxU_jEhZRdeWjXAkL8=J_JRk2Ar6wp9UK3h2w@mail.gmail.com>
-	<871qbhqio8.fsf@kernel.org>
-Date: Wed, 20 Dec 2023 17:55:48 +0200
-In-Reply-To: <871qbhqio8.fsf@kernel.org> (Kalle Valo's message of "Wed, 20 Dec
-	2023 12:20:39 +0200")
-Message-ID: <871qbg3m2j.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h2BxIldG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1703090591;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I5Jq8BRDezR717te4tvhXEJvJSSiHs8Sjo1EI4a07rY=;
+	b=h2BxIldGRRI0CwrskzHlpPak54FArjviznY570QD1IUwJ3keKK073jQyHYFvyZ8VdyytWh
+	1PluaZfYS7Wa7x59DjmeubKKfDXwI2jmRDpS7o+N/v08bJ94dhQ+84dStdea4WJ0rCxlTA
+	ujYDWPvzymskPeqfoX6mw+RMDM8PdUE=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-259-YGwhr2rANd-ZRrZxgnvUnQ-1; Wed, 20 Dec 2023 11:43:10 -0500
+X-MC-Unique: YGwhr2rANd-ZRrZxgnvUnQ-1
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-28b3c0af503so4844359a91.3
+        for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 08:43:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703090589; x=1703695389;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I5Jq8BRDezR717te4tvhXEJvJSSiHs8Sjo1EI4a07rY=;
+        b=TvPi/y5xjLEQp1nceLT8Ij38eZ+QyMvdbOM2C/2X/nCdNm39/Fwt3oDBiNAkwX+r7p
+         QHnOnL3IZKbgIZSdHTh+M+slUix035rZ6KjG5eWp2vTywLaWXzWamcFz5ZVCIZfuhNF4
+         Fs4XIhKQZOadEqMp+GvVxJIR7jI3sFdULxQWhfwTyQnHz26vbKW6ZEJOi32g+Pfc20RH
+         rExMESnjVvzHq/pKEBPqBPgqrnW/wWoJ5KNgIrlD0wZyORRMcuVNfvDKQiuhE6Rz8JKe
+         303a2jV3/Y5bBVJTNBODFcE9AUvmApfCbNQn2eIwloH9sMOk/Emc7zuLS+iITU+enifD
+         jRcQ==
+X-Gm-Message-State: AOJu0YyvrFD7YQwMxXZgPM3S6ER0EzuirndFuOhXv1oNJSwMA70+JhIm
+	QcvxNmwMFNbfCKhQ3Fbqnevwau8YMTQ7LM0dSktS/727Af47t0HEdgAgTuZ4kIr5ITiswfn8tKy
+	dB57CB4kQJ+uUypgqplDCNtNK2Qf1HEA=
+X-Received: by 2002:a17:90a:bd04:b0:28b:c05f:f145 with SMTP id y4-20020a17090abd0400b0028bc05ff145mr1906704pjr.93.1703090589324;
+        Wed, 20 Dec 2023 08:43:09 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGXerTPwc3xtBwcSC0h1zkj/wOXM3W+7k0Hcr9Ots2Qxp5c4/DS5r00p5Hnrft+Y2JqQe4TwC17DWi4GTAXFiQ=
+X-Received: by 2002:a17:90a:bd04:b0:28b:c05f:f145 with SMTP id
+ y4-20020a17090abd0400b0028bc05ff145mr1906684pjr.93.1703090589020; Wed, 20 Dec
+ 2023 08:43:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+ <170281231651.2255653.7498073085103487666.kvalo@kernel.org>
+ <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st> <c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
+ <CAF4BwTXNtu30DAgBXo4auDaDK0iWc9Ch8f=EH+facQ-_F-oMUQ@mail.gmail.com>
+ <87r0jiqmnx.fsf@kernel.org> <01bd8c68-1b9c-49b2-8ace-1c7d1b5192ad@marcan.st>
+ <CAHk-=whDLKZZEuxU_jEhZRdeWjXAkL8=J_JRk2Ar6wp9UK3h2w@mail.gmail.com>
+ <871qbhqio8.fsf@kernel.org> <871qbg3m2j.fsf@kernel.org>
+In-Reply-To: <871qbg3m2j.fsf@kernel.org>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Wed, 20 Dec 2023 16:42:32 +0000
+Message-ID: <CAOgh=Fyy6yvEtPO3oPgAY-kZMgGNPGQRBbbNk7yCN6OEUnZ92g@mail.gmail.com>
+Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Hector Martin <marcan@marcan.st>, 
+	Daniel Berlin <dberlin@dberlin.org>, Arend van Spriel <arend.vanspriel@broadcom.com>, 
+	Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
+	Hante Meuleman <hante.meuleman@broadcom.com>, SHA-cyfmac-dev-list@infineon.com, 
+	asahi@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, 
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	David Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-Kalle Valo <kvalo@kernel.org> writes:
+On Wed, 20 Dec 2023 at 16:05, Kalle Valo <kvalo@kernel.org> wrote:
+>
+> Kalle Valo <kvalo@kernel.org> writes:
+>
+> > And Arend is the expert here, he has best knowledge of Broadcom
+> > devices and I trust him.
+>
+> But Arend decided to step down:
+>
+> https://patchwork.kernel.org/project/linux-wireless/patch/20231220095750.307829-1-arend.vanspriel@broadcom.com/
+>
+> And no wonder.
 
-> And Arend is the expert here, he has best knowledge of Broadcom
-> devices and I trust him.
+By the way, just in case my earlier email was misinterpreted, when I
+suggested we find another maintainer, I meant a co-maintainer to help
+spread the load, test, review, etc.
 
-But Arend decided to step down:
+I'm sad Arend stepped down and that we have less maintainers now. I
+meant it in good spirits.
 
-https://patchwork.kernel.org/project/linux-wireless/patch/20231220095750.307829-1-arend.vanspriel@broadcom.com/
+I have received messages from almost 100 people that seem interested
+in helping integrate Broadcom wifi in the upstream kernel. I have
+asked them kindly to not pollute the mailing list and to read this
+thread to get full context.
 
-And no wonder.
+Is mise le meas/Regards,
 
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+Eric Curtin
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+>
+> --
+> https://patchwork.kernel.org/project/linux-wireless/list/
+>
+> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+>
+
