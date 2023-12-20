@@ -1,122 +1,138 @@
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262B6210F8
-	for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 11:05:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A0C2230D
+	for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 11:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GD0hz631"
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6dbaf12c866so210610a34.3
-        for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 03:05:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703070339; x=1703675139; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZK4NlSSPgQwsGSHLA/Pycg97M136hutjFPJCvYqz4Ck=;
-        b=GD0hz631Rr+wkXdy3K0StrcTIqSYY7ct80oZ3ApLsrz+BP60XJnhXOZpCLEJn21gkJ
-         eGuTKi47k/ulJoLfu0GNZz+o+oB3R+Ij01NZXY2UFbLvdSMI7WL06IcOj0Sni2oEduSx
-         7kTDwMPaGQQ/x572SW/YWYFWgwfY13hvTkSE31B8c5t1i6aH+rUHflfKs6oXv8JrM7hK
-         O5CLjCr6F+nPJeO7A8SA13yXLJK6MeH8LZ4zg2dFfGKYTQ3Q9rLVtLPikPEXeLGNRrqs
-         ootnoMYwtAEmOfbFTDrLAAtGKyQ0EAJToK1sHWBYkbcnrfQWZdNeTdby/a1QE3B9L6ZD
-         AFDA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="b9fVYFGg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1703072015;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GZvXo9n7E1BUG9QukBdJSLRTxHIpYEVliraJ+HgqD48=;
+	b=b9fVYFGgzsupIl3ZGFiMbVCBZjibCB6GWG13j/5vqeYoIl/LRzjin4XywIkrrwWKxnmuQW
+	K3kINiOxhSQ3+3GGsdwQfN25npYjDtDeT+HEzRWySxKOjRqBiiLLZezZd07J3XaYCIKsh+
+	6X5AfIxnTC9Pkqo9LHOMi2TN4Bl/ge4=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-564-2xSqw0orNBuhrkhiPSr1hw-1; Wed, 20 Dec 2023 06:33:33 -0500
+X-MC-Unique: 2xSqw0orNBuhrkhiPSr1hw-1
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-5c6bd30ee89so5073360a12.0
+        for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 03:33:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703070339; x=1703675139;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1703072012; x=1703676812;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZK4NlSSPgQwsGSHLA/Pycg97M136hutjFPJCvYqz4Ck=;
-        b=Qoi2cSJT54/ubB3+Zl42J9wl+D/l0GrIOAP/CmHnEtaFXymYUxV3hoF6dfPTrdhXL8
-         FvWh+G+eED3Orls1P5wirQwkocuTxh9rxSe+MAu59wJRWAFOuEl1PdSbTaOj0sIj2N3r
-         MWseo4ouvnhO/JSJwGfZI+Br7n5/FcACrK4CqHXuUXx5opig2gVqne40XGecQU/y8a8w
-         dOQdCkLaPI81asj44Vm65b8y9kKYXrUA6Z1goxaMX6X5uJvEFWwsfnE7V3l7v216o/dk
-         TKC4gsBwqrvD5az2hutmzo6L+o4bs3F6xNN7lVWpsAsOTVN3KvktG738CMxQ3E8v/FGD
-         231g==
-X-Gm-Message-State: AOJu0YxENyo7TCyut3ya1IuHZaYRAntdTI/OHwF2B9akqabq0a4LyNL6
-	abKlyaLleFykILNjqivq+mZ1yP0NpImoFg==
-X-Google-Smtp-Source: AGHT+IHNw5Fjt6eji/RZDZ0VYxrLINVasZMdhYpFeaAe+l8GXMP3b8PGNjKBysKhnQL06umOFZ4krA==
-X-Received: by 2002:a05:6359:4c1c:b0:170:bd6c:b7cf with SMTP id kj28-20020a0563594c1c00b00170bd6cb7cfmr23746012rwc.46.1703070339040;
-        Wed, 20 Dec 2023 03:05:39 -0800 (PST)
-Received: from archie.me ([103.131.18.64])
-        by smtp.gmail.com with ESMTPSA id fk1-20020a056a003a8100b006d40f44dc03sm7642917pfb.11.2023.12.20.03.05.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 03:05:38 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id AF6051028B299; Wed, 20 Dec 2023 18:05:34 +0700 (WIB)
-Date: Wed, 20 Dec 2023 18:05:34 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Kalle Valo <kvalo@kernel.org>, Daniel Berlin <dberlin@dberlin.org>,
-	Arend van Spriel <arend.vanspriel@broadcom.com>,
-	Arend van Spriel <aspriel@gmail.com>,
-	Franky Lin <franky.lin@broadcom.com>,
-	Hante Meuleman <hante.meuleman@broadcom.com>,
-	SHA-cyfmac-dev-list@infineon.com, asahi@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org,
-	linux-wireless@vger.kernel.org, David Airlie <airlied@redhat.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Nick Hollinghurst <nick.hollinghurst@raspberrypi.com>
-Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
-Message-ID: <ZYLKftqKFJ_PMmF3@archie.me>
+        bh=GZvXo9n7E1BUG9QukBdJSLRTxHIpYEVliraJ+HgqD48=;
+        b=pXylqROssKf4G6MU2Ab3zsSjOPUzrQsFXGn6gPdIEnoJhkeXm6TsVuqWyWLHZAZwfQ
+         1yzlFbJtkBlnL0bGGYLHWckDo9NK8DYuIwHbnuaMQ51AX9XNgA0VhuZHyUcpbowPz1yv
+         nsMz07eyVneAWTg0k6VCm62SrbBEeWLm03dwLeWDN81sCumLKFzmmg/S7jR6EAf/6qW1
+         mBYbu8e5UUoVCQEW60TintSoKR5JnJuwetwwB1FbFrKtZfkn17E8tr6giZTJfGS8XZ9j
+         1mmNeriUmG1WjyCDJggTCbcxsoEvIkdvyk0EnZIDggk0Q52XSR9JKkdH3ll4KX9KbQVI
+         JX5Q==
+X-Gm-Message-State: AOJu0YxjkUjgjTUKA5BHa6KuvYsOKNO0Gp8v49lBrJS65Zwgfh9RAOHy
+	Wje8ODBMKv2c3UcXBjq4/9QdPyJJXmH8X06oidWh5G7iveziarGTp66ul6+gtbBdLrhFKRMtDDK
+	9XMoQ6TTYGTYyCpdajsssCjyV84XOSys=
+X-Received: by 2002:a17:90b:4f8b:b0:28b:cfea:c3a with SMTP id qe11-20020a17090b4f8b00b0028bcfea0c3amr915928pjb.39.1703072012767;
+        Wed, 20 Dec 2023 03:33:32 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFrvhx2+ke9fT+Ck2vv/eRkSRqKHgA3znkYCpalIpUXY7DbRWaaCOV/vGf7lKVHCsZIv8L3LHll2lJL8n/QSCE=
+X-Received: by 2002:a17:90b:4f8b:b0:28b:cfea:c3a with SMTP id
+ qe11-20020a17090b4f8b00b0028bcfea0c3amr915916pjb.39.1703072012512; Wed, 20
+ Dec 2023 03:33:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rMlNXoe/imCf0D6r"
-Content-Disposition: inline
-In-Reply-To: <6e330280-0b0a-4483-ac09-cd974d87a7ae@marcan.st>
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+ <170281231651.2255653.7498073085103487666.kvalo@kernel.org>
+ <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st> <c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
+ <CAF4BwTXNtu30DAgBXo4auDaDK0iWc9Ch8f=EH+facQ-_F-oMUQ@mail.gmail.com>
+ <87r0jiqmnx.fsf@kernel.org> <01bd8c68-1b9c-49b2-8ace-1c7d1b5192ad@marcan.st> <CAHk-=whDLKZZEuxU_jEhZRdeWjXAkL8=J_JRk2Ar6wp9UK3h2w@mail.gmail.com>
+In-Reply-To: <CAHk-=whDLKZZEuxU_jEhZRdeWjXAkL8=J_JRk2Ar6wp9UK3h2w@mail.gmail.com>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Wed, 20 Dec 2023 11:32:56 +0000
+Message-ID: <CAOgh=FyX5tfzB+yN17pYQGy=8pBy4hmL-jc4cMZexzdp=aZSdg@mail.gmail.com>
+Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Hector Martin <marcan@marcan.st>, Kalle Valo <kvalo@kernel.org>, 
+	Daniel Berlin <dberlin@dberlin.org>, Arend van Spriel <arend.vanspriel@broadcom.com>, 
+	Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
+	Hante Meuleman <hante.meuleman@broadcom.com>, SHA-cyfmac-dev-list@infineon.com, 
+	asahi@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, 
+	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	David Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
+On Wed, 20 Dec 2023 at 01:54, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Tue, 19 Dec 2023 at 16:06, Hector Martin <marcan@marcan.st> wrote:
+> >
+> > On 2023/12/19 23:42, Kalle Valo wrote:
+> > >
+> > > Why is it that every patch Hector submits seems to end up with flame
+> > > wars?
+>
+> Well, I do think some of it is Hector's personality and forceful
+> approaches, but I do think part of it is also the area in question.
+>
+> Because I do agree with Hector that..
+>
+> > Just recently a patch was posted to remove the Infineon list from
+> > MAINTAINERS because that company cares so little they have literally
+> > stopped accepting emails from us. Meanwhile they are telling their
+> > customers that they do not recommend upstream brcmfmac and they should
+> > use their downstream driver [1].
+>
+> Unquestionably broadcom is not helping maintain things, and I think it
+> should matter.
+>
+> As Hector says, they point to their random driver dumps on their site
+> that you can't even download unless you are a "Broadcom community
+> member" or whatever, and hey - any company that works that way should
+> be seen as pretty much hostile to any actual maintenance and proper
+> development.
+>
+> If Daniel and Hector are responsive to actual problem reports for the
+> changes they cause, I do think that should count a lot.
+>
+> I don't think Cypress support should necessarily be removed (or marked
+> broken), but if the sae_password code already doesn't work, _that_
+> part certainly shouldn't hold things up?
+>
+> Put another way: if we effectively don't have a driver maintainer that
+> can test things, and somebody is willing to step up, shouldn't we take
+> that person up on it?
 
---rMlNXoe/imCf0D6r
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I am trying to help try and find a maintainer in the community, but of
+course I can't guarantee anything. Theoretically of course it should
+be someone from Broadcom, Raspberry Pi, etc. and not the community
+(not that this helps unblock us promptly).
 
-On Wed, Dec 20, 2023 at 01:16:20PM +0900, Hector Martin wrote:
->=20
->=20
-> On 2023/12/20 10:44, Linus Torvalds wrote:
-> > Put another way: if we effectively don't have a driver maintainer that
-> > can test things, and somebody is willing to step up, shouldn't we take
-> > that person up on it?
->=20
-> Personally, I do think the rPi folks themselves should step up for
-> *testing* at the very least. I did point them at our downstream WiFi
-> branch at one point during a previous discussion and haven't heard back,
-> so either they never tested it, or they did and it didn't break
-> anything. If they're shipping popular Linux hardware where the WiFi
-> chipset vendor has fully and completely checked out of any upstream
-> support, they need to either accept that upstream support will likely
-> break at some point (because that's just what happens when nobody cares
-> about a given piece of hardware, especially with drivers shared across
-> others like this one) or they need to proactively step up and take on,
-> minimally, an early testing role themselves.
+I just would like to say this upstream Cypress driver has a large
+number of users via Fedora and CentOS Stream Automotive Distribution.
+And that's just the Fedora family of distros. But the Apple Silicon
+devices have a pretty large amount of users also.
 
-I'm agree that downstream (e.g. rPi) developers should also participating
-in upstream kernel development.
+We need to find a way of accommodating both. If that's either fork the
+code into two separate files somehow or find another maintainer, I
+don't know (just my uninformed opinion).
 
-Also Cc: rPi folks to solicit their opinions.
+Is mise le meas/Regards,
 
-Thanks.
+Eric Curtin
 
---=20
-An old man doll... just what I always wanted! - Clara
+>
+>                   Linus
+>
 
---rMlNXoe/imCf0D6r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZYLKewAKCRD2uYlJVVFO
-ozFjAP9RYxpZvqkXRWkXgtGFOlqyvnG5Y1UEvsJdEKmqzdW30AD8CHkVFxApQ5TK
-WCwps84FH+6ExEtPz0RrClRSWpi05QI=
-=ea1G
------END PGP SIGNATURE-----
-
---rMlNXoe/imCf0D6r--
