@@ -1,30 +1,30 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277B9482CB
-	for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 18:02:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6386B482D1
+	for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 18:14:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="n0i8NiFS"
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="lOFusqj8"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 2C6633FA0B;
-	Wed, 20 Dec 2023 18:02:04 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id C981241EC4;
+	Wed, 20 Dec 2023 18:14:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1703095328; bh=ok7tGtfGC3218MMeZ/9Y2l59vDssFzzr7dIjcG3mv5I=;
+	t=1703096070; bh=0Ruf0uIt2rqlsafRm8hWJqxuBvI8xmomb8EP+jsV6e0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=n0i8NiFSqhklOpoUjIcF8grNRe3qmU8/3YErV/YMDxhQassoDRjOF5+XNth8jWEXm
-	 tQ/t5ZPTEiXkPDVPY0wmDYIYVj88AT/B3elGaowFu5lpWywjOMleAla0Z7O7saRYAO
-	 dEekf64sAACXdkcyfmuBoEMwPUdAgbGexzrnURO8wPammM+HMLqDt1YQTn5ylesLon
-	 RvFu+mYqFv4jxd56SfmqvANt0FK75clE6vQpgGCmh4sLBqdKukUuwiRsNyIVVD/nDf
-	 14fkaCV/Si7rarm1C6OBgH+h4fQgth07Jmmdge9qH3uqpkF3xqL+l1TV9leBNq6TPR
-	 gAJu/9LOyS/SQ==
-Message-ID: <3e7f9763-a481-40d1-a5aa-9d71ebe13d98@marcan.st>
-Date: Thu, 21 Dec 2023 03:02:00 +0900
+	b=lOFusqj8rv3nosUxmw0TU/RJ4TCdPhl8aMAFf+AeAoeD1jHAaP5w6xVOAkzjLlFfz
+	 NyiyGeFALRHdKovnCvTv4g1O0XZw8L/uidUKT4tHcXZNgCG5ZnhX+uV5I5/Fg0ecI+
+	 /o9ztQzI0eQG/6Z7NrRsMeIpKjp+7wleKfI/7WVb6sUAutf1d2cr8Awv3qtSCwIu7A
+	 Glof+lHsxsdRvmAT6LiRZbdZv9FwWPYJs3KLvi3V6MB7/XZyx7FMaI7ZgqX/uzw7Qy
+	 1GDgRdh6qo3Td0u5YiliHCA6ZR687tCikPJbY+objKKdQ6OT8OeeHsBxoeJqZzjQo1
+	 NPTYyPrHNmj1w==
+Message-ID: <4c89b71e-8667-40fe-add0-205748de51ef@marcan.st>
+Date: Thu, 21 Dec 2023 03:14:25 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -33,74 +33,100 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
-To: Paul Fertser <fercerpav@gmail.com>
-Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin
- <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>,
- Kalle Valo <kvalo@kernel.org>, Daniel Berlin <dberlin@dberlin.org>,
- linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
- SHA-cyfmac-dev-list@infineon.com, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
- <ZYK/C3LzK8LMOjER@home.paul.comp>
 Content-Language: en-US
+To: Kalle Valo <kvalo@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Daniel Berlin <dberlin@dberlin.org>,
+ Arend van Spriel <arend.vanspriel@broadcom.com>,
+ Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>,
+ SHA-cyfmac-dev-list@infineon.com, asahi@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, David Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+ <170281231651.2255653.7498073085103487666.kvalo@kernel.org>
+ <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st>
+ <c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
+ <CAF4BwTXNtu30DAgBXo4auDaDK0iWc9Ch8f=EH+facQ-_F-oMUQ@mail.gmail.com>
+ <87r0jiqmnx.fsf@kernel.org> <01bd8c68-1b9c-49b2-8ace-1c7d1b5192ad@marcan.st>
+ <CAHk-=whDLKZZEuxU_jEhZRdeWjXAkL8=J_JRk2Ar6wp9UK3h2w@mail.gmail.com>
+ <871qbhqio8.fsf@kernel.org>
 From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <ZYK/C3LzK8LMOjER@home.paul.comp>
+In-Reply-To: <871qbhqio8.fsf@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 2023/12/20 19:16, Paul Fertser wrote:
-> Hey Hector,
+On 2023/12/20 19:20, Kalle Valo wrote:
+> Linus Torvalds <torvalds@linux-foundation.org> writes:
 > 
-> On Tue, Nov 07, 2023 at 03:05:31PM +0900, Hector Martin wrote:
->> Using the WSEC command instead of sae_password seems to be the supported
->> mechanism on newer firmware, and also how the brcmdhd driver does it.
+>>> Just recently a patch was posted to remove the Infineon list from
+>>> MAINTAINERS because that company cares so little they have literally
+>>> stopped accepting emails from us. Meanwhile they are telling their
+>>> customers that they do not recommend upstream brcmfmac and they should
+>>> use their downstream driver [1].
 >>
->> According to user reports [1], the sae_password codepath doesn't actually
->> work on machines with Cypress chips anyway, so no harm in removing it.
+>> Unquestionably broadcom is not helping maintain things, and I think it
+>> should matter.
+>>
+>> As Hector says, they point to their random driver dumps on their site
+>> that you can't even download unless you are a "Broadcom community
+>> member" or whatever, and hey - any company that works that way should
+>> be seen as pretty much hostile to any actual maintenance and proper
+>> development.
 > 
-> I'm sorry to disappoint you but I've just tested this patch on a
-> "Pinebook Pro" which has AP6255 module and it broke WPA3 Personal.
+> Sadly this is the normal in the wireless world. All vendors focus on the
+> latest generation, currently it's Wi-Fi 7, and lose interest on older
+> generations. And vendors lose focus on the upstream drivers even faster,
+> usually after a customer project ends.
 > 
-> No error messages are emitted to the kernel log, just iwctl saying it
-> can't establish connection.
+> So in practise what we try to do is keep the drivers working somehow on
+> our own, even after the vendors are long gone. If we would deliberately
+> allow breaking drivers because vendor/corporations don't support us, I
+> suspect we would have sevaral broken drivers in upstream.
 > 
-> This is using "Cypress" firmware from the Linux firmware tree [0]
-> renamed to "brcmfmac43455-sdio.bin" which has the following features
-> (extracted from last two lines):
+>> If Daniel and Hector are responsive to actual problem reports for the
+>> changes they cause, I do think that should count a lot.
 > 
-> 43455c0-roml/43455_sdio-pno-aoe-pktfilter-pktctx-wfds-mfp-dfsradar-wowlpf-idsup-idauth-noclminc-clm_min-obss-obssdump-swdiv-gtkoe-roamprof-txbf-ve-sae-dpp-sr-okc-bpd Version: 7.45.234 (4ca95bb CY) CRC: 212e223d Date: Thu 2021-04-15 03:06:00 PDT Ucode Ver: 1043.2161 FWID 01-996384e2
-> DVID 01-1fda2915
+> Sure, but they could also respect to the review comments. I find Arend's
+> proposal is reasonable and that's what I would implement in v2. We
+> (linux-wireless) make abstractions to workaround firmware problems or
+> interface conflicts all the time, just look at ath10k for example. I
+> would not be surprised if we need to add even more abstractions to
+> brcmfmac in the future. And Arend is the expert here, he has best
+> knowledge of Broadcom devices and I trust him.
 > 
-> 
-> This module is used on many SBCs, including some RaspberryPi
-> boards. The reason RaspberryPi owners complain about lack of WPA3
-> Personal support is that most of them are using obscure downstream
-> distros which ship brcmfmac firmware from somewhere else rather than
-> the Linux firmware tree, so they lack the "sae" feature. Another is
-> that it only works with iwd while default is wpa_supplicant.
-> 
-> So far all known reports of those who tried the right firmware on
-> RaspberryPi boards confirm WPA3 Personal was working with iwd [1].
-> 
-> 
-> I'll be happy to do more testing if needed. Thank you very much for
-> your hard and insightful work!
+> Has anyone even investigated what it would need to implement Arend's
+> proposal? At least I don't see any indication of that.
 
-Thank you for being the first person to actually test any of this :)
+Of course we can implement it (and we will as we actually got a report
+of this patch breaking Cypress now, finally).
 
-Now we actually have a reason to keep the code. The next thing I wonder
-is whether any of the *other* Cypress chips will respond to WSEC (in
-addition to or instead of sae_password)...
+The question was never whether it could be done, we're already doing a
+bunch of abstractions to deal with just the Broadcom-only side of things
+too. The point I was trying to make is that we need to *know* what
+firmware abstractions we need and *why* they are needed. We can't just
+say, for every change, "well, nobody knows if the existing code works or
+not, so let's just add an abstraction just in case the change breaks
+something". As far as anyone involved in the discussions until now could
+tell, this code was just something some Cypress person dumped upstream,
+and nobody involved was being responsive to any of our inquiries, so
+there was no way to be certain it worked at all, whether it was
+supported in public firmware, or anything else.
 
-Are you willing to test all the other wifi stuff we have queued up
-downstream? There's a whole pile of changes here:
+*Now* that we know the existing code is actually functional and not just
+dead/broken, and that the WSEC approach is conversely not functional on
+the Cypress firmwares, it makes sense to introduce an abstraction.
 
-https://github.com/AsahiLinux/linux/commits/bits/080-wifi/
-
-If things break it would be very helpful if you could bisect it down to
-the specific commit. This patch is also in there of course, feel free to
-revert/rebase it out.
+Here's an example of the case where an abstraction was *not* needed: I
+switched over WPA PSK configuration from hex-encoded to binary. That was
+needed to make more recent Apple firmwares work. My evidence at the time
+that that change *was* at least fairly backwards compatible was that the
+OpenBSD driver had been doing it that way all along. Had we introduced
+an abstraction/conditional for that case "just in case", it would have
+generated superfluous technical debt for no reason.
 
 - Hector
