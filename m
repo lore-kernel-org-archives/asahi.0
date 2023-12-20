@@ -1,113 +1,106 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A352246431
-	for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 16:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277B9482CB
+	for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 18:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h2BxIldG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1703090591;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I5Jq8BRDezR717te4tvhXEJvJSSiHs8Sjo1EI4a07rY=;
-	b=h2BxIldGRRI0CwrskzHlpPak54FArjviznY570QD1IUwJ3keKK073jQyHYFvyZ8VdyytWh
-	1PluaZfYS7Wa7x59DjmeubKKfDXwI2jmRDpS7o+N/v08bJ94dhQ+84dStdea4WJ0rCxlTA
-	ujYDWPvzymskPeqfoX6mw+RMDM8PdUE=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-259-YGwhr2rANd-ZRrZxgnvUnQ-1; Wed, 20 Dec 2023 11:43:10 -0500
-X-MC-Unique: YGwhr2rANd-ZRrZxgnvUnQ-1
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-28b3c0af503so4844359a91.3
-        for <asahi@lists.linux.dev>; Wed, 20 Dec 2023 08:43:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703090589; x=1703695389;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I5Jq8BRDezR717te4tvhXEJvJSSiHs8Sjo1EI4a07rY=;
-        b=TvPi/y5xjLEQp1nceLT8Ij38eZ+QyMvdbOM2C/2X/nCdNm39/Fwt3oDBiNAkwX+r7p
-         QHnOnL3IZKbgIZSdHTh+M+slUix035rZ6KjG5eWp2vTywLaWXzWamcFz5ZVCIZfuhNF4
-         Fs4XIhKQZOadEqMp+GvVxJIR7jI3sFdULxQWhfwTyQnHz26vbKW6ZEJOi32g+Pfc20RH
-         rExMESnjVvzHq/pKEBPqBPgqrnW/wWoJ5KNgIrlD0wZyORRMcuVNfvDKQiuhE6Rz8JKe
-         303a2jV3/Y5bBVJTNBODFcE9AUvmApfCbNQn2eIwloH9sMOk/Emc7zuLS+iITU+enifD
-         jRcQ==
-X-Gm-Message-State: AOJu0YyvrFD7YQwMxXZgPM3S6ER0EzuirndFuOhXv1oNJSwMA70+JhIm
-	QcvxNmwMFNbfCKhQ3Fbqnevwau8YMTQ7LM0dSktS/727Af47t0HEdgAgTuZ4kIr5ITiswfn8tKy
-	dB57CB4kQJ+uUypgqplDCNtNK2Qf1HEA=
-X-Received: by 2002:a17:90a:bd04:b0:28b:c05f:f145 with SMTP id y4-20020a17090abd0400b0028bc05ff145mr1906704pjr.93.1703090589324;
-        Wed, 20 Dec 2023 08:43:09 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGXerTPwc3xtBwcSC0h1zkj/wOXM3W+7k0Hcr9Ots2Qxp5c4/DS5r00p5Hnrft+Y2JqQe4TwC17DWi4GTAXFiQ=
-X-Received: by 2002:a17:90a:bd04:b0:28b:c05f:f145 with SMTP id
- y4-20020a17090abd0400b0028bc05ff145mr1906684pjr.93.1703090589020; Wed, 20 Dec
- 2023 08:43:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="n0i8NiFS"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 2C6633FA0B;
+	Wed, 20 Dec 2023 18:02:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1703095328; bh=ok7tGtfGC3218MMeZ/9Y2l59vDssFzzr7dIjcG3mv5I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=n0i8NiFSqhklOpoUjIcF8grNRe3qmU8/3YErV/YMDxhQassoDRjOF5+XNth8jWEXm
+	 tQ/t5ZPTEiXkPDVPY0wmDYIYVj88AT/B3elGaowFu5lpWywjOMleAla0Z7O7saRYAO
+	 dEekf64sAACXdkcyfmuBoEMwPUdAgbGexzrnURO8wPammM+HMLqDt1YQTn5ylesLon
+	 RvFu+mYqFv4jxd56SfmqvANt0FK75clE6vQpgGCmh4sLBqdKukUuwiRsNyIVVD/nDf
+	 14fkaCV/Si7rarm1C6OBgH+h4fQgth07Jmmdge9qH3uqpkF3xqL+l1TV9leBNq6TPR
+	 gAJu/9LOyS/SQ==
+Message-ID: <3e7f9763-a481-40d1-a5aa-9d71ebe13d98@marcan.st>
+Date: Thu, 21 Dec 2023 03:02:00 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
- <170281231651.2255653.7498073085103487666.kvalo@kernel.org>
- <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st> <c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
- <CAF4BwTXNtu30DAgBXo4auDaDK0iWc9Ch8f=EH+facQ-_F-oMUQ@mail.gmail.com>
- <87r0jiqmnx.fsf@kernel.org> <01bd8c68-1b9c-49b2-8ace-1c7d1b5192ad@marcan.st>
- <CAHk-=whDLKZZEuxU_jEhZRdeWjXAkL8=J_JRk2Ar6wp9UK3h2w@mail.gmail.com>
- <871qbhqio8.fsf@kernel.org> <871qbg3m2j.fsf@kernel.org>
-In-Reply-To: <871qbg3m2j.fsf@kernel.org>
-From: Eric Curtin <ecurtin@redhat.com>
-Date: Wed, 20 Dec 2023 16:42:32 +0000
-Message-ID: <CAOgh=Fyy6yvEtPO3oPgAY-kZMgGNPGQRBbbNk7yCN6OEUnZ92g@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
-To: Kalle Valo <kvalo@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Hector Martin <marcan@marcan.st>, 
-	Daniel Berlin <dberlin@dberlin.org>, Arend van Spriel <arend.vanspriel@broadcom.com>, 
-	Arend van Spriel <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>, 
-	Hante Meuleman <hante.meuleman@broadcom.com>, SHA-cyfmac-dev-list@infineon.com, 
-	asahi@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com, 
-	linux-kernel@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	David Airlie <airlied@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+To: Paul Fertser <fercerpav@gmail.com>
+Cc: Arend van Spriel <aspriel@gmail.com>, Franky Lin
+ <franky.lin@broadcom.com>, Hante Meuleman <hante.meuleman@broadcom.com>,
+ Kalle Valo <kvalo@kernel.org>, Daniel Berlin <dberlin@dberlin.org>,
+ linux-wireless@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+ SHA-cyfmac-dev-list@infineon.com, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+ <ZYK/C3LzK8LMOjER@home.paul.comp>
+Content-Language: en-US
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <ZYK/C3LzK8LMOjER@home.paul.comp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 20 Dec 2023 at 16:05, Kalle Valo <kvalo@kernel.org> wrote:
->
-> Kalle Valo <kvalo@kernel.org> writes:
->
-> > And Arend is the expert here, he has best knowledge of Broadcom
-> > devices and I trust him.
->
-> But Arend decided to step down:
->
-> https://patchwork.kernel.org/project/linux-wireless/patch/20231220095750.307829-1-arend.vanspriel@broadcom.com/
->
-> And no wonder.
 
-By the way, just in case my earlier email was misinterpreted, when I
-suggested we find another maintainer, I meant a co-maintainer to help
-spread the load, test, review, etc.
 
-I'm sad Arend stepped down and that we have less maintainers now. I
-meant it in good spirits.
+On 2023/12/20 19:16, Paul Fertser wrote:
+> Hey Hector,
+> 
+> On Tue, Nov 07, 2023 at 03:05:31PM +0900, Hector Martin wrote:
+>> Using the WSEC command instead of sae_password seems to be the supported
+>> mechanism on newer firmware, and also how the brcmdhd driver does it.
+>>
+>> According to user reports [1], the sae_password codepath doesn't actually
+>> work on machines with Cypress chips anyway, so no harm in removing it.
+> 
+> I'm sorry to disappoint you but I've just tested this patch on a
+> "Pinebook Pro" which has AP6255 module and it broke WPA3 Personal.
+> 
+> No error messages are emitted to the kernel log, just iwctl saying it
+> can't establish connection.
+> 
+> This is using "Cypress" firmware from the Linux firmware tree [0]
+> renamed to "brcmfmac43455-sdio.bin" which has the following features
+> (extracted from last two lines):
+> 
+> 43455c0-roml/43455_sdio-pno-aoe-pktfilter-pktctx-wfds-mfp-dfsradar-wowlpf-idsup-idauth-noclminc-clm_min-obss-obssdump-swdiv-gtkoe-roamprof-txbf-ve-sae-dpp-sr-okc-bpd Version: 7.45.234 (4ca95bb CY) CRC: 212e223d Date: Thu 2021-04-15 03:06:00 PDT Ucode Ver: 1043.2161 FWID 01-996384e2
+> DVID 01-1fda2915
+> 
+> 
+> This module is used on many SBCs, including some RaspberryPi
+> boards. The reason RaspberryPi owners complain about lack of WPA3
+> Personal support is that most of them are using obscure downstream
+> distros which ship brcmfmac firmware from somewhere else rather than
+> the Linux firmware tree, so they lack the "sae" feature. Another is
+> that it only works with iwd while default is wpa_supplicant.
+> 
+> So far all known reports of those who tried the right firmware on
+> RaspberryPi boards confirm WPA3 Personal was working with iwd [1].
+> 
+> 
+> I'll be happy to do more testing if needed. Thank you very much for
+> your hard and insightful work!
 
-I have received messages from almost 100 people that seem interested
-in helping integrate Broadcom wifi in the upstream kernel. I have
-asked them kindly to not pollute the mailing list and to read this
-thread to get full context.
+Thank you for being the first person to actually test any of this :)
 
-Is mise le meas/Regards,
+Now we actually have a reason to keep the code. The next thing I wonder
+is whether any of the *other* Cypress chips will respond to WSEC (in
+addition to or instead of sae_password)...
 
-Eric Curtin
+Are you willing to test all the other wifi stuff we have queued up
+downstream? There's a whole pile of changes here:
 
->
-> --
-> https://patchwork.kernel.org/project/linux-wireless/list/
->
-> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
->
+https://github.com/AsahiLinux/linux/commits/bits/080-wifi/
 
+If things break it would be very helpful if you could bisect it down to
+the specific commit. This patch is also in there of course, feel free to
+revert/rebase it out.
+
+- Hector
