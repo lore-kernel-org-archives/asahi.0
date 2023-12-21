@@ -1,175 +1,295 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD6A10F7
-	for <asahi@lists.linux.dev>; Thu, 21 Dec 2023 00:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DA521343
+	for <asahi@lists.linux.dev>; Thu, 21 Dec 2023 08:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="yAC+tX25"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 2810541EC4;
-	Thu, 21 Dec 2023 00:49:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1703119764; bh=CqQ+Tm1lCQF1aHtQ7ijDsp2WEslXk+ZdGq6SK1W3+lY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=yAC+tX25PsMIYont0Bqq8ekIDkQ3fVnUYZYFaGmlIEvwZpaNECIsG8O2s/7H5Fdof
-	 OlnNnUlMhE96JEZFYEGn689vPtHrjz1F+/eDmOUBApby1g+dHTonR7r2p055V2VcGb
-	 AN5c3f6bcFWym2zItaxkEHLptXs/T3Bk93HR4QXC0d5/MDmJHT1UHElrbAOM8u+KsU
-	 o+lDOXFb78qOEyZG9GLU0UtUqsrXqRQqWqLru++MYv61qCJ3T5586vyMlFQtemgqS8
-	 56iQtdBskdv2JsasVK7qN8JjGY/b7thUTFdF58ENRrpMLnrwdTywXHEMkh9i5yfx1V
-	 TR1+SiHfc99uw==
-Message-ID: <d5e26dd4-483d-4662-ba83-5cb19187b24a@marcan.st>
-Date: Thu, 21 Dec 2023 09:49:17 +0900
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ErACxD2i"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=q1cLvrTcZUprlxPErtndCbzhW70UICoQe1+wCr2ZPTk=; b=ErACxD2i1ZyRzhRUzdNeYh0TNe
+	G25ZA7Dtm+KWepNH81alHu0MbxF4qQZq6nax1fGoSsUI5iSC+HtxC0Mfs8MrWzctraxzisS3ZQ+4K
+	Od6PQy0g98T9tj+Zt+AG8potb0orJJiFBLSNTRV1P42xww+G7HwKghisSEZXkFkHxyzSL1wm2VA/o
+	nhTyWNx66cvltPw5sfDD8eJCuJPf0EMpjTrvDkdqRSwjQhSivlwx62YYjKxDWlBi/IndwAneTanzb
+	hnEQTyvLmO0ebaIk91g1aEuKlnVMpRj1R/fJFe404oarGHLRkrU5kNHUa7m2+WaSBPPHGLYnXd5U+
+	oVCbUrcQ==;
+Received: from 2a02-8389-2341-5b80-39d3-4735-9a3c-88d8.cable.dynamic.v6.surfer.at ([2a02:8389:2341:5b80:39d3:4735:9a3c:88d8] helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rGEjc-00257z-2f;
+	Thu, 21 Dec 2023 08:48:53 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: marcan@marcan.st,
+	sven@svenpeter.dev,
+	kbusch@kernel.org,
+	axboe@kernel.dk,
+	sagi@grimberg.me,
+	james.smart@broadcom.com
+Cc: alyssa@rosenzweig.io,
+	asahi@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	kch@nvidia.com
+Subject: [PATCH] nvme: don't set a virt_boundary unless needed
+Date: Thu, 21 Dec 2023 09:48:53 +0100
+Message-Id: <20231221084853.1175482-1-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
-Content-Language: en-US
-To: Arend van Spriel <arend.vanspriel@broadcom.com>,
- Kalle Valo <kvalo@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Daniel Berlin <dberlin@dberlin.org>, Arend van Spriel
- <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>,
- Hante Meuleman <hante.meuleman@broadcom.com>,
- SHA-cyfmac-dev-list@infineon.com, asahi@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org,
- linux-wireless@vger.kernel.org, David Airlie <airlied@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
- <170281231651.2255653.7498073085103487666.kvalo@kernel.org>
- <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st>
- <c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
- <CAF4BwTXNtu30DAgBXo4auDaDK0iWc9Ch8f=EH+facQ-_F-oMUQ@mail.gmail.com>
- <87r0jiqmnx.fsf@kernel.org> <01bd8c68-1b9c-49b2-8ace-1c7d1b5192ad@marcan.st>
- <CAHk-=whDLKZZEuxU_jEhZRdeWjXAkL8=J_JRk2Ar6wp9UK3h2w@mail.gmail.com>
- <871qbhqio8.fsf@kernel.org> <4c89b71e-8667-40fe-add0-205748de51ef@marcan.st>
- <bdb078c0-2f45-485a-86a0-bb7d0b5e3516@broadcom.com>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <bdb078c0-2f45-485a-86a0-bb7d0b5e3516@broadcom.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+NVMe PRPs are a pain and force the expensive virt_boundary checking on
+block layer, prevent secure passthrough and require scatter/gather I/O
+to be split into multiple commands which is problematic for the upcoming
+atomic write support.
 
+Fix the NVMe core to require an opt-in from the drivers for it.
 
-On 2023/12/21 4:36, Arend van Spriel wrote:
-> On 12/20/2023 7:14 PM, Hector Martin wrote:
->>
->>
->> On 2023/12/20 19:20, Kalle Valo wrote:
->>> Linus Torvalds <torvalds@linux-foundation.org> writes:
->>>
->>>>> Just recently a patch was posted to remove the Infineon list from
->>>>> MAINTAINERS because that company cares so little they have literally
->>>>> stopped accepting emails from us. Meanwhile they are telling their
->>>>> customers that they do not recommend upstream brcmfmac and they should
->>>>> use their downstream driver [1].
->>>>
->>>> Unquestionably broadcom is not helping maintain things, and I think it
->>>> should matter.
->>>>
->>>> As Hector says, they point to their random driver dumps on their site
->>>> that you can't even download unless you are a "Broadcom community
->>>> member" or whatever, and hey - any company that works that way should
->>>> be seen as pretty much hostile to any actual maintenance and proper
->>>> development.
->>>
->>> Sadly this is the normal in the wireless world. All vendors focus on the
->>> latest generation, currently it's Wi-Fi 7, and lose interest on older
->>> generations. And vendors lose focus on the upstream drivers even faster,
->>> usually after a customer project ends.
->>>
->>> So in practise what we try to do is keep the drivers working somehow on
->>> our own, even after the vendors are long gone. If we would deliberately
->>> allow breaking drivers because vendor/corporations don't support us, I
->>> suspect we would have sevaral broken drivers in upstream.
->>>
->>>> If Daniel and Hector are responsive to actual problem reports for the
->>>> changes they cause, I do think that should count a lot.
->>>
->>> Sure, but they could also respect to the review comments. I find Arend's
->>> proposal is reasonable and that's what I would implement in v2. We
->>> (linux-wireless) make abstractions to workaround firmware problems or
->>> interface conflicts all the time, just look at ath10k for example. I
->>> would not be surprised if we need to add even more abstractions to
->>> brcmfmac in the future. And Arend is the expert here, he has best
->>> knowledge of Broadcom devices and I trust him.
->>>
->>> Has anyone even investigated what it would need to implement Arend's
->>> proposal? At least I don't see any indication of that.
->>
->> Of course we can implement it (and we will as we actually got a report
->> of this patch breaking Cypress now, finally).
->>
->> The question was never whether it could be done, we're already doing a
->> bunch of abstractions to deal with just the Broadcom-only side of things
->> too. The point I was trying to make is that we need to *know* what
->> firmware abstractions we need and *why* they are needed. We can't just
->> say, for every change, "well, nobody knows if the existing code works or
->> not, so let's just add an abstraction just in case the change breaks
->> something". As far as anyone involved in the discussions until now could
->> tell, this code was just something some Cypress person dumped upstream,
->> and nobody involved was being responsive to any of our inquiries, so
->> there was no way to be certain it worked at all, whether it was
->> supported in public firmware, or anything else.
->>
->> *Now* that we know the existing code is actually functional and not just
->> dead/broken, and that the WSEC approach is conversely not functional on
->> the Cypress firmwares, it makes sense to introduce an abstraction.
-> 
-> Just a quick look in the git history could have told you that it was not 
-> just dumped upstream and at least one person was using it and extended 
-> it for 802.11r support (fast-roaming):
-> 
-> 
-> author	Paweł Drewniak <czajernia@gmail.com>	2021-08-24 23:13:30 +0100
-> committer	Kalle Valo <kvalo@codeaurora.org>	2021-08-29 11:33:07 +0300
-> commit	4b51de063d5310f1fb297388b7955926e63e45c9 (patch)
-> tree	ba2ccb5cbd055d482a8daa263f5e53531c07667f 
-> /drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-> parent	81f9ebd43659320a88cae8ed5124c50b4d47ab66 (diff)
-> download	wireless-4b51de063d5310f1fb297388b7955926e63e45c9.tar.gz
-> brcmfmac: Add WPA3 Personal with FT to supported cipher suites
-> This allows the driver to connect to BSSIDs supporting SAE with 802.11r.
-> Tested on Raspberry Pi 4 Model B (STA) and UniFi 6LR/OpenWRT 21.02.0-rc2.
-> AP was set to 'sae-mixed' (WPA2/3 Personal).
-> 
-> Signed-off-by: Paweł Drewniak <czajernia@gmail.com>
-> Signed-off-by: Kalle Valo <kvalo@codeaurora.org>
-> Link: https://lore.kernel.org/r/20210824221330.3847139-1-czajernia@gmail.com
+For nvme-apple it is always required as the driver only supports PRPs.
 
-Sure, but we also had user reports of it *not* actually working (maybe
-it regressed?). We didn't know whether it was functional with the
-linux-firmware blobs in any way, I wanted confirmation of that. And we
-also didn't know that the patch *would* break it at all; perhaps the
-Cypress firmware had also grown support for the WSEC mechanism.
+For nvme-pci when SGLs are supported we'll always use them for data I/O
+that would require a virt_boundary.
 
-That's why I wanted someone to actually confirm the code worked (in some
-subset of cases) and the patch didn't, before starting to introduce
-conditionals. There is, of course, also the element that the Cypress
-side has been long unmaintained, and if nobody is testing/giving
-feedback/complaining, perhaps it's better to err on the side of maybe
-breaking something and see if that gets someone to come out of the
-woodwork if it really breaks, rather than tiptoeing around the code
-without knowing what's going on and without anyone actually testing things.
+For nvme-rdma the virt boundary is always required, as RMDA MRs are just
+as dumb as NVMe PRPs.
 
-It's not about this *specific* patch, it's about the general situation
-of not being able to touch firmware interfaces "just in case Cypress
-breaks" being unsustainable in the long term. I wasn't pushing back
-because I think this particular one will be hard, I was pushing back
-because I can read the tea leaves and see this is not going to end well
-if it's the approach we start taking for everything. We *need* someone
-to be testing patches on Cypress, we can't just "try not to touch it"
-and cross our fingers. That just ends in disaster, we are not going to
-succeed in not breaking it either way and it's going to make the driver
-worse.
+For nvme-tcp and nvme-fc I set the flags for now because I don't
+understand the drivers fully, but I suspect the flags could be lifted.
 
-- Hector
+For nvme-loop the flag is never set as it doesn't have any requirements
+on the I/O format.
+
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ drivers/nvme/host/apple.c |  6 +++++
+ drivers/nvme/host/core.c  | 11 ++++++++-
+ drivers/nvme/host/fc.c    |  3 +++
+ drivers/nvme/host/nvme.h  |  4 +++
+ drivers/nvme/host/pci.c   | 52 ++++++++++++++++++++++-----------------
+ drivers/nvme/host/rdma.c  |  6 +++++
+ drivers/nvme/host/tcp.c   |  3 +++
+ 7 files changed, 61 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index 596bb11eeba5a9..a1afb54e3b4da8 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1116,6 +1116,12 @@ static void apple_nvme_reset_work(struct work_struct *work)
+ 		goto out;
+ 	}
+ 
++	/*
++	 * nvme-apple always uses PRPs and thus needs to set a virt boundary.
++	 */
++	set_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &anv->ctrl.flags);
++	set_bit(NVME_CTRL_VIRT_BOUNDARY_ADMIN, &anv->ctrl.flags);
++
+ 	ret = nvme_init_ctrl_finish(&anv->ctrl, false);
+ 	if (ret)
+ 		goto out;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 22dae2a26ba493..e2816c588c65d1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1872,6 +1872,14 @@ static int nvme_configure_metadata(struct nvme_ctrl *ctrl,
+ 	return 0;
+ }
+ 
++static bool nvme_need_virt_boundary(struct nvme_ctrl *ctrl,
++		struct request_queue *q)
++{
++	if (q == ctrl->admin_q)
++		return test_bit(NVME_CTRL_VIRT_BOUNDARY_ADMIN, &ctrl->flags);
++	return test_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &ctrl->flags);
++}
++
+ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+ 		struct request_queue *q)
+ {
+@@ -1885,7 +1893,8 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+ 		blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
+ 		blk_queue_max_segments(q, min_t(u32, max_segments, USHRT_MAX));
+ 	}
+-	blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
++	if (nvme_need_virt_boundary(ctrl, q))
++		blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
+ 	blk_queue_dma_alignment(q, 3);
+ 	blk_queue_write_cache(q, vwc, vwc);
+ }
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 9f9a3b35dc64d3..b4540fb31a0d0b 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -3112,6 +3112,9 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 
+ 	set_bit(NVME_FC_Q_LIVE, &ctrl->queues[0].flags);
+ 
++	set_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &ctrl->ctrl.flags);
++	set_bit(NVME_CTRL_VIRT_BOUNDARY_ADMIN, &ctrl->ctrl.flags);
++
+ 	/*
+ 	 * Check controller capabilities
+ 	 *
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 3dbd187896d8d8..dac000291a09ae 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -252,6 +252,10 @@ enum nvme_ctrl_flags {
+ 	NVME_CTRL_STOPPED		= 3,
+ 	NVME_CTRL_SKIP_ID_CNS_CS	= 4,
+ 	NVME_CTRL_DIRTY_CAPABILITY	= 5,
++	/* set the virt_boundary on the admin queue */
++	NVME_CTRL_VIRT_BOUNDARY_ADMIN	= 6,
++	/* set the virt_boundary on the I/O queues */
++	NVME_CTRL_VIRT_BOUNDARY_IO	= 7,
+ };
+ 
+ struct nvme_ctrl {
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 507bc149046dc8..6be2e827c426ba 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -60,8 +60,7 @@ MODULE_PARM_DESC(max_host_mem_size_mb,
+ static unsigned int sgl_threshold = SZ_32K;
+ module_param(sgl_threshold, uint, 0644);
+ MODULE_PARM_DESC(sgl_threshold,
+-		"Use SGLs when average request segment size is larger or equal to "
+-		"this size. Use 0 to disable SGLs.");
++		"Use SGLs when > 0. Use 0 to disable SGLs.");
+ 
+ #define NVME_PCI_MIN_QUEUE_SIZE 2
+ #define NVME_PCI_MAX_QUEUE_SIZE 4095
+@@ -504,23 +503,6 @@ static void nvme_commit_rqs(struct blk_mq_hw_ctx *hctx)
+ 	spin_unlock(&nvmeq->sq_lock);
+ }
+ 
+-static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req,
+-				     int nseg)
+-{
+-	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+-	unsigned int avg_seg_size;
+-
+-	avg_seg_size = DIV_ROUND_UP(blk_rq_payload_bytes(req), nseg);
+-
+-	if (!nvme_ctrl_sgl_supported(&dev->ctrl))
+-		return false;
+-	if (!nvmeq->qid)
+-		return false;
+-	if (!sgl_threshold || avg_seg_size < sgl_threshold)
+-		return false;
+-	return true;
+-}
+-
+ static void nvme_free_prps(struct nvme_dev *dev, struct request *req)
+ {
+ 	const int last_prp = NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
+@@ -769,12 +751,20 @@ static blk_status_t nvme_setup_sgl_simple(struct nvme_dev *dev,
+ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		struct nvme_command *cmnd)
+ {
++	struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
++	bool sgl_supported;
+ 	blk_status_t ret = BLK_STS_RESOURCE;
+ 	int rc;
+ 
++	/*
++	 * Check the NVME_CTRL_VIRT_BOUNDARY_IO flag to see if the controller
++	 * supports SGLs, as the sgl_threshold module paramter can be changed
++	 * at runtime.
++	 */
++	sgl_supported = nvmeq->qid &&
++		test_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &dev->ctrl.flags);
+ 	if (blk_rq_nr_phys_segments(req) == 1) {
+-		struct nvme_queue *nvmeq = req->mq_hctx->driver_data;
+ 		struct bio_vec bv = req_bvec(req);
+ 
+ 		if (!is_pci_p2pdma_page(bv.bv_page)) {
+@@ -782,8 +772,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 				return nvme_setup_prp_simple(dev, req,
+ 							     &cmnd->rw, &bv);
+ 
+-			if (nvmeq->qid && sgl_threshold &&
+-			    nvme_ctrl_sgl_supported(&dev->ctrl))
++			if (sgl_supported)
+ 				return nvme_setup_sgl_simple(dev, req,
+ 							     &cmnd->rw, &bv);
+ 		}
+@@ -806,7 +795,7 @@ static blk_status_t nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		goto out_free_sg;
+ 	}
+ 
+-	if (nvme_pci_use_sgls(dev, req, iod->sgt.nents))
++	if (sgl_supported)
+ 		ret = nvme_pci_setup_sgls(dev, req, &cmnd->rw);
+ 	else
+ 		ret = nvme_pci_setup_prps(dev, req, &cmnd->rw);
+@@ -3019,10 +3008,27 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		goto out_disable;
+ 	}
+ 
++	/*
++	 * The admin queue alwyas uses PRPs and thus needs to set the
++	 * virt_boundary to avoid offsets into subsequent PRPs.
++	 */
++	set_bit(NVME_CTRL_VIRT_BOUNDARY_ADMIN, &dev->ctrl.flags);
++
+ 	result = nvme_init_ctrl_finish(&dev->ctrl, false);
+ 	if (result)
+ 		goto out_disable;
+ 
++	/*
++	 * If the controller supports SGLs we'll always use them for non-trivial
++	 * I/O on the I/O queues unless they were explicitly disabled using the
++	 * module paramater. 
++	 *
++	 * This removes the need for the virt_boundary and thus expensive
++	 * checking in the block layer.
++	 */
++	if (!nvme_ctrl_sgl_supported(&dev->ctrl) || !sgl_threshold)
++		set_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &dev->ctrl.flags);
++
+ 	nvme_dbbuf_dma_alloc(dev);
+ 
+ 	result = nvme_setup_host_mem(dev);
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index bc90ec3c51b078..7f017b54cc7fd0 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -822,6 +822,12 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl,
+ 	if (error)
+ 		goto out_remove_admin_tag_set;
+ 
++	/*
++	 * RDMA MRs don't allow offsets into subsequent pages, just like PRPs.
++	 */
++	set_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &ctrl->ctrl.flags);
++	set_bit(NVME_CTRL_VIRT_BOUNDARY_ADMIN, &ctrl->ctrl.flags);
++
+ 	error = nvme_enable_ctrl(&ctrl->ctrl);
+ 	if (error)
+ 		goto out_stop_queue;
+diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+index d79811cfa0ce88..cc29c7899e805a 100644
+--- a/drivers/nvme/host/tcp.c
++++ b/drivers/nvme/host/tcp.c
+@@ -2097,6 +2097,9 @@ static int nvme_tcp_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
+ 	if (error)
+ 		goto out_cleanup_tagset;
+ 
++	set_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &ctrl->flags);
++	set_bit(NVME_CTRL_VIRT_BOUNDARY_ADMIN, &ctrl->flags);
++
+ 	error = nvme_enable_ctrl(ctrl);
+ 	if (error)
+ 		goto out_stop_queue;
+-- 
+2.39.2
+
