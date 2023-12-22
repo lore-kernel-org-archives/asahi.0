@@ -1,232 +1,279 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2059.outbound.protection.outlook.com [40.107.96.59])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC001A31
-	for <asahi@lists.linux.dev>; Fri, 22 Dec 2023 01:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE60546A8
+	for <asahi@lists.linux.dev>; Fri, 22 Dec 2023 05:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YDWoPXPf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nYAzhkvXXPu888kq5rCc+8VrJbK9zYLZGQZgPrI/eKISo9xjK5PIqm2tYzFKv0jf2o0PMxaJ2Z1+qpkWSOSdaI9bwHyqrLho8MkgqpWwNrcgMLqIuqv89vzF/ZUcNQ4cz6HGd/KGkMrPII50QwhYFrok9bvIQljrIfYq7sxd1cZzJS8DwMEaI2g8fftOSi83aNreG/13DTnlIJuPA694oAaB0wmdyagpD/vnrIJHJHQhfif7KfuEzeG6IGtKf+SGUJuJiwTOLDd8o8SS5rd62Tngp8pVa2wIfbgu6GBhKvdcpdtbxdho06hYu7QVepOq5JDOytgDDm5+BV5pCkjLIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M0rO2AQ3CfmeTUZ8C2p8heY7uLvVF3isNvPX5EYJyNw=;
- b=I+gjNysoekp7RutqxaaE6pkvzHltz/8uomubgFnfzZPk5WI2PDjAe2lHJV1pwjXKpoKY6Lld/EOsKyPzW4nbV1cXFi6WhnTVCpjjAnxaH0WPdMoWb4ck3qA0gdPA+7gE+8B/lh2nXf0rXG9bI6YUgWCCqiAbz7SCfL3KaT1KhTUF5StVbGZWgNjR2Qgwd2IYPJzQu6Kyy2RMiRho5Lr1FRZQCDFXpsJgjnmQNC322WIaxPPF0JGZHRsZdOslkpPsc8LHvJs/yLOZUVy7ualSwhwhiQfSWrFjUgW+1tbWJuhXNqxmdBxHYWeRbHZSA+yBb64Fy1oPOKEge7zPO5PArw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M0rO2AQ3CfmeTUZ8C2p8heY7uLvVF3isNvPX5EYJyNw=;
- b=YDWoPXPfxW6MIoUIMyXSeAW0tR1VvPw7i1jyhG4rZXnORKxYTfaDR7hplmakMzthFNCxS4CrrntWJ6pLzi8fjQnqiBUuCCPCLmVwTNtMWNwdidWwtNY3KL8r6/waslWkWOs5jh4k5OaATFBml0MZvIKCghsBUTrCrLF7Bb4Fnfv1DxTuxyGTBS3/434Seqegcr03KgyWKWT6L8qygPHJ6K3ijQuNnUR9KMMOUHvdBczLNQUcnL+slnPRaJ8VBeV3bfVSvK4r+IbVipcEa/P/tZ9R0tfu/YJMA+AaXr/aYOb5Y8AE78pgPFFsH76xoQZS5oGtOQedDoBjKGAXZAOBcg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
- by PH0PR12MB7791.namprd12.prod.outlook.com (2603:10b6:510:280::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7113.18; Fri, 22 Dec
- 2023 01:16:34 +0000
-Received: from DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::6f3c:cedb:bf1e:7504]) by DM4PR12MB5040.namprd12.prod.outlook.com
- ([fe80::6f3c:cedb:bf1e:7504%4]) with mapi id 15.20.7113.019; Fri, 22 Dec 2023
- 01:16:34 +0000
-Message-ID: <8cfe55f2-4f2e-46f9-bbc8-5ab80d06f3d5@nvidia.com>
-Date: Fri, 22 Dec 2023 03:16:28 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] nvme: don't set a virt_boundary unless needed
-Content-Language: en-US
-To: linux-nvme@lists.infradead.org, Christoph Hellwig <hch@lst.de>,
- marcan@marcan.st, sven@svenpeter.dev, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, James Smart <james.smart@broadcom.com>
-References: <20231221084853.1175482-1-hch@lst.de>
- <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
-From: Max Gurtovoy <mgurtovoy@nvidia.com>
-Cc: alyssa@rosenzweig.io, asahi@lists.linux.dev,
- Chaitanya Kulkarni <kch@nvidia.com>
-In-Reply-To: <155ec506-ede8-42c7-95f7-e8be32800a8d@grimberg.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO4P123CA0204.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a5::11) To DM4PR12MB5040.namprd12.prod.outlook.com
- (2603:10b6:5:38b::19)
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="fdxdE6Va"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id AC0BE42529;
+	Fri, 22 Dec 2023 05:10:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1703221836; bh=isW7kSOvN8g1kwYojvPPUbUdI9KkQjc87f5qybjzZrQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=fdxdE6VaEoXh5IIbZ5sgkVHKwYEfchv3k/qs8V9tKDp/81Yoj0+U0xpRAMu5WWh/n
+	 s6WyoPBCaw+AJ0J30O5qBUmwPVy6qlbgmWsBBNd4GppQUYKpxDm/d+G6K2Ew13XQ3K
+	 XBSW+k5N1o4VpHTQIE6uf2Ih7YEMqUqm9VnDGNpiBPh9YjDbs77SVpl0xaWc+CEBkC
+	 DGp7tq9qvfP2H951Y4ZGVTwSJa2K+/x2WG9IcLYz/lRce8MUJ9eze+DyeA1+YmQQ4S
+	 Tf8gA7bWhsjtjOAVrphvUwfraEKinVfWelBXkGVUWAXS35cy4npFCwrVXRppaiQGcu
+	 vGMQFNY1d1Ciw==
+Message-ID: <37bd3f8a-1000-4d74-8909-5e821cb5c1dc@marcan.st>
+Date: Fri, 22 Dec 2023 14:10:28 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|PH0PR12MB7791:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad452b7f-778c-40bb-6eed-08dc028ba315
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	x0doQ5Rl97ed3NDMs3iRfy5I20OwJHmzd5i6knIfodlIyFiqSJxaiD/7UB5IsDySreFEtBnuX0lwikv3gy4S7JHlD+ve6LeLSiMP+4WcPeSu9TEwxs5SNajy6hdXD8vKul6ZM+VL2NZI1drQzrY69Fu0BBkVE1P2Iu+O50vukn8g/OP8mMQgzHyru6k4WRLV7W0wZu70gWfWSqkIs6z7elNssNE+Vof+3oA0oxMa1P0RaC5MUpKTxNoVWrXkXbWNSu+0+HcWNWmMBXIdMc5Mf80/Lj8nn/qVGGPMnD0TVEYPzPMAxR6qPCfIlbD/SuXXZisgedRHV9uE6W0yIoOL8HA40kI91dgyv/oQkvbNKPW3E6VYxaqRbLsZwidlIaBkgHk9esPZHZDcSPL/1hHkuIbU/JYrFCabmPeu5q8bOA3384znetQLBtq7g83BimmS8Ugl221nr4nP43OVxG6Lx/gxn1bcoXyXXe/yf1aWDHnRW+HmgStvEleCPudgu54iKzsXjGa2vqFJglHYKaDIx+U8DfHPKDjBFqfL5DDiy49DAh+qfG4O+OsGXL7kxfszRHZ7Bnf26Kc+AWSgUbF50Q9CXgVtx/G1yDzFgEFLA7SBjkMVjJaQC0C77iWGY5b5O/ER5HLd98SDwb3jLkgjeg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(396003)(39860400002)(346002)(376002)(136003)(366004)(230922051799003)(451199024)(186009)(1800799012)(64100799003)(478600001)(6486002)(4326008)(38100700002)(5660300002)(110136005)(316002)(66476007)(66946007)(66556008)(8676002)(8936002)(26005)(83380400001)(2616005)(107886003)(31686004)(6666004)(53546011)(6506007)(6512007)(36756003)(31696002)(41300700001)(86362001)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OVUzUjB1MTVtcHBrcnlhS2kzUVBtNENnanZCMlVhb2QyakRLZGlrbXFXRmE4?=
- =?utf-8?B?eGZiU29xRlFjR0I0TjExRHB3SWFPSEEyczZhQ3FlRWlxdHYzaVI0cFVLUlZK?=
- =?utf-8?B?N2FxMS9EM3JzZ3lvejAyQnArdHNCcG1xcUU4RGxYcXl1bGVKZE1DQ0dvbFFz?=
- =?utf-8?B?MXN5ZytReGJua3p3a2JWQUVLVHgxODhKVW04Qmg0a1poRCtLN05LbG9pa2Np?=
- =?utf-8?B?WWVhcUdwZEp3dzk2d2lzZldnM2hQYVM1QmMwRy9TU2hUcjZzUW04Y3VLL2lX?=
- =?utf-8?B?eFE1a1k1ZFNKN2RybE11eld3WXdKSFJzTUUzWVJUOTNXNG4rU0FyeGozVGZR?=
- =?utf-8?B?TFRFbHFsSm5YWTBOc1pQTVp4WFVDeWE4d0cyTDAzdXJTMzYvRlA0TE5WZnZ6?=
- =?utf-8?B?NEJteHVocFJORFpRVXpTblQzK3A1RElyMW51WFZrWFF6K2tWTGlLcm5LaTJE?=
- =?utf-8?B?MU9hTEYzT3lhMU9Ra3MrSHhYZTVwSHhEam5qUFVibFdJU3g4akhvTlBCdEpx?=
- =?utf-8?B?MHlTd0MzMkJKZE02Si91eVRERkJNV0k5UWJ5RU0yY0RoVUFtUkRiZXVHeHph?=
- =?utf-8?B?eGtjOHl5K1huU3JRZk5HcXhab2JicVFFNE1DOFlVU2JPY0QxckowZWY0TzBD?=
- =?utf-8?B?WnVwUmh6Z2hJSi9wSEdYaDAvb2lLdnJraEF1b2JVR1RnM2tDdmFGR0p2Tm90?=
- =?utf-8?B?MXlSNGQ4OVNRb3RCcW9TbW80STU1NWMrNWJSQi9TUGJvWlY0R2J2ZjlldkJt?=
- =?utf-8?B?VzZjSGNMM2xHcFNMQnprSHVtaDQ4OUN1VGNzQ0JxVjZLK1ErRm4xVHJKMS9J?=
- =?utf-8?B?M0gyNW1WZDhWSGo4THhzaXF5WmM5cEs2NExXS29VM0RhS1g5dEd2S3lGNDAv?=
- =?utf-8?B?dUpxRzd5NmpJSW41bG0wM3FhNXRSSThJRTJ6N3A2bEdUZXJqQTVNQlgxbkpO?=
- =?utf-8?B?OUI4WW9ySTk1amU2dlduQ0VuRUl5L0FrK2UrUHJnUEVXMXphNnJFR1JXbDBh?=
- =?utf-8?B?UExydTBxcGRpTmhMS3ZDdVlnVzJqTHkwSFFWQXZJcGZsQStyQk9ZLzZ2azA1?=
- =?utf-8?B?a2NhbTBSTVpOVGE0TXBXOFBSSmdabDlHWHh4a2R6SCsxaWZrbmNZSDBXQkVy?=
- =?utf-8?B?L29OUC9UYmtzZ2RiUDdsNS81c2Yrb2xNczAxZkhLMjVDUjZSMU5HeFJiZHFC?=
- =?utf-8?B?SUtMNGJmdGZKbFFIQVdzUnk2NWtrbXgzcVNJeW1weHhrMkF3VVpKYjVvTlRi?=
- =?utf-8?B?UXpQRVg3M0lnMkFnSWtJYlpwSzVDQVpLbXplb0gzK3Q3S0Ywa2I1bXVXcExk?=
- =?utf-8?B?MWtCblpmN3g1WEtFOWhiVmVQS1hYNERwVWRDd2hWeE0rOXN1SlRtNWo4QVRD?=
- =?utf-8?B?dTNhUVRvZ3FMM2FkUnEwQW5nTnRJQmxRYWJjZk9nTGxLKzR2SUdTSmJFQkYy?=
- =?utf-8?B?UEU5WEVhQ3VLRU9ZME5jNzNDdVM3VGVzcU0ya3hieFNCTUJoZ2pmTDJqVHQ4?=
- =?utf-8?B?ZzZJY21oSmNkbWp5U0x1N1lhdGxjdTc5akw2UEEwSnNVM3dRQ2pVbDBCMm55?=
- =?utf-8?B?M1RKSlVtcERpS2hIWDBiWWd5NnFqdTZoK281d3RFd0hCQjRmMmZibmkrZEtw?=
- =?utf-8?B?ZlU0azRIUkFBV2hTb2lGaTZOSmNRUU5QMi9CaXBMcE44MjN4c05YZHdGRkh6?=
- =?utf-8?B?b1FRNFEycmVpUG9mSG8wRU5qY3FZaUgzb2dmdFVTbTlvVVNOenlnR3l6QzYr?=
- =?utf-8?B?SzJyMjZBSzlsNE9FbWhoQXNTbEV3UjFVR2FRV2E5VHBsNm9XcnNPVFcvVjF3?=
- =?utf-8?B?bU5KdlJVdC9MR1RCZC9jNlE3N0VWVTJ2cHNuL3BicTFBb3o2V2luTEttaVdI?=
- =?utf-8?B?UzhDZkEyeWdBYWM0d1RDbE9IdFpMOFlBNGkzajVZcE8yU2VIVjJFcWlZZmhH?=
- =?utf-8?B?S01ncWZLK09YU2NwNjVDWVYvc29GSURidjM1Q3RvQ2pxTlFmTThaUHNWNG0x?=
- =?utf-8?B?Y3JVMlFUMkFZZUNPRDF2WS9XR1hHcmRnRkJhZEZ3MUJuRGpUdjI1MWpaVzk2?=
- =?utf-8?B?K2IvNytGcTcrdW9NcW1weEJoYnlLOFJwTjg4eFBDNFlVTGJIMnA3dm9LSGFT?=
- =?utf-8?Q?EZqziSL3PUiBDwdquvBUS8hxf?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad452b7f-778c-40bb-6eed-08dc028ba315
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2023 01:16:34.2169
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JF5ietoMDfWCq7zH02RXt5HX2w+kdwzRPRtBXR7TLxWO2QZlGtWjo1gAr3I3rI4j0mxd7X9D5J9mOA4S5svr9A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7791
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Use WSEC to set SAE password
+Content-Language: en-US
+To: Arend van Spriel <arend.vanspriel@broadcom.com>,
+ Kalle Valo <kvalo@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Daniel Berlin <dberlin@dberlin.org>, Arend van Spriel
+ <aspriel@gmail.com>, Franky Lin <franky.lin@broadcom.com>,
+ Hante Meuleman <hante.meuleman@broadcom.com>, asahi@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org,
+ linux-wireless@vger.kernel.org, David Airlie <airlied@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+ <170281231651.2255653.7498073085103487666.kvalo@kernel.org>
+ <18c80d15e30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+ <1b51997f-2994-46e8-ac58-90106d1c486d@marcan.st>
+ <c392f901-789a-42e2-8cf7-5e246365a1ca@broadcom.com>
+ <CAF4BwTXNtu30DAgBXo4auDaDK0iWc9Ch8f=EH+facQ-_F-oMUQ@mail.gmail.com>
+ <87r0jiqmnx.fsf@kernel.org> <01bd8c68-1b9c-49b2-8ace-1c7d1b5192ad@marcan.st>
+ <CAHk-=whDLKZZEuxU_jEhZRdeWjXAkL8=J_JRk2Ar6wp9UK3h2w@mail.gmail.com>
+ <871qbhqio8.fsf@kernel.org> <4c89b71e-8667-40fe-add0-205748de51ef@marcan.st>
+ <bdb078c0-2f45-485a-86a0-bb7d0b5e3516@broadcom.com>
+ <d5e26dd4-483d-4662-ba83-5cb19187b24a@marcan.st>
+ <31292508-f881-4457-a4bf-2ca0b8e8f435@broadcom.com>
+From: Hector Martin <marcan@marcan.st>
+In-Reply-To: <31292508-f881-4457-a4bf-2ca0b8e8f435@broadcom.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
 
-On 21/12/2023 11:30, Sagi Grimberg wrote:
+On 2023/12/21 18:57, Arend van Spriel wrote:
+> - SHA-cyfmac-dev-list@infineon.com
 > 
->> NVMe PRPs are a pain and force the expensive virt_boundary checking on
->> block layer, prevent secure passthrough and require scatter/gather I/O
->> to be split into multiple commands which is problematic for the upcoming
->> atomic write support.
-> 
-> But is the threshold still correct? meaning for I/Os small enough the
-> device will have lower performance? I'm not advocating that we keep it,
-> but we should at least mention the tradeoff in the change log.
-> 
->> Fix the NVMe core to require an opt-in from the drivers for it.
+> On 12/21/2023 1:49 AM, Hector Martin wrote:
 >>
->> For nvme-apple it is always required as the driver only supports PRPs.
 >>
->> For nvme-pci when SGLs are supported we'll always use them for data I/O
->> that would require a virt_boundary.
+>> On 2023/12/21 4:36, Arend van Spriel wrote:
+>>> On 12/20/2023 7:14 PM, Hector Martin wrote:
+>>>>
+>>>>
+>>>> On 2023/12/20 19:20, Kalle Valo wrote:
+>>>>> Linus Torvalds <torvalds@linux-foundation.org> writes:
+>>>>>
+>>>>>>> Just recently a patch was posted to remove the Infineon list from
+>>>>>>> MAINTAINERS because that company cares so little they have literally
+>>>>>>> stopped accepting emails from us. Meanwhile they are telling their
+>>>>>>> customers that they do not recommend upstream brcmfmac and they should
+>>>>>>> use their downstream driver [1].
+>>>>>>
+>>>>>> Unquestionably broadcom is not helping maintain things, and I think it
+>>>>>> should matter.
+>>>>>>
+>>>>>> As Hector says, they point to their random driver dumps on their site
+>>>>>> that you can't even download unless you are a "Broadcom community
+>>>>>> member" or whatever, and hey - any company that works that way should
+>>>>>> be seen as pretty much hostile to any actual maintenance and proper
+>>>>>> development.
+>>>>>
+>>>>> Sadly this is the normal in the wireless world. All vendors focus on the
+>>>>> latest generation, currently it's Wi-Fi 7, and lose interest on older
+>>>>> generations. And vendors lose focus on the upstream drivers even faster,
+>>>>> usually after a customer project ends.
+>>>>>
+>>>>> So in practise what we try to do is keep the drivers working somehow on
+>>>>> our own, even after the vendors are long gone. If we would deliberately
+>>>>> allow breaking drivers because vendor/corporations don't support us, I
+>>>>> suspect we would have sevaral broken drivers in upstream.
+>>>>>
+>>>>>> If Daniel and Hector are responsive to actual problem reports for the
+>>>>>> changes they cause, I do think that should count a lot.
+>>>>>
+>>>>> Sure, but they could also respect to the review comments. I find Arend's
+>>>>> proposal is reasonable and that's what I would implement in v2. We
+>>>>> (linux-wireless) make abstractions to workaround firmware problems or
+>>>>> interface conflicts all the time, just look at ath10k for example. I
+>>>>> would not be surprised if we need to add even more abstractions to
+>>>>> brcmfmac in the future. And Arend is the expert here, he has best
+>>>>> knowledge of Broadcom devices and I trust him.
+>>>>>
+>>>>> Has anyone even investigated what it would need to implement Arend's
+>>>>> proposal? At least I don't see any indication of that.
+>>>>
+>>>> Of course we can implement it (and we will as we actually got a report
+>>>> of this patch breaking Cypress now, finally).
+>>>>
+>>>> The question was never whether it could be done, we're already doing a
+>>>> bunch of abstractions to deal with just the Broadcom-only side of things
+>>>> too. The point I was trying to make is that we need to *know* what
+>>>> firmware abstractions we need and *why* they are needed. We can't just
+>>>> say, for every change, "well, nobody knows if the existing code works or
+>>>> not, so let's just add an abstraction just in case the change breaks
+>>>> something". As far as anyone involved in the discussions until now could
+>>>> tell, this code was just something some Cypress person dumped upstream,
+>>>> and nobody involved was being responsive to any of our inquiries, so
+>>>> there was no way to be certain it worked at all, whether it was
+>>>> supported in public firmware, or anything else.
+>>>>
+>>>> *Now* that we know the existing code is actually functional and not just
+>>>> dead/broken, and that the WSEC approach is conversely not functional on
+>>>> the Cypress firmwares, it makes sense to introduce an abstraction.
+>>>
+>>> Just a quick look in the git history could have told you that it was not
+>>> just dumped upstream and at least one person was using it and extended
+>>> it for 802.11r support (fast-roaming):
+>>>
+>>>
+>>> author	Paweł Drewniak <czajernia@gmail.com>	2021-08-24 23:13:30 +0100
+>>> committer	Kalle Valo <kvalo@codeaurora.org>	2021-08-29 11:33:07 +0300
+>>> commit	4b51de063d5310f1fb297388b7955926e63e45c9 (patch)
+>>> tree	ba2ccb5cbd055d482a8daa263f5e53531c07667f
+>>> /drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+>>> parent	81f9ebd43659320a88cae8ed5124c50b4d47ab66 (diff)
+>>> download	wireless-4b51de063d5310f1fb297388b7955926e63e45c9.tar.gz
+>>> brcmfmac: Add WPA3 Personal with FT to supported cipher suites
+>>> This allows the driver to connect to BSSIDs supporting SAE with 802.11r.
+>>> Tested on Raspberry Pi 4 Model B (STA) and UniFi 6LR/OpenWRT 21.02.0-rc2.
+>>> AP was set to 'sae-mixed' (WPA2/3 Personal).
+>>>
+>>> Signed-off-by: Paweł Drewniak <czajernia@gmail.com>
+>>> Signed-off-by: Kalle Valo <kvalo@codeaurora.org>
+>>> Link: https://lore.kernel.org/r/20210824221330.3847139-1-czajernia@gmail.com
 >>
->> For nvme-rdma the virt boundary is always required, as RMDA MRs are just
->> as dumb as NVMe PRPs.
-> 
-> That is actually device dependent. The driver can ask for a pool of
-> mrs with type IB_MR_TYPE_SG_GAPS if the device supports IBK_SG_GAPS_REG.
-> 
-> See from ib_srp.c:
-> -- 
->         if (device->attrs.kernel_cap_flags & IBK_SG_GAPS_REG)
->                  mr_type = IB_MR_TYPE_SG_GAPS;
->          else
->                  mr_type = IB_MR_TYPE_MEM_REG;
-
-For now, I prefer not using the IB_MR_TYPE_SG_GAPS MR in NVMe/RDMA since 
-in the case of virtual contiguous data buffers it is better to use 
-IB_MR_TYPE_MEM_REG. It gives much better performance. This is the reason 
-I didn't add IB_MR_TYPE_SG_GAPS MR support for NVMe/RDMA.
-
-I actually had a plan to re-write the IB_MR_TYPE_SG_GAPS MR logic (or 
-create a new MR type) that will internally open 2 MRs so if the IO is 
-contiguous it will use the MTT/MEM_REG and if it isn't it will use the 
-KLM/SG_GAPS.
-This is how we implemented the SIG_MR but still didn't make it for the 
-IB_MR_TYPE_SG_GAPS MR.
-
-Actually, I think we should have the same logic in the NVMe PCI driver:
-if the IOs can be delivered as PRPs then the driver will prepare SQE 
-with PRP. Otherwise, driver will prepare SGL.
-I think that doing the check in the driver for each IO is not so bad and 
-devices will get benefit from it. Usually HW devices like to work with 
-contiguous buffers. If the buffers can't be mapped with PRPs, then the 
-HW will work a bit harder and use SGLs (it is better than doing a bounce 
-buffer in the block layer).
-
-I actually did a POC internally for NVMe/RDMA and created sg_gaps ib_mr 
-and mem_reg ib_mr and checked the buffers mapping for each IO and got a 
-big benefit if the buffers were discontig (used the sg_gaps mr). Also 
-the contig buffers performance didn't degraded because of the check of 
-the buffers mapping.
-
-I created a fio flags that in purpose sends discontig IOs for my testing.
-
-WDYT ?
-
-
-> -- 
-> 
+>> Sure, but we also had user reports of it *not* actually working (maybe
+>> it regressed?). We didn't know whether it was functional with the
+>> linux-firmware blobs in any way, I wanted confirmation of that. And we
+>> also didn't know that the patch *would* break it at all; perhaps the
+>> Cypress firmware had also grown support for the WSEC mechanism.
 >>
->> For nvme-tcp and nvme-fc I set the flags for now because I don't
->> understand the drivers fully, but I suspect the flags could be lifted.
+>> That's why I wanted someone to actually confirm the code worked (in some
+>> subset of cases) and the patch didn't, before starting to introduce
+>> conditionals. There is, of course, also the element that the Cypress
+>> side has been long unmaintained, and if nobody is testing/giving
+>> feedback/complaining, perhaps it's better to err on the side of maybe
+>> breaking something and see if that gets someone to come out of the
+>> woodwork if it really breaks, rather than tiptoeing around the code
+>> without knowing what's going on and without anyone actually testing things.
 > 
-> tcp can absolutely omit virt boundaries.
-> 
->> For nvme-loop the flag is never set as it doesn't have any requirements
->> on the I/O format.
->>
->> Signed-off-by: Christoph Hellwig <hch@lst.de>
->> ---
->>   drivers/nvme/host/apple.c |  6 +++++
->>   drivers/nvme/host/core.c  | 11 ++++++++-
->>   drivers/nvme/host/fc.c    |  3 +++
->>   drivers/nvme/host/nvme.h  |  4 +++
->>   drivers/nvme/host/pci.c   | 52 ++++++++++++++++++++++-----------------
->>   drivers/nvme/host/rdma.c  |  6 +++++
->>   drivers/nvme/host/tcp.c   |  3 +++
->>   7 files changed, 61 insertions(+), 24 deletions(-)
->>
->> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
->> index 596bb11eeba5a9..a1afb54e3b4da8 100644
->> --- a/drivers/nvme/host/apple.c
->> +++ b/drivers/nvme/host/apple.c
->> @@ -1116,6 +1116,12 @@ static void apple_nvme_reset_work(struct 
->> work_struct *work)
->>           goto out;
->>       }
->> +    /*
->> +     * nvme-apple always uses PRPs and thus needs to set a virt 
->> boundary.
->> +     */
->> +    set_bit(NVME_CTRL_VIRT_BOUNDARY_IO, &anv->ctrl.flags);
->> +    set_bit(NVME_CTRL_VIRT_BOUNDARY_ADMIN, &anv->ctrl.flags);
->> +
-> 
-> Why two flags? Why can't the core just always set the blk virt boundary
-> on the admin request queue?
+> That is because you distrust the intent that Cypress was really 
+> contributing. They were and I trusted them to not just throw in a 
+> feature like WPA3. When Infineon took over they went mute. Upon 
+> reviewing your patch (again) I also sent an email to them asking 
+> specifically about the status of the sae_password interface. I did not 
+> use the mailing list which indeed bounces these days (hence removed 
+> them) but the last living soul that I had contact with about a year ago 
+> whether they were still comitted to be involved. I guess out of 
+> politeness or embarrassment I got confirmation they were and never heard 
+> from him again. The query about the sae_password interface is still pending.
 
-I also think that a single flag is good enough.
+If only corporate acquisition politics didn't repeatedly throw a wrench
+into this one... :/
+
+This is where we are though, Infineon clearly doesn't care, so it's time
+to move on.
+
+>> It's not about this *specific* patch, it's about the general situation
+>> of not being able to touch firmware interfaces "just in case Cypress
+>> breaks" being unsustainable in the long term. I wasn't pushing back
+>> because I think this particular one will be hard, I was pushing back
+>> because I can read the tea leaves and see this is not going to end well
+>> if it's the approach we start taking for everything. We *need* someone
+>> to be testing patches on Cypress, we can't just "try not to touch it"
+>> and cross our fingers. That just ends in disaster, we are not going to
+>> succeed in not breaking it either way and it's going to make the driver
+>> worse.
 > 
->>       ret = nvme_init_ctrl_finish(&anv->ctrl, false);
->>       if (ret)
->>           goto out
-> 
+> I admire you ability of reading tea leaves. You saw the Grim I reckon. 
+> Admittedly your responses on every comment from my side (or Kalle for 
+> that matter) was polarizing every discussion. That is common way people 
+> treat each other nowadays especially online where a conversation is just 
+> a pile of text going shit. It does not bring out the best in me either, 
+> but it was draining every ounce of energy from me so better end it by 
+> stepping out.
+
+The hilariously outdated kernel development model surely doesn't help
+either (I've stated my opinion on this quite a few times if you've
+followed around) ;)
+
+This stuff gets *really* frustrating when you're trying to improve what
+is, I hope we can all admit, an undermaintained driver (that is not to
+say it's anyone's fault personally), and end up getting held back due to
+everything from coding style nitpicks to people not having the time to
+be responsive. It's just not helpful. It's important to know when to
+step aside and let people actually get stuff done.
+
+When Daniel started sending me brcmfmac patches downstream, I took a
+look at a few of them, decided he knew what he was doing, and just
+started pulling in his branches wholesale. Was it perfect? No, I had to
+debug at least one regression at one point. But it took me less time to
+do that than it would've to go through the commits with a fine toothed
+comb, so it was clearly the right decision.
+
+That is not to say that should be the standard upstream (we make a point
+of moving fast and breaking things more downstream, since it's a proving
+ground for what eventually will be upstreamed), but I think it does
+demonstrate the kind of delegation ability that is sorely lacking in
+many drivers and subsystems in the kernel these days. Maintainers become
+entrenched in their position, long beyond the point where they have the
+time/motivation/ability to drive the code forward, and end up in the way
+of new people who are trying to make a difference. I think Linus knows
+full well the kernel maintainer community is stagnating.
+
+That doesn't mean people should step down entirely. But it does mean
+they need to recognize when this is happening and, at least, proactively
+try to bring new people in, instead of just continuing to play a
+gatekeeping role. The role of maintainers should not be that of a wall
+people have to climb over to get their changes in, it should be to guide
+new contributors and help onboard people who can contribute, as peers
+and eventually as future maintainers.
+
+Kalle, in the other thread you said "this is not fun anymore, this is
+more like a business with requirements and demands coming from
+everywhere.". That's what it feels like to us when our changes get
+rejected because the local vars aren't in reverse Christmas tree order,
+or because our commit messages have "v2:" in them. It feels like some
+manager is trying to justify their position by creating busywork for
+everyone else. Nobody should actually care about any of those things,
+and if they do, they need to step back and really ask themselves how
+they ended up believing that. If the goal is to enforce a reasonable
+shared coding style so things don't spiral into chaos, FFS, let's just
+do what every other project does these days and adopt clang-format. Then
+*all* of us can stop wasting time on these trivialities and go back to
+getting stuff done. And really, nobody cares about commit messages as
+long as the tags are right, the subject line is succinct, and the
+important information is in there. Extra stuff never hurt anyone.
+
+> I added the ground work for multi-vendor support, but have not decided 
+> on the approach to take. Abstract per firmware interface primitive or 
+> simply have a cfg80211.c and fwil_types.h per vendor OR implement a 
+> vendor-specific cfg80211 callback and override the default callback 
+> during the driver attach, ie. in brcmf_fwvid_wcc_attach(). The latter 
+> duplicates things, but lean towards that as it may be easier on the 
+> long-term. What do your tea leaves tell you ;-)
+
+FWIW, I was hoping you'd stay on at least as a reviewer. Your
+contributions are valuable. You obviously know the driver and hardware
+much better than most people. I encourage you to, at least, post a v2 of
+the MAINTAINERS patch with yourself as an R: line.
+
+As far as the actual driver abstraction architecture, I'm going to leave
+it to Daniel to decide what makes the most sense, since he's the one
+introducing new mechanisms for that already. There's always room for
+refactoring later though, depending on the direction things take with
+the vendor split. BTW, clang-format also makes refactoring a lot less
+painful ;)
+
+- Hector
