@@ -1,110 +1,128 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.mrman314.tech (unknown [135.0.77.242])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC90D287
-	for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 19:29:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7703CDF53
+	for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 20:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mrman314.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mrman314.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c5LjRDC/"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50e759ece35so726025e87.3
-        for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 11:29:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703446152; x=1704050952; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tPKMTQPdvuHMZGXcGgR4PK3puQk6VQckI2AGeYN+ECc=;
-        b=c5LjRDC/jF8MhsD+FTFxhKDXZKrK5ATFQbRSPa/0A7BRO5o3mCPxVrs5hrdH7Pxevq
-         KwN54r+P8E6HHFDUUa6MMp9vN+idXW3/RO3rwI7Pn60J0rLFo7i9+3rclOtFndOEiObm
-         u8ICuATyuCsOgGr9MC32Xb3kNhgd8rEgP/WJHo94RoU0tVanPFcoKiS4souCNlL2lR+2
-         SVk+GG8LR7yWtXRqJyzaSC79w//KBFRLqYwzNGzmc4I9goc9Aq64NBuLBCPX1aR5rgU5
-         culyzYdhLVzjFMK/lCI5y+Xp0NSLDBPCT+pRBv7bBZnEjfVJlLI7nxH3Wym4aqD4exh2
-         baOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703446152; x=1704050952;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tPKMTQPdvuHMZGXcGgR4PK3puQk6VQckI2AGeYN+ECc=;
-        b=w7DPJpCofd+cKR9qN6Y2avePlOFfdGDiQytdx8jnH8zW2DrWLxMUFoACu4FGlCpKT7
-         yeezxjmuIeWswapXwoWWKxSfDkV5lkj+Rj59WTGCNUJTKBjCXi0keAy2u+G2hBPNZFOR
-         PfbSag30AfKAW5Ad46lnh5k4163xiRO7ywtNNNOH81CNbn8nk9y1r6tZBErKg00vdNzr
-         R7/nGzicT0O0xbx5M4c0psOkg/SQn0kDJFB+Rw5WP2P6u66i+trBlhqljOfDCSw0ldW7
-         JdKf+Q3mxJCHfToBckgZThATOuCi0CJrkmePCAzmhYc5rvK9OEquBD2bYwP368nJ1aKT
-         MEzg==
-X-Gm-Message-State: AOJu0YyT1yFlO6oHoq4+QV305/puV0OZWYB/rFLM9onckSYI8waHhBT+
-	lRbPhflX/yOZF5eQfQB+d4I=
-X-Google-Smtp-Source: AGHT+IGqTgpTBzEY2RQLyQKIQcJ5kJdhiX9G2uvCSdw7ZP/JLjzXwNrA+qUo+bnVcgQ3k6J6S9mS3A==
-X-Received: by 2002:a05:6512:39c9:b0:50e:7c6e:f237 with SMTP id k9-20020a05651239c900b0050e7c6ef237mr35751lfu.135.1703446152052;
-        Sun, 24 Dec 2023 11:29:12 -0800 (PST)
-Received: from home.paul.comp (paulfertser.info. [2001:470:26:54b:226:9eff:fe70:80c2])
-        by smtp.gmail.com with ESMTPSA id c2-20020ac25302000000b0050e7b04e3b4sm151967lfh.232.2023.12.24.11.29.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Dec 2023 11:29:11 -0800 (PST)
-Received: from home.paul.comp (home.paul.comp [IPv6:0:0:0:0:0:0:0:1])
-	by home.paul.comp (8.15.2/8.15.2/Debian-22) with ESMTP id 3BOJT8Ph032228;
-	Sun, 24 Dec 2023 22:29:09 +0300
-Received: (from paul@localhost)
-	by home.paul.comp (8.15.2/8.15.2/Submit) id 3BOJT7Ar032227;
-	Sun, 24 Dec 2023 22:29:07 +0300
-Date: Sun, 24 Dec 2023 22:29:07 +0300
-From: Paul Fertser <fercerpav@gmail.com>
-To: Daniel Berlin <dberlin@dberlin.org>
-Cc: Hector Martin <marcan@marcan.st>, asahi@lists.linux.dev
-Subject: Re: Testing bits/080-wifi on BCM4345/6
-Message-ID: <ZYiGg+B/NsWuR64+@home.paul.comp>
-References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
- <ZYK/C3LzK8LMOjER@home.paul.comp>
- <3e7f9763-a481-40d1-a5aa-9d71ebe13d98@marcan.st>
- <ZYa2Q8ALPbr09L4b@home.paul.comp>
- <CAF4BwTXJWYGT+8jp9dzxmSN7wbk7xZuy4tNSQDhxJ66UzhhgWw@mail.gmail.com>
- <ZYb8jf3a/CsI3/D2@home.paul.comp>
- <CAF4BwTXm62PxBTM2bNX2MkTF4XUypNJAMpxMFaQ3LP5MHrfBZA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=mrman314.tech header.i=@mrman314.tech header.b="hFt2K9xd"
+Received: from mail.mrman314.tech (localhost [127.0.0.1])
+	by mx.mrman314.tech (Postfix) with ESMTPSA id 17F672F491CF;
+	Sun, 24 Dec 2023 15:30:00 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mrman314.tech;
+	s=default; t=1703449801;
+	bh=HLhCanTpi2kJGYS9gLHHc1vwS5SyQPA78Qz2/DkYtL0=;
+	h=Date:From:To:Cc:Subject;
+	b=hFt2K9xdAQiZ5g4qvVy0S57ck54wT/JuFPLlt90Mw2yc9QCpIJnIGTTQ8eq1CpRZG
+	 Vc4ZVhJa9/k+Tdu0e15h75z94QrIVuYvm/J/QPE+5FonBULXAnBoQow3pDMifIpGCf
+	 4JEkYrpvPhcX6CLE42MF8ZMT5mVtMOC7ciwt9/Qo=
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAF4BwTXm62PxBTM2bNX2MkTF4XUypNJAMpxMFaQ3LP5MHrfBZA@mail.gmail.com>
+Date: Sun, 24 Dec 2023 15:29:59 -0500
+From: Felix Zhang <mrman@mrman314.tech>
+To: linux-bluetooth@vger.kernel.org
+Cc: marcan@marcan.st, bagasdotme@gmail.com, sven@svenpeter.dev,
+ alyssa@rosenzweig.io, marcel@holtmann.org, johan.hedberg@gmail.com,
+ luiz.dentz@gmail.com, orlandoch.dev@gmail.com, kekrby@gmail.com,
+ admin@kodeit.net, j@jannau.net, gargaditya08@live.com,
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] Bluetooth: Fix Bluetooth for BCM4377 on T2 Intel MacBooks
+Message-ID: <c9dd2a5e99e032dc181344fd0359aac9@mrman314.tech>
+X-Sender: mrman@mrman314.tech
+Organization: MrMan
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Daniel,
+Starting v6.5, Bluetooth does not work at all on my T2 MacBookAir9,1 
+with
+the BCM4377 chip.  When I boot up the computer, go into bluetoothctl, 
+and
+then try to run commands like scan on, show, list, it returns "No 
+default
+controller available."  I have tried reloading the kernel module, in 
+which
+the log outputs "{Added,Removed} hci0 (unconfigured)."  With this patch, 
+I
+am able to use Bluetooth as normal without any errors regarding hci0 
+being
+unconfigured.  However, an issue is still present where sometimes
+hci_bcm4377 will have to be reloaded in order to get bluetooth to work.  
+I
+believe this was still present before the previously mentioned commit.
 
-On Sat, Dec 23, 2023 at 09:43:55AM -0600, Daniel Berlin wrote:
-> What you are seeing now is the real state.  The chip and the stack
-> now have the same domain .  As such, those channels were always
-> disabled *as far as the chip was concerned*, you just didn't see it
-> because it didn't display it.  There is code in the driver  to
-> enable vht40/80 when the regulatory domain is set right.
+Due to the bit HCI_QUIRK_USE_BDADDR_PROPERTY being always set in
+drivers/bluetooth/hci_bcm4377.c(line 2371), the chip would be left
+unconfigured on kernels compiled after commit 6945795bc81a ("Bluetooth:
+fix use-bdaddr-property quirk") due to a change in its logic.  On the M1
+Macs, the device would be configured in the devicetree.  However, that 
+is
+not the case on T2 Macs.  Because the bluetooth adapter is left
+unconfigured, it is not usable in the operating system.  In order to
+circumvent this issue, a flag is added to prevent the bit from being set 
+on
+the BCM4377, while setting it on the other devices.
 
-The global regdomain in "iw reg get" changes to the requested one but
-phy#0 is left at "country 99: DFS-UNSET". However that global domain
-clearly affects the channel lists as reported by "iw list".
+Because I do not have an M1 device to test this patch on, I am not sure
+whether the patch breaks anything for said devices.  I would be very
+grateful if anyone is willing to test this patch on their M1 device.
 
-1. 2.4 GHz channels get unlocked as they should (JP channel 14 stays
-disabled but that's likely irrelevant as it's 802.11b-only)
+I would also like to thank Kerem Karabay <kekrby@gmail.com> for 
+assisting
+me with this patch.
 
-2. 5 GHz DFS channels get all disabled, no new channels are enabled so
-VHT40/80 are still not possible
+Fixes: 6945795bc81a ("Bluetooth: fix use-bdaddr-property quirk")
+Signed-off-by: Felix Zhang <mrman@mrman314.tech>
+---
+  drivers/bluetooth/hci_bcm4377.c | 6 +++++-
+  1 file changed, 5 insertions(+), 1 deletion(-)
 
-That's with clm_blob from Linux firmware tree.
+diff --git a/drivers/bluetooth/hci_bcm4377.c 
+b/drivers/bluetooth/hci_bcm4377.c
+index a61757835695..5c6fef1aa0f6 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -513,6 +513,7 @@ struct bcm4377_hw {
+  	unsigned long broken_ext_scan : 1;
+  	unsigned long broken_mws_transport_config : 1;
+  	unsigned long broken_le_coded : 1;
++	unsigned long use_bdaddr_property : 1;
 
+  	int (*send_calibration)(struct bcm4377_data *bcm4377);
+  	int (*send_ptb)(struct bcm4377_data *bcm4377,
+@@ -2368,7 +2369,8 @@ static int bcm4377_probe(struct pci_dev *pdev, 
+const struct pci_device_id *id)
+  	hdev->set_bdaddr = bcm4377_hci_set_bdaddr;
+  	hdev->setup = bcm4377_hci_setup;
 
-Another thing is the per-channel power limits reported. My current
-understanding is that "iw list" should be showing the currently active
-limit, that is, the minimum of: generic firmware limit, current
-regulatory limit, the specific hardware limit. So 30 dBm there looks
-wrong and inconsistent with the behavior of other drivers, e.g. mt76.
-
-
-Regarding testing on this hardware, raspberrypi docs say that Pi4 can
-be booted fully over wired network after minimal one-time
-configuration so that seems to be the easiest option for development.
-
--- 
-Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
-mailto:fercerpav@gmail.com
+-	set_bit(HCI_QUIRK_USE_BDADDR_PROPERTY, &hdev->quirks);
++	if (bcm4377->hw->use_bdaddr_property)
++		set_bit(HCI_QUIRK_USE_BDADDR_PROPERTY, &hdev->quirks);
+  	if (bcm4377->hw->broken_mws_transport_config)
+  		set_bit(HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG, &hdev->quirks);
+  	if (bcm4377->hw->broken_ext_scan)
+@@ -2465,6 +2467,7 @@ static const struct bcm4377_hw 
+bcm4377_hw_variants[] = {
+  		.has_bar0_core2_window2 = true,
+  		.broken_mws_transport_config = true,
+  		.broken_le_coded = true,
++		.use_bdaddr_property = true,
+  		.send_calibration = bcm4378_send_calibration,
+  		.send_ptb = bcm4378_send_ptb,
+  	},
+@@ -2479,6 +2482,7 @@ static const struct bcm4377_hw 
+bcm4377_hw_variants[] = {
+  		.clear_pciecfg_subsystem_ctrl_bit19 = true,
+  		.broken_mws_transport_config = true,
+  		.broken_le_coded = true,
++		.use_bdaddr_property = true,
+  		.send_calibration = bcm4387_send_calibration,
+  		.send_ptb = bcm4378_send_ptb,
+  	},
+--
+2.43.0
