@@ -1,38 +1,39 @@
 Received: from mx.mrman314.tech (unknown [135.0.77.242])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7703CDF53
-	for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 20:30:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9469FBEE
+	for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 21:01:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mrman314.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mrman314.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mrman314.tech header.i=@mrman314.tech header.b="hFt2K9xd"
+	dkim=pass (1024-bit key) header.d=mrman314.tech header.i=@mrman314.tech header.b="nahUWYag"
 Received: from mail.mrman314.tech (localhost [127.0.0.1])
-	by mx.mrman314.tech (Postfix) with ESMTPSA id 17F672F491CF;
-	Sun, 24 Dec 2023 15:30:00 -0500 (EST)
+	by mx.mrman314.tech (Postfix) with ESMTPSA id 637B42F495E8;
+	Sun, 24 Dec 2023 16:01:43 -0500 (EST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mrman314.tech;
-	s=default; t=1703449801;
+	s=default; t=1703451703;
 	bh=HLhCanTpi2kJGYS9gLHHc1vwS5SyQPA78Qz2/DkYtL0=;
 	h=Date:From:To:Cc:Subject;
-	b=hFt2K9xdAQiZ5g4qvVy0S57ck54wT/JuFPLlt90Mw2yc9QCpIJnIGTTQ8eq1CpRZG
-	 Vc4ZVhJa9/k+Tdu0e15h75z94QrIVuYvm/J/QPE+5FonBULXAnBoQow3pDMifIpGCf
-	 4JEkYrpvPhcX6CLE42MF8ZMT5mVtMOC7ciwt9/Qo=
+	b=nahUWYagZEO75ibnYsFagbI1Zrnk7Azi5EdZa3YjC16jC3r8z9whaXRe6HV8Xw1VO
+	 O/q4oah/PqQNbj3FU/axnKZ20vB6DjgguUv1iUvfo5kVZNZd5zDyJUvWpRNJtlqkcn
+	 4DYUp48GKBiKEaLFhd7EF6vIfFyvaxS4u6RGlorM=
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sun, 24 Dec 2023 15:29:59 -0500
+Date: Sun, 24 Dec 2023 16:01:43 -0500
 From: Felix Zhang <mrman@mrman314.tech>
-To: linux-bluetooth@vger.kernel.org
+To: stable@vger.kernel.org
 Cc: marcan@marcan.st, bagasdotme@gmail.com, sven@svenpeter.dev,
  alyssa@rosenzweig.io, marcel@holtmann.org, johan.hedberg@gmail.com,
  luiz.dentz@gmail.com, orlandoch.dev@gmail.com, kekrby@gmail.com,
  admin@kodeit.net, j@jannau.net, gargaditya08@live.com,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] Bluetooth: Fix Bluetooth for BCM4377 on T2 Intel MacBooks
-Message-ID: <c9dd2a5e99e032dc181344fd0359aac9@mrman314.tech>
+ asahi@lists.linux.dev, linux-kernel@vger.kernel.org, Linux Bluetooth
+ <linux-bluetooth@vger.kernel.org>
+Subject: [PATCH v2] Bluetooth: Fix Bluetooth for BCM4377 on T2 Intel MacBooks
+Message-ID: <05aa1755970796d5a250660e42ee85ad@mrman314.tech>
 X-Sender: mrman@mrman314.tech
 Organization: MrMan
 Content-Type: text/plain; charset=US-ASCII;
