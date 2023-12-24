@@ -1,129 +1,150 @@
-Received: from mx.mrman314.tech (unknown [135.0.77.242])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9469FBEE
-	for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 21:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mrman314.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mrman314.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A02EAE5
+	for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 21:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mrman314.tech header.i=@mrman314.tech header.b="nahUWYag"
-Received: from mail.mrman314.tech (localhost [127.0.0.1])
-	by mx.mrman314.tech (Postfix) with ESMTPSA id 637B42F495E8;
-	Sun, 24 Dec 2023 16:01:43 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mrman314.tech;
-	s=default; t=1703451703;
-	bh=HLhCanTpi2kJGYS9gLHHc1vwS5SyQPA78Qz2/DkYtL0=;
-	h=Date:From:To:Cc:Subject;
-	b=nahUWYagZEO75ibnYsFagbI1Zrnk7Azi5EdZa3YjC16jC3r8z9whaXRe6HV8Xw1VO
-	 O/q4oah/PqQNbj3FU/axnKZ20vB6DjgguUv1iUvfo5kVZNZd5zDyJUvWpRNJtlqkcn
-	 4DYUp48GKBiKEaLFhd7EF6vIfFyvaxS4u6RGlorM=
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JfWBeJXX"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1d42ed4cdc7so135135ad.0
+        for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 13:30:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1703453452; x=1704058252; darn=lists.linux.dev;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/MCgJrzTYbobYDGPWMaxVSPHC8aF5GoN3HBnQNC1yE=;
+        b=JfWBeJXXkXbfjZHtWk1ozKiBM2tK7tURvJZjwmu5wo9+GtLSE0GQlINAj+qSWuXDvJ
+         y7JL/gmazkzOH0VDID+P4kKvrc5TdRkf/TxGR9dB2nwGd0iIlForZxxHq+r9qmzvd/XM
+         WxjP7CrsbwwvZU9NaueXW+e5EP3X6AzDvbIGynLxCJoDw0StgNtD4bqmKHslTIE2Jaee
+         ZGL/KEH6RJENhyhTm/r8s5YgD7nRTp2jPctxZvXCVUu4ph9URWM4QnsQCLmDSrsL9n0M
+         P7ucXElbaLCMM4NTwRtKlePNzYqxXdflZ4AEFSK5btEwyXFEW8CCmFqy9N7ZhfoMaBQ8
+         3jOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703453452; x=1704058252;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/MCgJrzTYbobYDGPWMaxVSPHC8aF5GoN3HBnQNC1yE=;
+        b=vXwrF37EcCrB9haHDNALXqW0AlLTBIQwDJFEU8NuO6OO6gxUPc+joorQRx+uYksYdA
+         iSh1ONK4fGHqbqJo0BYjNWrO8Ed47OivpRGreFRz878o9YzOmAvxX7zedj2mromg+0c/
+         +59H3zcdbAutKIl5tW59+Ik/Zpv49rLRRwkpkcAjIWqvDqDPePXkYidj50OmA9hCFhhh
+         hKgeQkLWedTvwcJ7uGWqfBE1qUe6jphEqq4M2LDcmCEJAQ86rbWrqcSN84FLgQ12GJJc
+         bRDHbsKsXXdcBNe9SAizahkn2YESDkphrCJ0uW8k/Hw2IzEuB3ANxCdof8hFowkj2V0+
+         JSPg==
+X-Gm-Message-State: AOJu0YwFaaotNOIBWsOd7UWYxD5BitBP+LF0MJi0XmBQUsF3Kg30D+XK
+	w/SIplVefIaSBJmzrBF0gxUY/wHK+lb6
+X-Google-Smtp-Source: AGHT+IGEdm29d6jmw+nANphFK7SbhaR7mM9JSy5/jGKgQinKhgDaZxXLk5PDheL/k90mn9Ft6aU5hg==
+X-Received: by 2002:a17:902:bb84:b0:1d4:55b3:45d9 with SMTP id m4-20020a170902bb8400b001d455b345d9mr28530pls.6.1703453451456;
+        Sun, 24 Dec 2023 13:30:51 -0800 (PST)
+Received: from [2620:0:1008:15:c723:e11e:854b:ac88] ([2620:0:1008:15:c723:e11e:854b:ac88])
+        by smtp.gmail.com with ESMTPSA id b14-20020a170902d50e00b001d3dacffde3sm6890413plg.226.2023.12.24.13.30.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Dec 2023 13:30:50 -0800 (PST)
+Date: Sun, 24 Dec 2023 13:30:50 -0800 (PST)
+From: David Rientjes <rientjes@google.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+cc: Andrew Morton <akpm@linux-foundation.org>, alim.akhtar@samsung.com, 
+    alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+    bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, 
+    david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
+    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
+    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
+Subject: Re: [PATCH v2 01/10] iommu/vt-d: add wrapper functions for page
+ allocations
+In-Reply-To: <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
+Message-ID: <1fd66377-030c-2e48-e658-4669bbf037e9@google.com>
+References: <20231130201504.2322355-1-pasha.tatashin@soleen.com> <20231130201504.2322355-2-pasha.tatashin@soleen.com> <776e17af-ae25-16a0-f443-66f3972b00c0@google.com> <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sun, 24 Dec 2023 16:01:43 -0500
-From: Felix Zhang <mrman@mrman314.tech>
-To: stable@vger.kernel.org
-Cc: marcan@marcan.st, bagasdotme@gmail.com, sven@svenpeter.dev,
- alyssa@rosenzweig.io, marcel@holtmann.org, johan.hedberg@gmail.com,
- luiz.dentz@gmail.com, orlandoch.dev@gmail.com, kekrby@gmail.com,
- admin@kodeit.net, j@jannau.net, gargaditya08@live.com,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org, Linux Bluetooth
- <linux-bluetooth@vger.kernel.org>
-Subject: [PATCH v2] Bluetooth: Fix Bluetooth for BCM4377 on T2 Intel MacBooks
-Message-ID: <05aa1755970796d5a250660e42ee85ad@mrman314.tech>
-X-Sender: mrman@mrman314.tech
-Organization: MrMan
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="2003067076-655310594-1703453450=:2163178"
 
-Starting v6.5, Bluetooth does not work at all on my T2 MacBookAir9,1 
-with
-the BCM4377 chip.  When I boot up the computer, go into bluetoothctl, 
-and
-then try to run commands like scan on, show, list, it returns "No 
-default
-controller available."  I have tried reloading the kernel module, in 
-which
-the log outputs "{Added,Removed} hci0 (unconfigured)."  With this patch, 
-I
-am able to use Bluetooth as normal without any errors regarding hci0 
-being
-unconfigured.  However, an issue is still present where sometimes
-hci_bcm4377 will have to be reloaded in order to get bluetooth to work.  
-I
-believe this was still present before the previously mentioned commit.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Due to the bit HCI_QUIRK_USE_BDADDR_PROPERTY being always set in
-drivers/bluetooth/hci_bcm4377.c(line 2371), the chip would be left
-unconfigured on kernels compiled after commit 6945795bc81a ("Bluetooth:
-fix use-bdaddr-property quirk") due to a change in its logic.  On the M1
-Macs, the device would be configured in the devicetree.  However, that 
-is
-not the case on T2 Macs.  Because the bluetooth adapter is left
-unconfigured, it is not usable in the operating system.  In order to
-circumvent this issue, a flag is added to prevent the bit from being set 
-on
-the BCM4377, while setting it on the other devices.
+--2003067076-655310594-1703453450=:2163178
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Because I do not have an M1 device to test this patch on, I am not sure
-whether the patch breaks anything for said devices.  I would be very
-grateful if anyone is willing to test this patch on their M1 device.
+On Thu, 14 Dec 2023, Pasha Tatashin wrote:
 
-I would also like to thank Kerem Karabay <kekrby@gmail.com> for 
-assisting
-me with this patch.
+> On Thu, Dec 14, 2023 at 12:58 PM David Rientjes <rientjes@google.com> wrote:
+> >
+> > On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+> >
+> > > diff --git a/drivers/iommu/iommu-pages.h b/drivers/iommu/iommu-pages.h
+> > > new file mode 100644
+> > > index 000000000000..2332f807d514
+> > > --- /dev/null
+> > > +++ b/drivers/iommu/iommu-pages.h
+> > > @@ -0,0 +1,199 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > > +/*
+> > > + * Copyright (c) 2023, Google LLC.
+> > > + * Pasha Tatashin <pasha.tatashin@soleen.com>
+> > > + */
+> > > +
+> > > +#ifndef __IOMMU_PAGES_H
+> > > +#define __IOMMU_PAGES_H
+> > > +
+> > > +#include <linux/vmstat.h>
+> > > +#include <linux/gfp.h>
+> > > +#include <linux/mm.h>
+> > > +
+> > > +/*
+> > > + * All page allocation that are performed in the IOMMU subsystem must use one of
+> > > + * the functions below.  This is necessary for the proper accounting as IOMMU
+> > > + * state can be rather large, i.e. multiple gigabytes in size.
+> > > + */
+> > > +
+> > > +/**
+> > > + * __iommu_alloc_pages_node - allocate a zeroed page of a given order from
+> > > + * specific NUMA node.
+> > > + * @nid: memory NUMA node id
+> >
+> > NUMA_NO_NODE if no locality requirements?
+> 
+> If no locality is required, there is a better interface:
+> __iommu_alloc_pages(). That one will also take a look at the calling
+> process policies to determine the proper NUMA node when nothing is
+> specified. However, when policies should be ignored, and no locality
+> required, NUMA_NO_NODE can be passed.
+> 
 
-Fixes: 6945795bc81a ("Bluetooth: fix use-bdaddr-property quirk")
-Signed-off-by: Felix Zhang <mrman@mrman314.tech>
----
-  drivers/bluetooth/hci_bcm4377.c | 6 +++++-
-  1 file changed, 5 insertions(+), 1 deletion(-)
+Gotcha, thanks!
 
-diff --git a/drivers/bluetooth/hci_bcm4377.c 
-b/drivers/bluetooth/hci_bcm4377.c
-index a61757835695..5c6fef1aa0f6 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -513,6 +513,7 @@ struct bcm4377_hw {
-  	unsigned long broken_ext_scan : 1;
-  	unsigned long broken_mws_transport_config : 1;
-  	unsigned long broken_le_coded : 1;
-+	unsigned long use_bdaddr_property : 1;
+> >
+> > > + * @gfp: buddy allocator flags
+> > > + * @order: page order
+> > > + *
+> > > + * returns the head struct page of the allocated page.
+> > > + */
+> > > +static inline struct page *__iommu_alloc_pages_node(int nid, gfp_t gfp,
+> > > +                                                 int order)
+> > > +{
+> > > +     struct page *pages;
+> >
+> > s/pages/page/ here and later in this file.
+> 
+> In this file, where there a page with an "order", I reference it with
+> "pages", when no order (i.e. order = 0), I reference it with "page"
+> 
+> I.e.: __iommu_alloc_page vs. __iommu_alloc_pages
+> 
 
-  	int (*send_calibration)(struct bcm4377_data *bcm4377);
-  	int (*send_ptb)(struct bcm4377_data *bcm4377,
-@@ -2368,7 +2369,8 @@ static int bcm4377_probe(struct pci_dev *pdev, 
-const struct pci_device_id *id)
-  	hdev->set_bdaddr = bcm4377_hci_set_bdaddr;
-  	hdev->setup = bcm4377_hci_setup;
-
--	set_bit(HCI_QUIRK_USE_BDADDR_PROPERTY, &hdev->quirks);
-+	if (bcm4377->hw->use_bdaddr_property)
-+		set_bit(HCI_QUIRK_USE_BDADDR_PROPERTY, &hdev->quirks);
-  	if (bcm4377->hw->broken_mws_transport_config)
-  		set_bit(HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG, &hdev->quirks);
-  	if (bcm4377->hw->broken_ext_scan)
-@@ -2465,6 +2467,7 @@ static const struct bcm4377_hw 
-bcm4377_hw_variants[] = {
-  		.has_bar0_core2_window2 = true,
-  		.broken_mws_transport_config = true,
-  		.broken_le_coded = true,
-+		.use_bdaddr_property = true,
-  		.send_calibration = bcm4378_send_calibration,
-  		.send_ptb = bcm4378_send_ptb,
-  	},
-@@ -2479,6 +2482,7 @@ static const struct bcm4377_hw 
-bcm4377_hw_variants[] = {
-  		.clear_pciecfg_subsystem_ctrl_bit19 = true,
-  		.broken_mws_transport_config = true,
-  		.broken_le_coded = true,
-+		.use_bdaddr_property = true,
-  		.send_calibration = bcm4387_send_calibration,
-  		.send_ptb = bcm4378_send_ptb,
-  	},
---
-2.43.0
+Eh, the struct page points to a (potentially compound) page, not a set or 
+list of pages.  I won't bikeshed on it, but "struct page *pages" never 
+makes sense unless it's **pages or *pages[] :)
+--2003067076-655310594-1703453450=:2163178--
