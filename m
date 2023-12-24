@@ -1,109 +1,110 @@
-Received: from mx.mrman314.tech (unknown [135.0.77.242])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF26D2F3
-	for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 18:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mrman314.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mrman314.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC90D287
+	for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 19:29:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mrman314.tech header.i=@mrman314.tech header.b="isElspyB"
-Received: from mail.mrman314.tech (localhost [127.0.0.1])
-	by mx.mrman314.tech (Postfix) with ESMTPSA id 177872F406D0;
-	Sun, 24 Dec 2023 13:04:34 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mrman314.tech;
-	s=default; t=1703441075;
-	bh=R0Ct9LAMRoC93PP14kNc4aB4j0kJN4qE7SAVSIp+0no=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=isElspyBcHBK12K9W1c/zyGQSPfY4sZMH2Rrjb+1JEE7SIEeGSy3V9Ku5R/75T6vy
-	 hElhmYBoRmVgGc8AV3gAIXEALU4MeXURiUNROuBWRCuaawPB6qyooycpvJI5cjgCDo
-	 +usDtlj2PWPPlme8qtGmMXadjFBqRXMmZhztYxdw=
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c5LjRDC/"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50e759ece35so726025e87.3
+        for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 11:29:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703446152; x=1704050952; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=tPKMTQPdvuHMZGXcGgR4PK3puQk6VQckI2AGeYN+ECc=;
+        b=c5LjRDC/jF8MhsD+FTFxhKDXZKrK5ATFQbRSPa/0A7BRO5o3mCPxVrs5hrdH7Pxevq
+         KwN54r+P8E6HHFDUUa6MMp9vN+idXW3/RO3rwI7Pn60J0rLFo7i9+3rclOtFndOEiObm
+         u8ICuATyuCsOgGr9MC32Xb3kNhgd8rEgP/WJHo94RoU0tVanPFcoKiS4souCNlL2lR+2
+         SVk+GG8LR7yWtXRqJyzaSC79w//KBFRLqYwzNGzmc4I9goc9Aq64NBuLBCPX1aR5rgU5
+         culyzYdhLVzjFMK/lCI5y+Xp0NSLDBPCT+pRBv7bBZnEjfVJlLI7nxH3Wym4aqD4exh2
+         baOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703446152; x=1704050952;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tPKMTQPdvuHMZGXcGgR4PK3puQk6VQckI2AGeYN+ECc=;
+        b=w7DPJpCofd+cKR9qN6Y2avePlOFfdGDiQytdx8jnH8zW2DrWLxMUFoACu4FGlCpKT7
+         yeezxjmuIeWswapXwoWWKxSfDkV5lkj+Rj59WTGCNUJTKBjCXi0keAy2u+G2hBPNZFOR
+         PfbSag30AfKAW5Ad46lnh5k4163xiRO7ywtNNNOH81CNbn8nk9y1r6tZBErKg00vdNzr
+         R7/nGzicT0O0xbx5M4c0psOkg/SQn0kDJFB+Rw5WP2P6u66i+trBlhqljOfDCSw0ldW7
+         JdKf+Q3mxJCHfToBckgZThATOuCi0CJrkmePCAzmhYc5rvK9OEquBD2bYwP368nJ1aKT
+         MEzg==
+X-Gm-Message-State: AOJu0YyT1yFlO6oHoq4+QV305/puV0OZWYB/rFLM9onckSYI8waHhBT+
+	lRbPhflX/yOZF5eQfQB+d4I=
+X-Google-Smtp-Source: AGHT+IGqTgpTBzEY2RQLyQKIQcJ5kJdhiX9G2uvCSdw7ZP/JLjzXwNrA+qUo+bnVcgQ3k6J6S9mS3A==
+X-Received: by 2002:a05:6512:39c9:b0:50e:7c6e:f237 with SMTP id k9-20020a05651239c900b0050e7c6ef237mr35751lfu.135.1703446152052;
+        Sun, 24 Dec 2023 11:29:12 -0800 (PST)
+Received: from home.paul.comp (paulfertser.info. [2001:470:26:54b:226:9eff:fe70:80c2])
+        by smtp.gmail.com with ESMTPSA id c2-20020ac25302000000b0050e7b04e3b4sm151967lfh.232.2023.12.24.11.29.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Dec 2023 11:29:11 -0800 (PST)
+Received: from home.paul.comp (home.paul.comp [IPv6:0:0:0:0:0:0:0:1])
+	by home.paul.comp (8.15.2/8.15.2/Debian-22) with ESMTP id 3BOJT8Ph032228;
+	Sun, 24 Dec 2023 22:29:09 +0300
+Received: (from paul@localhost)
+	by home.paul.comp (8.15.2/8.15.2/Submit) id 3BOJT7Ar032227;
+	Sun, 24 Dec 2023 22:29:07 +0300
+Date: Sun, 24 Dec 2023 22:29:07 +0300
+From: Paul Fertser <fercerpav@gmail.com>
+To: Daniel Berlin <dberlin@dberlin.org>
+Cc: Hector Martin <marcan@marcan.st>, asahi@lists.linux.dev
+Subject: Re: Testing bits/080-wifi on BCM4345/6
+Message-ID: <ZYiGg+B/NsWuR64+@home.paul.comp>
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+ <ZYK/C3LzK8LMOjER@home.paul.comp>
+ <3e7f9763-a481-40d1-a5aa-9d71ebe13d98@marcan.st>
+ <ZYa2Q8ALPbr09L4b@home.paul.comp>
+ <CAF4BwTXJWYGT+8jp9dzxmSN7wbk7xZuy4tNSQDhxJ66UzhhgWw@mail.gmail.com>
+ <ZYb8jf3a/CsI3/D2@home.paul.comp>
+ <CAF4BwTXm62PxBTM2bNX2MkTF4XUypNJAMpxMFaQ3LP5MHrfBZA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sun, 24 Dec 2023 13:04:33 -0500
-From: Felix Zhang <mrman@mrman314.tech>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, marcel@holtmann.org,
- johan.hedberg@gmail.com, luiz.dentz@gmail.com, Orlando Chamberlain
- <orlandoch.dev@gmail.com>, Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi
- <admin@kodeit.net>, Asahi Linux <asahi@lists.linux.dev>, LKML
- <linux-kernel@vger.kernel.org>, linux-bluetooth@vger.kernel.org
-Subject: Re: [REGRESSION] Bluetooth is not working on Macs with BCM4377 chip
- starting from kernel 6.5
-In-Reply-To: <22582194-DE99-45E5-ABEE-C1C7900DA523@live.com>
-References: <22582194-DE99-45E5-ABEE-C1C7900DA523@live.com>
-Message-ID: <956280a5c2e931b13d784ec5fca38156@mrman314.tech>
-X-Sender: mrman@mrman314.tech
-Organization: MrMan
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAF4BwTXm62PxBTM2bNX2MkTF4XUypNJAMpxMFaQ3LP5MHrfBZA@mail.gmail.com>
 
-On 2023-11-13 15:57, Aditya Garg wrote:
-> Starting from kernel 6.5, a regression in the kernel is causing 
-> Bluetooth to not work on T2 Macs with BCM4377 chip.
-> 
-> Journalctl of kernel 6.4.8 which has Bluetooth working is given here: 
-> https://pastebin.com/u9U3kbFJ
-> 
-> Journalctl of kernel 6.5.2, which has Bluetooth broken is given here: 
-> https://pastebin.com/aVHNFMRs
-> 
-> Also, the bug hasn’t been fixed even in 6.6.1, as reported by users.
-> 
-> Some relevant bits imo:
-> 
->     • Sep 19 21:24:36 RudyUbuMbp kernel: hci_bcm4377 0000:73:00.1: 
-> can't disable ASPM; OS doesn't have ASPM control
-> 
->     • Nov 14 01:29:28 RudyUbuMbp kernel: Call Trace:
->     • Nov 14 01:29:28 RudyUbuMbp kernel: <TASK>
->     • Nov 14 01:29:28 RudyUbuMbp kernel: dump_stack_lvl+0x48/0x70
->     • Nov 14 01:29:28 RudyUbuMbp kernel: dump_stack+0x10/0x20
->     • Nov 14 01:29:28 RudyUbuMbp kernel: 
-> __ubsan_handle_shift_out_of_bounds+0x156/0x310
->     • Nov 14 01:29:28 RudyUbuMbp kernel: ? ttwu_do_activate+0x80/0x290
->     • Nov 14 01:29:28 RudyUbuMbp kernel: ? raw_spin_rq_unlock+0x10/0x40
->     • Nov 14 01:29:28 RudyUbuMbp kernel: ? try_to_wake_up+0x292/0x6c0
->     • Nov 14 01:29:28 RudyUbuMbp kernel: ? sched_slice+0x76/0x140
->     • Nov 14 01:29:28 RudyUbuMbp kernel: ? reweight_entity+0x15c/0x170
->     • Nov 14 01:29:28 RudyUbuMbp kernel: __reg_op.cold+0x14/0x38
->     • Nov 14 01:29:28 RudyUbuMbp kernel: bitmap_release_region+0xe/0x20
->     • Nov 14 01:29:28 RudyUbuMbp kernel: bcm4377_handle_ack+0x8c/0x130 
-> [hci_bcm4377]
->     • Nov 14 01:29:28 RudyUbuMbp kernel: 
-> bcm4377_poll_completion_ring+0x196/0x330 [hci_bcm4377]
->     • Nov 14 01:29:28 RudyUbuMbp kernel: ? 
-> rcu_gp_kthread_wake+0x57/0x90
->     • Nov 14 01:29:28 RudyUbuMbp kernel: bcm4377_irq+0x77/0x140 
-> [hci_bcm4377]
->     • Nov 14 01:29:28 RudyUbuMbp kernel: 
-> __handle_irq_event_percpu+0x4c/0x1b0
->     • Nov 14 01:29:28 RudyUbuMbp kernel: handle_irq_event+0x39/0x80
->     • Nov 14 01:29:28 RudyUbuMbp kernel: handle_edge_irq+0x8c/0x250
->     • Nov 14 01:29:28 RudyUbuMbp kernel: __common_interrupt+0x4f/0x110
->     • Nov 14 01:29:28 RudyUbuMbp kernel: common_interrupt+0x45/0xb0
->     • Nov 14 01:29:28 RudyUbuMbp kernel: asm_common_interrupt+0x27/0x40
->     • Nov 14 01:29:28 RudyUbuMbp kernel: RIP: 0033:0x7f17b5fd8bca
+Hi Daniel,
 
-It seems that the BCM4377 chip stopped working on my MacBookAir9,1 (and 
-possibly other T2 devices with the BCM4377) after the logic in the 
-Bluetooth core was changed in this commit: 
-https://github.com/torvalds/linux/commit/6945795bc81ab7be22750ecfb365056688f2fada
+On Sat, Dec 23, 2023 at 09:43:55AM -0600, Daniel Berlin wrote:
+> What you are seeing now is the real state.� The chip and the stack
+> now have the same domain .� As such, those channels were always
+> disabled *as far as the chip was concerned*, you just didn't see it
+> because it didn't display it.� There is code in the driver �to
+> enable vht40/80 when the regulatory domain is set right.
 
-Due to the HCI_QUIRK_USE_BDADDR_PROPERTY being always set in 
-drivers/bluetooth/hci_bcm4377.c, the chip would be left unconfigured, as 
-per the commit mentioned prior.  On the M1 Macs, it seems that the 
-device would be configured in the devicetree.  However, that is not the 
-case on T2 Macs.  In order to circumvent this issue, a flag can be added 
-to prevent the bit from being set on the BCM4377, while setting it on 
-the other devices.  I have not submitted a patch yet, but you can view 
-and use the patch with the latest kernel source here: 
-https://github.com/MrMan314/linux-t2-patches/blob/main/9004-bcm4377-fix-bdaddr-property.patch
+The global regdomain in "iw reg get" changes to the requested one but
+phy#0 is left at "country 99: DFS-UNSET". However that global domain
+clearly affects the channel lists as reported by "iw list".
 
-I would also like to thank kekrby (https://github.com/kekrby) for 
-helping me with the patch.
+1. 2.4 GHz channels get unlocked as they should (JP channel 14 stays
+disabled but that's likely irrelevant as it's 802.11b-only)
+
+2. 5 GHz DFS channels get all disabled, no new channels are enabled so
+VHT40/80 are still not possible
+
+That's with clm_blob from Linux firmware tree.
+
+
+Another thing is the per-channel power limits reported. My current
+understanding is that "iw list" should be showing the currently active
+limit, that is, the minimum of: generic firmware limit, current
+regulatory limit, the specific hardware limit. So 30 dBm there looks
+wrong and inconsistent with the behavior of other drivers, e.g. mt76.
+
+
+Regarding testing on this hardware, raspberrypi docs say that Pi4 can
+be booted fully over wired network after minimal one-time
+configuration so that seems to be the easiest option for development.
+
+-- 
+Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
+mailto:fercerpav@gmail.com
