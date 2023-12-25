@@ -1,120 +1,132 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx.mrman314.tech (unknown [135.0.77.242])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872D452F71
-	for <asahi@lists.linux.dev>; Mon, 25 Dec 2023 16:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A02B537F7
+	for <asahi@lists.linux.dev>; Mon, 25 Dec 2023 20:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mrman314.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mrman314.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D9mqPlfT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1703520585;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VqafsTsLWFL6NUacBRAsGtc9kpoOdr+j/kVqdz2KGps=;
-	b=D9mqPlfTwYuNJi4B6KW9virIn25oAF6KJO1DPRjL3QgxGoYi/aZvQhQ6SxaAucfl1mfkTI
-	2BhAsqnTfOgOxR+qFBkoEO02/lLWZdSG4DtRAMJ7mE1KRUKAFVGeLstdjJ6VVrBdaG+4BT
-	HC6YfH4aB8ZfJIQTKQ076gm3A3IuBSk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-488-cT0QeiTqNpSH3jiipEmIxA-1; Mon, 25 Dec 2023 11:09:44 -0500
-X-MC-Unique: cT0QeiTqNpSH3jiipEmIxA-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-40d47b001f7so22264895e9.3
-        for <asahi@lists.linux.dev>; Mon, 25 Dec 2023 08:09:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703520583; x=1704125383;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VqafsTsLWFL6NUacBRAsGtc9kpoOdr+j/kVqdz2KGps=;
-        b=mzBzXxKZnDCsJBO5JMBD5+1QZ17vPrL0kCiQiNb8UGaLq0w5ySXi4Pxyngln5/xhRA
-         2WTHkuv80nNYdQUXXAVcOmVepel/+p1RNdO68sj5sPlvtbrLyS6Q2sLmhYuaKpsdeJaB
-         +WCdnSMYIWpMBPP8vu3Vsk9KPxRr4EA71qgwpfRR5RuFf0t9MvH91VJk0cfBlciFceUf
-         5r4q34bg5WlBjH1Xq9g3ckQcgGvWjA5uXTDytZmvp9/8HsjyovGvYA9h5iSdEe1lJfHo
-         XwozXzF16evjTbyS3UYTfUTnIQ3L3lETLMt+f72lqvRECIJT737qnV+1bgkE50pJxDFQ
-         m5+Q==
-X-Gm-Message-State: AOJu0Yyy/azAAzgr9yQoUrHNzUyfi7iZoqogO2lX4gpNm9hTlw/FOoco
-	6TTJYp8F8fwTwJxRR/SJTk4lsvHRu723FREmrIB4dpS9rqaSUsgEOYAKZ7RwXbhlNvwxyJlSrmb
-	zZrd2SmrNlFtkroMxmQMrJto=
-X-Received: by 2002:a05:600c:4587:b0:40c:33be:d193 with SMTP id r7-20020a05600c458700b0040c33bed193mr4060369wmo.78.1703520582980;
-        Mon, 25 Dec 2023 08:09:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHfGGCax+SlWX/roShT1Wqm6zJg2zHkXbA4PNy8JwUTudzLUljk5TaAwhoH/7jZ8kvUv2pY7Q==
-X-Received: by 2002:a05:600c:4587:b0:40c:33be:d193 with SMTP id r7-20020a05600c458700b0040c33bed193mr4060329wmo.78.1703520582646;
-        Mon, 25 Dec 2023 08:09:42 -0800 (PST)
-Received: from redhat.com ([2a06:c701:73ef:4100:2cf6:9475:f85:181e])
-        by smtp.gmail.com with ESMTPSA id f12-20020a05600c4e8c00b0040d3db8186fsm16769282wmq.5.2023.12.25.08.09.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Dec 2023 08:09:41 -0800 (PST)
-Date: Mon, 25 Dec 2023 11:09:37 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alex.williamson@redhat.com,
-	alim.akhtar@samsung.com, alyssa@rosenzweig.io,
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com,
-	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net,
-	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
-	heiko@sntech.de, iommu@lists.linux.dev, jasowang@redhat.com,
-	jernej.skrabec@gmail.com, jgg@ziepe.ca, jonathanh@nvidia.com,
-	joro@8bytes.org, kevin.tian@intel.com,
-	krzysztof.kozlowski@linaro.org, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
-	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
-	netdev@vger.kernel.org, paulmck@kernel.org, rdunlap@infradead.org,
-	robin.murphy@arm.com, samuel@sholland.org,
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev,
-	thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com,
-	vdumpa@nvidia.com, virtualization@lists.linux.dev, wens@csie.org,
-	will@kernel.org, yu-cheng.yu@intel.com
-Subject: Re: [PATCH 15/16] vhost-vdpa: account iommu allocations
-Message-ID: <20231225110930-mutt-send-email-mst@kernel.org>
-References: <20231128204938.1453583-1-pasha.tatashin@soleen.com>
- <20231128204938.1453583-16-pasha.tatashin@soleen.com>
+	dkim=pass (1024-bit key) header.d=mrman314.tech header.i=@mrman314.tech header.b="2vh2F2sf"
+Received: from [192.168.6.27] (unknown [160.32.192.137])
+	by mx.mrman314.tech (Postfix) with ESMTPSA id 4B4B82F4127F;
+	Mon, 25 Dec 2023 15:01:37 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mrman314.tech;
+	s=default; t=1703534498;
+	bh=HGRyqV7DcGb8aHF62Jx1i+xG/Q9Evhw8BLp5rP7bfO0=;
+	h=Subject:From:To:Cc:Date;
+	b=2vh2F2sfJqNEWXSd18j7BLe0F6x98b7u+5bPmWnbMvDmyXMUCZjy5wQaJo9WJV+tb
+	 N+8rXNUZdc2HIzP/vXfAmuE+iLndseYEusCXAA8ucIakhKbYjPPhskQlHDElWNQeOs
+	 0BT0EnIlzxt+jAbvR0hVkn5lLy+/p/dqKwYZiivE=
+Message-ID: <77419ffacc5b4875e920e038332575a2a5bff29f.camel@mrman314.tech>
+Subject: [PATCH v3] Bluetooth: Fix Bluetooth for BCM4377 on T2 Intel MacBooks
+From: Felix Zhang <mrman@mrman314.tech>
+To: linux-bluetooth@vger.kernel.org
+Cc: stable@vger.kernel.org, marcan@marcan.st, bagasdotme@gmail.com, 
+	sven@svenpeter.dev, alyssa@rosenzweig.io, marcel@holtmann.org, 
+	johan.hedberg@gmail.com, luiz.dentz@gmail.com, orlandoch.dev@gmail.com, 
+	kekrby@gmail.com, admin@kodeit.net, j@jannau.net, gargaditya08@live.com, 
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Mon, 25 Dec 2023 15:01:33 -0500
+Autocrypt: addr=mrman@mrman314.tech; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2 
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20231128204938.1453583-16-pasha.tatashin@soleen.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Tue, Nov 28, 2023 at 08:49:37PM +0000, Pasha Tatashin wrote:
-> iommu allocations should be accounted in order to allow admins to
-> monitor and limit the amount of iommu memory.
-> 
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+Starting v6.5, Bluetooth does not work at all on my T2 MacBookAir9,1
 
+with the BCM4377 chip.  When I boot up the computer, go into
+bluetoothctl, and then try to run commands like scan on, show, list,
+it=C2=A0returns "No default controller available."  I have tried reloading
+the
+kernel module, in which the log outputs "{Added,Removed} hci0
+(unconfigured)."  With this patch, I am able to use Bluetooth as
+normal=C2=A0
+without any errors regarding hci0 being unconfigured.  However, an
+issue is still present where sometimes hci_bcm4377 will have to be
+reloaded in order to get bluetooth to work.  I believe this was still
+present before the previously mentioned commit.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Due to the bit HCI_QUIRK_USE_BDADDR_PROPERTY being always set in
+drivers/bluetooth/hci_bcm4377.c (line 2371), the chip would be left
+unconfigured on kernels compiled after commit 6945795bc81a
+("Bluetooth:=C2=A0
+fix use-bdaddr-property quirk") due to a change in its logic.  On the
+M1 Macs, the device would be configured in the devicetree.  However,
+that is not the case on T2 Macs.  Because the bluetooth adapter is
+left=C2=A0
+unconfigured, it is not usable in the operating system.  In order to
+circumvent this issue, a flag is added to prevent the bit from being
+set on the BCM4377, while setting it on the other devices.
 
+Because I do not have an M1 device to test this patch on, I am not sure
+whether the patch breaks anything for said devices.  I would be very
+grateful if anyone is willing to test this patch on their M1 device.
 
-> ---
->  drivers/vhost/vdpa.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/vhost/vdpa.c b/drivers/vhost/vdpa.c
-> index da7ec77cdaff..a51c69c078d9 100644
-> --- a/drivers/vhost/vdpa.c
-> +++ b/drivers/vhost/vdpa.c
-> @@ -968,7 +968,8 @@ static int vhost_vdpa_map(struct vhost_vdpa *v, struct vhost_iotlb *iotlb,
->  			r = ops->set_map(vdpa, asid, iotlb);
->  	} else {
->  		r = iommu_map(v->domain, iova, pa, size,
-> -			      perm_to_iommu_flags(perm), GFP_KERNEL);
-> +			      perm_to_iommu_flags(perm),
-> +			      GFP_KERNEL_ACCOUNT);
->  	}
->  	if (r) {
->  		vhost_iotlb_del_range(iotlb, iova, iova + size - 1);
-> -- 
-> 2.43.0.rc2.451.g8631bc7472-goog
+I would also like to thank Kerem Karabay <kekrby@gmail.com> for
+assisting me with this patch.
+
+Fixes: 6945795bc81a ("Bluetooth: fix use-bdaddr-property quirk")
+Signed-off-by: Felix Zhang <mrman@mrman314.tech>
+---
+v3:
+* Adjust the format to pass the CI (again).
+---
+ drivers/bluetooth/hci_bcm4377.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/bluetooth/hci_bcm4377.c
+b/drivers/bluetooth/hci_bcm4377.c
+index a61757835695..5c6fef1aa0f6 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -513,6 +513,7 @@ struct bcm4377_hw {
+ 	unsigned long broken_ext_scan : 1;
+ 	unsigned long broken_mws_transport_config : 1;
+ 	unsigned long broken_le_coded : 1;
++	unsigned long use_bdaddr_property : 1;
+=20
+ 	int (*send_calibration)(struct bcm4377_data *bcm4377);
+ 	int (*send_ptb)(struct bcm4377_data *bcm4377,
+@@ -2368,7 +2369,8 @@ static int bcm4377_probe(struct pci_dev *pdev,
+const struct pci_device_id *id)
+ 	hdev->set_bdaddr =3D bcm4377_hci_set_bdaddr;
+ 	hdev->setup =3D bcm4377_hci_setup;
+=20
+-	set_bit(HCI_QUIRK_USE_BDADDR_PROPERTY, &hdev->quirks);
++	if (bcm4377->hw->use_bdaddr_property)
++		set_bit(HCI_QUIRK_USE_BDADDR_PROPERTY, &hdev->quirks);
+ 	if (bcm4377->hw->broken_mws_transport_config)
+ 		set_bit(HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG, &hdev-
+>quirks);
+ 	if (bcm4377->hw->broken_ext_scan)
+@@ -2465,6 +2467,7 @@ static const struct bcm4377_hw
+bcm4377_hw_variants[] =3D {
+ 		.has_bar0_core2_window2 =3D true,
+ 		.broken_mws_transport_config =3D true,
+ 		.broken_le_coded =3D true,
++		.use_bdaddr_property =3D true,
+ 		.send_calibration =3D bcm4378_send_calibration,
+ 		.send_ptb =3D bcm4378_send_ptb,
+ 	},
+@@ -2479,6 +2482,7 @@ static const struct bcm4377_hw
+bcm4377_hw_variants[] =3D {
+ 		.clear_pciecfg_subsystem_ctrl_bit19 =3D true,
+ 		.broken_mws_transport_config =3D true,
+ 		.broken_le_coded =3D true,
++		.use_bdaddr_property =3D true,
+ 		.send_calibration =3D bcm4387_send_calibration,
+ 		.send_ptb =3D bcm4378_send_ptb,
+ 	},
+--=20
+2.43.0
+
 
