@@ -1,187 +1,146 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C9FFC19
-	for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 21:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C24815A8
+	for <asahi@lists.linux.dev>; Mon, 25 Dec 2023 02:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dberlin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dberlin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Yjkdeh2v"
-Received: by mail-il1-f173.google.com with SMTP id e9e14a558f8ab-35ffc781b3bso59975ab.1
-        for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 13:49:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=dberlin.org header.i=@dberlin.org header.b="GvZfp91j"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-50e7ae726c9so368290e87.1
+        for <asahi@lists.linux.dev>; Sun, 24 Dec 2023 18:24:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1703454581; x=1704059381; darn=lists.linux.dev;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O0HiuPkhATpCWAkLMW05BPxTgagJyPS45hssBqZfyJY=;
-        b=Yjkdeh2vOu/tqzy5hNZxeoRAsWVyg1J9dMC9UM9X+JkvYUskf4+2ELqLhLRjFpS6A/
-         utYSz6BZibx6NhcFgL8o5SyHTNtHnYBTClC965TNPQc0rzvFc6pJ83Tp3sEO9zd7TN5O
-         OcTmp7qmN2vPCo+MSIfaeiNYpU4rweMLkVxjr1MBhLO0MA8waps1exoHZkQ+PZC6NFJd
-         A3xUCg1vHSMsZtmrPwhquMSl3FASY9Nc78oT51bDa4OGIJYqnBGXSzb0BnaW9b9oM4Lx
-         DUOXUQB4pnklsRXoKd7MCCn70PllmjDjftRjNhtSo7neEu7eZ9njPWuNS7nxw9pEPa3w
-         2kjQ==
+        d=dberlin.org; s=google; t=1703471080; x=1704075880; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G8BQYZOZnbVB9PzwbG2v3PYjW6IKY3+yuwxChBh9mko=;
+        b=GvZfp91j8N/H+vxtSrPgo944GC/uy4qjNFuzOnovN8KMhrnX462UrKh7k/d2tERgbW
+         Kr3zeud2N1y47i3etXJULQEVgk5FAGDTuYvwlc2XahX2+N1t1vAsoAe8M2HODe8cMC97
+         ZinvaPofiGB/1vGC+s3DG5erhSzcE4D4W6l9w7ke9NohRqK2lGXt+kU9Vd5U91n5vDGa
+         mNCaKktniEDLjOeizZmN/nZULZopXSORfp5OkyvshvxTCGhhHT2X2ZuHIiey1jsHVapQ
+         O2vB2eZK1kLa5AVblSzrqjl9k9C7cQtiwPN+m0F2kFuSe75g5z1Lj7R3vb2G1Qw2uk+X
+         167g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703454581; x=1704059381;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O0HiuPkhATpCWAkLMW05BPxTgagJyPS45hssBqZfyJY=;
-        b=BJDsiAnkpM0v/TWKfsRjHJN0EG9IbI+LaXajWN9TF0NKHVG91MRAl2554qs9h7jaxp
-         QTZDbxVjnGlkenPh5q/lpQqvbpQa0M8Dhv4NGFm8IChxgeiCXVE9zx7sWjDYBplVX1to
-         LqU0Bxp+kYoT/ztKUyi6KEhc8uOLyoW3aoH5Q40EcoSuyekD+09HJaDwTYo56gNdtcfo
-         ky5+Y+5q7ZhwkTj6s7IzyeIuDFrTaPiWI1GiHq+p9nI+yFiuidYeqeoJ1oQ95Y9LdONH
-         NdKfjIJMe/JMKvOytRYsLcLDd+mFNbPtGEieFeA6Bn6FYk4htL/JrzTzTcix6Ynfb4yW
-         ofvw==
-X-Gm-Message-State: AOJu0Ywq4XmioTkZ/SG+8r75b2FBQ8qNPy/0ExnKZnueLj5o/7bRteW9
-	yeYPt6dkm3I2TVTao3C7isQU1JJnwutZ
-X-Google-Smtp-Source: AGHT+IHO1o4MpTmRsY4pG5iPw80zAps+6fJHAueY55ciRhpJtDvuIlpvxAKJ08/tY4qG55yyTyBfTQ==
-X-Received: by 2002:a05:6e02:3001:b0:35f:b200:2fb5 with SMTP id bd1-20020a056e02300100b0035fb2002fb5mr495955ilb.11.1703454581205;
-        Sun, 24 Dec 2023 13:49:41 -0800 (PST)
-Received: from [2620:0:1008:15:c723:e11e:854b:ac88] ([2620:0:1008:15:c723:e11e:854b:ac88])
-        by smtp.gmail.com with ESMTPSA id l18-20020a62be12000000b006ce95e37a40sm6824858pff.111.2023.12.24.13.49.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Dec 2023 13:49:40 -0800 (PST)
-Date: Sun, 24 Dec 2023 13:49:39 -0800 (PST)
-From: David Rientjes <rientjes@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-    asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-    cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-    dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-    iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-    joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-    linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-    linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-    linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-    mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-    rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-    suravee.suthikulpanit@amd.com, sven@svenpeter.dev, 
-    thierry.reding@gmail.com, tj@kernel.org, tomas.mudrunka@gmail.com, 
-    vdumpa@nvidia.com, wens@csie.org, will@kernel.org, yu-cheng.yu@intel.com
-Subject: Re: [PATCH v2 00/10] IOMMU memory observability
-In-Reply-To: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
-Message-ID: <2913539c-68f1-5597-df64-99a884a60e0a@google.com>
-References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
+        d=1e100.net; s=20230601; t=1703471080; x=1704075880;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G8BQYZOZnbVB9PzwbG2v3PYjW6IKY3+yuwxChBh9mko=;
+        b=DRRucfZcBqMtm5VeCli/6sNubTUJmFmqCBOinPvluHcZFioBEx2R4stg0CIzJ+kX+C
+         +12VPqrswbA9mpOgBhdFOHIuwXIRufQM9/WaMb5XCdE2fO864SZmmaIgAo5DV+kqyINw
+         /6g2AXbeerFT8gO85f7sg2Wo4lWQqkski3+EEGqSXHObZjF/ZBBQMQ31lIKuivGDFlIc
+         dOnAvkg5RaYIHgZPkKsP8POYvD9pnuCjZBPTeKTkiqULfXMd2fc4HhhNB82GLvkiT9sz
+         QszxFDGMoEnYQ8MRYFulx8GPC9fCVIJu/jDbROOZscBcnvZ/g0mfX+0nsrMfQ1d1rt7O
+         1ejA==
+X-Gm-Message-State: AOJu0YyhaWhAmkfiAv1mwnrsLhrsc6qTJvN2p2o9rtmGf4Zcg8kw6oZj
+	Xe74yWVTIz9Wfl+K/H2Jx5QIy4hMoFUdcl649iTDSvjvf466
+X-Google-Smtp-Source: AGHT+IEMWuWVz10fbTctYGeIyZwpSrJbyqhL+8q2b+wEvTgLtuEYRklVumBxjKzlWrRhHXFPgwr/hh1/NY4TGZ3BR2U=
+X-Received: by 2002:a05:6512:281b:b0:50e:699b:55f with SMTP id
+ cf27-20020a056512281b00b0050e699b055fmr2420084lfb.66.1703471080172; Sun, 24
+ Dec 2023 18:24:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+ <ZYK/C3LzK8LMOjER@home.paul.comp> <3e7f9763-a481-40d1-a5aa-9d71ebe13d98@marcan.st>
+ <ZYa2Q8ALPbr09L4b@home.paul.comp> <CAF4BwTXJWYGT+8jp9dzxmSN7wbk7xZuy4tNSQDhxJ66UzhhgWw@mail.gmail.com>
+ <ZYb8jf3a/CsI3/D2@home.paul.comp> <CAF4BwTXm62PxBTM2bNX2MkTF4XUypNJAMpxMFaQ3LP5MHrfBZA@mail.gmail.com>
+ <ZYiGg+B/NsWuR64+@home.paul.comp> <CAF4BwTWpVRZJxQnsqKgvNxvruAnN7C=zH23bSvvJOikg5YiMsg@mail.gmail.com>
+In-Reply-To: <CAF4BwTWpVRZJxQnsqKgvNxvruAnN7C=zH23bSvvJOikg5YiMsg@mail.gmail.com>
+From: Daniel Berlin <dberlin@dberlin.org>
+Date: Sun, 24 Dec 2023 21:24:28 -0500
+Message-ID: <CAF4BwTUByEQLFhDNwtf0rtubi+ahqzCG90GoFNdamLLnemOr7g@mail.gmail.com>
+Subject: Re: Testing bits/080-wifi on BCM4345/6
+To: Paul Fertser <fercerpav@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+Staring closer, it looks like there is an undocumented iovar to
+retrieve some variant of per-channel txpower that is bounded by the
+hardware limit, but
+1. it's optional in the firmware, and only compiled into some firmware vers=
+ions.
 
-> IOMMU subsystem may contain state that is in gigabytes. Majority of that
-> state is iommu page tables. Yet, there is currently, no way to observe
-> how much memory is actually used by the iommu subsystem.
-> 
-> This patch series solves this problem by adding both observability to
-> all pages that are allocated by IOMMU, and also accountability, so
-> admins can limit the amount if via cgroups.
-> 
-> The system-wide observability is using /proc/meminfo:
-> SecPageTables:    438176 kB
-> 
-> Contains IOMMU and KVM memory.
-> 
-> Per-node observability:
-> /sys/devices/system/node/nodeN/meminfo
-> Node N SecPageTables:    422204 kB
-> 
-> Contains IOMMU and KVM memory memory in the given NUMA node.
-> 
-> Per-node IOMMU only observability:
-> /sys/devices/system/node/nodeN/vmstat
-> nr_iommu_pages 105555
-> 
-> Contains number of pages IOMMU allocated in the given node.
-> 
-> Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
-> 
-> With the change, iova_stress[1] stops as limit is reached:
-> 
-> # ./iova_stress
-> iova space:     0T      free memory:   497G
-> iova space:     1T      free memory:   495G
-> iova space:     2T      free memory:   493G
-> iova space:     3T      free memory:   491G
-> 
-> stops as limit is reached.
-> 
+2. All broadcom drivers (IE android, bcmdhd, brcmfmac) use a static
+value of min(30, regulatory limit) for max power.
+You can see this by looking at how they fill in max_power in the
+cfg80211 bands structures.
 
-I think this is *very* useful to provide visibility into a significant 
-amount of memory that we currently cannot observe on a host.  It can help 
-to uncover bugs and shed light onto a particularly large amount of memory 
-that would otherwise be mysterious.
+3. Even when the hardware txpwr limit is retrievable, you can't get it
+alone.  You can only get the chip's current regulatory limit, bounded
+by the hardware limit.
+The hardware limits are also not guaranteed to be static in any
+interesting way in the firmware (and in fact, vary per phy, etc)
+Meanwhile, the list you are seeing is only updated once per regulatory chan=
+ge.
 
-Joerg, Will, Robin, I think this series would go through the 
-git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git tree since it 
-depends on a common framework for all other IOMMU implementations to then 
-use?
+Given the above, I have doubts it'll be worth trying to get it to
+bound the displayed limits by the actual hardware limits (or that it
+will even give us real values if I do :P), but i'll take a whack at it
+after i fix the VHT issue you are experiencing.
 
-Any concerns about this patch series?  It would be very useful for us to 
-create visibility into this memory.
+--Dan
 
-
-Pasha: any chance of adding a selftest that can be run that will test the 
-value of nr_iommu_pages?  I could imagine in the future that a bug could 
-be introduced where either an allocation or free is done through 
-alloc_pages() directly and its paired alloc/free function now results in a 
-leak or underflow.
-
-> This series encorporates suggestions that came from the discussion
-> at LPC [2].
-> ----------------------------------------------------------------------
-> [1] https://github.com/soleen/iova_stress
-> [2] https://lpc.events/event/17/contributions/1466
-> ----------------------------------------------------------------------
-> Previous versions
-> v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
-> ----------------------------------------------------------------------
-> 
-> Pasha Tatashin (10):
->   iommu/vt-d: add wrapper functions for page allocations
->   iommu/amd: use page allocation function provided by iommu-pages.h
->   iommu/io-pgtable-arm: use page allocation function provided by
->     iommu-pages.h
->   iommu/io-pgtable-dart: use page allocation function provided by
->     iommu-pages.h
->   iommu/exynos: use page allocation function provided by iommu-pages.h
->   iommu/rockchip: use page allocation function provided by iommu-pages.h
->   iommu/sun50i: use page allocation function provided by iommu-pages.h
->   iommu/tegra-smmu: use page allocation function provided by
->     iommu-pages.h
->   iommu: observability of the IOMMU allocations
->   iommu: account IOMMU allocated memory
-> 
->  Documentation/admin-guide/cgroup-v2.rst |   2 +-
->  Documentation/filesystems/proc.rst      |   4 +-
->  drivers/iommu/amd/amd_iommu.h           |   8 -
->  drivers/iommu/amd/init.c                |  91 +++++-----
->  drivers/iommu/amd/io_pgtable.c          |  13 +-
->  drivers/iommu/amd/io_pgtable_v2.c       |  20 +-
->  drivers/iommu/amd/iommu.c               |  13 +-
->  drivers/iommu/exynos-iommu.c            |  14 +-
->  drivers/iommu/intel/dmar.c              |  10 +-
->  drivers/iommu/intel/iommu.c             |  47 ++---
->  drivers/iommu/intel/iommu.h             |   2 -
->  drivers/iommu/intel/irq_remapping.c     |  10 +-
->  drivers/iommu/intel/pasid.c             |  12 +-
->  drivers/iommu/intel/svm.c               |   7 +-
->  drivers/iommu/io-pgtable-arm.c          |   7 +-
->  drivers/iommu/io-pgtable-dart.c         |  37 ++--
->  drivers/iommu/iommu-pages.h             | 231 ++++++++++++++++++++++++
->  drivers/iommu/rockchip-iommu.c          |  14 +-
->  drivers/iommu/sun50i-iommu.c            |   7 +-
->  drivers/iommu/tegra-smmu.c              |  18 +-
->  include/linux/mmzone.h                  |   5 +-
->  mm/vmstat.c                             |   3 +
->  22 files changed, 390 insertions(+), 185 deletions(-)
->  create mode 100644 drivers/iommu/iommu-pages.h
-> 
-> -- 
-> 2.43.0.rc2.451.g8631bc7472-goog
-> 
-> 
-> 
+On Sun, Dec 24, 2023 at 3:20=E2=80=AFPM Daniel Berlin <dberlin@dberlin.org>=
+ wrote:
+>
+> I'll take a look with a pi.  I think I have one around.
+>
+>
+> You are correct on what it should be reporting but it is not.
+>
+> The actual per-channel hardware power limits are not retrieved and displa=
+yed in the list.  They are not part of the default info returned and nothin=
+g asks for them.
+> They are part of the ratespecs iirc.
+>
+> I believe I added support for iw link to display them once connected (alo=
+ng with other info we could retrieve).
+>
+> Sent from Gmail Mobile
+>
+>
+> On Sun, Dec 24, 2023 at 1:29=E2=80=AFPM Paul Fertser <fercerpav@gmail.com=
+> wrote:
+>>
+>> Hi Daniel,
+>>
+>> On Sat, Dec 23, 2023 at 09:43:55AM -0600, Daniel Berlin wrote:
+>> > What you are seeing now is the real state.  The chip and the stack
+>> > now have the same domain .  As such, those channels were always
+>> > disabled *as far as the chip was concerned*, you just didn't see it
+>> > because it didn't display it.  There is code in the driver  to
+>> > enable vht40/80 when the regulatory domain is set right.
+>>
+>> The global regdomain in "iw reg get" changes to the requested one but
+>> phy#0 is left at "country 99: DFS-UNSET". However that global domain
+>> clearly affects the channel lists as reported by "iw list".
+>>
+>> 1. 2.4 GHz channels get unlocked as they should (JP channel 14 stays
+>> disabled but that's likely irrelevant as it's 802.11b-only)
+>>
+>> 2. 5 GHz DFS channels get all disabled, no new channels are enabled so
+>> VHT40/80 are still not possible
+>>
+>> That's with clm_blob from Linux firmware tree.
+>>
+>>
+>> Another thing is the per-channel power limits reported. My current
+>> understanding is that "iw list" should be showing the currently active
+>> limit, that is, the minimum of: generic firmware limit, current
+>> regulatory limit, the specific hardware limit. So 30 dBm there looks
+>> wrong and inconsistent with the behavior of other drivers, e.g. mt76.
+>>
+>>
+>> Regarding testing on this hardware, raspberrypi docs say that Pi4 can
+>> be booted fully over wired network after minimal one-time
+>> configuration so that seems to be the easiest option for development.
+>>
+>> --
+>> Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
+>> mailto:fercerpav@gmail.com
