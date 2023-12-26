@@ -1,44 +1,44 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFDF4F8B7
-	for <asahi@lists.linux.dev>; Tue, 26 Dec 2023 17:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933F151C2B
+	for <asahi@lists.linux.dev>; Tue, 26 Dec 2023 18:09:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="YLhUBZYH"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-42786514fe6so42899501cf.0
-        for <asahi@lists.linux.dev>; Tue, 26 Dec 2023 09:58:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="iRPoNH54"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-427cff62e19so19706871cf.2
+        for <asahi@lists.linux.dev>; Tue, 26 Dec 2023 10:09:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1703613482; x=1704218282; darn=lists.linux.dev;
+        d=soleen.com; s=google; t=1703614172; x=1704218972; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eYH7udRxVOWUuYR1uviT4nzog+O468I+tsZ16QY52lY=;
-        b=YLhUBZYHaa+V45secGbMWqoWIuRq/9ZN6jZZYlkd7/j5R69mIu7m0OiaXgAH5AD+Wi
-         nJc+Unyv9OByvyqNdmyptTSl7rdmvPbRXwXN/TfL2JKikHVwmAXAwFOC6zmDM7isI7Ng
-         Cym4guyUjyz3gy83U6EbQThPHAaWCGoMTHq16oO81ALDhgEyGa4UeBCJAK2AY8u2LbK3
-         x9ygnWzwt4X5PMaIvVfcEUKVpWuUMU1CXxeMoXaYBqmF0CZex4/9LQZ4KksJysAt+iNU
-         bw6MPDUn3/03BNym8rHq/DtkLam6uzjQ2bqWwU7B4LbQ9TsEoZRK7j2d+Xdv6SwdotVh
-         Bu7A==
+        bh=b7PfHDnomUiobG04nKM0XGBe44UinAFtZn/zdJlhx7E=;
+        b=iRPoNH54kUwbmnAXs6551lZmcjJx+OIYDeu0sleoMhL6IXOpQzZsayzc26ei+hS2ak
+         /9bNPmchufox470MYmupUeai5DQ/3xpdBEVsiJxwJYSj4vVdZc3vvhwLNiCLUbiab/7a
+         KU7tZ4B+2Wgz3wflODAAPtnvUpxYZSJny0I3BNcBQbV0wxBOKqinjSF2y3N7wtLnBzaO
+         whjcEFqg8oj0/fqqKeszPEedemg9yxfwFQSj2qgmmqZ3AeVV1SDUhxO9G4NYOg9/1zaJ
+         Gtg5MtE6PSltC5k/Okv40LP394J5XbSgroCFL8604gAIXix1gj3y26pKo7AquEX4gyyb
+         gWXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703613482; x=1704218282;
+        d=1e100.net; s=20230601; t=1703614172; x=1704218972;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eYH7udRxVOWUuYR1uviT4nzog+O468I+tsZ16QY52lY=;
-        b=k4HSk2uEO0M4dMSXkCn7AQ0mWcyoLGvzXFsl3FDnWDpJ+6FH9uvd3L/CkJsX0bxGBq
-         hRD6VPMUcrkIWe6OPkv23djY9L+F6Lt+pgCEpdm437wRwnSY//EWGonxLiWM2A2iCR2p
-         IUfSyR0PzT/SkR3N8CjKETmRQiXyG7hXmf+t1Fbw6hlqyoYjKV9PfsANiAD3GvyTqEBt
-         6Q2GdeIJKRemvJ3oxto3Umx0D/pPragkmDvV9xMIH9Id1IAtSSHUHlxV0RXj4IWLuuJW
-         oS+WRXAUAyeSxm0EoSNfRfSDjWpNIjDWs8bJBT92MVCKZSFNbZnFLzSACxO88NdZGya2
-         PVfw==
-X-Gm-Message-State: AOJu0Yz5Jufhrsh2L69XwW8evgYUjAHqj5erGA+HIY48/DVxIr3D69uS
-	V4cfULJMRNSE7tORvm9FSPHFgubbjOwsizYaphaemIBCexfWIw==
-X-Google-Smtp-Source: AGHT+IF1mJ8zM3mxpNM9KsLehfwPoH0iCOIzFR/lBXLAAhZkeLDmK9jCB4DCOG5yTSpoP8aUapffGpK3Rjo+EEYkWKw=
-X-Received: by 2002:ac8:5915:0:b0:427:9fad:896a with SMTP id
- 21-20020ac85915000000b004279fad896amr10235427qty.56.1703613481775; Tue, 26
- Dec 2023 09:58:01 -0800 (PST)
+        bh=b7PfHDnomUiobG04nKM0XGBe44UinAFtZn/zdJlhx7E=;
+        b=Gv2MSFXGdC2sB3VE2Cc5bnMlM2wsEDDeG8Kl7q7LUg8D48NxEtqSDhjNg1CJjeADfO
+         pN7JNfXlsAjtI0jMLSiStT/tx7zHXn0I8lOSH5dEU6aUJj7MBoWVM+wTSlUO20RIh0F+
+         48fVsZof3pRw/m9x+AZlOeBAdLPSjPkrz909dC7jtnmf/8RRBDHOv49/Oo6Wes0vlQpI
+         l0CPp0D/CNn6TLyeG9YizSyKBh/iZce+qz3aanOqIidSv9Gq47rcWcvc6rawlPJc7MnA
+         Ik6Jr92F0HpH/3W8PS6gNaUF5rBEbl0YiMnxxb9/4jpSovVs9qBVyZjkRFDl1YRDvzjg
+         rwpA==
+X-Gm-Message-State: AOJu0Yy5UJZlrBg+Mmq5OOUs397DT2ivPfdDlgWgCq4HD40TmM52qlps
+	NSnTFUG7mjVnuT4fwG7S/4/uopFW+FxC6mzKb/ZeaZGzxnMjdQ==
+X-Google-Smtp-Source: AGHT+IEtGqiyCZMh5j3F5J6wchinmn9n9fLbR9QT0arAi9kviky2yh3yetb2CEZeXYs1U5tu4B71Z7W+qiWPVjn19sk=
+X-Received: by 2002:ac8:5fcf:0:b0:427:8b8f:823a with SMTP id
+ k15-20020ac85fcf000000b004278b8f823amr12805036qta.116.1703614172543; Tue, 26
+ Dec 2023 10:09:32 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -46,68 +46,52 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20231130201504.2322355-1-pasha.tatashin@soleen.com>
- <20231130201504.2322355-2-pasha.tatashin@soleen.com> <776e17af-ae25-16a0-f443-66f3972b00c0@google.com>
- <CA+CK2bA8iJ_w8CSx2Ed=d2cVSujrC0-TpO7U9j+Ow-gfk1nyfQ@mail.gmail.com>
- <1fd66377-030c-2e48-e658-4669bbf037e9@google.com> <ZYinEGCdl8mZjmXi@casper.infradead.org>
-In-Reply-To: <ZYinEGCdl8mZjmXi@casper.infradead.org>
+ <20231130201504.2322355-5-pasha.tatashin@soleen.com> <0db8fdb5-26ee-5069-30d2-118595516926@google.com>
+In-Reply-To: <0db8fdb5-26ee-5069-30d2-118595516926@google.com>
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 26 Dec 2023 12:57:25 -0500
-Message-ID: <CA+CK2bDWRN__FBw1N9j9RD3EE+0pca89ASKROA6tK_CGH17gNw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/10] iommu/vt-d: add wrapper functions for page allocations
-To: Matthew Wilcox <willy@infradead.org>
-Cc: David Rientjes <rientjes@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
-	baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org, 
-	corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, 
-	heiko@sntech.de, iommu@lists.linux.dev, jernej.skrabec@gmail.com, 
-	jonathanh@nvidia.com, joro@8bytes.org, krzysztof.kozlowski@linaro.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, 
-	m.szyprowski@samsung.com, paulmck@kernel.org, rdunlap@infradead.org, 
-	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
-	yu-cheng.yu@intel.com
+Date: Tue, 26 Dec 2023 13:08:56 -0500
+Message-ID: <CA+CK2bBYXdbqTxmw4YxDudnb4+1PwtSbimpff98JFWi+GjnT+g@mail.gmail.com>
+Subject: Re: [PATCH v2 04/10] iommu/io-pgtable-dart: use page allocation
+ function provided by iommu-pages.h
+To: David Rientjes <rientjes@google.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	will@kernel.org, yu-cheng.yu@intel.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Dec 24, 2023 at 4:48=E2=80=AFPM Matthew Wilcox <willy@infradead.org=
+On Sun, Dec 24, 2023 at 4:36=E2=80=AFPM David Rientjes <rientjes@google.com=
 > wrote:
 >
-> On Sun, Dec 24, 2023 at 01:30:50PM -0800, David Rientjes wrote:
-> > > > s/pages/page/ here and later in this file.
-> > >
-> > > In this file, where there a page with an "order", I reference it with
-> > > "pages", when no order (i.e. order =3D 0), I reference it with "page"
-> > >
-> > > I.e.: __iommu_alloc_page vs. __iommu_alloc_pages
-> > >
+> On Thu, 30 Nov 2023, Pasha Tatashin wrote:
+>
+> > Convert iommu/io-pgtable-dart.c to use the new page allocation function=
+s
+> > provided in iommu-pages.h.
 > >
-> > Eh, the struct page points to a (potentially compound) page, not a set =
-or
-> > list of pages.  I won't bikeshed on it, but "struct page *pages" never
-> > makes sense unless it's **pages or *pages[] :)
 >
-> I'd suggest that 'pages' also makes sense when _not_ using __GFP_COMP,
-> as we do in fact allocate an array of pages in that case.
+> ... and remove unnecessary struct io_pgtable_cfg formal to
+> __dart_alloc_pages() while there :)
+
+Added to the commit log.
+
 >
-> That said, we shouldn't encourage the use of non-compound allocations.
-> It would also be good for someone to define a memdesc for iommu memory
-> like we have already for slab.  We'll need it eventually, and it'll work
-> out better if someone who understands iommus (ie not me) does it.
+> > Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> > Reviewed-by: Janne Grunau <j@jannau.net>
+>
+> Acked-by: David Rientjes <rientjes@google.com>
 
-I was thinking of adding an IOMMU page table memdesc, at least by
-starting with Intel implementation.
-
-- For efficient freeing on page-unmap we need a counter.
-- We might also need a per-page page table locking (aka PTL type
-lock), if the current approach I am proposing is not scalable enough.
-- Access to debugfs (I am studying this now).
-
-However, iommu memdesc would really make sense, once all the various
-page table management IOMMU implementations are unified.
-
+Thank you,
 Pasha
