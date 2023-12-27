@@ -1,52 +1,52 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901B42D602
-	for <asahi@lists.linux.dev>; Wed, 27 Dec 2023 10:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663F52D78C
+	for <asahi@lists.linux.dev>; Wed, 27 Dec 2023 10:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a26ed08f3bcso214896866b.2
-        for <asahi@lists.linux.dev>; Wed, 27 Dec 2023 02:22:31 -0800 (PST)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-50e835800adso1004455e87.0
+        for <asahi@lists.linux.dev>; Wed, 27 Dec 2023 02:24:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703672549; x=1704277349;
+        d=1e100.net; s=20230601; t=1703672655; x=1704277455;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mi4TlIJ12BosdtGbAjBJ8dn6XFy5YIY+Ci6AaYE0l3g=;
-        b=IPj9HjL3/hzAzMBKktbayAt+0M92DjzuKn1PkF1eu1HiIQhGT3dN6r4wLfsDZHOn0Z
-         LGshHvh/zXv4IL1UHgsdf1NJloKhq3yLHHAdcSes6O/c2UMWaDkPvQf5rrWOKf3V+3y/
-         m135WS2XbHrPU/x5MFuQOu5jXnaj7a4NtvtWrCtKKXKmWscyj++ObFzsa+z8e2PL7rXS
-         JCzjtZ2wYH1o3RMbYnaJ/eSFMYvq148M9KGPhBV+/FlCM4Dq2yYdvTTBkd8DUsVWB2lo
-         bfSApuHRJlEArN9Q2JSRWOXy0e7vND03we1BRcuH5DYvFy+ZzF1EeoMSYp+0dw7rsX5E
-         CWXw==
-X-Gm-Message-State: AOJu0Yw7Q9FrKLJxOGtm1PPJtuqReHZFdqxw2dviPhIpoPjIEDmKU7if
-	Oh5R6XfjRsQ6qFWPD7VvtzqcT4Ewjfq44preK8A=
-X-Google-Smtp-Source: AGHT+IEsbZVU+r817IDt4zHLSec6NpfEctuczaGySkxNpCDEOMH7Gsrgr4GrjtxVBrhQBmWhlzsHGg==
-X-Received: by 2002:a17:906:3f05:b0:a19:a19a:ea9f with SMTP id c5-20020a1709063f0500b00a19a19aea9fmr3595601ejj.88.1703672549361;
-        Wed, 27 Dec 2023 02:22:29 -0800 (PST)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
-        by smtp.gmail.com with ESMTPSA id ex1-20020a170907954100b00a26f22dca5asm2489755ejc.0.2023.12.27.02.22.28
+        bh=pVwxJBV9dNfPBB0zTv6L5ZFrZ/KLxWM50ofClNNSEY8=;
+        b=hBY6kEfPYSoWmqbxHDwN1fmUM487fIzkHT3wg/gzCw86bUsC+KgFfIDIfR3Flwre4z
+         YXHIIqfd/M04ccXfEJYNGS4pd/mhIwiiEzH8WrLqvA9Ie3xBKnm6lbJyfV41PeaHH8as
+         aln+e0P15nF6HdIFDPsId2VWsUPidO27hL+vBVrRNX4Cdo5FGHpQ5gx833iBzh0f9m7l
+         9sO/gKaR2W/Cv0R9wMVr+63W0BmwNNi9UddIotv9MlAo9wvTX6vqCS6EqLk5bLEiHSJ7
+         K3BobD/GFulyb6g1Z94CneQkQxgExzoakTqtizMbW4aQlHJ0DdZqiRuuaRmEmKElUyI3
+         YPoA==
+X-Gm-Message-State: AOJu0Yx6RD4CQtM1dBKcHbxeeDEpl4PuzIo26hjD535i2InvfxBB1r2s
+	RKsQsu2LMdHxw8A/wvFxvV4cxeh144jTPDJ5Sqw=
+X-Google-Smtp-Source: AGHT+IGC4TzM3yn/2tzS7BGFGb4kCxyjp1fegzG59+V8lHTXpEk2GJYAauJ2w8bxKpxN7P/E0M5G+w==
+X-Received: by 2002:ac2:4a72:0:b0:50e:7b34:c17b with SMTP id q18-20020ac24a72000000b0050e7b34c17bmr1068400lfp.74.1703672655377;
+        Wed, 27 Dec 2023 02:24:15 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by smtp.gmail.com with ESMTPSA id s24-20020aa7cb18000000b0054ce9ef93fbsm8398872edt.4.2023.12.27.02.24.14
         for <asahi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Dec 2023 02:22:29 -0800 (PST)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a26ed08f3bcso214894966b.2
-        for <asahi@lists.linux.dev>; Wed, 27 Dec 2023 02:22:28 -0800 (PST)
-X-Received: by 2002:a17:906:f744:b0:a26:9534:92f9 with SMTP id
- jp4-20020a170906f74400b00a26953492f9mr2993627ejb.106.1703672547815; Wed, 27
- Dec 2023 02:22:27 -0800 (PST)
+        Wed, 27 Dec 2023 02:24:15 -0800 (PST)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-55361b7f38eso5874813a12.0
+        for <asahi@lists.linux.dev>; Wed, 27 Dec 2023 02:24:14 -0800 (PST)
+X-Received: by 2002:a17:906:46d8:b0:a23:5eb9:367d with SMTP id
+ k24-20020a17090646d800b00a235eb9367dmr2329262ejs.227.1703672654628; Wed, 27
+ Dec 2023 02:24:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <77419ffacc5b4875e920e038332575a2a5bff29f.camel@mrman314.tech>
-In-Reply-To: <77419ffacc5b4875e920e038332575a2a5bff29f.camel@mrman314.tech>
+References: <aaa107865f4cbd61f8f9006fd3e7ac43b5d1bdad.camel@mrman314.tech>
+In-Reply-To: <aaa107865f4cbd61f8f9006fd3e7ac43b5d1bdad.camel@mrman314.tech>
 From: Neal Gompa <neal@gompa.dev>
-Date: Wed, 27 Dec 2023 05:21:50 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je8fjbyQL725oGrqTr1kArBWFi=uMPYeLzse_d7DUn2Eqw@mail.gmail.com>
-Message-ID: <CAEg-Je8fjbyQL725oGrqTr1kArBWFi=uMPYeLzse_d7DUn2Eqw@mail.gmail.com>
-Subject: Re: [PATCH v3] Bluetooth: Fix Bluetooth for BCM4377 on T2 Intel MacBooks
+Date: Wed, 27 Dec 2023 05:23:37 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je83qHR=5v6YbAguVH8QNmnaPV6GKb6U6aDcV-_+cE291Q@mail.gmail.com>
+Message-ID: <CAEg-Je83qHR=5v6YbAguVH8QNmnaPV6GKb6U6aDcV-_+cE291Q@mail.gmail.com>
+Subject: Re: [PATCH v4] Bluetooth: Fix Bluetooth for BCM4377 on T2 Intel MacBooks
 To: Felix Zhang <mrman@mrman314.tech>
 Cc: linux-bluetooth@vger.kernel.org, stable@vger.kernel.org, marcan@marcan.st, 
 	bagasdotme@gmail.com, sven@svenpeter.dev, alyssa@rosenzweig.io, 
@@ -56,47 +56,31 @@ Cc: linux-bluetooth@vger.kernel.org, stable@vger.kernel.org, marcan@marcan.st,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 25, 2023 at 3:01=E2=80=AFPM Felix Zhang <mrman@mrman314.tech> w=
+On Mon, Dec 25, 2023 at 3:21=E2=80=AFPM Felix Zhang <mrman@mrman314.tech> w=
 rote:
 >
-> Starting v6.5, Bluetooth does not work at all on my T2 MacBookAir9,1
->
-> with the BCM4377 chip.  When I boot up the computer, go into
-> bluetoothctl, and then try to run commands like scan on, show, list,
-> it returns "No default controller available."  I have tried reloading
-> the
-> kernel module, in which the log outputs "{Added,Removed} hci0
-> (unconfigured)."  With this patch, I am able to use Bluetooth as
-> normal
-> without any errors regarding hci0 being unconfigured.  However, an
-> issue is still present where sometimes hci_bcm4377 will have to be
-> reloaded in order to get bluetooth to work.  I believe this was still
-> present before the previously mentioned commit.
->
-> Due to the bit HCI_QUIRK_USE_BDADDR_PROPERTY being always set in
-> drivers/bluetooth/hci_bcm4377.c (line 2371), the chip would be left
-> unconfigured on kernels compiled after commit 6945795bc81a
-> ("Bluetooth:
-> fix use-bdaddr-property quirk") due to a change in its logic.  On the
-> M1 Macs, the device would be configured in the devicetree.  However,
-> that is not the case on T2 Macs.  Because the bluetooth adapter is
-> left
-> unconfigured, it is not usable in the operating system.  In order to
-> circumvent this issue, a flag is added to prevent the bit from being
-> set on the BCM4377, while setting it on the other devices.
->
-> Because I do not have an M1 device to test this patch on, I am not sure
-> whether the patch breaks anything for said devices.  I would be very
-> grateful if anyone is willing to test this patch on their M1 device.
+> Starting v6.5, Bluetooth does not work at all on my T2
+> MacBookAir9,1 with the BCM4377 chip.  When I boot up the computer,
+> go into bluetoothctl, and then try to run commands like scan on,
+> show, list, it returns "No default controller available."  I have
+> tried reloading the kernel module, in which the log outputs
+> "{Added,Removed} hci0 (unconfigured)."  With this patch, I
+> am able to use Bluetooth as normal without any errors regarding
+> hci0 being unconfigured.  However, an issue is still present
+> where sometimes hci_bcm4377 will have to be reloaded in order to
+> get bluetooth to work.  I believe this was still present before
+> the previously mentioned commit.
 >
 > I would also like to thank Kerem Karabay <kekrby@gmail.com> for
 > assisting me with this patch.
 >
 > Fixes: 6945795bc81a ("Bluetooth: fix use-bdaddr-property quirk")
+> Cc: <stable@vger.kernel.org>
 > Signed-off-by: Felix Zhang <mrman@mrman314.tech>
 > ---
-> v3:
+> v4:
 > * Adjust the format to pass the CI (again).
+> * Shorten description
 > ---
 >  drivers/bluetooth/hci_bcm4377.c | 6 +++++-
 >  1 file changed, 5 insertions(+), 1 deletion(-)
@@ -114,7 +98,7 @@ rote:
 >
 >         int (*send_calibration)(struct bcm4377_data *bcm4377);
 >         int (*send_ptb)(struct bcm4377_data *bcm4377,
-> @@ -2368,7 +2369,8 @@ static int bcm4377_probe(struct pci_dev *pdev,
+> @@ -2368,5 +2369,6 @@ static int bcm4377_probe(struct pci_dev *pdev,
 > const struct pci_device_id *id)
 >         hdev->set_bdaddr =3D bcm4377_hci_set_bdaddr;
 >         hdev->setup =3D bcm4377_hci_setup;
@@ -123,9 +107,6 @@ rote:
 > +       if (bcm4377->hw->use_bdaddr_property)
 > +               set_bit(HCI_QUIRK_USE_BDADDR_PROPERTY, &hdev->quirks);
 >         if (bcm4377->hw->broken_mws_transport_config)
->                 set_bit(HCI_QUIRK_BROKEN_MWS_TRANSPORT_CONFIG, &hdev-
-> >quirks);
->         if (bcm4377->hw->broken_ext_scan)
 > @@ -2465,6 +2467,7 @@ static const struct bcm4377_hw
 > bcm4377_hw_variants[] =3D {
 >                 .has_bar0_core2_window2 =3D true,
@@ -147,12 +128,14 @@ rote:
 > --
 > 2.43.0
 >
+>
 
-This looks reasonable to me, thanks for fixing this!
+Sorry, excuse me for replying to the wrong message, I got confused by
+Gmail on what to reply to.
+
+This is fine and thanks for the fix!
 
 Reviewed-by: Neal Gompa <neal@gompa.dev>
-
-
 
 
 --=20
