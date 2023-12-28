@@ -1,95 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710057466;
-	Thu, 28 Dec 2023 12:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90823C8DE
+	for <asahi@lists.linux.dev>; Thu, 28 Dec 2023 14:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WlnJ6fLM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D71F2C433C8;
-	Thu, 28 Dec 2023 12:10:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1703765457;
-	bh=gC2BNbPpsT8NBQuqVA/gwgYEvuw7NsOU5Nw1q+1sLtA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WlnJ6fLMKC+M7L6MuT6FYUKuSqH0fbr+u0SBvsa5rWauRKMtFMt+w3ATQHP5Hk0Cg
-	 3SqcW5A33OeLeWbQ8hlH7oGJDwtIxne9C38wNjQmS3LkhAIty37+cuP20OsCnu3BcD
-	 yfSDBZOmOxHE88e39ei8kJpahk9eZSYM7uaHVLu8U8DDPfMhiwmCXS30sbyk/i8b3M
-	 yOtcGxoJIcGw+ozu4Pn/kItozA886UP1hosPmApYc3cgqDIVx0ZKEZaLFVI2go5A9e
-	 +8jL60BTu5EetftSMfXNg/KtyzxMdQXDZDvK6CrUujHyi2hMONioowCDYv6V0lK9SY
-	 +Qz6jVjvsvwkw==
-Received: from johan by xi.lan with local (Exim 4.96.2)
-	(envelope-from <johan@kernel.org>)
-	id 1rIpDv-00046r-1D;
-	Thu, 28 Dec 2023 13:10:52 +0100
-Date: Thu, 28 Dec 2023 13:10:51 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>, Felix Zhang <mrman@mrman314.tech>,
-	linux-bluetooth@vger.kernel.org, stable@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Orlando Chamberlain <orlandoch.dev@gmail.com>, kekrby@gmail.com,
-	admin@kodeit.net, Janne Grunau <j@jannau.net>,
-	Aditya Garg <gargaditya08@live.com>, asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Bluetooth: Fix Bluetooth for BCM4377 on T2 Intel
- MacBooks
-Message-ID: <ZY1ly_uB8huYl5jO@hovoldconsulting.com>
-References: <AB87C916-9CF9-4B8C-AFF5-74CA4151C4FC@svenpeter.dev>
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="l0rpBrVQ"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-427e83601c4so10203331cf.0
+        for <asahi@lists.linux.dev>; Thu, 28 Dec 2023 06:37:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1703774244; x=1704379044; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VU21beHWoGJM/Oi2NFAV2MrwGlZZbvr3br6yMg4QftQ=;
+        b=l0rpBrVQbYkQnE/K5z8TciZ3OZIIYDD8Urqr3N4UgGngs2iEutLNnNLoyM2QCzwYTj
+         wixG+Fk9CRBS9o+rT7jR/UXtOxL8pEAXGMUokybttlKUfMDq1Y7t5+dYk3ZmgndxhuJp
+         KOW95t8U1bCZXUcrQ96W+/ZgGTVK1/GkVCgrdhYdO0uu0/IqdA0LQyW3pWbIl3uD8kKZ
+         2hO5ll32avI4uYQT7csj7jYEFB0G0oj1PcNpx0ahIJvlCvCHbXXc9D6uWGFGovgmpBz7
+         xIc9zpSA1f+OloSPap3miDKcxeH3ZdyCgXaygWRPuJPzymu6Qf5rNtnMTCk+gUaGYDtB
+         FhEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703774244; x=1704379044;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VU21beHWoGJM/Oi2NFAV2MrwGlZZbvr3br6yMg4QftQ=;
+        b=CvFQqW0g0X6p2WpWaFf//zoLlbWNKPQH5ulzki+5CdtjMpdtFtqiHAkjK1HBG7mNoU
+         0N9cpbVVKvjBA/BaH135wYz1/8gymnT4LCPIoO3Q1qsc339Vod622SPnTgmhyWDYNsyA
+         k7S/AShM60d+WM5FNzoWN09b2fCpvmm3WKIb0hBznYO2qpSKpsCwtjHbMNpKnoWH2E5I
+         3vZYGgh1CXEbGXc9Xew0WcdM2IeYUs4DoFlbMitz11N6NHH6WLf7AYAKayxQykEZl5LG
+         0INm314D/RVK1MsmL/v0CUqwuV7bPt6NicHDMxAmhk912CwT0TITKfycV9mrlCWuBWWi
+         S+Hg==
+X-Gm-Message-State: AOJu0Yz8zP08WlTQp/9ZXXphRHIoZviZj3pJH8ZwD3rNyZ8eJdpW3Hfx
+	9qWccPIEmwrTdYYpwm+Wikm+AMaiVnkVvCcXcq6PP8bKTvdebA==
+X-Google-Smtp-Source: AGHT+IG/UmSKlDQRlBa0+Is4JntOVZHhkiYS93o0FbAPPReWbU+HuVGCau4VX0GkprQKsQRXjMZhGZwl3l+vLHMY8rQ=
+X-Received: by 2002:ac8:7f54:0:b0:41e:a62b:3d18 with SMTP id
+ g20-20020ac87f54000000b0041ea62b3d18mr11492563qtk.59.1703774244502; Thu, 28
+ Dec 2023 06:37:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <AB87C916-9CF9-4B8C-AFF5-74CA4151C4FC@svenpeter.dev>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com> <ZYv3BIeEgY8LnH7U@archie.me>
+In-Reply-To: <ZYv3BIeEgY8LnH7U@archie.me>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 28 Dec 2023 09:36:48 -0500
+Message-ID: <CA+CK2bCSB46sZUrx+jsCCtGb-DFUuU9wvCaTamYtKnDAaG9eVA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/10] IOMMU memory observability
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
+	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
+	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com, 
+	Josh Don <joshdon@google.com>, YouHong Li <liyouhong@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Dec 28, 2023 at 10:46:57AM +0100, Sven Peter wrote:
+> > This series encorporates suggestions that came from the discussion
+> > at LPC [2].
+> > ----------------------------------------------------------------------
+> > [1] https://github.com/soleen/iova_stress
+> > [2] https://lpc.events/event/17/contributions/1466
+> > ----------------------------------------------------------------------
+> > Previous versions
+> > v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
+> > v2: https://lore.kernel.org/linux-mm/20231130201504.2322355-1-pasha.tatashin@soleen.com
+> > ----------------------------------------------------------------------
+> >
+>
+> First of all, Merry Christmas and Happy New Year for all!
+>
+> And for this series, no observable regressions when booting the kernel with
+> the series applied.
+>
+> Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-> > On Dec 27, 2023, at 11:30, Johan Hovold <johan@kernel.org> wrote:
+Thank you for testing.
 
-> > The commit you tracked this down to restored the original semantics for
-> > HCI_QUIRK_USE_BDADDR_PROPERTY, which means that it should only be set
-> > for devices with an invalid address.
-> > 
-> > The Broadcom BCM4377 driver has so far been setting this flag
-> > unconditionally which now potentially results in also valid addresses
-> > being marked as invalid.
-> > 
-> > I've just sent a patch that makes sure to only mark invalid addresses as
-> > invalid:
-> > 
-> > https://lore.kernel.org/lkml/20231227101003.10534-1-johan+linaro@kernel.org/
-> > 
-> > Note however that the flag still needs to be set in case your device
-> > lacks storage for a unique device address so you cannot simply drop it
-> > for some device classes as you do below (unless you are certain that
-> > these devices will always have a valid address).
-
-> We do know that though.
-> 
-> BCM4377 is present on Apple’s x86 Macs and always has internal storage
-> for the address. If the board comes up without an address there’s nothing
-> much we can do because the address isn’t provided by ACPI or anything
-> else and setting the invalid address quirk for that situation seems appropriate.
-> 
-> BCM4378/4387 is present on Apple’s ARM Macs and never has internal storage.
-> The address is always provided by our bootloader in the device tree.
-> These should always unconditionally set HCI_QUIRK_USE_BDADDR_PROPERTY
-> just like this patch does.
-
-Ok, good, then this patch and the one I posted are mostly equivalent
-assuming that the BCM4378/4387 return an invalid address during setup.
-
-This patch may be preferred as it does not need to rely on such
-assumptions, though.
-
-Johan
+Pasha
