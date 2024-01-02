@@ -1,105 +1,162 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139A1156FE
-	for <asahi@lists.linux.dev>; Tue,  2 Jan 2024 18:40:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BpHH2EDn"
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2cca8eb0509so85520151fa.3
-        for <asahi@lists.linux.dev>; Tue, 02 Jan 2024 10:40:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704220811; x=1704825611; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hi/vkiq78X0yzEwfWzDqipOcXVRGcQevtOptU3VRDoU=;
-        b=BpHH2EDnanKyLAqKhnxb4egjar9lObcG5fmrB2RJ/37HFXyNjGLWwgJCb+RAl3RSL5
-         e111NSv8kN2Dtp8MdjxXRBUtBDoIqC9FVm8hTLUYGaUfRoU8M9IP9Avkqg23LIKHpljM
-         C8UOzZLlGxxxRAhDgxpuHBF5xas2gCv1cUsxb2bv2icr7pMQbJrAerNPjwudz7TQbMq+
-         DhhUpavy+tDPJ5MHiIdYkNiO9FJq9qWuo1Et3DoPsVh+auFeL8CvLgEPPn5CJDnq4DeY
-         P/ObxqXixTnfoCKJFBcDfcQMSjCK5XItLnplElNfNUVV0msKI2AhF8JTu3ucfF3p2XCu
-         JWbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704220811; x=1704825611;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hi/vkiq78X0yzEwfWzDqipOcXVRGcQevtOptU3VRDoU=;
-        b=MdBCWyTq2kvGJARul6JHdIVPTMokRztHdzIrtaJRe+qkDi4PaI/BbL5IIfybjWT2DJ
-         0p8an745FmHLdBaEGu2qFvpMmkp4RUCVgVShjadyjTLqwXOqDo2iLBJTLIr3qIAAmLPE
-         LYN1aQ1YcWZel8wMypIyja3nqRtfUmjELOc8K7FNfYpKKZOUHMzPpAzty4ik2mIon9K7
-         Gzt2w/+NcWlseEVzLya2s35OD0YkMAs7PhWptyovUrvavJ/MT26ZPCuuJWKCSMMnqDoU
-         3YzVmvdiVv5ZWjk+5ZLCjNOXuEq4znm/KaU353SZCZQz36wg9vzF/xftJqSCJZ9wUUQG
-         lWZQ==
-X-Gm-Message-State: AOJu0YxkR0hX7m3omobSq6d7EkOwaf2rjG6Iyz3C0g1BvIIe5RLCMQyk
-	pKN9eO485h4twR/ZxCCWxy29UMjXodQGMwqcvWI=
-X-Google-Smtp-Source: AGHT+IEucWctf1n9df5Yb6yWXLi6BW+gSmfIgPxnXufEaYgrcM35uHM13oukW9MfN5nEiH6X3XJLisPQ5YnD8SB+11I=
-X-Received: by 2002:a2e:b791:0:b0:2cc:7a2e:28f4 with SMTP id
- n17-20020a2eb791000000b002cc7a2e28f4mr7346388ljo.88.1704220810795; Tue, 02
- Jan 2024 10:40:10 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368E415ACE
+	for <asahi@lists.linux.dev>; Tue,  2 Jan 2024 18:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=v0yd.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=v0yd.nl
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4T4MMT3lScz9sXk;
+	Tue,  2 Jan 2024 19:49:09 +0100 (CET)
+Message-ID: <13fc1f7f-9990-4ad4-b8a8-54a9365083e2@v0yd.nl>
+Date: Tue, 2 Jan 2024 19:49:08 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Subject: Re: [PATCH v2 4/4] Bluetooth: Queue a HCI power-off command before
+ rfkilling adapters
+Content-Language: en-US
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>, asahi@lists.linux.dev,
+ linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org
 References: <20240102181946.57288-1-verdre@v0yd.nl>
-In-Reply-To: <20240102181946.57288-1-verdre@v0yd.nl>
-From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date: Tue, 2 Jan 2024 13:39:58 -0500
-Message-ID: <CABBYNZ+sTko6reoJO43W2LHGW58f0kK_8Zgc3mep7xki355=iA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] Power off HCI devices before rfkilling them
-To: =?UTF-8?Q?Jonas_Dre=C3=9Fler?= <verdre@v0yd.nl>
-Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, asahi@lists.linux.dev, 
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <20240102181946.57288-5-verdre@v0yd.nl>
+ <CABBYNZ+uy50g2CSJ37DL63ycSJc96Xegdjcr6N2weJfCiGO_Aw@mail.gmail.com>
+From: =?UTF-8?Q?Jonas_Dre=C3=9Fler?= <verdre@v0yd.nl>
+In-Reply-To: <CABBYNZ+uy50g2CSJ37DL63ycSJc96Xegdjcr6N2weJfCiGO_Aw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4T4MMT3lScz9sXk
 
-Hi Jonas,
+On 1/2/24 19:31, Luiz Augusto von Dentz wrote:
+> Hi Jonas,
+> 
+> On Tue, Jan 2, 2024 at 1:19 PM Jonas Dreßler <verdre@v0yd.nl> wrote:
+>>
+>> On a lot of platforms (at least the MS Surface devices, M1 macbooks, and
+>> a few ThinkPads) firmware doesn't do its job when rfkilling a device
+>> and the bluetooth adapter is not actually shut down on rfkill. This leads
+>> to connected devices remaining in connected state and the bluetooth
+>> connection eventually timing out after rfkilling an adapter.
+>>
+>> Use the rfkill hook in the HCI driver to actually power the device off
+>> before rfkilling it.
+>>
+>> Note that the wifi subsystem is doing something similar by calling
+>> cfg80211_shutdown_all_interfaces()
+>> in it's rfkill set_block callback (see cfg80211_rfkill_set_block).
+> 
+> So the rfkill is supposed to be wait for cleanup, not a forceful
+> shutdown of RF traffic? I assume it would be the later since to do a
+> proper cleanup that could cause more RF traffic while the current
+> assumption was to stop all traffic and then call hdev->shutdown to
+> ensure the driver does shutdown the RF traffic, perhaps this
+> assumption has changed over time since interrupting the RF traffic may
+> cause what you just described because the remote end will have to rely
+> on link-loss logic to detect the connection has been terminated.
 
-On Tue, Jan 2, 2024 at 1:19=E2=80=AFPM Jonas Dre=C3=9Fler <verdre@v0yd.nl> =
-wrote:
->
-> In theory the firmware is supposed to power off the bluetooth card
-> when we use rfkill to block it. This doesn't work on a lot of laptops
-> though, leading to weird issues after turning off bluetooth, like the
-> connection timing out on the peripherals which were connected, and
-> bluetooth not connecting properly when the adapter is turned on again
-> quickly after rfkilling.
->
-> This series hooks into the rfkill driver from the bluetooth subsystem
-> to send a HCI_POWER_OFF command to the adapter before actually submitting
-> the rfkill to the firmware and killing the HCI connection.
->
-> ---
->
-> v1 -> v2: Fixed commit message title to make CI happy
->
-> Jonas Dre=C3=9Fler (4):
->   Bluetooth: Remove HCI_POWER_OFF_TIMEOUT
->   Bluetooth: mgmt: Remove leftover queuing of power_off work
->   Bluetooth: Add new state HCI_POWERING_DOWN
->   Bluetooth: Queue a HCI power-off command before rfkilling adapters
+Yes, it seems to me that as soon as the rfkill happens, anything in the 
+drivers hdev->shutdown to shut things down will no longer go through to 
+the card. I'd assume this is something that's enforced by firmware and 
+we can't change, or would that be a bug on our side?
 
-Apart from the assumption of RFKILL actually killing the RF
-immediately or not, I'm fine with these changes, that said it would be
-great if we can have some proper way to test the behavior of rfkill,
-perhaps via mgmt-tester, since it should behave like the
-MGMT_OP_SET_POWERED.
+But yeah, proper shutdown of the adapter requires a bit more RF traffic. 
+If rfkill guarantees that it shuts down all RF traffic *immediately*, 
+maybe it would be better to expect power-off MGMT commands from 
+userspace before rfkilling? But given that the disconnect appears to 
+happen fine on some hardware, this seemed like the obvious and more 
+reliable way to me.
 
->  include/net/bluetooth/hci.h |  2 +-
->  net/bluetooth/hci_core.c    | 33 ++++++++++++++++++++++++++++++---
->  net/bluetooth/hci_sync.c    | 16 +++++++++++-----
->  net/bluetooth/mgmt.c        | 30 ++++++++++++++----------------
->  4 files changed, 56 insertions(+), 25 deletions(-)
->
-> --
-> 2.43.0
->
+> 
+>> Signed-off-by: Jonas Dreßler <verdre@v0yd.nl>
+>> ---
+>>   net/bluetooth/hci_core.c | 33 ++++++++++++++++++++++++++++++---
+>>   1 file changed, 30 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/net/bluetooth/hci_core.c b/net/bluetooth/hci_core.c
+>> index 1ec83985f..1c91d02f7 100644
+>> --- a/net/bluetooth/hci_core.c
+>> +++ b/net/bluetooth/hci_core.c
+>> @@ -543,6 +543,23 @@ int hci_dev_open(__u16 dev)
+>>          return err;
+>>   }
+>>
+>> +static int set_powered_off_sync(struct hci_dev *hdev, void *data)
+>> +{
+>> +       return hci_set_powered_sync(hdev, false);
+>> +}
+>> +
+>> +static void set_powered_off_sync_complete(struct hci_dev *hdev, void *data, int err)
+>> +{
+>> +       if (err)
+>> +               bt_dev_err(hdev, "Powering HCI device off before rfkilling failed (%d)", err);
+>> +}
+>> +
+>> +static int hci_dev_do_poweroff(struct hci_dev *hdev)
+>> +{
+>> +       return hci_cmd_sync_queue(hdev, set_powered_off_sync,
+>> +                                 NULL, set_powered_off_sync_complete);
+>> +}
+>> +
+>>   int hci_dev_do_close(struct hci_dev *hdev)
+>>   {
+>>          int err;
+>> @@ -943,17 +960,27 @@ int hci_get_dev_info(void __user *arg)
+>>   static int hci_rfkill_set_block(void *data, bool blocked)
+>>   {
+>>          struct hci_dev *hdev = data;
+>> +       int err;
+>>
+>>          BT_DBG("%p name %s blocked %d", hdev, hdev->name, blocked);
+>>
+>>          if (hci_dev_test_flag(hdev, HCI_USER_CHANNEL))
+>>                  return -EBUSY;
+>>
+>> +       if (blocked == hci_dev_test_flag(hdev, HCI_RFKILLED))
+>> +               return 0;
+>> +
+>>          if (blocked) {
+>> -               hci_dev_set_flag(hdev, HCI_RFKILLED);
+>>                  if (!hci_dev_test_flag(hdev, HCI_SETUP) &&
+>> -                   !hci_dev_test_flag(hdev, HCI_CONFIG))
+>> -                       hci_dev_do_close(hdev);
+>> +                   !hci_dev_test_flag(hdev, HCI_CONFIG)) {
+>> +                       err = hci_dev_do_poweroff(hdev);
+>> +                       if (err) {
+>> +                               bt_dev_err(hdev, "Powering off device before rfkilling failed (%d)",
+>> +                                          err);
+>> +                       }
+> 
+> You already have the error printed on set_powered_off_sync_complete
+> not sure why you have it here as well.
+> 
+>> +               }
+>> +
+>> +               hci_dev_set_flag(hdev, HCI_RFKILLED);
+> 
+> Before we used to set the HCI_RFKILLED beforehand, is this change
+> really intended or not? I think we should keep doing it ahead of power
+> off sequence since we can probably use it to ignore if there are any
+> errors on the cleanup, etc.
 
+Good point, it's been a while since I wrote that patch, maybe something 
+in the power-off logic bails out if HCI_RFKILLED is set and that's why I 
+moved it below, I'll check that...
 
---=20
-Luiz Augusto von Dentz
+> 
+>>          } else {
+>>                  hci_dev_clear_flag(hdev, HCI_RFKILLED);
+>>          }
+>> --
+>> 2.43.0
+>>
+> 
+> 
