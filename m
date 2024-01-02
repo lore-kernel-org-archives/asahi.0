@@ -1,16 +1,16 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEFA311C8F
-	for <asahi@lists.linux.dev>; Tue,  2 Jan 2024 13:33:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DE911C93
+	for <asahi@lists.linux.dev>; Tue,  2 Jan 2024 13:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=v0yd.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=v0yd.nl
 Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4T4DMD1n5Qz9sWC;
-	Tue,  2 Jan 2024 14:33:28 +0100 (CET)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4T4DM34RLKz9sWY;
+	Tue,  2 Jan 2024 14:33:19 +0100 (CET)
 From: =?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>
 To: Marcel Holtmann <marcel@holtmann.org>,
 	Johan Hedberg <johan.hedberg@gmail.com>,
@@ -20,9 +20,9 @@ Cc: =?UTF-8?q?Jonas=20Dre=C3=9Fler?= <verdre@v0yd.nl>,
 	linux-bluetooth@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org
-Subject: [PATCH 4/4] hci: Queue a HCI power-off command before rfkilling adapters
-Date: Tue,  2 Jan 2024 14:33:10 +0100
-Message-ID: <20240102133311.6712-5-verdre@v0yd.nl>
+Subject: [PATCH 1/4] Bluetooth: HCI: Remove HCI_POWER_OFF_TIMEOUT
+Date: Tue,  2 Jan 2024 14:33:07 +0100
+Message-ID: <20240102133311.6712-2-verdre@v0yd.nl>
 In-Reply-To: <20240102133311.6712-1-verdre@v0yd.nl>
 References: <20240102133311.6712-1-verdre@v0yd.nl>
 Precedence: bulk
@@ -33,85 +33,29 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4T4DMD1n5Qz9sWC
+X-Rspamd-Queue-Id: 4T4DM34RLKz9sWY
 
-On a lot of platforms (at least the MS Surface devices, M1 macbooks, and
-a few ThinkPads) firmware doesn't do its job when rfkilling a device
-and the bluetooth adapter is not actually shut down on rfkill. This leads
-to connected devices remaining in connected state and the bluetooth
-connection eventually timing out after rfkilling an adapter.
-
-Use the rfkill hook in the HCI driver to actually power the device off
-before rfkilling it.
-
-Note that the wifi subsystem is doing something similar by calling
-cfg80211_shutdown_all_interfaces()
-in it's rfkill set_block callback (see cfg80211_rfkill_set_block).
+With commit cf75ad8b41d2aa06f98f365d42a3ae8b059daddd, the power off
+sequence got refactored so that this was no longer necessary, let's
+remove the leftover define from the header too.
 
 Signed-off-by: Jonas Dreßler <verdre@v0yd.nl>
 ---
- net/bluetooth/hci_core.c | 33 ++++++++++++++++++++++++++++++---
- 1 file changed, 30 insertions(+), 3 deletions(-)
+ include/net/bluetooth/hci.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/net/bluetooth/hci_core.c b/net/bluetooth/hci_core.c
-index 1ec83985f..1c91d02f7 100644
---- a/net/bluetooth/hci_core.c
-+++ b/net/bluetooth/hci_core.c
-@@ -543,6 +543,23 @@ int hci_dev_open(__u16 dev)
- 	return err;
- }
+diff --git a/include/net/bluetooth/hci.h b/include/net/bluetooth/hci.h
+index 111e8f8e5..cf5d6230c 100644
+--- a/include/net/bluetooth/hci.h
++++ b/include/net/bluetooth/hci.h
+@@ -426,7 +426,6 @@ enum {
+ #define HCI_NCMD_TIMEOUT	msecs_to_jiffies(4000)	/* 4 seconds */
+ #define HCI_ACL_TX_TIMEOUT	msecs_to_jiffies(45000)	/* 45 seconds */
+ #define HCI_AUTO_OFF_TIMEOUT	msecs_to_jiffies(2000)	/* 2 seconds */
+-#define HCI_POWER_OFF_TIMEOUT	msecs_to_jiffies(5000)	/* 5 seconds */
+ #define HCI_LE_CONN_TIMEOUT	msecs_to_jiffies(20000)	/* 20 seconds */
+ #define HCI_LE_AUTOCONN_TIMEOUT	msecs_to_jiffies(4000)	/* 4 seconds */
  
-+static int set_powered_off_sync(struct hci_dev *hdev, void *data)
-+{
-+	return hci_set_powered_sync(hdev, false);
-+}
-+
-+static void set_powered_off_sync_complete(struct hci_dev *hdev, void *data, int err)
-+{
-+	if (err)
-+		bt_dev_err(hdev, "Powering HCI device off before rfkilling failed (%d)", err);
-+}
-+
-+static int hci_dev_do_poweroff(struct hci_dev *hdev)
-+{
-+	return hci_cmd_sync_queue(hdev, set_powered_off_sync,
-+				  NULL, set_powered_off_sync_complete);
-+}
-+
- int hci_dev_do_close(struct hci_dev *hdev)
- {
- 	int err;
-@@ -943,17 +960,27 @@ int hci_get_dev_info(void __user *arg)
- static int hci_rfkill_set_block(void *data, bool blocked)
- {
- 	struct hci_dev *hdev = data;
-+	int err;
- 
- 	BT_DBG("%p name %s blocked %d", hdev, hdev->name, blocked);
- 
- 	if (hci_dev_test_flag(hdev, HCI_USER_CHANNEL))
- 		return -EBUSY;
- 
-+	if (blocked == hci_dev_test_flag(hdev, HCI_RFKILLED))
-+		return 0;
-+
- 	if (blocked) {
--		hci_dev_set_flag(hdev, HCI_RFKILLED);
- 		if (!hci_dev_test_flag(hdev, HCI_SETUP) &&
--		    !hci_dev_test_flag(hdev, HCI_CONFIG))
--			hci_dev_do_close(hdev);
-+		    !hci_dev_test_flag(hdev, HCI_CONFIG)) {
-+			err = hci_dev_do_poweroff(hdev);
-+			if (err) {
-+				bt_dev_err(hdev, "Powering off device before rfkilling failed (%d)",
-+					   err);
-+			}
-+		}
-+
-+		hci_dev_set_flag(hdev, HCI_RFKILLED);
- 	} else {
- 		hci_dev_clear_flag(hdev, HCI_RFKILLED);
- 	}
 -- 
 2.43.0
 
