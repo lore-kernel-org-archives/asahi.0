@@ -1,125 +1,143 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE84C20309
-	for <asahi@lists.linux.dev>; Thu,  4 Jan 2024 08:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC2E241FC;
+	Thu,  4 Jan 2024 15:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="CuxMj0Yh";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cQByYA58"
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 7E7363200B6C;
-	Thu,  4 Jan 2024 03:23:21 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 04 Jan 2024 03:23:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1704356601; x=1704443001; bh=rz7t4L7SKYLUwAKIGyc8115AY3LogDAT
-	d1ChHOD/0oc=; b=CuxMj0YhgZgVN9nQlbqv3g8O25QP8c+q1hw0w+1UCP7cRpON
-	tAgmiiyEt9adMomTbE6qKlpNGA4nzSLuSj755y6s/OFFL85a70r/wCB/4Sm9PQcl
-	HZSLArZJq077/V4pagBmFPhw0EmD+3aGmgp6W6xh/5pFTk04ZV1wKCNzK3VahFm0
-	ZbolZjpMQdkGPWNtctCeDQaodfzTme20DCxO+93RnfAN+3QgC3p9JXh8vC1fHBwY
-	M6/bks/2MOJMhNdmoZkX+02J0zTHILTQPBdcGRu8aTK7gPjMClNEuLCCBXY9Okk8
-	Y6ir2gZCE8XTVemZZ5jhh/94V6z16MHFwrogLA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1704356601; x=
-	1704443001; bh=rz7t4L7SKYLUwAKIGyc8115AY3LogDATd1ChHOD/0oc=; b=c
-	QByYA58xbiVKL++txKhgK+9GfySSwu7RVubvk6l00OXBzK6Sb7a4SwhHnq23vbee
-	8d/JYJ5Y/Mh8wkHdRsNv8/NY3Fi/58OS+g7Qoc9JV2O8Miz3eRSPVyOZQuLhekFM
-	xj7/D41hgOBi7k0JS1sCAM9zn0Krg1XpSg51EBkuhEYZVti1Uhy0nV6c40yL7O4N
-	gX2jkJVFPFqpS43BKHOKX30zb1+f+OKWNJ6HbEWiT3jXZE1I8A/6dCNnj3mZ0Dgz
-	Glp8dOwHFFiD7AIx7nR7qqkLEN6N/xJzxIpo+a3LkvZof37ddtpvCUMy6yjpkwil
-	vmYvllIHwpKpqhitnzG9A==
-X-ME-Sender: <xms:-GqWZZJNDhyFrMjBDOd86NgueDtUTeYByGjd6jv-jlhAUuZMuJklwA>
-    <xme:-GqWZVJPVjJJpBog9Azkzewkeea5MFuBByWv7oOmgFRtZmb-3_X1lAOP8DuBe1vyp
-    J1CLicfc1eHuWIn1cE>
-X-ME-Received: <xmr:-GqWZRvK-yx9eQF_Lbtl7fGe4RaG7yrBpvFWk-spIkEtzOYqmpe1Mxn6gH2i_BrUj7MdXdQdryJCWYHuW66yzFjYqoyYt9DJAMGgOxPkS2vy6RIyAs9J44z_>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdegiedgudduiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpegtgffhggfufffkfhevjgfvofesthhqmhdthhdtjeenucfhrhhomhepufhv
-    vghnucfrvghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrg
-    htthgvrhhnpedvhfdtudduvdeujeeufffgudekvdefvefgueeiiedvledtheegieevffdt
-    teekudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:-GqWZaa7kF7AmepnONSOQJp4Sj4bpHiQbV1Nv7qBQriNTEJOxg0LJA>
-    <xmx:-GqWZQbOgnkVDRMyDiaF4VIFK0jjKZ7NCA5L6h8yBKZ4CjXtOCEYsA>
-    <xmx:-GqWZeC4OeQsNCJDyYb5YzxH0KEv3RjV3FmVv58-8d_mZMR4A_VxCw>
-    <xmx:-WqWZath5Qm2XCq50Kn2MYIhOhKECOUNQa2_bGp7cFf8jkvgM9srCA>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Jan 2024 03:23:20 -0500 (EST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Sven Peter <sven@svenpeter.dev>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="Pae+nnL8";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="d4W1wAY3"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CBE9822090;
+	Thu,  4 Jan 2024 15:31:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1704382280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fzC23ESDAqjrYsUUWU3jTenMnuzE0UYEATU9SXb7+hA=;
+	b=Pae+nnL8GFn/90/6MVvjWD52MleXZMEQSfyVMqUsSKCAAx6kTTQ7y/fR66ckCQIKBeUAWK
+	ZfkewmROo/43t3zJCXwA4wYyzrHCpas+/WrNiHncgarksTqf+Lw1E9AYw5YalW31ApoY+p
+	y/Ok7gnLnUEo3mCXBRa4HaaMb+5GVtI=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1704382279; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fzC23ESDAqjrYsUUWU3jTenMnuzE0UYEATU9SXb7+hA=;
+	b=d4W1wAY3OJtJtth1XCzoTR7umctbQgU0lYLtet8VnS+QUeM0A3AJQV+WHXCTfVtktmNHnL
+	9d5K3STBwSK115bhRlI9joaJ/AMggRm/BXcBxrrEBrOVb2hmKluJ3nUltLD//+znrx279P
+	D3ebRpFcyuqMyw7qj9a8bYKRWfjXt9Q=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 11D3A13722;
+	Thu,  4 Jan 2024 15:31:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cw50A0fPlmUBUAAAD6G6ig
+	(envelope-from <mkoutny@suse.com>); Thu, 04 Jan 2024 15:31:19 +0000
+Date: Thu, 4 Jan 2024 16:31:17 +0100
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, 
+	alyssa@rosenzweig.io, asahi@lists.linux.dev, baolu.lu@linux.intel.com, 
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, iommu@lists.linux.dev, 
+	jernej.skrabec@gmail.com, jonathanh@nvidia.com, joro@8bytes.org, 
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
+	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 00/10] IOMMU memory observability
+Message-ID: <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v3] Bluetooth: Fix Bluetooth for BCM4377 on T2 Intel MacBooks
-Date: Thu, 4 Jan 2024 09:23:08 +0100
-Message-Id: <4D53181A-F6AC-4571-9E84-3B19AB37ADFE@svenpeter.dev>
-References: <ZZZqgsjeY3R4YlVG@hovoldconsulting.com>
-Cc: Aditya Garg <gargaditya08@live.com>,
- Paul Menzel <pmenzel@molgen.mpg.de>, Felix Zhang <mrman@mrman314.tech>,
- linux-bluetooth@vger.kernel.org, stable@vger.kernel.org,
- Johan Hovold <johan+linaro@kernel.org>, Hector Martin <marcan@marcan.st>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Orlando Chamberlain <orlandoch.dev@gmail.com>, kekrby@gmail.com,
- admin@kodeit.net, Janne Grunau <j@jannau.net>, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-In-Reply-To: <ZZZqgsjeY3R4YlVG@hovoldconsulting.com>
-To: Johan Hovold <johan@kernel.org>
-X-Mailer: iPhone Mail (21C66)
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3miwvahtspdiywqu"
+Content-Disposition: inline
+In-Reply-To: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+X-Spam-Level: 
+X-Spam-Level: 
+X-Spam-Score: -0.42
+X-Rspamd-Queue-Id: CBE9822090
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=d4W1wAY3
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Bar: /
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-0.42 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	 URIBL_BLOCKED(0.00)[suse.com:dkim,soleen.com:email];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	 BAYES_HAM(-0.01)[51.19%];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 DKIM_TRACE(0.00)[suse.com:+];
+	 MX_GOOD(-0.01)[];
+	 RCPT_COUNT_TWELVE(0.00)[44];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:dkim];
+	 SIGNED_PGP(-2.00)[];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+,1:+,2:~];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[linux-foundation.org,samsung.com,rosenzweig.io,lists.linux.dev,linux.intel.com,google.com,vger.kernel.org,lwn.net,redhat.com,infradead.org,cmpxchg.org,sntech.de,gmail.com,nvidia.com,8bytes.org,linaro.org,kvack.org,lists.infradead.org,bytedance.com,marcan.st,kernel.org,arm.com,sholland.org,amd.com,svenpeter.dev,csie.org,intel.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
 
 
->=20
-> On 4. Jan 2024, at 09:21, Johan Hovold <johan@kernel.org> wrote:
->=20
-> =EF=BB=BFOn Thu, Jan 04, 2024 at 08:50:19AM +0100, Sven Peter wrote:
->>> On 4. Jan 2024, at 08:47, Aditya Garg <gargaditya08@live.com> wrote:
->>>> On 28-Dec-2023, at 5:41=E2=80=AFPM, Johan Hovold <johan@kernel.org> wro=
-te:
->=20
->>>> Ok, good, then this patch and the one I posted are mostly equivalent
->>>> assuming that the BCM4378/4387 return an invalid address during setup.
->>>>=20
->>>> This patch may be preferred as it does not need to rely on such
->>>> assumptions, though.
->=20
->>> So what's the final take on this? Which one is gonna be merged upstream?=
+--3miwvahtspdiywqu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->>=20
->> I would=E2=80=99ve preferred this one (possibly with a better commit mess=
-age)
->> since it=E2=80=99s more explicit and doesn=E2=80=99t rely on additional a=
-ssumptions
->> but it looks like Johan=E2=80=99s version was already merged.
->=20
-> Which addresses do BCM4378/4387 return before they are configured?
-> Should be easy enough to verify that the current check for invalid
-> addresses catches those or otherwise add them to the list.
->=20
-> Johan
+Hello.
 
-I think the check used to work for BRCM4378 when I originally wrote the driv=
-er but I don=E2=80=99t have any BRCM4387 hardware so can=E2=80=99t test that=
- myself.
+On Tue, Dec 26, 2023 at 08:01:55PM +0000, Pasha Tatashin <pasha.tatashin@soleen.com> wrote:
+> This patch series solves this problem by adding both observability to
+> all pages that are allocated by IOMMU, and also accountability, so
+> admins can limit the amount if via cgroups.
+
+Maybe this is a mismatch in vocabulary what you mean by the verb
+"limit". But I don't see in the patchset that the offending pages would
+be allocated with GFP_ACCOUNT. So the result is that the pages are
+accounted (you can view the amount in memory.stat) but they are not
+subject to memcg limits.
+
+Is that what you intend?
 
 
-Sven
+Regards,
+Michal
 
+--3miwvahtspdiywqu
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQpEWyjXuwGT2dDBqAGvrMr/1gcjgUCZZbPOgAKCRAGvrMr/1gc
+jk4WAQCSVaG9CWTytNlHm4t/CSbpxTWFYWcybzn/jqIJ0y0DDgEA0/XJAjN4NyF+
+F6HbClZ0bzyKHY2eGvX2UwXRtcfFPQM=
+=GWPV
+-----END PGP SIGNATURE-----
+
+--3miwvahtspdiywqu--
