@@ -1,112 +1,121 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8BB42C18C
-	for <asahi@lists.linux.dev>; Thu,  4 Jan 2024 19:13:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6F020B1B;
+	Fri,  5 Jan 2024 08:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="lAKV8Mp9"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-6dc1fdc19b6so521009a34.0
-        for <asahi@lists.linux.dev>; Thu, 04 Jan 2024 11:13:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D47xxc2Q"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-40d89446895so1625055e9.0;
+        Fri, 05 Jan 2024 00:20:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1704395583; x=1705000383; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1704442828; x=1705047628; darn=lists.linux.dev;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/+vYEuDAPJ/iEdESxX2pInRN4g9EPXyQ5h9FSdd/4u4=;
-        b=lAKV8Mp9pwi1JiBiwgTP4JPSrG5LXGEVxeEzNRcsala9Ss9K0tFZSFeja3ccbK/9Tj
-         mjl7Y1ohk8ByeA6jZ2fYDcyW9P2yxyAGHcUmGbBaZ+Zj0WrlJrZx9Q5AfFXrO9U39z/r
-         sruejraI2Yk8y1kRwVSgTb18j9uos9ULnV3l6L+VqJ9D3rgrSZLHNOOVbUjXs7Vm0GDP
-         zDcugmvK2IxesXUgBChY6gEWudceiYiW+/mwS4YGLIuYaFqc1duoVjZrDXImvkp03/Xg
-         i9xQlCw5tsZdyjNM0by7jHBmNS7zunO/CxJ7ps4funLcM3rzUCmNxVQUaL3+8mVtPPoJ
-         ajmg==
+        bh=UirpifrpW6YIRosDr0Ki+l8kjsuIejuWaHX21FvuZXo=;
+        b=D47xxc2QlN5HRkFyo8T6lDDEkbUV1JnFTlYbWnqFaDVv1sot9j0KyKf/4JHGEbKCWd
+         vyqBcbO9O1EuduNX7rCK8PcEnGGdwt1XvEp4d1rLHYHWrLMoEVutV26xd1ZYJPSWhry5
+         kVxtH+oEi2GhM3UCxsxHvMpM7f/+LgSHji8WQvCzBZUr+sby/9kbyp2dMJgJdDyj8cRy
+         hsgFaUOeywLCRTjIdj/Ly4QRcR6Xiqe/s9n/8sCKKi7jGZzLl5Ykwr7QuJgoCkRQXjk1
+         Z9VoJYv/TKOYMUAdk1BOHc9TmUP9ThEdYyli32CWPIGa4GexR4tYH55Fbgs9vjiS6ljG
+         v6Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704395583; x=1705000383;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1704442828; x=1705047628;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/+vYEuDAPJ/iEdESxX2pInRN4g9EPXyQ5h9FSdd/4u4=;
-        b=E8sYcQKswYSkL52Q6FXEUffTYx6rgvGyIZ2815JP0y/bqjOYg4xFPRHmniX0k0pKQy
-         wWw0BGOiRXmtFjvxo0TqLtJYX8+iZVD47CZqyOjZxb5o7z/im0cieI3M29pSWr1b0uSN
-         NKAPEE9re1xc1eDur/MGBx2iHud+ygy5+SHm6/DkbyRtDXz4/eAFVmdjVJXGeuZAiLMp
-         dEbFx5mO8uRSoqg9qJqODbo/vkeTha/LXho0g+HpE1s+qz19qQqYGPXD8BZvFWVmph1b
-         OhAbCNd6v/BXRh3aye+jl+e/UZPrNjsYySRedCNmHFPeFmjOICCekc6R4DT1qqZKHSHi
-         Wqgw==
-X-Gm-Message-State: AOJu0Yyk9lVrvXzhypj8x9+tNP80h7KrXDJG/DhQZVCgkuofCCZEA+n3
-	yx6fSMR9HIfmSxr5SgVSsK7vI/CfP3KAvAqaUdZ8StmGipCnFg==
-X-Google-Smtp-Source: AGHT+IF/5x1qWEeEN53jwIdamLjEry3P/nE1f12xa2taaKft/YlEJdrBP6aDzExJ1bDcrqKpemuFKkiIEAFmrNQGE5k=
-X-Received: by 2002:a05:6358:8828:b0:174:b7f2:51db with SMTP id
- hv40-20020a056358882800b00174b7f251dbmr1188037rwb.19.1704395582852; Thu, 04
- Jan 2024 11:13:02 -0800 (PST)
+        bh=UirpifrpW6YIRosDr0Ki+l8kjsuIejuWaHX21FvuZXo=;
+        b=k5+n9LuMArll0PcmjHWSmbq48CH2utoXE7LURYnsxn2Z8ho4G+IHpX4mpA0pqgqa7f
+         sct/pa1en9o/s2OuXgPnCn7N0beTufbU8gWJJJScy3c++WpfAGA6e6+3pCIbVZIRF2ew
+         lT2up5ScPO5UU15JKEFyxwSnrIMJT3rsthUcg/rUVxH3Q8eF2uoC1Y9mYUpGU3qpILZw
+         N9tNnyv5q9AowRH9pNOHuuk/RItOfRVU+WLePdzmP6/Bjxr0eZpeuy190us4S9DS/KRM
+         MnhWhOh6cxM+Csij3vakUBa5KoAKgiq5ftqG86A3Etd1HwCsUylYUKOrxB1DrrgTugDU
+         ubCA==
+X-Gm-Message-State: AOJu0YwHDPSC+EGInPM9VNYPRinaz6X+HU/dhxkn8XPl/99OADny4SDk
+	gxC+swOwfbMK4V2AcQjkAts=
+X-Google-Smtp-Source: AGHT+IHMgrGKGIkfpqwpUlWkD6o90yPervTOv/x0T4n2N+OmVuREFRfDKOS87FVN6VWMXcJ9sQ/Mcw==
+X-Received: by 2002:a05:600c:5486:b0:40e:3538:a5c0 with SMTP id iv6-20020a05600c548600b0040e3538a5c0mr821797wmb.1.1704442827675;
+        Fri, 05 Jan 2024 00:20:27 -0800 (PST)
+Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id j26-20020a05600c1c1a00b0040e3804ea71sm806474wms.10.2024.01.05.00.20.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jan 2024 00:20:26 -0800 (PST)
+Date: Fri, 5 Jan 2024 09:20:23 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com, bhelgaas@google.com,
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, tj@kernel.org, tomas.mudrunka@gmail.com,
+	vdumpa@nvidia.com, wens@csie.org, will@kernel.org,
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 08/10] iommu/tegra-smmu: use page allocation function
+ provided by iommu-pages.h
+Message-ID: <ZZe7x-l3Lxwp-4kq@orome.fritz.box>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-9-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <eqkpplwwyeqqd356ka3g6isaoboe62zrii77krsb7zwzmvdusr@5i3lzfhpt2xe>
- <CA+CK2bBE1bQuqZy3cbWiv8V3vJ8YNJZRayp6Wv-j2_9i37XT4g@mail.gmail.com> <eng4vwaci5hwlicszgcld6uny55vll2bfs3vp2yjbjf3exhamg@zf6yc2uhax7w>
-In-Reply-To: <eng4vwaci5hwlicszgcld6uny55vll2bfs3vp2yjbjf3exhamg@zf6yc2uhax7w>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 4 Jan 2024 14:12:26 -0500
-Message-ID: <CA+CK2bCUGepLLA2Hsmq00XEhPzLWPb5CjzY_UPT0qWSKastjAQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] IOMMU memory observability
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="8IeHlBnAmdcVLGIU"
+Content-Disposition: inline
+In-Reply-To: <20231226200205.562565-9-pasha.tatashin@soleen.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
+
+
+--8IeHlBnAmdcVLGIU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 4, 2024 at 12:04=E2=80=AFPM Michal Koutn=C3=BD <mkoutny@suse.co=
-m> wrote:
->
-> On Thu, Jan 04, 2024 at 11:29:43AM -0500, Pasha Tatashin <pasha.tatashin@=
-soleen.com> wrote:
-> > Thank you for taking a look at this. The two patches [1] [2] which add
-> > GFP_KERNEL_ACCOUNT were sent separate from this series at request of
-> > reviewers:
->
-> Ah, I didn't catch that.
->
-> Though, I mean the patch 02/10 calls iommu_alloc_pages() with GFP_KERNEL
-> (and not a passed gfp from iommu_map).
-> Then patch 09/10 accounts all iommu_alloc_pages() under NR_IOMMU_PAGES.
->
-> I think there is a difference between what's shown NR_IOMMU_PAGES and
-> what will have __GFP_ACCOUNT because of that.
->
-> I.e. is it the intention that this difference is not subject to
-> limiting?
+On Tue, Dec 26, 2023 at 08:02:03PM +0000, Pasha Tatashin wrote:
+> Convert iommu/tegra-smmu.c to use the new page allocation functions
+> provided in iommu-pages.h.
+>=20
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Acked-by: David Rientjes <rientjes@google.com>
+> ---
+>  drivers/iommu/tegra-smmu.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
 
-Yes, we will have a difference between GFP_ACCOUNT and what
-NR_IOMMU_PAGES shows. GFP_ACCOUNT is set only where it makes sense to
-charge to user processes, i.e. IOMMU Page Tables, but there more IOMMU
-shared data that should not really be charged to a specific process.
-The charged and uncharged data will be visible via /proc/vmstat
-nr_iommu_pages field.
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-Pasha
+--8IeHlBnAmdcVLGIU
+Content-Type: application/pgp-signature; name="signature.asc"
 
->
-> (Note: I'm not familiar with iommu code and moreover I'm only looking at
-> the two patch sets, not the complete code applied. So you may correct my
-> reasoning.)
->
->
-> Thanks,
-> Michal
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmWXu8cACgkQ3SOs138+
+s6HXkg//YOz2qzNPS3zbXb9R+gceE/gBdW73WaBVARCvXhhc5PWwWZctFyPH4Hf7
+KDyc0njiNk3tDVY28wbWI3Ex8fbdkb+B8CUlZihhhRxtYaEUiHjkUK7cyR8i81Dq
+pv2Bw67wRrXUthITgzpBOOqdeI+FpB/ch6GKIH0S13F/NpIwmLemg/u5THAgTAyw
+IBi+44VeFWXKky8rT2s/rENv2JAhz5ltYql0CGxFEYhqiIunEb2eqDPgbfr8vLKv
+2mvQmIOZsY04NO86V6eTKTM7+Ue5tzt+jHrMVr0gH/DkHkcmbOoPTn/lBsZ8IFi/
+3nhtBB5ofmX/+80r6w9u/reWpqxUWyvRcJYsE06Nw/AAZN6IZM1ds+6bal1QJ8Zn
+Cw+zagqq5Sqj2ah/tQ/W3rOzbs/XLMD0xLkRl7/kcjjOq+LfZFAzx3zqNyB3Vzlp
+/q+60iAGtwkI04MSGlkKjVkHpIrtSKQFWXbnM79/c5GEevy4r/W2/d7k+phM0y/Y
+GrblcAFFlQfSm4K19PEWARzu0mHOHFqIIcd6vfRONCuGFSAcmtvdB3KOfap5jP4H
+ebZ1R6zDoreUq4hYVBSiRxYxmfDgRUyTQcOTDhEGy/JyteRgvKVhDwgPH+ql3OGS
+wSPkv6/wg5Y8w2lR1QHCG/KXFjZ84iBLdT38/7QZqAR6hfMBGno=
+=MX0T
+-----END PGP SIGNATURE-----
+
+--8IeHlBnAmdcVLGIU--
