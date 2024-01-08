@@ -1,122 +1,73 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714F955E68
-	for <asahi@lists.linux.dev>; Mon,  8 Jan 2024 18:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CB85577A;
+	Mon,  8 Jan 2024 19:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N9zBaWJw"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2cd053d5683so24117661fa.2
-        for <asahi@lists.linux.dev>; Mon, 08 Jan 2024 10:05:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1704737114; x=1705341914; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m3UVrTC07ELqxg07etwEf6qXVGPgDZ/12FKTrGxeD48=;
-        b=N9zBaWJwkuaPHvnwnA9gOTI3gP62ebdzmxBcblHAQ8W/BHfD8vzNTQymkPPNd9yx/o
-         CodY8ShvDOctFLWMBxcydpDewXb99Q0HclAKg4+oKD2ZagiTbuw8aa/tW/YqDwa6j30j
-         t6ElAvCO2+ML/fYpc1Pns7Hn0CEnBtrJ60xizmatOkaTy84iqwfd/F26eTx57KZyf3uO
-         un7OV/YGh1bOxzls4zOQG9H3xTU1xDPmqY2uuU24aNtAHyT+hhkE+tJSI1nBGCvn3GNq
-         3RiFeFMUXLsvCQ5xacpSk/lE5IEtHreUqIbFX0OmFayRSZA8+fpIhgBT/QSS2q6Z+lWf
-         T7NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704737114; x=1705341914;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m3UVrTC07ELqxg07etwEf6qXVGPgDZ/12FKTrGxeD48=;
-        b=n/L3/OF6NQih1IcJnKcN3eNQ+JR/d5gixYhFosRcUp1ZrUYp5XAB49pOnZiDYXbxt+
-         rWdDKCwzOWz5KsEBrlxLKTBs0vw1spBcOry+/zRc9doufK6E2N3NM2PZfvdpp4wfexTO
-         +1wbvW6o842Yyg7Tyc2JjeueZ9oUnookGtKgiO9lp2ptWiBdLLwOkV4vFRubxuDMJ6CA
-         1MRv2QOop3O5sILnlbxpj73vvDlouh+i7cIkwgFgExugheI12GBBq5WiHBaLZ2LcWztf
-         1DIDdGB9NuPqYVX/Xn/4mnkSEUm4rrWKVsEyxxyrqvtfFFYRrTs9YFORnPLWBrwhBeaN
-         cuJg==
-X-Gm-Message-State: AOJu0Yx2R6tF1Qcd9Dumg3OGpvPvJBBHuGiQ4WnaFCr9TOuF19/9/wEb
-	eElRch8MHCmQGX+QcayWqrG5LeWxvbXzw3OAAc8=
-X-Google-Smtp-Source: AGHT+IErJFChwpJeDSy4snncmEsk8rrbMMy7EVL/VN0pAXMi36cdPn2kfH83cxAhZU2KXGm06wd2Xo52ajIW0EozX3A=
-X-Received: by 2002:a2e:b7d5:0:b0:2cc:e68b:ee5e with SMTP id
- p21-20020a2eb7d5000000b002cce68bee5emr1708726ljo.1.1704737114025; Mon, 08 Jan
- 2024 10:05:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uXkQnT4G"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D11C8C433C9;
+	Mon,  8 Jan 2024 19:50:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1704743424;
+	bh=0R3bpc27hcCzzufZYy8bYrLwXlIvquQi9vH4lSu1txc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=uXkQnT4GkZK9j3hsFkK7Wa4gCks+oVxf+oU5Bjt9LDpPVP3wzxajXkOJIHKodqO4y
+	 XLKMulzxatP9ASPPWSXiRxcxKdwpXcYFLBG+Y6HFQWyfggeTKhItqZZ6C4bLO6PA44
+	 mSege+o7McbESQCY4arkPh5yrRvlOmFEG0NUZC7Hz17p8duzX7dkT+OvRQ6tgXFJby
+	 OtIKlJtEHqi9oeL/DmWfho33ubkV/r8relvmNGBAClxTlJVK/oBZyKg5AZ2kJuIuSJ
+	 U4tGyVBUCWj5tygSMuBj258m1DosIBguXXzsLk7kNWfq1eZN4AUh5Y3g0AoWBledEf
+	 Y8B0UFXGLddzQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B8BFBDFC686;
+	Mon,  8 Jan 2024 19:50:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3 0/4] Disconnect devices before rfkilling adapter
+From: patchwork-bot+bluetooth@kernel.org
+Message-Id: 
+ <170474342475.29412.16996245383427159713.git-patchwork-notify@kernel.org>
+Date: Mon, 08 Jan 2024 19:50:24 +0000
 References: <20240107180252.73436-1-verdre@v0yd.nl>
 In-Reply-To: <20240107180252.73436-1-verdre@v0yd.nl>
-From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date: Mon, 8 Jan 2024 13:05:01 -0500
-Message-ID: <CABBYNZ+rDo6ftN1+HdeWm6gij14YF_19WGRP7LM4Vjw-UWOTng@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Disconnect devices before rfkilling adapter
-To: =?UTF-8?Q?Jonas_Dre=C3=9Fler?= <verdre@v0yd.nl>
-Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, asahi@lists.linux.dev, 
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: =?utf-8?q?Jonas_Dre=C3=9Fler_=3Cverdre=40v0yd=2Enl=3E?=@ci.codeaurora.org
+Cc: marcel@holtmann.org, johan.hedberg@gmail.com, luiz.dentz@gmail.com,
+ asahi@lists.linux.dev, linux-bluetooth@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org
 
-Hi Jonas,
+Hello:
 
-On Sun, Jan 7, 2024 at 1:03=E2=80=AFPM Jonas Dre=C3=9Fler <verdre@v0yd.nl> =
-wrote:
->
+This series was applied to bluetooth/bluetooth-next.git (master)
+by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
+
+On Sun,  7 Jan 2024 19:02:46 +0100 you wrote:
 > Apparently the firmware is supposed to power off the bluetooth card
 > properly, including disconnecting devices, when we use rfkill to block
 > bluetooth. This doesn't work on a lot of laptops though, leading to weird
 > issues after turning off bluetooth, like the connection timing out on the
 > peripherals which were connected, and bluetooth not connecting properly
 > when the adapter is turned on again after rfkilling.
->
-> This series uses the rfkill hook in the bluetooth subsystem
-> to execute a few more shutdown commands and make sure that all
-> devices get disconnected before we close the HCI connection to the adapte=
-r.
->
-> ---
->
-> v1: https://lore.kernel.org/linux-bluetooth/20240102133311.6712-1-verdre@=
-v0yd.nl/
-> v2: https://lore.kernel.org/linux-bluetooth/20240102181946.57288-1-verdre=
-@v0yd.nl/
-> v3:
->  - Update commit message titles to reflect what's actually happening
->    (disconnecting devices, not sending a power-off command).
->  - Doing the shutdown sequence synchronously instead of async now.
->  - Move HCI_RFKILLED flag back again to be set before shutdown.
->  - Added a "fallback" hci_dev_do_close() to the error path because
->    hci_set_powered_sync() might bail-out early on error.
->
-> Jonas Dre=C3=9Fler (4):
->   Bluetooth: Remove HCI_POWER_OFF_TIMEOUT
->   Bluetooth: mgmt: Remove leftover queuing of power_off work
->   Bluetooth: Add new state HCI_POWERING_DOWN
->   Bluetooth: Disconnect connected devices before rfkilling adapter
->
->  include/net/bluetooth/hci.h |  2 +-
->  net/bluetooth/hci_core.c    | 35 +++++++++++++++++++++++++++++++++--
->  net/bluetooth/hci_sync.c    | 16 +++++++++++-----
->  net/bluetooth/mgmt.c        | 30 ++++++++++++++----------------
->  4 files changed, 59 insertions(+), 24 deletions(-)
->
-> --
-> 2.43.0
+> 
+> [...]
 
-I will probably be applying this sortly, but let's try to add tests to
-mgmt-tester just to make sure we don't introduce regressions later,
-btw it seems there are a few suspend test that do connect, for
-example:
+Here is the summary with links:
+  - [v3,1/4] Bluetooth: Remove HCI_POWER_OFF_TIMEOUT
+    https://git.kernel.org/bluetooth/bluetooth-next/c/f48705f473ce
+  - [v3,2/4] Bluetooth: mgmt: Remove leftover queuing of power_off work
+    https://git.kernel.org/bluetooth/bluetooth-next/c/2e7a6a997c9a
+  - [v3,3/4] Bluetooth: Add new state HCI_POWERING_DOWN
+    https://git.kernel.org/bluetooth/bluetooth-next/c/2b16c80d8011
+  - [v3,4/4] Bluetooth: Disconnect connected devices before rfkilling adapter
+    https://git.kernel.org/bluetooth/bluetooth-next/c/088656165c2d
 
-Suspend - Success 5 (Pairing - Legacy) - waiting 1 seconds
-random: crng init done
-  New connection with handle 0x002a
-  Test condition complete, 1 left
-Suspend - Success 5 (Pairing - Legacy) - waiting done
-  Set the system into Suspend via force_suspend
-  New Controller Suspend event received
-  Test condition complete, 0 left
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
---=20
-Luiz Augusto von Dentz
+
