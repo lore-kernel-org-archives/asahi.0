@@ -1,125 +1,138 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADD353E04
-	for <asahi@lists.linux.dev>; Mon, 22 Jan 2024 18:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E52547A47
+	for <asahi@lists.linux.dev>; Mon, 22 Jan 2024 20:51:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705946516; cv=none; b=qyNZgQ/NLP59Vrwj3Kf9+0U5CFYUgrXzHuATdou+wGgEOH92fgFvSVFF6W42IBGzxDllJG3+8uBF67ZO+XM5xIa7BhpNdVs6Ki7pMu1S3bKuYyvF7HIiLWpTA4bLnO16LqjjwgJHLOjSdnPdM+psR4R01ao9rA8hUz/6YDzVJaw=
+	t=1705956684; cv=none; b=Ke3GKSTvCn8HMKI9f6uIsoUxr/6+fC59EptrBxU0GTb9/Hoydlovn6KLifQb3WCTXSbRhK4cMW6FKSzeBI0GxBJFjveLvHkfyDFVR9Fwm0e1h71s3RI8v/lfoQpqVV8gpnY41iJqCoWKfaKBWf4KZzualYD9FQ7nrX3NkOZiySc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705946516; c=relaxed/simple;
-	bh=cvxxevqv6ny07B5cj2gMAM8FMiTwyVSwVjN/WbJrQPo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PxjDSZuf2ijWzA6ZDBR5TwHgc4e+cNG7VbOCN3wuChKSnIrDCAmmnjh1PUKQ1+bNQ+nx17n6jMUdyz6WLEGrB8xx3Od72T6VRFzna2iStJl5C3mq5dQIXorWSLSCqK3tI6fvA3euxTE7YtO0TjIQhGJIQLWjURG4gTdh/k9amM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fFO79Rpq; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1705956684; c=relaxed/simple;
+	bh=P7+Q0co7AmFpvNFHcy0Jwqq8do84FC57zbRO0tNEkh4=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=TPrKPIEAmbCLresKmDX7MLvIVE12xIzXeskFpnWKLANUn+oA6cvN0cBEhLreY58ESGaPefAH0rxd2nVjEnhQOrdOwyTZNhtaSb4ccdagxHhZCMZCL6x0FrOE58rqLw3Zc5L1e84sm/Ora/Hqo6qZV7NmBC86dl5DHVerwb8NFJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=wrP0NJ2V; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZiyhvjvE; arc=none smtp.client-ip=64.147.123.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fFO79Rpq"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40MHxkgT012119;
-	Mon, 22 Jan 2024 18:01:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2023-11-20; bh=iYu1xsxt+0e5tlIQKHHWFm4zqDaVlRpfR6Mt43vuWF4=;
- b=fFO79RpqJ3WaypfBgGKDhSwvmUhNdfKb9qQin52hTyKTxk/8wpqUgIBns0nzVYyYjFGJ
- g7nRxRm61UeBDU6Ww63gTvp4MLgW+An1lTcKBcO33H11hLsyia7QK+EuAW6aMy5yVF8L
- uT7hUhfn5l45MycJmk5dZTKrHZtd9u+bBrhaN7HkZ/PWF/06ZdfzTV060DoVsSTbQZ68
- NZl0lEpX4wByMdBgPfIv2wGfikwh898klw4JlsvX1R1ayhdO9PEYl9rZhUBqbyOxU4HT
- mSeTEAHX/r5DFpNtSBxv26IcdhX127XedLslCgztrl2OS3M34p3eKhzFuXfP70hUP2JC 1A== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vr79ncaau-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 Jan 2024 18:01:21 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40MHwY3o033584;
-	Mon, 22 Jan 2024 18:01:21 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3vs3701vdf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 22 Jan 2024 18:01:21 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40MI1KSb015780;
-	Mon, 22 Jan 2024 18:01:20 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3vs3701vct-1;
-	Mon, 22 Jan 2024 18:01:20 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-        Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
-        Eric Curtin <ecurtin@redhat.com>, asahi@lists.linux.dev,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com, harshit.m.mogalapalli@oracle.com,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH] soc: apple: mailbox: fix error handling in apple_mbox_get()
-Date: Mon, 22 Jan 2024 10:01:16 -0800
-Message-ID: <20240122180117.2862027-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.42.0
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="wrP0NJ2V";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZiyhvjvE"
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id C677A320046F;
+	Mon, 22 Jan 2024 15:51:19 -0500 (EST)
+Received: from imap53 ([10.202.2.103])
+  by compute1.internal (MEProxy); Mon, 22 Jan 2024 15:51:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1705956679; x=1706043079; bh=HAFVDSjmtG
+	uSNBOsIjxRld4wZCro6SBlL7gz48ZG4+0=; b=wrP0NJ2VJPnD5L05SmaHeNndf6
+	PHoJKM6MXwzyNnpEYrPGMzaVuFypoY0el0nxfPx1kKZ/ZtbfwGWgiTnEaEyJ414x
+	Sti2RPm7roMkV40gCwErXrFIHpAgXtNfixjXzZBprSy95hLVdtGuTpn64vDfdfBq
+	n6/WdS/f/d/Rh/amCM+BZ9uBu0oZetLfPHINqDRbcShwo9mCvgV21SR130Wq3GlW
+	Xa9RbAwGMxiwoIY82g9px26Z0FLXbXUM0CbTD40vMUnGnHXs0cFGDqpx1+LRvqkS
+	Xq1ccu61I4WPurjcseAYpLL3FiX5Txh7yPjsNJyt0bwPZCatGITCoF3/Bi6g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1705956679; x=1706043079; bh=HAFVDSjmtGuSNBOsIjxRld4wZCro
+	6SBlL7gz48ZG4+0=; b=ZiyhvjvE9MkiMJZcvPcZuBAEDkx0Sl8W18pam+aMKUDL
+	nkYvPdMUSm01qfMGpBvR+rgMby/MldT9IlsE9rVftMe0cnn9BZBxKzDjGYG4baJy
+	XUQ0ADDvEJiOnjzCifFPOcydH0nt/aRPzOZMgwkAtKIIrcL4roHXqOLA4CdraD0U
+	NFe4yft0+YJXgrSPbDbvqcKhczLiQNhz+/b/dK0vRcX4iZXY8FtBCWa4ajuBse54
+	Mlw4+3Ubn4DBTjkVg06i08/Q9WKu6Q4QhByPl/E++t3ssCWxDWPX7xDZunzYqFLJ
+	BlLh0yryk+2OjhETIVNEr4qnO78BoMA8nwcDuHLL/g==
+X-ME-Sender: <xms:RtWuZSd5RX0CJfTBay7tGr_4AyZgoBZ_uGhUzSTQlGnPZK4mP9quVw>
+    <xme:RtWuZcO7V4tsc8vrYkx6CC-s5yf_xWOSYIb5LCKb32OAvQLIOdYxx5X_K3uPd5vYX
+    HS7vtkHCAw7vTKMOSo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekiedgudeflecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfl
+    rghnnhgvucfirhhunhgruhdfuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtth
+    gvrhhnpeegteelvdfghedugefffeejgfehffdtffehgefhieelhfehffetteduteehieev
+    feenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvght
+X-ME-Proxy: <xmx:RtWuZTh8MFC1Ey7NLOPtKVQlZsfO61KCLAiKf1-Q-Ek94RQLuDNAww>
+    <xmx:RtWuZf-fwgzKAq1f0Cfe-D3KCNV43qh0JQ770xpF0hFxPV-LKtnd_A>
+    <xmx:RtWuZev99CdA1t7WuoppbTUxhJp1dC8k5M73z7Yylvy6_amHX4dCFA>
+    <xmx:R9WuZb-8gzf3BYryG8WZjMYjaJbe6N1vt661L6bVKccM5EDVPdLQYw>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 0EA65364006B; Mon, 22 Jan 2024 15:51:18 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-01-22_07,2024-01-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
- malwarescore=0 mlxscore=0 phishscore=0 bulkscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2401220126
-X-Proofpoint-GUID: IQsJFR_A9Z8x-hezvrfttRke3Av_0RW4
-X-Proofpoint-ORIG-GUID: IQsJFR_A9Z8x-hezvrfttRke3Av_0RW4
+Message-Id: <efebd848-c952-41f8-9422-fe2235d92259@app.fastmail.com>
+In-Reply-To: <20240117104448.6852-1-arnd@kernel.org>
+References: <20240117104448.6852-1-arnd@kernel.org>
+Date: Mon, 22 Jan 2024 21:50:56 +0100
+From: "Janne Grunau" <j@jannau.net>
+To: "Arnd Bergmann" <arnd@kernel.org>,
+ "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
+ =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: asahi@lists.linux.dev, "Hector Martin" <marcan@marcan.st>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Sven Peter" <sven@svenpeter.dev>,
+ "Asahi Lina" <lina@asahilina.net>, dri-devel@lists.freedesktop.org,
+ LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm: apple: mark local functions static
+Content-Type: text/plain
 
-When ret is 0 and args.np is not NULL, returning zero is success
-which is incorrect.
+Hej,
 
-Also fix error codes
+On Wed, Jan 17, 2024, at 11:44, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> With linux-6.8, the kernel warns about functions that have no
+> extern declaration, so mark both of these static.
+>
+> Fixes: 2d782b0d007d ("gpu: drm: apple: Add sound mode parsing")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> This is for the bits/200-dcp branch in https://github.com/AsahiLinux/linux,
+> the code is not yet upstream.
+> ---
+>  drivers/gpu/drm/apple/parser.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/apple/parser.c 
+> b/drivers/gpu/drm/apple/parser.c
+> index 44aad9a64f9a..ea9f40bb7de2 100644
+> --- a/drivers/gpu/drm/apple/parser.c
+> +++ b/drivers/gpu/drm/apple/parser.c
+> @@ -694,7 +694,7 @@ int parse_epic_service_init(struct dcp_parse_ctx 
+> *handle, const char **name,
+>  	return ret;
+>  }
+> 
+> -int parse_sample_rate_bit(struct dcp_parse_ctx *handle, unsigned int 
+> *ratebit)
+> +static int parse_sample_rate_bit(struct dcp_parse_ctx *handle, 
+> unsigned int *ratebit)
+>  {
+>  	s64 rate;
+>  	int ret = parse_int(handle, &rate);
+> @@ -715,7 +715,7 @@ int parse_sample_rate_bit(struct dcp_parse_ctx 
+> *handle, unsigned int *ratebit)
+>  	return 0;
+>  }
+> 
+> -int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
+> +static int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
+>  {
+>  	s64 sample_size;
+>  	int ret = parse_int(handle, &sample_size);
 
-Fixes: 6e1457fcad3f ("soc: apple: mailbox: Add ASC/M3 mailbox driver")
-Reported-by: Dan Carpenter <error27@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/r/202311300228.1rvmJjdA-lkp@intel.com/
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-This is only compile tested.
----
- drivers/soc/apple/mailbox.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+thanks, patch included in my dev branch and will be in the next pull request I'll send to Hector.
 
-diff --git a/drivers/soc/apple/mailbox.c b/drivers/soc/apple/mailbox.c
-index 780199bf351e..8e8628182ac7 100644
---- a/drivers/soc/apple/mailbox.c
-+++ b/drivers/soc/apple/mailbox.c
-@@ -289,21 +289,23 @@ struct apple_mbox *apple_mbox_get(struct device *dev, int index)
- 
- 	ret = of_parse_phandle_with_args(dev->of_node, "mboxes", "#mbox-cells",
- 					 index, &args);
--	if (ret || !args.np)
-+	if (ret)
- 		return ERR_PTR(ret);
-+	if (!args.np)
-+		return ERR_PTR(-EINVAL);
- 
- 	pdev = of_find_device_by_node(args.np);
- 	of_node_put(args.np);
- 
- 	if (!pdev)
--		return ERR_PTR(EPROBE_DEFER);
-+		return ERR_PTR(-EPROBE_DEFER);
- 
- 	mbox = platform_get_drvdata(pdev);
- 	if (!mbox)
--		return ERR_PTR(EPROBE_DEFER);
-+		return ERR_PTR(-EPROBE_DEFER);
- 
- 	if (!device_link_add(dev, &pdev->dev, DL_FLAG_AUTOREMOVE_CONSUMER))
--		return ERR_PTR(ENODEV);
-+		return ERR_PTR(-ENODEV);
- 
- 	return mbox;
- }
--- 
-2.42.0
+I suppose the recipients are generated by an automated get_maintainers.pl invocation. Is that desired for out of tree drivers?
 
+best regards,
+Janne
