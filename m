@@ -1,112 +1,125 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5AA41208
-	for <asahi@lists.linux.dev>; Mon, 22 Jan 2024 16:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADD353E04
+	for <asahi@lists.linux.dev>; Mon, 22 Jan 2024 18:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705942522; cv=none; b=h5HpuB0kwCJf2ligNY/pwwIVjC4zJaZzctc71q0WQ3i3DXchNZeG5+LTtjpQ6VGJTy+g9I6/CAVOHcbqoQcn0MMrS0d9emEnSoQFruj9CwzGkG59XfqWWueCt9sPbHWLZ/+NBTpvXBWXO09HE5Bycv8oRzRXhDZIsIhh5W7h7eU=
+	t=1705946516; cv=none; b=qyNZgQ/NLP59Vrwj3Kf9+0U5CFYUgrXzHuATdou+wGgEOH92fgFvSVFF6W42IBGzxDllJG3+8uBF67ZO+XM5xIa7BhpNdVs6Ki7pMu1S3bKuYyvF7HIiLWpTA4bLnO16LqjjwgJHLOjSdnPdM+psR4R01ao9rA8hUz/6YDzVJaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705942522; c=relaxed/simple;
-	bh=8CXEZAI9p+rNkSoJMtDxmMwVqX0l1AUSjTzoof5EcMQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VRyyhh24sCHkzp0tLC8YrlyIqsV3bGG9Tux7C0coB1/uKx5VmoP1OLrISuIx6cWs/zESP1mpvyHs3wgFSd99xkgSV9zgrkBMlOtXp1ESVPqUrXfXdMBdPcM6BRW4dvxTQ2Ps3JS2/O+ScBrLr0sdkzTjXKzIC6vRO4mFvJMUVbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=redwUopk; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1705946516; c=relaxed/simple;
+	bh=cvxxevqv6ny07B5cj2gMAM8FMiTwyVSwVjN/WbJrQPo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PxjDSZuf2ijWzA6ZDBR5TwHgc4e+cNG7VbOCN3wuChKSnIrDCAmmnjh1PUKQ1+bNQ+nx17n6jMUdyz6WLEGrB8xx3Od72T6VRFzna2iStJl5C3mq5dQIXorWSLSCqK3tI6fvA3euxTE7YtO0TjIQhGJIQLWjURG4gTdh/k9amM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=fFO79Rpq; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="redwUopk"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a28f66dc7ffso760856566b.0
-        for <asahi@lists.linux.dev>; Mon, 22 Jan 2024 08:55:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1705942518; x=1706547318; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eviaarrHpSZeGPBJGMW5DVT05MBy6NrnL0kFpqfkPXM=;
-        b=redwUopk6y5NNOCpvkc+PVFOcqTRE5EZm5SjO4W6Lgj5roFvBYvMoIXETQPmhfT12K
-         L8WQ3wq+9QKiOgulP6E2kPbssJJjvyuByEFp/hSrBIzFK16EwVIOH/QgQtDvoPiHAcVz
-         ONgBpkxgd+BCigxtUuMtlfz5yoBIYn5+sjPrYyQEmHHF6/Mx+G1EE5LFrZ122XmWX7Wf
-         GEPmBk+0GlAFRwP1GMR/sckL6GnDIvmHvgdW+bH8G6u4O0CZ9iGMiugfdd6NU/tuQ6xE
-         tWFOVOQsZ/8MUzp48aAy1uJe+jyR7T0oQK98r+fpumwmtxwark1VnzFPdulyNJvfVJiR
-         9Hdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705942518; x=1706547318;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eviaarrHpSZeGPBJGMW5DVT05MBy6NrnL0kFpqfkPXM=;
-        b=FZj3riHGUPYm4g0I2gABQVBZ5NhIXuVjaSZPTLx1zr4Draouz7NszHAgSdb/cXfaUS
-         7tKhF0E7ODJm/NmR6y04CBMwccqEuGKmWCKlMfb4cbv23HDGHmfI+Uhh0wGKeKn6/mZY
-         06nI/7W+UqOM9Q0w8A7Z22EhXlMGsJyIcvg/LEM0cihzb16qlfATH/7R1/t/wgE53kAE
-         0sKgsFMl0gi0MdYjXWt9BRB5eah2GPodo+vQqqB6T5ktFH6MlkJJEz71XEzqpAzJCmSQ
-         I4uyKwmxKg6PAvuKTti5JWHca83fx+b68cgJRHWfS/01/jwm0tI1mR38y55zo8XtD0fx
-         wfPg==
-X-Gm-Message-State: AOJu0YzedNfqhGBNRlQPKB/wRbQdFjC5LvZmRxcrppA02gBhMrdygsIB
-	7bJFvj5fNRy4opo46jPMMufNbO8E4jdhl8A3du4ytbdKcbk9tMyXfzEZYT9b1fA=
-X-Google-Smtp-Source: AGHT+IFOG8Du3dt/lDW1J4M+ULamdNrT6bybVDkUdNDMHDaJXtSRu6jRB4UlD4OtxBYTEA6yaVPF9A==
-X-Received: by 2002:a17:906:3044:b0:a2f:ebb:f200 with SMTP id d4-20020a170906304400b00a2f0ebbf200mr6058747ejd.9.1705942518382;
-        Mon, 22 Jan 2024 08:55:18 -0800 (PST)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id g11-20020a170906538b00b00a26aa8f3372sm13401726ejo.27.2024.01.22.08.55.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 08:55:17 -0800 (PST)
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-To: Miquel Raynal <miquel.raynal@bootlin.com>, 
- Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, regressions@lists.linux.dev, 
- =?utf-8?q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>, 
- Chen-Yu Tsai <wenst@chromium.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev, 
- Sven Peter <sven@svenpeter.dev>, Michael Walle <michael@walle.cc>, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240122153442.7250-1-arnd@kernel.org>
-References: <20240122153442.7250-1-arnd@kernel.org>
-Subject: Re: [PATCH] nvmem: include bit index in cell sysfs file name
-Message-Id: <170594251756.17335.7078970144473561827.b4-ty@linaro.org>
-Date: Mon, 22 Jan 2024 16:55:17 +0000
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="fFO79Rpq"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 40MHxkgT012119;
+	Mon, 22 Jan 2024 18:01:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2023-11-20; bh=iYu1xsxt+0e5tlIQKHHWFm4zqDaVlRpfR6Mt43vuWF4=;
+ b=fFO79RpqJ3WaypfBgGKDhSwvmUhNdfKb9qQin52hTyKTxk/8wpqUgIBns0nzVYyYjFGJ
+ g7nRxRm61UeBDU6Ww63gTvp4MLgW+An1lTcKBcO33H11hLsyia7QK+EuAW6aMy5yVF8L
+ uT7hUhfn5l45MycJmk5dZTKrHZtd9u+bBrhaN7HkZ/PWF/06ZdfzTV060DoVsSTbQZ68
+ NZl0lEpX4wByMdBgPfIv2wGfikwh898klw4JlsvX1R1ayhdO9PEYl9rZhUBqbyOxU4HT
+ mSeTEAHX/r5DFpNtSBxv26IcdhX127XedLslCgztrl2OS3M34p3eKhzFuXfP70hUP2JC 1A== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3vr79ncaau-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 22 Jan 2024 18:01:21 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 40MHwY3o033584;
+	Mon, 22 Jan 2024 18:01:21 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3vs3701vdf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 22 Jan 2024 18:01:21 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 40MI1KSb015780;
+	Mon, 22 Jan 2024 18:01:20 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3vs3701vct-1;
+	Mon, 22 Jan 2024 18:01:20 +0000
+From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>, Neal Gompa <neal@gompa.dev>,
+        Eric Curtin <ecurtin@redhat.com>, asahi@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
+        error27@gmail.com, harshit.m.mogalapalli@oracle.com,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] soc: apple: mailbox: fix error handling in apple_mbox_get()
+Date: Mon, 22 Jan 2024 10:01:16 -0800
+Message-ID: <20240122180117.2862027-1-harshit.m.mogalapalli@oracle.com>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-01-22_07,2024-01-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
+ malwarescore=0 mlxscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311290000 definitions=main-2401220126
+X-Proofpoint-GUID: IQsJFR_A9Z8x-hezvrfttRke3Av_0RW4
+X-Proofpoint-ORIG-GUID: IQsJFR_A9Z8x-hezvrfttRke3Av_0RW4
 
+When ret is 0 and args.np is not NULL, returning zero is success
+which is incorrect.
 
-On Mon, 22 Jan 2024 16:34:10 +0100, Arnd Bergmann wrote:
-> Creating sysfs files for all Cells caused a boot failure for linux-6.8-rc1 on
-> Apple M1, which (in downstream dts files) has multiple nvmem cells that use the
-> same byte address. This causes the device probe to fail with
-> 
-> [    0.605336] sysfs: cannot create duplicate filename '/devices/platform/soc@200000000/2922bc000.efuse/apple_efuses_nvmem0/cells/efuse@a10'
-> [    0.605347] CPU: 7 PID: 1 Comm: swapper/0 Tainted: G S                 6.8.0-rc1-arnd-5+ #133
-> [    0.605355] Hardware name: Apple Mac Studio (M1 Ultra, 2022) (DT)
-> [    0.605362] Call trace:
-> [    0.605365]  show_stack+0x18/0x2c
-> [    0.605374]  dump_stack_lvl+0x60/0x80
-> [    0.605383]  dump_stack+0x18/0x24
-> [    0.605388]  sysfs_warn_dup+0x64/0x80
-> [    0.605395]  sysfs_add_bin_file_mode_ns+0xb0/0xd4
-> [    0.605402]  internal_create_group+0x268/0x404
-> [    0.605409]  sysfs_create_groups+0x38/0x94
-> [    0.605415]  devm_device_add_groups+0x50/0x94
-> [    0.605572]  nvmem_populate_sysfs_cells+0x180/0x1b0
-> [    0.605682]  nvmem_register+0x38c/0x470
-> [    0.605789]  devm_nvmem_register+0x1c/0x6c
-> [    0.605895]  apple_efuses_probe+0xe4/0x120
-> [    0.606000]  platform_probe+0xa8/0xd0
-> 
-> [...]
+Also fix error codes
 
-Applied, thanks!
+Fixes: 6e1457fcad3f ("soc: apple: mailbox: Add ASC/M3 mailbox driver")
+Reported-by: Dan Carpenter <error27@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/r/202311300228.1rvmJjdA-lkp@intel.com/
+Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+---
+This is only compile tested.
+---
+ drivers/soc/apple/mailbox.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-[1/1] nvmem: include bit index in cell sysfs file name
-      commit: b40fed13870045731e374e6bb48800cde0feb4e2
-
-Best regards,
+diff --git a/drivers/soc/apple/mailbox.c b/drivers/soc/apple/mailbox.c
+index 780199bf351e..8e8628182ac7 100644
+--- a/drivers/soc/apple/mailbox.c
++++ b/drivers/soc/apple/mailbox.c
+@@ -289,21 +289,23 @@ struct apple_mbox *apple_mbox_get(struct device *dev, int index)
+ 
+ 	ret = of_parse_phandle_with_args(dev->of_node, "mboxes", "#mbox-cells",
+ 					 index, &args);
+-	if (ret || !args.np)
++	if (ret)
+ 		return ERR_PTR(ret);
++	if (!args.np)
++		return ERR_PTR(-EINVAL);
+ 
+ 	pdev = of_find_device_by_node(args.np);
+ 	of_node_put(args.np);
+ 
+ 	if (!pdev)
+-		return ERR_PTR(EPROBE_DEFER);
++		return ERR_PTR(-EPROBE_DEFER);
+ 
+ 	mbox = platform_get_drvdata(pdev);
+ 	if (!mbox)
+-		return ERR_PTR(EPROBE_DEFER);
++		return ERR_PTR(-EPROBE_DEFER);
+ 
+ 	if (!device_link_add(dev, &pdev->dev, DL_FLAG_AUTOREMOVE_CONSUMER))
+-		return ERR_PTR(ENODEV);
++		return ERR_PTR(-ENODEV);
+ 
+ 	return mbox;
+ }
 -- 
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+2.42.0
 
