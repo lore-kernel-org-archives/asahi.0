@@ -1,68 +1,67 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F21351C3A
-	for <asahi@lists.linux.dev>; Tue, 23 Jan 2024 07:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440507FBB5
+	for <asahi@lists.linux.dev>; Tue, 23 Jan 2024 18:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.111.4.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705995270; cv=none; b=G+H+YqsLcoh565XhjCMn/XyLvlm9D+LZmA96LCuLWzwNEhbAOAxd+yOX6RPGbyedz47Cm9AUx+DCpDc9Cq5rbBnyA3RZtR08HtLbt8KH9L2nmBVQ1xYqsg2qwHbuYZcJ8BzqSQQCkQwgTxRONox2qkfIjShAMTSJI9Mq6S5EZ0o=
+	t=1706035910; cv=none; b=Q7JP9tzqyfhwAjdpoWbOyKI5s/Stv2oZ56629PBNInGdFSzAAccnNY0FoIw/kIDAobP8FySEEBqnuqMEPwXbY0ouHqHVu6Y5+FBtvWPm3gAJx3+VLsZ/pS7Yb5epfkQ70PJJbl0Ys0l/0WI3g2J9+FP7ydbo0jTed8Kb9PCb0cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705995270; c=relaxed/simple;
-	bh=FvWzwHTDVEyet3HZiGtusiSZVWNkuF9rpU6YASueXuo=;
+	s=arc-20240116; t=1706035910; c=relaxed/simple;
+	bh=0j+P7FwDXOaWAcO0QMs/fHV3AZl5bRkW41gWFJG8Ov4=;
 	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=EXGsBhrFqLQzMOChgfr18ICnmLe/mtYip6vVbaUu80JJtG3/VdxSurNLadpnIaPxKdKrgDeXjcFDquWI7TxhoJk1w7cNxcLshdMb2mk83PjlyQ3+XT+et+PHvwnmj8Z8Ll8NnbVYHFIdP91wlfSPkhW4D302bZARDaAthjliTzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=d/t1jmYw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jVAGtaaU; arc=none smtp.client-ip=64.147.123.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	 Subject:Content-Type; b=DUhAj/luQThKNv8o/a2To6tPgtQDgIGDzkx8wViafb6teEvSSRLZklOBJDyXo8aIoNVp4uWaDim4WFq9BCBPaKH8HjyzTJNIlSbWSo4zajiOuSZ7SLyOGQpawT3gni6dEUk40Gm5jSvM6DHBCTj6qVTWwXAije55WYpVPN2Le/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=YkxcjYqP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E5nQUiK0; arc=none smtp.client-ip=66.111.4.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="d/t1jmYw";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jVAGtaaU"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 978493200AF5;
-	Tue, 23 Jan 2024 02:34:26 -0500 (EST)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 23 Jan 2024 02:34:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="YkxcjYqP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E5nQUiK0"
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 5EBD85C00EA;
+	Tue, 23 Jan 2024 13:51:46 -0500 (EST)
+Received: from imap53 ([10.202.2.103])
+  by compute1.internal (MEProxy); Tue, 23 Jan 2024 13:51:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1705995266; x=1706081666; bh=TWAFZjSQ6D
-	f63rcQm0mLoFKrDX1HkRJ7iYKKyR4vOb0=; b=d/t1jmYwEbp6g7avHbkITWc3wd
-	1goEo1tNaVMIJpAt67kobRXr/1wuYI6dbIzguIHLYHSkl71WlDeqVXHg/SGzGqoU
-	xiKpi4Z6z1wYeni5QoXvWUlE3ONFBWERNSJRY65pWz/Sj8IMsXtNx7YHQXslnrhi
-	G5rHwvVlR3MJ623wVrNDpTMWSoMx7iwOvGUF4NGcfd6xD89yMlFBoG+qRCFNha9k
-	LiTaUqwAKwcR8GFmEnAiFeBG7rkajJ+8cBMZRoxAwiikgP1qfUfhKOgrXGbiTL24
-	8ECPdr+rcQMUKQto37fQfPBV0ZlaXa2VPzdeXLSE5YXIyGU29/cLur2A8+bw==
+	:subject:to:to; s=fm2; t=1706035906; x=1706122306; bh=eIhN86Lh1o
+	FbG7iEsTBql1sUGIAIhzr7pTidTH0KO94=; b=YkxcjYqP7zv1Q1UJo+u25buzs3
+	65dwS+kWssYQqDc9bo6V2J5edttkZkg7zohFJum2+8X8XzCEUgEu2LTTx80Or0dF
+	rf+HILcVuGSNM2zOg/IZ/Qlf/Gzm828mYhwpTIZFPFhzJZxVfCh+3UZuWjEAw6ol
+	d6SD1iHSTwKhMW+BF03rLMDryBsoxvsfWF8lfTkaOGBiMmBLl58pNXzyPTnrJ6YD
+	uaOMU9sO9Ler/D9bFhPNDVPtKYVZdb26XYQd+xA0IhN7ZizGcl5r+nlutGddTVab
+	9gtCQl4HbXJ2GmQQNjxiDGY9ezHWbGefvKiDnB9rRmqcNYuhiKJr2gQhbqJA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1705995266; x=1706081666; bh=TWAFZjSQ6Df63rcQm0mLoFKrDX1H
-	kRJ7iYKKyR4vOb0=; b=jVAGtaaU4oNW9+LiowsUYxrJDZd8xQ4fdYXQoDt0o0Pr
-	rYZc0o1bQflxH91jWzhUWSH8UoE7ki954hKoLa/qGfY1CTkxUC5bpuLZq0JcXgtT
-	g8L4qRyvhik6krVKU0NM2OsklUfT97H0Y0LvhHHMnXA0zC/QYfTiDP7eHRzKu7FC
-	56HbUvK8IDCPWWODIIvrSrFojJklplHxDBG8HIv7fRYVLL9eGzSe8LcWs4tqcLEp
-	QBMe83/fzlBJpHNUlnsaQ2p56o+fO2bp+85+WB5lhiM8Alm+TnklV82Ay11qL9Z+
-	KFR6au3fa/329RulocRIn5fm3R2ZQR46FDW/vLCriA==
-X-ME-Sender: <xms:AWyvZXEzKdynUjnxVDjbwLDx7QbYSxuTclNydqMznDzEC7hCBlFq5w>
-    <xme:AWyvZUWJ5HNXmuTQ58NsThBKGs41v4eQf-7H4SdMj6m4NBMgUVLdYcDiJ-fwg6ddq
-    qoG4Ofl6X-d8071o1U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekjedguddtiecutefuodetggdotefrod
+	fm3; t=1706035906; x=1706122306; bh=eIhN86Lh1oFbG7iEsTBql1sUGIAI
+	hzr7pTidTH0KO94=; b=E5nQUiK0Emr6DnF9HINgIoD1V5bl1r+KqEiOLEvgfE59
+	HjeEoA6KOy+E4aex9YAhf5PWev0oxqn+k9i/tOgVL+hA6dl9THjVyvDrizITGlBg
+	78498S9KYalIBc/5ohOkj9oyx3wZtojEisiRUybtxk2UGRwiHZKiKP+gAREK14ia
+	4GOiGBSsmgOXuOjwrq1O5+3B2xlZYNzJ1pJSZlHF2ft2VbBsp7BAUd7ZUmGYIEnu
+	6rzE9dlUr9zdbijeBRiSmHOQ4U/9Ai+7eSFanR+pSBmakubdN3/z1gB4TASMYJDT
+	w/zMeawbujQMg6slo9HQT0kpe0COnNzcb1de1Qlurg==
+X-ME-Sender: <xms:wAqwZX_j8Llq0DrEzoo9SiA9WqQIVH6oXplVNbLzgdBYzwnCDjK_8g>
+    <xme:wAqwZTsT_7o1tFNkll9XlpmmrXSyGLirEOks3QV4s_GeA6ZE_FdGv1zlgMbm5rLer
+    YSc__8hLNhUGXIPckI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekkedgudduhecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
-    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
-    htthgvrhhnpeekudfggedvgfegffeffedvffelgfeludfhueefjeeiveektdevfeehjeff
-    keehveenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdr
-    uggv
-X-ME-Proxy: <xmx:AWyvZZLIngQF7PL50_kSnfKfZSVdZctg6rHBgUEoBxjpmpfXbyu-NQ>
-    <xmx:AWyvZVH-SWe21EYEGA09JyIq4REqB3QFDQYgyU4MsFycwrtuy-iz0w>
-    <xmx:AWyvZdXS7WG1yXXS5uebGyBElLsB300WmYC9_dGmoO2BBkvKkXos4g>
-    <xmx:AmyvZcHuxjtWK1rR5murBek_j9Wy1PMPe2kZgqhvmLAszEGAgy_tog>
-Feedback-ID: i56a14606:Fastmail
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfl
+    rghnnhgvucfirhhunhgruhdfuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtth
+    gvrhhnpeejfeekgffhieevhfejgfetkeevvdehteejfedtiedukeefuedvkeehffefvdfh
+    ueenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgvth
+X-ME-Proxy: <xmx:wAqwZVCKpqVkqZkjKkOU6nzeJgIr-wYQv7MUFfGU2zkO0YuL1-XSIA>
+    <xmx:wAqwZTcw0E7Dwd0cxZyKHg8Fz9P42Vv3EZWhoYUNOsb8hZaf8ko7eg>
+    <xmx:wAqwZcO17foPKjKFckFIU48eX6oKTTYE8UXCMCy5eshrjp7Vxofq2A>
+    <xmx:wgqwZTfiD0IzojjKojg1p6O-Wu1S5mK7s7jMNMzO3FsDtXwCUlvp_w>
+Feedback-ID: i47b949f6:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 107D6B6008D; Tue, 23 Jan 2024 02:34:25 -0500 (EST)
+	id BE4A0364006B; Tue, 23 Jan 2024 13:51:44 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
@@ -71,13 +70,14 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <3da403ff-365d-4cea-86f0-4009d1da6baa@app.fastmail.com>
-In-Reply-To: <efebd848-c952-41f8-9422-fe2235d92259@app.fastmail.com>
+Message-Id: <489e3e5d-25e7-4e84-9e62-b6e52bf7455c@app.fastmail.com>
+In-Reply-To: <3da403ff-365d-4cea-86f0-4009d1da6baa@app.fastmail.com>
 References: <20240117104448.6852-1-arnd@kernel.org>
  <efebd848-c952-41f8-9422-fe2235d92259@app.fastmail.com>
-Date: Tue, 23 Jan 2024 08:34:04 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Janne Grunau" <j@jannau.net>, "Arnd Bergmann" <arnd@kernel.org>,
+ <3da403ff-365d-4cea-86f0-4009d1da6baa@app.fastmail.com>
+Date: Tue, 23 Jan 2024 19:51:23 +0100
+From: "Janne Grunau" <j@jannau.net>
+To: "Arnd Bergmann" <arnd@arndb.de>, "Arnd Bergmann" <arnd@kernel.org>,
  "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
  =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
 Cc: asahi@lists.linux.dev, "Hector Martin" <marcan@marcan.st>,
@@ -86,46 +86,51 @@ Cc: asahi@lists.linux.dev, "Hector Martin" <marcan@marcan.st>,
 Subject: Re: [PATCH] drm: apple: mark local functions static
 Content-Type: text/plain
 
-On Mon, Jan 22, 2024, at 21:50, Janne Grunau wrote:
-> On Wed, Jan 17, 2024, at 11:44, Arnd Bergmann wrote:
->> 
->> -int parse_sample_rate_bit(struct dcp_parse_ctx *handle, unsigned int 
->> *ratebit)
->> +static int parse_sample_rate_bit(struct dcp_parse_ctx *handle, 
->> unsigned int *ratebit)
->>  {
->>  	s64 rate;
->>  	int ret = parse_int(handle, &rate);
->> @@ -715,7 +715,7 @@ int parse_sample_rate_bit(struct dcp_parse_ctx 
->> *handle, unsigned int *ratebit)
->>  	return 0;
->>  }
->> 
->> -int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
->> +static int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
->>  {
->>  	s64 sample_size;
->>  	int ret = parse_int(handle, &sample_size);
+Hej Arnd,
+
+On Tue, Jan 23, 2024, at 08:34, Arnd Bergmann wrote:
+> On Mon, Jan 22, 2024, at 21:50, Janne Grunau wrote:
+>> On Wed, Jan 17, 2024, at 11:44, Arnd Bergmann wrote:
+>>> 
+>>> -int parse_sample_rate_bit(struct dcp_parse_ctx *handle, unsigned int 
+>>> *ratebit)
+>>> +static int parse_sample_rate_bit(struct dcp_parse_ctx *handle, 
+>>> unsigned int *ratebit)
+>>>  {
+>>>  	s64 rate;
+>>>  	int ret = parse_int(handle, &rate);
+>>> @@ -715,7 +715,7 @@ int parse_sample_rate_bit(struct dcp_parse_ctx 
+>>> *handle, unsigned int *ratebit)
+>>>  	return 0;
+>>>  }
+>>> 
+>>> -int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
+>>> +static int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
+>>>  {
+>>>  	s64 sample_size;
+>>>  	int ret = parse_int(handle, &sample_size);
+>>
+>> thanks, patch included in my dev branch and will be in the next pull 
+>> request I'll send to Hector.
+>>
+>> I suppose the recipients are generated by an automated 
+>> get_maintainers.pl invocation. Is that desired for out of tree drivers?
 >
-> thanks, patch included in my dev branch and will be in the next pull 
-> request I'll send to Hector.
+> I was wondering about that as well, as I don't usually send
+> patches for code that isn't at least in linux-next yet.
 >
-> I suppose the recipients are generated by an automated 
-> get_maintainers.pl invocation. Is that desired for out of tree drivers?
+> I ended up using what is in the MAINTAINERS file for this driver
+> in the branch as that is is all I have at this point:
+>
+> APPLE DRM DISPLAY DRIVER
+> M:      Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> L:      dri-devel@lists.freedesktop.org
+> S:      Maintained
+> T:      git git://anongit.freedesktop.org/drm/drm-misc
+> F:      drivers/gpu/drm/apple/
+>
+> I left out the drivers/gpu/ maintainer addresses though.
 
-I was wondering about that as well, as I don't usually send
-patches for code that isn't at least in linux-next yet.
+oops, answered to the wrong patch. The strscpy one has the drivers/gpu/ maintainers and the question. I replied here first assuming it has the same recipient list. I'd consider the recipients for this mail reasonable.
 
-I ended up using what is in the MAINTAINERS file for this driver
-in the branch as that is is all I have at this point:
-
-APPLE DRM DISPLAY DRIVER
-M:      Alyssa Rosenzweig <alyssa@rosenzweig.io>
-L:      dri-devel@lists.freedesktop.org
-S:      Maintained
-T:      git git://anongit.freedesktop.org/drm/drm-misc
-F:      drivers/gpu/drm/apple/
-
-I left out the drivers/gpu/ maintainer addresses though. 
-
-     Arnd
+Janne
