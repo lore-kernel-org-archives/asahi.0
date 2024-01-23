@@ -1,67 +1,68 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E52547A47
-	for <asahi@lists.linux.dev>; Mon, 22 Jan 2024 20:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F21351C3A
+	for <asahi@lists.linux.dev>; Tue, 23 Jan 2024 07:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1705956684; cv=none; b=Ke3GKSTvCn8HMKI9f6uIsoUxr/6+fC59EptrBxU0GTb9/Hoydlovn6KLifQb3WCTXSbRhK4cMW6FKSzeBI0GxBJFjveLvHkfyDFVR9Fwm0e1h71s3RI8v/lfoQpqVV8gpnY41iJqCoWKfaKBWf4KZzualYD9FQ7nrX3NkOZiySc=
+	t=1705995270; cv=none; b=G+H+YqsLcoh565XhjCMn/XyLvlm9D+LZmA96LCuLWzwNEhbAOAxd+yOX6RPGbyedz47Cm9AUx+DCpDc9Cq5rbBnyA3RZtR08HtLbt8KH9L2nmBVQ1xYqsg2qwHbuYZcJ8BzqSQQCkQwgTxRONox2qkfIjShAMTSJI9Mq6S5EZ0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1705956684; c=relaxed/simple;
-	bh=P7+Q0co7AmFpvNFHcy0Jwqq8do84FC57zbRO0tNEkh4=;
+	s=arc-20240116; t=1705995270; c=relaxed/simple;
+	bh=FvWzwHTDVEyet3HZiGtusiSZVWNkuF9rpU6YASueXuo=;
 	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=TPrKPIEAmbCLresKmDX7MLvIVE12xIzXeskFpnWKLANUn+oA6cvN0cBEhLreY58ESGaPefAH0rxd2nVjEnhQOrdOwyTZNhtaSb4ccdagxHhZCMZCL6x0FrOE58rqLw3Zc5L1e84sm/Ora/Hqo6qZV7NmBC86dl5DHVerwb8NFJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=wrP0NJ2V; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZiyhvjvE; arc=none smtp.client-ip=64.147.123.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	 Subject:Content-Type; b=EXGsBhrFqLQzMOChgfr18ICnmLe/mtYip6vVbaUu80JJtG3/VdxSurNLadpnIaPxKdKrgDeXjcFDquWI7TxhoJk1w7cNxcLshdMb2mk83PjlyQ3+XT+et+PHvwnmj8Z8Ll8NnbVYHFIdP91wlfSPkhW4D302bZARDaAthjliTzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=d/t1jmYw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jVAGtaaU; arc=none smtp.client-ip=64.147.123.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="wrP0NJ2V";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZiyhvjvE"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id C677A320046F;
-	Mon, 22 Jan 2024 15:51:19 -0500 (EST)
-Received: from imap53 ([10.202.2.103])
-  by compute1.internal (MEProxy); Mon, 22 Jan 2024 15:51:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="d/t1jmYw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jVAGtaaU"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 978493200AF5;
+	Tue, 23 Jan 2024 02:34:26 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 23 Jan 2024 02:34:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
 	:cc:content-type:content-type:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1705956679; x=1706043079; bh=HAFVDSjmtG
-	uSNBOsIjxRld4wZCro6SBlL7gz48ZG4+0=; b=wrP0NJ2VJPnD5L05SmaHeNndf6
-	PHoJKM6MXwzyNnpEYrPGMzaVuFypoY0el0nxfPx1kKZ/ZtbfwGWgiTnEaEyJ414x
-	Sti2RPm7roMkV40gCwErXrFIHpAgXtNfixjXzZBprSy95hLVdtGuTpn64vDfdfBq
-	n6/WdS/f/d/Rh/amCM+BZ9uBu0oZetLfPHINqDRbcShwo9mCvgV21SR130Wq3GlW
-	Xa9RbAwGMxiwoIY82g9px26Z0FLXbXUM0CbTD40vMUnGnHXs0cFGDqpx1+LRvqkS
-	Xq1ccu61I4WPurjcseAYpLL3FiX5Txh7yPjsNJyt0bwPZCatGITCoF3/Bi6g==
+	:subject:to:to; s=fm2; t=1705995266; x=1706081666; bh=TWAFZjSQ6D
+	f63rcQm0mLoFKrDX1HkRJ7iYKKyR4vOb0=; b=d/t1jmYwEbp6g7avHbkITWc3wd
+	1goEo1tNaVMIJpAt67kobRXr/1wuYI6dbIzguIHLYHSkl71WlDeqVXHg/SGzGqoU
+	xiKpi4Z6z1wYeni5QoXvWUlE3ONFBWERNSJRY65pWz/Sj8IMsXtNx7YHQXslnrhi
+	G5rHwvVlR3MJ623wVrNDpTMWSoMx7iwOvGUF4NGcfd6xD89yMlFBoG+qRCFNha9k
+	LiTaUqwAKwcR8GFmEnAiFeBG7rkajJ+8cBMZRoxAwiikgP1qfUfhKOgrXGbiTL24
+	8ECPdr+rcQMUKQto37fQfPBV0ZlaXa2VPzdeXLSE5YXIyGU29/cLur2A8+bw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:content-type:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:subject:subject:to
 	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1705956679; x=1706043079; bh=HAFVDSjmtGuSNBOsIjxRld4wZCro
-	6SBlL7gz48ZG4+0=; b=ZiyhvjvE9MkiMJZcvPcZuBAEDkx0Sl8W18pam+aMKUDL
-	nkYvPdMUSm01qfMGpBvR+rgMby/MldT9IlsE9rVftMe0cnn9BZBxKzDjGYG4baJy
-	XUQ0ADDvEJiOnjzCifFPOcydH0nt/aRPzOZMgwkAtKIIrcL4roHXqOLA4CdraD0U
-	NFe4yft0+YJXgrSPbDbvqcKhczLiQNhz+/b/dK0vRcX4iZXY8FtBCWa4ajuBse54
-	Mlw4+3Ubn4DBTjkVg06i08/Q9WKu6Q4QhByPl/E++t3ssCWxDWPX7xDZunzYqFLJ
-	BlLh0yryk+2OjhETIVNEr4qnO78BoMA8nwcDuHLL/g==
-X-ME-Sender: <xms:RtWuZSd5RX0CJfTBay7tGr_4AyZgoBZ_uGhUzSTQlGnPZK4mP9quVw>
-    <xme:RtWuZcO7V4tsc8vrYkx6CC-s5yf_xWOSYIb5LCKb32OAvQLIOdYxx5X_K3uPd5vYX
-    HS7vtkHCAw7vTKMOSo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekiedgudeflecutefuodetggdotefrod
+	fm3; t=1705995266; x=1706081666; bh=TWAFZjSQ6Df63rcQm0mLoFKrDX1H
+	kRJ7iYKKyR4vOb0=; b=jVAGtaaU4oNW9+LiowsUYxrJDZd8xQ4fdYXQoDt0o0Pr
+	rYZc0o1bQflxH91jWzhUWSH8UoE7ki954hKoLa/qGfY1CTkxUC5bpuLZq0JcXgtT
+	g8L4qRyvhik6krVKU0NM2OsklUfT97H0Y0LvhHHMnXA0zC/QYfTiDP7eHRzKu7FC
+	56HbUvK8IDCPWWODIIvrSrFojJklplHxDBG8HIv7fRYVLL9eGzSe8LcWs4tqcLEp
+	QBMe83/fzlBJpHNUlnsaQ2p56o+fO2bp+85+WB5lhiM8Alm+TnklV82Ay11qL9Z+
+	KFR6au3fa/329RulocRIn5fm3R2ZQR46FDW/vLCriA==
+X-ME-Sender: <xms:AWyvZXEzKdynUjnxVDjbwLDx7QbYSxuTclNydqMznDzEC7hCBlFq5w>
+    <xme:AWyvZUWJ5HNXmuTQ58NsThBKGs41v4eQf-7H4SdMj6m4NBMgUVLdYcDiJ-fwg6ddq
+    qoG4Ofl6X-d8071o1U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdekjedguddtiecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfl
-    rghnnhgvucfirhhunhgruhdfuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtth
-    gvrhhnpeegteelvdfghedugefffeejgfehffdtffehgefhieelhfehffetteduteehieev
-    feenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvght
-X-ME-Proxy: <xmx:RtWuZTh8MFC1Ey7NLOPtKVQlZsfO61KCLAiKf1-Q-Ek94RQLuDNAww>
-    <xmx:RtWuZf-fwgzKAq1f0Cfe-D3KCNV43qh0JQ770xpF0hFxPV-LKtnd_A>
-    <xmx:RtWuZev99CdA1t7WuoppbTUxhJp1dC8k5M73z7Yylvy6_amHX4dCFA>
-    <xmx:R9WuZb-8gzf3BYryG8WZjMYjaJbe6N1vt661L6bVKccM5EDVPdLQYw>
-Feedback-ID: i47b949f6:Fastmail
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeekudfggedvgfegffeffedvffelgfeludfhueefjeeiveektdevfeehjeff
+    keehveenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdr
+    uggv
+X-ME-Proxy: <xmx:AWyvZZLIngQF7PL50_kSnfKfZSVdZctg6rHBgUEoBxjpmpfXbyu-NQ>
+    <xmx:AWyvZVH-SWe21EYEGA09JyIq4REqB3QFDQYgyU4MsFycwrtuy-iz0w>
+    <xmx:AWyvZdXS7WG1yXXS5uebGyBElLsB300WmYC9_dGmoO2BBkvKkXos4g>
+    <xmx:AmyvZcHuxjtWK1rR5murBek_j9Wy1PMPe2kZgqhvmLAszEGAgy_tog>
+Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 0EA65364006B; Mon, 22 Jan 2024 15:51:18 -0500 (EST)
+	id 107D6B6008D; Tue, 23 Jan 2024 02:34:25 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
@@ -70,69 +71,61 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <efebd848-c952-41f8-9422-fe2235d92259@app.fastmail.com>
-In-Reply-To: <20240117104448.6852-1-arnd@kernel.org>
+Message-Id: <3da403ff-365d-4cea-86f0-4009d1da6baa@app.fastmail.com>
+In-Reply-To: <efebd848-c952-41f8-9422-fe2235d92259@app.fastmail.com>
 References: <20240117104448.6852-1-arnd@kernel.org>
-Date: Mon, 22 Jan 2024 21:50:56 +0100
-From: "Janne Grunau" <j@jannau.net>
-To: "Arnd Bergmann" <arnd@kernel.org>,
+ <efebd848-c952-41f8-9422-fe2235d92259@app.fastmail.com>
+Date: Tue, 23 Jan 2024 08:34:04 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Janne Grunau" <j@jannau.net>, "Arnd Bergmann" <arnd@kernel.org>,
  "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
  =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
 Cc: asahi@lists.linux.dev, "Hector Martin" <marcan@marcan.st>,
- "Arnd Bergmann" <arnd@arndb.de>, "Sven Peter" <sven@svenpeter.dev>,
- "Asahi Lina" <lina@asahilina.net>, dri-devel@lists.freedesktop.org,
- LKML <linux-kernel@vger.kernel.org>
+ "Sven Peter" <sven@svenpeter.dev>, "Asahi Lina" <lina@asahilina.net>,
+ dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] drm: apple: mark local functions static
 Content-Type: text/plain
 
-Hej,
-
-On Wed, Jan 17, 2024, at 11:44, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Jan 22, 2024, at 21:50, Janne Grunau wrote:
+> On Wed, Jan 17, 2024, at 11:44, Arnd Bergmann wrote:
+>> 
+>> -int parse_sample_rate_bit(struct dcp_parse_ctx *handle, unsigned int 
+>> *ratebit)
+>> +static int parse_sample_rate_bit(struct dcp_parse_ctx *handle, 
+>> unsigned int *ratebit)
+>>  {
+>>  	s64 rate;
+>>  	int ret = parse_int(handle, &rate);
+>> @@ -715,7 +715,7 @@ int parse_sample_rate_bit(struct dcp_parse_ctx 
+>> *handle, unsigned int *ratebit)
+>>  	return 0;
+>>  }
+>> 
+>> -int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
+>> +static int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
+>>  {
+>>  	s64 sample_size;
+>>  	int ret = parse_int(handle, &sample_size);
 >
-> With linux-6.8, the kernel warns about functions that have no
-> extern declaration, so mark both of these static.
+> thanks, patch included in my dev branch and will be in the next pull 
+> request I'll send to Hector.
 >
-> Fixes: 2d782b0d007d ("gpu: drm: apple: Add sound mode parsing")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-> This is for the bits/200-dcp branch in https://github.com/AsahiLinux/linux,
-> the code is not yet upstream.
-> ---
->  drivers/gpu/drm/apple/parser.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/apple/parser.c 
-> b/drivers/gpu/drm/apple/parser.c
-> index 44aad9a64f9a..ea9f40bb7de2 100644
-> --- a/drivers/gpu/drm/apple/parser.c
-> +++ b/drivers/gpu/drm/apple/parser.c
-> @@ -694,7 +694,7 @@ int parse_epic_service_init(struct dcp_parse_ctx 
-> *handle, const char **name,
->  	return ret;
->  }
-> 
-> -int parse_sample_rate_bit(struct dcp_parse_ctx *handle, unsigned int 
-> *ratebit)
-> +static int parse_sample_rate_bit(struct dcp_parse_ctx *handle, 
-> unsigned int *ratebit)
->  {
->  	s64 rate;
->  	int ret = parse_int(handle, &rate);
-> @@ -715,7 +715,7 @@ int parse_sample_rate_bit(struct dcp_parse_ctx 
-> *handle, unsigned int *ratebit)
->  	return 0;
->  }
-> 
-> -int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
-> +static int parse_sample_fmtbit(struct dcp_parse_ctx *handle, u64 *fmtbit)
->  {
->  	s64 sample_size;
->  	int ret = parse_int(handle, &sample_size);
+> I suppose the recipients are generated by an automated 
+> get_maintainers.pl invocation. Is that desired for out of tree drivers?
 
-thanks, patch included in my dev branch and will be in the next pull request I'll send to Hector.
+I was wondering about that as well, as I don't usually send
+patches for code that isn't at least in linux-next yet.
 
-I suppose the recipients are generated by an automated get_maintainers.pl invocation. Is that desired for out of tree drivers?
+I ended up using what is in the MAINTAINERS file for this driver
+in the branch as that is is all I have at this point:
 
-best regards,
-Janne
+APPLE DRM DISPLAY DRIVER
+M:      Alyssa Rosenzweig <alyssa@rosenzweig.io>
+L:      dri-devel@lists.freedesktop.org
+S:      Maintained
+T:      git git://anongit.freedesktop.org/drm/drm-misc
+F:      drivers/gpu/drm/apple/
+
+I left out the drivers/gpu/ maintainer addresses though. 
+
+     Arnd
