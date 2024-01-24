@@ -1,200 +1,109 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F487129A83
-	for <asahi@lists.linux.dev>; Wed, 24 Jan 2024 18:11:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42C2132C3B;
+	Wed, 24 Jan 2024 19:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706119873; cv=none; b=E7z/HnuueeDlLVgn9Oqk28Ba9p/lWVnm5L1qI6tGRG5ADXRZBGZtVKp72+YjSveGR3zaPk5+8lHwTdZhf3MX/WSAoVLicfXxLsPb1PhHSGSa94H21k5q28bvXyqDgfIF7Sdvy588EpHudEJ/jmy54d3U+jK8skQUu8e0tF2QO40=
+	t=1706125817; cv=none; b=M3gQH2WK8SfpY1Sznh0nGXiQ/mhRN+3sb8VQuRlLKfddwGZq3SeJ37RI3YZregYGNIuBVs1TOD1+t19kZ7rD4b4ie45gkxzWZWNmgEubppRBkVGrDnKswFBz54Cra0zYpn5sW6VHKhhCKqH9pbt3FB3JEaTBjPMoDaA+El6lNjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706119873; c=relaxed/simple;
-	bh=5UQE6R6C6AUkzbId7Ykcdx4OK37OHsLAgXu519xwaEI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qIusEuJ/27UzD8K503CdHUX89tEmOUHTiHJ+7KJjUGwPAlcH0ndGXgEGhnY2NEvplY1DDiEiKp43+JjMhmj7nhz7DXEf3qJyjoXqyp9gr8IaC1T2FD4PUMPKpdC6XEYrj2hDkzWehdoZ43STriIhmOkb7JPfaoZiNbFMCsabi7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iH13AAgk; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706125817; c=relaxed/simple;
+	bh=CbtLl/Wg+eaH8tLoD2vQmgrib77A8xHj01iKkwH6gac=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=dpxbsdhB0ezyIiPYTxeb/FFsSX7FZ2yHPLe8BT7AV5kkRb+z5G/Xngt/C3YJ2aQNumGumioTCEYmRK+cDlFFH2OJr2yppcUO65GOLIrKzXE9IV60OCxEhk/Rnrb1e81CXf2xZYDQJA4l2W4e3AcED2zUSxZ/t0ch3nbWMKY0DRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=SNWO6MUI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bDmgc05Y; arc=none smtp.client-ip=64.147.123.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iH13AAgk"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2cf2b218c62so9032431fa.2
-        for <asahi@lists.linux.dev>; Wed, 24 Jan 2024 10:11:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706119868; x=1706724668; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C8c9nUjIPANslCx2Ew4sSi05//NjSwZV6nm4afuT97Q=;
-        b=iH13AAgkKM4h1Go1JUt1WRvmGklNrEsjTCaWCXy6BTEsZwm9u0DfW0ZyXk5pGofsBz
-         00xjEVbS5buKRQ8Unx0pmYtfFwmR1jYGvpJg9qu8hRllkmsIZMOD9/6mjt7sbrMofKLR
-         C9jgKYK8wEzMn4KRjoYIdrcu45PNdkehKtPhOTe/XX/Qp68KXDruF6Pt0UUFzxgi1fdP
-         /Mh+W1CSAMonBzqVqy5ldfyD8PnFODrGyeGgMw1QS7YCfAOfjXfxEsdOglTzilaKImb9
-         X2RYdxjXxs+UAHjEsZnQgj3House+Ty25mEZSLniL6TLdfusRk9tj8kydjSJkwHySuFr
-         CaAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706119868; x=1706724668;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C8c9nUjIPANslCx2Ew4sSi05//NjSwZV6nm4afuT97Q=;
-        b=GUyTuAI5Lqwp0wh8BB8fVzfqWoVpvxpERwH4xNP2VPUlaZmA2QJg55KZIbe2y5/0ti
-         WC3Lnoa+CGW+sx8Qjw8DCGqPYMZ+tCiEhGxV+50ZKKlXfbuw1a9wAtHOtJkpncnuoIhp
-         pYB/yDQUL7GbnUHlnDYcRYjAST4BAcXKz9N+1Lh6ObAxXZgPWERyYr464q81JKrPgdJO
-         pSR4SOY8B8iAFOs8lccsLvqMQOQdR//j1jWiM1Wxz3NTMUlv3xc9MQCbAEHGi61dioIF
-         hMOPcOmSCrd6EDtTziDAhH/cDxjNDe0/O4VoD75qgBdDoGPDkISnkeAbGqkAw/IElQNU
-         VN2g==
-X-Gm-Message-State: AOJu0YzS08hTfuphB1ctzqgGamhpDaLeS79nC+QOwhD7f7kndo7dbfN1
-	NdE1iRMQv43NvZ3Z+M2bfAH/LoTbGL1bjqo/J4+xrxgsyfoHmBbIQLPYKGWVanrbmJqEXgOUQ+s
-	ZN3xcGav4s5deqvhPXKC+uQlckcU=
-X-Google-Smtp-Source: AGHT+IFFXNE3muV10N3ttExhgNCetj5vrx4blsUxYPxIoqW1KTrLMSWHeFr341ly5/HXNCopRHJOt5VliEGljk2s0AQ=
-X-Received: by 2002:a05:651c:2d1:b0:2cf:56b:3c04 with SMTP id
- f17-20020a05651c02d100b002cf056b3c04mr531543ljo.170.1706119867851; Wed, 24
- Jan 2024 10:11:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="SNWO6MUI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bDmgc05Y"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 3AF7F3200B19;
+	Wed, 24 Jan 2024 14:50:14 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Wed, 24 Jan 2024 14:50:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1706125813; x=1706212213; bh=t8KZ2K9xpy
+	MdqQzXZl3cy8YA1hW8Qqq39th4gk28VV4=; b=SNWO6MUIhch111VGvlDZIkl0zj
+	lPLNm6cm4te26M4IzgCLii6fYgW1aH1/15RASbewdhti7mOaviezW04gkvJ7oKE1
+	jmmOCzCULYf/IJkTUTuEzIPmWCSS7+WQG6y/fe5a/J1T7N47llwvmlloJJRMd10f
+	rgVFQtqjPz+crGhjUBBDi1Otqn01FcsW0lN6RIliiknWEvYKJs6NjScr29D7yCyl
+	GTVKSwaEE7SXZqIqLrV2n8Xip/lPsdqUj5tMIlTwmmzTz6kH/jpPRZ4+EmJ1+vO/
+	cnBqVLoedEGXE6FvOfp9RWeW+SleIy/qUx23/w1IKX+jdV1GYYhfRSCMQRkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706125813; x=1706212213; bh=t8KZ2K9xpyMdqQzXZl3cy8YA1hW8
+	Qqq39th4gk28VV4=; b=bDmgc05Yy/8VyShT11736bEQ+Pk3eQqA2Aw0mAkNzKhk
+	2oROdZ/REnJvF3tP7M0/3ub5PJ/8x6mc/Ny3+JsZHbpPa23z91H1kb5UDT0jrSSY
+	oWVgy1yhLih3JY+qSTtJokTyabHKqIrdt1Tq5rUnlGV2C4fDI7n8bqgtF5gkeLOY
+	5b7sR4fUY07AS52nEII+kMnoEEBWINR9Vw7K2NI34HY9TGBrS8AlVpVPo+kODvfq
+	l7img+kQumncM5oteN84EDpmYM6zpivEcNBivvqa79iNs1NdsRpC2lkawskkKa+K
+	hPDlHS4jqtP8sESMqP6ujhxA930Ei1c+rGgPYXpbOQ==
+X-ME-Sender: <xms:9WmxZRp1I6tZbBIpM8T38wRO6-WfU1jOPlFmQNpSOnzEwVDK_0nmvA>
+    <xme:9WmxZTpUPIE1NvyTOlVbmrefUjuc3uKLPeje7cgdbHrhr_9Hh7p2yzNyGF-nzReqr
+    rCBqe8gepDBGconsFY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdeluddguddvjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedt
+    keetffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:9WmxZeNQNCPsAiKLsizABUn96Na_3ms-jlMHmB466yJ4yAooX-r_XA>
+    <xmx:9WmxZc7OGa7RgLjd3wSzUonJEW0upCklyDlrmy611r1_tlqFgV8wcg>
+    <xmx:9WmxZQ7m9daKwNn5VzDCkxDHlP5ZvZ1hJTiURpKxazcABb9H6R9HpA>
+    <xmx:9WmxZSs4dVfHLJCK80UL-27sjqv35oIRLrXDyTPQG_00bbUoS5JFEQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 3CD28B6008F; Wed, 24 Jan 2024 14:50:13 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240107180252.73436-1-verdre@v0yd.nl> <CABBYNZ+rDo6ftN1+HdeWm6gij14YF_19WGRP7LM4Vjw-UWOTng@mail.gmail.com>
- <7cee4e74-3a0c-4b7c-9984-696e646160f8@v0yd.nl> <e6f4e681-63ca-4d85-b050-e215f86a63bf@v0yd.nl>
-In-Reply-To: <e6f4e681-63ca-4d85-b050-e215f86a63bf@v0yd.nl>
-From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date: Wed, 24 Jan 2024 13:10:54 -0500
-Message-ID: <CABBYNZJp=RhwJoB9u7QT61M085a-+Eh-HN+X07GPmNoRJQHUfw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Disconnect devices before rfkilling adapter
-To: =?UTF-8?Q?Jonas_Dre=C3=9Fler?= <verdre@v0yd.nl>
-Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, asahi@lists.linux.dev, 
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-Id: <1d13250c-e48b-4e31-b449-5b54837a0d40@app.fastmail.com>
+In-Reply-To: <20240124182256.776c164b@xps-13>
+References: <20240122153442.7250-1-arnd@kernel.org>
+ <20240124182256.776c164b@xps-13>
+Date: Wed, 24 Jan 2024 20:49:53 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Miquel Raynal" <miquel.raynal@bootlin.com>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
+ regressions@lists.linux.dev,
+ =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>,
+ "Chen-Yu Tsai" <wenst@chromium.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, asahi@lists.linux.dev,
+ "Sven Peter" <sven@svenpeter.dev>, "Michael Walle" <michael@walle.cc>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmem: include bit index in cell sysfs file name
+Content-Type: text/plain
 
-Hi Jonas,
-
-On Wed, Jan 24, 2024 at 1:00=E2=80=AFPM Jonas Dre=C3=9Fler <verdre@v0yd.nl>=
- wrote:
+On Wed, Jan 24, 2024, at 18:22, Miquel Raynal wrote:
+> arnd@kernel.org wrote on Mon, 22 Jan 2024 16:34:10 +0100:
 >
-> Hi Luiz,
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> 
+>> As far as I can tell, this is a problem for any device with multiple cells on
+>> different bits of the same address. Avoid the issue by changing the file name
+>> to include the first bit number.
 >
-> On 1/8/24 11:25 PM, Jonas Dre=C3=9Fler wrote:
-> > Hi Luiz,
-> >
-> > On 1/8/24 19:05, Luiz Augusto von Dentz wrote:
-> >> Hi Jonas,
-> >>
-> >> On Sun, Jan 7, 2024 at 1:03=E2=80=AFPM Jonas Dre=C3=9Fler <verdre@v0yd=
-.nl> wrote:
-> >>>
-> >>> Apparently the firmware is supposed to power off the bluetooth card
-> >>> properly, including disconnecting devices, when we use rfkill to bloc=
-k
-> >>> bluetooth. This doesn't work on a lot of laptops though, leading to w=
-eird
-> >>> issues after turning off bluetooth, like the connection timing out on=
- the
-> >>> peripherals which were connected, and bluetooth not connecting proper=
-ly
-> >>> when the adapter is turned on again after rfkilling.
-> >>>
-> >>> This series uses the rfkill hook in the bluetooth subsystem
-> >>> to execute a few more shutdown commands and make sure that all
-> >>> devices get disconnected before we close the HCI connection to the ad=
-apter.
-> >>>
-> >>> ---
-> >>>
-> >>> v1: https://lore.kernel.org/linux-bluetooth/20240102133311.6712-1-ver=
-dre@v0yd.nl/
-> >>> v2: https://lore.kernel.org/linux-bluetooth/20240102181946.57288-1-ve=
-rdre@v0yd.nl/
-> >>> v3:
-> >>>   - Update commit message titles to reflect what's actually happening
-> >>>     (disconnecting devices, not sending a power-off command).
-> >>>   - Doing the shutdown sequence synchronously instead of async now.
-> >>>   - Move HCI_RFKILLED flag back again to be set before shutdown.
-> >>>   - Added a "fallback" hci_dev_do_close() to the error path because
-> >>>     hci_set_powered_sync() might bail-out early on error.
-> >>>
-> >>> Jonas Dre=C3=9Fler (4):
-> >>>    Bluetooth: Remove HCI_POWER_OFF_TIMEOUT
-> >>>    Bluetooth: mgmt: Remove leftover queuing of power_off work
-> >>>    Bluetooth: Add new state HCI_POWERING_DOWN
-> >>>    Bluetooth: Disconnect connected devices before rfkilling adapter
-> >>>
-> >>>   include/net/bluetooth/hci.h |  2 +-
-> >>>   net/bluetooth/hci_core.c    | 35 +++++++++++++++++++++++++++++++++-=
--
-> >>>   net/bluetooth/hci_sync.c    | 16 +++++++++++-----
-> >>>   net/bluetooth/mgmt.c        | 30 ++++++++++++++----------------
-> >>>   4 files changed, 59 insertions(+), 24 deletions(-)
-> >>>
-> >>> --
-> >>> 2.43.0
-> >>
-> >> I will probably be applying this sortly, but let's try to add tests to
-> >> mgmt-tester just to make sure we don't introduce regressions later,
-> >> btw it seems there are a few suspend test that do connect, for
-> >> example:
-> >>
-> >> Suspend - Success 5 (Pairing - Legacy) - waiting 1 seconds
-> >> random: crng init done
-> >>    New connection with handle 0x002a
-> >>    Test condition complete, 1 left
-> >> Suspend - Success 5 (Pairing - Legacy) - waiting done
-> >>    Set the system into Suspend via force_suspend
-> >>    New Controller Suspend event received
-> >>    Test condition complete, 0 left
-> >>
-> >
-> > Thanks for that hint, I've been starting to write a test and managed to
-> > write to the rfkill file and it's blocking the device just fine, except
-> > I've run into what might be a bug in the virtual HCI driver:
-> >
-> > So the power down sequence is initiated on the rfkill as expected and
-> > hci_set_powered_sync(false) is called. That then calls
-> > hci_write_scan_enable_sync(), and this HCI command never gets a respons=
-e
-> > from the virtual HCI driver. Strangely, BT_HCI_CMD_WRITE_SCAN_ENABLE is
-> > implemented in btdev.c and the callback does get executed (I checked), =
-it
-> > just doesn't send the command completed event:
-> >
-> > < HCI Command: Write Scan Enable (0x03|0x001a) plen 1                  =
-                                                                           =
-                                          #1588 [hci1] 12.294234
-> >          Scan enable: No Scans (0x00)
-> >
-> > no response after...
-> >
->
-> So I think I found the problem here too:
->
-> The problem with this one is that calling hci_set_powered_sync() from
-> within the context of the write to the rfkill device blocks the write()
-> until the HCI commands have returned. Because the mgmt-tester process is
-> stuck in write(), it can't reply to the HCI commands using the emulator
-> (which runs in the same thread), and after two seconds the HCI command
-> times out and the test ends.
->
-> I haven't really been able to confirm this other than that we're indeed
-> blocked in write(), does this sound like a sane explanation to you?
->
-> Seems like for this to work we'd either have to stop blocking userspace
-> until the rfkill has finished/failed (don't think that's a good idea), or
-> write to the rfkill device from an separate thread in mgmt-tester? The
-> latter should be fairly easy, so I'll give that a shot.
+> There is only one bit number right? We are talking about byte offsets
+> so this value can only range from 0 to 7? If we understand each other
+> correctly then why not, I'm fine with the extra ",0" thing.
 
-Userspace code is normally not thread safe since we usually have been
-using the concept of mainloop to avoid entering into the threading
-support which might require locking, etc. That said we could perhaps
-either not block at vhci driver, with use of hci_cmd_sync_queue, etc,
-or use async IO mechanism in userspace so we avoid blocking btdev
-handling.
+On the Apple M1, the nvmem registers are 32 bit wide, so the
+bit numbers can go up to 31. I can imagine some system using
+64-bit registers, but it's unlikely to be higher than that.
 
-> Cheers,
-> Jonas
-
-
-
---=20
-Luiz Augusto von Dentz
+      Arnd
