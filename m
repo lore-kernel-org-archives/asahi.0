@@ -1,117 +1,144 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AD612AAFC;
-	Wed, 24 Jan 2024 17:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38D57E568
+	for <asahi@lists.linux.dev>; Wed, 24 Jan 2024 18:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706116983; cv=none; b=g2AabDBpg6KhLuZE3kdQNRSGlMR+q77wxl7qOeEe0Hz7v3MTpCiihC4vq8gbpDWcNmhVp6pWQbtIE8Tn5qHiLDejWNkgXIHwJQSDCWhCu8rVzFq03fpSAjshQsAgAwdiLTK80RkV1Gz+EmR3KFesCU+y5NLRfsKxrRRcm2OGb/I=
+	t=1706119257; cv=none; b=tsou6XrC50gK/2rG5jfpki81mUS3h64QN9x5w5rHTKs7PbSZNQk7dTCq69TqGU+yrXv6jXeTdz3IYrbPhFnCPufSht/qTBswMmQItc6cwfeVA/Jzo19/pIKr/mnN40BPhH5ZPtI0ro5FdOxlP3RqABMGk0KPRSgzFC+B1qLG1JE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706116983; c=relaxed/simple;
-	bh=1qsiuKA8J/U5HtTK7VX7ozeNvAKnJpMbUXqVOveYMK8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rSKM2MQnK5w9xOTaC2/a1kVpPBSort/cbRwE9Bmk5MBv3Qn8xSsiDK+mblHHUa7sqsP4XXsR74yBEbvYLXAf9b6XoNO7kX//1vWAZ8N2IE5CMDAMEAEyLYcHW9jgilv4jM/Qk9ZQZ0U0QFNGaKew+TRwOImQqMHJB+D0HRy2PMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=A9AwBggs; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="A9AwBggs"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0F8F040003;
-	Wed, 24 Jan 2024 17:22:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1706116979;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NR9X+f8hzi6LukUwFvLmWHpES6M8Hue32FNHn1qEfC8=;
-	b=A9AwBggsTrv9qKpv6izgrNets4YClPaiv+ZV53LkzmNlflbQYEvLMKLE1SKOr5qUOF5uQn
-	PRlSFVqNDppd2AyZmp3b5p0MEpw5b/3zahbcChm0Xe9JXLZ/E6EhuVN+4Aiej1kWHY+iif
-	iP8YfZOGANGosY1RZJWV/6YyMYE4z6GeecvRyZOY8087BCntZNl+nzDyKcQ1Wzw3zOSe3c
-	vr8uSTczAaTzRZephI0zvW1/z44Q08mlLywAagwm3BgmN9v9kiNXLhz2orkgIeKMyjoHNY
-	ZXW+TSj0lWjoZ8WcPncTAd/lKaF7Fd5x+zVRyIhqYrUoBExodg1RlFQ2BxJALw==
-Date: Wed, 24 Jan 2024 18:22:56 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Arnd Bergmann
- <arnd@arndb.de>, regressions@lists.linux.dev, =?UTF-8?B?UmFmYcWCIE1pxYJl?=
- =?UTF-8?B?Y2tp?= <rafal@milecki.pl>, Chen-Yu Tsai <wenst@chromium.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev,
- Sven Peter <sven@svenpeter.dev>, Michael Walle <michael@walle.cc>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] nvmem: include bit index in cell sysfs file name
-Message-ID: <20240124182256.776c164b@xps-13>
-In-Reply-To: <20240122153442.7250-1-arnd@kernel.org>
-References: <20240122153442.7250-1-arnd@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1706119257; c=relaxed/simple;
+	bh=y+GV44TKGAZRCfEif+mWQgS9naJ3wDiKRpCKLjDslXo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QAFuu3Tf67ob2TGskA4wJ9E0vK/3k0SJNQbDJPB3xmarjFan6FA9Zrx/wv/CQYMK547JAAd9OeCBboATvfWccIYtdzAfWgbjQMwSOpYQSW/O6oDJ4RRe8jaWPS2gOlMt8uM83v0qbOPcUK/Xh8P3ugNfV3pgmcnUHKPm+JBv5pI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=v0yd.nl; spf=pass smtp.mailfrom=v0yd.nl; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=v0yd.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=v0yd.nl
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4TKsFT2hF3z9t3B;
+	Wed, 24 Jan 2024 19:00:45 +0100 (CET)
+Message-ID: <e6f4e681-63ca-4d85-b050-e215f86a63bf@v0yd.nl>
+Date: Wed, 24 Jan 2024 19:00:43 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Subject: Re: [PATCH v3 0/4] Disconnect devices before rfkilling adapter
+Content-Language: en-US
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>, asahi@lists.linux.dev,
+ linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20240107180252.73436-1-verdre@v0yd.nl>
+ <CABBYNZ+rDo6ftN1+HdeWm6gij14YF_19WGRP7LM4Vjw-UWOTng@mail.gmail.com>
+ <7cee4e74-3a0c-4b7c-9984-696e646160f8@v0yd.nl>
+From: =?UTF-8?Q?Jonas_Dre=C3=9Fler?= <verdre@v0yd.nl>
+In-Reply-To: <7cee4e74-3a0c-4b7c-9984-696e646160f8@v0yd.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Arnd,
+Hi Luiz,
 
-arnd@kernel.org wrote on Mon, 22 Jan 2024 16:34:10 +0100:
+On 1/8/24 11:25 PM, Jonas Dreßler wrote:
+> Hi Luiz,
+> 
+> On 1/8/24 19:05, Luiz Augusto von Dentz wrote:
+>> Hi Jonas,
+>>
+>> On Sun, Jan 7, 2024 at 1:03 PM Jonas Dreßler <verdre@v0yd.nl> wrote:
+>>>
+>>> Apparently the firmware is supposed to power off the bluetooth card
+>>> properly, including disconnecting devices, when we use rfkill to block
+>>> bluetooth. This doesn't work on a lot of laptops though, leading to weird
+>>> issues after turning off bluetooth, like the connection timing out on the
+>>> peripherals which were connected, and bluetooth not connecting properly
+>>> when the adapter is turned on again after rfkilling.
+>>>
+>>> This series uses the rfkill hook in the bluetooth subsystem
+>>> to execute a few more shutdown commands and make sure that all
+>>> devices get disconnected before we close the HCI connection to the adapter.
+>>>
+>>> ---
+>>>
+>>> v1: https://lore.kernel.org/linux-bluetooth/20240102133311.6712-1-verdre@v0yd.nl/
+>>> v2: https://lore.kernel.org/linux-bluetooth/20240102181946.57288-1-verdre@v0yd.nl/
+>>> v3:
+>>>   - Update commit message titles to reflect what's actually happening
+>>>     (disconnecting devices, not sending a power-off command).
+>>>   - Doing the shutdown sequence synchronously instead of async now.
+>>>   - Move HCI_RFKILLED flag back again to be set before shutdown.
+>>>   - Added a "fallback" hci_dev_do_close() to the error path because
+>>>     hci_set_powered_sync() might bail-out early on error.
+>>>
+>>> Jonas Dreßler (4):
+>>>    Bluetooth: Remove HCI_POWER_OFF_TIMEOUT
+>>>    Bluetooth: mgmt: Remove leftover queuing of power_off work
+>>>    Bluetooth: Add new state HCI_POWERING_DOWN
+>>>    Bluetooth: Disconnect connected devices before rfkilling adapter
+>>>
+>>>   include/net/bluetooth/hci.h |  2 +-
+>>>   net/bluetooth/hci_core.c    | 35 +++++++++++++++++++++++++++++++++--
+>>>   net/bluetooth/hci_sync.c    | 16 +++++++++++-----
+>>>   net/bluetooth/mgmt.c        | 30 ++++++++++++++----------------
+>>>   4 files changed, 59 insertions(+), 24 deletions(-)
+>>>
+>>> -- 
+>>> 2.43.0
+>>
+>> I will probably be applying this sortly, but let's try to add tests to
+>> mgmt-tester just to make sure we don't introduce regressions later,
+>> btw it seems there are a few suspend test that do connect, for
+>> example:
+>>
+>> Suspend - Success 5 (Pairing - Legacy) - waiting 1 seconds
+>> random: crng init done
+>>    New connection with handle 0x002a
+>>    Test condition complete, 1 left
+>> Suspend - Success 5 (Pairing - Legacy) - waiting done
+>>    Set the system into Suspend via force_suspend
+>>    New Controller Suspend event received
+>>    Test condition complete, 0 left
+>>
+> 
+> Thanks for that hint, I've been starting to write a test and managed to
+> write to the rfkill file and it's blocking the device just fine, except
+> I've run into what might be a bug in the virtual HCI driver:
+> 
+> So the power down sequence is initiated on the rfkill as expected and
+> hci_set_powered_sync(false) is called. That then calls
+> hci_write_scan_enable_sync(), and this HCI command never gets a response
+> from the virtual HCI driver. Strangely, BT_HCI_CMD_WRITE_SCAN_ENABLE is
+> implemented in btdev.c and the callback does get executed (I checked), it
+> just doesn't send the command completed event:
+> 
+> < HCI Command: Write Scan Enable (0x03|0x001a) plen 1                                                                                                                                       #1588 [hci1] 12.294234
+>          Scan enable: No Scans (0x00)
+> 
+> no response after...
+> 
 
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> Creating sysfs files for all Cells caused a boot failure for linux-6.8-rc=
-1 on
-> Apple M1, which (in downstream dts files) has multiple nvmem cells that u=
-se the
-> same byte address. This causes the device probe to fail with
+So I think I found the problem here too:
 
-o_O	I didn't even know this was allowed...
+The problem with this one is that calling hci_set_powered_sync() from
+within the context of the write to the rfkill device blocks the write()
+until the HCI commands have returned. Because the mgmt-tester process is
+stuck in write(), it can't reply to the HCI commands using the emulator
+(which runs in the same thread), and after two seconds the HCI command
+times out and the test ends.
 
-> [    0.605336] sysfs: cannot create duplicate filename '/devices/platform=
-/soc@200000000/2922bc000.efuse/apple_efuses_nvmem0/cells/efuse@a10'
-> [    0.605347] CPU: 7 PID: 1 Comm: swapper/0 Tainted: G S                =
- 6.8.0-rc1-arnd-5+ #133
-> [    0.605355] Hardware name: Apple Mac Studio (M1 Ultra, 2022) (DT)
-> [    0.605362] Call trace:
-> [    0.605365]  show_stack+0x18/0x2c
-> [    0.605374]  dump_stack_lvl+0x60/0x80
-> [    0.605383]  dump_stack+0x18/0x24
-> [    0.605388]  sysfs_warn_dup+0x64/0x80
-> [    0.605395]  sysfs_add_bin_file_mode_ns+0xb0/0xd4
-> [    0.605402]  internal_create_group+0x268/0x404
-> [    0.605409]  sysfs_create_groups+0x38/0x94
-> [    0.605415]  devm_device_add_groups+0x50/0x94
-> [    0.605572]  nvmem_populate_sysfs_cells+0x180/0x1b0
-> [    0.605682]  nvmem_register+0x38c/0x470
-> [    0.605789]  devm_nvmem_register+0x1c/0x6c
-> [    0.605895]  apple_efuses_probe+0xe4/0x120
-> [    0.606000]  platform_probe+0xa8/0xd0
->=20
-> As far as I can tell, this is a problem for any device with multiple cell=
-s on
-> different bits of the same address. Avoid the issue by changing the file =
-name
-> to include the first bit number.
+I haven't really been able to confirm this other than that we're indeed
+blocked in write(), does this sound like a sane explanation to you?
 
-There is only one bit number right? We are talking about byte offsets
-so this value can only range from 0 to 7? If we understand each other
-correctly then why not, I'm fine with the extra ",0" thing.
+Seems like for this to work we'd either have to stop blocking userspace
+until the rfkill has finished/failed (don't think that's a good idea), or
+write to the rfkill device from an separate thread in mgmt-tester? The
+latter should be fairly easy, so I'll give that a shot.
 
-> Fixes: 0088cbc19276 ("nvmem: core: Expose cells through sysfs")
-> Link: https://github.com/AsahiLinux/linux/blob/bd0a1a7d4/arch/arm64/boot/=
-dts/apple/t600x-dieX.dtsi#L156
-> Cc: regressions@lists.linux.dev
-> Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-> Cc: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> Cc: Chen-Yu Tsai <wenst@chromium.org>
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: asahi@lists.linux.dev
-> Cc: Sven Peter <sven@svenpeter.dev>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
-
-Thanks,
-Miqu=C3=A8l
+Cheers,
+Jonas
