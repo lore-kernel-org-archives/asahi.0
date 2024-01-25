@@ -1,260 +1,162 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4638405F9
-	for <asahi@lists.linux.dev>; Thu, 25 Jan 2024 12:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5B846447;
+	Thu, 25 Jan 2024 12:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706184877; cv=none; b=FQdfMzo39QiU3LJupjfe2pi1SEkPakQS9HqI86+wt/nX+j0RviFF00sYh1xrHCrghCA1+qqESULz3+hgHNZITesNFHUIRyRM7n/B1pmseYJd9P99cCYiFezqIUo649rk9x5wLuTRaEsqYtWznAF4Z9eNNhrGSFzPDb991QK7U7I=
+	t=1706184951; cv=none; b=XQW3syqZz6PnkMrZR7uWZiyUntMJ9bx6h2TJw3BG1M2ryXk3FDjL47/hI6DnKVND/wmIP5ZxEygmeoysL4wUeaYsza7EwjLiUHuIvq7FwDQY54ceHp3zX870cMDKtf+4FlXhL72cfBKn4ZptUynBu3v4UUqf8/raIb2iOz9G1Ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706184877; c=relaxed/simple;
-	bh=Y70kt1S+wDMGZ2Y6dT7JBGkOh38DPB/mz0c9lW1w+go=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SHrgvaCq9H0WwOLTI27anNVgOgLF3xu/efzv4aXmKA3AClUhx6wwc9urf2O8iDnYIJiy63bFvWwoiEVEDNVpitSz5ya87Ptege+Hklo1aJpwzFLh3XLOAXz0KYqdvRHYAYJnUdoVluUzqzyXB1+eBsWgoOLy0hVE3BMqv+DdcWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rSyZH-00049s-NK; Thu, 25 Jan 2024 13:10:51 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rSyZE-002HRD-5b; Thu, 25 Jan 2024 13:10:48 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rSyZD-007n0n-33;
-	Thu, 25 Jan 2024 13:10:47 +0100
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	James Clark <james.clark@arm.com>,
-	linux-pwm@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Alexander Shiyan <shc_work@mail.ru>,
-	Benson Leung <bleung@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	=?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	=?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Michael Walle <mwalle@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hammer Hsieh <hammerh0314@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Sean Anderson <sean.anderson@seco.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Robert Foss <rfoss@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Pavel Machek <pavel@ucw.cz>,
-	Lee Jones <lee@kernel.org>,
-	Anjelique Melendez <quic_amelende@quicinc.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Lu Hongfei <luhongfei@vivo.com>,
-	Bjorn Andersson <quic_bjorande@quicinc.com>,
-	Luca Weiss <luca@z3ntu.xyz>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>
-Cc: linux-doc@vger.kernel.org,
-	kernel@pengutronix.de,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	Guenter Roeck <groeck@chromium.org>,
-	chrome-platform@lists.linux.dev,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	linux-mips@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-amlogic@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	dri-devel@lists.freedesktop.org,
-	linux-leds@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v5 040/111] pwm: Provide devm_pwmchip_alloc() function
-Date: Thu, 25 Jan 2024 13:09:02 +0100
-Message-ID:  <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
-References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
+	s=arc-20240116; t=1706184951; c=relaxed/simple;
+	bh=iYIlmuM4aHoSjitHdo1GiG11F3ybyCgC/rvqDkKgIZM=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=sWzDofgLFFhVym9BGWs7p3gHFkzkSYz+ixHW3onIK6A/zSet+yt/lbpo90BjBty2n2/AmiSKyA+Tv0fiYK8onRHd4TZyHsjyUFeLRhzIcQ2/u8wsd75lWVkdWcEvh/PjcqjAAmN4fCJJJDrcz3mt8QfDZDnSNDzK+ZlaUCunUnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=eotN5GNP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=swr4TGwP; arc=none smtp.client-ip=64.147.123.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="eotN5GNP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="swr4TGwP"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 327C53200BA0;
+	Thu, 25 Jan 2024 07:15:48 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Thu, 25 Jan 2024 07:15:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1706184947; x=1706271347; bh=iWY278RAES
+	I9tXIJCbcah9hv93rUNqzySmMLK+KnP2E=; b=eotN5GNPRege9OZu5gZt+nSZbV
+	i3Qyl2Lpe1ik7aHDnhMnbvIPchaQRplhdcZ+jIYIQEGvcKBsMND/snpFpzzKbVcJ
+	yEDuBtF2XyQ84cY/s9XiM/BnryFAcVBIBEJv3HujGMqHq8VcTPSExXxHOzOAqP1o
+	9NtWlDOwNup4b4hsWHzkZ2OH4hs26Rr4l7Q0S8OhMJfODUisnsAWCZKST+2djDoR
+	K459Yt4ZD2c4yHF0AMZJZZdRVokI0e7Gm2guSlDqpOLRz1AQMPeYZW85zvG0j0/6
+	OzBLOdqkXmX0i5qIj285W+Q3nf1Ehc3U8d322PE2QGxqJ16KJIb7ra4kUQ0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1706184947; x=1706271347; bh=iWY278RAESI9tXIJCbcah9hv93rU
+	NqzySmMLK+KnP2E=; b=swr4TGwPEh4Ve+gNquCawDIXWqoV/LWsV7s4LuKZCpcq
+	DoK5l/LpCqq27upa8Pa0Ii+yh1qgLwLWnDdtykJM04++kGJdgvc+Gl4GvJ0qe7YS
+	eynXOGKhnb1pa04gNWuep+Sg7FHpqoSHwVg6HgfbzDOqQdKJpJqOmJ9IDEZEdJPx
+	KcS8pYw9HYMW3Qb8GwepZtoeMadhOHwl0Ysy9I+7V5CCCJtoRLqqZ+FjrpQERxNj
+	Gv+vHos/UZBSu/8iyJS2sPk6NK2Xu56soKoFMjNKvdLe11TnVt/qljPvQiJqOmn1
+	hXVGcx0zRV7njGBAejubxjuSOGnY2mPuQTiTHRl5/w==
+X-ME-Sender: <xms:81CyZSeHa6hjc6lSJ0i0irdpuoK5742j03XDw6GSslZWYrHk-mJ5Eg>
+    <xme:81CyZcOxHwMJj1_K2QdryDUUdsb6Q1A24QRQcVyq2qyAiUvF69P64N2XDPjLA8GHf
+    gf6gt-_uf3Ff_WYHqk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrvdelgedgudduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:81CyZTg6WL_QJSyTimAIqxSrpxSW6-RlaJb8czz6kn2pIzW_CnFm-w>
+    <xmx:81CyZf-FYj2kkwPBnIwyIRY33d-5IXFJXnp86OiIDcX1gWpIVQEQ8Q>
+    <xmx:81CyZevrrYxtL3AUZvpNAMJnnG-hrbAPrGNlVuGMjaIzlWgjv2_68Q>
+    <xmx:81CyZcAg6t56_AKQrh-ZhU_0g1uXbUNAuRVjYklfN2QahsqT3dSoGg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 49604B6008D; Thu, 25 Jan 2024 07:15:47 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-119-ga8b98d1bd8-fm-20240108.001-ga8b98d1b
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4472; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=Y70kt1S+wDMGZ2Y6dT7JBGkOh38DPB/mz0c9lW1w+go=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlsk9o1J7Qn6pSUgc2O5FQOVH47M2tNWcGfyzpg KqN39khZuCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZbJPaAAKCRCPgPtYfRL+ Tl7sCACDg65PvULF2T57x8s2GOVh8qHAOM4G2fEdFZQeFhZiTply5wW+kG5bIM1JAdU3cAiM96g uzfqnkdy2Mt6/lWu6ZhjqOk/xYUO80eOZ5e8cyRhQLGb4VsogRhDSOKSAf4k0fkzTYCdCM3jfwP QGXt5GRUeYGJVhDmUC7m1wai9vWlfWG8IXkVbSYnX3LqEAl0A40uaffDMUtp2bFtgHNqtqbGhx6 bM/vJXjzuqiGa8jiFMTuJ50PRpeh9o/6cre0EhT+nv5GQHpRaGSKnNf/E7Q0CK0tiRGYs7M9t6g 2w/lsv8+vxgUQ7yjIC7YwrqDMXW1+x7YTS/xwh76REfV7L9/
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: asahi@lists.linux.dev
+Message-Id: <911c4a6b-83af-46a8-8f7e-250da4f0f1ad@app.fastmail.com>
+In-Reply-To: <20240124231120.562f06f3@xps-13>
+References: <20240122153442.7250-1-arnd@kernel.org>
+ <20240124182256.776c164b@xps-13>
+ <1d13250c-e48b-4e31-b449-5b54837a0d40@app.fastmail.com>
+ <20240124231120.562f06f3@xps-13>
+Date: Thu, 25 Jan 2024 13:15:26 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Miquel Raynal" <miquel.raynal@bootlin.com>
+Cc: "Arnd Bergmann" <arnd@kernel.org>,
+ "Srinivas Kandagatla" <srinivas.kandagatla@linaro.org>,
+ regressions@lists.linux.dev,
+ =?UTF-8?Q?Rafa=C5=82_Mi=C5=82ecki?= <rafal@milecki.pl>,
+ "Chen-Yu Tsai" <wenst@chromium.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, asahi@lists.linux.dev,
+ "Sven Peter" <sven@svenpeter.dev>, "Michael Walle" <michael@walle.cc>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nvmem: include bit index in cell sysfs file name
+Content-Type: text/plain
 
-This function allocates a struct pwm_chip and driver data. Compared to
-the status quo the split into pwm_chip and driver data is new, otherwise
-it doesn't change anything relevant (yet).
+On Wed, Jan 24, 2024, at 23:11, Miquel Raynal wrote:
+> Hi Arnd,
+>
+> arnd@arndb.de wrote on Wed, 24 Jan 2024 20:49:53 +0100:
+>
+>> On Wed, Jan 24, 2024, at 18:22, Miquel Raynal wrote:
+>> > arnd@kernel.org wrote on Mon, 22 Jan 2024 16:34:10 +0100:
+>> >  
+>> >> From: Arnd Bergmann <arnd@arndb.de>
+>> >> 
+>> >> 
+>> >> As far as I can tell, this is a problem for any device with multiple cells on
+>> >> different bits of the same address. Avoid the issue by changing the file name
+>> >> to include the first bit number.  
+>> >
+>> > There is only one bit number right? We are talking about byte offsets
+>> > so this value can only range from 0 to 7? If we understand each other
+>> > correctly then why not, I'm fine with the extra ",0" thing.  
+>> 
+>> On the Apple M1, the nvmem registers are 32 bit wide, so the
+>> bit numbers can go up to 31. I can imagine some system using
+>> 64-bit registers, but it's unlikely to be higher than that.
+>
+> In this case we will soon or later have a problem again. Can we include
+> the full offset of the bit and not just the first digit?
 
-The intention is that after all drivers are switched to use this
-allocation function, its possible to add a struct device to struct
-pwm_chip to properly track the latter's lifetime without touching all
-drivers again. Proper lifetime tracking is a necessary precondition to
-introduce character device support for PWMs (that implements atomic
-setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
-userspace support).
+I thought that is what my patch does, maybe I don't
+undestand the problem you are referring to. This is what
+I see on my system with the patch applied:
 
-The new function pwmchip_priv() (obviously?) only works for chips
-allocated with devm_pwmchip_alloc().
+$ cd /sys/devices/platform/soc@200000000/2922bc000.efuse
+$ find . -name efuse\*
+./apple_efuses_nvmem0/cells/efuse@a24,11
+./apple_efuses_nvmem0/cells/efuse@a24,9
+./apple_efuses_nvmem0/cells/efuse@a1c,f
+./apple_efuses_nvmem0/cells/efuse@a20,17
+./apple_efuses_nvmem0/cells/efuse@a20,1e
+./apple_efuses_nvmem0/cells/efuse@a18,0
+./apple_efuses_nvmem0/cells/efuse@a14,b
+./apple_efuses_nvmem0/cells/efuse@a1c,1f
+./apple_efuses_nvmem0/cells/efuse@a1c,d
+./apple_efuses_nvmem0/cells/efuse@a20,1c
+./apple_efuses_nvmem0/cells/efuse@a18,15
+./apple_efuses_nvmem0/cells/efuse@a14,0
+./apple_efuses_nvmem0/cells/efuse@a1c,14
+./apple_efuses_nvmem0/cells/efuse@a24,3
+./apple_efuses_nvmem0/cells/efuse@a20,7
+./apple_efuses_nvmem0/cells/efuse@a18,5
+./apple_efuses_nvmem0/cells/efuse@a10,16
+./apple_efuses_nvmem0/cells/efuse@a1c,12
+./apple_efuses_nvmem0/cells/efuse@a20,5
+./apple_efuses_nvmem0/cells/efuse@a18,3
+./apple_efuses_nvmem0/cells/efuse@a18,a
+./apple_efuses_nvmem0/cells/efuse@a10,1b
+./apple_efuses_nvmem0/cells/efuse@a14,5
+./apple_efuses_nvmem0/cells/efuse@a1c,19
+./apple_efuses_nvmem0/cells/efuse@a24,f
+./apple_efuses_nvmem0/cells/efuse@a18,1d
+./apple_efuses_nvmem0/cells/efuse@a14,13
+./apple_efuses_nvmem0/cells/efuse@a18,8
+./apple_efuses_nvmem0/cells/efuse@a18,f
+./apple_efuses_nvmem0/cells/efuse@a20,14
+./apple_efuses_nvmem0/cells/efuse@a10,19
+./apple_efuses_nvmem0/cells/efuse@a18,1b
+./apple_efuses_nvmem0/cells/efuse@a14,11
+./apple_efuses_nvmem0/cells/efuse@a1c,a
+./apple_efuses_nvmem0/cells/efuse@a10,1e
+./apple_efuses_nvmem0/cells/efuse@a20,19
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- .../driver-api/driver-model/devres.rst        |  1 +
- Documentation/driver-api/pwm.rst              | 10 ++++----
- drivers/pwm/core.c                            | 25 +++++++++++++++++++
- include/linux/pwm.h                           |  2 ++
- 4 files changed, 33 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index c5f99d834ec5..e4df72c408d2 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -420,6 +420,7 @@ POWER
-   devm_reboot_mode_unregister()
- 
- PWM
-+  devm_pwmchip_alloc()
-   devm_pwmchip_add()
-   devm_pwm_get()
-   devm_fwnode_pwm_get()
-diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
-index 3c28ccc4b611..cee66c7f0335 100644
---- a/Documentation/driver-api/pwm.rst
-+++ b/Documentation/driver-api/pwm.rst
-@@ -143,11 +143,11 @@ to implement the pwm_*() functions itself. This means that it's impossible
- to have multiple PWM drivers in the system. For this reason it's mandatory
- for new drivers to use the generic PWM framework.
- 
--A new PWM controller/chip can be added using pwmchip_add() and removed
--again with pwmchip_remove(). pwmchip_add() takes a filled in struct
--pwm_chip as argument which provides a description of the PWM chip, the
--number of PWM devices provided by the chip and the chip-specific
--implementation of the supported PWM operations to the framework.
-+A new PWM controller/chip can be allocated using devm_pwmchip_alloc, then added
-+using pwmchip_add() and removed again with pwmchip_remove(). pwmchip_add()
-+takes a filled in struct pwm_chip as argument which provides a description of
-+the PWM chip, the number of PWM devices provided by the chip and the
-+chip-specific implementation of the supported PWM operations to the framework.
- 
- When implementing polarity support in a PWM driver, make sure to respect the
- signal conventions in the PWM framework. By definition, normal polarity
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 1b4c3d0caa82..b821a2b0b172 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -454,6 +454,31 @@ of_pwm_single_xlate(struct pwm_chip *chip, const struct of_phandle_args *args)
- }
- EXPORT_SYMBOL_GPL(of_pwm_single_xlate);
- 
-+static void *pwmchip_priv(struct pwm_chip *chip)
-+{
-+	return (void *)chip + sizeof(*chip);
-+}
-+
-+struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv)
-+{
-+	struct pwm_chip *chip;
-+	size_t alloc_size;
-+
-+	alloc_size = size_add(sizeof(*chip), sizeof_priv);
-+
-+	chip = devm_kzalloc(parent, alloc_size, GFP_KERNEL);
-+	if (!chip)
-+		return ERR_PTR(-ENOMEM);
-+
-+	chip->dev = parent;
-+	chip->npwm = npwm;
-+
-+	pwmchip_set_drvdata(chip, pwmchip_priv(chip));
-+
-+	return chip;
-+}
-+EXPORT_SYMBOL_GPL(devm_pwmchip_alloc);
-+
- static void of_pwmchip_add(struct pwm_chip *chip)
- {
- 	if (!chip->dev || !chip->dev->of_node)
-diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-index 2c49d2fe2fe7..8bc7504aa7d4 100644
---- a/include/linux/pwm.h
-+++ b/include/linux/pwm.h
-@@ -403,6 +403,8 @@ static inline bool pwm_might_sleep(struct pwm_device *pwm)
- int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
- 		unsigned long timeout);
- 
-+struct pwm_chip *devm_pwmchip_alloc(struct device *parent, unsigned int npwm, size_t sizeof_priv);
-+
- int __pwmchip_add(struct pwm_chip *chip, struct module *owner);
- #define pwmchip_add(chip) __pwmchip_add(chip, THIS_MODULE)
- void pwmchip_remove(struct pwm_chip *chip);
--- 
-2.43.0
-
+      Arnd
