@@ -1,164 +1,93 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414981EA7D
-	for <asahi@lists.linux.dev>; Fri, 26 Jan 2024 17:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041E325767
+	for <asahi@lists.linux.dev>; Sat, 27 Jan 2024 14:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706289166; cv=none; b=ZYa/pmn06OJp6sElEyf1oSW9rbAIQbgjJNVUHf0Yw+Q/pBrN/727tISsx3xDus03vXfxf/If4Q4XzjsQSzLEPX2uYeYUA/MqoS6wH0xdlUcpL34m8m+s1T7OmbamWqTdr7c13lYb2nR8aMvgou2vJ77Vj3Pr+zjHUhImSoVH240=
+	t=1706366416; cv=none; b=L3M93MGXD6rkq1d4dRGljP9t18pPUFJSxDURWUCBRocPa8l4RHVVflbjZFfWvA2cU9guondNUSBgCxwZ2ut4tyCBF9FZR8AnR3dDXFc6XP+Ow7nGXRIxghz0Vfoq/sYQBsw4kO2MGO+ws28Z6XSbEq4S/qIeDNRvCQcmT4Pkg88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706289166; c=relaxed/simple;
-	bh=COb4jLeIk3Yc6EinXHh+ryEulfnYvk9LPJq7bo9yaf4=;
+	s=arc-20240116; t=1706366416; c=relaxed/simple;
+	bh=/e477vMpDXc+jgEqZ+V5IqXnYe+/8T7rddzTw5mWhvE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pXUQfJ5+KT7dUB4dGxjb2J5GBK/kjFOsAOTdl9SW2dQ4pt9P+fet4ktqFLRR+FBBzZSBYYkKUnLETVNzAuvnE55cIDb+RPhT6AHxbmgEq33kApP81FLfcdiq7f994Fg4sU040sFy4YD0DYEyX/BnfKZC5UNrAoOOldV3vpL9mkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rTPjB-0003h4-L9; Fri, 26 Jan 2024 18:10:53 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rTPiw-002YFi-JY; Fri, 26 Jan 2024 18:10:38 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rTPiw-008oFN-1F;
-	Fri, 26 Jan 2024 18:10:38 +0100
-Date: Fri, 26 Jan 2024 18:10:38 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Alex Elder <elder@ieee.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	James Clark <james.clark@arm.com>, linux-pwm@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
-	Sven Peter <sven@svenpeter.dev>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, Alexander Shiyan <shc_work@mail.ru>, 
-	Benson Leung <bleung@chromium.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Paul Cercueil <paul@crapouillou.net>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Conor Dooley <conor.dooley@microchip.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, 
-	Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Michael Walle <mwalle@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Hammer Hsieh <hammerh0314@gmail.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>, 
-	Sean Anderson <sean.anderson@seco.com>, Michal Simek <michal.simek@amd.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
-	Anjelique Melendez <quic_amelende@quicinc.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Lu Hongfei <luhongfei@vivo.com>, Bjorn Andersson <quic_bjorande@quicinc.com>, 
-	Luca Weiss <luca@z3ntu.xyz>, Johan Hovold <johan@kernel.org>, 
-	Douglas Anderson <dianders@chromium.org>, linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	platform-driver-x86@vger.kernel.org, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Guenter Roeck <groeck@chromium.org>, 
-	linux-riscv@lists.infradead.org, Fabio Estevam <festevam@gmail.com>, 
-	linux-stm32@st-md-mailman.stormreply.com, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Jerome Brunet <jbrunet@baylibre.com>, chrome-platform@lists.linux.dev, 
-	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-rockchip@lists.infradead.org, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, NXP Linux Team <linux-imx@nxp.com>, linux-leds@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, Jonas Karlman <jonas@kwiboo.se>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-gpio@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, greybus-dev@lists.linaro.org, linux-mips@vger.kernel.org, 
-	asahi@lists.linux.dev, kernel@pengutronix.de
-Subject: Re: [PATCH v5 040/111] pwm: Provide devm_pwmchip_alloc() function
-Message-ID: <zjt3r6z5ilpffh26qidwp3axpnvfkwcrwanrtjjm2kscpdovuz@ppcrdlhmqiqq>
-References: <cover.1706182805.git.u.kleine-koenig@pengutronix.de>
- <f59b1a4a8d6fba65e4d3e8698310c9cb1d4c43ce.1706182805.git.u.kleine-koenig@pengutronix.de>
- <db05fb6a-2ea5-4e00-ac03-adc1897d96de@ieee.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MChFPiwkjUjkBUBJKSpDF6ZAN93elfOG54JW9sdavl97qLsl+cS4CmLQ90G59tywLzuoEfx2X3mj0pxCx78A9i5oGEW2MuPKIpVUTDxQ7qDWN7jaSMsbI4f5byOHXzC9G5KSoB07xnQ7akFJgyfol5bcZh61m8ZNwj+0DgcpuX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WD4c0Ns6; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WD4c0Ns6"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-510e0d700c6so54301e87.2
+        for <asahi@lists.linux.dev>; Sat, 27 Jan 2024 06:40:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1706366412; x=1706971212; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jNR83EdJ/hr5bvN1R2INUkjJh6swu7AAKIl4CRoVlzs=;
+        b=WD4c0Ns6uknh6Cvb5U0Z1/R9oOh6ZLhn0xrfUpABkcwdkt+9aFHiUvxZYX4T90YKfk
+         N1WZFHxyOSTTYx6OUXKt5YQZbo0nrFqA4wGoO8S3XD+IiNR3emgAbbEQhkiHN00OLeIr
+         Ay9GlJcwd+tYheNdqlukJ0MwDHwnAs3vHa70PIa1zXmhZgZh1T/HDrqVQ+mnMrFoz7Yl
+         Uz9fPTPnGf4FGd10qAU236cdMLpnjZisSmX+Z9+vtz5obRUaGurcTfe8GkagiSsVTh4l
+         PHpQrJlnolApVOgR87saSrjpm3yHiy0gDPn3sSu3PDwRI71jIWbL5Pso8+ftO0aBP5sd
+         qFSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1706366412; x=1706971212;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jNR83EdJ/hr5bvN1R2INUkjJh6swu7AAKIl4CRoVlzs=;
+        b=UnEOSz8DO+pMbTXalGbtGrJtk+wyOvz959IXNLrai7sYAnP0TH8DwtpnkJk/d/rrRO
+         AzsR4kRX3PoS8+mZ4hhuzVoQ4TfJklQWPdjvxe5ymvJkKTXUd/SLQzl34KAaDX/rwXuF
+         IUVOLEuesv+w9Kk2IfRSOihQeGv/CVUZI+7+tCU0JPM/+hhowTY0+CG2+/NW7GtaJ7j0
+         zLsU4CyF4pvUYA70+QhoCR/hBhs91PyxY0MMvBErtnIeqMjUSWdulbjbdnItxKpmYIXM
+         0JvLWOs7PoyHAtslEoIF8AnINUw2WzjdiR8whasO+WXDXjAMIYS9ZLS+J3wrF5GLf4bq
+         FKYA==
+X-Gm-Message-State: AOJu0YwsZ7E0RChPdVbVJCGzydd03zO1tzJ0m71lu3yx3TcZJw+0qDpJ
+	NttsHpApxh2+R7QUBzfWA+mZLIUuMIPJVh+/cqE99+rqpKCRQWho90tYG3s8
+X-Google-Smtp-Source: AGHT+IHeEyhyVe/etn9HHo9JHv4CgyrsrVnhSTiYx/D24ppuGRI1lcawt1rYRkVI/XbVaPEAcnQssg==
+X-Received: by 2002:ac2:538d:0:b0:510:e05:435a with SMTP id g13-20020ac2538d000000b005100e05435amr1017070lfh.26.1706366411691;
+        Sat, 27 Jan 2024 06:40:11 -0800 (PST)
+Received: from home.paul.comp (paulfertser.info. [2001:470:26:54b:226:9eff:fe70:80c2])
+        by smtp.gmail.com with ESMTPSA id u12-20020ac258cc000000b0051021430798sm515314lfo.31.2024.01.27.06.40.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jan 2024 06:40:10 -0800 (PST)
+Received: from home.paul.comp (home.paul.comp [IPv6:0:0:0:0:0:0:0:1])
+	by home.paul.comp (8.15.2/8.15.2/Debian-22) with ESMTP id 40REe7oF006062;
+	Sat, 27 Jan 2024 17:40:09 +0300
+Received: (from paul@localhost)
+	by home.paul.comp (8.15.2/8.15.2/Submit) id 40REe7nv006061;
+	Sat, 27 Jan 2024 17:40:07 +0300
+Date: Sat, 27 Jan 2024 17:40:06 +0300
+From: Paul Fertser <fercerpav@gmail.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: Daniel Berlin <dberlin@dberlin.org>, asahi@lists.linux.dev
+Subject: SAE AP on BCM4345/6 (was: Re: Testing bits/080-wifi on BCM4345/6)
+Message-ID: <ZbUVxhsrbbjhOd0+@home.paul.comp>
+References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
+ <ZYK/C3LzK8LMOjER@home.paul.comp>
+ <3e7f9763-a481-40d1-a5aa-9d71ebe13d98@marcan.st>
+ <ZYa2Q8ALPbr09L4b@home.paul.comp>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="b26sjadvk3fz44v6"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <db05fb6a-2ea5-4e00-ac03-adc1897d96de@ieee.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: asahi@lists.linux.dev
+In-Reply-To: <ZYa2Q8ALPbr09L4b@home.paul.comp>
 
+On Sat, Dec 23, 2023 at 01:28:19PM +0300, Paul Fertser wrote:
+> 4. AP mode WPA3 SAE starts and beacons but connection to it is
+> impossible (probably due to a user error, haven't tested much).
 
---b26sjadvk3fz44v6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This wasn't supposed to work before [0] so when testing this feature
+make sure you run hostapd from git.
 
-Hello Alex,
+For the reference, I haven't tried it with your patches yet and it's
+still not working on AP6255 with mainline.
 
-On Fri, Jan 26, 2024 at 08:56:33AM -0600, Alex Elder wrote:
-> On 1/25/24 6:09 AM, Uwe Kleine-K=F6nig wrote:
-> > This function allocates a struct pwm_chip and driver data. Compared to
-> > the status quo the split into pwm_chip and driver data is new, otherwise
-> > it doesn't change anything relevant (yet).
-> >=20
-> > The intention is that after all drivers are switched to use this
-> > allocation function, its possible to add a struct device to struct
-> > pwm_chip to properly track the latter's lifetime without touching all
-> > drivers again. Proper lifetime tracking is a necessary precondition to
-> > introduce character device support for PWMs (that implements atomic
-> > setting and doesn't suffer from the sysfs overhead of the /sys/class/pwm
-> > userspace support).
-> >=20
-> > The new function pwmchip_priv() (obviously?) only works for chips
-> > allocated with devm_pwmchip_alloc().
->=20
-> I think this looks good.  Two questions:
-> - Should you explicitly align the private data?  Or do you believe
->   the default alignment (currently pointer size aligned) is adequate?
+[0] https://w1.fi/cgit/hostap/commit/?id=b089803091cff61e253e09fb560c7ef7a336a611
 
-I'm not aware of a requirement for a higher order alignment (but I might
-well miss something). I did my tests on arm, nothing exploded there.
-Maybe the conservative approach of asserting the same alignment as
-kmalloc would be a good idea. I'll think and research about that.
-
-iio uses ARCH_DMA_MINALIGN, net uses 32 (NETDEV_ALIGN).
-
-> - Is there a non-devres version of the allocation function?
-
-Patch #109 introduces a non-devres variant. As it's not used it's a
-static function though. Can easily be changed is a use case pops up.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---b26sjadvk3fz44v6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmWz540ACgkQj4D7WH0S
-/k4oQwf+Nnq9bGZWZrbCQsHJYB54zfZt1whu2kQgdRMIQzT8HP7NadKhFCqs3Ob6
-5xwIwbIpdczrpzHM25+5ZrTBiH5oSQ/Si0YMzglndL8Tm59GEJxcKoorYpDNplJR
-xHL2owB7VgG87fFIvSCe163biS2vI/gIjAGvL9bpzcSH62Eq7EO3APk7Hx+h7d9e
-QHLzzUmpN9JlrzYOhKE7Pu7/iVFPNqNb7FQtAOnamXe0kRLs05649mgdJ9q30gS8
-imf9reDedsSG7sHM5NjtZpBQpF9H3vulzuGbH2MH2jNDLjtcpvUXUZpfijLN69iQ
-GqSwNOqcwcXljLsP1A1wM8snNwzi/A==
-=cXfD
------END PGP SIGNATURE-----
-
---b26sjadvk3fz44v6--
+-- 
+Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
+mailto:fercerpav@gmail.com
