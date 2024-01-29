@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD8C12E47;
-	Mon, 29 Jan 2024 18:34:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B962AD0F;
+	Mon, 29 Jan 2024 18:35:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706553283; cv=none; b=HQkqdaTI6o341x/LzgFT7UU16DyRyG3ACVpELCKLRZRSqZaqAWKwZOQ35iYRwkaMUEbjZvckqoWlivx5KELyRlxelY//GId04HZ4ETcJUzFe22dLpBuS24vANAKtos3x4JaXL3yD+zLsBHb8+43WHzc314HR/+XbCKgwXTYaf/Y=
+	t=1706553333; cv=none; b=nHHbGF4F/LbtqsTbo4wkspA3JyluzRBijMm4FpF4PbfIqxFh0oJ4m47WB5udTxZPzXHHwBuwB2Do4nvv/bvq1paCdpbZcluXzPCKbFK0jaSeKW4nB6jhE9Pzewk4AdfoKQxohBFcQykjyu/dk/gbsXi4dPlf2gVC38U520utVsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706553283; c=relaxed/simple;
-	bh=Wfk4yPeASuxwl48Oyf/iy94v6/Ove6zw/HOC6KbRDiE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bZUL3q3WVKlcnnz1n0TwmEQD7fMIwOFf03V6bKajL0CAsUUdtFZw8vK8/BjCT8kz5abk9PAsgGAy3AuQQnUPP1kBq7RnTE1bMm6Z6e2dwt9DCMPl5tVuRVRAR+VYtqG1tlSYODFfP6+SKJol3pT8QfZBJVcgrIBB/tu/GC7n/aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F2k0G+JP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1706553333; c=relaxed/simple;
+	bh=H3AWIlfVuawdpmPkcPbFKq+N/LBvLHZM1goebGE9dJk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pVknSI7ebqgCN1qbq67hnt4pYec0ph5t1DkfPeMEeF/2+vgKlSxHSNxd9TTXRx4IDi8OQ2V1J/ocMNr2ph+ZKIfDlp9tpoo/moYWjPUBDbeYftpLEow+VDWn3h6ThyXlaEUpyY/S01Syi876VHZa9/WvkArEsV7AlsMiAo6rFAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G0Ou+5Ct; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F2k0G+JP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 477ACC433F1;
-	Mon, 29 Jan 2024 18:34:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G0Ou+5Ct"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C427AC433C7;
+	Mon, 29 Jan 2024 18:35:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706553283;
-	bh=Wfk4yPeASuxwl48Oyf/iy94v6/Ove6zw/HOC6KbRDiE=;
+	s=k20201202; t=1706553332;
+	bh=H3AWIlfVuawdpmPkcPbFKq+N/LBvLHZM1goebGE9dJk=;
 	h=From:To:Cc:Subject:Date:From;
-	b=F2k0G+JPOks06KgR3j6gUbiPLuWkGZX9w+VHdYe6NRSMDEl9Hbd4DpubRu8sdKsRU
-	 fek81S/M1xvYMm/ZJGH9iQOu2glPNqK5F9qyOVek5ptYvckHXoGz3Nz0WTe1iVMzE9
-	 7iy6OOAc1LQWFC+FBSL46K6851kRJ3b1uc7dxPxCEXcpNUQ/Pz9r4WGXdi0Ep2UVy+
-	 KHmhQKG8jepPGXgVSPsPTlSH4Reh87MaC0d9t7AoewqZl2XtIUFmOnHaQpAwoJvRXe
-	 fayJGNnIu838VlL78u3vocEPh/37NuYUuw/YUwbmV0cBMxMHoXZpUKUW/hz9VP0MrU
-	 7cJzZs8eqwA0Q==
+	b=G0Ou+5Ct9eAd5Y23mawbAYA1PykmkAcEWNPOR/lu904OxPsxOKpNmZaNXphqwktkd
+	 wDLQGUo+9nnGY71ajHRq/y1lk6iglAtXMvZ1UdMAITg/mx5xZssVJftN/GgORKroOL
+	 PJ/NwYS9ruqOzS28VAL3vt3qhVqQuF3wlJD17SMpgxDF+AjJQ//v99Czn1jfn1DcqM
+	 vhls8RD6BxojEHniVu+SCj6Rxgwajf+0jciumPG5aH/OHkKqIB3B20E5yXik08vNLy
+	 psNk5nXbeksmX6dVwVx7dLN4tqrTJOfLpNFLaUb2Ngud/RTmy8lSryafG/uCWlj17F
+	 S+sLT/c6o/zqg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -36,9 +36,9 @@ Cc: Hector Martin <marcan@marcan.st>,
 	asahi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	dmaengine@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.7 01/12] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
-Date: Mon, 29 Jan 2024 13:34:10 -0500
-Message-ID: <20240129183440.463998-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 01/10] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
+Date: Mon, 29 Jan 2024 13:35:09 -0500
+Message-ID: <20240129183530.464274-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -49,7 +49,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.7.2
+X-stable-base: Linux 6.6.14
 Content-Transfer-Encoding: 8bit
 
 From: Hector Martin <marcan@marcan.st>
@@ -74,7 +74,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-index 5b63996640d9..9588773dd2eb 100644
+index 3af795635c5c..356298e4dd22 100644
 --- a/drivers/dma/apple-admac.c
 +++ b/drivers/dma/apple-admac.c
 @@ -57,6 +57,8 @@
