@@ -1,93 +1,101 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041E325767
-	for <asahi@lists.linux.dev>; Sat, 27 Jan 2024 14:40:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD8C12E47;
+	Mon, 29 Jan 2024 18:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706366416; cv=none; b=L3M93MGXD6rkq1d4dRGljP9t18pPUFJSxDURWUCBRocPa8l4RHVVflbjZFfWvA2cU9guondNUSBgCxwZ2ut4tyCBF9FZR8AnR3dDXFc6XP+Ow7nGXRIxghz0Vfoq/sYQBsw4kO2MGO+ws28Z6XSbEq4S/qIeDNRvCQcmT4Pkg88=
+	t=1706553283; cv=none; b=HQkqdaTI6o341x/LzgFT7UU16DyRyG3ACVpELCKLRZRSqZaqAWKwZOQ35iYRwkaMUEbjZvckqoWlivx5KELyRlxelY//GId04HZ4ETcJUzFe22dLpBuS24vANAKtos3x4JaXL3yD+zLsBHb8+43WHzc314HR/+XbCKgwXTYaf/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706366416; c=relaxed/simple;
-	bh=/e477vMpDXc+jgEqZ+V5IqXnYe+/8T7rddzTw5mWhvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MChFPiwkjUjkBUBJKSpDF6ZAN93elfOG54JW9sdavl97qLsl+cS4CmLQ90G59tywLzuoEfx2X3mj0pxCx78A9i5oGEW2MuPKIpVUTDxQ7qDWN7jaSMsbI4f5byOHXzC9G5KSoB07xnQ7akFJgyfol5bcZh61m8ZNwj+0DgcpuX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WD4c0Ns6; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1706553283; c=relaxed/simple;
+	bh=Wfk4yPeASuxwl48Oyf/iy94v6/Ove6zw/HOC6KbRDiE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bZUL3q3WVKlcnnz1n0TwmEQD7fMIwOFf03V6bKajL0CAsUUdtFZw8vK8/BjCT8kz5abk9PAsgGAy3AuQQnUPP1kBq7RnTE1bMm6Z6e2dwt9DCMPl5tVuRVRAR+VYtqG1tlSYODFfP6+SKJol3pT8QfZBJVcgrIBB/tu/GC7n/aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F2k0G+JP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WD4c0Ns6"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-510e0d700c6so54301e87.2
-        for <asahi@lists.linux.dev>; Sat, 27 Jan 2024 06:40:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706366412; x=1706971212; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jNR83EdJ/hr5bvN1R2INUkjJh6swu7AAKIl4CRoVlzs=;
-        b=WD4c0Ns6uknh6Cvb5U0Z1/R9oOh6ZLhn0xrfUpABkcwdkt+9aFHiUvxZYX4T90YKfk
-         N1WZFHxyOSTTYx6OUXKt5YQZbo0nrFqA4wGoO8S3XD+IiNR3emgAbbEQhkiHN00OLeIr
-         Ay9GlJcwd+tYheNdqlukJ0MwDHwnAs3vHa70PIa1zXmhZgZh1T/HDrqVQ+mnMrFoz7Yl
-         Uz9fPTPnGf4FGd10qAU236cdMLpnjZisSmX+Z9+vtz5obRUaGurcTfe8GkagiSsVTh4l
-         PHpQrJlnolApVOgR87saSrjpm3yHiy0gDPn3sSu3PDwRI71jIWbL5Pso8+ftO0aBP5sd
-         qFSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706366412; x=1706971212;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jNR83EdJ/hr5bvN1R2INUkjJh6swu7AAKIl4CRoVlzs=;
-        b=UnEOSz8DO+pMbTXalGbtGrJtk+wyOvz959IXNLrai7sYAnP0TH8DwtpnkJk/d/rrRO
-         AzsR4kRX3PoS8+mZ4hhuzVoQ4TfJklQWPdjvxe5ymvJkKTXUd/SLQzl34KAaDX/rwXuF
-         IUVOLEuesv+w9Kk2IfRSOihQeGv/CVUZI+7+tCU0JPM/+hhowTY0+CG2+/NW7GtaJ7j0
-         zLsU4CyF4pvUYA70+QhoCR/hBhs91PyxY0MMvBErtnIeqMjUSWdulbjbdnItxKpmYIXM
-         0JvLWOs7PoyHAtslEoIF8AnINUw2WzjdiR8whasO+WXDXjAMIYS9ZLS+J3wrF5GLf4bq
-         FKYA==
-X-Gm-Message-State: AOJu0YwsZ7E0RChPdVbVJCGzydd03zO1tzJ0m71lu3yx3TcZJw+0qDpJ
-	NttsHpApxh2+R7QUBzfWA+mZLIUuMIPJVh+/cqE99+rqpKCRQWho90tYG3s8
-X-Google-Smtp-Source: AGHT+IHeEyhyVe/etn9HHo9JHv4CgyrsrVnhSTiYx/D24ppuGRI1lcawt1rYRkVI/XbVaPEAcnQssg==
-X-Received: by 2002:ac2:538d:0:b0:510:e05:435a with SMTP id g13-20020ac2538d000000b005100e05435amr1017070lfh.26.1706366411691;
-        Sat, 27 Jan 2024 06:40:11 -0800 (PST)
-Received: from home.paul.comp (paulfertser.info. [2001:470:26:54b:226:9eff:fe70:80c2])
-        by smtp.gmail.com with ESMTPSA id u12-20020ac258cc000000b0051021430798sm515314lfo.31.2024.01.27.06.40.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jan 2024 06:40:10 -0800 (PST)
-Received: from home.paul.comp (home.paul.comp [IPv6:0:0:0:0:0:0:0:1])
-	by home.paul.comp (8.15.2/8.15.2/Debian-22) with ESMTP id 40REe7oF006062;
-	Sat, 27 Jan 2024 17:40:09 +0300
-Received: (from paul@localhost)
-	by home.paul.comp (8.15.2/8.15.2/Submit) id 40REe7nv006061;
-	Sat, 27 Jan 2024 17:40:07 +0300
-Date: Sat, 27 Jan 2024 17:40:06 +0300
-From: Paul Fertser <fercerpav@gmail.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: Daniel Berlin <dberlin@dberlin.org>, asahi@lists.linux.dev
-Subject: SAE AP on BCM4345/6 (was: Re: Testing bits/080-wifi on BCM4345/6)
-Message-ID: <ZbUVxhsrbbjhOd0+@home.paul.comp>
-References: <20231107-brcmfmac-wpa3-v1-1-4c7db8636680@marcan.st>
- <ZYK/C3LzK8LMOjER@home.paul.comp>
- <3e7f9763-a481-40d1-a5aa-9d71ebe13d98@marcan.st>
- <ZYa2Q8ALPbr09L4b@home.paul.comp>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F2k0G+JP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 477ACC433F1;
+	Mon, 29 Jan 2024 18:34:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1706553283;
+	bh=Wfk4yPeASuxwl48Oyf/iy94v6/Ove6zw/HOC6KbRDiE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=F2k0G+JPOks06KgR3j6gUbiPLuWkGZX9w+VHdYe6NRSMDEl9Hbd4DpubRu8sdKsRU
+	 fek81S/M1xvYMm/ZJGH9iQOu2glPNqK5F9qyOVek5ptYvckHXoGz3Nz0WTe1iVMzE9
+	 7iy6OOAc1LQWFC+FBSL46K6851kRJ3b1uc7dxPxCEXcpNUQ/Pz9r4WGXdi0Ep2UVy+
+	 KHmhQKG8jepPGXgVSPsPTlSH4Reh87MaC0d9t7AoewqZl2XtIUFmOnHaQpAwoJvRXe
+	 fayJGNnIu838VlL78u3vocEPh/37NuYUuw/YUwbmV0cBMxMHoXZpUKUW/hz9VP0MrU
+	 7cJzZs8eqwA0Q==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Hector Martin <marcan@marcan.st>,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	sven@svenpeter.dev,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	dmaengine@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.7 01/12] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
+Date: Mon, 29 Jan 2024 13:34:10 -0500
+Message-ID: <20240129183440.463998-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZYa2Q8ALPbr09L4b@home.paul.comp>
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.7.2
+Content-Transfer-Encoding: 8bit
 
-On Sat, Dec 23, 2023 at 01:28:19PM +0300, Paul Fertser wrote:
-> 4. AP mode WPA3 SAE starts and beacons but connection to it is
-> impossible (probably due to a user error, haven't tested much).
+From: Hector Martin <marcan@marcan.st>
 
-This wasn't supposed to work before [0] so when testing this feature
-make sure you run hostapd from git.
+[ Upstream commit 306f5df81fcc89b462fbeb9dbe26d9a8ad7c7582 ]
 
-For the reference, I haven't tried it with your patches yet and it's
-still not working on AP6255 with mainline.
+For RX channels, REG_BUS_WIDTH seems to default to a value of 0xf00, and
+macOS preserves the upper bits when setting the configuration in the
+lower ones. If we reset the upper bits to 0, this causes framing errors
+on suspend/resume (the data stream "tears" and channels get swapped
+around). Keeping the upper bits untouched, like the macOS driver does,
+fixes this issue.
 
-[0] https://w1.fi/cgit/hostap/commit/?id=b089803091cff61e253e09fb560c7ef7a336a611
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Reviewed-by: Martin Povišer <povik+lin@cutebit.org>
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+Link: https://lore.kernel.org/r/20231029170704.82238-1-povik+lin@cutebit.org
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/dma/apple-admac.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
+index 5b63996640d9..9588773dd2eb 100644
+--- a/drivers/dma/apple-admac.c
++++ b/drivers/dma/apple-admac.c
+@@ -57,6 +57,8 @@
+ 
+ #define REG_BUS_WIDTH(ch)	(0x8040 + (ch) * 0x200)
+ 
++#define BUS_WIDTH_WORD_SIZE	GENMASK(3, 0)
++#define BUS_WIDTH_FRAME_SIZE	GENMASK(7, 4)
+ #define BUS_WIDTH_8BIT		0x00
+ #define BUS_WIDTH_16BIT		0x01
+ #define BUS_WIDTH_32BIT		0x02
+@@ -740,7 +742,8 @@ static int admac_device_config(struct dma_chan *chan,
+ 	struct admac_data *ad = adchan->host;
+ 	bool is_tx = admac_chan_direction(adchan->no) == DMA_MEM_TO_DEV;
+ 	int wordsize = 0;
+-	u32 bus_width = 0;
++	u32 bus_width = readl_relaxed(ad->base + REG_BUS_WIDTH(adchan->no)) &
++		~(BUS_WIDTH_WORD_SIZE | BUS_WIDTH_FRAME_SIZE);
+ 
+ 	switch (is_tx ? config->dst_addr_width : config->src_addr_width) {
+ 	case DMA_SLAVE_BUSWIDTH_1_BYTE:
 -- 
-Be free, use free (http://www.gnu.org/philosophy/free-sw.html) software!
-mailto:fercerpav@gmail.com
+2.43.0
+
