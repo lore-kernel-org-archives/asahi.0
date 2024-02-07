@@ -1,45 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5407215DBBE;
-	Mon, 29 Jan 2024 18:36:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DC981AD4
+	for <asahi@lists.linux.dev>; Wed,  7 Feb 2024 17:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1706553362; cv=none; b=PC1OvhwN+FSbyU0xTuQbbVSZ+WahEEGHV26fwo5I8M+V7Dz84iK2UabVyMTW3fnuJ1yPiHnN/F5SrK9xycjW14VNuocMVMTo+yEGg93XmzCfcGsLsMrxBGDeFCDrUm3YrfQgFTrZIS1lPhnTKLZ05fE0j5qwDXhlkiWxNwxoNzA=
+	t=1707327668; cv=none; b=NOv7il7dKntGQJuzGDC43+qmJ8HLRN/TJ9vSj56DRBFc1mtp9FLljwN3+A2qWaaC8bqk2wMXTAzLWeYyilQi6leNr8L4fdQFDwlq2wfkqJFqLddtU0M059tlcpV9YuYETi4A14gTRzbCdIlAyUfi7dsj613UGmr7e9ebuxy1lQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1706553362; c=relaxed/simple;
-	bh=TmHzqRdk/0Z19JkTcZYGsBTA7oxVAWrK/jTNv7xJCIw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r1s0NFJvkOyuRS0jgjjEb/Jkz3lSF2fQINXAPZsoI6qoVH4Xw6k2ZEISf8tslDJXzi9FT2eWcvzmfDjtccIX2dtGWmj++gO2HyS4iH6LTTDtGNSllMLXCHU3vgUO0fixNEDDOhpVCQQhb1xTCBIo53MuSKrB8w6Yx/3u1u1OQqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pkFF/wWx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707327668; c=relaxed/simple;
+	bh=Pts1Ollg+kHIJn7gcBTh60hwuP/+5EbYctTIjn8gNGo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PZQSti1FEqCMeqKxFV3Wm3kf1N/VINlQjyUWDva6zAopSis2m/IxYBr2GUedK0iOHVnQTziQIW/tJNNKSweXNpDgM5b/MnqLVc4QJ/hNJKjEPuFC7k5m56IHsr65U1KjhxNvnKd8UvtmdddhUfup7f+L2iltJVfARWOVTu07bFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=IJlxrJ5f reason="key not found in DNS"; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pkFF/wWx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16FA1C433F1;
-	Mon, 29 Jan 2024 18:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1706553362;
-	bh=TmHzqRdk/0Z19JkTcZYGsBTA7oxVAWrK/jTNv7xJCIw=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pkFF/wWxIF1lWmMUplTX6lOEe6A5ec4s3UPhOprspq+Vb+zOZnu/PwnEWpLe3aDNM
-	 OmkQQ73bBSjX4HW71Zcet54r3pBq1wa1vpqHdDLxaRxigmPJ6KzDBB0v/qMRqJxDHz
-	 rtcOaJXNnuLIzrQQHaGpnH683YPdxaUdspQqj156JaT1k4d/2rSpXmsGhwTETDBBgc
-	 aY4wsgfouIOCyBOli5AjJFzb0K24biGeV+tP4o02Lk8KdJLJatS4CpvdF6VfJTxY4r
-	 PbUQYvdsDlRRLu/MTmQXT/nBhO62WT1/lxQ1qChZdrZN07CmqoS4J+cZ2HprzYJvPi
-	 mdqj7HprL1ZYA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Hector Martin <marcan@marcan.st>,
-	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	sven@svenpeter.dev,
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="IJlxrJ5f"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-60403c28ff6so10583417b3.1
+        for <asahi@lists.linux.dev>; Wed, 07 Feb 2024 09:41:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1707327665; x=1707932465; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=si3iSYQzW/wS10JKxA6PCTvsO4f4p9drxSnRwVUScZU=;
+        b=IJlxrJ5fRYpbhvHQsePmeudcV08XSyz134sq4C4MQ416rNB99/iQIK4i18mstXjo36
+         xMfjEOmwOCYwMIOtgOcXILBacfw3D2muGyTYB2BKFwWhukNCwv+3/yw3aM4gY3kGHM/S
+         ku36rKthjGsl9sSS1qaEQiZDqXaCPeGsyniA5CIBMdmDiFGD13Bedf+CSz3u2kd9EyQP
+         oKeEXbI1UenS1dAi7F7b//5hNjdqf55F5NVu2K/MrdhIO/uhh86fsKxBeX4qaYpgyDG3
+         wgklFtPklTOZm8aiH2OjrVITryLJBcCKgk0fmxNQqbzYBSN/wbftJeugvDobHER/8LQ/
+         KdGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1707327665; x=1707932465;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=si3iSYQzW/wS10JKxA6PCTvsO4f4p9drxSnRwVUScZU=;
+        b=hKcKyiqT1ANSufVSPtopuSjQMIIKXl7SDZZRtxzbS2H4YpZqUesIn5+hM/7fmeo2MD
+         U3sDWlItRyIR6ljwoQG5bkqfkihD31iaEyVq3ibvcWm7fZ6YGxj+B/eW7hSEeV2I152a
+         1H/TcCFDzu8VNP8kwlB0CDoLpXRSKlTqAvVoxnrVV6BVkqCqhgKMG47q83wBdh7taBeJ
+         RF9rp4yV18YdQHnIw8n0LAB9BjsnT5raVeUJd/fmAJQenIhQZKxtFsIQKoCM7VUcknt3
+         1qWUiXTVIw5m7CQsQGcLde6Hyt8YMJe8UeCFwWpV6a9Mq0AabDlMGVNxAnoI4yajG1rq
+         kiLA==
+X-Forwarded-Encrypted: i=1; AJvYcCXY7BsHYNlWZ4bBBASTtoTaOT579v+l3CG/fONZ8gr7dS6yT5z3GBR3I4mpHmttcpKKqhbN0H+kAJ/DTszGWVKLfHZcjoQ=
+X-Gm-Message-State: AOJu0Yzl11aAuJfWboc22Faq48Ur71lLbwG44rs7yEzGc4E/I85UBzz/
+	bKLJOa/egUUIivTkhkD7QnHmBvqRGv0OfU0lQFw+et/tzBEpwESwzuoX1wJjXkk=
+X-Google-Smtp-Source: AGHT+IEEHU0Zq486UjgccXih/doHmjMJ7ii4hv+46i8KhFxxFLmJqhnzWQ3qz8k37AV1xp4vGAJu6A==
+X-Received: by 2002:a0d:d641:0:b0:604:9fd4:a0ec with SMTP id y62-20020a0dd641000000b006049fd4a0ecmr668771ywd.5.1707327665531;
+        Wed, 07 Feb 2024 09:41:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUkpA1e8or7NcUr/WsWjrzjdXlKnYP7Brox9OXywH4gDbvfn48o3nQvHRI3pVbQX4O+aXkOe6P1Hn3x8IUM5XVB16c5XA7JXuzZH5fDUuhC3U9N1bfEbkfjgV7/xqboIkaeaOm372F/MkZZVEq0wEc2DJuJkyXvpBTbqVylv+rD5YWo0/G+Kg3OD5182kxWb9kzCZ+UE/n0vaD+CRG2C1kuzz4SmrQ6NdqQbHPuKYn6WxVgQS1Scls5HHdhjkF410H1Jnetb2wUH9Vej4DTNp8scc0RM4g+s3dGiuedxcYwU/O4lWzNLDnUo/WA9DCIOYKmjzvnmxeBED3dOwxSJ7FMF3P7X+3ERyu7sWGAfJMo4dSW5siDWi6HZiZ5MqA9leEV73ZV1Xm1wucVQ9wsQHZulJm4UYSoAVTYaQ9clHXTJ+boA8TvSi+pQFaIkTmzILrZcCnP/v9+gZF2G3b2d2KFGmqYSgG0gGaeKeptMhY5zBZ5TXiR5vMzoVLgPLdposs2r8L4pNbOEWF0zi6izX845ny9/Y8ba709mNUr9BsTXTdpXOH32jdwZUB1rRUPT4dFPtw6nyl8BmXWI3DBiZnpBu47RgCKYnZfBSXFi2q0ZTfGpY6vkE0+pNUelxzhMwP9YImd8mz8ORz8gfk0sj2DMsm151dgQmX/uC9RcMuoN0PSwo42yRz7KspGOG5eic/E2f2nSxwgMyWgDE8l4BZ6AqGYqlwpCJ66J1Li+1ikKsc722qVzr+fdFigDGJDZehHFCM8B1EdQjx8ub/jH9/P26lDifl1VjFAc3AA4Kvvsyo6yhiOJofANrUTNPO6SqS0jzDMXufYMQZIoY+HTiBjvj6aFjyMPao63IIQYiOrKr6uAeYBxKTyEUYAz6+FQVqHMG28i+uK+/VCIFl4wemd2x3yQ34RfasOYy5M2vSNaEUDOn3DeO3cOzE+rNZYkpbwNh
+ uQLZgO5OgShpDB5RC7nx4T4vJMHBLV4gdTrXKpcq5xKTKPg4L5nfJnheTA51MSe4dZHDfknxqft58Yp2qBaw3tvo3OmilhNVPPJyw5F7OKhNnu0H7PXSEV9GbfUQKNfMuv2lOfWpHHyZl+skgBoEfMVKO2/jKOJPnWm8ioObQVd6L2344T1EtRFasW0zYPwG9TQRQE+RZfpHFZr/v5NAy7nVe2HWfQmZ+TNHgtBJ8saOFbD+lqsTZ7loaKSaE51S/rACmqjiUEXw9S+tAJKyFQ8s6HaQikjgoPGoTP71vIid3a11OqK/EgMvScjkeqG0vU9tuvtXKomcd+gn/P3WY+qXKHpd9ClUllsbc/g4f39izeoO+NuBgrOyc8DAKyHdSA7OvsYgwTXHlopChDAFWRMic7m+I6ke8MGRJUTc5D9/kmWyxIE8uXkDBqWdSKuVjeQqEFojdrrbHmALXwMRaHOqgrUm+TD21Sq/eQwjWSfH+Z
+Received: from soleen.c.googlers.com.com (249.240.85.34.bc.googleusercontent.com. [34.85.240.249])
+        by smtp.gmail.com with ESMTPSA id e10-20020a37db0a000000b007854018044bsm696310qki.134.2024.02.07.09.41.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Feb 2024 09:41:05 -0800 (PST)
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: akpm@linux-foundation.org,
+	alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io,
 	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	dmaengine@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 1/5] dmaengine: apple-admac: Keep upper bits of REG_BUS_WIDTH
-Date: Mon, 29 Jan 2024 13:35:53 -0500
-Message-ID: <20240129183559.464502-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	baolu.lu@linux.intel.com,
+	bhelgaas@google.com,
+	cgroups@vger.kernel.org,
+	corbet@lwn.net,
+	david@redhat.com,
+	dwmw2@infradead.org,
+	hannes@cmpxchg.org,
+	heiko@sntech.de,
+	iommu@lists.linux.dev,
+	jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com,
+	joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org,
+	linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	lizefan.x@bytedance.com,
+	marcan@marcan.st,
+	mhiramat@kernel.org,
+	m.szyprowski@samsung.com,
+	pasha.tatashin@soleen.com,
+	paulmck@kernel.org,
+	rdunlap@infradead.org,
+	robin.murphy@arm.com,
+	samuel@sholland.org,
+	suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev,
+	thierry.reding@gmail.com,
+	tj@kernel.org,
+	tomas.mudrunka@gmail.com,
+	vdumpa@nvidia.com,
+	wens@csie.org,
+	will@kernel.org,
+	yu-cheng.yu@intel.com,
+	rientjes@google.com,
+	bagasdotme@gmail.com,
+	mkoutny@suse.com
+Subject: [PATCH v4 00/10] IOMMU memory observability
+Date: Wed,  7 Feb 2024 17:40:52 +0000
+Message-ID: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+X-Mailer: git-send-email 2.43.0.594.gd9cf4e227d-goog
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -47,55 +109,137 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.75
 Content-Transfer-Encoding: 8bit
 
-From: Hector Martin <marcan@marcan.st>
+----------------------------------------------------------------------
+Changelog
+----------------------------------------------------------------------
+v4:
+- Synced with v6.8-rc3 
+- Updated commit log for "iommu: account IOMMU allocated memory" as
+  suggested by Michal Koutný
+- Added more Acked-bys David Rientjes and Thierry Reding
+- Added Tested-by Bagas Sanjaya.
 
-[ Upstream commit 306f5df81fcc89b462fbeb9dbe26d9a8ad7c7582 ]
+v3:
+- Sync with v6.7-rc7
+- Addressed comments from David Rientjes: s/pages/page/, added
+  unlikely() into the branches, expanded comment for
+  iommu_free_pages_list().
+- Added Acked-bys: David Rientjes
 
-For RX channels, REG_BUS_WIDTH seems to default to a value of 0xf00, and
-macOS preserves the upper bits when setting the configuration in the
-lower ones. If we reset the upper bits to 0, this causes framing errors
-on suspend/resume (the data stream "tears" and channels get swapped
-around). Keeping the upper bits untouched, like the macOS driver does,
-fixes this issue.
+v2:
+- Added Reviewed-by Janne Grunau
+- Sync with 6.7.0-rc3
+- Separated form the series patches:
+vhost-vdpa: account iommu allocations
+https://lore.kernel.org/all/20231130200447.2319543-1-pasha.tatashin@soleen.com
+vfio: account iommu allocations
+https://lore.kernel.org/all/20231130200900.2320829-1-pasha.tatashin@soleen.com
+as suggested by Jason Gunthorpe
+- Fixed SPARC build issue detected by kernel test robot
+- Drop the following patches as they do account iommu page tables:
+iommu/dma: use page allocation function provided by iommu-pages.h
+iommu/fsl: use page allocation function provided by iommu-pages.h
+iommu/iommufd: use page allocation function provided by iommu-pages.h
+as suggested by Robin Murphy. These patches are not related to IOMMU
+page tables. We might need to do a separate work to support DMA
+observability.
+- Remove support iommu/io-pgtable-arm-v7s as the 2nd level pages are
+under a page size, thanks Robin Murphy for pointing this out.
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Martin Povišer <povik+lin@cutebit.org>
-Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
-Link: https://lore.kernel.org/r/20231029170704.82238-1-povik+lin@cutebit.org
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/dma/apple-admac.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+----------------------------------------------------------------------
+Description
+----------------------------------------------------------------------
+IOMMU subsystem may contain state that is in gigabytes. Majority of that
+state is iommu page tables. Yet, there is currently, no way to observe
+how much memory is actually used by the iommu subsystem.
 
-diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-index 4cf8da77bdd9..cac4532fe23a 100644
---- a/drivers/dma/apple-admac.c
-+++ b/drivers/dma/apple-admac.c
-@@ -56,6 +56,8 @@
- 
- #define REG_BUS_WIDTH(ch)	(0x8040 + (ch) * 0x200)
- 
-+#define BUS_WIDTH_WORD_SIZE	GENMASK(3, 0)
-+#define BUS_WIDTH_FRAME_SIZE	GENMASK(7, 4)
- #define BUS_WIDTH_8BIT		0x00
- #define BUS_WIDTH_16BIT		0x01
- #define BUS_WIDTH_32BIT		0x02
-@@ -739,7 +741,8 @@ static int admac_device_config(struct dma_chan *chan,
- 	struct admac_data *ad = adchan->host;
- 	bool is_tx = admac_chan_direction(adchan->no) == DMA_MEM_TO_DEV;
- 	int wordsize = 0;
--	u32 bus_width = 0;
-+	u32 bus_width = readl_relaxed(ad->base + REG_BUS_WIDTH(adchan->no)) &
-+		~(BUS_WIDTH_WORD_SIZE | BUS_WIDTH_FRAME_SIZE);
- 
- 	switch (is_tx ? config->dst_addr_width : config->src_addr_width) {
- 	case DMA_SLAVE_BUSWIDTH_1_BYTE:
+This patch series solves this problem by adding both observability to
+all pages that are allocated by IOMMU, and also accountability, so
+admins can limit the amount if via cgroups.
+
+The system-wide observability is using /proc/meminfo:
+SecPageTables:    438176 kB
+
+Contains IOMMU and KVM memory.
+
+Per-node observability:
+/sys/devices/system/node/nodeN/meminfo
+Node N SecPageTables:    422204 kB
+
+Contains IOMMU and KVM memory in the given NUMA node.
+
+Per-node IOMMU only observability:
+/sys/devices/system/node/nodeN/vmstat
+nr_iommu_pages 105555
+
+Contains number of pages IOMMU allocated in the given node.
+
+Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
+
+With the change, iova_stress[1] stops as limit is reached:
+
+$ ./iova_stress
+iova space:     0T      free memory:   497G
+iova space:     1T      free memory:   495G
+iova space:     2T      free memory:   493G
+iova space:     3T      free memory:   491G
+
+stops as limit is reached.
+
+This series encorporates suggestions that came from the discussion
+at LPC [2].
+----------------------------------------------------------------------
+[1] https://github.com/soleen/iova_stress
+[2] https://lpc.events/event/17/contributions/1466
+----------------------------------------------------------------------
+Previous versions
+v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
+v2: https://lore.kernel.org/linux-mm/20231130201504.2322355-1-pasha.tatashin@soleen.com
+v3: https://lore.kernel.org/all/20231226200205.562565-1-pasha.tatashin@soleen.com
+----------------------------------------------------------------------
+
+Pasha Tatashin (10):
+  iommu/vt-d: add wrapper functions for page allocations
+  iommu/amd: use page allocation function provided by iommu-pages.h
+  iommu/io-pgtable-arm: use page allocation function provided by
+    iommu-pages.h
+  iommu/io-pgtable-dart: use page allocation function provided by
+    iommu-pages.h
+  iommu/exynos: use page allocation function provided by iommu-pages.h
+  iommu/rockchip: use page allocation function provided by iommu-pages.h
+  iommu/sun50i: use page allocation function provided by iommu-pages.h
+  iommu/tegra-smmu: use page allocation function provided by
+    iommu-pages.h
+  iommu: observability of the IOMMU allocations
+  iommu: account IOMMU allocated memory
+
+ Documentation/admin-guide/cgroup-v2.rst |   2 +-
+ Documentation/filesystems/proc.rst      |   4 +-
+ drivers/iommu/amd/amd_iommu.h           |   8 -
+ drivers/iommu/amd/init.c                |  91 +++++----
+ drivers/iommu/amd/io_pgtable.c          |  13 +-
+ drivers/iommu/amd/io_pgtable_v2.c       |  20 +-
+ drivers/iommu/amd/iommu.c               |  13 +-
+ drivers/iommu/exynos-iommu.c            |  14 +-
+ drivers/iommu/intel/dmar.c              |  10 +-
+ drivers/iommu/intel/iommu.c             |  47 ++---
+ drivers/iommu/intel/iommu.h             |   2 -
+ drivers/iommu/intel/irq_remapping.c     |  10 +-
+ drivers/iommu/intel/pasid.c             |  12 +-
+ drivers/iommu/intel/svm.c               |   7 +-
+ drivers/iommu/io-pgtable-arm.c          |  15 +-
+ drivers/iommu/io-pgtable-dart.c         |  37 ++--
+ drivers/iommu/iommu-pages.h             | 236 ++++++++++++++++++++++++
+ drivers/iommu/rockchip-iommu.c          |  14 +-
+ drivers/iommu/sun50i-iommu.c            |   7 +-
+ drivers/iommu/tegra-smmu.c              |  18 +-
+ include/linux/mmzone.h                  |   5 +-
+ mm/vmstat.c                             |   3 +
+ 22 files changed, 397 insertions(+), 191 deletions(-)
+ create mode 100644 drivers/iommu/iommu-pages.h
+
 -- 
-2.43.0
+2.43.0.594.gd9cf4e227d-goog
 
