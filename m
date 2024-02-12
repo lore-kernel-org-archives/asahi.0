@@ -1,292 +1,116 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C37363
-	for <asahi@lists.linux.dev>; Sat, 10 Feb 2024 02:21:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AC32BAE7;
+	Mon, 12 Feb 2024 11:19:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707531710; cv=none; b=fFRSrpjzMyYJj8+w2EikKv3r6Oh462swo/9Q4bDo99+w7KE/S12PY3rOmqanPrHhYPV6cmuTVll2Rlb4bqPkmu2BCyGv5mA4uXejHqlCCeqr0QvNCcnsmOEIvO3eS46Oj6kdTiAMNXojHSwkABj++KqaKB/8SO1LC9dYOCiJEfw=
+	t=1707736784; cv=none; b=U3hL1es0tlx+jz6IctTkiDsFCOkbJ5RJdDNZ3KRiUb2hGDoWO/qXogK3mTxkHjLB8+D58SGyUrwYMhh90GTKt0a5bJOsrIjtkuHu6e3DqTIJ60XQsYcRSK6JETLawoTfo4b9GH8l90CjRYfhxHwyr+/mPAMFwnopWVfmCDLnEP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707531710; c=relaxed/simple;
-	bh=OEsr09Gb3Hzxbc+OG+EIkVQM7fLubAEWg7orSg+gNbQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G6gZX9Ba9niWeWJr4yy/h/eFyl0mrpj9JhUbmeP4OUUjhPruD8Y44MqzaXBCB6Neomry7ch+mrEOMpBnJrE93RS3k72FJY+ZCAYBwNNOoQ30gMjWQUuWMICJyD4CpRNDilM1FonefjFLkn7TkFoDHvVBKDXnseMt5awIrE4DjYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=Vc2htpBV reason="key not found in DNS"; arc=none smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1707736784; c=relaxed/simple;
+	bh=tWF0UWclQ/NoslADhYsN71fCn5aAl9tVNo99KfKidvQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Bf5KbAb2fdmjTjhZ3sO5X32P5YPNqIYEUDvj3wBqwzNj2LVaIWyhtYuSaSGG26AHTYLU+EvSp4xKUVV1CmbS9vD27zh1pQwOzKnLpO6tdZZniy8l3XJuJhN9NHpLaZRyuGP8vdkqymtGTmewcahhIY0FFxuePcKhgI0HECzb//g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mRmTs1vE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="Vc2htpBV"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-219452bdf81so897697fac.2
-        for <asahi@lists.linux.dev>; Fri, 09 Feb 2024 18:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1707531707; x=1708136507; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=HxzMCuaeyhn3J9cU+FUkQXDQEw1s8FDPbrSZbrZddcs=;
-        b=Vc2htpBV/XCG+6i0IzQcjZJt1j+ZdNtQ10AYBKXElgPbxoKa38oev/nET5NIuSQFfK
-         zaISKjJEM664MAmPyUMaLY1giFjGKEHLwcS1m9b9ziThQiEAA0S/Nhdqk7zMQnVpB8TW
-         NFrhifMBLvQZuTL+WaT2q49qqCeU/jV3KCOtYHGzrnHgUVsrUDrAIYy1aqZ2qlaxWeaH
-         IfFfGIDhz/vBO8pIrVPTkMyOt8rW8c0Ci+VOBRcDpywjNcceOcbVs6+239Quexzvovbt
-         xrDO6hNKYfI9BRiTjhAuCBslsDkmkfyVlsEkBYi1648ZRYGvFyKEiXAFbOkqoKzlaiSO
-         MTJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707531707; x=1708136507;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HxzMCuaeyhn3J9cU+FUkQXDQEw1s8FDPbrSZbrZddcs=;
-        b=Rwdp7u+tfGH8MAfXTM752nXZtRseRw9pdb1LoZk0kPFYtV1STOArwTPJs52MYHlC99
-         vIMA3ObHENZoOc62Meku8Ky7telU9VctnDknCbFTqCaGuNDQqWYIDidQd5Tdrmbk85Ui
-         fvoD1GMsqNuhgz5Cz5TgE1KNiMfaHVnX0Sfv2klAaJCdayaxh3nOkwfJdTuyb8Y65OA/
-         qA2l9nS/0K5BmyH7JIV95B2zm/cCFPo4VVVJtCgfSX9qWvoAsZKswsStcluVG6pvmPOL
-         mNNdQAjBHPt4GYSAzm9U8fC4DYPW5Fx4QTHzw1RJQr51Ts3izgq8CV6wG9xSgqlnTgL1
-         rmsA==
-X-Forwarded-Encrypted: i=1; AJvYcCUWOs6GYZoQv47x8n6b+OUHtN92OpwQvIvN2kog7cJ1MiwkifceB80nIwcw2ukvi6wzKEtGzrIQOCxG36nx1eWLZ0CT4pI=
-X-Gm-Message-State: AOJu0YxpkxAIZaIe5vFzFmFa0M00WTVCvdixitKPLeUX59507EfqLhEN
-	sx4s5I3Hounq74cXN5D8Upl2SOE8n48W/REbVFu7jKWkaI7ermtzuD74ORvFtAi6J/TJYtfdo1N
-	xi8La6aug7nFvp/NG+OWXZGReXkDzAn+z/8SZjA==
-X-Google-Smtp-Source: AGHT+IFmCDzBaOTRJEg/f8FLkRS6yQpqqh3yX5ZW6I0WCsOQ72Tibv6RAzofMrIiMT9QniCTSK/5rtfk2WW8zRu6CiM=
-X-Received: by 2002:a05:6870:211:b0:218:f001:10bf with SMTP id
- j17-20020a056870021100b00218f00110bfmr1150766oad.35.1707531707564; Fri, 09
- Feb 2024 18:21:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mRmTs1vE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C47C0C433F1;
+	Mon, 12 Feb 2024 11:19:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1707736783;
+	bh=tWF0UWclQ/NoslADhYsN71fCn5aAl9tVNo99KfKidvQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mRmTs1vEJdlljNDjvZu6R0W1Wa3NOZ9ZwI+XspkWtO+1QTAq4wj8UV8GJc1smFBwC
+	 6zFi06tclH1qtjP7G/h89Xp6dniA/CXx+GsnKK8j5FDWhE3V4RnWZZpgZxfd/GlRxO
+	 Xn54RVt6jB1K6X6QjY6FbdGwZttElmLriRplpPnGA3lSELh7hY20UixxevaX6a0ZYJ
+	 nRQ5phyfdHevnCJ5/Z4ZeOurZQvDyjmQx6a9+xLelK2evbl0q6yvhz/2RRg9xvGNdA
+	 rzPQkXOdw7OTOJqguy5CtpdyJ4T8fnKDpA1jOmMti3FbZ4uGlAOW0bslU+JYSe31UL
+	 BvwkwaAtXCRRA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Wolfram Sang <wsa@kernel.org>,
+	Olof Johansson <olof@lixom.net>,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] i2c: pasemi: split driver into two separate modules
+Date: Mon, 12 Feb 2024 12:19:04 +0100
+Message-Id: <20240212111933.963985-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
- <20240207174102.1486130-2-pasha.tatashin@soleen.com> <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
-In-Reply-To: <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 9 Feb 2024 21:21:10 -0500
-Message-ID: <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
-Subject: Re: [PATCH v4 01/10] iommu/vt-d: add wrapper functions for page allocations
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
-	yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com, 
-	mkoutny@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Robin,
+From: Arnd Bergmann <arnd@arndb.de>
 
-Thank you for reviewing this.
+On powerpc, it is possible to compile test both the new apple (arm) and
+old pasemi (powerpc) drivers for the i2c hardware at the same time,
+which leads to a warning about linking the same object file twice:
 
-> > +#ifndef __IOMMU_PAGES_H
-> > +#define __IOMMU_PAGES_H
-> > +
-> > +#include <linux/vmstat.h>
-> > +#include <linux/gfp.h>
-> > +#include <linux/mm.h>
-> > +
-> > +/*
-> > + * All page allocation that are performed in the IOMMU subsystem must use one of
->
-> "All page allocations" is too broad; As before, this is only about
-> pagetable allocations, or I guess for the full nuance, allocations of
-> pagetables and other per-iommu_domain configuration structures which are
-> reasonable to report as "pagetables" to userspace.
+scripts/Makefile.build:244: drivers/i2c/busses/Makefile: i2c-pasemi-core.o is added to multiple modules: i2c-apple i2c-pasemi
 
-I will update the comment.
+Rework the driver to have an explicit helper module, letting Kbuild
+take care of whether this should be built-in or a loadable driver.
 
+Fixes: 9bc5f4f660ff ("i2c: pasemi: Split pci driver to its own file")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/i2c/busses/Makefile          | 6 ++----
+ drivers/i2c/busses/i2c-pasemi-core.c | 6 ++++++
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
->
-> > + * the functions below.  This is necessary for the proper accounting as IOMMU
-> > + * state can be rather large, i.e. multiple gigabytes in size.
-> > + */
-> > +
-> > +/**
-> > + * __iommu_alloc_pages_node - allocate a zeroed page of a given order from
-> > + * specific NUMA node.
-> > + * @nid: memory NUMA node id
-> > + * @gfp: buddy allocator flags
-> > + * @order: page order
-> > + *
-> > + * returns the head struct page of the allocated page.
-> > + */
-> > +static inline struct page *__iommu_alloc_pages_node(int nid, gfp_t gfp,
-> > +                                                 int order)
-> > +{
-> > +     struct page *page;
-> > +
-> > +     page = alloc_pages_node(nid, gfp | __GFP_ZERO, order);
-> > +     if (unlikely(!page))
-> > +             return NULL;
-> > +
-> > +     return page;
-> > +}
->
-> All 3 invocations of this only use the returned struct page to trivially
-> derive page_address(), so we really don't need it; just clean up these
-> callsites a bit more.
+diff --git a/drivers/i2c/busses/Makefile b/drivers/i2c/busses/Makefile
+index 3757b9391e60..aa0ee8ecd6f2 100644
+--- a/drivers/i2c/busses/Makefile
++++ b/drivers/i2c/busses/Makefile
+@@ -90,10 +90,8 @@ obj-$(CONFIG_I2C_NPCM)		+= i2c-npcm7xx.o
+ obj-$(CONFIG_I2C_OCORES)	+= i2c-ocores.o
+ obj-$(CONFIG_I2C_OMAP)		+= i2c-omap.o
+ obj-$(CONFIG_I2C_OWL)		+= i2c-owl.o
+-i2c-pasemi-objs := i2c-pasemi-core.o i2c-pasemi-pci.o
+-obj-$(CONFIG_I2C_PASEMI)	+= i2c-pasemi.o
+-i2c-apple-objs := i2c-pasemi-core.o i2c-pasemi-platform.o
+-obj-$(CONFIG_I2C_APPLE)	+= i2c-apple.o
++obj-$(CONFIG_I2C_PASEMI)	+= i2c-pasemi-core.o i2c-pasemi-pci.o
++obj-$(CONFIG_I2C_APPLE)		+= i2c-pasemi-core.o i2c-pasemi-platform.o
+ obj-$(CONFIG_I2C_PCA_PLATFORM)	+= i2c-pca-platform.o
+ obj-$(CONFIG_I2C_PNX)		+= i2c-pnx.o
+ obj-$(CONFIG_I2C_PXA)		+= i2c-pxa.o
+diff --git a/drivers/i2c/busses/i2c-pasemi-core.c b/drivers/i2c/busses/i2c-pasemi-core.c
+index 7d54a9f34c74..bd8becbdeeb2 100644
+--- a/drivers/i2c/busses/i2c-pasemi-core.c
++++ b/drivers/i2c/busses/i2c-pasemi-core.c
+@@ -369,6 +369,7 @@ int pasemi_i2c_common_probe(struct pasemi_smbus *smbus)
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(pasemi_i2c_common_probe);
+ 
+ irqreturn_t pasemi_irq_handler(int irq, void *dev_id)
+ {
+@@ -378,3 +379,8 @@ irqreturn_t pasemi_irq_handler(int irq, void *dev_id)
+ 	complete(&smbus->irq_completion);
+ 	return IRQ_HANDLED;
+ }
++EXPORT_SYMBOL_GPL(pasemi_irq_handler);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Olof Johansson <olof@lixom.net>");
++MODULE_DESCRIPTION("PA Semi PWRficient SMBus driver");
+-- 
+2.39.2
 
-I will remove this function, and update all invocations to use
-iommu_alloc_pages_node() directly.
-
-
-> > + * __iommu_alloc_pages - allocate a zeroed page of a given order.
-> > + * @gfp: buddy allocator flags
-> > + * @order: page order
-> > + *
-> > + * returns the head struct page of the allocated page.
-> > + */
-> > +static inline struct page *__iommu_alloc_pages(gfp_t gfp, int order)
-> > +{
-> > +     struct page *page;
-> > +
-> > +     page = alloc_pages(gfp | __GFP_ZERO, order);
-> > +     if (unlikely(!page))
-> > +             return NULL;
-> > +
-> > +     return page;
-> > +}
->
-> Same for the single invocation of this one.
-
-I kept this function, but removed __iommu_alloc_page() that depends on
-it. This is because tegra-smmu needs a "struct page" allocator.
-
->
-> > +
-> > +/**
-> > + * __iommu_alloc_page_node - allocate a zeroed page at specific NUMA node.
-> > + * @nid: memory NUMA node id
-> > + * @gfp: buddy allocator flags
-> > + *
-> > + * returns the struct page of the allocated page.
-> > + */
-> > +static inline struct page *__iommu_alloc_page_node(int nid, gfp_t gfp)
-> > +{
-> > +     return __iommu_alloc_pages_node(nid, gfp, 0);
-> > +}
->
-> There are no users of this at all.
-
-Yes, I added it just for completeness, I will remove it.
-
-
-> > + * __iommu_alloc_page - allocate a zeroed page
-> > + * @gfp: buddy allocator flags
-> > + *
-> > + * returns the struct page of the allocated page.
-> > + */
-> > +static inline struct page *__iommu_alloc_page(gfp_t gfp)
-> > +{
-> > +     return __iommu_alloc_pages(gfp, 0);
-> > +}
-> > +
-> > +/**
-> > + * __iommu_free_pages - free page of a given order
-> > + * @page: head struct page of the page
-> > + * @order: page order
-> > + */
-> > +static inline void __iommu_free_pages(struct page *page, int order)
-> > +{
-> > +     if (!page)
-> > +             return;
-> > +
-> > +     __free_pages(page, order);
-> > +}
-> > +
-> > +/**
-> > + * __iommu_free_page - free page
-> > + * @page: struct page of the page
-> > + */
-> > +static inline void __iommu_free_page(struct page *page)
-> > +{
-> > +     __iommu_free_pages(page, 0);
-> > +}
->
-> Beyond one more trivial Intel cleanup for __iommu_alloc_pages(), these 3
-> are then only used by tegra-smmu, so honestly I'd be inclined to just
-> open-code there page_address()/virt_to_page() conversions as appropriate
-> there (once again I think the whole thing could in fact be refactored to
-> not use struct pages at all because all it's ever ultimately doing with
-> them is page_address(), but that would be a bigger job so definitely
-> out-of-scope for this series).
-
-I removed __iommu_free_page(), but kept __iommu_free_pages() variant.
-
->
-> > +
-> > +/**
-> > + * iommu_alloc_pages_node - allocate a zeroed page of a given order from
-> > + * specific NUMA node.
-> > + * @nid: memory NUMA node id
-> > + * @gfp: buddy allocator flags
-> > + * @order: page order
-> > + *
-> > + * returns the virtual address of the allocated page
-> > + */
-> > +static inline void *iommu_alloc_pages_node(int nid, gfp_t gfp, int order)
-> > +{
-> > +     struct page *page = __iommu_alloc_pages_node(nid, gfp, order);
-> > +
-> > +     if (unlikely(!page))
-> > +             return NULL;
->
-> As a general point I'd prefer to fold these checks into the accounting
-> function itself rather than repeat them all over.
-
-For the free functions this saves a few cycles by not repeating this
-check again inside __free_pages(), to keep things symmetrical it makes
-sense to keep __iomu_free_account and __iomu_alloc_account the same.
-With the other clean-up there are not that many of these checks left.
-
-> > + */
-> > +static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
-> > +{
-> > +     return iommu_alloc_pages_node(nid, gfp, 0);
-> > +}
->
-> TBH I'm not entirely convinced that saving 4 characters per invocation
-> times 11 invocations makes this wrapper worthwhile :/
-
-Let's keep them. After the clean-up that you suggested, there are
-fewer functions left in this file, but I think that it is cleaner to
-keep these remaining, as it is beneficial to easily distinguish when
-exactly one page is allocated vs when multiple are allocated via code
-search.
-
-
-> > + *
-> > + * There are no locking requirement for these pages, as they are going to be
-> > + * put on a free list as soon as refcount reaches 0. Pages are put on this LRU
-> > + * list once they are removed from the IOMMU page tables. However, they can
-> > + * still be access through debugfs.
-> > + */
-> > +static inline void iommu_free_pages_list(struct list_head *page)
->
-> Nit: I'd be inclined to call this iommu_put_pages_list for consistency.
-
-I will rename it to iommu_put_pages_list(), indeed a better name.
-
->
-> > +{
-> > +     while (!list_empty(page)) {
-> > +             struct page *p = list_entry(page->prev, struct page, lru);
-> > +
-> > +             list_del(&p->lru);
-> > +             put_page(p);
-> > +     }
-> > +}
->
-> I realise now you've also missed the common freelist freeing sites in
-> iommu-dma.
-
-Ah yes, thank you for catching that. I will fix it.
-
-Pasha
