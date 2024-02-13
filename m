@@ -1,116 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AC32BAE7;
-	Mon, 12 Feb 2024 11:19:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9DF55784;
+	Tue, 13 Feb 2024 13:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707736784; cv=none; b=U3hL1es0tlx+jz6IctTkiDsFCOkbJ5RJdDNZ3KRiUb2hGDoWO/qXogK3mTxkHjLB8+D58SGyUrwYMhh90GTKt0a5bJOsrIjtkuHu6e3DqTIJ60XQsYcRSK6JETLawoTfo4b9GH8l90CjRYfhxHwyr+/mPAMFwnopWVfmCDLnEP0=
+	t=1707829943; cv=none; b=QSvvzPCgh9NEKzhmEoL4YKzy6PB76P1rcL6edUZPji/tBP/I8KHytw7DURkPqTrVc262XrPQamixx57N1P9CmDuJtQvuX8EUINPea67u1bYeT7jmkQOkRaJFtIV+dV1hhmbpokt1z3JArp6eutqB8z7R3cz7zbFbbQyuX6LIUn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707736784; c=relaxed/simple;
-	bh=tWF0UWclQ/NoslADhYsN71fCn5aAl9tVNo99KfKidvQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Bf5KbAb2fdmjTjhZ3sO5X32P5YPNqIYEUDvj3wBqwzNj2LVaIWyhtYuSaSGG26AHTYLU+EvSp4xKUVV1CmbS9vD27zh1pQwOzKnLpO6tdZZniy8l3XJuJhN9NHpLaZRyuGP8vdkqymtGTmewcahhIY0FFxuePcKhgI0HECzb//g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mRmTs1vE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1707829943; c=relaxed/simple;
+	bh=0xP8I+Qej1cBpPDnNiDZJmh7/DqD49joD1ERj3DvfKk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fY7av0wuYZHZgIEfs4H1OVltkgaPv2W1/EFweAyiTDgtpUxV1RieadKubrlth2Fq0PmYAQGUWwBLSJAzUkFKBYGtSgiYvsU3AaB9txG2TQAXwIdtrqAtF1zP74llHWPPE8zZjwYi1PE3JVMtcCJzVf6K5cusT5wNXm9ubar+hU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lCIC4VOm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mRmTs1vE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C47C0C433F1;
-	Mon, 12 Feb 2024 11:19:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lCIC4VOm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E8FFC433C7;
+	Tue, 13 Feb 2024 13:12:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1707736783;
-	bh=tWF0UWclQ/NoslADhYsN71fCn5aAl9tVNo99KfKidvQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=mRmTs1vEJdlljNDjvZu6R0W1Wa3NOZ9ZwI+XspkWtO+1QTAq4wj8UV8GJc1smFBwC
-	 6zFi06tclH1qtjP7G/h89Xp6dniA/CXx+GsnKK8j5FDWhE3V4RnWZZpgZxfd/GlRxO
-	 Xn54RVt6jB1K6X6QjY6FbdGwZttElmLriRplpPnGA3lSELh7hY20UixxevaX6a0ZYJ
-	 nRQ5phyfdHevnCJ5/Z4ZeOurZQvDyjmQx6a9+xLelK2evbl0q6yvhz/2RRg9xvGNdA
-	 rzPQkXOdw7OTOJqguy5CtpdyJ4T8fnKDpA1jOmMti3FbZ4uGlAOW0bslU+JYSe31UL
-	 BvwkwaAtXCRRA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Wolfram Sang <wsa@kernel.org>,
-	Olof Johansson <olof@lixom.net>,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] i2c: pasemi: split driver into two separate modules
-Date: Mon, 12 Feb 2024 12:19:04 +0100
-Message-Id: <20240212111933.963985-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	s=k20201202; t=1707829942;
+	bh=0xP8I+Qej1cBpPDnNiDZJmh7/DqD49joD1ERj3DvfKk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lCIC4VOmOV8x0JsCqVrhzsGXz5txq4HxyFPJQRNTQh3KKT2Il8RF8+xeahTD5vCl5
+	 Kektsz/mfJ/JF35E4m5MMed5MRfMr6AfYG18l3OHogPx0QMHtC27U91R9ksMBhJ7LC
+	 QrvfK3L/7OQ2iqeglywl+CEqt2Kk1nqFfANGVdzwrbq09GCHd1PFvhMsW+yndJN2EI
+	 7AKa7uQuypabSxDDmx7RIiGt05YBvnxfcDyb7e4cAzPNfO0Its8Aro6czQ6i5gQbBA
+	 2KpPkjnKmYQ164gn/9NIeHWvTjE9mVJFzcMrCxOJS/SnPSYLIExFrgWV58G9p+7QNg
+	 Scf3fQWeQ5fiA==
+Date: Tue, 13 Feb 2024 13:12:11 +0000
+From: Will Deacon <will@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com, bhelgaas@google.com,
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
+Message-ID: <20240213131210.GA28926@willie-the-truck>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-11-pasha.tatashin@soleen.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231226200205.562565-11-pasha.tatashin@soleen.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-From: Arnd Bergmann <arnd@arndb.de>
+Hi Pasha,
 
-On powerpc, it is possible to compile test both the new apple (arm) and
-old pasemi (powerpc) drivers for the i2c hardware at the same time,
-which leads to a warning about linking the same object file twice:
+On Tue, Dec 26, 2023 at 08:02:05PM +0000, Pasha Tatashin wrote:
+> In order to be able to limit the amount of memory that is allocated
+> by IOMMU subsystem, the memory must be accounted.
+> 
+> Account IOMMU as part of the secondary pagetables as it was discussed
+> at LPC.
+> 
+> The value of SecPageTables now contains mmeory allocation by IOMMU
+> and KVM.
+> 
+> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 2 +-
+>  Documentation/filesystems/proc.rst      | 4 ++--
+>  drivers/iommu/iommu-pages.h             | 2 ++
+>  include/linux/mmzone.h                  | 2 +-
+>  4 files changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 3f85254f3cef..e004e05a7cde 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1418,7 +1418,7 @@ PAGE_SIZE multiple when read back.
+>  	  sec_pagetables
+>  		Amount of memory allocated for secondary page tables,
+>  		this currently includes KVM mmu allocations on x86
+> -		and arm64.
+> +		and arm64 and IOMMU page tables.
+>  
+>  	  percpu (npn)
+>  		Amount of memory used for storing per-cpu kernel
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 49ef12df631b..86f137a9b66b 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -1110,8 +1110,8 @@ KernelStack
+>  PageTables
+>                Memory consumed by userspace page tables
+>  SecPageTables
+> -              Memory consumed by secondary page tables, this currently
+> -              currently includes KVM mmu allocations on x86 and arm64.
+> +              Memory consumed by secondary page tables, this currently includes
+> +              KVM mmu and IOMMU allocations on x86 and arm64.
 
-scripts/Makefile.build:244: drivers/i2c/busses/Makefile: i2c-pasemi-core.o is added to multiple modules: i2c-apple i2c-pasemi
+While I can see the value in this for IOMMU mappings managed by VFIO,
+doesn't this end up conflating that with the normal case of DMA domains?
+For systems that e.g. rely on an IOMMU for functional host DMA, it seems
+wrong to subject that to accounting constraints.
 
-Rework the driver to have an explicit helper module, letting Kbuild
-take care of whether this should be built-in or a loadable driver.
-
-Fixes: 9bc5f4f660ff ("i2c: pasemi: Split pci driver to its own file")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/i2c/busses/Makefile          | 6 ++----
- drivers/i2c/busses/i2c-pasemi-core.c | 6 ++++++
- 2 files changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/i2c/busses/Makefile b/drivers/i2c/busses/Makefile
-index 3757b9391e60..aa0ee8ecd6f2 100644
---- a/drivers/i2c/busses/Makefile
-+++ b/drivers/i2c/busses/Makefile
-@@ -90,10 +90,8 @@ obj-$(CONFIG_I2C_NPCM)		+= i2c-npcm7xx.o
- obj-$(CONFIG_I2C_OCORES)	+= i2c-ocores.o
- obj-$(CONFIG_I2C_OMAP)		+= i2c-omap.o
- obj-$(CONFIG_I2C_OWL)		+= i2c-owl.o
--i2c-pasemi-objs := i2c-pasemi-core.o i2c-pasemi-pci.o
--obj-$(CONFIG_I2C_PASEMI)	+= i2c-pasemi.o
--i2c-apple-objs := i2c-pasemi-core.o i2c-pasemi-platform.o
--obj-$(CONFIG_I2C_APPLE)	+= i2c-apple.o
-+obj-$(CONFIG_I2C_PASEMI)	+= i2c-pasemi-core.o i2c-pasemi-pci.o
-+obj-$(CONFIG_I2C_APPLE)		+= i2c-pasemi-core.o i2c-pasemi-platform.o
- obj-$(CONFIG_I2C_PCA_PLATFORM)	+= i2c-pca-platform.o
- obj-$(CONFIG_I2C_PNX)		+= i2c-pnx.o
- obj-$(CONFIG_I2C_PXA)		+= i2c-pxa.o
-diff --git a/drivers/i2c/busses/i2c-pasemi-core.c b/drivers/i2c/busses/i2c-pasemi-core.c
-index 7d54a9f34c74..bd8becbdeeb2 100644
---- a/drivers/i2c/busses/i2c-pasemi-core.c
-+++ b/drivers/i2c/busses/i2c-pasemi-core.c
-@@ -369,6 +369,7 @@ int pasemi_i2c_common_probe(struct pasemi_smbus *smbus)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(pasemi_i2c_common_probe);
- 
- irqreturn_t pasemi_irq_handler(int irq, void *dev_id)
- {
-@@ -378,3 +379,8 @@ irqreturn_t pasemi_irq_handler(int irq, void *dev_id)
- 	complete(&smbus->irq_completion);
- 	return IRQ_HANDLED;
- }
-+EXPORT_SYMBOL_GPL(pasemi_irq_handler);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Olof Johansson <olof@lixom.net>");
-+MODULE_DESCRIPTION("PA Semi PWRficient SMBus driver");
--- 
-2.39.2
-
+Will
