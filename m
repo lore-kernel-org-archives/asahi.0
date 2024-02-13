@@ -1,101 +1,120 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D345EE77
-	for <asahi@lists.linux.dev>; Tue, 13 Feb 2024 15:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1435FBB5;
+	Tue, 13 Feb 2024 17:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707839133; cv=none; b=sdlwsvoR2Bj3gwVGXJRb+0JDotBWI4YJfObCVFnL5JCl8eOgWTWtfHnyFb0xWtBGUzS9svEws3qu/2jxmT5NXM3Ey1FzmF5bTa75zhF8SN2mPEoEtCBgf1660n6MC7TS1FIN/Y5CWul7V5/Rdhv4QHE14FvyTMP6xslIaicui9A=
+	t=1707845197; cv=none; b=R1bYXXkVa4eSjI5bzrWNcIqyHTGQ7e5foFalkIsNMZLrsAbs1RpzkqLm2DcpwV3EbmMTRUQIIbK4tp+kFybwcvXJ+GDnNJHlbG3QjLbafVbjNFjtfzmxqnK6W/kt+dkTy4hYGkHi2Dx0Zs1o1BF8Y/RZHBhl8U7j6M5PmDwuNMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707839133; c=relaxed/simple;
-	bh=Mb7cfkVoTPe9SpFqQPiRQCgZRgp43WdceLq+nhIl53M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qUZZr80vE5iFWrsFtCsSwwlmeNDQI4G2t7x63PghucZfUOGRgnkgA3PBTea9tD+77mMteMInGmjYjPRHqp06M9fWoQi8csX138deMePiKA2OmSl1U510dLXOrOm3/GTozAWE4o+5OLuROlpm0eQrydQMEGt1ipOS+rNTrNYFsbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com; spf=none smtp.mailfrom=soleen.com; dkim=fail (0-bit key) header.d=soleen.com header.i=@soleen.com header.b=gEome/Zr reason="key not found in DNS"; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=soleen.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=soleen.com header.i=@soleen.com header.b="gEome/Zr"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-783f553fdabso304620385a.0
-        for <asahi@lists.linux.dev>; Tue, 13 Feb 2024 07:45:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1707839131; x=1708443931; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=r+5lFm1GOYo46btsIaJvA6S/B+CQsp17IG3lccG/v6g=;
-        b=gEome/ZrILoDDeyRIow3vBrWXA26zD5/we8YLr8e4Z3DsHbX5J7rglI1wQqh6QPVl1
-         32GV9i2a0TYB8+pxDBW/VIFzlqkRLIYkVlKEv51M0PQzQem9cQZgDigQ6iDMZuym9W4x
-         f35asHd6GN3LElTsFzfl8Mr3C2X8yQD+GyuZWVhWPELzopahVnhuTYW6rG36E/JF/8IQ
-         fhh/VY+fOkXc7VhqaE0eRg1zubPKbp6J2dhelc5NFmb5BHx1YU63CeemVPcfg8jiuQRo
-         wjqT/gXTi1bxKtu8WwByZyk9CzfFXy7qSqy7QBnRNDlSH4sQuzrlw8KFkUUYQD3SIaXn
-         w2Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707839131; x=1708443931;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r+5lFm1GOYo46btsIaJvA6S/B+CQsp17IG3lccG/v6g=;
-        b=WaIxbMik462V0AHSO8j9Z+QCUU1A0q0i5p7vZkgmeaLsPNlmDdu/9gxuEVYLy3P6gZ
-         whySrS5yMWUA5cshnRJajI4/BSfdwd2liyPfuhSDFLqX4jNI3rdEgudoj5GMLkPLrTBq
-         qKKDyv1IU3Wzr+Sezv0IpOJncJV2JftAURet1uZsgY1xM+qoAbckO90S9Sj2fO0Lbm+e
-         5K1vEvlL5xnHUS4omerE9Zirww5BrJr0uAKIydeJl5puiGjv9YB9Q+9ikS3G+BbfHEcm
-         XdV5xhEs/R7F0SZYq9JCw/JipmgpIUvbNI4ZLy56k3VE74s5Jbzq+UGyzurinTg8uY96
-         YW8g==
-X-Gm-Message-State: AOJu0Yzz2fdkOVxpatdxg9VvG3AwSsZPPHb2a7Q47C9BSc6PflAumt7L
-	xcskzyoYK9oqb2qCVcBk2nPmKTdj2Mis0Ky4OI4Ozr8O7ux1Rz4K/jwrBeVs/dYsRlQyddsr/KL
-	cytpAnWT0MErQ0ewUB0CO3B/Dw5rPL8GgdiBuHA==
-X-Google-Smtp-Source: AGHT+IFqChznTFjr/EeidSN571ZA0nQfVJvF+Fp0E+Y2flaP6eNCXc4z1s3ADkdtr1CrUfrPgpTF+9pex3Z052b1w5U=
-X-Received: by 2002:a05:620a:618b:b0:787:1db5:f0de with SMTP id
- or11-20020a05620a618b00b007871db5f0demr2991955qkn.26.1707839131046; Tue, 13
- Feb 2024 07:45:31 -0800 (PST)
+	s=arc-20240116; t=1707845197; c=relaxed/simple;
+	bh=R4W/x6sdikq9L5mixsfBJrQlDgWaZ0hlbKehGewQpgE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bpv+ETvxc3uxOp4XmDz1Cw1ZpprtDQkn21HxeeumLOTto2Pwqc4ZcK9AdTuuAt1RoKaCGiTYqnsIVqcm1sTphAFRNZOgFzk8+0q3Tp/T7m2zYuNFIB+FzecHVP5kv7kvriGoBM9WcbuUF/jrm+6O2B42GsQCL+MpSZroLNydico=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 724E71FB;
+	Tue, 13 Feb 2024 09:27:15 -0800 (PST)
+Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 155943F5A1;
+	Tue, 13 Feb 2024 09:26:27 -0800 (PST)
+Message-ID: <b008bd2d-a189-481f-917d-bb045c43cb07@arm.com>
+Date: Tue, 13 Feb 2024 17:26:26 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <20231226200205.562565-11-pasha.tatashin@soleen.com> <20240213131210.GA28926@willie-the-truck>
-In-Reply-To: <20240213131210.GA28926@willie-the-truck>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 13 Feb 2024 10:44:53 -0500
-Message-ID: <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
-Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
-To: Will Deacon <will@kernel.org>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	yu-cheng.yu@intel.com, rientjes@google.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 01/10] iommu/vt-d: add wrapper functions for page
+ allocations
+Content-Language: en-GB
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io,
+ asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com,
+ cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+ dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+ iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com,
+ joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st,
+ mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org,
+ rdunlap@infradead.org, samuel@sholland.org, suravee.suthikulpanit@amd.com,
+ sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+ tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org,
+ yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com,
+ mkoutny@suse.com
+References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+ <20240207174102.1486130-2-pasha.tatashin@soleen.com>
+ <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
+ <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> >  SecPageTables
-> > -              Memory consumed by secondary page tables, this currently
-> > -              currently includes KVM mmu allocations on x86 and arm64.
-> > +              Memory consumed by secondary page tables, this currently includes
-> > +              KVM mmu and IOMMU allocations on x86 and arm64.
+On 10/02/2024 2:21 am, Pasha Tatashin wrote:
+[...]
+>>> +/**
+>>> + * iommu_alloc_pages_node - allocate a zeroed page of a given order from
+>>> + * specific NUMA node.
+>>> + * @nid: memory NUMA node id
+>>> + * @gfp: buddy allocator flags
+>>> + * @order: page order
+>>> + *
+>>> + * returns the virtual address of the allocated page
+>>> + */
+>>> +static inline void *iommu_alloc_pages_node(int nid, gfp_t gfp, int order)
+>>> +{
+>>> +     struct page *page = __iommu_alloc_pages_node(nid, gfp, order);
+>>> +
+>>> +     if (unlikely(!page))
+>>> +             return NULL;
+>>
+>> As a general point I'd prefer to fold these checks into the accounting
+>> function itself rather than repeat them all over.
+> 
+> For the free functions this saves a few cycles by not repeating this
+> check again inside __free_pages(), to keep things symmetrical it makes
+> sense to keep __iomu_free_account and __iomu_alloc_account the same.
+> With the other clean-up there are not that many of these checks left.
 
-Hi Will,
+__free_pages() doesn't accept NULL, so __iommu_free_pages() shouldn't 
+need a check; free_pages() does, but correspondingly iommu_free_pages() 
+needs its own check up-front to avoid virt_to_page(NULL); either way it 
+means there are no callers of iommu_free_account() who should be passing 
+NULL.
 
-> While I can see the value in this for IOMMU mappings managed by VFIO,
-> doesn't this end up conflating that with the normal case of DMA domains?
-> For systems that e.g. rely on an IOMMU for functional host DMA, it seems
-> wrong to subject that to accounting constraints.
+The VA-returning allocators of course need to avoid page_address(NULL), 
+so I clearly made this comment in the wrong place to begin with, oops. 
+In the end I guess that will leave __iommu_alloc_pages() as the only 
+caller of iommu_alloc_account() who doesn't already need to handle their 
+own NULL. OK, I'm convinced, apologies for having to bounce it off you 
+to work it through :)
 
-The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
-is passed to the iommu mapping functions. We do that from the vfio,
-iommufd, and vhost. Without this flag, the memory useage is reported
-in /proc/meminfo as part of  SecPageTables field, but not constrained
-in cgroup.
+>>> + */
+>>> +static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
+>>> +{
+>>> +     return iommu_alloc_pages_node(nid, gfp, 0);
+>>> +}
+>>
+>> TBH I'm not entirely convinced that saving 4 characters per invocation
+>> times 11 invocations makes this wrapper worthwhile :/
+> 
+> Let's keep them. After the clean-up that you suggested, there are
+> fewer functions left in this file, but I think that it is cleaner to
+> keep these remaining, as it is beneficial to easily distinguish when
+> exactly one page is allocated vs when multiple are allocated via code
+> search.
 
-Pasha
+But is it, really? It's not at all obvious to me *why* it would be 
+significantly interesting to distinguish fixed order-0 allocations from 
+higher-order or variable-order (which may still be 0) ones. After all, 
+there's no regular alloc_page_node() wrapper, yet plenty more callers of 
+alloc_pages_node(..., 0) :/
+
+Thanks,
+Robin.
