@@ -1,120 +1,170 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1435FBB5;
-	Tue, 13 Feb 2024 17:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from wfout4-smtp.messagingengine.com (wfout4-smtp.messagingengine.com [64.147.123.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2981CA94
+	for <asahi@lists.linux.dev>; Tue, 13 Feb 2024 19:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707845197; cv=none; b=R1bYXXkVa4eSjI5bzrWNcIqyHTGQ7e5foFalkIsNMZLrsAbs1RpzkqLm2DcpwV3EbmMTRUQIIbK4tp+kFybwcvXJ+GDnNJHlbG3QjLbafVbjNFjtfzmxqnK6W/kt+dkTy4hYGkHi2Dx0Zs1o1BF8Y/RZHBhl8U7j6M5PmDwuNMA=
+	t=1707851632; cv=none; b=t4ogiy16oN75zagIcvLsz3LDBPciFfnDIRqEpNwu6PdkVuSLpzlQ7eEgSJ2ILipW2ujoYP5GGQFVH4saO2EQ+wiORFxnZN8G2tYkGUO9pc9iqppTD2GstJjXPY6IvQKERF8F0ou61Bzl+uimj6HM4o+Eqs8oTXpLRO13qt5wkFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707845197; c=relaxed/simple;
-	bh=R4W/x6sdikq9L5mixsfBJrQlDgWaZ0hlbKehGewQpgE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bpv+ETvxc3uxOp4XmDz1Cw1ZpprtDQkn21HxeeumLOTto2Pwqc4ZcK9AdTuuAt1RoKaCGiTYqnsIVqcm1sTphAFRNZOgFzk8+0q3Tp/T7m2zYuNFIB+FzecHVP5kv7kvriGoBM9WcbuUF/jrm+6O2B42GsQCL+MpSZroLNydico=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 724E71FB;
-	Tue, 13 Feb 2024 09:27:15 -0800 (PST)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 155943F5A1;
-	Tue, 13 Feb 2024 09:26:27 -0800 (PST)
-Message-ID: <b008bd2d-a189-481f-917d-bb045c43cb07@arm.com>
-Date: Tue, 13 Feb 2024 17:26:26 +0000
+	s=arc-20240116; t=1707851632; c=relaxed/simple;
+	bh=DShjZopKWiZjPUPLOeHTkta2xg3ko4MDp909dRpqItQ=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Cc:Date:
+	 Message-Id:References:To; b=WGKo5z/rUkCmxZ7cTFBdEND51UzUpiKIEldAFyGuPqLPDMoo2BBbIPyznilPz1jNUa9XeOOkYzVFL47fDJmz9GALKBEU2BGzQS4rQNBcAxVvUPUHj9Ret0xra3y8F6Qatp9d2hT/Cda7BFjC8QFomDWIs4Xiyi2WQmycF87ZV7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=nWkVD6yZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=wQldVuk4; arc=none smtp.client-ip=64.147.123.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="nWkVD6yZ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="wQldVuk4"
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.west.internal (Postfix) with ESMTP id 1943A1C000C3;
+	Tue, 13 Feb 2024 14:13:48 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Tue, 13 Feb 2024 14:13:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
+	 t=1707851627; x=1707938027; bh=aytn2t5q3qBY3VpYwP44OHJAU0vpWTVc
+	TQYfF06P7ZE=; b=nWkVD6yZKBVHJeUkuz3pOdHRt/YfGoYvWf5fzbFbPag4HL8t
+	w+WOBiNObAy2aNsjodlq0TbEhiJwPB8s+RmUVX7VzB4DjU9Tm7Mcip/9XIRO/YQR
+	Ar/p3GHJO3ABddjjsJg6/0+K6/FLzhJDon3JZECS7xDBK36f0C8gnGaZGw5OD07R
+	ZPCPGAJQP9csitbQvUK4g8NdJm+PlOIfwCCDYux3EekHs+1kMiVXgznKlTyyj7mz
+	ZOGiWDz9kxYIToeynSg9EngFgCFCl/AP+ZNAwu0FnTXqGeAKRbROAwCv+wrf5pG8
+	8EkjnXdGo3ainLQnb2vmB5NqmNmr9y4hn00s0A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1707851627; x=
+	1707938027; bh=aytn2t5q3qBY3VpYwP44OHJAU0vpWTVcTQYfF06P7ZE=; b=w
+	QldVuk4gZDTWiVo3CkCgrO87kxj1Xi/JPcZwTWPldhesBT3VDOzYpEmoSbBEvRqb
+	C/fpOGzXSSOOt0SQLOckT2Hx/g42Qr9R/Q4vaKXhNX9o+92TLPpsfJ3EUQzdlESm
+	elnedrOPht2OV+2yQTSl8sdRVtwDMezkBvL4f4m7/PBGBzD4WLNvtjgpsqQmMHTd
+	6LZgMA/OFUORl73roh5EmD+T3uIMoPrKvxr7ZMy3xk3fLdOJ9CRuo33XdFPriN8A
+	Xhj7B5UUWGca+z0IKX1Wzio93aVxWf7h/3pdSx6FS2g0NOQ5rZcOQGqSfI8tCOoJ
+	9285fJd3csE6+NgK7vSSA==
+X-ME-Sender: <xms:ar_LZYYKEjzYw_HOqrHJbG0xttmDiBm0E0Z_F-Iqzol4STYOWrzQzw>
+    <xme:ar_LZTb7oPiEdNNAGHcuBTjdoX3BmsJPzDUoeJtPjU9luPbDJ4FGOm_shhuNdZVtf
+    0r6TDmff1cWJJUAZPM>
+X-ME-Received: <xmr:ar_LZS_SZd8TCOD1FYzkQzd9hJbf7wtCyJeBV8akNG93gNn2PWYhZRS2M1-U6KiFwiqMaNW7JyIk4bZPGV_x1Twuy0UmwOTKZTU1hTc_7rX1iH4zNbM-PyO0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudehgdduvdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurheptgfgggfuhfgjveffkfhfvffosehtqhhmtdhhtdejnecuhfhrohhmpefuvhgv
+    nhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrth
+    htvghrnhepveeugefhjeekheekfeeijeduteejhefgheefjedtveelkeekjefgveefffei
+    feelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
+    hvvghnsehsvhgvnhhpvghtvghrrdguvghv
+X-ME-Proxy: <xmx:ar_LZSokaGPe5kFD-iZABY1DQfnV6D73EbqPA1sYZCCj3pNV42VGZw>
+    <xmx:ar_LZTrm0OJ4Ccmf-Wq1AyRWDTTJn9EKxR6dNhlfK4UlhVLt3DTKOQ>
+    <xmx:ar_LZQS_KExk1lLwuutWczhum0it5AS3nKDksc7VVsytw1j069-7Ew>
+    <xmx:a7_LZa8f_8WZdJY3DiwBe3lNvc5AFBORkQBAls1o-gDoYpn8dW8QUJQbUsA>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 13 Feb 2024 14:13:46 -0500 (EST)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 01/10] iommu/vt-d: add wrapper functions for page
- allocations
-Content-Language: en-GB
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io,
- asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com,
- cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
- dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
- iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com,
- joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st,
- mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org,
- rdunlap@infradead.org, samuel@sholland.org, suravee.suthikulpanit@amd.com,
- sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
- tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org,
- yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com,
- mkoutny@suse.com
-References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
- <20240207174102.1486130-2-pasha.tatashin@soleen.com>
- <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
- <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH] i2c: pasemi: split driver into two separate modules
+From: Sven Peter <sven@svenpeter.dev>
+In-Reply-To: <20240212111933.963985-1-arnd@kernel.org>
+Cc: Andi Shyti <andi.shyti@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+ Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Wolfram Sang <wsa@kernel.org>, Olof Johansson <olof@lixom.net>,
+ linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Date: Tue, 13 Feb 2024 20:13:34 +0100
+Message-Id: <A4AE8C4C-C37E-4026-A3CC-E613754307D6@svenpeter.dev>
+References: <20240212111933.963985-1-arnd@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+X-Mailer: iPhone Mail (21D61)
 
-On 10/02/2024 2:21 am, Pasha Tatashin wrote:
-[...]
->>> +/**
->>> + * iommu_alloc_pages_node - allocate a zeroed page of a given order from
->>> + * specific NUMA node.
->>> + * @nid: memory NUMA node id
->>> + * @gfp: buddy allocator flags
->>> + * @order: page order
->>> + *
->>> + * returns the virtual address of the allocated page
->>> + */
->>> +static inline void *iommu_alloc_pages_node(int nid, gfp_t gfp, int order)
->>> +{
->>> +     struct page *page = __iommu_alloc_pages_node(nid, gfp, order);
->>> +
->>> +     if (unlikely(!page))
->>> +             return NULL;
->>
->> As a general point I'd prefer to fold these checks into the accounting
->> function itself rather than repeat them all over.
-> 
-> For the free functions this saves a few cycles by not repeating this
-> check again inside __free_pages(), to keep things symmetrical it makes
-> sense to keep __iomu_free_account and __iomu_alloc_account the same.
-> With the other clean-up there are not that many of these checks left.
 
-__free_pages() doesn't accept NULL, so __iommu_free_pages() shouldn't 
-need a check; free_pages() does, but correspondingly iommu_free_pages() 
-needs its own check up-front to avoid virt_to_page(NULL); either way it 
-means there are no callers of iommu_free_account() who should be passing 
-NULL.
+>=20
+> On 12. Feb 2024, at 12:19, Arnd Bergmann <arnd@kernel.org> wrote:
+>=20
+> =EF=BB=BFFrom: Arnd Bergmann <arnd@arndb.de>
+>=20
+> On powerpc, it is possible to compile test both the new apple (arm) and
+> old pasemi (powerpc) drivers for the i2c hardware at the same time,
+> which leads to a warning about linking the same object file twice:
+>=20
+> scripts/Makefile.build:244: drivers/i2c/busses/Makefile: i2c-pasemi-core.o=
+ is added to multiple modules: i2c-apple i2c-pasemi
+>=20
+> Rework the driver to have an explicit helper module, letting Kbuild
+> take care of whether this should be built-in or a loadable driver.
+>=20
+> Fixes: 9bc5f4f660ff ("i2c: pasemi: Split pci driver to its own file")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
 
-The VA-returning allocators of course need to avoid page_address(NULL), 
-so I clearly made this comment in the wrong place to begin with, oops. 
-In the end I guess that will leave __iommu_alloc_pages() as the only 
-caller of iommu_alloc_account() who doesn't already need to handle their 
-own NULL. OK, I'm convinced, apologies for having to bounce it off you 
-to work it through :)
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
->>> + */
->>> +static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
->>> +{
->>> +     return iommu_alloc_pages_node(nid, gfp, 0);
->>> +}
->>
->> TBH I'm not entirely convinced that saving 4 characters per invocation
->> times 11 invocations makes this wrapper worthwhile :/
-> 
-> Let's keep them. After the clean-up that you suggested, there are
-> fewer functions left in this file, but I think that it is cleaner to
-> keep these remaining, as it is beneficial to easily distinguish when
-> exactly one page is allocated vs when multiple are allocated via code
-> search.
+thanks, totally forgot about this!
 
-But is it, really? It's not at all obvious to me *why* it would be 
-significantly interesting to distinguish fixed order-0 allocations from 
-higher-order or variable-order (which may still be 0) ones. After all, 
-there's no regular alloc_page_node() wrapper, yet plenty more callers of 
-alloc_pages_node(..., 0) :/
 
-Thanks,
-Robin.
+Sven
+
+
+> drivers/i2c/busses/Makefile          | 6 ++----
+> drivers/i2c/busses/i2c-pasemi-core.c | 6 ++++++
+> 2 files changed, 8 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/i2c/busses/Makefile b/drivers/i2c/busses/Makefile
+> index 3757b9391e60..aa0ee8ecd6f2 100644
+> --- a/drivers/i2c/busses/Makefile
+> +++ b/drivers/i2c/busses/Makefile
+> @@ -90,10 +90,8 @@ obj-$(CONFIG_I2C_NPCM)        +=3D i2c-npcm7xx.o
+> obj-$(CONFIG_I2C_OCORES)    +=3D i2c-ocores.o
+> obj-$(CONFIG_I2C_OMAP)        +=3D i2c-omap.o
+> obj-$(CONFIG_I2C_OWL)        +=3D i2c-owl.o
+> -i2c-pasemi-objs :=3D i2c-pasemi-core.o i2c-pasemi-pci.o
+> -obj-$(CONFIG_I2C_PASEMI)    +=3D i2c-pasemi.o
+> -i2c-apple-objs :=3D i2c-pasemi-core.o i2c-pasemi-platform.o
+> -obj-$(CONFIG_I2C_APPLE)    +=3D i2c-apple.o
+> +obj-$(CONFIG_I2C_PASEMI)    +=3D i2c-pasemi-core.o i2c-pasemi-pci.o
+> +obj-$(CONFIG_I2C_APPLE)        +=3D i2c-pasemi-core.o i2c-pasemi-platform=
+.o
+> obj-$(CONFIG_I2C_PCA_PLATFORM)    +=3D i2c-pca-platform.o
+> obj-$(CONFIG_I2C_PNX)        +=3D i2c-pnx.o
+> obj-$(CONFIG_I2C_PXA)        +=3D i2c-pxa.o
+> diff --git a/drivers/i2c/busses/i2c-pasemi-core.c b/drivers/i2c/busses/i2c=
+-pasemi-core.c
+> index 7d54a9f34c74..bd8becbdeeb2 100644
+> --- a/drivers/i2c/busses/i2c-pasemi-core.c
+> +++ b/drivers/i2c/busses/i2c-pasemi-core.c
+> @@ -369,6 +369,7 @@ int pasemi_i2c_common_probe(struct pasemi_smbus *smbus=
+)
+>=20
+>   return 0;
+> }
+> +EXPORT_SYMBOL_GPL(pasemi_i2c_common_probe);
+>=20
+> irqreturn_t pasemi_irq_handler(int irq, void *dev_id)
+> {
+> @@ -378,3 +379,8 @@ irqreturn_t pasemi_irq_handler(int irq, void *dev_id)
+>   complete(&smbus->irq_completion);
+>   return IRQ_HANDLED;
+> }
+> +EXPORT_SYMBOL_GPL(pasemi_irq_handler);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Olof Johansson <olof@lixom.net>");
+> +MODULE_DESCRIPTION("PA Semi PWRficient SMBus driver");
+> --
+> 2.39.2
+
