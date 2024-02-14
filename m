@@ -1,162 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from 18.mo550.mail-out.ovh.net (18.mo550.mail-out.ovh.net [46.105.35.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C68604BB;
-	Wed, 14 Feb 2024 15:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF52F4A15
+	for <asahi@lists.linux.dev>; Thu, 15 Feb 2024 04:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.105.35.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707924563; cv=none; b=HF6nfDtkbSrszu5/jJWo62OrXoFuaYXtp3lC3rXls4E7yxZXb3ECcVySxCsrk+R1iPZM6tDlMJr9vbioXMR8Ly+V8PuG8YJE2+6coEulzugKV92KC+ZuLtKptHHHTo1sFtTaG5eV/NwTFNUN/ld7f1xzEhP/YTeT+xo2rn5Oc3w=
+	t=1707972594; cv=none; b=HHzW4yQi5gc9SRNT2LE3wU90Psf0Zx0d7QUEPeAZioUPcGjyqtoqpC1VUGKFHR1MaOhTdguvqTvWe7uP/w5HruVMhMT9FbXv5lfE1KANzhCPunesj6AWX7cjvbSaFoVuGkRbV601muy42M4MfGtleZUA+bMsizVY76bd9WKiCUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707924563; c=relaxed/simple;
-	bh=WSVW0/yRq/loi7RjpiNIEx5uLj/WloPZ3vFmrSyly+0=;
-	h=Subject:To:From:Date:Message-ID:MIME-Version:Content-Type; b=PbErwq1bHTu/jsA78NyaGXUMbs7l6zmdmCLvQJkDSKkw2K1Y+OOlsmYqgcczorm2fXf2wEjS5UOUK1WDgb0Yjr7TNYRAi62E6oSFJlTtOmO4cCrTpoeO3zhglUDFr+R42HOgsYHYgNQcZ1l3jWu7BHO3Yjd8pOzTQlvfgpXzxxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tNvRMyjG; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tNvRMyjG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D41EC433F1;
-	Wed, 14 Feb 2024 15:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1707924561;
-	bh=WSVW0/yRq/loi7RjpiNIEx5uLj/WloPZ3vFmrSyly+0=;
-	h=Subject:To:From:Date:From;
-	b=tNvRMyjGCEvwlkTYypLNN+WA7/RbF4OkERMRblDFP4vuH9HqMokpWrtj5ZFT7hxjP
-	 iPFQqU2kp64zEtkH/tQU38ts4KxGpLVnXZrHiTAwTQLfb9U6VnBX7JnrP5frC/Owg4
-	 8gBDuiEorrq1ySrDa0o4X1XhpOQosGhCbNACk/gU=
-Subject: patch "nvmem: include bit index in cell sysfs file name" added to char-misc-linus
-To: arnd@arndb.de,asahi@lists.linux.dev,ecurtin@redhat.com,gregkh@linuxfoundation.org,miquel.raynal@bootlin.com,rafal@milecki.pl,regressions@lists.linux.dev,srinivas.kandagatla@linaro.org,sven@svenpeter.dev,wenst@chromium.org
-From: <gregkh@linuxfoundation.org>
-Date: Wed, 14 Feb 2024 16:29:18 +0100
-Message-ID: <2024021418-humvee-scotch-5836@gregkh>
+	s=arc-20240116; t=1707972594; c=relaxed/simple;
+	bh=Zn2YmXTGnlmFWVJAWE0ZcsbcTLkjNnzhl3e0UcTBfKg=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HtwFwq5eqC/8Dx3w3e8jKXqhfZOJZrj7TiO1Acg4j+QAKR3TU7wX66cq5YYixdrkqDLH9zy3dDfLsMjEQD/aiwsd7yggs3mekxq9Oaf6xK/3VWBt7oq1Hx52Y488S5uU2ZVb9KS2S7sl2tSQuRO/b67My4NOooyZvGPbEeWe2SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=etezian.org; arc=none smtp.client-ip=46.105.35.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etezian.org
+Received: from director5.ghost.mail-out.ovh.net (unknown [10.108.2.89])
+	by mo550.mail-out.ovh.net (Postfix) with ESMTP id 4TZs9H0DFbz1GJS
+	for <asahi@lists.linux.dev>; Wed, 14 Feb 2024 21:42:10 +0000 (UTC)
+Received: from ghost-submission-6684bf9d7b-62rx8 (unknown [10.108.54.171])
+	by director5.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 58D4F1FD57;
+	Wed, 14 Feb 2024 21:42:04 +0000 (UTC)
+Received: from etezian.org ([37.59.142.103])
+	by ghost-submission-6684bf9d7b-62rx8 with ESMTPSA
+	id pzx8A6wzzWWJKwIAfHX53g
+	(envelope-from <andi@etezian.org>); Wed, 14 Feb 2024 21:42:04 +0000
+Authentication-Results:garm.ovh; auth=pass (GARM-103G00581a402d0-df4d-43c0-80f3-f5461175c724,
+                    C0FC2E5C6A7315DD97BDDE4B9606AB6EEADB6D9F) smtp.auth=andi@etezian.org
+X-OVh-ClientIp:89.217.109.169
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Michael Ellerman <mpe@ellerman.id.au>, 
+ Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Wolfram Sang <wsa@kernel.org>, 
+ Olof Johansson <olof@lixom.net>, linux-i2c@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+In-Reply-To: <20240212111933.963985-1-arnd@kernel.org>
+References: <20240212111933.963985-1-arnd@kernel.org>
+Subject: Re: [PATCH] i2c: pasemi: split driver into two separate modules
+Message-Id: <170794692308.4040459.7350373390928340229.b4-ty@kernel.org>
+Date: Wed, 14 Feb 2024 22:42:03 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.4
+X-Ovh-Tracer-Id: 3725039842831960594
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvledrudejgdduheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvegjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihdrshhhhihtiheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpeffteehudffvdfhudfgffdugfejjeduheehgeefgeeuhfeiuefghffgueffvdfgfeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeduvdejrddtrddtrddupdekledrvddujedruddtledrudeiledpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegrnhguihesvghtvgiiihgrnhdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhinhhugidruggvvhdpoffvtefjohhsthepmhhoheehtddpmhhouggvpehsmhhtphhouhht
 
+Hi
 
-This is a note to let you know that I've just added the patch titled
+On Mon, 12 Feb 2024 12:19:04 +0100, Arnd Bergmann wrote:
+> On powerpc, it is possible to compile test both the new apple (arm) and
+> old pasemi (powerpc) drivers for the i2c hardware at the same time,
+> which leads to a warning about linking the same object file twice:
+> 
+> scripts/Makefile.build:244: drivers/i2c/busses/Makefile: i2c-pasemi-core.o is added to multiple modules: i2c-apple i2c-pasemi
+> 
+> Rework the driver to have an explicit helper module, letting Kbuild
+> take care of whether this should be built-in or a loadable driver.
+> 
+> [...]
 
-    nvmem: include bit index in cell sysfs file name
+Applied to i2c/i2c-host-fixes on
 
-to my char-misc git tree which can be found at
-    git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git
-in the char-misc-linus branch.
+git://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git
 
-The patch will show up in the next release of the linux-next tree
-(usually sometime within the next 24 hours during the week.)
+Thank you,
+Andi
 
-The patch will hopefully also be merged in Linus's tree for the
-next -rc kernel release.
-
-If you have any questions about this process, please let me know.
-
-
-From e20f378d993b1034eebe3ae78e67f3ed10e75356 Mon Sep 17 00:00:00 2001
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Fri, 9 Feb 2024 16:34:54 +0000
-Subject: nvmem: include bit index in cell sysfs file name
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-Creating sysfs files for all Cells caused a boot failure for linux-6.8-rc1 on
-Apple M1, which (in downstream dts files) has multiple nvmem cells that use the
-same byte address. This causes the device probe to fail with
-
-[    0.605336] sysfs: cannot create duplicate filename '/devices/platform/soc@200000000/2922bc000.efuse/apple_efuses_nvmem0/cells/efuse@a10'
-[    0.605347] CPU: 7 PID: 1 Comm: swapper/0 Tainted: G S                 6.8.0-rc1-arnd-5+ #133
-[    0.605355] Hardware name: Apple Mac Studio (M1 Ultra, 2022) (DT)
-[    0.605362] Call trace:
-[    0.605365]  show_stack+0x18/0x2c
-[    0.605374]  dump_stack_lvl+0x60/0x80
-[    0.605383]  dump_stack+0x18/0x24
-[    0.605388]  sysfs_warn_dup+0x64/0x80
-[    0.605395]  sysfs_add_bin_file_mode_ns+0xb0/0xd4
-[    0.605402]  internal_create_group+0x268/0x404
-[    0.605409]  sysfs_create_groups+0x38/0x94
-[    0.605415]  devm_device_add_groups+0x50/0x94
-[    0.605572]  nvmem_populate_sysfs_cells+0x180/0x1b0
-[    0.605682]  nvmem_register+0x38c/0x470
-[    0.605789]  devm_nvmem_register+0x1c/0x6c
-[    0.605895]  apple_efuses_probe+0xe4/0x120
-[    0.606000]  platform_probe+0xa8/0xd0
-
-As far as I can tell, this is a problem for any device with multiple cells on
-different bits of the same address. Avoid the issue by changing the file name
-to include the first bit number.
-
-Fixes: 0331c611949f ("nvmem: core: Expose cells through sysfs")
-Link: https://github.com/AsahiLinux/linux/blob/bd0a1a7d4/arch/arm64/boot/dts/apple/t600x-dieX.dtsi#L156
-Cc:  <regressions@lists.linux.dev>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Rafał Miłecki <rafal@milecki.pl>
-Cc: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:  <asahi@lists.linux.dev>
-Cc: Sven Peter <sven@svenpeter.dev>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Reviewed-by: Eric Curtin <ecurtin@redhat.com>
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
-Link: https://lore.kernel.org/r/20240209163454.98051-1-srinivas.kandagatla@linaro.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/ABI/testing/sysfs-nvmem-cells | 16 ++++++++--------
- drivers/nvmem/core.c                        |  5 +++--
- 2 files changed, 11 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-nvmem-cells b/Documentation/ABI/testing/sysfs-nvmem-cells
-index 7af70adf3690..c7c9444f92a8 100644
---- a/Documentation/ABI/testing/sysfs-nvmem-cells
-+++ b/Documentation/ABI/testing/sysfs-nvmem-cells
-@@ -4,18 +4,18 @@ KernelVersion:	6.5
- Contact:	Miquel Raynal <miquel.raynal@bootlin.com>
- Description:
- 		The "cells" folder contains one file per cell exposed by the
--		NVMEM device. The name of the file is: <name>@<where>, with
--		<name> being the cell name and <where> its location in the NVMEM
--		device, in hexadecimal (without the '0x' prefix, to mimic device
--		tree node names). The length of the file is the size of the cell
--		(when known). The content of the file is the binary content of
--		the cell (may sometimes be ASCII, likely without trailing
--		character).
-+		NVMEM device. The name of the file is: "<name>@<byte>,<bit>",
-+		with <name> being the cell name and <where> its location in
-+		the NVMEM device, in hexadecimal bytes and bits (without the
-+		'0x' prefix, to mimic device tree node names). The length of
-+		the file is the size of the cell (when known). The content of
-+		the file is the binary content of the cell (may sometimes be
-+		ASCII, likely without trailing character).
- 		Note: This file is only present if CONFIG_NVMEM_SYSFS
- 		is enabled.
- 
- 		Example::
- 
--		  hexdump -C /sys/bus/nvmem/devices/1-00563/cells/product-name@d
-+		  hexdump -C /sys/bus/nvmem/devices/1-00563/cells/product-name@d,0
- 		  00000000  54 4e 34 38 4d 2d 50 2d  44 4e         |TN48M-P-DN|
- 		  0000000a
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 980123fb4dde..eb357ac2e54a 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -460,8 +460,9 @@ static int nvmem_populate_sysfs_cells(struct nvmem_device *nvmem)
- 	list_for_each_entry(entry, &nvmem->cells, node) {
- 		sysfs_bin_attr_init(&attrs[i]);
- 		attrs[i].attr.name = devm_kasprintf(&nvmem->dev, GFP_KERNEL,
--						    "%s@%x", entry->name,
--						    entry->offset);
-+						    "%s@%x,%x", entry->name,
-+						    entry->offset,
-+						    entry->bit_offset);
- 		attrs[i].attr.mode = 0444;
- 		attrs[i].size = entry->bytes;
- 		attrs[i].read = &nvmem_cell_attr_read;
--- 
-2.43.1
-
+Patches applied
+===============
+[1/1] i2c: pasemi: split driver into two separate modules
+      commit: 3fab8a74c71a4ba32b2fa1dca7340f9107ff8dfc
 
