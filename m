@@ -1,50 +1,47 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081F360885;
-	Tue, 13 Feb 2024 19:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDBA18635
+	for <asahi@lists.linux.dev>; Wed, 14 Feb 2024 09:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1707852059; cv=none; b=iDXO1NEJ1Q/CMMnRjlxMZ6zfoS9Wsy7l5xp8QRakAP4xE7c2+gqgbdEBYoo9/c3zVZLhuEmWP7Nb9arfeY5wln0YCSyq30fbsjuxS2OQRcVm41z0ztv3beSU1+XBtoxzPq6/7/JQBww2L3tDlU9B1HO39W4TTNRPAwg+dwIXvmY=
+	t=1707903271; cv=none; b=pG5Ffummm61ctMY1qV5eceBYcdXVWJRjJCLm3us1GudekIZ4YmWtsE7XcNjASp2Hl+vuTrFLjYp0ITeruEB6qGaT/pvO0Ssr+STTif96oDLCaWobd2oTKjVc3o/wPzh1arAzXja1/UtqGHbW+2YZfeQQN5uEorpl8mQizliGi68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1707852059; c=relaxed/simple;
-	bh=7dXfSRYBwhsTCt6sxxpGuOjndcv/iGeQtLLQrn0l66Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uIunxWBmfZVtAun9fATidfWu0XEwBxm7zWurkgAwh2GZ44sJHADrkQoH+ETKHO9Ud1feqw7nO6BXmX92LjPzPLLX/dfnvOl89uT5rXqaYe7ie5hnpjEKrXSNrtYLiJ8dUQWQKZokGpNrG/O1V4hMRsD75Wh2AhYG01vz47mo0bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mTM4F7hQ; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mTM4F7hQ"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A28A960002;
-	Tue, 13 Feb 2024 19:20:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1707852053;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3mN8xA0cTxrfZTtwyelonCfpSj29sYDVq5G0MAoHaHg=;
-	b=mTM4F7hQA4rbQGgy7sC3p/Yv7/5UjDCvUgPm6/bAWUy0+uMa+aibebP9bxlzXdgUYqX9yi
-	mil0ph6jS4jOu2kIq/+o6MRGFLxNaCxBaIOdKBeh9wjGhGlWX5sikiGc8krqb3BcrvWN0+
-	dX9mtKLCV3hUdRjCKgivbP90sRUVc+idvcfAgawP8+cgpQGLeBstLxLgtk44s57DdsStkh
-	GHnZ6TZONle3bG1I7H4plHnLMC5LFAtoq5hWFCHzzVwAJEMqaQl4ym2GgAHe65RML7KmH1
-	5o9EYyOs0pXa8bRL3ATNSbCj9HKC69SrlMvFSa344EoXEH3oIamnN8vMvyXnJw==
-Date: Tue, 13 Feb 2024 20:20:45 +0100
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Eric Curtin <ecurtin@redhat.com>
-Cc: srinivas.kandagatla@linaro.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- regressions@lists.linux.dev, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
- <rafal@milecki.pl>, Chen-Yu Tsai <wenst@chromium.org>,
- asahi@lists.linux.dev, Sven Peter <sven@svenpeter.dev>
-Subject: Re: [PATCH] nvmem: include bit index in cell sysfs file name
-Message-ID: <20240213202045.1e823a6c@xps-13>
-In-Reply-To: <CAOgh=FwFMaYvTwmqeOQrqHq2XANxghZbTuY3+SgFx_ozpysBOg@mail.gmail.com>
-References: <20240209163454.98051-1-srinivas.kandagatla@linaro.org>
-	<CAOgh=FwFMaYvTwmqeOQrqHq2XANxghZbTuY3+SgFx_ozpysBOg@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1707903271; c=relaxed/simple;
+	bh=H2gBKJqPhxEH02LxqBcE7cgJijeXYph95OqB+mGaqEU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qmqKqzpCtjSLS9G3prT63tznNov/Mirmu5qzzS42Kr+cQ89/+NneH6Vb+Bze39Bf0sdU7M/a1nVFaxx3h/isJIIvcGw8QIfI4eiZu4qKm3lmniEMmH0i+pYCwcObrs9WXZW0AUJh7xKwjJyMOobJX2ykKoxVdOLZ9D7z5qjljbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raBem-0004OZ-BQ; Wed, 14 Feb 2024 10:34:20 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raBek-000f6n-Sl; Wed, 14 Feb 2024 10:34:18 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1raBek-004Y07-2b;
+	Wed, 14 Feb 2024 10:34:18 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	linux-pwm@vger.kernel.org
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	kernel@pengutronix.de
+Subject: [PATCH v6 007/164] pwm: apple: Make use of devm_pwmchip_alloc() function
+Date: Wed, 14 Feb 2024 10:30:54 +0100
+Message-ID:  <34cf20a82ca07bb4ec0578b193daa5caed37825e.1707900770.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
+References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -52,67 +49,77 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2027; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=H2gBKJqPhxEH02LxqBcE7cgJijeXYph95OqB+mGaqEU=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlzIhS+MJ39Sqrsto1kA5NlX83PDmaY2icjOsha rLePYYgEuKJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZcyIUgAKCRCPgPtYfRL+ TneTB/9Uu3TN3IUSipI7OGzVG7GRlfSeOty7pM8L2m3CkkdsACKFIGn2/OqPg4/it9WNlXHzCK1 4hbCuPBrAvkLlzw/5o4/66SHgVvViFkF8Q41a1+6yO60Yua/r95OiPrMNiu4IOdWN85hkWJwdPt qy89+JAJelGvF5G7hkyhy22EzogTtNX43qMx3bk4NOFn7UyqosvkMTaxyANy0pfIHUIs9auE03O J6qy8nt2OBG5qQrGjDJdQ33WfLFDoGy1eJYyn0ZAnfSAZUFa16EpoOhqNm6+PhjJnZkH1pOkcJw 77l5KXK5VLpXv9VCgYbqka2SZcEgDN7WliWU8Ov+VnwdvNuq
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
-Hi,
+This prepares the pwm-apple driver to further changes of the pwm core
+outlined in the commit introducing devm_pwmchip_alloc(). There is no
+intended semantical change and the driver should behave as before.
 
-ecurtin@redhat.com wrote on Fri, 9 Feb 2024 16:49:22 +0000:
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/pwm/pwm-apple.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-> On Fri, 9 Feb 2024 at 16:43, <srinivas.kandagatla@linaro.org> wrote:
-> >
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > Creating sysfs files for all Cells caused a boot failure for linux-6.8-=
-rc1 on
-> > Apple M1, which (in downstream dts files) has multiple nvmem cells that=
- use the
-> > same byte address. This causes the device probe to fail with
-> >
-> > [    0.605336] sysfs: cannot create duplicate filename '/devices/platfo=
-rm/soc@200000000/2922bc000.efuse/apple_efuses_nvmem0/cells/efuse@a10'
-> > [    0.605347] CPU: 7 PID: 1 Comm: swapper/0 Tainted: G S              =
-   6.8.0-rc1-arnd-5+ #133
-> > [    0.605355] Hardware name: Apple Mac Studio (M1 Ultra, 2022) (DT)
-> > [    0.605362] Call trace:
-> > [    0.605365]  show_stack+0x18/0x2c
-> > [    0.605374]  dump_stack_lvl+0x60/0x80
-> > [    0.605383]  dump_stack+0x18/0x24
-> > [    0.605388]  sysfs_warn_dup+0x64/0x80
-> > [    0.605395]  sysfs_add_bin_file_mode_ns+0xb0/0xd4
-> > [    0.605402]  internal_create_group+0x268/0x404
-> > [    0.605409]  sysfs_create_groups+0x38/0x94
-> > [    0.605415]  devm_device_add_groups+0x50/0x94
-> > [    0.605572]  nvmem_populate_sysfs_cells+0x180/0x1b0
-> > [    0.605682]  nvmem_register+0x38c/0x470
-> > [    0.605789]  devm_nvmem_register+0x1c/0x6c
-> > [    0.605895]  apple_efuses_probe+0xe4/0x120
-> > [    0.606000]  platform_probe+0xa8/0xd0
-> >
-> > As far as I can tell, this is a problem for any device with multiple ce=
-lls on
-> > different bits of the same address. Avoid the issue by changing the fil=
-e name
-> > to include the first bit number.
-> >
-> > Fixes: 0331c611949f ("nvmem: core: Expose cells through sysfs")
-> > Link: https://github.com/AsahiLinux/linux/blob/bd0a1a7d4/arch/arm64/boo=
-t/dts/apple/t600x-dieX.dtsi#L156
-> > Cc: regressions@lists.linux.dev
-> > Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-> > Cc: Rafa=C5=82 Mi=C5=82ecki <rafal@milecki.pl>
-> > Cc: Chen-Yu Tsai <wenst@chromium.org>
-> > Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: asahi@lists.linux.dev
-> > Cc: Sven Peter <sven@svenpeter.dev>
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org> =20
->=20
+diff --git a/drivers/pwm/pwm-apple.c b/drivers/pwm/pwm-apple.c
+index 4d755b628d9e..6e58aca2f13c 100644
+--- a/drivers/pwm/pwm-apple.c
++++ b/drivers/pwm/pwm-apple.c
+@@ -32,14 +32,13 @@
+ #define APPLE_PWM_CTRL_OUTPUT_ENABLE BIT(14)
+ 
+ struct apple_pwm {
+-	struct pwm_chip chip;
+ 	void __iomem *base;
+ 	u64 clkrate;
+ };
+ 
+ static inline struct apple_pwm *to_apple_pwm(struct pwm_chip *chip)
+ {
+-	return container_of(chip, struct apple_pwm, chip);
++	return pwmchip_get_drvdata(chip);
+ }
+ 
+ static int apple_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+@@ -103,13 +102,16 @@ static const struct pwm_ops apple_pwm_ops = {
+ 
+ static int apple_pwm_probe(struct platform_device *pdev)
+ {
++	struct pwm_chip *chip;
+ 	struct apple_pwm *fpwm;
+ 	struct clk *clk;
+ 	int ret;
+ 
+-	fpwm = devm_kzalloc(&pdev->dev, sizeof(*fpwm), GFP_KERNEL);
+-	if (!fpwm)
+-		return -ENOMEM;
++	chip = devm_pwmchip_alloc(&pdev->dev, 1, sizeof(*fpwm));
++	if (IS_ERR(chip))
++		return PTR_ERR(chip);
++
++	fpwm = to_apple_pwm(chip);
+ 
+ 	fpwm->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(fpwm->base))
+@@ -129,11 +131,9 @@ static int apple_pwm_probe(struct platform_device *pdev)
+ 	if (fpwm->clkrate > NSEC_PER_SEC)
+ 		return dev_err_probe(&pdev->dev, -EINVAL, "pwm clock out of range");
+ 
+-	fpwm->chip.dev = &pdev->dev;
+-	fpwm->chip.npwm = 1;
+-	fpwm->chip.ops = &apple_pwm_ops;
++	chip->ops = &apple_pwm_ops;
+ 
+-	ret = devm_pwmchip_add(&pdev->dev, &fpwm->chip);
++	ret = devm_pwmchip_add(&pdev->dev, chip);
+ 	if (ret < 0)
+ 		return dev_err_probe(&pdev->dev, ret, "unable to add pwm chip");
+ 
+-- 
+2.43.0
 
-My R-by must have been lost, here it is again:
-
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
-
-Thanks,
-Miqu=C3=A8l
