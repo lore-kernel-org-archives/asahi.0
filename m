@@ -1,131 +1,94 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E56A12F58A
-	for <asahi@lists.linux.dev>; Fri, 16 Feb 2024 14:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209F9131756;
+	Fri, 16 Feb 2024 17:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708094442; cv=none; b=Pwv8OotCv4cd3Wy/fx24leZhOd7oP/9OmA1tzfXLba8dT95+XPi4YFY+BMtLHo3EP2tmGvY25ln2+5qSlHkzww7n1uKeHld9VTM/soOwCTHrhaIGFS0XDGSWFB32A4tRS3MFb19LkvqevT3hk8KmAiI46F0sxk2TCGd3woNcHHA=
+	t=1708106284; cv=none; b=jYZAN1SQ5Q0H78Tv4vhc+pnAZ/60omxJ7f8wtKtD4R3i2/21TNTp45qwmke+PjPkxaOgQpzPBMwSN8yC7joyHHqhsyT5U7U0jicqDLAQxGE+iGXIuAVgpc+U0uw1tjeO411j77BKfG3drmWja4vU33NWrWu0W8b49nf5F/tJnL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708094442; c=relaxed/simple;
-	bh=pD34V4Xis6XvSKzWyAyrm6YM5UjXrZYGLUr4MspUCqE=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=f9qOdr6kouWJCHuCSv2sJLhJ9r9vYJUItELeI1/erO9JWmAqfxays4y23+bkzeKjlNlE67Kp0ILDc11MoNyOBunkf+B9zjFCE5zGWeXwDpiGcjkqNV6hwK55hzRYjj5E3+qm00XJMTA5V39CcKw9Wfnejet46+lbv7e/UxpGr7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o0e704WZ; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1708106284; c=relaxed/simple;
+	bh=y2z4Q/0wnbBdLLtyxBXxt5K2cw4Zk8wNIb/HNMYSK+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kn74lpXKleh49luNnAaoBQIyzFXHS0w1A5aNmo6OLq31OFUKgZ/J9sJ1f9aYxt/sA1INFj8S4Y8YDBp06mclJrMYYWO7VrUJbMq96L9pWS863U1cKPzPPq5kzoE74cf/8/Hqh1vqkCLw+9YdRV5K+pkgqg491HD30kldIqLwIdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nT6IeXcB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o0e704WZ"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a3d82926ed2so105038366b.0
-        for <asahi@lists.linux.dev>; Fri, 16 Feb 2024 06:40:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1708094439; x=1708699239; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ddHRp/a7ql2hO4wtU3P1Kr5z86y1yTWMkn8d+hM85z0=;
-        b=o0e704WZqBAoT7ZniIW6xFY6GPfc2/ZCGqVr+wF9ZF5A0SK0nNcHuYmtV+0hTTDB1D
-         Y6WEJcvuxxQLPbLQImofWPzH0WUQhubx4Yd5XenyZqFZFZw7UQhl7mJ+8muVuFAMmb/8
-         xKe/LqxNoRtsZC+acdjRTs1iHDjSwekOMJLfJcgFw0xa/94K6uHbwxCXf3OoAm3kUyEV
-         jJQnRWLZUzKFuoBVl/umlJke+b18vQU5AqjK/c79FaN7YmuUOnKXmJP4YPieskdO30Q3
-         YyMF8zFJVuV8RJiVbAA8a6q8BCK/txzZfCNcQUKc5gF5BstTudu4rQp6MLhs4kcHqD2p
-         mRfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708094439; x=1708699239;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ddHRp/a7ql2hO4wtU3P1Kr5z86y1yTWMkn8d+hM85z0=;
-        b=O7PF1AXrZnT62IGGj1Nc1bdu3XQ+WH8YUkQIHRnf8lvykRsGKZMMF+iyj6Gwcd+4dx
-         BLCwvDYo0xnsK1ZL/NAMTbehQDiJkF6lntkpxlam2WTN0XBUQYg/PpZ+/c8nwvyk9oG5
-         Mg26h2TDu/4H2pVQOGfTR/6fuNivuo+SbBOJ8/9u4jVcopI101YVIbIXhJOVAFwW03KK
-         p3LVT5D8zT+kMg3WGhoNyuD5ByO2lhiycgmd6Vxl0rDc3Pr1OxdbQ/YgaUP2D+zImSqb
-         enFs1SRE8l18Wz+I20HUh0oPOBVTWk2/R26AOIsca7wV3CqgGlfQ6QYMfDEEjwCjKeG5
-         rkPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYffu2QY5Ziw8a/DemyopImUQ9Wb2ZvZnMoavzdlNrAm5SqEOipQ6Pm1M4WXVjgfUofdhnYoKNPLY9PItyU8ArID6zCFI=
-X-Gm-Message-State: AOJu0YyOaOIcLrjReio/k0vttPNqOuouDv975jvaCQ4iJAVuqNf2i4pS
-	vpKQt6OPX/F0UD9/+UFxWkaT6Esepp6q0+RmbGlBvlWjYyL6rYplmZwXNOFNSmM=
-X-Google-Smtp-Source: AGHT+IFjUr0pwHx7I9NJd2MhgZLwiZF/Q3I4EAlN6VBXxRxf0gB7BEu6U93gT2kjFbtxE6rZ4t4ByQ==
-X-Received: by 2002:a17:906:d7bb:b0:a3d:704:d688 with SMTP id pk27-20020a170906d7bb00b00a3d0704d688mr3675983ejb.47.1708094438802;
-        Fri, 16 Feb 2024 06:40:38 -0800 (PST)
-Received: from krzk-bin.. ([78.10.207.130])
-        by smtp.gmail.com with ESMTPSA id a8-20020a170906670800b00a3ce3c5b2a4sm1592942ejp.195.2024.02.16.06.40.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Feb 2024 06:40:38 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Rob Clark <robdclark@gmail.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	virtualization@lists.linux.dev
-Subject: [PATCH 4/4] iommu: re-use local fwnode variable in iommu_ops_from_fwnode()
-Date: Fri, 16 Feb 2024 15:40:27 +0100
-Message-Id: <20240216144027.185959-4-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240216144027.185959-1-krzysztof.kozlowski@linaro.org>
-References: <20240216144027.185959-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nT6IeXcB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53326C433C7;
+	Fri, 16 Feb 2024 17:57:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1708106283;
+	bh=y2z4Q/0wnbBdLLtyxBXxt5K2cw4Zk8wNIb/HNMYSK+w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nT6IeXcB5A43SSuF9BwUjII4ilTrRHMPvyzAnUo1omQItjPLdK1yI1D9r6AZeDJjT
+	 Lwec75FjdfHRyDok4qKpynzHaY+jVireNBdMEX/3sIKAUUpmIhEG7WzhREkQiExlla
+	 CgQQTgxXPyDIS10jW64uzXwfZpoYlaicR7QgPuL2AkSdV1armgqhtJ8YVi3RmIUsAl
+	 Q2sDUO4AfPf2tDL7JF+EOIX5LDDCQbncjtrRPNNl7ClDtX9p0Tr4GtgrGyYSwu7tru
+	 dgGCbrO+S2RC7zBGm+KqHvQrvfNlefg2300BnAO27KjDWBt5rkFi4I/om5XiQtrGtZ
+	 +tSr/4cauSzEg==
+Date: Fri, 16 Feb 2024 17:57:52 +0000
+From: Will Deacon <will@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
+	alyssa@rosenzweig.io, asahi@lists.linux.dev,
+	baolu.lu@linux.intel.com, bhelgaas@google.com,
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
+Message-ID: <20240216175752.GB2374@willie-the-truck>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-11-pasha.tatashin@soleen.com>
+ <20240213131210.GA28926@willie-the-truck>
+ <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-iommu_ops_from_fwnode() stores &iommu_spec->np->fwnode in local
-variable, so use it to simplify the code (iommu_spec is not changed
-between these dereferences).
+On Tue, Feb 13, 2024 at 10:44:53AM -0500, Pasha Tatashin wrote:
+> > >  SecPageTables
+> > > -              Memory consumed by secondary page tables, this currently
+> > > -              currently includes KVM mmu allocations on x86 and arm64.
+> > > +              Memory consumed by secondary page tables, this currently includes
+> > > +              KVM mmu and IOMMU allocations on x86 and arm64.
+> 
+> Hi Will,
+> 
+> > While I can see the value in this for IOMMU mappings managed by VFIO,
+> > doesn't this end up conflating that with the normal case of DMA domains?
+> > For systems that e.g. rely on an IOMMU for functional host DMA, it seems
+> > wrong to subject that to accounting constraints.
+> 
+> The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
+> is passed to the iommu mapping functions. We do that from the vfio,
+> iommufd, and vhost. Without this flag, the memory useage is reported
+> in /proc/meminfo as part of  SecPageTables field, but not constrained
+> in cgroup.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- drivers/iommu/of_iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks, Pasha, that explanation makes sense. I still find it bizarre to
+include IOMMU allocations from the DMA API in SecPageTables though, and
+I worry that it will confuse people who are using that metric as a way
+to get a feeling for how much memory is being used by KVM's secondary
+page-tables. As an extreme example, having a non-zero SecPageTables count
+without KVM even compiled in is pretty bizarre.
 
-diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-index 719652b60840..3afe0b48a48d 100644
---- a/drivers/iommu/of_iommu.c
-+++ b/drivers/iommu/of_iommu.c
-@@ -29,7 +29,7 @@ static int of_iommu_xlate(struct device *dev,
- 	    !of_device_is_available(iommu_spec->np))
- 		return -ENODEV;
- 
--	ret = iommu_fwspec_init(dev, &iommu_spec->np->fwnode, ops);
-+	ret = iommu_fwspec_init(dev, fwnode, ops);
- 	if (ret)
- 		return ret;
- 	/*
--- 
-2.34.1
-
+Will
