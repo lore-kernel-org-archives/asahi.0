@@ -1,204 +1,120 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65B0132466;
-	Thu, 15 Feb 2024 13:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23B4FC0A
+	for <asahi@lists.linux.dev>; Fri, 16 Feb 2024 01:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708005097; cv=none; b=dlbr3Fzq7ezxPfcFNQTERtL6cRrUHtEhl04fBoZ4NsO8yi7zNyGmzoAwGY0Y+BxoxnmPAMRe9pjPRGs9+uEqI/Z8oJBT9LuFFi1P8jSdzEbWs0DPJ4SEJ+bJgQc54zYwCGiGtaxjzwbzMmBss6XHDuBe6Dz8osg/sk4sVVOg1Po=
+	t=1708045594; cv=none; b=hsASgXvHogmvRVBC/Oy370Vxz2sJCqt3xE6Dj19GdpwFhlC64ynf0NfZD0baDXkK+sbyZaxJqRM0xajreyuTir96oM6ybs5oQQ/N4k8n9cz/dvDHAhBc6LS7C4c4NdMU68+5TrWUhpfXTTgp+34zwwPPXU4b2tJ7OxCx+fhm5wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708005097; c=relaxed/simple;
-	bh=RzDVzAMbt/0O8rLENBgNMOIiu2ews2E1U5PQyx+Ji0k=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=duthAThQ7ST3q+IY+RI12/l/pID7L0Nmhb/kMpJj1MT6zmByzVq7B5SDMxItlbgOcnxPCuti79DYQfuELHiISOzmgiKhs7y/wXpy7QpK36g0g8faMeSDsaTLkhxhBB5wvP2OHOcegKXZUBQke9WW5qKyMLtN8/I9b3PlSb4JNs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3huoTOG; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1708045594; c=relaxed/simple;
+	bh=pdX4YFmXvkCYJozarbc5NuAljGq2QKgP22r5bHoyo6M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PKMXOO8JsG/2JaxSvebfCvGUJ/hY8Y5gyYf2xd6HWV94gQ7UBX6AjV5+pA+p78RpVy44Sz00u+7k7HqC9+UK+2mvlUiKWrL3U9kFYHewVVWxU70nMmYcM+rjdtbj5u4PTwbfLO4FIUjYLN6V+mISSpVhKRFXxgslZ/DoPdgdMxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=P4vHTgN+; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3huoTOG"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4121954d4c0so3306335e9.0;
-        Thu, 15 Feb 2024 05:51:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="P4vHTgN+"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-42db60ebcd7so10223511cf.0
+        for <asahi@lists.linux.dev>; Thu, 15 Feb 2024 17:06:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1708005094; x=1708609894; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5t9mkBRSLuX6Whm+p+USkACVg0A1ZTFUPoQmMKDP/ks=;
-        b=U3huoTOGv3ZZLKaGr6em9+pbTKZvNF/aEa3yZZzK3ZRb4mZRY724epLKmUh0pfz9lr
-         Dii/Vy7BOWolB0lk8QrHWdXC/gKSrJmBeeu/E7+Y/UM97Lt2fpxMTZi6fi0pZ3mw/qyD
-         jlzZyG3xPNPVfLYh8RXEfODhltQbOhq4Kxx4nqpe5EusVfNoB8Ofej2e7Uj6IKPMVqGy
-         bpA3db/EGgQS75L3yDfqXQpcD2LIE1NSaJEQzEgwgV6HN8u1RD+lHixOw4qEWfcl3icl
-         Z3JP5o/4Mnmr5f5hM7fYMg1DzMhNt3m1582gOA9ojFWJ7DNSSZtdNJEXfDti/bGnztRL
-         VJKg==
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708045592; x=1708650392; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SJOk5GBoNGjtYX6UP2FD6x8pshcgNrZex6zZ50AbGYM=;
+        b=P4vHTgN+cwLBgeU3soLk7mORT3HgHxbUiL/mSfqzmy7dC8r3KPZYbb5k1GVMMTKOw0
+         9zVnI6OJPVIHKGdXDHNyC5mey1x1WT4jYUC2vE8bNWzYJkq0Yz/Daoom6cJva+6KxA7h
+         eXegSuXA6dcryjtLdmKFLGc8D8K4ajKCWrcsqWPAcczVsgFawYQZY8DTvCraTEDLAiIZ
+         SgqMfR1rUHAVPfnUH1LH6hK1lnKigbK1k3oNRtIjjXo4OPmCqdEXyhC2AtCBFupbffv4
+         kUU7gRqshoRg1xHPycWvCFMM1VdCCCFvfHnsXMSjcgZqhLiyoCZEAwc4C3oFmVzup7sO
+         MxoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708005094; x=1708609894;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5t9mkBRSLuX6Whm+p+USkACVg0A1ZTFUPoQmMKDP/ks=;
-        b=Ayegmfao7y5LVC1ng2jdCY6kcRy4Bgew9mlmKYYwE5qNTa1BmEUcSX2QRDGVBDXPId
-         dIXDrhCADbrsvuuU5VVFJuhEkiAf5RkBjEBEMs2sKey8WKgXBtRw0HgP+Q0PtsKfmZGc
-         vn+fny2UkXyHUvruXPBKxsPjM8zhkWN/Ajdxknsq3Ipr2EKQ5/E/QfrKgxvtpS0xeSh+
-         3ZZ/DO0MFpDO5rpPcGtNwwmLlZj3q0em6eNMoRPz4jOthrIKH9kbrxuwwiOO7tQNQeEM
-         90dOS6Zi07jBZX+AQYQuo936Cl+WshEjS7Zyw8wBj4yMdt93ezg6eaPbMAciwa9D6PXO
-         Vl6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW4KkEYzMbxMnZCCn4Do8u2RVOuLpzi5k3th4jexUEDxNAGw+ZSJpiOqviE0QjZY64jRtsaoK4y7qXq17s/L5V4PTH9NVaN1AATrtOeV738S0n73oknchcD4xoYIgcszYg1kxh84XMWklEJqkdqSZjKXxqIUK5Qo68m0tnAk41Uweq0rw==
-X-Gm-Message-State: AOJu0Yw5iIAKsgqU4IibP8K63I9bkneq1Ciwwp++LdrXhLCANwoHjz+4
-	oPNgH0tSJ3m3NBhdJpiLgVqYRWhpdJkBKGktuynTrugOUdkI2ffo
-X-Google-Smtp-Source: AGHT+IH7k9jN1LEPjklm49kSSJGmdKPhxpWNQecPQqPdKhvRMqEI/U195h3M4bWUY8DUrcLpEFVYaQ==
-X-Received: by 2002:a05:600c:3503:b0:412:7d0:d83 with SMTP id h3-20020a05600c350300b0041207d00d83mr1601111wmq.16.1708005093670;
-        Thu, 15 Feb 2024 05:51:33 -0800 (PST)
-Received: from ?IPv6:2001:a61:3456:4e01:6ae:b55a:bd1d:57fc? ([2001:a61:3456:4e01:6ae:b55a:bd1d:57fc])
-        by smtp.gmail.com with ESMTPSA id i7-20020a05600c290700b00410add3af79sm5061337wmd.23.2024.02.15.05.51.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Feb 2024 05:51:33 -0800 (PST)
-Message-ID: <63b248efcbd62a121610cbf37ea0339bd87c99e7.camel@gmail.com>
-Subject: Re: [PATCH v6 003/164] pwm: Provide pwmchip_alloc() function and a
- devm variant of it
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Michael Walle
- <mwalle@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- linux-doc@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Paul Cercueil <paul@crapouillou.net>, 
- linux-tegra@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>, 
- Thierry Reding <thierry.reding@gmail.com>, James Clark
- <james.clark@arm.com>, Pavel Machek <pavel@ucw.cz>,  Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Guenter Roeck
- <groeck@chromium.org>,  chrome-platform@lists.linux.dev, Nobuhiro Iwamatsu
- <nobuhiro1.iwamatsu@toshiba.co.jp>, Fabio Estevam <festevam@gmail.com>, 
- linux-riscv@lists.infradead.org, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Jerome Brunet <jbrunet@baylibre.com>, Rob Herring <robh@kernel.org>, Samuel
- Holland <samuel@sholland.org>,  linux-samsung-soc@vger.kernel.org, Bjorn
- Andersson <quic_bjorande@quicinc.com>,  Florian Fainelli
- <florian.fainelli@broadcom.com>, Jonathan Corbet <corbet@lwn.net>, Sean
- Anderson <sean.anderson@seco.com>, Benson Leung <bleung@chromium.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, Lee Jones <lee@kernel.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>,  Jonathan Hunter
- <jonathanh@nvidia.com>, Hammer Hsieh <hammerh0314@gmail.com>,
- linux-rockchip@lists.infradead.org,  Chen-Yu Tsai <wens@csie.org>, Michal
- Simek <michal.simek@amd.com>, NXP Linux Team <linux-imx@nxp.com>,
- linux-leds@vger.kernel.org, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Alim Akhtar <alim.akhtar@samsung.com>,
- linux-mips@vger.kernel.org,  linux-sunxi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org,  linux-pwm@vger.kernel.org, Kees Cook
- <keescook@chromium.org>, Sven Peter <sven@svenpeter.dev>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,  Ray Jui
- <rjui@broadcom.com>, Sascha Hauer <s.hauer@pengutronix.de>, Jonathan
- =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>, Vladimir Zapolskiy
- <vz@mleia.com>, Hans de Goede <hdegoede@redhat.com>, Mark Brown
- <broonie@kernel.org>,  linux-mediatek@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org,  Baolin Wang
- <baolin.wang@linux.alibaba.com>, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- linux-amlogic@lists.infradead.org, Orson Zhai <orsonzhai@gmail.com>, Mika
- Westerberg <mika.westerberg@linux.intel.com>,  kernel@pengutronix.de,
- linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Neil Armstrong
- <neil.armstrong@linaro.org>,  Alexander Shiyan <shc_work@mail.ru>, Scott
- Branden <sbranden@broadcom.com>,  linux-gpio@vger.kernel.org, Daire
- McNamara <daire.mcnamara@microchip.com>,  Chunyan Zhang
- <zhang.lyra@gmail.com>, Hector Martin <marcan@marcan.st>, 
- linux-stm32@st-md-mailman.stormreply.com, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>,  Fabrice Gasnier
- <fabrice.gasnier@foss.st.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- asahi@lists.linux.dev,  Maxime Coquelin <mcoquelin.stm32@gmail.com>, Kevin
- Hilman <khilman@baylibre.com>, Shawn Guo <shawnguo@kernel.org>,  Anjelique
- Melendez <quic_amelende@quicinc.com>
-Date: Thu, 15 Feb 2024 14:51:31 +0100
-In-Reply-To: <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
-References: <cover.1707900770.git.u.kleine-koenig@pengutronix.de>
-	 <9577d6053a5a52536057dc8654ff567181c2da82.1707900770.git.u.kleine-koenig@pengutronix.de>
-	 <Zcy21tsntcK80hef@smile.fi.intel.com>
-	 <ws4ybgtvfxqz53vk3i67suipzyqpy5y5fqeee5uf3ua6ow222n@i4ktjuorq3nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 (3.50.3-1.fc39) 
+        d=1e100.net; s=20230601; t=1708045592; x=1708650392;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SJOk5GBoNGjtYX6UP2FD6x8pshcgNrZex6zZ50AbGYM=;
+        b=MdML6p+lw2NCAzNHMQ3mKpOApIIDxnH7oKCGJwt8HZA7oKtS296F1BZcCxOd6wji3f
+         T/LGIJXZfAPf8rpbOJQacmDoNd5d9Zr+G3rbccHdMRAgrRxbLTIOLrZknLZE6evKeiub
+         hiJK+g27xT7DTLc5ma+kv6OyHK20yiiMqgoOn7g/AHG/KUA9ZXR57Xs2BLNEmuB34pv1
+         mm3HiqnxSiBhkQZgskkdrO75aoTP1pV5Yi6kKPZGJgxH6zgYpHYJUgThivKt3WFOn62P
+         ZKGwOFdQbT4lVoxYgTwvMcqQ0qj/spBYC/9ci0zJOcytm8KUcO52of+JdyxmaM9WyVYf
+         jzWw==
+X-Forwarded-Encrypted: i=1; AJvYcCWXEPqFPJDwQc4VQQL9Vm/yMi9JmOwkopmlhJDlhT4WEaa56wZHhJ9ZPseDKCathsu1NaKsOZkgIy3Ad6G6HT5tePe4e78=
+X-Gm-Message-State: AOJu0Yzu3Hdr62bcnQRQFEvC6a5EcK211+AF4dI7Abea+FVxLzMON5u5
+	QsUekUKdLg/DBEfSSHrQ189LRo9CAS2iA4zfmepn0SMli0FbJX83dAhD5JzX4iMuJK3bNPaLx1g
+	f49EwfGZJrg0AUodZ9mFifR2l+MB0kGE/7KhM2A==
+X-Google-Smtp-Source: AGHT+IFn+h3r/AaoF4MfmIEWnQLUDUmnx1Kec57gXxwxEXHIeMLPIowE5fZkN66KK2rAD8UQkIaND2e8M33sIsMCnhQ=
+X-Received: by 2002:a05:622a:1048:b0:42c:798a:a053 with SMTP id
+ f8-20020a05622a104800b0042c798aa053mr4373943qte.55.1708045591818; Thu, 15 Feb
+ 2024 17:06:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20240207174102.1486130-1-pasha.tatashin@soleen.com>
+ <20240207174102.1486130-2-pasha.tatashin@soleen.com> <8ce2cd7b-7702-45aa-b4c8-25a01c27ed83@arm.com>
+ <CA+CK2bC=XyUhoSP9f0XBqEnQ-P5mMT2U=5dfzRSc9C=2b+bstQ@mail.gmail.com> <b008bd2d-a189-481f-917d-bb045c43cb07@arm.com>
+In-Reply-To: <b008bd2d-a189-481f-917d-bb045c43cb07@arm.com>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Thu, 15 Feb 2024 20:05:55 -0500
+Message-ID: <CA+CK2bBTe93nXzY3Qhty+821LrkjBVnQDxro3m7Y-GVihSP18A@mail.gmail.com>
+Subject: Re: [PATCH v4 01/10] iommu/vt-d: add wrapper functions for page allocations
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
+	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
+	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
+	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
+	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
+	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
+	rdunlap@infradead.org, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
+	yu-cheng.yu@intel.com, rientjes@google.com, bagasdotme@gmail.com, 
+	mkoutny@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 2024-02-15 at 13:01 +0100, Uwe Kleine-K=C3=B6nig wrote:
-> On Wed, Feb 14, 2024 at 02:49:26PM +0200, Andy Shevchenko wrote:
-> > On Wed, Feb 14, 2024 at 10:30:50AM +0100, Uwe Kleine-K=C3=B6nig wrote:
-> > > This function allocates a struct pwm_chip and driver data. Compared t=
-o
-> > > the status quo the split into pwm_chip and driver data is new, otherw=
-ise
-> > > it doesn't change anything relevant (yet).
-> > >=20
-> > > The intention is that after all drivers are switched to use this
-> > > allocation function, its possible to add a struct device to struct
-> > > pwm_chip to properly track the latter's lifetime without touching all
-> > > drivers again. Proper lifetime tracking is a necessary precondition t=
-o
-> > > introduce character device support for PWMs (that implements atomic
-> > > setting and doesn't suffer from the sysfs overhead of the /sys/class/=
-pwm
-> > > userspace support).
-> > >=20
-> > > The new function pwmchip_priv() (obviously?) only works for chips
-> > > allocated with pwmchip_alloc().
-> >=20
-> > ...
-> >=20
-> > > +#define PWMCHIP_ALIGN ARCH_DMA_MINALIGN
-> > > +
-> > > +static void *pwmchip_priv(struct pwm_chip *chip)
-> > > +{
-> > > +	return (void *)chip + ALIGN(sizeof(*chip), PWMCHIP_ALIGN);
-> > > +}
-> >=20
-> > Why not use dma_get_cache_alignment() ?
->=20
-> Hmm, that function returns 1 if ARCH_HAS_DMA_MINALIGN isn't defined. The
-> idea of using ARCH_DMA_MINALIGN was to ensure that the priv data has the
-> same minimal alignment as kmalloc(). Took my inspriration from
-> https://lore.kernel.org/r/20240209-counter-align-fix-v2-1-5777ea0a2722@an=
-alog.com
-> . The implementation of dma_get_cache_alignment suggests that not all
-> archs provide ARCH_DMA_MINALIGN? Also there is ARCH_KMALLOC_MINALIGN.
-> Hmm, don't know yet what to do here.
+> >>> + */
+> >>> +static inline void *iommu_alloc_page_node(int nid, gfp_t gfp)
+> >>> +{
+> >>> +     return iommu_alloc_pages_node(nid, gfp, 0);
+> >>> +}
+> >>
+> >> TBH I'm not entirely convinced that saving 4 characters per invocation
+> >> times 11 invocations makes this wrapper worthwhile :/
+> >
+> > Let's keep them. After the clean-up that you suggested, there are
+> > fewer functions left in this file, but I think that it is cleaner to
+> > keep these remaining, as it is beneficial to easily distinguish when
+> > exactly one page is allocated vs when multiple are allocated via code
+> > search.
+>
+> But is it, really? It's not at all obvious to me *why* it would be
+> significantly interesting to distinguish fixed order-0 allocations from
+> higher-order or variable-order (which may still be 0) ones. After all,
+> there's no regular alloc_page_node() wrapper, yet plenty more callers of
+> alloc_pages_node(..., 0) :/
 
-Here it goes my 2 cents... AFAIK, ARCH_DMA_MINALIGN gives you the same alig=
-nment
-guarantees than devm_kmalloc() for instance. In some archs it will effectiv=
-ely be the
-same as ARCH_KMALLOC_MINALIGN. Now, I think it only matters if the owners o=
-f private
-data intend to have a DMA safe buffer in their structs. If that is the case=
-, we need
-to ensure a proper alignment for that structure. In IIO for example, the co=
-nstruct is
-like this:
+The pages that are allocated with order > 0 cannot be freed using
+iommu_put_pages_list(), without messing up refcounts in the tail
+pages. I think having a dedicated function that guarantees order = 0
+pages allocation makes it easier for the reviewer to follow the code,
+and ensures that only these pages are put on the freelist.
 
-https://elixir.bootlin.com/linux/latest/source/drivers/iio/dac/ltc2688.c#L9=
-6
+Even in the existing code, the order=0 allocation is wrapped in the
+*alloc_pgtable_page() function.
 
-The buffers should come last in the struct so they are alone in the line. I=
-n IIO,
-Jonathan has a strict policy for this. Like, even if you just want to trans=
-fer 2/4
-bytes via spi, we need to make the buffer safe (apparently there are some c=
-ontrollers
-only doing DMA - even for small transfers).
+Pasha
 
-I would say that if unsure, go with ARCH_DMA_MINALIGN. You just might waste=
- some
-space in some archs. OTOH, if you think DMA is not really a thing for pwm c=
-hips, you
-might go ARCH_KMALLOC_MINALIGN. And since you already have your own PWMCHIP=
-_ALIGN, it
-should be easy to change the requirements down the road (if needed).
 
-That said, I'm not familiar with dma_get_cache_alignment().
-
-- Nuno S=C3=A1
-
+>
+> Thanks,
+> Robin.
