@@ -1,117 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD2E7E78F;
-	Wed, 21 Feb 2024 13:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9924A80C1A
+	for <asahi@lists.linux.dev>; Wed, 21 Feb 2024 15:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708522170; cv=none; b=tyGtXln04cWn4qJh9+V6I03s1mtpp0RbiP/pyew4DDtk4mHxbw+e4qD+XToiEP36R/ax6Cksl2X6oKmU82LYt3/kyZ8XW79w+01p/fcelJ6ah/sQH2Jf6xC5RmiokuBy0ZBhNVzUK0eqXRsb0KHwKYithrjX4oSBxuDbPH4/iLo=
+	t=1708531110; cv=none; b=ExOMV17ivNta6rsAwPtrSbmDuS6UfDtDJYQpdGyNqu2xcMN6rPtI2Qe7v+uyZwuge/4BWCFXzNXkC4ynJjoKwiiY2xoFxC3Co/g/rjnRi2V7sbtQDn/VAyYX8BaGsFYf0gLOvMy2aeiJY5cfg5IW4uevzLAhRsK+Xmozmvb5pzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708522170; c=relaxed/simple;
-	bh=1uXA3tuk5DSrYBKlcNHOd+IpgOiOvjcTfXfos632w+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fkt8DjHEcCX6Q0tcMxgTAsfB4ucFIzJBkqFRxfcC8DhBVCGGeZrmymKG55kkIrymtbk/WKYgZf+Y+nvnUB/3MS3Gyc8ILHF9aTiMeUKqoHXq58MOhLoej4utNIt65L6up/wGODve7470JU80cvhSojfMqnqDUOVpXJSBaTN3yvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiBXL6Vx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1708531110; c=relaxed/simple;
+	bh=583zvZ5K092bfB0orJ2PgcyU7umvNc1oUGLBcoRXXX4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PCBYv/luc0RKqnvSly6/0kKAik9LFI7nU0zEbieX2O8qI0ZQ82+VDoPLI5S7q0nq+P3yVh90XbhNuiFGrLZVsYrGvtEpEom8WmzXWnHdWvlzBZMs7JsGB7e1UvsSpTiPyrqthFhtrkxO4LY491IBfiBPfPKxSOFjpDMKmplD+H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=yhsGUOxy; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiBXL6Vx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31A34C43390;
-	Wed, 21 Feb 2024 13:29:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1708522170;
-	bh=1uXA3tuk5DSrYBKlcNHOd+IpgOiOvjcTfXfos632w+8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YiBXL6VxZWpc4KOcEK2JVTNsblnglRNXqfOhTGNFEOOP3Z05SEHo/yJJZgGTfy6Yy
-	 x5i2ENXsswo0PsZfBbOQAsZyHoNv/onQNmWuZpA+8n/oxElvFdoqRi0mzLwWVmnusP
-	 4o020bDIPLnaGgwRaawuQ6ExPSxEwS9tjNHSOU3RRAgwx0t3fpNdN4N9xYYf8nH+f/
-	 AOtHcMNsU9xJMldnzfakVY3MacOvm0l/CKsIgCAZnZ61GsXNnBfAEtA1aDxQgVd0+n
-	 jM6rpcQZPk7BVwHx5KaEP4lSa8C5hCRPVxHKvPn3uCLDMLLgfnPAlq21qZXhNA05QB
-	 jflhzGp8tFFOg==
-Date: Wed, 21 Feb 2024 13:29:19 +0000
-From: Will Deacon <will@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com, bhelgaas@google.com,
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com, joro@8bytes.org,
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
-	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
-	samuel@sholland.org, suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
-	yu-cheng.yu@intel.com, rientjes@google.com
-Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
-Message-ID: <20240221132919.GC7273@willie-the-truck>
-References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
- <20231226200205.562565-11-pasha.tatashin@soleen.com>
- <20240213131210.GA28926@willie-the-truck>
- <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
- <20240216175752.GB2374@willie-the-truck>
- <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="yhsGUOxy"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 9C97787C86;
+	Wed, 21 Feb 2024 16:58:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1708531107;
+	bh=WIzfjaBAEjkLhIsoNUXTLDkm0woLaw8EudwwKdTR584=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=yhsGUOxyJd4B/I4t+5ZGfaL6x+mpvyRJPg6b0dIl9tD7ospqfz/h8JuV68fYZwyXD
+	 Nra5KtpzJRN4ePupz/Uim7lWcDZFEgrjvf9h0zHZc+LbQ57nVG1M5ptP0WJAZkmumC
+	 3AAd24qskI8Kb2m1afQVOBDmY6nnmJ59e/moFl4JNKmvbYrmG0PvCYub7w6gIefzZ2
+	 2nCGn2PC8pDHqdIiIriK3b94fW8ho91ovx9RvlovoudaT4w05ISWksJJm+0LbM8zpv
+	 V8ku7Gj7ETAyweMcv4PEM/IJRe02ownRnm1XyCAFhAwk1OsO4bwE9Y7Pv7GTEZ5sK1
+	 E0f/pHzdLorMA==
+Message-ID: <9cb3370e-770a-40e6-b890-ae9b5a15bd44@denx.de>
+Date: Wed, 21 Feb 2024 13:39:39 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] usb: xhci: Set up endpoints for the first 2
+ interfaces
+Content-Language: en-US
+To: j@jannau.net, Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.denx.de, asahi@lists.linux.dev
+References: <20240221-asahi-keyboards-v1-0-814b2e741790@jannau.net>
+ <20240221-asahi-keyboards-v1-2-814b2e741790@jannau.net>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20240221-asahi-keyboards-v1-2-814b2e741790@jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On Fri, Feb 16, 2024 at 02:48:00PM -0500, Pasha Tatashin wrote:
-> On Fri, Feb 16, 2024 at 12:58 PM Will Deacon <will@kernel.org> wrote:
-> >
-> > On Tue, Feb 13, 2024 at 10:44:53AM -0500, Pasha Tatashin wrote:
-> > > > >  SecPageTables
-> > > > > -              Memory consumed by secondary page tables, this currently
-> > > > > -              currently includes KVM mmu allocations on x86 and arm64.
-> > > > > +              Memory consumed by secondary page tables, this currently includes
-> > > > > +              KVM mmu and IOMMU allocations on x86 and arm64.
-> > >
-> > > Hi Will,
-> > >
-> > > > While I can see the value in this for IOMMU mappings managed by VFIO,
-> > > > doesn't this end up conflating that with the normal case of DMA domains?
-> > > > For systems that e.g. rely on an IOMMU for functional host DMA, it seems
-> > > > wrong to subject that to accounting constraints.
-> > >
-> > > The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
-> > > is passed to the iommu mapping functions. We do that from the vfio,
-> > > iommufd, and vhost. Without this flag, the memory useage is reported
-> > > in /proc/meminfo as part of  SecPageTables field, but not constrained
-> > > in cgroup.
-> >
-> > Thanks, Pasha, that explanation makes sense. I still find it bizarre to
-> > include IOMMU allocations from the DMA API in SecPageTables though, and
-> > I worry that it will confuse people who are using that metric as a way
-> > to get a feeling for how much memory is being used by KVM's secondary
-> > page-tables. As an extreme example, having a non-zero SecPageTables count
-> > without KVM even compiled in is pretty bizarre.
+On 2/21/24 08:25, Janne Grunau via B4 Relay wrote:
+> From: Janne Grunau <j@jannau.net>
 > 
-> I agree; I also prefer a new field in /proc/meminfo named
-> 'IOMMUPageTables'. This is what I proposed at LPC, but I was asked to
-> reuse the existing 'SecPageTables' field instead. The rationale was
-> that 'secondary' implies not only KVM page tables, but any other
-> non-regular page tables.
-> 
-> I would appreciate the opinion of IOMMU maintainers on this: is it
-> preferable to bundle the information with 'SecPageTables' or maintain
-> a separate field?
+> Apple USB keyboards carry the HID keyboard boot protocol on the second
+> interface. Using the second interface in the USB keyboard driver does
+> not work since the xhci has not allocated a transfer ring.
 
-I personally find it confusing to add all IOMMU page-table allocations
-to SecPageTables, considering that userspace could be using that today
-with a reasonable expectation that it's concerned only with virtual
-machine overhead. However, if the opposite conclusion was reached at LPC,
-then I really don't want to re-open the discussion and derail your
-patchset.
+So, what does this patch do ? That is not clear from the commit message.
 
-Will
+btw. missing SoB line.
