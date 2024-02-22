@@ -1,117 +1,149 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F19288AE
-	for <asahi@lists.linux.dev>; Wed, 21 Feb 2024 15:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7FD881F
+	for <asahi@lists.linux.dev>; Thu, 22 Feb 2024 00:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708531113; cv=none; b=FWdfE2Xm6sbvPbcKyTftG5N61pCsFMrkgOUzFDdMBlO+J+YySBP9mV7AWBAq9bDugJEN5T1Op0Ib98qVcpN96FW05APUVRat+8EgdGKM0mV/COvfDBO2dY37o1j1zxiLq1gtUlXUjktDRn5HW4Q/DtsGkcddJusXKhkhXPn2V20=
+	t=1708561317; cv=none; b=Eo7iV+RfBNtsYByFiMzbx/FU9o7z63Jj+/VzthBjEvhgI2L/JGiGr1tqMie5tTsU4B4c3ySJ47RJuNdm54xlCjS7i59AzizpCZLm6kBR2m98LdabCiWbRk2zn2hd7C0o6OJXCS8hjT6Ej5kJL1gRbQd242KTHCSzmUGi8TpvlTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708531113; c=relaxed/simple;
-	bh=fkJ1rRFo/YOwYCBp6nPPLiH2foLwknpd0AdGsRPU0GU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OoGZ/TbBeHPEcmkCVEanubNSRCDBq+rK7whonJ7X7MYptLlwY2Hkv2XcxOs+jXG1rTdsJ7rAHbBZIrbRhUflvhV9gIf0ZDorcfvPO1kOi0V6jKmw9e6pe0mQsKQ6spx0CReUutKVR8dNyMs/R5wYeL9p6aPwcIGOojJ0+aKYVyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=Z34EDWu0; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+	s=arc-20240116; t=1708561317; c=relaxed/simple;
+	bh=ULWx7GnGcbkzH+Hk8ucwqEKl61im90Y5FaAmJnZtJAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VKJJO7SddpjYqf7be5D6TL5wBU5XV3lZ/pk2dvYlG/p4T1WUDnJ/PduyS6YJsb728jfOg2Rj4+11T6FiMsOqOf92nz5bcb5nA1a8JHo/UaQ6VxLOL2ZgYHpIgyv1AfjcPcatnhkjL1fQLjzE+3HvIyOoi7zizNeTquOQrR/OeWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=d84pulH1; arc=none smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="Z34EDWu0"
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id D21F988022;
-	Wed, 21 Feb 2024 16:58:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1708531108;
-	bh=kqBX0JzVkB7wJ5qR0R42KTFV9YGAgPUEFw9oFwILHiE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Z34EDWu0OM+rg4YPB9SuwrgWtuw/HWMgaMXq9RkJvNDD7vEsX7VK424J37n6gMejy
-	 eVkP1qgOE5367mtVtvzhy8yGDfUnJKSFXuMxZOImsK9Bxah36D9oa2Pl+hHMlWw3uV
-	 gng7rgfW/ZgCuwu8rgHfB7eg1X7NlrHdVsgaSZCn6RSAMnTXUFvYeCFp0VChjpTEzU
-	 kW1+Pfir1gHWgE+gyj8blqsh2udUYPYTduAe/mh2hIn9dY8PIdJ+ODiyI/gYvahdUQ
-	 orkld9CVJOvtJ45ITxvUgKj2y0YYALDIIAPW9suIdbpSqvTmwGAW/aov2ZAxGnZG9g
-	 yNOhS1RPmWCpw==
-Message-ID: <2acb9976-a40e-4977-b7ca-2462e84251ed@denx.de>
-Date: Wed, 21 Feb 2024 13:41:32 +0100
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="d84pulH1"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-785d93d3f08so532297585a.2
+        for <asahi@lists.linux.dev>; Wed, 21 Feb 2024 16:21:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1708561314; x=1709166114; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9rn4mWdOER6tRcIB1iLpkedD4oyQHhFAy8BqoLay5HA=;
+        b=d84pulH1VExJKmqpZJ68MruR2+6LZCZtLsQPZ6VKNdEjur2urx1YSSTSxU/oBsnncH
+         QIepOGAXAK2/yZjTSsQIEhSUeC5hT4mWBXc+pcDvFpdwMvtCkox+5JPAVZzwx1Gl1udt
+         hDVzphJ4e5uBeIIYXR9D2KOi68Xo4+BTeHIx03UeLoTLwnX0ptKxXYr27x+sxdO6oPMY
+         pFIdypVefEQbWZuCRGI1NWX4brF2qBmMGWKctCdQ1d/GKr7GLHBIJ0iWSWVgG2UdrUjN
+         TGxotFGDtZ7bQID2yxGCFeWXfZXnTN1cLXUhQ/pQYanXI4YcSq+Z+RhNkgUGN4vKM7Rj
+         wzaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708561314; x=1709166114;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9rn4mWdOER6tRcIB1iLpkedD4oyQHhFAy8BqoLay5HA=;
+        b=vbE/M7DpcQmzTuFOmM9O7W+b8Eb5Ky4Tj+mWdY24sGCZvFmZKT7C+qoqV3x+nHN3QS
+         ydpHOoOzcy2gaRe8Z5P0oohv9OD0auKLUM/eFDUCvwwJq25IxSqcPaHC1U+yyNQZUbZM
+         63V+ivK0L2w6iZz2RqgQXpUXLwS3N1HaNOqQfT+GekSAk/0hwMGpzXQM9Y5lHFsAEN9q
+         cEmhBj6TXywOOfiEU8JoelvEBRIEchrWs8tgnkXXDR7ohIRIIX2P76iHRawIa+BxgRgI
+         ug6ZKp6MF4o2MhLp+lpfdfXO5phoDo5d1k/USHeTi7i0T44BYe7ZSYo32/Bymc63Z9Oz
+         0kag==
+X-Forwarded-Encrypted: i=1; AJvYcCVIQD3+q1Eu9GmrKgxgi+xvHw/GqxuxUKqFES/codIgg5W/4qowiqkDIknbqYem+/pZfCTCxKaqwiL0fynsN2uOSrcsNUA=
+X-Gm-Message-State: AOJu0YzAnFq3OPSjuUQnGWB+2JyUDVRUIpkNu/IMtieLtCwL0scsnt63
+	rWXsKgNu2rcHtvh/RUoQWj6T98+4vrefYGgDY/LodteoM2jQxkZ182G9fJR7kXQ=
+X-Google-Smtp-Source: AGHT+IGSJoZu17XCLPx2AJSIv4qmgm+x+WexJaUrwx1qRLzsVh+X4k/87Gsnxjx0m8GySXbzSbUfyw==
+X-Received: by 2002:ad4:5ce3:0:b0:68f:8d7c:73cd with SMTP id iv3-20020ad45ce3000000b0068f8d7c73cdmr10367841qvb.8.1708561314072;
+        Wed, 21 Feb 2024 16:21:54 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
+        by smtp.gmail.com with ESMTPSA id lb25-20020a056214319900b0068f9bb1a247sm1871280qvb.19.2024.02.21.16.21.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Feb 2024 16:21:53 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1rcwqW-00DQWC-Tn;
+	Wed, 21 Feb 2024 20:21:52 -0400
+Date: Wed, 21 Feb 2024 20:21:52 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Will Deacon <will@kernel.org>, akpm@linux-foundation.org,
+	alim.akhtar@samsung.com, alyssa@rosenzweig.io,
+	asahi@lists.linux.dev, baolu.lu@linux.intel.com,
+	bhelgaas@google.com, cgroups@vger.kernel.org, corbet@lwn.net,
+	david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org,
+	heiko@sntech.de, iommu@lists.linux.dev, jernej.skrabec@gmail.com,
+	jonathanh@nvidia.com, joro@8bytes.org,
+	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
+	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
+	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
+	samuel@sholland.org, suravee.suthikulpanit@amd.com,
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
+	yu-cheng.yu@intel.com, rientjes@google.com
+Subject: Re: [PATCH v3 10/10] iommu: account IOMMU allocated memory
+Message-ID: <20240222002152.GG13491@ziepe.ca>
+References: <20231226200205.562565-1-pasha.tatashin@soleen.com>
+ <20231226200205.562565-11-pasha.tatashin@soleen.com>
+ <20240213131210.GA28926@willie-the-truck>
+ <CA+CK2bB4Z+z8tocO79AdsAy+gmN_4aVHgFUsm_gYLUJ2zV1A6A@mail.gmail.com>
+ <20240216175752.GB2374@willie-the-truck>
+ <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/6] usb: kbd: Ignore Yubikeys
-Content-Language: en-US
-To: j@jannau.net, Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>
-Cc: u-boot@lists.denx.de, asahi@lists.linux.dev,
- Hector Martin <marcan@marcan.st>
-References: <20240221-asahi-keyboards-v1-0-814b2e741790@jannau.net>
- <20240221-asahi-keyboards-v1-4-814b2e741790@jannau.net>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <20240221-asahi-keyboards-v1-4-814b2e741790@jannau.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+CK2bDURTkZFo9uE9Bgfrz-NwgXqo4SAzLOW6Jb35M+eqUEaA@mail.gmail.com>
 
-On 2/21/24 08:25, Janne Grunau via B4 Relay wrote:
-> From: Hector Martin <marcan@marcan.st>
+On Fri, Feb 16, 2024 at 02:48:00PM -0500, Pasha Tatashin wrote:
+> On Fri, Feb 16, 2024 at 12:58 PM Will Deacon <will@kernel.org> wrote:
+> >
+> > On Tue, Feb 13, 2024 at 10:44:53AM -0500, Pasha Tatashin wrote:
+> > > > >  SecPageTables
+> > > > > -              Memory consumed by secondary page tables, this currently
+> > > > > -              currently includes KVM mmu allocations on x86 and arm64.
+> > > > > +              Memory consumed by secondary page tables, this currently includes
+> > > > > +              KVM mmu and IOMMU allocations on x86 and arm64.
+> > >
+> > > Hi Will,
+> > >
+> > > > While I can see the value in this for IOMMU mappings managed by VFIO,
+> > > > doesn't this end up conflating that with the normal case of DMA domains?
+> > > > For systems that e.g. rely on an IOMMU for functional host DMA, it seems
+> > > > wrong to subject that to accounting constraints.
+> > >
+> > > The accounting constraints are only applicable when GFP_KERNEL_ACCOUNT
+> > > is passed to the iommu mapping functions. We do that from the vfio,
+> > > iommufd, and vhost. Without this flag, the memory useage is reported
+> > > in /proc/meminfo as part of  SecPageTables field, but not constrained
+> > > in cgroup.
+> >
+> > Thanks, Pasha, that explanation makes sense. I still find it bizarre to
+> > include IOMMU allocations from the DMA API in SecPageTables though, and
+> > I worry that it will confuse people who are using that metric as a way
+> > to get a feeling for how much memory is being used by KVM's secondary
+> > page-tables. As an extreme example, having a non-zero SecPageTables count
+> > without KVM even compiled in is pretty bizarre.
 > 
-> We currently only support one USB keyboard device, but some devices
-> emulate keyboards for other purposes. Most commonly, people run into
-> this with Yubikeys, so let's ignore those.
-> 
-> Even if we end up supporting multiple keyboards in the future, it's
-> safer to ignore known non-keyboard devices.
-> 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> ---
->   common/usb_kbd.c | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
-> 
-> diff --git a/common/usb_kbd.c b/common/usb_kbd.c
-> index 4cbc9acb73..774d3555d9 100644
-> --- a/common/usb_kbd.c
-> +++ b/common/usb_kbd.c
-> @@ -120,6 +120,15 @@ struct usb_kbd_pdata {
->   
->   extern int __maybe_unused net_busy_flag;
->   
-> +/*
-> + * Since we only support one usbkbd device in the iomux,
-> + * ignore common keyboard-emulating devices that aren't
-> + * real keyboards.
-> + */
-> +const uint16_t vid_blocklist[] = {
-> +	0x1050, /* Yubico */
-> +};
-> +
->   /* The period of time between two calls of usb_kbd_testc(). */
->   static unsigned long kbd_testc_tms;
->   
-> @@ -465,6 +474,7 @@ static int usb_kbd_probe_dev(struct usb_device *dev, unsigned int ifnum)
->   	struct usb_endpoint_descriptor *ep;
->   	struct usb_kbd_pdata *data;
->   	int epNum;
-> +	int i;
->   
->   	if (dev->descriptor.bNumConfigurations != 1)
->   		return 0;
-> @@ -480,6 +490,15 @@ static int usb_kbd_probe_dev(struct usb_device *dev, unsigned int ifnum)
->   	if (iface->desc.bInterfaceProtocol != USB_PROT_HID_KEYBOARD)
->   		return 0;
->   
-> +	for (i = 0; i < ARRAY_SIZE(vid_blocklist); i++) {
-> +		if (dev->descriptor.idVendor == vid_blocklist[i]) {
-> +			printf("Ignoring keyboard device 0x%x:0x%x\n",
-> +			       dev->descriptor.idVendor,
-> +			       dev->descriptor.idProduct);
-> +			return 0;
-> +		}
-> +	}
+> I agree; I also prefer a new field in /proc/meminfo named
+> 'IOMMUPageTables'. This is what I proposed at LPC, but I was asked to
+> reuse the existing 'SecPageTables' field instead. The rationale was
+> that 'secondary' implies not only KVM page tables, but any other
+> non-regular page tables.
 
-I vaguely recall a discussion about previous version of this, I think 
-the suggestion was to make the list of ignored devices configurable via 
-environment variable, so users can add to that list from U-Boot shell. 
-Would it be possible to make it work this way ?
+Right, SeanC mentioned that the purpose of SecPageTables was to
+capture all non-mm page table radix allocations.
+
+> I would appreciate the opinion of IOMMU maintainers on this: is it
+> preferable to bundle the information with 'SecPageTables' or maintain
+> a separate field?
+
+I think you should keep them together. I don't think we should be
+introducing new counters, in general.
+
+Detailed memory profile should come from some kind of more dynamic and
+universal scheme. Hopefully that other giant thread about profiling
+will reach some conclusion.
+
+Jason
