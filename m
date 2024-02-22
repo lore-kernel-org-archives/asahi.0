@@ -1,57 +1,57 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE4F15699E
-	for <asahi@lists.linux.dev>; Thu, 22 Feb 2024 17:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21850157E9F
+	for <asahi@lists.linux.dev>; Thu, 22 Feb 2024 17:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1708623596; cv=none; b=rZWGmDToTBYuK0HNulaQZhc9RqaYcMNhZo2WBh+bnkwF4Eyvb65SxWgrizD/OU6MJo8a33ZyvaubrzOzHecgUuhlIRTWc7wZ+VPL1GYmJ5AnBTfW2RWdIdUaRwj+++4HT/acSr8XUgV819Y9rmi/28ZWr1jtinU8fkFP48rHZ/E=
+	t=1708623600; cv=none; b=GEjG2lceetGK9ryEEAuwZxNOIzjcXZZ+rbenfhF7TIQI/GDscCheqkfsfjR+1WC4h9Jyc5rbGbFKKtmlMauv/Gwhhz34aFjNidZUgg7mslKauILHlIJzPB9kVaz8bEvhZx0v8J1hKOSRBv0XmeytN8y/XPiqH2MJkPzj9W4PZ2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1708623596; c=relaxed/simple;
-	bh=MO9zupR8uvU3mAVWpwjGwF/5I/sWszt0d3zRSJTo/LE=;
+	s=arc-20240116; t=1708623600; c=relaxed/simple;
+	bh=E19FlXPLCClmGxfE1jT8maBicxS4I8yL0jj4j6R5o34=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e4xNKm9icbnMqysAe0hm3ilKNOloj0h185Ouy4wPGTJ8TFb0FvOPULgeorZLwL2pN0hOQwFeqdFtQrP/vT1jBiJNAF21bWVgCs3AbkyEg83zhiAEMS9d4Xk0hjsd6fkDZgvWcQHseEKPQ1QmkTlMTie8qOxMojANDys3WjBowog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=J2x69GBb; arc=none smtp.client-ip=209.85.160.180
+	 MIME-Version; b=uXxHckfcQVjbQY0DyZlG0ief+lIaAv0h7K9e69gG8mkZaMKRLJ9lbMxR5OUtNKf3DnMbdIsUGpRMylQBsIiZTvf3sX8SxsYq4zc1I4O2KFfIAAH6HsthHedRIcoZBbeiSaZRWetitCVDuZgrPEM59TvKVf15oytiode1jrPBeMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=Na1cwfa1; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="J2x69GBb"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-42dc86cc271so43538341cf.2
-        for <asahi@lists.linux.dev>; Thu, 22 Feb 2024 09:39:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="Na1cwfa1"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-42c754ddbc9so37000761cf.0
+        for <asahi@lists.linux.dev>; Thu, 22 Feb 2024 09:39:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708623589; x=1709228389; darn=lists.linux.dev;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1708623592; x=1709228392; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C9sOCaXXTnuRzyvLt2S+i0eLigQNp6D64P7FATFt28E=;
-        b=J2x69GBb3zqBkMSpRLJbJ2QOHYWJfho3xAES0b4OAb1/R8+DhyA3jq1o60LQn3oI70
-         yuPk7lazrU1A7qNAPz/5fXJ8PwTw5/tJ4WQOenTaev/T8BUtsKEj732+GwNNU18m0wjq
-         919lR+ZXIa+N076luR+G5QhWtYNnYSxGfYw1n1cCG3SHaGUoMX+PitC9sCQ92XVXik7i
-         cqyxdy0BRngtuVQlGY1BHxcwY+6r2GZeTOMltZn5v79MZZU6uCNeglvnElIMEB/INLx1
-         uct3x3+0AVnTaEAnjgAy2NgS1LY3mXWjhFBEjUHZ3Tp/QIFsiOYQSQLmRqStKPjoTAA6
-         1ZBw==
+        bh=1VAat8TBDVTapf/cNKrpWJJOpQ7pgkQwxbfklHwcriQ=;
+        b=Na1cwfa19/YmmWeFqHm/oGwywe+ukMpAmF6assc8L3jbX8tj2bKWRx6PrH4tVmP28q
+         KOPjtMPiGmTILhOJJV7LOCxBt0NvT9/3Qqn4zMXZ0uDHCgesbDuO5Xrcs2NLJFHfZFFQ
+         5og8wvClwHiZj7j7L/f+uU8B6uf4u/nuVOPKASWyGBbPQ2TtpGPU4GfLnpazUDlkH1Kj
+         8VZYzdxM3Qw6eczd6dTdM+4rlYSuzLIYvOqo1qNRlgYWwVa+mkty5rEADOzmtOtHFAdh
+         ec0dL2VoT5shFlweRxDed/aK4J6zH2YFDK9tDn1WMQQ2bZ90hUaXqP5/OzF5X1h4/tQb
+         ugRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708623589; x=1709228389;
+        d=1e100.net; s=20230601; t=1708623592; x=1709228392;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=C9sOCaXXTnuRzyvLt2S+i0eLigQNp6D64P7FATFt28E=;
-        b=v8ZDTr1tP4u6u00SM67lXHAW8p5f1fw4kfvraDudncZeXBKltrXMZTEK35Vk9/WQJk
-         2ltlBmLzJ+3+rheDe7grTwAOKRfPsxcaP5BleF5EUA9DAEA1rcRoUOkUp94I5JD1rGNe
-         5y7zFPmjgjEG34mibH8ZNhMTdSqE1gkty+TfyPnvi5z+0pGGYYOK3ZU9qnPKBY0+AxKD
-         rLJ6CHalDepzM/W3hlGHQwkZGcDcDE1dMpeYLOBg8mZhW5i3lHTnjIcVwSQqpDsmluSe
-         +pVK9Iu8HKBweUzv7AVuUnXs4f+9S24sQ10k8RkVwT7CjX59pT7KmbxhLC9NmIviUigo
-         Gjyg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpAfQSjZmAXv836kkTJPWGDPu6ETR7d3Kzdmo5CnbFzrGnQf6XV/Chs8mTfM6JeZMepxdz9lyXSUQvx5I9coslVF5yvEo=
-X-Gm-Message-State: AOJu0YwE12TgDyc1QWhhoPlNT2iINkv4Pg6dz4Q+4Hw+GdqsUmbbq/nP
-	jUF6xzWYmxThJ83a+cP0kXWTsJFxyzVG14biaTw1TILku19iotta4cErZN9u43Y=
-X-Google-Smtp-Source: AGHT+IEnNHT8mmpNAC8qGBK3waMn+7XKEftGRHH+gMR5BoK6c8bTMJMeqnbIkBxo5nuTApw4Lzgcmg==
-X-Received: by 2002:a05:622a:103:b0:42d:b355:1538 with SMTP id u3-20020a05622a010300b0042db3551538mr27425174qtw.55.1708623589605;
-        Thu, 22 Feb 2024 09:39:49 -0800 (PST)
+        bh=1VAat8TBDVTapf/cNKrpWJJOpQ7pgkQwxbfklHwcriQ=;
+        b=nnhsHjHGAZoUXQfjn1XWrqftOCUD12f1k7Hc6SeqvCzXUnU1dGdSzATgs9jp1nQMBM
+         jY6dB5gmgQE6h9YlOU7+G6HX4YlKlYQj5g67I9UGk1/kDQ2MeNINtJcmKx/PSLQuXTqq
+         owNhgsrtWo7toGyTBBUlVC3p+yJmocpQ92SfVt3tVdytljAvEOXNYOB6chkpaB5orouV
+         5Guu1bgoK3Xbip510l3ZzG8WHKruuDVqzGA35KRCEl+ufWwKj+OHP/XoO+oekEwfF1O4
+         nLM6ahFB6pI6hhZQ+4oV+yrlDGExcR5xoErWSpPlbnyJA8eIURYKY1Qr+J5YA+q81/ET
+         T+hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUbVdpGqdpsstLH7Au2QxAGGeTovu7LXAcU1SIQbihlwW/r66tjwmIBbCKHxItt2KtT5K1e8p2G7U7OVsScLz4aWkIVmUk=
+X-Gm-Message-State: AOJu0YzWpX0mtwtDoGtbQ+S0D3N/gKs6YcT1XISDja5bVPoT2P15d2J1
+	JzS3wbwTdv9tCID5G54rfaZ9PbKaYiqV/qkV+EDaHCsFcrgWsROu6BBOsaMP5B0=
+X-Google-Smtp-Source: AGHT+IHz4D/tAkiJUKSEKYTo9KdtwALGRXWZMTTOk9WSdUZLPjcPPGovrQbnMAx6QcYLnGz/9iyYUQ==
+X-Received: by 2002:ac8:5f4c:0:b0:42c:7b12:70eb with SMTP id y12-20020ac85f4c000000b0042c7b1270ebmr25812453qta.3.1708623592225;
+        Thu, 22 Feb 2024 09:39:52 -0800 (PST)
 Received: from soleen.c.googlers.com.com (249.240.85.34.bc.googleusercontent.com. [34.85.240.249])
-        by smtp.gmail.com with ESMTPSA id f17-20020ac86ed1000000b0042e5ab6f24fsm259682qtv.7.2024.02.22.09.39.48
+        by smtp.gmail.com with ESMTPSA id f17-20020ac86ed1000000b0042e5ab6f24fsm259682qtv.7.2024.02.22.09.39.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Feb 2024 09:39:49 -0800 (PST)
+        Thu, 22 Feb 2024 09:39:51 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: akpm@linux-foundation.org,
 	alim.akhtar@samsung.com,
@@ -99,9 +99,9 @@ To: akpm@linux-foundation.org,
 	rientjes@google.com,
 	bagasdotme@gmail.com,
 	mkoutny@suse.com
-Subject: [PATCH v5 04/11] iommu/io-pgtable-arm: use page allocation function provided by iommu-pages.h
-Date: Thu, 22 Feb 2024 17:39:30 +0000
-Message-ID: <20240222173942.1481394-5-pasha.tatashin@soleen.com>
+Subject: [PATCH v5 07/11] iommu/rockchip: use page allocation function provided by iommu-pages.h
+Date: Thu, 22 Feb 2024 17:39:33 +0000
+Message-ID: <20240222173942.1481394-8-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
 In-Reply-To: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
 References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
@@ -113,64 +113,80 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert iommu/io-pgtable-arm.c to use the new page allocation functions
+Convert iommu/rockchip-iommu.c to use the new page allocation functions
 provided in iommu-pages.h.
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 Acked-by: David Rientjes <rientjes@google.com>
 Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- drivers/iommu/io-pgtable-arm.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+ drivers/iommu/rockchip-iommu.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/iommu/io-pgtable-arm.c b/drivers/iommu/io-pgtable-arm.c
-index f7828a7aad41..3d23b924cec1 100644
---- a/drivers/iommu/io-pgtable-arm.c
-+++ b/drivers/iommu/io-pgtable-arm.c
-@@ -21,6 +21,7 @@
- #include <asm/barrier.h>
+diff --git a/drivers/iommu/rockchip-iommu.c b/drivers/iommu/rockchip-iommu.c
+index 2685861c0a12..e04f22d481d0 100644
+--- a/drivers/iommu/rockchip-iommu.c
++++ b/drivers/iommu/rockchip-iommu.c
+@@ -26,6 +26,8 @@
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
  
- #include "io-pgtable-arm.h"
 +#include "iommu-pages.h"
++
+ /** MMU register offsets */
+ #define RK_MMU_DTE_ADDR		0x00	/* Directory table address */
+ #define RK_MMU_STATUS		0x04
+@@ -727,14 +729,14 @@ static u32 *rk_dte_get_page_table(struct rk_iommu_domain *rk_domain,
+ 	if (rk_dte_is_pt_valid(dte))
+ 		goto done;
  
- #define ARM_LPAE_MAX_ADDR_BITS		52
- #define ARM_LPAE_S2_MAX_CONCAT_PAGES	16
-@@ -198,14 +199,10 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
+-	page_table = (u32 *)get_zeroed_page(GFP_ATOMIC | rk_ops->gfp_flags);
++	page_table = iommu_alloc_page(GFP_ATOMIC | rk_ops->gfp_flags);
+ 	if (!page_table)
+ 		return ERR_PTR(-ENOMEM);
  
- 	VM_BUG_ON((gfp & __GFP_HIGHMEM));
+ 	pt_dma = dma_map_single(dma_dev, page_table, SPAGE_SIZE, DMA_TO_DEVICE);
+ 	if (dma_mapping_error(dma_dev, pt_dma)) {
+ 		dev_err(dma_dev, "DMA mapping error while allocating page table\n");
+-		free_page((unsigned long)page_table);
++		iommu_free_page(page_table);
+ 		return ERR_PTR(-ENOMEM);
+ 	}
  
--	if (cfg->alloc) {
-+	if (cfg->alloc)
- 		pages = cfg->alloc(cookie, size, gfp);
--	} else {
--		struct page *p;
--
--		p = alloc_pages_node(dev_to_node(dev), gfp | __GFP_ZERO, order);
--		pages = p ? page_address(p) : NULL;
--	}
-+	else
-+		pages = iommu_alloc_pages_node(dev_to_node(dev), gfp, order);
+@@ -1061,7 +1063,7 @@ static struct iommu_domain *rk_iommu_domain_alloc_paging(struct device *dev)
+ 	 * Each level1 (dt) and level2 (pt) table has 1024 4-byte entries.
+ 	 * Allocate one 4 KiB page for each table.
+ 	 */
+-	rk_domain->dt = (u32 *)get_zeroed_page(GFP_KERNEL | rk_ops->gfp_flags);
++	rk_domain->dt = iommu_alloc_page(GFP_KERNEL | rk_ops->gfp_flags);
+ 	if (!rk_domain->dt)
+ 		goto err_free_domain;
  
- 	if (!pages)
- 		return NULL;
-@@ -233,7 +230,7 @@ static void *__arm_lpae_alloc_pages(size_t size, gfp_t gfp,
- 	if (cfg->free)
- 		cfg->free(cookie, pages, size);
- 	else
--		free_pages((unsigned long)pages, order);
-+		iommu_free_pages(pages, order);
+@@ -1083,7 +1085,7 @@ static struct iommu_domain *rk_iommu_domain_alloc_paging(struct device *dev)
+ 	return &rk_domain->domain;
  
- 	return NULL;
+ err_free_dt:
+-	free_page((unsigned long)rk_domain->dt);
++	iommu_free_page(rk_domain->dt);
+ err_free_domain:
+ 	kfree(rk_domain);
+ 
+@@ -1104,13 +1106,13 @@ static void rk_iommu_domain_free(struct iommu_domain *domain)
+ 			u32 *page_table = phys_to_virt(pt_phys);
+ 			dma_unmap_single(dma_dev, pt_phys,
+ 					 SPAGE_SIZE, DMA_TO_DEVICE);
+-			free_page((unsigned long)page_table);
++			iommu_free_page(page_table);
+ 		}
+ 	}
+ 
+ 	dma_unmap_single(dma_dev, rk_domain->dt_dma,
+ 			 SPAGE_SIZE, DMA_TO_DEVICE);
+-	free_page((unsigned long)rk_domain->dt);
++	iommu_free_page(rk_domain->dt);
+ 
+ 	kfree(rk_domain);
  }
-@@ -249,7 +246,7 @@ static void __arm_lpae_free_pages(void *pages, size_t size,
- 	if (cfg->free)
- 		cfg->free(cookie, pages, size);
- 	else
--		free_pages((unsigned long)pages, get_order(size));
-+		iommu_free_pages(pages, get_order(size));
- }
- 
- static void __arm_lpae_sync_pte(arm_lpae_iopte *ptep, int num_entries,
 -- 
 2.44.0.rc0.258.g7320e95886-goog
 
