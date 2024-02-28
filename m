@@ -1,119 +1,111 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78ABD3770B
-	for <asahi@lists.linux.dev>; Wed, 28 Feb 2024 10:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F06179B7E
+	for <asahi@lists.linux.dev>; Wed, 28 Feb 2024 18:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709115001; cv=none; b=u5YOAXUJbXNclqUofP40yJad/R/ZbkUcpYQMC+DXuf/y820VZTacGTRj4kbWBeW74SCqO7yPeNVWjKse6xx2q0mEMcP449qXaBswrv8601dVbYI2I8qkszusibC93cDKjL3HG/GlaLO5+HbeOor6dzYZB75v+/bDtBumsk4GOAA=
+	t=1709143942; cv=none; b=Hon/k5xjqiT8wdGKQNIMImQFVFFl0y0VF/JWs32Wb+IfeRODeuDjJ+HWPPdZvGpZZ+zsnanAep7Xq0VcVHn9TIx/5MsA5y+17m8o1Cd0F5z1auADsH+69DJQOfZQ/A1R1ai0hUDO+ibd8RHI68hlBKCrt3Q40YnA2gSIHFoSIgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709115001; c=relaxed/simple;
-	bh=gDrqe1TCdETutZDRLxWC3iPRvaMUjmZdXz4Pg6I6EyA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=foVNE5HzjBZz+jcp0zPI1WqamJyM5utdEhAbGU6fCZk+hVoFaHajpXrFwWT5rJ3y/VecNkDkjj2RSHKBsGz4xnXN+5QW4T9TazcVbbvO4KN6BPESxVMb4r+U6h4FjCHTi9BQmyTUz5Td6ofvmNMSibLwBawpzPK3Y2XRttDjgRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=A/Yt6XK8; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1709143942; c=relaxed/simple;
+	bh=Yr884w3gRhIkUcrkO7iPb9alAoxqN1T7r99JPoCCW48=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=RQ1MyH6TPiYznPZmYUSKnz6kkXrbj2ORUkGVDdSFx26by/QR/cGd/560KxcQnT1IFQUlaErTNPx+YL+1E7df9XHc4TLI7hMFbDZOGnRuQ+TJQ9PHQeatND9zaBoJzKW4UybKQkhkaaEUGmKR/rsrcEgg30FGiABuQkEnIQuepgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C5zs0B1/; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="A/Yt6XK8"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41S6VSf8009700;
-	Wed, 28 Feb 2024 10:09:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=F/s+thCeoDRDTCkLO/eC1Mvzb84PqPQpXoHEQ1eWBiA=; b=A/
-	Yt6XK8AhRgCQbjBtMjCSZqzDYrSnINWozkr0vnVTGqqJSVGHymK9ivj/k0x0o1uN
-	WYGtIoILPxfjc78PTJA2OvnoML0+UUsGUo585Mz1fSiPpVKaYw2klS+rrwXdCLCT
-	NOLUfZMGA963L5jPhQhT5QgIjm4N2uS2kmjpxTrQj63Y06y3+BDuTehFIK2+3y4O
-	5pb84JAY8o+RLBsmvEr/e2GS2g+5g4FFXlOGTMNsVqffYyYS0Fj8/f0QOlXMkGTH
-	zAjFwwNcdU00wbbm8hT+H/ChkIni/GoHbS5kvBpqw3VrFXSkj4+lGzbX84rg/B7y
-	zwz8ukycaCKE09OmzmFw==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3whp65sgwe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 Feb 2024 10:09:43 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41SA9gv8015023
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 Feb 2024 10:09:42 GMT
-Received: from [10.131.33.37] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 28 Feb
- 2024 02:09:37 -0800
-Message-ID: <9cc4e465-9979-e4cc-3d2d-84cca307f19e@quicinc.com>
-Date: Wed, 28 Feb 2024 15:39:34 +0530
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C5zs0B1/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=Vp6cPOGmx7IsY/Gom3ohdEDfNj/bokcwTvb4p5mmNMM=; b=C5zs0B1/cM6U8xsakGJPdG6417
+	wPcFHu98c3WNk4qeLfYCPWlzqEg0E1Fg1/oUZ+q/tggPocXRD+oPIL1D31h0YyBvj7Vb6V8Clw3mq
+	BavmONwx3Qcn+8psdn+glUGk/Ku0utUlvkVOIl3DMN/E5AUGg61YDU38+/9Rl4NoSGpnYvBwU74Ov
+	TrbDQF0YT4jUamaGBcN9uvtFhg9Soi0M2KXuFyotoQu+4XdS2ObIUsmhZX8I3iICefKMQvJobfi1m
+	daAZOo/b4U8RxiLCEJO/706yq4RA8JzPBs6hbgIvqH7xd0NB0SVS/2GXcwRF/4aiKkDLmqCu/fkOc
+	rSoQZIDQ==;
+Received: from [4.28.11.157] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rfOPf-0000000ARCA-2JrS;
+	Wed, 28 Feb 2024 18:12:15 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Keith Busch <kbusch@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	linux-nvme@lists.infradead.org
+Subject: [PATCH 01/21] block: add a queue_limits_set helper
+Date: Wed, 28 Feb 2024 10:11:55 -0800
+Message-Id: <20240228181215.873854-2-hch@lst.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240228181215.873854-1-hch@lst.de>
+References: <20240228181215.873854-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 0/2] Fix per-policy boost behavior
-Content-Language: en-US
-To: Viresh Kumar <viresh.kumar@linaro.org>
-CC: <dietmar.eggemann@arm.com>, <marcan@marcan.st>, <sven@svenpeter.dev>,
-        <alyssa@rosenzweig.io>, <rafael@kernel.org>, <xuwei5@hisilicon.com>,
-        <zhanjie9@hisilicon.com>, <sudeep.holla@arm.com>,
-        <cristian.marussi@arm.com>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <quic_rgottimu@quicinc.com>,
-        <linux-arm-kernel@lists.infradead.org>, <asahi@lists.linux.dev>,
-        <linux-pm@vger.kernel.org>
-References: <20240227165309.620422-1-quic_sibis@quicinc.com>
- <20240228050703.lixqywrtxravegc6@vireshk-i7>
- <c165dd32-1e51-2fac-38ae-dd7300d36372@quicinc.com>
- <20240228063511.rcntpb3dhbbhf7fb@vireshk-i7>
-From: Sibi Sankar <quic_sibis@quicinc.com>
-In-Reply-To: <20240228063511.rcntpb3dhbbhf7fb@vireshk-i7>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 56b7fyYeCFjEwNtiQNInKEoxnAAVmICM
-X-Proofpoint-ORIG-GUID: 56b7fyYeCFjEwNtiQNInKEoxnAAVmICM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-28_04,2024-02-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- impostorscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 mlxscore=0
- adultscore=0 lowpriorityscore=0 mlxlogscore=999 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402280080
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
+Add a small wrapper around queue_limits_commit_update for stacking
+drivers that don't want to update existing limits, but set an
+entirely new set.
 
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ block/blk-settings.c   | 18 ++++++++++++++++++
+ include/linux/blkdev.h |  1 +
+ 2 files changed, 19 insertions(+)
 
-On 2/28/24 12:05, Viresh Kumar wrote:
-> On 28-02-24, 10:44, Sibi Sankar wrote:
->> In the existing code, per-policy flags doesn't have any impact i.e.
->> if cpufreq_driver boost is enabled and one or more of the per-policy
->> boost is disabled, the cpufreq driver will behave as if boost is
->> enabled.
-> 
-> I see. Good catch. The first patch is fine, just explain the problem
-> properly and mention that no one is checking the policy->boost_enabled
-> field. It is never read.
-> 
->> I had to update the policy->boost_enabled value because we seem
->> to allow enabling cpufreq_driver.boost_enabled from the driver, but I
->> can drop that because it was just for book keeping.
-> 
-> So with cpufreq_driver->boost_enabled at init time, policy's
-> boost_enabled must be set too. Do that in the core during
-> initialization of the policy instead.
-> 
->> I didn't want
->> to include redundant info from another mail thread that I referenced in
->> the cover letter, but will add more info in the re-spin.
-> 
-> You don't have to, but you need to explain the exact problem in a bit
-> more detail since it wasn't obvious here.
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index b6bbe683d218fa..1989a177be201b 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -266,6 +266,24 @@ int queue_limits_commit_update(struct request_queue *q,
+ }
+ EXPORT_SYMBOL_GPL(queue_limits_commit_update);
+ 
++/**
++ * queue_limits_commit_set - apply queue limits to queue
++ * @q:		queue to update
++ * @lim:	limits to apply
++ *
++ * Apply the limits in @lim that were freshly initialized to @q.
++ * To update existing limits use queue_limits_start_update() and
++ * queue_limits_commit_update() instead.
++ *
++ * Returns 0 if successful, else a negative error code.
++ */
++int queue_limits_set(struct request_queue *q, struct queue_limits *lim)
++{
++	mutex_lock(&q->limits_lock);
++	return queue_limits_commit_update(q, lim);
++}
++EXPORT_SYMBOL_GPL(queue_limits_set);
++
+ /**
+  * blk_queue_bounce_limit - set bounce buffer limit for queue
+  * @q: the request queue for the device
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index a14ea934413850..dd510ad7ce4b45 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -889,6 +889,7 @@ queue_limits_start_update(struct request_queue *q)
+ }
+ int queue_limits_commit_update(struct request_queue *q,
+ 		struct queue_limits *lim);
++int queue_limits_set(struct request_queue *q, struct queue_limits *lim);
+ 
+ /*
+  * Access functions for manipulating queue properties
+-- 
+2.39.2
 
-ack, will make these changes in the next re-spin.
-
--Sibi
-
-> 
