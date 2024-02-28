@@ -1,35 +1,35 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E2579B83
-	for <asahi@lists.linux.dev>; Wed, 28 Feb 2024 18:12:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E460279B95
+	for <asahi@lists.linux.dev>; Wed, 28 Feb 2024 18:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709143943; cv=none; b=iwkJhIyVVNwUFtYyglmhArGxkGsVQrfNBSSOiNH420R2wLaI34LWwEexHQXlrgOSjx8eUQbrFO8xxt6afnoHAjTvZ5XFmtskB++4/bmJwkHeLs0Pbb1qZMb+5EhwGIJ2ncPHxQv7e9wqhZKS4f3Gba4r05KEok0e+QKZjOQdCtk=
+	t=1709143944; cv=none; b=BijeX1YZhBJnVeDX/rFO2Zw8WkzrCBOum9zzdxUyBD/NO9Eb6nCffdtUDbNQlaFA6OeVyQHbqOPg4vQkdtRpwIwpLUMKykwWYFUTKDGEpX+5R2hCH98K7e/LMJACfzqmD7BfnFMwURm4r42BAJY1yT0jE1E1OK3xrNJebvaPLuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709143943; c=relaxed/simple;
-	bh=c0iiMVqC1HcMKa6BgM8sFnbsAw2nZhdnOCQjy+MlK7Y=;
+	s=arc-20240116; t=1709143944; c=relaxed/simple;
+	bh=WoP63uRBYdRZ1OIema1ppXT493C57UwiUwioWCofG58=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=a6ofnF3SjbvDTq5bAzy/635/t/y8YuIcjQPBXkq5bdFGSvzdfRuEXYFICqkrJsk4RJAsPVCTY78E1V00puIqu9K+/u8el+RT2C9H149ucgd/3b2utPDb5H9yJsiCJuZuXYLb3lrrMzwfGsLvJV0pyuvYF6b/YMPy4w5wni25FSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YdMNfRV/; arc=none smtp.client-ip=198.137.202.133
+	 MIME-Version; b=hID7laeCStA6b2yM14i9BCOjtPslOvgmDwv1k0qxQhyhz38zWCRoicbYzRch9BzM0TrHnQ7b7WStovNCMNl3/DyhfMqL1yPHKNo0QKwhtYnLMfqJDEPV2icflY7bOFq/3CR4VJyjMj1291kLC0C2MOTaX7pLNSw5x+YFdfQQxlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uTxgtdqB; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YdMNfRV/"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uTxgtdqB"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=WCouwC0fhxTIxJn2BmBN/79OSqvHAzI8vVcSvmEQk0s=; b=YdMNfRV/ZbvSfSaHSnf8R098iY
-	oVORDurOREsZqpcmqqPeeQYtEorJJnvbtTu193QQOBO0Pdqqt4BD0fnir+1czxAZoNRdElh9sVYh8
-	0SGSgDcZuEDj/mkW6JcA04/MKmlMzSLB30U58IRWbZJwe2yK5g0rt0aRGZ+LGKnYUzVMu4pFQWfQE
-	z8ibVG/ZjxSncWOM8ZlpvKTXSuKPlTS3M0iVzzClaH1O4imTCWUhyuvaAX9FDw8lhGTfhnL+oaHDk
-	ICzT2lHNuDLyZ2a6ad0fwrp4w2VSXmwgA5WxPEok40WwfR1WXUO6jI4Ce1MR0XFrn4v9JaXJl5UH9
-	su0ijRng==;
+	bh=Zm4JLbDZWW3cDD71wNL5k2UJHQkkbzAlAsf9BMN7mGQ=; b=uTxgtdqBWK+FDBFF3FE+7QDjJu
+	71Tux2KwPk4+VNdFRK3IKgGPdkQ2UjoNLsSeToVCVBDVyILUqgw9TejsU5yKZzur9oX2CfMrZUZ65
+	TgZrLNgqIpaeEce5hxTFXoqlyBxQ9n8a8xlfdLvOPiEbjwLjr2durK3MeOCEr7omtGatFfAsFPJoO
+	Zu2oKDxCY1CsZcAhTWxiH8gcjV4hle4ttXxdTk2PxINXNrgISL/7Ci3qElsh2tZUJohwIIS+U/IKs
+	ZbkBkZ1aPrbLB1OhgYdDLKZmwEZqNVzFN7wdad6ynw10RjPAhXkgr07YDVhpxmVhrPjbJi7y89/LC
+	WP/FSV7A==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfOPf-0000000ARCC-3Qv7;
-	Wed, 28 Feb 2024 18:12:15 +0000
+	id 1rfOPk-0000000ARDg-0wGq;
+	Wed, 28 Feb 2024 18:12:20 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -40,9 +40,9 @@ To: Hector Martin <marcan@marcan.st>,
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 02/21] block: add a queue_limits_stack_bdev helper
-Date: Wed, 28 Feb 2024 10:11:56 -0800
-Message-Id: <20240228181215.873854-3-hch@lst.de>
+Subject: [PATCH 06/21] nvme: move max_integrity_segments handling out of nvme_init_integrity
+Date: Wed, 28 Feb 2024 10:12:00 -0800
+Message-Id: <20240228181215.873854-7-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240228181215.873854-1-hch@lst.de>
 References: <20240228181215.873854-1-hch@lst.de>
@@ -55,66 +55,59 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Add a small wrapper around blk_stack_limits that allows passing a bdev
-for the bottom device and prints an error in case of misaligned
-device. The name fits into the new queue limits API and the intent is
-to eventually replace disk_stack_limits.
+max_integrity_segments is just a hardware limit and doesn't need to be
+in nvme_init_integrity with the PI setup.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-settings.c   | 25 +++++++++++++++++++++++++
- include/linux/blkdev.h |  2 ++
- 2 files changed, 27 insertions(+)
+ drivers/nvme/host/core.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index 1989a177be201b..865fe4ebbf9b83 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -891,6 +891,31 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4a05045e409904..94d835f9dc90e9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1724,8 +1724,7 @@ int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
  }
- EXPORT_SYMBOL(blk_stack_limits);
  
-+/**
-+ * queue_limits_stack_bdev - adjust queue_limits for stacked devices
-+ * @t:	the stacking driver limits (top device)
-+ * @bdev:  the underlying block device (bottom)
-+ * @offset:  offset to beginning of data within component device
-+ * @pfx: prefix to use for warnings logged
-+ *
-+ * Description:
-+ *    This function is used by stacking drivers like MD and DM to ensure
-+ *    that all component devices have compatible block sizes and
-+ *    alignments.  The stacking driver must provide a queue_limits
-+ *    struct (top) and then iteratively call the stacking function for
-+ *    all component (bottom) devices.  The stacking function will
-+ *    attempt to combine the values and ensure proper alignment.
-+ */
-+void queue_limits_stack_bdev(struct queue_limits *t, struct block_device *bdev,
-+		sector_t offset, const char *pfx)
-+{
-+	if (blk_stack_limits(t, &bdev_get_queue(bdev)->limits,
-+			get_start_sect(bdev) + offset))
-+		pr_notice("%s: Warning: Device %pg is misaligned\n",
-+			pfx, bdev);
-+}
-+EXPORT_SYMBOL_GPL(queue_limits_stack_bdev);
-+
- /**
-  * disk_stack_limits - adjust queue limits for stacked drivers
-  * @disk:  MD/DM gendisk (top)
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index dd510ad7ce4b45..285e82723d641f 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -924,6 +924,8 @@ extern void blk_set_queue_depth(struct request_queue *q, unsigned int depth);
- extern void blk_set_stacking_limits(struct queue_limits *lim);
- extern int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
- 			    sector_t offset);
-+void queue_limits_stack_bdev(struct queue_limits *t, struct block_device *bdev,
-+		sector_t offset, const char *pfx);
- extern void disk_stack_limits(struct gendisk *disk, struct block_device *bdev,
- 			      sector_t offset);
- extern void blk_queue_update_dma_pad(struct request_queue *, unsigned int);
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+-static void nvme_init_integrity(struct gendisk *disk,
+-		struct nvme_ns_head *head, u32 max_integrity_segments)
++static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns_head *head)
+ {
+ 	struct blk_integrity integrity = { };
+ 
+@@ -1773,11 +1772,9 @@ static void nvme_init_integrity(struct gendisk *disk,
+ 	integrity.tuple_size = head->ms;
+ 	integrity.pi_offset = head->pi_offset;
+ 	blk_integrity_register(disk, &integrity);
+-	blk_queue_max_integrity_segments(disk->queue, max_integrity_segments);
+ }
+ #else
+-static void nvme_init_integrity(struct gendisk *disk,
+-		struct nvme_ns_head *head, u32 max_integrity_segments)
++static void nvme_init_integrity(struct gendisk *disk, struct nvme_ns_head *head)
+ {
+ }
+ #endif /* CONFIG_BLK_DEV_INTEGRITY */
+@@ -1954,6 +1951,7 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+ 	blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
+ 	blk_queue_max_segments(q, min_t(u32, USHRT_MAX,
+ 		min_not_zero(nvme_max_drv_segments(ctrl), ctrl->max_segments)));
++	blk_queue_max_integrity_segments(q, ctrl->max_integrity_segments);
+ 	blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
+ 	blk_queue_dma_alignment(q, 3);
+ 	blk_queue_write_cache(q, vwc, vwc);
+@@ -2017,8 +2015,7 @@ static void nvme_update_disk_info(struct nvme_ctrl *ctrl, struct gendisk *disk,
+ 	if (head->ms) {
+ 		if (IS_ENABLED(CONFIG_BLK_DEV_INTEGRITY) &&
+ 		    (head->features & NVME_NS_METADATA_SUPPORTED))
+-			nvme_init_integrity(disk, head,
+-					    ctrl->max_integrity_segments);
++			nvme_init_integrity(disk, head);
+ 		else if (!nvme_ns_has_pi(head))
+ 			capacity = 0;
+ 	}
 -- 
 2.39.2
 
