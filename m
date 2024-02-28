@@ -1,35 +1,35 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F06179B7E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D338479B89
 	for <asahi@lists.linux.dev>; Wed, 28 Feb 2024 18:12:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709143942; cv=none; b=Hon/k5xjqiT8wdGKQNIMImQFVFFl0y0VF/JWs32Wb+IfeRODeuDjJ+HWPPdZvGpZZ+zsnanAep7Xq0VcVHn9TIx/5MsA5y+17m8o1Cd0F5z1auADsH+69DJQOfZQ/A1R1ai0hUDO+ibd8RHI68hlBKCrt3Q40YnA2gSIHFoSIgM=
+	t=1709143943; cv=none; b=MWnbl3Hi6CkwNkR66hpi1mGsqszfFWza41H083fVF4Enh5y5FZF3jKHKCcx8Q0VoOPa5oKdWJioef4djgAKHu4CAweHoYxM3BDbTPzcnK49KsHs7gTMX7DMZsz1FJpXUxCS7iR+r0uqMX4ohmePPeWJnEjQRjXGyGC91TLa18T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709143942; c=relaxed/simple;
-	bh=Yr884w3gRhIkUcrkO7iPb9alAoxqN1T7r99JPoCCW48=;
+	s=arc-20240116; t=1709143943; c=relaxed/simple;
+	bh=fUQHXoK1YPDx41HRzXxMn3ZaOcURULOZsD2WamM6rB0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=RQ1MyH6TPiYznPZmYUSKnz6kkXrbj2ORUkGVDdSFx26by/QR/cGd/560KxcQnT1IFQUlaErTNPx+YL+1E7df9XHc4TLI7hMFbDZOGnRuQ+TJQ9PHQeatND9zaBoJzKW4UybKQkhkaaEUGmKR/rsrcEgg30FGiABuQkEnIQuepgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=C5zs0B1/; arc=none smtp.client-ip=198.137.202.133
+	 MIME-Version; b=C6wY874fmaguNWqNth/3+faviNgtFMTaJEfClDN4lL6n1VGz1DctTPK7pgmbjv0ftncu+EQ9OmRhmU1QiPL/6uld0J6n0pAa5VOrbQ0DZYzq6yt1dbPQWCKnIxdJZ3eS0P2Hjk2Z3t98LoxtJFRo110DfDU7FG+JTLV5eRizPEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FVWgLJuB; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="C5zs0B1/"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FVWgLJuB"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=Vp6cPOGmx7IsY/Gom3ohdEDfNj/bokcwTvb4p5mmNMM=; b=C5zs0B1/cM6U8xsakGJPdG6417
-	wPcFHu98c3WNk4qeLfYCPWlzqEg0E1Fg1/oUZ+q/tggPocXRD+oPIL1D31h0YyBvj7Vb6V8Clw3mq
-	BavmONwx3Qcn+8psdn+glUGk/Ku0utUlvkVOIl3DMN/E5AUGg61YDU38+/9Rl4NoSGpnYvBwU74Ov
-	TrbDQF0YT4jUamaGBcN9uvtFhg9Soi0M2KXuFyotoQu+4XdS2ObIUsmhZX8I3iICefKMQvJobfi1m
-	daAZOo/b4U8RxiLCEJO/706yq4RA8JzPBs6hbgIvqH7xd0NB0SVS/2GXcwRF/4aiKkDLmqCu/fkOc
-	rSoQZIDQ==;
+	bh=N9ZUJrFBkRWGc7DQIo6v0v4QgMBRqPp4BiTSXcA0fN4=; b=FVWgLJuB3qura5OdddjlVmSq8p
+	tbJUa/LIJr3d5UxtkdeLLBlHwiRjFaWTL+d5xJmitOI+lnuL9q3kXQhAN8PphU9XdLoe6thzLcZX1
+	pTFN9nue0FDVKfpSVVgMNBMl+H8oZgLoqP3TRbAY2LS6ULCt77a2ZjayZ8Ssd4AB5NQA4aQTecU4f
+	sQvtCFPluv6BjELvHzqzafZCLFAVBOMGvWUKMz+pjQj3i68f3ZP7iArTqgt+PCCsOa+oCurBYdqn+
+	HU9mKzO3cNj/4YKilxBugRrlOUnFyrTBew/XjDSD3BZR/hQurkZHHpxUduWE6L214r03GcYHa4AQv
+	cYHqzHwg==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfOPf-0000000ARCA-2JrS;
-	Wed, 28 Feb 2024 18:12:15 +0000
+	id 1rfOPg-0000000ARCE-0U7h;
+	Wed, 28 Feb 2024 18:12:16 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -40,9 +40,9 @@ To: Hector Martin <marcan@marcan.st>,
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: [PATCH 01/21] block: add a queue_limits_set helper
-Date: Wed, 28 Feb 2024 10:11:55 -0800
-Message-Id: <20240228181215.873854-2-hch@lst.de>
+Subject: [PATCH 03/21] nvme: set max_hw_sectors unconditionally
+Date: Wed, 28 Feb 2024 10:11:57 -0800
+Message-Id: <20240228181215.873854-4-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240228181215.873854-1-hch@lst.de>
 References: <20240228181215.873854-1-hch@lst.de>
@@ -55,57 +55,46 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Add a small wrapper around queue_limits_commit_update for stacking
-drivers that don't want to update existing limits, but set an
-entirely new set.
+All transports set a max_hw_sectors value in the nvme_ctrl, so make
+the code using it unconditional and clean it up using a little helper.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- block/blk-settings.c   | 18 ++++++++++++++++++
- include/linux/blkdev.h |  1 +
- 2 files changed, 19 insertions(+)
+ drivers/nvme/host/core.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/block/blk-settings.c b/block/blk-settings.c
-index b6bbe683d218fa..1989a177be201b 100644
---- a/block/blk-settings.c
-+++ b/block/blk-settings.c
-@@ -266,6 +266,24 @@ int queue_limits_commit_update(struct request_queue *q,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index eed3e22e24d913..74cd384ca5fc73 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1944,19 +1944,19 @@ static int nvme_configure_metadata(struct nvme_ctrl *ctrl,
+ 	return 0;
  }
- EXPORT_SYMBOL_GPL(queue_limits_commit_update);
  
-+/**
-+ * queue_limits_commit_set - apply queue limits to queue
-+ * @q:		queue to update
-+ * @lim:	limits to apply
-+ *
-+ * Apply the limits in @lim that were freshly initialized to @q.
-+ * To update existing limits use queue_limits_start_update() and
-+ * queue_limits_commit_update() instead.
-+ *
-+ * Returns 0 if successful, else a negative error code.
-+ */
-+int queue_limits_set(struct request_queue *q, struct queue_limits *lim)
++static u32 nvme_max_drv_segments(struct nvme_ctrl *ctrl)
 +{
-+	mutex_lock(&q->limits_lock);
-+	return queue_limits_commit_update(q, lim);
++	return ctrl->max_hw_sectors / (NVME_CTRL_PAGE_SIZE >> SECTOR_SHIFT) + 1;
 +}
-+EXPORT_SYMBOL_GPL(queue_limits_set);
 +
- /**
-  * blk_queue_bounce_limit - set bounce buffer limit for queue
-  * @q: the request queue for the device
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index a14ea934413850..dd510ad7ce4b45 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -889,6 +889,7 @@ queue_limits_start_update(struct request_queue *q)
- }
- int queue_limits_commit_update(struct request_queue *q,
- 		struct queue_limits *lim);
-+int queue_limits_set(struct request_queue *q, struct queue_limits *lim);
+ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
+ 		struct request_queue *q)
+ {
+ 	bool vwc = ctrl->vwc & NVME_CTRL_VWC_PRESENT;
  
- /*
-  * Access functions for manipulating queue properties
+-	if (ctrl->max_hw_sectors) {
+-		u32 max_segments =
+-			(ctrl->max_hw_sectors / (NVME_CTRL_PAGE_SIZE >> 9)) + 1;
+-
+-		max_segments = min_not_zero(max_segments, ctrl->max_segments);
+-		blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
+-		blk_queue_max_segments(q, min_t(u32, max_segments, USHRT_MAX));
+-	}
++	blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
++	blk_queue_max_segments(q, min_t(u32, USHRT_MAX,
++		min_not_zero(nvme_max_drv_segments(ctrl), ctrl->max_segments)));
+ 	blk_queue_virt_boundary(q, NVME_CTRL_PAGE_SIZE - 1);
+ 	blk_queue_dma_alignment(q, 3);
+ 	blk_queue_write_cache(q, vwc, vwc);
 -- 
 2.39.2
 
