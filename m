@@ -1,87 +1,137 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB5620B17
-	for <asahi@lists.linux.dev>; Wed, 28 Feb 2024 05:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B9D21342
+	for <asahi@lists.linux.dev>; Wed, 28 Feb 2024 05:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709096828; cv=none; b=YcqZmX92oNku+T4MaXNbw2jLulqWUW3NhvTTOaeiGWIf8NIfmbriJQ8ecPCM7MY5CrGISjkik+MyO5jCI9AzRk+5/yL+FeNLPP4/iOEshu4eVrbVBh5a1q06lU9rrSGdx7RX/Tdw5hTjzI/LfjHjnFkmlomDsjL7vm4E7wmIIRM=
+	t=1709096887; cv=none; b=irIAmhvcaxhkwaxcTKA+Xr2Yg9q2t/vM0Js8ZO/G98Pk5aQUq9KpoQT/PGhvyLsb82bw/XRHdRjn0OFqzXqKMTS6eEt/7/D7wIB8n+AW0vdjFWoqprbCNp1T+ytCpWN9RUsni7Ks953qxf/MEbKAW1yzXsZlJ2zlZRpdC4YXQWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709096828; c=relaxed/simple;
-	bh=NDYMj29qtQkbokr4QHvEZT1PzlIAohTJuF1hqdMFy6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/uReyP8FVvFW8niACpvGtpTHTB7nI5vHDla89H0Zg/AJVw6h56YZMji7G7Jj5hyYyrju1zD1/5nlV/MDAkqc0Wa7wOH90uDtyVylv8JDLOItJt4FB1CyJbnQedmmjLZVjFMkxiZpbxKKiIjhctKdUj7wo6KQAqgSaAOD+ALrCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p8N+1xyX; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1709096887; c=relaxed/simple;
+	bh=Xz8Fbm+En7VKrGzgfQfCUIEnQZXECWKt4BXo/LBqdbw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Dizu1RctySsFrccLGvoG5ilP2kEW6h3eVdOnKzjHShdnljVdeejf6xr4fOUDTfNsmLpZ0et7vQelxyNd/mRtP7rQe6oFmFY31VFyJbY413fu2rIqUnD0aEgjiZrNUJ7ozy55ZvKB2LPQ/cHyw1wdlq/rLeLlMY6ABwOo7av80wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=a6Nx1GOP; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p8N+1xyX"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-5cfd95130c6so3037139a12.1
-        for <asahi@lists.linux.dev>; Tue, 27 Feb 2024 21:07:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1709096826; x=1709701626; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R0hZi4IwldcafUQOYCQfscMvfB7SqlvXbZvfr+ma3bQ=;
-        b=p8N+1xyX7nTfgI3y2dz1EnKNKqi48ScIBeq4P8rk7qK9PDE7hcKyPxUn74sXE+xWU1
-         SxVR0/03Hb/Nfg7fxIuAf0+FVqYl3Lk8+ad4uv873C533alqC/mdAChO5FfQzPFtZ5i7
-         mgtmpcxDoleoej3H4gUHmARfwZncbqMss9BGK77K5/ZgACqWuhHCFHZOOtmWl9TZJYeO
-         beFUY6SuI57utYtdIlBzm0Nv2F5IloupcyiBi3FkEm9qlirobcYCpDVhq3FJ5K2Clc3q
-         Lzlav/7dW5fwDbMo/VZ+j81YldKR+9YJcY7BWVZ1Qs2NXKfrt4E3S1w/2V9DWHyPV7Oh
-         N/YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709096826; x=1709701626;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R0hZi4IwldcafUQOYCQfscMvfB7SqlvXbZvfr+ma3bQ=;
-        b=t7OGTc7GZKxzjJWCSRrRPIemHBH/l9XowznemGQr5gQiZKtEdU6ZKh3pf2qodTL9tj
-         XVvMT6kJe1cMsbJRSDecmj3PD1k0r4UIIqrUgiBKDW4B5vvbW2621Ohbo18M7iepLLvZ
-         Tpygkczve98uekZy2Na7AGg121wzbrrHLXZLdjTTAgWs9VRTB/WLYoQyY1rHjQiHa2Cc
-         I3nAWZ6WvMGXDzEB6MHzb+zQHttkO66EIzIisXpNBNIOarZYfZQCNfdfCNGzwttEL9lZ
-         gOXLZ/LzW9ZfHL1mr0fmwHrOtITndLkSdH9fNw+CYhWFf+HYTCqWxvDZHC+XCz07U77m
-         0RBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUH5QStuWLpsiaT/ow/MMtIFfHgNRbTUvhw0dKuGgCGMFFzhI+lXCRgRaue7P0iUx/s5WJQjtp4vw7rAzdKh6ZRdFZDPFY=
-X-Gm-Message-State: AOJu0YweVRx7oXE4S1pAX9mZ9t1uPPF6nmRseVEB6Ns5mB/Zqbn3wshJ
-	24NnJkPmFPX0ttZpzP49bJBmWPwj5Xf3nJ+ZXHlQoVRXD/3p+sXrFlK3aZ+G5tc=
-X-Google-Smtp-Source: AGHT+IEXutCfwWDafJj/H7lNFlXr51oQWF+rHXoJlF9WsTiohURTpGuvZH0dIKe1xDg4l5M6JS8/0Q==
-X-Received: by 2002:a17:90a:bd16:b0:299:275d:c346 with SMTP id y22-20020a17090abd1600b00299275dc346mr9882375pjr.5.1709096826514;
-        Tue, 27 Feb 2024 21:07:06 -0800 (PST)
-Received: from localhost ([122.172.83.95])
-        by smtp.gmail.com with ESMTPSA id sk6-20020a17090b2dc600b0029abe1c3f26sm511598pjb.1.2024.02.27.21.07.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 21:07:06 -0800 (PST)
-Date: Wed, 28 Feb 2024 10:37:03 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Sibi Sankar <quic_sibis@quicinc.com>
-Cc: dietmar.eggemann@arm.com, marcan@marcan.st, sven@svenpeter.dev,
-	alyssa@rosenzweig.io, rafael@kernel.org, xuwei5@hisilicon.com,
-	zhanjie9@hisilicon.com, sudeep.holla@arm.com,
-	cristian.marussi@arm.com, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, quic_rgottimu@quicinc.com,
-	linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH 0/2] Fix per-policy boost behavior
-Message-ID: <20240228050703.lixqywrtxravegc6@vireshk-i7>
-References: <20240227165309.620422-1-quic_sibis@quicinc.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="a6Nx1GOP"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41S4H5VP005737;
+	Wed, 28 Feb 2024 05:07:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=ADs/g9aCTtyhr3ZcZu770+VJGPQMhuNNrBigWTZW0bs=; b=a6
+	Nx1GOPgV8J6AznFtu1ar1mP0Je4eGk8RYDsd0mMCMkwE/ENoCvFJI8RFFLZOBqUf
+	gQ2TDUk/jvXV1C2XhqvAZ6Z8OUZy0rB4mDeArXjUz+dXuiuaV8GujtVulPfgrnBL
+	9rF9Pr5jh/KIn+bD+x61/8TeW8IoV83eRRfeh774xpXpmscARukHaEKs8VAgh6Yl
+	p2C/yZB7kWnxgERI4IDyMoDPS1tPJ+a6duWcTUHDvGiuffvc5n6sIrADI5UgZxHF
+	nmlxAcQD2qPmckubznQPFyO7AVGNbMcGv1WVeEXfWA3Cp6/MIlWkHARLuTWQdSYc
+	I0YGwlPDSw+F49UlkoxA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3whp65rxug-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Feb 2024 05:07:45 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 41S57iVo005663
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 28 Feb 2024 05:07:44 GMT
+Received: from [10.131.33.37] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 27 Feb
+ 2024 21:07:39 -0800
+Message-ID: <feb78f0d-1759-9478-f945-1f48107f6992@quicinc.com>
+Date: Wed, 28 Feb 2024 10:37:36 +0530
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240227165309.620422-1-quic_sibis@quicinc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 0/2] Fix per-policy boost behavior
+Content-Language: en-US
+To: Jie Zhan <zhanjie9@hisilicon.com>
+CC: <sudeep.holla@arm.com>, <cristian.marussi@arm.com>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <quic_rgottimu@quicinc.com>, <linux-arm-kernel@lists.infradead.org>,
+        <asahi@lists.linux.dev>, <linux-pm@vger.kernel.org>,
+        <dietmar.eggemann@arm.com>, <marcan@marcan.st>, <sven@svenpeter.dev>,
+        <alyssa@rosenzweig.io>, <rafael@kernel.org>, <viresh.kumar@linaro.org>,
+        <xuwei5@hisilicon.com>
+References: <20240227165309.620422-1-quic_sibis@quicinc.com>
+ <91118802-eb8c-6225-3610-05e16270b3c4@hisilicon.com>
+From: Sibi Sankar <quic_sibis@quicinc.com>
+In-Reply-To: <91118802-eb8c-6225-3610-05e16270b3c4@hisilicon.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: _nKpWWVZNxaO1gkA06UCXFH0lmoiA9zm
+X-Proofpoint-ORIG-GUID: _nKpWWVZNxaO1gkA06UCXFH0lmoiA9zm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-02-28_04,2024-02-27_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ impostorscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 mlxscore=0
+ adultscore=0 lowpriorityscore=0 mlxlogscore=999 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402280038
 
-On 27-02-24, 22:23, Sibi Sankar wrote:
-> Fix per-policy boost behavior by incorporating per-policy boost flag
-> in the policy->max calculation and setting the correct per-policy
-> boost_enabled value on devices that use cpufreq_enable_boost_support().
 
-I don't see the problem explained anywhere and the patches look
-incorrect too. The drivers aren't supposed to update the
-policy->boose_enabled value.
 
--- 
-viresh
+On 2/28/24 07:36, Jie Zhan wrote:
+> Hi Sibi,
+> 
+> Thanks for pointing this issue out.
+> 
+> However, I can't clearly see how the existing code fails.
+> 
+> cpufreq_frequency_table_cpuinfo() checks cpufreq_boost_enabled(),
+> and that should be already set in cpufreq_boost_trigger_state() before
+> calling cpufreq_boost_set_sw(), so presumably cpufreq_boost_set_sw()
+> is supposed to work as expected.
+> 
+> Can you explain this a bit further?
+
+In the existing code, per-policy flags doesn't have any impact i.e.
+if cpufreq_driver boost is enabled and one or more of the per-policy
+boost is disabled, the cpufreq driver will behave as if boost is
+enabled. The second issue was just book keeping, meaning some drivers
+enable boost by default, however the per-policy boost flags are set
+as disabled during boot.
+
+-Sibi
+
+> 
+> Cheers,
+> Jie
+> 
+> On 28/02/2024 00:53, Sibi Sankar wrote:
+>> Fix per-policy boost behavior by incorporating per-policy boost flag
+>> in the policy->max calculation and setting the correct per-policy
+>> boost_enabled value on devices that use cpufreq_enable_boost_support().
+>>
+>> Logs reported-by Dietmar Eggemann [1]:
+>>
+>> [1] 
+>> https://lore.kernel.org/lkml/265e5f2c-9b45-420f-89b1-44369aeb8418@arm.com/
+
+you can also have a look at ^^ thread for more info.
+
+>>
+>> Sibi Sankar (2):
+>>    cpufreq: Fix per-policy boost behavior on SoCs using
+>>      cpufreq_boost_set_sw
+>>    cpufreq: apple-soc: Align per-policy and global boost flags
+>>
+>>   drivers/cpufreq/apple-soc-cpufreq.c |  1 +
+>>   drivers/cpufreq/cpufreq.c           | 15 +++++++++------
+>>   drivers/cpufreq/freq_table.c        |  2 +-
+>>   3 files changed, 11 insertions(+), 7 deletions(-)
+>>
+> 
