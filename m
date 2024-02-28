@@ -1,33 +1,34 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E2879B8B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E2579B83
 	for <asahi@lists.linux.dev>; Wed, 28 Feb 2024 18:12:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709143943; cv=none; b=SKBHRJNy70hjojn4l43p8kvzlR2KjrjEFszLMmr/M/boQpRlS1HMeKrOUreMkzqK2k+1CY2LVfHuDMBvkqO9x1hJhRmSKwKh1MCcbLsFyaE7snvQAUYjB1AGdhOTeXtso02PG95jckkqds10gzfMPQO+Uv0GDtWPGiEi0r2ybHA=
+	t=1709143943; cv=none; b=iwkJhIyVVNwUFtYyglmhArGxkGsVQrfNBSSOiNH420R2wLaI34LWwEexHQXlrgOSjx8eUQbrFO8xxt6afnoHAjTvZ5XFmtskB++4/bmJwkHeLs0Pbb1qZMb+5EhwGIJ2ncPHxQv7e9wqhZKS4f3Gba4r05KEok0e+QKZjOQdCtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1709143943; c=relaxed/simple;
-	bh=X6n/l2Uf6cMkCASzzUS6bIqe8zK8+iDCFuRAEdVsafs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dwLRVGfcR05bq6kM+5yGeJFsHR1NEEqU8THZa8+dt/gHkLRWXNEoiwHcORD37EY2KOwmM0rhjiI9i2jLi2hDw/ic8vSYCOY1B5VHPiD+ocOol0+bg6WuiaIi8BrUgH1RFK1vk8ytJWniJPnA7UO+M8kpWjpRLciJ17BvzJE/Jcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=A7S18yVd; arc=none smtp.client-ip=198.137.202.133
+	bh=c0iiMVqC1HcMKa6BgM8sFnbsAw2nZhdnOCQjy+MlK7Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=a6ofnF3SjbvDTq5bAzy/635/t/y8YuIcjQPBXkq5bdFGSvzdfRuEXYFICqkrJsk4RJAsPVCTY78E1V00puIqu9K+/u8el+RT2C9H149ucgd/3b2utPDb5H9yJsiCJuZuXYLb3lrrMzwfGsLvJV0pyuvYF6b/YMPy4w5wni25FSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=YdMNfRV/; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="A7S18yVd"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="YdMNfRV/"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=aEybhb5DKf8nVItUAdL+3MWNqoRa/GexTube2U7lHnQ=; b=A7S18yVdFQav47F8lnH75PCq30
-	h/HNlzsu0/tZaNE2C8QDa+/5roHpuqdrHGZBfMcj+Rtz6wO0dsVqE+XcSE3EAkxN+S0nAC9WE4Wbn
-	obkgYb/cCcUluwq1ksET/aYkLIdqXJH/7Xb5gvronbunM071gdL8VyFFs6Nn7kHL8nUni4HOmzDzg
-	k84pJnDEDa0UecNd/bCdG9WeJqSSioLtWkMWVlVuEB6/CSFcqZ1QF6eYwH3mKgorvUQ4Jyosf5Weq
-	LjCuxX2B+lpDM3AbdPuweTSd/uexcIOwV4hCSYghtmR9sG9gOvrIFRvroBhHU08HLqZ1sF3dOKgi5
-	bxAb6D6g==;
+	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=WCouwC0fhxTIxJn2BmBN/79OSqvHAzI8vVcSvmEQk0s=; b=YdMNfRV/ZbvSfSaHSnf8R098iY
+	oVORDurOREsZqpcmqqPeeQYtEorJJnvbtTu193QQOBO0Pdqqt4BD0fnir+1czxAZoNRdElh9sVYh8
+	0SGSgDcZuEDj/mkW6JcA04/MKmlMzSLB30U58IRWbZJwe2yK5g0rt0aRGZ+LGKnYUzVMu4pFQWfQE
+	z8ibVG/ZjxSncWOM8ZlpvKTXSuKPlTS3M0iVzzClaH1O4imTCWUhyuvaAX9FDw8lhGTfhnL+oaHDk
+	ICzT2lHNuDLyZ2a6ad0fwrp4w2VSXmwgA5WxPEok40WwfR1WXUO6jI4Ce1MR0XFrn4v9JaXJl5UH9
+	su0ijRng==;
 Received: from [4.28.11.157] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rfOPf-0000000ARC3-1JA1;
+	id 1rfOPf-0000000ARCC-3Qv7;
 	Wed, 28 Feb 2024 18:12:15 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Hector Martin <marcan@marcan.st>,
@@ -39,10 +40,12 @@ To: Hector Martin <marcan@marcan.st>,
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
 	linux-nvme@lists.infradead.org
-Subject: convert nvme to atomic queue limits updates
-Date: Wed, 28 Feb 2024 10:11:54 -0800
-Message-Id: <20240228181215.873854-1-hch@lst.de>
+Subject: [PATCH 02/21] block: add a queue_limits_stack_bdev helper
+Date: Wed, 28 Feb 2024 10:11:56 -0800
+Message-Id: <20240228181215.873854-3-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240228181215.873854-1-hch@lst.de>
+References: <20240228181215.873854-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -52,23 +55,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi all,
+Add a small wrapper around blk_stack_limits that allows passing a bdev
+for the bottom device and prints an error in case of misaligned
+device. The name fits into the new queue limits API and the intent is
+to eventually replace disk_stack_limits.
 
-this series converts nvme to the new atomic queue limit updates, and
-as part of that refactors a lot of the setup code.  The first two
-patches are block layer patches already sent out as part of the md
-queue limits conversion and will hopefully get merged into Jens' tree
-soon.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+---
+ block/blk-settings.c   | 25 +++++++++++++++++++++++++
+ include/linux/blkdev.h |  2 ++
+ 2 files changed, 27 insertions(+)
 
-Diffstat:
- block/blk-settings.c          |   43 ++++
- drivers/nvme/host/apple.c     |   18 +-
- drivers/nvme/host/core.c      |  378 ++++++++++++++++++++----------------------
- drivers/nvme/host/fc.c        |    8 
- drivers/nvme/host/multipath.c |   13 -
- drivers/nvme/host/nvme.h      |   12 -
- drivers/nvme/host/rdma.c      |   13 -
- drivers/nvme/host/zns.c       |   24 --
- drivers/nvme/target/loop.c    |    5 
- include/linux/blkdev.h        |    3 
- 10 files changed, 272 insertions(+), 245 deletions(-)
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 1989a177be201b..865fe4ebbf9b83 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -891,6 +891,31 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ }
+ EXPORT_SYMBOL(blk_stack_limits);
+ 
++/**
++ * queue_limits_stack_bdev - adjust queue_limits for stacked devices
++ * @t:	the stacking driver limits (top device)
++ * @bdev:  the underlying block device (bottom)
++ * @offset:  offset to beginning of data within component device
++ * @pfx: prefix to use for warnings logged
++ *
++ * Description:
++ *    This function is used by stacking drivers like MD and DM to ensure
++ *    that all component devices have compatible block sizes and
++ *    alignments.  The stacking driver must provide a queue_limits
++ *    struct (top) and then iteratively call the stacking function for
++ *    all component (bottom) devices.  The stacking function will
++ *    attempt to combine the values and ensure proper alignment.
++ */
++void queue_limits_stack_bdev(struct queue_limits *t, struct block_device *bdev,
++		sector_t offset, const char *pfx)
++{
++	if (blk_stack_limits(t, &bdev_get_queue(bdev)->limits,
++			get_start_sect(bdev) + offset))
++		pr_notice("%s: Warning: Device %pg is misaligned\n",
++			pfx, bdev);
++}
++EXPORT_SYMBOL_GPL(queue_limits_stack_bdev);
++
+ /**
+  * disk_stack_limits - adjust queue limits for stacked drivers
+  * @disk:  MD/DM gendisk (top)
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index dd510ad7ce4b45..285e82723d641f 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -924,6 +924,8 @@ extern void blk_set_queue_depth(struct request_queue *q, unsigned int depth);
+ extern void blk_set_stacking_limits(struct queue_limits *lim);
+ extern int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 			    sector_t offset);
++void queue_limits_stack_bdev(struct queue_limits *t, struct block_device *bdev,
++		sector_t offset, const char *pfx);
+ extern void disk_stack_limits(struct gendisk *disk, struct block_device *bdev,
+ 			      sector_t offset);
+ extern void blk_queue_update_dma_pad(struct request_queue *, unsigned int);
+-- 
+2.39.2
+
