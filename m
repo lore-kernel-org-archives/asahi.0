@@ -1,67 +1,43 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED11D4205A;
-	Fri,  1 Mar 2024 12:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709297249; cv=none; b=H4qK/FX09nyWMjwFWQnJ0AqaETI2yHeNEnowxlIdDsh5OKfcy6RRyAL9zV+95wro069XxbDvHo42dOKnsHC8FnrSHRVJh8wf8VxBJjcQG2WmOqiwuoF5+oe2LpLATawIKOvRQkFPwDweIWF11cfgqrj8JX5BCyY6JkGuvICUp1Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709297249; c=relaxed/simple;
-	bh=hA0oxwD27gd74f5RciQ0gAwJyLc3AOc6ENazGRzlsA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cfoZjahUq3l+yScVLWlGSno08DbXOeYGdDERBlcJ3z1pJEVixW6p3YbuDYKQLy9YWBMucRCacQyQUAJUy/jRI8W/SQVQl5yOWe1FIflkZRiPXKhsQCvqz89JFuI7XYxV4XXKP505uG4YnQ42v57/v1yTVSG9pjOwPVvgyV/iy5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=17zvLga4; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="17zvLga4"
-Received: from 8bytes.org (p4ffe0c3c.dip0.t-ipconnect.de [79.254.12.60])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id B32031C2C89;
-	Fri,  1 Mar 2024 13:47:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1709297243;
-	bh=hA0oxwD27gd74f5RciQ0gAwJyLc3AOc6ENazGRzlsA8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE5A6F523
+	for <asahi@lists.linux.dev>; Fri,  1 Mar 2024 16:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1709310035; cv=none; b=l1sg8SRipSNcx2XfNJSb1exBH9+W5cGj+l/nGTT/oKnTq3fJGlasgy62/EgGH8wvrqnMbjU2X6l+9Bl3iAaD4ykRoSacKn+XX9C5XjsSk90qFyJEoErj5OuvyqvLGjZRZI+QiGAohhKwyamzGc7kgEcRIpBZVaETYVuZ4AZcOic=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1709310035; c=relaxed/simple;
+	bh=Q/6VTHUKNf9I9FR2ySABVg9EyTZVleFCvryEkQoiKKE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZGW7zA5Zy/FGESIRTO4PrJU/pV6UcU/T3Ef77QE2Cq5sTMP/F40mK9GaK3FvpbpS9WyHbpsEJtz7fYKMuNM2PBV16xhQcdg+6OyJRHYFkTKDKu9U03K+SWXMqo/qZ3OuTCDQs9dsK0HRw5qs2SWay0Z8D3YXzYVV9njR9Ni2RLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ppqohgi3; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ppqohgi3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 387BAC433F1;
+	Fri,  1 Mar 2024 16:20:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1709310034;
+	bh=Q/6VTHUKNf9I9FR2ySABVg9EyTZVleFCvryEkQoiKKE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=17zvLga4k0NTgX7vMeySb0BST/85bdOAY7Tbmc6qXLWdcX5iiVdGYAFNMGHwTHhaD
-	 283fe6n+XYrQ/bHfCjsAfEvCK0QPphrx/G0/uJLueU+GPWo0u0fURkWHAClQ45C9uI
-	 uIvO1RmSja0KtwTEwIzL5JJM9GJ/LcAvmkyaz6Qi9DbfkNzr9uSWNtRbOriy+5pRPV
-	 2gQtzJ+O2Br8Ta3rRxwqFFTiug2NvFzLQFRpROnF95KN8tzg5yj5MpDAvgx2Dm/psw
-	 sDfN2jQw/qIHXKrhff0JF5WdLh5syukwy7nwIhemdPGPS4RXoyorYt7ID45BQAFQpD
-	 VrRA+CYGCvnTg==
-Date: Fri, 1 Mar 2024 13:47:21 +0100
-From: Joerg Roedel <joro@8bytes.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+	b=ppqohgi3b4Z5DCU8Ta0SyRg9u6t5r4/HdbdcfJPZ54w/JS2bRcH/hsEEHBhfmfnBm
+	 mZvZPjP4Ru6eAQeL4VRWjgLPZ7jvzPJjMItuZI+DDu8x1dUp7lBwEOoIFxu0+nwwWN
+	 p8bz9SGCJbVhiMajfgwmVfyPGbq6XXGxxPxBfjOdBjN5RUwX1CckMkJQ8EK+Z8Z7Q2
+	 Rt407m0SnOA2251ur2MjHeRGkaw/NHTXGlxElGixKkTDFkxbSPFF+PWL4OvbBbs56d
+	 fBVutx11VumgV4ZlEJVwCPjo0G6YmO5JCDsjWj2Jho04QPgO7mcejFGAfwHqd8JUek
+	 gV3B89gdT3IMg==
+Date: Fri, 1 Mar 2024 09:20:31 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
 Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Rob Clark <robdclark@gmail.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Jean-Philippe Brucker <jean-philippe@linaro.org>,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, virtualization@lists.linux.dev
-Subject: Re: [PATCH 1/4] iommu: constify pointer to bus_type
-Message-ID: <ZeHOWXuNLhQlSrxM@8bytes.org>
-References: <20240216144027.185959-1-krzysztof.kozlowski@linaro.org>
+	Sagi Grimberg <sagi@grimberg.me>,
+	James Smart <james.smart@broadcom.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+	linux-nvme@lists.infradead.org
+Subject: Re: convert nvme to atomic queue limits updates
+Message-ID: <ZeIAT5uY36cLkVpJ@kbusch-mbp.mynextlight.net>
+References: <20240228181215.873854-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -70,8 +46,16 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240216144027.185959-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240228181215.873854-1-hch@lst.de>
 
-On Fri, Feb 16, 2024 at 03:40:24PM +0100, Krzysztof Kozlowski wrote:
+On Wed, Feb 28, 2024 at 10:11:54AM -0800, Christoph Hellwig wrote:
+> Hi all,
+> 
+> this series converts nvme to the new atomic queue limit updates, and
+> as part of that refactors a lot of the setup code.  The first two
+> patches are block layer patches already sent out as part of the md
+> queue limits conversion and will hopefully get merged into Jens' tree
+> soon.
 
-Applied all, thanks.
+The whole series looks good. I see Jens has got the first two patches,
+so I'll rebase nvme-6.9 to that and apply the rest of the nvme patches.
