@@ -1,35 +1,35 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F0B3F9C5
-	for <asahi@lists.linux.dev>; Mon,  4 Mar 2024 14:06:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA3A3F9D5
+	for <asahi@lists.linux.dev>; Mon,  4 Mar 2024 14:06:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709561179; cv=none; b=ogpmjRzjzfPR6er58LNa4gyo5jCpcjfCNXDballsAQo3mavmJSSMI5HTHU+Ev/utXWm6MrQsbFpBk8sHhtqdNriOCfNEFd9oA5fECACP2RJy+VhzwpEvWE/Ut3USKH8rsdq/O01sZRd4UnnE+Ev7TR0eOXaOlFTCjGP5ROlnNKQ=
+	t=1709561186; cv=none; b=Rf7tGSdmPkNQCU9EmoO6ZSr9kyiHiy60spgJZ+nrsPEhu2V78yf3W+nE5QrCZSeTCTNsCz4v5Unfc3uLEjBeNPNh9cld/kVzp4jW2gjPD69EDCxzmAXBvxuovdWZIWIXQcn/cInEPbSEDUe1gdvN6vs+/HJRIg2gbZ/QNNfJX1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709561179; c=relaxed/simple;
-	bh=3G35h77oMILr7W9MGx5LCwENaM3hOJheXzXCc5Fz3+A=;
+	s=arc-20240116; t=1709561186; c=relaxed/simple;
+	bh=sJHY73hAwxjxnUrxZP81IiOld0RJROefyTgVlRvXIoQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iE/1kIoaCZ+E3wFPUCd0ro+cOXJ7FG+S8FiKsyoCBzHYlbtOV7Up3A8HHuqxtozWywPgXZABmGkRuFJ6m1Ub1Q06jB+IBrvDbz9fvfs5zNIMi4D7oqg7mtzANBKtyukPTSyZWLi4EAZzqqflmaHoOxI+qe8VmkQbs4Cc6Sc6Nes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1PEtEWPL; arc=none smtp.client-ip=198.137.202.133
+	 MIME-Version; b=NFkYbp+A5y4UCGH5c9lbXPN4T2ry1I1a+KXxVYFuar8D+AEYTQt0UknA+LnRMfDmQdy47wYbyzyydLu/XGZnSJF0Ar6+ti3uN7BmNwAR+EExmYlfZeCEkG+FUpHGU5USqE13jh3oGfLSgQ8kwPGvV/FxW5Zp+ZS/2WYIO8+k+9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=i2SnXyRB; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1PEtEWPL"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="i2SnXyRB"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
 	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=1iq0SDNjuAqju+qMj4DRxcdeQAcFblUDGrqSJeOZj5c=; b=1PEtEWPLE9j/Fk1J41jEOGaB5z
-	AA1XhRXzmIGFhtN49wtAB/JZ4oj6CDHbuCHXPWQCsDoGbazewUiSEkXl00rE2G2r8hjcMWVV+2J01
-	3DXhj0WoJJNLrTAxShFpmMEprVQtBwWZE0XbH0ANZG1Ysv1u4ZqF+HBLajxWuRep1o4DoR9PHGsA4
-	L4it77qy+QJ3/YBR/mEmVnkBlVjt/Vv1MmDj/e/uPKVcDkKJrBNI34ICO8ELPm7EvvoYgJVbttJog
-	qjRp3tsxx1qSFzcnudWFu426jk82ER58OLCyspOQhQX8z1LkfHRHuedrL+rDPVCdquSNYUCcjbdcL
-	Z1fTI0Qg==;
+	bh=ZLj5W501AVQC/4cgjQTrXpTD5MZ6OlMizDkHBWuICk4=; b=i2SnXyRBzlvoHKidmbg0saM8Rv
+	qGMlQ4i6gYSqL1bNcMgjQ5//qiHgCMMKZq1EHdanRPPLO7aT3/KMvmG4wVj5+yUiBA0GCS21ALevq
+	04ey9jEbx8NqnwA0qKFQhiMYTzLSNnNIupRRhUHoEiQBzwh24tsgYxYuM61xTzM+B5Fp/tdqgFee2
+	PWcLw2Phlty4e/YINLEx++16vBAtEdB8GTVVMZEfunMkHA9WJmWhpFv6q1D13GashlE/7pnyf+AZe
+	zPoMz7jaIUQo0HLu36K5zNTA2TnlBypWNeCIoXQ5Abu6wjLedXVbIV9uGCNe9V7eAYjuJuzrMm6sC
+	WhRbAuGQ==;
 Received: from [206.0.71.24] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rh8xG-00000009I5q-0oCL;
-	Mon, 04 Mar 2024 14:06:11 +0000
+	id 1rh8xL-00000009IBe-2MwT;
+	Mon, 04 Mar 2024 14:06:18 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -39,11 +39,10 @@ To: Hector Martin <marcan@marcan.st>,
 	Chaitanya Kulkarni <kch@nvidia.com>
 Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
 	asahi@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	Max Gurtovoy <mgurtovoy@nvidia.com>
-Subject: [PATCH 11/16] nvme: split out a nvme_identify_ns_nvm helper
-Date: Mon,  4 Mar 2024 07:04:55 -0700
-Message-Id: <20240304140500.78583-12-hch@lst.de>
+	linux-nvme@lists.infradead.org
+Subject: [PATCH 12/16] nvme: don't query identify data in configure_metadata
+Date: Mon,  4 Mar 2024 07:04:56 -0700
+Message-Id: <20240304140500.78583-13-hch@lst.de>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240304140500.78583-1-hch@lst.de>
 References: <20240304140500.78583-1-hch@lst.de>
@@ -56,77 +55,154 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Split the logic to query the Identify Namespace Data Structure, NVM
-Command Set into a separate helper.
+Move reading the Identify Namespace Data Structure, NVM Command Set out
+of configure_metadata into the caller.  This allows doing the identify
+call outside the frozen I/O queues, and prepares for using data from
+the Identify data structure for other purposes.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
 ---
- drivers/nvme/host/core.c | 38 ++++++++++++++++++++++++++------------
- 1 file changed, 26 insertions(+), 12 deletions(-)
+ drivers/nvme/host/core.c | 49 ++++++++++++++++------------------------
+ 1 file changed, 19 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f0686a872d0e30..9abcc389f0f3ae 100644
+index 9abcc389f0f3ae..a742fa10dd3091 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1831,12 +1831,35 @@ static bool nvme_ns_ids_equal(struct nvme_ns_ids *a, struct nvme_ns_ids *b)
- 		a->csi == b->csi;
+@@ -1855,32 +1855,26 @@ static int nvme_identify_ns_nvm(struct nvme_ctrl *ctrl, unsigned int nsid,
+ 	return ret;
  }
  
-+static int nvme_identify_ns_nvm(struct nvme_ctrl *ctrl, unsigned int nsid,
-+		struct nvme_id_ns_nvm **nvmp)
-+{
-+	struct nvme_command c = {
-+		.identify.opcode	= nvme_admin_identify,
-+		.identify.nsid		= cpu_to_le32(nsid),
-+		.identify.cns		= NVME_ID_CNS_CS_NS,
-+		.identify.csi		= NVME_CSI_NVM,
-+	};
-+	struct nvme_id_ns_nvm *nvm;
-+	int ret;
-+
-+	nvm = kzalloc(sizeof(*nvm), GFP_KERNEL);
-+	if (!nvm)
-+		return -ENOMEM;
-+
-+	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, nvm, sizeof(*nvm));
-+	if (ret)
-+		kfree(nvm);
-+	else
-+		*nvmp = nvm;
-+	return ret;
-+}
-+
- static int nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
- 		struct nvme_id_ns *id)
+-static int nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
+-		struct nvme_id_ns *id)
++static void nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
++		struct nvme_id_ns *id, struct nvme_id_ns_nvm *nvm)
  {
  	bool first = id->dps & NVME_NS_DPS_PI_FIRST;
  	unsigned lbaf = nvme_lbaf_index(id->flbas);
--	struct nvme_command c = { };
- 	struct nvme_id_ns_nvm *nvm;
- 	int ret = 0;
+-	struct nvme_id_ns_nvm *nvm;
+-	int ret = 0;
  	u32 elbaf;
-@@ -1849,18 +1872,9 @@ static int nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
+ 
+ 	head->pi_size = 0;
+ 	head->ms = le16_to_cpu(id->lbaf[lbaf].ms);
+-	if (!(ctrl->ctratt & NVME_CTRL_ATTR_ELBAS)) {
++	if (!nvm || !(ctrl->ctratt & NVME_CTRL_ATTR_ELBAS)) {
+ 		head->pi_size = sizeof(struct t10_pi_tuple);
+ 		head->guard_type = NVME_NVM_NS_16B_GUARD;
  		goto set_pi;
  	}
  
--	nvm = kzalloc(sizeof(*nvm), GFP_KERNEL);
--	if (!nvm)
--		return -ENOMEM;
+-	ret = nvme_identify_ns_nvm(ctrl, head->ns_id, &nvm);
+-	if (ret)
+-		goto set_pi;
 -
--	c.identify.opcode = nvme_admin_identify;
--	c.identify.nsid = cpu_to_le32(head->ns_id);
--	c.identify.cns = NVME_ID_CNS_CS_NS;
--	c.identify.csi = NVME_CSI_NVM;
--
--	ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, nvm, sizeof(*nvm));
-+	ret = nvme_identify_ns_nvm(ctrl, head->ns_id, &nvm);
- 	if (ret)
+ 	elbaf = le32_to_cpu(nvm->elbaf[lbaf]);
+ 
+ 	/* no support for storage tag formats right now */
+ 	if (nvme_elbaf_sts(elbaf))
 -		goto free_data;
 +		goto set_pi;
  
- 	elbaf = le32_to_cpu(nvm->elbaf[lbaf]);
+ 	head->guard_type = nvme_elbaf_guard_type(elbaf);
+ 	switch (head->guard_type) {
+@@ -1894,8 +1888,6 @@ static int nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
+ 		break;
+ 	}
  
+-free_data:
+-	kfree(nvm);
+ set_pi:
+ 	if (head->pi_size && head->ms >= head->pi_size)
+ 		head->pi_type = id->dps & NVME_NS_DPS_PI_MASK;
+@@ -1906,22 +1898,17 @@ static int nvme_init_ms(struct nvme_ctrl *ctrl, struct nvme_ns_head *head,
+ 		head->pi_offset = 0;
+ 	else
+ 		head->pi_offset = head->ms - head->pi_size;
+-
+-	return ret;
+ }
+ 
+-static int nvme_configure_metadata(struct nvme_ctrl *ctrl,
+-		struct nvme_ns_head *head, struct nvme_id_ns *id)
++static void nvme_configure_metadata(struct nvme_ctrl *ctrl,
++		struct nvme_ns_head *head, struct nvme_id_ns *id,
++		struct nvme_id_ns_nvm *nvm)
+ {
+-	int ret;
+-
+-	ret = nvme_init_ms(ctrl, head, id);
+-	if (ret)
+-		return ret;
++	nvme_init_ms(ctrl, head, id, nvm);
+ 
+ 	head->features &= ~(NVME_NS_METADATA_SUPPORTED | NVME_NS_EXT_LBAS);
+ 	if (!head->ms || !(ctrl->ops->flags & NVME_F_METADATA_SUPPORTED))
+-		return 0;
++		return;
+ 
+ 	if (ctrl->ops->flags & NVME_F_FABRICS) {
+ 		/*
+@@ -1930,7 +1917,7 @@ static int nvme_configure_metadata(struct nvme_ctrl *ctrl,
+ 		 * remap the separate metadata buffer from the block layer.
+ 		 */
+ 		if (WARN_ON_ONCE(!(id->flbas & NVME_NS_FLBAS_META_EXT)))
+-			return 0;
++			return;
+ 
+ 		head->features |= NVME_NS_EXT_LBAS;
+ 
+@@ -1957,7 +1944,6 @@ static int nvme_configure_metadata(struct nvme_ctrl *ctrl,
+ 		else
+ 			head->features |= NVME_NS_METADATA_SUPPORTED;
+ 	}
+-	return 0;
+ }
+ 
+ static u32 nvme_max_drv_segments(struct nvme_ctrl *ctrl)
+@@ -2092,6 +2078,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 		struct nvme_ns_info *info)
+ {
+ 	bool vwc = ns->ctrl->vwc & NVME_CTRL_VWC_PRESENT;
++	struct nvme_id_ns_nvm *nvm = NULL;
+ 	struct nvme_id_ns *id;
+ 	sector_t capacity;
+ 	unsigned lbaf;
+@@ -2108,6 +2095,12 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 		goto out;
+ 	}
+ 
++	if (ns->ctrl->ctratt & NVME_CTRL_ATTR_ELBAS) {
++		ret = nvme_identify_ns_nvm(ns->ctrl, info->nsid, &nvm);
++		if (ret < 0)
++			goto out;
++	}
++
+ 	blk_mq_freeze_queue(ns->disk->queue);
+ 	lbaf = nvme_lbaf_index(id->flbas);
+ 	ns->head->lba_shift = id->lbaf[lbaf].ds;
+@@ -2115,12 +2108,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 	capacity = nvme_lba_to_sect(ns->head, le64_to_cpu(id->nsze));
+ 
+ 	nvme_set_queue_limits(ns->ctrl, ns->queue);
+-
+-	ret = nvme_configure_metadata(ns->ctrl, ns->head, id);
+-	if (ret < 0) {
+-		blk_mq_unfreeze_queue(ns->disk->queue);
+-		goto out;
+-	}
++	nvme_configure_metadata(ns->ctrl, ns->head, id, nvm);
+ 	nvme_set_chunk_sectors(ns, id);
+ 	if (!nvme_update_disk_info(ns, id))
+ 		capacity = 0;
+@@ -2165,6 +2153,7 @@ static int nvme_update_ns_info_block(struct nvme_ns *ns,
+ 
+ 	ret = 0;
+ out:
++	kfree(nvm);
+ 	kfree(id);
+ 	return ret;
+ }
 -- 
 2.39.2
 
