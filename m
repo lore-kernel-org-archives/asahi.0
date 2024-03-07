@@ -1,51 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E2B482EF
-	for <asahi@lists.linux.dev>; Mon,  4 Mar 2024 16:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC196F50D
+	for <asahi@lists.linux.dev>; Thu,  7 Mar 2024 08:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709569661; cv=none; b=T0+rZ5sIWDSnVVEMZFVxEueXjtn/V7DTITWaRlvzUFT7g2/ZV3OPpOYPzTLOVypk5mfw4F4xkQvt2DBOJSwJAr1Vs2LAaNkO4mvn5m+84nnRpF5w/F8QSAH/biGykF5uynMN1GtBQAA2ohu13Njb3CCoW4BxHy4fELNWbVCT/is=
+	t=1709800762; cv=none; b=adgxH2USVtUFfy4fXejHDA39MeMYZk3/USg/VvFTBxIv5GHz69p2Rh4EV6ArD3QN21L1tNAa2lMSeV9kn/Yu70CN2i+/b0EZJE1f9lQ2QHwJXo66NYGsR+pQ4UPHuuu7y/VjFJpdUeBiAeEo+ySnSQh0ZF+m2v/Rag/3oZcS6Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709569661; c=relaxed/simple;
-	bh=ErpHc1wY2DdF0bf6Q9UhJU+DPezctKIzUn/CC0SyCKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WZc8gx/s3WynSz+kVKEbq2lac/7Kdm4TvHyiibKu/aZuEWl3AIlnIHWP5b6eaDD/U510vUJPMxFoB4E616ufvs5iCHsfKOissX4Lq75aK+q0SwD0tYCq3T/0/14pbS/pfpe0+/xKz+LEJMZoF0DQZg8XOPVfoAWDGg4KIHyhc58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r/nwn9cQ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r/nwn9cQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8620C433F1;
-	Mon,  4 Mar 2024 16:27:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1709569660;
-	bh=ErpHc1wY2DdF0bf6Q9UhJU+DPezctKIzUn/CC0SyCKA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r/nwn9cQfmkoewWXmnWsIMp/UwRQcvCtKIXpUxU+/8LNmGzYSUOmxH1nKnJC3IMTb
-	 2oIpIqzB9xKp+qF/oHxzsV6PeI588pEdOkzrssvH4QbKOseONm+FkOz489N0PgKbfH
-	 CMwYc8vLZMnU8WQcfJIWxKArKNj+8q7n6ckQKov0uhoi/9lHyk9Hdna87Up0o+G1Ka
-	 Ow2jR8LFFWLFj61I4f2+feaL2nFj7lkOjodmVzw3+tZEG5ip8xx1sid9WCytor4AM2
-	 yYyyOJGLwqJZ+2sHytn5EpRJYRWCILwVl/WoOARLaMYTLILafuvsKPUh+qntKEfxsR
-	 +AeILfxpRV6sQ==
-Date: Mon, 4 Mar 2024 09:27:37 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	James Smart <james.smart@broadcom.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
-	linux-nvme@lists.infradead.org
-Subject: Re: convert nvme to atomic queue limits updates v2
-Message-ID: <ZeX2eSKE5OSAgbGh@kbusch-mbp.mynextlight.net>
-References: <20240304140500.78583-1-hch@lst.de>
+	s=arc-20240116; t=1709800762; c=relaxed/simple;
+	bh=NuF+qPJABFgOg7vA4V2O7cmy7VCmpDEn/7jbFfX/J2Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qiLW5lzJLg41fAoFkl3LaorKyNMuKr140GVZ0v9wWvr1wyNppr/wED64qfen+cjBO9Nx+Z8q3ck8oHXCiIwl6Dlst/Gw3nuvNiCLN28CuOqmhgPixxMZKLFlpvai2FeiZFNGr5vjxg4pJ3GuYvwzBtpq58o+Je5lwLxwBvWLra4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51334491779so199279e87.0
+        for <asahi@lists.linux.dev>; Thu, 07 Mar 2024 00:39:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1709800759; x=1710405559;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NuF+qPJABFgOg7vA4V2O7cmy7VCmpDEn/7jbFfX/J2Y=;
+        b=Xbd4nfWVCD8ohU8qdVzWlBDe1usmJItyHff25l0j1jkDTKs68/sggpKSYrjMLeeWOV
+         80Zqp10w/tVXBLMOS/uARP5G+yNm9nsbnU7wbYfOhV87c+KBsu7N+6DF0CqxhPxS/rAM
+         BP18hWqXOKAMwNt4p+BiGkSBYrYJzpU5180TPgHHnRjC9e8c8kLkX049eyz/mmrQSggO
+         HfEuoBRLXrMvxbXaT5SebzwOTJdzcILNY2k+L3yN6W8yCYAQWhU/5taIkKraG8yodDNL
+         dPDvHM+4toI17ytRMqF/YYHAaZowNoAdnzs45/lFaAVohjE0oRbfgITbDwjw13b5qXrW
+         HB5w==
+X-Forwarded-Encrypted: i=1; AJvYcCVUDulBD+S9cmOz/RZBAi0PSGNQVstflMX7moeC0lYIGLOTRYGc918fKqvtdAW/F35VvypvsrbYHXV0lJzMzPuWoAEFh84=
+X-Gm-Message-State: AOJu0YwKn4M3U53LsJGOFs5VU7yiOPFmOI8VniYlIZ3+Sjef4wM9Ec8u
+	4Ajpayk2kLyh9raEFfP+AMw6ZfI9tfY1sY9NN+qiXL+KWVlXJTzP
+X-Google-Smtp-Source: AGHT+IEl+WlZVJiVq8IZf5wSRagWHVG0u/tE7mCQhtsneylApmt2R47hLVqxcBZNSr8Aph9hLCoG5A==
+X-Received: by 2002:a05:651c:104b:b0:2d2:4532:e6e9 with SMTP id x11-20020a05651c104b00b002d24532e6e9mr709243ljm.3.1709800759017;
+        Thu, 07 Mar 2024 00:39:19 -0800 (PST)
+Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
+        by smtp.gmail.com with ESMTPSA id fm11-20020a05600c0c0b00b00412de55135dsm1912930wmb.41.2024.03.07.00.39.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Mar 2024 00:39:18 -0800 (PST)
+Message-ID: <ab89b6a6-7015-430c-90de-6709c342ed90@grimberg.me>
+Date: Thu, 7 Mar 2024 10:39:16 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240304140500.78583-1-hch@lst.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: convert nvme to atomic queue limits updates v2
+Content-Language: en-US
+To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+ linux-nvme@lists.infradead.org
+References: <20240304140500.78583-1-hch@lst.de>
+ <ZeX2eSKE5OSAgbGh@kbusch-mbp.mynextlight.net>
+From: Sagi Grimberg <sagi@grimberg.me>
+In-Reply-To: <ZeX2eSKE5OSAgbGh@kbusch-mbp.mynextlight.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks, applied to nvme-6.9.
+
+On 04/03/2024 18:27, Keith Busch wrote:
+> Thanks, applied to nvme-6.9.
+
+FWIW,
+
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
