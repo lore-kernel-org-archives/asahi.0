@@ -1,70 +1,114 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC196F50D
-	for <asahi@lists.linux.dev>; Thu,  7 Mar 2024 08:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9C0548E8
+	for <asahi@lists.linux.dev>; Fri,  8 Mar 2024 08:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1709800762; cv=none; b=adgxH2USVtUFfy4fXejHDA39MeMYZk3/USg/VvFTBxIv5GHz69p2Rh4EV6ArD3QN21L1tNAa2lMSeV9kn/Yu70CN2i+/b0EZJE1f9lQ2QHwJXo66NYGsR+pQ4UPHuuu7y/VjFJpdUeBiAeEo+ySnSQh0ZF+m2v/Rag/3oZcS6Us=
+	t=1709887934; cv=none; b=f83pTGKcTSF5XAE4eXZjJ1OBWnlQZgdN6BzZjrcu/PNkZwB1/DMSSmigXNAsCZT7gdAZXgTN+l+tIZrnkzCZ3aIWXOlrY7PVn8wlI4opOdDAVjbo/fNIDfntfY7s3Ru5mwM8QS4nPE9E1ayvZyFguxc5EETI6MXLo9DlW7+4afc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1709800762; c=relaxed/simple;
-	bh=NuF+qPJABFgOg7vA4V2O7cmy7VCmpDEn/7jbFfX/J2Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qiLW5lzJLg41fAoFkl3LaorKyNMuKr140GVZ0v9wWvr1wyNppr/wED64qfen+cjBO9Nx+Z8q3ck8oHXCiIwl6Dlst/Gw3nuvNiCLN28CuOqmhgPixxMZKLFlpvai2FeiZFNGr5vjxg4pJ3GuYvwzBtpq58o+Je5lwLxwBvWLra4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grimberg.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51334491779so199279e87.0
-        for <asahi@lists.linux.dev>; Thu, 07 Mar 2024 00:39:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709800759; x=1710405559;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NuF+qPJABFgOg7vA4V2O7cmy7VCmpDEn/7jbFfX/J2Y=;
-        b=Xbd4nfWVCD8ohU8qdVzWlBDe1usmJItyHff25l0j1jkDTKs68/sggpKSYrjMLeeWOV
-         80Zqp10w/tVXBLMOS/uARP5G+yNm9nsbnU7wbYfOhV87c+KBsu7N+6DF0CqxhPxS/rAM
-         BP18hWqXOKAMwNt4p+BiGkSBYrYJzpU5180TPgHHnRjC9e8c8kLkX049eyz/mmrQSggO
-         HfEuoBRLXrMvxbXaT5SebzwOTJdzcILNY2k+L3yN6W8yCYAQWhU/5taIkKraG8yodDNL
-         dPDvHM+4toI17ytRMqF/YYHAaZowNoAdnzs45/lFaAVohjE0oRbfgITbDwjw13b5qXrW
-         HB5w==
-X-Forwarded-Encrypted: i=1; AJvYcCVUDulBD+S9cmOz/RZBAi0PSGNQVstflMX7moeC0lYIGLOTRYGc918fKqvtdAW/F35VvypvsrbYHXV0lJzMzPuWoAEFh84=
-X-Gm-Message-State: AOJu0YwKn4M3U53LsJGOFs5VU7yiOPFmOI8VniYlIZ3+Sjef4wM9Ec8u
-	4Ajpayk2kLyh9raEFfP+AMw6ZfI9tfY1sY9NN+qiXL+KWVlXJTzP
-X-Google-Smtp-Source: AGHT+IEl+WlZVJiVq8IZf5wSRagWHVG0u/tE7mCQhtsneylApmt2R47hLVqxcBZNSr8Aph9hLCoG5A==
-X-Received: by 2002:a05:651c:104b:b0:2d2:4532:e6e9 with SMTP id x11-20020a05651c104b00b002d24532e6e9mr709243ljm.3.1709800759017;
-        Thu, 07 Mar 2024 00:39:19 -0800 (PST)
-Received: from [10.100.102.74] (46-117-80-176.bb.netvision.net.il. [46.117.80.176])
-        by smtp.gmail.com with ESMTPSA id fm11-20020a05600c0c0b00b00412de55135dsm1912930wmb.41.2024.03.07.00.39.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Mar 2024 00:39:18 -0800 (PST)
-Message-ID: <ab89b6a6-7015-430c-90de-6709c342ed90@grimberg.me>
-Date: Thu, 7 Mar 2024 10:39:16 +0200
+	s=arc-20240116; t=1709887934; c=relaxed/simple;
+	bh=7IY/EZDqLP3gMUE/l+/yAAJeCn0pnD9Wioy9NyED6Lg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RFTnM6l3atvf/vamcrt4dSKcng8iC2CzQmwa9BM7k+SeRqT1Ijp2lKCrDHSpaOEbvPnHL+2js2CSOXaTqPSmTitq/UOD+jxcj0oL6YYGr3XwFD7LJ+JgC8qQABVzaNV0Ynwl3ULQ8kdHwZkWjiXB+zsHYlPP5dq0iKLewWG3BK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1riVxH-0006wD-Dh; Fri, 08 Mar 2024 09:51:51 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1riVxF-0056NH-LB; Fri, 08 Mar 2024 09:51:49 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1riVxF-00245h-1p;
+	Fri, 08 Mar 2024 09:51:49 +0100
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Keith Busch <kbusch@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-nvme@lists.infradead.org,
+	kernel@pengutronix.de
+Subject: [PATCH] nvme-apple: Convert to platform remove callback returning void
+Date: Fri,  8 Mar 2024 09:51:10 +0100
+Message-ID:  <c035aaf3bffc16018d657dd3dab37751da9f3564.1709886922.git.u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: convert nvme to atomic queue limits updates v2
-Content-Language: en-US
-To: Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- James Smart <james.smart@broadcom.com>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
- linux-nvme@lists.infradead.org
-References: <20240304140500.78583-1-hch@lst.de>
- <ZeX2eSKE5OSAgbGh@kbusch-mbp.mynextlight.net>
-From: Sagi Grimberg <sagi@grimberg.me>
-In-Reply-To: <ZeX2eSKE5OSAgbGh@kbusch-mbp.mynextlight.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1926; i=u.kleine-koenig@pengutronix.de; h=from:subject:message-id; bh=7IY/EZDqLP3gMUE/l+/yAAJeCn0pnD9Wioy9NyED6Lg=; b=owGbwMvMwMXY3/A7olbonx/jabUkhtRXFxuNnWMqXT9anH93aYpN+jqX35sXCL215MhIvVXhx hz7zpq1k9GYhYGRi0FWTJHFvnFNplWVXGTn2n+XYQaxMoFMYeDiFICJKBVzMDRUezX4rGy54M6x KzDjVXJC4vSFNc6rG8L/iohPVPgZquzBtq554Zt1PoLF/JGyfbKZG542LBJdmq9lMXtV8Ef9Zam 2gc0um6dIdX7eZOQ1JbGqN9ZgfcyUb/c+cXr8b3JRLWUs/X7VTG2OpJ37jnnW6ZcUmxLnaF+LNZ Ksmpi8nPFXTsbsRS+Yojxby/SuLrjJ+eRU8THX7I3axmuk+5mXXrMNPnTnanPQ1v4/96O9pJlue R6L5sx+FvN31wqZh59ZqoMttBYd5Ell+HLqYPvs/RYdVw9LJj955RF4ZFOayHoVufpwsR1dm3Mi WbbMCC1gPTnzYIV/z2uHyzVWeXnBThc4dmwMShdboGsPAA==
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: asahi@lists.linux.dev
 
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
 
-On 04/03/2024 18:27, Keith Busch wrote:
-> Thanks, applied to nvme-6.9.
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new(), which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-FWIW,
+Trivially convert this driver from always returning zero in the remove
+callback to the void returning variant.
 
-Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/nvme/host/apple.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index a480cdeac288..dd6ec0865141 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1532,7 +1532,7 @@ static int apple_nvme_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int apple_nvme_remove(struct platform_device *pdev)
++static void apple_nvme_remove(struct platform_device *pdev)
+ {
+ 	struct apple_nvme *anv = platform_get_drvdata(pdev);
+ 
+@@ -1547,8 +1547,6 @@ static int apple_nvme_remove(struct platform_device *pdev)
+ 		apple_rtkit_shutdown(anv->rtk);
+ 
+ 	apple_nvme_detach_genpd(anv);
+-
+-	return 0;
+ }
+ 
+ static void apple_nvme_shutdown(struct platform_device *pdev)
+@@ -1598,7 +1596,7 @@ static struct platform_driver apple_nvme_driver = {
+ 		.pm = pm_sleep_ptr(&apple_nvme_pm_ops),
+ 	},
+ 	.probe = apple_nvme_probe,
+-	.remove = apple_nvme_remove,
++	.remove_new = apple_nvme_remove,
+ 	.shutdown = apple_nvme_shutdown,
+ };
+ module_platform_driver(apple_nvme_driver);
+
+base-commit: 8ffc8b1bbd505e27e2c8439d326b6059c906c9dd
+-- 
+2.43.0
+
