@@ -1,105 +1,67 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6707484
-	for <asahi@lists.linux.dev>; Sun, 17 Mar 2024 15:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F14E1CAB7
+	for <asahi@lists.linux.dev>; Sun, 17 Mar 2024 16:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710690726; cv=none; b=ino7mgllpP+521VKM3GCRm/fdKDvF0cWpYKvTE5Q5m+RqXGfkA9CgnJC9qp4pzk+2zP/XgomxteR7piqccMHVhajXTw+/rfwvog5jw9zQfZZuj0MHAI/2A2Iat9w7p7G/bzvCj9SDvPw0Dcujm6DeJmJs2gZfU8KYdt8vyrJEeQ=
+	t=1710692569; cv=none; b=pHu8ehrPmOZejgdHcuOziQGbaxbw373A/yXyGCDVOfYDXKdWXNOZkzvmiwrqixsNaSTGm73eFGPyRd9KKlj2QjHeCHpZ7dyGWkjosNR1kXkDZlONZyMhqLufXWsPAc/KsB370iUOJ5s2l9/8Ek1ZGqBSzSvop0rYEMpEpJh6U6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710690726; c=relaxed/simple;
-	bh=vQja5Dm7E4FH7vNoFvly5tZGPWKpufqkDJpGdyD+kH4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZFK3nlubkrlghZNI0VY9mRReE6NuGKRJ6uaSiwKsC72W3B6dwLD3skzxDap+3ijAU8sqe8bysH83hb19cA0N/pvR+JFuVeUsEg20VS+zETuWxvP0Fv6jKGKvyL8YrrxiKXxNF27UPVucGhh7l3sFgaeufVREcjS4XauYL01s2pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-565c6cf4819so7951226a12.1
-        for <asahi@lists.linux.dev>; Sun, 17 Mar 2024 08:52:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710690723; x=1711295523;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S+1daUl7RQJOxUjNePwtmnUxaWO4L5xItqbCG0F5brY=;
-        b=lOz+S9T1TaDtKbhkDjqzY3uzAQPe+zZwh8xh5DrbFkykKOvhzlIW2XhoPHUDnCw6vh
-         4Tg+uDjx+5a/u155roBuvXrEMots104mk2SbGXPXiiYrAt1f33y8E8pkWy5BBahnNCRt
-         sRrbDsPudBbzOZ0gPiGzS7McQMISqX8PyB4Jqu2t5CIyk1rtMmvylQx30BBE64ELeXNr
-         g54SabERjqVr9NSLtVUsi7PC5NRMibnCiO5gCvYhF5z6Kpvsu0pXF91PFWPWoUY63hnR
-         dpMXhLp902mkw9l+urRZ5FfmW4WfKOSdDqkZWAfVRpExocnjs3p0WLlLZmhng2zhzv6T
-         4MTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXd2S3byCBPP7QMnUXxTlAwKrcC0ZKRR2aLY7b7eocWxTn2nAsSjU4XNnlPj51CH1ItjnsAjslg95FLlwuRVbiCgOsG8uU=
-X-Gm-Message-State: AOJu0YxuXHpyKE6JvyKjyTkAxCrlGwbEYbHdvxPalWfLecjeKj13KSDT
-	gDilzi1hLymNcqWgscYBXfY89da2j5e7TKkvrYa/wGZ/b5otMwMy5XLKhgsFk0Q=
-X-Google-Smtp-Source: AGHT+IH0rypFR0/xNdgc24jvy8OykCgf0aPS++5kDe7NZA+ouo5vzUDDdH1+H5VewD9OWjBsJqQhfQ==
-X-Received: by 2002:a17:906:2dcf:b0:a46:b821:83aa with SMTP id h15-20020a1709062dcf00b00a46b82183aamr1162742eji.23.1710690722810;
-        Sun, 17 Mar 2024 08:52:02 -0700 (PDT)
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com. [209.85.208.43])
-        by smtp.gmail.com with ESMTPSA id h25-20020a17090634d900b00a454438091fsm3871072ejb.70.2024.03.17.08.52.02
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 Mar 2024 08:52:02 -0700 (PDT)
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-568aa3096e9so3859659a12.0
-        for <asahi@lists.linux.dev>; Sun, 17 Mar 2024 08:52:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWaKUJFzNnhc9PLGpyAMMjqQLy8hZ8473KX5vxGVN4UGpQg+rJ0WxT0ucv68GlVzLmT3DkvTyFvscAS/D+kC/zqdgev/iM=
-X-Received: by 2002:a17:907:6d16:b0:a46:a8b8:f4cf with SMTP id
- sa22-20020a1709076d1600b00a46a8b8f4cfmr3390694ejc.35.1710690722073; Sun, 17
- Mar 2024 08:52:02 -0700 (PDT)
+	s=arc-20240116; t=1710692569; c=relaxed/simple;
+	bh=N6FL/e9x4ptavD2QAh/+6xRKevvnNmA2/id4TiavkmQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VJVsLTwgeBKyLNkvuIfittb9z8+GTAUB/QJZnPis6HdV0IkB+OVpLVA0SOmkLukrh3NNx6aWF0zqzwp4E/UOaMEE0m+/PYx8GjIPzDKoqMy9sCzLOpVxDxvUzyslGdloaWzG3w7JWtph0TkogU/kSWLpr23K2UGDYRjNA9kzVE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=lk3lETIT; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="lk3lETIT"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 1409A878E9;
+	Sun, 17 Mar 2024 17:22:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1710692559;
+	bh=EbZm3rVdKPwU+yIx/o5aFdLsK9ERT+VfrYMegUsrzr0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lk3lETITsjpTPMlTr22P84bl0NFJeD6q+krpKg5I6L6nQzJs/t6TKEloHUNPu232F
+	 Y2o7aVKqftdu1Em/2Bq0kBQet75i/FutIKIA4D4s4eX5X8tXbElQz8nX+G3Xzs52Di
+	 q3zf8fqDEoV6fIY5LGXPFPyM/NiL75tx4g18l7+TSc/UVFvxW1MiaYUp0F3KIWwGaL
+	 XhwGd2evexjcc1kZtD3Y4EWmkY01R6s/whAmEHLTZsPrV8CQ9YZR0MXjmvds4s3LId
+	 jpuib24AlFagnt3/mOBBrl2xKjN9O5YgYcaxTdKMyvq9cTADy52gAmUi3EpJvN6zc+
+	 PoCSRpZibBuDQ==
+Message-ID: <b994d7ed-b7cd-4725-a682-b4a1c0aed33f@denx.de>
+Date: Sun, 17 Mar 2024 17:06:22 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240317-apple_config-v1-0-1b862bc140a9@jannau.net>
-In-Reply-To: <20240317-apple_config-v1-0-1b862bc140a9@jannau.net>
-From: Neal Gompa <neal@gompa.dev>
-Date: Sun, 17 Mar 2024 08:51:25 -0700
-X-Gmail-Original-Message-ID: <CAEg-Je-mnLRGhSnMgwffXek-P4vJj=S8Kbog6EgwEyrQOpMgmw@mail.gmail.com>
-Message-ID: <CAEg-Je-mnLRGhSnMgwffXek-P4vJj=S8Kbog6EgwEyrQOpMgmw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] configs: apple: Switch to standard boot + small adjustments
-To: j@jannau.net
-Cc: Mark Kettenis <kettenis@openbsd.org>, Tom Rini <trini@konsulko.com>, 
-	Simon Glass <sjg@chromium.org>, u-boot@lists.denx.de, asahi@lists.linux.dev, 
-	Hector Martin <marcan@marcan.st>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/6] usb: xhci: Abort transfers with unallocated rings
+Content-Language: en-US
+To: j@jannau.net, Bin Meng <bmeng.cn@gmail.com>, Tom Rini
+ <trini@konsulko.com>, Simon Glass <sjg@chromium.org>,
+ Joe Hershberger <joe.hershberger@ni.com>
+Cc: u-boot@lists.denx.de, asahi@lists.linux.dev
+References: <20240317-asahi-keyboards-v2-0-d3f4b8384f68@jannau.net>
+ <20240317-asahi-keyboards-v2-3-d3f4b8384f68@jannau.net>
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20240317-asahi-keyboards-v2-3-d3f4b8384f68@jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On Sun, Mar 17, 2024 at 7:54=E2=80=AFAM Janne Grunau via B4 Relay
-<devnull+j.jannau.net@kernel.org> wrote:
->
-> This series contains a few misc config changes for Apple silicon
-> systems:
-> - switch from the deprecated distro boot scripts to standard boot
-> - allows EFI console resizing based on the video console size
-> - enables 16x32 bitmap fonts as Apple devices come with high DPI
->   displays
-> - enables 64-bit LBA addressing for USB storage devices larger than 2TB
->
+On 3/17/24 12:07 PM, Janne Grunau via B4 Relay wrote:
+> From: Janne Grunau <j@jannau.net>
+> 
+> Discovered while trying to use the second interface in the USB keyboard
+> driver necessary on Apple USB keyboards.
+> 
 > Signed-off-by: Janne Grunau <j@jannau.net>
-> ---
-> Hector Martin (1):
->       apple_m1_defconfig: Turn on CONFIG_SYS_64BIT_LBA
->
-> Janne Grunau (3):
->       configs: apple: Use "vidconsole,serial" as stdout/stderr
->       configs: apple: Enable CMD_SELECT_FONT and FONT_16X32
->       arm: apple: Switch to standard boot
->
->  arch/arm/Kconfig           |  2 +-
->  configs/apple_m1_defconfig |  3 +++
->  include/configs/apple.h    | 24 ++++--------------------
->  3 files changed, 8 insertions(+), 21 deletions(-)
-> ---
-> base-commit: f3c979dd0053c082d2df170446923e7ce5edbc2d
-> change-id: 20240317-apple_config-981fcd9028b9
->
 
-LGTM.
-
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-
-
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+Reviewed-by: Marek Vasut <marex@denx.de>
