@@ -1,267 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B75B18036
-	for <asahi@lists.linux.dev>; Sun, 17 Mar 2024 11:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BF3136A
+	for <asahi@lists.linux.dev>; Sun, 17 Mar 2024 11:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1710673633; cv=none; b=tjPAHMe41RtrG4ZRqJJI88sSoFv5fqB+Z8CbkylMElCB649ZzKPf3BXU3ZLCwtbmwMneBp/zCJw4PW95tYZzsJA5QY4djNk1Lj/TSaGIZkxPg5VzDT9jT+rpGiLnhP0VWZFW0PqeeimGKWi0vabMKUiARd57GERK3WL5NkX27Ww=
+	t=1710674821; cv=none; b=UXZQYXcHvpmAmvX1uQ3Cw9sB5Q+9oKh2jdJRxCZ5QAkLcebW1TddQ1i0akrw8l1MJUb7227tZa2pGtJ3q79rhZcYBpNkIP9+NJM473T+nsISPRl8qw9zH91AkZoRLp2cPo55FHtRVZ0VKon1G1jhtSA+4KexuOlloMIGH8AdtC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1710673633; c=relaxed/simple;
-	bh=wwRfCYWuTyGtW+/aaflnGN3hV6HW4lPU11PQDH52iOA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Vsbpq4ZPPXCz2x9sdd48it7NdWK6JdK3bMfCyhcss6X8Ti2+pFRekYR0bZ5OuVX0YlXqTai41ZW8dECr5XSPZdT0y70fhuw7yikP4ycZFjaGoulWHaTRPqPqQS4XZ3JInUAOtad/C52fekZqVyOHGSUYW9CqLy9XGvReAwgSCkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GXKNyJ8f; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GXKNyJ8f"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BB915C433A6;
-	Sun, 17 Mar 2024 11:07:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1710673632;
-	bh=wwRfCYWuTyGtW+/aaflnGN3hV6HW4lPU11PQDH52iOA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=GXKNyJ8fBcXxvUalRtUOM2U8oH6FnhOvNgyT/EJosTCxMEU/QiIyHSbx8CXsDkXR2
-	 4gMw46JTT0RpwbdP0l5HGHQ3mzZeNvxTKvEXf6oiHNaslgJN1fcamOQKNwFab5ky5/
-	 DGlSnSSi3WfYX6mZBPo18ROyeqBFyLAKVb83zepuBdUh/VbLDPtwOEzJkLu7vgYtlH
-	 jIH3w8E9rkg/sfz5907iv5u1H5T0dqwxXij/mqNcqXvqbHWOf1+PfjVS/lt6NRblMH
-	 nnfNqpSlPYxol/lnwecdYc7GoU+mlIRv85O5ZbYYYXhPJEuG9lF0XCa3Avi4ikpgho
-	 idlFEYYLgVtMA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B35ECC54E67;
-	Sun, 17 Mar 2024 11:07:12 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Sun, 17 Mar 2024 12:07:07 +0100
-Subject: [PATCH v2 5/6] usb: kbd: support Apple Magic Keyboards (2021)
+	s=arc-20240116; t=1710674821; c=relaxed/simple;
+	bh=KBpUr8+SiT/MU2ILAsWVDv4xHAMLrctHSSl34L+DKRI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pJajYDeDlAlfELB1/8HYVm430bqkbJlvKRSj9LbmiqX910cnn5aqkvQDoF8dcIEt8pZub+VsgOrxrkkJzsVWQLlXPSTUQa4yLCio7FtfmcowpB3e8jXIaaJZf6AwwISR91gXh0dqnxVTQyXcsSKLRCigxD8zbTa4m/FZOI17nm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a44665605f3so381920166b.2
+        for <asahi@lists.linux.dev>; Sun, 17 Mar 2024 04:26:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1710674817; x=1711279617;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L28hVGQTYDARzxNixZqeHURJbVFOB8qR0xfLOKnTTLQ=;
+        b=E/YoyHMuVYASR5HhAHANsRNra2DQbXHJGbCfhnGH5WI7fpN2sEI6Z5Cfip1b6LZiXg
+         qwZdoqqY5SlTsOsPq5/iLLeJw2TmajH4vX0kSOO10fwG0s+5o9c0jatsReEoCtTVLxw6
+         fUT528P6vLA9QhyLJ2QhHsa+IOn/bS2R7vxceNpLE9DEVv7pSrK7BzEWUpHHg1feBexE
+         6EwfYEH2w7ZCUm4TQT2aJwC0uyG+5YjBaVW1hVyCgPelpezd4qWdDWBqXsbeabVT/K7b
+         LR8zzrN+us0u9tngeWKW4C6JDDycKFqW6MIwgSYtXzgndUO6OuJ4547yIjFiUurW92+a
+         rTYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXD8lLwX9br2Kbn7qGZTStRkjgBNLlUE62jkvWumQDHRblQeu+azS3s6KLnCO8bPnn1KwfLtMbu9sT5qju5HKsiyPjOorA=
+X-Gm-Message-State: AOJu0YybReaeid4maJNGdQgvpcz/9qQgK4hDV4wKVHyCkwwyOi0JcdA6
+	5TaT3CVWYSDFs5Kwk+rH4SvZ6fubAAyZuW+N1m3AEJ2jF0uWnLE/EZsikAy1T6E=
+X-Google-Smtp-Source: AGHT+IEeUJdbG/kTVvVrL10SXxpa1dfsGxSRWk1fyZmypT0dAwOCXcuIMHmni8Rx54GxwX60doaZZA==
+X-Received: by 2002:a17:906:c78e:b0:a46:3a72:6853 with SMTP id cw14-20020a170906c78e00b00a463a726853mr4250342ejb.72.1710674816924;
+        Sun, 17 Mar 2024 04:26:56 -0700 (PDT)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
+        by smtp.gmail.com with ESMTPSA id ly2-20020a170906af4200b00a466fccbe96sm3634302ejb.122.2024.03.17.04.26.56
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Mar 2024 04:26:56 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a44e3176120so447062066b.1
+        for <asahi@lists.linux.dev>; Sun, 17 Mar 2024 04:26:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUEBD5LOGJmkyqXoNrhX97ohYbPAbspVlSCMOuLWpjktK7QsbaVIBmxOiMsgEaJfC4bEZg5j2ZmKKOf0MHSK3qWadZnlXI=
+X-Received: by 2002:a17:906:338d:b0:a46:bc50:b087 with SMTP id
+ v13-20020a170906338d00b00a46bc50b087mr308681eja.9.1710674816071; Sun, 17 Mar
+ 2024 04:26:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240317-asahi-keyboards-v2-5-d3f4b8384f68@jannau.net>
 References: <20240317-asahi-keyboards-v2-0-d3f4b8384f68@jannau.net>
 In-Reply-To: <20240317-asahi-keyboards-v2-0-d3f4b8384f68@jannau.net>
-To: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
- Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>, 
- Joe Hershberger <joe.hershberger@ni.com>
-Cc: u-boot@lists.denx.de, asahi@lists.linux.dev, 
- Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7070; i=j@jannau.net;
- h=from:subject:message-id; bh=+770WtWxdlYSJhlIqPiLMJvMqaLHrgrOa/IH0nnjA/w=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhtRv5+717XHjnRUSdVJtkvGjzP9Zpx6dtTq07fZP77bGQ
- P4Q7QfHOkpZGMS4GGTFFFmStF92MKyuUYypfRAGM4eVCWQIAxenAExkKx8jwwbmX+eqF//es7HW
- 8+3E183LGd04En9e+r9UOY+zpf3pjU6G/86TTuw99mzbptBe6Y3L2HZJ3/lTy7Qr+7cHe2xvJ/e
- OXCYA
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: <j@jannau.net>
+From: Neal Gompa <neal@gompa.dev>
+Date: Sun, 17 Mar 2024 04:26:19 -0700
+X-Gmail-Original-Message-ID: <CAEg-Je9KSs-Ve-p66U1p3K+gSzGa0hqLiXx3EoFYzb+0xBXJpw@mail.gmail.com>
+Message-ID: <CAEg-Je9KSs-Ve-p66U1p3K+gSzGa0hqLiXx3EoFYzb+0xBXJpw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] USB keyboard improvements for asahi / desktop systems
+To: j@jannau.net
+Cc: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, Tom Rini <trini@konsulko.com>, 
+	Simon Glass <sjg@chromium.org>, Joe Hershberger <joe.hershberger@ni.com>, u-boot@lists.denx.de, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Janne Grunau <j@jannau.net>
+On Sun, Mar 17, 2024 at 4:07=E2=80=AFAM Janne Grunau via B4 Relay
+<devnull+j.jannau.net@kernel.org> wrote:
+>
+> Apple USB Keyboards from 2021 need quirks to be useable. The boot HID
+> keyboard protocol is unfortunately not described in the first interface
+> descriptor but the second. This needs several changes. The USB keyboard
+> driver has to look at all (2) interface descriptors during probing.
+> Since I didn't want to rebuild the USB driver probe code the Apple
+> keyboards are bound to the keyboard driver via USB vendor and product
+> IDs.
+> To make the keyboards useable on Apple silicon devices the xhci driver
+> needs to initializes rings for the endpoints of the first two interface
+> descriptors. If this is causes concerns regarding regressions or memory
+> use the USB_MAX_ACTIVE_INTERFACES define could be turned into a CONFIG
+> option.
+> Even after this changes the keyboards still do not probe successfully
+> since they apparently do not behave HID standard compliant. They only
+> generate reports on key events. This leads the final check whether the
+> keyboard is operational to fail unless the user presses keys during the
+> probe. Skip this check for known keyboards.
+> Keychron seems to emulate Apple keyboards (some models even "re-use"
+> Apple's USB vendor ID) so apply this quirk as well.
+>
+> Some devices like Yubikeys emulate a keyboard. since u-boot only binds a
+> single keyboard block this kind of devices from the USB keyboard driver.
+>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+> Changes in v2:
+> - rewritten commit message for "[PATCH 2/6] usb: xhci: Set up endpoints f=
+or the first 2 interfaces"
+> - Replaced the usb keyboard Yubikey block with an env based USB device bl=
+ocklist
+> - Use "-EINVAL" as return value in "[PATCH 3/6] usb: xhci: Abort transfer=
+s with unallocated rings"
+> - added "Reviewed-by:" tags
+> - Link to v1: https://lore.kernel.org/r/20240221-asahi-keyboards-v1-0-814=
+b2e741790@jannau.net
+>
+> ---
+> Janne Grunau (6):
+>       usb: xhci: refactor xhci_set_configuration
+>       usb: xhci: Set up endpoints for the first 2 interfaces
+>       usb: xhci: Abort transfers with unallocated rings
+>       usb: Add environment based device blocklist
+>       usb: kbd: support Apple Magic Keyboards (2021)
+>       usb: kbd: Add probe quirk for Apple and Keychron keyboards
+>
+>  common/usb.c                 |  56 +++++++++++++++++++
+>  common/usb_kbd.c             |  61 +++++++++++++++++++--
+>  doc/usage/environment.rst    |  12 +++++
+>  drivers/usb/host/xhci-ring.c |   5 ++
+>  drivers/usb/host/xhci.c      | 126 +++++++++++++++++++++++++++----------=
+------
+>  include/env_default.h        |  11 ++++
+>  include/usb.h                |   6 +++
+>  7 files changed, 227 insertions(+), 50 deletions(-)
+> ---
+> base-commit: 37345abb97ef0dd9c50a03b2a72617612dcae585
+> change-id: 20240218-asahi-keyboards-f2ddaf0022b2
+>
 
-Apple USB keyboards (Magic Keyboard from 2021 (product id 0x029c)) carry
-the HID keyboard boot protocol on the second interface descriptor.
-Probe via vendor and product IDs since the class/subclass/protocol match
-uses the first interface descriptor.
-Probe the two first interface descriptors for the HID keyboard boot
-protocol.
+Series LGTM. Thanks for this! :)
 
-USB configuration descriptor for reference:
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
-| Bus 003 Device 002: ID 05ac:029c Apple, Inc. Magic Keyboard
-| Device Descriptor:
-|   bLength                18
-|   bDescriptorType         1
-|   bcdUSB               2.00
-|   bDeviceClass            0 [unknown]
-|   bDeviceSubClass         0 [unknown]
-|   bDeviceProtocol         0
-|   bMaxPacketSize0        64
-|   idVendor           0x05ac Apple, Inc.
-|   idProduct          0x029c Magic Keyboard
-|   bcdDevice            3.90
-|   iManufacturer           1 Apple Inc.
-|   iProduct                2 Magic Keyboard
-|   iSerial                 3 ...
-|   bNumConfigurations      1
-|   Configuration Descriptor:
-|     bLength                 9
-|     bDescriptorType         2
-|     wTotalLength       0x003b
-|     bNumInterfaces          2
-|     bConfigurationValue     1
-|     iConfiguration          4 Keyboard
-|     bmAttributes         0xa0
-|       (Bus Powered)
-|       Remote Wakeup
-|     MaxPower              500mA
-|     Interface Descriptor:
-|       bLength                 9
-|       bDescriptorType         4
-|       bInterfaceNumber        0
-|       bAlternateSetting       0
-|       bNumEndpoints           1
-|       bInterfaceClass         3 Human Interface Device
-|       bInterfaceSubClass      0 [unknown]
-|       bInterfaceProtocol      0
-|       iInterface              5 Device Management
-|         HID Device Descriptor:
-|           bLength                 9
-|           bDescriptorType        33
-|           bcdHID               1.10
-|           bCountryCode            0 Not supported
-|           bNumDescriptors         1
-|           bDescriptorType        34 Report
-|           wDescriptorLength      83
-|           Report Descriptors:
-|             ** UNAVAILABLE **
-|       Endpoint Descriptor:
-|         bLength                 7
-|         bDescriptorType         5
-|         bEndpointAddress     0x81  EP 1 IN
-|         bmAttributes            3
-|           Transfer Type            Interrupt
-|           Synch Type               None
-|           Usage Type               Data
-|         wMaxPacketSize     0x0010  1x 16 bytes
-|         bInterval               8
-|     Interface Descriptor:
-|       bLength                 9
-|       bDescriptorType         4
-|       bInterfaceNumber        1
-|       bAlternateSetting       0
-|       bNumEndpoints           1
-|       bInterfaceClass         3 Human Interface Device
-|       bInterfaceSubClass      1 Boot Interface Subclass
-|       bInterfaceProtocol      1 Keyboard
-|       iInterface              6 Keyboard / Boot
-|         HID Device Descriptor:
-|           bLength                 9
-|           bDescriptorType        33
-|           bcdHID               1.10
-|           bCountryCode           13 International (ISO)
-|           bNumDescriptors         1
-|           bDescriptorType        34 Report
-|           wDescriptorLength     207
-|           Report Descriptors:
-|             ** UNAVAILABLE **
-|       Endpoint Descriptor:
-|         bLength                 7
-|         bDescriptorType         5
-|         bEndpointAddress     0x82  EP 2 IN
-|         bmAttributes            3
-|           Transfer Type            Interrupt
-|           Synch Type               None
-|           Usage Type               Data
-|         wMaxPacketSize     0x0010  1x 16 bytes
-|         bInterval               8
 
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- common/usb_kbd.c | 39 +++++++++++++++++++++++++++++++++++----
- 1 file changed, 35 insertions(+), 4 deletions(-)
-
-diff --git a/common/usb_kbd.c b/common/usb_kbd.c
-index 4cbc9acb73..8cc3345075 100644
---- a/common/usb_kbd.c
-+++ b/common/usb_kbd.c
-@@ -23,6 +23,14 @@
- 
- #include <usb.h>
- 
-+/*
-+ * USB vendor and product IDs used for quirks.
-+ */
-+#define USB_VENDOR_ID_APPLE	0x05ac
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021			0x029c
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021	0x029a
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021		0x029f
-+
- /*
-  * If overwrite_console returns 1, the stdin, stderr and stdout
-  * are switched to the serial port, else the settings in the
-@@ -106,6 +114,8 @@ struct usb_kbd_pdata {
- 	unsigned long	last_report;
- 	struct int_queue *intq;
- 
-+	uint32_t	ifnum;
-+
- 	uint32_t	repeat_delay;
- 
- 	uint32_t	usb_in_pointer;
-@@ -150,8 +160,8 @@ static void usb_kbd_put_queue(struct usb_kbd_pdata *data, u8 c)
-  */
- static void usb_kbd_setled(struct usb_device *dev)
- {
--	struct usb_interface *iface = &dev->config.if_desc[0];
- 	struct usb_kbd_pdata *data = dev->privptr;
-+	struct usb_interface *iface = &dev->config.if_desc[data->ifnum];
- 	ALLOC_ALIGN_BUFFER(uint32_t, leds, 1, USB_DMA_MINALIGN);
- 
- 	*leds = data->flags & USB_KBD_LEDMASK;
-@@ -365,7 +375,7 @@ static inline void usb_kbd_poll_for_event(struct usb_device *dev)
- #if defined(CONFIG_SYS_USB_EVENT_POLL_VIA_CONTROL_EP)
- 	struct usb_interface *iface;
- 	struct usb_kbd_pdata *data = dev->privptr;
--	iface = &dev->config.if_desc[0];
-+	iface = &dev->config.if_desc[data->ifnum];
- 	usb_get_report(dev, iface->desc.bInterfaceNumber,
- 		       1, 0, data->new, USB_KBD_BOOT_REPORT_SIZE);
- 	if (memcmp(data->old, data->new, USB_KBD_BOOT_REPORT_SIZE)) {
-@@ -509,6 +519,8 @@ static int usb_kbd_probe_dev(struct usb_device *dev, unsigned int ifnum)
- 	data->new = memalign(USB_DMA_MINALIGN,
- 		roundup(USB_KBD_BOOT_REPORT_SIZE, USB_DMA_MINALIGN));
- 
-+	data->ifnum = ifnum;
-+
- 	/* Insert private data into USB device structure */
- 	dev->privptr = data;
- 
-@@ -561,11 +573,18 @@ static int probe_usb_keyboard(struct usb_device *dev)
- {
- 	char *stdinname;
- 	struct stdio_dev usb_kbd_dev;
-+	unsigned int ifnum;
-+	unsigned int max_ifnum = min((unsigned int)USB_MAX_ACTIVE_INTERFACES,
-+				     (unsigned int)dev->config.no_of_if);
- 	int error;
- 
- 	/* Try probing the keyboard */
--	if (usb_kbd_probe_dev(dev, 0) != 1)
--		return -ENOENT;
-+	for (ifnum = 0; ifnum < max_ifnum; ifnum++) {
-+		if (usb_kbd_probe_dev(dev, ifnum) == 1)
-+			break;
-+	}
-+	if (ifnum >= max_ifnum)
-+		 return -ENOENT;
- 
- 	/* Register the keyboard */
- 	debug("USB KBD: register.\n");
-@@ -731,6 +750,18 @@ static const struct usb_device_id kbd_id_table[] = {
- 		.bInterfaceSubClass = USB_SUB_HID_BOOT,
- 		.bInterfaceProtocol = USB_PROT_HID_KEYBOARD,
- 	},
-+	{
-+		USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			   USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
-+	},
-+	{
-+		USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			   USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
-+	},
-+	{
-+		USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			   USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
-+	},
- 	{ }		/* Terminating entry */
- };
- 
-
--- 
-2.44.0
-
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
