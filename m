@@ -1,124 +1,133 @@
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59EC1DDDB
-	for <asahi@lists.linux.dev>; Thu, 21 Mar 2024 23:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C77AD111A9
+	for <asahi@lists.linux.dev>; Fri, 22 Mar 2024 07:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711064868; cv=none; b=sxmgnrC344kUvmoy5ggey5i2DsqoGukCgpRz+N7+wqkNXsyYQa/LYznpn0O3wI9WButv9DteDEa2pKrW1a4/NNzlJaUbI1aDN1IvZ455ixcwj+2YBeHPg3MlFlBMxc0a2LMm6x10TlZnmjDaypF0oSCUx+NREKvYkuSjuQiZENI=
+	t=1711093638; cv=none; b=pD/syA6MGT8G4ML8o3boTWvUqDLPULTzs0GArlaFi2JZQanZ0hUzfuyA5KqyPDcrpTORXKKAOdIG6HQdp7IyEmCFXmP6df4BjdTxi6riGKHbux3tBNPffTIWK66VRvRK6Qbskew6ulVnK+y7reVjh5pRqOrHnM9U76WU79ZEN08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711064868; c=relaxed/simple;
-	bh=M0hmcwHpYDQW481FVVF+u64zVS/TudJyyucvyksg4zc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ORr6VpqWjz0HmI7yhzO96MDj3bpUfssWBrk28viDut78wCB8NK9dlTb3w82CqbKgoLn8729lpUnbdPEUbeLe5NsR1S+ob7r+nmRatTZPLGhnXATGFA1LQrezx+ohJpi1LSsVHoOmyV8qNNb1DmySHQm3NM6COlM88///y1Ia84k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=OnPD2dqt; arc=none smtp.client-ip=85.214.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+	s=arc-20240116; t=1711093638; c=relaxed/simple;
+	bh=svsswazAvj+ohqZ8/5rv0sVrY14pCNTj2K2lFULM2ww=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gO88ThOa/hmWdzvV07fkkz51Cj8TjNKmKfAQOYNrHgVNV1f4OHJE19n+mnszeaMmXiCsLILc5+F/CHgRbmQfsybjFlFgkCYCzOC2B4emGSc5aEwsPbsBwOJG4OCBgqL6WwTkIi1tXWFnTII0rXC9azdCqjtpAy8MRhi11TyF5go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNsSM6E0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="OnPD2dqt"
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: marex@denx.de)
-	by phobos.denx.de (Postfix) with ESMTPSA id F06288814C;
-	Fri, 22 Mar 2024 00:47:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-	s=phobos-20191101; t=1711064859;
-	bh=LBcD36MaZ364yhnrs7ELiYaAYd9rxZqtjy1Mv2SrnWM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OnPD2dqtVZv1pvjfSA9/2IghsrLPMPKGup+03NNUzJMF+Xoqj4fg7KUwzjJolwTqk
-	 SFEipVAYdbd0L7vF9aJSmCO/t+T+dfXUZ+hcw9KytH0T5WH675sDdxsJMmUE7NYyQ+
-	 WgjYqQHdeTQbr7BSWrdfa0sTReQrAywxVSXIWb2H3LM1yXXqJMPhGBf/gGDPEbtl5/
-	 ki4KvITdYJ8i42N7JOiy6+9fhdvVpzwvz3TKNmKIt3vwXhfyQN+DSsJeQJL6gDhHyr
-	 UZ3rlrMjZ2ppdxP4qy1SaHE2jWHNVC8+c+JrZ2yOcihUJrRIUz1X/ju1SRWyeF4R6b
-	 1fvW+9vuPsnsg==
-Message-ID: <b76c69fd-7d10-41b8-9bf1-7620ac44aeb2@denx.de>
-Date: Fri, 22 Mar 2024 00:47:38 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNsSM6E0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 64742C433F1;
+	Fri, 22 Mar 2024 07:47:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1711093638;
+	bh=svsswazAvj+ohqZ8/5rv0sVrY14pCNTj2K2lFULM2ww=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=HNsSM6E0SCrK1YKjX178vAQHXKc/mznfiFxCllKHB6SlFOO72z0GQr9xUmDK1jJYl
+	 KXB4PdM3SjxmyZW21fbfQPnJmtMnaNUA9RLz3Paq3okpwh16q2EztLGWYInp470GCf
+	 z6FVwMYId3issIlGHeQR2a1gLfyH2YL9WSBfJQsUnwT5B5XpeXId7RlXJkkNNbQwjr
+	 k8iVK3fy2R3px2ns8XLo5pcSLAWTVBKu7ML5xt6LDGG4YCODjbn2z4lfeC/Y3NQwex
+	 HlGmf1FeOA+YhDkfNNnh4A1r5ckFuY8Yngf/VQV0u5OFWIKOHPq0zFWCUh22INqe1u
+	 LJ0Uwy1DvKC6g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AC59CD11BF;
+	Fri, 22 Mar 2024 07:47:18 +0000 (UTC)
+From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Subject: [PATCH v3 0/6] USB keyboard improvements for asahi / desktop
+ systems
+Date: Fri, 22 Mar 2024 08:47:03 +0100
+Message-Id: <20240322-asahi-keyboards-v3-0-3106dd4c4e19@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] usb: Add environment based device blocklist
-Content-Language: en-US
-To: Janne Grunau <j@jannau.net>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>,
- Simon Glass <sjg@chromium.org>, Joe Hershberger <joe.hershberger@ni.com>,
- u-boot@lists.denx.de, asahi@lists.linux.dev
-References: <20240317-asahi-keyboards-v2-0-d3f4b8384f68@jannau.net>
- <20240317-asahi-keyboards-v2-4-d3f4b8384f68@jannau.net>
- <22be2258-ff20-4e62-a169-4748cbba4904@denx.de>
- <970e9686-4bcc-4cda-95b7-e5cb470682b0@app.fastmail.com>
- <540cbc3f-a9bf-467d-8aa2-c56e53cd7123@denx.de>
- <e73c0c71-070b-438c-a9e0-2e5ee586d99f@app.fastmail.com>
- <3f609051-4925-464b-be57-b1a64e5bf861@denx.de> <ZfoA9VDRwaZYzd0i@robin>
-From: Marek Vasut <marex@denx.de>
-In-Reply-To: <ZfoA9VDRwaZYzd0i@robin>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
-X-Virus-Status: Clean
+X-B4-Tracking: v=1; b=H4sIAHc3/WUC/2XN0QrCIBTG8VcJrzM8R2nWVe8RXWgemwUudElj7
+ N1zI4jY5f+D8zsjy5QCZXbcjCxRCTl0sYbcbti1NfFGPLjaDAUqgaC5yaYN/EGD7UxymXt0zng
+ hEC2yevVM5MN7Ec+X2m3IfZeG5UGBef1aCCurABdcg7JIjYLmIE53E6N57SL1bMYK/gAJzRrAC
+ jjpldVSK7/Xf8A0TR+TSoeZ8AAAAA==
+To: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
+ Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>, 
+ Joe Hershberger <joe.hershberger@ni.com>
+Cc: u-boot@lists.denx.de, asahi@lists.linux.dev, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3162; i=j@jannau.net;
+ h=from:subject:message-id;
+ bh=svsswazAvj+ohqZ8/5rv0sVrY14pCNTj2K2lFULM2ww=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhtS/5s0GXLeOHONl9AkVi+e94ZIb1qUnw8xQJcd6pPNuw
+ 2m2gtiOUhYGMS4GWTFFliTtlx0Mq2sUY2ofhMHMYWUCGcLAxSkAE1k/j+F/aOvs/lX7Azi86tZf
+ 8Niw2ThkL4PFspgZyutZWKZsWlP1iZGhQfvoXoEzdv6zvH+u2zM9J7ixPv+W8zH+iI7iE4F5wZu
+ 5AA==
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
+X-Original-From: Janne Grunau <j@jannau.net>
+Reply-To: j@jannau.net
 
-On 3/19/24 10:17 PM, Janne Grunau wrote:
+Apple USB Keyboards from 2021 need quirks to be useable. The boot HID
+keyboard protocol is unfortunately not described in the first interface
+descriptor but the second. This needs several changes. The USB keyboard
+driver has to look at all (2) interface descriptors during probing.
+Since I didn't want to rebuild the USB driver probe code the Apple
+keyboards are bound to the keyboard driver via USB vendor and product
+IDs.
+To make the keyboards useable on Apple silicon devices the xhci driver
+needs to initializes rings for the endpoints of the first two interface
+descriptors. If this is causes concerns regarding regressions or memory
+use the USB_MAX_ACTIVE_INTERFACES define could be turned into a CONFIG
+option.
+Even after this changes the keyboards still do not probe successfully
+since they apparently do not behave HID standard compliant. They only
+generate reports on key events. This leads the final check whether the
+keyboard is operational to fail unless the user presses keys during the
+probe. Skip this check for known keyboards.
+Keychron seems to emulate Apple keyboards (some models even "re-use"
+Apple's USB vendor ID) so apply this quirk as well.
 
-Hi,
+Some devices like Yubikeys emulate a keyboard. since u-boot only binds a
+single keyboard block this kind of devices from the USB keyboard driver.
 
-sorry for the abysmal delay in response.
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+Changes in v3:
+- collected "Reviewed-by:" tags
+- rename usb_blocklist to usb_ignorelist
+- use BIT macro for USB KBD quirk bit
+- refactor usb_device_is_blocked() to use 0 / negated errors as return
+  value, sed -e 's/block/ignore/', simplify it and add comments
+- rewritten usb_ignorelist documentation
+- Link to v2: https://lore.kernel.org/r/20240317-asahi-keyboards-v2-0-d3f4b8384f68@jannau.net
 
-> On Mon, Mar 18, 2024 at 03:17:33PM +0100, Marek Vasut wrote:
->> On 3/18/24 8:33 AM, Janne Grunau wrote:
->>
->>>>>>> +static int usb_blocklist_parse_error(const char *blocklist, size_t pos)
->>>>>>> +{
->>>>>>> +	printf("usb_blocklist parse error at char %zu in \"%s\"\n", pos,
->>>>>>> +	       blocklist);
->>>>>>> +	return 0;
->>>>>>
->>>>>> This could be static void without return 0 at the end.
->>>>>
->>>>> the return is there to break out of the while loop on parsing errors in a single statement. This probably won't be necessary after using strsep and sscanf in the parsing function but see below.
->>>>
->>>> Ahh, now I see it. But then, shouldn't this return -ENODEV here already ?
->>>
->>> It returns 0 so that parsing errors in the blocklist do not result
->>> in blocking every USB device. That looked to me like the
->>> less bad error behavior to me.
->>
->> In unix , 0 is considered success and non-zero failure .
->>
->> How about this:
->>
->> - Return -EINVAL here (parsing failed)
-> 
-> If we return 0 / negated errors we do not need this function and we can
-> simply report the parsing error when usb_device_is_blocked() return
-> -EINVAL.
-> 
->> - Instead of 'return 1' in usb_device_is_blocked() return -ENODEV
->> - In usb_select_config(), check
->>     if usb_device_is_blocked returned 0, no device blocked OK
->>     if usb_device_is_blocked returned -ENODEV, device blocked,
->>       return -ENODEV
->>     if usb_device_is_blocked returned any other error, parsing error
->>       return that error
-> 
-> I think the preferable option is to ignore parsing errors. If we
-> would propagate the error the result would be that every USB device is
-> ignored.
+Changes in v2:
+- rewritten commit message for "[PATCH 2/6] usb: xhci: Set up endpoints for the first 2 interfaces"
+- Replaced the usb keyboard Yubikey block with an env based USB device blocklist
+- Use "-EINVAL" as return value in "[PATCH 3/6] usb: xhci: Abort transfers with unallocated rings"
+- added "Reviewed-by:" tags
+- Link to v1: https://lore.kernel.org/r/20240221-asahi-keyboards-v1-0-814b2e741790@jannau.net
 
-Good point.
+---
+Janne Grunau (6):
+      usb: xhci: refactor xhci_set_configuration
+      usb: xhci: Set up endpoints for the first 2 interfaces
+      usb: xhci: Abort transfers with unallocated rings
+      usb: Add environment based device ignorelist
+      usb: kbd: support Apple Magic Keyboards (2021)
+      usb: kbd: Add probe quirk for Apple and Keychron keyboards
 
->> What do you think ?
-> 
-> Fine by me, -EINVAL makes the parsing error reporting less awkward. Only
-> open question is what should happen on parsing errors.
+ common/usb.c                 |  57 ++++++++++++++++++++
+ common/usb_kbd.c             |  59 ++++++++++++++++++--
+ doc/usage/environment.rst    |  13 +++++
+ drivers/usb/host/xhci-ring.c |   5 ++
+ drivers/usb/host/xhci.c      | 126 +++++++++++++++++++++++++++----------------
+ include/env_default.h        |  11 ++++
+ include/usb.h                |   6 +++
+ 7 files changed, 228 insertions(+), 49 deletions(-)
+---
+base-commit: 37345abb97ef0dd9c50a03b2a72617612dcae585
+change-id: 20240218-asahi-keyboards-f2ddaf0022b2
 
-I agree, ignore/skip the parsing errors and report to user that 
-something couldn't be parsed, that works.
+Best regards,
+-- 
+Janne Grunau <j@jannau.net>
 
-> locally modified and ready to resend once we agree on the behavior on
-> parsing errors
 
-Thanks, I think we are in agreement.
