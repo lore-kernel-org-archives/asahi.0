@@ -1,269 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4961012E4E
-	for <asahi@lists.linux.dev>; Fri, 22 Mar 2024 07:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBAA168C4
+	for <asahi@lists.linux.dev>; Fri, 22 Mar 2024 08:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711093639; cv=none; b=W/FsmPrCZA8xQd+K87/kvGhJ9xi5o10s5UJ2oKxkI2qG871MuR6qsZjVQoU7ApUPGUxzJYAlWGAuBIhKbmsFv6BxcgoGtHtmH1yf8TQydjl54KO0FbEeT9l8xV2/m3I0iGfpKTojFwuAjq26RoUntPQcMrmO3jurGKRRuZZz1n4=
+	t=1711095433; cv=none; b=BXvMu+r0cN0zBcfUyvEF9z/1ube6W/4mW56qknCr4HHK4M97F6MgIpCR09cVURROqrOao0gMWRZ4yUPYngMaiol6TvQyrcVZlWvh8viqcJj42RiJiY3mXDIeLUu7Z2C3GXrb65TWOz+JNdCWQHe0Et4zxJphWZwzzjEiq5y575I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711093639; c=relaxed/simple;
-	bh=b1nV4KqjkdbIBzCFDkoPAQsZDZ7Po7AdwOpq+516qzc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QVuYH/Q/hDwQtxOb7p4FOwBW6HHCNsXIubkOo9MrwxKrwtkhbC0ZKGCPO/ZZZN6GEqkrFdeRcpKOtC6usAfMDP8l9gz7RH7pwpgfCKbQEZhPgY/H1kwCHyh0aQkhlJea45QL+m6XPULnoYT3GqW8VlMVH2hWAgiQ2i37e6bhMso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tDP+D8LX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1711095433; c=relaxed/simple;
+	bh=W5UqkQ1m5t8Vr3A1NFNSZPekwZXFlqfGBt4YGkIembU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I769TaYlJKA2MTkJ7NmdD20CtXX4/U77OH+EZK73PCZ6ghuNzo7B4o4irvAQ6DYydotkjzm4pJbsfV5y5vy06nv3EKBauwNBU39BiHgyAeXd9z7M8/yDiLdMf1hkRShqZs8QHka6eJ+dRVRikvM4gmwtC2SZ3GtIhM77iD6gee8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=jrq/5ccA; arc=none smtp.client-ip=185.125.188.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tDP+D8LX"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9F486C433A6;
-	Fri, 22 Mar 2024 07:47:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1711093638;
-	bh=b1nV4KqjkdbIBzCFDkoPAQsZDZ7Po7AdwOpq+516qzc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=tDP+D8LX73JxKvd37z5yFJaU1rNBa75DD8TfjlEPccuuAezZLLjTs4Nf968SxPzC7
-	 AU1caEK6bkIl+2sufsYDRgVh/WvTdE6k+I71A1309wLg2FbAAcL+FKXTh2I1m1he9E
-	 mhv+gp7TDNiND7UL1qJW0BrtkBbQSFzoIyBwQMtg42H0afkIMcJVCFULQcHE1AbEbB
-	 riMA8h58fwBZlYx51M9lnKl5CQVXfPK4NzoFPKFHjMNo1+W7mlzG1DnTX72kwZFJTt
-	 /g/6WGbGOpEGNTf1nO9GMdV1LihPz4LJyLBhf0+RtsNuVgP0WN8Ik/tliEOt72lSEe
-	 OYBlsiHemfL1Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9631CCD11BF;
-	Fri, 22 Mar 2024 07:47:18 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Fri, 22 Mar 2024 08:47:08 +0100
-Subject: [PATCH v3 5/6] usb: kbd: support Apple Magic Keyboards (2021)
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="jrq/5ccA"
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com [209.85.128.71])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id CBD053FB7B
+	for <asahi@lists.linux.dev>; Fri, 22 Mar 2024 08:17:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1711095426;
+	bh=waoreCry+a1Vb7hradii+A7Cq8C1LwGB6/0iMWUCzak=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type;
+	b=jrq/5ccA2PPjaqayBBt9tGWJ6+QxWNacSuNFJWEguiVh69OArU6q1YfhECJ/Hstzi
+	 0R2l0qip/JTBf88Q+B+ZM+uGAm07FD9WeN+RgmLenLF/qioj1i+6Wdvau5WK1Bc59f
+	 9Pl108730zDk8XqpIMmOHhf+In4TvrqNj8GeaPlY4sGM8F5WSveRQzHCFv/KhIzIUh
+	 SJc24JT8b+ZmBLOtE6W6dkuQ7szx5HxDZjR/bI+kdF4qRuRmiZmzYY5JFyeeNq55cH
+	 Aa034jUsDmWsUGrzE+qWiQTjgCZ+CZHGqeTi2wSjoM55tSX9eCidna8pK3ZhS5FyXf
+	 0fEEh5s6U2RHw==
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-40e4478a3afso9486105e9.1
+        for <asahi@lists.linux.dev>; Fri, 22 Mar 2024 01:17:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1711095424; x=1711700224;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=waoreCry+a1Vb7hradii+A7Cq8C1LwGB6/0iMWUCzak=;
+        b=GoS5n93ZFYx56K73+fCoI8pdTv2qvoQEw4y1CoXSdJMGnw8EpJ4LDZhtKo7FQ5BC+p
+         nsMMdnbAnAAOxuJu+bcQFr/oUyd8Q2TZei7cG5KAcdbqWMngvhVjBAp49dLI2Lb/d5vM
+         VZOLFJjv5znTeF/IrloHCJxNDzJqahgLkZ3K35Mt7SQnbGzT4DslN3v+Owt1R9S0uOBI
+         Myvg7Rw3zDWyZdUHqdU3OevdaNT7FPbbv1O6ifN4eProxmk13dt3Lltn0JK9LaPlbHv+
+         ssaMx4fNKkCVuP/TZ/2vWKNhEQzkkgch6RqdIaG3CPBaNw9q4aZQQnHSqizdLObkzlpI
+         3xyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWziTYjG9hQFmyChS72CNo0jTiPzzswdKIHEIKuyQeysPR0l4ZncPSDY73A9pewS9YfA7PTBMXHoq0ZqoKbPRA0GG/lJEQ=
+X-Gm-Message-State: AOJu0YzXU4ZAeheRbSbyeRR+GKlehQwkcBIsGQxBrag9XqBsj6dBtMSt
+	jIDJWEVTwhKzAzHiFXgeE5+Hj4RfuP0kYq3HK/iTdXF7qqhm/sPvn2eph42Tfy4SagUUeqE6q5l
+	onWSNJtteKd/VsFIoqjulKTare3p1CUmUEGqzQbbiRuXltBN8IRJo4qICeI31Ruye20Vb
+X-Received: by 2002:a05:600c:354a:b0:414:37f:18dc with SMTP id i10-20020a05600c354a00b00414037f18dcmr1041977wmq.1.1711095423801;
+        Fri, 22 Mar 2024 01:17:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEj5hISS3UXi1u508xBRgQtssS9QgIDWAJCncZvR5xeiHkOsMVlQzyKga4tdgzD+fhhAyAylA==
+X-Received: by 2002:a05:600c:354a:b0:414:37f:18dc with SMTP id i10-20020a05600c354a00b00414037f18dcmr1041946wmq.1.1711095423390;
+        Fri, 22 Mar 2024 01:17:03 -0700 (PDT)
+Received: from [192.168.123.161] (ip-062-143-245-032.um16.pools.vodafone-ip.de. [62.143.245.32])
+        by smtp.gmail.com with ESMTPSA id k37-20020a05600c1ca500b004140a3d34fasm2281801wms.41.2024.03.22.01.17.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Mar 2024 01:17:03 -0700 (PDT)
+Message-ID: <082bfd68-1dd4-4bc5-acb3-1000de1a19b8@canonical.com>
+Date: Fri, 22 Mar 2024 09:17:08 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240322-asahi-keyboards-v3-5-3106dd4c4e19@jannau.net>
-References: <20240322-asahi-keyboards-v3-0-3106dd4c4e19@jannau.net>
-In-Reply-To: <20240322-asahi-keyboards-v3-0-3106dd4c4e19@jannau.net>
-To: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
- Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/6] usb: xhci: Set up endpoints for the first 2
+ interfaces
+To: j@jannau.net
+Cc: u-boot@lists.denx.de, asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>,
+ Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>,
+ Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>,
  Joe Hershberger <joe.hershberger@ni.com>
-Cc: u-boot@lists.denx.de, asahi@lists.linux.dev, 
- Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7097; i=j@jannau.net;
- h=from:subject:message-id;
- bh=P+aywpOW3f5+9ZY1LlcprP3UqLhWTiCGQg2stJjsQPw=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhtS/5i2h+a/tl/TM6XELWZvKxKeykvfhF/4n0kvmNRzjy
- bR7Fd7RUcrCIMbFICumyJKk/bKDYXWNYkztgzCYOaxMIEMYuDgFYCISnxkZjqpnNLdKbzvuOGnZ
- 3rxpL68fk2GT1TW0XPrPTMny+fqkSYwMP2ZuPeJcLPBcu/jMZ4Vbq5Y1Xk/aa/K5aNb5H+e3anW
- zcAEA
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: j@jannau.net
+References: <20240322-asahi-keyboards-v3-0-3106dd4c4e19@jannau.net>
+ <20240322-asahi-keyboards-v3-2-3106dd4c4e19@jannau.net>
+Content-Language: en-US
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+In-Reply-To: <20240322-asahi-keyboards-v3-2-3106dd4c4e19@jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Janne Grunau <j@jannau.net>
+On 3/22/24 08:47, Janne Grunau via B4 Relay wrote:
+> From: Janne Grunau <j@jannau.net>
+> 
+> The xhci driver currently only does the necessary initialization for
+> endpoints found in the first interface descriptor. Apple USB keyboards
+> (released 2021) use the second interface descriptor for the HID keyboard
+> boot protocol. To allow USB drivers to use endpoints from other
+> interface descriptors the xhci driver needs to ensure these endpoints
+> are initialized as well.
+> Use USB_MAX_ACTIVE_INTERFACES to control how many interface descriptors
+> are considered during endpoint initialisation.
+> For now define it to 2 as that is sufficient for supporting the Apple
+> keyboards.
+> 
+> Reviewed-by: Marek Vasut <marex@denx.de>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> ---
+>   drivers/usb/host/xhci.c | 31 +++++++++++++++++++------------
+>   include/usb.h           |  6 ++++++
+>   2 files changed, 25 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index 534c4b973f..741e186ee0 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -606,24 +606,28 @@ static int xhci_set_configuration(struct usb_device *udev)
+>   	int slot_id = udev->slot_id;
+>   	struct xhci_virt_device *virt_dev = ctrl->devs[slot_id];
+>   	struct usb_interface *ifdesc;
+> +	unsigned int ifnum;
+> +	unsigned int max_ifnum = min((unsigned int)USB_MAX_ACTIVE_INTERFACES,
 
-Apple USB keyboards (Magic Keyboard from 2021 (product id 0x029c)) carry
-the HID keyboard boot protocol on the second interface descriptor.
-Probe via vendor and product IDs since the class/subclass/protocol match
-uses the first interface descriptor.
-Probe the two first interface descriptors for the HID keyboard boot
-protocol.
+no_of_if being of type u8 limits the number of interfaces to 255. 
+Introducing USB_MAX_ACTIVE_INTERFACES limit us to the first two 
+interfaces. Is this really needed? Handling all interface would avoid 
+the introduction of artificial limitations which may hit us on the next 
+device.
 
-USB configuration descriptor for reference:
+Best regards
 
-| Bus 003 Device 002: ID 05ac:029c Apple, Inc. Magic Keyboard
-| Device Descriptor:
-|   bLength                18
-|   bDescriptorType         1
-|   bcdUSB               2.00
-|   bDeviceClass            0 [unknown]
-|   bDeviceSubClass         0 [unknown]
-|   bDeviceProtocol         0
-|   bMaxPacketSize0        64
-|   idVendor           0x05ac Apple, Inc.
-|   idProduct          0x029c Magic Keyboard
-|   bcdDevice            3.90
-|   iManufacturer           1 Apple Inc.
-|   iProduct                2 Magic Keyboard
-|   iSerial                 3 ...
-|   bNumConfigurations      1
-|   Configuration Descriptor:
-|     bLength                 9
-|     bDescriptorType         2
-|     wTotalLength       0x003b
-|     bNumInterfaces          2
-|     bConfigurationValue     1
-|     iConfiguration          4 Keyboard
-|     bmAttributes         0xa0
-|       (Bus Powered)
-|       Remote Wakeup
-|     MaxPower              500mA
-|     Interface Descriptor:
-|       bLength                 9
-|       bDescriptorType         4
-|       bInterfaceNumber        0
-|       bAlternateSetting       0
-|       bNumEndpoints           1
-|       bInterfaceClass         3 Human Interface Device
-|       bInterfaceSubClass      0 [unknown]
-|       bInterfaceProtocol      0
-|       iInterface              5 Device Management
-|         HID Device Descriptor:
-|           bLength                 9
-|           bDescriptorType        33
-|           bcdHID               1.10
-|           bCountryCode            0 Not supported
-|           bNumDescriptors         1
-|           bDescriptorType        34 Report
-|           wDescriptorLength      83
-|           Report Descriptors:
-|             ** UNAVAILABLE **
-|       Endpoint Descriptor:
-|         bLength                 7
-|         bDescriptorType         5
-|         bEndpointAddress     0x81  EP 1 IN
-|         bmAttributes            3
-|           Transfer Type            Interrupt
-|           Synch Type               None
-|           Usage Type               Data
-|         wMaxPacketSize     0x0010  1x 16 bytes
-|         bInterval               8
-|     Interface Descriptor:
-|       bLength                 9
-|       bDescriptorType         4
-|       bInterfaceNumber        1
-|       bAlternateSetting       0
-|       bNumEndpoints           1
-|       bInterfaceClass         3 Human Interface Device
-|       bInterfaceSubClass      1 Boot Interface Subclass
-|       bInterfaceProtocol      1 Keyboard
-|       iInterface              6 Keyboard / Boot
-|         HID Device Descriptor:
-|           bLength                 9
-|           bDescriptorType        33
-|           bcdHID               1.10
-|           bCountryCode           13 International (ISO)
-|           bNumDescriptors         1
-|           bDescriptorType        34 Report
-|           wDescriptorLength     207
-|           Report Descriptors:
-|             ** UNAVAILABLE **
-|       Endpoint Descriptor:
-|         bLength                 7
-|         bDescriptorType         5
-|         bEndpointAddress     0x82  EP 2 IN
-|         bmAttributes            3
-|           Transfer Type            Interrupt
-|           Synch Type               None
-|           Usage Type               Data
-|         wMaxPacketSize     0x0010  1x 16 bytes
-|         bInterval               8
+Heinrich
 
-Reviewed-by: Marek Vasut <marex@denx.de>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- common/usb_kbd.c | 37 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 34 insertions(+), 3 deletions(-)
-
-diff --git a/common/usb_kbd.c b/common/usb_kbd.c
-index 4cbc9acb73..b2361bbf18 100644
---- a/common/usb_kbd.c
-+++ b/common/usb_kbd.c
-@@ -23,6 +23,14 @@
- 
- #include <usb.h>
- 
-+/*
-+ * USB vendor and product IDs used for quirks.
-+ */
-+#define USB_VENDOR_ID_APPLE	0x05ac
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021			0x029c
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021	0x029a
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021		0x029f
-+
- /*
-  * If overwrite_console returns 1, the stdin, stderr and stdout
-  * are switched to the serial port, else the settings in the
-@@ -106,6 +114,8 @@ struct usb_kbd_pdata {
- 	unsigned long	last_report;
- 	struct int_queue *intq;
- 
-+	uint32_t	ifnum;
-+
- 	uint32_t	repeat_delay;
- 
- 	uint32_t	usb_in_pointer;
-@@ -150,8 +160,8 @@ static void usb_kbd_put_queue(struct usb_kbd_pdata *data, u8 c)
-  */
- static void usb_kbd_setled(struct usb_device *dev)
- {
--	struct usb_interface *iface = &dev->config.if_desc[0];
- 	struct usb_kbd_pdata *data = dev->privptr;
-+	struct usb_interface *iface = &dev->config.if_desc[data->ifnum];
- 	ALLOC_ALIGN_BUFFER(uint32_t, leds, 1, USB_DMA_MINALIGN);
- 
- 	*leds = data->flags & USB_KBD_LEDMASK;
-@@ -365,7 +375,7 @@ static inline void usb_kbd_poll_for_event(struct usb_device *dev)
- #if defined(CONFIG_SYS_USB_EVENT_POLL_VIA_CONTROL_EP)
- 	struct usb_interface *iface;
- 	struct usb_kbd_pdata *data = dev->privptr;
--	iface = &dev->config.if_desc[0];
-+	iface = &dev->config.if_desc[data->ifnum];
- 	usb_get_report(dev, iface->desc.bInterfaceNumber,
- 		       1, 0, data->new, USB_KBD_BOOT_REPORT_SIZE);
- 	if (memcmp(data->old, data->new, USB_KBD_BOOT_REPORT_SIZE)) {
-@@ -509,6 +519,8 @@ static int usb_kbd_probe_dev(struct usb_device *dev, unsigned int ifnum)
- 	data->new = memalign(USB_DMA_MINALIGN,
- 		roundup(USB_KBD_BOOT_REPORT_SIZE, USB_DMA_MINALIGN));
- 
-+	data->ifnum = ifnum;
-+
- 	/* Insert private data into USB device structure */
- 	dev->privptr = data;
- 
-@@ -561,10 +573,17 @@ static int probe_usb_keyboard(struct usb_device *dev)
- {
- 	char *stdinname;
- 	struct stdio_dev usb_kbd_dev;
-+	unsigned int ifnum;
-+	unsigned int max_ifnum = min((unsigned int)USB_MAX_ACTIVE_INTERFACES,
-+				     (unsigned int)dev->config.no_of_if);
- 	int error;
- 
- 	/* Try probing the keyboard */
--	if (usb_kbd_probe_dev(dev, 0) != 1)
-+	for (ifnum = 0; ifnum < max_ifnum; ifnum++) {
-+		if (usb_kbd_probe_dev(dev, ifnum) == 1)
-+			break;
-+	}
-+	if (ifnum >= max_ifnum)
- 		return -ENOENT;
- 
- 	/* Register the keyboard */
-@@ -731,6 +750,18 @@ static const struct usb_device_id kbd_id_table[] = {
- 		.bInterfaceSubClass = USB_SUB_HID_BOOT,
- 		.bInterfaceProtocol = USB_PROT_HID_KEYBOARD,
- 	},
-+	{
-+		USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			   USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
-+	},
-+	{
-+		USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			   USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
-+	},
-+	{
-+		USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			   USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
-+	},
- 	{ }		/* Terminating entry */
- };
- 
-
--- 
-2.44.0
-
+> +				     (unsigned int)udev->config.no_of_if);
+>   
+>   	out_ctx = virt_dev->out_ctx;
+>   	in_ctx = virt_dev->in_ctx;
+>   
+> -	num_of_ep = udev->config.if_desc[0].no_of_ep;
+> -	ifdesc = &udev->config.if_desc[0];
+> -
+>   	ctrl_ctx = xhci_get_input_control_ctx(in_ctx);
+>   	/* Initialize the input context control */
+>   	ctrl_ctx->add_flags = cpu_to_le32(SLOT_FLAG);
+>   	ctrl_ctx->drop_flags = 0;
+>   
+> -	/* EP_FLAG gives values 1 & 4 for EP1OUT and EP2IN */
+> -	for (cur_ep = 0; cur_ep < num_of_ep; cur_ep++) {
+> -		ep_flag = xhci_get_ep_index(&ifdesc->ep_desc[cur_ep]);
+> -		ctrl_ctx->add_flags |= cpu_to_le32(1 << (ep_flag + 1));
+> -		if (max_ep_flag < ep_flag)
+> -			max_ep_flag = ep_flag;
+> +	for (ifnum = 0; ifnum < max_ifnum; ifnum++) {
+> +		ifdesc = &udev->config.if_desc[ifnum];
+> +		num_of_ep = ifdesc->no_of_ep;
+> +		/* EP_FLAG gives values 1 & 4 for EP1OUT and EP2IN */
+> +		for (cur_ep = 0; cur_ep < num_of_ep; cur_ep++) {
+> +			ep_flag = xhci_get_ep_index(&ifdesc->ep_desc[cur_ep]);
+> +			ctrl_ctx->add_flags |= cpu_to_le32(1 << (ep_flag + 1));
+> +			if (max_ep_flag < ep_flag)
+> +				max_ep_flag = ep_flag;
+> +		}
+>   	}
+>   
+>   	xhci_inval_cache((uintptr_t)out_ctx->bytes, out_ctx->size);
+> @@ -637,9 +641,12 @@ static int xhci_set_configuration(struct usb_device *udev)
+>   	xhci_endpoint_copy(ctrl, in_ctx, out_ctx, 0);
+>   
+>   	/* filling up ep contexts */
+> -	err = xhci_init_ep_contexts_if(udev, ctrl, virt_dev, ifdesc);
+> -	if (err < 0)
+> -		return err;
+> +	for (ifnum = 0; ifnum < max_ifnum; ifnum++) {
+> +		ifdesc = &udev->config.if_desc[ifnum];
+> +		err = xhci_init_ep_contexts_if(udev, ctrl, virt_dev, ifdesc);
+> +		if (err < 0)
+> +			return err;
+> +	}
+>   
+>   	return xhci_configure_endpoints(udev, false);
+>   }
+> diff --git a/include/usb.h b/include/usb.h
+> index 09e3f0cb30..3aafdc8bfd 100644
+> --- a/include/usb.h
+> +++ b/include/usb.h
+> @@ -49,6 +49,12 @@ extern bool usb_started; /* flag for the started/stopped USB status */
+>    */
+>   #define USB_TIMEOUT_MS(pipe) (usb_pipebulk(pipe) ? 5000 : 1000)
+>   
+> +/*
+> + * The xhcd hcd driver prepares only a limited number interfaces / endpoints.
+> + * Define this limit so that drivers do not exceed it.
+> + */
+> +#define USB_MAX_ACTIVE_INTERFACES	2
+> +
+>   /* device request (setup) */
+>   struct devrequest {
+>   	__u8	requesttype;
+> 
 
