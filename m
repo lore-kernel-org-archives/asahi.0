@@ -1,55 +1,54 @@
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9229A5A4C7;
-	Thu, 28 Mar 2024 17:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A981C6B0;
+	Thu, 28 Mar 2024 17:50:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1711648041; cv=none; b=EqQcjfL2dpdYqQNrbotLRNoSDYnQRZ35Lf5xZOCnEgQu+ZLVwbqwk3aMDhcO1IvnyGthqJ2qkR8cj/9bmKGYqz1k68k05PllR8GAjIyjN4G+EFgKvak3n+JquHXT2j3dwRPH1pabkxu0Rorz3EOiDWahL1D5q/ROt8koljp6+J8=
+	t=1711648205; cv=none; b=oN5dMtzrCD0y8Wbz1pmznbhR/lPVwM92llin7z3WrLMuIoJRzsfLR9ZsRA7IKCkIxeiNm4x1rnfTOWDiQDUwZeA/Bk+jy6Fg+dCJrsTePvdCYgbtyJ7769h1SxxR71qc0Y1bUIyXtezJOx6vXx3DKPQplOd9xpmvq8dsPuH3ln4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1711648041; c=relaxed/simple;
-	bh=2RJ4UftN8nrBTsBDUrVAd7hn5NaOKJnB1Fl2J9lWRkU=;
+	s=arc-20240116; t=1711648205; c=relaxed/simple;
+	bh=Iej72BNJx4tvbxf0BKGGkiCIvv6XDZ2rEZ8pQA2q7xc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M4/nI/blH1MF8+2yoP/n1fZ+Ue/1Zx6s/9F0+I9GEGsw21dTfK1ZAwTXK3KCQUbiBITvPcn46h3FwKAgJgYu9OGwaKRpSPSShNzL85kmxOwYRjcvVG/3s5MfwxHtMLZ+KurFtgPiiEtZf2RyPLR4/oeTxD/M/1HRHXjg8tW/f/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mlIk9FJN; arc=none smtp.client-ip=209.85.222.44
+	 To:Cc:Content-Type; b=jIKprOKsSmN+kizLIo3jD3HksTB0aiNaG7mBNTtQfMn7mtq7ybG4OY7xMI+r5zmr8PseOZw6rzQh4NHqTO22vV/GYZp0b5SiGNsziDHbQ2ZaLCLXF0eZ22KI7Y9kWKUvJXziuQmDPidDweIAGwQAZsgYVc+WomuubjJMEIMhhj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MrTSakeg; arc=none smtp.client-ip=209.85.217.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mlIk9FJN"
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-7e3257325b4so101663241.3;
-        Thu, 28 Mar 2024 10:47:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MrTSakeg"
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-476573535f9so443115137.3;
+        Thu, 28 Mar 2024 10:50:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1711648038; x=1712252838; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WOul4usuPisehHXyQcZLwgce2H6JwRccYEaJQWtP1Jo=;
-        b=mlIk9FJNu7t6D4YsKAV9RhU3dVyUsi0Xmf0Q2uAElLxHooS7KcjVjRiU4KrBZ59KMW
-         rPc3XkXmPSCY/4jvAwSy5wHgWUtoPHgmUGqU+1MwUSYFWsXRP3kzuNLxVFSm8sG8lGJ/
-         +unZF69E60nlk3gRa0S/zTjVHcU/0igaUFuNhyiANYZVcqwDbIo3zWaBfszTruUl5bTg
-         7EFHh2zHAzmTEMbWkPX6LQZvUVnLxS/j4U8JfDTFF1CYHR0euXUx1TS8fGD6Up7GGYoH
-         w+8vx5KbQTWQGOyNiwdZuV375BuhPo4kNE28/LMjXwWGSXJcAFM577NpQGsStqWTNXhq
-         AQAw==
+        d=gmail.com; s=20230601; t=1711648202; x=1712253002; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hWHCqghfJDvViQtrnjDyRBjptIr10JmWbLdcHeOE900=;
+        b=MrTSakegb8f3fqWh6GXOzyJqzRabrZcXMTrZTXKGdBEvbBqYT/bkgEAuNhvx0r3QTw
+         OxB57D+g2TLG25R1JdD+uTi+/P8dFvT7HgETvISCE2JM/hisYm0fuNicxEa4csSFhw4D
+         vMSCw3HuJ03QLHr0cA06eIVp1R5M2Z/2LlqfikQF3icqCK4gV76i6zP2HumPBuu+pFqa
+         L+LjZ7QfSKIxDhU35uwcD5wkwrjzDhSh5paHBer8tRaaMhg8MpGr5mwZWtDK4ycurR+e
+         ZybUG1j4eXqt+dRThR8tHt7H8qbkXqa6VLTNItVoW4DOZe7TEkxBu0MT0WYMeltlfU8O
+         Dw/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711648038; x=1712252838;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WOul4usuPisehHXyQcZLwgce2H6JwRccYEaJQWtP1Jo=;
-        b=SjtHkpPu0hvC2DVimEAwfwHDV69sgdKS1cvBvhU6FtyADuhqzFlHTrYKPXNdQiYtmT
-         fo2amNq6vk2oajUZsZl8isEWa/WX9xxY/2HTmMC740Jc81uGrlrlfeDMGIGa+56hzmED
-         qwQpw5wbEaS4rk85qA8Ob/5QIMN1QbgpsQb1qf2y0fIqoC9tyJ8HWnTtHneFto0bxo0A
-         mCWjiAVXlX9lLjpG3654Ae6mZ8wpQGsZL+1KQuf/iakvJrmj9MAo1ez4xkeJXD3NOWS6
-         VMQDH3SJl2FbCAg/yPOGW/9SDjuGWci+sfCf9wlYqCqlSP4tBupp5wbiA65uuByqB1vZ
-         TucA==
-X-Forwarded-Encrypted: i=1; AJvYcCVSSlVxZ7ARcKmI3THcd2zQqxCwE3WtxULAZq7Q1TaryzFwtLj3Mbo7q2Cf1y+1NTODvhxNZ0W3JhYSskAXLgWQnDBDu+b1iSVZOSFL1WiKIZ5vY+1p7a7MlGBUnHL9BCV5YPCq1cn9BX1ycRpIlkXUWBN7KOQAdw==
-X-Gm-Message-State: AOJu0YwErgdp9s7MiDk+qxPumu5goOowcvZQ/OVXWUF8Qn90XtzuSlCF
-	eTr5jiNOz5t2pOKMGsrSB4eX3V1OI2KfIoVwVwTcu9sx7S8c9zL0UHvDIl47IOjAdeHwh/9YJ9D
-	WYLiwr2wIqbrYsXRpW+pGs29+qhE=
-X-Google-Smtp-Source: AGHT+IHhsrATdsPlGDNfn/hR7BQXc3o4d86Rd7NcYHBOy9LUQjNRQoJ0rDqs8OMJuSA4Qyiba22Ugt9rz6m/+ouyIBc=
-X-Received: by 2002:a67:f7c6:0:b0:476:fbbb:14bc with SMTP id
- a6-20020a67f7c6000000b00476fbbb14bcmr3836850vsp.30.1711648038557; Thu, 28 Mar
- 2024 10:47:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1711648202; x=1712253002;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hWHCqghfJDvViQtrnjDyRBjptIr10JmWbLdcHeOE900=;
+        b=Dm8e80jTBZ243r5lSrXQh6HZfqAkIb4STP335Y+Zjb5M01L0WTuuxxCwzYwuLAV8sy
+         FhVRomOZplkogdljkUQHYb5NPfp4eHRvmAfgMaUHqff/pwgMVyTvVj+nZWnl0R6OepvR
+         VYZfVrHy/1oWsekDlHAXVJRQqYbc7FtTnUKL7Ec4MLkeKgMoP7jnerxl6bplaXEkmcHr
+         JdLGz4gmSf56kDXHkg6UNneB/2yGH95GSJjElYGpWCXt01appVZzKXhpV6rDe4zn2Gis
+         i3QCvjE52QQbVv8ttKpA5M4HZOHrSHoF5JjpB4dc1AIzWzy59IEMykZYXK/qI9f6Dia1
+         xJFg==
+X-Forwarded-Encrypted: i=1; AJvYcCWpu4K1cpGS4COrc4W9RniZVLRs6htpDh2/zbHmphLhDDVgFyUEDTtUPSmQMEMpfvywtis+T4Iqc7DkWAQ3ODVuMjWGF5uOp8//FNAy0TpT1d/wM/MGwDUqO36oXSzLFUo3TQUQd+Em/7DC2yTMk6vDVKk/wSWhog==
+X-Gm-Message-State: AOJu0YxLxnpXEKwUdQJE5+iHYD4LgcRVl6kqH0yr7dUMsn1Ah901Y/DW
+	P1czNO1fUlXMrNkz2xu9eJcRZ3/MWZdLnfpDeqaVG3dTK/MMWlsa05m0xSGEECJN/C4k2WSxwBm
+	RBTtPrso98njq1q2ab/RbwDtOYYQ=
+X-Google-Smtp-Source: AGHT+IG9ir7Qv5o8Rj+SB4p+I2Iv/yEJXMt0i85p6DOUBIUWCoVLWKyvCgsi6TT17MsYpR3xksNQ2srolzx+ehJ8uf4=
+X-Received: by 2002:a05:6102:5e1:b0:478:2339:cef6 with SMTP id
+ w1-20020a05610205e100b004782339cef6mr3607473vsf.5.1711648202174; Thu, 28 Mar
+ 2024 10:50:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -57,15 +56,15 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-10-apais@linux.microsoft.com> <9c31b697-3d80-407a-82b3-cfbb19fafb31@arm.com>
-In-Reply-To: <9c31b697-3d80-407a-82b3-cfbb19fafb31@arm.com>
+ <20240327160314.9982-3-apais@linux.microsoft.com> <ZgUGXTKPVhrA1tam@matsya>
+In-Reply-To: <ZgUGXTKPVhrA1tam@matsya>
 From: Allen <allen.lkml@gmail.com>
-Date: Thu, 28 Mar 2024 10:47:06 -0700
-Message-ID: <CAOMdWSL9GUkoOOX4LNwMOV24-8xnmFKep15xj8NnmnBss-RYAQ@mail.gmail.com>
-Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
-To: Christian Loehle <christian.loehle@arm.com>
+Date: Thu, 28 Mar 2024 10:49:51 -0700
+Message-ID: <CAOMdWSJxDAFKLVbH7wrB16m2nNXHm0b45dCRhvitVCP1Wf1aEg@mail.gmail.com>
+Subject: Re: [PATCH 2/9] dma: Convert from tasklet to BH workqueue
+To: Vinod Koul <vkoul@kernel.org>
 Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, tj@kernel.org, 
-	keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
+	keescook@chromium.org, marcan@marcan.st, sven@svenpeter.dev, 
 	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
 	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
 	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
@@ -97,67 +96,169 @@ Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, tj@ker
 	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
 	linux-s390@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 28, 2024 at 3:16=E2=80=AFAM Christian Loehle
-<christian.loehle@arm.com> wrote:
 >
-> On 27/03/2024 16:03, Allen Pais wrote:
-> > The only generic interface to execute asynchronously in the BH context =
-is
-> > tasklet; however, it's marked deprecated and has some design flaws. To
-> > replace tasklets, BH workqueue support was recently added. A BH workque=
-ue
-> > behaves similarly to regular workqueues except that the queued work ite=
-ms
-> > are executed in the BH context.
-> >
-> > This patch converts drivers/infiniband/* from tasklet to BH workqueue.
-> s/infiniband/mmc
+> Subsytem is dmaengine, can you rename this to dmaengine: ...
 
-Will fix it in v2.
+ My apologies, will have it fixed in v2.
+
+>
+> On 27-03-24, 16:03, Allen Pais wrote:
+> > The only generic interface to execute asynchronously in the BH context is
+> > tasklet; however, it's marked deprecated and has some design flaws. To
+> > replace tasklets, BH workqueue support was recently added. A BH workqueue
+> > behaves similarly to regular workqueues except that the queued work items
+> > are executed in the BH context.
+>
+> Thanks for conversion, am happy with BH alternative as it helps in
+> dmaengine where we need shortest possible time between tasklet and
+> interrupt handling to maximize dma performance
+>
+> >
+> > This patch converts drivers/dma/* from tasklet to BH workqueue.
+>
 > >
 > > Based on the work done by Tejun Heo <tj@kernel.org>
-> > Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6=
-.10
+> > Branch: git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
 > >
 > > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
 > > ---
-> >  drivers/mmc/host/atmel-mci.c                  | 35 ++++-----
-> >  drivers/mmc/host/au1xmmc.c                    | 37 ++++-----
-> >  drivers/mmc/host/cb710-mmc.c                  | 15 ++--
-> >  drivers/mmc/host/cb710-mmc.h                  |  3 +-
-> >  drivers/mmc/host/dw_mmc.c                     | 25 ++++---
-> >  drivers/mmc/host/dw_mmc.h                     |  9 ++-
-> For dw_mmc:
-> Performance numbers look good FWIW.
-> for i in $(seq 0 5); do echo performance > /sys/devices/system/cpu/cpu$i/=
-cpufreq/scaling_governor; done
-> for i in $(seq 0 4); do fio --name=3Dtest --rw=3Drandread --bs=3D4k --run=
-time=3D30 --time_based --filename=3D/dev/mmcblk1 --minimal --numjobs=3D6 --=
-iodepth=3D32 --group_reporting | awk -F ";" '{print $8}'; sleep 30; done
-> Baseline:
-> 1758
-> 1773
-> 1619
-> 1835
-> 1639
-> to:
-> 1743
-> 1643
-> 1860
-> 1638
-> 1872
-> (I'd call that equivalent).
-> This is on a RK3399.
-> I would prefer most of the naming to change from "work" to "workqueue" in=
- the driver
-> code.
-> Apart from that:
-> Reviewed-by: Christian Loehle <christian.loehle@arm.com>
-> Tested-by: Christian Loehle <christian.loehle@arm.com>
+> >  drivers/dma/altera-msgdma.c                   | 15 ++++----
+> >  drivers/dma/apple-admac.c                     | 15 ++++----
+> >  drivers/dma/at_hdmac.c                        |  2 +-
+> >  drivers/dma/at_xdmac.c                        | 15 ++++----
+> >  drivers/dma/bcm2835-dma.c                     |  2 +-
+> >  drivers/dma/dma-axi-dmac.c                    |  2 +-
+> >  drivers/dma/dma-jz4780.c                      |  2 +-
+> >  .../dma/dw-axi-dmac/dw-axi-dmac-platform.c    |  2 +-
+> >  drivers/dma/dw-edma/dw-edma-core.c            |  2 +-
+> >  drivers/dma/dw/core.c                         | 13 +++----
+> >  drivers/dma/dw/regs.h                         |  3 +-
+> >  drivers/dma/ep93xx_dma.c                      | 15 ++++----
+> >  drivers/dma/fsl-edma-common.c                 |  2 +-
+> >  drivers/dma/fsl-qdma.c                        |  2 +-
+> >  drivers/dma/fsl_raid.c                        | 11 +++---
+> >  drivers/dma/fsl_raid.h                        |  2 +-
+> >  drivers/dma/fsldma.c                          | 15 ++++----
+> >  drivers/dma/fsldma.h                          |  3 +-
+> >  drivers/dma/hisi_dma.c                        |  2 +-
+> >  drivers/dma/hsu/hsu.c                         |  2 +-
+> >  drivers/dma/idma64.c                          |  4 +--
+> >  drivers/dma/img-mdc-dma.c                     |  2 +-
+> >  drivers/dma/imx-dma.c                         | 27 +++++++-------
+> >  drivers/dma/imx-sdma.c                        |  6 ++--
+> >  drivers/dma/ioat/dma.c                        | 17 ++++-----
+> >  drivers/dma/ioat/dma.h                        |  5 +--
+> >  drivers/dma/ioat/init.c                       |  2 +-
+> >  drivers/dma/k3dma.c                           | 19 +++++-----
+> >  drivers/dma/mediatek/mtk-cqdma.c              | 35 ++++++++++---------
+> >  drivers/dma/mediatek/mtk-hsdma.c              |  2 +-
+> >  drivers/dma/mediatek/mtk-uart-apdma.c         |  4 +--
+> >  drivers/dma/mmp_pdma.c                        | 13 +++----
+> >  drivers/dma/mmp_tdma.c                        | 11 +++---
+> >  drivers/dma/mpc512x_dma.c                     | 17 ++++-----
+> >  drivers/dma/mv_xor.c                          | 13 +++----
+> >  drivers/dma/mv_xor.h                          |  5 +--
+> >  drivers/dma/mv_xor_v2.c                       | 23 ++++++------
+> >  drivers/dma/mxs-dma.c                         | 13 +++----
+> >  drivers/dma/nbpfaxi.c                         | 15 ++++----
+> >  drivers/dma/owl-dma.c                         |  2 +-
+> >  drivers/dma/pch_dma.c                         | 17 ++++-----
+> >  drivers/dma/pl330.c                           | 31 ++++++++--------
+> >  drivers/dma/plx_dma.c                         | 13 +++----
+> >  drivers/dma/ppc4xx/adma.c                     | 17 ++++-----
+> >  drivers/dma/ppc4xx/adma.h                     |  5 +--
+> >  drivers/dma/pxa_dma.c                         |  2 +-
+> >  drivers/dma/qcom/bam_dma.c                    | 35 ++++++++++---------
+> >  drivers/dma/qcom/gpi.c                        | 18 +++++-----
+> >  drivers/dma/qcom/hidma.c                      | 11 +++---
+> >  drivers/dma/qcom/hidma.h                      |  5 +--
+> >  drivers/dma/qcom/hidma_ll.c                   | 11 +++---
+> >  drivers/dma/qcom/qcom_adm.c                   |  2 +-
+> >  drivers/dma/sa11x0-dma.c                      | 27 +++++++-------
+> >  drivers/dma/sf-pdma/sf-pdma.c                 | 23 ++++++------
+> >  drivers/dma/sf-pdma/sf-pdma.h                 |  5 +--
+> >  drivers/dma/sprd-dma.c                        |  2 +-
+> >  drivers/dma/st_fdma.c                         |  2 +-
+> >  drivers/dma/ste_dma40.c                       | 17 ++++-----
+> >  drivers/dma/sun6i-dma.c                       | 33 ++++++++---------
+> >  drivers/dma/tegra186-gpc-dma.c                |  2 +-
+> >  drivers/dma/tegra20-apb-dma.c                 | 19 +++++-----
+> >  drivers/dma/tegra210-adma.c                   |  2 +-
+> >  drivers/dma/ti/edma.c                         |  2 +-
+> >  drivers/dma/ti/k3-udma.c                      | 11 +++---
+> >  drivers/dma/ti/omap-dma.c                     |  2 +-
+> >  drivers/dma/timb_dma.c                        | 23 ++++++------
+> >  drivers/dma/txx9dmac.c                        | 29 +++++++--------
+> >  drivers/dma/txx9dmac.h                        |  5 +--
+> >  drivers/dma/virt-dma.c                        |  9 ++---
+> >  drivers/dma/virt-dma.h                        |  9 ++---
+> >  drivers/dma/xgene-dma.c                       | 21 +++++------
+> >  drivers/dma/xilinx/xilinx_dma.c               | 23 ++++++------
+> >  drivers/dma/xilinx/xilinx_dpdma.c             | 21 +++++------
+> >  drivers/dma/xilinx/zynqmp_dma.c               | 21 +++++------
+> >  74 files changed, 442 insertions(+), 395 deletions(-)
+> >
+> > diff --git a/drivers/dma/altera-msgdma.c b/drivers/dma/altera-msgdma.c
+> > index a8e3615235b8..611b5290324b 100644
+> > --- a/drivers/dma/altera-msgdma.c
+> > +++ b/drivers/dma/altera-msgdma.c
+> > @@ -20,6 +20,7 @@
+> >  #include <linux/platform_device.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/of_dma.h>
+> > +#include <linux/workqueue.h>
+> >
+> >  #include "dmaengine.h"
+> >
+> > @@ -170,7 +171,7 @@ struct msgdma_sw_desc {
+> >  struct msgdma_device {
+> >       spinlock_t lock;
+> >       struct device *dev;
+> > -     struct tasklet_struct irq_tasklet;
+> > +     struct work_struct irq_work;
+>
+> Can we name these as bh_work to signify that we are always in bh
+> context? here and everywhere please
 
- Thank you very much for testing and the review. Will have your
-concerns addressed in v2.
+ Sure, will address it in v2.
+>
+>
+> >       struct list_head pending_list;
+> >       struct list_head free_list;
+> >       struct list_head active_list;
+> > @@ -676,12 +677,12 @@ static int msgdma_alloc_chan_resources(struct dma_chan *dchan)
+> >  }
+> >
+> >  /**
+> > - * msgdma_tasklet - Schedule completion tasklet
+> > + * msgdma_work - Schedule completion work
+>
+> ..
+>
+> > @@ -515,7 +516,7 @@ struct gpii {
+> >       enum gpi_pm_state pm_state;
+> >       rwlock_t pm_lock;
+> >       struct gpi_ring ev_ring;
+> > -     struct tasklet_struct ev_task; /* event processing tasklet */
+> > +     struct work_struct ev_task; /* event processing work */
+> >       struct completion cmd_completion;
+> >       enum gpi_cmd gpi_cmd;
+> >       u32 cntxt_type_irq_msk;
+> > @@ -755,7 +756,7 @@ static void gpi_process_ieob(struct gpii *gpii)
+> >       gpi_write_reg(gpii, gpii->ieob_clr_reg, BIT(0));
+> >
+> >       gpi_config_interrupts(gpii, MASK_IEOB_SETTINGS, 0);
+> > -     tasklet_hi_schedule(&gpii->ev_task);
+> > +     queue_work(system_bh_highpri_wq, &gpii->ev_task);
+>
+> This is good conversion, thanks for ensuring system_bh_highpri_wq is
+> used here
+
+ Thank you very much for the review, will have v2 sent soon.
 
 - Allen
+
+> --
+> ~Vinod
+>
