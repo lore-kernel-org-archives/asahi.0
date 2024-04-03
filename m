@@ -1,70 +1,69 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41B11494DF;
-	Wed,  3 Apr 2024 13:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83E91E520;
+	Wed,  3 Apr 2024 16:44:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712151217; cv=none; b=D0I0HGOPrSTpKTpm6MPEct5ziNCaL+35SUfgOazWQKmztKiOKEPmI3qgwGnIaixOD+q3s3+C0ji2nPijBLOwTQx1advKhPhv2wLCJ3ox9xQcX2ZsUwHzGnPzAMsCm2apNiZKU1bigFV+GSqhY0VAs55bo+USbD+NsYaKpe4DzkM=
+	t=1712162654; cv=none; b=QmThfB2uG0DjDE/oD78W99O25/ADBN99gJ4GWZA7LIZ3B1CO1yTVfZ5ECgpRSGGXOAWldz11Dkop+eY0xFFwRiTjBZesftEsgmVSBKTjLCACuug1GvdNOv0Gu6B/tQyZrPVpXo0Nnys8riSOshTc0sdk6CJ0QqbqPsW6ESwbEl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712151217; c=relaxed/simple;
-	bh=Qt01KTjE4NGp5XEomZDf90wNSv9JiA1QkpnnyKlsblA=;
+	s=arc-20240116; t=1712162654; c=relaxed/simple;
+	bh=M1neYOlhzngATdBbVyJaKe7fkRAK//9DrStR8GOcQu4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=okKQmTJA9V2ou0EcVoPoGoTC20G11Agi2nqNNyDKJ8tTQsnOgKG1LMu1M6Xp6s6oTCGiH7vWSNo1cnufA0hlIGZ+YQcTZL/kg9g5hNJPlhyC1SR+SFZ+Y511y76nUsxaJpHGGVbnU1089qET6rNFvGOndKggCL/MavE3P+l0aEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C+u0Sd06; arc=none smtp.client-ip=209.85.161.49
+	 To:Cc:Content-Type; b=HZT2XFqARwF4Z+85DrgQGT9BNu/Qrhxwgl8kP7Kvm8wgPlOlU/6YaxP4O4hledGA1mkNbcaArPbCmwBNh874p01oMZ7M+zmfhwIFzX9WxPwNE6IJi2Zzcv3q9EeX9nmUg35ytnMDbJMJvOYA0YtYAitbeCsfo+gmgvjcjnhaH6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RgmwMsXH; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C+u0Sd06"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5a52c5c96feso2359760eaf.3;
-        Wed, 03 Apr 2024 06:33:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RgmwMsXH"
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-4d8e8619f4aso9301e0c.0;
+        Wed, 03 Apr 2024 09:44:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712151215; x=1712756015; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1712162651; x=1712767451; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UfJ432sdibD0Lka67Qj4+39whrzSunQCkb9XAcwEVWQ=;
-        b=C+u0Sd06AJoVEun36XNyU7Rng6YLUCg6tOOKEMNQDqIk9nods9TtQFxfHklWNv1gSc
-         +8D9mGEixvXNnvyMleoCJeEQ5g42fQwaaK9W9rswsgIvXpA8q+0hm7CyKB9dvnSAMj6H
-         ckWXssZTBpvhSV7skM7cHG63Ta5f4Umzg6DUSj2jAXY1yvwY5gbxYvAvnNSkZ9oLXFl+
-         qocII3T9kp184kDZFxt7NVt5KiGB1YrU/LKid19S+nePuwTynd/5JjDGeZoyg2A2yj2C
-         xB00tvxjLdZgHApR/Ca+AV0iJDBjDi8u9f24TLYDZedIItdG6h8DfrhMvMw8BUk/pMDO
-         RQnA==
+        bh=Aej6QFoETxeFvbQm8/sOYYAdEcWAnghw/7Ynm8n0ucQ=;
+        b=RgmwMsXHbjzKaDOljdtc6tb+kslE/qRlIaIsIrbaKnpCQCLpYYTGxsJmmtHCUNEBSf
+         HGI82OwR+Ws5ZxSkAzRPRDG6gW4ac0QHJgCaGo2fTS+DoZW4hdvz6r48cv13JGCUduIX
+         6DlD6SIgyJocfkqXv/VNj4UfvujKb2vPSaWwWRAPRMUoezUyINhfRifGfPxPITG98C/8
+         oepZ1smESLXetRfQ1EKueSr68RrDOoJdHsbaaKSPFTu4K81MlwkRaQa2kP/MuVYjtyNw
+         LEpQMg89y4ruQYHe1dgd9p0n9xN/VuzAChxs0W0rlcwqtVeDgebjvsr+iidy7QWSOTGV
+         z2UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712151215; x=1712756015;
+        d=1e100.net; s=20230601; t=1712162651; x=1712767451;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UfJ432sdibD0Lka67Qj4+39whrzSunQCkb9XAcwEVWQ=;
-        b=fGTyDWpFa0gP/7CXc65zDvSumNBUsTSvxOdKw/pnGOn9sONzcg2Z6Jd0SJUa66tOBE
-         WvgNGgEMmWnIhV3vzDUEaMa/MZIIMDp4VbPCeT460jsv0Et/Y7VcQt1uRN87ZHtEr6tH
-         4XigWoYMHURsodG1985nhxG7uwOXlDVBuMv4NzYkCOGhe1/FHw+Spw/I9L0lbupmBAnQ
-         fCOl4MVrYYGU02zXcdmbBi1YxYg8PiEKN2+CTfBD+p7op1ws/b3K8D7LLzazueThOs4P
-         Lt6cKupAi2V/nYHPAFPKMyf/XiXG4Oj45mhVWTt59lecFzenSTi/jIdR2lkK4yqxj/PE
-         7RSw==
-X-Forwarded-Encrypted: i=1; AJvYcCUHEHh2fwxOSl2NvHhI1b7bMQkMB7kGG7W8s0WEH4ETaSvdrHfF4KUWgn4LsMxVwZVCEpm9ZHcHPHhxWaGI0TCqr5EWhcE1w3onfMlunt+3a3E6b8sHBR3NkgzrbJjOOjlF/o3pnLnb/LP7zPyFrkmmt8Gvi/NodA==
-X-Gm-Message-State: AOJu0YyoNSh5yUbXqx82zTtxTiT5ot/yXxblUAxMC6CF4YjADvUUSM7p
-	cHGNfMwGAMRAUkZ6StyHVdA99yfHSyi3kVOD7mJNxhBwMbAs9vB6SI8JqfQLvmRF5MsTYqdQKWK
-	hnzpHW7LQoTLYWB/LgTdKrpFBH+w=
-X-Google-Smtp-Source: AGHT+IFsoYFg4TPJZ/xBylk5B9Nfa55HU119ldFLC4g550cJsZKKSI+Id/ONzGwerMZ8W2tZHWzr/Kf097BxBvAdyL0=
-X-Received: by 2002:a05:6808:181d:b0:3c5:d426:9b87 with SMTP id
- bh29-20020a056808181d00b003c5d4269b87mr1074785oib.23.1712151214780; Wed, 03
- Apr 2024 06:33:34 -0700 (PDT)
+        bh=Aej6QFoETxeFvbQm8/sOYYAdEcWAnghw/7Ynm8n0ucQ=;
+        b=ljflk8Fno0C/nQUhP5DIZPTxs1rZzpI3v1rUp0XZU5eAvtdeP6n5DBZE9BfClNjo8W
+         b8fFEZw5iMKkCQXkR0+aSLE53kzSnysc+cAG674vb7EfAUHuEp/sRY9beFh5uY6vUZyV
+         7NFPgeZfUKBFxX+k8dw32rvPFZFblmhH1dArmBeDUvr0Jvyt5fvoIKJqLH7p49qtnGK0
+         lupKVnFd6P7oUnW/7zi9OjjJ44557v81TkBMeIX4Jgj/nFqWxtBrs6ZlGZgLWikZGwfv
+         YSX2I7SWon+yBUJMCvHLGsQcGr/NADc1BOuPXSJLSBHYCCcma8HDjqRYI9DN8iUJc64L
+         9w+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX5NN7ajmEKKgmvtvFkxMzVSn3QdLCElTUGD+X784Ry9AYrliGmRYlSeukTTW7IZr2yRs42TCfiltwJqazfHz7zay/gt9MQDCWux8NAIOZZU4KwYklnUaMIlX5aQo1DV55sQgi2f5MHcFq7j+lUKy9srOcZih1F2Q==
+X-Gm-Message-State: AOJu0YxvNIQx6yqoymQCto4zR+qrcThB/YlastJcg34Dn8zw27AKm/gJ
+	xjqNAw3vB1r/jAUlEHQD+amDPBJsQRXvMDqwMOCpGKw84N50eQSzjuaw0nziVAZ37EbdjdNqgEX
+	t/ykQan9V05dI8JScUPJFpkkjI/Q=
+X-Google-Smtp-Source: AGHT+IFEFFEcpcdQfCxRWJYlDuuUETZ0sWBciDlGUMCvLnJmEBIY1oP87nAaJSL5QQDatxb4oTnFcly4MrzzQ8OrF5o=
+X-Received: by 2002:a05:6122:499a:b0:4d3:b326:5ae8 with SMTP id
+ ex26-20020a056122499a00b004d3b3265ae8mr10815788vkb.14.1712162651582; Wed, 03
+ Apr 2024 09:44:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-8-apais@linux.microsoft.com> <ea4ac7a3-13ae-4d22-a3d9-fcb7d9e8d751@linux.ibm.com>
-In-Reply-To: <ea4ac7a3-13ae-4d22-a3d9-fcb7d9e8d751@linux.ibm.com>
+References: <20240327160314.9982-1-apais@linux.microsoft.com> <20240327160314.9982-2-apais@linux.microsoft.com>
+In-Reply-To: <20240327160314.9982-2-apais@linux.microsoft.com>
 From: Allen <allen.lkml@gmail.com>
-Date: Wed, 3 Apr 2024 06:33:23 -0700
-Message-ID: <CAOMdWS+wH9qZ_08nVSQV1sY0C=uHMC+3NmPuFjwKzBFCgMa7MQ@mail.gmail.com>
-Subject: Re: [PATCH 7/9] s390: Convert from tasklet to BH workqueue
-To: Alexandra Winter <wintera@linux.ibm.com>
-Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, tj@kernel.org, 
-	keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
+Date: Wed, 3 Apr 2024 09:43:57 -0700
+Message-ID: <CAOMdWSLavg27YZgnfE2QHjO=4RNmFx_7veAURaPG_=qWX=KMVA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] hyperv: Convert from tasklet to BH workqueue
+To: Allen Pais <apais@linux.microsoft.com>
+Cc: linux-kernel@vger.kernel.org, tj@kernel.org, keescook@chromium.org, 
+	vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
 	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
 	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
 	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
@@ -97,58 +96,35 @@ Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, tj@ker
 	linux-s390@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-> >
-> > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
-> > ---
-> >  drivers/s390/block/dasd.c              | 42 ++++++++++++------------
-> >  drivers/s390/block/dasd_int.h          | 10 +++---
-> >  drivers/s390/char/con3270.c            | 27 ++++++++--------
-> >  drivers/s390/crypto/ap_bus.c           | 24 +++++++-------
-> >  drivers/s390/crypto/ap_bus.h           |  2 +-
-> >  drivers/s390/crypto/zcrypt_msgtype50.c |  2 +-
-> >  drivers/s390/crypto/zcrypt_msgtype6.c  |  4 +--
-> >  drivers/s390/net/ctcm_fsms.c           |  4 +--
-> >  drivers/s390/net/ctcm_main.c           | 15 ++++-----
-> >  drivers/s390/net/ctcm_main.h           |  5 +--
-> >  drivers/s390/net/ctcm_mpc.c            | 12 +++----
-> >  drivers/s390/net/ctcm_mpc.h            |  7 ++--
-> >  drivers/s390/net/lcs.c                 | 26 +++++++--------
-> >  drivers/s390/net/lcs.h                 |  2 +-
-> >  drivers/s390/net/qeth_core_main.c      |  2 +-
-> >  drivers/s390/scsi/zfcp_qdio.c          | 45 +++++++++++++-------------
-> >  drivers/s390/scsi/zfcp_qdio.h          |  9 +++---
-> >  17 files changed, 117 insertions(+), 121 deletions(-)
-> >
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
 >
+> This patch converts drivers/hv/* from tasklet to BH workqueue.
 >
-> We're looking into the best way to test this.
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
 >
-> For drivers/s390/net/ctcm* and drivers/s390/net/lcs*:
-> Acked-by: Alexandra Winter <wintera@linux.ibm.com>
+> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+> ---
+>  drivers/hv/channel.c      |  8 ++++----
+>  drivers/hv/channel_mgmt.c |  5 ++---
+>  drivers/hv/connection.c   |  9 +++++----
+>  drivers/hv/hv.c           |  3 +--
+>  drivers/hv/hv_balloon.c   |  4 ++--
+>  drivers/hv/hv_fcopy.c     |  8 ++++----
+>  drivers/hv/hv_kvp.c       |  8 ++++----
+>  drivers/hv/hv_snapshot.c  |  8 ++++----
+>  drivers/hv/hyperv_vmbus.h |  9 +++++----
+>  drivers/hv/vmbus_drv.c    | 19 ++++++++++---------
+>  include/linux/hyperv.h    |  2 +-
+>  11 files changed, 42 insertions(+), 41 deletions(-)
 
- Thank you very much.
+Wei,
 
->
->
-> [...]
-> > diff --git a/drivers/s390/net/qeth_core_main.c b/drivers/s390/net/qeth_core_main.c
-> > index a0cce6872075..10ea95abc753 100644
-> > --- a/drivers/s390/net/qeth_core_main.c
-> > +++ b/drivers/s390/net/qeth_core_main.c
-> > @@ -2911,7 +2911,7 @@ static int qeth_init_input_buffer(struct qeth_card *card,
-> >       }
-> >
-> >       /*
-> > -      * since the buffer is accessed only from the input_tasklet
-> > +      * since the buffer is accessed only from the input_work
-> >        * there shouldn't be a need to synchronize; also, since we use
-> >        * the QETH_IN_BUF_REQUEUE_THRESHOLD we should never run  out off
-> >        * buffers
->
-> I propose to delete the whole comment block. There have been many changes and
-> I don't think it is helpful for the current qeth driver.
+ I need to send out a v2 as I did not include the second patch that
+updates drivers/pci/controller/pci-hyperv.c
 
-
- Sure, I will have it fixed in v2.
-
-- Allen
+Thanks.
