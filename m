@@ -1,116 +1,154 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA29A1482ED
-	for <asahi@lists.linux.dev>; Wed,  3 Apr 2024 13:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41B11494DF;
+	Wed,  3 Apr 2024 13:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712150353; cv=none; b=EgxKDM2URDf/fuE0cWgyaOYciNUXEZSr1IxaAdaUDprscFHo5Eo6M8RDDaAdjIi1JLUZGuOhNWaKf+3bxcrrakSUAx9Yl9vUfgxVCqBUOGCp1EmeIh52Buc2vs2SnfvszSnhohzGRT3BpOZ8sEzfOdsUHlFP3X2N3nhVaPrJozY=
+	t=1712151217; cv=none; b=D0I0HGOPrSTpKTpm6MPEct5ziNCaL+35SUfgOazWQKmztKiOKEPmI3qgwGnIaixOD+q3s3+C0ji2nPijBLOwTQx1advKhPhv2wLCJ3ox9xQcX2ZsUwHzGnPzAMsCm2apNiZKU1bigFV+GSqhY0VAs55bo+USbD+NsYaKpe4DzkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712150353; c=relaxed/simple;
-	bh=cWyJ3cJLCpRglG8Yk4xFCKIFWdrd8x6dZaV75Jxrvbw=;
+	s=arc-20240116; t=1712151217; c=relaxed/simple;
+	bh=Qt01KTjE4NGp5XEomZDf90wNSv9JiA1QkpnnyKlsblA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sv2+0fqUDAPJzDDXXms6EHybzh/vyXukWqTrBnN/e5sxEH9TCVR1VzMqa3ehIQ5cgiBFjF7cLpPwhb9sZN8lwuHjiBclDgeIB4T8RHVDiK+iB6d4V+j3CyzhvJrDZZeEKUaBUjIcDHWnQ21U8/j6bwRRznG0KPEqKrRSWEX5sQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=nEZB8p0W; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=okKQmTJA9V2ou0EcVoPoGoTC20G11Agi2nqNNyDKJ8tTQsnOgKG1LMu1M6Xp6s6oTCGiH7vWSNo1cnufA0hlIGZ+YQcTZL/kg9g5hNJPlhyC1SR+SFZ+Y511y76nUsxaJpHGGVbnU1089qET6rNFvGOndKggCL/MavE3P+l0aEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C+u0Sd06; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="nEZB8p0W"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-432ff72d745so7666461cf.1
-        for <asahi@lists.linux.dev>; Wed, 03 Apr 2024 06:19:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C+u0Sd06"
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5a52c5c96feso2359760eaf.3;
+        Wed, 03 Apr 2024 06:33:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1712150350; x=1712755150; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cWyJ3cJLCpRglG8Yk4xFCKIFWdrd8x6dZaV75Jxrvbw=;
-        b=nEZB8p0Wn30FGunX5cmm6HqFhrwCfW12G+RGhYeyann8apyl+TnUy2WS6Qhjp6JTrR
-         Z6A1AVif+Za2B9t43oSVLyZleuF5AgfoZd9SPZNu+eJAiTDswU4A8uJxeEQ1R1BAXqnZ
-         t1wUhyIGjPWI+o+zeDzIyqHRei7HSXX0hR7bzOM+eChFIC35NplPS2iFV6ALsTK0GSE9
-         vmoXVOk3ao9TVCsWtV+qv0LajyrKAZTZCJr9rhsS6vDsIOm251goam0IFvOusYC9ofwV
-         0zHcjYZqd7U8hPdM5IE67wQk5fpjih4rpFqPMqYbFEQ0mG14ueLr5+H2qGqpsdOqVeZF
-         o3CA==
+        d=gmail.com; s=20230601; t=1712151215; x=1712756015; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=UfJ432sdibD0Lka67Qj4+39whrzSunQCkb9XAcwEVWQ=;
+        b=C+u0Sd06AJoVEun36XNyU7Rng6YLUCg6tOOKEMNQDqIk9nods9TtQFxfHklWNv1gSc
+         +8D9mGEixvXNnvyMleoCJeEQ5g42fQwaaK9W9rswsgIvXpA8q+0hm7CyKB9dvnSAMj6H
+         ckWXssZTBpvhSV7skM7cHG63Ta5f4Umzg6DUSj2jAXY1yvwY5gbxYvAvnNSkZ9oLXFl+
+         qocII3T9kp184kDZFxt7NVt5KiGB1YrU/LKid19S+nePuwTynd/5JjDGeZoyg2A2yj2C
+         xB00tvxjLdZgHApR/Ca+AV0iJDBjDi8u9f24TLYDZedIItdG6h8DfrhMvMw8BUk/pMDO
+         RQnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712150350; x=1712755150;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cWyJ3cJLCpRglG8Yk4xFCKIFWdrd8x6dZaV75Jxrvbw=;
-        b=PLPMwNHtuazV64XPegRtgOeZQszpwWNOu5erCiSjpAswfoW9QJ1eYIrPhO51tExfbr
-         PlgoAKoQViw7hj7y+VA6cRSqs2tQzbvJs1StACcmY4NqXkX+f0hPgJVzPDh5V9nYaVU0
-         sk/e8Gw1DZN9lznsumIsxqSeJk140qRQ7cV7XJJWsVxzQwIOwXpe3C9q14Gr6P99O0xg
-         B964/+tvU23Hf26+i8WzxlZ/xEqnGrfpEFHrPBMcautWAdOrQrs8hzDYb79grTsnstNH
-         xkc+XQEPVVBlDAAGf3fpR6ic1DBsBc67UYiJzySQpn+NUpQmHhZB/OGKvvKEiJw+7UBu
-         fjag==
-X-Forwarded-Encrypted: i=1; AJvYcCUg6d5A3tlvymS/W/hxV7VrRoTJh2QVGpdllv73jPFogABv9xbQ5dJ4VbMxBk60Wpk4O5vhlQk7pY9Vc0XpYDEDPT6Cok0=
-X-Gm-Message-State: AOJu0Yx4nKZL5KpKIc/l4Xc/q1TRKYwRzK779pOIsPEQTXMHpKj2P8O7
-	tTtt2IxR2+WNFHAiBkBHaJuuxc0N/8Lpbi0GlfB0xgD96SQU1B0iloIGI2wq6TLyfYuTSIrRvdz
-	VKRETOvS7AYvAb0eBVGIdSD9pq++D3gQXPSxRoefYMe2o4yFR
-X-Google-Smtp-Source: AGHT+IEGVCWVaM3OZyGBYvZk7eIME6rUXSm4/CdsRsbb+oN0keiU95giarhKtyBsTd58XnIkGQv2TzNnxS90eOdz7ws=
-X-Received: by 2002:a05:622a:104c:b0:434:338c:31ac with SMTP id
- f12-20020a05622a104c00b00434338c31acmr3549454qte.14.1712150349909; Wed, 03
- Apr 2024 06:19:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1712151215; x=1712756015;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UfJ432sdibD0Lka67Qj4+39whrzSunQCkb9XAcwEVWQ=;
+        b=fGTyDWpFa0gP/7CXc65zDvSumNBUsTSvxOdKw/pnGOn9sONzcg2Z6Jd0SJUa66tOBE
+         WvgNGgEMmWnIhV3vzDUEaMa/MZIIMDp4VbPCeT460jsv0Et/Y7VcQt1uRN87ZHtEr6tH
+         4XigWoYMHURsodG1985nhxG7uwOXlDVBuMv4NzYkCOGhe1/FHw+Spw/I9L0lbupmBAnQ
+         fCOl4MVrYYGU02zXcdmbBi1YxYg8PiEKN2+CTfBD+p7op1ws/b3K8D7LLzazueThOs4P
+         Lt6cKupAi2V/nYHPAFPKMyf/XiXG4Oj45mhVWTt59lecFzenSTi/jIdR2lkK4yqxj/PE
+         7RSw==
+X-Forwarded-Encrypted: i=1; AJvYcCUHEHh2fwxOSl2NvHhI1b7bMQkMB7kGG7W8s0WEH4ETaSvdrHfF4KUWgn4LsMxVwZVCEpm9ZHcHPHhxWaGI0TCqr5EWhcE1w3onfMlunt+3a3E6b8sHBR3NkgzrbJjOOjlF/o3pnLnb/LP7zPyFrkmmt8Gvi/NodA==
+X-Gm-Message-State: AOJu0YyoNSh5yUbXqx82zTtxTiT5ot/yXxblUAxMC6CF4YjADvUUSM7p
+	cHGNfMwGAMRAUkZ6StyHVdA99yfHSyi3kVOD7mJNxhBwMbAs9vB6SI8JqfQLvmRF5MsTYqdQKWK
+	hnzpHW7LQoTLYWB/LgTdKrpFBH+w=
+X-Google-Smtp-Source: AGHT+IFsoYFg4TPJZ/xBylk5B9Nfa55HU119ldFLC4g550cJsZKKSI+Id/ONzGwerMZ8W2tZHWzr/Kf097BxBvAdyL0=
+X-Received: by 2002:a05:6808:181d:b0:3c5:d426:9b87 with SMTP id
+ bh29-20020a056808181d00b003c5d4269b87mr1074785oib.23.1712151214780; Wed, 03
+ Apr 2024 06:33:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
- <00555af4-8786-b772-7897-aef1e912b368@google.com> <ZfTDUGSshZUbs13-@8bytes.org>
-In-Reply-To: <ZfTDUGSshZUbs13-@8bytes.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 3 Apr 2024 09:18:33 -0400
-Message-ID: <CA+CK2bC7jd65=eZoN7szWJKSO2TLsxxKFH8D6WjHS3_2U7=McA@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] IOMMU memory observability
-To: Joerg Roedel <joro@8bytes.org>
-Cc: David Rientjes <rientjes@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
-	baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org, 
-	corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, 
-	heiko@sntech.de, iommu@lists.linux.dev, jernej.skrabec@gmail.com, 
-	jonathanh@nvidia.com, krzysztof.kozlowski@linaro.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-8-apais@linux.microsoft.com> <ea4ac7a3-13ae-4d22-a3d9-fcb7d9e8d751@linux.ibm.com>
+In-Reply-To: <ea4ac7a3-13ae-4d22-a3d9-fcb7d9e8d751@linux.ibm.com>
+From: Allen <allen.lkml@gmail.com>
+Date: Wed, 3 Apr 2024 06:33:23 -0700
+Message-ID: <CAOMdWS+wH9qZ_08nVSQV1sY0C=uHMC+3NmPuFjwKzBFCgMa7MQ@mail.gmail.com>
+Subject: Re: [PATCH 7/9] s390: Convert from tasklet to BH workqueue
+To: Alexandra Winter <wintera@linux.ibm.com>
+Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org, tj@kernel.org, 
+	keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev, 
+	florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, 
+	paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com, 
+	manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com, 
+	leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com, 
+	haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de, 
+	sean.wang@mediatek.com, matthias.bgg@gmail.com, 
+	angelogioacchino.delregno@collabora.com, afaerber@suse.de, 
+	logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com, 
+	robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, 
+	patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org, 
+	jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com, 
+	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com, 
+	jassisinghbrar@gmail.com, mchehab@kernel.org, maintainers@bluecherrydvr.com, 
+	aubin.constans@microchip.com, ulf.hansson@linaro.org, manuel.lauss@gmail.com, 
+	mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com, 
+	hayashi.kunihiko@socionext.com, mhiramat@kernel.org, brucechang@via.com.tw, 
+	HaraldWelte@viatech.com, pierre@ossman.eu, duncan.sands@free.fr, 
+	stern@rowland.harvard.edu, oneukum@suse.com, 
+	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
+	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org, 
 	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, 
-	m.szyprowski@samsung.com, paulmck@kernel.org, rdunlap@infradead.org, 
-	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
-	yu-cheng.yu@intel.com, bagasdotme@gmail.com, mkoutny@suse.com
+	linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-s390@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Mar 15, 2024 at 5:53=E2=80=AFPM Joerg Roedel <joro@8bytes.org> wrot=
-e:
->
-> Hi David,
->
-> On Fri, Mar 15, 2024 at 02:33:53PM -0700, David Rientjes wrote:
-> > Joerg, is this series anticipated to be queued up in the core branch of
-> > git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git so it gets into
-> > linux-next?
 > >
-> > This observability seems particularly useful so that we can monitor and
-> > alert on any unexpected increases (unbounded memory growth from this
-> > subsystem has in the past caused us issues before the memory is otherwi=
-se
-> > not observable by host software).
+> > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+> > ---
+> >  drivers/s390/block/dasd.c              | 42 ++++++++++++------------
+> >  drivers/s390/block/dasd_int.h          | 10 +++---
+> >  drivers/s390/char/con3270.c            | 27 ++++++++--------
+> >  drivers/s390/crypto/ap_bus.c           | 24 +++++++-------
+> >  drivers/s390/crypto/ap_bus.h           |  2 +-
+> >  drivers/s390/crypto/zcrypt_msgtype50.c |  2 +-
+> >  drivers/s390/crypto/zcrypt_msgtype6.c  |  4 +--
+> >  drivers/s390/net/ctcm_fsms.c           |  4 +--
+> >  drivers/s390/net/ctcm_main.c           | 15 ++++-----
+> >  drivers/s390/net/ctcm_main.h           |  5 +--
+> >  drivers/s390/net/ctcm_mpc.c            | 12 +++----
+> >  drivers/s390/net/ctcm_mpc.h            |  7 ++--
+> >  drivers/s390/net/lcs.c                 | 26 +++++++--------
+> >  drivers/s390/net/lcs.h                 |  2 +-
+> >  drivers/s390/net/qeth_core_main.c      |  2 +-
+> >  drivers/s390/scsi/zfcp_qdio.c          | 45 +++++++++++++-------------
+> >  drivers/s390/scsi/zfcp_qdio.h          |  9 +++---
+> >  17 files changed, 117 insertions(+), 121 deletions(-)
 > >
-> > Or are we still waiting on code reviews from some folks that we should
-> > ping?
 >
-> A few more reviews would certainly help, but I will also do a review on
-> my own. If things are looking good I can merge it into the iommu tree
-> when 6.9-rc3 is released (which is the usual time I start merging new
-> stuff).
+>
+> We're looking into the best way to test this.
+>
+> For drivers/s390/net/ctcm* and drivers/s390/net/lcs*:
+> Acked-by: Alexandra Winter <wintera@linux.ibm.com>
 
-Hi Joerg,
+ Thank you very much.
 
-Would it make sense to stage this series in an unstable branch to get
-more test coverage from the 0-day robots?
+>
+>
+> [...]
+> > diff --git a/drivers/s390/net/qeth_core_main.c b/drivers/s390/net/qeth_core_main.c
+> > index a0cce6872075..10ea95abc753 100644
+> > --- a/drivers/s390/net/qeth_core_main.c
+> > +++ b/drivers/s390/net/qeth_core_main.c
+> > @@ -2911,7 +2911,7 @@ static int qeth_init_input_buffer(struct qeth_card *card,
+> >       }
+> >
+> >       /*
+> > -      * since the buffer is accessed only from the input_tasklet
+> > +      * since the buffer is accessed only from the input_work
+> >        * there shouldn't be a need to synchronize; also, since we use
+> >        * the QETH_IN_BUF_REQUEUE_THRESHOLD we should never run  out off
+> >        * buffers
+>
+> I propose to delete the whole comment block. There have been many changes and
+> I don't think it is helpful for the current qeth driver.
 
-Thank you,
-Pasha
+
+ Sure, I will have it fixed in v2.
+
+- Allen
