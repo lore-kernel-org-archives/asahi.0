@@ -1,123 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D7B84A52;
-	Tue,  2 Apr 2024 13:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA29A1482ED
+	for <asahi@lists.linux.dev>; Wed,  3 Apr 2024 13:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712063487; cv=none; b=Ab+4DOG88HjoOiv4xBM47NxBmgiUFTY3Hy9u7A04HCzOSu5NaXU36utXhJrr9XqYteA58Vepp88PWfxm6gwz+AkPWWY6MSEYgos95d9h2owMCb5CDLtcG02ywQd3NJT2J8z8KmBjuZNtjiGNR8lguydLm74MZtOuQ/1o9cukWos=
+	t=1712150353; cv=none; b=EgxKDM2URDf/fuE0cWgyaOYciNUXEZSr1IxaAdaUDprscFHo5Eo6M8RDDaAdjIi1JLUZGuOhNWaKf+3bxcrrakSUAx9Yl9vUfgxVCqBUOGCp1EmeIh52Buc2vs2SnfvszSnhohzGRT3BpOZ8sEzfOdsUHlFP3X2N3nhVaPrJozY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712063487; c=relaxed/simple;
-	bh=9zAsnZKUtdaB+0oUBoSFWoiBkfOWRDSb/L5GPa9FOno=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YxBMH/vw9BRleuY+Tgiarjh9bwd72GPxFeu0mmPcJREbnWAJBZN/yKpfG4Kaaw+TbuiZXI9i0CP5GUV3A+mByQFFdOpijlcJdW5RjXrn4OVvBEWp4ZFd+dDZ7/Uk5W0BYB24fbqwaTmKHhiEhGZq2SnC/vrbfUdgjDel2Xq/w7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pLBmLWbF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712150353; c=relaxed/simple;
+	bh=cWyJ3cJLCpRglG8Yk4xFCKIFWdrd8x6dZaV75Jxrvbw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sv2+0fqUDAPJzDDXXms6EHybzh/vyXukWqTrBnN/e5sxEH9TCVR1VzMqa3ehIQ5cgiBFjF7cLpPwhb9sZN8lwuHjiBclDgeIB4T8RHVDiK+iB6d4V+j3CyzhvJrDZZeEKUaBUjIcDHWnQ21U8/j6bwRRznG0KPEqKrRSWEX5sQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=nEZB8p0W; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pLBmLWbF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECE50C433F1;
-	Tue,  2 Apr 2024 13:11:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712063486;
-	bh=9zAsnZKUtdaB+0oUBoSFWoiBkfOWRDSb/L5GPa9FOno=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pLBmLWbFq8b7R4iZ1CSvRnROpQc318dtdynLw3zTplx/2SSnxsPhnBaGB0KWLxJLw
-	 gtTVGsvy4tfXtBGJpBXwq9+p3MCPwkvK/hDkMvCwjFUh5usnZu6XFTibfhvcKn+2H6
-	 bNq+gdNLc+F4UpxqMWgGKmEwi+KPVyCSJwAIqsT2U4GGmN/LnMTaAplp/AjMnXlBu3
-	 Ft/ordeAQQOyjQYy8NAB2+7Nq/5pKWCsboYnCGnNR1VKTyBFWEf/lcch7254rsWnWE
-	 MLVvNT3x0cyP38rdvhtkwlombEcbUi6JLHcn3CjFq0MSnQTG+8Cf+UPPNEYFD7jwHP
-	 CjyG1mwKRgoUQ==
-Date: Tue, 2 Apr 2024 18:41:22 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org,
-	tj@kernel.org, keescook@chromium.org, marcan@marcan.st,
-	sven@svenpeter.dev, florian.fainelli@broadcom.com,
-	rjui@broadcom.com, sbranden@broadcom.com, paul@crapouillou.net,
-	Eugeniy.Paltsev@synopsys.com, manivannan.sadhasivam@linaro.org,
-	vireshk@kernel.org, Frank.Li@nxp.com, leoyang.li@nxp.com,
-	zw@zh-kernel.org, wangzhou1@hisilicon.com, haijie1@huawei.com,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, sean.wang@mediatek.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	afaerber@suse.de, logang@deltatee.com, daniel@zonque.org,
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-	andersson@kernel.org, konrad.dybcio@linaro.org, orsonzhai@gmail.com,
-	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
-	patrice.chotard@foss.st.com, wens@csie.org,
-	jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com,
-	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, jassisinghbrar@gmail.com, mchehab@kernel.org,
-	maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
-	ulf.hansson@linaro.org, manuel.lauss@gmail.com,
-	mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com, oakad@yahoo.com,
-	hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-	brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
-	duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
-	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/9] dma: Convert from tasklet to BH workqueue
-Message-ID: <ZgwD-iScEb9zzB8H@matsya>
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-3-apais@linux.microsoft.com>
- <CACRpkdaSBGe0EFm1gK-7qPK4e6T2H1dxFXjhJqO2hWCm1-bNdA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="nEZB8p0W"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-432ff72d745so7666461cf.1
+        for <asahi@lists.linux.dev>; Wed, 03 Apr 2024 06:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1712150350; x=1712755150; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cWyJ3cJLCpRglG8Yk4xFCKIFWdrd8x6dZaV75Jxrvbw=;
+        b=nEZB8p0Wn30FGunX5cmm6HqFhrwCfW12G+RGhYeyann8apyl+TnUy2WS6Qhjp6JTrR
+         Z6A1AVif+Za2B9t43oSVLyZleuF5AgfoZd9SPZNu+eJAiTDswU4A8uJxeEQ1R1BAXqnZ
+         t1wUhyIGjPWI+o+zeDzIyqHRei7HSXX0hR7bzOM+eChFIC35NplPS2iFV6ALsTK0GSE9
+         vmoXVOk3ao9TVCsWtV+qv0LajyrKAZTZCJr9rhsS6vDsIOm251goam0IFvOusYC9ofwV
+         0zHcjYZqd7U8hPdM5IE67wQk5fpjih4rpFqPMqYbFEQ0mG14ueLr5+H2qGqpsdOqVeZF
+         o3CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712150350; x=1712755150;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cWyJ3cJLCpRglG8Yk4xFCKIFWdrd8x6dZaV75Jxrvbw=;
+        b=PLPMwNHtuazV64XPegRtgOeZQszpwWNOu5erCiSjpAswfoW9QJ1eYIrPhO51tExfbr
+         PlgoAKoQViw7hj7y+VA6cRSqs2tQzbvJs1StACcmY4NqXkX+f0hPgJVzPDh5V9nYaVU0
+         sk/e8Gw1DZN9lznsumIsxqSeJk140qRQ7cV7XJJWsVxzQwIOwXpe3C9q14Gr6P99O0xg
+         B964/+tvU23Hf26+i8WzxlZ/xEqnGrfpEFHrPBMcautWAdOrQrs8hzDYb79grTsnstNH
+         xkc+XQEPVVBlDAAGf3fpR6ic1DBsBc67UYiJzySQpn+NUpQmHhZB/OGKvvKEiJw+7UBu
+         fjag==
+X-Forwarded-Encrypted: i=1; AJvYcCUg6d5A3tlvymS/W/hxV7VrRoTJh2QVGpdllv73jPFogABv9xbQ5dJ4VbMxBk60Wpk4O5vhlQk7pY9Vc0XpYDEDPT6Cok0=
+X-Gm-Message-State: AOJu0Yx4nKZL5KpKIc/l4Xc/q1TRKYwRzK779pOIsPEQTXMHpKj2P8O7
+	tTtt2IxR2+WNFHAiBkBHaJuuxc0N/8Lpbi0GlfB0xgD96SQU1B0iloIGI2wq6TLyfYuTSIrRvdz
+	VKRETOvS7AYvAb0eBVGIdSD9pq++D3gQXPSxRoefYMe2o4yFR
+X-Google-Smtp-Source: AGHT+IEGVCWVaM3OZyGBYvZk7eIME6rUXSm4/CdsRsbb+oN0keiU95giarhKtyBsTd58XnIkGQv2TzNnxS90eOdz7ws=
+X-Received: by 2002:a05:622a:104c:b0:434:338c:31ac with SMTP id
+ f12-20020a05622a104c00b00434338c31acmr3549454qte.14.1712150349909; Wed, 03
+ Apr 2024 06:19:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdaSBGe0EFm1gK-7qPK4e6T2H1dxFXjhJqO2hWCm1-bNdA@mail.gmail.com>
+References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
+ <00555af4-8786-b772-7897-aef1e912b368@google.com> <ZfTDUGSshZUbs13-@8bytes.org>
+In-Reply-To: <ZfTDUGSshZUbs13-@8bytes.org>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 3 Apr 2024 09:18:33 -0400
+Message-ID: <CA+CK2bC7jd65=eZoN7szWJKSO2TLsxxKFH8D6WjHS3_2U7=McA@mail.gmail.com>
+Subject: Re: [PATCH v5 00/11] IOMMU memory observability
+To: Joerg Roedel <joro@8bytes.org>
+Cc: David Rientjes <rientjes@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	alim.akhtar@samsung.com, alyssa@rosenzweig.io, asahi@lists.linux.dev, 
+	baolu.lu@linux.intel.com, bhelgaas@google.com, cgroups@vger.kernel.org, 
+	corbet@lwn.net, david@redhat.com, dwmw2@infradead.org, hannes@cmpxchg.org, 
+	heiko@sntech.de, iommu@lists.linux.dev, jernej.skrabec@gmail.com, 
+	jonathanh@nvidia.com, krzysztof.kozlowski@linaro.org, 
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	lizefan.x@bytedance.com, marcan@marcan.st, mhiramat@kernel.org, 
+	m.szyprowski@samsung.com, paulmck@kernel.org, rdunlap@infradead.org, 
+	robin.murphy@arm.com, samuel@sholland.org, suravee.suthikulpanit@amd.com, 
+	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org, 
+	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, will@kernel.org, 
+	yu-cheng.yu@intel.com, bagasdotme@gmail.com, mkoutny@suse.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 02-04-24, 14:25, Linus Walleij wrote:
-> Hi Allen,
-> 
-> thanks for your patch!
-> 
-> On Wed, Mar 27, 2024 at 5:03 PM Allen Pais <apais@linux.microsoft.com> wrote:
-> 
-> > The only generic interface to execute asynchronously in the BH context is
-> > tasklet; however, it's marked deprecated and has some design flaws. To
-> > replace tasklets, BH workqueue support was recently added. A BH workqueue
-> > behaves similarly to regular workqueues except that the queued work items
-> > are executed in the BH context.
+On Fri, Mar 15, 2024 at 5:53=E2=80=AFPM Joerg Roedel <joro@8bytes.org> wrot=
+e:
+>
+> Hi David,
+>
+> On Fri, Mar 15, 2024 at 02:33:53PM -0700, David Rientjes wrote:
+> > Joerg, is this series anticipated to be queued up in the core branch of
+> > git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git so it gets into
+> > linux-next?
 > >
-> > This patch converts drivers/dma/* from tasklet to BH workqueue.
+> > This observability seems particularly useful so that we can monitor and
+> > alert on any unexpected increases (unbounded memory growth from this
+> > subsystem has in the past caused us issues before the memory is otherwi=
+se
+> > not observable by host software).
 > >
-> > Based on the work done by Tejun Heo <tj@kernel.org>
-> > Branch: git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
-> >
-> > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
-> (...)
-> > diff --git a/drivers/dma/ste_dma40.c b/drivers/dma/ste_dma40.c
-> (...)
-> >         if (d40c->pending_tx)
-> > -               tasklet_schedule(&d40c->tasklet);
-> > +               queue_work(system_bh_wq, &d40c->work);
-> 
-> Why is "my" driver not allowed to use system_bh_highpri_wq?
-> 
-> I can't see the reasoning between some drivers using system_bh_wq
-> and others being highpri?
-> 
-> Given the DMA usecase I would expect them all to be high prio.
+> > Or are we still waiting on code reviews from some folks that we should
+> > ping?
+>
+> A few more reviews would certainly help, but I will also do a review on
+> my own. If things are looking good I can merge it into the iommu tree
+> when 6.9-rc3 is released (which is the usual time I start merging new
+> stuff).
 
-It didnt use tasklet_hi_schedule(), I guess Allen has done the
-conversion of tasklet_schedule -> system_bh_wq and tasklet_hi_schedule
--> system_bh_highpri_wq
+Hi Joerg,
 
-Anyway, we are going to use a dma queue so should be better performance
+Would it make sense to stage this series in an unstable branch to get
+more test coverage from the 0-day robots?
 
--- 
-~Vinod
+Thank you,
+Pasha
