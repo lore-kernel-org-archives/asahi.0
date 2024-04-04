@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBDC4E1A2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBA94DA19
 	for <asahi@lists.linux.dev>; Thu,  4 Apr 2024 06:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712211958; cv=none; b=UWwkHJCTQyxmTmyF5MkDna8WSM5524oj2BFRO4SjzsSoM5RjrmH2YZ/9QShn/shEQ25CO6EZ5B7gX73mqgGDn1EO3ZpoLzIZrhyvM168uaZlUzoMRduNeG1OyaGlyQQ8fbEwbNFadBcSigqWyI+bruUW9bzVO7zArMdG2e8NHe4=
+	t=1712211958; cv=none; b=Qr2TKwGCHD80sArt/FvuNPlU7TZ7obvgp8b7J4EQrMyyY2JuYQoEzGIqTOHkvEiWfozI1UpkFBgJ1bzNTppovbrl5yGelkUwANkQ40pMK5U6uYH1QNlkmX3BSYgDb97iwr/Imd2+sP+57ea5pWowi7s3N53PRdJU5odQgbs0apE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1712211958; c=relaxed/simple;
-	bh=b1nV4KqjkdbIBzCFDkoPAQsZDZ7Po7AdwOpq+516qzc=;
+	bh=xpx0/NNe83yCRC+vVlcvHAc/0Ae5UbUFLTbDMDNGRlI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sZsPXegTmvPa9VGbURHB+y7AK+DAuBoPdKpiZkETWDsHWb/RnUbbwb+h+iI7CoC1DA0rHMHIu7BmwMV3LQFY0rQHgsh3u5BkdOlADxW0EEKbREqUzLh6XjZOFNbvzWwhqYY8tTwfr0QqeBqKbNuKJV4Aim8oRjcumOhmqLdlbSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nEBvxmYu; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=an0Caz650axRxjO9N4Qe/DSE0TO7ccQRQckJ5HY7MbiktJFlBSRin8YuJcXOsiMOTKtpwOaQkTpe8M/ZMIrkmTmqjZJhBV/7jkvJURZ+OKBsfUOEDr3tuVIw1QkFFhJviZ4p4NZEMwH3nR6czXTmaT2TvpOkZP6Oy0ecf3Vsz8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uAdtcDdb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nEBvxmYu"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8040CC43394;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uAdtcDdb"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8B338C433B1;
 	Thu,  4 Apr 2024 06:25:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1712211957;
-	bh=b1nV4KqjkdbIBzCFDkoPAQsZDZ7Po7AdwOpq+516qzc=;
+	bh=xpx0/NNe83yCRC+vVlcvHAc/0Ae5UbUFLTbDMDNGRlI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=nEBvxmYuaLZc3xBQVRK0Tz+WfwzxxP8sRDpSlbtjoOTq7lu9wovO/NUal2qt8RgOP
-	 VmogsLZyEn9/Nj3pGzKNTzUCGT9a2N06/KPr38tpMH+pKPPYYrvVO9sVSsztd9igSW
-	 0BQgrjPCtmUyezgEVN4gfgxkuuxvmd9jP5UIzKH0w5NTZz5xmqT06T/66z1LPZePsn
-	 2377PRg+Wcz3HLRVJpYtlXqIWNXVUafCRKJWSh+mZGFWqbJj4y9iKxQjyBp3WZuPph
-	 ISVMbqo+G+u5Hid1zIt5UVUTz6NFcONeU9cUZkAqveIhIxubyYVe3bWQgS8R2v0JzA
-	 q/4vWascvQlNw==
+	b=uAdtcDdbypBHcmR0sQZzmbnTfSEq7tIII1zACc7uH2b3ypr6fCXagjlISgQ5fFHMG
+	 EkhFAwp7zXvQRSpKZ7ZMWG6rB4qRm2Nz2C6m5GEs5le7IntuVwXC7+ttdpZw+8zdkL
+	 Me9no+ubFYwoyIL5gE45QK87QlJCRT2r1/viLYOoEgkOUf6SSXfaZvUsqNt83IcqJq
+	 99Xhvnz2Gp+rv/gHmdGlKGbrZS4KuSveN1iaQKmEROGo+ZgMSRcX1xX8T6X7+Vua9T
+	 zIbWAWJ35XRlPcuv3yUynDYMCEA8yBtY1Iu7HgBImk7tH7vqzCrjczauu81cavnK0H
+	 fuxonNSyf5wpw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76BB6CD1297;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8355ECD1284;
 	Thu,  4 Apr 2024 06:25:57 +0000 (UTC)
 From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Thu, 04 Apr 2024 08:25:53 +0200
-Subject: [PATCH v4 5/6] usb: kbd: support Apple Magic Keyboards (2021)
+Date: Thu, 04 Apr 2024 08:25:54 +0200
+Subject: [PATCH v4 6/6] usb: kbd: Add probe quirk for Apple and Keychron
+ keyboards
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240404-asahi-keyboards-v4-5-2266033feaff@jannau.net>
+Message-Id: <20240404-asahi-keyboards-v4-6-2266033feaff@jannau.net>
 References: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
 In-Reply-To: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
 To: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
@@ -49,13 +50,13 @@ To: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>,
 Cc: u-boot@lists.denx.de, asahi@lists.linux.dev, 
  Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7097; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2657; i=j@jannau.net;
  h=from:subject:message-id;
- bh=P+aywpOW3f5+9ZY1LlcprP3UqLhWTiCGQg2stJjsQPw=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhjQ+988NbI/W3VQIbitXrGRgLC7YdGPB5+MfZC+ej8u7t
- 6Z1UcvMjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABMRn8jwk/HVCyu2b3az6j70
- zPz5l+F13etp0eIc5hOF565x3Dgv6z/D/6oXtQtbnL49Ph9+MPVYzwqLMotnsmUtZx52vi8qiLm
- kzAoA
+ bh=bgC5VMp6aw6U5Uhn14jI61Gw7z5YE8JE2SujySRwwJE=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhjQ+98/uJ2eL+qZYXv4c3f/fa4eku3jLhOZ1T997R72XY
+ ihtCVnaUcrCIMbFICumyJKk/bKDYXWNYkztgzCYOaxMIEMYuDgFYCLVcxgZTkocmFEnzvYwjlE+
+ o28a/90H4rc3B0cUtX6c71kRfyRpHSPDRdUHLu48C+ZkbLzuyfn6hfU5w/yMB9a7Uo/OXTpJ2bG
+ cFwA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
@@ -64,204 +65,76 @@ Reply-To: j@jannau.net
 
 From: Janne Grunau <j@jannau.net>
 
-Apple USB keyboards (Magic Keyboard from 2021 (product id 0x029c)) carry
-the HID keyboard boot protocol on the second interface descriptor.
-Probe via vendor and product IDs since the class/subclass/protocol match
-uses the first interface descriptor.
-Probe the two first interface descriptors for the HID keyboard boot
-protocol.
-
-USB configuration descriptor for reference:
-
-| Bus 003 Device 002: ID 05ac:029c Apple, Inc. Magic Keyboard
-| Device Descriptor:
-|   bLength                18
-|   bDescriptorType         1
-|   bcdUSB               2.00
-|   bDeviceClass            0 [unknown]
-|   bDeviceSubClass         0 [unknown]
-|   bDeviceProtocol         0
-|   bMaxPacketSize0        64
-|   idVendor           0x05ac Apple, Inc.
-|   idProduct          0x029c Magic Keyboard
-|   bcdDevice            3.90
-|   iManufacturer           1 Apple Inc.
-|   iProduct                2 Magic Keyboard
-|   iSerial                 3 ...
-|   bNumConfigurations      1
-|   Configuration Descriptor:
-|     bLength                 9
-|     bDescriptorType         2
-|     wTotalLength       0x003b
-|     bNumInterfaces          2
-|     bConfigurationValue     1
-|     iConfiguration          4 Keyboard
-|     bmAttributes         0xa0
-|       (Bus Powered)
-|       Remote Wakeup
-|     MaxPower              500mA
-|     Interface Descriptor:
-|       bLength                 9
-|       bDescriptorType         4
-|       bInterfaceNumber        0
-|       bAlternateSetting       0
-|       bNumEndpoints           1
-|       bInterfaceClass         3 Human Interface Device
-|       bInterfaceSubClass      0 [unknown]
-|       bInterfaceProtocol      0
-|       iInterface              5 Device Management
-|         HID Device Descriptor:
-|           bLength                 9
-|           bDescriptorType        33
-|           bcdHID               1.10
-|           bCountryCode            0 Not supported
-|           bNumDescriptors         1
-|           bDescriptorType        34 Report
-|           wDescriptorLength      83
-|           Report Descriptors:
-|             ** UNAVAILABLE **
-|       Endpoint Descriptor:
-|         bLength                 7
-|         bDescriptorType         5
-|         bEndpointAddress     0x81  EP 1 IN
-|         bmAttributes            3
-|           Transfer Type            Interrupt
-|           Synch Type               None
-|           Usage Type               Data
-|         wMaxPacketSize     0x0010  1x 16 bytes
-|         bInterval               8
-|     Interface Descriptor:
-|       bLength                 9
-|       bDescriptorType         4
-|       bInterfaceNumber        1
-|       bAlternateSetting       0
-|       bNumEndpoints           1
-|       bInterfaceClass         3 Human Interface Device
-|       bInterfaceSubClass      1 Boot Interface Subclass
-|       bInterfaceProtocol      1 Keyboard
-|       iInterface              6 Keyboard / Boot
-|         HID Device Descriptor:
-|           bLength                 9
-|           bDescriptorType        33
-|           bcdHID               1.10
-|           bCountryCode           13 International (ISO)
-|           bNumDescriptors         1
-|           bDescriptorType        34 Report
-|           wDescriptorLength     207
-|           Report Descriptors:
-|             ** UNAVAILABLE **
-|       Endpoint Descriptor:
-|         bLength                 7
-|         bDescriptorType         5
-|         bEndpointAddress     0x82  EP 2 IN
-|         bmAttributes            3
-|           Transfer Type            Interrupt
-|           Synch Type               None
-|           Usage Type               Data
-|         wMaxPacketSize     0x0010  1x 16 bytes
-|         bInterval               8
+Those keyboards do not return the current device state. Polling will
+timeout unless there are key presses. This is not a problem during
+operation but the initial device state query during probing will fail.
+Skip this step in usb_kbd_probe_dev() to make these devices useable.
+Not all Apple keyboards behave like this. A keyboard with USB
+vendor/product ID 05ac:0221 is reported to work with the current code.
+Unfortunately some Keychron keyboards "re-use" Apple's vendor ID and
+show the same behavior (Keychron C2, 05ac:024f for example).
 
 Reviewed-by: Marek Vasut <marex@denx.de>
 Reviewed-by: Neal Gompa <neal@gompa.dev>
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- common/usb_kbd.c | 37 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 34 insertions(+), 3 deletions(-)
+ common/usb_kbd.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
 diff --git a/common/usb_kbd.c b/common/usb_kbd.c
-index 4cbc9acb73..b2361bbf18 100644
+index b2361bbf18..820f591fc5 100644
 --- a/common/usb_kbd.c
 +++ b/common/usb_kbd.c
-@@ -23,6 +23,14 @@
+@@ -31,6 +31,10 @@
+ #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021	0x029a
+ #define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021		0x029f
  
- #include <usb.h>
- 
-+/*
-+ * USB vendor and product IDs used for quirks.
-+ */
-+#define USB_VENDOR_ID_APPLE	0x05ac
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021			0x029c
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021	0x029a
-+#define USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021		0x029f
++#define USB_VENDOR_ID_KEYCHRON	0x3434
++
++#define USB_HID_QUIRK_POLL_NO_REPORT_IDLE	BIT(0)
 +
  /*
   * If overwrite_console returns 1, the stdin, stderr and stdout
   * are switched to the serial port, else the settings in the
-@@ -106,6 +114,8 @@ struct usb_kbd_pdata {
- 	unsigned long	last_report;
- 	struct int_queue *intq;
- 
-+	uint32_t	ifnum;
-+
- 	uint32_t	repeat_delay;
- 
- 	uint32_t	usb_in_pointer;
-@@ -150,8 +160,8 @@ static void usb_kbd_put_queue(struct usb_kbd_pdata *data, u8 c)
-  */
- static void usb_kbd_setled(struct usb_device *dev)
- {
--	struct usb_interface *iface = &dev->config.if_desc[0];
- 	struct usb_kbd_pdata *data = dev->privptr;
-+	struct usb_interface *iface = &dev->config.if_desc[data->ifnum];
- 	ALLOC_ALIGN_BUFFER(uint32_t, leds, 1, USB_DMA_MINALIGN);
- 
- 	*leds = data->flags & USB_KBD_LEDMASK;
-@@ -365,7 +375,7 @@ static inline void usb_kbd_poll_for_event(struct usb_device *dev)
- #if defined(CONFIG_SYS_USB_EVENT_POLL_VIA_CONTROL_EP)
+@@ -474,6 +478,7 @@ static int usb_kbd_probe_dev(struct usb_device *dev, unsigned int ifnum)
  	struct usb_interface *iface;
- 	struct usb_kbd_pdata *data = dev->privptr;
--	iface = &dev->config.if_desc[0];
-+	iface = &dev->config.if_desc[data->ifnum];
- 	usb_get_report(dev, iface->desc.bInterfaceNumber,
- 		       1, 0, data->new, USB_KBD_BOOT_REPORT_SIZE);
- 	if (memcmp(data->old, data->new, USB_KBD_BOOT_REPORT_SIZE)) {
-@@ -509,6 +519,8 @@ static int usb_kbd_probe_dev(struct usb_device *dev, unsigned int ifnum)
- 	data->new = memalign(USB_DMA_MINALIGN,
- 		roundup(USB_KBD_BOOT_REPORT_SIZE, USB_DMA_MINALIGN));
+ 	struct usb_endpoint_descriptor *ep;
+ 	struct usb_kbd_pdata *data;
++	unsigned int quirks = 0;
+ 	int epNum;
  
-+	data->ifnum = ifnum;
-+
- 	/* Insert private data into USB device structure */
- 	dev->privptr = data;
+ 	if (dev->descriptor.bNumConfigurations != 1)
+@@ -506,6 +511,15 @@ static int usb_kbd_probe_dev(struct usb_device *dev, unsigned int ifnum)
  
-@@ -561,10 +573,17 @@ static int probe_usb_keyboard(struct usb_device *dev)
- {
- 	char *stdinname;
- 	struct stdio_dev usb_kbd_dev;
-+	unsigned int ifnum;
-+	unsigned int max_ifnum = min((unsigned int)USB_MAX_ACTIVE_INTERFACES,
-+				     (unsigned int)dev->config.no_of_if);
- 	int error;
+ 	debug("USB KBD: found interrupt EP: 0x%x\n", ep->bEndpointAddress);
  
- 	/* Try probing the keyboard */
--	if (usb_kbd_probe_dev(dev, 0) != 1)
-+	for (ifnum = 0; ifnum < max_ifnum; ifnum++) {
-+		if (usb_kbd_probe_dev(dev, ifnum) == 1)
-+			break;
++	switch (dev->descriptor.idVendor) {
++	case USB_VENDOR_ID_APPLE:
++	case USB_VENDOR_ID_KEYCHRON:
++		quirks |= USB_HID_QUIRK_POLL_NO_REPORT_IDLE;
++		break;
++	default:
++		break;
 +	}
-+	if (ifnum >= max_ifnum)
- 		return -ENOENT;
++
+ 	data = malloc(sizeof(struct usb_kbd_pdata));
+ 	if (!data) {
+ 		printf("USB KBD: Error allocating private data\n");
+@@ -546,6 +560,14 @@ static int usb_kbd_probe_dev(struct usb_device *dev, unsigned int ifnum)
+ 	usb_set_idle(dev, iface->desc.bInterfaceNumber, 0, 0);
+ #endif
  
- 	/* Register the keyboard */
-@@ -731,6 +750,18 @@ static const struct usb_device_id kbd_id_table[] = {
- 		.bInterfaceSubClass = USB_SUB_HID_BOOT,
- 		.bInterfaceProtocol = USB_PROT_HID_KEYBOARD,
- 	},
-+	{
-+		USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			   USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_2021),
-+	},
-+	{
-+		USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			   USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_FINGERPRINT_2021),
-+	},
-+	{
-+		USB_DEVICE(USB_VENDOR_ID_APPLE,
-+			   USB_DEVICE_ID_APPLE_MAGIC_KEYBOARD_NUMPAD_2021),
-+	},
- 	{ }		/* Terminating entry */
- };
- 
++	/*
++	 * Apple and Keychron keyboards do not report the device state. Reports
++	 * are only returned during key presses.
++	 */
++	if (quirks & USB_HID_QUIRK_POLL_NO_REPORT_IDLE) {
++		debug("USB KBD: quirk: skip testing device state\n");
++		return 1;
++	}
+ 	debug("USB KBD: enable interrupt pipe...\n");
+ #ifdef CONFIG_SYS_USB_EVENT_POLL_VIA_INT_QUEUE
+ 	data->intq = create_int_queue(dev, data->intpipe, 1,
 
 -- 
 2.44.0
