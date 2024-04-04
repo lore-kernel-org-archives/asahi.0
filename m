@@ -1,247 +1,104 @@
-Received: from mx0b-0016f401.pphosted.com (mx0a-0016f401.pphosted.com [67.231.148.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F7CFC0E;
-	Thu,  4 Apr 2024 00:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.148.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A18535AC
+	for <asahi@lists.linux.dev>; Thu,  4 Apr 2024 06:25:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712192345; cv=none; b=TtjOUiKtbUGYsZBFK2rRxA2w++fFH8FDhCxkp5Xyg11yc1eMimd1lAim5dLBqT0tQiH3Kho/twLXi35zfrzoNBRn94tWkaJ6znKOJ5CRhSzNsAT07noDxtAqo55EasnO/oHCDFuCE40x+yI2TS6bV00YysJi3SjOWo1Ro9xpP/c=
+	t=1712211957; cv=none; b=s9Y8dfN43A8GS2WpaZYAh2pm3FZU47dLt5QHHIffz9GeQ3+V6AEsxnX5CCPakKHFOqn7P41t1dp+vv3pWVj3XECquEa043PwbV9wcHxchJG/2F4A6aRgJH1xSTJB0KXWjRJOLjUTPgfZ0N34jnKZZSagRinoWY1RDx3yoJ5K60Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712192345; c=relaxed/simple;
-	bh=6QUBr595slcroOCfdcb8UZF1fOlVIaKWwWcSFJGekL0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ptO+rlfo/FhSNccKneYIGMS0nL4CDJJSiUULRNyLr/la9e/7YAcEEXR4USCFeqCZ1hPI3oLyHeBOsWt3J5+QafPk3N4RBNHDuaZIhs3RuU3CIfHFiormvvx17RRtHzDPAlkSaDGnBXkh+5D2Z4/BgBYHp4BIBuIk0HfiaYZORm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=F6fuBFB3; arc=none smtp.client-ip=67.231.148.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+	s=arc-20240116; t=1712211957; c=relaxed/simple;
+	bh=+tYFN6+QK3PUW/oMQcTV0dPiASQpRO0mELezzogU4Y0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=pSqw7q7kfgxU3Ub8GsK5AZiVU1Uiilx3T/oRdilbcnUeYqvbMW1u29b+i37PilnKMeInlUEvHkgon6GRiZygZnIuztpPinzOTxYScWeYRqSqyuE/A7BNcWT3JPwBGGeTXyPEHTMKEBKI05YVF5WntmlOJJuWemC7yvZtceruw2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PavFuIrI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="F6fuBFB3"
-Received: from pps.filterd (m0045849.ppops.net [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 433KwHmY025088;
-	Wed, 3 Apr 2024 17:58:19 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-transfer-encoding:in-reply-to; s=pfpt0220;
-	 bh=mEz3A0cFZLO3onQWAKZpQFFgP9D767dhafoyZkTOCQ4=; b=F6fuBFB3hkdU
-	hSnUatMqU08RjlunuB1Kmkz7laPp8UHNL8cMK1rvQZzjFByFH/yxRwlI9VqKVAA+
-	as18etdXEOgRSaY2hWPuywuYrPhNItb1W5K4l8cXB08gUeyF1rrDkyl9/qmaYHCE
-	uJW1gQ/YbPkxVpA7iE1A5GWX3PgbOlrYjCBPTR5KwINBDECmFAcTzgkilXE0yBCd
-	iBvx8O/PqnHc7W0TsZm288RAc+XSp66lbZ6f1qQwLbeK+nNF6bJs7iYy9RsvuyWM
-	3YbFbFoSV4S+rHef2lnTdmLfwRTt6PC5A5M471i5yfhDoLGdga+g/JAQuK2yE86s
-	BZnYSW8Gqg==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3x9em4gk88-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Apr 2024 17:58:19 -0700 (PDT)
-Received: from m0045849.ppops.net (m0045849.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 4340wINl007682;
-	Wed, 3 Apr 2024 17:58:18 -0700
-Received: from dc6wp-exch02.marvell.com ([4.21.29.225])
-	by mx0a-0016f401.pphosted.com (PPS) with ESMTPS id 3x9em4gk83-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Apr 2024 17:58:18 -0700 (PDT)
-Received: from DC6WP-EXCH02.marvell.com (10.76.176.209) by
- DC6WP-EXCH02.marvell.com (10.76.176.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.4; Wed, 3 Apr 2024 17:58:17 -0700
-Received: from maili.marvell.com (10.69.176.80) by DC6WP-EXCH02.marvell.com
- (10.76.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Wed, 3 Apr 2024 17:58:17 -0700
-Received: from hyd1403.caveonetworks.com (unknown [10.29.37.84])
-	by maili.marvell.com (Postfix) with ESMTP id DC6583F706F;
-	Wed,  3 Apr 2024 17:58:04 -0700 (PDT)
-Date: Thu, 4 Apr 2024 06:28:03 +0530
-From: Linu Cherian <lcherian@marvell.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-CC: <akpm@linux-foundation.org>, <alim.akhtar@samsung.com>,
-        <alyssa@rosenzweig.io>, <asahi@lists.linux.dev>,
-        <baolu.lu@linux.intel.com>, <bhelgaas@google.com>,
-        <cgroups@vger.kernel.org>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw2@infradead.org>, <hannes@cmpxchg.org>, <heiko@sntech.de>,
-        <iommu@lists.linux.dev>, <jernej.skrabec@gmail.com>,
-        <jonathanh@nvidia.com>, <joro@8bytes.org>,
-        <krzysztof.kozlowski@linaro.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-rockchip@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-        <linux-tegra@vger.kernel.org>, <lizefan.x@bytedance.com>,
-        <marcan@marcan.st>, <mhiramat@kernel.org>, <m.szyprowski@samsung.com>,
-        <paulmck@kernel.org>, <rdunlap@infradead.org>, <robin.murphy@arm.com>,
-        <samuel@sholland.org>, <suravee.suthikulpanit@amd.com>,
-        <sven@svenpeter.dev>, <thierry.reding@gmail.com>, <tj@kernel.org>,
-        <tomas.mudrunka@gmail.com>, <vdumpa@nvidia.com>, <wens@csie.org>,
-        <will@kernel.org>, <yu-cheng.yu@intel.com>, <rientjes@google.com>,
-        <bagasdotme@gmail.com>, <mkoutny@suse.com>
-Subject: Re: [PATCH v5 00/11] IOMMU memory observability
-Message-ID: <20240404005803.GA102637@hyd1403.caveonetworks.com>
-References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PavFuIrI"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5E3A6C43399;
+	Thu,  4 Apr 2024 06:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712211957;
+	bh=+tYFN6+QK3PUW/oMQcTV0dPiASQpRO0mELezzogU4Y0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=PavFuIrIKUKQ9A10vp+JP6KXkQ1w9gZj/dHbI2hhc+9obhiHuU6YWn3DarviaPGCv
+	 KIuFk2rfxVzfYSzemmM+p2OjAn4AovVsdc++8POCtSv7Rc6Ag+cm1w7CeI2eLtp3H6
+	 5y5VsIWFoTfLxDv3MTJcank+Tk4Vu4See0mt8xtAZEuHICDxkb1wMgf4JXpIN6t+UI
+	 aK57nzGLSXPj7WCOEojueXRdiTp2jPD6QKbv8eufBaemyGw6sskZrF73jcj4KwQFsb
+	 dCYTw8eWhPIc9NRBMSCk+s3g0tTjcNcEbWT0brg3fyYkWVpYWA6j5KDFpF8zpF2Dgg
+	 PFm2MkF3OctKQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5546FCD1297;
+	Thu,  4 Apr 2024 06:25:57 +0000 (UTC)
+From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Date: Thu, 04 Apr 2024 08:25:51 +0200
+Subject: [PATCH v4 3/6] usb: xhci: Abort transfers with unallocated rings
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
-X-Proofpoint-ORIG-GUID: kzH1frYTGGUfUioN4mjeRs5C7L-Xm_vN
-X-Proofpoint-GUID: s6kXEc2yc7_K9P5CbGLReHonYF_ihsoo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-03_26,2024-04-03_01,2023-05-22_02
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240404-asahi-keyboards-v4-3-2266033feaff@jannau.net>
+References: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
+In-Reply-To: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
+To: Bin Meng <bmeng.cn@gmail.com>, Marek Vasut <marex@denx.de>, 
+ Tom Rini <trini@konsulko.com>, Simon Glass <sjg@chromium.org>, 
+ Joe Hershberger <joe.hershberger@ni.com>
+Cc: u-boot@lists.denx.de, asahi@lists.linux.dev, 
+ Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1147; i=j@jannau.net;
+ h=from:subject:message-id;
+ bh=4WL/oK9QHrPZzv/LO0Lx0LR9aR1vioRk0nnmNOFZrzg=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhjQ+989rnDuaZ8gfb5dasuBpQOkmtrDew7Pm9x8+sMx4A
+ X/xofCcjlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABNJ7GP4X/2+0GvZ/0s72/Iv
+ sj4WXOlrYyf2Rr7g3JTF/Szyhj5hGxn+2SeF6Ww2rkt/0sChG3feea6rzWrPzUfcRORbjnw+rGr
+ IDgA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
+X-Original-From: Janne Grunau <j@jannau.net>
+Reply-To: j@jannau.net
 
-On 2024-02-22 at 23:09:26, Pasha Tatashin (pasha.tatashin@soleen.com) wrote:
-> ----------------------------------------------------------------------
-> Changelog
-> ----------------------------------------------------------------------
-> v5:
-> - Synced with v6.8-rc5
-> - Added: Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> - Added: Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> - Addressed review comments from Robin Murphy:
->   Updated the header comment in iommu-pages.h
->   Removed __iommu_alloc_pages_node(), invoke
->   iommu_alloc_pages_node directly.
->   Removed unused: __iommu_alloc_page_node()
->   Removed __iommu_free_page()
->   Renamed: iommu_free_pages_list() -> iommu_put_pages_list()
->   Added missing iommu_put_pages_list() to dma-iommu.c in
->   iommu/dma: use iommu_put_pages_list() to releae freelist
-> 
-> v4:
-> - Synced with v6.8-rc3
-> - Updated commit log for "iommu: account IOMMU allocated memory" as
->   suggested by Michal Koutný
-> - Added more Acked-bys David Rientjes and Thierry Reding
-> - Added Tested-by Bagas Sanjaya.
-> 
-> v3:
-> - Sync with v6.7-rc7
-> - Addressed comments from David Rientjes: s/pages/page/, added
->   unlikely() into the branches, expanded comment for
->   iommu_free_pages_list().
-> - Added Acked-bys: David Rientjes
-> 
-> v2:
-> - Added Reviewed-by Janne Grunau
-> - Sync with 6.7.0-rc3
-> - Separated form the series patches:
-> vhost-vdpa: account iommu allocations
-> https://lore.kernel.org/all/20231130200447.2319543-1-pasha.tatashin@soleen.com
-> vfio: account iommu allocations
-> https://lore.kernel.org/all/20231130200900.2320829-1-pasha.tatashin@soleen.com
-> as suggested by Jason Gunthorpe
-> - Fixed SPARC build issue detected by kernel test robot
-> - Drop the following patches as they do account iommu page tables:
-> iommu/dma: use page allocation function provided by iommu-pages.h
-> iommu/fsl: use page allocation function provided by iommu-pages.h
-> iommu/iommufd: use page allocation function provided by iommu-pages.h
-> as suggested by Robin Murphy. These patches are not related to IOMMU
-> page tables. We might need to do a separate work to support DMA
-> observability.
-> - Remove support iommu/io-pgtable-arm-v7s as the 2nd level pages are
-> under a page size, thanks Robin Murphy for pointing this out.
-> 
-> ----------------------------------------------------------------------
-> Description
-> ----------------------------------------------------------------------
-> IOMMU subsystem may contain state that is in gigabytes. Majority of that
-> state is iommu page tables. Yet, there is currently, no way to observe
-> how much memory is actually used by the iommu subsystem.
-> 
-> This patch series solves this problem by adding both observability to
-> all pages that are allocated by IOMMU, and also accountability, so
-> admins can limit the amount if via cgroups.
-> 
-> The system-wide observability is using /proc/meminfo:
-> SecPageTables:    438176 kB
-> 
-> Contains IOMMU and KVM memory.
+From: Janne Grunau <j@jannau.net>
 
-Can you please clarify what does KVM memory refers to here ?
-Does it mean the VFIO map / virtio-iommu invoked ones for a guest VM?  
+Discovered while trying to use the second interface in the USB keyboard
+driver necessary on Apple USB keyboards.
 
-> 
-> Per-node observability:
-> /sys/devices/system/node/nodeN/meminfo
-> Node N SecPageTables:    422204 kB
-> 
-> Contains IOMMU and KVM memory in the given NUMA node.
-> 
-> Per-node IOMMU only observability:
-> /sys/devices/system/node/nodeN/vmstat
-> nr_iommu_pages 105555
-> 
-> Contains number of pages IOMMU allocated in the given node.
-> 
-> Accountability: using sec_pagetables cgroup-v2 memory.stat entry.
-> 
-> With the change, iova_stress[1] stops as limit is reached:
-> 
-> $ ./iova_stress
-> iova space:     0T      free memory:   497G
-> iova space:     1T      free memory:   495G
-> iova space:     2T      free memory:   493G
-> iova space:     3T      free memory:   491G
-> 
-> stops as limit is reached.
-> 
-> This series encorporates suggestions that came from the discussion
-> at LPC [2].
-> ----------------------------------------------------------------------
-> [1] https://github.com/soleen/iova_stress
-> [2] https://lpc.events/event/17/contributions/1466
-> ----------------------------------------------------------------------
-> Previous versions
-> v1: https://lore.kernel.org/all/20231128204938.1453583-1-pasha.tatashin@soleen.com
-> v2: https://lore.kernel.org/linux-mm/20231130201504.2322355-1-pasha.tatashin@soleen.com
-> v3: https://lore.kernel.org/all/20231226200205.562565-1-pasha.tatashin@soleen.com
-> v4: https://lore.kernel.org/all/20240207174102.1486130-1-pasha.tatashin@soleen.com
-> ----------------------------------------------------------------------
-> 
-> Pasha Tatashin (11):
->   iommu/vt-d: add wrapper functions for page allocations
->   iommu/dma: use iommu_put_pages_list() to releae freelist
->   iommu/amd: use page allocation function provided by iommu-pages.h
->   iommu/io-pgtable-arm: use page allocation function provided by
->     iommu-pages.h
->   iommu/io-pgtable-dart: use page allocation function provided by
->     iommu-pages.h
->   iommu/exynos: use page allocation function provided by iommu-pages.h
->   iommu/rockchip: use page allocation function provided by iommu-pages.h
->   iommu/sun50i: use page allocation function provided by iommu-pages.h
->   iommu/tegra-smmu: use page allocation function provided by
->     iommu-pages.h
->   iommu: observability of the IOMMU allocations
->   iommu: account IOMMU allocated memory
-> 
->  Documentation/admin-guide/cgroup-v2.rst |   2 +-
->  Documentation/filesystems/proc.rst      |   4 +-
->  drivers/iommu/amd/amd_iommu.h           |   8 -
->  drivers/iommu/amd/init.c                |  91 ++++++------
->  drivers/iommu/amd/io_pgtable.c          |  13 +-
->  drivers/iommu/amd/io_pgtable_v2.c       |  20 +--
->  drivers/iommu/amd/iommu.c               |  13 +-
->  drivers/iommu/dma-iommu.c               |   7 +-
->  drivers/iommu/exynos-iommu.c            |  14 +-
->  drivers/iommu/intel/dmar.c              |  16 +-
->  drivers/iommu/intel/iommu.c             |  47 ++----
->  drivers/iommu/intel/iommu.h             |   2 -
->  drivers/iommu/intel/irq_remapping.c     |  16 +-
->  drivers/iommu/intel/pasid.c             |  18 +--
->  drivers/iommu/intel/svm.c               |  11 +-
->  drivers/iommu/io-pgtable-arm.c          |  15 +-
->  drivers/iommu/io-pgtable-dart.c         |  37 ++---
->  drivers/iommu/iommu-pages.h             | 186 ++++++++++++++++++++++++
->  drivers/iommu/rockchip-iommu.c          |  14 +-
->  drivers/iommu/sun50i-iommu.c            |   7 +-
->  drivers/iommu/tegra-smmu.c              |  18 ++-
->  include/linux/mmzone.h                  |   5 +-
->  mm/vmstat.c                             |   3 +
->  23 files changed, 361 insertions(+), 206 deletions(-)
->  create mode 100644 drivers/iommu/iommu-pages.h
-> 
-> -- 
-> 2.44.0.rc0.258.g7320e95886-goog
-> 
+Reviewed-by: Marek Vasut <marex@denx.de>
+Reviewed-by: Neal Gompa <neal@gompa.dev>
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ drivers/usb/host/xhci-ring.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index b60661fe05..910c5f3352 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -685,6 +685,9 @@ int xhci_bulk_tx(struct usb_device *udev, unsigned long pipe,
+ 		reset_ep(udev, ep_index);
+ 
+ 	ring = virt_dev->eps[ep_index].ring;
++	if (!ring)
++		return -EINVAL;
++
+ 	/*
+ 	 * How much data is (potentially) left before the 64KB boundary?
+ 	 * XHCI Spec puts restriction( TABLE 49 and 6.4.1 section of XHCI Spec)
+@@ -871,6 +874,8 @@ int xhci_ctrl_tx(struct usb_device *udev, unsigned long pipe,
+ 	ep_index = usb_pipe_ep_index(pipe);
+ 
+ 	ep_ring = virt_dev->eps[ep_index].ring;
++	if (!ep_ring)
++		return -EINVAL;
+ 
+ 	/*
+ 	 * Check to see if the max packet size for the default control
+
+-- 
+2.44.0
+
+
