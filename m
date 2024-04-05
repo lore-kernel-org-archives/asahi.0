@@ -1,154 +1,113 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C763128830
-	for <asahi@lists.linux.dev>; Thu,  4 Apr 2024 13:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B82B145FE4
+	for <asahi@lists.linux.dev>; Fri,  5 Apr 2024 08:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712239016; cv=none; b=B56JKLQHZnvdq2XkHqoEBwlja4CYAMbcSgRW/hALSu/PQ1ZSl9JnhxVrMaJpgJRGUbRSxb4z4QJuFZHRvnbdcy51Obe9Yk9huiJ/J1Yas5/50J8VX2ByrQPM87uTfVxOyMQSLpZFL6ALQhfzblEb95wI7hsKchsFM4r206on6G8=
+	t=1712306921; cv=none; b=Ah9jCDRMoGLYzdYc7Zxn6JUN1NAlyerWomN4cw52vE8h+z2GUHQL/TFTHoooNwi9NH07Txh2i2FNkgblYt7XHY9Tv3WqxeEu1UQKlBNNAsY1ZUb4KWKmD08lnvE4sIbo+AQ4jXtN6tWDZ6szomtaf6604sh9r8RQJTda2bsPnZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712239016; c=relaxed/simple;
-	bh=dyJ8/jg3OEVZu3rV6eRPJgBUaaPW7kEy4ZucbMmQDWA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n5WJQYN1TsqKw9+WMeAMNzGEdANMH+afy9ZsiMJnYDRXb5MHYhyFE8A5zP7FulhcVhXb4d20um91QNW0U6cL+dnkQpyG/HmkWDqjl0CaUjWlUUlKCpL6YjLVYcrQQ0oPz0tdH74+iKMfsTHLDRxvFet4N24Ou/YmhKvOsPzxv5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=jYm83+u7; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1712306921; c=relaxed/simple;
+	bh=rs0vw5LW9UM/y60I9xGZqbakggiNBHyoOs4B+0ZsN6s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=if/iITmOZWfT2Q0uhPswmoVue9XQ3g/SeRwqSvsuI2HQemoX2EreOj5Ub9DfPb5losXtbhfviESItdBDr9SPtkFCIBmP4e4a7mByDV4vKI4u7vK/WkKVV53R4hM5WhEpqn/FEdIxSRX4QaKg5JZFSPeTwnVCrWtmC+2KuK10gKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=R8T/4zsl; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="jYm83+u7"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-43446959b33so3811531cf.3
-        for <asahi@lists.linux.dev>; Thu, 04 Apr 2024 06:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1712239013; x=1712843813; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=msc9tQgMq343nFV4/DBdPcJS7hGm3uD+5fv8GwkMOjA=;
-        b=jYm83+u7HGiOkoYkwajiJQUcNJ94ZYBpTdIhzUPrnuVl6UgDzbUy3QDR6FLVX+zg7w
-         MIUIH+gFCxoXtiAFg6GCnewPevAgFbqayxKUBh9C0SLDDo786vlTZEXkxfjq3dch6O6q
-         +bbMxkdrm1d1gRIikYwkbBrQg513V/J4Jf8ZAZCaT9H1poTGMm5f6XIDHkADgiuiva9G
-         0DP0oRjUMbY4Zp91S5xP9m2sVV7Tpo3BIlXp0Nj2hgQGHkU7XTYhejFL1dFk98XWlwKp
-         vbckTWkD2sfRxJO0qJa9qU1ll7M7uW8bA57Nfbak7sHfu/zERxDjdmqhUbxOps8E8rFl
-         6owA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712239013; x=1712843813;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=msc9tQgMq343nFV4/DBdPcJS7hGm3uD+5fv8GwkMOjA=;
-        b=dLJK/YwRB9ndygNMTgPl6nUOMzfyPcGnAcjfyjE/mHsAwrgZ2Mv3t20smtmTWCTI3f
-         Ufw94hRI3wbuwwRbJ2QJI+2GE/ID4lg0zxvUFqI767XdvS09KB64WdekwNEMJFdb/wUW
-         vyRScFRlJz85akOc4Sp4QJwKtE4BVzRXGdyZ4a4yx8+byC84ek3MUdqvvmhh48Lh0dPk
-         eyCIAg4PCzX1jmKFxSjAHsC+6gQdNwyj2PEpnfXDoEvTU4UV+xiL8lCBIYjtSPJo34vN
-         NAa00UdGm8Co52s7vA+VZGLgkM6hBuI9LhucYV3YYiyVwkpNaulYG1i1S8Hg9Z2EXU/v
-         +bbA==
-X-Forwarded-Encrypted: i=1; AJvYcCXe+gipJJaWqARawztIWNmkytap5HsJy21LxwLCVcWKorBMmtj9r6W83hCin05IiRlFKB6FsPKl9oFq7x/QyTPBP3Rt2d0=
-X-Gm-Message-State: AOJu0Yy66p6WKwq7NWZb8o7xSLpu1m3u0lVJZwTm0EtVFOuW+xSoNOu+
-	BM9Q56Zc8dycTwUVV+j1TUzME3WCZj1nhgDtRUljpQbrhhwW6zrPLdbE3iuX85iPK4H1w5IF43c
-	Fm/53tCARVfnF8SHOn8udwJZ5WP2lF+e2yb6S8A==
-X-Google-Smtp-Source: AGHT+IH9S7DU2DIf+z4/lTa3f7DcyJz1Y9kNOGjz2IQr7tohPqSHHhqayAGWHjuk7zhrLKiTZ6wb5Cu4ZzpulPIDrg0=
-X-Received: by 2002:a05:622a:2:b0:431:378d:afa with SMTP id
- x2-20020a05622a000200b00431378d0afamr2733138qtw.34.1712239013126; Thu, 04 Apr
- 2024 06:56:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="R8T/4zsl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=D3bA
+	ysj0N+3ktsukYn/zGLisNXUDp098hBJ07HyHzKc=; b=R8T/4zsl0Zd0dNbaommC
+	kCLTauMRf6yuGZlEbnNrPo+sDuLbN4s8BfD2QtEyqFV73GtOSagiQmnkLEuHWGCQ
+	vRejlIPlKU/mYMv+6t8UkEAMEtwYdgwHTAQorcdRr9Ope6KAX7AmqTkxF537SxfY
+	hbp2DrU8wtJm0oExDm1ozx0tnjR+RM/n3EJ7Hxedj1A/sxIF9bIEt0Q6uqjDDZO6
+	DhN5dSoCZRnlewvb/Wq/ACyPQ8GtSN3yttgw0BjHvy2Oz86yt92QQcC0xPBJXssA
+	1OMpCVAZHpK9gwh4XkivjtbsyOTJWxSQAZ6QWGsn2F7XdFdDJmCqNTrRYM5kOmvv
+	nA==
+Received: (qmail 4044863 invoked from network); 5 Apr 2024 10:48:34 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Apr 2024 10:48:34 +0200
+X-UD-Smtp-Session: l3s3148p1@j8VihVUV/oogAwDPXwEGAANOsN0UmmrN
+Date: Fri, 5 Apr 2024 10:48:34 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
+Subject: Re: [PATCH 00/64] i2c: reword i2c_algorithm according to newest
+ specification
+Message-ID: <kd2gnsosi5xar3mwc3zz7wqtqkfgicq3wical5ch34sbmlgegk@mb2c2hxzzoi4>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org, asahi@lists.linux.dev, 
+	chrome-platform@lists.linux.dev, imx@lists.linux.dev, linux-actions@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-renesas-soc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, virtualization@lists.linux.dev
+References: <20240322132619.6389-1-wsa+renesas@sang-engineering.com>
+ <ug266trshvhhbsln3eoh53fmsuj3l63ziz6gavcl7rv2jhjr5t@3av5givh5n7m>
+ <j2l7tu24itjelylrgwe6gdsy3mfrw3dnve4rdofmri3z7xdroc@se56t5ylmdak>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
- <20240222173942.1481394-2-pasha.tatashin@soleen.com> <20240404121625.GB102637@hyd1403.caveonetworks.com>
-In-Reply-To: <20240404121625.GB102637@hyd1403.caveonetworks.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 4 Apr 2024 09:56:16 -0400
-Message-ID: <CA+CK2bDmya+768tOvF0N-BYq8E+RwBw4xS8vC+MmbU9eoOv_3g@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] iommu/vt-d: add wrapper functions for page allocations
-To: Linu Cherian <lcherian@marvell.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	joro@8bytes.org, krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com, 
-	bagasdotme@gmail.com, mkoutny@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="c5kq2kdwqrnl4eet"
+Content-Disposition: inline
+In-Reply-To: <j2l7tu24itjelylrgwe6gdsy3mfrw3dnve4rdofmri3z7xdroc@se56t5ylmdak>
 
-> Few minor nits.
 
-Hi Linu,
+--c5kq2kdwqrnl4eet
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thank you for taking a look at this patch, my replies below.
+Hi Andi, hi everyone,
 
-> > +/*
-> > + * All page allocations that should be reported to as "iommu-pagetables" to
-> > + * userspace must use on of the functions below.  This includes allocations of
-> > + * page-tables and other per-iommu_domain configuration structures.
->
-> /s/use on/use one/?
+thank you for reviewing and waiting. I had a small personal hiatus over
+Easter but now I am back. This series needs another cycle, so no need to
+hurry. I will address some of the review comments but not all. The
+conversion (and API improvements) are some bigger tasks, so
+inconsistencies inbetween can't be avoided AFAICS.
 
-I will correct in the next version (if there is going to be one).
+I'll keep you updated.
 
-> > + *
-> > + * This is necessary for the proper accounting as IOMMU state can be rather
-> > + * large, i.e. multiple gigabytes in size.
-> > + */
-> > +
-> > +/**
-> > + * __iommu_alloc_pages - allocate a zeroed page of a given order.
-> > + * @gfp: buddy allocator flags
->
-> Shall we keep the comments generic here(avoid reference to allocator
-> algo)  ?
+Happy hacking,
 
-There are no references to allocator algorithm. I specify the zero
-page because this function adds __GFP_ZERO. The order and gfp
-arguments are provided by the caller, therefore, should be mentioned.
+   Wolfram
 
-> > + * @order: page order
-> > + *
-> > + * returns the head struct page of the allocated page.
-> > + */
-> > +static inline struct page *__iommu_alloc_pages(gfp_t gfp, int order)
-> > +{
-> > +     struct page *page;
-> > +
-> > +     page = alloc_pages(gfp | __GFP_ZERO, order);
-> > +     if (unlikely(!page))
-> > +             return NULL;
-> > +
-> > +     return page;
-> > +}
-> > +
-> > +/**
-> > + * __iommu_free_pages - free page of a given order
-> > + * @page: head struct page of the page
-> > + * @order: page order
-> > + */
-> > +static inline void __iommu_free_pages(struct page *page, int order)
-> > +{
-> > +     if (!page)
-> > +             return;
-> > +
-> > +     __free_pages(page, order);
-> > +}
-> > +
-> > +/**
-> > + * iommu_alloc_pages_node - allocate a zeroed page of a given order from
-> > + * specific NUMA node.
-> > + * @nid: memory NUMA node id
-> > + * @gfp: buddy allocator flags
->
-> Same here for this one and other references below.
 
-ditto.
+--c5kq2kdwqrnl4eet
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thank you,
-Pasha
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmYPut4ACgkQFA3kzBSg
+KbbwnxAAtFWKOWnU/VyFFeZnqQCgQ76FzO93xERcjysHlgnZv3BnA6UpxFnrHrs4
+Cn7RTWa0i9Ct1ns2AkkjOQ5rUIqczF7M2dVS0tqODwyazGPaDHYtsa3urfkCsLT7
+Gz0y5V+oHHUNj1hypkKtQ37/7iFSYbo5oryt9MFK6eFfs878jel/4BCGJk3SEa48
+ewNnEuM8aYfzlrn7/VbkWqHkCS5J6x8/VFk3PjlxgEW45UtEI3r30K6/jT9HOdx4
+6lCofEZKn4Bl0VbfJJ7MXd1Be2/Dk6ZaY09e97iAKt2+fM1OLrBwig2V8PAdV7ei
+LlHolA153CWJAAkzXE2bJsr252IuCLpVpZobTSQRfr+u5vVV354dfo2ek11R8iff
+DSr94kqdKVvOvegpxt4vyHUxQrfy70R9vlkgVhkdvdGbi3JfLeiCK+C+IcBZlbXr
+uTaPlNvOt6p+VJNAlucnKQF3mK0FvVMK7bTwqjbKR8ZzB8J20qj5pqxqtBZDjfOl
+fpTR9f9+kHWdmBuCLBq35aes6Lxq4JtNRH+czt8F8wIAfx/xcgTf2uPThVoFPO9s
+jyO4fy773Wsfo8PGo9SqSKr7K6gQW3dIDoFTk489lp3e9Y/DYJ+ZV2ixvCQKATjO
+3K0umrWHYd25+mhripLMPzaz3h1GPtmAiQq/dq2GUviAFUPoZas=
+=RWT2
+-----END PGP SIGNATURE-----
+
+--c5kq2kdwqrnl4eet--
