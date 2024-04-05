@@ -1,105 +1,89 @@
-Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CE715FD01;
-	Fri,  5 Apr 2024 09:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.227.64.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B175E16EC1B
+	for <asahi@lists.linux.dev>; Fri,  5 Apr 2024 15:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712309901; cv=none; b=AkwXRnRMetJ0L9IbHlnUlbm/I0PKkqbVheFMD6/h7gGzzCCEy3N0M6MCj5zef/kgVgDLuYdVbDKvVZa2ntxLYmVOH9+UNCMoJUCM5lDHULesMw/QG1A4N4mKQkWQ1JBmToVuVKemW8967bjjTRSDQiUl8coDx2ZJP5dEQov/leg=
+	t=1712329982; cv=none; b=j/S2GSP7W89KvpWIsgKigwAvFr8LbdkLB448YAmCBNMjwmOsPLSD5sL3b3JBaXNtLFL7JKDzTON2EMG4Rz52Bxs2BuND69Ha3DqPmJaFcR8BSbryZukxgu2YAce5VxUFob0pfabYI9iJkZw6dWY4gt+r48Ff2PTFEI2llb31wYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712309901; c=relaxed/simple;
-	bh=gui0f6MViE5zSAEEOcDKHdPoDszSctiaYWprNP7GSNc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TYx9XDMOKHsxsxgpErRPS/ygvPDzCeAlZTHPD8jU6Un/vl7oitKkIppyqtOYrexLuq9vY46aMb/YVGm7xn8ldd+hst08TGbqT5Eu4ZsNBxcPdZveBtSAApHlqy+wE0mswPrfmKn1k9Vlu1n6YEW+MMhGa8Dopk6yoUAbjF5ae08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rere.qmqm.pl; spf=pass smtp.mailfrom=rere.qmqm.pl; dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b=ZcrcoLqs; arc=none smtp.client-ip=91.227.64.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rere.qmqm.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rere.qmqm.pl
+	s=arc-20240116; t=1712329982; c=relaxed/simple;
+	bh=5v6Pm8dIutVD5U6XWvaxwpk59IsGYcI+LlFlF+xmwA4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rwk/6ggBn9f9oUKOje7xdsWUUMx7B5t867iM8q11q4JubxQTefrQe60P3h11zE/bPw7T/HsY34nd6T0nTGsPv0A4tqyixgXcqYNC3oaQpmxGd2V8ZGzEuD5WSW1n5g8PLhK2GjcLI6qswQtaHPyjfuVlRfFLyP/ClBtI3LctV/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=l/0cFlPu; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="ZcrcoLqs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-	t=1712309337; bh=gui0f6MViE5zSAEEOcDKHdPoDszSctiaYWprNP7GSNc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZcrcoLqsz/zzlMruWf44PYk75DueBejOUyr1Eh31EyaZcoY7ODel3t0vFK51sQutC
-	 YY7dBqw6x5FiEghmAZFtz/zTJMGq5GtkEocuVfbQcN9BDPuRIei5HZ4DdjLpHxZ7+6
-	 E7lgHaOaQ5/+P2XOh5i4UPTyYivuDu5pF+wIovDfOhmC0jyS7Po0jdQpgN6Tw+kWcU
-	 BR21bYeWeQT2EX7dHW/mtmIf4RbdkqX5exTxh2367mA4o2zBmZSc7BFV4XrNkiEptZ
-	 Q5SBD2Ru9xBFkYUfXpcQGRwkKRKwaEBGta6Gar0WuqKpV+3lBKaNoDOSXQIouXFRPP
-	 Bq/roRR1X1cQQ==
-Received: from remote.user (localhost [127.0.0.1])
-	by rere.qmqm.pl (Postfix) with ESMTPSA id 4V9tTX48kvz8B;
-	Fri,  5 Apr 2024 11:28:48 +0200 (CEST)
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 1.0.3 at mail
-Date: Fri, 5 Apr 2024 11:28:47 +0200
-From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To: Allen Pais <apais@linux.microsoft.com>
-Cc: linux-kernel@vger.kernel.org, tj@kernel.org, keescook@chromium.org,
-	vkoul@kernel.org, marcan@marcan.st, sven@svenpeter.dev,
-	florian.fainelli@broadcom.com, rjui@broadcom.com,
-	sbranden@broadcom.com, paul@crapouillou.net,
-	Eugeniy.Paltsev@synopsys.com, manivannan.sadhasivam@linaro.org,
-	vireshk@kernel.org, Frank.Li@nxp.com, leoyang.li@nxp.com,
-	zw@zh-kernel.org, wangzhou1@hisilicon.com, haijie1@huawei.com,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, sean.wang@mediatek.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	afaerber@suse.de, logang@deltatee.com, daniel@zonque.org,
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-	andersson@kernel.org, konrad.dybcio@linaro.org, orsonzhai@gmail.com,
-	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
-	patrice.chotard@foss.st.com, linus.walleij@linaro.org,
-	wens@csie.org, jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com,
-	kys@microsoft.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, jassisinghbrar@gmail.com, mchehab@kernel.org,
-	maintainers@bluecherrydvr.com, aubin.constans@microchip.com,
-	ulf.hansson@linaro.org, manuel.lauss@gmail.com,
-	jh80.chung@samsung.com, oakad@yahoo.com,
-	hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
-	brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
-	duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
-	openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-	imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-s390@vger.kernel.org,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 9/9] mmc: Convert from tasklet to BH workqueue
-Message-ID: <Zg_ET2XmZM_Id_Ad@qmqm.qmqm.pl>
-References: <20240327160314.9982-1-apais@linux.microsoft.com>
- <20240327160314.9982-10-apais@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="l/0cFlPu"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 49AEA883EA;
+	Fri,  5 Apr 2024 17:12:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1712329972;
+	bh=ulEARfXWYhejj07AfEZcHQvS0PukF2coDZMTnB0OWP0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=l/0cFlPugXTVEAXudyX+diN/cCU+Satbm07JJy5P/RLkOLGz59JDwDqzfzV1iPaWq
+	 5XZ60YvOnxf8Vti5Rt3aGPBRkHqUw9rsAR2RLriJqtS0dcp3lLXMu+OdNtnc6wJ6dm
+	 RawRndvfYewbFwBRHN34sQmE2kAUhaoj39hUbxoCmHP8HA8sFmp5/JincOPAkMVfdh
+	 EFrd3ERYhLl57gD7GIHkmRoZwciO7+li2bpB1qaOrCtJ3EWZZudQygKkebci0UFgFF
+	 vBiBsWex2jaIvluZGGN2HY1WMEQ1X9505UM2o59S+eIWVF8QrDr1e9fMHySdTJH0mU
+	 m3K8EliPzfFoQ==
+Message-ID: <356b892a-a681-4ae0-a6c8-ed1b4b5a8717@denx.de>
+Date: Fri, 5 Apr 2024 16:52:32 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240327160314.9982-10-apais@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/6] USB keyboard improvements for asahi / desktop
+ systems
+To: j@jannau.net, Bin Meng <bmeng.cn@gmail.com>, Tom Rini
+ <trini@konsulko.com>, Simon Glass <sjg@chromium.org>,
+ Joe Hershberger <joe.hershberger@ni.com>
+Cc: u-boot@lists.denx.de, asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>
+References: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-On Wed, Mar 27, 2024 at 04:03:14PM +0000, Allen Pais wrote:
-> The only generic interface to execute asynchronously in the BH context is
-> tasklet; however, it's marked deprecated and has some design flaws. To
-> replace tasklets, BH workqueue support was recently added. A BH workqueue
-> behaves similarly to regular workqueues except that the queued work items
-> are executed in the BH context.
+On 4/4/24 8:25 AM, Janne Grunau via B4 Relay wrote:
+> Apple USB Keyboards from 2021 need quirks to be useable. The boot HID
+> keyboard protocol is unfortunately not described in the first interface
+> descriptor but the second. This needs several changes. The USB keyboard
+> driver has to look at all (2) interface descriptors during probing.
+> Since I didn't want to rebuild the USB driver probe code the Apple
+> keyboards are bound to the keyboard driver via USB vendor and product
+> IDs.
+> To make the keyboards useable on Apple silicon devices the xhci driver
+> needs to initializes rings for the endpoints of the first two interface
+> descriptors. If this is causes concerns regarding regressions or memory
+> use the USB_MAX_ACTIVE_INTERFACES define could be turned into a CONFIG
+> option.
+> Even after this changes the keyboards still do not probe successfully
+> since they apparently do not behave HID standard compliant. They only
+> generate reports on key events. This leads the final check whether the
+> keyboard is operational to fail unless the user presses keys during the
+> probe. Skip this check for known keyboards.
+> Keychron seems to emulate Apple keyboards (some models even "re-use"
+> Apple's USB vendor ID) so apply this quirk as well.
 > 
-> This patch converts drivers/infiniband/* from tasklet to BH workqueue.
+> Some devices like Yubikeys emulate a keyboard. since u-boot only binds a
+> single keyboard block this kind of devices from the USB keyboard driver.
 > 
-> Based on the work done by Tejun Heo <tj@kernel.org>
-> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
-> 
-> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
-> ---
-[...]
->  drivers/mmc/host/cb710-mmc.c                  | 15 ++--
->  drivers/mmc/host/cb710-mmc.h                  |  3 +-
-[...]
+> Signed-off-by: Janne Grunau <j@jannau.net>
 
-Acked-by: Micha³ Miros³aw <mirq-linux@rere.qmqm.pl>
+I picked the series, but CI indicates build errors, can you have a look ?
+
+https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20215
+
+Thanks !
