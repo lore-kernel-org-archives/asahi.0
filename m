@@ -1,68 +1,68 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD114C7B
-	for <asahi@lists.linux.dev>; Sun,  7 Apr 2024 12:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52B72375F
+	for <asahi@lists.linux.dev>; Sun,  7 Apr 2024 12:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712493382; cv=none; b=ILV/o4qXsI/CQ8ZtNvogI6qS8n8hL40JkFQqEI5lBmZZ+RqxGRzZu0Lyg90QYeptTIRjRZJ29FDUTXZbR9ByMnZTfoYxzpgZugVW+L3wU6jgN/wXjkdXnu3m17iU3UI9duQtfycjOR+vgYjuwsOfrC+2QU+IRL/q4WjPVVI3p4k=
+	t=1712493550; cv=none; b=GZwvBr+QwksjJOD8XLnBptrlp/xHnU7/9dlbKWT8pyywCgCa+h48TcJlmyZjSV+NuCBP6adgNqBOTPAOraMNAQ/aLvn/YNIyJfwuYQXyQZoIXDpuMGL3J9E6+dg193QXxJUtYVd7eZo8W3JhzQfYECtx4a9AHMin26nN96eLzjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712493382; c=relaxed/simple;
-	bh=VhtheWqyCFUO49/ez9JKbY6OihTjwk/bQeNzjLVwE5Y=;
+	s=arc-20240116; t=1712493550; c=relaxed/simple;
+	bh=70uywmOjnhBrYkTEuZzo/N9wDcHw5Nb706IWaY5ySNQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nKWwcSFCyVMdAloaO8bXBlFv6XKi2OEaE7PFmYiP3gUOgZGDKkYjaAa4jbsFlhcrJhrqsRuK92e3OeWIwcP7vhDTc5b47rI2tYnJXZphI8QhSqkn9X5goNoIMQWsmZaJfnaB6JCl31BhFyj3x7qqVvvgoBtw7gYeIwFKHPBGNr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HVLupGFe; arc=none smtp.client-ip=209.85.160.48
+	 To:Cc:Content-Type; b=Sp5qN9YPUSRPjhbIlOsjY0j/HR8iuGGrXjA0GXxnBIYiH2Lpn6ojMVHFWEc4uYs8CeWgRA3z3OjDVUeZa1q5Fb/rasOm3Hengsa+Mub+heeu934OX2CzUYu9CO9l2/UHt9EmF5ltxQzskokHKbAGku9sJkt/LzjUzRlvs2JuSck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aCSOfb7p; arc=none smtp.client-ip=209.85.161.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HVLupGFe"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-222c0572eedso2290076fac.3
-        for <asahi@lists.linux.dev>; Sun, 07 Apr 2024 05:36:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aCSOfb7p"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-5aa2a74c238so389499eaf.3
+        for <asahi@lists.linux.dev>; Sun, 07 Apr 2024 05:39:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712493380; x=1713098180; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1712493548; x=1713098348; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HTpah3z9nxK4+QUIUhM/zsRbPjioxiMre0R2YErPMBI=;
-        b=HVLupGFeF6KkazZoy5pNAURRuRDm71qzQzXFRfgH2jykYlA7yn6q4hjghmgWbdYAM2
-         Olvr5p+BD8ZjO8Wr3blr16A/t/jiSa1tu6wiLRa/OOTVHiIiVZFq29MznI9oOdiXr63q
-         MnAgD+9jnW3gEhcvlxgTnVOVnErYWLjwziMOxR08AUVzrF+cCVnPhEfZvZ3zSI2Zsk86
-         nzmdUvYtdZTdwzE+++BE+udDuT5oyL9+2Q/vIFh77hLdea8UcfbTA5UN9dgJohKz6r+j
-         JXHaWvOOmCjWW0wcUf+vT3xLz/Rvc7VX5yhLYUFrgWiF4lvl+KVjOdhBkxuEJG2K04h3
-         NBXA==
+        bh=1YinWXQnk0eT7Z1wHOzuPSCSYvlwXIPlk1+iKh10Vls=;
+        b=aCSOfb7phoeiYYc3Ch7oVINojjVz6YN80QQkrCwpX6RWf16yYto5C0YjyvdE0i/Ebb
+         HiiahKanKm6dh8olxG3tf7TCFQIKoog8HhAZDolqDfPf1IsxUIKr0Lj/wqqeBmeDBd48
+         69lqv8fHWpKVm+4xjK9tLWLMCIvYzQaGG0V4XRuOzZZTThC2j1Zkn5LVq6CWd3i2V+PS
+         TICmWEURyX0utwpnkseNEK2yzN/ZJ6TlQnFp3PwZcWmLuFxWZ7pgtt5wolzlkuVpuJ20
+         tx9YNeVFSqG7WjJ7ht4zjTVw6ZL/v19XqsEvwZYZmTrt6ngvjvaQfoOegV/HK4Nm0luN
+         GgUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712493380; x=1713098180;
+        d=1e100.net; s=20230601; t=1712493548; x=1713098348;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HTpah3z9nxK4+QUIUhM/zsRbPjioxiMre0R2YErPMBI=;
-        b=vW0439aFkLrIw4hRMlQFehnpgjWMrKKXuznlwAygmDXTijT4LwqcB45WRYyE6Y+fFC
-         OwD3yrBJNxB6v6SB0fvU2bMtrRiom4P1xSkqRVZ7CmWfnGQS+kyPcd22N05AZeAAfJNX
-         snX9me56rrJ7YXDWjny/0za41PrzdY8jvfzPjW11dHqHjo1Tv1VosxmB921QYSIWUvQA
-         gLPlY7tS6yMCaDohG8t417+wDkTy+YvPxmTIW5wmX83ZvHFJosvDAZCjmoRZcva8r2hF
-         ylPregg8qTRZdISBWvcQYXLDiImr2WGSpogpiro3TfGk4/WhDRIE43X/5yKVLov3LgPs
-         WARw==
-X-Forwarded-Encrypted: i=1; AJvYcCXlEkfE0j0dY6RgWSuMIlpxGKDLOTqZ8uYIK4Yh9Rb4zIZ+JieoIK1H3DakgdpSUFHXJb7+m1Exs/xc8OdK6qNobALcN7c=
-X-Gm-Message-State: AOJu0YwDa2j0B1em0g6k46B5PbZwAK+CykH0rNveff+ZO2D+vBGxP4xJ
-	Ucy8hWYl8lti6QQs/4Xd/hYIEtpCPbIL0NKEDyVO6IGZ2ZQyezmUqnCX1m4IMx1BpXL/UYg7yJp
-	XWu4LzMOWl4iSVbbWKDXRsmpOfh0=
-X-Google-Smtp-Source: AGHT+IHCRJwJiztaVGgYDsbvhsWKurdYA7ka/A/XrCbAAgdQQF3HjScy5xiyJE6CEank6R3QWX9EeoxlvmFNctyZZ+w=
-X-Received: by 2002:a05:6870:d622:b0:229:f9fa:df52 with SMTP id
- a34-20020a056870d62200b00229f9fadf52mr7031792oaq.12.1712493380515; Sun, 07
- Apr 2024 05:36:20 -0700 (PDT)
+        bh=1YinWXQnk0eT7Z1wHOzuPSCSYvlwXIPlk1+iKh10Vls=;
+        b=RyYWDmOJhJuKzzjHbJ8UNKlrec0RV6pYupCCx/t+7es03vXxf94/TIWwsfmuGAj12H
+         WgzzS5rdDMsY7SIULyuq/AaKG5fUi2x/JGK3BPZo/DDFvGRgN7piF3Tw+okfY+f0rLJu
+         KJSsCq0uIbDRY4n6wc+lYS9INJdcRoY12zhvY/45MaZZMiNQiqLoU5ZSuaoxRm+DBe0/
+         +qPNGW0VjwTo9U9LSPVjKlY+76BUTgI1Vmln2Sf/X2qGitRtBACYV+nlh+uRagy9SKeO
+         UGO0Ri2fbVzS6efnvt+tX9jGLdx+tWIKozrIPwfx7Fttblm84dSDO3cByk/+1SiA9MhF
+         8qCw==
+X-Forwarded-Encrypted: i=1; AJvYcCUnA1wVTfEVUywCFiVlwj79nNid4PtKbHqPf10d9hCYL1h8LSJcRssCIdu7iBjd9zK6/A+eZw35iL0C6Utio/OX/QVjTHI=
+X-Gm-Message-State: AOJu0YyFXc8By/ecnl58L43NdxWtuiBMVAxKTrK1lLa5kz5aIuAQi94m
+	368iI4ZdP8ILJDz5y1NUGggPjZVB3bL1Pq+OPNNOXqk0IjrOzZwiga95mEfMnU5eyaOefTAQrFy
+	Sn/NS6w5HKG1nX8pd2FLVLZCnJog=
+X-Google-Smtp-Source: AGHT+IFvZ1UMHhMwBSNso145G9wXeopvnhz67bSYiVC6v0RYNhkx43Ef5CmXFgL9Iup+iSFrwPTE4vACd2zsBUdljvU=
+X-Received: by 2002:a05:6870:fb8f:b0:22e:e1e5:b8e with SMTP id
+ kv15-20020a056870fb8f00b0022ee1e50b8emr6777731oab.41.1712493547737; Sun, 07
+ Apr 2024 05:39:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240407102000.37213-1-krzysztof.kozlowski@linaro.org> <20240407102000.37213-2-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240407102000.37213-2-krzysztof.kozlowski@linaro.org>
+References: <20240407102000.37213-1-krzysztof.kozlowski@linaro.org> <20240407102000.37213-3-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240407102000.37213-3-krzysztof.kozlowski@linaro.org>
 From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Sun, 7 Apr 2024 14:36:10 +0200
-Message-ID: <CAMhs-H8jjPpoFfUngpCckAq+hix65VN4rNWMJb=Rrtkzq6nEKA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: PCI: mediatek,mt7621: add missing child
- node reg
+Date: Sun, 7 Apr 2024 14:38:57 +0200
+Message-ID: <CAMhs-H_gx0LB89QpLf-fJrumONRSnwB5_L7YkkWKC=7130EFLA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] dt-bindings: PCI: host-bridges: switch from
+ deprecated pci-bus.yaml
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
 	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
@@ -99,19 +99,21 @@ Content-Transfer-Encoding: quoted-printable
 On Sun, Apr 7, 2024 at 12:20=E2=80=AFPM Krzysztof Kozlowski
 <krzysztof.kozlowski@linaro.org> wrote:
 >
-> MT7621 PCI host bridge has children which apparently are also PCI host
-> bridges, at least that's what the binding suggest.  The children have
-> "reg" property, but do not explicitly define it.  Instead they rely on
-> pci-bus.yaml schema, but that one has "reg" without any constraints.
+> dtschema package with core schemas deprecated pci-bus.yaml schema in
+> favor of pci-host-bridge.yaml.  Update all bindings to use the latter
+> one.
 >
-> Define the "reg" for the children, so the binding will be more specific
-> and later will allow dropping reference to deprecated pci-bus.yaml
-> schema.
+> The difference between pci-bus.yaml and pci-host-bridge.yaml is only in
+> lack of "reg" property defined by the latter, which should not have any
+> effect here, because all these bindings define the "reg".
+>
+> The change is therefore quite trivial, except mediatek,mt7621-pcie.yaml
+> binding which have children nodes being also host bridges, apparently.
 >
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > ---
->  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml          | 3 +++
->  1 file changed, 3 insertions(+)
+
+>  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml         | 4 ++--
 
 Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 
