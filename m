@@ -1,205 +1,127 @@
-Received: from fhigh5-smtp.messagingengine.com (fhigh5-smtp.messagingengine.com [103.168.172.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F609BE6C
-	for <asahi@lists.linux.dev>; Sat,  6 Apr 2024 20:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D4B1170F
+	for <asahi@lists.linux.dev>; Sun,  7 Apr 2024 01:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712433881; cv=none; b=lGvSYGT4CwOm2UhmkbNfhnOvkm/mQCKwoW2eklsgV3da9KIQ2yH6gWML2gw3ORFTa5ujVV02j40bCWc00jWF9EklVLVAtQXDkVuGPJBURAOOq/dY4FZIkbXe3WTwGlbLrTj0KO/52S5PExL8dA3Q6xln/dfYBw9yXknf12OK/bc=
+	t=1712451967; cv=none; b=tDMV8rwKf1v9/pdFSGGYGv+i/Y/qzmDTNK11v2G9bWmw9ATk+B+oqlQOev8GikNDtTOphzQINeeivTsAPw30ye8+5i3JbCQAqT3kdPhW1r8vqkebJy635bGa/SQaAtPVPcOe9ZH0KEA6LMQ+31xymJvsLCIKgudentQAW0KXqdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712433881; c=relaxed/simple;
-	bh=xFcXFRN4QzYbpbMdVY68bwObMbACXTguYRhRKkav4oU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HlynfMZh74KeGphG+p69XOIoN8YnfXQ3gztbP3pczJq1CRu+aQvXLTZQsM55gIZd8vKGmwCjTBN7ndByZ3sg8UBVBAYkJAnUmAMz1gOFKbHXiIpc9FM7nI7fdFqX6qK3O7XyhMWNhewsps6d+R/LWEBi0OlTyzeVhWBYNI4AVOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=LGaHRQnX; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rO3r1/IM; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1712451967; c=relaxed/simple;
+	bh=r2twXzrXaUgdpgAr2sff9syF3f4suZ1QKOJv8Z/TH08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u2YjFDgng56ZveyJ70JBIKQ/QNGF4hHzQjksdUFo6Ib5kYRncUF5u8N4wJoWDXegnW40KI/Ul5/gNyBaTz6e0pFnkygOm0hzYdX2YEm/WVzfR4k+WZk+iITj53bc1Rqqg4muK/7vRNToxiH9ycUz/7/+JHaDwo/3A8vOsOQXYBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=wwXwsTZK; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="LGaHRQnX";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rO3r1/IM"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 3803C11400AB;
-	Sat,  6 Apr 2024 16:04:37 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sat, 06 Apr 2024 16:04:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1712433877; x=1712520277; bh=4CNQC1EXj4
-	5VVWyOy7VWWWAsllryoT2wjwpalUp2rIs=; b=LGaHRQnXsAu6glJIxqpoETzm3E
-	Brh8Xwl8ln5SPgYjYMjsDQ4DxOdm2/kcRSB2Ymk/BrdSmPWokgcp0BSWzK8+zukT
-	Zog+w3yLA1A+CTxbwRWKrPA4aNJCaNpJzedEySnQDA2kPxq/ZfJOYDOd7nYNKF/v
-	BaBeOSkrsSAU3Y16yypG9unUzk/sh3wl7GKoGwiCztvK3w1uMh6MW4fvCW1/9afJ
-	YUMm2iFySUDA1MJuIZYkV6dJ2bFssYWFUHdRSp9TG62UMh9Y8+3KB+BbLMd+aWSp
-	6lwjVn5TE+0BmwUDd8cbO2GolZLpyBCx48zxobS1mH1uNDYoUtNk1VtnBYVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1712433877; x=1712520277; bh=4CNQC1EXj45VVWyOy7VWWWAsllry
-	oT2wjwpalUp2rIs=; b=rO3r1/IMJ2AnV/ADxQ69b0Iu1NeFlC4JIDY01s8D/Uq/
-	3TXF02IM1o+lJIJViVixWDmA/dDYS5nHNpDNOCZ9ywAJoSPeiE2J2Q2W1jVY4XpL
-	p5ZzAXPB9//zT6a8wSDhAQoNXhC5CuYEfC+qcGWYqN6DHg1Ab1YVemYibMY9An1y
-	vHM7YkWEN8ABPTZTpsbsEcX+a4DUWQsuqH88sNfxCtagEIPTqlHLJY7rNt1mp9xj
-	YDQesS8vjCF9FGTkD8KRD0mBogQTtMbq7dK53uwn/gjaV/7WTu1bqHsblQYZpBnG
-	0wNPyW9+vw/Enwb5+BVrv5rkhx5KToirvKrbEdqmqw==
-X-ME-Sender: <xms:1KoRZh5kInemU_XPcf58VLgoQFixJmWU73F50IShpVmnoVoeg-I8vg>
-    <xme:1KoRZu6wNTeOZtAhbPN2NUvDpQ81l3isVXxCpN_U8172d7Tnv43ugYjAaoZs9gbgB
-    elQWLyTcEb9BNxnSp8>
-X-ME-Received: <xmr:1KoRZoeBmjX57Q64YTRy6VaaOzj5Rp7xe6cXujLE1RqbBNIMbvykStDFzqcrof51Xwm8gkcMGxFARksL5dXpB2ftATQXWvNkfw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudegvddgudegiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehmtderredttdejnecuhfhrohhmpeflrghn
-    nhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epgfekveetieelgeefkefhueelueegvddtuefhudeuffeigeeutdfgiefffefhkeegnecu
-    ffhomhgrihhnpeguvghngidruggvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepjhgrnhhnvgesjhgrnhhnrghurdhnvght
-X-ME-Proxy: <xmx:1KoRZqLcf2LSv5ldZ6cFCs2WcdyHjHdWnq_OGqZmEbgDMNjkdV0OOA>
-    <xmx:1KoRZlJBRu5hgxD_V4ORDXmUizdmT50oxC40QzVTzc8FXoJSjApamQ>
-    <xmx:1KoRZjwYGGc7ibkGqbAk4v2jUQ_jvLAxWve4SDXDcX_U4y1cpTzXqA>
-    <xmx:1KoRZhLL9Vxvxf4YUfu9VgQtZyBiMFplIEjoY4JQpNlzF80dV3NXaQ>
-    <xmx:1aoRZuVprdipdND0rIQ2FfY83iYJWQWI6NxwTmmkkoh2bhrcJG-wRdCJ>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 6 Apr 2024 16:04:35 -0400 (EDT)
-Date: Sat, 6 Apr 2024 22:04:33 +0200
-From: Janne Grunau <j@jannau.net>
-To: Marek Vasut <marex@denx.de>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>,
-	Simon Glass <sjg@chromium.org>,
-	Joe Hershberger <joe.hershberger@ni.com>, u-boot@lists.denx.de,
-	asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH v4 0/6] USB keyboard improvements for asahi / desktop
- systems
-Message-ID: <ZhGq0U_pkrYMe4S1@robin>
-References: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
- <356b892a-a681-4ae0-a6c8-ed1b4b5a8717@denx.de>
- <ZhBLfQfxB_UEwvyY@robin>
- <5467f380-de35-4776-8c32-90b8e08aeda7@denx.de>
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="wwXwsTZK"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 06C5887EAF;
+	Sun,  7 Apr 2024 03:05:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1712451960;
+	bh=9JqXDj/rXgoJgojFGAsKJG1JWQSvC6wGIbZKUeYzfg8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=wwXwsTZK99EZpWegyRIrp8DgXQ4LReGo2pdvv/tVbb2y4/ah4A7wDGz/rbB6Bc7sM
+	 LvEAo79+aS5GlkCG13sIgrgQ0T3W8TX6QkmYm2Sh59j2TLib9/HPi1qr8fjtkEpOxH
+	 6sX3yzBrU+D35R0l4sbKNJd6I5XDbfiycHQhvvCSvl/6ge8wOHEMNsf94VqT0C68Fa
+	 qgZQw0+XSf1a51CE6ehn2suNDObesM2UlG4UgkqnxAMEiwpoo7I76RnxFfkLTClyLv
+	 zSv0tZt51H4Wxo70blu8L5zzud4VQoj6ApXvPe2k8+2qtguRvLD3l7jgs5biS0DFsV
+	 0hYqh+PbwSzBg==
+Message-ID: <5ed4e6d2-edc7-461d-8183-e91d7b994aa5@denx.de>
+Date: Sun, 7 Apr 2024 03:05:59 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="qAvU1m4dKXDhn5xe"
-Content-Disposition: inline
-In-Reply-To: <5467f380-de35-4776-8c32-90b8e08aeda7@denx.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/6] USB keyboard improvements for asahi / desktop
+ systems
+To: Janne Grunau <j@jannau.net>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>,
+ Simon Glass <sjg@chromium.org>, Joe Hershberger <joe.hershberger@ni.com>,
+ u-boot@lists.denx.de, asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>
+References: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
+ <356b892a-a681-4ae0-a6c8-ed1b4b5a8717@denx.de> <ZhBLfQfxB_UEwvyY@robin>
+ <5467f380-de35-4776-8c32-90b8e08aeda7@denx.de> <ZhGq0U_pkrYMe4S1@robin>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <ZhGq0U_pkrYMe4S1@robin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-
---qAvU1m4dKXDhn5xe
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-On Sat, Apr 06, 2024 at 08:52:17PM +0200, Marek Vasut wrote:
-> On 4/5/24 9:05 PM, Janne Grunau wrote:
-> > On Fri, Apr 05, 2024 at 04:52:32PM +0200, Marek Vasut wrote:
-> >> On 4/4/24 8:25 AM, Janne Grunau via B4 Relay wrote:
-> >>> Apple USB Keyboards from 2021 need quirks to be useable. The boot HID
-> >>> keyboard protocol is unfortunately not described in the first interface
-> >>> descriptor but the second. This needs several changes. The USB keyboard
-> >>> driver has to look at all (2) interface descriptors during probing.
-> >>> Since I didn't want to rebuild the USB driver probe code the Apple
-> >>> keyboards are bound to the keyboard driver via USB vendor and product
-> >>> IDs.
-> >>> To make the keyboards useable on Apple silicon devices the xhci driver
-> >>> needs to initializes rings for the endpoints of the first two interface
-> >>> descriptors. If this is causes concerns regarding regressions or memory
-> >>> use the USB_MAX_ACTIVE_INTERFACES define could be turned into a CONFIG
-> >>> option.
-> >>> Even after this changes the keyboards still do not probe successfully
-> >>> since they apparently do not behave HID standard compliant. They only
-> >>> generate reports on key events. This leads the final check whether the
-> >>> keyboard is operational to fail unless the user presses keys during the
-> >>> probe. Skip this check for known keyboards.
-> >>> Keychron seems to emulate Apple keyboards (some models even "re-use"
-> >>> Apple's USB vendor ID) so apply this quirk as well.
-> >>>
-> >>> Some devices like Yubikeys emulate a keyboard. since u-boot only binds a
-> >>> single keyboard block this kind of devices from the USB keyboard driver.
-> >>>
-> >>> Signed-off-by: Janne Grunau <j@jannau.net>
-> >>
-> >> I picked the series, but CI indicates build errors, can you have a look ?
-> >>
-> >> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20215
-> > 
-> > The issue seems to be that the field dev in struct usb_device exists
-> > only for DM_USB. That means we can't use dev_dbg.
-> > Either take the following fixup patch or I can resend the series.
+On 4/6/24 10:04 PM, Janne Grunau wrote:
+> On Sat, Apr 06, 2024 at 08:52:17PM +0200, Marek Vasut wrote:
+>> On 4/5/24 9:05 PM, Janne Grunau wrote:
+>>> On Fri, Apr 05, 2024 at 04:52:32PM +0200, Marek Vasut wrote:
+>>>> On 4/4/24 8:25 AM, Janne Grunau via B4 Relay wrote:
+>>>>> Apple USB Keyboards from 2021 need quirks to be useable. The boot HID
+>>>>> keyboard protocol is unfortunately not described in the first interface
+>>>>> descriptor but the second. This needs several changes. The USB keyboard
+>>>>> driver has to look at all (2) interface descriptors during probing.
+>>>>> Since I didn't want to rebuild the USB driver probe code the Apple
+>>>>> keyboards are bound to the keyboard driver via USB vendor and product
+>>>>> IDs.
+>>>>> To make the keyboards useable on Apple silicon devices the xhci driver
+>>>>> needs to initializes rings for the endpoints of the first two interface
+>>>>> descriptors. If this is causes concerns regarding regressions or memory
+>>>>> use the USB_MAX_ACTIVE_INTERFACES define could be turned into a CONFIG
+>>>>> option.
+>>>>> Even after this changes the keyboards still do not probe successfully
+>>>>> since they apparently do not behave HID standard compliant. They only
+>>>>> generate reports on key events. This leads the final check whether the
+>>>>> keyboard is operational to fail unless the user presses keys during the
+>>>>> probe. Skip this check for known keyboards.
+>>>>> Keychron seems to emulate Apple keyboards (some models even "re-use"
+>>>>> Apple's USB vendor ID) so apply this quirk as well.
+>>>>>
+>>>>> Some devices like Yubikeys emulate a keyboard. since u-boot only binds a
+>>>>> single keyboard block this kind of devices from the USB keyboard driver.
+>>>>>
+>>>>> Signed-off-by: Janne Grunau <j@jannau.net>
+>>>>
+>>>> I picked the series, but CI indicates build errors, can you have a look ?
+>>>>
+>>>> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20215
+>>>
+>>> The issue seems to be that the field dev in struct usb_device exists
+>>> only for DM_USB. That means we can't use dev_dbg.
+>>> Either take the following fixup patch or I can resend the series.
+>>
+>> I squashed the extra patch in, but I think the CI still complains:
+>>
+>> Pipeline #20236 (
+>> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20236 )
+>> triggered by Marek Vasut ( https://source.denx.de/marex )
+>> had 1 failed job.
+>>
+>> Job #812215 (
+>> https://source.denx.de/u-boot/custodians/u-boot-usb/-/jobs/812215/raw )
 > 
-> I squashed the extra patch in, but I think the CI still complains:
+> env_get() missing without CONFIG_ENV_SUPPORT. I'm too accustomed to the
+> kernel's stub functions. Best option seems to to just #if the
+> functionality out in this case. See attached fixup patch.
 > 
-> Pipeline #20236 ( 
-> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20236 ) 
-> triggered by Marek Vasut ( https://source.denx.de/marex )
-> had 1 failed job.
-> 
-> Job #812215 ( 
-> https://source.denx.de/u-boot/custodians/u-boot-usb/-/jobs/812215/raw )
+> Sorry,
 
-env_get() missing without CONFIG_ENV_SUPPORT. I'm too accustomed to the
-kernel's stub functions. Best option seems to to just #if the
-functionality out in this case. See attached fixup patch.
+No worries.
 
-Sorry,
+Does it work if you do this instead ?
 
-Janne
+  static int usb_device_is_ignored(u16 id_vendor, u16 id_product)
+  {
+         ulong vid, pid;
++       /* No env support, nothing can be ignored */
++       if (CONFIG_IS_ENABLED(ENV_SUPPORT))
++           return 0;
 
---qAvU1m4dKXDhn5xe
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline;
-	filename="0001-fixup-usb-Add-environment-based-device-ignorelist.patch"
-
-From 214ec2aad1ed42d6e1256bbc7eaeff84e17443e0 Mon Sep 17 00:00:00 2001
-From: Janne Grunau <j@jannau.net>
-Date: Sat, 6 Apr 2024 21:46:44 +0200
-Subject: [PATCH 1/1] fixup! usb: Add environment based device ignorelist
-
----
- common/usb.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/common/usb.c b/common/usb.c
-index 8bc85c58b2..52f77431b0 100644
---- a/common/usb.c
-+++ b/common/usb.c
-@@ -1085,6 +1085,7 @@ static int usb_prepare_device(struct usb_device *dev, int addr, bool do_read,
- 	return 0;
- }
- 
-+#if CONFIG_IS_ENABLED(ENV_SUPPORT)
- static int usb_device_is_ignored(u16 id_vendor, u16 id_product)
- {
- 	ulong vid, pid;
-@@ -1126,6 +1127,7 @@ static int usb_device_is_ignored(u16 id_vendor, u16 id_product)
- 
- 	return 0;
- }
-+#endif
- 
- int usb_select_config(struct usb_device *dev)
- {
-@@ -1142,6 +1144,7 @@ int usb_select_config(struct usb_device *dev)
- 	le16_to_cpus(&dev->descriptor.idProduct);
- 	le16_to_cpus(&dev->descriptor.bcdDevice);
- 
-+#if CONFIG_IS_ENABLED(ENV_SUPPORT)
- 	/* ignore devices from usb_ignorelist */
- 	err = usb_device_is_ignored(dev->descriptor.idVendor,
- 				    dev->descriptor.idProduct);
-@@ -1162,6 +1165,7 @@ int usb_select_config(struct usb_device *dev)
- 	} else if (err < 0) {
- 		return err;
- 	}
-+#endif
- 
- 	/*
- 	 * Kingston DT Ultimate 32GB USB 3.0 seems to be extremely sensitive
--- 
-2.44.0
-
-
---qAvU1m4dKXDhn5xe--
+That way, the function is always compiled and if it is unreachable, then 
+compiler throws it out. This should improve code compile coverage.
