@@ -1,212 +1,129 @@
-Received: from wfhigh8-smtp.messagingengine.com (wfhigh8-smtp.messagingengine.com [64.147.123.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB19383BF
-	for <asahi@lists.linux.dev>; Mon,  8 Apr 2024 07:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBCA3BBD8
+	for <asahi@lists.linux.dev>; Mon,  8 Apr 2024 08:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712562427; cv=none; b=HuqXn8ygsRWcsM0MCA+tdQ56KcZZb2HlbGMX+hdq1Zgt0e2zkC3MrMo1hLzwei2r/8+egtNA4/CNIsaa5wMEupDX1e7QDdPxCuzf2BUbyvpkFtH01POC8ERObhP/OIdRDtHpCnyiLJYdlAaxaQCJafpY689GQVaHgkT5eRguEx4=
+	t=1712564861; cv=none; b=PouipoSXPNNnp4jfyKW5vVl3wm3lV1uNrv+j6KWIWulEjDq666qaW0TLlvxEs0YWQY08BkNPWEnJ/QlHVSp1osIsM7TpJIp2vbUqKRgMtu41ezRTWAXPjgAJFFcfLAp33inK6poKXS+3l/zkSfMCF7GZAILESVz+QGlYNqR9YGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712562427; c=relaxed/simple;
-	bh=BiFQQ0S8JYXIjC8YU4hWHeX8h0ooyRZHdvqqYFS+Gfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Il81OjSWhQ+Da2/0MKz8LYLQXr/7kEnlv83KbCPkCnDe2g/Zjc7ZfIqfoKpHzNwFf3vHE4eI7nh7s1MwvrdK/mDWkCjXJVNj9PZg8N0LPU5Emm10HANiyce91EcPHFWmQDDSZ3Fo4fVTfkiRtRgfgwCaizsOk8gBbnqzn7pkApI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=jEtEv+a3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=U/Ce/TLh; arc=none smtp.client-ip=64.147.123.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="jEtEv+a3";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="U/Ce/TLh"
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 2E797180013B;
-	Mon,  8 Apr 2024 03:47:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 08 Apr 2024 03:47:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1712562421; x=1712648821; bh=2V1cKR1YYU
-	qfhTk98dY02e+rk+HOjmxzlVFveK4tfEQ=; b=jEtEv+a33P+zA+uoZ5QhwdytVy
-	OCUHb3Xz2bj8jCrBfPEsqbT+jhAl0YKx16C4WC3Mpto1vLDfc/MNJgdBcRBRVMY7
-	U3CrtxH8HpKmjC0CZHfaVvKKV03W0iooK5CAED0uo1eLQkVZW4hqX/aAuhyDArOF
-	aONIIIDvA6pV2PCMQluwFXnUaemh6bkCRUnsdODtoNyRjiwGG8m+cqcoighjTAK/
-	QbrMQcod99SaxuXs2dyTzf/CBEM0lV5uRBi2m4dr4WEexoGn98IfajNPg4iQISzr
-	7l80ZRmRVV/ncp3CIuRq9LycomZAwd9ck9w5WWzouK8OXuMl7VzZtlRyUx3Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1712562421; x=1712648821; bh=2V1cKR1YYUqfhTk98dY02e+rk+HO
-	jmxzlVFveK4tfEQ=; b=U/Ce/TLhi2wwnMp6WRms61aNikhtk0rhgMnTxwi6tCOj
-	roHkIqGAiNXebhh8WruTLolpQ1rT8epnlaVyM3WDzuDFQhOVs097GBvpKc2JNwXi
-	V4pbhQMl4pYnCwWeWK3CNffDps5NDT8Px2Harn2doDdux4kclTRsQDSgxwrbM/jm
-	NKzo5XmYcN3Hhbmhvhgdf+Qx7uyRUPCvB1+TlOi4MiOLWCDhIDfhDsqW6oiieDE9
-	v4F4ObuJusRBphRhya42ifEaf2fMzguQ72B9yFMhwVrKWQ+DuL+VOiLpLUbkXIAo
-	sEfEMn23ioH8hAl3Ih0p6om1ryInwden9GkOfxW6Fw==
-X-ME-Sender: <xms:9aATZh6xDdONexu-PitjrIBzfmmXhGzzYPVslGr05Ym8ABgexaH7AQ>
-    <xme:9aATZu55k70XVwQXSQD5rdO2-pXmVg1tXHZj31CSM7NgX_fGCo5SqZ7iC2PzR_Q7L
-    mHh7Vp1eIaUNmKnrDs>
-X-ME-Received: <xmr:9aATZocWH_r_8ZgTJusU_Jfx_vbpPwJp1X_miLxjOoL5kXPSKM_F3lAEjxch2_hOMRmIkX40UztBuOURcWFlAOqvk3pgsXXBAg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeghedguddvvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehmtderredttdejnecuhfhrohhmpeflrghn
-    nhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnh
-    epgfekveetieelgeefkefhueelueegvddtuefhudeuffeigeeutdfgiefffefhkeegnecu
-    ffhomhgrihhnpeguvghngidruggvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvght
-X-ME-Proxy: <xmx:9aATZqJN0YhIr5V3n5MvDZur2tSPB5rTRkZBFU_UKe4C-RFMS1YqsA>
-    <xmx:9aATZlJeeZb_kdifOUFOAWP5iP-crIrg65lDurW16uVhQ2vSeO4kEA>
-    <xmx:9aATZjxx6awxrh-BWt-ccZAWR-2mZGuZMCZtYKGrU0S2a1IauyUF-g>
-    <xmx:9aATZhKwDjm8qyK6sAslpRLHxMXHyElZpS_EEC_tMDDtM2irPQgCbg>
-    <xmx:9aATZs-u7Mxkk77A8XlQb7_0Tz_Znc9a0vN1GK6C-XTiOG4_4MheLB29>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Apr 2024 03:47:00 -0400 (EDT)
-Date: Mon, 8 Apr 2024 09:46:59 +0200
-From: Janne Grunau <j@jannau.net>
-To: Marek Vasut <marex@denx.de>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>,
-	Simon Glass <sjg@chromium.org>,
-	Joe Hershberger <joe.hershberger@ni.com>, u-boot@lists.denx.de,
-	asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH v4 0/6] USB keyboard improvements for asahi / desktop
- systems
-Message-ID: <ZhOg81sBEDLgCSIa@robin>
-References: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
- <356b892a-a681-4ae0-a6c8-ed1b4b5a8717@denx.de>
- <ZhBLfQfxB_UEwvyY@robin>
- <5467f380-de35-4776-8c32-90b8e08aeda7@denx.de>
- <ZhGq0U_pkrYMe4S1@robin>
- <5ed4e6d2-edc7-461d-8183-e91d7b994aa5@denx.de>
+	s=arc-20240116; t=1712564861; c=relaxed/simple;
+	bh=u9L7qVa0ZjLHzku/GRWHHqefATdqWRrHJlXyyocla8c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eOoV4iXCFAbJlOwaS2Tjdpg1OjsKRnKmOVzzuVz6AwKUWzYmUJmLoY7QKbiaXfOMLHReLSBpNIlUp88rNpVYDouB39Qm0euw8QR7phXLcM865RMmZqlgG6xAjH7RJb0srkR5UZ4xzzMJRPtHOHtH0tRB2RzTW03MZb5infotxRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5aa16c0583eso1077432eaf.1
+        for <asahi@lists.linux.dev>; Mon, 08 Apr 2024 01:27:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712564858; x=1713169658;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mduMjCqjA7drDw2lEIoqwW5oGXEwTzrsNz9VmuPIKQw=;
+        b=Houg1nI8KqOMO83WwVrEKDbDtlea2XHnlz7P+4Qv571mIy0Fh041p0nleGepdOcvdn
+         +Yq5pVunqPhlUBYmPrcAhYfSgmNjBOaohDKXpZ5LnYRQ3W9hCr3T2CDzHFtEQLLWJiIy
+         rO0/eRdaQD861Dre8e5RpXzABpwJI14GC9wwkdf8Qbp1ah2nVpqVpFpU9IRPeLxS1zrM
+         bAp4QqD3g0XX1I0pe40HR3dcQtmWed9C2nBpp0RKg+TNYjStceq7T2k+Z26RHilCrQgf
+         Kvamr8TxsNb/72fmPJxFIKTnuaCNBKwWItr/Fa/8bzXkRt75HlQ4UCUcgRDvmcILoZAp
+         a2Bg==
+X-Forwarded-Encrypted: i=1; AJvYcCVnnfSq9fW05yW3vmiLfk9hO2wOCv+F1VyEypb7qf7gIboxgG8l0UYYNTAhXpeg7EC2wQWADptQODFhHwxT4mM1cu+VPmU=
+X-Gm-Message-State: AOJu0YzMCfo45QLBtkAyzDJvqO59s9m/GEt44jmYDvxqRXEz/ewrYXKh
+	oWZWuYDNi8ELtt5LUN6wmfbf9/uUjRp086Vk7ynSsAkNseBIztaxNYRE2amg5yM=
+X-Google-Smtp-Source: AGHT+IG4a3rt0HajZknTq5Pin5SVsASgRAwC14zo9JkFQokZ7a/0ocly02OKVtmPYiBXfub5KyRK9Q==
+X-Received: by 2002:a05:6358:968f:b0:184:69c5:c076 with SMTP id o15-20020a056358968f00b0018469c5c076mr10007194rwa.30.1712564858418;
+        Mon, 08 Apr 2024 01:27:38 -0700 (PDT)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com. [209.85.216.50])
+        by smtp.gmail.com with ESMTPSA id q5-20020a634305000000b005dc9ab425c2sm5933642pga.35.2024.04.08.01.27.38
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Apr 2024 01:27:38 -0700 (PDT)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2a07b092c4fso2976564a91.0
+        for <asahi@lists.linux.dev>; Mon, 08 Apr 2024 01:27:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXYdS6JFN7PRoXANWEKaWx1uj0FWl0OAYuhJaTXV3xUNrOr1Fx9RXJLbIK9C/yeuxV1XgFyJUB6F6wW/IFDEcXq2nHcbCQ=
+X-Received: by 2002:a25:7406:0:b0:de0:e7f2:a03d with SMTP id
+ p6-20020a257406000000b00de0e7f2a03dmr2539436ybc.3.1712564836998; Mon, 08 Apr
+ 2024 01:27:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="WP5wpjb+r9JLJshy"
-Content-Disposition: inline
-In-Reply-To: <5ed4e6d2-edc7-461d-8183-e91d7b994aa5@denx.de>
+References: <20240407102000.37213-1-krzysztof.kozlowski@linaro.org> <20240407102000.37213-3-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240407102000.37213-3-krzysztof.kozlowski@linaro.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 8 Apr 2024 10:27:05 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWjWLdu9c7=OhFLsY+jSZXspb6jPHxVai2GcbJoS7MDLg@mail.gmail.com>
+Message-ID: <CAMuHMdWjWLdu9c7=OhFLsY+jSZXspb6jPHxVai2GcbJoS7MDLg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] dt-bindings: PCI: host-bridges: switch from
+ deprecated pci-bus.yaml
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Jim Quinlan <jim2101024@gmail.com>, 
+	Nicolas Saenz Julienne <nsaenz@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Will Deacon <will@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Srikanth Thokala <srikanth.thokala@intel.com>, Ryder Lee <ryder.lee@mediatek.com>, 
+	Jianjun Wang <jianjun.wang@mediatek.com>, 
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Shawn Lin <shawn.lin@rock-chips.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>, 
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Michal Simek <michal.simek@amd.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
+	Tom Joseph <tjoseph@cadence.com>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Apr 7, 2024 at 12:20=E2=80=AFPM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+> dtschema package with core schemas deprecated pci-bus.yaml schema in
+> favor of pci-host-bridge.yaml.  Update all bindings to use the latter
+> one.
+>
+> The difference between pci-bus.yaml and pci-host-bridge.yaml is only in
+> lack of "reg" property defined by the latter, which should not have any
+> effect here, because all these bindings define the "reg".
+>
+> The change is therefore quite trivial, except mediatek,mt7621-pcie.yaml
+> binding which have children nodes being also host bridges, apparently.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
---WP5wpjb+r9JLJshy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+>  Documentation/devicetree/bindings/pci/rcar-pci-host.yaml      | 2 +-
+>  .../devicetree/bindings/pci/renesas,pci-rcar-gen2.yaml        | 2 +-
 
-On Sun, Apr 07, 2024 at 03:05:59AM +0200, Marek Vasut wrote:
-> On 4/6/24 10:04 PM, Janne Grunau wrote:
-> > On Sat, Apr 06, 2024 at 08:52:17PM +0200, Marek Vasut wrote:
-> >> On 4/5/24 9:05 PM, Janne Grunau wrote:
-> >>> On Fri, Apr 05, 2024 at 04:52:32PM +0200, Marek Vasut wrote:
-> >>>> On 4/4/24 8:25 AM, Janne Grunau via B4 Relay wrote:
-> >>>>> Apple USB Keyboards from 2021 need quirks to be useable. The boot HID
-> >>>>> keyboard protocol is unfortunately not described in the first interface
-> >>>>> descriptor but the second. This needs several changes. The USB keyboard
-> >>>>> driver has to look at all (2) interface descriptors during probing.
-> >>>>> Since I didn't want to rebuild the USB driver probe code the Apple
-> >>>>> keyboards are bound to the keyboard driver via USB vendor and product
-> >>>>> IDs.
-> >>>>> To make the keyboards useable on Apple silicon devices the xhci driver
-> >>>>> needs to initializes rings for the endpoints of the first two interface
-> >>>>> descriptors. If this is causes concerns regarding regressions or memory
-> >>>>> use the USB_MAX_ACTIVE_INTERFACES define could be turned into a CONFIG
-> >>>>> option.
-> >>>>> Even after this changes the keyboards still do not probe successfully
-> >>>>> since they apparently do not behave HID standard compliant. They only
-> >>>>> generate reports on key events. This leads the final check whether the
-> >>>>> keyboard is operational to fail unless the user presses keys during the
-> >>>>> probe. Skip this check for known keyboards.
-> >>>>> Keychron seems to emulate Apple keyboards (some models even "re-use"
-> >>>>> Apple's USB vendor ID) so apply this quirk as well.
-> >>>>>
-> >>>>> Some devices like Yubikeys emulate a keyboard. since u-boot only binds a
-> >>>>> single keyboard block this kind of devices from the USB keyboard driver.
-> >>>>>
-> >>>>> Signed-off-by: Janne Grunau <j@jannau.net>
-> >>>>
-> >>>> I picked the series, but CI indicates build errors, can you have a look ?
-> >>>>
-> >>>> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20215
-> >>>
-> >>> The issue seems to be that the field dev in struct usb_device exists
-> >>> only for DM_USB. That means we can't use dev_dbg.
-> >>> Either take the following fixup patch or I can resend the series.
-> >>
-> >> I squashed the extra patch in, but I think the CI still complains:
-> >>
-> >> Pipeline #20236 (
-> >> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20236 )
-> >> triggered by Marek Vasut ( https://source.denx.de/marex )
-> >> had 1 failed job.
-> >>
-> >> Job #812215 (
-> >> https://source.denx.de/u-boot/custodians/u-boot-usb/-/jobs/812215/raw )
-> > 
-> > env_get() missing without CONFIG_ENV_SUPPORT. I'm too accustomed to the
-> > kernel's stub functions. Best option seems to to just #if the
-> > functionality out in this case. See attached fixup patch.
-> > 
-> > Sorry,
-> 
-> No worries.
-> 
-> Does it work if you do this instead ?
-> 
->   static int usb_device_is_ignored(u16 id_vendor, u16 id_product)
->   {
->          ulong vid, pid;
-> +       /* No env support, nothing can be ignored */
-> +       if (CONFIG_IS_ENABLED(ENV_SUPPORT))
-> +           return 0;
-> 
-> That way, the function is always compiled and if it is unreachable, then 
-> compiler throws it out. This should improve code compile coverage.
+LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Seems to work here with a broken imx8 config from the CI. Is it ok to
-rely on dead code elimination? Apparently it is, build with KCFLAGS=-O0
-has already several other missing symbols.
+Gr{oetje,eeting}s,
 
-See attached fixup
+                        Geert
 
-Janne
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
---WP5wpjb+r9JLJshy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline;
-	filename="0001-fixup-usb-Add-environment-based-device-ignorelist.patch"
-
-From ab3b825d7bc0571cfb38eb80a1e449e51d5d2f6d Mon Sep 17 00:00:00 2001
-From: Janne Grunau <j@jannau.net>
-Date: Mon, 8 Apr 2024 09:44:54 +0200
-Subject: [PATCH 1/1] fixup! usb: Add environment based device ignorelist
-
----
- common/usb.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/common/usb.c b/common/usb.c
-index 8bc85c58b28c..99e6b857c74c 100644
---- a/common/usb.c
-+++ b/common/usb.c
-@@ -1089,7 +1089,13 @@ static int usb_device_is_ignored(u16 id_vendor, u16 id_product)
- {
- 	ulong vid, pid;
- 	char *end;
--	const char *cur = env_get("usb_ignorelist");
-+	const char *cur = NULL;
-+
-+	/* ignore list depends on env support */
-+	if (!CONFIG_IS_ENABLED(ENV_SUPPORT))
-+		return 0;
-+
-+	cur = env_get("usb_ignorelist");
- 
- 	/* parse "usb_ignorelist" strictly */
- 	while (cur && cur[0] != '\0') {
--- 
-2.43.2
-
-
---WP5wpjb+r9JLJshy--
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
