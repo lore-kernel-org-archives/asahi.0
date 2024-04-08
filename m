@@ -1,255 +1,212 @@
-Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
+Received: from wfhigh8-smtp.messagingengine.com (wfhigh8-smtp.messagingengine.com [64.147.123.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1A11366;
-	Mon,  8 Apr 2024 02:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.156.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712542711; cv=fail; b=Ikiel3Z5ZA3RszoRGjci+gQ1Ay1rvzum743Bei9sNqrhBS0MgkMyLF7fzVdRIGcavsN+qwSPc/IofJS9yFRmmmDhqTovtWjgji3mwvAVJL6TOBM8o1blwHOqmYfFtHymIjlehNMieJsZ7K3MxviPrUws7vcN2XEsJJBsAY5VX3w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712542711; c=relaxed/simple;
-	bh=V003kRjKvlKjhTB152sZrV0XHkU2X+R/OfC6NLinRgI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=eyqLFiDFDWUZbShgrwsSXtQ4e5VpGsGQzbCHdImcdvV6uOBLeMavWYOt7EcFfzTCDn7NJDsei9VgCXnB/SF1YzQzA+b4079dPA733Z7F6/P5CE/Fwfom/22vNoFQtwJ90uj9CQazMIf6Ch297QYrykD29ey5Cf+cKLvvxczPBvs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b=Y00T+7oJ; arc=fail smtp.client-ip=67.231.156.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB19383BF
+	for <asahi@lists.linux.dev>; Mon,  8 Apr 2024 07:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712562427; cv=none; b=HuqXn8ygsRWcsM0MCA+tdQ56KcZZb2HlbGMX+hdq1Zgt0e2zkC3MrMo1hLzwei2r/8+egtNA4/CNIsaa5wMEupDX1e7QDdPxCuzf2BUbyvpkFtH01POC8ERObhP/OIdRDtHpCnyiLJYdlAaxaQCJafpY689GQVaHgkT5eRguEx4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712562427; c=relaxed/simple;
+	bh=BiFQQ0S8JYXIjC8YU4hWHeX8h0ooyRZHdvqqYFS+Gfo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Il81OjSWhQ+Da2/0MKz8LYLQXr/7kEnlv83KbCPkCnDe2g/Zjc7ZfIqfoKpHzNwFf3vHE4eI7nh7s1MwvrdK/mDWkCjXJVNj9PZg8N0LPU5Emm10HANiyce91EcPHFWmQDDSZ3Fo4fVTfkiRtRgfgwCaizsOk8gBbnqzn7pkApI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=jEtEv+a3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=U/Ce/TLh; arc=none smtp.client-ip=64.147.123.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b="Y00T+7oJ"
-Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
-	by mx0b-0016f401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 4380qNhQ025815;
-	Sun, 7 Apr 2024 19:17:35 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3xb5wgbe4u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 07 Apr 2024 19:17:34 -0700 (PDT)
-Received: from m0045851.ppops.net (m0045851.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.24/8.17.1.24) with ESMTP id 4382HUBL014050;
-	Sun, 7 Apr 2024 19:17:33 -0700
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
-	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3xb5wgbe4p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 07 Apr 2024 19:17:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CtSosLwrjMGITTn6JB33dMvaawigF9UFsu4H/biTXOxfLWksYMQa45WqNEFikRPrdo8PtlYBlRWLCycygFVJtocs8eXjr/k1oTHY8LTpS9fd0Bx+5yRY6gVgScKPaG1F9kbFMohVCOi7HLUFnyVlVtL3IyGnP2HFV4HHDvxbyiKBqr8MhNP1OjSWhYNUcva60MFLWBderXoQhIRej8ZHMHtJloMJVIGKt7LHGqxBCz+DlU0dZpzc8/9HT6Vb1OlnuzzToGEJOZKxdKTiJ7PtD/ys+ohrGlBFs4MNMJp/zhfFfBHIoh/0yBDBN38FtFlDUipU4n3x7K7VlhC5EKt2/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V003kRjKvlKjhTB152sZrV0XHkU2X+R/OfC6NLinRgI=;
- b=WUbKAwm0Qbik6bkKTasxRb8+WJ85PEPZhepe1jXBV8KiazC7Um8fBEsg9LE8wLZT7MC+NvvWpTPnR2kPGekmom+FEeLhLPLdK+9ef6CVpMoFSn11K8H42Z1xFQnzinCPI9ia6PgIf/RntZmInlc0Sg7Vc4ZCV2CUa0VqCqcv0fhmYJlcyhRsVoZwB0PFgfy4ZgK+uaKeuiEed5iu8VIEANJqf9Z0koRZHXokyC1Qp5qBbICG4RJ8jhoq/25EkVqiQPThEdFbqfYcFBNfsKXZZY3/ytgv4XEbnZrhZCRR4NaJpR+MiET8qk1h6BR5dCeMmqNUWXJe8uAzN/ras31f7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
- dkim=pass header.d=marvell.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V003kRjKvlKjhTB152sZrV0XHkU2X+R/OfC6NLinRgI=;
- b=Y00T+7oJ31PPds9ENxk96FIfMYrW888wmsb5wJStWylQ9dVGBc9MSlbQ6VmfuAN92/9QqmMrhzKLWfS24TuxJcZFtzgfyYqrhe1uaDBdNSgYmFBd8tIeOveMpItHSS5SrpO4nCAMHnS3UD8Okx/mX1LHffSqRGDJ8SuQAUnjZ50=
-Received: from PH0PR18MB5002.namprd18.prod.outlook.com (2603:10b6:510:11d::12)
- by MW5PR18MB5809.namprd18.prod.outlook.com (2603:10b6:303:1a8::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7409.46; Mon, 8 Apr
- 2024 02:17:31 +0000
-Received: from PH0PR18MB5002.namprd18.prod.outlook.com
- ([fe80::8bf7:91cd:866c:68b0]) by PH0PR18MB5002.namprd18.prod.outlook.com
- ([fe80::8bf7:91cd:866c:68b0%7]) with mapi id 15.20.7409.042; Mon, 8 Apr 2024
- 02:17:30 +0000
-From: Linu Cherian <lcherian@marvell.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-CC: "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
-        "alyssa@rosenzweig.io"
-	<alyssa@rosenzweig.io>,
-        "asahi@lists.linux.dev" <asahi@lists.linux.dev>,
-        "baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
-        "bhelgaas@google.com"
-	<bhelgaas@google.com>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "david@redhat.com" <david@redhat.com>,
-        "dwmw2@infradead.org" <dwmw2@infradead.org>,
-        "hannes@cmpxchg.org"
-	<hannes@cmpxchg.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-        "jernej.skrabec@gmail.com"
-	<jernej.skrabec@gmail.com>,
-        "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "krzysztof.kozlowski@linaro.org"
-	<krzysztof.kozlowski@linaro.org>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>,
-        "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
-        "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
-        "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "lizefan.x@bytedance.com" <lizefan.x@bytedance.com>,
-        "marcan@marcan.st"
-	<marcan@marcan.st>,
-        "mhiramat@kernel.org" <mhiramat@kernel.org>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "paulmck@kernel.org"
-	<paulmck@kernel.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "samuel@sholland.org"
-	<samuel@sholland.org>,
-        "suravee.suthikulpanit@amd.com"
-	<suravee.suthikulpanit@amd.com>,
-        "sven@svenpeter.dev" <sven@svenpeter.dev>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "tj@kernel.org"
-	<tj@kernel.org>,
-        "tomas.mudrunka@gmail.com" <tomas.mudrunka@gmail.com>,
-        "vdumpa@nvidia.com" <vdumpa@nvidia.com>,
-        "wens@csie.org" <wens@csie.org>, "will@kernel.org" <will@kernel.org>,
-        "yu-cheng.yu@intel.com"
-	<yu-cheng.yu@intel.com>,
-        "rientjes@google.com" <rientjes@google.com>,
-        "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
-        "mkoutny@suse.com"
-	<mkoutny@suse.com>
-Subject: Re: [PATCH v5 01/11] iommu/vt-d: add wrapper functions for page
- allocations
-Thread-Topic: [PATCH v5 01/11] iommu/vt-d: add wrapper functions for page
- allocations
-Thread-Index: AQHaiVroGe5AZYcZGkCwqMPJQFaIbA==
-Date: Mon, 8 Apr 2024 02:17:30 +0000
-Message-ID: 
- <PH0PR18MB500222E0231D648123200AD9CE002@PH0PR18MB5002.namprd18.prod.outlook.com>
-References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
- <20240222173942.1481394-2-pasha.tatashin@soleen.com>
- <20240404121625.GB102637@hyd1403.caveonetworks.com>
- <CA+CK2bDmya+768tOvF0N-BYq8E+RwBw4xS8vC+MmbU9eoOv_3g@mail.gmail.com>
-In-Reply-To: 
- <CA+CK2bDmya+768tOvF0N-BYq8E+RwBw4xS8vC+MmbU9eoOv_3g@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR18MB5002:EE_|MW5PR18MB5809:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- a7LudwNacFIMnFykgcHw/0SqZfy6iXIbqP6hembj7ydS066DeurpvQF/qFZRT2UzK0V/MonKur2jbmGedgdTGrfbeGgkO5R7sS3pPqZQ6+RPlTxr/gA0eo+moOTvsdHLtTgqMyfQCYMWYInjyzf91KKDPu4clMxjaerbx0IzjvUE+9y9OShjm/UBIn9aElvhQNamlMvWpAYjwXnTrX/yMb5CYLPrZpeYv3mxYo1o9d7D0M4inV2CkibAaP4j7f78Iy1WD7fRrigh3P/UI52Zk6iYvweFTBbIOMljzseCDhyenskdUc+g9slZm8AtPQyYLc1SuMdFN7Fc3S5gTxuWToaWGAacxCwYagxbeaUHfwyp/qyeYfeRK5yhDN4SCKdyR62pCQrniUjCTBr1jQ/BJcRNAdtgLT6bnZxSpPggqf9w+TtQv3EjX9qosTmvjST0hkOD6CZzu1sSOXRGOQg+FRirm74NYoj2JHEv+KUzbBvfdsFg/ZSy+eRsiDX24YOzA7FcmQC71r9RHw3ASbeJn36TmWn+V4e42i/zehtH4lDLnTQX3awiWYTs2YxXgWOiibQQWYEOWquXIlQSzfy7vunIqcyRhUB47//jOpvbC4zwxQTaCxfu4YZHUz2DRf4OjTJ2GuxGslDyKnipKRsU8t4bBwc5ISNr9XgukliVgMk=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR18MB5002.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(366007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?VU8rQ2p5bkZqQThRY1JHYjMyMFRCcEp5eTdNWHNzUzRwZXhvSG02Y2lYend1?=
- =?utf-8?B?b0E5ZjQ2U2tEbkYxMDZBckorMU1pVWxDSGdHRGNnenJ3U1FhVWdnNS91ZTZO?=
- =?utf-8?B?TElxKzNTbnBoTFNOMzlDSnRMbnJlcVZXMmZMT1l6UVBrdTUrL0QyNVBpRnpK?=
- =?utf-8?B?ckxISm1aZTNrdmMwd0VGTlllVjFtY0dVVnAwd0YvanY4WUlBd0ZJYms5TmZM?=
- =?utf-8?B?TlNieE1DT0Q3Z21CTGJrbjVFZlA5eUs3S1llakxHVnhOcWxBSWtWS2M2MUpn?=
- =?utf-8?B?MEt1aDhaZm9XWTl1UHlhbHFNelZlakRoZ3d1QjJyS01UcmdwY3kra1ZPUXI2?=
- =?utf-8?B?WGdwaGkwYzYvTWEwQXk5ejlEdllNam1Hc00zTHBKRnNnMXYxVUt4TnRTUzdx?=
- =?utf-8?B?OFZvcjJxZjNaYjdJM3FrMHpIeHFSelNsZXZKUTJQeHhQUVN6K2VNS2pibW5J?=
- =?utf-8?B?RHZHZjhBWGsxendQRWJtQkhhNzM4dGNQR0RBNVFYMmFWREpocnRVRFFvVWND?=
- =?utf-8?B?OUxqQmc4K0lXNm9QS0VHUGpiSmV5cllIeERmeHptcHZ6VTJGNCtpbjdkUjRi?=
- =?utf-8?B?RC81VHoxUzh5aXVZRGhScU5WWEc3NXZYeUVEaFpYdXZDVWxnYm9OWVlnaVlM?=
- =?utf-8?B?dk9FdGFjc0tvYS8xVVJBK09WemJmNy9HQVh2OTFFOG5VbTBmU3Ywd2NaaG9z?=
- =?utf-8?B?ZmtRL0NrY3dPTUl1L0dhYUxjYW85QzhxODZyaDZGcFhtZldtNXF3QlpvelFD?=
- =?utf-8?B?WS9HVjEwRUt2NXNUamVoekdPL2dpWWNIWVhYSW1WNDErT1RUbzkydW5ES1Zm?=
- =?utf-8?B?S0U5c3ZkeHNUMFVuWWoxbmtCQVVKUG14U25uOWVpa3dRaE40czZGYUZyT1dp?=
- =?utf-8?B?R0FadVVQVmZ3OFE0VHQ3a2JsRGdNN3F1TytsU0EvNzVOL1NpV2M3cUQ3dkdi?=
- =?utf-8?B?ejd5NHRjVjBpaGNIdmczbEpIR1RaNU42Q2gvVUh2TmJnK1U1WkkvejhFK0FT?=
- =?utf-8?B?K1ZlL01vMWJYa0laL2hDYjFCT09IeWpSM2NUMnJiTHJVM002R2ZEdTBpVEEz?=
- =?utf-8?B?SDVwRmVkOVhhcHZWdHVyL0hqK1g2QWtEWGVmbCswelhHMmRra3pucE5NR0RI?=
- =?utf-8?B?WWFiRzd4bUdJMGVxUU9OcVhGQnBrMGJ1c3pMSWtmQ1Brb1dlQ1dya21VYzVn?=
- =?utf-8?B?UmlRTTRxWVA5ZS84dmM1Wk5SbFp3WjR4a2dYSUxzcGZzTE1HRlFUYVFOd3RZ?=
- =?utf-8?B?dUdhNDVxY3JoQkZZQTM2Q1lmTDdvSW5jdkQxdXB6ZlBhSmh0ZFpFZVZnOEVn?=
- =?utf-8?B?a1A3eCtxVy9lMHdYS21mQm9ZV1BFSXNWYXZWTFU2RmEzM3RCK1lqYjBUUE1v?=
- =?utf-8?B?VXNCRVFWeThFNjNLckx3Zkg1MmxOcU4yWmZIc2VaNk5vY3VpSVpOZW1zZXRn?=
- =?utf-8?B?NHZkejF3S0IzM01nUkFUUmplUHRoWCtiUUpKMGJMNEtkREYxUzRjbUtMdnVn?=
- =?utf-8?B?aU1ER2VOREdUT25RNHZhb2Q0LzA3N09kc2xuOGNKbTE3MVpSNWZkb0U1ZGFn?=
- =?utf-8?B?aW5wUkl0Q3VPT0hKWEh5SXRna2JxYm1NNTRvYjBuS3E4T1Z4aHJJemRjR1Jj?=
- =?utf-8?B?aHZKdnoxZGkycXRZZFpsb0xvbzVQVHlTdGt2dm5IM1N4SUZwWFBJRUpIQzRp?=
- =?utf-8?B?cW8rellhaS9IOS9QbTNFdEJqYnpZdGlDeWJxZ0JUSkxqMENtMzlTZjQzNW5K?=
- =?utf-8?B?SGR2NklIK29jNHk5N2tVallvN1RVemFLMUdUS2g4ck9qQU9yb0RycFB5RWp4?=
- =?utf-8?B?TWZZUndyNnZ5Z1Q3WVdGOFFJWHRzcEhnLzhvRmIySmJiLzV3cVcxU1ZlZzk1?=
- =?utf-8?B?TGVLcHJ4cTdTZFhTb3EwRjNNL3R4Y3VISHdINGN5ZStVejY5VXN0V1dydnN2?=
- =?utf-8?B?VnkwWjA2cjAzRFJYbFhCd0Vvc2V4R1ozVVlBOExIMnlFU0MyUzF0MmpFaFRI?=
- =?utf-8?B?K0s4WTV1d2NRN2pjbXhBcVJ1cjhHdis4anJJeFZ1bUFQMGdsRy9GVzg5QjJ2?=
- =?utf-8?B?dnZrenlxc0I1N1lNSjZsVGdsZm1jRTdPay9OcDRyMnk2Und3TVBQVlZSMU8w?=
- =?utf-8?Q?VBFzLzwudupxpybOZ5N6oJztM?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="jEtEv+a3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="U/Ce/TLh"
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailfhigh.west.internal (Postfix) with ESMTP id 2E797180013B;
+	Mon,  8 Apr 2024 03:47:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 08 Apr 2024 03:47:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1712562421; x=1712648821; bh=2V1cKR1YYU
+	qfhTk98dY02e+rk+HOjmxzlVFveK4tfEQ=; b=jEtEv+a33P+zA+uoZ5QhwdytVy
+	OCUHb3Xz2bj8jCrBfPEsqbT+jhAl0YKx16C4WC3Mpto1vLDfc/MNJgdBcRBRVMY7
+	U3CrtxH8HpKmjC0CZHfaVvKKV03W0iooK5CAED0uo1eLQkVZW4hqX/aAuhyDArOF
+	aONIIIDvA6pV2PCMQluwFXnUaemh6bkCRUnsdODtoNyRjiwGG8m+cqcoighjTAK/
+	QbrMQcod99SaxuXs2dyTzf/CBEM0lV5uRBi2m4dr4WEexoGn98IfajNPg4iQISzr
+	7l80ZRmRVV/ncp3CIuRq9LycomZAwd9ck9w5WWzouK8OXuMl7VzZtlRyUx3Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1712562421; x=1712648821; bh=2V1cKR1YYUqfhTk98dY02e+rk+HO
+	jmxzlVFveK4tfEQ=; b=U/Ce/TLhi2wwnMp6WRms61aNikhtk0rhgMnTxwi6tCOj
+	roHkIqGAiNXebhh8WruTLolpQ1rT8epnlaVyM3WDzuDFQhOVs097GBvpKc2JNwXi
+	V4pbhQMl4pYnCwWeWK3CNffDps5NDT8Px2Harn2doDdux4kclTRsQDSgxwrbM/jm
+	NKzo5XmYcN3Hhbmhvhgdf+Qx7uyRUPCvB1+TlOi4MiOLWCDhIDfhDsqW6oiieDE9
+	v4F4ObuJusRBphRhya42ifEaf2fMzguQ72B9yFMhwVrKWQ+DuL+VOiLpLUbkXIAo
+	sEfEMn23ioH8hAl3Ih0p6om1ryInwden9GkOfxW6Fw==
+X-ME-Sender: <xms:9aATZh6xDdONexu-PitjrIBzfmmXhGzzYPVslGr05Ym8ABgexaH7AQ>
+    <xme:9aATZu55k70XVwQXSQD5rdO2-pXmVg1tXHZj31CSM7NgX_fGCo5SqZ7iC2PzR_Q7L
+    mHh7Vp1eIaUNmKnrDs>
+X-ME-Received: <xmr:9aATZocWH_r_8ZgTJusU_Jfx_vbpPwJp1X_miLxjOoL5kXPSKM_F3lAEjxch2_hOMRmIkX40UztBuOURcWFlAOqvk3pgsXXBAg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrudeghedguddvvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehmtderredttdejnecuhfhrohhmpeflrghn
+    nhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqnecuggftrfgrthhtvghrnh
+    epgfekveetieelgeefkefhueelueegvddtuefhudeuffeigeeutdfgiefffefhkeegnecu
+    ffhomhgrihhnpeguvghngidruggvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvght
+X-ME-Proxy: <xmx:9aATZqJN0YhIr5V3n5MvDZur2tSPB5rTRkZBFU_UKe4C-RFMS1YqsA>
+    <xmx:9aATZlJeeZb_kdifOUFOAWP5iP-crIrg65lDurW16uVhQ2vSeO4kEA>
+    <xmx:9aATZjxx6awxrh-BWt-ccZAWR-2mZGuZMCZtYKGrU0S2a1IauyUF-g>
+    <xmx:9aATZhKwDjm8qyK6sAslpRLHxMXHyElZpS_EEC_tMDDtM2irPQgCbg>
+    <xmx:9aATZs-u7Mxkk77A8XlQb7_0Tz_Znc9a0vN1GK6C-XTiOG4_4MheLB29>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 8 Apr 2024 03:47:00 -0400 (EDT)
+Date: Mon, 8 Apr 2024 09:46:59 +0200
+From: Janne Grunau <j@jannau.net>
+To: Marek Vasut <marex@denx.de>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>,
+	Simon Glass <sjg@chromium.org>,
+	Joe Hershberger <joe.hershberger@ni.com>, u-boot@lists.denx.de,
+	asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>
+Subject: Re: [PATCH v4 0/6] USB keyboard improvements for asahi / desktop
+ systems
+Message-ID: <ZhOg81sBEDLgCSIa@robin>
+References: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
+ <356b892a-a681-4ae0-a6c8-ed1b4b5a8717@denx.de>
+ <ZhBLfQfxB_UEwvyY@robin>
+ <5467f380-de35-4776-8c32-90b8e08aeda7@denx.de>
+ <ZhGq0U_pkrYMe4S1@robin>
+ <5ed4e6d2-edc7-461d-8183-e91d7b994aa5@denx.de>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: marvell.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR18MB5002.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 897432dc-8b6f-4957-6c25-08dc57720b4b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2024 02:17:30.6669
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /B/551ZSbXpf/Uk3MbI2nGX/vWR3e3glypYjL1QA34x81LBfSIS6NMmsTm70xF5faDLfn9XTQn1mRroev5pMPw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR18MB5809
-X-Proofpoint-ORIG-GUID: CIc7-dxqNEkeMU5MHVckXAb8bCOb436Y
-X-Proofpoint-GUID: _fqGv58pxyt6WRAvJtJUBmPJzUw5j76K
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-04-08_01,2024-04-05_02,2023-05-22_02
+Content-Type: multipart/mixed; boundary="WP5wpjb+r9JLJshy"
+Content-Disposition: inline
+In-Reply-To: <5ed4e6d2-edc7-461d-8183-e91d7b994aa5@denx.de>
 
-SGkgUGFzaGEsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGFzaGEg
-VGF0YXNoaW4gPHBhc2hhLnRhdGFzaGluQHNvbGVlbi5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBB
-cHJpbCA0LCAyMDI0IDc6MjYgUE0NCj4gVG86IExpbnUgQ2hlcmlhbiA8bGNoZXJpYW5AbWFydmVs
-bC5jb20+DQo+IENjOiBha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnOyBhbGltLmFraHRhckBzYW1z
-dW5nLmNvbTsNCj4gYWx5c3NhQHJvc2VuendlaWcuaW87IGFzYWhpQGxpc3RzLmxpbnV4LmRldjsg
-YmFvbHUubHVAbGludXguaW50ZWwuY29tOw0KPiBiaGVsZ2Fhc0Bnb29nbGUuY29tOyBjZ3JvdXBz
-QHZnZXIua2VybmVsLm9yZzsgY29yYmV0QGx3bi5uZXQ7DQo+IGRhdmlkQHJlZGhhdC5jb207IGR3
-bXcyQGluZnJhZGVhZC5vcmc7IGhhbm5lc0BjbXB4Y2hnLm9yZzsNCj4gaGVpa29Ac250ZWNoLmRl
-OyBpb21tdUBsaXN0cy5saW51eC5kZXY7IGplcm5lai5za3JhYmVjQGdtYWlsLmNvbTsNCj4gam9u
-YXRoYW5oQG52aWRpYS5jb207IGpvcm9AOGJ5dGVzLm9yZzsga3J6eXN6dG9mLmtvemxvd3NraUBs
-aW5hcm8ub3JnOw0KPiBsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnOyBsaW51eC1mc2RldmVsQHZn
-ZXIua2VybmVsLm9yZzsgbGludXgtDQo+IGtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LW1t
-QGt2YWNrLm9yZzsgbGludXgtDQo+IHJvY2tjaGlwQGxpc3RzLmluZnJhZGVhZC5vcmc7IGxpbnV4
-LXNhbXN1bmctc29jQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+IHN1bnhpQGxpc3RzLmxpbnV4
-LmRldjsgbGludXgtdGVncmFAdmdlci5rZXJuZWwub3JnOw0KPiBsaXplZmFuLnhAYnl0ZWRhbmNl
-LmNvbTsgbWFyY2FuQG1hcmNhbi5zdDsgbWhpcmFtYXRAa2VybmVsLm9yZzsNCj4gbS5zenlwcm93
-c2tpQHNhbXN1bmcuY29tOyBwYXVsbWNrQGtlcm5lbC5vcmc7IHJkdW5sYXBAaW5mcmFkZWFkLm9y
-ZzsNCj4gcm9iaW4ubXVycGh5QGFybS5jb207IHNhbXVlbEBzaG9sbGFuZC5vcmc7DQo+IHN1cmF2
-ZWUuc3V0aGlrdWxwYW5pdEBhbWQuY29tOyBzdmVuQHN2ZW5wZXRlci5kZXY7DQo+IHRoaWVycnku
-cmVkaW5nQGdtYWlsLmNvbTsgdGpAa2VybmVsLm9yZzsgdG9tYXMubXVkcnVua2FAZ21haWwuY29t
-Ow0KPiB2ZHVtcGFAbnZpZGlhLmNvbTsgd2Vuc0Bjc2llLm9yZzsgd2lsbEBrZXJuZWwub3JnOyB5
-dS0NCj4gY2hlbmcueXVAaW50ZWwuY29tOyByaWVudGplc0Bnb29nbGUuY29tOyBiYWdhc2RvdG1l
-QGdtYWlsLmNvbTsNCj4gbWtvdXRueUBzdXNlLmNvbQ0KPiBTdWJqZWN0OiBbRVhURVJOQUxdIFJl
-OiBbUEFUQ0ggdjUgMDEvMTFdIGlvbW11L3Z0LWQ6IGFkZCB3cmFwcGVyDQo+IGZ1bmN0aW9ucyBm
-b3IgcGFnZSBhbGxvY2F0aW9ucw0KPiANCj4gPiBGZXcgbWlub3Igbml0cy4NCj4gDQo+IEhpIExp
-bnUsDQo+IA0KPiBUaGFuayB5b3UgZm9yIHRha2luZyBhIGxvb2sgYXQgdGhpcyBwYXRjaCwgbXkg
-cmVwbGllcyBiZWxvdy4NCj4gDQo+ID4gPiArLyoNCj4gPiA+ICsgKiBBbGwgcGFnZSBhbGxvY2F0
-aW9ucyB0aGF0IHNob3VsZCBiZSByZXBvcnRlZCB0byBhcw0KPiA+ID4gKyJpb21tdS1wYWdldGFi
-bGVzIiB0bw0KPiA+ID4gKyAqIHVzZXJzcGFjZSBtdXN0IHVzZSBvbiBvZiB0aGUgZnVuY3Rpb25z
-IGJlbG93LiAgVGhpcyBpbmNsdWRlcw0KPiA+ID4gK2FsbG9jYXRpb25zIG9mDQo+ID4gPiArICog
-cGFnZS10YWJsZXMgYW5kIG90aGVyIHBlci1pb21tdV9kb21haW4gY29uZmlndXJhdGlvbiBzdHJ1
-Y3R1cmVzLg0KPiA+DQo+ID4gL3MvdXNlIG9uL3VzZSBvbmUvPw0KPiANCj4gSSB3aWxsIGNvcnJl
-Y3QgaW4gdGhlIG5leHQgdmVyc2lvbiAoaWYgdGhlcmUgaXMgZ29pbmcgdG8gYmUgb25lKS4NCj4g
-DQo+ID4gPiArICoNCj4gPiA+ICsgKiBUaGlzIGlzIG5lY2Vzc2FyeSBmb3IgdGhlIHByb3BlciBh
-Y2NvdW50aW5nIGFzIElPTU1VIHN0YXRlIGNhbg0KPiA+ID4gKyBiZSByYXRoZXINCj4gPiA+ICsg
-KiBsYXJnZSwgaS5lLiBtdWx0aXBsZSBnaWdhYnl0ZXMgaW4gc2l6ZS4NCj4gPiA+ICsgKi8NCj4g
-PiA+ICsNCj4gPiA+ICsvKioNCj4gPiA+ICsgKiBfX2lvbW11X2FsbG9jX3BhZ2VzIC0gYWxsb2Nh
-dGUgYSB6ZXJvZWQgcGFnZSBvZiBhIGdpdmVuIG9yZGVyLg0KPiA+ID4gKyAqIEBnZnA6IGJ1ZGR5
-IGFsbG9jYXRvciBmbGFncw0KPiA+DQo+ID4gU2hhbGwgd2Uga2VlcCB0aGUgY29tbWVudHMgZ2Vu
-ZXJpYyBoZXJlKGF2b2lkIHJlZmVyZW5jZSB0byBhbGxvY2F0b3INCj4gPiBhbGdvKSAgPw0KPiAN
-Cj4gVGhlcmUgYXJlIG5vIHJlZmVyZW5jZXMgdG8gYWxsb2NhdG9yIGFsZ29yaXRobS4gSSBzcGVj
-aWZ5IHRoZSB6ZXJvIHBhZ2UNCj4gYmVjYXVzZSB0aGlzIGZ1bmN0aW9uIGFkZHMgX19HRlBfWkVS
-Ty4gVGhlIG9yZGVyIGFuZCBnZnAgYXJndW1lbnRzIGFyZQ0KPiBwcm92aWRlZCBieSB0aGUgY2Fs
-bGVyLCB0aGVyZWZvcmUsIHNob3VsZCBiZSBtZW50aW9uZWQuDQoNCkp1c3QgbWVhbnQgdG8gcmVt
-b3ZlIHRoZSBtZW50aW9uIG9mICJidWRkeSBhbGxvY2F0b3IiIGluIHRoZSBhYm92ZSBjb21tZW50
-cyBpZiBJIHdhcyBub3QgY2xlYXIuDQpJZS4gIiogQGdmcDogIGFsbG9jYXRvciBmbGFncyIgIGlu
-c3RlYWQgb2YgIiogQGdmcDogYnVkZHkgYWxsb2NhdG9yIGZsYWdzIiBzaW5jZSB0aGF0IGlzIGFs
-bG9jYXRvciBzcGVjaWZpYy4NCg0KVGhhbmtzDQpMaW51IENoZXJpYW4uDQo=
+
+--WP5wpjb+r9JLJshy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+On Sun, Apr 07, 2024 at 03:05:59AM +0200, Marek Vasut wrote:
+> On 4/6/24 10:04 PM, Janne Grunau wrote:
+> > On Sat, Apr 06, 2024 at 08:52:17PM +0200, Marek Vasut wrote:
+> >> On 4/5/24 9:05 PM, Janne Grunau wrote:
+> >>> On Fri, Apr 05, 2024 at 04:52:32PM +0200, Marek Vasut wrote:
+> >>>> On 4/4/24 8:25 AM, Janne Grunau via B4 Relay wrote:
+> >>>>> Apple USB Keyboards from 2021 need quirks to be useable. The boot HID
+> >>>>> keyboard protocol is unfortunately not described in the first interface
+> >>>>> descriptor but the second. This needs several changes. The USB keyboard
+> >>>>> driver has to look at all (2) interface descriptors during probing.
+> >>>>> Since I didn't want to rebuild the USB driver probe code the Apple
+> >>>>> keyboards are bound to the keyboard driver via USB vendor and product
+> >>>>> IDs.
+> >>>>> To make the keyboards useable on Apple silicon devices the xhci driver
+> >>>>> needs to initializes rings for the endpoints of the first two interface
+> >>>>> descriptors. If this is causes concerns regarding regressions or memory
+> >>>>> use the USB_MAX_ACTIVE_INTERFACES define could be turned into a CONFIG
+> >>>>> option.
+> >>>>> Even after this changes the keyboards still do not probe successfully
+> >>>>> since they apparently do not behave HID standard compliant. They only
+> >>>>> generate reports on key events. This leads the final check whether the
+> >>>>> keyboard is operational to fail unless the user presses keys during the
+> >>>>> probe. Skip this check for known keyboards.
+> >>>>> Keychron seems to emulate Apple keyboards (some models even "re-use"
+> >>>>> Apple's USB vendor ID) so apply this quirk as well.
+> >>>>>
+> >>>>> Some devices like Yubikeys emulate a keyboard. since u-boot only binds a
+> >>>>> single keyboard block this kind of devices from the USB keyboard driver.
+> >>>>>
+> >>>>> Signed-off-by: Janne Grunau <j@jannau.net>
+> >>>>
+> >>>> I picked the series, but CI indicates build errors, can you have a look ?
+> >>>>
+> >>>> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20215
+> >>>
+> >>> The issue seems to be that the field dev in struct usb_device exists
+> >>> only for DM_USB. That means we can't use dev_dbg.
+> >>> Either take the following fixup patch or I can resend the series.
+> >>
+> >> I squashed the extra patch in, but I think the CI still complains:
+> >>
+> >> Pipeline #20236 (
+> >> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20236 )
+> >> triggered by Marek Vasut ( https://source.denx.de/marex )
+> >> had 1 failed job.
+> >>
+> >> Job #812215 (
+> >> https://source.denx.de/u-boot/custodians/u-boot-usb/-/jobs/812215/raw )
+> > 
+> > env_get() missing without CONFIG_ENV_SUPPORT. I'm too accustomed to the
+> > kernel's stub functions. Best option seems to to just #if the
+> > functionality out in this case. See attached fixup patch.
+> > 
+> > Sorry,
+> 
+> No worries.
+> 
+> Does it work if you do this instead ?
+> 
+>   static int usb_device_is_ignored(u16 id_vendor, u16 id_product)
+>   {
+>          ulong vid, pid;
+> +       /* No env support, nothing can be ignored */
+> +       if (CONFIG_IS_ENABLED(ENV_SUPPORT))
+> +           return 0;
+> 
+> That way, the function is always compiled and if it is unreachable, then 
+> compiler throws it out. This should improve code compile coverage.
+
+Seems to work here with a broken imx8 config from the CI. Is it ok to
+rely on dead code elimination? Apparently it is, build with KCFLAGS=-O0
+has already several other missing symbols.
+
+See attached fixup
+
+Janne
+
+--WP5wpjb+r9JLJshy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline;
+	filename="0001-fixup-usb-Add-environment-based-device-ignorelist.patch"
+
+From ab3b825d7bc0571cfb38eb80a1e449e51d5d2f6d Mon Sep 17 00:00:00 2001
+From: Janne Grunau <j@jannau.net>
+Date: Mon, 8 Apr 2024 09:44:54 +0200
+Subject: [PATCH 1/1] fixup! usb: Add environment based device ignorelist
+
+---
+ common/usb.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/common/usb.c b/common/usb.c
+index 8bc85c58b28c..99e6b857c74c 100644
+--- a/common/usb.c
++++ b/common/usb.c
+@@ -1089,7 +1089,13 @@ static int usb_device_is_ignored(u16 id_vendor, u16 id_product)
+ {
+ 	ulong vid, pid;
+ 	char *end;
+-	const char *cur = env_get("usb_ignorelist");
++	const char *cur = NULL;
++
++	/* ignore list depends on env support */
++	if (!CONFIG_IS_ENABLED(ENV_SUPPORT))
++		return 0;
++
++	cur = env_get("usb_ignorelist");
+ 
+ 	/* parse "usb_ignorelist" strictly */
+ 	while (cur && cur[0] != '\0') {
+-- 
+2.43.2
+
+
+--WP5wpjb+r9JLJshy--
