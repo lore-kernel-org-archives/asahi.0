@@ -1,77 +1,155 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B5717C0B0
-	for <asahi@lists.linux.dev>; Tue,  9 Apr 2024 11:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB05312AAD3
+	for <asahi@lists.linux.dev>; Tue,  9 Apr 2024 11:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712660620; cv=none; b=cxqBtUTGWQ7ExPqY4MPtF5GJ9UFh6h9FoL/MB2wZgs5x8liMAMH3OLYEBE7JrMEAs4IaWW1d00YidIm0o9R5wufxkuERXfFGccivfDHtECakodVojBgs7ACuPfmfdNe44RMenSZoT484HDapCJ+a9J0VCxw9x2RYSmwB+Ei7XB4=
+	t=1712663588; cv=none; b=IUPY+AP0WQeLAivoPgO3wkzNe2JUGGXsd+jSSCGCbjLtgliIHWvhTkBZbARM+2eLx7ki+I7ZCV7Af/WEn/ATXMWaNPjvKk8TCoJkRkx7nGIptDOENmnnNlgkaFq4OIaJFwJeJq6CCSZ8j+6OZxPhaUvzHPwYGyJN+1dhCYkM+hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712660620; c=relaxed/simple;
-	bh=rfBIQ16lw3YLziXerzIzYPI5vDnBIoD+c9BYXTQHuR0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OhrosxwkzuynU/fdlikHY1nNXlsSAftNlypqW6mpR6UUcv8G7AJLMLREGb81ZwTAK/cRHQDIfwFhE07623fPCITyr9HjvmFS5CrBEenPGUwsAehGAHDpHTl8tQZTLGVLHwnaXuTwz1JUMhV6KDV1oGDrlMVpgWq37lq9tax0qrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ZK93D7+G; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1712663588; c=relaxed/simple;
+	bh=ewn/5uPthLhb/zMjw/qMCDDEVnM4Cko7tvC5qsRH37E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y1RlHkOZ3POCHjmur+wnWFCvRHJl5XMkDCzbHa1hnQ/sliBygvbH0xIZncW48wUdGd5vvsPXrK+wFB1q5rWf+rZAC961qkddF7D5OvCgK9MsflA9ndE4jsHQ+uMR17paDSy737L4CqeqjAxNa7ubiRhpfwjz5f6qSngXvLUaVIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OLxpuF2M; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ZK93D7+G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=TSsEO
-	mMeFjpa4wdVSYXOGdmsaMpEPa60zsgqosWqJow=; b=ZK93D7+GzJuOQcApaNkcC
-	xAKy96ciTg4nKffwK8Qe7dIzr10itFNlG0vcuTnCCTEm/+B8urwBoOZgg1rF0X7H
-	aNz08JIbB10S+Vh8LARJ0eXtui1SyPoVwMy9qPuCPh5ipEs1NEDV+N9egBuHPsWg
-	m/yLaxeNP9YjTIqgYNizpk=
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
-	by gzga-smtp-mta-g1-3 (Coremail) with SMTP id _____wDnl5dgIBVmhGZSAg--.8304S4;
-	Tue, 09 Apr 2024 19:03:13 +0800 (CST)
-From: Ma Ke <make_ruc2021@163.com>
-To: marcan@marcan.st,
-	sven@svenpeter.dev,
-	alyssa@rosenzweig.io,
-	linus.walleij@linaro.org
-Cc: asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ma Ke <make_ruc2021@163.com>
-Subject: [PATCH] pinctrl: apple-gpio: Fix null pointer dereference in apple_gpio_pinctrl_probe()
-Date: Tue,  9 Apr 2024 19:02:54 +0800
-Message-Id: <20240409110254.2201457-1-make_ruc2021@163.com>
-X-Mailer: git-send-email 2.37.2
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OLxpuF2M"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-41650de9e1eso14097585e9.1
+        for <asahi@lists.linux.dev>; Tue, 09 Apr 2024 04:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712663584; x=1713268384; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=mwibmhabQtaTTaSfxj4uJT6v1DFOIACmKb5/eqDC61c=;
+        b=OLxpuF2MZqAsD+CQa76hiP2tKjbNbyZqzbe1IxHc1uT+HSXLCznKLxn2DtBYj5/s2J
+         Gjei7Tu7p7MHONMefrMssCv8W7Wx/mAnTlC7dltbB5FNG9eJ6n3d3fqc/OCefENioTsE
+         N72qggO0zswoXg5mn7/R02+XtTYVIr7LPz14L6dhR1oj0TEw14hBqjm+llUHH6SfseUl
+         b8XQfEWaEwci3oYEnmD5/i1nKG9qxzuNbTH8XE1vKWxX5GUVdOBNDYF38Bqjc6KSHq0f
+         lJfJpfYvzrH2d9rZD99wMygdX9A1wkyYobla8Satysrz03mZNUuISoifCjm1sGOcPo5K
+         ZUkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712663584; x=1713268384;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mwibmhabQtaTTaSfxj4uJT6v1DFOIACmKb5/eqDC61c=;
+        b=W0XnhW28aVyNIZSO7oeSaw/pUGxTRnoYHb1ZZbu849BTkcg2pF6eNsFpE+WMddKG5W
+         xC5HmXepZ4C4CMR9/q20NUphzYT1FWOb+OmgF5cq5JKC2jsTSWM1HEq5SiMGPgIlCSBk
+         973u0XEksP/K8TXQLd+5ef82XHFscDKyQ75MEQwWWF8/Ug5E6Atqx5eGi/2Iy0i332XP
+         vBUv2cA/HwO5Hsqb/NKHXLOVUzro6c85qz3blyRuumohYd4kXva/wMRIYWCIwsIb80DD
+         N9OBxGhtgT1o+V1QxeBCmw7RJBbtmoejrPpFnFgi+GlmVGf/gYZIcXzIa1Adav9lTb+E
+         VT8w==
+X-Gm-Message-State: AOJu0YyjcRP0EymIPkuhtDUoAwdKOH9a/e/tl4fAyktJNsX6HZLq5mu2
+	Mke5YKcfT2qZEVIL1kb9hS0egPxG+Qnlq+vbEIfL/BIo2lzs6UOnCO+gOQrUwOE=
+X-Google-Smtp-Source: AGHT+IEgkg1A7QJGYiXWVjo1jkxMxNgyCzAUOODb4mSncViq3Jtmn5+85OBJ+tLFdyxxacft1HX9jw==
+X-Received: by 2002:a05:600c:4f0f:b0:416:71ac:1bef with SMTP id l15-20020a05600c4f0f00b0041671ac1befmr1899348wmq.13.1712663584212;
+        Tue, 09 Apr 2024 04:53:04 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id p14-20020a05600c358e00b0041674bf7d4csm7001664wmq.48.2024.04.09.04.53.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Apr 2024 04:53:03 -0700 (PDT)
+Message-ID: <30318fcc-5d6b-427b-855d-f69bcc165a54@linaro.org>
+Date: Tue, 9 Apr 2024 13:53:02 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnl5dgIBVmhGZSAg--.8304S4
-X-Coremail-Antispam: 1Uf129KBjvdXoWruw1kCFWxCw4UWF48Gr47XFb_yoWfXrc_Ca
-	ykCr97J348C3WrW3srtw13Zry0ka15XF9YqrnagasxCry3Xw1UJrWkuFs8G3yxW34kGFyq
-	k3y8X34rXr1UujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRNv31JUUUUU==
-X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/1tbiPQG7C2VOCYQteQAAs+
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] pinctrl: apple-gpio: Fix null pointer dereference in
+ apple_gpio_pinctrl_probe()
+To: Ma Ke <make_ruc2021@163.com>, marcan@marcan.st, sven@svenpeter.dev,
+ alyssa@rosenzweig.io, linus.walleij@linaro.org
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240409110254.2201457-1-make_ruc2021@163.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240409110254.2201457-1-make_ruc2021@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-devm_kasprintf() returns a pointer to dynamically allocated memory which
-can be NULL upon failure. We add a check to ensure that failure does not
-occur.
+On 09/04/2024 13:02, Ma Ke wrote:
+> devm_kasprintf() returns a pointer to dynamically allocated memory which
+> can be NULL upon failure. We add a check to ensure that failure does not
+> occur.
+> 
 
-Signed-off-by: Ma Ke <make_ruc2021@163.com>
----
- drivers/pinctrl/pinctrl-apple-gpio.c | 2 ++
- 1 file changed, 2 insertions(+)
+Subject: I doubt that there is null pointer dereference... Don't just
+copy existing commit msgs or subjects without adjusting to real case.
 
-diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
-index 3751c7de37aa..af2f90d1950f 100644
---- a/drivers/pinctrl/pinctrl-apple-gpio.c
-+++ b/drivers/pinctrl/pinctrl-apple-gpio.c
-@@ -474,6 +474,8 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
- 	for (i = 0; i < npins; i++) {
- 		pins[i].number = i;
- 		pins[i].name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "PIN%u", i);
-+		if (!pins[i].name)
-+			return -ENOMEM;
- 		pins[i].drv_data = pctl;
- 		pin_names[i] = pins[i].name;
- 		pin_nums[i] = i;
--- 
-2.37.2
+> Signed-off-by: Ma Ke <make_ruc2021@163.com>
+> ---
+>  drivers/pinctrl/pinctrl-apple-gpio.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
+> index 3751c7de37aa..af2f90d1950f 100644
+> --- a/drivers/pinctrl/pinctrl-apple-gpio.c
+> +++ b/drivers/pinctrl/pinctrl-apple-gpio.c
+> @@ -474,6 +474,8 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
+>  	for (i = 0; i < npins; i++) {
+>  		pins[i].number = i;
+>  		pins[i].name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "PIN%u", i);
+> +		if (!pins[i].name)
+> +			return -ENOMEM;
+>  		pins[i].drv_data = pctl;
+
+The check is a bit later, so please be more precise how do you fix it
+and how did you reproduced it.
+
+Maybe checking earlier is reasonable, maybe is redundant. You did not
+address it...
+
+Best regards,
+Krzysztof
 
