@@ -1,155 +1,232 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB05312AAD3
-	for <asahi@lists.linux.dev>; Tue,  9 Apr 2024 11:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BDAF13D537
+	for <asahi@lists.linux.dev>; Tue,  9 Apr 2024 15:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712663588; cv=none; b=IUPY+AP0WQeLAivoPgO3wkzNe2JUGGXsd+jSSCGCbjLtgliIHWvhTkBZbARM+2eLx7ki+I7ZCV7Af/WEn/ATXMWaNPjvKk8TCoJkRkx7nGIptDOENmnnNlgkaFq4OIaJFwJeJq6CCSZ8j+6OZxPhaUvzHPwYGyJN+1dhCYkM+hs=
+	t=1712676600; cv=none; b=IN4Q8d2UKRnQzzeJ9CrprTdhQXB4qqBaF2J4I1kOn2NaP5NDUBlFQ5WTuDw1ZCa+gobLih09FwqiuM8/pxq3ixuRhP+y3Ur0FUjY9KRQR0wh5NcrtJnA4LRf3zA83JfmnGHj2ChR8y/s11/kG9VyhLPvRxxqjBEvWAQ8MJjSRMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712663588; c=relaxed/simple;
-	bh=ewn/5uPthLhb/zMjw/qMCDDEVnM4Cko7tvC5qsRH37E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y1RlHkOZ3POCHjmur+wnWFCvRHJl5XMkDCzbHa1hnQ/sliBygvbH0xIZncW48wUdGd5vvsPXrK+wFB1q5rWf+rZAC961qkddF7D5OvCgK9MsflA9ndE4jsHQ+uMR17paDSy737L4CqeqjAxNa7ubiRhpfwjz5f6qSngXvLUaVIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OLxpuF2M; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712676600; c=relaxed/simple;
+	bh=bO8+JxJJ+jOpvLRPOxTz7o4jgTkbhw8KAAg+RhqSWHY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j6IE0rVH8nWP05M2N4BG7SBb7CeDCm7dtfw9f/QhC31BBaQz80wvfdXOBETnL3ZAgVn6jYCdWdt5HYQzanW5F0jRXoedSBXv3w2I9Q0a8ePbvt0EBh3WFIZgnRK2Lw8HhqSasfpZrHPKRl7Q6WZ5WevA46IyGSRlEd9Y+8bey2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=cZ48z1uN; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OLxpuF2M"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-41650de9e1eso14097585e9.1
-        for <asahi@lists.linux.dev>; Tue, 09 Apr 2024 04:53:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712663584; x=1713268384; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=mwibmhabQtaTTaSfxj4uJT6v1DFOIACmKb5/eqDC61c=;
-        b=OLxpuF2MZqAsD+CQa76hiP2tKjbNbyZqzbe1IxHc1uT+HSXLCznKLxn2DtBYj5/s2J
-         Gjei7Tu7p7MHONMefrMssCv8W7Wx/mAnTlC7dltbB5FNG9eJ6n3d3fqc/OCefENioTsE
-         N72qggO0zswoXg5mn7/R02+XtTYVIr7LPz14L6dhR1oj0TEw14hBqjm+llUHH6SfseUl
-         b8XQfEWaEwci3oYEnmD5/i1nKG9qxzuNbTH8XE1vKWxX5GUVdOBNDYF38Bqjc6KSHq0f
-         lJfJpfYvzrH2d9rZD99wMygdX9A1wkyYobla8Satysrz03mZNUuISoifCjm1sGOcPo5K
-         ZUkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712663584; x=1713268384;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mwibmhabQtaTTaSfxj4uJT6v1DFOIACmKb5/eqDC61c=;
-        b=W0XnhW28aVyNIZSO7oeSaw/pUGxTRnoYHb1ZZbu849BTkcg2pF6eNsFpE+WMddKG5W
-         xC5HmXepZ4C4CMR9/q20NUphzYT1FWOb+OmgF5cq5JKC2jsTSWM1HEq5SiMGPgIlCSBk
-         973u0XEksP/K8TXQLd+5ef82XHFscDKyQ75MEQwWWF8/Ug5E6Atqx5eGi/2Iy0i332XP
-         vBUv2cA/HwO5Hsqb/NKHXLOVUzro6c85qz3blyRuumohYd4kXva/wMRIYWCIwsIb80DD
-         N9OBxGhtgT1o+V1QxeBCmw7RJBbtmoejrPpFnFgi+GlmVGf/gYZIcXzIa1Adav9lTb+E
-         VT8w==
-X-Gm-Message-State: AOJu0YyjcRP0EymIPkuhtDUoAwdKOH9a/e/tl4fAyktJNsX6HZLq5mu2
-	Mke5YKcfT2qZEVIL1kb9hS0egPxG+Qnlq+vbEIfL/BIo2lzs6UOnCO+gOQrUwOE=
-X-Google-Smtp-Source: AGHT+IEgkg1A7QJGYiXWVjo1jkxMxNgyCzAUOODb4mSncViq3Jtmn5+85OBJ+tLFdyxxacft1HX9jw==
-X-Received: by 2002:a05:600c:4f0f:b0:416:71ac:1bef with SMTP id l15-20020a05600c4f0f00b0041671ac1befmr1899348wmq.13.1712663584212;
-        Tue, 09 Apr 2024 04:53:04 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id p14-20020a05600c358e00b0041674bf7d4csm7001664wmq.48.2024.04.09.04.53.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Apr 2024 04:53:03 -0700 (PDT)
-Message-ID: <30318fcc-5d6b-427b-855d-f69bcc165a54@linaro.org>
-Date: Tue, 9 Apr 2024 13:53:02 +0200
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="cZ48z1uN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=KMeVx
+	9urEbgIiWLKZLj3qrvOfX+TjMtH4pk5sw16JKM=; b=cZ48z1uNDiCg9DxPE3kL4
+	nAJoCXYuZAea0++lEQ2WbjIYPNFFzZ+zvCYOah/F9/OWfuexyInpBoKzYilKwxWE
+	t9eje8qx/snD8MAVlkl+YAUL0ukfCb5LfYWnz/gh+BaVbdpcDqYtcV+UBVAU2sIR
+	pFbV3Gv5VRq8K0OjX5LcKI=
+Received: from localhost.localdomain (unknown [101.86.11.106])
+	by gzga-smtp-mta-g1-4 (Coremail) with SMTP id _____wD3vzSsXhVmuJxkAg--.27367S4;
+	Tue, 09 Apr 2024 23:29:11 +0800 (CST)
+From: Lizhe <sensor1010@163.com>
+To: rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	marcan@marcan.st,
+	sven@svenpeter.dev,
+	alyssa@rosenzweig.io,
+	mmayer@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com
+Cc: linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Lizhe <sensor1010@163.com>
+Subject: [PATCH] cpufreq: Convert to exit callback returning void
+Date: Tue,  9 Apr 2024 08:28:37 -0700
+Message-Id: <20240409152837.5792-1-sensor1010@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] pinctrl: apple-gpio: Fix null pointer dereference in
- apple_gpio_pinctrl_probe()
-To: Ma Ke <make_ruc2021@163.com>, marcan@marcan.st, sven@svenpeter.dev,
- alyssa@rosenzweig.io, linus.walleij@linaro.org
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240409110254.2201457-1-make_ruc2021@163.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20240409110254.2201457-1-make_ruc2021@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3vzSsXhVmuJxkAg--.27367S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW3JF4UXFy3Xw4fZFyDXrW7XFb_yoWxJw43pF
+	W5urWjyr48JFWDt3srCw4Du3Wak3Z2y3yUG345GasYvw17JF1Yg3WDGryUCFZ5urWkGF4a
+	yrn5Xay7GF48JrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pimhF7UUUUU=
+X-CM-SenderInfo: 5vhq20jurqiii6rwjhhfrp/1tbiKAq7q2XAk0Zm+QAAsd
 
-On 09/04/2024 13:02, Ma Ke wrote:
-> devm_kasprintf() returns a pointer to dynamically allocated memory which
-> can be NULL upon failure. We add a check to ensure that failure does not
-> occur.
-> 
+For the exit() callback function returning an int type value,
+this leads many driver authors mistakenly believing that error
+handling can be performed by returning an error code. However,
+the returned value is ignored, and to improve this situation.
+it is proposed to modify the return type of the exit() callback
+function to void.
 
-Subject: I doubt that there is null pointer dereference... Don't just
-copy existing commit msgs or subjects without adjusting to real case.
+Signed-off-by: Lizhe <sensor1010@163.com>
+---
+ drivers/cpufreq/acpi-cpufreq.c      | 4 +---
+ drivers/cpufreq/apple-soc-cpufreq.c | 4 +---
+ drivers/cpufreq/bmips-cpufreq.c     | 4 +---
+ drivers/cpufreq/cppc_cpufreq.c      | 3 +--
+ drivers/cpufreq/cpufreq-dt.c        | 3 +--
+ drivers/cpufreq/cpufreq-nforce2.c   | 6 ------
+ drivers/cpufreq/e_powersaver.c      | 3 +--
+ include/linux/cpufreq.h             | 2 +-
+ 8 files changed, 7 insertions(+), 22 deletions(-)
 
-> Signed-off-by: Ma Ke <make_ruc2021@163.com>
-> ---
->  drivers/pinctrl/pinctrl-apple-gpio.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
-> index 3751c7de37aa..af2f90d1950f 100644
-> --- a/drivers/pinctrl/pinctrl-apple-gpio.c
-> +++ b/drivers/pinctrl/pinctrl-apple-gpio.c
-> @@ -474,6 +474,8 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
->  	for (i = 0; i < npins; i++) {
->  		pins[i].number = i;
->  		pins[i].name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "PIN%u", i);
-> +		if (!pins[i].name)
-> +			return -ENOMEM;
->  		pins[i].drv_data = pctl;
-
-The check is a bit later, so please be more precise how do you fix it
-and how did you reproduced it.
-
-Maybe checking earlier is reasonable, maybe is redundant. You did not
-address it...
-
-Best regards,
-Krzysztof
+diff --git a/drivers/cpufreq/acpi-cpufreq.c b/drivers/cpufreq/acpi-cpufreq.c
+index 37f1cdf46d29..33f18140e9a4 100644
+--- a/drivers/cpufreq/acpi-cpufreq.c
++++ b/drivers/cpufreq/acpi-cpufreq.c
+@@ -906,7 +906,7 @@ static int acpi_cpufreq_cpu_init(struct cpufreq_policy *policy)
+ 	return result;
+ }
+ 
+-static int acpi_cpufreq_cpu_exit(struct cpufreq_policy *policy)
++static void acpi_cpufreq_cpu_exit(struct cpufreq_policy *policy)
+ {
+ 	struct acpi_cpufreq_data *data = policy->driver_data;
+ 
+@@ -919,8 +919,6 @@ static int acpi_cpufreq_cpu_exit(struct cpufreq_policy *policy)
+ 	free_cpumask_var(data->freqdomain_cpus);
+ 	kfree(policy->freq_table);
+ 	kfree(data);
+-
+-	return 0;
+ }
+ 
+ static int acpi_cpufreq_resume(struct cpufreq_policy *policy)
+diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
+index 021f423705e1..af34c22fa273 100644
+--- a/drivers/cpufreq/apple-soc-cpufreq.c
++++ b/drivers/cpufreq/apple-soc-cpufreq.c
+@@ -305,7 +305,7 @@ static int apple_soc_cpufreq_init(struct cpufreq_policy *policy)
+ 	return ret;
+ }
+ 
+-static int apple_soc_cpufreq_exit(struct cpufreq_policy *policy)
++static void apple_soc_cpufreq_exit(struct cpufreq_policy *policy)
+ {
+ 	struct apple_cpu_priv *priv = policy->driver_data;
+ 
+@@ -313,8 +313,6 @@ static int apple_soc_cpufreq_exit(struct cpufreq_policy *policy)
+ 	dev_pm_opp_remove_all_dynamic(priv->cpu_dev);
+ 	iounmap(priv->reg_base);
+ 	kfree(priv);
+-
+-	return 0;
+ }
+ 
+ static struct cpufreq_driver apple_soc_cpufreq_driver = {
+diff --git a/drivers/cpufreq/bmips-cpufreq.c b/drivers/cpufreq/bmips-cpufreq.c
+index 39221a9a187a..17a4c174553d 100644
+--- a/drivers/cpufreq/bmips-cpufreq.c
++++ b/drivers/cpufreq/bmips-cpufreq.c
+@@ -121,11 +121,9 @@ static int bmips_cpufreq_target_index(struct cpufreq_policy *policy,
+ 	return 0;
+ }
+ 
+-static int bmips_cpufreq_exit(struct cpufreq_policy *policy)
++static void bmips_cpufreq_exit(struct cpufreq_policy *policy)
+ {
+ 	kfree(policy->freq_table);
+-
+-	return 0;
+ }
+ 
+ static int bmips_cpufreq_init(struct cpufreq_policy *policy)
+diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+index 64420d9cfd1e..dccb9c1f087d 100644
+--- a/drivers/cpufreq/cppc_cpufreq.c
++++ b/drivers/cpufreq/cppc_cpufreq.c
+@@ -688,7 +688,7 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
+ 	return ret;
+ }
+ 
+-static int cppc_cpufreq_cpu_exit(struct cpufreq_policy *policy)
++static void cppc_cpufreq_cpu_exit(struct cpufreq_policy *policy)
+ {
+ 	struct cppc_cpudata *cpu_data = policy->driver_data;
+ 	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+@@ -705,7 +705,6 @@ static int cppc_cpufreq_cpu_exit(struct cpufreq_policy *policy)
+ 			 caps->lowest_perf, cpu, ret);
+ 
+ 	cppc_cpufreq_put_cpu_data(policy);
+-	return 0;
+ }
+ 
+ static inline u64 get_delta(u64 t1, u64 t0)
+diff --git a/drivers/cpufreq/cpufreq-dt.c b/drivers/cpufreq/cpufreq-dt.c
+index 2d83bbc65dd0..eaf02579ea74 100644
+--- a/drivers/cpufreq/cpufreq-dt.c
++++ b/drivers/cpufreq/cpufreq-dt.c
+@@ -166,10 +166,9 @@ static int cpufreq_offline(struct cpufreq_policy *policy)
+ 	return 0;
+ }
+ 
+-static int cpufreq_exit(struct cpufreq_policy *policy)
++static void cpufreq_exit(struct cpufreq_policy *policy)
+ {
+ 	clk_put(policy->clk);
+-	return 0;
+ }
+ 
+ static struct cpufreq_driver dt_cpufreq_driver = {
+diff --git a/drivers/cpufreq/cpufreq-nforce2.c b/drivers/cpufreq/cpufreq-nforce2.c
+index f7a7bcf6f52e..fedad1081973 100644
+--- a/drivers/cpufreq/cpufreq-nforce2.c
++++ b/drivers/cpufreq/cpufreq-nforce2.c
+@@ -359,11 +359,6 @@ static int nforce2_cpu_init(struct cpufreq_policy *policy)
+ 	return 0;
+ }
+ 
+-static int nforce2_cpu_exit(struct cpufreq_policy *policy)
+-{
+-	return 0;
+-}
+-
+ static struct cpufreq_driver nforce2_driver = {
+ 	.name = "nforce2",
+ 	.flags = CPUFREQ_NO_AUTO_DYNAMIC_SWITCHING,
+@@ -371,7 +366,6 @@ static struct cpufreq_driver nforce2_driver = {
+ 	.target = nforce2_target,
+ 	.get = nforce2_get,
+ 	.init = nforce2_cpu_init,
+-	.exit = nforce2_cpu_exit,
+ };
+ 
+ #ifdef MODULE
+diff --git a/drivers/cpufreq/e_powersaver.c b/drivers/cpufreq/e_powersaver.c
+index ab93bce8ae77..6e958b09e1b5 100644
+--- a/drivers/cpufreq/e_powersaver.c
++++ b/drivers/cpufreq/e_powersaver.c
+@@ -360,14 +360,13 @@ static int eps_cpu_init(struct cpufreq_policy *policy)
+ 	return 0;
+ }
+ 
+-static int eps_cpu_exit(struct cpufreq_policy *policy)
++static void eps_cpu_exit(struct cpufreq_policy *policy)
+ {
+ 	unsigned int cpu = policy->cpu;
+ 
+ 	/* Bye */
+ 	kfree(eps_cpu[cpu]);
+ 	eps_cpu[cpu] = NULL;
+-	return 0;
+ }
+ 
+ static struct cpufreq_driver eps_driver = {
+diff --git a/include/linux/cpufreq.h b/include/linux/cpufreq.h
+index 9956afb9acc2..ffb8d85d73ee 100644
+--- a/include/linux/cpufreq.h
++++ b/include/linux/cpufreq.h
+@@ -386,7 +386,7 @@ struct cpufreq_driver {
+ 
+ 	int		(*online)(struct cpufreq_policy *policy);
+ 	int		(*offline)(struct cpufreq_policy *policy);
+-	int		(*exit)(struct cpufreq_policy *policy);
++	void		(*exit)(struct cpufreq_policy *policy);
+ 	int		(*suspend)(struct cpufreq_policy *policy);
+ 	int		(*resume)(struct cpufreq_policy *policy);
+ 
+-- 
+2.25.1
 
