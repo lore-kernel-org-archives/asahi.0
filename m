@@ -1,145 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5348D181322;
-	Wed, 10 Apr 2024 19:32:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32AE1836CE;
+	Wed, 10 Apr 2024 21:26:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712777553; cv=none; b=e/mQ06VkSWAXIrCuSc05MtA3uv8WGh4NhXwkGuhKDH07PPDrAPWBVAr7QAIn9+1sqg0AaJtt7z6nnRLzrVmxncFWrnv2pTXd4TG9ZC8BUyd/K771IZIwaUZMIQRtXpFyiK4GFwHxrvT54VvUouPCaMUUZE3W89ZpLZ71VgiXSJk=
+	t=1712784401; cv=none; b=AdoObEr7Di2ZtUF4ipPNja3TUCdUKDfndtH1GaRgAYCVQEQ2QflGuB6L3fN3YeK2LJVNJPekEneyncpLsRNEmblHp7LKdMS19gaB+3DyUlNznBhgmOSGapaWr2w6q7UDf5Rw2qlcZpywRlOByfAMkOAkqTeM2WyQDqYSKDOSuDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712777553; c=relaxed/simple;
-	bh=WW5sMpVOz0tGbMU1O5onTUR51y42uNFu9wn05WPtkWY=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=d8fzlFMknzzDdOw9Ya/qxCVLVE/zzVJnQWH/LWVdqvFUvHTsJS34wOlPY9tQ41W0abVnxkKFqExT8WoI4Xe2bnLLBoifJLZiOc0n4LUmaogtqnl1+Xp9KJIamL3yAwbnnBT2Q91q66+dwUzogrO5x8rWAwf3kg1WuzXfgmBs0rc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tq4rrWfX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712784401; c=relaxed/simple;
+	bh=ZHY0Qb2p6hZj2F9UUpHFyF1+cCJBE7U8HaVGMIWgfJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=gSC5sLKRCxDYWJbmzE9UalWM1Zp8qkjhwaoUoMR0dVba0Axb001SaEuyt0SZGt7AywHsJsMyJjmbA8YXGjiZeBIxHzwZubESgLCcMVGSnQDZtBhwNzEIbMwFM3zZXEG1zdM4qHtjp1Q5iplJRPLCbg0o1lJVrDCvnpahd+OPvc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X7uw442U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tq4rrWfX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88179C43390;
-	Wed, 10 Apr 2024 19:32:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X7uw442U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D5B8C433F1;
+	Wed, 10 Apr 2024 21:26:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712777552;
-	bh=WW5sMpVOz0tGbMU1O5onTUR51y42uNFu9wn05WPtkWY=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=tq4rrWfX9sfVjyG1eyRA5JQGhmGUZZ7uZmnP8xeGteU4tmjtBJwX1rIwj8QFaJQjX
-	 hazgBdZOKaDhWWOOpBX6HrGOSdUUKtAERdIR/r8t0ihV2Y0E50ZsNeIdGCuECZsGc4
-	 MVhev7smKrOV3LTOgTQd6psiBKajiUbE3PItXRb805uwXE93PscA8sScGPOQ0bD2h3
-	 yL4o4fFtnh+PyXMspoVkdeCYh+yHEbJJA7uBTYcP8lE1egXnKItFj4r5SyFia/wVYd
-	 et+x2ylnr2iBKZZMb3xWvQ/x8CxEmBdAQqRiw1NTwJlG9b10JfdjTo1V82rU5g43Wu
-	 5YHbgdVHo6jUg==
-Date: Wed, 10 Apr 2024 14:32:31 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1712784400;
+	bh=ZHY0Qb2p6hZj2F9UUpHFyF1+cCJBE7U8HaVGMIWgfJQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=X7uw442UbgIpqeMvt0lGFcXg86xEWI2esbZmYrlcuSZ0IHUAEfYztCnABCY3OWfcN
+	 qha3LHFaAPenRfxa13l39CP+7GGIX0nvuojS+bJEjDEo/05E+SEw4/981rCoRB7mZ8
+	 AiCC0TmbExTNmCkcQyOEEymnER7zgHtneM1Ex3ay5q4H0OOK9cRxPP9m9yKRxq/6Zo
+	 Kd9xqDj2EzKSRE0wcXWJAeACN6Slg9b5ZPc42hYpHHJ/9g/3XlaGWpH6fKTo1jFdGv
+	 wtWzLc4tD0iN1BOu/0zmhzyFLK8qGFJjMIMUEWb18MkFUt8L+lqhYbq+ugp0UKiIGb
+	 RxRImDtJqxM1w==
+Date: Wed, 10 Apr 2024 16:26:38 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jim Quinlan <jim2101024@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Ryder Lee <ryder.lee@mediatek.com>,
+	Jianjun Wang <jianjun.wang@mediatek.com>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Tom Joseph <tjoseph@cadence.com>,
+	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
+ child node reg
+Message-ID: <20240410212638.GA2159326@bhelgaas>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-rockchip@lists.infradead.org, 
- Scott Branden <sbranden@broadcom.com>, 
- Thippeswamy Havalige <thippeswamy.havalige@amd.com>, 
- Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
- Will Deacon <will@kernel.org>, Sven Peter <sven@svenpeter.dev>, 
- Heiko Stuebner <heiko@sntech.de>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Linus Walleij <linus.walleij@linaro.org>, devicetree@vger.kernel.org, 
- Jim Quinlan <jim2101024@gmail.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Bjorn Helgaas <bhelgaas@google.com>, linux-arm-kernel@lists.infradead.org, 
- Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, asahi@lists.linux.dev, 
- linux-arm-msm@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
- Lorenzo Pieralisi <lpieralisi@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Mark Kettenis <kettenis@openbsd.org>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Tom Joseph <tjoseph@cadence.com>, linux-renesas-soc@vger.kernel.org, 
- Jianjun Wang <jianjun.wang@mediatek.com>, 
- Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
- Jingoo Han <jingoohan1@gmail.com>, linux-pci@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, linux-rpi-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, 
- Michal Simek <michal.simek@amd.com>, 
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Ray Jui <rjui@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Daire McNamara <daire.mcnamara@microchip.com>, 
- Marek Vasut <marek.vasut+renesas@gmail.com>, 
- linux-mediatek@lists.infradead.org, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Srikanth Thokala <srikanth.thokala@intel.com>, 
- Ryder Lee <ryder.lee@mediatek.com>, Bjorn Andersson <andersson@kernel.org>, 
- Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Magnus Damm <magnus.damm@gmail.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Shawn Lin <shawn.lin@rock-chips.com>
-In-Reply-To: <20240410181521.269431-4-krzysztof.kozlowski@linaro.org>
-References: <20240410181521.269431-1-krzysztof.kozlowski@linaro.org>
- <20240410181521.269431-4-krzysztof.kozlowski@linaro.org>
-Message-Id: <171277754988.1212749.4199877903133990039.robh@kernel.org>
-Subject: Re: [PATCH v2 4/4] dt-bindings: PCI: mediatek,mt7621-pcie: switch
- from deprecated pci-bus.yaml
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240410181521.269431-2-krzysztof.kozlowski@linaro.org>
 
+On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote:
+> MT7621 PCI host bridge has children which apparently are also PCI host
+> bridges, at least that's what the binding suggest.
 
-On Wed, 10 Apr 2024 20:15:21 +0200, Krzysztof Kozlowski wrote:
-> dtschema package with core schemas deprecated pci-bus.yaml schema in
-> favor of individual schemas per host, device and pci-pci.
+What does it even mean for a PCI host bridge to have a child that is
+also a PCI host bridge?
+
+Does this mean a driver binds to the "parent" host bridge, enumerates
+the PCI devices below it, and finds a "child" host bridge?
+
+> The children have
+> "reg" property, but do not explicitly define it.  Instead they rely on
+> pci-bus.yaml schema, but that one has "reg" without any constraints.
 > 
-> Switch Mediatek MT7621 PCIe host bridge binding to this new schema.
+> Define the "reg" for the children, so the binding will be more specific
+> and later will allow dropping reference to deprecated pci-bus.yaml
+> schema.
 > 
-> This requires dtschema package newer than v2024.02 to work fully.
-> v2024.02 will partially work: with a warning.
-> 
+> Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 > Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 > 
 > ---
 > 
-> Important: v2024.03 (said dtschema newer than v2024.02) was not yet
-> released, therefore this patch probably should wait a bit. Previous
-> patches do not depend anyhow on future release, so they can be taken as
-> is.
-> 
 > Changes in v2:
-> 1. New patch
-> 2. Split mediatek,mt7621-pcie to separate patch as it uses
->    pci-pci-bridge schema.
+> 1. Add tags.
 > ---
->  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml         | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml          | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.example.dtb: pcie@1e140000: pcie@0,0: Unevaluated properties are not allowed ('clocks', 'phy-names', 'phys', 'resets' were unexpected)
-	from schema $id: http://devicetree.org/schemas/pci/mediatek,mt7621-pcie.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.example.dtb: pcie@1e140000: pcie@1,0: Unevaluated properties are not allowed ('clocks', 'phy-names', 'phys', 'resets' were unexpected)
-	from schema $id: http://devicetree.org/schemas/pci/mediatek,mt7621-pcie.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.example.dtb: pcie@1e140000: pcie@2,0: Unevaluated properties are not allowed ('clocks', 'phy-names', 'phys', 'resets' were unexpected)
-	from schema $id: http://devicetree.org/schemas/pci/mediatek,mt7621-pcie.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240410181521.269431-4-krzysztof.kozlowski@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+> diff --git a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
+> index e63e6458cea8..61d027239910 100644
+> --- a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
+> +++ b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
+> @@ -36,6 +36,9 @@ patternProperties:
+>      $ref: /schemas/pci/pci-bus.yaml#
+>  
+>      properties:
+> +      reg:
+> +        maxItems: 1
+> +
+>        resets:
+>          maxItems: 1
+>  
+> -- 
+> 2.34.1
+> 
