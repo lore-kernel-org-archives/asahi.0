@@ -1,27 +1,27 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C46915CD6B
-	for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 13:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F104158D76
+	for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 13:25:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712755418; cv=none; b=rWG/9v3d9KQmmi4J1/ZhuwO7Eu+g5dj+9QX8w2RSpUo5d1oe4u7rkFXTVBhX1brBafLSFMvKR9PiOxfYs/0prxfyYM30qTVAuziOt9FzGBkkZOvNDp5OBTCKyDFl2keixuIeQu1JiZt9MCL3gCU2o4H8X5CgBRv58ighVx09RgE=
+	t=1712755539; cv=none; b=rzaIR7XzEMJgvz3NLfxhsdVXeqDajmzmom9GFNbUBfktEqL0CiA/dTLz1JkW+reazK3YqFTrpWdhAgvYJSlY/GLP6BW7pQYzPaBnD6vYQOJ+pney/Y+JFUDICNsh/t9LHAWPok52romkqJxYgmHPuVNdfmoarpSVQ93PImqc/00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712755418; c=relaxed/simple;
+	s=arc-20240116; t=1712755539; c=relaxed/simple;
 	bh=Km74g6LMKfH+zqrYFsIQW6Z1f2bpHSbSyit5M/p4XXo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XgmbT6CuPd0pjd2gjKjCFScfIMx4GwySbK46XoaeSkC0bgl8i5eXnLtsnPXFk8v1g6b4qQX2gYWuMNecD4DCxzJWMbtcA9snF/I5DQFWPg4w5BDgZPd1bnTHr8fhCcgU1SV0/EgBXAHlgArrFYqWxs/gS3p3Yv1cfutPX+qRWq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Iq72dBmA; arc=none smtp.client-ip=117.135.210.5
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L9/3F/y5zs4PSKJ+9S9YH08CNbVuyAGFbTUQLshwYHAESDIApgkvSFRFKdPla/cMkQkKBgp8XSt9GiD6tMIPlwqsyLFgxRhb1Dat8VrBNVUmsIEEaAxn9oxuX1p89ALPSyHaa4zi4NC/ueYIQBYvAXFe9Bopls9MmdUKi3azOGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ZAtfnjHH; arc=none smtp.client-ip=117.135.210.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Iq72dBmA"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ZAtfnjHH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
 	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=0k9vD
-	y3IhLXKl1/oPUacgobANip3sPaFSxC+sZynpEs=; b=Iq72dBmA27lcU+nCiBTiJ
-	zRkACXIYwe+9VHpKiNizbk3ppnXB8hp20uIQdyhzgscR19FZTocSHrlOtBpEwNBm
-	t5fAP8wxxkw2dEPQydho9TgBntIngUQXmg8W/hfFgbqG915+RzHy3mfuDjJsyZsj
-	P32dDGH1FZj2W9yPJjx2bs=
+	y3IhLXKl1/oPUacgobANip3sPaFSxC+sZynpEs=; b=ZAtfnjHHXPSjAYMgeE5As
+	oEorvp1cnCmONXS9I7yt+O8y+vUhsPUV+i4sBETUDOwf6yd96abr/tmkE7sgwBfA
+	kaokf5MITki6RIoVELqJDQsJHSmzZkKGuPM5qM6DkHGV35t/IvK0orGarfIO5chD
+	PmFKDwkSbkrVa0JPcfCoi0=
 Received: from localhost.localdomain (unknown [101.86.11.106])
-	by gzga-smtp-mta-g1-5 (Coremail) with SMTP id _____wDnLyFjkhZmXX3aAg--.54775S4;
-	Wed, 10 Apr 2024 21:21:55 +0800 (CST)
+	by gzga-smtp-mta-g2-1 (Coremail) with SMTP id _____wDnN9+3khZm9NnPAg--.11748S4;
+	Wed, 10 Apr 2024 21:23:27 +0800 (CST)
 From: Lizhe <sensor1010@163.com>
 To: rafael@kernel.org,
 	viresh.kumar@linaro.org,
@@ -58,8 +58,8 @@ Cc: linux-pm@vger.kernel.org,
 	linux-mediatek@lists.infradead.org,
 	Lizhe <sensor1010@163.com>
 Subject: [PATCH] cpufreq: Covert to exit callback returning void
-Date: Wed, 10 Apr 2024 06:21:31 -0700
-Message-Id: <20240410132132.3526-1-sensor1010@163.com>
+Date: Wed, 10 Apr 2024 06:22:47 -0700
+Message-Id: <20240410132247.3587-1-sensor1010@163.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -68,12 +68,12 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnLyFjkhZmXX3aAg--.54775S4
+X-CM-TRANSID:_____wDnN9+3khZm9NnPAg--.11748S4
 X-Coremail-Antispam: 1Uf129KBjvAXoWfXw47Cw45Gr1fZr45GFWfKrg_yoW8uw18Xo
 	WfXFyrG3W8Gryxtw1DAa1xtFZrZanFk3Z5Jws8XFs0gasFyF17XrZrtr45JF1fWay5KrWx
 	Z3Wjgwn3Ar4xGr1Un29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjTRC89MUUUUU
-X-CM-SenderInfo: 5vhq20jurqiii6rwjhhfrp/1tbiSBe8q2XAk1gLbQAAsA
+	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjTRCHqcDUUUU
+X-CM-SenderInfo: 5vhq20jurqiii6rwjhhfrp/1tbiKA+8q2XAk1Y-GgAAs1
 
 For the exit() callback function returning an int type value.
 this leads many driver authors mistakenly believing that error
