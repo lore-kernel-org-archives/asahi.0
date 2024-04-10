@@ -1,139 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32AE1836CE;
-	Wed, 10 Apr 2024 21:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A80B1D558
+	for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 23:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712784401; cv=none; b=AdoObEr7Di2ZtUF4ipPNja3TUCdUKDfndtH1GaRgAYCVQEQ2QflGuB6L3fN3YeK2LJVNJPekEneyncpLsRNEmblHp7LKdMS19gaB+3DyUlNznBhgmOSGapaWr2w6q7UDf5Rw2qlcZpywRlOByfAMkOAkqTeM2WyQDqYSKDOSuDk=
+	t=1712791976; cv=none; b=aziFNerYV/0V4+Bm4ymn7xRwfGwse9CbZVHF2qBAAOUPZZIEZy6ND3Y5redTp9bzcqng9E539wQTgoZkAq6Yp/a/i6P/vhhe0z91ozwsNzbvBEBLz9nyxwxH7FQ8J2tpnRhuRUSQboGcM1zOJ+Ws0zj0CzUCH5jUA8mqcBcrLFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712784401; c=relaxed/simple;
-	bh=ZHY0Qb2p6hZj2F9UUpHFyF1+cCJBE7U8HaVGMIWgfJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=gSC5sLKRCxDYWJbmzE9UalWM1Zp8qkjhwaoUoMR0dVba0Axb001SaEuyt0SZGt7AywHsJsMyJjmbA8YXGjiZeBIxHzwZubESgLCcMVGSnQDZtBhwNzEIbMwFM3zZXEG1zdM4qHtjp1Q5iplJRPLCbg0o1lJVrDCvnpahd+OPvc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X7uw442U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712791976; c=relaxed/simple;
+	bh=j0uyhERivx0zpo5d7Uab//m+L+A7uhY7E/Nr6dO6BaY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gy/a2tkKO+bEA4aZ2Cw/B95Qru1gFZbUacXxYWuKebtZ/h1oqmKENSh+Vuae0rR74ElrkZiWHH3v3qDrZW81h7Q7vrI14odSqLLYKGvMGMFifyDtAI4fCEJ4tuWLQO7DShPjn/utO0iArzfimLd9nitxBn4pU67zz/YFbJ1B9gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=L/u/bRB/; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X7uw442U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D5B8C433F1;
-	Wed, 10 Apr 2024 21:26:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712784400;
-	bh=ZHY0Qb2p6hZj2F9UUpHFyF1+cCJBE7U8HaVGMIWgfJQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=X7uw442UbgIpqeMvt0lGFcXg86xEWI2esbZmYrlcuSZ0IHUAEfYztCnABCY3OWfcN
-	 qha3LHFaAPenRfxa13l39CP+7GGIX0nvuojS+bJEjDEo/05E+SEw4/981rCoRB7mZ8
-	 AiCC0TmbExTNmCkcQyOEEymnER7zgHtneM1Ex3ay5q4H0OOK9cRxPP9m9yKRxq/6Zo
-	 Kd9xqDj2EzKSRE0wcXWJAeACN6Slg9b5ZPc42hYpHHJ/9g/3XlaGWpH6fKTo1jFdGv
-	 wtWzLc4tD0iN1BOu/0zmhzyFLK8qGFJjMIMUEWb18MkFUt8L+lqhYbq+ugp0UKiIGb
-	 RxRImDtJqxM1w==
-Date: Wed, 10 Apr 2024 16:26:38 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jim Quinlan <jim2101024@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Ryder Lee <ryder.lee@mediatek.com>,
-	Jianjun Wang <jianjun.wang@mediatek.com>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Tom Joseph <tjoseph@cadence.com>,
-	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
- child node reg
-Message-ID: <20240410212638.GA2159326@bhelgaas>
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="L/u/bRB/"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id C5EE5425B7;
+	Wed, 10 Apr 2024 23:23:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1712791409; bh=j0uyhERivx0zpo5d7Uab//m+L+A7uhY7E/Nr6dO6BaY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=L/u/bRB/7IZ0MsT0QSxUrZPrLzui36sFJM8ktHUciTh1lDiFPMbf2gUhQGg9CvIaM
+	 MCiYGOG9VRexB1zg5wDgb3XQozR71K0Elc//dCm8H5gBFtcbDcHXJIqLwjuvmqQRqx
+	 v3OddNK5sgpwShPNplUJE2XRmE7veOXg6T9yyPaKokJvr7TEpPCasUoiGiNneUiANE
+	 tqiuqLK+n4mj0nXsA9JaXPuYt7wI0AdDYyvCatJp53oN2HWDB1ybwCtLXRRBej8x6Q
+	 340/SSgLiv6NCspLpp7JLrAXsGt2C7O49h6Ky/xqEZewhT36oVFJQuQhGqYlYoHgH1
+	 SNLbQUkGb6cbw==
+Message-ID: <f4f53335-eba9-4c71-b64d-ca2c65c29a74@marcan.st>
+Date: Thu, 11 Apr 2024 08:23:23 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240410181521.269431-2-krzysztof.kozlowski@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] tso: aarch64: Expose TSO for virtualized linux on
+ Apple Silicon
+To: Zayd Qumsieh <zayd_qumsieh@apple.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Mateusz Guzik <mjguzik@gmail.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, Marc Zyngier
+ <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Miguel Luis <miguel.luis@oracle.com>, Joey Gouly <joey.gouly@arm.com>,
+ Christoph Paasch <cpaasch@apple.com>, Kees Cook <keescook@chromium.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Baoquan He <bhe@redhat.com>,
+ Lecopzer Chen <lecopzer.chen@mediatek.com>,
+ Joel Granados <j.granados@samsung.com>, Dawei Li <dawei.li@shingroup.cn>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Florent Revest <revest@chromium.org>, David Hildenbrand <david@redhat.com>,
+ Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>,
+ Josh Triplett <josh@joshtriplett.org>, Oleg Nesterov <oleg@redhat.com>,
+ Helge Deller <deller@gmx.de>, Zev Weiss <zev@bewilderbeest.net>,
+ Ondrej Mosnacek <omosnace@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Justin Lu <ih_justin@apple.com>, Asahi Linux <asahi@lists.linux.dev>
+References: <20240410211652.16640-1-zayd_qumsieh@apple.com>
+From: Hector Martin <marcan@marcan.st>
+Content-Language: en-US
+In-Reply-To: <20240410211652.16640-1-zayd_qumsieh@apple.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote:
-> MT7621 PCI host bridge has children which apparently are also PCI host
-> bridges, at least that's what the binding suggest.
+On 2024/04/11 6:16, Zayd Qumsieh wrote:
+> x86 CPUs use a TSO memory model. Apple Silicon CPUs have the ability to
+> selectively use a TSO memory model. This can be done by setting the
+> ACTLR.TSOEN bit to 1. This feature is useful for x86 emulators, since it
+> removes the need for emulators to insert memory barriers in order to abide
+> by the TSO memory model. This patch series will add ACTLR.TSOEN support to
+> virtualized linux on Apple Silicon machines. Userspace will be able to use
+> a prctl to change the memory model of the CPU from the default ARM64 memory
+> model to a TSO memory model.
+> 
+> A simple test can be used to determine if the TSO memory model is in use.
+> This must be done on Apple Silicon MacOS Sonoma version 14.4 or later,
+> since earlier versions do not support modification of the TSOEN bit.
+> https://github.com/saagarjha/TSOEnabler/blob/master/testtso/main.c
+> 
+> This program will hang indefinitely if TSO is in use, and will crash almost
+> immediately if it is not in use.
 
-What does it even mean for a PCI host bridge to have a child that is
-also a PCI host bridge?
+Well this is unexpected, given I talked to Justin Lu at Apple back in
+December and I thought our plan was to work together on the series I've
+had cooking in the Asahi tree [1] for a while now, which is actually
+shipping in thousands of Asahi Linux systems in production and actually
+already supported by the FEX-Emu project with our ABI. You CCed 30+
+people, but not me nor the asahi@lists.linux.dev mailing list...
 
-Does this mean a driver binds to the "parent" host bridge, enumerates
-the PCI devices below it, and finds a "child" host bridge?
+[1] https://github.com/AsahiLinux/linux/tree/bits/220-tso
 
-> The children have
-> "reg" property, but do not explicitly define it.  Instead they rely on
-> pci-bus.yaml schema, but that one has "reg" without any constraints.
+Given that we're here now, I'll send out my series for review and see
+what people think about that one.
+
 > 
-> Define the "reg" for the children, so the binding will be more specific
-> and later will allow dropping reference to deprecated pci-bus.yaml
-> schema.
+> Zayd Qumsieh (3):
+>   tso: aarch64: allow linux kernel to read/write ACTLR.TSOEN
+>   tso: aarch64: context-switch tso bit on thread switch
+>   tso: aarch64: allow userspace to set tso bit using prctl
 > 
-> Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>  arch/arm64/Kconfig                 | 19 +++++++++
+>  arch/arm64/include/asm/processor.h |  4 ++
+>  arch/arm64/include/asm/sysreg.h    |  7 ++++
+>  arch/arm64/include/asm/tso.h       | 19 +++++++++
+>  arch/arm64/kernel/Makefile         |  2 +-
+>  arch/arm64/kernel/process.c        | 61 +++++++++++++++++++++++++++++
+>  arch/arm64/kernel/tso.c            | 62 ++++++++++++++++++++++++++++++
+>  include/uapi/linux/prctl.h         |  9 +++++
+>  kernel/sys.c                       | 11 ++++++
+>  9 files changed, 193 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arm64/include/asm/tso.h
+>  create mode 100644 arch/arm64/kernel/tso.c
 > 
-> ---
-> 
-> Changes in v2:
-> 1. Add tags.
-> ---
->  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml          | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
-> index e63e6458cea8..61d027239910 100644
-> --- a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
-> +++ b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
-> @@ -36,6 +36,9 @@ patternProperties:
->      $ref: /schemas/pci/pci-bus.yaml#
->  
->      properties:
-> +      reg:
-> +        maxItems: 1
-> +
->        resets:
->          maxItems: 1
->  
-> -- 
-> 2.34.1
-> 
+
+- Hector
