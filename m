@@ -1,122 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3360714D432;
-	Thu, 11 Apr 2024 13:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C441514E1
+	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 13:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712842144; cv=none; b=bf6RsdA8sSUx4ADsfPzEHnhWHfJUrml+3xdQGdT0a9jkv5bCYD48ObUhoukAefF+DLpoaueUJAOgTCuhHHYDM/KwmrReV8qRQ4aS70sDIhth1DZcVo9RJiEe6ySwdre/K0Y4MQzhRcuz2WGww/md12BB8k2kphlp6tD6MWJMZdY=
+	t=1712842431; cv=none; b=N0QONzbDDyunhqzW4gUF95xBnQA3PDoUd80mrxKrTATnh9JDBSKB0Lj9OBDlngJke+41BQ7uohFllreuzzkBIhDhAx9lFYGLSu3Kaj4WZoYCXDB/s7AwSfvlEu5229WkMYcOrPr6+adg7nkQ/xLUIOONh8CuMC9/0drHaCV5EX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712842144; c=relaxed/simple;
-	bh=gUdPGNpqUc9YmdjxtvqHwxuSQo6lbsOe/wMJ91M4o0o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DJkm3g2Os+vZ3BMaGz4CXZSo4RRVmXXj9EB2rUm90bPvMEAmk2Q2AIM2E4Dpmvk1AJkKLBjuAchpO1k4CiUpFmdgsx4hKg4JejtdS4A43k5kK921Cw3Z8JDLfxaQZk9iDODh+VKrlQj5GgrJ1swoRh73S2CcLh+waK1Nqoxqovc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fKoSzUBS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712842431; c=relaxed/simple;
+	bh=IsdcePQGmtwf23Dn6ZnBklfJevHVN5lRzy64rGYlrRg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FD/usqhYzNBKHYQs2r8eNzZSd6PZvOcLrfysyMnYz+QmPtqXYpKUFW8OLyp6FfqJgJMXsfx/RN/GpHpI5/jI1Rts8oiL0b+omu/vJZBxSmmdoWvs4h00ZRfK4s3IeFP5RTpf+YkLzhI43LvEB2ROs+cKMclqTzcOtoAflRZ6EF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cN836Hta; arc=none smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fKoSzUBS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DB70C2BBFC;
-	Thu, 11 Apr 2024 13:23:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712841795;
-	bh=gUdPGNpqUc9YmdjxtvqHwxuSQo6lbsOe/wMJ91M4o0o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fKoSzUBSJR3KbMhdCG1CHI6hpF0gXlRuAvgMgnJu3Btuu7SakSzaUvgpYTcIqkIEc
-	 jgmJGBdpkyTo0lA+qAr0005WzjFF+rKzBEeaWW2AJ1BxyLdtuuDmzyM+CHRqXSfxEs
-	 H6rZNWX8bJ7fmqEkP4X4qFKPD24zqJfBSDiSWnTE+jSaqUrzTf5mGMl/ZZg4s1fYdp
-	 ucoWdQToXGS8Xvysk5dNy3OEIQzLISY9ijErrqIZQ6csx46lZ6JO76X+mukuZXZdQH
-	 LCzebE+5MA3IfDrazx2LsqtBN2CHGRafShYpWzoI7CTN5Xsx+GrJsNV0g5/lUIAOxk
-	 gLYmU8Zrcw2Gw==
-Date: Thu, 11 Apr 2024 14:28:54 +0100
-From: Will Deacon <will@kernel.org>
-To: Hector Martin <marcan@marcan.st>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Zayd Qumsieh <zayd_qumsieh@apple.com>,
-	Justin Lu <ih_justin@apple.com>,
-	Ryan Houdek <Houdek.Ryan@fex-emu.org>,
-	Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Miguel Luis <miguel.luis@oracle.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Christoph Paasch <cpaasch@apple.com>,
-	Kees Cook <keescook@chromium.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Baoquan He <bhe@redhat.com>, Joel Granados <j.granados@samsung.com>,
-	Dawei Li <dawei.li@shingroup.cn>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Florent Revest <revest@chromium.org>,
-	David Hildenbrand <david@redhat.com>,
-	Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Oleg Nesterov <oleg@redhat.com>, Helge Deller <deller@gmx.de>,
-	Zev Weiss <zev@bewilderbeest.net>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Asahi Linux <asahi@lists.linux.dev>
-Subject: Re: [PATCH 0/4] arm64: Support the TSO memory model
-Message-ID: <20240411132853.GA26481@willie-the-truck>
-References: <20240411-tso-v1-0-754f11abfbff@marcan.st>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cN836Hta"
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-22ecc103220so4091640fac.2
+        for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 06:33:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1712842429; x=1713447229; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tbcCaa8DX09SvsMoBHm+TyAMbhm9qLZzeE5P/R6GO7M=;
+        b=cN836HtaRoQlGF/SPJS+SjEGRiLTkBSF4BbCm6D8jIH2gcNh2g3kAOk9hdrKFsedu2
+         M7d1IulQ3CqwXvZWkg0AkI3XsPt5JgJwD1NmXWHs45MlWxvurP5kIiVP3IZ/nK1iyTHT
+         Z2OY8/4QMZwkfTSH5xwNATflRsp8RfmmfHbRsGmh8S4jC+cIgFmbZFCoSabU/f1VG/Eh
+         Lis4x3yHPE8kdQHE/VMrU7Uc/kzjbgkPkBf3FQoXvC5EYxsBYwVEj0fLgWHmKMx7rFvo
+         GVXthvZYVYLRBE8N3fdCONTj3gl4lZKYMJtLI3MYUl+y0umHC+UBOZP82GRA9VMxtVzh
+         AcwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712842429; x=1713447229;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tbcCaa8DX09SvsMoBHm+TyAMbhm9qLZzeE5P/R6GO7M=;
+        b=FKJV7ztr4MlCE6Qg6Rj9uAfyKD0cKeVqAsoWq2irIt06+jXcdE5jxB8mwxvaLhA9IU
+         T8bSh0g28k6Jmujo4lcN5GJvRtxaz3eRlVmd7VUIHUqLRHmL62m3g7lqu5Bw/fHcnVGu
+         jRGJim1Ucy7W+aWHD+4isqHy2hgnNPn5u3a2DScTHocqxkDsoj0lOOimi9EKYN/mjHfA
+         0vMsOtjX/ky7kXggR8ByavkdezvfnAOejQibP3JJZK2ieWfHQkwRUehV95cif/BVfT/4
+         51Gq500SHvQVOWVUMFRW6Mb+xvoQ52WK6H8yUXynuNImd0zuvIqaoMOMCviMlZTSvgkx
+         xtXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZskuFyVgUic+PWL+AHXRRUgJEhjEN1WpnQQ7kSrru9xu8haVqTP49c+vCZUPCc1H/Q1saRkU8e7CjiuC6td4A8h4IhWg=
+X-Gm-Message-State: AOJu0Yy6Hyi/bWR16UnG+a1O3PPQcip1ufhqR6A4+WsVF/yPpmhMk7H+
+	dNm3igWn4XQbWVne9ECZo06V7HYXBGiziaCN4kJ0jhtyjRThSztPbtm9rpw/yeIDtjeHOXHDSbX
+	Irc2wTwtlrHJhXIB6pEcb55FPqkk=
+X-Google-Smtp-Source: AGHT+IG525FFbMbsm9efSCrv2KXUqFOj0YhoVxH+Cl2iHx5VYUfIZRxfPUChUh11UqyLT5/SR86etSAM7EFlCNkHgHs=
+X-Received: by 2002:a05:6870:b411:b0:22e:e6:673 with SMTP id
+ x17-20020a056870b41100b0022e00e60673mr5611022oap.37.1712842429406; Thu, 11
+ Apr 2024 06:33:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240411-tso-v1-0-754f11abfbff@marcan.st>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <CAMhs-H82Ymc=isxu6AX4_s1QnNpSSNt74--ED1j7JxpzE=eCRg@mail.gmail.com>
+ <20240411123917.GA2180141@bhelgaas>
+In-Reply-To: <20240411123917.GA2180141@bhelgaas>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Thu, 11 Apr 2024 15:33:37 +0200
+Message-ID: <CAMhs-H_imwV4__G4_pt7eWHdyLPe9_fttWJ2a3x1ESP=B6bb_w@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
+ child node reg
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Jim Quinlan <jim2101024@gmail.com>, 
+	Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Srikanth Thokala <srikanth.thokala@intel.com>, 
+	Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang <jianjun.wang@mediatek.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Shawn Lin <shawn.lin@rock-chips.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>, 
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Michal Simek <michal.simek@amd.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
+	Tom Joseph <tjoseph@cadence.com>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hector,
+On Thu, Apr 11, 2024 at 2:39=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
+wrote:
+>
+> On Thu, Apr 11, 2024 at 08:13:18AM +0200, Sergio Paracuellos wrote:
+> > On Thu, Apr 11, 2024 at 8:01=E2=80=AFAM Krzysztof Kozlowski
+> > <krzysztof.kozlowski@linaro.org> wrote:
+> > > On 10/04/2024 23:26, Bjorn Helgaas wrote:
+> > > > On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote=
+:
+> > > >> MT7621 PCI host bridge has children which apparently are also PCI =
+host
+> > > >> bridges, at least that's what the binding suggest.
+> > > >
+> > > > What does it even mean for a PCI host bridge to have a child that i=
+s
+> > > > also a PCI host bridge?
+> > > >
+> > > > Does this mean a driver binds to the "parent" host bridge, enumerat=
+es
+> > > > the PCI devices below it, and finds a "child" host bridge?
+> >
+> > Yes, that is exactly what you can see on enumeration.
+> >
+> > The following is a typical boot trace where all bridges has a device al=
+so below:
+> >
+> > mt7621-pci 1e140000.pcie: host bridge /pcie@1e140000 ranges:
+> > mt7621-pci 1e140000.pcie:   No bus range found for /pcie@1e140000, usin=
+g [bus 00-ff]
+> > mt7621-pci 1e140000.pcie:      MEM 0x0060000000..0x006fffffff -> 0x0060=
+000000
+> > mt7621-pci 1e140000.pcie:       IO 0x001e160000..0x001e16ffff -> 0x0000=
+000000
+> > mt7621-pci 1e140000.pcie: PCIE0 enabled
+> > mt7621-pci 1e140000.pcie: PCIE1 enabled
+> > mt7621-pci 1e140000.pcie: PCIE2 enabled
+> > mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
+>
+> 1e140000.pcie is a host bridge.  It has some CPU-specific bus on the
+> upstream side, standard PCI (domain 0000, buses 00-ff) on the
+> downstream side.
+>
+> > pci 0000:00:00.0: [0e8d:0801] type 01 class 0x060400
+> > pci 0000:00:01.0: [0e8d:0801] type 01 class 0x060400
+> > pci 0000:00:02.0: [0e8d:0801] type 01 class 0x060400
+>
+> > pci 0000:01:00.0: [1b21:0611] type 00 class 0x010185
+>
+> > pci 0000:00:00.0: PCI bridge to [bus 01-ff]
+> > pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
+> > pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
+> > pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff pref]
+>
+> 00:00.0 looks like a PCIe Root Port to bus 01.  This is not a host
+> bridge; it's just a standard PCI-to-PCI bridge with PCI on both the
+> upstream and downstream sides.
+>
+> > pci 0000:02:00.0: [1b21:0611] type 00 class 0x010185
+>
+> > pci 0000:00:01.0: PCI bridge to [bus 02-ff]
+> > pci 0000:00:01.0:   bridge window [io  0x0000-0x0fff]
+> > pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff]
+> > pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff pref]
+>
+> 00:01.0 is another Root Port to bus 02.
+>
+> > pci 0000:03:00.0: [1b21:0611] type 00 class 0x010185
+>
+> > pci 0000:00:02.0: PCI bridge to [bus 03-ff]
+> > pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
+> > pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff]
+> > pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff pref]
+> > pci_bus 0000:03: busn_res: [bus 03-ff] end is updated to 03
+>
+> And 00:02.0 is a third Root Port to bus 03.
+>
+> > pci 0000:00:00.0: PCI bridge to [bus 01]
+> > pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
+> > pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
+> > pci 0000:00:00.0:   bridge window [mem 0x60100000-0x601fffff pref]
+> > pci 0000:00:01.0: PCI bridge to [bus 02]
+> > pci 0000:00:01.0:   bridge window [io  0x1000-0x1fff]
+> > pci 0000:00:01.0:   bridge window [mem 0x60200000-0x602fffff]
+> > pci 0000:00:01.0:   bridge window [mem 0x60300000-0x603fffff pref]
+> > pci 0000:00:02.0: PCI bridge to [bus 03]
+> > pci 0000:00:02.0:   bridge window [io  0x2000-0x2fff]
+> > pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
+> >
+> > > I think the question should be towards Mediatek folks. I don't know w=
+hat
+> > > this hardware is exactly, just looks like pci-pci-bridge. The driver
+> > > calls the children host bridges as "ports".
+> >
+> > You can see the topology here in my first driver submit cover letter
+> > message [0].
+> >
+> >  [0]: https://lore.kernel.org/all/CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2XdYTBv=
+T4R4MEOUB=3DWQ1g@mail.gmail.com/t/
+>
+> Nothing unusual here, this looks like the standard PCIe topology.
+>
+> What *might* be unusual is describing the Root Ports in DT.  Since
+> they are standard PCI devices, they shouldn't need DT description
+> unless there's some unusual power/clock/reset control or something
+> that is not discoverable via PCI enumeration.
 
-On Thu, Apr 11, 2024 at 09:51:19AM +0900, Hector Martin wrote:
-> x86 CPUs implement a stricter memory modern than ARM64 (TSO). For this
-> reason, x86 emulation on baseline ARM64 systems requires very expensive
-> memory model emulation. Having hardware that supports this natively is
-> therefore very attractive. Such hardware, in fact, exists. This series
-> adds support for userspace to identify when TSO is available and
-> toggle it on, if supported.
+It looks like it is necessary since every port has its own
+configuration registers, phy, clock, reset and interrupt.
 
-I'm probably going to make myself hugely unpopular here, but I have a
-strong objection to this patch series as it stands. I firmly believe
-that providing a prctl() to query and toggle the memory model to/from
-TSO is going to lead to subtle fragmentation of arm64 Linux userspace.
+Thanks,
+    Sergio Paracuellos
 
-It's not difficult to envisage this TSO switch being abused for native
-arm64 applications:
-
-  * A program no longer crashes when TSO is enabled, so the developer
-    just toggles TSO to meet a deadline.
-
-  * Some legacy x86 sources are being ported to arm64 but concurrency
-    is hard so the developer just enables TSO to (mostly) avoid thinking
-    about it.
-
-  * Some binaries in a distribution exhibit instability which goes away
-    in TSO mode, so a taskset-like program is used to run them with TSO
-    enabled.
-
-In all these cases, we end up with native arm64 applications that will
-either fail to load or will crash in subtle ways on CPUs without the TSO
-feature. Assuming that the application cannot be fixed, a better
-approach would be to recompile using stronger instructions (e.g.
-LDAR/STLR) so that at least the resulting binary is portable. Now, it's
-true that some existing CPUs are TSO by design (this is a perfectly
-valid implementation of the arm64 memory model), but I think there's a
-big difference between quietly providing more ordering guarantees than
-software may be relying on and providing a mechanism to discover,
-request and ultimately rely upon the stronger behaviour.
-
-An alternative option is to go down the SPARC RMO route and just enable
-TSO statically (although presumably in the firmware) for Apple silicon.
-I'm assuming that has a performance impact for native code?
-
-Will
-
-P.S. I briefly pondered the idea of the kernel toggling the bit in the
-ELF loader when e.g. it sees an x86 machine type but I suspect that
-doesn't really help with existing emulators and you'd still need a way
-to tell the emulator whether or not it was enabled.
+> Bjorn
