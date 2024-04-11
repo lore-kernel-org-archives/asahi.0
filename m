@@ -1,178 +1,127 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92E113CAA3
-	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 06:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB0213CA86
+	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 06:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712816415; cv=none; b=JyWdYIYSE3qQUva9Nh5wmMVaAS3BnBHOZHcgAt0AaoqASCS5Ip7Z0sQdKiFrSjWaefA29FJrVV1RnZ+QVUU8x3QdA4Go0Rnp37HavMJby7gZ2cxcTf/BteIjjnxCvBrYEuDQQpbGKSl/tLjaMDYyhAZz+sORT5uxJxEUGXO+eNg=
+	t=1712817442; cv=none; b=ZHISVD2x42YF0/DKPpa6TERoONJvWW81FXoz14C/C3Q2XZeUiNPyGZWkcZkGGvoPIhpQg34Xogybfmbjgnx0E17hS3HZxyH1aBX0SYE6lCgFxdIB54nsj0qcUJNuqParG9i9HkvvF2T5V3hFgEMRitMpsr1PxYjsLENwGt17BVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712816415; c=relaxed/simple;
-	bh=g1OyMHRe+/BTWY56+BAwp122k0FRFSoSgVC0hnwFTbk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UE4uUPR/n6FvvNzwPFgkNdlQb0mXToOyq1VpweCnByyEutaxrfqNSZAJ5daVK3VMv9U2UbgKgcElXtrknXBcHxkoffOZQXaptyV147dXhfaMFy9tCpsNMGRu7jc3f+0YgVJk4jhxmyi3Dvd8lybal7pTURtxWIC9ifsYROwZrbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l2FuNkUR; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1712817442; c=relaxed/simple;
+	bh=2ipZN9n0TtN3o+SfMKeB61oRs+EH1yEZUxvjc7CAjrE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jUGrpRgybC8TRRXF5cF9vq1WTKPCoad89chTkxxGotryrmMmhu1tlAGxCmQYv+BrgUfPFqLBVqcl3fbVL/20pYsFC9f0UOQypIT0HWrAXGuoqKj4hIVUZD0ZrLaenkHAYuN3PmC/mO8kKnfU3iCPqAvyeYsbOR2yyfCUfr2F98E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ea9FQBMU; arc=none smtp.client-ip=209.85.161.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l2FuNkUR"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-343cfa6faf0so5650677f8f.0
-        for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 23:20:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ea9FQBMU"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5aa17c29ba0so2829389eaf.3
+        for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 23:37:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1712816412; x=1713421212; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=bgxpPIyylub3C1vYGNABgvpdvgwuFFhNMQnYuhO6/Qw=;
-        b=l2FuNkURbIyQzF6CJcn5xWsoW7OkTpOLtk9MxlryG/fwBTIq9x4VvByUSn3mGH/fpl
-         4t7U4gBEsSTU3RPXbgzAmkDP1hwPYFECsYGV99ORry6mWmgZ7tGH7EqNEc9YDmAG0Nt0
-         itj5w3Mr3d7kYXyIp2SGAEDOjCw6LUJdner96hy41HDWVOMbL8+7n7Zri705HnMNTPHK
-         tVOlkOEoQcZv9QRAMtJIQB0TCbv6RIH5Q3/6QQ8na1kf+9ZD5N5i9E8/PZE6Sv12sfFS
-         Av83KYGM95CIA6k8HJgFx7TPNGvGW4l0KA9gYvIstWuoK8oTYP2Fx6MYxBn6tTIb56uO
-         33cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712816412; x=1713421212;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1712817440; x=1713422240; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bgxpPIyylub3C1vYGNABgvpdvgwuFFhNMQnYuhO6/Qw=;
-        b=EpUGbypPyTmxu4Hqb+sPX7Vy3tbfbIVDX82AWkc+7pZQcWYIsIZhFyRT2Hf1kzawA0
-         3JhqkPe+buY+hUp1diK7kLGJajH7ZA/rZRPG9lzRwoszXmOkjDpgKw+30ghz0HGsufkO
-         KB3uzc6QisnDRiTESti54VQ6joT3uUtLxCzUdgYoLSqmPrXFBaPVWObJiIieTi+QCcQw
-         Ux8B66efCHSliiEi4G1MKzhFcdJ5z73jFvh0SfWZk7m2IH94PYNS14HzBBHpOXcDKSac
-         6CXRj3e677Iyr4pjk/BKuHhX5EaS67qMBRyLVjLCmYAisv8mEUNFwJD7qS5xWr5RR09b
-         WiOg==
-X-Forwarded-Encrypted: i=1; AJvYcCXk2IYBlAyLrEtmlHJHsZax6L9QjcTIs17etwuNFSgz2cSdlulWMuYbBEpm7EUytbCvdBjBPJ0Q6QxtTLK3/y0o62eoPbI=
-X-Gm-Message-State: AOJu0YyJwd+zZm+THnZN1mTTygWeKfQ/FwHX9Of/6bZqSHzui2Y/Xr9t
-	l0QR2M/LjmT6tS6HbgM8qzfpzfkvP2CMCF1VsuuX1GLr7A8l6zQPSFiNYb7AXJE=
-X-Google-Smtp-Source: AGHT+IHaHJN8BQUEx5wDGMenFYndPpFo/ibtOb7EnK9HnWtenOFZW5jBUxSdMivgSidg+fuH2honog==
-X-Received: by 2002:adf:ffcb:0:b0:346:407a:a313 with SMTP id x11-20020adfffcb000000b00346407aa313mr4509081wrs.49.1712816412074;
-        Wed, 10 Apr 2024 23:20:12 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id l15-20020a5d560f000000b0033ea499c645sm982577wrv.4.2024.04.10.23.20.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 23:20:11 -0700 (PDT)
-Message-ID: <0336b752-ba98-497b-96d0-efc01ffbd93c@linaro.org>
-Date: Thu, 11 Apr 2024 08:20:07 +0200
+        bh=rVtF0FbxwDL1+EyVXXt8m5PuumkGURWxInjDGKcvjBg=;
+        b=Ea9FQBMUI+WNsZINVx5C02k3z4KJ9xR5S2t6PoCj6iWtGaQqPs3jlSdSQRDLtMjxhz
+         rS2+7n4PmuErKI1IWuBNMk6vQlIM/2/l1YWDhCZIgck9vfDO5tj0kCz/8XYzBhNlP/TC
+         8/n3HcROcSUNYmIEbZldYO0MlpL1i+IAa1cYrYtb+qXZXBkbPAe5xrfM6SO8w8ZZyKmO
+         zxYcSn+cXw3xJnL/nlodWPR83teH6EpKoIxIyQFGlWUVtgQeqLc555QsYXdQv/QlBJDD
+         ps6ASz65FrplqmV6agi8PqSmjDSZvOIglDzbqZrPUTcswFMdDxLyObNjiZ1oyoPyZ5uw
+         MZlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1712817440; x=1713422240;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rVtF0FbxwDL1+EyVXXt8m5PuumkGURWxInjDGKcvjBg=;
+        b=IU7MzoJdElbZKLY58q5I2ilVNYEz9PSK24WbixewO2afI86zq9rS/NBc3IF2rtXTXe
+         JM22/Yq5apDfA6X+Q2KRShcFSu8eR79XvpiMka4UCpEOWllmHXYh4C1PYxS9XFLghiBc
+         lM8SM5TPXA6mVlNZQq1MOwk+pnFNAF44ReRPLyNJubdgP9KVjMefCCmkfW2nscm7eT88
+         /b6eDq/aZnoZXf5wF8KqeXlwebw0HpTbhhKtt6+vRtqEPKdN6sxBvYrV52/n1FQ4CZHz
+         DV/sOL/AsbhWf0gZkhH22evofaNHV/Gf/kRvlzGEGBCE4Xam1QVdeRLhTNq1gjLtEj3R
+         FqRw==
+X-Forwarded-Encrypted: i=1; AJvYcCXIoRjh19dvcmHXNGTAwJX5CA07hsp0PWP55lhUT0FqYkSgU8qQAScC2p0rsNPmLLnye00kbvUMC9yz6FYJ6pTnTBs1ATg=
+X-Gm-Message-State: AOJu0Yze2vUgdqqQVZOr1Ucd4/0psHJMIGeC/jBat9Ao3HLgwcZhZufG
+	xSSEfbahDM2R850Y+rP5lB2QR9zudm0QxOx8oWAvHymyFSGZlmZzAchyQRmkf3bNlMTvDVbJvDA
+	5eUZ+dNTHoD1aP/hemAH1tvIsuMk=
+X-Google-Smtp-Source: AGHT+IES9majFVr22VozspwWyOs+YbISGsgQi1H0N7wgH6XHm1MFch0WdzdzAv98JrRwXB0nazk545ZDOwQPlvcyYH8=
+X-Received: by 2002:a05:6870:55cd:b0:22e:6b4e:d2ac with SMTP id
+ qk13-20020a05687055cd00b0022e6b4ed2acmr5468350oac.12.1712817440529; Wed, 10
+ Apr 2024 23:37:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20240410212638.GA2159326@bhelgaas> <458ce909-0616-487d-b4bd-42b58d059198@linaro.org>
+ <CAMhs-H82Ymc=isxu6AX4_s1QnNpSSNt74--ED1j7JxpzE=eCRg@mail.gmail.com> <0336b752-ba98-497b-96d0-efc01ffbd93c@linaro.org>
+In-Reply-To: <0336b752-ba98-497b-96d0-efc01ffbd93c@linaro.org>
+From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Date: Thu, 11 Apr 2024 08:37:09 +0200
+Message-ID: <CAMhs-H_yWFn7JvCYhVqELmBjwHO8KCU_UVE5XTas2WVJC1UsAw@mail.gmail.com>
 Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
  child node reg
-To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Jim Quinlan <jim2101024@gmail.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Srikanth Thokala <srikanth.thokala@intel.com>,
- Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang
- <jianjun.wang@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Daire McNamara <daire.mcnamara@microchip.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>,
- Marek Vasut <marek.vasut+renesas@gmail.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Shawn Lin <shawn.lin@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
- Jingoo Han <jingoohan1@gmail.com>,
- Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
- Michal Simek <michal.simek@amd.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Mark Kettenis <kettenis@openbsd.org>, Tom Joseph <tjoseph@cadence.com>,
- Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
- linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20240410212638.GA2159326@bhelgaas>
- <458ce909-0616-487d-b4bd-42b58d059198@linaro.org>
- <CAMhs-H82Ymc=isxu6AX4_s1QnNpSSNt74--ED1j7JxpzE=eCRg@mail.gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <CAMhs-H82Ymc=isxu6AX4_s1QnNpSSNt74--ED1j7JxpzE=eCRg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ray Jui <rjui@broadcom.com>, 
+	Scott Branden <sbranden@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Jim Quinlan <jim2101024@gmail.com>, 
+	Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Srikanth Thokala <srikanth.thokala@intel.com>, 
+	Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang <jianjun.wang@mediatek.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Shawn Lin <shawn.lin@rock-chips.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>, 
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Michal Simek <michal.simek@amd.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
+	Tom Joseph <tjoseph@cadence.com>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>, linux-pci@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/04/2024 08:13, Sergio Paracuellos wrote:
-> 
->>
->> I think the question should be towards Mediatek folks. I don't know what
->> this hardware is exactly, just looks like pci-pci-bridge. The driver
->> calls the children host bridges as "ports".
-> 
-> You can see the topology here in my first driver submit cover letter
-> message [0].
-> 
+On Thu, Apr 11, 2024 at 8:20=E2=80=AFAM Krzysztof Kozlowski
+<krzysztof.kozlowski@linaro.org> wrote:
+>
+> On 11/04/2024 08:13, Sergio Paracuellos wrote:
+> >
+> >>
+> >> I think the question should be towards Mediatek folks. I don't know wh=
+at
+> >> this hardware is exactly, just looks like pci-pci-bridge. The driver
+> >> calls the children host bridges as "ports".
+> >
+> > You can see the topology here in my first driver submit cover letter
+> > message [0].
+> >
+>
+> Useful diagram, thanks. It would be great if you could add it to the
+> binding description.
 
-Useful diagram, thanks. It would be great if you could add it to the
-binding description.
+Sure, I will do it depending on time hopefully sooner than later :-).
 
 Best regards,
-Krzysztof
+    Sergio Paracuellos
 
+>
+> Best regards,
+> Krzysztof
+>
