@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2B914F100;
-	Thu, 11 Apr 2024 14:21:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EC115A4AF;
+	Thu, 11 Apr 2024 16:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712845271; cv=none; b=K3mWneNr9+Hk5KLSLxdx22WsqBmDhzSqkvXa3NYvqqjz3bdiYzwrRDXParnKG/t6wJdkXy74SzBjg0oAEjll1IjhKvXhrerFU0YvdMFEB7W6aAZ3GQ78i1yM2G29QhxbXYWUMpzATxczrrIc/S6D5NrHgOzWcfLXM8XN/xMfi1Y=
+	t=1712851870; cv=none; b=Nhsh5S1oKzDA7EsR7YOsKzxI9dRbsxTPPfn84iutEdMmKBoxD1eZod1O8VZhf7TYL6gL+upVRhTaq3neFdScsdKPgyCiiGDDP+Rwf1GEBL1s/4qTMgnzCE9iL9VmYVBxOZ3boatGms7aEDmVCVHZ4+SqOQ9NbZDbmkCFLJTHdGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712845271; c=relaxed/simple;
-	bh=RDt5jlNMS3ucSwKcH7tgpvFGKzTFvccMBgH0b+eayeM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aVFa7a4W1PWrl+Pr4HGtwNMVimFU44ugZ6YMYZgLWhjD70EMPCOWCILrqPKlGqYcCoRTUUyDgHoeX2oiMTbXPPAEtIeZq0kWGYMGaSotvULdMLxzjiF3F/KuCWfbwJb8TJ6Ul1OqRxFhf6ucAS8IDYdN3CXekfuss9ThSpm+RVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FmnqtmXm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712851870; c=relaxed/simple;
+	bh=Co3kGhkNsPgacB/pabyCsenR+0gNcn0apDUzg988VHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=q18mJbNr1XEByVMCT5shHMfoltp5jkb+eTD+yntIt286pUr9i8Q5ob0UPCd9qtDc46reH9KA02c4CLwOharuqaHIWRxf2kIaY/Ks4FqzXH/TMEKgQtJv4LwV6I2MQQH19xLo5TNS9MMzravLv21fa/xmUeiBnziQdxk58tEjGCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rvm0S2oJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FmnqtmXm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07DE0C2BD10;
-	Thu, 11 Apr 2024 14:21:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rvm0S2oJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001FEC072AA;
+	Thu, 11 Apr 2024 16:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712845270;
-	bh=RDt5jlNMS3ucSwKcH7tgpvFGKzTFvccMBgH0b+eayeM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FmnqtmXmyodJdgHKHjF/o9qh0gQ3yPVudJEayUfxMetCRKixf7MadURZeFX5r6J9F
-	 KZO4x26OQWLGTjpaYAKntJwCodgLP+aDt47OO2TKPR3PsJ4isKj268a8KfvYJVeiUA
-	 xIhTuT3AZ/SJc2XgyX2Qg7zwimd9QfG4T/XfpBUGwOjo3qoholwNk1YikECUI0aeJ3
-	 JKccakGSkbBD0N+gV6mcpbFZG4UhhKtCGsuBFNPpBXQ3yDfgtOIize3x3mLBOom0s0
-	 clIRJHM0xExk3YKLWu8DH34d19gGTvnMgL6DQhTuO1wpS9k189rIpVZjfDsQEG42r9
-	 nLPeassxXKhKg==
-Date: Thu, 11 Apr 2024 09:21:07 -0500
-From: Rob Herring <robh@kernel.org>
-To: Bjorn Helgaas <helgaas@kernel.org>
+	s=k20201202; t=1712851870;
+	bh=Co3kGhkNsPgacB/pabyCsenR+0gNcn0apDUzg988VHA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=rvm0S2oJrwiPhJs3eMOF4f2WjbhaHXPCHhoQzlhlvGzTckM5NUJlGvZE//UJTbZuk
+	 7mUvnId3dLSEO383sQdQGizvtxlqOjpE6LHUGEUzOLcvm2FFMA5/b/WtwmbW9OxU3t
+	 vraPDqamiI8esjKLmEPlXpKeb3GokCNr0IyDHPJwJEbgyjnyrMewIrl/lr5uw3SXYu
+	 ufts0B5MaTMqZx4inTcApZhjiikn03+zpnbGKAZYEpPL3yc3b4UbwWwc/biOcTK9tx
+	 O2EDKKXK1jYU6zNUiteXtEM8WNQ9P2BCMa9UpGqUhrAINiWUMdVs8dvmVCMdMSalCs
+	 JbWrghBBIpbBg==
+Date: Thu, 11 Apr 2024 11:11:08 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Rob Herring <robh@kernel.org>
 Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
@@ -79,9 +79,7 @@ Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>,
 	linux-rockchip@lists.infradead.org
 Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
  child node reg
-Message-ID: <20240411142107.GA3537062-robh@kernel.org>
-References: <CAMhs-H82Ymc=isxu6AX4_s1QnNpSSNt74--ED1j7JxpzE=eCRg@mail.gmail.com>
- <20240411123917.GA2180141@bhelgaas>
+Message-ID: <20240411161108.GA2184354@bhelgaas>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -91,110 +89,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240411123917.GA2180141@bhelgaas>
+In-Reply-To: <20240411142107.GA3537062-robh@kernel.org>
 
-On Thu, Apr 11, 2024 at 07:39:17AM -0500, Bjorn Helgaas wrote:
-> On Thu, Apr 11, 2024 at 08:13:18AM +0200, Sergio Paracuellos wrote:
-> > On Thu, Apr 11, 2024 at 8:01 AM Krzysztof Kozlowski
-> > <krzysztof.kozlowski@linaro.org> wrote:
-> > > On 10/04/2024 23:26, Bjorn Helgaas wrote:
-> > > > On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote:
-> > > >> MT7621 PCI host bridge has children which apparently are also PCI host
-> > > >> bridges, at least that's what the binding suggest.
-> > > >
-> > > > What does it even mean for a PCI host bridge to have a child that is
-> > > > also a PCI host bridge?
+On Thu, Apr 11, 2024 at 09:21:07AM -0500, Rob Herring wrote:
+> On Thu, Apr 11, 2024 at 07:39:17AM -0500, Bjorn Helgaas wrote:
+> > On Thu, Apr 11, 2024 at 08:13:18AM +0200, Sergio Paracuellos wrote:
+> > > On Thu, Apr 11, 2024 at 8:01 AM Krzysztof Kozlowski
+> > > <krzysztof.kozlowski@linaro.org> wrote:
+> > > > On 10/04/2024 23:26, Bjorn Helgaas wrote:
+> > > > > On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote:
+> > > > >> MT7621 PCI host bridge has children which apparently are also PCI host
+> > > > >> bridges, at least that's what the binding suggest.
+> > > > >
+> > > > > What does it even mean for a PCI host bridge to have a child that is
+> > > > > also a PCI host bridge?
+> 
+> It should say 'root port' instead as the binding description correctly 
+> says.
 
-It should say 'root port' instead as the binding description correctly 
-says.
+OK, that makes a lot more sense, and we should fix the commit log.
 
-> > > >
-> > > > Does this mean a driver binds to the "parent" host bridge, enumerates
-> > > > the PCI devices below it, and finds a "child" host bridge?
+> > > > I think the question should be towards Mediatek folks. I don't know what
+> > > > this hardware is exactly, just looks like pci-pci-bridge. The driver
+> > > > calls the children host bridges as "ports".
+> > > 
+> > > You can see the topology here in my first driver submit cover letter
+> > > message [0].
+> > > 
+> > >  [0]: https://lore.kernel.org/all/CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2XdYTBvT4R4MEOUB=WQ1g@mail.gmail.com/t/
 > > 
-> > Yes, that is exactly what you can see on enumeration.
+> > Nothing unusual here, this looks like the standard PCIe topology.
 > > 
-> > The following is a typical boot trace where all bridges has a device also below:
-> > 
-> > mt7621-pci 1e140000.pcie: host bridge /pcie@1e140000 ranges:
-> > mt7621-pci 1e140000.pcie:   No bus range found for /pcie@1e140000, using [bus 00-ff]
-> > mt7621-pci 1e140000.pcie:      MEM 0x0060000000..0x006fffffff -> 0x0060000000
-> > mt7621-pci 1e140000.pcie:       IO 0x001e160000..0x001e16ffff -> 0x0000000000
-> > mt7621-pci 1e140000.pcie: PCIE0 enabled
-> > mt7621-pci 1e140000.pcie: PCIE1 enabled
-> > mt7621-pci 1e140000.pcie: PCIE2 enabled
-> > mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
+> > What *might* be unusual is describing the Root Ports in DT.  Since
+> > they are standard PCI devices, they shouldn't need DT description
+> > unless there's some unusual power/clock/reset control or something
+> > that is not discoverable via PCI enumeration.
 > 
-> 1e140000.pcie is a host bridge.  It has some CPU-specific bus on the
-> upstream side, standard PCI (domain 0000, buses 00-ff) on the
-> downstream side.
-> 
-> > pci 0000:00:00.0: [0e8d:0801] type 01 class 0x060400
-> > pci 0000:00:01.0: [0e8d:0801] type 01 class 0x060400
-> > pci 0000:00:02.0: [0e8d:0801] type 01 class 0x060400
-> 
-> > pci 0000:01:00.0: [1b21:0611] type 00 class 0x010185
-> 
-> > pci 0000:00:00.0: PCI bridge to [bus 01-ff]
-> > pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-> > pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
-> > pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff pref]
-> 
-> 00:00.0 looks like a PCIe Root Port to bus 01.  This is not a host
-> bridge; it's just a standard PCI-to-PCI bridge with PCI on both the
-> upstream and downstream sides.
-> 
-> > pci 0000:02:00.0: [1b21:0611] type 00 class 0x010185
-> 
-> > pci 0000:00:01.0: PCI bridge to [bus 02-ff]
-> > pci 0000:00:01.0:   bridge window [io  0x0000-0x0fff]
-> > pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff]
-> > pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff pref]
-> 
-> 00:01.0 is another Root Port to bus 02.
-> 
-> > pci 0000:03:00.0: [1b21:0611] type 00 class 0x010185
-> 
-> > pci 0000:00:02.0: PCI bridge to [bus 03-ff]
-> > pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
-> > pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff]
-> > pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff pref]
-> > pci_bus 0000:03: busn_res: [bus 03-ff] end is updated to 03
-> 
-> And 00:02.0 is a third Root Port to bus 03.
-> 
-> > pci 0000:00:00.0: PCI bridge to [bus 01]
-> > pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
-> > pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
-> > pci 0000:00:00.0:   bridge window [mem 0x60100000-0x601fffff pref]
-> > pci 0000:00:01.0: PCI bridge to [bus 02]
-> > pci 0000:00:01.0:   bridge window [io  0x1000-0x1fff]
-> > pci 0000:00:01.0:   bridge window [mem 0x60200000-0x602fffff]
-> > pci 0000:00:01.0:   bridge window [mem 0x60300000-0x603fffff pref]
-> > pci 0000:00:02.0: PCI bridge to [bus 03]
-> > pci 0000:00:02.0:   bridge window [io  0x2000-0x2fff]
-> > pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
-> > 
-> > > I think the question should be towards Mediatek folks. I don't know what
-> > > this hardware is exactly, just looks like pci-pci-bridge. The driver
-> > > calls the children host bridges as "ports".
-> > 
-> > You can see the topology here in my first driver submit cover letter
-> > message [0].
-> > 
-> >  [0]: https://lore.kernel.org/all/CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2XdYTBvT4R4MEOUB=WQ1g@mail.gmail.com/t/
-> 
-> Nothing unusual here, this looks like the standard PCIe topology.
-> 
-> What *might* be unusual is describing the Root Ports in DT.  Since
-> they are standard PCI devices, they shouldn't need DT description
-> unless there's some unusual power/clock/reset control or something
-> that is not discoverable via PCI enumeration.
+> It's only unusual because typically there's only 1 RP per host bridge 
+> and properties which really apply to the RP get stuck in the host bridge 
+> node because we don't have a RP node. An example is perst-gpios. That's 
+> not a property of the RP either, but the RP is the upstream side of a 
+> slot and we often don't have a node for the device either.
 
-It's only unusual because typically there's only 1 RP per host bridge 
-and properties which really apply to the RP get stuck in the host bridge 
-node because we don't have a RP node. An example is perst-gpios. That's 
-not a property of the RP either, but the RP is the upstream side of a 
-slot and we often don't have a node for the device either.
+Makes sense.
 
-Rob
+I'm still confused about one thing, maybe just because I don't really
+know how to read these bindings.  The binding now looks like this:
+
+  properties:
+    compatible:
+      const: mediatek,mt7621-pci
+
+    reg:
+      items:
+        - description: host-pci bridge registers
+        - description: pcie port 0 RC control registers       # A
+        - description: pcie port 1 RC control registers       # A
+        - description: pcie port 2 RC control registers       # A
+
+  patternProperties:
+    '^pcie@[0-2],0$':
+      type: object
+      $ref: /schemas/pci/pci-pci-bridge.yaml#
+
+      properties:
+        reg:                                                  # B
+          maxItems: 1
+
+It looks like the "A" items are separate things from the "B" items?
+
+But I think the relevant code is here:
+
+  mt7621_pcie_probe
+    mt7621_pcie_parse_dt
+      pcie->base = devm_platform_ioremap_resource(pdev, 0)             # 1
+      for_each_available_child_of_node(node, child)
+        mt7621_pcie_parse_port
+          port->base = devm_platform_ioremap_resource(pdev, slot + 1)  # 2
+
+where it looks like both "1" and "2" use the items in the "A" list,
+i.e., resources 0, 1, 2, 3, all from the same platform device.  Is
+there code that uses the "B" item that this patch adds?
+
+Bjorn
