@@ -1,122 +1,194 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A80B1D558
-	for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 23:32:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE19C79DC
+	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 00:51:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712791976; cv=none; b=aziFNerYV/0V4+Bm4ymn7xRwfGwse9CbZVHF2qBAAOUPZZIEZy6ND3Y5redTp9bzcqng9E539wQTgoZkAq6Yp/a/i6P/vhhe0z91ozwsNzbvBEBLz9nyxwxH7FQ8J2tpnRhuRUSQboGcM1zOJ+Ws0zj0CzUCH5jUA8mqcBcrLFs=
+	t=1712796697; cv=none; b=NqMYCCMMUwXLu/1VhUWVAtKp17HQeIsTCLRkuq6YBlYeAmZdrmSP5u8a++/Kc0rvl9/9dfWx0j6nS27+4rsxzTIvhviT3Qz7NhYTweVvuQSxxzxsp8D/MvutYjTOudu4fW9khjtC+2M8XUE7aeeyZNevEQ65puLzcnBZ3hVup1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712791976; c=relaxed/simple;
-	bh=j0uyhERivx0zpo5d7Uab//m+L+A7uhY7E/Nr6dO6BaY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Gy/a2tkKO+bEA4aZ2Cw/B95Qru1gFZbUacXxYWuKebtZ/h1oqmKENSh+Vuae0rR74ElrkZiWHH3v3qDrZW81h7Q7vrI14odSqLLYKGvMGMFifyDtAI4fCEJ4tuWLQO7DShPjn/utO0iArzfimLd9nitxBn4pU67zz/YFbJ1B9gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=L/u/bRB/; arc=none smtp.client-ip=212.63.210.85
+	s=arc-20240116; t=1712796697; c=relaxed/simple;
+	bh=nxya/b7E+A6BVmNU6QddSmRkpeeUmd91NwPZg8zTcWA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=s9cjyC6M63V54cprWTN9fr/JLEcmaCH2sNCepcpHWiV4+LW6iLEny9wjLEAKIWiEfLSdWFVfE/wcrhgSLdVGvGWDODDV3I8k12dRtax7uWDEViYcK6cg3CzXTn8GX++bwBuFyLYjG1c1Bfer2gYve6bOQi66VTFCU5yLXfC0nq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=ylASkj0g; arc=none smtp.client-ip=212.63.210.85
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="L/u/bRB/"
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="ylASkj0g"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id C5EE5425B7;
-	Wed, 10 Apr 2024 23:23:24 +0000 (UTC)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 05645425BB;
+	Thu, 11 Apr 2024 00:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1712791409; bh=j0uyhERivx0zpo5d7Uab//m+L+A7uhY7E/Nr6dO6BaY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=L/u/bRB/7IZ0MsT0QSxUrZPrLzui36sFJM8ktHUciTh1lDiFPMbf2gUhQGg9CvIaM
-	 MCiYGOG9VRexB1zg5wDgb3XQozR71K0Elc//dCm8H5gBFtcbDcHXJIqLwjuvmqQRqx
-	 v3OddNK5sgpwShPNplUJE2XRmE7veOXg6T9yyPaKokJvr7TEpPCasUoiGiNneUiANE
-	 tqiuqLK+n4mj0nXsA9JaXPuYt7wI0AdDYyvCatJp53oN2HWDB1ybwCtLXRRBej8x6Q
-	 340/SSgLiv6NCspLpp7JLrAXsGt2C7O49h6Ky/xqEZewhT36oVFJQuQhGqYlYoHgH1
-	 SNLbQUkGb6cbw==
-Message-ID: <f4f53335-eba9-4c71-b64d-ca2c65c29a74@marcan.st>
-Date: Thu, 11 Apr 2024 08:23:23 +0900
+	t=1712796690; bh=nxya/b7E+A6BVmNU6QddSmRkpeeUmd91NwPZg8zTcWA=;
+	h=From:Subject:Date:To:Cc;
+	b=ylASkj0gP/QMhmRNIvwKuEdCIVPxgosdu2BqIWIWtVcA+4sxwIfsCYxeYUd8Oig5A
+	 lrgYWXm3bTQWGn+DRkaoCV/0PUOcKJujcyC1l+JpuIF9dnY5DKFXCZP8Mwe29QeDpd
+	 vNwZ5LmEox/uyZgWoWP2ioV4Lvx9KnrJM8FNuWGjA+oItbpDBFqFdDWVfkEMNFM61j
+	 lN38i36EcHO6GN9i3eAY2BjNe0G936qUWj09l25T7TrGXKtGn+7un5IToz0G3vfUHY
+	 64syV6TV2sOkgUf4TNcr/Vu+MZ82LWbf3WJAZd5CavNjnETt9+MLLwnuZNSBssTPmd
+	 u3TiC55+C7SWQ==
+From: Hector Martin <marcan@marcan.st>
+Subject: [PATCH 0/4] arm64: Support the TSO memory model
+Date: Thu, 11 Apr 2024 09:51:19 +0900
+Message-Id: <20240411-tso-v1-0-754f11abfbff@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] tso: aarch64: Expose TSO for virtualized linux on
- Apple Silicon
-To: Zayd Qumsieh <zayd_qumsieh@apple.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Mateusz Guzik <mjguzik@gmail.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>, Marc Zyngier
- <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Miguel Luis <miguel.luis@oracle.com>, Joey Gouly <joey.gouly@arm.com>,
- Christoph Paasch <cpaasch@apple.com>, Kees Cook <keescook@chromium.org>,
- Sami Tolvanen <samitolvanen@google.com>, Baoquan He <bhe@redhat.com>,
- Lecopzer Chen <lecopzer.chen@mediatek.com>,
- Joel Granados <j.granados@samsung.com>, Dawei Li <dawei.li@shingroup.cn>,
- Andrew Morton <akpm@linux-foundation.org>,
- Florent Revest <revest@chromium.org>, David Hildenbrand <david@redhat.com>,
- Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>,
- Josh Triplett <josh@joshtriplett.org>, Oleg Nesterov <oleg@redhat.com>,
- Helge Deller <deller@gmx.de>, Zev Weiss <zev@bewilderbeest.net>,
- Ondrej Mosnacek <omosnace@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Justin Lu <ih_justin@apple.com>, Asahi Linux <asahi@lists.linux.dev>
-References: <20240410211652.16640-1-zayd_qumsieh@apple.com>
-From: Hector Martin <marcan@marcan.st>
-Content-Language: en-US
-In-Reply-To: <20240410211652.16640-1-zayd_qumsieh@apple.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAc0F2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDE0ND3ZLifN1UC7O0lOTUJEuTJAsloMqCotS0zAqwKdGxtbUA7VNoR1U
+ AAAA=
+To: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+ Mark Rutland <mark.rutland@arm.com>
+Cc: Zayd Qumsieh <zayd_qumsieh@apple.com>, Justin Lu <ih_justin@apple.com>, 
+ Ryan Houdek <Houdek.Ryan@fex-emu.org>, Mark Brown <broonie@kernel.org>, 
+ Ard Biesheuvel <ardb@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>, 
+ Anshuman Khandual <anshuman.khandual@arm.com>, 
+ Oliver Upton <oliver.upton@linux.dev>, Miguel Luis <miguel.luis@oracle.com>, 
+ Joey Gouly <joey.gouly@arm.com>, Christoph Paasch <cpaasch@apple.com>, 
+ Kees Cook <keescook@chromium.org>, Sami Tolvanen <samitolvanen@google.com>, 
+ Baoquan He <bhe@redhat.com>, Joel Granados <j.granados@samsung.com>, 
+ Dawei Li <dawei.li@shingroup.cn>, Andrew Morton <akpm@linux-foundation.org>, 
+ Florent Revest <revest@chromium.org>, David Hildenbrand <david@redhat.com>, 
+ Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>, 
+ Josh Triplett <josh@joshtriplett.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Helge Deller <deller@gmx.de>, Zev Weiss <zev@bewilderbeest.net>, 
+ Ondrej Mosnacek <omosnace@redhat.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Asahi Linux <asahi@lists.linux.dev>, Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5393; i=marcan@marcan.st;
+ h=from:subject:message-id; bh=nxya/b7E+A6BVmNU6QddSmRkpeeUmd91NwPZg8zTcWA=;
+ b=owGbwMvMwCUm+yP4NEe/cRLjabUkhjRxE26+LT/3PJ/+89teKROlYJ/0zYWnTohs2sS+jP/Zy
+ im7K/9LdJSyMIhxMciKKbI0nug91e05/Zy6asp0mDmsTCBDGLg4BWAib18zMlzcNZ+/2EZF/cKx
+ zGbzopnLArb8mlc9szl9bi2H2jb/Fy4M/zNOivxMeZv+2d5YV+jmu167wwYZQlFiB9odJRrC1Rb
+ E8AAA
+X-Developer-Key: i=marcan@marcan.st; a=openpgp;
+ fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
-On 2024/04/11 6:16, Zayd Qumsieh wrote:
-> x86 CPUs use a TSO memory model. Apple Silicon CPUs have the ability to
-> selectively use a TSO memory model. This can be done by setting the
-> ACTLR.TSOEN bit to 1. This feature is useful for x86 emulators, since it
-> removes the need for emulators to insert memory barriers in order to abide
-> by the TSO memory model. This patch series will add ACTLR.TSOEN support to
-> virtualized linux on Apple Silicon machines. Userspace will be able to use
-> a prctl to change the memory model of the CPU from the default ARM64 memory
-> model to a TSO memory model.
-> 
-> A simple test can be used to determine if the TSO memory model is in use.
-> This must be done on Apple Silicon MacOS Sonoma version 14.4 or later,
-> since earlier versions do not support modification of the TSOEN bit.
-> https://github.com/saagarjha/TSOEnabler/blob/master/testtso/main.c
-> 
-> This program will hang indefinitely if TSO is in use, and will crash almost
-> immediately if it is not in use.
+x86 CPUs implement a stricter memory modern than ARM64 (TSO). For this
+reason, x86 emulation on baseline ARM64 systems requires very expensive
+memory model emulation. Having hardware that supports this natively is
+therefore very attractive. Such hardware, in fact, exists. This series
+adds support for userspace to identify when TSO is available and
+toggle it on, if supported.
 
-Well this is unexpected, given I talked to Justin Lu at Apple back in
-December and I thought our plan was to work together on the series I've
-had cooking in the Asahi tree [1] for a while now, which is actually
-shipping in thousands of Asahi Linux systems in production and actually
-already supported by the FEX-Emu project with our ABI. You CCed 30+
-people, but not me nor the asahi@lists.linux.dev mailing list...
+Some ARM64 CPUs intrinsically implement the TSO memory model, while
+others expose is as an IMPDEF control. Apple Silicon SoCs are in the
+latter category. Using TSO for x86 emulation on chips that support it
+has been shown to provide a massive performance boost [1].
 
-[1] https://github.com/AsahiLinux/linux/tree/bits/220-tso
+Patch 1 introduces the PR_{SET,GET}_MEM_MODEL userspace control, which
+is initially not implemented for any architectures.
 
-Given that we're here now, I'll send out my series for review and see
-what people think about that one.
+Patch 2 implements it for CPUs which are known, to the best of my
+knowledge, to always implement the TSO memory model unconditionally.
+This uses the cpufeature mechanism to only enable this if *all* cores in
+the system meet the requirements.
 
-> 
-> Zayd Qumsieh (3):
->   tso: aarch64: allow linux kernel to read/write ACTLR.TSOEN
->   tso: aarch64: context-switch tso bit on thread switch
->   tso: aarch64: allow userspace to set tso bit using prctl
-> 
->  arch/arm64/Kconfig                 | 19 +++++++++
->  arch/arm64/include/asm/processor.h |  4 ++
->  arch/arm64/include/asm/sysreg.h    |  7 ++++
->  arch/arm64/include/asm/tso.h       | 19 +++++++++
->  arch/arm64/kernel/Makefile         |  2 +-
->  arch/arm64/kernel/process.c        | 61 +++++++++++++++++++++++++++++
->  arch/arm64/kernel/tso.c            | 62 ++++++++++++++++++++++++++++++
->  include/uapi/linux/prctl.h         |  9 +++++
->  kernel/sys.c                       | 11 ++++++
->  9 files changed, 193 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm64/include/asm/tso.h
->  create mode 100644 arch/arm64/kernel/tso.c
-> 
+Patch 3 adds the scaffolding necesasry to save/restore the ACTLR_EL1
+register across context switches. This register contains IMPDEF flags
+related to CPU execution, and on Apple CPUs this is where the runtime
+TSO toggle bit is implemented. Other CPUs could conceivably benefit from
+this scaffolding if they also use ACTLR_EL1 for things that could
+ostensibly be runtime controlled and context-switched. For this to work,
+ACTLR_EL1 must have a uniform layout across all cores in the system.
 
-- Hector
+Finally, patch 4 implements PR_{SET,GET}_MEM_MODEL for Apple CPUs by
+hooking it up to flip the appropriate ACTLR_EL1 bit when the Apple TSO
+feature is detected (on all CPUs, which also implies the uniform
+ACTLR_EL1 layout).
+
+This series has been brewing in the downstream Asahi Linux tree for a
+while now, and ships to thousands of users. A subset have been using it
+with FEX-Emu, which already supports this feature. This rebase on
+v6.9-rc1 is only build-tested (all intermediate commits with and without
+the config enabled, on ARM64) but I'll update the downstream branch soon
+with this version and get it pushed out to users/testers.
+
+The Apple support works on bare metal and *should* work exactly the same
+way on macOS VMs (as alluded to by Zayd in his independent submission [3]),
+though I haven't personally verified this. KVM support for this is left
+for a future patchset.
+
+(Apologies for the large Cc: list; I want to make sure nobody who got
+Cced on Zayd's alternate take is left out of this one.) 
+
+[1] https://fex-emu.com/FEX-2306/
+[2] https://github.com/AsahiLinux/linux/tree/bits/220-tso
+[3] https://lore.kernel.org/lkml/20240410211652.16640-1-zayd_qumsieh@apple.com/
+
+To: Catalin Marinas <catalin.marinas@arm.com>
+To: Will Deacon <will@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Zayd Qumsieh <zayd_qumsieh@apple.com>
+Cc: Justin Lu <ih_justin@apple.com>
+Cc: Ryan Houdek <Houdek.Ryan@fex-emu.org>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: Oliver Upton <oliver.upton@linux.dev>
+Cc: Miguel Luis <miguel.luis@oracle.com>
+Cc: Joey Gouly <joey.gouly@arm.com>
+Cc: Christoph Paasch <cpaasch@apple.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>
+Cc: Baoquan He <bhe@redhat.com>
+Cc: Joel Granados <j.granados@samsung.com>
+Cc: Dawei Li <dawei.li@shingroup.cn>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Florent Revest <revest@chromium.org>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Stefan Roesch <shr@devkernel.io>
+Cc: Andy Chiu <andy.chiu@sifive.com>
+Cc: Josh Triplett <josh@joshtriplett.org>
+Cc: Oleg Nesterov <oleg@redhat.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Zev Weiss <zev@bewilderbeest.net>
+Cc: Ondrej Mosnacek <omosnace@redhat.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Asahi Linux <asahi@lists.linux.dev>
+
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+Hector Martin (4):
+      prctl: Introduce PR_{SET,GET}_MEM_MODEL
+      arm64: Implement PR_{GET,SET}_MEM_MODEL for always-TSO CPUs
+      arm64: Introduce scaffolding to add ACTLR_EL1 to thread state
+      arm64: Implement Apple IMPDEF TSO memory model control
+
+ arch/arm64/Kconfig                        | 14 ++++++
+ arch/arm64/include/asm/apple_cpufeature.h | 15 +++++++
+ arch/arm64/include/asm/cpufeature.h       | 10 +++++
+ arch/arm64/include/asm/processor.h        |  3 ++
+ arch/arm64/kernel/Makefile                |  3 +-
+ arch/arm64/kernel/cpufeature.c            | 11 ++---
+ arch/arm64/kernel/cpufeature_impdef.c     | 61 ++++++++++++++++++++++++++
+ arch/arm64/kernel/process.c               | 71 +++++++++++++++++++++++++++++++
+ arch/arm64/kernel/setup.c                 |  8 ++++
+ arch/arm64/tools/cpucaps                  |  2 +
+ include/linux/memory_ordering_model.h     | 11 +++++
+ include/uapi/linux/prctl.h                |  5 +++
+ kernel/sys.c                              | 21 +++++++++
+ 13 files changed, 229 insertions(+), 6 deletions(-)
+---
+base-commit: 4cece764965020c22cff7665b18a012006359095
+change-id: 20240411-tso-e86fdceb94b8
+
+Best regards,
+-- 
+Hector Martin <marcan@marcan.st>
+
