@@ -1,210 +1,179 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C9E29CE6
-	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 01:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6EC13CA82
+	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 06:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712799528; cv=none; b=ecCjg9XyqoMUpn+cCh5o3wwr0W7RlIH/bGYHUYMW+MzKUUnszye56w/tveolt8AjQp6lZYjohU1uuxxSnh5n99IimPIjxl6Y/qricDe4NXHwnm1iqFtazZhECuI76QVrHCy51OohzVyxttnhvYv0qheOGZEar4qb3pcZJs82LKY=
+	t=1712815305; cv=none; b=uNQ0QpCLG9s+Al9PJgbqKoo9qfvabN71UjQwAzgaaWXWPYnUnN/nZN4yNcNYdHoxn7VXLARSOvHulzZQmI0KXnG0R1wJEQV6FJSKTQEjybrpzLLP+f7rOyizlfEOa7lbeWf3DYj1RFUsQZkaNPDyeeKDnh0ReG0X+e42JYY7oTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712799528; c=relaxed/simple;
-	bh=MCCB7pBGruwYdMlJw665wOkukt6AwC+vb1JVK5cpg54=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qu1SL882ZT84GnENdvFPEw+Gaz/BWDVf1TWGDWHBFprhEt6W/W5dY+Q+4XzoHwuIpth9ClVDmpoSR5QqLyl/1ov/ya0zHU+PBgNPVwKFTsmQdH70o3+leoVU1iIDCF8gqYadPUCCSNitWjqyBCmOQdtrqFVFm/CEW/ZlGNiJn7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-56e2ac1c16aso7536442a12.0
-        for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 18:38:46 -0700 (PDT)
+	s=arc-20240116; t=1712815305; c=relaxed/simple;
+	bh=0j1wO6gT1rsgYI/sKzrSCM/PFQz4FqHTMhfoYhp7GDo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HhBfuDwdiyW4x77IPeefZBEG8jBekew/FYhuPiWOdkkebycp5Rl7j7AXtMbVWYwWUXE/JVIiK9J6h/RRw3AyigJW+L6w7bihwcnmNsLBOKBLFew7XDygw5h8ZCGC/ekOu0bMMueOxWFw5Xo+YNGh1jxw+TGQqEDQ0T45rVUPleA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eT4oRZGd; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eT4oRZGd"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-417d02ab780so3866325e9.3
+        for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 23:01:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1712815302; x=1713420102; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=v8fmohO7T1++synaauLEpAb8emlhUfZcFIxEX439dfQ=;
+        b=eT4oRZGdv3+qoZXg3PFnqFdL7BgtiKIilcfAjdb6isGctxCq/IKAXwOLg7/WDQ6CU4
+         htmgRO5iCd07R+DizHOTPOUauGnIGilM7+hx2Rd9CuhbuYBORCVxp1vMyCOgNnH5mjtl
+         YofudODsWdsBjzOFX0q+SwciLgXKns3vTJXNMvr1seXFcr/dqGIFKsNLvkKVSD57cP7Q
+         lPe06XWh/R1XoY9i5jwr27Bang5U3J88hw5sMx6KcHgbDpcUp7UBTKV2XhR7qNl2HDw0
+         ZeMgZElM4D/CP4EuWKrnY5psJ9z0NwpntVN79ychKPBJ6ee7gzMHyXg33zfC963psrkS
+         u1CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712799524; x=1713404324;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z5DCUyb/Xc4qjbfnJ52wsfA9f/5eaB6rvPGsloDB4HU=;
-        b=iRU/edxwHcwLp8X6we/cebAGSws/g7th1szLs3ocXPCurIwadUpph7Yk8EVjZlCnmn
-         LpvT9Sg2mYTavXlCumddhPVunDgibnsbgCmyO0jrgDGaKDRXTTOXlvfI8TGv1rdr976P
-         freCf1x9sR2wSxLPoA0IA3NRqJz7SyzKC5CZmxzgvuad3thMQ31DU7DzkIWbZSAE2zCV
-         7Vt+4ERyEGFpa+KE8X2D9IuxtS1RR1YuAmJrpm2T3aux/79zsuOofdGpI9OeI77/xaX5
-         CiCcWzJceCy41uOQhSCoKoGKgaI/9ImOI0q6o32QscLWWPtN1ZHpgrcv3mBnhXEVaI9+
-         2Yeg==
-X-Forwarded-Encrypted: i=1; AJvYcCWg4ZetKgx75TWMIEF4cr6jlmkpv3dPYPNFHx/oT0wOqKCR4CyLYwJJSXU6J1UD+LgYE5jhdjhYny2m6AC0Gkzt3kY+5L4=
-X-Gm-Message-State: AOJu0Yy7JMb+d6ZgBdMdTYwJ3Q2Yulamvsz9IJWEAdP+d2xCtvCdI9Ke
-	i/v1Ed0/+TTQF1a6IRpCB19Oi/mhQen4b9CJ2/VO3Wl191hbi8CaGu3vrY5hlaA=
-X-Google-Smtp-Source: AGHT+IFQQg+AKVVxbzSo7+1XPtBzAMGGg6QP/wnkK0t2RP7L+mL9SDvCLfSEmr+S8HtIUgbkXReAcQ==
-X-Received: by 2002:a17:906:3492:b0:a51:b931:59c2 with SMTP id g18-20020a170906349200b00a51b93159c2mr2914816ejb.73.1712799524424;
-        Wed, 10 Apr 2024 18:38:44 -0700 (PDT)
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
-        by smtp.gmail.com with ESMTPSA id jw24-20020a170906e95800b00a51adace6ebsm252591ejb.79.2024.04.10.18.38.44
-        for <asahi@lists.linux.dev>
+        d=1e100.net; s=20230601; t=1712815302; x=1713420102;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v8fmohO7T1++synaauLEpAb8emlhUfZcFIxEX439dfQ=;
+        b=LN7FZ6r855PdTaA4S8BH/uyUxAuWTg56ocrEBZSHr5iQW8bKULLZh/k9nLQrMDHYvf
+         1M5lCb84x5wcweko5WcQSZrqgXpajoq034LuCCWRixQ5BZ8oGj43XnvY5XI2ShjxHevO
+         xKiNkjHeFJiB7sOS8VzAAGHjrWqIGdt2zuG84xE4KdZkq4KC3Ds1muAaHBupmnRlRniC
+         nFd1ERWiXpJ73AKi0c287Ux+bkeYxd+HbC4VKSmysvKqJWWpxo408rqp1Sx2CN7OhZQG
+         lM71znngrCoTyScnbWr9X+C1g0eiHV30gBNJIQ0ITt4N3F6jyV0XEVY0v/+R6l1cCTFp
+         /tzg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNamElzLYNnwOtXcctCvAge/2D68KQP3cTAKlBe57TZck77OsBZSR+s2qFWuIY7PpCOhsaX077mrT/KC/NDqfvKnF349c=
+X-Gm-Message-State: AOJu0Yzblfo55tXLAJXBgODHrdu64UppV5nikn3tD7rwHhUvDBGRAJuG
+	Qr+NOxSQI5p0MueUGvyI8l25lh0k3LAxj3vh3sZ/yQSqbZRFiCYP/p4uHMYXrZ8=
+X-Google-Smtp-Source: AGHT+IExh/RwpZU2Xew7FQyFiljXtBGSrR2vUKJVXz5J8zfz2RaNPajH4w4YfMSAkgHDGGpC1LSCXg==
+X-Received: by 2002:a05:600c:46cd:b0:416:bed3:e537 with SMTP id q13-20020a05600c46cd00b00416bed3e537mr3400865wmo.38.1712815301511;
+        Wed, 10 Apr 2024 23:01:41 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.16])
+        by smtp.gmail.com with ESMTPSA id ay7-20020a05600c1e0700b00417d4f60692sm1151772wmb.44.2024.04.10.23.01.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Apr 2024 18:38:44 -0700 (PDT)
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a51a1c8d931so711572566b.0
-        for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 18:38:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUpXszivJNG6d/2aMnUmAc/FFoCC3EMCYcdWMMRIvm9ct8yoyU139Z8/jb429FpVkiYnS02t3+P14ABNoOWNIy9CCRpkC8=
-X-Received: by 2002:a17:906:cb8a:b0:a51:d7c8:300c with SMTP id
- mf10-20020a170906cb8a00b00a51d7c8300cmr2914356ejb.17.1712799503901; Wed, 10
- Apr 2024 18:38:23 -0700 (PDT)
+        Wed, 10 Apr 2024 23:01:40 -0700 (PDT)
+Message-ID: <458ce909-0616-487d-b4bd-42b58d059198@linaro.org>
+Date: Thu, 11 Apr 2024 08:01:37 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240411-tso-v1-0-754f11abfbff@marcan.st>
-In-Reply-To: <20240411-tso-v1-0-754f11abfbff@marcan.st>
-From: Neal Gompa <neal@gompa.dev>
-Date: Wed, 10 Apr 2024 21:37:47 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je8Y8+n5N-vLh0icELgWm+L1eRchqxX28Hg_mi9Bam+xRA@mail.gmail.com>
-Message-ID: <CAEg-Je8Y8+n5N-vLh0icELgWm+L1eRchqxX28Hg_mi9Bam+xRA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] arm64: Support the TSO memory model
-To: Hector Martin <marcan@marcan.st>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Zayd Qumsieh <zayd_qumsieh@apple.com>, Justin Lu <ih_justin@apple.com>, 
-	Ryan Houdek <Houdek.Ryan@fex-emu.org>, Mark Brown <broonie@kernel.org>, 
-	Ard Biesheuvel <ardb@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>, 
-	Anshuman Khandual <anshuman.khandual@arm.com>, Oliver Upton <oliver.upton@linux.dev>, 
-	Miguel Luis <miguel.luis@oracle.com>, Joey Gouly <joey.gouly@arm.com>, 
-	Christoph Paasch <cpaasch@apple.com>, Kees Cook <keescook@chromium.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Baoquan He <bhe@redhat.com>, 
-	Joel Granados <j.granados@samsung.com>, Dawei Li <dawei.li@shingroup.cn>, 
-	Andrew Morton <akpm@linux-foundation.org>, Florent Revest <revest@chromium.org>, 
-	David Hildenbrand <david@redhat.com>, Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>, 
-	Josh Triplett <josh@joshtriplett.org>, Oleg Nesterov <oleg@redhat.com>, Helge Deller <deller@gmx.de>, 
-	Zev Weiss <zev@bewilderbeest.net>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Asahi Linux <asahi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
+ child node reg
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Jim Quinlan <jim2101024@gmail.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Srikanth Thokala <srikanth.thokala@intel.com>,
+ Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang
+ <jianjun.wang@mediatek.com>,
+ Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marek Vasut <marek.vasut+renesas@gmail.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
+ Michal Simek <michal.simek@amd.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>, Tom Joseph <tjoseph@cadence.com>,
+ Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
+ linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20240410212638.GA2159326@bhelgaas>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20240410212638.GA2159326@bhelgaas>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 10, 2024 at 8:51=E2=80=AFPM Hector Martin <marcan@marcan.st> wr=
-ote:
->
-> x86 CPUs implement a stricter memory modern than ARM64 (TSO). For this
-> reason, x86 emulation on baseline ARM64 systems requires very expensive
-> memory model emulation. Having hardware that supports this natively is
-> therefore very attractive. Such hardware, in fact, exists. This series
-> adds support for userspace to identify when TSO is available and
-> toggle it on, if supported.
->
-> Some ARM64 CPUs intrinsically implement the TSO memory model, while
-> others expose is as an IMPDEF control. Apple Silicon SoCs are in the
-> latter category. Using TSO for x86 emulation on chips that support it
-> has been shown to provide a massive performance boost [1].
->
-> Patch 1 introduces the PR_{SET,GET}_MEM_MODEL userspace control, which
-> is initially not implemented for any architectures.
->
-> Patch 2 implements it for CPUs which are known, to the best of my
-> knowledge, to always implement the TSO memory model unconditionally.
-> This uses the cpufeature mechanism to only enable this if *all* cores in
-> the system meet the requirements.
->
-> Patch 3 adds the scaffolding necesasry to save/restore the ACTLR_EL1
-> register across context switches. This register contains IMPDEF flags
-> related to CPU execution, and on Apple CPUs this is where the runtime
-> TSO toggle bit is implemented. Other CPUs could conceivably benefit from
-> this scaffolding if they also use ACTLR_EL1 for things that could
-> ostensibly be runtime controlled and context-switched. For this to work,
-> ACTLR_EL1 must have a uniform layout across all cores in the system.
->
-> Finally, patch 4 implements PR_{SET,GET}_MEM_MODEL for Apple CPUs by
-> hooking it up to flip the appropriate ACTLR_EL1 bit when the Apple TSO
-> feature is detected (on all CPUs, which also implies the uniform
-> ACTLR_EL1 layout).
->
-> This series has been brewing in the downstream Asahi Linux tree for a
-> while now, and ships to thousands of users. A subset have been using it
-> with FEX-Emu, which already supports this feature. This rebase on
-> v6.9-rc1 is only build-tested (all intermediate commits with and without
-> the config enabled, on ARM64) but I'll update the downstream branch soon
-> with this version and get it pushed out to users/testers.
->
-> The Apple support works on bare metal and *should* work exactly the same
-> way on macOS VMs (as alluded to by Zayd in his independent submission [3]=
-),
-> though I haven't personally verified this. KVM support for this is left
-> for a future patchset.
->
-> (Apologies for the large Cc: list; I want to make sure nobody who got
-> Cced on Zayd's alternate take is left out of this one.)
->
-> [1] https://fex-emu.com/FEX-2306/
-> [2] https://github.com/AsahiLinux/linux/tree/bits/220-tso
-> [3] https://lore.kernel.org/lkml/20240410211652.16640-1-zayd_qumsieh@appl=
-e.com/
->
-> To: Catalin Marinas <catalin.marinas@arm.com>
-> To: Will Deacon <will@kernel.org>
-> To: Marc Zyngier <maz@kernel.org>
-> To: Mark Rutland <mark.rutland@arm.com>
-> Cc: Zayd Qumsieh <zayd_qumsieh@apple.com>
-> Cc: Justin Lu <ih_justin@apple.com>
-> Cc: Ryan Houdek <Houdek.Ryan@fex-emu.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Mateusz Guzik <mjguzik@gmail.com>
-> Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-> Cc: Oliver Upton <oliver.upton@linux.dev>
-> Cc: Miguel Luis <miguel.luis@oracle.com>
-> Cc: Joey Gouly <joey.gouly@arm.com>
-> Cc: Christoph Paasch <cpaasch@apple.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Sami Tolvanen <samitolvanen@google.com>
-> Cc: Baoquan He <bhe@redhat.com>
-> Cc: Joel Granados <j.granados@samsung.com>
-> Cc: Dawei Li <dawei.li@shingroup.cn>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Florent Revest <revest@chromium.org>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Stefan Roesch <shr@devkernel.io>
-> Cc: Andy Chiu <andy.chiu@sifive.com>
-> Cc: Josh Triplett <josh@joshtriplett.org>
-> Cc: Oleg Nesterov <oleg@redhat.com>
-> Cc: Helge Deller <deller@gmx.de>
-> Cc: Zev Weiss <zev@bewilderbeest.net>
-> Cc: Ondrej Mosnacek <omosnace@redhat.com>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Asahi Linux <asahi@lists.linux.dev>
->
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> ---
-> Hector Martin (4):
->       prctl: Introduce PR_{SET,GET}_MEM_MODEL
->       arm64: Implement PR_{GET,SET}_MEM_MODEL for always-TSO CPUs
->       arm64: Introduce scaffolding to add ACTLR_EL1 to thread state
->       arm64: Implement Apple IMPDEF TSO memory model control
->
->  arch/arm64/Kconfig                        | 14 ++++++
->  arch/arm64/include/asm/apple_cpufeature.h | 15 +++++++
->  arch/arm64/include/asm/cpufeature.h       | 10 +++++
->  arch/arm64/include/asm/processor.h        |  3 ++
->  arch/arm64/kernel/Makefile                |  3 +-
->  arch/arm64/kernel/cpufeature.c            | 11 ++---
->  arch/arm64/kernel/cpufeature_impdef.c     | 61 +++++++++++++++++++++++++=
-+
->  arch/arm64/kernel/process.c               | 71 +++++++++++++++++++++++++=
-++++++
->  arch/arm64/kernel/setup.c                 |  8 ++++
->  arch/arm64/tools/cpucaps                  |  2 +
->  include/linux/memory_ordering_model.h     | 11 +++++
->  include/uapi/linux/prctl.h                |  5 +++
->  kernel/sys.c                              | 21 +++++++++
->  13 files changed, 229 insertions(+), 6 deletions(-)
-> ---
-> base-commit: 4cece764965020c22cff7665b18a012006359095
-> change-id: 20240411-tso-e86fdceb94b8
->
+On 10/04/2024 23:26, Bjorn Helgaas wrote:
+> On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote:
+>> MT7621 PCI host bridge has children which apparently are also PCI host
+>> bridges, at least that's what the binding suggest.
+> 
+> What does it even mean for a PCI host bridge to have a child that is
+> also a PCI host bridge?
+> 
+> Does this mean a driver binds to the "parent" host bridge, enumerates
+> the PCI devices below it, and finds a "child" host bridge?
 
-The series looks good to me.
+I think the question should be towards Mediatek folks. I don't know what
+this hardware is exactly, just looks like pci-pci-bridge. The driver
+calls the children host bridges as "ports".
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
+Best regards,
+Krzysztof
 
-
-
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
