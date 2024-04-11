@@ -1,186 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8DE81AC7
-	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 17:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB61315E89
+	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 18:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712857302; cv=none; b=ESypcurJzpOR4zL+O+8y1++zy3/7VpzFoHwl6T6POA++aA6sNV2CnhFy7dqJmXTeTHC7jVY6ah0/Af818c/U/PUbUjhlxLE+UirncCvoi/D2scpBbv72g281LXiVMnHn6iJ39WVIivP+w5ZqfRhFFCMUM2063vTmdpCARo2BLvk=
+	t=1712861027; cv=none; b=TVZNE49AqQmQm3BtYjJenEjWl4Gb0bKzZfgH5jh8jXpwlSKKy7TODV2ZHua+6AEXxqS21LEQ9tSErQOf2uY8uD6h1VedF+B7ghvBwkAWnvtJA8plppWzuaWjzRPmB3O4UjbDTEESyeLlH05/5wMrCaTa+dD95pO2VH1FMAOZ8jM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712857302; c=relaxed/simple;
-	bh=DoJYSiMJhYT9Zt6gL2BrmpCKBnw00cmz4PnYnC16w5w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XhE8udphcvaabhyIcZqdOMSxJoTTDFvRLktGtvIqoVsjzDH3sAKkWVxPpDkUC49tILpP4lmRmoLDtSc/oTUyQPWDeGbKk6oXAaexihUThcqGRfgeaC61uNsx3oM6sM4h/GPinJajO1wnymvUbEY7EreSIUAu5MhdDAQH5G56/RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D57Dm9na; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1712861027; c=relaxed/simple;
+	bh=a3JvUEhgYK+th3NCl2xP4vXg/lpXBSLqgc8nLV72rpU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=nmBr969aRNWhXgNzpLhMIlw2aEw9BDl78QFRs+VW5qP6+yHKgd/zCSYICYrfPdweqXgACcZ6Hekz0CAarpQ4OwWAaaeYY67Ezm41PTX0pi+aThsWsDwSZgftiWrtQWaMzIcD6xE7498Q2OI7pPBtcmOYqbqZpxr0JC2Vo+M/SW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=SxfDLmbn; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D57Dm9na"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EA62C072AA
-	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 17:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1712857302;
-	bh=DoJYSiMJhYT9Zt6gL2BrmpCKBnw00cmz4PnYnC16w5w=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=D57Dm9naJovNyxjN+f4aK9UEhia+7xBZ5MkhbWxsEKsouoD9VR5HyxJ5oTVAWHCjb
-	 dtJXrqqBbam7Ebzp9GS7S90fyxedAGal4WgfiO7sOcXo5myFf7hNnj0B/EH10Jxhsz
-	 8TiWXIpMKl7BCob/OsWv+skUeQDl/S0KYW0Vr/5EuGpJ16JCqcWzxaUvuHKJ9XUbbi
-	 CSENDnGpBt9rbplij+sVAGrhpZAtha0txZMtw6gUe8PkUKXdOJXiNbJsYo2NDTOcQL
-	 Y6PMOlqq3rqEDmXL2M0h33mpmxiQYTqjK5SqIn+kAlSm5TTPnngLQiq4aeZWDOr0eP
-	 I7UAhbLSYWkLg==
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-416c3aca500so867095e9.3
-        for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 10:41:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUAkQYBh6odbmV2JQdORXNgaieNOCUAwGtQo2FQVOffUCXkBezgi/d7gPPrhhAQ8RvKR04qoQwDDDddzO7Eehm/sjwtmvw=
-X-Gm-Message-State: AOJu0YzB6M/u0EE4FxminwQtDdZD+ZCk4TrH5E3ohfJ0Re9wkezQKiq4
-	YBK50TVRpQOfeig5Ek4sCZrqi7s+27k/OxRNmPI15NSJuNYJgCkDVjWL8Yfq6JsmhvAIaNyeNGf
-	6gh7RRN3ZEt+lJF5KM6M9mlDLrw==
-X-Google-Smtp-Source: AGHT+IGTYTnd27cZwUZ7kXUf6/DQ0pj9531II4F7GuikLZRsZ/ZfHrcFFNL5HrA9aNOfAtjGuv7mboSXH/hsVf3pPeQ=
-X-Received: by 2002:a19:f60a:0:b0:517:535b:9f2d with SMTP id
- x10-20020a19f60a000000b00517535b9f2dmr231054lfe.25.1712857280506; Thu, 11 Apr
- 2024 10:41:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="SxfDLmbn"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 162A24269B;
+	Thu, 11 Apr 2024 18:43:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1712861022; bh=a3JvUEhgYK+th3NCl2xP4vXg/lpXBSLqgc8nLV72rpU=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=SxfDLmbn4C0FHradf1Xvj6eoisfqZiNOMVhNdxdgHo1NXlIB/dbWS/wzj7bn6DGW/
+	 NTt6SGUM8bZrQe1tL93LuYhRW67a4Imuzypj7Kyz8L5KRHP0KQqoTXOLfWYVI7bvAe
+	 M+fdkh7Z1E0OnNt1boNhIk7u9FsTO0sAekynhELR0de5yFs2lr1xtmxYdeDa6pehzF
+	 LKJiq4QJpwlqoQ+p63rnkcUDDB/Lo/UPQrqmsa+qVuYvSLpezbl3c9OIl/YtYiEgD+
+	 sOsykq2DUWdG71dSOs48cNQHSHF+9gaFcPhQ8Kyp0Uu/YkyzblwkZj7kL+KuaSH0MS
+	 TcEp9qwJBnqDw==
+Message-ID: <f6484dcd-ebf6-4b6f-be17-69b05539e33b@marcan.st>
+Date: Fri, 12 Apr 2024 03:43:36 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240411142107.GA3537062-robh@kernel.org> <20240411161108.GA2184354@bhelgaas>
-In-Reply-To: <20240411161108.GA2184354@bhelgaas>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 11 Apr 2024 12:41:07 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKaJR9v=EEwm=rGf-XtXhhSd4_U2FUJoCoN_mcvPBtPBA@mail.gmail.com>
-Message-ID: <CAL_JsqKaJR9v=EEwm=rGf-XtXhhSd4_U2FUJoCoN_mcvPBtPBA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
- child node reg
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Sergio Paracuellos <sergio.paracuellos@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Jim Quinlan <jim2101024@gmail.com>, 
-	Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Srikanth Thokala <srikanth.thokala@intel.com>, 
-	Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang <jianjun.wang@mediatek.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Shawn Lin <shawn.lin@rock-chips.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>, 
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Michal Simek <michal.simek@amd.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
-	Tom Joseph <tjoseph@cadence.com>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] arm64: Support the TSO memory model
+From: Hector Martin <marcan@marcan.st>
+To: Will Deacon <will@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Zayd Qumsieh <zayd_qumsieh@apple.com>,
+ Justin Lu <ih_justin@apple.com>, Ryan Houdek <Houdek.Ryan@fex-emu.org>,
+ Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Mateusz Guzik <mjguzik@gmail.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Oliver Upton <oliver.upton@linux.dev>, Miguel Luis <miguel.luis@oracle.com>,
+ Joey Gouly <joey.gouly@arm.com>, Christoph Paasch <cpaasch@apple.com>,
+ Kees Cook <keescook@chromium.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Baoquan He <bhe@redhat.com>, Joel Granados <j.granados@samsung.com>,
+ Dawei Li <dawei.li@shingroup.cn>, Andrew Morton <akpm@linux-foundation.org>,
+ Florent Revest <revest@chromium.org>, David Hildenbrand <david@redhat.com>,
+ Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>,
+ Josh Triplett <josh@joshtriplett.org>, Oleg Nesterov <oleg@redhat.com>,
+ Helge Deller <deller@gmx.de>, Zev Weiss <zev@bewilderbeest.net>,
+ Ondrej Mosnacek <omosnace@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Asahi Linux <asahi@lists.linux.dev>
+References: <20240411-tso-v1-0-754f11abfbff@marcan.st>
+ <20240411132853.GA26481@willie-the-truck>
+ <28ab55b3-e699-4487-b332-f1f20a6b22a1@marcan.st>
+Content-Language: en-US
+In-Reply-To: <28ab55b3-e699-4487-b332-f1f20a6b22a1@marcan.st>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 11, 2024 at 11:11=E2=80=AFAM Bjorn Helgaas <helgaas@kernel.org>=
- wrote:
->
-> On Thu, Apr 11, 2024 at 09:21:07AM -0500, Rob Herring wrote:
-> > On Thu, Apr 11, 2024 at 07:39:17AM -0500, Bjorn Helgaas wrote:
-> > > On Thu, Apr 11, 2024 at 08:13:18AM +0200, Sergio Paracuellos wrote:
-> > > > On Thu, Apr 11, 2024 at 8:01=E2=80=AFAM Krzysztof Kozlowski
-> > > > <krzysztof.kozlowski@linaro.org> wrote:
-> > > > > On 10/04/2024 23:26, Bjorn Helgaas wrote:
-> > > > > > On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski w=
-rote:
-> > > > > >> MT7621 PCI host bridge has children which apparently are also =
-PCI host
-> > > > > >> bridges, at least that's what the binding suggest.
-> > > > > >
-> > > > > > What does it even mean for a PCI host bridge to have a child th=
-at is
-> > > > > > also a PCI host bridge?
-> >
-> > It should say 'root port' instead as the binding description correctly
-> > says.
->
-> OK, that makes a lot more sense, and we should fix the commit log.
->
-> > > > > I think the question should be towards Mediatek folks. I don't kn=
-ow what
-> > > > > this hardware is exactly, just looks like pci-pci-bridge. The dri=
-ver
-> > > > > calls the children host bridges as "ports".
-> > > >
-> > > > You can see the topology here in my first driver submit cover lette=
-r
-> > > > message [0].
-> > > >
-> > > >  [0]: https://lore.kernel.org/all/CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2Xd=
-YTBvT4R4MEOUB=3DWQ1g@mail.gmail.com/t/
-> > >
-> > > Nothing unusual here, this looks like the standard PCIe topology.
-> > >
-> > > What *might* be unusual is describing the Root Ports in DT.  Since
-> > > they are standard PCI devices, they shouldn't need DT description
-> > > unless there's some unusual power/clock/reset control or something
-> > > that is not discoverable via PCI enumeration.
-> >
-> > It's only unusual because typically there's only 1 RP per host bridge
-> > and properties which really apply to the RP get stuck in the host bridg=
-e
-> > node because we don't have a RP node. An example is perst-gpios. That's
-> > not a property of the RP either, but the RP is the upstream side of a
-> > slot and we often don't have a node for the device either.
->
-> Makes sense.
->
-> I'm still confused about one thing, maybe just because I don't really
-> know how to read these bindings.  The binding now looks like this:
->
->   properties:
->     compatible:
->       const: mediatek,mt7621-pci
->
->     reg:
->       items:
->         - description: host-pci bridge registers
->         - description: pcie port 0 RC control registers       # A
->         - description: pcie port 1 RC control registers       # A
->         - description: pcie port 2 RC control registers       # A
->
->   patternProperties:
->     '^pcie@[0-2],0$':
->       type: object
->       $ref: /schemas/pci/pci-pci-bridge.yaml#
->
->       properties:
->         reg:                                                  # B
->           maxItems: 1
->
-> It looks like the "A" items are separate things from the "B" items?
->
-> But I think the relevant code is here:
->
->   mt7621_pcie_probe
->     mt7621_pcie_parse_dt
->       pcie->base =3D devm_platform_ioremap_resource(pdev, 0)             =
-# 1
->       for_each_available_child_of_node(node, child)
->         mt7621_pcie_parse_port
->           port->base =3D devm_platform_ioremap_resource(pdev, slot + 1)  =
-# 2
->
-> where it looks like both "1" and "2" use the items in the "A" list,
-> i.e., resources 0, 1, 2, 3, all from the same platform device.  Is
-> there code that uses the "B" item that this patch adds?
 
-The A items are in the host address space. The B item is a PCI
-address. Specifically, for PCI devices, the first entry is config
-space with just the device and function (devfn). The format is defined
-in the OpenFirmware PCI bus supplement.
 
-Rob
+On 2024/04/11 23:19, Hector Martin wrote:
+>>
+>> An alternative option is to go down the SPARC RMO route and just enable
+>> TSO statically (although presumably in the firmware) for Apple silicon.
+>> I'm assuming that has a performance impact for native code?
+> 
+> Correct. We already have this as a bootloader option, but it is not
+> desirable. Plus, userspace code still needs a way to *discover* that TSO
+> is enabled for correctness, so it can automatically decide whether to
+> use stronger or weaker instructions.
+
+To add some numbers to this (I was just made aware of this paper):
+
+https://www.sra.uni-hannover.de/Publications/2023/tosting-arcs23/wrenger_23_arcs.pdf
+
+Using TSO globally has, on average, a 9% performance hit, so that is
+clearly off the table as a general solution.
+
+Meanwhile, more detailed microbenchmarks often show TSO as having better
+performance than outright using acquire/release instructions without
+TSO. Therefore, just giving up on TSO and using acq/rel semantics for
+emulators is also not an acceptable solution.
+
+Additionally, the general load/store instructions on ARM have more
+flexible addressing modes than the synchronizing ones, and since general
+x86 emulation requires *all* loads and stores to be like this in a
+non-TSO model (without much more complex/expensive program analysis to
+determine where this can be elided), the perf impact is definitely worse
+for emulation (e.g. stack accesses are affected) than for a
+microbenchmark where only the "target" test instructions are being modified.
+
+- Hector
