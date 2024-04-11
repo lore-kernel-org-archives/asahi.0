@@ -1,127 +1,187 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB0213CA86
-	for <asahi@lists.linux.dev>; Thu, 11 Apr 2024 06:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889081E4A0;
+	Thu, 11 Apr 2024 12:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712817442; cv=none; b=ZHISVD2x42YF0/DKPpa6TERoONJvWW81FXoz14C/C3Q2XZeUiNPyGZWkcZkGGvoPIhpQg34Xogybfmbjgnx0E17hS3HZxyH1aBX0SYE6lCgFxdIB54nsj0qcUJNuqParG9i9HkvvF2T5V3hFgEMRitMpsr1PxYjsLENwGt17BVg=
+	t=1712839159; cv=none; b=P7jMyAFtI/pYFLVn+9/eKZOPA9Pp9GywsD/jHkSQ2PUiS8oZdWVdkv1G5chO1F19yYoAYuOktdtPgXuEUs+zVXbeuul/W2gYIPVR6TmQYZtVKnHXQdKxU4DK50J99w+UrPAgFNPRPkVzFjltsU5sfY0M3GS716VTxR8uq/ql4Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712817442; c=relaxed/simple;
-	bh=2ipZN9n0TtN3o+SfMKeB61oRs+EH1yEZUxvjc7CAjrE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jUGrpRgybC8TRRXF5cF9vq1WTKPCoad89chTkxxGotryrmMmhu1tlAGxCmQYv+BrgUfPFqLBVqcl3fbVL/20pYsFC9f0UOQypIT0HWrAXGuoqKj4hIVUZD0ZrLaenkHAYuN3PmC/mO8kKnfU3iCPqAvyeYsbOR2yyfCUfr2F98E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ea9FQBMU; arc=none smtp.client-ip=209.85.161.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1712839159; c=relaxed/simple;
+	bh=kzcjv8gmNpZtAiYk2xJYEcr+JLyXL9rAALV5gNvHuVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=L6p5pMnvLBkXTrN8ElhiOMDeZpnotlPHuXsUueUme2AZ1VSLH3mLXZ7tK1IeRdX2mtOfIZ51+9TurHeICaXQGHHYwzC6cMjw0ZWl111Jk6niIWT7d4o9WRw7UUei1kQRjuTZc7uUx3zjZdkmFckC+Ijtag5cCVcJneVvYGNbgMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WfwX59yM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ea9FQBMU"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5aa17c29ba0so2829389eaf.3
-        for <asahi@lists.linux.dev>; Wed, 10 Apr 2024 23:37:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1712817440; x=1713422240; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rVtF0FbxwDL1+EyVXXt8m5PuumkGURWxInjDGKcvjBg=;
-        b=Ea9FQBMUI+WNsZINVx5C02k3z4KJ9xR5S2t6PoCj6iWtGaQqPs3jlSdSQRDLtMjxhz
-         rS2+7n4PmuErKI1IWuBNMk6vQlIM/2/l1YWDhCZIgck9vfDO5tj0kCz/8XYzBhNlP/TC
-         8/n3HcROcSUNYmIEbZldYO0MlpL1i+IAa1cYrYtb+qXZXBkbPAe5xrfM6SO8w8ZZyKmO
-         zxYcSn+cXw3xJnL/nlodWPR83teH6EpKoIxIyQFGlWUVtgQeqLc555QsYXdQv/QlBJDD
-         ps6ASz65FrplqmV6agi8PqSmjDSZvOIglDzbqZrPUTcswFMdDxLyObNjiZ1oyoPyZ5uw
-         MZlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712817440; x=1713422240;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rVtF0FbxwDL1+EyVXXt8m5PuumkGURWxInjDGKcvjBg=;
-        b=IU7MzoJdElbZKLY58q5I2ilVNYEz9PSK24WbixewO2afI86zq9rS/NBc3IF2rtXTXe
-         JM22/Yq5apDfA6X+Q2KRShcFSu8eR79XvpiMka4UCpEOWllmHXYh4C1PYxS9XFLghiBc
-         lM8SM5TPXA6mVlNZQq1MOwk+pnFNAF44ReRPLyNJubdgP9KVjMefCCmkfW2nscm7eT88
-         /b6eDq/aZnoZXf5wF8KqeXlwebw0HpTbhhKtt6+vRtqEPKdN6sxBvYrV52/n1FQ4CZHz
-         DV/sOL/AsbhWf0gZkhH22evofaNHV/Gf/kRvlzGEGBCE4Xam1QVdeRLhTNq1gjLtEj3R
-         FqRw==
-X-Forwarded-Encrypted: i=1; AJvYcCXIoRjh19dvcmHXNGTAwJX5CA07hsp0PWP55lhUT0FqYkSgU8qQAScC2p0rsNPmLLnye00kbvUMC9yz6FYJ6pTnTBs1ATg=
-X-Gm-Message-State: AOJu0Yze2vUgdqqQVZOr1Ucd4/0psHJMIGeC/jBat9Ao3HLgwcZhZufG
-	xSSEfbahDM2R850Y+rP5lB2QR9zudm0QxOx8oWAvHymyFSGZlmZzAchyQRmkf3bNlMTvDVbJvDA
-	5eUZ+dNTHoD1aP/hemAH1tvIsuMk=
-X-Google-Smtp-Source: AGHT+IES9majFVr22VozspwWyOs+YbISGsgQi1H0N7wgH6XHm1MFch0WdzdzAv98JrRwXB0nazk545ZDOwQPlvcyYH8=
-X-Received: by 2002:a05:6870:55cd:b0:22e:6b4e:d2ac with SMTP id
- qk13-20020a05687055cd00b0022e6b4ed2acmr5468350oac.12.1712817440529; Wed, 10
- Apr 2024 23:37:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WfwX59yM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 100DCC433C7;
+	Thu, 11 Apr 2024 12:39:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1712839159;
+	bh=kzcjv8gmNpZtAiYk2xJYEcr+JLyXL9rAALV5gNvHuVM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=WfwX59yMLWiCJvrRPA5bcIh6V0ewqtK6+e8oYkw9Dpoq3tHpVf4o0lLaA6was3uLL
+	 poLPAXCuUuzNI1uiV3b2Q62RyMZ3WzJ5+GToGIQMOLDEguO9loiBfEgEtpX4BFgMzf
+	 FU6ZSQHaxXNHYs3JTveKjTqmhKYlljX8L9atvgPqGTmmyQDxgNq4gpiYnOONkrp7kQ
+	 L4+eQ5V5ns8mjSLTCH5YE4SSeyTIQccryVcGAIDQSDXPXIZeZaCtAKVEzoZ1udf+pg
+	 rdkeoBVwA/A+uPcr7jKvO+gXrpMBRtCml7FwSgLPe+562zKqgDJ0NQITP2HpMoNETh
+	 jVcjb8HkraS+g==
+Date: Thu, 11 Apr 2024 07:39:17 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jim Quinlan <jim2101024@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Ryder Lee <ryder.lee@mediatek.com>,
+	Jianjun Wang <jianjun.wang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Tom Joseph <tjoseph@cadence.com>,
+	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
+ child node reg
+Message-ID: <20240411123917.GA2180141@bhelgaas>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240410212638.GA2159326@bhelgaas> <458ce909-0616-487d-b4bd-42b58d059198@linaro.org>
- <CAMhs-H82Ymc=isxu6AX4_s1QnNpSSNt74--ED1j7JxpzE=eCRg@mail.gmail.com> <0336b752-ba98-497b-96d0-efc01ffbd93c@linaro.org>
-In-Reply-To: <0336b752-ba98-497b-96d0-efc01ffbd93c@linaro.org>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Thu, 11 Apr 2024 08:37:09 +0200
-Message-ID: <CAMhs-H_yWFn7JvCYhVqELmBjwHO8KCU_UVE5XTas2WVJC1UsAw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] dt-bindings: PCI: mediatek,mt7621: add missing
- child node reg
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Jim Quinlan <jim2101024@gmail.com>, 
-	Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Srikanth Thokala <srikanth.thokala@intel.com>, 
-	Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang <jianjun.wang@mediatek.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Shawn Lin <shawn.lin@rock-chips.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>, 
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Michal Simek <michal.simek@amd.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
-	Tom Joseph <tjoseph@cadence.com>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMhs-H82Ymc=isxu6AX4_s1QnNpSSNt74--ED1j7JxpzE=eCRg@mail.gmail.com>
 
-On Thu, Apr 11, 2024 at 8:20=E2=80=AFAM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> On 11/04/2024 08:13, Sergio Paracuellos wrote:
-> >
-> >>
-> >> I think the question should be towards Mediatek folks. I don't know wh=
-at
-> >> this hardware is exactly, just looks like pci-pci-bridge. The driver
-> >> calls the children host bridges as "ports".
-> >
-> > You can see the topology here in my first driver submit cover letter
-> > message [0].
-> >
->
-> Useful diagram, thanks. It would be great if you could add it to the
-> binding description.
+On Thu, Apr 11, 2024 at 08:13:18AM +0200, Sergio Paracuellos wrote:
+> On Thu, Apr 11, 2024 at 8:01 AM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+> > On 10/04/2024 23:26, Bjorn Helgaas wrote:
+> > > On Wed, Apr 10, 2024 at 08:15:19PM +0200, Krzysztof Kozlowski wrote:
+> > >> MT7621 PCI host bridge has children which apparently are also PCI host
+> > >> bridges, at least that's what the binding suggest.
+> > >
+> > > What does it even mean for a PCI host bridge to have a child that is
+> > > also a PCI host bridge?
+> > >
+> > > Does this mean a driver binds to the "parent" host bridge, enumerates
+> > > the PCI devices below it, and finds a "child" host bridge?
+> 
+> Yes, that is exactly what you can see on enumeration.
+> 
+> The following is a typical boot trace where all bridges has a device also below:
+> 
+> mt7621-pci 1e140000.pcie: host bridge /pcie@1e140000 ranges:
+> mt7621-pci 1e140000.pcie:   No bus range found for /pcie@1e140000, using [bus 00-ff]
+> mt7621-pci 1e140000.pcie:      MEM 0x0060000000..0x006fffffff -> 0x0060000000
+> mt7621-pci 1e140000.pcie:       IO 0x001e160000..0x001e16ffff -> 0x0000000000
+> mt7621-pci 1e140000.pcie: PCIE0 enabled
+> mt7621-pci 1e140000.pcie: PCIE1 enabled
+> mt7621-pci 1e140000.pcie: PCIE2 enabled
+> mt7621-pci 1e140000.pcie: PCI host bridge to bus 0000:00
 
-Sure, I will do it depending on time hopefully sooner than later :-).
+1e140000.pcie is a host bridge.  It has some CPU-specific bus on the
+upstream side, standard PCI (domain 0000, buses 00-ff) on the
+downstream side.
 
-Best regards,
-    Sergio Paracuellos
+> pci 0000:00:00.0: [0e8d:0801] type 01 class 0x060400
+> pci 0000:00:01.0: [0e8d:0801] type 01 class 0x060400
+> pci 0000:00:02.0: [0e8d:0801] type 01 class 0x060400
 
->
-> Best regards,
-> Krzysztof
->
+> pci 0000:01:00.0: [1b21:0611] type 00 class 0x010185
+
+> pci 0000:00:00.0: PCI bridge to [bus 01-ff]
+> pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
+> pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff]
+> pci 0000:00:00.0:   bridge window [mem 0x00000000-0x000fffff pref]
+
+00:00.0 looks like a PCIe Root Port to bus 01.  This is not a host
+bridge; it's just a standard PCI-to-PCI bridge with PCI on both the
+upstream and downstream sides.
+
+> pci 0000:02:00.0: [1b21:0611] type 00 class 0x010185
+
+> pci 0000:00:01.0: PCI bridge to [bus 02-ff]
+> pci 0000:00:01.0:   bridge window [io  0x0000-0x0fff]
+> pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff]
+> pci 0000:00:01.0:   bridge window [mem 0x00000000-0x000fffff pref]
+
+00:01.0 is another Root Port to bus 02.
+
+> pci 0000:03:00.0: [1b21:0611] type 00 class 0x010185
+
+> pci 0000:00:02.0: PCI bridge to [bus 03-ff]
+> pci 0000:00:02.0:   bridge window [io  0x0000-0x0fff]
+> pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff]
+> pci 0000:00:02.0:   bridge window [mem 0x00000000-0x000fffff pref]
+> pci_bus 0000:03: busn_res: [bus 03-ff] end is updated to 03
+
+And 00:02.0 is a third Root Port to bus 03.
+
+> pci 0000:00:00.0: PCI bridge to [bus 01]
+> pci 0000:00:00.0:   bridge window [io  0x0000-0x0fff]
+> pci 0000:00:00.0:   bridge window [mem 0x60000000-0x600fffff]
+> pci 0000:00:00.0:   bridge window [mem 0x60100000-0x601fffff pref]
+> pci 0000:00:01.0: PCI bridge to [bus 02]
+> pci 0000:00:01.0:   bridge window [io  0x1000-0x1fff]
+> pci 0000:00:01.0:   bridge window [mem 0x60200000-0x602fffff]
+> pci 0000:00:01.0:   bridge window [mem 0x60300000-0x603fffff pref]
+> pci 0000:00:02.0: PCI bridge to [bus 03]
+> pci 0000:00:02.0:   bridge window [io  0x2000-0x2fff]
+> pci 0000:00:02.0:   bridge window [mem 0x60400000-0x604fffff]
+> 
+> > I think the question should be towards Mediatek folks. I don't know what
+> > this hardware is exactly, just looks like pci-pci-bridge. The driver
+> > calls the children host bridges as "ports".
+> 
+> You can see the topology here in my first driver submit cover letter
+> message [0].
+> 
+>  [0]: https://lore.kernel.org/all/CAMhs-H-BA+KzEwuDPzcmrDPdgJBFA2XdYTBvT4R4MEOUB=WQ1g@mail.gmail.com/t/
+
+Nothing unusual here, this looks like the standard PCIe topology.
+
+What *might* be unusual is describing the Root Ports in DT.  Since
+they are standard PCI devices, they shouldn't need DT description
+unless there's some unusual power/clock/reset control or something
+that is not discoverable via PCI enumeration.
+
+Bjorn
