@@ -1,97 +1,101 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FFB14B075
-	for <asahi@lists.linux.dev>; Fri, 12 Apr 2024 17:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A834A14F103
+	for <asahi@lists.linux.dev>; Fri, 12 Apr 2024 18:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712941650; cv=none; b=MD1S5lKwQPm8hC0Yp6/Ql1n/m5C4X/7SLC2G+KTv4OkaOk1l76+MjlN/idGhoXoRRVv3IRLOS047thuuQ5pdoeGp8gV9r270m3eASVxSvFlKay+6h/l+9Igatvp0fjJfeQ/qwExYihExMCSr9+vdhlASGo4d68XlA17X9Rwp930=
+	t=1712946383; cv=none; b=K4DBfrSsmOxE5cM7iGLuH05D+aytiSsOHoX/roW+kjdqzi+QG4y/EPgtM+1fPj049vRwf/GbxrLhB7gv3BDhePU9WPJsHcThapnNlab3ZIefIj7ar/dkL7YojerwqxsoUVW02QirpA00E+hmyOqWTf6WvO+F4FT8qJvHInJk738=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712941650; c=relaxed/simple;
-	bh=5JFuYVePpmhoWdZk8WbeOoqlnSWSkoUYiXSyfRvyGWg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ii7ELmMO6H5RwV8ZQYW66t8iJM0933uSE7mv1OQRG0gilmOzHuiFq3gljQalcCPSHmYbNR1YpLj1Fu8r6Pgz9RZIjF4ru0CJv5zq5WMugmb5hyrwPcsDNcN2AsCp/OVg8+0eYXGe9hQwHAMrYNMTQmv5mzahZ1lf77CM8VJ3dr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=NHlkspaW; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1712946383; c=relaxed/simple;
+	bh=iurD5SoAV8gZYWKnfOSpJSsh4Msc0LYO42qZ8qIZS4w=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=TqAbES/Vbdsmcc/WRy16y0mRCVaoRq5Od/7fHYqPYhOuiPYgf+nmpuq1t42krIfX1xGaX41F8jIwyr1KrSx32E/xDNjWFD8rXp0lXtRpj5DLz5sgjN/z5Atg0TjNiTpIGg86wPVG5KVEmpsefc0mA0u2t+PJZ4i+Co/7nt135A8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=JFO46zX9; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="NHlkspaW"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-43446959b33so4133621cf.3
-        for <asahi@lists.linux.dev>; Fri, 12 Apr 2024 10:07:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1712941648; x=1713546448; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ICZfIsGcQEVbd3Zt1qoYBnvko2GDh9Nz2dJVHbfGpSA=;
-        b=NHlkspaWQX9FJJosTayErKC8rUY0/QrkhzaHcvUVug3IhOfoYmLw5RFsLg1dB5dMyk
-         OXuITzcrnEL98pK3QyREnum12sR0rcJMv2qdZhy9Ilja6PFsfSIdoXL2lqpuukjLGL0Z
-         fZEmJ+Ky4/LCsqmQHbtGKaSSFA22HPaVgEL4rDW3L0pR2Zc2ghwy6nyD4Iv7O1LNv6hA
-         lFOllqXKmjUNeUVAsEABAopg+cQtBflDQyJ0neTWnbDaEANoSJLgEumM2ErQC8eGi4kR
-         P7vhfx51tvCJONZLuMbqJy98SzoQuykUXdlg/P4YZiVojW7zp+tZ2BCewUbPtM6ulhlj
-         I0pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712941648; x=1713546448;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ICZfIsGcQEVbd3Zt1qoYBnvko2GDh9Nz2dJVHbfGpSA=;
-        b=sc6ClVWtFQNu0TFsmZQsEcibxBnw5rcSqES2+ZRPfYufwjLByh6qF5n5FN5mdK6iie
-         B25CmxjgxDo5dAlDEAEMHNbdymt7YaaiaCc3vKm5tgOYBmTfSgAru8iq60clNxSOQayJ
-         6xt2W4Lo/tZggMZGumcujHAwaLJFkeIaLhlqNEAuopYp6AfVUqSgFq9ftYb8Lkq2ZEM8
-         fsB0CqiIuJcYQgOj9S8PqCOOHoqxhCy+idBnQur6LXg2UanYflL/U6IYMphpk8eBQAcf
-         ZrFnyA+hBxHFA2hyOosjZV357IQrpSUwFMinA2yyo6ndd4leARbgWYdNyDJAccO8lXPm
-         i1YA==
-X-Forwarded-Encrypted: i=1; AJvYcCUewV2h0J1hQtkDWrFxSRMUq0ztj9Gh7DLbqHszqV+0FuCF8BHHyTYSMXE0hdCQ2RXtJNrSbzz9g0l/Nom3XYvHbW6s4mc=
-X-Gm-Message-State: AOJu0Yy+jTZyIU3an12cLsO9udel23RabtYsFCiqlnGGYxsrmxLoKmG3
-	l6DEQrMnL6jy3YGTN7lVKiOHSmgXhZLI8u/NktC0jDvI+wtc2T29WLdv2TBzlpfFjZvfLMV+hfH
-	NImbTbhd9NAUP/umKAeKeXI5KiQqyywgqlvLMEg==
-X-Google-Smtp-Source: AGHT+IEXzcV5Ah/di4pWjeRuzI8bp8L5qdlySBiHU1tn4/tN30fitecIDCoiEvXNx6whVxsKgO+qRvqVW4OxECf95F8=
-X-Received: by 2002:a05:622a:606:b0:434:89af:bd3b with SMTP id
- z6-20020a05622a060600b0043489afbd3bmr3794375qta.40.1712941648259; Fri, 12 Apr
- 2024 10:07:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="JFO46zX9"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 40B5187DFF;
+	Fri, 12 Apr 2024 20:26:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1712946379;
+	bh=OORJlIY4ad/CcaDiqCOIPnoBKUr+zx8Ml2cQeW1Uxcw=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=JFO46zX9RHJLrDW3XOk87OcEwZJb7saeyF/dim2g+PwLzr9346lelUcdu8kSitVYB
+	 2awjO2FU6KXsptKqPZ052kgu4h4IAnqCg4DsXPvh01i62wdPQkr+Yur/GAX9Z+5hVZ
+	 q7dWj6JLwZAx8lp6G7/UjrIEwTwMAMIsxp+IDm+x7CSmP1iPyKLHqJJEhFwz6T3Rvd
+	 ee1PSZiQNqY/A0/mn1VIDrRGIBNgqNhH6URdMneeLi2/QuDTZcleYGR3wep4eMdjpp
+	 spw+ff9mUbqmPBsePsgR0CE+8+fs7cyd/w7DKCpP0Y3nC33IjCbYhcAwgBNvyK79nc
+	 CyFopyz3xKqeg==
+Message-ID: <d65ea7c0-cb89-4cb9-8378-11839a6ee63e@denx.de>
+Date: Fri, 12 Apr 2024 20:26:18 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240222173942.1481394-1-pasha.tatashin@soleen.com> <ZhkIhtTCWg6bgl1o@8bytes.org>
-In-Reply-To: <ZhkIhtTCWg6bgl1o@8bytes.org>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Fri, 12 Apr 2024 13:06:52 -0400
-Message-ID: <CA+CK2bCjXGTP7ie=rFtXrmRaWxn_6VmfZb5BXR13z9a3scfETg@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] IOMMU memory observability
-To: Joerg Roedel <joro@8bytes.org>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com, alyssa@rosenzweig.io, 
-	asahi@lists.linux.dev, baolu.lu@linux.intel.com, bhelgaas@google.com, 
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com, 
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de, 
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com, jonathanh@nvidia.com, 
-	krzysztof.kozlowski@linaro.org, linux-doc@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com, marcan@marcan.st, 
-	mhiramat@kernel.org, m.szyprowski@samsung.com, paulmck@kernel.org, 
-	rdunlap@infradead.org, robin.murphy@arm.com, samuel@sholland.org, 
-	suravee.suthikulpanit@amd.com, sven@svenpeter.dev, thierry.reding@gmail.com, 
-	tj@kernel.org, tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org, 
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com, 
-	bagasdotme@gmail.com, mkoutny@suse.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/6] USB keyboard improvements for asahi / desktop
+ systems
+From: Marek Vasut <marex@denx.de>
+To: Janne Grunau <j@jannau.net>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>,
+ Simon Glass <sjg@chromium.org>, Joe Hershberger <joe.hershberger@ni.com>,
+ u-boot@lists.denx.de, asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>
+References: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
+ <356b892a-a681-4ae0-a6c8-ed1b4b5a8717@denx.de> <ZhBLfQfxB_UEwvyY@robin>
+ <5467f380-de35-4776-8c32-90b8e08aeda7@denx.de> <ZhGq0U_pkrYMe4S1@robin>
+ <5ed4e6d2-edc7-461d-8183-e91d7b994aa5@denx.de> <ZhOg81sBEDLgCSIa@robin>
+ <83e48e51-f88d-49d4-bcf9-340e229fdf76@denx.de>
+Content-Language: en-US
+In-Reply-To: <83e48e51-f88d-49d4-bcf9-340e229fdf76@denx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-> Some problems with this:
->
->   1. I get DKIM failures when downloading this patch-set with b4, can
->      you please send them via a mailserver with working DKIM?
+On 4/12/24 2:53 PM, Marek Vasut wrote:
 
-I was in the process of migrating from google domains to a different
-registrar, but I think now the issue is resolved. I will verify it.
+Hi,
 
->   2. They don't apply to v6.9-rc3. Please rebase to that version and
->      are-send.
+>> Seems to work here with a broken imx8 config from the CI. Is it ok to
+>> rely on dead code elimination? Apparently it is, build with KCFLAGS=-O0
+>> has already several other missing symbols.
+>>
+>> See attached fixup
+> 
+> Thanks, squashed, let's see how CI likes this.
 
-I will.
+I think we are getting closer, but still ...
 
-Thanks,
-Pasha
+Pipeline #20308 has failed!
+
+Project: USB U-Boot Custodian Tree ( 
+https://source.denx.de/u-boot/custodians/u-boot-usb )
+Branch: master ( 
+https://source.denx.de/u-boot/custodians/u-boot-usb/-/commits/master )
+
+Commit: 63f6a449 ( 
+https://source.denx.de/u-boot/custodians/u-boot-usb/-/commit/63f6a449bffe46beca89580d3efa48e5d041025c 
+)
+Commit Message: usb: kbd: Add probe quirk for Apple and Keychro...
+Commit Author: Janne Grunau
+Committed by: Marek Vasut ( https://source.denx.de/marex )
+
+
+Pipeline #20308 ( 
+https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20308 ) 
+triggered by Marek Vasut ( https://source.denx.de/marex )
+had 1 failed job.
+
+Job #815411 ( 
+https://source.denx.de/u-boot/custodians/u-boot-usb/-/jobs/815411/raw )
+
+Stage: world build
+Name: build all 64bit ARM platforms
