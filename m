@@ -1,97 +1,138 @@
-Received: from mail.8bytes.org (mail.8bytes.org [85.214.250.239])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0647453384;
-	Fri, 12 Apr 2024 10:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.250.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1712916619; cv=none; b=n2hMJmaXIUdCyPKIxKqycwkw8bwG++A9yWUF2tve7JS5jrsay5L21WpXLZpbQy4jWqG2vU2T7KEo1pVbWSQ6ykaCN568fchV5f9Aly2Wwh86R8OlE1fMYwVC0nuMNzjmheANhHUJg0uomGKl0AaoGZrPZX75DGVJh2il0XbKqz4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1712916619; c=relaxed/simple;
-	bh=E+iVkylCqaTgNVotthxWDOOoCqml/4nGJOpaARXTjK0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=obYLr5ka/CzZ5wBcAYioLpi6ofINDwBNK9+5O6FlmPJWUY8nW1lD+vjj/zPnEOM+00NTqUgNZ5W/tAJsj/GyZDD/DG4L8gA91V6MCIhA3SXCnHHbWakYHX9mTs8awcTHWw2Lo/ZByg0vyqM+WjFe6Be6kF7czZcoIeJ1ZvKdDOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org; spf=pass smtp.mailfrom=8bytes.org; dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b=LuZbLWJP; arc=none smtp.client-ip=85.214.250.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=8bytes.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=8bytes.org header.i=@8bytes.org header.b="LuZbLWJP"
-Received: from 8bytes.org (p4ffe0bdf.dip0.t-ipconnect.de [79.254.11.223])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.8bytes.org (Postfix) with ESMTPSA id 51047281A38;
-	Fri, 12 Apr 2024 12:10:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=8bytes.org;
-	s=default; t=1712916616;
-	bh=E+iVkylCqaTgNVotthxWDOOoCqml/4nGJOpaARXTjK0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LuZbLWJPGCLZJPltogQTsk4oQ9NTj4Tsj7ifX4XmlHt9dm9BjBk7wNSRnJEGBBLX0
-	 RR1K295opyq8KNseqPbA6/RWBABghoCfLVi53gLBIUssvvge/FC7qptmqVDcplhzTo
-	 XuBmaDg9QBQ/vnZqdaxAREDkzJpp0Wy4QVBWKVDHOT7296ofu/w9sV3sUJl9A78VIT
-	 Q8HYmCNyUOwMBct7Se9mdxxPDMr4hl0kzCGipNnFTmrP6p8lRL075rML4+cOeADLWK
-	 3bfKf9EbMlshGtJnw/aGnFdGxYsmOkfVQGWHlFj/MJ94e75Lh2o+bnyCKL3btAMYV6
-	 t2ODbB7AbBEpQ==
-Date: Fri, 12 Apr 2024 12:10:14 +0200
-From: Joerg Roedel <joro@8bytes.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: akpm@linux-foundation.org, alim.akhtar@samsung.com,
-	alyssa@rosenzweig.io, asahi@lists.linux.dev,
-	baolu.lu@linux.intel.com, bhelgaas@google.com,
-	cgroups@vger.kernel.org, corbet@lwn.net, david@redhat.com,
-	dwmw2@infradead.org, hannes@cmpxchg.org, heiko@sntech.de,
-	iommu@lists.linux.dev, jernej.skrabec@gmail.com,
-	jonathanh@nvidia.com, krzysztof.kozlowski@linaro.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org, lizefan.x@bytedance.com,
-	marcan@marcan.st, mhiramat@kernel.org, m.szyprowski@samsung.com,
-	paulmck@kernel.org, rdunlap@infradead.org, robin.murphy@arm.com,
-	samuel@sholland.org, suravee.suthikulpanit@amd.com,
-	sven@svenpeter.dev, thierry.reding@gmail.com, tj@kernel.org,
-	tomas.mudrunka@gmail.com, vdumpa@nvidia.com, wens@csie.org,
-	will@kernel.org, yu-cheng.yu@intel.com, rientjes@google.com,
-	bagasdotme@gmail.com, mkoutny@suse.com
-Subject: Re: [PATCH v5 00/11] IOMMU memory observability
-Message-ID: <ZhkIhtTCWg6bgl1o@8bytes.org>
-References: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DBF3EA83
+	for <asahi@lists.linux.dev>; Fri, 12 Apr 2024 13:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1712927443; cv=none; b=JtDvOcwIdM5rK7kdE0umgpohPrAEXcgJgKlSZpoKybfvg2JCQj397Qn0Jd5R7UvAVKw7yrdx1suW82i8lfkO21zEwVk+SXR3tukAlFL+HtHMEDW5GOziF08x0ktahkbNY/8lxy6WEBOd9kQ6rthiDgGO1gl1r7vH0dH8nX9OLzo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1712927443; c=relaxed/simple;
+	bh=yQyivOLgAImsF7nKGU5ERUB0mXLYKJHaMf67QvbHWKw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Kzq64EWpcvi+AMPkrmY0Wz7c++BwAYI6M2EgkyG6BHgnVDkXK4A8Kv5KahxvYAr6UKlnnCIFVD5mdD8j9OUyJF/Gl8jMntKZzyKluAmNtdnPfky7FsHDON03H/X7QtRN+LfY0lXa19x0/76Lo6he9gdDcIQ/LwlctER0W6/W3R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=vniaNzA6; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="vniaNzA6"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 8C0818801E;
+	Fri, 12 Apr 2024 15:10:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1712927434;
+	bh=nfFc+4QCepbdHLVKSrZYniKDSFcil+ZnQ4MK/Rs71do=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vniaNzA6KgbD7vqLGCEWOB9onduuTpimSvyZbWy97e9aH/EJQsdTyGwsfQdou3WNA
+	 lmS+ses/afNtY7uM9HP64HXEAc8gzvsZzXF9MteDcvrRZfeqZ8BRrpglPDH6nCYdVC
+	 IHLkHISYDN8Dj0WBMwmbSvC9vifXU7v0AJklOFXXp5ddHK/YSI68jAftAeyc7283Z8
+	 nYEC4Uar1ZhzaopFZ4YIS6RGkIpirfSqH4i3MOhjH0br8JK5zhINV0mYuuhMnoquZ7
+	 nQUidmMO2L5r3xg2edkOcgFGuNvHQPmK+amzYR53YIX6c44m/4O/dSLZWkpxioSMN4
+	 Rb1rgdq7y0qFQ==
+Message-ID: <83e48e51-f88d-49d4-bcf9-340e229fdf76@denx.de>
+Date: Fri, 12 Apr 2024 14:53:59 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240222173942.1481394-1-pasha.tatashin@soleen.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/6] USB keyboard improvements for asahi / desktop
+ systems
+To: Janne Grunau <j@jannau.net>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Tom Rini <trini@konsulko.com>,
+ Simon Glass <sjg@chromium.org>, Joe Hershberger <joe.hershberger@ni.com>,
+ u-boot@lists.denx.de, asahi@lists.linux.dev, Neal Gompa <neal@gompa.dev>
+References: <20240404-asahi-keyboards-v4-0-2266033feaff@jannau.net>
+ <356b892a-a681-4ae0-a6c8-ed1b4b5a8717@denx.de> <ZhBLfQfxB_UEwvyY@robin>
+ <5467f380-de35-4776-8c32-90b8e08aeda7@denx.de> <ZhGq0U_pkrYMe4S1@robin>
+ <5ed4e6d2-edc7-461d-8183-e91d7b994aa5@denx.de> <ZhOg81sBEDLgCSIa@robin>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <ZhOg81sBEDLgCSIa@robin>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-Pasha,
+On 4/8/24 9:46 AM, Janne Grunau wrote:
+> On Sun, Apr 07, 2024 at 03:05:59AM +0200, Marek Vasut wrote:
+>> On 4/6/24 10:04 PM, Janne Grunau wrote:
+>>> On Sat, Apr 06, 2024 at 08:52:17PM +0200, Marek Vasut wrote:
+>>>> On 4/5/24 9:05 PM, Janne Grunau wrote:
+>>>>> On Fri, Apr 05, 2024 at 04:52:32PM +0200, Marek Vasut wrote:
+>>>>>> On 4/4/24 8:25 AM, Janne Grunau via B4 Relay wrote:
+>>>>>>> Apple USB Keyboards from 2021 need quirks to be useable. The boot HID
+>>>>>>> keyboard protocol is unfortunately not described in the first interface
+>>>>>>> descriptor but the second. This needs several changes. The USB keyboard
+>>>>>>> driver has to look at all (2) interface descriptors during probing.
+>>>>>>> Since I didn't want to rebuild the USB driver probe code the Apple
+>>>>>>> keyboards are bound to the keyboard driver via USB vendor and product
+>>>>>>> IDs.
+>>>>>>> To make the keyboards useable on Apple silicon devices the xhci driver
+>>>>>>> needs to initializes rings for the endpoints of the first two interface
+>>>>>>> descriptors. If this is causes concerns regarding regressions or memory
+>>>>>>> use the USB_MAX_ACTIVE_INTERFACES define could be turned into a CONFIG
+>>>>>>> option.
+>>>>>>> Even after this changes the keyboards still do not probe successfully
+>>>>>>> since they apparently do not behave HID standard compliant. They only
+>>>>>>> generate reports on key events. This leads the final check whether the
+>>>>>>> keyboard is operational to fail unless the user presses keys during the
+>>>>>>> probe. Skip this check for known keyboards.
+>>>>>>> Keychron seems to emulate Apple keyboards (some models even "re-use"
+>>>>>>> Apple's USB vendor ID) so apply this quirk as well.
+>>>>>>>
+>>>>>>> Some devices like Yubikeys emulate a keyboard. since u-boot only binds a
+>>>>>>> single keyboard block this kind of devices from the USB keyboard driver.
+>>>>>>>
+>>>>>>> Signed-off-by: Janne Grunau <j@jannau.net>
+>>>>>>
+>>>>>> I picked the series, but CI indicates build errors, can you have a look ?
+>>>>>>
+>>>>>> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20215
+>>>>>
+>>>>> The issue seems to be that the field dev in struct usb_device exists
+>>>>> only for DM_USB. That means we can't use dev_dbg.
+>>>>> Either take the following fixup patch or I can resend the series.
+>>>>
+>>>> I squashed the extra patch in, but I think the CI still complains:
+>>>>
+>>>> Pipeline #20236 (
+>>>> https://source.denx.de/u-boot/custodians/u-boot-usb/-/pipelines/20236 )
+>>>> triggered by Marek Vasut ( https://source.denx.de/marex )
+>>>> had 1 failed job.
+>>>>
+>>>> Job #812215 (
+>>>> https://source.denx.de/u-boot/custodians/u-boot-usb/-/jobs/812215/raw )
+>>>
+>>> env_get() missing without CONFIG_ENV_SUPPORT. I'm too accustomed to the
+>>> kernel's stub functions. Best option seems to to just #if the
+>>> functionality out in this case. See attached fixup patch.
+>>>
+>>> Sorry,
+>>
+>> No worries.
+>>
+>> Does it work if you do this instead ?
+>>
+>>    static int usb_device_is_ignored(u16 id_vendor, u16 id_product)
+>>    {
+>>           ulong vid, pid;
+>> +       /* No env support, nothing can be ignored */
+>> +       if (CONFIG_IS_ENABLED(ENV_SUPPORT))
+>> +           return 0;
+>>
+>> That way, the function is always compiled and if it is unreachable, then
+>> compiler throws it out. This should improve code compile coverage.
+> 
+> Seems to work here with a broken imx8 config from the CI. Is it ok to
+> rely on dead code elimination? Apparently it is, build with KCFLAGS=-O0
+> has already several other missing symbols.
+> 
+> See attached fixup
 
-On Thu, Feb 22, 2024 at 05:39:26PM +0000, Pasha Tatashin wrote:
-> Pasha Tatashin (11):
->   iommu/vt-d: add wrapper functions for page allocations
->   iommu/dma: use iommu_put_pages_list() to releae freelist
->   iommu/amd: use page allocation function provided by iommu-pages.h
->   iommu/io-pgtable-arm: use page allocation function provided by
->     iommu-pages.h
->   iommu/io-pgtable-dart: use page allocation function provided by
->     iommu-pages.h
->   iommu/exynos: use page allocation function provided by iommu-pages.h
->   iommu/rockchip: use page allocation function provided by iommu-pages.h
->   iommu/sun50i: use page allocation function provided by iommu-pages.h
->   iommu/tegra-smmu: use page allocation function provided by
->     iommu-pages.h
->   iommu: observability of the IOMMU allocations
->   iommu: account IOMMU allocated memory
-
-Some problems with this:
-
-  1. I get DKIM failures when downloading this patch-set with b4, can
-     you please send them via a mailserver with working DKIM?
-
-  2. They don't apply to v6.9-rc3. Please rebase to that version and
-     are-send.
-
-Thanks,
-
-	Joerg
+Thanks, squashed, let's see how CI likes this.
