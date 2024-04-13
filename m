@@ -1,55 +1,57 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93FD32C85
-	for <asahi@lists.linux.dev>; Sat, 13 Apr 2024 15:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3C645BE1
+	for <asahi@lists.linux.dev>; Sat, 13 Apr 2024 15:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713021404; cv=none; b=HoEGhr6PdtqRF1KHmFPtCZSaKGo0bmWrFnQzYSUHoQmvIId3z93CCyIXwn1GihUCZBc5aIfG+ssuIxye5DHC9yeZM9UTpDvQY8u8ZeGF2q5LDxH2JKLKi3mlB1qQzWRQ/xoIwzyPmUydJ9Bgj7Mpp6D5jdM3kz8dCMEos6zUDFM=
+	t=1713021407; cv=none; b=a7uEm6IoXS5r0cjtqrokH0BfjOqpARw5iQg+cief0NllnxRFo+w9rF0RiRUcuIYskbUyLkc892AO9HbPJ1jQxlwim+DDCYJFLEgZq+zpL6pTiiV1bFvYrF5QoD17C3pnuxvs3IGCOsboTlvOPqxeKCgmoVbBksdjdSD9cx6YB2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713021404; c=relaxed/simple;
-	bh=hH/i56/VVMXc5h7IY9kB8GOOP4BZo9JkA0T8zeB0y1M=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FMmumFcfGt7eHR5zfstXreNFyoAFEEQ1jfLHX6vNC1RJ4Ct+jlD6V+jzf6AxHBhqHLsic8dkgF8XYoUd2w6KrRsInLIDqt33mfXbiCwP36e/v9QY+MwnyT2a6dNKDMX1O31Cgdd6mZLDZw6OptIizbr6b+EOzUtIIFyIygU70DA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hbyo6LWc; arc=none smtp.client-ip=209.85.208.182
+	s=arc-20240116; t=1713021407; c=relaxed/simple;
+	bh=IHhPqznUG4voks9nHUIjXaqoLqCX+AXGap9zXBqCFRs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Ebo6RlNNMpBWq8de4/Dp+WDNl7nAiW8yIxZ4oRrG79E83XRM13agVxNMI2p1+Fmtfk5EqYh0DENtF3ND/akF3+xFxUTtHAtTf5NZ1Gw5+KD5U4gcHg9j6KMu4+ogTi/r7znIy4hD9LFD3VUOWfXSnH1Qu/z7MBdO7lb3Tyn1b5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yDA9qZ/V; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hbyo6LWc"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2d82713f473so30726321fa.3
-        for <asahi@lists.linux.dev>; Sat, 13 Apr 2024 08:16:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yDA9qZ/V"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-56e2c1650d8so1699739a12.0
+        for <asahi@lists.linux.dev>; Sat, 13 Apr 2024 08:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1713021400; x=1713626200; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3KLUzTPW+KpN4IRI1ic6uWm66ErzBdD1Xi0Bbn1RRvE=;
-        b=hbyo6LWcS4pag1inhZnQb4A4vtVuqHHaR9RYHcnx6n9r8BjPo+mb18ZTJqagqiQRpf
-         kias0RlHvxG0ZxO1GiAEP+NyFmNB+nDSMTbey+XEz0ZSdUKZzlzg30UWT5P5pyPoHBcP
-         jMmPHjGX9gORXnufUyLR6npDVV0FyQFN4iZ5WxIY5LLtIUm+tahXeKswZbkQjuu5mc17
-         Mn50x/X5XXc5sNRML3SJ2cq450f31T1G2bOi08b+6rdSNp3I+Ycwx2KZv6+pOzc3uMOS
-         1WxVi1IV6lscNccJ7SDwmhlU3bjpbIaDvpAVWKioAg9YoKIw9N6GFONuTSI0USD1HGse
-         L6RA==
+        d=linaro.org; s=google; t=1713021403; x=1713626203; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5A7g7qS50UKBu2Vs5SDgCbvvncurtSr/U44kFCGPI8Y=;
+        b=yDA9qZ/VJ/08FxBtob6q2xfKVaPUcbw3VKYCsDNJeTxZvZjkMxaQWfCaAOJImDn8GG
+         6W3uSxAfRPZRvz1g8CuhaghrA8MSMKz6zAnxE/GDJtnjk6b0rUXF+ZskQE2vIXJdYOxd
+         zJA3D8Qo8O2bwE9cNXB7IK5CSC1WqgUebAl5arlGF1gEc6cRJcKBgr7N370SiMUw1sbL
+         4dEAW5VOzbunzRz87jvXZ2yPXlhiISn+nEnD+3bzo85Ej65ceed5SMR088jdPmiviQjq
+         5B81y6dJVtJdtATohkKMduzBfDAQkFB0KQupQJMlbMGPM5XYZiyei5jsxDH8Upnm0+H3
+         wrqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713021400; x=1713626200;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3KLUzTPW+KpN4IRI1ic6uWm66ErzBdD1Xi0Bbn1RRvE=;
-        b=DlOtl4cz4v47FsBQSh29x8teo5QyYiAg7EZalwjLZiF0w7YoNxwJAkLhMFh0tDJZ8A
-         ZIBnRsgIxXChEGwoNmP0UoJJZ/A98KF5dWOSFJroSDlS/vHBsu59iotEGn/egMtC+ceb
-         TAdwgsMFzNpgJGq/V5U2W6NBPOdjMTTGS/kuPKZzZ0TBTkMaehbi3pwvgaPhno4oag8o
-         4RF4kjSbQt2bXoPoPPbQNg2rf83AuyOp0i2gi3OIVFORIwoeSceyypxb+YqDBP72EIGv
-         iNTcmYwZMsapPDoebfIONCaLvGm4bFlaDHFoNjCtwUD7noj9JCvGPkhowQAzA4FJKQdL
-         UcHA==
-X-Forwarded-Encrypted: i=1; AJvYcCXGxQ+bpGSCEJnk0Gdb9Dr4lVlyhcFYwlF82hA+5c+z7GRtIWP9Ct7DRtGso0gkl2Wop0mQi36w4vTiZ4r0Pn9izreXfd0=
-X-Gm-Message-State: AOJu0Yz130feoI36aBnQy9VqoOaA/0P9Oo3+6jD0yRtkNKlczg/lkQrq
-	50rmZLrB2H7rCCL1KkcAiX8CxVgDPaaNEf/F0pkcOZZwu90YZQRXgZVWFX65CHE=
-X-Google-Smtp-Source: AGHT+IG1tNnKVrVnl2J/+j+UL2Wl4h4NMws2XRL9Lu8vXwFs1VUku2GIOwL+IkYjq0NdIfadi6221Q==
-X-Received: by 2002:a2e:9ed4:0:b0:2d9:fd90:af57 with SMTP id h20-20020a2e9ed4000000b002d9fd90af57mr3723839ljk.51.1713021399920;
-        Sat, 13 Apr 2024 08:16:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713021403; x=1713626203;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5A7g7qS50UKBu2Vs5SDgCbvvncurtSr/U44kFCGPI8Y=;
+        b=XgvRneEHF7hUnyjF4qUJk/KiFQlcIjc/gj6Y0BFSDUnwJbYNuia3z7J5VIEOLiI2l9
+         SndfLGSwCRYtCMmVhGSyTsF76KjMnKlXyg0uKUs78DdzxfL4hyTsxAmcdcIKbzOQgvY3
+         zl4YfF7FiUHeq1m3VuKv8ArV1TlBSJUsUHoCO5aF5CRWl1G0hlnHd+WFzENjflGuIP7B
+         y8ZDrATG4zLUgDl0A1jZjPL8BDQRf/I4m1yG+lpspA15V5fKQHoSpIpbVC6kXF6Ccczu
+         iZvOpEyjd1oiQKaTdJjxOi1qNY5+qWmVlO55fphFPa6+gEeTOMe2sxTSrViKsP8+iMQS
+         K6Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3W/YcQqmFjwU9GXx2ehZr4cFQGN2GQVs7qqmZv2NnLTbaUCMW1dXYw2hDEteRNUCV6Zcs1L/EEWzVG1AcBBRv7kgD4D4=
+X-Gm-Message-State: AOJu0Yxz6sMJdTVcujLSHSMoBaKgY+RD7VaDhpVrffjUBQIZggw/l9l8
+	eNFHbtO72p1epESlFG5RLN/VBcJBhU3UN1GHxyTmUUhHN8Tc8wbwozIHIwLfTUM=
+X-Google-Smtp-Source: AGHT+IEmo2EuLsiQvKf6UbS7ue4IQL/YRmJZHSgoqwKXTxi3PpsLAoyXQzBVJzA9zQct8EPeoVHm3g==
+X-Received: by 2002:a17:906:36d6:b0:a51:d7f3:324b with SMTP id b22-20020a17090636d600b00a51d7f3324bmr3318859ejc.66.1713021403232;
+        Sat, 13 Apr 2024 08:16:43 -0700 (PDT)
 Received: from krzk-bin.. ([178.197.223.16])
-        by smtp.gmail.com with ESMTPSA id kj15-20020a170907764f00b00a51a60bf400sm3104956ejc.76.2024.04.13.08.16.36
+        by smtp.gmail.com with ESMTPSA id kj15-20020a170907764f00b00a51a60bf400sm3104956ejc.76.2024.04.13.08.16.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Apr 2024 08:16:39 -0700 (PDT)
+        Sat, 13 Apr 2024 08:16:42 -0700 (PDT)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Bjorn Helgaas <bhelgaas@google.com>,
 	Lorenzo Pieralisi <lpieralisi@kernel.org>,
@@ -106,10 +108,12 @@ To: Bjorn Helgaas <bhelgaas@google.com>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-rockchip@lists.infradead.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 1/4] dt-bindings: PCI: cdns,cdns-pcie-host: drop redundant msi-parent and pci-bus.yaml
-Date: Sat, 13 Apr 2024 17:16:14 +0200
-Message-Id: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 2/4] dt-bindings: PCI: mediatek,mt7621: add missing child node reg
+Date: Sat, 13 Apr 2024 17:16:15 +0200
+Message-Id: <20240413151617.35630-2-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
+References: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -118,45 +122,44 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The binding reference common cdns-pcie-host.yaml, which already defines
-msi-parent and has a reference to pci-bus.yaml schema.  Drop redundant
-pieces here to make it a bit smaller.
+MT7621 PCI host bridge has children which are PCI root ports.  The
+children have "reg" property, but do not explicitly define it.  Instead
+they rely on pci-bus.yaml schema, but that one has "reg" without any
+constraints.
 
+Define the "reg" for the children, so the binding will be more specific
+and later will allow dropping reference to deprecated pci-bus.yaml
+schema.
+
+Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
 Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 ---
 
 Changes in v3:
-1. None
+1. Correct commit msg (root port).
 
 Changes in v2:
 1. Add tags.
 ---
- Documentation/devicetree/bindings/pci/cdns,cdns-pcie-host.yaml | 3 ---
- 1 file changed, 3 deletions(-)
+ .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml          | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/pci/cdns,cdns-pcie-host.yaml b/Documentation/devicetree/bindings/pci/cdns,cdns-pcie-host.yaml
-index bc3c48f60fff..a8190d9b100f 100644
---- a/Documentation/devicetree/bindings/pci/cdns,cdns-pcie-host.yaml
-+++ b/Documentation/devicetree/bindings/pci/cdns,cdns-pcie-host.yaml
-@@ -10,7 +10,6 @@ maintainers:
-   - Tom Joseph <tjoseph@cadence.com>
+diff --git a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
+index e63e6458cea8..61d027239910 100644
+--- a/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
++++ b/Documentation/devicetree/bindings/pci/mediatek,mt7621-pcie.yaml
+@@ -36,6 +36,9 @@ patternProperties:
+     $ref: /schemas/pci/pci-bus.yaml#
  
- allOf:
--  - $ref: /schemas/pci/pci-bus.yaml#
-   - $ref: cdns-pcie-host.yaml#
+     properties:
++      reg:
++        maxItems: 1
++
+       resets:
+         maxItems: 1
  
- properties:
-@@ -25,8 +24,6 @@ properties:
-       - const: reg
-       - const: cfg
- 
--  msi-parent: true
--
- required:
-   - reg
-   - reg-names
 -- 
 2.34.1
 
