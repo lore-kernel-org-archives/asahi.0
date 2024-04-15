@@ -1,141 +1,192 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DCF2D05E
-	for <asahi@lists.linux.dev>; Mon, 15 Apr 2024 07:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1389925763
+	for <asahi@lists.linux.dev>; Mon, 15 Apr 2024 07:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713166318; cv=none; b=crdK0+rsaM4Jz2g3TDVQv75AH29/5Ij6Vl2L75Gs/VMRNoVW0i7LGf6Vtphc5p4Z6v98NOs/AGTnsb7sXlDMG9RZUOWIulCU7BfLiF5Vdjkik9ngo2obEquwQzj3H9cFywUfTY8rGDOdKMQkMoGcVjHY0cZDAkdErtUzLyXBddc=
+	t=1713167131; cv=none; b=HcEJ/qbcLwN8ac3foHGESgYWDhprakgq9Q8B+F5Ovf0FqVADGMtDi9X0XYAOiVwo7GM2yRoUL8GguDJnamwa+EPv23D8kpD5ll6T1TBOItyNWnxNcc0i6D/oQBQnZvr7+1SxFISf22Vcjkzg8l2Nqwo+Strev20K8WwZZRclgzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713166318; c=relaxed/simple;
-	bh=RiMMGXA23rt3N/5UddmduV4dDe775hQfb8LLkY3/0Gg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EMeLb1lDL3vrfVx6RR98MJyqfhUyhr6HuJqbIm6BeiTxg7JodQ2b2G0Dmbdy6fSy6HGR2kC8nCaePEHRWCP49e3NHBA2N8OiqIs0QCitjc4LRceJClY/qlOFuQ8RUcF/3LW9iVNCT+9F8qmqDNdtuZcrwg+i80qSb8W00/5fp8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T5Swt9co; arc=none smtp.client-ip=209.85.167.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713167131; c=relaxed/simple;
+	bh=bUsjGOrjiKcsnBbSuyCqL2OW+lzREuaMt2hVVXp17uk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eRbLJASdNyxeIjfQWwkw94ks2J9AWrby+xFAGnKZY/lLKRWngtlTi0YAH6C6YJ4pS6Q8bo/amofLbjk9L1rxX9H2APB+RIXkqOojOuP+vWZa0rtpF6Iio/SOQ15jr1qzA/ZhcOkjtOIHS3A2azfrXt8nFDO/jDSdQRe73v7dH/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C1whRjr2; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T5Swt9co"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3c61486d3fcso1704961b6e.2
-        for <asahi@lists.linux.dev>; Mon, 15 Apr 2024 00:31:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C1whRjr2"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a44f2d894b7so294069966b.1
+        for <asahi@lists.linux.dev>; Mon, 15 Apr 2024 00:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713166316; x=1713771116; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fyAUoqBvIOKTY3LdJCpcnCDojqj4JBfKWFR06e36DaU=;
-        b=T5Swt9co+ONeqsgN+ZCE0tfKXv959ynEwUGly3Vftsl3WX38w9cxa9r3QmHScQHfVO
-         UhCtOM1XSuzA1KhLYgah9b0/YrjWYjXTlz0qP9JfED2m0fy1A4VdKB6Oi1jTncE0Wo2S
-         y0BjkfWbOIP/cCJwQOnEVRSwjkNWcVJKfkgHaMJTQXL0qJRlTEX6sxevuvdqLphs10Dy
-         5z4Z0WBXcR2yl5yHawVHDqeeJEn2vZGdJ07fKpCWBF9qFm6X8hk7/YaK9grjRfcP5iWr
-         Womazb0xf2eVBSYBhC7V79ieJbkark6bz+d3RRNjDeHftB5x3JXUpzeOUjT6t8DDL4Am
-         L+ug==
+        d=linaro.org; s=google; t=1713167128; x=1713771928; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=DQNF7zkSXRFQf5KUOpvJNiIAOOs7YklqwV7aAB78wGs=;
+        b=C1whRjr2ywTsSn5UW5RHnkieSB3lymmydlkHSapSgZPeTZf0FesKhNmIFiZ++u5h7f
+         P0Qo/XeB6sZWBwfnGi+Ip8mopE80Sl3k6gL9ibTxbh+vy00237ZfIkLezzDj9k47rbel
+         qUMmFjX4DOKjMfHM/15ZCu3xDpibS5ZS7LYHYy5UE6XT5Z5eZ3ivpD6yKNAzYhcN7+zO
+         W60gpygON7ZH/boREa8M81FvnRqXpGlIyJrNYDGq4guveYsIea1d0uQn2TxiZJDW/OJn
+         gEm2dhkms5uHFG1J4Lm4WEKqrrODYvSbKcVyRK2nUpMgNSzMqZwinwSt2n/LFZQ6nQWU
+         ozNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713166316; x=1713771116;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fyAUoqBvIOKTY3LdJCpcnCDojqj4JBfKWFR06e36DaU=;
-        b=WNSO1uB1JDrE8dMG36f5V69o/bMmZzGE586WiWwYPeGhnfdQ+4tEvdaaB0mjzIxAO8
-         PMaQ9UwjkiWAm82OqsLvfrL9KzCg0gp8uaFktourC+uK+bXFpYaz56SUvUSZKp2sglwy
-         vbrWegCSB7BbaNEwuqDyiwF+UU3m8tpfnwUd3NgzsW3I/zO5hYpaxePDFloKauQIyyL3
-         ntVWViuSYSjYNB/Ib6rSDAm3ud5wOb5vSOkuLINW8yMMkjyKgpLqfXYlyJIEv3eMlONs
-         bBrjPNowAT5YL1NtImGGgxGosAaKIZy/DjK0owO/C16zQF11nzEtKF91ekS0+6hsCrLI
-         VrdA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIP0RYwXCSqdZJ70r9C2GXQMvYLZbNnvpN/GwLRGU7QPdIuumNgahhWe4JzamBKJ+vHbogK6wo6OL4FW043E9KzHkc1V4=
-X-Gm-Message-State: AOJu0Yw3B82Rh/gEFBEMLPO2qYmLfQgnus4YObM5wLTYwkdVJWG+VWQ4
-	ksLpotHjM452un4XtbZP1t+p9vuZ55dWdbmz4uji28YvweKKBvS2mrXG0rL7QCKo2up7cCQZI3d
-	5wrdMtdscKIwZxGbp4Wfo7odpH1E=
-X-Google-Smtp-Source: AGHT+IG+mHEf+9pMHePulndcOmqJAFoy+0e8uxd+TwOgPTDj/IhKU2JtlX/85TmoPDDzrhRzFX9Fs3nWYPxdgLlCL2I=
-X-Received: by 2002:a05:6870:ac26:b0:233:b575:4b4a with SMTP id
- kw38-20020a056870ac2600b00233b5754b4amr10413015oab.36.1713166316068; Mon, 15
- Apr 2024 00:31:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713167128; x=1713771928;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DQNF7zkSXRFQf5KUOpvJNiIAOOs7YklqwV7aAB78wGs=;
+        b=ih1FWcUmr+wwWLUoWAJkL0s+L2uPSX6uwww/d0vm3ZYlezGvio7BKHe9ESxYfUpC1R
+         cmQKnrY0UtRajjaRYh++RO6a0AZK4LsnNlU3O3AF3RWdbHlMs/O9ZO6C8csDu9dBu8zT
+         kSZtJ1+Dh+s4E3JWnPKpGsmkMZze/4Mu+npVJBPC+LSfykvgcREwaYagQ7s9ITOG0Unk
+         8XcHG5iQi0AS/9i9gnU16tnHzCvT165uSPPqeh4/d6rRSgjDdqxNctNWh0u0pFPtBC6o
+         38KQU6EQIvNeKErbsJaPt2Iy4oza8itO8pWkWRzVebeQG8szzRq4tlQlvy8SrxP9j8et
+         2LcA==
+X-Forwarded-Encrypted: i=1; AJvYcCXhGIQs/6m+SSOSNhid8wN1BeWqk//bhULyKq8lCZ08cr0aPRZDTBvaXZDaoTMkwlBAaHguY3d+VKnKTSVhasaVIop/A4Y=
+X-Gm-Message-State: AOJu0YzLkZnaQJFso9HzHX7Wh3a2fb8oh4g0il0CoaT7H6JIxGi71eff
+	ClON4UOZnf8ZILeLEPEf1IZRNb2INPMZLz7ds+q0O0u9Gx4kF/nm/ZeiDnkcfnA=
+X-Google-Smtp-Source: AGHT+IE6J9sEau9bksr4Utu4iSgDQu9L8YqhSxC7EB3LNaLN6CUQlDvqEMM+3KACsikXSfynV2Q0aA==
+X-Received: by 2002:a17:906:a048:b0:a52:2c0e:2e91 with SMTP id bg8-20020a170906a04800b00a522c0e2e91mr6548154ejb.17.1713167128339;
+        Mon, 15 Apr 2024 00:45:28 -0700 (PDT)
+Received: from [10.230.170.72] (46-253-189-43.dynamic.monzoon.net. [46.253.189.43])
+        by smtp.gmail.com with ESMTPSA id bw26-20020a170906c1da00b00a52222f2b21sm4994628ejb.66.2024.04.15.00.45.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Apr 2024 00:45:27 -0700 (PDT)
+Message-ID: <d90fc534-adf6-4783-8c2b-c4cf103a0e26@linaro.org>
+Date: Mon, 15 Apr 2024 09:45:25 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org> <20240413151617.35630-4-krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20240413151617.35630-4-krzysztof.kozlowski@linaro.org>
-From: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-Date: Mon, 15 Apr 2024 09:31:47 +0200
-Message-ID: <CAMhs-H9ADfuDkFcD==7x+VaN2q92JV1gxuyrWvfNYK1psEnrQA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 4/4] dt-bindings: PCI: mediatek,mt7621-pcie: switch
  from deprecated pci-bus.yaml
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Jim Quinlan <jim2101024@gmail.com>, 
-	Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Srikanth Thokala <srikanth.thokala@intel.com>, 
-	Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang <jianjun.wang@mediatek.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, Marek Vasut <marek.vasut+renesas@gmail.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Shawn Lin <shawn.lin@rock-chips.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>, 
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>, 
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>, Michal Simek <michal.simek@amd.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Mark Kettenis <kettenis@openbsd.org>, 
-	Tom Joseph <tjoseph@cadence.com>, Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>, linux-pci@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Sergio Paracuellos <sergio.paracuellos@gmail.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Jim Quinlan <jim2101024@gmail.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>, Will Deacon <will@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Srikanth Thokala <srikanth.thokala@intel.com>,
+ Ryder Lee <ryder.lee@mediatek.com>, Jianjun Wang
+ <jianjun.wang@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daire McNamara <daire.mcnamara@microchip.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>,
+ Marek Vasut <marek.vasut+renesas@gmail.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Shawn Lin <shawn.lin@rock-chips.com>, Heiko Stuebner <heiko@sntech.de>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
+ Michal Simek <michal.simek@amd.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Mark Kettenis <kettenis@openbsd.org>, Tom Joseph <tjoseph@cadence.com>,
+ Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
+ linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
+References: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
+ <20240413151617.35630-4-krzysztof.kozlowski@linaro.org>
+ <CAMhs-H9ADfuDkFcD==7x+VaN2q92JV1gxuyrWvfNYK1psEnrQA@mail.gmail.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <CAMhs-H9ADfuDkFcD==7x+VaN2q92JV1gxuyrWvfNYK1psEnrQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Krzysztof,
+On 15/04/2024 09:31, Sergio Paracuellos wrote:
+> Hi Krzysztof,
+> 
+> On Sat, Apr 13, 2024 at 5:16 PM Krzysztof Kozlowski
+> <krzysztof.kozlowski@linaro.org> wrote:
+>>
+>> dtschema package with core schemas deprecated pci-bus.yaml schema in
+>> favor of individual schemas per host, device and pci-pci.
+>>
+>> Switch Mediatek MT7621 PCIe host bridge binding to this new schema.
+>>
+>> This requires dtschema package newer than v2024.02 to work fully.
+>> v2024.02 will partially work: with a warning.
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>
+>> ---
+>>
+>> Important: This depends on change recently merged to dtschema, however
+>> no release was yet made with mentioned change.
+>> Therefore this patch probably should wait a bit. Previous patches do not
+>> depend anyhow on future release, so they can be taken as is.
+> 
+> Does this mean that we should set DT_SCHEMA_MIN_VERSION to 2024.02 in
+> Documentation/devicetree/bindings/Makefile then before merging this
+> patch?
 
-On Sat, Apr 13, 2024 at 5:16=E2=80=AFPM Krzysztof Kozlowski
-<krzysztof.kozlowski@linaro.org> wrote:
->
-> dtschema package with core schemas deprecated pci-bus.yaml schema in
-> favor of individual schemas per host, device and pci-pci.
->
-> Switch Mediatek MT7621 PCIe host bridge binding to this new schema.
->
-> This requires dtschema package newer than v2024.02 to work fully.
-> v2024.02 will partially work: with a warning.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->
-> ---
->
-> Important: This depends on change recently merged to dtschema, however
-> no release was yet made with mentioned change.
-> Therefore this patch probably should wait a bit. Previous patches do not
-> depend anyhow on future release, so they can be taken as is.
+For the previous changes: yes. For this one: we need newer...
+Best regards,
+Krzysztof
 
-Does this mean that we should set DT_SCHEMA_MIN_VERSION to 2024.02 in
-Documentation/devicetree/bindings/Makefile then before merging this
-patch?
-
->
-> Changes in v3:
-> 1. None
->
-> Changes in v2:
-> 1. New patch
-> 2. Split mediatek,mt7621-pcie to separate patch as it uses
->    pci-pci-bridge schema.
-> ---
->  .../devicetree/bindings/pci/mediatek,mt7621-pcie.yaml         | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-
-Acked-by: Sergio Paracuellos <sergio.paracuellos@gmail.com>
-
-Thanks,
-    Sergio Paracuellos
