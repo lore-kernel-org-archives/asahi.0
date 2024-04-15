@@ -1,53 +1,53 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E41E1E896
-	for <asahi@lists.linux.dev>; Mon, 15 Apr 2024 13:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF22071B32
+	for <asahi@lists.linux.dev>; Mon, 15 Apr 2024 14:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713189369; cv=none; b=X4dEjSLL1J4fpbt+5GahXtRR/ekIZcadYihZ1Uik784Er4Uu9ZLXQzDsjP1X2qI4kXh8WIL26jvR6lZYHcj6c/tjMhfM/R1xFvNCqpXUdFp7CeONZsluO3uTEp4D0mMZgvAXJagw4zZFtT63rtrAG4DJ8IhBVpA22PzT9R7++ds=
+	t=1713191163; cv=none; b=VeiIbPtfD+31TtRsRieGHsmHpsZgmPOYEVhzfZBexEXoLn/Rpd6w4DXc9gUzT6CQCnnZAi94+dsJD034StsfZsagVhyDrzLcjrVzxebU5mV9DG63ZQYy5GoQ0rBg8lCu0AoxLqNkQI/Wn2HYmAwEqNZmhUZxzIBXM+bDLXWsGE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713189369; c=relaxed/simple;
-	bh=z84m/Pp/Qqot8QFsb4absnFMv2Iut+pCrypQp9Z5KYo=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=iUk+tiCy22EVgoIBjuBHrSx+Y7+HDhvU0l6LCCvMjoFy6P0FUKAKE4U05AS30u46bUGgtoBRY1Y39RFOjtDUeI3Ppt0fzG8Nb+QqXmoCYIbI08MKaRN6bHR+d6oZqTfT+wZSIO488fSFFe/50tUbcipQXBNktFsprGDrV5MKaUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=SkimkQUk; arc=none smtp.client-ip=195.121.94.183
+	s=arc-20240116; t=1713191163; c=relaxed/simple;
+	bh=9uBFKK4sFcYemt44mjLmaNBlm+t5/97eHCiS+lii244=;
+	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=cQrY1ig+NwTNXw6LM1kBFiTq6+9wV+PYvWovrTmBIHivnCadSq0D/yJvXO2u05pqAVBt+/p7TXDMqU/fK+Y7nL0fym3ie0l41EoG/9qtC8Eym9MHRVE3/nSR4OJiykk/NG5lWRHag4eoBEScU95Kt9DRH/UC4TwpVkV+e86PI/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=a1GptqBE; arc=none smtp.client-ip=195.121.94.185
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="SkimkQUk"
-X-KPN-MessageId: 900e21ba-fb2f-11ee-b571-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.6])
+	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="a1GptqBE"
+X-KPN-MessageId: bda76bb1-fb33-11ee-99a6-005056999439
+Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
 	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 900e21ba-fb2f-11ee-b571-005056992ed3;
-	Mon, 15 Apr 2024 15:53:39 +0200 (CEST)
+	id bda76bb1-fb33-11ee-99a6-005056999439;
+	Mon, 15 Apr 2024 16:23:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xs4all.nl; s=xs4all01;
 	h=subject:to:from:message-id:date;
-	bh=F7i4+D5wx6h53OXDd8u/HmMA49vGCxp0DdUuKlS4l1s=;
-	b=SkimkQUkenSxuhkCuI9aZDv4tUdHpJmZCMMYdm6y4E8GTPiuhtz6NPiEYNoSxXkPaDaVpp+Ofs9cS
-	 x5veDODrL+nzs/4c0m+gj9BzCl6MPqoYJRb7RlheCKp+WNFXEA6rvy0BSscpKVNytxLn0eeyEoU4Vq
-	 3+XBqNw1UI72BxUZxunIWFtAOYoJ9k9W0UhXT/gnyISZtNKk/i9mP+0jkX+cY2EFf6tq7mU0KW7JF0
-	 8hDUlrQPFUlGxy4TleS9UjN6W9kKr/84Et9sXULGIXW0WZODLJkFvHrMyzuITO4enp/owNwMuOESWH
-	 lHis6ll5I6Z8U8wXpIo3yddy5qhafeg==
-X-KPN-MID: 33|+tRlo4EicGthqpH4CNUryr5VXNf0NDb9b/wsqDgskfA954N1n87i7Va4PsTMvgB
- NQsP6Js6reUW/pr2Ncveem6YlQvjZOAoXiar2KiSp8Gk=
+	bh=4egGE6y9Zm72AHZF7pctEsdpWMjrDWBhCYt5emihWHc=;
+	b=a1GptqBEtdfYzMrWxnbGbmOYpbNnVU7Y2bEX95yKdjFQ70xNHEt2eaK54KfADu5hRey9mMFXYQHxL
+	 z+E/rwoy7ZXBb1nEaAhF1O6nBqzZoRWN1HCzMGbIM9Fpw0VAb+WFncEnkKN88O2CBbxQcmziHSxMMT
+	 MtYBfq5CoJiLLFImWbipAEo1fVRhAHw1vJYSrboUIbdiJPtcSehv/MubUkm71PODUz7a1bfE16q01F
+	 jT2Gv4BYVgeevQrOPHxAx4KOsyLC9xwAW3UOKPBDxHMa/SlVoyj+hoL++8EiaOvlCatvMkugXdQxAw
+	 OBhaazkWLv6aeefYTmRDpWEInh894dA==
+X-KPN-MID: 33|zejDGefllvU3oKWQ20NPC7NZrBbQxGIUiujU+LUosYC/4fjxyW0NpLedv8mBlPb
+ TTwAT6u/PRmVLNPSGTN1dOxpSfIdqLsMcpMYz34AKAPg=
 X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|o2Ei4hbXENIp5s5K0TSmrfkGohMFifiogRxJIHB2Qj3m5Z/+Q2wj6O+cxAt8fd5
- rm6Z2XhXjBCdR7Jq/vKxR3w==
+X-CMASSUN: 33|63iHYI0bpA36NnccfbFyC83oFnEyUnzrhIBebDeOWomldKGJ+FxBxmYlPVSYpBL
+ wn8DU1Kh2Ul0983coapB7Sg==
 Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
 	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id be16545b-fb2f-11ee-9eb4-00505699772e;
-	Mon, 15 Apr 2024 15:54:57 +0200 (CEST)
-Date: Mon, 15 Apr 2024 15:54:56 +0200
-Message-Id: <875xwihgsv.fsf@bloch.sibelius.xs4all.nl>
+	id ebb40341-fb33-11ee-94ef-00505699b758;
+	Mon, 15 Apr 2024 16:24:51 +0200 (CEST)
+Date: Mon, 15 Apr 2024 16:24:51 +0200
+Message-Id: <874jc2hff0.fsf@bloch.sibelius.xs4all.nl>
 From: Mark Kettenis <mark.kettenis@xs4all.nl>
 To: <j@jannau.net>
 Cc: kettenis@openbsd.org, trini@konsulko.com, sjg@chromium.org,
 	u-boot@lists.denx.de, asahi@lists.linux.dev, j@jannau.net
-In-Reply-To: <20240317-apple_config-v1-3-1b862bc140a9@jannau.net> (message
-	from Janne Grunau via B4 Relay on Sun, 17 Mar 2024 15:54:49 +0100)
-Subject: Re: [PATCH 3/4] configs: apple: Enable CMD_SELECT_FONT and FONT_16X32
-References: <20240317-apple_config-v1-0-1b862bc140a9@jannau.net> <20240317-apple_config-v1-3-1b862bc140a9@jannau.net>
+In-Reply-To: <20240317-apple_config-v1-4-1b862bc140a9@jannau.net> (message
+	from Janne Grunau via B4 Relay on Sun, 17 Mar 2024 15:54:50 +0100)
+Subject: Re: [PATCH 4/4] arm: apple: Switch to standard boot
+References: <20240317-apple_config-v1-0-1b862bc140a9@jannau.net> <20240317-apple_config-v1-4-1b862bc140a9@jannau.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -55,43 +55,73 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 
 > From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-> Date: Sun, 17 Mar 2024 15:54:49 +0100
+> Date: Sun, 17 Mar 2024 15:54:50 +0100
 > 
 > From: Janne Grunau <j@jannau.net>
 > 
-> Apple devices have high DPI displays so the larger fonts are preferable
-> for improved readability. This does not yet change the used font based
-> on the display's pixel density so the standard 8x16 font is still used
-> by default.
+> Use standard boot instead of the distro boot scripts.
 > 
 > Signed-off-by: Janne Grunau <j@jannau.net>
 
-Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+As per a somewhat recent discussion about this for the rockchip SoCs,
+I think we want BOOTSTD_FULL instead of BOOTSTD_DEFAULT.  Even though
+I think that BOOTSTD_FULL is a bit too chatty at the moment.
+
+That also solves the issue that BOOTSTD_DEFAULTS doesn't run the EFI
+bootmgr (which does happen with distroboot).  Although Heinrich has a
+diff to fix that.
 
 > ---
->  configs/apple_m1_defconfig | 2 ++
->  1 file changed, 2 insertions(+)
+>  arch/arm/Kconfig        |  2 +-
+>  include/configs/apple.h | 20 ++------------------
+>  2 files changed, 3 insertions(+), 19 deletions(-)
 > 
-> diff --git a/configs/apple_m1_defconfig b/configs/apple_m1_defconfig
-> index 31d966f0ab..c30aec7c55 100644
-> --- a/configs/apple_m1_defconfig
-> +++ b/configs/apple_m1_defconfig
-> @@ -9,6 +9,7 @@ CONFIG_SYS_PBSIZE=276
->  # CONFIG_DISPLAY_CPUINFO is not set
->  CONFIG_DISPLAY_BOARDINFO_LATE=y
->  CONFIG_BOARD_LATE_INIT=y
-> +CONFIG_CMD_SELECT_FONT=y
->  # CONFIG_NET is not set
->  CONFIG_SYS_64BIT_LBA=y
->  CONFIG_APPLE_SPI_KEYB=y
-> @@ -19,6 +20,7 @@ CONFIG_USB_XHCI_DWC3=y
->  CONFIG_USB_XHCI_PCI=y
->  CONFIG_USB_DWC3=y
->  CONFIG_USB_KEYBOARD=y
-> +CONFIG_VIDEO_FONT_16X32=y
->  CONFIG_SYS_WHITE_ON_BLACK=y
->  CONFIG_NO_FB_CLEAR=y
->  CONFIG_VIDEO_SIMPLE=y
+> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+> index 01d6556c42..ad89abde41 100644
+> --- a/arch/arm/Kconfig
+> +++ b/arch/arm/Kconfig
+> @@ -1034,7 +1034,7 @@ config ARCH_APPLE
+>  	select USB
+>  	imply CMD_DM
+>  	imply CMD_GPT
+> -	imply DISTRO_DEFAULTS
+> +	imply BOOTSTD_DEFAULTS
+>  	imply OF_HAS_PRIOR_STAGE
+>  
+>  config ARCH_OWL
+> diff --git a/include/configs/apple.h b/include/configs/apple.h
+> index a70440b3ad..1e08b11448 100644
+> --- a/include/configs/apple.h
+> +++ b/include/configs/apple.h
+> @@ -9,26 +9,10 @@
+>  	"stdout=vidconsole,serial\0" \
+>  	"stderr=vidconsole,serial\0"
+>  
+> -#if IS_ENABLED(CONFIG_CMD_NVME)
+> -	#define BOOT_TARGET_NVME(func) func(NVME, nvme, 0)
+> -#else
+> -	#define BOOT_TARGET_NVME(func)
+> -#endif
+> -
+> -#if IS_ENABLED(CONFIG_CMD_USB)
+> -	#define BOOT_TARGET_USB(func) func(USB, usb, 0)
+> -#else
+> -	#define BOOT_TARGET_USB(func)
+> -#endif
+> -
+> -#define BOOT_TARGET_DEVICES(func) \
+> -	BOOT_TARGET_NVME(func) \
+> -	BOOT_TARGET_USB(func)
+> -
+> -#include <config_distro_bootcmd.h>
+> +#define BOOT_TARGETS	"nvme usb"
+>  
+>  #define CFG_EXTRA_ENV_SETTINGS \
+>  	ENV_DEVICE_SETTINGS \
+> -	BOOTENV
+> +	"boot_targets=" BOOT_TARGETS "\0"
+>  
+>  #endif
 > 
 > -- 
 > 2.44.0
