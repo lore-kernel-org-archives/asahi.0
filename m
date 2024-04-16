@@ -1,130 +1,113 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from ma-mailsvcp-mx-lapp01.apple.com (ma-mailsvcp-mx-lapp01.apple.com [17.32.222.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF22071B32
-	for <asahi@lists.linux.dev>; Mon, 15 Apr 2024 14:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6237111AA
+	for <asahi@lists.linux.dev>; Tue, 16 Apr 2024 02:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.32.222.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713191163; cv=none; b=VeiIbPtfD+31TtRsRieGHsmHpsZgmPOYEVhzfZBexEXoLn/Rpd6w4DXc9gUzT6CQCnnZAi94+dsJD034StsfZsagVhyDrzLcjrVzxebU5mV9DG63ZQYy5GoQ0rBg8lCu0AoxLqNkQI/Wn2HYmAwEqNZmhUZxzIBXM+bDLXWsGE8=
+	t=1713233516; cv=none; b=S2CZJB5/RL1rQCXxZ/rJDCHpROHD9zakMCWUCnTU0yZMXcb1jRsV9MROHFFh8Js72lc908tzAmtb1WvGlK7wYC8ayS4WkQKlSJ+cYJu9iK5dNYK/SIvZ3YZlZtSSBjwjUAfkEAC4PgTLDD8nO/Ke0zM0WxLlD9ihthNmPRyjoTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713191163; c=relaxed/simple;
-	bh=9uBFKK4sFcYemt44mjLmaNBlm+t5/97eHCiS+lii244=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=cQrY1ig+NwTNXw6LM1kBFiTq6+9wV+PYvWovrTmBIHivnCadSq0D/yJvXO2u05pqAVBt+/p7TXDMqU/fK+Y7nL0fym3ie0l41EoG/9qtC8Eym9MHRVE3/nSR4OJiykk/NG5lWRHag4eoBEScU95Kt9DRH/UC4TwpVkV+e86PI/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=a1GptqBE; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1713233516; c=relaxed/simple;
+	bh=EySWZ6JvodAT+tzNLNcvmnw7/Y+NHXsrzgGbLxRPXzM=;
+	h=From:To:Cc:Subject:Date:Message-id:In-reply-to:References:
+	 MIME-version; b=V9YpZZB3q6ZZ6ntFknd34zcNB6D3ltb9dL+QJjwrC/VaiM/qmA/19clda1lc7cDkMGWn7YAnrPRxvf73EjSCDGPQA5890s8/w72IEvlNdYDGUcKHQXt7+qkpi8PU42R3K7UQNiO2X0lfShVNOTL/S2NKdk85dznjL6ZF99ZX+pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=apple.com; spf=pass smtp.mailfrom=apple.com; dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b=gbhr6m/R; arc=none smtp.client-ip=17.32.222.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=apple.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apple.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="a1GptqBE"
-X-KPN-MessageId: bda76bb1-fb33-11ee-99a6-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id bda76bb1-fb33-11ee-99a6-005056999439;
-	Mon, 15 Apr 2024 16:23:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=4egGE6y9Zm72AHZF7pctEsdpWMjrDWBhCYt5emihWHc=;
-	b=a1GptqBEtdfYzMrWxnbGbmOYpbNnVU7Y2bEX95yKdjFQ70xNHEt2eaK54KfADu5hRey9mMFXYQHxL
-	 z+E/rwoy7ZXBb1nEaAhF1O6nBqzZoRWN1HCzMGbIM9Fpw0VAb+WFncEnkKN88O2CBbxQcmziHSxMMT
-	 MtYBfq5CoJiLLFImWbipAEo1fVRhAHw1vJYSrboUIbdiJPtcSehv/MubUkm71PODUz7a1bfE16q01F
-	 jT2Gv4BYVgeevQrOPHxAx4KOsyLC9xwAW3UOKPBDxHMa/SlVoyj+hoL++8EiaOvlCatvMkugXdQxAw
-	 OBhaazkWLv6aeefYTmRDpWEInh894dA==
-X-KPN-MID: 33|zejDGefllvU3oKWQ20NPC7NZrBbQxGIUiujU+LUosYC/4fjxyW0NpLedv8mBlPb
- TTwAT6u/PRmVLNPSGTN1dOxpSfIdqLsMcpMYz34AKAPg=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|63iHYI0bpA36NnccfbFyC83oFnEyUnzrhIBebDeOWomldKGJ+FxBxmYlPVSYpBL
- wn8DU1Kh2Ul0983coapB7Sg==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id ebb40341-fb33-11ee-94ef-00505699b758;
-	Mon, 15 Apr 2024 16:24:51 +0200 (CEST)
-Date: Mon, 15 Apr 2024 16:24:51 +0200
-Message-Id: <874jc2hff0.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: <j@jannau.net>
-Cc: kettenis@openbsd.org, trini@konsulko.com, sjg@chromium.org,
-	u-boot@lists.denx.de, asahi@lists.linux.dev, j@jannau.net
-In-Reply-To: <20240317-apple_config-v1-4-1b862bc140a9@jannau.net> (message
-	from Janne Grunau via B4 Relay on Sun, 17 Mar 2024 15:54:50 +0100)
-Subject: Re: [PATCH 4/4] arm: apple: Switch to standard boot
-References: <20240317-apple_config-v1-0-1b862bc140a9@jannau.net> <20240317-apple_config-v1-4-1b862bc140a9@jannau.net>
+	dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b="gbhr6m/R"
+Received: from rn-mailsvcp-mta-lapp03.rno.apple.com
+ (rn-mailsvcp-mta-lapp03.rno.apple.com [10.225.203.151])
+ by ma-mailsvcp-mx-lapp01.apple.com
+ (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
+ 2023)) with ESMTPS id <0SC0007KCJEJNJ20@ma-mailsvcp-mx-lapp01.apple.com> for
+ asahi@lists.linux.dev; Mon, 15 Apr 2024 19:11:13 -0700 (PDT)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-16_01,2024-04-15_01,2023-05-22_02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com; h=from : to
+ : cc : subject : date : message-id : in-reply-to : references : mime-version :
+ reply-to : content-transfer-encoding; s=20180706;
+ bh=nngm6XbfyXatgPmHzfYVsTDCjG98BspYNzDPPSld7dg=;
+ b=gbhr6m/RUiRpp4vxHjM2vtke+tHGcwvKL5WI+lW4NBWuQxWFm+k9j/cDDzavjHr1uLCu
+ t6fmcEkbT9/d6D/NvYZDsC646OJPG0Dyo5pkSENXqaECArz74/LFgapo1JoQs/wkAPa0
+ MD4V5YSnS2gQRRym93tigVHHIohox1qeY6um1aKyPuebfhh7zvTfvtblMmXexwMGFLqf
+ cjMXfdQwu5odf0DEY6xRC/qFnS0/Yc/Rf24J+2TVZVcCEgq9ji1MygWSzqZ3slkDqcuK
+ 0z51k/Zz+RFaybt7Hy4VyP2tmErGx2fvpEKZVWPG3e1GkTyFKLsikDfm23zOzEubkXIs qg==
+Received: from rn-mailsvcp-mmp-lapp04.rno.apple.com
+ (rn-mailsvcp-mmp-lapp04.rno.apple.com [17.179.253.17])
+ by rn-mailsvcp-mta-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
+ 2023)) with ESMTPS id <0SC000JRMJEK9YH0@rn-mailsvcp-mta-lapp03.rno.apple.com>;
+ Mon, 15 Apr 2024 19:11:08 -0700 (PDT)
+Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp04.rno.apple.com by
+ rn-mailsvcp-mmp-lapp04.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
+ 2023)) id <0SC000W00JDPRP00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Mon,
+ 15 Apr 2024 19:11:08 -0700 (PDT)
+X-Va-A:
+X-Va-T-CD: c84eadf024378b077192ef8893434a32
+X-Va-E-CD: 631f076f6b365e42e06a1df7057e44fb
+X-Va-R-CD: ce6be43db0cce57f85f587e814b9d60f
+X-Va-ID: f5c620bb-5ccb-43de-a622-5e0c3d6a8953
+X-Va-CD: 0
+X-V-A:
+X-V-T-CD: c84eadf024378b077192ef8893434a32
+X-V-E-CD: 631f076f6b365e42e06a1df7057e44fb
+X-V-R-CD: ce6be43db0cce57f85f587e814b9d60f
+X-V-ID: e7395067-f1a5-4f82-b3df-0533498a53b3
+X-V-CD: 0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2024-04-16_01,2024-04-15_01,2023-05-22_02
+Received: from rn-mailsvcp-relay-lapp04.rno.apple.com ([17.11.155.73])
+ by rn-mailsvcp-mmp-lapp04.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
+ 2023))
+ with ESMTPSA id <0SC000ZG4JEIMF00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Mon,
+ 15 Apr 2024 19:11:07 -0700 (PDT)
+From: Zayd Qumsieh <zayd_qumsieh@apple.com>
+To: marcan@marcan.st
+Cc: catalin.marinas@arm.com, will@kernel.org, maz@kernel.org,
+ mark.rutland@arm.com, zayd_qumsieh@apple.com, ih_justin@apple.com,
+ Houdek.Ryan@fex-emu.org, broonie@kernel.org, ardb@kernel.org,
+ mjguzik@gmail.com, anshuman.khandual@arm.com, oliver.upton@linux.dev,
+ miguel.luis@oracle.com, joey.gouly@arm.com, cpaasch@apple.com,
+ keescook@chromium.org, samitolvanen@google.com, bhe@redhat.com,
+ j.granados@samsung.com, dawei.li@shingroup.cn, akpm@linux-foundation.org,
+ revest@chromium.org, david@redhat.com, shr@devkernel.io, andy.chiu@sifive.com,
+ josh@joshtriplett.org, oleg@redhat.com, deller@gmx.de, zev@bewilderbeest.net,
+ omosnace@redhat.com, ojeda@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH 0/4] arm64: Support the TSO memory model
+Date: Mon, 15 Apr 2024 19:11:00 -0700
+Message-id: <20240416021100.87652-1-zayd_qumsieh@apple.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-reply-to: Hector Martin <20240411-tso-v1-0-754f11abfbff@marcan.st>
+References: <20240411-tso-v1-0-754f11abfbff@marcan.st>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-version: 1.0
+Reply-to: Zayd Qumsieh <zayd_qumsieh@apple.com>
+Content-transfer-encoding: 8bit
 
-> From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-> Date: Sun, 17 Mar 2024 15:54:50 +0100
-> 
-> From: Janne Grunau <j@jannau.net>
-> 
-> Use standard boot instead of the distro boot scripts.
-> 
-> Signed-off-by: Janne Grunau <j@jannau.net>
+The patch looks great! :) I have one minor suggestion, though:
 
-As per a somewhat recent discussion about this for the rockchip SoCs,
-I think we want BOOTSTD_FULL instead of BOOTSTD_DEFAULT.  Even though
-I think that BOOTSTD_FULL is a bit too chatty at the moment.
+>static __always_inline bool system_has_actlr_state(void)
+>{
+>	return IS_ENABLED(CONFIG_ARM64_ACTLR_STATE) &&
+>		alternative_has_cap_unlikely(ARM64_HAS_TSO_APPLE);
+>}
 
-That also solves the issue that BOOTSTD_DEFAULTS doesn't run the EFI
-bootmgr (which does happen with distroboot).  Although Heinrich has a
-diff to fix that.
+ACTLR_EL1.TSO is not exposed for writing on Virtual Machines on all
+versions of MacOS. However, AIDR_EL1 may still advertise TSO, whether
+or not ACTLR_EL1.TSO is writable. Could you modify the patch such that
+we check the writability of ACTLR_EL1.TSO in system_has_actlr_state
+(or once on startup, and cache it, since reading from AIDR_EL1 causes
+a trap to Hypervisor.fwk)?
 
-> ---
->  arch/arm/Kconfig        |  2 +-
->  include/configs/apple.h | 20 ++------------------
->  2 files changed, 3 insertions(+), 19 deletions(-)
-> 
-> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-> index 01d6556c42..ad89abde41 100644
-> --- a/arch/arm/Kconfig
-> +++ b/arch/arm/Kconfig
-> @@ -1034,7 +1034,7 @@ config ARCH_APPLE
->  	select USB
->  	imply CMD_DM
->  	imply CMD_GPT
-> -	imply DISTRO_DEFAULTS
-> +	imply BOOTSTD_DEFAULTS
->  	imply OF_HAS_PRIOR_STAGE
->  
->  config ARCH_OWL
-> diff --git a/include/configs/apple.h b/include/configs/apple.h
-> index a70440b3ad..1e08b11448 100644
-> --- a/include/configs/apple.h
-> +++ b/include/configs/apple.h
-> @@ -9,26 +9,10 @@
->  	"stdout=vidconsole,serial\0" \
->  	"stderr=vidconsole,serial\0"
->  
-> -#if IS_ENABLED(CONFIG_CMD_NVME)
-> -	#define BOOT_TARGET_NVME(func) func(NVME, nvme, 0)
-> -#else
-> -	#define BOOT_TARGET_NVME(func)
-> -#endif
-> -
-> -#if IS_ENABLED(CONFIG_CMD_USB)
-> -	#define BOOT_TARGET_USB(func) func(USB, usb, 0)
-> -#else
-> -	#define BOOT_TARGET_USB(func)
-> -#endif
-> -
-> -#define BOOT_TARGET_DEVICES(func) \
-> -	BOOT_TARGET_NVME(func) \
-> -	BOOT_TARGET_USB(func)
-> -
-> -#include <config_distro_bootcmd.h>
-> +#define BOOT_TARGETS	"nvme usb"
->  
->  #define CFG_EXTRA_ENV_SETTINGS \
->  	ENV_DEVICE_SETTINGS \
-> -	BOOTENV
-> +	"boot_targets=" BOOT_TARGETS "\0"
->  
->  #endif
-> 
-> -- 
-> 2.44.0
-> 
-> 
-> 
+Thanks,
+Zayd
