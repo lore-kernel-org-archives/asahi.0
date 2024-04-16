@@ -1,90 +1,97 @@
-Received: from ma-mailsvcp-mx-lapp01.apple.com (ma-mailsvcp-mx-lapp01.apple.com [17.32.222.22])
+Received: from rn-mailsvcp-mx-lapp02.apple.com (rn-mailsvcp-mx-lapp02.apple.com [17.179.253.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6237111AA
-	for <asahi@lists.linux.dev>; Tue, 16 Apr 2024 02:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.32.222.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7506D225A8
+	for <asahi@lists.linux.dev>; Tue, 16 Apr 2024 03:23:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.179.253.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713233516; cv=none; b=S2CZJB5/RL1rQCXxZ/rJDCHpROHD9zakMCWUCnTU0yZMXcb1jRsV9MROHFFh8Js72lc908tzAmtb1WvGlK7wYC8ayS4WkQKlSJ+cYJu9iK5dNYK/SIvZ3YZlZtSSBjwjUAfkEAC4PgTLDD8nO/Ke0zM0WxLlD9ihthNmPRyjoTo=
+	t=1713237789; cv=none; b=OgGDyWwh6dQACwwX09bAtuzcAv1JHLegimNiCNvSUrHBPXInIu6Tz2uRPxSFU70D87J6KBLXoUymTAWznmESzPghO0EMIWIpggW6h0L5teb/axCOl1uJ3qPLtLl9sdBYna/DtLEV3fTBreID8p+LK/z9I7FWjGp5F0TagibOmAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713233516; c=relaxed/simple;
-	bh=EySWZ6JvodAT+tzNLNcvmnw7/Y+NHXsrzgGbLxRPXzM=;
+	s=arc-20240116; t=1713237789; c=relaxed/simple;
+	bh=WwzWSRaDGLC7Jl3VN4s5jShOzj49M6d0mhTOVh8VTl4=;
 	h=From:To:Cc:Subject:Date:Message-id:In-reply-to:References:
-	 MIME-version; b=V9YpZZB3q6ZZ6ntFknd34zcNB6D3ltb9dL+QJjwrC/VaiM/qmA/19clda1lc7cDkMGWn7YAnrPRxvf73EjSCDGPQA5890s8/w72IEvlNdYDGUcKHQXt7+qkpi8PU42R3K7UQNiO2X0lfShVNOTL/S2NKdk85dznjL6ZF99ZX+pM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=apple.com; spf=pass smtp.mailfrom=apple.com; dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b=gbhr6m/R; arc=none smtp.client-ip=17.32.222.22
+	 MIME-version; b=bHgv9XpAqTlmevDyEwH8BVu/uX++9bV6VIpZuCKAGQGSpMRsiIRLqCfIMvmUWazBPH88M4y7tcYyJKWvbp5XJHVHcpgVqPDQmUG7odiKwz++RNKM4XrYk5l0yFG4P/c7JokqkDsbH2vOwE8CHlcLOHrujTaMOiOVyqKw8YilMCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=apple.com; spf=pass smtp.mailfrom=apple.com; dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b=PxluG/gy; arc=none smtp.client-ip=17.179.253.23
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=apple.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apple.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b="gbhr6m/R"
-Received: from rn-mailsvcp-mta-lapp03.rno.apple.com
- (rn-mailsvcp-mta-lapp03.rno.apple.com [10.225.203.151])
- by ma-mailsvcp-mx-lapp01.apple.com
+	dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b="PxluG/gy"
+Received: from rn-mailsvcp-mta-lapp04.rno.apple.com
+ (rn-mailsvcp-mta-lapp04.rno.apple.com [10.225.203.152])
+ by rn-mailsvcp-mx-lapp02.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
- 2023)) with ESMTPS id <0SC0007KCJEJNJ20@ma-mailsvcp-mx-lapp01.apple.com> for
- asahi@lists.linux.dev; Mon, 15 Apr 2024 19:11:13 -0700 (PDT)
+ 2023)) with ESMTPS id <0SC000T98JYC9920@rn-mailsvcp-mx-lapp02.rno.apple.com>
+ for asahi@lists.linux.dev; Mon, 15 Apr 2024 19:23:00 -0700 (PDT)
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-16_01,2024-04-15_01,2023-05-22_02
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com; h=from : to
  : cc : subject : date : message-id : in-reply-to : references : mime-version :
  reply-to : content-transfer-encoding; s=20180706;
- bh=nngm6XbfyXatgPmHzfYVsTDCjG98BspYNzDPPSld7dg=;
- b=gbhr6m/RUiRpp4vxHjM2vtke+tHGcwvKL5WI+lW4NBWuQxWFm+k9j/cDDzavjHr1uLCu
- t6fmcEkbT9/d6D/NvYZDsC646OJPG0Dyo5pkSENXqaECArz74/LFgapo1JoQs/wkAPa0
- MD4V5YSnS2gQRRym93tigVHHIohox1qeY6um1aKyPuebfhh7zvTfvtblMmXexwMGFLqf
- cjMXfdQwu5odf0DEY6xRC/qFnS0/Yc/Rf24J+2TVZVcCEgq9ji1MygWSzqZ3slkDqcuK
- 0z51k/Zz+RFaybt7Hy4VyP2tmErGx2fvpEKZVWPG3e1GkTyFKLsikDfm23zOzEubkXIs qg==
+ bh=WwzWSRaDGLC7Jl3VN4s5jShOzj49M6d0mhTOVh8VTl4=;
+ b=PxluG/gyNjG1svs3YhUBq1UBtCibg4S7Ga7Z0YhIkKxvgPgatQAZQ/ITzYXkI6dzzffG
+ Rlcl40+2We0dWPDQdYqJtUtqDVTPr3spg4LLefsqlkcsOTLOT+giI1a5pua59ZXXUiZB
+ fMcGykhp+W8mEssGFONCifScdeKDF8z2y7eNttRbqzTdse5aYLpcvmq6h4/ner64Jl9V
+ qgC3MLE6DPyO97oi10vsAN6HYIYEuWi7brFXRZercZ4+fLht3iNs9Q5i7pdWJPOoAt8A
+ KCMDdhOW4zx/ZB8neVY+DurLs09vO90uwoaTLRkavYZ58WJHb4f7yCjvhp9c1yyUNHVR Zg==
 Received: from rn-mailsvcp-mmp-lapp04.rno.apple.com
  (rn-mailsvcp-mmp-lapp04.rno.apple.com [17.179.253.17])
- by rn-mailsvcp-mta-lapp03.rno.apple.com
+ by rn-mailsvcp-mta-lapp04.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
- 2023)) with ESMTPS id <0SC000JRMJEK9YH0@rn-mailsvcp-mta-lapp03.rno.apple.com>;
- Mon, 15 Apr 2024 19:11:08 -0700 (PDT)
+ 2023)) with ESMTPS id <0SC000G97JYBVWB0@rn-mailsvcp-mta-lapp04.rno.apple.com>;
+ Mon, 15 Apr 2024 19:23:00 -0700 (PDT)
 Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp04.rno.apple.com by
  rn-mailsvcp-mmp-lapp04.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
- 2023)) id <0SC000W00JDPRP00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Mon,
- 15 Apr 2024 19:11:08 -0700 (PDT)
+ 2023)) id <0SC000U00JCL0X00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Mon,
+ 15 Apr 2024 19:22:59 -0700 (PDT)
 X-Va-A:
-X-Va-T-CD: c84eadf024378b077192ef8893434a32
+X-Va-T-CD: 3075b9643109b0fe17c43e4f1b7ca0e4
 X-Va-E-CD: 631f076f6b365e42e06a1df7057e44fb
 X-Va-R-CD: ce6be43db0cce57f85f587e814b9d60f
-X-Va-ID: f5c620bb-5ccb-43de-a622-5e0c3d6a8953
+X-Va-ID: a4de5280-170c-473d-9b33-eeac3760abae
 X-Va-CD: 0
 X-V-A:
-X-V-T-CD: c84eadf024378b077192ef8893434a32
+X-V-T-CD: 3075b9643109b0fe17c43e4f1b7ca0e4
 X-V-E-CD: 631f076f6b365e42e06a1df7057e44fb
 X-V-R-CD: ce6be43db0cce57f85f587e814b9d60f
-X-V-ID: e7395067-f1a5-4f82-b3df-0533498a53b3
+X-V-ID: d01307ab-8361-4e0f-a1dd-199f180af2d9
 X-V-CD: 0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-04-16_01,2024-04-15_01,2023-05-22_02
-Received: from rn-mailsvcp-relay-lapp04.rno.apple.com ([17.11.155.73])
+Received: from rn-mailsvcp-relay-lapp01.rno.apple.com ([17.11.155.73])
  by rn-mailsvcp-mmp-lapp04.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
  2023))
- with ESMTPSA id <0SC000ZG4JEIMF00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Mon,
- 15 Apr 2024 19:11:07 -0700 (PDT)
+ with ESMTPSA id <0SC0004BHJY7NG00@rn-mailsvcp-mmp-lapp04.rno.apple.com>; Mon,
+ 15 Apr 2024 19:22:56 -0700 (PDT)
 From: Zayd Qumsieh <zayd_qumsieh@apple.com>
-To: marcan@marcan.st
-Cc: catalin.marinas@arm.com, will@kernel.org, maz@kernel.org,
- mark.rutland@arm.com, zayd_qumsieh@apple.com, ih_justin@apple.com,
- Houdek.Ryan@fex-emu.org, broonie@kernel.org, ardb@kernel.org,
- mjguzik@gmail.com, anshuman.khandual@arm.com, oliver.upton@linux.dev,
- miguel.luis@oracle.com, joey.gouly@arm.com, cpaasch@apple.com,
- keescook@chromium.org, samitolvanen@google.com, bhe@redhat.com,
- j.granados@samsung.com, dawei.li@shingroup.cn, akpm@linux-foundation.org,
- revest@chromium.org, david@redhat.com, shr@devkernel.io, andy.chiu@sifive.com,
- josh@joshtriplett.org, oleg@redhat.com, deller@gmx.de, zev@bewilderbeest.net,
- omosnace@redhat.com, ojeda@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+To: Hector Martin <marcan@marcan.st>, Will Deacon <will@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Zayd Qumsieh <zayd_qumsieh@apple.com>,
+ Justin Lu <ih_justin@apple.com>, Ryan Houdek <Houdek.Ryan@fex-emu.org>,
+ Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Mateusz Guzik <mjguzik@gmail.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Oliver Upton <oliver.upton@linux.dev>, Miguel Luis <miguel.luis@oracle.com>,
+ Joey Gouly <joey.gouly@arm.com>, Christoph Paasch <cpaasch@apple.com>,
+ Kees Cook <keescook@chromium.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Baoquan He <bhe@redhat.com>, Joel Granados <j.granados@samsung.com>,
+ Dawei Li <dawei.li@shingroup.cn>, Andrew Morton <akpm@linux-foundation.org>,
+ Florent Revest <revest@chromium.org>, David Hildenbrand <david@redhat.com>,
+ Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>,
+ Josh Triplett <josh@joshtriplett.org>, Oleg Nesterov <oleg@redhat.com>,
+ Helge Deller <deller@gmx.de>, Zev Weiss <zev@bewilderbeest.net>,
+ Ondrej Mosnacek <omosnace@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Asahi Linux <asahi@lists.linux.dev>
 Subject: Re: [PATCH 0/4] arm64: Support the TSO memory model
-Date: Mon, 15 Apr 2024 19:11:00 -0700
-Message-id: <20240416021100.87652-1-zayd_qumsieh@apple.com>
+Date: Mon, 15 Apr 2024 19:22:41 -0700
+Message-id: <20240416022242.89623-1-zayd_qumsieh@apple.com>
 X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-reply-to: Hector Martin <20240411-tso-v1-0-754f11abfbff@marcan.st>
-References: <20240411-tso-v1-0-754f11abfbff@marcan.st>
+In-reply-to: Hector Martin <f6484dcd-ebf6-4b6f-be17-69b05539e33b@marcan.st>
+References:
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -94,20 +101,14 @@ MIME-version: 1.0
 Reply-to: Zayd Qumsieh <zayd_qumsieh@apple.com>
 Content-transfer-encoding: 8bit
 
-The patch looks great! :) I have one minor suggestion, though:
+>I'm probably going to make myself hugely unpopular here, but I have a
+>strong objection to this patch series as it stands. I firmly believe
+>that providing a prctl() to query and toggle the memory model to/from
+>TSO is going to lead to subtle fragmentation of arm64 Linux userspace.
 
->static __always_inline bool system_has_actlr_state(void)
->{
->	return IS_ENABLED(CONFIG_ARM64_ACTLR_STATE) &&
->		alternative_has_cap_unlikely(ARM64_HAS_TSO_APPLE);
->}
-
-ACTLR_EL1.TSO is not exposed for writing on Virtual Machines on all
-versions of MacOS. However, AIDR_EL1 may still advertise TSO, whether
-or not ACTLR_EL1.TSO is writable. Could you modify the patch such that
-we check the writability of ACTLR_EL1.TSO in system_has_actlr_state
-(or once on startup, and cache it, since reading from AIDR_EL1 causes
-a trap to Hypervisor.fwk)?
+It's definitely not our intent to fragment the ecosystem.
+The goal of this memory ordering is to simplify emulation layers that benefit from this.
+If you have suggestions to reduce the risk of it being misused outside of emulators, we'd be happy to look into it.
 
 Thanks,
 Zayd
