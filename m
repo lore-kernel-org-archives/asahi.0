@@ -1,63 +1,63 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102CC384
-	for <asahi@lists.linux.dev>; Fri, 19 Apr 2024 00:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D7765C
+	for <asahi@lists.linux.dev>; Fri, 19 Apr 2024 00:34:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713486840; cv=none; b=eQ23kDqsEA7KM2JY/e1G5FZS2UDRlN6N5UkFpOw6dOw7rr1BUJO0L1YF5VSj5ByLCfLH97AALtOEnJNcMe9gVPBxMq442/3mrFMJxg6u8NMmA4giIpo9myT5fkLPnlU43vKpt0U+oF6UzqMgZv2yv8gOMwlLBSuI+wlD2kNbCOk=
+	t=1713486866; cv=none; b=fqDieIykhmd6pCV5Ms1oJBbsYvdgzovP43p9qxO9IFGheSyDGBfRhMaoTnrz76H0oQb2WvVltvjNX/+jbcUdIt/jDYJ+2ZvlzbXNdxT/IuMaN9uMIQ7rjsXKIOhSCh56raRlOryA0+j34Eb98zvbTvaLGnjv+CBbH0FIbOjk1Lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713486840; c=relaxed/simple;
-	bh=XlBorlfT8rw1i53kGYOpbDGKfhtdO+iNqgxQrm04vps=;
+	s=arc-20240116; t=1713486866; c=relaxed/simple;
+	bh=d6s++CfypUF36kb9gSyIy2WDe5GpudUFHCbhxbLnufM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=botCgnEvCWV5Yc1FV8sRCRKyf7JjxhqyyP9HMocDsfgAsP6MqTV0RlO8NLwxRFJWJc1v+NOVfSr3cA2ZIcTx/N3cc+BbkC3XkpA6vqK96lfw+WK6Y8MvY2/5FAGdJmRhCWMjEMORfoaBJbFjkvjKUkBt+YqakKWeMc8AD8QRajs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.43
+	 To:Cc:Content-Type; b=FH39zEV8sLFk+mzyhHEHwtMJZoD0OUMBtko4RM/NeBKb7wotWwn4ZvPg7o7OsPQQspfAvr2YjUge6VFDK89HVDGUpJB0yYYz69nHv6AnWkiC7J3DsDnetlSFd4G5Wd5ZZNgfDfQD3c19y70AzTeNjxAqnpvPNoUK71QMh2UBG8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-56e477db7fbso2413969a12.3
-        for <asahi@lists.linux.dev>; Thu, 18 Apr 2024 17:33:58 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-51abf1a9332so84397e87.3
+        for <asahi@lists.linux.dev>; Thu, 18 Apr 2024 17:34:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713486837; x=1714091637;
+        d=1e100.net; s=20230601; t=1713486863; x=1714091663;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=PhD14Fcqz09Aolmox4funyeAN+UtnsdTMtIVtk68AGk=;
-        b=AWYqA7yaA1B11GTFyTakXsw0FtiGo39XrfttUIQ7U1Dbl3YYf7XPVGue44hANrXHiI
-         cSfWGwVs2LDnTQe+ogQ4/RvyFEZ/bujh2lgKnO9ufJJyyKLRjmJRsqeL36I/7baisZgB
-         POhdApa3xpk9MyYP6cZPMU1nYetC+o+SUrJlHtp6ULGiNfNHUZjUbokc2rbL1vkWBdEU
-         JlR20g+rQ8h0QVRK17+pHvUhxudxziiRtWHjvtee11p8Duz+8g0Uc9wMx13FEr0qUzMv
-         WcYh3DiektuFg1swC7TPMFPZwdMmWKi9MveK9OwbGUdC6VQC4ngcYIxr1zP0EeD4TwbJ
-         8+NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLe2DmXteFPOxhxM8506V7Pp6uQjcxVH1bIhKCP0BLJ5tHrKM3BDBEc/Svq7NRnY1MxZ+nRSdDD8ndcBLcP2yKmXAwzfw=
-X-Gm-Message-State: AOJu0YyfbwbENl10D92rck/gO9Dk4vMw4thnxIqTWNgtBdRzKGTbfwNT
-	9bRS8uP714BUU/I0sjMDWUyeDNawdj3lqNw/b9WEA2ayAtNTf/ezb2tfEzsOu4P69w==
-X-Google-Smtp-Source: AGHT+IFv1DGRwlD0WF46Wh8jvli0HBAOyFTpFnEhOqNZTOt92u8PmYSkbaw0/F1kCE2a7AtTok9C+Q==
-X-Received: by 2002:a50:9f6d:0:b0:570:5b3c:443 with SMTP id b100-20020a509f6d000000b005705b3c0443mr398996edf.7.1713486836770;
-        Thu, 18 Apr 2024 17:33:56 -0700 (PDT)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
-        by smtp.gmail.com with ESMTPSA id ch15-20020a0564021bcf00b0056e34297cbasm1462566edb.80.2024.04.18.17.33.56
+        bh=NSYLD5SwzBaB5LC4mmFD62Vk9Hl4DW4hxIfMegLA96c=;
+        b=n/xSB4SsLPHlQCiUvroFQoc8N+7w7JOOUx8uc7bMLMUc34goPiJSDdnfZsnyd/ds25
+         HhbQ6Ba7wOd3aqzX8j78Rj9qHYBsMvrgmCb3SoHkbxZmdzopk09wrazPag5nJJBq7miC
+         b5Ae9Lr47lQcc2MBXkL3N9iw9nQ3aS0xMyGQ5yLZNspEAsOAHrjDwgacrRN5sGiiyYp6
+         hN3LUlWROrAgfxQJWub+7EMok4N4knbxR7vZCkCloEaIJQOSqRMNM1smDwcw2Lnv3qEo
+         ZPYDZ8j8o7dMN4lgACxJ9znU7jWefUM+MBVogNfskTgRwTPThuBeBdilkOGFCGbxRbcX
+         I7Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCVWHxNfRlGVEQtfGUw5r0KoWHQbHrgTNvzvQauNjMx9OV4QxRu9E+JYNMr0A3UMhNrDO3PXObbv0sXtiNblg6xh/JC4j3A=
+X-Gm-Message-State: AOJu0Yx5X1pnJMKoP2fMsqVN0s1oe6vqx3b6TVpKeOzElz7bC1lRF/3U
+	aHtCP6lsSB+eBP6/dx1SZGDBJJiAjeUz63Ny7sqa1Ui4s57Jaul4j7JRv0JmxS2q5w==
+X-Google-Smtp-Source: AGHT+IHRjk6/y+KFUyFQXAsoWefhSX7z50XF66dPVwlU0Hds+8Q9s2LLNBwc/VGPfioySUO6Hm8vCw==
+X-Received: by 2002:a05:6512:3132:b0:519:27c3:1f8e with SMTP id p18-20020a056512313200b0051927c31f8emr297356lfd.4.1713486863109;
+        Thu, 18 Apr 2024 17:34:23 -0700 (PDT)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
+        by smtp.gmail.com with ESMTPSA id b1-20020ac25e81000000b00516a1e2a6fcsm449459lfq.256.2024.04.18.17.34.22
         for <asahi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Apr 2024 17:33:56 -0700 (PDT)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a51addddbd4so142185366b.0
-        for <asahi@lists.linux.dev>; Thu, 18 Apr 2024 17:33:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW9355gpn1aRSN+Gbxl7uBUOCGHNS3wf0m9DHkv24fmY0vtDdYn4wbAlzIIZ91dNGl42U5PqGZOAzRWl+s/2AA9rXA5l+E=
-X-Received: by 2002:a17:907:980e:b0:a52:2d35:5e28 with SMTP id
- ji14-20020a170907980e00b00a522d355e28mr410282ejc.57.1713486836344; Thu, 18
- Apr 2024 17:33:56 -0700 (PDT)
+        Thu, 18 Apr 2024 17:34:22 -0700 (PDT)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2da08b06e0dso17480441fa.2
+        for <asahi@lists.linux.dev>; Thu, 18 Apr 2024 17:34:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU7x7uqxHuKwCnZ41izkNyPBydlSUldCchAsteF9Xnoj7trq3SDDxks5jxX1RlKBX/JuNge2Z/ug3/uVbADfNJ0vNaU3gg=
+X-Received: by 2002:a05:6512:3714:b0:519:231:e4b9 with SMTP id
+ z20-20020a056512371400b005190231e4b9mr254768lfr.48.1713486862553; Thu, 18 Apr
+ 2024 17:34:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240418-apple_config-v2-0-7e5c6b9a9db3@jannau.net> <20240418-apple_config-v2-4-7e5c6b9a9db3@jannau.net>
-In-Reply-To: <20240418-apple_config-v2-4-7e5c6b9a9db3@jannau.net>
+References: <20240418-apple_config-v2-0-7e5c6b9a9db3@jannau.net> <20240418-apple_config-v2-5-7e5c6b9a9db3@jannau.net>
+In-Reply-To: <20240418-apple_config-v2-5-7e5c6b9a9db3@jannau.net>
 From: Neal Gompa <neal@gompa.dev>
-Date: Thu, 18 Apr 2024 20:33:20 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je8q_nKO06X1uLLBmGzcHSRbiW6Th+KJdcv4QSQwVC_nNw@mail.gmail.com>
-Message-ID: <CAEg-Je8q_nKO06X1uLLBmGzcHSRbiW6Th+KJdcv4QSQwVC_nNw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] arm: apple: Switch to standard boot
+Date: Thu, 18 Apr 2024 20:33:45 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je98=-j4zOhfy4L3smy5PKqRyaNMJX5H_6jKr0o2pDJqFQ@mail.gmail.com>
+Message-ID: <CAEg-Je98=-j4zOhfy4L3smy5PKqRyaNMJX5H_6jKr0o2pDJqFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] arm: apple: Do not list bootflows on boot
 To: j@jannau.net
 Cc: Mark Kettenis <kettenis@openbsd.org>, Tom Rini <trini@konsulko.com>, 
 	Simon Glass <sjg@chromium.org>, u-boot@lists.denx.de, asahi@lists.linux.dev
@@ -69,61 +69,26 @@ On Thu, Apr 18, 2024 at 3:00=E2=80=AFPM Janne Grunau via B4 Relay
 >
 > From: Janne Grunau <j@jannau.net>
 >
-> Use standard boot instead of the distro boot scripts. Use
-> BOOTSTD_FULL instead of BOOTSTD_DEFAULTS for easier interactive use.
+> The bootflow list is only seen briefly and is probably more confusing
+> than helpful.
 >
 > Signed-off-by: Janne Grunau <j@jannau.net>
 > ---
->  arch/arm/Kconfig        |  2 +-
->  include/configs/apple.h | 20 ++------------------
->  2 files changed, 3 insertions(+), 19 deletions(-)
+>  configs/apple_m1_defconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-> index 01d6556c42..9b83b2e6f8 100644
-> --- a/arch/arm/Kconfig
-> +++ b/arch/arm/Kconfig
-> @@ -1034,7 +1034,7 @@ config ARCH_APPLE
->         select USB
->         imply CMD_DM
->         imply CMD_GPT
-> -       imply DISTRO_DEFAULTS
-> +       imply BOOTSTD_FULL
->         imply OF_HAS_PRIOR_STAGE
->
->  config ARCH_OWL
-> diff --git a/include/configs/apple.h b/include/configs/apple.h
-> index a70440b3ad..1e08b11448 100644
-> --- a/include/configs/apple.h
-> +++ b/include/configs/apple.h
-> @@ -9,26 +9,10 @@
->         "stdout=3Dvidconsole,serial\0" \
->         "stderr=3Dvidconsole,serial\0"
->
-> -#if IS_ENABLED(CONFIG_CMD_NVME)
-> -       #define BOOT_TARGET_NVME(func) func(NVME, nvme, 0)
-> -#else
-> -       #define BOOT_TARGET_NVME(func)
-> -#endif
-> -
-> -#if IS_ENABLED(CONFIG_CMD_USB)
-> -       #define BOOT_TARGET_USB(func) func(USB, usb, 0)
-> -#else
-> -       #define BOOT_TARGET_USB(func)
-> -#endif
-> -
-> -#define BOOT_TARGET_DEVICES(func) \
-> -       BOOT_TARGET_NVME(func) \
-> -       BOOT_TARGET_USB(func)
-> -
-> -#include <config_distro_bootcmd.h>
-> +#define BOOT_TARGETS   "nvme usb"
->
->  #define CFG_EXTRA_ENV_SETTINGS \
->         ENV_DEVICE_SETTINGS \
-> -       BOOTENV
-> +       "boot_targets=3D" BOOT_TARGETS "\0"
->
->  #endif
+> diff --git a/configs/apple_m1_defconfig b/configs/apple_m1_defconfig
+> index c30aec7c55..4eac1a9e2d 100644
+> --- a/configs/apple_m1_defconfig
+> +++ b/configs/apple_m1_defconfig
+> @@ -8,6 +8,7 @@ CONFIG_SYS_CBSIZE=3D256
+>  CONFIG_SYS_PBSIZE=3D276
+>  # CONFIG_DISPLAY_CPUINFO is not set
+>  CONFIG_DISPLAY_BOARDINFO_LATE=3Dy
+> +CONFIG_BOOTCOMMAND=3D"bootflow scan -b"
+>  CONFIG_BOARD_LATE_INIT=3Dy
+>  CONFIG_CMD_SELECT_FONT=3Dy
+>  # CONFIG_NET is not set
 >
 > --
 > 2.44.0
