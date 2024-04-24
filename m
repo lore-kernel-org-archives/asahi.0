@@ -1,1685 +1,1417 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77921586C0
-	for <asahi@lists.linux.dev>; Wed, 24 Apr 2024 07:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D06D29E;
+	Wed, 24 Apr 2024 09:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713944580; cv=none; b=M8WSfBni9iQ1XLXHEB6lF/1LkG3qy/3uyf3AUCdd2Z1cm+dgHxBuY84Im/FRhk40B0ZLdNIkSS6ZTjOcAdtNlibALqyvwo3H6YcINTdv+TdYysU6mv4JlmYU0FtvnME38Z4x5mv3MgAbBWXIhtB1OTO8OPrncsZbHscxG63L++w=
+	t=1713949994; cv=none; b=AFC1I/LMAv09j5UcLV75pFHpGyy4Eht3Jbpzb0hYHRyllV9G+0XqkVxUVqA28My3eygGTZiOxwkShsKkRT3iTBLbIFSiNjBDd1Be9vZ5kGxtdO3a5H8OmmKtQAsWIi9+8NuphNi5oCc0FcSYIuOCilIMHsUMh4K28W2jQ3PIl3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713944580; c=relaxed/simple;
-	bh=n+ycT1yaD+HA004B8O0G4wFDtyUmGknyRTVEjZID7TY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=eSW1/H6EoSAofIdBhyit+Wqa+2D2HKGK7jiON/6DOalJ1TJ9D011dBmEosoYVNrdcmneyo2iS7frW/8dr7HCbcXN609ftRu0D+CZsnPalWqQGqno4cPyL7rLNWjL9VzDhGaxivjMbKY3vnMM3Vos+kq63qGFroIRzfq4Zde//xw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YJsL9o2f; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--joychakr.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YJsL9o2f"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-de4645bee83so11729893276.3
-        for <asahi@lists.linux.dev>; Wed, 24 Apr 2024 00:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713944576; x=1714549376; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NnX9oGxrs0TnUfelI2d5iVd7k4fE//vtfjvjvt3oSPU=;
-        b=YJsL9o2fKFvO3bLm8oc7I/KpYCppEmt91Jy9MCMjmFI1YFTlCf6wglO1wpO/cxRDSn
-         PDW+bOesc4s2Vw54gE0MmnrpBAZwcudBqKw0hujQhpUTp4cz1UsfrLCAXdP3MZ+qKFXd
-         4x9/zD3VNcxBDXnZWbXLKSWTfkTBvKO5kpkxx4oWhjsKZ5dBImekRkfpqTbHuWt5oYkz
-         BLXVSCaN7WNC2MGO95YT8HTibUqcXS6gzGlDSeqiPfYQjVOttkU3yiDeLypfEc+0d+Lb
-         y3XEe2cFp6Vc0gImPmjXN++JKooVjy7vNVsJbNT4kaHQzejM0rSb+EXVQpHzdXYEygQp
-         Q85w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713944576; x=1714549376;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NnX9oGxrs0TnUfelI2d5iVd7k4fE//vtfjvjvt3oSPU=;
-        b=T7JBNToPYUVsmPl66owXJPiKs64eu8YR5gQo3zCkUlSfLZ5lEOEm9IUphbgX/T7wUs
-         EygIWid5RrPns3HrGjleYt43QGW5go//Fbd0EbD3SXsdh5cI3Jda53YTm1fskOiL/NCc
-         r81ltjN2u9bJ/InYDItKnsW5dGCOlKffreGvCYXZuubebnqB/h5XkWML2K2iFVCbqIxa
-         ACf069MfP8X0Hj0SIvuubUq2TM3WCRlGso+nIczLs/v4P2vRkjsGiFiD5npkwx8sVpKY
-         jvYCiTZr3dHGRgtO0bMhex/qVVKpSYe4GCTr0Gw9JqXoJsVkGj5AatbTHb9xcFYlr80F
-         N4RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUKMPZZ7g40vuuBhJ+YjLh2FVjX8URu4mE+wNkWgBpzU5FYpNEM1xy5o1d3h4qyCxDr4FiSJf1doMf9E1OF7XkypC5wDdQ=
-X-Gm-Message-State: AOJu0Yw0joAaqfebQNQyaLVeu4KVJxMuZUjRM0MylwcEDUGTn+v0MQ4r
-	H/NDikkYyLGEpp/5rxZVgGsVznyUWzfiFQFcYYWStDdEELdcUdepTb9aFAU2SC52731CzgImpvZ
-	cM7ooO0sg3w==
-X-Google-Smtp-Source: AGHT+IGG9SHHBlYVZw9h0aZecRewHnIYI/R7Ng5mN7X4a5ZHHJUZByaO93pbP0qE7tlfomx0JRKjuQEkFZBsiw==
-X-Received: from joychakr.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:6ea])
- (user=joychakr job=sendgmr) by 2002:a05:6902:100a:b0:dcd:3a37:65 with SMTP id
- w10-20020a056902100a00b00dcd3a370065mr134595ybt.7.1713944575720; Wed, 24 Apr
- 2024 00:42:55 -0700 (PDT)
-Date: Wed, 24 Apr 2024 07:42:42 +0000
-In-Reply-To: <20240424074242.519895-1-joychakr@google.com>
+	s=arc-20240116; t=1713949994; c=relaxed/simple;
+	bh=vH97AdflNeafzBlh1igz0+OckCymeZqzfwazp2N7dvg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YnfvCzdfsl5O9nNCdrb4YHnG2dvWFDlm8i/GXgjfB9fpzXuZW/YEGDxBxFIfAmDrRFCAeEZvzEE3cfWDR2CDrg5LQxgwyHzCktoLuBytPpBah0KUwhcf2GIZbyOnioMxX6bQfuAlsQGx3fJajnJb8/OfG66wW8Ql50NENTjZbCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06FE2C113CE;
+	Wed, 24 Apr 2024 09:12:56 +0000 (UTC)
+Message-ID: <ac2ce98f-8433-4871-a3eb-46e84545682c@xs4all.nl>
+Date: Wed, 24 Apr 2024 11:12:55 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20240424074242.519895-1-joychakr@google.com>
-X-Mailer: git-send-email 2.44.0.769.g3c40516874-goog
-Message-ID: <20240424074242.519895-2-joychakr@google.com>
-Subject: [PATCH v2 1/1] nvmem: Change return type of reg read/write to ssize_t
-From: Joy Chakraborty <joychakr@google.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Rafal Milecki <rafal@milecki.pl>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
-	manugautam@google.com, Joy Chakraborty <joychakr@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/9] drivers/media/*: Convert from tasklet to BH workqueue
+Content-Language: en-US, nl
+To: Allen Pais <apais@linux.microsoft.com>, linux-kernel@vger.kernel.org
+Cc: tj@kernel.org, keescook@chromium.org, vkoul@kernel.org, marcan@marcan.st,
+ sven@svenpeter.dev, florian.fainelli@broadcom.com, rjui@broadcom.com,
+ sbranden@broadcom.com, paul@crapouillou.net, Eugeniy.Paltsev@synopsys.com,
+ manivannan.sadhasivam@linaro.org, vireshk@kernel.org, Frank.Li@nxp.com,
+ leoyang.li@nxp.com, zw@zh-kernel.org, wangzhou1@hisilicon.com,
+ haijie1@huawei.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ sean.wang@mediatek.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, afaerber@suse.de,
+ logang@deltatee.com, daniel@zonque.org, haojian.zhuang@gmail.com,
+ robert.jarzmik@free.fr, andersson@kernel.org, konrad.dybcio@linaro.org,
+ orsonzhai@gmail.com, baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com,
+ patrice.chotard@foss.st.com, linus.walleij@linaro.org, wens@csie.org,
+ jernej.skrabec@gmail.com, peter.ujfalusi@gmail.com, kys@microsoft.com,
+ haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
+ jassisinghbrar@gmail.com, mchehab@kernel.org, maintainers@bluecherrydvr.com,
+ aubin.constans@microchip.com, ulf.hansson@linaro.org,
+ manuel.lauss@gmail.com, mirq-linux@rere.qmqm.pl, jh80.chung@samsung.com,
+ oakad@yahoo.com, hayashi.kunihiko@socionext.com, mhiramat@kernel.org,
+ brucechang@via.com.tw, HaraldWelte@viatech.com, pierre@ossman.eu,
+ duncan.sands@free.fr, stern@rowland.harvard.edu, oneukum@suse.com,
+ openipmi-developer@lists.sourceforge.net, dmaengine@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ imx@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+ linux-mediatek@lists.infradead.org, linux-actions@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-s390@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20240327160314.9982-1-apais@linux.microsoft.com>
+ <20240327160314.9982-9-apais@linux.microsoft.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
+ BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
+ 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
+ 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
+ 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
+ +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
+ OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
+ 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
+ wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
+ qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
+ vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
+ 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
+ IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
+ KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
+ UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
+ c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
+ AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
+ Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
+ KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
+ gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
+ sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
+ UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
+In-Reply-To: <20240327160314.9982-9-apais@linux.microsoft.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Change return type of reg_read() and reg_write() callback to ssize_t for
-nvmem suppliers to return number of bytes read/written to the nvmem core.
+On 27/03/2024 17:03, Allen Pais wrote:
+> The only generic interface to execute asynchronously in the BH context is
+> tasklet; however, it's marked deprecated and has some design flaws. To
+> replace tasklets, BH workqueue support was recently added. A BH workqueue
+> behaves similarly to regular workqueues except that the queued work items
+> are executed in the BH context.
+> 
+> This patch converts drivers/media/* from tasklet to BH workqueue.
+> 
+> Based on the work done by Tejun Heo <tj@kernel.org>
+> Branch: https://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-6.10
+> 
+> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+> ---
+>  drivers/media/pci/bt8xx/bt878.c               |  8 ++--
+>  drivers/media/pci/bt8xx/bt878.h               |  3 +-
+>  drivers/media/pci/bt8xx/dvb-bt8xx.c           |  9 ++--
+>  drivers/media/pci/ddbridge/ddbridge.h         |  3 +-
+>  drivers/media/pci/mantis/hopper_cards.c       |  2 +-
+>  drivers/media/pci/mantis/mantis_cards.c       |  2 +-
+>  drivers/media/pci/mantis/mantis_common.h      |  3 +-
+>  drivers/media/pci/mantis/mantis_dma.c         |  5 ++-
+>  drivers/media/pci/mantis/mantis_dma.h         |  2 +-
+>  drivers/media/pci/mantis/mantis_dvb.c         | 12 +++---
+>  drivers/media/pci/ngene/ngene-core.c          | 23 ++++++-----
+>  drivers/media/pci/ngene/ngene.h               |  5 ++-
+>  drivers/media/pci/smipcie/smipcie-main.c      | 18 ++++----
+>  drivers/media/pci/smipcie/smipcie.h           |  3 +-
+>  drivers/media/pci/ttpci/budget-av.c           |  3 +-
+>  drivers/media/pci/ttpci/budget-ci.c           | 27 ++++++------
+>  drivers/media/pci/ttpci/budget-core.c         | 10 ++---
+>  drivers/media/pci/ttpci/budget.h              |  5 ++-
+>  drivers/media/pci/tw5864/tw5864-core.c        |  2 +-
+>  drivers/media/pci/tw5864/tw5864-video.c       | 13 +++---
+>  drivers/media/pci/tw5864/tw5864.h             |  7 ++--
+>  drivers/media/platform/intel/pxa_camera.c     | 15 +++----
+>  drivers/media/platform/marvell/mcam-core.c    | 11 ++---
+>  drivers/media/platform/marvell/mcam-core.h    |  3 +-
+>  .../st/sti/c8sectpfe/c8sectpfe-core.c         | 15 +++----
+>  .../st/sti/c8sectpfe/c8sectpfe-core.h         |  2 +-
+>  drivers/media/radio/wl128x/fmdrv.h            |  7 ++--
+>  drivers/media/radio/wl128x/fmdrv_common.c     | 41 ++++++++++---------
+>  drivers/media/rc/mceusb.c                     |  2 +-
+>  drivers/media/usb/ttusb-dec/ttusb_dec.c       | 21 +++++-----
+>  30 files changed, 151 insertions(+), 131 deletions(-)
+> 
+> diff --git a/drivers/media/pci/bt8xx/bt878.c b/drivers/media/pci/bt8xx/bt878.c
+> index 90972d6952f1..983ec29108f0 100644
+> --- a/drivers/media/pci/bt8xx/bt878.c
+> +++ b/drivers/media/pci/bt8xx/bt878.c
+> @@ -300,8 +300,8 @@ static irqreturn_t bt878_irq(int irq, void *dev_id)
+>  		}
+>  		if (astat & BT878_ARISCI) {
+>  			bt->finished_block = (stat & BT878_ARISCS) >> 28;
+> -			if (bt->tasklet.callback)
+> -				tasklet_schedule(&bt->tasklet);
+> +			if (bt->work.func)
+> +				queue_work(system_bh_wq,
 
-Currently nvmem core assumes the amount of data read/written is equal
-to what it has requested from the supplier, this return code facilitates
-better error handling in the nvmem core.
+I stopped reviewing here: this clearly has not been compile tested.
 
-Signed-off-by: Joy Chakraborty <joychakr@google.com>
----
- drivers/nvmem/apple-efuses.c        |  7 +--
- drivers/nvmem/bcm-ocotp.c           | 12 ++---
- drivers/nvmem/brcm_nvram.c          | 10 ++--
- drivers/nvmem/core.c                | 83 +++++++++++++----------------
- drivers/nvmem/imx-iim.c             |  6 +--
- drivers/nvmem/imx-ocotp-ele.c       |  4 +-
- drivers/nvmem/imx-ocotp-scu.c       | 12 ++---
- drivers/nvmem/imx-ocotp.c           | 10 ++--
- drivers/nvmem/jz4780-efuse.c        |  7 +--
- drivers/nvmem/lan9662-otpc.c        | 12 ++---
- drivers/nvmem/layerscape-sfp.c      | 11 ++--
- drivers/nvmem/lpc18xx_eeprom.c      | 14 ++---
- drivers/nvmem/lpc18xx_otp.c         |  6 +--
- drivers/nvmem/meson-efuse.c         | 22 +++++---
- drivers/nvmem/meson-mx-efuse.c      |  6 +--
- drivers/nvmem/microchip-otpc.c      |  6 +--
- drivers/nvmem/mtk-efuse.c           |  6 +--
- drivers/nvmem/mxs-ocotp.c           |  7 +--
- drivers/nvmem/nintendo-otp.c        |  6 +--
- drivers/nvmem/qcom-spmi-sdam.c      | 12 ++---
- drivers/nvmem/qfprom.c              | 14 ++---
- drivers/nvmem/qoriq-efuse.c         |  6 +--
- drivers/nvmem/rave-sp-eeprom.c      | 18 +++----
- drivers/nvmem/rmem.c                |  4 +-
- drivers/nvmem/rockchip-efuse.c      | 19 +++----
- drivers/nvmem/rockchip-otp.c        | 19 +++----
- drivers/nvmem/sc27xx-efuse.c        |  3 +-
- drivers/nvmem/sec-qfprom.c          |  4 +-
- drivers/nvmem/snvs_lpgpr.c          | 17 +++---
- drivers/nvmem/sprd-efuse.c          |  8 +--
- drivers/nvmem/stm32-bsec-optee-ta.c | 12 ++---
- drivers/nvmem/stm32-bsec-optee-ta.h | 20 +++----
- drivers/nvmem/stm32-romem.c         | 26 ++++-----
- drivers/nvmem/sunplus-ocotp.c       |  4 +-
- drivers/nvmem/sunxi_sid.c           | 15 +++---
- drivers/nvmem/u-boot-env.c          |  6 +--
- drivers/nvmem/uniphier-efuse.c      |  6 +--
- drivers/nvmem/vf610-ocotp.c         |  7 +--
- drivers/nvmem/zynqmp_nvmem.c        | 13 ++---
- include/linux/nvmem-provider.h      |  4 +-
- 40 files changed, 253 insertions(+), 231 deletions(-)
+Also please check the patch with 'checkpatch.pl --strict' and fix the reported issues.
 
-diff --git a/drivers/nvmem/apple-efuses.c b/drivers/nvmem/apple-efuses.c
-index d3d49d22338b..c97328ee220a 100644
---- a/drivers/nvmem/apple-efuses.c
-+++ b/drivers/nvmem/apple-efuses.c
-@@ -15,10 +15,11 @@ struct apple_efuses_priv {
- 	void __iomem *fuses;
- };
- 
--static int apple_efuses_read(void *context, unsigned int offset, void *val,
--			     size_t bytes)
-+static ssize_t apple_efuses_read(void *context, unsigned int offset, void *val,
-+				 size_t bytes)
- {
- 	struct apple_efuses_priv *priv = context;
-+	size_t bytes_read = bytes;
- 	u32 *dst = val;
- 
- 	while (bytes >= sizeof(u32)) {
-@@ -27,7 +28,7 @@ static int apple_efuses_read(void *context, unsigned int offset, void *val,
- 		offset += sizeof(u32);
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static int apple_efuses_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/bcm-ocotp.c b/drivers/nvmem/bcm-ocotp.c
-index 2490f44caa40..9435002787bd 100644
---- a/drivers/nvmem/bcm-ocotp.c
-+++ b/drivers/nvmem/bcm-ocotp.c
-@@ -148,8 +148,8 @@ static int disable_ocotp_program(void __iomem *base)
- 	return ret;
- }
- 
--static int bcm_otpc_read(void *context, unsigned int offset, void *val,
--	size_t bytes)
-+static ssize_t bcm_otpc_read(void *context, unsigned int offset, void *val,
-+			     size_t bytes)
- {
- 	struct otpc_priv *priv = context;
- 	u32 *buf = val;
-@@ -176,11 +176,11 @@ static int bcm_otpc_read(void *context, unsigned int offset, void *val,
- 		reset_start_bit(priv->base);
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
--static int bcm_otpc_write(void *context, unsigned int offset, void *val,
--	size_t bytes)
-+static ssize_t bcm_otpc_write(void *context, unsigned int offset, void *val,
-+			      size_t bytes)
- {
- 	struct otpc_priv *priv = context;
- 	u32 *buf = val;
-@@ -214,7 +214,7 @@ static int bcm_otpc_write(void *context, unsigned int offset, void *val,
- 
- 	disable_ocotp_program(priv->base);
- 
--	return 0;
-+	return bytes_written;
- }
- 
- static struct nvmem_config bcm_otpc_nvmem_config = {
-diff --git a/drivers/nvmem/brcm_nvram.c b/drivers/nvmem/brcm_nvram.c
-index 5cdf339cfbec..dd0e52eb12bd 100644
---- a/drivers/nvmem/brcm_nvram.c
-+++ b/drivers/nvmem/brcm_nvram.c
-@@ -46,8 +46,8 @@ struct brcm_nvram_header {
- 	__le32 config_ncdl;	/* ncdl values for memc */
- };
- 
--static int brcm_nvram_read(void *context, unsigned int offset, void *val,
--			   size_t bytes)
-+static ssize_t brcm_nvram_read(void *context, unsigned int offset, void *val,
-+			       size_t bytes)
- {
- 	struct brcm_nvram *priv = context;
- 	size_t to_copy;
-@@ -61,7 +61,11 @@ static int brcm_nvram_read(void *context, unsigned int offset, void *val,
- 
- 	memset((uint8_t *)val + to_copy, priv->padding_byte, bytes - to_copy);
- 
--	return 0;
-+	/*
-+	 * Returning bytes requested as the whole buffer is padded even if the
-+	 * requested bytes to be read is out of bounds of resource size.
-+	 */
-+	return bytes;
- }
- 
- static int brcm_nvram_copy_data(struct brcm_nvram *priv, struct platform_device *pdev)
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index e1ec3b7200d7..a41b29e60e58 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -55,8 +55,8 @@ static LIST_HEAD(nvmem_lookup_list);
- 
- static BLOCKING_NOTIFIER_HEAD(nvmem_notifier);
- 
--static int __nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
--			    void *val, size_t bytes)
-+static ssize_t __nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
-+				void *val, size_t bytes)
- {
- 	if (nvmem->reg_read)
- 		return nvmem->reg_read(nvmem->priv, offset, val, bytes);
-@@ -64,10 +64,10 @@ static int __nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
- 	return -EINVAL;
- }
- 
--static int __nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
--			     void *val, size_t bytes)
-+static ssize_t __nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
-+				 void *val, size_t bytes)
- {
--	int ret;
-+	ssize_t ret;
- 
- 	if (nvmem->reg_write) {
- 		gpiod_set_value_cansleep(nvmem->wp_gpio, 0);
-@@ -79,8 +79,8 @@ static int __nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
- 	return -EINVAL;
- }
- 
--static int nvmem_access_with_keepouts(struct nvmem_device *nvmem,
--				      unsigned int offset, void *val,
-+static ssize_t nvmem_access_with_keepouts(struct nvmem_device *nvmem,
-+					  unsigned int offset, void *val,
- 				      size_t bytes, int write)
- {
- 
-@@ -88,7 +88,7 @@ static int nvmem_access_with_keepouts(struct nvmem_device *nvmem,
- 	unsigned int kend, ksize;
- 	const struct nvmem_keepout *keepout = nvmem->keepout;
- 	const struct nvmem_keepout *keepoutend = keepout + nvmem->nkeepout;
--	int rc;
-+	ssize_t rc, count = 0;
- 
- 	/*
- 	 * Skip all keepouts before the range being accessed.
-@@ -107,11 +107,12 @@ static int nvmem_access_with_keepouts(struct nvmem_device *nvmem,
- 			else
- 				rc = __nvmem_reg_read(nvmem, offset, val, ksize);
- 
--			if (rc)
-+			if (rc < 0)
- 				return rc;
- 
- 			offset += ksize;
- 			val += ksize;
-+			count += rc;
- 		}
- 
- 		/*
-@@ -135,16 +136,21 @@ static int nvmem_access_with_keepouts(struct nvmem_device *nvmem,
- 	if (offset < end) {
- 		ksize = end - offset;
- 		if (write)
--			return __nvmem_reg_write(nvmem, offset, val, ksize);
-+			rc = __nvmem_reg_write(nvmem, offset, val, ksize);
- 		else
--			return __nvmem_reg_read(nvmem, offset, val, ksize);
-+			rc = __nvmem_reg_read(nvmem, offset, val, ksize);
-+
-+		if (rc < 0)
-+			return rc;
-+
-+		count += rc;
- 	}
- 
--	return 0;
-+	return count;
- }
- 
--static int nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
--			  void *val, size_t bytes)
-+static ssize_t nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
-+			      void *val, size_t bytes)
- {
- 	if (!nvmem->nkeepout)
- 		return __nvmem_reg_read(nvmem, offset, val, bytes);
-@@ -152,8 +158,8 @@ static int nvmem_reg_read(struct nvmem_device *nvmem, unsigned int offset,
- 	return nvmem_access_with_keepouts(nvmem, offset, val, bytes, false);
- }
- 
--static int nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
--			   void *val, size_t bytes)
-+static ssize_t nvmem_reg_write(struct nvmem_device *nvmem, unsigned int offset,
-+			       void *val, size_t bytes)
- {
- 	if (!nvmem->nkeepout)
- 		return __nvmem_reg_write(nvmem, offset, val, bytes);
-@@ -195,7 +201,6 @@ static ssize_t bin_attr_nvmem_read(struct file *filp, struct kobject *kobj,
- {
- 	struct device *dev;
- 	struct nvmem_device *nvmem;
--	int rc;
- 
- 	if (attr->private)
- 		dev = attr->private;
-@@ -221,12 +226,7 @@ static ssize_t bin_attr_nvmem_read(struct file *filp, struct kobject *kobj,
- 	if (!nvmem->reg_read)
- 		return -EPERM;
- 
--	rc = nvmem_reg_read(nvmem, pos, buf, count);
--
--	if (rc)
--		return rc;
--
--	return count;
-+	return nvmem_reg_read(nvmem, pos, buf, count);
- }
- 
- static ssize_t bin_attr_nvmem_write(struct file *filp, struct kobject *kobj,
-@@ -235,7 +235,6 @@ static ssize_t bin_attr_nvmem_write(struct file *filp, struct kobject *kobj,
- {
- 	struct device *dev;
- 	struct nvmem_device *nvmem;
--	int rc;
- 
- 	if (attr->private)
- 		dev = attr->private;
-@@ -261,12 +260,7 @@ static ssize_t bin_attr_nvmem_write(struct file *filp, struct kobject *kobj,
- 	if (!nvmem->reg_write)
- 		return -EPERM;
- 
--	rc = nvmem_reg_write(nvmem, pos, buf, count);
--
--	if (rc)
--		return rc;
--
--	return count;
-+	return nvmem_reg_write(nvmem, pos, buf, count);
- }
- 
- static umode_t nvmem_bin_attr_get_umode(struct nvmem_device *nvmem)
-@@ -1638,9 +1632,12 @@ static int __nvmem_cell_read(struct nvmem_device *nvmem,
- 
- 	rc = nvmem_reg_read(nvmem, cell->offset, buf, cell->raw_len);
- 
--	if (rc)
-+	if (rc < 0)
- 		return rc;
- 
-+	if (rc != cell->raw_len)
-+		return -EIO;
-+
- 	/* shift bits in-place */
- 	if (cell->bit_offset || cell->nbits)
- 		nvmem_shift_read_buffer_in_place(cell, buf);
-@@ -1713,8 +1710,11 @@ static void *nvmem_cell_prepare_write_buffer(struct nvmem_cell_entry *cell,
- 
- 		/* setup the first byte with lsb bits from nvmem */
- 		rc = nvmem_reg_read(nvmem, cell->offset, &v, 1);
--		if (rc)
-+		if (rc < 1) {
-+			if (rc == 0)
-+				rc = -EIO;
- 			goto err;
-+		}
- 		*b++ |= GENMASK(bit_offset - 1, 0) & v;
- 
- 		/* setup rest of the byte if any */
-@@ -1733,8 +1733,11 @@ static void *nvmem_cell_prepare_write_buffer(struct nvmem_cell_entry *cell,
- 		/* setup the last byte with msb bits from nvmem */
- 		rc = nvmem_reg_read(nvmem,
- 				    cell->offset + cell->bytes - 1, &v, 1);
--		if (rc)
-+		if (rc < 1) {
-+			if (rc == 0)
-+				rc = -EIO;
- 			goto err;
-+		}
- 		*p |= GENMASK(7, (nbits + bit_offset) % BITS_PER_BYTE) & v;
- 
- 	}
-@@ -1774,10 +1777,7 @@ static int __nvmem_cell_entry_write(struct nvmem_cell_entry *cell, void *buf, si
- 	if (cell->bit_offset || cell->nbits)
- 		kfree(buf);
- 
--	if (rc)
--		return rc;
--
--	return len;
-+	return rc;
- }
- 
- /**
-@@ -2052,17 +2052,10 @@ int nvmem_device_read(struct nvmem_device *nvmem,
- 		      unsigned int offset,
- 		      size_t bytes, void *buf)
- {
--	int rc;
--
- 	if (!nvmem)
- 		return -EINVAL;
- 
--	rc = nvmem_reg_read(nvmem, offset, buf, bytes);
--
--	if (rc)
--		return rc;
--
--	return bytes;
-+	return nvmem_reg_read(nvmem, offset, buf, bytes);
- }
- EXPORT_SYMBOL_GPL(nvmem_device_read);
- 
-diff --git a/drivers/nvmem/imx-iim.c b/drivers/nvmem/imx-iim.c
-index f13bbd164086..f9f912bd4e41 100644
---- a/drivers/nvmem/imx-iim.c
-+++ b/drivers/nvmem/imx-iim.c
-@@ -29,8 +29,8 @@ struct iim_priv {
- 	struct clk *clk;
- };
- 
--static int imx_iim_read(void *context, unsigned int offset,
--			  void *buf, size_t bytes)
-+static ssize_t imx_iim_read(void *context, unsigned int offset,
-+			    void *buf, size_t bytes)
- {
- 	struct iim_priv *iim = context;
- 	int i, ret;
-@@ -49,7 +49,7 @@ static int imx_iim_read(void *context, unsigned int offset,
- 
- 	clk_disable_unprepare(iim->clk);
- 
--	return 0;
-+	return bytes;
- }
- 
- static struct imx_iim_drvdata imx27_drvdata = {
-diff --git a/drivers/nvmem/imx-ocotp-ele.c b/drivers/nvmem/imx-ocotp-ele.c
-index cf920542f939..3025fe8aa991 100644
---- a/drivers/nvmem/imx-ocotp-ele.c
-+++ b/drivers/nvmem/imx-ocotp-ele.c
-@@ -61,7 +61,7 @@ static enum fuse_type imx_ocotp_fuse_type(void *context, u32 index)
- 	return FUSE_INVALID;
- }
- 
--static int imx_ocotp_reg_read(void *context, unsigned int offset, void *val, size_t bytes)
-+static ssize_t imx_ocotp_reg_read(void *context, unsigned int offset, void *val, size_t bytes)
- {
- 	struct imx_ocotp_priv *priv = context;
- 	void __iomem *reg = priv->base + priv->data->reg_off;
-@@ -102,7 +102,7 @@ static int imx_ocotp_reg_read(void *context, unsigned int offset, void *val, siz
- 
- 	kfree(p);
- 
--	return 0;
-+	return bytes;
- };
- 
- static int imx_ele_ocotp_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/imx-ocotp-scu.c b/drivers/nvmem/imx-ocotp-scu.c
-index 517d83e11af2..033261827141 100644
---- a/drivers/nvmem/imx-ocotp-scu.c
-+++ b/drivers/nvmem/imx-ocotp-scu.c
-@@ -129,8 +129,8 @@ static int imx_sc_misc_otp_fuse_read(struct imx_sc_ipc *ipc, u32 word,
- 	return 0;
- }
- 
--static int imx_scu_ocotp_read(void *context, unsigned int offset,
--			      void *val, size_t bytes)
-+static ssize_t imx_scu_ocotp_read(void *context, unsigned int offset,
-+				  void *val, size_t bytes)
- {
- 	struct ocotp_priv *priv = context;
- 	u32 count, index, num_bytes;
-@@ -174,11 +174,11 @@ static int imx_scu_ocotp_read(void *context, unsigned int offset,
- 
- 	kfree(p);
- 
--	return 0;
-+	return bytes;
- }
- 
--static int imx_scu_ocotp_write(void *context, unsigned int offset,
--			       void *val, size_t bytes)
-+static ssize_t imx_scu_ocotp_write(void *context, unsigned int offset,
-+				   void *val, size_t bytes)
- {
- 	struct ocotp_priv *priv = context;
- 	struct arm_smccc_res res;
-@@ -215,7 +215,7 @@ static int imx_scu_ocotp_write(void *context, unsigned int offset,
- 
- 	mutex_unlock(&scu_ocotp_mutex);
- 
--	return res.a0;
-+	return res.a0 < 0 ? res.a0 : bytes;
- }
- 
- static struct nvmem_config imx_scu_ocotp_nvmem_config = {
-diff --git a/drivers/nvmem/imx-ocotp.c b/drivers/nvmem/imx-ocotp.c
-index 79dd4fda0329..4338bc83665a 100644
---- a/drivers/nvmem/imx-ocotp.c
-+++ b/drivers/nvmem/imx-ocotp.c
-@@ -154,8 +154,8 @@ static void imx_ocotp_clr_err_if_set(struct ocotp_priv *priv)
- 	writel(bm_ctrl_error, base + IMX_OCOTP_ADDR_CTRL_CLR);
- }
- 
--static int imx_ocotp_read(void *context, unsigned int offset,
--			  void *val, size_t bytes)
-+static ssize_t imx_ocotp_read(void *context, unsigned int offset,
-+			      void *val, size_t bytes)
- {
- 	struct ocotp_priv *priv = context;
- 	unsigned int count;
-@@ -217,7 +217,7 @@ static int imx_ocotp_read(void *context, unsigned int offset,
- 
- 	kfree(p);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- static int imx_ocotp_cell_pp(void *context, const char *id, int index,
-@@ -307,8 +307,8 @@ static void imx_ocotp_set_imx7_timing(struct ocotp_priv *priv)
- 	writel(timing, priv->base + IMX_OCOTP_ADDR_TIMING);
- }
- 
--static int imx_ocotp_write(void *context, unsigned int offset, void *val,
--			   size_t bytes)
-+static ssize_t imx_ocotp_write(void *context, unsigned int offset, void *val,
-+			       size_t bytes)
- {
- 	struct ocotp_priv *priv = context;
- 	u32 *buf = val;
-diff --git a/drivers/nvmem/jz4780-efuse.c b/drivers/nvmem/jz4780-efuse.c
-index 0b01b840edd9..606a63232c3d 100644
---- a/drivers/nvmem/jz4780-efuse.c
-+++ b/drivers/nvmem/jz4780-efuse.c
-@@ -66,10 +66,11 @@ struct jz4780_efuse {
- };
- 
- /* main entry point */
--static int jz4780_efuse_read(void *context, unsigned int offset,
--			     void *val, size_t bytes)
-+static ssize_t jz4780_efuse_read(void *context, unsigned int offset,
-+				 void *val, size_t bytes)
- {
- 	struct jz4780_efuse *efuse = context;
-+	size_t bytes_read = bytes;
- 
- 	while (bytes > 0) {
- 		size_t start = offset & ~(JZ_EFU_READ_SIZE - 1);
-@@ -112,7 +113,7 @@ static int jz4780_efuse_read(void *context, unsigned int offset,
- 		bytes -= chunk;
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static struct nvmem_config jz4780_efuse_nvmem_config = {
-diff --git a/drivers/nvmem/lan9662-otpc.c b/drivers/nvmem/lan9662-otpc.c
-index 56fc19f092a7..4a2aa3324b2d 100644
---- a/drivers/nvmem/lan9662-otpc.c
-+++ b/drivers/nvmem/lan9662-otpc.c
-@@ -119,8 +119,8 @@ static int lan9662_otp_write_byte(struct lan9662_otp *otp, u32 offset, u8 data)
- 	return rc;
- }
- 
--static int lan9662_otp_read(void *context, unsigned int offset,
--			    void *_val, size_t bytes)
-+static ssize_t lan9662_otp_read(void *context, unsigned int offset,
-+				void *_val, size_t bytes)
- {
- 	struct lan9662_otp *otp = context;
- 	u8 *val = _val;
-@@ -136,11 +136,11 @@ static int lan9662_otp_read(void *context, unsigned int offset,
- 	}
- 	lan9662_otp_power(otp, false);
- 
--	return rc;
-+	return rc < 0 ? rc : bytes;
- }
- 
--static int lan9662_otp_write(void *context, unsigned int offset,
--			     void *_val, size_t bytes)
-+static ssize_t lan9662_otp_write(void *context, unsigned int offset,
-+				 void *_val, size_t bytes)
- {
- 	struct lan9662_otp *otp = context;
- 	u8 *val = _val;
-@@ -167,7 +167,7 @@ static int lan9662_otp_write(void *context, unsigned int offset,
- 	}
- 	lan9662_otp_power(otp, false);
- 
--	return rc;
-+	return rc < 0 ? rc : bytes;
- }
- 
- static struct nvmem_config otp_config = {
-diff --git a/drivers/nvmem/layerscape-sfp.c b/drivers/nvmem/layerscape-sfp.c
-index e2b424561949..fdff3374b5a4 100644
---- a/drivers/nvmem/layerscape-sfp.c
-+++ b/drivers/nvmem/layerscape-sfp.c
-@@ -26,14 +26,17 @@ struct layerscape_sfp_data {
- 	enum regmap_endian endian;
- };
- 
--static int layerscape_sfp_read(void *context, unsigned int offset, void *val,
--			       size_t bytes)
-+static ssize_t layerscape_sfp_read(void *context, unsigned int offset, void *val,
-+				   size_t bytes)
- {
- 	struct layerscape_sfp_priv *priv = context;
-+	int ret;
- 
--	return regmap_bulk_read(priv->regmap,
--				LAYERSCAPE_SFP_OTP_OFFSET + offset, val,
-+	ret = regmap_bulk_read(priv->regmap,
-+			       LAYERSCAPE_SFP_OTP_OFFSET + offset, val,
- 				bytes / 4);
-+
-+	return ret < 0 ? ret : bytes;
- }
- 
- static struct nvmem_config layerscape_sfp_nvmem_config = {
-diff --git a/drivers/nvmem/lpc18xx_eeprom.c b/drivers/nvmem/lpc18xx_eeprom.c
-index a73acc7377d2..1f68731ff865 100644
---- a/drivers/nvmem/lpc18xx_eeprom.c
-+++ b/drivers/nvmem/lpc18xx_eeprom.c
-@@ -87,10 +87,11 @@ static int lpc18xx_eeprom_busywait_until_prog(struct lpc18xx_eeprom_dev *eeprom)
- 	return -ETIMEDOUT;
- }
- 
--static int lpc18xx_eeprom_gather_write(void *context, unsigned int reg,
--				       void *val, size_t bytes)
-+static ssize_t lpc18xx_eeprom_gather_write(void *context, unsigned int reg,
-+					   void *val, size_t bytes)
- {
- 	struct lpc18xx_eeprom_dev *eeprom = context;
-+	size_t bytes_written = bytes;
- 	unsigned int offset = reg;
- 	int ret;
- 
-@@ -123,13 +124,14 @@ static int lpc18xx_eeprom_gather_write(void *context, unsigned int reg,
- 	lpc18xx_eeprom_writel(eeprom, LPC18XX_EEPROM_PWRDWN,
- 			      LPC18XX_EEPROM_PWRDWN_YES);
- 
--	return 0;
-+	return bytes_written;
- }
- 
--static int lpc18xx_eeprom_read(void *context, unsigned int offset,
--			       void *val, size_t bytes)
-+static ssize_t lpc18xx_eeprom_read(void *context, unsigned int offset,
-+				   void *val, size_t bytes)
- {
- 	struct lpc18xx_eeprom_dev *eeprom = context;
-+	size_t bytes_read = bytes;
- 
- 	lpc18xx_eeprom_writel(eeprom, LPC18XX_EEPROM_PWRDWN,
- 			      LPC18XX_EEPROM_PWRDWN_NO);
-@@ -147,7 +149,7 @@ static int lpc18xx_eeprom_read(void *context, unsigned int offset,
- 	lpc18xx_eeprom_writel(eeprom, LPC18XX_EEPROM_PWRDWN,
- 			      LPC18XX_EEPROM_PWRDWN_YES);
- 
--	return 0;
-+	return bytes_read;
- }
- 
- 
-diff --git a/drivers/nvmem/lpc18xx_otp.c b/drivers/nvmem/lpc18xx_otp.c
-index adc9948e7b2e..c60a565b6b97 100644
---- a/drivers/nvmem/lpc18xx_otp.c
-+++ b/drivers/nvmem/lpc18xx_otp.c
-@@ -37,8 +37,8 @@ struct lpc18xx_otp {
- 	void __iomem *base;
- };
- 
--static int lpc18xx_otp_read(void *context, unsigned int offset,
--			    void *val, size_t bytes)
-+static ssize_t lpc18xx_otp_read(void *context, unsigned int offset,
-+				void *val, size_t bytes)
- {
- 	struct lpc18xx_otp *otp = context;
- 	unsigned int count = bytes >> 2;
-@@ -52,7 +52,7 @@ static int lpc18xx_otp_read(void *context, unsigned int offset,
- 	for (i = index; i < (index + count); i++)
- 		*buf++ = readl(otp->base + i * LPC18XX_OTP_WORD_SIZE);
- 
--	return 0;
-+	return bytes;
- }
- 
- static struct nvmem_config lpc18xx_otp_nvmem_config = {
-diff --git a/drivers/nvmem/meson-efuse.c b/drivers/nvmem/meson-efuse.c
-index 33678d0af2c2..ed2124d916fc 100644
---- a/drivers/nvmem/meson-efuse.c
-+++ b/drivers/nvmem/meson-efuse.c
-@@ -14,22 +14,28 @@
- 
- #include <linux/firmware/meson/meson_sm.h>
- 
--static int meson_efuse_read(void *context, unsigned int offset,
--			    void *val, size_t bytes)
-+static ssize_t meson_efuse_read(void *context, unsigned int offset,
-+				void *val, size_t bytes)
- {
- 	struct meson_sm_firmware *fw = context;
-+	int ret;
- 
--	return meson_sm_call_read(fw, (u8 *)val, bytes, SM_EFUSE_READ, offset,
--				  bytes, 0, 0, 0);
-+	ret = meson_sm_call_read(fw, (u8 *)val, bytes, SM_EFUSE_READ, offset,
-+				 bytes, 0, 0, 0);
-+
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int meson_efuse_write(void *context, unsigned int offset,
--			     void *val, size_t bytes)
-+static ssize_t meson_efuse_write(void *context, unsigned int offset,
-+				 void *val, size_t bytes)
- {
- 	struct meson_sm_firmware *fw = context;
-+	int ret;
-+
-+	ret = meson_sm_call_write(fw, (u8 *)val, bytes, SM_EFUSE_WRITE, offset,
-+				  bytes, 0, 0, 0);
- 
--	return meson_sm_call_write(fw, (u8 *)val, bytes, SM_EFUSE_WRITE, offset,
--				   bytes, 0, 0, 0);
-+	return ret < 0 ? ret : bytes;
- }
- 
- static const struct of_device_id meson_efuse_match[] = {
-diff --git a/drivers/nvmem/meson-mx-efuse.c b/drivers/nvmem/meson-mx-efuse.c
-index 8a16f5f02657..de51841216c1 100644
---- a/drivers/nvmem/meson-mx-efuse.c
-+++ b/drivers/nvmem/meson-mx-efuse.c
-@@ -131,8 +131,8 @@ static int meson_mx_efuse_read_addr(struct meson_mx_efuse *efuse,
- 	return 0;
- }
- 
--static int meson_mx_efuse_read(void *context, unsigned int offset,
--			       void *buf, size_t bytes)
-+static ssize_t meson_mx_efuse_read(void *context, unsigned int offset,
-+				   void *buf, size_t bytes)
- {
- 	struct meson_mx_efuse *efuse = context;
- 	u32 tmp;
-@@ -162,7 +162,7 @@ static int meson_mx_efuse_read(void *context, unsigned int offset,
- 
- 	meson_mx_efuse_hw_disable(efuse);
- 
--	return err;
-+	return err < 0 ? err : bytes;
- }
- 
- static const struct meson_mx_efuse_platform_data meson6_efuse_data = {
-diff --git a/drivers/nvmem/microchip-otpc.c b/drivers/nvmem/microchip-otpc.c
-index 7cf81738a3e0..c47fdb169734 100644
---- a/drivers/nvmem/microchip-otpc.c
-+++ b/drivers/nvmem/microchip-otpc.c
-@@ -143,8 +143,8 @@ static int mchp_otpc_prepare_read(struct mchp_otpc *otpc,
-  * packet. The user will have to be aware of the memory footprint before doing
-  * the read request.
-  */
--static int mchp_otpc_read(void *priv, unsigned int off, void *val,
--			  size_t bytes)
-+static ssize_t mchp_otpc_read(void *priv, unsigned int off, void *val,
-+			      size_t bytes)
- {
- 	struct mchp_otpc *otpc = priv;
- 	struct mchp_otpc_packet *packet;
-@@ -187,7 +187,7 @@ static int mchp_otpc_read(void *priv, unsigned int off, void *val,
- 		} while (payload_size >= 0 && len < bytes);
- 	}
- 
--	return 0;
-+	return len;
- }
- 
- static int mchp_otpc_init_packets_list(struct mchp_otpc *otpc, u32 *size)
-diff --git a/drivers/nvmem/mtk-efuse.c b/drivers/nvmem/mtk-efuse.c
-index 9caf04667341..d9db85933ed6 100644
---- a/drivers/nvmem/mtk-efuse.c
-+++ b/drivers/nvmem/mtk-efuse.c
-@@ -20,8 +20,8 @@ struct mtk_efuse_priv {
- 	void __iomem *base;
- };
- 
--static int mtk_reg_read(void *context,
--			unsigned int reg, void *_val, size_t bytes)
-+static ssize_t mtk_reg_read(void *context,
-+			    unsigned int reg, void *_val, size_t bytes)
- {
- 	struct mtk_efuse_priv *priv = context;
- 	void __iomem *addr = priv->base + reg;
-@@ -31,7 +31,7 @@ static int mtk_reg_read(void *context,
- 	for (i = 0; i < bytes; i++, val++)
- 		*val = readb(addr + i);
- 
--	return 0;
-+	return bytes;
- }
- 
- static int mtk_efuse_gpu_speedbin_pp(void *context, const char *id, int index,
-diff --git a/drivers/nvmem/mxs-ocotp.c b/drivers/nvmem/mxs-ocotp.c
-index 7b78f18f9545..50734489fb3a 100644
---- a/drivers/nvmem/mxs-ocotp.c
-+++ b/drivers/nvmem/mxs-ocotp.c
-@@ -56,10 +56,11 @@ static int mxs_ocotp_wait(struct mxs_ocotp *otp)
- 	return 0;
- }
- 
--static int mxs_ocotp_read(void *context, unsigned int offset,
--			  void *val, size_t bytes)
-+static ssize_t mxs_ocotp_read(void *context, unsigned int offset,
-+			      void *val, size_t bytes)
- {
- 	struct mxs_ocotp *otp = context;
-+	size_t bytes_read = bytes;
- 	u32 *buf = val;
- 	int ret;
- 
-@@ -102,7 +103,7 @@ static int mxs_ocotp_read(void *context, unsigned int offset,
- disable_clk:
- 	clk_disable(otp->clk);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes_read;
- }
- 
- static struct nvmem_config ocotp_config = {
-diff --git a/drivers/nvmem/nintendo-otp.c b/drivers/nvmem/nintendo-otp.c
-index 355e7f1fc6d5..bcc5246517ae 100644
---- a/drivers/nvmem/nintendo-otp.c
-+++ b/drivers/nvmem/nintendo-otp.c
-@@ -45,8 +45,8 @@ static const struct nintendo_otp_devtype_data latte_otp_data = {
- 	.num_banks = 8,
- };
- 
--static int nintendo_otp_reg_read(void *context,
--				 unsigned int reg, void *_val, size_t bytes)
-+static ssize_t nintendo_otp_reg_read(void *context,
-+				     unsigned int reg, void *_val, size_t bytes)
- {
- 	struct nintendo_otp_priv *priv = context;
- 	u32 *val = _val;
-@@ -61,7 +61,7 @@ static int nintendo_otp_reg_read(void *context,
- 		reg += WORD_SIZE;
- 	}
- 
--	return 0;
-+	return bytes;
- }
- 
- static const struct of_device_id nintendo_otp_of_table[] = {
-diff --git a/drivers/nvmem/qcom-spmi-sdam.c b/drivers/nvmem/qcom-spmi-sdam.c
-index 9aa8f42faa4c..ac7e3b84b2ac 100644
---- a/drivers/nvmem/qcom-spmi-sdam.c
-+++ b/drivers/nvmem/qcom-spmi-sdam.c
-@@ -60,8 +60,8 @@ static bool sdam_is_ro(unsigned int offset, size_t len)
- 	return false;
- }
- 
--static int sdam_read(void *priv, unsigned int offset, void *val,
--				size_t bytes)
-+static ssize_t sdam_read(void *priv, unsigned int offset, void *val,
-+			 size_t bytes)
- {
- 	struct sdam_chip *sdam = priv;
- 	struct device *dev = sdam->sdam_config.dev;
-@@ -78,11 +78,11 @@ static int sdam_read(void *priv, unsigned int offset, void *val,
- 		dev_err(dev, "Failed to read SDAM offset %#x len=%zd, rc=%d\n",
- 						offset, bytes, rc);
- 
--	return rc;
-+	return rc < 0 ? rc : bytes;
- }
- 
--static int sdam_write(void *priv, unsigned int offset, void *val,
--				size_t bytes)
-+static ssize_t sdam_write(void *priv, unsigned int offset, void *val,
-+			  size_t bytes)
- {
- 	struct sdam_chip *sdam = priv;
- 	struct device *dev = sdam->sdam_config.dev;
-@@ -105,7 +105,7 @@ static int sdam_write(void *priv, unsigned int offset, void *val,
- 		dev_err(dev, "Failed to write SDAM offset %#x len=%zd, rc=%d\n",
- 						offset, bytes, rc);
- 
--	return rc;
-+	return rc < 0 ? rc : bytes;
- }
- 
- static int sdam_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/qfprom.c b/drivers/nvmem/qfprom.c
-index 116a39e804c7..4c40c23a92e7 100644
---- a/drivers/nvmem/qfprom.c
-+++ b/drivers/nvmem/qfprom.c
-@@ -251,10 +251,10 @@ static int qfprom_enable_fuse_blowing(const struct qfprom_priv *priv,
-  *
-  * Writes to fuses.  WARNING: THIS IS PERMANENT.
-  *
-- * Return: 0 or -err.
-+ * Return: bytes written or -err.
-  */
--static int qfprom_reg_write(void *context, unsigned int reg, void *_val,
--			    size_t bytes)
-+static ssize_t qfprom_reg_write(void *context, unsigned int reg, void *_val,
-+				size_t bytes)
- {
- 	struct qfprom_priv *priv = context;
- 	struct qfprom_touched_values old;
-@@ -314,11 +314,11 @@ static int qfprom_reg_write(void *context, unsigned int reg, void *_val,
- exit_enabled_fuse_blowing:
- 	qfprom_disable_fuse_blowing(priv, &old);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int qfprom_reg_read(void *context,
--			unsigned int reg, void *_val, size_t bytes)
-+static ssize_t qfprom_reg_read(void *context,
-+			       unsigned int reg, void *_val, size_t bytes)
- {
- 	struct qfprom_priv *priv = context;
- 	u8 *val = _val;
-@@ -331,7 +331,7 @@ static int qfprom_reg_read(void *context,
- 	while (words--)
- 		*val++ = readb(base + reg + i++);
- 
--	return 0;
-+	return bytes;
- }
- 
- static void qfprom_runtime_disable(void *data)
-diff --git a/drivers/nvmem/qoriq-efuse.c b/drivers/nvmem/qoriq-efuse.c
-index e7fd04d6dd94..12a1e9d20e67 100644
---- a/drivers/nvmem/qoriq-efuse.c
-+++ b/drivers/nvmem/qoriq-efuse.c
-@@ -14,8 +14,8 @@ struct qoriq_efuse_priv {
- 	void __iomem *base;
- };
- 
--static int qoriq_efuse_read(void *context, unsigned int offset, void *val,
--			    size_t bytes)
-+static ssize_t qoriq_efuse_read(void *context, unsigned int offset, void *val,
-+				size_t bytes)
- {
- 	struct qoriq_efuse_priv *priv = context;
- 
-@@ -24,7 +24,7 @@ static int qoriq_efuse_read(void *context, unsigned int offset, void *val,
- 
- 	/* Ignore trailing bytes (there shouldn't be any) */
- 
--	return 0;
-+	return bytes;
- }
- 
- static int qoriq_efuse_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/rave-sp-eeprom.c b/drivers/nvmem/rave-sp-eeprom.c
-index 9ecf3873cbb7..7011b247a96b 100644
---- a/drivers/nvmem/rave-sp-eeprom.c
-+++ b/drivers/nvmem/rave-sp-eeprom.c
-@@ -214,11 +214,11 @@ rave_sp_eeprom_page_access(struct rave_sp_eeprom *eeprom,
-  * arbitrary offset (not necessary page aligned) of arbitrary length
-  * (is not constrained by EEPROM page size).
-  *
-- * Returns zero in case of success or negative error code in case of
-- * failure.
-+ * Returns number of bytes in case of success or negative error code
-+ * in case of failure.
-  */
--static int rave_sp_eeprom_access(struct rave_sp_eeprom *eeprom,
--				 enum rave_sp_eeprom_access_type type,
-+static ssize_t rave_sp_eeprom_access(struct rave_sp_eeprom *eeprom,
-+				     enum rave_sp_eeprom_access_type type,
- 				 unsigned int offset, u8 *data,
- 				 unsigned int data_len)
- {
-@@ -267,18 +267,18 @@ static int rave_sp_eeprom_access(struct rave_sp_eeprom *eeprom,
- 	} while (residue);
- out:
- 	mutex_unlock(&eeprom->mutex);
--	return ret;
-+	return ret < 0 ? ret : data_len;
- }
- 
--static int rave_sp_eeprom_reg_read(void *eeprom, unsigned int offset,
--				   void *val, size_t bytes)
-+static ssize_t rave_sp_eeprom_reg_read(void *eeprom, unsigned int offset,
-+				       void *val, size_t bytes)
- {
- 	return rave_sp_eeprom_access(eeprom, RAVE_SP_EEPROM_READ,
- 				     offset, val, bytes);
- }
- 
--static int rave_sp_eeprom_reg_write(void *eeprom, unsigned int offset,
--				    void *val, size_t bytes)
-+static ssize_t rave_sp_eeprom_reg_write(void *eeprom, unsigned int offset,
-+					void *val, size_t bytes)
- {
- 	return rave_sp_eeprom_access(eeprom, RAVE_SP_EEPROM_WRITE,
- 				     offset, val, bytes);
-diff --git a/drivers/nvmem/rmem.c b/drivers/nvmem/rmem.c
-index 752d0bf4445e..e8526438ce4a 100644
---- a/drivers/nvmem/rmem.c
-+++ b/drivers/nvmem/rmem.c
-@@ -17,8 +17,8 @@ struct rmem {
- 	phys_addr_t size;
- };
- 
--static int rmem_read(void *context, unsigned int offset,
--		     void *val, size_t bytes)
-+static ssize_t rmem_read(void *context, unsigned int offset,
-+			 void *val, size_t bytes)
- {
- 	struct rmem *priv = context;
- 	size_t available = priv->mem->size;
-diff --git a/drivers/nvmem/rockchip-efuse.c b/drivers/nvmem/rockchip-efuse.c
-index 2b40978ddb18..36cf62f534df 100644
---- a/drivers/nvmem/rockchip-efuse.c
-+++ b/drivers/nvmem/rockchip-efuse.c
-@@ -52,8 +52,8 @@ struct rockchip_efuse_chip {
- 	struct clk *clk;
- };
- 
--static int rockchip_rk3288_efuse_read(void *context, unsigned int offset,
--				      void *val, size_t bytes)
-+static ssize_t rockchip_rk3288_efuse_read(void *context, unsigned int offset,
-+					  void *val, size_t bytes)
- {
- 	struct rockchip_efuse_chip *efuse = context;
- 	u8 *buf = val;
-@@ -65,6 +65,7 @@ static int rockchip_rk3288_efuse_read(void *context, unsigned int offset,
- 		return ret;
- 	}
- 
-+	ret = bytes;
- 	writel(RK3288_LOAD | RK3288_PGENB, efuse->base + REG_EFUSE_CTRL);
- 	udelay(1);
- 	while (bytes--) {
-@@ -89,11 +90,11 @@ static int rockchip_rk3288_efuse_read(void *context, unsigned int offset,
- 
- 	clk_disable_unprepare(efuse->clk);
- 
--	return 0;
-+	return ret;
- }
- 
--static int rockchip_rk3328_efuse_read(void *context, unsigned int offset,
--				      void *val, size_t bytes)
-+static ssize_t rockchip_rk3328_efuse_read(void *context, unsigned int offset,
-+					  void *val, size_t bytes)
- {
- 	struct rockchip_efuse_chip *efuse = context;
- 	unsigned int addr_start, addr_end, addr_offset, addr_len;
-@@ -144,11 +145,11 @@ static int rockchip_rk3328_efuse_read(void *context, unsigned int offset,
- nomem:
- 	clk_disable_unprepare(efuse->clk);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int rockchip_rk3399_efuse_read(void *context, unsigned int offset,
--				      void *val, size_t bytes)
-+static ssize_t rockchip_rk3399_efuse_read(void *context, unsigned int offset,
-+					  void *val, size_t bytes)
- {
- 	struct rockchip_efuse_chip *efuse = context;
- 	unsigned int addr_start, addr_end, addr_offset, addr_len;
-@@ -200,7 +201,7 @@ static int rockchip_rk3399_efuse_read(void *context, unsigned int offset,
- 
- 	clk_disable_unprepare(efuse->clk);
- 
--	return 0;
-+	return bytes;
- }
- 
- static struct nvmem_config econfig = {
-diff --git a/drivers/nvmem/rockchip-otp.c b/drivers/nvmem/rockchip-otp.c
-index cb9aa5428350..54c4dbb2e57e 100644
---- a/drivers/nvmem/rockchip-otp.c
-+++ b/drivers/nvmem/rockchip-otp.c
-@@ -144,10 +144,11 @@ static int rockchip_otp_ecc_enable(struct rockchip_otp *otp, bool enable)
- 	return ret;
- }
- 
--static int px30_otp_read(void *context, unsigned int offset,
--			 void *val, size_t bytes)
-+static ssize_t px30_otp_read(void *context, unsigned int offset,
-+			     void *val, size_t bytes)
- {
- 	struct rockchip_otp *otp = context;
-+	size_t bytes_read = bytes;
- 	u8 *buf = val;
- 	int ret;
- 
-@@ -181,11 +182,11 @@ static int px30_otp_read(void *context, unsigned int offset,
- read_end:
- 	writel(0x0 | OTPC_USE_USER_MASK, otp->base + OTPC_USER_CTRL);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes_read;
- }
- 
--static int rk3588_otp_read(void *context, unsigned int offset,
--			   void *val, size_t bytes)
-+static ssize_t rk3588_otp_read(void *context, unsigned int offset,
-+			       void *val, size_t bytes)
- {
- 	struct rockchip_otp *otp = context;
- 	unsigned int addr_start, addr_end, addr_len;
-@@ -227,11 +228,11 @@ static int rk3588_otp_read(void *context, unsigned int offset,
- read_end:
- 	kfree(buf);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int rockchip_otp_read(void *context, unsigned int offset,
--			     void *val, size_t bytes)
-+static ssize_t rockchip_otp_read(void *context, unsigned int offset,
-+				 void *val, size_t bytes)
- {
- 	struct rockchip_otp *otp = context;
- 	int ret;
-@@ -249,7 +250,7 @@ static int rockchip_otp_read(void *context, unsigned int offset,
- 
- 	clk_bulk_disable_unprepare(otp->data->num_clks, otp->clks);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- static struct nvmem_config otp_config = {
-diff --git a/drivers/nvmem/sc27xx-efuse.c b/drivers/nvmem/sc27xx-efuse.c
-index 4e2ffefac96c..45a2da241271 100644
---- a/drivers/nvmem/sc27xx-efuse.c
-+++ b/drivers/nvmem/sc27xx-efuse.c
-@@ -121,7 +121,7 @@ static int sc27xx_efuse_poll_status(struct sc27xx_efuse *efuse, u32 bits)
- 	return 0;
- }
- 
--static int sc27xx_efuse_read(void *context, u32 offset, void *val, size_t bytes)
-+static ssize_t sc27xx_efuse_read(void *context, u32 offset, void *val, size_t bytes)
- {
- 	struct sc27xx_efuse *efuse = context;
- 	u32 buf, blk_index = offset / SC27XX_EFUSE_BLOCK_WIDTH;
-@@ -194,6 +194,7 @@ static int sc27xx_efuse_read(void *context, u32 offset, void *val, size_t bytes)
- 	if (!ret) {
- 		buf >>= blk_offset;
- 		memcpy(val, &buf, bytes);
-+		ret = bytes;
- 	}
- 
- 	return ret;
-diff --git a/drivers/nvmem/sec-qfprom.c b/drivers/nvmem/sec-qfprom.c
-index 19799b3fe00a..dbacaab519e7 100644
---- a/drivers/nvmem/sec-qfprom.c
-+++ b/drivers/nvmem/sec-qfprom.c
-@@ -20,7 +20,7 @@ struct sec_qfprom {
- 	struct device *dev;
- };
- 
--static int sec_qfprom_reg_read(void *context, unsigned int reg, void *_val, size_t bytes)
-+static ssize_t sec_qfprom_reg_read(void *context, unsigned int reg, void *_val, size_t bytes)
- {
- 	struct sec_qfprom *priv = context;
- 	unsigned int i;
-@@ -40,7 +40,7 @@ static int sec_qfprom_reg_read(void *context, unsigned int reg, void *_val, size
- 		val[i] = tmp[reg & 3];
- 	}
- 
--	return 0;
-+	return bytes;
- }
- 
- static int sec_qfprom_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/snvs_lpgpr.c b/drivers/nvmem/snvs_lpgpr.c
-index 89c27112320f..6b02d69f7158 100644
---- a/drivers/nvmem/snvs_lpgpr.c
-+++ b/drivers/nvmem/snvs_lpgpr.c
-@@ -50,8 +50,8 @@ static const struct snvs_lpgpr_cfg snvs_lpgpr_cfg_imx7d = {
- 	.size		= 16,
- };
- 
--static int snvs_lpgpr_write(void *context, unsigned int offset, void *val,
--			    size_t bytes)
-+static ssize_t snvs_lpgpr_write(void *context, unsigned int offset, void *val,
-+				size_t bytes)
- {
- 	struct snvs_lpgpr_priv *priv = context;
- 	const struct snvs_lpgpr_cfg *dcfg = priv->dcfg;
-@@ -72,18 +72,23 @@ static int snvs_lpgpr_write(void *context, unsigned int offset, void *val,
- 	if (lock_reg & IMX_GPR_HL)
- 		return -EPERM;
- 
--	return regmap_bulk_write(priv->regmap, dcfg->offset + offset, val,
-+	ret = regmap_bulk_write(priv->regmap, dcfg->offset + offset, val,
- 				bytes / 4);
-+
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int snvs_lpgpr_read(void *context, unsigned int offset, void *val,
--			   size_t bytes)
-+static ssize_t snvs_lpgpr_read(void *context, unsigned int offset, void *val,
-+			       size_t bytes)
- {
- 	struct snvs_lpgpr_priv *priv = context;
- 	const struct snvs_lpgpr_cfg *dcfg = priv->dcfg;
-+	int ret;
- 
--	return regmap_bulk_read(priv->regmap, dcfg->offset + offset,
-+	ret = regmap_bulk_read(priv->regmap, dcfg->offset + offset,
- 			       val, bytes / 4);
-+
-+	return ret < 0 ? ret : bytes;
- }
- 
- static int snvs_lpgpr_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/sprd-efuse.c b/drivers/nvmem/sprd-efuse.c
-index 1a7e4e5d8b86..54f1e210d3d4 100644
---- a/drivers/nvmem/sprd-efuse.c
-+++ b/drivers/nvmem/sprd-efuse.c
-@@ -291,7 +291,7 @@ static int sprd_efuse_raw_read(struct sprd_efuse *efuse, int blk, u32 *val,
- 	return 0;
- }
- 
--static int sprd_efuse_read(void *context, u32 offset, void *val, size_t bytes)
-+static ssize_t sprd_efuse_read(void *context, u32 offset, void *val, size_t bytes)
- {
- 	struct sprd_efuse *efuse = context;
- 	bool blk_double = efuse->data->blk_double;
-@@ -318,10 +318,10 @@ static int sprd_efuse_read(void *context, u32 offset, void *val, size_t bytes)
- 
- unlock:
- 	sprd_efuse_unlock(efuse);
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int sprd_efuse_write(void *context, u32 offset, void *val, size_t bytes)
-+static ssize_t sprd_efuse_write(void *context, u32 offset, void *val, size_t bytes)
- {
- 	struct sprd_efuse *efuse = context;
- 	bool blk_double = efuse->data->blk_double;
-@@ -355,7 +355,7 @@ static int sprd_efuse_write(void *context, u32 offset, void *val, size_t bytes)
- 
- unlock:
- 	sprd_efuse_unlock(efuse);
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- static int sprd_efuse_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/stm32-bsec-optee-ta.c b/drivers/nvmem/stm32-bsec-optee-ta.c
-index f89ce791dd12..d2a93bfe80e5 100644
---- a/drivers/nvmem/stm32-bsec-optee-ta.c
-+++ b/drivers/nvmem/stm32-bsec-optee-ta.c
-@@ -136,8 +136,8 @@ void stm32_bsec_optee_ta_close(void *ctx)
- }
- 
- /* stm32_bsec_optee_ta_read() - nvmem read access using PTA client driver */
--int stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
--			     void *buf, size_t bytes)
-+ssize_t stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
-+				 void *buf, size_t bytes)
- {
- 	struct tee_shm *shm;
- 	struct tee_ioctl_invoke_arg arg;
-@@ -198,12 +198,12 @@ int stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
- out_tee_session:
- 	stm32_bsec_ta_close_session(ctx, session_id);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- /* stm32_bsec_optee_ta_write() - nvmem write access using PTA client driver */
--int stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
--			      unsigned int offset, void *buf, size_t bytes)
-+ssize_t stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
-+				  unsigned int offset, void *buf, size_t bytes)
- {	struct tee_shm *shm;
- 	struct tee_ioctl_invoke_arg arg;
- 	struct tee_param param[2];
-@@ -294,5 +294,5 @@ int stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
- out_tee_session:
- 	stm32_bsec_ta_close_session(ctx, session_id);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
-diff --git a/drivers/nvmem/stm32-bsec-optee-ta.h b/drivers/nvmem/stm32-bsec-optee-ta.h
-index 3966a0535179..c96cfde9b0f0 100644
---- a/drivers/nvmem/stm32-bsec-optee-ta.h
-+++ b/drivers/nvmem/stm32-bsec-optee-ta.h
-@@ -33,10 +33,10 @@ void stm32_bsec_optee_ta_close(void *ctx);
-  * @bytes: number of bytes to read
-  *
-  * Return:
-- *	On success, 0. On failure, -errno.
-+ *	On success, bytes read. On failure, -errno.
-  */
--int stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
--			     void *buf, size_t bytes);
-+ssize_t stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
-+				 void *buf, size_t bytes);
- 
- /**
-  * stm32_bsec_optee_ta_write() - nvmem write access using TA client driver
-@@ -47,10 +47,10 @@ int stm32_bsec_optee_ta_read(struct tee_context *ctx, unsigned int offset,
-  * @bytes: number of bytes to write
-  *
-  * Return:
-- *	On success, 0. On failure, -errno.
-+ *	On success, bytes written. On failure, -errno.
-  */
--int stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
--			      unsigned int offset, void *buf, size_t bytes);
-+ssize_t stm32_bsec_optee_ta_write(struct tee_context *ctx, unsigned int lower,
-+				  unsigned int offset, void *buf, size_t bytes);
- 
- #else
- 
-@@ -63,15 +63,15 @@ static inline void stm32_bsec_optee_ta_close(void *ctx)
- {
- }
- 
--static inline int stm32_bsec_optee_ta_read(struct tee_context *ctx,
--					   unsigned int offset, void *buf,
-+static inline ssize_t stm32_bsec_optee_ta_read(struct tee_context *ctx,
-+					       unsigned int offset, void *buf,
- 					   size_t bytes)
- {
- 	return -EOPNOTSUPP;
- }
- 
--static inline int stm32_bsec_optee_ta_write(struct tee_context *ctx,
--					    unsigned int lower,
-+static inline ssize_t stm32_bsec_optee_ta_write(struct tee_context *ctx,
-+						unsigned int lower,
- 					    unsigned int offset, void *buf,
- 					    size_t bytes)
- {
-diff --git a/drivers/nvmem/stm32-romem.c b/drivers/nvmem/stm32-romem.c
-index 82879b1c9eb9..aed620af788c 100644
---- a/drivers/nvmem/stm32-romem.c
-+++ b/drivers/nvmem/stm32-romem.c
-@@ -40,8 +40,8 @@ struct stm32_romem_priv {
- 	struct tee_context *ctx;
- };
- 
--static int stm32_romem_read(void *context, unsigned int offset, void *buf,
--			    size_t bytes)
-+static ssize_t stm32_romem_read(void *context, unsigned int offset, void *buf,
-+				size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
- 	u8 *buf8 = buf;
-@@ -50,7 +50,7 @@ static int stm32_romem_read(void *context, unsigned int offset, void *buf,
- 	for (i = offset; i < offset + bytes; i++)
- 		*buf8++ = readb_relaxed(priv->base + i);
- 
--	return 0;
-+	return bytes;
- }
- 
- static int stm32_bsec_smc(u8 op, u32 otp, u32 data, u32 *result)
-@@ -71,8 +71,8 @@ static int stm32_bsec_smc(u8 op, u32 otp, u32 data, u32 *result)
- #endif
- }
- 
--static int stm32_bsec_read(void *context, unsigned int offset, void *buf,
--			   size_t bytes)
-+static ssize_t stm32_bsec_read(void *context, unsigned int offset, void *buf,
-+			       size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
- 	struct device *dev = priv->cfg.dev;
-@@ -115,11 +115,11 @@ static int stm32_bsec_read(void *context, unsigned int offset, void *buf,
- 		skip_bytes = 0;
- 	}
- 
--	return 0;
-+	return j;
- }
- 
--static int stm32_bsec_write(void *context, unsigned int offset, void *buf,
--			    size_t bytes)
-+static ssize_t stm32_bsec_write(void *context, unsigned int offset, void *buf,
-+				size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
- 	struct device *dev = priv->cfg.dev;
-@@ -142,19 +142,19 @@ static int stm32_bsec_write(void *context, unsigned int offset, void *buf,
- 	if (offset + bytes >= priv->lower * 4)
- 		dev_warn(dev, "Update of upper OTPs with ECC protection (word programming, only once)\n");
- 
--	return 0;
-+	return bytes;
- }
- 
--static int stm32_bsec_pta_read(void *context, unsigned int offset, void *buf,
--			       size_t bytes)
-+static ssize_t stm32_bsec_pta_read(void *context, unsigned int offset, void *buf,
-+				   size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
- 
- 	return stm32_bsec_optee_ta_read(priv->ctx, offset, buf, bytes);
- }
- 
--static int stm32_bsec_pta_write(void *context, unsigned int offset, void *buf,
--				size_t bytes)
-+static ssize_t stm32_bsec_pta_write(void *context, unsigned int offset, void *buf,
-+				    size_t bytes)
- {
- 	struct stm32_romem_priv *priv = context;
- 
-diff --git a/drivers/nvmem/sunplus-ocotp.c b/drivers/nvmem/sunplus-ocotp.c
-index 38f5d9df39cd..7bda128bb93e 100644
---- a/drivers/nvmem/sunplus-ocotp.c
-+++ b/drivers/nvmem/sunplus-ocotp.c
-@@ -114,7 +114,7 @@ static int sp_otp_read_real(struct sp_ocotp_priv *otp, int addr, char *value)
- 	return ret;
- }
- 
--static int sp_ocotp_read(void *priv, unsigned int offset, void *value, size_t bytes)
-+static ssize_t sp_ocotp_read(void *priv, unsigned int offset, void *value, size_t bytes)
- {
- 	struct sp_ocotp_priv *otp = priv;
- 	unsigned int addr;
-@@ -140,7 +140,7 @@ static int sp_ocotp_read(void *priv, unsigned int offset, void *value, size_t by
- disable_clk:
- 	clk_disable(otp->clk);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
- static struct nvmem_config sp_ocotp_nvmem_config = {
-diff --git a/drivers/nvmem/sunxi_sid.c b/drivers/nvmem/sunxi_sid.c
-index ba14a76208ab..0133263d2adb 100644
---- a/drivers/nvmem/sunxi_sid.c
-+++ b/drivers/nvmem/sunxi_sid.c
-@@ -36,8 +36,8 @@ struct sunxi_sid {
- 	u32			value_offset;
- };
- 
--static int sunxi_sid_read(void *context, unsigned int offset,
--			  void *val, size_t bytes)
-+static ssize_t sunxi_sid_read(void *context, unsigned int offset,
-+			      void *val, size_t bytes)
- {
- 	struct sunxi_sid *sid = context;
- 	u32 word;
-@@ -56,7 +56,7 @@ static int sunxi_sid_read(void *context, unsigned int offset,
- 	word = readl_relaxed(sid->base + sid->value_offset + offset);
- 	memcpy(val, &word, bytes);
- 
--	return 0;
-+	return bytes;
- }
- 
- static int sun8i_sid_register_readout(const struct sunxi_sid *sid,
-@@ -90,10 +90,11 @@ static int sun8i_sid_register_readout(const struct sunxi_sid *sid,
-  * to be not reliable at all.
-  * Read by the registers instead.
-  */
--static int sun8i_sid_read_by_reg(void *context, unsigned int offset,
--				 void *val, size_t bytes)
-+static ssize_t sun8i_sid_read_by_reg(void *context, unsigned int offset,
-+				     void *val, size_t bytes)
- {
- 	struct sunxi_sid *sid = context;
-+	size_t bytes_read = bytes;
- 	u32 word;
- 	int ret;
- 
-@@ -109,7 +110,7 @@ static int sun8i_sid_read_by_reg(void *context, unsigned int offset,
- 	}
- 
- 	if (!bytes)
--		return 0;
-+		return bytes_read;
- 
- 	/* Handle any trailing bytes */
- 	ret = sun8i_sid_register_readout(sid, offset, &word);
-@@ -118,7 +119,7 @@ static int sun8i_sid_read_by_reg(void *context, unsigned int offset,
- 
- 	memcpy(val, &word, bytes);
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static int sunxi_sid_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/u-boot-env.c b/drivers/nvmem/u-boot-env.c
-index befbab156cda..2288a2891bb2 100644
---- a/drivers/nvmem/u-boot-env.c
-+++ b/drivers/nvmem/u-boot-env.c
-@@ -47,8 +47,8 @@ struct u_boot_env_image_broadcom {
- 	DECLARE_FLEX_ARRAY(uint8_t, data);
- } __packed;
- 
--static int u_boot_env_read(void *context, unsigned int offset, void *val,
--			   size_t bytes)
-+static ssize_t u_boot_env_read(void *context, unsigned int offset, void *val,
-+			       size_t bytes)
- {
- 	struct u_boot_env *priv = context;
- 	struct device *dev = priv->dev;
-@@ -66,7 +66,7 @@ static int u_boot_env_read(void *context, unsigned int offset, void *val,
- 		return -EIO;
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static int u_boot_env_read_post_process_ethaddr(void *context, const char *id, int index,
-diff --git a/drivers/nvmem/uniphier-efuse.c b/drivers/nvmem/uniphier-efuse.c
-index 6ad3295d3195..a6c28e03adc2 100644
---- a/drivers/nvmem/uniphier-efuse.c
-+++ b/drivers/nvmem/uniphier-efuse.c
-@@ -16,8 +16,8 @@ struct uniphier_efuse_priv {
- 	void __iomem *base;
- };
- 
--static int uniphier_reg_read(void *context,
--			     unsigned int reg, void *_val, size_t bytes)
-+static ssize_t uniphier_reg_read(void *context,
-+				 unsigned int reg, void *_val, size_t bytes)
- {
- 	struct uniphier_efuse_priv *priv = context;
- 	u8 *val = _val;
-@@ -26,7 +26,7 @@ static int uniphier_reg_read(void *context,
- 	for (offs = 0; offs < bytes; offs += sizeof(u8))
- 		*val++ = readb(priv->base + reg + offs);
- 
--	return 0;
-+	return bytes;
- }
- 
- static int uniphier_efuse_probe(struct platform_device *pdev)
-diff --git a/drivers/nvmem/vf610-ocotp.c b/drivers/nvmem/vf610-ocotp.c
-index ee9c61ae727d..4e2bdb38305d 100644
---- a/drivers/nvmem/vf610-ocotp.c
-+++ b/drivers/nvmem/vf610-ocotp.c
-@@ -143,11 +143,12 @@ static int vf610_get_fuse_address(int base_addr_offset)
- 	return -EINVAL;
- }
- 
--static int vf610_ocotp_read(void *context, unsigned int offset,
--			void *val, size_t bytes)
-+static ssize_t vf610_ocotp_read(void *context, unsigned int offset,
-+				void *val, size_t bytes)
- {
- 	struct vf610_ocotp *ocotp = context;
- 	void __iomem *base = ocotp->base;
-+	size_t bytes_read = bytes;
- 	u32 reg, *buf = val;
- 	int fuse_addr;
- 	int ret;
-@@ -193,7 +194,7 @@ static int vf610_ocotp_read(void *context, unsigned int offset,
- 		offset += 4;
- 	}
- 
--	return 0;
-+	return bytes_read;
- }
- 
- static struct nvmem_config ocotp_config = {
-diff --git a/drivers/nvmem/zynqmp_nvmem.c b/drivers/nvmem/zynqmp_nvmem.c
-index 8682adaacd69..1502d4998159 100644
---- a/drivers/nvmem/zynqmp_nvmem.c
-+++ b/drivers/nvmem/zynqmp_nvmem.c
-@@ -56,8 +56,8 @@ struct xilinx_efuse {
- 	u32 pufuserfuse;
- };
- 
--static int zynqmp_efuse_access(void *context, unsigned int offset,
--			       void *val, size_t bytes, enum efuse_access flag,
-+static ssize_t zynqmp_efuse_access(void *context, unsigned int offset,
-+				   void *val, size_t bytes, enum efuse_access flag,
- 			       unsigned int pufflag)
- {
- 	struct device *dev = context;
-@@ -140,10 +140,10 @@ static int zynqmp_efuse_access(void *context, unsigned int offset,
- 	dma_free_coherent(dev, sizeof(struct xilinx_efuse),
- 			  efuse, dma_addr);
- 
--	return ret;
-+	return ret < 0 ? ret : bytes;
- }
- 
--static int zynqmp_nvmem_read(void *context, unsigned int offset, void *val, size_t bytes)
-+static ssize_t zynqmp_nvmem_read(void *context, unsigned int offset, void *val, size_t bytes)
- {
- 	struct device *dev = context;
- 	int ret;
-@@ -166,6 +166,7 @@ static int zynqmp_nvmem_read(void *context, unsigned int offset, void *val, size
- 
- 		dev_dbg(dev, "Read chipid val %x %x\n", idcode, version);
- 		*(int *)val = version & SILICON_REVISION_MASK;
-+		ret = SOC_VER_SIZE;
- 		break;
- 	/* Efuse offset starts from 0xc */
- 	case EFUSE_START_OFFSET ... EFUSE_END_OFFSET:
-@@ -182,8 +183,8 @@ static int zynqmp_nvmem_read(void *context, unsigned int offset, void *val, size
- 	return ret;
- }
- 
--static int zynqmp_nvmem_write(void *context,
--			      unsigned int offset, void *val, size_t bytes)
-+static ssize_t zynqmp_nvmem_write(void *context,
-+				  unsigned int offset, void *val, size_t bytes)
- {
- 	int pufflag = 0;
- 
-diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
-index 3ebeaa0ded00..f7e83a59aa2f 100644
---- a/include/linux/nvmem-provider.h
-+++ b/include/linux/nvmem-provider.h
-@@ -16,9 +16,9 @@
- #include <linux/gpio/consumer.h>
- 
- struct nvmem_device;
--typedef int (*nvmem_reg_read_t)(void *priv, unsigned int offset,
-+typedef ssize_t (*nvmem_reg_read_t)(void *priv, unsigned int offset,
- 				void *val, size_t bytes);
--typedef int (*nvmem_reg_write_t)(void *priv, unsigned int offset,
-+typedef ssize_t (*nvmem_reg_write_t)(void *priv, unsigned int offset,
- 				 void *val, size_t bytes);
- /* used for vendor specific post processing of cell data */
- typedef int (*nvmem_cell_post_process_t)(void *priv, const char *id, int index,
--- 
-2.44.0.769.g3c40516874-goog
+Regards,
+
+	Hans
+
+>  			break;
+>  		}
+>  		count++;
+> @@ -478,8 +478,8 @@ static int bt878_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
+>  	btwrite(0, BT878_AINT_MASK);
+>  	bt878_num++;
+>  
+> -	if (!bt->tasklet.func)
+> -		tasklet_disable(&bt->tasklet);
+> +	if (!bt->work.func)
+> +		disable_work_sync(&bt->work);
+>  
+>  	return 0;
+>  
+> diff --git a/drivers/media/pci/bt8xx/bt878.h b/drivers/media/pci/bt8xx/bt878.h
+> index fde8db293c54..b9ce78e5116b 100644
+> --- a/drivers/media/pci/bt8xx/bt878.h
+> +++ b/drivers/media/pci/bt8xx/bt878.h
+> @@ -14,6 +14,7 @@
+>  #include <linux/sched.h>
+>  #include <linux/spinlock.h>
+>  #include <linux/mutex.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include "bt848.h"
+>  #include "bttv.h"
+> @@ -120,7 +121,7 @@ struct bt878 {
+>  	dma_addr_t risc_dma;
+>  	u32 risc_pos;
+>  
+> -	struct tasklet_struct tasklet;
+> +	struct work_struct work;
+>  	int shutdown;
+>  };
+>  
+> diff --git a/drivers/media/pci/bt8xx/dvb-bt8xx.c b/drivers/media/pci/bt8xx/dvb-bt8xx.c
+> index 390cbba6c065..8c0e1fa764a4 100644
+> --- a/drivers/media/pci/bt8xx/dvb-bt8xx.c
+> +++ b/drivers/media/pci/bt8xx/dvb-bt8xx.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/slab.h>
+>  #include <linux/i2c.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include <media/dmxdev.h>
+>  #include <media/dvbdev.h>
+> @@ -39,9 +40,9 @@ DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
+>  
+>  #define IF_FREQUENCYx6 217    /* 6 * 36.16666666667MHz */
+>  
+> -static void dvb_bt8xx_task(struct tasklet_struct *t)
+> +static void dvb_bt8xx_task(struct work_struct *t)
+>  {
+> -	struct bt878 *bt = from_tasklet(bt, t, tasklet);
+> +	struct bt878 *bt = from_work(bt, t, work);
+>  	struct dvb_bt8xx_card *card = dev_get_drvdata(&bt->adapter->dev);
+>  
+>  	dprintk("%d\n", card->bt->finished_block);
+> @@ -782,7 +783,7 @@ static int dvb_bt8xx_load_card(struct dvb_bt8xx_card *card, u32 type)
+>  		goto err_disconnect_frontend;
+>  	}
+>  
+> -	tasklet_setup(&card->bt->tasklet, dvb_bt8xx_task);
+> +	INIT_WORK(&card->bt->work, dvb_bt8xx_task);
+>  
+>  	frontend_init(card, type);
+>  
+> @@ -922,7 +923,7 @@ static void dvb_bt8xx_remove(struct bttv_sub_device *sub)
+>  	dprintk("dvb_bt8xx: unloading card%d\n", card->bttv_nr);
+>  
+>  	bt878_stop(card->bt);
+> -	tasklet_kill(&card->bt->tasklet);
+> +	cancel_work_sync(&card->bt->work);
+>  	dvb_net_release(&card->dvbnet);
+>  	card->demux.dmx.remove_frontend(&card->demux.dmx, &card->fe_mem);
+>  	card->demux.dmx.remove_frontend(&card->demux.dmx, &card->fe_hw);
+> diff --git a/drivers/media/pci/ddbridge/ddbridge.h b/drivers/media/pci/ddbridge/ddbridge.h
+> index f3699dbd193f..037d1d13ef0f 100644
+> --- a/drivers/media/pci/ddbridge/ddbridge.h
+> +++ b/drivers/media/pci/ddbridge/ddbridge.h
+> @@ -35,6 +35,7 @@
+>  #include <linux/uaccess.h>
+>  #include <linux/vmalloc.h>
+>  #include <linux/workqueue.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include <asm/dma.h>
+>  #include <asm/irq.h>
+> @@ -298,7 +299,7 @@ struct ddb_link {
+>  	spinlock_t             lock; /* lock link access */
+>  	struct mutex           flash_mutex; /* lock flash access */
+>  	struct ddb_lnb         lnb;
+> -	struct tasklet_struct  tasklet;
+> +	struct work_struct work;
+>  	struct ddb_ids         ids;
+>  
+>  	spinlock_t             temp_lock; /* lock temp chip access */
+> diff --git a/drivers/media/pci/mantis/hopper_cards.c b/drivers/media/pci/mantis/hopper_cards.c
+> index c0bd5d7e148b..869ea88c4893 100644
+> --- a/drivers/media/pci/mantis/hopper_cards.c
+> +++ b/drivers/media/pci/mantis/hopper_cards.c
+> @@ -116,7 +116,7 @@ static irqreturn_t hopper_irq_handler(int irq, void *dev_id)
+>  	if (stat & MANTIS_INT_RISCI) {
+>  		dprintk(MANTIS_DEBUG, 0, "<%s>", label[8]);
+>  		mantis->busy_block = (stat & MANTIS_INT_RISCSTAT) >> 28;
+> -		tasklet_schedule(&mantis->tasklet);
+> +		queue_work(system_bh_wq, &mantis->work);
+>  	}
+>  	if (stat & MANTIS_INT_I2CDONE) {
+>  		dprintk(MANTIS_DEBUG, 0, "<%s>", label[9]);
+> diff --git a/drivers/media/pci/mantis/mantis_cards.c b/drivers/media/pci/mantis/mantis_cards.c
+> index 906e4500d87d..cb124b19e36e 100644
+> --- a/drivers/media/pci/mantis/mantis_cards.c
+> +++ b/drivers/media/pci/mantis/mantis_cards.c
+> @@ -125,7 +125,7 @@ static irqreturn_t mantis_irq_handler(int irq, void *dev_id)
+>  	if (stat & MANTIS_INT_RISCI) {
+>  		dprintk(MANTIS_DEBUG, 0, "<%s>", label[8]);
+>  		mantis->busy_block = (stat & MANTIS_INT_RISCSTAT) >> 28;
+> -		tasklet_schedule(&mantis->tasklet);
+> +		queue_work(system_bh_wq, &mantis->work);
+>  	}
+>  	if (stat & MANTIS_INT_I2CDONE) {
+>  		dprintk(MANTIS_DEBUG, 0, "<%s>", label[9]);
+> diff --git a/drivers/media/pci/mantis/mantis_common.h b/drivers/media/pci/mantis/mantis_common.h
+> index d88ac280226c..f2247148f268 100644
+> --- a/drivers/media/pci/mantis/mantis_common.h
+> +++ b/drivers/media/pci/mantis/mantis_common.h
+> @@ -12,6 +12,7 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/mutex.h>
+>  #include <linux/workqueue.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include "mantis_reg.h"
+>  #include "mantis_uart.h"
+> @@ -125,7 +126,7 @@ struct mantis_pci {
+>  	__le32			*risc_cpu;
+>  	dma_addr_t		risc_dma;
+>  
+> -	struct tasklet_struct	tasklet;
+> +	struct work_struct 	work;
+>  	spinlock_t		intmask_lock;
+>  
+>  	struct i2c_adapter	adapter;
+> diff --git a/drivers/media/pci/mantis/mantis_dma.c b/drivers/media/pci/mantis/mantis_dma.c
+> index 80c843936493..c85f9b84a2c6 100644
+> --- a/drivers/media/pci/mantis/mantis_dma.c
+> +++ b/drivers/media/pci/mantis/mantis_dma.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/signal.h>
+>  #include <linux/sched.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include <media/dmxdev.h>
+>  #include <media/dvbdev.h>
+> @@ -200,9 +201,9 @@ void mantis_dma_stop(struct mantis_pci *mantis)
+>  }
+>  
+>  
+> -void mantis_dma_xfer(struct tasklet_struct *t)
+> +void mantis_dma_xfer(struct work_struct *t)
+>  {
+> -	struct mantis_pci *mantis = from_tasklet(mantis, t, tasklet);
+> +	struct mantis_pci *mantis = from_work(mantis, t, work);
+>  	struct mantis_hwconfig *config = mantis->hwconfig;
+>  
+>  	while (mantis->last_block != mantis->busy_block) {
+> diff --git a/drivers/media/pci/mantis/mantis_dma.h b/drivers/media/pci/mantis/mantis_dma.h
+> index 37da982c9c29..5db0d3728f15 100644
+> --- a/drivers/media/pci/mantis/mantis_dma.h
+> +++ b/drivers/media/pci/mantis/mantis_dma.h
+> @@ -13,6 +13,6 @@ extern int mantis_dma_init(struct mantis_pci *mantis);
+>  extern int mantis_dma_exit(struct mantis_pci *mantis);
+>  extern void mantis_dma_start(struct mantis_pci *mantis);
+>  extern void mantis_dma_stop(struct mantis_pci *mantis);
+> -extern void mantis_dma_xfer(struct tasklet_struct *t);
+> +extern void mantis_dma_xfer(struct work_struct *t);
+>  
+>  #endif /* __MANTIS_DMA_H */
+> diff --git a/drivers/media/pci/mantis/mantis_dvb.c b/drivers/media/pci/mantis/mantis_dvb.c
+> index c7ba4a76e608..f640635de170 100644
+> --- a/drivers/media/pci/mantis/mantis_dvb.c
+> +++ b/drivers/media/pci/mantis/mantis_dvb.c
+> @@ -105,7 +105,7 @@ static int mantis_dvb_start_feed(struct dvb_demux_feed *dvbdmxfeed)
+>  	if (mantis->feeds == 1)	 {
+>  		dprintk(MANTIS_DEBUG, 1, "mantis start feed & dma");
+>  		mantis_dma_start(mantis);
+> -		tasklet_enable(&mantis->tasklet);
+> +		enable_and_queue_work(system_bh_wq, &mantis->work);
+>  	}
+>  
+>  	return mantis->feeds;
+> @@ -125,7 +125,7 @@ static int mantis_dvb_stop_feed(struct dvb_demux_feed *dvbdmxfeed)
+>  	mantis->feeds--;
+>  	if (mantis->feeds == 0) {
+>  		dprintk(MANTIS_DEBUG, 1, "mantis stop feed and dma");
+> -		tasklet_disable(&mantis->tasklet);
+> +		disable_work_sync(&mantis->work);
+>  		mantis_dma_stop(mantis);
+>  	}
+>  
+> @@ -205,8 +205,8 @@ int mantis_dvb_init(struct mantis_pci *mantis)
+>  	}
+>  
+>  	dvb_net_init(&mantis->dvb_adapter, &mantis->dvbnet, &mantis->demux.dmx);
+> -	tasklet_setup(&mantis->tasklet, mantis_dma_xfer);
+> -	tasklet_disable(&mantis->tasklet);
+> +	INIT_WORK(&mantis->bh, mantis_dma_xfer);
+> +	disable_work_sync(&mantis->work);
+>  	if (mantis->hwconfig) {
+>  		result = config->frontend_init(mantis, mantis->fe);
+>  		if (result < 0) {
+> @@ -235,7 +235,7 @@ int mantis_dvb_init(struct mantis_pci *mantis)
+>  
+>  	/* Error conditions ..	*/
+>  err5:
+> -	tasklet_kill(&mantis->tasklet);
+> +	cancel_work_sync(&mantis->work);
+>  	dvb_net_release(&mantis->dvbnet);
+>  	if (mantis->fe) {
+>  		dvb_unregister_frontend(mantis->fe);
+> @@ -273,7 +273,7 @@ int mantis_dvb_exit(struct mantis_pci *mantis)
+>  		dvb_frontend_detach(mantis->fe);
+>  	}
+>  
+> -	tasklet_kill(&mantis->tasklet);
+> +	cancel_work_sync(&mantis->work);
+>  	dvb_net_release(&mantis->dvbnet);
+>  
+>  	mantis->demux.dmx.remove_frontend(&mantis->demux.dmx, &mantis->fe_mem);
+> diff --git a/drivers/media/pci/ngene/ngene-core.c b/drivers/media/pci/ngene/ngene-core.c
+> index 7481f553f959..5211d6796748 100644
+> --- a/drivers/media/pci/ngene/ngene-core.c
+> +++ b/drivers/media/pci/ngene/ngene-core.c
+> @@ -21,6 +21,7 @@
+>  #include <linux/byteorder/generic.h>
+>  #include <linux/firmware.h>
+>  #include <linux/vmalloc.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include "ngene.h"
+>  
+> @@ -50,9 +51,9 @@ DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
+>  /* nGene interrupt handler **************************************************/
+>  /****************************************************************************/
+>  
+> -static void event_tasklet(struct tasklet_struct *t)
+> +static void event_work(struct work_struct *t)
+>  {
+> -	struct ngene *dev = from_tasklet(dev, t, event_tasklet);
+> +	struct ngene *dev = from_work(dev, t, event_work);
+>  
+>  	while (dev->EventQueueReadIndex != dev->EventQueueWriteIndex) {
+>  		struct EVENT_BUFFER Event =
+> @@ -68,9 +69,9 @@ static void event_tasklet(struct tasklet_struct *t)
+>  	}
+>  }
+>  
+> -static void demux_tasklet(struct tasklet_struct *t)
+> +static void demux_work(struct work_struct *t)
+>  {
+> -	struct ngene_channel *chan = from_tasklet(chan, t, demux_tasklet);
+> +	struct ngene_channel *chan = from_work(chan, t, demux_work);
+>  	struct device *pdev = &chan->dev->pci_dev->dev;
+>  	struct SBufferHeader *Cur = chan->nextBuffer;
+>  
+> @@ -204,7 +205,7 @@ static irqreturn_t irq_handler(int irq, void *dev_id)
+>  			dev->EventQueueOverflowFlag = 1;
+>  		}
+>  		dev->EventBuffer->EventStatus &= ~0x80;
+> -		tasklet_schedule(&dev->event_tasklet);
+> +		queue_work(system_bh_wq, &dev->event_work);
+>  		rc = IRQ_HANDLED;
+>  	}
+>  
+> @@ -217,8 +218,8 @@ static irqreturn_t irq_handler(int irq, void *dev_id)
+>  			     ngeneBuffer.SR.Flags & 0xC0) == 0x80) {
+>  				dev->channel[i].nextBuffer->
+>  					ngeneBuffer.SR.Flags |= 0x40;
+> -				tasklet_schedule(
+> -					&dev->channel[i].demux_tasklet);
+> +				queue_work(system_bh_wq,
+> +					&dev->channel[i].demux_work);
+>  				rc = IRQ_HANDLED;
+>  			}
+>  		}
+> @@ -1181,7 +1182,7 @@ static void ngene_init(struct ngene *dev)
+>  	struct device *pdev = &dev->pci_dev->dev;
+>  	int i;
+>  
+> -	tasklet_setup(&dev->event_tasklet, event_tasklet);
+> +	INIT_WORK(&dev->event_work, event_work);
+>  
+>  	memset_io(dev->iomem + 0xc000, 0x00, 0x220);
+>  	memset_io(dev->iomem + 0xc400, 0x00, 0x100);
+> @@ -1395,7 +1396,7 @@ static void release_channel(struct ngene_channel *chan)
+>  	if (chan->running)
+>  		set_transfer(chan, 0);
+>  
+> -	tasklet_kill(&chan->demux_tasklet);
+> +	cancel_work_sync(&chan->demux_work);
+>  
+>  	if (chan->ci_dev) {
+>  		dvb_unregister_device(chan->ci_dev);
+> @@ -1445,7 +1446,7 @@ static int init_channel(struct ngene_channel *chan)
+>  	struct ngene_info *ni = dev->card_info;
+>  	int io = ni->io_type[nr];
+>  
+> -	tasklet_setup(&chan->demux_tasklet, demux_tasklet);
+> +	INIT_WORK(&chan->demux_work, demux_work);
+>  	chan->users = 0;
+>  	chan->type = io;
+>  	chan->mode = chan->type;	/* for now only one mode */
+> @@ -1647,7 +1648,7 @@ void ngene_remove(struct pci_dev *pdev)
+>  	struct ngene *dev = pci_get_drvdata(pdev);
+>  	int i;
+>  
+> -	tasklet_kill(&dev->event_tasklet);
+> +	cancel_work_sync(&dev->event_work);
+>  	for (i = MAX_STREAM - 1; i >= 0; i--)
+>  		release_channel(&dev->channel[i]);
+>  	if (dev->ci.en)
+> diff --git a/drivers/media/pci/ngene/ngene.h b/drivers/media/pci/ngene/ngene.h
+> index d1d7da84cd9d..c2a23f6dbe09 100644
+> --- a/drivers/media/pci/ngene/ngene.h
+> +++ b/drivers/media/pci/ngene/ngene.h
+> @@ -16,6 +16,7 @@
+>  #include <linux/scatterlist.h>
+>  
+>  #include <linux/dvb/frontend.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include <media/dmxdev.h>
+>  #include <media/dvbdev.h>
+> @@ -621,7 +622,7 @@ struct ngene_channel {
+>  	int                   users;
+>  	struct video_device  *v4l_dev;
+>  	struct dvb_device    *ci_dev;
+> -	struct tasklet_struct demux_tasklet;
+> +	struct work_struct demux_work;
+>  
+>  	struct SBufferHeader *nextBuffer;
+>  	enum KSSTATE          State;
+> @@ -717,7 +718,7 @@ struct ngene {
+>  	struct EVENT_BUFFER   EventQueue[EVENT_QUEUE_SIZE];
+>  	int                   EventQueueOverflowCount;
+>  	int                   EventQueueOverflowFlag;
+> -	struct tasklet_struct event_tasklet;
+> +	struct work_struct event_work;
+>  	struct EVENT_BUFFER  *EventBuffer;
+>  	int                   EventQueueWriteIndex;
+>  	int                   EventQueueReadIndex;
+> diff --git a/drivers/media/pci/smipcie/smipcie-main.c b/drivers/media/pci/smipcie/smipcie-main.c
+> index 0c300d019d9c..7da6bb55660b 100644
+> --- a/drivers/media/pci/smipcie/smipcie-main.c
+> +++ b/drivers/media/pci/smipcie/smipcie-main.c
+> @@ -279,10 +279,10 @@ static void smi_port_clearInterrupt(struct smi_port *port)
+>  		(port->_dmaInterruptCH0 | port->_dmaInterruptCH1));
+>  }
+>  
+> -/* tasklet handler: DMA data to dmx.*/
+> -static void smi_dma_xfer(struct tasklet_struct *t)
+> +/* work handler: DMA data to dmx.*/
+> +static void smi_dma_xfer(struct work_struct *t)
+>  {
+> -	struct smi_port *port = from_tasklet(port, t, tasklet);
+> +	struct smi_port *port = from_work(port, t, work);
+>  	struct smi_dev *dev = port->dev;
+>  	u32 intr_status, finishedData, dmaManagement;
+>  	u8 dmaChan0State, dmaChan1State;
+> @@ -426,8 +426,8 @@ static int smi_port_init(struct smi_port *port, int dmaChanUsed)
+>  	}
+>  
+>  	smi_port_disableInterrupt(port);
+> -	tasklet_setup(&port->tasklet, smi_dma_xfer);
+> -	tasklet_disable(&port->tasklet);
+> +	INIT_WORK(&port->work, smi_dma_xfer);
+> +	disable_work_sync(&port->work);
+>  	port->enable = 1;
+>  	return 0;
+>  err:
+> @@ -438,7 +438,7 @@ static int smi_port_init(struct smi_port *port, int dmaChanUsed)
+>  static void smi_port_exit(struct smi_port *port)
+>  {
+>  	smi_port_disableInterrupt(port);
+> -	tasklet_kill(&port->tasklet);
+> +	cancel_work_sync(&port->work);
+>  	smi_port_dma_free(port);
+>  	port->enable = 0;
+>  }
+> @@ -452,7 +452,7 @@ static int smi_port_irq(struct smi_port *port, u32 int_status)
+>  		smi_port_disableInterrupt(port);
+>  		port->_int_status = int_status;
+>  		smi_port_clearInterrupt(port);
+> -		tasklet_schedule(&port->tasklet);
+> +		queue_work(system_bh_wq, &port->work);
+>  		handled = 1;
+>  	}
+>  	return handled;
+> @@ -823,7 +823,7 @@ static int smi_start_feed(struct dvb_demux_feed *dvbdmxfeed)
+>  		smi_port_clearInterrupt(port);
+>  		smi_port_enableInterrupt(port);
+>  		smi_write(port->DMA_MANAGEMENT, dmaManagement);
+> -		tasklet_enable(&port->tasklet);
+> +		enable_and_queue_work(system_bh_wq, &port->work);
+>  	}
+>  	return port->users;
+>  }
+> @@ -837,7 +837,7 @@ static int smi_stop_feed(struct dvb_demux_feed *dvbdmxfeed)
+>  	if (--port->users)
+>  		return port->users;
+>  
+> -	tasklet_disable(&port->tasklet);
+> +	disable_work_sync(&port->work);
+>  	smi_port_disableInterrupt(port);
+>  	smi_clear(port->DMA_MANAGEMENT, 0x30003);
+>  	return 0;
+> diff --git a/drivers/media/pci/smipcie/smipcie.h b/drivers/media/pci/smipcie/smipcie.h
+> index 2b5e0154814c..f124d2cdead6 100644
+> --- a/drivers/media/pci/smipcie/smipcie.h
+> +++ b/drivers/media/pci/smipcie/smipcie.h
+> @@ -17,6 +17,7 @@
+>  #include <linux/pci.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/slab.h>
+> +#include <linux/workqueue.h>
+>  #include <media/rc-core.h>
+>  
+>  #include <media/demux.h>
+> @@ -257,7 +258,7 @@ struct smi_port {
+>  	u32 _dmaInterruptCH0;
+>  	u32 _dmaInterruptCH1;
+>  	u32 _int_status;
+> -	struct tasklet_struct tasklet;
+> +	struct work_struct work;
+>  	/* dvb */
+>  	struct dmx_frontend hw_frontend;
+>  	struct dmx_frontend mem_frontend;
+> diff --git a/drivers/media/pci/ttpci/budget-av.c b/drivers/media/pci/ttpci/budget-av.c
+> index a47c5850ef87..6e43b1a01191 100644
+> --- a/drivers/media/pci/ttpci/budget-av.c
+> +++ b/drivers/media/pci/ttpci/budget-av.c
+> @@ -37,6 +37,7 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/input.h>
+>  #include <linux/spinlock.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include <media/dvb_ca_en50221.h>
+>  
+> @@ -55,7 +56,7 @@ struct budget_av {
+>  	struct video_device vd;
+>  	int cur_input;
+>  	int has_saa7113;
+> -	struct tasklet_struct ciintf_irq_tasklet;
+> +	struct work_struct ciintf_irq_work;
+>  	int slot_status;
+>  	struct dvb_ca_en50221 ca;
+>  	u8 reinitialise_demod:1;
+> diff --git a/drivers/media/pci/ttpci/budget-ci.c b/drivers/media/pci/ttpci/budget-ci.c
+> index 66e1a004ee43..11e0ed62707e 100644
+> --- a/drivers/media/pci/ttpci/budget-ci.c
+> +++ b/drivers/media/pci/ttpci/budget-ci.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/spinlock.h>
+> +#include <linux/workqueue.h>
+>  #include <media/rc-core.h>
+>  
+>  #include "budget.h"
+> @@ -80,7 +81,7 @@ DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
+>  
+>  struct budget_ci_ir {
+>  	struct rc_dev *dev;
+> -	struct tasklet_struct msp430_irq_tasklet;
+> +	struct work_struct msp430_irq_work;
+>  	char name[72]; /* 40 + 32 for (struct saa7146_dev).name */
+>  	char phys[32];
+>  	int rc5_device;
+> @@ -91,7 +92,7 @@ struct budget_ci_ir {
+>  
+>  struct budget_ci {
+>  	struct budget budget;
+> -	struct tasklet_struct ciintf_irq_tasklet;
+> +	struct work_struct ciintf_irq_work;
+>  	int slot_status;
+>  	int ci_irq;
+>  	struct dvb_ca_en50221 ca;
+> @@ -99,9 +100,9 @@ struct budget_ci {
+>  	u8 tuner_pll_address; /* used for philips_tdm1316l configs */
+>  };
+>  
+> -static void msp430_ir_interrupt(struct tasklet_struct *t)
+> +static void msp430_ir_interrupt(struct work_struct *t)
+>  {
+> -	struct budget_ci_ir *ir = from_tasklet(ir, t, msp430_irq_tasklet);
+> +	struct budget_ci_ir *ir = from_work(ir, t, msp430_irq_work);
+>  	struct budget_ci *budget_ci = container_of(ir, typeof(*budget_ci), ir);
+>  	struct rc_dev *dev = budget_ci->ir.dev;
+>  	u32 command = ttpci_budget_debiread(&budget_ci->budget, DEBINOSWAP, DEBIADDR_IR, 2, 1, 0) >> 8;
+> @@ -230,7 +231,7 @@ static int msp430_ir_init(struct budget_ci *budget_ci)
+>  
+>  	budget_ci->ir.dev = dev;
+>  
+> -	tasklet_setup(&budget_ci->ir.msp430_irq_tasklet, msp430_ir_interrupt);
+> +	INIT_WORK(&budget_ci->ir.msp430_irq_work, msp430_ir_interrupt);
+>  
+>  	SAA7146_IER_ENABLE(saa, MASK_06);
+>  	saa7146_setgpio(saa, 3, SAA7146_GPIO_IRQHI);
+> @@ -244,7 +245,7 @@ static void msp430_ir_deinit(struct budget_ci *budget_ci)
+>  
+>  	SAA7146_IER_DISABLE(saa, MASK_06);
+>  	saa7146_setgpio(saa, 3, SAA7146_GPIO_INPUT);
+> -	tasklet_kill(&budget_ci->ir.msp430_irq_tasklet);
+> +	cancel_work_sync(&budget_ci->ir.msp430_irq_work);
+>  
+>  	rc_unregister_device(budget_ci->ir.dev);
+>  }
+> @@ -348,10 +349,10 @@ static int ciintf_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
+>  	return 0;
+>  }
+>  
+> -static void ciintf_interrupt(struct tasklet_struct *t)
+> +static void ciintf_interrupt(struct work_struct *t)
+>  {
+> -	struct budget_ci *budget_ci = from_tasklet(budget_ci, t,
+> -						   ciintf_irq_tasklet);
+> +	struct budget_ci *budget_ci = from_work(budget_ci, t,
+> +						   ciintf_irq_work);
+>  	struct saa7146_dev *saa = budget_ci->budget.dev;
+>  	unsigned int flags;
+>  
+> @@ -492,7 +493,7 @@ static int ciintf_init(struct budget_ci *budget_ci)
+>  
+>  	// Setup CI slot IRQ
+>  	if (budget_ci->ci_irq) {
+> -		tasklet_setup(&budget_ci->ciintf_irq_tasklet, ciintf_interrupt);
+> +		INIT_WORK(&budget_ci->ciintf_irq_work, ciintf_interrupt);
+>  		if (budget_ci->slot_status != SLOTSTATUS_NONE) {
+>  			saa7146_setgpio(saa, 0, SAA7146_GPIO_IRQLO);
+>  		} else {
+> @@ -532,7 +533,7 @@ static void ciintf_deinit(struct budget_ci *budget_ci)
+>  	if (budget_ci->ci_irq) {
+>  		SAA7146_IER_DISABLE(saa, MASK_03);
+>  		saa7146_setgpio(saa, 0, SAA7146_GPIO_INPUT);
+> -		tasklet_kill(&budget_ci->ciintf_irq_tasklet);
+> +		cancel_work_sync(&budget_ci->ciintf_irq_work);
+>  	}
+>  
+>  	// reset interface
+> @@ -558,13 +559,13 @@ static void budget_ci_irq(struct saa7146_dev *dev, u32 * isr)
+>  	dprintk(8, "dev: %p, budget_ci: %p\n", dev, budget_ci);
+>  
+>  	if (*isr & MASK_06)
+> -		tasklet_schedule(&budget_ci->ir.msp430_irq_tasklet);
+> +		queue_work(system_bh_wq, &budget_ci->ir.msp430_irq_work);
+>  
+>  	if (*isr & MASK_10)
+>  		ttpci_budget_irq10_handler(dev, isr);
+>  
+>  	if ((*isr & MASK_03) && (budget_ci->budget.ci_present) && (budget_ci->ci_irq))
+> -		tasklet_schedule(&budget_ci->ciintf_irq_tasklet);
+> +		queue_work(system_bh_wq, &budget_ci->ciintf_irq_work);
+>  }
+>  
+>  static u8 philips_su1278_tt_inittab[] = {
+> diff --git a/drivers/media/pci/ttpci/budget-core.c b/drivers/media/pci/ttpci/budget-core.c
+> index 25f44c3eebf3..3443c12dc9f2 100644
+> --- a/drivers/media/pci/ttpci/budget-core.c
+> +++ b/drivers/media/pci/ttpci/budget-core.c
+> @@ -171,9 +171,9 @@ static int budget_read_fe_status(struct dvb_frontend *fe,
+>  	return ret;
+>  }
+>  
+> -static void vpeirq(struct tasklet_struct *t)
+> +static void vpeirq(struct work_struct *t)
+>  {
+> -	struct budget *budget = from_tasklet(budget, t, vpe_tasklet);
+> +	struct budget *budget = from_work(budget, t, vpe_work);
+>  	u8 *mem = (u8 *) (budget->grabbing);
+>  	u32 olddma = budget->ttbp;
+>  	u32 newdma = saa7146_read(budget->dev, PCI_VDP3);
+> @@ -520,7 +520,7 @@ int ttpci_budget_init(struct budget *budget, struct saa7146_dev *dev,
+>  	/* upload all */
+>  	saa7146_write(dev, GPIO_CTRL, 0x000000);
+>  
+> -	tasklet_setup(&budget->vpe_tasklet, vpeirq);
+> +	INIT_WORK(&budget->vpe_work, vpeirq);
+>  
+>  	/* frontend power on */
+>  	if (bi->type != BUDGET_FS_ACTIVY)
+> @@ -557,7 +557,7 @@ int ttpci_budget_deinit(struct budget *budget)
+>  
+>  	budget_unregister(budget);
+>  
+> -	tasklet_kill(&budget->vpe_tasklet);
+> +	cancel_work_sync(&budget->vpe_work);
+>  
+>  	saa7146_vfree_destroy_pgtable(dev->pci, budget->grabbing, &budget->pt);
+>  
+> @@ -575,7 +575,7 @@ void ttpci_budget_irq10_handler(struct saa7146_dev *dev, u32 * isr)
+>  	dprintk(8, "dev: %p, budget: %p\n", dev, budget);
+>  
+>  	if (*isr & MASK_10)
+> -		tasklet_schedule(&budget->vpe_tasklet);
+> +		queue_work(system_bh_wq, &budget->vpe_work);
+>  }
+>  
+>  void ttpci_budget_set_video_port(struct saa7146_dev *dev, int video_port)
+> diff --git a/drivers/media/pci/ttpci/budget.h b/drivers/media/pci/ttpci/budget.h
+> index bd87432e6cde..a3ee75e326b4 100644
+> --- a/drivers/media/pci/ttpci/budget.h
+> +++ b/drivers/media/pci/ttpci/budget.h
+> @@ -12,6 +12,7 @@
+>  
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include <media/drv-intf/saa7146.h>
+>  
+> @@ -49,8 +50,8 @@ struct budget {
+>  	unsigned char *grabbing;
+>  	struct saa7146_pgtable pt;
+>  
+> -	struct tasklet_struct fidb_tasklet;
+> -	struct tasklet_struct vpe_tasklet;
+> +	struct work_struct fidb_work;
+> +	struct work_struct vpe_work;
+>  
+>  	struct dmxdev dmxdev;
+>  	struct dvb_demux demux;
+> diff --git a/drivers/media/pci/tw5864/tw5864-core.c b/drivers/media/pci/tw5864/tw5864-core.c
+> index 560ff1ddcc83..a58c268e94a8 100644
+> --- a/drivers/media/pci/tw5864/tw5864-core.c
+> +++ b/drivers/media/pci/tw5864/tw5864-core.c
+> @@ -144,7 +144,7 @@ static void tw5864_h264_isr(struct tw5864_dev *dev)
+>  		cur_frame->gop_seqno = input->frame_gop_seqno;
+>  
+>  		dev->h264_buf_w_index = next_frame_index;
+> -		tasklet_schedule(&dev->tasklet);
+> +		queue_work(system_bh_wq, &dev->work);
+>  
+>  		cur_frame = next_frame;
+>  
+> diff --git a/drivers/media/pci/tw5864/tw5864-video.c b/drivers/media/pci/tw5864/tw5864-video.c
+> index 8b1aae4b6319..ac2249626506 100644
+> --- a/drivers/media/pci/tw5864/tw5864-video.c
+> +++ b/drivers/media/pci/tw5864/tw5864-video.c
+> @@ -6,6 +6,7 @@
+>   */
+>  
+>  #include <linux/module.h>
+> +#include <linux/workqueue.h>
+>  #include <media/v4l2-common.h>
+>  #include <media/v4l2-event.h>
+>  #include <media/videobuf2-dma-contig.h>
+> @@ -175,7 +176,7 @@ static const unsigned int intra4x4_lambda3[] = {
+>  static v4l2_std_id tw5864_get_v4l2_std(enum tw5864_vid_std std);
+>  static enum tw5864_vid_std tw5864_from_v4l2_std(v4l2_std_id v4l2_std);
+>  
+> -static void tw5864_handle_frame_task(struct tasklet_struct *t);
+> +static void tw5864_handle_frame_task(struct work_struct *t);
+>  static void tw5864_handle_frame(struct tw5864_h264_frame *frame);
+>  static void tw5864_frame_interval_set(struct tw5864_input *input);
+>  
+> @@ -1062,7 +1063,7 @@ int tw5864_video_init(struct tw5864_dev *dev, int *video_nr)
+>  	dev->irqmask |= TW5864_INTR_VLC_DONE | TW5864_INTR_TIMER;
+>  	tw5864_irqmask_apply(dev);
+>  
+> -	tasklet_setup(&dev->tasklet, tw5864_handle_frame_task);
+> +	INIT_WORK(&dev->work, tw5864_handle_frame_task);
+>  
+>  	for (i = 0; i < TW5864_INPUTS; i++) {
+>  		dev->inputs[i].root = dev;
+> @@ -1079,7 +1080,7 @@ int tw5864_video_init(struct tw5864_dev *dev, int *video_nr)
+>  	for (i = last_input_nr_registered; i >= 0; i--)
+>  		tw5864_video_input_fini(&dev->inputs[i]);
+>  
+> -	tasklet_kill(&dev->tasklet);
+> +	cancel_work_sync(&dev->work);
+>  
+>  free_dma:
+>  	for (i = last_dma_allocated; i >= 0; i--) {
+> @@ -1198,7 +1199,7 @@ void tw5864_video_fini(struct tw5864_dev *dev)
+>  {
+>  	int i;
+>  
+> -	tasklet_kill(&dev->tasklet);
+> +	cancel_work_sync(&dev->work);
+>  
+>  	for (i = 0; i < TW5864_INPUTS; i++)
+>  		tw5864_video_input_fini(&dev->inputs[i]);
+> @@ -1315,9 +1316,9 @@ static int tw5864_is_motion_triggered(struct tw5864_h264_frame *frame)
+>  	return detected;
+>  }
+>  
+> -static void tw5864_handle_frame_task(struct tasklet_struct *t)
+> +static void tw5864_handle_frame_task(struct work_struct *t)
+>  {
+> -	struct tw5864_dev *dev = from_tasklet(dev, t, tasklet);
+> +	struct tw5864_dev *dev = from_work(dev, t, work);
+>  	unsigned long flags;
+>  	int batch_size = H264_BUF_CNT;
+>  
+> diff --git a/drivers/media/pci/tw5864/tw5864.h b/drivers/media/pci/tw5864/tw5864.h
+> index a8b6fbd5b710..278373859098 100644
+> --- a/drivers/media/pci/tw5864/tw5864.h
+> +++ b/drivers/media/pci/tw5864/tw5864.h
+> @@ -12,6 +12,7 @@
+>  #include <linux/mutex.h>
+>  #include <linux/io.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include <media/v4l2-common.h>
+>  #include <media/v4l2-ioctl.h>
+> @@ -85,7 +86,7 @@ struct tw5864_input {
+>  	int nr; /* input number */
+>  	struct tw5864_dev *root;
+>  	struct mutex lock; /* used for vidq and vdev */
+> -	spinlock_t slock; /* used for sync between ISR, tasklet & V4L2 API */
+> +	spinlock_t slock; /* used for sync between ISR, work & V4L2 API */
+>  	struct video_device vdev;
+>  	struct v4l2_ctrl_handler hdl;
+>  	struct vb2_queue vidq;
+> @@ -142,7 +143,7 @@ struct tw5864_h264_frame {
+>  
+>  /* global device status */
+>  struct tw5864_dev {
+> -	spinlock_t slock; /* used for sync between ISR, tasklet & V4L2 API */
+> +	spinlock_t slock; /* used for sync between ISR, work & V4L2 API */
+>  	struct v4l2_device v4l2_dev;
+>  	struct tw5864_input inputs[TW5864_INPUTS];
+>  #define H264_BUF_CNT 4
+> @@ -150,7 +151,7 @@ struct tw5864_dev {
+>  	int h264_buf_r_index;
+>  	int h264_buf_w_index;
+>  
+> -	struct tasklet_struct tasklet;
+> +	struct work_struct work;
+>  
+>  	int encoder_busy;
+>  	/* Input number to check next for ready raw picture (in RR fashion) */
+> diff --git a/drivers/media/platform/intel/pxa_camera.c b/drivers/media/platform/intel/pxa_camera.c
+> index d904952bf00e..df0a3c559287 100644
+> --- a/drivers/media/platform/intel/pxa_camera.c
+> +++ b/drivers/media/platform/intel/pxa_camera.c
+> @@ -43,6 +43,7 @@
+>  #include <linux/videodev2.h>
+>  
+>  #include <linux/platform_data/media/camera-pxa.h>
+> +#include <linux/workqueue.h>
+>  
+>  #define PXA_CAM_VERSION "0.0.6"
+>  #define PXA_CAM_DRV_NAME "pxa27x-camera"
+> @@ -683,7 +684,7 @@ struct pxa_camera_dev {
+>  	unsigned int		buf_sequence;
+>  
+>  	struct pxa_buffer	*active;
+> -	struct tasklet_struct	task_eof;
+> +	struct work_struct 	task_eof;
+>  
+>  	u32			save_cicr[5];
+>  };
+> @@ -1146,9 +1147,9 @@ static void pxa_camera_deactivate(struct pxa_camera_dev *pcdev)
+>  	clk_disable_unprepare(pcdev->clk);
+>  }
+>  
+> -static void pxa_camera_eof(struct tasklet_struct *t)
+> +static void pxa_camera_eof(struct work_struct *t)
+>  {
+> -	struct pxa_camera_dev *pcdev = from_tasklet(pcdev, t, task_eof);
+> +	struct pxa_camera_dev *pcdev = from_work(pcdev, t, task_eof);
+>  	unsigned long cifr;
+>  	struct pxa_buffer *buf;
+>  
+> @@ -1185,7 +1186,7 @@ static irqreturn_t pxa_camera_irq(int irq, void *data)
+>  	if (status & CISR_EOF) {
+>  		cicr0 = __raw_readl(pcdev->base + CICR0) | CICR0_EOFM;
+>  		__raw_writel(cicr0, pcdev->base + CICR0);
+> -		tasklet_schedule(&pcdev->task_eof);
+> +		queue_work(system_bh_wq, &pcdev->task_eof);
+>  	}
+>  
+>  	return IRQ_HANDLED;
+> @@ -2383,7 +2384,7 @@ static int pxa_camera_probe(struct platform_device *pdev)
+>  		}
+>  	}
+>  
+> -	tasklet_setup(&pcdev->task_eof, pxa_camera_eof);
+> +	INIT_WORK(&pcdev->task_eof, pxa_camera_eof);
+>  
+>  	pxa_camera_activate(pcdev);
+>  
+> @@ -2409,7 +2410,7 @@ static int pxa_camera_probe(struct platform_device *pdev)
+>  	return 0;
+>  exit_deactivate:
+>  	pxa_camera_deactivate(pcdev);
+> -	tasklet_kill(&pcdev->task_eof);
+> +	cancel_work_sync(&pcdev->task_eof);
+>  exit_free_dma:
+>  	dma_release_channel(pcdev->dma_chans[2]);
+>  exit_free_dma_u:
+> @@ -2428,7 +2429,7 @@ static void pxa_camera_remove(struct platform_device *pdev)
+>  	struct pxa_camera_dev *pcdev = platform_get_drvdata(pdev);
+>  
+>  	pxa_camera_deactivate(pcdev);
+> -	tasklet_kill(&pcdev->task_eof);
+> +	cancel_work_sync(&pcdev->task_eof);
+>  	dma_release_channel(pcdev->dma_chans[0]);
+>  	dma_release_channel(pcdev->dma_chans[1]);
+>  	dma_release_channel(pcdev->dma_chans[2]);
+> diff --git a/drivers/media/platform/marvell/mcam-core.c b/drivers/media/platform/marvell/mcam-core.c
+> index 66688b4aece5..d6b96a7039be 100644
+> --- a/drivers/media/platform/marvell/mcam-core.c
+> +++ b/drivers/media/platform/marvell/mcam-core.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/clk-provider.h>
+>  #include <linux/videodev2.h>
+>  #include <linux/pm_runtime.h>
+> +#include <linux/workqueue.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-ctrls.h>
+> @@ -439,9 +440,9 @@ static void mcam_ctlr_dma_vmalloc(struct mcam_camera *cam)
+>  /*
+>   * Copy data out to user space in the vmalloc case
+>   */
+> -static void mcam_frame_tasklet(struct tasklet_struct *t)
+> +static void mcam_frame_work(struct work_struct *t)
+>  {
+> -	struct mcam_camera *cam = from_tasklet(cam, t, s_tasklet);
+> +	struct mcam_camera *cam = from_work(cam, t, s_work);
+>  	int i;
+>  	unsigned long flags;
+>  	struct mcam_vb_buffer *buf;
+> @@ -480,7 +481,7 @@ static void mcam_frame_tasklet(struct tasklet_struct *t)
+>  
+>  
+>  /*
+> - * Make sure our allocated buffers are up to the task.
+> + * Make sure our allocated buffers are up to the work.
+>   */
+>  static int mcam_check_dma_buffers(struct mcam_camera *cam)
+>  {
+> @@ -493,7 +494,7 @@ static int mcam_check_dma_buffers(struct mcam_camera *cam)
+>  
+>  static void mcam_vmalloc_done(struct mcam_camera *cam, int frame)
+>  {
+> -	tasklet_schedule(&cam->s_tasklet);
+> +	queue_work(system_bh_wq, &cam->s_work);
+>  }
+>  
+>  #else /* MCAM_MODE_VMALLOC */
+> @@ -1305,7 +1306,7 @@ static int mcam_setup_vb2(struct mcam_camera *cam)
+>  		break;
+>  	case B_vmalloc:
+>  #ifdef MCAM_MODE_VMALLOC
+> -		tasklet_setup(&cam->s_tasklet, mcam_frame_tasklet);
+> +		INIT_WORK(&cam->s_work, mcam_frame_work);
+>  		vq->ops = &mcam_vb2_ops;
+>  		vq->mem_ops = &vb2_vmalloc_memops;
+>  		cam->dma_setup = mcam_ctlr_dma_vmalloc;
+> diff --git a/drivers/media/platform/marvell/mcam-core.h b/drivers/media/platform/marvell/mcam-core.h
+> index 51e66db45af6..0d4b953dbb23 100644
+> --- a/drivers/media/platform/marvell/mcam-core.h
+> +++ b/drivers/media/platform/marvell/mcam-core.h
+> @@ -9,6 +9,7 @@
+>  
+>  #include <linux/list.h>
+>  #include <linux/clk-provider.h>
+> +#include <linux/workqueue.h>
+>  #include <media/v4l2-common.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-dev.h>
+> @@ -167,7 +168,7 @@ struct mcam_camera {
+>  	unsigned int dma_buf_size;	/* allocated size */
+>  	void *dma_bufs[MAX_DMA_BUFS];	/* Internal buffer addresses */
+>  	dma_addr_t dma_handles[MAX_DMA_BUFS]; /* Buffer bus addresses */
+> -	struct tasklet_struct s_tasklet;
+> +	struct work_struct s_work;
+>  #endif
+>  	unsigned int sequence;		/* Frame sequence number */
+>  	unsigned int buf_seq[MAX_DMA_BUFS]; /* Sequence for individual bufs */
+> diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+> index e4cf27b5a072..22b359569a10 100644
+> --- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+> +++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+> @@ -33,6 +33,7 @@
+>  #include <linux/time.h>
+>  #include <linux/usb.h>
+>  #include <linux/wait.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include "c8sectpfe-common.h"
+>  #include "c8sectpfe-core.h"
+> @@ -73,16 +74,16 @@ static void c8sectpfe_timer_interrupt(struct timer_list *t)
+>  
+>  		/* is this descriptor initialised and TP enabled */
+>  		if (channel->irec && readl(channel->irec + DMA_PRDS_TPENABLE))
+> -			tasklet_schedule(&channel->tsklet);
+> +			queue_work(system_bh_wq, &channel->tsklet);
+>  	}
+>  
+>  	fei->timer.expires = jiffies +	msecs_to_jiffies(POLL_MSECS);
+>  	add_timer(&fei->timer);
+>  }
+>  
+> -static void channel_swdemux_tsklet(struct tasklet_struct *t)
+> +static void channel_swdemux_tsklet(struct work_struct *t)
+>  {
+> -	struct channel_info *channel = from_tasklet(channel, t, tsklet);
+> +	struct channel_info *channel = from_work(channel, t, tsklet);
+>  	struct c8sectpfei *fei;
+>  	unsigned long wp, rp;
+>  	int pos, num_packets, n, size;
+> @@ -211,7 +212,7 @@ static int c8sectpfe_start_feed(struct dvb_demux_feed *dvbdmxfeed)
+>  
+>  		dev_dbg(fei->dev, "Starting channel=%p\n", channel);
+>  
+> -		tasklet_setup(&channel->tsklet, channel_swdemux_tsklet);
+> +		INIT_WORK(&channel->tsklet, channel_swdemux_tsklet);
+>  
+>  		/* Reset the internal inputblock sram pointers */
+>  		writel(channel->fifo,
+> @@ -304,7 +305,7 @@ static int c8sectpfe_stop_feed(struct dvb_demux_feed *dvbdmxfeed)
+>  		/* disable this channels descriptor */
+>  		writel(0,  channel->irec + DMA_PRDS_TPENABLE);
+>  
+> -		tasklet_disable(&channel->tsklet);
+> +		disable_work_sync(&channel->tsklet);
+>  
+>  		/* now request memdma channel goes idle */
+>  		idlereq = (1 << channel->tsin_id) | IDLEREQ;
+> @@ -631,8 +632,8 @@ static int configure_memdma_and_inputblock(struct c8sectpfei *fei,
+>  	writel(tsin->back_buffer_busaddr, tsin->irec + DMA_PRDS_BUSWP_TP(0));
+>  	writel(tsin->back_buffer_busaddr, tsin->irec + DMA_PRDS_BUSRP_TP(0));
+>  
+> -	/* initialize tasklet */
+> -	tasklet_setup(&tsin->tsklet, channel_swdemux_tsklet);
+> +	/* initialize work */
+> +	INIT_WORK(&tsin->tsklet, channel_swdemux_tsklet);
+>  
+>  	return 0;
+>  
+> diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
+> index bf377cc82225..d63f0ee83615 100644
+> --- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
+> +++ b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
+> @@ -51,7 +51,7 @@ struct channel_info {
+>  	unsigned long  fifo;
+>  
+>  	struct completion idle_completion;
+> -	struct tasklet_struct tsklet;
+> +	struct work_struct tsklet;
+>  
+>  	struct c8sectpfei *fei;
+>  	void __iomem *irec;
+> diff --git a/drivers/media/radio/wl128x/fmdrv.h b/drivers/media/radio/wl128x/fmdrv.h
+> index da8920169df8..85282f638c4a 100644
+> --- a/drivers/media/radio/wl128x/fmdrv.h
+> +++ b/drivers/media/radio/wl128x/fmdrv.h
+> @@ -15,6 +15,7 @@
+>  #include <sound/core.h>
+>  #include <sound/initval.h>
+>  #include <linux/timer.h>
+> +#include <linux/workqueue.h>
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/v4l2-common.h>
+>  #include <media/v4l2-device.h>
+> @@ -200,15 +201,15 @@ struct fmdev {
+>  	int streg_cbdata; /* status of ST registration */
+>  
+>  	struct sk_buff_head rx_q;	/* RX queue */
+> -	struct tasklet_struct rx_task;	/* RX Tasklet */
+> +	struct work_struct rx_task;	/* RX Work */
+>  
+>  	struct sk_buff_head tx_q;	/* TX queue */
+> -	struct tasklet_struct tx_task;	/* TX Tasklet */
+> +	struct work_struct tx_task;	/* TX Work */
+>  	unsigned long last_tx_jiffies;	/* Timestamp of last pkt sent */
+>  	atomic_t tx_cnt;	/* Number of packets can send at a time */
+>  
+>  	struct sk_buff *resp_skb;	/* Response from the chip */
+> -	/* Main task completion handler */
+> +	/* Main work completion handler */
+>  	struct completion maintask_comp;
+>  	/* Opcode of last command sent to the chip */
+>  	u8 pre_op;
+> diff --git a/drivers/media/radio/wl128x/fmdrv_common.c b/drivers/media/radio/wl128x/fmdrv_common.c
+> index 3da8e5102bec..52290bb4a4ad 100644
+> --- a/drivers/media/radio/wl128x/fmdrv_common.c
+> +++ b/drivers/media/radio/wl128x/fmdrv_common.c
+> @@ -9,7 +9,7 @@
+>   *     one Channel-8 command to be sent to the chip).
+>   *  2) Sending each Channel-8 command to the chip and reading
+>   *     response back over Shared Transport.
+> - *  3) Managing TX and RX Queues and Tasklets.
+> + *  3) Managing TX and RX Queues and Works.
+>   *  4) Handling FM Interrupt packet and taking appropriate action.
+>   *  5) Loading FM firmware to the chip (common, FM TX, and FM RX
+>   *     firmware files based on mode selection)
+> @@ -29,6 +29,7 @@
+>  #include "fmdrv_v4l2.h"
+>  #include "fmdrv_common.h"
+>  #include <linux/ti_wilink_st.h>
+> +#include <linux/workqueue.h>
+>  #include "fmdrv_rx.h"
+>  #include "fmdrv_tx.h"
+>  
+> @@ -244,10 +245,10 @@ void fmc_update_region_info(struct fmdev *fmdev, u8 region_to_set)
+>  }
+>  
+>  /*
+> - * FM common sub-module will schedule this tasklet whenever it receives
+> + * FM common sub-module will schedule this work whenever it receives
+>   * FM packet from ST driver.
+>   */
+> -static void recv_tasklet(struct tasklet_struct *t)
+> +static void recv_work(struct work_struct *t)
+>  {
+>  	struct fmdev *fmdev;
+>  	struct fm_irq *irq_info;
+> @@ -256,7 +257,7 @@ static void recv_tasklet(struct tasklet_struct *t)
+>  	u8 num_fm_hci_cmds;
+>  	unsigned long flags;
+>  
+> -	fmdev = from_tasklet(fmdev, t, tx_task);
+> +	fmdev = from_work(fmdev, t, tx_task);
+>  	irq_info = &fmdev->irq_info;
+>  	/* Process all packets in the RX queue */
+>  	while ((skb = skb_dequeue(&fmdev->rx_q))) {
+> @@ -322,22 +323,22 @@ static void recv_tasklet(struct tasklet_struct *t)
+>  
+>  		/*
+>  		 * Check flow control field. If Num_FM_HCI_Commands field is
+> -		 * not zero, schedule FM TX tasklet.
+> +		 * not zero, schedule FM TX work.
+>  		 */
+>  		if (num_fm_hci_cmds && atomic_read(&fmdev->tx_cnt))
+>  			if (!skb_queue_empty(&fmdev->tx_q))
+> -				tasklet_schedule(&fmdev->tx_task);
+> +				queue_work(system_bh_wq, &fmdev->tx_task);
+>  	}
+>  }
+>  
+> -/* FM send tasklet: is scheduled when FM packet has to be sent to chip */
+> -static void send_tasklet(struct tasklet_struct *t)
+> +/* FM send work: is scheduled when FM packet has to be sent to chip */
+> +static void send_work(struct work_struct *t)
+>  {
+>  	struct fmdev *fmdev;
+>  	struct sk_buff *skb;
+>  	int len;
+>  
+> -	fmdev = from_tasklet(fmdev, t, tx_task);
+> +	fmdev = from_work(fmdev, t, tx_task);
+>  
+>  	if (!atomic_read(&fmdev->tx_cnt))
+>  		return;
+> @@ -366,7 +367,7 @@ static void send_tasklet(struct tasklet_struct *t)
+>  	if (len < 0) {
+>  		kfree_skb(skb);
+>  		fmdev->resp_comp = NULL;
+> -		fmerr("TX tasklet failed to send skb(%p)\n", skb);
+> +		fmerr("TX work failed to send skb(%p)\n", skb);
+>  		atomic_set(&fmdev->tx_cnt, 1);
+>  	} else {
+>  		fmdev->last_tx_jiffies = jiffies;
+> @@ -374,7 +375,7 @@ static void send_tasklet(struct tasklet_struct *t)
+>  }
+>  
+>  /*
+> - * Queues FM Channel-8 packet to FM TX queue and schedules FM TX tasklet for
+> + * Queues FM Channel-8 packet to FM TX queue and schedules FM TX work for
+>   * transmission
+>   */
+>  static int fm_send_cmd(struct fmdev *fmdev, u8 fm_op, u16 type,	void *payload,
+> @@ -440,7 +441,7 @@ static int fm_send_cmd(struct fmdev *fmdev, u8 fm_op, u16 type,	void *payload,
+>  
+>  	fm_cb(skb)->completion = wait_completion;
+>  	skb_queue_tail(&fmdev->tx_q, skb);
+> -	tasklet_schedule(&fmdev->tx_task);
+> +	queue_work(system_bh_wq, &fmdev->tx_task);
+>  
+>  	return 0;
+>  }
+> @@ -462,7 +463,7 @@ int fmc_send_cmd(struct fmdev *fmdev, u8 fm_op, u16 type, void *payload,
+>  
+>  	if (!wait_for_completion_timeout(&fmdev->maintask_comp,
+>  					 FM_DRV_TX_TIMEOUT)) {
+> -		fmerr("Timeout(%d sec),didn't get regcompletion signal from RX tasklet\n",
+> +		fmerr("Timeout(%d sec),didn't get regcompletion signal from RX work\n",
+>  			   jiffies_to_msecs(FM_DRV_TX_TIMEOUT) / 1000);
+>  		return -ETIMEDOUT;
+>  	}
+> @@ -1455,7 +1456,7 @@ static long fm_st_receive(void *arg, struct sk_buff *skb)
+>  
+>  	memcpy(skb_push(skb, 1), &skb->cb[0], 1);
+>  	skb_queue_tail(&fmdev->rx_q, skb);
+> -	tasklet_schedule(&fmdev->rx_task);
+> +	queue_work(system_bh_wq, &fmdev->rx_task);
+>  
+>  	return 0;
+>  }
+> @@ -1537,13 +1538,13 @@ int fmc_prepare(struct fmdev *fmdev)
+>  	spin_lock_init(&fmdev->rds_buff_lock);
+>  	spin_lock_init(&fmdev->resp_skb_lock);
+>  
+> -	/* Initialize TX queue and TX tasklet */
+> +	/* Initialize TX queue and TX work */
+>  	skb_queue_head_init(&fmdev->tx_q);
+> -	tasklet_setup(&fmdev->tx_task, send_tasklet);
+> +	INIT_WORK(&fmdev->tx_task, send_work);
+>  
+> -	/* Initialize RX Queue and RX tasklet */
+> +	/* Initialize RX Queue and RX work */
+>  	skb_queue_head_init(&fmdev->rx_q);
+> -	tasklet_setup(&fmdev->rx_task, recv_tasklet);
+> +	INIT_WORK(&fmdev->rx_task, recv_work);
+>  
+>  	fmdev->irq_info.stage = 0;
+>  	atomic_set(&fmdev->tx_cnt, 1);
+> @@ -1589,8 +1590,8 @@ int fmc_release(struct fmdev *fmdev)
+>  	/* Service pending read */
+>  	wake_up_interruptible(&fmdev->rx.rds.read_queue);
+>  
+> -	tasklet_kill(&fmdev->tx_task);
+> -	tasklet_kill(&fmdev->rx_task);
+> +	cancel_work_sync(&fmdev->tx_task);
+> +	cancel_work_sync(&fmdev->rx_task);
+>  
+>  	skb_queue_purge(&fmdev->tx_q);
+>  	skb_queue_purge(&fmdev->rx_q);
+> diff --git a/drivers/media/rc/mceusb.c b/drivers/media/rc/mceusb.c
+> index c76ba24c1f55..a2e2e58b7506 100644
+> --- a/drivers/media/rc/mceusb.c
+> +++ b/drivers/media/rc/mceusb.c
+> @@ -774,7 +774,7 @@ static void mceusb_dev_printdata(struct mceusb_dev *ir, u8 *buf, int buf_len,
+>  
+>  /*
+>   * Schedule work that can't be done in interrupt handlers
+> - * (mceusb_dev_recv() and mce_write_callback()) nor tasklets.
+> + * (mceusb_dev_recv() and mce_write_callback()) nor works.
+>   * Invokes mceusb_deferred_kevent() for recovering from
+>   * error events specified by the kevent bit field.
+>   */
+> diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+> index 79faa2560613..55eeb00f1126 100644
+> --- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
+> +++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/input.h>
+>  
+>  #include <linux/mutex.h>
+> +#include <linux/workqueue.h>
+>  
+>  #include <media/dmxdev.h>
+>  #include <media/dvb_demux.h>
+> @@ -139,7 +140,7 @@ struct ttusb_dec {
+>  	int			v_pes_postbytes;
+>  
+>  	struct list_head	urb_frame_list;
+> -	struct tasklet_struct	urb_tasklet;
+> +	struct work_struct 	urb_work;
+>  	spinlock_t		urb_frame_list_lock;
+>  
+>  	struct dvb_demux_filter	*audio_filter;
+> @@ -766,9 +767,9 @@ static void ttusb_dec_process_urb_frame(struct ttusb_dec *dec, u8 *b,
+>  	}
+>  }
+>  
+> -static void ttusb_dec_process_urb_frame_list(struct tasklet_struct *t)
+> +static void ttusb_dec_process_urb_frame_list(struct work_struct *t)
+>  {
+> -	struct ttusb_dec *dec = from_tasklet(dec, t, urb_tasklet);
+> +	struct ttusb_dec *dec = from_work(dec, t, urb_work);
+>  	struct list_head *item;
+>  	struct urb_frame *frame;
+>  	unsigned long flags;
+> @@ -822,7 +823,7 @@ static void ttusb_dec_process_urb(struct urb *urb)
+>  				spin_unlock_irqrestore(&dec->urb_frame_list_lock,
+>  						       flags);
+>  
+> -				tasklet_schedule(&dec->urb_tasklet);
+> +				queue_work(system_bh_wq, &dec->urb_work);
+>  			}
+>  		}
+>  	} else {
+> @@ -1198,11 +1199,11 @@ static int ttusb_dec_alloc_iso_urbs(struct ttusb_dec *dec)
+>  	return 0;
+>  }
+>  
+> -static void ttusb_dec_init_tasklet(struct ttusb_dec *dec)
+> +static void ttusb_dec_init_work(struct ttusb_dec *dec)
+>  {
+>  	spin_lock_init(&dec->urb_frame_list_lock);
+>  	INIT_LIST_HEAD(&dec->urb_frame_list);
+> -	tasklet_setup(&dec->urb_tasklet, ttusb_dec_process_urb_frame_list);
+> +	INIT_WORK(&dec->urb_work, ttusb_dec_process_urb_frame_list);
+>  }
+>  
+>  static int ttusb_init_rc( struct ttusb_dec *dec)
+> @@ -1588,12 +1589,12 @@ static void ttusb_dec_exit_usb(struct ttusb_dec *dec)
+>  	ttusb_dec_free_iso_urbs(dec);
+>  }
+>  
+> -static void ttusb_dec_exit_tasklet(struct ttusb_dec *dec)
+> +static void ttusb_dec_exit_work(struct ttusb_dec *dec)
+>  {
+>  	struct list_head *item;
+>  	struct urb_frame *frame;
+>  
+> -	tasklet_kill(&dec->urb_tasklet);
+> +	cancel_work_sync(&dec->urb_work);
+>  
+>  	while ((item = dec->urb_frame_list.next) != &dec->urb_frame_list) {
+>  		frame = list_entry(item, struct urb_frame, urb_frame_list);
+> @@ -1703,7 +1704,7 @@ static int ttusb_dec_probe(struct usb_interface *intf,
+>  
+>  	ttusb_dec_init_v_pes(dec);
+>  	ttusb_dec_init_filters(dec);
+> -	ttusb_dec_init_tasklet(dec);
+> +	ttusb_dec_init_work(dec);
+>  
+>  	dec->active = 1;
+>  
+> @@ -1729,7 +1730,7 @@ static void ttusb_dec_disconnect(struct usb_interface *intf)
+>  	dprintk("%s\n", __func__);
+>  
+>  	if (dec->active) {
+> -		ttusb_dec_exit_tasklet(dec);
+> +		ttusb_dec_exit_work(dec);
+>  		ttusb_dec_exit_filters(dec);
+>  		if(enable_rc)
+>  			ttusb_dec_exit_rc(dec);
 
