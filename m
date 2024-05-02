@@ -1,61 +1,61 @@
 Received: from ma-mailsvcp-mx-lapp02.apple.com (ma-mailsvcp-mx-lapp02.apple.com [17.32.222.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D357E9
-	for <asahi@lists.linux.dev>; Thu,  2 May 2024 00:16:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7BC14AB2
+	for <asahi@lists.linux.dev>; Thu,  2 May 2024 01:11:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.32.222.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714609010; cv=none; b=eb1TL/4L2KDrRZQ1My/T1xgVsOKbF6+sfdVyiaqa/otiicaBVwFvJjCoO4gVi2jM2Ok26sPaEjBDfQyJ2Y59lKmzvgIq18Zmqy03gICRKzvg6UBkULvr0C0BZuLzs4NLR8+FQBtrbJmhQectXT4dlgOB1bX9eKGrEpAMcAlB0Ow=
+	t=1714612273; cv=none; b=KWhoE+O0KCDZ81+Ofy3gUgZIzjUv4nGgGyg9ZBjMwlncP0XOYwPsEB42adfYqvdS3B6F8NtSnCH7fBHT00QmYaPBqP0vndwx/q0EiPq3utpLFuHTcRHWOhhHusCcFrrXyBqselSk0ok8Pd60gsyI+6t44/iRYTCKTLOrBjZpUG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714609010; c=relaxed/simple;
-	bh=FttjLP2RMELHyklUWIQJDa+KTsHTslmnMvr+Q/filAg=;
+	s=arc-20240116; t=1714612273; c=relaxed/simple;
+	bh=z8MxxiMryaY2KFsttaRStt574gLkrend+EZ69VmURrI=;
 	h=From:To:Cc:Subject:Date:Message-id:In-reply-to:References:
-	 MIME-version; b=mbSh+5adhyPezQARNrOKWUtq4vWfkZtpTHPmpoftPuxG8IKlBjJdPTULQSsspkncTE3Oxzb7vJ8NBK1qa3XhY/PI86Y+kirpaOppethhdB3bjq9XqYXkvJrPKRPuvDzlgxIcaRCl6J+3QBkxpHZUxyzYczgvn/g/Fz0uopMcnFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=apple.com; spf=pass smtp.mailfrom=apple.com; dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b=NhiCBDJp; arc=none smtp.client-ip=17.32.222.23
+	 MIME-version; b=D7/lvWHjT+iQVbnvNQouBed4dpyQvx6G6sE4jFXxaZPT8MTq+KJuzi9NU7XdkqNBZ7Ma9IxFwvNftpXnv6SoybtU6PwPUsVucyhNXzMOqa9WITjnpIcaiVHOH6E3r8KgyPv0CJ06UdzqEBPq7wMBue7Lv18Uel+bwGk+wqlg5oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=apple.com; spf=pass smtp.mailfrom=apple.com; dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b=O90V67Gd; arc=none smtp.client-ip=17.32.222.23
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=apple.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apple.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b="NhiCBDJp"
-Received: from rn-mailsvcp-mta-lapp03.rno.apple.com
- (rn-mailsvcp-mta-lapp03.rno.apple.com [10.225.203.151])
+	dkim=pass (2048-bit key) header.d=apple.com header.i=@apple.com header.b="O90V67Gd"
+Received: from rn-mailsvcp-mta-lapp02.rno.apple.com
+ (rn-mailsvcp-mta-lapp02.rno.apple.com [10.225.203.150])
  by ma-mailsvcp-mx-lapp02.apple.com
  (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
- 2023)) with ESMTPS id <0SCU00YM70RLZ000@ma-mailsvcp-mx-lapp02.apple.com> for
- asahi@lists.linux.dev; Wed, 01 May 2024 17:16:48 -0700 (PDT)
+ 2023)) with ESMTPS id <0SCU011Z70IERT20@ma-mailsvcp-mx-lapp02.apple.com> for
+ asahi@lists.linux.dev; Wed, 01 May 2024 17:11:05 -0700 (PDT)
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
  definitions=2024-05-01_16,2024-04-30_01,2023-05-22_02
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com; h=from : to
  : cc : subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=20180706;
- bh=NkY47ufs8kucjQXAyO31Twlr+ZWbr4oDpHiSLaMsAnU=;
- b=NhiCBDJpC/oMt1AxUm6xa80yXZvaGfnxeIIrSCMUW5aWGtAD0dWHMwmnbBazZh1NjW4Q
- NEOhtyeoJtRFlH3UKdpAPCPtfyBkZEYfB6nnCtCeZwfHU9Qe4sVFg261uvgku4yQPVpr
- 0bQw8Rc9bFZen52eT6uRnglxcDM+WPPWrtNIaDIxqxwsBqTQ5uc8yvNIeyulqHXsuZle
- MdkYjzCFseEoGBrjiy1ySZghDFYFvKriquLSxRdeVtcW2FSgWGS1HbqJZz93jBF/ZnnZ
- 0RuIuRAlV7eoDyR71dAZCW8EeX8NJV7bA/B6Jo6qDXTZFkQhIuzxYCZUCWCqv9035sOg JQ==
+ bh=/VikyMK82iUyB2IpWp8IUQImq+ZjSWX/dOzZjyjp/FA=;
+ b=O90V67GdxdKbpihh2pWmACbVp8kgEwmSH7xlODbZ+WAg4Q4WI+HZIXkHNIeRjEXp3Dq8
+ MXGjejpwFIYiAY5RQHBNB5sfdMkYni9P9zdFN4eOMmqFmCxzUD0PDUvFRfTUTIkpHL5R
+ ti8VTV6MT1Ba3+nWPh0HghfneO+1EX4IeJ57tEUNswn/3+jGqPbycUB0YcWHJA3TA/Jy
+ If4iHpfp2bXHU1Wvw8QmlCnz9tq6jK8IHZlnbmXmE/Awxm519YO2G5U2dvaK0zv1LI7s
+ cGJPEcuHds0tLZ49GqM7bdLLpYjPTuLFUjSBNjvMT2f90/GoyDgqPO/0iQUFEmiEnJVT SA==
 Received: from rn-mailsvcp-mmp-lapp01.rno.apple.com
  (rn-mailsvcp-mmp-lapp01.rno.apple.com [17.179.253.14])
- by rn-mailsvcp-mta-lapp03.rno.apple.com
+ by rn-mailsvcp-mta-lapp02.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
- 2023)) with ESMTPS id <0SCU00KQ60RVUM00@rn-mailsvcp-mta-lapp03.rno.apple.com>;
- Wed, 01 May 2024 17:16:43 -0700 (PDT)
+ 2023)) with ESMTPS id <0SCU00ITQ0IDULN0@rn-mailsvcp-mta-lapp02.rno.apple.com>;
+ Wed, 01 May 2024 17:11:02 -0700 (PDT)
 Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp01.rno.apple.com by
  rn-mailsvcp-mmp-lapp01.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
  2023)) id <0SCU00N000GSQI00@rn-mailsvcp-mmp-lapp01.rno.apple.com>; Wed,
- 01 May 2024 17:16:43 -0700 (PDT)
+ 01 May 2024 17:11:01 -0700 (PDT)
 X-Va-A:
-X-Va-T-CD: cbf7380921e8e2f9db5ea993b70cea12
+X-Va-T-CD: 2a7a9b2cb17ba74c1da13bff19a80214
 X-Va-E-CD: 631f076f6b365e42e06a1df7057e44fb
 X-Va-R-CD: ce6be43db0cce57f85f587e814b9d60f
-X-Va-ID: 0f36f4da-c23d-4baa-a49e-f113311040b5
+X-Va-ID: 40ea895e-85fd-4841-92c4-ffb31f808d49
 X-Va-CD: 0
 X-V-A:
-X-V-T-CD: cbf7380921e8e2f9db5ea993b70cea12
+X-V-T-CD: 2a7a9b2cb17ba74c1da13bff19a80214
 X-V-E-CD: 631f076f6b365e42e06a1df7057e44fb
 X-V-R-CD: ce6be43db0cce57f85f587e814b9d60f
-X-V-ID: c8542c07-c203-4592-b250-b9207167abc0
+X-V-ID: 93f68664-015a-42c2-81a7-97fbd29e9574
 X-V-CD: 0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
@@ -64,11 +64,11 @@ Received: from mr41p01nt-relayp01.apple.com ([100.64.99.124])
  by rn-mailsvcp-mmp-lapp01.rno.apple.com
  (Oracle Communications Messaging Server 8.1.0.23.20230328 64bit (built Mar 28
  2023))
- with ESMTPSA id <0SCU003GI0RTJA00@rn-mailsvcp-mmp-lapp01.rno.apple.com>; Wed,
- 01 May 2024 17:16:42 -0700 (PDT)
+ with ESMTPSA id <0SCU0039D0ICJA00@rn-mailsvcp-mmp-lapp01.rno.apple.com>; Wed,
+ 01 May 2024 17:11:00 -0700 (PDT)
 From: Zayd Qumsieh <zayd_qumsieh@apple.com>
-To: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
+To: Marc Zyngier <maz@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
  Mark Rutland <mark.rutland@arm.com>, Zayd Qumsieh <zayd_qumsieh@apple.com>,
  Justin Lu <ih_justin@apple.com>, Ryan Houdek <Houdek.Ryan@fex-emu.org>,
  Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
@@ -87,10 +87,10 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  Asahi Linux <asahi@lists.linux.dev>
 Subject: Re: [PATCH 0/4] arm64: Support the TSO memory model
-Date: Wed, 01 May 2024 17:16:32 -0700
-Message-id: <20240502001632.41289-1-zayd_qumsieh@apple.com>
+Date: Wed, 01 May 2024 17:10:35 -0700
+Message-id: <20240502001035.41083-1-zayd_qumsieh@apple.com>
 X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-reply-to: <20240411132853.GA26481@willie-the-truck>
+In-reply-to: <87zftoqn7u.wl-maz@kernel.org>
 References:
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -100,35 +100,58 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-version: 1.0
 Content-transfer-encoding: 8bit
 
-On Thu, 11 Apr 2024 14:28:54 +0100,
-Will Deacon <will@kernel.org> wrote:
-> P.S. I briefly pondered the idea of the kernel toggling the bit in the
-> ELF loader when e.g. it sees an x86 machine type but I suspect that
-> doesn't really help with existing emulators and you'd still need a way
-> to tell the emulator whether or not it was enabled.
+> On Fri, 19 Apr 2024 17:58:09 +0100,
+> Will Deacon <will@kernel.org> wrote:
+> > 
+> > On Thu, Apr 11, 2024 at 11:19:13PM +0900, Hector Martin wrote:
+> > > On 2024/04/11 22:28, Will Deacon wrote:
+> > > >   * Some binaries in a distribution exhibit instability which goes away
+> > > >     in TSO mode, so a taskset-like program is used to run them with TSO
+> > > >     enabled.
+> > > 
+> > > Since the flag is cleared on execve, this third one isn't generally
+> > > possible as far as I know.
+> > 
+> > Ah ok, I'd missed that. Thanks.
+> > 
+> > > > In all these cases, we end up with native arm64 applications that will
+> > > > either fail to load or will crash in subtle ways on CPUs without the TSO
+> > > > feature. Assuming that the application cannot be fixed, a better
+> > > > approach would be to recompile using stronger instructions (e.g.
+> > > > LDAR/STLR) so that at least the resulting binary is portable. Now, it's
+> > > > true that some existing CPUs are TSO by design (this is a perfectly
+> > > > valid implementation of the arm64 memory model), but I think there's a
+> > > > big difference between quietly providing more ordering guarantees than
+> > > > software may be relying on and providing a mechanism to discover,
+> > > > request and ultimately rely upon the stronger behaviour.
+> > > 
+> > > The problem is "just" using stronger instructions is much more
+> > > expensive, as emulators have demonstrated. If TSO didn't serve a
+> > > practical purpose I wouldn't be submitting this, but it does. This is
+> > > basically non-negotiable for x86 emulation; if this is rejected
+> > > upstream, it will forever live as a downstream patch used by the entire
+> > > gaming-on-Mac-Linux ecosystem (and this is an ecosystem we are very
+> > > explicitly targeting, given our efforts with microVMs for 4K page size
+> > > support and the upcoming Vulkan drivers).
+> > 
+> > These microVMs sound quite interesting. What exactly are they? Are you
+> > running them under KVM?
+> > 
+> > Ignoring the mechanism for the time being, would it solve your problem
+> > if you were able to run specific microVMs in TSO mode, or do you *really*
+> > need the VM to have finer-grained control than that? If the whole VM is
+> > running in TSO mode, then my concerns largely disappear, as that's
+> > indistinguishable from running on a hardware implementation that happens
+> > to be TSO.
+>
+> Since KVM has been mentioned a few times, I'll give my take on this.
+>
+> Since day 1, it was a conscious decision for KVM/arm64 to emulate the
+> architecture, and only that -- this is complicated enough. Meaning
+> that no implementation-defined features should be explicitly exposed
+> to the guest. So I have no plan to expose any such feature for
+> userspace to configure TSO or anything else of the sort.
 
-This seems promising to me. What do people think of adding an opt-in argument,
-option, or similar to binfmt that allows users to mark certain file formats as
-"must run under TSO"? And then, the kernel would set the TSO bit when invoking
-the interpreter for those file formats. If an emulator decides to create a
-non-CPU-emulation thread, then it can use a prctl to disable TSO and switch to
-the default ARM memory model. Note that this prctl wouldn't be allowed to
-enable TSO - it would only disable it. This way, it is much harder for a
-faulty application to be made that relies on TSO, since enabling of TSO is
-only done via a binfmt handler that the user must explicitly opt into.
-
-It is true that existing emulators wouldn't be able to benefit from this, but
-that's the case no matter the activation mechanism. We can, however, expose a
-prctl to get the memory model, so emulators can detect if TSO was enabled for
-their threads.
-
-To summarize, I propose two prctls (similar to the ones in the current revision
-of the patch series). One to switch from the TSO memory model to the default
-ARM one (this is a one-way street). And another to query the current memory
-model.
-
-Thanks,
-Zayd
-
-P.S. I forgot to CC you in my most recent email to Marc Zyngier just now. 
-Sorry, I'm quite new to using mailing lists.
+Agreed. We do not intend for TSO mode to be used extensively for EL1, the
+intention is for TSO mode to be reserved for userspace applications that
+request it.
