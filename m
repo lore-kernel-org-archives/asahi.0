@@ -1,105 +1,153 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB105A788
-	for <asahi@lists.linux.dev>; Mon,  6 May 2024 08:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E44A39FF4
+	for <asahi@lists.linux.dev>; Mon,  6 May 2024 11:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714984766; cv=none; b=lTdLDDeJ4GShSZYR8z32sMlTqLfguUPCL5wgtJCqSDpUBiwOB3JYHS+lfgDHhuGu79tQeLqrYh2ETznC2pbVFvoIgZ6w+sVHpMzmIh4zp2OK8+MjNcBaOm/MwF0Yi2CdcAebbkl9yhds6cE4mXthhH0upioeiYUMyAZ3u+H0yOM=
+	t=1714994507; cv=none; b=jtpXs1olt62psa1lb2J43TBO8J7hFLO7jMLcktre+GhdK0UdtXJDzlJCDhP05Qr/V1hVmw9q2ZIGQnBWPfdztOk1K8b/VN5BI8ISNxPE3oQo/2t01AIMrhxF+mlQe/WOD2xOc5xVx6PoYVZrlIMmlt8e2kD53wy51VF5eCqDOmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714984766; c=relaxed/simple;
-	bh=dFWNbRzySIjYQnEWTP9mapKbZO69zQWs5KfXcdrl56U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J3is2QKCH735O5bi8qeXrlmAPBhgH2NE/T+sZCq+WLBtQSGWpMOc+i2uOA/hcUbta7+axz4ReUxASHyvUw1gqOEcyonVFQq42XKvRz4noS0US+8UO53J1y9fnOBeHjwUNtDuXa4cW+puq/NfJEN8IzA+/RQ3Gciwwy0J3n8pX9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4VXv763LrSz9xGY7
-	for <asahi@lists.linux.dev>; Mon,  6 May 2024 16:03:46 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id 3C68D140716
-	for <asahi@lists.linux.dev>; Mon,  6 May 2024 16:20:38 +0800 (CST)
-Received: from [10.81.214.173] (unknown [10.81.214.173])
-	by APP1 (Coremail) with SMTP id LxC2BwCnURrAkjhmm36iBw--.33418S2;
-	Mon, 06 May 2024 09:20:37 +0100 (CET)
-Message-ID: <0c07a0dc-542a-48da-a286-280d9c02b353@huaweicloud.com>
-Date: Mon, 6 May 2024 10:20:10 +0200
+	s=arc-20240116; t=1714994507; c=relaxed/simple;
+	bh=zrGpFO2KzYviJ12Uk4Knk0nbSHFeCLommmFFiBekSWk=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sKAJ18zzpjzepTlunvCmpzPjhZXDnzbUItJslhpfVN3sYdaEUDLEc52PgFzZ/KUp5QswHuDRzOBTb1d74bMO+bA1KtEl2/Mt+9BlRr0TlXAb2+mo14yyaATgeD3uTQpTkJth8yNVl7C3fWasBW2OfNJaxnYuIS8OTviFvo+m13A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i4War9FW; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i4War9FW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714994505;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lfElTg3P9yi4mhZjKlr5avBuN2og+ERzX6xGJyg7hQg=;
+	b=i4War9FW54mBIDAle4hO45El4RmhB8PT20ToNVHIwgTgE1qj0DSAV/XFgy+/jkvCig0Lpg
+	56A63dRLlly3Sxh4CR7aVwCfideGg/6cQQ+WmirwF5kS8HorvYnN9zHoDJ9+IDFevJkuWh
+	JQByVpWGCzLQqtxrTGTIunDj2gyzodU=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-322-UM5K7QtBMrq-NH5nj3lTvA-1; Mon, 06 May 2024 07:21:43 -0400
+X-MC-Unique: UM5K7QtBMrq-NH5nj3lTvA-1
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-6f449ea6804so2371077b3a.2
+        for <asahi@lists.linux.dev>; Mon, 06 May 2024 04:21:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714994503; x=1715599303;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lfElTg3P9yi4mhZjKlr5avBuN2og+ERzX6xGJyg7hQg=;
+        b=ok7M51nN/ge2FOhCkUBl2lbAFoMs9nJpT3tcZ7GNhlbRGTXeb5ragXA0EdRD7mZa/6
+         QgzC3Z0eFkRkjMpDXOYCouqydcs9KAxCTVXBwtea4OFV/bb7KGNcpiulQshMNIH8NDSD
+         jb6ACtQfNOL2azJMrsodil8OcjCqp1hVnbjv04WEy5I2oTa62Ye56eaZdktFr6uZjhy9
+         j276dpzSrEf2xJnPlmTReJ4sxv2UFiyPZsioZtqAyyx7zwuo1lA6uMIbX7w0TDthUuo3
+         a6yiNaZxTS/eixgm7SMnvX8GL4MCTbNeR7doAlZoCcrK16iyxAYwlWn7Foe5NDyFvmxN
+         GWIw==
+X-Forwarded-Encrypted: i=1; AJvYcCVM8DD+DBV3EEHuoxFjn1SMWs+rzvIjM28jDqvQ+8adnd9HzX84Jss2tg8F2/ymky4/8pLM2bMVUvfpOdb68XiE5LZHbMQ=
+X-Gm-Message-State: AOJu0YygFW209LfYQK0j9i/wGtdcZKunBoIPXWD5FjC2L4JhG2c9HhqG
+	yDCwn1dJuySmckEYD1lNA/5lVvWslaytcxxWKumPgaitXTmxUr3UF6hQNtw7070HtZ9r6lUVKv3
+	rpFmz07OVPIBQsiw/cwJ8XB25uEU2t7FE81/Mr63hJx8nrUt+MI1US/5/HmzvJ699o46pbpQsIw
+	r+FTfbJOmPSzHvij+Gwwkz1aXxV5s=
+X-Received: by 2002:a05:6a20:da8b:b0:1a7:2ceb:e874 with SMTP id iy11-20020a056a20da8b00b001a72cebe874mr12710496pzb.37.1714994502749;
+        Mon, 06 May 2024 04:21:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFhyhi7dIVf2+C7OigQZMKNCF9fVW9NM5SSt+qz9BQl1HVEbaT1IXprTHrmUqzyshtiWvHl0EwlK+4i/EV8NvU=
+X-Received: by 2002:a05:6a20:da8b:b0:1a7:2ceb:e874 with SMTP id
+ iy11-20020a056a20da8b00b001a72cebe874mr12710445pzb.37.1714994502125; Mon, 06
+ May 2024 04:21:42 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 6 May 2024 13:21:41 +0200
+From: Sergio Lopez Pascual <slp@redhat.com>
+In-Reply-To: <CAOgh=Fykg3Xb8Y59R_tJ7_jXe-ozXRMQjU+qVy5DdmFn3pkcPw@mail.gmail.com>
+References: <20240411-tso-v1-0-754f11abfbff@marcan.st> <20240411132853.GA26481@willie-the-truck>
+ <28ab55b3-e699-4487-b332-f1f20a6b22a1@marcan.st> <20240419165809.GA4020@willie-the-truck>
+ <CAOgh=Fykg3Xb8Y59R_tJ7_jXe-ozXRMQjU+qVy5DdmFn3pkcPw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Date: Mon, 6 May 2024 13:21:40 +0200
+Message-ID: <CAAiTLFW8DWH-ejNgcXgr2tQxxF4pp7BNUFGyUq99BfrYx1kScQ@mail.gmail.com>
 Subject: Re: [PATCH 0/4] arm64: Support the TSO memory model
-To: Marc Zyngier <maz@kernel.org>, Zayd Qumsieh <zayd_qumsieh@apple.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Justin Lu <ih_justin@apple.com>,
- Ryan Houdek <Houdek.Ryan@fex-emu.org>, Mark Brown <broonie@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Oliver Upton <oliver.upton@linux.dev>, Miguel Luis <miguel.luis@oracle.com>,
- Joey Gouly <joey.gouly@arm.com>, Christoph Paasch <cpaasch@apple.com>,
- Kees Cook <keescook@chromium.org>, Sami Tolvanen <samitolvanen@google.com>,
- Baoquan He <bhe@redhat.com>, Joel Granados <j.granados@samsung.com>,
- Dawei Li <dawei.li@shingroup.cn>, Andrew Morton <akpm@linux-foundation.org>,
- Florent Revest <revest@chromium.org>, David Hildenbrand <david@redhat.com>,
- Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>,
- Josh Triplett <josh@joshtriplett.org>, Oleg Nesterov <oleg@redhat.com>,
- Helge Deller <deller@gmx.de>, Zev Weiss <zev@bewilderbeest.net>,
- Ondrej Mosnacek <omosnace@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Asahi Linux <asahi@lists.linux.dev>
-References: <87zftoqn7u.wl-maz@kernel.org>
- <20240502001035.41083-1-zayd_qumsieh@apple.com>
- <867cgcqrb9.wl-maz@kernel.org>
-From: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
-In-Reply-To: <867cgcqrb9.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:LxC2BwCnURrAkjhmm36iBw--.33418S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GFWxWr13tF47ur17WFW3Wrg_yoWDJFg_uF
-	ykAw47Jws8CF93Z3yayw1DAr47ta1jqasxXr95Xw1Iy34IvF4xGryDJ3s3ZF13JrWkuF17
-	GrW5ZFna9w43GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb7xYFVCjjxCrM7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20E
-	Y4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwV
-	A0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x02
-	67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267
-	AKxVW8JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2
-	j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7x
-	kEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY0x0E
-	wIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Wrv_Gr1UMIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIE
-	c7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UAkuxUUUUU=
-X-CM-SenderInfo: 5mrqt2oorev25kdx2v3u6k3tpzhluzxrxghudrp/
+To: Eric Curtin <ecurtin@redhat.com>, Will Deacon <will@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Zayd Qumsieh <zayd_qumsieh@apple.com>, Justin Lu <ih_justin@apple.com>, 
+	Ryan Houdek <Houdek.Ryan@fex-emu.org>, Mark Brown <broonie@kernel.org>, 
+	Ard Biesheuvel <ardb@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>, 
+	Anshuman Khandual <anshuman.khandual@arm.com>, Oliver Upton <oliver.upton@linux.dev>, 
+	Miguel Luis <miguel.luis@oracle.com>, Joey Gouly <joey.gouly@arm.com>, 
+	Christoph Paasch <cpaasch@apple.com>, Kees Cook <keescook@chromium.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Baoquan He <bhe@redhat.com>, 
+	Joel Granados <j.granados@samsung.com>, Dawei Li <dawei.li@shingroup.cn>, 
+	Andrew Morton <akpm@linux-foundation.org>, Florent Revest <revest@chromium.org>, 
+	David Hildenbrand <david@redhat.com>, Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>, 
+	Josh Triplett <josh@joshtriplett.org>, Oleg Nesterov <oleg@redhat.com>, Helge Deller <deller@gmx.de>, 
+	Zev Weiss <zev@bewilderbeest.net>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Asahi Linux <asahi@lists.linux.dev>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
+Eric Curtin <ecurtin@redhat.com> writes:
 
+> On Fri, 19 Apr 2024 at 18:08, Will Deacon <will@kernel.org> wrote:
+>>
+>> On Thu, Apr 11, 2024 at 11:19:13PM +0900, Hector Martin wrote:
+>> > On 2024/04/11 22:28, Will Deacon wrote:
+>> > >   * Some binaries in a distribution exhibit instability which goes away
+>> > >     in TSO mode, so a taskset-like program is used to run them with TSO
+>> > >     enabled.
+>> >
+>> > Since the flag is cleared on execve, this third one isn't generally
+>> > possible as far as I know.
+>>
+>> Ah ok, I'd missed that. Thanks.
+>>
+>> > > In all these cases, we end up with native arm64 applications that will
+>> > > either fail to load or will crash in subtle ways on CPUs without the TSO
+>> > > feature. Assuming that the application cannot be fixed, a better
+>> > > approach would be to recompile using stronger instructions (e.g.
+>> > > LDAR/STLR) so that at least the resulting binary is portable. Now, it's
+>> > > true that some existing CPUs are TSO by design (this is a perfectly
+>> > > valid implementation of the arm64 memory model), but I think there's a
+>> > > big difference between quietly providing more ordering guarantees than
+>> > > software may be relying on and providing a mechanism to discover,
+>> > > request and ultimately rely upon the stronger behaviour.
+>> >
+>> > The problem is "just" using stronger instructions is much more
+>> > expensive, as emulators have demonstrated. If TSO didn't serve a
+>> > practical purpose I wouldn't be submitting this, but it does. This is
+>> > basically non-negotiable for x86 emulation; if this is rejected
+>> > upstream, it will forever live as a downstream patch used by the entire
+>> > gaming-on-Mac-Linux ecosystem (and this is an ecosystem we are very
+>> > explicitly targeting, given our efforts with microVMs for 4K page size
+>> > support and the upcoming Vulkan drivers).
 
-Am 5/2/2024 um 3:25 PM schrieb Marc Zyngier:
-> although
-> someone would need to start thinking of how this particular TSO
-> implementation composes with the relaxed memory ordering used outside
-> of the VM and show that they actually lead to correct results for
-> something such as virtio, for example
+In addition to the use case Hector exposed here, there's another,
+potentially larger one, which is running x86_64 containers on aarch64
+systems, using a combination of both Virtualization and emulation.
 
-I used to think about this problem space. Composing some kinds of memory
-models (e.g., Arm and TSO) is easy, others is hard.
+In this scenario, both not being able to use TSO for emulation
+and having to enable it all the time for the whole VM have a very large
+impact on performance (~25% on some workloads).
 
-I don't know much about virtio, so this may show my naivety, but what
-complications could arise from virtio?
+I understand the concern about the risk of userspace fragmentation, but
+I was wondering if we could minimize it to an acceptable level by
+narrowing down the context. For instance, since both use cases we're
+bringing to the table imply the use of Virtualization, we should be able
+to restrict PR_SET_MEM_MODEL to only be accepted when running on EL1
+(and not in nVHE nor pKVM), returning EINVAL otherwise. This would
+heavily discourage users from relying on this feature for native
+applications that can run on arbitrary contexts, hence drastically
+reducing the fragmentation risk.
 
-Does the "visible behavior" of virtio change depending on the memory
-model of the machine it is running on?
+We would still need a way to ensure the trap gets to the VMM and for
+the VMM to operate on the impdef ACTLR_EL12, but that should be dealt on
+a different series.
 
-At least internally inside virtio it should not cause any problems, since
-you are effectively adding some barriers inside some of the virtio threads.
-(those that are running in the VM).
-
-But if the VM relies on virtio behaving in a "TSO manner" but its behavior
-is more relaxed on e.g. Arm, then that could cause issues.
-
-have fun, jonas
+Thanks,
+Sergio.
 
