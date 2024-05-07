@@ -1,241 +1,150 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748A115B995
-	for <asahi@lists.linux.dev>; Mon,  6 May 2024 22:04:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F388214E2EF
+	for <asahi@lists.linux.dev>; Tue,  7 May 2024 10:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715033064; cv=none; b=LqTnWrLmyBYQeLCd0OYzRa/gHXuJuezqFK8eT9M75HbnjVyv5MKMzw4dyxNe71YVTJxIohwnmvqgLyvBjkUEDbDnG9OrcfVVkAboADa6SKDvdjdET91+bXTyv4sj5twxuRAR47F3rPaobQ6IM0aKRnTNxS0p2t+/Gm6x67mHqls=
+	t=1715077464; cv=none; b=IeZTGAHwr6kxhhRHP4K/dHFvuwh4N/MyjofjEn7u+LzjSVNnxiFWUB1jJqyrIE6skxPon8sNiyaUSK9sS3ZgFc5VLyBgoFHAR52z+ie31xfYuu8PFXHo9dfbM6taj1JLCZZPkNTcl+Lelxq39FY89HvCUJVz0uXABaFfJQoiUrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715033064; c=relaxed/simple;
-	bh=y1pKmLNjD6ly2wG24fibSNsxSB5FXW6x1wqjHI9K6i0=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b69m8eJw+va6LcftUTjNuIAKrR2Br61Rs/ZVqfA/207Ye8mEGGKtOhC8UB2ULbbkWpw64dTHfFJsEcy+d8plQeoQ/4kHnprrd3FVt4kc2W5NHpyt+8Tk69+93y8zwIgGtcbzmThH6v4OJevi5bpiosJkIdsbFGj//aCP4gsCd/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NYqHkCYG; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1715077464; c=relaxed/simple;
+	bh=RrYjROTDfJeyKc0YGUAw8FfKa4f5MwRcggN89Y+XeJ4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MOLYUbCQ+THGSHQnXJ2aVwV1GxiVjZyJRAT/CVvXcfxx2D3OTo1vINZ77D04snd9FEy9knCfyPKykGGOPyyQtXBLANnj3cYQXKK55BM0UrA5AWAMj2dYObOFCQoRePiS5qotWfJ8W1VfePdkcX5WOQFw5bVWN9Szk5WoQQSiark=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pk8wCLp5; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NYqHkCYG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1715033061;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dX6hpaztuk6FCu0Ua3+psQvfei3hBYYAmMBnV3oJJsA=;
-	b=NYqHkCYGqWfvLGvTgXnvTKDDaKXxdN39Z9ZbYizALV/JRpjX2h3DXXgAYjRwMtbHazI/X8
-	yOTUigkpwTa4kCt001FCJMJy10aY+BqKE83d3eSOXUvzecBKXTrNtLkcJM6qqiUZdvSY8r
-	JGfnv2krtAy2EKCqrgd4n8ep0DpHmf0=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-542-eqE71jpJO8SaMMfVhNTu7g-1; Mon, 06 May 2024 18:04:20 -0400
-X-MC-Unique: eqE71jpJO8SaMMfVhNTu7g-1
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2b2a8bd5ee0so2080971a91.2
-        for <asahi@lists.linux.dev>; Mon, 06 May 2024 15:04:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pk8wCLp5"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-41ecffed96cso16366185e9.1
+        for <asahi@lists.linux.dev>; Tue, 07 May 2024 03:24:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1715077461; x=1715682261; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4YZbBZ6dudLkSPwyvQd1bbhClktoit8Kjm89gQzGu+Q=;
+        b=pk8wCLp5oiEDhAlySNJMoMXH9CEfuzUR2BPoCEJ/5GQZQQbmiznFhIdq689W4ow3pR
+         ZvQ35LY43zEIO07tc563Pbd0gsaXLyCEXXiAANeiQCftZwU2m96mY+N1sosFO4r7FLSW
+         wBT8UO8Od78NoYEsX8+rwvEVQkwmWjeUtmTOQ6i0PBi3qgzk4/Y2OK5ips6+Aku2QggX
+         HY/3aMEvXBXeERpXXdGriaANA80sl7UWnSOxwiy72kTFuFhyOscAc5aZdE/tlcZMUsSP
+         kTQrHQPNzEY2xHUTLnPIlHsEePpBiSn1ngVDevAi+Mab62oOxNzCuQK09PS3Ox81jBml
+         XVMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715033059; x=1715637859;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dX6hpaztuk6FCu0Ua3+psQvfei3hBYYAmMBnV3oJJsA=;
-        b=HmIw+RCSS2W4SbW98Exx2k+PoPlC6aUOg1CwniGcRQbFqszMP89A9js1CJnuqsna/Z
-         8M3u/jcOEYY51/7K+yNbMhG2LItFalZZzY9M1sm3JOXgCPlVKz+/RklRt/3m9+5ky9dw
-         EVKl5F4ivUdOb1d89mgasHR79/18Ez8HYPHhZvqP9t6WvPIRiRJRNhgStuqWWcwN4GM+
-         BJ2bPcQPp2Q9X3BvadXoB2M0FM0h2SvWRto3kFPFdadjfcmwe1pqY3xAPkGlKdddS2Y9
-         mcCWnoxXlNxbrIaAj3TOHVoRzEaGlJHduX03MAgSA8cnyQTUz35l9xrouF2DP9mgIyhA
-         rs9w==
-X-Forwarded-Encrypted: i=1; AJvYcCWiRWWmNJUEVJJNlApKWpjkvOYRDhAY9Q4UduUQUziiLh/BfnlpWThshjOMKwY4GKSUrd8ln2oZbJJAa6GIAtJp+0j8lac=
-X-Gm-Message-State: AOJu0Yw/gQLf/cdSl9dXHZzxtfCYG56qPRqmF68gopfJvKO87dEC/yET
-	YWhZ62AjV/WaiXm6B/Ni478D1B9fL+TRqwyUZdVzvdXGNXXNUsHiHb80f797zonTM9j4YCJti/r
-	oFjv/deugugux2ZCafJCm5t04KjTYIptM4mIMeXtG1q6gdH1gbT1xaOB9LEsl64+QnqfOnFnjIT
-	YnXM0RYiVEeVPqtpB2JRttRTQV+Qo=
-X-Received: by 2002:a17:90a:17c1:b0:2af:d8cd:6709 with SMTP id q59-20020a17090a17c100b002afd8cd6709mr7924701pja.41.1715033059047;
-        Mon, 06 May 2024 15:04:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF2zU/nYRm+0zhqAwwuyjIQBHzQkepOENzhlqsbSf2KYyGDy8GlywXTpBfU5xJ6zk+uhTq28MzQM9byjYNIoJ4=
-X-Received: by 2002:a17:90a:17c1:b0:2af:d8cd:6709 with SMTP id
- q59-20020a17090a17c100b002afd8cd6709mr7924653pja.41.1715033058339; Mon, 06
- May 2024 15:04:18 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 6 May 2024 15:04:17 -0700
-From: Sergio Lopez Pascual <slp@redhat.com>
-In-Reply-To: <86y18mq5q2.wl-maz@kernel.org>
-References: <20240411-tso-v1-0-754f11abfbff@marcan.st> <20240411132853.GA26481@willie-the-truck>
- <28ab55b3-e699-4487-b332-f1f20a6b22a1@marcan.st> <20240419165809.GA4020@willie-the-truck>
- <CAOgh=Fykg3Xb8Y59R_tJ7_jXe-ozXRMQjU+qVy5DdmFn3pkcPw@mail.gmail.com>
- <CAAiTLFW8DWH-ejNgcXgr2tQxxF4pp7BNUFGyUq99BfrYx1kScQ@mail.gmail.com> <86y18mq5q2.wl-maz@kernel.org>
+        d=1e100.net; s=20230601; t=1715077461; x=1715682261;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4YZbBZ6dudLkSPwyvQd1bbhClktoit8Kjm89gQzGu+Q=;
+        b=uq3AdnPoHvl/gy1j/wSK8vmxl6q+3K4tWI/yZGvXySG1lt9dBwc6aja2VYnaXTQkYj
+         MrDSPkRZQtbb4d5b7zYnHMTF5nqdQhyKhoEOdvSEvHO1nTsM/1FXpLYgMQk48H/eVAI1
+         GVrjY5Fio++onHO7Tf/h9X7tUVFMQ8oxgyIO6YApMbIj/l0nHv6HGq0kcI4czeYaQ0gz
+         TBB5GQ0iw9fv3C5KzmzZkMtwXx1WoS98UyuexMqHSjRNXpJZK2WuXneY+DoXOJ+YSNr/
+         VmL3veMYeoFqrypXLkEDm0Vhg9IgXD4Y+LD7b2SWinhWNkDF3eXQ9xUHgE9CogXo9Vfe
+         sBIA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUXkDPS9CWeWBQfmW3smTZScWbYhV20dZ3Z7EK1wxMMwm/udRU0z77AVvyF9Bt/rmhpS65ciROXZ6RTAxxay8BFcQBNHI=
+X-Gm-Message-State: AOJu0YzLPvZliqmuF7zzu5UTc2GmGMlbdM3Qzh7YXCl/lBvbwj8PsJwT
+	EZoZbSHs8IcJNouTT5E4Ji2rWc1mzGGPStDwp+FtXMgBI4YnysJOb3sBHaMhTk0=
+X-Google-Smtp-Source: AGHT+IGBnROswMr6fiz4/nCludnMfVTnbGRYLGjJVGEbGLobnst3vIfHHqoUXu/8DrmIadb42FmShQ==
+X-Received: by 2002:a05:600c:3b29:b0:41b:8206:2c3e with SMTP id m41-20020a05600c3b2900b0041b82062c3emr8788581wms.40.1715077461332;
+        Tue, 07 May 2024 03:24:21 -0700 (PDT)
+Received: from draig.lan ([85.9.250.243])
+        by smtp.gmail.com with ESMTPSA id fm9-20020a05600c0c0900b0041c23148330sm22850929wmb.10.2024.05.07.03.24.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 May 2024 03:24:19 -0700 (PDT)
+Received: from draig (localhost [IPv6:::1])
+	by draig.lan (Postfix) with ESMTP id 6C67E5F87D;
+	Tue,  7 May 2024 11:24:18 +0100 (BST)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Will Deacon <will@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>,  Catalin Marinas
+ <catalin.marinas@arm.com>,  Marc Zyngier <maz@kernel.org>,  Mark Rutland
+ <mark.rutland@arm.com>,  Zayd Qumsieh <zayd_qumsieh@apple.com>,  Justin Lu
+ <ih_justin@apple.com>,  Ryan Houdek <Houdek.Ryan@fex-emu.org>,  Mark Brown
+ <broonie@kernel.org>,  Ard Biesheuvel <ardb@kernel.org>,  Mateusz Guzik
+ <mjguzik@gmail.com>,  Anshuman Khandual <anshuman.khandual@arm.com>,
+  Oliver Upton <oliver.upton@linux.dev>,  Miguel Luis
+ <miguel.luis@oracle.com>,  Joey Gouly <joey.gouly@arm.com>,  Christoph
+ Paasch <cpaasch@apple.com>,  Kees Cook <keescook@chromium.org>,  Sami
+ Tolvanen <samitolvanen@google.com>,  Baoquan He <bhe@redhat.com>,  Joel
+ Granados <j.granados@samsung.com>,  Dawei Li <dawei.li@shingroup.cn>,
+  Andrew Morton <akpm@linux-foundation.org>,  Florent Revest
+ <revest@chromium.org>,  David Hildenbrand <david@redhat.com>,  Stefan
+ Roesch <shr@devkernel.io>,  Andy Chiu <andy.chiu@sifive.com>,  Josh
+ Triplett <josh@joshtriplett.org>,  Oleg Nesterov <oleg@redhat.com>,  Helge
+ Deller <deller@gmx.de>,  Zev Weiss <zev@bewilderbeest.net>,  Ondrej
+ Mosnacek <omosnace@redhat.com>,  Miguel Ojeda <ojeda@kernel.org>,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+  Asahi Linux <asahi@lists.linux.dev>
+Subject: Re: [PATCH 0/4] arm64: Support the TSO memory model
+In-Reply-To: <20240411132853.GA26481@willie-the-truck> (Will Deacon's message
+	of "Thu, 11 Apr 2024 14:28:54 +0100")
+References: <20240411-tso-v1-0-754f11abfbff@marcan.st>
+	<20240411132853.GA26481@willie-the-truck>
+Date: Tue, 07 May 2024 11:24:18 +0100
+Message-ID: <87seythqct.fsf@draig.linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 6 May 2024 15:04:17 -0700
-Message-ID: <CAAiTLFXOX1sgAYM26NBVG9ROpNAD9Ns9X+JZBig+sqeWnacWmg@mail.gmail.com>
-Subject: Re: [PATCH 0/4] arm64: Support the TSO memory model
-To: Marc Zyngier <maz@kernel.org>
-Cc: Eric Curtin <ecurtin@redhat.com>, Will Deacon <will@kernel.org>, 
-	Hector Martin <marcan@marcan.st>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Zayd Qumsieh <zayd_qumsieh@apple.com>, 
-	Justin Lu <ih_justin@apple.com>, Ryan Houdek <Houdek.Ryan@fex-emu.org>, 
-	Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>, Mateusz Guzik <mjguzik@gmail.com>, 
-	Anshuman Khandual <anshuman.khandual@arm.com>, Oliver Upton <oliver.upton@linux.dev>, 
-	Miguel Luis <miguel.luis@oracle.com>, Joey Gouly <joey.gouly@arm.com>, 
-	Christoph Paasch <cpaasch@apple.com>, Kees Cook <keescook@chromium.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Baoquan He <bhe@redhat.com>, 
-	Joel Granados <j.granados@samsung.com>, Dawei Li <dawei.li@shingroup.cn>, 
-	Andrew Morton <akpm@linux-foundation.org>, Florent Revest <revest@chromium.org>, 
-	David Hildenbrand <david@redhat.com>, Stefan Roesch <shr@devkernel.io>, Andy Chiu <andy.chiu@sifive.com>, 
-	Josh Triplett <josh@joshtriplett.org>, Oleg Nesterov <oleg@redhat.com>, Helge Deller <deller@gmx.de>, 
-	Zev Weiss <zev@bewilderbeest.net>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Asahi Linux <asahi@lists.linux.dev>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Marc Zyngier <maz@kernel.org> writes:
+Will Deacon <will@kernel.org> writes:
 
-> On Mon, 06 May 2024 12:21:40 +0100,
-> Sergio Lopez Pascual <slp@redhat.com> wrote:
->>
->> Eric Curtin <ecurtin@redhat.com> writes:
->>
->> > On Fri, 19 Apr 2024 at 18:08, Will Deacon <will@kernel.org> wrote:
->> >>
->> >> On Thu, Apr 11, 2024 at 11:19:13PM +0900, Hector Martin wrote:
->> >> > On 2024/04/11 22:28, Will Deacon wrote:
->> >> > >   * Some binaries in a distribution exhibit instability which goes away
->> >> > >     in TSO mode, so a taskset-like program is used to run them with TSO
->> >> > >     enabled.
->> >> >
->> >> > Since the flag is cleared on execve, this third one isn't generally
->> >> > possible as far as I know.
->> >>
->> >> Ah ok, I'd missed that. Thanks.
->> >>
->> >> > > In all these cases, we end up with native arm64 applications that will
->> >> > > either fail to load or will crash in subtle ways on CPUs without the TSO
->> >> > > feature. Assuming that the application cannot be fixed, a better
->> >> > > approach would be to recompile using stronger instructions (e.g.
->> >> > > LDAR/STLR) so that at least the resulting binary is portable. Now, it's
->> >> > > true that some existing CPUs are TSO by design (this is a perfectly
->> >> > > valid implementation of the arm64 memory model), but I think there's a
->> >> > > big difference between quietly providing more ordering guarantees than
->> >> > > software may be relying on and providing a mechanism to discover,
->> >> > > request and ultimately rely upon the stronger behaviour.
->> >> >
->> >> > The problem is "just" using stronger instructions is much more
->> >> > expensive, as emulators have demonstrated. If TSO didn't serve a
->> >> > practical purpose I wouldn't be submitting this, but it does. This is
->> >> > basically non-negotiable for x86 emulation; if this is rejected
->> >> > upstream, it will forever live as a downstream patch used by the entire
->> >> > gaming-on-Mac-Linux ecosystem (and this is an ecosystem we are very
->> >> > explicitly targeting, given our efforts with microVMs for 4K page size
->> >> > support and the upcoming Vulkan drivers).
->>
->> In addition to the use case Hector exposed here, there's another,
->> potentially larger one, which is running x86_64 containers on aarch64
->> systems, using a combination of both Virtualization and emulation.
->>
->> In this scenario, both not being able to use TSO for emulation
->> and having to enable it all the time for the whole VM have a very large
->> impact on performance (~25% on some workloads).
+> Hi Hector,
 >
-> Well, there is always a price to pay somewhere, and this is the usual
-> trade-off between performance and maintainability.
-
-Yes, and given that the impact on performance is so big, I honestly
-think it's worth exploring a bit if there's an option that could keep
-the maintenance cost at an acceptable level.
-
->> I understand the concern about the risk of userspace fragmentation, but
->> I was wondering if we could minimize it to an acceptable level by
->> narrowing down the context. For instance, since both use cases we're
->> bringing to the table imply the use of Virtualization, we should be able
->> to restrict PR_SET_MEM_MODEL to only be accepted when running on EL1
->> (and not in nVHE nor pKVM), returning EINVAL otherwise. This would
->> heavily discourage users from relying on this feature for native
->> applications that can run on arbitrary contexts, hence drastically
->> reducing the fragmentation risk.
+> On Thu, Apr 11, 2024 at 09:51:19AM +0900, Hector Martin wrote:
+>> x86 CPUs implement a stricter memory modern than ARM64 (TSO). For this
+>> reason, x86 emulation on baseline ARM64 systems requires very expensive
+>> memory model emulation. Having hardware that supports this natively is
+>> therefore very attractive. Such hardware, in fact, exists. This series
+>> adds support for userspace to identify when TSO is available and
+>> toggle it on, if supported.
 >
-> As I explained in another sub-thread[1], I am not prepared to allow
-> non architectural state to be exposed to a guest.  I'm also not
-> prepared to make significant ABI differences between VHE, nVHE, hVHE,
-> with or without pKVM, because the job of the kernel is to abstract
-> those differences.
-
-I understand, makes sense.
-
->> We would still need a way to ensure the trap gets to the VMM and for
->> the VMM to operate on the impdef ACTLR_EL12, but that should be dealt on
->> a different series.
+> I'm probably going to make myself hugely unpopular here, but I have a
+> strong objection to this patch series as it stands. I firmly believe
+> that providing a prctl() to query and toggle the memory model to/from
+> TSO is going to lead to subtle fragmentation of arm64 Linux userspace.
 >
-> The VMM can't use ACTLR_EL12, by the very definition of this register
-> (the clue is in the name).  You'd have to proxy the write in the
-> kernel and context-switch it, which means adding non-architectural
-> state to KVM, breaking VM migration and adding more kludges to the
-> existing Apple-specific host crap.
+> It's not difficult to envisage this TSO switch being abused for native
+> arm64 applications:
+>
+>   * A program no longer crashes when TSO is enabled, so the developer
+>     just toggles TSO to meet a deadline.
+>
+>   * Some legacy x86 sources are being ported to arm64 but concurrency
+>     is hard so the developer just enables TSO to (mostly) avoid thinking
+>     about it.
+>
+>   * Some binaries in a distribution exhibit instability which goes away
+>     in TSO mode, so a taskset-like program is used to run them with TSO
+>     enabled.
 
-I know, I just didn't want to go into details here, because this series
-is not touching any of that. But since we're already there, I'd like to
-ask you, do you think it'd be possible and reasonable dealing with
-IMPDEF registers outside of KVM, from a platform-specific module,
-treating it like a paravirt feature?
+These all just seem like cases of engineers hiding from their very real
+problems. I don't know if its really the kernels place to avoid giving
+them the foot gun. Would it assuage your concerns at all if we set a
+taint flag so bug reports/core dumps indicated we were in a
+non-architectural memory mode?
 
-In fact, if that would be acceptable, what if we treated this whole
-feature as a platform-specific knob leaving both the ARM64 ABI and KVM
-(mostly) aside?
+> In all these cases, we end up with native arm64 applications that will
+> either fail to load or will crash in subtle ways on CPUs without the TSO
+> feature. Assuming that the application cannot be fixed, a better
+> approach would be to recompile using stronger instructions (e.g.
+> LDAR/STLR) so that at least the resulting binary is portable. Now, it's
+> true that some existing CPUs are TSO by design (this is a perfectly
+> valid implementation of the arm64 memory model), but I think there's a
+> big difference between quietly providing more ordering guarantees than
+> software may be relying on and providing a mechanism to discover,
+> request and ultimately rely upon the stronger behaviour.
 
-I'm thinking of something in the lines of this:
+I think the main use case here is for emulation. When we run x86-on-arm
+in QEMU we do currently insert lots of extra barrier instructions on
+every load and store. If we can probe and set a TSO mode I can assure
+you we'll do the right thing ;-)
 
-- Host side:
-
-  * Having vcpu load/put calling into some platform-specific module that
-    would be in charge of keeping track of the desired state for a
-    particular context and adjusting ACTLR_EL12 as needed, relieving KVM
-    from this task and avoiding polluting its structs with
-    non-architectural state.
-
-  * Either having a kernel handler for the TACR trap that would call to
-    the platform-specific module, or allowing the VMM to request the
-    kernel to exit to it when that trap is triggered. The latter would
-    also require the module to expose a device node with an ioctl
-    interface (independent from KVM's) for the VMM to request the
-    desired TSO stategy for a particular thread.
-
-  * An alternative to the previous point could be enabling the VMM to be
-    able to request KVM to start a VM with HCR_EL2.TACR = 0. This one
-    would be way cheaper in CPU time, and would simplify the
-    platform-specific module job to just save/restore ACTLR_EL12 for
-    that context, but I guess it could potentially introduce some
-    undesired variance between VM configurations. I'm honestly open to
-    both options, please let me know if you find one to be better for
-    KVM.
-
-- Guest side:
-
-  * Wiring __switch_to() to also call the platform-specific module. Akin
-    to what happens with KVM, this one would be in charge of keeping
-    track of the threads that want TSO enabled, adjusting ACTLR_EL1
-    accordingly.
-
-  * Having the platform-specific module expose a device node with an
-    ioctl interface for userspace applications to request TSO to be
-    enabled for the current thread.
-
-I think an approach like this would address the ARM64 userspace
-fragmentation concerns, relieve KVM from carrying a platform-specific
-burden and reduce the maintenance costs to a reasonable level. WDYT?
-
-> Also, let's realise that we are talking about making significant
-> changes to the arm64 ABI for a platform that is still not fully
-> supported in the upstream kernel. I have the feeling that changing the
-> memory model dynamically may not be of the utmost priority until then.
-
-Please note this feature will also be used by Linux running in a VM on
-macOS under Hypervisor.framework, so Asahi isn't the only platform. This
-raises significantly the number of users potentially benefited by
-emulators being able to operate the TSO knob.
-
-Thanks,
-Sergio.
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
