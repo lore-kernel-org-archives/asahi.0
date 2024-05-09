@@ -1,343 +1,343 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F09D4C70;
-	Thu,  9 May 2024 16:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A1584FAB;
+	Thu,  9 May 2024 20:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715272238; cv=none; b=TbDorRIfSq3F6KuMtM7QbmaQeswg5dKWsW0iOpsML09xhcFABb5ZhlyHmacoTwNH/MH9ejbTmEo22HDR97BX1qCyp0mwD4SdsfMei2sXgxVxvZ01LLfJ2MVPzf+MLTVMHibJOPWE/7bwIHM3TMDwZ1bJT7B4Ojg38KBfgPyIYYU=
+	t=1715285368; cv=none; b=jj7wD81EAYgRuGHH0PhDaXh7HbFnoCtWk2QWKlgY+TYD8QJ3i8CpBvr6qvwa3WwHi17LXx2d4uAnPbhp23gslplGPzf/9uXV1m2O6sHZw2v+YOaRMwCD2w8jjxajPeFrGKPeQsxr5kJLCYEwZ4g/+7QmsZTEzPqCe2yuogzkQKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715272238; c=relaxed/simple;
-	bh=W9C2Hi3R2DbZ1heOPBbDIHI8G2Y2/x8SwxrJPOxp+Is=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SJWT3IWG34RFFQSEmmMDBWOKqlKojgu6o9GHagnl2fCKDZSBfXH94GhAlL+PIG1p2efr5jOXIXV84G2muRpOKGTy/qHf5DJdTiPzaiCzTLgLBlNJFdM/HA74FhfOpNZaKUOQc3S+3Kjgbn19nth2YlC/EEK5/hdQpeGvttZZvwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PNOprZN4; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715285368; c=relaxed/simple;
+	bh=QwqQWXli/hoLijv744sI2Jucp3ZvhNOP0uEqslHVW7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ut5228GzM6V4tHwthcAZp/9N8hLzm0qMpmgSbjYoumjuPFdmKJ726I+p8Ke/1CUrMiEzpf6ACTUb3ahT7fZrXUJ8RbB3U0WIoxPJBJb+uRrxFO8eMYNx6s/KqSOXXJH0KRXaiMOltEbsoKx7/1j5IB2IQLzTuwAVm2jcEKdXna8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=okMrLBL2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gxbWAzTn; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PNOprZN4"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e3e18c24c1so11041431fa.1;
-        Thu, 09 May 2024 09:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715272234; x=1715877034; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r+PIPXlgt+itmpmOmsBK5FSpVEiKS9RB88Cz1m3u37s=;
-        b=PNOprZN41sjtmf53qmfTgceNA3ImJ/9F3fcLuqsVlTue9dwAyIiXulZ9EMO3cdqkKt
-         tp0rGFADkN0igrBWjouKSDIWEHqPYnLUYRmc7ZuSD4Psx0FO97vYWdQdcXdBMqJCKx4T
-         f0rlVLjb2Fz6agCVKANhYgnvQnaYIYomKtMUUS82gQARviQg+Qyf3Wf1d2fiN7lwi0ks
-         L6RcFrXpjWAKZOFc1k/L0//EZnn72l5xNPqVTpT30aHmSFHpp8MD0y75eYRQNueqDoBU
-         KwivaFg7CseU2n+TyNC8xm8jp5aWTmSzOQBtK9/LZ8eI2sEvSFISZX7Ll+zjTKl/2mrb
-         foFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715272234; x=1715877034;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=r+PIPXlgt+itmpmOmsBK5FSpVEiKS9RB88Cz1m3u37s=;
-        b=HDHfxWZl0Kg2/ENyjlLbGaZ40A1RMizKzYEN4ZfWpt0DmsLjCc/ZzCu4I30k2BnADJ
-         Z+MvND+rN9x+1wyfp2LCcFYfdHn0XWBoTX/SS0rpzRDjOXpxqF7an7aPl0IxO2qVDZ9N
-         JhjoGVxBhKyT9TJsD7avYVcXWAzVoyLE1kQOAPHu2FdwMCIOmYv/8PT8NAPAM+WnOtaT
-         p17btIgN14Qj0NKfKf+faCwo0lqXA6fTRY0HLPrx/ALbEiaMn2mUA/KITRMsmEGFzO3x
-         7MSq59XhhM7/QT3XoqHNB13ErSGAUzBaeHZTcjxBKe0rgOw5iIpRWS/PMv3ar8xtoqjv
-         gkOA==
-X-Forwarded-Encrypted: i=1; AJvYcCWEMuQ3Ai16IC3z9a082KYqoz3GTUtLO5efg2Ebb5GfI0VxiErx5Ql6TNLxaaD59irPXeidiIy1nsARby/mGoo0KBSBf+chlAog+QTWZJKtDDgkTp7y1g5SvIrlFnw8mgD/vA==
-X-Gm-Message-State: AOJu0YyVAc4skEQu0RRnu6C3foviiL0nloD6uj3OHyoo+ZKh0E5bG/0G
-	n6DWQOSHDsBEPCwj8dsE+sDzyUKEBxYPD7VXpr7w3hBNc0sRK6AZDpMnlqtz9Y+dCaCduYl1EBn
-	CbvF00Gp7dtFtmVSQuJqmsOzedyGEvg==
-X-Google-Smtp-Source: AGHT+IEmIhajQCza5jIEOie1N0QGQ99xJ4Id4qvcPjiJlrcvLLTVsuYIhyFEbPMo4Glue4u+FrdqS9nRYF5CCLby12I=
-X-Received: by 2002:a2e:9843:0:b0:2e3:8fa:6438 with SMTP id
- 38308e7fff4ca-2e4476ba0b1mr39325941fa.33.1715272233684; Thu, 09 May 2024
- 09:30:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="okMrLBL2";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gxbWAzTn"
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 4AFB313815E6;
+	Thu,  9 May 2024 16:09:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 09 May 2024 16:09:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1715285365;
+	 x=1715371765; bh=SBoNhWMV3i8OsVD2I8vL6WtiP1ci99cskA3ytAWirkA=; b=
+	okMrLBL2xcHLjkHNV7PhhhiIVSDncm5yoX0YHcRajP3VEpErEp4A1gG2PwFBSVy9
+	9b/ZH8NxNxBaxx6+36qeTpdWc8wIqNUentcidAHlNfHTgOi0Duy94dAhghUK1Ylz
+	cLdoLk+v++IhnZTTsRg9YG/6Dd0PuaSn8LaBAr6MUs/ewqWeOYy2zQDrPkgWLMJd
+	zqiKWSPacUbDY9JyeHtmCjzKQA10l/TSwPIsDOhuiOUlALHdffKIYUn3BK0H8RVl
+	2EJNLvXs21CaxUFULkVaymAVY8CaF7kZFti9ZYiRu2iPTSEiQsOKqOmrtXP5lbxy
+	ZGxwnOUL8eyUE0s9DARYVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715285365; x=
+	1715371765; bh=SBoNhWMV3i8OsVD2I8vL6WtiP1ci99cskA3ytAWirkA=; b=g
+	xbWAzTnDB1MEykf0Sl4/WfWyvJYyghq/XKcu+5dDef5ia3L4Zaf8jLm1TZ4RSYqA
+	Sk7F0hG0iw68WETviS04WtnLoVFzEZ6YSO+wFlJczdjVNQRWKWPPuWu21O9NUgeY
+	96NpGkl8BqpiuZhRVfswKCPBCrEGHqmtkRnNBAkUYww8aE1aruQUmXxyALpSmh7U
+	lj5xSEhnU6qruTBhr0u8s26wy8tiCO9GUOP3hQBOXHnfmJLh3Pqte6OY7IIa6Pu1
+	EjZYQePjj7aSD9FXgc88XdZrvzHMgcVY3taJbqUEdu1EPO+5O5hifGvJj+xt+HDo
+	bUvEVe7OT9hvQy/a/txmQ==
+X-ME-Sender: <xms:dC09Zn_CYZO79d3GOy2-wYJZvC4trAlUn-wq74fiNb4FiqDCTS9H0Q>
+    <xme:dC09ZjsGaEyCPIkqxpXRjDES97YEHJ7qZhNQ7PgrHYbcogPpheq4lx-A4vL4aEz1W
+    7rD489ApM_wmkl_Njs>
+X-ME-Received: <xmr:dC09ZlABqN3xjWf-cOS8oJq6jzhSNtgUDGa8fDcGMPf8yohzJYdTElpnOOOBg9PB8rrbA0ijJi7TpYPAxQf24aVWIyFtKwn7gQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdefvddgudegfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesmhekreertddtjeenucfhrhhomheplfgr
+    nhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrh
+    hnpedtveethfehteetjeekteettdehudevleduvdekiefhgeffkefhueekleffhfeiteen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrg
+    hnnhgruhdrnhgvth
+X-ME-Proxy: <xmx:dC09ZjfbWSwVnubVducfePFMzkpfBkqwmb9jDqb6xKJLtOUQJYaQTg>
+    <xmx:dC09ZsOELaLjnTRLg8r8m4Sx9L295TN-P_UCb3kLJL1EXIX_fuwZcQ>
+    <xmx:dC09ZllVU_FT6V1aQzt8EPt743YrZx_vazZwpay-Yg_TXrugv9H_sw>
+    <xmx:dC09Zmve0u3EyHfg3PZDqQeuoX9kmzw0qL55ZqxIK2rFuGkaMlO5lg>
+    <xmx:dS09Zpqvu484eiAkJzEwaAUziAQfm5pCa_BjxB4ILCyEd5etgREqpnUd>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 9 May 2024 16:09:24 -0400 (EDT)
+Date: Thu, 9 May 2024 22:09:22 +0200
+From: Janne Grunau <j@jannau.net>
+To: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: linux-bluetooth@vger.kernel.org, regressions@lists.linux.dev,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH v1] Bluetooth: hci_sync: Use advertised PHYs on
+ hci_le_ext_create_conn_sync
+Message-ID: <Zj0tcmseJCjR4hK2@robin>
+References: <20240405204037.3451091-1-luiz.dentz@gmail.com>
+ <Zjz0atzRhFykROM9@robin>
+ <CABBYNZLMODHp+jBu2oVDC5Pg6fyAKJugQF0N-XgarjWQJJPObg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240405204037.3451091-1-luiz.dentz@gmail.com> <Zjz0atzRhFykROM9@robin>
-In-Reply-To: <Zjz0atzRhFykROM9@robin>
-From: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Date: Thu, 9 May 2024 12:30:21 -0400
-Message-ID: <CABBYNZLMODHp+jBu2oVDC5Pg6fyAKJugQF0N-XgarjWQJJPObg@mail.gmail.com>
-Subject: Re: [PATCH v1] Bluetooth: hci_sync: Use advertised PHYs on hci_le_ext_create_conn_sync
-To: Janne Grunau <j@jannau.net>
-Cc: linux-bluetooth@vger.kernel.org, regressions@lists.linux.dev, 
-	asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Janne,
-
-On Thu, May 9, 2024 at 12:06=E2=80=AFPM Janne Grunau <j@jannau.net> wrote:
->
-> Hej,
->
-> On Fri, Apr 05, 2024 at 04:40:33PM -0400, Luiz Augusto von Dentz wrote:
-> > From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-> >
-> > The extended advertising reports do report the PHYs so this store then
-> > in hci_conn so it can be later used in hci_le_ext_create_conn_sync to
-> > narrow the PHYs to be scanned since the controller will also perform a
-> > scan having a smaller set of PHYs shall reduce the time it takes to
-> > find and connect peers.
-> >
-> > Fixes: 288c90224eec ("Bluetooth: Enable all supported LE PHY by default=
-")
->
-> This commit in v6.8.9 apparently has regressed connecting to LE devices
-> like Logitech mices with Apple/Broadcom BCM4388 devices. Those devices
-> carry HCI_QUIRK_BROKEN_LE_CODED which became necessary after 288c90224eec
-> ("Bluetooth: Enable all supported LE PHY by default").
-> Tested so far only by reverting aaf06285498861d6caaff5b26d30af70dd2b819f
-> on top of v6.8.9. Looking at the change I don't see anything obvious
-> which would explain the breakage.
-> I would assume v6.9-rc6 is affected as well but I haven't tested this
-> yet.
-
-Would be great if you provide the HCI trace to confirm the problem.
-
-> If you have an idea what could be responsible for the regression I'll
-> happily test patches/changes.
->
-> thanks,
-> Janne
->
-> #regzbot introduced: v6.8.9
->
-> > Signed-off-by: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-> > ---
-> >  include/net/bluetooth/hci_core.h |  4 +++-
-> >  net/bluetooth/hci_conn.c         |  6 ++++--
-> >  net/bluetooth/hci_event.c        | 20 ++++++++++++--------
-> >  net/bluetooth/hci_sync.c         |  9 ++++++---
-> >  net/bluetooth/l2cap_core.c       |  2 +-
-> >  5 files changed, 26 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/include/net/bluetooth/hci_core.h b/include/net/bluetooth/h=
-ci_core.h
-> > index fd6fd4029452..f0e1f1ae39c5 100644
-> > --- a/include/net/bluetooth/hci_core.h
-> > +++ b/include/net/bluetooth/hci_core.h
-> > @@ -744,6 +744,8 @@ struct hci_conn {
-> >       __u8            le_per_adv_data[HCI_MAX_PER_AD_TOT_LEN];
-> >       __u16           le_per_adv_data_len;
-> >       __u16           le_per_adv_data_offset;
-> > +     __u8            le_adv_phy;
-> > +     __u8            le_adv_sec_phy;
-> >       __u8            le_tx_phy;
-> >       __u8            le_rx_phy;
-> >       __s8            rssi;
-> > @@ -1519,7 +1521,7 @@ struct hci_conn *hci_connect_le_scan(struct hci_d=
-ev *hdev, bdaddr_t *dst,
-> >                                    enum conn_reasons conn_reason);
-> >  struct hci_conn *hci_connect_le(struct hci_dev *hdev, bdaddr_t *dst,
-> >                               u8 dst_type, bool dst_resolved, u8 sec_le=
-vel,
-> > -                             u16 conn_timeout, u8 role);
-> > +                             u16 conn_timeout, u8 role, u8 phy, u8 sec=
-_phy);
-> >  void hci_connect_le_scan_cleanup(struct hci_conn *conn, u8 status);
-> >  struct hci_conn *hci_connect_acl(struct hci_dev *hdev, bdaddr_t *dst,
-> >                                u8 sec_level, u8 auth_type,
-> > diff --git a/net/bluetooth/hci_conn.c b/net/bluetooth/hci_conn.c
-> > index ce94ffaf06d4..a3b226255eb9 100644
-> > --- a/net/bluetooth/hci_conn.c
-> > +++ b/net/bluetooth/hci_conn.c
-> > @@ -1266,7 +1266,7 @@ u8 hci_conn_set_handle(struct hci_conn *conn, u16=
- handle)
-> >
-> >  struct hci_conn *hci_connect_le(struct hci_dev *hdev, bdaddr_t *dst,
-> >                               u8 dst_type, bool dst_resolved, u8 sec_le=
-vel,
-> > -                             u16 conn_timeout, u8 role)
-> > +                             u16 conn_timeout, u8 role, u8 phy, u8 sec=
-_phy)
-> >  {
-> >       struct hci_conn *conn;
-> >       struct smp_irk *irk;
-> > @@ -1329,6 +1329,8 @@ struct hci_conn *hci_connect_le(struct hci_dev *h=
-dev, bdaddr_t *dst,
-> >       conn->dst_type =3D dst_type;
-> >       conn->sec_level =3D BT_SECURITY_LOW;
-> >       conn->conn_timeout =3D conn_timeout;
-> > +     conn->le_adv_phy =3D phy;
-> > +     conn->le_adv_sec_phy =3D sec_phy;
-> >
-> >       err =3D hci_connect_le_sync(hdev, conn);
-> >       if (err) {
-> > @@ -2276,7 +2278,7 @@ struct hci_conn *hci_connect_cis(struct hci_dev *=
-hdev, bdaddr_t *dst,
-> >               le =3D hci_connect_le(hdev, dst, dst_type, false,
-> >                                   BT_SECURITY_LOW,
-> >                                   HCI_LE_CONN_TIMEOUT,
-> > -                                 HCI_ROLE_SLAVE);
-> > +                                 HCI_ROLE_SLAVE, 0, 0);
-> >       else
-> >               le =3D hci_connect_le_scan(hdev, dst, dst_type,
-> >                                        BT_SECURITY_LOW,
-> > diff --git a/net/bluetooth/hci_event.c b/net/bluetooth/hci_event.c
-> > index 868ffccff773..539bbbe26176 100644
-> > --- a/net/bluetooth/hci_event.c
-> > +++ b/net/bluetooth/hci_event.c
-> > @@ -6046,7 +6046,7 @@ static void hci_le_conn_update_complete_evt(struc=
-t hci_dev *hdev, void *data,
-> >  static struct hci_conn *check_pending_le_conn(struct hci_dev *hdev,
-> >                                             bdaddr_t *addr,
-> >                                             u8 addr_type, bool addr_res=
-olved,
-> > -                                           u8 adv_type)
-> > +                                           u8 adv_type, u8 phy, u8 sec=
-_phy)
-> >  {
-> >       struct hci_conn *conn;
-> >       struct hci_conn_params *params;
-> > @@ -6101,7 +6101,7 @@ static struct hci_conn *check_pending_le_conn(str=
-uct hci_dev *hdev,
-> >
-> >       conn =3D hci_connect_le(hdev, addr, addr_type, addr_resolved,
-> >                             BT_SECURITY_LOW, hdev->def_le_autoconnect_t=
-imeout,
-> > -                           HCI_ROLE_MASTER);
-> > +                           HCI_ROLE_MASTER, phy, sec_phy);
-> >       if (!IS_ERR(conn)) {
-> >               /* If HCI_AUTO_CONN_EXPLICIT is set, conn is already owne=
-d
-> >                * by higher layer that tried to connect, if no then
-> > @@ -6136,8 +6136,9 @@ static struct hci_conn *check_pending_le_conn(str=
-uct hci_dev *hdev,
-> >
-> >  static void process_adv_report(struct hci_dev *hdev, u8 type, bdaddr_t=
- *bdaddr,
-> >                              u8 bdaddr_type, bdaddr_t *direct_addr,
-> > -                            u8 direct_addr_type, s8 rssi, u8 *data, u8=
- len,
-> > -                            bool ext_adv, bool ctl_time, u64 instant)
-> > +                            u8 direct_addr_type, u8 phy, u8 sec_phy, s=
-8 rssi,
-> > +                            u8 *data, u8 len, bool ext_adv, bool ctl_t=
-ime,
-> > +                            u64 instant)
-> >  {
-> >       struct discovery_state *d =3D &hdev->discovery;
-> >       struct smp_irk *irk;
-> > @@ -6225,7 +6226,7 @@ static void process_adv_report(struct hci_dev *hd=
-ev, u8 type, bdaddr_t *bdaddr,
-> >        * for advertising reports) and is already verified to be RPA abo=
-ve.
-> >        */
-> >       conn =3D check_pending_le_conn(hdev, bdaddr, bdaddr_type, bdaddr_=
-resolved,
-> > -                                  type);
-> > +                                  type, phy, sec_phy);
-> >       if (!ext_adv && conn && type =3D=3D LE_ADV_IND &&
-> >           len <=3D max_adv_len(hdev)) {
-> >               /* Store report for later inclusion by
-> > @@ -6371,7 +6372,8 @@ static void hci_le_adv_report_evt(struct hci_dev =
-*hdev, void *data,
-> >               if (info->length <=3D max_adv_len(hdev)) {
-> >                       rssi =3D info->data[info->length];
-> >                       process_adv_report(hdev, info->type, &info->bdadd=
-r,
-> > -                                        info->bdaddr_type, NULL, 0, rs=
-si,
-> > +                                        info->bdaddr_type, NULL, 0,
-> > +                                        HCI_ADV_PHY_1M, 0, rssi,
-> >                                          info->data, info->length, fals=
-e,
-> >                                          false, instant);
-> >               } else {
-> > @@ -6456,6 +6458,8 @@ static void hci_le_ext_adv_report_evt(struct hci_=
-dev *hdev, void *data,
-> >               if (legacy_evt_type !=3D LE_ADV_INVALID) {
-> >                       process_adv_report(hdev, legacy_evt_type, &info->=
-bdaddr,
-> >                                          info->bdaddr_type, NULL, 0,
-> > +                                        info->primary_phy,
-> > +                                        info->secondary_phy,
-> >                                          info->rssi, info->data, info->=
-length,
-> >                                          !(evt_type & LE_EXT_ADV_LEGACY=
-_PDU),
-> >                                          false, instant);
-> > @@ -6761,8 +6765,8 @@ static void hci_le_direct_adv_report_evt(struct h=
-ci_dev *hdev, void *data,
-> >
-> >               process_adv_report(hdev, info->type, &info->bdaddr,
-> >                                  info->bdaddr_type, &info->direct_addr,
-> > -                                info->direct_addr_type, info->rssi, NU=
-LL, 0,
-> > -                                false, false, instant);
-> > +                                info->direct_addr_type, HCI_ADV_PHY_1M=
-, 0,
-> > +                                info->rssi, NULL, 0, false, false, ins=
-tant);
-> >       }
-> >
-> >       hci_dev_unlock(hdev);
-> > diff --git a/net/bluetooth/hci_sync.c b/net/bluetooth/hci_sync.c
-> > index c5d8799046cc..4c707eb64e6f 100644
-> > --- a/net/bluetooth/hci_sync.c
-> > +++ b/net/bluetooth/hci_sync.c
-> > @@ -6346,7 +6346,8 @@ static int hci_le_ext_create_conn_sync(struct hci=
-_dev *hdev,
-> >
-> >       plen =3D sizeof(*cp);
-> >
-> > -     if (scan_1m(hdev)) {
-> > +     if (scan_1m(hdev) && (conn->le_adv_phy =3D=3D HCI_ADV_PHY_1M ||
-> > +                           conn->le_adv_sec_phy =3D=3D HCI_ADV_PHY_1M)=
-) {
-> >               cp->phys |=3D LE_SCAN_PHY_1M;
-> >               set_ext_conn_params(conn, p);
-> >
-> > @@ -6354,7 +6355,8 @@ static int hci_le_ext_create_conn_sync(struct hci=
-_dev *hdev,
-> >               plen +=3D sizeof(*p);
-> >       }
-> >
-> > -     if (scan_2m(hdev)) {
-> > +     if (scan_2m(hdev) && (conn->le_adv_phy =3D=3D HCI_ADV_PHY_2M ||
-> > +                           conn->le_adv_sec_phy =3D=3D HCI_ADV_PHY_2M)=
-) {
-> >               cp->phys |=3D LE_SCAN_PHY_2M;
-> >               set_ext_conn_params(conn, p);
-> >
-> > @@ -6362,7 +6364,8 @@ static int hci_le_ext_create_conn_sync(struct hci=
-_dev *hdev,
-> >               plen +=3D sizeof(*p);
-> >       }
-> >
-> > -     if (scan_coded(hdev)) {
-> > +     if (scan_coded(hdev) && (conn->le_adv_phy =3D=3D HCI_ADV_PHY_CODE=
-D ||
-> > +                              conn->le_adv_sec_phy =3D=3D HCI_ADV_PHY_=
-CODED)) {
-> >               cp->phys |=3D LE_SCAN_PHY_CODED;
-> >               set_ext_conn_params(conn, p);
-> >
-> > diff --git a/net/bluetooth/l2cap_core.c b/net/bluetooth/l2cap_core.c
-> > index cf3b8e9b7b3b..3e5d2d8a2a66 100644
-> > --- a/net/bluetooth/l2cap_core.c
-> > +++ b/net/bluetooth/l2cap_core.c
-> > @@ -7028,7 +7028,7 @@ int l2cap_chan_connect(struct l2cap_chan *chan, _=
-_le16 psm, u16 cid,
-> >               if (hci_dev_test_flag(hdev, HCI_ADVERTISING))
-> >                       hcon =3D hci_connect_le(hdev, dst, dst_type, fals=
-e,
-> >                                             chan->sec_level, timeout,
-> > -                                           HCI_ROLE_SLAVE);
-> > +                                           HCI_ROLE_SLAVE, 0, 0);
-> >               else
-> >                       hcon =3D hci_connect_le_scan(hdev, dst, dst_type,
-> >                                                  chan->sec_level, timeo=
-ut,
-> > --
-> > 2.44.0
-> >
+Content-Type: multipart/mixed; boundary="80K1noRE+tcdeRpV"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CABBYNZLMODHp+jBu2oVDC5Pg6fyAKJugQF0N-XgarjWQJJPObg@mail.gmail.com>
 
 
+--80K1noRE+tcdeRpV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---=20
-Luiz Augusto von Dentz
+On Thu, May 09, 2024 at 12:30:21PM -0400, Luiz Augusto von Dentz wrote:
+> Hi Janne,
+> 
+> On Thu, May 9, 2024 at 12:06 PM Janne Grunau <j@jannau.net> wrote:
+> >
+> > Hej,
+> >
+> > On Fri, Apr 05, 2024 at 04:40:33PM -0400, Luiz Augusto von Dentz wrote:
+> > > From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+> > >
+> > > The extended advertising reports do report the PHYs so this store then
+> > > in hci_conn so it can be later used in hci_le_ext_create_conn_sync to
+> > > narrow the PHYs to be scanned since the controller will also perform a
+> > > scan having a smaller set of PHYs shall reduce the time it takes to
+> > > find and connect peers.
+> > >
+> > > Fixes: 288c90224eec ("Bluetooth: Enable all supported LE PHY by default")
+> >
+> > This commit in v6.8.9 apparently has regressed connecting to LE devices
+> > like Logitech mices with Apple/Broadcom BCM4388 devices. Those devices
+> > carry HCI_QUIRK_BROKEN_LE_CODED which became necessary after 288c90224eec
+> > ("Bluetooth: Enable all supported LE PHY by default").
+> > Tested so far only by reverting aaf06285498861d6caaff5b26d30af70dd2b819f
+> > on top of v6.8.9. Looking at the change I don't see anything obvious
+> > which would explain the breakage.
+> > I would assume v6.9-rc6 is affected as well but I haven't tested this
+> > yet.
+> 
+> Would be great if you provide the HCI trace to confirm the problem.
+
+looks like there is an issue with initiating "LE Extended Create
+Connection":
+
+| > HCI Event: LE Meta Event (0x3e) plen 26
+|       LE Extended Advertising Report (0x0d)
+|         Num reports: 1
+|         Entry 0
+|           Event type: 0x2515
+|             Props: 0x0015
+|               Connectable
+|               Directed
+|               Use legacy advertising PDUs
+|             Data status: Complete
+|             Reserved (0x2500)
+|          Legacy PDU Type: Reserved (0x2515)
+|           Address type: Random (0x01)
+|           Address: DF:F4:9E:F3:A9:72 (Static)
+|           Primary PHY: Reserved
+|           Secondary PHY: No packets
+|           SID: no ADI field (0xff)
+|           TX power: 127 dBm
+|           RSSI: -60 dBm (0xc4)
+|           Periodic advertising interval: 0.00 msec (0x0000)
+|           Direct address type: Public (0x00)
+|           Direct address: 5C:1B:F4:7F:BF:6B (Apple, Inc.)
+|           Data length: 0x00
+| < HCI Command: LE Set Extended Scan Enable (0x08|0x0042) plen 6
+|         Extended scan: Disabled (0x00)
+|         Filter duplicates: Disabled (0x00)
+|         Duration: 0 msec (0x0000)
+|         Period: 0.00 sec (0x0000)
+| > HCI Event: Command Complete (0x0e) plen 4
+|       LE Set Extended Scan Enable (0x08|0x0042) ncmd 1
+|         Status: Success (0x00)
+| < HCI Command: LE Extended Create Connection (0x08|0x0043) plen 10
+|         Filter policy: Accept list is not used (0x00)
+|         Own address type: Public (0x00)
+|         Peer address type: Random (0x01)
+|         Peer address: DF:F4:9E:F3:A9:72 (Static)
+|         Initiating PHYs: 0x00
+| > HCI Event: Command Status (0x0f) plen 4
+|       LE Extended Create Connection (0x08|0x0043) ncmd 1
+|        Status: Unsupported Feature or Parameter Value (0x11)
+
+Full trace attached
+
+Janne
+
+--80K1noRE+tcdeRpV
+Content-Type: application/octet-stream
+Content-Disposition: attachment; filename="bcm4388_v6.8.9_hci_bt_le.log"
+Content-Transfer-Encoding: base64
+
+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
+AAAAAAkAAAAAAOL1vY9jN7s=
+
+--80K1noRE+tcdeRpV--
