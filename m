@@ -1,194 +1,105 @@
-Received: from wfhigh4-smtp.messagingengine.com (wfhigh4-smtp.messagingengine.com [64.147.123.155])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873921708A9;
-	Fri, 10 May 2024 14:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5261CD13;
+	Sun, 12 May 2024 12:12:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715352264; cv=none; b=PD8cduLkWA+SIaHlPBlJ2FJALzk1xMi81F8nyjyVNXTGW3MzXdh+eUY7b8bSIGCdAValUtzjPkKbmAb/RdNS7jupthJ0sgWmaOaAMms+5IdtisKmqmIjxc7uyr85a9g28wSAPcdltCVYEhCA/xZuPpiahyc2lnXVGFhDn/xhY8g=
+	t=1715515938; cv=none; b=jlRA5Web5+CPu1+tWLpqlcvkUvk6OPQlpzLjIA3Ef/vJlDJQZ7ciHET1o6LbTNVPbmFXwMCzNm1E5pBiwilH8R3GIeMVA3zLLiuz6nCh5vz9KlCmnWopS4KWdVus2t8xAfjV/KBNi0IIpz1Kd5ssg1i387yhQ84ylmrlQculGG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715352264; c=relaxed/simple;
-	bh=CLtL2syD9ZrfDYCx8ul5lwLyT7C1dMm/GjXi9wJ3JJE=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=bhn8Ee+e0ZeKzuq/WBgckv3cv4eYZo/cvljXd2hddkbyk0+O+s6kQGJwFpEi5rH8mDnyQNYk/PcHjbIfIlB+V5xoNTl7zWHVJj+wSbP0n5/rzhmhdxxBHhM752fq9d1mqyl+868vVYUm+L7pwixChVxXr/A48YX2zoymT9/a0PA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=OpBVSc7a; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PqBcm/Y1; arc=none smtp.client-ip=64.147.123.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1715515938; c=relaxed/simple;
+	bh=uQn2LpSYH3VSkLT8zOSF6zifQuGNp9REuyof47a4VwA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=j+soa6LsFLTjW0aS2FK+x1jd+PBfuQA3TdJck98J91GeyA0fnwtoDib/8z/A+9WMqYVtUGSt8Bn+MjMtYqsHNcEtN2GFlV63pmmoJNBVXPFGWF9BcOZtkl+riv+EQlxg+ZMTPdNzCulyimFQmnDA0zABroXyQNHPO2038X96F9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AqNnZpM3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="OpBVSc7a";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PqBcm/Y1"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfhigh.west.internal (Postfix) with ESMTP id 6670E18000F4;
-	Fri, 10 May 2024 10:44:21 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute1.internal (MEProxy); Fri, 10 May 2024 10:44:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1715352261; x=1715438661; bh=CLtL2syD9ZrfDYCx8ul5lwLyT7C1dMm/
-	GjXi9wJ3JJE=; b=OpBVSc7a7jRRVMYH7hUYxAzsxT4sAp58harbZ9i4Xa1sykUi
-	7GpfROYTYiQTfunqJnzrFVSkIJLHjiKmzAYcjN9Vo1UDtx8kd2McTCfurCKG6KbR
-	99+ii4x3vU+hAFwp954X4Z/gXcN/Puc6C/9lGGaxkpaCfd4eusqwXK5t7dFQ16S3
-	pvWzyVFOuaaKiZnz67QbA4nof0VaAL159h8qTSqEOVECi3PWR1XpJK+PKCprP9is
-	J/cNscZCXeYp2Vmbp8NaWptdKbj53Ae0B7VPqUhktfh+6O+ipD31wfEZGiQUxDHY
-	WdfvFnM/CuPH9OVc53TQ0GFyKRecvEKalupAjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1715352261; x=
-	1715438661; bh=CLtL2syD9ZrfDYCx8ul5lwLyT7C1dMm/GjXi9wJ3JJE=; b=P
-	qBcm/Y1f/9tR2KIEIp7MoGTyAZs/Va6jVpQdbja520m4uzysjWSVBO18lvCvN+9t
-	5iWv6Mu4VZAaeCIY5Rc+Zw5NLW3ZuHaQeUDZjpkH4Jf9V0FYuO89dEfXc1UtfLI9
-	YiJQKRJoVD/HhgHh4EFwr6GUW+VeoXKejvPt2mAgb9a+oLfAiLP5sWlwg4oO0IHe
-	HGDEltjny3diJ+xIxUOa2C2ycLRutkIb6+IgpTAPYNpyx4RfMLbyTgxib6xtsGtr
-	DZ5bzE2R8iUJtEor1mkMlMAHdG2i6kA/csHH09f00hbYJyBBldDQk8owkFcaGaZ6
-	GhLqS3Q0d0Hb7iJlkEhtA==
-X-ME-Sender: <xms:xDI-ZulSv-dPyrfrJkfIiK3VkPI2rkhqLFDWXIc2n-uzFjJOu7tl1g>
-    <xme:xDI-Zl2_tVXsa6GUOtlrfAay2601aDSFvS7q1_ugH-iF1ZJEOR0KFCeP6-6gCEUfT
-    2M-UWt7eiMJkwB0Zmw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdefkedgjeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdfu
-    vhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtf
-    frrghtthgvrhhnpeegffdtgfdtlefhhfdujeevheekgfdujeegudevteevudefleefjeel
-    tefhjeehleenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghr
-    rdguvghv
-X-ME-Proxy: <xmx:xDI-ZspgbM8FkrMdmTLIAs9gxSP31Zj0sFuAhl1N3uFcsqURybDX4w>
-    <xmx:xDI-ZikeNlu-pBFoVU5t1VOsB9LcM8YK4sgEOsRgrmJ2Uo3pvwUNXw>
-    <xmx:xDI-Zs1xMw2sOWDQ6skjyvukLkvtF0uQOJ6mVYhQKq-CCo-f38EvBw>
-    <xmx:xDI-Zps-CAcFQz4X_Z16yFTSyQL1gO1s0UwKpWGdJ7wXhREmS7jRWw>
-    <xmx:xTI-Zg-HbPjUrUWgBP8leX1nAbKgf10kMyvU9p2pabTXlWDvJAZJ2q5M>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 407AFA60078; Fri, 10 May 2024 10:44:20 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-443-g0dc955c2a-fm-20240507.001-g0dc955c2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AqNnZpM3"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CF572C32783;
+	Sun, 12 May 2024 12:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715515937;
+	bh=uQn2LpSYH3VSkLT8zOSF6zifQuGNp9REuyof47a4VwA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=AqNnZpM3MZ5HNyZPwo2bV4eQ1+sLLGVHhFFC4vZYXptzUoi4p2vuPTCkBk23SLaPQ
+	 E+aiLzKIBT9goBdCFK/VjCEy06HdZXfinaiASvNGbk4WgptoBjCMFMfMMpukJR7BNP
+	 etcIHwtrNTMmButKi9Yh18kLziysGCaMa8h1h3woL/CIL0z+ItfpMo2yFyh33lvzJn
+	 8Cyn65p0NHcS9L2KiZhjx69mKu8H7whT4havYJWa25KIcaQoHfqb9gt3Uo6zghQR5m
+	 7+yr3Qa/kT9+8ygJ83M9KEjP4Mn+JpWI0XuVpLs1krkw4L8bsK1aKmeoDO2Bgh0dUm
+	 pQ6ysO5elyClw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E7AC10F1A;
+	Sun, 12 May 2024 12:12:17 +0000 (UTC)
+From: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
+Date: Sun, 12 May 2024 12:12:07 +0000
+Subject: [PATCH 1/2] Bluetooth: hci_bcm4377: Increase boot timeout
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <afd2cfb0-1406-4a17-a0d1-f7f6b073d26f@app.fastmail.com>
-In-Reply-To: 
- <CABBYNZKkkAA0KXDR-R0M5jCHNhnLrpH38Ympfm5-JgC0yiD7Bw@mail.gmail.com>
-References: <20240405204037.3451091-1-luiz.dentz@gmail.com>
- <Zjz0atzRhFykROM9@robin>
- <CABBYNZLMODHp+jBu2oVDC5Pg6fyAKJugQF0N-XgarjWQJJPObg@mail.gmail.com>
- <Zj0tcmseJCjR4hK2@robin>
- <CABBYNZLnYz-vPrMbtsJTsLPsyo62j+cxctSkLjRom3bWEU9N3A@mail.gmail.com>
- <CABBYNZJ-6oyLnBov9H_jym9m-9qiUt1ELxYGuBOdZT29aj9MCA@mail.gmail.com>
- <70078624-d766-4db6-8ddb-511251baf0f2@marcan.st>
- <4e194251-d175-49d0-af03-b2cdd8a30fe0@app.fastmail.com>
- <CABBYNZKkkAA0KXDR-R0M5jCHNhnLrpH38Ympfm5-JgC0yiD7Bw@mail.gmail.com>
-Date: Fri, 10 May 2024 16:43:30 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>
-Cc: "Hector Martin" <marcan@marcan.st>, "Janne Grunau" <j@jannau.net>,
- linux-bluetooth@vger.kernel.org,
- "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
- asahi@lists.linux.dev
-Subject: Re: [PATCH v1] Bluetooth: hci_sync: Use advertised PHYs on
- hci_le_ext_create_conn_sync
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240512-btfix-msgid-v1-1-ab1bd938a7f4@svenpeter.dev>
+References: <20240512-btfix-msgid-v1-0-ab1bd938a7f4@svenpeter.dev>
+In-Reply-To: <20240512-btfix-msgid-v1-0-ab1bd938a7f4@svenpeter.dev>
+To: Hector Martin <marcan@marcan.st>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ Marcel Holtmann <marcel@holtmann.org>, 
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sven Peter <sven@svenpeter.dev>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1715515936; l=1230;
+ i=sven@svenpeter.dev; s=20240512; h=from:subject:message-id;
+ bh=l5zSo1PIT3qiMZokOHqlZSiHEp61gw9G4TR1ydgJdn8=;
+ b=n9bTv01yWWAEQyW+jcLjnXCkBT8m4v+1sdLTdkCYA3JsdBqYIW4HWVo/du2TPgpdY0+vEtEB4
+ T1TnR3JSZ2OAgeOOqyVSTnayjE6KuEhWnqjURCkz09+JQZmZBnRmMWq
+X-Developer-Key: i=sven@svenpeter.dev; a=ed25519;
+ pk=jIiCK29HFM4fFOT2YTiA6N+4N7W+xZYQDGiO0E37bNU=
+X-Endpoint-Received: by B4 Relay for sven@svenpeter.dev/20240512 with
+ auth_id=159
+X-Original-From: Sven Peter <sven@svenpeter.dev>
+Reply-To: sven@svenpeter.dev
 
-Hi Luiz,
+From: Hector Martin <marcan@marcan.st>
 
-On Fri, May 10, 2024, at 16:33, Luiz Augusto von Dentz wrote:
-> Hi Sven, Hector,
->
-> On Fri, May 10, 2024 at 5:55=E2=80=AFAM Sven Peter <sven@svenpeter.dev=
-> wrote:
->>
->> Hi,
->>
->>
->> On Fri, May 10, 2024, at 05:13, Hector Martin wrote:
->> > Hi,
->> >
->> > On 2024/05/10 7:41, Luiz Augusto von Dentz wrote:
->> > <snip>
->> >
->> >> If I print the actual value then we got:
->> >>
->> >> Primary PHY: Reserved (0x81)
->> >>
->> >> I guess one needs to disregard the reserved range, well until they=
- are
->> >> no longer reserved then it will no longer work. Perhaps we should =
-talk
->> >> to broadcom to know what is up with using reserved values and if t=
-hat
->> >> is an apple thing then perhaps we could ask them to provide firmwa=
-re
->> >> that acts according to the spec.
->> >
->> > Apple and Broadcom do not support Linux on this platform. The kerne=
-l has
->> > to work with the existing firmware (which is the firmware macOS use=
-s),
->> > we don't get to request changes. If the firmware has quirks the ker=
-nel
->> > has to deal with it, that's how it goes. It would be great if we had
->> > vendor support, but that is not something we can control. This is c=
-ommon
->> > (Linux is full of quirks to support noncompliant hardware/firmware).
->
-> While this may work for a dedicated driver I don't think it is that
-> easy when we are talking about a standard interface, except if you are
-> going to maintain a separate HCI layer at the driver to intercept the
-> traffic this will cause a lot of regression to users unaware to the
-> fact, and it is not like you can't get rid of it, just plug an
-> external Bluetooth dongle that behaves properly.
->
->> While I agree with Hector here that they won't even talk to us it's
->> sometimes possible to figure out what exactly they were thinking with
->> their reserved values. Apple provides "Additional Tools for XCode" wh=
-ich
->> include their "PacketLogger" which contains most of their vendor
->> specific hacks with a human readable explanation. I wasn't able to ge=
-nerate
->> this specific event with my hardware here but I was able to inject a =
-custom
->> event into their trace format and then load it and see how it's decod=
-ed.
->>
->> From a very brief look it appears that they AND Primary_PHY/Secondary=
-_PHY with
->> 0x1f to decode it and then support all values defined in the bluetooth
->> spec, i.e. "no packets", "LE 1M", "LE 2M" and "LE coded". No idea wha=
-t the
->> higher bits mean though since they are ignored and don't seem to be d=
-ecoded.
->
-> Yeah, I think I saw something like that not long ago, we might need
-> yet another quirk to deal with that though.
+BCM4388 takes over 2 seconds to boot, so increase the timeout (and also
+fix the units while we're here).
 
-Agreed. We had a similar situation with this very same broken hardware w=
-hen I
-originally upstreamed the driver:
-Apple and/or Broadcom decided to use the upper event type bits inside LE=
- Extended
-Advertising Reports for the channel on which the frame has been received=
- [1].
-I originally proposed a quick to drop these reserved bits but we then la=
-ter
-decided to just do it unconditionally [2].
+Signed-off-by: Hector Martin <marcan@marcan.st>
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
+Signed-off-by: Sven Peter <sven@svenpeter.dev>
+---
+ drivers/bluetooth/hci_bcm4377.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
+index 9a7243d5db71..5b818a0e33d6 100644
+--- a/drivers/bluetooth/hci_bcm4377.c
++++ b/drivers/bluetooth/hci_bcm4377.c
+@@ -32,7 +32,8 @@ enum bcm4377_chip {
+ #define BCM4378_DEVICE_ID 0x5f69
+ #define BCM4387_DEVICE_ID 0x5f71
+ 
+-#define BCM4377_TIMEOUT 1000
++#define BCM4377_TIMEOUT msecs_to_jiffies(1000)
++#define BCM4377_BOOT_TIMEOUT msecs_to_jiffies(5000)
+ 
+ /*
+  * These devices only support DMA transactions inside a 32bit window
+@@ -1857,7 +1858,7 @@ static int bcm4377_boot(struct bcm4377_data *bcm4377)
+ 	dev_dbg(&bcm4377->pdev->dev, "waiting for firmware to boot\n");
+ 
+ 	ret = wait_for_completion_interruptible_timeout(&bcm4377->event,
+-							BCM4377_TIMEOUT);
++							BCM4377_BOOT_TIMEOUT);
+ 	if (ret == 0) {
+ 		ret = -ETIMEDOUT;
+ 		goto out_dma_free;
+
+-- 
+2.34.1
 
 
-[1] https://lore.kernel.org/linux-bluetooth/20220801103633.27772-4-sven@=
-svenpeter.dev/
-[2] https://lore.kernel.org/linux-bluetooth/220ab728-ed5b-415d-ab15-47a7=
-153e8e5c@www.fastmail.com/
-
-
-Best,
-
-
-Sven
