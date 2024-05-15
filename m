@@ -1,99 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB5E158DB5;
-	Wed, 15 May 2024 18:15:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0956F1591E8;
+	Wed, 15 May 2024 19:50:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715796913; cv=none; b=q4EfGdw6+G3eOlPg3AduzmUIMfW4OYIzzCPerPPrueLKknmyVd+CKjAUUsvb1a/sA0un3diV4SjX6tQnuJiG71XaoBfbKm6KrXwBjQiqdZUK882SMMXRfgAZIvt5zsWoF9mcJvT+6Nq8Ok8ivj8E/6nB3ICpIIlM+nZQkSTCxDg=
+	t=1715802630; cv=none; b=X31PORueiVWnxdxnaKTCdrX8HqJG351HZDiR3SPmQTqNQ24/s+DfJmDjhcRfBWGADa7Ve2ApvfijrFcNJMXePd5gjZvMnFg+apqOeejdk0YC+aItl4O/jJ36qGdPYm3IbYT7/3bNEXEyTuGBorZ+uJjiAjRwLwRl9ve6y1o0b4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715796913; c=relaxed/simple;
-	bh=E4Iwtxu2+/Psbmp/h4kJfXYz2OBjkeQjEI+8/JjX5EQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CZO2liQI1eIMxRsKJBK1CTHO+4/jFZsrUB5Q7d9tKTMjDRRaIdc8ome7Zi6d3lJxVaRSgQ+F8aensaruHP9EtmOhqZ2gMBGaOSWHoKWZ1n/APw1BdSl0KyI0OzWPVELLya5R1u3/qyVFlTDpbOTcqK0KuDOs00yXPgp8aBA8pow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKUqQOrb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715802630; c=relaxed/simple;
+	bh=hWyjfmv2nHBWx3mYTJqtMsHJh9zlKywb3yOcqTJs0SA=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Iz5hcZm2k1tPKUx3ikZmHCkQFjCWSuWdJWLPta+2u9woHBqJPyr+yGVIXkSSciC/4ngWNypnw2WWypTO5XW2ReXD+DGlx/o96uFbPnD6+pf6ncomDqAS4M4CPvb0gQCsh9UMYaOQmAXrqQTscpNyVqvC5yRz10NLdO1BWPNuJos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V9vAf9m9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKUqQOrb"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AB7CBC32789;
-	Wed, 15 May 2024 18:15:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V9vAf9m9"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 80193C2BD11;
+	Wed, 15 May 2024 19:50:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715796912;
-	bh=E4Iwtxu2+/Psbmp/h4kJfXYz2OBjkeQjEI+8/JjX5EQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=sKUqQOrbz6+9qshSPT2m6n9CPcGSpJYbgbS4SDi0MrIy6RHgArm68GqmaXKrkeaGD
-	 aNSQYFNyduY4YcVwM1FF0YkWvEz6g7AfDON19cVhn7hs00pj+1tWY7wgDvi9d+k3NE
-	 JceTtG8UNk7+qUzK3mjYuFgXLzeFGqpl986LbLTbkkegvC84FnGAt016nXBtv2g3Ev
-	 uBPD0DoZjMhvCPuB0Cyhr6OxnZ0DPs1wFPC/ceSqwVRShdHWJNGdg1Akbw8Pp7ZLsr
-	 t+EoubXP+pHp+AaCB1EO5Co0MldOti9/8bvfd12H+erKgJSVdPTF6HFfLDX5GPNiZr
-	 0CjDztkf1oJVQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A291DC25B79;
-	Wed, 15 May 2024 18:15:12 +0000 (UTC)
-From: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
-Date: Wed, 15 May 2024 18:15:04 +0000
-Subject: [PATCH v2 3/3] Bluetooth: hci_bcm4377: Fix msgid release
+	s=k20201202; t=1715802629;
+	bh=hWyjfmv2nHBWx3mYTJqtMsHJh9zlKywb3yOcqTJs0SA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=V9vAf9m9TP7WRM49Z5PaTJ+s8mwPBhagirU4Gfhx4UQGjQF6I+t4CKSDimlAGUDdf
+	 cjTfjIJyifo5QBMvSix8u1oUVCJxNvSNRvrFzEiHiy67c0qYL0K1HjHmgFNShPrM2M
+	 t5CNA/SHGYqj6V5NzsZMugjmxdotTlhoWVT66fFhnVopeJLj/yKeVt/vQ/kxOqsdXq
+	 ZB9irblIE03xaCNUPLS476zAAGldHJrFSgN8qTv2cWfBdMsv4UWx8pUF+EJYxYAQ0p
+	 gODA3pu51NNeQejs36gtQolmo2Iyfgblj3k5EIMSmp6pG55qf+GFrGtw65EzhmXKrl
+	 DyCp10RwivXWw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 72D16C43332;
+	Wed, 15 May 2024 19:50:29 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240515-btfix-msgid-v2-3-bb06b9ecb6d1@svenpeter.dev>
-References: <20240515-btfix-msgid-v2-0-bb06b9ecb6d1@svenpeter.dev>
-In-Reply-To: <20240515-btfix-msgid-v2-0-bb06b9ecb6d1@svenpeter.dev>
-To: Hector Martin <marcan@marcan.st>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Marcel Holtmann <marcel@holtmann.org>, 
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sven Peter <sven@svenpeter.dev>, stable@vger.kernel.org, 
- Neal Gompa <neal@gompa.dev>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1715796911; l=1005;
- i=sven@svenpeter.dev; s=20240512; h=from:subject:message-id;
- bh=S7xKEZCg+8p3UVaw49Z8FtTJmOjvz1UbYciOj2+ura0=;
- b=Ozstng7yF96uysi12zXuTli9Av64oDUsLQGnA5QC7XKF+rkN/vFAN8YmgOFkBAkzcgLMw+oG8
- v1/n4dTc7moC9rw82K6I7tGXE6vhBtG/SHGdxQJmXK/iIGr0pvp3Djb
-X-Developer-Key: i=sven@svenpeter.dev; a=ed25519;
- pk=jIiCK29HFM4fFOT2YTiA6N+4N7W+xZYQDGiO0E37bNU=
-X-Endpoint-Received: by B4 Relay for sven@svenpeter.dev/20240512 with
- auth_id=159
-X-Original-From: Sven Peter <sven@svenpeter.dev>
-Reply-To: sven@svenpeter.dev
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] Bluetooth: Add quirk to ignore reserved PHY bits in LE
+ Extended Adv Report
+From: patchwork-bot+bluetooth@kernel.org
+Message-Id: 
+ <171580262946.22700.3070812147966702981.git-patchwork-notify@kernel.org>
+Date: Wed, 15 May 2024 19:50:29 +0000
+References: <20240515-btfix-v1-1-d88caf3d5a3f@svenpeter.dev>
+In-Reply-To: <20240515-btfix-v1-1-d88caf3d5a3f@svenpeter.dev>
+To: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
+Cc: marcan@marcan.st, alyssa@rosenzweig.io, marcel@holtmann.org,
+ luiz.dentz@gmail.com, johan.hedberg@gmail.com, luiz.von.dentz@intel.com,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, j@jannau.net, sven@svenpeter.dev
 
-From: Hector Martin <marcan@marcan.st>
+Hello:
 
-We are releasing a single msgid, so the order argument to
-bitmap_release_region must be zero.
+This patch was applied to bluetooth/bluetooth-next.git (master)
+by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
 
-Fixes: 8a06127602de ("Bluetooth: hci_bcm4377: Add new driver for BCM4377 PCIe boards")
-Cc: stable@vger.kernel.org
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
-Reviewed-by: Neal Gompa <neal@gompa.dev>
-Signed-off-by: Sven Peter <sven@svenpeter.dev>
----
- drivers/bluetooth/hci_bcm4377.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 15 May 2024 18:02:58 +0000 you wrote:
+> From: Sven Peter <sven@svenpeter.dev>
+> 
+> Some Broadcom controllers found on Apple Silicon machines abuse the
+> reserved bits inside the PHY fields of LE Extended Advertising Report
+> events for additional flags. Add a quirk to drop these and correctly
+> extract the Primary/Secondary_PHY field.
+> 
+> [...]
 
-diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4377.c
-index 5b818a0e33d6..92d734f02e00 100644
---- a/drivers/bluetooth/hci_bcm4377.c
-+++ b/drivers/bluetooth/hci_bcm4377.c
-@@ -717,7 +717,7 @@ static void bcm4377_handle_ack(struct bcm4377_data *bcm4377,
- 		ring->events[msgid] = NULL;
- 	}
- 
--	bitmap_release_region(ring->msgids, msgid, ring->n_entries);
-+	bitmap_release_region(ring->msgids, msgid, 0);
- 
- unlock:
- 	spin_unlock_irqrestore(&ring->lock, flags);
+Here is the summary with links:
+  - Bluetooth: Add quirk to ignore reserved PHY bits in LE Extended Adv Report
+    https://git.kernel.org/bluetooth/bluetooth-next/c/9dc8ac15ca51
 
+You are awesome, thank you!
 -- 
-2.34.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
