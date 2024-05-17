@@ -1,85 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DBC15ADA0;
-	Wed, 15 May 2024 20:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADB33BBD2
+	for <asahi@lists.linux.dev>; Fri, 17 May 2024 10:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715803230; cv=none; b=kLf4eqJFMzX1Lj1c6mHXdquMYoRpJvdnslKQ3mpOY+jyHLQt4hJaDrdd2/epdVE6/2XM3X5Q8XXnEb0wea4RBFDifR4nQR6lW9v5hjBb7UpSO4wa9BaOIS9qMu68uYqlKPUJZrl7JlwWQA5kXuocoL/TJhIF981cAUMAom/erac=
+	t=1715942491; cv=none; b=uYvzxLMuIHtD1WO+s9FlKNxvCOlc3ZATPyoDraWDi/O/WeTCOhFI5uPmK7yaJTBcTt2cfuJVfsnP6LDi0I7yXn+R3dFZLWgAGzQiBZqpqpkvRLveESssDkxdsLM9m8smLdtEav2yZscqIlS2h4PM1r+jHPIT5z6ScNWhR3UGmGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715803230; c=relaxed/simple;
-	bh=dSHISZAMSeuQo9ROse5BQNkX8tjfYGhjBhfmiIfadq8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=seE1t/fHIPqrw7Ff/CUhZlZw/5qbjrPUFdMuq82uT7ywdGJHdyVek2Xwpbi1rrpOVIMjhy7z74yKBXH4GnctVu3luP0Q9qvAoZjwNQlceuFXOWEljT/yBkfFsePI5t6/pdx3rJ2mR6oGMntzc5EsRNvGab/mUVyuMR1hZYD4Gqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fv69uZCb; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fv69uZCb"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D2CE4C2BD11;
-	Wed, 15 May 2024 20:00:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715803229;
-	bh=dSHISZAMSeuQo9ROse5BQNkX8tjfYGhjBhfmiIfadq8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Fv69uZCbNqLkwjYg3VMHoDAAnmxbvJMu3IPWFXSJJjTiBxIy46wQ5RqRR+HaGhQFS
-	 iSmkE3/WTDL2CXhYdv4OHHuO0Kx1D26Vo0slKBFjFo9OO44LmstOY+VXWZV5oa9RlE
-	 ebQ+84ZTEg/w+UiCuuuYCD1ITDYW453cg78I4csrmc2my1zo+ehcO2pZGZ+HHSBnb8
-	 o+RSf0rWnTAVURyKsMqGq+TmaV3M1LFMSDios16Y+g414g5FD9wFfRTSvLszSyIqF3
-	 p4NgXILWIGqSOV5HD4GFRtd6HQqkE/N1IPAokhRO1xn87uZ1+0VKNye7NiOFNoiPy0
-	 Ri/2t+FPVs7bg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BF866CF21E3;
-	Wed, 15 May 2024 20:00:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1715942491; c=relaxed/simple;
+	bh=k3G9L96yDt5S3vX+qLFsoaeZaw/80iveTPwMckiRdjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IRGW5nSAJ/XEIsyIWzxhdPsubOaJyHhczXh+BJQRaCmFbmRkpGVPzkOuQemg56YtLqiNwXYZGuT3Xzwh9n8PptGEATCrlDigCScKU9uZwodflUo2GY5lLTxrySDsLg4xocXzR1b+VPjTitBX1f/JuDJ9OQJmJ9xhoPCV0P2eOyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5b2733389f9so662137eaf.1
+        for <asahi@lists.linux.dev>; Fri, 17 May 2024 03:41:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715942489; x=1716547289;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8ep6WjZ/XECenrwVHNZ6CdFGyjtlB5or+xofNQVT1ak=;
+        b=s1yLxnUK8IuNjOTcQM7+3QxcLYALqlyrIl51fzHo81SBgJJta1jL7BdOTy/umdWjcu
+         sjJ4dFhNt8uwQ2nQLxNXDlMq5Hv3w1jy+gtRQwbtTBCFfogcW1MTqdyDQt9gfZw95n3y
+         UHc4t4RO7xvq8vqT98GkAMra44t6JQM1bt0rCXfi2s8lV8m9tCPISOaA7Kc6kyE+g0lR
+         uCIwnvPFSgRuwjSfzHYuxV7k9k7vjzzBlbzDho7PrYUhZrP4THxDaMRLWOMls0T2X4LY
+         6JUY1nh/03mUdEzbn2zlAc3Es9n/1POSl/ONaXQzihiTz+kY07Z0oiuzDzUNfhi0BPJQ
+         VDwg==
+X-Forwarded-Encrypted: i=1; AJvYcCWGvplkAcxFUNOLJeJOUbMvB8Og8cZlaei6BIDiM9NmnuQKpTmNtFTuspsJkSwBceDOkK6l9iMjlXNMKPKieqgqMm91bcc=
+X-Gm-Message-State: AOJu0YyJ1MdzcMozXnYHjQM7+UEN1hckYHakmHxFBt7SOn5sHvoaonBm
+	OqM46fGnirT91bIB2pg+uXMBJTbZMx7bITkfIKfkVscso5HYw4LC
+X-Google-Smtp-Source: AGHT+IHryVBDZpZ02HKgPHTEO7zKqNKHDK8Mg2XTift9Qc3NF8SYMoDnU3GekdswLqk1/o4nC69OcQ==
+X-Received: by 2002:a05:6358:c005:b0:18a:78c2:7ccf with SMTP id e5c5f4694b2df-193bb628645mr2477851655d.13.1715942489450;
+        Fri, 17 May 2024 03:41:29 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-658764fda40sm3257811a12.5.2024.05.17.03.41.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 May 2024 03:41:28 -0700 (PDT)
+Date: Fri, 17 May 2024 19:41:25 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Jim Quinlan <jim2101024@gmail.com>,
+	Nicolas Saenz Julienne <nsaenz@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Srikanth Thokala <srikanth.thokala@intel.com>,
+	Ryder Lee <ryder.lee@mediatek.com>,
+	Jianjun Wang <jianjun.wang@mediatek.com>,
+	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Daire McNamara <daire.mcnamara@microchip.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Marek Vasut <marek.vasut+renesas@gmail.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>,
+	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mark Kettenis <kettenis@openbsd.org>,
+	Tom Joseph <tjoseph@cadence.com>,
+	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v3 1/4] dt-bindings: PCI: cdns,cdns-pcie-host: drop
+ redundant msi-parent and pci-bus.yaml
+Message-ID: <20240517104125.GJ202520@rocinante>
+References: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 0/3] Bluetooth: hci_bcm4377 fixes
-From: patchwork-bot+bluetooth@kernel.org
-Message-Id: 
- <171580322978.27792.17065372036162836418.git-patchwork-notify@kernel.org>
-Date: Wed, 15 May 2024 20:00:29 +0000
-References: <20240515-btfix-msgid-v2-0-bb06b9ecb6d1@svenpeter.dev>
-In-Reply-To: <20240515-btfix-msgid-v2-0-bb06b9ecb6d1@svenpeter.dev>
-To: Sven Peter via B4 Relay <devnull+sven.svenpeter.dev@kernel.org>
-Cc: marcan@marcan.st, alyssa@rosenzweig.io, marcel@holtmann.org,
- luiz.dentz@gmail.com, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
- linux-kernel@vger.kernel.org, sven@svenpeter.dev, stable@vger.kernel.org,
- neal@gompa.dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
 
-Hello:
+Hello,
 
-This series was applied to bluetooth/bluetooth-next.git (master)
-by Luiz Augusto von Dentz <luiz.von.dentz@intel.com>:
+> The binding reference common cdns-pcie-host.yaml, which already defines
+> msi-parent and has a reference to pci-bus.yaml schema.  Drop redundant
+> pieces here to make it a bit smaller.
 
-On Wed, 15 May 2024 18:15:01 +0000 you wrote:
-> Hi,
-> 
-> There are just two minor fixes from Hector that we've been carrying downstream
-> for a while now. One increases the timeout while waiting for the firmware to
-> boot which is optional for the controller already supported upstream but
-> required for a newer 4388 board for which we'll also submit support soon.
-> It also fixes the units for the timeouts which is why I've already included it
-> here. The other one fixes a call to bitmap_release_region where we only wanted
-> to release a single bit but are actually releasing much more.
-> 
-> [...]
+Applied to dt-bindings, thank you!
 
-Here is the summary with links:
-  - [v2,1/3] Bluetooth: hci_bcm4377: Use correct unit for timeouts
-    https://git.kernel.org/bluetooth/bluetooth-next/c/9ee7beea5921
-  - [v2,2/3] Bluetooth: hci_bcm4377: Increase boot timeout
-    https://git.kernel.org/bluetooth/bluetooth-next/c/710a05bcfd4a
-  - [v2,3/3] Bluetooth: hci_bcm4377: Fix msgid release
-    https://git.kernel.org/bluetooth/bluetooth-next/c/bb0e96ccc834
+[01/04] dt-bindings: PCI: cdns,cdns-pcie-host: Drop redundant msi-parent and pci-bus.yaml
+        https://git.kernel.org/pci/pci/c/51ef0538d4e1
+[02/04] dt-bindings: PCI: mediatek,mt7621: Add missing child node reg
+        https://git.kernel.org/pci/pci/c/36fbed38549c
+[03/04] dt-bindings: PCI: host-bridges: Switch from deprecated pci-bus.yaml
+        https://git.kernel.org/pci/pci/c/5db62b7d3c37
+[04/04] dt-bindings: PCI: mediatek,mt7621-pcie: Switch from deprecated pci-bus.yaml
+        https://git.kernel.org/pci/pci/c/d3fa4be9033b
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+	Krzysztof
