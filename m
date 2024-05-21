@@ -1,122 +1,122 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout6-smtp.messagingengine.com (fout6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ADB33BBD2
-	for <asahi@lists.linux.dev>; Fri, 17 May 2024 10:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125D91EB40
+	for <asahi@lists.linux.dev>; Tue, 21 May 2024 20:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715942491; cv=none; b=uYvzxLMuIHtD1WO+s9FlKNxvCOlc3ZATPyoDraWDi/O/WeTCOhFI5uPmK7yaJTBcTt2cfuJVfsnP6LDi0I7yXn+R3dFZLWgAGzQiBZqpqpkvRLveESssDkxdsLM9m8smLdtEav2yZscqIlS2h4PM1r+jHPIT5z6ScNWhR3UGmGc=
+	t=1716322020; cv=none; b=cwBb+x6B6JuYZXNMJ3ymbRvpH+SHNYvPjT2YtWNYBTnZms8iz3C7AJ1rPJgRy3zeGxCbddMzkTjerRmqmcAaFzRpU+h/rvrnGIDvos6PcWZoY0n/PBfDFPwesgZlfWZlDRE3d6Azq3CVjHJxb2ObVQoArmx6sIwWY11PGVvPigQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715942491; c=relaxed/simple;
-	bh=k3G9L96yDt5S3vX+qLFsoaeZaw/80iveTPwMckiRdjU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IRGW5nSAJ/XEIsyIWzxhdPsubOaJyHhczXh+BJQRaCmFbmRkpGVPzkOuQemg56YtLqiNwXYZGuT3Xzwh9n8PptGEATCrlDigCScKU9uZwodflUo2GY5lLTxrySDsLg4xocXzR1b+VPjTitBX1f/JuDJ9OQJmJ9xhoPCV0P2eOyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.161.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5b2733389f9so662137eaf.1
-        for <asahi@lists.linux.dev>; Fri, 17 May 2024 03:41:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715942489; x=1716547289;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8ep6WjZ/XECenrwVHNZ6CdFGyjtlB5or+xofNQVT1ak=;
-        b=s1yLxnUK8IuNjOTcQM7+3QxcLYALqlyrIl51fzHo81SBgJJta1jL7BdOTy/umdWjcu
-         sjJ4dFhNt8uwQ2nQLxNXDlMq5Hv3w1jy+gtRQwbtTBCFfogcW1MTqdyDQt9gfZw95n3y
-         UHc4t4RO7xvq8vqT98GkAMra44t6JQM1bt0rCXfi2s8lV8m9tCPISOaA7Kc6kyE+g0lR
-         uCIwnvPFSgRuwjSfzHYuxV7k9k7vjzzBlbzDho7PrYUhZrP4THxDaMRLWOMls0T2X4LY
-         6JUY1nh/03mUdEzbn2zlAc3Es9n/1POSl/ONaXQzihiTz+kY07Z0oiuzDzUNfhi0BPJQ
-         VDwg==
-X-Forwarded-Encrypted: i=1; AJvYcCWGvplkAcxFUNOLJeJOUbMvB8Og8cZlaei6BIDiM9NmnuQKpTmNtFTuspsJkSwBceDOkK6l9iMjlXNMKPKieqgqMm91bcc=
-X-Gm-Message-State: AOJu0YyJ1MdzcMozXnYHjQM7+UEN1hckYHakmHxFBt7SOn5sHvoaonBm
-	OqM46fGnirT91bIB2pg+uXMBJTbZMx7bITkfIKfkVscso5HYw4LC
-X-Google-Smtp-Source: AGHT+IHryVBDZpZ02HKgPHTEO7zKqNKHDK8Mg2XTift9Qc3NF8SYMoDnU3GekdswLqk1/o4nC69OcQ==
-X-Received: by 2002:a05:6358:c005:b0:18a:78c2:7ccf with SMTP id e5c5f4694b2df-193bb628645mr2477851655d.13.1715942489450;
-        Fri, 17 May 2024 03:41:29 -0700 (PDT)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-658764fda40sm3257811a12.5.2024.05.17.03.41.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 May 2024 03:41:28 -0700 (PDT)
-Date: Fri, 17 May 2024 19:41:25 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Jim Quinlan <jim2101024@gmail.com>,
-	Nicolas Saenz Julienne <nsaenz@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Srikanth Thokala <srikanth.thokala@intel.com>,
-	Ryder Lee <ryder.lee@mediatek.com>,
-	Jianjun Wang <jianjun.wang@mediatek.com>,
-	Sergio Paracuellos <sergio.paracuellos@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Marek Vasut <marek.vasut+renesas@gmail.com>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Heiko Stuebner <heiko@sntech.de>, Jingoo Han <jingoohan1@gmail.com>,
-	Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Bharat Kumar Gogada <bharat.kumar.gogada@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	Tom Joseph <tjoseph@cadence.com>,
-	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Thippeswamy Havalige <thippeswamy.havalige@amd.com>,
-	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v3 1/4] dt-bindings: PCI: cdns,cdns-pcie-host: drop
- redundant msi-parent and pci-bus.yaml
-Message-ID: <20240517104125.GJ202520@rocinante>
-References: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
+	s=arc-20240116; t=1716322020; c=relaxed/simple;
+	bh=auMqi6BTaNxoIG36SjSU6GhPhyiR6/VLklN3fAHEa9s=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=Wu5DRBsiuRlJ8zBRuvko5L0CLXawcBkGxnmC67IDBFwgBtInOalkD3Dab4EGYFWXwaQh6+sTg31+CDf+o5x6CBUNgfc1fKOn1V4GBXPYUD5JvmbzK/d2hbgfaIqkhb+uZusJn3IT1OHpUNcAKLTzR+aaQmbxS/wszVCCyht6wC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=OHxZKyIV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RugSA8OX; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="OHxZKyIV";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RugSA8OX"
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailfout.nyi.internal (Postfix) with ESMTP id F36F0138150F;
+	Tue, 21 May 2024 16:06:56 -0400 (EDT)
+Received: from imap53 ([10.202.2.103])
+  by compute1.internal (MEProxy); Tue, 21 May 2024 16:06:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1716322016; x=1716408416; bh=auMqi6BTaN
+	xoIG36SjSU6GhPhyiR6/VLklN3fAHEa9s=; b=OHxZKyIVSd0w693BcNLhUTWS4c
+	FpNIS9nO0iqVU5rnpj7aQb4B0JhH6rzx1yeXxTqLMVIzLLKlMtAEBJ/LoygCi3xF
+	B7JtWnMLdZrQYpf/sPLBvg0WkID++9qBrjSCddHC/Pe1IBfefWf3Lrq8fnAJTWh6
+	M3T1RDpe5VtFeXk7NhpOS/zRvJCz/AE8z3l+4i7+u2aCis0Diy8l7vZ7B2nnSZCP
+	8f1d87C2RIgiUZcUNVhUrKKrGbFZCPULwRWllpvPtR47/W3aBFbNDyIWcsqbHAWk
+	tFryE+EX7fPFcIEC8euhPRHary4txaF+GD6qrmNC+J+ZfJNOHc9zp5lYK/Wg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1716322016; x=1716408416; bh=auMqi6BTaNxoIG36SjSU6GhPhyiR
+	6/VLklN3fAHEa9s=; b=RugSA8OXA10V1qO+4J1PfuJyu9fmODCSjw9Gcj7QROo5
+	cDjxKZ6+W/8f50jvnXxuRXX6bxgOhULRmWY0EdT2BVpY2K4jIdL0x1gw9Ot+2Kdl
+	nfT3A+yOx5tDGbG6Pl32o7NUQeIldDLFs5UFBdtACc30VuttUeq3xSRb4MFIa0E8
+	MqynrRtnUwVhvziewUj+cKpxW6pTvFKUBDX6D/gZdazeblA5du4gIT8wPucQOb6q
+	JYT8bNCFLEB4TPzqbTpdPfXeuNxDSQTnLbGP96MjD+ScgInPI6Dqp5VRpFWql7BQ
+	TJJy2kWU/nEz2gg4P7koOR63VaxvMLwc6KgEuERA+w==
+X-ME-Sender: <xms:4P5MZgpGIkkqXkQFzWhdz2PWSebGl33lnNUBT2FcJZn3sGSlaBPGBQ>
+    <xme:4P5MZmrqsnMWg_craHuCn9dZYCbZFOXZ5bd2wPGwFPGHyVYxKp5Yerd9SOIqDNZ5v
+    WUoFHFbBT5ADTAyLaA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdeivddgudegvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdfl
+    rghnnhgvucfirhhunhgruhdfuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtth
+    gvrhhnpeevvdfhtddvvddtgffggfeuteduhfeigeevfeffueekheetffekjeehjeefhfei
+    tdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjse
+    hjrghnnhgruhdrnhgvth
+X-ME-Proxy: <xmx:4P5MZlNj4f5zREZRedRXSksytiUwe25xmB9WL0Wrdz021z2xGXCTgw>
+    <xmx:4P5MZn5Im9T8EZ20jDSTvvO_8ZevTN02GWdaFA38ag3rnj57REAFDg>
+    <xmx:4P5MZv7Vql2zsJIRy3UurMEAyT1pzKfMjAXajuwagPvztC9n0q8gBg>
+    <xmx:4P5MZnjtDWnbCHgQbg4bM51yHeQNrFZ2nPmIrcoxeGADN1tnXS_9ug>
+    <xmx:4P5MZstBNf6VJ4t4qvK-weftW54BV38T6M3pWqIugXEkAPv7v147o3Sx>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 6C9323640070; Tue, 21 May 2024 16:06:56 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-480-g515a2f54a-fm-20240515.001-g515a2f54
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240413151617.35630-1-krzysztof.kozlowski@linaro.org>
+Message-Id: <806fe068-893c-4167-8162-699328014e2b@app.fastmail.com>
+In-Reply-To: <20240521183445.GA7154@willie-the-truck>
+References: <D1B7GPIR9K1E.5JFV37G0YTIF@shadowice.org>
+ <cb8822182231850108fa43e0446a4c7f@kernel.org> <Zkw9kK0sXIgfqd01@shadowice>
+ <20240521183445.GA7154@willie-the-truck>
+Date: Tue, 21 May 2024 22:06:36 +0200
+From: "Janne Grunau" <j@jannau.net>
+To: "Will Deacon" <will@kernel.org>, "Johannes Nixdorf" <mixi@shadowice.org>
+Cc: "Marc Zyngier" <maz@kernel.org>, "Ard Biesheuvel" <ardb@kernel.org>,
+ "Mark Brown" <broonie@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ asahi@lists.linux.dev
+Subject: Re: [BUG] dm-crypt broken after 2632e2521769 ("arm64: fpsimd: Implement lazy
+ restore for kernel mode FPSIMD")
+Content-Type: text/plain
 
-Hello,
+Hej,
 
-> The binding reference common cdns-pcie-host.yaml, which already defines
-> msi-parent and has a reference to pci-bus.yaml schema.  Drop redundant
-> pieces here to make it a bit smaller.
+On Tue, May 21, 2024, at 20:34, Will Deacon wrote:
+> Hi Johannes,
+>
+> On Tue, May 21, 2024 at 08:22:08AM +0200, Johannes Nixdorf wrote:
+>> Bad news: I hit the bug again with 2632e2521769 ("arm64: fpsimd: Implement
+>> lazy restore for kernel mode FPSIMD") reverted during prolonged interactive
+>> usage with the downstream Asahi Linux kernel.
+>
+> Damn, but thanks for the update. I have to ask, but are you absolutely
+> sure this was with 2632e2521769 reverted? If you're able to double-check
+> that, it would be great, since we're having trouble reproducing the
+> issue.
 
-Applied to dt-bindings, thank you!
+I can reproduce the issue with v6.8 and 2632e2521769 reverted on M1 (t8103). Reproduction with 2632e2521769 reverted is harder. I've seen multiple fio runs without verification errors while with plain v6.8 verification errors are hit after a few seconds.
+Running SIMD intense workloads in user space apparently increase the reproduction odds. When running AV1 decoding using dav1d in parallel errors appear faster. Errors manifest either in changed decoder output, fio verification errors or both. I'm using `dav1d -i sample.ivf --muxer xxh3 -o -` here as user space SIMD payload but I'd assume the exact SIMD user space code doesn't matter as long as it runs on all CPU cores.
 
-[01/04] dt-bindings: PCI: cdns,cdns-pcie-host: Drop redundant msi-parent and pci-bus.yaml
-        https://git.kernel.org/pci/pci/c/51ef0538d4e1
-[02/04] dt-bindings: PCI: mediatek,mt7621: Add missing child node reg
-        https://git.kernel.org/pci/pci/c/36fbed38549c
-[03/04] dt-bindings: PCI: host-bridges: Switch from deprecated pci-bus.yaml
-        https://git.kernel.org/pci/pci/c/5db62b7d3c37
-[04/04] dt-bindings: PCI: mediatek,mt7621-pcie: Switch from deprecated pci-bus.yaml
-        https://git.kernel.org/pci/pci/c/d3fa4be9033b
+>> This prompted me to adjust the reproducer to be closer to the desktop use
+>> case, which then also found aefbab8e77eb ("arm64: fpsimd: Preserve/restore
+>> kernel mode NEON at context switch"). With the vanilla kernel before the
+>> commit or that commit reverted on the Asahi Linux kernel the new reproducer
+>> also sees no bug, and interactive usage seems fine.
+>
+> I've already reverted 2632e2521769 ("arm64: fpsimd: Implement lazy
+> restore for kernel mode FPSIMD"), so it sounds like I should revert
+> aefbab8e77eb ("arm64: fpsimd: Preserve/restore kernel mode NEON at
+> context switch") as well while we work to reproduce the issue.
 
-	Krzysztof
+v6.8 with 2632e2521769 and aefbab8e77eb reverted does no longer reproduce errors. av1 decoding produces a stable hash as expected and fio does not report any verification errors.
+
+best regards
+
+Janne
