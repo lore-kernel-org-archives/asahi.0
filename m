@@ -1,92 +1,269 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198648286B
-	for <asahi@lists.linux.dev>; Wed, 22 May 2024 11:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1051A53E31
+	for <asahi@lists.linux.dev>; Fri, 24 May 2024 10:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716376467; cv=none; b=AyO2MwxPSgvc3DE0tkKkrvJQ2QSY+JBhYzBfSrPk/7CS5SXzyjsUw3tCr7wPdJHVdA/xp3l4WrofRMDV00k0waRswnw5wqLukQQa1KkUUH6EwU8JO2WzDBOx5xnkKRYizve0pcQoiyAeeemtrqTkwsxjowpGQGs1rd/OJr2rRRM=
+	t=1716546537; cv=none; b=KBDGd+xm+sLZ4rSERStRICCdlZyH0D18XQWazFkBW3WOYs5jIwTHSVQ4dPQPe10EzVR3xXhNn+M2IQ2MnCDyDV6yFQzjpUA2zKDDG9wNPyikqNszpOGJvth9V4pV+THi25V8TUWWYjeQRJdbz3GJUf+c9FY49FKZZer267lPMwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716376467; c=relaxed/simple;
-	bh=13cF2oAoheHlFE9CxjxQWnuqJHHkJsRAHVOq5/hYeOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g7MhowaunxOWleS6LGjiTNe+0mHok0Ef2s7vD/X3RMd2j5cigRS8T2KloEajGgHiMvHo8mxXlet68tW9wCGLNLrA8C1U2/tCKK0rku3y1ihTP/p3BeMd9oDoDtVRsZLNz8QbMTFkB1u4ZQSgbJA6P2ViTGhrD3aZfW3L6AeILmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QTGUw0Fh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716546537; c=relaxed/simple;
+	bh=pEUfJ7+mV2gms1M8RUY/bxsE4rbmpPheNfRQk1aw5xE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=QRbqLhc0toZHJsWnkolLgH4rFHaqS2dodmx+V1lDLFHk1geXj7Amn58qzZityrVkIzstifVkRtSmVoYodT1t0mxDIuWFgNBJsOYvz7hxgcnDk0QWYJRPc8CQFKqOZK/nMMSuNOKDPvWz+Hr/4r6wFOa3V5J5xYgSnsSwh76CSrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=tPvi+eZt; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QTGUw0Fh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6E1C2BD11;
-	Wed, 22 May 2024 11:14:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716376466;
-	bh=13cF2oAoheHlFE9CxjxQWnuqJHHkJsRAHVOq5/hYeOk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QTGUw0Fh+2C3P3nCZN/tuqv23QNlkXgigf8ycx9FS8y7lak8kWXjMyVqyEtIonlRe
-	 Okv2+OvdMLYNGPPdQMFavZROlKwUbIii0SnA8AZk84fklQDWuIEz+FJMmr2rpRvLl5
-	 XWYlVNtWYE0XR392wZ0RU2Yha8QpXum8LkWSkDz5LbE0uCGO/7cYZGJV280r/J03x0
-	 xF8p/QxYpnwIbXwAjITlCHwGaE6T2vd0ZgQAmz3SsYuxz4xCKec7Bx9nUgcRWkGchr
-	 ZBqzBP5l7PlH+4sk+U7pTJBzqi6Wk8TctOtu+vmE9Tr0wlWZmw0iLhi4lnYAkgrXTE
-	 C8upFGODjvmEg==
-Date: Wed, 22 May 2024 12:14:21 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Janne Grunau <j@jannau.net>
-Cc: Will Deacon <will@kernel.org>, Johannes Nixdorf <mixi@shadowice.org>,
-	Marc Zyngier <maz@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev
-Subject: Re: [BUG] dm-crypt broken after 2632e2521769 ("arm64: fpsimd:
- Implement lazy restore for kernel mode FPSIMD")
-Message-ID: <1ab2c594-8d6a-44d8-809a-902a183000ea@sirena.org.uk>
-References: <D1B7GPIR9K1E.5JFV37G0YTIF@shadowice.org>
- <cb8822182231850108fa43e0446a4c7f@kernel.org>
- <Zkw9kK0sXIgfqd01@shadowice>
- <20240521183445.GA7154@willie-the-truck>
- <806fe068-893c-4167-8162-699328014e2b@app.fastmail.com>
- <79a5261a-c215-4db6-a81a-558223f48ab8@sirena.org.uk>
- <d212a141-b94f-4717-8ab9-c150dc06dc30@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="tPvi+eZt"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id E7DD041A36;
+	Fri, 24 May 2024 10:28:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1716546530; bh=pEUfJ7+mV2gms1M8RUY/bxsE4rbmpPheNfRQk1aw5xE=;
+	h=From:Date:Subject:To:Cc;
+	b=tPvi+eZtcjnKWcJD+fCUZj8Y+mJ9vPdpsiV27ns2EZSYvDavpUMes3I4SKJCRM80d
+	 dfYJfzjayEdsQntw8rkrn5ElRUYmcQgKRh1nrfGzH1LIMx9BhlWLx2RHjkzYs/jkCK
+	 qVZDMIjxecftblszLQTXsRZdDxh9zQuG8VIM+bpvdk50gavC2u4G15kFoYTYnSVl9p
+	 0jBS+Qsj6cXPMXbvFLoJl4KAA35UFAQ3d9/TlOHxg/R8oZErKpXNA+tseJCSleW41M
+	 DnswXleFVDu+fs0ox0wOXEndFv8k+6RkervP8KWM4gbScaPaka25hr65PfBQqZ72eh
+	 IR7s+eKcq0NxQ==
+From: Hector Martin <marcan@marcan.st>
+Date: Fri, 24 May 2024 19:28:36 +0900
+Subject: [PATCH] xhci: Handle TD clearing for multiple streams case
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kz5SA+DaPiZ0Ogf2"
-Content-Disposition: inline
-In-Reply-To: <d212a141-b94f-4717-8ab9-c150dc06dc30@app.fastmail.com>
-X-Cookie: Bridge ahead.  Pay troll.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240524-xhci-streams-v1-1-6b1f13819bea@marcan.st>
+X-B4-Tracking: v=1; b=H4sIANNrUGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUyMT3YqM5Ezd4pKi1MTcYl1DI5NUC4uUJFOjVDMloJaCotS0zAqwcdG
+ xtbUA1xUFeV4AAAA=
+To: Mathias Nyman <mathias.nyman@intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ asahi@lists.linux.dev, stable@vger.kernel.org, security@kernel.org, 
+ Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9781; i=marcan@marcan.st;
+ h=from:subject:message-id; bh=pEUfJ7+mV2gms1M8RUY/bxsE4rbmpPheNfRQk1aw5xE=;
+ b=owGbwMvMwCUm+yP4NEe/cRLjabUkhrSA7Hs1F6ZZ3LqT/iHS0PqZeslp2RtCGQtu/dow6WRYQ
+ Nq9Ob/9O0pZGMS4GGTFFFkaT/Se6vacfk5dNWU6zBxWJpAhDFycAjCRa7wM/+wyVk5rP77d4PYK
+ s1dmbjclDuXna9xWP18wKyXv2l53NyVGhpVp+lbNhV2f5F8f+dV9m3NpHstUhd2rL6j5yIrf9zf
+ S4QMA
+X-Developer-Key: i=marcan@marcan.st; a=openpgp;
+ fpr=FC18F00317968B7BE86201CBE22A629A4C515DD5
 
+When multiple streams are in use, multiple TDs might be in flight when
+an endpoint is stopped. We need to issue a Set TR Dequeue Pointer for
+each, to ensure everything is reset properly and the caches cleared.
+Change the logic so that any N>1 TDs found active for different streams
+are deferred until after the first one is processed, calling
+xhci_invalidate_cancelled_tds() again from xhci_handle_cmd_set_deq() to
+queue another command until we are done with all of them. Also change
+the error/"should never happen" paths to ensure we at least clear any
+affected TDs, even if we can't issue a command to clear the hardware
+cache, and complain loudly with an xhci_warn() if this ever happens.
 
---kz5SA+DaPiZ0Ogf2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This problem case dates back to commit e9df17eb1408 ("USB: xhci: Correct
+assumptions about number of rings per endpoint.") early on in the XHCI
+driver's life, when stream support was first added. At that point, this
+condition would cause TDs to not be given back at all, causing hanging
+transfers - but no security bug. It was then identified but not fixed
+nor made into a warning in commit 674f8438c121 ("xhci: split handling
+halted endpoints into two steps"), which added a FIXME comment for the
+problem case (without materially changing the behavior as far as I can
+tell, though the new logic made the problem more obvious).
 
-On Tue, May 21, 2024 at 11:23:10PM +0200, Janne Grunau wrote:
-> On Tue, May 21, 2024, at 22:21, Mark Brown wrote:
+Then later, in commit 94f339147fc3 ("xhci: Fix failure to give back some
+cached cancelled URBs."), it was acknowledged again. This commit was
+unfortunately not reviewed at all, as it was authored by the maintainer
+directly. Had it been, perhaps a second set of eyes would've noticed
+that it does not fix the bug, but rather just makes it (much) worse.
+It turns the "transfers hang" bug into a "random memory corruption" bug,
+by blindly marking TDs as complete without actually clearing them at all
+nor moving the dequeue pointer past them, which means they aren't actually
+complete, and the xHC will try to transfer data to/from them when the
+endpoint resumes, now to freed memory buffers.
 
-> It's hard (impossible) to reproduce just with fio and fp-stress. 5
-> consecutive fio runs (each 40-45 seconds) without verification error
-> in fio or Mismatch from fpsimd-test.
+This could have been a legitimate oversight, but apparently the commit
+author was aware of the problem (yet still chose to submit it): It was
+still mentioned as a FIXME, an xhci_dbg() was added to log the problem
+condition, and the remaining issue was mentioned in the commit
+description. The choice of making the log type xhci_dbg() for what is,
+at this point, a completely unhandled and known broken condition is
+puzzling and unfortunate, as it guarantees that no actual users would
+see the log in production, thereby making it nigh undebuggable (indeed,
+even if you turn on DEBUG, the message doesn't really hint at there
+being a problem at all).
 
-Huh, that's interesting.  I guess the I/O or multiprocess stuff that AV1
-decode implies makes the scheduling more interesting?
+It took me *months* of random xHC crashes to finally find a reliable
+repro and be able to do a deep dive debug session, which could all have
+been avoided had this unhandled, broken condition been actually reported
+with a warning, as it should have been as a bug intentionally left in
+unfixed (never mind that it shouldn't have been left in at all).
 
-> In the majority of cases the mismatch is reported for reg=0.
+> Another fix to solve clearing the caches of all stream rings with
+> cancelled TDs is needed, but not as urgent.
 
-That's about what I'd expect for a "we loaded the wrong register values"
-error.
+3 years after that statement and 14 years after the original bug was
+introduced, I think it's finally time to fix it. And maybe next time
+let's not leave bugs unfixed (that are actually worse than the original
+bug), and let's actually get people to review kernel commits please.
 
---kz5SA+DaPiZ0Ogf2
-Content-Type: application/pgp-signature; name="signature.asc"
+Fixes xHC crashes and IOMMU faults with UAS devices when handling
+errors/faults. Easiest repro is to use `hdparm` to mark an early sector
+(e.g. 1024) on a disk as bad, then `cat /dev/sdX > /dev/null` in a loop.
+At least in the case of JMicron controllers, the read errors end up
+having to cancel two TDs (for two queued requests to different streams)
+and the one that didn't get cleared properly ends up faulting the xHC
+entirely when it tries to access DMA pages that have since been unmapped,
+referred to by the stale TDs. This normally happens quickly (after two
+or three loops). After this fix, I left the `cat` in a loop running
+overnight and experienced no xHC failures, with all read errors
+recovered properly. Repro'd and tested on an Apple M1 Mac Mini
+(dwc3 host).
 
------BEGIN PGP SIGNATURE-----
+On systems without an IOMMU, this bug would instead silently corrupt
+freed memory, making this a security bug (even on systems with IOMMUs
+this could silently corrupt memory belonging to other USB devices on the
+same controller, so it's still a security bug). Given that the kernel
+autoprobes partition tables, I'm pretty sure a malicious USB device
+pretending to be a UAS device and reporting an error with the right
+timing could deliberately trigger a UAF and write to freed memory, with
+no user action.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZN040ACgkQJNaLcl1U
-h9AKuAf/b5x6EDPGACzTLy5jAzNHoVO5nkruz6PwclxShrZg47lFFOYlCsO/sagA
-5miKvz/Ljez6bAjMdYGPx8D5OJtHy9NOAClgEWpxRqB0TcKq3GSlwsgkbeK5P76E
-bA+8iydPy+g0Hqzo42eIzlKk/4ecYuUffeOCkcAyaF3ST6weCXPw3dk7XZtDSqin
-VeX2ZjHkp/R2P45ND2dh0KJ0dhZZxFbb2ZOVU1zvxpkEG8/3JAGFXiflEfn5GUa+
-rchiYpIXVwvLXqWRGSsdaPIzGO+Z9g215HLN4O1r4pZ/XMn3QxQ0BEK8KOreLZUZ
-sO6WDZS1TdSvcijUs7OfEZJxJuEbXA==
-=2drg
------END PGP SIGNATURE-----
+Fixes: e9df17eb1408 ("USB: xhci: Correct assumptions about number of rings per endpoint.")
+Fixes: 94f339147fc3 ("xhci: Fix failure to give back some cached cancelled URBs.")
+Fixes: 674f8438c121 ("xhci: split handling halted endpoints into two steps")
+Cc: stable@vger.kernel.org
+Cc: security@kernel.org
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+ drivers/usb/host/xhci-ring.c | 54 +++++++++++++++++++++++++++++++++++---------
+ drivers/usb/host/xhci.h      |  1 +
+ 2 files changed, 44 insertions(+), 11 deletions(-)
 
---kz5SA+DaPiZ0Ogf2--
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 575f0fd9c9f1..9c06502be098 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -1034,13 +1034,27 @@ static int xhci_invalidate_cancelled_tds(struct xhci_virt_ep *ep)
+ 				break;
+ 			case TD_DIRTY: /* TD is cached, clear it */
+ 			case TD_HALTED:
++			case TD_CLEARING_CACHE_DEFERRED:
++				if (cached_td) {
++					if (cached_td->urb->stream_id != td->urb->stream_id) {
++						/* Multiple streams case, defer move dq */
++						xhci_dbg(xhci,
++							 "Move dq deferred: stream %u URB %p\n",
++							 td->urb->stream_id, td->urb);
++						td->cancel_status = TD_CLEARING_CACHE_DEFERRED;
++						break;
++					}
++
++					/* Should never happen, at least try to clear the TD if it does */
++					xhci_warn(xhci,
++						  "Found multiple active URBs %p and %p in stream %u?\n",
++						  td->urb, cached_td->urb,
++						  td->urb->stream_id);
++					td_to_noop(xhci, ring, cached_td, false);
++					cached_td->cancel_status = TD_CLEARED;
++				}
++
+ 				td->cancel_status = TD_CLEARING_CACHE;
+-				if (cached_td)
+-					/* FIXME  stream case, several stopped rings */
+-					xhci_dbg(xhci,
+-						 "Move dq past stream %u URB %p instead of stream %u URB %p\n",
+-						 td->urb->stream_id, td->urb,
+-						 cached_td->urb->stream_id, cached_td->urb);
+ 				cached_td = td;
+ 				break;
+ 			}
+@@ -1060,10 +1074,16 @@ static int xhci_invalidate_cancelled_tds(struct xhci_virt_ep *ep)
+ 	if (err) {
+ 		/* Failed to move past cached td, just set cached TDs to no-op */
+ 		list_for_each_entry_safe(td, tmp_td, &ep->cancelled_td_list, cancelled_td_list) {
+-			if (td->cancel_status != TD_CLEARING_CACHE)
++			/*
++			 * Deferred TDs need to have the deq pointer set after the above command
++			 * completes, so if that failed we just give up on all of them (and
++			 * complain loudly since this could cause issues due to caching).
++			 */
++			if (td->cancel_status != TD_CLEARING_CACHE &&
++			    td->cancel_status != TD_CLEARING_CACHE_DEFERRED)
+ 				continue;
+-			xhci_dbg(xhci, "Failed to clear cancelled cached URB %p, mark clear anyway\n",
+-				 td->urb);
++			xhci_warn(xhci, "Failed to clear cancelled cached URB %p, mark clear anyway\n",
++				  td->urb);
+ 			td_to_noop(xhci, ring, td, false);
+ 			td->cancel_status = TD_CLEARED;
+ 		}
+@@ -1350,6 +1370,7 @@ static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
+ 	struct xhci_ep_ctx *ep_ctx;
+ 	struct xhci_slot_ctx *slot_ctx;
+ 	struct xhci_td *td, *tmp_td;
++	bool deferred = false;
+ 
+ 	ep_index = TRB_TO_EP_INDEX(le32_to_cpu(trb->generic.field[3]));
+ 	stream_id = TRB_TO_STREAM_ID(le32_to_cpu(trb->generic.field[2]));
+@@ -1436,6 +1457,8 @@ static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
+ 			xhci_dbg(ep->xhci, "%s: Giveback cancelled URB %p TD\n",
+ 				 __func__, td->urb);
+ 			xhci_td_cleanup(ep->xhci, td, ep_ring, td->status);
++		} else if (td->cancel_status == TD_CLEARING_CACHE_DEFERRED) {
++			deferred = true;
+ 		} else {
+ 			xhci_dbg(ep->xhci, "%s: Keep cancelled URB %p TD as cancel_status is %d\n",
+ 				 __func__, td->urb, td->cancel_status);
+@@ -1445,8 +1468,17 @@ static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
+ 	ep->ep_state &= ~SET_DEQ_PENDING;
+ 	ep->queued_deq_seg = NULL;
+ 	ep->queued_deq_ptr = NULL;
+-	/* Restart any rings with pending URBs */
+-	ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
++
++	if (deferred) {
++		/* We have more streams to clear */
++		xhci_dbg(ep->xhci, "%s: Pending TDs to clear, continuing with invalidation\n",
++			 __func__);
++		xhci_invalidate_cancelled_tds(ep);
++	} else {
++		/* Restart any rings with pending URBs */
++		xhci_dbg(ep->xhci, "%s: All TDs cleared, ring doorbell\n", __func__);
++		ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
++	}
+ }
+ 
+ static void xhci_handle_cmd_reset_ep(struct xhci_hcd *xhci, int slot_id,
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 6f4bf98a6282..aa4379bdb90c 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1276,6 +1276,7 @@ enum xhci_cancelled_td_status {
+ 	TD_DIRTY = 0,
+ 	TD_HALTED,
+ 	TD_CLEARING_CACHE,
++	TD_CLEARING_CACHE_DEFERRED,
+ 	TD_CLEARED,
+ };
+ 
+
+---
+base-commit: a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
+change-id: 20240524-xhci-streams-124e88db52e6
+
+Best regards,
+-- 
+Hector Martin <marcan@marcan.st>
+
