@@ -1,127 +1,108 @@
-Received: from wfhigh2-smtp.messagingengine.com (wfhigh2-smtp.messagingengine.com [64.147.123.153])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF5D26ACC
-	for <asahi@lists.linux.dev>; Mon, 27 May 2024 16:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA5C4405
+	for <asahi@lists.linux.dev>; Fri, 31 May 2024 05:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716825655; cv=none; b=bI8JJ/LrYCqEillvDiKOi5Z+gWMN2fqHVth6bhQH2VuCv+m6iYZ3XzZJ8wyAjNvpD4yin/fPddoZArirZWgV0kHwXWnjMP14wB3XbYbCHBFihHRE2lmBUwB2wUiqnS7hK4yrTrAHp6QFBDc8ieLYU3xKanV6LqlODa3oiZivj4U=
+	t=1717132587; cv=none; b=i1Sj7YdJ5y+xBXAWxQzJdnys3AKb60Lsqep0wQT+B8SwUGvf6HOuYXtBx+Kd+rzpm95h9QWN3YKkh8OM7X2TuH2eRgFk12DUBrwEsbW2JgnHpGH4a5adM5cUIyLJchgs/1IgcZgcuWR7QL9gD+4uhlmaSnIBBU4SbKyZ3yT06iw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716825655; c=relaxed/simple;
-	bh=eu9ERRY2/2tzbNM7/sRA/5PblbcpQRZ7jEKvETm7HZ8=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=G5UY9Iwh6e+/cx6XiC1FdwxekhDSMZIXH81fQkCx61iPcouR2qqnZn0EeuCwsL2PZrFotZUn21QosagWvB9aV12ahMkhdM5REu+/kba9flWTpdeEdW+W/TbwbgM+1oMusfULdBeo9jVLiJxuy4rHDDRYk82z0fTAaPvPOxPZ1m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=j9SWpHo0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=o2Hw3g8U; arc=none smtp.client-ip=64.147.123.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1717132587; c=relaxed/simple;
+	bh=rc9coK1EQVuMySMkXLylr5VmrSIA6HyYoHiydHI2IjE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=p+R1xGvjus8/wq9fJ0iriOCk/KL6/pHXKM4t+G49pT/pH6Cs8tT3OG4Copb39U2IFJNQohM0tBikdiP5UY5PDIRsUiNwQe81pms4vccVVSn2INzm5i4Za3meVhf2JmD3p/O1DIQF68XI+J90fJRPDHtr/uZZIwRuEs1cjUzShCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RR5iUIL0; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="j9SWpHo0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="o2Hw3g8U"
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailfhigh.west.internal (Postfix) with ESMTP id D87B61800114;
-	Mon, 27 May 2024 12:00:51 -0400 (EDT)
-Received: from imap47 ([10.202.2.97])
-  by compute1.internal (MEProxy); Mon, 27 May 2024 12:00:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1716825651; x=1716912051; bh=JR/OInhF2POmXtVueCyiCaZ7btN5anbT
-	nKy85NzXzCk=; b=j9SWpHo0SpO6FNmBkyvG5sFOOUyDv1WMR2oQv2fxilgGy2Cz
-	4f2tYinh11rf1j9bOmjX3pdmOboFrKCih6tbvrq2nx8TREF8IjTYxCvLHg0i7fCL
-	neay14nDKND8yud/+lr+gNVjXlce+LeLzmvuk1HjVTat/rb0WMfS4AUSiQp4JRB3
-	0ZGLYRMxvwnq7a02yuCZf4+2Xwl0b/8610IU5RboRdwSwNsLeXju7jiUKjyaQzTa
-	1ZEI9dGgQGd5breYjYSKzQ0ieeY+uhusK3sf0n4b5BqyZeR3L/OQfQHjudkBM0tw
-	FtRm5HTCYcadMLMnxvacMsSHVXyK90f/8CwgOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1716825651; x=
-	1716912051; bh=JR/OInhF2POmXtVueCyiCaZ7btN5anbTnKy85NzXzCk=; b=o
-	2Hw3g8UFyT1ekXk3sYpkq0UJ38uCCtoe2QUqKq+b/BjKv/S/YEdtZqAMSmnfMcqu
-	V9/R3YUapZebOpEdQhwCC0kQTNVpJxksWt7oGyKBoiEPZx3bPR0baZR598HD0c0G
-	u2ai5oCETQZNJp4Bko6w7nGNslRgJ0P5mJ06YRQHqunEP5Z3Y9O2UOMG7WNucwE8
-	26IJz/d4s/lHSNcB3p5UvLoo0SAa965+C2Dqt9Nm84Z5U5YJ7+HoI0C3Ku4EOxU/
-	GMfMYwwvacfEE6BV12j5dUGQ/xwf2ooyxdrOn/XGZW5GeveB8xmEf+phXyxOOBOu
-	12r7VP1GO3ImTvdDzChUg==
-X-ME-Sender: <xms:Ma5UZmQuy-i7mX6L06GVoRd2VLkTKPolKUU_x3OPFiWYcxr3Bb0jhQ>
-    <xme:Ma5UZry0Vm6vxZne454ZX-BC2ZBU8gfOzfRMU2Y_gto4eCJCP1OFCORWJZpOEnkrc
-    1bjBS1k4hCO2FYOFGg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdejgedgleefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdfu
-    vhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtf
-    frrghtthgvrhhnpeevhedthffgffelhedujefgueduudeutdefleevvdetudelhfeihfdv
-    ffelteeuudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:Ma5UZj00_H1qR9w4vNWL9M_6pIXmLsII72HV6qQbzbYRGzhS9hh2uQ>
-    <xmx:Ma5UZiB4cI4yxcQowNiIp_nPK9Ce4JOh7_qmaTNC4sn1-kaZcMRJxw>
-    <xmx:Ma5UZvipk2uz2ScAWr7uJfyrZWyfsnnLzj16Ckdnqp_EZr0QM7YbFA>
-    <xmx:Ma5UZurKGro4gjMlGxRsfZGiZCRm5tPQq5Z9RNQKxorsa-_K4h9Iyg>
-    <xmx:M65UZuPgE5e-z5REWRseR6dWHAIVjDn9O4Ue5F5UMNbZiiMJVTyEPJMe>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 68666A60078; Mon, 27 May 2024 12:00:49 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-491-g033e30d24-fm-20240520.001-g033e30d2
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RR5iUIL0"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44UGrmlB019268;
+	Fri, 31 May 2024 05:16:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=TB351GK1yk9ksnTo9pyYUF
+	IaEZ/tPZBjG4F83Nt1RJw=; b=RR5iUIL0zxd/MJJt4HLuaanWfAB/R2BaeMU707
+	E2qvrczFGdyRImVtS55yQ8IVd0EMWHw5vEw61Qhto351dFkLcaOnX97je18+WL5L
+	A8kebgv6/B8GKdnUd1C5OguKDWQmc+KSetd3jfiLV5nflT5agrI+JxH8ocduUjBs
+	HxZICfu4aiznPVbOlV4xmYnFCyzqGZjumFyl2NT+70TtSy434criub9tw+MhZDUH
+	fPvnc+sh5Ycltzpt7p1IvEEGyM35HMXp4O3PvacTr6eTNVMi3h0rowGHQa/6IBwJ
+	9LPbQrSb04HF4u2k54oSYYPKLLjV+tVtFfaZbpjBVOdN6Ihg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba0ge3jv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 May 2024 05:16:08 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44V5G6n2003381
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 May 2024 05:16:06 GMT
+Received: from [169.254.0.1] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 30 May
+ 2024 22:16:05 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Thu, 30 May 2024 22:16:04 -0700
+Subject: [PATCH] nvme-apple: add missing MODULE_DESCRIPTION()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-Id: <adedfb49-a66c-4e8c-ac4f-bd137c20ec7a@app.fastmail.com>
-In-Reply-To: <20240527132552.14119-1-ilpo.jarvinen@linux.intel.com>
-References: <20240527132552.14119-1-ilpo.jarvinen@linux.intel.com>
-Date: Mon, 27 May 2024 18:00:48 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Marcel Holtmann" <marcel@holtmann.org>,
- "Luiz Augusto von Dentz" <luiz.dentz@gmail.com>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-bluetooth@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org
-Subject: Re: [PATCH 1/1] Bluetooth: hci_bcm4377: Convert PCIBIOS_* return codes to
- errnos
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240530-md-nvme-apple-v1-1-b8b7ca569660@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIABNdWWYC/x3MywqDMBBG4VeRWXcgtQrqq5QucvlbB0waJlYE8
+ d2bdvktzjmoQAWFpuYgxSZF3qniemnIzza9wBKqqTVtZ/qb4Rg4bRFsc17AMAhudOPgu55qkxV
+ P2f+/+6Pa2QJ2apOff5dF0mfnaMsKpfP8Auu9pCt+AAAA
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        "Alyssa
+ Rosenzweig" <alyssa@rosenzweig.io>,
+        Keith Busch <kbusch@kernel.org>, "Jens
+ Axboe" <axboe@kernel.dk>,
+        Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>
+CC: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>,
+        Jeff Johnson <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.13.0
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: mP3ETysDdDj1tLBnR_cxY8-ywO1_2p3-
+X-Proofpoint-ORIG-GUID: mP3ETysDdDj1tLBnR_cxY8-ywO1_2p3-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-31_02,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 adultscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 lowpriorityscore=0 clxscore=1011
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405310039
 
-Hi,
+make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-apple.o
 
+Add the missing invocation of the MODULE_DESCRIPTION() macro.
 
-On Mon, May 27, 2024, at 15:25, Ilpo J=C3=A4rvinen wrote:
-> bcm4377_init_cfg() uses pci_{read,write}_config_dword() that return
-> PCIBIOS_* codes. The return codes are returned into the calling
-> bcm4377_probe() which directly returns the error which is of incorrect
-> type (a probe should return normal errnos).
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
+---
+ drivers/nvme/host/apple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Good catch!
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index dd6ec0865141..0cfa39361d3b 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1602,4 +1602,5 @@ static struct platform_driver apple_nvme_driver = {
+ module_platform_driver(apple_nvme_driver);
+ 
+ MODULE_AUTHOR("Sven Peter <sven@svenpeter.dev>");
++MODULE_DESCRIPTION("Apple ANS NVM Express device driver");
+ MODULE_LICENSE("GPL");
 
->
-> Convert PCIBIOS_* returns code using pcibios_err_to_errno() into normal
-> errno before returning it from bcm4377_init_cfg. This conversion is the
-> easiest by adding a label next to return and doing the conversion there
-> once rather than adding pcibios_err_to_errno() into every single return
-> statement.
-
-Given that bcm4377_init_cfg is only called at one place from bcm4377_pro=
-be
-we could also just do something like
-
-	ret =3D bcm4377_init_cfg(bcm4377);
-	if (ret)
-		return pcibios_err_to_errno(ret);
-
-there, but either way is fine with me.
-
-
-Best,
-
-
-Sven
+---
+base-commit: 4a4be1ad3a6efea16c56615f31117590fd881358
+change-id: 20240530-md-nvme-apple-e0edb9b98c45
 
