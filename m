@@ -1,106 +1,115 @@
-Received: from fout3-smtp.messagingengine.com (fout3-smtp.messagingengine.com [103.168.172.146])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6164050291
-	for <asahi@lists.linux.dev>; Fri, 31 May 2024 08:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12AC51581ED
+	for <asahi@lists.linux.dev>; Fri, 31 May 2024 11:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717144725; cv=none; b=H6UYUtd0gVQqDgOvuw4JqBmi8Xosj3wbuFPpn2rhsijxVNz47th3MKivai61s1bmieH2GSpK4u9TRwDFFcHPY4aAIkbks5IVm4t+YzjxDJqWGQqfqJ/UoSW6452IHaGB0truxKA+7xONKo2KWg+acEkZHj7DqwT7YrzY8SuIfPA=
+	t=1717155997; cv=none; b=Dd292Ti8p03nduqiPhK0PY185PQEtv+mBhd9WspuDXfEkXA/XXf26BA7v4X/4yZSd71ASHtrKDAbzJDkG9gp/5ffw0Pvvmcg1uP2jpApZ6SFTdLL3mXIalGFpFcMUdUXjpFRR50vM/jROdMb06XrRAw7HtSaEc7HtSGhPcoDc5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717144725; c=relaxed/simple;
-	bh=MG6LYpllHmnJXtgJOt/alUy0Z1+D5pDhglGk5gH5q64=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=Cr7N3m8o2sC3O8s2f8IP9V2ekx2ali6IVFUatDexGKFfCzUFSlkk500+hD0xZkZpOgXJw7IjHRnrTT/kwb69LDbUak3XiMWRpwOVPrkRAUJ8I9Tw4mRFQ4m65IWg7tyXCn25gONlFS5u5djR6OM4ghagoz6AqtmLm6qRDHwMR8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=DWDORLjd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=chlzhL2A; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1717155997; c=relaxed/simple;
+	bh=cZzInqUviBTYy37ASxA9p9wWZvIhStkg53piCJBUU3Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Miz418d16Bc8a+dmDDSUAiB01+Dv9cv7J3fNdHWKbr+b5piWg8g5HHqP4cBxjOirUQNZq7WeyTviuzE73hBB8MP7/at3UBVQ5cd+G015Gv5wDfXUlewCUA4pekPjR1FRsqzoovEMdHfTVK5r0ekwY90J7JRwiVWqowFwD1eQ53w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TrXIcBeg; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="DWDORLjd";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="chlzhL2A"
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfout.nyi.internal (Postfix) with ESMTP id 7E22B1380150;
-	Fri, 31 May 2024 04:38:42 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Fri, 31 May 2024 04:38:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1717144722; x=1717231122; bh=MG6LYpllHmnJXtgJOt/alUy0Z1+D5pDh
-	glGk5gH5q64=; b=DWDORLjdbmk4tl1FU59msoRJmHQGiFrXHMPkuNI15jaUogpy
-	bKkJBA9BaP9GGdlVujXHJQcMCdyxmo/3UuQmv0vNw8NCNzQZ1kELKLtACAeNVMv/
-	6ZKnJzsjhzehmzS68T8Yx/av0urEkSfqhLX1DTx1YtPZgbSUvcLvOKwWleCgwsoq
-	sfnjwOMdXN7yqUpMURKiEFnLXQBCSqdCV8Icziq42lx0OGaJvBrnVdwAipfHUJpP
-	aBR3FWbBt4G3jpxovuvFBLYlDkAolQp4wj13yRjOAdv5NrfpR3bdBsV8qS54XV8I
-	uD1TJ4ZPIdKhdej1iY2sevFuU2731FLxvbEiUQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1717144722; x=
-	1717231122; bh=MG6LYpllHmnJXtgJOt/alUy0Z1+D5pDhglGk5gH5q64=; b=c
-	hlzhL2A062qJIl6SaoPmO/xGl9XwZ2fygnJudOYlfUzA4cefi/nz9+VbU8wYJfdG
-	/cL8dIOxd0ka7BmCQJOYE/ZeyIhcdxvAHfDw27C6maXN2BV/LRyXFo3DDAqecKAt
-	wDdjCejignjSk/UErTjdVvAdITAUyEee1S9Nw5sejinDQPU6xyG0AGMEEsoeZmGP
-	I/5B7CLAXa9wBcsJdj+lOLNjh496FUXUktWtpe0cagCrvxH6p2QeX2Z0nnRkUAYU
-	gc9u1lwMeWb5zM/vVpcwOWwF4x9iYRdaSnZ7XqWex3nwkDnc3uBOUwGxuCokGZ2Q
-	csiof3Y5zSe6U6oMj6Ghg==
-X-ME-Sender: <xms:kYxZZjQZybnWdagLKRyq5wu3Vlj694bJ1DlN5vM_Y6qlrQSBixNjxA>
-    <xme:kYxZZkyPKmM_tapOuPeo5fWRiaaqA7_1MLFlw9MogW-Ke7m_lu44MCqByDYKIC6DT
-    i9AiVJyV_aa4z8Lyig>
-X-ME-Received: <xmr:kYxZZo2jTW9cGswgRt1VHIklVETmwA7Ok7TM5DGQ-LcI_eQ_Sgj12Oyu4YSQFvU6mKrYFsS1D_MAB-vUKHLfifgtCrhyUmuco6H4sXwBzrkVPOCvbFIFywOs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdekiedgtdehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurheptgfghfggufffkfhfvegjvffosehtqhhmtdhhtdejnecuhfhrohhmpefuvhgv
-    nhcurfgvthgvrhcuoehsvhgvnhesshhvvghnphgvthgvrhdruggvvheqnecuggftrfgrth
-    htvghrnhepvdfhtdduuddvueejueffgfdukedvfeevgfeuieeivdeltdehgeeivefftdet
-    kedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
-    hvvghnsehsvhgvnhhpvghtvghrrdguvghv
-X-ME-Proxy: <xmx:kYxZZjC93nUGwlXDKszUwMtwIgbwTDrHKXp0RKodNQN4YuNUcrEIQQ>
-    <xmx:kYxZZshxU5LiQn-YdhIcw93ZdLxWx4RAENapjv1MT5JMvT5Hfx3BUg>
-    <xmx:kYxZZnq-Bxsn3m7hCHTqlitekPxDxXhSjXBH4Oq04dn2sb6GidzAzw>
-    <xmx:kYxZZnhHg06x4apEEznsdQcOWD_3n3AipBxUAMBJtB8GUPYrJus7Cw>
-    <xmx:koxZZtYV8P44-h6v_o0yn23f6Hc8gbJtmPAeMTcdZjeZ1453k_veuEvZ>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 31 May 2024 04:38:41 -0400 (EDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Sven Peter <sven@svenpeter.dev>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TrXIcBeg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717155994;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gr8k/Vm02ygPW32aJTJ9dTPWwg2hxQoQtvUykdUgDb4=;
+	b=TrXIcBegqE46g06AWMeTCkztokvxDpkLJ3QQxz1gML7hdL2rnGghD5kARQyX0ev8sxfLA7
+	72weEtfqY/v/suFy635u3Dvy55F+GNGYCf/jqkXVU0hOfimL95nvZbXuZqthNfHl1+vIVi
+	VrBfnXD0kg/DS4HPDe0t5Ff0iLegIs0=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-287-Vmeuy-9kOMOZOw-MZ2CKxw-1; Fri, 31 May 2024 07:46:30 -0400
+X-MC-Unique: Vmeuy-9kOMOZOw-MZ2CKxw-1
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2bddcf62cd3so1636897a91.2
+        for <asahi@lists.linux.dev>; Fri, 31 May 2024 04:46:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717155989; x=1717760789;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gr8k/Vm02ygPW32aJTJ9dTPWwg2hxQoQtvUykdUgDb4=;
+        b=NjfIt/YdTCv6GlZZivCB6GfpUMvzf1tyQJUelkUosTW0g5fJ9pbnYGaJCnG9OHKn0U
+         ZGdGbirg6uZa0kdhJkNyD6Q+FzO3UCj5UkpG2HuJtCwROzguxkvExk8ELBsoNZoHVDWu
+         UtxBFeve/gWQIRJ+dUr4tsGaGv7DliGgVbL0WqD0Qa2Czr5bjSQYMI81XJRZAMUJC1h9
+         B1T1rkIIrnIHm619LtMM+bvrYMPY3yhVD3yi4n6y6dSM6PT6IOvfQFhVJh+YIcDmKBJq
+         rsHjt2H4899IbMU50CjBblZRP2A5Ln2OTv+U+YN7s3xS4KGPo9FiBY3qYZZ5MPHaInJU
+         PNcg==
+X-Forwarded-Encrypted: i=1; AJvYcCU0CEwTj0ZZY5hLEW7oxlSsYjbMvGNi+8NkZ34DNfV/Hdwa6YvUphChLH9+3aQvsgj5erUpXF6JL8hd0ZO9Itcxv95iqDM=
+X-Gm-Message-State: AOJu0Ywb79zJ9ABZpcsdm+kWsGTnG7/eFRIY62zMG73DtvqTh59zuTc9
+	KQLP7NhtbIXHmJq6xv4MOQikkrc5UrGVN4IWf3ky9ijLXjGdXFI5pnIvmXRVG+xPVvlRHB4Vefp
+	4Zl2rIcubNYIxhTkBlEwniTaeBhKpKo/P+b837rBmGxgz+EwxA97VB3vDiXOYcMR09obU00GiL5
+	CpHA9mpubj+Z2mnkUBZUn3TJ/adZ4=
+X-Received: by 2002:a17:90a:aa94:b0:2bd:f049:932a with SMTP id 98e67ed59e1d1-2c1dc5c8832mr1704307a91.34.1717155989414;
+        Fri, 31 May 2024 04:46:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGTq1sroVC/zyco89stsGzLWmiBt5HeZSFTphj0DZrCDCYOHtXNSLNxvKpXEsf8gGnY0WWV2gmiczJH02FvAx4=
+X-Received: by 2002:a17:90a:aa94:b0:2bd:f049:932a with SMTP id
+ 98e67ed59e1d1-2c1dc5c8832mr1704291a91.34.1717155988960; Fri, 31 May 2024
+ 04:46:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] nvme-apple: add missing MODULE_DESCRIPTION()
-Date: Fri, 31 May 2024 10:38:25 +0200
-Message-Id: <F36A6A33-240D-4F88-B0D9-5C08E35DBC8C@svenpeter.dev>
+MIME-Version: 1.0
 References: <20240530-md-nvme-apple-v1-1-b8b7ca569660@quicinc.com>
-Cc: Hector Martin <marcan@marcan.st>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>,
- Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
 In-Reply-To: <20240530-md-nvme-apple-v1-1-b8b7ca569660@quicinc.com>
+From: Eric Curtin <ecurtin@redhat.com>
+Date: Fri, 31 May 2024 12:45:53 +0100
+Message-ID: <CAOgh=Fwfab2W=6QzhuBfm4fazXMnNLudSQpWw3rmX5ZcSo36yA@mail.gmail.com>
+Subject: Re: [PATCH] nvme-apple: add missing MODULE_DESCRIPTION()
 To: Jeff Johnson <quic_jjohnson@quicinc.com>
-X-Mailer: iPhone Mail (21F90)
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-nvme@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 
-
-> On 31. May 2024, at 07:16, Jeff Johnson <quic_jjohnson@quicinc.com> wrote:=
-
->=20
-> =EF=BB=BFmake allmodconfig && make W=3D1 C=3D1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-a=
-pple.o
->=20
+On Fri, 31 May 2024 at 06:25, Jeff Johnson <quic_jjohnson@quicinc.com> wrote:
+>
+> make allmodconfig && make W=1 C=1 reports:
+> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-apple.o
+>
 > Add the missing invocation of the MODULE_DESCRIPTION() macro.
->=20
+>
 > Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
+Reviewed-by: Eric Curtin <ecurtin@redhat.com>
 
+Is mise le meas/Regards,
+
+Eric Curtin
+
+> ---
+>  drivers/nvme/host/apple.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+> index dd6ec0865141..0cfa39361d3b 100644
+> --- a/drivers/nvme/host/apple.c
+> +++ b/drivers/nvme/host/apple.c
+> @@ -1602,4 +1602,5 @@ static struct platform_driver apple_nvme_driver = {
+>  module_platform_driver(apple_nvme_driver);
+>
+>  MODULE_AUTHOR("Sven Peter <sven@svenpeter.dev>");
+> +MODULE_DESCRIPTION("Apple ANS NVM Express device driver");
+>  MODULE_LICENSE("GPL");
+>
+> ---
+> base-commit: 4a4be1ad3a6efea16c56615f31117590fd881358
+> change-id: 20240530-md-nvme-apple-e0edb9b98c45
+>
+>
 
