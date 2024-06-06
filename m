@@ -1,123 +1,325 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A8513C9CF
-	for <asahi@lists.linux.dev>; Tue,  4 Jun 2024 16:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A181991A9
+	for <asahi@lists.linux.dev>; Thu,  6 Jun 2024 17:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717517221; cv=none; b=Y4HMaWPKU9czE785pEpYDsV+OiY3HilvuZETLPsAjvLGCcMPpIH8wTybcK2qIMmcY+ggJ1+LPqS6RUTq9QnCwelLEYyQjjkk+ZaQ9YWHZtlcaflQav+G/OzxwDEQii2YpMA2uFkcIKtYqJAPRzQgV7RUWCQkDdA2H+YRoZVLBMo=
+	t=1717693381; cv=none; b=icdRXyJDiYvJENZWUbRmxiDPVAjRH3Tmzw49t1OikS2EQ6dtCTz99CyltAzi/w0q66Sx6fAp+bN89WJQW0CM/ADFfTk2avmC/1b2iy4pGYOZCehntHPi/bR0hXBCwXWRtFEjCB/P+1KIngTFwGXB2T3t7xfuWL71BhfbFU79hCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717517221; c=relaxed/simple;
-	bh=GfgdfxzT8n8+FRMuhvSXa/oYSlEgqKTOgyJud5hAWa4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=LaMPGTYwLL54bGn8fy4RY8dIP0mhnJR7TgHxfAPHfxMec/0KJ9JfbbwyqRHrCd+v55LKT9Jvx5caYPwXoz9pyIuNGZKvQM69UBUd1TwLOPxW/1diRTUrGZcc5hVx9a/O2RwoAKuJ9d2q46sayduO/CnEi+OH6VF/jRSREBXk0zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xd6BfFZs; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xd6BfFZs"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-35dc7d0387cso5899810f8f.1
-        for <asahi@lists.linux.dev>; Tue, 04 Jun 2024 09:06:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1717517218; x=1718122018; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DVcQEIP+MENTssUPsqaOZqlKvsqibx0etjqeiTYhCrQ=;
-        b=xd6BfFZs8JlKDlfGhe8iQVUwOyEXIk5qG9w0APrD16OBi1bCyTAVPabo4WRrX8PCTS
-         VecVUMHo18IK7huz62FdCu8vjpHiIRcO6Os9cVUh1hyeOABrM1S104c5tTQNooVJ6YTM
-         kf0Ki7UIKkCyCgQ1UIdlpNBP2+bwIwgBnOPVMWoE5WZMeMZwQpmG4MChDHbHZ1U2LpRb
-         A7FVVca1XMoF+MeXfUGRnOr5e9EF0f+Y3H60Pg/P3klXsQWtbOw2hP14QXuR3Gk0CMlZ
-         F//5/xjOW61ePAISMU5t/k5A3E/zRD65O2JD8PYq1l94MKhk66nBrsVIOQwG/j2mHp34
-         K4Tg==
+	s=arc-20240116; t=1717693381; c=relaxed/simple;
+	bh=ggzn+VB4VUR6nQvAcJsdA05/JkXney5QTdx0Lok4+pI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ju+FKGQKJg+ecLOVvgh4vQORvQ4pq6RirSYnQZq4KZ+3G2sI4BweHLelhFqB1CxwCuaehHNcCqVq2sUmlm/6BKbILz0pkOR4+QFrVkFlllK3oIB+jIKM4GKqgpEFMmQyF3HCbhI+B3ogoAmmUVkpcGnJgf7bShIb3j0NiKbwLFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-57a68b0a229so1403770a12.3
+        for <asahi@lists.linux.dev>; Thu, 06 Jun 2024 10:02:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717517218; x=1718122018;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1717693377; x=1718298177;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DVcQEIP+MENTssUPsqaOZqlKvsqibx0etjqeiTYhCrQ=;
-        b=nh3ET3H0343y1yKJ9Fhz9sOpL264jJjOFQoYREMXiPw1xooIItmrSUhSa3gDJ6HAt3
-         iYX7ILsvzBBDzXaEV3IL7l9ufE8ebC2LeXuKKP6fY9LhA57BSh/i2cTdiZB/6eYlWVS5
-         Drdzb3pwInuxqD14FEZxaMpxXjvEOcpI2QbAkk0jqYiDs9rfRzEuRbxaWrsGDYf0DztB
-         8FuCL/rHCUVKOSRClOTjndmOvFBnNIj0UIoPmabURCWBXPg4EogtYAab+mWjwl+qfak+
-         GC/TBCL2n+lN12uW0xN4BO9iF8Lwg8WrP1HkdYsJccRYspHy1qjE7V0AbrfBKe08XG1B
-         mMGw==
-X-Forwarded-Encrypted: i=1; AJvYcCWiI0Tyi8xbuaBR7MRp1TGlqpcF3JKCbC6hISLcKOtHZf8NQ19ruNElCtT3dfLAxbO92NlodSC7rGtMKkEQLgPYTgTnbAE=
-X-Gm-Message-State: AOJu0Yx27+qnTEFZAPk7oJmhInhF3KwFUfN1lApyUxHUD3xSPPmr1eOl
-	JOSNYz032sTV3yiqGw6w4VYUw6kJ+8xGsCSsKfxoBPMnq7l7HWa8FPw5zcwuink=
-X-Google-Smtp-Source: AGHT+IFYA1dhRvmL2GTj5Q6k/vk2zOUsQMMogmi/rc6o5NV9inVq5WoI7Vq75aDni69dzFSZ/DMrow==
-X-Received: by 2002:a5d:438e:0:b0:354:c43d:d5a with SMTP id ffacd0b85a97d-35e0f26984cmr10765554f8f.24.1717517217961;
-        Tue, 04 Jun 2024 09:06:57 -0700 (PDT)
-Received: from [192.168.1.195] ([5.133.47.210])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35dd04da756sm11983392f8f.59.2024.06.04.09.06.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 09:06:57 -0700 (PDT)
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
- Vladimir Zapolskiy <vz@mleia.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Vincent Shih <vincent.sunplus@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Rafal Milecki <rafal@milecki.pl>, 
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, Michal Simek <michal.simek@amd.com>, 
- Joy Chakraborty <joychakr@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, asahi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-amlogic@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
- manugautam@google.com
-In-Reply-To: <20240510082929.3792559-1-joychakr@google.com>
-References: <20240510082929.3792559-1-joychakr@google.com>
-Subject: Re: [PATCH v3 0/1] nvmem: Handle actual amount of data
- read/written by suppliers
-Message-Id: <171751721565.70889.16944298203785853489.b4-ty@linaro.org>
-Date: Tue, 04 Jun 2024 17:06:55 +0100
+        bh=6E3JGAnNdlUSj+6x83Fb8gt3zLtuaMS1NY1zybVIG/Y=;
+        b=gVkKNAHTTzOUXrHIyF1MFzE8cvYLJzayL1runNwYOZqn1WghwXxRi3Dh1rIT20Nnvf
+         cUNhJwCf9bFt5his1liCcc9um9gpFnM7sWHGHJPbF3MUto4Q9yMc7KYszauJBilA3z7A
+         ibZK+EfPIFND/6bgkGqNAddNKoDTG1iV6fN003SERuL7Zm5hLELe1Di/V5RnM0+UZzb8
+         UQidXFQCz8OXrHeQHL3Sv/k8y9uEL17LjHPMcHot1YeO9K8kgF3D/psgJfxv+Xe9DWOC
+         1weDOI9ClFUVs/hxno8rShBbSKOnvnL5DOSJLgVHRFy0MuVUlividbXb92Fv8Azl35uU
+         eU2w==
+X-Forwarded-Encrypted: i=1; AJvYcCVc9jQiiikIo4bAvWCsYqmfmqEZ16RI+xj7C5KIVwUSKEX3OTltMydMj8NJQck76qbtrY3TVByAvqs+W4GW02BtWfBXoxo=
+X-Gm-Message-State: AOJu0YxZf/DmP6tLPwfqlKcsgOpn36H45h3fnEh65n65r+0tC3CwynFs
+	1cOjjvGIgqQFque0L1J4btyoweEOkqqfqTpc1D2DQ2JPnoKXh9r/LltxfFCI
+X-Google-Smtp-Source: AGHT+IFDUAW7DyR/R5Q8BmPIDDezdEZLY4ZQkvvslFoOXFIuqoreTuH/9kvg4BHO+uHhrCYyBd6LTQ==
+X-Received: by 2002:a17:906:2413:b0:a68:e2f5:68b1 with SMTP id a640c23a62f3a-a6cdb1ee266mr11131066b.49.1717693376727;
+        Thu, 06 Jun 2024 10:02:56 -0700 (PDT)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6c805f9f3dsm120819666b.95.2024.06.06.10.02.56
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Jun 2024 10:02:56 -0700 (PDT)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-57a20ccafc6so1411823a12.2
+        for <asahi@lists.linux.dev>; Thu, 06 Jun 2024 10:02:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX8X7AvZpkN7hYkKyt2ui5uDg8bQsSXQ/Ba8HxlfSMUbG33b7ETL8/akHSjuoknSMKpYwtcKJVKrHQ21kUCBd+PV3ADYCA=
+X-Received: by 2002:a50:f69d:0:b0:57a:79c2:e9d7 with SMTP id
+ 4fb4d7f45d1cf-57a8b7c6141mr4117440a12.27.1717693375858; Thu, 06 Jun 2024
+ 10:02:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.2
+References: <20240602-btbcm4388-v1-1-210e4b4eeb3b@svenpeter.dev>
+In-Reply-To: <20240602-btbcm4388-v1-1-210e4b4eeb3b@svenpeter.dev>
+From: Neal Gompa <neal@gompa.dev>
+Date: Thu, 6 Jun 2024 10:02:18 -0700
+X-Gmail-Original-Message-ID: <CAEg-Je9VKMN7HrXjrTvDYNQEcR0dq31kkNsV9_Jvthpd-X0UKg@mail.gmail.com>
+Message-ID: <CAEg-Je9VKMN7HrXjrTvDYNQEcR0dq31kkNsV9_Jvthpd-X0UKg@mail.gmail.com>
+Subject: Re: [PATCH] Bluetooth: hci_bcm4377: Add BCM4388 support
+To: sven@svenpeter.dev
+Cc: Marcel Holtmann <marcel@holtmann.org>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
+	Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-bluetooth@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Jun 2, 2024 at 2:57=E2=80=AFAM Sven Peter via B4 Relay
+<devnull+sven.svenpeter.dev@kernel.org> wrote:
+>
+> From: Hector Martin <marcan@marcan.st>
+>
+> This new variant needs a different core2_window1 and always uses
+> beamforming.
+> The BAR2 also has an offset (RAM start, presumably), so add that.
+>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Reviewed-by: Sven Peter <sven@svenpeter.dev>
+> [sven: rebased, updated some comments, mentioned 4388 in Kconfig]
+> Signed-off-by: Sven Peter <sven@svenpeter.dev>
+> ---
+> Hi,
+>
+> This is just a single commit mostly written by Hector that adds support
+> for BCM4388 chips. I've just rebased this to the current bluetooth-next
+> since it also needs 9dc8ac15ca5 and adjusted some comments.
+>
+> Best,
+>
+> Sven
+> ---
+>  drivers/bluetooth/Kconfig       |  6 ++--
+>  drivers/bluetooth/hci_bcm4377.c | 61 +++++++++++++++++++++++++++++++----=
+------
+>  2 files changed, 50 insertions(+), 17 deletions(-)
+>
+> diff --git a/drivers/bluetooth/Kconfig b/drivers/bluetooth/Kconfig
+> index 0b5f218ac505..87484f5de8e3 100644
+> --- a/drivers/bluetooth/Kconfig
+> +++ b/drivers/bluetooth/Kconfig
+> @@ -287,12 +287,12 @@ config BT_HCIBCM203X
+>
+>
+>  config BT_HCIBCM4377
+> -       tristate "HCI BCM4377/4378/4387 PCIe driver"
+> +       tristate "HCI BCM4377/4378/4387/4388 PCIe driver"
+>         depends on PCI
+>         select FW_LOADER
+>         help
+> -         Support for Broadcom BCM4377/4378/4387 Bluetooth chipsets attac=
+hed via
+> -         PCIe. These are usually found in Apple machines.
+> +         Support for Broadcom BCM4377/4378/4387/4388 Bluetooth chipsets
+> +         attached via PCIe. These are usually found in Apple machines.
+>
+>           Say Y here to compile support for HCI BCM4377 family devices in=
+to the
+>           kernel or say M to compile it as module (hci_bcm4377).
+> diff --git a/drivers/bluetooth/hci_bcm4377.c b/drivers/bluetooth/hci_bcm4=
+377.c
+> index e6644cb0163c..77a5454a8721 100644
+> --- a/drivers/bluetooth/hci_bcm4377.c
+> +++ b/drivers/bluetooth/hci_bcm4377.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only OR MIT
+>  /*
+> - * Bluetooth HCI driver for Broadcom 4377/4378/4387 devices attached via=
+ PCIe
+> + * Bluetooth HCI driver for Broadcom 4377/4378/4387/4388 devices attache=
+d via PCIe
+>   *
+>   * Copyright (C) The Asahi Linux Contributors
+>   */
+> @@ -26,11 +26,13 @@ enum bcm4377_chip {
+>         BCM4377 =3D 0,
+>         BCM4378,
+>         BCM4387,
+> +       BCM4388,
+>  };
+>
+>  #define BCM4377_DEVICE_ID 0x5fa0
+>  #define BCM4378_DEVICE_ID 0x5f69
+>  #define BCM4387_DEVICE_ID 0x5f71
+> +#define BCM4388_DEVICE_ID 0x5f72
+>
+>  #define BCM4377_TIMEOUT msecs_to_jiffies(1000)
+>  #define BCM4377_BOOT_TIMEOUT msecs_to_jiffies(5000)
+> @@ -488,6 +490,7 @@ struct bcm4377_data;
+>   *                     second window in BAR0
+>   * has_bar0_core2_window2: Set to true if this chip requires the second =
+core's
+>   *                         second window to be configured
+> + * bar2_offset: Offset to the start of the variables in BAR2
+>   * clear_pciecfg_subsystem_ctrl_bit19: Set to true if bit 19 in the
+>   *                                     vendor-specific subsystem control
+>   *                                     register has to be cleared
+> @@ -511,6 +514,7 @@ struct bcm4377_hw {
+>         u32 bar0_window1;
+>         u32 bar0_window2;
+>         u32 bar0_core2_window2;
+> +       u32 bar2_offset;
+>
+>         unsigned long has_bar0_core2_window2 : 1;
+>         unsigned long clear_pciecfg_subsystem_ctrl_bit19 : 1;
+> @@ -836,8 +840,8 @@ static irqreturn_t bcm4377_irq(int irq, void *data)
+>         struct bcm4377_data *bcm4377 =3D data;
+>         u32 bootstage, rti_status;
+>
+> -       bootstage =3D ioread32(bcm4377->bar2 + BCM4377_BAR2_BOOTSTAGE);
+> -       rti_status =3D ioread32(bcm4377->bar2 + BCM4377_BAR2_RTI_STATUS);
+> +       bootstage =3D ioread32(bcm4377->bar2 + bcm4377->hw->bar2_offset +=
+ BCM4377_BAR2_BOOTSTAGE);
+> +       rti_status =3D ioread32(bcm4377->bar2 + bcm4377->hw->bar2_offset =
++ BCM4377_BAR2_RTI_STATUS);
+>
+>         if (bootstage !=3D bcm4377->bootstage ||
+>             rti_status !=3D bcm4377->rti_status) {
+> @@ -1197,6 +1201,14 @@ static int bcm4387_send_calibration(struct bcm4377=
+_data *bcm4377)
+>                                                   bcm4377->taurus_cal_siz=
+e);
+>  }
+>
+> +static int bcm4388_send_calibration(struct bcm4377_data *bcm4377)
+> +{
+> +       /* BCM4388 always uses beamforming */
+> +       return __bcm4378_send_calibration(
+> +               bcm4377, bcm4377->taurus_beamforming_cal_blob,
+> +               bcm4377->taurus_beamforming_cal_size);
+> +}
+> +
+>  static const struct firmware *bcm4377_request_blob(struct bcm4377_data *=
+bcm4377,
+>                                                    const char *suffix)
+>  {
+> @@ -1820,8 +1832,8 @@ static int bcm4377_boot(struct bcm4377_data *bcm437=
+7)
+>         int ret =3D 0;
+>         u32 bootstage, rti_status;
+>
+> -       bootstage =3D ioread32(bcm4377->bar2 + BCM4377_BAR2_BOOTSTAGE);
+> -       rti_status =3D ioread32(bcm4377->bar2 + BCM4377_BAR2_RTI_STATUS);
+> +       bootstage =3D ioread32(bcm4377->bar2 + bcm4377->hw->bar2_offset +=
+ BCM4377_BAR2_BOOTSTAGE);
+> +       rti_status =3D ioread32(bcm4377->bar2 + bcm4377->hw->bar2_offset =
++ BCM4377_BAR2_RTI_STATUS);
+>
+>         if (bootstage !=3D 0) {
+>                 dev_err(&bcm4377->pdev->dev, "bootstage is %d and not 0\n=
+",
+> @@ -1855,9 +1867,12 @@ static int bcm4377_boot(struct bcm4377_data *bcm43=
+77)
+>         iowrite32(BCM4377_DMA_MASK,
+>                   bcm4377->bar0 + BCM4377_BAR0_HOST_WINDOW_SIZE);
+>
+> -       iowrite32(lower_32_bits(fw_dma), bcm4377->bar2 + BCM4377_BAR2_FW_=
+LO);
+> -       iowrite32(upper_32_bits(fw_dma), bcm4377->bar2 + BCM4377_BAR2_FW_=
+HI);
+> -       iowrite32(fw->size, bcm4377->bar2 + BCM4377_BAR2_FW_SIZE);
+> +       iowrite32(lower_32_bits(fw_dma),
+> +                 bcm4377->bar2 + bcm4377->hw->bar2_offset + BCM4377_BAR2=
+_FW_LO);
+> +       iowrite32(upper_32_bits(fw_dma),
+> +                 bcm4377->bar2 + bcm4377->hw->bar2_offset + BCM4377_BAR2=
+_FW_HI);
+> +       iowrite32(fw->size,
+> +                 bcm4377->bar2 + bcm4377->hw->bar2_offset + BCM4377_BAR2=
+_FW_SIZE);
+>         iowrite32(0, bcm4377->bar0 + BCM4377_BAR0_FW_DOORBELL);
+>
+>         dev_dbg(&bcm4377->pdev->dev, "waiting for firmware to boot\n");
+> @@ -1914,16 +1929,16 @@ static int bcm4377_setup_rti(struct bcm4377_data =
+*bcm4377)
+>         dev_dbg(&bcm4377->pdev->dev, "RTI is in state 1\n");
+>
+>         /* allow access to the entire IOVA space again */
+> -       iowrite32(0, bcm4377->bar2 + BCM4377_BAR2_RTI_WINDOW_LO);
+> -       iowrite32(0, bcm4377->bar2 + BCM4377_BAR2_RTI_WINDOW_HI);
+> +       iowrite32(0, bcm4377->bar2 + bcm4377->hw->bar2_offset + BCM4377_B=
+AR2_RTI_WINDOW_LO);
+> +       iowrite32(0, bcm4377->bar2 + bcm4377->hw->bar2_offset + BCM4377_B=
+AR2_RTI_WINDOW_HI);
+>         iowrite32(BCM4377_DMA_MASK,
+> -                 bcm4377->bar2 + BCM4377_BAR2_RTI_WINDOW_SIZE);
+> +                 bcm4377->bar2 + bcm4377->hw->bar2_offset + BCM4377_BAR2=
+_RTI_WINDOW_SIZE);
+>
+>         /* setup "Converged IPC" context */
+>         iowrite32(lower_32_bits(bcm4377->ctx_dma),
+> -                 bcm4377->bar2 + BCM4377_BAR2_CONTEXT_ADDR_LO);
+> +                 bcm4377->bar2 + bcm4377->hw->bar2_offset + BCM4377_BAR2=
+_CONTEXT_ADDR_LO);
+>         iowrite32(upper_32_bits(bcm4377->ctx_dma),
+> -                 bcm4377->bar2 + BCM4377_BAR2_CONTEXT_ADDR_HI);
+> +                 bcm4377->bar2 + bcm4377->hw->bar2_offset + BCM4377_BAR2=
+_CONTEXT_ADDR_HI);
+>         iowrite32(2, bcm4377->bar0 + BCM4377_BAR0_RTI_CONTROL);
+>
+>         ret =3D wait_for_completion_interruptible_timeout(&bcm4377->event=
+,
+> @@ -2489,6 +2504,21 @@ static const struct bcm4377_hw bcm4377_hw_variants=
+[] =3D {
+>                 .send_calibration =3D bcm4387_send_calibration,
+>                 .send_ptb =3D bcm4378_send_ptb,
+>         },
+> +
+> +       [BCM4388] =3D {
+> +               .id =3D 0x4388,
+> +               .otp_offset =3D 0x415c,
+> +               .bar2_offset =3D 0x200000,
+> +               .bar0_window1 =3D 0x18002000,
+> +               .bar0_window2 =3D 0x18109000,
+> +               .bar0_core2_window2 =3D 0x18106000,
+> +               .has_bar0_core2_window2 =3D true,
+> +               .broken_mws_transport_config =3D true,
+> +               .broken_le_coded =3D true,
+> +               .broken_le_ext_adv_report_phy =3D true,
+> +               .send_calibration =3D bcm4388_send_calibration,
+> +               .send_ptb =3D bcm4378_send_ptb,
+> +       },
+>  };
+>
+>  #define BCM4377_DEVID_ENTRY(id)                                         =
+    \
+> @@ -2502,6 +2532,7 @@ static const struct pci_device_id bcm4377_devid_tab=
+le[] =3D {
+>         BCM4377_DEVID_ENTRY(4377),
+>         BCM4377_DEVID_ENTRY(4378),
+>         BCM4377_DEVID_ENTRY(4387),
+> +       BCM4377_DEVID_ENTRY(4388),
+>         {},
+>  };
+>  MODULE_DEVICE_TABLE(pci, bcm4377_devid_table);
+> @@ -2516,7 +2547,7 @@ static struct pci_driver bcm4377_pci_driver =3D {
+>  module_pci_driver(bcm4377_pci_driver);
+>
+>  MODULE_AUTHOR("Sven Peter <sven@svenpeter.dev>");
+> -MODULE_DESCRIPTION("Bluetooth support for Broadcom 4377/4378/4387 device=
+s");
+> +MODULE_DESCRIPTION("Bluetooth support for Broadcom 4377/4378/4387/4388 d=
+evices");
+>  MODULE_LICENSE("Dual MIT/GPL");
+>  MODULE_FIRMWARE("brcm/brcmbt4377*.bin");
+>  MODULE_FIRMWARE("brcm/brcmbt4377*.ptb");
+> @@ -2524,3 +2555,5 @@ MODULE_FIRMWARE("brcm/brcmbt4378*.bin");
+>  MODULE_FIRMWARE("brcm/brcmbt4378*.ptb");
+>  MODULE_FIRMWARE("brcm/brcmbt4387*.bin");
+>  MODULE_FIRMWARE("brcm/brcmbt4387*.ptb");
+> +MODULE_FIRMWARE("brcm/brcmbt4388*.bin");
+> +MODULE_FIRMWARE("brcm/brcmbt4388*.ptb");
+>
+> ---
+> base-commit: 3c376f35eb13a144d5039d911b35110c2beef815
+> change-id: 20240602-btbcm4388-431aed90d763
+>
 
-On Fri, 10 May 2024 08:29:28 +0000, Joy Chakraborty wrote:
-> This Patch series stems from discussions in patchset,
-> "[PATCH v2] nvmem: rmem: Fix return value of rmem_read()"
-> (https://lore.kernel.org/all/20240206042408.224138-1-joychakr@google.com/).
-> Where we come across the fact that currently the nvmem suppliers do not
-> actually let the core know how much data has been actually read or written.
-> Instead they are expected to return 0 for success and the core assumes that
-> the amount of data written is equal to what the core has requested.
-> 
-> [...]
+This looks good to me.
 
-Applied, thanks!
+Reviewed-by: Neal Gompa <neal@gompa.dev>
 
-[1/1] nvmem: Change return type of reg read/write to ssize_t
-      commit: f5de138db5b76de7d96d4cf92f871ba893ba0119
-
-Best regards,
--- 
-Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
