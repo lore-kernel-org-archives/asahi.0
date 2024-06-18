@@ -1,120 +1,125 @@
-Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8489D46426
-	for <asahi@lists.linux.dev>; Tue, 18 Jun 2024 15:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56C51CA80;
+	Tue, 18 Jun 2024 16:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718726233; cv=none; b=EWKvGfupyLHoiaC4vXeLwlh8zKydzv6cDZVxIHydgAdwMszLBpXWkcdviUQeM3ozH98DcICrDqye2u8NGdl7wiSTDOnJBqpXqjHUC7ly6fx0s4GGI8JQ+wnMeOzqqhL0amiOJY38aQUETXUrZgzdVgBD+5tuJsgA3ps5CWssM2g=
+	t=1718729931; cv=none; b=aAR9lZ9Dx3nWemWKV6XHYDgSGOmm7/LtICEBU607f5VofqXhHPCz8KvTHFt1hBn+h42oERgOBG9GMPK1zanIlhrIzAQpza5x7N4jmnCDyKCl2aUmNWEpLjv7w6HwBxk+u+4Go+oiVS6+CawuiVr3Ozg2X4t0nHgj9cPHGQYqA3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718726233; c=relaxed/simple;
-	bh=AMvWUm4tzopW0r1CiWvxsTRKcURLnL11Z/gRFn5XZu8=;
-	h=Message-ID:Content-Type:Mime-Version:Subject:From:In-Reply-To:
-	 Date:Cc:References:To; b=Wr4hHdfb9SBGIjFMhGjl4NeNIwnpr9zjKmHwEsYTDdY6PA8p0qPapJJp3HWRqeNPKgJ+Gh+Nio06ctzRzW/qPbgf5zG3EYazieEqN8gj+K9DV/OFCMGMf+nju2sM7qV+esVfGMU0c8KD2XB5j9LpY2chNs9uRh/tIbU63MdyKEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=BrFsgi+r; arc=none smtp.client-ip=162.62.58.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
+	s=arc-20240116; t=1718729931; c=relaxed/simple;
+	bh=HUSLsoHEBphDF7AIL00Gd1xw/PCbbcwFvhAdMPxZLHw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TD3j9Y9jPKrZ47biAUqLAj07CHvn5wZ76nNcYLI895Z7x47pdDX0+qjy6cKCWPWsLq77JXhSp2iXTOAuhrocy+Yh/I16ffmR15KbwLZr6n2VtS1WJqBNTrE2GyaJ7+o67Ms8ZPC6dTqE/BoBLUblrC1znr+V09q+DRdhBlsYO+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftB1pqMO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="BrFsgi+r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1718726221; bh=AMvWUm4tzopW0r1CiWvxsTRKcURLnL11Z/gRFn5XZu8=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=BrFsgi+rr4DCRpPeKCvlJU5PEUnEuQZxkt3lKnSoXffNsWe4DM8oKO+PCko8cFnsK
-	 c5zCWvudALt8QlL6cqEGwGgewFtCYxxZHfu3iNrS5LLikyJ1fH2ZG26cl83ikK9kzD
-	 AsB4u0m3TisNv/6A6WbRr/+Q2QMd+oTrJQ5Al0h0=
-Received: from smtpclient.apple ([2408:8207:18a1:9700:f590:27c2:9473:13fc])
-	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
-	id E3A87EE8; Tue, 18 Jun 2024 23:56:58 +0800
-X-QQ-mid: xmsmtpt1718726218tkou9y081
-Message-ID: <tencent_B732B857317E21CB8D887CBF8228DAA78E08@qq.com>
-X-QQ-XMAILINFO: MyIXMys/8kCtun29cR78YyvCldGWW4ORDPE2nhUZ4dPw9OH0w+YMKLQLYiVVW0
-	 WMeLMEt+kNIeANwcDvF4NVvveyzIdn7OaZW2s7MgVqvvkQxPQFJN9LgHeSb52Flb8+qENbzUsOWA
-	 MYewBlAn67zPEhjUe1uF3995Jj2j6PpYVM5P9Yo+AjK5zX+jv7ZNGKPfuSq6dhavpoLGcTTQUItn
-	 bRPIW/EeEPXoitwnI1js2LnYCs1TanM3cpFhLq2SpA8PJ0+ewbeoiUiSqxXOZllg82QHRxB+I27c
-	 /LLTzfTa8OtelP0wi8gxz33PUskXkQ0Aln7Ge1H4Rb9ptUlRGzur5ieY60w8TjsTZrcgO2De6kN2
-	 z0wv3HU2LNI0wYbJfN5jIgnWWUvyAaR0+qE3/cnyPvXGZ19EbAz/EaluKxi0WKb/zNW2feya9z+M
-	 3A0FAXz3dabv0yRYdF7QF+qQqs4uijVjvJIGKX/wLZlywb4tOVkLIODbYEkSF8j0KO0dRfiGW24h
-	 izrLwDmcrxwNFryezHI++YWWUyuF3YVhsgI6LZYwnUJ3m+qPBRZsJipDMkHK4rW3APHlHPFFI11H
-	 m3I/5SunxLBy6BluLpQ9veSYvsgfNn8TZx1SIQA/2/4TtohTHGQRIr/6J3dAjInVTbN1v6RMHyk6
-	 IAVp7IRSmBgqISIURD1wrS2Pz2hF7SJH6h5p5XsTz02tRgkksi67g4LVsAJB7/R59Zmjw6qZC9t+
-	 TnN83QxId8cysy3+X/9depY6maX9meNMAoi69RMjtJQTD9ShmI/ghzBnlMHHgEwv7nmbTovLvn4V
-	 dW7AsUrqhK+e3ACpMs8OHizTOxsVRcbdeRA+KCayrHg/MS+9sn6WI6raf5iIcYI4zCH0TL0a77mj
-	 oFb0icoW2nRJzcVp8MBbNDp2NJispfkaD8rfFQQrEc5nYGtqO5x74mb5zOobHM/VnABHZCOF8oC1
-	 RsR/lRtjrZV3GaqsVYvK5gzZsc+vi0v15qB4JRBaTP0RcrLUQtF5WvHStZQ8Do
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftB1pqMO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5136BC3277B;
+	Tue, 18 Jun 2024 16:58:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718729931;
+	bh=HUSLsoHEBphDF7AIL00Gd1xw/PCbbcwFvhAdMPxZLHw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ftB1pqMOMVuFj9y075HlNcOcFr8XPghH0TZViiVVV5joaQZLLCu1h/6mS7nLESXA7
+	 L6pag8KEAEofESSgT8Fo52Adf3WcWhFtz9MfvKPQ8+VzKbdlZOjrCZ2HrGpA/Ue8Hc
+	 BqXnUfKhmGJqy8kTT23WbexklPUTEXi7x2RBoN7eBAhjfPS4zkhgIwuI8hLnSePzX8
+	 uy80k8LdLEZWGMG6jGXCMzdeizWqJwNBDAFhbgVlg5HyGcbqLmajux0c0a7KagQghR
+	 S9xGARZ0apAFDeZBx9iN7f/o71718I4lD/oDEn9heYeFMv9aKsBpA7+BhQ8aXMD8f0
+	 ifDKn+1ZIlbcQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1sJcAS-0053bW-Kz;
+	Tue, 18 Jun 2024 17:58:48 +0100
+Date: Tue, 18 Jun 2024 17:58:48 +0100
+Message-ID: <86a5jijign.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Yangyu Chen <cyy@cyyself.name>
+Cc: linux-arm-kernel@lists.infradead.org,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Janne Grunau <j@jannau.net>,
+	Hector Martin <marcan@marcan.st>,
+	Asahi Lina <lina@asahilina.net>,
+	asahi@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1] drivers/perf: apple_m1: add known PMU events
+In-Reply-To: <tencent_B732B857317E21CB8D887CBF8228DAA78E08@qq.com>
+References: <tencent_D6474BDCDD18AA90A0C656BE704136ED2807@qq.com>
+	<86bk3yjqkn.wl-maz@kernel.org>
+	<tencent_B732B857317E21CB8D887CBF8228DAA78E08@qq.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
-Subject: Re: [PATCH v1] drivers/perf: apple_m1: add known PMU events
-From: Yangyu Chen <cyy@cyyself.name>
-In-Reply-To: <86bk3yjqkn.wl-maz@kernel.org>
-Date: Tue, 18 Jun 2024 23:56:48 +0800
-Cc: linux-arm-kernel@lists.infradead.org,
- Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Janne Grunau <j@jannau.net>,
- Hector Martin <marcan@marcan.st>,
- Asahi Lina <lina@asahilina.net>,
- asahi@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: quoted-printable
-X-OQ-MSGID: <9008BD2B-258B-4607-8894-FFC1D99E3C33@cyyself.name>
-References: <tencent_D6474BDCDD18AA90A0C656BE704136ED2807@qq.com>
- <86bk3yjqkn.wl-maz@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-X-Mailer: Apple Mail (2.3774.600.62)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: cyy@cyyself.name, linux-arm-kernel@lists.infradead.org, will@kernel.org, mark.rutland@arm.com, j@jannau.net, marcan@marcan.st, lina@asahilina.net, asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
+On Tue, 18 Jun 2024 16:56:48 +0100,
+Yangyu Chen <cyy@cyyself.name> wrote:
+> 
+> 
+> 
+> > On Jun 18, 2024, at 22:03, Marc Zyngier <maz@kernel.org> wrote:
+> > 
+> > On Tue, 18 Jun 2024 14:49:48 +0100,
+> > Yangyu Chen <cyy@cyyself.name> wrote:
+> >> 
+> >> This patch adds known PMU events that can be found on /usr/share/kpep in
+> >> macOS. The m1_pmu_events and m1_pmu_event_affinity are generated from
+> >> the script [1], which consumes the plist file from Apple. And then added
+> >> these events to m1_pmu_perf_map and m1_pmu_event_attrs with Apple's
+> >> documentation [2].
+> >> 
+> >> Link: https://github.com/cyyself/m1-pmu-gen [1]
+> >> Link: https://developer.apple.com/download/apple-silicon-cpu-optimization-guide/ [2]
+> > 
+> > This needs registration, and is thus impossible to freely visit.
+> > 
+> >> Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+> > 
+> > What is the licence applicable to the original source file? Does it
+> > explicitly allow redistribution in any form?
+> > 
+> 
+> Oh. It's my fault. Sorry for the trouble caused.
 
+No trouble on my side. I'm just painfully aware that this is a legal
+landmine, and that what is perfectly allowed in one country may be a
+punishable offence in another. And since I'm not a lawyer, I want to
+see crystal clear things in writing.
 
-> On Jun 18, 2024, at 22:03, Marc Zyngier <maz@kernel.org> wrote:
->=20
-> On Tue, 18 Jun 2024 14:49:48 +0100,
-> Yangyu Chen <cyy@cyyself.name> wrote:
->>=20
->> This patch adds known PMU events that can be found on /usr/share/kpep =
-in
->> macOS. The m1_pmu_events and m1_pmu_event_affinity are generated from
->> the script [1], which consumes the plist file from Apple. And then =
-added
->> these events to m1_pmu_perf_map and m1_pmu_event_attrs with Apple's
->> documentation [2].
->>=20
->> Link: https://github.com/cyyself/m1-pmu-gen [1]
->> Link: =
-https://developer.apple.com/download/apple-silicon-cpu-optimization-guide/=
- [2]
->=20
-> This needs registration, and is thus impossible to freely visit.
->=20
->> Signed-off-by: Yangyu Chen <cyy@cyyself.name>
->=20
-> What is the licence applicable to the original source file? Does it
-> explicitly allow redistribution in any form?
->=20
+> 
+> > 
+> > Other than the licensing concern, why should we bloat the kernel with
+> > more of this stuff when everything is moving towards a bunch of JSON
+> > files (tools/perf/pmu-events/arch/arm64).
+> > 
+> 
+> Thanks for this hint. So, the thing to do might be to provide a
+> generator that consumes Apple files and then generates a kernel
+> patch for Linux perf tools to use rather than provide such details
+> directly in the source code as you said from [1].
+> 
+> Link: https://lore.kernel.org/lkml/87czn18zev.wl-maz@kernel.org/ [1]
 
-Oh. It's my fault. Sorry for the trouble caused.
+Even better: teach the perf tool to directly consume the plist file,
+but don't distribute the file or its content. People owning such a
+machine can fish the file from the machine itself (or the installer
+can extract it from the OS image as if it was firmware data).
 
->=20
-> Other than the licensing concern, why should we bloat the kernel with
-> more of this stuff when everything is moving towards a bunch of JSON
-> files (tools/perf/pmu-events/arch/arm64).
->=20
+Thanks,
 
-Thanks for this hint. So, the thing to do might be to provide a
-generator that consumes Apple files and then generates a kernel
-patch for Linux perf tools to use rather than provide such details
-directly in the source code as you said from [1].
+	M.
 
-Link: https://lore.kernel.org/lkml/87czn18zev.wl-maz@kernel.org/ [1]
-
-> M.
->=20
-> --=20
-> Without deviation from the norm, progress is not possible.
-
-
+-- 
+Without deviation from the norm, progress is not possible.
