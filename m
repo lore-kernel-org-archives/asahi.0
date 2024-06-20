@@ -1,96 +1,118 @@
-Received: from out203-205-251-27.mail.qq.com (out203-205-251-27.mail.qq.com [203.205.251.27])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865AE134A8
-	for <asahi@lists.linux.dev>; Thu, 20 Jun 2024 03:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3831AED3B
+	for <asahi@lists.linux.dev>; Thu, 20 Jun 2024 16:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718853004; cv=none; b=BHCZ237DDXGMO/FGfZj9uCc7v/wGLFEAJVLiy0UJ65JBme8HQ67lqPhDeHhEqjjguHWKgBsPpSsPvvQnmXmUvcELHXxREy3U9PzfA1lIFSdLP947qJmMq2XxJa6dkA5XfzD6HuY9qNdbgICQUDoW/7gmsyImwjUEoewR9HyXLm0=
+	t=1718901759; cv=none; b=Ac8QqD6hRCRNOlKhGDJRtvyExeaDMMa1DcENXMSK2GLYQ8mrdEhK9+Xmgfq5qQFR5y+Cj1KKPjcWBvG52WsR+V4uaicyGb8IBov3TfJA123E8+o51EX2ZcPCi+Hx2MfIT/Iy3B5iB70Sl8S9cq+PZ2zBJIF3q5xsxzWElWOf21c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718853004; c=relaxed/simple;
-	bh=H1+biln5nPkedb0VFkQthLFDnNrRRqfIHiuLSlxSfI4=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=raVy9Gv/qQ8qFwXJzbutjLibugn+EbMkIO8u7kzLBvZilv53mJD4+TYBWSVBUZP4sD/jJV/h0XEIZHgedqb/zMf0SVwemcPUaUq+StVPtF1i43WQZB/QsCwtgy/PFH3920Q81Uy6jZ7YVsaceuR7E+fnK6vRDH6IYUmh3nAi2hM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Dx+n6G+p; arc=none smtp.client-ip=203.205.251.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
+	s=arc-20240116; t=1718901759; c=relaxed/simple;
+	bh=HT/ZBy9Xmd6m8pI02Qj94fqFj2FB4s9hC7/NHHPNE54=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=tRJHzhIF1OWLor5Z1wuUdOGXSPY/Ssj+9z+sLl8tiSsHfqOCyesIfKRGkVGekOPNHBkltmAkkgfa6KkxTitONaBwmZVI3aPd3V7WWE2za6sFAKJE9C+xqJIE/XWxfTxoOaH178zvcOHViyv+vqcXvdlMnp98NN1b/zg/gO6dlzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Ls1z8Am1; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Dx+n6G+p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1718852685; bh=MvLnBQtWyz44qgWyFen+YAfvkf/NA5LiTAc+ar/gjwc=;
-	h=From:To:Cc:Subject:Date;
-	b=Dx+n6G+p5vKiPV6thBEC4kK3X9IRgtbMPh6ZjOd3Z4Jz/KXU+XxZM1wgFVM5mL/SX
-	 AB0IAdoaZDzbrGNVp0fcx617NCG//7DAAY5SWUeJiKlnIePNSR1ApshzbXu9MekS4Q
-	 qb+ZFaGSfmTEPyd14eSy4DA4ibA7L83s5aLgABIo=
-Received: from Yangyus-MBP.lan ([2408:8207:18a1:970f:f545:a993:a6:36e4])
-	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
-	id 12A15E7E; Thu, 20 Jun 2024 11:04:42 +0800
-X-QQ-mid: xmsmtpt1718852682txuyjzpm5
-Message-ID: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
-X-QQ-XMAILINFO: NkHKfw09D6j8uL2HVuJBhrdaCUDh1ERnAUZ8/tYbi4vw0i8bJKcrZyMIbx3h8c
-	 dMmP4OuYNT7Vsvpcb6lzbOmrbWPOqdnRmbRcYOXbbQ0Y3V0Vv7QFx1mQN1j/FTxSbPq5npDj2f91
-	 HODXYEunqsrMHTRPqRfLg1A6hsPz+a0c30zMb/2OzdpnaL2BhNmyJmUN+HqgE2IZlUmJeN6A0XVQ
-	 Po4NW30aUHKQlcW8waIC2WT0ss/Ws5PfmXCz8R8re1ibKdaGtd7Vt05M48o9LCIgdTYbLDyV25yj
-	 t4fReppM1slQwKzwma/EOZyXZe/9K2qglOhoQ+RoI9C5VSaylVbpuelSECOGOU2jAtUEXHmFVE8R
-	 qcURW5QDkdbxdo5eFvr9NC9M3JiEMHX/lEfW2VQVu9kPGj4kMzjQlQhL2eoarms2U0U5HiEZ6pVJ
-	 pOj83xD+Jg6sbkwv8ekYNzhKKN9YCJr4h6m6SErK6JcxxPaLL7ziTK0jqp2fAzCcpglJzFHfyODD
-	 gozJjUB/P7ckIq3tXKz1G0PzpH2pxhRikm7+6lAu1vp6/kafvuqJXi2xJZlMZhJjkX0rDqlb8yJb
-	 /PILJKw5H3wj0kBBl7VxHqZsOMHbEog4h9rc4R6MMpwKFsKD7spDBdUMyE81+sgHxcxXBF9dsAh4
-	 bMrHD8AncHgbRJmRl8Zj4yCgzEYLcFXrJdFUZ5rg/k6syi3cT5hqNlnh03L3XTE/zUc6/t/j+6/s
-	 lLQAu9ekA3rZ4PaVQM5Kaxoqwk7+4y2NOFZfvjNsGr3A2jas+okPXJMmeDLDIZzU/zoyyHoDehNS
-	 IRVOAxmRZWGWwU+js7OIRqk8LcO941U1CFXyN35KlN8LjiorWZF887nYbz4d7kwCzo+L3AKwKXWy
-	 oWg8mdSr7jY+Q5/oTD4rJWJYvdd1p+9tOrw1IyQldM2pCpGpxmWjBHib1tTqIDcl4+iY+/Ir96uJ
-	 88b4uZ8kNzV4edFHgfTpmR9mLQDKPtr7/ui/HP3PQcW2kkHiTtradwtciQIOFr
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-From: Yangyu Chen <cyy@cyyself.name>
-To: linux-arm-kernel@lists.infradead.org
-Cc: Marc Zyngier <maz@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Janne Grunau <j@jannau.net>,
-	Hector Martin <marcan@marcan.st>,
-	Asahi Lina <lina@asahilina.net>,
-	asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Yangyu Chen <cyy@cyyself.name>
-Subject: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event 0x96 and 0x9b
-Date: Thu, 20 Jun 2024 11:04:28 +0800
-X-OQ-MSGID: <20240620030428.1832-1-cyy@cyyself.name>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Ls1z8Am1"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45KAcY9r011376;
+	Thu, 20 Jun 2024 16:42:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=1n3k6Rb+BKNEXxUiaweAV2
+	r6d1TevLnFz/g5L7Yd+bE=; b=Ls1z8Am1seC2RN46nBOUEk5HvTwRhLHglj7xIS
+	42B/S0LAuDPvcaeFTD9OBoqehPXM+eMhp7/g3wSsNnDy0Byxf2JZpn9uRWv9dlX6
+	Sj4wfd4VAio18r2245CZL6cUS32lfpBmqqFJPMwwlXECbH+BVMxdQj4crfsXQ3wd
+	eKDTotJpebasroLAPaTJy9RVhlp//hapblKAvxvT9HrKs1WX8Mjr7P68Tw+GATv0
+	Myo6Pg0wntsYsDL0kiOSl0DE9USsVLWf3f/5wonxNCei1OqPXHGjqWG5veugKkz7
+	8ORUgbiYr6JymTCYnjzQEdnzrp0FCHq1HcLooAf8TGf+poQg==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yvjumrvf3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Jun 2024 16:42:22 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45KGgKxK031858
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 20 Jun 2024 16:42:20 GMT
+Received: from [169.254.0.1] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 20 Jun
+ 2024 09:42:20 -0700
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Thu, 20 Jun 2024 09:42:18 -0700
+Subject: [PATCH v2] nvme-apple: add missing MODULE_DESCRIPTION()
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20240620-md-nvme-apple-v2-1-72e9d7151a1f@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAOpbdGYC/3WNQQ6CMBBFr0Jm7ZiCgMDKexgWbRllElqwhQZDu
+ LuFvcuX/P/eBp4ck4cm2cBRYM+jjZBdEtC9tG9C7iJDJrJcFDeBpkMbDKGcpoGQBHWqVnWl8wL
+ iZ3L04vX0PdvISnpC5aTV/WEZ2C4rGulncse8Zz+P7nvWQ3qc/oVCiimqSt21LMq6LMXjs7Bmq
+ 696NNDu+/4DC2sVuMsAAAA=
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+        "Alyssa
+ Rosenzweig" <alyssa@rosenzweig.io>,
+        Keith Busch <kbusch@kernel.org>, "Jens
+ Axboe" <axboe@kernel.dk>,
+        Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>
+CC: <asahi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-nvme@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>, Eric Curtin <ecurtin@redhat.com>,
+        "Jeff
+ Johnson" <quic_jjohnson@quicinc.com>
+X-Mailer: b4 0.14.0
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Xw8EQqg3_YaURzeNrtii9JX-O_Nr7YPr
+X-Proofpoint-GUID: Xw8EQqg3_YaURzeNrtii9JX-O_Nr7YPr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-20_07,2024-06-20_04,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 mlxscore=0 priorityscore=1501 malwarescore=0
+ adultscore=0 lowpriorityscore=0 clxscore=1011 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
+ definitions=main-2406200119
 
-Events 0x96 and 0x9b can be installed on counter 7 only. Fix this to avoid
-getting the wrong counter value.
+make allmodconfig && make W=1 C=1 reports:
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-apple.o
 
-Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+Add the missing invocation of the MODULE_DESCRIPTION() macro.
+
+Reviewed-by: Eric Curtin <ecurtin@redhat.com>
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
+Reviewed-by: Sagi Grimberg <sagi@grimberg.me>
+Signed-off-by: Jeff Johnson <quic_jjohnson@quicinc.com>
 ---
- drivers/perf/apple_m1_cpu_pmu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v2:
+- Don't see this is linux-next yet so rebased to 6.10-rc4 (no patch change)
+- Picked up the Reviewed-by tags
+- Link to v1: https://lore.kernel.org/r/20240530-md-nvme-apple-v1-1-b8b7ca569660@quicinc.com
+---
+ drivers/nvme/host/apple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
-index f322e5ca1114..b8127e5428e1 100644
---- a/drivers/perf/apple_m1_cpu_pmu.c
-+++ b/drivers/perf/apple_m1_cpu_pmu.c
-@@ -107,12 +107,12 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
- 	[M1_PMU_PERFCTR_UNKNOWN_93]	= ONLY_5_6_7,
- 	[M1_PMU_PERFCTR_UNKNOWN_94]	= ONLY_5_6_7,
- 	[M1_PMU_PERFCTR_UNKNOWN_95]	= ONLY_5_6_7,
--	[M1_PMU_PERFCTR_UNKNOWN_96]	= ONLY_5_6_7,
-+	[M1_PMU_PERFCTR_UNKNOWN_96]	= BIT(7),
- 	[M1_PMU_PERFCTR_UNKNOWN_97]	= BIT(7),
- 	[M1_PMU_PERFCTR_UNKNOWN_98]	= ONLY_5_6_7,
- 	[M1_PMU_PERFCTR_UNKNOWN_99]	= ONLY_5_6_7,
- 	[M1_PMU_PERFCTR_UNKNOWN_9a]	= BIT(7),
--	[M1_PMU_PERFCTR_UNKNOWN_9b]	= ONLY_5_6_7,
-+	[M1_PMU_PERFCTR_UNKNOWN_9b]	= BIT(7),
- 	[M1_PMU_PERFCTR_UNKNOWN_9c]	= ONLY_5_6_7,
- 	[M1_PMU_PERFCTR_UNKNOWN_9f]	= BIT(7),
- 	[M1_PMU_PERFCTR_UNKNOWN_bf]	= ONLY_5_6_7,
--- 
-2.45.1
+diff --git a/drivers/nvme/host/apple.c b/drivers/nvme/host/apple.c
+index dd6ec0865141..0cfa39361d3b 100644
+--- a/drivers/nvme/host/apple.c
++++ b/drivers/nvme/host/apple.c
+@@ -1602,4 +1602,5 @@ static struct platform_driver apple_nvme_driver = {
+ module_platform_driver(apple_nvme_driver);
+ 
+ MODULE_AUTHOR("Sven Peter <sven@svenpeter.dev>");
++MODULE_DESCRIPTION("Apple ANS NVM Express device driver");
+ MODULE_LICENSE("GPL");
+
+---
+base-commit: 6ba59ff4227927d3a8530fc2973b80e94b54d58f
+change-id: 20240530-md-nvme-apple-e0edb9b98c45
 
