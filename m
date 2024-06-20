@@ -1,125 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out203-205-251-27.mail.qq.com (out203-205-251-27.mail.qq.com [203.205.251.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56C51CA80;
-	Tue, 18 Jun 2024 16:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865AE134A8
+	for <asahi@lists.linux.dev>; Thu, 20 Jun 2024 03:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718729931; cv=none; b=aAR9lZ9Dx3nWemWKV6XHYDgSGOmm7/LtICEBU607f5VofqXhHPCz8KvTHFt1hBn+h42oERgOBG9GMPK1zanIlhrIzAQpza5x7N4jmnCDyKCl2aUmNWEpLjv7w6HwBxk+u+4Go+oiVS6+CawuiVr3Ozg2X4t0nHgj9cPHGQYqA3I=
+	t=1718853004; cv=none; b=BHCZ237DDXGMO/FGfZj9uCc7v/wGLFEAJVLiy0UJ65JBme8HQ67lqPhDeHhEqjjguHWKgBsPpSsPvvQnmXmUvcELHXxREy3U9PzfA1lIFSdLP947qJmMq2XxJa6dkA5XfzD6HuY9qNdbgICQUDoW/7gmsyImwjUEoewR9HyXLm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718729931; c=relaxed/simple;
-	bh=HUSLsoHEBphDF7AIL00Gd1xw/PCbbcwFvhAdMPxZLHw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TD3j9Y9jPKrZ47biAUqLAj07CHvn5wZ76nNcYLI895Z7x47pdDX0+qjy6cKCWPWsLq77JXhSp2iXTOAuhrocy+Yh/I16ffmR15KbwLZr6n2VtS1WJqBNTrE2GyaJ7+o67Ms8ZPC6dTqE/BoBLUblrC1znr+V09q+DRdhBlsYO+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ftB1pqMO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718853004; c=relaxed/simple;
+	bh=H1+biln5nPkedb0VFkQthLFDnNrRRqfIHiuLSlxSfI4=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=raVy9Gv/qQ8qFwXJzbutjLibugn+EbMkIO8u7kzLBvZilv53mJD4+TYBWSVBUZP4sD/jJV/h0XEIZHgedqb/zMf0SVwemcPUaUq+StVPtF1i43WQZB/QsCwtgy/PFH3920Q81Uy6jZ7YVsaceuR7E+fnK6vRDH6IYUmh3nAi2hM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Dx+n6G+p; arc=none smtp.client-ip=203.205.251.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ftB1pqMO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5136BC3277B;
-	Tue, 18 Jun 2024 16:58:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718729931;
-	bh=HUSLsoHEBphDF7AIL00Gd1xw/PCbbcwFvhAdMPxZLHw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ftB1pqMOMVuFj9y075HlNcOcFr8XPghH0TZViiVVV5joaQZLLCu1h/6mS7nLESXA7
-	 L6pag8KEAEofESSgT8Fo52Adf3WcWhFtz9MfvKPQ8+VzKbdlZOjrCZ2HrGpA/Ue8Hc
-	 BqXnUfKhmGJqy8kTT23WbexklPUTEXi7x2RBoN7eBAhjfPS4zkhgIwuI8hLnSePzX8
-	 uy80k8LdLEZWGMG6jGXCMzdeizWqJwNBDAFhbgVlg5HyGcbqLmajux0c0a7KagQghR
-	 S9xGARZ0apAFDeZBx9iN7f/o71718I4lD/oDEn9heYeFMv9aKsBpA7+BhQ8aXMD8f0
-	 ifDKn+1ZIlbcQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1sJcAS-0053bW-Kz;
-	Tue, 18 Jun 2024 17:58:48 +0100
-Date: Tue, 18 Jun 2024 17:58:48 +0100
-Message-ID: <86a5jijign.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: linux-arm-kernel@lists.infradead.org,
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Dx+n6G+p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1718852685; bh=MvLnBQtWyz44qgWyFen+YAfvkf/NA5LiTAc+ar/gjwc=;
+	h=From:To:Cc:Subject:Date;
+	b=Dx+n6G+p5vKiPV6thBEC4kK3X9IRgtbMPh6ZjOd3Z4Jz/KXU+XxZM1wgFVM5mL/SX
+	 AB0IAdoaZDzbrGNVp0fcx617NCG//7DAAY5SWUeJiKlnIePNSR1ApshzbXu9MekS4Q
+	 qb+ZFaGSfmTEPyd14eSy4DA4ibA7L83s5aLgABIo=
+Received: from Yangyus-MBP.lan ([2408:8207:18a1:970f:f545:a993:a6:36e4])
+	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
+	id 12A15E7E; Thu, 20 Jun 2024 11:04:42 +0800
+X-QQ-mid: xmsmtpt1718852682txuyjzpm5
+Message-ID: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
+X-QQ-XMAILINFO: NkHKfw09D6j8uL2HVuJBhrdaCUDh1ERnAUZ8/tYbi4vw0i8bJKcrZyMIbx3h8c
+	 dMmP4OuYNT7Vsvpcb6lzbOmrbWPOqdnRmbRcYOXbbQ0Y3V0Vv7QFx1mQN1j/FTxSbPq5npDj2f91
+	 HODXYEunqsrMHTRPqRfLg1A6hsPz+a0c30zMb/2OzdpnaL2BhNmyJmUN+HqgE2IZlUmJeN6A0XVQ
+	 Po4NW30aUHKQlcW8waIC2WT0ss/Ws5PfmXCz8R8re1ibKdaGtd7Vt05M48o9LCIgdTYbLDyV25yj
+	 t4fReppM1slQwKzwma/EOZyXZe/9K2qglOhoQ+RoI9C5VSaylVbpuelSECOGOU2jAtUEXHmFVE8R
+	 qcURW5QDkdbxdo5eFvr9NC9M3JiEMHX/lEfW2VQVu9kPGj4kMzjQlQhL2eoarms2U0U5HiEZ6pVJ
+	 pOj83xD+Jg6sbkwv8ekYNzhKKN9YCJr4h6m6SErK6JcxxPaLL7ziTK0jqp2fAzCcpglJzFHfyODD
+	 gozJjUB/P7ckIq3tXKz1G0PzpH2pxhRikm7+6lAu1vp6/kafvuqJXi2xJZlMZhJjkX0rDqlb8yJb
+	 /PILJKw5H3wj0kBBl7VxHqZsOMHbEog4h9rc4R6MMpwKFsKD7spDBdUMyE81+sgHxcxXBF9dsAh4
+	 bMrHD8AncHgbRJmRl8Zj4yCgzEYLcFXrJdFUZ5rg/k6syi3cT5hqNlnh03L3XTE/zUc6/t/j+6/s
+	 lLQAu9ekA3rZ4PaVQM5Kaxoqwk7+4y2NOFZfvjNsGr3A2jas+okPXJMmeDLDIZzU/zoyyHoDehNS
+	 IRVOAxmRZWGWwU+js7OIRqk8LcO941U1CFXyN35KlN8LjiorWZF887nYbz4d7kwCzo+L3AKwKXWy
+	 oWg8mdSr7jY+Q5/oTD4rJWJYvdd1p+9tOrw1IyQldM2pCpGpxmWjBHib1tTqIDcl4+iY+/Ir96uJ
+	 88b4uZ8kNzV4edFHgfTpmR9mLQDKPtr7/ui/HP3PQcW2kkHiTtradwtciQIOFr
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+From: Yangyu Chen <cyy@cyyself.name>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Marc Zyngier <maz@kernel.org>,
 	Will Deacon <will@kernel.org>,
 	Mark Rutland <mark.rutland@arm.com>,
 	Janne Grunau <j@jannau.net>,
 	Hector Martin <marcan@marcan.st>,
 	Asahi Lina <lina@asahilina.net>,
 	asahi@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] drivers/perf: apple_m1: add known PMU events
-In-Reply-To: <tencent_B732B857317E21CB8D887CBF8228DAA78E08@qq.com>
-References: <tencent_D6474BDCDD18AA90A0C656BE704136ED2807@qq.com>
-	<86bk3yjqkn.wl-maz@kernel.org>
-	<tencent_B732B857317E21CB8D887CBF8228DAA78E08@qq.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.2
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	linux-kernel@vger.kernel.org,
+	Yangyu Chen <cyy@cyyself.name>
+Subject: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event 0x96 and 0x9b
+Date: Thu, 20 Jun 2024 11:04:28 +0800
+X-OQ-MSGID: <20240620030428.1832-1-cyy@cyyself.name>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: cyy@cyyself.name, linux-arm-kernel@lists.infradead.org, will@kernel.org, mark.rutland@arm.com, j@jannau.net, marcan@marcan.st, lina@asahilina.net, asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 18 Jun 2024 16:56:48 +0100,
-Yangyu Chen <cyy@cyyself.name> wrote:
-> 
-> 
-> 
-> > On Jun 18, 2024, at 22:03, Marc Zyngier <maz@kernel.org> wrote:
-> > 
-> > On Tue, 18 Jun 2024 14:49:48 +0100,
-> > Yangyu Chen <cyy@cyyself.name> wrote:
-> >> 
-> >> This patch adds known PMU events that can be found on /usr/share/kpep in
-> >> macOS. The m1_pmu_events and m1_pmu_event_affinity are generated from
-> >> the script [1], which consumes the plist file from Apple. And then added
-> >> these events to m1_pmu_perf_map and m1_pmu_event_attrs with Apple's
-> >> documentation [2].
-> >> 
-> >> Link: https://github.com/cyyself/m1-pmu-gen [1]
-> >> Link: https://developer.apple.com/download/apple-silicon-cpu-optimization-guide/ [2]
-> > 
-> > This needs registration, and is thus impossible to freely visit.
-> > 
-> >> Signed-off-by: Yangyu Chen <cyy@cyyself.name>
-> > 
-> > What is the licence applicable to the original source file? Does it
-> > explicitly allow redistribution in any form?
-> > 
-> 
-> Oh. It's my fault. Sorry for the trouble caused.
+Events 0x96 and 0x9b can be installed on counter 7 only. Fix this to avoid
+getting the wrong counter value.
 
-No trouble on my side. I'm just painfully aware that this is a legal
-landmine, and that what is perfectly allowed in one country may be a
-punishable offence in another. And since I'm not a lawyer, I want to
-see crystal clear things in writing.
+Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+---
+ drivers/perf/apple_m1_cpu_pmu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> 
-> > 
-> > Other than the licensing concern, why should we bloat the kernel with
-> > more of this stuff when everything is moving towards a bunch of JSON
-> > files (tools/perf/pmu-events/arch/arm64).
-> > 
-> 
-> Thanks for this hint. So, the thing to do might be to provide a
-> generator that consumes Apple files and then generates a kernel
-> patch for Linux perf tools to use rather than provide such details
-> directly in the source code as you said from [1].
-> 
-> Link: https://lore.kernel.org/lkml/87czn18zev.wl-maz@kernel.org/ [1]
-
-Even better: teach the perf tool to directly consume the plist file,
-but don't distribute the file or its content. People owning such a
-machine can fish the file from the machine itself (or the installer
-can extract it from the OS image as if it was firmware data).
-
-Thanks,
-
-	M.
-
+diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
+index f322e5ca1114..b8127e5428e1 100644
+--- a/drivers/perf/apple_m1_cpu_pmu.c
++++ b/drivers/perf/apple_m1_cpu_pmu.c
+@@ -107,12 +107,12 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
+ 	[M1_PMU_PERFCTR_UNKNOWN_93]	= ONLY_5_6_7,
+ 	[M1_PMU_PERFCTR_UNKNOWN_94]	= ONLY_5_6_7,
+ 	[M1_PMU_PERFCTR_UNKNOWN_95]	= ONLY_5_6_7,
+-	[M1_PMU_PERFCTR_UNKNOWN_96]	= ONLY_5_6_7,
++	[M1_PMU_PERFCTR_UNKNOWN_96]	= BIT(7),
+ 	[M1_PMU_PERFCTR_UNKNOWN_97]	= BIT(7),
+ 	[M1_PMU_PERFCTR_UNKNOWN_98]	= ONLY_5_6_7,
+ 	[M1_PMU_PERFCTR_UNKNOWN_99]	= ONLY_5_6_7,
+ 	[M1_PMU_PERFCTR_UNKNOWN_9a]	= BIT(7),
+-	[M1_PMU_PERFCTR_UNKNOWN_9b]	= ONLY_5_6_7,
++	[M1_PMU_PERFCTR_UNKNOWN_9b]	= BIT(7),
+ 	[M1_PMU_PERFCTR_UNKNOWN_9c]	= ONLY_5_6_7,
+ 	[M1_PMU_PERFCTR_UNKNOWN_9f]	= BIT(7),
+ 	[M1_PMU_PERFCTR_UNKNOWN_bf]	= ONLY_5_6_7,
 -- 
-Without deviation from the norm, progress is not possible.
+2.45.1
+
