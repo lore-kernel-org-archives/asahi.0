@@ -1,85 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D17B15EFD7;
-	Mon,  1 Jul 2024 14:01:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA283D3BC;
+	Mon,  1 Jul 2024 14:20:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719842514; cv=none; b=soepm39NcTVh3u+paZmgdeenUyrd9DxFoBviab/Czo+nK2C94ltOhFFH9mSI+mqKI1thVwMedIDrcIyybHAi7BWfk65xsE8mqayx3ROks21mQPHkx5knVCbtatSeL+or+ebq8u9O2ngBojgJ73ECYM4T2dHn+LQppwE12VMXyjE=
+	t=1719843611; cv=none; b=b8UAZ58aovLa9tXAABJXKsyu6OAexy+aXYu497xszYVZ0kj9dqFSRd6m1UHx2LS6vfxfWK+Us3yo/ZfniDBspOK/xJWXB17f5CoDU6Us4KgOM7rStYhGGgP+hedMOztXHzYq3y07VeOzIJB6QpeGZDfYoQz3ndNwAcl+XiOLn2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719842514; c=relaxed/simple;
-	bh=20YPDUoXAJDrBbYupizuXUs4fTv2sy6ElV8nDW+FiMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tTpbcTtfFDQokwpxU9L5xdS4rdZ/1/e8waee3obgpYHtndMVnTy7oBwQlh7GQyNZG+JqPUpVIEtjjdBz28xIVrKepGmKOP0t/sXtfN0/TUsIkYkDTqDyWbmGKXCnC6Z4wijbmqiOabeOzcKKYX5BwEDrrMrBhGEnuFF/G5RLR0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tN0yh+vT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719843611; c=relaxed/simple;
+	bh=QGLPKaYv7bEKHnjUq6Nqys3awYis0GG4tqkjko5cduI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DrYuWq+lSgAD8tcrzdV2ncyC8h0I8oE2Uli0wI+3StZ4rWlC9/7Si/nZ36BeHQUr5U1DWfiiV1efehqnhUV0FBoogvEcFS2I8ahp9Rku5ovmBmK7MbMTx2hoE9rejnu74otGkDg+PweW5yH078AoxvCR/rYFv1+mSq+iLz622I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pT1KJ1Hc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tN0yh+vT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F375BC116B1;
-	Mon,  1 Jul 2024 14:01:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pT1KJ1Hc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D67EC116B1;
+	Mon,  1 Jul 2024 14:20:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719842513;
-	bh=20YPDUoXAJDrBbYupizuXUs4fTv2sy6ElV8nDW+FiMI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tN0yh+vTRJWSlWjh8Ff5jl1Zibx/qsLzn9HSYxcTHT76KEHK0ztHvccCDnryAg1tc
-	 KKGDsfumRfkqBMn9FIAwgWvNRpBqK8YjB1OM9iY2wH2tNSWUyGe/JHVrhD31W+8FQ6
-	 phN90Fl2DWWW+NIkZyl7iX6N8x8XRI+2FJiJ953ftSoD2FUC3e2UkSbg3fUzl0MgLf
-	 QcA4KgpwCBsfmF2TuhH41/Wx4BXtMDVvjacw925SQ89m9vxyoGxTV40b0IPFSvcHGh
-	 xlXOGX3BzQKZ1BpPMggotUytSx+JaDRfrfCnGJ43UPCm0Ejfx4bUUSErViifROOLv6
-	 +A5zUPivL8/Ag==
-Date: Mon, 1 Jul 2024 15:01:48 +0100
-From: Will Deacon <will@kernel.org>
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: linux-arm-kernel@lists.infradead.org, Marc Zyngier <maz@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>, Janne Grunau <j@jannau.net>,
-	Hector Martin <marcan@marcan.st>, Asahi Lina <lina@asahilina.net>,
-	asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event
- 0x96 and 0x9b
-Message-ID: <20240701140148.GE2250@willie-the-truck>
+	s=k20201202; t=1719843610;
+	bh=QGLPKaYv7bEKHnjUq6Nqys3awYis0GG4tqkjko5cduI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pT1KJ1HcNrlFPpS7kXg0s5cbhoZGYL98TjqiO4wHP3f6TPgQMen9BdN58eAlNgPpa
+	 +DprhPLfb9KyVpQI/9BhBCnv2JgcPLEkNRwE1MtmUqYekh5ugpX5k6TJukn3hySHy5
+	 Vkf+LSeG7Jpqe1eMybim67WHonNY/DjxfjoII+4WIHPAaq/FTSXJeOUMF0srclP1d7
+	 V4ZvV6yyv9t+OSa17PkvQTf1M10EHtz/W3FINuwjaURNrn3QPEIl+h7cKSVHh8AC3/
+	 AHIUmuLIkZNE0N+/AomIpPece4FtJg8XDHXV+wKc8PSeV2/xSm5/Onhp4sEpV+LUgn
+	 r3z/mC59cShYw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1sOHt2-008pBR-95;
+	Mon, 01 Jul 2024 15:20:08 +0100
+Date: Mon, 01 Jul 2024 15:19:59 +0100
+Message-ID: <87cynxp52o.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Yangyu Chen <cyy@cyyself.name>, Will Deacon <will@kernel.org>
+Cc: 	linux-arm-kernel@lists.infradead.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Janne Grunau <j@jannau.net>,
+	Hector Martin <marcan@marcan.st>,
+	Asahi Lina <lina@asahilina.net>,
+	asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event 0x96 and 0x9b
+In-Reply-To: <20240701140148.GE2250@willie-the-truck>
 References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
+	<20240701140148.GE2250@willie-the-truck>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: cyy@cyyself.name, will@kernel.org, linux-arm-kernel@lists.infradead.org, mark.rutland@arm.com, j@jannau.net, marcan@marcan.st, lina@asahilina.net, asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Thu, Jun 20, 2024 at 11:04:28AM +0800, Yangyu Chen wrote:
-> Events 0x96 and 0x9b can be installed on counter 7 only. Fix this to avoid
-> getting the wrong counter value.
+On Mon, 01 Jul 2024 15:01:48 +0100,
+Will Deacon <will@kernel.org> wrote:
 > 
-> Signed-off-by: Yangyu Chen <cyy@cyyself.name>
-> ---
->  drivers/perf/apple_m1_cpu_pmu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> On Thu, Jun 20, 2024 at 11:04:28AM +0800, Yangyu Chen wrote:
+> > Events 0x96 and 0x9b can be installed on counter 7 only. Fix this to avoid
+> > getting the wrong counter value.
+> > 
+> > Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+> > ---
+> >  drivers/perf/apple_m1_cpu_pmu.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
+> > index f322e5ca1114..b8127e5428e1 100644
+> > --- a/drivers/perf/apple_m1_cpu_pmu.c
+> > +++ b/drivers/perf/apple_m1_cpu_pmu.c
+> > @@ -107,12 +107,12 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
+> >  	[M1_PMU_PERFCTR_UNKNOWN_93]	= ONLY_5_6_7,
+> >  	[M1_PMU_PERFCTR_UNKNOWN_94]	= ONLY_5_6_7,
+> >  	[M1_PMU_PERFCTR_UNKNOWN_95]	= ONLY_5_6_7,
+> > -	[M1_PMU_PERFCTR_UNKNOWN_96]	= ONLY_5_6_7,
+> > +	[M1_PMU_PERFCTR_UNKNOWN_96]	= BIT(7),
+> >  	[M1_PMU_PERFCTR_UNKNOWN_97]	= BIT(7),
+> >  	[M1_PMU_PERFCTR_UNKNOWN_98]	= ONLY_5_6_7,
+> >  	[M1_PMU_PERFCTR_UNKNOWN_99]	= ONLY_5_6_7,
+> >  	[M1_PMU_PERFCTR_UNKNOWN_9a]	= BIT(7),
+> > -	[M1_PMU_PERFCTR_UNKNOWN_9b]	= ONLY_5_6_7,
+> > +	[M1_PMU_PERFCTR_UNKNOWN_9b]	= BIT(7),
+> >  	[M1_PMU_PERFCTR_UNKNOWN_9c]	= ONLY_5_6_7,
+> >  	[M1_PMU_PERFCTR_UNKNOWN_9f]	= BIT(7),
+> >  	[M1_PMU_PERFCTR_UNKNOWN_bf]	= ONLY_5_6_7,
 > 
-> diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
-> index f322e5ca1114..b8127e5428e1 100644
-> --- a/drivers/perf/apple_m1_cpu_pmu.c
-> +++ b/drivers/perf/apple_m1_cpu_pmu.c
-> @@ -107,12 +107,12 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
->  	[M1_PMU_PERFCTR_UNKNOWN_93]	= ONLY_5_6_7,
->  	[M1_PMU_PERFCTR_UNKNOWN_94]	= ONLY_5_6_7,
->  	[M1_PMU_PERFCTR_UNKNOWN_95]	= ONLY_5_6_7,
-> -	[M1_PMU_PERFCTR_UNKNOWN_96]	= ONLY_5_6_7,
-> +	[M1_PMU_PERFCTR_UNKNOWN_96]	= BIT(7),
->  	[M1_PMU_PERFCTR_UNKNOWN_97]	= BIT(7),
->  	[M1_PMU_PERFCTR_UNKNOWN_98]	= ONLY_5_6_7,
->  	[M1_PMU_PERFCTR_UNKNOWN_99]	= ONLY_5_6_7,
->  	[M1_PMU_PERFCTR_UNKNOWN_9a]	= BIT(7),
-> -	[M1_PMU_PERFCTR_UNKNOWN_9b]	= ONLY_5_6_7,
-> +	[M1_PMU_PERFCTR_UNKNOWN_9b]	= BIT(7),
->  	[M1_PMU_PERFCTR_UNKNOWN_9c]	= ONLY_5_6_7,
->  	[M1_PMU_PERFCTR_UNKNOWN_9f]	= BIT(7),
->  	[M1_PMU_PERFCTR_UNKNOWN_bf]	= ONLY_5_6_7,
+> It would be great if somebody with access to M1 hardware (and/or any
+> PMU insight) could Test or Ack this, please.
 
-It would be great if somebody with access to M1 hardware (and/or any
-PMU insight) could Test or Ack this, please.
+I'm a bit concerned by this.
 
-Cheers,
+I originally generated this table by hacking the counter setup so that
+it would try and count everywhere, and then feed the observations back
+into the driver.
 
-Will
+So either my methodology was flaky (not unlikely), but I'd then expect
+more of these mis-assignments, or this applies to an implementation
+that is different from the one I wrote this driver against (the
+original M1). Could it be that this for M2 only, and not M1? Or
+another flavour of M1?
+
+Either way, it would be good to understand how this has been
+established.
+
+In the meantime, I'll try and resurrect my original experiment and see
+if I spot the same issue.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
