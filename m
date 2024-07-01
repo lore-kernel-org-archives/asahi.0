@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1380B5BAF0;
-	Fri, 21 Jun 2024 18:46:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D17B15EFD7;
+	Mon,  1 Jul 2024 14:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718995593; cv=none; b=rTNcYmtUCJg6YLe/EufT2uxq6DobICd4MD3UxMZCJqYYUAzipRUlbpkV4zebM5Ie4vlXdFSFMmwC+8kObtQYQLsGgGuGZnp3vfsz0HFCpC1+ntodECgWM9UmXtuAP05m0F2hqnt+lNLJuhgyUVvFswnok5F0+5uon0FR2kfVMLM=
+	t=1719842514; cv=none; b=soepm39NcTVh3u+paZmgdeenUyrd9DxFoBviab/Czo+nK2C94ltOhFFH9mSI+mqKI1thVwMedIDrcIyybHAi7BWfk65xsE8mqayx3ROks21mQPHkx5knVCbtatSeL+or+ebq8u9O2ngBojgJ73ECYM4T2dHn+LQppwE12VMXyjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718995593; c=relaxed/simple;
-	bh=hGWFaeKo6xY0d8c6EUHTKFxGmvR2STDskrDV3QJjCJ4=;
+	s=arc-20240116; t=1719842514; c=relaxed/simple;
+	bh=20YPDUoXAJDrBbYupizuXUs4fTv2sy6ElV8nDW+FiMI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GwhH22s/SFfVxNtwyxueOt5h7rD9MB6d0521rC3YNjAOqV1GDmmGx3OOXa29/1mve8iN1MbwrLnqzhWqcZu3QQu0RemwHJFBJHAtLULyp/Kbnok0c0AUh+7pVdNbqwMGEfAgiIXQSV131CH9wqrap5+EufAYkQ43PldT66aOiSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RyDOWkzQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tTpbcTtfFDQokwpxU9L5xdS4rdZ/1/e8waee3obgpYHtndMVnTy7oBwQlh7GQyNZG+JqPUpVIEtjjdBz28xIVrKepGmKOP0t/sXtfN0/TUsIkYkDTqDyWbmGKXCnC6Z4wijbmqiOabeOzcKKYX5BwEDrrMrBhGEnuFF/G5RLR0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tN0yh+vT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RyDOWkzQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE150C2BBFC;
-	Fri, 21 Jun 2024 18:46:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tN0yh+vT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F375BC116B1;
+	Mon,  1 Jul 2024 14:01:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718995592;
-	bh=hGWFaeKo6xY0d8c6EUHTKFxGmvR2STDskrDV3QJjCJ4=;
+	s=k20201202; t=1719842513;
+	bh=20YPDUoXAJDrBbYupizuXUs4fTv2sy6ElV8nDW+FiMI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RyDOWkzQNhc4cnXSG2+ek5wjUB23AHoh1Ua8eWl/X4+KBDAwZniV3sgHnVFk3ra/h
-	 3D+40sNMNRBX7a1L5S+ybM8/mqf+EQl0FhDyXIj9SNtt5Bwv9VRoudFOQyH2DFyanv
-	 vRMtNF6QO3NZXIQwx930cKGMkM9hi/zk4l747fxdgIOSBx04HBxK/B8Y68yasRvQ/t
-	 hDNPUVKVMpRDXB03G6mo03W6Dc/yBydkk40hHLp9FmEeM2dFzloahpIXpv99c4/OnR
-	 UzvxKIl0Mrk+Ma1OV9ahWztP04cuOphcoNqbwDlhMZljBE62Qo+/kpka3ubzqMGZOz
-	 YfUxWJlVcC15g==
-Date: Fri, 21 Jun 2024 12:46:29 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, Eric Curtin <ecurtin@redhat.com>
-Subject: Re: [PATCH v2] nvme-apple: add missing MODULE_DESCRIPTION()
-Message-ID: <ZnXKhUMDenD4tnrn@kbusch-mbp>
-References: <20240620-md-nvme-apple-v2-1-72e9d7151a1f@quicinc.com>
+	b=tN0yh+vTRJWSlWjh8Ff5jl1Zibx/qsLzn9HSYxcTHT76KEHK0ztHvccCDnryAg1tc
+	 KKGDsfumRfkqBMn9FIAwgWvNRpBqK8YjB1OM9iY2wH2tNSWUyGe/JHVrhD31W+8FQ6
+	 phN90Fl2DWWW+NIkZyl7iX6N8x8XRI+2FJiJ953ftSoD2FUC3e2UkSbg3fUzl0MgLf
+	 QcA4KgpwCBsfmF2TuhH41/Wx4BXtMDVvjacw925SQ89m9vxyoGxTV40b0IPFSvcHGh
+	 xlXOGX3BzQKZ1BpPMggotUytSx+JaDRfrfCnGJ43UPCm0Ejfx4bUUSErViifROOLv6
+	 +A5zUPivL8/Ag==
+Date: Mon, 1 Jul 2024 15:01:48 +0100
+From: Will Deacon <will@kernel.org>
+To: Yangyu Chen <cyy@cyyself.name>
+Cc: linux-arm-kernel@lists.infradead.org, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Janne Grunau <j@jannau.net>,
+	Hector Martin <marcan@marcan.st>, Asahi Lina <lina@asahilina.net>,
+	asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event
+ 0x96 and 0x9b
+Message-ID: <20240701140148.GE2250@willie-the-truck>
+References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -47,12 +45,41 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240620-md-nvme-apple-v2-1-72e9d7151a1f@quicinc.com>
+In-Reply-To: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Thu, Jun 20, 2024 at 09:42:18AM -0700, Jeff Johnson wrote:
-> make allmodconfig && make W=1 C=1 reports:
-> WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-apple.o
+On Thu, Jun 20, 2024 at 11:04:28AM +0800, Yangyu Chen wrote:
+> Events 0x96 and 0x9b can be installed on counter 7 only. Fix this to avoid
+> getting the wrong counter value.
 > 
-> Add the missing invocation of the MODULE_DESCRIPTION() macro.
+> Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+> ---
+>  drivers/perf/apple_m1_cpu_pmu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
+> index f322e5ca1114..b8127e5428e1 100644
+> --- a/drivers/perf/apple_m1_cpu_pmu.c
+> +++ b/drivers/perf/apple_m1_cpu_pmu.c
+> @@ -107,12 +107,12 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
+>  	[M1_PMU_PERFCTR_UNKNOWN_93]	= ONLY_5_6_7,
+>  	[M1_PMU_PERFCTR_UNKNOWN_94]	= ONLY_5_6_7,
+>  	[M1_PMU_PERFCTR_UNKNOWN_95]	= ONLY_5_6_7,
+> -	[M1_PMU_PERFCTR_UNKNOWN_96]	= ONLY_5_6_7,
+> +	[M1_PMU_PERFCTR_UNKNOWN_96]	= BIT(7),
+>  	[M1_PMU_PERFCTR_UNKNOWN_97]	= BIT(7),
+>  	[M1_PMU_PERFCTR_UNKNOWN_98]	= ONLY_5_6_7,
+>  	[M1_PMU_PERFCTR_UNKNOWN_99]	= ONLY_5_6_7,
+>  	[M1_PMU_PERFCTR_UNKNOWN_9a]	= BIT(7),
+> -	[M1_PMU_PERFCTR_UNKNOWN_9b]	= ONLY_5_6_7,
+> +	[M1_PMU_PERFCTR_UNKNOWN_9b]	= BIT(7),
+>  	[M1_PMU_PERFCTR_UNKNOWN_9c]	= ONLY_5_6_7,
+>  	[M1_PMU_PERFCTR_UNKNOWN_9f]	= BIT(7),
+>  	[M1_PMU_PERFCTR_UNKNOWN_bf]	= ONLY_5_6_7,
 
-Applied to nvme-6.10.
+It would be great if somebody with access to M1 hardware (and/or any
+PMU insight) could Test or Ack this, please.
+
+Cheers,
+
+Will
