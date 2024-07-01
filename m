@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA283D3BC;
-	Mon,  1 Jul 2024 14:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6173616B3BD;
+	Mon,  1 Jul 2024 14:43:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719843611; cv=none; b=b8UAZ58aovLa9tXAABJXKsyu6OAexy+aXYu497xszYVZ0kj9dqFSRd6m1UHx2LS6vfxfWK+Us3yo/ZfniDBspOK/xJWXB17f5CoDU6Us4KgOM7rStYhGGgP+hedMOztXHzYq3y07VeOzIJB6QpeGZDfYoQz3ndNwAcl+XiOLn2U=
+	t=1719845023; cv=none; b=lmPjZl2GK1jW5n0XfOZe4c7EJgDjijYJm5Yfa2jHdv23KxR2DEqvfCIYELCSEBrCsdViV9F+/bn1LxX3nBGP9IiNsyKDsOgJZqKDYnplMBzwSEFnxy+rmc6ra/Lbz3pOlAdJdtLst2gwSfRM7JGOzhXbxIu1MxlHO9DFXlnu1ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719843611; c=relaxed/simple;
-	bh=QGLPKaYv7bEKHnjUq6Nqys3awYis0GG4tqkjko5cduI=;
+	s=arc-20240116; t=1719845023; c=relaxed/simple;
+	bh=bG2ru4fWCajW+qe+qA7NC/B+XA3N0d8dcjIR0OxiVhs=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DrYuWq+lSgAD8tcrzdV2ncyC8h0I8oE2Uli0wI+3StZ4rWlC9/7Si/nZ36BeHQUr5U1DWfiiV1efehqnhUV0FBoogvEcFS2I8ahp9Rku5ovmBmK7MbMTx2hoE9rejnu74otGkDg+PweW5yH078AoxvCR/rYFv1+mSq+iLz622I8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pT1KJ1Hc; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=kWEkybJJ6PIj+p5YihtAxXBuLx037pxitM0OjQTUjZ3/ruR8a7cSXnrDYT26X/EGWIvPDinIfSvk0XjuZaHLLRJsyj8v3tyrs15a2Z12QFvhkrlHTUsara+MCsDOO7Fh/OXvZCZyVM3RUj8LuwuiWbu1ajdJJg2VS3hBxMTklyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AObP9STy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pT1KJ1Hc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D67EC116B1;
-	Mon,  1 Jul 2024 14:20:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AObP9STy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7471C116B1;
+	Mon,  1 Jul 2024 14:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719843610;
-	bh=QGLPKaYv7bEKHnjUq6Nqys3awYis0GG4tqkjko5cduI=;
+	s=k20201202; t=1719845022;
+	bh=bG2ru4fWCajW+qe+qA7NC/B+XA3N0d8dcjIR0OxiVhs=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pT1KJ1HcNrlFPpS7kXg0s5cbhoZGYL98TjqiO4wHP3f6TPgQMen9BdN58eAlNgPpa
-	 +DprhPLfb9KyVpQI/9BhBCnv2JgcPLEkNRwE1MtmUqYekh5ugpX5k6TJukn3hySHy5
-	 Vkf+LSeG7Jpqe1eMybim67WHonNY/DjxfjoII+4WIHPAaq/FTSXJeOUMF0srclP1d7
-	 V4ZvV6yyv9t+OSa17PkvQTf1M10EHtz/W3FINuwjaURNrn3QPEIl+h7cKSVHh8AC3/
-	 AHIUmuLIkZNE0N+/AomIpPece4FtJg8XDHXV+wKc8PSeV2/xSm5/Onhp4sEpV+LUgn
-	 r3z/mC59cShYw==
+	b=AObP9STyNMqcLb1LLilzdg7DMSkjB6Ji+XjK3vmCcyvKgrt1BXNSmuMOWqoNx05ak
+	 o+v0UK/0OSb2Ri2l6y/IdP3AtwbBMupdpBdr1nQxvg3ZZ4fxw60nqtX22OlHoM623S
+	 iPzRcOW+XJ+FQNxwL530PFUMjjBFSjj5XTSV/KD9rPU15SOttylRtq8ei69nQ+0+pH
+	 px2G4mazmq495kctJOz9rj9or8s+U+97wnI16sgJ9gfdmlOu4y6EpxzrwjySOu8UBt
+	 xKUp5yWidHSPRkih1FHr9fkeE9R7blK+VF0+KmFkhA30Qqz6I+rhJMLajxEphrMFbP
+	 rCwPv+OLfWkbA==
 Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
 	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.95)
 	(envelope-from <maz@kernel.org>)
-	id 1sOHt2-008pBR-95;
-	Mon, 01 Jul 2024 15:20:08 +0100
-Date: Mon, 01 Jul 2024 15:19:59 +0100
-Message-ID: <87cynxp52o.wl-maz@kernel.org>
+	id 1sOIFo-008peG-HV;
+	Mon, 01 Jul 2024 15:43:40 +0100
+Date: Mon, 01 Jul 2024 15:43:40 +0100
+Message-ID: <87bk3hp3z7.wl-maz@kernel.org>
 From: Marc Zyngier <maz@kernel.org>
-To: Yangyu Chen <cyy@cyyself.name>, Will Deacon <will@kernel.org>
-Cc: 	linux-arm-kernel@lists.infradead.org,
+To: Yangyu Chen <cyy@cyyself.name>,
+	Will Deacon <will@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org,
 	Mark Rutland <mark.rutland@arm.com>,
 	Janne Grunau <j@jannau.net>,
 	Hector Martin <marcan@marcan.st>,
@@ -44,9 +45,10 @@ Cc: 	linux-arm-kernel@lists.infradead.org,
 	asahi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event 0x96 and 0x9b
-In-Reply-To: <20240701140148.GE2250@willie-the-truck>
+In-Reply-To: <87cynxp52o.wl-maz@kernel.org>
 References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
 	<20240701140148.GE2250@willie-the-truck>
+	<87cynxp52o.wl-maz@kernel.org>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
  FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
  (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
@@ -62,60 +64,97 @@ X-SA-Exim-Rcpt-To: cyy@cyyself.name, will@kernel.org, linux-arm-kernel@lists.inf
 X-SA-Exim-Mail-From: maz@kernel.org
 X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Mon, 01 Jul 2024 15:01:48 +0100,
-Will Deacon <will@kernel.org> wrote:
+On Mon, 01 Jul 2024 15:19:59 +0100,
+Marc Zyngier <maz@kernel.org> wrote:
 > 
-> On Thu, Jun 20, 2024 at 11:04:28AM +0800, Yangyu Chen wrote:
-> > Events 0x96 and 0x9b can be installed on counter 7 only. Fix this to avoid
-> > getting the wrong counter value.
+> On Mon, 01 Jul 2024 15:01:48 +0100,
+> Will Deacon <will@kernel.org> wrote:
 > > 
-> > Signed-off-by: Yangyu Chen <cyy@cyyself.name>
-> > ---
-> >  drivers/perf/apple_m1_cpu_pmu.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > On Thu, Jun 20, 2024 at 11:04:28AM +0800, Yangyu Chen wrote:
+> > > Events 0x96 and 0x9b can be installed on counter 7 only. Fix this to avoid
+> > > getting the wrong counter value.
+> > > 
+> > > Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+> > > ---
+> > >  drivers/perf/apple_m1_cpu_pmu.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
+> > > index f322e5ca1114..b8127e5428e1 100644
+> > > --- a/drivers/perf/apple_m1_cpu_pmu.c
+> > > +++ b/drivers/perf/apple_m1_cpu_pmu.c
+> > > @@ -107,12 +107,12 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_93]	= ONLY_5_6_7,
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_94]	= ONLY_5_6_7,
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_95]	= ONLY_5_6_7,
+> > > -	[M1_PMU_PERFCTR_UNKNOWN_96]	= ONLY_5_6_7,
+> > > +	[M1_PMU_PERFCTR_UNKNOWN_96]	= BIT(7),
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_97]	= BIT(7),
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_98]	= ONLY_5_6_7,
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_99]	= ONLY_5_6_7,
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_9a]	= BIT(7),
+> > > -	[M1_PMU_PERFCTR_UNKNOWN_9b]	= ONLY_5_6_7,
+> > > +	[M1_PMU_PERFCTR_UNKNOWN_9b]	= BIT(7),
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_9c]	= ONLY_5_6_7,
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_9f]	= BIT(7),
+> > >  	[M1_PMU_PERFCTR_UNKNOWN_bf]	= ONLY_5_6_7,
 > > 
-> > diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
-> > index f322e5ca1114..b8127e5428e1 100644
-> > --- a/drivers/perf/apple_m1_cpu_pmu.c
-> > +++ b/drivers/perf/apple_m1_cpu_pmu.c
-> > @@ -107,12 +107,12 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
-> >  	[M1_PMU_PERFCTR_UNKNOWN_93]	= ONLY_5_6_7,
-> >  	[M1_PMU_PERFCTR_UNKNOWN_94]	= ONLY_5_6_7,
-> >  	[M1_PMU_PERFCTR_UNKNOWN_95]	= ONLY_5_6_7,
-> > -	[M1_PMU_PERFCTR_UNKNOWN_96]	= ONLY_5_6_7,
-> > +	[M1_PMU_PERFCTR_UNKNOWN_96]	= BIT(7),
-> >  	[M1_PMU_PERFCTR_UNKNOWN_97]	= BIT(7),
-> >  	[M1_PMU_PERFCTR_UNKNOWN_98]	= ONLY_5_6_7,
-> >  	[M1_PMU_PERFCTR_UNKNOWN_99]	= ONLY_5_6_7,
-> >  	[M1_PMU_PERFCTR_UNKNOWN_9a]	= BIT(7),
-> > -	[M1_PMU_PERFCTR_UNKNOWN_9b]	= ONLY_5_6_7,
-> > +	[M1_PMU_PERFCTR_UNKNOWN_9b]	= BIT(7),
-> >  	[M1_PMU_PERFCTR_UNKNOWN_9c]	= ONLY_5_6_7,
-> >  	[M1_PMU_PERFCTR_UNKNOWN_9f]	= BIT(7),
-> >  	[M1_PMU_PERFCTR_UNKNOWN_bf]	= ONLY_5_6_7,
+> > It would be great if somebody with access to M1 hardware (and/or any
+> > PMU insight) could Test or Ack this, please.
 > 
-> It would be great if somebody with access to M1 hardware (and/or any
-> PMU insight) could Test or Ack this, please.
+> I'm a bit concerned by this.
+> 
+> I originally generated this table by hacking the counter setup so that
+> it would try and count everywhere, and then feed the observations back
+> into the driver.
+> 
+> So either my methodology was flaky (not unlikely), but I'd then expect
+> more of these mis-assignments, or this applies to an implementation
+> that is different from the one I wrote this driver against (the
+> original M1). Could it be that this for M2 only, and not M1? Or
+> another flavour of M1?
+> 
+> Either way, it would be good to understand how this has been
+> established.
+> 
+> In the meantime, I'll try and resurrect my original experiment and see
+> if I spot the same issue.
 
-I'm a bit concerned by this.
+A quick experiment shows that these events are counting on all 3
+expected counters:
 
-I originally generated this table by hacking the counter setup so that
-it would try and count everywhere, and then feed the observations back
-into the driver.
+maz@mary-lou:~$ sudo taskset -c 8 perf stat -e r096:u -e r096:u -e r096:u sleep 5
 
-So either my methodology was flaky (not unlikely), but I'd then expect
-more of these mis-assignments, or this applies to an implementation
-that is different from the one I wrote this driver against (the
-original M1). Could it be that this for M2 only, and not M1? Or
-another flavour of M1?
+ Performance counter stats for 'sleep 5':
 
-Either way, it would be good to understand how this has been
-established.
+            10,775      r096:u                                                                
+            10,775      r096:u                                                                
+            10,775      r096:u                                                                
 
-In the meantime, I'll try and resurrect my original experiment and see
-if I spot the same issue.
+       5.000110823 seconds time elapsed
 
-Thanks,
+       0.000340000 seconds user
+       0.000000000 seconds sys
+
+
+maz@mary-lou:~$ sudo taskset -c 8 perf stat -e r09b:u -e r09b:u -e r09b:u sleep 5
+
+ Performance counter stats for 'sleep 5':
+
+            41,927      r09b:u                                                                
+            41,927      r09b:u                                                                
+            41,927      r09b:u                                                                
+
+       5.000109771 seconds time elapsed
+
+       0.000339000 seconds user
+       0.000000000 seconds sys
+
+This is on M2 Pro, by the way, and I also checked that my M1 Ultra
+counts the exact same way.
+
+Yangyu, can you please clarify how you came to the conclusion that
+these events didn't count anywhere other than counter 7?
 
 	M.
 
