@@ -1,162 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out203-205-221-190.mail.qq.com (out203-205-221-190.mail.qq.com [203.205.221.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6173616B3BD;
-	Mon,  1 Jul 2024 14:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA17157E9F
+	for <asahi@lists.linux.dev>; Tue,  2 Jul 2024 10:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719845023; cv=none; b=lmPjZl2GK1jW5n0XfOZe4c7EJgDjijYJm5Yfa2jHdv23KxR2DEqvfCIYELCSEBrCsdViV9F+/bn1LxX3nBGP9IiNsyKDsOgJZqKDYnplMBzwSEFnxy+rmc6ra/Lbz3pOlAdJdtLst2gwSfRM7JGOzhXbxIu1MxlHO9DFXlnu1ME=
+	t=1719915766; cv=none; b=j8X3ZfWH8LJs1yOMqOPS+afwL6qzXAA+yd/PJF86A+QV8vRlaINbUhtyXkGy4O4J7Uw0AA4iAi9z4tQYKbW8T68DTTxjewokHpX8OceMCUSMpkrHfZzwM6wWLM1VO01+jfe2vk2v9t/+ajlddgWDFUZuW5A9swZBOlTKjt77LM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719845023; c=relaxed/simple;
-	bh=bG2ru4fWCajW+qe+qA7NC/B+XA3N0d8dcjIR0OxiVhs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kWEkybJJ6PIj+p5YihtAxXBuLx037pxitM0OjQTUjZ3/ruR8a7cSXnrDYT26X/EGWIvPDinIfSvk0XjuZaHLLRJsyj8v3tyrs15a2Z12QFvhkrlHTUsara+MCsDOO7Fh/OXvZCZyVM3RUj8LuwuiWbu1ajdJJg2VS3hBxMTklyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AObP9STy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719915766; c=relaxed/simple;
+	bh=JJrKf2EqZipr9Fo2V6bixUGsWVwCnm/mevS1/eqoBq0=;
+	h=Message-ID:Content-Type:Mime-Version:Subject:From:In-Reply-To:
+	 Date:Cc:References:To; b=QZF4v+PYTmW+h3yLgK2TIVI6oywdXqcN6u6Ye4FIdvR+NODoiMIg3zefLk4VCuXGKehp97WDNZhnWpYUozvabNRg3bUZN5FNk4b+kMl2aMRjyHdwTBkPtSXfrV5GkiOmYUWvvl4Pfl+hfx5bKKHK9MCxW1r2N7QupUbJGhhYJYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=jkf/U+ZC; arc=none smtp.client-ip=203.205.221.190
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AObP9STy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7471C116B1;
-	Mon,  1 Jul 2024 14:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719845022;
-	bh=bG2ru4fWCajW+qe+qA7NC/B+XA3N0d8dcjIR0OxiVhs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AObP9STyNMqcLb1LLilzdg7DMSkjB6Ji+XjK3vmCcyvKgrt1BXNSmuMOWqoNx05ak
-	 o+v0UK/0OSb2Ri2l6y/IdP3AtwbBMupdpBdr1nQxvg3ZZ4fxw60nqtX22OlHoM623S
-	 iPzRcOW+XJ+FQNxwL530PFUMjjBFSjj5XTSV/KD9rPU15SOttylRtq8ei69nQ+0+pH
-	 px2G4mazmq495kctJOz9rj9or8s+U+97wnI16sgJ9gfdmlOu4y6EpxzrwjySOu8UBt
-	 xKUp5yWidHSPRkih1FHr9fkeE9R7blK+VF0+KmFkhA30Qqz6I+rhJMLajxEphrMFbP
-	 rCwPv+OLfWkbA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1sOIFo-008peG-HV;
-	Mon, 01 Jul 2024 15:43:40 +0100
-Date: Mon, 01 Jul 2024 15:43:40 +0100
-Message-ID: <87bk3hp3z7.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Yangyu Chen <cyy@cyyself.name>,
-	Will Deacon <will@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Janne Grunau <j@jannau.net>,
-	Hector Martin <marcan@marcan.st>,
-	Asahi Lina <lina@asahilina.net>,
-	asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event 0x96 and 0x9b
-In-Reply-To: <87cynxp52o.wl-maz@kernel.org>
-References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
-	<20240701140148.GE2250@willie-the-truck>
-	<87cynxp52o.wl-maz@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="jkf/U+ZC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1719915754; bh=/U9ki8QTbnBFMrAZkAEq4eYvse/267OSoIx74fK3Oqo=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To;
+	b=jkf/U+ZCrM/Km02Zfa77VjOp5r2z/GYL1wR9qke2EdbiQRO322WptToRHBXfHKyt9
+	 G8HF1u3epBRpLldq1mPpzqgW24Dp0rtSoLY2NNYetCR2lIus0Ri5KPrHveh1Vc3M0j
+	 gEz96xblCbVrYCXtaw7dhY3rtPrqfTEyDrsXQZ4c=
+Received: from smtpclient.apple ([2408:8207:18a1:c8bf:61da:261f:a4a6:7856])
+	by newxmesmtplogicsvrsza29-0.qq.com (NewEsmtp) with SMTP
+	id 59F3FAB8; Tue, 02 Jul 2024 18:22:31 +0800
+X-QQ-mid: xmsmtpt1719915751t27dj1zzm
+Message-ID: <tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
+X-QQ-XMAILINFO: NR0nbiez9+manSc+6LdgIjmx+e3Up48OY7NzymnQNYKtO5R3vEv+LqY1/vgE2T
+	 wR7fIsXNYBhX2ydcbYjuwcMTWNkyU1wU+T7/EWn1ujeB7mWeyKRKxX3+sJJcX8ETvvn4M+2/SWxh
+	 Bpe4GmFzVMuaevKSBj7yQnJDKz6izOXLsFcfIKTsatnLiDatdzIngE/NDQo2SNDV/cSMyeBoARvk
+	 lZ9jhSaWSqvQXWsgWlokXYetOKs9syw+oqmFz4cPSB+wOY+3Gxl69gik27IGC44WKfYjSG37zJti
+	 rBxDE2oCpyq/fu07c1yOOZERkf8stIeuykVEwfMAgLMgQfmlNpBSagv9BbeuVBeYOpTjJQ2H+YwH
+	 OnwubV0OSs7klfx9KjAhBYLnxFXwo56t6DqnvpqxbxmJ3rEtZlz2Vl3PCcdzkGr5vNtiazk+rb1X
+	 meAssdqq8gZWxR0fnknDFf+9pmL4iYsVdcCe5NzTNrRvOOo/V7qwsa6vBgKNV3Y+gJXAZOME7oEB
+	 N9V8+705qFY9ToDhE2woBbd6oxIVLU1uIi5lA/Gg1n5uyDCuEihDTPPxA1HFdGuip2R9qmXhfqTm
+	 Y/Ihz7SoUzDZTG4DelLtyduZJedtK3Rle92K2Il+lVjTCDthIzN0ZpuQcqbVcz5JYSIHcdilcWdg
+	 yF0b0X8fWq/k0Mvtxu9ACwVPpbCwNNNz183fy20/CQP6WmwsRDi8WcZYcEY1N9fyIaEwxVecB0j4
+	 PzqA37Tnlno8eGtptjIHaGAqvxbXNntaKS8fhdL79dhqKTUrz6VWUH/JSEdms05udpJqTTavrvwC
+	 l9fPMKQb1EusX44wfoEjrpBNzbwtwKAC/PBGT1pxklGtwlpX95ZrdtA88xHrpDUSQ+O2603vkU+m
+	 5y3dSuCgKzvcsIftxclp+jDBqlhrKB2Ng77CtGrh2F1TGQ9eDKd25v9g8P/3j4DF1hxkvM739Lvi
+	 mwlVEmAdck9J5Ak+muJc62M1PCZ1H+sv4oCi1GymPB75Y4mEeDh02ZG6QlYwv1b08KHcwC1NyJCN
+	 Lt4XW1Ig==
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: cyy@cyyself.name, will@kernel.org, linux-arm-kernel@lists.infradead.org, mark.rutland@arm.com, j@jannau.net, marcan@marcan.st, lina@asahilina.net, asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event
+ 0x96 and 0x9b
+From: Yangyu Chen <cyy@cyyself.name>
+In-Reply-To: <87bk3hp3z7.wl-maz@kernel.org>
+Date: Tue, 2 Jul 2024 18:22:21 +0800
+Cc: Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org,
+ Mark Rutland <mark.rutland@arm.com>,
+ Janne Grunau <j@jannau.net>,
+ Hector Martin <marcan@marcan.st>,
+ Asahi Lina <lina@asahilina.net>,
+ asahi@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+X-OQ-MSGID: <40F8C382-ACCE-4BA0-8C1C-3225D121A93F@cyyself.name>
+References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
+ <20240701140148.GE2250@willie-the-truck> <87cynxp52o.wl-maz@kernel.org>
+ <87bk3hp3z7.wl-maz@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+X-Mailer: Apple Mail (2.3774.600.62)
 
-On Mon, 01 Jul 2024 15:19:59 +0100,
-Marc Zyngier <maz@kernel.org> wrote:
+> Yangyu, can you please clarify how you came to the conclusion that
+> these events didn't count anywhere other than counter 7?
 > 
-> On Mon, 01 Jul 2024 15:01:48 +0100,
-> Will Deacon <will@kernel.org> wrote:
-> > 
-> > On Thu, Jun 20, 2024 at 11:04:28AM +0800, Yangyu Chen wrote:
-> > > Events 0x96 and 0x9b can be installed on counter 7 only. Fix this to avoid
-> > > getting the wrong counter value.
-> > > 
-> > > Signed-off-by: Yangyu Chen <cyy@cyyself.name>
-> > > ---
-> > >  drivers/perf/apple_m1_cpu_pmu.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/perf/apple_m1_cpu_pmu.c b/drivers/perf/apple_m1_cpu_pmu.c
-> > > index f322e5ca1114..b8127e5428e1 100644
-> > > --- a/drivers/perf/apple_m1_cpu_pmu.c
-> > > +++ b/drivers/perf/apple_m1_cpu_pmu.c
-> > > @@ -107,12 +107,12 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_93]	= ONLY_5_6_7,
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_94]	= ONLY_5_6_7,
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_95]	= ONLY_5_6_7,
-> > > -	[M1_PMU_PERFCTR_UNKNOWN_96]	= ONLY_5_6_7,
-> > > +	[M1_PMU_PERFCTR_UNKNOWN_96]	= BIT(7),
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_97]	= BIT(7),
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_98]	= ONLY_5_6_7,
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_99]	= ONLY_5_6_7,
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_9a]	= BIT(7),
-> > > -	[M1_PMU_PERFCTR_UNKNOWN_9b]	= ONLY_5_6_7,
-> > > +	[M1_PMU_PERFCTR_UNKNOWN_9b]	= BIT(7),
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_9c]	= ONLY_5_6_7,
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_9f]	= BIT(7),
-> > >  	[M1_PMU_PERFCTR_UNKNOWN_bf]	= ONLY_5_6_7,
-> > 
-> > It would be great if somebody with access to M1 hardware (and/or any
-> > PMU insight) could Test or Ack this, please.
-> 
-> I'm a bit concerned by this.
-> 
-> I originally generated this table by hacking the counter setup so that
-> it would try and count everywhere, and then feed the observations back
-> into the driver.
-> 
-> So either my methodology was flaky (not unlikely), but I'd then expect
-> more of these mis-assignments, or this applies to an implementation
-> that is different from the one I wrote this driver against (the
-> original M1). Could it be that this for M2 only, and not M1? Or
-> another flavour of M1?
-> 
-> Either way, it would be good to understand how this has been
-> established.
-> 
-> In the meantime, I'll try and resurrect my original experiment and see
-> if I spot the same issue.
 
-A quick experiment shows that these events are counting on all 3
-expected counters:
+IIRC, I came across some web page that says events 0x96 and 0x9b
+can only be installed on counter 7 to count Apple AMX, but I can't
+find the page now. Since AMX is not usable in Linux, I don't know
+if this will affect some other instructions that are usable in
+Linux.
 
-maz@mary-lou:~$ sudo taskset -c 8 perf stat -e r096:u -e r096:u -e r096:u sleep 5
+There are some other reasons, but I can't say in public.
 
- Performance counter stats for 'sleep 5':
+Even though I can't find the actual usage, I think using count 7
+only for these 2 events is safer. If this reason is insufficient,
+we can ignore this patch until we find other evidence that this
+affinity affects some instructions usable in Linux.
 
-            10,775      r096:u                                                                
-            10,775      r096:u                                                                
-            10,775      r096:u                                                                
+Thanks,
+Yangyu Chen
 
-       5.000110823 seconds time elapsed
-
-       0.000340000 seconds user
-       0.000000000 seconds sys
-
-
-maz@mary-lou:~$ sudo taskset -c 8 perf stat -e r09b:u -e r09b:u -e r09b:u sleep 5
-
- Performance counter stats for 'sleep 5':
-
-            41,927      r09b:u                                                                
-            41,927      r09b:u                                                                
-            41,927      r09b:u                                                                
-
-       5.000109771 seconds time elapsed
-
-       0.000339000 seconds user
-       0.000000000 seconds sys
-
-This is on M2 Pro, by the way, and I also checked that my M1 Ultra
-counts the exact same way.
-
-Yangyu, can you please clarify how you came to the conclusion that
-these events didn't count anywhere other than counter 7?
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
