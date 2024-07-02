@@ -1,94 +1,117 @@
-Received: from out203-205-221-190.mail.qq.com (out203-205-221-190.mail.qq.com [203.205.221.190])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA17157E9F
-	for <asahi@lists.linux.dev>; Tue,  2 Jul 2024 10:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8131C2C6B7;
+	Tue,  2 Jul 2024 10:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719915766; cv=none; b=j8X3ZfWH8LJs1yOMqOPS+afwL6qzXAA+yd/PJF86A+QV8vRlaINbUhtyXkGy4O4J7Uw0AA4iAi9z4tQYKbW8T68DTTxjewokHpX8OceMCUSMpkrHfZzwM6wWLM1VO01+jfe2vk2v9t/+ajlddgWDFUZuW5A9swZBOlTKjt77LM4=
+	t=1719917884; cv=none; b=g/1RIhVeY5KVBy+HzKr9p475VnbvD3Cm/BJ0Ng1BevTXG2ESB/f8n9k/3LWjW2l6/8Y4YYMNbqSzMefkNRPi9r/UthcwkRLVNf2HUeTqf59xuuuBL3NNT+yWmHYsW540Gy+Ifpnb+B8hKehX/QFwe2+flft1Ko7y2z0LfqHgDjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719915766; c=relaxed/simple;
-	bh=JJrKf2EqZipr9Fo2V6bixUGsWVwCnm/mevS1/eqoBq0=;
-	h=Message-ID:Content-Type:Mime-Version:Subject:From:In-Reply-To:
-	 Date:Cc:References:To; b=QZF4v+PYTmW+h3yLgK2TIVI6oywdXqcN6u6Ye4FIdvR+NODoiMIg3zefLk4VCuXGKehp97WDNZhnWpYUozvabNRg3bUZN5FNk4b+kMl2aMRjyHdwTBkPtSXfrV5GkiOmYUWvvl4Pfl+hfx5bKKHK9MCxW1r2N7QupUbJGhhYJYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=jkf/U+ZC; arc=none smtp.client-ip=203.205.221.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
+	s=arc-20240116; t=1719917884; c=relaxed/simple;
+	bh=rrCVXKvoyxrAjTZibby6tyssNtKkAiDxJiikT8VGUmo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Tlva4nRCps6mk4Lu0EigmGzCukcplN2x8bIu5pJwnySJHvmwtpajairP+w8xUUFpD4zhqAM2QKpy5KDVTpXDgrtZqgfaxtrzRcOiC4VSe+p7JIIB9IPi9esTYJxA0vbBApau7M5MNMN6pPJjibW1z9bd2aX+49SfmN7GK92nd70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6dj6Cdp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="jkf/U+ZC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1719915754; bh=/U9ki8QTbnBFMrAZkAEq4eYvse/267OSoIx74fK3Oqo=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To;
-	b=jkf/U+ZCrM/Km02Zfa77VjOp5r2z/GYL1wR9qke2EdbiQRO322WptToRHBXfHKyt9
-	 G8HF1u3epBRpLldq1mPpzqgW24Dp0rtSoLY2NNYetCR2lIus0Ri5KPrHveh1Vc3M0j
-	 gEz96xblCbVrYCXtaw7dhY3rtPrqfTEyDrsXQZ4c=
-Received: from smtpclient.apple ([2408:8207:18a1:c8bf:61da:261f:a4a6:7856])
-	by newxmesmtplogicsvrsza29-0.qq.com (NewEsmtp) with SMTP
-	id 59F3FAB8; Tue, 02 Jul 2024 18:22:31 +0800
-X-QQ-mid: xmsmtpt1719915751t27dj1zzm
-Message-ID: <tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
-X-QQ-XMAILINFO: NR0nbiez9+manSc+6LdgIjmx+e3Up48OY7NzymnQNYKtO5R3vEv+LqY1/vgE2T
-	 wR7fIsXNYBhX2ydcbYjuwcMTWNkyU1wU+T7/EWn1ujeB7mWeyKRKxX3+sJJcX8ETvvn4M+2/SWxh
-	 Bpe4GmFzVMuaevKSBj7yQnJDKz6izOXLsFcfIKTsatnLiDatdzIngE/NDQo2SNDV/cSMyeBoARvk
-	 lZ9jhSaWSqvQXWsgWlokXYetOKs9syw+oqmFz4cPSB+wOY+3Gxl69gik27IGC44WKfYjSG37zJti
-	 rBxDE2oCpyq/fu07c1yOOZERkf8stIeuykVEwfMAgLMgQfmlNpBSagv9BbeuVBeYOpTjJQ2H+YwH
-	 OnwubV0OSs7klfx9KjAhBYLnxFXwo56t6DqnvpqxbxmJ3rEtZlz2Vl3PCcdzkGr5vNtiazk+rb1X
-	 meAssdqq8gZWxR0fnknDFf+9pmL4iYsVdcCe5NzTNrRvOOo/V7qwsa6vBgKNV3Y+gJXAZOME7oEB
-	 N9V8+705qFY9ToDhE2woBbd6oxIVLU1uIi5lA/Gg1n5uyDCuEihDTPPxA1HFdGuip2R9qmXhfqTm
-	 Y/Ihz7SoUzDZTG4DelLtyduZJedtK3Rle92K2Il+lVjTCDthIzN0ZpuQcqbVcz5JYSIHcdilcWdg
-	 yF0b0X8fWq/k0Mvtxu9ACwVPpbCwNNNz183fy20/CQP6WmwsRDi8WcZYcEY1N9fyIaEwxVecB0j4
-	 PzqA37Tnlno8eGtptjIHaGAqvxbXNntaKS8fhdL79dhqKTUrz6VWUH/JSEdms05udpJqTTavrvwC
-	 l9fPMKQb1EusX44wfoEjrpBNzbwtwKAC/PBGT1pxklGtwlpX95ZrdtA88xHrpDUSQ+O2603vkU+m
-	 5y3dSuCgKzvcsIftxclp+jDBqlhrKB2Ng77CtGrh2F1TGQ9eDKd25v9g8P/3j4DF1hxkvM739Lvi
-	 mwlVEmAdck9J5Ak+muJc62M1PCZ1H+sv4oCi1GymPB75Y4mEeDh02ZG6QlYwv1b08KHcwC1NyJCN
-	 Lt4XW1Ig==
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6dj6Cdp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E209C116B1;
+	Tue,  2 Jul 2024 10:58:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1719917884;
+	bh=rrCVXKvoyxrAjTZibby6tyssNtKkAiDxJiikT8VGUmo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=F6dj6Cdp+pNANzFdsIvbbIfU3A6Z8nyXITbiVxrVehZrbSCOjjDRYh4zOvUT0fIVu
+	 3zvQ03s416MddWLQh86UN7zJ+ewAEeJyCKiVyZxEHRGJquvJsufM6h4n3/yTx6cnyh
+	 lKhcInPoJkK8ho9gCNO7OsQJarA+J85DOp8ScDfPkWOTRCFK+bW0oIcR7effym4hbM
+	 gwDHyyfxZh9JYkMtfo4CL53bYHn/dEfqYKPNqtz8bpNxj0glfIb+7IG9KLY8vRMyU4
+	 vZBLtbZk6gRjjPp5eG8a+PGt/VC0aiqin1k8QiX/EbZfWpn2pkg1UQeTN0gtLOA0gf
+	 1mSr+JrFSVypQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1sObCz-0094im-I8;
+	Tue, 02 Jul 2024 11:58:01 +0100
+Date: Tue, 02 Jul 2024 11:58:00 +0100
+Message-ID: <8634oshxhj.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Yangyu Chen <cyy@cyyself.name>
+Cc: Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Mark Rutland <mark.rutland@arm.com>,
+	Janne Grunau <j@jannau.net>,
+	Hector Martin <marcan@marcan.st>,
+	Asahi Lina <lina@asahilina.net>,
+	asahi@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event 0x96 and 0x9b
+In-Reply-To: <tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
+References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
+	<20240701140148.GE2250@willie-the-truck>
+	<87cynxp52o.wl-maz@kernel.org>
+	<87bk3hp3z7.wl-maz@kernel.org>
+	<tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
-Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event
- 0x96 and 0x9b
-From: Yangyu Chen <cyy@cyyself.name>
-In-Reply-To: <87bk3hp3z7.wl-maz@kernel.org>
-Date: Tue, 2 Jul 2024 18:22:21 +0800
-Cc: Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org,
- Mark Rutland <mark.rutland@arm.com>,
- Janne Grunau <j@jannau.net>,
- Hector Martin <marcan@marcan.st>,
- Asahi Lina <lina@asahilina.net>,
- asahi@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: 7bit
-X-OQ-MSGID: <40F8C382-ACCE-4BA0-8C1C-3225D121A93F@cyyself.name>
-References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
- <20240701140148.GE2250@willie-the-truck> <87cynxp52o.wl-maz@kernel.org>
- <87bk3hp3z7.wl-maz@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-X-Mailer: Apple Mail (2.3774.600.62)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: cyy@cyyself.name, will@kernel.org, linux-arm-kernel@lists.infradead.org, mark.rutland@arm.com, j@jannau.net, marcan@marcan.st, lina@asahilina.net, asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-> Yangyu, can you please clarify how you came to the conclusion that
-> these events didn't count anywhere other than counter 7?
+On Tue, 02 Jul 2024 11:22:21 +0100,
+Yangyu Chen <cyy@cyyself.name> wrote:
 > 
+> > Yangyu, can you please clarify how you came to the conclusion that
+> > these events didn't count anywhere other than counter 7?
+> > 
+> 
+> IIRC, I came across some web page that says events 0x96 and 0x9b
+> can only be installed on counter 7 to count Apple AMX, but I can't
+> find the page now. Since AMX is not usable in Linux, I don't know
+> if this will affect some other instructions that are usable in
+> Linux.
 
-IIRC, I came across some web page that says events 0x96 and 0x9b
-can only be installed on counter 7 to count Apple AMX, but I can't
-find the page now. Since AMX is not usable in Linux, I don't know
-if this will affect some other instructions that are usable in
-Linux.
+As you said, AMX cannot be used with Linux, and that's unlikely to
+ever change. But when it comes to the standard ARM ISA, we can only
+witness counters 5,6 and 7 being incremented with at the exact same
+rate.
 
-There are some other reasons, but I can't say in public.
+So reading between the lines, what I understand is that AMX
+instructions would only have their effects counted in counter 7 for
+these events, while other instructions would be counted in all 3
+counters.
 
-Even though I can't find the actual usage, I think using count 7
-only for these 2 events is safer. If this reason is insufficient,
-we can ignore this patch until we find other evidence that this
-affinity affects some instructions usable in Linux.
+By extension, such behaviour could be applied to SME on HW that
+supports it (wild guess).
+
+> There are some other reasons, but I can't say in public.
+
+Fair enough, I'm not asking for the disclosure of anything that isn't
+public (the least I know, the better).
+
+> Even though I can't find the actual usage, I think using count 7
+> only for these 2 events is safer. If this reason is insufficient,
+> we can ignore this patch until we find other evidence that this
+> affinity affects some instructions usable in Linux.
+
+I honestly don't mind.
+
+The whole thing is a black box, and is more useful as an interrupt
+generator than an actual PMU, due to the lack of freely available
+documentation. If the PMU maintainers want to merge this, I won't
+oppose it.
 
 Thanks,
-Yangyu Chen
 
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
