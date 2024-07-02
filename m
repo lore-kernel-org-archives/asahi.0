@@ -1,117 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8131C2C6B7;
-	Tue,  2 Jul 2024 10:58:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27BB615CD75;
+	Tue,  2 Jul 2024 12:13:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1719917884; cv=none; b=g/1RIhVeY5KVBy+HzKr9p475VnbvD3Cm/BJ0Ng1BevTXG2ESB/f8n9k/3LWjW2l6/8Y4YYMNbqSzMefkNRPi9r/UthcwkRLVNf2HUeTqf59xuuuBL3NNT+yWmHYsW540Gy+Ifpnb+B8hKehX/QFwe2+flft1Ko7y2z0LfqHgDjE=
+	t=1719922426; cv=none; b=fLIJyFTMiNmXesFUqj4K0d0kla0tyD4b3e+FJoRV3BU+56xHa10Y9djiCQukPxjvRzRbczS713/+nbBsOfcWO2CRFy/NCMbXN+yqgXOtlXooQBnoeafoi2zJoXKkb5clZ083HtPja7F3OK4v9oIZ6DT6Pi3B20yBCsefBf3U5Is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1719917884; c=relaxed/simple;
-	bh=rrCVXKvoyxrAjTZibby6tyssNtKkAiDxJiikT8VGUmo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tlva4nRCps6mk4Lu0EigmGzCukcplN2x8bIu5pJwnySJHvmwtpajairP+w8xUUFpD4zhqAM2QKpy5KDVTpXDgrtZqgfaxtrzRcOiC4VSe+p7JIIB9IPi9esTYJxA0vbBApau7M5MNMN6pPJjibW1z9bd2aX+49SfmN7GK92nd70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F6dj6Cdp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1719922426; c=relaxed/simple;
+	bh=Bf2wlVUAC4llSs8EkU+I8ySlnGn5ovG0nUk6KILafEo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B1n3JhROY5dI+SeH8/BKlR7rAIWwPC0L8Ei/rI34S+d+kcS4mxoetP1D1eJyjeJNYbRn4vJyjPyKm7pHIhs/RhB5Wcf+InEKs21vJ3YiriIckCgyeg/kgCXpN53+U/Jjvd4lMWt80nyjq5ZahK0OaT61zUdQIuGNvKA8c1/kb94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j1rjxOnI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F6dj6Cdp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E209C116B1;
-	Tue,  2 Jul 2024 10:58:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j1rjxOnI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17318C32781;
+	Tue,  2 Jul 2024 12:13:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1719917884;
-	bh=rrCVXKvoyxrAjTZibby6tyssNtKkAiDxJiikT8VGUmo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=F6dj6Cdp+pNANzFdsIvbbIfU3A6Z8nyXITbiVxrVehZrbSCOjjDRYh4zOvUT0fIVu
-	 3zvQ03s416MddWLQh86UN7zJ+ewAEeJyCKiVyZxEHRGJquvJsufM6h4n3/yTx6cnyh
-	 lKhcInPoJkK8ho9gCNO7OsQJarA+J85DOp8ScDfPkWOTRCFK+bW0oIcR7effym4hbM
-	 gwDHyyfxZh9JYkMtfo4CL53bYHn/dEfqYKPNqtz8bpNxj0glfIb+7IG9KLY8vRMyU4
-	 vZBLtbZk6gRjjPp5eG8a+PGt/VC0aiqin1k8QiX/EbZfWpn2pkg1UQeTN0gtLOA0gf
-	 1mSr+JrFSVypQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1sObCz-0094im-I8;
-	Tue, 02 Jul 2024 11:58:01 +0100
-Date: Tue, 02 Jul 2024 11:58:00 +0100
-Message-ID: <8634oshxhj.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>,
-	Janne Grunau <j@jannau.net>,
-	Hector Martin <marcan@marcan.st>,
-	Asahi Lina <lina@asahilina.net>,
+	s=k20201202; t=1719922425;
+	bh=Bf2wlVUAC4llSs8EkU+I8ySlnGn5ovG0nUk6KILafEo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j1rjxOnI7wPme9phxNtAAD8YnUXRJAhBnrQAb0/wrXahT8rZwRg+jAjlxq4ZSsBDn
+	 PiplLOSUmpkdLF9thsweqx+Xx6I4XnL70P0/klizHUQUGLivvzGIDOnjws6cdgxn7l
+	 GOPonwNWWNmxMb2yiEf/atO1ZPyyTKGC67otwU3uLF3d1RiKuzJjDF6taQQERE7sap
+	 cnC11CLC95d5P2NlAbWWXLhFwRjm/qEMilUDx8ylkkTno2f+dM61Knek+eUmeqQEBz
+	 XKx8kp8UGd+t+zaw2dYBbi0CW02fVTN9shHT4M4Mh2aSqienFqtgMQC5OmAMngQkJY
+	 J07hzEB7IiLrQ==
+Date: Tue, 2 Jul 2024 13:13:40 +0100
+From: Will Deacon <will@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Yangyu Chen <cyy@cyyself.name>, linux-arm-kernel@lists.infradead.org,
+	Mark Rutland <mark.rutland@arm.com>, Janne Grunau <j@jannau.net>,
+	Hector Martin <marcan@marcan.st>, Asahi Lina <lina@asahilina.net>,
 	asahi@lists.linux.dev,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event 0x96 and 0x9b
-In-Reply-To: <tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
+Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event
+ 0x96 and 0x9b
+Message-ID: <20240702121340.GB3542@willie-the-truck>
 References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
-	<20240701140148.GE2250@willie-the-truck>
-	<87cynxp52o.wl-maz@kernel.org>
-	<87bk3hp3z7.wl-maz@kernel.org>
-	<tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.2
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+ <20240701140148.GE2250@willie-the-truck>
+ <87cynxp52o.wl-maz@kernel.org>
+ <87bk3hp3z7.wl-maz@kernel.org>
+ <tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
+ <8634oshxhj.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: cyy@cyyself.name, will@kernel.org, linux-arm-kernel@lists.infradead.org, mark.rutland@arm.com, j@jannau.net, marcan@marcan.st, lina@asahilina.net, asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8634oshxhj.wl-maz@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Tue, 02 Jul 2024 11:22:21 +0100,
-Yangyu Chen <cyy@cyyself.name> wrote:
-> 
-> > Yangyu, can you please clarify how you came to the conclusion that
-> > these events didn't count anywhere other than counter 7?
+On Tue, Jul 02, 2024 at 11:58:00AM +0100, Marc Zyngier wrote:
+> On Tue, 02 Jul 2024 11:22:21 +0100,
+> Yangyu Chen <cyy@cyyself.name> wrote:
 > > 
+> > > Yangyu, can you please clarify how you came to the conclusion that
+> > > these events didn't count anywhere other than counter 7?
+> > > 
+> > 
+> > IIRC, I came across some web page that says events 0x96 and 0x9b
+> > can only be installed on counter 7 to count Apple AMX, but I can't
+> > find the page now. Since AMX is not usable in Linux, I don't know
+> > if this will affect some other instructions that are usable in
+> > Linux.
 > 
-> IIRC, I came across some web page that says events 0x96 and 0x9b
-> can only be installed on counter 7 to count Apple AMX, but I can't
-> find the page now. Since AMX is not usable in Linux, I don't know
-> if this will affect some other instructions that are usable in
-> Linux.
+> As you said, AMX cannot be used with Linux, and that's unlikely to
+> ever change. But when it comes to the standard ARM ISA, we can only
+> witness counters 5,6 and 7 being incremented with at the exact same
+> rate.
+> 
+> So reading between the lines, what I understand is that AMX
+> instructions would only have their effects counted in counter 7 for
+> these events, while other instructions would be counted in all 3
+> counters.
+> 
+> By extension, such behaviour could be applied to SME on HW that
+> supports it (wild guess).
+> 
+> > There are some other reasons, but I can't say in public.
+> 
+> Fair enough, I'm not asking for the disclosure of anything that isn't
+> public (the least I know, the better).
+> 
+> > Even though I can't find the actual usage, I think using count 7
+> > only for these 2 events is safer. If this reason is insufficient,
+> > we can ignore this patch until we find other evidence that this
+> > affinity affects some instructions usable in Linux.
+> 
+> I honestly don't mind.
+> 
+> The whole thing is a black box, and is more useful as an interrupt
+> generator than an actual PMU, due to the lack of freely available
+> documentation. If the PMU maintainers want to merge this, I won't
+> oppose it.
 
-As you said, AMX cannot be used with Linux, and that's unlikely to
-ever change. But when it comes to the standard ARM ISA, we can only
-witness counters 5,6 and 7 being incremented with at the exact same
-rate.
+I'd rather leave the code as-is than tweak specific counters based on
+a combination of guesswork and partial information.
 
-So reading between the lines, what I understand is that AMX
-instructions would only have their effects counted in counter 7 for
-these events, while other instructions would be counted in all 3
-counters.
+Of course, if somebody who knows better wants to fix up all of the
+mappings (because this surely isn't the only corner-case), then we can
+take that. But at least what we have today has _some_ sort of consistent
+rationale behind it.
 
-By extension, such behaviour could be applied to SME on HW that
-supports it (wild guess).
-
-> There are some other reasons, but I can't say in public.
-
-Fair enough, I'm not asking for the disclosure of anything that isn't
-public (the least I know, the better).
-
-> Even though I can't find the actual usage, I think using count 7
-> only for these 2 events is safer. If this reason is insufficient,
-> we can ignore this patch until we find other evidence that this
-> affinity affects some instructions usable in Linux.
-
-I honestly don't mind.
-
-The whole thing is a black box, and is more useful as an interrupt
-generator than an actual PMU, due to the lack of freely available
-documentation. If the PMU maintainers want to merge this, I won't
-oppose it.
-
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Will
