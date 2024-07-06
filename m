@@ -1,234 +1,287 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082121B011B
-	for <asahi@lists.linux.dev>; Thu,  4 Jul 2024 14:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33B5482F6
+	for <asahi@lists.linux.dev>; Sat,  6 Jul 2024 11:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720104184; cv=none; b=LTY16s7HiPUy3v2oFCs/FfahTiTtB+WrZMAH2B1OwtFkl9lfnYylbXSHwG+1cYU9DKdjkfNI9CYNPJuc2sFVlpILFGo+U8xGTDH3gVQkS/NeqvIU5ke0pMtyIt2+Ta3uK/wPGPjjytCFj7FnKMaydXdw9mXQMIQ7jiW75HCaJdM=
+	t=1720264889; cv=none; b=VUlBgMVLh3loCki1g0HY00qUqCkfyvWX/rmMMZ9PjN5wnCVd7W+PVJxAyW01cjeyKTbH+60/bJDDJjaATwN0ax6SE2Axx5USAygwTRgAXhId/Ij22GluTg4psCl0fhR8EtRUaE623ntLrlDmh4aNpYXhEu/0hdA/8UH3joRfGXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720104184; c=relaxed/simple;
-	bh=GaQ3w9xA4cb+ggQioi5TtSWbhra8a+nm04Br4UVKHt4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bzO9oD65K4wXG4TIY9QGvgLyekxRQXM9iR4hq16oiM+98S96Jzpc3GJeY29rutwsFyEU6/5/0F7wbsAhzLdiijRSGtmGJplV+5Rk8SZ/l7e5eH3ICvIXIXBb5NJclLiwaFUBVpfHTMoXhh9kUrJ75dzvb1hd+P6v/o7Fk2jAspU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=fq9ruhTj; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1720264889; c=relaxed/simple;
+	bh=y5FWZNeQ6JmRQs1l/30Vbm4yrsGahRyVcyvb/wVZIfA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SYrRIoX2CjlZSe1iG8oUBhNNTJHg0sPgpX1cd6mA1Tef9YTE9p3Fqm2j0XrNIovrzcHB09A0hK8Pu8VEXhB9Ckpm/TwyaCqAzgM36YsUfRwrAiE9hyXUn/3MKsZw5qVc3PPLtxBUbliTRTNuupZC49dDEMiM82nTXMUP0BFUDXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CpjSu7bD; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="fq9ruhTj"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-70b04cb28baso298320b3a.1
-        for <asahi@lists.linux.dev>; Thu, 04 Jul 2024 07:43:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1720104182; x=1720708982; darn=lists.linux.dev;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R+483d7Y1edQ1kEKsNMk3OKvbTr0GQ5Bu0wh2YOB4f0=;
-        b=fq9ruhTjw3oWy+H4hFdm9IKks4H34OqgQK0YtDV6i9xmIX4Ww6NaaUEcK94UCzFioU
-         u/qp+0195qIBAYbezc0Bx8CNXqS/LiNr5am5J243eTFecYFxXQmAbGC7VDxvA3Ku1na4
-         wqKL3dNmgubmjRtqjpBFytWFQalRmxwl3JPv8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720104182; x=1720708982;
-        h=in-reply-to:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=R+483d7Y1edQ1kEKsNMk3OKvbTr0GQ5Bu0wh2YOB4f0=;
-        b=BZnNxRUoNSxCyLr6vGyONu20nLw0q1J9bTIAnY/BniOy4l9a0QZmX0OG57g1LEUAZg
-         unN2ZdJEy1eBJBx2JyfTxGEz+2nGcWdh4Vx6ZbXXFUh2NNP2/ZKpByvxbNNDWAZnsVjj
-         KPU6h+ASSpoHrGTWmVfJmAi0SyIRfhrf/s86vYooI0gFIVPVOgtlOIYK8nTSwIvuf1lU
-         OVI6KLazB0MYiFYz1oMX/L/Py9hzfljct/BDcrBkjv1/Q2pIo3HjI75W4ggBxqwdijES
-         8oDmQFpg2flcvuftG4WNO+fiilD5isXU3koI+YF6++cNVQviCFkwgF5iMDoH0N08TcEF
-         sumw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDZutPoEW1QZ47ce+jX4xy7rqfBmm0hAPhg383RgkfB3WgqENfwoUZSUIjJdoQt7CRO5YPUlatb15/T53phjxpuqjMX0w=
-X-Gm-Message-State: AOJu0YyyqH9DqavUOkX05Wk80Gj84oUea8vX7fnwrBGKww1/Zf9419nX
-	ohslD8BI7D6lNFKVv4Q03yjOPifv7CMV75ieg6Nm/f+8d3303emnAumi+/EDoA==
-X-Google-Smtp-Source: AGHT+IGwqGD31RPjFqbJIXjA0pSkTuX7yzJhLgApArGRcuLKwACKly84bFTqh9ZVc25UJCXr6N3HKA==
-X-Received: by 2002:a05:6a20:7f9c:b0:1bd:2a21:fc1c with SMTP id adf61e73a8af0-1c0cc90bde6mr1993197637.50.1720104182234;
-        Thu, 04 Jul 2024 07:43:02 -0700 (PDT)
-Received: from [10.40.5.113] ([89.207.175.15])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fac159664csm123600505ad.258.2024.07.04.07.42.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jul 2024 07:43:01 -0700 (PDT)
-Message-ID: <8491f74c-439a-4002-a95a-75821d788cec@broadcom.com>
-Date: Thu, 4 Jul 2024 16:42:27 +0200
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CpjSu7bD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=4xGv2GdsCln4go
+	c80LSZXUrBL6qxxalWNHk5CsLBJ1w=; b=CpjSu7bDPwZrTYB4DnXqHNJrzzOV0i
+	ll8uIcabyZjRJJv8IN4yPeOtXpO4cU3QOhP76TyKvJMMzxzWe7wr6Y8Gfi1EOJAl
+	eYaKXSKfSh434zAyHAlKzS3YiYx+9JKmXA5Z4dH8SJCoxnqURGaAyztFVBvyi1yd
+	2c/2c5x2P3YnhmZAJ159dGcqaiJS0bS6wqjht7xK0Bj8rjBLCVh+cZ/DSRHm9TfF
+	wR6Q+GUBV9AvnC5iTsch/LEkT1PCX7RbFkTTasFpYCXqwNoLS7gYY0t9kNWTlFrw
+	SSpGB+37KfH9i4bF3oug8fwFzqzeaLHCrle0xWnEiN2tyJJ+LMS5P9kQ==
+Received: (qmail 3809341 invoked from network); 6 Jul 2024 13:21:21 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 6 Jul 2024 13:21:21 +0200
+X-UD-Smtp-Session: l3s3148p1@BOAqYZIcotJQT+F6
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-i2c@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Ajay Gupta <ajayg@nvidia.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	Andrew Lunn <andrew@lunn.ch>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	asahi@lists.linux.dev,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Baruch Siach <baruch@tkos.co.il>,
+	=?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <bence98@sch.bme.hu>,
+	Benson Leung <bleung@chromium.org>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Chris Brandt <chris.brandt@renesas.com>,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>,
+	chrome-platform@lists.linux.dev,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Conghui Chen <conghui.chen@intel.com>,
+	Eddie James <eajames@linux.ibm.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Hans Hu <hanshu@zhaoxin.com>,
+	Hector Martin <marcan@marcan.st>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jochen Friedrich <jochen@scram.de>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kamal Dasu <kamal.dasu@broadcom.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	linux-actions@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michael Shych <michaelsh@nvidia.com>,
+	openbmc@lists.ozlabs.org,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Peter Korsgaard <peter@korsgaard.com>,
+	Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>,
+	Ray Jui <rjui@broadcom.com>,
+	Robert Richter <rric@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Scott Branden <sbranden@broadcom.com>,
+	Stefan Roese <sr@denx.de>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Thor Thayer <thor.thayer@linux.intel.com>,
+	Till Harbaum <till@harbaum.org>,
+	Vadim Pasternak <vadimp@nvidia.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	virtualization@lists.linux.dev,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Yicong Yang <yangyicong@hisilicon.com>
+Subject: [PATCH v2 00/60] i2c: reword first drivers according to newest specification
+Date: Sat,  6 Jul 2024 13:20:00 +0200
+Message-ID: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] cpufreq: Make cpufreq_driver->exit() return void
-To: Viresh Kumar <viresh.kumar@linaro.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Huang Rui <ray.huang@amd.com>,
- "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Perry Yuan <perry.yuan@amd.com>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Markus Mayer <mmayer@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Len Brown <lenb@kernel.org>, Kevin Hilman <khilman@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-pm@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
- Lizhe <sensor1010@163.com>, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-References: <cover.1720075640.git.viresh.kumar@linaro.org>
- <3f73fda736818128558b61ad5fe2bed5dce3ddc4.1720075640.git.viresh.kumar@linaro.org>
-From: Florian Fainelli <florian.fainelli@broadcom.com>
-Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
- xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
- M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
- JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
- PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
- KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
- AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
- IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
- ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
- bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
- Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
- tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
- TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
- zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
- WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
- IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
- U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
- 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
- pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
- MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
- IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
- gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
- obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
- N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
- CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
- C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
- wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
- EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
- fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
- MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
- 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
- 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
-In-Reply-To: <3f73fda736818128558b61ad5fe2bed5dce3ddc4.1720075640.git.viresh.kumar@linaro.org>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000c91e20061c6cf6ba"
+Content-Transfer-Encoding: 8bit
 
---000000000000c91e20061c6cf6ba
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Start changing the wording of the I2C main header wrt. the newest I2C
+v7 and SMBus 3.2 specifications and replace "master/slave" with more
+appropriate terms. This first step renames the members of struct
+i2c_algorithm. Once all in-tree users are converted, the anonymous union
+will go away again. All this work will also pave the way for finally
+seperating the monolithic header into more fine-grained headers like
+"i2c/clients.h" etc. So, this is not a simple renaming-excercise but
+also a chance to update the I2C core to recent Linux standards.
+
+Changes since v1:
+
+* changed wording according to the terminology we agreed on and defined
+  upstream. That means consistent use of "controller/target", and no
+  more "host/client". I added "local/remote target" where necessary.
+* added tags which I kept despite some changes in wording. The approach
+  and code changes (if necessary) did not change.
+* rebased to Andi's for-next branch
+* this series only contains patches which convert the drivers fully. If
+  all goes well, no more updates for them are needed. The previous
+  series converted all users of "master_xfer". But to avoid tons of
+  incremental patches to one driver, I will incrementally improve i2c.h
+  and see which drivers can be fully converted step-by-step.
+* do not mention I3C specs in commit messages, not really relevant here
+
+Please note that I am not super strict with the 80 char limit. And, as
+agreed, I did not convert occasions where old terminology is used in
+register names or bits etc. or in function names outside of the I2C
+realm.
+
+The outcome is that before this series 115 drivers use old terminology,
+after this only 54. Hooray.
+
+And a comment to all janitors: Do not convert I2C drivers outside of
+drivers/i2c yet. Let us first gain experience here and present the
+well-tested results of what we figured out to other maintainers then.
+This ensures they have to deal with way less patch revisions.
+
+Thanks and happy hacking!
 
 
+Wolfram Sang (60):
+  i2c: reword i2c_algorithm according to newest specification
+  i2c: ali15x3: reword according to newest specification
+  i2c: altera: reword according to newest specification
+  i2c: au1550: reword according to newest specification
+  i2c: bcm-kona: reword according to newest specification
+  i2c: bcm2835: reword according to newest specification
+  i2c: brcmstb: reword according to newest specification
+  i2c: cht-wc: reword according to newest specification
+  i2c: cp2615: reword according to newest specification
+  i2c: cros-ec-tunnel: reword according to newest specification
+  i2c: davinci: reword according to newest specification
+  i2c: digicolor: reword according to newest specification
+  i2c: diolan-u2c: reword according to newest specification
+  i2c: dln2: reword according to newest specification
+  i2c: fsi: reword according to newest specification
+  i2c: gpio: reword according to newest specification
+  i2c: highlander: reword according to newest specification
+  i2c: hisi: reword according to newest specification
+  i2c: hix5hd2: reword according to newest specification
+  i2c: i801: reword according to newest specification
+  i2c: ibm_iic: reword according to newest specification
+  i2c: iop3xx: reword according to newest specification
+  i2c: isch: reword according to newest specification
+  i2c: jz4780: reword according to newest specification
+  i2c: kempld: reword according to newest specification
+  i2c: ljca: reword according to newest specification
+  i2c: lpc2k: reword according to newest specification
+  i2c: ls2x: reword according to newest specification
+  i2c: mlxcpld: reword according to newest specification
+  i2c: mpc: reword according to newest specification
+  i2c: mt7621: reword according to newest specification
+  i2c: mv64xxx: reword according to newest specification
+  i2c: ocores: reword according to newest specification
+  i2c: octeon: reword according to newest specification
+  i2c: opal: reword according to newest specification
+  i2c: owl: reword according to newest specification
+  i2c: pasemi: reword according to newest specification
+  i2c: piix4: reword according to newest specification
+  i2c: powermac: reword according to newest specification
+  i2c: pxa-pci: reword according to newest specification
+  i2c: riic: reword according to newest specification
+  i2c: rk3x: reword according to newest specification
+  i2c: robotfuzz-osif: reword according to newest specification
+  i2c: rzv2m: reword according to newest specification
+  i2c: sis5595: reword according to newest specification
+  i2c: sprd: reword according to newest specification
+  i2c: stm32f4: reword according to newest specification
+  i2c: sun6i-p2wi: reword according to newest specification
+  i2c: taos-evm: reword according to newest specification
+  i2c: tegra-bpmp: reword according to newest specification
+  i2c: thunderx-pcidrv: reword according to newest specification
+  i2c: tiny-usb: reword according to newest specification
+  i2c: uniphier-f: reword according to newest specification
+  i2c: uniphier: reword according to newest specification
+  i2c: viperboard: reword according to newest specification
+  i2c: viai2c: reword according to newest specification
+  i2c: nvidia-gpu: reword according to newest specification
+  i2c: virtio: reword according to newest specification
+  i2c: cpm: reword according to newest specification
+  i2c: st: reword according to newest specification
 
-On 7/4/2024 7:53 AM, Viresh Kumar wrote:
-> From: Lizhe <sensor1010@163.com>
-> 
-> The cpufreq core doesn't check the return type of the exit() callback
-> and there is not much the core can do on failures at that point. Just
-> drop the returned value and make it return void.
-> 
-> Signed-off-by: Lizhe <sensor1010@163.com>
-> [ Viresh: Reworked the patches to fix all missing changes together. ]
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->   drivers/cpufreq/bmips-cpufreq.c        |  4 +---
+ drivers/i2c/busses/i2c-ali15x3.c         |  2 +-
+ drivers/i2c/busses/i2c-altera.c          |  4 +-
+ drivers/i2c/busses/i2c-au1550.c          | 15 +++----
+ drivers/i2c/busses/i2c-bcm-kona.c        | 13 +++---
+ drivers/i2c/busses/i2c-bcm2835.c         | 10 ++---
+ drivers/i2c/busses/i2c-brcmstb.c         | 11 +++--
+ drivers/i2c/busses/i2c-cht-wc.c          |  8 ++--
+ drivers/i2c/busses/i2c-cp2615.c          |  8 ++--
+ drivers/i2c/busses/i2c-cpm.c             |  4 +-
+ drivers/i2c/busses/i2c-cros-ec-tunnel.c  |  4 +-
+ drivers/i2c/busses/i2c-davinci.c         | 17 ++++---
+ drivers/i2c/busses/i2c-digicolor.c       |  6 +--
+ drivers/i2c/busses/i2c-diolan-u2c.c      |  2 +-
+ drivers/i2c/busses/i2c-dln2.c            |  4 +-
+ drivers/i2c/busses/i2c-fsi.c             | 56 ++++++++++++------------
+ drivers/i2c/busses/i2c-gpio.c            |  8 ++--
+ drivers/i2c/busses/i2c-highlander.c      |  2 +-
+ drivers/i2c/busses/i2c-hisi.c            |  8 ++--
+ drivers/i2c/busses/i2c-hix5hd2.c         |  6 +--
+ drivers/i2c/busses/i2c-i801.c            | 12 ++---
+ drivers/i2c/busses/i2c-ibm_iic.c         | 27 +++++-------
+ drivers/i2c/busses/i2c-iop3xx.c          | 15 +++----
+ drivers/i2c/busses/i2c-isch.c            |  2 +-
+ drivers/i2c/busses/i2c-jz4780.c          |  4 +-
+ drivers/i2c/busses/i2c-kempld.c          |  4 +-
+ drivers/i2c/busses/i2c-ljca.c            | 20 ++++-----
+ drivers/i2c/busses/i2c-lpc2k.c           | 10 ++---
+ drivers/i2c/busses/i2c-ls2x.c            | 11 +++--
+ drivers/i2c/busses/i2c-mlxcpld.c         | 14 +++---
+ drivers/i2c/busses/i2c-mpc.c             |  4 +-
+ drivers/i2c/busses/i2c-mt7621.c          | 26 +++++------
+ drivers/i2c/busses/i2c-mv64xxx.c         | 12 ++---
+ drivers/i2c/busses/i2c-nvidia-gpu.c      |  7 ++-
+ drivers/i2c/busses/i2c-ocores.c          |  8 ++--
+ drivers/i2c/busses/i2c-octeon-core.c     |  6 +--
+ drivers/i2c/busses/i2c-octeon-core.h     |  4 +-
+ drivers/i2c/busses/i2c-octeon-platdrv.c  |  2 +-
+ drivers/i2c/busses/i2c-opal.c            | 10 ++---
+ drivers/i2c/busses/i2c-owl.c             | 12 ++---
+ drivers/i2c/busses/i2c-pasemi-core.c     |  6 +--
+ drivers/i2c/busses/i2c-piix4.c           |  2 +-
+ drivers/i2c/busses/i2c-powermac.c        | 14 +++---
+ drivers/i2c/busses/i2c-pxa-pci.c         |  2 +-
+ drivers/i2c/busses/i2c-riic.c            |  8 ++--
+ drivers/i2c/busses/i2c-rk3x.c            | 20 ++++-----
+ drivers/i2c/busses/i2c-robotfuzz-osif.c  |  4 +-
+ drivers/i2c/busses/i2c-rzv2m.c           | 12 ++---
+ drivers/i2c/busses/i2c-sis5595.c         |  2 +-
+ drivers/i2c/busses/i2c-sprd.c            | 16 +++----
+ drivers/i2c/busses/i2c-st.c              |  8 ++--
+ drivers/i2c/busses/i2c-stm32f4.c         |  8 ++--
+ drivers/i2c/busses/i2c-sun6i-p2wi.c      | 20 ++++-----
+ drivers/i2c/busses/i2c-taos-evm.c        |  2 +-
+ drivers/i2c/busses/i2c-tegra-bpmp.c      |  4 +-
+ drivers/i2c/busses/i2c-thunderx-pcidrv.c |  2 +-
+ drivers/i2c/busses/i2c-tiny-usb.c        |  6 +--
+ drivers/i2c/busses/i2c-uniphier-f.c      | 26 +++++------
+ drivers/i2c/busses/i2c-uniphier.c        | 15 +++----
+ drivers/i2c/busses/i2c-viai2c-common.c   |  2 +-
+ drivers/i2c/busses/i2c-viai2c-wmt.c      |  8 ++--
+ drivers/i2c/busses/i2c-viai2c-zhaoxin.c  | 12 ++---
+ drivers/i2c/busses/i2c-viperboard.c      | 10 ++---
+ drivers/i2c/busses/i2c-virtio.c          |  2 +-
+ include/linux/i2c.h                      | 24 +++++++---
+ 64 files changed, 313 insertions(+), 320 deletions(-)
 
-For the above:
-
-Reviewed-by: Florian Fainelli <florian.fainelli@broadcom.com>
 -- 
-Florian
+2.43.0
 
---000000000000c91e20061c6cf6ba
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-riBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGj
-QjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5N
-UPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEAS0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigH
-M8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9ubG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmU
-Y/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaMld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V
-14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcy
-a5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/fhO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/
-XzCCBVgwggRAoAMCAQICDBP8P9hKRVySg3Qv5DANBgkqhkiG9w0BAQsFADBbMQswCQYDVQQGEwJC
-RTEZMBcGA1UEChMQR2xvYmFsU2lnbiBudi1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMg
-UGVyc29uYWxTaWduIDIgQ0EgMjAyMDAeFw0yMjA5MTAxMjE4MTFaFw0yNTA5MTAxMjE4MTFaMIGW
-MQswCQYDVQQGEwJJTjESMBAGA1UECBMJS2FybmF0YWthMRIwEAYDVQQHEwlCYW5nYWxvcmUxFjAU
-BgNVBAoTDUJyb2FkY29tIEluYy4xGTAXBgNVBAMTEEZsb3JpYW4gRmFpbmVsbGkxLDAqBgkqhkiG
-9w0BCQEWHWZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOC
-AQ8AMIIBCgKCAQEA+oi3jMmHltY4LMUy8Up5+1zjd1iSgUBXhwCJLj1GJQF+GwP8InemBbk5rjlC
-UwbQDeIlOfb8xGqHoQFGSW8p9V1XUw+cthISLkycex0AJ09ufePshLZygRLREU0H4ecNPMejxCte
-KdtB4COST4uhBkUCo9BSy1gkl8DJ8j/BQ1KNUx6oYe0CntRag+EnHv9TM9BeXBBLfmMRnWNhvOSk
-nSmRX0J3d9/G2A3FIC6WY2XnLW7eAZCQPa1Tz3n2B5BGOxwqhwKLGLNu2SRCPHwOdD6e0drURF7/
-Vax85/EqkVnFNlfxtZhS0ugx5gn2pta7bTdBm1IG4TX+A3B1G57rVwIDAQABo4IB3jCCAdowDgYD
-VR0PAQH/BAQDAgWgMIGjBggrBgEFBQcBAQSBljCBkzBOBggrBgEFBQcwAoZCaHR0cDovL3NlY3Vy
-ZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3J0MEEG
-CCsGAQUFBzABhjVodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3IzcGVyc29uYWxzaWdu
-MmNhMjAyMDBNBgNVHSAERjBEMEIGCisGAQQBoDIBKAowNDAyBggrBgEFBQcCARYmaHR0cHM6Ly93
-d3cuZ2xvYmFsc2lnbi5jb20vcmVwb3NpdG9yeS8wCQYDVR0TBAIwADBJBgNVHR8EQjBAMD6gPKA6
-hjhodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwLmNy
-bDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggr
-BgEFBQcDBDAfBgNVHSMEGDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUwwfJ6/F
-KL0fRdVROal/Lp4lAF0wDQYJKoZIhvcNAQELBQADggEBAKBgfteDc1mChZjKBY4xAplC6uXGyBrZ
-kNGap1mHJ+JngGzZCz+dDiHRQKGpXLxkHX0BvEDZLW6LGOJ83ImrW38YMOo3ZYnCYNHA9qDOakiw
-2s1RH00JOkO5SkYdwCHj4DB9B7KEnLatJtD8MBorvt+QxTuSh4ze96Jz3kEIoHMvwGFkgObWblsc
-3/YcLBmCgaWpZ3Ksev1vJPr5n8riG3/N4on8gO5qinmmr9Y7vGeuf5dmZrYMbnb+yCBalkUmZQwY
-NxADYvcRBA0ySL6sZpj8BIIhWiXiuusuBmt2Mak2eEv0xDbovE6Z6hYyl/ZnRadbgK/ClgbY3w+O
-AfUXEZ0xggJtMIICaQIBATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52
-LXNhMTEwLwYDVQQDEyhHbG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwT
-/D/YSkVckoN0L+QwDQYJYIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIFpLRhJ/ak7prsml
-VeH7x1OdHXZN/JMsFHsfp7oJrkvyMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcN
-AQkFMQ8XDTI0MDcwNDE0NDMwMlowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZI
-AWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEH
-MAsGCWCGSAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQA4evIs7zOISGy8rju3htA/wIywE20FSK29
-NWYP/oPZ6uvpuCwCXt1mgpHO24AQDiUkxtsWSiIKNnWRPRWoNdUCZKSl0ON3A9q8GXpFR4jhSERl
-qxWWNsdWwsys+0bQI8HPeS28/PowRpd/iM251eEAn1+9KQzjLgpOOJXGauTltv/TUWXSuaN6uLe5
-EFMcB+ryiadbm8L3ypvUT33JyW4nmzeEJUDmkQ6PgM30MwCn9P4lzNX4AmQnbQzNWRpQoyhk+bZK
-s92T1O8N6tMnImlz2MgN/Azp6a9unSFX3KVDKauxJU5kPSrR8wkoBc5NY09YlnyIlBqvFkA1ZtvD
-FgHk
---000000000000c91e20061c6cf6ba--
