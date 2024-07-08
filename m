@@ -1,133 +1,135 @@
-Received: from fout1-smtp.messagingengine.com (fout1-smtp.messagingengine.com [103.168.172.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D048B182C9
-	for <asahi@lists.linux.dev>; Sun,  7 Jul 2024 10:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47DD13ACC;
+	Mon,  8 Jul 2024 12:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720349470; cv=none; b=cBk+Gapkq3DznLmSRDlwtety459sTn58P/p+W6ffdnuPsqA+4g0l3jap+CG1zUZhB5aO7oIWkDnPNQXhk9fESToQNbL0r2j0FylVzQAckeKNBnLDb/pxG8UaHgbZX+kB09E3RZewCBrsWJKLY0e8e7j/MXqzV2vZsJ0sqBlpTUQ=
+	t=1720440031; cv=none; b=jR3iVQtueNqsqbaTqcthXBIFxbFXG+Aj5G9h5TvRjDJTxHwChe/se3MwS/gN6XPcG6hlrqMPZdwKZKZbA5utgA3ysl4Z4iBvOukLxreCCDJKMWRYatzCdDX3UXwKyqvrEraNOrTVKLzIgaD2fAdfIOPnP6BhZ0ur9lIXeZ27l+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720349470; c=relaxed/simple;
-	bh=Rgtc2lyLn6FzAPWzNFxENvhimL7rtgwW8A+sAVRafQI=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=ZUgiKvDZt7NeF+v3D2C4aM298y/4LA2Yh424IMZ8CPupOVtX4oM2UMk6y8uHVWR8fsFxdMOESPpA/3q9/AiWP8UCtIj1JvFEk9kj93D8+RZzoEqqUphutMOCES1GC05bc14CMsEVBhvJq0q673oql5G5YVXMZ7kndPgMP8VNE9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=cprcw1Ql; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=v1QhUSyB; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
+	s=arc-20240116; t=1720440031; c=relaxed/simple;
+	bh=UHaB+noDuK6djyp9soKq/KV4rz/uj79BNWXm0lcZWa8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aEwpoog+UA/kcprBqnJMouB6ZPs/BGZGlfQEAYkhGVpvTLCdP2yMcgvcpMt89SEJdWaNLcKKiuQCgfmxAjJpXvCtz9nvRuv7vd86AeuDUr/rFztZ8TQza63bgWRdBYz3Zrs6yRkNJalChLu23l8nGTHes1L8QYSF1K6bpRR8eYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1lH0qAq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="cprcw1Ql";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="v1QhUSyB"
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailfout.nyi.internal (Postfix) with ESMTP id E8E5D138028A;
-	Sun,  7 Jul 2024 06:51:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sun, 07 Jul 2024 06:51:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm3;
-	 t=1720349466; x=1720435866; bh=CM91Q+xk6v47NTJaf4EjRxe1prnQaEL5
-	7qc/4uZC+jQ=; b=cprcw1QlsKeiNk3LZ2L3GkAaIv//2bvNKcwt88hqTRMizi2x
-	y+QXCK0222ig8yo7Dqb3aFaGqf+XXOGbIa6qNbzEqsJNSeJ6PvZK2+UuKRNz7z5K
-	BPgYLM1SfxCDMWU7IPtGrtG+4mWK43Tm1wW+mkif/IzzMsMoVKaX+jwXHk4v9nLU
-	9fxUwF+JlQCSe+2mXznU4uL43GqaoCC5CE2D3vFFwMXg/9zyk38MiO/BGF5wEebR
-	w1u/C7rrp/MJL+r5s/d4TUI3g9WpRg730oG1+3A1Xq32mise1VPdV/EcNR0sUsR9
-	Pj3uhFOxou1fliH07dIRyJwx+XCKinMgiaGRUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1720349466; x=
-	1720435866; bh=CM91Q+xk6v47NTJaf4EjRxe1prnQaEL57qc/4uZC+jQ=; b=v
-	1QhUSyBP75i4EnOm0GDFaVBq6D+IA7MkKdawMwIJdV3eOnEEUpLjaaFJ2KZWBSN5
-	iNIJAJykZ/KQjd6GiuPLTFODSnLaWmRnT+aw3smHgh+CWpYvDOPAM39Lpc8LgenO
-	xNlYUMgYtOiNS6N2ZXFUbvcPTLBtS7GIdQzhz4vqoLBhNZ9BTY9VPxzJF20KaNa9
-	9lBCvXEqMu7aiHEnUJl3TNnfPsUiKQ8VOIm2PsqcDUykHKTIuZBIsKtTEAFhamyf
-	SRhPiNDYY+6B36tlkVwi718GHN6WZF39frNZBwj45mj+c6ePzODiixcVEcEgEwBx
-	oJtgOUufHESnK7IE90RRw==
-X-ME-Sender: <xms:GXOKZkl_2Y_oD207xHOvrlwWM2DhpxfLpxAJBHnRCT9pgFCP6JahjQ>
-    <xme:GXOKZj3kOJV1CEdX-j2K-BHv7FhbS7I2ZhvUdeCAUSwfyiZ9vWL0p0P5d3Se9j6PD
-    FfvYQUbcko370WCY88>
-X-ME-Received: <xmr:GXOKZipU5Otrs1RIBOYEnUM0_Zun9gSNJz6l0xH0v9b3z7P60BxkGAYdxCoHKnE_BrBU0mcNZlVbSm-BfDsDgZJq-usVNmxVp4UxA1p00hSQexoJ_5OCFnxE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehgdefhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpegtgffhggfufffkfhevjgfvofesthhqmhdthhdtjeenucfhrhhomhepufhvvghn
-    ucfrvghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrdguvghvqeenucggtffrrghtth
-    gvrhhnpedvhfdtudduvdeujeeufffgudekvdefvefgueeiiedvledtheegieevffdtteek
-    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsvh
-    gvnhesshhvvghnphgvthgvrhdruggvvh
-X-ME-Proxy: <xmx:GXOKZgn-cNueNhVzEF1lanMlyYKkFqHMPXXN--BKnWzyhaiu45OzHw>
-    <xmx:GXOKZi0E6C3kKEM4hXM78hwZNcm3WXOdKqoalxcGlLu9Pvx5RDvdsQ>
-    <xmx:GXOKZnvR7F_FJNEFo8rDc76qkz6TT-Q3QndKLpyy--P1HbDV6wZ7ww>
-    <xmx:GXOKZuVEC9aj0iQwRazWxsL2RPSnJ2_AC2exX0cEhIzDFuRir0TsQA>
-    <xmx:GnOKZoNI1i0hZHHb3KYgYjHPBsUjfKiNDprhVdoQP7aFgkRD7f_8ofEa>
-Feedback-ID: i51094778:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 7 Jul 2024 06:51:05 -0400 (EDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Sven Peter <sven@svenpeter.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1lH0qAq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6AECC116B1;
+	Mon,  8 Jul 2024 12:00:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720440031;
+	bh=UHaB+noDuK6djyp9soKq/KV4rz/uj79BNWXm0lcZWa8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f1lH0qAq6UGJmgMO1TstfsAY0es5762ajHpP4gGsc2dSNlg0kOLgVjiZcvouLkkdt
+	 +IVz4cmw+kTTL8x8YtmXF428KfUgfwXgWimQU39vL5Vt3gwC6AVRkK5D5cjw6Rqb12
+	 /zsetAeUp6lq8TbLS87RcSnvlmrLc/zxiiOdppKX4joQAtQbYyQ1ayINj/S9o4NSDe
+	 5kSb3R7Zk1lcIyER3VYUc2sjW9SEVF7hMnJctvmraL5QjYvic/wqQFDKdRLb37zUoP
+	 Npgw2lgiv2peA4WxqAkrOisXsZtsaD9gHwaRJr6Tip8U0XPvtnyNYpEjU9JLuckQMV
+	 sFW0pUKLwPofg==
+Date: Mon, 8 Jul 2024 13:00:26 +0100
+From: Will Deacon <will@kernel.org>
+To: Yangyu Chen <cyy@cyyself.name>
+Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	Mark Rutland <mark.rutland@arm.com>, Janne Grunau <j@jannau.net>,
+	Hector Martin <marcan@marcan.st>, Asahi Lina <lina@asahilina.net>,
+	asahi@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event
+ 0x96 and 0x9b
+Message-ID: <20240708120026.GC11771@willie-the-truck>
+References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
+ <20240701140148.GE2250@willie-the-truck>
+ <87cynxp52o.wl-maz@kernel.org>
+ <87bk3hp3z7.wl-maz@kernel.org>
+ <tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
+ <8634oshxhj.wl-maz@kernel.org>
+ <20240702121340.GB3542@willie-the-truck>
+ <tencent_A6F18ECEB80131BA21638D187C6782F6DA08@qq.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v2 37/60] i2c: pasemi: reword according to newest specification
-Date: Sun, 7 Jul 2024 12:50:53 +0200
-Message-Id: <474C20FC-5A3C-473E-A0B2-A2382CE134D1@svenpeter.dev>
-References: <20240706112116.24543-38-wsa+renesas@sang-engineering.com>
-Cc: linux-i2c@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Hector Martin <marcan@marcan.st>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Andi Shyti <andi.shyti@kernel.org>, linuxppc-dev@lists.ozlabs.org,
- asahi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20240706112116.24543-38-wsa+renesas@sang-engineering.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-X-Mailer: iPhone Mail (21F90)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_A6F18ECEB80131BA21638D187C6782F6DA08@qq.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
+On Tue, Jul 02, 2024 at 08:43:16PM +0800, Yangyu Chen wrote:
+> 
+> 
+> > On Jul 2, 2024, at 20:13, Will Deacon <will@kernel.org> wrote:
+> > 
+> > On Tue, Jul 02, 2024 at 11:58:00AM +0100, Marc Zyngier wrote:
+> >> On Tue, 02 Jul 2024 11:22:21 +0100,
+> >> Yangyu Chen <cyy@cyyself.name> wrote:
+> >>> 
+> >>>> Yangyu, can you please clarify how you came to the conclusion that
+> >>>> these events didn't count anywhere other than counter 7?
+> >>>> 
+> >>> 
+> >>> IIRC, I came across some web page that says events 0x96 and 0x9b
+> >>> can only be installed on counter 7 to count Apple AMX, but I can't
+> >>> find the page now. Since AMX is not usable in Linux, I don't know
+> >>> if this will affect some other instructions that are usable in
+> >>> Linux.
+> >> 
+> >> As you said, AMX cannot be used with Linux, and that's unlikely to
+> >> ever change. But when it comes to the standard ARM ISA, we can only
+> >> witness counters 5,6 and 7 being incremented with at the exact same
+> >> rate.
+> >> 
+> >> So reading between the lines, what I understand is that AMX
+> >> instructions would only have their effects counted in counter 7 for
+> >> these events, while other instructions would be counted in all 3
+> >> counters.
+> >> 
+> >> By extension, such behaviour could be applied to SME on HW that
+> >> supports it (wild guess).
+> >> 
+> >>> There are some other reasons, but I can't say in public.
+> >> 
+> >> Fair enough, I'm not asking for the disclosure of anything that isn't
+> >> public (the least I know, the better).
+> >> 
+> >>> Even though I can't find the actual usage, I think using count 7
+> >>> only for these 2 events is safer. If this reason is insufficient,
+> >>> we can ignore this patch until we find other evidence that this
+> >>> affinity affects some instructions usable in Linux.
+> >> 
+> >> I honestly don't mind.
+> >> 
+> >> The whole thing is a black box, and is more useful as an interrupt
+> >> generator than an actual PMU, due to the lack of freely available
+> >> documentation. If the PMU maintainers want to merge this, I won't
+> >> oppose it.
+> > 
+> > I'd rather leave the code as-is than tweak specific counters based on
+> > a combination of guesswork and partial information.
+> > 
+> > Of course, if somebody who knows better wants to fix up all of the
+> > mappings (because this surely isn't the only corner-case), then we can
+> > take that. But at least what we have today has _some_ sort of consistent
+> > rationale behind it.
+> 
+> Actually, anyone who has macOS software can learn the whole affinity
+> table of PMU. The detailed information can be extracted from a plist
+> file stored in the macOS root filesystem. I also provide that script
+> [1] to extract this information.
+> 
+> However, I can't directly use this information for legal concerns.
+> Would this be acceptable if the information I provide matches Apple's
+> information? I can't say whether it matches or not in public. I can
+> only say we can easily find someone who uploaded this file to the
+> internet.
+> 
+> [1] https://github.com/cyyself/m1-pmu-gen
 
->=20
-> On 6. Jul 2024, at 13:22, Wolfram Sang <wsa+renesas@sang-engineering.com> w=
-rote:
->=20
-> =EF=BB=BFChange the wording of this driver wrt. the newest I2C v7 and SMBu=
-s 3.2
-> specifications and replace "master/slave" with more appropriate terms.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
+I can't say I feel hugely comfortable with this, so I'll leave the code
+as-is unless a patch shows up fixing all the events.
 
-Acked-by: Sven Peter <sven@svenpeter.dev>
+Thanks for the reply, though. You've clearly spent a bunch of effort on
+this and it's a pity we can't easily apply your results to the driver :/
 
-
-> drivers/i2c/busses/i2c-pasemi-core.c | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/i2c/busses/i2c-pasemi-core.c b/drivers/i2c/busses/i2c=
--pasemi-core.c
-> index bd8becbdeeb2..dac694a9d781 100644
-> --- a/drivers/i2c/busses/i2c-pasemi-core.c
-> +++ b/drivers/i2c/busses/i2c-pasemi-core.c
-> @@ -336,9 +336,9 @@ static u32 pasemi_smb_func(struct i2c_adapter *adapter=
-)
-> }
->=20
-> static const struct i2c_algorithm smbus_algorithm =3D {
-> -    .master_xfer    =3D pasemi_i2c_xfer,
-> -    .smbus_xfer    =3D pasemi_smb_xfer,
-> -    .functionality    =3D pasemi_smb_func,
-> +    .xfer =3D pasemi_i2c_xfer,
-> +    .smbus_xfer =3D pasemi_smb_xfer,
-> +    .functionality =3D pasemi_smb_func,
-> };
->=20
-> int pasemi_i2c_common_probe(struct pasemi_smbus *smbus)
-> --
-> 2.43.0
->=20
-
+Will
