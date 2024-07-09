@@ -1,135 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47DD13ACC;
-	Mon,  8 Jul 2024 12:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0D54A0A
+	for <asahi@lists.linux.dev>; Tue,  9 Jul 2024 00:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720440031; cv=none; b=jR3iVQtueNqsqbaTqcthXBIFxbFXG+Aj5G9h5TvRjDJTxHwChe/se3MwS/gN6XPcG6hlrqMPZdwKZKZbA5utgA3ysl4Z4iBvOukLxreCCDJKMWRYatzCdDX3UXwKyqvrEraNOrTVKLzIgaD2fAdfIOPnP6BhZ0ur9lIXeZ27l+A=
+	t=1720484668; cv=none; b=XRern7gdhxoMfJFWpWWcyctFXqSxaN4A4g2F92AidCdXy7P6egz728w5b1sqnNntZ7BzQj2tTCOwZxzo0yYOEj9GQ4jR8aY9LAaM1HZw+ONLxjODHCGQPLcdbQFO/zyTc0Vi444juFiE3K9R2IYY2EMr/GpaJedt7k3Hhdj6mkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720440031; c=relaxed/simple;
-	bh=UHaB+noDuK6djyp9soKq/KV4rz/uj79BNWXm0lcZWa8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aEwpoog+UA/kcprBqnJMouB6ZPs/BGZGlfQEAYkhGVpvTLCdP2yMcgvcpMt89SEJdWaNLcKKiuQCgfmxAjJpXvCtz9nvRuv7vd86AeuDUr/rFztZ8TQza63bgWRdBYz3Zrs6yRkNJalChLu23l8nGTHes1L8QYSF1K6bpRR8eYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1lH0qAq; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1lH0qAq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6AECC116B1;
-	Mon,  8 Jul 2024 12:00:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1720440031;
-	bh=UHaB+noDuK6djyp9soKq/KV4rz/uj79BNWXm0lcZWa8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f1lH0qAq6UGJmgMO1TstfsAY0es5762ajHpP4gGsc2dSNlg0kOLgVjiZcvouLkkdt
-	 +IVz4cmw+kTTL8x8YtmXF428KfUgfwXgWimQU39vL5Vt3gwC6AVRkK5D5cjw6Rqb12
-	 /zsetAeUp6lq8TbLS87RcSnvlmrLc/zxiiOdppKX4joQAtQbYyQ1ayINj/S9o4NSDe
-	 5kSb3R7Zk1lcIyER3VYUc2sjW9SEVF7hMnJctvmraL5QjYvic/wqQFDKdRLb37zUoP
-	 Npgw2lgiv2peA4WxqAkrOisXsZtsaD9gHwaRJr6Tip8U0XPvtnyNYpEjU9JLuckQMV
-	 sFW0pUKLwPofg==
-Date: Mon, 8 Jul 2024 13:00:26 +0100
-From: Will Deacon <will@kernel.org>
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org,
-	Mark Rutland <mark.rutland@arm.com>, Janne Grunau <j@jannau.net>,
-	Hector Martin <marcan@marcan.st>, Asahi Lina <lina@asahilina.net>,
-	asahi@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event
- 0x96 and 0x9b
-Message-ID: <20240708120026.GC11771@willie-the-truck>
-References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
- <20240701140148.GE2250@willie-the-truck>
- <87cynxp52o.wl-maz@kernel.org>
- <87bk3hp3z7.wl-maz@kernel.org>
- <tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
- <8634oshxhj.wl-maz@kernel.org>
- <20240702121340.GB3542@willie-the-truck>
- <tencent_A6F18ECEB80131BA21638D187C6782F6DA08@qq.com>
+	s=arc-20240116; t=1720484668; c=relaxed/simple;
+	bh=OXijfxSktD32jVhvGlHifwLx3aNVOhgOTQl728nchT0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GqSoB3bw7y6hDQ6pKCwtQ/XPKF011sDNQSIxLMRd+fHILccltm+/4x4aqT27CzxgZ4GvpnDPafEJgYRf81LHl8LdU6IoBCg2KjvVPg/Ps01bg94LPe7RaW1YZc3r1NpfeRUMQJCGs02q7+heeAap4Z9dFW1uvHJlZhDUs35DiaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=baylibre.com; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1fb0d88fd25so29436045ad.0
+        for <asahi@lists.linux.dev>; Mon, 08 Jul 2024 17:24:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1720484666; x=1721089466;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wlo3UWV9lkDtVHiC3tnceLIBeIIjDfMxY69ysONeH1A=;
+        b=AK6JYIrnRHFG2FhaCeXnzykPIXizvFliMwbh5G9mXyjNfAaJnS3xfUq7XYowOjH4ZU
+         SQ2UgNgUJuQlXBR8csE4JZQW4uFDkwp07CIDqRohgBaAqrFICAukNAErDr/LZV0+G7LG
+         /8RkaKiPqVGwyxyywXrorYSQinaC0bjNOzWinNxH89wDqJJLxObFBO18t7ve+howYXzu
+         uRoOSpUjcLCkuLCoXmF5r3Idfj/Sk+6Qbm7wh7XMOZuJE82nLxnHv6PId1DWWLAYcj5j
+         1BBed/m281nPI5C23G2Cgabmc2Mv3522mQJPXq2yKrWPiSPFEXSmtFmMmKmhLgcm3/N0
+         wj0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWD2SFmKTszvOCxoOOVyrLxm7+CIGvB3jtJRnp2BOYizf3iV8zt1VWkK8trRbjwVMf87+lzeRTEYCfDXYsB24NPkXVpWeU=
+X-Gm-Message-State: AOJu0Yy+xaK13sLs2ygrCJ3RxXFm41mXly8gs+43hzBeawUDmReiZA8r
+	eRr//dvlalCNjUwx9lg67ntYiwOV/7lm+r0x6Ah55nlXS4hcFx4Ad4Pj0HvKvbQ=
+X-Google-Smtp-Source: AGHT+IFdw3EaveRM2ZTHoRq8dYxA8E7q05nixOcYOGorj2dRL4w7J12n220WAjIf2IctJiJkVfxTEw==
+X-Received: by 2002:a17:902:db0e:b0:1f4:a04e:8713 with SMTP id d9443c01a7336-1fbb804725emr12528595ad.28.1720484666359;
+        Mon, 08 Jul 2024 17:24:26 -0700 (PDT)
+Received: from localhost (97-126-77-189.tukw.qwest.net. [97.126.77.189])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6ab7d2dsm4321415ad.180.2024.07.08.17.24.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jul 2024 17:24:25 -0700 (PDT)
+From: Kevin Hilman <khilman@kernel.org>
+To: Viresh Kumar <viresh.kumar@linaro.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Huang Rui
+ <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario
+ Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>,
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa
+ Rosenzweig <alyssa@rosenzweig.io>, Markus Mayer <mmayer@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Srinivas Pandruvada
+ <srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
+ <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Sudeep Holla
+ <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-pm@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
+ Lizhe <sensor1010@163.com>, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 4/4] cpufreq: Make cpufreq_driver->exit() return void
+In-Reply-To: <3f73fda736818128558b61ad5fe2bed5dce3ddc4.1720075640.git.viresh.kumar@linaro.org>
+References: <cover.1720075640.git.viresh.kumar@linaro.org>
+ <3f73fda736818128558b61ad5fe2bed5dce3ddc4.1720075640.git.viresh.kumar@linaro.org>
+Date: Mon, 08 Jul 2024 17:24:25 -0700
+Message-ID: <7hplrn76py.fsf@baylibre.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_A6F18ECEB80131BA21638D187C6782F6DA08@qq.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
 
-On Tue, Jul 02, 2024 at 08:43:16PM +0800, Yangyu Chen wrote:
-> 
-> 
-> > On Jul 2, 2024, at 20:13, Will Deacon <will@kernel.org> wrote:
-> > 
-> > On Tue, Jul 02, 2024 at 11:58:00AM +0100, Marc Zyngier wrote:
-> >> On Tue, 02 Jul 2024 11:22:21 +0100,
-> >> Yangyu Chen <cyy@cyyself.name> wrote:
-> >>> 
-> >>>> Yangyu, can you please clarify how you came to the conclusion that
-> >>>> these events didn't count anywhere other than counter 7?
-> >>>> 
-> >>> 
-> >>> IIRC, I came across some web page that says events 0x96 and 0x9b
-> >>> can only be installed on counter 7 to count Apple AMX, but I can't
-> >>> find the page now. Since AMX is not usable in Linux, I don't know
-> >>> if this will affect some other instructions that are usable in
-> >>> Linux.
-> >> 
-> >> As you said, AMX cannot be used with Linux, and that's unlikely to
-> >> ever change. But when it comes to the standard ARM ISA, we can only
-> >> witness counters 5,6 and 7 being incremented with at the exact same
-> >> rate.
-> >> 
-> >> So reading between the lines, what I understand is that AMX
-> >> instructions would only have their effects counted in counter 7 for
-> >> these events, while other instructions would be counted in all 3
-> >> counters.
-> >> 
-> >> By extension, such behaviour could be applied to SME on HW that
-> >> supports it (wild guess).
-> >> 
-> >>> There are some other reasons, but I can't say in public.
-> >> 
-> >> Fair enough, I'm not asking for the disclosure of anything that isn't
-> >> public (the least I know, the better).
-> >> 
-> >>> Even though I can't find the actual usage, I think using count 7
-> >>> only for these 2 events is safer. If this reason is insufficient,
-> >>> we can ignore this patch until we find other evidence that this
-> >>> affinity affects some instructions usable in Linux.
-> >> 
-> >> I honestly don't mind.
-> >> 
-> >> The whole thing is a black box, and is more useful as an interrupt
-> >> generator than an actual PMU, due to the lack of freely available
-> >> documentation. If the PMU maintainers want to merge this, I won't
-> >> oppose it.
-> > 
-> > I'd rather leave the code as-is than tweak specific counters based on
-> > a combination of guesswork and partial information.
-> > 
-> > Of course, if somebody who knows better wants to fix up all of the
-> > mappings (because this surely isn't the only corner-case), then we can
-> > take that. But at least what we have today has _some_ sort of consistent
-> > rationale behind it.
-> 
-> Actually, anyone who has macOS software can learn the whole affinity
-> table of PMU. The detailed information can be extracted from a plist
-> file stored in the macOS root filesystem. I also provide that script
-> [1] to extract this information.
-> 
-> However, I can't directly use this information for legal concerns.
-> Would this be acceptable if the information I provide matches Apple's
-> information? I can't say whether it matches or not in public. I can
-> only say we can easily find someone who uploaded this file to the
-> internet.
-> 
-> [1] https://github.com/cyyself/m1-pmu-gen
+Viresh Kumar <viresh.kumar@linaro.org> writes:
 
-I can't say I feel hugely comfortable with this, so I'll leave the code
-as-is unless a patch shows up fixing all the events.
+> From: Lizhe <sensor1010@163.com>
+>
+> The cpufreq core doesn't check the return type of the exit() callback
+> and there is not much the core can do on failures at that point. Just
+> drop the returned value and make it return void.
+>
+> Signed-off-by: Lizhe <sensor1010@163.com>
+> [ Viresh: Reworked the patches to fix all missing changes together. ]
+> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> ---
 
-Thanks for the reply, though. You've clearly spent a bunch of effort on
-this and it's a pity we can't easily apply your results to the driver :/
+[...]
 
-Will
+>  drivers/cpufreq/omap-cpufreq.c         |  3 +--
+
+For OMAP:
+
+Acked-by: Kevin Hilman <khilman@baylibre.com>
