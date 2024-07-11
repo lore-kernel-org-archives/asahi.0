@@ -1,96 +1,63 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0D54A0A
-	for <asahi@lists.linux.dev>; Tue,  9 Jul 2024 00:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E505014B095;
+	Thu, 11 Jul 2024 08:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720484668; cv=none; b=XRern7gdhxoMfJFWpWWcyctFXqSxaN4A4g2F92AidCdXy7P6egz728w5b1sqnNntZ7BzQj2tTCOwZxzo0yYOEj9GQ4jR8aY9LAaM1HZw+ONLxjODHCGQPLcdbQFO/zyTc0Vi444juFiE3K9R2IYY2EMr/GpaJedt7k3Hhdj6mkU=
+	t=1720685248; cv=none; b=c0Wbr/nlqUaZMjCJusK/ISEFapuq1HwstaW3FHrTX21yYuVuMasRiMEJtsjuL+ciQXsibJPcElQZrLW1QSsjlfmfOf9pBHefKMkDeCD4LAiFGgtHmSplqz1ZsIbjbXTzb3vzkER95CLna+9nXRSkhd2Wm0deJkVD8U86ADaCE6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720484668; c=relaxed/simple;
-	bh=OXijfxSktD32jVhvGlHifwLx3aNVOhgOTQl728nchT0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GqSoB3bw7y6hDQ6pKCwtQ/XPKF011sDNQSIxLMRd+fHILccltm+/4x4aqT27CzxgZ4GvpnDPafEJgYRf81LHl8LdU6IoBCg2KjvVPg/Ps01bg94LPe7RaW1YZc3r1NpfeRUMQJCGs02q7+heeAap4Z9dFW1uvHJlZhDUs35DiaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=baylibre.com; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1fb0d88fd25so29436045ad.0
-        for <asahi@lists.linux.dev>; Mon, 08 Jul 2024 17:24:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720484666; x=1721089466;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wlo3UWV9lkDtVHiC3tnceLIBeIIjDfMxY69ysONeH1A=;
-        b=AK6JYIrnRHFG2FhaCeXnzykPIXizvFliMwbh5G9mXyjNfAaJnS3xfUq7XYowOjH4ZU
-         SQ2UgNgUJuQlXBR8csE4JZQW4uFDkwp07CIDqRohgBaAqrFICAukNAErDr/LZV0+G7LG
-         /8RkaKiPqVGwyxyywXrorYSQinaC0bjNOzWinNxH89wDqJJLxObFBO18t7ve+howYXzu
-         uRoOSpUjcLCkuLCoXmF5r3Idfj/Sk+6Qbm7wh7XMOZuJE82nLxnHv6PId1DWWLAYcj5j
-         1BBed/m281nPI5C23G2Cgabmc2Mv3522mQJPXq2yKrWPiSPFEXSmtFmMmKmhLgcm3/N0
-         wj0A==
-X-Forwarded-Encrypted: i=1; AJvYcCWD2SFmKTszvOCxoOOVyrLxm7+CIGvB3jtJRnp2BOYizf3iV8zt1VWkK8trRbjwVMf87+lzeRTEYCfDXYsB24NPkXVpWeU=
-X-Gm-Message-State: AOJu0Yy+xaK13sLs2ygrCJ3RxXFm41mXly8gs+43hzBeawUDmReiZA8r
-	eRr//dvlalCNjUwx9lg67ntYiwOV/7lm+r0x6Ah55nlXS4hcFx4Ad4Pj0HvKvbQ=
-X-Google-Smtp-Source: AGHT+IFdw3EaveRM2ZTHoRq8dYxA8E7q05nixOcYOGorj2dRL4w7J12n220WAjIf2IctJiJkVfxTEw==
-X-Received: by 2002:a17:902:db0e:b0:1f4:a04e:8713 with SMTP id d9443c01a7336-1fbb804725emr12528595ad.28.1720484666359;
-        Mon, 08 Jul 2024 17:24:26 -0700 (PDT)
-Received: from localhost (97-126-77-189.tukw.qwest.net. [97.126.77.189])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fbb6ab7d2dsm4321415ad.180.2024.07.08.17.24.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jul 2024 17:24:25 -0700 (PDT)
-From: Kevin Hilman <khilman@kernel.org>
-To: Viresh Kumar <viresh.kumar@linaro.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, Huang Rui
- <ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario
- Limonciello <mario.limonciello@amd.com>, Perry Yuan <perry.yuan@amd.com>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, Alyssa
- Rosenzweig <alyssa@rosenzweig.io>, Markus Mayer <mmayer@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Srinivas Pandruvada
- <srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin
- <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Sudeep Holla
- <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>,
- Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter
- <jonathanh@nvidia.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-pm@vger.kernel.org, Vincent Guittot <vincent.guittot@linaro.org>,
- Lizhe <sensor1010@163.com>, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 4/4] cpufreq: Make cpufreq_driver->exit() return void
-In-Reply-To: <3f73fda736818128558b61ad5fe2bed5dce3ddc4.1720075640.git.viresh.kumar@linaro.org>
-References: <cover.1720075640.git.viresh.kumar@linaro.org>
- <3f73fda736818128558b61ad5fe2bed5dce3ddc4.1720075640.git.viresh.kumar@linaro.org>
-Date: Mon, 08 Jul 2024 17:24:25 -0700
-Message-ID: <7hplrn76py.fsf@baylibre.com>
+	s=arc-20240116; t=1720685248; c=relaxed/simple;
+	bh=/M3pLgWLzGTJvYBC5CrTLnEmwgRaWGxh57jnjQm40fo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nUNn4JswDuYAs/S0KZdS4YsmhdHNSNqqKWpdpEZcRUzwoT089s5zGMpln807f+4ZZl5rIyj69yJj14Bivr2sAMmGsGg3+CJ7I9QmZ720C0/iaIGLPlTjgZRjB9PtOM/jtyOVhtRLN1rI2OPPSmzN1RonC+2Fz2saVgcpA/NKXgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aa36HTSH; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aa36HTSH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0898AC116B1;
+	Thu, 11 Jul 2024 08:07:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1720685247;
+	bh=/M3pLgWLzGTJvYBC5CrTLnEmwgRaWGxh57jnjQm40fo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aa36HTSHWkvem87wUavAacj5We75hnSmxdWYTfwyGNyY5Ky/ncOXUPsOTPVn8PJ2+
+	 qHQgEqwbSh2r86RNLmUc1Pz7d7HY3lZGv7oSI3AAYJUEhK5YpmYtDoidFA1fx3unId
+	 wkkNzqz97OVk6LWlIaZKRQLCeNFg6YTMHzYg23ecMCHq6MqBme/XdwPuaoAQNg7Ohl
+	 aZHio2bTgksReMqsdfKlD2kZ8QwYQZtXLHL6l9c7YWWMdVoEBkxUKx82YZATukjMPN
+	 dpPqGVPINFRTizZzvI0SEf2DQvaeAqucUOCWlNRMu7/7ilu/bCOii0UWsD5+G7m8N3
+	 m95eZw5Fp/lGg==
+Date: Thu, 11 Jul 2024 10:07:23 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i2c@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, Hector Martin <marcan@marcan.st>, 
+	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+	linuxppc-dev@lists.ozlabs.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 37/60] i2c: pasemi: reword according to newest
+ specification
+Message-ID: <66x7zzf5p463vptkt7iopihbnlmpkyinrjkzkogbdhrcjltzoz@in45c5v5yzc4>
+References: <20240706112116.24543-1-wsa+renesas@sang-engineering.com>
+ <20240706112116.24543-38-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240706112116.24543-38-wsa+renesas@sang-engineering.com>
 
-Viresh Kumar <viresh.kumar@linaro.org> writes:
+Hi Wolfram,
 
-> From: Lizhe <sensor1010@163.com>
->
-> The cpufreq core doesn't check the return type of the exit() callback
-> and there is not much the core can do on failures at that point. Just
-> drop the returned value and make it return void.
->
-> Signed-off-by: Lizhe <sensor1010@163.com>
-> [ Viresh: Reworked the patches to fix all missing changes together. ]
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
+On Sat, Jul 06, 2024 at 01:20:37PM GMT, Wolfram Sang wrote:
+> Change the wording of this driver wrt. the newest I2C v7 and SMBus 3.2
+> specifications and replace "master/slave" with more appropriate terms.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-[...]
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
 
->  drivers/cpufreq/omap-cpufreq.c         |  3 +--
-
-For OMAP:
-
-Acked-by: Kevin Hilman <khilman@baylibre.com>
+Thanks,
+Andi
