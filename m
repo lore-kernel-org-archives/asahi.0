@@ -1,186 +1,140 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52FC9156F53
-	for <asahi@lists.linux.dev>; Tue, 23 Jul 2024 16:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B671581E9
+	for <asahi@lists.linux.dev>; Tue, 23 Jul 2024 16:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721751877; cv=none; b=bTww2nWglZD3w3mKaNWTfQ5jxPNew4mgpYMEHkP49SH7b03/b4N1TpMLl7TmkOztrGCvJ5fuqbbdvBDIJXX/Z/KwDMzjzQuqWNuRBIgoHE6yEZcSZ4krfi4bOlKlhMlaK196XqsuncBQB78QYiax2HwDdsUhofAJbon6k1ozwLY=
+	t=1721752112; cv=none; b=Nym6j7I3xJzZlGk3WWv/li/rCftF6azvInpgLJVTSvRxDo6sXzqWBIUzsg3txwtHE/TLkd+LAPy3s99ilTG2lsvK+ydk/il97fUxNbe1TSp+T+0FJcV/616Xgz1LfksXB0Ig5IVAyj6QwgQPZGNLjfEeA3fNnnVNj9nQFu1sed4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721751877; c=relaxed/simple;
-	bh=wvLwwzYrHhNMEY0a2RER3JTiGWI4BVmIq+FIHkHnZzI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XxPUlrmR1q6VEZzTXsJF2dyuAjYJ8Kx62gaOFxHsnc9z9CyHyq5KTR51WNBmjSXv9hcywDP8bmmkfYpKzn2K6TUJxpFokplQUJez4fdDjBXGu277OFX/gxlzdmXHSMNjD5XepWynPGIC89GPtmabF1d33Kjpkjc+AQNcYDH4C/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=Jwv7AFz3; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+	s=arc-20240116; t=1721752112; c=relaxed/simple;
+	bh=/gSJutKx3HynlVdUOpttVICI3mk9PZE/4lHNjoI0+rw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qp2TU/IjBR9NCn5EtWdExWUIFu+bsPJ3JYHRW7trG5N+MiRtTWpHchYTNDPQmTaFqOQngSJcb47ZXJMsPiAcLBF5IKjT1jMrh1LM+IVlflElBBe2sIlrQuRRxjBECh5QnIEdLRT+LgrV3YMjTvsmMtVAyGVHm0P/ZDSYkXw3LHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XzROSsI2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="Jwv7AFz3"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 28D5041E57;
-	Tue, 23 Jul 2024 16:24:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1721751866; bh=wvLwwzYrHhNMEY0a2RER3JTiGWI4BVmIq+FIHkHnZzI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Jwv7AFz316hnUeeBX5Gao/DhsQt99fmbZIit8dDUoQQDFPbc2OqXIVkeIwcIveSgD
-	 /rg4W8/EHcZ2aNQaf5OhIu1np7rYKkqXo5eraxsUS9AMUOtecpHl4z4HOs3nix8fg3
-	 VOU6e+r8z+c8Fep0DNhP0rSkDHJsr+wNhGjZ/RR70eM+ESWFobpALauntv5E0yeOWV
-	 pYhhNxSZduOMB6xk9u3UBWqjIIWEZImJD5X8tfqcMfhOHTD+pvIzQDFNIUMpwxqoYt
-	 bMeP3oPIPCVzCqwZNEa2CsBR3IqNIgVICIAq3E+a6/X/IGip2x6GgZV4lTAFESTdDX
-	 ylyDr02FCHz/g==
-Message-ID: <dbf17fa6-1af6-467b-8b3d-dca8476dc785@marcan.st>
-Date: Wed, 24 Jul 2024 01:24:23 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XzROSsI2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 930A4C4AF0F
+	for <asahi@lists.linux.dev>; Tue, 23 Jul 2024 16:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1721752110;
+	bh=/gSJutKx3HynlVdUOpttVICI3mk9PZE/4lHNjoI0+rw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XzROSsI2ja0hy5r/njAj1KXTgIh9v2P1FNMf0MYkF33nKpB0DRzhnITGHw2dAe8MV
+	 2Nhwr/dLOCHe0jEYkpyYcbX4SRB6m2hO7uRAapBegRDWt3IPgeo75g4AWCx6OGMwPk
+	 oyTp+zCJKOsuCbzyyzRISU0nzzUhfElBBkJ3NqunEhDllvx57h+960wOK7sdJfmXXZ
+	 IqO8CtrwvkaAXREXMt96QP8t/SkQu38WzPx+ec2urnu9ybOGL3zyHNb1gY3v343Zf5
+	 5Sj2JQjcEl4S/Mo8nTduhMsgirqJ4OIj9ZapY5sCQ2g9lePHZsrrPxlNSm7KMmnSks
+	 2B0lsOuXCNUtg==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2ef2fccca2cso28472211fa.1
+        for <asahi@lists.linux.dev>; Tue, 23 Jul 2024 09:28:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUzovxn8rOOLhEis/Nj1Tp0a/xqk7FgLq/D+qBkXMVF81gdZ5fmxfsX6T1sxs9ENI+FCgEG6fT6FG//FtZ1W1Hl0I5iMVw=
+X-Gm-Message-State: AOJu0YwFUHHXvaNwpcm7ZtAAHv6N0Wt/ErmBHVBMQQMWWehxgd8RAEf5
+	85nPcO5raIkBclFULyDNiQrI10v4+wvmc7PWLDpUGj1PA9m7o0ntVxnj42ezdlPiNEW7Abk1M/G
+	eMBp1HzKS7I2vjo+Nk+qGH4WGB3A=
+X-Google-Smtp-Source: AGHT+IEIZXkfujE7Kig6KzsuO0P0XYuDOqb7EP3O8/OuBFcMK1MWPhPRHD5+2nR8Vrq8QlBUgPO41D6glPniR07mTlc=
+X-Received: by 2002:a2e:a30d:0:b0:2f0:1bb6:dbce with SMTP id
+ 38308e7fff4ca-2f01bb6e96emr33131481fa.41.1721752108819; Tue, 23 Jul 2024
+ 09:28:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drivers/perf: apple_m1: fix affinity table for event
- 0x96 and 0x9b
-To: Will Deacon <will@kernel.org>, Yangyu Chen <cyy@cyyself.name>
-Cc: Marc Zyngier <maz@kernel.org>, linux-arm-kernel@lists.infradead.org,
- Mark Rutland <mark.rutland@arm.com>, Janne Grunau <j@jannau.net>,
- Asahi Lina <lina@asahilina.net>, asahi@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <tencent_7B71486CE305DF8AE084B6BB6313EE550C06@qq.com>
- <20240701140148.GE2250@willie-the-truck> <87cynxp52o.wl-maz@kernel.org>
- <87bk3hp3z7.wl-maz@kernel.org>
- <tencent_371517268623E4A61194EF4C70497BDC5105@qq.com>
- <8634oshxhj.wl-maz@kernel.org> <20240702121340.GB3542@willie-the-truck>
- <tencent_A6F18ECEB80131BA21638D187C6782F6DA08@qq.com>
- <20240708120026.GC11771@willie-the-truck>
-From: Hector Martin <marcan@marcan.st>
-Content-Language: en-US
-In-Reply-To: <20240708120026.GC11771@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <50360968-13fb-4e6f-8f52-1725b3177215@asahilina.net>
+ <20240718131428.GA21243@willie-the-truck> <CAMj1kXFi0sRVMRNhMVEnYBrLT4DycPoDMUa9VkP8wqqdf59eeA@mail.gmail.com>
+ <20240723145214.GA26403@willie-the-truck> <CAMj1kXEkHKtFKFS3ejeDsg1Q+2NY1JibzurzqgwVGqb+1=XrRg@mail.gmail.com>
+ <20240723160543.GA26546@willie-the-truck>
+In-Reply-To: <20240723160543.GA26546@willie-the-truck>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 23 Jul 2024 18:28:16 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGPc5k-+CK=CQ=UDTzggtZ+r5aKSzBhvWLh7aY4BxuW+Q@mail.gmail.com>
+Message-ID: <CAMj1kXGPc5k-+CK=CQ=UDTzggtZ+r5aKSzBhvWLh7aY4BxuW+Q@mail.gmail.com>
+Subject: Re: LPA2 on non-LPA2 hardware broken with 16K pages
+To: Will Deacon <will@kernel.org>
+Cc: Asahi Lina <lina@asahilina.net>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	Catalin Marinas <catalin.marinas@arm.com>, ryan.roberts@arm.com, mark.rutland@arm.com
+Content-Type: text/plain; charset="UTF-8"
 
+On Tue, 23 Jul 2024 at 18:05, Will Deacon <will@kernel.org> wrote:
+>
+> On Tue, Jul 23, 2024 at 05:02:15PM +0200, Ard Biesheuvel wrote:
+> > On Tue, 23 Jul 2024 at 16:52, Will Deacon <will@kernel.org> wrote:
+> > > On Fri, Jul 19, 2024 at 11:02:29AM -0700, Ard Biesheuvel wrote:
+...
+> > > >
+> > > > We might add
+> > > >
+> > > > if (pgtable_l4_enabled())
+> > > >     pgdp = &pgd;
+> > > >
+> > > > here to preserve the existing 'lockless' behavior when PUDs are not
+> > > > folded.
+> > >
+> > > The code still needs to be 'lockless' for the 5-level case, so I don't
+> > > think this is necessary.
+> >
+> > The 5-level case is never handled here.
+>
+> Urgh, yes, sorry. I've done a fantasticly bad job of explaining myself.
+>
+> > There is the 3-level case, where the runtime PUD folding needs the
+> > actual address in order to recalculate the descriptor address using
+> > the correct shift. In this case, we don't dereference the pointer
+> > anyway so the 'lockless' thing doesn't matter (afaict)
+> >
+> > In the 4-level case, we want to preserve the original behavior, where
+> > pgd is not reloaded from pgdp. Setting pgdp to &pgd achieves that.
+>
+> Right. What I'm trying to get at is the case where we have folding. For
+> example, with my patch applied, if we have 3 levels then the lockless
+> GUP walk looks like:
+>
+>
+> pgd_t pgd = READ_ONCE(*pgdp);
+>
+> p4dp = p4d_offset_lockless(pgdp, pgd, addr);
+>         => Returns pgdp
+> p4d_t p4d = READ_ONCE(*p4dp);
+>
+> pudp = pud_offset_lockless(p4dp, p4d, addr);
+>         => Returns &p4d, which is again the pgdp
+> pud_t pud = READ_ONCE(*pudp);
+>
+>
+> So here we're reloading the same pointer multiple times and my argument
+> is that if we need to add logic to avoid this for the
+> pgtable_l4_enabled() case, then we have bigger problems.
+>
 
+The 3-level case is not relevant here. My suggestion only affects the
+4-level case:
 
-On 2024/07/08 21:00, Will Deacon wrote:
-> On Tue, Jul 02, 2024 at 08:43:16PM +0800, Yangyu Chen wrote:
->>
->>
->>> On Jul 2, 2024, at 20:13, Will Deacon <will@kernel.org> wrote:
->>>
->>> On Tue, Jul 02, 2024 at 11:58:00AM +0100, Marc Zyngier wrote:
->>>> On Tue, 02 Jul 2024 11:22:21 +0100,
->>>> Yangyu Chen <cyy@cyyself.name> wrote:
->>>>>
->>>>>> Yangyu, can you please clarify how you came to the conclusion that
->>>>>> these events didn't count anywhere other than counter 7?
->>>>>>
->>>>>
->>>>> IIRC, I came across some web page that says events 0x96 and 0x9b
->>>>> can only be installed on counter 7 to count Apple AMX, but I can't
->>>>> find the page now. Since AMX is not usable in Linux, I don't know
->>>>> if this will affect some other instructions that are usable in
->>>>> Linux.
->>>>
->>>> As you said, AMX cannot be used with Linux, and that's unlikely to
->>>> ever change. But when it comes to the standard ARM ISA, we can only
->>>> witness counters 5,6 and 7 being incremented with at the exact same
->>>> rate.
->>>>
->>>> So reading between the lines, what I understand is that AMX
->>>> instructions would only have their effects counted in counter 7 for
->>>> these events, while other instructions would be counted in all 3
->>>> counters.
->>>>
->>>> By extension, such behaviour could be applied to SME on HW that
->>>> supports it (wild guess).
->>>>
->>>>> There are some other reasons, but I can't say in public.
->>>>
->>>> Fair enough, I'm not asking for the disclosure of anything that isn't
->>>> public (the least I know, the better).
->>>>
->>>>> Even though I can't find the actual usage, I think using count 7
->>>>> only for these 2 events is safer. If this reason is insufficient,
->>>>> we can ignore this patch until we find other evidence that this
->>>>> affinity affects some instructions usable in Linux.
->>>>
->>>> I honestly don't mind.
->>>>
->>>> The whole thing is a black box, and is more useful as an interrupt
->>>> generator than an actual PMU, due to the lack of freely available
->>>> documentation. If the PMU maintainers want to merge this, I won't
->>>> oppose it.
->>>
->>> I'd rather leave the code as-is than tweak specific counters based on
->>> a combination of guesswork and partial information.
->>>
->>> Of course, if somebody who knows better wants to fix up all of the
->>> mappings (because this surely isn't the only corner-case), then we can
->>> take that. But at least what we have today has _some_ sort of consistent
->>> rationale behind it.
->>
->> Actually, anyone who has macOS software can learn the whole affinity
->> table of PMU. The detailed information can be extracted from a plist
->> file stored in the macOS root filesystem. I also provide that script
->> [1] to extract this information.
->>
->> However, I can't directly use this information for legal concerns.
->> Would this be acceptable if the information I provide matches Apple's
->> information? I can't say whether it matches or not in public. I can
->> only say we can easily find someone who uploaded this file to the
->> internet.
->>
->> [1] https://github.com/cyyself/m1-pmu-gen
-> 
-> I can't say I feel hugely comfortable with this, so I'll leave the code
-> as-is unless a patch shows up fixing all the events.
-> 
-> Thanks for the reply, though. You've clearly spent a bunch of effort on
-> this and it's a pity we can't easily apply your results to the driver :/
-> 
-> Will
-> 
+if (pgtable_l4_enabled())
+   pgdp = &pgd;
 
-Putting on my "reverse engineering hardware for over a decade" hat on:
-Facts about hardware are not copyrightable. If they were, our entire
-effort would be legally questionable to begin with (as would all Linux
-porting efforts to undocumented hardware).
+which prevents us from evaluating *pgdp twice, which seems to me to be
+the reason these routines exist in the first place. Given that the
+3-level runtime-folded case is the one we are trying to fix here, I'd
+argue that keeping the 4-level case the same as before is important.
 
-Data files can be, but if the information contained within them is
-purely non-copyrightable (as an affinity mapping for PMU events would
-be), then it is entirely legal and acceptable to use that information to
-create a patch, as long as the information itself was legitimately
-obtained (which it can be for any macOS user, which by extension means
-any owner of an AS Mac since macOS is implicitly licensed).
+> > > Yes, we'll load the same entry multiple times,
+> > > but it should be fine because they're in the context of a different
+> > > (albeit folded) level.
+> > >
+> >
+> > I don't understand what you are saying here. Why is that fine?
+>
+> I think it's fine because (a) the CPU guarantees same address
+> read-after-read ordering and (b) We only evaluate the most recently read
+> value. It would be a problem if we mixed data from different reads but,
+> because the use is confined to that 'level', we don't end up doing that.
+>
+> Dunno, am I making any sense?
+>
 
-In other words, if you have macOS, and you run those scripts and
-generate some patches for Linux that add the event definitions and
-mappings, then it would not cause any copyright infringement concerns
-for the Linux kernel side and they can be licensed GPLv2.
-
-I have acquaintances who have consulted lawyers about this issue and am
-very confident in this interpretation. More specifically, I'm told there
-is legal advice that hardware register names are not copyrightable
-(which goes beyond pure hardware facts as there is some freedom to
-choose naming schemes). PMU event names are analogous here.
-
-The big no-nos are ripping and redistributing files from macOS verbatim
-(when that is necessary, we treat it as firmware and already have a
-process in place to avoid redistribution, e.g. what we do for camera
-sensor calibration blobs, but that is not the case here), using
-*leaked/stolen* information (not legitimately obtained, e.g. actual
-internal documentation that was stolen), and potentially
-decompiling/reverse engineering actual executable code (things get very
-complicated in this case, but it is not impossible to do legally).
-
-For more details, we have a page on our copyright policy for the Asahi
-project and how to avoid running into legal issues:
-https://asahilinux.org/copyright/
-
-TL;DR I would not have any copyright concerns about submission of a
-patch adding all the PMU definitions (general event names and affinity
-mappings).
-
-- Hector
+So what is the point of p?d_offset_lockless()? Is it a performance
+optimization that we don't care about on arm64? Or does this reasoning
+still only apply to the folded case?
