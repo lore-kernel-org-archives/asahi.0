@@ -1,199 +1,174 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9979A16B3AB
-	for <asahi@lists.linux.dev>; Wed, 31 Jul 2024 20:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E494D13C832
+	for <asahi@lists.linux.dev>; Thu,  1 Aug 2024 19:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722458784; cv=none; b=QibF7a/yl/POk6uBQf88McJ6Y2zm5sMBr3YKvsmbMjcvggCEBucMXpeAcl5ORfiuU4kb6CgXcarW1qA8hMCPlnfyK96m0rp8zOOy17jZn048tMyeqv2ebRDqyzD3jBLh6yaBD156bzrz6IYNUrDilxlL7GyGoHmp71DTLXtKxrw=
+	t=1722539141; cv=none; b=TS5p2OE4c0TIyyO2rPhmSa7UBJaW/FkYG0okQiMPxRHDUq5GgrBP5z/p8GYA+aqu5ZZnJmRO20nypDPbiPIm+NCVeo0w/+SZ+sIns6hURrUqJ2JXn0oyDrsxA+iwUppcI5tVkLP8VGZx5wCVdQ9HjplJbVOQqp9iKM52q3RcAqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722458784; c=relaxed/simple;
-	bh=AeVukmohV3Ul5Z/K/N7ywFHY6KRlSp5fj3lgsbIeS84=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X+XSax6Md5uAqF+9xXebnuGzvoqrP7E/N3Q/Ey4xQ3vlO/j8JwzzRTzi9f7xoANoSeX9Pt6u+a2Ogg5CZDZngyBLgQwpdleKr6LBhAM83Ex1C+dgt+/Ea+HeKeasSSXB1mnrLe9PfF/O2s7NIIxSZpIeVG+JK+vGMkt1EiMm1Fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-44fe9aa3bfaso36606101cf.0
-        for <asahi@lists.linux.dev>; Wed, 31 Jul 2024 13:46:22 -0700 (PDT)
+	s=arc-20240116; t=1722539141; c=relaxed/simple;
+	bh=qLJ5L34m/hDFaymbxoidcHVuYlzirRvv5RrpOcfSt8k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FLMeeAkZ91sxCk5vmHH26rnfA4YgtcqKIEdf2o9wfIY4k5qK1FnjJ3Z+2ikWFCMdyi8/B/g1I9RvWu0Fft2Hze9dEH4Da1Y7vtCjX4R5zCWBkQbi3TciRP7GvN8OQFPGyaG3NOlZomFxg2cXd+//PprWLe/GaIxDGLw3sMmW/x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Du4wpBjo; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Du4wpBjo"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1fed726aefcso423875ad.1
+        for <asahi@lists.linux.dev>; Thu, 01 Aug 2024 12:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1722539139; x=1723143939; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qLJ5L34m/hDFaymbxoidcHVuYlzirRvv5RrpOcfSt8k=;
+        b=Du4wpBjohZHdVq2f3OZ7sU/MXGoRZejcvnUz3hRmxSVAJnwk1y5IMt39C6j2EfbFV/
+         x2Rinh8NS3PMbqBRcRBuZYHzoHdy+1OPMjrsZylZi+FB+A1Nbu8AZffjKR8ahCn3v0yZ
+         T9Jzxv4dV5ixrhdSW4bbZwPSShV+6frNfGTiFgBNFcZ1/L/tdztGKP4owP1tr7glwMsn
+         UOhGP4SwMRS9PyxpNMK+WCGSRd/ESglC6W99zETHQMZCeLA1v/gJdU+ukM4aLHnd/ykf
+         mmpAzmMHerTq6BpUSwNawgv0U0jNWI55JM3jno9Bodgn6cKeRIhasddm+adV8jVPrInj
+         dZ/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722458781; x=1723063581;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1722539139; x=1723143939;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t/EX/MdkSUl5MjV12TxYf7t+yruPrf+xB5I7T7z+p84=;
-        b=bKP3n4bwDAkdXqf2TaGBMpKCrmgdoTpySCNIB5upkXDjS9kTEY+nGwPUT0pd8h588o
-         m02njxUypCCOM8w4Zs4Po5xe4EvS30oHmFOx8r1z3hr4ZlRrpJNqiAYM1J2AjEEU6iZ3
-         Uk5MLbxKpSDw6X0DAmQQBhOSYvJ3zZ/WL9ubzu9bVcOheQMaE8RMT2HeeVv8vOrD5S/k
-         FvJ7AbwQ/yY5dsQImGGCUqxN6lviEp2oYBEdv5X1higr2iJe8VnMrgr5YqMXKhAVS1OM
-         rDEzCc+0xeDfcf8og8Tdi14naX8LOrGJwEx0UpJHuhV5TmKRVxKRSZvoSwrhBmD6XKxx
-         9xmg==
-X-Forwarded-Encrypted: i=1; AJvYcCWFk2tNj+bc2e4W7pc9vs+R+qr/bZwqKEaykUU/mTA35ecFYS+lipnW6/UeAEBxCxFP7eaSJXLfXt4PVqfUM53IsXu5AOQ=
-X-Gm-Message-State: AOJu0Yy75fWfZ/mDgMhgVLNgF2/bZ2l7TJRr6IyaxnLpmZkrA3Ge0iUi
-	rAkMlcMIfolpL3kqSJcR5D7L/DP4FLFteQZuQpqcuwNGuDQmD5sd
-X-Google-Smtp-Source: AGHT+IEhWj/vQ8WTQj+u43hJfEmFz+FLsoDhgrSx+TsivhnOhOZQAV5+0NUOqpY72YTh3UQU3fOyMA==
-X-Received: by 2002:ac8:5d55:0:b0:446:5aac:ca7f with SMTP id d75a77b69052e-451567a382dmr6959181cf.22.1722458781529;
-        Wed, 31 Jul 2024 13:46:21 -0700 (PDT)
-Received: from skuld-framework.localnet ([32.221.37.233])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44fe812350bsm63120971cf.9.2024.07.31.13.46.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Jul 2024 13:46:20 -0700 (PDT)
-From: Neal Gompa <neal@gompa.dev>
-To: Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Matthew Maurer <mmaurer@google.com>,
- Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org,
- Asahi Linux <asahi@lists.linux.dev>, Hector Martin <marcan@marcan.st>,
- Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH 00/15] Implement MODVERSIONS for Rust
-Date: Wed, 31 Jul 2024 16:46:18 -0400
-Message-ID: <8578805.OV4Wx5bFTl@skuld-framework>
-In-Reply-To:
- <CABCJKucj7zjc4=EiFdSnzNDBvQmaWBBt_KJsTq1ybp=Vegp5eQ@mail.gmail.com>
-References:
- <20240617175818.58219-17-samitolvanen@google.com>
- <00714a65-953f-4885-9229-1990543c4154@suse.com>
- <CABCJKucj7zjc4=EiFdSnzNDBvQmaWBBt_KJsTq1ybp=Vegp5eQ@mail.gmail.com>
+        bh=qLJ5L34m/hDFaymbxoidcHVuYlzirRvv5RrpOcfSt8k=;
+        b=cF8umuNk7cOt78hVndOmeUSEOoziHZRKgXg54xoshXRzI0EwcsV+gQFV6TU9ZA5y9Z
+         j62OZYzwe09s4Ty6+kdO1eHf3yJvzJ5aJvMAHGJjeLn0ctUSU2dQfP+lLWCPcK0JRFrz
+         zf0/SvH86oByf4wLNz1z/4T846HyxU8JJ3QjDZDHEf/looC5c8GN2tNC7uiQvfzSo9Qv
+         N2RUYaO3DdH/DYdkIFfTgQJVgP/rGHZwypIgynDsvsZ2GZykI7lfkokqUCHyb/XcAk8E
+         HjSs3a4RLK8NATDDxgD0vdqO9EqxDXoClKi1R/V8VwDaha9+/HDN/y1qVzuzCdGUTR6S
+         AICA==
+X-Forwarded-Encrypted: i=1; AJvYcCWWlhk/qb+T37oyT0YstVmai65dpyqT8BDr9GLVs50pxQJ3igEWJ+8yCgKlfRMZMyCK0C0zo3i5A5xb7rFTFNvDRgVCzQ4=
+X-Gm-Message-State: AOJu0YxxObHzhmwhC4fRyjVeexCfEJVsIKoac5QYJV9VcfMOKs6D4u8j
+	dB8rHyOGGGFd2LnqkPU93B3/0yQCnaFUSTMp8d1LUx6MZ2hKQjLsjH2+ntBZtZRzqEH04BW4nAi
+	GzD/bGi4UgAi9zJWIp/7xDB5uM8aiQgBdPblo
+X-Google-Smtp-Source: AGHT+IH5gl/Q1rzqHjQTr5aMEvKhR4tZEBFmlt3ipoX2Gur/J079ohFRNbLWktgdCJ8jGqV1lw0RjS5xWfmRyNlmBsQ=
+X-Received: by 2002:a17:902:ce8f:b0:1ff:3b0f:d61d with SMTP id
+ d9443c01a7336-1ff5a47d480mr363295ad.24.1722539138858; Thu, 01 Aug 2024
+ 12:05:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
+ <ZV1AnNB2CSbAUFVg@archie.me> <a9c14dfd-3269-4758-9174-4710bef07088@leemhuis.info>
+In-Reply-To: <a9c14dfd-3269-4758-9174-4710bef07088@leemhuis.info>
+From: Ian Rogers <irogers@google.com>
+Date: Thu, 1 Aug 2024 12:05:27 -0700
+Message-ID: <CAP-5=fXqx_k1miPTkcAmS3z2GBPt2KeDtP5fknmdDghZqxXPew@mail.gmail.com>
+Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.5
+To: Linux regressions mailing list <regressions@lists.linux.dev>, "to: Mark Rutland" <mark.rutland@arm.com>
+Cc: Linux perf Profiling <linux-perf-users@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, James Clark <james.clark@arm.com>, 
+	"cc: Marc Zyngier" <maz@kernel.org>, Hector Martin <marcan@marcan.st>, 
+	Arnaldo Carvalho de Melo <acme@redhat.com>, Asahi Linux <asahi@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-On Friday, July 26, 2024 5:05:22=E2=80=AFPM EDT Sami Tolvanen wrote:
-> Hi Petr,
->=20
-> On Mon, Jul 22, 2024 at 8:20=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> =
-wrote:
-> > From my perspective, I'm okay if gendwarfksyms doesn't provide
-> > functionality to compare a new object file with its reference symtypes
-> > file.
-> >=20
-> > As mentioned, genksyms has this functionality but I actually think the
-> > way it works is not ideal. Its design is to operate on one compilation
-> > unit at the time. This has the advantage that a comparison of each file
-> > is performed in parallel during the build, simply because of the make
-> > job system. On the other hand, it has two problems.
-> >=20
-> > The first one is that genksyms doesn't provide a comparison of the
-> > kernel as a whole. This means that the tool gives rather scattered and
-> > duplicated output about changed structs in the build log. Ideally, one
-> > would like to see a single compact report about what changed at the end
-> > of the build.
->=20
-> Sure, that makes sense. Android uses STG for this, which might be
-> useful to other folks too:
->=20
-> https://android.googlesource.com/platform/external/stg/
-> https://android.googlesource.com/platform/external/stg/+/refs/heads/main/=
-doc
-> /stgdiff.md#output-formats
-> > A few months ago, I also started working on a tool inspired by this
-> > script. The goal is to have similar functionality but hopefully with
-> > a much faster implementation. Hence, this tool is written in a compiled
-> > language (Rust at the moment) and should also become multi-threaded. I'm
-> > hoping to find some time to make progress on it and make the code
-> > public. It could later be added to the upstream kernel to replace the
-> > comparison functionality implemented by genksyms, if there is interest.
-> >=20
-> > So as mentioned, I'm fine if gendwarfksyms doesn't have this
-> > functionality. However, for distributions that rely on the symtypes
-> > format, I'd be interested in having gendwarfksyms output its dump data
-> > in this format as well.
->=20
-> We can definitely tweak the output format, but I'm not sure if making
-> it fully compatible with the genksyms symtypes format is feasible,
-> especially for Rust code. I also intentionally decided to use DWARF
-> tag names in the output instead of shorthands like s# etc. to make it
-> a bit more readable.
->=20
-> > For example, instead of producing:
-> >=20
-> > gendwarfksyms: process_exported_symbols: _some_mangled_func_name (@ XYZ)
-> > subprogram(
-> >=20
-> >    [formal parameters...]
-> >=20
-> > )
-> > -> structure_type core::result::Result<(), core::fmt::Error> {
-> >=20
-> >    [a description of the structure...]
-> >=20
-> > };
-> >=20
-> > .. the output could be something like this:
-> >=20
-> > S#'core::result::Result<(), core::fmt::Error>' structure_type
-> > core::result::Result<(), core::fmt::Error> { [a description of the
-> > structure...] } _some_mangled_func_name subprogram
-> > _some_mangled_func_name ( [formal parameters...] ) ->
-> > S#'core::result::Result<(), core::fmt::Error>'
-> This wouldn't be enough to make the output format compatible with
-> symtypes though. genksyms basically produces a simple key-value pair
-> database while gendwarfksyms currently outputs the fully expanded type
-> string for each symbol. If you need the tool to produce a type
-> database, it might also be worth discussing if we should use a bit
-> less ad hoc format in that case.
->=20
-> One more thing to note about the current --debug output is that it
-> directly correlates with the debugging information and thus may not
-> contain all aliases. For example, the Rust compiler deduplicates
-> identical function implementations (e.g. Deref::deref and
-> DerefMut::deref_mut etc.), but only one of the symbol names appears in
-> DWARF. We use symbol addresses to print out #SYMVERs also for the
-> aliases, but they don't show up in the debugging output right now.
->=20
-> > > If using unions here is acceptable to everyone, a simple solution
-> > > would be to use a known name prefix for the reserved members and teach
-> > > gendwarfksyms to only print out the original type for the replaced
-> > > ones. For example:
-> > >=20
-> > > The initial placeholder:
-> > >     u8 __kabi_reserved_1[8];
-> > >=20
-> > > After replacement:
-> > >     union {
-> > >    =20
-> > >             u64 new_member;
-> > >             struct {
-> > >            =20
-> > >                     u8 __kabi_reserved_1[8];
-> > >            =20
-> > >             };
-> > >    =20
-> > >     }
-> > >=20
-> > > Here gendwarfksyms would see the __kabi_reserved prefix and only use
-> > > u8 [8] for the CRC calculation. Does this sound reasonable?
-> >=20
-> > I like this idea. I think it's good that the necessary kABI information
-> > about an updated member can be expressed at the source code level in
-> > place of the actual change, and it isn't needed to feed additional input
-> > to the tool.
->=20
-> OK, cool. I agree that being able to specify these details in source
-> code is much cleaner. I'll add an implementation for this, and for the
-> definition visibility issue Greg mentioned in v2.
->=20
+On Wed, Dec 6, 2023 at 4:09=E2=80=AFAM Linux regression tracking #update
+(Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
+>
+> [TLDR: This mail in primarily relevant for Linux kernel regression
+> tracking. See link in footer if these mails annoy you.]
+>
+> On 22.11.23 00:43, Bagas Sanjaya wrote:
+> > On Tue, Nov 21, 2023 at 09:08:48PM +0900, Hector Martin wrote:
+> >> Perf broke on all Apple ARM64 systems (tested almost everything), and
+> >> according to maz also on Juno (so, probably all big.LITTLE) since v6.5=
+.
+>
+> #regzbot fix: perf parse-events: Make legacy events lower priority than
+> sysfs/JSON
+> #regzbot ignore-activity
 
-Could you please add myself, Hector, and Janne (along with the Asahi Linux=
-=20
-mailing list) to the recipients when you send the v2 patch set? We're also=
-=20
-interested in this. :)
+Note, this is still broken. The patch changed the priority in the case
+that you do something like:
 
-Thanks in advance!
+$ perf stat -e 'armv8_pmuv3_0/cycles/' benchmark
 
+but if you do:
 
-=2D-=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+$ perf stat -e 'cycles' benchmark
 
+then the broken behavior will happen as legacy events have priority
+over sysfs/json events in that case. To fix this you need to revert:
+4f1b067359ac Revert "perf parse-events: Prefer sysfs/JSON hardware
+events over legacy"
 
+This causes some testing issues resolved in this unmerged patch series:
+https://lore.kernel.org/lkml/20240510053705.2462258-1-irogers@google.com/
+
+There is a bug as the arm_dsu PMU advertises an event called "cycles"
+and this PMU is present on Ampere systems. Reverting the commit above
+will cause an issue as the commit 7b100989b4f6 ("perf evlist: Remove
+__evlist__add_default") to fix ARM's BIG.little systems (opening a
+cycles event on all PMUs not just 1) will cause the arm_dsu event to
+be opened by perf record and fail as the event won't support sampling.
+
+The patch https://lore.kernel.org/lkml/20240525152927.665498-1-irogers@goog=
+le.com/
+fixes this by only opening the cycles event on core PMUs when choosing
+default events.
+
+Rather than take this patch the revert happened as Linus runs the
+command "perf record -e cycles:pp" (ie using a specified event and not
+defaults) and considers it a regression in the perf tool that on an
+Ampere system to need to do "perf record -e
+'armv8_pmuv3_0/cycles/pp'". It was pointed out that not specifying -e
+will choose the cycles event correctly and with better precision the
+pp for systems that support it, but it was still considered a
+regression in the perf tool so the revert was made to happen. There is
+a lack of perf testing coverage for ARM, in particular as they choose
+to do everything in a different way to x86. The patch in question was
+in the linux-next tree for weeks without issues.
+
+ARM/Ampere could fix this by renaming the event from cycles to
+cpu_cycles, or by following Intel's convention that anything uncore
+uses the name clockticks rather than cycles. This could break people
+who rely on an event called arm_dsu/cycles/ but I imagine such people
+are rare. There has been no progress I'm aware of on renaming the
+event.
+
+Making perf not terminate on opening an event for perf record seems
+like the most likely workaround as that is at least something under
+the tool maintainers control. ARM have discussed doing this on the
+lists:
+https://lore.kernel.org/lkml/f30f676e-a1d7-4d6b-94c1-3bdbd1448887@arm.com/
+but since the revert in v6.10 no patches have appeared for the v6.11
+merge window. Feature work like coresight improvements and ARMv9 are
+being actively pursued by ARM, but feature work won't resolve this
+regression.
+
+I'm keen to see such patches as there are perf stat fixes reliant on
+the stacked parse event fixes that are consequently not merged
+affecting more than just ARM.
+
+There is a related discussion that events specified without PMUs
+should inherently only mean core PMUs. Unfortunately such a change
+would break uncore events specified without a PMU, for example `perf
+stat -e data_read -a sleep 1` gathers read memory bandwidth on uncore
+memory controllers on recent Intel devices. Not specifying a PMU for
+uncore events is also assumed by perf metrics, so a large number of
+metrics would need updating to make such a change work. Many existing
+JSON uncore events specify a PMU in their name like
+UNC_M2HBM_CMS_CLOCKTICKS and it feels somewhat redundant to have to
+make that h2hbm/UNC_M2HBM_CMS_CLOCKTICKS/. It is unclear who would
+pursue fixing all of this, and so it seems not specifying a PMU with
+an event for perf will keep meaning trying to open the event on all
+PMUs that advertise such an event.
+
+Thanks,
+Ian
+
+> Ciao, Thorsten (wearing his 'the Linux kernel's regression tracker' hat)
+> --
+> Everything you wanna know about Linux kernel regression tracking:
+> https://linux-regtracking.leemhuis.info/about/#tldr
+> That page also explains what to do if mails like this annoy you.
+>
