@@ -1,114 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from IND01-MAX-obe.outbound.protection.outlook.com (mail-maxind01olkn2049.outbound.protection.outlook.com [40.92.102.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330B518E10;
-	Sat,  3 Aug 2024 19:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722714784; cv=none; b=d+FFtj9zlXP5KM+ISWraAW82btvrqKWbKN7qknOHOhOitDF9KziICMcb2efrsViQzmuUy4rAbQiRJoit7gzIoXiryNJ6Q5udVCcA8T3vLJqYVs+uQ59bRlW6czFt3AU3ipFhE5FvovzkUwflXdcvgA7LFNb/d97KPzrbVxl+RGQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722714784; c=relaxed/simple;
-	bh=cO1njgqj1MdIys3zEUAKB60pjD++czAPnaJB2qZeMjI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hOEFQe0pF17ExVY9b6OXM/ACt9buFG8GejcuJiFFHAPeN0t/6StEBvUdRXvCoJ5520YWbGYHzRub8eBIuxN8nltxYDYd1qhWPeVQARkjEQVgVH1T1N4hMrWRL+Qqfv7K95ESDY6xVLZ17XhDlgW6q/gmH6i7YuRwWSiBo9KyAXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gbO9Vzhe; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0325333D8;
+	Sun,  4 Aug 2024 03:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.102.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1722741062; cv=fail; b=SllU2sy1SiIDgL9n1TEgJLUARwwJt/4Mdub4Xr+OgKczQqTMo75mDWCsCORfZ/wdrTujT+pSLH1qKejfKmdQe+UeCCJ5HGArL+rTDtQHdBUdADg8UGX4Ku/FgMFOKeLAH1aQKnCLgljTU5ft9dLC+6BN93Lq1jcA23I5sSUth7g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1722741062; c=relaxed/simple;
+	bh=mYgo6saABo34VkU3XXf1msqRbbjrfzXPqMSZqYz5zio=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=KrepBJLCjLTRwnqsaz86CzQAkY7ws0NxmEpAy7LN8Mv5IrrYDyqcWzQPsXJ34p5Z6xpH/ePjaSQjpxFFa2qFD5Ss4jfpFkyCfy6WnRgowO+tHai94mmoe4nojTR3xGWWsxSFpNUuHKrzEraYzJAdEtZ8gYJG+Tnq0PMz7AD6LiU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=Dbde18dU; arc=fail smtp.client-ip=40.92.102.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gbO9Vzhe"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B7D03C116B1;
-	Sat,  3 Aug 2024 19:53:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1722714783;
-	bh=cO1njgqj1MdIys3zEUAKB60pjD++czAPnaJB2qZeMjI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=gbO9Vzhe4Q2t6M6Anaf72tuWGNoTztkRwaVXobXonM3K+z2Uzg3ROlaTF38HLekI/
-	 PC0+IE5UB/JY/Hyut9ornpJY3yc7cy536OYVO95dYWk8OKt5nFhj+ZCPe9XNglS7WZ
-	 DRZZ2wzrSAHQ2Yu3/igaATrLQjTL9m4s98x8GPcjHuVCvtkS5iHr3oS2nS5ptN1MTn
-	 THUBG3Wid/0fwNNZb5ZR13OwKI3Vq7Rvr5E1ZIbt3l+w/InH6PIdeXYE80a4yCDJKt
-	 dmp27AhhoAh4cMf4oyaxbtHECZTBRep8utKwn3n3MkGWZPvucV0TDoO2wXlFCE1eiX
-	 lwVc/qkjMf35A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D901C3DA4A;
-	Sat,  3 Aug 2024 19:53:03 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Sat, 03 Aug 2024 21:52:55 +0200
-Subject: [PATCH] wifi: brcmfmac: cfg80211: Handle SSID based pmksa deletion
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="Dbde18dU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kLr6i77isItNIv+VuCf/shP1Sn6tTzsN0EJ/U69LNwJ95vSIxRXLMqFBCO6u1Z2A2zFAc5lRFYkus0gTMXwShn8/ZnKgCWwHvtyDNSXXMkH6GPr6VA8pxh5lLbWYz7/JVpedwmqJUqcp2k/0kUD6SJ5J6j6t0ECNOS+UYdFydjFw3qMA+RiFj+ernrgEDvivbSZDqqNJ+YH3rYjX7MGTb7UOQp3zwrXQansf86ZasGP5mFqYpq70ohabYTKLRY7ArsGlyOOEP6QgkkLgEtAtqz9BxBPjeu4sfm3zGmhiPTTvr+26SNoSnsc0VGLxqq1/W9dmEN+uwOtqehE1uEhEsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xl33C7wsnaRql3kEzN/jLfblxUCw1JaTx8ig6MBTUBI=;
+ b=uwMGyzrKhxOCNMnaynmRxJEswSi6GvGkr4GjKntzsbZj06K+R6+r3Atghok16aib3I8vpaoyCio+L3DskniQi7yxYsz5YY0DhtrarxtTSqGs+shLvfbY6IrUTZmESskaZVK0wAOAPvWRHUN3YtvRNUFlb9IftEwrmODE5E8awpCxDuO7DzonCrecnqJXkfUlmi3zwi2bUDTAMq7tQMUiDHRLtu4xCE5qSedM2J9xm8/vtJ8EVa0cSsF64e9/eNpd6E61/Syyytgg1nWsdbhbmqywuVFfnlkiY38mgCntR2saWD9sg6yW3jinGHUcYu0cP/IyocbQaCcn8FmtCJcRNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xl33C7wsnaRql3kEzN/jLfblxUCw1JaTx8ig6MBTUBI=;
+ b=Dbde18dUEh80t+n4PJmuW3w8Ka5nvWstAlF0x7CVu0cnupFqf0hBsMgnGJkgtENYzYUXXfGTAseBXUuXxX5z7JMqmyl4nM4KXHAreC2Zx/579jhrXiydGlEWJnsSWZ+fIm14zyNY9lnLoFpep7c0Iy2NmKM1n5armzil5hI9JW/yuo88QU8U8BkUe3+Ra0f3noBCxGMsqFttZLzt3/82BV8YWfg3HMBcd6oPLoAGgQ/a4yO2hnyYkBv+VP/YDTQS9u8BuHOBMLmnGArh5O9emnvnsG3M/sDgcepvWxTa/vqAsS43101m5YaE0M7MsjG/T+Sp2r6vTH8M7aRusOJR6A==
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:b3::9) by
+ PN3P287MB1297.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:197::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7828.25; Sun, 4 Aug 2024 03:10:50 +0000
+Received: from MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a]) by MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+ ([fe80::98d2:3610:b33c:435a%4]) with mapi id 15.20.7828.023; Sun, 4 Aug 2024
+ 03:10:50 +0000
+From: Aditya Garg <gargaditya08@live.com>
+To: "devnull+j.jannau.net@kernel.org" <devnull+j.jannau.net@kernel.org>
+CC: "arend.vanspriel@broadcom.com" <arend.vanspriel@broadcom.com>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	"brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
+	"brcm80211@lists.linux.dev" <brcm80211@lists.linux.dev>, "j@jannau.net"
+	<j@jannau.net>, "kvalo@kernel.org" <kvalo@kernel.org>,
+	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"marcan@marcan.st" <marcan@marcan.st>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>
+Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Handle SSID based pmksa
+ deletion
+Thread-Topic: [PATCH] wifi: brcmfmac: cfg80211: Handle SSID based pmksa
+ deletion
+Thread-Index: AQHa5hvoE5KcjEPn8km73NJrD5B72g==
+Date: Sun, 4 Aug 2024 03:10:50 +0000
+Message-ID:
+ <MA0P287MB021718EE92FC809CB2BB0F82B8BD2@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [mbGjsCejnMQ3Ff3ryllu0e0OaoI4wPwTRcdF6wrJ71+kjRaBPepN0RFdFRuGSXvs]
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MA0P287MB0217:EE_|PN3P287MB1297:EE_
+x-ms-office365-filtering-correlation-id: 9bf0893b-9917-4418-671b-08dcb4330b51
+x-ms-exchange-slblob-mailprops:
+ WaIXnCbdHrORrPiYp+O3K2PHowtbVet09kHtS3LQEhSbFHlpMC38uol+q/7Dlf19CFIMdCTJbKACl9Vff8KwfdkbXgWbTjX/qBeCqM/rY6L7AcLSG6cHONtWqFE5zsK4Vbp5glpd2ZqtPCmv1c97XQBBRiEN8ikOEYm+lmvLr9lpdez1rrE+LrW8et7ECqmmF5kaxyDDuTOOarVIsmXlDJ9BYxK6ViSwRJpr73OXuJyllbv8CwEaWvwXxh03si0wl6XOudhSbFIrX9lCkvFqJqH8j8LnmhSglLWxFtUIl3QXy3NFdYi5Jg9cgpNLdKU6khyPPw1/0ZcrYqhwKTVVTJ5oPBmneS1aDdKZrHe5pg+QhWrMq7Zzrv4wzCUDK9S0NCt8m6dQJoqa5nhLSfKkECKqQd516P0fOzaZdnK0zhMXcibbZslzYtCEKa7cXS6soVFmCryn3jSiwwVZykIh3cEhxw16sI382sgWE44GxSKSPykk1OyW+VsI+9lMMh878g/6GBAItI/CZUzI3t5UwpKOTQKPuo/ac4ZnssBIlQlHLwcBVpXeAejypK3zeHoEbKWs/+QaT4FQnfe7/kwG858YjJNeRmZts4FiOz+9zeJ5Z6sbpiziqbyEjzWtd5z4/LZVNJx/0301iBoBtscK/juOiywfYhv4T7TMkNuDk6AwRaAKV24xekI+qkX10tqhpr/j+OoRcBsciWjA0idBetpzv9+YUx4xCjug0fh6fjCSjnsG+KJb663hXMN0eQh3uUUHpXt+KoY=
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|461199028|8060799006|19110799003|3412199025|440099028|102099032|4295299021;
+x-microsoft-antispam-message-info:
+ x4MKfWgG0RC1zgL0OUe3Nj9Szew+UA0mdoqa3F7y/YlNCv/T3rqKvdsVo8Vu3oePi0cFwwdyDeI8L0wwJA0v4Ke7tmta8LLw2z/LW3XZ1GX0IJRmYyGjbJ3Nkt9GIJkTieDvucAEn2wQv4kOzTDkhrDGQ5B5RS9PlVgpNkncz9FZ/Yg2r0BpuWVZ/I4mQe1af4UfpHE6ktX1bExNEXobjsvjzw89gaVqHtHLKD+3ZA8AZNLB0AibxxVaSL0WdkHi673Nn49YO945eK7AWec/mkv64aD1Oohr17EsP5Q91eIGVvIILD51KvgeO8qLhwVBJYL6a4oMdQNJQfn5XP6UkzmxY5CKNcNR/oUvzUYijR/bXwao0jd9vrIz9ZlnzMQ8ne+pu9jD6lblW1JufnBM/A3gPMQNFhmYxE9B6U157AF0sH2YS2zSC5UnXmI2Yybcdlgj8AhBgFrxNrMxABjHY9OxF0BiXVoe4ChORv29bMkQOAwkVtsBxqzRgRnFx2QwSSkmgo7q4RCpMM+xehcg41VmfDIvEVfDBVf3rcoEDW6F45f1n0IeAKQY+oQoaT1z5vnKLlOtGkd039dmz8ikNmPfyYy6yqjtLyylGDtzwkSbj0FWEs+p6bgwbMzPRN0HecUMeGwi2t/Ah1M2UaZ5uQ==
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?CdimpKtsySzIUg7rTw7MGOoPbDtlxocbU7K48x4R2+xrJiR+IFehyp7jCEF0?=
+ =?us-ascii?Q?Py0RY5jIaIIxOI6fIDNEfLHpDxhny62BcoriD7gsHpUsZ/IASyn/sKcr1WxF?=
+ =?us-ascii?Q?9481q88qjfCcD9xNaQyO9lagIFD3v6pFJoV8g4XX3cT6ad/S1Zt+rzWd9LxI?=
+ =?us-ascii?Q?vxVkNm3iYN4I45DKhBe89jju3pupCJXRr6HI3o9Jr3AzZX3A4pfqWy6KtMVP?=
+ =?us-ascii?Q?DCnmV5jS+soiJYA7zRjTpJnHCv/A1aTocqU3cejxx0fhyXn0w2TKsu/J2HNI?=
+ =?us-ascii?Q?i4pdPwgtYYCz6azQFw7ShOMSwr5NYMnfk5g+Q7hR+6I+nmIorWSsfCjj5Wl0?=
+ =?us-ascii?Q?GgyQCKx/q8M3jrOOuHWOJ6rXsfdqVo5vu795pwaVf3PHmFWh/SwVku7WvPsb?=
+ =?us-ascii?Q?WFUh+215BYkG2eo+R57VuUGjRcbESlqMXfmsQwtAvkf3pUBs/hNDcwLi29hR?=
+ =?us-ascii?Q?3h3Bht+2+NsoYFEfloNifAPWR46kHl73dK4ULMyx2iAOgG+h+0Z7+o3JL8ue?=
+ =?us-ascii?Q?REdOVyrF/A1/AboaHB03t7y9tIDIalgTigNsNKWypYQlhdTa+c3y4K+v1pLl?=
+ =?us-ascii?Q?eOK9Zwc0aEE8A9/tR5CRZaUiaO6zFGRYSNvstlAWdGFwNJqlniPzI7FxUh7j?=
+ =?us-ascii?Q?IvjjDEKb0mFRccQmtnQ6Rui4/y6oimyqDrvYvrP8GB/5/4ZxPnXbqeBwayE8?=
+ =?us-ascii?Q?AxEAZM8bnkGGY1wtjtxZlubobaM4WTJqfOXA7YqwiJ/uidAv4U2zzOEZVRfY?=
+ =?us-ascii?Q?ZfuoybhweLhZssm4HpsRKIuHtFi0ZWGOkSmJYdgiJ/tDj7vxiX2XqCMts0dt?=
+ =?us-ascii?Q?UAPWd6+OVcyONoYU4svWaNrzw3mUl5gGA2hiYoia8Q3N9vt8z8BnG7xed53V?=
+ =?us-ascii?Q?59U1J53hURn3Ot2ZNYNxFTTKb9QIw7zYXusogUJh+Oz9dBmkS4iGrZ2+6DiM?=
+ =?us-ascii?Q?mIaLp+1PbN9wedNmAeosqtY6awWACYokKzOr8viksOKqQtebCEkap6tVMGCw?=
+ =?us-ascii?Q?Jy0s8VUKhkOPeau00+srbTo+y+lkSoHFsry82+y+C5GK0r4StIM2W3b7+/js?=
+ =?us-ascii?Q?kvjOsFiroKxuIqRtdTKZrVamodwxZfMpBRm5QhEujnRndWeWJ32rKtNtHTiZ?=
+ =?us-ascii?Q?E/7i3QPidmrM7Hg3m7tQje7nEATEr9ei0dUgeLSEPPx5AdczEslOvSwgJ1P0?=
+ =?us-ascii?Q?2e1vMq9qzUPxao/o1EPs0UaFWHU+dH9YXvSRlmPo9VRnI/6rt7c5GZZ0HbX5?=
+ =?us-ascii?Q?iJZPTtRSzcJdNVdvedHY+vllrW1CX+oOsNrZR2EhxptQJna/nR5ZFec3iboV?=
+ =?us-ascii?Q?Y2o=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID:
+ <47CC545F4DEA2C48A4044D305DA0F1AA@sct-15-20-7719-20-msonline-outlook-24072.templateTenant>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240803-brcmfmac_pmksa_del_ssid-v1-1-4e85f19135e1@jannau.net>
-X-B4-Tracking: v=1; b=H4sIAJaKrmYC/x3MQQqAIBBA0avErBOsKYiuEiGmYw1lhQMRRHdPW
- r7F/w8IJSaBvngg0cXCx55RlQW4xe4zKfbZUOu60Z1GNSUXQ7TOnHEVazxtRoS9QoctBcIWUUO
- uz0SB7/88jO/7AZiy8PppAAAA
-To: Arend van Spriel <arend.vanspriel@broadcom.com>, 
- Kalle Valo <kvalo@kernel.org>, Hector Martin <marcan@marcan.st>, 
- Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev, 
- brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org, 
- asahi@lists.linux.dev, stable@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1950; i=j@jannau.net;
- h=from:subject:message-id;
- bh=kwa63Uu8k2lWu1jh8mzzIZRococdlt5kl/m4MUAUTEw=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhrR1XfMEpu1b+fuSsfFsHu0AC7n/HqLvPkyYsUf8qoPE2
- WVB35WOd5SyMIhxMciKKbIkab/sYFhdoxhT+yAMZg4rE8gQBi5OAZjI3HmMDPcyXdbdTkgSbX8v
- +P1v2493CbJP93htlxD64/Ku96rAllBGhnYeTsmJeakhXxj4GP6WHDzR8etU5P9NPK1xZpKlydc
- 6mQE=
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/default with auth_id=62
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: j@jannau.net
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-24072.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB0217.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bf0893b-9917-4418-671b-08dcb4330b51
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Aug 2024 03:10:50.5825
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB1297
 
-From: Janne Grunau <j@jannau.net>
+Hi
 
-wpa_supplicant 2.11 sends since 1efdba5fdc2c ("Handle PMKSA flush in the
-driver for SAE/OWE offload cases") SSID based PMKSA del commands.
-brcmfmac is not prepared and tries to dereference the NULL bssid and
-pmkid pointers in cfg80211_pmksa. PMKID_V3 operations support SSID based
-updates so copy the SSID.
+wpa_supplicant 2.11 broke Wi-Fi on T2 Macs as well, but this patch doesn't =
+seem to be fixing Wi-Fi. Instead, it's breaking it even on older 2.10 wpa_s=
+upplicant. Tested by a user on bcm4364b2 wifi chip with a WPA2-PSK [AES] ne=
+twork. dmesg output:
 
-Fixes: a96202acaea4 ("wifi: brcmfmac: cfg80211: Add support for PMKID_V3 operations")
-Cc: stable@vger.kernel.org
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+However dmesg outputs more info=20
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-index 5fe0e671ecb3..826b768196e2 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-@@ -4320,9 +4320,16 @@ brcmf_pmksa_v3_op(struct brcmf_if *ifp, struct cfg80211_pmksa *pmksa,
- 		/* Single PMK operation */
- 		pmk_op->count = cpu_to_le16(1);
- 		length += sizeof(struct brcmf_pmksa_v3);
--		memcpy(pmk_op->pmk[0].bssid, pmksa->bssid, ETH_ALEN);
--		memcpy(pmk_op->pmk[0].pmkid, pmksa->pmkid, WLAN_PMKID_LEN);
--		pmk_op->pmk[0].pmkid_len = WLAN_PMKID_LEN;
-+		if (pmksa->bssid)
-+			memcpy(pmk_op->pmk[0].bssid, pmksa->bssid, ETH_ALEN);
-+		if (pmksa->pmkid) {
-+			memcpy(pmk_op->pmk[0].pmkid, pmksa->pmkid, WLAN_PMKID_LEN);
-+			pmk_op->pmk[0].pmkid_len = WLAN_PMKID_LEN;
-+		}
-+		if (pmksa->ssid && pmksa->ssid_len) {
-+			memcpy(pmk_op->pmk[0].ssid.SSID, pmksa->ssid, pmksa->ssid_len);
-+			pmk_op->pmk[0].ssid.SSID_len = pmksa->ssid_len;
-+		}
- 		pmk_op->pmk[0].time_left = cpu_to_le32(alive ? BRCMF_PMKSA_NO_EXPIRY : 0);
- 	}
- 
-
----
-base-commit: 0c3836482481200ead7b416ca80c68a29cfdaabd
-change-id: 20240803-brcmfmac_pmksa_del_ssid-3c35efe35330
-
-Best regards,
--- 
-Janne Grunau <j@jannau.net>
-
-
+[    5.852978] usbcore: registered new interface driver brcmfmac
+[    5.853114] brcmfmac 0000:01:00.0: enabling device (0000 -> 0002)
+[    5.992212] brcmfmac: brcmf_fw_alloc_request: using brcm/brcmfmac4364b2-=
+pcie for chip BCM4364/3
+[    5.993923] brcmfmac 0000:01:00.0: Direct firmware load for brcm/brcmfma=
+c4364b2-pcie.apple,maui-HRPN-u-7.5-X0.bin failed with error -2
+[    5.993968] brcmfmac 0000:01:00.0: Direct firmware load for brcm/brcmfma=
+c4364b2-pcie.apple,maui-HRPN-u-7.5.bin failed with error -2
+[    5.994004] brcmfmac 0000:01:00.0: Direct firmware load for brcm/brcmfma=
+c4364b2-pcie.apple,maui-HRPN-u.bin failed with error -2
+[    5.994041] brcmfmac 0000:01:00.0: Direct firmware load for brcm/brcmfma=
+c4364b2-pcie.apple,maui-HRPN.bin failed with error -2
+[    5.994076] brcmfmac 0000:01:00.0: Direct firmware load for brcm/brcmfma=
+c4364b2-pcie.apple,maui-X0.bin failed with error -2
+[    6.162830] Bluetooth: hci0: BCM: 'brcm/BCM.hcd'
+[    6.796637] brcmfmac: brcmf_c_process_txcap_blob: TxCap blob found, load=
+ing
+[    6.798396] brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM4364/3 wl0: Ju=
+l 10 2023 12:30:19 version 9.30.503.0.32.5.92 FWID 01-88a8883
+[    6.885876] brcmfmac 0000:01:00.0 wlp1s0: renamed from wlan0
+[    8.195243] ieee80211 phy0: brcmf_p2p_set_firmware: failed to update dev=
+ice address ret -52
+[    8.196584] ieee80211 phy0: brcmf_p2p_create_p2pdev: set p2p_disc error
+[    8.196588] ieee80211 phy0: brcmf_cfg80211_add_iface: add iface p2p-dev-=
+wlp1s0 type 10 failed: err=3D-52=
