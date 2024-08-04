@@ -1,71 +1,69 @@
-Received: from fhigh7-smtp.messagingengine.com (fhigh7-smtp.messagingengine.com [103.168.172.158])
+Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A3D28DD0;
-	Sun,  4 Aug 2024 11:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90CF9481B4
+	for <asahi@lists.linux.dev>; Sun,  4 Aug 2024 12:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722771456; cv=none; b=atlzOBPVSRUF2gNvt14wsFASeDaMdvXdX9ejbIC/ES2E6mV50vl69ujbL8gNQrIyWJRY+ZW5kzptziUm1WoJiMyIZ1rDq1bDy4OvnqptPpuYeNMAcw9vMLDqN1MJlF4tikjZcpXDkuMfyjEjUj8kgDnm1ak65Jx6ihY2qr5EwUY=
+	t=1722774259; cv=none; b=D98e8cIS8+gRsdSAaC0l3OHSDCDI5ZdGwOMTKvUuvbdM3SiUliljEbd8a43Sl1eEacMNS9zcJK8tmONRCBjnDIa4kJo5/IW7Fjj2ujXcW5y8MAjF9Ss2RGxuBwCENK5FBPObzT5BA624VMKyasSDJOqMvqxLe+9SQYOApr0g9Ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722771456; c=relaxed/simple;
-	bh=g37Wf69tTH4xH8rvQsV/IUAbbexHf9wvb4dCxXTAPaU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=uzPrQV8MQmgvMvfEP00C5qgc2UNs/KtlEtsAFaXrbS0NwSXDeRYbZS0OkzbqzAQV0XMS+vv/RoulpK41iYi16rono4+fYK5mQvzCGG1Nom2OJLjzSvKQaEhgqbBL2AKVzn1EVWGl5w/l0W4HQi27FrhSz3xeUacD2PpCiwPh4S0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=MHOFezC6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hQv0l9/r; arc=none smtp.client-ip=103.168.172.158
+	s=arc-20240116; t=1722774259; c=relaxed/simple;
+	bh=/8vPRURRgMyU8ZdXUZCXtVYzd9RIwywFDiONXk6refc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:Subject:Content-Type; b=Ejn62SLO9kS5FkRe3tle0YiqOp493JpYwUN1lUxLIq/qPRAdvsxnmlxtr5oOPlMHrdeMdWEuliYVC7CCYaKPH3fGY3A8uRZ8C/LBZUSLa8oncqMijavHFp9ZxOIwB4cO2OREre6tyuSquLlDwwpB7JG9fWNucrZ8LjEGlEHhiCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=LH05jqf/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QF7WWZbN; arc=none smtp.client-ip=103.168.172.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="MHOFezC6";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hQv0l9/r"
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="LH05jqf/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QF7WWZbN"
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id C26F81151863;
-	Sun,  4 Aug 2024 07:37:33 -0400 (EDT)
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id BAF6A114E9D5;
+	Sun,  4 Aug 2024 08:24:16 -0400 (EDT)
 Received: from wimap26 ([10.202.2.86])
-  by compute6.internal (MEProxy); Sun, 04 Aug 2024 07:37:33 -0400
+  by compute6.internal (MEProxy); Sun, 04 Aug 2024 08:24:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1722771453;
-	 x=1722857853; bh=26q5jI2qsF7RvXCV2lbBdiYHgP9/3GB5SHJPHTkxESs=; b=
-	MHOFezC6Y0k+8cPOgg5d/Imim0U03RV+tm2jp8cL0N1qwuAVKMgfuk0dzeunaxWe
-	gxAudoa0O9cctTziMf289bbSYdyHpqWgJvSR8kQNEWhOM2ACxC1/netjdyGJNfrg
-	uOo+MqR9Ap2/Or2uEa/HIf3y05Ce8jqWHBFFfAi/U/qIEhrub+0TIkMsz0sgoF51
-	EaE9Fqi8UJPLw1MvjJ24b/82VhHru9Vh9MIaDDV9qzho/yEKtnFz2ro2OfQa5RGi
-	SNGw4ib/aWZLwvyQHpBiSA2aZPC09AVwKZbdyrUh1FopyPBbSXpjmlWUYqfN8Irx
-	PC6CGfCqlxcS3Op/kedAsA==
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1722774256; x=1722860656; bh=/8
+	vPRURRgMyU8ZdXUZCXtVYzd9RIwywFDiONXk6refc=; b=LH05jqf/3VvseFEL+3
+	uCkTWBwp+jJimF8o0nFTAxxdTxqdEu7C5sKosQKlVHCRyu6QCTocOoa8ZEEAH7tR
+	SLVI0j9JgMH+1lPOGxkZ2SspLTVXFpLNbQNK9DSpqZdomoxErwRHSEkIaGhZTfyC
+	8p7e74mPgi7DV4uY5T9WLfyAwbfUv6+NC5uEuIBGZE81piC7NPSzws67PuGs776K
+	W1x1pf67McwEYcK6bNqIM4sDgcO50LqrJy7GiL4wh5vGQXeZuJXpl0I2uWXWwZhW
+	5q/e1Tn6/8tCUXivPXQQajf5iWZCr3IiYZs0T4r/rx1TxUoiVhtWkana5Rr7h0Oh
+	SAYg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1722771453; x=
-	1722857853; bh=26q5jI2qsF7RvXCV2lbBdiYHgP9/3GB5SHJPHTkxESs=; b=h
-	Qv0l9/rVHrM0HG9qEf6xYfhZg5WoZE+vLhMoRl3MgBHe4CfJr9CqRAO/fzLPl4i/
-	1F+M+CurzfN7DH1job3cVexAJZltrxg/i2RAwGD6iqiqXmK7+iXMe9vPo5dknAmD
-	H155Iz7gU0z98eW9hzlGzUDRVMD5e7zm6C1DyNyjfhV0iKUsLGb2YlawToBXRmQ5
-	DQ0K42AdsXMlxxCWagPDxVJGVd98Xd4b11PGg3sHQrdE6T9f12q8RVMBxwSF0SCf
-	7Wg8wkIIK698du7bCosSlTLhLMY440Z9Clqw2JnWkimVQhQXaRyGNxHfOLTqwwuT
-	MVrhc1bFbIMIiYYNp/Uvw==
-X-ME-Sender: <xms:_WevZgqhddbkNzK4J3nBoSJ518tjXF109mahhQixFp7_ow7kqNILnQ>
-    <xme:_WevZmqp8mepihXnt_fCI6YQY2lJJ6ZYtqLuDZ83gvanLeUs4yLDmxdj1NnSkkI9Y
-    mfpCQr_zf344zTs6fY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrkeeggdegvdcutefuodetggdotefrodftvf
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1722774256; x=1722860656; bh=/8vPRURRgMyU8
+	ZdXUZCXtVYzd9RIwywFDiONXk6refc=; b=QF7WWZbNH0m6lNduuqPxXcRka4owh
+	toRoPKMVDiy+ni99D41KaEwYCVyi9+ROQjoOfTbIOMQ3mwJE7zwfKsI0Hx1yyKfi
+	IEpTtxhPG4GJpM3xt5mcJ5YJoleEDIKohUpQcDapgi1SV/9vMh12DK6dcnRiEhaZ
+	q499wJi+6doRPIznVJvcGx8IYGgNTNpkDsw4b7dAmQbaJKvQOU1bG1PsRUmsrxh1
+	y/DXiAUuT1kKIK3eSBmcJGMqrqWRvIt7ZqqGMlfr4fxUgcWu/SjIxrdJCu3Hxlr2
+	4fJFuThHrTnIzzHmREvIBjJl22Oy2vBSeL1BFncwL3pGru2/OzAXPwW7A==
+X-ME-Sender: <xms:8HKvZqkVm-_3wEKAkyDFBMUenXVhjzxZ988R7MNfMDksB05GPeD31g>
+    <xme:8HKvZh0rQCh-0tVNiMLuwlA-FNtXwWt1k7JC_uhql_YIzWcbRj1ofUahf_HRo0K36
+    6LLdz1C9K2NENSszjY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrkeeggdehvdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdflrghn
-    nhgvucfirhhunhgruhdfuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrh
-    hnpeetvddtlefgheetgfeukeefkedtueffieefieegffevjedtgeefteefhfeludefgeen
-    ucffohhmrghinhepphgrshhtvggsihhnrdgtohhmpdifuddrfhhinecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvght
-    pdhnsggprhgtphhtthhopedt
-X-ME-Proxy: <xmx:_WevZlO2n1f5jm4Qlj6Qsli9l14OFQOoaAqj8JoBOQi03A2rBFsn3A>
-    <xmx:_WevZn6fNiALV4OHme-HFHYrby3EaDumdqsTexaEm5NMv4_2X_izSA>
-    <xmx:_WevZv7g-FJhTbC_1Vm2P2YdF6ohfHNDgEsIGVC1BtjeLLCldqYWvw>
-    <xmx:_WevZnicKh2FUCUuV0nx78pmxVn2TIB2-ASpsFvID9Rs7vbQDOBGZg>
-    <xmx:_WevZji9AOL8za8NDtaEsIDVt6aiOcuQpcV4MYATLw1jfOF0uVa6TP4n>
+    fjughrpefoggffhffvvefkufgtgfesthejredtredttdenucfhrhhomhepfdflrghnnhgv
+    ucfirhhunhgruhdfuceojhesjhgrnhhnrghurdhnvghtqeenucggtffrrghtthgvrhhnpe
+    ejteffgeeugeeggedtudekjeevuedvkedvfedvgfehieeltefhfeeigfekveeggeenucff
+    ohhmrghinheprhgvughhrghtrdgtohhmpdifuddrfhhinecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggp
+    rhgtphhtthhopedt
+X-ME-Proxy: <xmx:8HKvZorBKqYix0VkSqDCG66Yk3DG8UeEapB5mwYenBZESIH3E8Kwlw>
+    <xmx:8HKvZunPMYaqvPIW1Odl51oTOyqQsPfURrAIrI0PZp4j1g0A29WnQQ>
+    <xmx:8HKvZo2gENlAE3t7U8VQ12_G_pSe7I8T904VevXh-GoHbRtWVMlVQw>
+    <xmx:8HKvZlumNSWGYlmCD4uDJf2Wa5gz6gRlzgGQZY_iXbkDxlSxhSv6fA>
+    <xmx:8HKvZio3jeh1GdctDBZf-JzcJudfB-FmyM6_vJC5nl78WqPoA6jCaJC_>
 Feedback-ID: i47b949f6:Fastmail
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 44C3119C0069; Sun,  4 Aug 2024 07:37:33 -0400 (EDT)
+	id 3BEE819C0079; Sun,  4 Aug 2024 08:24:16 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -73,57 +71,41 @@ List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sun, 04 Aug 2024 13:37:13 +0200
+Date: Sun, 04 Aug 2024 14:23:56 +0200
 From: "Janne Grunau" <j@jannau.net>
-To: "arend.vanspriel@broadcom.com" <arend.vanspriel@broadcom.com>,
- "Aditya Garg" <gargaditya08@live.com>,
- "devnull+j.jannau.net@kernel.org" <devnull+j.jannau.net@kernel.org>
-Cc: asahi@lists.linux.dev,
- "brcm80211-dev-list.pdl@broadcom.com" <brcm80211-dev-list.pdl@broadcom.com>,
- "brcm80211@lists.linux.dev" <brcm80211@lists.linux.dev>,
- "kvalo@kernel.org" <kvalo@kernel.org>,
- "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
- LKML <linux-kernel@vger.kernel.org>,
- "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
- "Hector Martin" <marcan@marcan.st>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-Message-Id: <ac9f0cb4-ba12-44f1-b32f-d17e24fe426a@app.fastmail.com>
-In-Reply-To: <1911d0fdea8.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-References: 
- <MA0P287MB021718EE92FC809CB2BB0F82B8BD2@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
- <306c3010-a6ac-4f8a-a986-88c1a137ed84@app.fastmail.com>
- <MA0P287MB021725DE596EF4E5294FA5DDB8BD2@MA0P287MB0217.INDP287.PROD.OUTLOOK.COM>
- <1911d0fdea8.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-Subject: Re: [PATCH] wifi: brcmfmac: cfg80211: Handle SSID based pmksa deletion
+To: hostap@lists.infradead.org,
+ "Vinayak Yadawad" <vinayak.yadawad@broadcom.com>
+Cc: "Aditya Garg" <gargaditya08@live.com>,
+ "Arend Van Spriel" <arend.vanspriel@broadcom.com>,
+ "Hector Martin" <marcan@marcan.st>, linux-wireless@vger.kernel.org,
+ linux-wireless@vger.kernel.org, asahi@lists.linux.dev
+Message-Id: <92fe4dd4-21a4-4559-8441-32ef86672de6@app.fastmail.com>
+Subject: wpa_supplicant 2.11 breaks WPA2-PSK / WPA3-SAE authentication on Linux'
+ brcmfmac
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 Hej,
 
-On Sun, Aug 4, 2024, at 13:04, Arend Van Spriel wrote:
-> On August 4, 2024 8:27:04 AM Aditya Garg <gargaditya08@live.com> wrote:
->
->> Hi
->>
->> WPA3 is broken on T2 Macs (atleast on 4364) for a long time. I was under 
->> the impression brcmfmac doesn't support it.
->>
->> Anyways, I've asked a fedora user to compile a kernel with CONFIG_BRCMDBG.
->>
->> If you want logs without it, look over here:
->> https://pastebin.com/fnhH30JA
->
-> Not sure what to make of this. The interface comes up without any obvious 
-> error and then another interface is created by another driver:
+wpa_supplicant 2.11 on Linux's 6.9.y / 6.10.y brcmfmac driver runs in
+authentication timeouts with WPA2-PSK and WPA3-SAE. This was reported
+with Apple silicon devices using Fedora Asahi remix with a patched
+driver as well as other devices without additional brcmfmac patches. See
+https://bugzilla.redhat.com/show_bug.cgi?id=2302577 for some reports.
 
-I've bisected the authentication timeouts for WPA2-PSK and WPA3-SAE (and
-probably every other authentication method) down to
-
+I've bisected this to
 https://w1.fi/cgit/hostap/commit/?id=41638606054a09867fe3f9a2b5523aa4678cbfa5
+"Mark authorization completed on driver indication during 4-way HS
+offload". Reverting this commit on top of hostap_2_11 properly
+authenticates the connections. Looking at that change and the code it
+looks clearly broken to to me. As far as I can see is
+`assoc_info.authorized` for the nl80211 driver only set when
+QCA_WLAN_VENDOR_ATTR_ROAM_AUTH_AUTHORIZED is set (in main, I did not
+check older revisions). This doesn't seem appropriate to expect this on
+chipsets from different vendors.
 
-With that commit reverted on top of wpa_supplicant 2.11 both WPA2 and WPA3
-work. Looks after cursory inspection if brcmfmac fails to notify wpa_supplicant
-that it is authenticated.
+A revert looks to me like a possible/proper fix. I can send that later
+if no alternative materializes.
 
-best regards,
+Thanks and best regards,
 Janne
