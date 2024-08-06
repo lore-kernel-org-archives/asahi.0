@@ -1,55 +1,55 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F02146593
-	for <asahi@lists.linux.dev>; Tue,  6 Aug 2024 21:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D880416C6AB
+	for <asahi@lists.linux.dev>; Tue,  6 Aug 2024 21:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1722979276; cv=none; b=ZEsZafIgZsl31+bz0WRSXBPH4B2VjtUHDh/569B0laeJsksu0gGZ/a86haqmdcC055GE7hgfsbqBA9m8q69a4twa0BwUpnx+6uMQkdybFGkQjKc9hFpCSELFtFgKxzD0LG61cvrn7qTV4VizaIIlvPLPIptrJVQEd3N4L80/Oes=
+	t=1722979277; cv=none; b=au5iLOAh4QtyaicjNKUyZ22u1fDwkFc1Ukqhhd1Fip4gO2mggdu1/uepq9IkJq+/YPb186F4U4obRm7z4atN6OtYkRmCCcjf+i6CO8T6jjF6xYWqHbSj0cMLQK9RnAYlm92mvKXqXHgPrFW57YoeverAbHiGn3QeBsqh5ZlOcaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1722979276; c=relaxed/simple;
-	bh=iji02Oc/3eVse8/8b0a97tqkHPOd2ny7+/1oh5B8hHY=;
+	s=arc-20240116; t=1722979277; c=relaxed/simple;
+	bh=7o/q0V/8nz20ZimeKJ7F4Niz14kg6QxkIphDjXT52fk=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=fmlEclTMlDLJLX/ZgW3pAQ1elyP9yCI+ZdsEeEolNHy6gTSxMdlKV9sIq6vXOosWKy4XZ3B/MW6/+V9zN4qVuGhIRcKBNHG9qnF23Km9dfm/gSuZ2C53uh/8/K7apQXekvKqVecZCQfN1ypuLOEJjTY8f6FUz7aI9ku2Js/OWqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xzDX3qzg; arc=none smtp.client-ip=209.85.219.201
+	 To:Cc:Content-Type; b=WBK0quFkOl83vp/+RKIYYKH0rNnDpYD/UcCZPtxa8a68MVlMu8mIi51elfwn+2zbPvoRPjOacYhhSPoHVxiKshq9j8Y0apy9QNjhjupiZy/Ip1t5nDWroMTqqJzY9bb1+7r/0cBRrbC34R+KcTteFGKDq/7vR48Tio8Wy/7BvyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TW8UvhEF; arc=none smtp.client-ip=209.85.219.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xzDX3qzg"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e02b5792baaso1994233276.2
-        for <asahi@lists.linux.dev>; Tue, 06 Aug 2024 14:21:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TW8UvhEF"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e0872023b7dso2010645276.2
+        for <asahi@lists.linux.dev>; Tue, 06 Aug 2024 14:21:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1722979273; x=1723584073; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1722979275; x=1723584075; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jOl8CtEcN1RVp67UAYoE5SQ2BHxlCocLL/lZKU0oS64=;
-        b=xzDX3qzgAhh2cKFf6UP0XBMV3sfAYk88Dr8/RMoARX+wg94ekrly6onL3yRrvtmpiY
-         Onll9jjFwypefdxPB/TJxTWu9RsN7YCFAjnd6IQWO6sLv2xcBlyrzghg3PSQ6scghbkf
-         GnpHpG5c4IrCfcOI1JibLL2aeDpDg8kv1Bi48vrsv7csw/6sGNaIu2EsKcYivcC70V/r
-         1O/qyWmxUDd6XousC4WCZ2STZ9LWM9To6AUjRzMx+fIMCZBtDyBN4lWMskQpQnhnTzsi
-         FK7/cPc0JRIMbLqVz37qPKzsL6bSoT97O+6X4t2R2Hc44Hx72rTxTO0tTeRboWpyfg60
-         x15w==
+        bh=Fo9KIzckPaWjR62wzQWzW1E6r1YIZ+FzcJKNKEd2cbc=;
+        b=TW8UvhEFanBz/L5eFqduNki+vNg7J2V83gwlkCWQ+nifpngnACK+sR2vOtJRypSrVu
+         mWUsrDum3Yoq3hYylqhyJrfd/GyIvExJQzJ2OMlZXJm2lgpM9tRvu+zPoUXPyFA8FVAc
+         zBhCpNrwcrtLmeeBECjLdixzoi8ed63V7QJ0RkcPyg01Dgj9NiMDhNjtv41xBNDsdQtF
+         C/XwSASQWaPlJbwW/NYj0aDsrfY+/cWpccEh2CQIQgtEPjk5NgMabxTo38jLGfKygs4v
+         GaBylz9z7vsjN145P32hBow8Th/T2CbsYsIcEQ9m29gKDTYxjvbPzOMH+boAHhq3QI5S
+         ydTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722979273; x=1723584073;
+        d=1e100.net; s=20230601; t=1722979275; x=1723584075;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jOl8CtEcN1RVp67UAYoE5SQ2BHxlCocLL/lZKU0oS64=;
-        b=Fmdw8Bn4nR7O3iJ/ExFp/dwIJ2iy+8cAhLdlsXaYvQh+nINwju45muvo7ASmX+f+Ap
-         I5t2lSHJhF0POLQKPHObojqIIycwiOjD/Y0Rvy/kUDU6sz0tWh8A2knnxpO/Hx1b809v
-         eSVAKNHQFTMFEc6aCe7F0MTLXbInJLXZp4rbG4L3i/PG1K+iqgCW3cY5ufVNwd6Vr2So
-         50SP25JWQcOslvoEp1EWC44lah+4EeckwaauOpVBR6LfYWahebRIxIQZJ27yhAwqlGr2
-         uf3S2v92rHsNOUhjHxs1n+8dpFSHWWNgkgY9jTpEVfTkTd15SeJtzqwTI5EUXIa6z3qw
-         ODaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUAq21/8X63PwLL5viv6JFf45QHwcrwGZ/5Uu4rsSzOsDSEtkNhoaz24aGbimsT4/I839NFFiFr0jY1jx5EKrMyGlW9Sw8=
-X-Gm-Message-State: AOJu0YyCL7uTD+Fw/xB7ni23bhEQgBIdUGFMrBWQkqYdRkwVD+0oZ1UG
-	UPn00xUgNmmWRkrpnFHVHliIFiLFzyrnDphZNDFTogAN3wGkiX/U7fueXhpjYUb/AHdcAZ8yZJq
-	Rbr+k2A==
-X-Google-Smtp-Source: AGHT+IH68bwpdjlnY26x/2+wcQZQXwD9UHybE1nA22cklT9RgpSzraQUX4QVqW9CAA8bhLmB1AIfRzUuzphh
+        bh=Fo9KIzckPaWjR62wzQWzW1E6r1YIZ+FzcJKNKEd2cbc=;
+        b=bNfRVOsn3Rj10S9GHcOljcRhU2QHHfr8Nl0ESF88oLSFoEhu9m8QBUJOGeZLM2xv4W
+         j0wSmqd154SRU97wyB9JrwYIPwSQPxaw/2k6ILRH6bVWk0c/nHHs3aQqtZrKJ30G3kg7
+         qVZTqJ3k+6f2JKXbtXKaYP9t0idOrSqbOwC2TisMnkQBLd5H1T2R0iSJcrEeF7pse8Xh
+         Yx81Vz77DKVQcGWFUx9P0V+GpyKzNfAPmqdUcdWSH3BxWaXDTYIHVwTgEu4H7yPJ0Hsm
+         1seGalnkrWXmqt8H9G6boqTeNerR35+tb7mLtCSfs5L9quSvc3ZQ3ODAfuyITBX8QUNr
+         VK+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUW8D5YB2Og5qKdC0mrHv3AZYWPqT/QF7bnCtp39EeLUMc4SFSodGckCBR6sm28q0yfnof0ACOcqqsCL4ohWcI8t7tEl6U=
+X-Gm-Message-State: AOJu0YxT74ykQ/W+ujFwDIWHwtOiUe11AjLrpycTwi16jAeuXrWgjgFJ
+	6ofuntFsS4OQbZhfpotL9eomBsUD3jpJBuiawR+zsGIPRmVno5aUJKM4gbBzgQCCo6e/q7l/Sz8
+	R7OYt7A==
+X-Google-Smtp-Source: AGHT+IH7JJ+cAD9RGztSP5vgRVCBQElvxeH9dvZHKNMgEx11Gqo+XyM2E9Dbljxi3vzskmoey/eoE16MBt22
 X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a05:6902:188a:b0:e0c:301a:1d8d with SMTP
- id 3f1490d57ef6-e0c30666c8bmr256479276.4.1722979272769; Tue, 06 Aug 2024
- 14:21:12 -0700 (PDT)
-Date: Tue,  6 Aug 2024 21:20:27 +0000
+ (user=mmaurer job=sendgmr) by 2002:a05:6902:100c:b0:e0b:4dd5:3995 with SMTP
+ id 3f1490d57ef6-e0bde4abb59mr28777276.7.1722979274758; Tue, 06 Aug 2024
+ 14:21:14 -0700 (PDT)
+Date: Tue,  6 Aug 2024 21:20:28 +0000
 In-Reply-To: <20240806212106.617164-1-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20240806212106.617164-1-mmaurer@google.com>
 X-Mailer: git-send-email 2.46.0.rc2.264.g509ed76dc8-goog
-Message-ID: <20240806212106.617164-2-mmaurer@google.com>
-Subject: [PATCH v3 01/16] module: Take const arg in validate_section_offset
+Message-ID: <20240806212106.617164-3-mmaurer@google.com>
+Subject: [PATCH v3 02/16] module: Factor out elf_validity_ehdr
 From: Matthew Maurer <mmaurer@google.com>
 To: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
 	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -74,27 +74,102 @@ Cc: Matthew Maurer <mmaurer@google.com>, rust-for-linux@vger.kernel.org,
 	linux-modules@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-`validate_section_offset` doesn't modify the info passed in. Make this
-clear by adjusting the type signature.
+Factor out verification of the ELF header and document what is checked.
 
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- kernel/module/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ kernel/module/main.c | 70 +++++++++++++++++++++++++++++---------------
+ 1 file changed, 47 insertions(+), 23 deletions(-)
 
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index d9592195c5bb..141a964b6b13 100644
+index 141a964b6b13..1218cc7e1196 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -1645,7 +1645,7 @@ bool __weak module_exit_section(const char *name)
- 	return strstarts(name, ".exit");
+@@ -1664,6 +1664,50 @@ static int validate_section_offset(const struct load_info *info, Elf_Shdr *shdr)
+ 	return 0;
  }
  
--static int validate_section_offset(struct load_info *info, Elf_Shdr *shdr)
-+static int validate_section_offset(const struct load_info *info, Elf_Shdr *shdr)
- {
- #if defined(CONFIG_64BIT)
- 	unsigned long long secend;
++/**
++ * elf_validity_ehdr() - Checks an ELF header for module validity
++ * @info: Load info containing the ELF header to check
++ *
++ * Checks whether an ELF header could belong to a valid module. Checks:
++ *
++ * * ELF header is within the data the user provided
++ * * ELF magic is present
++ * * It is relocatable (not final linked, not core file, etc.)
++ * * The header's machine type matches what the architecture expects.
++ * * Optional arch-specific hook for other properties
++ *   - module_elf_check_arch() is currently only used by PPC to check
++ *   ELF ABI version, but may be used by others in the future.
++ *
++ * Return: %0 if valid, %-ENOEXEC on failure.
++ */
++static int elf_validity_ehdr(const struct load_info *info)
++{
++	if (info->len < sizeof(*(info->hdr))) {
++		pr_err("Invalid ELF header len %lu\n", info->len);
++		return -ENOEXEC;
++	}
++	if (memcmp(info->hdr->e_ident, ELFMAG, SELFMAG) != 0) {
++		pr_err("Invalid ELF header magic: != %s\n", ELFMAG);
++		return -ENOEXEC;
++	}
++	if (info->hdr->e_type != ET_REL) {
++		pr_err("Invalid ELF header type: %u != %u\n",
++		       info->hdr->e_type, ET_REL);
++		return -ENOEXEC;
++	}
++	if (!elf_check_arch(info->hdr)) {
++		pr_err("Invalid architecture in ELF header: %u\n",
++		       info->hdr->e_machine);
++		return -ENOEXEC;
++	}
++	if (!module_elf_check_arch(info->hdr)) {
++		pr_err("Invalid module architecture in ELF header: %u\n",
++		       info->hdr->e_machine);
++		return -ENOEXEC;
++	}
++	return 0;
++}
++
+ /*
+  * Check userspace passed ELF module against our expectations, and cache
+  * useful variables for further processing as we go.
+@@ -1693,30 +1737,10 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ 	unsigned int num_info_secs = 0, info_idx;
+ 	unsigned int num_sym_secs = 0, sym_idx;
+ 
+-	if (info->len < sizeof(*(info->hdr))) {
+-		pr_err("Invalid ELF header len %lu\n", info->len);
+-		goto no_exec;
+-	}
++	err = elf_validity_ehdr(info);
++	if (err < 0)
++		return err;
+ 
+-	if (memcmp(info->hdr->e_ident, ELFMAG, SELFMAG) != 0) {
+-		pr_err("Invalid ELF header magic: != %s\n", ELFMAG);
+-		goto no_exec;
+-	}
+-	if (info->hdr->e_type != ET_REL) {
+-		pr_err("Invalid ELF header type: %u != %u\n",
+-		       info->hdr->e_type, ET_REL);
+-		goto no_exec;
+-	}
+-	if (!elf_check_arch(info->hdr)) {
+-		pr_err("Invalid architecture in ELF header: %u\n",
+-		       info->hdr->e_machine);
+-		goto no_exec;
+-	}
+-	if (!module_elf_check_arch(info->hdr)) {
+-		pr_err("Invalid module architecture in ELF header: %u\n",
+-		       info->hdr->e_machine);
+-		goto no_exec;
+-	}
+ 	if (info->hdr->e_shentsize != sizeof(Elf_Shdr)) {
+ 		pr_err("Invalid ELF section header size\n");
+ 		goto no_exec;
 -- 
 2.46.0.rc2.264.g509ed76dc8-goog
 
