@@ -1,96 +1,75 @@
-Received: from mail.w1.fi (mail.w1.fi [212.71.239.96])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB0824B2F
-	for <asahi@lists.linux.dev>; Sat, 10 Aug 2024 08:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.71.239.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9671214A4E7;
+	Sat, 10 Aug 2024 09:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723279059; cv=none; b=VcxatPDOXm6KBXjyrun1R5w9LWuGYRIuckGdue06c0ZcPTOBv+nIMuDaxmNtMnbcC6vgYlTFD7RPRYmcD4gQ69ADs4fePAhlBf+qnWR+zXQWjnF/Ko1wFqdxUXMOYund0H1ibrIlx7dI3krGIy1OB1iJ+YL/Xq6E5pSUYVflctY=
+	t=1723280881; cv=none; b=nvR0+4/L/Wvh4WHXX3W6G/ueOfFhG7U42TiDvMt9R8QVYxetr8DJR9VJ4pEkSL9P4AcIuLiGrLtANh3KZbVfL32vyfvDPtuEnHlMcGHDUPK6XckoTIcId73GXPOtRizGiaku41+oUQepGH58PwlsoWhldpBBSfKF5/K10ZtYuEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723279059; c=relaxed/simple;
-	bh=c19io5mUd5VfK2Ovfhvg6pV/p84vjjrCgNwK5/p2uXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jtm6bwB1FohfBrtrQlhkXTCjgXm1do2Tm1O/d0hz1wOkt4FcvJiJOe+LbsMWdWkU6nPbAbcQauuvhS2jycQI54rOYzGGh8GjGQUt9Eubq3NI4IW4dR6hU4GudmOgUBbHvOQAuf9qNk9Hvzcw37U+SaCa9GUrkNvW6wGTXa+WcIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=w1.fi; spf=pass smtp.mailfrom=w1.fi; dkim=pass (2048-bit key) header.d=w1.fi header.i=@w1.fi header.b=JZuDsqR7; arc=none smtp.client-ip=212.71.239.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=w1.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=w1.fi
+	s=arc-20240116; t=1723280881; c=relaxed/simple;
+	bh=LSEYZZaYbNQKdqepD0wrNbt38kVeyCJHNCV1B8OLWb0=;
+	h=Content-Type:MIME-Version:Subject:From:In-Reply-To:References:To:
+	 Cc:Message-ID:Date; b=OOIcbLEFvJgCZ217LGy5zS0BRjXhS91bZeUDzACplPgH3YxZKH1jjhgzsn+BX07atOtbKOZniIlXWAsO/EJQjZher/OqEfKV+Me1mbE9GvrLFBW2UgZ2AAOL3WXSw9S5OHeSsBKc7Ie3NryFgIV/6TkgqTyvDLZhjtD0QTkoaJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YCHzy3lH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=w1.fi header.i=@w1.fi header.b="JZuDsqR7"
-Received: from localhost (localhost [127.0.0.1])
-	by mail.w1.fi (Postfix) with ESMTP id C400A11B35;
-	Sat, 10 Aug 2024 08:31:16 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at w1.fi
-Received: from mail.w1.fi ([127.0.0.1])
-	by localhost (mail.w1.fi [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id KCILicMdTsnb; Sat, 10 Aug 2024 08:30:39 +0000 (UTC)
-Received: by jm (sSMTP sendmail emulation); Sat, 10 Aug 2024 11:30:36 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=w1.fi; s=default;
-	t=1723278639; bh=c19io5mUd5VfK2Ovfhvg6pV/p84vjjrCgNwK5/p2uXY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JZuDsqR7H0u9g9hrm6smUwFg0J5HtG5JJrJrVFf74j6UZC+hZPhQ4pWe0YJjCmcR6
-	 wGh6uKl+qHImcni+AyVUZzLAElsrbKPnbXDa8UnZkdwgTGb0VG6y5UPkZNn2uJMo2X
-	 JQ6unXNP//LuXxknWITWJ5zMzp/jiZaQYl5S2pI4pj/gSWxWmcwo695LNM2Yc67b92
-	 2LVs2F3P67srsdN8CFbDRjgUQxmjq8KwWw33qx22To1TwHlLnYcMzBavLxRA5nVrfR
-	 r/8bU07CHamWq72XTaIf+mVL+ZpC8XP9vYuBiIiLuJ9sTDWo3/H1+8yssUF6t2ktEz
-	 aL1hiPexRShBA==
-Date: Sat, 10 Aug 2024 11:30:36 +0300
-From: Jouni Malinen <j@w1.fi>
-To: Janne Grunau <j@jannau.net>
-Cc: hostap@lists.infradead.org,
-	Vinayak Yadawad <vinayak.yadawad@broadcom.com>,
-	Aditya Garg <gargaditya08@live.com>,
-	Arend Van Spriel <arend.vanspriel@broadcom.com>,
-	Hector Martin <marcan@marcan.st>, linux-wireless@vger.kernel.org,
-	asahi@lists.linux.dev
-Subject: Re: wpa_supplicant 2.11 breaks WPA2-PSK / WPA3-SAE authentication on
- Linux' brcmfmac
-Message-ID: <ZrclLHJ63RxnG/B3@w1.fi>
-References: <92fe4dd4-21a4-4559-8441-32ef86672de6@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YCHzy3lH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE5A4C32781;
+	Sat, 10 Aug 2024 09:07:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1723280881;
+	bh=LSEYZZaYbNQKdqepD0wrNbt38kVeyCJHNCV1B8OLWb0=;
+	h=Subject:From:In-Reply-To:References:To:Cc:Date:From;
+	b=YCHzy3lHvOir9DBkkeH+WRA2Snnc7MgU8kc8LFFsWRjSD8Pmd9zly3f7URUg/zqNy
+	 FlkyhiK4D+Ae6eAsK5w4GNnbLl8w03DCr6pCyKiGVrNSYYHHZvkTqQgeIPzmyG8Cbk
+	 L55ovnJ276uICnKbf5A8Bey2EoAz69wS1BYCDkEYbHzSq76pOFKOIAB4G57OXNDgth
+	 hE5vSnoMGwm311bfOlJZiJ6IwBjwruCcQq8ahuoII2Hdc23KMx6W3K97mW4cxEaYk9
+	 aXBt3xDft7dWQfJ7RYg4BNYp146um824zbV5TuKRIHdC6LMpTzs5fVqRcu+E7kbDwu
+	 2hnlhOz9aA6gA==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <92fe4dd4-21a4-4559-8441-32ef86672de6@app.fastmail.com>
+Content-Transfer-Encoding: 7bit
+Subject: Re: wifi: brcmfmac: cfg80211: Handle SSID based pmksa deletion
+From: Kalle Valo <kvalo@kernel.org>
+In-Reply-To: <20240803-brcmfmac_pmksa_del_ssid-v1-1-4e85f19135e1@jannau.net>
+References: <20240803-brcmfmac_pmksa_del_ssid-v1-1-4e85f19135e1@jannau.net>
+To: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Cc: Arend van Spriel <arend.vanspriel@broadcom.com>,
+ Hector Martin <marcan@marcan.st>, Linus Walleij <linus.walleij@linaro.org>,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org,
+ asahi@lists.linux.dev, stable@vger.kernel.org, Janne Grunau <j@jannau.net>
+User-Agent: pwcli/0.1.1-git (https://github.com/kvalo/pwcli/) Python/3.11.2
+Message-ID: <172328087714.488646.5392085332216751958.kvalo@kernel.org>
+Date: Sat, 10 Aug 2024 09:07:58 +0000 (UTC)
 
-On Sun, Aug 04, 2024 at 02:23:56PM +0200, Janne Grunau wrote:
-> wpa_supplicant 2.11 on Linux's 6.9.y / 6.10.y brcmfmac driver runs in
-> authentication timeouts with WPA2-PSK and WPA3-SAE. This was reported
-> with Apple silicon devices using Fedora Asahi remix with a patched
-> driver as well as other devices without additional brcmfmac patches. See
-> https://bugzilla.redhat.com/show_bug.cgi?id=2302577 for some reports.
+Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org> wrote:
+
+> From: Janne Grunau <j@jannau.net>
 > 
-> I've bisected this to
-> https://w1.fi/cgit/hostap/commit/?id=41638606054a09867fe3f9a2b5523aa4678cbfa5
-> "Mark authorization completed on driver indication during 4-way HS
-> offload". Reverting this commit on top of hostap_2_11 properly
-> authenticates the connections. Looking at that change and the code it
-> looks clearly broken to to me. As far as I can see is
-> `assoc_info.authorized` for the nl80211 driver only set when
-> QCA_WLAN_VENDOR_ATTR_ROAM_AUTH_AUTHORIZED is set (in main, I did not
-> check older revisions). This doesn't seem appropriate to expect this on
-> chipsets from different vendors.
+> wpa_supplicant 2.11 sends since 1efdba5fdc2c ("Handle PMKSA flush in the
+> driver for SAE/OWE offload cases") SSID based PMKSA del commands.
+> brcmfmac is not prepared and tries to dereference the NULL bssid and
+> pmkid pointers in cfg80211_pmksa. PMKID_V3 operations support SSID based
+> updates so copy the SSID.
+> 
+> Fixes: a96202acaea4 ("wifi: brcmfmac: cfg80211: Add support for PMKID_V3 operations")
+> Cc: stable@vger.kernel.org # 6.4.x
+> Signed-off-by: Janne Grunau <j@jannau.net>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Acked-by: Arend van Spriel <arend.vanspriel@broadcom.com>
 
-This commit is from Broadcom to fix some race conditions with the 4-way
-handshake offload which I'm assuming is for a Broadcom driver.. Whether
-that is for brcmfmac is unknown to me, though.
+Patch applied to wireless.git, thanks.
 
-It looks like the goal here was to move completion of the connection
-from the association event to EVENT_PORT_AUTHORIZED, i.e., the
-NL80211_CMD_PORT_AUTHORIZED event from the driver. Is that event not
-delivered by brcmfmac? I did not see any full wpa_supplicant debug logs
-for these issues based on a quick look, so I could not check that
-myself.
-
-> A revert looks to me like a possible/proper fix. I can send that later
-> if no alternative materializes.
-
-I'm inclined to revert this if it is indeed the case that
-NL80211_CMD_PORT_AUTHORIZED is not delivered reliably by the upstream
-driver and this commit was tested only with some non-upstream versions.
+2ad4e1ada8ee wifi: brcmfmac: cfg80211: Handle SSID based pmksa deletion
 
 -- 
-Jouni Malinen                                            PGP id EFC895FA
+https://patchwork.kernel.org/project/linux-wireless/patch/20240803-brcmfmac_pmksa_del_ssid-v1-1-4e85f19135e1@jannau.net/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+
