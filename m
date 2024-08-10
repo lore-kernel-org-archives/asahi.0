@@ -1,128 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.w1.fi (mail.w1.fi [212.71.239.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D59314F70;
-	Fri,  9 Aug 2024 17:25:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB0824B2F
+	for <asahi@lists.linux.dev>; Sat, 10 Aug 2024 08:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.71.239.96
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723224305; cv=none; b=sgTNzPzSln7CMhyGzwUQBgu4rlXKrBJqDT+7MLt4q1EVJ71RjL+GGILSJ0sWc5BgFU7Nu1nOEjSN1uf1w5vQgbiW/+YxYf6mcu6K0DLYhR6EwDEykhy739lpAVpZmwJ4O250CWaMDlbzNKk+DQepldPTH00AGnaj8VCX+Cni51Q=
+	t=1723279059; cv=none; b=VcxatPDOXm6KBXjyrun1R5w9LWuGYRIuckGdue06c0ZcPTOBv+nIMuDaxmNtMnbcC6vgYlTFD7RPRYmcD4gQ69ADs4fePAhlBf+qnWR+zXQWjnF/Ko1wFqdxUXMOYund0H1ibrIlx7dI3krGIy1OB1iJ+YL/Xq6E5pSUYVflctY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723224305; c=relaxed/simple;
-	bh=DQOfsEX2Un26oH82FuDvvRuhCP7yObI46puLbuELVbM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gfqH9Cdx7xqHH0SJ7d4fLx9XNWInDRIrzF1KUSQSfbMhThPt6d4P5L2nxILR2Nu+Yq0mb1ojlN+24FaDWoB2zFWr7LsnGOlHNmujaFgJG5U71luVrdDtQQPBEChA1wXXu49GGpLQMOg0Nscps/pLBRs6TrZC0N9Pd0maI4gB8C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mgNvtuVK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1723279059; c=relaxed/simple;
+	bh=c19io5mUd5VfK2Ovfhvg6pV/p84vjjrCgNwK5/p2uXY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jtm6bwB1FohfBrtrQlhkXTCjgXm1do2Tm1O/d0hz1wOkt4FcvJiJOe+LbsMWdWkU6nPbAbcQauuvhS2jycQI54rOYzGGh8GjGQUt9Eubq3NI4IW4dR6hU4GudmOgUBbHvOQAuf9qNk9Hvzcw37U+SaCa9GUrkNvW6wGTXa+WcIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=w1.fi; spf=pass smtp.mailfrom=w1.fi; dkim=pass (2048-bit key) header.d=w1.fi header.i=@w1.fi header.b=JZuDsqR7; arc=none smtp.client-ip=212.71.239.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=w1.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=w1.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mgNvtuVK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84A1EC32782;
-	Fri,  9 Aug 2024 17:25:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1723224304;
-	bh=DQOfsEX2Un26oH82FuDvvRuhCP7yObI46puLbuELVbM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=mgNvtuVKUSAfv0qDsgFw5zpF4qa/SHt9d46Cn+Dex9ZbyCZobtBu20hrgCTcXP1Oh
-	 5f3TSPq+B9BV0tANf+kVX8GAgnNoh+tyO7uDENg+84hXQe/A4ULz6hsIKA14/CM5nC
-	 XeUNoQSs1epcqsKPlMJq1+7YQckrOBKAGq6/lazvfVOIr5YAs5UWfhG+OnF488RkX6
-	 2XCicRtbZiACB5iVayJbUT4tHlCSYS9mINdW86lu1COE4PqF12d0DLEyFjL3y/iFXo
-	 MKJuRL8hk6aPzShQSJsWy3OkM26QjlzlMCyMYZRvZ1iJcDb/n+8ySx7ZXnRRh8m+j2
-	 4meU19r7S0VQA==
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Ilia Lin <ilia.lin@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: kernel test robot <lkp@intel.com>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH] cpufreq: Fix warning on unused of_device_id tables for !CONFIG_OF
-Date: Fri,  9 Aug 2024 11:24:38 -0600
-Message-ID: <20240809172439.908092-1-robh@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=w1.fi header.i=@w1.fi header.b="JZuDsqR7"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.w1.fi (Postfix) with ESMTP id C400A11B35;
+	Sat, 10 Aug 2024 08:31:16 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at w1.fi
+Received: from mail.w1.fi ([127.0.0.1])
+	by localhost (mail.w1.fi [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id KCILicMdTsnb; Sat, 10 Aug 2024 08:30:39 +0000 (UTC)
+Received: by jm (sSMTP sendmail emulation); Sat, 10 Aug 2024 11:30:36 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=w1.fi; s=default;
+	t=1723278639; bh=c19io5mUd5VfK2Ovfhvg6pV/p84vjjrCgNwK5/p2uXY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JZuDsqR7H0u9g9hrm6smUwFg0J5HtG5JJrJrVFf74j6UZC+hZPhQ4pWe0YJjCmcR6
+	 wGh6uKl+qHImcni+AyVUZzLAElsrbKPnbXDa8UnZkdwgTGb0VG6y5UPkZNn2uJMo2X
+	 JQ6unXNP//LuXxknWITWJ5zMzp/jiZaQYl5S2pI4pj/gSWxWmcwo695LNM2Yc67b92
+	 2LVs2F3P67srsdN8CFbDRjgUQxmjq8KwWw33qx22To1TwHlLnYcMzBavLxRA5nVrfR
+	 r/8bU07CHamWq72XTaIf+mVL+ZpC8XP9vYuBiIiLuJ9sTDWo3/H1+8yssUF6t2ktEz
+	 aL1hiPexRShBA==
+Date: Sat, 10 Aug 2024 11:30:36 +0300
+From: Jouni Malinen <j@w1.fi>
+To: Janne Grunau <j@jannau.net>
+Cc: hostap@lists.infradead.org,
+	Vinayak Yadawad <vinayak.yadawad@broadcom.com>,
+	Aditya Garg <gargaditya08@live.com>,
+	Arend Van Spriel <arend.vanspriel@broadcom.com>,
+	Hector Martin <marcan@marcan.st>, linux-wireless@vger.kernel.org,
+	asahi@lists.linux.dev
+Subject: Re: wpa_supplicant 2.11 breaks WPA2-PSK / WPA3-SAE authentication on
+ Linux' brcmfmac
+Message-ID: <ZrclLHJ63RxnG/B3@w1.fi>
+References: <92fe4dd4-21a4-4559-8441-32ef86672de6@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <92fe4dd4-21a4-4559-8441-32ef86672de6@app.fastmail.com>
 
-!CONFIG_OF builds cause warnings on unused of_device_id tables. This is
-due to of_match_node() being a macro rather than static inline function.
-Add a __maybe_unused annotation to the of_device_id tables.
+On Sun, Aug 04, 2024 at 02:23:56PM +0200, Janne Grunau wrote:
+> wpa_supplicant 2.11 on Linux's 6.9.y / 6.10.y brcmfmac driver runs in
+> authentication timeouts with WPA2-PSK and WPA3-SAE. This was reported
+> with Apple silicon devices using Fedora Asahi remix with a patched
+> driver as well as other devices without additional brcmfmac patches. See
+> https://bugzilla.redhat.com/show_bug.cgi?id=2302577 for some reports.
+> 
+> I've bisected this to
+> https://w1.fi/cgit/hostap/commit/?id=41638606054a09867fe3f9a2b5523aa4678cbfa5
+> "Mark authorization completed on driver indication during 4-way HS
+> offload". Reverting this commit on top of hostap_2_11 properly
+> authenticates the connections. Looking at that change and the code it
+> looks clearly broken to to me. As far as I can see is
+> `assoc_info.authorized` for the nl80211 driver only set when
+> QCA_WLAN_VENDOR_ATTR_ROAM_AUTH_AUTHORIZED is set (in main, I did not
+> check older revisions). This doesn't seem appropriate to expect this on
+> chipsets from different vendors.
 
-Fixes: c7582ec85342 ("cpufreq: Drop CONFIG_ARM and CONFIG_ARM64 dependency on Arm drivers")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202408090714.wcrqU6Pk-lkp@intel.com/
-Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
----
-Note that 0-day only reported 1 warning, but x86 W=1 build gave me these
-4.
----
- drivers/cpufreq/apple-soc-cpufreq.c  | 2 +-
- drivers/cpufreq/mediatek-cpufreq.c   | 2 +-
- drivers/cpufreq/qcom-cpufreq-nvmem.c | 2 +-
- drivers/cpufreq/ti-cpufreq.c         | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+This commit is from Broadcom to fix some race conditions with the 4-way
+handshake offload which I'm assuming is for a Broadcom driver.. Whether
+that is for brcmfmac is unknown to me, though.
 
-diff --git a/drivers/cpufreq/apple-soc-cpufreq.c b/drivers/cpufreq/apple-soc-cpufreq.c
-index af34c22fa273..4dcacab9b4bf 100644
---- a/drivers/cpufreq/apple-soc-cpufreq.c
-+++ b/drivers/cpufreq/apple-soc-cpufreq.c
-@@ -85,7 +85,7 @@ static const struct apple_soc_cpufreq_info soc_default_info = {
- 	.cur_pstate_mask = 0, /* fallback */
- };
- 
--static const struct of_device_id apple_soc_cpufreq_of_match[] = {
-+static const struct of_device_id apple_soc_cpufreq_of_match[] __maybe_unused = {
- 	{
- 		.compatible = "apple,t8103-cluster-cpufreq",
- 		.data = &soc_t8103_info,
-diff --git a/drivers/cpufreq/mediatek-cpufreq.c b/drivers/cpufreq/mediatek-cpufreq.c
-index 3a1aadaa723c..663f61565cf7 100644
---- a/drivers/cpufreq/mediatek-cpufreq.c
-+++ b/drivers/cpufreq/mediatek-cpufreq.c
-@@ -738,7 +738,7 @@ static const struct mtk_cpufreq_platform_data mt8516_platform_data = {
- };
- 
- /* List of machines supported by this driver */
--static const struct of_device_id mtk_cpufreq_machines[] __initconst = {
-+static const struct of_device_id mtk_cpufreq_machines[] __initconst __maybe_unused = {
- 	{ .compatible = "mediatek,mt2701", .data = &mt2701_platform_data },
- 	{ .compatible = "mediatek,mt2712", .data = &mt2701_platform_data },
- 	{ .compatible = "mediatek,mt7622", .data = &mt7622_platform_data },
-diff --git a/drivers/cpufreq/qcom-cpufreq-nvmem.c b/drivers/cpufreq/qcom-cpufreq-nvmem.c
-index 939702dfa73f..703308fb891a 100644
---- a/drivers/cpufreq/qcom-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/qcom-cpufreq-nvmem.c
-@@ -611,7 +611,7 @@ static struct platform_driver qcom_cpufreq_driver = {
- 	},
- };
- 
--static const struct of_device_id qcom_cpufreq_match_list[] __initconst = {
-+static const struct of_device_id qcom_cpufreq_match_list[] __initconst __maybe_unused = {
- 	{ .compatible = "qcom,apq8096", .data = &match_data_kryo },
- 	{ .compatible = "qcom,msm8909", .data = &match_data_msm8909 },
- 	{ .compatible = "qcom,msm8996", .data = &match_data_kryo },
-diff --git a/drivers/cpufreq/ti-cpufreq.c b/drivers/cpufreq/ti-cpufreq.c
-index 4d3f27958fbd..220fff7a302e 100644
---- a/drivers/cpufreq/ti-cpufreq.c
-+++ b/drivers/cpufreq/ti-cpufreq.c
-@@ -419,7 +419,7 @@ static int ti_cpufreq_setup_syscon_register(struct ti_cpufreq_data *opp_data)
- 	return 0;
- }
- 
--static const struct of_device_id ti_cpufreq_of_match[] = {
-+static const struct of_device_id ti_cpufreq_of_match[]  __maybe_unused = {
- 	{ .compatible = "ti,am33xx", .data = &am3x_soc_data, },
- 	{ .compatible = "ti,am3517", .data = &am3517_soc_data, },
- 	{ .compatible = "ti,am43", .data = &am4x_soc_data, },
+It looks like the goal here was to move completion of the connection
+from the association event to EVENT_PORT_AUTHORIZED, i.e., the
+NL80211_CMD_PORT_AUTHORIZED event from the driver. Is that event not
+delivered by brcmfmac? I did not see any full wpa_supplicant debug logs
+for these issues based on a quick look, so I could not check that
+myself.
+
+> A revert looks to me like a possible/proper fix. I can send that later
+> if no alternative materializes.
+
+I'm inclined to revert this if it is indeed the case that
+NL80211_CMD_PORT_AUTHORIZED is not delivered reliably by the upstream
+driver and this commit was tested only with some non-upstream versions.
+
 -- 
-2.43.0
-
+Jouni Malinen                                            PGP id EFC895FA
