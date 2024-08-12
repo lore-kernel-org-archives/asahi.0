@@ -1,139 +1,97 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3795F158546
-	for <asahi@lists.linux.dev>; Sat, 10 Aug 2024 13:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17C914A0A0
+	for <asahi@lists.linux.dev>; Mon, 12 Aug 2024 04:54:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723295631; cv=none; b=cLPLJsM0AiIL+4j4Tc3xHKgMAvUjJFsIv977qXtpo/1PyIiH+XcF3DOSdP4PMRzEF+NPJjca5GwMonw35L2rwFgoRcFXP9mQkLZn1XquTMukC1lh2JRg8RBSfclMvs7E76p5GHgOjyf47Xi3yJaN7Pi+byk1V4sBIrJCQHwPiYE=
+	t=1723438485; cv=none; b=Na/S9Sp3MG7bRu1eCMV8KDNmMXh09smpmqWnGG5qq47v9T8KIY4CKbnNpoS0MeXmwY2lXYRtsj5tvZBc4PGnFnnIJ3ZzXWtCXG6Uug+nZHp1gGyrh8C73xqzLOPA2kiA5znYVbzcgHfmvLJfbQad+CysXLSkTLuZ6pwU/iukyEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723295631; c=relaxed/simple;
-	bh=kiSPUFlRHyyy7Pl9woMUpwrDdOmmRjG1IM/ANz90XlU=;
-	h=From:To:CC:Date:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=RaXJjh+ikJU6AspRg/cI6sihJBY1ERRvpbu+p3DwdyxqOe6FMOxTiLMl710KpYg8/gOscOjY5hVDKqz5QrKmWMG7eF+jKB0o1evlhAXfA0mv5fPEyEhIqENiSFT8ERl+5Znwk5/TbK9VfHWbUjZRTYdAxyfsUIO9ofM550UZWdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=RkxP0jgX; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1723438485; c=relaxed/simple;
+	bh=/7JNJRSA6Qai8rSOw/cLVCEzVurU5rT/F+Aq6+y0Oe8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jlDl52FP33maFwoLDxjmnZTTSxR/LC0PPafsFS892oTRdwuYShkpI2YB2l9WSZjEOmMHE4vNVChn3hgIGKAPYapZkzL3SD147najBKqJz6h/0GpThF/YgxG2poP1vTIagPJzZ6i3aqeJje+fgYvdJdpD+tq8+F/Mj3OzItNkP20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KpVHXNAM; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="RkxP0jgX"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52f04b3cb33so6045962e87.0
-        for <asahi@lists.linux.dev>; Sat, 10 Aug 2024 06:13:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KpVHXNAM"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7c3e0a3c444so698336a12.1
+        for <asahi@lists.linux.dev>; Sun, 11 Aug 2024 21:54:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1723295627; x=1723900427; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:subject:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l1g8mWRN55v1y+2ZTRRFkIB6j/56lp7w6Y1xBZqZlMw=;
-        b=RkxP0jgXt9KLg3dpWJoq/sFDgDOdKTLC/mhtIc7bteIpx8F1EIxtHFiJYYEFObiAru
-         XfcTLPUb8pgNN1vhFTCtYn6HvbWfLIQHgfQ3rnkCde/HM4NMT5Nk0YA9UAhSZwGhluI6
-         1I3qATTN3a2+h6EF/aMrf0e+oavfpntaovykQ=
+        d=linaro.org; s=google; t=1723438483; x=1724043283; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mM8hIk0Il1OoNYTiO69SEs09clvslubSlLyTOMarmXI=;
+        b=KpVHXNAM/Okdq8H4crLHCxVl7tk9ZggiqgberXN0cGvAAIn6Vh+p/ZnHvuK78GKSy/
+         issuaowt1g22a8uUK6dp61/v0et3tIKSOJe1YW5lJNYUMU0AUwAOMjX+Fah6WdB4RXe7
+         rQYGNakEB5PjNXtqMAfvODGt+tIfCjTSiz/RDNMW9GLgWqh1Yfmp0bq2GvFqmbdqq/tu
+         yZM8dVKzqcgOFT2QpJNzyrkIhiHqLaE6NbO4ylBKNWRcoVpI/DraRDjKhmGWP8S9ZOIE
+         NrOKgWzL4Qd7NhiRA3jNpN7USgUa9eb0+vvMihOZwuBfcX1f/RIsyV9GbV6JvkK/ojZy
+         VsuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723295627; x=1723900427;
-        h=content-transfer-encoding:mime-version:subject:user-agent
-         :references:in-reply-to:message-id:date:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l1g8mWRN55v1y+2ZTRRFkIB6j/56lp7w6Y1xBZqZlMw=;
-        b=bgqXYVwGPGVuHB9014iD+2zy+zPmR3uCI3XyzNGBe99V4zVSbnsOuJgvZdsexOe+fo
-         E5DTd4B7WsBplo3JdXXQ+zNlA9F8kLI4YsqEbVBVmOKpLcTvkpEZbZ+f49hb+Ohz+MNz
-         qhHTgYFsKsnAcKf5OH29DQxQJsPNuf7hU1kVBzbhGtEbcjnGQAt/RybZ/naNIa0EESVH
-         /cEV0bvHmjEFilFBBE2PcMoDVryRLsHJNQTKFoK5Ze7sXsXtE/x8ESTEBa/37W3uLCzz
-         PRo3ykCYc5q7OTV60S9i82ejbCLgAmnzRnyPgHNCxdtP+cSbJMFf967WqpCeIdxKCL5c
-         mRwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+fqtbS3UTU8rk3/A69VPDUcAC+1AxnP3yZfWUEAJDKd70U3b43/R8dt1krmggaXFTnyOWuA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy18v6tYY+d6Yn1iv2mITF51dSfM4sqgFy9PgJNkod7vFXLm5y/
-	AZElMGo3t0jxqeQGR+yuRur4JUoJBq53INRQMvoqop1v490rqGVGyv9MutHl3g==
-X-Google-Smtp-Source: AGHT+IGHgjNrhPxo+vNYkPCxAbCyDfkta6U6m41msNvVhzNCcBBGost5c6nu/63jEyHeumx3S5g8yw==
-X-Received: by 2002:a05:6512:3512:b0:531:8f2f:8ae7 with SMTP id 2adb3069b0e04-5318f2f8fb4mr2280320e87.25.1723295627000;
-        Sat, 10 Aug 2024 06:13:47 -0700 (PDT)
-Received: from [192.168.178.38] (f215227.upc-f.chello.nl. [80.56.215.227])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a80bb212fcdsm69069166b.170.2024.08.10.06.13.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 10 Aug 2024 06:13:46 -0700 (PDT)
-From: Arend Van Spriel <arend.vanspriel@broadcom.com>
-To: Janne Grunau <j@jannau.net>, Jouni Malinen <j@w1.fi>
-CC: <hostap@lists.infradead.org>, Vinayak Yadawad <vinayak.yadawad@broadcom.com>, Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>, <linux-wireless@vger.kernel.org>, <asahi@lists.linux.dev>
-Date: Sat, 10 Aug 2024 15:13:46 +0200
-Message-ID: <1913c6c7310.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
-In-Reply-To: <81485c0a-dbf0-4e07-abb9-22fb8d671839@app.fastmail.com>
-References: <92fe4dd4-21a4-4559-8441-32ef86672de6@app.fastmail.com>
- <ZrclLHJ63RxnG/B3@w1.fi>
- <d82c88a2-77f7-4308-97fa-c5b4446e2cf5@app.fastmail.com>
- <1913be30f30.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
- <81485c0a-dbf0-4e07-abb9-22fb8d671839@app.fastmail.com>
-User-Agent: AquaMail/1.51.5 (build: 105105504)
-Subject: Re: wpa_supplicant 2.11 breaks WPA2-PSK / WPA3-SAE authentication on Linux' brcmfmac
+        d=1e100.net; s=20230601; t=1723438483; x=1724043283;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mM8hIk0Il1OoNYTiO69SEs09clvslubSlLyTOMarmXI=;
+        b=AotohjG0b+CO1P+Gf/WFzM1wqpQtDLHHzOLr0M9WTdZlJz1SoMCNqJkJEk6CNARoCO
+         B0tRJcowK9w5KpsCkX3O5J55Obbh5sOQeELK3CmXLlr3LAsrJRCgDW1oVDG2bPx460Un
+         xorF28znvM5X30PaXep8tebPWN1xgyyu+CqMs/e6WPrpWjkcLzkMnppGRv/Qc4H4TCkA
+         4zVYEhc7gfbBeJoBdlqEFdW7m/zLQiugm2gXbz3REX1r5bblUjJKpoD9kjQwPtbJSNYw
+         TSPUV+Heyx1W7I7kgzQ7EHXN52c3E4k0JzWXnjrsi6Pq2SVQvRLh36Ooj/ROrav0R2IJ
+         eyUw==
+X-Forwarded-Encrypted: i=1; AJvYcCXcNThoOWpnZqxclyxFmY0Gg4UHT1XP5zlAclabRkSGIu/tSi9hsklEI+aSVe3TZM9JRstUQ4PJWzSyL2IeU55QQXEek20=
+X-Gm-Message-State: AOJu0YyBLqkSGu/HOhMWZd4HhQ2vIagKnKudtxG/sX8LDIRGLX/7p2cE
+	2vz6+ECiOygGN++UWbTjvJeeU/UrEP49fGRngqz0qeNLhX9/aqtUDJ3aibTuWYU=
+X-Google-Smtp-Source: AGHT+IG9Hm7mz2IYGlrpM4SuzTL62Qbzr6jN0CUn18M/7AjFxPVmd28eUBvkwj+lz/oTj1+27nZaOg==
+X-Received: by 2002:a17:902:e845:b0:1f9:e2c0:d962 with SMTP id d9443c01a7336-20096baa066mr174277115ad.31.1723438482987;
+        Sun, 11 Aug 2024 21:54:42 -0700 (PDT)
+Received: from localhost ([122.172.84.129])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-200bb9fd0dfsm29338335ad.202.2024.08.11.21.54.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Aug 2024 21:54:41 -0700 (PDT)
+Date: Mon, 12 Aug 2024 10:24:39 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Ilia Lin <ilia.lin@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	kernel test robot <lkp@intel.com>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] cpufreq: Fix warning on unused of_device_id tables for
+ !CONFIG_OF
+Message-ID: <20240812045439.tbdsbdwcxntoafdh@vireshk-i7>
+References: <20240809172439.908092-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset="us-ascii"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240809172439.908092-1-robh@kernel.org>
 
-On August 10, 2024 2:02:43 PM "Janne Grunau" <j@jannau.net> wrote:
+On 09-08-24, 11:24, Rob Herring (Arm) wrote:
+> !CONFIG_OF builds cause warnings on unused of_device_id tables. This is
+> due to of_match_node() being a macro rather than static inline function.
+> Add a __maybe_unused annotation to the of_device_id tables.
+> 
+> Fixes: c7582ec85342 ("cpufreq: Drop CONFIG_ARM and CONFIG_ARM64 dependency on Arm drivers")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202408090714.wcrqU6Pk-lkp@intel.com/
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+> Note that 0-day only reported 1 warning, but x86 W=1 build gave me these
+> 4.
 
-> Hej,
->
-> On Sat, Aug 10, 2024, at 12:43, Arend Van Spriel wrote:
->> On August 10, 2024 11:17:56 AM "Janne Grunau" <j@jannau.net> wrote:
->>> On Sat, Aug 10, 2024, at 10:30, Jouni Malinen wrote:
->>>> On Sun, Aug 04, 2024 at 02:23:56PM +0200, Janne Grunau wrote:
->>>
->>>>> A revert looks to me like a possible/proper fix. I can send that
->>>>> later if no alternative materializes.
->>>>
->>>> I'm inclined to revert this if it is indeed the case that
->>>> NL80211_CMD_PORT_AUTHORIZED is not delivered reliably by the
->>>> upstream driver and this commit was tested only with some non-
->>>> upstream versions.
->>>
->>> I intend extend the upstream kernel driver to post
->>> NL80211_CMD_PORT_AUTHORIZED after successful connection with
->>> authentication offload. I expect that the change will be accepted for
->>> the stable kernel. Infineon/Cypress have non-upstream patches for the
->>> brcmfmac driver which implement it already.
->>
->> Do you have a reference to see what they have done?
->
-> I was misremembering their implementation. They removed
-> NL80211_CMD_PORT_AUTHORIZED and instead added "authorized" fields to
-> struct cfg80211_connect_resp_params and struct cfg80211_roam_info. Those
-> fields are then used to set NL80211_ATTR_PORT_AUTHORIZED. This is
-> annotated as reserved and as far as I can see unused in upstream Linux
-> and hostap. That means the patched Infineon/Cypress driver is broken as
-> well. Probably not relevant since they patch hostap as well.
->
-> Looking at the RTM/v6.1.19-hedorah branch of
-> https://github.com/Infineon/ifx-wireless-drivers (214 mostly brcmfmac
-> commits on top of Linux v6.1.19).
-> 1. "nl80211: add authorized flag to CONNECT event"
->   https://github.com/Infineon/ifx-wireless-drivers/commit/f7fb21f980b743e319cee406719e18ca0fd6784e
-> 2. "brcmfmac: set authorized flag in CONNECT event for PMK caching"
->   https://github.com/Infineon/ifx-wireless-drivers/commit/a665defa7e67b1d5f5735a55643014374e5f53d0
->
-> For roaming they do same and revert the NL80211_CMD_PORT_AUTHORIZED
-> 1. "nl80211: add authorized flag back to ROAM event"
->   https://github.com/Infineon/ifx-wireless-drivers/commit/d2262fb0a08124153c9549d2cd0e6f9c04d946e9
-> 2. "brcmfmac: set authorized flag in ROAM event for offload FT roaming"
->   https://github.com/Infineon/ifx-wireless-drivers/commit/3099d355af9914753927f913b14f62318a33ab55
->
->>> A revert in wpa_supplicant might be still appropriate until exteded
->>> kernel drivers are deployed. The wpa_supplicant Fedora package
->>> carries the revert as patch:
->>> https://src.fedoraproject.org/rpms/wpa_supplicant/c/c2eac195adadd2c48b04f8752cc46b12a351e69
->>
->> Agree that revert makes most sense here. So what upstream drivers use
->> WPA offload. Only brcmsmac and QCA drivers?
->
-> It might be only brcmfmac, at least that's the only driver match for
-> NL80211_EXT_FEATURE_SAE_OFFLOAD / NL80211_EXT_FEATURE_SAE_OFFLOAD_AP
+Applied. Thanks.
 
-But the issue was not just with SAE or was it. I thought I saw someone 
-mentioning WPA2-PSK was not working with wpa_sup 2.11 and assumed for the 
-same reason. So for the NL80211_EXT_FEATURE_4WAY_HANDSHAKE_* flavors.
-
-Regards,
-Arend
-
-
+-- 
+viresh
