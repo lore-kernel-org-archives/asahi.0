@@ -1,251 +1,239 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1247D38DF2
-	for <asahi@lists.linux.dev>; Thu, 15 Aug 2024 17:29:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2364A45026
+	for <asahi@lists.linux.dev>; Thu, 15 Aug 2024 17:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723742992; cv=none; b=knevGYdOWRAOddhtfwSgjys79MZlWIgtS8IXDPeJtKaSHcKn5oA9iysQTfOVlM+mxvOxXHGbi8dlD/mTOzG0WFSXcNU4uicu3b9deQ4Xjt2SnaDmdraq5eu80W3LjppHEsA4CWnVJiwwynrTUii3Kauaoqe8zGsSDXnjTaiFu+8=
+	t=1723743555; cv=none; b=PB9DLggELE7vi8ff2A/N9QmBfiKHdlM1GKryXd42gjCqkpZgXflsItq0di5/sJCFB4jaV83oW9tHUpCMJP3vWPAojnc6zQkqJDEVeGhczynmvBvxHHKbhY5rsY7d94CUlqwcD1QoTh5FBCLunYCMLSVUjGCvToCBpQrIVZpohtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723742992; c=relaxed/simple;
-	bh=a/4vf+YJE4tfB80UP49O2UQzbAx9vqd1PyCAADHHECQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hKfiREIUk9ougGX6LdKPf2MQMLoSSMT+vO54Z0T5t2RqxV3lFpHiBntPRrnf4x8PfQX8ZRCnaZ5tCbEm0dP1+RQ9X/2YXDqq5XdXRIWkdkS5NwLZW7ghhgvUwP+OGb2aq5jdMbGfKarw7Bapp/LrS+mr85+UD39LyPAPXdKq+YA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GaMSe/4h; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1723743555; c=relaxed/simple;
+	bh=/QxSa3ECPYBoJRTg0EGbC8+fquDkIseWUM62eZtMWXA=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=qNAWYDwSIPmwkdTW2KQav7+6JBv48lkrvaMv4VSCZ+fWFqOSlOdnbxdgFeiI7SNvqqTrva34UTSVlSfNG26hrcuAAa3qvN2YLZh//nhdpVglDoVvGkCM4/f+/0TDiqUDIHDiYSpXpONNH/s+6bjdNUMYoIFm7Jytc+F9TsWx2hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RvwjCPxd; arc=none smtp.client-ip=209.85.128.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GaMSe/4h"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1fd7509397bso6915ad.0
-        for <asahi@lists.linux.dev>; Thu, 15 Aug 2024 10:29:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RvwjCPxd"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6b052c5939cso7859077b3.1
+        for <asahi@lists.linux.dev>; Thu, 15 Aug 2024 10:39:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1723742989; x=1724347789; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a/4vf+YJE4tfB80UP49O2UQzbAx9vqd1PyCAADHHECQ=;
-        b=GaMSe/4hE8+kH0rVRLszsNWJUsTQ1LxT9eer19FY92gJXUeo+6lI+DzbR+ARLRmfxa
-         grXSBUQFo+Zmlu+BzlNgsmCxN/0NGWl3CYFWxP458K5Yv/Tq1AmyH61o72LrLCfCf4ia
-         NeBPmm99N2nDSdJ0a1lkSke2luy+6CPjY+X0kNXVaEbcEEq9Abie41dktlbI8Hk7ghVN
-         2q8lg6dfoFgwGGd0yD50YLKau/UIYnlob7gvYYBHP/qyS8GwhULAGgwDiysZRHhpqVlt
-         ZEMIydYRx3iAqAUTZUNhpvkw+/2DB33FZiIiMiLMPlTC4tnyvzk+gFHHWgH2PPGoF5IO
-         HSUg==
+        d=google.com; s=20230601; t=1723743553; x=1724348353; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FI5SwdhvqVZuIi7hVeuwkmGg+eXkS16ccuAJOthoTGw=;
+        b=RvwjCPxd+Afc2ao7Pxa6O8wQ3MCyuqm3jtxzf+gWdY1PKV1Ls/2VoJOg4V1JdI0ApZ
+         bI3yhTu8jtN+EwH1IEt6oC7OVTMqa5bZ5iq14wMfyEA9X0WmRYUOnCgGh2rl5PjBbmfg
+         uBxol6Q98vzOhCcvsqkJR8WoOWiVgx+MxW2ejnb2HJtpx9Y4KfNCSpHxA4SUNaC5GO/4
+         P5Oufq5szsJsEAdpU4kyAubpad6YBjs7AIAo6ZWDAeamDQsEJ/aWBRjWnJJgusXhMTF0
+         f9zEMMQUXkHM5kYZw431YtHW3zV48jPxtm5U+iMLVoPzdvvKgn50er1vZdlc7Nodsq4h
+         dcrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723742989; x=1724347789;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a/4vf+YJE4tfB80UP49O2UQzbAx9vqd1PyCAADHHECQ=;
-        b=pxLpJegmFmefCdJNfAbc25TJRfFWHf2LISC3Wv8CfoOOPAT4TMd6AZ1ktzk/2RCb4h
-         XgbcuizxHESkYB+MgAa2pfPwE/ixiZ1lOSokrJMHDlTcRgBaok+rDoXr8rLNXBOvbA4S
-         vdxuNnsXzRNqfJcjCe1l9PRgMzPh0r8yF2s46Simi3XAbkU4lUFPOu9UHPErVHZlHxSV
-         z9ehup/m12SJjuPOS7dvictXuyhg3M388nyX8xfryEZtvKrxRt40CSc00tzcuco+hQD/
-         tQ6LJSjFhpQAg3aAXHOKyqA7Xv9UkV+dZ8RfQrDkqZ5WN4vqpn+9yAfJcI441ffHGa0h
-         YO+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWPuPe8g41SgHJFXBbPIwlnoMhqSf3I+Ajg1CS/AV/f2MJ+7zne5H/GMYx1NQRnerfHOlAqkPXMVDlNfNZSocO19nXeUYY=
-X-Gm-Message-State: AOJu0Yxrzp/9t1oGX+Z9O14ExdKsxXH8WUzx+ZxzDRVHdU/NOOQ1PEk/
-	WhFl8Ppl6FjtSkVqzhBHe+kBvElMp9THfaKfiWf9bioe/dftlG3/Kj9+3zEt/r+WWVvHP+GhGyO
-	Aqtx3TQZn75HTKIeDr2aX1y7W55k6owwu5pdn
-X-Google-Smtp-Source: AGHT+IH5MFIGSF7/WgzVtKFPpR15fzT6c8P4TJi4KagEceRO9o+l2byg+PRLLOxu2Bd7ImoT8/HtaG1VoEHIB0RWyZg=
-X-Received: by 2002:a17:902:e80c:b0:201:fa2c:6d55 with SMTP id
- d9443c01a7336-201fa2c6efemr630395ad.13.1723742988974; Thu, 15 Aug 2024
- 10:29:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1723743553; x=1724348353;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FI5SwdhvqVZuIi7hVeuwkmGg+eXkS16ccuAJOthoTGw=;
+        b=NeywjpHvyMXgMB8cunHZ6+PBMoQ0CmRtkXzOI9BsRZ1ZCbWE50sxKRhqSLmsN5zp+m
+         L+DV5qYREUJPSPK7x0GrxSz4XcO8L3uPYj0snQV6DlySS/yjRwKfJtAdM1MXa0kei3kD
+         GRufAAAa2a75urmAbMiDHSEUFXpCoOWPg1pzESZ9ldIdQGHWQrdQL8tUZpdVLwLBa3+P
+         ij0hB8R90/tnbOXWhue8IUpprB/FITlMnq87Ysq6KvTdlFxlJCx7ycBd7v73wlZPKKZo
+         2UPSgX/b1846TVWPYckuR5oBbnA7KG58yNYId+yU+7Zs242OVoqTUphhf+ZnPh8E9Vzu
+         YRBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVla4JQOQKSF4pDMkk9dXW3hGBFVgqg8GnF3XfEuippZZ7rFf0i/uC86nWubydPV/dc90SPcSguBPFt0WbvOjdOszfHefE=
+X-Gm-Message-State: AOJu0Yzsu7zUvrcSrtnUo03DECCyPMyqPlu9JSgZg7XHRJ4GcsU63JNG
+	Uv8JD36sFNVVdFVIGtTwoQ5kFW8GF3gFyzdtqytPa+IEPK3CI465Zbhst6rNwFYatCbCRfPCzgF
+	NRVi0+Hqk6Qg+UPPn0x3ioEycHA==
+X-Google-Smtp-Source: AGHT+IHG9k10F+Xr0bHXhKpq1URNC0sUw6joWMjh3WP84iRPDa1q7xobX3VdQ7KeATVRbDrTvrcbseIf5bS0+Ur2UGk=
+X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
+ (user=samitolvanen job=sendgmr) by 2002:a05:690c:3405:b0:691:a38c:a61d with
+ SMTP id 00721157ae682-6b1d7ef3527mr5337b3.3.1723743553088; Thu, 15 Aug 2024
+ 10:39:13 -0700 (PDT)
+Date: Thu, 15 Aug 2024 17:39:04 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
- <ZV1AnNB2CSbAUFVg@archie.me> <a9c14dfd-3269-4758-9174-4710bef07088@leemhuis.info>
- <CAP-5=fXqx_k1miPTkcAmS3z2GBPt2KeDtP5fknmdDghZqxXPew@mail.gmail.com>
- <714ed350-0e6c-4922-bf65-36de48f62879@leemhuis.info> <0de3b572-f5f7-42e4-b410-d1e315943a3c@linaro.org>
-In-Reply-To: <0de3b572-f5f7-42e4-b410-d1e315943a3c@linaro.org>
-From: Ian Rogers <irogers@google.com>
-Date: Thu, 15 Aug 2024 10:29:37 -0700
-Message-ID: <CAP-5=fVSVe=C5dHaOV22+YOZ_JCD0mDoByoubSFY3w4au5zwQg@mail.gmail.com>
-Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since v6.5
-To: James Clark <james.clark@linaro.org>
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>, Arnaldo Carvalho de Melo <acme@redhat.com>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Linux perf Profiling <linux-perf-users@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, James Clark <james.clark@arm.com>, 
-	"cc: Marc Zyngier" <maz@kernel.org>, Hector Martin <marcan@marcan.st>, Asahi Linux <asahi@lists.linux.dev>, 
-	Linux regressions mailing list <regressions@lists.linux.dev>, Atish Patra <atishp@rivosinc.com>
+Mime-Version: 1.0
+X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7301; i=samitolvanen@google.com;
+ h=from:subject; bh=/QxSa3ECPYBoJRTg0EGbC8+fquDkIseWUM62eZtMWXA=;
+ b=owEB7QES/pANAwAKAUy19oSLvFbuAcsmYgBmvj03GZGfdKGX6xZKDzgMxpatJGv4ZX3wPL7Ee
+ 4oD3ORL1F6JAbMEAAEKAB0WIQQ1zPtjsoPW0663g5RMtfaEi7xW7gUCZr49NwAKCRBMtfaEi7xW
+ 7rTZDACeDXgkVekPtKMcZUCTLqkKP8C87jVW7eAaTDcFg5E2jq4kcKcWndlb6h8f0WSh/7XKr6a
+ Mk8yEYovqNadFCx2EARM6j+QpAHkMdITBiutyyNt4b2GM82wo7gtFHcvye0PML04wd4Jap7vmAg
+ N+CNdtd+IF5hhw4W4U1TZKl3s9FxQtdpDvWOLXfrGAYibKSVTUT9Tachp7Ubzx6zQQpSJAKPE99
+ bEEIE49Xuixq4XHcd8WgXccyDkHGhQevmctAcKoQApWvfMHPg11BJFfkAYsL8gpaP0BxgEbgwN+
+ /sUE3MjrU2M0F4y9JIes+DI3BQskBmPR4KFEYv8ZaVpsrOwoTjrpO7uM2/sdlxDBSSS8swaqE1B
+ LTTOAbFQG0R1jxzaIPRr8/h0Lvyq+VsBKfUkLuzMmDrj+nStcYCT9RHeRDCanjCmF1Xnvl2Yudi IuqN5+lO4ZH8gh/0Dc0yTr//BjPtTuEDbed3kA3CH8uwyENcvmCnV2I7dvCygPMNcnkIk=
+X-Mailer: git-send-email 2.46.0.184.g6999bdac58-goog
+Message-ID: <20240815173903.4172139-21-samitolvanen@google.com>
+Subject: [PATCH v2 00/19] Implement DWARF modversions
+From: Sami Tolvanen <samitolvanen@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 14, 2024 at 9:28=E2=80=AFAM James Clark <james.clark@linaro.org=
-> wrote:
-> On 07/08/2024 9:54 am, Thorsten Leemhuis wrote:
-> > On 01.08.24 21:05, Ian Rogers wrote:
-> >> On Wed, Dec 6, 2023 at 4:09=E2=80=AFAM Linux regression tracking #upda=
-te
-> >> (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
-> >>>
-> >>> [TLDR: This mail in primarily relevant for Linux kernel regression
-> >>> tracking. See link in footer if these mails annoy you.]
-> >>>
-> >>> On 22.11.23 00:43, Bagas Sanjaya wrote:
-> >>>> On Tue, Nov 21, 2023 at 09:08:48PM +0900, Hector Martin wrote:
-> >>>>> Perf broke on all Apple ARM64 systems (tested almost everything), a=
-nd
-> >>>>> according to maz also on Juno (so, probably all big.LITTLE) since v=
-6.5.
-> >>>
-> >>> #regzbot fix: perf parse-events: Make legacy events lower priority th=
-an
-> >>> sysfs/JSON
-> >>> #regzbot ignore-activity
-> >>
-> >> Note, this is still broken.
-> >
-> > Hmmm, so all that became somewhat messy. Arnaldo, what's the way out of
-> > this? Or is this a "we are screwed one way or another and someone has t=
-o
-> > bite the bullet" situation?
-> >
-> > Ciao, Thorsten
-> >
-> >> The patch changed the priority in the case
-> >> that you do something like:
-> >>
-> >> $ perf stat -e 'armv8_pmuv3_0/cycles/' benchmark
-> >>
-> >> but if you do:
-> >>
-> >> $ perf stat -e 'cycles' benchmark
-> >>
-> >> then the broken behavior will happen as legacy events have priority
-> >> over sysfs/json events in that case. To fix this you need to revert:
-> >> 4f1b067359ac Revert "perf parse-events: Prefer sysfs/JSON hardware
-> >> events over legacy"
-> >>
-> >> This causes some testing issues resolved in this unmerged patch series=
-:
-> >> https://lore.kernel.org/lkml/20240510053705.2462258-1-irogers@google.c=
-om/
-> >>
-> >> There is a bug as the arm_dsu PMU advertises an event called "cycles"
-> >> and this PMU is present on Ampere systems. Reverting the commit above
-> >> will cause an issue as the commit 7b100989b4f6 ("perf evlist: Remove
-> >> __evlist__add_default") to fix ARM's BIG.little systems (opening a
-> >> cycles event on all PMUs not just 1) will cause the arm_dsu event to
-> >> be opened by perf record and fail as the event won't support sampling.
-> >>
-> >> The patch https://lore.kernel.org/lkml/20240525152927.665498-1-irogers=
-@google.com/
-> >> fixes this by only opening the cycles event on core PMUs when choosing
-> >> default events.
-> >>
-> >> Rather than take this patch the revert happened as Linus runs the
-> >> command "perf record -e cycles:pp" (ie using a specified event and not
-> >> defaults) and considers it a regression in the perf tool that on an
-> >> Ampere system to need to do "perf record -e
-> >> 'armv8_pmuv3_0/cycles/pp'". It was pointed out that not specifying -e
-> >> will choose the cycles event correctly and with better precision the
-> >> pp for systems that support it, but it was still considered a
-> >> regression in the perf tool so the revert was made to happen. There is
-> >> a lack of perf testing coverage for ARM, in particular as they choose
-> >> to do everything in a different way to x86. The patch in question was
-> >> in the linux-next tree for weeks without issues.
-> >>
-> >> ARM/Ampere could fix this by renaming the event from cycles to
-> >> cpu_cycles, or by following Intel's convention that anything uncore
-> >> uses the name clockticks rather than cycles. This could break people
-> >> who rely on an event called arm_dsu/cycles/ but I imagine such people
-> >> are rare. There has been no progress I'm aware of on renaming the
-> >> event.
-> >>
-> >> Making perf not terminate on opening an event for perf record seems
-> >> like the most likely workaround as that is at least something under
-> >> the tool maintainers control. ARM have discussed doing this on the
-> >> lists:
-> >> https://lore.kernel.org/lkml/f30f676e-a1d7-4d6b-94c1-3bdbd1448887@arm.=
-com/
-> >> but since the revert in v6.10 no patches have appeared for the v6.11
-> >> merge window. Feature work like coresight improvements and ARMv9 are
-> >> being actively pursued by ARM, but feature work won't resolve this
-> >> regression.
-> >>
->
-> I got some hardware with the DSU PMU so I'm going to have a go at trying
-> to send some fixes for this. My initial idea was to try incorporate the
-> "not terminate on opening" change as discussed in the link directly
-> above. And then do the revert of the "revert of prefer sysfs/json".
+Hi,
 
-Thanks, I think this would be good. The biggest issue is that none of
-the record logic expects a file descriptor to be not opened, deleting
-unopened evsels from the evlist breaks all the indexing into the
-mmaps, etc. Tbh, you probably wouldn't do the code this way if was
-written afresh. Perhaps a hashmap would map from an evsel to ring
-buffer mmaps, etc. Trying to avoid having global state and benefitting
-from encapsulation. I'd focus on just doing the expedient thing in the
-changes, which probably just means making the record code tolerant of
-evsels that fail to open and not modifying the evlist due to the risk
-it breaks the indices.
+Here's v2 of the DWARF modversions series [1]. The main motivation
+remains modversions support for Rust, which is important for
+distributions like Android that are eager to ship Rust kernel
+modules. However, per Luis' request [2], v2 drops all Rust specific
+bits from the series and instead adds the feature as an option
+for the entire kernel. Matt is addressing Rust modversion_info
+compatibility issues in a separate series [3], and we'll follow up
+with a patch to actually allow CONFIG_MODVERSIONS with Rust once
+these have been sorted out.
 
-(To point out the obvious, this work wouldn't be necessary if arm_dsu
-event were renamed from "cycles" to "cpu_cycles" which would also make
-it more intention revealing alongside the arm_dsu's "bus_cycles" event
-name).
+A short background recap: Unlike C, Rust source code doesn't have
+sufficient information about the final ABI, as the compiler has
+considerable freedom in adjusting structure layout for improved
+performance [4], for example, which makes using a source code
+parser like genksyms a non-starter. Based on Matt's suggestion and
+previous feedback from maintainers, this series uses DWARF debugging
+information for computing versions. DWARF is an established and
+a relatively stable format, which includes all the necessary ABI
+details, and adding a CONFIG_DEBUG_INFO dependency for Rust symbol
+versioning seems like a reasonable trade-off.
 
-> FWIW I don't think Juno currently is broken if the kernel supports
-> extended type ID? I could have missed some output in this thread but it
-> seems like it's mostly related to Apple M hardware. I'm also a bit
-> confused why the "supports extended type" check fails there, but maybe
-> the v6.9 commit 25412c036 from Mark is missing?
+The first 16 patches of this series add a small tool for computing
+symbol versions from DWARF, called gendwarfksyms. When passed a
+list of exported symbols and an object file, the tool generates
+an expanded type string for each symbol, and computes symbol CRCs
+similarly to genksyms. gendwarfksyms is written in C and uses libdw
+to process DWARF, mainly because of the existing support for C host
+tools that use elfutils (e.g., objtool). The next two patches ensure
+that debugging information is present where we need it and fix a
+compilation issue with x86 asm-prototypes.h. The last patch adds
+gendwarfksyms as an alternative to genksyms.
 
-So I think your later emails clarify Arnaldo is probably missing:
-https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/co=
-mmit/drivers/perf/arm_pmu.c?h=3Dperf-tools-next&id=3D5c816728651ae425954542=
-fed64d21d40cb75a9f
+A quick note about performance: On my development system, building
+x86_64 defconfig with MODVERSIONS takes about 59.4s with gcc 13
+(avg. of ten runs). Adding DEBUG_INFO_DWARF5 increases the build
+time by ~23% to 73.3s. Switching from GENKSYMS to GENDWARFKSYMS
+reduces the build time by 6% to 68.9s, which is still ~16% slower
+than genksyms without debugging information. Therefore, if you
+already build kernels with debugging information, gendwarfksyms
+should be slightly faster. YMMV, of course.
 
-Fwiw, the Apple M hardware issue came to me by way of Mark Rutland
-(iirc), this regression report, etc. My understanding is that Apple M
-has something like a v2 ARM PMU and the legacy events are encoded
-incorrectly in the driver for this. The regression in v6.5 happened
-because ARM's core PMUs had previously been treated as uncore PMUs,
-meaning we wouldn't try to program legacy events on them. Fixing the
-handling of ARM's core PMUs broke Apple M due to the broken legacy
-event mappings. Why not fix the Apple M PMU driver? Well there was
-anyway a similar RISC-V issue reported by Atish Patra (iirc) where the
-RISC-V PMU driver wants to delegate the mapping of legacy events to
-the perf tool so the driver needn't be aware of all and future RISC-V
-configurations. The fix discussed with Mark, Atish, etc. has been to
-swap the priority of legacy and sysfs/json events so that the latter
-has priority. We need the revert of the revert as currently we only do
-this if a PMU is specified with an event, not for the general wildcard
-PMUs case that most people use. There was huge fallout from flipping
-the priority particularly on Intel as all test expectations needed
-updating. I've sent out similar fixes that need incorporating when the
-revert is reverted. Ideally tools/perf/tests/parse-events.c would be
-updated to cover ARM's PMUs that don't follow the normal pattern that
-the core PMU is called "cpu" (this would mean that we were testing
-event parsing on ARM was WAI wrt encoding priorities, BIG.little,
-etc).
+Things would change with LTO, because we won't have full DWARF
+until we have an ELF binary, which means we'd have to process
+vmlinux.o. This version of gendwarfksyms is still single-threaded
+as it seems we can't rely on libdw to be thread-safe. Processing
+a ThinLTO x86_64 defconfig vmlinux.o on my system takes ~2m16s,
+and would have to happen even on incremental builds, just like
+LTO linking itself. As cross-language LTO presumably isn't wildly
+popular yet, gendwarfksyms intentionally depends in !LTO in this
+version.
 
-> I sent a small fix the other day to make perf stat default arguments
-> work on Juno, and didn't notice anything out of the ordinary:
-> https://lore.kernel.org/linux-perf-users/dac6ad1d-5aca-48b4-9dcb-ff7e54ca=
-43f6@linaro.org/T/#t
-> I agree that change is quite narrow but it does incrementally improve
-> things for the time being. It's possible that it would become redundant
-> if I can just include Ian's change to use strings for Perf stat.
+Looking forward to hearing your thoughts!
 
-I'd prefer we didn't merge this as we'd need to rebase:
-https://lore.kernel.org/lkml/20240510053705.2462258-4-irogers@google.com/
-and those changes would then delete the code introduced. I'm fine with
-adding the tests.
+Sami
 
-There are more exotic heterogeneous core things upcoming, probably
-also from ARM, and the thought of duplicating the default attribute
-logic and event parsing constraints is just something I'd prefer not
-to have to do.
+[1] https://lore.kernel.org/lkml/20240617175818.58219-17-samitolvanen@google.com/
+[2] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
+[3] https://lore.kernel.org/lkml/20240806212106.617164-1-mmaurer@google.com/
+[4] https://lore.kernel.org/rust-for-linux/CAGSQo005hRiUZdeppCifDqG9zFDJRwahpBLE4x7-MyfJscn7tQ@mail.gmail.com/
 
-> Of course I only think I have a handle on the issue right now, seems
-> like it has a lot of moving parts and something else always comes up. If
-> I hit a wall at some point I will come back here.
+---
 
-Thanks,
-Ian
+Changes in v2:
+- Per Luis' request, dropped Rust-specific patches and added
+  gendwarfksyms as an alternative to genksyms for the entire
+  kernel.
+
+- Added support for missing DWARF features needed to handle
+  also non-Rust code.
+
+- Changed symbol address matching to use the symbol table
+  information instead of relying on addresses in DWARF.
+
+- Added __gendwarfksyms_ptr patches to ensure the compiler emits
+  the necessary type information in DWARF even for symbols that
+  are defined in other TUs.
+
+- Refactored debugging output and moved the more verbose output
+  behind --dump* flags.
+
+- Added a --symtypes flag for generating a genksyms-style
+  symtypes output based on Petr's feedback, and refactored
+  symbol version calculations to be based on symtypes instead
+  of raw --dump-dies output.
+
+- Based on feedback from Greg and Petr, added --stable flag and
+  support for reserved data structure fields and declaration-onl
+  structures. Also added examples for using these features.
+
+- Added a GENDWARFKSYMS option and hooked up kbuild support
+  for both C and assembly code. Note that with gendwarfksyms,
+  we have to actually build a temporary .o file for calculating
+  assembly modversions.
+
+---
+
+Sami Tolvanen (19):
+  tools: Add gendwarfksyms
+  gendwarfksyms: Add symbol list handling
+  gendwarfksyms: Add address matching
+  gendwarfksyms: Add support for type pointers
+  gendwarfksyms: Expand base_type
+  gendwarfksyms: Add a cache for processed DIEs
+  gendwarfksyms: Expand type modifiers and typedefs
+  gendwarfksyms: Expand subroutine_type
+  gendwarfksyms: Expand array_type
+  gendwarfksyms: Expand structure types
+  gendwarfksyms: Limit structure expansion
+  gendwarfksyms: Add die_map debugging
+  gendwarfksyms: Add symtypes output
+  gendwarfksyms: Add symbol versioning
+  gendwarfksyms: Add support for declaration-only data structures
+  gendwarfksyms: Add support for reserved structure fields
+  export: Add __gendwarfksyms_ptr_ references to exported symbols
+  x86/asm-prototypes: Include <asm/ptrace.h>
+  kbuild: Add gendwarfksyms as an alternative to genksyms
+
+ arch/x86/include/asm/asm-prototypes.h     |   1 +
+ include/linux/export.h                    |  15 +
+ kernel/module/Kconfig                     |  31 +
+ scripts/Makefile                          |   3 +-
+ scripts/Makefile.build                    |  34 +-
+ scripts/gendwarfksyms/.gitignore          |   2 +
+ scripts/gendwarfksyms/Makefile            |  12 +
+ scripts/gendwarfksyms/cache.c             |  51 ++
+ scripts/gendwarfksyms/crc32.c             |  69 ++
+ scripts/gendwarfksyms/crc32.h             |  34 +
+ scripts/gendwarfksyms/die.c               | 196 +++++
+ scripts/gendwarfksyms/dwarf.c             | 973 ++++++++++++++++++++++
+ scripts/gendwarfksyms/examples/declonly.c |  31 +
+ scripts/gendwarfksyms/examples/reserved.c |  66 ++
+ scripts/gendwarfksyms/gendwarfksyms.c     | 201 +++++
+ scripts/gendwarfksyms/gendwarfksyms.h     | 275 ++++++
+ scripts/gendwarfksyms/symbols.c           | 392 +++++++++
+ scripts/gendwarfksyms/types.c             | 557 +++++++++++++
+ 18 files changed, 2936 insertions(+), 7 deletions(-)
+ create mode 100644 scripts/gendwarfksyms/.gitignore
+ create mode 100644 scripts/gendwarfksyms/Makefile
+ create mode 100644 scripts/gendwarfksyms/cache.c
+ create mode 100644 scripts/gendwarfksyms/crc32.c
+ create mode 100644 scripts/gendwarfksyms/crc32.h
+ create mode 100644 scripts/gendwarfksyms/die.c
+ create mode 100644 scripts/gendwarfksyms/dwarf.c
+ create mode 100644 scripts/gendwarfksyms/examples/declonly.c
+ create mode 100644 scripts/gendwarfksyms/examples/reserved.c
+ create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
+ create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
+ create mode 100644 scripts/gendwarfksyms/symbols.c
+ create mode 100644 scripts/gendwarfksyms/types.c
+
+
+base-commit: 7c626ce4bae1ac14f60076d00eafe71af30450ba
+-- 
+2.46.0.184.g6999bdac58-goog
+
