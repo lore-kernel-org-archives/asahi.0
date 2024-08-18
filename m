@@ -1,129 +1,103 @@
-Received: from mail-40133.protonmail.ch (mail-40133.protonmail.ch [185.70.40.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B011214C59A
-	for <asahi@lists.linux.dev>; Sat, 17 Aug 2024 13:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8781401C
+	for <asahi@lists.linux.dev>; Sun, 18 Aug 2024 07:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1723900804; cv=none; b=Mp9rsVTbzqj7QubvZfkosc33o7nvE7xirqRng879OiYdpQ4lOoqLY7143/ebIeuzT0hB+DHvmrqUG8iCCvprqh2M6wz4ec/IopA7Vq5hac54mOTtdrrWEP7PRHRE9A49zlv+sGym3Rtt8NxGoEEyCgGJOyZvOSS/dupJ0gUk5rM=
+	t=1723964699; cv=none; b=q8ooek9tLGmu4DA50pl8yjU3P8gHLm4gO2ox0nsQ+IZ0W99IpRLbYVGQCarov6FQRIIszamGuffQFHhfb0+dIdobm6VSu8HX0IAk4Oj2JSRlCnEs/oObDCMs8IXvS/NE+95BhMhI4NoDv9PrqRnoG/ZQ/4sZY3uklR36XWbK4zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1723900804; c=relaxed/simple;
-	bh=mPLPgPLHO6Ixud7oOpd/z/JGbxH2aQkAFVO52+GRYik=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bN2+2bfW7wOdzSTFtU/86c62a4A1q6dDx+mbmtgIorrFG3MUxGVQw03nbtRbUrWgFyG4MnrZ7BwrHA6Zk6Xe3Kcou91hakIHSUdFXlMH1Yi/U9FeUAaRIQkogCX3A6wmr5ml3DPGoSGkCf+yR2daZqTaF8UBAJ46pXcC3CILHvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=g2XMO8Kr; arc=none smtp.client-ip=185.70.40.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="g2XMO8Kr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1723900799; x=1724159999;
-	bh=j/PPS3EYuNHFT3+6UMf12p/CM7ltsg2HQQvZIYDDvrY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=g2XMO8KrGCemhep3mXA0XstRJkQG4mViRXVMJOTlbUtQX520QNQqN9r6JMwMna8Xq
-	 XbnVwnVDh6YM0IVFsqguVYgnAKYuEz2GLxRS4xfWNFH4Lv5YCE/HXjWT4OF5cI20Dq
-	 LvnQam9XXddIi7DxFZWLboTBeWE+OGzwzxU6vMgtFD9vRSolPErnt7LksY1hkAKgIy
-	 uLffKcoXtUMQjV8w6YoajX4pQD7IF9pPgW6k/5UMMbGezMywFyOon+GTUHkv8O0ZcG
-	 rSjI8ehM4dAxKOXHvIcBhoqMvIpbb3pSLNPGUe/aJ0TjGH5OGW8+z201JfskKhj8qN
-	 P9qearbDqczDA==
-Date: Sat, 17 Aug 2024 13:19:55 +0000
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sami Tolvanen <samitolvanen@google.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved structure fields
-Message-ID: <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
-In-Reply-To: <2024081705-overarch-deceptive-6689@gregkh>
-References: <20240815173903.4172139-21-samitolvanen@google.com> <20240815173903.4172139-37-samitolvanen@google.com> <2024081600-grub-deskwork-4bae@gregkh> <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com> <2024081705-overarch-deceptive-6689@gregkh>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 985bccfc1600ca44c1aa5ffd0d6fb059413f58a3
+	s=arc-20240116; t=1723964699; c=relaxed/simple;
+	bh=mIrm6vVicupTZRlXUxSQzer2XzkiPaTTLGb8owVkW2w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NH28ziGcV1tQXY3+NCDeyJDV0ZR8dnf5osUcpnUb6iXNDw8wNcZw6hMojsAdkiTs054sx9A3yZgPNih/vbeVny86Zvp2XakhJwC5CvBp27t+K2cWCbUfacB7pOsLbVAiDgeKJlkj6XoISciMaf9CqIsaYBVbNhYIxOqDzIrWKBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5bed72ff2f2so1986022a12.2
+        for <asahi@lists.linux.dev>; Sun, 18 Aug 2024 00:04:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1723964695; x=1724569495;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r6OkscswnHSoLQc+dDQz+vP2n9xYpi6RMiXpbL1v/jE=;
+        b=squQdFLEnSxODYtE7+CTpgGQy8HL+iHj/KGHnZJlNOm+krvsZbSbw6Xull+DI+moO4
+         JjQQxFUeQtCllZeNomYbLkdwfju5GE4bPmX6XKprY+T98YkHVm/JNBisDHJYxVFiBQL8
+         tRNMPvj6G+qZyjtLeEpCRb10SDe876/azHwKs2FFpJHfuIaaDGuJSkFBLqt7YG2hvMzB
+         7t6tLSUurnZx7G+TUEpBAsD4DfY5tr4e+wreki7WWGRflmjyOJfH1vehLaa5YrzaoXNI
+         3P96YP82+gCQrVMrffF5oCK35AWcb7imOEwSyIMupkbiAZCboiio+2eLGIO6jW5rVkCG
+         MPhQ==
+X-Gm-Message-State: AOJu0Yxh8DQ3OLDrr76fZnTWnlYALgV18Y+vykyfYcDBq6is0Fn5M37v
+	tRb275EHEDxrgoDl/Uc2zHvBSKhZOsVvqFDibggtUr+oQ2O6tOx4k7kqExfb
+X-Google-Smtp-Source: AGHT+IEd+UwtWbyKKq8upOlhW1GoYBwHD9Kz0YgataIP/D5Kakhg6eRcgpNP7LGIZLUg1QInh0l4UA==
+X-Received: by 2002:a17:907:f719:b0:a72:8762:1f5d with SMTP id a640c23a62f3a-a8392a11c1bmr505703166b.55.1723964694964;
+        Sun, 18 Aug 2024 00:04:54 -0700 (PDT)
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com. [209.85.218.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83838cfd5esm489872166b.78.2024.08.18.00.04.54
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Aug 2024 00:04:54 -0700 (PDT)
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a7d89bb07e7so359833466b.3
+        for <asahi@lists.linux.dev>; Sun, 18 Aug 2024 00:04:54 -0700 (PDT)
+X-Received: by 2002:a17:907:7286:b0:a7a:8da1:eb00 with SMTP id
+ a640c23a62f3a-a83928a993bmr482431466b.7.1723964694394; Sun, 18 Aug 2024
+ 00:04:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20240731125615.3368813-1-neal@gompa.dev>
+In-Reply-To: <20240731125615.3368813-1-neal@gompa.dev>
+From: Neal Gompa <neal@gompa.dev>
+Date: Sun, 18 Aug 2024 03:04:17 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je9qtud+9uJdratbLmD9EOWPrFh8xn5==-ip_AMZF82Vsw@mail.gmail.com>
+Message-ID: <CAEg-Je9qtud+9uJdratbLmD9EOWPrFh8xn5==-ip_AMZF82Vsw@mail.gmail.com>
+Subject: Re: [PATCH v2] init/Kconfig: Only block on RANDSTRUCT for RUST
+To: rust-for-linux@vger.kernel.org
+Cc: asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Miguel Ojeda <ojeda@kernel.org>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, 
+	Asahi Lina <lina@asahilina.net>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 17.08.24 09:41, Greg Kroah-Hartman wrote:
-> On Fri, Aug 16, 2024 at 08:50:53AM -0700, Sami Tolvanen wrote:
->> On Fri, Aug 16, 2024 at 12:20=E2=80=AFAM Greg Kroah-Hartman
->> <gregkh@linuxfoundation.org> wrote:
->>> On Thu, Aug 15, 2024 at 05:39:20PM +0000, Sami Tolvanen wrote:
->>> Especially as I have no idea how you are going to do
->>> this with the rust side of things, this all will work for any structure=
-s
->>> defined in .rs code, right?
->>
->> Yes, Rust structures can use the same scheme. Accessing union members
->> might be less convenient than in C, but can presumably be wrapped in
->> helper macros if needed.
->=20
-> That feels ripe for problems for any rust code as forcing a helper macro
-> for a "normal" access to a structure field is going to be a lot of churn
-> over time.  Is the need for a macro due to the fact that accessing a
-> union is always considered "unsafe" in rust?  If that's the case, ick,
-> this is going to get even messier even faster as the need for sprinkling
-> unsafe accesses everywhere for what used to be a normal/safe one will
-> cause people to get nervous...
+On Wed, Jul 31, 2024 at 8:57=E2=80=AFAM Neal Gompa <neal@gompa.dev> wrote:
+>
+> When enabling Rust in the kernel, we only need to block on the
+> RANDSTRUCT feature and GCC plugin. The rest of the GCC plugins
+> are reasonably safe to enable.
+>
+> Signed-off-by: Neal Gompa <neal@gompa.dev>
+> ---
+> Changes in v2
+> - Drop changing !RANDSTRUCT to RANDSTRUCT_NONE
+>   (they're equivalent anyway)
+> ---
+>  init/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/init/Kconfig b/init/Kconfig
+> index a465ea9525bd..0939486938cc 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -1900,7 +1900,7 @@ config RUST
+>         depends on RUST_IS_AVAILABLE
+>         depends on !CFI_CLANG
+>         depends on !MODVERSIONS
+> -       depends on !GCC_PLUGINS
+> +       depends on !GCC_PLUGIN_RANDSTRUCT
+>         depends on !RANDSTRUCT
+>         depends on !DEBUG_INFO_BTF || PAHOLE_HAS_LANG_EXCLUDE
+>         help
+> --
+> 2.45.2
+>
 
-The reason for union field access being unsafe in Rust is that you can
-easily shoot yourself in the foot. For example:
+Bump for notice... Can we get this looked at to incorporate for 6.11?
 
-    union Foo {
-        a: bool,
-        b: i32,
-    }
 
-    let foo =3D Foo { b: 3 };
-    println!("{}", unsafe { foo.a });
-
-This is UB, since `3` is of course not a valid value for `bool`. With
-unions the compiler doesn't know which variant is active.
-
-Since unions are unsafe in Rust, we don't really use them directly (in
-the `kernel` crate, we have 0 union definitions). Instead we use certain
-unions from the stdlib such as `MaybeUninit`. But the fields of that
-union are private and never accessed.
-
-In general, unions in Rust are very important primitive types, but they
-are seldomly used directly. Instead enums are used a lot more, since you
-don't need to roll your own tagged unions.
-
-For this use-case (the one in the patch), I don't really know if we want
-to copy the approach from C. Do we even support exporting kABI from
-Rust? If yes, then we I would recommend we tag it in the source code
-instead of using a union. Here the example from the patch adapted:
-
-    #[repr(C)] // needed for layout stability
-    pub struct Struct1 {
-        a: u64,
-        #[kabi_reserved(u64)] // this marker is new
-        _reserved: u64,
-    }
-
-And then to use the reserved field, you would do this:
-   =20
-    #[repr(C)]
-    pub struct Struct1 {
-        a: u64,
-        #[kabi_reserved(u64)]
-        b: Struct2,
-    }
-
-    #[repr(C)]
-    pub struct Struct2 {
-        b: i32,
-        v: i32,
-    }
-
-The attribute would check that the size of the two types match and
-gendwarfksyms would use the type given in "()" instead of the actual
-type.
-
----
-Cheers,
-Benno
-
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
