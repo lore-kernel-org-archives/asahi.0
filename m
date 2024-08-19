@@ -1,43 +1,43 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D0B158DC6
-	for <asahi@lists.linux.dev>; Mon, 19 Aug 2024 21:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA11C158A33
+	for <asahi@lists.linux.dev>; Mon, 19 Aug 2024 22:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724104028; cv=none; b=Xth9xGnpsZZ+vacLzeBGooSjFg9sWmmw5ST1LNi6sLm+yaLYoebyVPq77qCA4DiRfHuggs4u55haZNS+JRmNVY9V7Q80sNuuZvfkDjv+WQWvECSzXHmaaalh/E3iO8547uhJaxi9Cz9SM9ajKHtdeamMHsp5kjvq0WAquBNgZCE=
+	t=1724105821; cv=none; b=HsCDfao5juxv4bpW481jOStBSfe74Y7sOKA4XJ7JUjuZOaiDs+Oebz6vIjM7Lyh9pa/62pl6J3FUoSMyemKZd8I2deS0HJkAvOiRJFTsiiLkB6Af/J31t+sL/Cz6LZT+kuCVVkNKDRT28L/vFraw79huu0hH4VcoP0UAeYh5948=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724104028; c=relaxed/simple;
-	bh=AqBGAszCSVup5cRsbpUK+shfas2i3V74A+XqrfqZbYE=;
+	s=arc-20240116; t=1724105821; c=relaxed/simple;
+	bh=R7+8ejfm5LfwZRlzV24x9z+7Bhp5JEOgxQj3MwJpXfY=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=etOWXBcqjjHoIiBhekoyGcSWcIflr9LYILMuhq2W1607ROusz+UP84tG7RdPg+HeJhFrFMUGLcPA72f8a0o0IlEBI4Wa6OdRPLH6hmanl5+AFQBZGL4wnON3BTTAgiNecmvdEYlXFMDCytt/aqOsbFdqM6KCkg/r25DzT/8m4j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=fVsVX64h; arc=none smtp.client-ip=185.70.43.16
+	 MIME-Version:Content-Type; b=bmvFotFzlw+4uqRJh2oetIAdNHaGI9mn189CiLqTTr83G4OeadxKqRR5lOMZ4JqpsWAHJmDuSKHoco7Mcin2canfnwtMKTdY/EYzLAew741TX7poQa0KGr0WewKhCLsFytTzKYdESW20szyRT/rWycMcG0dB6ynLLQPEQ8GNj50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=fSpaVk9H; arc=none smtp.client-ip=185.70.40.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="fVsVX64h"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="fSpaVk9H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=ef44djauundynimsjiha2kgace.protonmail; t=1724104024; x=1724363224;
-	bh=WRbQ2Vxut3xD1rDT5Yul21lEXIN5vTcl/BdFvsvRIkY=;
+	s=protonmail; t=1724105817; x=1724365017;
+	bh=e89MVHldFWcJh7oiV5+C6cy/kXf0bXpmNDeqvqwSpoI=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=fVsVX64hH1Bwngp7AwdSOd9PkcHVyR5JDcVLcRM0xmpPQ/BJ7Ltwz6elBbbZvBw6K
-	 zfZ4Mq5b6Nfc9sCrMo6/r7UiT5Jf2WjHB+hLJdgsSw7tYib9q4qfFjVQ5Fz9lbV2ju
-	 QtOfoNbQa2/uzvndCYXjOj2I2gmVeBVT8LsDa9nwd1nJII4c9FE+79wmESnd0hmQD8
-	 WeXa9X25hS/2iOUGpgF/1eFjVR+i0jTmj/WbJJdu1x/76viYL0j4HJlmaKQwoqEGy9
-	 cDWaTU5L5ZKIUChJapo4yXD0CSWbSk0XyZSetgu//oDAiVAFL3waXDUSZDWFu2Z3QL
-	 HkHGhK+X232jg==
-Date: Mon, 19 Aug 2024 21:46:59 +0000
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	b=fSpaVk9HrII6K0E0c4wEwzkNsIpaS2sTNBW3fsPLOGV2qpW50VjvoyY1WIopc4Eq4
+	 Q1s/JCBiWaSXCpn+jv43MHh9SXp9DXaPbdnoPOq0rLLe86DVgX6GouBrpGabxyqaAQ
+	 1D5u9lAVRscjCqjAWkuCEnzJPwBM3d63OYxpdHkRfJ8ws5OhcoR8ZfrRwANJu83Fg+
+	 7VTVlhvlebzRnRpVLItK3sLYNCKeo+aKWs0VSNfQTkmFSbEsLsJWZFjaqZe9y95DCl
+	 /i7xQqOEYU2i1/kte/cwPBaz4EhzXBq62NqJdFWdpSwPjO2gsDWrZ00UrjNV/4uG6t
+	 TAwKwvMJ/WFeA==
+Date: Mon, 19 Aug 2024 22:16:53 +0000
+To: Sami Tolvanen <samitolvanen@google.com>
 From: Benno Lossin <benno.lossin@proton.me>
-Cc: Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
 Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved structure fields
-Message-ID: <386fae1c-befc-4ce6-bddb-b560f0c36f02@proton.me>
-In-Reply-To: <2024081938-lyricist-estimator-c4eb@gregkh>
-References: <20240815173903.4172139-21-samitolvanen@google.com> <20240815173903.4172139-37-samitolvanen@google.com> <2024081600-grub-deskwork-4bae@gregkh> <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com> <2024081705-overarch-deceptive-6689@gregkh> <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me> <2024081938-lyricist-estimator-c4eb@gregkh>
+Message-ID: <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
+In-Reply-To: <20240819193851.GA4809@google.com>
+References: <20240815173903.4172139-21-samitolvanen@google.com> <20240815173903.4172139-37-samitolvanen@google.com> <2024081600-grub-deskwork-4bae@gregkh> <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com> <2024081705-overarch-deceptive-6689@gregkh> <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me> <20240819193851.GA4809@google.com>
 Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 649a7d8f05cde4683cae948f94f9ce7634db556b
+X-Pm-Message-ID: 7749e72b3fa03857e22ab659ccfdbfd44623f1cc
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -47,71 +47,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 19.08.24 20:25, Greg Kroah-Hartman wrote:
-> On Sat, Aug 17, 2024 at 01:19:55PM +0000, Benno Lossin wrote:
->> On 17.08.24 09:41, Greg Kroah-Hartman wrote:
->>> On Fri, Aug 16, 2024 at 08:50:53AM -0700, Sami Tolvanen wrote:
->>>> On Fri, Aug 16, 2024 at 12:20=E2=80=AFAM Greg Kroah-Hartman
->>>> <gregkh@linuxfoundation.org> wrote:
->>>>> On Thu, Aug 15, 2024 at 05:39:20PM +0000, Sami Tolvanen wrote:
->>>>> Especially as I have no idea how you are going to do
->>>>> this with the rust side of things, this all will work for any structu=
-res
->>>>> defined in .rs code, right?
->>>>
->>>> Yes, Rust structures can use the same scheme. Accessing union members
->>>> might be less convenient than in C, but can presumably be wrapped in
->>>> helper macros if needed.
->>>
->>> That feels ripe for problems for any rust code as forcing a helper macr=
-o
->>> for a "normal" access to a structure field is going to be a lot of chur=
-n
->>> over time.  Is the need for a macro due to the fact that accessing a
->>> union is always considered "unsafe" in rust?  If that's the case, ick,
->>> this is going to get even messier even faster as the need for sprinklin=
-g
->>> unsafe accesses everywhere for what used to be a normal/safe one will
->>> cause people to get nervous...
->>
->> The reason for union field access being unsafe in Rust is that you can
->> easily shoot yourself in the foot. For example:
->>
->>     union Foo {
->>         a: bool,
->>         b: i32,
->>     }
->>
->>     let foo =3D Foo { b: 3 };
->>     println!("{}", unsafe { foo.a });
->>
->> This is UB, since `3` is of course not a valid value for `bool`. With
->> unions the compiler doesn't know which variant is active.
+On 19.08.24 21:38, Sami Tolvanen wrote:
+> Hi Benno,
 >=20
-> Understood, then why attempt to use a union for this type of "abi safe
-> padding"?
-
-I don't follow, I thought this was the idea from the thread above. (ie
-just do what C does)
-
->> Since unions are unsafe in Rust, we don't really use them directly (in
->> the `kernel` crate, we have 0 union definitions). Instead we use certain
->> unions from the stdlib such as `MaybeUninit`. But the fields of that
->> union are private and never accessed.
->>
->> In general, unions in Rust are very important primitive types, but they
->> are seldomly used directly. Instead enums are used a lot more, since you
->> don't need to roll your own tagged unions.
+> On Sat, Aug 17, 2024 at 01:19:55PM +0000, Benno Lossin wrote:
 >>
 >> For this use-case (the one in the patch), I don't really know if we want
 >> to copy the approach from C. Do we even support exporting kABI from
->> Rust?
->=20
-> That's the goal here, you want to create an abi that can change over
-> time without "breaking" the abi.  Usually this is just adding additional
-> padding in structures to have room for new additions.
->=20
->> If yes, then we I would recommend we tag it in the source code
+>> Rust? If yes, then we I would recommend we tag it in the source code
 >> instead of using a union. Here the example from the patch adapted:
 >>
 >>     #[repr(C)] // needed for layout stability
@@ -140,78 +83,88 @@ just do what C does)
 >> gendwarfksyms would use the type given in "()" instead of the actual
 >> type.
 >=20
-> Remember the "goal" here is to NOT have to modify the places in the
-> kernel that use the new field in the structure, but for that to "just
-> work".  Your change here wouldn't allow that as any use of the new "b"
-> field would have to be through something in "Struct2", not directly in
-> Struct1, right?
+> This definitely looks cleaner than unions in Rust, but how would this
+> scheme be visible in DWARF? You might also need to expand the annotation
+> to allow replacing one reserved field with multiple smaller ones without
+> using structs.
 
-This confuses me, since I thought that in C you would need to use the
-new fields. So for example we have
+Hmm that's a good question, I have no idea how DWARF works. The way you
+do it in this patch is just by the name of the field, right?
 
-    void increment(struct struct1 *x)
-    {
-        x->a +=3D 1;
+If Rust's DWARF output contains exact types names (I just checked this,
+I *think* that this is the case, but I have never used/seen DWARF
+before), we might be able to just create a `KAbiReserved<T, R>` type
+that you search for instead of the attribute. The usage would then be
+like this:
+
+    #[repr(C)]
+    pub struct Struct1 {
+        a: u64,
+        _reserved: KAbiReserved<(), u64>,
     }
 
-and then we do the extension and also want to increment `b`, then we
-have to do this:
+And then when adding a new field, you would do this:
 
-    void increment(struct struct1 *x)
-    {
-        x->a +=3D 1;
-        x->b +=3D 1;
+    #[repr(C)]
+    pub struct Struct1 {
+        a: u64,
+        b: KAbiReserved<Struct2, u64>,
     }
 
-I am not 100% sure if you meant the following problem: if a user uses
-the `increment` function like this:
+    /* Struct2 as above */
 
-    struct struct1 x =3D { .a =3D 0, .__kabi_reserved_0 =3D 0 };
-    increment(&x);
+The way `KAbiReserved` is implemented is via a `union` (maybe a bit
+ironic, considering what I said in my other replies, but in this case,
+we would provide a safe abstraction over this `union`, thus avoiding
+exposing users of this type to `unsafe`):
 
-Then in the C example they don't need to change their usage. In Rust,
-they would, but we shouldn't make the struct fields public, then they
-can't create the struct using the initializer syntax, but instead we
-would provide stable initialization functions. Translating the entire
-example to Rust:
-
-    impl Struct1 {
-        pub fn new(a: u64) -> Self {
-            Self { a, _reserved: 0 }
-        }
-
-        pub fn increment(&mut self) {
-            self.a +=3D 1;
-        }
+    #[repr(C)]
+    pub union KAbiReserved<T, R> {
+        value: T,
+        _reserved: R,
     }
 
-Then after adding the new field, this becomes:
-
-    impl Struct1 {
-        pub fn new(a: u64) -> Self {
-            Self { a, b: Struct2 { b: 0, v: 0 } }
-        }
-
-        pub fn increment(&mut self) {
-            self.a +=3D 1;
-            self.b.b +=3D 1;
+    impl<T, R> Drop for KAbiReserved<T, R> {
+        fn drop(&mut self) {
+            let val =3D &mut **self;
+            unsafe { ptr::drop_in_place(val) };
         }
     }
 
-So the following user would also not have to change the code:
+    impl<T, R> Deref for KAbiReserved<T, R> {
+        type Target =3D T;
 
-    let mut x =3D Struct1::new(0);
-    x.increment();
+        fn deref(&self) -> &Self::Target {
+            unsafe { &self.value }
+        }
+    }
 
-> We can mess with the structure definitions but we should not have to
-> touch the places where the structure fields are used at all.  If that's
-> going to be a requirement (as it sounds like it would with the use of
-> unsafe in the union), then this is not going to be a solution at all.
+    impl<T, R> DerefMut for KAbiReserved<T, R> {
+        fn deref_mut(&mut self) -> &mut Self::Target {
+            unsafe { &mut self.value }
+        }
+    }
 
-So the union approach *could* work and the users of the API would not
-have to use `unsafe`. But doing it the way I suggest above is going to
-be cleaner, as the people who use the API won't ever need to know of the
-internals.
+    impl<T, R> KAbiReserved<T, R> {
+        pub fn new(value: T) -> Self {
+            // we want to ensure that people don't accidentally use a bigge=
+r type.
+            build_assert!(size_of::<R>() >=3D size_of::<T>());
+            Self { value }
+        }
+
+        pub fn into_value(self) -> T {
+            unsafe { self.value }
+        }
+    }
+
+This needs some more work, but is a lot cleaner than having the users
+use raw unions + unsafe (essentially they would re-implement the code
+above).
+
+If you want me to turn the above into a patch let me know (also if you
+or someone else wants to give it a try, then please go ahead! If you
+need help, just send me a mail or a message on zulip).
 
 ---
 Cheers,
