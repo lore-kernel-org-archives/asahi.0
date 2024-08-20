@@ -1,134 +1,139 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD227E59A
-	for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 16:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9121C4623
+	for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 18:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724172521; cv=none; b=NToXdkyNobPrDchq4KM8oUs6Wv19BHmDRqxFE4aDxnjwGzr+xgriIVBB66MGmfFk8VExAIQIz5XMCNQ/S1M/2wpMY+5MytbvmXuIywZ7dUzxLQUjKKtyfrQHUEv2c9jKa0Ja0UWl6UikCkrxx25QuVSWAZwZgKK8UpO+czALwN0=
+	t=1724179693; cv=none; b=QkROn/af9s0VwuLdWU9EhaGNpR50s5KuqSz61q4XAtWdmesY4vb6ukXP4bvox0mJsxsDVpLHnNibqSclfg0jPCtuVleIaQA7R7JC6x1LJjyG1P0PhQBla2ZRr6a2LZitAQqsr3iwc0UIPEcVpqu3rUQPB3eJnk/VV6a9+AH8e9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724172521; c=relaxed/simple;
-	bh=EY7+jZCbx24zTHEy7TR1y6tkMTvVj0EfuR/scZNnLSg=;
+	s=arc-20240116; t=1724179693; c=relaxed/simple;
+	bh=9IntjtaXg9k+kUVEV9axZKmA4rC298YdyXwRG+HAIh4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tsuZMY8EUz8QsDhfa1y2/iNR9BVS/vRAjj/Yg1u88JsUgIywR8AE6ROJfbiqkQh5FJUg8bX3WLnXbNM1x6fKe5HZr2m7UX34a7172tx+0Zr/q/alEi0k7GG4TmBymPFCNxqF5TjwY6GSlJ+HPKr76Ub8gpfFr3aHV+H0DNjy5+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VU7a7cCs; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=LLoacnLKvKM52VQkNn+YBtq0pgmQPNrlrKAl927+ZRDzprauD9uPOHw9fhqJx/LuJB2NJpQQGyDS5g7LE3+0mXIhiBOlHt19Sq59In0CNLCnRK6IFhO0/X5TcoEUJXWYg4wGocPanP6auKyOAq8F2qmhG5yy6u12Cu7oGsvLqNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GUa8SifK; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VU7a7cCs"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53345dcd377so684461e87.2
-        for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 09:48:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GUa8SifK"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-45029af1408so31491cf.1
+        for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 11:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724172517; x=1724777317; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1724179690; x=1724784490; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EY7+jZCbx24zTHEy7TR1y6tkMTvVj0EfuR/scZNnLSg=;
-        b=VU7a7cCs2LJWDTP3kTbK3lo6xcGxh5dLx2vwUlPEIWLFF2rZu68yHTEk3l3MmoPzSz
-         OBYXXAVR11QmLlPIBrjvFBZLP/BI2bxPHf5Wo5voAn8w7VSWL3HHpLWKktYeO//SCMxf
-         3+WrYxgpReA+Tv8T7Nl8CCLNgeoWQ5zWjoRpj+zJydVWT01IAEmulO9UGuqE94oAaHMz
-         X9hGv2IGv1TNl4BgN5ymqsYCo4m3eU/OR5K5s9JoOa2y5BZqJbjovaXAhtexVjg3sPpb
-         LjqmRntkCZExxOd+iQBEMLq8Nn33JOLOrFJg7sI4N+8EgmZ9lNVDZyUOMa/IWTe8Uo+q
-         lT2A==
+        bh=Kqyu9H3Z/7xJHVyMUShvAD4YuvpcJRXIyTBe+BDA0AQ=;
+        b=GUa8SifKwOPRaCYG9cTQ31zHoKi//0PRBtb+TM0TCGyt/SUZllYNRLU6lBdsxIK46f
+         tlEuw5TESkUYU41iPez79MW95seKboBbXoq+yzYoJvCb44JJx94+U6D4fl9kKkCxAvux
+         06OOLFMS4OwND36ppOno6LPyNJF5NK86T9itjSLiK9qXp4EI2XLAkNwRqv6og93xapG1
+         1Rj1LYp3sA2ncOLs54cM+FcHUm1ins/bpm37bnRQTBPA0OwLzmzSiZVdrP5+mUHpuuXG
+         WZEcIbotCbCxVKi1MjBg0zjJJaFdBAZ3foNEJ8reVTpM8dg5B7kp23XFk10xJnKX7Eq4
+         irnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724172517; x=1724777317;
+        d=1e100.net; s=20230601; t=1724179690; x=1724784490;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EY7+jZCbx24zTHEy7TR1y6tkMTvVj0EfuR/scZNnLSg=;
-        b=kSic2iJwPP1AnP0nTQZxvyRf6bd7Z+IyWtVl0nWXYjVpos9H6ypRT0PYhkCEn7idJc
-         g0+ol6JvBskFZMz1aDwoXKii7OHv7wdyVvjsY113f2mc4v4VVokylf+l5mxpYSTQfJNF
-         eqE1uOjTsZYixAmw2LlYiXtVn/cG2rNmHB5Vte6Ja2k/77fLQ9UgVx848Rqycl9jC2SY
-         iZDheZ8HJhsv7cXyKZXxOoxrVrk3rPGYvkFlQwkL6FgB0Yk4mOhoe0qub8Yp/Ud/m3m9
-         i1TtfwGHoTCZvbzgSs9NttmyLEgEZ67dWNJF8c0d7iEUNgzqCbdOaaNsB4YJu4qiWtRY
-         s0ag==
-X-Forwarded-Encrypted: i=1; AJvYcCUcG9qH/OnmMiheosuHx5ug856hYjbvcy6XY8WUhxMwSpTGbn7Om140OxscKOB43XBnlAhzg37xUpb1cplZr2k0s22NJlw=
-X-Gm-Message-State: AOJu0Yx0k+Qz5PAOffVfLzUjnExMJ6ege3ArkBpEu37HCF8urypdCd5y
-	oizsfS0z41oE4Y0+gF9JENcUPkxpGdSF+HJs2qFWxht1ROtYGlr3buRqr9Y8l5nXgVUAHU38BQv
-	8fGON4/jZsvvi+szSNnYheSq8oPk=
-X-Google-Smtp-Source: AGHT+IFP/T4v4jfCI8OdiHlqJ69vXMH35zvQmtaQtvJe/OTYFWS5FVNj32ofA3JgQ1DnrYOe3Qw30HzTtKuWghcguSs=
-X-Received: by 2002:a05:6512:6cd:b0:52b:bf8e:ffea with SMTP id
- 2adb3069b0e04-5331c6dc867mr9778925e87.40.1724172516553; Tue, 20 Aug 2024
- 09:48:36 -0700 (PDT)
+        bh=Kqyu9H3Z/7xJHVyMUShvAD4YuvpcJRXIyTBe+BDA0AQ=;
+        b=WALUYBshzh4EK5Ya9mRqRMxP8AlPuo7djbE4e5Pz4yRI4cJ2hTmxQIdY7kghlW7u2c
+         eaqT1Yb0a00yo4ZWzsE7/Tew+ibm8x37UaIy++if8822VzsZLHxoc89jXEOcyGS9wj8D
+         kSs2r2Dd8L5IYS+YKtea15rgJQ5rRvHdJlCvSL1Io9LFQrou+zdIe5yAWkgc0+R3JnF2
+         7imwbuofYjm6sqRK+F/0kdLhxLRaZb52FWLVeNnHeztt03xbIvtpjJ4dT04gISBKeWor
+         FTpMpAHusMpa7hqiZUjiQKMI03LhSEzQm0oewYFsLg4UeVK0AmJHY2z5/1cBIeYGNwWB
+         yf7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUexK0SEHA2arV3MlNMAxhqkcUW5bw2axKtZkHJBGngUl7/hFNnijyKBYfX/RtyTV8YTe7Nnw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6ntUg3BHVKIo7SHXF3cqN1ShRLbeArdtY4cNG0XeeLlcidBgh
+	4nq0RYkgQi2+PHk3/7xEZSo6PKe8osl/+tXiphoTop7SRSP96bpiqEK78xG1kwYFtsZaDLvs5RK
+	v2qo+5+tCJ4wSO0BX60H9Nv1+SxMp5iyYtNWa
+X-Google-Smtp-Source: AGHT+IEaaaVbWTiloHDIiXOmckXCXgvScfO2Sv9V70rY2jP8blHGtm/LE4cy6bWAnQvIHakKwQ31ZmSJ833RTPp+SXA=
+X-Received: by 2002:ac8:7dc5:0:b0:447:d97f:9765 with SMTP id
+ d75a77b69052e-454e642e2ccmr3218081cf.16.1724179690110; Tue, 20 Aug 2024
+ 11:48:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAEg-Je8=t_cXKsWL0XSx3vF1gsArSWpychfbEf+yjM6wVz3Mjw@mail.gmail.com>
-In-Reply-To: <CAEg-Je8=t_cXKsWL0XSx3vF1gsArSWpychfbEf+yjM6wVz3Mjw@mail.gmail.com>
-From: Matthew Maurer <matthew.r.maurer@gmail.com>
-Date: Tue, 20 Aug 2024 09:48:24 -0700
-Message-ID: <CAM22NNBrXSUbrpFAKv8jrREKTBYx_aW0cibtDE5AZ_kTijUrPA@mail.gmail.com>
-Subject: Re: Weird failure with bpftool when building 6.11-rc4 with clang+rust+lto
-To: Neal Gompa <ngompa@fedoraproject.org>
-Cc: rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	Quentin Monnet <qmo@kernel.org>, bpf@vger.kernel.org, 
-	"Justin M. Forbes" <jforbes@fedoraproject.org>, Davide Cavalca <dcavalca@fedoraproject.org>, 
-	Janne Grunau <jannau@fedoraproject.org>, Hector Martin <marcan@fedoraproject.org>, 
-	Asahi Linux <asahi@lists.linux.dev>
+References: <20240815173903.4172139-21-samitolvanen@google.com>
+ <20240815173903.4172139-37-samitolvanen@google.com> <2024081600-grub-deskwork-4bae@gregkh>
+ <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com>
+ <2024081705-overarch-deceptive-6689@gregkh> <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
+ <20240819193851.GA4809@google.com> <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
+In-Reply-To: <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Tue, 20 Aug 2024 18:47:31 +0000
+Message-ID: <CABCJKudAF0=29js8SDcYY5r6kM7RBveTrZH9RyECNGqkcqy=nw@mail.gmail.com>
+Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
+ structure fields
+To: Benno Lossin <benno.lossin@proton.me>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Sorry that this isn't a solution, but I can tell you some background:
+On Mon, Aug 19, 2024 at 10:17=E2=80=AFPM Benno Lossin <benno.lossin@proton.=
+me> wrote:
+>
+> On 19.08.24 21:38, Sami Tolvanen wrote:
+> >
+> > This definitely looks cleaner than unions in Rust, but how would this
+> > scheme be visible in DWARF? You might also need to expand the annotatio=
+n
+> > to allow replacing one reserved field with multiple smaller ones withou=
+t
+> > using structs.
+>
+> Hmm that's a good question, I have no idea how DWARF works. The way you
+> do it in this patch is just by the name of the field, right?
 
-Linux currently relies on the `--lang_exclude` flag to `pahole` to
-filter Rust debugging information out of the output BTF. This is done
-because various downstream tools (for example, bpftool) do not handle
-Rust types correctly. The `--lang_exclude` flag works by checking the
-language flag on the compilation unit the type is referenced in. Once
-LTO is enabled however, things can migrate from one compilation unit
-to another, leading to C code having Rust code and types referenced
-inside them. The resulting type will be considered C-language type by
-`pahole`, but is actually a Rust type. Even if you fixed bpftool,
-without additional patches/hacks, once the kernel boots it would
-likely fail to parse its own BTF debugging information, and disable
-BPF loading.
+Correct, it just looks at the name of the union fields.
 
-The most confusing part to me here is that I only encountered this
-issue with x-lang LTO enabled, which is not available in the kernel
-you're building from. If this is happening without x-lang LTO enabled,
-it likely means that there's another way for debug symbols to leak
-across CUs during LTO. That's where I'd start looking - use `pahole`
-to dump the contents of `vmlinux.o` and see if you can find a
-C-language CU referencing a Rust type. Then, try to figure out how
-that's possible. With x-lang LTO it was obvious, inlining caused a
-bunch of issues.
+> If Rust's DWARF output contains exact types names (I just checked this,
+> I *think* that this is the case, but I have never used/seen DWARF
+> before), we might be able to just create a `KAbiReserved<T, R>` type
+> that you search for instead of the attribute. The usage would then be
+> like this:
+>
+>     #[repr(C)]
+>     pub struct Struct1 {
+>         a: u64,
+>         _reserved: KAbiReserved<(), u64>,
+>     }
+>
+> And then when adding a new field, you would do this:
+>
+>     #[repr(C)]
+>     pub struct Struct1 {
+>         a: u64,
+>         b: KAbiReserved<Struct2, u64>,
+>     }
+>
+>     /* Struct2 as above */
+>
+> The way `KAbiReserved` is implemented is via a `union` (maybe a bit
+> ironic, considering what I said in my other replies, but in this case,
+> we would provide a safe abstraction over this `union`, thus avoiding
+> exposing users of this type to `unsafe`):
+>
+>     #[repr(C)]
+>     pub union KAbiReserved<T, R> {
+>         value: T,
+>         _reserved: R,
+>     }
 
-The last possibility I can think of is that somehow in your build
-configuration `pahole` is not being invoked with the `--lang_exclude`
-flag when building `vmlinux`. I don't know why that would be, but it
-might be worth double checking.
+I like this approach even better, assuming any remaining issues with
+ownership etc. can be sorted out. This would also look identical to
+the C version in DWARF if you rename _reserved in the union to
+__kabi_reserved. Of course, we can always change gendwarfksyms to
+support a different scheme for Rust code if a better solution comes
+along later.
 
-On Tue, Aug 20, 2024 at 5:13=E2=80=AFAM Neal Gompa <ngompa@fedoraproject.or=
-g> wrote:
->
-> Hey all,
->
-> While working on enabling Rust in the Fedora kernel[1], we've managed
-> to get the setup almost completely working, but we have a build
-> failure with the clang+lto build variant[2][3].
->
-> Based on the build failure log[4][5], it looks like there's some
-> random mixing of Rust inside of C code or something of the sort (which
-> obviously would be invalid).
->
-> Can someone help with this?
->
-> Thanks in advance and best regards,
->
-> [1]: https://gitlab.com/cki-project/kernel-ark/-/merge_requests/3295
-> [2]: https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/index.html?p=
-refix=3Dtrusted-artifacts/1419488480/build_x86_64/7618803903/artifacts/
-> [3]: https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/index.html?p=
-refix=3Dtrusted-artifacts/1419488480/build_aarch64/7618803917/artifacts/
-> [4]: https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/trusted-arti=
-facts/1419488480/build_x86_64/7618803903/artifacts/build-failure.log
-> [5]: https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/trusted-arti=
-facts/1419488480/build_aarch64/7618803917/artifacts/build-failure.log
->
->
-> --
-> Neal Gompa (FAS: ngompa)
->
+Sami
