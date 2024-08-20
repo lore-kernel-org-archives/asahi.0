@@ -1,89 +1,334 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6BA208CA
-	for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 02:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D3318A938
+	for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 08:58:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724121990; cv=none; b=PoPESEdJt+LiwTQlGpDKdqnWIO2/SV2evdrKxcQiI7TFX3qzT7qidTBWdEcdQ4VcaEKtjJFK/uldiUJWe23LUYT94GrDn2Y8o7Ao+WCzLMOKCzfk5a7mGXk3QppXvClbGi1lNRzoA7TDbh/ERkAuD5HP7JqzPaE3zi5QPEUeqeM=
+	t=1724144293; cv=none; b=u2dYB32zX+oB5tiTlDNk4yt+5vDfEd8/Tg9RpRZOieSbAUkcs5UOv722x3Jj67VmprfzH1iho+fhotN1X0l9Jp7JQxjK/vV17/PJeZVb8rh/RwuiJuA3RzW4GD9OLxYFbqbkJy9QlYcuqb22T8nGSKsk5kWDONur012zARlAIeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724121990; c=relaxed/simple;
-	bh=8TS0uracIC8varmqf+MaZ6AfHrQ8Ib61Fw/7CChwcgA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r5P9XRx30iF3c/be/9aHbmO4qYzclUcMKvdHtozDzWWtsDqpn3W1514DZSaqKzI/AZdtemwIPTGKqHGwCd5D1nb6hxayh6sn/OiVruMhEQTdv4/Hexh5AtYQcRpvL1qDN3b0dmwnHcN9iOWaq2ExprqLJaERSPakY/65WkHAdG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=E2yfneeX; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+	s=arc-20240116; t=1724144293; c=relaxed/simple;
+	bh=Nn6lToXjCLBUIz9mPmdCv9pONWpqarqMr82oNo/1kEs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oEVwy0UwoMcSkR23zNvqmyYnknOTlRkv0hQ4rkFnvHEA0Mg2mu7iGnnictnYLOkLIyYzPDTSg5qDVvCkVUaKh51eX02s8ybgHTc9+WDlYH85Bsy0ttQl3H7LrtFfhN1ec5nLzw5Va5FQUV4HIqe9hKqd2PGvIPenLiyApMqBhT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aMR4V854; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="E2yfneeX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
-	s=201909; t=1724121987;
-	bh=8TS0uracIC8varmqf+MaZ6AfHrQ8Ib61Fw/7CChwcgA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=E2yfneeXxrvfHg8GYHkTYxBdI76bEnuGlExoEN4PVHAvgR6CMMkbvD7QCW8Po51Ab
-	 W2y5WB7Hqk1J6y93pfiVYUUB16NzeGSbyX0B2lNaDJftTWeX1H0uBgqoJCQpuivsQ2
-	 1EMGYI3kVXsYz2ZoFL0SxPdjAzSrSrUgwT6B/zsBbVOQspL0vsMdZieYZhX9xkssfI
-	 tzlZ0aFoDfJMfxtLp0ef9W1B6iWrZHv/6N7PxpLzbqSERKQ0swCeAwcdszFVWSXSOi
-	 HNSvpapaGOjuGLer4braR93wtId1Y0g4ZRs4E9E/aX9q63XS2iNDYLk2xyzPCdq4lt
-	 BbAGROjV/nmwQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4Wnv410TKjz4w2F;
-	Tue, 20 Aug 2024 12:46:24 +1000 (AEST)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
- gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>,
- rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, neal@gompa.dev, marcan@marcan.st,
- j@jannau.net, asahi@lists.linux.dev, Nicholas Piggin <npiggin@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, =?utf-8?Q?Bj=C3=B6rn?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas
- Hindborg <a.hindborg@samsung.com>, Alice Ryhl <aliceryhl@google.com>,
- linuxppc-dev@lists.ozlabs.org, linux-modules@vger.kernel.org
-Subject: Re: [PATCH v3 14/16] modules: Support extended MODVERSIONS info
-In-Reply-To: <CAGSQo02r3NhWnpBF--5nB2RJ=1Hh97VshtiZmasDfknnL+UjmA@mail.gmail.com>
-References: <20240806212106.617164-1-mmaurer@google.com>
- <20240806212106.617164-15-mmaurer@google.com> <87le0w2hop.fsf@mail.lhotse>
- <CAGSQo02r3NhWnpBF--5nB2RJ=1Hh97VshtiZmasDfknnL+UjmA@mail.gmail.com>
-Date: Tue, 20 Aug 2024 12:46:24 +1000
-Message-ID: <878qwrud1b.fsf@mail.lhotse>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aMR4V854"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5bed05c0a2fso4392277a12.3
+        for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 01:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1724144288; x=1724749088; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GjIeCVxVL/L5LzkDpW1Nn64LN86LnITHRGCTH6jvrdg=;
+        b=aMR4V854GIWre4C+0+dl4qP9i0VVIAkgE+5ZtfYce24Lo7m8O6h+whgLRfHSStkJZn
+         O69xhIqhoJOM8w+6Y6EgIK81BU+Gu5+haUhserdpMsEK+Cc7w5flOtSPOD7lB9h0gUDZ
+         QzajWkU6FOcvBreEx0hEErtNSZi19TTPxuD9/pYmPvhUxbEGaT1afUj524LwuYWcP3qg
+         IIz8mptykohz0GwbohTgr2PKqdr34txy5of9SyD+SaMwON2PzajK14eLxW4Tu5G6gpF7
+         d5J0NEPKoyOLA/8of8EQt+N0hcreTiIBIFBFPETc6WDVckf7YdFMR8a2oZDt2yXxzvxs
+         7U0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724144288; x=1724749088;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GjIeCVxVL/L5LzkDpW1Nn64LN86LnITHRGCTH6jvrdg=;
+        b=WYuSFA8QUmzLfZwY0H3uynh07WujSWIV8V9RwoLjiJUNL2AyvwDpjLbBwaBlsTE+4W
+         Oi7LBi09Kb3IqKsuhHYfg7cORz3knLRd1qxuSFKqxRcPrmyNk0WbvpRfaCzt+GJEizdJ
+         uBeBCVZ3FTLjpvi4KAA3mhXLXF8/YBnGID1YvpqV0KkSpBYeGESpKKIKP5d2UgL68i+e
+         k4e4fvpcVvUXRbcUVNjL4q+Pdp71Xs2kf2M4dsq4XDNDCupVtUN3mePUf2y26Yh3fq0R
+         NmC9G9UfOqPPWHN68KjzRkFWgrPhhAjod4k5vt/UcPcBtd5alj5MJqwbWPCbUk1QecQB
+         v7RA==
+X-Forwarded-Encrypted: i=1; AJvYcCUj4Rcu9+VXf2DH+pwgRGt2OUeQjSxPmHAFYFY6lw1KjzTeQc/7108LqM9kOHRBY7sUnB9XPg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvS9RH68cqexJnRCKIApJspBKimR4llqlvk7IAfThpO8NixRVS
+	85UjS/UETqMtatOtuEmdw/WnQqpolA1UYjwFN1cA/X1d2zz/2lxfxBkqzrGSsCA=
+X-Google-Smtp-Source: AGHT+IE+Z+OTlESB+rPa6O5pfSTCelawOC5oEgQzUUerQ26h7Uh+ksIcV7mTpa9Wx7DyTWPGnCLbvQ==
+X-Received: by 2002:a17:907:efe5:b0:a77:c84b:5a60 with SMTP id a640c23a62f3a-a839292f6d0mr1048226766b.26.1724144287627;
+        Tue, 20 Aug 2024 01:58:07 -0700 (PDT)
+Received: from [192.168.1.3] ([89.47.253.130])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8383946441sm741107066b.148.2024.08.20.01.58.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Aug 2024 01:58:07 -0700 (PDT)
+Message-ID: <6ff76e96-ac29-454d-9134-5b120c8e5854@linaro.org>
+Date: Tue, 20 Aug 2024 09:58:06 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] Perf (userspace) broken on big.LITTLE systems since
+ v6.5
+To: Atish Kumar Patra <atishp@rivosinc.com>, Ian Rogers <irogers@google.com>
+Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
+ Arnaldo Carvalho de Melo <acme@redhat.com>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Linux perf Profiling <linux-perf-users@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ James Clark <james.clark@arm.com>, "cc: Marc Zyngier" <maz@kernel.org>,
+ Hector Martin <marcan@marcan.st>, Asahi Linux <asahi@lists.linux.dev>,
+ Linux regressions mailing list <regressions@lists.linux.dev>
+References: <08f1f185-e259-4014-9ca4-6411d5c1bc65@marcan.st>
+ <ZV1AnNB2CSbAUFVg@archie.me>
+ <a9c14dfd-3269-4758-9174-4710bef07088@leemhuis.info>
+ <CAP-5=fXqx_k1miPTkcAmS3z2GBPt2KeDtP5fknmdDghZqxXPew@mail.gmail.com>
+ <714ed350-0e6c-4922-bf65-36de48f62879@leemhuis.info>
+ <0de3b572-f5f7-42e4-b410-d1e315943a3c@linaro.org>
+ <CAP-5=fVSVe=C5dHaOV22+YOZ_JCD0mDoByoubSFY3w4au5zwQg@mail.gmail.com>
+ <6cbd2f1d-2aea-486c-a3cb-bb6eb08d8bdc@linaro.org>
+ <CAP-5=fXX10Jra-LogXL0M3O5OU_YpBaA=7S54upENzJ86Y5Hvw@mail.gmail.com>
+ <CAHBxVyGz5Cjd_QH4AWWZ=cQnQ0KKCJeLcT+aKO5QUxpGegdRLw@mail.gmail.com>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <CAHBxVyGz5Cjd_QH4AWWZ=cQnQ0KKCJeLcT+aKO5QUxpGegdRLw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Matthew Maurer <mmaurer@google.com> writes:
-> On Fri, Aug 16, 2024 at 4:04=E2=80=AFPM Michael Ellerman <mpe@ellerman.id=
-.au> wrote:
->> Matthew Maurer <mmaurer@google.com> writes:
->> > Adds a new format for MODVERSIONS which stores each field in a separate
->> > ELF section. This initially adds support for variable length names, but
->> > could later be used to add additional fields to MODVERSIONS in a
->> > backwards compatible way if needed. Any new fields will be ignored by
->> > old user tooling, unlike the current format where user tooling cannot
->> > tolerate adjustments to the format (for example making the name field
->> > longer).
->> >
->> > Since PPC munges its version records to strip leading dots, we reprodu=
-ce
->> > the munging for the new format.
+
+
+On 17/08/2024 2:38 am, Atish Kumar Patra wrote:
+> On Fri, Aug 16, 2024 at 8:30 AM Ian Rogers <irogers@google.com> wrote:
 >>
->> AFAICS the existing code only strips a single leading dot, not all
->> leading dots?
->
-> You appear to be correct, I'll update that in the next version, but
-> want to wait for more feedback on the rest of the patchset before
-> sending up another full series.
+>> On Fri, Aug 16, 2024 at 2:23 AM James Clark <james.clark@linaro.org> wrote:
+>>>
+>>>
+>>>
+>>> On 15/08/2024 6:29 pm, Ian Rogers wrote:
+>>>> On Wed, Aug 14, 2024 at 9:28 AM James Clark <james.clark@linaro.org> wrote:
+>>>>> On 07/08/2024 9:54 am, Thorsten Leemhuis wrote:
+>>>>>> On 01.08.24 21:05, Ian Rogers wrote:
+>>>>>>> On Wed, Dec 6, 2023 at 4:09 AM Linux regression tracking #update
+>>>>>>> (Thorsten Leemhuis) <regressions@leemhuis.info> wrote:
+>>>>>>>>
+>>>>>>>> [TLDR: This mail in primarily relevant for Linux kernel regression
+>>>>>>>> tracking. See link in footer if these mails annoy you.]
+>>>>>>>>
+>>>>>>>> On 22.11.23 00:43, Bagas Sanjaya wrote:
+>>>>>>>>> On Tue, Nov 21, 2023 at 09:08:48PM +0900, Hector Martin wrote:
+>>>>>>>>>> Perf broke on all Apple ARM64 systems (tested almost everything), and
+>>>>>>>>>> according to maz also on Juno (so, probably all big.LITTLE) since v6.5.
+>>>>>>>>
+>>>>>>>> #regzbot fix: perf parse-events: Make legacy events lower priority than
+>>>>>>>> sysfs/JSON
+>>>>>>>> #regzbot ignore-activity
+>>>>>>>
+>>>>>>> Note, this is still broken.
+>>>>>>
+>>>>>> Hmmm, so all that became somewhat messy. Arnaldo, what's the way out of
+>>>>>> this? Or is this a "we are screwed one way or another and someone has to
+>>>>>> bite the bullet" situation?
+>>>>>>
+>>>>>> Ciao, Thorsten
+>>>>>>
+>>>>>>> The patch changed the priority in the case
+>>>>>>> that you do something like:
+>>>>>>>
+>>>>>>> $ perf stat -e 'armv8_pmuv3_0/cycles/' benchmark
+>>>>>>>
+>>>>>>> but if you do:
+>>>>>>>
+>>>>>>> $ perf stat -e 'cycles' benchmark
+>>>>>>>
+>>>>>>> then the broken behavior will happen as legacy events have priority
+>>>>>>> over sysfs/json events in that case. To fix this you need to revert:
+>>>>>>> 4f1b067359ac Revert "perf parse-events: Prefer sysfs/JSON hardware
+>>>>>>> events over legacy"
+>>>>>>>
+>>>>>>> This causes some testing issues resolved in this unmerged patch series:
+>>>>>>> https://lore.kernel.org/lkml/20240510053705.2462258-1-irogers@google.com/
+>>>>>>>
+>>>>>>> There is a bug as the arm_dsu PMU advertises an event called "cycles"
+>>>>>>> and this PMU is present on Ampere systems. Reverting the commit above
+>>>>>>> will cause an issue as the commit 7b100989b4f6 ("perf evlist: Remove
+>>>>>>> __evlist__add_default") to fix ARM's BIG.little systems (opening a
+>>>>>>> cycles event on all PMUs not just 1) will cause the arm_dsu event to
+>>>>>>> be opened by perf record and fail as the event won't support sampling.
+>>>>>>>
+>>>>>>> The patch https://lore.kernel.org/lkml/20240525152927.665498-1-irogers@google.com/
+>>>>>>> fixes this by only opening the cycles event on core PMUs when choosing
+>>>>>>> default events.
+>>>>>>>
+>>>>>>> Rather than take this patch the revert happened as Linus runs the
+>>>>>>> command "perf record -e cycles:pp" (ie using a specified event and not
+>>>>>>> defaults) and considers it a regression in the perf tool that on an
+>>>>>>> Ampere system to need to do "perf record -e
+>>>>>>> 'armv8_pmuv3_0/cycles/pp'". It was pointed out that not specifying -e
+>>>>>>> will choose the cycles event correctly and with better precision the
+>>>>>>> pp for systems that support it, but it was still considered a
+>>>>>>> regression in the perf tool so the revert was made to happen. There is
+>>>>>>> a lack of perf testing coverage for ARM, in particular as they choose
+>>>>>>> to do everything in a different way to x86. The patch in question was
+>>>>>>> in the linux-next tree for weeks without issues.
+>>>>>>>
+>>>>>>> ARM/Ampere could fix this by renaming the event from cycles to
+>>>>>>> cpu_cycles, or by following Intel's convention that anything uncore
+>>>>>>> uses the name clockticks rather than cycles. This could break people
+>>>>>>> who rely on an event called arm_dsu/cycles/ but I imagine such people
+>>>>>>> are rare. There has been no progress I'm aware of on renaming the
+>>>>>>> event.
+>>>>>>>
+>>>>>>> Making perf not terminate on opening an event for perf record seems
+>>>>>>> like the most likely workaround as that is at least something under
+>>>>>>> the tool maintainers control. ARM have discussed doing this on the
+>>>>>>> lists:
+>>>>>>> https://lore.kernel.org/lkml/f30f676e-a1d7-4d6b-94c1-3bdbd1448887@arm.com/
+>>>>>>> but since the revert in v6.10 no patches have appeared for the v6.11
+>>>>>>> merge window. Feature work like coresight improvements and ARMv9 are
+>>>>>>> being actively pursued by ARM, but feature work won't resolve this
+>>>>>>> regression.
+>>>>>>>
+>>>>>
+>>>>> I got some hardware with the DSU PMU so I'm going to have a go at trying
+>>>>> to send some fixes for this. My initial idea was to try incorporate the
+>>>>> "not terminate on opening" change as discussed in the link directly
+>>>>> above. And then do the revert of the "revert of prefer sysfs/json".
+>>>>
+>>>> Thanks, I think this would be good. The biggest issue is that none of
+>>>> the record logic expects a file descriptor to be not opened, deleting
+>>>> unopened evsels from the evlist breaks all the indexing into the
+>>>> mmaps, etc. Tbh, you probably wouldn't do the code this way if was
+>>>> written afresh. Perhaps a hashmap would map from an evsel to ring
+>>>> buffer mmaps, etc. Trying to avoid having global state and benefitting
+>>>> from encapsulation. I'd focus on just doing the expedient thing in the
+>>>> changes, which probably just means making the record code tolerant of
+>>>> evsels that fail to open and not modifying the evlist due to the risk
+>>>> it breaks the indices.
+>>>>
+>>>
+>>> Thanks for the tips.
+>>>
+>>>> (To point out the obvious, this work wouldn't be necessary if arm_dsu
+>>>> event were renamed from "cycles" to "cpu_cycles" which would also make
+>>>> it more intention revealing alongside the arm_dsu's "bus_cycles" event
+>>>> name).
+>>>>
+>>>
+>>> I understand but I can imagine the following conversation if we rename that:
+>>>
+>>>     User: "I updated my kernel and now my (non Perf) tool fails to open
+>>>            the DSU cycles event because it doesn't exist anymore"
+>>>
+>>>     Linus/maintainers: "Oh ok yes that was a userspace breaking change,
+>>>                        lets revert it"
+>>>
+>>> Just because Perf can handle 3 different names for cycles doesn't mean
+>>> other tools can.
+>>
+>> cycles was a bad event name, dsu is a terrible name for what is mainly
+>> the l3 cache, the risk that the two are combined get broken I'm fine
+>> with as neoverse users with uncore permissions are say much rarer than
+>> Apple M users. Having a cycles and a bus_cycles event is already
+>> ambiguous, they sound the same. Renaming cycles to cpu_cycles would be
+>> best.
+>>
+>>>>> FWIW I don't think Juno currently is broken if the kernel supports
+>>>>> extended type ID? I could have missed some output in this thread but it
+>>>>> seems like it's mostly related to Apple M hardware. I'm also a bit
+>>>>> confused why the "supports extended type" check fails there, but maybe
+>>>>> the v6.9 commit 25412c036 from Mark is missing?
+>>>>
+>>>> So I think your later emails clarify Arnaldo is probably missing:
+>>>> https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git/commit/drivers/perf/arm_pmu.c?h=perf-tools-next&id=5c816728651ae425954542fed64d21d40cb75a9f
+>>>>
+>>>> Fwiw, the Apple M hardware issue came to me by way of Mark Rutland
+>>>> (iirc), this regression report, etc. My understanding is that Apple M
+>>>> has something like a v2 ARM PMU and the legacy events are encoded
+>>>> incorrectly in the driver for this. The regression in v6.5 happened
+>>>
+>>> I'm not sure about that. The M PMU events may be incomplete, but the two
+>>> that are there have a mapping that looks sane:
+>>>
+>>>     static const unsigned m1_pmu_perf_map[PERF_COUNT_HW_MAX] = {
+>>>          PERF_MAP_ALL_UNSUPPORTED,
+>>>          [PERF_COUNT_HW_CPU_CYCLES]      = M1_PMU_PERFCTR_CPU_CYCLES,
+>>>          [PERF_COUNT_HW_INSTRUCTIONS]    = M1_PMU_PERFCTR_INSTRUCTIONS,
+>>>          /* No idea about the rest yet */
+>>>     };
+>>>
+>>> And they map to the same named events:
+>>>
+>>>     static struct attribute *m1_pmu_event_attrs[] = {
+>>>          M1_PMU_EVENT_ATTR(cycles, M1_PMU_PERFCTR_CPU_CYCLES),
+>>>          M1_PMU_EVENT_ATTR(instructions, M1_PMU_PERFCTR_INSTRUCTIONS),
+>>>          NULL,
+>>>     };
+>>>
+>>> So in this case I can't see using legacy vs sysfs events making a
+>>> difference. Maybe there is some other case that was mentioned in a
+>>> previous thread that I missed though.
+>>
+>> No idea, iirc Mark Rutland requested not to use legacy events for Apple M.
+>>
+>>>> because ARM's core PMUs had previously been treated as uncore PMUs,
+>>>> meaning we wouldn't try to program legacy events on them. Fixing the
+>>>> handling of ARM's core PMUs broke Apple M due to the broken legacy
+>>>> event mappings. Why not fix the Apple M PMU driver? Well there was
+>>>> anyway a similar RISC-V issue reported by Atish Patra (iirc) where the
+>>>> RISC-V PMU driver wants to delegate the mapping of legacy events to
+>>>> the perf tool so the driver needn't be aware of all and future RISC-V
+>>>> configurations. The fix discussed with Mark, Atish, etc. has been to
+>>>> swap the priority of legacy and sysfs/json events so that the latter
+>>>> has priority. We need the revert of the revert as currently we only do
+>>>> this if a PMU is specified with an event, not for the general wildcard
+>>>> PMUs case that most people use. There was huge fallout from flipping
+>>>
+>>> Yep makes sense to do the revert if RISC-V isn't going to support any
+>>> legacy events. Although from what I understand that would technically
+>>> only require JSON to be the highest priority? Because putting named
+>>> events in sysfs still requires kernel involvement so doesn't get you any
+>>> further than supporting the legacy events?
+>>
+>> The sysfs and json event handling is interwoven, for example you can
+>> add to a sysfs event with json information. There are basically two
+>> approaches in the event parser, hardcoded legacy things and event
+>> names (optionally with PMU names). I'm trying to get rid of the
+>> hardcoded legacy things as they were fine when you had a single core
+>> type, but I want to have events everywhere - say instructions and
+>> cycles on a GPU so we can IPC on a GPU. For RISC-V as long as the
+>> legacy events are covered as names in json and json/sysfs has priority
+>> over legacy then things will be fine.
+>>
+> 
+> RISC-V does want to support legacy events as that's how users on other
+> architectures are used to
+> run perf. It would be weird if we don't support it.
+> 
+> Our initial reasoning behind relying on json for legacy events to
+> avoid vendor specific encodings for these
+> events in the driver. Unlike other ISAs, RISC-V ISA doesn't define an
+> event encoding for these legacy
+> events. As a result every platform vendor will have custom encoding.
+> Managing them in the driver is
+> cumbersome. Many thanks to Ian for posting the patches to reverse the
+> priority which works fine for RISC-V.
+> 
+> However, I understand that it is easier said than done and some use
+> cases are broken. We also discovered
+> there are few other use cases which still have the same problem even
+> if we solve the bigger problem via json parsing
+> for legacy events.
+> 
+> 1. Any other user profiling application that invokes perf system calls
+> directly may also try to just legacy event attributes in
+> perf_event_attr.
+> Android simpleperf application also falls in this category. We need to
+> describe the platform specific encoding somewhere for these
+> applications.
+> 
 
-Yep, no worries.
+I think this use case is important. Not just for profiling applications 
+but even something that wants to monitor itself. I imagine opening 
+PERF_COUNT_HW_CPU_CYCLES or INSRUCTIONS is actually somewhat common, and 
+I don't think every application that wants to do perf system calls 
+should have to maintain JSON mappings for all platforms. That doesn't 
+sound feasible to me, unless there is a smart way to do it? Maybe the 
+mappings could be in libperf or something? But then that still requires 
+everyone to add that as a dependency and keep it up to date. By that 
+point you might as well just add them in the kernel and keep the 
+existing interface.
 
-cheers
+James
