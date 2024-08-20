@@ -1,57 +1,57 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D792018F2C8
-	for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 12:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA9618E039
+	for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 12:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724155712; cv=none; b=n8C1oJSZZ+NIaJksKVKIpS0E4m5/jqEsVbekoEAaU+s50WLuN+2sVm2hwC9RrmYOtvZai70KcHkV1RlKy59Pmg2OCleyJFkMC9IIXqteQK/IvQD5uaIeDsM2BKzL34ntJu2WB7ptk/GhxLkkljd1y2zqszxOiFslI+sONGRcL8o=
+	t=1724158228; cv=none; b=XcBmRFQ8ak26X9KkGx/cbcMtLIF/XHdM/XmnxpY6W3wkD9894rlKJanH+NGggqfn0YRUScY23OPfsHO/1pp+eZMr0RRqUAQxuDEmlKlRN4KenmHMv+ylCS1WZ2C18v7SXHHs6YK7TRSSnz8b3Q+SnAC2YxOxHwRts2anH3/DvYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724155712; c=relaxed/simple;
-	bh=x4U/btt7mjGRi3Yi+zkPc5H7FHFBEqZjpXjzyQRje5A=;
+	s=arc-20240116; t=1724158228; c=relaxed/simple;
+	bh=o3JYLIeuXXfMYe52twwHljtfqemaqhTyjVwfm7Wesy0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n3AMoCGTVfl0YBH0p9taVE0Ohk2G+8G4RlXKwqFQOiJKoGPv2I1ETYIx8s+ast1/jIwHwRxLEJqs2YjetIbNAyrJnI/rXrotmD2twPjuleBQBNfXLwd3RrdB7ysXhzoRpKB3SwLL/CiHJHeQYPcenlP4idjtHhEqRHoIr2q8qV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=GHQ5GSF6; arc=none smtp.client-ip=209.85.210.173
+	 In-Reply-To:Content-Type; b=QPyz2WOGFCI0hLRuK6hywtEJnEQHGUZt6cvzTMLMH7SjvhnpPRPztvPyyN/hqTgKrYt7ivLDKvqkHHO9fB2d5acwi7ac7Wb+pJMPfgZKtEEnnKGBOExl/UBOcuKZLkRIwnVZsIdFX5RR04R0EKRTTvBZs1/rVxuAHalnfCnd3fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=FosfdaRu; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="GHQ5GSF6"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-710bdddb95cso3137944b3a.3
-        for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 05:08:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="FosfdaRu"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1fee6435a34so34534185ad.0
+        for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 05:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1724155709; x=1724760509; darn=lists.linux.dev;
+        d=broadcom.com; s=google; t=1724158225; x=1724763025; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=IbVpyfwqhv4piKWS7dNawC8L8BPVEx8wqAU1wtbSNKo=;
-        b=GHQ5GSF6kP/V00OQYeuzzufZgpUNlTK2hypdZscvdcUvskpik/X9MOx/6tzZRol7ok
-         KQIq8W4rIKuhsaMHg0utfhxyTrva6N+nmv2/kSJnNfZxW2QLvHzSL951Pj5iGIhXpXXu
-         RRKIgcOxaF3R/blbU+1ka9nhSjekKnnMvx5TY=
+        bh=Qs9ma4QG5LdeflE2AV0PxSzJpzkXwNO+9SVCx1KRHls=;
+        b=FosfdaRuvuVXMqa0HQryKiYzeglt4ZmihSNutfNVaHhCL3zY0XPkcMNt4NM4Awjk3+
+         0KDkvMY0wtI4z1WnXZEJoBaFhEr9eRN5AsNaCLzSWZgnhzVGBpuq0XwfXC3CzSTFD27n
+         ubOQLSUxf0MvgANTuMWeGHi52j5WGdIttBkzA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724155709; x=1724760509;
+        d=1e100.net; s=20230601; t=1724158225; x=1724763025;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IbVpyfwqhv4piKWS7dNawC8L8BPVEx8wqAU1wtbSNKo=;
-        b=QWDilLjRCix2D2+gPjqsjrNe2KlO4MuJkaPIXcw7KwegUZ7o5gEINUPzz+q1YiO8a+
-         qVDgGf1Z8H8Nxw0ci+mGJdA73NxUOLICnuZYE6EzrY5EgIMH5nJOvX8FJb2ll/EURmRj
-         gIQ5D4CD/qmgKYRJ65IPuNb1ISkCAaxSSCr9uugjzjfSdXKAgLJ+ofdw0hIvMcISDxxw
-         EyYEnPndwOT5O1j1Fd//6Wl68KaLGASsitpUer3f3hhOYWa6PIhR13zTMjPqJBREBmvx
-         r/kFMGtgYl2qkl4otEQOdS50iHvRkKcKH2xGFkKCe+Pb8PLxRIJhUSWV3cvmJkj/lLn3
-         RJDw==
-X-Forwarded-Encrypted: i=1; AJvYcCXD7r9AuCvfXRRhEY98RZS8uKoX2w3gTT7XYnkCvlh0FWjD5vwjFejcZYdVvzz/spqTSydBJw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCnfbhzp/r9zoHzQ/y9KJl95/mRtLWpMjteDzh+3F9ySeCcdzT
-	fL4HjcnbJvcUdHeE2nFMZeWMXFE3Uls8M2pHBrOkCzPaeG9t0cLoO8wMKwZoeQ==
-X-Google-Smtp-Source: AGHT+IFp7xb/SAfv+tua3AiKC9CRhyrsOygCVaDoXjPW1fXEyuw1UQRdPHzdsuQUranJi/3qssmWGw==
-X-Received: by 2002:a05:6a20:2d14:b0:1ca:cd6d:bb43 with SMTP id adf61e73a8af0-1cacd6dbbe6mr1455297637.15.1724155708797;
-        Tue, 20 Aug 2024 05:08:28 -0700 (PDT)
+        bh=Qs9ma4QG5LdeflE2AV0PxSzJpzkXwNO+9SVCx1KRHls=;
+        b=i80/c0DZLip6GXO0xHZHLZBM6eyT8zjJNKqMuxb2VlC61ccYnHqWK1bA7IUZ+F8e/g
+         287nCt0xtS6/tIcx/s0pdNpthanxP4yeDWRKpFDnZITroa+g7Sm9DfAjOobQM47NgjOY
+         MTjSdN7nwPIypFOgRL3xI4jkewkZ6sGvLh8ALbg795sDNsFosV/gip3Jl/2MSueZvZZb
+         aJNSpM6uYqVyFC7Kj7CY2Nm+Ee2BUZijVdw0yu7X3+JmmKr2zVzk8JojNN8d/BkOEIKB
+         2jp29DIj3cDm//UXRK9CwFMvw1ywbGKuPDLZH34dLNGTuwOoRRTQE4vKxGPZHY9piZVT
+         Uy0g==
+X-Forwarded-Encrypted: i=1; AJvYcCXtiSCZwkCWZZZor+U0VptrCSv9Kii7g7jwlYZ5gwfVDeQH1X1IJRMvdKQitNvzzyCf23LxDyFQK8Ch9F+GU5Ks9cBglvY=
+X-Gm-Message-State: AOJu0YyoCOH9zNBnEVJw+lRpa5J+nLfTzpiPRI9DLXSdwGTR8MQ2Lfd7
+	bGk02dglkgIssz92uiEDHFi/zsXs3lgMOU6/DRkiVZ4YkCH+tjOS3e41qjdPcA==
+X-Google-Smtp-Source: AGHT+IE/zWoTzNwFQB3/n0Le/r4FJzGkyWwuIZAtfJ9eEen6Qko1iXr4Fw17jQuTTUwsd1DT7GQB/Q==
+X-Received: by 2002:a17:90a:c918:b0:2c9:7cc8:8e33 with SMTP id 98e67ed59e1d1-2d3dffc0fe9mr14233367a91.13.1724158224730;
+        Tue, 20 Aug 2024 05:50:24 -0700 (PDT)
 Received: from [10.176.68.61] ([192.19.176.250])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c6b61ef7a7sm9286043a12.52.2024.08.20.05.08.25
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d3e3c74f3fsm9278835a91.46.2024.08.20.05.50.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Aug 2024 05:08:27 -0700 (PDT)
-Message-ID: <0542d1e9-a395-497b-8920-4b0805d13557@broadcom.com>
-Date: Tue, 20 Aug 2024 14:08:22 +0200
+        Tue, 20 Aug 2024 05:50:24 -0700 (PDT)
+Message-ID: <6777d425-b27f-43d0-ba81-b36ac0b8f929@broadcom.com>
+Date: Tue, 20 Aug 2024 14:50:18 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -61,17 +61,15 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/2] dt-bindings: wireless: restore constraint for
  brcm,bcm4329-fmac compatible property
-To: Krzysztof Kozlowski <krzk@kernel.org>, "Rob Herring (Arm)"
- <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-wireless@vger.kernel.org, Kalle Valo <kvalo@kernel.org>,
- brcm80211@lists.linux.dev, asahi@lists.linux.dev,
- Hector Martin <marcan@marcan.st>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Kalle Valo <kvalo@kernel.org>, Hector Martin <marcan@marcan.st>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ asahi@lists.linux.dev
 References: <20240820101216.355012-1-arend.vanspriel@broadcom.com>
  <20240820101216.355012-2-arend.vanspriel@broadcom.com>
- <172415246911.849656.16484336903356408566.robh@kernel.org>
- <7a5e37f0-4830-43f8-84c9-62b6614efaca@broadcom.com>
- <8d74380c-0090-4209-963e-e7dde57c4235@kernel.org>
+ <mbvhz3wosnykejgs65es2sfedxoevysbqu3jxmpgdze2b2tl6o@grx4mxas2bmf>
+ <7881c303-bef1-403a-aa70-30d33558f57f@kernel.org>
 Content-Language: en-US
 From: Arend van Spriel <arend.vanspriel@broadcom.com>
 Autocrypt: addr=arend.vanspriel@broadcom.com; keydata=
@@ -117,78 +115,108 @@ Autocrypt: addr=arend.vanspriel@broadcom.com; keydata=
  NKowQLrlMBGXT4NnRNV0+yHmusXPOPIqQCKEtbWSx9s2slQxmXukPYvLnuRJqkPkvrTgjn5d
  eSE0Dkhni4292/Nn/TnZf5mxCNWH1p3dz/vrT6EIYk2GSJgCLoTkCcqaM6+5E4IwgYOq3UYu
  AAgeEbPV1QeTVAPrntrLb0t0U5vdwG7Xl40baV9OydTv7ghjYZU349w1d5mdxg==
-In-Reply-To: <8d74380c-0090-4209-963e-e7dde57c4235@kernel.org>
+In-Reply-To: <7881c303-bef1-403a-aa70-30d33558f57f@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/20/2024 1:50 PM, Krzysztof Kozlowski wrote:
-> On 20/08/2024 13:43, Arend van Spriel wrote:
->> On 8/20/2024 1:14 PM, Rob Herring (Arm) wrote:
->>>
->>> On Tue, 20 Aug 2024 12:12:15 +0200, Arend van Spriel wrote:
->>>> When extending the bindings for Apple PCIe devices the compatible property
->>>> specification was changed. However, it was changed such that for these
->>>> devices it was no longer necessary to have "brcm,bcm4329-fmac" listed as
->>>> string in the compatible list property as it was before that extension.
->>>> This patch restores that constraint.
->>>>
->>>> Fixes: e2e37224e8b3 ("dt-bindings: net: bcm4329-fmac: Add Apple properties & chips")
->>>> Signed-off-by: Arend van Spriel <arend.vanspriel@broadcom.com>
->>>> ---
->>>>    .../net/wireless/brcm,bcm4329-fmac.yaml       | 19 ++++++++++---------
->>>>    1 file changed, 10 insertions(+), 9 deletions(-)
->>>>
->>>
->>> My bot found errors running 'make dt_binding_check' on your patch:
->>>
->>> yamllint warnings/errors:
->>> ./Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml:48:5: [error] syntax error: expected <block end>, but found '-' (syntax)
->>>
->>> dtschema/dtc warnings/errors:
->>> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml: ignoring, error parsing file
->>> ./Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml:48:5: did not find expected key
->>> Documentation/devicetree/bindings/mmc/mmc-controller.example.dtb: /example-0/mmc@1c12000/wifi@1: failed to match any schema with compatible: ['brcm,bcm4329-fmac']
->>> make[2]: *** Deleting file 'Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.example.dts'
->>> Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml:48:5: did not find expected key
->>> make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.example.dts] Error 1
->>> make[2]: *** Waiting for unfinished jobs....
->>> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1432: dt_binding_check] Error 2
->>> make: *** [Makefile:224: __sub-make] Error 2
->>>
->>> doc reference errors (make refcheckdocs):
->>>
->>> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240820101216.355012-2-arend.vanspriel@broadcom.com
->>>
->>> The base for the series is generally the latest rc1. A different dependency
->>> should be noted in *this* patch.
->>>
->>> If you already ran 'make dt_binding_check' and didn't see the above
->>> error(s), then make sure 'yamllint' is installed and dt-schema is up to
->>> date:
->>>
->>> pip3 install dtschema --upgrade
->>>
->>> Please check and re-submit after running the above command yourself. Note
->>> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
->>> your schema. However, it must be unset to test all examples with your schema.
+On 8/20/2024 1:39 PM, Krzysztof Kozlowski wrote:
+> On 20/08/2024 13:27, Krzysztof Kozlowski wrote:
+>> On Tue, Aug 20, 2024 at 12:12:15PM +0200, Arend van Spriel wrote:
+>>> When extending the bindings for Apple PCIe devices the compatible property
+>>> specification was changed. However, it was changed such that for these
+>>> devices it was no longer necessary to have "brcm,bcm4329-fmac" listed as
+>>> string in the compatible list property as it was before that extension.
 >>
->> Thanks, Rob
+>> Apart that this was never tested... That statement is not true. Look at
+>> "fixed" commit - it is not doing like that at all.
 >>
->> I will have to setup my environment for that. Will take a while to get
->> it all working.
+>> I don't understand the reasoning.
+>>
+>>> This patch restores that constraint.
+>>>
+>>> Fixes: e2e37224e8b3 ("dt-bindings: net: bcm4329-fmac: Add Apple properties & chips")
+>>> Signed-off-by: Arend van Spriel <arend.vanspriel@broadcom.com>
+>>> ---
+>>>   .../net/wireless/brcm,bcm4329-fmac.yaml       | 19 ++++++++++---------
+>>>   1 file changed, 10 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
+>>> index e564f20d8f41..47f90446322f 100644
+>>> --- a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
+>>> +++ b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
+>>> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+>>>   title: Broadcom BCM4329 family fullmac wireless SDIO/PCIE devices
+>>>   
+>>>   maintainers:
+>>> -  - Arend van Spriel <arend@broadcom.com>
+>>> +  - Arend van Spriel <arend.vanspriel@broadcom.com>
+>>>   
+>>>   description:
+>>>     The Broadcom Single chip MAC part for the BCM4329 family and
+>>> @@ -27,7 +27,6 @@ properties:
+>>>                 - brcm,bcm4341b0-fmac
+>>>                 - brcm,bcm4341b4-fmac
+>>>                 - brcm,bcm4341b5-fmac
+>>> -              - brcm,bcm4329-fmac
+>>>                 - brcm,bcm4330-fmac
+>>>                 - brcm,bcm4334-fmac
+>>>                 - brcm,bcm43340-fmac
+>>> @@ -46,13 +45,15 @@ properties:
+>>>                 - cypress,cyw43012-fmac
+>>>                 - infineon,cyw43439-fmac
+>>>             - const: brcm,bcm4329-fmac
+>>> -      - enum:
+>>> -          - brcm,bcm4329-fmac
+>>> -          - pci14e4,43dc  # BCM4355
+>>> -          - pci14e4,4464  # BCM4364
+>>> -          - pci14e4,4488  # BCM4377
+>>> -          - pci14e4,4425  # BCM4378
+>>> -          - pci14e4,4433  # BCM4387
+>>> +    - items:
+>>> +          - enum:
+>>> +              - pci14e4,43dc  # BCM4355
+>>> +              - pci14e4,4464  # BCM4364
+>>> +              - pci14e4,4488  # BCM4377
+>>> +              - pci14e4,4425  # BCM4378
+>>> +              - pci14e4,4433  # BCM4387
+>>> +          - const: brcm,bcm4329-fmac
+>>> +    - const: brcm,bcm4329-fmac
+>>
+>> And this does not make sense... You claim that some constrained was
+>> droppped and you re-add it, but in fact you still add the same code as
+>> it was before.
+>>
+>> NAK.
 > 
-> It's just two commands:
-> pip install
-> or pix install if you use newer Ubuntu (no magic here, just like every
-> other Python package)
+> Ah, the last "const" actually makes sense, I missed that.
 > 
-> and then `make dt_bindings_check`, optionally with arguments. There is
-> no environment needed, you can do all this in the same place you build
-> and test kernel changes.
+> Commit still however lacks rationale why these devices are compatible.
+> Plus existing rationale that e2e37224e8b3 changed something is entirely
+> WRONG. It changed nothing. ZERO. It only added new devices, which was
+> claimed are not compatible with brcm,bcm4329-fmac.
 
-That's what you think. I am working on an IT managed RHEL7 server and I 
-have to work around their infrastructure. So trust me that it is not 
-straightforward on my side of the abyss.
+So is that claim true? What does it mean that these new devices are not 
+compatible. If they are they should be in a separate binding or the 
+applicable properties for these devices should be made conditional.
+
+> Now if you claim that original commit which said "these devices are not
+> compatible with brcm,bcm4329-fmac", then please provide arguments, not
+> just say "other commit did something". It did nothing...
+
+Not entirely true. Indeed new devices were added for which no 
+"brcm,bcm4329-fmac" string is required in the compatible property. Also 
+the commit added new properties for these new devices. Now in my opinion 
+a driver should not use these properties without a "compatible" check. 
+Hope we can agree to that. However, the driver patch for supporting the 
+binding change does no such thing. So if we leave the binding as it 
+currently is the driver will have to check if compatible has any of the 
+listed PCI IDs before processing the properties. As all properties old 
+and new are marked as optional I can not come up with an argument that 
+these new devices are *not* compatible with brcm,bcm4329-fmac.
 
 Regards,
 Arend
+
+> Best regards,
+> Krzysztof
+> 
