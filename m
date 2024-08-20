@@ -1,139 +1,196 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9121C4623
-	for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 18:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1F37BB14
+	for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 19:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724179693; cv=none; b=QkROn/af9s0VwuLdWU9EhaGNpR50s5KuqSz61q4XAtWdmesY4vb6ukXP4bvox0mJsxsDVpLHnNibqSclfg0jPCtuVleIaQA7R7JC6x1LJjyG1P0PhQBla2ZRr6a2LZitAQqsr3iwc0UIPEcVpqu3rUQPB3eJnk/VV6a9+AH8e9g=
+	t=1724180493; cv=none; b=uPwKXjtM3anhLIQxfBrZHpkc64KonPVIVuzkjFBYeJPVrMCimkilELE2genyufz8e02v6Y7lD8TM+R7OX4qyJKPS6KtTrPPGBReqIcQyPEUmAl6U9kpqzS0CEwvef6eWxH2kIsKuB7mXP5SvDvBHJ/AcW6pzBCCbe5qnypnIOpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724179693; c=relaxed/simple;
-	bh=9IntjtaXg9k+kUVEV9axZKmA4rC298YdyXwRG+HAIh4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LLoacnLKvKM52VQkNn+YBtq0pgmQPNrlrKAl927+ZRDzprauD9uPOHw9fhqJx/LuJB2NJpQQGyDS5g7LE3+0mXIhiBOlHt19Sq59In0CNLCnRK6IFhO0/X5TcoEUJXWYg4wGocPanP6auKyOAq8F2qmhG5yy6u12Cu7oGsvLqNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GUa8SifK; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1724180493; c=relaxed/simple;
+	bh=LZ61oFlwwOA5SOCf/4Aknoa0YLK63ylHcCkOx6J5Dqc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TTxgdxBUcssdtTZ61PaDdBHtVL9G9i47fS260ExMj07e+CjUiGhWWFCy8FF+Sd1ZwnvMTpnOHrVkupbHXOuypMm/m1oTHnwnL/ovHx2H3vqSuG3RCmyR8BZu/mUV63XApdDnTSjV+sMTImqP96sr7ciQrCydNFOFB0agCNmv75Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=bZ1O3aDc; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GUa8SifK"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-45029af1408so31491cf.1
-        for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 11:48:11 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="bZ1O3aDc"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7c9a2b339a6so1728774a12.2
+        for <asahi@lists.linux.dev>; Tue, 20 Aug 2024 12:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724179690; x=1724784490; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Kqyu9H3Z/7xJHVyMUShvAD4YuvpcJRXIyTBe+BDA0AQ=;
-        b=GUa8SifKwOPRaCYG9cTQ31zHoKi//0PRBtb+TM0TCGyt/SUZllYNRLU6lBdsxIK46f
-         tlEuw5TESkUYU41iPez79MW95seKboBbXoq+yzYoJvCb44JJx94+U6D4fl9kKkCxAvux
-         06OOLFMS4OwND36ppOno6LPyNJF5NK86T9itjSLiK9qXp4EI2XLAkNwRqv6og93xapG1
-         1Rj1LYp3sA2ncOLs54cM+FcHUm1ins/bpm37bnRQTBPA0OwLzmzSiZVdrP5+mUHpuuXG
-         WZEcIbotCbCxVKi1MjBg0zjJJaFdBAZ3foNEJ8reVTpM8dg5B7kp23XFk10xJnKX7Eq4
-         irnw==
+        d=broadcom.com; s=google; t=1724180491; x=1724785291; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=/GXVV8vGgDiGW+Au9FKghqgppxt1zc+wtm71jNfzmTY=;
+        b=bZ1O3aDcyAsbFnBFmAOfhzfHcsS5PAFveSVyO0Fsq8S+a4ScqzPLuw4YQqhxVrSLQm
+         fg5jAakkwbGeI0CrGD00mcOqpEv8HVHRaZsyKavegxdpjLr38im9PRkFGrj76w+jf94w
+         yE6CFesN8W961gVNswVqnKDIAFtzowlWW8tZE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724179690; x=1724784490;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Kqyu9H3Z/7xJHVyMUShvAD4YuvpcJRXIyTBe+BDA0AQ=;
-        b=WALUYBshzh4EK5Ya9mRqRMxP8AlPuo7djbE4e5Pz4yRI4cJ2hTmxQIdY7kghlW7u2c
-         eaqT1Yb0a00yo4ZWzsE7/Tew+ibm8x37UaIy++if8822VzsZLHxoc89jXEOcyGS9wj8D
-         kSs2r2Dd8L5IYS+YKtea15rgJQ5rRvHdJlCvSL1Io9LFQrou+zdIe5yAWkgc0+R3JnF2
-         7imwbuofYjm6sqRK+F/0kdLhxLRaZb52FWLVeNnHeztt03xbIvtpjJ4dT04gISBKeWor
-         FTpMpAHusMpa7hqiZUjiQKMI03LhSEzQm0oewYFsLg4UeVK0AmJHY2z5/1cBIeYGNwWB
-         yf7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUexK0SEHA2arV3MlNMAxhqkcUW5bw2axKtZkHJBGngUl7/hFNnijyKBYfX/RtyTV8YTe7Nnw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6ntUg3BHVKIo7SHXF3cqN1ShRLbeArdtY4cNG0XeeLlcidBgh
-	4nq0RYkgQi2+PHk3/7xEZSo6PKe8osl/+tXiphoTop7SRSP96bpiqEK78xG1kwYFtsZaDLvs5RK
-	v2qo+5+tCJ4wSO0BX60H9Nv1+SxMp5iyYtNWa
-X-Google-Smtp-Source: AGHT+IEaaaVbWTiloHDIiXOmckXCXgvScfO2Sv9V70rY2jP8blHGtm/LE4cy6bWAnQvIHakKwQ31ZmSJ833RTPp+SXA=
-X-Received: by 2002:ac8:7dc5:0:b0:447:d97f:9765 with SMTP id
- d75a77b69052e-454e642e2ccmr3218081cf.16.1724179690110; Tue, 20 Aug 2024
- 11:48:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724180491; x=1724785291;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/GXVV8vGgDiGW+Au9FKghqgppxt1zc+wtm71jNfzmTY=;
+        b=RibzwDQNF61Z7vGkY5M8tiGpptjHWkbF/vBotaGFFHhC69+U2v72jtjbG1Zds/NwZX
+         7BiFelNl2CXuJbn2NFCI/3kyXXGXtLYparrEKiYQ4LPYKLL7DXl9BbzATzDXO6ixQKUr
+         KNZH9v3Dwbhp+9i3p+K9qLwnHSJRAHIP4L5f3QC8tv/NVyIu3WoKJhgnkPxD1z8/3Mcj
+         GZS23Obt6J75pyrKpHi7w6ytGBEpP3IP8Uba6o6RPx3gzA/cwy31m3X89b8C2KtL4u/A
+         cs8nQZht4fAxYMt5vvdnlNOueCuIRxsxVfl/RAxyWFsgOHgrRhY57DOVpbo6ojKPl5cn
+         ToEw==
+X-Forwarded-Encrypted: i=1; AJvYcCX+lCoWRChHxA9F9/mb63Q4ZJJuKpZx/mBXr/f1F8k1dsTQdp/P6pf3JdVETy7eerUsrbmvKw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YynyioyfS+Bh599195c09h7jt1RItxTZNURBCn4l1dGCEFxrhU1
+	5ZMv5mfueejbAsM2g4H5ptpyNwGMs0qimz20MuqPE1wZ800hNzjUBRYDtJcbpQ==
+X-Google-Smtp-Source: AGHT+IHnt8qqe8p2DJgZM1UHp2Lm2a7xFiysezzy6ZQ85kzTXKnGTVMg3NMFBzWe3jTAGKoN/bzSPQ==
+X-Received: by 2002:a05:6300:41:b0:1c4:8da5:21a4 with SMTP id adf61e73a8af0-1cad81a7279mr349945637.41.1724180490264;
+        Tue, 20 Aug 2024 12:01:30 -0700 (PDT)
+Received: from [192.168.178.137] (f215227.upc-f.chello.nl. [80.56.215.227])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7c6b6356baesm8314317a12.68.2024.08.20.12.01.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Aug 2024 12:01:29 -0700 (PDT)
+Message-ID: <998a465f-2b55-48bd-b588-b7775309e055@broadcom.com>
+Date: Tue, 20 Aug 2024 21:01:22 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-37-samitolvanen@google.com> <2024081600-grub-deskwork-4bae@gregkh>
- <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com>
- <2024081705-overarch-deceptive-6689@gregkh> <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
- <20240819193851.GA4809@google.com> <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
-In-Reply-To: <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 20 Aug 2024 18:47:31 +0000
-Message-ID: <CABCJKudAF0=29js8SDcYY5r6kM7RBveTrZH9RyECNGqkcqy=nw@mail.gmail.com>
-Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
- structure fields
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, 
-	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: wireless: restore constraint for
+ brcm,bcm4329-fmac compatible property
+To: Krzysztof Kozlowski <krzk@kernel.org>, "Rob Herring (Arm)"
+ <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ linux-wireless@vger.kernel.org, Kalle Valo <kvalo@kernel.org>,
+ brcm80211@lists.linux.dev, asahi@lists.linux.dev,
+ Hector Martin <marcan@marcan.st>
+References: <20240820101216.355012-1-arend.vanspriel@broadcom.com>
+ <20240820101216.355012-2-arend.vanspriel@broadcom.com>
+ <172415246911.849656.16484336903356408566.robh@kernel.org>
+ <7a5e37f0-4830-43f8-84c9-62b6614efaca@broadcom.com>
+ <8d74380c-0090-4209-963e-e7dde57c4235@kernel.org>
+Content-Language: en-US
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+Autocrypt: addr=arend.vanspriel@broadcom.com; keydata=
+ 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
+In-Reply-To: <8d74380c-0090-4209-963e-e7dde57c4235@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 19, 2024 at 10:17=E2=80=AFPM Benno Lossin <benno.lossin@proton.=
-me> wrote:
->
-> On 19.08.24 21:38, Sami Tolvanen wrote:
-> >
-> > This definitely looks cleaner than unions in Rust, but how would this
-> > scheme be visible in DWARF? You might also need to expand the annotatio=
-n
-> > to allow replacing one reserved field with multiple smaller ones withou=
-t
-> > using structs.
->
-> Hmm that's a good question, I have no idea how DWARF works. The way you
-> do it in this patch is just by the name of the field, right?
+On 8/20/2024 1:50 PM, Krzysztof Kozlowski wrote:
+> On 20/08/2024 13:43, Arend van Spriel wrote:
+>> On 8/20/2024 1:14 PM, Rob Herring (Arm) wrote:
+>>>
+>>> On Tue, 20 Aug 2024 12:12:15 +0200, Arend van Spriel wrote:
+>>>> When extending the bindings for Apple PCIe devices the compatible property
+>>>> specification was changed. However, it was changed such that for these
+>>>> devices it was no longer necessary to have "brcm,bcm4329-fmac" listed as
+>>>> string in the compatible list property as it was before that extension.
+>>>> This patch restores that constraint.
+>>>>
+>>>> Fixes: e2e37224e8b3 ("dt-bindings: net: bcm4329-fmac: Add Apple properties & chips")
+>>>> Signed-off-by: Arend van Spriel <arend.vanspriel@broadcom.com>
+>>>> ---
+>>>>    .../net/wireless/brcm,bcm4329-fmac.yaml       | 19 ++++++++++---------
+>>>>    1 file changed, 10 insertions(+), 9 deletions(-)
+>>>>
+>>>
+>>> My bot found errors running 'make dt_binding_check' on your patch:
+>>>
+>>> yamllint warnings/errors:
+>>> ./Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml:48:5: [error] syntax error: expected <block end>, but found '-' (syntax)
+>>>
+>>> dtschema/dtc warnings/errors:
+>>> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml: ignoring, error parsing file
+>>> ./Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml:48:5: did not find expected key
+>>> Documentation/devicetree/bindings/mmc/mmc-controller.example.dtb: /example-0/mmc@1c12000/wifi@1: failed to match any schema with compatible: ['brcm,bcm4329-fmac']
+>>> make[2]: *** Deleting file 'Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.example.dts'
+>>> Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml:48:5: did not find expected key
+>>> make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.example.dts] Error 1
+>>> make[2]: *** Waiting for unfinished jobs....
+>>> make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1432: dt_binding_check] Error 2
+>>> make: *** [Makefile:224: __sub-make] Error 2
+>>>
+>>> doc reference errors (make refcheckdocs):
+>>>
+>>> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240820101216.355012-2-arend.vanspriel@broadcom.com
+>>>
+>>> The base for the series is generally the latest rc1. A different dependency
+>>> should be noted in *this* patch.
+>>>
+>>> If you already ran 'make dt_binding_check' and didn't see the above
+>>> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+>>> date:
+>>>
+>>> pip3 install dtschema --upgrade
+>>>
+>>> Please check and re-submit after running the above command yourself. Note
+>>> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+>>> your schema. However, it must be unset to test all examples with your schema.
+>>
+>> Thanks, Rob
+>>
+>> I will have to setup my environment for that. Will take a while to get
+>> it all working.
+> 
+> It's just two commands:
+> pip install
+> or pix install if you use newer Ubuntu (no magic here, just like every
+> other Python package)
+> 
+> and then `make dt_bindings_check`, optionally with arguments. There is
+> no environment needed, you can do all this in the same place you build
+> and test kernel changes.
 
-Correct, it just looks at the name of the union fields.
+I could install dtschema, but I had to manually create the console 
+scripts listed in entry_points.txt. Now I was able to run 
+dt_bindings_check. It took me a while to interpret the error message, 
+but it boiled down to indentation errors. After fixing it 
+dt_binding_check target completes succesfully.
 
-> If Rust's DWARF output contains exact types names (I just checked this,
-> I *think* that this is the case, but I have never used/seen DWARF
-> before), we might be able to just create a `KAbiReserved<T, R>` type
-> that you search for instead of the attribute. The usage would then be
-> like this:
->
->     #[repr(C)]
->     pub struct Struct1 {
->         a: u64,
->         _reserved: KAbiReserved<(), u64>,
->     }
->
-> And then when adding a new field, you would do this:
->
->     #[repr(C)]
->     pub struct Struct1 {
->         a: u64,
->         b: KAbiReserved<Struct2, u64>,
->     }
->
->     /* Struct2 as above */
->
-> The way `KAbiReserved` is implemented is via a `union` (maybe a bit
-> ironic, considering what I said in my other replies, but in this case,
-> we would provide a safe abstraction over this `union`, thus avoiding
-> exposing users of this type to `unsafe`):
->
->     #[repr(C)]
->     pub union KAbiReserved<T, R> {
->         value: T,
->         _reserved: R,
->     }
-
-I like this approach even better, assuming any remaining issues with
-ownership etc. can be sorted out. This would also look identical to
-the C version in DWARF if you rename _reserved in the union to
-__kabi_reserved. Of course, we can always change gendwarfksyms to
-support a different scheme for Rust code if a better solution comes
-along later.
-
-Sami
+Regards,
+Arend
