@@ -1,54 +1,53 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E7F18D63E;
-	Tue, 20 Aug 2024 11:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A1518E370;
+	Tue, 20 Aug 2024 11:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724153278; cv=none; b=IEKG/nxD+wsbB8BIEi2lSU+8rE54areYqZwr0C7s5wXctoLTzzf8MDLGdZmtZMQiQ5y+GxJjYe8EasaKPNBWoIE5v3dPXnrbhQs2pdrr+/c0Ui7gMAByPlL64ZsufFc6IUrVZXf2gS/BxROxwJz8PU2y7jP2DEV4CnCvxRb6XLM=
+	t=1724153433; cv=none; b=rwgoAovw0ofUJ8n3ZgA/00VGHkscafD0aH/HmQJup3JQ2D01NWCPqiYzCx5DyAUx1Z+hyxjc+FLi6sADBmgLVtC7EAnmB1n/4uooacX8qwNxs2M3m97tT7hu5LjU6zKGl0SEMEwYXZrbO//t/t9TdG3EurDnmIicmBDsfIfbQHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724153278; c=relaxed/simple;
-	bh=kxkNIlKTbbf5LYAvFtvHUZQ4o+3AlflRZEjAQQUgBmk=;
+	s=arc-20240116; t=1724153433; c=relaxed/simple;
+	bh=LwNxyJ8nRP2FJc1MWTutiqa/SpX3rNJs78aYCROn9FE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R32wmnSPDrbUuDOpM3JmspNeNgn92nls+4F/SxP1uJwNKwfVDZa+1FqeWY0a47/pxCv4qgJ1b0zto90IT0t5iNcUF3fLXo/R55ZZuiGacn9OuEOgpEGQ73cieDTxsHWHRbF4T0h58yeFLlkori3BKS7dqLhiIeiWe/HkwapuaK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=b1MUV/V+I1WSeeHvVA1p4Jlt+ISiB48ij+IFzfbafDAUo1VMyFAzJNM10lM6wuGoWOC9pZVUdNlOsofyN35gz08l+EQVeNkQXtB15/gZfeP/uMk3yYl0GSYvFZdn+Y6tVfd6L0aK+qwtkYPeLOg8mLX+NvH4VaKx4hdGx2ithdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-37193ef72a4so2718110f8f.1;
-        Tue, 20 Aug 2024 04:27:56 -0700 (PDT)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a86412d696cso129085366b.2;
+        Tue, 20 Aug 2024 04:30:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724153275; x=1724758075;
+        d=1e100.net; s=20230601; t=1724153429; x=1724758229;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bwO5zmlyTts2R3hD8kDJpY5JPORTb+evazmHWAEiBRA=;
-        b=HAGJ2t33MmcklCJXaX+G+09p56kdLXr+i8H5li3FYDyWlEbjZIEo/Y503xh2pwVt1X
-         rUL+u21y+OgeojPcfPr9qeLvkqrFqH8G8RLVdfrzXlpcI7G4G/w7np/oEO1eAxqMigRQ
-         7WcBpoj8a/33zwdBuKwo5VA8IwGaSJ0XuNjUkbgFlAadvbcgZgrpoHwZuOkujeQU2y4c
-         3PXMYH34pnuJG8WKXcG1sVSoYtiM5wmd1ymOFMDHLT6sg/TeZKDxvG4o+DFUTfJB1igZ
-         0Zxo3vDwlrWfiZn3q+jFYotsWRYzq8CLbR6zR9cvf4RcrEramLTV51hL35OJ0xhFQ8pF
-         /jmA==
-X-Forwarded-Encrypted: i=1; AJvYcCUNWSoVNmA/RkW5u9Whk2US/qJ+kMWJq6m37lhVbF+AHYtkeKJEwPbXUmhtJsGqmLNBDwqGdwJPT7iR3EPnIpcZQ/REopuWzoiXev6q4SSU77XmLHqcvvaj0HqC1GUfxXQ=
-X-Gm-Message-State: AOJu0YwlhHGKsaDdDaexANJGrnRSYegL53VwV23orcIQYTE8iXw8O8k3
-	Ayo7F3j55ARfaOp5anP5z+Bh3ha4Tk3OfODEhfKLBBq83OgsxTue
-X-Google-Smtp-Source: AGHT+IG2rDlkuGVefnnHq/7qnkUTqjqn6xXXHLqUGu2Nni013rybNQdMNlIZiITetwIcDm/A6J7i9Q==
-X-Received: by 2002:adf:a39a:0:b0:371:79f2:3d5c with SMTP id ffacd0b85a97d-3719465360cmr9314993f8f.31.1724153274516;
-        Tue, 20 Aug 2024 04:27:54 -0700 (PDT)
+        bh=hSdQn5lqHbb7x/BQkgHUJ4Z5p0Igia2Fda+/Marx+2w=;
+        b=RY/ydyCxwL9zoFbt4m2HTHfDuZ3qmxWXNef4QE7rEFlK6nqzkuy263NnzsG7goxrFX
+         GLPGmCIJW+cmTiLtWeDd9EkR9L+jw7WEDNDeWT22UH9iS85OuM1zRJwATBD+kUgJts3H
+         2uY8OUpQ/Oyx0Z3HdJbtr6OTNebQDG4d3nn0XHAD6iXjBM17Ps5k8DwsXuFd9CVc47fg
+         +a5oxylkvV14L7kXMo+k5YY8KkGe3GGb0O9KDKJks5txhv9qPPnztBdTnZxOgh7uziNg
+         DUL+fhd1Y1opofQRlvqoM5YFustud1z6q0P5BSLm5hacx+XUYlMZQQ6EH9GkRQJC/oy9
+         yg2w==
+X-Forwarded-Encrypted: i=1; AJvYcCX/KO1hhbs3sK6BFSGVl9fU8lxOOKg2Lb0ZmkgVArhrO6aFVhHbRCZHLS46v/dyeg86Hyv46hD66zuKN8B3xAFwARXPn+6YgUQc5fjQyuYeFjN7+cv3bOMeio/dB8LZ1ZM=
+X-Gm-Message-State: AOJu0YzVUGrMAW6y3luaZPDK3NOh4rPkQKMIEjyndb0wsO75q5/rB5V+
+	6Oo0eudOijfiPWK1xOYoTrJ3XuscDHg+/JWyZxezN6q85ZZdSc7Km5cJ76jk
+X-Google-Smtp-Source: AGHT+IFbS8TXkzjdmPgjYCIQx78qrEAP1lLMjYhcuqC0ZBklgV483mYM3zGpVoQdO8IekiLHD9sdLA==
+X-Received: by 2002:a17:907:7f26:b0:a7d:e5b1:bf65 with SMTP id a640c23a62f3a-a8392930dc2mr886533166b.21.1724153428783;
+        Tue, 20 Aug 2024 04:30:28 -0700 (PDT)
 Received: from krzk-bin ([178.197.215.209])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-429ded7cfc6sm195655675e9.42.2024.08.20.04.27.53
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a838396d5eesm749316166b.225.2024.08.20.04.30.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2024 04:27:53 -0700 (PDT)
-Date: Tue, 20 Aug 2024 13:27:51 +0200
+        Tue, 20 Aug 2024 04:30:26 -0700 (PDT)
+Date: Tue, 20 Aug 2024 13:30:24 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Arend van Spriel <arend.vanspriel@broadcom.com>
 Cc: Kalle Valo <kvalo@kernel.org>, Hector Martin <marcan@marcan.st>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, linux-wireless@vger.kernel.org, 
 	brcm80211@lists.linux.dev, asahi@lists.linux.dev
-Subject: Re: [PATCH 1/2] dt-bindings: wireless: restore constraint for
- brcm,bcm4329-fmac compatible property
-Message-ID: <mbvhz3wosnykejgs65es2sfedxoevysbqu3jxmpgdze2b2tl6o@grx4mxas2bmf>
+Subject: Re: [PATCH 2/2] arm64: boot: apple: fixup wifi device specification
+Message-ID: <2mqpwbn2je526zs6joxgcsue7r73ttpms72dntkup7hg7jkmmx@3lnsea5le5ya>
 References: <20240820101216.355012-1-arend.vanspriel@broadcom.com>
- <20240820101216.355012-2-arend.vanspriel@broadcom.com>
+ <20240820101216.355012-3-arend.vanspriel@broadcom.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -57,74 +56,25 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240820101216.355012-2-arend.vanspriel@broadcom.com>
+In-Reply-To: <20240820101216.355012-3-arend.vanspriel@broadcom.com>
 
-On Tue, Aug 20, 2024 at 12:12:15PM +0200, Arend van Spriel wrote:
-> When extending the bindings for Apple PCIe devices the compatible property
-> specification was changed. However, it was changed such that for these
-> devices it was no longer necessary to have "brcm,bcm4329-fmac" listed as
-> string in the compatible list property as it was before that extension.
+On Tue, Aug 20, 2024 at 12:12:16PM +0200, Arend van Spriel wrote:
+> Align with the corrected device tree bindings in brcm,bcm4329-fmac.yaml
+> which imposes a constraint that the compatible should have the string
+> "brcm,bcm4329-fmac".
 
-Apart that this was never tested... That statement is not true. Look at
-"fixed" commit - it is not doing like that at all.
+Additionally, please explain why do you think these devices are compatible and
+also how this change affects working. Considering that previously these
+devices were not matched by brcmf_of_probe() and now they will, this is
+significant change.
 
-I don't understand the reasoning.
-
-> This patch restores that constraint.
 > 
 > Fixes: e2e37224e8b3 ("dt-bindings: net: bcm4329-fmac: Add Apple properties & chips")
+
+No, no bug to fix. Previous code was intentional. If you claim there is
+a bug, please explain what exactly is being fixed.
+
 > Signed-off-by: Arend van Spriel <arend.vanspriel@broadcom.com>
-> ---
->  .../net/wireless/brcm,bcm4329-fmac.yaml       | 19 ++++++++++---------
->  1 file changed, 10 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
-> index e564f20d8f41..47f90446322f 100644
-> --- a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
-> +++ b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fmac.yaml
-> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
->  title: Broadcom BCM4329 family fullmac wireless SDIO/PCIE devices
->  
->  maintainers:
-> -  - Arend van Spriel <arend@broadcom.com>
-> +  - Arend van Spriel <arend.vanspriel@broadcom.com>
->  
->  description:
->    The Broadcom Single chip MAC part for the BCM4329 family and
-> @@ -27,7 +27,6 @@ properties:
->                - brcm,bcm4341b0-fmac
->                - brcm,bcm4341b4-fmac
->                - brcm,bcm4341b5-fmac
-> -              - brcm,bcm4329-fmac
->                - brcm,bcm4330-fmac
->                - brcm,bcm4334-fmac
->                - brcm,bcm43340-fmac
-> @@ -46,13 +45,15 @@ properties:
->                - cypress,cyw43012-fmac
->                - infineon,cyw43439-fmac
->            - const: brcm,bcm4329-fmac
-> -      - enum:
-> -          - brcm,bcm4329-fmac
-> -          - pci14e4,43dc  # BCM4355
-> -          - pci14e4,4464  # BCM4364
-> -          - pci14e4,4488  # BCM4377
-> -          - pci14e4,4425  # BCM4378
-> -          - pci14e4,4433  # BCM4387
-> +    - items:
-> +          - enum:
-> +              - pci14e4,43dc  # BCM4355
-> +              - pci14e4,4464  # BCM4364
-> +              - pci14e4,4488  # BCM4377
-> +              - pci14e4,4425  # BCM4378
-> +              - pci14e4,4433  # BCM4387
-> +          - const: brcm,bcm4329-fmac
-> +    - const: brcm,bcm4329-fmac
-
-And this does not make sense... You claim that some constrained was
-droppped and you re-add it, but in fact you still add the same code as
-it was before.
-
-NAK.
 
 Best regards,
 Krzysztof
