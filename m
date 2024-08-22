@@ -1,135 +1,322 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E94B168497;
-	Wed, 21 Aug 2024 23:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A054C99;
+	Thu, 22 Aug 2024 00:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724282991; cv=none; b=W9qVYrxvSU6erzZvqzDQHxTV5yzcCdVDKxAPeZTE+U4cl5uC8uFykVnLFnbLEp1bBxynUSHwdiMNLpuisl2m3xPmKBOTAtDnlaxYVpI127O/24vLBs2rVbgu6MJfXNoTR8bZcAWmgaFNEFNN3GQMDBusEzKt4RdwzS4JKIEBpzk=
+	t=1724286389; cv=none; b=mbjtjZ+6Jb7H/aSCFWxhuLQE6Hn9JyRRCFLWgfdu8RIg6GCMukxM2XhBBkBrWtSsfaslgOc9VPYCqbOUETJc1Zym9wDcUytWUbHH38QbPhckUQtw3KGCi7wQp49nJ27MRW+ERXlpJkEnejQ5z3gCuomDOSiqcOQLsbEnM+ChXik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724282991; c=relaxed/simple;
-	bh=N/k9pIkt02mMen0MtDKHy/0oKLv8iaeYOQQ6JCBQ9RI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tU7Ehta14AQ9Tcsa8sRhceUEvsvb0UaIlT7QrDL84lF69+EgUSzC84STL2IFTiihqhCCbd64syeLXtRIlIS6KiKVsBzXodXvIFX8hceS/vmh5clPSleybIewAMwgwq6uvbr6Ak74CapsiFdYq2Eh4ii5FKT9kpu/uiyRwnXVKV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FXaiMujx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1724286389; c=relaxed/simple;
+	bh=sbaExOJNUa3u/kFBfMA5JdWqNWYBSpyn5r+f72RsFoY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j8m3AmsbGQpGSs6amRnhCuEUqHwR3t4QvrLp0wbT/lbOd+6bhcGxxlcL391jrbE2sRA2BxmODTbQ3H1+zt3uI+Ncn39ThuP6qUiFjgxm7kZ2uocXmSsj7VfQcKBgTYm0z2rm4ZeETzQUwYXE7LWmSt/SRUDE9cJ+udyXUECAiJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yj1d2EO4; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FXaiMujx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BC20C32781;
-	Wed, 21 Aug 2024 23:29:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1724282991;
-	bh=N/k9pIkt02mMen0MtDKHy/0oKLv8iaeYOQQ6JCBQ9RI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FXaiMujxKGsbWGwRkg8O548AIYvSH0D28zmJwv2c1WT509PvJCr/c4UnMYE1IgVo4
-	 xEjbNXDJUQdhu4/E4vqD7hveigHTCZgkKp19UZNZKGE0Xh4U8OvSRrl85Xt57QK1Ra
-	 6doO7pqsGv3JnmHOFCbXpJYj740iY15CzYk/J0Js=
-Date: Thu, 22 Aug 2024 07:29:48 +0800
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Matthew Maurer <mmaurer@google.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
-	Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>,
-	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
- structure fields
-Message-ID: <2024082229-elevation-emporium-8118@gregkh>
-References: <20240815173903.4172139-37-samitolvanen@google.com>
- <2024081600-grub-deskwork-4bae@gregkh>
- <CABCJKuedc3aCO2Or+_YBSzK_zp9zB8nFwjr-tK95EBM3La1AmA@mail.gmail.com>
- <2024081705-overarch-deceptive-6689@gregkh>
- <ef6f7294-0afe-46af-8714-ed4a4aaee558@proton.me>
- <20240819193851.GA4809@google.com>
- <a76f9422-4001-416a-a31b-37ab7dcb17f4@proton.me>
- <CABCJKudAF0=29js8SDcYY5r6kM7RBveTrZH9RyECNGqkcqy=nw@mail.gmail.com>
- <CAGSQo01kCUd64nB7C7Ssy1N=UBpOP3bORsRDcHJ1k2CqkbKsfQ@mail.gmail.com>
- <c6c1e84a-40f3-41a5-a732-f1cf06521691@proton.me>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yj1d2EO4"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6b6b9867faaso2838587b3.2;
+        Wed, 21 Aug 2024 17:26:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724286387; x=1724891187; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yygxy+SswvTalGTzXLF9xOU7VfSvEWj/WAnP+sa6pLQ=;
+        b=Yj1d2EO4YJYGRKtj1lZNXOsEZ75TG7ZF78SyrxA0u0jr8N3puKwcc8MHRcLY/o1BkF
+         KCrq7EgdK/2iyO7J7EQCC4eUBN1BVWJdIxveUArvvb5WZjnO8RmmYgZgTnBOBL5Om+yC
+         x/nHW5owu+afoMT816UceYvegCv75IQAOgVLV5dJHlKhSeB+wEkxIH83SsvIyiPRyQLr
+         Qv5DZanofIfD7/Eq2O5NVqWlQuD8uGgTzF7LJOzAjxh7QjA0K0/mM4/kEBEDs9q7/XAj
+         RWXKOlVSA7dVIlnErbGn2PaILzyzoLhKYf3KbxO6ylB88z590WIDP7Guvr+CKs+LPU4S
+         iTqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724286387; x=1724891187;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yygxy+SswvTalGTzXLF9xOU7VfSvEWj/WAnP+sa6pLQ=;
+        b=m2Sa+NWH9s/2zoNYwjred1SUB1CfpgZeF4nkB9s04H0B1pfr4MZQXYKIdoArn+G6ip
+         ipJm/1yRTYuphG4stBNEIwLhFu4RVKV0azKZdmYzkD/wy0vSaGLC8wMfL+AXWz2HECMF
+         usvp9/yibvuPLnID+EJoj0x1uxwt/J+sWuyvoHfd3KVOYYsRyceh3lVmL6M/ODTlQUKY
+         nOKh6noegtfb+l1GDssNuVHaqZcdxFSR64UIfZxeFLULnyjpvX3hbJbRviMWGVMEJbC+
+         H+8q673M6hQgA1n+JhIVI7q+UMwa5YK5w+oIgiXa0CVcoY0/Eon342SUIrekUZLDGtO0
+         Affg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8Jl5FW1oc0gXG81YZ7+g+1lXgoziK33qEURBuNUFxCssQENgydGkvnhdwfO472aewIk/9LQ==@lists.linux.dev, AJvYcCU9haZlnO9jZ6FmR030m05OQ2wjvb84C9KI+zs2etYuMIHi6KiiBuDcaC/rdRveuRG14EFC6FC9U7p4@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzdf/SCVT4+pJLVDLX/JsVPbY2wWjPqx0i5LLNTNK7kP2t/jd7S
+	hITnlab+LkyrCFp6OSUcg9o96VkO8f1bWdzXZusBxrClNMy2etw6oDY4XWXqaU7x4QUs+zlGXtd
+	blEwQgLY91XqVEPVrtfzWxPWMmAE=
+X-Google-Smtp-Source: AGHT+IFHWv8m2dGCwdLvgaOkJlgTnvi/SA3k6TMvgah+tUzw9I7WiOv51zfqWgdB3bIHvytzPn4RPv0uIDiv6SkBxIM=
+X-Received: by 2002:a05:690c:288f:b0:62a:530:472f with SMTP id
+ 00721157ae682-6c09fa8b1b1mr43824207b3.32.1724286386825; Wed, 21 Aug 2024
+ 17:26:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c6c1e84a-40f3-41a5-a732-f1cf06521691@proton.me>
+References: <20240820101216.355012-1-arend.vanspriel@broadcom.com>
+ <20240820101216.355012-2-arend.vanspriel@broadcom.com> <mbvhz3wosnykejgs65es2sfedxoevysbqu3jxmpgdze2b2tl6o@grx4mxas2bmf>
+ <7881c303-bef1-403a-aa70-30d33558f57f@kernel.org> <6777d425-b27f-43d0-ba81-b36ac0b8f929@broadcom.com>
+ <0b639d04-af33-44b0-a556-40decff683c5@kernel.org> <3ed394a3-2b5e-4096-b090-c805657585a3@kernel.org>
+ <f7c17dff-fd64-4769-9fc4-7ff929a2c5d8@broadcom.com> <931f4acc-6fb5-4f0d-9e37-b945de2e7349@kernel.org>
+In-Reply-To: <931f4acc-6fb5-4f0d-9e37-b945de2e7349@kernel.org>
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Thu, 22 Aug 2024 10:26:15 +1000
+Message-ID: <CAGRGNgWeuJ4Y4AwvDQWw9nZ=tVCsaqVnmeyD+ywT4c4+LmmXCw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: wireless: restore constraint for
+ brcm,bcm4329-fmac compatible property
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Arend van Spriel <arend.vanspriel@broadcom.com>, Kalle Valo <kvalo@kernel.org>, 
+	Hector Martin <marcan@marcan.st>, Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 21, 2024 at 11:31:25AM +0000, Benno Lossin wrote:
-> On 20.08.24 22:03, Matthew Maurer wrote:
-> >>> The way `KAbiReserved` is implemented is via a `union` (maybe a bit
-> >>> ironic, considering what I said in my other replies, but in this case,
-> >>> we would provide a safe abstraction over this `union`, thus avoiding
-> >>> exposing users of this type to `unsafe`):
+Hi Krzysztof, Arend,
+
+On Wed, Aug 21, 2024 at 4:46=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 20/08/2024 21:29, Arend van Spriel wrote:
+> > On August 20, 2024 5:51:03 PM Krzysztof Kozlowski <krzk@kernel.org> wro=
+te:
+> >
+> >> On 20/08/2024 17:36, Krzysztof Kozlowski wrote:
+> >>> On 20/08/2024 14:50, Arend van Spriel wrote:
+> >>>> On 8/20/2024 1:39 PM, Krzysztof Kozlowski wrote:
+> >>>>> On 20/08/2024 13:27, Krzysztof Kozlowski wrote:
+> >>>>>> On Tue, Aug 20, 2024 at 12:12:15PM +0200, Arend van Spriel wrote:
+> >>>>>>> When extending the bindings for Apple PCIe devices the compatible=
+ property
+> >>>>>>> specification was changed. However, it was changed such that for =
+these
+> >>>>>>> devices it was no longer necessary to have "brcm,bcm4329-fmac" li=
+sted as
+> >>>>>>> string in the compatible list property as it was before that exte=
+nsion.
+> >>>>>>
+> >>>>>> Apart that this was never tested... That statement is not true. Lo=
+ok at
+> >>>>>> "fixed" commit - it is not doing like that at all.
+> >>>>>>
+> >>>>>> I don't understand the reasoning.
+> >>>>>>
+> >>>>>>> This patch restores that constraint.
+> >>>>>>>
+> >>>>>>> Fixes: e2e37224e8b3 ("dt-bindings: net: bcm4329-fmac: Add Apple p=
+roperties
+> >>>>>>> & chips")
+> >>>>>>> Signed-off-by: Arend van Spriel <arend.vanspriel@broadcom.com>
+> >>>>>>> ---
+> >>>>>>> .../net/wireless/brcm,bcm4329-fmac.yaml       | 19 ++++++++++----=
+-----
+> >>>>>>> 1 file changed, 10 insertions(+), 9 deletions(-)
+> >>>>>>>
+> >>>>>>> diff --git
+> >>>>>>> a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fma=
+c.yaml
+> >>>>>>> b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329-fma=
+c.yaml
+> >>>>>>> index e564f20d8f41..47f90446322f 100644
+> >>>>>>> --- a/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329=
+-fmac.yaml
+> >>>>>>> +++ b/Documentation/devicetree/bindings/net/wireless/brcm,bcm4329=
+-fmac.yaml
+> >>>>>>> @@ -7,7 +7,7 @@ $schema: http://devicetree.org/meta-schemas/core.=
+yaml#
+> >>>>>>> title: Broadcom BCM4329 family fullmac wireless SDIO/PCIE devices
+> >>>>>>>
+> >>>>>>> maintainers:
+> >>>>>>> -  - Arend van Spriel <arend@broadcom.com>
+> >>>>>>> +  - Arend van Spriel <arend.vanspriel@broadcom.com>
+> >>>>>>>
+> >>>>>>> description:
+> >>>>>>> The Broadcom Single chip MAC part for the BCM4329 family and
+> >>>>>>> @@ -27,7 +27,6 @@ properties:
+> >>>>>>>            - brcm,bcm4341b0-fmac
+> >>>>>>>            - brcm,bcm4341b4-fmac
+> >>>>>>>            - brcm,bcm4341b5-fmac
+> >>>>>>> -              - brcm,bcm4329-fmac
+> >>>>>>>            - brcm,bcm4330-fmac
+> >>>>>>>            - brcm,bcm4334-fmac
+> >>>>>>>            - brcm,bcm43340-fmac
+> >>>>>>> @@ -46,13 +45,15 @@ properties:
+> >>>>>>>            - cypress,cyw43012-fmac
+> >>>>>>>            - infineon,cyw43439-fmac
+> >>>>>>>        - const: brcm,bcm4329-fmac
+> >>>>>>> -      - enum:
+> >>>>>>> -          - brcm,bcm4329-fmac
+> >>>>>>> -          - pci14e4,43dc  # BCM4355
+> >>>>>>> -          - pci14e4,4464  # BCM4364
+> >>>>>>> -          - pci14e4,4488  # BCM4377
+> >>>>>>> -          - pci14e4,4425  # BCM4378
+> >>>>>>> -          - pci14e4,4433  # BCM4387
+> >>>>>>> +    - items:
+> >>>>>>> +          - enum:
+> >>>>>>> +              - pci14e4,43dc  # BCM4355
+> >>>>>>> +              - pci14e4,4464  # BCM4364
+> >>>>>>> +              - pci14e4,4488  # BCM4377
+> >>>>>>> +              - pci14e4,4425  # BCM4378
+> >>>>>>> +              - pci14e4,4433  # BCM4387
+> >>>>>>> +          - const: brcm,bcm4329-fmac
+> >>>>>>> +    - const: brcm,bcm4329-fmac
+> >>>>>>
+> >>>>>> And this does not make sense... You claim that some constrained wa=
+s
+> >>>>>> droppped and you re-add it, but in fact you still add the same cod=
+e as
+> >>>>>> it was before.
+> >>>>>>
+> >>>>>> NAK.
+> >>>>>
+> >>>>> Ah, the last "const" actually makes sense, I missed that.
+> >>>>>
+> >>>>> Commit still however lacks rationale why these devices are compatib=
+le.
+> >>>>> Plus existing rationale that e2e37224e8b3 changed something is enti=
+rely
+> >>>>> WRONG. It changed nothing. ZERO. It only added new devices, which w=
+as
+> >>>>> claimed are not compatible with brcm,bcm4329-fmac.
+> >>>>
+> >>>> So is that claim true? What does it mean that these new devices are =
+not
+> >>>> compatible. If they are they should be in a separate binding or the
 > >>>
-> >>>     #[repr(C)]
-> >>>     pub union KAbiReserved<T, R> {
-> >>>         value: T,
-> >>>         _reserved: R,
-> >>>     }
-> >>
-> >> I like this approach even better, assuming any remaining issues with
-> >> ownership etc. can be sorted out. This would also look identical to
-> >> the C version in DWARF if you rename _reserved in the union to
-> >> __kabi_reserved. Of course, we can always change gendwarfksyms to
-> >> support a different scheme for Rust code if a better solution comes
-> >> along later.
-> 
-> Yeah sure, that should also then work directly with this patch, right?
-> 
-> >> Sami
-> > 
-> > Agreement here - this seems like a good approach to representing
-> > reserved in Rust code. A few minor adjustments we discussed off-list
-> > which aren't required for gendwarfksyms to know about:
-> > 1. Types being added to reserved fields have to be `Copy`, e.g. they
-> > must be `!Drop`.
-> > 2. Types being added to reserved fields must be legal to be
-> > represented by all zeroes.
-> > 3. Reserved fields need to be initialized to zero before having their
-> > union set to the provided value when constructing them.
-> > 4. It may be helpful to have delegating trait implementations to avoid
-> > the couple places where autoderef won't handle the conversion.
-> > 
-> > While I think this is the right solution, esp. since it can share a
-> > representation with C, I wanted to call out one minor shortfall - a
-> > reserved field can only be replaced by one type. We could still
-> > indicate a replacement by two fields the same as in C, by using a
-> > tuple which will look like an anonymous struct. The limitation will be
-> > that if two or more new fields were introduced, we'd need to edit the
-> > patches accessing them to do foo.x.y and foo.x.z for their accesses
-> > instead of simply foo.y and foo.z - the autoref trick only works for a
-> > single type.
-> 
-> We will have to see how often multiple fields are added to a struct. If
-> they are infrequent and it's fine for those patches to then touch the
-> field accesses, then I think we can just stick with this approach.
-> If there are problems with that, we can also try the following:
-> all fields of kABI structs must be private and must only be accessed
-> through setters/getters. We can then modify the body the setters/getters
-> to handle the additional indirection.
+> >>> Whether binding is separate or not, is just way of organizing things.
+> >>>
+> >>>> applicable properties for these devices should be made conditional.
+> >>>
+> >>> Could be if they are not applicable.
+> >>>
+> >>>>
+> >>>>> Now if you claim that original commit which said "these devices are=
+ not
+> >>>>> compatible with brcm,bcm4329-fmac", then please provide arguments, =
+not
+> >>>>> just say "other commit did something". It did nothing...
+> >>>>
+> >>>> Not entirely true. Indeed new devices were added for which no
+> >>>> "brcm,bcm4329-fmac" string is required in the compatible property. A=
+lso
+> >>>> the commit added new properties for these new devices. Now in my opi=
+nion
+> >>>> a driver should not use these properties without a "compatible" chec=
+k.
+> >>>> Hope we can agree to that. However, the driver patch for supporting =
+the
+> >>>
+> >>> Sorry, I don't follow. Why the driver would need to check for compati=
+ble?
+> >>>
+> >>>> binding change does no such thing. So if we leave the binding as it
+> >>>> currently is the driver will have to check if compatible has any of =
+the
+> >>>> listed PCI IDs before processing the properties. As all properties o=
+ld
+> >>>
+> >>> Why driver needs to check it? Are these properties not valid?
+> >
+> > How would the driver know other than the compatible property? The node
+> > with properties is delivered by the bus driver. If that comes with
+> > guarantees about validity than that's great.
+>
+> I still do not follow what is the problem being addressed by driver
+> needing to check.
+>
+> >
+> >>>
+> >>>
+> >>>> and new are marked as optional I can not come up with an argument th=
+at
+> >>>> these new devices are *not* compatible with brcm,bcm4329-fmac.
+> >>>
+> >>> Compatibility is expressed by implementing same programming interfasc=
+e
+> >>> (or its subset) thus being able to bind via fallback and correctly
+> >>> operate in given SW.
+> >
+> > This exactly what I mean to say (and apparently fail to do so ;-s ).
+> >
+> >>> I don't know whether that's the case here, so rephrasing my earlier
+> >>> comments - the commit msg should focus on this aspect and tell that
+> >>> devices are fully compatible, thus they should use fallback.
+> >>>
+> >>> Quick look at drivers told me that not - they are not compatible...
+> >
+> > Okay. That puts use in different corner of the arena. Can you elaborate
+> > how you come to that assessment? Is that based on the fact that some of
+> > the properties are SDIO-only?
+>
+> The simplest: because they do not use the same match/bind code. Plus PCI
+> devices never used half of brcmf_of_probe(). Although that's more of a
+> reason these are significantly different.
+>
+> >
+> >>>
+> >> Another thing is that calling SDIO and PCI devices compatible is quite=
+ a
+> >> stretch... Clearly hardware-wise they are very different and Linux doe=
+s
+> >> not use the same interfaces to match/bind them.
+> >
+> > These are wifi devices which hardware-wise are 95% the same. If you fin=
+d
+> > the block diagram with IP cores for these devices (enough google result=
+s
+> > to find some) you can see they sometimes even have both PCI and SDIO
+> > block on-chip although only one is used so they can be considered 100%
+> > the same. In both cases the bus driver will attach the DT node to the
+> > binding device.
+>
+> I understand they are similar, but it does not matter if that is 95% or
+> even 99% if the interface is different. Linux cannot use these devices
+> through the same interface. However if you claim it can, then please
+> write appropriate commit msg.
+>
+> My entire objection hare started not because I believe these are not
+> compatible (although based on different buses I believe they are not
+> compatible), but because the argument was about that other commit. That
+> argument is not correct to make the change. Correct argument to make the
+> change could be: These devices are compatible, because of foo and bar.
 
-That's just not going to work, sorry.  Remember, the goal here is to
-keep the code that comes from kernel.org identical to what you have in
-your "enterprise" kernel tree, with the exception of the few extra
-"padding" fields you have added to allow for changes in the future in
-the kernel.org versions.
+A way to put it might be something like:
 
-Requiring all kernel.org changes that add a new field to a structure to
-only do so with a settter/getter is going to just not fly at all as they
-will not care one bit.
+Almost all Broadcom wireless chipsets, some Broadcom ethernet chipsets
+and most Broadcom-derived Infineon and Cypress wireless chipsets share
+the same rough layout:
 
-Or, we can just forget about "abi stability" for rust code entirely,
-which I am totally fine with.  It's something that managers seem to like
-for a "check box" but in reality, no one really needs it (hint, vendors
-rebuild their code anyway.)
+System bus -> bus glue logic -> internal bus -> RF chipset(s)
 
-thanks,
+Previous generations had separate drivers for the bus glue logic and
+then probed the internal bus for the RF chipset(s), however in the
+current generation that separation is mostly just a historical
+artifact and abstraction layer.
 
-greg k-h
+The firmwares for all WiFi chipsets in this generation also provide
+fundamentally identical interfaces with any differences either probed
+at runtime or derived from data in the firmware. As such, once the
+glue logic is abstracted away, all chipsets of this generation are
+fundamentally identical from a software perspective. Therefore the
+only data needed to use one of these chipsets is the type of bus to
+select the glue logic driver and the firmware to load which is derived
+from the vendor and product IDs.
+
+The only real hardware differences between different chipsets are that
+some have external interrupt lines or additional clocks and I'm not
+sure if hooking those up is actually mandatory.
+
+Thanks,
+
+Julian Calaby
+
+
+
+--
+Julian Calaby
+
+Email: julian.calaby@gmail.com
+Profile: http://www.google.com/profiles/julian.calaby/
