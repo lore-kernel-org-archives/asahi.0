@@ -1,147 +1,116 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C45383BF
-	for <asahi@lists.linux.dev>; Fri, 23 Aug 2024 21:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43234A07
+	for <asahi@lists.linux.dev>; Sat, 24 Aug 2024 13:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724449583; cv=none; b=duhAEtO0iOjhbV9yOB+fei7jXZzA6sR1F2UfIGyhkIdtlGNEt2voHk4WII2ROGo3QGlcdlkGjTE04cSE+RKUee5f0/LCcqZzbWnwTWjAnCGR4E/Tn14xt2HTwRQ/rrpqUQQqEaLOgtkNMJmnkvlUWQmR2lk/JsdC19HEuWHe3tg=
+	t=1724506036; cv=none; b=jJDB3gFjWzgZeys7QMiXWdo7VzagXo/cjhYOJTR3gTbeq4BpOv74BOtrZS5f5uswwR4wr181Vkl2cyGSZGC71sGuLXtOotf67uQunsdzoTL7vftyfUjbx1IKRv8cdTu6LzejcCaZPnixExP/WY9Hazmizbg3ZJIZfSSuVYQDQJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724449583; c=relaxed/simple;
-	bh=3pfZ1sPmNUvyG7TVwFvR3Rqz69rwliQPJGBAVEOGrUE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pYgCXl/FBVtjxVzMoLPxMXlzDwF2Zg5RZ40DlwII3zJ4133IxyjNsB7bK9pRmCaXe0FOkow/hg3xX+KTTcgORJDtpi7NOYDLWVnG7RzkF9aN51UpWPcEaBuVPf4UzsOgzasM8aPt4dcNd/f2WE1pabGE+FvXOw94DFVsb7pTs4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2f3edb2d908so25015551fa.2
-        for <asahi@lists.linux.dev>; Fri, 23 Aug 2024 14:46:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724449579; x=1725054379;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3pfZ1sPmNUvyG7TVwFvR3Rqz69rwliQPJGBAVEOGrUE=;
-        b=fQMrs8dEYYlns54pVMQUiW/PCOvee0lXsXSzwet86fnHU0Ak6KXoHu3NRTc/OnHae+
-         czTCqBKW2gw5Kls3umFBcTODaj3zkUrtKKjxdJ7Y861Z328cM1KVrKM/RiOKCUyVJefA
-         FBYN3kxGDhbI5hGpjjPCfLa3O7HgQkTNwALrUW5GjEq1inZAlh+RbD8GLuZjvjdolken
-         IrIXxl7XK/H8vpTCiyW6s6K6AvTaGAmgCaz/ZdXRc81OecM++NYbCeAMmb58YgQzYW1/
-         dGGKLSe5tkqUiJNr1fgA64paTlee+TPd1pCL0XADfQxg1kmXTSeE3pdeRpBUQo8199fA
-         YXaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWckiEQ/jvpizIm98fFptDI9ohWPMeAuoQk7HpShV2wX1xRs4Ff5fx5vXKlC0u/+/OG0Zmhqg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywh2XXDI+BPk4aNpqKaJ4epqRt164dCFFBfOUs3icMsoZUvWZmO
-	GROxdcL0scSutW7lQTeuocXdq/lmnT/C75FsLZkwsNCL+xE4NTxEEWkrXGdD/sU=
-X-Google-Smtp-Source: AGHT+IF+uokIT5erfrSSDL+rKsMuUze2j/KiPpSj1qqDYuVU1AqDui4YO68YVvm4lDh/La8VAGWe6w==
-X-Received: by 2002:a2e:4e1a:0:b0:2f3:e2f0:f76 with SMTP id 38308e7fff4ca-2f4f493f270mr25589591fa.38.1724449578846;
-        Fri, 23 Aug 2024 14:46:18 -0700 (PDT)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f40487f7afsm5600331fa.117.2024.08.23.14.46.18
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Aug 2024 14:46:18 -0700 (PDT)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2f3edb2d908so25015361fa.2
-        for <asahi@lists.linux.dev>; Fri, 23 Aug 2024 14:46:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX+XQydc0/OV++8c+rvjdoy7+Sr/w9VxXqblqF777gV5qlzR2CfU2mwjQRFpt80dI4eIIieYg==@lists.linux.dev
-X-Received: by 2002:a2e:bc1b:0:b0:2f5:2ba:2c99 with SMTP id
- 38308e7fff4ca-2f502ba2f21mr1927371fa.9.1724449578174; Fri, 23 Aug 2024
- 14:46:18 -0700 (PDT)
+	s=arc-20240116; t=1724506036; c=relaxed/simple;
+	bh=kMO69p16kqJrjrEcKmdv3cBmB0rk3eV+MoscgcvZdac=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jUmfDVTIyb76qEZwLoYLh9i+iTi9MxgdDgoStA2N+OiJQ3PrVDmTztFdMnK6Dd65ZN82zQmc8o3Gwakku2ZLxJAvCI6x5UhrZuixLSuWHxejHTgznI1NMx22o2H7o8GSWjeev3oyu5H8ZywaAn5KuwxVDru8qy+FP8AE4QxgZk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=WTHWipLw; arc=none smtp.client-ip=185.70.40.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="WTHWipLw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1724506032; x=1724765232;
+	bh=RqdsCkI6mejjg55TgKGNTjgt+43oDMZ//60n7i61RCM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=WTHWipLwGdY4IB2mU3lKtW8IJb2/uw5U6Q5kU8dPRTITq9ZFhWheiGrd9IqPHTs6N
+	 3e18ZwRwK1qCU/fMnKFhtsseUf8rxpjRgE8ptT1ouTKn/IABmx0csU5fOun6zlhns4
+	 vUBKKbKYI08SPkdYgn4TZXAUPId9YOyi8Xf3X1H5c2kvVPYFEdt0RlOAnpI54T8918
+	 k4p6Kfd1VJQz7A4t1RgLrHhtoB1UZvgxGhbQjMCPr6F0DLsVTc8GCE32STykcYWkSH
+	 vw2B3tTdKIX38DQfn2BMPrSCVZ1ZryW26939SSz7wIHC5TOwMnk2fzAODUvL1dsJ2S
+	 /7aZAwmkitdNw==
+Date: Sat, 24 Aug 2024 13:27:07 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Matthew Maurer <mmaurer@google.com>, Sami Tolvanen <samitolvanen@google.com>, Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved structure fields
+Message-ID: <ec80d964-2062-4556-a11b-ba764e1f58f7@proton.me>
+In-Reply-To: <2024082356-stowing-endowment-555b@gregkh>
+References: <20240815173903.4172139-37-samitolvanen@google.com> <CABCJKudAF0=29js8SDcYY5r6kM7RBveTrZH9RyECNGqkcqy=nw@mail.gmail.com> <CAGSQo01kCUd64nB7C7Ssy1N=UBpOP3bORsRDcHJ1k2CqkbKsfQ@mail.gmail.com> <c6c1e84a-40f3-41a5-a732-f1cf06521691@proton.me> <2024082229-elevation-emporium-8118@gregkh> <bc2e02d7-d4a7-4f0f-852c-e26ad6a8688f@proton.me> <2024082257-refrain-subsector-b6c4@gregkh> <77e8e20c-8ca1-4df7-a4d7-ed77454f1754@proton.me> <2024082356-stowing-endowment-555b@gregkh>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 9e377948a7d048ed45f8d84a815c87b14110d385
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAEg-Je8=t_cXKsWL0XSx3vF1gsArSWpychfbEf+yjM6wVz3Mjw@mail.gmail.com>
- <CAM22NNBrXSUbrpFAKv8jrREKTBYx_aW0cibtDE5AZ_kTijUrPA@mail.gmail.com>
-In-Reply-To: <CAM22NNBrXSUbrpFAKv8jrREKTBYx_aW0cibtDE5AZ_kTijUrPA@mail.gmail.com>
-From: Neal Gompa <ngompa@fedoraproject.org>
-Date: Fri, 23 Aug 2024 17:45:41 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je_9r_96j-un6TS7Dm_kJ3m7Q6y_RDEs9NTvxjNJM-zEvQ@mail.gmail.com>
-Message-ID: <CAEg-Je_9r_96j-un6TS7Dm_kJ3m7Q6y_RDEs9NTvxjNJM-zEvQ@mail.gmail.com>
-Subject: Re: Weird failure with bpftool when building 6.11-rc4 with clang+rust+lto
-To: Matthew Maurer <matthew.r.maurer@gmail.com>
-Cc: rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	Quentin Monnet <qmo@kernel.org>, bpf@vger.kernel.org, 
-	"Justin M. Forbes" <jforbes@fedoraproject.org>, Davide Cavalca <dcavalca@fedoraproject.org>, 
-	Janne Grunau <jannau@fedoraproject.org>, Hector Martin <marcan@fedoraproject.org>, 
-	Asahi Linux <asahi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hey Matthew,
+On 23.08.24 01:53, Greg Kroah-Hartman wrote:
+> On Thu, Aug 22, 2024 at 12:00:15PM +0000, Benno Lossin wrote:
+>>> Here's one example in the android tree where 4 64bit fields are reserve=
+d
+>>> for future abi changes:
+>>> =09https://android.googlesource.com/kernel/common/+/refs/heads/android1=
+2-5.10/include/linux/fs.h#421
+>>>
+>>> And here's a different place where a field is being used with many
+>>> remaining for future use:
+>>> =09https://android.googlesource.com/kernel/common/+/refs/heads/android1=
+2-5.10/include/linux/sched.h#1379
+>>>
+>>> And also, we want/need lots of other space reservation at times, look a=
+t
+>>> how "Others" can get access to reserved areas in structures that need t=
+o
+>>> be done in an abi-safe way:
+>>> =09https://android.googlesource.com/kernel/common/+/refs/heads/android1=
+2-5.10/include/linux/sched.h#1375
+>>
+>> Let me correct myself, it's only possible to replace one `KAbiReserved`
+>> by one new field. You can have as many fields of type `KAbiReserved` as
+>> you want. The thing that you can't do is replace a single `KAbiReserved`
+>> field by multiple (well you can, but then you have to change the sites
+>> that use it).
+>=20
+> That's odd/foolish, why would that be the case?  Isn't that exactly what
+> a union is for?  How are you going to know ahead of time what size types
+> to save space for?
 
-The current thinking is that maybe the culprit is dwarves. We've
-backported a fix in Fedora that may help, I'm waiting to find out if
-it does. Apparently all test runs with Clang+LTO are broken right now
-with dwarves 1.27, so it wasn't just unique to my merge request.
+That's what I interpreted from the links you provided above, there are
+multiple invocations of `ANDROID_KABI_RESERVE` and I figured they each
+can be used to insert a new field. Or can you replace each one by as
+many fields as you want, as long as the size is still fine?
 
+> All we really want to do here is "pad out this structure by X bytes" and
+> then later "take X bytes to represent this variable" at a later point in
+> time.
+>=20
+> Surely rust can do that, right?  :)
 
-On Tue, Aug 20, 2024 at 12:49=E2=80=AFPM Matthew Maurer
-<matthew.r.maurer@gmail.com> wrote:
->
-> Sorry that this isn't a solution, but I can tell you some background:
->
-> Linux currently relies on the `--lang_exclude` flag to `pahole` to
-> filter Rust debugging information out of the output BTF. This is done
-> because various downstream tools (for example, bpftool) do not handle
-> Rust types correctly. The `--lang_exclude` flag works by checking the
-> language flag on the compilation unit the type is referenced in. Once
-> LTO is enabled however, things can migrate from one compilation unit
-> to another, leading to C code having Rust code and types referenced
-> inside them. The resulting type will be considered C-language type by
-> `pahole`, but is actually a Rust type. Even if you fixed bpftool,
-> without additional patches/hacks, once the kernel boots it would
-> likely fail to parse its own BTF debugging information, and disable
-> BPF loading.
->
-> The most confusing part to me here is that I only encountered this
-> issue with x-lang LTO enabled, which is not available in the kernel
-> you're building from. If this is happening without x-lang LTO enabled,
-> it likely means that there's another way for debug symbols to leak
-> across CUs during LTO. That's where I'd start looking - use `pahole`
-> to dump the contents of `vmlinux.o` and see if you can find a
-> C-language CU referencing a Rust type. Then, try to figure out how
-> that's possible. With x-lang LTO it was obvious, inlining caused a
-> bunch of issues.
->
-> The last possibility I can think of is that somehow in your build
-> configuration `pahole` is not being invoked with the `--lang_exclude`
-> flag when building `vmlinux`. I don't know why that would be, but it
-> might be worth double checking.
->
-> On Tue, Aug 20, 2024 at 5:13=E2=80=AFAM Neal Gompa <ngompa@fedoraproject.=
-org> wrote:
-> >
-> > Hey all,
-> >
-> > While working on enabling Rust in the Fedora kernel[1], we've managed
-> > to get the setup almost completely working, but we have a build
-> > failure with the clang+lto build variant[2][3].
-> >
-> > Based on the build failure log[4][5], it looks like there's some
-> > random mixing of Rust inside of C code or something of the sort (which
-> > obviously would be invalid).
-> >
-> > Can someone help with this?
-> >
-> > Thanks in advance and best regards,
-> >
-> > [1]: https://gitlab.com/cki-project/kernel-ark/-/merge_requests/3295
-> > [2]: https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/index.html=
-?prefix=3Dtrusted-artifacts/1419488480/build_x86_64/7618803903/artifacts/
-> > [3]: https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/index.html=
-?prefix=3Dtrusted-artifacts/1419488480/build_aarch64/7618803917/artifacts/
-> > [4]: https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/trusted-ar=
-tifacts/1419488480/build_x86_64/7618803903/artifacts/build-failure.log
-> > [5]: https://s3.amazonaws.com/arr-cki-prod-trusted-artifacts/trusted-ar=
-tifacts/1419488480/build_aarch64/7618803917/artifacts/build-failure.log
-> >
-> >
-> > --
-> > Neal Gompa (FAS: ngompa)
-> >
+Not with all the other things that you need. I feel like this discussion
+is dragging a bit on, so we will just ask the Rust folks if they have
+any suggestions and if they don't we will ask for a solution. We can
+then get back to this when that's done.
+It's not like we need this immediately.
 
+>>> All of this also needs to be possible in any structures that are
+>>> exported by rust code if vendors want to have a way to track and ensure
+>>> that abis do not change over time, just like they can today in C code.
+>>
+>> All of those structs need to be `repr(C)`, otherwise they don't
+>> have a stable layout to begin with.
+>=20
+> Do we have any way to enforce at build time that exports from rust code
+> are in this format to ensure that this will work properly going forward?
+> I guess someone is going to have to write the first api in rust that
+> actually gets used before we worry about this...
 
+I don't know if we already have a way, but we will need one if people
+start writing kabi in Rust.
 
---
-Neal Gompa (FAS: ngompa)
+---
+Cheers,
+Benno
+
