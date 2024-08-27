@@ -1,373 +1,101 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810DC1BBBDD
-	for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 12:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D282F1CCB4A
+	for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 16:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724762435; cv=none; b=KnL6BsR8OhuY+oAJgyDtu+lWXZ+7sLRdWP42y9WDimFtxx+5a67tPTr2hfX2nNx+OuZjt3uyZgQsyPt9XdwkIJSzdkv5Tsb9LJl1hR3i4T80lda3PNlwKDh6Lqg01CJDSHTge7XIkrGzchP9yXDL3+ulesQ5xIWHxLah6QlIbMs=
+	t=1724777133; cv=none; b=Kzn0TCyb4QiUT9QgNGTsAS7jgxfuMHSxGLPDb1cEqS0hr7gkNhXSfWqmpmUpt/9YH4DfPZv48eUPQDMhYiicZP4xWsXGKmm71YGMekSut6DCNKtGEpoFX5qIbuD7JcJTA5VErkHxvJchgVAWJEQcQD3Ybmbvm1XsmMpzlgxVUlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724762435; c=relaxed/simple;
-	bh=/PsGYidPx6+ERZmAziEKQOOY4l7eHfRbQ5ZJvgTJFS0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bUqKoVldlSWqRZ9U0zxuanqnra/kWr/fDfyrHG9ncRaMs89PkhDKogTFpz9++x/eINPCoMV9Bl+TBAVS0r6IyBHzmVLBNYtq6VyqKvgm+7XNtbLfLZ4bFyWTBA4WiBI9UzdA5RNYyCJXT+6ZsMLWbgkI5A2YCFEhPrWXR+W8z7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=B2vXf//I; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1724777133; c=relaxed/simple;
+	bh=13N9rWiQqinjqu5t0FpuSFOBXGf77nou/F+efdv0gD8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OpCcDHjYcyTCRzySYpOYFxeIbM2WsvzDrv9aZboxGmU63tngYrCJ4kfa0cElyeEKjE7BMmZ3KEfPymuOkLF5vJfKR5GFvvIpj5Re3JK4TCygbQlHWUhl+ODOTKhO9pwYIB736V/c39G5ErDCqbVi610M8FTJYJdnUsE3NwXfxTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dZjBfrSM; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="B2vXf//I"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a86e5e9ff05so100243066b.1
-        for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 05:40:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dZjBfrSM"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-44fee2bfd28so1731cf.1
+        for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 09:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1724762432; x=1725367232; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9zVOTmoRZ3AzmWugvFPF8grdlifA6e7LOITutJp+jd0=;
-        b=B2vXf//IGDlZoOvEvsmIXtjH6CTJSmgEfMtf94SDlY7K8IwmEXfNP+pAq5yENztWjd
-         uK5WHg1qcrv9n0DaMuthEHu+JDzaxNP8qX0uovWqQUsbyqqS/mh9jn0IodgtrS3Gy71k
-         S0UW1NCAR26kJSvPv29d77MKMIWOgVESYtwV3qcJAXZ1ApXKZ+gQzBrF7XmDHomKLbrA
-         1EsYT8R2oRrLHpFCeS8Qo9FGaGfjN19akSDM2nzq2pWyMStttOY809GVKWDSYfg+6zyZ
-         sxs6/iqQDRUveP5jil6V0gmrT/Zp9+5tDMmSMHssjzckV+LHjDK7HtUyEBvPgxHVhYsB
-         KZaQ==
+        d=google.com; s=20230601; t=1724777130; x=1725381930; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Yg+baRcLpnI1aQ9hlrSp/2fH28bJtbk1x405VvbEiCQ=;
+        b=dZjBfrSMnsmLgkHUDvvBshUC9EGbg2avT9zj/kz5EqcLi2N8nuExBamVwNF8pQcimJ
+         woVgj1Hyu9G3Z8TwpkAuquuCvkqiK/KD32wTVCDB92u8FNs1ul3MfqOTjQU7oYnrMlCA
+         wV+aPxFSof0RR5ggzHh3T57kJ9Eo77TRg7PsFlwhAe7cc2HzlvE39fGZyLpgYCYZchlK
+         /AdsB/+NozgRQ9qYj5y+QuCiWbaiTaHDnnD3yYkPEIFrN2UCnBV8wO1JdcL/AnK2JHOM
+         ul4kLJcgqy4snzIQwbDm+BGNB74xCxhiJQEYi86s9fO/o0PF4g8KCem0YhhUHnLRxfzZ
+         4kpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724762432; x=1725367232;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9zVOTmoRZ3AzmWugvFPF8grdlifA6e7LOITutJp+jd0=;
-        b=lV1xb/jIFDZuP6F5GS1evjgjQPI22MMqsM8borIOOc38iYtfQVxuJUk/jmCkihNUgn
-         qUmTy2IO4T/YRtWlCXLF1rKX5N5SQyNei90osx5jozKPJ4y1uGrFwI4SH8wruwHw6+ES
-         TWChivhyD/WcXHn5pMWpjtPqAGaAdhTOvhcgNSWZ4BpaiJ+r4TiIZBZq1fXmEpS7kNSU
-         fWU/97W3q+YtfIdFvd4RL0VjcQUIG1u7UVS93iRejSIY4BpkxV2Ku73zdI799P/OFieX
-         Tk8sBEFJ9qRLqqWABKnUwrizbpDiNImss7u+0MMM2C5G50STBLLaJ292H0rppsPkp/uU
-         N78Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXq/4GDkAD7ucrsfJVll6v1nqCaBgAuoElJxtj0s4vmTHfVGWwY6dvk+cUYzd1bhU7hZLg6KA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFkVuVVODsJoKnZ6qbb8PJ6xD5vkGYb4E3qlxRo5NylqcdqIIb
-	nPepJOqKSCsJJ4+Cn8y1Hc4Z1dYOmQJFaRQLXVFampqqiX+bMUPBbz3zlP0CIQc=
-X-Google-Smtp-Source: AGHT+IH6McW6hyGl6MR/gJhPXCODeA+z498UhPFdaJ7K9nt2nnEpjKiqvYziIFRATCpbd9fKRid2WA==
-X-Received: by 2002:a17:906:6a23:b0:a7a:8e98:890d with SMTP id a640c23a62f3a-a86e39c9e11mr232226966b.16.1724762431563;
-        Tue, 27 Aug 2024 05:40:31 -0700 (PDT)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e549cf94sm105628966b.80.2024.08.27.05.40.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Aug 2024 05:40:31 -0700 (PDT)
-Message-ID: <d63ddefe-a6f6-4a5b-9330-11438fca8f9f@suse.com>
-Date: Tue, 27 Aug 2024 14:40:30 +0200
+        d=1e100.net; s=20230601; t=1724777130; x=1725381930;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Yg+baRcLpnI1aQ9hlrSp/2fH28bJtbk1x405VvbEiCQ=;
+        b=T5Bahy17Nro7D1UK4eXjvJyhacU6+uPH5Ts+WJ6H9E0cdUWpzaW+5Ud1fYiguXwdb3
+         qLNHV6RoK3KsqeFrNdTYRVUoO1MpKJ0Em9swCy3GPZMEL05SoV3PhltSShYtioBQ9uSz
+         bAKOr5rmqC0vJllXAxPxgmgtL1NFkMk3MooxjVZsMJlC+UrBPD95RhvS8V0FXhNjIoVf
+         vPrbXNbm/HnaTF3dm1Ja1S1uCZnMN9xmVKuC/qPjRnM08MXf+sVLVmShNzYxkhoenMeU
+         vVH2gDR5hckXxxaazFDe0SpBPEcVDOftWn8Bisgo8k7LrSerl3bNg+Nyrl5ia3SW0v00
+         Rwow==
+X-Forwarded-Encrypted: i=1; AJvYcCUf5rc7AxPfGnyvs69NBJD8wA5PTKo/E/taUDnVXLjBByr8sVsMKuiEP2e5dIP8bP9JcfTCUg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyoYnh/9hlpbw4uddKa3KioqpjcA4WAbwvE54a+4Y1/kPVMdGbl
+	h1R/0uPtMw4t73Y52JWL3H1ua434G7YfWYoDE3xiFsbPVo+c2fn2m7qiqNvQGie1CeH5XQRpGVs
+	ftLc0zkRLbRPzg6opkazcRmo8YBWhaQS2bGi7
+X-Google-Smtp-Source: AGHT+IESmvxfPWyz8OU6lrsb3/WdN97UClbBtMAbPPLrSZVeS26g2TfKlQrHovYGaH2tJhJuXW9A22yAePy9L6g0reM=
+X-Received: by 2002:a05:622a:298f:b0:453:5b5a:e77c with SMTP id
+ d75a77b69052e-4566168780fmr4067251cf.10.1724777129419; Tue, 27 Aug 2024
+ 09:45:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/19] gendwarfksyms: Add address matching
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>,
- Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
- Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- rust-for-linux@vger.kernel.org
 References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-24-samitolvanen@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20240815173903.4172139-24-samitolvanen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20240815173903.4172139-22-samitolvanen@google.com> <2024081603-punctual-hamlet-152e@gregkh>
+In-Reply-To: <2024081603-punctual-hamlet-152e@gregkh>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Tue, 27 Aug 2024 09:44:52 -0700
+Message-ID: <CABCJKufF4xpwGkYu_H-1AH8cEAg2K4umrM07DY_X2j9qORQj=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 01/19] tools: Add gendwarfksyms
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/15/24 19:39, Sami Tolvanen wrote:
-> The compiler may choose not to emit type information in DWARF for all
-> aliases, but it's possible for each alias to be exported separately.
-> To ensure we find type information for the aliases as well, read
-> {section, address} tuples from the symbol table and match symbols also
-> by address.
-> 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> ---
->  scripts/gendwarfksyms/gendwarfksyms.c |   2 +
->  scripts/gendwarfksyms/gendwarfksyms.h |   7 ++
->  scripts/gendwarfksyms/symbols.c       | 161 +++++++++++++++++++++++++-
->  3 files changed, 165 insertions(+), 5 deletions(-)
-> 
-> diff --git a/scripts/gendwarfksyms/gendwarfksyms.c b/scripts/gendwarfksyms/gendwarfksyms.c
-> index d209b237766b..e2f8ee5a4bf3 100644
-> --- a/scripts/gendwarfksyms/gendwarfksyms.c
-> +++ b/scripts/gendwarfksyms/gendwarfksyms.c
-> @@ -118,6 +118,8 @@ int main(int argc, const char **argv)
->  			return -1;
->  		}
->  
-> +		check(symbol_read_symtab(fd));
-> +
->  		dwfl = dwfl_begin(&callbacks);
->  		if (!dwfl) {
->  			error("dwfl_begin failed for '%s': %s", object_files[n],
-> diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
-> index 03f3e408a839..cb9106dfddb9 100644
-> --- a/scripts/gendwarfksyms/gendwarfksyms.h
-> +++ b/scripts/gendwarfksyms/gendwarfksyms.h
-> @@ -61,6 +61,10 @@ extern bool debug;
->  /*
->   * symbols.c
->   */
-> +struct symbol_addr {
-> +	uint32_t section;
-> +	Elf64_Addr address;
-> +};
->  
->  static inline u32 name_hash(const char *name)
->  {
-> @@ -69,10 +73,13 @@ static inline u32 name_hash(const char *name)
->  
->  struct symbol {
->  	const char *name;
-> +	struct symbol_addr addr;
-> +	struct hlist_node addr_hash;
->  	struct hlist_node name_hash;
->  };
->  
->  extern int symbol_read_exports(FILE *file);
-> +extern int symbol_read_symtab(int fd);
->  extern struct symbol *symbol_get(const char *name);
->  
->  /*
-> diff --git a/scripts/gendwarfksyms/symbols.c b/scripts/gendwarfksyms/symbols.c
-> index 673ad9cf9e77..f96acb941196 100644
-> --- a/scripts/gendwarfksyms/symbols.c
-> +++ b/scripts/gendwarfksyms/symbols.c
-> @@ -6,11 +6,43 @@
->  #include "gendwarfksyms.h"
->  
->  #define SYMBOL_HASH_BITS 15
-> +
-> +/* struct symbol_addr -> struct symbol */
-> +static DEFINE_HASHTABLE(symbol_addrs, SYMBOL_HASH_BITS);
-> +/* name -> struct symbol */
->  static DEFINE_HASHTABLE(symbol_names, SYMBOL_HASH_BITS);
->  
-> +static inline u32 symbol_addr_hash(const struct symbol_addr *addr)
-> +{
-> +	return jhash(addr, sizeof(struct symbol_addr), 0);
+Hi Greg,
 
-I would be careful and avoid including the padding between
-symbol_addr.section and symbol_addr.address in the hash calculation.
+On Fri, Aug 16, 2024 at 12:14=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Aug 15, 2024 at 05:39:05PM +0000, Sami Tolvanen wrote:
+> > --- /dev/null
+> > +++ b/scripts/gendwarfksyms/dwarf.c
+> > @@ -0,0 +1,87 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+>
+> Sorry, but I have to ask, do you _REALLY_ mean "or later" here and in
+> other places in this series?  If so, great, but I want to be sure, as I
+> know:
+>
+> > + * Copyright (C) 2024 Google LLC
+>
+> Has some issues with the types of licenses that marking will cover.
 
-> +}
-> +
->  typedef int (*symbol_callback_t)(struct symbol *, void *arg);
->  
-> -static int for_each(const char *name, symbol_callback_t func, void *data)
-> +static int __for_each_addr(struct symbol *sym, symbol_callback_t func,
-> +			   void *data)
-> +{
-> +	struct hlist_node *tmp;
-> +	struct symbol *match = NULL;
-> +	int processed = 0;
-> +
-> +	hash_for_each_possible_safe(symbol_addrs, match, tmp, addr_hash,
-> +				    symbol_addr_hash(&sym->addr)) {
-> +		if (match == sym)
-> +			continue; /* Already processed */
-> +
-> +		if (match->addr.section == sym->addr.section &&
-> +		    match->addr.address == sym->addr.address) {
-> +			check(func(match, data));
-> +			++processed;
-> +		}
-> +	}
-> +
-> +	return processed;
-> +}
-> +
-> +static int for_each(const char *name, bool name_only, symbol_callback_t func,
-> +		    void *data)
->  {
->  	struct hlist_node *tmp;
->  	struct symbol *match;
-> @@ -23,9 +55,13 @@ static int for_each(const char *name, symbol_callback_t func, void *data)
->  		if (strcmp(match->name, name))
->  			continue;
->  
-> +		/* Call func for the match, and all address matches */
->  		if (func)
->  			check(func(match, data));
->  
-> +		if (!name_only && match->addr.section != SHN_UNDEF)
-> +			return checkp(__for_each_addr(match, func, data)) + 1;
-> +
->  		return 1;
->  	}
->  
-> @@ -34,7 +70,7 @@ static int for_each(const char *name, symbol_callback_t func, void *data)
->  
->  static bool is_exported(const char *name)
->  {
-> -	return checkp(for_each(name, NULL, NULL)) > 0;
-> +	return checkp(for_each(name, true, NULL, NULL)) > 0;
->  }
->  
->  int symbol_read_exports(FILE *file)
-> @@ -57,13 +93,14 @@ int symbol_read_exports(FILE *file)
->  		if (is_exported(name))
->  			continue; /* Ignore duplicates */
->  
-> -		sym = malloc(sizeof(struct symbol));
-> +		sym = calloc(1, sizeof(struct symbol));
->  		if (!sym) {
-> -			error("malloc failed");
-> +			error("calloc failed");
->  			return -1;
->  		}
->  
->  		sym->name = name;
-> +		sym->addr.section = SHN_UNDEF;
->  		name = NULL;
->  
->  		hash_add(symbol_names, &sym->name_hash, name_hash(sym->name));
-> @@ -91,6 +128,120 @@ struct symbol *symbol_get(const char *name)
->  {
->  	struct symbol *sym = NULL;
->  
-> -	for_each(name, get_symbol, &sym);
-> +	for_each(name, false, get_symbol, &sym);
->  	return sym;
->  }
-> +
-> +typedef int (*elf_symbol_callback_t)(const char *name, GElf_Sym *sym,
-> +				     Elf32_Word xndx, void *arg);
-> +
-> +static int elf_for_each_symbol(int fd, elf_symbol_callback_t func, void *arg)
-> +{
-> +	size_t sym_size;
-> +	GElf_Shdr shdr_mem;
-> +	GElf_Shdr *shdr;
-> +	Elf_Data *xndx_data = NULL;
-> +	Elf_Scn *scn;
-> +	Elf *elf;
-> +
-> +	if (elf_version(EV_CURRENT) != EV_CURRENT) {
-> +		error("elf_version failed: %s", elf_errmsg(-1));
-> +		return -1;
-> +	}
-> +
-> +	elf = elf_begin(fd, ELF_C_READ_MMAP, NULL);
-> +	if (!elf) {
-> +		error("elf_begin failed: %s", elf_errmsg(-1));
-> +		return -1;
-> +	}
-> +
-> +	sym_size = gelf_getclass(elf) == ELFCLASS32 ? sizeof(Elf32_Sym) :
-> +						      sizeof(Elf64_Sym);
-> +
-> +	scn = elf_nextscn(elf, NULL);
-> +
-> +	while (scn) {
-> +		shdr = gelf_getshdr(scn, &shdr_mem);
-> +
-> +		if (shdr && shdr->sh_type == SHT_SYMTAB_SHNDX) {
-> +			xndx_data = elf_getdata(scn, NULL);
-> +			break;
-> +		}
-> +
-> +		scn = elf_nextscn(elf, scn);
-> +	}
-> +
-> +	scn = elf_nextscn(elf, NULL);
-> +
-> +	while (scn) {
-> +		shdr = gelf_getshdr(scn, &shdr_mem);
-> +
-> +		if (shdr && shdr->sh_type == SHT_SYMTAB) {
-> +			Elf_Data *data = elf_getdata(scn, NULL);
-> +			unsigned int nsyms = data->d_size / sym_size;
+Thanks for bringing this up. The license is inherited from the
+genksyms code that's included in this series, but I'll consult with
+our licensing folks and adjust this in v3 for the other parts if
+needed.
 
-I think strictly speaking this should be:
-size_t nsyms = shdr->sh_size / shdr->sh_entsize;
-.. and the code could check that shdr->sh_entsize is same as what
-gelf_fsize(elf, ELF_T_SYM, 1, EV_CURRENT) returns.
-
-> +			unsigned int n;
-> +
-> +			for (n = 0; n < nsyms; ++n) {
-
-The first symbol in the symbol table is always undefined, the loop can
-start from 1.
-
-Alternatively, since elf_for_each_symbol() ends up in the entire series
-being used only with process_symbol() which skips symbols with the local
-binding, the function could be renamed to elf_for_each_global_symbol()
-and start the loop from shdr->sh_info.
-
-> +				const char *name = NULL;
-> +				Elf32_Word xndx = 0;
-> +				GElf_Sym sym_mem;
-> +				GElf_Sym *sym;
-> +
-> +				sym = gelf_getsymshndx(data, xndx_data, n,
-> +						       &sym_mem, &xndx);
-> +
-> +				if (sym->st_shndx != SHN_XINDEX)
-> +					xndx = sym->st_shndx;
-> +
-> +				name = elf_strptr(elf, shdr->sh_link,
-> +						  sym->st_name);
-> +
-> +				/* Skip empty symbol names */
-> +				if (name && *name &&
-> +				    checkp(func(name, sym, xndx, arg)) > 0)
-> +					break;
-> +			}
-> +		}
-> +
-> +		scn = elf_nextscn(elf, scn);
-> +	}
-> +
-> +	return check(elf_end(elf));
-> +}
-> +
-> +static int set_symbol_addr(struct symbol *sym, void *arg)
-> +{
-> +	struct symbol_addr *addr = arg;
-> +
-> +	if (sym->addr.section == SHN_UNDEF) {
-> +		sym->addr.section = addr->section;
-> +		sym->addr.address = addr->address;
-> +		hash_add(symbol_addrs, &sym->addr_hash,
-> +			 symbol_addr_hash(&sym->addr));
-> +
-> +		debug("%s -> { %u, %lx }", sym->name, sym->addr.section,
-> +		      sym->addr.address);
-> +	} else {
-> +		warn("multiple addresses for symbol %s?", sym->name);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int process_symbol(const char *name, GElf_Sym *sym, Elf32_Word xndx,
-> +			  void *arg)
-> +{
-> +	struct symbol_addr addr = { .section = xndx, .address = sym->st_value };
-> +
-> +	/* Set addresses for exported symbols */
-> +	if (GELF_ST_BIND(sym->st_info) != STB_LOCAL &&
-> +	    addr.section != SHN_UNDEF)
-> +		checkp(for_each(name, true, set_symbol_addr, &addr));
-> +
-> +	return 0;
-> +}
-> +
-> +int symbol_read_symtab(int fd)
-> +{
-> +	return elf_for_each_symbol(fd, process_symbol, NULL);
-> +}
-
--- 
-Thanks,
-Petr
+Sami
