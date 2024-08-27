@@ -1,55 +1,55 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59922146590
-	for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 18:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4501993AF
+	for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 21:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724784513; cv=none; b=b1zPdoBhQdveK3F3ncDe/VQSdQ7Jg+m6PbsDxsrFV5V+MIJIuVr/aHKqE9Ige38DsOFLf1MQD3mQDEZomqhausKevHwUSZKTY1SMLgUhEBSpoR8lqQRbTLuJFVDf7cF+ZVqPlD4alK/pP7nmiEXAuvu45hZvXijoujd2r4k/kmE=
+	t=1724794164; cv=none; b=mU8iA0YTANUyOu875C2WTDMFSi695mEyMdtBodrTvZBgD3j6/RamhU58avdibq0Wo0UkWC92oMSTACGiDuMpzeTEiM8izrRHdSd+ibiIEvwwTxevLl1yoXm7J20hnnNjabgHZRu5Bpj9VcX/FkI2ka4KpNPMPYw5Zv26WZJSi5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724784513; c=relaxed/simple;
-	bh=I5//Ha3NSD2Wtl/0jjx0iRpYd7vI5TxmgjMPfRVQ1/g=;
+	s=arc-20240116; t=1724794164; c=relaxed/simple;
+	bh=R4HLYZ+UViFtWMxsFQtEArNLC47KC7MUZLfJAYG+8L4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D3gsNmX9qA0a+dByQSJ/gyNmvv/CwLYNXdtRYwyb8BpGKYmgHSTbX3Pq+blbOIM4olZ6X4VcpORBBPeUIyi1+mJkUHqSAnX4pmVne/oYEPYtRvCf0T38QGzzAdWG0tq40/u6J+2nnTr8wkGWNq29lH4C58BB0cUCOPcx5BdNsJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Lo7jg1PM; arc=none smtp.client-ip=209.85.160.181
+	 To:Cc:Content-Type; b=rW4SC153e6kE8+C8m0WhiTnuka9c8Wj2wyPmUwefD5uBnFS5u+Wj+QpTAxPUC/j7bEXYd4QOuCQ3kK1oLgrofrxQi1Ofl3ewc4aAxxXG5njBN6NA9+B1KEhRiAqQlBBUbom5+S0fnvZDvh0RNzFkStjcNjx8T+VPwHxUgvWBH0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aa2iTnBK; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Lo7jg1PM"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-45029af1408so39161cf.1
-        for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 11:48:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aa2iTnBK"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-454b1e08393so93521cf.0
+        for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 14:29:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724784510; x=1725389310; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1724794162; x=1725398962; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LidQY3N7TAVU7mz++A4EWJV/Qlk2ObRsexeEqCJH/sQ=;
-        b=Lo7jg1PM+uwID8ZSq1bo3WYyG0QwBvWG9y7klA+5t6K7jedf7jO4V/lMXrrKG7e00t
-         5QQjhk+dhjlhgXUso1tnQg3dLmAnb2Rk0AQyS9d2BqoIWOjmvBRRsjY/HHKPJKMyKHHb
-         +pt13NJcMEaPQrBWSmWgOi1/+9m0YHED9fEj8nitbNdk3UJiKQTsVYN4szxwret7J6Q/
-         dqmjBa6DN5M9OkRFzhtCRWwfLUugmyH0cclZ7A8qFVnMghr5ih//7Y1hiabG34Y0Qwdp
-         YHf+rw8/LKkE9xJ5TZgXiPieA/UoE9NjPmx7nt05LA2ZtAgKiwwKb0tnhwuyHtRGLnN1
-         rEJQ==
+        bh=JTy0kGwiDI5gZsttd0+HgzSva3UgwhiIE4UArdRmSDM=;
+        b=aa2iTnBKlu6OP2hIOX0VPsu2imyhpWiSAztcnGMm4LEq6zH7c7R0mG6QY/S4aSr5iJ
+         rEh9/4aE0/KMQpXcejk8xLoaM0OGW6EyXUbe+wrn+GgksbOwuwl3dWIrTDS9LXeSk274
+         T5NHqGEwAclCRezu10y2XxBqHo+3jY0bWEEGv07ufW92FhZJUMYt/eHg87CgFenyW1E3
+         t5ge86KhJh2+aKf7nvx32/GkOd5zFF6spZIQBRRZLyg5swRF46Q2K86P2ZXO9SxD1uCf
+         zGiPwWLxuMDUkaPbgnqxWZKPLxQv1ht6i5SoOMlOp8NFaHhEuoozgZjO5lM0y9ati2QK
+         txEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724784510; x=1725389310;
+        d=1e100.net; s=20230601; t=1724794162; x=1725398962;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LidQY3N7TAVU7mz++A4EWJV/Qlk2ObRsexeEqCJH/sQ=;
-        b=P4K25gkQorIQWqU7U8A8xpvY7snx1Msq/03YAQukLBjtf+NgVk8PRTufLIElAMGLtF
-         yWp/5H0rgWayXPwV/lUO0vzcvjT8gZi9UltphLocn/wds9hgi1CGTsUGEbRZ46EF1Z4e
-         9F9CLjml2Wyb1XdD+WeteJUINuAXpB8WnlmGBpDoQ1eDLYF4y/yRcHJzua2ZrtWK/lRs
-         LyTsoD4TR6vxqDVgtzE8uCh9PRlsO+GKs3/gIp84VRHegZYdYzx0mSxiBVbXu2l/8l3L
-         wBYlhYKSL0bYMAr0RgpblEcfiTp5h9fiyYOpFLjkyyvCTf477KTQ4XfDK49OLBt7GgTK
-         ghbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSc2HZRW2uRy7loHtZJ8xD0lA1tV7QfYg81vgrldEfOtj1pQE1nRLSWJK3fwVvHjQluH5XZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhhO/147dG2SySAxLnQW/gHAIy+5Q0KqSgJ+LTIDla7Ht2skUo
-	nze2GdrWcbZyhLraLqBdeahT2c622/cbW1cTKT7XvrkSkKlLaz85U+ysxjQR/qnpEdBJV6ThiFJ
-	VtGnDTaErdOyWmzddaAjUYPBJ8c/T01cEgvwv
-X-Google-Smtp-Source: AGHT+IEYo3wpUDQ07W+N/9n1FFu7R6YCMxlFn855GpjF2BmicavhNUlzTFwLoKagN05qtS/bFGVksEONLKfLBTPt0T8=
-X-Received: by 2002:ac8:5a45:0:b0:453:5b18:817 with SMTP id
- d75a77b69052e-4566caed6c1mr336721cf.6.1724784509942; Tue, 27 Aug 2024
- 11:48:29 -0700 (PDT)
+        bh=JTy0kGwiDI5gZsttd0+HgzSva3UgwhiIE4UArdRmSDM=;
+        b=iU69FrVA78/r1wWVU21iDouOoGlX95Bl1M3EOYfX2RZyJna6mmmCZTGPXxmSxv6Am3
+         g8FomkWdA+iZn68qyqGvMLIqIua0phwOC6ZLfLAx8blcZf8BKuE5tUWD7CYp8zHS1O7D
+         JIlVjreB6QYeew2SlAcj0MaQsCDlGT9X3cNt5qx6uPtggW+T2pDB+jlsbIypLpwfKaQr
+         6XAmIz3lTjcMW+xUSjAB+LKC5Df1a8dAxwR7fkYGd3jiGIUma71SvEr1Qcos6BLyZ62W
+         LBEqEcgjQDIx0UFpHSQgTYlL9Y0A//nY/Q592H3yRQnBM7l6+9B94ssn3ZzR7jXzz0q/
+         MY6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVle+70m5arJewHb/NPD0AXdxqdCG7GFBeIJcWfnr1xzMJhmkKjlTNH7lWlRWznR1dADKvdmA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxpiG9w2Nu0GuklgqKBpajvJRwWxB6+q0AQBIctXEbgbNkRRQLW
+	qejs46DLd4vd2gg5m6rv74nvV5rTUT2wQW5hq5VPuEk9tubrSmYoYu/WKf6zWoZMjA83D72Fkc6
+	0z8V+ApwhXYE1e1wZcc8mxhu1Fmk8nxUuI/Ze
+X-Google-Smtp-Source: AGHT+IESYT6ErEPekdnM4JPG1QAmj//Y4YNR4GKOjrbinkZvJAz7qCJ6vDkOQJqXUvV1BbfJh1Ad0J1bwqMfl5vfrVg=
+X-Received: by 2002:a05:622a:2cc:b0:44f:9e0f:bc41 with SMTP id
+ d75a77b69052e-4566e2c44a8mr191491cf.27.1724794161723; Tue, 27 Aug 2024
+ 14:29:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -57,15 +57,15 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-23-samitolvanen@google.com> <f9ad5fdd-25d4-4d98-84d0-84dfba2a75f2@suse.com>
-In-Reply-To: <f9ad5fdd-25d4-4d98-84d0-84dfba2a75f2@suse.com>
+ <20240815173903.4172139-24-samitolvanen@google.com> <d63ddefe-a6f6-4a5b-9330-11438fca8f9f@suse.com>
+In-Reply-To: <d63ddefe-a6f6-4a5b-9330-11438fca8f9f@suse.com>
 From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 27 Aug 2024 11:47:51 -0700
-Message-ID: <CABCJKuc8fOmsbpqOJXwYstwc+7DEf-Bf26_n5_ai2Pax1tXqUg@mail.gmail.com>
-Subject: Re: [PATCH v2 02/19] gendwarfksyms: Add symbol list handling
+Date: Tue, 27 Aug 2024 21:28:42 +0000
+Message-ID: <CABCJKud2za5o19O4XuE-jxuevwQLZPd+CdoB5tMHCgtG2Q2upQ@mail.gmail.com>
+Subject: Re: [PATCH v2 03/19] gendwarfksyms: Add address matching
 To: Petr Pavlu <petr.pavlu@suse.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
 	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, 
 	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, 
@@ -76,69 +76,89 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Petr,
 
-On Tue, Aug 27, 2024 at 2:16=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
-ote:
+On Tue, Aug 27, 2024 at 12:40=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> w=
+rote:
 >
 > On 8/15/24 19:39, Sami Tolvanen wrote:
-> > +static bool is_export_symbol(struct state *state, Dwarf_Die *die)
+> > +static inline u32 symbol_addr_hash(const struct symbol_addr *addr)
 > > +{
-> > +     Dwarf_Die *source =3D die;
-> > +     Dwarf_Die origin;
-> > +
-> > +     state->sym =3D NULL;
+> > +     return jhash(addr, sizeof(struct symbol_addr), 0);
 >
-> Nit: This assignment isn't strictly necessary, the value is overwritten
-> a few lines below and isn't used in between.
+> I would be careful and avoid including the padding between
+> symbol_addr.section and symbol_addr.address in the hash calculation.
 
-True, I think this was left over from refactoring.
+Good catch. I'll fix this in the next version.
 
-> > +int symbol_read_exports(FILE *file)
+> > +static int elf_for_each_symbol(int fd, elf_symbol_callback_t func, voi=
+d *arg)
 > > +{
-> > +     struct symbol *sym;
-> > +     char *line =3D NULL;
-> > +     char *name =3D NULL;
-> > +     size_t size =3D 0;
-> > +     int nsym =3D 0;
+> > +     size_t sym_size;
+> > +     GElf_Shdr shdr_mem;
+> > +     GElf_Shdr *shdr;
+> > +     Elf_Data *xndx_data =3D NULL;
+> > +     Elf_Scn *scn;
+> > +     Elf *elf;
 > > +
-> > +     while (getline(&line, &size, file) > 0) {
-> > +             if (sscanf(line, "%ms\n", &name) !=3D 1) {
-> > +                     error("malformed input line: %s", line);
-> > +                     return -1;
-> > +             }
-> > +
-> > +             free(line);
-> > +             line =3D NULL;
-> > +
-> > +             if (is_exported(name))
-> > +                     continue; /* Ignore duplicates */
-> > +
-> > +             sym =3D malloc(sizeof(struct symbol));
-> > +             if (!sym) {
-> > +                     error("malloc failed");
-> > +                     return -1;
-> > +             }
-> > +
-> > +             sym->name =3D name;
-> > +             name =3D NULL;
-> > +
-> > +             hash_add(symbol_names, &sym->name_hash, name_hash(sym->na=
-me));
-> > +             ++nsym;
-> > +
-> > +             debug("%s", sym->name);
+> > +     if (elf_version(EV_CURRENT) !=3D EV_CURRENT) {
+> > +             error("elf_version failed: %s", elf_errmsg(-1));
+> > +             return -1;
 > > +     }
 > > +
-> > +     if (line)
-> > +             free(line);
+> > +     elf =3D elf_begin(fd, ELF_C_READ_MMAP, NULL);
+> > +     if (!elf) {
+> > +             error("elf_begin failed: %s", elf_errmsg(-1));
+> > +             return -1;
+> > +     }
+> > +
+> > +     sym_size =3D gelf_getclass(elf) =3D=3D ELFCLASS32 ? sizeof(Elf32_=
+Sym) :
+> > +                                                   sizeof(Elf64_Sym);
+> > +
+> > +     scn =3D elf_nextscn(elf, NULL);
+> > +
+> > +     while (scn) {
+> > +             shdr =3D gelf_getshdr(scn, &shdr_mem);
+> > +
+> > +             if (shdr && shdr->sh_type =3D=3D SHT_SYMTAB_SHNDX) {
+> > +                     xndx_data =3D elf_getdata(scn, NULL);
+> > +                     break;
+> > +             }
+> > +
+> > +             scn =3D elf_nextscn(elf, scn);
+> > +     }
+> > +
+> > +     scn =3D elf_nextscn(elf, NULL);
+> > +
+> > +     while (scn) {
+> > +             shdr =3D gelf_getshdr(scn, &shdr_mem);
+> > +
+> > +             if (shdr && shdr->sh_type =3D=3D SHT_SYMTAB) {
+> > +                     Elf_Data *data =3D elf_getdata(scn, NULL);
+> > +                     unsigned int nsyms =3D data->d_size / sym_size;
 >
-> The loop leaks line on a potential sscanf() error and name if the symbol
-> is a duplicate or malloc(sizeof(struct symbol)) fails. Additionally, it
-> should be possible to avoid allocating line by getline() on each
-> iteration.
->
-> I would change it to something like this (not tested):
+> I think strictly speaking this should be:
+> size_t nsyms =3D shdr->sh_size / shdr->sh_entsize;
+> .. and the code could check that shdr->sh_entsize is same as what
+> gelf_fsize(elf, ELF_T_SYM, 1, EV_CURRENT) returns.
 
-Good points, I'll change this to your suggested version (after testing). Th=
-anks!
+Sure, I can change this. I'm not sure if there's a situation where the
+current calculation wouldn't result in the exact same result though.
+
+> > +                     unsigned int n;
+> > +
+> > +                     for (n =3D 0; n < nsyms; ++n) {
+>
+> The first symbol in the symbol table is always undefined, the loop can
+> start from 1.
+
+Ack.
+
+> Alternatively, since elf_for_each_symbol() ends up in the entire series
+> being used only with process_symbol() which skips symbols with the local
+> binding, the function could be renamed to elf_for_each_global_symbol()
+> and start the loop from shdr->sh_info.
+
+Patch 15 ("Add support for declaration-only data structures") actually
+also needs to process local symbols, so we can't skip them completely.
 
 Sami
