@@ -1,272 +1,197 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF63156C4B
-	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 12:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608C9149C7A;
+	Wed, 28 Aug 2024 12:51:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724849169; cv=none; b=Trxlxu82A/IejC0wyUG0q7ztI7ZRlUHaljGAMIQNv/p3u1k9+YuTU/jsp6tFt6389XTLFNRGr93El0OaPbpTAM+CH9CxNMkKyTUHV5aoonB9LUaRT4LwmQAwZ95Wn1ukLO6R6WBy5N4/pxp/Ufsa0P1ReVdYxYacUkr7W8J0zwE=
+	t=1724849478; cv=none; b=C7ma6DEMulVah33JE1QPn8PfOoLpr4d1BSrSf4YhdDpvRqBg4copcEsUXU/vVD7nSSZWF3sZkwD/U0d6xmmhhALHe1MvcTbEeEAOATfWHHZZeOVycse6BeU303vgWF6g/gVURhMICSTLIbN+eE7li9ihZsU5UrYEKgGjoUYm5jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724849169; c=relaxed/simple;
-	bh=/cT4Xi/eOAEvpHXHWvsJjX7/kGH9RbuoUARrWLTszIo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gXGCLIYfzOGB/4N6pcVGk2y641e81PwCQoJkhBr5pQ6rD6JN/yhqUPKkpgmU4+ODutkPmc9jj9yhoUHpOqhQNFcGJp08QBaiW1eO5w0fncL+onSQFe93gKeto/Y708fFQKucebrzDkE1GsaxsbazJPGIhAqiXkyqP+4bne0/7WA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=esnMAMvt; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1724849478; c=relaxed/simple;
+	bh=TSbxJkBH805/VqkXTXpPL73x/9GZAvFJvnqNtqHAuA4=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=dWkvlBUDZSDR/B9dsgt5xg75ASb4HoWTZUcqMCCIOP6a8RGAUgOkxKphnK5kC976lU7Wf8l/HHTfaVagUwLKQgzALY88MUcMcnLHz4Ju/YJvRBHvt4AijzRBk+WDpB5kk8q4biIQjuDP7FNvEeMn9HbxqD3cWitOw85Zs/LXtRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jUW0x9Pb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="esnMAMvt"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5334a8a1b07so8362683e87.1
-        for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 05:46:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1724849165; x=1725453965; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tF6sUHkqO4SD68+xzQN28GcD5wP4XnQ+wDIp9/AK6/w=;
-        b=esnMAMvtI4k+Q/SZx9Sr8ZpCShj99JtAGKQCFnPQeDC5D1A+BCKTXMz0BJ7zAAMz03
-         zwFWOcT8M1f90RLGhbEiaOAUTZ12OtPcMzJReSyjIOmhGJ66M0/VIJQZpNGYeAAQB16u
-         3fQPmAh8V+e3FhzuQxs9JM6s9A+Jae8SPZXhqbFFfGLPR2pJym3Hk4DOQLDyUbFhHyNc
-         zEZ5BsecITYOkSZcw43fqbCCMzbqnOTeewLaaDw0ek+P9AE9CHeKPk4lOXnEgXU1vz/G
-         5vzkV2mUvsLF5pTI/h8JvwRQdpOaxPR9zd0IemfaSbWUxs+kjPSKBPEX7tsMENaR+dhY
-         hjZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724849165; x=1725453965;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tF6sUHkqO4SD68+xzQN28GcD5wP4XnQ+wDIp9/AK6/w=;
-        b=mQVx42B8ANfJsGC8Yz9NDeO/gxaI/Z7NyCFQfZ3L4KkB14zpjPPe2aOfx4NAYLg11g
-         4+DDbKGH5i67/neqCVRbqWiA3BggwraF13n5xqOm40bxQP0+dVlo/RHetPq9ty8yZ+Op
-         NHb/13C4Ub8HByMQbHphjJX1aeZvZraIYT8qYUGS0gkLgUqSfbcIbJfoaAJyv/kwnlQZ
-         3dcm2PRfDbi9OtBmSOVRTab2yrRzHIuQMOUrYZra67+OF4HEDTWBIB/JB1hHaUZ8jD0r
-         fnv6A1b8t0Nh1PxDgjhl66C7m3DwYLcRg0eJeKK1OZyZFmu/wsDRu0OmB4Xa+oA8akZW
-         G6fw==
-X-Forwarded-Encrypted: i=1; AJvYcCXDl0zIF5NvhPQiVsYCPSLBtm+DjMtTMWCdb/RR9bst/zrNICAXKge0srQ4nDAY2rsVwmZ2NA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9s3y5lCD2vZGpJABJWpvgXcB+KolM354zdcT0fXyZsK5ZZZyc
-	xzQcHbiFkMFcFddIuInOGyGzGkcE8wCbJXOEoeAzgAJsBpW4KEo17pNm4nrPivw=
-X-Google-Smtp-Source: AGHT+IHro9qeKaCY792yMnKxlwgxFiEDVsOC5d/A0lnJdSBAxKmmf92zy4Bd/E6/xRJrnEvtOOeR/Q==
-X-Received: by 2002:a05:6512:ac7:b0:533:6f3:9857 with SMTP id 2adb3069b0e04-5343882e19bmr11853046e87.5.1724849164718;
-        Wed, 28 Aug 2024 05:46:04 -0700 (PDT)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a86e582d896sm243412366b.131.2024.08.28.05.46.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Aug 2024 05:46:04 -0700 (PDT)
-Message-ID: <742f7226-9c66-4cfb-ba31-222dfb54fc34@suse.com>
-Date: Wed, 28 Aug 2024 14:46:03 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jUW0x9Pb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B39ECC4FF1D;
+	Wed, 28 Aug 2024 12:51:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724849477;
+	bh=TSbxJkBH805/VqkXTXpPL73x/9GZAvFJvnqNtqHAuA4=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=jUW0x9PbFTtb8Bihj1gzPs9QgpnpFDocnEoGrLM2aIwsdEhIYZ0lxc7NwI9AIoww8
+	 OeGZXRAV8Nuwt8Nj5/5/x63cgiDx6WWJ53XDRYq59WMQif/9JLxnUC00E1bltqkzdJ
+	 IqO+bQBET9IshPXUnZteazT5/kvz9B95ECph60dAfFyVN8dyA8bpfrheKicto2c12D
+	 svTu3Ckpmg522KQ5ZN2e49LtoweMUN9sSBbMG3CtdPiaGQqRSmiCFmo7dF/DCVMZpL
+	 cU7Q19Boat78iQNn58A6ucFcjYa5oKP8FMgR3chtFT5ypuCrn2VkfFY9b0xfGrcUej
+	 1QaoYXR8FvfmQ==
+Date: Wed, 28 Aug 2024 07:51:16 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/19] gendwarfksyms: Expand base_type
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>,
- Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
- Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-26-samitolvanen@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20240815173903.4172139-26-samitolvanen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Jacobe Zang <jacobe.zang@wesion.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
+ linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev, 
+ Muhammed Efe Cetin <efectn@protonmail.com>, 
+ Arend van Spriel <arend.vanspriel@broadcom.com>, 
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, 
+ Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240828-dts-v13-0-6bff9896d649@wesion.com>
+References: <20240828-dts-v13-0-6bff9896d649@wesion.com>
+Message-Id: <172484936695.3462781.6421342148961590287.robh@kernel.org>
+Subject: Re: [PATCH v13 0/2] Add Wi-Fi support for Khadas Edge2 and
+ fallback compatible for Apple
 
-On 8/15/24 19:39, Sami Tolvanen wrote:
-> Start making gendwarfksyms more useful by adding support for
-> expanding DW_TAG_base_type types and basic DWARF attributes.
+
+On Wed, 28 Aug 2024 16:45:39 +0800, Jacobe Zang wrote:
+> Add basic Wi-Fi support on Khadas Edge2. Wireless driver need to check "brcm,bcm4329-fmac"
+> compatible so add it to Apple's devices.
 > 
-> Example:
-> 
->   $ echo loops_per_jiffy | \
->       scripts/gendwarfksyms/gendwarfksyms --debug vmlinux.o
->   ...
->   gendwarfksyms: process_exported_symbols: loops_per_jiffy
->   variable base_type unsigned long byte_size(8) encoding(7);
->   ...
-> 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Signed-off-by: Jacobe Zang <jacobe.zang@wesion.com>
 > ---
->  scripts/gendwarfksyms/dwarf.c | 121 +++++++++++++++++++++++++++++++++-
->  1 file changed, 120 insertions(+), 1 deletion(-)
+> Changes in v13:
+>  - Change patch 2/2 argument from driver to bindings.
 > 
-> diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
-> index 956b30224316..a37c9049d18e 100644
-> --- a/scripts/gendwarfksyms/dwarf.c
-> +++ b/scripts/gendwarfksyms/dwarf.c
-> @@ -5,6 +5,17 @@
->  
->  #include "gendwarfksyms.h"
->  
-> +#define DEFINE_GET_ATTR(attr, type)                                    \
-> +	static bool get_##attr##_attr(Dwarf_Die *die, unsigned int id, \
-> +				      type *value)                     \
-> +	{                                                              \
-> +		Dwarf_Attribute da;                                    \
-> +		return dwarf_attr(die, id, &da) &&                     \
-> +		       !dwarf_form##attr(&da, value);                  \
-> +	}
-> +
-> +DEFINE_GET_ATTR(udata, Dwarf_Word)
-> +
->  static bool get_ref_die_attr(Dwarf_Die *die, unsigned int id, Dwarf_Die *value)
->  {
->  	Dwarf_Attribute da;
-> @@ -60,6 +71,74 @@ static int process(struct state *state, const char *s)
->  	return 0;
->  }
->  
-> +#define MAX_FMT_BUFFER_SIZE 128
-> +
-> +static int process_fmt(struct state *state, const char *fmt, ...)
+>  - Link to v12: https://lore.kernel.org/all/20240828033953.967649-1-jacobe.zang@wesion.com/
+> 
+> Changes in v12:
+>  - Add fallback compatible for Apple's devices
+> 
+>  - Link to v11: https://lore.kernel.org/all/20240816015214.1271162-1-jacobe.zang@wesion.com/
+> 
+> Changes in v11:
+>  - Split DTS and submit separately
+> 
+>  - Link to v10: https://lore.kernel.org/all/20240813082007.2625841-1-jacobe.zang@wesion.com/
+> 
+> Changes in v10:
+>  - Use ret instead unused probe_attach_result in sdio.c
+> 
+>  - Link to v9: https://lore.kernel.org/all/20240810035141.439024-1-jacobe.zang@wesion.com/
+> 
+> Changes in v9:
+>  - Add return -ENODEV error pointer from brcmf_sdio_probe as the default for the fail path
+>  - Add if statement for brcmf_of_probe in common.c
+>  - Retain modifications to of.c other than the return values
+> 
+>  - Link to v8: https://lore.kernel.org/all/20240805073425.3492078-1-jacobe.zang@wesion.com/
+> 
+> Changes in v8:
+>  - Add appropriate errno's for return values that will be
+>     send to bus when error occurred.
+> 
+>  - Link to v7: https://lore.kernel.org/all/20240802025715.2360456-1-jacobe.zang@wesion.com/
+> 
+> Changes in v7:
+>  - Change brcmf_of_probe prototypes from void to int, add appropriate errno's for return
+>     value, move clock check to the end of brcmf_of_probe
+>  - Add "brcm,bcm4329-fmac" compatible for wifi node
+> 
+>  - Link to v6: https://lore.kernel.org/all/20240731061132.703368-1-jacobe.zang@wesion.com/
+> 
+> Changes in v6:
+>  - Move "brcm,bcm4329-fmac" check to the top of brcmf_of_probe in of.c
+>  - Add return if clk didn't set in DTS
+> 
+>  -Link to v5: https://lore.kernel.org/all/20240730033053.4092132-1-jacobe.zang@wesion.com/
+> 
+> Changes in v5:
+>  - Add more commit message to the clock in bindings
+>  - Use IS_ERR_OR_NULL as a judgment condition of clk
+> 
+>  - Link to v4: https://lore.kernel.org/all/20240729070102.3770318-1-jacobe.zang@wesion.com/
+> 
+> Changes in v4:
+>  - Change clock description in dt-bindings
+>  - Move enable clk from pcie.c to of.c
+>  - Add compatible for wifi node in DTS
+>  - Add random seed flag for firmware download
+> 
+>  - Link to v3: https://lore.kernel.org/all/20240630073605.2164346-1-jacobe.zang@wesion.com/
+> 
+> Changes in v3:
+>  - Dropped redundant parts in dt-bindings.
+>  - Change driver patch title prefix as 'wifi: brcmfmac:'.
+>  - Change DTS Wi-Fi node clock-name as 'lpo'.
+> 
+>  - Link to v2: https://lore.kernel.org/all/20240624081906.1399447-1-jacobe.zang@wesion.com/
+> 
+> Changes in v2:
+>  - Add SoB tags for original developer.
+>  - Add dt-bindings for pci14e4,449d and clocks.
+>  - Replace dev_info to brcmf_dbg in pcie.c
+> 
+>  - Link to v1: https://lore.kernel.org/all/20240620020015.4021696-1-jacobe.zang@wesion.com/
+> 
+> ---
+> Jacobe Zang (2):
+>       arm64: dts: rockchip: Add AP6275P wireless support to Khadas Edge 2
+>       arm64: dts: apple: add "brcm,bcm4329-fmac" fallback compatible
+> 
+>  arch/arm64/boot/dts/apple/t8103-jxxx.dtsi             |  2 +-
+>  arch/arm64/boot/dts/apple/t8112-j413.dts              |  2 +-
+>  arch/arm64/boot/dts/apple/t8112-j493.dts              |  2 +-
+>  arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dts | 16 ++++++++++++++++
+>  4 files changed, 19 insertions(+), 3 deletions(-)
+> ---
+> base-commit: dabcfd5e116800496eb9bec2ba7c015ca2043aa0
+> change-id: 20240828-dts-1b163375c49c
+> 
+> Best regards,
+> --
+> Jacobe Zang <jacobe.zang@wesion.com>
+> 
+> 
+> 
 
-Nit: The state parameter is unused by a number of these process_*()
-functions, including the leaf process(). I suggest removing it so it
-doesn't need to be passed around unnecessarily.
 
-> +{
-> +	char buf[MAX_FMT_BUFFER_SIZE];
-> +	va_list args;
-> +	int res;
-> +
-> +	va_start(args, fmt);
-> +
-> +	res = checkp(vsnprintf(buf, sizeof(buf), fmt, args));
-> +	if (res >= MAX_FMT_BUFFER_SIZE - 1) {
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-This check looks off by one, though on the safe side:
-res >= sizeof(buf)
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-> +		error("vsnprintf overflow: increase MAX_FMT_BUFFER_SIZE");
-> +		res = -1;
-> +	} else {
-> +		res = check(process(state, buf));
-> +	}
-> +
-> +	va_end(args);
-> +	return res;
-> +}
-> +
-> +/* Process a fully qualified name from DWARF scopes */
-> +static int process_fqn(struct state *state, Dwarf_Die *die)
-> +{
-> +	Dwarf_Die *scopes = NULL;
-> +	const char *name;
-> +	int res;
-> +	int i;
-> +
-> +	res = checkp(dwarf_getscopes_die(die, &scopes));
-> +	if (!res) {
-> +		name = get_name(die);
-> +		name = name ?: "<unnamed>";
-> +		return check(process(state, name));
-> +	}
-> +
-> +	for (i = res - 1; i >= 0; i--) {
-> +		if (dwarf_tag(&scopes[i]) == DW_TAG_compile_unit)
-> +			continue;
-> +
-> +		name = get_name(&scopes[i]);
-> +		name = name ?: "<unnamed>";
-> +		check(process(state, name));
-> +		if (i > 0)
-> +			check(process(state, "::"));
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
-Failed check(process()) calls here return immediately and so would leak
-scopes. However, I see this is fixed in the following patch
-"gendwarfksyms: Add a cache for processed DIEs" so it's ok.
+  pip3 install dtschema --upgrade
 
-> +	}
-> +
-> +	free(scopes);
-> +	return 0;
-> +}
-> +
-> +#define DEFINE_PROCESS_UDATA_ATTRIBUTE(attribute)                         \
-> +	static int process_##attribute##_attr(struct state *state,        \
-> +					      Dwarf_Die *die)             \
-> +	{                                                                 \
-> +		Dwarf_Word value;                                         \
-> +		if (get_udata_attr(die, DW_AT_##attribute, &value))       \
-> +			check(process_fmt(state,                          \
-> +					  " " #attribute "(%" PRIu64 ")", \
-> +					  value));                        \
-> +		return 0;                                                 \
-> +	}
-> +
-> +DEFINE_PROCESS_UDATA_ATTRIBUTE(alignment)
-> +DEFINE_PROCESS_UDATA_ATTRIBUTE(byte_size)
-> +DEFINE_PROCESS_UDATA_ATTRIBUTE(encoding)
-> +
->  bool match_all(Dwarf_Die *die)
->  {
->  	return true;
-> @@ -81,6 +160,44 @@ int process_die_container(struct state *state, Dwarf_Die *die,
->  	return 0;
->  }
->  
-> +static int process_type(struct state *state, Dwarf_Die *die);
-> +
-> +static int process_type_attr(struct state *state, Dwarf_Die *die)
-> +{
-> +	Dwarf_Die type;
-> +
-> +	if (get_ref_die_attr(die, DW_AT_type, &type))
-> +		return check(process_type(state, &type));
-> +
-> +	/* Compilers can omit DW_AT_type -- print out 'void' to clarify */
-> +	return check(process(state, "base_type void"));
-> +}
-> +
-> +static int process_base_type(struct state *state, Dwarf_Die *die)
-> +{
-> +	check(process(state, "base_type "));
-> +	check(process_fqn(state, die));
-> +	check(process_byte_size_attr(state, die));
-> +	check(process_encoding_attr(state, die));
-> +	return check(process_alignment_attr(state, die));
-> +}
-> +
-> +static int process_type(struct state *state, Dwarf_Die *die)
-> +{
-> +	int tag = dwarf_tag(die);
-> +
-> +	switch (tag) {
-> +	case DW_TAG_base_type:
-> +		check(process_base_type(state, die));
-> +		break;
-> +	default:
-> +		debug("unimplemented type: %x", tag);
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /*
->   * Exported symbol processing
->   */
-> @@ -91,7 +208,9 @@ static int process_subprogram(struct state *state, Dwarf_Die *die)
->  
->  static int process_variable(struct state *state, Dwarf_Die *die)
->  {
-> -	return check(process(state, "variable;\n"));
-> +	check(process(state, "variable "));
-> +	check(process_type_attr(state, die));
-> +	return check(process(state, ";\n"));
->  }
->  
->  static int process_symbol_ptr(struct state *state, Dwarf_Die *die)
 
--- 
-Thanks,
-Petr
+New warnings running 'make CHECK_DTBS=y apple/t8112-j413.dtb apple/t8112-j493.dtb rockchip/rk3588s-khadas-edge2.dtb' for 20240828-dts-v13-0-6bff9896d649@wesion.com:
+
+arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: wifi@0,0: compatible: 'oneOf' conditional failed, one must be fixed:
+	['pci14e4,449d', 'brcm,bcm4329-fmac'] is too long
+	'pci14e4,449d' is not one of ['brcm,bcm43143-fmac', 'brcm,bcm4341b0-fmac', 'brcm,bcm4341b4-fmac', 'brcm,bcm4341b5-fmac', 'brcm,bcm4329-fmac', 'brcm,bcm4330-fmac', 'brcm,bcm4334-fmac', 'brcm,bcm43340-fmac', 'brcm,bcm4335-fmac', 'brcm,bcm43362-fmac', 'brcm,bcm4339-fmac', 'brcm,bcm43430a0-fmac', 'brcm,bcm43430a1-fmac', 'brcm,bcm43455-fmac', 'brcm,bcm43456-fmac', 'brcm,bcm4354-fmac', 'brcm,bcm4356-fmac', 'brcm,bcm4359-fmac', 'brcm,bcm4366-fmac', 'cypress,cyw4373-fmac', 'cypress,cyw43012-fmac', 'infineon,cyw43439-fmac']
+	'pci14e4,449d' is not one of ['brcm,bcm4329-fmac', 'pci14e4,43dc', 'pci14e4,4464', 'pci14e4,4488', 'pci14e4,4425', 'pci14e4,4433']
+	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: wifi@0,0: Unevaluated properties are not allowed ('clock-names', 'clocks', 'compatible' were unexpected)
+	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+arch/arm64/boot/dts/apple/t8112-j493.dtb: wifi@0,0: compatible: 'oneOf' conditional failed, one must be fixed:
+	['pci14e4,4425', 'brcm,bcm4329-fmac'] is too long
+	'pci14e4,4425' is not one of ['brcm,bcm43143-fmac', 'brcm,bcm4341b0-fmac', 'brcm,bcm4341b4-fmac', 'brcm,bcm4341b5-fmac', 'brcm,bcm4329-fmac', 'brcm,bcm4330-fmac', 'brcm,bcm4334-fmac', 'brcm,bcm43340-fmac', 'brcm,bcm4335-fmac', 'brcm,bcm43362-fmac', 'brcm,bcm4339-fmac', 'brcm,bcm43430a0-fmac', 'brcm,bcm43430a1-fmac', 'brcm,bcm43455-fmac', 'brcm,bcm43456-fmac', 'brcm,bcm4354-fmac', 'brcm,bcm4356-fmac', 'brcm,bcm4359-fmac', 'brcm,bcm4366-fmac', 'cypress,cyw4373-fmac', 'cypress,cyw43012-fmac', 'infineon,cyw43439-fmac']
+	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+arch/arm64/boot/dts/apple/t8112-j493.dtb: wifi@0,0: Unevaluated properties are not allowed ('compatible', 'local-mac-address' were unexpected)
+	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+arch/arm64/boot/dts/apple/t8112-j413.dtb: wifi@0,0: compatible: 'oneOf' conditional failed, one must be fixed:
+	['pci14e4,4433', 'brcm,bcm4329-fmac'] is too long
+	'pci14e4,4433' is not one of ['brcm,bcm43143-fmac', 'brcm,bcm4341b0-fmac', 'brcm,bcm4341b4-fmac', 'brcm,bcm4341b5-fmac', 'brcm,bcm4329-fmac', 'brcm,bcm4330-fmac', 'brcm,bcm4334-fmac', 'brcm,bcm43340-fmac', 'brcm,bcm4335-fmac', 'brcm,bcm43362-fmac', 'brcm,bcm4339-fmac', 'brcm,bcm43430a0-fmac', 'brcm,bcm43430a1-fmac', 'brcm,bcm43455-fmac', 'brcm,bcm43456-fmac', 'brcm,bcm4354-fmac', 'brcm,bcm4356-fmac', 'brcm,bcm4359-fmac', 'brcm,bcm4366-fmac', 'cypress,cyw4373-fmac', 'cypress,cyw43012-fmac', 'infineon,cyw43439-fmac']
+	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+arch/arm64/boot/dts/apple/t8112-j413.dtb: wifi@0,0: Unevaluated properties are not allowed ('compatible', 'local-mac-address' were unexpected)
+	from schema $id: http://devicetree.org/schemas/net/wireless/brcm,bcm4329-fmac.yaml#
+
+
+
+
+
