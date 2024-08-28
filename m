@@ -1,189 +1,551 @@
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2130.outbound.protection.outlook.com [40.107.117.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01D818030
-	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 13:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.117.130
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724851028; cv=fail; b=iza9Aus1ATxQiQfinrrtUXSpNBb2v5bQqOwxF7sN6YNRcFk510h6bSTgVMV/rYO4+zG8K7O4rneCK6RwWTd+tu9BZp2ucRUUBI2Anb/gX7HuV6E/hRVQdDIFs7BU3wO4+GA3twMvLuZB+pWNJH7r8ULh74PgF1Dus9Z62rt+CHA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724851028; c=relaxed/simple;
-	bh=Yq2xyUfXUs/0dgPMd0KjgNGAQh5Rr9dRcbRYll1BHBQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=L52b9loc38lZGWuf/ak8DMBvzCVrbiT3KghuRYmtEf99GUCx9EjvaNE3BHN0lVr4l+3IHaj50oBDiG/cIzl15GovK0WzuhjYGkt65pcJfIneETyX25cInee5gnGbghcCHMy65pKp9eS5Wi5Ycd35Kd4M/HRFtgiRRhIuiSnuVjo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wesion.com; spf=pass smtp.mailfrom=wesion.com; arc=fail smtp.client-ip=40.107.117.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wesion.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wesion.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bxeD9SGmzT5leu5BZrZjmNFljMzH5G2S20ypTDZway+VGOohaMZYj/N0rS5GpdUrSmGezjRsVLi65hoTTXd2fuchxry/naed+M9nELTpoTp/PLkMhVAR/zIlwEV3+nNTWDwVUEnM3wIBl4JntgPNi15VLCHRqROOnTwUeixOk+Up7zjllEbrsKTKt9P0AWAXRDjby07bqMSIXBCdCi/oTr3CNfuyEDfn6z3KJOUx0q0LAX3YFf+a+joyQFMiIR4u0+vtoGL+x0waDfTo+ptPkzhl/NZC2eLBMeCNhICq/8hcjbPrdQVaiSLxsG/MGFTOOQ+n/lNrz0WMCN+Z68m4vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tcavgpqzPnDtcNvLxCMM2Ce4iGTp37baEgXiCECbnE8=;
- b=fJLYDYk9bGqP2ksYLxPLEdBb0M68/ZtFz2H8N86OrMTfYMNdfhYfihWYXuaBpDU8n+MNanfolMrYx09tHl9KDbV1cj9wXyWshbUKr/UplYUSt7ju3jG3ot0pd3xmPhVXSpZ91KwG97+NL/g5bFxK2BH3nutMoPKWMjGhooqZPHozYgZ4/7S47dMh5H7IGx2yW778tkLaNRhiuPoxejrv6ZmytKggiLFGzQJtVQehIw7Qb2c2VkW+1BixUngse1oJeSjx6aTTY01BD9/xhqRDCRDB3CSnlI035XLTyKRRavuyROs650Gi0wZpEkzfLm76x9NTslhaQMZZs2GYw/frPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wesion.com; dmarc=pass action=none header.from=wesion.com;
- dkim=pass header.d=wesion.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wesion.com;
-Received: from TYZPR03MB7001.apcprd03.prod.outlook.com (2603:1096:400:26a::14)
- by TYZPR03MB7676.apcprd03.prod.outlook.com (2603:1096:400:420::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.27; Wed, 28 Aug
- 2024 13:17:01 +0000
-Received: from TYZPR03MB7001.apcprd03.prod.outlook.com
- ([fe80::78dd:5e68:1a9c:36c0]) by TYZPR03MB7001.apcprd03.prod.outlook.com
- ([fe80::78dd:5e68:1a9c:36c0%4]) with mapi id 15.20.7875.019; Wed, 28 Aug 2024
- 13:17:01 +0000
-Message-ID: <b6d84350-06fb-4658-acfc-c4ea87165700@wesion.com>
-Date: Wed, 28 Aug 2024 21:16:56 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 2/2] arm64: dts: apple: add "brcm,bcm4329-fmac"
- fallback compatible
-To: Krzysztof Kozlowski <krzk@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev
-References: <20240828-dts-v13-0-6bff9896d649@wesion.com>
- <20240828-dts-v13-2-6bff9896d649@wesion.com>
- <faa5f1d0-4300-42b3-a91f-e20fda87dfed@kernel.org>
-Content-Language: en-US
-From: Jacobe Zang <jacobe.zang@wesion.com>
-In-Reply-To: <faa5f1d0-4300-42b3-a91f-e20fda87dfed@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG3P274CA0011.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::23)
- To TYZPR03MB7001.apcprd03.prod.outlook.com (2603:1096:400:26a::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703071A4F35
+	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 17:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724867141; cv=none; b=bYnu3gLMwiUlREi9MSI+s7hNTtSuNPY+NpugF95JQ/O0vey+zLY/mf0QMJO8Sh1bbcj+HmMuaTXn0smRu7mFnYVU/+wyqN7TaNsH+xRnINxy/wyrWPc4T5D+wVqC2v3oluu7n/EycRZ74Yy6Q7XGdCCcdFEQAHR9MFSOM635XpQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724867141; c=relaxed/simple;
+	bh=4Qiw+BbTYt7FJKSMYASlcgd58nWV+EBUZuAr/QB1Wx8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C0Vxbce73iT+IE07ribEo40XEigTWOBe6dKGdEH3rB3EndFjQs4Q80s/tCUq4LWFXxVAIv+zS3otdovsWzod1/2zHygD+CG1yJ0kBexqfB7BKEscROE64cUP2sQj+TxGzf0c79WB3oUBsZq/7+YXorUO4bmAgwTp7hYjqtOTAoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hEqZvJE5; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hEqZvJE5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 278FFC4AF0C
+	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 17:45:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724867141;
+	bh=4Qiw+BbTYt7FJKSMYASlcgd58nWV+EBUZuAr/QB1Wx8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=hEqZvJE5ZeneIyXZnFUDgTWEJcSBKtN43yE1RsVCSc7Y1eQ0P7TpuTmbpHlq+c3FM
+	 IbmA0/TDbAMsNSXs+rZurno+0jZNnVka/pOSvP0C9S6S9uz2ONszhd0p4jGmA6ieTd
+	 68XgcwdofL7YJsxq+tzt2CObceWzfJigR8g5aBPV8HHsBJvwPcm+H48+bKUj/XxFmt
+	 OBoyhRSY8UeRFQx/sMDLQtasUCV54DbaIC7afl5ITrGatJTqqaGnWXTTQbzM5ESAX3
+	 Wk+W9pB7KKceh2fTvG/gf+2gPrNKtViCAk4DWtC7AJqGsVu7VIMRShqzHmpYBtgSNk
+	 K7d18x/r/y87w==
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5344ab30508so914405e87.0
+        for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 10:45:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX3MLj3cLMsiXSs0exUoLnMvrK6BNoz4rYoikk2HzIqtCbhLT7z/A5WM8RxkIR9LGiQPAiWww==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxh59ELCA+C+eXqOILwu9qLe5KpALjV9pmHN5DerFpkPeM7kTPP
+	VsfC2kpFFHgfSmrRlXXpPcDqsLbmxbdIWNwplq5bNtnOrPM8Bi9Bf2RMBLpLoUzPDxaVZf2yNqY
+	jYo3D5IW9pHxQ52NzWNKyRUW0gv8=
+X-Google-Smtp-Source: AGHT+IG1po+DYHVNsioMEdLXCeX+9UMJ/6DMlarYwZVmvp6SI+NmtwkVeaxCugBYSiYJR4XG5lGM/3BvXD+9vwqSqEk=
+X-Received: by 2002:a05:6512:3b12:b0:52f:c398:8780 with SMTP id
+ 2adb3069b0e04-5353da48604mr119124e87.18.1724867139788; Wed, 28 Aug 2024
+ 10:45:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR03MB7001:EE_|TYZPR03MB7676:EE_
-X-MS-Office365-Filtering-Correlation-Id: 087221c2-8e18-470f-0456-08dcc763b3ce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OTJxTzM1UHh6a3YrZHJ2QUhLdHZUUWI5dHZLRExwZzNCSGVMZHhENytZd1k1?=
- =?utf-8?B?dHAvR01aWlZnZ0g3aTBkbVdiMVdzb0t4TitjL3d4a3RDWmNlUTVacklzNGxY?=
- =?utf-8?B?VWZpVlFzUmVKZTVYbXpzMXM1d2k4RmJTMVhlSk1QczhTbGV5TlJGWTIvZjhX?=
- =?utf-8?B?ZEJCZUlwMTZ6dFpuZHZ6REpFSVl6L1c1VXFuek1TN2NJNWJVSXVIQnJRZ0VL?=
- =?utf-8?B?dEZCcHZWM3d6Z1Exa2gwdnJBemJZVEU5b0pEb2h3UllLZDdEUGlpVG1tTmlP?=
- =?utf-8?B?eXdTRkhuc0pSUTdWSmdpR2ZwdGwwOWU4THAwK1c3TzRHREtRV2pTTG44cTJk?=
- =?utf-8?B?eUtRZ0JtS3ZVVW8vWjhiRDRPSnNqMjYwbmxLTHRYY2JBWHNrbXhHK1dvaThp?=
- =?utf-8?B?bFJEUmlRV2ZNY1JtbHE5UVRCYTVsT3V5NllrNVkyTXdHK0VSODJSZmd1ekQ1?=
- =?utf-8?B?UTRVRmpoNk5zM0N4K092VHlxV2hTejhiV1AwZUp1UzhqR1cvL29aMWxEeE5t?=
- =?utf-8?B?QUhENkIyZmlKRnEzdDZuL3NtN1hZL1JJV0I2RDUwWXhRTnZSaGFXdk1VRnBx?=
- =?utf-8?B?T3FSL09YemtGTm00aUZnYzNaRW5qcG0yUWEvTks0VURPSG1LZWNnalN4QmNr?=
- =?utf-8?B?QTRnWTY5Ny84SzBrYUEzMUpVNXQ2V3hGSVVCS1dpWG9FTmNsemhKQnBTS3Zw?=
- =?utf-8?B?WnFMT2lNdThPeEN1bTlpSUxtbVJ6bkNacVJPZFh6ZkFyb09YRGs3SUJiYXdi?=
- =?utf-8?B?ald1anF0MFRmUjgwbHU3M1pRUXllZGkyeGZROGgwRzIzWFJWd2FwbUpCTnVo?=
- =?utf-8?B?VlU5ckk4dG9aQjBVMmpjRGlwdDdNNzUwRVJrMmZ2ZENZN243Z0FGdFVqS0dE?=
- =?utf-8?B?elZ0Z0d4dmNGbEtUQktOL0VHb25GNnZDT0M1TXRndTJZUE92emdGdDZvTGlW?=
- =?utf-8?B?V1ZTRlJnUjN6SDlNNU5nK2F3cllOcmRIWkZCMUNJVjhlc3F4L2M4bUhxNXhK?=
- =?utf-8?B?UHNuK0FVdERmSENIay9SMzhOOHZZbmVSaHZ1QzFHZGNPL3VzZ0JFVk8yODEv?=
- =?utf-8?B?Y0pGOHJ2bHRhUlRXMko5dmtYZys1Sm14MExaNjN3TGhhdGlhbHZlWHEra0N4?=
- =?utf-8?B?Y1g2YTQyWTlYTXJ1OTBsN0h6ZkN6d0VqMGVwb1ZLZXN6a05zd0kxblJxSXlR?=
- =?utf-8?B?NHN0TFYyazdKOWZzTkg2cUNEZTI2Q1FNNTZnUzBuNkRqb1piVDhTaDNVSnJS?=
- =?utf-8?B?YVVKL2ZBV1Vrb0NMMXg1SUZvdXlQcHhhOWIwaWEzcC9WZkFnb3lubG45TzJD?=
- =?utf-8?B?eUFuT2pvaVZ4M1NGcHFMVm5nYkV2YlptVUk3bGVGZjFhRmxEM3I3SC96T2tL?=
- =?utf-8?B?VFlXQ3FzaUxUaGIyMjVWQkRNbVVZMGJWNVJVQ2FBaUZ4Y0pDYkx0UCtieUpD?=
- =?utf-8?B?eXhTK1I5Y0tUcEJuOXlURCs2cENjOS9TRFFiOGVVN3RnNkI4a1VNOFJGRjRZ?=
- =?utf-8?B?Z0FkUW9ETnpTVWFQM2FpQVJPeW4wTUVGWjdkd0E3K2c4eDdBQUhsRWpMRFlC?=
- =?utf-8?B?TmhzU3hWSnlLdldmWjF0VHZuWmFra2RML0pYVUNDYXN1a0J0QTEyUjFQSDU2?=
- =?utf-8?B?ZWxNSDRUenBhZUd5M2hDYklwR1ZwdHVLWjNvZ1dPek5BcVMveEwrV295NEFK?=
- =?utf-8?B?MW5FaE5CamtHOTFHMHM0dDExMkJ1YzYvNUpicm1BWFZZdTJCQURWU0hLeUJZ?=
- =?utf-8?B?Sm1Fb0g3d1pDNm1LZVhVazVFMHR5TEtSSE5YQkFzanVVU2tielFRQTdqbExP?=
- =?utf-8?B?QXV0eEV2RVlOQTB5NFRuZz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB7001.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dnZXWDEzTVlUcGpjN1dzZVhLaUhsa05Ed0lTbENWb2wwVkhkdnBnVjhZK3Ix?=
- =?utf-8?B?ZmVQbHYvOE02SVgrek9wRGJkeTBCSUk2a0haSk44cTZsWmhaaUVsM3QrUjli?=
- =?utf-8?B?cjZmRHhyMzJ2WjNneStiOEFCSUtyTEg1aUFIWW00YUx4aTdGbDhBc2pnZTQz?=
- =?utf-8?B?ank4R2o3OTZIT1Q3MEU3S011VlRVMVBBOW91MnFqZm56dTJUZmhVbTE0MGFV?=
- =?utf-8?B?T3BKZkxhaHhSUGw5NThwSGFLeklGZ3pWK1lBTjRIZ0J5MzY2ZlJCQzNmcFRD?=
- =?utf-8?B?dG5RTVp4azI1Tlc5a1dSL0FJbzl1V3FNREpVVHdMbzR3UGlLeS9tVlFvaGl4?=
- =?utf-8?B?aURXUTkzSjhabEJwenBHbXIxY0UzR2k0cG9BcldRUjdUSzliQzhGZUFJbGwr?=
- =?utf-8?B?MGwrcVJvT3ZBWitvOEpoTUxOVng1WEJLRmIrT1VxREc3MXU1WGhSdC9HR0xY?=
- =?utf-8?B?UFlFVkRXQ2xKZzZhYWhmakhkTHRWVU9XdWxIMUFqQk5tbFFHamVCaHVuV3gz?=
- =?utf-8?B?V0M3Wk0yRXg5U2lFa2xRWHhOSlA0ZXlGMHRjUnl0ZmhodFJmNTlkOE9BUVha?=
- =?utf-8?B?M0xZVnp1azRiSHBJTDR5VGFmWkZ0RW5Da1BoSUU1MWtTMFdoSWk0RkRlUE9U?=
- =?utf-8?B?OGJJaVdKZW54NlVUbkt1OXhRN3YvNzhyZDBQaFBEMmdFZW9rcTlTdDF2VFBZ?=
- =?utf-8?B?SDRnUTFIQXNicU93M3IwL3Rmc2VKOEJXdVZMUzNacm9MZU5RTEFxbzdaWlpa?=
- =?utf-8?B?RXMrLyt0dWthbXEwaHplWUJkc3hvdXBkdEIyOFhlejViUE1BSEEvWTFoZ29q?=
- =?utf-8?B?Sml0ckpVN2YrcWppdlBraGpZMHdpampEK1RGbVNpSUFqZk5YNGI5VnVvYzI5?=
- =?utf-8?B?Nm1Nd3Y2c1MrZVR5RHNWYjFsTm8rVk9BanFTSXQvb0NIR2Q5bHZ3KzZEWTc5?=
- =?utf-8?B?aFlnMXo3NUY4RVB3VEpQM0s4WWlnRTdDMmE5Ri9zRXhlTG9pVVFDd2I2RFcw?=
- =?utf-8?B?R1dIZkJHdnNST1loaWNkRDYyZVBhSXhmbUwySlZoMlVLSlVDa2dqVS9XdXpL?=
- =?utf-8?B?dXNvWk16eVIvYy8wVDlQUEJDZG9ZTlJNeUJwdzh4TklNWUFCZHRjZDRHZ1JM?=
- =?utf-8?B?MU5CckpMcytsajYvcEJGZG1UYXhJNnJ3dWhmYmhsVG9zNnZBbWNMTkd0YzI3?=
- =?utf-8?B?Q3lWM0dzQzYzOHkycER6RzdQdjVWNWRETi9vbW4zejZIdXVFWW5YUWFlaGhn?=
- =?utf-8?B?M0xESFh5RWFjV3VHS2dWOGQydHFiUFBqeVVDdjhtdFdmNjJxWElHNVZ5bnQw?=
- =?utf-8?B?Ym9rZ1pOUVBUSDI1dzdxOE9SQ0dFdEJBdTJGckhVa2h5UnRaQTVaNEdSaG5Z?=
- =?utf-8?B?anBMTU9DL2lLWVJGbzluQVFrTkd0OTIwQVoybVJuSnhwS2hiaVFjcmhQV2p6?=
- =?utf-8?B?ZUM2RkpHWVRCNlQ4S2NPYkU0LzhsRUxQQWdSQU1GNWJhOWVIVmxQNUoyMGlL?=
- =?utf-8?B?elI1bmdhMU1iTkc2Rnc3K2NmR1pUY1l3Q3hOTkxpR1FFZzZjc29rb0Rkd3dt?=
- =?utf-8?B?cWltVlB3OE9yS25NSEsvdWxUMmJscTg4RDZCMUxpZG1zdm9wN2x5dHdLRVRJ?=
- =?utf-8?B?VFR0M1U5WjBKOVBzbGpKQXZGN0RnZ0hPMmY5bzkyR0FJZTlodDlvZzRYVlBu?=
- =?utf-8?B?TXZiU1hZVDJFc2gwMlpoSDVPTUY1N1krYS9Cd3dCSmdXT0puTy91UEVhSFFu?=
- =?utf-8?B?VUlVSDhRblJBNWYzQSszNlBiTUx4dVQ4VnRCUlBEU3pKV0d5QnBwYmg5TC9I?=
- =?utf-8?B?UU9JMUN3ZUdvRklDOERBV1FPVWpWTmk5NnVUVDBHRjlCWVVLY1JRSEV2djBa?=
- =?utf-8?B?YURrSjNMZUR4R1ZVZGlnVjgyeTZHNm9QMXNrdWxlNEtSM2MrYVF6RjZFTlY3?=
- =?utf-8?B?OGlqemFmNlY4NWtLYlZkSzFQS2t3NjhLL3RqYmlNaW5FWmk0ZVpkSkFtcUlQ?=
- =?utf-8?B?VUtqVzB0ZUFNbXNDelNkTVlYeG9DMHVnWU5yWGZzOTZUejNWUysyQ2NvT3hZ?=
- =?utf-8?B?cklra25IZ0kvOGVFeUVNTmhneG9MZlh6MHdLU0xnOGVHNnNlK285alpKbW1Y?=
- =?utf-8?B?dGZsMXI0eDRJQ2hraXZoNzFpZWJVME9VdGlwTTExNkxmazlGZnU0RHNua2la?=
- =?utf-8?B?L3dtSjlVNjdrblFzekRqRlpicHZSMmRCUi9hS0VPeDRxbkdZd3JHWkxyYXFx?=
- =?utf-8?B?VnVpNU1wS3NQaGFoU2t1MEE4L1RRPT0=?=
-X-OriginatorOrg: wesion.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 087221c2-8e18-470f-0456-08dcc763b3ce
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB7001.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2024 13:17:01.3441
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 2dc3bd76-7ac2-4780-a5b7-6c6cc6b5af9b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UTwr4DdD6E4Kz61ZlMK4PJyOyFIk7vH3yDEd9nb8rjuGYws3QymtUVZlU+54wsgYW9JjjYh+g9LHcfRHv1Z2gw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB7676
+References: <20240815173903.4172139-21-samitolvanen@google.com> <20240815173903.4172139-22-samitolvanen@google.com>
+In-Reply-To: <20240815173903.4172139-22-samitolvanen@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Thu, 29 Aug 2024 02:45:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATKWnkdmxvPBaBLYThLk0Voh7UVh5V4_eKHs9g-40qUTQ@mail.gmail.com>
+Message-ID: <CAK7LNATKWnkdmxvPBaBLYThLk0Voh7UVh5V4_eKHs9g-40qUTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/19] tools: Add gendwarfksyms
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Aug 16, 2024 at 2:39=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
+com> wrote:
+>
+> Add a basic DWARF parser, which uses libdw to traverse the debugging
+> information in an object file and looks for functions and variables.
+> In follow-up patches, this will be expanded to produce symbol versions
+> for CONFIG_MODVERSIONS from DWARF.
 
 
 
-On 2024/8/28 21:02, Krzysztof Kozlowski wrote:
-> On 28/08/2024 10:45, Jacobe Zang wrote:
->> Wi-Fi compatible in these DTS is based on PCI ID. Bindings need
->> "brcm,bcm4329-fmac" as fallback compatible.
->>
->> Signed-off-by: Jacobe Zang <jacobe.zang@wesion.com>
->> ---
->>   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi | 2 +-
->>   arch/arm64/boot/dts/apple/t8112-j413.dts  | 2 +-
->>   arch/arm64/boot/dts/apple/t8112-j493.dts  | 2 +-
->>   3 files changed, 3 insertions(+), 3 deletions(-)
->>
-> 
-> Bindings are being questioned, so link to them in changelog section
-> would help the maintainers to decide when to apply it.
-> 
-> I am not convinced this is correct bindings change, thus this DTS should
-> wait.
-> 
-> Your previous patch also misses link to bindings. Whenever you split DTS
-> to separate series, please always provide link to the bindings, so
-> people will have the context.
-> 
+I do not think it would make sense to split the patch
+until this tool starts to do something useful.
 
-Sure.  I will post the link in changelog next time.
 
--- 
+
+
+
+
+>
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> ---
+>  kernel/module/Kconfig                 |   8 ++
+>  scripts/Makefile                      |   1 +
+>  scripts/gendwarfksyms/.gitignore      |   2 +
+>  scripts/gendwarfksyms/Makefile        |   7 ++
+>  scripts/gendwarfksyms/dwarf.c         |  87 +++++++++++++++
+>  scripts/gendwarfksyms/gendwarfksyms.c | 146 ++++++++++++++++++++++++++
+>  scripts/gendwarfksyms/gendwarfksyms.h |  78 ++++++++++++++
+>  7 files changed, 329 insertions(+)
+>  create mode 100644 scripts/gendwarfksyms/.gitignore
+>  create mode 100644 scripts/gendwarfksyms/Makefile
+>  create mode 100644 scripts/gendwarfksyms/dwarf.c
+>  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
+>  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
+>
+> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
+> index 4047b6d48255..a506d4ac660f 100644
+> --- a/kernel/module/Kconfig
+> +++ b/kernel/module/Kconfig
+> @@ -168,6 +168,14 @@ config MODVERSIONS
+>           make them incompatible with the kernel you are running.  If
+>           unsure, say N.
+>
+> +config GENDWARFKSYMS
+> +       bool
+> +       depends on DEBUG_INFO
+> +       # Requires full debugging information, split DWARF not supported.
+> +       depends on !DEBUG_INFO_REDUCED && !DEBUG_INFO_SPLIT
+> +       # Requires ELF object files.
+> +       depends on !LTO
+> +
+>  config ASM_MODVERSIONS
+>         bool
+>         default HAVE_ASM_MODVERSIONS && MODVERSIONS
+> diff --git a/scripts/Makefile b/scripts/Makefile
+> index dccef663ca82..2fd0199662e9 100644
+> --- a/scripts/Makefile
+> +++ b/scripts/Makefile
+> @@ -54,6 +54,7 @@ targets +=3D module.lds
+>
+>  subdir-$(CONFIG_GCC_PLUGINS) +=3D gcc-plugins
+>  subdir-$(CONFIG_MODVERSIONS) +=3D genksyms
+> +subdir-$(CONFIG_GENDWARFKSYMS) +=3D gendwarfksyms
+>  subdir-$(CONFIG_SECURITY_SELINUX) +=3D selinux
+>
+>  # Let clean descend into subdirs
+> diff --git a/scripts/gendwarfksyms/.gitignore b/scripts/gendwarfksyms/.gi=
+tignore
+> new file mode 100644
+> index 000000000000..ab8c763b3afe
+> --- /dev/null
+> +++ b/scripts/gendwarfksyms/.gitignore
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +/gendwarfksyms
+> diff --git a/scripts/gendwarfksyms/Makefile b/scripts/gendwarfksyms/Makef=
+ile
+> new file mode 100644
+> index 000000000000..c1389c161f9c
+> --- /dev/null
+> +++ b/scripts/gendwarfksyms/Makefile
+> @@ -0,0 +1,7 @@
+> +hostprogs-always-y +=3D gendwarfksyms
+> +
+> +gendwarfksyms-objs +=3D gendwarfksyms.o
+> +gendwarfksyms-objs +=3D dwarf.o
+> +
+> +HOST_EXTRACFLAGS :=3D -I $(srctree)/tools/include
+> +HOSTLDLIBS_gendwarfksyms :=3D -ldw -lelf
+> diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.=
+c
+> new file mode 100644
+> index 000000000000..65a29d0bd8f4
+> --- /dev/null
+> +++ b/scripts/gendwarfksyms/dwarf.c
+> @@ -0,0 +1,87 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2024 Google LLC
+> + */
+> +
+> +#include "gendwarfksyms.h"
+> +
+> +/*
+> + * Type string processing
+> + */
+> +static int process(struct state *state, const char *s)
+> +{
+> +       s =3D s ?: "<null>";
+> +
+> +       if (debug)
+> +               fputs(s, stderr);
+> +
+> +       return 0;
+> +}
+> +
+> +bool match_all(Dwarf_Die *die)
+> +{
+> +       return true;
+> +}
+> +
+> +int process_die_container(struct state *state, Dwarf_Die *die,
+> +                         die_callback_t func, die_match_callback_t match=
+)
+> +{
+> +       Dwarf_Die current;
+> +       int res;
+> +
+> +       res =3D checkp(dwarf_child(die, &current));
+> +       while (!res) {
+> +               if (match(&current))
+> +                       check(func(state, &current));
+> +               res =3D checkp(dwarf_siblingof(&current, &current));
+> +       }
+> +
+> +       return 0;
+> +}
+> +
+> +/*
+> + * Symbol processing
+> + */
+> +static int process_subprogram(struct state *state, Dwarf_Die *die)
+> +{
+> +       return check(process(state, "subprogram;\n"));
+> +}
+> +
+> +static int process_variable(struct state *state, Dwarf_Die *die)
+> +{
+> +       return check(process(state, "variable;\n"));
+> +}
+> +
+> +static int process_exported_symbols(struct state *state, Dwarf_Die *die)
+> +{
+> +       int tag =3D dwarf_tag(die);
+> +
+> +       switch (tag) {
+> +       /* Possible containers of exported symbols */
+> +       case DW_TAG_namespace:
+> +       case DW_TAG_class_type:
+> +       case DW_TAG_structure_type:
+> +               return check(process_die_container(
+> +                       state, die, process_exported_symbols, match_all))=
+;
+> +
+> +       /* Possible exported symbols */
+> +       case DW_TAG_subprogram:
+> +       case DW_TAG_variable:
+> +               if (tag =3D=3D DW_TAG_subprogram)
+> +                       check(process_subprogram(state, die));
+> +               else
+> +                       check(process_variable(state, die));
+> +
+> +               return 0;
+> +       default:
+> +               return 0;
+> +       }
+> +}
+> +
+> +int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie)
+> +{
+> +       struct state state =3D { .mod =3D mod, .dbg =3D dbg };
+> +
+> +       return check(process_die_container(
+> +               &state, cudie, process_exported_symbols, match_all));
+> +}
+> diff --git a/scripts/gendwarfksyms/gendwarfksyms.c b/scripts/gendwarfksym=
+s/gendwarfksyms.c
+> new file mode 100644
+> index 000000000000..27f2d6423c45
+> --- /dev/null
+> +++ b/scripts/gendwarfksyms/gendwarfksyms.c
+> @@ -0,0 +1,146 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2024 Google LLC
+> + */
+> +
+> +#include <fcntl.h>
+> +#include <errno.h>
+> +#include <stdarg.h>
+> +#include <string.h>
+> +#include <unistd.h>
+> +#include "gendwarfksyms.h"
+> +
+> +/*
+> + * Options
+> + */
+> +
+> +/* Print out debugging information to stderr */
+> +bool debug;
+> +
+> +static const struct {
+> +       const char *arg;
+> +       bool *flag;
+> +       const char **param;
+> +} options[] =3D {
+> +       { "--debug", &debug, NULL },
+> +};
+> +
+> +static int usage(void)
+> +{
+> +       error("usage: gendwarfksyms [options] elf-object-file ...");
+
+
+
+Description for each option, please.
+
+See
+scripts/genksyms/genksyms.c
+as an example.
+
+
+> +       return -1;
+> +}
+> +
+> +static const char *object_files[MAX_INPUT_FILES];
+> +static unsigned int object_count;
+> +
+> +static int parse_options(int argc, const char **argv)
+
+
+
+Why not getopt_long()?
+
+
+See
+scripts/kallsyms.c
+scripts/genksyms/genksyms.c
+as examples.
+
+
+
+
+
+
+
+
+
+> +{
+> +       for (int i =3D 1; i < argc; i++) {
+> +               bool flag =3D false;
+> +
+> +               for (int j =3D 0; j < ARRAY_SIZE(options); j++) {
+> +                       if (strcmp(argv[i], options[j].arg))
+> +                               continue;
+> +
+> +                       *options[j].flag =3D true;
+> +
+> +                       if (options[j].param) {
+> +                               if (++i >=3D argc) {
+> +                                       error("%s needs an argument",
+> +                                             options[j].arg);
+> +                                       return -1;
+> +                               }
+> +
+> +                               *options[j].param =3D argv[i];
+> +                       }
+> +
+> +                       flag =3D true;
+> +                       break;
+> +               }
+> +
+> +               if (!flag)
+> +                       object_files[object_count++] =3D argv[i];
+> +       }
+> +
+> +       return object_count ? 0 : -1;
+> +}
+> +
+> +static int process_modules(Dwfl_Module *mod, void **userdata, const char=
+ *name,
+> +                          Dwarf_Addr base, void *arg)
+> +{
+> +       Dwarf_Addr dwbias;
+> +       Dwarf_Die cudie;
+> +       Dwarf_CU *cu =3D NULL;
+> +       Dwarf *dbg;
+> +       int res;
+> +
+> +       debug("%s", name);
+> +       dbg =3D dwfl_module_getdwarf(mod, &dwbias);
+> +
+> +       do {
+> +               res =3D dwarf_get_units(dbg, cu, &cu, NULL, NULL, &cudie,=
+ NULL);
+> +               if (res < 0) {
+> +                       error("dwarf_get_units failed: no debugging infor=
+mation?");
+> +                       return -1;
+> +               } else if (res =3D=3D 1) {
+> +                       break; /* No more units */
+> +               }
+> +
+> +               check(process_module(mod, dbg, &cudie));
+> +       } while (cu);
+> +
+> +       return DWARF_CB_OK;
+> +}
+> +
+> +static const Dwfl_Callbacks callbacks =3D {
+> +       .section_address =3D dwfl_offline_section_address,
+> +       .find_debuginfo =3D dwfl_standard_find_debuginfo,
+> +};
+> +
+> +int main(int argc, const char **argv)
+> +{
+> +       unsigned int n;
+> +
+> +       if (parse_options(argc, argv) < 0)
+> +               return usage();
+> +
+> +       for (n =3D 0; n < object_count; n++) {
+
+
+When does  "object_count >=3D 2" happen ?
+
+
+
+
+
+
+
+
+
+
+> +               Dwfl *dwfl;
+> +               int fd;
+> +
+> +               fd =3D open(object_files[n], O_RDONLY);
+> +               if (fd =3D=3D -1) {
+> +                       error("open failed for '%s': %s", object_files[n]=
+,
+> +                             strerror(errno));
+> +                       return -1;
+> +               }
+> +
+> +               dwfl =3D dwfl_begin(&callbacks);
+> +               if (!dwfl) {
+> +                       error("dwfl_begin failed for '%s': %s", object_fi=
+les[n],
+> +                             dwarf_errmsg(-1));
+> +                       return -1;
+> +               }
+> +
+> +               if (!dwfl_report_offline(dwfl, object_files[n], object_fi=
+les[n],
+> +                                        fd)) {
+> +                       error("dwfl_report_offline failed for '%s': %s",
+> +                             object_files[n], dwarf_errmsg(-1));
+> +                       return -1;
+> +               }
+> +
+> +               dwfl_report_end(dwfl, NULL, NULL);
+> +
+> +               if (dwfl_getmodules(dwfl, &process_modules, NULL, 0)) {
+> +                       error("dwfl_getmodules failed for '%s'",
+> +                             object_files[n]);
+> +                       return -1;
+> +               }
+> +
+> +               dwfl_end(dwfl);
+> +               close(fd);
+> +       }
+> +
+> +       return 0;
+> +}
+> diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksym=
+s/gendwarfksyms.h
+> new file mode 100644
+> index 000000000000..5ab7ce7d4efb
+> --- /dev/null
+> +++ b/scripts/gendwarfksyms/gendwarfksyms.h
+> @@ -0,0 +1,78 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Copyright (C) 2024 Google LLC
+> + */
+> +
+> +#include <dwarf.h>
+> +#include <elfutils/libdw.h>
+> +#include <elfutils/libdwfl.h>
+> +#include <linux/hashtable.h>
+> +#include <inttypes.h>
+> +#include <stdlib.h>
+> +#include <stdio.h>
+> +
+> +#ifndef __GENDWARFKSYMS_H
+> +#define __GENDWARFKSYMS_H
+> +
+> +/*
+> + * Options -- in gendwarfksyms.c
+> + */
+> +extern bool debug;
+> +
+> +#define MAX_INPUT_FILES 128
+> +
+> +/*
+> + * Output helpers
+> + */
+> +#define __PREFIX "gendwarfksyms: "
+> +#define __println(prefix, format, ...)                                \
+> +       fprintf(stderr, prefix __PREFIX "%s: " format "\n", __func__, \
+> +               ##__VA_ARGS__)
+> +
+> +#define debug(format, ...)                                    \
+> +       do {                                                  \
+> +               if (debug)                                    \
+> +                       __println("", format, ##__VA_ARGS__); \
+> +       } while (0)
+> +
+> +#define warn(format, ...) __println("warning: ", format, ##__VA_ARGS__)
+> +#define error(format, ...) __println("error: ", format, ##__VA_ARGS__)
+> +
+> +/*
+> + * Error handling helpers
+> + */
+> +#define __check(expr, test, rv)                                 \
+> +       ({                                                      \
+> +               int __res =3D expr;                               \
+> +               if (test) {                                     \
+> +                       error("`%s` failed: %d", #expr, __res); \
+> +                       return rv;                              \
+> +               }                                               \
+> +               __res;                                          \
+> +       })
+> +
+> +/* Error =3D=3D non-zero values */
+> +#define check(expr) __check(expr, __res, -1)
+> +/* Error =3D=3D negative values */
+> +#define checkp(expr) __check(expr, __res < 0, __res)
+> +
+> +/*
+> + * dwarf.c
+> + */
+> +
+> +struct state {
+> +       Dwfl_Module *mod;
+> +       Dwarf *dbg;
+> +};
+> +
+> +typedef int (*die_callback_t)(struct state *state, Dwarf_Die *die);
+> +typedef bool (*die_match_callback_t)(Dwarf_Die *die);
+> +extern bool match_all(Dwarf_Die *die);
+> +
+> +extern int process_die_container(struct state *state, Dwarf_Die *die,
+> +                                die_callback_t func,
+> +                                die_match_callback_t match);
+> +
+> +extern int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie=
+);
+
+
+No 'extern' for function declarations.
+
+
+
+
+
+> +
+> +#endif /* __GENDWARFKSYMS_H */
+> --
+> 2.46.0.184.g6999bdac58-goog
+>
+
+
+--
 Best Regards
-Jacobe
+
+Masahiro Yamada
