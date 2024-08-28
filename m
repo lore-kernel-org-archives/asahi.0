@@ -1,164 +1,227 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (mail-sgaapc01on2120.outbound.protection.outlook.com [40.107.215.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4501993AF
-	for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 21:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724794164; cv=none; b=mU8iA0YTANUyOu875C2WTDMFSi695mEyMdtBodrTvZBgD3j6/RamhU58avdibq0Wo0UkWC92oMSTACGiDuMpzeTEiM8izrRHdSd+ibiIEvwwTxevLl1yoXm7J20hnnNjabgHZRu5Bpj9VcX/FkI2ka4KpNPMPYw5Zv26WZJSi5o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724794164; c=relaxed/simple;
-	bh=R4HLYZ+UViFtWMxsFQtEArNLC47KC7MUZLfJAYG+8L4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rW4SC153e6kE8+C8m0WhiTnuka9c8Wj2wyPmUwefD5uBnFS5u+Wj+QpTAxPUC/j7bEXYd4QOuCQ3kK1oLgrofrxQi1Ofl3ewc4aAxxXG5njBN6NA9+B1KEhRiAqQlBBUbom5+S0fnvZDvh0RNzFkStjcNjx8T+VPwHxUgvWBH0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aa2iTnBK; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aa2iTnBK"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-454b1e08393so93521cf.0
-        for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 14:29:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724794162; x=1725398962; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JTy0kGwiDI5gZsttd0+HgzSva3UgwhiIE4UArdRmSDM=;
-        b=aa2iTnBKlu6OP2hIOX0VPsu2imyhpWiSAztcnGMm4LEq6zH7c7R0mG6QY/S4aSr5iJ
-         rEh9/4aE0/KMQpXcejk8xLoaM0OGW6EyXUbe+wrn+GgksbOwuwl3dWIrTDS9LXeSk274
-         T5NHqGEwAclCRezu10y2XxBqHo+3jY0bWEEGv07ufW92FhZJUMYt/eHg87CgFenyW1E3
-         t5ge86KhJh2+aKf7nvx32/GkOd5zFF6spZIQBRRZLyg5swRF46Q2K86P2ZXO9SxD1uCf
-         zGiPwWLxuMDUkaPbgnqxWZKPLxQv1ht6i5SoOMlOp8NFaHhEuoozgZjO5lM0y9ati2QK
-         txEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724794162; x=1725398962;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JTy0kGwiDI5gZsttd0+HgzSva3UgwhiIE4UArdRmSDM=;
-        b=iU69FrVA78/r1wWVU21iDouOoGlX95Bl1M3EOYfX2RZyJna6mmmCZTGPXxmSxv6Am3
-         g8FomkWdA+iZn68qyqGvMLIqIua0phwOC6ZLfLAx8blcZf8BKuE5tUWD7CYp8zHS1O7D
-         JIlVjreB6QYeew2SlAcj0MaQsCDlGT9X3cNt5qx6uPtggW+T2pDB+jlsbIypLpwfKaQr
-         6XAmIz3lTjcMW+xUSjAB+LKC5Df1a8dAxwR7fkYGd3jiGIUma71SvEr1Qcos6BLyZ62W
-         LBEqEcgjQDIx0UFpHSQgTYlL9Y0A//nY/Q592H3yRQnBM7l6+9B94ssn3ZzR7jXzz0q/
-         MY6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVle+70m5arJewHb/NPD0AXdxqdCG7GFBeIJcWfnr1xzMJhmkKjlTNH7lWlRWznR1dADKvdmA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpiG9w2Nu0GuklgqKBpajvJRwWxB6+q0AQBIctXEbgbNkRRQLW
-	qejs46DLd4vd2gg5m6rv74nvV5rTUT2wQW5hq5VPuEk9tubrSmYoYu/WKf6zWoZMjA83D72Fkc6
-	0z8V+ApwhXYE1e1wZcc8mxhu1Fmk8nxUuI/Ze
-X-Google-Smtp-Source: AGHT+IESYT6ErEPekdnM4JPG1QAmj//Y4YNR4GKOjrbinkZvJAz7qCJ6vDkOQJqXUvV1BbfJh1Ad0J1bwqMfl5vfrVg=
-X-Received: by 2002:a05:622a:2cc:b0:44f:9e0f:bc41 with SMTP id
- d75a77b69052e-4566e2c44a8mr191491cf.27.1724794161723; Tue, 27 Aug 2024
- 14:29:21 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23EA725760
+	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 03:41:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.215.120
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724816463; cv=fail; b=fh92Yxnapd306phP/xJwWsMZJjl3Kl0V2RxHCdoJ+4a0NL0srpVIMdu1YSw+wLALAm3JmOJh5q8wOAXn3mNtgzNt/33MC8OAqe6S39rM238Qs1dBcoVAnzzd70iPKXOri47KStoJVBmM+eyBWCAYzLosUEmEVpt2WyyfxK0iQrI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724816463; c=relaxed/simple;
+	bh=PEGrCAGovNh9qzxlK6lVpl8kENQHQlvAGf3qit9UgDs=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=jPZKkWXNTTCpp57Qj2psBCIT1k4zfQ0/MEvFzkAF05ATJ5i4QO9IdKqFRHSPoDxdSdhBrGO7NStz+dEABhhMY8oZ8Q3ozWyNSGjP+sd0/BtNUbsQPjaGdpWk2NW1q4rhxlxTo0MQTvkxJtO8S1VvPrYWt5A9fWdjqLj75kDw7uI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wesion.com; spf=pass smtp.mailfrom=wesion.com; arc=fail smtp.client-ip=40.107.215.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wesion.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wesion.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T9c+JjwaQPBzewcJAMRkQfQoaGaASe/DBbYgVMOHCwuxm2U8b8lJ1TQHCylVlSPB/x+Mio0g//8S2GxlXyUTymoWbJBR1l5xWiUKHllBfsp+GkFPcIOglOFAmw7OJsdeJVW17WcGEYw5ruC3/ViJ9zaW4ZSdmHUOO8HwejlqUinoK/W7q+QlQZj8aThpZfNgN0rJGyHWAH3LAvozdjkKRUVM4Joi1hIOM6kDOLk8lJFbxLzF9/i8Srulm1c2Q3pDLq9Nbu64mmmRCKK14sTRc8iKR4EvUZ70Vc523YvcH44H5t/y44cVU/2bGu+oAIUKnRcTBhyDwPSDteyqU0yb4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=55ZMJ0XhOGKYl4gogAcDRDyFX1J+vQgsta98Oelpl6Q=;
+ b=akB5v7lihwyyfimNP/IJKkXnPo990Yg/OYmbyFw74Khw9ByB7oprO7UQosdPAkBjwP9Pd7nF8/Vu7SCOyvI8YgBVer4hkiUaIT7FLD6GhqJuVGGguS+dDXu9g1CI0WFVrbo+7xPCcG7lNWZxzMCWwkajD/J8JJJB79bSeUiWkcxlHSdYeWLMJYCP2hwAoztH2ZVDgZbDlfitLju5f8ybkAA9EX2I8JFeSYjhKWk1Az+dEGlv39aDXAM5dy2OVmVBJ8eEK9cs/Rj16UIFL0BJdLU7ukNr1AykQ5COfxsG40U9M+eKLeFyx9/Hh5XbsZlyJ7g8M93Vuk80SMERoKcN7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wesion.com; dmarc=pass action=none header.from=wesion.com;
+ dkim=pass header.d=wesion.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wesion.com;
+Received: from TYZPR03MB7001.apcprd03.prod.outlook.com (2603:1096:400:26a::14)
+ by TYSPR03MB7977.apcprd03.prod.outlook.com (2603:1096:400:47f::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7875.19; Wed, 28 Aug
+ 2024 03:40:55 +0000
+Received: from TYZPR03MB7001.apcprd03.prod.outlook.com
+ ([fe80::78dd:5e68:1a9c:36c0]) by TYZPR03MB7001.apcprd03.prod.outlook.com
+ ([fe80::78dd:5e68:1a9c:36c0%4]) with mapi id 15.20.7875.019; Wed, 28 Aug 2024
+ 03:40:55 +0000
+From: Jacobe Zang <jacobe.zang@wesion.com>
+To: marcan@marcan.st,
+	sven@svenpeter.dev,
+	alyssa@rosenzweig.io,
+	robh@kernel.org,
+	heiko@sntech.de,
+	krzk+dt@kernel.org
+Cc: linux-rockchip@lists.infradead.org,
+	dsimic@manjaro.org,
+	conor+dt@kernel.org,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	nick@khadas.com,
+	Jacobe Zang <jacobe.zang@wesion.com>
+Subject: [PATCH v12 0/2] Add Wi-Fi support for Khadas Edge2 and fallback compatible for Apple
+Date: Wed, 28 Aug 2024 11:39:51 +0800
+Message-Id: <20240828033953.967649-1-jacobe.zang@wesion.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TYCP286CA0185.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:382::20) To TYZPR03MB7001.apcprd03.prod.outlook.com
+ (2603:1096:400:26a::14)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-24-samitolvanen@google.com> <d63ddefe-a6f6-4a5b-9330-11438fca8f9f@suse.com>
-In-Reply-To: <d63ddefe-a6f6-4a5b-9330-11438fca8f9f@suse.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 27 Aug 2024 21:28:42 +0000
-Message-ID: <CABCJKud2za5o19O4XuE-jxuevwQLZPd+CdoB5tMHCgtG2Q2upQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/19] gendwarfksyms: Add address matching
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYZPR03MB7001:EE_|TYSPR03MB7977:EE_
+X-MS-Office365-Filtering-Correlation-Id: b73c19cd-5eac-47d1-26b4-08dcc71338eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|7416014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?AH/mKlB6Tgw8fbFSpH1zpFuC6/pR539GXtKeuBNuoUX4oyiCk7i2YytnaBCj?=
+ =?us-ascii?Q?CVGjN5sJKyLVZaKtFBggQm53Vzy9UbrwxfkJ4R5+fXaSHjDEqCXs5Ew59QP+?=
+ =?us-ascii?Q?OmTHGu8rJ43AIiqVL5j74WUdm1u6HdFrUMTGAZb5EAbNTLyUD6vnt+2Icf1J?=
+ =?us-ascii?Q?HQLAGMF6KjaAOoeVeCPf1BlUSVlZ621cKsrTuuT/EbVWMJkYzw865fGdTYce?=
+ =?us-ascii?Q?6gkITUsa0coRhn5QU/BKID9k1mhjDXfa+dCm0i/bu6nT+SU7ucNqj/lzPbTR?=
+ =?us-ascii?Q?GRvLymmuOtpfSUWizaS9WNz+/y7WF9+XZnxpiMLcUA3WZGrXDKWDlp8UB7av?=
+ =?us-ascii?Q?8xr2rr2/6OFt1h6seXV9Pp3didc+ZSdt0LmKjnXsHo+CVscvdO/wbdpB+NDF?=
+ =?us-ascii?Q?ow56xP2g9uM5CbTamrV9NDfzynznEtaetSw8eeAV+C06XrJD/cwBGvz1oY7M?=
+ =?us-ascii?Q?trhhjRRx1Zbv9eONvcOXJxEr7dnddt2IABwlN21yiS6ggk3bgUqp7C5eVP8J?=
+ =?us-ascii?Q?BvWfEgl825iQvIAhW+C85HeejvX3PQVOdsBkRUf5YxPPbUIOptlL8GHLKrEp?=
+ =?us-ascii?Q?Uv9Ik71onAzE+vHRunjxiGeW5BUlQdybNqR3w0xXSeyd4P0ASkKFJNKMAn8l?=
+ =?us-ascii?Q?6cphoju7+aOfPau5w3MI/dAUOl8P5DLSgEuUjdX/t8s+QUdzqpid6vlKxyD1?=
+ =?us-ascii?Q?0BYlV+P5eYzK+d29oBFUcZfAPg6vH6NPJ3O3X+paz8nJ0RpKdIRqc7L5lIY5?=
+ =?us-ascii?Q?bn0wjXkoE1gNlvvh5d4UFvpLnkQoJpEH7WaOjQEO+8/xcPYlSDRAi/zVPWaZ?=
+ =?us-ascii?Q?asCRs6C/PiQzTI5S9NcNXFZ8/B0ZBz6Jh9Zegac54P/u6vUXQQf8To+ToJ07?=
+ =?us-ascii?Q?yHDuij8TemcnfV0foSKKZbAlt68w0Sin0cTyEHQVSWvTBtoiRPMhoN4Jsolp?=
+ =?us-ascii?Q?fJcPtxzqquxitBzeLdlc2Ndb2/hYLZ7wHqEEtFNMB5oM7f5q2T990LWPRLjZ?=
+ =?us-ascii?Q?zI4i+7RtXEJ9Mr8bX2MtMJAZ9OuJoyZQaZH+xuWSF9r7f+mwfMirTLcpkEZv?=
+ =?us-ascii?Q?3cwSHgexTmcWLJnk8qndrnwdoMJ4tWmDhBWLZKlMYefkUzi8kIkEpeivQYPC?=
+ =?us-ascii?Q?cCVvn8m//0ybPWWR7gnHAbR8vQbLPgutDyidLcexrgPZ1CNVdQC7iL1ctwKn?=
+ =?us-ascii?Q?k4/YMoQzGxTbzPqH4S5OH2uvypy+KggEqvBf+CvkishQ0iduowE3Ag8I3rBc?=
+ =?us-ascii?Q?/bVg1J15ghyUII1FqAB9O0kXs6oZ5j+A+n6oYi+RCSy/bGT4E7cZUsfbaYat?=
+ =?us-ascii?Q?GVyTe2+y7XSSFOXEhpdIBvRoIwMCz3X5uh3GkPpNmnpkuQJwoVdiTXPIOmlN?=
+ =?us-ascii?Q?NBI9IzSTW2Y4lJUEVJCdl6o0VccspY+7zA4Q2Sw8cgxrh8cKqQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB7001.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(7416014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?PKI6NdPOgigyRwMLj/uD6tfGDkPHCCqxsRXFVugNensdN/0Z5TcKtxIGfzt8?=
+ =?us-ascii?Q?QmrL63hQbCceXUTpN1IJkRw7MyCuQFTyglNBVNoSXZQejpItKYeTg6VYM+ss?=
+ =?us-ascii?Q?+rx+Z5Ok1C5R68CGBK0LuoRMXO1OXbS5xAq6nosOmPtPYELwdgIZt0WuMNGn?=
+ =?us-ascii?Q?Ilo+O4pB9p0XFOQ3Ov1bwjyTzs/L33BsIegmNBZV8wrvRecUsH5zktk8zGOw?=
+ =?us-ascii?Q?X8lIvIT+8vIxv+AUZeRIZlbWRXi2I9aELojmj+oGKf9pnHq44pnAFOQq//1i?=
+ =?us-ascii?Q?AsvorjqdBxTNrDpSH8gpyKUEXT2ZHKaRyLW1YB6O9mH5DjNat1+c4qPVeB96?=
+ =?us-ascii?Q?whIkJr7yQpVZGwFfKZyVKh7mypqmV1ANRoaAN2Tf25CIQS8jM6MVamer3ueT?=
+ =?us-ascii?Q?72Fx1pBuxUtTMkDOl0bt57vEKZxnSILjf16KjyAN4EkD/LbUfBKll0oZrzAs?=
+ =?us-ascii?Q?wSFf6iy4p2QYAEe73oi2kbmpv/DxK5/hXyHJ42pt09HMNb4NGkTofq/up5OX?=
+ =?us-ascii?Q?moxd+HyrESH4fHW6Tm6+WRuC5FGDJTReTftDL30cbe5cKT2D7+9ujENLoexv?=
+ =?us-ascii?Q?RemiheJPq/Szbzp7et34QeVng99JxNPLRH7OMaX+XD9gt1VnIN++Vm3tUHem?=
+ =?us-ascii?Q?c39gM7NPG2t9MxyvNLNdqpyt71ybYyBzUOBtGBqObU7SNu/LWwt+WK9skZHB?=
+ =?us-ascii?Q?RdFYp+M/gLzSgdtzZOSqIvszHEkIg+mxLx8JaidgODki4tbsdgDIMikzY132?=
+ =?us-ascii?Q?dQxQJuvSqThEgt2QoQnTMnH0eEXe/c6WW9h/bFx244Nka/pjtR/86+EWPVda?=
+ =?us-ascii?Q?2afVDJabfAeGmHPEX3iEdVSiAGTB2SM7+jwAOLVaBH2y8fYbtsLeJdTDlY53?=
+ =?us-ascii?Q?+O9Ab01Of/6czSRJoBW+EQpJwi3tzNxoM58VEbUL5iV7/a7O6Y1SIcFoHoXz?=
+ =?us-ascii?Q?MIYeRRX3qxqJ3kVK+Io8B01J8gFL/LAdjEGKS8dMbGaWARB7orxX/N7yKUBv?=
+ =?us-ascii?Q?dKO6v7IVTlgJP1/qkOv1Qwyj6JvSbul7CzIdVL1Oi+xFuk816qEZCBm0NILS?=
+ =?us-ascii?Q?ARiq/GvV5y6sn/b/8VgaSqxTW+ArrKK9AfkXQlx9rFgr9uy/ztQl0G7STzfp?=
+ =?us-ascii?Q?9Iy8q1zrzw4B25COi8PXuaHVyqZwg75btDZ1HbKPdijto9D8CwPQsjqZHLmj?=
+ =?us-ascii?Q?bahkc/n8dlUUD42GEeaBdGenFYi1W7iKJWvf7Mfbh+1dV/uHkuVrA+NNB/zp?=
+ =?us-ascii?Q?riANkMyIpS0ZUGWqJahDOx2i2lt0rda5qRfXASlavhPwx1js2yUvj9GookS3?=
+ =?us-ascii?Q?Sf7MtoLLBgc5wjiUg6PVgh2X/yt4wiLKJ4AyIPBa50qIx5FBTQyOjTM9TLnW?=
+ =?us-ascii?Q?gyDjDPB6bKlaGl91EEUDA4Fro2lSzJjbqMqCt6oEbOhxcZsdUE54voV5SNqw?=
+ =?us-ascii?Q?zLfcwQDOUpPkkYeIoae0q6hHzQKwjEYDB9NOOwYLamsepxfEgZNKZWmFkirY?=
+ =?us-ascii?Q?iumQWlzQd80owhjNuqd/Bo+5lHDGdopAO9w07B93Pkwx8XuV98ebPyXSGMbP?=
+ =?us-ascii?Q?dTe5pxNzLw19xlwoRZfL3KqkaJ2Wl1SI06EAfRRG?=
+X-OriginatorOrg: wesion.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b73c19cd-5eac-47d1-26b4-08dcc71338eb
+X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB7001.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2024 03:40:55.4954
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 2dc3bd76-7ac2-4780-a5b7-6c6cc6b5af9b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N4v8Xx7Spyh0INAR2JBuupf+LM4ekL7lg7F4zzxO4iJe6buQnTjejA3/wL2LtcYeIq2ubQM50H2ZNFYvS71kEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB7977
 
-Hi Petr,
+Add basic Wi-Fi support on Khadas Edge2. Wireless driver need to check "brcm,bcm4329-fmac"
+compatible so add it to Apple's devices.
 
-On Tue, Aug 27, 2024 at 12:40=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> w=
-rote:
->
-> On 8/15/24 19:39, Sami Tolvanen wrote:
-> > +static inline u32 symbol_addr_hash(const struct symbol_addr *addr)
-> > +{
-> > +     return jhash(addr, sizeof(struct symbol_addr), 0);
->
-> I would be careful and avoid including the padding between
-> symbol_addr.section and symbol_addr.address in the hash calculation.
+Changes in v12:
+ - Add fallback compatible for Apple's devices
 
-Good catch. I'll fix this in the next version.
+ - Link to v11: https://lore.kernel.org/all/20240816015214.1271162-1-jacobe.zang@wesion.com/
 
-> > +static int elf_for_each_symbol(int fd, elf_symbol_callback_t func, voi=
-d *arg)
-> > +{
-> > +     size_t sym_size;
-> > +     GElf_Shdr shdr_mem;
-> > +     GElf_Shdr *shdr;
-> > +     Elf_Data *xndx_data =3D NULL;
-> > +     Elf_Scn *scn;
-> > +     Elf *elf;
-> > +
-> > +     if (elf_version(EV_CURRENT) !=3D EV_CURRENT) {
-> > +             error("elf_version failed: %s", elf_errmsg(-1));
-> > +             return -1;
-> > +     }
-> > +
-> > +     elf =3D elf_begin(fd, ELF_C_READ_MMAP, NULL);
-> > +     if (!elf) {
-> > +             error("elf_begin failed: %s", elf_errmsg(-1));
-> > +             return -1;
-> > +     }
-> > +
-> > +     sym_size =3D gelf_getclass(elf) =3D=3D ELFCLASS32 ? sizeof(Elf32_=
-Sym) :
-> > +                                                   sizeof(Elf64_Sym);
-> > +
-> > +     scn =3D elf_nextscn(elf, NULL);
-> > +
-> > +     while (scn) {
-> > +             shdr =3D gelf_getshdr(scn, &shdr_mem);
-> > +
-> > +             if (shdr && shdr->sh_type =3D=3D SHT_SYMTAB_SHNDX) {
-> > +                     xndx_data =3D elf_getdata(scn, NULL);
-> > +                     break;
-> > +             }
-> > +
-> > +             scn =3D elf_nextscn(elf, scn);
-> > +     }
-> > +
-> > +     scn =3D elf_nextscn(elf, NULL);
-> > +
-> > +     while (scn) {
-> > +             shdr =3D gelf_getshdr(scn, &shdr_mem);
-> > +
-> > +             if (shdr && shdr->sh_type =3D=3D SHT_SYMTAB) {
-> > +                     Elf_Data *data =3D elf_getdata(scn, NULL);
-> > +                     unsigned int nsyms =3D data->d_size / sym_size;
->
-> I think strictly speaking this should be:
-> size_t nsyms =3D shdr->sh_size / shdr->sh_entsize;
-> .. and the code could check that shdr->sh_entsize is same as what
-> gelf_fsize(elf, ELF_T_SYM, 1, EV_CURRENT) returns.
+Changes in v11:
+ - Split DTS and submit separately
 
-Sure, I can change this. I'm not sure if there's a situation where the
-current calculation wouldn't result in the exact same result though.
+ - Link to v10: https://lore.kernel.org/all/20240813082007.2625841-1-jacobe.zang@wesion.com/
 
-> > +                     unsigned int n;
-> > +
-> > +                     for (n =3D 0; n < nsyms; ++n) {
->
-> The first symbol in the symbol table is always undefined, the loop can
-> start from 1.
+Changes in v10:
+ - Use ret instead unused probe_attach_result in sdio.c 
 
-Ack.
+ - Link to v9: https://lore.kernel.org/all/20240810035141.439024-1-jacobe.zang@wesion.com/
 
-> Alternatively, since elf_for_each_symbol() ends up in the entire series
-> being used only with process_symbol() which skips symbols with the local
-> binding, the function could be renamed to elf_for_each_global_symbol()
-> and start the loop from shdr->sh_info.
+Changes in v9:
+ - Add return -ENODEV error pointer from brcmf_sdio_probe as the default for the fail path
+ - Add if statement for brcmf_of_probe in common.c
+ - Retain modifications to of.c other than the return values
 
-Patch 15 ("Add support for declaration-only data structures") actually
-also needs to process local symbols, so we can't skip them completely.
+ - Link to v8: https://lore.kernel.org/all/20240805073425.3492078-1-jacobe.zang@wesion.com/
 
-Sami
+Changes in v8:
+ - Add appropriate errno's for return values that will be
+    send to bus when error occurred.
+ 
+ - Link to v7: https://lore.kernel.org/all/20240802025715.2360456-1-jacobe.zang@wesion.com/
+
+Changes in v7:
+ - Change brcmf_of_probe prototypes from void to int, add appropriate errno's for return
+    value, move clock check to the end of brcmf_of_probe
+ - Add "brcm,bcm4329-fmac" compatible for wifi node
+
+ - Link to v6: https://lore.kernel.org/all/20240731061132.703368-1-jacobe.zang@wesion.com/
+
+Changes in v6:
+ - Move "brcm,bcm4329-fmac" check to the top of brcmf_of_probe in of.c
+ - Add return if clk didn't set in DTS
+
+ -Link to v5: https://lore.kernel.org/all/20240730033053.4092132-1-jacobe.zang@wesion.com/
+
+Changes in v5:
+ - Add more commit message to the clock in bindings
+ - Use IS_ERR_OR_NULL as a judgment condition of clk
+
+ - Link to v4: https://lore.kernel.org/all/20240729070102.3770318-1-jacobe.zang@wesion.com/
+
+Changes in v4:
+ - Change clock description in dt-bindings
+ - Move enable clk from pcie.c to of.c
+ - Add compatible for wifi node in DTS
+ - Add random seed flag for firmware download
+
+ - Link to v3: https://lore.kernel.org/all/20240630073605.2164346-1-jacobe.zang@wesion.com/
+
+Changes in v3:
+ - Dropped redundant parts in dt-bindings.
+ - Change driver patch title prefix as 'wifi: brcmfmac:'.
+ - Change DTS Wi-Fi node clock-name as 'lpo'.
+ 
+ - Link to v2: https://lore.kernel.org/all/20240624081906.1399447-1-jacobe.zang@wesion.com/
+
+Changes in v2:
+ - Add SoB tags for original developer.
+ - Add dt-bindings for pci14e4,449d and clocks.
+ - Replace dev_info to brcmf_dbg in pcie.c
+
+ - Link to v1: https://lore.kernel.org/all/20240620020015.4021696-1-jacobe.zang@wesion.com/
+
+Jacobe Zang (2):
+  arm64: dts: rockchip: Add AP6275P wireless support to Khadas Edge 2
+  arm64: dts: apple: add "brcm,bcm4329-fmac" fallback compatible
+
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi        |  2 +-
+ arch/arm64/boot/dts/apple/t8112-j413.dts         |  2 +-
+ arch/arm64/boot/dts/apple/t8112-j493.dts         |  2 +-
+ .../boot/dts/rockchip/rk3588s-khadas-edge2.dts   | 16 ++++++++++++++++
+ 4 files changed, 19 insertions(+), 3 deletions(-)
+
+-- 
+2.34.1
+
