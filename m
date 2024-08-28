@@ -1,58 +1,58 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767711ABEC8
-	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 21:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A39B1AB528
+	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 21:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724880781; cv=none; b=dH3K3kzoaRHyZXt9UDBB92Ue8ZGt4FV9c06HKn9hQ5aECLlq16KPXlw/T5QHgY1bFAue3VOJloh5jLJDnopclmMhNrGjeqf2zCGMxjHVjKTcrf2No1/YTdiCkHPJbScx6CaGGv3Ov6c+eNuCOo+6TACIbZQacmVbM/7Erq8VnBk=
+	t=1724881847; cv=none; b=kSLIH33tt0WAhQMKIgbVgfLwJjzTIJ3h54RmuV13WQcwN7XoRtCb92PgENXMGGsYkY7X2/5n+3aJVcwxQHnrnx1WJVRAHDJJfqyfvtS0YyK2F/VyKg6TQEuvk1Nntf539VltL4Ag6GzVwU3JbDRFKvtcWDkCmYHXaDftFiBsqHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724880781; c=relaxed/simple;
-	bh=cEpCS+awESzibz2fx1rBVxzmh/G9/OK1eGkd1D1LRF4=;
+	s=arc-20240116; t=1724881847; c=relaxed/simple;
+	bh=GkRq0ivoQpAiOEzaTGohkuRwvXQipTcElCzKrbs2YGI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HVJoDm8Q1ebWoZ0JCfYTG0/TpOQhiOyOe3VBj4mzvhC1e7b1XmRDy6JKd0Fx+0EoySI4wQFNeljFgsm5qMkKDOu15Y3MnbhAq63XMGTdOqd83Ith1TERP01DHFu6z0cBEMc7iE2XgE+ycGbiTEwAx4VTzxsxCvByMtTXfs7PVdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vhoGV+v7; arc=none smtp.client-ip=209.85.214.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=nJfWTyAiq8gqcSfULqn1uNBuu1xeW4KpLVwCEXZNU44UUYa8La/YW27EEITgdkBtLPXyv3UYfQwO9AhchyKJpgIMBvxWH2TC/WRZoRF2rsGPgvICP8tkp9rGHDwSFGraOCt5RdiKCmZgpqKhXDAmNQvi8VrXNa8/F6+dEApV/Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aJq+o9rL; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vhoGV+v7"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20353e5de9cso58675ad.0
-        for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 14:32:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aJq+o9rL"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20260346ca1so68875ad.0
+        for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 14:50:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1724880779; x=1725485579; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1724881845; x=1725486645; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=6OiNe2YeQCUna2f4UjRdeOC+WErdfdXGa82/r6tUnVw=;
-        b=vhoGV+v7iRvzcH57Gvy84/7ooNQrdQ9npldmmxGkBh/AeT1K3pApb6TNReHYPfEKvK
-         bIb4cJVGZTLJXvkXWaWNj/AQz+8tnRbgP1mAKlX8UGlxb3n6MnDj4Oq3NobUFyKrjpZ9
-         ZgSG88nibz/n1rl8P1p/YNrJdegEfbAaOWFRklkxKhD80l6thc1LGkeqmg6KCFCXMUQv
-         A3gHP4Sevaxjh63LEm/yIhLh/pbPb8Fvnt88+gRX9Qzz/3nLf4Av+wP96xZoPId9/3OA
-         qKjAOByhAXGS80xtPrEFX109IwSe0jPBHm3WQWBPSwK8eNHhFUjEcANHOquKD9ycUHvv
-         e7XQ==
+        bh=kOlS11zZF40IO+TxYPwBjtED80hWVLwZdESib8W/thQ=;
+        b=aJq+o9rLNIxhrZ74Wi5XFeaNmM4MXB5fJa5f9rVhHYGVgFiIila8aOQmi8d4RF3hNf
+         pAA+N1QRFA5+O+wwQiisuLO7kJ2CrnEUO588fm7W+XvVbyI9xEL5Rp9ijwfQDl8ufvSx
+         B/7jD5oNIG2/zBCB2Jbc4T/xUP5zmY2U5ItHhaeJF5O42uIppP9E0ARjHDZSEW7/2lFH
+         m3gZ4MvO3O4jvrRi45uqqhihXNOUMZc1fD7pXDJGw5R9Fe1ro4QY3qfhW0VBZL4ae59d
+         co1yRRUofd01Oaq6E3uQxT8EUtluMW7HXoxPz8GqjdpNdmBfHJwQC60jGoyWt1esdHmS
+         sQ2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724880779; x=1725485579;
+        d=1e100.net; s=20230601; t=1724881845; x=1725486645;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6OiNe2YeQCUna2f4UjRdeOC+WErdfdXGa82/r6tUnVw=;
-        b=RW6CnFaDIIZHV0abky5kc7TplxpBpkCck7kiZS2nzIRjUtYAkJFaasDf9YbS1u3KFT
-         mD1LPYOUOZBO57hWGC/UoaqhmGW/cUB97joBpzhVVv4uh1LyWOv0z6TDP85KrZLCTbm+
-         V8Itcyg2Npnm9pmE0bL48PeoWANhegFFhc/VfeiMAm0U+52vJDgovh7dho5gfkh1K7gP
-         FchmqVopsOE8hsJnmmjilUNZFRY/7dzTkpxzyAjlD78+IW1RG5Qzw34M7nn1fdj3jp0k
-         jAGSg3Rrc0rw1pxzMydW82WOLIWVhmQE7qaL7pKIN62C3f/YGH405Ryu3tm1sAhkm2RS
-         5zxw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQkjMfjLLNmBOYEApimIOCoxOuwFY1PDw90ntVHYjt2zTcmHBXso26vWgzneyK7tjQZ2y0Kg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQXfFBH1c2eaTdWP62Fmxu4s9go9gzGlqz++wHLSHuFlFfttEA
-	5yQF2NwzxusItDkdOMRPeXANhFLs7ByOL4TPKk1iGV/kS/DvQzP2Ku9OYi6P1g==
-X-Google-Smtp-Source: AGHT+IHHf+VlJrFFBJgPYVRNtck/f/imxXiwO9YAgJOrmaeUNIYbTt/FhYzSs4jbx7giAS/mraakLQ==
-X-Received: by 2002:a17:902:e5ca:b0:200:8e1e:9940 with SMTP id d9443c01a7336-20510d58e83mr210625ad.23.1724880778385;
-        Wed, 28 Aug 2024 14:32:58 -0700 (PDT)
+        bh=kOlS11zZF40IO+TxYPwBjtED80hWVLwZdESib8W/thQ=;
+        b=cYuVtoFR8rOwvS1CiGPkZpb15mRyFeIh00Ti1xMNF+HdoFOLGlejqKbL8d5sbVfUoi
+         drEp7F7OP5WTmBLyrUX+65TWeMloHAWhiSnRS0Kuj7KFxj3tL7PjxPIFRscqYSBxgvex
+         WQyM2bVJcztbVCNheYTTZ/sIhuuOx6u+e9csqUrD3SdhW2QD1RRxje6wAzPVaqVfo67p
+         sFaq8qoOvl0DGOobealJbqpYImACgVlEgKo01pjG0rHv7s1b1znLxScnT1y7dlkfI1jX
+         xFOin9FHGGaDaWhJmZdKPf3r0JmUqiT1y0oMXfH6MlYW9cYHLc6Bs8xnpfo09rowSUff
+         g5fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXtMVdUu2kh6D2TaPLRbdX2PGA89MBBnh9AnGlCkd8NnnTf7p362rqPffhjQwD/di5bpAJ1Og==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaOca5IYy3FUmQuvtdQekRety5XV8bEpvELSlKNK9NbxWj/HeV
+	q5qJW55v2Z6cpJUUDNsX5GcnSka9jF4zcocKpz6ZhQskk9X/zAV7aUaOcBijow==
+X-Google-Smtp-Source: AGHT+IH/W+fSipeqZ/wEzg8zzpJwjeYTFTuLFrl+gU3PBb15jaA3+7EFtkDmAEa/AEzYRe+ZhMBTqQ==
+X-Received: by 2002:a17:903:1d0:b0:201:dc7b:a882 with SMTP id d9443c01a7336-2050d23634emr950865ad.26.1724881845281;
+        Wed, 28 Aug 2024 14:50:45 -0700 (PDT)
 Received: from google.com (226.75.127.34.bc.googleusercontent.com. [34.127.75.226])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855dbf41sm102647885ad.134.2024.08.28.14.32.55
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d844602748sm2481590a91.16.2024.08.28.14.50.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 14:32:57 -0700 (PDT)
-Date: Wed, 28 Aug 2024 21:32:51 +0000
+        Wed, 28 Aug 2024 14:50:44 -0700 (PDT)
+Date: Wed, 28 Aug 2024 21:50:40 +0000
 From: Sami Tolvanen <samitolvanen@google.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
@@ -65,11 +65,11 @@ Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>,
 	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 01/19] tools: Add gendwarfksyms
-Message-ID: <20240828213251.GB2130480@google.com>
+Subject: Re: [PATCH v2 02/19] gendwarfksyms: Add symbol list handling
+Message-ID: <20240828215040.GC2130480@google.com>
 References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-22-samitolvanen@google.com>
- <CAK7LNATKWnkdmxvPBaBLYThLk0Voh7UVh5V4_eKHs9g-40qUTQ@mail.gmail.com>
+ <20240815173903.4172139-23-samitolvanen@google.com>
+ <CAK7LNAS=8uU-FUpVqh-z-=7LOfXxYcDQExKLvB+6qe8Fdq_51Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -79,51 +79,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATKWnkdmxvPBaBLYThLk0Voh7UVh5V4_eKHs9g-40qUTQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAS=8uU-FUpVqh-z-=7LOfXxYcDQExKLvB+6qe8Fdq_51Q@mail.gmail.com>
 
-Hi Masahiro,
-
-On Thu, Aug 29, 2024 at 02:45:03AM +0900, Masahiro Yamada wrote:
+On Thu, Aug 29, 2024 at 03:16:21AM +0900, Masahiro Yamada wrote:
 > On Fri, Aug 16, 2024 at 2:39 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> > +static int usage(void)
+> > @@ -105,6 +105,8 @@ int main(int argc, const char **argv)
+> >         if (parse_options(argc, argv) < 0)
+> >                 return usage();
+> >
+> > +       check(symbol_read_exports(stdin));
+> 
+> 
+> 
+> symbol_read_exports() is only called from main().
+> 
+> Do you need to make symbol_read_exports() return
+> the error code all the way back to the main()
+> function?
+> 
+> Personally, I'd like to make the program bail out as early as
+> possible if there is no point in continuing running.
+
+That's a valid point. The current error handling prints out a short
+trace of exactly where something failed as the error propagates
+through the call stack, but bailing out after printing the first
+error is probably informative enough. I'll look into cleaning this
+up.
+
+> See also this patchset.
+> 
+> https://lore.kernel.org/linux-kbuild/20240812124858.2107328-1-masahiroy@kernel.org/T/#m5c0f795b57588a2c313cd2cc6e24ac95169fd225
+
+Thanks for the link. In general I prefer to print out an error to
+indicate what went wrong, but I suppose memory allocation errors
+should be rare enough that it's not necessary. I'll switch to these
+in the next version.
+
+> > +int symbol_read_exports(FILE *file)
 > > +{
-> > +       error("usage: gendwarfksyms [options] elf-object-file ...");
-> 
-> 
-> 
-> Description for each option, please.
-
-Sure, will add.
-
-> > +static int parse_options(int argc, const char **argv)
-> 
-> 
-> 
-> Why not getopt_long()?
-
-Good point, I'll switch to getopt.
-
-> > +int main(int argc, const char **argv)
-> > +{
-> > +       unsigned int n;
+> > +       struct symbol *sym;
+> > +       char *line = NULL;
+> > +       char *name = NULL;
+> > +       size_t size = 0;
+> > +       int nsym = 0;
 > > +
-> > +       if (parse_options(argc, argv) < 0)
-> > +               return usage();
+> > +       while (getline(&line, &size, file) > 0) {
+> > +               if (sscanf(line, "%ms\n", &name) != 1) {
+> > +                       error("malformed input line: %s", line);
+> > +                       return -1;
+> > +               }
 > > +
-> > +       for (n = 0; n < object_count; n++) {
+> > +               free(line);
+> > +               line = NULL;
+> > +
+> > +               if (is_exported(name))
+> > +                       continue; /* Ignore duplicates */
+> > +
+> > +               sym = malloc(sizeof(struct symbol));
+> > +               if (!sym) {
+> > +                       error("malloc failed");
+> > +                       return -1;
+> > +               }
+> > +
+> > +               sym->name = name;
+> > +               name = NULL;
 > 
-> 
-> When does  "object_count >= 2" happen ?
+> Is this necessary?
 
-Right now it doesn't, but if we want to support LTO, we'll need to also
-process the temporary object files we build for stand-alone assembly to
-find types for the symbols exported there.
-
-> > +extern int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie);
-> 
-> 
-> No 'extern' for function declarations.
-
-Ack, I'll drop these. Thanks for the review!
+Here, no, but in Petr's cleaned up version it is again necessary, so
+you'll see this in v3 still.
 
 Sami
