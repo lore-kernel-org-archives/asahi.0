@@ -1,204 +1,228 @@
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2107.outbound.protection.outlook.com [40.107.255.107])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA39515530C
-	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 06:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.255.107
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724825598; cv=fail; b=Fiu6xHP78cJle3jm8Vsxii7Zx4XW2Dk6GG4YNNxuymDrJRBuAgziyDWBORgaHJPn73sZybp1rSIE4DGbuFcNh2sR2LEl2ZuOFxMmkOS8PAok3VISNVmySuzSR18XkVpANhC3VzEKnv+796fsWgEhRjsBx1EhirPwI2qACxoHeJY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724825598; c=relaxed/simple;
-	bh=MGiQBgmIOwqm+LnEWarqxxekphzcTtTWC8hWh1BBsyo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=aVtSubL2sFtlwOB2yOnEnoKqvbhOB73d1dAm3+BPngHBgRb5u3OzGxhaF0OY4BCH3sZVRaA2mTH0XaF1VLUvPkjahWcpRs/CTbjNJIf+Y3UmkeUeYOrxXapu6g+OA7AOOTJGhigWt2XYTUyBKAXSnLV856sX5p0UuFMda1hgFiU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wesion.com; spf=pass smtp.mailfrom=wesion.com; arc=fail smtp.client-ip=40.107.255.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wesion.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wesion.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n0mZTTQ+vtDetHFp88cLMzMvPn77yXqlWQC993AUQgFeDJR8t/e2FvzZL73TWyEet/MrSGZ0FCuxGAYfhxt65IQdjUsbhLt/neg/qhmUrJcnKIhiBzB4ElO02qtdwmg6a6a09SSgVWFmgF5FC4xyd8yKQ4MDsCigtyRAhz199Fa3kTGln5g9PAKxw9x9Bvp2587QXCmxa8Zc3vjfQpe4/92AjGJgiBksqU92qcaIrroy8X/cann6ZsUgVsOQWtCoXcSXr1Kl/tps7G6vpqKNRO/N6WxEPR2oRc58Jja7cTUY5RKW+Mgq/yN28bOOSIaYEy/Ple2ShHRG4ALc8pMPwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZL37oaV9NSY/KcJM4zBNk4jjlk5HMG2D3f1MdIButHA=;
- b=JpbRrqTzCpi8/fbLLITT/uXAIyKt47/8c3UuJDqw9z1QspKwJGQHhb9UGgq/N7IdQkg+cU0eFIqS7W6w5ljd2uqC9bYUOVd6G10liK/PTodQuojAg7hD0BmE5p8t8gj4zZyh+bh3e5P+SCRH8/YRXC4dEtsCAgz9Cmkk7QtKttV0oJS1lHgWwkHJbh3ohbzU/HctwXu3j+TnDsrtCnG0jAOITY5/xTbODaSqv+V5bnVWgSR7tdhkqqEcFkxH1Yjer8rIrYMzVNQSQ20wrHMIHcexwmW3S6h0IN+vCmP9zNSabt5XtdLi05juw6AJQ73pnpyu9RsWiLUYgZgWNKxEDQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wesion.com; dmarc=pass action=none header.from=wesion.com;
- dkim=pass header.d=wesion.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wesion.com;
-Received: from TYZPR03MB7001.apcprd03.prod.outlook.com (2603:1096:400:26a::14)
- by KL1PR03MB7151.apcprd03.prod.outlook.com (2603:1096:820:d5::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7897.25; Wed, 28 Aug
- 2024 06:13:10 +0000
-Received: from TYZPR03MB7001.apcprd03.prod.outlook.com
- ([fe80::78dd:5e68:1a9c:36c0]) by TYZPR03MB7001.apcprd03.prod.outlook.com
- ([fe80::78dd:5e68:1a9c:36c0%4]) with mapi id 15.20.7875.019; Wed, 28 Aug 2024
- 06:13:09 +0000
-Message-ID: <c5047173-d569-42d4-9676-4679100da118@wesion.com>
-Date: Wed, 28 Aug 2024 14:13:04 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 2/2] arm64: dts: apple: add "brcm,bcm4329-fmac"
- fallback compatible
-To: Krzysztof Kozlowski <krzk@kernel.org>, marcan@marcan.st,
- sven@svenpeter.dev, alyssa@rosenzweig.io, robh@kernel.org, heiko@sntech.de,
- krzk+dt@kernel.org
-Cc: linux-rockchip@lists.infradead.org, dsimic@manjaro.org,
- conor+dt@kernel.org, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, nick@khadas.com
-References: <20240828033953.967649-1-jacobe.zang@wesion.com>
- <20240828033953.967649-3-jacobe.zang@wesion.com>
- <22aaf58a-da71-44c7-acd7-f3e70b91cdfd@kernel.org>
-Content-Language: en-US
-From: Jacobe Zang <jacobe.zang@wesion.com>
-In-Reply-To: <22aaf58a-da71-44c7-acd7-f3e70b91cdfd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI1PR02CA0025.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::13) To TYZPR03MB7001.apcprd03.prod.outlook.com
- (2603:1096:400:26a::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050A414A4F3
+	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 06:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1724827842; cv=none; b=E3Np5rxfch09sSAkwmm0PPttTaca/FLeObszecLoSvZ7E+aFKjRg8kCPmA/ryjA3icfs+8kU88BZlRIVjWFBupyysskVakUppLpyZ9ia1OnTikIETvgcMQNb71ncuSvrcJ6qYhFXYx+l9SZqNy9E8wpdZ8WglBF1p5M7srgl3pU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1724827842; c=relaxed/simple;
+	bh=Yb6We/5BV0z/R0UKdSV1tM+gyWec8gvt8hftmjbezaQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=H144gEYarhrkBWShBHtbqd3BB3GZPTxJ7ROV3qcz16mG6iKhba5VjpH5Ay4dV6aJL3bIZt2WPMjWEfpgGZXpEAD9QL1FuQKPH4qIDdiXLGuPB6fGy41fuyZiehZIMRZ3EgPO+1P8CXlEFQ7DgiO7uZNQ1E2Kpm1MoljmUI8VPok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N1UawVKJ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N1UawVKJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EECBC4FE12
+	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 06:50:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724827841;
+	bh=Yb6We/5BV0z/R0UKdSV1tM+gyWec8gvt8hftmjbezaQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=N1UawVKJ1UD4ukkfF8wAXJlNG+DdNq07j2WhADtMWFRQX3GePm9Oewwdtjfuonxvd
+	 fMnPihaFW/ateC9+rtF9nb0jBmIt9rUoMfHpP4Z5LqTMmpbODBmlN0JiZ4mcMrQ+Kz
+	 rSan17ZBc5NxzYWQ3J4xUh8XbSUJi6j1FiAdjYq0UF2UuAZt4ZXdfaENg14YSuqSvW
+	 1R1k+QmfOv1sIruBf1V3q/2n5oEILtpq5rzKxswMuBuD2MKRPTLy/KAnLn3ZDA4Xe9
+	 b1lvpI1mofMpf7vQ2iOocFIgV4qFy3auGtbzZaLeu1EHRSvRBoBOLaTlLGMKwu4huY
+	 PyHijBx5Jxquw==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5333b2fbedaso1912403e87.0
+        for <asahi@lists.linux.dev>; Tue, 27 Aug 2024 23:50:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXwoYLSq7VwimArLvV37LW2dpH3+Eg/h/xbYa7/dsvS8VC7qmTgN+TOS6nzRN3Q3311xYgHvA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3QijQUVmPqAZEKxYCtYy4nob1frWkkj3DVOSS0loSKuKKhRUm
+	O7VA1N+vsqAITEQx7nxYRAGPYiq7aQxHfcA+C7H2fvZL+RGSPPH1wEV0uib6lrH5zFzZ0rXIg4T
+	nqw93htzEu9rh7c90NiZcQhzgSQ0=
+X-Google-Smtp-Source: AGHT+IENzQvn4bzOP2nf8sy5Gl2O9cPo5Ffr2dp0+gYjzGWy6e/a5CG3BLbfeQDgWqBgT1Ic8k3iykMWTaoXDj1bzIk=
+X-Received: by 2002:a05:6512:3b29:b0:52e:f2a6:8e1a with SMTP id
+ 2adb3069b0e04-5346c628bc1mr717001e87.29.1724827840086; Tue, 27 Aug 2024
+ 23:50:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR03MB7001:EE_|KL1PR03MB7151:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b5202a9-1bc5-4f0f-ef1c-08dcc7287d3f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bC9Od1RmZjFTdkZVM2hzM2tzaThTSTNnQ1VxV09TUkJveTVUdFQwWWdoazRQ?=
- =?utf-8?B?ajVrTE1WMnJVOCtmQkZIMzNSS3I3djdrTzNlNS9XckZNV1AyMmNCZktsZTZT?=
- =?utf-8?B?N2kwclZBcUxBbnBoY0VkMkNMWm1BY2VCUHBabXViV0Vwbml6QjRIVDJDbFRZ?=
- =?utf-8?B?UGI2Smk1TWdtVXZUTnRmaXo2b2hZSG4xaFkxMTRIUDVjYmc4cTNwT3J0QXNn?=
- =?utf-8?B?alZEUXJtall5SFhURmNFZysyeXJka2ErWFkyRlpMb3J6ZmkzNUljMGpjek84?=
- =?utf-8?B?bENUcWttcTNsbnovSUs2aEdJWTVCRlVQbjd1bDJUWk9RSFM1MmxBdjdmT3FV?=
- =?utf-8?B?SUJabWVsSHZnSzl0bVlmdkdGZUxTM0wyK0NibklxUjJuWkZnbHM4MU10dWZj?=
- =?utf-8?B?QnRmb0d3clFXdkhidHVySHZjbFJPSENRb0FQa1BmOEVRVlgvcnA1d1k2V2RC?=
- =?utf-8?B?NnpEcjNGd0IrVnBpUFErR2JPblMzS1I1TEJyZFNBdExDTGhWRzJ2UUJBS0tm?=
- =?utf-8?B?czV2YUNuaVJ2aFJZeHUzRHRmc2hodkQwTVJCdjJwRkF2eVpCTjUzVU05M1E5?=
- =?utf-8?B?S2xjUForWUhjZzRFdEJYRHRrZXp5NDhzSXdEbzI0SWVST2FBMWdwQUtUN2pT?=
- =?utf-8?B?L1JrKy9zZ3NmVjdSNEoxL2hFV0RWRVR4by9SVHFXZURPZHU1eWY4VXdOaXVx?=
- =?utf-8?B?VFo0RkQvOGZ1WTRZQXNXYU1zNDltWGdFMjlFTk5aNXhPOFg1ZldVWHYzK2Ji?=
- =?utf-8?B?VkJjZENoRUNIUHEvM3V1cEJ1WVhacjkrRGROc2Q5M0h2UHVtc2wrcXpOVmsw?=
- =?utf-8?B?Z1ErRDV4d3JFRGJYMVRLUVVEZm1mRU1jYmF3Q2JHUkFYQ2llWHFIMy9Lc281?=
- =?utf-8?B?a1Npc1NyUnF5UldlQWxpSW5nWlczeTNFNW1MQ1BneUdnUjA2czRuL2xrUENo?=
- =?utf-8?B?Z3RNdGY1R2ZWMTk5QmExQ05aYTFEMFhnYmV2YjFpQWdSL1hNeStKR0dtb3Nm?=
- =?utf-8?B?UTZTc2J1NE1JQW9XMHVuK0hGVzd1d3F2TlIyQWFpdGtXNkFmNFBWQnJHc2Ft?=
- =?utf-8?B?T091RVp1RXdFcTA3dCs5S3pjTXRVb1lpR1NIM3ZxSVBVMVhablk4WDJka0lX?=
- =?utf-8?B?NGJ2QjhaWnV0Z0V4T1MxTTNobHc1RDNwVnpnNG8wcnpSOXF4aEpoVy9OTldl?=
- =?utf-8?B?WDVUUnZ1SnpKeEJzYVdTZk1uQU50Nkg1c0h4NG5POGdycUo0MXpPL2FGR1RV?=
- =?utf-8?B?ZlRMWjg3VGYvYk14NzlVK3FMOTI4ZTUwcHBKQjFyeG5jNDJoYzJjbXEvSmlI?=
- =?utf-8?B?YmVJYnd0ZGJYQUMvVnRta05Najc2UmFLMWRCc2c0M2piajNDSm5vUWZISkRB?=
- =?utf-8?B?cXNaZ0lwNXc5QS9JMzN6cnVIZ0ZPRU41UDFVNk90U2JvdlJnSGNaUmtPdHFv?=
- =?utf-8?B?c2FlWGFGMVBHRDhqRWtmYlJ0YnZaMFU3Z1NoR2NwTkRERjkrREJtYU9PdEF1?=
- =?utf-8?B?NVFKS21jSC9SRXVLaUR0ODZueG1wM0RXWjJPenJ4a1BCcW04TlJBRFNnOURL?=
- =?utf-8?B?LzErUHArUzlzSHpaM2ZLcjR6SmV1NDJwS1VEcWF3OHA5K096dGtSYTN2eWx1?=
- =?utf-8?B?VTZwa1RyWk1tVFpEMkRic0s3b3BkZkcxK1c4RDF1QVplZ0hNbm5RdUgrSThG?=
- =?utf-8?B?aVVDLzNMMDltU2JsWE5tYUxDOTE3K1pUS1g4U3NOWGJJeVRKQ3FxV1kydGEz?=
- =?utf-8?B?TGdDQmdObUNsdFp0ZHFxUzZ3U0dnSkN6eFVTbUV5OUREN0g2QjlsYzI5azM5?=
- =?utf-8?B?NjlKbjJ3SUlnVE5temJPdz09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR03MB7001.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K2E2R0tvU212VUoyUlIyc2Y1THlPSENtay84QzQ3WWNJK2cwVDlUcHh1RHFS?=
- =?utf-8?B?YVFLZDJPWWR2VnE4d0dzRElGZDQ2WENHT1pjV05yU08yVXpvaG0zQ1FwaWdW?=
- =?utf-8?B?U251bGdjcHAyYnp4clU0a3ZXdm95UTlBd3NxS0haV0w3cTlGZTNNM2hYbnIx?=
- =?utf-8?B?M0R3UXZZSnRSeCtlR1FBbVREMGNMdmlCY1ROajJIUi93d2wwYWR3Z0JoNnFv?=
- =?utf-8?B?NjVCMGJ1THVuaEhLNGF2NFd0b1lreS9UWThvcXJOVjJzL3FBMjNqUlo1MXVy?=
- =?utf-8?B?cTBaSHZaUmowQmFzNmtNekxEWEs4V3NPc0x4QkFCQzFQajlHYmZqdVBtbzgr?=
- =?utf-8?B?YXoxaGV4YWFRSDZFM1A5MmRZaHZUU2dDYXNjN2VKajlwNUFGdGZuSHdja0U5?=
- =?utf-8?B?dHc5b3J1TkM2akN3YzliT1VUcm96OEJSbTdDSk56TDhSWU1Mak5FNEVJTWRs?=
- =?utf-8?B?VmMyNXI0eWNzVk1qbC83c05qNFFZMmNBSDhNbU5HTmF4bkNIRDlyY1d1djhl?=
- =?utf-8?B?VlE1WmNSNE0vamJTZXQ4dTZpazRBNnFnUXR2eFNFbTY5RE40N3AxTFVrOS9L?=
- =?utf-8?B?M1RZaVdlSEtiNDk0c1ZFMGZTTU9jQldaMDZsNGMyQ05idlRsbUdVSjhMQWVB?=
- =?utf-8?B?WUMwMmo4ckI0eFhPMU5ZYXJJR3BiV0dpdmYvZ3M0dy9MVTB5YXFlYjdjVXNB?=
- =?utf-8?B?a2t3Nmx4clJoUEpsa2NWREFRZkZ5YmsxeWhSQTdKL0xseGR0RFJtc05HRDFa?=
- =?utf-8?B?eis0bk9HSUY5ZWRiK2lHY0JvVTBzNVdKYzVoYTh0OFRrWjg0bm8wVDlsYmU5?=
- =?utf-8?B?QlB5dHRFRExtL252cUJ0bHpXOUExbUxheC8zMk1mb0swNUc1b1didnNsRGNG?=
- =?utf-8?B?YUp4bWJhaG5pOWkyQ0VNZkJ4MlVPekFPREdrbkZneVgrRUtUM3lEVFYzSHVD?=
- =?utf-8?B?UXliMnd5dG9zaXZsRFAyZjUvYkV3b2dscnVwTkZuRy9FcFFRSlVtVURxRlNQ?=
- =?utf-8?B?VlNrV1JvS3dmQlFvdVN4UGZVSFJJdndwWnlKZ29ZakthYlVWS3d5VkdKU1U5?=
- =?utf-8?B?Y3dXbGp5V0c1YXB2SVJNNXlkU0ZGMGVGMmNVZHJSbEJXYXpXN25uQXlNL08z?=
- =?utf-8?B?SlFDaW9UcU05NU1SK3ZSamt5Snp4TzMzTWU0ZlJna0l6KzFkM3MxZXpmMXdi?=
- =?utf-8?B?UktXeVpYbXRoblgrL0VDa0dtWjJ5MXhNcWdUWEFsaXRoT2VxV1o5MmJBeDU1?=
- =?utf-8?B?SE5vSVJTV0Q0aEt1dEdkTk00RjV4RHhwa255bERmZlYrOWpiR3h2a2ljcmRp?=
- =?utf-8?B?dTRldE9xaDE4d0xNbVhCSG9qcUVwcFZXQlNXY2NpZERVclJJcWZjcnVIc3Rt?=
- =?utf-8?B?OFErNmp1Mkw5R2JpOHh2ZEtMM2EyUDRURnAzeEtURnJFZ0ZCd0YvMkNUZ2Ex?=
- =?utf-8?B?bW51WlcyVXdyNDZNS1NEM0prSVhlOGlIQUZNdFRXMjEvYTVGMjBJUEpBclZK?=
- =?utf-8?B?R09YV3htNGtNQ0dqWlFSUkZyWFRKa2pKUi9rUldzSFRvVHQ5ekUzbDg3UUN5?=
- =?utf-8?B?T3ZMYWh1cE04N3JmZVlqeTZXZnUwRlJzcTdlUmdaM3EvNlRhRjlieFNDeGRq?=
- =?utf-8?B?WHZodXBNcEJUNTJneU9Jak5McUlCVUJkVU9NeEFUYkU5YkJ2dXZOWllyY3Z3?=
- =?utf-8?B?NzE5TXVDRDR0OXI1bGdUVkNGZkxrVm9RalJjUUlGWGFKcDNmQzJYaXNVTWNJ?=
- =?utf-8?B?QnhNS1RvK3FjMkpIWE1Tb2tkRHE3Wm5SZGFCdUx3VEJxUUtLaEhnR3E1SlRY?=
- =?utf-8?B?Z0o1WnNQbHpmU1JIazh3T014RWtwbmRLZUNhOWp0c3lVam5Qdmw0SklkOG92?=
- =?utf-8?B?bis2czUzYVdxQlpzMnRXWnFKaElrcnNrS1c3YzdtdUNxRzBFd09zQ0FDc2Nr?=
- =?utf-8?B?ZXJlUlVZQlhodTBxOHA4MXY1QmorcGhHZFRyNUpTZUtnU3NFODNpaVhhbC9h?=
- =?utf-8?B?MWhIRFY5QnVDMlVvME1hK0o2N2JzcFRmVmFCbVhjVU1qRVI0ZlQ5L1J3d0c4?=
- =?utf-8?B?Yi9qb2Y5blFIeWJKRHl1TWFRdFJ3UzVPdDBJNU9JZ3JiRGZHd2JXYTg3SlVB?=
- =?utf-8?Q?cKKDhGxqH1cZG2ojKKeNOZPu8?=
-X-OriginatorOrg: wesion.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b5202a9-1bc5-4f0f-ef1c-08dcc7287d3f
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR03MB7001.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2024 06:13:09.4984
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 2dc3bd76-7ac2-4780-a5b7-6c6cc6b5af9b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +wsUI6PWad56KcZ3NxceEGSRNsmDeMuAXIe9IhsMFHuPJLm9dNf+agh8X9W7MrQ7tNEbwbTgIgyJVjobeE1fuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7151
+References: <20240815173903.4172139-21-samitolvanen@google.com> <20240815173903.4172139-25-samitolvanen@google.com>
+In-Reply-To: <20240815173903.4172139-25-samitolvanen@google.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Wed, 28 Aug 2024 15:50:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATb8zbwEVgM+_=CaYSysov6YBMbKjy8+t8CrRA_72jxuQ@mail.gmail.com>
+Message-ID: <CAK7LNATb8zbwEVgM+_=CaYSysov6YBMbKjy8+t8CrRA_72jxuQ@mail.gmail.com>
+Subject: Re: [PATCH v2 04/19] gendwarfksyms: Add support for type pointers
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Aug 16, 2024 at 2:39=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
+com> wrote:
+>
+> The compiler may choose not to emit type information in DWARF for
+> external symbols. Clang, for example, does this for symbols not
+> defined in the current TU.
+>
+> To provide a way to work around this issue, add support for
+> __gendwarfksyms_ptr_<symbol> pointers that force the compiler to emit
+> the necessary type information in DWARF also for the missing symbols.
+>
+> Example usage:
+>
+>   #define GENDWARFKSYMS_PTR(sym) \
+>       static typeof(sym) *__gendwarfksyms_ptr_##sym __used  \
+>           __section(".discard.gendwarfksyms") =3D &sym;
+>
+>   extern int external_symbol(void);
+>   GENDWARFKSYMS_PTR(external_symbol);
+>
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
 
 
-On 2024/8/28 13:56, Krzysztof Kozlowski wrote:
-> On 28/08/2024 05:39, Jacobe Zang wrote:
->> Broadcom driver need to check "brcm,bcm4329-fmac" compatible. Before
-> 
-> What for?
-> 
 
-It matches the changes in the other series that I sent.
+Commit ddb5cdbafaaad6b99d7007ae1740403124502d03
+had a similar idea; it has a reference to each
+export symbol, including the ones defined in different TUs,
+but in assembly code.
 
->> PCIe devices used PCI ID as base compabile so add it as fallback
->> compatible to pass the check.
->>
->> Signed-off-by: Jacobe Zang <jacobe.zang@wesion.com>
->> ---
->>   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi | 2 +-
->>   arch/arm64/boot/dts/apple/t8112-j413.dts  | 2 +-
->>   arch/arm64/boot/dts/apple/t8112-j493.dts  | 2 +-
->>   3 files changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
->> index 5988a4eb6efaa..4b021626d4692 100644
->> --- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
->> +++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
->> @@ -72,7 +72,7 @@ hpm1: usb-pd@3f {
->>   &port00 {
->>   	bus-range = <1 1>;
->>   	wifi0: network@0,0 {
->> -		compatible = "pci14e4,4425";
->> +		compatible = "pci14e4,4425", "brcm,bcm4329-fmac";
-> 
-> So devices are not compatible, but your argument is that driver needs to
-> do something here? That's not enough.
-> 
-Before this change, the check of "brcm,bcm4329-fmac" compatible is set 
-at the end of probe function for SDIO devices which need IRQ. But after 
-this change I set it to the top as the first check. So I add this 
-fallback compatible to the Apple's DTS.
+Didn't it suffice your need?
 
-Oh..I got what you mean. Maybe my commit message is not clearly. It is 
-no need to mention driver in it. Because the intent of adding the 
-"brcm,bcm4329-fmac" compatible is to conform to the bindings.
 
--- 
+
+
+
+> ---
+>  scripts/gendwarfksyms/dwarf.c         | 26 +++++++++++++++++++++++++-
+>  scripts/gendwarfksyms/gendwarfksyms.h |  6 ++++++
+>  scripts/gendwarfksyms/symbols.c       | 16 ++++++++++++++++
+>  3 files changed, 47 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.=
+c
+> index 71cfab0553da..956b30224316 100644
+> --- a/scripts/gendwarfksyms/dwarf.c
+> +++ b/scripts/gendwarfksyms/dwarf.c
+> @@ -94,6 +94,28 @@ static int process_variable(struct state *state, Dwarf=
+_Die *die)
+>         return check(process(state, "variable;\n"));
+>  }
+>
+> +static int process_symbol_ptr(struct state *state, Dwarf_Die *die)
+> +{
+> +       Dwarf_Die ptr_type;
+> +       Dwarf_Die type;
+> +
+> +       if (!get_ref_die_attr(die, DW_AT_type, &ptr_type) ||
+> +           dwarf_tag(&ptr_type) !=3D DW_TAG_pointer_type) {
+> +               error("%s must be a pointer type!", get_name(die));
+> +               return -1;
+> +       }
+> +
+> +       if (!get_ref_die_attr(&ptr_type, DW_AT_type, &type)) {
+> +               error("%s pointer missing a type attribute?", get_name(di=
+e));
+> +               return -1;
+> +       }
+> +
+> +       if (dwarf_tag(&type) =3D=3D DW_TAG_subroutine_type)
+> +               return check(process_subprogram(state, &type));
+> +       else
+> +               return check(process_variable(state, &ptr_type));
+> +}
+> +
+>  static int process_exported_symbols(struct state *state, Dwarf_Die *die)
+>  {
+>         int tag =3D dwarf_tag(die);
+> @@ -114,7 +136,9 @@ static int process_exported_symbols(struct state *sta=
+te, Dwarf_Die *die)
+>
+>                 debug("%s", state->sym->name);
+>
+> -               if (tag =3D=3D DW_TAG_subprogram)
+> +               if (is_symbol_ptr(get_name(&state->die)))
+> +                       check(process_symbol_ptr(state, &state->die));
+> +               else if (tag =3D=3D DW_TAG_subprogram)
+>                         check(process_subprogram(state, &state->die));
+>                 else
+>                         check(process_variable(state, &state->die));
+> diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksym=
+s/gendwarfksyms.h
+> index cb9106dfddb9..8f6acd1b8f8f 100644
+> --- a/scripts/gendwarfksyms/gendwarfksyms.h
+> +++ b/scripts/gendwarfksyms/gendwarfksyms.h
+> @@ -61,6 +61,11 @@ extern bool debug;
+>  /*
+>   * symbols.c
+>   */
+> +
+> +/* See symbols.c:is_symbol_ptr */
+> +#define SYMBOL_PTR_PREFIX "__gendwarfksyms_ptr_"
+> +#define SYMBOL_PTR_PREFIX_LEN (sizeof(SYMBOL_PTR_PREFIX) - 1)
+> +
+>  struct symbol_addr {
+>         uint32_t section;
+>         Elf64_Addr address;
+> @@ -78,6 +83,7 @@ struct symbol {
+>         struct hlist_node name_hash;
+>  };
+>
+> +extern bool is_symbol_ptr(const char *name);
+>  extern int symbol_read_exports(FILE *file);
+>  extern int symbol_read_symtab(int fd);
+>  extern struct symbol *symbol_get(const char *name);
+> diff --git a/scripts/gendwarfksyms/symbols.c b/scripts/gendwarfksyms/symb=
+ols.c
+> index f96acb941196..d6d016458ae1 100644
+> --- a/scripts/gendwarfksyms/symbols.c
+> +++ b/scripts/gendwarfksyms/symbols.c
+> @@ -41,6 +41,20 @@ static int __for_each_addr(struct symbol *sym, symbol_=
+callback_t func,
+>         return processed;
+>  }
+>
+> +/*
+> + * For symbols without debugging information (e.g. symbols defined in ot=
+her
+> + * TUs), we also match __gendwarfksyms_ptr_<symbol_name> symbols, which =
+the
+> + * kernel uses to ensure type information is present in the TU that expo=
+rts
+> + * the symbol. A __gendwarfksyms_ptr pointer must have the same type as =
+the
+> + * exported symbol, e.g.:
+> + *
+> + *   typeof(symname) *__gendwarf_ptr_symname =3D &symname;
+> + */
+> +bool is_symbol_ptr(const char *name)
+> +{
+> +       return name && !strncmp(name, SYMBOL_PTR_PREFIX, SYMBOL_PTR_PREFI=
+X_LEN);
+> +}
+> +
+>  static int for_each(const char *name, bool name_only, symbol_callback_t =
+func,
+>                     void *data)
+>  {
+> @@ -49,6 +63,8 @@ static int for_each(const char *name, bool name_only, s=
+ymbol_callback_t func,
+>
+>         if (!name || !*name)
+>                 return 0;
+> +       if (is_symbol_ptr(name))
+> +               name +=3D SYMBOL_PTR_PREFIX_LEN;
+>
+>         hash_for_each_possible_safe(symbol_names, match, tmp, name_hash,
+>                                     name_hash(name)) {
+> --
+> 2.46.0.184.g6999bdac58-goog
+>
+
+
+--=20
 Best Regards
-Jacobe
-
+Masahiro Yamada
