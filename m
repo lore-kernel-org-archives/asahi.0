@@ -1,57 +1,33 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C92142900
-	for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 08:55:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA2C15C14F;
+	Wed, 28 Aug 2024 09:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724835354; cv=none; b=jqA9OqTYm4HWSPLSVuHvZ2dQjWspwFDzq/zx8XlKC6nzeTCddg31pOuKasNAtP4AqFLLmTgbH9K2tGmoc6sNEnElhnLlU/w81eqSCVFKv7UO2IanikRltiFU9bJHYhzX51/LBdXJ64GW0OMuhWFZRT8yj4lxogD5QLRD8HpKgG8=
+	t=1724836122; cv=none; b=csmbj8eF0k1GRFupOJfbLnpbtQZ3RgKaJBor4blRHnt884vFzr3uEOQKWABNL1WWGR4H3u8C3m3fQcYw6MCl7Vf7jPfXDIKNsiHJ6f87gjnnsB7DSPERj5ETDNDY+LyEOo2WFWeR+TIDnyhan+VYQJQNXy0YHrpOXtJPA5eHU5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724835354; c=relaxed/simple;
-	bh=DX3qWFO2aFGCE2+NSubhi4EkFuTdYX6uS/4KMwlKUzc=;
+	s=arc-20240116; t=1724836122; c=relaxed/simple;
+	bh=T9+UPkiHdOSPmSX/60spyttQMin9/8OW+10mi+SdMFM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iK1LddrQDubDbLCZFDMpR3Z/z3DGuVxRkGMa+rNnno31GOwT049S5YV7YsmPV+HcSTV+xUAgCZzcJ4sA4U8YdX/Wns9puRTk719vHmAPPuNwLFscJRJBrMfJKYRGwWgpm+eNVpGOS+8nhr/gp7mTaZ4N6Dw4A6iBw/qunbbGaHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=CSam5jSB; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	 In-Reply-To:Content-Type; b=MzgLmnSoswSvL7vQjGQQLU41spo4mZBU1t4uIByzww+CpgDd5NU7md/rohw3nG5DCqj8sLTUH1qLZ8iUiVQE8C4/8HeYnAV/FxnRUgVxR/eLpCjORCxo5ujrBy/3TG4AE+HA181TTgdKu3Z4qLRxdj8X+u9xds/gMmhTTYsyP1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=frlLQMiW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="CSam5jSB"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5dca990cf58so4990880eaf.1
-        for <asahi@lists.linux.dev>; Wed, 28 Aug 2024 01:55:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1724835351; x=1725440151; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=QWYpKLox98Zm+kv0OB+ZP4rUkmwKANk3sWNWu8DRmgw=;
-        b=CSam5jSB4y20p08hKEExM2gISkBuGPdN45V0+9mM4mmQJ1cbhm3+zHV6WZj3PWwkp0
-         IHLT4ok2DIj/SUnTbKp0tg+IyxkT6y5Y8HgSReA66o6/HpNpY3eHNALNi5X+n1QALw8o
-         LcFqbXQmo2w60vJLA9OAe3dfmsefe8J/RiQac=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724835351; x=1725440151;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QWYpKLox98Zm+kv0OB+ZP4rUkmwKANk3sWNWu8DRmgw=;
-        b=Yp1tbfR1vP9l+eXfuonRDRniIof6aBGxtXkLh7egvlayZQBZN9hEjDrbx1C83v5iTa
-         MzlYy4fBSuaTwPhXDt28OAoDfVQzqL6XCDwuf5f6cBvAR2BvcvGv8VdJ7V2pBQksEsgj
-         sSxiPKJnb4/MGk2UGB2mCsUzocRXMNL7aLSO0X5QIBDhJc8r1hKzTY+uSIYhtFfRe27R
-         U3i/TFXHre/aqFSpFXNpYdEhSLngu+QujyoHZHmPw7n5rsZk+sLTf8UwnzHJFc2Xq8Tu
-         uQJEXHkYJmmwrqyRbA3VopWztH7uMwUTgDuTPUfJlU5yWyGCTTOn/TM5VEHEYE3mCXod
-         X2eA==
-X-Forwarded-Encrypted: i=1; AJvYcCVdl7FzCQV8BoZDNDt+TeN4zX3uvsCmgcck02oRCm/m0At5RIfBgvBK/TE4SxLoi/1b+s/SsA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyFBGzsz4zdpZMRr/O0AiRCdliwXqIENZSSoYLB6jmAU8flClBc
-	KGTfvlYs/QNpwQjxgG8zYYNxi/15w9ZMHA3tr8KFAxuGOEm6Cz1JDYDg9k1PTA==
-X-Google-Smtp-Source: AGHT+IEmxUMmPUIRtslVRmejayJrNR7fKFL/cvIGljIuBj7DsRG0nD12IvGHcaZOt1yiq+lvFGmImg==
-X-Received: by 2002:a05:6358:60c7:b0:1ac:660a:8a69 with SMTP id e5c5f4694b2df-1b5facf5059mr150068655d.18.1724835351435;
-        Wed, 28 Aug 2024 01:55:51 -0700 (PDT)
-Received: from [10.176.68.61] ([192.19.176.250])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7143430964fsm9726609b3a.150.2024.08.28.01.55.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Aug 2024 01:55:50 -0700 (PDT)
-Message-ID: <7951482c-ee1e-45f4-8753-433a933321b6@broadcom.com>
-Date: Wed, 28 Aug 2024 10:55:44 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="frlLQMiW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF946C8403B;
+	Wed, 28 Aug 2024 09:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724836121;
+	bh=T9+UPkiHdOSPmSX/60spyttQMin9/8OW+10mi+SdMFM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=frlLQMiWouw88VzoZNjJZV2KjpobUVwczNzvsO56jI8Im8umluEi/+GyFzYwkm4wJ
+	 xG7Sc+4fw+JuRxqHNftuJ12rrEWHkhsyg+/ht+WmmLLQ31+F0rYQcR9gCW6nTC4ywT
+	 HAKHMxLJnO+EtwtDt1CohL42Fk2UNriNvQ05Hodk2uAOpZk01Ns7e9bLTJ31GzBiEg
+	 Wxo4igQk+XVGWVAE8kib9dRbr5MPZaDeGeGjb1ax1h/44H+YTw1llVioPpdB92VkGk
+	 01jQwgWkdIVMter6fL5ByFiBd+MweXaa7jQT9va4d/oVIwd4XqXzAtoDEtsZuOvvcN
+	 ket4RQAPtwODQ==
+Message-ID: <9180e80b-f464-4a84-8c58-35383beec637@kernel.org>
+Date: Wed, 28 Aug 2024 11:08:34 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -59,77 +35,123 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 0/2] Add Wi-Fi support for Khadas Edge2 and fallback
- compatible for Apple
-To: Jacobe Zang <jacobe.zang@wesion.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- asahi@lists.linux.dev, Muhammed Efe Cetin <efectn@protonmail.com>
-References: <20240828-dts-v13-0-6bff9896d649@wesion.com>
+Subject: Re: [PATCH v12 2/2] arm64: dts: apple: add "brcm,bcm4329-fmac"
+ fallback compatible
+To: Jacobe Zang <jacobe.zang@wesion.com>, marcan@marcan.st,
+ sven@svenpeter.dev, alyssa@rosenzweig.io, robh@kernel.org, heiko@sntech.de,
+ krzk+dt@kernel.org
+Cc: linux-rockchip@lists.infradead.org, dsimic@manjaro.org,
+ conor+dt@kernel.org, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, nick@khadas.com
+References: <20240828033953.967649-1-jacobe.zang@wesion.com>
+ <20240828033953.967649-3-jacobe.zang@wesion.com>
+ <22aaf58a-da71-44c7-acd7-f3e70b91cdfd@kernel.org>
+ <c5047173-d569-42d4-9676-4679100da118@wesion.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-Autocrypt: addr=arend.vanspriel@broadcom.com; keydata=
- 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
-In-Reply-To: <20240828-dts-v13-0-6bff9896d649@wesion.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <c5047173-d569-42d4-9676-4679100da118@wesion.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/28/2024 10:45 AM, Jacobe Zang wrote:
-> Add basic Wi-Fi support on Khadas Edge2. Wireless driver need to check "brcm,bcm4329-fmac"
-> compatible so add it to Apple's devices.
+On 28/08/2024 08:13, Jacobe Zang wrote:
+> 
+> 
+> On 2024/8/28 13:56, Krzysztof Kozlowski wrote:
+>> On 28/08/2024 05:39, Jacobe Zang wrote:
+>>> Broadcom driver need to check "brcm,bcm4329-fmac" compatible. Before
+>>
+>> What for?
+>>
+> 
+> It matches the changes in the other series that I sent.
 
-Did not receive [PATCH v13 2/2]. I don't follow every kernel list. Maybe 
-good to add linux-wireless list?
+Commit msg did not explain this at all. Anyway, then bindings should
+provide proper rationale without referring to "driver" as the reason.
 
-Regards,
-Arend
+> 
+>>> PCIe devices used PCI ID as base compabile so add it as fallback
+>>> compatible to pass the check.
+>>>
+>>> Signed-off-by: Jacobe Zang <jacobe.zang@wesion.com>
+>>> ---
+>>>   arch/arm64/boot/dts/apple/t8103-jxxx.dtsi | 2 +-
+>>>   arch/arm64/boot/dts/apple/t8112-j413.dts  | 2 +-
+>>>   arch/arm64/boot/dts/apple/t8112-j493.dts  | 2 +-
+>>>   3 files changed, 3 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+>>> index 5988a4eb6efaa..4b021626d4692 100644
+>>> --- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+>>> +++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+>>> @@ -72,7 +72,7 @@ hpm1: usb-pd@3f {
+>>>   &port00 {
+>>>   	bus-range = <1 1>;
+>>>   	wifi0: network@0,0 {
+>>> -		compatible = "pci14e4,4425";
+>>> +		compatible = "pci14e4,4425", "brcm,bcm4329-fmac";
+>>
+>> So devices are not compatible, but your argument is that driver needs to
+>> do something here? That's not enough.
+>>
+> Before this change, the check of "brcm,bcm4329-fmac" compatible is set 
+> at the end of probe function for SDIO devices which need IRQ. But after 
+> this change I set it to the top as the first check. So I add this 
+> fallback compatible to the Apple's DTS.
 
-> Signed-off-by: Jacobe Zang <jacobe.zang@wesion.com>
-> ---
-> Changes in v13:
->   - Change patch 2/2 argument from driver to bindings.
+You are not listening, I think, and still keep talking about driver. It
+has nothing to do. Fix your driver.
+
+> 
+> Oh..I got what you mean. Maybe my commit message is not clearly. It is 
+> no need to mention driver in it. Because the intent of adding the 
+> "brcm,bcm4329-fmac" compatible is to conform to the bindings.
+
+Explain the hardware, not the driver. DTS represents hardware, not drivers.
+
+Best regards,
+Krzysztof
+
