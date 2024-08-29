@@ -1,116 +1,135 @@
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9A91922DD
-	for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 11:05:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6EC18C90F
+	for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 11:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724929541; cv=none; b=iqgKEXdouECqTYsp9xJYGQZfRtYDx43+/z389a4/IGll/ZT7HCqYcnjEhKaaSJtLkh+2ieCPolbsxEIDX6rAiQ2xp9kx0Ajs5oDbVettWLNJKe7DwKCpmnnkgGLSxayMyU2ZCSIaWMUOoLZIL35jArmD8W5eTkQSdCcyjgtdfpI=
+	t=1724929778; cv=none; b=EQ500U8WoSt3F53JrWZCx44aqQazcZvBeqhJhn09DyZMxY3Tyv2Or02ajnH14rOrnDBhZJrVildb+dXbS3NlzCHPyfz7rDbdWmIb1gNvtTcaa0b8SGivXAjaFTdk7QbTToLJQPaU1BZkGDzL4RsMHu5rJyZNMZLAO0vcP4R4nZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724929541; c=relaxed/simple;
-	bh=/j92o8XunxPaVAVtxYK+L07dpPVfhrWfpRqf2TFJOz0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ecIA4QgGRgDZWmdiqDa8x8vTkSk0ArqYWnWFqaE6lLRodgMlE2tC8DU32G6lVLuWIPopKdYdkImN9jCufzWSAvJcVh88CfpbNhGOdwwtyV15pJvVoXz12MHZ7yhDKJXDZPcI5HnC3cms3SEvFhWsaURwEhmwVelSMoY3NGrbuQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHZ0YvcP; arc=none smtp.client-ip=209.85.221.181
+	s=arc-20240116; t=1724929778; c=relaxed/simple;
+	bh=sG/raVnx3HC8/TEH4IPZw5S6fzpcJ+CAyoGc5BaqYns=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LlOLqg3OUL6z1SYB6dST7YHL2rvn9btYtTeLQHVvz2tDvcZXlsBOQS++FlGj3xOpxgVbyVsWHRWkzHdGTJF6HKifGyG3eghAzbdyMfwuDggtVPPtJNnZEljg0bqly9758QIIlLybynWWuLciTGw9JDlsdIe1wugAeT05NgchcJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CajAYH07; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHZ0YvcP"
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-4feb60e525bso337354e0c.0
-        for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 04:05:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CajAYH07"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20202df1c2fso11571915ad.1
+        for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 04:09:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724929539; x=1725534339; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ianpNl3jL8Gv0lHeq+hByhZnx3GF6W02IwZ9uRWxMpQ=;
-        b=OHZ0YvcPjK7PHGUs4705yAj9kSsb5JgitKIk9CfirwO9FeRoSiAafwHjVGtqOF7dvP
-         hpT6i80OE0RRHVwVYn/qLOP+ejzW6E1aCQjHHklGkec7XvhC/DUChrKo1FE9Yc3cOlrd
-         skq9+tuggRrRG0oy1AlcLL3nbgWnVXNuBnpnyH41VFbxREs+kRu0IW3kGjMTFDoSA7OM
-         MhOFlmBvUzE3YU5nL/dsD4eoblfDO1MRHHOYqfj4hprOvRiPQ6eG8oCTxsx1nDkRRzUY
-         DA0iZuiHQHqp9fNAQqz3WektadQVHA+wLEeN16/u7Nzid+B3/TBrXHjFJJFGQrWMw9qS
-         miIQ==
+        d=gmail.com; s=20230601; t=1724929776; x=1725534576; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=peUvJHmZvKj9l0DgThdraUA2U1lKp1rDQkc/x5wUhK4=;
+        b=CajAYH0711btyUlQIdlEinPNGR66wBD2XUDpIJm3AlalEGkpsLbjMIbCUJLM2hrzDG
+         DGDPZZGmMHFnA70OQQxDczzQ+5dohftuapcgFxFzLCUoUN41XparuooQmp0Faq2HDSqy
+         njtJF2WlPD4ZYC/ITw6vkg6I4buEUKut1MRYeU+j6Lg4vPtElLBGfKDXmCASXOWwno3K
+         vcb26VS/II89DQ08zh+SMlquZOR5CBas2AapGUdJm5PPzAnFKJ7WAMxBK+iivqdZv/2U
+         uTGdJICOiuRlYspYDqN1ss/Di9kXxyfR0/u+lAsLvfY3KRqwxdMvcyjoOQrHYuGzUBGt
+         yo0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724929539; x=1725534339;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ianpNl3jL8Gv0lHeq+hByhZnx3GF6W02IwZ9uRWxMpQ=;
-        b=JosJgW8buoie79uyogh+fIbsrINZIrEdQF6bYy0+dDM4GEQ+BjQKO1bLytu7SGJj8n
-         o38s6aJrlSzG3e3WjrRLWNb8iUocPxohmjQ2ngfA2m5lKHE2j7G+TSODcnKhp0Xfje28
-         yiwqydq2KUV6P6FPljSeyNcejAPT5GdMGXTr6OBM1Gshoj2tkX0XXasdPNlvll2Tw212
-         g+zF61H4IOCMyQVm93ynE256aGuXvLS1zLAPdx/VGPSl1o9ZyHgzO/zYXDn2T5v8o+kB
-         G5ZEmUTyVRLwQcGFhsbmA+8t8kDjgGX2QPcHvD6C4i9qHwj56sFrVQS84h3Lw2LjSsiI
-         TayQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVRE8rPGWfrbJsTkHLG2EGEeetDw4HIyyHUZbEcOlw6BeV2M9VuCc9StRHtD+0h04tVaS56A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7gH4P8HUiSuyvivgmNYEWiCPFxyuMCdoKFRtSKc2CowACpuIu
-	de52Ekzr+bEzA1sMgJAEaWOfErCxH4Q9QmVMRKoE+iyFlP79RIu72SGWKytD7pM=
-X-Google-Smtp-Source: AGHT+IF6yBcBMzp8rTNq8i+IQc91e14+ebz9MBYVssN2nRk8uZQahgLcP+UIaAxH9XbozPbSUz9pQw==
-X-Received: by 2002:a05:6a00:a1e:b0:707:fa61:1c6a with SMTP id d2e1a72fcca58-715e78ce1b3mr2227273b3a.10.1724929527263;
-        Thu, 29 Aug 2024 04:05:27 -0700 (PDT)
-Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-715e5576cc7sm906671b3a.32.2024.08.29.04.05.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 04:05:26 -0700 (PDT)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Cc: ~postmarketos/upstreaming@lists.sr.ht,
-	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH RESEND 1/3] dt-bindings: apple,aic: Document A7-A11 compatibles
-Date: Thu, 29 Aug 2024 19:02:15 +0800
-Message-ID: <20240829110436.46052-2-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240829110436.46052-1-towinchenmi@gmail.com>
-References: <20240829110436.46052-1-towinchenmi@gmail.com>
+        d=1e100.net; s=20230601; t=1724929776; x=1725534576;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=peUvJHmZvKj9l0DgThdraUA2U1lKp1rDQkc/x5wUhK4=;
+        b=Tyb3hHuSJkGgta0vAUp3e3bbh1go4Jl0bNc0LFZmZyKw2lYadPTUdUMzEwx52fof7S
+         Z+S9Q2mY1NBppp9m4WnWkdOr3pg5K2on+UGV0z23DhBNAsDVM4aRwB2EDoW21gsF7sox
+         4pkSee8wz3/VqoeU+COfQpyTB2J6H6GF1tDiB34t+G2VVV/6ODdsbMP6tI+Q+KymOG7p
+         7/DvTketszvbxhscvTp9bHJx9jeAsUb8BIBKhdAiPkR/G85RrkFSHKANFHwS7gEOyXEB
+         RAgSgXbckIRZLodbZwrDUD1sOqdDYjDCPyjBHpAH8l1/uU6vZsEftBFT9vPe/wpK0E4H
+         tegA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2WZD9eb7dDf41tO7Zt02qUoCJIe7m57QICzpPj84hXhBDhXkf64bywHYgqk5XUTALAlHcbA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNzKmmq3gzeAa13P428bNQR+KfO417g7lF5xv+Do4XQCpIQyHP
+	f/fErxVsxasLVzwxPeznHNlpEP0Udoj4vU9L8Lii4JJxycsnWUKD
+X-Google-Smtp-Source: AGHT+IGdEOcfdKj0mrRNzvZvFSj5VjQPh/SiyTbiJB6q+bMK1A3fHVFUxokQUSRAMYhQuzez3pc/sw==
+X-Received: by 2002:a17:90b:1095:b0:2c8:f3b5:7dd1 with SMTP id 98e67ed59e1d1-2d85c7a02b6mr1804373a91.16.1724929775836;
+        Thu, 29 Aug 2024 04:09:35 -0700 (PDT)
+Received: from [192.168.0.122] ([59.188.211.160])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2d8445e80absm3787855a91.13.2024.08.29.04.09.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Aug 2024 04:09:35 -0700 (PDT)
+Message-ID: <afd79f6c-89b4-4229-aa16-f130a35d78b0@gmail.com>
+Date: Thu, 29 Aug 2024 19:09:31 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: apple,aic: Document A7-A11 compatibles
+Content-Language: en-MW
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: devicetree@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ Sven Peter <sven@svenpeter.dev>, Thomas Gleixner <tglx@linutronix.de>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ Hector Martin <marcan@marcan.st>, linux-kernel@vger.kernel.org,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev
+References: <20240829092610.89731-1-towinchenmi@gmail.com>
+ <20240829092610.89731-2-towinchenmi@gmail.com>
+ <172492705116.3333643.6993934329983052782.robh@kernel.org>
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <172492705116.3333643.6993934329983052782.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Document the compatibles for Apple A7-A11 SoCs.
 
-There are three feature levels:
-- A7-A10: No fast IPI
-- A11: fast IPI, global only
-- M1: fast IPI with local and global support
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- .../bindings/interrupt-controller/apple,aic.yaml          | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+On 29/8/2024 18:24, Rob Herring (Arm) wrote:
+> 
+> On Thu, 29 Aug 2024 17:03:11 +0800, Nick Chan wrote:
+>> Document the compatibles for Apple A7-A11 SoCs.
+>>
+>> There are three feature levels:
+>> - A7-A10: No fast IPI
+>> - A11: fast IPI, global only
+>> - M1: fast IPI with local and global support
+>>
+>> Each feature level is an extension of the previous. For example, M1 will
+>> also work with the A7 feature level.
+>>
+>> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+>> ---
+>>  .../bindings/interrupt-controller/apple,aic.yaml  | 15 ++++++++++++---
+>>  1 file changed, 12 insertions(+), 3 deletions(-)
+>>
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> yamllint warnings/errors:
+> 
+> dtschema/dtc warnings/errors:
+> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/interrupt-controller/apple,aic.example.dtb: interrupt-controller@23b100000: compatible: 'oneOf' conditional failed, one must be fixed:
+> 	['apple,t8103-aic', 'apple,aic'] is too long
+> 	['apple,t8103-aic', 'apple,aic'] is too short
+> 	'apple,s5l8960x-aic' was expected
+> 	'apple,t8103-aic' is not one of ['apple,s8000-aic', 'apple,t7000-aic', 'apple,t8010-aic']
+> 	'apple,t8015-aic' was expected
+> 	from schema $id: http://devicetree.org/schemas/interrupt-controller/apple,aic.yaml#
+> 
+> doc reference errors (make refcheckdocs):
+> 
+> See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240829092610.89731-2-towinchenmi@gmail.com
+> 
+> The base for the series is generally the latest rc1. A different dependency
+> should be noted in *this* patch.
+> 
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure 'yamllint' is installed and dt-schema is up to
+> date:
+Acked. yamllint was not installed on my system.
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-index 698588e9aa86..2e38b585a722 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-@@ -37,7 +37,13 @@ allOf:
- properties:
-   compatible:
-     items:
--      - const: apple,t8103-aic
-+      - enum:
-+          - apple,s5l8960x-aic
-+          - apple,s8000-aic
-+          - apple,t7000-aic
-+          - apple,t8010-aic
-+          - apple,t8015-aic
-+          - apple,t8103-aic
-       - const: apple,aic
- 
-   interrupt-controller: true
--- 
-2.46.0
+> 
+> pip3 install dtschema --upgrade
+> 
+> Please check and re-submit after running the above command yourself. Note
+> that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+> your schema. However, it must be unset to test all examples with your schema.
+> 
 
+Nick Chan
