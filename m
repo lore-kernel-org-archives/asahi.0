@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 894961917FB;
-	Thu, 29 Aug 2024 11:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4F918E375;
+	Thu, 29 Aug 2024 11:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724931892; cv=none; b=tBsEbgwqSTLr+kmpHUSRudZ2ajWdcVe7qM7n2bNEjaUaXEnOD4lmN18iiNsRhMcGQNm2niFfyaRKQvWftbP2Hzv5QXSZtSGmuGWscE01UF5RYMQRjn//AOlNQ2qdWB/p3Q6uGSMDitHGSg+tUV9YWqD7Vwg8l3YzbIzSvZs5ZLk=
+	t=1724932009; cv=none; b=tAtKImWo0MzTRtbrzmsvsAcEbWgH9sNTBy2ZpJY+mfAI1qjm/06+wiTZvQLqHnCeIi4z/LRp0/oTwZd/SFDdgwGWC6VR3HfohR7lonzWYATahYyfmo90lK0kZvKMk1+9K0hDyho9EWtZ8ofKWsHZTjoW1CXqWjDaqykaWLwuniI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724931892; c=relaxed/simple;
-	bh=4cgFU/fqSVMRNK/AEZBAQEqPUz3up32PdKIGaCGcIVM=;
+	s=arc-20240116; t=1724932009; c=relaxed/simple;
+	bh=H9yWvvnTQWX6NQ5UZKTRsjOrm3Tu+T6fWoZPEcbHI/k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RDHm++8LgYGQwre5TGZ6Zz2dNOYIZ3ZbC2N2OMQFKEDYT2PrWSdVKQCp1R+dSQB91PRKbr7LvJg4pChuuKhjUyUD5+ON0BLIlULZVQoN3zRZyTiuHXcndV7s4lFeV60MfkZwhLGQGuaqUegZacnGsnGJXv2k1OZgDN8K9Zy9GUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z4awrOFf; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=Q+0/McvB8EHba3tDEeQnjgnbtPDeriCgonO0wf98Hc4lo044Aaehorgkh45GtNxzQ6rQN7lL4AAFjPWL12iFT17fQXYP9wplJn6auZ1c3PGnacMUC8+XlIhiH1Zm0ICqtiNJ3cVqU8jLWT4hqrOyWCu/jbJohOxgc5KiO3DBxwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mSmN/0NG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z4awrOFf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB20C4CEC1;
-	Thu, 29 Aug 2024 11:44:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mSmN/0NG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2376C4CEC1;
+	Thu, 29 Aug 2024 11:46:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724931892;
-	bh=4cgFU/fqSVMRNK/AEZBAQEqPUz3up32PdKIGaCGcIVM=;
+	s=k20201202; t=1724932008;
+	bh=H9yWvvnTQWX6NQ5UZKTRsjOrm3Tu+T6fWoZPEcbHI/k=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Z4awrOFfvug3IfZxT8TMO+F29Ns2QpKhGmrWfgCb/TqUMmZeb8S8U0t3rGxU0+zu1
-	 QTOjQ5HDOfv1DChom9TyDgaRG/Mawxxx6PGNARuml3H5+hOT7733GjmVWwROM50CXq
-	 gwNqTwE0bnKEZQ0qV5ffFS6Jhu97U3oKIj0ndamXm1FmhGERgqvWgoJKS4c67ZDYGs
-	 9K8QNrWm4frEYjJCztPx5d4Bv4l6mY51gE1tPTTiN25xuBDPQZPq9h/IVGMOymYPCc
-	 64ra0CA9P0Lvf1u5QlKtjoAFwxctBXyAU/ImR1pZS0nt/7LzMAqIawyVBC+2Z4F/I/
-	 DTr6+1JYNa0+Q==
-Message-ID: <e3d9a629-6fcc-4fd8-b44f-47efdda5f494@kernel.org>
-Date: Thu, 29 Aug 2024 13:44:46 +0200
+	b=mSmN/0NG/rQu+/WKgXCLM+n6w652mHXV9Lsg543t16iFAsLW9V63WR7xkDzUwJmyM
+	 SyHYMvwySUpoznLSyHnX2ekTXLjxjwTeuRok07234m73vygD3LGvz98gq10lJDIXLM
+	 POHJWu//+BGAeBzonx/sxOtmaPaWCtFdq18VUCC56mbPXamK5+MH9Osb7Ww3xBfW8/
+	 egjEDCIxL5YWnrPJUJu18vCFHCHT40NL/tb5pOUwa5bmvegu2XskABRRH74tFSjBKe
+	 PopoBq3D6J1wu2MHEpjHFj9b05J/YJ41HBWI6wj1kMrH5/aKRVC6g/0JRrXabNOaTn
+	 dI7vJLBob5RYg==
+Message-ID: <220766f0-7cbb-4b4c-a976-477ca1d89fee@kernel.org>
+Date: Thu, 29 Aug 2024 13:46:41 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: apple,aic: Document A7-A11 compatibles
+Subject: Re: [PATCH RESEND 1/3] dt-bindings: apple,aic: Document A7-A11
+ compatibles
 To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
  Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
@@ -44,8 +45,8 @@ To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org
 Cc: ~postmarketos/upstreaming@lists.sr.ht
-References: <20240829092610.89731-1-towinchenmi@gmail.com>
- <20240829092610.89731-2-towinchenmi@gmail.com>
+References: <20240829110436.46052-1-towinchenmi@gmail.com>
+ <20240829110436.46052-2-towinchenmi@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -91,11 +92,11 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240829092610.89731-2-towinchenmi@gmail.com>
+In-Reply-To: <20240829110436.46052-2-towinchenmi@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 29/08/2024 11:03, Nick Chan wrote:
+On 29/08/2024 13:02, Nick Chan wrote:
 > Document the compatibles for Apple A7-A11 SoCs.
 > 
 > There are three feature levels:
@@ -103,48 +104,14 @@ On 29/08/2024 11:03, Nick Chan wrote:
 > - A11: fast IPI, global only
 > - M1: fast IPI with local and global support
 > 
-> Each feature level is an extension of the previous. For example, M1 will
-> also work with the A7 feature level.
-
-It's hard for me to map above to compatibles. Extend the commit msg to
-include names used in the bindings.
-
-> 
 > Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 > ---
->  .../bindings/interrupt-controller/apple,aic.yaml  | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> index 698588e9aa86..28e09b933087 100644
-> --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-> @@ -36,9 +36,18 @@ allOf:
->  
->  properties:
->    compatible:
-> -    items:
-> -      - const: apple,t8103-aic
-> -      - const: apple,aic
-> +    oneOf:
-> +      - const: apple,s5l8960x-aic
 
-Which one is this?
+Please do not resend different patch. Or rather explain - is this the
+same? Looks different, so RESEND is not appropriate.
 
-> +      - items:
-> +          - enum:
-> +              - apple,s8000-aic
-> +              - apple,t7000-aic
-> +              - apple,t8010-aic
-> +          - const: apple,s5l8960x-aic
-> +      - items:
-> +          - const: apple,t8103-aic
-> +          - const: apple,t8015-aic
-
-Why are you changing all existing devices? Test your change, you would
-see here errors.
-
-
+Follow submitting patches in this regard, you need v2. Just use b4 for
+this process.
 
 Best regards,
 Krzysztof
