@@ -1,151 +1,149 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529DB1B3B0D
-	for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 12:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09321A0B05
+	for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 13:08:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724935344; cv=none; b=qeWkovW6EaCh6lSs5DY0YlBJyUiHdaOZ8IYMSi8ZwCepMiwkWJdb4v1gKyF7/kMvTPVEwr8pfPNfjVauA0L4ZX1ryFXSR9b7IOH8zAKcHRa9Trf6zf7fJ4bEiaKahCIFv1FTq5QbPPOxvY6AIMgp74nhC2hXncQYPJ4Tzy3sETg=
+	t=1724936941; cv=none; b=O7o1TYS6Mjwdqxpn1dfW+vMNmZwWAvFJOQS5co1WvzUmWod5Fd3eI2HchurZWM8oD2owz6GcrREjHDUAVLmV7wLV84jF6XmCc8z6ol00LZDIg1omtIaqf4iQoyr7jxdfQXwrzi9cv+VodV0sDlkxn0ZZ2ihd/xoYlOddNy//xcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724935344; c=relaxed/simple;
-	bh=fJCxyhxNqlg7fPYahoS6M91isT/nrzxyUAToqzxJUqs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XSrZ29p32MtzL8ENaEjd22BS1V4gBw8yeXEQyKSWeKbNxuctxUcsKmBf5VUyIeej9WCV3wckIdcZLNxIQXPlacduubz1Sc2Dt7Qj3qzNiQOJkJfl93l0bI6nPTsLfLGQlcKwDjk9xvOSMzvUqdLtKfpX53BYXmnD2nlwRBNRt1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RSNJs8cp; arc=none smtp.client-ip=209.85.161.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1724936941; c=relaxed/simple;
+	bh=/YcGSJSFqAmJKaRaXk1qyozjgO4RWkKRcPvMEGIUug4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=r1vcrqZ8MYjw/4GclYkAouEMnwV1b/HNpcqR0drKxfSNf7/dZVb0PoQQpLUl7KX4sc6mTIczVdfj3LiI2SofjNoxdfj3ur2EeS0khQezqAoY+Kf1WnklDGED+doPij8OsHLlDnZ8HMLlry5hhNwvFXmhRGYlw0Fxtwi+mKxlTkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=y6DKYe1B; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0+ogEiSf; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RSNJs8cp"
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5df96759e37so400647eaf.2
-        for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 05:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724935342; x=1725540142; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=62etMwhikCbx83EitXMM1DAsh2sGaPLi6taYdPEKe7E=;
-        b=RSNJs8cpN/h9Yp5ULO8PJsDAR3LOe8pas91t2eTQV6yiWxYYvQyhAvy+gu7/7tANcD
-         aC1BdOsRHVtAH9J25X46PzLZberYfMPbC5fh2Qu6kpeQZsQlt9LEjwYl6VDV/q5UKOEc
-         AKFOF8KhEQlmQ03hpvi65rgGLRg9bElPjSuCTqP5yuX3aD7PnCYjYGCcRUGkPGgXpemp
-         G0cdxttkcLdG9NYfQ/tH7eM2F5pAoor1bXtXsR4pauMW3/psslbi+YiO5IalMKbzH6aQ
-         Oym1LBcTW/H+SkvPaFQQoECG2JE8+b6mi5KylOBtzCsQG/djOXiSnWJleGcqWmmWnAmQ
-         Qnew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724935342; x=1725540142;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=62etMwhikCbx83EitXMM1DAsh2sGaPLi6taYdPEKe7E=;
-        b=pQ3J2UurumiVbrLtaVIdZTzXSbFG556kMt5I6rOjvhFXA3jBsVGGucIFv979JTOk/t
-         klIr8o2jtL1Nzx4tWSnm2WQDCIX9Ox454cpiLJMk+7Mv8y60gYCUyyrATO8Lj62bvsTY
-         gWHGg/aTPyNk7D2i0mDxfyEX4jv9e5l6gax/wPqDv23/ZoM+EXfVj7ie48NPYzuZmWix
-         mE6AScmIEzXzvg2cRsOyUdUVrFgF1hpN0SfMPdJ+G+3XIGBDkbrXaxGQo/fGSBMIR1v1
-         xuWyl6aXR5c0jRxAqXQ2epWa9NG/Y9EnDdgGnYqMYzJ3h1y6pvk4goajEdYxKdUcIKtj
-         pIiw==
-X-Forwarded-Encrypted: i=1; AJvYcCUqwJ5UdQn9TSlkr0gqcJFqs13UYwddMfxUjnvUDf0CwmdTtlNs5+yE7yLmJczV1EB4bwE2uQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBstx1F0O7gvl9/yRsi3qjtb6Lx52iJdOYovPg3AbohRFcgehP
-	lwSUbmIzYHG0bHgPyI9jgms5pXY7eWUDeYsWHc/wGeBHP5Qn/7AI
-X-Google-Smtp-Source: AGHT+IEC4G47OYreiCTOBKoMPPw17Y2kBfXKxe7jza2SnX9wgdDOFnMWs0MrB73Y0piQMsh49UXzkw==
-X-Received: by 2002:a05:6358:7204:b0:1b3:94cc:6526 with SMTP id e5c5f4694b2df-1b603be2acbmr321852055d.2.1724935342301;
-        Thu, 29 Aug 2024 05:42:22 -0700 (PDT)
-Received: from [192.168.0.122] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e575c4acsm1045391b3a.195.2024.08.29.05.42.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Aug 2024 05:42:21 -0700 (PDT)
-Message-ID: <5035c3ed-7089-4136-87b4-102e973c1787@gmail.com>
-Date: Thu, 29 Aug 2024 20:42:18 +0800
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="y6DKYe1B";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0+ogEiSf"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1724936937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ieTWdV07NbZ9ssB6zICmV4vVPLCi22h5v9KXYRgJRfI=;
+	b=y6DKYe1BhMBKW41WL4EOd63wZnaD0fJ1IpF6wrr5Q4Vn1uE4xO4sMCucVnUA/J06x1lmOJ
+	Sjn0tKydI7oN/f0SjMQ1GbD/3Pebu/FCaGg1C2qdGooBYK6j1Xa4K2uCgZR5fuRuR30DHT
+	AXnGpKreUpDsFOtPeNEBp/p4z15HgumgwA1fno/rvX6oLwF5niUdKkQ/4JYtfvy1cczDlv
+	LLhpkmAj5qFoSUS42XTBgX0gGST+c8khK3OWFmP6OOtRVtLHTX+WgLVd8BbIJoD7mpckv4
+	xp5KDSKSAuOd99pgycNAO47RHs47CPOSqHT1ZZPHyRfE8mgRfrhsb1Rp3wBxEw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1724936937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ieTWdV07NbZ9ssB6zICmV4vVPLCi22h5v9KXYRgJRfI=;
+	b=0+ogEiSfY2/9fY30bXDJSxyQ0l/lS2woiv32ZEitRAJVeGgiruE4wgvuBWpYN+84/UpiOs
+	bSrO+tnV8JmgG8AQ==
+To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Cc: ~postmarketos/upstreaming@lists.sr.ht, Nick Chan
+ <towinchenmi@gmail.com>, Konrad Dybcio <konrad.dybcio@somainline.org>
+Subject: Re: [PATCH RESEND 2/3] irqchip/apple-aic: Only access IPI sysregs
+ when use_fast_ipi is true
+In-Reply-To: <20240829110436.46052-3-towinchenmi@gmail.com>
+References: <20240829110436.46052-1-towinchenmi@gmail.com>
+ <20240829110436.46052-3-towinchenmi@gmail.com>
+Date: Thu, 29 Aug 2024 15:08:57 +0200
+Message-ID: <87zfova32u.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: apple,aic: Document A7-A11 compatibles
-Content-Language: en-MW
-To: Krzysztof Kozlowski <krzk@kernel.org>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Cc: ~postmarketos/upstreaming@lists.sr.ht
-References: <20240829092610.89731-1-towinchenmi@gmail.com>
- <20240829092610.89731-2-towinchenmi@gmail.com>
- <e3d9a629-6fcc-4fd8-b44f-47efdda5f494@kernel.org>
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <e3d9a629-6fcc-4fd8-b44f-47efdda5f494@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+
+On Thu, Aug 29 2024 at 19:02, Nick Chan wrote:
+> Starting from the A11 (T8015) SoC, Apple introuced system registers for
+> fast IPI and UNCORE PMC control. These sysregs do not exist on earlier
+> A7-A10 SoCs and trying to access them results in an instant crash.
+>
+> Restrict sysreg access within the AIC driver to configurations where
+> use_fast_ipi is true to allow AIC to function properly on A7-A10 SoCs.
+
+use_fast_ipi is an implementation detail and does not mean anything
+here. It's sufficient to say:
+
+   Only access system registers on SoCs which provide them.
+
+Hmm?
+
+> While at it, remove the IPI-always-ack path on aic_handle_fiq.
+
+It's not while at it. It's part of handling this correctly.
+
+> If we are able to reach there, we are on an IPI-capable system and
+> should be using one of the IPI-capable compatibles, anyway.
+
+'we' can't reach that code ever.
+
+https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#changelog
 
 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 
-On 29/8/2024 19:44, Krzysztof Kozlowski wrote:
-> On 29/08/2024 11:03, Nick Chan wrote:
->> Document the compatibles for Apple A7-A11 SoCs.
->>
->> There are three feature levels:
->> - A7-A10: No fast IPI
->> - A11: fast IPI, global only
->> - M1: fast IPI with local and global support
->>
->> Each feature level is an extension of the previous. For example, M1 will
->> also work with the A7 feature level.
-> 
-> It's hard for me to map above to compatibles. Extend the commit msg to
-> include names used in the bindings.
-Acked. Will be in v2. A description of the feature levels will also be
-added to
-the description of AIC.
+This Signed-off-by chain is invalid. If Konrad authored the patch then
+you need to have a 'From: Konrad ...' line at the top of the change log.
 
-> 
->>
->> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
->> ---
->>  .../bindings/interrupt-controller/apple,aic.yaml  | 15 ++++++++++++---
->>  1 file changed, 12 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
->> index 698588e9aa86..28e09b933087 100644
->> --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
->> +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
->> @@ -36,9 +36,18 @@ allOf:
->>  
->>  properties:
->>    compatible:
->> -    items:
->> -      - const: apple,t8103-aic
->> -      - const: apple,aic
->> +    oneOf:
->> +      - const: apple,s5l8960x-aic
-> 
-> Which one is this?
-> 
->> +      - items:
->> +          - enum:
->> +              - apple,s8000-aic
->> +              - apple,t7000-aic
->> +              - apple,t8010-aic
->> +          - const: apple,s5l8960x-aic
->> +      - items:
->> +          - const: apple,t8103-aic
->> +          - const: apple,t8015-aic
-> 
-> Why are you changing all existing devices? Test your change, you would
-> see here errors.
-This part is a bit of a mess from when A11 was supposed to get the M1
-compatible. However, now that A11 is found out to be different from M1,
-in v2 all of A7-M1 will get its own
-SoC-specific compatible, in addition to the "apple,aic" generic
-fallback. (you should have already seen the changes in the improper
-"resend")
+If you worked together on this then this needs a Co-developed-by
+tag. See Documentation/process/...
 
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
+>  
+> -	if (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING) {
+> -		if (static_branch_likely(&use_fast_ipi)) {
+> -			aic_handle_ipi(regs);
+> -		} else {
+> -			pr_err_ratelimited("Fast IPI fired. Acking.\n");
+> -			write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
+> -		}
+> +	if (static_branch_likely(&use_fast_ipi) &&
+> +	    (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING)) {
+> +		aic_handle_ipi(regs);
+>  	}
+>  
+>  	if (TIMER_FIRING(read_sysreg(cntp_ctl_el0)))
+> @@ -574,8 +571,9 @@ static void __exception_irq_entry aic_handle_fiq(struct pt_regs *regs)
+>  					  AIC_FIQ_HWIRQ(irq));
+>  	}
+>  
+> -	if (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) == UPMCR0_IMODE_FIQ &&
+> -			(read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
+> +	if (static_branch_likely(&use_fast_ipi) &&
+> +	    (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) == UPMCR0_IMODE_FIQ) &&
+> +	    (read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
+>  		/* Same story with uncore PMCs */
+>  		pr_err_ratelimited("Uncore PMC FIQ fired. Masking.\n");
+>  		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
+> @@ -811,7 +809,8 @@ static int aic_init_cpu(unsigned int cpu)
+>  	/* Mask all hard-wired per-CPU IRQ/FIQ sources */
+>  
+>  	/* Pending Fast IPI FIQs */
+> -	write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
+> +	if (static_branch_likely(&use_fast_ipi))
+> +		write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
+>  
+>  	/* Timer FIQs */
+>  	sysreg_clear_set(cntp_ctl_el0, 0, ARCH_TIMER_CTRL_IT_MASK);
+> @@ -832,8 +831,9 @@ static int aic_init_cpu(unsigned int cpu)
+>  			   FIELD_PREP(PMCR0_IMODE, PMCR0_IMODE_OFF));
+>  
+>  	/* Uncore PMC FIQ */
+> -	sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
+> -			   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
+> +	if (static_branch_likely(&use_fast_ipi))
+> +		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
+> +				   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
 
-Nick Chan
+Please see the bracket rules in the tip maintainers doc.
+
+Thanks,
+
+        tglx
