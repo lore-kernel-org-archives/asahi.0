@@ -1,33 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF12190663;
-	Thu, 29 Aug 2024 11:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C6A18C916
+	for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 12:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724932040; cv=none; b=gaGqQTnMiL5rYpWxHS8oJBBI2OX7oJ3Z92qz3gDhvhSmtKi8AQTdWPbOo8B80EgR1IUDCOeFmjQ2HDWBmC9x0A18e0xiwtWz3g0LcXqaDlMuOJDK6prg4cClUEKZWRZVAaC2Hs024zrXjKNmsDHAyIDM/NL4Tee2hBtbYe84avA=
+	t=1724932825; cv=none; b=rghlK8ODETMgCLbnvHv4zBBK7jtQS1+u3BttSQeWDrJTfBSLOUkki6Wrsfq1ZGALnyfl37xBPlTxLUkm3egz/cvzD+W03+F/qCkCizKFGAbmuwM8Cn6ZbwSJyfdz0j+0sjd686uGM0CJRRfbeedtzmAhnLfF82FAn/TomahyVDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724932040; c=relaxed/simple;
-	bh=Bao+PsAXuX7NvU6F8ybBhx/aGmPG9tBiwr6xFEzJDlE=;
+	s=arc-20240116; t=1724932825; c=relaxed/simple;
+	bh=+AFMsTioAXTYe+/OIC8TW55UGMedcr0nSW9NuwvwmP4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kq8YfgQFzhTJad4ZGGzxG/BbJJmWjYO5lrX7/TsuNeuidse1d93u+ExwIN6aKTwAPZjUaEofBslawm3Ak7BVHAUR4Dnb9a2JL55MpFEr7G5db27tS+lNg8dZ3vtvPd8Tpx3cUFOUACG/c+w3kHFr1Ap0CR0se0+nl1Ov6hJRy3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=He1vTMFu; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=IrdV6Si/fGHSCBzlRdpLFFtT8MqK3NN63HVHVYJPxc0d/UkRvQj7w70daWsxK4IvUcsGkWi6LwtbY5NG0ORaP7QDO9YVaCjWle92Pt7igTwIeLvCs7Tg191LuGbuc2VYzbEk4s7A9z+NfwKFn5ZBE6zJrun2IcLg96cs/7WAxYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PczlDiHz; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="He1vTMFu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 942A0C4CEC1;
-	Thu, 29 Aug 2024 11:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724932038;
-	bh=Bao+PsAXuX7NvU6F8ybBhx/aGmPG9tBiwr6xFEzJDlE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=He1vTMFuWfX/c4iSLuD9JXrquWlJQLhrULK7OoWU8GZXq5d24h52OR1UChDuG4YeU
-	 qcJTBN3CN5Oyv4cj5mTLPAmtNJr3Ex+4DD/kkOSuzVOaqw6hV/s4zBfWdtIjJPov34
-	 +Dt5FZ2yPos/0my4Fnz/dWgJMgAJrzKp16DnIcgCUPhEOo7MmD1kQJk1vFCfV6BoY1
-	 ga4tR+e8X1XPWlbfQL/29ywrK3Yk1sXrowOYx4hj/5LmV8xgkZegiaIRv6tdNgq9EV
-	 c6RCz9bAh1BqOpYF/Exu/qF9nf4uQJ9xb2k53F4ydSD4pWGBxUPz4PJ1sZlnMDCXl/
-	 pScV2jpEX1xEw==
-Message-ID: <fcd0e771-2633-4fac-82cd-4b579ce17a9c@kernel.org>
-Date: Thu, 29 Aug 2024 13:47:12 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PczlDiHz"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-201fba05363so4898875ad.3
+        for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 05:00:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724932823; x=1725537623; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=27LAEgYBljGGhgNMpBJC2vTKDP+IyCsrvFLq2dI8Abg=;
+        b=PczlDiHzcZL044+NOF5H4N2KaPFx4JU2R9111kxeiHNRyNiRCDQJnRgQm7TtfeIoky
+         N0q3vibt4CPziga9G9qR3JH/MqPoaERn+vMn+n5oq+dFQbI0caRcKVYb4qFVUeHdsx8E
+         rwhe9c3DDaHKctxT91WsH335qG3aoQUp6hXS5fFHmh4AoH4VTT310lS1yrev79+jUUue
+         WXChO9q7Bm69wilo9uZ+nJl/rsjY6V7KvbXyeijqLMYAY6df6noO3tNwgWw52jLlbY+G
+         MwnrLU82IXw1xM7afAD+Ta4nZ3hLlv/u4F7vP6/XMchy1y4hpHH2dK8pyyNTRgykFN1c
+         lRKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724932823; x=1725537623;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=27LAEgYBljGGhgNMpBJC2vTKDP+IyCsrvFLq2dI8Abg=;
+        b=rXms7k9fTKevUKVxtGSLQD7+KKvhIQGzyvs0ionbpqfgKqC4Ci+hleY5lCWCtiPDuJ
+         dYboadCKGyaFJnsv2DrMAjYbxBdahulU5YUt6SpMThc71mNxlXwDtX4kSrVrqn01HV+O
+         +pA+/IviLjZCQD9ZmZSWAVcvBG6TYW8RbQR1CqEkHucvT+/fXeNmCynLsu8leX1f3d2b
+         Bla/zKGWiN+dndyQvvJ/AGWivkjp+OMBMQItWU5hF1ohQIITDvV4Iw0JDq3WlUlvpEc1
+         oZxtfXyt1cMCFH1tN0Z9/cLMS5p4BDd/dU6pxfYAWFMXJTMxBI3p0X8nvkXM6DKmEP2e
+         O22w==
+X-Forwarded-Encrypted: i=1; AJvYcCVsTFfqqZavc7UUNIoCAcQvPp/1Ds4NmttSMwvI44rF1nfb8rCeXRq9MOyEo8NwG1dxqXG5Lg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwApq32uzyfdf3ZxnnVJUjR+tsL9eQEPrKT3hrw/SVfm8vtn+wR
+	3F06wdmslz7ORRWx1KNjTrleLU58fzFHXqcEaXCsVp+LUYC1CwYI
+X-Google-Smtp-Source: AGHT+IGSxZrGNk+/VLxv5dcGRLbTumgaEh9jEg3/DzzAzQRgXV7JusDx9MISGEMfgtbvbhJA7p08PQ==
+X-Received: by 2002:a17:902:d48a:b0:204:f324:e7a8 with SMTP id d9443c01a7336-2050c2186bdmr27634425ad.6.1724932822870;
+        Thu, 29 Aug 2024 05:00:22 -0700 (PDT)
+Received: from [192.168.0.122] ([59.188.211.160])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-205152b1326sm9998545ad.35.2024.08.29.05.00.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Aug 2024 05:00:20 -0700 (PDT)
+Message-ID: <8fb7bce8-e1bc-4ca8-8033-811ed67cc767@gmail.com>
+Date: Thu, 29 Aug 2024 20:00:16 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,8 +61,10 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 0/3] Add AIC support for A7-A11 SoCs
-To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
+Subject: Re: [PATCH RESEND 1/3] dt-bindings: apple,aic: Document A7-A11
+ compatibles
+Content-Language: en-MW
+To: Krzysztof Kozlowski <krzk@kernel.org>, Hector Martin <marcan@marcan.st>,
  Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -45,61 +73,26 @@ To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
  devicetree@vger.kernel.org
 Cc: ~postmarketos/upstreaming@lists.sr.ht
 References: <20240829110436.46052-1-towinchenmi@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20240829110436.46052-1-towinchenmi@gmail.com>
+ <20240829110436.46052-2-towinchenmi@gmail.com>
+ <220766f0-7cbb-4b4c-a976-477ca1d89fee@kernel.org>
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <220766f0-7cbb-4b4c-a976-477ca1d89fee@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 29/08/2024 13:02, Nick Chan wrote:
-> Resend to correct dt-bindings issues pointed out by Rob.
 
-RESEND means the same patch, so nothing gets corrected. How the tools
-should know which patch to pick up?
 
-Best regards,
-Krzysztof
+On 29/8/2024 19:46, Krzysztof Kozlowski wrote:
+> Please do not resend different patch. Or rather explain - is this the
+> same? Looks different, so RESEND is not appropriate.
+> 
+> Follow submitting patches in this regard, you need v2. Just use b4 for
+> this process.
+Right. Since versions of patch series should not be sent too frequently,
+I suppose a v2 should be sent next week. (Sorry - not super familiar
+with the process)
 
+>
+> Best regards,
+
+Nick Chan
