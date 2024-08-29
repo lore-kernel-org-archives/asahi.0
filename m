@@ -1,77 +1,67 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C662D18F2D6
-	for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 09:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B4A518DF7A
+	for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 09:37:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724923646; cv=none; b=qP6hG+gdQsFn91ZtDcVbuclEcc6LFpauGdWAC8dD8tACdTIPdLJIW54LC3RibcpWWFguTocIm/UnYSWS2BtmHIqsipTES9p0EhOzjSuaMj7cyOV45nDJxZIm8DHEaKWU5UaqUoQxD3HjtQX+AXP0uEXLUC3yhKIoefxWZAS+6og=
+	t=1724924248; cv=none; b=oQg2txmixb5zXmWK51jubB75hJHeJtobPuEpEKWs5DYGxkVgm+pzyzsRXl296sHeuZRqYqTSp8Yag0WtsZ5TwvD3I9IiqovwHleC4Rg8l+P0is7UULxZeJPJS4yn/PPNVuJk7USYMSqneBdx53R9lf6rEb1HXM9PIVJkt6Yixe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724923646; c=relaxed/simple;
-	bh=F8sxoW9XyGEiKGmU0+ncsNzA7kTIPGiGyUdz0ED2O5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qZTYwcZRNxe+ENms/XUtQ4dHOnZPazcKc5cLpQCuKRnD3Fa6yzHDs1Z+fQe7jyYT24sU42ovKTdk8wFXOTAZbQZUFrAgfL3CRLfUIX7N8tT0fOOU7LQZDxv6Gl0lqdC3fgjW1gxolQUxR4Tlx8j+i5jfzFzc2cA9c3VkcQPuSFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ej4mJuRk; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1724924248; c=relaxed/simple;
+	bh=wzVEYIyVLU/XUqpOixwiCuSzjP5LWtzillnjfCOab+c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E/7jGmVrbHiKeKfMxD/SBbJCkgDuOFEmdTwREU0QRRDCBgDw9lBbWg8zNnZ2Y5oQI3cTebafJsbe4ygU/upHlHg+dzTfOYYPgTobOI+v7YR7dTo00cgIKMQSHGd+h0OiwROIOE8yrWClwWbtLfelyxd08rBVCb8Hlx42Db91GJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MHbqJh4t; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ej4mJuRk"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-201fbd0d7c2so4110245ad.0
-        for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 02:27:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MHbqJh4t"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2d3e46ba5bcso321545a91.0
+        for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 02:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724923644; x=1725528444; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ouhe0enBFjJUZqCtUzq8PmMdBjKDokZmZ4h8nJcgYbU=;
-        b=Ej4mJuRk5QF63E7EszVZgxCui/v+ZUzbUqrDdigsOYfd40DYtT3ZM/dZHGZ8wGVaSG
-         AOFocU8LqSu2THfDuiMkoBWeg34JsO9XjXQ/MadG51A0s5DAYwueSIDVWGyZgG/DrUxt
-         o/e7ptB4M99Mx+F28ymewhdqCJt6SWwZ0QrqJz8WT5JHPNEearvAhwHtLknnBUG2gklV
-         YhxNL9SQWVjtNHgGhcSzu8tBbas2lV5IWf0+nj8sw352ban+3PbkiKb0peqpBmPgZN2Z
-         QoA2VWZY9Z4A59sz0LruWPrErjVt4hbnPtR9/esQF0UCnlb4/oEJmhn+HhWVrjvUVmC2
-         DMCw==
+        d=gmail.com; s=20230601; t=1724924246; x=1725529046; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y2rR82lQzAfdYfNO08CkdW0mj+2M0U77o3AfbVOEAdo=;
+        b=MHbqJh4tDGFhRCNBQGt/0irPuY0nWIheFFqsst/geU88qqnEIIO7VSKSnPSLNj1X7m
+         88Oe2wlPZcRG9LRyzaRLfe73uioMAK6E0aA10oUZQQJtQ5vK2Gofopk6utgkSBVsSVKQ
+         RSh10Jp5HTxlo1XZIKsmk3l4PDfr6rjgJH25Zb9Gfsqo8kNfu0IjVmM9aOQJ72bUfzJg
+         FVWCcqjdeeSUJtZ6cBJ8l+rxjPiCFkErPjK5kQXGZKhkWR6aENiNNrKshBNEF56kvh6X
+         7kwqHoOCInTdd2m8VE7m8eqY7PYzHWyNaeOwwJRLj8TqK2fZeK0HMOGEo6LDUMHCW0vU
+         P1pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724923644; x=1725528444;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ouhe0enBFjJUZqCtUzq8PmMdBjKDokZmZ4h8nJcgYbU=;
-        b=SWIPRnDyvSQ31U33O9H8yxFDJxgOUhJvXAxNHqDgqOMyN5ZJb2yMfjVtUfeyrQtGI3
-         zgSW4ZZKoEPx8X9ngd/L1L+g52MQUdYL9wLtgQOdyF3imBRo2raE391IoC/2SJ4L+KPf
-         sfgvKjkomHFUY7+p7prwr6FBDmsXNsl/9BSqbuaBHl60Sr/kj60Ue/f+zfIx3iQesoNA
-         zyjj/SUSgy9W3XE6GXybysb/0qbE0TvSev3frjotDvN0UxdG49tgQALqTjNlgzS1Umja
-         awLj5aUyY148G9+mZvG1nKlYp3ezNmk7/zBswQvI6haBOCRt0j4fv9VEBG0b5lqnasnB
-         LIzg==
-X-Forwarded-Encrypted: i=1; AJvYcCVbtxeKKlXY6RPITDckG6xAcMKQDAAejGxLbBFQUkwEEY+UO8lwVgcHM89sYqQbyGMq/UrZ6g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxWcXfoOUTe/sml3ddozRwZz5ih07NylfEsRU6WoJpfg7HGrMTm
-	FFDzEsiwu05vbRLMCyERpTQBv1GwZReHiGiZ1MvrgS6NJeQ3sFRz
-X-Google-Smtp-Source: AGHT+IFrjUhQikLTv2qTwmStFWCrqusJSIZnC40sneETVUkJPqzLcvKuQheZLvCXJHwrdHmRDZZe5w==
-X-Received: by 2002:a17:902:d584:b0:203:a0b4:3e28 with SMTP id d9443c01a7336-2050c377592mr23038675ad.27.1724923644039;
-        Thu, 29 Aug 2024 02:27:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1724924246; x=1725529046;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y2rR82lQzAfdYfNO08CkdW0mj+2M0U77o3AfbVOEAdo=;
+        b=Wlu0PE9nE5XLNVucJvV4nTnhnuToNLFgUZc8nqcuFJan/Ar5k5T8moBG+RK3/nekKA
+         ELohWJdZUmSJ9FBbO7h6eIB88jf0GbcC4cqrON33QS+/qSHw4PbvqJnQVWojfaNorsme
+         OEMx+TYQN9ubHt4K44p25cnl81Df0+/5tsIG7nh8dYOXJNRTK5ZAse81ZO8is8njZ2Jx
+         iyeh/g7LZYOh1iWYU7hFyMAjmc58k62d88NFDR9kU/IRZU/OXfFgSn36wpL3iHM0hXSd
+         VLXYDlNPbVJL7TMPCj9akbDzm66satOvsJYsBm66FmRH8kRp3oe8p8EDYOqaXtMOVcba
+         H17A==
+X-Forwarded-Encrypted: i=1; AJvYcCX7U7C7R/5Q4/t1DAlHu+XQU+ZxxQTXqupOodhI00DreIHF1fcUn3raDH3uFUQijK+PrflBBg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwV87KloJjLndJ16b5QyiWpirjNfzrbio5U4aXcaQ71MvQIFMla
+	MD0JHZCwdXe8apT6Y057XUSZzfcXX4CS2vnc/w1FbVIX+H2daEW5
+X-Google-Smtp-Source: AGHT+IFkitwbJH227y2ThXZiowMXdKGU0i1Pl7ZI6auE2pQpK6E0w2GKgfLaxRn/ED0cO1gqwDnTbg==
+X-Received: by 2002:a17:90b:3e8a:b0:2c9:7616:dec7 with SMTP id 98e67ed59e1d1-2d85617be6amr1938802a91.6.1724924245615;
+        Thu, 29 Aug 2024 02:37:25 -0700 (PDT)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20515552b6dsm7469245ad.249.2024.08.29.02.27.21
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2d85b133e0csm1087071a91.25.2024.08.29.02.37.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2024 02:27:23 -0700 (PDT)
+        Thu, 29 Aug 2024 02:37:25 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	asahi@lists.linux.dev,
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
+	asahi@lists.linux.dev
 Cc: ~postmarketos/upstreaming@lists.sr.ht,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH 3/3] irqchip/apple-aic: Add a new "Global fast IPIs only" feature level
-Date: Thu, 29 Aug 2024 17:03:13 +0800
-Message-ID: <20240829092610.89731-4-towinchenmi@gmail.com>
+Subject: [RFC PATCH] arm64: cpufeature: Pretend that A10(X) does not support 32-bit EL0
+Date: Thu, 29 Aug 2024 17:34:22 +0800
+Message-ID: <20240829093636.100840-2-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240829092610.89731-1-towinchenmi@gmail.com>
-References: <20240829092610.89731-1-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -80,92 +70,100 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Starting with the A11 (T8015) SoC, Apple began using arm64 sysregs for
-fast IPIs. However, on A11, there is no such things as "Local" fast IPIs,
-as the SYS_IMP_APL_IPI_RR_LOCAL_EL1 register does not seem to exist.
+The Apple A10(X) consists of logical cores that can switch between P-mode
+and E-mode based on the frequency. However, only P-mode supported 32-bit
+EL0.
 
-Add a new feature level, used by the compatible "apple,t8015-aic",
-controlled by a static branch key named use_local_fast_ipi. When
-use_fast_ipi is true and use_local_fast_ipi is false, fast IPIs are used
-but all IPIs goes through the register SYS_IMP_APL_IPI_RR_GLOBAL_EL1, as
-"global" IPIs.
+Trying to support 32-bit EL0 on a CPU that can only execute it in certain
+states is a bad idea. The A10(X) only supports 16KB page size anyway so
+many AArch32 executables won't run anyways. Pretend that it does not
+support 32-bit EL0 at all.
+
+Note that this patch does not make sense without [1].
+
+[1]: https://lore.kernel.org/asahi/20240829092610.89731-1-towinchenmi@gmail.com
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- drivers/irqchip/irq-apple-aic.c | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+ arch/arm64/include/asm/cpufeature.h | 18 ++++++++++++++++++
+ arch/arm64/include/asm/cputype.h    | 28 ++++++++++++++++------------
+ 2 files changed, 34 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
-index 626aaeafa96c..9248ecff42a3 100644
---- a/drivers/irqchip/irq-apple-aic.c
-+++ b/drivers/irqchip/irq-apple-aic.c
-@@ -236,6 +236,8 @@ enum fiq_hwirq {
+diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+index 558434267271..447c4d598797 100644
+--- a/arch/arm64/include/asm/cpufeature.h
++++ b/arch/arm64/include/asm/cpufeature.h
+@@ -595,6 +595,24 @@ static inline bool id_aa64pfr0_32bit_el0(u64 pfr0)
+ {
+ 	u32 val = cpuid_feature_extract_unsigned_field(pfr0, ID_AA64PFR0_EL1_EL0_SHIFT);
  
- /* True if UNCORE/UNCORE2 and Sn_... IPI registers are present and used (A11+) */
- static DEFINE_STATIC_KEY_TRUE(use_fast_ipi);
-+/* True if SYS_IMP_APL_IPI_RR_LOCAL_EL1 exists (M1+) */
-+static DEFINE_STATIC_KEY_TRUE(use_local_fast_ipi);
- 
- struct aic_info {
- 	int version;
-@@ -253,6 +255,7 @@ struct aic_info {
- 
- 	/* Features */
- 	bool fast_ipi;
-+	bool local_fast_ipi;
- };
- 
- static const struct aic_info aic1_info __initconst = {
-@@ -271,6 +274,16 @@ static const struct aic_info aic1_fipi_info __initconst = {
- 	.fast_ipi	= true,
- };
- 
-+static const struct aic_info aic1_local_fipi_info __initconst = {
-+	.version	= 1,
++#if CONFIG_ARCH_APPLE
++	/*
++	 * The Apple A10(X) consist of logical cores that can switch between
++	 * P-mode and E-mode based on the frequency. Only the P-mode supports
++	 * 32-bit EL0. Pretend that the CPU does not support 32-bit EL0.
++	 */
 +
-+	.event		= AIC_EVENT,
-+	.target_cpu	= AIC_TARGET_CPU,
++	static const struct midr_range hurricane_zephyr_list[] = {
++		MIDR_ALL_VERSIONS(MIDR_APPLE_A10_T2_HURRICANE_ZEPHYR),
++		MIDR_ALL_VERSIONS(MIDR_APPLE_A10X_HURRICANE_ZEPHYR),
++		{}
++	};
 +
-+	.fast_ipi	= true,
-+	.local_fast_ipi = true,
-+};
++	if (is_midr_in_range_list(read_cpuid_id(), hurricane_zephyr_list))
++		return false;
 +
- static const struct aic_info aic2_info __initconst = {
- 	.version	= 2,
- 
-@@ -282,6 +295,10 @@ static const struct aic_info aic2_info __initconst = {
- static const struct of_device_id aic_info_match[] = {
- 	{
- 		.compatible = "apple,t8103-aic",
-+		.data = &aic1_local_fipi_info,
-+	},
-+	{
-+		.compatible = "apple,t8015-aic",
- 		.data = &aic1_fipi_info,
- 	},
- 	{
-@@ -748,7 +765,8 @@ static void aic_ipi_send_fast(int cpu)
- 	u64 cluster = MPIDR_CLUSTER(mpidr);
- 	u64 idx = MPIDR_CPU(mpidr);
- 
--	if (MPIDR_CLUSTER(my_mpidr) == cluster)
-+	if (static_branch_likely(&use_local_fast_ipi) &&
-+		MPIDR_CLUSTER(my_mpidr) == cluster)
- 		write_sysreg_s(FIELD_PREP(IPI_RR_CPU, idx),
- 			       SYS_IMP_APL_IPI_RR_LOCAL_EL1);
- 	else
-@@ -992,6 +1010,11 @@ static int __init aic_of_ic_init(struct device_node *node, struct device_node *p
- 	else
- 		static_branch_disable(&use_fast_ipi);
- 
-+	if (irqc->info.local_fast_ipi)
-+		static_branch_enable(&use_local_fast_ipi);
-+	else
-+		static_branch_disable(&use_local_fast_ipi);
++#endif
 +
- 	irqc->info.die_stride = off - start_off;
+ 	return val == ID_AA64PFR0_EL1_EL0_AARCH32;
+ }
  
- 	irqc->hw_domain = irq_domain_create_tree(of_node_to_fwnode(node),
+diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
+index 5fd7caea4419..840ecaea9b79 100644
+--- a/arch/arm64/include/asm/cputype.h
++++ b/arch/arm64/include/asm/cputype.h
+@@ -129,18 +129,20 @@
+ 
+ #define HISI_CPU_PART_TSV110		0xD01
+ 
+-#define APPLE_CPU_PART_M1_ICESTORM	0x022
+-#define APPLE_CPU_PART_M1_FIRESTORM	0x023
+-#define APPLE_CPU_PART_M1_ICESTORM_PRO	0x024
+-#define APPLE_CPU_PART_M1_FIRESTORM_PRO	0x025
+-#define APPLE_CPU_PART_M1_ICESTORM_MAX	0x028
+-#define APPLE_CPU_PART_M1_FIRESTORM_MAX	0x029
+-#define APPLE_CPU_PART_M2_BLIZZARD	0x032
+-#define APPLE_CPU_PART_M2_AVALANCHE	0x033
+-#define APPLE_CPU_PART_M2_BLIZZARD_PRO	0x034
+-#define APPLE_CPU_PART_M2_AVALANCHE_PRO	0x035
+-#define APPLE_CPU_PART_M2_BLIZZARD_MAX	0x038
+-#define APPLE_CPU_PART_M2_AVALANCHE_MAX	0x039
++#define APPLE_CPU_PART_A10_T2_HURRICANE_ZEPHYR	0x6
++#define APPLE_CPU_PART_A10X_HURRICANE_ZEPHYR	0x7
++#define APPLE_CPU_PART_M1_ICESTORM		0x022
++#define APPLE_CPU_PART_M1_FIRESTORM		0x023
++#define APPLE_CPU_PART_M1_ICESTORM_PRO		0x024
++#define APPLE_CPU_PART_M1_FIRESTORM_PRO		0x025
++#define APPLE_CPU_PART_M1_ICESTORM_MAX		0x028
++#define APPLE_CPU_PART_M1_FIRESTORM_MAX		0x029
++#define APPLE_CPU_PART_M2_BLIZZARD		0x032
++#define APPLE_CPU_PART_M2_AVALANCHE		0x033
++#define APPLE_CPU_PART_M2_BLIZZARD_PRO		0x034
++#define APPLE_CPU_PART_M2_AVALANCHE_PRO		0x035
++#define APPLE_CPU_PART_M2_BLIZZARD_MAX		0x038
++#define APPLE_CPU_PART_M2_AVALANCHE_MAX		0x039
+ 
+ #define AMPERE_CPU_PART_AMPERE1		0xAC3
+ 
+@@ -199,6 +201,8 @@
+ #define MIDR_NVIDIA_CARMEL MIDR_CPU_MODEL(ARM_CPU_IMP_NVIDIA, NVIDIA_CPU_PART_CARMEL)
+ #define MIDR_FUJITSU_A64FX MIDR_CPU_MODEL(ARM_CPU_IMP_FUJITSU, FUJITSU_CPU_PART_A64FX)
+ #define MIDR_HISI_TSV110 MIDR_CPU_MODEL(ARM_CPU_IMP_HISI, HISI_CPU_PART_TSV110)
++#define MIDR_APPLE_A10_T2_HURRICANE_ZEPHYR MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A10_T2_HURRICANE_ZEPHYR)
++#define MIDR_APPLE_A10X_HURRICANE_ZEPHYR MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A10X_HURRICANE_ZEPHYR)
+ #define MIDR_APPLE_M1_ICESTORM MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M1_ICESTORM)
+ #define MIDR_APPLE_M1_FIRESTORM MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M1_FIRESTORM)
+ #define MIDR_APPLE_M1_ICESTORM_PRO MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M1_ICESTORM_PRO)
 -- 
 2.46.0
 
