@@ -1,33 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AE518C90F;
-	Thu, 29 Aug 2024 12:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529DB1B3B0D
+	for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 12:42:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724935032; cv=none; b=PnwUxT643Tyq4hxOHYg8IiKkbdgGxsOCbt1HTeBbXVcOMO+/pS0ymYgJuyEEH+J7ey7zpW0OZOlzT6lvILtkREOny6lHlXeIllG5pzT0qNSyRDC9PryzOObtNVkJomkYvkLxVUWPKTA/f+OEFo4v1RDMs3wgrv8K769LyenqRpM=
+	t=1724935344; cv=none; b=qeWkovW6EaCh6lSs5DY0YlBJyUiHdaOZ8IYMSi8ZwCepMiwkWJdb4v1gKyF7/kMvTPVEwr8pfPNfjVauA0L4ZX1ryFXSR9b7IOH8zAKcHRa9Trf6zf7fJ4bEiaKahCIFv1FTq5QbPPOxvY6AIMgp74nhC2hXncQYPJ4Tzy3sETg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724935032; c=relaxed/simple;
-	bh=hkQu2iDkA98gxW6w9DRNAU6pUt7eKp5O4rvVkdzrr1o=;
+	s=arc-20240116; t=1724935344; c=relaxed/simple;
+	bh=fJCxyhxNqlg7fPYahoS6M91isT/nrzxyUAToqzxJUqs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fgZwKEnHYnrd9upFmwM7HcIYESpatsJ6s2Ea+BIaaCfGvagGqHGi3iIIZdO7fuho6aRQZiKA/GRp8srnLiNC+dSxjChI5GSSA9/wBUsZZbV9ioAuNQ/wgd4nz7Ue27fKzoDgbqcDsgFU23sXgKnn7QHG7Qf8fK109MTeurrHLQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jgnNxzdB; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=XSrZ29p32MtzL8ENaEjd22BS1V4gBw8yeXEQyKSWeKbNxuctxUcsKmBf5VUyIeej9WCV3wckIdcZLNxIQXPlacduubz1Sc2Dt7Qj3qzNiQOJkJfl93l0bI6nPTsLfLGQlcKwDjk9xvOSMzvUqdLtKfpX53BYXmnD2nlwRBNRt1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RSNJs8cp; arc=none smtp.client-ip=209.85.161.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jgnNxzdB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF83C4CEC1;
-	Thu, 29 Aug 2024 12:37:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724935032;
-	bh=hkQu2iDkA98gxW6w9DRNAU6pUt7eKp5O4rvVkdzrr1o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jgnNxzdB2HWbfQ97mAfLi7HaYdSmnwvtIEJPOAfEN8QsY9eJwg2MxL0TJQR3T7OsD
-	 CNUFcOPfFN8SwBdl4X10z4v49Jw2fq6dEdFYTV3p+1sWrhy61YnNGltnnM/RRoPhDO
-	 MLwJpNCzFnd71AroEwghs3ntjdZ34yQzgjyIeQLHS/OMeRQjODf88wC0LBGzBddFDI
-	 WFYo61fAF2UVP6QYXAbT82PealM4FY8pWr3RtfS5cI0mv5HinF74YE4g19G9RbNXhq
-	 NYumKkrPQu/wgDIbE4Xmz79UDRxnCphPaxBwTk0qOoC1UhFRJG9MRDUpQMwNY+qeYu
-	 dnyEsn4U3bg4w==
-Message-ID: <47305d17-5bfe-47fb-b6fc-dab98b5f6eb1@kernel.org>
-Date: Thu, 29 Aug 2024 14:37:04 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RSNJs8cp"
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-5df96759e37so400647eaf.2
+        for <asahi@lists.linux.dev>; Thu, 29 Aug 2024 05:42:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1724935342; x=1725540142; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=62etMwhikCbx83EitXMM1DAsh2sGaPLi6taYdPEKe7E=;
+        b=RSNJs8cpN/h9Yp5ULO8PJsDAR3LOe8pas91t2eTQV6yiWxYYvQyhAvy+gu7/7tANcD
+         aC1BdOsRHVtAH9J25X46PzLZberYfMPbC5fh2Qu6kpeQZsQlt9LEjwYl6VDV/q5UKOEc
+         AKFOF8KhEQlmQ03hpvi65rgGLRg9bElPjSuCTqP5yuX3aD7PnCYjYGCcRUGkPGgXpemp
+         G0cdxttkcLdG9NYfQ/tH7eM2F5pAoor1bXtXsR4pauMW3/psslbi+YiO5IalMKbzH6aQ
+         Oym1LBcTW/H+SkvPaFQQoECG2JE8+b6mi5KylOBtzCsQG/djOXiSnWJleGcqWmmWnAmQ
+         Qnew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724935342; x=1725540142;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=62etMwhikCbx83EitXMM1DAsh2sGaPLi6taYdPEKe7E=;
+        b=pQ3J2UurumiVbrLtaVIdZTzXSbFG556kMt5I6rOjvhFXA3jBsVGGucIFv979JTOk/t
+         klIr8o2jtL1Nzx4tWSnm2WQDCIX9Ox454cpiLJMk+7Mv8y60gYCUyyrATO8Lj62bvsTY
+         gWHGg/aTPyNk7D2i0mDxfyEX4jv9e5l6gax/wPqDv23/ZoM+EXfVj7ie48NPYzuZmWix
+         mE6AScmIEzXzvg2cRsOyUdUVrFgF1hpN0SfMPdJ+G+3XIGBDkbrXaxGQo/fGSBMIR1v1
+         xuWyl6aXR5c0jRxAqXQ2epWa9NG/Y9EnDdgGnYqMYzJ3h1y6pvk4goajEdYxKdUcIKtj
+         pIiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUqwJ5UdQn9TSlkr0gqcJFqs13UYwddMfxUjnvUDf0CwmdTtlNs5+yE7yLmJczV1EB4bwE2uQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwBstx1F0O7gvl9/yRsi3qjtb6Lx52iJdOYovPg3AbohRFcgehP
+	lwSUbmIzYHG0bHgPyI9jgms5pXY7eWUDeYsWHc/wGeBHP5Qn/7AI
+X-Google-Smtp-Source: AGHT+IEC4G47OYreiCTOBKoMPPw17Y2kBfXKxe7jza2SnX9wgdDOFnMWs0MrB73Y0piQMsh49UXzkw==
+X-Received: by 2002:a05:6358:7204:b0:1b3:94cc:6526 with SMTP id e5c5f4694b2df-1b603be2acbmr321852055d.2.1724935342301;
+        Thu, 29 Aug 2024 05:42:22 -0700 (PDT)
+Received: from [192.168.0.122] ([59.188.211.160])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e575c4acsm1045391b3a.195.2024.08.29.05.42.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Aug 2024 05:42:21 -0700 (PDT)
+Message-ID: <5035c3ed-7089-4136-87b4-102e973c1787@gmail.com>
+Date: Thu, 29 Aug 2024 20:42:18 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -35,9 +61,9 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND 1/3] dt-bindings: apple,aic: Document A7-A11
- compatibles
-To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
+Subject: Re: [PATCH 1/3] dt-bindings: apple,aic: Document A7-A11 compatibles
+Content-Language: en-MW
+To: Krzysztof Kozlowski <krzk@kernel.org>, Hector Martin <marcan@marcan.st>,
  Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
  Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -45,76 +71,81 @@ To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org
 Cc: ~postmarketos/upstreaming@lists.sr.ht
-References: <20240829110436.46052-1-towinchenmi@gmail.com>
- <20240829110436.46052-2-towinchenmi@gmail.com>
- <220766f0-7cbb-4b4c-a976-477ca1d89fee@kernel.org>
- <8fb7bce8-e1bc-4ca8-8033-811ed67cc767@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <8fb7bce8-e1bc-4ca8-8033-811ed67cc767@gmail.com>
+References: <20240829092610.89731-1-towinchenmi@gmail.com>
+ <20240829092610.89731-2-towinchenmi@gmail.com>
+ <e3d9a629-6fcc-4fd8-b44f-47efdda5f494@kernel.org>
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <e3d9a629-6fcc-4fd8-b44f-47efdda5f494@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 29/08/2024 14:00, Nick Chan wrote:
-> 
-> 
-> On 29/8/2024 19:46, Krzysztof Kozlowski wrote:
->> Please do not resend different patch. Or rather explain - is this the
->> same? Looks different, so RESEND is not appropriate.
+
+
+On 29/8/2024 19:44, Krzysztof Kozlowski wrote:
+> On 29/08/2024 11:03, Nick Chan wrote:
+>> Document the compatibles for Apple A7-A11 SoCs.
 >>
->> Follow submitting patches in this regard, you need v2. Just use b4 for
->> this process.
-> Right. Since versions of patch series should not be sent too frequently,
-> I suppose a v2 should be sent next week. (Sorry - not super familiar
-> with the process)
+>> There are three feature levels:
+>> - A7-A10: No fast IPI
+>> - A11: fast IPI, global only
+>> - M1: fast IPI with local and global support
+>>
+>> Each feature level is an extension of the previous. For example, M1 will
+>> also work with the A7 feature level.
+> 
+> It's hard for me to map above to compatibles. Extend the commit msg to
+> include names used in the bindings.
+Acked. Will be in v2. A description of the feature levels will also be
+added to
+the description of AIC.
 
-Once per day, so other reviewers will have time to respond. I also
-responded to your earlier posting, before I noticed the resend, so
-please improve the commit msg as I suggested.
+> 
+>>
+>> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+>> ---
+>>  .../bindings/interrupt-controller/apple,aic.yaml  | 15 ++++++++++++---
+>>  1 file changed, 12 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+>> index 698588e9aa86..28e09b933087 100644
+>> --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+>> +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+>> @@ -36,9 +36,18 @@ allOf:
+>>  
+>>  properties:
+>>    compatible:
+>> -    items:
+>> -      - const: apple,t8103-aic
+>> -      - const: apple,aic
+>> +    oneOf:
+>> +      - const: apple,s5l8960x-aic
+> 
+> Which one is this?
+> 
+>> +      - items:
+>> +          - enum:
+>> +              - apple,s8000-aic
+>> +              - apple,t7000-aic
+>> +              - apple,t8010-aic
+>> +          - const: apple,s5l8960x-aic
+>> +      - items:
+>> +          - const: apple,t8103-aic
+>> +          - const: apple,t8015-aic
+> 
+> Why are you changing all existing devices? Test your change, you would
+> see here errors.
+This part is a bit of a mess from when A11 was supposed to get the M1
+compatible. However, now that A11 is found out to be different from M1,
+in v2 all of A7-M1 will get its own
+SoC-specific compatible, in addition to the "apple,aic" generic
+fallback. (you should have already seen the changes in the improper
+"resend")
 
-Best regards,
-Krzysztof
+> 
+> 
+> 
+> Best regards,
+> Krzysztof
+> 
 
+Nick Chan
