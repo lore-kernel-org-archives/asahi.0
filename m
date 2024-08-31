@@ -1,57 +1,57 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50A68528F
-	for <asahi@lists.linux.dev>; Sat, 31 Aug 2024 05:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7FB15099E
+	for <asahi@lists.linux.dev>; Sat, 31 Aug 2024 05:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725083832; cv=none; b=Itdxcpr13Ekc5dF69WPZYUpD6AoGMDsmge/9wqqfcYbZ9pCjNjWshQWiNAR8vL0A1BZTjGzjVoq+Rc03GaijBLFzSId+X5GGUxEedPp2rYoYrxN+cbCwHVcVtIcbTk87GodE9bgJUnXzCKefoBnuyolhm0vZDzDevhVaiLOnAu8=
+	t=1725083837; cv=none; b=Li1Qw3CpykrtIH7DVws+axltW7FsKjpdUyY3Wc5/bT/JOIz2BMsRgz+0Rfs8KGkWVDa/uw7AVc21i8Ki7PfCXUFjucKTxYxOhV/6FGiPxzEjMBIc8QBwdehqBcAjxcJ1tf2Saz/KjR+hfQw5cBx0zx65VN6YU2us0S8hmEKl+js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725083832; c=relaxed/simple;
-	bh=5tgSRq5lvBi6wvc1wgAZq4DW7ZKyyVnTtG108xrA/dY=;
+	s=arc-20240116; t=1725083837; c=relaxed/simple;
+	bh=9su/Y9MlO6MXAM8Bt2sijpIlEdQJjfOz4vTGsWn3PGU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VJQqx1if6h8plKSPUxtBjGFNXkR40pyJ4MwU6tVkswaZ8VnOEJ3Kue4tk+Dgou1uGEuLwmACv9jEteKfA+uBNjCbMh3tQS5Agy3NA2aC+PX8sTjzXpkaU2q8Gs2TZANFWXUREnxfU4h+tk5KlVevjE/2WOyX9moHE5ybehPwNRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cfTlhzEl; arc=none smtp.client-ip=209.85.214.175
+	 MIME-Version; b=K9YoXOKmSKXEwRNk+haLZCRQwzVdEb0Dzf8wIQce9zFHNHZsGXbTGtzmqIjTbe8M3APXWALT3wdJ0S4txHa2HBn4CUPJJAPRomnLTvtQcPN4Aj84OmmATSYosGRaANh+tqirXaVDby4a6xf/C9c00LHsBnLQ0ObgBKAextN0riA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EX1gMp4j; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cfTlhzEl"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-202146e93f6so25179205ad.3
-        for <asahi@lists.linux.dev>; Fri, 30 Aug 2024 22:57:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EX1gMp4j"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2053f6b8201so6749825ad.2
+        for <asahi@lists.linux.dev>; Fri, 30 Aug 2024 22:57:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725083830; x=1725688630; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725083835; x=1725688635; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+UZMOJ9tZhYVHk/YEPl6bWyPievm93YsDD+e3s9SDgs=;
-        b=cfTlhzElbuBsqJEyuDVC54sCX2tF4X2fH3Re3rGzNRha/3qIvd9BFWJ+7K91L3+Vk4
-         mFGDoXCW6BukwZe2tZMgfwVvBFenGojV3nN7bwksH5m7lzlva4iVWULkDYyhdkBzfn+o
-         mkdSzX4D172B8JgfVoU4/hSUpOkk4Dt0G4hP3hOw0YCVGs48rx310yRsLNGrt2p2ce6R
-         4BFsoKG0qI5k2TOCl/RmgmU+f/AZmUxSvTvOvmf9s33QG3xiG+/1wcBDEG4s8hndQX40
-         8Wg547ELYhycHgL4d1HJJU1Ck9ZaD9+gKuyvGyqEj4rH/6Ibhr753WtVTuhcQqHEybMI
-         7jSw==
+        bh=D/aYPkj2NtDergsDX2rHe3JcKu2TUi+kPfkt+iApdo8=;
+        b=EX1gMp4jBGJMTnBwj8FSfZtn7ssYM1Xb7jRW0mpYfkl5QpCG7XHuQdIJ0l9Z09XH71
+         x3uXEUeI6LMRv8N9134/Tmng4k2VPK07u7baaHstJiCXrkCFrsgrrncaPM4dE2f0104f
+         ZLSMbXul4ltupiLpJmW7EKaoACTxH246IzdyHuOB4iSJfeMidhZy9mbi4wKPzAuTIF3b
+         GI+bSrLAtmriSwCsRWEFmJiDHU5nzS9Ii9s8SBvplAJ99EppyqQ4w4BZ8vKrjqDxfNGG
+         p0aT2OxptDU2MuuBY9sdA1CUoZ81e7D9qDkDX1VHCgn+E8NQfV+82Fhl3viBJJ8ZmjsM
+         IG8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725083830; x=1725688630;
+        d=1e100.net; s=20230601; t=1725083835; x=1725688635;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+UZMOJ9tZhYVHk/YEPl6bWyPievm93YsDD+e3s9SDgs=;
-        b=eqcKdBlQPJPEAjTaH7gpD2AP2p1z9BcuGuVZGI1eVMa2ApVfZFbjm0t6ilwyvwzLoD
-         TA4fXKd0Z41n8sJ/nSE8pVdg/+K2pH1Km742mBHP8c84L8ASqKZBQaIgDqxFsOeY8vqG
-         VD0qeaAjIsEXE9x/Mmwyy6apUqQ3VBZ0qCn9QjVFMsqAiVKKf7DKGfUOpFBJaOyMifTV
-         qAMZgnPpk5S91rrYLzjUgM7hxvJMfxvDUawG+4nRFN7myOtCXEvEWvMyNGPtCt2TtYW1
-         8QYFUBmWC2AkVOHAx4xEGhXUOQcbmT4z7I1Fd8zTetmb00Zv6VvY7qEFshjvhv3YPO0B
-         0xEA==
-X-Forwarded-Encrypted: i=1; AJvYcCWZKNF+cfFOg91QeEHMPjfS6FN7XJ5IAQc1zLcqYXom4S9WJbiWktMlozvx70P1dTqUK/iVrA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZh0pO5jTuvveR6QVRkSnG66obzI3SXLhElHRq0kZ61TSV/BY6
-	jKktDEEmdvJADW7Vo2g+wQkJwSgeEOtDxtBMcJes2XyhadDPcwDrD+1fXnolOcU=
-X-Google-Smtp-Source: AGHT+IGgyopLwUfSPL49E8730EhvLqPDRmGJc0WWS5mZWfB25NqZV3DvqNch7iHLN016VoFzOLtscA==
-X-Received: by 2002:a17:903:41c7:b0:205:3832:ecc4 with SMTP id d9443c01a7336-2053832f198mr30229735ad.28.1725083829837;
-        Fri, 30 Aug 2024 22:57:09 -0700 (PDT)
+        bh=D/aYPkj2NtDergsDX2rHe3JcKu2TUi+kPfkt+iApdo8=;
+        b=qH/6oD4RCYYpVzRtSN5htAJpbocM5uv5Y9SN0z1fv//w2T5/pBVwo3aqDtcRXszWN/
+         1tCq50GxcWiFskNQ5w3P367gqVBLMa3OHwlLTWyuyLOWz7rtnDyRiNcOzwJDIN8TTr6S
+         VlLBztnaBpugL9M3JHUWh6xkyc7idplnjyj98Tl/qP0V/+J5+Ln5+Kw/7r2RVUlTHAhB
+         jLID32yML1IGHULwsnGr3c9/okwKGqrn7sSpPjG7f9z1Q1NEHVwKg+Twv4S48FmTuv9R
+         gCqUUo5/cOTGXZvrKK1zd/O468zzWgs4PqSjix0Sa4vOtiMp1rYCRPNg5MiPyTjXS+u0
+         gJ/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVJ/IOQo0IK3b8auhipe0dSe9hM1KVSIXfV6HilWPBEx9e+KnK9S3afIyMvjiaJap7DLaKvyw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfuVw7Xlcpz/An7n/f2ciNL6ruOBDM/lD9SKx5UfjUGRbGH+7n
+	VRs6c/qXRxpIlZhWH2eDmo/wFkvh2Octza8RSsTKGJQUztIOStb+
+X-Google-Smtp-Source: AGHT+IGMvuTVKZ6LSJxB8CtCU4+d+sEou4o2/Fylk2vt34a2ffeFEJ4j/x7jh+K22k3uivREqt3WOA==
+X-Received: by 2002:a17:902:d545:b0:1fd:9e6e:7c1f with SMTP id d9443c01a7336-20546b553bdmr14689055ad.56.1725083835095;
+        Fri, 30 Aug 2024 22:57:15 -0700 (PDT)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2053aa8cb4asm12027045ad.271.2024.08.30.22.57.07
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2053aa8cb4asm12027045ad.271.2024.08.30.22.57.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 22:57:09 -0700 (PDT)
+        Fri, 30 Aug 2024 22:57:14 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -67,9 +67,9 @@ To: Hector Martin <marcan@marcan.st>,
 	konrad.dybcio@somainline.org
 Cc: ~postmarketos/upstreaming@lists.sr.ht,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH v2 1/4] dt-bindings: apple,aic: Document A7-A11 compatibles
-Date: Sat, 31 Aug 2024 13:48:16 +0800
-Message-ID: <20240831055605.3542-2-towinchenmi@gmail.com>
+Subject: [PATCH v2 2/4] irqchip/apple-aic: Skip unnecessary setting of use_fast_ipi
+Date: Sat, 31 Aug 2024 13:48:17 +0800
+Message-ID: <20240831055605.3542-3-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240831055605.3542-1-towinchenmi@gmail.com>
 References: <20240831055605.3542-1-towinchenmi@gmail.com>
@@ -81,55 +81,28 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document and describe the compatibles for Apple A7-A11 SoCs.
-
-There are three feature levels:
-- apple,aic: No fast IPI, for A7-A10
-- apple,t8015-aic: fast IPI, global only, for A11
-- apple,t8103-aic: fast IPI with local and global support, for M1
-
-Each feature level is an extension of the previous, for example, M1 will
-also work with the A7 feature level.
-
-All of A7-M1 gets its own SoC-specific compatible, and the "apple,aic"
-compatible as a fallback.
+use_fast_ipi is true by default and there is no need to "enable" it.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- .../bindings/interrupt-controller/apple,aic.yaml   | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/irqchip/irq-apple-aic.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-index 698588e9aa86..4be9b596a790 100644
---- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-+++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
-@@ -31,13 +31,25 @@ description: |
-   This device also represents the FIQ interrupt sources on platforms using AIC,
-   which do not go through a discrete interrupt controller.
+diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
+index 5c534d9fd2b0..8d81d5fb3c50 100644
+--- a/drivers/irqchip/irq-apple-aic.c
++++ b/drivers/irqchip/irq-apple-aic.c
+@@ -987,9 +987,7 @@ static int __init aic_of_ic_init(struct device_node *node, struct device_node *p
+ 	off += sizeof(u32) * (irqc->max_irq >> 5); /* MASK_CLR */
+ 	off += sizeof(u32) * (irqc->max_irq >> 5); /* HW_STATE */
  
-+  IPIs may be performed via MMIO registers on all variants of AIC. Starting
-+  from A11, system registers may also be used for "fast" IPIs. Starting from
-+  M1, even faster IPIs within the same cluster may be achieved by writing to
-+  a "local" fast IPI register as opposed to using the "global" fast IPI
-+  register.
-+
- allOf:
-   - $ref: /schemas/interrupt-controller.yaml#
+-	if (irqc->info.fast_ipi)
+-		static_branch_enable(&use_fast_ipi);
+-	else
++	if (!irqc->info.fast_ipi)
+ 		static_branch_disable(&use_fast_ipi);
  
- properties:
-   compatible:
-     items:
--      - const: apple,t8103-aic
-+      - enum:
-+          - apple,s5l8960x-aic
-+          - apple,t7000-aic
-+          - apple,s8000-aic
-+          - apple,t8010-aic
-+          - apple,t8015-aic
-+          - apple,t8103-aic
-       - const: apple,aic
- 
-   interrupt-controller: true
+ 	irqc->info.die_stride = off - start_off;
 -- 
 2.46.0
 
