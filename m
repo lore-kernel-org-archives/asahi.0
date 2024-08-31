@@ -1,94 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh1-smtp.messagingengine.com (fhigh1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AB11E493;
-	Sat, 31 Aug 2024 06:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8AF1531EC
+	for <asahi@lists.linux.dev>; Sat, 31 Aug 2024 06:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725086055; cv=none; b=uZoj/7LHCIF86pKN9lPEZuS3nFQCWMzLdHuZ/zdED7VqmPSwDaREU6wdawpCBr7vp9pva7dwdjk6qxTeAYtyk7pxMraUtdQsb2mlvANEyK5gOzDiyHsKLnehlgJiSfe5ejktHACkycN7nKYvWV6D4r6myn1MEkDlvKeMiKo7VwY=
+	t=1725086599; cv=none; b=lA7mz/bsmc/M50ijF400hVBbIrTpINLWnhljsIhXSPiO5ezXCj2Jn/lqdmPFJaODb/7XyffY4liOw78i6Iiqv6DeiS1imOw/hhfabMBzdXZnnaispNG8D90TBnQXZK+Ivuipq2iuyGkAyyF3mNRXNDe46Ubm+jtD5Xl2x+MQEag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725086055; c=relaxed/simple;
-	bh=CoGxzG56oI9f9J0OMAy/LIgCFm3y6tK9hF/eezj5Lyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iquDJqgzMkSl4W/ASTKLvJYGwBKrqiC9toNyg7/3tLEfGV+k9/Asrh70q0RRslyCik6htByHstx6iRKdLhmhFxJJEKINw3s4jlVLOJj7ObCOjyR+2/1r3HpdQCmmXO0tY2omhfHn4p3SheUn87R0I3LylqfJwa/OptYFwMRksc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IQCmVNvd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1725086599; c=relaxed/simple;
+	bh=sovnmn2rGKHWaDPS2NXaCqNFTLQYAXjs6Sh8/7tv7DE=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=PPCAcKUiY8tKlG0A7S0RbhRo2sbgeSQXxoQtqgDGNwt1ylpfaNMfG47UJ5oCfi1x8jGdzyTsqjcVgVgavNACorlgx7iN80wGoJE/G3mpqOcPPFUSyrhwXD+mzEtvmEA6TW9u8iGXafJBMfT7AMWsp3c444hmzXp+FzYKJNIMpdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=MDoyvHM5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DGOJYmEP; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IQCmVNvd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 348FFC4CEC0;
-	Sat, 31 Aug 2024 06:34:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725086055;
-	bh=CoGxzG56oI9f9J0OMAy/LIgCFm3y6tK9hF/eezj5Lyw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IQCmVNvdZJwPuftRDCiDLV2ysKpcnsQBwMrGEv1i2/RbDre6rjysD370BvsQU3A3g
-	 SRra9BSaA7ovvxzPU0F8HCoi53N+Ff7NUbWGE8rqK39eovgABtpKes2+wDpIXM/hJu
-	 Um2slvdDyaSiN+FLLx5Wuym1Edu2VACLzAuuL95oDAmH3i83h8o9QXNXaMvUyLDiNv
-	 EUy1IvBCwGVFg8Qw4HMf8fVvdCme0+yZx8XbZGPcQoMtCi3ms47XT/qJ1kgaN6rau6
-	 qtsVVlbTLl9W6+huf3utmBxuMMRwnmS7xLrNj0JbYBBXfTbnyRJniB+rWlLvHsN9yx
-	 Q2nRQvD+EgV3Q==
-Date: Sat, 31 Aug 2024 08:34:11 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Thomas Gleixner <tglx@linutronix.de>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, konrad.dybcio@somainline.org, 
-	~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v2 1/4] dt-bindings: apple,aic: Document A7-A11
- compatibles
-Message-ID: <tri4uwxzoyrmxkmg3ur4oymzzn4f6torkpjgpkyz6lkgjefg5x@zxbzsfmbrbc7>
-References: <20240831055605.3542-1-towinchenmi@gmail.com>
- <20240831055605.3542-2-towinchenmi@gmail.com>
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="MDoyvHM5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DGOJYmEP"
+Received: from phl-compute-01.internal (phl-compute-01.nyi.internal [10.202.2.41])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 0B7B61140636;
+	Sat, 31 Aug 2024 02:43:15 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Sat, 31 Aug 2024 02:43:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1725086595; x=1725172995; bh=qlDUq7+Pbr+KcskQVJhLgUOd48TYNCLc
+	46ToPfunZ1Q=; b=MDoyvHM5E9tNTD3xeCY2EhC7m0jpq/Rlg2IfnHZ8LrENmuZr
+	IAUe9XcpumZKXPdmiIOtynJpaP7oUS7NQX4+FY2IJdcjVyCECfBOFpVe5IMSL+8B
+	YQl90fsg1fSdLokOQsqBDq9KcZhIPKwMigxWR4kbsbUI/vLhQWIC6ZRLHueR8oXN
+	x8PIXRQKjRewjekRkh90dPZw7BwPzR2JM+oIjPCqZfdYAsmZbjp7dvisIfxq+rhY
+	blMXw3kvDjFAi8T3kRJkKToC7ipRc/rjPbBIIOBVO5cP7DNeedmOlLWb1va2hJhO
+	d3sJ3t573JHKucDtyIBrp+utz1oK4KhY/cfNdg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725086595; x=
+	1725172995; bh=qlDUq7+Pbr+KcskQVJhLgUOd48TYNCLc46ToPfunZ1Q=; b=D
+	GOJYmEPc2NlZHW/vyjadmTcJmxCPxCcARlZX/AVmCP7EXiZZItt4OcXHhG7TsPh2
+	9NgzITY/Iiu50s9gnwyL2PKIZvfOQrDHzLqWaN/mPVHsWbFs6lMwupYIHIjRzjKo
+	NfUVVSJqmooTEoBXi5ntmBUBsSYontIHEf8zGFK50IsxPZzQBrUb3i2pFN1RrfuB
+	etkC5DNij9rt9wvSKFc80nQMm/NQ5xtiXIMjdSL5d3mgmkocJnQ6p7oTb2AP/mx4
+	/B5ytK0yH5Py7yheo90ud42+uxmWQfjTPFjkj48lY6XXnKIHMB/NplOkBfzFd/gX
+	pLTyGwFNERJpu//EWkZRg==
+X-ME-Sender: <xms:gbvSZrG0jObeOMXzpLxfaimaFIn7LP_qGmxEEFEUBpCSSt7iri2PDg>
+    <xme:gbvSZoURYu3Usnaf1U9lxFDKpGSURagupL3YCBXbgio5X1LWm8tjgPxfyXAJhB98-
+    q8qLnQNSy66kXRbJ2Q>
+X-ME-Received: <xmr:gbvSZtJLe6IaK0NuZABfrDabWx46fQ2WymdR7il1oy10sIwdwdYTJyiz34K2ml0HZL8E-EHO4q5fatZWy42dmN4ql-acFGpHySvUKgXBPfq9wWrQMNbm4NnV21Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefjedguddutdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpegtgffhggfufffkfhevjgfvofesthhqmhdthhdt
+    jeenucfhrhhomhepufhvvghnucfrvghtvghruceoshhvvghnsehsvhgvnhhpvghtvghrrd
+    guvghvqeenucggtffrrghtthgvrhhnpedvhfdtudduvdeujeeufffgudekvdefvefgueei
+    iedvledtheegieevffdtteekudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghrtghp
+    thhtohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeimphhoshhtmhgrrh
+    hkvghtohhssdhuphhsthhrvggrmhhinhhgsehlihhsthhsrdhsrhdrhhhtpdhrtghpthht
+    oheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqd
+    hkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopeht
+    ghhlgieslhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopehkrhiikhdoughtsehkvg
+    hrnhgvlhdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhigrdgu
+    vghvpdhrtghpthhtohepthhofihinhgthhgvnhhmihesghhmrghilhdrtghomhdprhgtph
+    htthhopehkohhnrhgrugdrugihsggtihhosehsohhmrghinhhlihhnvgdrohhrghdprhgt
+    phhtthhopehmrghrtggrnhesmhgrrhgtrghnrdhsth
+X-ME-Proxy: <xmx:gbvSZpFgGTuLxHEJdj6-Q2yjYliVPEi_hw7E9I-5CIVGlqmywERnuA>
+    <xmx:gbvSZhUogPaG7Qzyo-NCoVNv6l4Auq4pAIRzl2Ab6Sp3wNOFBgf5eg>
+    <xmx:gbvSZkOL1sLehbKl1f5904XzWTKzxNioDA0c5iWYGAUwl_uavzAlJA>
+    <xmx:gbvSZg0P2aQbIKsBhFBWIWjJxnYh9uyj63tVEqM350BFBUze7Cgbtw>
+    <xmx:g7vSZmXiDQoU3jmVqilTn48MmvUP-cwTurzVMDDHwz2yzzIBBRaPBek9>
+Feedback-ID: i51094778:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 31 Aug 2024 02:43:13 -0400 (EDT)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Sven Peter <sven@svenpeter.dev>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v2 1/4] dt-bindings: apple,aic: Document A7-A11 compatibles
+Date: Sat, 31 Aug 2024 08:43:01 +0200
+Message-Id: <5EE567C6-95A1-4441-8D29-E365B975B34F@svenpeter.dev>
+References: <20240831055605.3542-2-towinchenmi@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, konrad.dybcio@somainline.org,
+ ~postmarketos/upstreaming@lists.sr.ht
 In-Reply-To: <20240831055605.3542-2-towinchenmi@gmail.com>
+To: Nick Chan <towinchenmi@gmail.com>
+X-Mailer: iPhone Mail (21G93)
 
-On Sat, Aug 31, 2024 at 01:48:16PM +0800, Nick Chan wrote:
-> Document and describe the compatibles for Apple A7-A11 SoCs.
-> 
+
+> On 31. Aug 2024, at 07:57, Nick Chan <towinchenmi@gmail.com> wrote:
+>=20
+> =EF=BB=BFDocument and describe the compatibles for Apple A7-A11 SoCs.
+>=20
 > There are three feature levels:
 > - apple,aic: No fast IPI, for A7-A10
 > - apple,t8015-aic: fast IPI, global only, for A11
 > - apple,t8103-aic: fast IPI with local and global support, for M1
-> 
+>=20
 > Each feature level is an extension of the previous, for example, M1 will
 > also work with the A7 feature level.
-> 
+>=20
 > All of A7-M1 gets its own SoC-specific compatible, and the "apple,aic"
 > compatible as a fallback.
-> 
+>=20
 > Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 > ---
->  .../bindings/interrupt-controller/apple,aic.yaml   | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Sven Peter <sven@svenpeter.dev>
 
----
 
-<form letter>
-This is an automated instruction, just in case, because many review tags
-are being ignored. If you know the process, you can skip it (please do
-not feel offended by me posting it here - no bad intentions intended).
-If you do not know the process, here is a short explanation:
-
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions, under or above your Signed-off-by tag. Tag is "received", when
-provided in a message replied to you on the mailing list. Tools like b4
-can help here. However, there's no need to repost patches *only* to add
-the tags. The upstream maintainer will do that for tags received on the
-version they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
-</form letter>
-
-Best regards,
-Krzysztof
+> .../bindings/interrupt-controller/apple,aic.yaml   | 14 +++++++++++++-
+> 1 file changed, 13 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/apple,=
+aic.yaml b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.=
+yaml
+> index 698588e9aa86..4be9b596a790 100644
+> --- a/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yam=
+l
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/apple,aic.yam=
+l
+> @@ -31,13 +31,25 @@ description: |
+>   This device also represents the FIQ interrupt sources on platforms using=
+ AIC,
+>   which do not go through a discrete interrupt controller.
+>=20
+> +  IPIs may be performed via MMIO registers on all variants of AIC. Starti=
+ng
+> +  from A11, system registers may also be used for "fast" IPIs. Starting f=
+rom
+> +  M1, even faster IPIs within the same cluster may be achieved by writing=
+ to
+> +  a "local" fast IPI register as opposed to using the "global" fast IPI
+> +  register.
+> +
+> allOf:
+>   - $ref: /schemas/interrupt-controller.yaml#
+>=20
+> properties:
+>   compatible:
+>     items:
+> -      - const: apple,t8103-aic
+> +      - enum:
+> +          - apple,s5l8960x-aic
+> +          - apple,t7000-aic
+> +          - apple,s8000-aic
+> +          - apple,t8010-aic
+> +          - apple,t8015-aic
+> +          - apple,t8103-aic
+>       - const: apple,aic
+>=20
+>   interrupt-controller: true
+> --
+> 2.46.0
+>=20
 
