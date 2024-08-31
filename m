@@ -1,57 +1,57 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFA41531D0
-	for <asahi@lists.linux.dev>; Sat, 31 Aug 2024 05:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E7314F138
+	for <asahi@lists.linux.dev>; Sat, 31 Aug 2024 05:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725083845; cv=none; b=pBfK28LlkRA51pSgvgeEWhK0UepjmpNc1nepByalZqExePV50EfxsId/NfSpDMnf3KSKn8ze+0zPMSAmVdCjeoTzerAfW5VyNZH/0M2s8iuLxOiCc4wUxwe1GErZTxu82Eg/wAfQebir98jYvCc1IaZMjU6FiluRFBk69Dha4wE=
+	t=1725083876; cv=none; b=rn72rl3ltIS3nJmGG1QXI3Z+8tiIfXb3sofFBSCXDBH8nIBBjVUDqf4FC1Am1+k6kHCu6+fyRqvOZGV0ieDNfmPpYQdd408jTHFEpZ1EQD0Za3jfv8UykUoJkxOxlduk929OcqlAJC6BxHqOsaaNwEYHBaH7dchMRjsSI0h2sJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725083845; c=relaxed/simple;
-	bh=AiAs+f0DOwqb3mqumMEKWPoSTet5sVEF8qBpc+MVTOM=;
+	s=arc-20240116; t=1725083876; c=relaxed/simple;
+	bh=i1wHNYB9L1TbZMmb7JXpPz2IK/BYlwoGeSiZU2nrtps=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fKI73o6NoDKsoBOb5XLc5SiXtmNvIqL79y5IUdyaYK3vD2jUZysp8fNRG5Ejpd1auovyZ41YozYEw27myf6qwu7air9VbNbMhOuoI5yoN1FYTB8q7SmOeVHGsjVStzk/FyF7YEOdS42KQCo1LgyV3e4YXwe5aQ1JCnEiwzMHFpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EOtPh9hh; arc=none smtp.client-ip=209.85.215.171
+	 MIME-Version; b=Zzd3cvhq3YWNomtikLcqvct9FLH16rR/FT259YRMbmabtj4N+7vU8b4DZ1AbzQ2reFDSKryVfkrZI7Bjw4Ku2ZIgQff5fy5yIpfhetT98anQpjqWi93NN0hEtoadC+Jn10T6JQlaFmjWg5oZZRzpnybW8pxRgprGnxsmEIUG0tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=chAadwOf; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EOtPh9hh"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7163489149eso1656403a12.1
-        for <asahi@lists.linux.dev>; Fri, 30 Aug 2024 22:57:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="chAadwOf"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71433096e89so2138504b3a.3
+        for <asahi@lists.linux.dev>; Fri, 30 Aug 2024 22:57:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725083843; x=1725688643; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725083874; x=1725688674; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2wrsQB/6kr7Ma/wyHDMG36Gt57JsM43DlFH99Cporu0=;
-        b=EOtPh9hhRhjb1GouX1v69QGMYDnWHYZMZs6uTH3BBNFqZhXg1kCMLjNAZ7wWTrWU5Y
-         6TirUKmSXlY1pCsvPgHXcsFcndPwcg742cZ7RgWr5X8O7M7LXJ45FyOS2z3EhGHGm/P5
-         WBfnKWbirvmbZwUpttBgrv6KUxezMRGYUGu+dq1SZUS8KUOS8bN3x7GwMlCIYxt0JZ6H
-         5TaR5qji3RiEDz1OlNzz2u90w+GOh7DXW7UXmGzcys+nPaZ72ut0pvNNJllSN+k/n0w2
-         2ezpfGJpRqCDqw8IIrqoWaZhOAsCuHdg2xFRqZzThUReeU1u/RAwS3vAKrOrxOmmpoMx
-         r8Zw==
+        bh=c61KzTihCjzePgzXbL4oR36fnoTGJU/hUcEWcyWz+t4=;
+        b=chAadwOfD82kOHkZ/4/w04v3rMWJJAo7hPEGhyqVUGTV/IDn+PqnWGeawbZX7qx/Ge
+         x5laZ0ot814S/mwI/55hrtWyPCsUCtIILke+43Pyx7HZSLSPemNU+aJlwda/1V5rHq2c
+         NQWsdYD7si8BrkFYncIobDaFhCxkMlz6vJZ15JTtaoGJ8PD/P9ocHS440Ie6ey2n44Bn
+         VJOqGHP89byNckCMv9AD9ccBn5j9KVYgs+4Wc/TsF+Z11Pq7wU/zL7w+7oJNkvC4b9oI
+         x4XkOIAOoe0cUPNzPPLWC8Y9G8BpQqiv/YyDM5x9hBk0656o1H5GC5kCOYYWZEkbRYrq
+         Yw5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725083843; x=1725688643;
+        d=1e100.net; s=20230601; t=1725083874; x=1725688674;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2wrsQB/6kr7Ma/wyHDMG36Gt57JsM43DlFH99Cporu0=;
-        b=Ym2EYUOQp2iN/4oLwER/rAIttQaF9WyFHx2ap3fbVa7IOWIbUUvwKa+JR8ECS6jgo1
-         W15LWGPgvvfYPowTcesPY1uXJd7jYJ4YGvl7UKPcMEm+RqMktNoZ3K3RHvzkWQx9gWgr
-         V0lkJUPl/bwjaC0QYqUVaHGD+yX0Ywd0AAkDaJseWRElGqmbsDgRkmocPteuLqPbwQCz
-         TocwM3/OW3csEXVesU9SoerxLMry6uUuko2RtzRP5hr9wahikXRTz22XarDJDRDqaVtu
-         a3mdHQWm4ZKYNY1MfGr0rWBFR4XDOHJQu/SE+uv0LofBmTYCrvc/twh6VqiOm6b5nOn7
-         huLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCDifDtpIfLkUc8Q5HZjvZJJwjsV5ErmufAepVZglVOrA5LhpzfP9wa6qHqGShgzySsAKp/w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzB6HXRFCBfvGrR+2I1xdDsGL/G8AYBF3JXjJBqNcWND7wtinmu
-	mX4k8xDjfFGgp9AEhaFqn8wrQahYEzlj328J6s+jsT87MJsz5tmd
-X-Google-Smtp-Source: AGHT+IHdDgp5kIe/Uz9eKdMkNiesjGU6gPSz8C0iguDZ2YnuDqyASfy0yI9S6X6wUtplLyyhUB+OQg==
-X-Received: by 2002:a05:6a20:e68c:b0:1c4:8291:e94e with SMTP id adf61e73a8af0-1cece047a11mr2504621637.45.1725083843358;
-        Fri, 30 Aug 2024 22:57:23 -0700 (PDT)
+        bh=c61KzTihCjzePgzXbL4oR36fnoTGJU/hUcEWcyWz+t4=;
+        b=nU7ciOMOUEvIRVNTn9AFPTnMx0bWzoCPvBjago2moo+GX86FBGJrWfeO0WG1Jt+pJz
+         k7fKaEjctOaM9H2CpKCBLXbM/HYG19YWzzSxEtyCF07v01UOAZTZLAbgiRiQ0hlPdYEX
+         IDdeo4RFPlYzfSgHJMzvzy8PCN+q9aZ1razYcVxj/amxILg+39TrVgRIlrZ+ifqtzQGa
+         4CWuIIrkHx0LrlNS4SqmBLr6/jQMkI4Nxk94tFV9dZDRYjW25Ks+pegEV3sY/OqeiMJA
+         qZnsI+ItAkGBoBmXMYrcs9d5DltgDPjPeZvH6wG9c1/alEBwLvdRP0ZKwKmjagFryMtC
+         6mCw==
+X-Forwarded-Encrypted: i=1; AJvYcCXWh/mb2aykVlmxDLLPZeiExiZNvR5Hlxgn8NHiP3Qd0oyVre6MyQdymJgHhmkMmi4zx8Apfw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6oTxXpAaecBP3jKbbgQG58ffOgXBKq0KJvDnTg7MbWFgP8JJv
+	P27SC8Iw1Znqa/0+m6Q5v1QNoedGH+oPctui6HIcXBxvOUeN8WsA
+X-Google-Smtp-Source: AGHT+IEYvysVPYow9FSPEgYtUv10qvcbs0XqkpUYakMhxEFHJy0yARyeKD5B3eznnVOi1c96X+YK3w==
+X-Received: by 2002:a05:6a20:d487:b0:1c4:bbb8:4d02 with SMTP id adf61e73a8af0-1cece5d12cemr2073712637.37.1725083874173;
+        Fri, 30 Aug 2024 22:57:54 -0700 (PDT)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2053aa8cb4asm12027045ad.271.2024.08.30.22.57.20
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2053aa8cb4asm12027045ad.271.2024.08.30.22.57.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2024 22:57:23 -0700 (PDT)
+        Fri, 30 Aug 2024 22:57:53 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -67,9 +67,9 @@ To: Hector Martin <marcan@marcan.st>,
 	konrad.dybcio@somainline.org
 Cc: ~postmarketos/upstreaming@lists.sr.ht,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH v2 3/4] irqchip/apple-aic: Add a new "Global fast IPIs only" feature level
-Date: Sat, 31 Aug 2024 13:48:18 +0800
-Message-ID: <20240831055605.3542-4-towinchenmi@gmail.com>
+Subject: [PATCH v2 4/4] irqchip/apple-aic: Only access system registers on SoCs which provide them
+Date: Sat, 31 Aug 2024 13:48:20 +0800
+Message-ID: <20240831055605.3542-6-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240831055605.3542-1-towinchenmi@gmail.com>
 References: <20240831055605.3542-1-towinchenmi@gmail.com>
@@ -81,95 +81,90 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Starting with the A11 (T8015) SoC, Apple began using arm64 sysregs for
-fast IPIs. However, on A11, there is no such things as "Local" fast IPIs,
-as the SYS_IMP_APL_IPI_RR_LOCAL_EL1 register does not seem to exist.
+From: Konrad Dybcio <konrad.dybcio@somainline.org>
 
-Add a new feature level, used by the compatible "apple,t8015-aic",
-controlled by a static branch key named use_local_fast_ipi. When
-use_fast_ipi is true and use_local_fast_ipi is false, fast IPIs are used
-but all IPIs goes through the register SYS_IMP_APL_IPI_RR_GLOBAL_EL1, as
-"global" IPIs.
+Starting from the A11 (T8015) SoC, Apple introuced system registers for
+fast IPI and UNCORE PMC control. These sysregs do not exist on earlier
+A7-A10 SoCs and trying to access them results in an instant crash.
 
+Restrict sysreg access within the AIC driver to configurations where
+use_fast_ipi is true to allow AIC to function properly on A7-A10 SoCs.
+As part of the restriction, the IPI-always-ack path in aic_handle_fiq()
+has been removed. If the code path were to be reached, the system is
+fast IPI capable and one of the fast IPI compatibles should be used
+instead.
+
+Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
+Co-developed-by: Nick Chan <towinchenmi@gmail.com>
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- drivers/irqchip/irq-apple-aic.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ drivers/irqchip/irq-apple-aic.c | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
-index 8d81d5fb3c50..01a3c79054f5 100644
+index 01a3c79054f5..a6d812afb10d 100644
 --- a/drivers/irqchip/irq-apple-aic.c
 +++ b/drivers/irqchip/irq-apple-aic.c
-@@ -235,6 +235,8 @@ enum fiq_hwirq {
+@@ -234,6 +234,7 @@ enum fiq_hwirq {
+ 	AIC_NR_FIQ
  };
  
++/* True if UNCORE/UNCORE2 and Sn_... IPI registers are present and used (A11+) */
  static DEFINE_STATIC_KEY_TRUE(use_fast_ipi);
-+/* True if SYS_IMP_APL_IPI_RR_LOCAL_EL1 exists for local fast IPIs (M1+) */
-+static DEFINE_STATIC_KEY_TRUE(use_local_fast_ipi);
+ /* True if SYS_IMP_APL_IPI_RR_LOCAL_EL1 exists for local fast IPIs (M1+) */
+ static DEFINE_STATIC_KEY_TRUE(use_local_fast_ipi);
+@@ -550,14 +551,9 @@ static void __exception_irq_entry aic_handle_fiq(struct pt_regs *regs)
+ 	 * we check for everything here, even things we don't support yet.
+ 	 */
  
- struct aic_info {
- 	int version;
-@@ -252,6 +254,7 @@ struct aic_info {
+-	if (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING) {
+-		if (static_branch_likely(&use_fast_ipi)) {
+-			aic_handle_ipi(regs);
+-		} else {
+-			pr_err_ratelimited("Fast IPI fired. Acking.\n");
+-			write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
+-		}
+-	}
++	if (static_branch_likely(&use_fast_ipi) &&
++	    (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING))
++		aic_handle_ipi(regs);
  
- 	/* Features */
- 	bool fast_ipi;
-+	bool local_fast_ipi;
- };
+ 	if (TIMER_FIRING(read_sysreg(cntp_ctl_el0)))
+ 		generic_handle_domain_irq(aic_irqc->hw_domain,
+@@ -592,8 +588,9 @@ static void __exception_irq_entry aic_handle_fiq(struct pt_regs *regs)
+ 					  AIC_FIQ_HWIRQ(irq));
+ 	}
  
- static const struct aic_info aic1_info __initconst = {
-@@ -270,17 +273,32 @@ static const struct aic_info aic1_fipi_info __initconst = {
- 	.fast_ipi	= true,
- };
+-	if (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) == UPMCR0_IMODE_FIQ &&
+-			(read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
++	if (static_branch_likely(&use_fast_ipi) &&
++	    (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) == UPMCR0_IMODE_FIQ) &&
++	    (read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
+ 		/* Same story with uncore PMCs */
+ 		pr_err_ratelimited("Uncore PMC FIQ fired. Masking.\n");
+ 		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
+@@ -830,7 +827,8 @@ static int aic_init_cpu(unsigned int cpu)
+ 	/* Mask all hard-wired per-CPU IRQ/FIQ sources */
  
-+static const struct aic_info aic1_local_fipi_info __initconst = {
-+	.version	= 1,
-+
-+	.event		= AIC_EVENT,
-+	.target_cpu	= AIC_TARGET_CPU,
-+
-+	.fast_ipi	= true,
-+	.local_fast_ipi = true,
-+};
-+
- static const struct aic_info aic2_info __initconst = {
- 	.version	= 2,
+ 	/* Pending Fast IPI FIQs */
+-	write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
++	if (static_branch_likely(&use_fast_ipi))
++		write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
  
- 	.irq_cfg	= AIC2_IRQ_CFG,
+ 	/* Timer FIQs */
+ 	sysreg_clear_set(cntp_ctl_el0, 0, ARCH_TIMER_CTRL_IT_MASK);
+@@ -851,8 +849,9 @@ static int aic_init_cpu(unsigned int cpu)
+ 			   FIELD_PREP(PMCR0_IMODE, PMCR0_IMODE_OFF));
  
- 	.fast_ipi	= true,
-+	.local_fast_ipi = true,
- };
+ 	/* Uncore PMC FIQ */
+-	sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
+-			   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
++	if (static_branch_likely(&use_fast_ipi))
++		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
++				   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
  
- static const struct of_device_id aic_info_match[] = {
- 	{
- 		.compatible = "apple,t8103-aic",
-+		.data = &aic1_local_fipi_info,
-+	},
-+	{
-+		.compatible = "apple,t8015-aic",
- 		.data = &aic1_fipi_info,
- 	},
- 	{
-@@ -750,7 +768,8 @@ static void aic_ipi_send_fast(int cpu)
- 	u64 cluster = MPIDR_CLUSTER(mpidr);
- 	u64 idx = MPIDR_CPU(mpidr);
- 
--	if (MPIDR_CLUSTER(my_mpidr) == cluster)
-+	if (static_branch_likely(&use_local_fast_ipi) &&
-+	    MPIDR_CLUSTER(my_mpidr) == cluster)
- 		write_sysreg_s(FIELD_PREP(IPI_RR_CPU, idx),
- 			       SYS_IMP_APL_IPI_RR_LOCAL_EL1);
- 	else
-@@ -990,6 +1009,9 @@ static int __init aic_of_ic_init(struct device_node *node, struct device_node *p
- 	if (!irqc->info.fast_ipi)
- 		static_branch_disable(&use_fast_ipi);
- 
-+	if (!irqc->info.local_fast_ipi)
-+		static_branch_disable(&use_local_fast_ipi);
-+
- 	irqc->info.die_stride = off - start_off;
- 
- 	irqc->hw_domain = irq_domain_create_tree(of_node_to_fwnode(node),
+ 	/* Commit all of the above */
+ 	isb();
 -- 
 2.46.0
 
