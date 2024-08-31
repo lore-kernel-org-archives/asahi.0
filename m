@@ -1,213 +1,88 @@
-Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58695155307
-	for <asahi@lists.linux.dev>; Sat, 31 Aug 2024 10:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3622017BB19
+	for <asahi@lists.linux.dev>; Sat, 31 Aug 2024 11:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725098536; cv=none; b=Y5eNWsB5wJyo0pYc/rwTh8V/ebeSStI3zNUAJN+c5yUFeexQBHOXcrPq7AFUD+reTaSi0f/raW9NtuEDd3E1swu147fjlBRI4N2VBDYCSPXJlwH0FpDsQgfDxcitFvPD8xQIgmmYXAW4vMKgjWPjuvLRk8gQ10om3xDqoCpjdnQ=
+	t=1725103601; cv=none; b=URRv4ts7c2Hs5X4Z/iihdzyCPnSomLRIBmnTFkqjQnDihSCXcXtwALtt2UoDWYraW+qOdxvuQU7fusQ0uGBnFdVCexB+JLfRih2QP0525YSjRD6oIXbGRXauRl7GWOhGAD2qMe8X3/o/HeZTX6kDAxhH8fxes/se8WQhltKQ2Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725098536; c=relaxed/simple;
-	bh=L1TrhnEzb/1rX0rXhpXCcI8Yn5gO3/tLxhMYItfVpBM=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=HUDVyLl5PT5+Vjyf9Ri4oo3RrHnk/2evv5q+PDUBoa1VAwI0QYxq6FNw71mo4mipVU1TwxUtXbBceW7/qjd9sKCOHT5koPsjyN6GJyI+SHcrepKdxs3J5RmyLzWwzABhPT+jFdTczlzgYREcyWn8JapDw22xTFF1YaNmZfMjWJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=PDRA8qaj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=su33q1Ve; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="PDRA8qaj";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="su33q1Ve"
-Received: from phl-compute-06.internal (phl-compute-06.nyi.internal [10.202.2.46])
-	by mailfhigh.nyi.internal (Postfix) with ESMTP id 7279111404CA;
-	Sat, 31 Aug 2024 06:02:12 -0400 (EDT)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-06.internal (MEProxy); Sat, 31 Aug 2024 06:02:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1725098532; x=1725184932; bh=SiJOoaRUWDMyzY09vCov122wR1ISiGrU
-	3Bq0OeXWJuo=; b=PDRA8qajO8vNSsN9HeCPgIkG3eXG1CUY+6zHuNBWgivuGHt+
-	Y5L3/FOt5+vZUne6M2kfxJnP7wMLAUzQFKwmZBuR77ZdMR96vy1o1HkxEfNSLMyx
-	66IHRZd8d+JqNnXKWH1pt9gIkl5Xk9E/NXu5VBhvCGb8KA2n9sXfoaC9fjL0J+tX
-	B9tke3cWWCf9ikU8tVcaOfpNqHVq/vj/+AJai5UMBb7w3uv1+LP0WqdJNu9TFpgo
-	Rcr6lqo8vBbsxJ4Y6/hwSHjK2iuvaAbUnjcohNFJD7EfBUOz3kH42/Rb2gt5jlVa
-	cz9hebfOkijvVJ2VHhUrhfq9kc8tsBpzSBDe8A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1725098532; x=
-	1725184932; bh=SiJOoaRUWDMyzY09vCov122wR1ISiGrU3Bq0OeXWJuo=; b=s
-	u33q1Ve5NbkE4NL7UhzjRUQ6GExngDnBuTp4+6GY4Yjr5V2hjyMVqonWr4oI6dEs
-	EoN4lhc/NnGNmy37qiPgEVvpyJgUXkKe3L4aMKxz1rZzT1sO6lu63Se70XUh+tNL
-	Z1JnTkzHo6FQAvfPWUIVq70fCfJCr0YIAp5NIwsIm6fENyiHC7qr56RBgvFPnXXI
-	7V2I0Z3sfxHBEzxKzX81w+bbpkVNgf0wHFGKGn42hAZeB0ca0XBrIEs36pFjiw1w
-	WqQMeWaLjZZ17s8GpaeLOJTIeBqZCKr+of313tNS9RaUNtjvcO9yhG1Pw6va//oU
-	GloaMu9KhTmRr+O5o5Crw==
-X-ME-Sender: <xms:I-rSZkvwd0QwGtLQ2H_oa5QibHnzz9-z6VIZLgpQEjMNZRbDsymqxg>
-    <xme:I-rSZhfODsAPh-s3Q2HHIcJlyOL3TAxfMhNoB3liyIoEJGjWOum-y7lb1sOgBPykN
-    jdl70E7U4IFD2-CCUE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudefkedgvdefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedfufhvvghnucfrvghtvghrfdcuoehsvhgvnhesshhvvghnphgvthgvrh
-    druggvvheqnecuggftrfgrthhtvghrnhepleefteeugeduudeuudeuhfefheegveekueef
-    ffdvffektdffffelveffvddvueffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhnsggprhgt
-    phhtthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhofihinhgthh
-    gvnhhmihesghhmrghilhdrtghomhdprhgtphhtthhopegtohhnohhrodgutheskhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtghhlgieslhhi
-    nhhuthhrohhnihigrdguvgdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlh
-    eslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopegrshgrhhhisehl
-    ihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepmihpohhsthhmrghrkhgvthhosh
-    dsuhhpshhtrhgvrghmihhngheslhhishhtshdrshhrrdhhthdprhgtphhtthhopehmrghr
-    tggrnhesmhgrrhgtrghnrdhsth
-X-ME-Proxy: <xmx:I-rSZvzBCvrzIa_jlxWU74ro3fj5glk2kNt3tkbU7sXpaO6rw3Rm8w>
-    <xmx:I-rSZnNsEMIYC0rFqBO2j-YruNH29eThIpPHBY7nxuknL3oekKa7Sw>
-    <xmx:I-rSZk9DtVK7E2nlZpUkzgwYgRFdIHn24rztImkkDzBgnICI90LIuw>
-    <xmx:I-rSZvU-YSFvAQVpeIgoaqDCOaEd-kqL1YoDkEsF0zqbSMrGiXNmuw>
-    <xmx:JOrSZvWh5JJy9xK9Kvsrp14gOp7tXh7Fm-Ng8fRd1oqt06KLP3Ihtxr3>
-Feedback-ID: i51094778:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 5D1E9BA0069; Sat, 31 Aug 2024 06:02:11 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1725103601; c=relaxed/simple;
+	bh=ZvbGp0mAKFAUDmcihLLlDp0OuZrzBX+nmwBkND+95xE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fQLbVOYI0GUA1in2RwGdrcRugw3XPlqZi+41I2TK3ZhroBciEkF8mGUo/dF1i6hUXPKmjGyVqJLbJqWFF/2eMOW8ihG+opROrEce0Q2K0YfpzXo5S7hLGtrVhPS/FNddjCBrfCi2by4et0yrjUcuyzuayiqtCkzeHjre8modQuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=fedoraproject.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a86cc0d10aaso294465666b.2
+        for <asahi@lists.linux.dev>; Sat, 31 Aug 2024 04:26:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725103597; x=1725708397;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZvbGp0mAKFAUDmcihLLlDp0OuZrzBX+nmwBkND+95xE=;
+        b=qkqnvoQ2mtQ/aiFWTXOBKjObhCmY16vAPQfnQfc2iQSNC3N/SmkLaDboKjsr/a2QK9
+         9TWevxeUiEpo8OYfS0GP387jLGpvR1fY5Ukq1XFBAik5IQTMeFBNQhJs3MrC87m3hfD0
+         WULsm1aP60u6WUtORMKFCH+z8a5dGs/9QWh1u1IJ9NZ5UjdPVkRrL4ePgztvodtaHoAQ
+         o0Q3FIvI3j5DVDGdZZiw73ELWSOH3OO4gxOJ8FYURznJMnE+0TphWGmhqlM5sy5gG9eR
+         zZOsXJUvd8P/Az1MkA1ZKvcvKqSDUFiO4kAT8Ed4iE60/0uAizOaJWaAYBjDcam1UD4v
+         ex/g==
+X-Forwarded-Encrypted: i=1; AJvYcCVrqArr6uusGq954JecDUvMm24LwYQqNnnoBAlJZ4cgKYyClh24iFUZPYL0xRDNJZsIZpW01Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwrEY2tkgJTTiVe0IbUA12h3Gc2QA6A8CowLiopbQV5LfHXw1i5
+	DXRFSwqGJZJwwMBYV+h5BqFP6doUaBfZ6WoFyEgQ4l26ZOBWl/lrwNOdZtkB
+X-Google-Smtp-Source: AGHT+IFnw8KHoGhbVbr5V0TT35raavJNQ94egN0FoAPxT0MssHnZVcZo3SqM43evt1Ci0U9EGJsirw==
+X-Received: by 2002:a17:907:72d2:b0:a86:c111:cc35 with SMTP id a640c23a62f3a-a897fa6bb45mr688453066b.50.1725103596631;
+        Sat, 31 Aug 2024 04:26:36 -0700 (PDT)
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com. [209.85.208.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a8988feb410sm316037466b.21.2024.08.31.04.26.36
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 31 Aug 2024 04:26:36 -0700 (PDT)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5a10835487fso3692231a12.1
+        for <asahi@lists.linux.dev>; Sat, 31 Aug 2024 04:26:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUc/83bfA5PyL04XPQ7yXq+QxX3BNZfU62ow5VshYlNG9tj48Y4ZhfARVeZD1PbLUD3Qp+ZVg==@lists.linux.dev
+X-Received: by 2002:a05:6402:2714:b0:5a3:a4d7:caf5 with SMTP id
+ 4fb4d7f45d1cf-5c21eda33d9mr6746821a12.36.1725103596088; Sat, 31 Aug 2024
+ 04:26:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sat, 31 Aug 2024 12:01:39 +0200
-From: "Sven Peter" <sven@svenpeter.dev>
-To: "Nick Chan" <towinchenmi@gmail.com>, "Hector Martin" <marcan@marcan.st>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Thomas Gleixner" <tglx@linutronix.de>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, "Konrad Dybcio" <konrad.dybcio@somainline.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht
-Message-Id: <43a31087-0e3a-4684-87e3-26c22bd5a4c9@app.fastmail.com>
-In-Reply-To: <20240831055605.3542-6-towinchenmi@gmail.com>
-References: <20240831055605.3542-1-towinchenmi@gmail.com>
- <20240831055605.3542-6-towinchenmi@gmail.com>
-Subject: Re: [PATCH v2 4/4] irqchip/apple-aic: Only access system registers on SoCs
- which provide them
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <CAEg-Je8=t_cXKsWL0XSx3vF1gsArSWpychfbEf+yjM6wVz3Mjw@mail.gmail.com>
+ <CAM22NNBrXSUbrpFAKv8jrREKTBYx_aW0cibtDE5AZ_kTijUrPA@mail.gmail.com> <CAEg-Je_9r_96j-un6TS7Dm_kJ3m7Q6y_RDEs9NTvxjNJM-zEvQ@mail.gmail.com>
+In-Reply-To: <CAEg-Je_9r_96j-un6TS7Dm_kJ3m7Q6y_RDEs9NTvxjNJM-zEvQ@mail.gmail.com>
+From: Neal Gompa <ngompa@fedoraproject.org>
+Date: Sat, 31 Aug 2024 07:25:59 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je-yfKSvHVnyJDmD9fprKX2kw9icKcG0SipGTUvjivwL9g@mail.gmail.com>
+Message-ID: <CAEg-Je-yfKSvHVnyJDmD9fprKX2kw9icKcG0SipGTUvjivwL9g@mail.gmail.com>
+Subject: Re: Weird failure with bpftool when building 6.11-rc4 with clang+rust+lto
+To: Matthew Maurer <matthew.r.maurer@gmail.com>
+Cc: rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
+	Quentin Monnet <qmo@kernel.org>, bpf@vger.kernel.org, 
+	"Justin M. Forbes" <jforbes@fedoraproject.org>, Davide Cavalca <dcavalca@fedoraproject.org>, 
+	Janne Grunau <jannau@fedoraproject.org>, Hector Martin <marcan@fedoraproject.org>, 
+	Asahi Linux <asahi@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-On Sat, Aug 31, 2024, at 07:48, Nick Chan wrote:
-> From: Konrad Dybcio <konrad.dybcio@somainline.org>
+On Fri, Aug 23, 2024 at 5:45=E2=80=AFPM Neal Gompa <ngompa@fedoraproject.or=
+g> wrote:
 >
-> Starting from the A11 (T8015) SoC, Apple introuced system registers for
-> fast IPI and UNCORE PMC control. These sysregs do not exist on earlier
-> A7-A10 SoCs and trying to access them results in an instant crash.
+> Hey Matthew,
 >
-> Restrict sysreg access within the AIC driver to configurations where
-> use_fast_ipi is true to allow AIC to function properly on A7-A10 SoCs.
-> As part of the restriction, the IPI-always-ack path in aic_handle_fiq()
-> has been removed. If the code path were to be reached, the system is
-> fast IPI capable and one of the fast IPI compatibles should be used
-> instead.
-
-The last part is a bit weird. This is really just a bug in the driver.
-We either have a system with fastipi and then we can handle it.
-Or we have a system without fastipi and we shouldn't even try to read
-SYS_IMP_APL_IPI_SR_EL1.
-Your first sentence  "Restrict sysreg access within the AIC driver to
-configurations where use_fast_ipi is true to allow AIC to function properly
-on A7-A10 SoCs." already explains what's going on here. You're fixing
-a bug where we tried to access SYS_IMP_APL_IPI_SR_EL1 unconditionally.
-It just didn't matter so far because there's only upstream support
-for M1+ where SYS_IMP_APL_IPI_SR_EL1 always exist.
-
-With a fixed commit message:
-
-Reviewed-by: Sven Peter <sven@svenpeter.dev>
-
+> The current thinking is that maybe the culprit is dwarves. We've
+> backported a fix in Fedora that may help, I'm waiting to find out if
+> it does. Apparently all test runs with Clang+LTO are broken right now
+> with dwarves 1.27, so it wasn't just unique to my merge request.
 >
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@somainline.org>
-> Co-developed-by: Nick Chan <towinchenmi@gmail.com>
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> ---
->  drivers/irqchip/irq-apple-aic.c | 25 ++++++++++++-------------
->  1 file changed, 12 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/irqchip/irq-apple-aic.c b/drivers/irqchip/irq-apple-aic.c
-> index 01a3c79054f5..a6d812afb10d 100644
-> --- a/drivers/irqchip/irq-apple-aic.c
-> +++ b/drivers/irqchip/irq-apple-aic.c
-> @@ -234,6 +234,7 @@ enum fiq_hwirq {
->  	AIC_NR_FIQ
->  };
-> 
-> +/* True if UNCORE/UNCORE2 and Sn_... IPI registers are present and 
-> used (A11+) */
->  static DEFINE_STATIC_KEY_TRUE(use_fast_ipi);
->  /* True if SYS_IMP_APL_IPI_RR_LOCAL_EL1 exists for local fast IPIs 
-> (M1+) */
->  static DEFINE_STATIC_KEY_TRUE(use_local_fast_ipi);
-> @@ -550,14 +551,9 @@ static void __exception_irq_entry 
-> aic_handle_fiq(struct pt_regs *regs)
->  	 * we check for everything here, even things we don't support yet.
->  	 */
-> 
-> -	if (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING) {
-> -		if (static_branch_likely(&use_fast_ipi)) {
-> -			aic_handle_ipi(regs);
-> -		} else {
-> -			pr_err_ratelimited("Fast IPI fired. Acking.\n");
-> -			write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
-> -		}
-> -	}
-> +	if (static_branch_likely(&use_fast_ipi) &&
-> +	    (read_sysreg_s(SYS_IMP_APL_IPI_SR_EL1) & IPI_SR_PENDING))
-> +		aic_handle_ipi(regs);
-> 
->  	if (TIMER_FIRING(read_sysreg(cntp_ctl_el0)))
->  		generic_handle_domain_irq(aic_irqc->hw_domain,
-> @@ -592,8 +588,9 @@ static void __exception_irq_entry 
-> aic_handle_fiq(struct pt_regs *regs)
->  					  AIC_FIQ_HWIRQ(irq));
->  	}
-> 
-> -	if (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) == 
-> UPMCR0_IMODE_FIQ &&
-> -			(read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
-> +	if (static_branch_likely(&use_fast_ipi) &&
-> +	    (FIELD_GET(UPMCR0_IMODE, read_sysreg_s(SYS_IMP_APL_UPMCR0_EL1)) 
-> == UPMCR0_IMODE_FIQ) &&
-> +	    (read_sysreg_s(SYS_IMP_APL_UPMSR_EL1) & UPMSR_IACT)) {
->  		/* Same story with uncore PMCs */
->  		pr_err_ratelimited("Uncore PMC FIQ fired. Masking.\n");
->  		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> @@ -830,7 +827,8 @@ static int aic_init_cpu(unsigned int cpu)
->  	/* Mask all hard-wired per-CPU IRQ/FIQ sources */
-> 
->  	/* Pending Fast IPI FIQs */
-> -	write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
-> +	if (static_branch_likely(&use_fast_ipi))
-> +		write_sysreg_s(IPI_SR_PENDING, SYS_IMP_APL_IPI_SR_EL1);
-> 
->  	/* Timer FIQs */
->  	sysreg_clear_set(cntp_ctl_el0, 0, ARCH_TIMER_CTRL_IT_MASK);
-> @@ -851,8 +849,9 @@ static int aic_init_cpu(unsigned int cpu)
->  			   FIELD_PREP(PMCR0_IMODE, PMCR0_IMODE_OFF));
-> 
->  	/* Uncore PMC FIQ */
-> -	sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> -			   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
-> +	if (static_branch_likely(&use_fast_ipi))
-> +		sysreg_clear_set_s(SYS_IMP_APL_UPMCR0_EL1, UPMCR0_IMODE,
-> +				   FIELD_PREP(UPMCR0_IMODE, UPMCR0_IMODE_OFF));
-> 
->  	/* Commit all of the above */
->  	isb();
-> -- 
-> 2.46.0
+
+Well, that didn't work. The backported fix doesn't seem to have
+resolved the problem. I'm at a loss now.
+
+
+
+--=20
+Neal Gompa (FAS: ngompa)
