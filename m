@@ -1,55 +1,55 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B293313342F
-	for <asahi@lists.linux.dev>; Wed,  4 Sep 2024 20:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2741384DE0
+	for <asahi@lists.linux.dev>; Wed,  4 Sep 2024 20:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725482968; cv=none; b=NUandzLMf/Ert/i5qKkjJOm59t9N+80CRFJVpNE5dYTYqJp7qeYrOzHeXphjnfOsKPlsfvn11bNs+bc8zc4Pae3cK0VUY1RvnktHjUqg4nrXliqQixe0HRMqfDHKYLXqYiFhoFoQSh00Bdpld/+RYeTfzBtgk+/LvyhdqqELOdE=
+	t=1725483120; cv=none; b=hqlvD+ZDL/ZAikFZ04WDRvRT9pWUfqmv1Buqx9lgLC258Y/i/HWvHk6duFVwoDuuyqE7MCQfR9kVPfM3UzccTxLOUVAnqlbLIf3qbaMCN61DjGMcl8dismGTheLl5PJZfz75m2H3lyYDmI3/wvKp+0Yo2A7NoroJ/emPA+IGg4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725482968; c=relaxed/simple;
-	bh=Cc8EAH8IE6Yvd2aBPD8rscltUpBUI4dNmp2jXK/tiZc=;
+	s=arc-20240116; t=1725483120; c=relaxed/simple;
+	bh=VEu8lwhgjRv28++UfFlI7Q85Fll0aPf4HEKrWKfuyIw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A+8tEYO3BzO4NcnmHxi4SiMLeUaJUj9VWRkrzgLVpxkH13fTNGWyBGgDFTeQj7JYSfqLVateLzpF/X0APpg702gc2oLXVR0CbHbSW30HvK44Ns0u7h/iSQTWxuWu92OluGvoUaZqUEN/KEJc0wLMg07EJ0CUl4oar3saqt6u5U4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DI6C7Gfv; arc=none smtp.client-ip=209.85.160.176
+	 To:Cc:Content-Type; b=qHUdxTu1qx2LMH5so+KZYUvN4HZUvrrRTMjB2LXQ7MkAgE7DaZnatTr9N25LUJkam03LyYzCmnmMmX+ZP2hSBy9dqub5iziDvzXX0sgWq1o6plk7bxO+HAg7hpcRedJDbhd4wTHVTBrsSAPCywvTToU9rE/GTrPvmWBu/I+Ng2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Rzgvcjjl; arc=none smtp.client-ip=209.85.160.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DI6C7Gfv"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4567fe32141so28531cf.0
-        for <asahi@lists.linux.dev>; Wed, 04 Sep 2024 13:49:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Rzgvcjjl"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-456871a4d8fso31071cf.0
+        for <asahi@lists.linux.dev>; Wed, 04 Sep 2024 13:51:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725482965; x=1726087765; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1725483118; x=1726087918; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Gx0Hp8KWD3MclVMhWNlTjqLSDptdez0gd8c+TTiyWFY=;
-        b=DI6C7GfvNNKBU7Q1zC/2YjTzVnHvukRe1f0U5SudQxPSzfrKEXzoeDXoPeLbbUVGUq
-         mOIbRlrjIZRGoMTzkxREEnDYS1rxyjUIecshO0EEYX70mzte9XQ6hJ5eMl/7LjMys8Yg
-         qww5jZTFQ3B3eXYKGbRiTgzKYk9S+xLEOOFrv7bXZuNH9rYVLAVW8Sqi99VXQYfSfy+t
-         b1tkQWVT3b7D8emw2bV2N0lzNJpCr1AHty0C6/n2KBKES7uui1egsWrSNHQJ892l/kGZ
-         iuum9xEVJYKieL2Yjku61WIP6ixwcwr8vdfSWIzlWvBK2Uy6xE6TQBvW5HkIGgURE1iU
-         l1uA==
+        bh=SHG7bQnsGZf2B0kptsJNBpltOovSM7V6WQ5dy2HJTmw=;
+        b=Rzgvcjjl6s+h/BRTJ28SL6SAuCjXaZe0QwfEFefNixsfel5rCeYEo9HPngAXojQf4I
+         UdowlQXdjZa6qQp8/870s9FsZk3DkX/0fTGnmtjJgh2VG7A7O+imMpDANWxdT5SUljek
+         7M+jYrdVfpXZqWAP72WKp4BSCURzy4bZHyYBm1xd//Nu6qgSmhTXGGW7/nBCHfR/52rk
+         Q4F3XPI5Rswtprser08H7ywEd/ZWmmIdGoMyo7BD6T3ZbrN9MTP0AHfb6w5kNeS18Sia
+         Wep4ii3wViLYvlycW7fdAg8AB8NED7iLoU+rY2aaxPVUzk/H/PQ6oD4CNg/H+6j48aN5
+         5uYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725482965; x=1726087765;
+        d=1e100.net; s=20230601; t=1725483118; x=1726087918;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Gx0Hp8KWD3MclVMhWNlTjqLSDptdez0gd8c+TTiyWFY=;
-        b=SB7wHLAnWRFJcfWpY/qwSLkkhETHKCY9bb+3PHIWBBa2tmgI1FP37aRsvNzcV20Yca
-         +xiCiValGsgHstukuexyOZcTD0BZ1d6WCUAqDMeBRcWdId+3MxNSh/SYyjQQviQcRV2R
-         ZnINvPq7A5Oaxbz1tnqqT40l0gce3u5vrPKTRhAdo/J5SInJS8H3unpQ3KosPzy4yNVd
-         Ujam8aUC+/kSsxEWS5M/GZ9O3cuDh3EXlpvBzx7rIKK1msRiPtYpFYwJ8EF6l3pws55/
-         nbsfaduwZOvWr+Lc4+T/OXfs6QDZP7V6RnLzI7CvRh/wFoikPPsxHHTx0Umd+1swdIJ5
-         3P+g==
-X-Forwarded-Encrypted: i=1; AJvYcCXGXbPImKMy6rg0KfgpURUeyklIwlHwJfxDFiYVbetetIHY8ut9OL0qzM3F995U7j+PSiR/jA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGW7+4Jb3iYqApA33GXe/9M5P4HzxtNUpIZ3p/7PHnM7fAK4WF
-	VckTMRGHN3efTuVqty8iVUAc/2vxJ4n579CY3wbsv7pDh7/hoJHy2UpgEVA0vYg+NW3ix2XWrIF
-	sJOKhaJ0FVpf1A8BqJue6BoFsBlzVJAWKKyIc
-X-Google-Smtp-Source: AGHT+IFd6KrSrGqG+ulcWq9YMSxY7NK7vHFG24Qs6rA2X3nt4MsgAamSOqjNX6oKm6LJdBaxSA3RA8iCSuENhDVVJls=
-X-Received: by 2002:a05:622a:2a07:b0:453:58c8:3fd1 with SMTP id
- d75a77b69052e-45801b1f7ccmr1000011cf.0.1725482964482; Wed, 04 Sep 2024
- 13:49:24 -0700 (PDT)
+        bh=SHG7bQnsGZf2B0kptsJNBpltOovSM7V6WQ5dy2HJTmw=;
+        b=Qp8Y4Nnw8Otk5kwO6iljSQief9HQ24b3PgCuj1ssZCcUE3rlyn5pyDsYVTN7TknDHZ
+         vpAFGmjKpnumQDP4Jee5i1U4CAEz+wlBIMXAvjyA16Uw6VCoH/2ZmEde2erw2+b0gdDg
+         im+Nof1HFTVhHM/2aheAF4rnIOAcZgMACTlqWPHleI0POCgxjdWcUkVFWaR9r0xbLFFN
+         1ne+mXRbCa5zzgIOmFSCuWIcOvtkL8iDROPKZhpC9SVxPI5PN2BSKLQguP5qVRO7i/0z
+         yyxKk61HhpPYjJFF3y6+z2KbtHk+wa7IoT2trZrVpEYVQtB/zJOm+lcfbk8Ft1f41ijY
+         SVxg==
+X-Forwarded-Encrypted: i=1; AJvYcCUIzZ4el6Dwn48VqryjjqKIWdh9GKcwunxgUyE7KCRNgnF3QwetLcQfspSOPSNcGToAs9hMPg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwuOjYSxFrNHVa4i5LlZX2NfgNMiOs2GPu25zRdXM7gw3Yb6YWf
+	otN6PigobCYsxmlZwnKhd/tUrw/aCTaohiWncbqGkc0UjWuW9+HTUFtEilPfp39Ek6jaoB1sC03
+	0MI7TIRIQixVza2uHzdXiD9+FHS15jHi7vuBG
+X-Google-Smtp-Source: AGHT+IEPmGqrm6+korttValUScEVXntGBxadK6A54rTJrxJ0IKgJZvo9hatZFvSKLsYoMlB9sNpfgYUET/vFucdBRiQ=
+X-Received: by 2002:ac8:57cc:0:b0:456:7f71:ca78 with SMTP id
+ d75a77b69052e-45801deb0fbmr961551cf.4.1725483117896; Wed, 04 Sep 2024
+ 13:51:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -57,12 +57,12 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-24-samitolvanen@google.com> <CAK7LNAQs8E1pKo1Bcn4RUAkGbBFPmUsWRRrQCnUUiB588FB09A@mail.gmail.com>
-In-Reply-To: <CAK7LNAQs8E1pKo1Bcn4RUAkGbBFPmUsWRRrQCnUUiB588FB09A@mail.gmail.com>
+ <20240815173903.4172139-23-samitolvanen@google.com> <CAK7LNAR4BEpehbYtQP3fw1Gt60EmSpzTEj8BijWKNCAi41fyPA@mail.gmail.com>
+In-Reply-To: <CAK7LNAR4BEpehbYtQP3fw1Gt60EmSpzTEj8BijWKNCAi41fyPA@mail.gmail.com>
 From: Sami Tolvanen <samitolvanen@google.com>
-Date: Wed, 4 Sep 2024 20:48:47 +0000
-Message-ID: <CABCJKud+c3CdKATGDghCdJ=Tn06es5z9U5T5nDi7gWMBkyRNZw@mail.gmail.com>
-Subject: Re: [PATCH v2 03/19] gendwarfksyms: Add address matching
+Date: Wed, 4 Sep 2024 20:51:21 +0000
+Message-ID: <CABCJKuf140CSbNm_9D1NGeMuRnZiGytnV8fawnwsWwhvGpYpLg@mail.gmail.com>
+Subject: Re: [PATCH v2 02/19] gendwarfksyms: Add symbol list handling
 To: Masahiro Yamada <masahiroy@kernel.org>
 Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
@@ -74,27 +74,27 @@ Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Sun, Sep 1, 2024 at 11:11=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+On Sun, Sep 1, 2024 at 11:00=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
 rg> wrote:
 >
 > On Fri, Aug 16, 2024 at 2:39=E2=80=AFAM Sami Tolvanen <samitolvanen@googl=
 e.com> wrote:
 > >
-> > +static int set_symbol_addr(struct symbol *sym, void *arg)
-> > +{
-> > +       struct symbol_addr *addr =3D arg;
-> > +
-> > +       if (sym->addr.section =3D=3D SHN_UNDEF) {
-> > +               sym->addr.section =3D addr->section;
-> > +               sym->addr.address =3D addr->address;
+> >  /*
+> > - * Symbol processing
+> > + * Exported symbol processing
+> >   */
+> >  static int process_subprogram(struct state *state, Dwarf_Die *die)
+> >  {
 >
 >
-> These two lines can be replaced with
+> I also tend to regard this kind comment line change as a noise.
 >
->                   sym->addr =3D *addr;
+>
+>
+> I think you can squash 02/19 into 01/19 because
+> this tool does not do anything useful at this point.
 
-Good point, I'll fix this in the next version.
+Yes, that makes sense. I'll squash these in v3.
 
 Sami
