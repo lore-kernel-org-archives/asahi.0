@@ -1,100 +1,91 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2741384DE0
-	for <asahi@lists.linux.dev>; Wed,  4 Sep 2024 20:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A2728684
+	for <asahi@lists.linux.dev>; Thu,  5 Sep 2024 02:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725483120; cv=none; b=hqlvD+ZDL/ZAikFZ04WDRvRT9pWUfqmv1Buqx9lgLC258Y/i/HWvHk6duFVwoDuuyqE7MCQfR9kVPfM3UzccTxLOUVAnqlbLIf3qbaMCN61DjGMcl8dismGTheLl5PJZfz75m2H3lyYDmI3/wvKp+0Yo2A7NoroJ/emPA+IGg4M=
+	t=1725502179; cv=none; b=dEVXdy9jUeGtuWwApuGIJyUx+3rVxnEuanfNJ8YkmJPm2PAFKxAvYBI6v8G5LDyvSF6RmQPRMt9fZ9Lz+FnKQjK9ZWKR92yHtfGnsPXh94Zg60D3OD6NT8P2gVzkCuGhBeWZg3xfD3NHDmOt3e+9Juy5dsw7yU4MKgdocgNcr5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725483120; c=relaxed/simple;
-	bh=VEu8lwhgjRv28++UfFlI7Q85Fll0aPf4HEKrWKfuyIw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qHUdxTu1qx2LMH5so+KZYUvN4HZUvrrRTMjB2LXQ7MkAgE7DaZnatTr9N25LUJkam03LyYzCmnmMmX+ZP2hSBy9dqub5iziDvzXX0sgWq1o6plk7bxO+HAg7hpcRedJDbhd4wTHVTBrsSAPCywvTToU9rE/GTrPvmWBu/I+Ng2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Rzgvcjjl; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Rzgvcjjl"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-456871a4d8fso31071cf.0
-        for <asahi@lists.linux.dev>; Wed, 04 Sep 2024 13:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1725483118; x=1726087918; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SHG7bQnsGZf2B0kptsJNBpltOovSM7V6WQ5dy2HJTmw=;
-        b=Rzgvcjjl6s+h/BRTJ28SL6SAuCjXaZe0QwfEFefNixsfel5rCeYEo9HPngAXojQf4I
-         UdowlQXdjZa6qQp8/870s9FsZk3DkX/0fTGnmtjJgh2VG7A7O+imMpDANWxdT5SUljek
-         7M+jYrdVfpXZqWAP72WKp4BSCURzy4bZHyYBm1xd//Nu6qgSmhTXGGW7/nBCHfR/52rk
-         Q4F3XPI5Rswtprser08H7ywEd/ZWmmIdGoMyo7BD6T3ZbrN9MTP0AHfb6w5kNeS18Sia
-         Wep4ii3wViLYvlycW7fdAg8AB8NED7iLoU+rY2aaxPVUzk/H/PQ6oD4CNg/H+6j48aN5
-         5uYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725483118; x=1726087918;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SHG7bQnsGZf2B0kptsJNBpltOovSM7V6WQ5dy2HJTmw=;
-        b=Qp8Y4Nnw8Otk5kwO6iljSQief9HQ24b3PgCuj1ssZCcUE3rlyn5pyDsYVTN7TknDHZ
-         vpAFGmjKpnumQDP4Jee5i1U4CAEz+wlBIMXAvjyA16Uw6VCoH/2ZmEde2erw2+b0gdDg
-         im+Nof1HFTVhHM/2aheAF4rnIOAcZgMACTlqWPHleI0POCgxjdWcUkVFWaR9r0xbLFFN
-         1ne+mXRbCa5zzgIOmFSCuWIcOvtkL8iDROPKZhpC9SVxPI5PN2BSKLQguP5qVRO7i/0z
-         yyxKk61HhpPYjJFF3y6+z2KbtHk+wa7IoT2trZrVpEYVQtB/zJOm+lcfbk8Ft1f41ijY
-         SVxg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIzZ4el6Dwn48VqryjjqKIWdh9GKcwunxgUyE7KCRNgnF3QwetLcQfspSOPSNcGToAs9hMPg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuOjYSxFrNHVa4i5LlZX2NfgNMiOs2GPu25zRdXM7gw3Yb6YWf
-	otN6PigobCYsxmlZwnKhd/tUrw/aCTaohiWncbqGkc0UjWuW9+HTUFtEilPfp39Ek6jaoB1sC03
-	0MI7TIRIQixVza2uHzdXiD9+FHS15jHi7vuBG
-X-Google-Smtp-Source: AGHT+IEPmGqrm6+korttValUScEVXntGBxadK6A54rTJrxJ0IKgJZvo9hatZFvSKLsYoMlB9sNpfgYUET/vFucdBRiQ=
-X-Received: by 2002:ac8:57cc:0:b0:456:7f71:ca78 with SMTP id
- d75a77b69052e-45801deb0fbmr961551cf.4.1725483117896; Wed, 04 Sep 2024
- 13:51:57 -0700 (PDT)
+	s=arc-20240116; t=1725502179; c=relaxed/simple;
+	bh=V5+gNunt16oUkcf+NPsxyEcEVV/pBevZJ7IRqjTAZb4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pI61Jbjg9qc9NoMTHywWSQHd1YCBEsnr/EviR2UAKKr+++GrArdrBJULgvuRDXxyBYNgBjpBwuhiEx8HfDOFSYmx5HtjP1AxXNMI9R1VQlTlO7+0Ndrwrbq3yGSfmDwZQevMfBoE3dJmyIlhysZMNy08gG3gDS5v+dueOQiPlsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+	by APP-05 (Coremail) with SMTP id zQCowACHaurPEtlmOPFYAQ--.14890S2;
+	Thu, 05 Sep 2024 10:09:26 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: marcan@marcan.st,
+	sven@svenpeter.dev,
+	alyssa@rosenzweig.io,
+	linus.walleij@linaro.org,
+	maz@kernel.org,
+	joey.gouly@arm.com,
+	stan@corellium.com
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] pinctrl: check devm_kasprintf() returned value
+Date: Thu,  5 Sep 2024 10:09:17 +0800
+Message-Id: <20240905020917.356534-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-23-samitolvanen@google.com> <CAK7LNAR4BEpehbYtQP3fw1Gt60EmSpzTEj8BijWKNCAi41fyPA@mail.gmail.com>
-In-Reply-To: <CAK7LNAR4BEpehbYtQP3fw1Gt60EmSpzTEj8BijWKNCAi41fyPA@mail.gmail.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Wed, 4 Sep 2024 20:51:21 +0000
-Message-ID: <CABCJKuf140CSbNm_9D1NGeMuRnZiGytnV8fawnwsWwhvGpYpLg@mail.gmail.com>
-Subject: Re: [PATCH v2 02/19] gendwarfksyms: Add symbol list handling
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
-	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowACHaurPEtlmOPFYAQ--.14890S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKFW7ZFW5Ww13ZF1fGF4xXrb_yoWDGFb_Ca
+	y8urZ7Jry8CFn8urW7tw13ZFy0ka15JFyvqrnagFW3Cry5Xr4UJrWkurn8Gw48W3s5JFyD
+	trykZrWrXw1UCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbSAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr
+	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+	x2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20x
+	vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+	3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
+	AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
+	cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+	IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUAxhLUUUUU=
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 
-On Sun, Sep 1, 2024 at 11:00=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
-rg> wrote:
->
-> On Fri, Aug 16, 2024 at 2:39=E2=80=AFAM Sami Tolvanen <samitolvanen@googl=
-e.com> wrote:
-> >
-> >  /*
-> > - * Symbol processing
-> > + * Exported symbol processing
-> >   */
-> >  static int process_subprogram(struct state *state, Dwarf_Die *die)
-> >  {
->
->
-> I also tend to regard this kind comment line change as a noise.
->
->
->
-> I think you can squash 02/19 into 01/19 because
-> this tool does not do anything useful at this point.
+devm_kasprintf() can return a NULL pointer on failure but this returned
+value is not checked. Fix this lack and check the returned value.
 
-Yes, that makes sense. I'll squash these in v3.
+Found by code review.
 
-Sami
+Cc: stable@vger.kernel.org
+Fixes: a0f160ffcb83 ("pinctrl: add pinctrl/GPIO driver for Apple SoCs")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+ drivers/pinctrl/pinctrl-apple-gpio.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
+index 3751c7de37aa..f861e63f4115 100644
+--- a/drivers/pinctrl/pinctrl-apple-gpio.c
++++ b/drivers/pinctrl/pinctrl-apple-gpio.c
+@@ -474,6 +474,9 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
+ 	for (i = 0; i < npins; i++) {
+ 		pins[i].number = i;
+ 		pins[i].name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "PIN%u", i);
++		if (!pins[i].name)
++			return -ENOMEM;
++
+ 		pins[i].drv_data = pctl;
+ 		pin_names[i] = pins[i].name;
+ 		pin_nums[i] = i;
+-- 
+2.25.1
+
