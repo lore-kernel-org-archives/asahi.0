@@ -1,454 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F42635
-	for <asahi@lists.linux.dev>; Thu,  5 Sep 2024 02:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8421A08AB
+	for <asahi@lists.linux.dev>; Thu,  5 Sep 2024 17:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725503437; cv=none; b=lL0MvaAy64QFlYCg3Bmv9X3QoOsdD07cnxqTrH0KLBqtEvi32SVQQmejxlE8ZVyCTILrXd+JoVZEQaQ+2SW0RiAiHsleptoVOmC0eliynwLtn56/aj9GfFa5W+JOpy0/giQk4kAPGwuv9hD0wDiOwUvpLqctNxDf89vAtjKK9zY=
+	t=1725556791; cv=none; b=YsiFYFnG2shTZRusHKQ8Gs8jo2MPtmfe91SON+aB5XraeHvkXv7y5rMSkX3HXvcjufBsq7IW4xS9X+npR5a8VoiykExRha6PnuIG6CLDO+1ea9+YRApm7p01nlAKgPh+NN89j38q+EbB6NxXtO9NcaOXhcoHeOZclrKuclIftQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725503437; c=relaxed/simple;
-	bh=vu+8gF50aThdnonmfLLwf0kczJi2q256qpphqhqZ5pg=;
+	s=arc-20240116; t=1725556791; c=relaxed/simple;
+	bh=SOqrYYpujWF0rx1/RcFwVywMkWfqYauzZsed9RHcpQs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EtaeN8zTQJSnOt6sVKu4qIuuiHYFVa17V2KwbSzp6YXAhbRnfz+D9TcvJL4l+xZGtbYPX7UaMzBsQRVXeYd7RYmgJkEyGTltRkXd6fsKrCtPQnbW4yHwgES5PagIKTo96vO3vEeXuFnKamVcYNRvViFWSHVB4UY9W74Rgx1zwPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQqCL2Sb; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=ZofHCuVaBvJG7CeiKSqNMMdP4TndctqtbGHLEp3nJcQR5lrpiaa33somSNkLf//NCrH8gQ9mz/xAFl/NjFv1celY02V127MATK9XO0aEIq/Sh6XQ2mMkKkujxLQX0EWv93Ttxlf0gyfZK1Mcw3+W2Eh0dtv38tPeUmnQ/kDPZRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k9O8qTQE; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQqCL2Sb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA1DEC4CECC
-	for <asahi@lists.linux.dev>; Thu,  5 Sep 2024 02:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725503436;
-	bh=vu+8gF50aThdnonmfLLwf0kczJi2q256qpphqhqZ5pg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=UQqCL2Sb5IVNhMLghhQdYUlk29RF9gDGR1jN28rJG2AMOAP3v0ciTv9ksEvIpGbOI
-	 1yj79cltIdJW7BpXzrk0woWOSSLEY7pzcmvRHi8KjV8oWoDD3au01v6LWqNURNu1aZ
-	 I3JGGs9k+bvzB0ZMdPW+96PDTCF2WDrrx82iIfTZUViKsPDD0rLG73mztdWhMzYN1n
-	 Cd0Wjv9/sTRD5Ve9a87BEjuLxlTpJTMujOMb0sK69IxO+YM8m00fmxD+fpEUU16ezN
-	 2ZMSxL6K44u/6BvtDMBea0Z54z+JJ37X5b1S/FX3AQtHsYSudRw+f63iqBYGLwUYtz
-	 k0XURQ5/Bc9Hg==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5353d0b7463so328092e87.3
-        for <asahi@lists.linux.dev>; Wed, 04 Sep 2024 19:30:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVzNrrfFyNermFPY3DUAW+FrYb/cqgQsKEPbZGNTu3MQdyDo1C9JPJJsGmG/n/RKiQnxHqlnA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRXWadKj5S9C+W+MPU1Gq5tvnkwC7d6bG2qkuK74Wz1/EiAPsu
-	0bJkkhs8RXQzJVj313iLW6E+Gm+VfKvOZD/xZtctlLo8vihwQUgRGMHwuP9xREW7Iag6HGSxYAo
-	X7vG4wb9XPtEiWvcWbhisTPAaEgY=
-X-Google-Smtp-Source: AGHT+IH48gq1HYG69IuX0xJHVqkrcQ8u+RTiH+KH3YHrAcGEGaGTq/fJpb1r27eh7rzL9QlEkr+nEaiKs6h+DoPT9hY=
-X-Received: by 2002:a05:6512:108f:b0:533:4785:82ab with SMTP id
- 2adb3069b0e04-53546b223d3mr15665603e87.1.1725503435348; Wed, 04 Sep 2024
- 19:30:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k9O8qTQE"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-457c6389a3aso12471cf.1
+        for <asahi@lists.linux.dev>; Thu, 05 Sep 2024 10:19:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1725556789; x=1726161589; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s8TUkMt4fFXBEZL3VlaXrE+AmUqotHsPhCt7Jc7mmqM=;
+        b=k9O8qTQE9lSBXq8cmN7QmgonHv3FEIXK7ur4VusrdvD++MFpSq0xxtN1A0sG0Gf1Q9
+         5+qWF9nt3djuhzpF+VPxJZTMOg3e8aLbl68pVaveM4ZEbcTrw/mARTF3ROlwQgmeWgcF
+         4jCD0sONx7qiJAEF5pO3FFhawsD1V9ibLvjh2j8GGDe5wXLFKn/1Z8Mp5t0odn+qH7XU
+         7ZlPY0svlPaS1faJH+BkJAWT6v62u3m22yvtFIO21PI14ESeepI2B4DmimjQlLKDPj1Z
+         QHXpt75TKGxBmddQsnb0t9s0EyekSzzc+vL8v/Z3JbCSW9imgnrtOEUjoR3cgoUAm010
+         zjfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725556789; x=1726161589;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=s8TUkMt4fFXBEZL3VlaXrE+AmUqotHsPhCt7Jc7mmqM=;
+        b=cV4PtT5yjP3U4Ken3evsDuEQ7WdkjS8CytTGU9bOTizn1CQrLuNRZ7UO4aRxHnFIJe
+         5TRI71FhhmzUqw3wsDWJlxADqkxq0QBLZm9lNzvkppEoUJWl1MaG9iCcISeTTsJujeLn
+         BfI/1psRFkTG/hqRYbqpQr+LKgoJypDk1AxiK9etUBDlwPHPF8BKkIogzQ8dmNDDio4A
+         xPdOGanyW1h04U6VshRQsYdkGiPr0aG4fKqbiA67eMXo6spnnuCjgf+tdJSnsmvdD8/R
+         1Mquh+28uU6349ufqV1kFLhzmunf6tSMAWidUMZRptgbk71aL/VP18h1BbKRUff9TL6q
+         +0IQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXYq+fQ7+yTaV9RV86WD0yIB+1Yf5OhnlZZ/oxeuhg9Obb/uzpZVPAOVTzZh6V/uK4TsXlM0A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxgUJEXHD+S6MB8CxMHqJEP78FLljtb0G1hTpRucFKaIbLM39DE
+	GxdZWzbPT27h8+/hF3KCK36WgrgDOouPDqCyfV5Aus19Ta04ZP6r1nyeUqtIFHK16R1FlsMHCGB
+	3H12cVR2tDJNFckmCiO5uATbAdnpnpxVF8UkU
+X-Google-Smtp-Source: AGHT+IETIgxd5HzjpKOCX0pYc+T39/K61/DMXW8lisgIOK3FIf/vt5BqtGRErHYZut1e/sGdlaZFVuc/zR1ufHF/hsY=
+X-Received: by 2002:a05:622a:44d:b0:447:dd54:2cd4 with SMTP id
+ d75a77b69052e-45801f211acmr4795831cf.22.1725556788641; Thu, 05 Sep 2024
+ 10:19:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com> <20240815173903.4172139-22-samitolvanen@google.com>
-In-Reply-To: <20240815173903.4172139-22-samitolvanen@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 5 Sep 2024 11:29:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQdutCiBkWtA6MbVLpfhB-MQXnszQm8eEiBZpeX++5eLA@mail.gmail.com>
-Message-ID: <CAK7LNAQdutCiBkWtA6MbVLpfhB-MQXnszQm8eEiBZpeX++5eLA@mail.gmail.com>
-Subject: Re: [PATCH v2 01/19] tools: Add gendwarfksyms
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
-	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
+References: <20240815173903.4172139-21-samitolvanen@google.com>
+ <20240815173903.4172139-27-samitolvanen@google.com> <1e6cd0ad-48bb-4dd7-8cd7-4e94d0cd7cf5@suse.com>
+In-Reply-To: <1e6cd0ad-48bb-4dd7-8cd7-4e94d0cd7cf5@suse.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Thu, 5 Sep 2024 10:19:10 -0700
+Message-ID: <CABCJKucgYt09P=cjD8J6Epi67XXvJ7hBdQksLBt9-UtFSu8Pug@mail.gmail.com>
+Subject: Re: [PATCH v2 06/19] gendwarfksyms: Add a cache for processed DIEs
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 16, 2024 at 2:39=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
+Hi Petr,
+
+On Mon, Sep 2, 2024 at 3:05=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wro=
+te:
 >
-> Add a basic DWARF parser, which uses libdw to traverse the debugging
-> information in an object file and looks for functions and variables.
-> In follow-up patches, this will be expanded to produce symbol versions
-> for CONFIG_MODVERSIONS from DWARF.
+> On 8/15/24 19:39, Sami Tolvanen wrote:
+> > +void die_map_free(void)
+> > +{
+> > +     struct hlist_node *tmp;
+> > +     unsigned int stats[LAST + 1];
+> > +     struct die *cd;
+> > +     int i;
+> > +
+> > +     memset(stats, 0, sizeof(stats));
+> > +
+> > +     hash_for_each_safe(die_map, i, tmp, cd, hash) {
+> > +             stats[cd->state]++;
+> > +             reset_die(cd);
+> > +             free(cd);
+> > +     }
+> > +     hash_init(die_map);
+> > +
+> > +     if ((map_hits + map_misses > 0))
 >
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> ---
->  kernel/module/Kconfig                 |   8 ++
->  scripts/Makefile                      |   1 +
->  scripts/gendwarfksyms/.gitignore      |   2 +
->  scripts/gendwarfksyms/Makefile        |   7 ++
->  scripts/gendwarfksyms/dwarf.c         |  87 +++++++++++++++
->  scripts/gendwarfksyms/gendwarfksyms.c | 146 ++++++++++++++++++++++++++
->  scripts/gendwarfksyms/gendwarfksyms.h |  78 ++++++++++++++
->  7 files changed, 329 insertions(+)
->  create mode 100644 scripts/gendwarfksyms/.gitignore
->  create mode 100644 scripts/gendwarfksyms/Makefile
->  create mode 100644 scripts/gendwarfksyms/dwarf.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
+> Nit: Extra parentheses can be dropped.
+
+Oops, I'll fix that.
+
+> > +             /*
+> > +              * If any of the DIEs in the scope is missing a name, con=
+sider
+> > +              * the DIE to be unnamed.
+> > +              */
+> > +             list[count] =3D get_name(&scopes[i]);
+> > +
+> > +             if (!list[count]) {
+> > +                     free(scopes);
+> > +                     return 0;
+> > +             }
 >
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index 4047b6d48255..a506d4ac660f 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -168,6 +168,14 @@ config MODVERSIONS
->           make them incompatible with the kernel you are running.  If
->           unsure, say N.
+> This slightly changes how scopes with no name are processed which is
+> unrelated to the added caching. The previous logic used "<unnamed>" for
+> individual unnamed scopes. The new code in such a case returns an empty
+> FQN which is turned in process_fqn() into "<unnamed>".
 >
-> +config GENDWARFKSYMS
-> +       bool
-> +       depends on DEBUG_INFO
-> +       # Requires full debugging information, split DWARF not supported.
-> +       depends on !DEBUG_INFO_REDUCED && !DEBUG_INFO_SPLIT
-> +       # Requires ELF object files.
-> +       depends on !LTO
-> +
->  config ASM_MODVERSIONS
->         bool
->         default HAVE_ASM_MODVERSIONS && MODVERSIONS
-> diff --git a/scripts/Makefile b/scripts/Makefile
-> index dccef663ca82..2fd0199662e9 100644
-> --- a/scripts/Makefile
-> +++ b/scripts/Makefile
-> @@ -54,6 +54,7 @@ targets +=3D module.lds
+> This is likely ok in practice for this particular tool. In general,
+> I think "<unnamed>" should be returned when the initial DIE is missing
+> a name and something like "<anonymous>::foo" when an outer scope has no
+> name.
+
+I did consider that, but didn't find instances of anonymous scopes in
+the output, so I simplified this a bit. I'll dig around a bit more and
+change this if I find a use case. Note that going through the scopes
+is mostly just needed for Rust code.
+
+> More importantly, using "<unnamed>" when a type has no name looks to me
+> overly verbose, in particular, when it comes to the symtypes output. For
+> instance, the current output for a 'const char *' parameter is:
+> formal_parameter pointer_type <unnamed> { const_type <unnamed> { base_typ=
+e char byte_size(1) encoding(8) } } byte_size(8)
 >
->  subdir-$(CONFIG_GCC_PLUGINS) +=3D gcc-plugins
->  subdir-$(CONFIG_MODVERSIONS) +=3D genksyms
-> +subdir-$(CONFIG_GENDWARFKSYMS) +=3D gendwarfksyms
->  subdir-$(CONFIG_SECURITY_SELINUX) +=3D selinux
+> .. while the following should be sufficient and easier to grasp:
+> formal_parameter pointer_type { const_type { base_type char byte_size(1) =
+encoding(8) } } byte_size(8)
+
+Agreed, that's way more readable. I'll drop the "<unnamed>" from the output=
+.
+
+> > +     for (i =3D 0; i < count; i++)
+> > +             strcat(*fqn, list[i]);
 >
->  # Let clean descend into subdirs
-> diff --git a/scripts/gendwarfksyms/.gitignore b/scripts/gendwarfksyms/.gi=
-tignore
-> new file mode 100644
-> index 000000000000..ab8c763b3afe
-> --- /dev/null
-> +++ b/scripts/gendwarfksyms/.gitignore
-> @@ -0,0 +1,2 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +/gendwarfksyms
-> diff --git a/scripts/gendwarfksyms/Makefile b/scripts/gendwarfksyms/Makef=
-ile
-> new file mode 100644
-> index 000000000000..c1389c161f9c
-> --- /dev/null
-> +++ b/scripts/gendwarfksyms/Makefile
-> @@ -0,0 +1,7 @@
-> +hostprogs-always-y +=3D gendwarfksyms
-> +
-> +gendwarfksyms-objs +=3D gendwarfksyms.o
-> +gendwarfksyms-objs +=3D dwarf.o
-> +
-> +HOST_EXTRACFLAGS :=3D -I $(srctree)/tools/include
-> +HOSTLDLIBS_gendwarfksyms :=3D -ldw -lelf
-> diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.=
-c
-> new file mode 100644
-> index 000000000000..65a29d0bd8f4
-> --- /dev/null
-> +++ b/scripts/gendwarfksyms/dwarf.c
-> @@ -0,0 +1,87 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) 2024 Google LLC
-> + */
-> +
-> +#include "gendwarfksyms.h"
-> +
-> +/*
-> + * Type string processing
-> + */
-> +static int process(struct state *state, const char *s)
-> +{
-> +       s =3D s ?: "<null>";
-> +
-> +       if (debug)
-> +               fputs(s, stderr);
-> +
-> +       return 0;
-> +}
-> +
-> +bool match_all(Dwarf_Die *die)
-> +{
-> +       return true;
-> +}
-> +
-> +int process_die_container(struct state *state, Dwarf_Die *die,
-> +                         die_callback_t func, die_match_callback_t match=
-)
-> +{
-> +       Dwarf_Die current;
-> +       int res;
-> +
-> +       res =3D checkp(dwarf_child(die, &current));
-> +       while (!res) {
-> +               if (match(&current))
-> +                       check(func(state, &current));
-> +               res =3D checkp(dwarf_siblingof(&current, &current));
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +/*
-> + * Symbol processing
-> + */
-> +static int process_subprogram(struct state *state, Dwarf_Die *die)
-> +{
-> +       return check(process(state, "subprogram;\n"));
-> +}
-> +
-> +static int process_variable(struct state *state, Dwarf_Die *die)
-> +{
-> +       return check(process(state, "variable;\n"));
-> +}
-> +
-> +static int process_exported_symbols(struct state *state, Dwarf_Die *die)
-> +{
-> +       int tag =3D dwarf_tag(die);
-> +
-> +       switch (tag) {
-> +       /* Possible containers of exported symbols */
-> +       case DW_TAG_namespace:
-> +       case DW_TAG_class_type:
-> +       case DW_TAG_structure_type:
-> +               return check(process_die_container(
-> +                       state, die, process_exported_symbols, match_all))=
-;
-> +
-> +       /* Possible exported symbols */
-> +       case DW_TAG_subprogram:
-> +       case DW_TAG_variable:
-> +               if (tag =3D=3D DW_TAG_subprogram)
-> +                       check(process_subprogram(state, die));
-> +               else
-> +                       check(process_variable(state, die));
-> +
-> +               return 0;
-> +       default:
-> +               return 0;
-> +       }
-> +}
-> +
-> +int process_module(Dwfl_Module *mod, Dwarf *dbg, Dwarf_Die *cudie)
-> +{
-> +       struct state state =3D { .mod =3D mod, .dbg =3D dbg };
-> +
-> +       return check(process_die_container(
-> +               &state, cudie, process_exported_symbols, match_all));
-> +}
-> diff --git a/scripts/gendwarfksyms/gendwarfksyms.c b/scripts/gendwarfksym=
-s/gendwarfksyms.c
-> new file mode 100644
-> index 000000000000..27f2d6423c45
-> --- /dev/null
-> +++ b/scripts/gendwarfksyms/gendwarfksyms.c
-> @@ -0,0 +1,146 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) 2024 Google LLC
-> + */
-> +
-> +#include <fcntl.h>
-> +#include <errno.h>
-> +#include <stdarg.h>
-> +#include <string.h>
-> +#include <unistd.h>
-> +#include "gendwarfksyms.h"
-> +
-> +/*
-> + * Options
-> + */
-> +
-> +/* Print out debugging information to stderr */
-> +bool debug;
-> +
-> +static const struct {
-> +       const char *arg;
-> +       bool *flag;
-> +       const char **param;
-> +} options[] =3D {
-> +       { "--debug", &debug, NULL },
-> +};
-> +
-> +static int usage(void)
-> +{
-> +       error("usage: gendwarfksyms [options] elf-object-file ...");
-> +       return -1;
-> +}
-> +
-> +static const char *object_files[MAX_INPUT_FILES];
-> +static unsigned int object_count;
-> +
-> +static int parse_options(int argc, const char **argv)
-> +{
-> +       for (int i =3D 1; i < argc; i++) {
-> +               bool flag =3D false;
-> +
-> +               for (int j =3D 0; j < ARRAY_SIZE(options); j++) {
-> +                       if (strcmp(argv[i], options[j].arg))
-> +                               continue;
-> +
-> +                       *options[j].flag =3D true;
-> +
-> +                       if (options[j].param) {
-> +                               if (++i >=3D argc) {
-> +                                       error("%s needs an argument",
-> +                                             options[j].arg);
-> +                                       return -1;
-> +                               }
-> +
-> +                               *options[j].param =3D argv[i];
-> +                       }
-> +
-> +                       flag =3D true;
-> +                       break;
-> +               }
-> +
-> +               if (!flag)
-> +                       object_files[object_count++] =3D argv[i];
-> +       }
-> +
-> +       return object_count ? 0 : -1;
-> +}
-> +
-> +static int process_modules(Dwfl_Module *mod, void **userdata, const char=
- *name,
-> +                          Dwarf_Addr base, void *arg)
-> +{
-> +       Dwarf_Addr dwbias;
-> +       Dwarf_Die cudie;
-> +       Dwarf_CU *cu =3D NULL;
-> +       Dwarf *dbg;
-> +       int res;
-> +
-> +       debug("%s", name);
-> +       dbg =3D dwfl_module_getdwarf(mod, &dwbias);
-> +
-> +       do {
-> +               res =3D dwarf_get_units(dbg, cu, &cu, NULL, NULL, &cudie,=
- NULL);
-> +               if (res < 0) {
-> +                       error("dwarf_get_units failed: no debugging infor=
-mation?");
-> +                       return -1;
-> +               } else if (res =3D=3D 1) {
-> +                       break; /* No more units */
-> +               }
-> +
-> +               check(process_module(mod, dbg, &cudie));
-> +       } while (cu);
-> +
-> +       return DWARF_CB_OK;
-> +}
-> +
-> +static const Dwfl_Callbacks callbacks =3D {
-> +       .section_address =3D dwfl_offline_section_address,
-> +       .find_debuginfo =3D dwfl_standard_find_debuginfo,
-> +};
-> +
-> +int main(int argc, const char **argv)
-> +{
-> +       unsigned int n;
-> +
-> +       if (parse_options(argc, argv) < 0)
-> +               return usage();
-> +
-> +       for (n =3D 0; n < object_count; n++) {
-> +               Dwfl *dwfl;
-> +               int fd;
-> +
-> +               fd =3D open(object_files[n], O_RDONLY);
-> +               if (fd =3D=3D -1) {
-> +                       error("open failed for '%s': %s", object_files[n]=
-,
-> +                             strerror(errno));
-> +                       return -1;
-> +               }
-> +
-> +               dwfl =3D dwfl_begin(&callbacks);
-> +               if (!dwfl) {
-> +                       error("dwfl_begin failed for '%s': %s", object_fi=
-les[n],
-> +                             dwarf_errmsg(-1));
-> +                       return -1;
-> +               }
-> +
-> +               if (!dwfl_report_offline(dwfl, object_files[n], object_fi=
-les[n],
-> +                                        fd)) {
-> +                       error("dwfl_report_offline failed for '%s': %s",
-> +                             object_files[n], dwarf_errmsg(-1));
-> +                       return -1;
-> +               }
-> +
-> +               dwfl_report_end(dwfl, NULL, NULL);
-> +
-> +               if (dwfl_getmodules(dwfl, &process_modules, NULL, 0)) {
-> +                       error("dwfl_getmodules failed for '%s'",
-> +                             object_files[n]);
-> +                       return -1;
-> +               }
-> +
-> +               dwfl_end(dwfl);
-> +               close(fd);
-> +       }
-> +
-> +       return 0;
-> +}
-> diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksym=
-s/gendwarfksyms.h
-> new file mode 100644
-> index 000000000000..5ab7ce7d4efb
-> --- /dev/null
-> +++ b/scripts/gendwarfksyms/gendwarfksyms.h
-> @@ -0,0 +1,78 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * Copyright (C) 2024 Google LLC
-> + */
-> +
-> +#include <dwarf.h>
-> +#include <elfutils/libdw.h>
-> +#include <elfutils/libdwfl.h>
-> +#include <linux/hashtable.h>
-> +#include <inttypes.h>
-> +#include <stdlib.h>
-> +#include <stdio.h>
+> Small optimization: This loop could be written as follows to avoid
+> repeatedly searching the end of fqn:
+>
+> char *p =3D *fqn;
+> for (i =3D 0; i < count; i++)
+>         p =3D stpcpy(p, list[i]);
 
+True, I'll change this. Thanks!
 
-Could you include external headers first,
-then in-tree headers?
-(and one blank line in-between).
+> > +static int process_fqn(struct state *state, struct die *cache, Dwarf_D=
+ie *die)
+> > +{
+> > +     const char *fqn;
+> > +
+> > +     if (!cache->fqn)
+> > +             check(get_fqn(state, die, &cache->fqn));
+> > +
+> > +     fqn =3D cache->fqn;
+> > +     fqn =3D fqn ?: "<unnamed>";
+>
+> As a small optimization and for consistency, I would recommended to also
+> cache the "<unnamed>" name to avoid repeatedly calling get_fqn() for
+> such DIEs.
 
+Ack.
 
+> > +enum die_state { INCOMPLETE, COMPLETE, LAST =3D COMPLETE };
+> > +enum die_fragment_type { EMPTY, STRING, DIE };
+>
+> Nit: I would suggest to prefix the enum values, for example,
+> STATE_INCOMPLETE, ... and FRAGMENT_EMPTY, ...
 
-Also, please consider using scripts/include/hashtable.h
+Sure, I'll add prefixes.
 
-
-
-How about this?
-
-
-#include <dwarf.h>
-#include <elfutils/libdw.h>
-#include <elfutils/libdwfl.h>
-#include <inttypes.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#include <hashtable.h>
-
-
-
-
-
-
-If necessary, you can use this patch too:
-https://lore.kernel.org/linux-kbuild/20240904235500.700432-1-masahiroy@kern=
-el.org/T/#u
-
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Sami
