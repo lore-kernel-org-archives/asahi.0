@@ -1,56 +1,56 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3C654648
-	for <asahi@lists.linux.dev>; Fri,  6 Sep 2024 17:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF39C1D54E0
+	for <asahi@lists.linux.dev>; Fri,  6 Sep 2024 17:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725642922; cv=none; b=bwTNallX5FTxGgOuetnO9G3Xc9FGekav3Uu4DLqg1+xM/48ZwjGyLRJyBPQCd8retf11NOBUGIRMvfSfgACcg0ucK3cP8zYuE1v1pIolUVP2HcTzdqUw+CU6sgtT+fX3peyRtGdaf+ZOkONzecltozim+6S3eqhonqed7kJfKl8=
+	t=1725642930; cv=none; b=tAvcASqcUchGYrrKn+LbJKMG1qQSUgu+WOneeaqB9fZCsqsdv7SjcyhJHOHdfmYXfq3FkdwycGlxGppDgrPETX8OhZiMtpvt6CJ2LjhpxaF8bDfstCiZWr2PtdmnqVNSUeUFujr6y9GiR+JkQ/WhLpG7csOkYywE7Diq2w2rmco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725642922; c=relaxed/simple;
-	bh=5lOko4x++LaiuMBYnIcL5wTu9SP0pMlfceld25rlKVI=;
+	s=arc-20240116; t=1725642930; c=relaxed/simple;
+	bh=uqVFwUB/0TxQaJs2TOgKnw2jAoMSxxHld8KhtvpAURw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MddKy2kd7ZDPMw1JJFJAkd2X5Zer1PV0sbBqhtkXclennGHFu2il1URNX5eW8Nq4bs9GF1h+AiUq1KUOEJ7au3BCbE0OGUPwgSBXgsIFxtpDex3yFb1Q/3SN94NtKYSMZK7CjOL/VOB4BxWafj4XU1KNaG74XBmeN69IpbR4eWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b/KXX9Uz; arc=none smtp.client-ip=209.85.215.173
+	 MIME-Version; b=ImuPbRxfrqezJTVPaP85G9nHBeLumuXWsXyRyuvB8gwdZkvFgJFVoibAC2dxnkNWq1dXbOftcnikWwGYhHaiVpOrJ5Qwth0n3tRX4Fm+XWFSnAe9pmb7WO8CE3FafslQZl8BTSG+uXrgZyeD0cuCHOApC8IJigmVQ3yuYMhsmuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yjr8wgn9; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b/KXX9Uz"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7d4f8a1626cso1741884a12.3
-        for <asahi@lists.linux.dev>; Fri, 06 Sep 2024 10:15:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yjr8wgn9"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2da4ea973bdso1729170a91.1
+        for <asahi@lists.linux.dev>; Fri, 06 Sep 2024 10:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725642920; x=1726247720; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1725642928; x=1726247728; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KTx9T0QsthgtMWPrZGO+mOSHexmLZhoXS2lkiJJqmPw=;
-        b=b/KXX9UzAk/Roe1t8pNcLGU+SHZR6BWp2YnjenRmr6wCp7VM4GKS1XHELC1PFpRzD4
-         TFAkVAE32CpSBWVsmrAZNPqQtcU8eKt3WCBoTn4GTeebh5XbajnN3kxLwwGqwbt4yiOz
-         33jQaot8QCjbiv+1otqEDHiPL6OjqZpfYtG4jTKRVTBLoXXgSvaIDE/7QM1m4LbIWF06
-         8LV8Of4icgnwMXprBYPzaGwbZz+T8oPj/aGP/MSSAm44BQNXXvlGODQI5Q9l+ruw8+qK
-         Z/JrG7MO9v592ynu3iEAr8raZSlgSuy3AVJLzoXGcsROlibk39b/Pl5mCnExR+kX+jwy
-         9lcw==
+        bh=C2Awb8QHiwgK4hQKj8EI8RJlryPJ8iCefANxC9lVPtM=;
+        b=Yjr8wgn9MU0sSl+4pio2wS5gjxd6QE5DPHLZXYC+K+zNjo/AVSdNITEXzweuJYiH93
+         57yUcoRKixM1gl/bDn4cukpyD6PCFEUlwh/aNG4Y+s+J3EGveEgQWAQe/vaY7W0xUPin
+         AXIGVXW1ecRjLrArUj0mgj1gwy+b2tBjLSjl0ziP8wsTSUsoWg91baU7l7A9i3iEqrLM
+         lIoRH9TDzTb1edKOyIxie6Hnz7Xewr7maO0zETCtaKDgnLiMYmciduYjSJO/f7cQTpMj
+         CZZx5u4IabBQbUYdU/KN3citTKjZZOFgFa98RS5zbaYiZ/Arz4k/Xzakd03OErpp/QAh
+         vCZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725642920; x=1726247720;
+        d=1e100.net; s=20230601; t=1725642928; x=1726247728;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KTx9T0QsthgtMWPrZGO+mOSHexmLZhoXS2lkiJJqmPw=;
-        b=FOM6RZKVrD4UzCYBOzQgB6bVilgZWrsb/0RlpCukA3pRo6/iRgpQZeXsNpOePQvb0a
-         6oo2g39XpT8HxWuO4Vrfp3FFkLblv6gdKham9vGIubyeWfs8hyJw0Nt8TurWXmaSkoog
-         rV1FlxvOefuYdiAXm76DxQl34izNC93KGPAqekkDHDEY91pQN7XsdkbkKvLuRYYQZo3V
-         PTlIlAivXB5U0zNvfZzvIYUqR92WysRZKadDJSvbT7pgeCSr3G8G16d40PnO41RQo0P3
-         yoLK5PsTdtF6vIM2l16wqPxb+IYe7JuMW4dt6nkQSZy1beRhCatfJdwOLbKsPLqBtkZU
-         OUFg==
-X-Gm-Message-State: AOJu0Yy1uDYsOvzmCOvgr27aTAOnpxCoSRWzF+T8rFWsRWFfYp9kd9Jq
-	uhx2LNXanIXwYu8A6pwMeLxYaFHPEXJ6BnP+xzOFwOVqZk9Jimt/
-X-Google-Smtp-Source: AGHT+IHFpxzGKP7uZ+bLuIto3ZkdFlTSlbTArs9pk4dQhGEvEew0w4wkM3mOpXuijDV8JQXfBH9a8g==
-X-Received: by 2002:a17:90a:348e:b0:2d3:d7f4:8ace with SMTP id 98e67ed59e1d1-2dad4dddd7cmr3729535a91.8.1725642920458;
-        Fri, 06 Sep 2024 10:15:20 -0700 (PDT)
+        bh=C2Awb8QHiwgK4hQKj8EI8RJlryPJ8iCefANxC9lVPtM=;
+        b=LYGlKuOTuSMIJmo6HbKe2cverjmCwWh86fAN5TX10Pkr8Qbyp5kYuD8nW/2Up3It49
+         oGlENlFzvOIPQ/E8S4AuRELRvJBtxI4YIMIEipKTTZ6Ju2jfVuEV3A7B+iox+h0CTIUW
+         5qsLb6/2DiG1At4MBTz2KJj2ud6/mzv1gu8pHEmOO1sRmloOHDsHqRpa843BIl7QOYZn
+         rIt8DYcwiCbDgcFj10Fdz4NKmC3q5eR0TbK+yrgmhcehHoL0cdruStiEl5rESpIIa8ww
+         qlmQa6YwqfMIbav1ycN8jwk2hWpm+7Anan1JDAfyHsOZonIq5YJcu8k+2o+JgJRXecrE
+         YEVw==
+X-Gm-Message-State: AOJu0YxdMapUKWWDzF2gCy5g3/mQIyozplMjziwn7UShbmk+DOZAThu4
+	+Q6xFEC3BaBUgoQvZvlLNnXfh69P8hp/KwWD+vpFRoGgUQNq47Oc
+X-Google-Smtp-Source: AGHT+IEitKjL9pf51BQRfyrnIhp+JSQo2gkjFGgr1MpgdrNgRy39LdtoUZno7Bc9XWCc1kIaXZP2HA==
+X-Received: by 2002:a17:90b:68a:b0:2da:6812:c1bd with SMTP id 98e67ed59e1d1-2dafcf1ac51mr112698a91.15.1725642928140;
+        Fri, 06 Sep 2024 10:15:28 -0700 (PDT)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2dadc10fa99sm1841519a91.39.2024.09.06.10.15.18
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2dadc10fa99sm1841519a91.39.2024.09.06.10.15.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Sep 2024 10:15:20 -0700 (PDT)
+        Fri, 06 Sep 2024 10:15:27 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Catalin Marinas <catalin.marinas@arm.com>,
 	Will Deacon <will@kernel.org>,
@@ -59,9 +59,9 @@ To: Catalin Marinas <catalin.marinas@arm.com>,
 Cc: asahi@lists.linux.dev,
 	~postmarketos/upstreaming@lists.sr.ht,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH RESEND 1/2] arm64: cputype: Add CPU types for A7-A11, T2 SoCs
-Date: Sat,  7 Sep 2024 01:13:24 +0800
-Message-ID: <20240906171449.324354-2-towinchenmi@gmail.com>
+Subject: [PATCH RESEND 2/2] arm64: cpufeature: Pretend that Apple A10(X), T2 does not support 32-bit EL0
+Date: Sat,  7 Sep 2024 01:13:26 +0800
+Message-ID: <20240906171449.324354-4-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240906171449.324354-1-towinchenmi@gmail.com>
 References: <20240906171449.324354-1-towinchenmi@gmail.com>
@@ -73,82 +73,63 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A10(X), T2 types will be used soon, and the rest are added for
-documentation purposes.
+The Apple A10(X), T2 consists of logical cores that can switch
+between P-mode and E-mode based on the frequency. However, only
+P-mode supported 32-bit EL0.
 
-The A9 is made in two different fabs and those have different part
-numbers, and the TSMC cores are also used in A9X, so it cannot use
-the usual naming scheme.
-
-The A10(X), T2 performance/efficiency core pairs appears as single
-logical cores to software, so both the performance and efficiency
-core codenames needs to be included.
+Trying to support 32-bit EL0 on a CPU that can only execute it in certain
+states is a bad idea. The A10(X), T2 only supports 16KB page size anyway so
+many AArch32 executables won't run anyways. Pretend that it does not
+support 32-bit EL0 at all.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- arch/arm64/include/asm/cputype.h | 42 +++++++++++++++++++++++---------
- 1 file changed, 30 insertions(+), 12 deletions(-)
+ arch/arm64/kernel/cpufeature.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/arch/arm64/include/asm/cputype.h b/arch/arm64/include/asm/cputype.h
-index 5a7dfeb8e8eb..f1720158a54f 100644
---- a/arch/arm64/include/asm/cputype.h
-+++ b/arch/arm64/include/asm/cputype.h
-@@ -129,18 +129,27 @@
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 718728a85430..458bcbc4f328 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -3529,6 +3529,29 @@ void __init setup_boot_cpu_features(void)
+ 	setup_boot_cpu_capabilities();
+ }
  
- #define HISI_CPU_PART_TSV110		0xD01
++static void __init bad_aarch32_el0_fixup(void)
++{
++#ifdef CONFIG_ARCH_APPLE
++	static const struct midr_range bad_aarch32_el0[] = {
++		MIDR_ALL_VERSIONS(MIDR_APPLE_A10_T2_HURRICANE_ZEPHYR),
++		MIDR_ALL_VERSIONS(MIDR_APPLE_A10X_HURRICANE_ZEPHYR),
++		{}
++	};
++
++	if (is_midr_in_range_list(read_cpuid_id(), bad_aarch32_el0)) {
++		struct arm64_ftr_reg *regp;
++
++		regp = get_arm64_ftr_reg(SYS_ID_AA64PFR0_EL1);
++		if (!regp)
++			return;
++		u64 val = (regp->sys_val & ~ID_AA64PFR0_EL1_EL0_MASK)
++		  | ID_AA64PFR0_EL1_EL0_IMP;
++
++		update_cpu_ftr_reg(regp, val);
++	}
++#endif
++}
++
+ static void __init setup_system_capabilities(void)
+ {
+ 	/*
+@@ -3562,6 +3585,8 @@ static void __init setup_system_capabilities(void)
  
--#define APPLE_CPU_PART_M1_ICESTORM	0x022
--#define APPLE_CPU_PART_M1_FIRESTORM	0x023
--#define APPLE_CPU_PART_M1_ICESTORM_PRO	0x024
--#define APPLE_CPU_PART_M1_FIRESTORM_PRO	0x025
--#define APPLE_CPU_PART_M1_ICESTORM_MAX	0x028
--#define APPLE_CPU_PART_M1_FIRESTORM_MAX	0x029
--#define APPLE_CPU_PART_M2_BLIZZARD	0x032
--#define APPLE_CPU_PART_M2_AVALANCHE	0x033
--#define APPLE_CPU_PART_M2_BLIZZARD_PRO	0x034
--#define APPLE_CPU_PART_M2_AVALANCHE_PRO	0x035
--#define APPLE_CPU_PART_M2_BLIZZARD_MAX	0x038
--#define APPLE_CPU_PART_M2_AVALANCHE_MAX	0x039
-+#define APPLE_CPU_PART_A7_CYCLONE		0x1
-+#define APPLE_CPU_PART_A8_TYPHOON		0x2
-+#define APPLE_CPU_PART_A8X_TYPHOON		0x3
-+#define APPLE_CPU_PART_SAMSUNG_TWISTER		0x4 /* Used in Samsung A9 */
-+#define APPLE_CPU_PART_TSMC_TWISTER		0x5 /* Used in TSMC A9 and A9X */
-+#define APPLE_CPU_PART_A10_T2_HURRICANE_ZEPHYR	0x6
-+#define APPLE_CPU_PART_A10X_HURRICANE_ZEPHYR	0x7
-+#define APPLE_CPU_PART_A11_MONSOON		0x8
-+#define APPLE_CPU_PART_A11_MISTRAL		0x9
-+#define APPLE_CPU_PART_M1_ICESTORM		0x022
-+#define APPLE_CPU_PART_M1_FIRESTORM		0x023
-+#define APPLE_CPU_PART_M1_ICESTORM_PRO		0x024
-+#define APPLE_CPU_PART_M1_FIRESTORM_PRO		0x025
-+#define APPLE_CPU_PART_M1_ICESTORM_MAX		0x028
-+#define APPLE_CPU_PART_M1_FIRESTORM_MAX		0x029
-+#define APPLE_CPU_PART_M2_BLIZZARD		0x032
-+#define APPLE_CPU_PART_M2_AVALANCHE		0x033
-+#define APPLE_CPU_PART_M2_BLIZZARD_PRO		0x034
-+#define APPLE_CPU_PART_M2_AVALANCHE_PRO		0x035
-+#define APPLE_CPU_PART_M2_BLIZZARD_MAX		0x038
-+#define APPLE_CPU_PART_M2_AVALANCHE_MAX		0x039
+ void __init setup_system_features(void)
+ {
++	bad_aarch32_el0_fixup();
++
+ 	setup_system_capabilities();
  
- #define AMPERE_CPU_PART_AMPERE1		0xAC3
- #define AMPERE_CPU_PART_AMPERE1A	0xAC4
-@@ -200,6 +209,15 @@
- #define MIDR_NVIDIA_CARMEL MIDR_CPU_MODEL(ARM_CPU_IMP_NVIDIA, NVIDIA_CPU_PART_CARMEL)
- #define MIDR_FUJITSU_A64FX MIDR_CPU_MODEL(ARM_CPU_IMP_FUJITSU, FUJITSU_CPU_PART_A64FX)
- #define MIDR_HISI_TSV110 MIDR_CPU_MODEL(ARM_CPU_IMP_HISI, HISI_CPU_PART_TSV110)
-+#define MIDR_APPLE_A7_CYCLONE MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A7_CYCLONE)
-+#define MIDR_APPLE_A8_TYPHOON MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A8_TYPHOON)
-+#define MIDR_APPLE_A8X_TYPHOON MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A8X_TYPHOON)
-+#define MIDR_APPLE_SAMSUNG_TWISTER MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_SAMSUNG_TWISTER)
-+#define MIDR_APPLE_TSMC_TWISTER MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_TSMC_TWISTER)
-+#define MIDR_APPLE_A10_T2_HURRICANE_ZEPHYR MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A10_T2_HURRICANE_ZEPHYR)
-+#define MIDR_APPLE_A10X_HURRICANE_ZEPHYR MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A10X_HURRICANE_ZEPHYR)
-+#define MIDR_APPLE_A11_MONSOON MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A11_MONSOON)
-+#define MIDR_APPLE_A11_MISTRAL MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_A11_MISTRAL)
- #define MIDR_APPLE_M1_ICESTORM MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M1_ICESTORM)
- #define MIDR_APPLE_M1_FIRESTORM MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M1_FIRESTORM)
- #define MIDR_APPLE_M1_ICESTORM_PRO MIDR_CPU_MODEL(ARM_CPU_IMP_APPLE, APPLE_CPU_PART_M1_ICESTORM_PRO)
+ 	kpti_install_ng_mappings();
 -- 
 2.46.0
 
