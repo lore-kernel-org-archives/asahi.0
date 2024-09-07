@@ -1,70 +1,69 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF39C1D54E0
-	for <asahi@lists.linux.dev>; Fri,  6 Sep 2024 17:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113CE208D7
+	for <asahi@lists.linux.dev>; Sat,  7 Sep 2024 11:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725642930; cv=none; b=tAvcASqcUchGYrrKn+LbJKMG1qQSUgu+WOneeaqB9fZCsqsdv7SjcyhJHOHdfmYXfq3FkdwycGlxGppDgrPETX8OhZiMtpvt6CJ2LjhpxaF8bDfstCiZWr2PtdmnqVNSUeUFujr6y9GiR+JkQ/WhLpG7csOkYywE7Diq2w2rmco=
+	t=1725707691; cv=none; b=CoJB0U5f1u8xeoWH8AcAwK/If7BLZD3u/g6mb1sVE37wxdvd/Z3wb3OySTl7WQkzuxmJ31csenvMwjfoOo2xYwJg3cxByXmooAauRy3v/awhizJF3MD40HYKotLv3xLU7V35Slo46IGajcYthqCqHi7AX5qLtQpXWGy7tgTSw9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725642930; c=relaxed/simple;
-	bh=uqVFwUB/0TxQaJs2TOgKnw2jAoMSxxHld8KhtvpAURw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ImuPbRxfrqezJTVPaP85G9nHBeLumuXWsXyRyuvB8gwdZkvFgJFVoibAC2dxnkNWq1dXbOftcnikWwGYhHaiVpOrJ5Qwth0n3tRX4Fm+XWFSnAe9pmb7WO8CE3FafslQZl8BTSG+uXrgZyeD0cuCHOApC8IJigmVQ3yuYMhsmuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yjr8wgn9; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1725707691; c=relaxed/simple;
+	bh=CMbPPbLNgy/m8UF1G8Q+fRyhtoggVjJ/GN50xwDHbGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mab9wN6w9PuzTWNDcVM0HLpRtikZBOuie5B/m3HS9EzAVPzscG7jSWnDKjsSd1ZFgYyjaUKz5+xQY/UGVYf3KWfvbckFM8kxzX61NJYkdyNigyLOCVlbTtJy6zNPaBLlfI/KokpaaPs5djeaayj/8+Q1wepP0qpxcT7cWI3K8pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HoB82j05; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yjr8wgn9"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2da4ea973bdso1729170a91.1
-        for <asahi@lists.linux.dev>; Fri, 06 Sep 2024 10:15:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HoB82j05"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7cd8803fe0aso2169323a12.0
+        for <asahi@lists.linux.dev>; Sat, 07 Sep 2024 04:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725642928; x=1726247728; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C2Awb8QHiwgK4hQKj8EI8RJlryPJ8iCefANxC9lVPtM=;
-        b=Yjr8wgn9MU0sSl+4pio2wS5gjxd6QE5DPHLZXYC+K+zNjo/AVSdNITEXzweuJYiH93
-         57yUcoRKixM1gl/bDn4cukpyD6PCFEUlwh/aNG4Y+s+J3EGveEgQWAQe/vaY7W0xUPin
-         AXIGVXW1ecRjLrArUj0mgj1gwy+b2tBjLSjl0ziP8wsTSUsoWg91baU7l7A9i3iEqrLM
-         lIoRH9TDzTb1edKOyIxie6Hnz7Xewr7maO0zETCtaKDgnLiMYmciduYjSJO/f7cQTpMj
-         CZZx5u4IabBQbUYdU/KN3citTKjZZOFgFa98RS5zbaYiZ/Arz4k/Xzakd03OErpp/QAh
-         vCZA==
+        d=gmail.com; s=20230601; t=1725707689; x=1726312489; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MKR2MN+/NUaZxZIfTkNVZ56kkqFXX80mnZeMHh4iTEs=;
+        b=HoB82j05Ei/G0Mcbh4VaDwCzlGLGgW5/2aZJ6gJvXyfrrrtNqE8SO/m+pXSI26Llk9
+         4tdQBqzNr9/XNeIh4ebnAETxO3R+lEsGKaVEHJ41JbeTbp3RCJI08O9xgHCexETFRGnW
+         0RzxHavyqb8ellIZROz/uIamGwg7nQAnYnRAq6T/cs/GMCOJmvxeEvEqLbs6e3G8vTAi
+         KrTQdEJDrNr1OMuPdFci7yKWSM0Q7gEg4Yo+I4CbdKcFLW58STGSY24A32oCIJohgCcA
+         t1Dgm3ddZFngRE21O5uffBTVhrMeaoYruKnmH5b7gXESbgHXyXKxzhkVjupmmRxoGAx0
+         LWPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725642928; x=1726247728;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C2Awb8QHiwgK4hQKj8EI8RJlryPJ8iCefANxC9lVPtM=;
-        b=LYGlKuOTuSMIJmo6HbKe2cverjmCwWh86fAN5TX10Pkr8Qbyp5kYuD8nW/2Up3It49
-         oGlENlFzvOIPQ/E8S4AuRELRvJBtxI4YIMIEipKTTZ6Ju2jfVuEV3A7B+iox+h0CTIUW
-         5qsLb6/2DiG1At4MBTz2KJj2ud6/mzv1gu8pHEmOO1sRmloOHDsHqRpa843BIl7QOYZn
-         rIt8DYcwiCbDgcFj10Fdz4NKmC3q5eR0TbK+yrgmhcehHoL0cdruStiEl5rESpIIa8ww
-         qlmQa6YwqfMIbav1ycN8jwk2hWpm+7Anan1JDAfyHsOZonIq5YJcu8k+2o+JgJRXecrE
-         YEVw==
-X-Gm-Message-State: AOJu0YxdMapUKWWDzF2gCy5g3/mQIyozplMjziwn7UShbmk+DOZAThu4
-	+Q6xFEC3BaBUgoQvZvlLNnXfh69P8hp/KwWD+vpFRoGgUQNq47Oc
-X-Google-Smtp-Source: AGHT+IEitKjL9pf51BQRfyrnIhp+JSQo2gkjFGgr1MpgdrNgRy39LdtoUZno7Bc9XWCc1kIaXZP2HA==
-X-Received: by 2002:a17:90b:68a:b0:2da:6812:c1bd with SMTP id 98e67ed59e1d1-2dafcf1ac51mr112698a91.15.1725642928140;
-        Fri, 06 Sep 2024 10:15:28 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725707689; x=1726312489;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MKR2MN+/NUaZxZIfTkNVZ56kkqFXX80mnZeMHh4iTEs=;
+        b=BsKAuMySgA3pulpbilAQ84ipy3sLq+iUemEatFvyL+k4zZfKHd0992rNwf7zLgOBqx
+         vMQxrJOdPz8CQ/8y3Ei/bTpl4UzSF8NYhwwxYFDT4RFHI5haSR0C8dQ4gJQLB521dWLY
+         eHnFfwJQBTH0cE3tOG1VdWPRAMDJK2EK/6vQ/h36aR63CaAVy9ttNYZTHPbfhrE1KGlL
+         dvKZQShnAb7d0UA9iy0lN98ngQU1FV0j9Pt2co4T1R5iJuDfXkMWIv6nGhuIbRcWjMM+
+         rMD7u565aFLHOUkXGxF+UEwrLrgPuXjyae9PW4kZIaoRG3smGHh/LDKmqEuz42YRSnHJ
+         /OaQ==
+X-Gm-Message-State: AOJu0YwFdoEyy6M4Ewa0bUvI8/WAhGtNQMB1pOwPOnJAcRABpSMHRiCd
+	VQBZHS0wjocyqBVW57Ks5cxAmXTx+c5YKDcODEzgbIr9at9UyBMP
+X-Google-Smtp-Source: AGHT+IEVgpMhIznnZffwI8DGtxdM5a4u1Tgb2XXQnWibOIoCrdJztBLvI3V7Zkjt9HqU+ZMPtzePiQ==
+X-Received: by 2002:a17:903:124d:b0:206:99a8:526c with SMTP id d9443c01a7336-2070c196865mr33981715ad.41.1725707689216;
+        Sat, 07 Sep 2024 04:14:49 -0700 (PDT)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2dadc10fa99sm1841519a91.39.2024.09.06.10.15.26
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20710e1addbsm7186955ad.58.2024.09.07.04.14.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Sep 2024 10:15:27 -0700 (PDT)
+        Sat, 07 Sep 2024 04:14:48 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
+	linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org
 Cc: asahi@lists.linux.dev,
-	~postmarketos/upstreaming@lists.sr.ht,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH RESEND 2/2] arm64: cpufeature: Pretend that Apple A10(X), T2 does not support 32-bit EL0
-Date: Sat,  7 Sep 2024 01:13:26 +0800
-Message-ID: <20240906171449.324354-4-towinchenmi@gmail.com>
+Subject: [PATCH 0/2] tty: serial: samsung: Serial fixes for Apple A7-A11 SoCs
+Date: Sat,  7 Sep 2024 19:06:43 +0800
+Message-ID: <20240907111431.2970-1-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240906171449.324354-1-towinchenmi@gmail.com>
-References: <20240906171449.324354-1-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -73,63 +72,34 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Apple A10(X), T2 consists of logical cores that can switch
-between P-mode and E-mode based on the frequency. However, only
-P-mode supported 32-bit EL0.
+Hi,
 
-Trying to support 32-bit EL0 on a CPU that can only execute it in certain
-states is a bad idea. The A10(X), T2 only supports 16KB page size anyway so
-many AArch32 executables won't run anyways. Pretend that it does not
-support 32-bit EL0 at all.
+This series fixes issues with serial on A7-A11 SoCs. The changes do not
+seem to affect existing M1 and up users so they can be applied
+unconditionally.
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+Firstly, these SoCs require 32-bit writes on the serial port. This only
+manifested in earlycon as reg-io-width in device tree is consulted for
+normal serial writes.
+
+Secondly, A7-A9 SoCs seems to use different bits for RXTO and RXTO
+enable. Accessing these bits in addition to the original RXTO and RXTO
+enable bits will allow serial rx to work correctly on those SoCs.
+
+Nick Chan
+
 ---
- arch/arm64/kernel/cpufeature.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
 
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index 718728a85430..458bcbc4f328 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -3529,6 +3529,29 @@ void __init setup_boot_cpu_features(void)
- 	setup_boot_cpu_capabilities();
- }
- 
-+static void __init bad_aarch32_el0_fixup(void)
-+{
-+#ifdef CONFIG_ARCH_APPLE
-+	static const struct midr_range bad_aarch32_el0[] = {
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_A10_T2_HURRICANE_ZEPHYR),
-+		MIDR_ALL_VERSIONS(MIDR_APPLE_A10X_HURRICANE_ZEPHYR),
-+		{}
-+	};
-+
-+	if (is_midr_in_range_list(read_cpuid_id(), bad_aarch32_el0)) {
-+		struct arm64_ftr_reg *regp;
-+
-+		regp = get_arm64_ftr_reg(SYS_ID_AA64PFR0_EL1);
-+		if (!regp)
-+			return;
-+		u64 val = (regp->sys_val & ~ID_AA64PFR0_EL1_EL0_MASK)
-+		  | ID_AA64PFR0_EL1_EL0_IMP;
-+
-+		update_cpu_ftr_reg(regp, val);
-+	}
-+#endif
-+}
-+
- static void __init setup_system_capabilities(void)
- {
- 	/*
-@@ -3562,6 +3585,8 @@ static void __init setup_system_capabilities(void)
- 
- void __init setup_system_features(void)
- {
-+	bad_aarch32_el0_fixup();
-+
- 	setup_system_capabilities();
- 
- 	kpti_install_ng_mappings();
+Nick Chan (2):
+  tty: serial: samsung: Fix A7-A11 serial earlycon SError
+  tty: serial: samsung: Fix serial rx on Apple A7-A9
+
+ drivers/tty/serial/samsung_tty.c | 23 ++++++++++++++++-------
+ include/linux/serial_s3c.h       | 18 +++++++++++-------
+ 2 files changed, 27 insertions(+), 14 deletions(-)
+
+
+base-commit: 9aaeb87ce1e966169a57f53a02ba05b30880ffb8
 -- 
 2.46.0
 
