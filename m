@@ -1,73 +1,66 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368B41B1D61
-	for <asahi@lists.linux.dev>; Mon,  9 Sep 2024 08:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04431B14FB
+	for <asahi@lists.linux.dev>; Mon,  9 Sep 2024 09:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725871386; cv=none; b=R72cpLUT9myT8nSpiIOHt6GUOMasEfG881exy2fwzVTpUPjs3TBzInIMsstyebGRrLKgzeQwMJStAHvIhICqXB2p8/Uh/iBEvpeI9/SuecZmk9K2p88r+nGBDUWJopH00f/dmL/w0lzkIhZVRU8Th8ajZw7tNjopnX1VI/pdPMk=
+	t=1725873302; cv=none; b=RxOdbWoQQ4CJdQcUmHosBPtM+Jj7qx2EeYKnNQs2+X3tE57fzQViliTe9dkF0UPbEKGXBW4QAPyQ26wt2Pkx4BXgYz5k7mZHhSpUA5ST9+BAy8MKUrEVRwVOubgKVMMmgIGmksLEXkDmE/hWrTeEZbUz4gMzRsmUvVwvpqImelU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725871386; c=relaxed/simple;
-	bh=2rgcqQaxV+vaTYNa/iYGEHbrgXFhVyx5kvPK4hjbDKo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kSND+ga4xuNwloC9ucsGH5VQrnlT8sRg+IGzEGjjW3oAe0hZJ8dsll/HuOsIX3yzCbmNl1LQoB3+k4L5sYtWDqKsCJ6UThHF8XTLxJcYD4n1XZCkYQ5InH1agRqXKmlymoHBifAATzBgA0IRBFtwXm6l2rf+X04T+QijI/vXr8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Em1smqdp; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1725873302; c=relaxed/simple;
+	bh=AUGbskrmfvCbMRfyZwjHYJ134pupCetagT3UQ1uZq3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oloQPycGSM8/ATH9e1vizU3UhpAA0PZVQGl/RWPzr/dMsy26fNdAbUJmt7wcp4+nZKhlsaXoAZdIGULJb6J7MTAK3tzztq2RHz2pWFrzYfE+Zjs+GHTLo5R2oF/liyR9Op4cJVdLAwa+nTVrs2yjNvKVDSWjokC5jPjq5SmnS8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CJsfc07d; arc=none smtp.client-ip=209.85.210.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Em1smqdp"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20688fbaeafso39607885ad.0
-        for <asahi@lists.linux.dev>; Mon, 09 Sep 2024 01:43:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CJsfc07d"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-710e1a48130so661295a34.1
+        for <asahi@lists.linux.dev>; Mon, 09 Sep 2024 02:15:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725871384; x=1726476184; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k9iZfGPEL6q9g6QlnTdnypN7TCKR5oC3QJw/pc0I/ZU=;
-        b=Em1smqdpsDvdSvQO/JdlknghvrAja2YrB+J5QjWkCu/3rREG+GQgnJ2yayQwWU7i3y
-         dmtO+u6RzQNyNUy/fVWVwCNV8ebUO8iJT7QXH0X4NkVz1iWOskDZDXyYzJzSUSHH0Bhr
-         TPiwV7zDEA2l9cEuPWGO86IP/IGWAaYHVLI43Av67tax4zLO9hHELwdfZJAR+/pJzYDX
-         nmRhTZwnT44ScgPB1Q8vdzIlVoWliJpJf59+4VTS/v4pkFIm6ZkY3+KYJaxZCLGu2Zo0
-         PwfmvD5/7HlmliwNtUy/NIF8r4oTefSh96rR2UPVsjrYgHkWraTBmcxvJad4YpOwCX+o
-         vm3A==
+        d=gmail.com; s=20230601; t=1725873300; x=1726478100; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=aY38wG8uRg5vqt8oTLPmwNTAVl1r38QXK8R8qBDLkRY=;
+        b=CJsfc07dRcRhQCAi6GoD+S1U2HUYMdtTZEfFtngednajrlojuKgoLnpRd4g1sPmced
+         53fQfxFHu6/x07/e8IU75+KIBg98Ij4NRa9fJy5bGPYohoD0ftl2Tr1uIT1zYvXjEMii
+         4WVZyQvTtY9oEfxwnEqX3gJa1QnyEY3ELnUDpONi98qL+fOMMnxhg0kBXRaKCf1f0c/x
+         /1OgWuDkGQqGep36FJ66U48HX+4VhzRd8f9A7tdVqT0kz9X/vi5s3nQVoCQnaHwkMOk3
+         wyXPJJ9Vcwah5i7T0hp5iCCOkJYymn8V7SIstV0qa088EG37p+gp6zBkLJQ+ml4rfmLu
+         Ef1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725871384; x=1726476184;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k9iZfGPEL6q9g6QlnTdnypN7TCKR5oC3QJw/pc0I/ZU=;
-        b=gFUK0A9BcgZdPSi3O2uj00Rt7PpdWsDEuMUd2MSgA0stjG9bGmB6p+e2PfhCu+4tKP
-         po+/2oNXJhzP68aF980WocM/mts5IA3AKhsReXGluS6EmJXOtKuMTN3l+C4OYxiPGKXY
-         h9rReQurfMIgLMz3rjs7uT9FwmWAJadYLNZbNw7ZLa9IVD5OzLey5TCwmT0VRfzXBUv/
-         kVfLsrorU9+4yijCZce5xuNIsBqKsRf/Cqz+7uM0llhi2Hzm9eZ3sgBEcCTtjtf6wvNc
-         IptMl3skEsUdTN/0tTMWNq4Xn0WQYeZNNVnj5KhnTjplQ1kMaLXvIKcUzGXxvOaa1nSw
-         f0eA==
-X-Gm-Message-State: AOJu0YwxuanU04QMCoocK3ZntSTCWvl6Kjlu8zjOWDkNDzBxb+PSCzRK
-	43Dw9U24UDayZPxb8rXhXl/tTCALDYsigeAkQCEgTna/N+dfahR4
-X-Google-Smtp-Source: AGHT+IETpMgE3nam9BevIeTnOC8EuIrch6KUJc3lEg8eO4UfI/iouxLpDDWq53gBkBWatisEH+7hxQ==
-X-Received: by 2002:a17:902:db09:b0:205:5136:b2fb with SMTP id d9443c01a7336-206f04e9433mr97297955ad.23.1725871384339;
-        Mon, 09 Sep 2024 01:43:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1725873300; x=1726478100;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=aY38wG8uRg5vqt8oTLPmwNTAVl1r38QXK8R8qBDLkRY=;
+        b=OyAnMsCaNGpe1cXWn5URx4UH6SpvJ3jQV+Y1KNZ5MVTAMQejEIu9EePXdkKUbL6L2E
+         LhONJteCsbcnmtAuyXBpAb/GxxTpkBkHlLQfnt45tRn0eStaEzIu6PqclBkRbfONaf6B
+         wNF943LkTM3taSjcnJWkaVfLq2Bp+S+JlPbaEujLywEj3kJyjpg8cj8Gmv2sLtPkF+P7
+         rlXGN7O3eXihsxpXtkVkNljDZjDyCgv3koEb1YfIfyO0PqIvpUxH6gUgRv6d3a9DZZoj
+         xslU/jM8jRj1xUAzZelzDHQhLF1f/0fl5HdkxN0s6ifhBbHv6FivbAYPFwgnaCdyElKi
+         1Q8w==
+X-Gm-Message-State: AOJu0YwEc6rn3pq6PaxrFyO31/DryKoG9JUMBm5bNM0l8G+7cTueqCaP
+	LmPcIFDifaqCt7sEPNxShKf49kmnUca8p5wyD3BHnanfoTmrvcLm
+X-Google-Smtp-Source: AGHT+IFQNtSa0KUHq0nxQ/Ce96vx5AH5SGtYdj0R/UvOyMgidrZ+WR4/FRxpx0xbeZ8BW/Ye2Atm5w==
+X-Received: by 2002:a05:6830:6c17:b0:710:f223:3e32 with SMTP id 46e09a7af769-710f223411bmr466258a34.10.1725873299751;
+        Mon, 09 Sep 2024 02:14:59 -0700 (PDT)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20710f1d663sm29678675ad.188.2024.09.09.01.43.02
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-718e596882esm3120689b3a.135.2024.09.09.02.14.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2024 01:43:04 -0700 (PDT)
+        Mon, 09 Sep 2024 02:14:59 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org
+	linux-kernel@vger.kernel.org
 Cc: asahi@lists.linux.dev,
+	Marc Zyngier <maz@kernel.org>,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH v4 3/3] tty: serial: samsung: Fix serial rx on Apple A7-A9
-Date: Mon,  9 Sep 2024 16:37:27 +0800
-Message-ID: <20240909084222.3209-4-towinchenmi@gmail.com>
+Subject: [PATCH v2 0/2] Disable 32-bit EL0 for Apple A10(X), T2
+Date: Mon,  9 Sep 2024 17:09:58 +0800
+Message-ID: <20240909091425.16258-1-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240909084222.3209-1-towinchenmi@gmail.com>
-References: <20240909084222.3209-1-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -76,121 +69,43 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Apple's older A7-A9 SoCs seems to use bit 3 in UTRSTAT as RXTO, which is
-enabled by bit 11 in UCON.
+Hi,
 
-Access these bits in addition to the original RXTO and RXTO enable bits,
-to allow serial rx to function on A7-A9 SoCs. This change does not
-appear to affect the A10 SoC and up.
+Apple's A10(X), T2 SoCs consists of pairs of performance and efficiency
+cores. However, only one of the core types may be active at a given time,
+and to software, it appears as logical cores that could switch between
+P-mode and E-mode, depending on the p-state.
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+Unforunately, only the performance cores can execute 32-bit EL0. To
+software, this results in logical cores that lose ability to execute
+32-bit EL0 when the p-state is below a certain value.
+
+Since these CPU cores only supported 16K pages, many AArch32
+executables will not run anyways. This series disables 32-bit EL0 for
+these SoCs.
+
+Changes since v1:
+  - Drop #ifdef CONFIG_ARCH_APPLE, the code to disable NV1 on M2 does
+    not use it either.
+
+  - Added comment to explain why 32-bit EL0 have to be disabled.
+
+v1: https://lore.kernel.org/asahi/20240906171449.324354-1-towinchenmi@gmail.com
+
+Nick Chan
 ---
- drivers/tty/serial/samsung_tty.c | 17 ++++++++++++-----
- include/linux/serial_s3c.h       | 18 +++++++++++-------
- 2 files changed, 23 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/tty/serial/samsung_tty.c b/drivers/tty/serial/samsung_tty.c
-index 3fdec06322ac..0d184ee2f9ce 100644
---- a/drivers/tty/serial/samsung_tty.c
-+++ b/drivers/tty/serial/samsung_tty.c
-@@ -550,6 +550,7 @@ static void s3c24xx_serial_stop_rx(struct uart_port *port)
- 		case TYPE_APPLE_S5L:
- 			s3c24xx_clear_bit(port, APPLE_S5L_UCON_RXTHRESH_ENA, S3C2410_UCON);
- 			s3c24xx_clear_bit(port, APPLE_S5L_UCON_RXTO_ENA, S3C2410_UCON);
-+			s3c24xx_clear_bit(port, APPLE_S5L_UCON_RXTO_LEGACY_ENA, S3C2410_UCON);
- 			break;
- 		default:
- 			disable_irq_nosync(ourport->rx_irq);
-@@ -963,9 +964,11 @@ static irqreturn_t apple_serial_handle_irq(int irq, void *id)
- 	u32 pend = rd_regl(port, S3C2410_UTRSTAT);
- 	irqreturn_t ret = IRQ_NONE;
- 
--	if (pend & (APPLE_S5L_UTRSTAT_RXTHRESH | APPLE_S5L_UTRSTAT_RXTO)) {
-+	if (pend & (APPLE_S5L_UTRSTAT_RXTHRESH | APPLE_S5L_UTRSTAT_RXTO |
-+		APPLE_S5L_UTRSTAT_RXTO_LEGACY)) {
- 		wr_regl(port, S3C2410_UTRSTAT,
--			APPLE_S5L_UTRSTAT_RXTHRESH | APPLE_S5L_UTRSTAT_RXTO);
-+			APPLE_S5L_UTRSTAT_RXTHRESH | APPLE_S5L_UTRSTAT_RXTO |
-+			APPLE_S5L_UTRSTAT_RXTO_LEGACY);
- 		ret = s3c24xx_serial_rx_irq(ourport);
- 	}
- 	if (pend & APPLE_S5L_UTRSTAT_TXTHRESH) {
-@@ -1190,7 +1193,8 @@ static void apple_s5l_serial_shutdown(struct uart_port *port)
- 	ucon = rd_regl(port, S3C2410_UCON);
- 	ucon &= ~(APPLE_S5L_UCON_TXTHRESH_ENA_MSK |
- 		  APPLE_S5L_UCON_RXTHRESH_ENA_MSK |
--		  APPLE_S5L_UCON_RXTO_ENA_MSK);
-+		  APPLE_S5L_UCON_RXTO_ENA_MSK |
-+		  APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK);
- 	wr_regl(port, S3C2410_UCON, ucon);
- 
- 	wr_regl(port, S3C2410_UTRSTAT, APPLE_S5L_UTRSTAT_ALL_FLAGS);
-@@ -1287,6 +1291,7 @@ static int apple_s5l_serial_startup(struct uart_port *port)
- 	/* Enable Rx Interrupt */
- 	s3c24xx_set_bit(port, APPLE_S5L_UCON_RXTHRESH_ENA, S3C2410_UCON);
- 	s3c24xx_set_bit(port, APPLE_S5L_UCON_RXTO_ENA, S3C2410_UCON);
-+	s3c24xx_set_bit(port, APPLE_S5L_UCON_RXTO_LEGACY_ENA, S3C2410_UCON);
- 
- 	return ret;
- }
-@@ -2143,13 +2148,15 @@ static int s3c24xx_serial_resume_noirq(struct device *dev)
- 
- 			ucon &= ~(APPLE_S5L_UCON_TXTHRESH_ENA_MSK |
- 				  APPLE_S5L_UCON_RXTHRESH_ENA_MSK |
--				  APPLE_S5L_UCON_RXTO_ENA_MSK);
-+				  APPLE_S5L_UCON_RXTO_ENA_MSK |
-+				  APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK);
- 
- 			if (ourport->tx_enabled)
- 				ucon |= APPLE_S5L_UCON_TXTHRESH_ENA_MSK;
- 			if (ourport->rx_enabled)
- 				ucon |= APPLE_S5L_UCON_RXTHRESH_ENA_MSK |
--					APPLE_S5L_UCON_RXTO_ENA_MSK;
-+					APPLE_S5L_UCON_RXTO_ENA_MSK |
-+					APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK;
- 
- 			wr_regl(port, S3C2410_UCON, ucon);
- 
-diff --git a/include/linux/serial_s3c.h b/include/linux/serial_s3c.h
-index 1e8686695487..964a4fbf2626 100644
---- a/include/linux/serial_s3c.h
-+++ b/include/linux/serial_s3c.h
-@@ -246,24 +246,28 @@
- 				 S5PV210_UFCON_TXTRIG4 |	\
- 				 S5PV210_UFCON_RXTRIG4)
- 
--#define APPLE_S5L_UCON_RXTO_ENA		9
--#define APPLE_S5L_UCON_RXTHRESH_ENA	12
--#define APPLE_S5L_UCON_TXTHRESH_ENA	13
--#define APPLE_S5L_UCON_RXTO_ENA_MSK	BIT(APPLE_S5L_UCON_RXTO_ENA)
--#define APPLE_S5L_UCON_RXTHRESH_ENA_MSK	BIT(APPLE_S5L_UCON_RXTHRESH_ENA)
--#define APPLE_S5L_UCON_TXTHRESH_ENA_MSK	BIT(APPLE_S5L_UCON_TXTHRESH_ENA)
-+#define APPLE_S5L_UCON_RXTO_ENA			9
-+#define APPLE_S5L_UCON_RXTO_LEGACY_ENA		11
-+#define APPLE_S5L_UCON_RXTHRESH_ENA		12
-+#define APPLE_S5L_UCON_TXTHRESH_ENA		13
-+#define APPLE_S5L_UCON_RXTO_ENA_MSK		BIT(APPLE_S5L_UCON_RXTO_ENA)
-+#define APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK	BIT(APPLE_S5L_UCON_RXTO_LEGACY_ENA)
-+#define APPLE_S5L_UCON_RXTHRESH_ENA_MSK		BIT(APPLE_S5L_UCON_RXTHRESH_ENA)
-+#define APPLE_S5L_UCON_TXTHRESH_ENA_MSK		BIT(APPLE_S5L_UCON_TXTHRESH_ENA)
- 
- #define APPLE_S5L_UCON_DEFAULT		(S3C2410_UCON_TXIRQMODE | \
- 					 S3C2410_UCON_RXIRQMODE | \
- 					 S3C2410_UCON_RXFIFO_TOI)
- #define APPLE_S5L_UCON_MASK		(APPLE_S5L_UCON_RXTO_ENA_MSK | \
-+					 APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK | \
- 					 APPLE_S5L_UCON_RXTHRESH_ENA_MSK | \
- 					 APPLE_S5L_UCON_TXTHRESH_ENA_MSK)
- 
-+#define APPLE_S5L_UTRSTAT_RXTO_LEGACY	BIT(3)
- #define APPLE_S5L_UTRSTAT_RXTHRESH	BIT(4)
- #define APPLE_S5L_UTRSTAT_TXTHRESH	BIT(5)
- #define APPLE_S5L_UTRSTAT_RXTO		BIT(9)
--#define APPLE_S5L_UTRSTAT_ALL_FLAGS	(0x3f0)
-+#define APPLE_S5L_UTRSTAT_ALL_FLAGS	(0x3f8)
- 
- #ifndef __ASSEMBLY__
- 
+Nick Chan (2):
+  arm64: cputype: Add CPU types for A7-A11, T2 SoCs
+  arm64: cpufeature: Pretend that Apple A10 family does not support
+    32-bit EL0
+
+ arch/arm64/include/asm/cputype.h | 42 +++++++++++++++++++++++---------
+ arch/arm64/kernel/cpufeature.c   | 27 ++++++++++++++++++++
+ 2 files changed, 57 insertions(+), 12 deletions(-)
+
+
+base-commit: 9aaeb87ce1e966169a57f53a02ba05b30880ffb8
 -- 
 2.46.0
 
