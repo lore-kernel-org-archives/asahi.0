@@ -1,270 +1,147 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF93B192D65
-	for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 04:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0670218A6D2
+	for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 09:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725941763; cv=none; b=SAVCqrhri7fhRsC7Jya1B8FcxYJTwJn4NRpr8jM8zb8CSLAW7hzSQDa1aGa+MMBP1/X7tIjYvh/DcbUlm4ieaP2YnYVr7ck5TUp0d9B/FucNqH5jfC0Zlv6CIl4w01RcFyC/V9dGEiG5G7YNqPKkA0+N5N4aCPIwzdYAFDgwwQg=
+	t=1725961455; cv=none; b=gIFAGXIOPF0NVQGkd31vSElNXJHorOSDUoUvbEwUr5moa1qDNqxRKa+HEJIDZOj9nY2lRKoR8TA3zumsxXiDg4FRH5nKFIsgrJGqqkMVOk/y9OzWiYBmWh4dv4KT+ZIyupd4lt3HDca5DPAeaGfn3xJWexRQlBH4TAGq+6n8zsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725941763; c=relaxed/simple;
-	bh=tcxBgkcCaXUcDBC4KrHxwVcyFaoBS1riB2Kf1/7ImYM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:MIME-Version:
-	 Content-Type:References; b=r5kAU0JRgMuKLfJTEI+z5SWCjo0yBbW3/aT/J9gWqq6rmLIvWF6zFbg1m/18hJJ3ejd6BoqxJhiSy0hEfanYHueOTUWcYqVqq2HJvdE8iVhjwkz1TEUaFlOQumqKLCSka3VijZzaJi3IxNAgyEVGH/Hzdt+w16BpvqMM+pY4Mrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=XajzF1Ij; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1725961455; c=relaxed/simple;
+	bh=D3N04FmIzvqggt9C4bVYVfpcu/iBmJ0tG8QKUZ/Wex4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y21Cv+LYEVxByj7AUUO8O5g2rY3H42Y2c46mEPXLNyKgwQlorWpGWa/MbE0xWNtaTmKks37kVlNL+m8eP8tGxLoBPLVf+FdJD61WanquqjJp5WVAA4DMvm6JD6a9MOK5JKzjzOTTXDV6gVKVhhSHQdafTE7bZ9jjiK4JauwXDX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V0JpD3e7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="XajzF1Ij"
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240910041556epoutp035a7522cec5a4164446a9be9091740ea4~zxuIYB-C_1690416904epoutp03T
-	for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 04:15:56 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240910041556epoutp035a7522cec5a4164446a9be9091740ea4~zxuIYB-C_1690416904epoutp03T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1725941756;
-	bh=Eh8dnpLhwVBM/rSsgZrH8h1HoL7FGTJHcy8qgVipwW8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=XajzF1IjhVk5VrsslYrHobsMadAVKnrgWsJj0xc8KPu6Dn4pH0WGIP1hukrD0zyab
-	 Lh65uLMKOxS4gZPirEVXWsRPAtoCeF12Ki4xvwNFZH9yjM404FyMeaLKdTMzIWj298
-	 KKIdKhXxvhBRzv08374CE4a3dwX6ZpYD0B2AkJkY=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas1p3.samsung.com (KnoxPortal) with ESMTP id
-	20240910041556epcas1p32fd43bc48a96c75e171b1036ff396990~zxuH-0PtN0154601546epcas1p3M;
-	Tue, 10 Sep 2024 04:15:56 +0000 (GMT)
-Received: from epsmgec1p1.samsung.com (unknown [182.195.38.232]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4X2r3Z58msz4x9QJ; Tue, 10 Sep
-	2024 04:15:54 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-	epsmgec1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	EA.09.08992.AF7CFD66; Tue, 10 Sep 2024 13:15:54 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240910041554epcas1p28b549d1a3d6696b19cdc3c6e4201bf99~zxuGGSlSO2158221582epcas1p2x;
-	Tue, 10 Sep 2024 04:15:54 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240910041554epsmtrp2b5e32118bb68f5e7770275a3d29955a5~zxuGFhmTN0681406814epsmtrp2N;
-	Tue, 10 Sep 2024 04:15:54 +0000 (GMT)
-X-AuditID: b6c32a33-96dfa70000002320-8c-66dfc7fa0170
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CB.D1.19367.9F7CFD66; Tue, 10 Sep 2024 13:15:54 +0900 (KST)
-Received: from [10.113.111.204] (unknown [10.113.111.204]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20240910041553epsmtip102da6529d0d1ca065e67cb589c29be12~zxuF3ukmU0608006080epsmtip1F;
-	Tue, 10 Sep 2024 04:15:53 +0000 (GMT)
-Message-ID: <fcfdef6d00e1f5084c85191ffa43e9756ddc0325.camel@samsung.com>
-Subject: Re: [PATCH v4 3/3] tty: serial: samsung: Fix serial rx on Apple
- A7-A9
-From: Kwanghoon Son <k.son@samsung.com>
-To: Nick Chan <towinchenmi@gmail.com>, Krzysztof Kozlowski
-	<krzk@kernel.org>,  Alim Akhtar <alim.akhtar@samsung.com>, Greg
-	Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
-	<jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-serial@vger.kernel.org
-Cc: asahi@lists.linux.dev
-Date: Tue, 10 Sep 2024 13:15:52 +0900
-In-Reply-To: <866d51a6-1eae-4dc6-8298-df2d608d2507@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V0JpD3e7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A11D6C4AF0C
+	for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 09:44:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1725961454;
+	bh=D3N04FmIzvqggt9C4bVYVfpcu/iBmJ0tG8QKUZ/Wex4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=V0JpD3e7sKruPeep6Cxyq2dpx6qjdL0MIrRHp5Yy29lynGweoxEznoPIH4IkTuXjZ
+	 p6YtutpNth7tSupJtqjbJ5I55XrfUiAn+/Ou6IAaYynWlmub14PpBZynEnOQ4VpSrU
+	 8x7WrCqIIRZIsecKpg5WILTWBtyowS6vulX3djzTkkF7KMCY0qqytTGQHwIGioYbAY
+	 ZnQ0tjEcEQYZm7eYeXkrTtSIhmLiOiukzLA+ou9YHVkOJBQEewhhJLw9C2LhqojNxY
+	 ttiZW1TvZZVf7EvQIbAHAYhvhZ3ySIZdPfcQ4XrlGYyPyr8OwcGMiS0Fuk+GdHx3p+
+	 lQdhAqe53HHMg==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2f7502f09fdso36079581fa.1
+        for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 02:44:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW2RY7itQWcDMOieALRP560T5Q84s4mcdbyYQDv8BD03bGa1c8TV02U4zZxbTdFnNJ+8EUQbw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxEQFJ6Tr5Tkg8PvmJ99I7f7lzKPqZlFsz98vA/bLF/O3aj/jD0
+	/5HuCns9mmt/whz3FsNuAPEV70aPxyfvFsQoP8DpBXxffK/sf0witKjwodd/dUUGwqeARxsiY85
+	2x+1gIv3FmvDiZc58S1qXrMCLXy0=
+X-Google-Smtp-Source: AGHT+IHdShnxBBjUPptQ41/ldZfk223s5R8ozEYJtzbMZjFzw1UM2NBN4Nfeh9oGsEZBQBVytVHnTCzwafdOaAGxUc8=
+X-Received: by 2002:a2e:bea5:0:b0:2f7:54fb:e68c with SMTP id
+ 38308e7fff4ca-2f772603a20mr9852201fa.4.1725961453356; Tue, 10 Sep 2024
+ 02:44:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKJsWRmVeSWpSXmKPExsWy7bCmnu6v4/fTDA4+VLV4MG8bm8XPq3wW
-	zYvXs1m8mytjcf78BnaLTY+vsVpc3jWHzWLG+X1MFmcW97Jb7F/ay+jA5bFz1l12j02rOtk8
-	9s9dw+6xeUm9x4vNMxk9+rasYvT4vEkugD0q2yYjNTEltUghNS85PyUzL91WyTs43jne1MzA
-	UNfQ0sJcSSEvMTfVVsnFJ0DXLTMH6DglhbLEnFKgUEBicbGSvp1NUX5pSapCRn5xia1SakFK
-	ToFpgV5xYm5xaV66Xl5qiZWhgYGRKVBhQnbGrfPn2AsOalbs3TqbqYFxp2IXIyeHhICJxNrp
-	W5i6GLk4hAR2MEq0T/3NCuF8YpT4tOYiI5xz+8sVRpiW0+sXskEkdjJK7H/dC9X/nlHiw5Ye
-	oH4ODl4BD4n1yzNAGoQFAiQOdv1jBbHZBNQllrStZQexRQRuMkmsfmwDYjMLSErMnLaaBcRm
-	EVCV+DhzHhuIzSlgK/H48GImiBptiWULXzOD2KIC8hIND0+A2bwCghInZz5hAblBQmAmh8TL
-	n1fYIC51kTi/8SwrhC0s8er4FnYIW0ri87u9UDXZEkc/wtglEtdnLYKqN5bYv3QyE8gvzAKa
-	Eut36UPcwCfx7ivEixICvBIdbUIQprzErc5yiEZRiTNPP0IN9JD4u/MTMyR0FjJLbJt1l2UC
-	o/wsJN/MQvLBLIRlCxiZVzGKpRYU56anJhsWGMIjNTk/dxMjOH1qGe9gvDz/n94hRiYOxkOM
-	EhzMSiK8/Xb30oR4UxIrq1KL8uOLSnNSiw8xmgLDdCKzlGhyPjCB55XEG5pYGpiYGRmbWBia
-	GSqJ8565UpYqJJCeWJKanZpakFoE08fEwSnVwKQmIXhrciT/ulSXQqmzqhm82rvuVRTem7Fc
-	NODaccUCq4//5O+05Mg/f7bl/96ct+mNKwQ/+QkKKQvVbNwzXcH44eoE1YzI0ByLhkOOgpw/
-	eeccvu03czmb55UDnm/vpU69wmu/98KZFKvZp+POKr0Qv8hx/G79pysX5k85/3rL3lnnN108
-	HH3qEeerWzL6fY9+2PGIr9jguPvLiqDl+9Xk7isqqtzZydPv3iA9N1Jcp/vr9K2Lrir/SFhf
-	obt80pw9E112n5NjUk1/bCiqGV/S9GTRgU/u2rckfOQSit5t6eu/w5AY+VX4GnfwHy278xUT
-	3sYoHHrzcGpUWf6VNceP50w7dH1hyRaBR8IWpnt/KLEUZyQaajEXFScCAKLqFnooBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrPLMWRmVeSWpSXmKPExsWy7bCSnO6v4/fTDC5fY7R4MG8bm8XPq3wW
-	zYvXs1m8mytjcf78BnaLTY+vsVpc3jWHzWLG+X1MFmcW97Jb7F/ay+jA5bFz1l12j02rOtk8
-	9s9dw+6xeUm9x4vNMxk9+rasYvT4vEkugD2KyyYlNSezLLVI3y6BK+PHir+MBes0KiZu82xg
-	3KLQxcjJISFgInF6/UK2LkYuDiGB7YwS3w+uZYZIiEp0XG5k7GLkALKFJQ4fLoaoecso8Xvj
-	HhaQOK+Ah8T65Rkg5cICARIHu/6xgthsAuoSS9rWsoPYIgI3mSSenPIGsZkFJCVmTlvNAmKz
-	CKhKfJw5jw3E5hSwlXh8eDETxPzlzBIzd09nhmjQlGjd/psdwtaWWLbwNVhcVEBeouHhCTCb
-	V0BQ4uTMJywTGAVnIWmZhaRlFpKyBYzMqxhFUwuKc9NzkwsM9YoTc4tL89L1kvNzNzGC40Qr
-	aAfjsvV/9Q4xMnEwHmKU4GBWEuHtt7uXJsSbklhZlVqUH19UmpNafIhRmoNFSZxXOaczRUgg
-	PbEkNTs1tSC1CCbLxMEp1cDEpb1+8ds7a713/Er+1L9oRfCdadV/OabsWNn2XzJTjbdSmeNx
-	t+nq0rLa1ctNWYsdjl6s/rb87o3LL31mf1+4/Um1202/I9vP262MiTn3uDE+y3nDdolYL/6N
-	PfM0FttEXTPtk+J4VC1z3eD2F8aTadlt27/oPVn7e5nVvSeyu1OOhT5fuqiqdzXbmm8XXcvW
-	31D8enFp5pJ3f61kyrh7LdPfCzCkiHsuyGRb6yuYvfn+vKBz3OsdJwuFiSrI7Z+Zc6o6XZLh
-	179PYk27Jsnc94wunyaxISlhS0Xyhz3vn02ass35S0lKxoaPzi/PKeXPvrKlLvhQyvQ8uRiX
-	S3cf2RXViM88ekqWT4x7z6HHGUosxRmJhlrMRcWJAI+LKeICAwAA
-X-CMS-MailID: 20240910041554epcas1p28b549d1a3d6696b19cdc3c6e4201bf99
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240909094327epcas1p4bd962fc01182a76c07888e9222572917
-References: <20240909084222.3209-1-towinchenmi@gmail.com>
-	<20240909084222.3209-4-towinchenmi@gmail.com>
-	<CGME20240909094327epcas1p4bd962fc01182a76c07888e9222572917@epcas1p4.samsung.com>
-	<c73a59634ed8eeb099f4d5cb746f3b3e770391f5.camel@samsung.com>
-	<1a318d4f-8883-490f-a537-d641cf845a7c@gmail.com>
-	<36a7a634b001bf23ef41daa1b8d7644c6aab133f.camel@samsung.com>
-	<866d51a6-1eae-4dc6-8298-df2d608d2507@gmail.com>
+References: <20240815173903.4172139-21-samitolvanen@google.com>
+ <20240815173903.4172139-22-samitolvanen@google.com> <CAK7LNAQdutCiBkWtA6MbVLpfhB-MQXnszQm8eEiBZpeX++5eLA@mail.gmail.com>
+ <CABCJKucott2g8mZyJ0uaG+PdPTMsniR7eNCR9GwHpT_kQ+GFvg@mail.gmail.com>
+In-Reply-To: <CABCJKucott2g8mZyJ0uaG+PdPTMsniR7eNCR9GwHpT_kQ+GFvg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Tue, 10 Sep 2024 18:43:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATyv+zfSwyykKQrSjxR84ST0xTyEarnAudF2VuLPVxqnQ@mail.gmail.com>
+Message-ID: <CAK7LNATyv+zfSwyykKQrSjxR84ST0xTyEarnAudF2VuLPVxqnQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/19] tools: Add gendwarfksyms
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2024-09-10 at 10:59 +0800, Nick Chan wrote:
->=20
-> On 10/9/2024 09:59, Kwanghoon Son wrote:
-> > On Mon, 2024-09-09 at 17:51 +0800, Nick Chan wrote:
-> > >=20
-> > > On 9/9/2024 17:43, Kwanghoon Son wrote:
-> > > > On Mon, 2024-09-09 at 16:37 +0800, Nick Chan wrote:
-> > > > > Apple's older A7-A9 SoCs seems to use bit 3 in UTRSTAT as RXTO, w=
-hich is
-> > > > > enabled by bit 11 in UCON.
-> > > > >=20
-> > > > > Access these bits in addition to the original RXTO and RXTO enabl=
-e bits,
-> > > > > to allow serial rx to function on A7-A9 SoCs. This change does no=
-t
-> > > > > appear to affect the A10 SoC and up.
-> > > > >=20
-> > > > > Signed-off-by: Nick Chan <towinchenmi=40gmail.com>
-> > > > >=20
-> > > >=20
-> > > > =5Bsnip=5D
-> > > >=20
-> > > > > diff --git a/include/linux/serial_s3c.h b/include/linux/serial_s3=
-c.h
-> > > > > index 1e8686695487..964a4fbf2626 100644
-> > > > > --- a/include/linux/serial_s3c.h
-> > > > > +++ b/include/linux/serial_s3c.h
-> > > > > =40=40 -246,24 +246,28 =40=40
-> > > > >  				 S5PV210_UFCON_TXTRIG4 =7C	=5C
-> > > > >  				 S5PV210_UFCON_RXTRIG4)
-> > > > > =20
-> > > > > -=23define APPLE_S5L_UCON_RXTO_ENA		9
-> > > > > -=23define APPLE_S5L_UCON_RXTHRESH_ENA	12
-> > > > > -=23define APPLE_S5L_UCON_TXTHRESH_ENA	13
-> > > > > -=23define APPLE_S5L_UCON_RXTO_ENA_MSK	BIT(APPLE_S5L_UCON_RXTO_EN=
-A)
-> > > > > -=23define APPLE_S5L_UCON_RXTHRESH_ENA_MSK	BIT(APPLE_S5L_UCON_RXT=
-HRESH_ENA)
-> > > > > -=23define APPLE_S5L_UCON_TXTHRESH_ENA_MSK	BIT(APPLE_S5L_UCON_TXT=
-HRESH_ENA)
-> > > > > +=23define APPLE_S5L_UCON_RXTO_ENA			9
-> > > > > +=23define APPLE_S5L_UCON_RXTO_LEGACY_ENA		11
-> > > > > +=23define APPLE_S5L_UCON_RXTHRESH_ENA		12
-> > > > > +=23define APPLE_S5L_UCON_TXTHRESH_ENA		13
-> > > > > +=23define APPLE_S5L_UCON_RXTO_ENA_MSK		BIT(APPLE_S5L_UCON_RXTO_E=
-NA)
-> > > > > +=23define APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK	BIT(APPLE_S5L_UCON_=
-RXTO_LEGACY_ENA)
-> > > > > +=23define APPLE_S5L_UCON_RXTHRESH_ENA_MSK		BIT(APPLE_S5L_UCON_RX=
-THRESH_ENA)
-> > > > > +=23define APPLE_S5L_UCON_TXTHRESH_ENA_MSK		BIT(APPLE_S5L_UCON_TX=
-THRESH_ENA)
-> > > >=20
-> > > > Small thing, but other diff is not needed except
-> > > > APPLE_S5L_UCON_RXTO_LEGACY_ENA.
-> > > >=20
-> > > > Kwang.
-> > > The other diffs are there to keep everything aligned, it looks like a
-> > > jumbled mess here in the email, but in an editor like nano it is all
-> > > aligned, before or after this series.
-> >=20
-> > I know why you did. But still there is way keep aligned and only one
-> > line added.=20
-> >=20
-> > you just added one more tab to other lines.
-> > If one tab with APPLE_S5L_UCON_RXTO_LEGACY_ENA, then everything will
-> > fine.
-> >=20
-> > I think less changes better when see git show or blame.
-> While as you said, APPLE_S5L_UCON_RXTO_LEGACY_ENA would be fine,
-> APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK is too long for that to be aligned, se=
-e
-> below without +, - or > distorting everything.
->=20
-> Before:
-> =23define APPLE_S5L_UCON_RXTO_ENA		9
-> =23define APPLE_S5L_UCON_RXTHRESH_ENA	12
-> =23define APPLE_S5L_UCON_TXTHRESH_ENA	13
-> =23define APPLE_S5L_UCON_RXTO_ENA_MSK	(1 << APPLE_S5L_UCON_RXTO_ENA)
-> =23define APPLE_S5L_UCON_RXTHRESH_ENA_MSK	(1 << APPLE_S5L_UCON_RXTHRESH_E=
-NA)
-> =23define APPLE_S5L_UCON_TXTHRESH_ENA_MSK	(1 << APPLE_S5L_UCON_TXTHRESH_E=
-NA)
->=20
-> Patch 1:
-> =23define APPLE_S5L_UCON_RXTO_ENA		9
-> =23define APPLE_S5L_UCON_RXTHRESH_ENA	12
-> =23define APPLE_S5L_UCON_TXTHRESH_ENA	13
-> =23define APPLE_S5L_UCON_RXTO_ENA_MSK	BIT(APPLE_S5L_UCON_RXTO_ENA)
-> =23define APPLE_S5L_UCON_RXTHRESH_ENA_MSK	BIT(APPLE_S5L_UCON_RXTHRESH_ENA=
-)
-> =23define APPLE_S5L_UCON_TXTHRESH_ENA_MSK	BIT(APPLE_S5L_UCON_TXTHRESH_ENA=
-)
->=20
-> After:
-> =23define APPLE_S5L_UCON_RXTO_ENA			9
-> =23define APPLE_S5L_UCON_RXTO_LEGACY_ENA		11
-> =23define APPLE_S5L_UCON_RXTHRESH_ENA		12
-> =23define APPLE_S5L_UCON_TXTHRESH_ENA		13
-> =23define APPLE_S5L_UCON_RXTO_ENA_MSK		BIT(APPLE_S5L_UCON_RXTO_ENA)
-> =23define APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK
-> BIT(APPLE_S5L_UCON_RXTO_LEGACY_ENA)
-> =23define APPLE_S5L_UCON_RXTHRESH_ENA_MSK		BIT(APPLE_S5L_UCON_RXTHRESH_EN=
-A)
-> =23define APPLE_S5L_UCON_TXTHRESH_ENA_MSK		BIT(APPLE_S5L_UCON_TXTHRESH_EN=
-A)
->=20
+On Fri, Sep 6, 2024 at 5:53=E2=80=AFAM Sami Tolvanen <samitolvanen@google.c=
+om> wrote:
+>
+> Hi,
+>
+> On Thu, Sep 5, 2024 at 2:30=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
+> >
+> > On Fri, Aug 16, 2024 at 2:39=E2=80=AFAM Sami Tolvanen <samitolvanen@goo=
+gle.com> wrote:
+> > >
+> > > +++ b/scripts/gendwarfksyms/gendwarfksyms.h
+> > > @@ -0,0 +1,78 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> > > +/*
+> > > + * Copyright (C) 2024 Google LLC
+> > > + */
+> > > +
+> > > +#include <dwarf.h>
+> > > +#include <elfutils/libdw.h>
+> > > +#include <elfutils/libdwfl.h>
+> > > +#include <linux/hashtable.h>
+> > > +#include <inttypes.h>
+> > > +#include <stdlib.h>
+> > > +#include <stdio.h>
+> >
+> >
+> > Could you include external headers first,
+> > then in-tree headers?
+> > (and one blank line in-between).
+>
+> Sure, I'll reorder this.
+>
+> > Also, please consider using scripts/include/hashtable.h
+> >
+> >
+> >
+> > How about this?
+> >
+> >
+> > #include <dwarf.h>
+> > #include <elfutils/libdw.h>
+> > #include <elfutils/libdwfl.h>
+> > #include <inttypes.h>
+> > #include <stdlib.h>
+> > #include <stdio.h>
+> >
+> > #include <hashtable.h>
+> >
+> >
+> >
+> >
+> >
+> >
+> > If necessary, you can use this patch too:
+> > https://lore.kernel.org/linux-kbuild/20240904235500.700432-1-masahiroy@=
+kernel.org/T/#u
+>
+> Thanks for the patch! I think this would otherwise work, but I also
+> need jhash (or a similar hash function), and I can't combine the
+> tools/include version with this, because it ends up pulling in a
+> duplicate definition of struct list_head. Would you consider adding a
+> hash function as well?
 
-Okay I got it.
-Thanks for check=21
 
-Kwang.
+I did it as a part of my kconfig works.
 
-> >=20
-> > Best regards,
-> > Kwang.
-> >=20
-> > >=20
-> > > >=20
-> > > > > =20
-> > > > >  =23define APPLE_S5L_UCON_DEFAULT		(S3C2410_UCON_TXIRQMODE =7C =
-=5C
-> > > > >  					 S3C2410_UCON_RXIRQMODE =7C =5C
-> > > > >  					 S3C2410_UCON_RXFIFO_TOI)
-> > > > >  =23define APPLE_S5L_UCON_MASK		(APPLE_S5L_UCON_RXTO_ENA_MSK =7C =
-=5C
-> > > > > +					 APPLE_S5L_UCON_RXTO_LEGACY_ENA_MSK =7C =5C
-> > > > >  					 APPLE_S5L_UCON_RXTHRESH_ENA_MSK =7C =5C
-> > > > >  					 APPLE_S5L_UCON_TXTHRESH_ENA_MSK)
-> > > > > =20
-> > > > > +=23define APPLE_S5L_UTRSTAT_RXTO_LEGACY	BIT(3)
-> > > > >  =23define APPLE_S5L_UTRSTAT_RXTHRESH	BIT(4)
-> > > > >  =23define APPLE_S5L_UTRSTAT_TXTHRESH	BIT(5)
-> > > > >  =23define APPLE_S5L_UTRSTAT_RXTO		BIT(9)
-> > > > > -=23define APPLE_S5L_UTRSTAT_ALL_FLAGS	(0x3f0)
-> > > > > +=23define APPLE_S5L_UTRSTAT_ALL_FLAGS	(0x3f8)
-> > > > > =20
-> > > > >  =23ifndef __ASSEMBLY__
-> > > > > =20
-> > > >=20
-> > >=20
-> > > Nick Chan
-> >=20
->=20
-> Nick Chan
->=20
+Check scripts/include/hash.h added by the following patches.
 
+https://lore.kernel.org/linux-kbuild/20240908124352.1828890-1-masahiroy@ker=
+nel.org/T/#mea41ff4c5b6c77aaaae1ed9dac6723bc2f705107
+https://lore.kernel.org/linux-kbuild/20240908124352.1828890-1-masahiroy@ker=
+nel.org/T/#m9050a270fedb7df9a54e843674bc9ad8fd068f57
+
+
+I think simple helpers are enough for name_hash and addr_hash,
+but please let me know if you encounter a problem.
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
