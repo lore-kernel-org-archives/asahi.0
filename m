@@ -1,129 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2AC18D651;
-	Tue, 10 Sep 2024 15:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC0F1AAE3F
+	for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 21:10:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725982388; cv=none; b=I6tXr8udYDBt1kZpT7XuEyqUCg+GLfcDVHLmF2QtvafIlt6WhOTKLhfAwpNW0hzqdKh89GOE7I1RC869tdqRkHwOPgHOxdMiujTthHBRGr+d8NFEifQMNnApKRd87aES84Q0cZstMX8BVlOoFVzfy+A9gHOH82thqTxE7G5Rym4=
+	t=1726002641; cv=none; b=App4iRhYYk6HXKeyCdWcX74jTVPmu8kUPVU8iY6uKbwu6734xwJPLSb0qDfdfCoKydWBHelmows/1L5/GzsAG0msf3IvrmI7HrgTN99H9oa424DWtC37gTrGn0dkNyQVv9pGxvbeHLOxxfQe7PoPxJVG0tGwu17oMiQCQ8ZTHRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725982388; c=relaxed/simple;
-	bh=Q/k+muZNZABHT9TSMic+6ur+MGo7XG9CsgrNSrCiEXk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E18oiW8ZvYefxgnKWzJ6QrSZ0TsQnGJlir8Aol4PY2eqG+aH9YH3vjjOH5xq5jkVe/B9uQREFVsFDjU6yUEL3j+ZQ1uW6UW/7ZR8deCy41uXwFGH7P4FmAMWTuEG3o9s76kf4izr6al6Pv25ju6loKJGPmrcXbXlP5xqdWmu4pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpA9dXga; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1726002641; c=relaxed/simple;
+	bh=XE4+e/G/h/a5BwWjufqCbsxsDHKt/oX1Y9qt8d3awZg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jBkhpHHyRGr6GOGU/HWLY5TEzUYMfPVqGQ1DxZ2Z+5EM5fSkftyalbA/JWRULAeYFapHnvYlEAkq00sd3Q0xwjEq7kwThcm849hhIr9N2j9ubEYMvxXxmm44NYlPPgAJpGXuQbe1zEU8EQTAhAZZ12Eyt9tI0jspoRwHl5Vo9kA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cqUMavSq; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpA9dXga"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 758A6C4CEC3;
-	Tue, 10 Sep 2024 15:33:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1725982388;
-	bh=Q/k+muZNZABHT9TSMic+6ur+MGo7XG9CsgrNSrCiEXk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fpA9dXgago9cBUpCrezhycNUjGkJ0Q5u3/faibcLd3b1tDj8GT23gZIdPbExXC5uA
-	 8hnRGr4HbAdjK12T5SyNTPrsyIGXMcCwlhWYza+wKIXANEXycW6SnXBkGVJYlkiWCy
-	 oLpxpFrWKrsq43D5+ZN/FEYDLLdcyNn2vFl8EmvvORdu2NVI6G59RZquLR3wRBZPfB
-	 8CUVJuSIIwbf7TfxWY2bJFhta1p6dEiUqR1/kdZX6cY9YBIgQBFVDC7tZa1b4fVx7h
-	 xRJdsBdWQ44NSuA0Z1+x37lhjDPV15QI2tknfJDaRB1TZjhK3rSQBmg5TfF1baTzy+
-	 QM+DjFiRb/iIw==
-Date: Tue, 10 Sep 2024 17:33:04 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
-	asahi@lists.linux.dev
-Subject: Re: [PATCH v4 1/3] tty: serial: samsung: Use BIT() macro for
- APPLE_S5L_*
-Message-ID: <5c27uuusoxkl3v3qm5vnof6pyfrua4mtwf7w4ffzyvv265rve5@ns5ggy2gwyfa>
-References: <20240909084222.3209-1-towinchenmi@gmail.com>
- <20240909084222.3209-2-towinchenmi@gmail.com>
- <lbyvuozxjywyt46w2imk2jvwfas3p43wooj2ioyhufwkyg72da@d6stk7xk4rx4>
- <a7f7ccb0-1dd2-4df5-a2ad-1fe4c98d67e0@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cqUMavSq"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53661d95508so36989e87.1
+        for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 14:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1726002638; x=1726607438; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XE4+e/G/h/a5BwWjufqCbsxsDHKt/oX1Y9qt8d3awZg=;
+        b=cqUMavSq/Uz5Zpfg+M8swNDPDd2sPYAqSLVk1oRQrs/CsnC/ohF38Cm2Eta94AkBnX
+         ma1o9NB1xK2Jg7TS0MV84oSRF7FWutubvbHC+qoOrtH77KWUY52Q7OI2bScg899PgawC
+         fLdRf9bzCJivV2Y9Vgqj3UGczs5+/sxoQgAKuk1qusaXqJkkS7uwiVaJq5BQydjC9W8E
+         ZJ8r9/36UNELgLDxsCWctFHS0PgyaR3iuXLK9BPZpekSCmqxf63gtymEY2T9dp5MO+KN
+         Mc+OW/UeUGZHNNv6Umin+DfrnfuvqlJgtDMRbVV/fCPo95iVnuyHRil7mqFED0Lj62Bv
+         /+ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726002638; x=1726607438;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XE4+e/G/h/a5BwWjufqCbsxsDHKt/oX1Y9qt8d3awZg=;
+        b=vGNahdaszzIgWPYTRPpOQbxVaKvRabsUZnyk5DUwvv8Xw8I0OQRprpcE5a5m76j6+h
+         B0wGDw40EqdmQkFCjEuBq2wX0ICGWXdYf9BhXtZmkkFSIDQ/44cMeZRuA2vV656KvkXJ
+         CK1m6z2kOswEj5vA74cCWGkgP+zCE9BoygWM/yvSZZnbU/p4GRWWCPGRbY3C+uug5z0S
+         kK7HymC7B6G3E5ISpiUzOTKOIaB4ZK0QtLby1+PltNdcgSVFB9SQdNYZiJsqfPaSiSbB
+         +pIW/CkxZrlkZxvAMGvRwIgSQnFeLzbjctxCrl4rYg939ZFAqrRuEKVjQYojm4PZPywJ
+         G7OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWyWwTaZ5LjPEHZX1brSkgFtzb+2g1f2IXtcT10ErDE18WKzLQLvGW4ULfMeqWzN1Ysp+pRTQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPAm5jT7HbV4KpMTyfO8BvG0X/HhVDlWl872MPna91VWxKqRj0
+	nPdy0iWBhjZDmXgfvshu2e+OlBJV8g5pdGbgBSvHZ4ltwCTJP59qsMubmguJysfzgYd8ywAvLfy
+	h2N6WUwUC0Nd9WKWSZNQKcX8q5eYK8WHXPzcZ
+X-Google-Smtp-Source: AGHT+IHIo/1g0cKAyt8QSBLpZEYQTEjztdB1IERh1UKFzCf1Ts3Mvd2qv8bZQ+qVA3GI1MbRVcan2+yf5xHv8XmvNuo=
+X-Received: by 2002:a05:6512:3f14:b0:52e:934c:1cc0 with SMTP id
+ 2adb3069b0e04-53674bbe0demr32143e87.7.1726002637398; Tue, 10 Sep 2024
+ 14:10:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a7f7ccb0-1dd2-4df5-a2ad-1fe4c98d67e0@gmail.com>
+References: <20240815173903.4172139-21-samitolvanen@google.com>
+ <20240815173903.4172139-22-samitolvanen@google.com> <CAK7LNAQdutCiBkWtA6MbVLpfhB-MQXnszQm8eEiBZpeX++5eLA@mail.gmail.com>
+ <CABCJKucott2g8mZyJ0uaG+PdPTMsniR7eNCR9GwHpT_kQ+GFvg@mail.gmail.com> <CAK7LNATyv+zfSwyykKQrSjxR84ST0xTyEarnAudF2VuLPVxqnQ@mail.gmail.com>
+In-Reply-To: <CAK7LNATyv+zfSwyykKQrSjxR84ST0xTyEarnAudF2VuLPVxqnQ@mail.gmail.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Tue, 10 Sep 2024 14:09:58 -0700
+Message-ID: <CABCJKueSe0TT7HnoJULVZfz6t8x0WjkWksZ1hzBY7SZQm6iYgw@mail.gmail.com>
+Subject: Re: [PATCH v2 01/19] tools: Add gendwarfksyms
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Nick,
+On Tue, Sep 10, 2024 at 2:44=E2=80=AFAM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Fri, Sep 6, 2024 at 5:53=E2=80=AFAM Sami Tolvanen <samitolvanen@google=
+.com> wrote:
+> >
+> > Thanks for the patch! I think this would otherwise work, but I also
+> > need jhash (or a similar hash function), and I can't combine the
+> > tools/include version with this, because it ends up pulling in a
+> > duplicate definition of struct list_head. Would you consider adding a
+> > hash function as well?
+>
+>
+> I did it as a part of my kconfig works.
+>
+> Check scripts/include/hash.h added by the following patches.
+>
+> https://lore.kernel.org/linux-kbuild/20240908124352.1828890-1-masahiroy@k=
+ernel.org/T/#mea41ff4c5b6c77aaaae1ed9dac6723bc2f705107
+> https://lore.kernel.org/linux-kbuild/20240908124352.1828890-1-masahiroy@k=
+ernel.org/T/#m9050a270fedb7df9a54e843674bc9ad8fd068f57
+>
+>
+> I think simple helpers are enough for name_hash and addr_hash,
+> but please let me know if you encounter a problem.
 
-On Tue, Sep 10, 2024 at 10:26:44PM GMT, Nick Chan wrote:
-> On 10/9/2024 20:48, Andi Shyti wrote:
-> > On Mon, Sep 09, 2024 at 04:37:25PM GMT, Nick Chan wrote:
-> >> New entries using BIT() will be added soon, so change the existing ones
-> >> for consistency.
-> >>
-> >> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> > 
-> > I think this is:
-> > 
-> > Suggested-by: Krzysztof Kozlowski <krzk@kernel.org>
-> We will see... Got a bit paranoid after bad things happened with v2 and v3.
+Great, thanks! Looks like this should have everything I need.
 
-ahaha... in this case it's fine. The whole patch was suggested by
-Krzysztof, so that it makes sense to add this tag.
-
-What Krzysztof complained about is that you accidentally added
-his r-b without him telling you explicitely.
-
-> > 
-> >> ---
-> >>  include/linux/serial_s3c.h | 12 ++++++------
-> >>  1 file changed, 6 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/include/linux/serial_s3c.h b/include/linux/serial_s3c.h
-> >> index 1672cf0810ef..1e8686695487 100644
-> >> --- a/include/linux/serial_s3c.h
-> >> +++ b/include/linux/serial_s3c.h
-> >> @@ -249,9 +249,9 @@
-> >>  #define APPLE_S5L_UCON_RXTO_ENA		9
-> >>  #define APPLE_S5L_UCON_RXTHRESH_ENA	12
-> >>  #define APPLE_S5L_UCON_TXTHRESH_ENA	13
-> >> -#define APPLE_S5L_UCON_RXTO_ENA_MSK	(1 << APPLE_S5L_UCON_RXTO_ENA)
-> >> -#define APPLE_S5L_UCON_RXTHRESH_ENA_MSK	(1 << APPLE_S5L_UCON_RXTHRESH_ENA)
-> >> -#define APPLE_S5L_UCON_TXTHRESH_ENA_MSK	(1 << APPLE_S5L_UCON_TXTHRESH_ENA)
-> >> +#define APPLE_S5L_UCON_RXTO_ENA_MSK	BIT(APPLE_S5L_UCON_RXTO_ENA)
-> >> +#define APPLE_S5L_UCON_RXTHRESH_ENA_MSK	BIT(APPLE_S5L_UCON_RXTHRESH_ENA)
-> >> +#define APPLE_S5L_UCON_TXTHRESH_ENA_MSK	BIT(APPLE_S5L_UCON_TXTHRESH_ENA)
-> >>  
-> >>  #define APPLE_S5L_UCON_DEFAULT		(S3C2410_UCON_TXIRQMODE | \
-> >>  					 S3C2410_UCON_RXIRQMODE | \
-> >> @@ -260,9 +260,9 @@
-> >>  					 APPLE_S5L_UCON_RXTHRESH_ENA_MSK | \
-> >>  					 APPLE_S5L_UCON_TXTHRESH_ENA_MSK)
-> >>  
-> >> -#define APPLE_S5L_UTRSTAT_RXTHRESH	(1<<4)
-> >> -#define APPLE_S5L_UTRSTAT_TXTHRESH	(1<<5)
-> >> -#define APPLE_S5L_UTRSTAT_RXTO		(1<<9)
-> >> +#define APPLE_S5L_UTRSTAT_RXTHRESH	BIT(4)
-> >> +#define APPLE_S5L_UTRSTAT_TXTHRESH	BIT(5)
-> >> +#define APPLE_S5L_UTRSTAT_RXTO		BIT(9)
-> >>  #define APPLE_S5L_UTRSTAT_ALL_FLAGS	(0x3f0)
-> > 
-> > You could make this GENMASK(0x3f, 4)
-> Good idea, given the above context I think I may add
-> 
-> Suggested-by: Andi Shyti <andi.shyti@kernel.org>
-
-ehm... not in this case. Mine is a suggestion as reviewer and
-this little comment does not deserve a "Suggested-by" like
-in Krzysztof's case.
-
-> too. And actually it should be GENMASK(9, 3)
-
-You find out the right parameters :-)
-
-Thanks,
-Andi
-
-> > 
-> > Andi
-> 
-> Nick Chan
-> 
+Sami
