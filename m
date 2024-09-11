@@ -1,160 +1,117 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A226A1B1502
-	for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 16:03:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182CD192D74;
+	Wed, 11 Sep 2024 17:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726070629; cv=none; b=iO97hICWZhVhg3NwF8iXdnFEBfrU6mEThwEN4VPhWBGzzhTR9uu118QL5xwju9VlZaxSfbU9LL4h1xFHIhFf7z19I+EQeLACR0X7McSljnoSOvh9t7blApKoZjlWW0H7iyLUvdxrw99RAErzo4aGjwqISdW6bj/VcL4wQQO05BM=
+	t=1726077146; cv=none; b=R+n5cY5uUS919z/F0u2tNCDsj6/+va28nK1SbbLIFo+E3eXWkPdxxH4/7untY7qpz9NVP6soucomXVZYw4mC5R0+lnrrPivme/4Yn5imqkbWBG2sryIaW+Yhkppl1Z3pt+Zs6Pzi5OTt0p1VAxlzXZ29YgqJhgGgdvwqh8vh49U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726070629; c=relaxed/simple;
-	bh=9sXB+vF2HaFIBrbpsH0gLpHJzwQVTbseoo4NvxT6HN8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mWSDNdBS6soWHFsGgOa3ut18DnTTUVsR/K6Dq8p/exSo7zVXJuYAVuERUg3o1xiMVEKI55qgGoyKyV6j67QQDqGyPCClmN8WGoB7rJ4X8zvOZPiJwXCQDuNAueR5ekMursgwTOJDJ6eH28iusn7yQ52RdSFfr78uSlSQCfANW4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OoNnhhjq; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1726077146; c=relaxed/simple;
+	bh=Zd6WplPm4FdAwcsrLGkFduGLP4308+2slC70Hs9tLg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZYpAFwx1TRAyoksglIoeq/HDwD83b/v9HCSxt+KrRyqAtro6YVidXNyqZ1U9gP/y5yk5pBDGzFtk8DtqgiTvFHYFKuZISm2jVvadMDu0/lrxUTyY9gXqToGP3z3zj14cm6YQkhfoo95X7UEEmVH5y0Z11JlbTwhdUQqtlzlmkdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ksZUs4N3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OoNnhhjq"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4581cec6079so645431cf.0
-        for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 09:03:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1726070626; x=1726675426; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7nej+hDXRQGZRY33WrOI2LiHyYN70vRosnPoaBCwRhc=;
-        b=OoNnhhjqWsI8K7k9Ro6GU63bmZ0gMSj1o4T4tMSr9W1sFzvEaExvHfBK/+bVsJUoRr
-         TsHSfExdadyO1xwA2JCBXGG6yuTG8VjCgs55bMLWwALQfbW5cVi/JDKrV2Xv8gAlpMkG
-         V2vwqwAe7zVVtsEa+3cCZTpDXuLdt8y4Q8EDJrqlq5WgrSTntHs6VB5Ty1epFMRew3RI
-         7f9qBnR+SXt7+2GUluo1fkuJdkLo1l2mkPc/B9tqIQ3JtVYJLwitI8hwuWa9jK6l7GmG
-         gYJtQKijULjyi/+Y1tI0jC/3j34WehyPi1my0wPlnbqSHBQNx4tj9Xn3Hfv2bZMTrVin
-         5N9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726070626; x=1726675426;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7nej+hDXRQGZRY33WrOI2LiHyYN70vRosnPoaBCwRhc=;
-        b=wsAZYOLLbWMYXirOVj8TcWy61JW9XLfuzQ2E6K0IrqbXlMgZpuZC14cWNSNoK/Rfle
-         svrF44yNb2qxMzqQNFqLDJ2eAoPSSIfMosy4Xd+QsMzwI1XASZnzWG6lT9HKdGQNIRss
-         czTNArDpra+k3wDc1azyOgt+vZowhoDybpqGb9WiK7Us4ADTkUMCyrRAFVCdUE/fg183
-         0oErsGYbupQ3qbT9/wpS3y7apo5Kmx8x2onhKbnDARkd2RUgssVPmwvDJfqBMmxsM0V7
-         epMUNib5TrvfVV/NeZpU7WLECXLWwKYp85KiEdX/ofIsYIiNpzJFyZJ8e2+9o4WmnyfT
-         /iLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXztdTmM39TVueEhkIm1K6EbdcMqMfxLkveMjtl2nh89HXm3GC1IFcP5dxCO/pYJMkkgS0ylw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVXGr7A/gpTTn+3hkKXHy52gCBCmYXVX5vUv70sArnzIQD99vu
-	3Osb4b4rmAhXK7ZXh2UdCFwX31N91FOhifRLorTeZpjhPc6D1lLW1caWvJP+MiLhj0E7cv5tVNW
-	CiF4mBDP4SKwxRq9g5ONYGORFhXgUDg2Giv4b
-X-Google-Smtp-Source: AGHT+IFqdCZ/zpCHMcTbg+wp9DmWUAH6fN0n+S9E0/kdxeU/B33WqP/WHqvn0q9L2zpcH9hRPg20QhMF9dEBajFDZtI=
-X-Received: by 2002:a05:622a:d2:b0:456:7513:44ba with SMTP id
- d75a77b69052e-4584f3a33d4mr4259221cf.4.1726070626297; Wed, 11 Sep 2024
- 09:03:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ksZUs4N3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ECAFC4CEC0;
+	Wed, 11 Sep 2024 17:52:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1726077145;
+	bh=Zd6WplPm4FdAwcsrLGkFduGLP4308+2slC70Hs9tLg0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ksZUs4N3xj+8zFHMoJFOBd7dVLSIU2EXO7cxO8YDdt08Tt6hvWEPqDNDy1aNntc+N
+	 R7hNC93oiiFigHPxurbx1Sl5K678I9bnxaDr55bA9ANLCGUu1ARx5O53BWVlxN3rzv
+	 Y/4OCiu9XBwl3kVPyfThQ6vcd1qFLOLyNIC9iKSkfPdi0FOfYtVLk/WYwMLuZsxhg1
+	 l1p1QXxnSJAHAF2mB8ppukhxX/g1TWGVSemCmuayt+Tc8tPbzi+ADRoMkBxqwN18lF
+	 kPbgD1QvjSxlAjLi8qI+y97T+ztu8+zfOnMjW7Pqb1mnJeI8uKHQ/xrPFb8Spr+QcL
+	 eM6B4qDV6Rfrg==
+Date: Wed, 11 Sep 2024 18:52:19 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
+Subject: Re: [PATCH 02/22] dt-bindings: watchdog: apple,wdt: Add A7-A11
+ compatibles
+Message-ID: <20240911-chaplain-cargo-29a12b6257cf@spud>
+References: <20240911084353.28888-2-towinchenmi@gmail.com>
+ <20240911084353.28888-4-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-35-samitolvanen@google.com> <286b1cc5-1757-4f0a-bb66-0875f4608c7e@suse.com>
-In-Reply-To: <286b1cc5-1757-4f0a-bb66-0875f4608c7e@suse.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Wed, 11 Sep 2024 09:03:07 -0700
-Message-ID: <CABCJKudJR13PJgjr9-5Ff9Dzmb7=pSx7JWM5qTyR8oYRdtSDDA@mail.gmail.com>
-Subject: Re: [PATCH v2 14/19] gendwarfksyms: Add symbol versioning
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="UtKeLkBPSdSPElNM"
+Content-Disposition: inline
+In-Reply-To: <20240911084353.28888-4-towinchenmi@gmail.com>
+
+
+--UtKeLkBPSdSPElNM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Petr,
+On Wed, Sep 11, 2024 at 04:40:52PM +0800, Nick Chan wrote:
+> The blocks on A7-A11 SoCs are compatible with the existing driver so
+> add their per-SoC compatibles.
+>=20
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/=
+Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> index 21872e15916c..310832fa8c28 100644
+> --- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+> @@ -16,6 +16,11 @@ properties:
+>    compatible:
+>      items:
+>        - enum:
+> +          - apple,s5l8960x-wdt
+> +          - apple,t7000-wdt
+> +          - apple,s8000-wdt
+> +          - apple,t8010-wdt
+> +          - apple,t8015-wdt
 
-On Wed, Sep 11, 2024 at 3:08=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
-ote:
->
-> On 8/15/24 19:39, Sami Tolvanen wrote:
-> > +static inline unsigned long partial_crc32(const char *s, unsigned long=
- crc)
-> > +{
-> > +     while (*s)
-> > +             crc =3D partial_crc32_one(*s++, crc);
-> > +     return crc;
-> > +}
-> > +
-> > +#endif /* __CRC32_H */
->
-> I think the CRC32 code should be ideally shared between genksyms and
-> gendwarfksyms. One option would be to stick it under scripts/include,
-> not sure if the best one though.
+Can you sort these alphanumerically please?
 
-This was carried over from the initial version, which wasn't under
-scripts yet. I'm happy to deduplicate this though. Masahiro, any
-preferences on where this should go?
+>            - apple,t8103-wdt
+>            - apple,t8112-wdt
+>            - apple,t6000-wdt
+> --=20
+> 2.46.0
+>=20
 
-> > +static int get_symbol_cache(struct state *state, Dwarf_Die *die,
-> > +                         struct die **cache)
-> > +{
-> > +     checkp(symbol_set_die(state->sym, die));
-> > +     check(die_map_get(die, SYMBOL, cache));
-> > +
-> > +     if ((*cache)->state !=3D INCOMPLETE)
-> > +             return 1; /* We already processed a symbol for this DIE *=
-/
-> > +
-> > +     (*cache)->tag =3D dwarf_tag(die);
-> > +     return 0;
-> > +}
->
-> Nit: The "get_" prefix in the name of this function is misleading. It
-> isn't a plain getter but has an effect of setting the symbol die.
-> A different name would be better.
+--UtKeLkBPSdSPElNM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Sure, I'll clean this up.
+-----BEGIN PGP SIGNATURE-----
 
-> > +static int calculate_version(struct version *version, const char *name=
-,
-> > +                          struct type_list *list)
-> > +{
-> > +     check(version_init(version));
-> > +     check(__calculate_version(version, list));
-> > +     cache_clear_expanded(&expansion_cache);
-> > +     return 0;
-> > +}
->
-> Nit: The name parameter is unused.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZuHY0wAKCRB4tDGHoIJi
+0oB7AP4nPUdE2hLxQvPrgfSUTa+W6kRQafRVnC9Sscs8KWngrgD/dkTUKW+0h9Sr
+m4X7I3w4VfdUTNfdPFzUo60kkgCNCQg=
+=IbZW
+-----END PGP SIGNATURE-----
 
-Ah, so it is. I'll fix this too.
-
-> More importantly, it made me think which names are included in the CRC
-> calculation and which ones are omitted.
->
-> If I'm looking correctly, names of structs, enums and enumerators make
-> it into the calculation. On the other hand, names of struct members,
-> function parameters and exports (functions/variables) are missing.
->
-> I think the names of struct members and function parameters should be
-> added as well. If the code changes 'struct A { int cols; int rows; }' to
-> 'struct A { int rows; int cols; }' then that should be recognized as
-> a different API/ABI. The same applies to function parameters.
-
-I did leave out member names because typically renaming a member
-doesn't change the ABI, but you're right, it might help capture these
-types of changes where fields with identical types are reordered for
-some reason. I'll add names.
-
-> I'm not sure about export names. I would probably include them as well,
-> if only for consistency.
-
-I would rather leave out the symbol names to have consistent CRCs
-between symbols that have identical types. Or is there an actual
-benefit in including the symbol name in the CRC? The names are already
-rather explicitly involved when symbol versions are checked.
-
-Sami
+--UtKeLkBPSdSPElNM--
