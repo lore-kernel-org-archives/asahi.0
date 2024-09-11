@@ -1,57 +1,57 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC9A19E967
-	for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 08:48:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6ED19E995
+	for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 08:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726044513; cv=none; b=YczL7my/cs4UgOJnX8CI6R8cUp7xXCY2EqLutFdzBZ/XQ/JSsjt8zI1HTlI0u0WAOW5afUgiAElfx+2mAqlkdl9lJHM/+lDxe5B7Nt9Jqz2gUZDBzJ7kD4dfxex5XW5Ku0L5ktiz1Uxl7QYiK52AOLm1deeWqavUJdSE4GuJfMg=
+	t=1726044518; cv=none; b=mvvkYsdtXkdqG2I6TuxDv0dR6mKU5bCCjUHC5WwTZpRL4eNgMO3XPotVbmaHnMwTy3w8AoATlonkhlZBa1Zq/dWq5oYjquf+XroZeqHQt77LDxqxjBgTqAM97yQ83jBSaMVpnrNkk90DDo/1Km8eEQth5gpoLZEoNJpcnUsDIBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726044513; c=relaxed/simple;
-	bh=WNqRV8kjVJXJZ4YG/va/EvkwzJLLE57eREOK/RGHQQ0=;
+	s=arc-20240116; t=1726044518; c=relaxed/simple;
+	bh=IlwfpKeYG1A6lmRpl2J8Js+0dUrkM33rNMIVVPeLcso=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dz//Nf65RBcrMPDkVEovggumw/l6O964Ar31Abl0l32LouxZSeBTSdF+xvWNLMIpKJVHVyFUr51dfZW8hAZfPWj09OUpy/BzA5IT+y2uewu+OzyaRv53ElLYDt36v3sQ7Hsq2n6ZGggnVjbwVG8CwPhP9O9bIo1Re3HsxUQ80Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ia8k9bdp; arc=none smtp.client-ip=209.85.215.178
+	 MIME-Version; b=Iukc8IvS0Q/VEz+PMWfmY18yGk3wBhC92wlKjB3D7monpaqL1VK8Vh+/Hd8FmyB2IQ4epb4TAhMfsQJY2DCyDMiNBd3uFO0u4TKbY3TonOhMUJnr4E2fMzsaGWxCgcXEk3n/HK3Ua7GRRsZ0YzjUIguhX84nhpiGEbozt99i8Lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kMX4GETE; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ia8k9bdp"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-656d8b346d2so4162025a12.2
-        for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 01:48:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kMX4GETE"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7191fb54147so161711b3a.2
+        for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 01:48:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726044512; x=1726649312; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726044516; x=1726649316; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=skKJu76OJxOTwD1xlwFtFFTVKvyWq0V0wXx6JaBgBBg=;
-        b=Ia8k9bdpd979+A1OLmpLk1jgkafeHCOt8td30rW5aMnriIqVJnkFaT8cobvn7fUZPj
-         TCWgW2OkS+Pwzexvupy7Qyn6kFs590f5xIVJqtSgV8ZGzJVA2WyVl27kEUMlSIW9OrfB
-         KNATS7h36ugKyy+wqqa/N/YHnOKEp1rxwPtyN+ubO0y7qpmbEOR04CKNrMDJtV2qPXLh
-         +LR/khWKTKCp7plAfXfYfP4UVJXN4WI5x51xs3wXfdWa9+RS3mZw3iu4spdoF2NagpcI
-         HKkg1kj0zobekVaLL7TKtTI0VkUY9kQHLY6uhmIpvpWcp115PCbR5C84I/2jvAN9Mt3e
-         4FbQ==
+        bh=Zy0C2tn+S+ad9UGMaUozuLH5nIPIOY9VH2lYfYG3DPM=;
+        b=kMX4GETEAbB/uVZH/FZQxlSyrJ6Bv9RYhZyLIpGTEWhpcrSSyb9TgvvLp6PJNJ5S9F
+         T6oSEaNnouqajAWxl8zNzewCHcYcvto4LouIAKfI2iIKppiJriddT+40ZMcni+XlA25o
+         jCWpnaaqlnnOTLlVFiy8PORlQY6nz+L5TRcjOZxa/uoqZ9admLX/0KTMYvXEln38gGrM
+         k66qz1goKCIcFtfw2QVX7cUFWyD1yy1fMc4qTnPl25BFVlH0DyoRUS/C4u70yApbH6/B
+         a5AQ4CadJcM5FJhdmV7BCa1jQITXXJVaUuBHiijJ+rhvRiY20NqZQLs5r2zkgwQbikQI
+         9Ewg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726044512; x=1726649312;
+        d=1e100.net; s=20230601; t=1726044516; x=1726649316;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=skKJu76OJxOTwD1xlwFtFFTVKvyWq0V0wXx6JaBgBBg=;
-        b=lyhZ6y7zku+eFMRQWfDJtH48+7v57CMM/cWXpgGYzyExFFwWLXjNC64oyDv+KLOZrh
-         fCERFSTzo0OJ5pjjC0PJy1cbCY2mXXKTTRSuisUfjWvLcwqYGQUXFkvPQnKWOpz7+JXq
-         zjVwXuSC5F6XcUN6eM757M9n/BLSYIpYoya5/s+NqX3gVpIM3gIM7KMwviNPRdt9zAkC
-         PyE9JjGvjIMJR73uZWekrh9IPsS2rXLvuzWN+h/wvol9SDitO25fFlikf6rdfynGP8K0
-         fBQHYduLEP23Q88o6wyPxU1FFiu1kqJaO0O0FHn7Mp8qJ1PXDKkYLEYo5kOJ+JGtGVR9
-         9jMg==
-X-Forwarded-Encrypted: i=1; AJvYcCUZHqRguKoANkAQFKzj+4xwEbrtLYTiJmtb7hXuTuS+s5oDL0vlMEgjqdwr0ZEq8yuuBB8B2A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxXZLr2eSRGtzZl217Cv7ZeaoLJ2oNjZUdx3nX1EFGbdHOCm9qC
-	Nz1uZspYWrIGw7rBo0H5j5jQsnXsLC+TSOCMsdaAYyrGubzVfXA2
-X-Google-Smtp-Source: AGHT+IF1nFu+Ec2ol7ZDJZAlfGyY2LqUQPYWowStBXV/GRNQbWDVUTiE7+BLbu8tGFNbScsr7voaSA==
-X-Received: by 2002:a05:6a21:a4c1:b0:1cf:4422:d18b with SMTP id adf61e73a8af0-1cf5e079ecdmr5131512637.14.1726044511757;
-        Wed, 11 Sep 2024 01:48:31 -0700 (PDT)
+        bh=Zy0C2tn+S+ad9UGMaUozuLH5nIPIOY9VH2lYfYG3DPM=;
+        b=p469btifxrseMdp/ZQla2h1iAyFYcDklyx79varAbPXiqyVntW9jbgtXSnfUnWaxYQ
+         BjjVyRmQVRck41Ygb+40xb5ajKA3BksMDH/yvYgA2KeuDRA9h5cdriiAkf7m9xOC6F+p
+         Vqg4hUcElz5ox5plK79gBvxz4jYfGetvS9qMW2te4rKe4YJi79yiIMF+xvwqsfAVn891
+         JWu+jSzo8p47FuiMBfPsDiWa1mUd8pWELDwRXhUrwNNLxQjv/8kAYpdP6P8Ma2DVTEo2
+         XD51TFe6y8aGnQfrbGty11K+J+lt9+KXibEuJiCfCO5SAibkuRopUP+kw/H71wZUqZKN
+         jjPg==
+X-Forwarded-Encrypted: i=1; AJvYcCXWiIwsi11355tXvlUw5Zp+JmGWd4RRdzpwqDTIjuemIove8L4EmZygGcjAwl0Gwc2MizNYqQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSAdh4XIeN4naXD4B8V+/X5d8R4PVQgsHvdMiUJeP4aherr0On
+	yG+2dMv5Wetz+C35WJrSebz6kx48A7ouMTaMkXhU9ETHGanSM92TXSUK1R9c/EM=
+X-Google-Smtp-Source: AGHT+IEIz5d//17WPnMDgMVDUYvH7+sxfpmlvAoBsrI8xaC6pMBmCRrAzLDUicf2j5d88qL+NqMcTg==
+X-Received: by 2002:a05:6a00:886:b0:70d:22b5:5420 with SMTP id d2e1a72fcca58-718d5e5476fmr26897235b3a.15.1726044516437;
+        Wed, 11 Sep 2024 01:48:36 -0700 (PDT)
 Received: from nick-mbp.ust.hk (wf121-022.ust.hk. [175.159.121.22])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71909095177sm2530125b3a.112.2024.09.11.01.48.27
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71909095177sm2530125b3a.112.2024.09.11.01.48.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 01:48:31 -0700 (PDT)
+        Wed, 11 Sep 2024 01:48:35 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -78,9 +78,9 @@ To: Hector Martin <marcan@marcan.st>,
 Cc: Konrad Dybcio <konradybcio@kernel.org>,
 	Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH 21/22] arm64: dts: apple: t8010: Add cpufreq nodes
-Date: Wed, 11 Sep 2024 16:41:11 +0800
-Message-ID: <20240911084353.28888-23-towinchenmi@gmail.com>
+Subject: [PATCH 22/22] arm64: Kconfig: Update help text for CONFIG_ARCH_APPLE
+Date: Wed, 11 Sep 2024 16:41:12 +0800
+Message-ID: <20240911084353.28888-24-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240911084353.28888-2-towinchenmi@gmail.com>
 References: <20240911084353.28888-2-towinchenmi@gmail.com>
@@ -92,139 +92,29 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add cpufreq nodes for the A10 SoC.
-
-The Apple iPod touch 7 can only go up to 1.64 GHz, so the higher operating
-points are in t8010-fast.dtsi.
-
-A10 consists of logical cores that switches between E-mode and P-mode
-depending on the current p-state. Each mode have different capacities so
-the E-mode frequencies are adjusted to make performance scale linearly
-with clock speed.
+Apple's A7-A11 SoC is now supported, so the original help text is no longer
+accurate.
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- arch/arm64/boot/dts/apple/t8010-fast.dtsi | 19 +++++++
- arch/arm64/boot/dts/apple/t8010.dtsi      | 60 +++++++++++++++++++++++
- 2 files changed, 79 insertions(+)
+ arch/arm64/Kconfig.platforms | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/apple/t8010-fast.dtsi b/arch/arm64/boot/dts/apple/t8010-fast.dtsi
-index 4bdf1c3eccfe..9a263eadc776 100644
---- a/arch/arm64/boot/dts/apple/t8010-fast.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8010-fast.dtsi
-@@ -6,3 +6,22 @@
-  */
+diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platforms
+index 6c6d11536b42..370a9d2b6919 100644
+--- a/arch/arm64/Kconfig.platforms
++++ b/arch/arm64/Kconfig.platforms
+@@ -37,8 +37,8 @@ config ARCH_APPLE
+ 	bool "Apple Silicon SoC family"
+ 	select APPLE_AIC
+ 	help
+-	  This enables support for Apple's in-house ARM SoC family, starting
+-	  with the Apple M1.
++	  This enables support for Apple's in-house ARM SoC family, such
++	  as the Apple M1.
  
- #include "t8010.dtsi"
-+
-+/ {
-+	opp: opp-table-0 {
-+		opp08 {
-+			opp-hz = /bits/ 64 <1944000000>;
-+			opp-level = <8>;
-+		};
-+
-+		opp09 {
-+			opp-hz = /bits/ 64 <2244000000>;
-+			opp-level = <9>;
-+		};
-+
-+		opp10 {
-+			opp-hz = /bits/ 64 <2340000000>;
-+			opp-level = <10>;
-+		};
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8010.dtsi b/arch/arm64/boot/dts/apple/t8010.dtsi
-index 926a0f501477..e7d7194b412c 100644
---- a/arch/arm64/boot/dts/apple/t8010.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8010.dtsi
-@@ -50,6 +50,8 @@ cpu0: cpu@0 {
- 			compatible = "apple,hurricane-zephyr";
- 			reg = <0x0 0x0>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&opp>;
-+			performance-domains = <&cpufreq>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
-@@ -58,11 +60,63 @@ cpu1: cpu@1 {
- 			compatible = "apple,hurricane-zephyr";
- 			reg = <0x0 0x1>;
- 			cpu-release-addr = <0 0>; /* To be filled by loader */
-+			operating-points-v2 = <&opp>;
-+			performance-domains = <&cpufreq>;
- 			enable-method = "spin-table";
- 			device_type = "cpu";
- 		};
- 	};
- 
-+	opp: opp-table-0 {
-+		compatible = "operating-points-v2";
-+
-+		/*
-+		 * The E-core frequencies are adjusted so performance scales
-+		 * linearly with reported clock speed.
-+		 */
-+
-+		opp01 {
-+			opp-hz = /bits/ 64 <149000000>; /* 396 MHz, E-core */
-+			opp-level = <1>;
-+		};
-+
-+		opp02 {
-+			opp-hz = /bits/ 64 <275000000>; /* 732 MHz, E-core */
-+			opp-level = <2>;
-+		};
-+
-+		opp03 {
-+			opp-hz = /bits/ 64 <410000000>; /* 1092 MHz, E-core */
-+			opp-level = <3>;
-+		};
-+
-+		/* The following operating points are handled by the P-cores */
-+		opp04 {
-+			opp-hz = /bits/ 64 <756000000>;
-+			opp-level = <4>;
-+		};
-+
-+		opp05 {
-+			opp-hz = /bits/ 64 <1056000000>;
-+			opp-level = <5>;
-+		};
-+
-+		opp06 {
-+			opp-hz = /bits/ 64 <1356000000>;
-+			opp-level = <6>;
-+		};
-+
-+		opp07 {
-+			opp-hz = /bits/ 64 <1644000000>;
-+			opp-level = <7>;
-+		};
-+
-+		/*
-+		 * The iPod Touch 7 supports up to 1.6 GHz, faster operating
-+		 * points for other devices are in t8010-fast.dtsi
-+		 */
-+	};
-+
- 	memory@800000000 {
- 		device_type = "memory";
- 		reg = <0x8 0 0 0>; /* To be filled by loader */
-@@ -86,6 +140,12 @@ soc {
- 		nonposted-mmio;
- 		ranges;
- 
-+		cpufreq: performance-controller@202f20000 {
-+			compatible = "apple,t8010-cluster-cpufreq", "apple,t8103-cluster-cpufreq", "apple,cluster-cpufreq";
-+			reg = <0x2 0x2f20000 0 0x1000>;
-+			#performance-domain-cells = <0>;
-+		};
-+
- 		serial0: serial@20a0c0000 {
- 			compatible = "apple,s5l-uart";
- 			reg = <0x2 0x0a0c0000 0x0 0x4000>;
+ menuconfig ARCH_BCM
+ 	bool "Broadcom SoC Support"
 -- 
 2.46.0
 
