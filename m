@@ -1,57 +1,57 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B87186E24
-	for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 08:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851DD187329
+	for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 08:47:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726044457; cv=none; b=F56b4ZNpsG1sXLOKHC1ZlJYwSuAY+g/wHioLJWZMWpH02Tco31CG6WEtxo/Eb5RUu7R6IBGqxzvELuO1TgX11NZqmnd7OXsKP3Vm63Z70DYQ6Yej+I5Cs6KYjcRwVWkP6v0iu/AqYvKdsOkxOy0doHdsokq0pPHFKWN746l0h4w=
+	t=1726044461; cv=none; b=F+tmVinhhwEMgRtuVwcruH57ENBiTFfgpu9mHQ7iM3ccET71duvz30kxSzPtPFCI/5piBs3RTRNyRNmom3RYtAwqeq2Z5RSg8B0212oW+tEVwqFrFuvPXKLVbyKXzfwQKioRoAapl0kieCqI/dSXplJYIA7UU7hVKEnQCnEW2ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726044457; c=relaxed/simple;
-	bh=rlWe3x1oIfwBFP82rKxvCeoNstM7m0ilhyiMtpKm2J0=;
+	s=arc-20240116; t=1726044461; c=relaxed/simple;
+	bh=PxOC33i0Rsl2lUZhdV9oiRVYZC88KWzOhKL37rPt97U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XitaRTf1E8Pb1i7ofRrFhZz2osq4oX26/bg3OB8bUdvPxrioXaPN+bfUJ9W8oOMlmBDxPbTUh3S7ABroJRlc7mKo3xeok2QZyfqONZzVImCoZ0WGq70YOphbICgyQ3BG3jb+hmceDNzJZhROAS9sYDLe7PAXmZIGZd6iqgYjvnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMBufmKM; arc=none smtp.client-ip=209.85.210.170
+	 MIME-Version; b=UQufYsWB2epNTIPnB5YR4CBEpMQ1GxVvXvXx/NiESWHRsWa8zaejQF+kpb9nNjb3hL9N4N0y09hlUINQmquYFoN2Eb1MhP2GZgqGML84lgc6rBU8H/h3ACBF08pBiApRaTlr06SVmXfUymgSEnvve6M87nfkpbqj1SIJH3JHZuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SChVJ1LB; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMBufmKM"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-71790ed8c2dso5626242b3a.3
-        for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 01:47:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SChVJ1LB"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-718d962ad64so4769802b3a.0
+        for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 01:47:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726044455; x=1726649255; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726044460; x=1726649260; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wsMK5dZnZxr5aimciutwu7vmsAuU926u5lK8CD2rBnM=;
-        b=WMBufmKM7CIcUgD8ILtOy5IpNXlejhWezLfjdN9No4PrcrkdP1pFVtSI0kn1G7y1Uy
-         TlbvFbqvY1m/4jb+6iu1ZOAXLdZZg1dGr/eU+hBmKhpaDV/jhd/MPVSWi9U2yjB9Fylb
-         +dl/EMHqcoATDHZgiBGxnjFyZhgVylcf0xsMA1honEBZmpw8S/g7HLd+nq7puehZETKL
-         Gl8FX0Pey1xhma5Edqy5n6MlwYnjxTmFd9r/R2NE1zBFWrXO0MvyeQt68hR+ug6pS4Aj
-         TA8fkrNB7HJcPu3r9Nu3n/jddvn4w6moG6//IQsK7KXv4zv/b/RCx3ifE8wNKn7JpuOf
-         y3Pg==
+        bh=P+/aZHkh5FNnLm5U5M09ijcJHqZIVes5WSergbQUG0M=;
+        b=SChVJ1LBST83Cj/s0IGT5mle2LlRJLGEijDA9g7st1mEiloiErbZ3B8rK3PZh0Q3dQ
+         4tjrw4mHvZavms5qOgfYTlTxYFiTUq5xjcYJ6xZKex8qFOP5OO611ap9gVPrcUC9iG3O
+         rtYcSZIb+Ou6kuz1+5c4evGtMYpMwgp6R5IgAzQOlvsXpcQcvuFZApXKxa+5p7cR3CXA
+         tkdDwfLeLFGZj7TOkvQnK2MnbCIAswzB1l5nZZDrV5ya6KNo64cY1mV/A8ELbIBU0RXW
+         FQvRUv5WqtbA9HqGapHsSJtQep/0AJsOHGuB2S7trwToFOh8INdo/Ax5+5kd093O5aLy
+         RSIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726044455; x=1726649255;
+        d=1e100.net; s=20230601; t=1726044460; x=1726649260;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wsMK5dZnZxr5aimciutwu7vmsAuU926u5lK8CD2rBnM=;
-        b=V9xbd6GIxy+EwJTsiYBOK4b9v2o57N2xLYUduhjnCB9uNyfs2PdQ17g4ucvX9OcSaQ
-         5dzfHQhtH1pQ01JO7Foq3BLvtx2SpsxvaoGCeIsbPlKFfNiWVQSjp+c94szQ3xBn2UrZ
-         cryj51uR9DT04J6hs8oyMjQEKKIBX52GCFAtJModhNPfjp+0k/pJnDQ26amFf+eOsnEC
-         Ndx5tk8IeQKcUq4elwtPvC0MAwWlf4ylMBEvqM1CPTsbX+DQ8EG8d3Y90awUN0/tcpyx
-         Mr63z97h1nUcQl4oDPDPeyLXQdns1A+/roV/7a4yS5uD6HintLvYAARCyxHGIU2hw+D5
-         /WIw==
-X-Forwarded-Encrypted: i=1; AJvYcCXWVZiayqGTk9tB0/gy4rMHddL5lVrJdflLViZ2fcYWO7GJ/suiCG/Cue/gSoTvdpjJZ+7y9Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLe8AGfPap4lmpBr5O2yzMil1a+szOVG3rJxBI3M5G01jGHCFi
-	5bXmqBwEG38UdbKCGrRe9hfSyC3mA42vAJRG3vXt499+FRB7Sodx
-X-Google-Smtp-Source: AGHT+IERnHemvoP5by0tnHvzp2xdkPOo0seCRQgLQ0okm2hEjw0ezJ5MPH2AYtaklWcPO3AzarI53Q==
-X-Received: by 2002:a05:6a00:244e:b0:70d:2b95:d9c0 with SMTP id d2e1a72fcca58-718d5e55d73mr28265695b3a.14.1726044455161;
-        Wed, 11 Sep 2024 01:47:35 -0700 (PDT)
+        bh=P+/aZHkh5FNnLm5U5M09ijcJHqZIVes5WSergbQUG0M=;
+        b=rbo2SQtmAJYpMWHrHV19uJdjTao8mdDa+SJFvNbIgYl9py2Hv/fqgMTvAwfHBxFlE/
+         wgVkbrQb4NgkZKxT++CILxq/FyWxElDRMIMLi/A1VrZvVyUHAGzTK+jAHVkakAhDU7Pm
+         d3TMJqQbduiAk+9ao74qxtzbS1Dr1kaBfN591mbIvMXcTfxK6TT7BCeBYHwBJ4tKsUjv
+         kJCKctMGjIRKBfTKmBXOy5HbGLRarbslLxV8smMPwVdqJSFDhtQglIM/V+C7BJBJj1Aw
+         WDJ6aSth4om1kEjwe75w+yqMO9vzOkIhTZH/D78JEJHwQ1YDLisIoiDucMhhKWhSum1C
+         mAtA==
+X-Forwarded-Encrypted: i=1; AJvYcCU9fXoGBQtNZ8NnWV940QpVS+AlEbMNvfuhMkpufvsyjvqH84GL8kQU3vJxbKDAy1AkUNNXKA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YykgKfvECMdFdS0EtTixSPbDTKAZkYPDmtEj9W94NkZM3CyBcQL
+	SP9FtBW3acfpUNct6idxJO98jXYq6apyRleLL4hRzrbAG4D8sM9L
+X-Google-Smtp-Source: AGHT+IFWm+lBeW7Fn0wnv9eqQIov8poKTN3KAm+U4yVC5EqrImWQGILS/ta6tYOmIbYfpse5ZrzOdQ==
+X-Received: by 2002:a05:6a00:23ca:b0:719:2046:5d69 with SMTP id d2e1a72fcca58-71920466977mr861707b3a.22.1726044459800;
+        Wed, 11 Sep 2024 01:47:39 -0700 (PDT)
 Received: from nick-mbp.ust.hk (wf121-022.ust.hk. [175.159.121.22])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71909095177sm2530125b3a.112.2024.09.11.01.47.30
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71909095177sm2530125b3a.112.2024.09.11.01.47.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2024 01:47:34 -0700 (PDT)
+        Wed, 11 Sep 2024 01:47:39 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -78,9 +78,9 @@ To: Hector Martin <marcan@marcan.st>,
 Cc: Konrad Dybcio <konradybcio@kernel.org>,
 	Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH 09/22] dt-bindings: arm: apple: Add A9X devices
-Date: Wed, 11 Sep 2024 16:40:59 +0800
-Message-ID: <20240911084353.28888-11-towinchenmi@gmail.com>
+Subject: [PATCH 10/22] dt-bindings: arm: apple: Add A10 devices
+Date: Wed, 11 Sep 2024 16:41:00 +0800
+Message-ID: <20240911084353.28888-12-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240911084353.28888-2-towinchenmi@gmail.com>
 References: <20240911084353.28888-2-towinchenmi@gmail.com>
@@ -92,44 +92,55 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds the following apple,s8001 based platforms:
+Adds the following apple,t8010 based platforms:
 
-- iPad Pro (9.7 Inch)
-- iPad Pro (12.9 Inch) (1st generation)
+ - iPhone 7
+ - iPhone 7 Plus
+ - iPod Touch 7
+ - iPad 6
+ - iPad 7
 
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- Documentation/devicetree/bindings/arm/apple.yaml | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ .../devicetree/bindings/arm/apple.yaml        | 23 +++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/apple.yaml b/Documentation/devicetree/bindings/arm/apple.yaml
-index f3f100ce8072..27311c75faad 100644
+index 27311c75faad..873b62035bc4 100644
 --- a/Documentation/devicetree/bindings/arm/apple.yaml
 +++ b/Documentation/devicetree/bindings/arm/apple.yaml
-@@ -38,6 +38,11 @@ description: |
-   - iPhone SE (2016)
-   - iPad 5
+@@ -43,6 +43,14 @@ description: |
+   - iPad Pro (9.7-inch)
+   - iPad Pro (12.9-inch)
  
-+  Devices based on the "A9X" SoC:
++  Devices based on the "A10" SoC:
 +
-+  - iPad Pro (9.7-inch)
-+  - iPad Pro (12.9-inch)
++  - iPhone 7
++  - iPhone 7 Plus
++  - iPod Touch 7
++  - iPad 6
++  - iPad 7
 +
    Devices based on the "M1" SoC:
  
    - Mac mini (M1, 2020)
-@@ -150,6 +155,16 @@ properties:
-           - const: apple,s8003
+@@ -165,6 +173,21 @@ properties:
+           - const: apple,s8001
            - const: apple,arm-platform
  
-+      - description: Apple A9X SoC based platforms
++      - description: Apple A10 SoC based platforms
 +        items:
 +          - enum:
-+              - apple,j127 # iPad Pro (9.7-inch) (Wi-Fi)
-+              - apple,j128 # iPad Pro (9.7-inch) (Cellular)
-+              - apple,j98a # iPad Pro (12.9-inch) (Wi-Fi)
-+              - apple,j99a # iPad Pro (12.9-inch) (Cellular)
-+          - const: apple,s8001
++              - apple,d10  # iPhone 7 (Qualcomm)
++              - apple,d11  # iPhone 7 (Intel)
++              - apple,d101 # iPhone 7 Plus (Qualcomm)
++              - apple,d111 # iPhone 7 Plus (Intel)
++              - apple,j71b # iPad 6 (Wi-Fi)
++              - apple,j72b # iPad 6 (Cellular)
++              - apple,j171 # iPad 7 (Wi-Fi)
++              - apple,j172 # iPad 7 (Cellular)
++              - apple,n112 # iPod Touch 7
++          - const: apple,t8010
 +          - const: apple,arm-platform
 +
        - description: Apple M1 SoC based platforms
