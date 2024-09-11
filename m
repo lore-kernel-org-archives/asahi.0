@@ -1,167 +1,129 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D45E1A4F3F
-	for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 21:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9281558B7
+	for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 05:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726002992; cv=none; b=ZXDiHMiCm9UJmgGrOueukRBfiPp/agnytH8occlKWv2UPzmgtNZTSSIz2r+XLTodTOYm9LcaqZuIm5TuzkLmnesoOS7MCv3xvYaGfLPDXt09pEbnO14FMktkPtmD/NzGY++6pQHvsQR6imMX1LVCHFtNvvU4o3MWYgtwM6A1Klc=
+	t=1726031297; cv=none; b=pWoSl40Mt+5AOv5ODsHb3er3UuWfvqMmKwQG32uGAHicaD6IOgZOgnloWQXg9NUMvDryEshWgeXc3YDpRbU2MImuSO6srQ8Xmo6vYIgwiHRluYl6uyuioE46WKAeYy9iivaEHQq1J7OWXXI+stsGynAmEqPiz9tuvEdrmf/TqK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726002992; c=relaxed/simple;
-	bh=wFJuViaiJdOUX1o0VuO7DPs78bj+nqTGTP1Bs491x5w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iAdGfpthMGWLrjglWOm2Jqf9avOmCsX1jfuDrpRRrBxpMrFxnbqENnn/+zu6YIVAL3pFU3yNgtUcworVj+EGui1icus+jzW5yhF4HNEjI0T6hfxX86wZEbZkt1chJvyLz5JWu6eAsmd1YCs8Yi1MJcS+wXSxGS5wA/oYBD/xWn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ftpNBVyB; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1726031297; c=relaxed/simple;
+	bh=AwzBXZIzFQKKCdF7T+KzC877Td4dtULqKAPc7SXlFYc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IrQw5vnjgT/3Y25o5jnrFR3WT5rvT5n+HEHPAckeBTjqX/kTYTvaMRUOqPcDUCcfG0/woBXTIZa5W1Woif/k6wfUdgdDVabt/1XS6uQIQ3rCXoMbmPoLWvxEP4AiLhnj/1Xa6J2jg/caPVz8RrgeijVntnU5JAzc9Te+8gjxpp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rvzs+bOr; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ftpNBVyB"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-207349fa3d7so258975ad.1
-        for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 14:16:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rvzs+bOr"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7d50e7a3652so3635794a12.3
+        for <asahi@lists.linux.dev>; Tue, 10 Sep 2024 22:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1726002990; x=1726607790; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vQ+GpSXTU6srlPmzzRuOFiYRCInXkHTjNZjLXMTW+8A=;
-        b=ftpNBVyBMcFyUFOGvZA47xnZBXKMjNiQlxQxlczstx749rSgsbDOve21hmCUCXcuB2
-         qtprUte4PHbc+55dR//bwPq2QXZbpTovgwRYJPBPTkzNtf40mzfyrJMuLqxC0h0StTTH
-         THWe/rM1QnmnU5bHIWzvhayG1ofWhunGX36xlDvcMo3hndm5dhfXdGhpDx9pCSPT35CS
-         9+Bnt2U8gE0gQkiI8N1O7KqkbJn5Ui2t+dpRtecZRGFq3ZVkVClTnONbVdsQVLNeDjXC
-         sXII8wuS1wAHKqybuq0stVUYuu/LmoNVzKVnToLgN3zSHRX/B4F1uCMD8k7IzxZe2gpC
-         Wb8Q==
+        d=gmail.com; s=20230601; t=1726031295; x=1726636095; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FJNquf2p9Vd205iSBUl3QuEluAS8I7046ZFy2HBvaPU=;
+        b=Rvzs+bOr2O2WJEeLtuVNQlsT6yFOUfS1E2f2Hh9wPavw0nCwDWZG0NGHufS46UyWlA
+         I+o8c5CCywOnLxMhyEaXc7Aic0wNLaIebtC8PH0a3fIMJT2JwyFCiKNx5Y9FGHL1Rarg
+         mQuJDmCHvHm2Rxc9uA8XMod7iMdH7bYW9DOF7DefcZPxY7kcC1qwcGuh+tt0qOI+YZ/u
+         cu40TfCveZiIxIGIzmYl+GUIZd+/qgwb4JnFrZBvnTIHF/KMl/BfnKdQyvINpe0p/iKB
+         yf5Nyk0CKHWCH5csTZ8rLz31fyxcTxpx/wKNLOc9ZCH9XONR4Q7vYhOy1AXhqs9fGcTZ
+         yABA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726002990; x=1726607790;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vQ+GpSXTU6srlPmzzRuOFiYRCInXkHTjNZjLXMTW+8A=;
-        b=HJeqxLV9LT8rdxjUS0U6PF7wzFDNNIlgfhJh1lF/MWaEA62Hd7Y2tK+V9/L1XGIpDc
-         NwsmXecewNF4dbiEM5F6X1JH7F90YIVJpPIWEpfRCTpmh6UimZDgl759x8fM3FMHVVyp
-         mvRauJrBVEXnNlPr8rRifmEgS8gFPCOC1rS0mTi8gYH0790G1eQOKVuNUSznWuydiJrZ
-         97H7eMIzwNXAad07AfllQfssvC9Aze0fZinFVMw+tg79zDb+2+ZqtuQwTloVXEbYNysx
-         Wy2HkRET3ftwSU5tsUE2rxugoXYaGBGZSyuVfdc7KpWbXuLbr7p7d1fH7SjZN6Qai/Nh
-         VIPw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLw6lPJ8MYt1/bPr97tn4y1eSJnOCUsYAZslt7bd1h+bQxWxRgrQ03/Azaslz2G16Hr8cYBg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxo0vWf9NXptS3GgGtGQesVpnrOMxjpydfyZutwRzMplyq6LvV9
-	V5B29tWkPa4j8acJIYjG5z6+NDvpKoQob+TPbWyx6lup65UTeT3s73e95WPHe8L2VebNfi35qsp
-	oHO5Ih0NGfAfTg5rYmvuhnVqJlvup/9Xl5E2o
-X-Google-Smtp-Source: AGHT+IEX/psll2dog+nO241fC0V6++ypLFoAuwx9543jGrSb2GAYEQZkZHBT20PjPwI2C62EMdksu+R58p4s5QutSWg=
-X-Received: by 2002:a17:903:2444:b0:201:e2db:7be3 with SMTP id
- d9443c01a7336-207570ea766mr216155ad.21.1726002989611; Tue, 10 Sep 2024
- 14:16:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1726031295; x=1726636095;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FJNquf2p9Vd205iSBUl3QuEluAS8I7046ZFy2HBvaPU=;
+        b=gHC2Zj22VuFwaLDQAkjE/Ll3hbipP0T8aYYh3X9e1htiKFIO69/R4CPxzZghqCCGzg
+         FyxKBQtjzRSGrgrpCp6j99CMIJqpH2NOV07tTS2abc4YtGTeqo2GdOXuY1q/L6MrcJkv
+         KTE+Z+H+cwF8unSyth9YuY1X8SUO8TS3q6uRdaae/bW/VO2/5uvIN3GtJtFgCgB6+JU0
+         uALzIaEHVwCSBQZL7ltg+1XEKhURl9r8FHYcRd/aWNbGM6AdWgwRW6aOKvT03SXuxF1b
+         UcBqYzd2NKaN4uO7UUMKvVaQ0nzDpiWOAJmnZzdMFWVdEfvgZPAgAEY7VJt843RsERqG
+         muAA==
+X-Gm-Message-State: AOJu0YyabP4zh9yBUQMZ8hb+7r4oIZwXyQ9+iUXmB8G1HFx8Cp1ufPU8
+	XJwzuV4t5mUpCUGRy7Efepim8mWEWFQMYIAYxFZFFdCyPIm5LrZe
+X-Google-Smtp-Source: AGHT+IGHyQ/thpVPHpLlMROm5PaaH2JXUVeTNkTbxO/M3qZ9x2+zgfugUFwAwVylRL4VZAW3TYD2Yg==
+X-Received: by 2002:a05:6a20:c6cd:b0:1cf:4d21:f4c1 with SMTP id adf61e73a8af0-1cf5e094debmr3981813637.19.1726031294830;
+        Tue, 10 Sep 2024 22:08:14 -0700 (PDT)
+Received: from nick-mbp.ust.hk (wf121-022.ust.hk. [175.159.121.22])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-719090d11e6sm2156984b3a.205.2024.09.10.22.08.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Sep 2024 22:08:14 -0700 (PDT)
+From: Nick Chan <towinchenmi@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org
+Cc: asahi@lists.linux.dev,
+	Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH v5 0/3] tty: serial: samsung: Serial fixes for Apple A7-A11 SoCs
+Date: Wed, 11 Sep 2024 13:02:10 +0800
+Message-ID: <20240911050741.14477-1-towinchenmi@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-34-samitolvanen@google.com> <ac7f8644-453a-4156-b357-ba266a7a0ca6@suse.com>
-In-Reply-To: <ac7f8644-453a-4156-b357-ba266a7a0ca6@suse.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 10 Sep 2024 14:15:50 -0700
-Message-ID: <CABCJKufmgJOouD3KytBf8dv5KnNensJvw_7gNP8hygn98GtWDA@mail.gmail.com>
-Subject: Re: [PATCH v2 13/19] gendwarfksyms: Add symtypes output
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Petr,
+Hi,
 
-On Tue, Sep 10, 2024 at 7:58=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
-ote:
->
-> On 8/15/24 19:39, Sami Tolvanen wrote:
-> > @@ -122,6 +135,16 @@ int main(int argc, const char **argv)
-> >
-> >       check(symbol_read_exports(stdin));
-> >
-> > +     if (symtypes_file) {
-> > +             symfile =3D fopen(symtypes_file, "w+");
->
-> The file is sufficient to open only for writing.
+This series fixes issues with serial on A7-A11 SoCs. The changes do not
+seem to affect existing M1 and up users so they can be applied
+unconditionally.
 
-True, I'll drop the +.
+Firstly, these SoCs require 32-bit writes on the serial port. This only
+manifested in earlycon as reg-io-width in device tree is consulted for
+normal serial writes.
 
-> > +     if (symfile)
-> > +             fclose(symfile);
-> > +
-> >       return 0;
-> >  }
->
-> The fclose() call should be wrapped in check() to catch a situation when
-> flushing the stream potentially failed.
+Secondly, A7-A9 SoCs seems to use different bits for RXTO and RXTO
+enable. Accessing these bits in addition to the original RXTO and RXTO
+enable bits will allow serial rx to work correctly on those SoCs.
 
-Ack.
+Changes in v5:
+  - Convert existing APPLE_S5L_* entries to use GENMASK() macro in
+    addition to BIT(), as suggested by Andi.
 
-> > +/* See dwarf.c:is_declaration */
-> > +#define SYMBOL_DECLONLY_PREFIX "__gendwarfksyms_declonly_"
-> > +#define SYMBOL_DECLONLY_PREFIX_LEN (sizeof(SYMBOL_DECLONLY_PREFIX) - 1=
-)
->
-> Nit: These defines should go into the patch 15/19 "gendwarfksyms: Add
-> support for declaration-only data structures".
+Changes in v4:
+  - Removed fake Reviewed-by tag added by accident... need to stop
+    making stupid mistakes that wastes everyone's time. The remaining
+    Reviewed-by is real as far as I am aware.
 
-Yeah, I noticed these too. Will fix in the next version.
+Changes in v3:
+  - v2 did not declare itself as v2 in subject line... resend as v3.
 
-> > +struct type_expansion {
-> > +     char *name;
-> > +     struct type_list *expanded;
-> > +     struct type_list *last;
-> > +     size_t len;
-> > +     struct hlist_node hash;
-> > +};
->
-> I found the manipulation of type_expansion.expanded and
-> type_expansion.last somewhat strange.
->
-> The list starts already with one element in type_expansion_init(). This
-> is apparently to make the last pointer valid. This element is however
-> empty and gets only assigned on the first call to type_list_append().
-> Other elements are then added normally, always assigned.
->
-> Perhaps consider using a regular list implementation, similarly to what
-> was discussed under the patch 06/19 "gendwarfksyms: Add a cache for
-> processed DIEs".
+Changes in v2:
+  - Mention A7-A11 in the comment about changing register accesses to
+    MMIO32.
 
-Agreed, I'll switch this to a regular list in v3.
+  - Use BIT() macro for new entries, and change the existing APPLE_S5L_*
+    entries for consistency.
 
-> > +     /* Wrap names with spaces in single quotes */
-> > +     if (strstr(cache->fqn, " ")) {
-> > +             format =3D "%c#'%s'";
-> > +             len +=3D 2;
-> > +     } else {
-> > +             format =3D "%c#%s";
-> > +     }
-> > +
-> > +     name =3D malloc(len);
-> > +     if (!name) {
-> > +             error("malloc failed");
-> > +             return NULL;
-> > +     }
-> > +
-> > +     if (snprintf(name, len, format, prefix, cache->fqn) >=3D len) {
-> > +             error("snprintf failed for '%s' (length %zu)", cache->fqn=
-,
-> > +                   len);
-> > +             free(name);
-> > +             return NULL;
-> > +     }
->
-> This could be quite simplified:
->
-> const char *quote =3D strstr(cache->fqn, " ") !=3D NULL ? "'" : "";
-> if (asprintf(&name, "%c#%s%s%s", prefix, quote, cache->fqn, quote) < 0)
->         [...]
+v1: https://lore.kernel.org/linux-samsung-soc/20240907111431.2970-1-towinchenmi@gmail.com
+v2: https://lore.kernel.org/linux-samsung-soc/20240908075904.12133-1-towinchenmi@gmail.com
+v3: https://lore.kernel.org/linux-samsung-soc/20240908090939.2745-1-towinchenmi@gmail.com
+v4: https://lore.kernel.org/linux-samsung-soc/20240909084222.3209-1-towinchenmi@gmail.com/
 
-Good point, I'll change this too. Thanks for taking a look!
+Nick Chan
 
-Sami
+---
+Nick Chan (3):
+  tty: serial: samsung: Use bit manipulation macros for APPLE_S5L_*
+  tty: serial: samsung: Fix A7-A11 serial earlycon SError
+  tty: serial: samsung: Fix serial rx on Apple A7-A9
+
+ drivers/tty/serial/samsung_tty.c | 22 ++++++++++++++++------
+ include/linux/serial_s3c.h       | 24 ++++++++++++++----------
+ 2 files changed, 30 insertions(+), 16 deletions(-)
+
+
+base-commit: 6708132e80a2ced620bde9b9c36e426183544a23
+-- 
+2.46.0
+
