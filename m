@@ -1,59 +1,59 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D2518593F
-	for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 14:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDC318592F
+	for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 14:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726063850; cv=none; b=iRoIvxETREw1GWvhrAenQ+lhiFP1HrLrGDi7qJsU5vYI18j5SXAuPGR96VMgttaBYHSz6WEyhmfEYllkqG/j8vsBL6kwgh8Qga/36Ta7F7IWmEIMy6qJitwVfqfEIKDnPv86E3pyMvgJTHeDDcURulmrFpuBLPX9oTn2RSqa6bY=
+	t=1726064524; cv=none; b=MtZkjfQZi7rZ4dxq6O2Mja9zKTokXgjdjiz/NQhPaGzb2VjCHBAZBgC+ePvx8FQIzKx2kyjGRGyUbc+kWiLyW/bY35nezC4DcX0sRF3ONBakg0pby7taN7Gpr3VtO3TBjGfhOJQh0u8LzL0eQGB+QTpJtM+GDKFEwPDvzvc465U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726063850; c=relaxed/simple;
-	bh=ZK2+IxRNVqlt2+SM3hV6kWAM5192f+KQT98Sa8nIYdo=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bq12vTWmeFWuDCfkWKJbsxds7yBcQgH7LEoo8d+04nkzRyfnucz0v4UbsHVxkBpzIGz19sQn2HcZw/EyeZQ/woX8+qJDwrw/0LxkhyujC59R+7bd2pckUk9YUHuIBdE5bx672s/sO7hDJWJbko3yFwhJVDBzULnbtihCsb+72x0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ke+P7cZR; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1726064524; c=relaxed/simple;
+	bh=o76AcHbXbRGzANSciTEuox4Bvd9TI1DHxqnZ0Ai44mQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X/jwImDS/67yCcjPrdlTrduBkRuudW6N+QIXaJqOULxWcE0WCdMsNQRlq9FX05/cmV1FpdYTwMat9UXU2joZhaSS8mjlnj9X30xnwmYS54ghX6NDyEeIP4tjWEdnpeCfaF3hq53SydW2Umjq4JHugYPhL73KvlVU404x61VkB6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z6FATJjm; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ke+P7cZR"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2055a3f80a4so49001435ad.2
-        for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 07:10:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z6FATJjm"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-71781f42f75so5457808b3a.1
+        for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 07:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726063849; x=1726668649; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UHmfW921nMYPHNEVvSEZf5hsK+I8JZQzxqbgs7+8dbY=;
-        b=Ke+P7cZRNtb/1Fz0A+5Mg4SHpRh3HMU4ZYxJneb4e+xHboSIUCK+fycFTjQNYZxK7V
-         rg2nSVtyXPsqlych0eBdcBuwwNUfGMGaZMpQu2qZhz2X5KHNjWAladd29nS8bhDlPefp
-         faEOxAyUxY2Scp+B8WH4rFD5j/Utxog3gm/NMbL3PanJqMcpunlHKBMnVdIROlDarE8B
-         xNNWYVvvTIPWENTRCt1ia6/SWLVCqffaCOuzsztlkF0RwbaqrjURyMRpMrtnwqp8+JzQ
-         tmtztHV54L0JA84/IK3cx49IR3t76yXvl0OTzOAP5DXZtSktA+dY8ArhmsXOMdUsI1V6
-         CTqQ==
+        d=gmail.com; s=20230601; t=1726064522; x=1726669322; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o76AcHbXbRGzANSciTEuox4Bvd9TI1DHxqnZ0Ai44mQ=;
+        b=Z6FATJjmzQuqlFoqbHOBR1dPxlpzE12z72m3CJ/MLX6hoBb08h0BEUIR3lmWPNmlBe
+         xrC7CzQsTjci6f06VIh8vlt6qFw/AaPD5FSJTjDfbRBmiVEVZWehc+6aDig3V2Z0yU6+
+         Y0bCL0xTttWG55em7luJ3DNbq5zQsMXrlzshhk4Ob4smIQ+3ZqBje8W7oNoCmsa+t9lv
+         QKy1d7mwtPkMkWqNcvssgnHIlmiHl+gxY8EUInmsxohET2LdgDPTJTpXf2ro8jiKSaGN
+         FeEMo4DgyJFluuUy0nEx+52pHBz5ebta1Tfl3aAnYW/Nex/pRh6ZGgOpbXp3aip62rRK
+         tgOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726063849; x=1726668649;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1726064522; x=1726669322;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UHmfW921nMYPHNEVvSEZf5hsK+I8JZQzxqbgs7+8dbY=;
-        b=t9ieWyCcd2gEb8hsOttzfd2Sier0XjiAwi0rGx5te9HF9SxqyVZFJVlZRAkoZXX8/Y
-         B6uB0rUnIxcD72Zc9z/VuWuixxnJWv3tvPsmcreeKpXXvsEtDdSmPwJUWtKzRF6SbD/O
-         nd0y1z1Iu5Ge5A3aGRS25VekbFjYr3B5acjHKI8bS74EZChS6q02KrEq9kkX6rG262ID
-         n4KHeom1bDBld+jXxLG4Elnr2398BPbAGNKtfwBmIl8L6wKIiXBVVhKbcOF3hoKLOlcs
-         kPXNYQBPnifuFKhKL5SwRSziDvqIhNAWMwc2sekskH3FcN1/RN1BUp5HNij7NJ4RY2d4
-         BmjA==
-X-Forwarded-Encrypted: i=1; AJvYcCUXKxApjfTlKdTxfilqb7mHfJTz0gyVKmRFlQ08qwxcg17+59R460RkpEpPHbum58ds+vZOCg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1Bd0PQ2wcooKasF1J3F5rE1d6GID7PH1+qu+U3b46c8mVpmd5
-	Kk/ZisqBAUBbfpumjGN0W0wKlllAG8H/se/ZPWgQKMVozexkunRq
-X-Google-Smtp-Source: AGHT+IGrJBh462kHYswwLIVvVm5LhvRtm2F/elyjLvrWN1VG/mzjIm1UzoZqu6qi8hy8Ub1yQ5B1YQ==
-X-Received: by 2002:a17:902:f646:b0:206:c675:66cc with SMTP id d9443c01a7336-2074c5de235mr57743545ad.17.1726063848732;
-        Wed, 11 Sep 2024 07:10:48 -0700 (PDT)
+        bh=o76AcHbXbRGzANSciTEuox4Bvd9TI1DHxqnZ0Ai44mQ=;
+        b=aDSXTrOLC5Atr/G3gq/mvCtNAxj1KedheVRWpuE1KVLLDximWoKHUQYvqlDfDDewaf
+         UbDtsvpIxA/iIcC6zQkAKgTV4Zy4UxbTdIY+GWFlvut7YcdaghelPcpHCEmYbw86Ox+7
+         RDwWmniBmxbT3dvBXHtzBADmG0ADyizZKQa6Q9TSZQAFd1+Vqn+222wp5AP2rK3mYxuo
+         40bj8nIbJcdiVkt3T9HMNV4ieLW5sRsZAml4B0nRuDYKgsrjfnf3fGRtsyouCdaVU//e
+         CayYB3SO8JBY2OTP0HjT59eE1hJzaJ0V6Ncagevt91n8OAztbyra/DnzXkxi2a3tdNHj
+         SR7A==
+X-Forwarded-Encrypted: i=1; AJvYcCUPtVsdiNgjAbp2Z9CWzy+1pyYm8q3Jp6OGBMq2uBkPuoxVc3Z/6bvCpMT7vp0Z3vFYdMErFQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzHbSxMlVq1BSJg/sO1OtL/H3MKMhncKAfeezIZoBw36+xPrwc+
+	yjcT8nEypTBGllL5Ju7fgsHWmUdO/O3XGiqgkfewIiSe4UTofNHN
+X-Google-Smtp-Source: AGHT+IGHiWzhUZMlISG1wfusUmj12FDfLvKIhsEju2A7EBEjueSKjiPNUyeW6qF3DD+xQn/SjKUC0A==
+X-Received: by 2002:a05:6a00:94a7:b0:710:591e:b52f with SMTP id d2e1a72fcca58-718d5ded3a6mr21737936b3a.5.1726064522266;
+        Wed, 11 Sep 2024 07:22:02 -0700 (PDT)
 Received: from [192.168.0.122] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076b01a896sm7975ad.298.2024.09.11.07.10.44
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db1fba40f2sm31734a12.7.2024.09.11.07.21.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Sep 2024 07:10:48 -0700 (PDT)
-Message-ID: <587a431c-c62a-4c29-9c69-8a256a4b84a0@gmail.com>
-Date: Wed, 11 Sep 2024 22:10:43 +0800
+        Wed, 11 Sep 2024 07:22:01 -0700 (PDT)
+Message-ID: <041215c1-ad90-4257-9852-57b1d7bd490c@gmail.com>
+Date: Wed, 11 Sep 2024 22:21:56 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -62,7 +62,6 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 00/22] Initial device trees for A7-A11 based Apple devices
-From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
@@ -79,22 +78,15 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
 Cc: Konrad Dybcio <konradybcio@kernel.org>,
  Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
 References: <20240911084353.28888-2-towinchenmi@gmail.com>
- <369a32dc-330e-4827-a61f-5686f7d90a07@gmail.com>
 Content-Language: en-MW
-In-Reply-To: <369a32dc-330e-4827-a61f-5686f7d90a07@gmail.com>
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20240911084353.28888-2-towinchenmi@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 11/9/2024 20:13, Nick Chan wrote:
-> The Home Button probably should be assigned KEY_MENU instead of
-> KEY_LEFTMETA.
-So this is a bit confusing, there is KEY_HOME, KEY_MENU and KEY_HOMEPAGE,
-other phones like arch/arm64/boot/dts/qcom/msm8939-samsung-a7.dts seems
-to be using KEY_HOMEPAGE, so I think I will stick with KEY_HOMEPAGE
-
-> 
-> Nick Chan
+There is a recommended device tree node `chassis-type` to specify the
+type of the chassis. For iPhones, iPod touches and iPads it is pretty
+obvious that they are `handset` and `tablet`. However, nothing really
+fits for Apple TV so a new chassis-type value may need to be added.
 
 Nick Chan
