@@ -1,157 +1,92 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0303E17DFFC
-	for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 18:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D5D1CD2B
+	for <asahi@lists.linux.dev>; Thu, 12 Sep 2024 02:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726080017; cv=none; b=XCHdZXueWKklfxIl8zjAFMqwh/24qLG7b7RWfj3WI4LJA00eNrwyRXR+RpS64MBiVrvONwi5lKQ1hQEEjfptpb6L6foJEJzEISfCjoLGln5JE/cg9CPX4kWFdVKXc17BZDtYugssuxpQ4gsutYZaKx011l+m0QEn81q533sCq34=
+	t=1726106945; cv=none; b=EfH+JbIpT3dw2BfSW69hvgjIBk11Vm1+xQMLEQJOqzmM/EJMG0mWEpcu33ACjycwsqU0rPywWPlimLRZMBu5IohnF/UGICGPQ/MKJngCxN+inTqdGT4aL9GjTPkBkxz/aUZaDxOKEts1NeDKKu/lYvIt53gx48KKpLWU6Cof5zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726080017; c=relaxed/simple;
-	bh=7LZvl8bR4J5JCUKcVqkF7fXZODe/gIENMVevu9s2WTE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oGNGNr23lMluykWlotnEvrIH0y20lBhloBYT4OuNgStHQON2moV6rAq84oPw0B5NBbh6xd3br7qmXY+lT8oXokKCn4sToSjizhIA77XWaQFVt2X6zx8h4bcYcAnhZpB1nMZwtA4mYkMeQJpZOZ5qLrSiudD/H3n3eLKL30LYHoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fiDbWJcQ; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fiDbWJcQ"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7d5119d6fedso909993a12.0
-        for <asahi@lists.linux.dev>; Wed, 11 Sep 2024 11:40:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726080015; x=1726684815; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1+7p3Z5qCC26Ye8mLVaKGA4gMsf3x0zTnnTmPLOwPnE=;
-        b=fiDbWJcQ3dBnM09ywSKjIB55CgAFKSEH2/qU7OBNpFI8Zy0od8zz+zUdDKSQjOMDb4
-         MFi6N+jp1JNqH03EoHoqwd3Bdhy0jyRGT3v0gqwgzME6UkLGIzgTvoyk6gkYZNmB+Q0I
-         Qq38hytSUFH38XUnmNRI4BIOlmy+KGB8T3L2N86uexQq0RLUKOVMvUj1YUMppZW5JGhR
-         BMd9SFCChWilWQztSh6jXzgmpQN5jPmtP0eM4aVEf1cYIxdtCm8JFWOG4wXiWNqMvNF4
-         LvFY2EOXQE/tHbpL6vZ73AThPxBza95cvSn/zgwxIARDKm+ACYkm7LNTv9mxSyI4nPPR
-         Cnuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726080015; x=1726684815;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1+7p3Z5qCC26Ye8mLVaKGA4gMsf3x0zTnnTmPLOwPnE=;
-        b=SYgk0ExMk9u1ywQ9WPdqVkniOA+UN0rBkhD+YtK0k/izB4aofQT7waxSXTgikYAZfl
-         22ZusBQFiC/cuB83VYTCTEGHhUDyRIyb15yriTB+RCEWinpDUd7RhmUw5oCV2nsaNKKH
-         AokDztOz3jBH7jxlYFMNrDOBVQzH8LqB30IMqCqcDFb1j483vKFe57wJBcKn9wjFRYRR
-         PjwKzeYWhkVOHKuzf9LWPR+ILV0u5pBLX+R1K9r9wgHdxCFtTtxFpuPgqeio2mSRxJeB
-         le0nGHZH2mHkwJ1/bAl2bVsIa+M7IQ1x7x7Ac4XA7rcanG/QlbyzQxCGKItOik4ejuyE
-         +WRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWi70DEaPbYllOU6ZcULw29INRtkkBvyP/5ype3UNEhQ3jovRQsfxFBvAOjIDZS7tQQPFmqcw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YycSMLisrs1SyFZswZcnYy6SRvn1sNC35L+z7jIBIXDoAyhtYrj
-	7E49VHoxnF/UV8vdAtGQ4yeXbn9BWxrziVoCIhu3XcIsrbw4fxI4
-X-Google-Smtp-Source: AGHT+IGWNpBp0JEJJKNe7VJxVt4ola9QUy4T9WHvT1vG5vjPcbQJy+069xnc1aIkGvbTJudOOVEgTw==
-X-Received: by 2002:a17:902:e80f:b0:205:5f95:c283 with SMTP id d9443c01a7336-2074c5d28d9mr77798925ad.4.1726080014877;
-        Wed, 11 Sep 2024 11:40:14 -0700 (PDT)
-Received: from [192.168.0.122] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076b039539sm2541905ad.309.2024.09.11.11.40.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Sep 2024 11:40:14 -0700 (PDT)
-Message-ID: <a3849bc0-000a-4290-b2c3-71a50a750495@gmail.com>
-Date: Thu, 12 Sep 2024 02:40:09 +0800
+	s=arc-20240116; t=1726106945; c=relaxed/simple;
+	bh=V5+gNunt16oUkcf+NPsxyEcEVV/pBevZJ7IRqjTAZb4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BMoifU1YIfb2KifVvZfIGWNENu3DMTR5IoOQVdjV89UclDfxKXQhwJod2l9HJ9xkFqbUq0uFyQxwpCYoH+T9LSNgUlGeqtxklVlVMG7rOwCor7fwqJilpFeTh8z9wMuK+m69QN9ToUCe3t3ZYTIgJJPw3Ic88LUQfBcfVsvbP98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+	by APP-03 (Coremail) with SMTP id rQCowACHjdkpTeJmNeLlAg--.8164S2;
+	Thu, 12 Sep 2024 10:08:45 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: marcan@marcan.st,
+	sven@svenpeter.dev,
+	alyssa@rosenzweig.io,
+	linus.walleij@linaro.org,
+	joey.gouly@arm.com,
+	stan@corellium.com,
+	maz@kernel.org,
+	akpm@linux-foundation.org
+Cc: asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH RESEND] pinctrl: check devm_kasprintf() returned value
+Date: Thu, 12 Sep 2024 10:08:40 +0800
+Message-Id: <20240912020840.1763252-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/22] dt-bindings: arm: cpus: Add Apple A7-A11 CPU cores
-Content-Language: en-MW
-To: Conor Dooley <conor@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-watchdog@vger.kernel.org,
- Konrad Dybcio <konradybcio@kernel.org>,
- Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>
-References: <20240911084353.28888-2-towinchenmi@gmail.com>
- <20240911084353.28888-3-towinchenmi@gmail.com>
- <20240911-unsuited-pranker-60a7d0b6caf9@spud>
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20240911-unsuited-pranker-60a7d0b6caf9@spud>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowACHjdkpTeJmNeLlAg--.8164S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKFW7ZFW5Ww13ZF1fGF4xXrb_yoWDGFb_Ca
+	y8urZ7Jry8CFn8urW7tw13ZFy0ka15JFyvqrnagFW3Cry5Xr4UJrWkurn8Gw48W3s5JFyD
+	trykZrWrXw1UCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbSkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
+	0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+	Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJV
+	W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI2
+	0VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28Icx
+	kI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2Iq
+	xVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42
+	IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
+	6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aV
+	CY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU122NtUUUUU==
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 
+devm_kasprintf() can return a NULL pointer on failure but this returned
+value is not checked. Fix this lack and check the returned value.
 
+Found by code review.
 
-On 12/9/2024 02:16, Conor Dooley wrote:
-> On Wed, Sep 11, 2024 at 04:40:51PM +0800, Nick Chan wrote:
->> Add the following CPU cores:
->>
->> - apple,cyclone: A7 cores
->> - apple,typhoon: A8 cores
->> - apple,twister: A9 cores
->> - apple,hurricane-zephyr: A10 logical cores
->> - apple,monsoon: A11 performance cores
->> - apple,mistral: A11 efficiency cores
->>
->> In the Apple A10, there are physical performance-efficiency cores that
->> forms logical cores to software depending on the current p-state, and
->> only one type of core may be active at one time.
->>
->> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
->> ---
->>  Documentation/devicetree/bindings/arm/cpus.yaml | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
->> index f308ff6c3532..3959e022079f 100644
->> --- a/Documentation/devicetree/bindings/arm/cpus.yaml
->> +++ b/Documentation/devicetree/bindings/arm/cpus.yaml
->> @@ -89,6 +89,12 @@ properties:
->>        - apple,blizzard
->>        - apple,icestorm
->>        - apple,firestorm
->> +      - apple,mistral
->> +      - apple,monsoon
->> +      - apple,hurricane-zephyr
->> +      - apple,twister
->> +      - apple,typhoon
->> +      - apple,cyclone
-> 
-> Same on this one, can you add these in alphanumerical order, even if the
-> existing 3 devices are not in it? You could take the opportunity to
-> reshuffle icestorm and firestorm while you're at it.
-(Same goes for the watchdog, pinctrl and cluster-cpufreq bindings)
-I am not actually sure what is the right thing to do here. It seems that
-these bindings are
-originally sorted using SoC types (desktop or mobile) and generations.
-But then again I have
-looked at some other in-tree bindings from asahi, and it seems to be a
-mix of alphabetical
-and logical sorting in the way mentioned above.
+Cc: stable@vger.kernel.org
+Fixes: a0f160ffcb83 ("pinctrl: add pinctrl/GPIO driver for Apple SoCs")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+ drivers/pinctrl/pinctrl-apple-gpio.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Maybe we can get some clarification from an Asahi Maintainer?
-
-For the soc-level machine compatibles though, I believe that should be
-retaining the logical
-order instead of trying to use alphabetical order.
-
-> 
-> Cheers,
-> Conor.
-> 
->>        - arm,arm710t
->>        - arm,arm720t
->>        - arm,arm740t
->> -- 
->> 2.46.0
->>
-
-Nick Chan
+diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
+index 3751c7de37aa..f861e63f4115 100644
+--- a/drivers/pinctrl/pinctrl-apple-gpio.c
++++ b/drivers/pinctrl/pinctrl-apple-gpio.c
+@@ -474,6 +474,9 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
+ 	for (i = 0; i < npins; i++) {
+ 		pins[i].number = i;
+ 		pins[i].name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "PIN%u", i);
++		if (!pins[i].name)
++			return -ENOMEM;
++
+ 		pins[i].drv_data = pctl;
+ 		pin_names[i] = pins[i].name;
+ 		pin_nums[i] = i;
+-- 
+2.25.1
 
