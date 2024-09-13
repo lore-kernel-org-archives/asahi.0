@@ -1,99 +1,144 @@
-Received: from msa.smtpout.orange.fr (smtp-79.smtpout.orange.fr [80.12.242.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC62149DF0
-	for <asahi@lists.linux.dev>; Fri, 13 Sep 2024 05:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454C513D89D
+	for <asahi@lists.linux.dev>; Fri, 13 Sep 2024 08:01:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726205187; cv=none; b=aSE9TmadN80lp3loPqfyJy5Zul8s1qjn50HYs1edo35LycL63IJJxL652c3yZY6NsFQc20z7Cb+gcew+1VKLnHoooh6p5sqES57cftZepgj4K2rKNuvgFyVQpXgmea6pIfl8+61xcvgv69Wi0JX8+nyXVf1qmaDA05igxO01aLw=
+	t=1726214464; cv=none; b=ViDPGSn1ngm+5PznHmchnFfk89l7NjGyYd5nXRIu6Iw7Ch/O9YloQdRWBVcVMx3Rw5ms9W/DgZWRYFbOsPVbV6PLuVXjCrtqBLjJxhi/4z4EG7NtfLjqlmYTscbEcU5bTYiSlHEazTnGmyfPizhItU6xeh72AOe7bPysAmbdFn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726205187; c=relaxed/simple;
-	bh=oDzPv1Y1QlhN0VKg61eGukUlI585QY4rVzK17U1/DBM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uXY5nJoEWx/Yb229C5LlKadX8CjwCZwMHyQsDCuF+Y3yiI3WwduD38d3JqpnKnrt1tnUUzunM/2ktTcNJOT/6e6bP2vyHdTBbXvdLQVhY00YvEPzXNLa+yMEItkPvKbOT/YrFt28Qre6M8U7ZF6n4nnxt0LGrtH47PUJxvCweFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=NALrRdky; arc=none smtp.client-ip=80.12.242.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1726214464; c=relaxed/simple;
+	bh=WQF04KEZMGaX+rXC+csKFxpNeaJOVChWnA4IHqeeHMc=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=di74fgl72/IgRl6GcCB4H9dzgFQo5AbkpCGFeRv27FAJWBD/AccYozxiLp+nxDWxcnerIJI4OSwlu9o0dkvMJnL3rnhC+tBlMfhHmZJ7X+AcJanCAJAtVuvsy54zEla/i9oz2ztygWD4MUuYmOu86TAOXI016UcleIpicbYqZKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=GtmDrGgo; arc=none smtp.client-ip=185.70.40.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="NALrRdky"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id oyowsnGGQG3q8oyowsqRC1; Fri, 13 Sep 2024 07:26:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1726205182;
-	bh=KIKSdY+oERrLJGWIuSve8q7G/AsXHAikohdbciI8Qc4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=NALrRdkyqSw0QUjCidqRSlXV1y52pP0uv/A9xVZlDpuTgeiAfJHP4Dt7daRBd2BkU
-	 rfDoRRwmmBR/1qZ2cha8mA0lY0PyWe/7PnBTr5avaaR5gZ3vrnWdLcmYdzXAG+3Ox5
-	 6hWctQKO9CfWib3XRENrgA45ZRRJLT/06z3/1VLkp2CZeAjFx1CWjBwx6IWqGkcuQD
-	 c8oBrbiisx+85n04ejSf2aJ6LcBrTy4ogXlEOhbjiIV4FoKGKFvfyzUHIoZHtqjo/3
-	 kbuLPIaY1ploJocF5gIEUlyGdPVbO03ir/c4EM/Cq6edB+YBHCnsEI24mq8FCluZu+
-	 GqpcXBYCmh8LA==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Fri, 13 Sep 2024 07:26:22 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <3efdd5c8-84e9-4beb-811c-65db48e9af2b@wanadoo.fr>
-Date: Fri, 13 Sep 2024 07:26:12 +0200
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="GtmDrGgo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1726214461; x=1726473661;
+	bh=iyDJEHYIHv3zMkFgFswy2GwRhPDuLo3wwMT62mkDyZc=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=GtmDrGgoXHAiOQ97YVpac10Iz2v8QIJ6Zih0NUedjqUBFy+M4SDPcN4t7bUSe0OE9
+	 YgDJwvr+hSrPhGV1Pvs87ye5HB/dv3VrYweO+XNca1Ox1E84/EJXJXi5FB69UaaLSx
+	 VeuXFTmUDEpcYfrS3hOebb3f1/vC7JnIgkhumMNh710KkCYUG/xm6qEkly3+7f0Ezm
+	 ItgBSzv1rPT5e0N2JxapWBEp6HBdy4FwV9CIg9reMw3aXlbmkO1WzqvhrRqM/Pj4cS
+	 oL1hkeqA9dohCG5WmmhRX7tuVtTSgJ8mRdesA7F9wVdOO7aFJzo9c6R+OmGCdZVtO2
+	 sWFL1G9wD6wqw==
+Date: Fri, 13 Sep 2024 08:00:57 +0000
+To: Sami Tolvanen <samitolvanen@google.com>
+From: Benno Lossin <benno.lossin@proton.me>
+Cc: Petr Pavlu <petr.pavlu@suse.com>, Miroslav Benes <mbenes@suse.cz>, Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved structure fields
+Message-ID: <79860bab-4a48-4b6d-ab63-71dd57d6c590@proton.me>
+In-Reply-To: <CABCJKufJD6Zea7P_aPHNQQgCMgqkw98-XcvW8hRaTx6kcg4vUw@mail.gmail.com>
+References: <20240815173903.4172139-21-samitolvanen@google.com> <20240815173903.4172139-37-samitolvanen@google.com> <alpine.LSU.2.21.2408301114000.1124@pobox.suse.cz> <CABCJKucCWfeC0yL6Q2ZcBfef0tMd9L_gmHRJt-cUYkg_4PDtnA@mail.gmail.com> <599892ec-3cf5-4349-984b-7c94f2ba5687@suse.com> <CABCJKuer=O3FnLJNGMg2+-HxFJFUrccTuuHt5OiMpRsAJBvBsg@mail.gmail.com> <2b2d4953-d2a3-4ea2-98a4-078901cfbda3@proton.me> <CABCJKue-YtCQWinad2GW7uJuVN-ZSUmRYttK_PUurJOR51Urgg@mail.gmail.com> <66694e9a-16d1-4d4e-b825-b90707f2b42e@proton.me> <CABCJKufJD6Zea7P_aPHNQQgCMgqkw98-XcvW8hRaTx6kcg4vUw@mail.gmail.com>
+Feedback-ID: 71780778:user:proton
+X-Pm-Message-ID: 775dd34bad8d236b607b12e5776ebef360e0bc12
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND] pinctrl: check devm_kasprintf() returned value
-To: Ma Ke <make24@iscas.ac.cn>, marcan@marcan.st, sven@svenpeter.dev,
- alyssa@rosenzweig.io, linus.walleij@linaro.org, joey.gouly@arm.com,
- stan@corellium.com, maz@kernel.org, akpm@linux-foundation.org
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20240912020840.1763252-1-make24@iscas.ac.cn>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20240912020840.1763252-1-make24@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Le 12/09/2024 à 04:08, Ma Ke a écrit :
-> devm_kasprintf() can return a NULL pointer on failure but this returned
-> value is not checked. Fix this lack and check the returned value.
-> 
-> Found by code review.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: a0f160ffcb83 ("pinctrl: add pinctrl/GPIO driver for Apple SoCs")
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-> ---
->   drivers/pinctrl/pinctrl-apple-gpio.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
-> index 3751c7de37aa..f861e63f4115 100644
-> --- a/drivers/pinctrl/pinctrl-apple-gpio.c
-> +++ b/drivers/pinctrl/pinctrl-apple-gpio.c
-> @@ -474,6 +474,9 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
->   	for (i = 0; i < npins; i++) {
->   		pins[i].number = i;
->   		pins[i].name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "PIN%u", i);
-> +		if (!pins[i].name)
-> +			return -ENOMEM;
-> +
->   		pins[i].drv_data = pctl;
->   		pin_names[i] = pins[i].name;
->   		pin_nums[i] = i;
+On 13.09.24 00:37, Sami Tolvanen wrote:
+> Hi,
+>=20
+> On Thu, Sep 12, 2024 at 2:58=E2=80=AFPM Benno Lossin <benno.lossin@proton=
+.me> wrote:
+>>
+>> On 12.09.24 22:58, Sami Tolvanen wrote:
+>>> That's an interesting point. Is the problem that you cannot assign
+>>> arbitrary values to the Rust enum that bindgen generates, or is using
+>>> a #define the problem? We could probably just make the hidden enum
+>>> values visible to bindgen only if needed.
+>>
+>> So if I take your example from above add it to our bindgen input, then I
+>> get the following output:
+>>
+>>     pub const e_A: my_own_test_enum =3D 0;
+>>     pub const e_B: my_own_test_enum =3D 1;
+>>     pub type e_enum =3D core::ffi::c_uint;
+>>
+>> So it doesn't pick up the other constants at all. That is probably
+>> because we haven't enabled the bindgen flag that adds support for
+>> function-like macros. If I enable that flag (`--clang-macro-fallback`,
+>> then the output becomes:
+>>
+>>     pub const C: u32 =3D 2;
+>>     pub const D: u32 =3D 3;
+>>     pub const e_A: e =3D 0;
+>>     pub const e_B: e =3D 1;
+>>     pub type e =3D ::std::os::raw::c_uint;
+>>
+>> So it doesn't really work as we would like it to (ie missing e_ prefix).
+>=20
+> If defines are a problem, we can always use a const int instead. It
+> doesn't have to be defined inside the enum either, and probably we can
+> add a prefix too.
 
-Hi,
+They might also be a problem, though I haven't checked. It would be best
+if they can just stay in the `enum`.
 
-this is not really an issue. if pin[i].name is NULL, then 
-pinctrl_generic_add_group() below will fail with -EINVAL.
-So your change only returns a more correct error code and saves a few 
-cycles in case of (unlikely) memory allocation issue.
+>> But even if bindgen were to start supporting `#define` inside of the
+>> enum. It might still have a problem with the `#define`: there is the
+>> `--rustified-enum <REGEX>` option for bindgen that would change the
+>> output to this:
+>>
+>>     #[repr(u32)]
+>>     #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+>>     pub enum e {
+>>         A =3D 0,
+>>         B =3D 1,
+>>     }
+>>
+>> Which makes using the values on the Rust side a lot easier, since you
+>> get exhaustiveness checks when using `match`. Adding the
+>> `--clang-macro-fallback` flag, I get:
+>>
+>>     pub const C: u32 =3D 2;
+>>     pub const D: u32 =3D 3;
+>>     #[repr(u32)]
+>>     #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+>>     pub enum e {
+>>         A =3D 0,
+>>         B =3D 1,
+>>     }
+>>
+>> Which is a big problem, because the enum `e` won't have 2 or 3 as valid
+>> values (it will be UB to write them to a variable of type `e`).
+>=20
+> Yes, I sort of thought that this might be an issue. I don't see this
+> in bindgen flags right now, are you planning on switching the kernel
+> bindgen to use --rustified-enum?
 
-Anyway:
-Reviewed-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+You mean you don't see the `--clang-macro-fallback` option? I think it
+was added in version 0.70.0.
 
-CJ
+> If you do plan to use --rustified-enum, we could just use #ifdef
+> __BINDGEN__ to hide the fields from everyone else, but I think we
+> might actually need a more generic solution after all. I'll think
+> about it a bit more.
 
+Well we don't exactly plan to use `--rustified-enum`, the problem is
+that transmuting the integer that C gives us to that enum is UB, when
+the integer is not a valid bit pattern for that enum. Instead we would
+like to have an option to generate both the Rust-style enum and a
+newtype enum that can hold any integer value. We then check at runtime
+that the value is in range and error otherwise. This is being worked on
+at [1].=20
+I would say that it has the same issue that `--rustified-enum` currently
+has.
+
+[1]: https://github.com/rust-lang/rust-bindgen/pull/2908
+
+---
+Cheers,
+Benno
 
