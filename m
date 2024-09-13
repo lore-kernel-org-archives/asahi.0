@@ -1,162 +1,99 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from msa.smtpout.orange.fr (smtp-79.smtpout.orange.fr [80.12.242.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF51B1C1AC7
-	for <asahi@lists.linux.dev>; Thu, 12 Sep 2024 22:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC62149DF0
+	for <asahi@lists.linux.dev>; Fri, 13 Sep 2024 05:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726180707; cv=none; b=qyDobToYxsznyjsMGItO8P4K2xg9DNQcRLyXC3XXH7wQ219Sjn1ljEsn3Duv2wohj7wBP4pdMiNkwtPYppSVAqnGlSgPHVqCdJtKr+QshTkdMYlUGcTPOYVs78y8Ds7t+b6in+Hh3Alspl8lpAL6CmKJt8iuGA9OhmgP4z7dIGI=
+	t=1726205187; cv=none; b=aSE9TmadN80lp3loPqfyJy5Zul8s1qjn50HYs1edo35LycL63IJJxL652c3yZY6NsFQc20z7Cb+gcew+1VKLnHoooh6p5sqES57cftZepgj4K2rKNuvgFyVQpXgmea6pIfl8+61xcvgv69Wi0JX8+nyXVf1qmaDA05igxO01aLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726180707; c=relaxed/simple;
-	bh=9mj6BM6fizLwX9nwJwjHGY4UPMEYPOw8jxKpidVNMZk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=chvVahn4qPNnbD/NV4V1esZiE0B/K69TIH7c3U/UG6LD990hcs/dou+Hr1OXkdUaaiFdM+K4h9msOKkr4upYInMmiDtgxfcutlhsMJqxBd8dJUxjsQ6YxLsv+94whdszijIf7VI1uzZ7X9tXw5zt4rt2smyHEhWr7CKcNgjIZ9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=M6NfXUwJ; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1726205187; c=relaxed/simple;
+	bh=oDzPv1Y1QlhN0VKg61eGukUlI585QY4rVzK17U1/DBM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uXY5nJoEWx/Yb229C5LlKadX8CjwCZwMHyQsDCuF+Y3yiI3WwduD38d3JqpnKnrt1tnUUzunM/2ktTcNJOT/6e6bP2vyHdTBbXvdLQVhY00YvEPzXNLa+yMEItkPvKbOT/YrFt28Qre6M8U7ZF6n4nnxt0LGrtH47PUJxvCweFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=NALrRdky; arc=none smtp.client-ip=80.12.242.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M6NfXUwJ"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4582a5b495cso42811cf.1
-        for <asahi@lists.linux.dev>; Thu, 12 Sep 2024 15:38:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1726180705; x=1726785505; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zAcTkMgtXgcEEPNABEcxJ+4/CfIqLdprERFyE6aHb/Q=;
-        b=M6NfXUwJNTVPrxb30ag1KqQKnx6C4uR4lE6j83es2edGiXVoRMnyWIld1O0Bvgh1i0
-         WD/T765CUeCbfGpOGdwjm9952nrJULxBrWqbehLeRRj4QYFBSs0PZ1poV04JV0b9A6D1
-         z2cJ1Vxt3nrDf2gmCoXBGLq+GAUz9w72uOMUBQnQHhs9JEzLVIIvFWDNPOi7bJbQVA9X
-         wcufvj2WtJKvuaWAKYgeuQdmNeRt0cLJHle39c4iQDFajOuQaY2jK0UbdJ97qe39ekoW
-         NGD3CvoOUvNnBSUd9pcZUyIKHgBCvk+MmCioFyuTFDoTAxX7gGCoQZxR7u45X153AT2R
-         cD7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726180705; x=1726785505;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zAcTkMgtXgcEEPNABEcxJ+4/CfIqLdprERFyE6aHb/Q=;
-        b=RDBrdBTOswDYvKCKJONFTft8eO5goIfcPtBW5U/jjasEPYIix9Nd+ddbAFMiePvyiL
-         GpQyC61FmTBxg1VXSxzTUWzcMF7A099remdJ31W00VxQHCs+H5jSRNK/SE+ka5OisLgx
-         xkZd8DLCvsY1dm9OSKaotO06JR0LE61wziHh54xUZhB2aiUDAwHJq1slhF5hTvgOSM3U
-         /tLS4nQE7sRRd6A8YaxFB+fM/1Tqcp3GLbElYAyV+iMzoSj/mlQX3Dh5D53uCieB+DZ3
-         dClqjzYHzW7JxEak3eyszXIOSBcfwp9kxbQbIv/9vyQNHAQh/eQyoI29CazyTd03XCWs
-         c6sw==
-X-Forwarded-Encrypted: i=1; AJvYcCXLPh03cPB64/Ui67EGL2ve/AyE5vkfEn1w6/USNASaNAlPeWWECd5siy2sOkZXzVysT6/ibA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCBiqVCC8nh4eiAphwEhCGr7BC0LGomY6O7gD61sBrlbdGghNT
-	uinLYo95Kf2qROoAQ1U+r9X0JVxmV2m284TLYEGNvjScj94MzdUhtBshItDArzkpbRcKLW7AQB+
-	SCGbpozeGYjlhVyboX4bCFm8iFrdPFxyN78zd
-X-Google-Smtp-Source: AGHT+IFxU92LC/Yu17Eq7ByosE5bKTLoyHWcepiXM7BWM5Jn7DeLhwnV0QV3X6fDS1XGaHWOKCVgA6sgQltQP3wrtgc=
-X-Received: by 2002:a05:622a:24f:b0:456:7d9f:2af8 with SMTP id
- d75a77b69052e-458645121e9mr4595011cf.7.1726180704399; Thu, 12 Sep 2024
- 15:38:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="NALrRdky"
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id oyowsnGGQG3q8oyowsqRC1; Fri, 13 Sep 2024 07:26:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1726205182;
+	bh=KIKSdY+oERrLJGWIuSve8q7G/AsXHAikohdbciI8Qc4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=NALrRdkyqSw0QUjCidqRSlXV1y52pP0uv/A9xVZlDpuTgeiAfJHP4Dt7daRBd2BkU
+	 rfDoRRwmmBR/1qZ2cha8mA0lY0PyWe/7PnBTr5avaaR5gZ3vrnWdLcmYdzXAG+3Ox5
+	 6hWctQKO9CfWib3XRENrgA45ZRRJLT/06z3/1VLkp2CZeAjFx1CWjBwx6IWqGkcuQD
+	 c8oBrbiisx+85n04ejSf2aJ6LcBrTy4ogXlEOhbjiIV4FoKGKFvfyzUHIoZHtqjo/3
+	 kbuLPIaY1ploJocF5gIEUlyGdPVbO03ir/c4EM/Cq6edB+YBHCnsEI24mq8FCluZu+
+	 GqpcXBYCmh8LA==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Fri, 13 Sep 2024 07:26:22 +0200
+X-ME-IP: 90.11.132.44
+Message-ID: <3efdd5c8-84e9-4beb-811c-65db48e9af2b@wanadoo.fr>
+Date: Fri, 13 Sep 2024 07:26:12 +0200
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240815173903.4172139-21-samitolvanen@google.com>
- <20240815173903.4172139-37-samitolvanen@google.com> <alpine.LSU.2.21.2408301114000.1124@pobox.suse.cz>
- <CABCJKucCWfeC0yL6Q2ZcBfef0tMd9L_gmHRJt-cUYkg_4PDtnA@mail.gmail.com>
- <599892ec-3cf5-4349-984b-7c94f2ba5687@suse.com> <CABCJKuer=O3FnLJNGMg2+-HxFJFUrccTuuHt5OiMpRsAJBvBsg@mail.gmail.com>
- <2b2d4953-d2a3-4ea2-98a4-078901cfbda3@proton.me> <CABCJKue-YtCQWinad2GW7uJuVN-ZSUmRYttK_PUurJOR51Urgg@mail.gmail.com>
- <66694e9a-16d1-4d4e-b825-b90707f2b42e@proton.me>
-In-Reply-To: <66694e9a-16d1-4d4e-b825-b90707f2b42e@proton.me>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 12 Sep 2024 15:37:45 -0700
-Message-ID: <CABCJKufJD6Zea7P_aPHNQQgCMgqkw98-XcvW8hRaTx6kcg4vUw@mail.gmail.com>
-Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved
- structure fields
-To: Benno Lossin <benno.lossin@proton.me>
-Cc: Petr Pavlu <petr.pavlu@suse.com>, Miroslav Benes <mbenes@suse.cz>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] pinctrl: check devm_kasprintf() returned value
+To: Ma Ke <make24@iscas.ac.cn>, marcan@marcan.st, sven@svenpeter.dev,
+ alyssa@rosenzweig.io, linus.walleij@linaro.org, joey.gouly@arm.com,
+ stan@corellium.com, maz@kernel.org, akpm@linux-foundation.org
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20240912020840.1763252-1-make24@iscas.ac.cn>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20240912020840.1763252-1-make24@iscas.ac.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Le 12/09/2024 à 04:08, Ma Ke a écrit :
+> devm_kasprintf() can return a NULL pointer on failure but this returned
+> value is not checked. Fix this lack and check the returned value.
+> 
+> Found by code review.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: a0f160ffcb83 ("pinctrl: add pinctrl/GPIO driver for Apple SoCs")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> ---
+>   drivers/pinctrl/pinctrl-apple-gpio.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/pinctrl-apple-gpio.c b/drivers/pinctrl/pinctrl-apple-gpio.c
+> index 3751c7de37aa..f861e63f4115 100644
+> --- a/drivers/pinctrl/pinctrl-apple-gpio.c
+> +++ b/drivers/pinctrl/pinctrl-apple-gpio.c
+> @@ -474,6 +474,9 @@ static int apple_gpio_pinctrl_probe(struct platform_device *pdev)
+>   	for (i = 0; i < npins; i++) {
+>   		pins[i].number = i;
+>   		pins[i].name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "PIN%u", i);
+> +		if (!pins[i].name)
+> +			return -ENOMEM;
+> +
+>   		pins[i].drv_data = pctl;
+>   		pin_names[i] = pins[i].name;
+>   		pin_nums[i] = i;
 
 Hi,
 
-On Thu, Sep 12, 2024 at 2:58=E2=80=AFPM Benno Lossin <benno.lossin@proton.m=
-e> wrote:
->
-> On 12.09.24 22:58, Sami Tolvanen wrote:
-> > That's an interesting point. Is the problem that you cannot assign
-> > arbitrary values to the Rust enum that bindgen generates, or is using
-> > a #define the problem? We could probably just make the hidden enum
-> > values visible to bindgen only if needed.
->
-> So if I take your example from above add it to our bindgen input, then I
-> get the following output:
->
->     pub const e_A: my_own_test_enum =3D 0;
->     pub const e_B: my_own_test_enum =3D 1;
->     pub type e_enum =3D core::ffi::c_uint;
->
-> So it doesn't pick up the other constants at all. That is probably
-> because we haven't enabled the bindgen flag that adds support for
-> function-like macros. If I enable that flag (`--clang-macro-fallback`,
-> then the output becomes:
->
->     pub const C: u32 =3D 2;
->     pub const D: u32 =3D 3;
->     pub const e_A: e =3D 0;
->     pub const e_B: e =3D 1;
->     pub type e =3D ::std::os::raw::c_uint;
->
-> So it doesn't really work as we would like it to (ie missing e_ prefix).
+this is not really an issue. if pin[i].name is NULL, then 
+pinctrl_generic_add_group() below will fail with -EINVAL.
+So your change only returns a more correct error code and saves a few 
+cycles in case of (unlikely) memory allocation issue.
 
-If defines are a problem, we can always use a const int instead. It
-doesn't have to be defined inside the enum either, and probably we can
-add a prefix too.
+Anyway:
+Reviewed-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-> But even if bindgen were to start supporting `#define` inside of the
-> enum. It might still have a problem with the `#define`: there is the
-> `--rustified-enum <REGEX>` option for bindgen that would change the
-> output to this:
->
->     #[repr(u32)]
->     #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
->     pub enum e {
->         A =3D 0,
->         B =3D 1,
->     }
->
-> Which makes using the values on the Rust side a lot easier, since you
-> get exhaustiveness checks when using `match`. Adding the
-> `--clang-macro-fallback` flag, I get:
->
->     pub const C: u32 =3D 2;
->     pub const D: u32 =3D 3;
->     #[repr(u32)]
->     #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
->     pub enum e {
->         A =3D 0,
->         B =3D 1,
->     }
->
-> Which is a big problem, because the enum `e` won't have 2 or 3 as valid
-> values (it will be UB to write them to a variable of type `e`).
+CJ
 
-Yes, I sort of thought that this might be an issue. I don't see this
-in bindgen flags right now, are you planning on switching the kernel
-bindgen to use --rustified-enum?
 
-If you do plan to use --rustified-enum, we could just use #ifdef
-__BINDGEN__ to hide the fields from everyone else, but I think we
-might actually need a more generic solution after all. I'll think
-about it a bit more.
-
-> Would you add conditions to the `#define`? For example checking for the
-> version of kABI? (or how would it work?)
-
-Perhaps the folks maintaining distros can chime in, but I suspect
-there's typically one kABI version per branch, so there should be no
-need to maintain multiple kABI versions in the same source file.
-
-Sami
