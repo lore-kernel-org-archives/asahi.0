@@ -1,144 +1,107 @@
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454C513D89D
-	for <asahi@lists.linux.dev>; Fri, 13 Sep 2024 08:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27E85811A
+	for <asahi@lists.linux.dev>; Fri, 13 Sep 2024 17:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726214464; cv=none; b=ViDPGSn1ngm+5PznHmchnFfk89l7NjGyYd5nXRIu6Iw7Ch/O9YloQdRWBVcVMx3Rw5ms9W/DgZWRYFbOsPVbV6PLuVXjCrtqBLjJxhi/4z4EG7NtfLjqlmYTscbEcU5bTYiSlHEazTnGmyfPizhItU6xeh72AOe7bPysAmbdFn4=
+	t=1726249564; cv=none; b=b5iU2dv91DnBMuRgWt7d10AOhHxy/FxCQldpEhbfBdAn/DDI1zKKLFbLDHOtYyR3syb3zmHvfucKO7JvXagXeXNH3AmtAzNPxs6gwuJ0tnkJY02eAS1PsvOaioAgKTn3b44mAs7LMmhEHp1VfIWDnlaCHToV5a48TdA+cjb75jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726214464; c=relaxed/simple;
-	bh=WQF04KEZMGaX+rXC+csKFxpNeaJOVChWnA4IHqeeHMc=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=di74fgl72/IgRl6GcCB4H9dzgFQo5AbkpCGFeRv27FAJWBD/AccYozxiLp+nxDWxcnerIJI4OSwlu9o0dkvMJnL3rnhC+tBlMfhHmZJ7X+AcJanCAJAtVuvsy54zEla/i9oz2ztygWD4MUuYmOu86TAOXI016UcleIpicbYqZKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=GtmDrGgo; arc=none smtp.client-ip=185.70.40.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1726249564; c=relaxed/simple;
+	bh=k2Sg5pN7dYYgJRnp2XsRdLyqdDWdF3HWxsDL5TVPvEs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MwCZp+1xUJS/SpXYBClyxPCL6I4BnnGCguAcL9WyR8ZHkvZDSekSQZSbGQ5px2qN8roxBfVaX8qoBrkJsTyxEsgQ1jEu3aKEzR+UAs2GqJk507owAN0jlwKerhDKRlxqNfoOPrqpkOc6NzeEvUt7UT3JBmM4jWo4LymEFjM4s7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h7MnYYxI; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="GtmDrGgo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1726214461; x=1726473661;
-	bh=iyDJEHYIHv3zMkFgFswy2GwRhPDuLo3wwMT62mkDyZc=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=GtmDrGgoXHAiOQ97YVpac10Iz2v8QIJ6Zih0NUedjqUBFy+M4SDPcN4t7bUSe0OE9
-	 YgDJwvr+hSrPhGV1Pvs87ye5HB/dv3VrYweO+XNca1Ox1E84/EJXJXi5FB69UaaLSx
-	 VeuXFTmUDEpcYfrS3hOebb3f1/vC7JnIgkhumMNh710KkCYUG/xm6qEkly3+7f0Ezm
-	 ItgBSzv1rPT5e0N2JxapWBEp6HBdy4FwV9CIg9reMw3aXlbmkO1WzqvhrRqM/Pj4cS
-	 oL1hkeqA9dohCG5WmmhRX7tuVtTSgJ8mRdesA7F9wVdOO7aFJzo9c6R+OmGCdZVtO2
-	 sWFL1G9wD6wqw==
-Date: Fri, 13 Sep 2024 08:00:57 +0000
-To: Sami Tolvanen <samitolvanen@google.com>
-From: Benno Lossin <benno.lossin@proton.me>
-Cc: Petr Pavlu <petr.pavlu@suse.com>, Miroslav Benes <mbenes@suse.cz>, Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, Gary Guo <gary@garyguo.net>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v2 16/19] gendwarfksyms: Add support for reserved structure fields
-Message-ID: <79860bab-4a48-4b6d-ab63-71dd57d6c590@proton.me>
-In-Reply-To: <CABCJKufJD6Zea7P_aPHNQQgCMgqkw98-XcvW8hRaTx6kcg4vUw@mail.gmail.com>
-References: <20240815173903.4172139-21-samitolvanen@google.com> <20240815173903.4172139-37-samitolvanen@google.com> <alpine.LSU.2.21.2408301114000.1124@pobox.suse.cz> <CABCJKucCWfeC0yL6Q2ZcBfef0tMd9L_gmHRJt-cUYkg_4PDtnA@mail.gmail.com> <599892ec-3cf5-4349-984b-7c94f2ba5687@suse.com> <CABCJKuer=O3FnLJNGMg2+-HxFJFUrccTuuHt5OiMpRsAJBvBsg@mail.gmail.com> <2b2d4953-d2a3-4ea2-98a4-078901cfbda3@proton.me> <CABCJKue-YtCQWinad2GW7uJuVN-ZSUmRYttK_PUurJOR51Urgg@mail.gmail.com> <66694e9a-16d1-4d4e-b825-b90707f2b42e@proton.me> <CABCJKufJD6Zea7P_aPHNQQgCMgqkw98-XcvW8hRaTx6kcg4vUw@mail.gmail.com>
-Feedback-ID: 71780778:user:proton
-X-Pm-Message-ID: 775dd34bad8d236b607b12e5776ebef360e0bc12
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h7MnYYxI"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-207115e3056so23833615ad.2
+        for <asahi@lists.linux.dev>; Fri, 13 Sep 2024 10:46:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726249562; x=1726854362; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KMmVvlnDTI/iTSI2Zh5vhwF1oFsJYU1HFV/JLiFZUNw=;
+        b=h7MnYYxI4DJGDTXeLxtHey7hXdKMSmSvY5yPWMe0hLPj1hAr7EndvzfvKZ1nLFkKdl
+         9xDeTpDNWW10sc7MoXCSgTqIX71rzK8qfNwBIEnC68G76urV/eu0iSK3mz3p9ZUwuVU2
+         9KsCEuzAqLoVH4/ZdRN0ZOabPq7nOfc1amziQAeo+vC0f8HDxnJuDQ49Kjm+9CqCnsIW
+         M5Pyq0NqnIMWu8TV9vXzJCiMHZvk+ex2RDLBCP182CkZA64vMgt/qxB++wBCkbjriWbA
+         jCMWTc2JwJVJEGuwEOVQ8VeumptWKHGcsTSqxzK6xasW0lPpJmxpBLJXsFYGumPk2beT
+         GmLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726249562; x=1726854362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KMmVvlnDTI/iTSI2Zh5vhwF1oFsJYU1HFV/JLiFZUNw=;
+        b=dj+wH8+NXfdBCFvW4c6dYbVre5OZZmWccUiYuupitMI4yMo+WfBOfraSm3vLtg2DDF
+         mTjJM+EVxH5uoh/0n78WkuNC0bjjlklpoervcEk4he5TBtFvtls6RhMs0lHxbUnzv8Kv
+         QSGufhwAON9ijjCx7yTHr/OR8xuTdQvsQW0Tixoz06XYuImUwf8mPcVrwkzhbFs0elU/
+         vmSvwI5rbEr4uFs5eQ0mwpQInM9ccOFeMycUSQcFydES7+8/Yw7nMlAq2Jk9R+rf+cKS
+         FDOJ3rHNdhaLji6pSXZGREKre2AvQq8bysAVDYLR0D0/S0XD+HYoxXfTlqwdTZqT+37K
+         uTjw==
+X-Forwarded-Encrypted: i=1; AJvYcCVgy1mU7p8qsIqgHyBXUCQnlE6jKyYcz+zSDEi/g3P6TEjsFCVBhP3y0U4L3es6JpZDj9DH7Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9JvdjsRsdkqNVixVqqs5FU1Zsg7LNoGJlJ9N7bYANu0+lydFv
+	SxZ8Zk/A92b4EwTYs2jfYoQsjlOcPxlij58YBE9xuzRuupQe2NXg
+X-Google-Smtp-Source: AGHT+IGQ8EysGx88b1xm+qR1UoKo/PQr2FXhFG58fEJbseDMvs0OFF/hkxWoZMnNYF7N3WdCAQ4J9g==
+X-Received: by 2002:a17:902:b48f:b0:1fc:57b7:995c with SMTP id d9443c01a7336-2076e36cc53mr87095525ad.7.1726249561902;
+        Fri, 13 Sep 2024 10:46:01 -0700 (PDT)
+Received: from localhost.localdomain ([59.188.211.160])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-2076afdd667sm30300465ad.140.2024.09.13.10.45.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Sep 2024 10:46:01 -0700 (PDT)
+From: Nick Chan <towinchenmi@gmail.com>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-watchdog@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH] watchdog: apple: Increase reset delay to 150ms
+Date: Sat, 14 Sep 2024 01:45:05 +0800
+Message-ID: <20240913174540.45551-1-towinchenmi@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On 13.09.24 00:37, Sami Tolvanen wrote:
-> Hi,
->=20
-> On Thu, Sep 12, 2024 at 2:58=E2=80=AFPM Benno Lossin <benno.lossin@proton=
-.me> wrote:
->>
->> On 12.09.24 22:58, Sami Tolvanen wrote:
->>> That's an interesting point. Is the problem that you cannot assign
->>> arbitrary values to the Rust enum that bindgen generates, or is using
->>> a #define the problem? We could probably just make the hidden enum
->>> values visible to bindgen only if needed.
->>
->> So if I take your example from above add it to our bindgen input, then I
->> get the following output:
->>
->>     pub const e_A: my_own_test_enum =3D 0;
->>     pub const e_B: my_own_test_enum =3D 1;
->>     pub type e_enum =3D core::ffi::c_uint;
->>
->> So it doesn't pick up the other constants at all. That is probably
->> because we haven't enabled the bindgen flag that adds support for
->> function-like macros. If I enable that flag (`--clang-macro-fallback`,
->> then the output becomes:
->>
->>     pub const C: u32 =3D 2;
->>     pub const D: u32 =3D 3;
->>     pub const e_A: e =3D 0;
->>     pub const e_B: e =3D 1;
->>     pub type e =3D ::std::os::raw::c_uint;
->>
->> So it doesn't really work as we would like it to (ie missing e_ prefix).
->=20
-> If defines are a problem, we can always use a const int instead. It
-> doesn't have to be defined inside the enum either, and probably we can
-> add a prefix too.
+The Apple A8X SoC seems to be slowest at resetting, taking up to around
+125ms to reset. Wait 150ms to be safe here.
 
-They might also be a problem, though I haven't checked. It would be best
-if they can just stay in the `enum`.
-
->> But even if bindgen were to start supporting `#define` inside of the
->> enum. It might still have a problem with the `#define`: there is the
->> `--rustified-enum <REGEX>` option for bindgen that would change the
->> output to this:
->>
->>     #[repr(u32)]
->>     #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
->>     pub enum e {
->>         A =3D 0,
->>         B =3D 1,
->>     }
->>
->> Which makes using the values on the Rust side a lot easier, since you
->> get exhaustiveness checks when using `match`. Adding the
->> `--clang-macro-fallback` flag, I get:
->>
->>     pub const C: u32 =3D 2;
->>     pub const D: u32 =3D 3;
->>     #[repr(u32)]
->>     #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
->>     pub enum e {
->>         A =3D 0,
->>         B =3D 1,
->>     }
->>
->> Which is a big problem, because the enum `e` won't have 2 or 3 as valid
->> values (it will be UB to write them to a variable of type `e`).
->=20
-> Yes, I sort of thought that this might be an issue. I don't see this
-> in bindgen flags right now, are you planning on switching the kernel
-> bindgen to use --rustified-enum?
-
-You mean you don't see the `--clang-macro-fallback` option? I think it
-was added in version 0.70.0.
-
-> If you do plan to use --rustified-enum, we could just use #ifdef
-> __BINDGEN__ to hide the fields from everyone else, but I think we
-> might actually need a more generic solution after all. I'll think
-> about it a bit more.
-
-Well we don't exactly plan to use `--rustified-enum`, the problem is
-that transmuting the integer that C gives us to that enum is UB, when
-the integer is not a valid bit pattern for that enum. Instead we would
-like to have an option to generate both the Rust-style enum and a
-newtype enum that can hold any integer value. We then check at runtime
-that the value is in range and error otherwise. This is being worked on
-at [1].=20
-I would say that it has the same issue that `--rustified-enum` currently
-has.
-
-[1]: https://github.com/rust-lang/rust-bindgen/pull/2908
-
+Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
-Cheers,
-Benno
+ drivers/watchdog/apple_wdt.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
+index d4f739932f0b..353ecf0b04dc 100644
+--- a/drivers/watchdog/apple_wdt.c
++++ b/drivers/watchdog/apple_wdt.c
+@@ -127,11 +127,11 @@ static int apple_wdt_restart(struct watchdog_device *wdd, unsigned long mode,
+ 	/*
+ 	 * Flush writes and then wait for the SoC to reset. Even though the
+ 	 * reset is queued almost immediately experiments have shown that it
+-	 * can take up to ~20-25ms until the SoC is actually reset. Just wait
+-	 * 50ms here to be safe.
++	 * can take up to ~120-125ms until the SoC is actually reset. Just
++	 * wait 150ms here to be safe.
+ 	 */
+ 	(void)readl_relaxed(wdt->regs + APPLE_WDT_WD1_CUR_TIME);
+-	mdelay(50);
++	mdelay(150);
+ 
+ 	return 0;
+ }
+
+base-commit: 5acd9952f95fb4b7da6d09a3be39195a80845eb6
+-- 
+2.46.0
 
