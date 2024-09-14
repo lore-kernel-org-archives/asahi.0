@@ -1,147 +1,127 @@
-Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D76A1CDFCE
-	for <asahi@lists.linux.dev>; Sat, 14 Sep 2024 10:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0132D1D0967
+	for <asahi@lists.linux.dev>; Sat, 14 Sep 2024 17:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726308715; cv=none; b=RBaqC1/rBTyRVQP+wKPHEV4MYiZ7NnkwA4bj33sbJ/TsMVxPa/hfZrUcuYnEjsYq2w6PuHHT6uZO2NFQPrOiU/zdbc0gNBhbZghKEYxkgWYsx7y7RhSd4VF1GKCg9nLAApo4OZxnRJML/s7p72/RoSkpiYKY2vCt2EZTShUc4wU=
+	t=1726334285; cv=none; b=X7GCHKLuiDaAu4GOdEjAwHttUcACQz2lNFg/M+JSELldxkExzZpOuoVxCH2SpwSwL72EkQ3/SWNkvwXEkXS9UAyuf9C99jmwhwy9ZqhK7kps6Gt7+VPdPPzh8eQ1BSLP7zeB9gqX+fcEYbLua+2DrQBWaeKROIoMKW/Hp17y2m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726308715; c=relaxed/simple;
-	bh=c7hrh1mNhY5Po59linuz91/Lp273Kl2sAkDSofcmW3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aCMzOt6OkbAe/h9Sfqeyn5elVWiTNHxlUZKRhWr+bwwepxzKmfAhkFQyKxf+B1we468J6vI1Cb0zXk/pTQI9uPnMphHobHuurlgyKZ1wVVGQJDv+TEyiIG13rxvwGwaS4HqkFTKllBeUfox6bvxYdFCVglIxZoOxh8cJzVkYR1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=aORr7H8J; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=U9Nm20lH; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
+	s=arc-20240116; t=1726334285; c=relaxed/simple;
+	bh=aRytwP9pLBei3TTlU1BMBB5/oF2kGbMPm/3Y+2Ugk9E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pVd6oIxVJ2f+34yNzTPZ/Cv9mf/H+gVDutWrO8tIoTM8l7STwfQQweES0DJiyGbZiiLCNboS2XPHjkfiEBhrTmSjypEl28AtFuVsBd/Y7A6ZkFOWpCvf9dQ5w1aDMdmaXsL2AMew49hR3JH9aI6Rabra2g4b4abj1hA/LBW3XNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m5knE8yB; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="aORr7H8J";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="U9Nm20lH"
-Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
-	by mailfout.phl.internal (Postfix) with ESMTP id 6D141138034D;
-	Sat, 14 Sep 2024 06:11:52 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Sat, 14 Sep 2024 06:11:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1726308712; x=1726395112; bh=wdYBlJH1j2
-	NJdmrQ3AgD6IKbm38HR2Yf3Znhh5VlisQ=; b=aORr7H8JGhZkcbuntmIvaMOGA0
-	/MNDvEBK3EaaffdNtywXEszDv4oT8lgmjaAJSQ6hG4BZw3pyXUZ0HuxCFgW51Jho
-	3mxbyvmk50xrGYlquXhO9YOAOFGgFsltTBmbcmDFqDlo3RqCG9omkTpF7ayriiuJ
-	HxjmMyu8tF7M7aprtQ8tnmEszHEQLWNueWq5efKeL4iw8HZciroSaRIqJlDdr9Bn
-	8xrCLzoGJ05vb0DdrlD43/tXcrLeGGYtF3NMicV9HmVnUolIb0DH3O6WwBH4S84v
-	Op/8/PmCnq1TsZQqWGzYVx5XtRJUdpUStYtXAiSyjFzJn3UJ22qS14RzkREQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1726308712; x=1726395112; bh=wdYBlJH1j2NJdmrQ3AgD6IKbm38H
-	R2Yf3Znhh5VlisQ=; b=U9Nm20lH/voTbRJWFA4oNdsQX1ya+5iERjCc+qxE3p9N
-	V6H3QXBWhGBNMpDapVyukAbnWJkhnoNY18qLSVd8bKe3irf9zwvfZrn+7KSepErX
-	w3Zt9TGVJspLYGoC5482obPRi5YoxGuIb9hXjuDJLO2Q9jLLi252gYPhVXzXTJBn
-	XHYqPUxlR5VWYeNnYUIFaqiOteX1j7xIaD0kz/A9cp2hOvuxOLzzfG2nfaPOZv+6
-	4g8rDYXNBd5B0iwEjg12ecYIH0xzUDAhusQWpWI7o4TbmTycae11hBm0MKvCc0EC
-	20vZIXKSTkSdDcnkuN4lGVjCK/aTKYGf8HBFo7Gx5g==
-X-ME-Sender: <xms:Z2HlZgLGCIZ8gWL6kJFrNK_OJRgX8CdROU6K_bAEQdAXwk5Z7xh3-A>
-    <xme:Z2HlZgI3cIECw5vwULhBTJ8t9KgInmT1VhnPb5-_kVfEnoo2lqfrZegd5WmuoMDEU
-    Lz5XPEa5LAwbZcr2cs>
-X-ME-Received: <xmr:Z2HlZguQa1dRX1HqSEuHnyIrsg3uN2AoNXiXIL9wWhUTJARPgtvtSegE0y1IC9Fmx5vYQg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudektddgvdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeen
-    ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhgrnhhnvgesjhgrnhhnrghurdhnvg
-    htqeenucggtffrrghtthgvrhhnpeetkeegfffhhfekhfdtveejueevtdefkeehgeekgeel
-    teeluddugeeuvddukeeuffenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhgrnhhnvgesjhgr
-    nhhnrghurdhnvghtpdhnsggprhgtphhtthhopeefvddpmhhouggvpehsmhhtphhouhhtpd
-    hrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhk
-    hheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegrhihushhhse
-    gsvggrghhlvggsohgrrhgurdhorhhgpdhrtghpthhtohepfhgrsghivghnrdhprghrvghn
-    theslhhinhgrrhhordhorhhgpdhrtghpthhtohepugdqghholhgvsehtihdrtghomhdprh
-    gtphhtthhopehlohhrfhhorhhlihhnuhigsegsvggrghhlvggsohgrrhgurdhorhhgpdhr
-    tghpthhtohepjhhkrhhiughnvghrsegsvggrghhlvggsohgrrhgurdhorhhgpdhrtghpth
-    htoheprhhosggvrhhttghnvghlshhonhessggvrghglhgvsghorghrugdrohhrghdprhgt
-    phhtthhopegrfhgusehtihdrtghomh
-X-ME-Proxy: <xmx:Z2HlZtaiPXWo0hoNfwFmPC9K2ADDDofXYS8ZgxTLBNIaDKBpiSKpDQ>
-    <xmx:Z2HlZnZdFjkun-rTi_pNVt9B7MhEdaB-MEYhEQnEPnt7l3WQBz4S6Q>
-    <xmx:Z2HlZpBrLGThc8Oyk8ay8ddteDZxWvpwHx7WsmKyt6rhy076VLNfMA>
-    <xmx:Z2HlZta96gou4U4zmRiYrSQYPZ7O0VpCGl0y45bvGn_lJHxiPLwY6A>
-    <xmx:aGHlZkwpfgeBBy3OeE8ggur4QJ_hWsPnlquY6Hme4l7QxApo3RtW2okr>
-Feedback-ID: i449149f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 14 Sep 2024 06:11:51 -0400 (EDT)
-Date: Sat, 14 Sep 2024 12:11:49 +0200
-From: Janne Grunau <janne@jannau.net>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ayush Singh <ayush@beagleboard.org>, fabien.parent@linaro.org,
-	d-gole@ti.com, lorforlinux@beagleboard.org,	jkridner@beagleboard.org,
- robertcnelson@beagleboard.org,	Andrew Davis <afd@ti.com>,
- Miguel Ojeda <ojeda@kernel.org>,	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Rob Herring <robh@kernel.org>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,	Arnd Bergmann <arnd@arndb.de>,
- Nishanth Menon <nm@ti.com>,	Vignesh Raghavendra <vigneshr@ti.com>,
-	Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev
-Subject: Re: [PATCH 1/8] rust: kernel: Add Platform device and driver
- abstractions
-Message-ID: <ZuVhZV2KW2Gv340V@robin>
-References: <20240911-mikrobus-dt-v1-0-3ded4dc879e7@beagleboard.org>
- <20240911-mikrobus-dt-v1-1-3ded4dc879e7@beagleboard.org>
- <2024091106-scouring-smitten-e740@gregkh>
- <ZuHU5yrJUOKnJGrB@pollux>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m5knE8yB"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-718f28f77f4so3022031b3a.1
+        for <asahi@lists.linux.dev>; Sat, 14 Sep 2024 10:18:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726334283; x=1726939083; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5+GhMoA3xa1971oY2HzI8hp5Uk+PbFfIHHqZtQjkbuw=;
+        b=m5knE8yBJkptePNoRKIekVf0cylnCDBmXpDa/HfHw4CVFCHKr696RNXXTSt61Rr/Ef
+         OMjCgELF/RlBJkWrBn5o3pAHIgVtqb6LYDWO9pzOG6JyIFhPBtIosPrPd23eAJV3YnEl
+         N3pv9zROxlzzSFUedcTkyRol27UaR7kqLOw8b2jFdFGd+DWyHkDFwNEe4vLM+5boSL18
+         BGaTXYDFZ6Up5OdUz6818R0jc49vgjJX4ievG6mlqYMLLmPdWPrUGV4CT/wdnV3yoAKa
+         yg49ZKFTiBb1a3TW5NlXYXzKLHVmg6GKVJyLurn5BrfF+WD1O+8bYg6AYCUmP6v4sglD
+         gNxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1726334283; x=1726939083;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5+GhMoA3xa1971oY2HzI8hp5Uk+PbFfIHHqZtQjkbuw=;
+        b=QA2K7h7PKdGUBWDl4oyR4BlJxzAstrV2D+D2ZNIxu+1jqRsAkrchBdoCA59SgYV/TF
+         BgzZd3xfNrAapg9MXPa014IZpuKQcju5CSc5PR7jxK+NidyRIrX1IGCVDhSc0ZKo5meo
+         6vz9/uICSo6UJX9tPnjjKYaMpdnlnKQpfSKT2lwUuTStV2aszcRgdJ/Ow5VfJrqwZA2O
+         tvtWMoESjDFtcz3gvBDT+CWG2VUHh3LGU3eqAJmocgppZ05ktGlnmGj8WnsKEXLWt9YS
+         SE4EZfyh40rCOTA6bL0BKRT75jhfFBFUx4qoThC7jocD8tkNtLTSUoopH0P2s+4aHJVr
+         GOtw==
+X-Forwarded-Encrypted: i=1; AJvYcCXSMaWctu0Nm27GuXNoqZBtBX1ezJvzzGOKNfMFPmScMsghZajn0VOQmwJDIFnoSv6h0crfXg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZ/KyTaT7Tne26JXjNRQ+DAI6/MaFTslzUJzdpoXlcjhJMxuaX
+	xvODILVV62ha7IlvfpeP4nFdDHfhOVcNYye9c9bn2RT77CcRHt4O
+X-Google-Smtp-Source: AGHT+IEVlENJgk8dXWBf4D2XILJQRHJRlYjJlO5FZwJPUxVX2SZ1X5qAa0SOTNhIkEM4keufiASuDw==
+X-Received: by 2002:a05:6a00:b92:b0:717:8d81:e548 with SMTP id d2e1a72fcca58-7192606523bmr15785200b3a.1.1726334283027;
+        Sat, 14 Sep 2024 10:18:03 -0700 (PDT)
+Received: from [192.168.0.122] ([59.188.211.160])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7db4999cfb7sm1397145a12.79.2024.09.14.10.17.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Sep 2024 10:18:02 -0700 (PDT)
+Message-ID: <2ebf5258-b55d-4010-aa94-d5bab1f93bb5@gmail.com>
+Date: Sun, 15 Sep 2024 01:17:57 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZuHU5yrJUOKnJGrB@pollux>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/22] dt-bindings: cpufreq: apple,cluster-cpufreq: Add
+ A10 compatible
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-watchdog@vger.kernel.org
+Cc: Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
+ Konrad Dybcio <konradybcio@kernel.org>
+References: <20240914052413.68177-1-towinchenmi@gmail.com>
+ <20240914052413.68177-6-towinchenmi@gmail.com>
+Content-Language: en-MW
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <20240914052413.68177-6-towinchenmi@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 11, 2024 at 07:35:35PM +0200, Danilo Krummrich wrote:
-> On Wed, Sep 11, 2024 at 04:56:14PM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Sep 11, 2024 at 07:57:18PM +0530, Ayush Singh wrote:
-> > > +/// An identifier for Platform devices.
-> > > +///
-> > > +/// Represents the kernel's [`struct of_device_id`]. This is used to find an appropriate
-> > > +/// Platform driver.
-> > > +///
-> > > +/// [`struct of_device_id`]: srctree/include/linux/mod_devicetable.h
-> > > +pub struct DeviceId(&'static CStr);
-> > > +
-> > > +impl DeviceId {
-> > 
-> > <snip>
-> > 
-> > I appreciate posting this, but this really should go on top of the
-> > device driver work Danilo Krummrich has been doing.
+
+
+On 14/9/2024 13:17, Nick Chan wrote:
+> The block found on the Apple A10 SoC is compatible with the
+> existing driver so just add its per-SoC compatible.
 > 
-> If everyone agrees, I'd offer to just provide platform device / driver
-> abstractions with my next patch series. This way you don't need to worry
-> about aligning things with the rest of the abstractions yourself and throughout
-> potential further versions of the series.
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> ---
+>  .../devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml    | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+> index 76cb9726660e..e0d1a9813696 100644
+> --- a/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+> +++ b/Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
+> @@ -24,7 +24,9 @@ properties:
+>                - apple,t8112-cluster-cpufreq
+>            - const: apple,cluster-cpufreq
+>        - items:
+> -          - const: apple,t6000-cluster-cpufreq
+> +          - enum:
+> +              - apple,t8010-cluster-cpufreq
+> +              - apple,t6000-cluster-cpufreq
+>            - const: apple,t8103-cluster-cpufreq
+>            - const: apple,cluster-cpufreq
+>  
 
-Covering platform device/driver abstractions in the same series would
-be appreciated from asahi side. It hopefully results in earlier merge
-since it avoids a dependency on the device driver abstractions.
-Feel free to reach out to me for an earlier preview / rabsing of the
-asahi driver.
-https://github.com/AsahiLinux/linux/tree/bits/210-gpu has all relevant
-rust changes from 6.11-rc but I plan to rebase onto 6.11 in the next
-days and possibly import changes from 6.12-rc* / rust-next.
+Have to retract the cpufreq patches, a v3 without them will be available
+tomorrow. cpufreq works on iPad 7 (A10). However it is already pretty
+weird when the cpufreq did not work on Apple TV 4K (A10X), with adjusted
+p-states. However, it seems that iPhone 7 (A10) is also not working. So
+this is definitely broken. As far as the hardware interfaces go they should
+be compatible, so the only explanation that makes sense is that the behavior
+is not correct on t8010 and t8011 and it only *happened* to work on iPad 7,
+with some incorrect behaviors.
 
-Thanks
-Janne
+Marked as deferred on patchwork.
+
+Nick Chan
