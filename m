@@ -1,120 +1,147 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout7-smtp.messagingengine.com (fout7-smtp.messagingengine.com [103.168.172.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4CD1925BF
-	for <asahi@lists.linux.dev>; Sat, 14 Sep 2024 05:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D76A1CDFCE
+	for <asahi@lists.linux.dev>; Sat, 14 Sep 2024 10:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726291615; cv=none; b=CWHOHwmFMA579jVTTCU1iHh9rF7OFW/dzRYVs0e8Uuf205QMBUamWEHCfgwMce5LIjFZpbb7Obng2IZkzqrku6oB2kD+ZYY49xarVz3RrNfI8Mq/Zj7MVsXk4vd+kNrfcT0zn4L8jxpP0dQEDf3rBlUSPsu/+H5J6kY1Fp3dfnY=
+	t=1726308715; cv=none; b=RBaqC1/rBTyRVQP+wKPHEV4MYiZ7NnkwA4bj33sbJ/TsMVxPa/hfZrUcuYnEjsYq2w6PuHHT6uZO2NFQPrOiU/zdbc0gNBhbZghKEYxkgWYsx7y7RhSd4VF1GKCg9nLAApo4OZxnRJML/s7p72/RoSkpiYKY2vCt2EZTShUc4wU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726291615; c=relaxed/simple;
-	bh=IlwfpKeYG1A6lmRpl2J8Js+0dUrkM33rNMIVVPeLcso=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EBcUY/5w7sO44ZjcpBsHXI+Prl7lJGWLmTsOQBQ8qicKuZ5VlAmDSBB2BNo7kdZJDU2YfsIpE3pgy4E/BY1GRjfuHhn41OIHccHbO+pU7KFz/4AgEJl/AZnG0rj2tVtk/aYw/jKsw2uwXzxmkrVfKQfYwV5hoTYpJWxxgIdBE58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fzhYy9+J; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1726308715; c=relaxed/simple;
+	bh=c7hrh1mNhY5Po59linuz91/Lp273Kl2sAkDSofcmW3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aCMzOt6OkbAe/h9Sfqeyn5elVWiTNHxlUZKRhWr+bwwepxzKmfAhkFQyKxf+B1we468J6vI1Cb0zXk/pTQI9uPnMphHobHuurlgyKZ1wVVGQJDv+TEyiIG13rxvwGwaS4HqkFTKllBeUfox6bvxYdFCVglIxZoOxh8cJzVkYR1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=aORr7H8J; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=U9Nm20lH; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fzhYy9+J"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-6c5bcb8e8edso1310328a12.2
-        for <asahi@lists.linux.dev>; Fri, 13 Sep 2024 22:26:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726291613; x=1726896413; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zy0C2tn+S+ad9UGMaUozuLH5nIPIOY9VH2lYfYG3DPM=;
-        b=fzhYy9+JnbNR/ZBhp4ltcOtBMYireA6njugo2UvQgG+uSeVJIDm6PC30fymK8wajCm
-         b8y78NQWbdVAoyLbAGEV3i6keceKj8YD6Ud+HQoFpR5mEl/TrRN2QZPTFYRfgzKIDVU1
-         kaSEYOtEyfOXZ52TXlpR9a9gV3x+SeJJfAHHpDOy8gp9bHjyWFr/uOapenVDePTWvv7g
-         4xZKhTyxs0QpCN8VldQOqvqvbED9MehPgDbd0JG5r8kKcCCzH5WvP5E29omeY+9t8HcJ
-         cuz4XvZWZtfGH93rTe6o6F+R+SsngiNqFWq8YW7h9GVF1AfYOc559NC0gdZBCPdgkrdE
-         KGYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726291613; x=1726896413;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zy0C2tn+S+ad9UGMaUozuLH5nIPIOY9VH2lYfYG3DPM=;
-        b=mc2MNL8q7LNmV/eGQvaJIj+qB/9Oh1hpD1LdUVDZ3Ivxp+ojjkf3j7AFn+FDbR1DGI
-         WnAuBFjeo2ZZlx62Qplyg9dMnJamA748nQE6gEDVehW3gy/Y7vAjA26a6cSUqWuhKQRH
-         ZAqKKoiu/MbWqzKWcGzk4pZdSyYLRhGZ1O89eGMrezkxKnlbfxZ0boUD6JCde0+/HIWc
-         gMMsRrZBkMtP8gGHc3Uir1lXrTw7lugWJAQjjPnnOeWys3BgQ7SkHo1y7fFL9SR1q5eN
-         33QvPMeOHYONWQ1Xu2MNPuAq2xGWTbbYqU2o8wXXf3NqBmvbCgKC3Fe8wUjFOZ1j2cgB
-         QoVA==
-X-Forwarded-Encrypted: i=1; AJvYcCV5UPadVboO9LhaIKYIUjRxq1sYRlj3lI9rUFbfXdldB+VLMkHQpR6UllnAFK5yFZhmPpzpjQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yycr8wl74GK3nPtlrA/oLl5Qzd5XfokD8xumhTwiCSejklWIOQT
-	GAhJDk9uvfSJaQLwOpMIrCOfGhiHQVLhc00MHhe6/Ux0NwREPYGI
-X-Google-Smtp-Source: AGHT+IFAx3i0hnBuicVE8YdLzp74NzUBOGZMK0WvmVsGZX4ALFKO/gW3JhnXQICFiSDi3OGKhSwvZQ==
-X-Received: by 2002:a05:6a20:7b26:b0:1d1:17c6:7a38 with SMTP id adf61e73a8af0-1d117c67a9emr4578281637.9.1726291613169;
-        Fri, 13 Sep 2024 22:26:53 -0700 (PDT)
-Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71944b7b749sm391223b3a.113.2024.09.13.22.26.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Sep 2024 22:26:52 -0700 (PDT)
-From: Nick Chan <towinchenmi@gmail.com>
-To: Hector Martin <marcan@marcan.st>,
-	Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="aORr7H8J";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="U9Nm20lH"
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6D141138034D;
+	Sat, 14 Sep 2024 06:11:52 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Sat, 14 Sep 2024 06:11:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm3; t=1726308712; x=1726395112; bh=wdYBlJH1j2
+	NJdmrQ3AgD6IKbm38HR2Yf3Znhh5VlisQ=; b=aORr7H8JGhZkcbuntmIvaMOGA0
+	/MNDvEBK3EaaffdNtywXEszDv4oT8lgmjaAJSQ6hG4BZw3pyXUZ0HuxCFgW51Jho
+	3mxbyvmk50xrGYlquXhO9YOAOFGgFsltTBmbcmDFqDlo3RqCG9omkTpF7ayriiuJ
+	HxjmMyu8tF7M7aprtQ8tnmEszHEQLWNueWq5efKeL4iw8HZciroSaRIqJlDdr9Bn
+	8xrCLzoGJ05vb0DdrlD43/tXcrLeGGYtF3NMicV9HmVnUolIb0DH3O6WwBH4S84v
+	Op/8/PmCnq1TsZQqWGzYVx5XtRJUdpUStYtXAiSyjFzJn3UJ22qS14RzkREQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1726308712; x=1726395112; bh=wdYBlJH1j2NJdmrQ3AgD6IKbm38H
+	R2Yf3Znhh5VlisQ=; b=U9Nm20lH/voTbRJWFA4oNdsQX1ya+5iERjCc+qxE3p9N
+	V6H3QXBWhGBNMpDapVyukAbnWJkhnoNY18qLSVd8bKe3irf9zwvfZrn+7KSepErX
+	w3Zt9TGVJspLYGoC5482obPRi5YoxGuIb9hXjuDJLO2Q9jLLi252gYPhVXzXTJBn
+	XHYqPUxlR5VWYeNnYUIFaqiOteX1j7xIaD0kz/A9cp2hOvuxOLzzfG2nfaPOZv+6
+	4g8rDYXNBd5B0iwEjg12ecYIH0xzUDAhusQWpWI7o4TbmTycae11hBm0MKvCc0EC
+	20vZIXKSTkSdDcnkuN4lGVjCK/aTKYGf8HBFo7Gx5g==
+X-ME-Sender: <xms:Z2HlZgLGCIZ8gWL6kJFrNK_OJRgX8CdROU6K_bAEQdAXwk5Z7xh3-A>
+    <xme:Z2HlZgI3cIECw5vwULhBTJ8t9KgInmT1VhnPb5-_kVfEnoo2lqfrZegd5WmuoMDEU
+    Lz5XPEa5LAwbZcr2cs>
+X-ME-Received: <xmr:Z2HlZguQa1dRX1HqSEuHnyIrsg3uN2AoNXiXIL9wWhUTJARPgtvtSegE0y1IC9Fmx5vYQg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrudektddgvdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeen
+    ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhgrnhhnvgesjhgrnhhnrghurdhnvg
+    htqeenucggtffrrghtthgvrhhnpeetkeegfffhhfekhfdtveejueevtdefkeehgeekgeel
+    teeluddugeeuvddukeeuffenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhgrnhhnvgesjhgr
+    nhhnrghurdhnvghtpdhnsggprhgtphhtthhopeefvddpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepuggrkhhrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhk
+    hheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegrhihushhhse
+    gsvggrghhlvggsohgrrhgurdhorhhgpdhrtghpthhtohepfhgrsghivghnrdhprghrvghn
+    theslhhinhgrrhhordhorhhgpdhrtghpthhtohepugdqghholhgvsehtihdrtghomhdprh
+    gtphhtthhopehlohhrfhhorhhlihhnuhigsegsvggrghhlvggsohgrrhgurdhorhhgpdhr
+    tghpthhtohepjhhkrhhiughnvghrsegsvggrghhlvggsohgrrhgurdhorhhgpdhrtghpth
+    htoheprhhosggvrhhttghnvghlshhonhessggvrghglhgvsghorghrugdrohhrghdprhgt
+    phhtthhopegrfhgusehtihdrtghomh
+X-ME-Proxy: <xmx:Z2HlZtaiPXWo0hoNfwFmPC9K2ADDDofXYS8ZgxTLBNIaDKBpiSKpDQ>
+    <xmx:Z2HlZnZdFjkun-rTi_pNVt9B7MhEdaB-MEYhEQnEPnt7l3WQBz4S6Q>
+    <xmx:Z2HlZpBrLGThc8Oyk8ay8ddteDZxWvpwHx7WsmKyt6rhy076VLNfMA>
+    <xmx:Z2HlZta96gou4U4zmRiYrSQYPZ7O0VpCGl0y45bvGn_lJHxiPLwY6A>
+    <xmx:aGHlZkwpfgeBBy3OeE8ggur4QJ_hWsPnlquY6Hme4l7QxApo3RtW2okr>
+Feedback-ID: i449149f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 14 Sep 2024 06:11:51 -0400 (EDT)
+Date: Sat, 14 Sep 2024 12:11:49 +0200
+From: Janne Grunau <janne@jannau.net>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ayush Singh <ayush@beagleboard.org>, fabien.parent@linaro.org,
+	d-gole@ti.com, lorforlinux@beagleboard.org,	jkridner@beagleboard.org,
+ robertcnelson@beagleboard.org,	Andrew Davis <afd@ti.com>,
+ Miguel Ojeda <ojeda@kernel.org>,	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Rob Herring <robh@kernel.org>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Mark Kettenis <kettenis@openbsd.org>,
-	asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-watchdog@vger.kernel.org
-Cc: Nick Chan <towinchenmi@gmail.com>,
-	Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Subject: [PATCH v2 22/22] arm64: Kconfig: Update help text for CONFIG_ARCH_APPLE
-Date: Sat, 14 Sep 2024 13:17:31 +0800
-Message-ID: <20240914052413.68177-26-towinchenmi@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20240914052413.68177-1-towinchenmi@gmail.com>
-References: <20240914052413.68177-1-towinchenmi@gmail.com>
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,	Arnd Bergmann <arnd@arndb.de>,
+ Nishanth Menon <nm@ti.com>,	Vignesh Raghavendra <vigneshr@ti.com>,
+	Tero Kristo <kristo@kernel.org>, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, asahi@lists.linux.dev
+Subject: Re: [PATCH 1/8] rust: kernel: Add Platform device and driver
+ abstractions
+Message-ID: <ZuVhZV2KW2Gv340V@robin>
+References: <20240911-mikrobus-dt-v1-0-3ded4dc879e7@beagleboard.org>
+ <20240911-mikrobus-dt-v1-1-3ded4dc879e7@beagleboard.org>
+ <2024091106-scouring-smitten-e740@gregkh>
+ <ZuHU5yrJUOKnJGrB@pollux>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZuHU5yrJUOKnJGrB@pollux>
 
-Apple's A7-A11 SoC is now supported, so the original help text is no longer
-accurate.
+On Wed, Sep 11, 2024 at 07:35:35PM +0200, Danilo Krummrich wrote:
+> On Wed, Sep 11, 2024 at 04:56:14PM +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Sep 11, 2024 at 07:57:18PM +0530, Ayush Singh wrote:
+> > > +/// An identifier for Platform devices.
+> > > +///
+> > > +/// Represents the kernel's [`struct of_device_id`]. This is used to find an appropriate
+> > > +/// Platform driver.
+> > > +///
+> > > +/// [`struct of_device_id`]: srctree/include/linux/mod_devicetable.h
+> > > +pub struct DeviceId(&'static CStr);
+> > > +
+> > > +impl DeviceId {
+> > 
+> > <snip>
+> > 
+> > I appreciate posting this, but this really should go on top of the
+> > device driver work Danilo Krummrich has been doing.
+> 
+> If everyone agrees, I'd offer to just provide platform device / driver
+> abstractions with my next patch series. This way you don't need to worry
+> about aligning things with the rest of the abstractions yourself and throughout
+> potential further versions of the series.
 
-Signed-off-by: Nick Chan <towinchenmi@gmail.com>
----
- arch/arm64/Kconfig.platforms | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Covering platform device/driver abstractions in the same series would
+be appreciated from asahi side. It hopefully results in earlier merge
+since it avoids a dependency on the device driver abstractions.
+Feel free to reach out to me for an earlier preview / rabsing of the
+asahi driver.
+https://github.com/AsahiLinux/linux/tree/bits/210-gpu has all relevant
+rust changes from 6.11-rc but I plan to rebase onto 6.11 in the next
+days and possibly import changes from 6.12-rc* / rust-next.
 
-diff --git a/arch/arm64/Kconfig.platforms b/arch/arm64/Kconfig.platforms
-index 6c6d11536b42..370a9d2b6919 100644
---- a/arch/arm64/Kconfig.platforms
-+++ b/arch/arm64/Kconfig.platforms
-@@ -37,8 +37,8 @@ config ARCH_APPLE
- 	bool "Apple Silicon SoC family"
- 	select APPLE_AIC
- 	help
--	  This enables support for Apple's in-house ARM SoC family, starting
--	  with the Apple M1.
-+	  This enables support for Apple's in-house ARM SoC family, such
-+	  as the Apple M1.
- 
- menuconfig ARCH_BCM
- 	bool "Broadcom SoC Support"
--- 
-2.46.0
-
+Thanks
+Janne
