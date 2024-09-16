@@ -1,59 +1,59 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C335814D2B9
-	for <asahi@lists.linux.dev>; Mon, 16 Sep 2024 14:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB4D146588
+	for <asahi@lists.linux.dev>; Mon, 16 Sep 2024 14:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726498046; cv=none; b=rOSb2lV6siHxHS4WWG3Ue8x8yzDiyOHPS46BDEmNda/PF5SsqOuEQp//kdqkUDIy7jPIOxqDbh/ZBBNlpx06C6EmcHeVCuXdOSltpO21lQA6XUKGaT4xdHckUttSB69GbjD+dh5dVQ8MLCvrWcZbsQ0XTPgbLp3iIhKtvag1TKc=
+	t=1726498345; cv=none; b=SHPtQYdA0B3DWVeEBRV7m3rggHZJwKgHocPf3rG7u6ybclNAHlCyVfI2L5HJE9O6KuhZauNXpqDa+fpurWhVIfD1VqbuQDg+m4Tm1TYijbRqa4F63hCg879Zh+plniF6WM8Rg5lc8TAeQJvjT6iSC34CHXUxWrKF1bjxROQYEqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726498046; c=relaxed/simple;
-	bh=r28B7KOlyk0USWch3chI75N3jUpy9XYDxZu7HjFeA6M=;
+	s=arc-20240116; t=1726498345; c=relaxed/simple;
+	bh=RhkHx3KEvVHKaUXYhsthTx+OT78125g8JMWGtokDp6E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MQuDVEL6lSyDIPOyIPiGBAm5xTpul+kCWRQXoEXcyOrOWtZGjEGBvyyhBGMOQsb/4jATmvzmSoUHIlK0pYo37d21ooTthDltA2ZXSHclOmg2ANMoooQaiKrCsI5JjJTKTShi1LNG2d1RMFOazmyQx9w7kGeY0dRoQnOdKyqd8DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hg8QnlVa; arc=none smtp.client-ip=209.85.215.180
+	 In-Reply-To:Content-Type; b=Yl1vNUcsQ0wVz5UQVNbs5cCdQfWgfSQSXij7BtXc53AU+zoScwZOZJall90/sMYjXW3XLqMbamnSdu+VjD8aYxlW97TDZX46SBCGRil2TJuXP/YnyTZiYKC3Nd3rbLWgBwX5N3skIHYty82tFX5PyYzXv1OVED11sOkglJ23ODg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xt0dbaF0; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hg8QnlVa"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7d666fb3fb9so2184471a12.0
-        for <asahi@lists.linux.dev>; Mon, 16 Sep 2024 07:47:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xt0dbaF0"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2057835395aso52659345ad.3
+        for <asahi@lists.linux.dev>; Mon, 16 Sep 2024 07:52:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726498044; x=1727102844; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726498343; x=1727103143; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=EJ8ddh1mE+rZEVPh4FlUNjjQ/3bZOvBuJzK+R3GghbU=;
-        b=hg8QnlVam2NFwpWAHCMyXnHM2/ZCECU5rYGDIyfll1qPBw6zfuaRqLxnFpJ4zPC+R+
-         00ZTUDZx56no7T7yPFTiYioleLF2zqqT/FnZdJ96l7iHUaTGPL+bVb7sWETXkborqf0V
-         gTlvgi0CCWloCrlTn1rYseU5U+eDicJq2x54M98weg2p7ib6Zht9KHvDnbykprxAR1p0
-         56f8hpuZD7K3Sjy46XkRELGo5VV9cmDItvEne5uA5vQnwruQ5OUKAN99a2X4I4DY6Y62
-         XqCcWDeo9M8gb+K1CkQEwY4EFpAyuDmgl7ZtGQo5LjKuWyyygrw3oEdRGVG4g2J6faeu
-         Fi3g==
+        bh=7O8aY6B3ufOpgcpOy0X8Q8VSRJdIp5sZRAiS7dUBXy4=;
+        b=Xt0dbaF0Vyh7Ql8MWxkS5sdvrTxIJXlbFn4spHyL+wS9vgwtc1zi3B9BEXENRhRZon
+         j07jMpyx2Oe0/DaVWxTnI1nwGQCT7W8bJ/eCj0qz5jYJgLkdYKYjeIh+VNDE7Mhn6Tj+
+         8tXdY9YF9dOlNZpjzh8oJUplKl4XFs2eL7pcE+jjOmqJbvJFMaZNDdtMSpx3OuONb4HQ
+         DxBsFCltxL4YM/9z2i2cCiuo1WtLD1RgqpB2yo89ypgGYSPmEUsOflsxQicwBdnqde6b
+         mwAjgdQpBGDP450B0t3pKz4DhmheAMEolwh/o3RmZPH10Tmhz0a6wllp6Er+AKMjuoqE
+         tsWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726498044; x=1727102844;
+        d=1e100.net; s=20230601; t=1726498343; x=1727103143;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EJ8ddh1mE+rZEVPh4FlUNjjQ/3bZOvBuJzK+R3GghbU=;
-        b=R0i6+0QZOiz76+6OjJv3WWk6vfTOPykacddc1Wcbds/r77PQKtg7RYvWjdipMHH8Kz
-         y3cyQrlVhF10RjBQ3U9O3fstkcpqDIeCcxb9xH7mKczO/r9sWHmhORwdqEZGcuio2rIX
-         WoWO5sygQ2PglaA6A2+4I+llDdRyxdj8Htvit7SOAbmzDZo2nM9zZ1aogZYXiVr+6GfG
-         ybma+RhF43oh9ChrNZE586upz9HkrODBzUXqfxm95XTvNBeVRT7Xac6b5YN2+RGEOa8N
-         Ppk8reM+NkbWo4Ai694IRkX2Ca5fF8o/2kcg1suWya3i0OatTql4HegesaasABSlGZhg
-         ZwNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWTS9pECEtSkBvLN0/vKk++ygAhgPiRyl3xjRYBVqSlexMYzBmLwNvnkaaE3ON/ovSIQGLQXA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNbowVq110ioFN1oYJWQaCCrVchEOVup9PQZfczHfVjO2tlSaG
-	jg19pGmtn7R5dFNJP09uZAWxAB1HjU5N6RpxbY1YOJk/qs8weGB0
-X-Google-Smtp-Source: AGHT+IG1wHKbJb2JdItsRdO+p6aWLUSqzhZx/7SQGfo5/vw1/UAnjlLHgs8oWzTV5MspFfN72B9h4g==
-X-Received: by 2002:a05:6a21:3993:b0:1cf:4ed:ffc0 with SMTP id adf61e73a8af0-1cf7559895dmr22944550637.4.1726498043924;
-        Mon, 16 Sep 2024 07:47:23 -0700 (PDT)
+        bh=7O8aY6B3ufOpgcpOy0X8Q8VSRJdIp5sZRAiS7dUBXy4=;
+        b=srCEnwpoBoObvfA52Z11hbDkurA2AJfpjNum9Vb6eHmc0gmHDpJT7K5upFzhVj+6rH
+         xzC+96U+b1gEtpHkSTzkBHveN2z7DsPYm44ZaoZ4+1CY9oURqQy8bX/YhD9uoTtJ/LxQ
+         RVG5O92g0qjftyJ8U/xrrrhLtyIdvlqrIu6QML7Zc2RnqIs7vNT7xi3oYmJF9SEh1yG3
+         p1QKpN7RU1KYwJyYv3dSRZ/xSCWRPZ/SsF7HTBDRIjeZ+SyXvywQ7zHg1FiFCLLzD1QY
+         OneGKFfS3eTY7R5tbgSX1OHYpvuxi6kNw6GbQcmn9l9uTjHUy6nmb619KJBUfTgxbUlG
+         7oOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRWIdMSzc7zWxWD1xHdTzmMDkd9oaMug0s8lzRr+3ntTlMBmHzaB7MAJpHJp+/M/O4H1JL3Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyzUtPPEPsc+Vz+k9UgWQ5G3g3tMtVi6yBB7n3S+G5UqwPTa4Bx
+	b2bw9o5XChedGnr4eR2tsXVAFosA7miuVpeEhokfILFyMXprbg5M
+X-Google-Smtp-Source: AGHT+IHtQAbZITE1JFKfdxFWo2AvjAaAUQc9iG32G/Pn0bWjgrwustAbaqgNo9r+B5kDEpyamDKB/g==
+X-Received: by 2002:a17:903:32c7:b0:207:2697:da17 with SMTP id d9443c01a7336-2076e355eb2mr225599265ad.23.1726498342899;
+        Mon, 16 Sep 2024 07:52:22 -0700 (PDT)
 Received: from [172.20.10.2] ([182.153.8.248])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71944b7b301sm3795675b3a.107.2024.09.16.07.47.18
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20794601022sm37092445ad.74.2024.09.16.07.52.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Sep 2024 07:47:23 -0700 (PDT)
-Message-ID: <c5407291-a799-4b41-aa84-4717a476b661@gmail.com>
-Date: Mon, 16 Sep 2024 22:47:16 +0800
+        Mon, 16 Sep 2024 07:52:22 -0700 (PDT)
+Message-ID: <a7f2c1fd-bd50-4d04-a2da-67bda6f7d55c@gmail.com>
+Date: Mon, 16 Sep 2024 22:52:15 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -61,8 +61,7 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/20] dt-bindings: arm: cpus: Add Apple A7-A11 CPU
- cores
+Subject: Re: [PATCH v3 18/20] arm64: dts: apple: Add A10X devices
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
@@ -80,60 +79,40 @@ Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Ivaylo Ivanov <ivo.ivanov.ivanov1@gmail.com>,
  Konrad Dybcio <konradybcio@kernel.org>
 References: <20240915080733.3565-1-towinchenmi@gmail.com>
- <20240915080733.3565-2-towinchenmi@gmail.com>
- <m4hw6wt2xcsgt23fvu7okump62bqhugpyecp3hqlj37x6m4gno@tmui7wdzhs3h>
+ <20240915080733.3565-19-towinchenmi@gmail.com>
+ <ntl53bla2qwueycbffta5ytmmm7hxrthbfz2677mltldgu6roi@3f3pz6644vb5>
 Content-Language: en-MW
 From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <m4hw6wt2xcsgt23fvu7okump62bqhugpyecp3hqlj37x6m4gno@tmui7wdzhs3h>
+In-Reply-To: <ntl53bla2qwueycbffta5ytmmm7hxrthbfz2677mltldgu6roi@3f3pz6644vb5>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 16/9/2024 22:34, Krzysztof Kozlowski wrote:
-> On Sun, Sep 15, 2024 at 03:58:46PM +0800, Nick Chan wrote:
->> Add the following CPU cores:
+On 16/9/2024 22:39, Krzysztof Kozlowski wrote:
+> On Sun, Sep 15, 2024 at 03:59:03PM +0800, Nick Chan wrote:
+>> From: Konrad Dybcio <konradybcio@kernel.org>
 >>
->> - apple,cyclone: A7 cores
->> - apple,typhoon: A8 cores
->> - apple,twister: A9 cores
->> - apple,hurricane-zephyr: A10 logical cores
->> - apple,monsoon: A11 performance cores
->> - apple,mistral: A11 efficiency cores
+>> Add DTS files for the A10X SoC and the following devices based on it:
 >>
->> In the Apple A10, there are physical performance-efficiency cores that
->> forms logical cores to software depending on the current p-state, and
->> only one type of core may be active at one time.
+>> - Apple TV 4K
+>> - iPad Pro (2nd Generation) (10.5 Inch)
+>> - iPad Pro (2nd Generation) (12.9 Inch)
 >>
->> This follows the existing newest-first order.
->>
+>> Signed-off-by: Konrad Dybcio <konradybcio@kernel.org>
+>> [Nick: SMP, m1n1 and Apple TV 4K support, uart interrupt and pinctrl fixes]
+>> Co-developed-by: Nick Chan <towinchenmi@gmail.com>
 >> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 >> ---
->>  Documentation/devicetree/bindings/arm/cpus.yaml | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
->> index f308ff6c3532..3959e022079f 100644
->> --- a/Documentation/devicetree/bindings/arm/cpus.yaml
->> +++ b/Documentation/devicetree/bindings/arm/cpus.yaml
->> @@ -89,6 +89,12 @@ properties:
->>        - apple,blizzard
->>        - apple,icestorm
->>        - apple,firestorm
->> +      - apple,mistral
->> +      - apple,monsoon
->> +      - apple,hurricane-zephyr
->> +      - apple,twister
->> +      - apple,typhoon
->> +      - apple,cyclone
+>>  .../devicetree/bindings/arm/apple.yaml        |   8 +-
 > 
-> Please keep alphabetical order. And no, just because earlier Hector
-> added stuff in reversed order, is not a reason to keep doing the same.
-Ack. All bindings added in this series except
-
-Documentation/devicetree/bindings/arm/apple.yaml
-
-will be changed to alphabetical order in v2.
+> You need to split bindings.
+Good catch. The bindings part needs to be squashed into the commit
+adding the
+bindings. This is a miscommited style fix up to not mention "Apple" when
+we are
+already in Apple ARM Machine bindings, unless it is part of the offical name
+(like Apple TV).
 
 > 
 > Best regards,
@@ -141,3 +120,4 @@ will be changed to alphabetical order in v2.
 > 
 
 Nick Chan
+
