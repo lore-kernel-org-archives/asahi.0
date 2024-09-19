@@ -1,57 +1,57 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84421A0722
-	for <asahi@lists.linux.dev>; Thu, 19 Sep 2024 16:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09961A2863
+	for <asahi@lists.linux.dev>; Thu, 19 Sep 2024 16:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726762560; cv=none; b=YD9ppENHuOYvl5UAHE09XAz7JLKw/Io4K3+1ag52DXdoyvBiO1L0Td2jsmai/A/4M1ZFAp5SkJkr3LnVYOZTjktgC/cbWxYcN838k7Z7nHs1luz1KW8CrlDE9kWiL8NT3RkGjoQk2a3qHKFrkzRmlQpbxW+rB2OZWGAtPvuIdGA=
+	t=1726762564; cv=none; b=JURHncDDEmpHx62ra4SBkVhsrXnV/v7C8j7WFuJkNe6Aml6prGq3hvOw0dBVX2nc62qK5HnmzQt1yWsEN+Kt5GdN32dZtPq9qHgIRsDKWDxaGV67LqfvyVzLC1NJcGlqt7buqVxFHk3zevvGf9/fxBAx11sXGc4vItlA8m9+wmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726762560; c=relaxed/simple;
-	bh=1do3oMHa+zZtMgWoYxSILBP1btrTVDMYuMavL2iJt/o=;
+	s=arc-20240116; t=1726762564; c=relaxed/simple;
+	bh=1/0kBarxJdeH0ODjM886OO6FOOEXyxF3Df2gBqXy/CE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mnF4Zj+s80eh9vgxRoHIuXvkncaKTzfGt4s8kiM6xrZIVaHYRn3vkGJNNBbKjisWvW/CwlOvJA4nGj0fUKo1nMMo6ocx234y4kcMYeF5saBl8SPYc7ikEfeZg0crij05A8Dv71Yqab+8sz8n8D+4Rd5EqdIJMz7lTGg7qJ/WGEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LfKttWZY; arc=none smtp.client-ip=209.85.215.178
+	 MIME-Version; b=n3QWLVPRPaeFMP0dORkO6r35I6EQ9PiHwE6sGvz/JQjuiB/pk/ke/kZO7vdFeBoDeuwvTR4RVUnWhSqwnOVpndPewEdbkvF1VYhgrj2jrJoHhwALYamGUy0n2GNUv/+m6XXDJRtIAkOcS8GFonyqWEOJ/lNbJ7u4nCKy5tbg8gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jObGDsDT; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LfKttWZY"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7d7a9200947so682803a12.3
-        for <asahi@lists.linux.dev>; Thu, 19 Sep 2024 09:15:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jObGDsDT"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7d4fa972cbeso763270a12.2
+        for <asahi@lists.linux.dev>; Thu, 19 Sep 2024 09:16:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726762558; x=1727367358; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1726762562; x=1727367362; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cx9QUOiQgqEszXRAMdnqMOxDufFUf+ALloEhf90CVgc=;
-        b=LfKttWZYYBMloYuZ/OoDdKV2x+sHjW+5FVFIBan/DQaWhAYuazCw9OMY3XZOvBGRVX
-         5eICmIcNRPJkNfUcVztplfDbSBkR4LJ4r296ZnM4ll5uev7F3xkV4tCB5HX5Iy6SXAjt
-         BE6eRwmKMzWeSL28Z3W6mZkffQF4LdL8gNJ6/7/U+ijTtJwStkeFiDdkSRr0rxTLAhAD
-         Q349IicZ8IZFCVUS8rhwsMhG27JgxqOl6vjaukneH5z5TiCxpSfdxnVkFGWr2Wf4FxGk
-         1Gc0rzmmzTT3dyeb4mVyfbU3YN3krZ638PH2TEfZ21ST0SYQeCbEAK4+7WQn2Cdor5tT
-         OM5A==
+        bh=YCeCV/1xwkdl5BzxyfA7coBD1+lL/3DpL3W4/CdUMdE=;
+        b=jObGDsDT+ZLv74wicD3i96xyepBTQ/xAZuqlhburXmYFk1PeFk28nuhfoPUErnThPR
+         SaACZJDKbZI7CxTUCVpRpMMEuPuzcjFvxdhL9qCB0AhTYKBytLYIMbErOwhFkMKcQvXJ
+         vNWl2phsoSut5QjhXPl6B52hFO5YTLx+g3VapG5U2LwAcijKWfs6KWwXuneXyaJsWgiY
+         +Cq/Ip3YPqteS8jjCMZy5LPI7gZOilg7Xzy4TBFANYv4mLhvJosSTPkjeCeuJVjlpgj9
+         T+VxIBxKISNJ9hbGDOZim/47CJvXlbISAV7gj1YJqGZltlSCj0OMX7+2ekZgRzxbz84I
+         DaOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726762558; x=1727367358;
+        d=1e100.net; s=20230601; t=1726762562; x=1727367362;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cx9QUOiQgqEszXRAMdnqMOxDufFUf+ALloEhf90CVgc=;
-        b=Fzna+Z6ldETjQhA/JZqm8J0+dkkD/8xS6OfMtTs1pR5t0Aiy5UfoHiqeQeaxLbrb4j
-         gHf6lMGONDcy0xqKDKbG9YLy5pu7AjIY29cXnsQ/NZdIu59lBZasjbf8kiMFAbFUZsi0
-         m56LZh4ENr2PvpW0/PCuG5Q9NJZjLPqMRvLrvkT9QH+xsFylkfXjInYz2dm4E5v1Nfb4
-         D+VuqNj+YKs8V7jKVaQzfgGz/OTF09p0ir6iBKtkFBAFD/7noDtUyff5mOyua28f70Qj
-         UR1VQ3oGMytFLoZAOUoTaRnETgOXFZAKMSUGbLI8cI5TVGqmcODyaoMk7sUDsuVbl/Un
-         X9Yw==
-X-Forwarded-Encrypted: i=1; AJvYcCWv6gb5Osg02QBlxuc3qzT3U2zYriUvhYP0OyMGGp67YbPI5NR5Q5+b0kQZYAaJiWhLnM70xg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgjWsJK1U9z9EtwdVJ7BIK7Sf0Pw9ljmTMMW/qze37UY/WgHYU
-	94Yfh/c9CfLObX2ZrRCAQlKdiPY3NESn5ndrpP15fIwKpxg7yDqF
-X-Google-Smtp-Source: AGHT+IEgXtLkIjPRdY2PBg77XYN7b22QxEN76FgfhZTUQgMO6VvpQEnaywV6N3VeJVR46skd/N3KiA==
-X-Received: by 2002:a17:902:f54f:b0:207:457f:b8a6 with SMTP id d9443c01a7336-2078262ccc1mr331463075ad.12.1726762557945;
-        Thu, 19 Sep 2024 09:15:57 -0700 (PDT)
+        bh=YCeCV/1xwkdl5BzxyfA7coBD1+lL/3DpL3W4/CdUMdE=;
+        b=KEuVHWmo8jhmIt92j/AB45kitJ58vYro+gzLE3iFQggycUmsguElNw6ODSB1/CrM4G
+         rDMBb4UyCmDsPjX/Zlxj+HHyPLgtcGa5zrM7VAvc8jdnx4CurOFq0t3xD5IVsDC3kBDX
+         /t9fkQScVST9RqTPiMBYlihgkHE+KPRVGpcC0oUXMfzEx1IigzgIN29Clv4iiK1rMtdJ
+         dRNoirV/6cV/J/KI8wCgnehYd5QZgXcoTVu4vqkoCDzeESew02t3GreP9IeQPoir61hw
+         6QNFcUponGDpgdiQIhAE2JX+pfpefIykFbjtadkIWQF6yDkYBBX+FnAYdA3K6B5urcVF
+         5vXg==
+X-Forwarded-Encrypted: i=1; AJvYcCX6WA7yZ2OzQezChUjlqftoHuOrCNhNjhiv+hKk1EzoY8ClDI5L1mFJX4PgAWfx80Aif9tqAg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwGg2bNR0xujCUpCmkNXQBu69JgtvTzGh26dp8Xik0tCj1pp1uD
+	rPAQNgQXkmGaA8erF4QRICqNgd8w/DD3SNRqrhATUyHyph+V/7No
+X-Google-Smtp-Source: AGHT+IE9yW+76fGrCiFJozu3sPmdSmq74J8gEdc7pxwJ2WUOKX4v7BaxAiOvV/FoYvgBT7lu5u1Bdw==
+X-Received: by 2002:a17:90a:e20a:b0:2dd:66a8:8ab6 with SMTP id 98e67ed59e1d1-2dd66a89a1dmr5473300a91.13.1726762562019;
+        Thu, 19 Sep 2024 09:16:02 -0700 (PDT)
 Received: from localhost.localdomain ([59.188.211.160])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2dd6eed1865sm2084674a91.34.2024.09.19.09.15.54
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2dd6eed1865sm2084674a91.34.2024.09.19.09.15.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2024 09:15:57 -0700 (PDT)
+        Thu, 19 Sep 2024 09:16:01 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -74,11 +74,10 @@ To: Hector Martin <marcan@marcan.st>,
 	linux-watchdog@vger.kernel.org
 Cc: konradybcio@kernel.org,
 	ivo.ivanov.ivanov1@gmail.com,
-	towinchenmi@gmail.com,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v4 04/20] dt-bindings: arm: apple: Add A7 devices
-Date: Fri, 20 Sep 2024 00:05:53 +0800
-Message-ID: <20240919161443.10340-5-towinchenmi@gmail.com>
+	towinchenmi@gmail.com
+Subject: [PATCH v4 05/20] dt-bindings: arm: apple: Add A8 devices
+Date: Fri, 20 Sep 2024 00:05:54 +0800
+Message-ID: <20240919161443.10340-6-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240919161443.10340-1-towinchenmi@gmail.com>
 References: <20240919161443.10340-1-towinchenmi@gmail.com>
@@ -90,58 +89,54 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This adds the following apple,s5l8960x platforms:
+This adds the following apple,t7000 based platforms:
 
-- iPhone 5s
-- iPad Air (1)
-- iPad Mini 2
-- iPad Mini 3
+ - iPhone 6
+ - iPhone 6 Plus
+ - iPad mini 4
+ - iPod touch 6
+ - Apple TV HD
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+The remaining HomePod is not supported as part of this patch.
+
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- .../devicetree/bindings/arm/apple.yaml        | 26 ++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/arm/apple.yaml        | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/arm/apple.yaml b/Documentation/devicetree/bindings/arm/apple.yaml
-index 883fd67e3752..89c1e35e404b 100644
+index 89c1e35e404b..c05a4414c8b6 100644
 --- a/Documentation/devicetree/bindings/arm/apple.yaml
 +++ b/Documentation/devicetree/bindings/arm/apple.yaml
-@@ -12,7 +12,14 @@ maintainers:
- description: |
-   ARM platforms using SoCs designed by Apple Inc., branded "Apple Silicon".
+@@ -19,6 +19,14 @@ description: |
+   - iPad mini 2
+   - iPad mini 3
  
--  This currently includes devices based on the "M1" SoC:
-+  This currently includes devices based on the "A7" SoC:
++  Devices based on the "A8" SoC:
 +
-+  - iPhone 5s
-+  - iPad Air (1)
-+  - iPad mini 2
-+  - iPad mini 3
++  - iPhone 6
++  - iPhone 6 Plus
++  - iPad mini 4
++  - iPod touch 6
++  - Apple TV HD
 +
-+  Devices based on the "M1" SoC:
+   Devices based on the "M1" SoC:
  
    - Mac mini (M1, 2020)
-   - MacBook Pro (13-inch, M1, 2020)
-@@ -65,6 +72,23 @@ properties:
-     const: "/"
-   compatible:
-     oneOf:
-+      - description: Apple A7 SoC based platforms
+@@ -89,6 +97,18 @@ properties:
+           - const: apple,s5l8960x
+           - const: apple,arm-platform
+ 
++      - description: Apple A8 SoC based platforms
 +        items:
 +          - enum:
-+              - apple,j71  # iPad Air (Wi-Fi)
-+              - apple,j72  # iPad Air (Cellular)
-+              - apple,j73  # iPad Air (Cellular, China)
-+              - apple,j85  # iPad mini 2 (Wi-Fi)
-+              - apple,j85m # iPad mini 3 (Wi-Fi)
-+              - apple,j86  # iPad mini 2 (Cellular)
-+              - apple,j86m # iPad mini 3 (Cellular)
-+              - apple,j87  # iPad mini 2 (Cellular, China)
-+              - apple,j87m # iPad mini 3 (Cellular, China)
-+              - apple,n51  # iPhone 5s (GSM)
-+              - apple,n53  # iPhone 5s (LTE)
-+          - const: apple,s5l8960x
++              - apple,j42d # Apple TV HD
++              - apple,j96  # iPad mini 4 (Wi-Fi)
++              - apple,j97  # iPad mini 4 (Cellular)
++              - apple,n56  # iPhone 6 Plus
++              - apple,n61  # iPhone 6
++              - apple,n102 # iPod touch 6
++          - const: apple,t7000
 +          - const: apple,arm-platform
 +
        - description: Apple M1 SoC based platforms
