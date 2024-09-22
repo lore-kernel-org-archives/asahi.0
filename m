@@ -1,89 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A26605BA;
-	Fri, 20 Sep 2024 22:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFF555898;
+	Sun, 22 Sep 2024 20:43:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1726870611; cv=none; b=dC4/uEJBu3e5QhyvG9iTEuyZ4NWwTWGvRd/GAFL7TnktydsNAhgxI6CMndi3RmFgGcsK1kumZ4pLJkBJo5EldrdsOy6E2M/YwNHWwzcOAJ73mTADmG+ExQAnnN7JAm3KxvtScVteWzV/AhJ53ni9nuSbXIf1/2dxuZFSqvM/1vc=
+	t=1727037828; cv=none; b=WapioEpX5MiXExfj91KyRHJkX9/LI46VbwD2bGNiB7eXou++z4CGK8wxDDBtOrul1lDaTQ+D6/IvelJWMk62kjMaE3SeNxBwb+z6Xnn3qbdQ5pObdEd44sGXmfSjClM8cFa/HO//tjMvBZgwKzOfun9rT94pBItddQikqjvslYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1726870611; c=relaxed/simple;
-	bh=TzaIT5iXFdGr723fv6kTc8RsHivTNLi/fCWQEqat024=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=UOKRdB3l2e5yM+rfC4P+V4WMwJjYmF+dvAoH8Jg9LnWn7Tnd7pcNx470ZQ/IS5I8GuG2F3afC5CTbFje0v+HEqDwMtThZJsW0uQCb/cD9oXMj2bxOcZ7Z8mp/uSUe+on9jIvKbrrNHvlb8lEMpIyRNj4DqKEqnKmOhA2bEhzV+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OQ80pRyg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727037828; c=relaxed/simple;
+	bh=M4TF5ayIuFRvWwOsi5XVMxki7jlOEntStSvxNGBxNL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fMjiiE+rzTOMXWrN6DFza5W08pmBLE06nmUqZsCQuo3qObIV/aQIIBzDygcRmmbpeg/4x70X1vLGXaCG2N5G6+dwDtYBTbvpkpPdaLy3+jte11llYa0Xh1XzbjX24bvyN77dEGNlPRzwmheHgjiuUkE0Ibg/oTI8J99S5T8d/mU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qHQbSKsi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OQ80pRyg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AEEEC4CEC3;
-	Fri, 20 Sep 2024 22:16:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qHQbSKsi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52048C4CEC3;
+	Sun, 22 Sep 2024 20:43:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1726870611;
-	bh=TzaIT5iXFdGr723fv6kTc8RsHivTNLi/fCWQEqat024=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=OQ80pRygHh5nT4XaT1EUSVY1MNtgkObb3uQhs8URtxqjGZgaIUM4967MGyulVroKw
-	 M2wa3YdhYYW18beugL7z3NopHZa63icEWNhq05dN9yPcSV8wEaY3gynAfoVOVq0lXV
-	 cyzEsPvUA7+EBnJWz/FtUgqgH+BuBdnr7qiz7U09+Rs0YwDjyw51gmO6fZXidSvx4O
-	 7uVfkpRp94zwAVL0NcZKHfUliCwtSos2z8nlnfvhGedCJCDHrsex44wFlwneDai7aA
-	 lMg33TmKakjHlJp0U+ywynsKYO7W3awvno3PGsp7dfDZLj1Djkio27gZI2Izfl5WzQ
-	 gOPdtW/BbfrZg==
+	s=k20201202; t=1727037828;
+	bh=M4TF5ayIuFRvWwOsi5XVMxki7jlOEntStSvxNGBxNL4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qHQbSKsi8PW6RN/qJntYotqc/YBS+PsVmGjJufBBnnUUuwR+qwRACId4ct8dhIjK1
+	 hx1XTohgh+2ZWm9isbcDRzuJR1AMGF2+nKEBvpBPQ568OgQs+qdbMCaBAgRpDfklYr
+	 FYYXyJuCQhSsNCu5MT09WpIw/tMxrkaSo3YzwX87ifEZ+eJpEA7rxrh2/TnMqk8FMI
+	 Fc6mvSUq0wd11kP3oSzUkJOh8RCQptWAhTQmLDldIS5b3lykgtP+F7qI2aSGab8bm7
+	 +va9Jth56cU39irEJORCLzp+d86PVR8ah/uV5KpHD8oeouPS5i1BcPoNFTObv4DHTf
+	 QArRDI9Rix9dg==
+Date: Sun, 22 Sep 2024 22:43:44 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, konradybcio@kernel.org, ivo.ivanov.ivanov1@gmail.com
+Subject: Re: [PATCH v4 01/20] dt-bindings: arm: cpus: Add Apple A7-A11 CPU
+ cores
+Message-ID: <34fubbbf6jlqjs6q2f73oohkijhudvzni63dtillg4d4fxjm6i@e7oogteye2oe>
+References: <20240919161443.10340-1-towinchenmi@gmail.com>
+ <20240919161443.10340-2-towinchenmi@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Sep 2024 01:16:46 +0300
-Message-Id: <D4BGJGUL3HSW.19HZANGB06JSW@kernel.org>
-Cc: "Neal Gompa" <neal@gompa.dev>, "David Howells" <dhowells@redhat.com>,
- <dwmw2@infradead.org>, <zxu@redhat.com>, <keyrings@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Asahi Linux" <asahi@lists.linux.dev>,
- "Hector Martin" <marcan@marcan.st>, "Janne Grunau" <j@jannau.net>
-Subject: Re: [PATCH 0/3] sign-file,extract-cert: switch to PROVIDER API for
- OpenSSL >= 3.0
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: "Jan Stancek" <jstancek@redhat.com>, "Jarkko Sakkinen"
- <jarkko.sakkinen@iki.fi>
-X-Mailer: aerc 0.18.2
-References: <cover.1720728319.git.jstancek@redhat.com>
- <27899413.1r3eYUQgxm@skuld-framework>
- <CAEg-Je_MXyP_PNj_QOu66SW_XYHy0zv0PnTTxX2qWELRG+xM_w@mail.gmail.com>
- <D4B7ZCR4XWCT.3TWNN24TA8PSF@iki.fi>
- <CAASaF6zhiDdbfYkgg7wENih2Lp309eUgeu=FHZm0yYaEBt2gRg@mail.gmail.com>
-In-Reply-To: <CAASaF6zhiDdbfYkgg7wENih2Lp309eUgeu=FHZm0yYaEBt2gRg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240919161443.10340-2-towinchenmi@gmail.com>
 
-On Fri Sep 20, 2024 at 11:05 PM EEST, Jan Stancek wrote:
-> This looks like false-positive. Following will produce same error:
-> +#if TEST
-> +       ENGINE *e;
-> +#endif
-> +
-> $ git diff > 1.patch; ./scripts/checkpatch.pl 1.patch
-> ERROR: need consistent spacing around '*' (ctx:WxV)
-> #10: FILE: scripts/sign-file.c:217:
-> +       ENGINE *e;
->                ^
->
-> total: 1 errors, 0 warnings, 10 lines checked
->
-> but if first type in #if block is something checkpatch recognizes,
-> then it reports no issues:
-> +#if TEST
-> +       int i;
-> +       ENGINE *e;
-> +#endif
-> +
->
-> $ git diff > 1.patch; ./scripts/checkpatch.pl 1.patch
-> total: 0 errors, 0 warnings, 11 lines checked
+On Fri, Sep 20, 2024 at 12:05:50AM +0800, Nick Chan wrote:
+> Add the following CPU cores:
+> 
+> - apple,cyclone: A7 cores
+> - apple,typhoon: A8 cores
+> - apple,twister: A9 cores
+> - apple,hurricane-zephyr: A10 logical cores
+> - apple,monsoon: A11 performance cores
+> - apple,mistral: A11 efficiency cores
+> 
+> In the Apple A10, there are physical performance-efficiency cores that
+> forms logical cores to software depending on the current p-state, and
+> only one type of core may be active at one time.
+> 
+> This follows the existing newest-first order.
+> 
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/arm/cpus.yaml | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 
-I fixed a couple of alignment issues reported by "checkpatch.pl
---strict" and sent a pull request:
+Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-https://lore.kernel.org/keyrings/D4B9WXZC9B9U.34I6BHWMYXOS2@kernel.org/T/#u
+Best regards,
+Krzysztof
 
-> Regards,
-> Jan
-
-BR, Jarkko
