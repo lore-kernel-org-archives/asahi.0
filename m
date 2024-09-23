@@ -1,69 +1,72 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C1519F41C
-	for <asahi@lists.linux.dev>; Mon, 23 Sep 2024 18:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629F81A0708
+	for <asahi@lists.linux.dev>; Mon, 23 Sep 2024 18:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727115548; cv=none; b=OilV/Ilk+p2gWSiLr0nNbr5AHD6cgPC70au0NWkUiry+4k7D+YyAjWVIJCH9EAXb/oxfjR/K4wdx7Cd4WulqDPUa99iWFJDXMMnJzPXlvIubslMjXwefFL9piTeXGZ7oKwnm5fvZC4oy+66QDKMeDUDLVHINnveUQwFdwMm7C/4=
+	t=1727115550; cv=none; b=S30P4tB4+UDEZ7ghnJd1O/8TYIhNMbP5UsUOAg3N26cK7St5+tBmwJajRZ+LcOjTThvebcA2dlmfwfMsekTX/bez55u/Cg6lZhWK4bQa8TtG1ybTQ1eTO8CIo9XAnJNcEnw9LaL+q11+AdHbuGpZEMH1KAVgeMe0PQkoiBLbXNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727115548; c=relaxed/simple;
-	bh=gj6khed8ryNs549o/Lb/gffVUpbK8LV/Z0TyhikI208=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=rvuB4OIqeZmMJV7JcopBAN9vuZBSIbUpyNV3N0vx9Hh4eovuJ0aObxo6JCfgpbQqppLkuZF4n9wAM22yXKsblqREyj5vyoWUZqojB7JTB/WKqef/uFc+EqvJsV0XeMxhuhrnj46Q/gs2Wg6POknQW/fciHyYjJIMCg5ShuXPy3E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PTNzZ8Wy; arc=none smtp.client-ip=209.85.210.202
+	s=arc-20240116; t=1727115550; c=relaxed/simple;
+	bh=oXNzm4MZb0k/XXfQMZMx6410zG4bTNO8FdzpKDFiStc=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=CqCn0GYJUnAuOtWcpJF20huszQy34CG5g14BpE1zMnI4r/x1GqzEXJQOv3NJ5TI3yxeU5blmwq2CvG+66HmywuQM/8OJTYjQVxlJNrVePIXgRe6F3klFEnIu72SH+HME1HKSnfWCwYbZo0xPRtKgInuybXT+mVXwM7xjmlgrgws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PvoE1H5g; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PTNzZ8Wy"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-71794969d71so3031030b3a.0
-        for <asahi@lists.linux.dev>; Mon, 23 Sep 2024 11:19:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PvoE1H5g"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e165fc5d94fso7384420276.2
+        for <asahi@lists.linux.dev>; Mon, 23 Sep 2024 11:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727115545; x=1727720345; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=fYykaPJf9iN08q62sPPqgPYjrSR/2ddqDpdkxmVOH40=;
-        b=PTNzZ8WynLOQG0GKGWlR0mN02ioOqARr1EwDRWy58Mh+x3iMG3++1U6EP3CKzHOfVb
-         Yen+qU0rbZWvTcOGIOu5eYtnncWJ5kS+JC1wl5DgI9VNq3b9h7JGZBTLOUMJ3VsvzNCr
-         9I3Lr3HT2pOgDFN2aEDAX2kcN0zXw9xOIzJyJ9RF6zMTH7eaL0w8/DuVdizZc1HHEXxE
-         jww78HvJrBF2TRVs57HVe/b2aTsZufGWjjAgtCEDM9e9l/n+jHJ9I4LpLHOMP6VSSjO0
-         ygYVUkACDqs65vESipL8w2PiJNbFZ5OW+8x25tbOrJgnTAExdTDN1/B16XpmQnP6/hRs
-         PKYw==
+        d=google.com; s=20230601; t=1727115547; x=1727720347; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7d86bJdCRGCypNEWHvJnM+7Kig6RbYD9GxfCLKVtKPE=;
+        b=PvoE1H5guj1HlbOSWQwVi+WeX46TP2Mvyd9Q0Eiky9F33ma48W2u0Y7VNh9cT2YO4w
+         s7sk7bR+g3eWBHtn5v4tL18S2EbamZ95jtUkxtUT6s2cAdQuDNIoSPkpGkWEnJqjmI5k
+         Z3lqfbRwG6cdgy7R3h3y0RV5OXffCrgLIE2RAbIbIWuVZIxlFfUARFmgtVuzrHkUxTV4
+         b+wOQHjCbfXvfswlOF4UlOSsKeC/I7o5FwvI18IezFczKiH8Suu70JBdNuFDNStC4ffv
+         ux3hww5vZqC+JK3U3JOvSJ2qJOzL6w7X2yUZnxmsrJUjxUEy5A1J8BD9kM4STPKFX6Tj
+         JfrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727115545; x=1727720345;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fYykaPJf9iN08q62sPPqgPYjrSR/2ddqDpdkxmVOH40=;
-        b=fymbHmUCo3dHXilW3m3KBQ5vb/Ih4WN7YwMvlbCoIrBB9Z+xuVQTy9EppxV5iR+3Ph
-         ZJ2xN2RcX0CtkYzjRhQR/xQCIEjaWpJVlF1e/nOKxlxpKOHUm0fRqRlRW1EK4GPA5mtj
-         LQcswaDN+FnlgA8kG7qPMRVoqIiUaRgSw1TKTl/pkuNZR1VvFjPaZ5jtc4/U4sn49xwp
-         +COCgJnlC3PB5vemFl5ZYaSicfEtiZ4oZZmnSK4PFUWLh3aA5rNdSNpiDCiTOz+v1cK3
-         4uNTIT2ONy9ss2uCYqWZA239OchmBo0cFx9HusLtQack6sRAm5G+Ys38hEs2vSM28tJ8
-         2lcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWBDXy9zlY6zvn7O+ceyDjzl911/DmJ13N2TJXDdMnH1b1iaKCbEP7gGv/WizLsUm/60cmGQg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwY5v71UamTibPr2PCbyRzfEQRAhdLrOmkE439kfAHEcev/yVKq
-	+MgFjC3sdxL/CSBUWjzmqOjBMKxuKHb7LR/uAcZcjgGlFHxp9hcwiy0R9ct3pkVCXhP4ppiD8oY
-	FDOcXqRPsa4zMIER+//jBA9AFTw==
-X-Google-Smtp-Source: AGHT+IFXsfcwc3JvPBOqJlRoLdNtPRiE6lFFX4gPJa86MrvCNC+ZBctwFTPVCwA4l+3zKo8NhIJqs5E35fawOlvKtBk=
+        d=1e100.net; s=20230601; t=1727115547; x=1727720347;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7d86bJdCRGCypNEWHvJnM+7Kig6RbYD9GxfCLKVtKPE=;
+        b=TpbyykDloODAOp1Fz45Ee1cdvrzMO7Wu2CimNxY/nT6Rd4yLRUtcOyt55aKwTSf1vv
+         s6PMZpdsHDKIgoS+xivPmjGchdimSly+zfYGVTBX7rvhDn7aesoG9kwRRWwYq8UxhDJc
+         yCCmqq+E8ubGOHdc+GYvq2UgQ6BNaOj/4grI0TyA3H80+tODEsKWO2bUpOgo9p44rMMI
+         F7EiqFUPyUaPSC1tnggx6oWveBkjMQwQeJQ0RJKNkNN82AxDcOW6gcouwq1FklMdH2/N
+         XE6+vzx5LyRzHBErl6aq0PzPohX9Z2tvbSbXCd3tBXMllYfu8/DP85JLg3pz5HFP7zKE
+         8uIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW47P6MEnfBE6dFrVmCT+esuPrY1OLvvd/fcpeKdneP22DwLcWs7JBd6E4X+cl3FaaXUrblnw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOS1F/6UxHz8oQ1+WRMV28lZD5R+yV0yCFN84yniE1Rtv9mn2h
+	KCt+5Se0I/oB2rsgXWvGGb7L7zSWtsr5HzZBBQpuPkskIlKYgzaYEn/PTMsDsb784DHzTd0eiDj
+	C7RVf/EzNBawYJM80VvFiZkjjZA==
+X-Google-Smtp-Source: AGHT+IHm2Anof1qGJ9R1CvWT3pkt5SNmdiVkAOQ5LZRBMwdvknPsZ+Wqwa1ekbtEl+NQeccCrcS1Kq2JDKfyTFFeZVE=
 X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
- (user=samitolvanen job=sendgmr) by 2002:a05:6a00:6f20:b0:718:dfec:9570 with
- SMTP id d2e1a72fcca58-7199cee9a89mr53651b3a.6.1727115545229; Mon, 23 Sep 2024
- 11:19:05 -0700 (PDT)
-Date: Mon, 23 Sep 2024 18:18:46 +0000
+ (user=samitolvanen job=sendgmr) by 2002:a25:690e:0:b0:e1d:21ae:3b95 with SMTP
+ id 3f1490d57ef6-e2252fe2127mr32035276.10.1727115547235; Mon, 23 Sep 2024
+ 11:19:07 -0700 (PDT)
+Date: Mon, 23 Sep 2024 18:18:47 +0000
+In-Reply-To: <20240923181846.549877-22-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
+References: <20240923181846.549877-22-samitolvanen@google.com>
 X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9451; i=samitolvanen@google.com;
- h=from:subject; bh=gj6khed8ryNs549o/Lb/gffVUpbK8LV/Z0TyhikI208=;
- b=owGbwMvMwCEWxa662nLh8irG02pJDGkfN7LVCXiHbzxl367qMENkzerDMTIO3lyGm86UeMhut
- Teyq9rcUcrCIMbBICumyNLydfXW3d+dUl99LpKAmcPKBDKEgYtTACZSxcLIMLdI8oLBu7NxrBlp
- er8+B/ZuuffDW+rK7LlJOo+a3l4UaWX4xdwRutTaot6tzrvqU3OG2ZUHbgdPPH0n/HlW7BWltyV XWAE=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2207; i=samitolvanen@google.com;
+ h=from:subject; bh=oXNzm4MZb0k/XXfQMZMx6410zG4bTNO8FdzpKDFiStc=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDGkfN7IpMgaalZt/ZdNgMn5hGFUwv/f5BSflZZ//L7YV2
+ au9/cPfjlIWBjEOBlkxRZaWr6u37v7ulPrqc5EEzBxWJpAhDFycAjCR3leMDFfk1WPEjs9IzO6Y
+ ry/OH+RzXaBp+eTWuw8rJO47lKz1us/wP0xmVZtejIrC77VzTjnVp3f196efPWzpckN52UR/ucQ 8DgA=
 X-Mailer: git-send-email 2.46.0.792.g87dc391469-goog
-Message-ID: <20240923181846.549877-22-samitolvanen@google.com>
-Subject: [PATCH v3 00/20] Implement DWARF modversions
+Message-ID: <20240923181846.549877-23-samitolvanen@google.com>
+Subject: [PATCH v3 01/20] scripts: import more list macros
 From: Sami Tolvanen <samitolvanen@google.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -75,216 +78,81 @@ Cc: Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
 	rust-for-linux@vger.kernel.org, Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Import list_is_first, list_is_last, list_replace, and list_replace_init.
 
-Here's v3 of the DWARF modversions series [1][2]. The main
-motivation remains modversions support for Rust, which is important
-for distributions like Android that are eager to ship Rust kernel
-modules. Per Luis' request [3], v2 dropped the Rust specific bits
-from the series and instead added the feature as an option for
-the entire kernel. Matt is still addressing Rust modversion_info
-compatibility issues in a separate series [4], and we'll follow up
-with a patch to actually allow CONFIG_MODVERSIONS with Rust once
-everything else has been sorted out.
-
-A short background recap: Unlike C, Rust source code doesn't
-have sufficient information about the final ABI, as the compiler
-has considerable freedom in adjusting structure layout, for
-example, which makes using a source code parser like genksyms a
-non-starter. Based on Matt's suggestion and previous feedback from
-maintainers, this series uses DWARF debugging information for
-computing versions. DWARF is an established and a relatively stable
-format, which includes all the necessary ABI details, and adding a
-CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-reasonable trade-off.
-
-The first two patches add more list macros to scripts/include and
-move the genksyms CRC32 implementation to a shared header file. The
-next 15 patches add gendwarfksyms, a tool for computing symbol
-versions from DWARF. When passed a list of exported symbols and
-object files, the tool generates an expanded type string for each
-symbol and computes symbol CRCs similarly to genksyms. gendwarfksyms
-is written in C and uses libdw to process DWARF. Patch 18 ensures
-that debugging information is present where we need it, patch 19
-adds gendwarfksyms as an alternative to genksyms, and the last patch
-adds documentation.
-
-Note that v3 is based on next-20240923 as it depends on Masahiro's
-scripts/include changes. For x86, we also need a separate small
-patch to include asm/ptrace.h in asm/ftrace.h. [5] For your
-convenience, you can find this series with all the prerequisites
-here:
-
-https://github.com/samitolvanen/linux/commits/gendwarfksyms-v3
-
-If you also want to test the series with Rust modules, this branch
-adds Matt's modversion_info series and a small patch to enable Rust
-modversions:
-
-https://github.com/samitolvanen/linux/commits/rustmodversions-v3
-
-Looking forward to hearing your thoughts!
-
-Sami
-
-
-[1] v1: https://lore.kernel.org/lkml/20240617175818.58219-17-samitolvanen@google.com/
-[2] v2: https://lore.kernel.org/lkml/20240815173903.4172139-21-samitolvanen@google.com/
-[3] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
-[4] https://lore.kernel.org/lkml/20240806212106.617164-1-mmaurer@google.com/
-[5] https://lore.kernel.org/lkml/20240916221557.846853-2-samitolvanen@google.com/
-
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 ---
+ scripts/include/list.h | 50 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-Changes in v3:
-- Updated SPX license headers.
-
-- Squashed the first two patches in v2 and tried to reduce churn as
-  much as reasonable.
-
-- Dropped patch 18 from v2 ("x86/asm-prototypes: Include
-  <asm/ptrace.h>") as it's addressed by a separate patch. [5]
-
-- Changed the error handling code to immediately terminate instead
-  of propagating the errors back to main, which cleaned up the code
-  quite a bit.
-
-- Switched to the list and hashtable implementations in scripts and
-  dropped the remaining tools/include dependencies. Added a couple
-  missing list macros. (patch 1)
-
-- Moved the genksyms CRC32 implementation to scripts/include and
-  dropped the duplicate code. (patches 2 and 14)
-
-- Switched from ad-hoc command line parsing to getopt_long (patch 3).
-
-- Added structure member and function parameter names to the DIE
-  output to match genksyms behavior, and tweaked the symtypes format
-  to be more parser-friendly in general based on Petr's suggestions.
-
-- Replaced the declaration-only struct annotations with more generic
-  kABI stability rules that allow source code annotations to be used
-  where #ifndef __GENKSYMS__ was previously used.  Added support for
-  rules that can be used to exclude enumerators from versioning.
-  (patch 16)
-
-- Per Miroslav's suggestion, added an option to hide structure
-  members from versioning when they're added to existing alignment
-  holes, for example. (patch 16)
-
-- Per Greg's request, added documentation and example macros for the
-  --stable features, and a couple of test cases. (patches 15, 16, and
-  20)
-
-- Fixed making symtypes files, which need to depend on .o files with
-  gendwarfksyms. (patch 19)
-
-- Addressed several other smaller issues that Petr and Masahiro
-  kindly pointed out during the v2 review.
-
-Changes in v2:
-- Per Luis' request, dropped Rust-specific patches and added
-  gendwarfksyms as an alternative to genksyms for the entire
-  kernel.
-
-- Added support for missing DWARF features needed to handle
-  also non-Rust code.
-
-- Changed symbol address matching to use the symbol table
-  information instead of relying on addresses in DWARF.
-
-- Added __gendwarfksyms_ptr patches to ensure the compiler emits
-  the necessary type information in DWARF even for symbols that
-  are defined in other TUs.
-
-- Refactored debugging output and moved the more verbose output
-  behind --dump* flags.
-
-- Added a --symtypes flag for generating a genksyms-style
-  symtypes output based on Petr's feedback, and refactored
-  symbol version calculations to be based on symtypes instead
-  of raw --dump-dies output.
-
-- Based on feedback from Greg and Petr, added --stable flag and
-  support for reserved data structure fields and declaration-onl
-  structures. Also added examples for using these features.
-
-- Added a GENDWARFKSYMS option and hooked up kbuild support
-  for both C and assembly code. Note that with gendwarfksyms,
-  we have to actually build a temporary .o file for calculating
-  assembly modversions.
-
----
-
-Sami Tolvanen (20):
-  scripts: import more list macros
-  scripts: move genksyms crc32 implementation to a common include
-  tools: Add gendwarfksyms
-  gendwarfksyms: Add address matching
-  gendwarfksyms: Expand base_type
-  gendwarfksyms: Add a cache for processed DIEs
-  gendwarfksyms: Expand type modifiers and typedefs
-  gendwarfksyms: Expand subroutine_type
-  gendwarfksyms: Expand array_type
-  gendwarfksyms: Expand structure types
-  gendwarfksyms: Limit structure expansion
-  gendwarfksyms: Add die_map debugging
-  gendwarfksyms: Add symtypes output
-  gendwarfksyms: Add symbol versioning
-  gendwarfksyms: Add support for kABI rules
-  gendwarfksyms: Add support for reserved and ignored fields
-  gendwarfksyms: Add support for symbol type pointers
-  export: Add __gendwarfksyms_ptr_ references to exported symbols
-  kbuild: Add gendwarfksyms as an alternative to genksyms
-  Documentation/kbuild: Add DWARF module versioning
-
- Documentation/kbuild/gendwarfksyms.rst      |  274 +++++
- Documentation/kbuild/index.rst              |    1 +
- include/linux/export.h                      |   15 +
- kernel/module/Kconfig                       |   31 +
- scripts/Makefile                            |    3 +-
- scripts/Makefile.build                      |   39 +-
- scripts/gendwarfksyms/.gitignore            |    2 +
- scripts/gendwarfksyms/Makefile              |   12 +
- scripts/gendwarfksyms/cache.c               |   44 +
- scripts/gendwarfksyms/die.c                 |  166 +++
- scripts/gendwarfksyms/dwarf.c               | 1085 +++++++++++++++++++
- scripts/gendwarfksyms/examples/kabi.h       |  141 +++
- scripts/gendwarfksyms/examples/kabi_ex0.c   |   86 ++
- scripts/gendwarfksyms/examples/kabi_ex1.c   |   89 ++
- scripts/gendwarfksyms/examples/kabi_ex2.c   |   98 ++
- scripts/gendwarfksyms/examples/kabi_rules.c |   56 +
- scripts/gendwarfksyms/examples/symbolptr.c  |   29 +
- scripts/gendwarfksyms/gendwarfksyms.c       |  195 ++++
- scripts/gendwarfksyms/gendwarfksyms.h       |  351 ++++++
- scripts/gendwarfksyms/kabi.c                |  214 ++++
- scripts/gendwarfksyms/symbols.c             |  317 ++++++
- scripts/gendwarfksyms/types.c               |  477 ++++++++
- scripts/genksyms/genksyms.c                 |   77 +-
- scripts/include/crc32.h                     |   93 ++
- scripts/include/list.h                      |   50 +
- 25 files changed, 3860 insertions(+), 85 deletions(-)
- create mode 100644 Documentation/kbuild/gendwarfksyms.rst
- create mode 100644 scripts/gendwarfksyms/.gitignore
- create mode 100644 scripts/gendwarfksyms/Makefile
- create mode 100644 scripts/gendwarfksyms/cache.c
- create mode 100644 scripts/gendwarfksyms/die.c
- create mode 100644 scripts/gendwarfksyms/dwarf.c
- create mode 100644 scripts/gendwarfksyms/examples/kabi.h
- create mode 100644 scripts/gendwarfksyms/examples/kabi_ex0.c
- create mode 100644 scripts/gendwarfksyms/examples/kabi_ex1.c
- create mode 100644 scripts/gendwarfksyms/examples/kabi_ex2.c
- create mode 100644 scripts/gendwarfksyms/examples/kabi_rules.c
- create mode 100644 scripts/gendwarfksyms/examples/symbolptr.c
- create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
- create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
- create mode 100644 scripts/gendwarfksyms/kabi.c
- create mode 100644 scripts/gendwarfksyms/symbols.c
- create mode 100644 scripts/gendwarfksyms/types.c
- create mode 100644 scripts/include/crc32.h
-
-
-base-commit: ef545bc03a65438cabe87beb1b9a15b0ffcb6ace
+diff --git a/scripts/include/list.h b/scripts/include/list.h
+index fea1e2b79063..8bdcaadca709 100644
+--- a/scripts/include/list.h
++++ b/scripts/include/list.h
+@@ -127,6 +127,36 @@ static inline void list_del(struct list_head *entry)
+ 	entry->prev = LIST_POISON2;
+ }
+ 
++/**
++ * list_replace - replace old entry by new one
++ * @old : the element to be replaced
++ * @new : the new element to insert
++ *
++ * If @old was empty, it will be overwritten.
++ */
++static inline void list_replace(struct list_head *old,
++				struct list_head *new)
++{
++	new->next = old->next;
++	new->next->prev = new;
++	new->prev = old->prev;
++	new->prev->next = new;
++}
++
++/**
++ * list_replace_init - replace old entry by new one and initialize the old one
++ * @old : the element to be replaced
++ * @new : the new element to insert
++ *
++ * If @old was empty, it will be overwritten.
++ */
++static inline void list_replace_init(struct list_head *old,
++				     struct list_head *new)
++{
++	list_replace(old, new);
++	INIT_LIST_HEAD(old);
++}
++
+ /**
+  * list_move - delete from one list and add as another's head
+  * @list: the entry to move
+@@ -150,6 +180,26 @@ static inline void list_move_tail(struct list_head *list,
+ 	list_add_tail(list, head);
+ }
+ 
++/**
++ * list_is_first -- tests whether @list is the first entry in list @head
++ * @list: the entry to test
++ * @head: the head of the list
++ */
++static inline int list_is_first(const struct list_head *list, const struct list_head *head)
++{
++	return list->prev == head;
++}
++
++/**
++ * list_is_last - tests whether @list is the last entry in list @head
++ * @list: the entry to test
++ * @head: the head of the list
++ */
++static inline int list_is_last(const struct list_head *list, const struct list_head *head)
++{
++	return list->next == head;
++}
++
+ /**
+  * list_is_head - tests whether @list is the list @head
+  * @list: the entry to test
 -- 
 2.46.0.792.g87dc391469-goog
 
