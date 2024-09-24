@@ -1,55 +1,55 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B4613BAE3
-	for <asahi@lists.linux.dev>; Tue, 24 Sep 2024 21:20:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5DA1AB519
+	for <asahi@lists.linux.dev>; Tue, 24 Sep 2024 21:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727212840; cv=none; b=p1DpNc9pu/6XF/R91pOSxe9tGYQAx9wmuuf3wZN5xerkCJjvvrRnSP5UNgBfHq8+vdqcDHmRgYmGDGhn7Yx69CDLzt/DgwML1laGpcHf1GJChCZ1ffrnvFL6tcHCfk/HBhYR889UAmN7uRxCVGmJQTHR+JdYOGl+NLNs2Hl8BVk=
+	t=1727212843; cv=none; b=uLWss6A4OlEn2TavQ0mONiJuxSitX0Z/yj7Wfjb9RifIeIFMuKeffU4gPSMzuwUNjvU+48aldiFcj1hGNK3UVlKbiIseFPRwNroRbpcIZZ0Aul188QOoUwq2nOpZyZPvaYRGevCICfb/w/IngDvmreEkv2/DpIaj2HzR3V5B0Jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727212840; c=relaxed/simple;
-	bh=WRBs20XgxXhpGUNzmAuEPSHiJfsMkZEkGfwB5C4b2is=;
+	s=arc-20240116; t=1727212843; c=relaxed/simple;
+	bh=iCsuIDpsaG//12LUTpbXOFHaJGeJHbd09pACcn3fot0=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=DwWxM0aoN/fTlPd+O9C9koAkMTZXDa/DegIdgbrNhNoNcHeusvhO0CzqiL3P4DHhE1U2nyYGRx9EB1wpwJRlI3A+Z6C46RzHlTIaY86Tm/VvM0RQMRdq1OY8UCT1susFPVpGhHNwRIEKlkQEiuRKMQaf6O+wxZbX9+VQZM2/3j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xvE8Gmdg; arc=none smtp.client-ip=209.85.128.202
+	 To:Cc:Content-Type; b=ZhUtAqIVjTiEdExzpNGTK1HpnXm0pMsd4hi+04ldXUgtcBh3cYl3u7MTnicWza8Aso/tRPFXDB4Eu1YaHZZbgk43JohSO5PlwJulFtSX6yqt+TrIlctlH/UgcQXcloCfXtgxlOu8pUfNzzm6pmgu1BF08jSv/mpAAjJnaRKRmmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mKv+3pRs; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xvE8Gmdg"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6d54ab222fcso125051857b3.1
-        for <asahi@lists.linux.dev>; Tue, 24 Sep 2024 14:20:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mKv+3pRs"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e1cefe6afc4so9329785276.2
+        for <asahi@lists.linux.dev>; Tue, 24 Sep 2024 14:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727212837; x=1727817637; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1727212839; x=1727817639; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=srrYfI2SZpfKgIsSq8ppkf2FykJu/mFy8hG5tlqb9h4=;
-        b=xvE8GmdgUAQCkzclnfKXvAR/dVDb0tOA4rddlInENPhSYvuBU/6uAUZe8/DfW+g1Tu
-         WyIQ4FAXZCCXSXveo+LuRe43zoOeA+1iFeQGn7m5YMxmTFJ1czRhGDzgG4nDtL56gzWG
-         yw0imhupNEi5LrMc4QXoaRO+E8fjK8nBAJcdB6sgYGTGGnC7ctHaiKZVy+6/cq8AW4pa
-         fEhOAsh0kN+GBDvWuV3rVMLqlMrNvR/mVOjALX75k0cVExoCorayVPar2F7cGKNiye9l
-         SdwyLLfaz6yG5X9VxFb4txu5S0EcTYstaGtFrFTGs/CD9MYJUsp/C/VYqZ48EtkkLWii
-         sC+Q==
+        bh=vadaxnt9VyshEs2zQXz9EyB1j9KQoYY2nW6Hpjx9NE8=;
+        b=mKv+3pRsdUsw8s49aLL3xj4055mJzSmuHAutxCQQKKfytjxmX6f8poddrUCZRSqXfc
+         ex2rQJ6gLBv6gBtiaqSNv7gHzO2O2titI8qbkXySJ2UbBBJRCBtwSu9EtR1S4ZZG2RcF
+         L7ntMChAHYAu2yqtTyTopvudsCQ/Sjo6G1PBs8YCPiEoaOlDmTmfS9L606IUm0M1HtQG
+         FftPLTJUDLYaXH5O3tfqLsAjDWGrUcFQ8jQQ5/FNNtCjjmKYaSletu60igOmSl/0sRL8
+         Q55Xa5Dm+RJpBSg2otBUFpMk8acyAB73p5YhCmWojcsl9npjmZUCfT3X5tysMl3lcWOW
+         pcbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727212837; x=1727817637;
+        d=1e100.net; s=20230601; t=1727212839; x=1727817639;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=srrYfI2SZpfKgIsSq8ppkf2FykJu/mFy8hG5tlqb9h4=;
-        b=kL31pWGYcwUGepSU92mhuvpSB55vncwu3nJOu2T9WUMDmgMlMvaP0A3FxetQIkCg0R
-         cXJPraWFWCm7DXUG8bEqFD/fdrzB8EqujDy5lIlaBH/dm7ohGTFJJ8dZ4YmmLbxEfCtB
-         sLHtaiDnN+bQloDlMEXv1jfWr55QL2EIFyIuUWPl3xe5ZAiXTESVBZ8PgqgzMAK/fbBu
-         NRcSA+5qTLcM3085K5w4jX/Nyex0Rich+c4yiC6XSZxgV1Cy+SiMmDJ8bjxR7zWldRal
-         Fhysw96OcCIl8dL98DztoDOO6Y7mEp/KMQt3WDh63iRjGYWwH3iciHMaXB5ZKkit2NjF
-         xSCw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDqOnwddkhiEXzViA1NfwXz1ewQFXwY811HTwlejeUFB4P62y1WTj4sKZntZXDXRmzSmmChg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+6NhaLidLHbuNXFvH2yJyH7sWpQ0EEwXyzcRsiMDwaxeDGGwr
-	/swGZi5jbhMhvREAwnMBpd0JpPCp4NNGTMpblRqT5eyAO3dyVfy+IoF4vsOPQa4NBAfkz1dxuxD
-	IiiE24Q==
-X-Google-Smtp-Source: AGHT+IGyr1kWMhsApP0IPIASutvzaMie1MZFGSgiqlyy1X5Rev23GRZTBa8QXuGS+5e5tLuSwBle/nwVaay5
+        bh=vadaxnt9VyshEs2zQXz9EyB1j9KQoYY2nW6Hpjx9NE8=;
+        b=KyFEv7CjV1Du00u5/mOoXwXKa8SYByN6LAqSMmD2EBPvANkBZoUeGYl0gb7sbISkDG
+         LB3PgFb/VE00ochaVvKt0zTLhFe3o7BIVQw/XEAAkYrcPLs/D2b4U3m1zU4sqmvH6hIe
+         uxaRzd/xiyhM2gGonTb9ipbcvDG9R5fghMykuASJLQBkIMCS8dnPA2dcvDxv4mgfLWdG
+         orrc6//8OeZWItBCc1HhybiDETtmJfpVUa0Ci6rKA46ww+AScvq14ql57E8/N1569CBL
+         JleIsBT38GF8WiESQVf0N817sdD17Tc8+GdFzuIy+opgfSsFNTCT8djjLB4aV0IflKL6
+         ZaPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUD+TB0xvIyYeziXj3/Y5FV5EIz12vPf0DiBpl/tXX1asfZSWBEGZJlLC32uM5GdR827zmoCQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfU8XnXRYEahUbJCY5B+Ud0z9jXhHENImyfX8Fjo5MUBLSMxGd
+	/GTBaQlHzCr+W7Tf5DE+pcwFjKAOMnlh/s0b2GtmxkqKwpwihuQovzRc5G7SLjEXxKTLtjciQFl
+	Qp0x9HQ==
+X-Google-Smtp-Source: AGHT+IFG4OSI48N35Xi6Gk6iSkzNvCRH8kParDuksWAqlt27lmlsX0YdseGwFG35RPWIbyYxQmf04qTEFaF5
 X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a25:d608:0:b0:e11:6a73:b0d with SMTP id
- 3f1490d57ef6-e24d9dc640bmr315276.6.1727212837099; Tue, 24 Sep 2024 14:20:37
+ (user=mmaurer job=sendgmr) by 2002:a25:b120:0:b0:e22:624b:aea2 with SMTP id
+ 3f1490d57ef6-e24d46b5e11mr525276.0.1727212839378; Tue, 24 Sep 2024 14:20:39
  -0700 (PDT)
-Date: Tue, 24 Sep 2024 21:19:45 +0000
+Date: Tue, 24 Sep 2024 21:19:46 +0000
 In-Reply-To: <20240924212024.540574-1-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20240924212024.540574-1-mmaurer@google.com>
 X-Mailer: git-send-email 2.46.1.824.gd892dcdcdd-goog
-Message-ID: <20240924212024.540574-4-mmaurer@google.com>
-Subject: [PATCH v4 03/16] module: Factor out elf_validity_cache_sechdrs
+Message-ID: <20240924212024.540574-5-mmaurer@google.com>
+Subject: [PATCH v4 04/16] module: Factor out elf_validity_cache_secstrings
 From: Matthew Maurer <mmaurer@google.com>
 To: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
 	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>
@@ -74,183 +74,164 @@ Cc: rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	Trevor Gross <tmgross@umich.edu>, linux-modules@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Factor out and document the validation of section headers.
+Factor out the validation of section names.
 
-Because we now validate all section offsets and lengths before accessing
-them, we can remove the ad-hoc checks.
+There are two behavioral changes:
+
+1. Previously, we did not validate non-SHF_ALLOC sections.
+   This may have once been safe, as find_sec skips non-SHF_ALLOC
+   sections, but find_any_sec, which will be used to load BTF if that is
+   enabled, ignores the SHF_ALLOC flag. Since there's no need to support
+   invalid section names, validate all of them, not just SHF_ALLOC
+   sections.
+2. Section names were validated *after* accessing them for the purposes
+   of detecting ".modinfo" and ".gnu.linkonce.this_module". They are now
+   checked prior to the access, which could avoid bad accesses with
+   malformed modules.
 
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- kernel/module/main.c | 125 ++++++++++++++++++++++++++++---------------
- 1 file changed, 82 insertions(+), 43 deletions(-)
+ kernel/module/main.c | 106 ++++++++++++++++++++++++++++---------------
+ 1 file changed, 69 insertions(+), 37 deletions(-)
 
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 59c977acfb44..1f3a07ee59c6 100644
+index 1f3a07ee59c6..6a9159afca02 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -1708,6 +1708,87 @@ static int elf_validity_ehdr(const struct load_info *info)
+@@ -1789,6 +1789,71 @@ static int elf_validity_cache_sechdrs(struct load_info *info)
  	return 0;
  }
  
 +/**
-+ * elf_validity_cache_sechdrs() - Cache section headers if valid
-+ * @info: Load info to compute section headers from
++ * elf_validity_cache_secstrings() - Caches section names if valid
++ * @info: Load info to cache section names from. Must have valid sechdrs.
 + *
-+ * Checks:
++ * Specifically checks:
 + *
-+ * * ELF header is valid (see elf_validity_ehdr())
-+ * * Section headers are the size we expect
-+ * * Section array fits in the user provided data
-+ * * Section index 0 is NULL
-+ * * Section contents are inbounds
++ * * Section name table index is inbounds of section headers
++ * * Section name table is not empty
++ * * Section name table is NUL terminated
++ * * All section name offsets are inbounds of the section
 + *
-+ * Then updates @info with a &load_info->sechdrs pointer if valid.
++ * Then updates @info with a &load_info->secstrings pointer if valid.
 + *
 + * Return: %0 if valid, negative error code if validation failed.
 + */
-+static int elf_validity_cache_sechdrs(struct load_info *info)
++static int elf_validity_cache_secstrings(struct load_info *info)
 +{
-+	Elf_Shdr *sechdrs;
-+	Elf_Shdr *shdr;
++	Elf_Shdr *strhdr, *shdr;
++	char *secstrings;
 +	int i;
-+	int err;
-+
-+	err = elf_validity_ehdr(info);
-+	if (err < 0)
-+		return err;
-+
-+	if (info->hdr->e_shentsize != sizeof(Elf_Shdr)) {
-+		pr_err("Invalid ELF section header size\n");
-+		return -ENOEXEC;
-+	}
 +
 +	/*
-+	 * e_shnum is 16 bits, and sizeof(Elf_Shdr) is
-+	 * known and small. So e_shnum * sizeof(Elf_Shdr)
-+	 * will not overflow unsigned long on any platform.
++	 * Verify if the section name table index is valid.
 +	 */
-+	if (info->hdr->e_shoff >= info->len
-+	    || (info->hdr->e_shnum * sizeof(Elf_Shdr) >
-+		info->len - info->hdr->e_shoff)) {
-+		pr_err("Invalid ELF section header overflow\n");
++	if (info->hdr->e_shstrndx == SHN_UNDEF
++	    || info->hdr->e_shstrndx >= info->hdr->e_shnum) {
++		pr_err("Invalid ELF section name index: %d || e_shstrndx (%d) >= e_shnum (%d)\n",
++		       info->hdr->e_shstrndx, info->hdr->e_shstrndx,
++		       info->hdr->e_shnum);
 +		return -ENOEXEC;
 +	}
 +
-+	sechdrs = (void *)info->hdr + info->hdr->e_shoff;
++	strhdr = &info->sechdrs[info->hdr->e_shstrndx];
 +
 +	/*
-+	 * The code assumes that section 0 has a length of zero and
-+	 * an addr of zero, so check for it.
++	 * The section name table must be NUL-terminated, as required
++	 * by the spec. This makes strcmp and pr_* calls that access
++	 * strings in the section safe.
 +	 */
-+	if (sechdrs[0].sh_type != SHT_NULL
-+	    || sechdrs[0].sh_size != 0
-+	    || sechdrs[0].sh_addr != 0) {
-+		pr_err("ELF Spec violation: section 0 type(%d)!=SH_NULL or non-zero len or addr\n",
-+		       sechdrs[0].sh_type);
++	secstrings = (void *)info->hdr + strhdr->sh_offset;
++	if (strhdr->sh_size == 0) {
++		pr_err("empty section name table\n");
++		return -ENOEXEC;
++	}
++	if (secstrings[strhdr->sh_size - 1] != '\0') {
++		pr_err("ELF Spec violation: section name table isn't null terminated\n");
 +		return -ENOEXEC;
 +	}
 +
-+	/* Validate contents are inbounds */
-+	for (i = 1; i < info->hdr->e_shnum; i++) {
-+		shdr = &sechdrs[i];
-+		switch (shdr->sh_type) {
-+		case SHT_NULL:
-+		case SHT_NOBITS:
-+			/* No contents, offset/size don't mean anything */
++	for (i = 0; i < info->hdr->e_shnum; i++) {
++		shdr = &info->sechdrs[i];
++		/* SHT_NULL means sh_name has an undefined value */
++		if (shdr->sh_type == SHT_NULL)
 +			continue;
-+		default:
-+			err = validate_section_offset(info, shdr);
-+			if (err < 0) {
-+				pr_err("Invalid ELF section in module (section %u type %u)\n",
-+				       i, shdr->sh_type);
-+				return err;
-+			}
++		if (shdr->sh_name >= strhdr->sh_size) {
++			pr_err("Invalid ELF section name in module (section %u type %u)\n",
++			       i, shdr->sh_type);
++			return -ENOEXEC;
 +		}
 +	}
 +
-+	info->sechdrs = sechdrs;
-+
++	info->secstrings = secstrings;
 +	return 0;
 +}
 +
  /*
   * Check userspace passed ELF module against our expectations, and cache
   * useful variables for further processing as we go.
-@@ -1737,29 +1818,10 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+@@ -1812,7 +1877,7 @@ static int elf_validity_cache_sechdrs(struct load_info *info)
+ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ {
+ 	unsigned int i;
+-	Elf_Shdr *shdr, *strhdr;
++	Elf_Shdr *shdr;
+ 	int err;
+ 	unsigned int num_mod_secs = 0, mod_idx;
  	unsigned int num_info_secs = 0, info_idx;
- 	unsigned int num_sym_secs = 0, sym_idx;
- 
--	err = elf_validity_ehdr(info);
-+	err = elf_validity_cache_sechdrs(info);
+@@ -1821,34 +1886,9 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ 	err = elf_validity_cache_sechdrs(info);
  	if (err < 0)
  		return err;
- 
--	if (info->hdr->e_shentsize != sizeof(Elf_Shdr)) {
--		pr_err("Invalid ELF section header size\n");
--		goto no_exec;
--	}
 -
 -	/*
--	 * e_shnum is 16 bits, and sizeof(Elf_Shdr) is
--	 * known and small. So e_shnum * sizeof(Elf_Shdr)
--	 * will not overflow unsigned long on any platform.
+-	 * Verify if the section name table index is valid.
 -	 */
--	if (info->hdr->e_shoff >= info->len
--	    || (info->hdr->e_shnum * sizeof(Elf_Shdr) >
--		info->len - info->hdr->e_shoff)) {
--		pr_err("Invalid ELF section header overflow\n");
+-	if (info->hdr->e_shstrndx == SHN_UNDEF
+-	    || info->hdr->e_shstrndx >= info->hdr->e_shnum) {
+-		pr_err("Invalid ELF section name index: %d || e_shstrndx (%d) >= e_shnum (%d)\n",
+-		       info->hdr->e_shstrndx, info->hdr->e_shstrndx,
+-		       info->hdr->e_shnum);
 -		goto no_exec;
 -	}
 -
--	info->sechdrs = (void *)info->hdr + info->hdr->e_shoff;
+-	strhdr = &info->sechdrs[info->hdr->e_shstrndx];
 -
- 	/*
- 	 * Verify if the section name table index is valid.
- 	 */
-@@ -1772,11 +1834,6 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
- 	}
- 
- 	strhdr = &info->sechdrs[info->hdr->e_shstrndx];
--	err = validate_section_offset(info, strhdr);
--	if (err < 0) {
--		pr_err("Invalid ELF section hdr(type %u)\n", strhdr->sh_type);
--		return err;
--	}
- 
- 	/*
- 	 * The section name table must be NUL-terminated, as required
-@@ -1793,18 +1850,6 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
- 		goto no_exec;
- 	}
- 
 -	/*
--	 * The code assumes that section 0 has a length of zero and
--	 * an addr of zero, so check for it.
+-	 * The section name table must be NUL-terminated, as required
+-	 * by the spec. This makes strcmp and pr_* calls that access
+-	 * strings in the section safe.
 -	 */
--	if (info->sechdrs[0].sh_type != SHT_NULL
--	    || info->sechdrs[0].sh_size != 0
--	    || info->sechdrs[0].sh_addr != 0) {
--		pr_err("ELF Spec violation: section 0 type(%d)!=SH_NULL or non-zero len or addr\n",
--		       info->sechdrs[0].sh_type);
+-	info->secstrings = (void *)info->hdr + strhdr->sh_offset;
+-	if (strhdr->sh_size == 0) {
+-		pr_err("empty section name table\n");
 -		goto no_exec;
 -	}
--
+-	if (info->secstrings[strhdr->sh_size - 1] != '\0') {
+-		pr_err("ELF Spec violation: section name table isn't null terminated\n");
+-		goto no_exec;
+-	}
++	err = elf_validity_cache_secstrings(info);
++	if (err < 0)
++		return err;
+ 
  	for (i = 1; i < info->hdr->e_shnum; i++) {
  		shdr = &info->sechdrs[i];
- 		switch (shdr->sh_type) {
-@@ -1823,12 +1868,6 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
- 			sym_idx = i;
- 			fallthrough;
- 		default:
--			err = validate_section_offset(info, shdr);
--			if (err < 0) {
--				pr_err("Invalid ELF section in module (section %u type %u)\n",
--					i, shdr->sh_type);
--				return err;
+@@ -1877,14 +1917,6 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ 				num_info_secs++;
+ 				info_idx = i;
+ 			}
+-
+-			if (shdr->sh_flags & SHF_ALLOC) {
+-				if (shdr->sh_name >= strhdr->sh_size) {
+-					pr_err("Invalid ELF section name in module (section %u type %u)\n",
+-					       i, shdr->sh_type);
+-					return -ENOEXEC;
+-				}
 -			}
- 			if (strcmp(info->secstrings + shdr->sh_name,
- 				   ".gnu.linkonce.this_module") == 0) {
- 				num_mod_secs++;
+ 			break;
+ 		}
+ 	}
 -- 
 2.46.1.824.gd892dcdcdd-goog
 
