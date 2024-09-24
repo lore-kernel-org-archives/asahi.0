@@ -1,55 +1,55 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5DA1AB519
-	for <asahi@lists.linux.dev>; Tue, 24 Sep 2024 21:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04E11ABED1
+	for <asahi@lists.linux.dev>; Tue, 24 Sep 2024 21:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727212843; cv=none; b=uLWss6A4OlEn2TavQ0mONiJuxSitX0Z/yj7Wfjb9RifIeIFMuKeffU4gPSMzuwUNjvU+48aldiFcj1hGNK3UVlKbiIseFPRwNroRbpcIZZ0Aul188QOoUwq2nOpZyZPvaYRGevCICfb/w/IngDvmreEkv2/DpIaj2HzR3V5B0Jg=
+	t=1727212844; cv=none; b=gxeQML+y4qPRp8ZiBKNzTG2TGJbhWI7qYqV37iQUl0YOFoZoVzCO62gqr6hgNUc3TTyUdiED9nqXWUaM+3XBZmROPbDif3td7GC9w2EfK/fk/Ys1KZUP8QGimCCZptbYnk08A7dOlIrm3WFYe1OeWTbJoIbRWDGjGdJFMgFY6Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727212843; c=relaxed/simple;
-	bh=iCsuIDpsaG//12LUTpbXOFHaJGeJHbd09pACcn3fot0=;
+	s=arc-20240116; t=1727212844; c=relaxed/simple;
+	bh=oOvwo7YW3AUcfbqrf+A9OVLdTk2yYzaOPGripVgZWf8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ZhUtAqIVjTiEdExzpNGTK1HpnXm0pMsd4hi+04ldXUgtcBh3cYl3u7MTnicWza8Aso/tRPFXDB4Eu1YaHZZbgk43JohSO5PlwJulFtSX6yqt+TrIlctlH/UgcQXcloCfXtgxlOu8pUfNzzm6pmgu1BF08jSv/mpAAjJnaRKRmmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mKv+3pRs; arc=none smtp.client-ip=209.85.219.201
+	 To:Cc:Content-Type; b=FxitM/V2oIl1XDKNZNamnbnkEIYqHmTv7JQAAnuzcaY/y8vx9MxpbOQqz049dqenhPgUipM1x+B+apOIT17C5+2muTrDAMKPCO+eNVcYNHwZhoziOIxSJjipPCANKCOL3fYn5Pt3XyoTmlX8uPsQMaoLvF9dyUwwdZyv4cOHLFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OMz5aX7s; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mKv+3pRs"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e1cefe6afc4so9329785276.2
-        for <asahi@lists.linux.dev>; Tue, 24 Sep 2024 14:20:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OMz5aX7s"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6de0b23f4c5so4708567b3.1
+        for <asahi@lists.linux.dev>; Tue, 24 Sep 2024 14:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727212839; x=1727817639; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1727212841; x=1727817641; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vadaxnt9VyshEs2zQXz9EyB1j9KQoYY2nW6Hpjx9NE8=;
-        b=mKv+3pRsdUsw8s49aLL3xj4055mJzSmuHAutxCQQKKfytjxmX6f8poddrUCZRSqXfc
-         ex2rQJ6gLBv6gBtiaqSNv7gHzO2O2titI8qbkXySJ2UbBBJRCBtwSu9EtR1S4ZZG2RcF
-         L7ntMChAHYAu2yqtTyTopvudsCQ/Sjo6G1PBs8YCPiEoaOlDmTmfS9L606IUm0M1HtQG
-         FftPLTJUDLYaXH5O3tfqLsAjDWGrUcFQ8jQQ5/FNNtCjjmKYaSletu60igOmSl/0sRL8
-         Q55Xa5Dm+RJpBSg2otBUFpMk8acyAB73p5YhCmWojcsl9npjmZUCfT3X5tysMl3lcWOW
-         pcbA==
+        bh=XKJyYEevVucNlB3/71Ku7Qx+VTTwNT+eh7LmoeHsrUQ=;
+        b=OMz5aX7slD8cIW9kK/V19XCfCFjBNrHfThpERdQrlr932N+scMMV7P3rNZbsu/+16H
+         XaMILfCkuo/YBmqpzQQMqcNwWvBG+DTSEbUjOov/nPxAycFQNILNrfimw1/l/d7S+jT8
+         hTGp3Qp4aTDpor78CzKpbcHww5BIGUJ115RbecEO7kHewxZfCbrPi8vW7dzBLwQQwbTi
+         S2rzt7ioeNXK06uuaxw3oHFCGB5jJKjb9oRUDnYd+ks3GT9whLnjHz1yqAwiOmIiiXH0
+         O/V16opXV9KDNIXOLhTcyM6bQsIEdBQBlTGQ0KAqgRjeMdJNq9pqKELXBDHCjpOLP0Ji
+         Yy2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727212839; x=1727817639;
+        d=1e100.net; s=20230601; t=1727212841; x=1727817641;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vadaxnt9VyshEs2zQXz9EyB1j9KQoYY2nW6Hpjx9NE8=;
-        b=KyFEv7CjV1Du00u5/mOoXwXKa8SYByN6LAqSMmD2EBPvANkBZoUeGYl0gb7sbISkDG
-         LB3PgFb/VE00ochaVvKt0zTLhFe3o7BIVQw/XEAAkYrcPLs/D2b4U3m1zU4sqmvH6hIe
-         uxaRzd/xiyhM2gGonTb9ipbcvDG9R5fghMykuASJLQBkIMCS8dnPA2dcvDxv4mgfLWdG
-         orrc6//8OeZWItBCc1HhybiDETtmJfpVUa0Ci6rKA46ww+AScvq14ql57E8/N1569CBL
-         JleIsBT38GF8WiESQVf0N817sdD17Tc8+GdFzuIy+opgfSsFNTCT8djjLB4aV0IflKL6
-         ZaPg==
-X-Forwarded-Encrypted: i=1; AJvYcCUD+TB0xvIyYeziXj3/Y5FV5EIz12vPf0DiBpl/tXX1asfZSWBEGZJlLC32uM5GdR827zmoCQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfU8XnXRYEahUbJCY5B+Ud0z9jXhHENImyfX8Fjo5MUBLSMxGd
-	/GTBaQlHzCr+W7Tf5DE+pcwFjKAOMnlh/s0b2GtmxkqKwpwihuQovzRc5G7SLjEXxKTLtjciQFl
-	Qp0x9HQ==
-X-Google-Smtp-Source: AGHT+IFG4OSI48N35Xi6Gk6iSkzNvCRH8kParDuksWAqlt27lmlsX0YdseGwFG35RPWIbyYxQmf04qTEFaF5
+        bh=XKJyYEevVucNlB3/71Ku7Qx+VTTwNT+eh7LmoeHsrUQ=;
+        b=OsGwWrP3GiTut6Ty3hRayLLpEsuhopkZFRxm/4ufQTmy3uS7hi5MvIpbK9cb2gdHIT
+         6KkZNNsPrTUOtDvVUiaLoOPRH/yRJ54aR8gtgYq/1NSvGhLZq36JnfY8KX6/vTMDzyZk
+         oGX1KCSPrCjwdZKvX6P2T0CWGkghNsBxDzdWNekLAC3duyK2fZP/vzaKUtb+ocswHpsj
+         yXH+8RsR1f2u/5u3lM5npO73ykc2E6ANlW/61cwjKa2nkSL0ORruiRo/a6NCGBVGP4mC
+         mw/6vtW/+Ywpr95pm/FhnWLW8nqRf20th4F5rJirZcCS/R0wQwWaAnRM4imDd+i2Cwt3
+         ZMHw==
+X-Forwarded-Encrypted: i=1; AJvYcCX3BaOPskmHG3FJ3gTL3pKVgf8nA33N8CNZcak/AjrWkBWiJ32F9Cf+0Kp1x4FLIzdDqxb14g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTLurBtTSaL0GVERCXB4ijr9E1o2//j+gwTXismqZVEaKB8C0r
+	y/fg6UyPo90ZNSV7bTwJWR0ZSWaHD3lOctoIZpKyElfZ3Xfyq6S1BJ4AK7nNe2Ux2caeqna4i/Q
+	5VBoMCw==
+X-Google-Smtp-Source: AGHT+IEIHoUgWRTaVQTY+4+TEtbudWqV2N5uaDTmBs0ILMQjLIcShuzuxUnbFETJLtyrN6FtMPs3h3vqln4e
 X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a25:b120:0:b0:e22:624b:aea2 with SMTP id
- 3f1490d57ef6-e24d46b5e11mr525276.0.1727212839378; Tue, 24 Sep 2024 14:20:39
- -0700 (PDT)
-Date: Tue, 24 Sep 2024 21:19:46 +0000
+ (user=mmaurer job=sendgmr) by 2002:a05:690c:3808:b0:6db:d365:19c0 with SMTP
+ id 00721157ae682-6e2089f11c2mr1334437b3.5.1727212841567; Tue, 24 Sep 2024
+ 14:20:41 -0700 (PDT)
+Date: Tue, 24 Sep 2024 21:19:47 +0000
 In-Reply-To: <20240924212024.540574-1-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20240924212024.540574-1-mmaurer@google.com>
 X-Mailer: git-send-email 2.46.1.824.gd892dcdcdd-goog
-Message-ID: <20240924212024.540574-5-mmaurer@google.com>
-Subject: [PATCH v4 04/16] module: Factor out elf_validity_cache_secstrings
+Message-ID: <20240924212024.540574-6-mmaurer@google.com>
+Subject: [PATCH v4 05/16] module: Factor out elf_validity_cache_index_info
 From: Matthew Maurer <mmaurer@google.com>
 To: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
 	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>
@@ -74,164 +74,138 @@ Cc: rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	Trevor Gross <tmgross@umich.edu>, linux-modules@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Factor out the validation of section names.
-
-There are two behavioral changes:
-
-1. Previously, we did not validate non-SHF_ALLOC sections.
-   This may have once been safe, as find_sec skips non-SHF_ALLOC
-   sections, but find_any_sec, which will be used to load BTF if that is
-   enabled, ignores the SHF_ALLOC flag. Since there's no need to support
-   invalid section names, validate all of them, not just SHF_ALLOC
-   sections.
-2. Section names were validated *after* accessing them for the purposes
-   of detecting ".modinfo" and ".gnu.linkonce.this_module". They are now
-   checked prior to the access, which could avoid bad accesses with
-   malformed modules.
+Centralize .modinfo detection and property validation.
 
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- kernel/module/main.c | 106 ++++++++++++++++++++++++++++---------------
- 1 file changed, 69 insertions(+), 37 deletions(-)
+ kernel/module/main.c | 82 ++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 68 insertions(+), 14 deletions(-)
 
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 1f3a07ee59c6..6a9159afca02 100644
+index 6a9159afca02..511d645ac577 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -1789,6 +1789,71 @@ static int elf_validity_cache_sechdrs(struct load_info *info)
+@@ -195,6 +195,38 @@ static unsigned int find_sec(const struct load_info *info, const char *name)
  	return 0;
  }
  
 +/**
-+ * elf_validity_cache_secstrings() - Caches section names if valid
-+ * @info: Load info to cache section names from. Must have valid sechdrs.
++ * find_any_unique_sec() - Find a unique section index by name
++ * @info: Load info for the module to scan
++ * @name: Name of the section we're looking for
 + *
-+ * Specifically checks:
++ * Locates a unique section by name. Ignores SHF_ALLOC.
 + *
-+ * * Section name table index is inbounds of section headers
-+ * * Section name table is not empty
-+ * * Section name table is NUL terminated
-+ * * All section name offsets are inbounds of the section
-+ *
-+ * Then updates @info with a &load_info->secstrings pointer if valid.
-+ *
-+ * Return: %0 if valid, negative error code if validation failed.
++ * Return: Section index if found uniquely, zero if absent, negative count
++ *         of total instances if multiple were found.
 + */
-+static int elf_validity_cache_secstrings(struct load_info *info)
++static int find_any_unique_sec(const struct load_info *info, const char *name)
 +{
-+	Elf_Shdr *strhdr, *shdr;
-+	char *secstrings;
++	unsigned int idx;
++	unsigned int count = 0;
 +	int i;
 +
-+	/*
-+	 * Verify if the section name table index is valid.
-+	 */
-+	if (info->hdr->e_shstrndx == SHN_UNDEF
-+	    || info->hdr->e_shstrndx >= info->hdr->e_shnum) {
-+		pr_err("Invalid ELF section name index: %d || e_shstrndx (%d) >= e_shnum (%d)\n",
-+		       info->hdr->e_shstrndx, info->hdr->e_shstrndx,
-+		       info->hdr->e_shnum);
-+		return -ENOEXEC;
-+	}
-+
-+	strhdr = &info->sechdrs[info->hdr->e_shstrndx];
-+
-+	/*
-+	 * The section name table must be NUL-terminated, as required
-+	 * by the spec. This makes strcmp and pr_* calls that access
-+	 * strings in the section safe.
-+	 */
-+	secstrings = (void *)info->hdr + strhdr->sh_offset;
-+	if (strhdr->sh_size == 0) {
-+		pr_err("empty section name table\n");
-+		return -ENOEXEC;
-+	}
-+	if (secstrings[strhdr->sh_size - 1] != '\0') {
-+		pr_err("ELF Spec violation: section name table isn't null terminated\n");
-+		return -ENOEXEC;
-+	}
-+
-+	for (i = 0; i < info->hdr->e_shnum; i++) {
-+		shdr = &info->sechdrs[i];
-+		/* SHT_NULL means sh_name has an undefined value */
-+		if (shdr->sh_type == SHT_NULL)
-+			continue;
-+		if (shdr->sh_name >= strhdr->sh_size) {
-+			pr_err("Invalid ELF section name in module (section %u type %u)\n",
-+			       i, shdr->sh_type);
-+			return -ENOEXEC;
++	for (i = 1; i < info->hdr->e_shnum; i++) {
++		if (strcmp(info->secstrings + info->sechdrs[i].sh_name,
++			   name) == 0) {
++			count++;
++			idx = i;
 +		}
 +	}
++	if (count == 1) {
++		return idx;
++	} else if (count == 0) {
++		return 0;
++	} else {
++		return -count;
++	}
++}
 +
-+	info->secstrings = secstrings;
+ /* Find a module section, or NULL. */
+ static void *section_addr(const struct load_info *info, const char *name)
+ {
+@@ -1854,6 +1886,39 @@ static int elf_validity_cache_secstrings(struct load_info *info)
+ 	return 0;
+ }
+ 
++/**
++ * elf_validity_cache_index_info() - Validate and cache modinfo section
++ * @info: Load info to populate the modinfo index on.
++ *        Must have &load_info->sechdrs and &load_info->secstrings populated
++ *
++ * Checks that if there is a .modinfo section, it is unique.
++ * Then, it caches its index in &load_info->index.info.
++ * Finally, it tries to populate the name to improve error messages.
++ *
++ * Return: %0 if valid, %-ENOEXEC if multiple modinfo sections were found.
++ */
++static int elf_validity_cache_index_info(struct load_info *info)
++{
++	int info_idx;
++
++	info_idx = find_any_unique_sec(info, ".modinfo");
++
++	if (info_idx == 0)
++		/* Early return, no .modinfo */
++		return 0;
++
++	if (info_idx < 0) {
++		pr_err("Only one .modinfo section must exist.\n");
++		return -ENOEXEC;
++	}
++
++	info->index.info = info_idx;
++	/* Try to find a name early so we can log errors with a module name */
++	info->name = get_modinfo(info, "name");
++
 +	return 0;
 +}
 +
  /*
   * Check userspace passed ELF module against our expectations, and cache
   * useful variables for further processing as we go.
-@@ -1812,7 +1877,7 @@ static int elf_validity_cache_sechdrs(struct load_info *info)
- static int elf_validity_cache_copy(struct load_info *info, int flags)
- {
- 	unsigned int i;
--	Elf_Shdr *shdr, *strhdr;
-+	Elf_Shdr *shdr;
+@@ -1880,13 +1945,15 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ 	Elf_Shdr *shdr;
  	int err;
  	unsigned int num_mod_secs = 0, mod_idx;
- 	unsigned int num_info_secs = 0, info_idx;
-@@ -1821,34 +1886,9 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+-	unsigned int num_info_secs = 0, info_idx;
+ 	unsigned int num_sym_secs = 0, sym_idx;
+ 
  	err = elf_validity_cache_sechdrs(info);
  	if (err < 0)
  		return err;
--
--	/*
--	 * Verify if the section name table index is valid.
--	 */
--	if (info->hdr->e_shstrndx == SHN_UNDEF
--	    || info->hdr->e_shstrndx >= info->hdr->e_shnum) {
--		pr_err("Invalid ELF section name index: %d || e_shstrndx (%d) >= e_shnum (%d)\n",
--		       info->hdr->e_shstrndx, info->hdr->e_shstrndx,
--		       info->hdr->e_shnum);
--		goto no_exec;
--	}
--
--	strhdr = &info->sechdrs[info->hdr->e_shstrndx];
--
--	/*
--	 * The section name table must be NUL-terminated, as required
--	 * by the spec. This makes strcmp and pr_* calls that access
--	 * strings in the section safe.
--	 */
--	info->secstrings = (void *)info->hdr + strhdr->sh_offset;
--	if (strhdr->sh_size == 0) {
--		pr_err("empty section name table\n");
--		goto no_exec;
--	}
--	if (info->secstrings[strhdr->sh_size - 1] != '\0') {
--		pr_err("ELF Spec violation: section name table isn't null terminated\n");
--		goto no_exec;
--	}
-+	err = elf_validity_cache_secstrings(info);
+ 	err = elf_validity_cache_secstrings(info);
 +	if (err < 0)
 +		return err;
++	err = elf_validity_cache_index_info(info);
+ 	if (err < 0)
+ 		return err;
  
- 	for (i = 1; i < info->hdr->e_shnum; i++) {
- 		shdr = &info->sechdrs[i];
-@@ -1877,14 +1917,6 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
- 				num_info_secs++;
- 				info_idx = i;
+@@ -1912,24 +1979,11 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ 				   ".gnu.linkonce.this_module") == 0) {
+ 				num_mod_secs++;
+ 				mod_idx = i;
+-			} else if (strcmp(info->secstrings + shdr->sh_name,
+-				   ".modinfo") == 0) {
+-				num_info_secs++;
+-				info_idx = i;
  			}
--
--			if (shdr->sh_flags & SHF_ALLOC) {
--				if (shdr->sh_name >= strhdr->sh_size) {
--					pr_err("Invalid ELF section name in module (section %u type %u)\n",
--					       i, shdr->sh_type);
--					return -ENOEXEC;
--				}
--			}
  			break;
  		}
  	}
+ 
+-	if (num_info_secs > 1) {
+-		pr_err("Only one .modinfo section must exist.\n");
+-		goto no_exec;
+-	} else if (num_info_secs == 1) {
+-		/* Try to find a name early so we can log errors with a module name */
+-		info->index.info = info_idx;
+-		info->name = get_modinfo(info, "name");
+-	}
+-
+ 	if (num_sym_secs != 1) {
+ 		pr_warn("%s: module has no symbols (stripped?)\n",
+ 			info->name ?: "(missing .modinfo section or name field)");
 -- 
 2.46.1.824.gd892dcdcdd-goog
 
