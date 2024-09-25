@@ -1,55 +1,55 @@
 Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B262B1AE874
-	for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 23:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3F61A4F2E
+	for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 23:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727307610; cv=none; b=lku9EQiCOa3bP5ob1DP6aJNd6QRyTt7BQIiLUFgJjjbMyEo2pvkZwhxFJav59MpImfcHgJgAEUykLYEKPY22ZOAL5pPpPObEzImyzEUtk/z5ivKtMMsZQatXQ+4BHbcjM0cnalVD8qG3bUum64MduWWovjiLe7D7cGt9sfuwAII=
+	t=1727307616; cv=none; b=WdqCeJk0Uvei+xPI65ZI7up2Q5ztpKQUElgxBKo6Ea/17XLI7qZi+a35piunh4iBG4hZSUJpDNvf69PACD9lnZn19IfzXFiHvRI5j53kD4cXjekKHX6JHLjCaXwTHYp4Sc9GPZ182jPrFr8aorI+GrzqHgushJnUDaRyJhoVdh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727307610; c=relaxed/simple;
-	bh=HByXTJfGaacs4MV7ivXCvJq3lGnRepYcPD/jPTnE9OU=;
+	s=arc-20240116; t=1727307616; c=relaxed/simple;
+	bh=CxcOGYVl0RHNxURp1Y+1xpXbMOZLvm56O9AP4mZATd8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ExCiQc2ny0hJN0mQTq/hED+gP1qXokUDVrEhT+CgHYP9/urKf5nU6xPo5uC4ky38NQLLLgjd3xZ7GAP9MDEs9gS4/VsNF2mO13YsgrplIflJXFf1Xfq0RiHi8D+t1y1yALft8hsUf8XLVk58tUyagd2XLHH2ZZvhbRGAnk2uG90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UQvfNB0h; arc=none smtp.client-ip=209.85.219.201
+	 To:Cc:Content-Type; b=fHTqB59ddl84fCZriN42Km7Mk80h7SWUNx+5NOXvJ9mGVTG+l8dZ4nWTKeq/p+U5vxg0LK35fUNfJ87wDPmrJ6aVsiPU3d1zVTsiItYUiKyloEoXzzU7q2dJMutqE8kj1Onh1lCqz/xadwNTI/TEhG3slt0ZdpkSIiLTuTit0DU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=leXVvBqX; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UQvfNB0h"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e02b5792baaso694088276.2
-        for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 16:40:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="leXVvBqX"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e0353b731b8so587850276.2
+        for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 16:40:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727307607; x=1727912407; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1727307614; x=1727912414; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RglsluUoLriSL7HbUF8axxP+liCt7+SgicjK27E/sOo=;
-        b=UQvfNB0hMldb512ST6x0Bwj66KZARGb6JSoaki+yepYxCQU9csS5VdNXFcji27RUnL
-         rWObaadLjrWNcc6vTa9FQxqi01pQUxnKHbylSsaC08iJPU92/6ERsq5akQ+W+vOgwNDN
-         Cu9OcvmjwaMjQdNo7g4X9qW3MvKBD+s0G1uq2lTzGZKq4HOjFUUp/+og4erJHML77NYz
-         cBj3D8k2H8YekcxT6UAzo3C0k3WK6P2b1uQRCMm1JoSukyTc+72A/6uyB95tP8h5ci5B
-         XnyrbViF4tfVSH6ybturXUem5ap399tea5j5rp8Ss3/Wjl2BBsVOlcKpE4tRmdBRfnbA
-         cKJQ==
+        bh=WplRKYGF+6Vdtojy3WxnxZnhza95+GyPbQDFLT+DHQA=;
+        b=leXVvBqXyIX+oZ6VohbPhCkUxicJKoIYygORgHtM0Cqof7N3opLdPkSxbW2mlPb9Uo
+         tGWB2oCbF7BaLfZaj2+QVqD83CIjP82n6Adxm7+JscOTrIoK6wKqsWiWU4zVwHoLXqoS
+         jMFE0E9j6aNHPFrvtzgY55ZTkeqWOzZFZUTlMVfbPZpvS/mi7R7bxgS4C2CqNKaF0Uh7
+         6/wQ8wU2uyKVv1x8v+akuM9En9v6wpJiIt4Qk//sgnamG6yVome1GKZDUL5Fl0L5Wr1B
+         +fEngQqbVBZIUjyZD9i4W9VLEEas/7X3ewbxlUUJTSmYrV6jUx3R0fkDJuIRG9hwcwtb
+         BOfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727307607; x=1727912407;
+        d=1e100.net; s=20230601; t=1727307614; x=1727912414;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RglsluUoLriSL7HbUF8axxP+liCt7+SgicjK27E/sOo=;
-        b=ZCYA4mm4KVvvXbiLzNPCEcmOClOjt2piL/sxyXyKnMgQUQw/R/71JfZzu/Zi2AOvj3
-         8W8xmaK/fV2rj5NdeqNQtoD4AvGIJC/6B66iDa/AQjeVvSYD3oZozSm6qwb84i+lsozN
-         84s4K0nRVorSJN9hxK+ojdKP39atzMHDCdNUCVFfBB13AfDk9bgasVhbOnzu3YToB/SU
-         i+zZ6cN2b7hyGPnQWiuS4dzeAqMtOcCzD4FO0o9SGUT/QLmVReowmWYvF4oUKVxqZ1Cp
-         wOJp4kasPknDBwNPo6vU7L3OjBmSHjzBBisf45FY9xwp2lynYD2VTUD33qHP034U50AJ
-         MNdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXFhgYARE+99q3V2nG8Mjkvrrjy4xlKHvqyTxSoVa94hL4lug6WOtzwwM8Jf67A5lGk3u02jg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy23aMjTXEepa1lgwIJMa28rGmbqmITVpRMDD3YpCd3yY9m8MUp
-	u+JGUrcdSGOyaRcqLFdddKWA5LQwxd1xEX7+/R0epaNb4B0SO/LLMOxg/JvLHpFfrocpxKekyJ8
-	Dc/vawQ==
-X-Google-Smtp-Source: AGHT+IGASCvkEn2P1gDzoqsewJkQJHaAHK03+0AmWd/xawb1XFk5R/bQgX0n7dG9j+urvSvhJWBpQ1ZaL5iI
+        bh=WplRKYGF+6Vdtojy3WxnxZnhza95+GyPbQDFLT+DHQA=;
+        b=SE/ssNn01FevcUjOwa1zriNbJjB72xIc/N4sIlt0k6+WccjVAxTqKnSbCVafaMQI/k
+         0DawLLhzhj6aZXfxx0ljPMJhv8e1z/aLmw03tg0yLOCqRc29ame+bCdGSW0dGSTuQkd4
+         /wktTcGHwlvWSHVsHBxKl7xbjIamTOQm0ArpkEqFrNvPLBLTHN3NpSCh3cjjB97gl93J
+         O8qTgT48WBajh2cMkVB4khWdN+4eF2BbYDFsnq/gYxh99jGfyRLJmJAWf2P+68gxtPiP
+         YhcRIziI9CvLX8saxesLddhrPVqY6YYibI3Z+63KyKZ0DaKvWEI/0M+rONgZk45ncA+2
+         Y6SA==
+X-Forwarded-Encrypted: i=1; AJvYcCVBcY1Nw1sZ5oobq2sWz4Hz0uMeTKF8/01s9x4xufAxlvlYbm+/Lz3kPBX+A2QVMKEIukhiZg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyxF+4tVurrmCbLOyZ5kuuw9K5YfC1K6bozbkJudl3EHOkQzGFj
+	lxWOpop531aElU1JtwSyrOY0KLQfN/vUn6e19PNLgz0vSDsS8opTQAkvceR6OCZk8aVw617WXKk
+	tMvLzFw==
+X-Google-Smtp-Source: AGHT+IEf40pL03JKKHoArutuPYYFcfXs6+lqlBIsFYP4JGQ4Mtdii+GrGo8PKjLJPO4DM/u/M2ebjWWjQD3t
 X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a05:6902:118f:b0:e24:9584:52d3 with SMTP
- id 3f1490d57ef6-e24d71625d8mr82065276.2.1727307606698; Wed, 25 Sep 2024
- 16:40:06 -0700 (PDT)
-Date: Wed, 25 Sep 2024 23:38:30 +0000
+ (user=mmaurer job=sendgmr) by 2002:a25:780e:0:b0:e16:6e0a:bb0b with SMTP id
+ 3f1490d57ef6-e24d44cad51mr4791276.0.1727307613856; Wed, 25 Sep 2024 16:40:13
+ -0700 (PDT)
+Date: Wed, 25 Sep 2024 23:38:31 +0000
 In-Reply-To: <20240925233854.90072-1-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -59,89 +59,76 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20240925233854.90072-1-mmaurer@google.com>
 X-Mailer: git-send-email 2.46.1.824.gd892dcdcdd-goog
-Message-ID: <20240925233854.90072-16-mmaurer@google.com>
-Subject: [PATCH v5 15/16] modpost: Produce extended modversion information
+Message-ID: <20240925233854.90072-17-mmaurer@google.com>
+Subject: [PATCH v5 16/16] export_report: Use new version info format
 From: Matthew Maurer <mmaurer@google.com>
 To: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
-	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>
+	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, 
+	Matthew Maurer <mmaurer@google.com>
 Cc: rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, neal@gompa.dev, marcan@marcan.st, j@jannau.net, 
 	asahi@lists.linux.dev, linux-modules@vger.kernel.org, 
-	Matthew Maurer <mmaurer@google.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Boqun Feng <boqun.feng@gmail.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, 
 	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
 	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
 	Trevor Gross <tmgross@umich.edu>
 Content-Type: text/plain; charset="UTF-8"
 
-Generate both the existing modversions format and the new extended one
-when running modpost.
-
-We no longer generate an error on long symbols in modpost, as they can
-now be appropriately encoded in the extended section. These symbols will
-be skipped in the previous encoding.
+The new version info format has a superset of symbols in the old format.
+Since this is a tool for in-tree modules, we don't need to parse the old
+one with this tool any longer.
 
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- scripts/mod/modpost.c | 39 ++++++++++++++++++++++++++++++++++++---
- 1 file changed, 36 insertions(+), 3 deletions(-)
+ scripts/export_report.pl | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 107393a8c48a..f8b7b793d2a2 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1840,15 +1840,48 @@ static void add_versions(struct buffer *b, struct module *mod)
- 			continue;
- 		}
- 		if (strlen(s->name) >= MODULE_NAME_LEN) {
--			error("too long symbol \"%s\" [%s.ko]\n",
--			      s->name, mod->name);
--			break;
-+			/* this symbol will only be in the extended info */
-+			continue;
- 		}
- 		buf_printf(b, "\t{ %#8x, \"%s\" },\n",
- 			   s->crc, s->name);
+diff --git a/scripts/export_report.pl b/scripts/export_report.pl
+index dcef915405f3..6a37df6f947f 100755
+--- a/scripts/export_report.pl
++++ b/scripts/export_report.pl
+@@ -114,31 +114,29 @@ foreach my $thismod (@allcfiles) {
  	}
  
- 	buf_printf(b, "};\n");
-+
-+	buf_printf(b, "static const s32 ____version_ext_crcs[]\n");
-+	buf_printf(b, "__used __section(\"__version_ext_crcs\") = {\n");
-+	list_for_each_entry(s, &mod->unresolved_symbols, list) {
-+		if (!s->module)
-+			continue;
-+		if (!s->crc_valid) {
-+			/*
-+			 * We already warned on this when producing the legacy
-+			 * modversions table.
-+			 */
-+			continue;
-+		}
-+		buf_printf(b, "\t%#8x,\n", s->crc);
-+	}
-+	buf_printf(b, "};\n");
-+
-+	buf_printf(b, "static const char ____version_ext_names[]\n");
-+	buf_printf(b, "__used __section(\"__version_ext_names\") =\n");
-+	list_for_each_entry(s, &mod->unresolved_symbols, list) {
-+		if (!s->module)
-+			continue;
-+		if (!s->crc_valid) {
-+			/*
-+			 * We already warned on this when producing the legacy
-+			 * modversions table.
-+			 * We need to skip its name too, as the indexes in
-+			 * both tables need to align.
-+			 */
-+			continue;
-+		}
-+		buf_printf(b, "\t\"%s\\0\"\n", s->name);
-+	}
-+	buf_printf(b, ";\n");
- }
- 
- static void add_depends(struct buffer *b, struct module *mod)
+ 	my $state=0;
++	# State map:
++	# 0 - Looking for names
++	# 1 - Scanning names
++	# 2 - Done
+ 	while ( <$module> ) {
+ 		chomp;
+ 		if ($state == 0) {
+-			$state = 1 if ($_ =~ /static const struct modversion_info/);
++			$state = 1 if ($_ =~ /__used __section\("__version_ext_names"\)/);
+ 			next;
+ 		}
+ 		if ($state == 1) {
+-			$state = 2 if ($_ =~ /__used __section\("__versions"\)/);
+-			next;
+-		}
+-		if ($state == 2) {
+-			if ( $_ =~ /};/ ) {
+-				$state = 3;
+-				next;
+-			}
+-			if ( $_ !~ /0x[0-9a-f]+,/ ) {
++			if ( $_ =~ /;/ ) {
++				$state = 2;
+ 				next;
+ 			}
+-			my $sym = (split /([,"])/,)[4];
++			$_ =~ /"(.*)\\0"/;
++			my $sym = $1;
+ 			my ($module, $value, $symbol, $gpl) = @{$SYMBOL{$sym}};
+ 			$SYMBOL{ $sym } =  [ $module, $value+1, $symbol, $gpl];
+ 			push(@{$MODULE{$thismod}} , $sym);
+ 		}
+ 	}
+-	if ($state != 3) {
++	if ($state != 2) {
+ 		warn "WARNING:$thismod is not built with CONFIG_MODVERSIONS enabled\n";
+ 		$modversion_warnings++;
+ 	}
 -- 
 2.46.1.824.gd892dcdcdd-goog
 
