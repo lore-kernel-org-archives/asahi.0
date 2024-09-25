@@ -1,134 +1,141 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3F61A4F2E
-	for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 23:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19F71A3BD0
+	for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 23:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727307616; cv=none; b=WdqCeJk0Uvei+xPI65ZI7up2Q5ztpKQUElgxBKo6Ea/17XLI7qZi+a35piunh4iBG4hZSUJpDNvf69PACD9lnZn19IfzXFiHvRI5j53kD4cXjekKHX6JHLjCaXwTHYp4Sc9GPZ182jPrFr8aorI+GrzqHgushJnUDaRyJhoVdh4=
+	t=1727307765; cv=none; b=XvXp+4kw4QruE4jjWeXCgSiRj/1YrtW2wxrynSR5lALo5A2wA7M9zyFnmvEEZqB4/I9Z+9B9hALMLti/PpFArlkkzHYY5IhcbJUsWBS1TajXWod5lFWAfhaoZyx1JDuH45oa3mVPlJPAEkaPLUh9O0NTjCxk8S1vLiNhGiZVXMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727307616; c=relaxed/simple;
-	bh=CxcOGYVl0RHNxURp1Y+1xpXbMOZLvm56O9AP4mZATd8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=fHTqB59ddl84fCZriN42Km7Mk80h7SWUNx+5NOXvJ9mGVTG+l8dZ4nWTKeq/p+U5vxg0LK35fUNfJ87wDPmrJ6aVsiPU3d1zVTsiItYUiKyloEoXzzU7q2dJMutqE8kj1Onh1lCqz/xadwNTI/TEhG3slt0ZdpkSIiLTuTit0DU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=leXVvBqX; arc=none smtp.client-ip=209.85.219.201
+	s=arc-20240116; t=1727307765; c=relaxed/simple;
+	bh=cwCCg7cjlmVJH30GDf9Cwg6fhR2bbuS17MaqIuOSV0s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lHLBnq3J7sc6UQ/o1FWVaQa/jBOkS/nsKj+XoigniCmrZw+gU+vGG5S8j0HTZPyE7RRsO93s+25IK4zAFSNoUp8ccpEGL9YZirKbFgQY+0Nqep7FvQSsr6RSJv4n91/iONj0KAJLX0i94flvW/9VjHX3Rxl+Bh7KPFRnzMPbsUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WpMGRemn; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="leXVvBqX"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e0353b731b8so587850276.2
-        for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 16:40:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WpMGRemn"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c247dd0899so5397a12.1
+        for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 16:42:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727307614; x=1727912414; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WplRKYGF+6Vdtojy3WxnxZnhza95+GyPbQDFLT+DHQA=;
-        b=leXVvBqXyIX+oZ6VohbPhCkUxicJKoIYygORgHtM0Cqof7N3opLdPkSxbW2mlPb9Uo
-         tGWB2oCbF7BaLfZaj2+QVqD83CIjP82n6Adxm7+JscOTrIoK6wKqsWiWU4zVwHoLXqoS
-         jMFE0E9j6aNHPFrvtzgY55ZTkeqWOzZFZUTlMVfbPZpvS/mi7R7bxgS4C2CqNKaF0Uh7
-         6/wQ8wU2uyKVv1x8v+akuM9En9v6wpJiIt4Qk//sgnamG6yVome1GKZDUL5Fl0L5Wr1B
-         +fEngQqbVBZIUjyZD9i4W9VLEEas/7X3ewbxlUUJTSmYrV6jUx3R0fkDJuIRG9hwcwtb
-         BOfw==
+        d=google.com; s=20230601; t=1727307762; x=1727912562; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ek54duFW07igKvK9AQGJRlqEiTdehADtLtBpPhw2agE=;
+        b=WpMGRemndaJ0JxoF90MZmgJgeoD345bs7nP/cbrR+gb4lQySelkqYDOvaNGzLK0g6d
+         FKQiptIVPZQoxYolUbsqQq1E1h9V/Z9sQuphJsl9jeJE0CXmivTHsdIt28nAOlPmqLBU
+         Q/2ugOH7z5+dkTsW5vaG7avC+0C252z4cj16mH2gboX1QEQOiFUNjo5jq9zG+FIZcWdI
+         +L8k1ohnC2pIRqrXFuGCiEji23kJXYW0DqN0icERkUx/anq86wviicOKaJe3z0ulTiKJ
+         A7PsqNshYATvrB2lhuUoXXW16HBPiOJEyawUI3uv5aClkK4+b90kmrMgT6jbbFT2XrgP
+         s2Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727307614; x=1727912414;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WplRKYGF+6Vdtojy3WxnxZnhza95+GyPbQDFLT+DHQA=;
-        b=SE/ssNn01FevcUjOwa1zriNbJjB72xIc/N4sIlt0k6+WccjVAxTqKnSbCVafaMQI/k
-         0DawLLhzhj6aZXfxx0ljPMJhv8e1z/aLmw03tg0yLOCqRc29ame+bCdGSW0dGSTuQkd4
-         /wktTcGHwlvWSHVsHBxKl7xbjIamTOQm0ArpkEqFrNvPLBLTHN3NpSCh3cjjB97gl93J
-         O8qTgT48WBajh2cMkVB4khWdN+4eF2BbYDFsnq/gYxh99jGfyRLJmJAWf2P+68gxtPiP
-         YhcRIziI9CvLX8saxesLddhrPVqY6YYibI3Z+63KyKZ0DaKvWEI/0M+rONgZk45ncA+2
-         Y6SA==
-X-Forwarded-Encrypted: i=1; AJvYcCVBcY1Nw1sZ5oobq2sWz4Hz0uMeTKF8/01s9x4xufAxlvlYbm+/Lz3kPBX+A2QVMKEIukhiZg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxF+4tVurrmCbLOyZ5kuuw9K5YfC1K6bozbkJudl3EHOkQzGFj
-	lxWOpop531aElU1JtwSyrOY0KLQfN/vUn6e19PNLgz0vSDsS8opTQAkvceR6OCZk8aVw617WXKk
-	tMvLzFw==
-X-Google-Smtp-Source: AGHT+IEf40pL03JKKHoArutuPYYFcfXs6+lqlBIsFYP4JGQ4Mtdii+GrGo8PKjLJPO4DM/u/M2ebjWWjQD3t
-X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a25:780e:0:b0:e16:6e0a:bb0b with SMTP id
- 3f1490d57ef6-e24d44cad51mr4791276.0.1727307613856; Wed, 25 Sep 2024 16:40:13
- -0700 (PDT)
-Date: Wed, 25 Sep 2024 23:38:31 +0000
-In-Reply-To: <20240925233854.90072-1-mmaurer@google.com>
+        d=1e100.net; s=20230601; t=1727307762; x=1727912562;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ek54duFW07igKvK9AQGJRlqEiTdehADtLtBpPhw2agE=;
+        b=eg05I3NvQ4PglhLtzoPWVcpVZsRSIrQkaYsBFiiMBOJn8K1gHD6bdHdMpeBChIa4jG
+         fDNYw0XAlkPE4CG5EyoTU4YVTCbHR5/JHq8/QipaDrHdxBhRkaRlT3K4U2KY8Pgfl1pu
+         TL1II1B/Y3Quze36e9l3yFFQ7N0Rdl4sS4iVzfazkzdR9nYGa4SLgfPPqSXbCOHikESs
+         TFfiD5uvp80N37k7DERuyuc4MHq77s6LGWrasUqLXNF9GstCtx7a5wh4He1jqe1B2xAQ
+         0DpFas5cSpUxCxDhOPP+AkEi6sJuHlXsYDN9zhKpplzshMsLUqoc5N/IYJyU9NbjEK0I
+         wyMg==
+X-Forwarded-Encrypted: i=1; AJvYcCVpPKS6SDCHu8NlxOKx7v6suba0kyEzCdeaoDmUi2dKjEYcU4pS8B0dcZok0oudsQTVRaFeVw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxlTamMd7b9FV+phoX09Qz/iDDjLEHMh5UEa/nVBdvvJuk8g75b
+	z/0VE9Sf+xhtpj9z7AZmNn3M+90Uuj7Qmt3i0cbIl4YksvucMkzY1tA5G8RUmF/l4p47USfmWxe
+	CAOShQ4Rkqzz8XpOTLO3zTe3UA0TVjfl9DprW
+X-Google-Smtp-Source: AGHT+IEQLkFnBxCVmc+hBCfJCN9xgnB4wVQcVoqAWlHhf+GqjN1sdjtOkK/z88OGPV3GGtu/6kc0Wj3d2hT0sVNu66g=
+X-Received: by 2002:a05:6402:524d:b0:5c2:5251:ba5c with SMTP id
+ 4fb4d7f45d1cf-5c8783c7d8fmr251259a12.0.1727307761901; Wed, 25 Sep 2024
+ 16:42:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20240925233854.90072-1-mmaurer@google.com>
-X-Mailer: git-send-email 2.46.1.824.gd892dcdcdd-goog
-Message-ID: <20240925233854.90072-17-mmaurer@google.com>
-Subject: [PATCH v5 16/16] export_report: Use new version info format
+MIME-Version: 1.0
+References: <20240924212024.540574-1-mmaurer@google.com> <20240924212024.540574-15-mmaurer@google.com>
+ <20240925230000.GA3176650@google.com>
+In-Reply-To: <20240925230000.GA3176650@google.com>
 From: Matthew Maurer <mmaurer@google.com>
-To: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
-	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Matthew Maurer <mmaurer@google.com>
-Cc: rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, neal@gompa.dev, marcan@marcan.st, j@jannau.net, 
-	asahi@lists.linux.dev, linux-modules@vger.kernel.org, 
-	Boqun Feng <boqun.feng@gmail.com>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>
+Date: Wed, 25 Sep 2024 16:42:30 -0700
+Message-ID: <CAGSQo00OqOJ+s3xULXvojXMSCR8y-TQOHAwWqpS2VDxWaDxxQA@mail.gmail.com>
+Subject: Re: [PATCH v4 14/16] modules: Support extended MODVERSIONS info
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
+	gary@garyguo.net, mcgrof@kernel.org, Michael Ellerman <mpe@ellerman.id.au>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Benjamin Gray <bgray@linux.ibm.com>, 
+	Naveen N Rao <naveen@kernel.org>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, neal@gompa.dev, 
+	marcan@marcan.st, j@jannau.net, asahi@lists.linux.dev, 
+	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linuxppc-dev@lists.ozlabs.org, 
+	linux-modules@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The new version info format has a superset of symbols in the old format.
-Since this is a tool for in-tree modules, we don't need to parse the old
-one with this tool any longer.
+Thanks for the catch. I've sent up v5 to include that fix. I've also
+added a changelog and made sure the patches make it to linux-modules@
+as Daniel suggested.
 
-Signed-off-by: Matthew Maurer <mmaurer@google.com>
----
- scripts/export_report.pl | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/scripts/export_report.pl b/scripts/export_report.pl
-index dcef915405f3..6a37df6f947f 100755
---- a/scripts/export_report.pl
-+++ b/scripts/export_report.pl
-@@ -114,31 +114,29 @@ foreach my $thismod (@allcfiles) {
- 	}
- 
- 	my $state=0;
-+	# State map:
-+	# 0 - Looking for names
-+	# 1 - Scanning names
-+	# 2 - Done
- 	while ( <$module> ) {
- 		chomp;
- 		if ($state == 0) {
--			$state = 1 if ($_ =~ /static const struct modversion_info/);
-+			$state = 1 if ($_ =~ /__used __section\("__version_ext_names"\)/);
- 			next;
- 		}
- 		if ($state == 1) {
--			$state = 2 if ($_ =~ /__used __section\("__versions"\)/);
--			next;
--		}
--		if ($state == 2) {
--			if ( $_ =~ /};/ ) {
--				$state = 3;
--				next;
--			}
--			if ( $_ !~ /0x[0-9a-f]+,/ ) {
-+			if ( $_ =~ /;/ ) {
-+				$state = 2;
- 				next;
- 			}
--			my $sym = (split /([,"])/,)[4];
-+			$_ =~ /"(.*)\\0"/;
-+			my $sym = $1;
- 			my ($module, $value, $symbol, $gpl) = @{$SYMBOL{$sym}};
- 			$SYMBOL{ $sym } =  [ $module, $value+1, $symbol, $gpl];
- 			push(@{$MODULE{$thismod}} , $sym);
- 		}
- 	}
--	if ($state != 3) {
-+	if ($state != 2) {
- 		warn "WARNING:$thismod is not built with CONFIG_MODVERSIONS enabled\n";
- 		$modversion_warnings++;
- 	}
--- 
-2.46.1.824.gd892dcdcdd-goog
-
+On Wed, Sep 25, 2024 at 4:00=E2=80=AFPM Sami Tolvanen <samitolvanen@google.=
+com> wrote:
+>
+> Hi Matt,
+>
+> On Tue, Sep 24, 2024 at 09:19:56PM +0000, Matthew Maurer wrote:
+> > +static void dedotify_ext_version_names(char *str_seq, unsigned long si=
+ze)
+> > +{
+> > +     unsigned long out =3D 0;
+> > +     unsigned long in;
+> > +     char last =3D '\0';
+> > +
+> > +     for (in =3D 0; in < size; in++) {
+> > +             if (last =3D=3D '\0')
+> > +                     /* Skip one leading dot */
+> > +                     if (str_seq[in] =3D=3D '.')
+> > +                             in++;
+>
+> Thanks for addressing Michael's comment, this looks correct to me.
+>
+> Nit: might be cleaner in a single if statement though:
+>
+>         /* Skip one leading dot */
+>         if (last =3D=3D '\0' && str_seq[in] =3D=3D '.')
+>                 in++;
+>
+> > +void modversion_ext_start(const struct load_info *info,
+> > +                       struct modversion_info_ext *start)
+> > +{
+> > +     unsigned int crc_idx =3D info->index.vers_ext_crc;
+> > +     unsigned int name_idx =3D info->index.vers_ext_name;
+> > +     Elf_Shdr *sechdrs =3D info->sechdrs;
+> > +
+> > +     /*
+> > +      * Both of these fields are needed for this to be useful
+> > +      * Any future fields should be initialized to NULL if absent.
+> > +      */
+> > +     if ((crc_idx =3D=3D 0) || (name_idx =3D=3D 0))
+> > +             start->remaining =3D 0;
+> > +
+> > +     start->crc =3D (const s32 *)sechdrs[crc_idx].sh_addr;
+> > +     start->name =3D (const char *)sechdrs[name_idx].sh_addr;
+> > +     start->remaining =3D sechdrs[crc_idx].sh_size / sizeof(*start->cr=
+c);
+> > +}
+>
+> This looks unchanged from v3, so I think my comment from there
+> still applies:
+>
+> https://lore.kernel.org/lkml/CABCJKufJK0WO92wnW09VTLqZk0ODxhuKQG=3DHbKE-v=
+a0urJU1Vg@mail.gmail.com/
+>
+> Sami
