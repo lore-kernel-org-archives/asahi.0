@@ -1,55 +1,55 @@
 Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC3D1AC8AC
-	for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 23:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D98C1AD413
+	for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 23:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727307586; cv=none; b=Tsjyot8VpxtcH3Q21FaDSGMYy+ANaT2MqOnyJom3WpGrKoZbiDHzKeFcba2v7LXPjiIv5/hUR12rxdAcjCB4ovj8faydAjSfDGJw/uXISkMpe8CDr33XWdHYI9ectMeihYonRL8SX+7SK1Jbj8+NFtH9WyGLUVkrLoRBq1Pe9DU=
+	t=1727307589; cv=none; b=Ct54JYHec8Bw15Vb23PpkQmdt1uaTJCzQi9YWL4cn1Fh8qZYtWEtwiLh6w6kvhmEDVdm1wygmcWpL1+ig2eNuz8BoqJv3qjYnuU6M1qpZtHbOzcc/DzV43qffg+hPVO15+AQVAiAVYkBaP7vU0wHixDSCXTl0sBiPQlKlC98XzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727307586; c=relaxed/simple;
-	bh=RFwYTaeqemLtmezDNnI4k0C/4IQdB480nO3xNfeeufc=;
+	s=arc-20240116; t=1727307589; c=relaxed/simple;
+	bh=9QDYzeFqtIgpifJubbDxlmlH7eEjUZaH/2YQ84rdY0c=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=aSIpWGrIEin6q8gJqLc6/dP4aygne4dj0LycG3AmjfrYs60KNV2gfafBsQLkVd7tOiboQ/MCmjxb31Cp0wvlop1BzKIT96mWqJNns1ls+SInmoSVnqy+uoxEU00TjA0QqCvNsJ8PBuoXOEqSFYoXItKUTeTIgan93O/GXXiEdd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ESVAccaZ; arc=none smtp.client-ip=209.85.128.202
+	 To:Cc:Content-Type; b=GH9haDa2EUeQTrZ2S+BCe291bOvwrIk5w4Qhz4EQhceUi8ibG2E5+nWWvWAkAuj5nzFOekAWt84jxr17gft3XiB3aKY/tKFVxyGyiFSDGvv07CTKDP27p2xeofQaBv17wFtqk3CCWS12KWeU88FA98/sYYc9m6nCiJLHfjusM/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YQ63nHDf; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ESVAccaZ"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6d54ab222fcso11426427b3.1
-        for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 16:39:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YQ63nHDf"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6e1fbe2a9a2so10229687b3.1
+        for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 16:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727307584; x=1727912384; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1727307586; x=1727912386; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=extRuG4D1AdoHKvsMv2fLx/d2D/gEpHsXYLRVzC3Sa0=;
-        b=ESVAccaZMo8sBMfsZ87yiogb5pfUlkD768stOKyfznlax0xv609i8nMB41LemlhnaB
-         S6wlBDBLAlwkhPtJcohCbLPW4eGjexxzRPQYozzRVSt3T4yF1WgvvbF4lx420cAhZrSC
-         5ybfWOLt5RjHArpeXDHm50b5arwwG+B7EU5e96yzIxFlWtiAmru0CfdvGBy0rhzraLGH
-         cuqWhBv4SFK0ACYJ2cxlUd+Q6ONu1T8rzOKBxEUmGkZT9GxpvnlJFfPlBlKds4FCi4gf
-         HdFIozTsbvPyZmhph9ZNw7xcvxmvc1njNBHoTqqYVy+RYzjEpz+HeYARn7yzcOoQRKzR
-         aUQg==
+        bh=6yXvv/vrTLDrEzmPTfvxgBAIug2sA8OdrjoRUJniL2M=;
+        b=YQ63nHDfNsk9Eex62PK/sfpslo1jJAP8Vcg0Cvnz+wsRVoIfU9TnrT/tJOfbpjn0aj
+         niXJIjLDMBt++lDjtw2LcedUWpKrhrYCAvqsEriArzrQI8kjX9DLkGnLnW77PFGTWqHq
+         1zx+eyK14d5LxH8RPBT3Ld6rCFdCrsAPzJzQn3vAR4xCeLGHNR6Jc3RbMNSj8xwiikfv
+         AJzaUxNwy2FD9qSLMmoGFGxfs0iEcCVTE5RqnEdeUDthj4GALKNOtZKyQjghmzJ5m9Vv
+         mORr8FfRpwttK95K7LIET5/IgguytuH2gXvBxmZm6zEo5QENtN67Em15xlfjuFCnv2RE
+         oEdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727307584; x=1727912384;
+        d=1e100.net; s=20230601; t=1727307586; x=1727912386;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=extRuG4D1AdoHKvsMv2fLx/d2D/gEpHsXYLRVzC3Sa0=;
-        b=pRDgVmgy75226VRjqUDojhm/vbAPncsshiv/zpntOq4ScrVLf3z4c3re4ZgLpWl0It
-         AZSV31PqMhIdzE4vnZkI81ImwTn9uB5hsPLZNih+KkQwvGzJ0OLCWd/V3WGHGJcv7kYN
-         S0remcb6owq7zMuzlf3xirmZ6iXh41gT8Ozv1S8x+5IQ44Q2P/P+zw7kxKVXrIh8DgIb
-         ZgpWx+g+EAULv5N5rAvaajQYcRNm5Sg3GRqBMtT5DIhBztM31hSycAYh+9/iyvvIGTRy
-         C9MVgIcUiITVZhcW814gHxX2We0SQcU5l8W7YkJUvoXDyVRT5DYAFMrr1MlG/s8+kxwU
-         BUKA==
-X-Forwarded-Encrypted: i=1; AJvYcCWSEtdYFlOIPqrETF+tfnn/iMPTjYsRYK3lY14wYuY0rKeG4ejg+fjNzJma3B1bCHe8njzk2w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMoqHhoDCKog1Xsw2dd3gWFm+CKjeVzRpTBf4K3OjWkdiaguZP
-	QaNkBX8X0OwTHVlyb4FKiLYOK0qzcS0tjFvKhh3zqE3FV0tOhfrlZNvYVZiHINaXuyPuAUN9xwX
-	hFvn5eQ==
-X-Google-Smtp-Source: AGHT+IHi0gSVKxF9796sY6n1cVcgNiz/fsNc836mupUZtqmyvJTlnsLOXeqwbXzuTlIf+2iUj78FZGeorFh0
+        bh=6yXvv/vrTLDrEzmPTfvxgBAIug2sA8OdrjoRUJniL2M=;
+        b=om2CzILqmsQW3o9htxOeQx8yQzs5Qf1Ej42DQyrDIeAmul5LIV9Tu3OrjrszWt37//
+         MK8tV5/P7XW4UB6caYrCyOzdn6wZx2WG54cHl5MG8SRJs2QRpSfAqkXEOd372dwsj45j
+         g9sFVZIvIjzkZlxZxFWTuhZZCl6hta40ckyf4bLrsqOvB1Ha3GDKx8kU/aB99F5WbPqt
+         nBsafatsw03pkkM+VQnJuWIsQuA0zqdHAQxG6usFGmt/DAANFPoYiX5JdUSv/IJJhcEG
+         GoJ0HdcAP/jokzPRaQAmKUedTCkAPI5CqzuLDnT9YxKHvAhULlc8ZvR+AiwfVEGPHq9A
+         pKSA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4Y6ucBjibJAMYraq8EPc25+KFghn3ZCL7K2t/TGv7bxHuaeTvSSV7iQgAulnNhXvJ8wnAtA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLVgAIfxWsKg1a97aNKyoWnTGxCbdbw4c96hVX930Z64yC7rNz
+	HlCLFO3CH1IFTRTh0Ha+fccm7v+2VhjSy45lbD8dW2FxdcZIKcr2tyyx1KvB+47H+CnpK7RS40W
+	MQaQAJQ==
+X-Google-Smtp-Source: AGHT+IFOctLtu2fDpWSwtgdrlWQhzeyg6ur9X7N6yKJb4yvjNshlLawCmOC09mIbp13RxLe82I6Qn8MDC9MI
 X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a05:690c:2a92:b0:6e2:2600:ed65 with SMTP
- id 00721157ae682-6e22600f35dmr247467b3.1.1727307584197; Wed, 25 Sep 2024
- 16:39:44 -0700 (PDT)
-Date: Wed, 25 Sep 2024 23:38:25 +0000
+ (user=mmaurer job=sendgmr) by 2002:a05:690c:6583:b0:6dd:bc47:1ce1 with SMTP
+ id 00721157ae682-6e21d0b47e5mr368107b3.0.1727307586448; Wed, 25 Sep 2024
+ 16:39:46 -0700 (PDT)
+Date: Wed, 25 Sep 2024 23:38:26 +0000
 In-Reply-To: <20240925233854.90072-1-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20240925233854.90072-1-mmaurer@google.com>
 X-Mailer: git-send-email 2.46.1.824.gd892dcdcdd-goog
-Message-ID: <20240925233854.90072-11-mmaurer@google.com>
-Subject: [PATCH v5 10/16] module: Factor out elf_validity_cache_strtab
+Message-ID: <20240925233854.90072-12-mmaurer@google.com>
+Subject: [PATCH v5 11/16] module: Additional validation in elf_validity_cache_strtab
 From: Matthew Maurer <mmaurer@google.com>
 To: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
 	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>
@@ -75,56 +75,78 @@ Cc: rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	Trevor Gross <tmgross@umich.edu>
 Content-Type: text/plain; charset="UTF-8"
 
-This patch only moves the existing strtab population to a function.
-Validation comes in a following patch, this is split out to make the new
-validation checks more clearly separated.
+Validate properties of the strtab that are depended on elsewhere, but
+were previously unchecked:
+* String table nonempty (offset 0 is valid)
+* String table has a leading NUL (offset 0 corresponds to "")
+* String table is NUL terminated (strfoo functions won't run out of the
+  table while reading).
+* All symbols names are inbounds of the string table.
 
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- kernel/module/main.c | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ kernel/module/main.c | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index e04a228c694a..c082d5d41a8d 100644
+index c082d5d41a8d..b40b632f00a6 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -2089,6 +2089,23 @@ static int elf_validity_cache_index(struct load_info *info, int flags)
- 	return 0;
+@@ -2090,17 +2090,53 @@ static int elf_validity_cache_index(struct load_info *info, int flags)
  }
  
-+/**
-+ * elf_validity_cache_strtab() - Cache symbol string table
-+ * @info: Load info to read from and update.
-+ *        Must have &load_info->sechdrs and &load_info->secstrings populated.
-+ *        Must have &load_info->index populated.
+ /**
+- * elf_validity_cache_strtab() - Cache symbol string table
++ * elf_validity_cache_strtab() - Validate and cache symbol string table
+  * @info: Load info to read from and update.
+  *        Must have &load_info->sechdrs and &load_info->secstrings populated.
+  *        Must have &load_info->index populated.
+  *
++ * Checks:
 + *
-+ * Return: 0 on success, negative error code if a check failed.
-+ */
-+static int elf_validity_cache_strtab(struct load_info *info)
-+{
-+	Elf_Shdr *str_shdr = &info->sechdrs[info->index.str];
-+	char *strtab = (char *)info->hdr + str_shdr->sh_offset;
++ * * The string table is not empty.
++ * * The string table starts and ends with NUL (required by ELF spec).
++ * * Every &Elf_Sym->st_name offset in the symbol table is inbounds of the
++ *   string table.
++ *
++ * And caches the pointer as &load_info->strtab in @info.
++ *
+  * Return: 0 on success, negative error code if a check failed.
+  */
+ static int elf_validity_cache_strtab(struct load_info *info)
+ {
+ 	Elf_Shdr *str_shdr = &info->sechdrs[info->index.str];
++	Elf_Shdr *sym_shdr = &info->sechdrs[info->index.sym];
+ 	char *strtab = (char *)info->hdr + str_shdr->sh_offset;
++	Elf_Sym *syms = (void *)info->hdr + sym_shdr->sh_offset;
++	int i;
 +
-+	info->strtab = strtab;
-+	return 0;
-+}
++	if (str_shdr->sh_size == 0) {
++		pr_err("empty symbol string table\n");
++		return -ENOEXEC;
++	}
++	if (strtab[0] != '\0') {
++		pr_err("symbol string table missing leading NUL\n");
++		return -ENOEXEC;
++	}
++	if (strtab[str_shdr->sh_size - 1] != '\0') {
++		pr_err("symbol string table isn't NUL terminated\n");
++		return -ENOEXEC;
++	}
 +
- /*
-  * Check userspace passed ELF module against our expectations, and cache
-  * useful variables for further processing as we go.
-@@ -2122,9 +2139,9 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
- 	err = elf_validity_cache_index(info, flags);
- 	if (err < 0)
- 		return err;
--
--	/* Sets internal strings. */
--	info->strtab = (char *)info->hdr + info->sechdrs[info->index.str].sh_offset;
-+	err = elf_validity_cache_strtab(info);
-+	if (err < 0)
-+		return err;
++	/*
++	 * Now that we know strtab is correctly structured, check symbol
++	 * starts are inbounds before they're used later.
++	 */
++	for (i = 0; i < sym_shdr->sh_size / sizeof(*syms); i++) {
++		if (syms[i].st_name >= str_shdr->sh_size) {
++			pr_err("symbol name out of bounds in string table");
++			return -ENOEXEC;
++		}
++	}
  
- 	/* This is temporary: point mod into copy of data. */
- 	info->mod = (void *)info->hdr + info->sechdrs[info->index.mod].sh_offset;
+ 	info->strtab = strtab;
+ 	return 0;
 -- 
 2.46.1.824.gd892dcdcdd-goog
 
