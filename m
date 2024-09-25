@@ -1,55 +1,55 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F541AB6D9
-	for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 23:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE721ABED0
+	for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 23:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727307578; cv=none; b=CuH+X2XWsdJB3fjiMHsP5h93+GKjwbkqtErE4+NV50Dyl2nFqfMha+T+vrm14fpfVfayH428FNeGlhOLaGKreo6Z7U5WSQZfl7FcthoRW0U0Fj82Na4zjcEqVS2NI1XRrcDlVQ0vLzD9lnorOoayEsqaK8vAlyrOrm01zc8ahX0=
+	t=1727307580; cv=none; b=QXit8IQwIuyW/P8m+eJA9nGCuHYc+FR76JsTTTTdqXGR6pEoG+Sdnv0B9qzCPxSnnBdi4U7LbOLKwTw+6D5OSC5lmScOiHrZRgyljfRPVuEFwtJTnt+5wTGYPeADa7+wG0IKCyp6nq91/wf3pDjR4wM0aI1+MqQgz9zsSUDmy0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727307578; c=relaxed/simple;
-	bh=h/LAOljVw5E3JGGOaE89sERZTa3pvx6H/SQhACbdpCo=;
+	s=arc-20240116; t=1727307580; c=relaxed/simple;
+	bh=hPcayIG4Zzk7TfnQCe5VB/OkeMCLVNaFCb22SLuD7xA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=PXqvmW0iNmR3G+9uZR1mYr3z/kk8pLJ5FFarAJLEXBRvg3L0uG4+HBiUNQeCqSnoN6rBhiVuzJ8axnIaL8hxqGWF2b+8HrA65mOmJKiV6hfNhHWCHjAZ7Bs4QbJKFiyTZVVuAkWHXCkC/hZ8kX8MKfbMK605V04BC3hjxL/eryI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=x3K9sdPM; arc=none smtp.client-ip=209.85.128.202
+	 To:Cc:Content-Type; b=IJYsfaC/5Y0PjAkMr9biPSe9cVnpztC4mofziEcGz13TeM8g1HlTFS9CiBqmCwY7UJrl6cMTEeZxX0jKpqth5DTz34fk7qZGdSDFMnvwJfrZ51YguQVRBNruBpMnGEry4jK1mtfPZaR0YkZB8c9qU+yS9YtJfH8lz8eUSwkAL/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RXC+0r0G; arc=none smtp.client-ip=209.85.128.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="x3K9sdPM"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6886cd07673so9464987b3.3
-        for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 16:39:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RXC+0r0G"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6e20e4e55bbso9636927b3.0
+        for <asahi@lists.linux.dev>; Wed, 25 Sep 2024 16:39:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727307575; x=1727912375; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1727307578; x=1727912378; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q8UL0Q7oSLmAAG+S1LbknTXXfZfG+WAJTpNf/8OfOpQ=;
-        b=x3K9sdPMSn+U9jdXKXC38LV+5YMHov1A1jsqRf2/IC8f89Egz0bNWkDU7DygAZBDBg
-         9yCDV413j793KWfW6bFR8r/Z369Z3zKjGaKmnDYTz5vdHBgGkEDOuyftJTUspOhxOs7J
-         GKDTzty0kA+F7RzIiSeM1IleQUIRJUISugyvXbpIHvwEOt6RrBqPZgIN0hIGPBYUBPxc
-         2cj3rgm+IVmkHFO0l7UVRW+k3VFuhr39QaXHJFZPIrQ9fu+rO1VqPrPdKEOPuQSMavYi
-         T0JGNCCejC4W6BDLCnKc0IBkLa3bi6cTglwxALCcMjHcTYWTxibX0G3FkU2xoxDCRlK3
-         vhkw==
+        bh=o0kXAOzmEEQHXzTmLkL/vEUOj2egGiISa865No2odHA=;
+        b=RXC+0r0GtZ5jzyOCkdsk8lIWJirBWRRlbRWeYsyqGh2Df62SyuXrIzN3GOcckKRX3R
+         Tly0xslulqjxV32MtrskuRqxkGwl+yTF9QcKacaFx5GmFKecALhbbd2GHlvxGlp4379g
+         RZ9/4TB7mQkrvU7mr7gpcBExDSnMK8eryROEmThxARiJjqA+2OIEF+auLDlnPJK2ImNG
+         ARjXxrNTi5blFwRZy7c/pGzT8lntZusA+LMwRE5tFlvBJMrkxnQ2PsAM2CeOtJeJAgBz
+         SFkRW7Um6zePWjozWB/2at1rnEo+XW7U/A2vfZxKEvLxotTfu8l67xoYPQHEO7HrcP4N
+         +IAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727307575; x=1727912375;
+        d=1e100.net; s=20230601; t=1727307578; x=1727912378;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q8UL0Q7oSLmAAG+S1LbknTXXfZfG+WAJTpNf/8OfOpQ=;
-        b=KFt0dNaLw8/L7AhW5Rbvwg6WjROh8K2TBuHV+rzRF/RTgeCY/bvXh9bPpChhM3/R/h
-         ofgyfFNYJSohsZHGjX6jeUNiJLvBzLpfcWMxSpj+k6U4jZGCclq4xNNkjWHBREOKw+nt
-         u1VwR7AT+gwVkEV/jEBWZVgFwD0EwEp+XEBHBJFdiVveJjlwketNooCr+rolARsabV0g
-         +hFQN8TYnMzRvVblGdAkvNe/MTyYqaTlLZ0jD06ggvw+Znzvlg1ZEUGfoApxYXjz4Whd
-         Gypari/2v0RnDIax4zmAS8Yb9EL4Xe3KwgQAqn8I3WXZ5UrRqO5fFnaraxZ8ORd9HlRm
-         aFLA==
-X-Forwarded-Encrypted: i=1; AJvYcCUYVSLEzp248eSMno282cWu/aBwODSy4Wg+o2UT3Ky3x/dpFqN8Sy0VgOJxpKQtUPKXcrrVJg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYL+E5l8ge9pzAM1UFTMzD7owGvBYdz+OYQDsI3HqiNvjcNNn4
-	phF1y4v0dtqiJpKi8wtxlzIp4TS2KvMDJ9VugCrfq6rBwnhyWX0AeRHxg+8cz/2cfjkSemba3MI
-	jcGb2yA==
-X-Google-Smtp-Source: AGHT+IG616iIEoJXepMEnFIXh2EvSXgtvB4OvHJFrlY3ghUherNjNwvIMu6DpxK7ywhW+VD5HsliaqgLk/2C
+        bh=o0kXAOzmEEQHXzTmLkL/vEUOj2egGiISa865No2odHA=;
+        b=eBe5R/dNHYWaUpSswEQS4bCvPRmPQMVUvlE9TXHbbHdYqdmVM5rxYtiH5L00nlXLq+
+         LmEnBQDHRrhiRKEEDWBuBm9wGdIrKiqru64NevC9LRtTYt1DCKWNxQmWMLT+VZqzsnz/
+         7thozP7YDlJUXeoq0XfQlAhaVP2k8IzMmVdf76indQFQlVX8rGFH/7zqy9Lup+4K+036
+         P9FgMsfl5FAVDVndKsMyNKugaEjASSFqJ7ab59no9hl8Bc2XLxCx4bkfI/scp9FjdU7y
+         JQoWpHSDWYx+rumeS6iv+/lt5zYXIH7M05X90ah2lVydZYIJYo4x2jcIoyFvruq2G0BI
+         8yng==
+X-Forwarded-Encrypted: i=1; AJvYcCUbG9UZ8BdozLe/l4MRGVjLrEbaTO3Xq2AkHdt96s+G3/vBguNYv87mQq6JHh4TpdhMwBx7Tw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyjn4Aw7VdEYTh07dOjOtNVUlpnrEELvfmCq8toXVnMUbz+R2Ip
+	kVT8xfm5cXqQi3ta/PUfPUQWyjzV47WPj67p8oX8LAhCuDR/WU+TbMwFzdCtuwz68JpF8PWSc+p
+	gNl6P4g==
+X-Google-Smtp-Source: AGHT+IFZUoBFWfBOtauI+q+UpHX4EaqZHRhVqScDHU9VRfOA/W5QmMinhHWYwHFcLrUwulCaskY1L43rYGa0
 X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
- (user=mmaurer job=sendgmr) by 2002:a5b:d43:0:b0:e02:c06f:1db8 with SMTP id
- 3f1490d57ef6-e24d7b07255mr3692276.4.1727307575061; Wed, 25 Sep 2024 16:39:35
+ (user=mmaurer job=sendgmr) by 2002:a5b:841:0:b0:e20:25f5:a889 with SMTP id
+ 3f1490d57ef6-e24d80d4612mr3980276.5.1727307577820; Wed, 25 Sep 2024 16:39:37
  -0700 (PDT)
-Date: Wed, 25 Sep 2024 23:38:21 +0000
+Date: Wed, 25 Sep 2024 23:38:22 +0000
 In-Reply-To: <20240925233854.90072-1-mmaurer@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20240925233854.90072-1-mmaurer@google.com>
 X-Mailer: git-send-email 2.46.1.824.gd892dcdcdd-goog
-Message-ID: <20240925233854.90072-7-mmaurer@google.com>
-Subject: [PATCH v5 06/16] module: Factor out elf_validity_cache_index_mod
+Message-ID: <20240925233854.90072-8-mmaurer@google.com>
+Subject: [PATCH v5 07/16] module: Factor out elf_validity_cache_index_sym
 From: Matthew Maurer <mmaurer@google.com>
 To: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
 	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>
@@ -75,187 +75,124 @@ Cc: rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
 	Trevor Gross <tmgross@umich.edu>
 Content-Type: text/plain; charset="UTF-8"
 
-Centralize .gnu.linkonce.this_module detection and property validation.
+Centralize symbol table detection and property validation.
 
 Signed-off-by: Matthew Maurer <mmaurer@google.com>
 ---
- kernel/module/main.c | 129 ++++++++++++++++++++++---------------------
- 1 file changed, 67 insertions(+), 62 deletions(-)
+ kernel/module/main.c | 73 ++++++++++++++++++++++++++------------------
+ 1 file changed, 44 insertions(+), 29 deletions(-)
 
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 511d645ac577..ec638187ffcf 100644
+index ec638187ffcf..6be58b0a6468 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -1919,6 +1919,68 @@ static int elf_validity_cache_index_info(struct load_info *info)
+@@ -1980,6 +1980,39 @@ static int elf_validity_cache_index_mod(struct load_info *info)
  	return 0;
  }
  
 +/**
-+ * elf_validity_cache_index_mod() - Validates and caches this_module section
-+ * @info: Load info to cache this_module on.
-+ *        Must have &load_info->sechdrs and &load_info->secstrings populated
++ * elf_validity_cache_index_sym() - Validate and cache symtab index
++ * @info: Load info to cache symtab index in.
++ *        Must have &load_info->sechdrs and &load_info->secstrings populated.
 + *
-+ * The ".gnu.linkonce.this_module" ELF section is special. It is what modpost
-+ * uses to refer to __this_module and let's use rely on THIS_MODULE to point
-+ * to &__this_module properly. The kernel's modpost declares it on each
-+ * modules's *.mod.c file. If the struct module of the kernel changes a full
-+ * kernel rebuild is required.
++ * Checks that there is exactly one symbol table, then caches its index in
++ * &load_info->index.sym.
 + *
-+ * We have a few expectations for this special section, this function
-+ * validates all this for us:
-+ *
-+ * * The section has contents
-+ * * The section is unique
-+ * * We expect the kernel to always have to allocate it: SHF_ALLOC
-+ * * The section size must match the kernel's run time's struct module
-+ *   size
-+ *
-+ * If all checks pass, the index will be cached in &load_info->index.mod
-+ *
-+ * Return: %0 on validation success, %-ENOEXEC on failure
++ * Return: %0 if valid, %-ENOEXEC on failure.
 + */
-+static int elf_validity_cache_index_mod(struct load_info *info)
++static int elf_validity_cache_index_sym(struct load_info *info)
 +{
-+	Elf_Shdr *shdr;
-+	int mod_idx;
++	unsigned int sym_idx;
++	unsigned int num_sym_secs = 0;
++	int i;
 +
-+	mod_idx = find_any_unique_sec(info, ".gnu.linkonce.this_module");
-+	if (mod_idx <= 0) {
-+		pr_err("module %s: Exactly one .gnu.linkonce.this_module section must exist.\n",
-+		       info->name ?: "(missing .modinfo section or name field)");
++	for (i = 1; i < info->hdr->e_shnum; i++) {
++		if (info->sechdrs[i].sh_type == SHT_SYMTAB) {
++			num_sym_secs++;
++			sym_idx = i;
++		}
++	}
++
++	if (num_sym_secs != 1) {
++		pr_warn("%s: module has no symbols (stripped?)\n",
++			info->name ?: "(missing .modinfo section or name field)");
 +		return -ENOEXEC;
 +	}
 +
-+	shdr = &info->sechdrs[mod_idx];
-+
-+	if (shdr->sh_type == SHT_NOBITS) {
-+		pr_err("module %s: .gnu.linkonce.this_module section must have a size set\n",
-+		       info->name ?: "(missing .modinfo section or name field)");
-+		return -ENOEXEC;
-+	}
-+
-+	if (!(shdr->sh_flags & SHF_ALLOC)) {
-+		pr_err("module %s: .gnu.linkonce.this_module must occupy memory during process execution\n",
-+		       info->name ?: "(missing .modinfo section or name field)");
-+		return -ENOEXEC;
-+	}
-+
-+	if (shdr->sh_size != sizeof(struct module)) {
-+		pr_err("module %s: .gnu.linkonce.this_module section size must match the kernel's built struct module size at run time\n",
-+		       info->name ?: "(missing .modinfo section or name field)");
-+		return -ENOEXEC;
-+	}
-+
-+	info->index.mod = mod_idx;
++	info->index.sym = sym_idx;
 +
 +	return 0;
 +}
-+
-+
+ 
  /*
   * Check userspace passed ELF module against our expectations, and cache
-  * useful variables for further processing as we go.
-@@ -1944,7 +2006,6 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
- 	unsigned int i;
- 	Elf_Shdr *shdr;
+@@ -2003,10 +2036,8 @@ static int elf_validity_cache_index_mod(struct load_info *info)
+  */
+ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ {
+-	unsigned int i;
+-	Elf_Shdr *shdr;
  	int err;
--	unsigned int num_mod_secs = 0, mod_idx;
- 	unsigned int num_sym_secs = 0, sym_idx;
+-	unsigned int num_sym_secs = 0, sym_idx;
++	int str_idx;
  
  	err = elf_validity_cache_sechdrs(info);
-@@ -1954,16 +2015,15 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ 	if (err < 0)
+@@ -2018,34 +2049,21 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
  	if (err < 0)
  		return err;
- 	err = elf_validity_cache_index_info(info);
+ 	err = elf_validity_cache_index_mod(info);
 +	if (err < 0)
 +		return err;
-+	err = elf_validity_cache_index_mod(info);
++	err = elf_validity_cache_index_sym(info);
  	if (err < 0)
  		return err;
  
- 	for (i = 1; i < info->hdr->e_shnum; i++) {
- 		shdr = &info->sechdrs[i];
--		switch (shdr->sh_type) {
--		case SHT_NULL:
--		case SHT_NOBITS:
--			continue;
--		case SHT_SYMTAB:
-+		if (shdr->sh_type == SHT_SYMTAB) {
- 			if (shdr->sh_link == SHN_UNDEF
- 			    || shdr->sh_link >= info->hdr->e_shnum) {
- 				pr_err("Invalid ELF sh_link!=SHN_UNDEF(%d) or (sh_link(%d) >= hdr->e_shnum(%d)\n",
-@@ -1973,14 +2033,6 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
- 			}
- 			num_sym_secs++;
- 			sym_idx = i;
--			fallthrough;
--		default:
--			if (strcmp(info->secstrings + shdr->sh_name,
--				   ".gnu.linkonce.this_module") == 0) {
--				num_mod_secs++;
--				mod_idx = i;
+-	for (i = 1; i < info->hdr->e_shnum; i++) {
+-		shdr = &info->sechdrs[i];
+-		if (shdr->sh_type == SHT_SYMTAB) {
+-			if (shdr->sh_link == SHN_UNDEF
+-			    || shdr->sh_link >= info->hdr->e_shnum) {
+-				pr_err("Invalid ELF sh_link!=SHN_UNDEF(%d) or (sh_link(%d) >= hdr->e_shnum(%d)\n",
+-				       shdr->sh_link, shdr->sh_link,
+-				       info->hdr->e_shnum);
+-				goto no_exec;
 -			}
--			break;
- 		}
+-			num_sym_secs++;
+-			sym_idx = i;
+-		}
+-	}
+-
+-	if (num_sym_secs != 1) {
+-		pr_warn("%s: module has no symbols (stripped?)\n",
+-			info->name ?: "(missing .modinfo section or name field)");
+-		goto no_exec;
++	str_idx = info->sechdrs[info->index.sym].sh_link;
++	if (str_idx == SHN_UNDEF || str_idx >= info->hdr->e_shnum) {
++		pr_err("Invalid ELF sh_link!=SHN_UNDEF(%d) or (sh_link(%d) >= hdr->e_shnum(%d)\n",
++				str_idx, str_idx, info->hdr->e_shnum);
++		return -ENOEXEC;
  	}
  
-@@ -1996,55 +2048,8 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
- 	info->index.str = shdr->sh_link;
+-	/* Sets internal symbols and strings. */
+-	info->index.sym = sym_idx;
+-	shdr = &info->sechdrs[sym_idx];
+-	info->index.str = shdr->sh_link;
++	/* Sets internal strings. */
++	info->index.str = str_idx;
  	info->strtab = (char *)info->hdr + info->sechdrs[info->index.str].sh_offset;
  
--	/*
--	 * The ".gnu.linkonce.this_module" ELF section is special. It is
--	 * what modpost uses to refer to __this_module and let's use rely
--	 * on THIS_MODULE to point to &__this_module properly. The kernel's
--	 * modpost declares it on each modules's *.mod.c file. If the struct
--	 * module of the kernel changes a full kernel rebuild is required.
--	 *
--	 * We have a few expectaions for this special section, the following
--	 * code validates all this for us:
--	 *
--	 *   o Only one section must exist
--	 *   o We expect the kernel to always have to allocate it: SHF_ALLOC
--	 *   o The section size must match the kernel's run time's struct module
--	 *     size
--	 */
--	if (num_mod_secs != 1) {
--		pr_err("module %s: Only one .gnu.linkonce.this_module section must exist.\n",
--		       info->name ?: "(missing .modinfo section or name field)");
--		goto no_exec;
--	}
--
--	shdr = &info->sechdrs[mod_idx];
--
--	/*
--	 * This is already implied on the switch above, however let's be
--	 * pedantic about it.
--	 */
--	if (shdr->sh_type == SHT_NOBITS) {
--		pr_err("module %s: .gnu.linkonce.this_module section must have a size set\n",
--		       info->name ?: "(missing .modinfo section or name field)");
--		goto no_exec;
--	}
--
--	if (!(shdr->sh_flags & SHF_ALLOC)) {
--		pr_err("module %s: .gnu.linkonce.this_module must occupy memory during process execution\n",
--		       info->name ?: "(missing .modinfo section or name field)");
--		goto no_exec;
--	}
--
--	if (shdr->sh_size != sizeof(struct module)) {
--		pr_err("module %s: .gnu.linkonce.this_module section size must match the kernel's built struct module size at run time\n",
--		       info->name ?: "(missing .modinfo section or name field)");
--		goto no_exec;
--	}
--
--	info->index.mod = mod_idx;
--
  	/* This is temporary: point mod into copy of data. */
--	info->mod = (void *)info->hdr + shdr->sh_offset;
-+	info->mod = (void *)info->hdr + info->sechdrs[info->index.mod].sh_offset;
+@@ -2066,9 +2084,6 @@ static int elf_validity_cache_copy(struct load_info *info, int flags)
+ 	info->index.pcpu = find_pcpusec(info);
  
- 	/*
- 	 * If we didn't load the .modinfo 'name' field earlier, fall back to
+ 	return 0;
+-
+-no_exec:
+-	return -ENOEXEC;
+ }
+ 
+ #define COPY_CHUNK_SIZE (16*PAGE_SIZE)
 -- 
 2.46.1.824.gd892dcdcdd-goog
 
