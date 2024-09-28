@@ -1,55 +1,50 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEFB1AFB3C
-	for <asahi@lists.linux.dev>; Thu, 26 Sep 2024 22:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7F2165EFE
+	for <asahi@lists.linux.dev>; Sat, 28 Sep 2024 21:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727391269; cv=none; b=IL5HbKzc+yZs0dMNVf55CMSzJS508pEHwcmxgfOtO/UAnG96n7pAGkquUYsGz7HebLAnKtXevm3PtvaMUDgqr8rrczEc8gzsh5ReoY4vqBJf9TN+buvDrpPsrhXyEC63sKan4W2jWHVFsoaUGCUG2uyFyDU/HYnLeRlbCgrqVX8=
+	t=1727559358; cv=none; b=sMZ16CMo1fvtBiVQRaqFY7hqbR+XOuNM+F86eWJ2wj723YtNEa/R3OcxGcTFByVfpfrCgNuQGcUX4nafoKIHZ4sm1mDPZOjCDxL5C81AZXEOoOMCbGF0lEXqJ1V/zYJdS4W6O6v7gaWwHCYm80BN/M5FWarBFpdD+/xKHuMCQSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727391269; c=relaxed/simple;
-	bh=YuvKxWBIf7PNXBTj+RM1pbAN0oV60CL2MBBZiDs+evU=;
+	s=arc-20240116; t=1727559358; c=relaxed/simple;
+	bh=B/t4kD1AbCwCB5SiSo/l3YPD0B1hK+/d8IJSyqvZb3Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=skfHMos4ckF0/hC1BbxjAtEaPjOBgwe0Dh9gx3GlfHwzsbhrxuVeVSyxZ+LtGSS3LeiGb4aiNDTTUCBe5jba2tYPkX16hoOc0NiivR/EbR0w36maSO1cLttAF8AddcRvRSE50JPbtRpKYD4qf2sQ6lMW4/hQgcf+DqoSaTQEKR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QQgm2vnD; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QQgm2vnD"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4582a5b495cso60951cf.1
-        for <asahi@lists.linux.dev>; Thu, 26 Sep 2024 15:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727391266; x=1727996066; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tl35wLMOPE0pkWqTWWx9ZXc6WTLidbwzi9Ei5sRpi+0=;
-        b=QQgm2vnD8rvfUr7SuaQwfJMvUWccz1bC7ZRuUv5n+rGiNlOYWpZ0VKpdPEWgZK+xqL
-         HQt+8xWAwcf35mlwbddQRZpMc6KDscUd61VCASsUiPgjDIPL2UAy/iGUuZZ1lNp9Fyip
-         6TbejrHaAItzP+fOhMRk1Yo3XHK69QpnHKmnOyt1X9MoFqduFIrJs6yg3MjGKKiAqFJn
-         k5ZKzsrByg3EK8Ey/n2MQ+/CnD1XeRCHunlXbXXtmmXsiYOS/H6PIDIxFcLcOKUlTRL6
-         D0dt8E/v8qaDX+YC6QfcIWYhPbqJvAebHCI413IBIc68bji5m2BpkbYd1FovakYBpZHb
-         X4Ew==
+	 To:Cc:Content-Type; b=T4ECT1DRGPE0N6ChWoqnu59yubqm/GysmE/920ekOaRkgW+PpxrnC+R8ultB54rn+skr6VDOcxLh1acxdlqOlifS+sAfbsH3s/6mmYu5Rr5BsQfRuozXIK5VedxskjtZcoHPEWsS7uxyUWtvFf6ImKoeceDAwcJIIi4NzMvWj7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a8d6ac24a3bso586546966b.1
+        for <asahi@lists.linux.dev>; Sat, 28 Sep 2024 14:35:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727391266; x=1727996066;
+        d=1e100.net; s=20230601; t=1727559354; x=1728164154;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tl35wLMOPE0pkWqTWWx9ZXc6WTLidbwzi9Ei5sRpi+0=;
-        b=i6+3hlyq+q9ZIncGiF/HpT344Aqac8qq2n8zIkI46EDHOaCjhYdyu2osKOD5QVEaDn
-         5JQZDMCrZ/KtJdlq5nSMrCx0pbmT5bqvLrKmtebg/LeE6ck9eYUXvbpFrR3YAzsNH2nZ
-         QjHJrlqyjG1aq5FwvUd9Cp60oVcKpucCNKEIwB9PSwtx6++m4oVqPR08B3rnztyIprw5
-         YnuUbkhD3ykwfxymTR6DsMhKiWlP/fmsYcXbiSAnqK5vgpX7VixQDjpSdZ8jAArDsSin
-         Ebzja2qZ1bWe8sc3jc7heRumG4BWjEKjsXOxaJ7Xu8suVsyL98jNbcmIpqLwoxS2h97F
-         QLLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUIPeuPvSA1E0z2+PQgeg7ztAOPxNjmfP2kCsGjfgVM1MzR4hcFlDSg51iYrKB86y7fcGoFww==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+1dv1HCfslVRA8Vq9ELNzRNCCVbnI2Dn64g6xXViSHDLu3fHS
-	+QqVh22PTdmNI97NTedV468i5xYEGL5OwbVZEyRtRpZCpxb1IJR7h9HJc8Kz8g36IgBDkDcil0U
-	tPG9xsQZvdNPE8yW9ddbemYIUVvyB+Vycdr2L
-X-Google-Smtp-Source: AGHT+IEUgS0ctjnhwyGFehblCt5Cuf6U9AZbfKffDPTgdSnQTEOj8Qmniu9tARJUyM5u8ykfq5FPxoUB/AlQ+bM4WgI=
-X-Received: by 2002:a05:622a:a78d:b0:45c:9e26:ae3 with SMTP id
- d75a77b69052e-45ca1b03e0amr517501cf.27.1727391265943; Thu, 26 Sep 2024
- 15:54:25 -0700 (PDT)
+        bh=fCiSAL0ORgtaaM2vvj2AlsQZedO1Wu1yaFUL2A/eH3Y=;
+        b=hFekDy7NmHdr3JOTAUIS52TmCgDDu5Bu2r09mjBWtdklELR2Fa4QJq2vrYyqxYk1RC
+         BfhlmrQSy07Aw3ETnIYbsuky9G9JybJWyzZ7yhuk7tsRtxLN/Jx6hTj6s3inEgmdVhLN
+         Os+mSL2qsV4ovbJHgv/yDAYJ4ZC7gMgoY1nh+DIF2evCYTxTOLJCj2QfUyrTPzkuHJnu
+         BQrZzavMyaitg9HyAMCIRI+2qRpPKsYH1QnPKl8xNiLJo6OgsKzxg52guUqX9FEq19Sf
+         055U4ukGwxxzMR7UjFCu1MkCCMxq5CiJSq0AY+YrmW1YNuaEUogAnehU7DABZ9E6t2Gi
+         KYkA==
+X-Forwarded-Encrypted: i=1; AJvYcCWTMGAogAdmi9RNA/zCeADb2tK8TSwKBFjmDOAqfm3GahfSLz+iVsCUI7k+0H0Ow1U873JFqQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxboIQyOMEGqFet7hQeXnEQ/SP9+Kalk+D28aaBAv5SI0QixPVg
+	7VyjHCVJ5psYcaiV+TQluPOzuvghV6l1D45OLzGrwl5xNy35e19C59F9SHrIy0w=
+X-Google-Smtp-Source: AGHT+IGiisEcLEtGOUUCzEaBAmWPBiJ26aL+4HT+aTkr7nJ2qpJT5+UkRclzWKMBD8ZOVyN/u23jFg==
+X-Received: by 2002:a17:907:2d92:b0:a90:3494:2aa9 with SMTP id a640c23a62f3a-a93b157cc45mr1289261966b.2.1727559353827;
+        Sat, 28 Sep 2024 14:35:53 -0700 (PDT)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c88248c61csm2526591a12.72.2024.09.28.14.35.52
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 Sep 2024 14:35:53 -0700 (PDT)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a8d2b24b7a8so778738666b.1
+        for <asahi@lists.linux.dev>; Sat, 28 Sep 2024 14:35:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVu8Cdme/kAC/CgB4bqFm/U4WA/WGQfi1d0NXaRYGCNnPCS4/ozdxkBvMvoF3T6AY6ti7tdZA==@lists.linux.dev
+X-Received: by 2002:a17:907:7fab:b0:a8a:8dd3:f135 with SMTP id
+ a640c23a62f3a-a93b15d446bmr1325772666b.14.1727559352571; Sat, 28 Sep 2024
+ 14:35:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -58,15 +53,16 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240925233854.90072-1-mmaurer@google.com>
 In-Reply-To: <20240925233854.90072-1-mmaurer@google.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Thu, 26 Sep 2024 22:53:46 +0000
-Message-ID: <CABCJKudA=EvCE7vv44VDMqHjFv+5vyJ1ZfqG+TSPc49vtmT9RA@mail.gmail.com>
+From: Neal Gompa <neal@gompa.dev>
+Date: Sat, 28 Sep 2024 17:35:15 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je_Fn=OWdhJn0xnNd4dT5wZNKz6XkOAHvDu-pkkhirEwgg@mail.gmail.com>
+Message-ID: <CAEg-Je_Fn=OWdhJn0xnNd4dT5wZNKz6XkOAHvDu-pkkhirEwgg@mail.gmail.com>
 Subject: Re: [PATCH v5 00/16] Extended MODVERSIONS Support
 To: Matthew Maurer <mmaurer@google.com>
 Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
 	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>, 
 	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, neal@gompa.dev, marcan@marcan.st, j@jannau.net, 
+	linux-kernel@vger.kernel.org, marcan@marcan.st, j@jannau.net, 
 	asahi@lists.linux.dev, linux-modules@vger.kernel.org, 
 	Boqun Feng <boqun.feng@gmail.com>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
 	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
@@ -74,10 +70,8 @@ Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Matt,
-
-On Wed, Sep 25, 2024 at 11:39=E2=80=AFPM Matthew Maurer <mmaurer@google.com=
-> wrote:
+On Wed, Sep 25, 2024 at 7:39=E2=80=AFPM Matthew Maurer <mmaurer@google.com>=
+ wrote:
 >
 > This patch series is intended for use alongside the Implement
 > MODVERSIONS for RUST [1] series as a replacement for the symbol name
@@ -127,14 +121,59 @@ g/
 > Changes in v5:
 > - Addresses Sami's comments from v3 that I missed in v4 (missing early
 >   return, extra parens)
+>
+> v4: https://lore.kernel.org/asahi/20240924212024.540574-1-mmaurer@google.=
+com/
+> - Fix incorrect dot munging in PPC
+>
+> v3: https://lore.kernel.org/lkml/87le0w2hop.fsf@mail.lhotse/T/
+> - Split up the module verification refactor into smaller patches, per
+>   Greg K-H's suggestion.
+>
+> v2: https://lore.kernel.org/all/20231118025748.2778044-1-mmaurer@google.c=
+om/
+> - Add loading/verification refactor before modifying, per Luis's request
+>
+> v1: https://lore.kernel.org/rust-for-linux/20231115185858.2110875-1-mmaur=
+er@google.com/
+>
+> Matthew Maurer (16):
+>   module: Take const arg in validate_section_offset
+>   module: Factor out elf_validity_ehdr
+>   module: Factor out elf_validity_cache_sechdrs
+>   module: Factor out elf_validity_cache_secstrings
+>   module: Factor out elf_validity_cache_index_info
+>   module: Factor out elf_validity_cache_index_mod
+>   module: Factor out elf_validity_cache_index_sym
+>   module: Factor out elf_validity_cache_index_str
+>   module: Group section index calculations together
+>   module: Factor out elf_validity_cache_strtab
+>   module: Additional validation in elf_validity_cache_strtab
+>   module: Reformat struct for code style
+>   export_report: Rehabilitate script
+>   modules: Support extended MODVERSIONS info
+>   modpost: Produce extended modversion information
+>   export_report: Use new version info format
+>
+>  arch/powerpc/kernel/module_64.c |  23 +-
+>  kernel/module/internal.h        |  18 +-
+>  kernel/module/main.c            | 647 ++++++++++++++++++++++++--------
+>  kernel/module/version.c         |  45 +++
+>  scripts/export_report.pl        |  17 +-
+>  scripts/mod/modpost.c           |  39 +-
+>  6 files changed, 628 insertions(+), 161 deletions(-)
+>
+> --
+> 2.46.1.824.gd892dcdcdd-goog
+>
+>
 
-v5 looks good to me, thank you for fixing these issues. I tested this
-with my latest Rust modversions patches [1] and everything seems to
-work for me (on x86_64, arm64, and riscv64 w/ clang).  For the series:
+The series looks straightforward and reasonable to me.
 
-Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
-Tested-by: Sami Tolvanen <samitolvanen@google.com>
+Acked-by: Neal Gompa <neal@gompa.dev>
 
-[1] https://github.com/samitolvanen/linux/commits/rustmodversions-v3
 
-Sami
+
+--
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
