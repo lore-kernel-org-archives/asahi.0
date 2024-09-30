@@ -1,139 +1,82 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BFF188735
-	for <asahi@lists.linux.dev>; Mon, 30 Sep 2024 09:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AF418F2FF;
+	Mon, 30 Sep 2024 10:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727689118; cv=none; b=JNhUvkUzgvMzYLkzqiNvbFEF8/TgUgctYNST3VtaS5bzLtwQFq7OGLlLGFMnbu/PZPFRHTFP6yrm5gSUUE6vayAj45ibCPyXqTFJaWe5FmHoLTY1rpEvftLX+lTD/cuACUH76dq+Lzp1MOJO0l2MpZsgLdmv2ej3TDHYyaixyPs=
+	t=1727693771; cv=none; b=RHqvLAokc4Vdoh1NrWU3AuDfY2RrBm6hUDiUIphnC/2DOf/BNYW0KsWAVpPLmIhzTIekUICuOpFhGzzG3EptBAmuvk/SV+yWDHygjfv5TTKkOwaUzKT/8pTk3dI1XEcDwhiKno6mkdxaArMcHoTVxPTXuqOPcYphXA/gHzT6PD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727689118; c=relaxed/simple;
-	bh=AjjCBDd0nsipeu208WcIdXj8TEg91EpXaEoTrHSRxPg=;
-	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=ZpdeZ8CS0rXD6EmDBaBXK6yvonwAuRpuG7SK8vwYKUz2oviEkCMjneqB0M9fCHeFTU/hG1xjQs4WkrrQjzaWeJS8oZEQmBLGSXvBbkcrH9GNARPKLDfm0OyP5K65z3SBCW/od/sVKAkUJ218ka/uZXXKhZ4TH9YeCUi2OMLPRJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=fUe0vnYA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OE6WleaI; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1727693771; c=relaxed/simple;
+	bh=53HRX36aefiWlhPc5bAgq08xw8MiIAJICsef8nm4y/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lSxewvEQ7oOdxtPQV7hHTVJrjs6Hs6lQ8HCKfTh81SDPe40TWuwSJ11yaf9uyHmiCfTxaF5Fo0l8uSnbpgTsdkn7hkM574O6lOn9KjGWwp4SGZn2RXS5KShzaM7rOf517GqZuvhXR4JmJANwTJ9U9DYuDf4VvNKMtbvjtnipRws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=SpquXQY0; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="fUe0vnYA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OE6WleaI"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 6DA971140234;
-	Mon, 30 Sep 2024 05:38:33 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Mon, 30 Sep 2024 05:38:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1727689113;
-	 x=1727775513; bh=0pZwVNr1lAKNsIqugDiiFsNfmcaJup7h9klMs9lcUZ8=; b=
-	fUe0vnYAhQAVX7ZNTsyJ0LiJqUjgrnkHcVkAgQJY61z1h8fCgOdXHwrzeRec5xr0
-	b+1wxwhcjUeyjUY5Xjc4JspDyd0NjaxzlcZoTVawAbmhGc+9iSsUTHZA6XzHNlWe
-	YrM527UYYuyE9tXb5eOkZj64HycUvh1Xdpla9CVFc/HOE43Oc9WIlxs8s6bRL9id
-	bke5jD9PZuxkW3j58m7uG95lMb/WxfKqAA54QkB3fm7YcnE7cLp8KxU79IfK3gNg
-	RBS8gMV0JwsgegazIsJFWuC6XNYpxiUGL/vYpnBU49Ys4kFhV9/8+6m6GmV7gEci
-	sLLJ9s2ZrPd7SS3PPhR94Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1727689113; x=
-	1727775513; bh=0pZwVNr1lAKNsIqugDiiFsNfmcaJup7h9klMs9lcUZ8=; b=O
-	E6WleaIJgBqwfkjwV+6/vVUBwh7werM+AQ1gW2m40RYwJyCSEuXz05nUR3i9Q3MZ
-	EEczDZN3dmVoRKhgyYHFLtFhk4QWR8migVDXIBkFZJQmAHI8K5efV6pNQN84tjE5
-	Rs3cN7bw2KkKxj7PYFp2vvbx8F+xMe+Wr89MiiDnHazsgCiwQoMGA6nIL4yivIQ/
-	iSp/8bQt4d+Nevk1OXfsUGnG0Jug9NS+8rKx0j2e6jD5vTbLib/Jtj9n5mbqe/aL
-	gV0CR73Y6DZ48J0kkD8kdY1c2FV+iYhNSNXFVs+8neZTIS1raS1rzDXNOuLtzLsb
-	xVpWX7dvUF/JQc8UHI2Mw==
-X-ME-Sender: <xms:l3H6Zlpna80A-aKemYDNwdcd2e4ZLSMjLsRNi64f_TbfN1x0bYgzzQ>
-    <xme:l3H6Znr5g5BNjNUhj8kZ-2fuq6AZyuuIUH9Oh6qs64BSOtB0ETbODok8tIk1ljv31
-    PquAlfYgzvhuW-amZ8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdduhedgudejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvffkjghfufgtgfesthejredtredttden
-    ucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdrug
-    gvqeenucggtffrrghtthgvrhhnpefhkeeltdfffefhgffhteetheeuhffgteeghfdtueef
-    udeuleetgfehtdejieffhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedutddp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepthhofihinhgthhgvnhhmihesghhmrg
-    hilhdrtghomhdprhgtphhtthhopeifihhmsehlihhnuhigqdifrghttghhughoghdrohhr
-    ghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfh
-    hrrgguvggrugdrohhrghdprhgtphhtthhopegrshgrhhhisehlihhsthhsrdhlihhnuhig
-    rdguvghvpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtoh
-    eplhhinhhugiesrhhovggtkhdquhhsrdhnvghtpdhrtghpthhtoheprghlhihsshgrsehr
-    ohhsvghniiifvghighdrihhopdhrtghpthhtohepshhvvghnsehsvhgvnhhpvghtvghrrd
-    guvghvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghl
-    rdhorhhg
-X-ME-Proxy: <xmx:mHH6ZiMtLdqnPrQxJ7N8hs5M2UJv2rqES9sZHNrpAUJY51VSRpGhQg>
-    <xmx:mHH6Zg4W8bZpFUssjQgmUA3sCCR3lb5Ox7kWFnLi2Wi21A_3p5jNMQ>
-    <xmx:mHH6Zk68ojMiiGCi1YTrvJmjiOFrVBXnw3AjDnBwfKpKHNgh2MLp5A>
-    <xmx:mHH6ZojdRu7BOFJ1iw9wsNTktLKoj4X-iaMx6y9Yl5A6Mh-8RwwyWw>
-    <xmx:mXH6ZlHWz7A46fVRwwW6BU2rXaXuOtfZfNaoZRdEV51xPwSR5u61xSvv>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id D9D9C2220072; Mon, 30 Sep 2024 05:38:31 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="SpquXQY0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=INDTdnrCf1u784zafFghMqBMITRgyNFRnhbK4dqaT1E=; b=SpquXQY015daZBfHeG9ZJ8QhNm
+	CIg3BdKnhvJ8YGF3MbXK0c6M+t1tIDXLSrkj9SNMgb/ZIDsvSFZerOQ9ZTP9byCBxGkuuQQxaq9rz
+	EVF0I1KHzf0p90R8IMexqRo4k8FkiF+RCIc4LxnBQDJMuAi7p4aA7ak7TTfWsOFSrQCKBb9DEamto
+	FApq5RubKIjvRetgGLxFSgfLr5Ws0ljYNvndJ5ManuPVNLUBnDv5MfUNHoQ50wDb2eCMa+RVAI9EH
+	FWC2BihFWFOCd6Ruuw6/ll4WggGswPO5dCN7lDI0eZ1c4AQ6l7senK3cJhRrWIWWlNxGV2uQAmLkP
+	g7R6jqSQ==;
+Received: from i5e861925.versanet.de ([94.134.25.37] helo=phil.lan)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1svE4G-0004Xd-MM; Mon, 30 Sep 2024 12:55:52 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Sven Peter <sven@svenpeter.dev>,
+	Jacobe Zang <jacobe.zang@wesion.com>,
+	Hector Martin <marcan@marcan.st>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Muhammed Efe Cetin <efectn@protonmail.com>,
+	linux-rockchip@lists.infradead.org,
+	asahi@lists.linux.dev,
+	Arend van Spriel <arend.vanspriel@broadcom.com>,
+	nick@khadas.com,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v14] arm64: dts: rockchip: Add AP6275P wireless support to Khadas Edge 2
+Date: Mon, 30 Sep 2024 12:55:40 +0200
+Message-ID: <172769365137.1880381.6159894918709660365.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240910-dts-v14-1-82b39bd91257@wesion.com>
+References: <20240910-dts-v14-1-82b39bd91257@wesion.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 30 Sep 2024 09:37:53 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Nick Chan" <towinchenmi@gmail.com>, "Hector Martin" <marcan@marcan.st>,
- "Sven Peter" <sven@svenpeter.dev>,
- "Alyssa Rosenzweig" <alyssa@rosenzweig.io>,
- "Wim Van Sebroeck" <wim@linux-watchdog.org>,
- "Guenter Roeck" <linux@roeck-us.net>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Message-Id: <6775f288-9278-412e-957b-b341b1a75ae8@app.fastmail.com>
-In-Reply-To: <20240930060653.4024-1-towinchenmi@gmail.com>
-References: <20240930060653.4024-1-towinchenmi@gmail.com>
-Subject: Re: [PATCH RESEND] watchdog: apple: Increase reset delay to 150ms
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 30, 2024, at 06:06, Nick Chan wrote:
-> The Apple A8X SoC seems to be slowest at resetting, taking up to around
-> 125ms to reset. Wait 150ms to be safe here.
->
-> Reviewed-by: Sven Peter <sven@svenpeter.dev>
-> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> ---
->  drivers/watchdog/apple_wdt.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/watchdog/apple_wdt.c b/drivers/watchdog/apple_wdt.c
-> index d4f739932f0b..353ecf0b04dc 100644
-> --- a/drivers/watchdog/apple_wdt.c
-> +++ b/drivers/watchdog/apple_wdt.c
-> @@ -127,11 +127,11 @@ static int apple_wdt_restart(struct 
-> watchdog_device *wdd, unsigned long mode,
->  	/*
->  	 * Flush writes and then wait for the SoC to reset. Even though the
->  	 * reset is queued almost immediately experiments have shown that it
-> -	 * can take up to ~20-25ms until the SoC is actually reset. Just wait
-> -	 * 50ms here to be safe.
-> +	 * can take up to ~120-125ms until the SoC is actually reset. Just
-> +	 * wait 150ms here to be safe.
->  	 */
->  	(void)readl_relaxed(wdt->regs + APPLE_WDT_WD1_CUR_TIME);
-> -	mdelay(50);
-> +	mdelay(150);
+On Tue, 10 Sep 2024 11:07:47 +0800, Jacobe Zang wrote:
+> Khadas Edge2 uses the PCI-e Ampak AP6275P 2T2R Wi-Fi 6 module. The
+> pcie@0 node can be used as Bridge1, so the wifi@0 node is used as a
+> device under the Bridge1.
+> 
+> 
 
-I think you also need to insert a barrier before the mdelay(),
-or turn the readl_relaxed() into a readl(), it will otherwise
-be bypassed by the delay.
+Applied, thanks!
 
-The comment is a bit confusing here as it suggests that the
-MMIO read is meant to serialize between the restart and the
-mdelay(), but the _relaxed() annotation on the readl()
-explicitly skips that serialization, so one of the two is
-wrong here.
+[1/1] arm64: dts: rockchip: Add AP6275P wireless support to Khadas Edge 2
+      commit: 44b149fe1cfb18d1b7391c4115a3385f255f9a91
 
-       Arnd
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
