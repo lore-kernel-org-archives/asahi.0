@@ -1,55 +1,55 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338351CDFBB
-	for <asahi@lists.linux.dev>; Tue,  1 Oct 2024 20:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4942D1CDFDD
+	for <asahi@lists.linux.dev>; Tue,  1 Oct 2024 20:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727812823; cv=none; b=l6wWLeKwdaoR2FI+Jv/R9DkbNatHqtD8u3hNK6sujvyh624vh/pgWxCgOjAZh7FaaAu1Lkm/Wz7u0Wp7YJvPqWKj+gxW+gjZS8KyrhvUNwRISLVjmiT7lFq4VvZKe9eRutIuZJTujQCEGaYpMyfocZmJEZLLvW5yyzA1zZqXfNM=
+	t=1727813259; cv=none; b=Nx4TCRgHjvluJPkKGeVdhvtT7PYziL/hibYTLRj2gpBdrBHGZ8TW4XNlYMsZI8qpsR2Pdl0J+mSlxl4r/x5qnDLufXpDG9FEgS6bBr1OaWHoXkhDqfz2ZYqaTfafoO9yNIySsr9KYGrQgJdpGndA3Y+w1Mr+sCX3xz7QQnetftU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727812823; c=relaxed/simple;
-	bh=VL0l4sPNS0mOMjxTEFTSAHFrJ4U5svO0/PuUWHPX07g=;
+	s=arc-20240116; t=1727813259; c=relaxed/simple;
+	bh=nb+1zuofbp/YLzRVQkvPoNQ/yPtfFbypigrtq+u1nsA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bewCy1h/H+C7MJkU621PlYnUEfTEUxBTmVxC9+YSZwC1+sGj61zUujYx3RM2KQ3olum3EtOX36ll/H+D37i7wH4B79cGuefhsuM4c7MT2rSAKslmmW2L2grT4ozDh3AOlq9TcZpINtgvwHZpWgLLx2TAO04lQnyLnyeOIrK1MWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QjatDaH+; arc=none smtp.client-ip=209.85.160.181
+	 To:Cc:Content-Type; b=tfbpwAj/DCzp/94tunugYtQ4GiDqwQgj5hUJbyVd1jX9XfzjeTH5DLNAGF/3U1PN6x9km4EvaFsqM3gluk1bHYUW8atQajwcsYKeOC82lqhsZPpTGuvvFeiOcP+eqBRR0IuGMoDnNcLSXLdYTKBtOXLm9bElTLEFcDWJMpKBkXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bPUFhkIM; arc=none smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QjatDaH+"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4582a5b495cso10351cf.1
-        for <asahi@lists.linux.dev>; Tue, 01 Oct 2024 13:00:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bPUFhkIM"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4582a5b495cso12431cf.1
+        for <asahi@lists.linux.dev>; Tue, 01 Oct 2024 13:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1727812821; x=1728417621; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1727813256; x=1728418056; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hlQiQmTz7qfWsv7PpI2QITFBokfWCFh4vX/E9hXbiOo=;
-        b=QjatDaH+eeKITzwrtnaDobsTW98W5jz8zVD3FOwAM40V1C3yqWZFLxM22l8LgwFH/j
-         jOwS7J7yCAu8Pu+v0LSF7N76TtwGas1zej4RnK5kGsj5XKPWSwx5JVFz66K+ajtP/UjO
-         pNz7ZwZg3oCAPgxSLrD/CJ4eRQuvtdRCgAD7tNt6ysePB7Ghf66at9MB3FKkPy1zn9bT
-         tWY+l6e7usqhKU3xygk1jLHOjhF6ON5kNLcS4KWMd763qdT4gri8M7Glb8Hs+Zcbt6OU
-         G61N1Njtok1opDV1rf+ZySIZT0m+tVHgxPd3+0BaH7KFa6nt1ChDGMcMsvOQjwr78BCr
-         p5vA==
+        bh=mMY9PPpiy6n79kGTLnpvPmokvdMN2sau/6lNm64LaIc=;
+        b=bPUFhkIM+EHN0YOOfxFRPSB5v9I0ZuUDdOSXyme8SdiY8sfBQDpa71YQrNoPFcDuNe
+         XOCzbARDfSrHuk5G3GXlHMIf7ZHRuFWCE1Bix3PXAeAv8hF5PFBb2WG6LvkTapBgvUFa
+         AyNMRrEad43BgzewGmfrn4pXPpoUpAAp2djwPlbanxycCRjTCxD4lGwoguLre15ulVDQ
+         snbErzcElX0Cy0/LbVoNcRSkZNtgBDPZo/ztW0YjPyt1B9LYJHUUUysI7R0/v9CJkaPe
+         FNElcgmB/SuJweYFhVp9jL+b7CAtyYaZTbwOVQ8OXOeagmJoyfQOd8Amc/mwqBwFRhSc
+         Wxfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727812821; x=1728417621;
+        d=1e100.net; s=20230601; t=1727813256; x=1728418056;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hlQiQmTz7qfWsv7PpI2QITFBokfWCFh4vX/E9hXbiOo=;
-        b=oPxsX7UVeeYFjkXaYQfoTbdGJWQ0IHB/82XxtfA28lyVPY0MCCQbWGgMORg5MrrVVr
-         USzOmsnrNWj4buDra0FUWKS5si8i7OJvrPE1L07omk3Ce0f99hzs6l+Dq4EgHy/jdZdb
-         mCvSy5gHOyaIYeJy9RbzOBf3NRPFrWcpUxxd066D7TQt/DVJHxoMGH1fWEthuiAbdkLZ
-         Q4W8Aw2KieRsLk8xLLxjOPDIlWuC316whKcBwfPRSzoM/AE9V8Z5CPaA6BVSfYQ6xD70
-         BNxa4xwON+A9MmDTo55TdbFACc87/v25hcxcyeEbiCC3a8LDpxanSIZnD76TviIxTm5w
-         AxYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVRXFY6LrnF8sFNTDCw25lbpJET59pySXwPmWXXLwTID0DFJsmRnFa/J7HEzPSy6Gy/vCubSw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw/AdKyEHUjsB+UyvWSIGHSEU2BH35UubQI70FzJYweSrYHXM2s
-	PgJLXxNWg5WpZ44juR1lHRaryqS2w9D63030NerodWBNkLerow0fpYxBlKaaBoTHaH2Th0sX5Pc
-	owjCk5FLFbmWX0XABZGnOxh8yfyrkDHXGii3a
-X-Google-Smtp-Source: AGHT+IG5DNxtgJ83kOVslFoZp1Jab7wENr6j0mMJJ/eOFoYyywnCYznykoqwwy5SBfvCNFKR9FwGagz5mBemuN73jts=
-X-Received: by 2002:a05:622a:4e96:b0:444:ccc5:f4c0 with SMTP id
- d75a77b69052e-45d82060a56mr551191cf.15.1727812820872; Tue, 01 Oct 2024
- 13:00:20 -0700 (PDT)
+        bh=mMY9PPpiy6n79kGTLnpvPmokvdMN2sau/6lNm64LaIc=;
+        b=lIipjBz0H/6ls7QmqFOLH73wBZP/bYlSYWATP+4L8fgvoJlj+G4avZlA7GRBiZhlj7
+         JF3AZG9SGjwJqznhgFGA8v7kMCiyqwVsw7b9AHD2Zg+AnMGtu0NTJWq49yJGyNH/fKMh
+         H33U2qmxZLuu4gM//A0Ajl1nNGOxwGwMDZI9sgrPu2PTmpOGZ3BTA2BRTGfFvcT/YIwN
+         APBOBRKVLlvMtIBlfWvi+NoTl926HbWaW3wgV69RlCtdsSYHkFKPqFd2+TuHj0vM9LlC
+         PQL0oFYL9sUzCXrjAo76lLwJGQ05mcMsnWfbgQscdV6Sp/WMfi3+rORXQJZ+z5aHGmKM
+         aOWg==
+X-Forwarded-Encrypted: i=1; AJvYcCVckOoSWayT40VwN1LwDb7oUEV9iLxht3Q2MVv126tkP7mj+v/OU7w3HPFcBQEMXIB5408HCw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqLlWGPmKC+JsNAT44LOcM4WgsehsSh6fKUt5o4jND5ks78A7X
+	PGPNxjQmSWKYD4wQasfvi8CMzcsGsr/OxxenJp1CmazECvLOGFQhrQ/qLMF+a3RRWpHJzrWnrwS
+	lgXumKvkevWkk2s3trQESj+3iNcSKXSRSUbEO
+X-Google-Smtp-Source: AGHT+IHKBvWS6PLEHB2YJgh6RwJYvXytEANIAFFLs7YtFd7/8QYOtHb1Is9sK/px/8P98dxvd7EeN/7sfEz9KfBXdkM=
+X-Received: by 2002:a05:622a:5796:b0:453:58c8:3fd1 with SMTP id
+ d75a77b69052e-45d814de7f6mr742221cf.0.1727813255948; Tue, 01 Oct 2024
+ 13:07:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -57,12 +57,12 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20240923181846.549877-22-samitolvanen@google.com>
- <20240923181846.549877-25-samitolvanen@google.com> <03d36fac-a808-4794-a442-11fa6fa18ad8@suse.com>
-In-Reply-To: <03d36fac-a808-4794-a442-11fa6fa18ad8@suse.com>
+ <20240923181846.549877-26-samitolvanen@google.com> <429b7310-3724-48a2-a8ac-e686c6945024@suse.com>
+In-Reply-To: <429b7310-3724-48a2-a8ac-e686c6945024@suse.com>
 From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 1 Oct 2024 19:59:41 +0000
-Message-ID: <CABCJKuf-_B1bH3YbiUS6r1-k5VLMHmYYWuCMpoV3jP-G5uHtTQ@mail.gmail.com>
-Subject: Re: [PATCH v3 03/20] tools: Add gendwarfksyms
+Date: Tue, 1 Oct 2024 20:06:59 +0000
+Message-ID: <CABCJKueyGPNeUqW_xWdG11OxHDWsMM0CtV31sbg4LL0FggEN=g@mail.gmail.com>
+Subject: Re: [PATCH v3 04/20] gendwarfksyms: Add address matching
 To: Petr Pavlu <petr.pavlu@suse.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -75,35 +75,36 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Petr,
-
-On Tue, Oct 1, 2024 at 2:04=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wro=
+On Tue, Oct 1, 2024 at 2:06=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wro=
 te:
 >
 > On 9/23/24 20:18, Sami Tolvanen wrote:
-> > +             if (dwfl_getmodules(dwfl, &process_module, NULL, 0)) {
-> > +                     error("dwfl_getmodules failed for '%s'", argv[n])=
-;
-> > +                     return -1;
-> > +             }
+> > -     for_each(name, get_symbol, &sym);
+> > +     for_each(name, false, get_symbol, &sym);
+> >       return sym;
+> >  }
 >
-> Nit: The four error() calls don't need to be followed by 'return -1;'
-> since the function now calls exit(1).
+> What is the reason that the for_each() call in symbol_get() is invoked
+> with name_only=3Dfalse?
 
-Good catch, I forgot to clean these up. I'll fix these.
+It was initially added to skip address checking when reading the
+symbol list, but it's redundant since there are no addresses to check
+at that point anyway. I think we can just drop the name_only argument
+completely. I'll change this in v4.
 
-> > +     for_each(name, get_symbol, &sym);
-> > +     return sym;
-> > +}
+> > +                     for (n =3D 1; n < nsyms; ++n) {
+> > +                             const char *name =3D NULL;
+> > +                             Elf32_Word xndx =3D 0;
+> > +                             GElf_Sym sym_mem;
+> > +                             GElf_Sym *sym;
+> > +
+> > +                             sym =3D gelf_getsymshndx(data, xndx_data,=
+ n,
+> > +                                                    &sym_mem, &xndx);
 >
-> Nit: The code inconsistently checks for a potential error from the
-> function for_each(). Looking at the whole series, the value is checked
-> using checkp() in functions symbol_set_crc(), symbol_set_ptr(),
-> symbol_set_die(), is_exported(), but not in symbol_get() and
-> elf_set_symbol_addr(). It would be good to unify this, or perhaps even
-> make for_each() return an unsigned int to indicate it never fails?
+> Please check for sym=3D=3DNULL in case the file is malformed, e.g.
+> .symtab_shndx is truncated.
 
-True, there's no need to use check() anymore here. I'll change the
-return value to unsigned int and clean up the error handling.
+Good catch, I'll add a check.
 
 Sami
