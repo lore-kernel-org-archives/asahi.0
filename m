@@ -1,55 +1,55 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0664213EF9
-	for <asahi@lists.linux.dev>; Tue,  8 Oct 2024 18:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A0E215014
+	for <asahi@lists.linux.dev>; Tue,  8 Oct 2024 18:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728412726; cv=none; b=nmewkgedKZtS3ONkFhlVGA5Hdf/HSVplMZ8FbTrYGQJpiGythzO/9l4di9xcqTryMdSFrP/C/K1ts+X7+dgKKIYBpZX2EWRdRP8Tx+AhtwXLZLZ5lyirSErxf83RrKxmM8Wax1ecqdg6g9MquB0fzMzOHo9AH1aW1rESWLYOBwQ=
+	t=1728412728; cv=none; b=jRAd1G2b4XJizqGSnTXi+KvopVOC3amqmoJoA/VCIrgHPrKOvjs56SXsNWEnU9msG79cNz7AB7PMGYngvDi7rGIgGpEwduJU1swYsT6d8qsUmcyBECFkGJ5DT1OcHV7AqCTlwtkt7ThvZEBun+Q1GQ1R+9HrL/VNDv4lEo9dHVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728412726; c=relaxed/simple;
-	bh=L8gZOiNafqMVcV01G0lHB854teeObYaONcRZ1bZVn3Y=;
+	s=arc-20240116; t=1728412728; c=relaxed/simple;
+	bh=OG4jYRmeq2OxCAm7eaoPN2WlrBwptnMx6cqOEj+7Jj4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CLh3nAePugogJYnwysvNV+3/aZF38TAkH0FxERq68C+vhpaBsbC+nIc4kTymn+zuIxCbqpM5AHJ37/DkS4i8FCfq6Jl5b9urceV79Hm/wibJF8orMWIZFz3m6yShawh4VzxV3I9QKNqvkfVaO0sydzm8rZaC3UbED29NdrD8lOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gIbpet7o; arc=none smtp.client-ip=209.85.215.202
+	 To:Cc:Content-Type; b=di/MhXc41AuDCV3gl9MF7DeZDvoFRkzYUWNz4dHYW8Gw8+o4LxKJmdRt/6MOEjxtJqPAOvjAjkcrwGyc0M8aRoE2V7bMZLf//K8Q3rofWv/SuG7O7GrpR2VXLlkCmXlG+yu+el1W9u0lFDzRQrp6wSG2tw296veSQGW5cRsLpQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IhhE0Bxn; arc=none smtp.client-ip=209.85.210.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gIbpet7o"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-7ea233ca776so717718a12.1
-        for <asahi@lists.linux.dev>; Tue, 08 Oct 2024 11:38:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IhhE0Bxn"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-71e0228d71dso2427723b3a.0
+        for <asahi@lists.linux.dev>; Tue, 08 Oct 2024 11:38:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728412724; x=1729017524; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1728412726; x=1729017526; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MkH5Ih0xNj3RgiCeSysh2t3eMUNLsppdxz7owK02bHI=;
-        b=gIbpet7ohPDC+7omt3o4YZ9XKt1sN9WoUh3e5P72E7hLcF6sazSapeKpQTbEkoA2nW
-         VZ+vO14rJ2iv83UVbIqIk2+bh31GbOnL2/ItxcqupiSx1iG6124a0zW8p7w4Llz5BB80
-         KJIShBSU3iW/a8uOuEw/fj2fV4Ek+Bn7UbHeMs8Iml1XunbdcNqCIIT1lPmVuLieJU9H
-         H0uahlRs/74boMyR6cg0pLYpiczOTzX+ABdlJsimrLjjQ4kgSu5NnbUlohNXr6z0pDDj
-         6ElbxyXOyLlp+Cfh1TAi0H8sXZcy4bvMyxt4OV6DMeYFCnFYP5VSZwpKZfcAbm2i7akU
-         oqww==
+        bh=7WWJPZVdMIN3hgJWOmwaRZdFog5vZGW0/0gQg5D/7SY=;
+        b=IhhE0Bxn0Q6+0THNsG0HoimbzBJ4NVCp/Jrp3XAcrp8v9XOWdyqjDqeAGy2ajK1jpf
+         CS81E58B9k2HzL0ly4wrxlLqHU9bP79yXArSKxCGNA8QwbNCOKFfIwxZcWzj45ScJvQ+
+         Y9zA20ZbIBjc1RkBfISnnDHe8a3fPGbHG7zi33TbtbOda5W75Wk6NWtxlUMAo+5mvJzh
+         PkmIUBjEbBXIwwOBb6f4z8qA8VYMvYexvCkQQ27TmhPK60/rxFwo4eZMEL5M5weIu0Nw
+         ekfVQCD4zVmQjJD56tXaakfurejOq907C2feDpxEb2hI3yhKvnmV06bzvm6Fyl9nJOKI
+         5AJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728412724; x=1729017524;
+        d=1e100.net; s=20230601; t=1728412726; x=1729017526;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MkH5Ih0xNj3RgiCeSysh2t3eMUNLsppdxz7owK02bHI=;
-        b=kPLHUN4Yn9KDQ8CZpUCYbpExFfF7KpgCTc5bLUnaZNRK5fqvyQzKLKMbF0S3Oo25rg
-         n2bvTklmgjwsQCwGhnUlEnL9opWhRg3ASbcvZeCLlpspf7HCDqjj8AIgraCnW6FzGztj
-         aMOliOcyQ5/5YXNDTTIGIzA36cE2+OWAx2zC6T/IbPy0O6RFfaDCEGjFjFzosYKpQUav
-         bPB36gRysfJw+4idF47kFmobjzJtojzRy83sHv44xKuRj39Ci4Qcn5awvvWz7ywlfU5p
-         5iHab7JXLxV7E7lIoGK0OnBQg6Zx+fVx3j/82bfmxQl+z47G5BqjkMDNX2rYQwFWlgP2
-         p4ag==
-X-Forwarded-Encrypted: i=1; AJvYcCUSM2xnBnumXcdkwMYOcXXRoxPYDn3ZtxWUEV/UTqdR+bed947Xg1utkLTUAbMhdyHRBrkOFg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOtAXomLQCwaJBRJjb1xJ3fAQDcTBrZY/2YPwPPStzmWTpFCU+
-	QbGJlgRxZz/Bthh8GVhnlPzQ/jsQ/VYBhkAruF0Lo5oA6ILp3J6xEezTh6bd0FI6Bkyjvv71/rF
-	rex4/Q7Wk64Bqr4WtJZL4FlFlLQ==
-X-Google-Smtp-Source: AGHT+IFmEULt/jO3vqjILkmVX45b4prHh+Y47lGGy6+F3tp14h2lmNPgyIt35LgeXNCkncMExOSiIlEpJkHiZLFfzWc=
+        bh=7WWJPZVdMIN3hgJWOmwaRZdFog5vZGW0/0gQg5D/7SY=;
+        b=nCYvPgiJpKmF3b7Z3P7VN368nR/bWSboLxVQI5+/PV2TlUvLncXtXqm06WsU8Ty8p2
+         +VWiOwq1hgVVqhdhhoCPFWRBONc/3hPLunYY/x0TXMRkZMzEVSs7/RACeq3dtq3lp9U2
+         IsVMsB8SC8IGDLIuoQfjvw2YSHa80lUxka4JTyzF274vfIhzu5Jo4V2aoAtmdPrFJoUf
+         uBiBaO2O9/bMnq30fQVyPU4maLnCQgBuSk3gkl29Tv9yJoGK16f3BoIyDrE6AVkKCKi6
+         j+tFfOWtLHz+0W/CTgJNxAsJhbHDkst9bZuOP3AZKP/AdvajzjEZZ1oBuTTSR/sa8sgk
+         oZzw==
+X-Forwarded-Encrypted: i=1; AJvYcCWjmFCacE86Nkk2eRtO4jfBRZJK4jVi8hr8QI6eHKUnUPqdup8gOE9HpJfe0vFXXu4cpGnSIw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPI9xXWKd1e0Q9YIEhJa4hHEqBPCPi9SB+MGJdp078l+pxo7Xu
+	C+BSCiQYMBZB2i9SOOfI/CC8hW7T7KaMxlUgWs3NBsE+NdiHtWmv4bkZFmmcQcHHX40OkWbZQu+
+	36/vN+ET89+Bz7LBTs2CFRxso6g==
+X-Google-Smtp-Source: AGHT+IF09EZVczMWwtjJOc7d6ItMnCmijZ0LPQsAGC2WSz8PkLB/F7Oyetu8/jxLAqyGEmkt0LnxSPe4C2FIparC/WI=
 X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
- (user=samitolvanen job=sendgmr) by 2002:a17:902:c404:b0:20b:b7b2:b6ef with
- SMTP id d9443c01a7336-20bfe0628c0mr4719855ad.4.1728412724086; Tue, 08 Oct
- 2024 11:38:44 -0700 (PDT)
-Date: Tue,  8 Oct 2024 18:38:28 +0000
+ (user=samitolvanen job=sendgmr) by 2002:a05:6a00:9446:b0:71e:1e8:e337 with
+ SMTP id d2e1a72fcca58-71e01e8eb14mr26928b3a.4.1728412725541; Tue, 08 Oct 2024
+ 11:38:45 -0700 (PDT)
+Date: Tue,  8 Oct 2024 18:38:29 +0000
 In-Reply-To: <20241008183823.36676-21-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -59,14 +59,14 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20241008183823.36676-21-samitolvanen@google.com>
 X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5424; i=samitolvanen@google.com;
- h=from:subject; bh=L8gZOiNafqMVcV01G0lHB854teeObYaONcRZ1bZVn3Y=;
- b=owGbwMvMwCEWxa662nLh8irG02pJDOmsNUprA7ZfPDfpwdpNx/Mfb/FK6tu1cJ+r7LQ5lt2HY
- h/fO1ad21HKwiDGwSArpsjS8nX11t3fnVJffS6SgJnDygQyhIGLUwAm0vOO4Z/x1+Z1mozzFI9G
- c/IVlXFm31H9zN7MPeNG+q3H5pn7Fm1kZLj64GhzhfvR7mQFIxbuoL/6Hh+3VfxN/XJh88WuZ3P tmVkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15470; i=samitolvanen@google.com;
+ h=from:subject; bh=OG4jYRmeq2OxCAm7eaoPN2WlrBwptnMx6cqOEj+7Jj4=;
+ b=owGbwMvMwCEWxa662nLh8irG02pJDOmsNUoKSyOUXMX7Jf9XMVUvntoloen66P8ypf3vZlbKb
+ GMQLFXtKGVhEONgkBVTZGn5unrr7u9Oqa8+F0nAzGFlAhnCwMUpABOZyMbI8CzD/+m8+FVCJ33j
+ 9scFpdiyas6LCIveav4ktPdefHxIJ8P/nKvfLh65z9r/3/mgXsoaGbVgno1b/+Qevp+a1m3Z86u JCQA=
 X-Mailer: git-send-email 2.47.0.rc0.187.ge670bccf7e-goog
-Message-ID: <20241008183823.36676-25-samitolvanen@google.com>
-Subject: [PATCH v4 04/19] gendwarfksyms: Expand base_type
+Message-ID: <20241008183823.36676-26-samitolvanen@google.com>
+Subject: [PATCH v4 05/19] gendwarfksyms: Add a cache for processed DIEs
 From: Sami Tolvanen <samitolvanen@google.com>
 To: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -79,218 +79,549 @@ Cc: Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
 	rust-for-linux@vger.kernel.org, Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Start making gendwarfksyms more useful by adding support for
-expanding DW_TAG_base_type types and basic DWARF attributes.
-
-Example:
-
-  $ echo loops_per_jiffy | \
-      scripts/gendwarfksyms/gendwarfksyms \
-        --debug --dump-dies vmlinux.o
-  ...
-  gendwarfksyms: process_symbol: loops_per_jiffy
-  variable base_type unsigned long byte_size(8) encoding(7)
-  ...
+Basic types in DWARF repeat frequently and traversing the DIEs using
+libdw is relatively slow. Add a simple hashtable based cache for the
+processed DIEs.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Acked-by: Neal Gompa <neal@gompa.dev>
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 ---
- scripts/gendwarfksyms/dwarf.c | 159 ++++++++++++++++++++++++++++++++++
- 1 file changed, 159 insertions(+)
+ scripts/gendwarfksyms/Makefile        |   1 +
+ scripts/gendwarfksyms/die.c           | 143 ++++++++++++++++++++++++++
+ scripts/gendwarfksyms/dwarf.c         | 136 +++++++++++++++++-------
+ scripts/gendwarfksyms/gendwarfksyms.c |   6 ++
+ scripts/gendwarfksyms/gendwarfksyms.h |  63 +++++++++++-
+ 5 files changed, 308 insertions(+), 41 deletions(-)
+ create mode 100644 scripts/gendwarfksyms/die.c
 
-diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
-index 81df3e2ad3ae..35fd1dfeeadc 100644
---- a/scripts/gendwarfksyms/dwarf.c
-+++ b/scripts/gendwarfksyms/dwarf.c
-@@ -3,8 +3,20 @@
-  * Copyright (C) 2024 Google LLC
-  */
+diff --git a/scripts/gendwarfksyms/Makefile b/scripts/gendwarfksyms/Makefile
+index 9f8fec4fd39b..c0d4ce50fc27 100644
+--- a/scripts/gendwarfksyms/Makefile
++++ b/scripts/gendwarfksyms/Makefile
+@@ -2,6 +2,7 @@
+ hostprogs-always-y += gendwarfksyms
  
-+#include <stdarg.h>
- #include "gendwarfksyms.h"
+ gendwarfksyms-objs += gendwarfksyms.o
++gendwarfksyms-objs += die.o
+ gendwarfksyms-objs += dwarf.o
+ gendwarfksyms-objs += symbols.o
  
-+#define DEFINE_GET_ATTR(attr, type)                                    \
-+	static bool get_##attr##_attr(Dwarf_Die *die, unsigned int id, \
-+				      type *value)                     \
-+	{                                                              \
-+		Dwarf_Attribute da;                                    \
-+		return dwarf_attr(die, id, &da) &&                     \
-+		       !dwarf_form##attr(&da, value);                  \
-+	}
+diff --git a/scripts/gendwarfksyms/die.c b/scripts/gendwarfksyms/die.c
+new file mode 100644
+index 000000000000..28d89fce89fc
+--- /dev/null
++++ b/scripts/gendwarfksyms/die.c
+@@ -0,0 +1,143 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2024 Google LLC
++ */
 +
-+DEFINE_GET_ATTR(udata, Dwarf_Word)
++#include <string.h>
++#include "gendwarfksyms.h"
 +
- static bool get_ref_die_attr(Dwarf_Die *die, unsigned int id, Dwarf_Die *value)
- {
- 	Dwarf_Attribute da;
-@@ -67,6 +79,109 @@ static void process(const char *s)
- 		fputs(s, stderr);
- }
- 
-+#define MAX_FMT_BUFFER_SIZE 128
++#define DIE_HASH_BITS 20
 +
-+static void process_fmt(const char *fmt, ...)
++/* {die->addr, state} -> struct die * */
++static HASHTABLE_DEFINE(die_map, 1 << DIE_HASH_BITS);
++
++static unsigned int map_hits;
++static unsigned int map_misses;
++
++static inline unsigned int die_hash(uintptr_t addr, enum die_state state)
 +{
-+	char buf[MAX_FMT_BUFFER_SIZE];
-+	va_list args;
-+
-+	va_start(args, fmt);
-+
-+	if (checkp(vsnprintf(buf, sizeof(buf), fmt, args)) >= sizeof(buf))
-+		error("vsnprintf overflow: increase MAX_FMT_BUFFER_SIZE");
-+
-+	process(buf);
-+	va_end(args);
++	return hash_32(addr_hash(addr) ^ (unsigned int)state);
 +}
 +
-+#define MAX_FQN_SIZE 64
-+
-+/* Get a fully qualified name from DWARF scopes */
-+static char *get_fqn(Dwarf_Die *die)
++static void init_die(struct die *cd)
 +{
-+	const char *list[MAX_FQN_SIZE];
-+	Dwarf_Die *scopes = NULL;
-+	bool has_name = false;
-+	char *fqn = NULL;
-+	char *p;
-+	int count = 0;
-+	int len = 0;
-+	int res;
++	cd->state = DIE_INCOMPLETE;
++	cd->fqn = NULL;
++	cd->tag = -1;
++	cd->addr = 0;
++	INIT_LIST_HEAD(&cd->fragments);
++}
++
++static struct die *create_die(Dwarf_Die *die, enum die_state state)
++{
++	struct die *cd;
++
++	cd = xmalloc(sizeof(struct die));
++	init_die(cd);
++	cd->addr = (uintptr_t)die->addr;
++
++	hash_add(die_map, &cd->hash, die_hash(cd->addr, state));
++	return cd;
++}
++
++int __die_map_get(uintptr_t addr, enum die_state state, struct die **res)
++{
++	struct die *cd;
++
++	hash_for_each_possible(die_map, cd, hash, die_hash(addr, state)) {
++		if (cd->addr == addr && cd->state == state) {
++			*res = cd;
++			return 0;
++		}
++	}
++
++	return -1;
++}
++
++struct die *die_map_get(Dwarf_Die *die, enum die_state state)
++{
++	struct die *cd;
++
++	if (__die_map_get((uintptr_t)die->addr, state, &cd) == 0) {
++		map_hits++;
++		return cd;
++	}
++
++	map_misses++;
++	return create_die(die, state);
++}
++
++static void reset_die(struct die *cd)
++{
++	struct die_fragment *tmp;
++	struct die_fragment *df;
++
++	list_for_each_entry_safe(df, tmp, &cd->fragments, list) {
++		if (df->type == FRAGMENT_STRING)
++			free(df->data.str);
++		free(df);
++	}
++
++	if (cd->fqn && *cd->fqn)
++		free(cd->fqn);
++	init_die(cd);
++}
++
++void die_map_free(void)
++{
++	struct hlist_node *tmp;
++	unsigned int stats[DIE_LAST + 1];
++	struct die *cd;
 +	int i;
 +
-+	res = checkp(dwarf_getscopes_die(die, &scopes));
-+	if (!res) {
-+		list[count] = get_name_attr(die);
++	memset(stats, 0, sizeof(stats));
 +
-+		if (!list[count])
-+			return NULL;
-+
-+		len += strlen(list[count]);
-+		count++;
-+
-+		goto done;
++	hash_for_each_safe(die_map, cd, tmp, hash) {
++		stats[cd->state]++;
++		reset_die(cd);
++		free(cd);
 +	}
++	hash_init(die_map);
 +
-+	for (i = res - 1; i >= 0 && count < MAX_FQN_SIZE; i--) {
-+		if (dwarf_tag(&scopes[i]) == DW_TAG_compile_unit)
-+			continue;
++	if (map_hits + map_misses > 0)
++		debug("hits %u, misses %u (hit rate %.02f%%)", map_hits,
++		      map_misses,
++		      (100.0f * map_hits) / (map_hits + map_misses));
 +
-+		list[count] = get_name_attr(&scopes[i]);
-+
-+		if (list[count]) {
-+			has_name = true;
-+		} else {
-+			list[count] = "<anonymous>";
-+			has_name = false;
-+		}
-+
-+		len += strlen(list[count]);
-+		count++;
-+
-+		if (i > 0) {
-+			list[count++] = "::";
-+			len += 2;
-+		}
-+	}
-+
-+	free(scopes);
-+
-+	if (count == MAX_FQN_SIZE)
-+		warn("increase MAX_FQN_SIZE: reached the maximum");
-+
-+	/* Consider the DIE unnamed if the last scope doesn't have a name */
-+	if (!has_name)
-+		return NULL;
-+done:
-+	fqn = xmalloc(len + 1);
-+	*fqn = '\0';
-+
-+	p = fqn;
-+	for (i = 0; i < count; i++)
-+		p = stpcpy(p, list[i]);
-+
-+	return fqn;
++	for (i = 0; i <= DIE_LAST; i++)
++		debug("%s: %u entries", die_state_name(i), stats[i]);
 +}
 +
-+static void process_fqn(Dwarf_Die *die)
++static struct die_fragment *append_item(struct die *cd)
 +{
-+	process(" ");
-+	process(get_fqn(die) ?: "");
++	struct die_fragment *df;
++
++	df = xmalloc(sizeof(struct die_fragment));
++	df->type = FRAGMENT_EMPTY;
++	list_add_tail(&df->list, &cd->fragments);
++	return df;
 +}
 +
-+#define DEFINE_PROCESS_UDATA_ATTRIBUTE(attribute)                           \
-+	static void process_##attribute##_attr(Dwarf_Die *die)              \
-+	{                                                                   \
-+		Dwarf_Word value;                                           \
-+		if (get_udata_attr(die, DW_AT_##attribute, &value))         \
-+			process_fmt(" " #attribute "(%" PRIu64 ")", value); \
-+	}
++void die_map_add_string(struct die *cd, const char *str)
++{
++	struct die_fragment *df;
 +
-+DEFINE_PROCESS_UDATA_ATTRIBUTE(alignment)
-+DEFINE_PROCESS_UDATA_ATTRIBUTE(byte_size)
-+DEFINE_PROCESS_UDATA_ATTRIBUTE(encoding)
++	if (!cd)
++		return;
 +
- bool match_all(Dwarf_Die *die)
++	df = append_item(cd);
++	df->data.str = xstrdup(str);
++	df->type = FRAGMENT_STRING;
++}
++
++void die_map_add_die(struct die *cd, struct die *child)
++{
++	struct die_fragment *df;
++
++	if (!cd)
++		return;
++
++	df = append_item(cd);
++	df->data.addr = child->addr;
++	df->type = FRAGMENT_DIE;
++}
+diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
+index 35fd1dfeeadc..c2cd4743515e 100644
+--- a/scripts/gendwarfksyms/dwarf.c
++++ b/scripts/gendwarfksyms/dwarf.c
+@@ -71,17 +71,19 @@ static bool match_export_symbol(struct state *state, Dwarf_Die *die)
+ /*
+  * Type string processing
+  */
+-static void process(const char *s)
++static void process(struct die *cache, const char *s)
  {
+ 	s = s ?: "<null>";
+ 
+ 	if (dump_dies)
+ 		fputs(s, stderr);
++
++	die_map_add_string(cache, s);
+ }
+ 
+ #define MAX_FMT_BUFFER_SIZE 128
+ 
+-static void process_fmt(const char *fmt, ...)
++static void process_fmt(struct die *cache, const char *fmt, ...)
+ {
+ 	char buf[MAX_FMT_BUFFER_SIZE];
+ 	va_list args;
+@@ -91,7 +93,7 @@ static void process_fmt(const char *fmt, ...)
+ 	if (checkp(vsnprintf(buf, sizeof(buf), fmt, args)) >= sizeof(buf))
+ 		error("vsnprintf overflow: increase MAX_FMT_BUFFER_SIZE");
+ 
+-	process(buf);
++	process(cache, buf);
+ 	va_end(args);
+ }
+ 
+@@ -164,18 +166,28 @@ static char *get_fqn(Dwarf_Die *die)
+ 	return fqn;
+ }
+ 
+-static void process_fqn(Dwarf_Die *die)
++static void update_fqn(struct die *cache, Dwarf_Die *die)
++{
++	if (!cache->fqn)
++		cache->fqn = get_fqn(die) ?: "";
++}
++
++static void process_fqn(struct die *cache, Dwarf_Die *die)
+ {
+-	process(" ");
+-	process(get_fqn(die) ?: "");
++	update_fqn(cache, die);
++	if (*cache->fqn)
++		process(cache, " ");
++	process(cache, cache->fqn);
+ }
+ 
+-#define DEFINE_PROCESS_UDATA_ATTRIBUTE(attribute)                           \
+-	static void process_##attribute##_attr(Dwarf_Die *die)              \
+-	{                                                                   \
+-		Dwarf_Word value;                                           \
+-		if (get_udata_attr(die, DW_AT_##attribute, &value))         \
+-			process_fmt(" " #attribute "(%" PRIu64 ")", value); \
++#define DEFINE_PROCESS_UDATA_ATTRIBUTE(attribute)                          \
++	static void process_##attribute##_attr(struct die *cache,          \
++					       Dwarf_Die *die)             \
++	{                                                                  \
++		Dwarf_Word value;                                          \
++		if (get_udata_attr(die, DW_AT_##attribute, &value))        \
++			process_fmt(cache, " " #attribute "(%" PRIu64 ")", \
++				    value);                                \
+ 	}
+ 
+ DEFINE_PROCESS_UDATA_ATTRIBUTE(alignment)
+@@ -187,8 +199,9 @@ bool match_all(Dwarf_Die *die)
  	return true;
-@@ -93,6 +208,49 @@ int process_die_container(struct state *state, Dwarf_Die *die,
+ }
+ 
+-int process_die_container(struct state *state, Dwarf_Die *die,
+-			  die_callback_t func, die_match_callback_t match)
++int process_die_container(struct state *state, struct die *cache,
++			  Dwarf_Die *die, die_callback_t func,
++			  die_match_callback_t match)
+ {
+ 	Dwarf_Die current;
+ 	int res;
+@@ -197,7 +210,7 @@ int process_die_container(struct state *state, Dwarf_Die *die,
+ 	while (!res) {
+ 		if (match(&current)) {
+ 			/* <0 = error, 0 = continue, >0 = stop */
+-			res = checkp(func(state, &current));
++			res = checkp(func(state, cache, &current));
+ 			if (res)
+ 				return res;
+ 		}
+@@ -208,39 +221,78 @@ int process_die_container(struct state *state, Dwarf_Die *die,
  	return 0;
  }
  
-+static int process_type(struct state *state, Dwarf_Die *die);
-+
-+static void process_type_attr(struct state *state, Dwarf_Die *die)
-+{
-+	Dwarf_Die type;
-+
-+	if (get_ref_die_attr(die, DW_AT_type, &type)) {
-+		check(process_type(state, &type));
-+		return;
-+	}
-+
-+	/* Compilers can omit DW_AT_type -- print out 'void' to clarify */
-+	process("base_type void");
-+}
-+
-+static void process_base_type(struct state *state, Dwarf_Die *die)
-+{
-+	process("base_type");
-+	process_fqn(die);
-+	process_byte_size_attr(die);
-+	process_encoding_attr(die);
-+	process_alignment_attr(die);
-+}
-+
-+#define PROCESS_TYPE(type)                         \
-+	case DW_TAG_##type##_type:                 \
-+		process_##type##_type(state, die); \
-+		break;
-+
-+static int process_type(struct state *state, Dwarf_Die *die)
-+{
-+	int tag = dwarf_tag(die);
-+
-+	switch (tag) {
-+	PROCESS_TYPE(base)
-+	default:
-+		debug("unimplemented type: %x", tag);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * Exported symbol processing
-  */
-@@ -119,6 +277,7 @@ static void process_subprogram(struct state *state, Dwarf_Die *die)
- static int __process_variable(struct state *state, Dwarf_Die *die)
+-static int process_type(struct state *state, Dwarf_Die *die);
++static int process_type(struct state *state, struct die *parent,
++			Dwarf_Die *die);
+ 
+-static void process_type_attr(struct state *state, Dwarf_Die *die)
++static void process_type_attr(struct state *state, struct die *cache,
++			      Dwarf_Die *die)
  {
- 	process("variable ");
-+	process_type_attr(state, die);
+ 	Dwarf_Die type;
+ 
+ 	if (get_ref_die_attr(die, DW_AT_type, &type)) {
+-		check(process_type(state, &type));
++		check(process_type(state, cache, &type));
+ 		return;
+ 	}
+ 
+ 	/* Compilers can omit DW_AT_type -- print out 'void' to clarify */
+-	process("base_type void");
++	process(cache, "base_type void");
++}
++
++static void process_base_type(struct state *state, struct die *cache,
++			      Dwarf_Die *die)
++{
++	process(cache, "base_type");
++	process_fqn(cache, die);
++	process_byte_size_attr(cache, die);
++	process_encoding_attr(cache, die);
++	process_alignment_attr(cache, die);
+ }
+ 
+-static void process_base_type(struct state *state, Dwarf_Die *die)
++static void process_cached(struct state *state, struct die *cache,
++			   Dwarf_Die *die)
+ {
+-	process("base_type");
+-	process_fqn(die);
+-	process_byte_size_attr(die);
+-	process_encoding_attr(die);
+-	process_alignment_attr(die);
++	struct die_fragment *df;
++	Dwarf_Die child;
++
++	list_for_each_entry(df, &cache->fragments, list) {
++		switch (df->type) {
++		case FRAGMENT_STRING:
++			process(NULL, df->data.str);
++			break;
++		case FRAGMENT_DIE:
++			if (!dwarf_die_addr_die(dwarf_cu_getdwarf(die->cu),
++						(void *)df->data.addr, &child))
++				error("dwarf_die_addr_die failed");
++			check(process_type(state, NULL, &child));
++			break;
++		default:
++			error("empty die_fragment");
++		}
++	}
+ }
+ 
+-#define PROCESS_TYPE(type)                         \
+-	case DW_TAG_##type##_type:                 \
+-		process_##type##_type(state, die); \
++#define PROCESS_TYPE(type)                                \
++	case DW_TAG_##type##_type:                        \
++		process_##type##_type(state, cache, die); \
+ 		break;
+ 
+-static int process_type(struct state *state, Dwarf_Die *die)
++static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
+ {
++	struct die *cache;
+ 	int tag = dwarf_tag(die);
+ 
++	/*
++	 * If we have the DIE already cached, use it instead of walking
++	 * through DWARF.
++	 */
++	cache = die_map_get(die, DIE_COMPLETE);
++
++	if (cache->state == DIE_COMPLETE) {
++		process_cached(state, cache, die);
++		die_map_add_die(parent, cache);
++		return 0;
++	}
++
+ 	switch (tag) {
+ 	PROCESS_TYPE(base)
+ 	default:
+@@ -248,6 +300,11 @@ static int process_type(struct state *state, Dwarf_Die *die)
+ 		break;
+ 	}
+ 
++	/* Update cache state and append to the parent (if any) */
++	cache->tag = tag;
++	cache->state = DIE_COMPLETE;
++	die_map_add_die(parent, cache);
++
  	return 0;
  }
+ 
+@@ -258,14 +315,15 @@ static void process_symbol(struct state *state, Dwarf_Die *die,
+ 			   die_callback_t process_func)
+ {
+ 	debug("%s", state->sym->name);
+-	check(process_func(state, die));
++	check(process_func(state, NULL, die));
+ 	if (dump_dies)
+ 		fputs("\n", stderr);
+ }
+ 
+-static int __process_subprogram(struct state *state, Dwarf_Die *die)
++static int __process_subprogram(struct state *state, struct die *cache,
++				Dwarf_Die *die)
+ {
+-	process("subprogram");
++	process(cache, "subprogram");
+ 	return 0;
+ }
+ 
+@@ -274,10 +332,11 @@ static void process_subprogram(struct state *state, Dwarf_Die *die)
+ 	process_symbol(state, die, __process_subprogram);
+ }
+ 
+-static int __process_variable(struct state *state, Dwarf_Die *die)
++static int __process_variable(struct state *state, struct die *cache,
++			      Dwarf_Die *die)
+ {
+-	process("variable ");
+-	process_type_attr(state, die);
++	process(cache, "variable ");
++	process_type_attr(state, cache, die);
+ 	return 0;
+ }
+ 
+@@ -286,7 +345,8 @@ static void process_variable(struct state *state, Dwarf_Die *die)
+ 	process_symbol(state, die, __process_variable);
+ }
+ 
+-static int process_exported_symbols(struct state *unused, Dwarf_Die *die)
++static int process_exported_symbols(struct state *unused, struct die *cache,
++				    Dwarf_Die *die)
+ {
+ 	int tag = dwarf_tag(die);
+ 
+@@ -296,7 +356,7 @@ static int process_exported_symbols(struct state *unused, Dwarf_Die *die)
+ 	case DW_TAG_class_type:
+ 	case DW_TAG_structure_type:
+ 		return check(process_die_container(
+-			NULL, die, process_exported_symbols, match_all));
++			NULL, cache, die, process_exported_symbols, match_all));
+ 
+ 	/* Possible exported symbols */
+ 	case DW_TAG_subprogram:
+@@ -320,6 +380,6 @@ static int process_exported_symbols(struct state *unused, Dwarf_Die *die)
+ 
+ void process_cu(Dwarf_Die *cudie)
+ {
+-	check(process_die_container(NULL, cudie, process_exported_symbols,
++	check(process_die_container(NULL, NULL, cudie, process_exported_symbols,
+ 				    match_all));
+ }
+diff --git a/scripts/gendwarfksyms/gendwarfksyms.c b/scripts/gendwarfksyms/gendwarfksyms.c
+index 6fb12f9f6023..310cc9257d6e 100644
+--- a/scripts/gendwarfksyms/gendwarfksyms.c
++++ b/scripts/gendwarfksyms/gendwarfksyms.c
+@@ -43,6 +43,10 @@ static int process_module(Dwfl_Module *mod, void **userdata, const char *name,
+ 	debug("%s", name);
+ 	dbg = dwfl_module_getdwarf(mod, &dwbias);
+ 
++	/*
++	 * Look for exported symbols in each CU, follow the DIE tree, and add
++	 * the entries to die_map.
++	 */
+ 	do {
+ 		res = dwarf_get_units(dbg, cu, &cu, NULL, NULL, &cudie, NULL);
+ 		if (res < 0)
+@@ -53,6 +57,8 @@ static int process_module(Dwfl_Module *mod, void **userdata, const char *name,
+ 		process_cu(&cudie);
+ 	} while (cu);
+ 
++	die_map_free();
++
+ 	return DWARF_CB_OK;
+ }
+ 
+diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
+index a058647e2361..da0db7a0c093 100644
+--- a/scripts/gendwarfksyms/gendwarfksyms.h
++++ b/scripts/gendwarfksyms/gendwarfksyms.h
+@@ -89,6 +89,61 @@ void symbol_read_exports(FILE *file);
+ void symbol_read_symtab(int fd);
+ struct symbol *symbol_get(const char *name);
+ 
++/*
++ * die.c
++ */
++
++enum die_state {
++	DIE_INCOMPLETE,
++	DIE_COMPLETE,
++	DIE_LAST = DIE_COMPLETE
++};
++
++enum die_fragment_type {
++	FRAGMENT_EMPTY,
++	FRAGMENT_STRING,
++	FRAGMENT_DIE
++};
++
++struct die_fragment {
++	enum die_fragment_type type;
++	union {
++		char *str;
++		uintptr_t addr;
++	} data;
++	struct list_head list;
++};
++
++#define CASE_CONST_TO_STR(name) \
++	case name:              \
++		return #name;
++
++static inline const char *die_state_name(enum die_state state)
++{
++	switch (state) {
++	CASE_CONST_TO_STR(DIE_INCOMPLETE)
++	CASE_CONST_TO_STR(DIE_COMPLETE)
++	}
++
++	error("unexpected die_state: %d", state);
++}
++
++struct die {
++	enum die_state state;
++	char *fqn;
++	int tag;
++	uintptr_t addr;
++	struct list_head fragments;
++	struct hlist_node hash;
++};
++
++int __die_map_get(uintptr_t addr, enum die_state state, struct die **res);
++struct die *die_map_get(Dwarf_Die *die, enum die_state state);
++void die_map_add_string(struct die *pd, const char *str);
++void die_map_add_linebreak(struct die *pd, int linebreak);
++void die_map_add_die(struct die *pd, struct die *child);
++void die_map_free(void);
++
+ /*
+  * dwarf.c
+  */
+@@ -98,12 +153,14 @@ struct state {
+ 	Dwarf_Die die;
+ };
+ 
+-typedef int (*die_callback_t)(struct state *state, Dwarf_Die *die);
++typedef int (*die_callback_t)(struct state *state, struct die *cache,
++			      Dwarf_Die *die);
+ typedef bool (*die_match_callback_t)(Dwarf_Die *die);
+ bool match_all(Dwarf_Die *die);
+ 
+-int process_die_container(struct state *state, Dwarf_Die *die,
+-			  die_callback_t func, die_match_callback_t match);
++int process_die_container(struct state *state, struct die *cache,
++			  Dwarf_Die *die, die_callback_t func,
++			  die_match_callback_t match);
+ 
+ void process_cu(Dwarf_Die *cudie);
  
 -- 
 2.47.0.rc0.187.ge670bccf7e-goog
