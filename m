@@ -1,163 +1,202 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D06B213EF9
-	for <asahi@lists.linux.dev>; Tue,  8 Oct 2024 20:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E462215382F;
+	Wed,  9 Oct 2024 10:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728419889; cv=none; b=CueChFuX73cWn3l3n3QZf7eVCSzcf92wZVZ/6AekPP0OqCl3Ygmm+qc0j/FYPxVi3j8PN8O1qj3wPcEJ5iMv3N/y+VNVSNF/JfsThHK1oxVJ/qauG90vgh9ODKhtRG/TIwW8Da/wRGAQStPJGPzhhx92HPdF3n41m0yTpYJtXIQ=
+	t=1728469230; cv=none; b=En8kxkFTI1iN4fMB2IWKZtR53jXGMJUjF6VDggxbfh9PZO7ZLESvtKzVHF/wbhRh0JXkqsqDvKG4NHLY6HuGi2TIqRRPbv/wqmF3/vYLz+kxoDzRKl5C44dsIJis3S34z40LaOQYK+HDEnHwNldEg1rxQ88uGdi4s07xsd3V130=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728419889; c=relaxed/simple;
-	bh=jBKc56vBxPYaOUWcC+VFZKlnp8sdizUoPysD1KL2n2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VbNgBqefGw8viJrN5LUBcVr7fjhz4yNXhhrsFkRXTee+E7YSAzDhjzlTLykIPShOOMsPw9l8tVjs8l711kVlnkCKCQLY+iK/8VLIjTkIWiJYyw3eAJQMidQOyXkW3sHw6qmGpjoiRFHWfnS4HfBY9kGopdl+ySa4FQjO5MtAlnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=p9a6v0cu; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1728469230; c=relaxed/simple;
+	bh=ImAK0CpUwm+JPbTzbW7azTUBVNfLGbvl7aS7sfbdp0E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EFU4Eg0EVpfIPO32qoWIZJJiYtqmAbbq5v8BUboN4WK4Eh0I5SR4RjkU3G4wKbmh6MRr+L2zQBvcPzN0OOKD7tkdLbfAOyyiQ+wPoNLcIgdtP7o64QXcGMdo/S4kErcaA8qgPLEeeNIiwO8rTCrzi1p2WcZKu30z5IKI9uOhYPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sypaa8E4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="p9a6v0cu"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a83562f9be9so664687566b.0
-        for <asahi@lists.linux.dev>; Tue, 08 Oct 2024 13:38:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728419885; x=1729024685; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jBKc56vBxPYaOUWcC+VFZKlnp8sdizUoPysD1KL2n2Y=;
-        b=p9a6v0cuERVomugY10c7+XNqpHSOv9HtvWSZYTxl1EkrIPKq2mJzoWwR3X8QHfUhmD
-         9IY3jRcBh2W9W6RxBmLlSVjuPrcJQGeEpa8q2zOOjU6C5xf9EpL9iwaxBK1RTzmaj19h
-         lb10Lh+Tx0e97ODDSV0oRLvy/++0xQ9reOoBL8ioEuQizM7UhmbkLXyP+q00mH6VpdsJ
-         QLHumpgyRITuUzt2EJZtbTY1AtFLqt1yUkLVGipip2joBieND86BP1/HyV0WJRHvE22B
-         jfk3+cyUwDdm3YDJhxkgyhtFXFzlVzZ8iu1O1rvJ6MKqn5esYd2jZrQ21xH39D0pG4gs
-         5anA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728419885; x=1729024685;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jBKc56vBxPYaOUWcC+VFZKlnp8sdizUoPysD1KL2n2Y=;
-        b=fhwdPWg9I9O+gx0gMz2yoLeLGRCA8McX5Y4TSDYm0rNtKoRjQng+jkl6DNePgIdWwl
-         ZuhfzERKByvF18gOOm0RJyjsE2k/ki5mJ95SeEEuU+IxPZm8bA8Ln8gGiiUeVms/ytE+
-         M3wQ+4Lc3go15iwb8JZZNGQATNaERSzEFYKWQ5DfDJRXlfhHJf7YI0RkISy/1NBAeV1B
-         PyHn2+uXo6JXGjT9HDpm+ulhF4LOwlMDK5Ec0BFYoe2VYnz9AbJ+JQdur2zYsuMGypX6
-         p9y0lUUukw1ZhmLNZ2iw+0OAtEygrsyF42x2EW+4UYbWgLrxUFrUhsT2Th6tE9nrzjsY
-         FcFA==
-X-Forwarded-Encrypted: i=1; AJvYcCWsMfMxJi4IrVKQRdIWcJblcK8llrORlqheNJSy+ha1YylkEq4wLDrMec2AlPzuS4oV87BiCA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzD9jAFxoTzOZTI1fMBm81tqRxQdkB7T2oypPzvu8ZAzScSqc4L
-	N2oyer/q5oltWLn2cg45Ae8B64h6R+3RzS0i4kYRxLIWIvv3UYWQ+YdNCYe/AJo=
-X-Google-Smtp-Source: AGHT+IFQsuFQDnMORn6KRqls83kXMRALTmz1xji/Zv3nzyXsaV17OwyYMIY5gtZ7u9n9SjQRNHRlFg==
-X-Received: by 2002:a17:907:94d4:b0:a8d:250a:52b2 with SMTP id a640c23a62f3a-a998d114bbemr3268366b.6.1728419884897;
-        Tue, 08 Oct 2024 13:38:04 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:c420:a9b6:c5e1:5b65])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a996274deeesm196971266b.103.2024.10.08.13.38.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 13:38:04 -0700 (PDT)
-Date: Tue, 8 Oct 2024 22:38:02 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	nouveau@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org, 
-	linux-iio@vger.kernel.org, linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
-	iommu@lists.linux.dev, imx@lists.linux.dev, linux-mediatek@lists.infradead.org, 
-	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
-	asahi@lists.linux.dev, rafael@kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-Message-ID: <ttmnzgsdyng5vab63pvj7csrotbsmwnultjelvdotrvyg2snac@iv7afgect5f3>
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sypaa8E4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68D84C4CECC;
+	Wed,  9 Oct 2024 10:20:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728469229;
+	bh=ImAK0CpUwm+JPbTzbW7azTUBVNfLGbvl7aS7sfbdp0E=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Sypaa8E4XTR2h+6vO973S9djHACjIXek0KLq783ADF8tNtOe1bMZrJFf0zlt8+zSs
+	 OLRAtppFEIb5Ic0mWDNDYNRaI6e9/Z7vBQGyOQ8guZklNp3J6lYVvOJPY0Nte+XhtF
+	 xT1b91GGI33rYAt7gxwLcB1d3y1SBKs6bb4MxTTF1y6tGBweQi8zO12oDVI1/KpONI
+	 bOJQtQv0XV690wHla57wDR2aHvoM6Up16kaIYdw6AVyfMWDvtpnERh2dLqJ6WBvkYw
+	 EhkKXnH7yqObLqkMathJ5jYncRSwZXMHxI2dTYJuZPN1g66Yyks/L1YgZFWJ7ipDTo
+	 JPDgtbBAM36Bg==
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5e800d4e462so797600eaf.1;
+        Wed, 09 Oct 2024 03:20:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVinlevMCzEulCL0IYfyggObbgICMRWXHoAxpN1gKe4PV0cWQLMyMS2QhioL+8vY/srO1Au@lists.linux.dev, AJvYcCWPEM6yN4WtxsWMbyLTvKxULxAZ1LYzHvE6+Fg9NoZGciJkv5SfRQ1L2MTTZL6Fmr6wCLUvJnU=@lists.linux.dev, AJvYcCX7mM3n3tTxynnDXwyD5AjhOostTGv6eIOKwrMzsU2kmfFf9aHf8xfRJ2vUV+Ir6eKYboluHA==@lists.linux.dev, AJvYcCXZAWsMUP2mUQHyD8OG08ScapfM1WTRbX/E/oL+eK+A+mVpLWaL0drh0aAxfOCM5k0Mk+jUH7vxfZoRB4LUZg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywga73iomWKvwpUs2I9nK/1zcFsAVP3n3PpMp4HGJGO6M11Iee2
+	wWLoKO/BYXealQzKa7UmdIk9lOqRGWSjzElc029fVCXVl0dryI1WoEmdg2O113Vs62FxN59XNrU
+	ObrOpGvgoENpKCedXeIYXyEC46Xo=
+X-Google-Smtp-Source: AGHT+IF28e1A9mtOEy4wCWwLUrfMAFq/4+DT8Vi41Eljnp8AjlauSlJofg4NJprxAH2sFsPScvE36aWo6OHCPjXQ49c=
+X-Received: by 2002:a05:6820:270f:b0:5e7:c925:b05 with SMTP id
+ 006d021491bc7-5e987aadf58mr1212364eaf.2.1728469228716; Wed, 09 Oct 2024
+ 03:20:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2ocqjla6tcmukjn3"
-Content-Disposition: inline
-In-Reply-To: <20241007184924.GH14766@pendragon.ideasonboard.com>
-
-
---2ocqjla6tcmukjn3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
+ <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
+ <20241007184924.GH14766@pendragon.ideasonboard.com> <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
+ <20241007222502.GG30699@pendragon.ideasonboard.com> <CAPDyKFrGNwna6Y2pqSRaBbRYHKRaD2ayqQHLtoqLPOu9Et7qTg@mail.gmail.com>
+ <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
+In-Reply-To: <CAJZ5v0jvJyS7D5-wURi2kyWN-rmNa+YqupeQJ000pQRVd9VBcQ@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 9 Oct 2024 12:20:16 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0htLbrFeby43Ycqpaihqd4x56MokC9sTVRBmTTQSX7vmQ@mail.gmail.com>
+Message-ID: <CAJZ5v0htLbrFeby43Ycqpaihqd4x56MokC9sTVRBmTTQSX7vmQ@mail.gmail.com>
+Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
+To: Ulf Hansson <ulf.hansson@linaro.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	nouveau@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
+	linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
+	linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
+	iommu@lists.linux.dev, imx@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, 
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
+	linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
+	asahi@lists.linux.dev, Andy Shevchenko <andy.shevchenko@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-On Mon, Oct 07, 2024 at 09:49:24PM +0300, Laurent Pinchart wrote:
-> On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus <sakari.ailus@linux.intel.com=
+On Tue, Oct 8, 2024 at 8:24=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.org=
 > wrote:
+>
+> On Tue, Oct 8, 2024 at 12:35=E2=80=AFAM Ulf Hansson <ulf.hansson@linaro.o=
+rg> wrote:
+> >
+> > On Tue, 8 Oct 2024 at 00:25, Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
 > > >
-> > > Hello everyone,
+> > > Hi Ulf,
 > > >
-> > > This set will switch the users of pm_runtime_put_autosuspend() to
-> > > __pm_runtime_put_autosuspend() while the former will soon be re-purpo=
-sed
-> > > to include a call to pm_runtime_mark_last_busy(). The two are almost
-> > > always used together, apart from bugs which are likely common. Going
-> > > forward, most new users should be using pm_runtime_put_autosuspend().
+> > > On Tue, Oct 08, 2024 at 12:08:24AM +0200, Ulf Hansson wrote:
+> > > > On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart wrote:
+> > > > > On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
+> > > > > > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus wrote:
+> > > > > > >
+> > > > > > > Hello everyone,
+> > > > > > >
+> > > > > > > This set will switch the users of pm_runtime_put_autosuspend(=
+) to
+> > > > > > > __pm_runtime_put_autosuspend() while the former will soon be =
+re-purposed
+> > > > > > > to include a call to pm_runtime_mark_last_busy(). The two are=
+ almost
+> > > > > > > always used together, apart from bugs which are likely common=
+. Going
+> > > > > > > forward, most new users should be using pm_runtime_put_autosu=
+spend().
+> > > > > > >
+> > > > > > > Once this conversion is done and pm_runtime_put_autosuspend()=
+ re-purposed,
+> > > > > > > I'll post another set to merge the calls to __pm_runtime_put_=
+autosuspend()
+> > > > > > > and pm_runtime_mark_last_busy().
+> > > > > >
+> > > > > > That sounds like it could cause a lot of churns.
+> > > > > >
+> > > > > > Why not add a new helper function that does the
+> > > > > > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy(=
+)
+> > > > > > things? Then we can start moving users over to this new interfa=
+ce,
+> > > > > > rather than having this intermediate step?
+> > > > >
+> > > > > I think the API would be nicer if we used the shortest and simple=
+st
+> > > > > function names for the most common use cases. Following
+> > > > > pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is =
+that
+> > > > > most common use case. That's why I like Sakari's approach of repu=
+rposing
+> > > > > pm_runtime_put_autosuspend(), and introducing
+> > > > > __pm_runtime_put_autosuspend() for the odd cases where
+> > > > > pm_runtime_mark_last_busy() shouldn't be called.
+> > > >
+> > > > Okay, so the reason for this approach is because we couldn't find a
+> > > > short and descriptive name that could be used in favor of
+> > > > pm_runtime_put_autosuspend(). Let me throw some ideas at it and may=
+be
+> > > > you like it - or not. :-)
 > > >
-> > > Once this conversion is done and pm_runtime_put_autosuspend() re-purp=
-osed,
-> > > I'll post another set to merge the calls to __pm_runtime_put_autosusp=
-end()
-> > > and pm_runtime_mark_last_busy().
-> >=20
-> > That sounds like it could cause a lot of churns.
-> >=20
-> > Why not add a new helper function that does the
-> > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy()
-> > things? Then we can start moving users over to this new interface,
-> > rather than having this intermediate step?
->=20
-> I think the API would be nicer if we used the shortest and simplest
-> function names for the most common use cases. Following
-> pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is that
-> most common use case. That's why I like Sakari's approach of repurposing
-> pm_runtime_put_autosuspend(), and introducing
-> __pm_runtime_put_autosuspend() for the odd cases where
-> pm_runtime_mark_last_busy() shouldn't be called.
+> > > I like the idea at least :-)
+> > >
+> > > > I don't know what options you guys discussed, but to me the entire
+> > > > "autosuspend"-suffix isn't really that necessary in my opinion. The=
+re
+> > > > are more ways than calling pm_runtime_put_autosuspend() that trigge=
+rs
+> > > > us to use the RPM_AUTO flag for rpm_suspend(). For example, just
+> > > > calling pm_runtime_put() has the similar effect.
+> > >
+> > > To be honest, I'm lost there. pm_runtime_put() calls
+> > > __pm_runtime_idle(RPM_GET_PUT | RPM_ASYNC), while
+> > > pm_runtime_put_autosuspend() calls __pm_runtime_suspend(RPM_GET_PUT |
+> > > RPM_ASYNC | RPM_AUTO).
+> >
+> > __pm_runtime_idle() ends up calling rpm_idle(), which may call
+> > rpm_suspend() - if it succeeds to idle the device. In that case, it
+> > tags on the RPM_AUTO flag in the call to rpm_suspend(). Quite similar
+> > to what is happening when calling pm_runtime_put_autosuspend().
+>
+> Right.
+>
+> For almost everybody, except for a small bunch of drivers that
+> actually have a .runtime_idle() callback, pm_runtime_put() is
+> literally equivalent to pm_runtime_put_autosuspend().
+>
+> So really the question is why anyone who doesn't provide a
+> .runtime_idle() callback bothers with using this special
+> pm_runtime_put_autosuspend() thing, which really means "do a
+> runtime_put(), but skip my .runtime_idle() callback".
+>
+> > >
+> > > >
+> > > > Moreover, it's similar for pm_runtime_mark_last_busy(), it's called
+> > > > during rpm_resume() too, for example. So why bother about having
+> > > > "mark_last_busy" in the new name too.
+> > > >
+> > > > That said, my suggestion is simply "pm_runtime_put_suspend".
+> > >
+> > > Can we do even better, and make pm_runtime_put() to handle autosuspen=
+d
+> > > automatically when autosuspend is enabled ?
+> >
+> > As stated above, this is already the case.
+>
+> What really is needed appears to be a combination of
+> pm_runtime_mark_last_busy() with pm_runtime_put().
+>
+> Granted, pm_runtime_put() could do the pm_runtime_mark_last_busy()
+> thing automatically if autosuspend is enabled and the only consequence
+> of it might be delaying a suspend of the device until its autosuspend
+> timer expires, which should not be a problem in the vast majority of
+> cases.
 
-That's ok for me. However this patch series isn't the optimal path to
-there because most drivers (i.e. those that already today do
-pm_runtime_mark_last_busy() in combination with
-pm_runtime_put_autosuspend()) have to be patched twice.
+That said, it is likely better to avoid surprising the current users
+of pm_runtime_put() and define something like
 
-The saner route is: Only convert the drivers with a sole
-pm_runtime_put_autosuspend() (i.e. without pm_runtime_mark_last_busy())
-to __pm_runtime_put_autosuspend(). Then add the mark_last_busy() bits to
-pm_runtime_put_autosuspend() and then drop the explicit calls to
-pm_runtime_mark_last_busy() before pm_runtime_put_autosuspend().
-
-(Note this doesn't take into account Rafael's position that
-pm_runtime_put() might be the saner option. My argument applies for that
-conversion analogously.)
-
-Best regards
-Uwe
-
---2ocqjla6tcmukjn3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmcFmCEACgkQj4D7WH0S
-/k6xnwf/QOZhbtT562rFFa3JIiBatDxTcqyEXoXClrP7jSyQFY/VFzq2S2jRHOFt
-wM6zQUX1bTUqDtC4HozJIbQDjLxd3qFgc5RoTRLV8VhRJbcq9cOo5Nf1h4KJ5Ip9
-nhpzoHwUHoEjEHj1f9UvEWfnFAVCSLFxgb14ZDHZyb2pQue3G5OYI2f2cJYT8YVB
-xQktDFp7rUu4xWDTzoIxNKvR1Ipy5fGxdf9R2/+IQhW64sWuDG2ZH6tAmfn6mEb8
-ecspbesJx+NMbZ06Zl7wqBvyj/DpQGgPaCnWUQ5cI0Of/kOzqxh4+65JK68CLLs0
-/Goin2zz55IZITGC5zHuAA07bW/c7Q==
-=7Wup
------END PGP SIGNATURE-----
-
---2ocqjla6tcmukjn3--
+static inline void pm_runtime_touch_and_put(struct device *dev)
+{
+        pm_runtime_mark_last_busy(dev);
+        pm_runtime_put(dev);
+}
