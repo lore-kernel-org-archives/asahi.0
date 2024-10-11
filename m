@@ -1,112 +1,168 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5721C34CDE;
-	Fri, 11 Oct 2024 22:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C835119FA9D;
+	Fri, 11 Oct 2024 23:42:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728685983; cv=none; b=jCZ44LEszLqD+xN/gwGstZp4x3LRLQ92sjiH/3gLJxc7SNzMp53DdJ7llWoJt+7e3n/CmYZk46nCpMehr8i2BDF1+5uk86MD5jXi3ZC4NjAnlNlf7pBj8tzFhsq4LUd1egdLA+uQnXahVYruE6SJ095Xr9X3AN93zRRXGlSCV6g=
+	t=1728690124; cv=none; b=AdiXLJ66Ba880bWNCoFZddzl8rmOiH5f+bxUNfz/PXMJD2kz3NHlyrcbNZETU9Jm1A//FJyxrqUD/diB9PNVtUR7fZ0L19TPnkHDeO2UNi2bXhkNQ57AvLQGVRWRT7GWdTZj9fcanQUQZXnXv2z4t1Uki87xYlsxf8lOvXkdhOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728685983; c=relaxed/simple;
-	bh=Flv0GRLdeQ1gSwjTyDQi9TrDRlUCwbdIuIXC2XemiYg=;
+	s=arc-20240116; t=1728690124; c=relaxed/simple;
+	bh=R39JaxW1hWMiERYBsLUUIBA7/wMrOZf41oA2EiVycds=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rPKJxW4h4FS5H+Hwm5KuSg1j0AQsWIh+5iQjuBXZlHIaj2f2BI5eWIMb0iFimKVpqAv6D0VMKauy3ycpco29BH6J01dgekF/pQuQNoNBo6ybsn1VRsGABLJr9fPA+5L2zI+0wVDA+C/u2xdXELElF4wEJCMbbu7daSRYruYF8uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UltoW1bQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VNh0rWxAB7+A3FP4tilZG9UK0jxNmhIX3bFG6M3vLPu2F7KShpZxPJL6sNth22e6U24MyDV/w5B3uSIJUAKtld0397YI+2yRezNezODal/SBOyKDoRhoNmv/z0kfCas1aiUyKKNXOKjUcCYYqljEiFkAAS73CXcpk6q5Uoe8ULI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ali6+h0q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UltoW1bQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CBACC4CEC3;
-	Fri, 11 Oct 2024 22:33:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ali6+h0q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE71BC4CEC3;
+	Fri, 11 Oct 2024 23:42:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728685982;
-	bh=Flv0GRLdeQ1gSwjTyDQi9TrDRlUCwbdIuIXC2XemiYg=;
+	s=k20201202; t=1728690124;
+	bh=R39JaxW1hWMiERYBsLUUIBA7/wMrOZf41oA2EiVycds=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UltoW1bQhYsLEoAMKIMx73Un2N6BQyTAqiDcMjWtFMWm+EC89r2nG3jWEDkIUitKx
-	 xGmutP8SJsm2LRNo9e1HQMqCiPs9bwKHHzwni7XZ9+aVTj1WCClWpaFQ13670kp1aQ
-	 WdkadD19Kz2UEXKDu6/gszCksgxGKQL2oO2VsAW5SX0tLOWKDnmLvDlrC58Hwfymls
-	 e+RQxQlhH6O09tJfVGm/wowj2g/Kpcxu+1TiNujUaVEiSl3WWv0z72NHqYj1KjwTVy
-	 Z8/3k+m0ngf3MKY28cuCVKRDFvkGY0LCBYST1yZuLhzNSgPpZzzWx2gsIT7eNhukYj
-	 vH8ndhGsm2TPQ==
-Date: Fri, 11 Oct 2024 15:33:00 -0700
+	b=ali6+h0qTYeUPbTrxI6//H8Ywf9wvK81zfp8uG1dS93qGyfyp/ZPQo74bNitFtJ66
+	 cXiTUv+TO5lDoWQFnJapd9vq10yys76l4BCcag76bh3tEGF2W/8bmaaLv4w3tz9h+x
+	 RO1KFW4akKVSzEkHSdUAmYKAUL49JM54p6E8uWEC58XFEP0Nu2v1cN+94K7IUPDQnd
+	 XYEeDzY3cT/hCMzM4BwS5kBJi7rBIsNQ0JKuE+LKSeA3SmwYv+ytGtJDAc6XV6xjcb
+	 ak55JBj28kmKKtHoT/FdUejyewfQukSMTXko8RD5l6S4xY7PvIKfKiiReT3DVNKjF4
+	 rbl7tq3896CGQ==
+Date: Fri, 11 Oct 2024 16:42:02 -0700
 From: Luis Chamberlain <mcgrof@kernel.org>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
-	gary@garyguo.net, Michael Ellerman <mpe@ellerman.id.au>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Benjamin Gray <bgray@linux.ibm.com>,
-	Naveen N Rao <naveen@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	neal@gompa.dev, marcan@marcan.st, j@jannau.net,
-	asahi@lists.linux.dev, linux-modules@vger.kernel.org,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
+To: Sami Tolvanen <samitolvanen@google.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthew Maurer <mmaurer@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
 	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v5 14/16] modules: Support extended MODVERSIONS info
-Message-ID: <ZwmnnMmqVWLaelvQ@bombadil.infradead.org>
-References: <20240925233854.90072-1-mmaurer@google.com>
- <20240925233854.90072-15-mmaurer@google.com>
- <ZwmlEYdS0aPVF32k@bombadil.infradead.org>
- <CAGSQo01o4fWYwSzZHX5dyTUKcaCSZ7z-hPQ8w63tgBPGbM_UCA@mail.gmail.com>
+	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Asahi Linux <asahi@lists.linux.dev>,
+	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	Konstantin Ryabitsev <mricon@kernel.org>
+Subject: Re: [PATCH v4 00/19] Implement DWARF modversions
+Message-ID: <Zwm3ykuiyI3ugr44@bombadil.infradead.org>
+References: <20241008183823.36676-21-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGSQo01o4fWYwSzZHX5dyTUKcaCSZ7z-hPQ8w63tgBPGbM_UCA@mail.gmail.com>
+In-Reply-To: <20241008183823.36676-21-samitolvanen@google.com>
 
-On Fri, Oct 11, 2024 at 03:27:30PM -0700, Matthew Maurer wrote:
-> On Fri, Oct 11, 2024 at 3:22 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> >
-> > On Wed, Sep 25, 2024 at 11:38:29PM +0000, Matthew Maurer wrote:
-> > > Adds a new format for MODVERSIONS which stores each field in a separate
-> > > ELF section. This initially adds support for variable length names, but
-> > > could later be used to add additional fields to MODVERSIONS in a
-> > > backwards compatible way if needed. Any new fields will be ignored by
-> > > old user tooling, unlike the current format where user tooling cannot
-> > > tolerate adjustments to the format (for example making the name field
-> > > longer).
-> > >
-> > > Since PPC munges its version records to strip leading dots, we reproduce
-> > > the munging for the new format. Other architectures do not appear to
-> > > have architecture-specific usage of this information.
-> > >
-> > > Signed-off-by: Matthew Maurer <mmaurer@google.com>
-> >
-> > I'm all for the ELF validation work so far, all that was nice, thanks
-> > for all that tidying up. This however is not considering when we really
-> > need all this at all, and not making it specific to the build times when
-> > such things are needed. That is, yes I'd like to see the need for this
-> > clearly explicitly defined through Kconfig, a *select FOO_FEATURE* for
-> > when this is needed. No need to extend a module with bloat if we don't
-> > need it, likewise if a kernel was built without needing those things,
-> > why bloat the modules with the extra information?
+On Tue, Oct 08, 2024 at 06:38:24PM +0000, Sami Tolvanen wrote:
+> Hi,
 > 
-> To make sure I understand what you're asking for, are you suggesting:
-> 1. A config flag for supporting parsing the extended format
-> 2. A config flag for supporting parsing the existing format
-> 3. A config flag for putting the extended format into produced modules
-> 4. A config flag for putting the existing format into produced modules
-> or some combination of the above?
-> 
-> I'm currently reading this as #3, but figured I'd ask to be certain.
+> Here's v4 of the DWARF modversions series. The main motivation is
+> modversions support for Rust, which is important for distributions
+> like Android that are about to ship Rust kernel modules. Per Luis'
+> request [1], v2 dropped the Rust specific bits from the series and
+> instead added the feature as an option for the entire kernel.
 
-3), but if your kernel build does not require these extra things, then
-a simple if !(IS_ENABLED) sanity check could be put in place to avoid
-processing the information if the kernel didn't need it. It's a one line
-change. So at run time, we build the same kernel with all that code in,
-but it makes no sense to be processing modules with that stuff if
-kernels did not need it.
+I think its important to mention *rationale* why I recommended it, it
+let's you more broadly test coverage / support with tooling so that its
+not just Rust modules which tooling will have to support. It gives the
+option to have *one* unified way to do things. Not "rust is special",
+oh no, do this instead. This also allows us to empirically evaluate
+if this new solution also has benefits. If so what should we look out
+for, metrics, etc. If there are proven benefits, then by all means
+why not make the the default.
+
+> Matt is
+> addressing Rust modversion_info compatibility issues in a separate
+> series [2], and we'll follow up with a patch to actually allow
+> CONFIG_MODVERSIONS with Rust once everything else has been sorted
+> out.
+
+So this depends on that work? What's the ordering of things? That work
+seems to be aimed at addressing long symbols, and that is also
+generically useful, and there were odd old hacks for that for LTO.
+Bring the patch reviewer with you, as they may not have all the
+background.
+
+> Short background: Unlike C, Rust source code doesn't have sufficient
+> information about the final ABI, as the compiler has considerable
+> freedom in adjusting structure layout, for example, which makes
+> using a source code parser like genksyms a non-starter. Based on
+> earlier feedback, this series uses DWARF debugging information for
+> computing versions. DWARF is an established and a relatively stable
+> format, which includes all the necessary ABI details, and adding a
+> CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
+> reasonable trade-off.
+
+I think its important to state that most distributions enable CONFIG_DEBUG_INFO
+already, so this means Rust modules won't be asking much more from
+distributions.
+
+> The first patch moves the genksyms CRC32 implementation to a shared
+> header file and the next 15 patches add gendwarfksyms, a tool for
+> computing symbol versions from DWARF.
+
+In case I find issues with this patch series, let's split up the patches
+in the next iteration by two sets, one which is the cleanups,  moves,
+and non functional changes, and then a seprate set with the actual
+changes needed. This let's us carry on faster so I can apply the first
+set.
+
+> When passed a list of exported
+> symbols and object files, the tool generates an expanded type string
+> for each symbol and computes symbol CRCs similarly to genksyms.
+> gendwarfksyms is written in C and uses libdw to process DWARF.
+
+OK so a new lib dependency at build time. What if that's not present?
+
+> Patch
+> 17 ensures that debugging information is present where we need it,
+> patch 18 adds gendwarfksyms as an alternative to genksyms, and the
+> last patch adds documentation.
+> 
+> v4 is based on v6.12-rc2 and for your convenience the series is also
+> available here:
+> 
+> https://github.com/samitolvanen/linux/commits/gendwarfksyms-v4
+
+Thanks! OK so I'd like to see next test coverage.
+
+The below is more modules maintainer homework we have to do, if you're
+not a modules maintainer or not interested in CI stuff you can stop
+reading now:
+
+We don't have much but for testing of modules, we have lib/test_kmod and
+tools/testing/selftests/kmod/kmod.sh. kdevops now has 'make
+kdevops-seltests-kmod', a respective cli defconfig is available to
+allow github actions to run kdevops on a self-hosted runner too. We
+already have modules tree integration with kernel-patch-daemon (KPD)
+[0] [1], there's two parts to this integration to patchwork. The first is the
+stuff you need to run a github self-hosted runner to test modules with
+kdevops [2], one can just take that into a random Linux kernel git tree
+and merge push it into github to trigger your own self hosted runner.
+That's what KPD does, and in effect its visible [3].
+
+I'm currently working on the security policies on the linux-kdevops org
+to ensure I can trust the pushes to the linux-modules-kpd tree, but
+you should be able to now. Once I block random people from sending PR
+or pushes to the tree we can run CI on that tree by you just having to push.
+
+But the current coverage sucks.
+
+Luca noted we can run the kmod git tree meson test but the preload
+stuff needs to be fixed so we can actually run all the test on that
+tree on a VM [4].
+
+Given all the work you are doing, the next thing is to add tests. 
+We should also add the kmod git tree to kdevops and just run the meson
+test once we can get the module tests to actually run on the VM.
+
+[0] https://github.com/facebookincubator/kernel-patches-daemon
+[1] https://patchwork.kernel.org/project/linux-modules/list/
+[2] https://github.com/linux-kdevops/kdevops-ci-modules
+[3] https://github.com/linux-kdevops/linux-modules-kpd
+[4] https://github.com/kmod-project/kmod/blob/master/.github/workflows/main.yml#L92-L98
 
   Luis
