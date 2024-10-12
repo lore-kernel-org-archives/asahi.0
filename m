@@ -1,185 +1,136 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4E664A
-	for <asahi@lists.linux.dev>; Sat, 12 Oct 2024 00:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DBD28370
+	for <asahi@lists.linux.dev>; Sat, 12 Oct 2024 15:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728693064; cv=none; b=JjIxNegKMUkPI+hBOC1TjXLwa5PhS/33hdxN1RyTI2rYmx+nyZo4wMkxk/4om1HfIHydpToT0DslE0Tv46auVJRgqp3eeO/njMJ67/WhAdUNBB0PkD6xE4unmjYOpe/0ZjhTBlr19tiinu7IYnhnRaV8B50WAat3HVFApDlk0aA=
+	t=1728748276; cv=none; b=GwNUcd6o0JXfn6Ozy4GwN4UnFL9wtSlxdIGwPBEM3Tm/mtPjxpYa99+vat6o6SqKS5qoYZ/R10gT5czuciDtF3W4d599lMEXjT4EhLgEPWNpVGI88ygIOnU948R0gVxIy8+//NTMZu4I88jXCVUK4pzuX01G/g1VoH2fsTaPg/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728693064; c=relaxed/simple;
-	bh=abPuDlGAZOCwFmBDPYtgCz/VJjFeLYN9OPEzocR2J2U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ISJpN3qOKMXdwoiILvGAlHugVhWAjO/AbWWx5t06/EqvZqwEadtl89e1LYVEEuteQi+tUxzCsUHGkmH81nWpMtyw5JM+p0jdxtxEd1uLynXFZZy2+1tbz9xqHFst/ijFwIfXXf315vydtkjxeTUc7Ve/yM8vwBp4o0Uj1dRZ1mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NPoV2ge0; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1728748276; c=relaxed/simple;
+	bh=QBxVjb4xRiX48s/vvPsUP77nS6zHCypmpcnHVq4sh5g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TF/TCzOP2RVZ6clbQZ8uYZsRlQqlI6UX9KU2sQEMJnT0EzuZVcWf0jrTAXZ7Mv60JpslkA+JUMB2+EIMSrbdxDjkLV3uAqJgsUCng4FAn7JExNTqOSHc9/jBoGX6f7VEpOJaze/A/Gvq60oYFClhPtjfVWkO4RyeuXHvlu/V2W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HE/fT+4T; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NPoV2ge0"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-45fb0ebb1d0so49001cf.1
-        for <asahi@lists.linux.dev>; Fri, 11 Oct 2024 17:31:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HE/fT+4T"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20b90984971so28688925ad.3
+        for <asahi@lists.linux.dev>; Sat, 12 Oct 2024 08:51:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728693062; x=1729297862; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sJGsN3O4dmgvmvJTfWN1EB6FV9LDR+z6vamKRwbxBD4=;
-        b=NPoV2ge01dwzAAwu7CTwbP2Hqkx+QDFoWsiAplwodrLlCotp3E0D3JZK0nhl5+U145
-         fjGCn1P27/8L6C7hlUBO2uaE2S9PDYGcxjf8y5LwlLYPNlljX73L/XuSNx8fFi11Npid
-         1Xhn0qlCpvVPf0U2NOdN/rPRi96PvVakWsJYnGSYdJRujCdyM3RnZcvqx9hg3C6ZsoUT
-         UHbg6hYgeA+ZZ94hqEhxAQh+zeErbYZhOMCakteYl8AsKRs+T4GQc/igoD+OLAAqOPXw
-         gHzmip7Z/97TPISTxjogcnJ9X1368Seyse8gwLv5NIxseAy1YrCFiKJ8UeKslMYNaPYv
-         +EGQ==
+        d=gmail.com; s=20230601; t=1728748275; x=1729353075; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=nJuoVXcq5OgkJxuGdK+lNycEnFkCD62lKHCaH9k3Dm0=;
+        b=HE/fT+4Tn8zSSg0In8IPTjGw4S2bPYN9s5Pq6v9pnIMQbQ7v9Wjjp7febe6IZ+Izre
+         xpdpH8JjvjZp1tvt1Fp9TIh10ZaQ3TgXXoJe1i+Xjx85gTfXi5rNGY3EZ7wwhye2FDeq
+         XixkdlO+bDUabqqbbvDNiluGC/U+3IcEomTze8gs0rCsp0D9IQvBSpUuqG0aec+UC8/z
+         kL0wSWdrvBGHEsrx0rKKwsA65Mo1gmG6vsKXgKG7vfWIFdjx9nXjYdmkYIhjXg0+jc9E
+         8lzPQRs0OgMcio7DM+FDr4jJSZbdiGUdZGZ2IGXEEH/wnFE3JgEC5uauOhSt+8iOU5bS
+         b8ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728693062; x=1729297862;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sJGsN3O4dmgvmvJTfWN1EB6FV9LDR+z6vamKRwbxBD4=;
-        b=aHoFLh7YgzuFbP8TJWYPbiWZGuoLjN3gicDa4MoDSk6HQBPX0j54GNavDdHxMDgc4I
-         Zid90IRV3/LLtnft3/3/+3dds/Rtir9aWkA+kwAAcVa0bPmlXa5IDMnJaOnQ1VYAoowt
-         8Lb90t/IIHn8S/JOHG8uvnYTHZvkjQzggw41wsL7m3maVqs+h6IaMDUMy5Q3TjSXZKXg
-         YkJRAOdthhLQLHgx1cBSn+aKknNjq5ZHdJU8enjEYv7ZT+2FY1zz4ebmhn092rTJBOKB
-         F47MooAb1YyJlYqw2irI/ThtmHNt5LbWEgn5yNB7XYFMYUY9N/IJ0LgsWoniVa2ZGcAt
-         kNTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUfEd02Kmuzyvk7CHFfe/uTWigbDwYhB9+sRUvOi6DTe8EniqJgjCa4CoC3OYTg1yVsU8bixg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmFNjT4ntSNL+6tailXcjvw2bbsX5NqMT7B1I8syRO/cJ0r+jq
-	WDv9o05y5kynQ/QcXfRYiBppOneqPLqOCrsFNRgrPNthAYiv4YSlqvGAP1xc6qyRxpYKz9+UMM6
-	v3ZNrnicGnyS2cMrAoObr47AvD+OgJst9FQmu
-X-Google-Smtp-Source: AGHT+IF62uzsrTbog5umzZidYkR3ujw904388lXiegQU7aUwsewaU31QThGqPwmYjMh9iiWNwOimm89BXflxS19eetw=
-X-Received: by 2002:a05:622a:768e:b0:458:14dd:108b with SMTP id
- d75a77b69052e-46059c44444mr506521cf.13.1728693061828; Fri, 11 Oct 2024
- 17:31:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728748275; x=1729353075;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nJuoVXcq5OgkJxuGdK+lNycEnFkCD62lKHCaH9k3Dm0=;
+        b=i0lgcH3uQrtDW3Tm8T1mA9VMYv7EzYY0Pc70mPElPuaG1p5DWfQmJaLfFUc1/Xd/EV
+         LjmhxMHYyyBnXKPl+OkZbnJxQPuQANkM0gcfjyeM9d85DwW2m+pDTv6wCkNFxa/2Wiyh
+         RvUgbBXDiwBAHpMLv5VAidvuWwB04tOlJD4aAHL8my3f/UAhFVjOCCy10crcPaqDylPz
+         VKiglbdNPvi8oS6hWC0dXjofgGnYaRGVziLap5YeartNhD5w0NswUMlhts3ZryyKVacl
+         epoipGzl4qCngaxKYbWJYj63v4Fhuc/krEBKXAT9+WQ2km2DTIp747Ca73CQBDAghmJP
+         hzRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUldqZj/7ZXTBlxm7fRASQ4f8QX8idTgfv3GUmpyMDzPaw7iLigX3gDQAXQ5Qi09JOWCIHZ6A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywlf/Qmcn4F+U9YXVZsh0dx4Wivjh3j71oFQ2bzkpXWw9+0VInk
+	w93iElsGqPaSfyF0oydlp0Ly41biHX6zJad+vasC+Vmj49y4Lb1R
+X-Google-Smtp-Source: AGHT+IFhz4oOU4lWNGVF0APyrWUONmSyO4oWfYSnoTt0cmiYrE9tYiSHPfuf/fABxEjHG+AvdUnRdg==
+X-Received: by 2002:a17:902:f549:b0:20b:7ec0:ee24 with SMTP id d9443c01a7336-20ca142a131mr105942135ad.9.1728748274880;
+        Sat, 12 Oct 2024 08:51:14 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c8bada634sm38606355ad.5.2024.10.12.08.51.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Oct 2024 08:51:14 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <82433add-b157-4cb8-81f6-0dad6c49dfc7@roeck-us.net>
+Date: Sat, 12 Oct 2024 08:51:12 -0700
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241008183823.36676-21-samitolvanen@google.com> <Zwm3ykuiyI3ugr44@bombadil.infradead.org>
-In-Reply-To: <Zwm3ykuiyI3ugr44@bombadil.infradead.org>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Fri, 11 Oct 2024 17:30:22 -0700
-Message-ID: <CABCJKuc6w0bYRmWMk49_KRAiB0ZaHFOPRSP=sEQAbz0ArN1ORA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/19] Implement DWARF modversions
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	Konstantin Ryabitsev <mricon@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] watchdog: apple: Actually flush writes after
+ requesting watchdog restart
+To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
+ Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>
+References: <20241001170018.20139-1-towinchenmi@gmail.com>
+ <20241001170018.20139-2-towinchenmi@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20241001170018.20139-2-towinchenmi@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Luis,
+On 10/1/24 09:59, Nick Chan wrote:
+> Although there is an existing code comment about flushing the writes,
+> writes were not actually being flushed.
+> 
+> Actually flush the writes by changing readl_relaxed() to readl().
+> 
+> Fixes: 4ed224aeaf661 ("watchdog: Add Apple SoC watchdog driver")
+> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 
-On Fri, Oct 11, 2024 at 4:42=E2=80=AFPM Luis Chamberlain <mcgrof@kernel.org=
-> wrote:
->
-> On Tue, Oct 08, 2024 at 06:38:24PM +0000, Sami Tolvanen wrote:
-> > Hi,
-> >
-> > Here's v4 of the DWARF modversions series. The main motivation is
-> > modversions support for Rust, which is important for distributions
-> > like Android that are about to ship Rust kernel modules. Per Luis'
-> > request [1], v2 dropped the Rust specific bits from the series and
-> > instead added the feature as an option for the entire kernel.
->
-> I think its important to mention *rationale* why I recommended it, it
-> let's you more broadly test coverage / support with tooling so that its
-> not just Rust modules which tooling will have to support. It gives the
-> option to have *one* unified way to do things. Not "rust is special",
-> oh no, do this instead. This also allows us to empirically evaluate
-> if this new solution also has benefits. If so what should we look out
-> for, metrics, etc. If there are proven benefits, then by all means
-> why not make the the default.
+Reviewed-by: Guenter Roeck  <linux@roeck-us.net>
 
-Sure, I can expand the cover letter in the next version to include
-this. I linked to your original request, which gives the reader some
-more background, but you're right, it doesn't hurt to mention it here
-as well.
-
-> > Matt is
-> > addressing Rust modversion_info compatibility issues in a separate
-> > series [2], and we'll follow up with a patch to actually allow
-> > CONFIG_MODVERSIONS with Rust once everything else has been sorted
-> > out.
->
-> So this depends on that work? What's the ordering of things? That work
-> seems to be aimed at addressing long symbols, and that is also
-> generically useful, and there were odd old hacks for that for LTO.
-> Bring the patch reviewer with you, as they may not have all the
-> background.
-
-These patch sets are fully independent, but they are both needed
-before we can support Rust. I'll clarify this too.
-
-> > Short background: Unlike C, Rust source code doesn't have sufficient
-> > information about the final ABI, as the compiler has considerable
-> > freedom in adjusting structure layout, for example, which makes
-> > using a source code parser like genksyms a non-starter. Based on
-> > earlier feedback, this series uses DWARF debugging information for
-> > computing versions. DWARF is an established and a relatively stable
-> > format, which includes all the necessary ABI details, and adding a
-> > CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-> > reasonable trade-off.
->
-> I think its important to state that most distributions enable CONFIG_DEBU=
-G_INFO
-> already, so this means Rust modules won't be asking much more from
-> distributions.
-
-Ack.
-
-> > The first patch moves the genksyms CRC32 implementation to a shared
-> > header file and the next 15 patches add gendwarfksyms, a tool for
-> > computing symbol versions from DWARF.
->
-> In case I find issues with this patch series, let's split up the patches
-> in the next iteration by two sets, one which is the cleanups,  moves,
-> and non functional changes, and then a seprate set with the actual
-> changes needed. This let's us carry on faster so I can apply the first
-> set.
-
-I think the first patch is the only one that matches your description,
-but it's only needed for the gendwarfksyms tool we're adding, so I'm
-not sure it makes sense to merge it separately. I did have a couple of
-other patches in previous versions that would qualify, but they've
-been merged to -rc2 already.
-
-> > When passed a list of exported
-> > symbols and object files, the tool generates an expanded type string
-> > for each symbol and computes symbol CRCs similarly to genksyms.
-> > gendwarfksyms is written in C and uses libdw to process DWARF.
->
-> OK so a new lib dependency at build time. What if that's not present?
-
-Then the build fails. We used to check for libelf (part of elfutils
-like libdw) in Makefile before, but Masahiro explained in commit
-0d989ac2c90b ("kbuild: remove libelf checks from top Makefile") why
-it's not necessary to have separate checks for the library
-dependencies:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3D0d989ac2c90b5f51fe12102d3cddf54b959f2014
-
-> > Patch
-> > 17 ensures that debugging information is present where we need it,
-> > patch 18 adds gendwarfksyms as an alternative to genksyms, and the
-> > last patch adds documentation.
-> >
-> > v4 is based on v6.12-rc2 and for your convenience the series is also
-> > available here:
-> >
-> > https://github.com/samitolvanen/linux/commits/gendwarfksyms-v4
->
-> Thanks! OK so I'd like to see next test coverage.
-
-Thanks for the links, I'll take a look and see what tests it makes sense to=
- add.
-
-Sami
