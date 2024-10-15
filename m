@@ -1,136 +1,154 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DBD28370
-	for <asahi@lists.linux.dev>; Sat, 12 Oct 2024 15:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578921D63FE
+	for <asahi@lists.linux.dev>; Tue, 15 Oct 2024 23:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728748276; cv=none; b=GwNUcd6o0JXfn6Ozy4GwN4UnFL9wtSlxdIGwPBEM3Tm/mtPjxpYa99+vat6o6SqKS5qoYZ/R10gT5czuciDtF3W4d599lMEXjT4EhLgEPWNpVGI88ygIOnU948R0gVxIy8+//NTMZu4I88jXCVUK4pzuX01G/g1VoH2fsTaPg/Q=
+	t=1729034373; cv=none; b=hrrrkFYeKmm2Zzh7Suyb/hZmpuztspjiBijqdZtr4NEM+hyfQ4Ky93vyMXk5IxKLGLgU6zH/WIAqC/HNUnvgRa7+PbmvAuWjSBjENzJhdauuVq61Mak7vIj/4dJMUcc/xNG/t6F9WGySBlYrhCp1Mv29cbIl3NQbgVfkMnrBZ04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728748276; c=relaxed/simple;
-	bh=QBxVjb4xRiX48s/vvPsUP77nS6zHCypmpcnHVq4sh5g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TF/TCzOP2RVZ6clbQZ8uYZsRlQqlI6UX9KU2sQEMJnT0EzuZVcWf0jrTAXZ7Mv60JpslkA+JUMB2+EIMSrbdxDjkLV3uAqJgsUCng4FAn7JExNTqOSHc9/jBoGX6f7VEpOJaze/A/Gvq60oYFClhPtjfVWkO4RyeuXHvlu/V2W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HE/fT+4T; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729034373; c=relaxed/simple;
+	bh=+F2VbNZf1bhZ2UaA03ZPHWNIFVcKxoyVzX20irGYaCE=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=hTcK7qG4QzBHtmk3oPcbWG6XHaz8EQDffbhAFp/jM54b/2h30pBhZ33S1fyOrCvxXBD9AC70j4R0yWSZ/4WxjLktvCNlcon+nVzkTKs/HSr+it4UQPmP1ADBIVgVpVMxO5sr3MJZY5JoUeipgvfw2RjPm7NtPox3V1yDNjR8iWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Dgl1V3F/; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaurer.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HE/fT+4T"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20b90984971so28688925ad.3
-        for <asahi@lists.linux.dev>; Sat, 12 Oct 2024 08:51:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Dgl1V3F/"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-6dbbeee08f0so5802827b3.0
+        for <asahi@lists.linux.dev>; Tue, 15 Oct 2024 16:19:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728748275; x=1729353075; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=nJuoVXcq5OgkJxuGdK+lNycEnFkCD62lKHCaH9k3Dm0=;
-        b=HE/fT+4Tn8zSSg0In8IPTjGw4S2bPYN9s5Pq6v9pnIMQbQ7v9Wjjp7febe6IZ+Izre
-         xpdpH8JjvjZp1tvt1Fp9TIh10ZaQ3TgXXoJe1i+Xjx85gTfXi5rNGY3EZ7wwhye2FDeq
-         XixkdlO+bDUabqqbbvDNiluGC/U+3IcEomTze8gs0rCsp0D9IQvBSpUuqG0aec+UC8/z
-         kL0wSWdrvBGHEsrx0rKKwsA65Mo1gmG6vsKXgKG7vfWIFdjx9nXjYdmkYIhjXg0+jc9E
-         8lzPQRs0OgMcio7DM+FDr4jJSZbdiGUdZGZ2IGXEEH/wnFE3JgEC5uauOhSt+8iOU5bS
-         b8ew==
+        d=google.com; s=20230601; t=1729034370; x=1729639170; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mrJp4iFzpg7dOEUx5ArGmKTsHqr2X7jfl/sNyFyGR+8=;
+        b=Dgl1V3F//UX3An6AKD23JdsPYMXq4vuYn13DPrY+CI7X7qCSkSLzEFkluBYRcE8TEX
+         lnAW/vHUtdLcYhq6DnHy/5bf7cWw9p5nQ13hIe1C8BLN1xP68sTNVF2qb3oKDFzR1QUD
+         wa5bojpGmMkGtKoQQy7luRbr3ItEf2h6hNQZlcJ1jBxIAzfvAowv3ds5XZ7/scc1Ys8B
+         12t+//uIZws4qEZ1ZKoR1PrY3QToQEqRLIEitYzxqaA+ML++Ryqe1g/8Cvx5lSvJJC00
+         4Ccab1np5JTv7BhxFaP/112zF+AZ/hohnZMUirRwjweR/YTSaNoG621L93V+0lEWaWWm
+         BSyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728748275; x=1729353075;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nJuoVXcq5OgkJxuGdK+lNycEnFkCD62lKHCaH9k3Dm0=;
-        b=i0lgcH3uQrtDW3Tm8T1mA9VMYv7EzYY0Pc70mPElPuaG1p5DWfQmJaLfFUc1/Xd/EV
-         LjmhxMHYyyBnXKPl+OkZbnJxQPuQANkM0gcfjyeM9d85DwW2m+pDTv6wCkNFxa/2Wiyh
-         RvUgbBXDiwBAHpMLv5VAidvuWwB04tOlJD4aAHL8my3f/UAhFVjOCCy10crcPaqDylPz
-         VKiglbdNPvi8oS6hWC0dXjofgGnYaRGVziLap5YeartNhD5w0NswUMlhts3ZryyKVacl
-         epoipGzl4qCngaxKYbWJYj63v4Fhuc/krEBKXAT9+WQ2km2DTIp747Ca73CQBDAghmJP
-         hzRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUldqZj/7ZXTBlxm7fRASQ4f8QX8idTgfv3GUmpyMDzPaw7iLigX3gDQAXQ5Qi09JOWCIHZ6A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywlf/Qmcn4F+U9YXVZsh0dx4Wivjh3j71oFQ2bzkpXWw9+0VInk
-	w93iElsGqPaSfyF0oydlp0Ly41biHX6zJad+vasC+Vmj49y4Lb1R
-X-Google-Smtp-Source: AGHT+IFhz4oOU4lWNGVF0APyrWUONmSyO4oWfYSnoTt0cmiYrE9tYiSHPfuf/fABxEjHG+AvdUnRdg==
-X-Received: by 2002:a17:902:f549:b0:20b:7ec0:ee24 with SMTP id d9443c01a7336-20ca142a131mr105942135ad.9.1728748274880;
-        Sat, 12 Oct 2024 08:51:14 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c8bada634sm38606355ad.5.2024.10.12.08.51.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 12 Oct 2024 08:51:14 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <82433add-b157-4cb8-81f6-0dad6c49dfc7@roeck-us.net>
-Date: Sat, 12 Oct 2024 08:51:12 -0700
+        d=1e100.net; s=20230601; t=1729034370; x=1729639170;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mrJp4iFzpg7dOEUx5ArGmKTsHqr2X7jfl/sNyFyGR+8=;
+        b=Alf1K31au+XlnPpbrt/evyTxajLwLrfmUwfu9FAxhRjXj9jvtL9rgQQ1S0H60IwfuK
+         crZ5oJPDG1NDksS9NES3y3r+i+fB1G8ONSik9/fJgGva/3Q2loFrQvoMFbIkVTTBuhik
+         bzcUIGV2xvAKCUaXFliESWxeWrLfY58VSKujWaIJBslTbdZyl9rM+fWmtY3Ml9gR5i9X
+         Rr/qr6kDnM/SxNJ0gKy1m4H3GcjaY2Ob3koR5pMBYQ2v1IHRKszdVDglnrdkblct/BHi
+         0mKD0FzQrgTLx1qgPoL93nw2x23X6rHmmU7o7sBewvF1AEEU05PuJgd2pFd6MD5ao0JN
+         u6sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXBfcko5dDo2lpkplX56li/DwChJCfF+eyZXsu1zWN1zsIcoGdTrT/lFgaSBjkB0fShqsqrfg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwbdqXbJrtje+QLWyWn0f6JSSVb+hYs5G9pdfbalszPYAb01ri
+	RigEi4rEu022CdT3zFHMbHMvLM7Yuc/Dg5vhp3RDm5oi9p3FKite8RuoygiS7PHtzitimgSEAlg
+	leTftjA==
+X-Google-Smtp-Source: AGHT+IGjGandx9utSrvuA6uN/UlbhV0NFNsrW9jxyZLY7Y/xUho6mObXEYFljDf/DSG5duM/8SOImAxH4q50
+X-Received: from anyblade.c.googlers.com ([fda3:e722:ac3:cc00:20:ed76:c0a8:1791])
+ (user=mmaurer job=sendgmr) by 2002:a05:690c:7005:b0:6d3:e7e6:8460 with SMTP
+ id 00721157ae682-6e3d35ac029mr391157b3.1.1729034370036; Tue, 15 Oct 2024
+ 16:19:30 -0700 (PDT)
+Date: Tue, 15 Oct 2024 23:18:55 +0000
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] watchdog: apple: Actually flush writes after
- requesting watchdog restart
-To: Nick Chan <towinchenmi@gmail.com>, Hector Martin <marcan@marcan.st>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>
-References: <20241001170018.20139-1-towinchenmi@gmail.com>
- <20241001170018.20139-2-towinchenmi@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20241001170018.20139-2-towinchenmi@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
+Message-ID: <20241015231925.3854230-1-mmaurer@google.com>
+Subject: [PATCH v6 0/5] Extended MODVERSIONS Support
+From: Matthew Maurer <mmaurer@google.com>
+To: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
+	gary@garyguo.net, mcgrof@kernel.org, Alex Gaynor <alex.gaynor@gmail.com>
+Cc: rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, neal@gompa.dev, marcan@marcan.st, j@jannau.net, 
+	asahi@lists.linux.dev, linux-modules@vger.kernel.org, samitolvanen@google.com, 
+	Matthew Maurer <mmaurer@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+	Trevor Gross <tmgross@umich.edu>
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/1/24 09:59, Nick Chan wrote:
-> Although there is an existing code comment about flushing the writes,
-> writes were not actually being flushed.
-> 
-> Actually flush the writes by changing readl_relaxed() to readl().
-> 
-> Fixes: 4ed224aeaf661 ("watchdog: Add Apple SoC watchdog driver")
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+This patch series is intended for use alongside the Implement
+MODVERSIONS for RUST [1] series as a replacement for the symbol name
+hashing approach used there to enable RUST and MODVERSIONS at the same
+time.
 
-Reviewed-by: Guenter Roeck  <linux@roeck-us.net>
+Elsewhere, we've seen a desire for long symbol name support for LTO
+symbol names [2], and the previous series came up [3] as a possible
+solution rather than hashing, which some have objected [4] to.
+
+This series adds a MODVERSIONS format which uses a section per column.
+This avoids userspace tools breaking if we need to make a similar change
+to the format in the future - we would do so by adding a new section,
+rather than editing the struct definition. In the new format, the name
+section is formatted as a concatenated sequence of NUL-terminated
+strings, which allows for arbitrary length names.
+
+Emitting the extended format is guarded by CONFIG_EXTENDED_MODVERSIONS,
+but the kernel always knows how to validate both the original and
+extended formats.
+
+If you are testing this patch alongside RUST by manually removing the
+!MODVERSIONS restriction (this series doesn't remove it, because the
+CRCs don't mean what we'd want them to yet, we need the DWARF patch for
+that) and have kernel hardening enabled, you may need the CPU
+Mitigations [5] series. Without it, the foo.mod.o file produced by the
+C compiler will reference __x86_return_thunk, but foo.o will not.
+This means that the version table will not contain a version for
+__x86_return_thunk, but foo.ko will reference it, which will result
+in a version check failure.
+
+This series depends upon the module verification refactor patches [6]
+that were split off of v5.
+
+[1] https://lore.kernel.org/all/20240617175818.58219-17-samitolvanen@google.com/
+[2] https://lore.kernel.org/lkml/20240605032120.3179157-1-song@kernel.org/
+[3] https://lore.kernel.org/lkml/ZoxbEEsK40ASi1cY@bombadil.infradead.org/
+[4] https://lore.kernel.org/lkml/0b2697fd-7ab4-469f-83a6-ec9ebc701ba0@suse.com/
+[5] https://lore.kernel.org/all/20240725183325.122827-1-ojeda@kernel.org/
+[6] https://lore.kernel.org/linux-modules/20241015231651.3851138-1-mmaurer@google.com/T/#t
+
+Changes in v6:
+- Splits verification refactor Luis requested out to a separate change
+- Clarifies commits around export_report.pl repairs
+- Add CONFIG_EXTENDED_MODVERSIONS to control whether extended
+  information is included in the module, per Luis's request.
+
+v5: https://lore.kernel.org/all/20240925233854.90072-1-mmaurer@google.com/
+- Addresses Sami's comments from v3 that I missed in v4 (missing early
+  return, extra parens)
+
+v4: https://lore.kernel.org/asahi/20240924212024.540574-1-mmaurer@google.com/
+- Fix incorrect dot munging in PPC
+
+v3: https://lore.kernel.org/lkml/87le0w2hop.fsf@mail.lhotse/T/
+- Split up the module verification refactor into smaller patches, per
+  Greg K-H's suggestion.
+
+v2: https://lore.kernel.org/all/20231118025748.2778044-1-mmaurer@google.com/
+- Add loading/verification refactor before modifying, per Luis's request
+
+v1: https://lore.kernel.org/rust-for-linux/20231115185858.2110875-1-mmaurer@google.com/ 
+
+
+Matthew Maurer (5):
+  export_report: Rehabilitate script
+  modules: Support extended MODVERSIONS info
+  export_report: Tolerate additional `.mod.c` content
+  modpost: Produce extended MODVERSIONS information
+  export_report: Use new version info format
+
+ arch/powerpc/kernel/module_64.c | 23 ++++++++-
+ kernel/module/Kconfig           |  8 +++
+ kernel/module/internal.h        | 11 ++++
+ kernel/module/main.c            | 92 ++++++++++++++++++++++++++++++---
+ kernel/module/version.c         | 45 ++++++++++++++++
+ scripts/export_report.pl        | 17 +++---
+ scripts/mod/modpost.c           | 41 +++++++++++++++
+ 7 files changed, 220 insertions(+), 17 deletions(-)
+
+-- 
+2.47.0.rc1.288.g06298d1525-goog
 
