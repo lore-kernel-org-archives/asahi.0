@@ -1,173 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B0D212EF9;
-	Wed, 16 Oct 2024 16:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23AD1CB9F0
+	for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 21:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729096472; cv=none; b=Xry+gaiubLwsi8FpPxitvQirWpoJJyRg3YfBLFa8eLG7crdrIL6+N9VPtIbkySOID0fDo+ir8a4N9RdrLlm59qt/fSvQJZM6q6KLAIK9rsuoascnyi8THoYiaLs3/ph3as/66DCAA0PsT8x8jf/H4byWbMOM1XXMm9b6LNUSm/c=
+	t=1729113745; cv=none; b=ALcxbG3XLy0wA39Z5jEgtehRUyBZCXe5ZR2SLXzeB/lCzBkHlAoapfnfeFgHARMt1b9BbI8CvEAZvgcl86FzkaLVlZAcwl7uHN56+wyPmOCQtdYndeyq7rnfNTl3Z0Ff8ygArpU8CLadjHWTBCuAL7dKU4/Kus3IwOAkc8PlypM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729096472; c=relaxed/simple;
-	bh=X74CUR82Hp13NQGo9Nw3P/9n2781EBJt2T7QAPcjMe8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uIa9cA/dn4mPPD0YTjONED2woRKAxv7wek9gflVy02ho8HhJUYk6zlAWratLDhb2JyyDKG8Pp5oNE1QJ+rpdYO6wMeVXAsxOAqCNjWKhWiIQoAQN3bbbvYFzmLMbXVyH4pM5zeAc+v4/OKeIXVqhImkYuBw7jZSL3N5z3cFLk24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YUmiJXUg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729113745; c=relaxed/simple;
+	bh=OyDiTCgIIBa/GkRKvyHzzrkbUA9z+By1KG3O7d5eMiY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BrGPsqnki9FbfIPSC5vWXHX8ZXJso81kVqrfsCNrvNrWswogNnQmEWc3T4t8laRMci9BfR/RjI12qop96P5E9IzDA4gckrnqFVyinlYB3QikYaKtC4UU2ztjoGBuXsi2fni7HMFWou67u0wvAvjv02A6RPmdEtIbJCfjZRfFLs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k3uqQlpb; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUmiJXUg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C4CC4CECE;
-	Wed, 16 Oct 2024 16:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729096472;
-	bh=X74CUR82Hp13NQGo9Nw3P/9n2781EBJt2T7QAPcjMe8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YUmiJXUgqYVcRwBwKP++87hayLvsKh+JHQw0YskmMGINgFyFJ4i3PwDUkS/nKzHkr
-	 SExhvNHrBsft1uBLclTBBHuJ2IynakzyONMRRpBYueRBMTkQdgbpzNDuL0uGokchK3
-	 +lEZoblOhNWQZTO66eoMRr/eF5P8x2Ifb02FGPT86H5z1Ys2U+EjFEPTT2fajipKQO
-	 q5WrG1j9o9iFkk1FgVYvFIe9RP7sIIqqqYQ/9akbm8SbuVl9QmM8PotbGlm9Msy4qe
-	 p6gbmAI1UtJCn+NpDhna2YCs1MahlVQoqR5ulvDiwf9TEprYQXrs5H0Y0nXRtXAzZo
-	 UWTPRCIEQrVdg==
-Date: Wed, 16 Oct 2024 11:34:29 -0500
-From: Rob Herring <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: sound: Add CS42L84 codec
-Message-ID: <20241016163429.GA1861304-robh@kernel.org>
-References: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
- <20241016-cs42l84-v1-1-8d7e9d437d2d@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k3uqQlpb"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4601a471aecso33941cf.1
+        for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 14:22:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729113742; x=1729718542; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5wkZ4sufrMCkWvTY6u4q4CXshqu7FtbhJxCZflIH3KQ=;
+        b=k3uqQlpbijYJGY0w++0734JUxM8DmmQSHG7srST5VE48NsqCtd2oMVZcAdWZprxxzC
+         uTih8a6+exIeIreKZBqIEs3YYF+UxadU2BSR0A7ZUqg0GcONzGLXnSXZeUf3rBrtrnUa
+         b8OQeUMP0q32zieh0ZhqwwCpIiTPmxbL8wnQXjSiOpVHr0bOQrwX8s54ayDDDskGrN2y
+         ugIgG5D5YSweJU/IaG52Q+Llbyyfq7mcJasjnskuNkJywD8MHDaJGXJJ3jdc07EsPSxx
+         fLJ7HT1g0eVj1LGCNgri5fXgwcpvbH+0gi9jFeQAVfoiOqBnbczXJqHmuv0Wda5Dt/4L
+         oCDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729113742; x=1729718542;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5wkZ4sufrMCkWvTY6u4q4CXshqu7FtbhJxCZflIH3KQ=;
+        b=iv080Ua4XFltrxLGzUGwzqZHRiML3FZhUwuq8J4/EzHOljosT8a82b14MckEkdPg0T
+         vfWIGMCEtmLufCqjxz6Y0NInCqw6kyz+q45Q1C6e3gOJZU7jo3pwcMEQfQTC3x6Ql483
+         hLrNejK1D0fmP0cc/q+3rfJ8PR2VFdD5W4F46t7WlOoNjz8shpQXKmRmGSEVXZDH3KVM
+         pc8A5rvdptcf4/iS5QVWlKr41D9xJdL1ZEw5jLXxtYwOVuSvjVw9CAVc40AYZ6CmsGZr
+         UF/bT+2AWduocarcr0ZWwEGtLRMYE3oay5ZUGPs7vosUCS/knofmkStIZ21v7Soqq65N
+         GgzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW+4uxB4h3Qj3bHkarQ+LXYdZrezwzzQqhwzEOhWIruj3VQFr1d/mNQQ2O9gOi+9u7ZJLxJZQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIxNFs+Z0hczG3sep9ZXr6jEEUS9WltLWyeUwa9469yAksbxIT
+	wLIDqYMQUYQV/TpQ2nhofpg7YVk8kgQleNUWpWnXqPyKByGxDlynMx84wQtfSNatckjrK2mIiWh
+	38qBSq2/MhuUjQOkDBQg8xAxh9X2x63WW4GlH
+X-Google-Smtp-Source: AGHT+IErDmtBkSM4h9tKCOEanhS8tMEL2BUmPka/EOw8X38eJd4BfzXBdA4cVWCS8SklYFIBG5mDLRG4jlKSB1gVUX4=
+X-Received: by 2002:a05:622a:5f08:b0:460:4a62:4ff3 with SMTP id
+ d75a77b69052e-4609f6b45fdmr324641cf.23.1729113742418; Wed, 16 Oct 2024
+ 14:22:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241016-cs42l84-v1-1-8d7e9d437d2d@gmail.com>
+References: <20241008183823.36676-21-samitolvanen@google.com>
+ <20241008183823.36676-31-samitolvanen@google.com> <f60bf3b2-6e3a-4382-93d1-1eca521e4ebd@suse.com>
+In-Reply-To: <f60bf3b2-6e3a-4382-93d1-1eca521e4ebd@suse.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Wed, 16 Oct 2024 21:21:43 +0000
+Message-ID: <CABCJKue-APgjaWf8pGnYVe3uSBjzApX0FpMUCAHsm56wNSyRVA@mail.gmail.com>
+Subject: Re: [PATCH v4 10/19] gendwarfksyms: Limit structure expansion
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
+	Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>, 
+	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 16, 2024 at 08:41:00PM +1000, James Calligeros wrote:
-> From: Martin Povišer <povik+lin@cutebit.org>
-> 
-> CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
-> computer models starting with 2021 Macbook Pros. It is not a publicly
-> documented part. To a degree the part is similar to the public CS42L42.
-> (The L84 superseded L83 seen in earlier Apple models, and the L83 was
-> pretty much the same as L42.)
-> 
-> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml | 60 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                                                 |  1 +
->  2 files changed, 61 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..12bc6dbeeddfaccf9dd00deb2676deac25f28c9e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus Logic CS42L84 audio CODEC
-> +
-> +maintainers:
-> +  - povik+lin@cutebit.org
+Hi Petr,
 
-Name too please.
+On Wed, Oct 16, 2024 at 2:16=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wr=
+ote:
+>
+> On 10/8/24 20:38, Sami Tolvanen wrote:
+> >       /*
+> > -      * These can be emitted for stand-elone assembly code, which mean=
+s we
+> > +      * These can be emitted for stand-alone assembly code, which mean=
+s we
+> >        * might run into them in vmlinux.o.
+> >        */
+> >       process(cache, "unspecified_type");
+>
+> Nit: This hunk should be folded into patch #9 ("gendwarfksyms: Expand
+> structure types").
 
-> +
-> +description:
+Oops, I'll fix this in the next version.
 
-Needs a '>' if you want to maintain paragraphs.
+> The commit message and the comment in process_type() describe that each
+> structure type should be expanded only once per symbol, but that doesn't
+> seem to be the case?
 
-> +  The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
-> +  in personal computers sold by Apple. It was first seen in 2021 Macbook Pro
-> +  models.
-> +
-> +  It has stereo DAC for playback, mono ADC for capture, and is somewhat
-> +  similar to CS42L42 but with a different regmap.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cirrus,cs42l84
-> +
-> +  reg:
-> +    description:
-> +      I2C address of the device
+Yup, it looks like I messed up the logic here. The ptr_depth check
+should be later.
 
-Drop. That's every device.
+> If I follow correctly, the type_expand() logic on the output eventually
+> performs only the first expansion for the CRC calculation. However, it
+> looks this process_type() code should do the same, if only to be a bit
+> faster. Or did I misunderstand anything how this should work?
+>
+> I played with the following (applies on the top of the series), which
+> matches my understanding of what should happen:
 
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description:
-> +      Reset pin, asserted to reset the device, deasserted to bring
-> +      the device online
+This looks correct to me, and do I like the way you cleaned this up.
+I'll apply this to v5. Thanks!
 
-Drop. That's every reset-gpios.
-
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description:
-> +      Interrupt for the IRQ output line of the device
-
-Drop.
-
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      jack_codec: codec@4b {
-> +          compatible = "cirrus,cs42l84";
-> +          reg = <0x4b>;
-> +          reset-gpios = <&pinctrl_nub 4 GPIO_ACTIVE_LOW>;
-> +          interrupts-extended = <&pinctrl_ap 180 IRQ_TYPE_LEVEL_LOW>;
-> +          #sound-dai-cells = <0>;
-
-Not documented.
-
-> +      };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c1a2c296446c0724a0c6e70c845e5e5e1e693fd5..f5f85714dc4e8ca9c60b3f6963b2cec1ea33fdd0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2132,6 +2132,7 @@ L:	asahi@lists.linux.dev
->  L:	linux-sound@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
-> +F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
->  F:	Documentation/devicetree/bindings/sound/apple,*
->  F:	sound/soc/apple/*
->  F:	sound/soc/codecs/cs42l83-i2c.c
-> 
-> -- 
-> 2.47.0
-> 
+Sami
