@@ -1,58 +1,59 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0E4206975
-	for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 10:42:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48872071E0
+	for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 10:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729075327; cv=none; b=HG7HAmm2KAfvNWX7zEwKX/ixkJJivZSLjS2RDhHOUaekx4771sM4CbALjMPSvrBZZ4Kk4ERmNu+E2XUwPRwY3N3JhfYniluVVbNtRFYHDs/qdCwtVjf2t2Uqz0JPYRepZ/EBaGGZo7zcX6U3yJxSE89d8D6fadvhnW4t+5m+Z0k=
+	t=1729075333; cv=none; b=TnxNE7dOPcGc+PfAXN7STWbrGuaSaiGnQF2T62oGgthMAO2EbHqy6P2b8ebc/9daQf4JQIRWh9n+aBmrMA4TJHRS1mO0PM8WwAXlTRYDRlMoyWFCLgjZStP0O/RK/z+Ln+2A0LABCtfaTP5HtJ9q7mztHE9wvw34ILxvz82IFs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729075327; c=relaxed/simple;
-	bh=mEq5F6t+xaQeyl3l8j0WFySka0dkQMiC1ioO2fr0s3c=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QlYxuUTJid8YV9CGka18lYwTL08a2/Wa7kJ38mqBFNZXZ6eOOvAaijInSwG74CaIoAriQ9eZTHlAXbM1FMnrEUlmYr7sz4L9L99Q+6kzJ4rBvew5VaYHfda8q4m5VBweBHUwjpDZj1Iv5BQJj2l+zurLKNgcZ/NQq53Xvff+zUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ktTn17DY; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1729075333; c=relaxed/simple;
+	bh=WfdQdE555lvYkoLc9BccgWDGN9ZdZ5pdAw6H/bDgewI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=udRnt5QFsecE3EGjxzss8TQPjFUSyc+lQMe8iQrcNseP0hDeiABRk2NeS+sKaqnMue4nxSMkRh24n/jyz/WfCsdMCyOKbvTLg9TjSAMTTkHTBqzXScPQvhkIKa9WvRlNV6atWjt30QK9d0EgBL/d6mU9eS9O3wlTQ44kGEFVvAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TzenFC5E; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ktTn17DY"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-20ca388d242so35675575ad.2
-        for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 03:42:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TzenFC5E"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20ca388d242so35676235ad.2
+        for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 03:42:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729075326; x=1729680126; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=105FVZgfdYE5ClHoZS1Bc0PBYQU+gjIa+OLFozcjrTU=;
-        b=ktTn17DYfLPrrlhhhhr04BYT2/3oFUVM9+7STcTw1uMExyXOJIDdJTjp6dG4fhp9T6
-         94caTz5V+Eyw97e8XPdcdFdVASP1uqw95XPWxMBZjmmwp05BGBby8wKRuGvAdMM+S5gN
-         jlYX4XnDN0ADSdzyoV5wUAbjPb36hMIKQ08F3UrhRsFS4QcSfnSs5UBhXQNGnyippc89
-         gGHqu0EpsduOEE8brJrbU29hPa4YAPnEMwsty29IxtOrdX2oD8/gKlfulgngtpcbD6Go
-         CGq+80sKq3S49mfckuGEYm48t03zcBb2c9+sP9UcCrMfNXBcFK4ootSZaaiiN7NM0y1N
-         DCDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729075326; x=1729680126;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1729075331; x=1729680131; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=105FVZgfdYE5ClHoZS1Bc0PBYQU+gjIa+OLFozcjrTU=;
-        b=UgFQQO946ppfu8DyvAgBS8PZcdLaFgrH/fWJjl04RR6ki4quZneECCY+jLrDR5hazM
-         3lX6AqLAURLFk3lkWaMIkSw36i5ryaH0a9NUZE3kTVFb+CsGPQ0QUeaGUd3S2DSosRs1
-         GU2PU1m3j3b+aUZflSVI+TE09AfQfRH9uAgk7FRwSuUfJFtgJ+RZL8847/A0kCZdX+Jo
-         9sOOCD1nNN2zOlYbXZzcV9oUjO/yQvXOFuqHahU5hPQpA9qpQNY8MoG2yurWIU8GBTV0
-         DE+3yQIVIy5tu/T7kuTqwGsJxIm/Um/nwZTv/YtTvPpWdjX4txK3sKDvvN++tuhgVfZ7
-         cU8Q==
-X-Gm-Message-State: AOJu0YwdswlAasSY5edpRY0HWQI47UoDxTOVlQ9BB9SH9K1SDdLzS8rC
-	FMJTLUm2F6gq8XQlfsKC8S/dD3zg8JVKRTVo7etQEEh3SODSvrd1
-X-Google-Smtp-Source: AGHT+IFYuKRUAQGpZGNW2W3fgGvJ+I+xUzQv4JnkWoD7y5nHrjeFA/KPs9pTVFYfiSBlDtDnKaO8Ng==
-X-Received: by 2002:a17:902:f552:b0:20c:862a:fcfc with SMTP id d9443c01a7336-20cbb17d8bfmr254142565ad.6.1729075325233;
-        Wed, 16 Oct 2024 03:42:05 -0700 (PDT)
+        bh=k508/q7r9Xmap/s2FAN/xIftwMTAgTxS8yX0bzw466Y=;
+        b=TzenFC5ET8uGdF0HYr5G5lonloUms7JlUxFlj1TvNaQ8So2CyECQqvGPGOcSkKkz5/
+         tw88uwL2xZMCjJgSpCJBYrhNKFQ4fLdWIlqIr9R3l7Vtq/2Zku12zfG3Qu/+xcSWhK6R
+         cSbtYSbZQoMIOMDEMdyQrUOCST8IGupJPM8SlnpqWSve3QLwJFi5pHWmrzHrqgu4w4lE
+         yMEe9df1zTlbDJL/rxnEBgJ1m7MobMIJH2oOCqHfEy9tMBgl73wWM4gpxdj8Z810s0zH
+         BZ5ffBSmaaVRt4JPBXC83wAcaSoXVAEOwiVqLBR10WSGV0GuCVY/ixL8zwP4O/Iyql0V
+         KXpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729075331; x=1729680131;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=k508/q7r9Xmap/s2FAN/xIftwMTAgTxS8yX0bzw466Y=;
+        b=AsheVY0X8fp8G9PiFVAIkxo8v6qIXQa4ks3E+GWFspkGeO/uMNipNXG2gkLPt+aIBF
+         JF2xAu99UO+r9C4G09ydof+2Rlac4Nr9aOADw44lt/mW5L9xgvD7XB/Lxtwj4320FUvY
+         CpV4L+mPyNrs//BYOm7WcBBMUINdUm2yQ6aHNO1fAYkm2tI5Z5r8nyIE5HVOy+EyMK+G
+         Zp1ggCdDthUDLfXM0u9h8pdZdzqeqDEK+sveEPAW4e8kid6n9NfSHis+2Ujb3NRxploR
+         mVsGrj1l8ajFWIt+Q1JWp5i7EUthSVxW+2V0pEcxE6yFRI6vGd89io/7q/gL1Pqqa73g
+         nZ8A==
+X-Gm-Message-State: AOJu0Yz1GVgde217d5F/7iJB9SAdX5IZft8pkxUGZy3rCcn6Se/b2m19
+	bj2Bj84Q7kL/CTMsfsQqpV/hMWtieVhHGxtEk6k9oaO12rU2tMug
+X-Google-Smtp-Source: AGHT+IHV1QjAhkHaZMC2MlpFEwK/9q0QOJH8CZm7u6scVRC0Jr1r79GdYyTvOMpomjciV5quEKWJ8Q==
+X-Received: by 2002:a17:902:ecc9:b0:20b:b75d:e8c1 with SMTP id d9443c01a7336-20cbb17d002mr261501975ad.4.1729075330947;
+        Wed, 16 Oct 2024 03:42:10 -0700 (PDT)
 Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1804b2e4sm26319645ad.182.2024.10.16.03.41.59
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1804b2e4sm26319645ad.182.2024.10.16.03.42.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 03:42:04 -0700 (PDT)
+        Wed, 16 Oct 2024 03:42:10 -0700 (PDT)
 From: James Calligeros <jcalligeros99@gmail.com>
-Subject: [PATCH 0/3] ASoC: add CS42L84 codec driver
-Date: Wed, 16 Oct 2024 20:40:59 +1000
-Message-Id: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
+Date: Wed, 16 Oct 2024 20:41:00 +1000
+Subject: [PATCH 1/3] dt-bindings: sound: Add CS42L84 codec
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -61,10 +62,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIADuYD2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDA0Mz3eRiE6McCxPdNGMLYxOLFCPDZAsLJaDqgqLUtMwKsEnRsbW1ABB
- aMS1ZAAAA
-X-Change-ID: 20241016-cs42l84-f38348d21c88
+Message-Id: <20241016-cs42l84-v1-1-8d7e9d437d2d@gmail.com>
+References: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
+In-Reply-To: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
 To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
  James Calligeros <jcalligeros99@gmail.com>, 
  David Rhodes <david.rhodes@cirrus.com>, 
@@ -75,54 +75,112 @@ To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
  Takashi Iwai <tiwai@suse.com>
 Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
  patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+ linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1831;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3030;
  i=jcalligeros99@gmail.com; h=from:subject:message-id;
- bh=mEq5F6t+xaQeyl3l8j0WFySka0dkQMiC1ioO2fr0s3c=;
- b=kA0DAAoW1DYy0VH3eWAByyZiAGcPmHbIJy19smNGSootjbZYbY0aqkAGCtDav4ojTWY0jLfsH
- Ih1BAAWCgAdFiEEsIISSJsyBtmPFHm91DYy0VH3eWAFAmcPmHYACgkQ1DYy0VH3eWC1qQD/Vf85
- E/CLK3aUekI42LVRO9TqU3Yy1zrsoYg5eG8ZIJMBAMYsRWvrmcFNrGwjWPmc3L+bk60h5APjUsE
- X+460AVwH
+ bh=JkQ/4zpAYjuUTa+FzkoroKSF3ka6mM4DeIsa/iLWu70=;
+ b=owGbwMvMwCV2xczoYuD3ygTG02pJDOn8M8rYe28kbym9PnNJ8d6eE3yp2b+up0nbrTaa4brDM
+ 7pqRrVcRykLgxgXg6yYIsuGJiGP2UZsN/tFKvfCzGFlAhnCwMUpABOJqWb4X2mpPpkp32a2R9oi
+ udSVZmXhd37Jla8qkP/BG3ZyzhEZbkaGZ3cjknYfmH3ZPkz8x4NTV2JLj09+LnHnMl83z6dwy2c
+ lbAA=
 X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
  fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-Hi all,
+From: Martin Povišer <povik+lin@cutebit.org>
 
-This patch set adds a driver for the Cirrus Logic CS42L84 codec. This chip
-is (so far) found only on Apple Silicon Macs. In keeping with proud Apple
-tradition, the CS42L84 is essentially just a CS42L42 with a different
-regmap and no publicly available datasheet. It may also be missing its
-parent's S/PDIF capabilities as none of Apple's devices support S/PDIF out,
-however this cannot be positively confirmed.
+CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
+computer models starting with 2021 Macbook Pros. It is not a publicly
+documented part. To a degree the part is similar to the public CS42L42.
+(The L84 superseded L83 seen in earlier Apple models, and the L83 was
+pretty much the same as L42.)
 
-This driver has lived in the downstream Asahi tree for quite a while now,
-and gained some refinements along the way. I have squashed most of these
-into the initial driver commit as they were small changes like tweaking
-msleep()s or filling out TLVs, but left seperate a larger change to
-tip/ring sense IRQ handling as it differs significantly from what is found
-in the CS42L42 driver.
-
+Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 ---
-James Calligeros (1):
-      ASoC: cs42l84: leverage ring sense IRQs to correctly detect headsets
+ Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml | 60 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                                                 |  1 +
+ 2 files changed, 61 insertions(+)
 
-Martin Povišer (2):
-      dt-bindings: sound: Add CS42L84 codec
-      ASoC: cs42l84: Add new codec driver
+diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..12bc6dbeeddfaccf9dd00deb2676deac25f28c9e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+@@ -0,0 +1,60 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Cirrus Logic CS42L84 audio CODEC
++
++maintainers:
++  - povik+lin@cutebit.org
++
++description:
++  The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
++  in personal computers sold by Apple. It was first seen in 2021 Macbook Pro
++  models.
++
++  It has stereo DAC for playback, mono ADC for capture, and is somewhat
++  similar to CS42L42 but with a different regmap.
++
++properties:
++  compatible:
++    enum:
++      - cirrus,cs42l84
++
++  reg:
++    description:
++      I2C address of the device
++    maxItems: 1
++
++  reset-gpios:
++    description:
++      Reset pin, asserted to reset the device, deasserted to bring
++      the device online
++    maxItems: 1
++
++  interrupts:
++    description:
++      Interrupt for the IRQ output line of the device
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      jack_codec: codec@4b {
++          compatible = "cirrus,cs42l84";
++          reg = <0x4b>;
++          reset-gpios = <&pinctrl_nub 4 GPIO_ACTIVE_LOW>;
++          interrupts-extended = <&pinctrl_ap 180 IRQ_TYPE_LEVEL_LOW>;
++          #sound-dai-cells = <0>;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c1a2c296446c0724a0c6e70c845e5e5e1e693fd5..f5f85714dc4e8ca9c60b3f6963b2cec1ea33fdd0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2132,6 +2132,7 @@ L:	asahi@lists.linux.dev
+ L:	linux-sound@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
++F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+ F:	Documentation/devicetree/bindings/sound/apple,*
+ F:	sound/soc/apple/*
+ F:	sound/soc/codecs/cs42l83-i2c.c
 
- Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml |   60 +++++++
- MAINTAINERS                                                 |    2 +
- sound/soc/codecs/Kconfig                                    |    7 +
- sound/soc/codecs/Makefile                                   |    2 +
- sound/soc/codecs/cs42l84.c                                  | 1110 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- sound/soc/codecs/cs42l84.h                                  |  210 +++++++++++++++++++++++++
- 6 files changed, 1391 insertions(+)
----
-base-commit: 469819cc17368702a6f68cec2148f518d3f3679b
-change-id: 20241016-cs42l84-f38348d21c88
-
-Best regards,
 -- 
-James Calligeros <jcalligeros99@gmail.com>
+2.47.0
 
