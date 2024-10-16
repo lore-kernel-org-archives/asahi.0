@@ -1,549 +1,173 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33D720C487
-	for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 14:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B0D212EF9;
+	Wed, 16 Oct 2024 16:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729088188; cv=none; b=ppLTmWTRvGz5nXj039D/yog1vUi5Cm1uZoa5kkwXEvoBPL2VyNcWyHXlu1SAI2VyxAU0tk8m67FK+4QZVXFMXc+9ievWLDogSr26TYpjhHQAylYWKraaem240EWB0oRal2xM+Pf9LM5DpckXNt4fUixMTX7lowT3qTUM/vm8NNU=
+	t=1729096472; cv=none; b=Xry+gaiubLwsi8FpPxitvQirWpoJJyRg3YfBLFa8eLG7crdrIL6+N9VPtIbkySOID0fDo+ir8a4N9RdrLlm59qt/fSvQJZM6q6KLAIK9rsuoascnyi8THoYiaLs3/ph3as/66DCAA0PsT8x8jf/H4byWbMOM1XXMm9b6LNUSm/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729088188; c=relaxed/simple;
-	bh=QxI//qy6SRimH6DFsKj/5JqUXhaavgW4VHaRE77rsA8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MHKldF50n52U84fn6nELatTcoFL+hngp8flykuisIlV1OBqDP1JtLLabQCEnV+Ods7f37dwnx2j/X0W/ZTz97V31i7mbeaPcWH8xSn7zia2k7tzgEe03OLrpThoMQw/Fkf/+sCv9dxRFWA7pxvOFDUdm7w3hcXTZGw2Wt8+fFBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=SoOV4gE8; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1729096472; c=relaxed/simple;
+	bh=X74CUR82Hp13NQGo9Nw3P/9n2781EBJt2T7QAPcjMe8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIa9cA/dn4mPPD0YTjONED2woRKAxv7wek9gflVy02ho8HhJUYk6zlAWratLDhb2JyyDKG8Pp5oNE1QJ+rpdYO6wMeVXAsxOAqCNjWKhWiIQoAQN3bbbvYFzmLMbXVyH4pM5zeAc+v4/OKeIXVqhImkYuBw7jZSL3N5z3cFLk24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YUmiJXUg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="SoOV4gE8"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5c99be0a4bbso874205a12.2
-        for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 07:16:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1729088184; x=1729692984; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=nkitLVdUIfBswSecoH4/yMlvF1d7Jl0pwk3xAI1xCeg=;
-        b=SoOV4gE8k0kVpI5IvbPVmaHbLJGggY3V0n/BWc4aceN4okfdXOF6fjpYXSKe82I2++
-         usddwQZIvngkL37RjFbKYYCWUg0PJO8k77w8AYbRLJ4p+zR3tY5sm3Y/fZgSz1GJgUE6
-         /lvE04hVxxhUv1a5ch7sa4appYSIz3jhAxRwhULdjCmZ6R8hToesO1Df7NKueNTN+5ME
-         VQn4zyTXASvGSG0QoFy2mVXh1MYBPSZfna1utmf2Yfe1JhGH3BBnhdaPGISNirK9zVIz
-         Fs+kCfx4Zn5qG3S75UfMwE83coxc4tTZbrL5VHBWd5OnhHEhDwB+DiTofuVGzBZQITa7
-         /EQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729088184; x=1729692984;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nkitLVdUIfBswSecoH4/yMlvF1d7Jl0pwk3xAI1xCeg=;
-        b=LpnQtLvH9rw1mz1fb4O1w7SPGRVAPvuCGY5LclIYjOqbV1Lr9mcPAPHRdNj+ym8gRE
-         i5VBmFIVVeiFWQJ3ACtyJY+AQP4wjwuE1zrDlLDdpTpakZFSz/BVFVKK7mQTGGbxLt6G
-         epz/Mp0UVXBPeTpbHz5Sgen7dhgaozAceztydyhM6XM0oR0+k9nJ62nJ1b/BFcu81vIU
-         ORW4bR0dBkpNhwgPXk6gJHmRDQ98eOADeqf8vPkPYIKhILUaCI7art0RM6ozPMHzNbkw
-         9KMblvWL1TqdCne551qlAx9W1FinAWjr/crD39q/LK8vweq2n/5fvXz0CTvW1gcm4IOM
-         jxRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbiDfzh6pbUJ6RDrCI8PrzNikgbu/r2qxR69h8MzIptzHCxrm2H5h2CgHMW3cYq78w1kLWMw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YykF4TL6XgYCiQaKuTbA0EIF9MhzGHNQ4Sj//JjjAocQWoYiMW6
-	HNl5OcP49JDeNMe3OT46FwUB7QH01EsHK9vXbphf0GjWtYvhrzvZgVfKrIR0qvI=
-X-Google-Smtp-Source: AGHT+IF/jHLtlOnJ03hZGYKyu2uazu1k6TC8QznAT+IJJPrAXp2dr5BVCStw4SXjYZcJ93PZUijGyw==
-X-Received: by 2002:a17:907:3ea0:b0:a9a:2a56:91e with SMTP id a640c23a62f3a-a9a2a560a3emr471017466b.6.1729088183771;
-        Wed, 16 Oct 2024 07:16:23 -0700 (PDT)
-Received: from [10.100.51.161] ([193.86.92.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a29844cc9sm186696466b.182.2024.10.16.07.16.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 07:16:23 -0700 (PDT)
-Message-ID: <f60bf3b2-6e3a-4382-93d1-1eca521e4ebd@suse.com>
-Date: Wed, 16 Oct 2024 16:16:20 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUmiJXUg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C4CC4CECE;
+	Wed, 16 Oct 2024 16:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729096472;
+	bh=X74CUR82Hp13NQGo9Nw3P/9n2781EBJt2T7QAPcjMe8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YUmiJXUgqYVcRwBwKP++87hayLvsKh+JHQw0YskmMGINgFyFJ4i3PwDUkS/nKzHkr
+	 SExhvNHrBsft1uBLclTBBHuJ2IynakzyONMRRpBYueRBMTkQdgbpzNDuL0uGokchK3
+	 +lEZoblOhNWQZTO66eoMRr/eF5P8x2Ifb02FGPT86H5z1Ys2U+EjFEPTT2fajipKQO
+	 q5WrG1j9o9iFkk1FgVYvFIe9RP7sIIqqqYQ/9akbm8SbuVl9QmM8PotbGlm9Msy4qe
+	 p6gbmAI1UtJCn+NpDhna2YCs1MahlVQoqR5ulvDiwf9TEprYQXrs5H0Y0nXRtXAzZo
+	 UWTPRCIEQrVdg==
+Date: Wed, 16 Oct 2024 11:34:29 -0500
+From: Rob Herring <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: sound: Add CS42L84 codec
+Message-ID: <20241016163429.GA1861304-robh@kernel.org>
+References: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
+ <20241016-cs42l84-v1-1-8d7e9d437d2d@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/19] gendwarfksyms: Limit structure expansion
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>,
- Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>,
- Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
- Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
- Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>,
- Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20241008183823.36676-21-samitolvanen@google.com>
- <20241008183823.36676-31-samitolvanen@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20241008183823.36676-31-samitolvanen@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241016-cs42l84-v1-1-8d7e9d437d2d@gmail.com>
 
-On 10/8/24 20:38, Sami Tolvanen wrote:
-> Expand each structure type only once per exported symbol. This
-> is necessary to support self-referential structures, which would
-> otherwise result in infinite recursion, but is still sufficient for
-> catching ABI changes.
+On Wed, Oct 16, 2024 at 08:41:00PM +1000, James Calligeros wrote:
+> From: Martin Povišer <povik+lin@cutebit.org>
 > 
-> For pointers, limit structure expansion after the first pointer
-> in the symbol type. This should be plenty for detecting ABI
-> differences, but it stops us from pulling in half the kernel for
-> types that contain pointers to large kernel data structures, like
-> task_struct, for example.
+> CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
+> computer models starting with 2021 Macbook Pros. It is not a publicly
+> documented part. To a degree the part is similar to the public CS42L42.
+> (The L84 superseded L83 seen in earlier Apple models, and the L83 was
+> pretty much the same as L42.)
 > 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> Acked-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
 > ---
->  scripts/gendwarfksyms/Makefile        |   1 +
->  scripts/gendwarfksyms/cache.c         |  44 +++++++++++
->  scripts/gendwarfksyms/dwarf.c         | 109 +++++++++++++++++++++++---
->  scripts/gendwarfksyms/gendwarfksyms.h |  37 +++++++++
->  4 files changed, 182 insertions(+), 9 deletions(-)
->  create mode 100644 scripts/gendwarfksyms/cache.c
+>  Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml | 60 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                                                 |  1 +
+>  2 files changed, 61 insertions(+)
 > 
-> diff --git a/scripts/gendwarfksyms/Makefile b/scripts/gendwarfksyms/Makefile
-> index c0d4ce50fc27..c06145d84df8 100644
-> --- a/scripts/gendwarfksyms/Makefile
-> +++ b/scripts/gendwarfksyms/Makefile
-> @@ -2,6 +2,7 @@
->  hostprogs-always-y += gendwarfksyms
->  
->  gendwarfksyms-objs += gendwarfksyms.o
-> +gendwarfksyms-objs += cache.o
->  gendwarfksyms-objs += die.o
->  gendwarfksyms-objs += dwarf.o
->  gendwarfksyms-objs += symbols.o
-> diff --git a/scripts/gendwarfksyms/cache.c b/scripts/gendwarfksyms/cache.c
+> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
 > new file mode 100644
-> index 000000000000..2f1517133a20
+> index 0000000000000000000000000000000000000000..12bc6dbeeddfaccf9dd00deb2676deac25f28c9e
 > --- /dev/null
-> +++ b/scripts/gendwarfksyms/cache.c
-> @@ -0,0 +1,44 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2024 Google LLC
-> + */
+> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> @@ -0,0 +1,60 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#include "gendwarfksyms.h"
+> +title: Cirrus Logic CS42L84 audio CODEC
 > +
-> +struct expanded {
-> +	uintptr_t addr;
-> +	struct hlist_node hash;
-> +};
-> +
-> +void __cache_mark_expanded(struct expansion_cache *ec, uintptr_t addr)
-> +{
-> +	struct expanded *es;
-> +
-> +	es = xmalloc(sizeof(struct expanded));
-> +	es->addr = addr;
-> +	hash_add(ec->cache, &es->hash, addr_hash(addr));
-> +}
-> +
-> +bool __cache_was_expanded(struct expansion_cache *ec, uintptr_t addr)
-> +{
-> +	struct expanded *es;
-> +
-> +	hash_for_each_possible(ec->cache, es, hash, addr_hash(addr)) {
-> +		if (es->addr == addr)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +void cache_clear_expanded(struct expansion_cache *ec)
-> +{
-> +	struct hlist_node *tmp;
-> +	struct expanded *es;
-> +
-> +	hash_for_each_safe(ec->cache, es, tmp, hash) {
-> +		free(es);
-> +	}
-> +
-> +	hash_init(ec->cache);
-> +}
-> diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
-> index f5cebbdcc212..51dd8e82f9e7 100644
-> --- a/scripts/gendwarfksyms/dwarf.c
-> +++ b/scripts/gendwarfksyms/dwarf.c
-> @@ -26,6 +26,7 @@ static void process_linebreak(struct die *cache, int n)
->  		       !dwarf_form##attr(&da, value);                  \
->  	}
->  
-> +DEFINE_GET_ATTR(flag, bool)
->  DEFINE_GET_ATTR(udata, Dwarf_Word)
->  
->  static bool get_ref_die_attr(Dwarf_Die *die, unsigned int id, Dwarf_Die *value)
-> @@ -79,6 +80,13 @@ static bool match_export_symbol(struct state *state, Dwarf_Die *die)
->  	return !!state->sym;
->  }
->  
-> +static bool is_declaration(Dwarf_Die *die)
-> +{
-> +	bool value;
-> +
-> +	return get_flag_attr(die, DW_AT_declaration, &value) && value;
-> +}
-> +
->  /*
->   * Type string processing
->   */
-> @@ -455,19 +463,28 @@ static void __process_structure_type(struct state *state, struct die *cache,
->  				     die_callback_t process_func,
->  				     die_match_callback_t match_func)
->  {
-> +	bool is_decl;
-> +
->  	process(cache, type);
->  	process_fqn(cache, die);
->  	process(cache, " {");
->  	process_linebreak(cache, 1);
->  
-> -	check(process_die_container(state, cache, die, process_func,
-> -				    match_func));
-> +	is_decl = is_declaration(die);
-> +
-> +	if (!is_decl && state->expand.expand) {
-> +		cache_mark_expanded(&state->expansion_cache, die->addr);
-> +		check(process_die_container(state, cache, die, process_func,
-> +					    match_func));
-> +	}
->  
->  	process_linebreak(cache, -1);
->  	process(cache, "}");
->  
-> -	process_byte_size_attr(cache, die);
-> -	process_alignment_attr(cache, die);
-> +	if (!is_decl && state->expand.expand) {
-> +		process_byte_size_attr(cache, die);
-> +		process_alignment_attr(cache, die);
-> +	}
->  }
->  
->  #define DEFINE_PROCESS_STRUCTURE_TYPE(structure)                        \
-> @@ -520,7 +537,7 @@ static void process_unspecified_type(struct state *state, struct die *cache,
->  				     Dwarf_Die *die)
->  {
->  	/*
-> -	 * These can be emitted for stand-elone assembly code, which means we
-> +	 * These can be emitted for stand-alone assembly code, which means we
->  	 * might run into them in vmlinux.o.
->  	 */
->  	process(cache, "unspecified_type");
+> +maintainers:
+> +  - povik+lin@cutebit.org
 
-Nit: This hunk should be folded into patch #9 ("gendwarfksyms: Expand
-structure types").
+Name too please.
 
-> @@ -552,6 +569,42 @@ static void process_cached(struct state *state, struct die *cache,
->  	}
->  }
->  
-> +static void state_init(struct state *state)
-> +{
-> +	state->expand.expand = true;
-> +	state->expand.ptr_depth = 0;
-> +	state->expand.ptr_expansion_depth = 0;
-> +	hash_init(state->expansion_cache.cache);
-> +}
 > +
-> +static void expansion_state_restore(struct expansion_state *state,
-> +				    struct expansion_state *saved)
-> +{
-> +	state->expand = saved->expand;
-> +	state->ptr_depth = saved->ptr_depth;
-> +	state->ptr_expansion_depth = saved->ptr_expansion_depth;
-> +}
-> +
-> +static void expansion_state_save(struct expansion_state *state,
-> +				 struct expansion_state *saved)
-> +{
-> +	expansion_state_restore(saved, state);
-> +}
-> +
-> +static bool is_pointer_type(int tag)
-> +{
-> +	return tag == DW_TAG_pointer_type || tag == DW_TAG_reference_type;
-> +}
-> +
-> +static bool is_expanded_type(int tag)
-> +{
-> +	return tag == DW_TAG_class_type || tag == DW_TAG_structure_type ||
-> +	       tag == DW_TAG_union_type || tag == DW_TAG_enumeration_type;
-> +}
-> +
-> +/* The maximum depth for expanding structures in pointers */
-> +#define MAX_POINTER_EXPANSION_DEPTH 2
-> +
->  #define PROCESS_TYPE(type)                                \
->  	case DW_TAG_##type##_type:                        \
->  		process_##type##_type(state, cache, die); \
-> @@ -559,18 +612,52 @@ static void process_cached(struct state *state, struct die *cache,
->  
->  static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
->  {
-> +	enum die_state want_state = DIE_COMPLETE;
->  	struct die *cache;
-> +	struct expansion_state saved;
->  	int tag = dwarf_tag(die);
->  
-> +	expansion_state_save(&state->expand, &saved);
-> +
-> +	/*
-> +	 * Structures and enumeration types are expanded only once per
-> +	 * exported symbol. This is sufficient for detecting ABI changes
-> +	 * within the structure.
-> +	 *
-> +	 * We fully expand the first pointer reference in the exported
-> +	 * symbol, but limit the expansion of further pointer references
-> +	 * to at most MAX_POINTER_EXPANSION_DEPTH levels.
-> +	 */
-> +	if (is_pointer_type(tag))
-> +		state->expand.ptr_depth++;
-> +
-> +	if (state->expand.ptr_depth > 0 && is_expanded_type(tag)) {
-> +		if (state->expand.ptr_expansion_depth >=
-> +			    MAX_POINTER_EXPANSION_DEPTH ||
-> +		    cache_was_expanded(&state->expansion_cache, die->addr))
-> +			state->expand.expand = false;
-> +
-> +		if (state->expand.expand)
-> +			state->expand.ptr_expansion_depth++;
-> +	}
-> +
->  	/*
-> -	 * If we have the DIE already cached, use it instead of walking
-> +	 * If we have want_state already cached, use it instead of walking
->  	 * through DWARF.
->  	 */
-> -	cache = die_map_get(die, DIE_COMPLETE);
-> +	if (!state->expand.expand && is_expanded_type(tag))
-> +		want_state = DIE_UNEXPANDED;
-> +
-> +	cache = die_map_get(die, want_state);
-> +
-> +	if (cache->state == want_state) {
-> +		if (want_state == DIE_COMPLETE && is_expanded_type(tag))
-> +			cache_mark_expanded(&state->expansion_cache, die->addr);
->  
-> -	if (cache->state == DIE_COMPLETE) {
->  		process_cached(state, cache, die);
->  		die_map_add_die(parent, cache);
-> +
-> +		expansion_state_restore(&state->expand, &saved);
->  		return 0;
->  	}
->  
+> +description:
 
-The commit message and the comment in process_type() describe that each
-structure type should be expanded only once per symbol, but that doesn't
-seem to be the case?
+Needs a '>' if you want to maintain paragraphs.
 
-Consider the following example:
-
-struct A { int m; };
-void foo(struct A a1, struct A a2) {}
-
-Running gendwarfksyms on the compiled file shows the following debug
-output:
-
-$ echo foo | ./build/scripts/gendwarfksyms/gendwarfksyms --debug --dump-types --dump-versions --dump-dies test.o
-[...]
-gendwarfksyms: process_symbol: foo
-subprogram (
-  formal_parameter structure_type A {
-    member base_type int byte_size(4) encoding(5) m data_member_location(0)
-  } byte_size(4) a1 ,
-  formal_parameter structure_type A {
-    member base_type int byte_size(4) encoding(5) m data_member_location(0)
-  } byte_size(4) a2
-)
--> base_type void
-
-I think it indicates that struct A was expanded twice. My expectation
-would be to see:
-
-gendwarfksyms: process_symbol: foo
-subprogram (
-  formal_parameter structure_type A {
-    member base_type int byte_size(4) encoding(5) m data_member_location(0)
-  } byte_size(4) a1 ,
-  formal_parameter structure_type A {
-  } a2
-)
--> base_type void
-
-If I follow correctly, the type_expand() logic on the output eventually
-performs only the first expansion for the CRC calculation. However, it
-looks this process_type() code should do the same, if only to be a bit
-faster. Or did I misunderstand anything how this should work?
-
-I played with the following (applies on the top of the series), which
-matches my understanding of what should happen:
-
-diff --git a/scripts/gendwarfksyms/dwarf.c b/scripts/gendwarfksyms/dwarf.c
-index 0112b5e8fbf5..1cc39be02b80 100644
---- a/scripts/gendwarfksyms/dwarf.c
-+++ b/scripts/gendwarfksyms/dwarf.c
-@@ -661,7 +661,6 @@ static void __process_structure_type(struct state *state, struct die *cache,
- 	is_decl = is_declaration(cache, die);
- 
- 	if (!is_decl && state->expand.expand) {
--		cache_mark_expanded(&state->expansion_cache, die->addr);
- 		state->expand.current_fqn = cache->fqn;
- 		check(process_die_container(state, cache, die, process_func,
- 					    match_func));
-@@ -850,32 +849,35 @@ static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
- 	if (is_pointer_type(tag))
- 		state->expand.ptr_depth++;
- 
--	if (state->expand.ptr_depth > 0 && is_expanded_type(tag)) {
--		if (state->expand.ptr_expansion_depth >=
--			    MAX_POINTER_EXPANSION_DEPTH ||
--		    cache_was_expanded(&state->expansion_cache, die->addr))
-+	if (is_expanded_type(tag)) {
-+		if (cache_was_expanded(&state->expansion_cache, die->addr))
- 			state->expand.expand = false;
- 
-+		if (state->expand.ptr_depth > 0) {
-+			if (state->expand.ptr_expansion_depth >=
-+			    MAX_POINTER_EXPANSION_DEPTH)
-+				state->expand.expand = false;
-+
-+			if (state->expand.expand)
-+				state->expand.ptr_expansion_depth++;
-+		}
-+
- 		if (state->expand.expand)
--			state->expand.ptr_expansion_depth++;
-+			cache_mark_expanded(&state->expansion_cache, die->addr);
-+		else
-+			want_state = DIE_UNEXPANDED;
- 	}
- 
- 	/*
- 	 * If we have want_state already cached, use it instead of walking
- 	 * through DWARF.
- 	 */
--	if (!state->expand.expand && is_expanded_type(tag))
--		want_state = DIE_UNEXPANDED;
--
- 	cache = die_map_get(die, want_state);
- 
- 	if (cache->state == want_state) {
- 		die_debug_g("cached addr %p tag %x -- %s", die->addr, tag,
- 			    die_state_name(cache->state));
- 
--		if (want_state == DIE_COMPLETE && is_expanded_type(tag))
--			cache_mark_expanded(&state->expansion_cache, die->addr);
--
- 		process_cached(state, cache, die);
- 		die_map_add_die(parent, cache);
- 
-
-> @@ -611,9 +698,10 @@ static int process_type(struct state *state, struct die *parent, Dwarf_Die *die)
->  
->  	/* Update cache state and append to the parent (if any) */
->  	cache->tag = tag;
-> -	cache->state = DIE_COMPLETE;
-> +	cache->state = want_state;
->  	die_map_add_die(parent, cache);
->  
-> +	expansion_state_restore(&state->expand, &saved);
->  	return 0;
->  }
->  
-> @@ -675,11 +763,14 @@ static int process_exported_symbols(struct state *unused, struct die *cache,
->  		if (!match_export_symbol(&state, die))
->  			return 0;
->  
-> +		state_init(&state);
+> +  The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
+> +  in personal computers sold by Apple. It was first seen in 2021 Macbook Pro
+> +  models.
 > +
->  		if (tag == DW_TAG_subprogram)
->  			process_subprogram(&state, &state.die);
->  		else
->  			process_variable(&state, &state.die);
->  
-> +		cache_clear_expanded(&state.expansion_cache);
->  		return 0;
->  	}
->  	default:
-> diff --git a/scripts/gendwarfksyms/gendwarfksyms.h b/scripts/gendwarfksyms/gendwarfksyms.h
-> index f317de5b0653..6147859ae2af 100644
-> --- a/scripts/gendwarfksyms/gendwarfksyms.h
-> +++ b/scripts/gendwarfksyms/gendwarfksyms.h
-> @@ -104,6 +104,7 @@ struct symbol *symbol_get(const char *name);
->  
->  enum die_state {
->  	DIE_INCOMPLETE,
-> +	DIE_UNEXPANDED,
->  	DIE_COMPLETE,
->  	DIE_LAST = DIE_COMPLETE
->  };
-> @@ -133,6 +134,7 @@ static inline const char *die_state_name(enum die_state state)
->  {
->  	switch (state) {
->  	CASE_CONST_TO_STR(DIE_INCOMPLETE)
-> +	CASE_CONST_TO_STR(DIE_UNEXPANDED)
->  	CASE_CONST_TO_STR(DIE_COMPLETE)
->  	}
->  
-> @@ -155,9 +157,40 @@ void die_map_add_linebreak(struct die *pd, int linebreak);
->  void die_map_add_die(struct die *pd, struct die *child);
->  void die_map_free(void);
->  
-> +/*
-> + * cache.c
-> + */
+> +  It has stereo DAC for playback, mono ADC for capture, and is somewhat
+> +  similar to CS42L42 but with a different regmap.
 > +
-> +#define EXPANSION_CACHE_HASH_BITS 11
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - cirrus,cs42l84
 > +
-> +/* A cache for addresses we've already seen. */
-> +struct expansion_cache {
-> +	HASHTABLE_DECLARE(cache, 1 << EXPANSION_CACHE_HASH_BITS);
-> +};
-> +
-> +void __cache_mark_expanded(struct expansion_cache *ec, uintptr_t addr);
-> +bool __cache_was_expanded(struct expansion_cache *ec, uintptr_t addr);
-> +
-> +static inline void cache_mark_expanded(struct expansion_cache *ec, void *addr)
-> +{
-> +	__cache_mark_expanded(ec, (uintptr_t)addr);
-> +}
-> +
-> +static inline bool cache_was_expanded(struct expansion_cache *ec, void *addr)
-> +{
-> +	return __cache_was_expanded(ec, (uintptr_t)addr);
-> +}
-> +
-> +void cache_clear_expanded(struct expansion_cache *ec);
-> +
->  /*
->   * dwarf.c
->   */
-> +struct expansion_state {
-> +	bool expand;
-> +	unsigned int ptr_depth;
-> +	unsigned int ptr_expansion_depth;
-> +};
->  
->  struct state {
->  	struct symbol *sym;
-> @@ -165,6 +198,10 @@ struct state {
->  
->  	/* List expansion */
->  	bool first_list_item;
-> +
-> +	/* Structure expansion */
-> +	struct expansion_state expand;
-> +	struct expansion_cache expansion_cache;
->  };
->  
->  typedef int (*die_callback_t)(struct state *state, struct die *cache,
+> +  reg:
+> +    description:
+> +      I2C address of the device
 
--- 
-Thanks,
-Petr
+Drop. That's every device.
+
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description:
+> +      Reset pin, asserted to reset the device, deasserted to bring
+> +      the device online
+
+Drop. That's every reset-gpios.
+
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    description:
+> +      Interrupt for the IRQ output line of the device
+
+Drop.
+
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      jack_codec: codec@4b {
+> +          compatible = "cirrus,cs42l84";
+> +          reg = <0x4b>;
+> +          reset-gpios = <&pinctrl_nub 4 GPIO_ACTIVE_LOW>;
+> +          interrupts-extended = <&pinctrl_ap 180 IRQ_TYPE_LEVEL_LOW>;
+> +          #sound-dai-cells = <0>;
+
+Not documented.
+
+> +      };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c1a2c296446c0724a0c6e70c845e5e5e1e693fd5..f5f85714dc4e8ca9c60b3f6963b2cec1ea33fdd0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2132,6 +2132,7 @@ L:	asahi@lists.linux.dev
+>  L:	linux-sound@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
+> +F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+>  F:	Documentation/devicetree/bindings/sound/apple,*
+>  F:	sound/soc/apple/*
+>  F:	sound/soc/codecs/cs42l83-i2c.c
+> 
+> -- 
+> 2.47.0
+> 
