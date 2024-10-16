@@ -1,109 +1,128 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B461D63E7
-	for <asahi@lists.linux.dev>; Tue, 15 Oct 2024 23:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0E4206975
+	for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 10:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729034558; cv=none; b=X31VsyyDGxGmSwi79a2759Cn7Ul48JFly1P2/AA7/7tCbHR8kjx+EApiiHzW04IOz5Jdq4xUt7JcO4w08SzfbTlmi0GPDfuT8WQQsIsWEZ88BqYccgJo7NVUgGk4v5rAwDk8Pecm9uw7On2mgylke6Oq2+5Ana/qTGJJzet9Z3M=
+	t=1729075327; cv=none; b=HG7HAmm2KAfvNWX7zEwKX/ixkJJivZSLjS2RDhHOUaekx4771sM4CbALjMPSvrBZZ4Kk4ERmNu+E2XUwPRwY3N3JhfYniluVVbNtRFYHDs/qdCwtVjf2t2Uqz0JPYRepZ/EBaGGZo7zcX6U3yJxSE89d8D6fadvhnW4t+5m+Z0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729034558; c=relaxed/simple;
-	bh=I523jeJXbcx4KI8RALYv3nNxeV4rQgapD1DZyvsalGc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IlrII0ucuDgjRA1Wc8P8EATESVAv9ry3TaP/88TCjQocQ6CxmxZrRTW47oNJMqlvpcpLkpMU5KvqP5l3ASYMXqCMuRfqyaO7YT4tq7B62H6l1zeITUNyf70hYJLKXaA0YOtl+LaOV3qkY/ZCDDxgje+s+qXygyWDBGSIaSf6Fbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DEHXs7zn; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1729075327; c=relaxed/simple;
+	bh=mEq5F6t+xaQeyl3l8j0WFySka0dkQMiC1ioO2fr0s3c=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QlYxuUTJid8YV9CGka18lYwTL08a2/Wa7kJ38mqBFNZXZ6eOOvAaijInSwG74CaIoAriQ9eZTHlAXbM1FMnrEUlmYr7sz4L9L99Q+6kzJ4rBvew5VaYHfda8q4m5VBweBHUwjpDZj1Iv5BQJj2l+zurLKNgcZ/NQq53Xvff+zUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ktTn17DY; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DEHXs7zn"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539e681ba70so1999e87.1
-        for <asahi@lists.linux.dev>; Tue, 15 Oct 2024 16:22:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ktTn17DY"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-20ca388d242so35675575ad.2
+        for <asahi@lists.linux.dev>; Wed, 16 Oct 2024 03:42:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729034555; x=1729639355; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9RUvHKuEBPAnu6MBocZm6vLF52qHvXQbIHH1GlTyCVw=;
-        b=DEHXs7znAxVEA2Gd/nYY0U4Vzt6QyeJy3ne8cDwAUlJlIxm0r2/RQemx6fbBQt3kwO
-         xfSAuzSYbF4gNEvMGANFQwizmROAWSMVKu5NIzFzatjOfa/Cy45EQ7BJPwwhVf84eUNa
-         qdvTVbZrVPXsZkyPXtLQJ30QlKzxpdqEcmPRYg/hKe0WNvPMfx/zTyU0id5jzf9S7iBK
-         vQHk6Xkjq+1naiOb96QKrgkto9ZSSY9cVsHcfmFQCk5AzoL0uxr9wcuxFtxd7Wv8npcB
-         8lquGttVJS5cmdavCTxKvFl49igGH38LGdz1sVVnJZHQ3n6bqBbkDThOASXEuiiS8HXd
-         gZyA==
+        d=gmail.com; s=20230601; t=1729075326; x=1729680126; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=105FVZgfdYE5ClHoZS1Bc0PBYQU+gjIa+OLFozcjrTU=;
+        b=ktTn17DYfLPrrlhhhhr04BYT2/3oFUVM9+7STcTw1uMExyXOJIDdJTjp6dG4fhp9T6
+         94caTz5V+Eyw97e8XPdcdFdVASP1uqw95XPWxMBZjmmwp05BGBby8wKRuGvAdMM+S5gN
+         jlYX4XnDN0ADSdzyoV5wUAbjPb36hMIKQ08F3UrhRsFS4QcSfnSs5UBhXQNGnyippc89
+         gGHqu0EpsduOEE8brJrbU29hPa4YAPnEMwsty29IxtOrdX2oD8/gKlfulgngtpcbD6Go
+         CGq+80sKq3S49mfckuGEYm48t03zcBb2c9+sP9UcCrMfNXBcFK4ootSZaaiiN7NM0y1N
+         DCDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729034555; x=1729639355;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9RUvHKuEBPAnu6MBocZm6vLF52qHvXQbIHH1GlTyCVw=;
-        b=jM8rbxPQfIHuVDTmXH7iuQEmkrzW95ogC6NXFsnPB8+nHJFTvdJqcTGxHeyuT7lNgL
-         /P1BFwCoLMPwfFK5aZad9zlJlmUPyu5GD7pRgrUKImI/QrZqbuCrwRDYIAQCIX4TdG/X
-         JNDPyHzn9i7Ju8WH9E0btlAJ735W0bq1zFj+BVklvqNwBa8evrDSbOHQRv/VenfCFPbw
-         0qBCbWv0w/wka59HpYsAcAHn6BpYJ4z/ELoJvCfh5/a5dPQ/JG89ztb7MFQChUp4Grqk
-         BLoo+u75lspTgOi74hBRY0eT10bhNONWjMC+grR2+rc4RDR4e8TtuQtm4uIbMrBLwnDx
-         KN4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUtYVdR68oEfmyi+OwhcM/g6LCVo/4V+zq/sfdLUMnSrKyz1MD+pT2pQLNLAotcEye5oQJG1A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx8L5FisXvTqS66JC6TcGvHJz+I9h+WwaeC80KhvMaiMMx0UOoA
-	Rkfj9q9o1BetcHRNqTk0NoRQJH1kSzCVMBXDVPCSNhU2xe/envX+rlvvszns4Y5sADmkXbegN/K
-	z2HBnw7ETHxFMw+nXxcBvx0bkSgf3L3cT0BZQ
-X-Google-Smtp-Source: AGHT+IHGh6PUQoy8hght4ieDSeR+Tsek80+k3WjbTEsufsVtjnaI+27i1yToDuq/77zg6Ww2K7PJe7qX4qx5sJCsaJo=
-X-Received: by 2002:a05:6512:1592:b0:538:9e44:3034 with SMTP id
- 2adb3069b0e04-53a04d02628mr174009e87.6.1729034554499; Tue, 15 Oct 2024
- 16:22:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729075326; x=1729680126;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=105FVZgfdYE5ClHoZS1Bc0PBYQU+gjIa+OLFozcjrTU=;
+        b=UgFQQO946ppfu8DyvAgBS8PZcdLaFgrH/fWJjl04RR6ki4quZneECCY+jLrDR5hazM
+         3lX6AqLAURLFk3lkWaMIkSw36i5ryaH0a9NUZE3kTVFb+CsGPQ0QUeaGUd3S2DSosRs1
+         GU2PU1m3j3b+aUZflSVI+TE09AfQfRH9uAgk7FRwSuUfJFtgJ+RZL8847/A0kCZdX+Jo
+         9sOOCD1nNN2zOlYbXZzcV9oUjO/yQvXOFuqHahU5hPQpA9qpQNY8MoG2yurWIU8GBTV0
+         DE+3yQIVIy5tu/T7kuTqwGsJxIm/Um/nwZTv/YtTvPpWdjX4txK3sKDvvN++tuhgVfZ7
+         cU8Q==
+X-Gm-Message-State: AOJu0YwdswlAasSY5edpRY0HWQI47UoDxTOVlQ9BB9SH9K1SDdLzS8rC
+	FMJTLUm2F6gq8XQlfsKC8S/dD3zg8JVKRTVo7etQEEh3SODSvrd1
+X-Google-Smtp-Source: AGHT+IFYuKRUAQGpZGNW2W3fgGvJ+I+xUzQv4JnkWoD7y5nHrjeFA/KPs9pTVFYfiSBlDtDnKaO8Ng==
+X-Received: by 2002:a17:902:f552:b0:20c:862a:fcfc with SMTP id d9443c01a7336-20cbb17d8bfmr254142565ad.6.1729075325233;
+        Wed, 16 Oct 2024 03:42:05 -0700 (PDT)
+Received: from [192.168.2.3] (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1804b2e4sm26319645ad.182.2024.10.16.03.41.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 03:42:04 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+Subject: [PATCH 0/3] ASoC: add CS42L84 codec driver
+Date: Wed, 16 Oct 2024 20:40:59 +1000
+Message-Id: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20240925233854.90072-1-mmaurer@google.com> <20240925233854.90072-15-mmaurer@google.com>
- <ZwmlEYdS0aPVF32k@bombadil.infradead.org> <CAGSQo01o4fWYwSzZHX5dyTUKcaCSZ7z-hPQ8w63tgBPGbM_UCA@mail.gmail.com>
- <ZwmnnMmqVWLaelvQ@bombadil.infradead.org> <Zwm4lXdKB9RfPQ5M@bombadil.infradead.org>
- <Zwm4v_1wh5RwuHxF@bombadil.infradead.org>
-In-Reply-To: <Zwm4v_1wh5RwuHxF@bombadil.infradead.org>
-From: Matthew Maurer <mmaurer@google.com>
-Date: Tue, 15 Oct 2024 16:22:22 -0700
-Message-ID: <CAGSQo03df-tnmwcz4nh3qtuQPKQ2zLHW0juQyKUXGsdeS7QkLA@mail.gmail.com>
-Subject: Re: [PATCH v5 14/16] modules: Support extended MODVERSIONS info
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org, 
-	gary@garyguo.net, Michael Ellerman <mpe@ellerman.id.au>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Benjamin Gray <bgray@linux.ibm.com>, Naveen N Rao <naveen@kernel.org>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, neal@gompa.dev, 
-	marcan@marcan.st, j@jannau.net, asahi@lists.linux.dev, 
-	linux-modules@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen <samitolvanen@google.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIADuYD2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDA0Mz3eRiE6McCxPdNGMLYxOLFCPDZAsLJaDqgqLUtMwKsEnRsbW1ABB
+ aMS1ZAAAA
+X-Change-ID: 20241016-cs42l84-f38348d21c88
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ James Calligeros <jcalligeros99@gmail.com>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1831;
+ i=jcalligeros99@gmail.com; h=from:subject:message-id;
+ bh=mEq5F6t+xaQeyl3l8j0WFySka0dkQMiC1ioO2fr0s3c=;
+ b=kA0DAAoW1DYy0VH3eWAByyZiAGcPmHbIJy19smNGSootjbZYbY0aqkAGCtDav4ojTWY0jLfsH
+ Ih1BAAWCgAdFiEEsIISSJsyBtmPFHm91DYy0VH3eWAFAmcPmHYACgkQ1DYy0VH3eWC1qQD/Vf85
+ E/CLK3aUekI42LVRO9TqU3Yy1zrsoYg5eG8ZIJMBAMYsRWvrmcFNrGwjWPmc3L+bk60h5APjUsE
+ X+460AVwH
+X-Developer-Key: i=jcalligeros99@gmail.com; a=openpgp;
+ fpr=B08212489B3206D98F1479BDD43632D151F77960
 
-So, the basic things I can think of to test here are:
+Hi all,
 
-1. The kernel can still load the previous MODVERSIONS format
-2. The kernel can load the new MODVERSIONS format
-3. If we artificially tweak a CRC in the previous format, it will fail to l=
-oad.
-4. If we artificially tweak a CRC in the new format, it will fail to load.
-5. With CONFIG_EXTENDED_MODVERSIONS enabled, the kernel will build and
-load modules with long symbol names, with MODVERSIONS enabled.
+This patch set adds a driver for the Cirrus Logic CS42L84 codec. This chip
+is (so far) found only on Apple Silicon Macs. In keeping with proud Apple
+tradition, the CS42L84 is essentially just a CS42L42 with a different
+regmap and no publicly available datasheet. It may also be missing its
+parent's S/PDIF capabilities as none of Apple's devices support S/PDIF out,
+however this cannot be positively confirmed.
 
-Is there anything else you were thinking of here, or are those the
-kinds of checks you were envisioning?
+This driver has lived in the downstream Asahi tree for quite a while now,
+and gained some refinements along the way. I have squashed most of these
+into the initial driver commit as they were small changes like tweaking
+msleep()s or filling out TLVs, but left seperate a larger change to
+tip/ring sense IRQ handling as it differs significantly from what is found
+in the CS42L42 driver.
 
-On Fri, Oct 11, 2024 at 4:46=E2=80=AFPM Luis Chamberlain <mcgrof@kernel.org=
-> wrote:
->
-> On Fri, Oct 11, 2024 at 04:45:25PM -0700, Luis Chamberlain wrote:
-> >
-> > Also, just as I asked Sami, coould you split this up into patch sets?
-> > One with all the cleanups and elf validation code shifts. And then the
-> > other code. That will let me pick up quickly the first patch set.
->
-> Oh and if you can think of ways to enhance our test covereage on all
-> this as I noted to Sami, it would be greatly appreciated.
->
->   Luis
+---
+James Calligeros (1):
+      ASoC: cs42l84: leverage ring sense IRQs to correctly detect headsets
+
+Martin Povišer (2):
+      dt-bindings: sound: Add CS42L84 codec
+      ASoC: cs42l84: Add new codec driver
+
+ Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml |   60 +++++++
+ MAINTAINERS                                                 |    2 +
+ sound/soc/codecs/Kconfig                                    |    7 +
+ sound/soc/codecs/Makefile                                   |    2 +
+ sound/soc/codecs/cs42l84.c                                  | 1110 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ sound/soc/codecs/cs42l84.h                                  |  210 +++++++++++++++++++++++++
+ 6 files changed, 1391 insertions(+)
+---
+base-commit: 469819cc17368702a6f68cec2148f518d3f3679b
+change-id: 20241016-cs42l84-f38348d21c88
+
+Best regards,
+-- 
+James Calligeros <jcalligeros99@gmail.com>
+
