@@ -1,67 +1,72 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD9E1DAC92
-	for <asahi@lists.linux.dev>; Thu, 17 Oct 2024 17:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D41A4206E
+	for <asahi@lists.linux.dev>; Fri, 18 Oct 2024 12:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729187402; cv=none; b=u21gPLZtJ+lazULhZjJ5Oh4PzMEsrZblAZMiSQrbjrJ9+acZ+WV4hwnxADvD93ohoGqiM9EUHB0dXAmOpbBT+9tUNDY2FnhVjplzEB6Cls7xpAC5L0FFZYMkwhD8/Q43tRGjZ7z3q1IfwFPb4Fm2d5m82/jSgFWLpExtPn22iWc=
+	t=1729253743; cv=none; b=L+6odjZtcr5ERi8LR0xfVSSMYSINb7i3v+2FBb/WFqcI45Hi4gtAtCmHUU7L8XtCYBaAkwD4K7Y6ORGj/clj+06B9ryfvQk7NPeRx1hl5/LhtbpDLuTYBWNiLOfMVMvCBuPorbKkCvIXtjK8MjMIhgyJnW08AivCpCV8Yv3zPhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729187402; c=relaxed/simple;
-	bh=+Lf3iObRGR3MI/gTOD1+me3xCFYuOFP73NluVCrLeIw=;
+	s=arc-20240116; t=1729253743; c=relaxed/simple;
+	bh=IE5eND4JS389Mg64lkLSdqShAg+vwI2qRCJ1rs2mbGU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ubRF6Vz5p0AEPqU+LmpSDs35F3G41TW8tE/3GmYSD7n7WFUzrMuktx+cO3eNmnD4FaOuwhpmMbFV3dlYAGk2Kwuymj/XS9a0SO5HGyx+RPkz6qbOg1RjUUJpEJh07Y+8vdf9o1MHxkKf411haWaLBzTlm7FN8RSX6NweCxMR+WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+	 To:Cc:Content-Type; b=RhNJFiBkcMrrf+AArJSfMg214tb4SXkzQpNsllA3nHVE3ygYrkZIHq66fXE/ETc0jyYAbtnlzQmNI3ZMNCaqC8JqIbXEpduT9k4N5Deb9bt/MPEzJ5s9Z1bF58JKY96YAEpoKzeCZmYwnX6imbsvExllXxvKiI1kIXYWL3l9uhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1uYmdn1; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9a4031f69fso171182866b.0
-        for <asahi@lists.linux.dev>; Thu, 17 Oct 2024 10:49:56 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1uYmdn1"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4609c96b2e5so11002041cf.0
+        for <asahi@lists.linux.dev>; Fri, 18 Oct 2024 05:15:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729253741; x=1729858541; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=20pjU3e//rgq26Yi05Ys1N4I2o5U5qD7ybOOR7293q4=;
+        b=L1uYmdn1QYfe7dxY1QNCfD4nskeZ/CSWxuHOpeO64/pSHWaAYJwV6pFjJhXXJMaiwr
+         2xb4fWyz6kduQhpTHywo3h+QdZHzlwYfCBahEyh4K5N6tf/aaTb+fqqeoLQLWBPHVYeF
+         M02vBFQnIA5gyrmk4YMANYcWExqRXG/TpVsmiRP/AaHO6gZTsfLC7WoOVKZKaD1WZcfs
+         FLh7hisROebcT+9C8bwZrmZ2zSexfR3ztVyQIS3QDkF4h2KOVpD4m/goN9L5eqFt22EV
+         x1J0nAneM/Z2IBkUByFmfglD29lkTKLXMqv2FstNdoozQXnOrTi5Ta98NahL3pz/Yuh9
+         LLRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729187395; x=1729792195;
+        d=1e100.net; s=20230601; t=1729253741; x=1729858541;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wCloPbF7r5yRjYTtM6i8/cVXSwmwXC9Un1r2ajxc5jk=;
-        b=Ffb13W6aak2UHIWmBVnKBRiXGCBDMNP4uYl9b+Fu85LvI5YMJeHgcsPuUUUWCFI7EZ
-         t9TfiORiNw7694FxDjzAfjhceXotZvtESPSbpqbWjnT4Mv0IYeHZIa4Or+kOBjyWtAng
-         ODmF5HDUfSiu4NXy9wQnh/R4AijdOkRjfnKic15qPlShKmI0fGQCdwtcMZnTPm7mxmy8
-         3F88SzB+C53QvzT9irsfE+aunmggAaLMxE0ZKaKh4D0CIlFpmDV6FcPJeM/qTJ3xZq9J
-         RpIJDxZdWQpi4RGyemUZlDziHazX+2BF4hEcHEymyxkuB5rp0BWOS+v4CcdQHGx3k7ho
-         inug==
-X-Forwarded-Encrypted: i=1; AJvYcCWr+N3ON3psX6q6Pk/Qgo047NwMhffj4w8fGtG3LVIpYOp2bD3sa0CZ/tZy37IPgkNZjijKuw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxxqtTV3dzaxXT3/sbon7Exl6jng5CHNFJzM0CrR3Cn4zbApmei
-	MrmuB18400Z8khDG6GedVwhCQohGKq9/ayQVTtE1lcFIaiAXikpJY7H32MXyfXw=
-X-Google-Smtp-Source: AGHT+IHLNKqsl4MGI1eNysA4ElzuL77MBSnj1GzhpCFbef+XVe3Brr43Yob67sac6BSzx6Z8006JXg==
-X-Received: by 2002:a17:907:7243:b0:a9a:5b78:cddc with SMTP id a640c23a62f3a-a9a5b78ce2bmr280631366b.64.1729187394519;
-        Thu, 17 Oct 2024 10:49:54 -0700 (PDT)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a2974c2f1sm318774166b.87.2024.10.17.10.49.54
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Oct 2024 10:49:54 -0700 (PDT)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a9a2209bd7fso148184066b.2
-        for <asahi@lists.linux.dev>; Thu, 17 Oct 2024 10:49:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV1kfsQxKsKMSLrJ5mCyJ6YjCC3NQmRzGMv3kuuO14YFiKjKfN9tlOKM6/PfSAp+1+Nw8V4Lg==@lists.linux.dev
-X-Received: by 2002:a17:907:f1ea:b0:a99:fc3d:7c76 with SMTP id
- a640c23a62f3a-a9a34e15a00mr754925366b.37.1729187393982; Thu, 17 Oct 2024
- 10:49:53 -0700 (PDT)
+        bh=20pjU3e//rgq26Yi05Ys1N4I2o5U5qD7ybOOR7293q4=;
+        b=AprEK7YBiyEIKout+K6DqDT3ro5tFIMtKnUPI1h7ogCKBc1k1HjRnZDvLCMfu7AIch
+         xIlFkRlcusPTFlM4wjrAJ89Gzb66BkGfdRZaQyt/9oMJbCjRbuZdLZsxPACDktk/Fjgw
+         tu/anVjtvaRGx2O2wHl0b53/rjbT8KavXbBDcX8iuLOZWGohyLISBVZdrFsjm4moQr6i
+         lM9K6uO4wr5Wr/1pPS8TN92mKwczKS4b0st+rxnMWVvPa8ku9cHnhtA0a1PGs3KGWlFN
+         YhfzpQQ8gmd8S33LkoPrVXs+V9TPKypk30dta13aIwS8Ro74aGokwt6Hw3chWaAQfyFZ
+         D5JA==
+X-Forwarded-Encrypted: i=1; AJvYcCV/WMxwb4dP2F3nwpkk0R8rKDzIRe1bjLxfYYSYkHVxpAV6SOya/gs4DyUsglosqeZ5limUAA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxN2yICoo7dkrD5cgGeqZWhz0noJgZaTQL+/TBWyjdjWq98l3nd
+	/Ai3dPho1XaLerVHG2fKu1MJJg5Lrax2LEL9iUdQOK/V6cxx+xb3OmDFmUgLLunBRCkv0GEx3tY
+	0BLvirj2E54WLWbuaBTlhYJCvezI=
+X-Google-Smtp-Source: AGHT+IHznlnIPkcD1o9NThG4Pn7268Gn9GiD6LokW8b2HqLdTDhxkp1K0M7XBv6+w0jbPY3BaPJt8cM+9Prcjg21UIk=
+X-Received: by 2002:ac8:5a01:0:b0:45f:bca0:b8d2 with SMTP id
+ d75a77b69052e-460aed53cfemr26349851cf.20.1729253741145; Fri, 18 Oct 2024
+ 05:15:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
-In-Reply-To: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
-From: Neal Gompa <neal@gompa.dev>
-Date: Thu, 17 Oct 2024 13:49:17 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je9Oh2WOR7B-LrPOo6C30HH7ENisCKHvTm3MuKiBdswppQ@mail.gmail.com>
-Message-ID: <CAEg-Je9Oh2WOR7B-LrPOo6C30HH7ENisCKHvTm3MuKiBdswppQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] ASoC: add CS42L84 codec driver
-To: James Calligeros <jcalligeros99@gmail.com>
+References: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com> <20241016-cs42l84-v1-2-8d7e9d437d2d@gmail.com>
+ <abe88a18-28fb-40e5-8bd2-3fde5de9cb56@sirena.org.uk>
+In-Reply-To: <abe88a18-28fb-40e5-8bd2-3fde5de9cb56@sirena.org.uk>
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Fri, 18 Oct 2024 22:15:29 +1000
+Message-ID: <CAHgNfTwGM8tEsp5SfYp2XmqN2qC557kGyuDwCJfcoxpc7wGSOQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] ASoC: cs42l84: Add new codec driver
+To: Mark Brown <broonie@kernel.org>
 Cc: =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
 	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
 	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
@@ -70,64 +75,61 @@ Cc: =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 16, 2024 at 6:42=E2=80=AFAM James Calligeros
-<jcalligeros99@gmail.com> wrote:
->
-> Hi all,
->
-> This patch set adds a driver for the Cirrus Logic CS42L84 codec. This chi=
-p
-> is (so far) found only on Apple Silicon Macs. In keeping with proud Apple
-> tradition, the CS42L84 is essentially just a CS42L42 with a different
-> regmap and no publicly available datasheet. It may also be missing its
-> parent's S/PDIF capabilities as none of Apple's devices support S/PDIF ou=
-t,
-> however this cannot be positively confirmed.
->
-> This driver has lived in the downstream Asahi tree for quite a while now,
-> and gained some refinements along the way. I have squashed most of these
-> into the initial driver commit as they were small changes like tweaking
-> msleep()s or filling out TLVs, but left seperate a larger change to
-> tip/ring sense IRQ handling as it differs significantly from what is foun=
-d
-> in the CS42L42 driver.
->
-> ---
-> James Calligeros (1):
->       ASoC: cs42l84: leverage ring sense IRQs to correctly detect headset=
-s
->
-> Martin Povi=C5=A1er (2):
->       dt-bindings: sound: Add CS42L84 codec
->       ASoC: cs42l84: Add new codec driver
->
->  Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml |   60 +++++=
-++
->  MAINTAINERS                                                 |    2 +
->  sound/soc/codecs/Kconfig                                    |    7 +
->  sound/soc/codecs/Makefile                                   |    2 +
->  sound/soc/codecs/cs42l84.c                                  | 1110 +++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++
->  sound/soc/codecs/cs42l84.h                                  |  210 +++++=
-++++++++++++++++++++
->  6 files changed, 1391 insertions(+)
-> ---
-> base-commit: 469819cc17368702a6f68cec2148f518d3f3679b
-> change-id: 20241016-cs42l84-f38348d21c88
->
-> Best regards,
-> --
-> James Calligeros <jcalligeros99@gmail.com>
->
->
+Hi Mark,
 
-Used and reviewed over multiple revisions in Fedora Asahi Remix. :)
+On Wed, Oct 16, 2024 at 10:23=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
+ote:
+> > +static const struct regmap_config cs42l84_regmap =3D {
+> > +     .reg_bits =3D 16,
+> > +     .val_bits =3D 8,
+> > +
+> > +     .volatile_reg =3D cs42l84_volatile_register,
+> > +
+> > +     .max_register =3D 0xffff,
+>
+> Does that register actually exist?
 
-Reviewed-by: Neal Gompa <neal@gompa.dev>
+It is likely that the highest register is the ID register, which would matc=
+h
+CS42L42. Setting that here does not break anything.
 
+> > +static int cs42l84_mute_stream(struct snd_soc_dai *dai, int mute, int =
+stream)
+> > +{
+> > +     struct snd_soc_component *component =3D dai->component;
+> > +     struct cs42l84_private *cs42l84 =3D snd_soc_component_get_drvdata=
+(component);
+> > +     unsigned int regval;
+> > +     int ret;
+>
+> > +                             ret =3D regmap_read_poll_timeout(cs42l84-=
+>regmap,
+> > +                                                            CS42L84_PL=
+L_LOCK_STATUS,
+> > +                                                            regval,
+> > +                                                            (regval & =
+CS42L84_PLL_LOCK_STATUS_LOCKED),
+> > +                                                            CS42L84_PL=
+L_LOCK_POLL_US,
+> > +                                                            CS42L84_PL=
+L_LOCK_TIMEOUT_US);
+> > +                             if (ret < 0)
+> > +                                     dev_warn(component->dev, "PLL fai=
+led to lock: %d\n", ret);
+>
+> This is too heavyweight for a mute operation, do you really need one?
 
+Unfortunately it seems that way. This was carried over directly from CS42L4=
+2,
+and as the comment in the function states, the internal power supply
+will discharge
+itself and crash the chip if the PLL is set up before any of the interfaces
+are fully enabled. This is corroborrated by the CS42L42 datasheet. I've spe=
+nt
+some time today trying to work around this, but trying to sequence and enab=
+le
+the PLL anywhere more sensible either causes the chip to crash or causes
+audible clock jitter artefacts.
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+Regards,
+James
