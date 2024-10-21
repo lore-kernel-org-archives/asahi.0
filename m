@@ -1,77 +1,163 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73E0173;
-	Mon, 21 Oct 2024 18:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD2D1FBC87;
+	Mon, 21 Oct 2024 19:26:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729536621; cv=none; b=YRCz77+6knP5PkZgdd5+e7kL2PboUyTUfjvJtUgoiJ5CgrckYvMRrBr8JB0TBbckVBWFjHLz4a6hJwosvVnxgeYRN/4UicEK47mfgibI0gbZ9TIJKxpPBDEKWBjwXaQjFkqpOxfGz6VzoKQJeA705wF/UFh/XFAeUy5hzEwJ3Uw=
+	t=1729538793; cv=none; b=BLp+NOB1pe7YklSOZFX1UH5e5PTI3dtzWKoaRkUF9d0VtOyK+7enAMq+3GAWBbHdG+q4fICdGZxxLdkHOCfIsqgekhZedscaM7XMykCrIFOt9J0hU7pBEow5PkKP6ciBAPfKm8y5bVNX7zKgspZOgIh0m36eU+Ydh6sOFnvj73w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729536621; c=relaxed/simple;
-	bh=qgyG8Kaa/YtH51Hlpd3SjiwLQqr3adzTo83sdSlMQx0=;
+	s=arc-20240116; t=1729538793; c=relaxed/simple;
+	bh=zA4sZ0GOCefJgtUsyAnLlD0LbsF0ALVbHDC66/Uv15A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dWW8GRCYWInWSQwXnAIqOAQe2NyuSpuMs3mEWubfgAsVXqoNPTUkcTeD5NG5AOQ+TMN081cyKSsj/zdifYFJrdFVmOt5b8YuufA+ifm5by1tzTSTyCi2CFvFMKNOnnBw+uBdXTHehQ+98XzhB2Om1qRDf5iqeSg7bcHtKniz7/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iRt5zLpY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JkW3rwbFqV6lutgGVh4Te2sxYshdfFrsEtwdt6oyCS3wWDp+wQK0XA5cAUWlihwhWMOtIBbgZdtpQoy9yUX3jSijeVEBf8J06w3Kgp3WPTNiwHUuyovvIaj8Yd6hgk1CX1AT+fydcIilMVgikNP9jtn9Q4w54rVMq3fK/vl2oGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6z3oItO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iRt5zLpY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C723EC4CEC3;
-	Mon, 21 Oct 2024 18:50:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6z3oItO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46B03C4CEC3;
+	Mon, 21 Oct 2024 19:26:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729536620;
-	bh=qgyG8Kaa/YtH51Hlpd3SjiwLQqr3adzTo83sdSlMQx0=;
+	s=k20201202; t=1729538793;
+	bh=zA4sZ0GOCefJgtUsyAnLlD0LbsF0ALVbHDC66/Uv15A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iRt5zLpY0+WS2sYGXU65HxGytlhkxgBDvLXMwIo9WG8d57C5caCA4R2AIzbrpiViW
-	 2ZTRM310ZHGH9Js5UlHYo6CQDS3x8YnvdRpQfDtU2wkYYNSuiAEBWtephNwoVNllzR
-	 hLgH/YKKckxmfOAmGhTYtZJD7USq0XgppQafPy5m6E0uF6aIXwD782oW159FTezwy7
-	 eSsQaJBXgLJXOXp8yV1GM6Gz1KzNJ6uJ07F36z2fH6rp+Yd0za//O3ebyO1TP/04k3
-	 K7MdDhOn8bY1rLKNtTTaj00Us29H3HpBmoebwck/qEEIQ2okUaGWDmNOuRq2PXuCJT
-	 KTaVAtijTxhFg==
-Date: Mon, 21 Oct 2024 11:50:18 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Matthew Maurer <mmaurer@google.com>
-Cc: masahiroy@kernel.org, ndesaulniers@google.com, ojeda@kernel.org,
-	gary@garyguo.net, Alex Gaynor <alex.gaynor@gmail.com>,
-	rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, neal@gompa.dev, marcan@marcan.st,
-	j@jannau.net, asahi@lists.linux.dev, linux-modules@vger.kernel.org,
-	samitolvanen@google.com, Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>
-Subject: Re: [PATCH v6 4/5] modpost: Produce extended MODVERSIONS information
-Message-ID: <ZxaialZA7rCrwlHL@bombadil.infradead.org>
-References: <20241015231925.3854230-1-mmaurer@google.com>
- <20241015231925.3854230-5-mmaurer@google.com>
+	b=B6z3oItOv3LMfLuqZ+r7kMjS7DXUolmGT0kIZPxHbo01Xj9/9lisFQ05LrFohJ1Sp
+	 eqX1ziV7LZIN1ypa+h+Co2wvuNs3q4PGM6nAQhHY/8plmSaS/YX15jlM9lpm0KmRIW
+	 YhKBxwNDKgYQc2+myG3YD8vqnzSDbBbQToO6ms1c7TBuM7gQe6Lelr+btLIhg7i3ZP
+	 tGdqf7/I/ikEU4sLJCyXHdGEQn0qprClyFVCqQROaHyVxT1BnTRBHFfVmyFJeUPlst
+	 F23X3dHrPfeO/LsGe3a3DGC4qGGDPa66DBv5U2Q/Bs+KjLpiUuaEBYQIQMdEAvdRMx
+	 fRENLuqAmEHiw==
+Date: Mon, 21 Oct 2024 14:26:32 -0500
+From: Rob Herring <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+	Neal Gompa <neal@gompa.dev>
+Subject: Re: [PATCH v2 1/3] dt-bindings: sound: Add CS42L84 codec
+Message-ID: <20241021192632.GA965116-robh@kernel.org>
+References: <20241020-cs42l84-v2-0-37ba2b6721d9@gmail.com>
+ <20241020-cs42l84-v2-1-37ba2b6721d9@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241015231925.3854230-5-mmaurer@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241020-cs42l84-v2-1-37ba2b6721d9@gmail.com>
 
-On Tue, Oct 15, 2024 at 11:18:59PM +0000, Matthew Maurer wrote:
-> Generate both the existing modversions format and the new extended one
-> when running modpost. Presence of this metadata in the final .ko is
-> guarded by CONFIG_EXTENDED_MODVERSIONS.
+On Sun, Oct 20, 2024 at 12:47:31AM +1000, James Calligeros wrote:
+> From: Martin Povišer <povik+lin@cutebit.org>
 > 
-> We no longer generate an error on long symbols in modpost if
-> CONFIG_EXTENDED_MODVERSIONS is set, as they can now be appropriately
-> encoded in the extended section. These symbols will be skipped in the
-> previous encoding. An error will still be generated if
-> CONFIG_EXTENDED_MODVERSIONS is not set.
+> CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
+> computer models starting with 2021 Macbook Pros. It is not a publicly
+> documented part. To a degree the part is similar to the public CS42L42.
+> (The L84 superseded L83 seen in earlier Apple models, and the L83 was
+> pretty much the same as L42.)
+
+Why can't this be added to 
+Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml?
+
+I guess perhaps you don't know what the supplies look like? Do any of 
+the custom properties apply?
+
 > 
-> Signed-off-by: Matthew Maurer <mmaurer@google.com>
+> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> ---
+>  .../bindings/sound/cirrus,cs42l84.yaml   | 56 +++++++++++++++++++++++++
+>  MAINTAINERS                              |  1 +
+>  2 files changed, 57 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..7f8338e8ae369bc529ac3cf35041d5a7b9f3e6d1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> @@ -0,0 +1,56 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cirrus Logic CS42L84 audio CODEC
+> +
+> +maintainers:
+> +  - Martin Povišer <povik+lin@cutebit.org>
+> +
+> +description: |
 
-If nothing is selecting EXTENDED_MODVERSIONS then this is dead code and
-should not be submitted unless we have a user, if that's the case then
-this series should be folded into Sami's.
+Don't need '|' if no formatting.
 
-  Luis
+> +  The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
+> +  in personal computers sold by Apple. It was first seen in 2021 Macbook
+> +  Pro models. It has stereo DAC for playback, mono ADC for capture, and
+> +  is somewhat similar to CS42L42 but with a different regmap.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - cirrus,cs42l84
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  '#sound-dai-cells':
+> +    const: 0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      jack_codec: codec@4b {
+> +          compatible = "cirrus,cs42l84";
+> +          reg = <0x4b>;
+> +          reset-gpios = <&pinctrl_nub 4 GPIO_ACTIVE_LOW>;
+> +          interrupts-extended = <&pinctrl_ap 180 IRQ_TYPE_LEVEL_LOW>;
+> +          #sound-dai-cells = <0>;
+> +      };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c1a2c296446c0724a0c6e70c845e5e5e1e693fd5..f5f85714dc4e8ca9c60b3f6963b2cec1ea33fdd0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2132,6 +2132,7 @@ L:	asahi@lists.linux.dev
+>  L:	linux-sound@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
+> +F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+>  F:	Documentation/devicetree/bindings/sound/apple,*
+>  F:	sound/soc/apple/*
+>  F:	sound/soc/codecs/cs42l83-i2c.c
+> 
+> -- 
+> 2.47.0
+> 
