@@ -1,163 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD2D1FBC87;
-	Mon, 21 Oct 2024 19:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414631991AE;
+	Mon, 21 Oct 2024 19:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729538793; cv=none; b=BLp+NOB1pe7YklSOZFX1UH5e5PTI3dtzWKoaRkUF9d0VtOyK+7enAMq+3GAWBbHdG+q4fICdGZxxLdkHOCfIsqgekhZedscaM7XMykCrIFOt9J0hU7pBEow5PkKP6ciBAPfKm8y5bVNX7zKgspZOgIh0m36eU+Ydh6sOFnvj73w=
+	t=1729539316; cv=none; b=qEW70dm960lfB0nN4yHYFFT9vRFBCJ0JByxV3+m1PaNcG67bvOUKUCMSrXaUT1UWl4sXXgHgT1cP7bPJQf8AKvDakA2nti4l1QPbjHV61ovwQzOJfe7BUC6ZerknxE+xcOv4OLZZOisvMfU2v8KbEX2T+x543GEogiwfsl9lmLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729538793; c=relaxed/simple;
-	bh=zA4sZ0GOCefJgtUsyAnLlD0LbsF0ALVbHDC66/Uv15A=;
+	s=arc-20240116; t=1729539316; c=relaxed/simple;
+	bh=8tOpICiK/wfQf5QbkPjrRKSzo81f/8BUdiOPtbjkrw8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JkW3rwbFqV6lutgGVh4Te2sxYshdfFrsEtwdt6oyCS3wWDp+wQK0XA5cAUWlihwhWMOtIBbgZdtpQoy9yUX3jSijeVEBf8J06w3Kgp3WPTNiwHUuyovvIaj8Yd6hgk1CX1AT+fydcIilMVgikNP9jtn9Q4w54rVMq3fK/vl2oGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6z3oItO; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Elcqiy+t2k6Y/SaraogZKz4Hrv8QxjYci1mKVz2n2sFvA7vdSKVRT2/L9j6coJQncLNa1mPfSo2KhcHigBs5xWvWBFfUMpVvvbXwPCXGp5+A0qUbWCvYdE6oEQfxF0kr7RTXX1poXAXt7MACbiMYsx3UD34zy+fY81SBXhyyoc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jM7+xStN; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6z3oItO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46B03C4CEC3;
-	Mon, 21 Oct 2024 19:26:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729538793;
-	bh=zA4sZ0GOCefJgtUsyAnLlD0LbsF0ALVbHDC66/Uv15A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B6z3oItOv3LMfLuqZ+r7kMjS7DXUolmGT0kIZPxHbo01Xj9/9lisFQ05LrFohJ1Sp
-	 eqX1ziV7LZIN1ypa+h+Co2wvuNs3q4PGM6nAQhHY/8plmSaS/YX15jlM9lpm0KmRIW
-	 YhKBxwNDKgYQc2+myG3YD8vqnzSDbBbQToO6ms1c7TBuM7gQe6Lelr+btLIhg7i3ZP
-	 tGdqf7/I/ikEU4sLJCyXHdGEQn0qprClyFVCqQROaHyVxT1BnTRBHFfVmyFJeUPlst
-	 F23X3dHrPfeO/LsGe3a3DGC4qGGDPa66DBv5U2Q/Bs+KjLpiUuaEBYQIQMdEAvdRMx
-	 fRENLuqAmEHiw==
-Date: Mon, 21 Oct 2024 14:26:32 -0500
-From: Rob Herring <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>,
-	Neal Gompa <neal@gompa.dev>
-Subject: Re: [PATCH v2 1/3] dt-bindings: sound: Add CS42L84 codec
-Message-ID: <20241021192632.GA965116-robh@kernel.org>
-References: <20241020-cs42l84-v2-0-37ba2b6721d9@gmail.com>
- <20241020-cs42l84-v2-1-37ba2b6721d9@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jM7+xStN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3g8aVQixKnDjzfmZsk8cbWAQQrT1SpFFGLRDu0rhec4=; b=jM7+xStN+R3o/R08nulj28qyg3
+	ptfj+w+Rjjj6f4MQIl14DRerD+YkKc4BcBLat758xCORZKT1oDodd/xRA7ipvZ7etdyOmqXD8+VG6
+	DZthBTFFSKWq8yYceBl++WW8jPxaaAukvWcrpTIWby3ZzIqhf3UGo7wNgX+myKyxHo9v8Vfit1MFW
+	kIgvzy9xC0PQepVDJDHG6eJTfgrED0FoWOvc/oL8r1e9achMhsDCMIToW2O6wK4qwbsUSnourhuFQ
+	v7mkeYBfZ9IaTHSrcKvy2wAXhZD4P82wEaDpF6dBxfjxX2BPLwogzySO4RIv7tw1VpC4Tuko4xV6N
+	b2i777pg==;
+Received: from mcgrof by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1t2yBJ-00000008SSH-1ApM;
+	Mon, 21 Oct 2024 19:35:09 +0000
+Date: Mon, 21 Oct 2024 12:35:09 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Helge Deller <deller@gmx.de>
+Cc: Matthew Maurer <mmaurer@google.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>, masahiroy@kernel.org,
+	ndesaulniers@google.com, ojeda@kernel.org, gary@garyguo.net,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Benjamin Gray <bgray@linux.ibm.com>,
+	Naveen N Rao <naveen@kernel.org>, rust-for-linux@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	neal@gompa.dev, marcan@marcan.st, j@jannau.net,
+	asahi@lists.linux.dev, linux-modules@vger.kernel.org,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v5 14/16] modules: Support extended MODVERSIONS info
+Message-ID: <Zxas7TA5j8oKLa5x@bombadil.infradead.org>
+References: <20240925233854.90072-15-mmaurer@google.com>
+ <ZwmlEYdS0aPVF32k@bombadil.infradead.org>
+ <CAGSQo01o4fWYwSzZHX5dyTUKcaCSZ7z-hPQ8w63tgBPGbM_UCA@mail.gmail.com>
+ <ZwmnnMmqVWLaelvQ@bombadil.infradead.org>
+ <Zwm4lXdKB9RfPQ5M@bombadil.infradead.org>
+ <Zwm4v_1wh5RwuHxF@bombadil.infradead.org>
+ <CAGSQo03df-tnmwcz4nh3qtuQPKQ2zLHW0juQyKUXGsdeS7QkLA@mail.gmail.com>
+ <ZxBKkJu-XPOGs-NG@bombadil.infradead.org>
+ <9f3f6bd9-47d1-45fa-aa6b-9e0a80a5ebc6@gmx.de>
+ <ZxQabNukxBo3utbh@bombadil.infradead.org>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241020-cs42l84-v2-1-37ba2b6721d9@gmail.com>
+In-Reply-To: <ZxQabNukxBo3utbh@bombadil.infradead.org>
+Sender: Luis Chamberlain <mcgrof@infradead.org>
 
-On Sun, Oct 20, 2024 at 12:47:31AM +1000, James Calligeros wrote:
-> From: Martin Povišer <povik+lin@cutebit.org>
+On Sat, Oct 19, 2024 at 01:45:35PM -0700, Luis Chamberlain wrote:
+> On Thu, Oct 17, 2024 at 02:08:19PM +0200, Helge Deller wrote:
+> > Hi Luis,
+> > 
+> > On 10/17/24 01:21, Luis Chamberlain wrote:
+> > > That sounds great. Yeah, the above would be great to test. A while ago
+> > > I wrote a new modules selftests in order to test possible improvements
+> > > on find_symbol() but I also did this due to push the limits of the
+> > > numbers of symbols we could support. I wrote all this to also test the
+> > > possible 64-bit alignment benefits of __ksymtab_ sections on
+> > > architectures without CONFIG_HAVE_ARCH_PREL32_RELOCATIONS (e.g. ppc64,
+> > > ppc64le, parisc, s390x,...). [....]
+> > > 
+> > > I forget what we concluded on Helge Deller's alignement patches, I think
+> > > there was an idea on how to address the alignment through other means.
+> > > 
+> > > [0] https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/log/?h=20241016-modules-symtab
+> > 
+> > I stumbled upon the unaligned-memory-access.rst document [1].
+> > Please read it, as it is a really good document, and the section
+> > "Why unaligned access is bad" states:
+> > It should be obvious from the above that if your code causes unaligned
+> > memory accesses to happen, your code will not work correctly on certain
+> > platforms and will cause performance problems on others.
+> > 
+> > With this in mind, you really should apply both of my alignment
+> > patches which you currently carry in [0].
+> > 
+> > For parisc I partly solved the issue by fixing the arch-specific kernel unalignment
+> > handler, but every time module sections are stored unaligned, it triggers
+> > performance degregation on parisc (and other sensitive platforms).
+> > 
+> > I suggest you apply them unconditionally.
+> > 
+> > Helge
+> > 
+> > [1]  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/core-api/unaligned-memory-access.rst
 > 
-> CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
-> computer models starting with 2021 Macbook Pros. It is not a publicly
-> documented part. To a degree the part is similar to the public CS42L42.
-> (The L84 superseded L83 seen in earlier Apple models, and the L83 was
-> pretty much the same as L42.)
-
-Why can't this be added to 
-Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml?
-
-I guess perhaps you don't know what the supplies look like? Do any of 
-the custom properties apply?
-
+> You're right, I've just referred to that doc and pushed to the new
+> linux modules [2] modules-next branch. This is also great timing so
+> that the work that is ongoing for Rust will take this into
+> consideration as well. I'll just post the test I wrote as separate
+> thing but it surely can be used to help test some of this later.
 > 
-> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
-> ---
->  .../bindings/sound/cirrus,cs42l84.yaml   | 56 +++++++++++++++++++++++++
->  MAINTAINERS                              |  1 +
->  2 files changed, 57 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..7f8338e8ae369bc529ac3cf35041d5a7b9f3e6d1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus Logic CS42L84 audio CODEC
-> +
-> +maintainers:
-> +  - Martin Povišer <povik+lin@cutebit.org>
-> +
-> +description: |
+> [2] git://git.kernel.org/pub/scm/linux/kernel/git/modules/linux.git
 
-Don't need '|' if no formatting.
+Helge,
 
-> +  The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
-> +  in personal computers sold by Apple. It was first seen in 2021 Macbook
-> +  Pro models. It has stereo DAC for playback, mono ADC for capture, and
-> +  is somewhat similar to CS42L42 but with a different regmap.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cirrus,cs42l84
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  '#sound-dai-cells':
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      jack_codec: codec@4b {
-> +          compatible = "cirrus,cs42l84";
-> +          reg = <0x4b>;
-> +          reset-gpios = <&pinctrl_nub 4 GPIO_ACTIVE_LOW>;
-> +          interrupts-extended = <&pinctrl_ap 180 IRQ_TYPE_LEVEL_LOW>;
-> +          #sound-dai-cells = <0>;
-> +      };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c1a2c296446c0724a0c6e70c845e5e5e1e693fd5..f5f85714dc4e8ca9c60b3f6963b2cec1ea33fdd0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2132,6 +2132,7 @@ L:	asahi@lists.linux.dev
->  L:	linux-sound@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
-> +F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
->  F:	Documentation/devicetree/bindings/sound/apple,*
->  F:	sound/soc/apple/*
->  F:	sound/soc/codecs/cs42l83-i2c.c
-> 
-> -- 
-> 2.47.0
-> 
+I went down memory lane and noted Masahiro asked for this to be done
+in asm so I droped your patches. Feel free to post a new iteration.
+
+  Luis
