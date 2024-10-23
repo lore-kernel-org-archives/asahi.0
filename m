@@ -1,104 +1,112 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FED818453E
-	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 09:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7B119F13C
+	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 10:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729676268; cv=none; b=CZMox7P8zjpJDFs7H4Eh2BS8yMOiKT9s6LzXDNMROywKwluIGCD5tnki9rEFOhsSNZqFQ7N6WQ4u/SOPlwr7tqGoOVXJDfkNqggJbjNvw5ZZfso+7+1iO7F1s0t2HjlDqIXW5zAyYybbcF7NIyOrzdakpmmSDdaCNvQiNyAOCzs=
+	t=1729678270; cv=none; b=esmO0sPCWPrglFT6A9iKsDQ7IdNXBwVSQaldL2Fnh0AWq9PimiuIhylq8V4XkaSWqAVUoMTS8EyBklxA2dGYIQFN+sThr3apBH76T3gsdwcIYqUZIyMSo2fg37sV7BCyecFLtMUMziHdjV2EYYl8LoA3aZFGYPmeJD1u5TFMk/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729676268; c=relaxed/simple;
-	bh=eKHkaNfVW95RqBjaVbuk+1RTrbIoLjh24DVEysWLzBM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pdr7kTk8rMB8tvvhH2psjoxicb4nP4JiIpV6y7Lc+GxUoQYfwJZQrN4chIUBsi7Fd9r9/5M5AlBXvkvoMF8BcWkKVbDz1gRfKYB+DxfdYZnJKfl6xsaeOSqNhijE2KJSjyWdndgmKLOM/AdreGi13IJWnkDoC1iSOlT9wszQ7cU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IPP5kJvD; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729678270; c=relaxed/simple;
+	bh=5OOvHNGAVgHImRA4rtLY0Acms6nJmTWGumvJk2gBIAw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J0qKeNKAs7MzOl3mHK0Fxd1BIUNJS/j6kPHYR9ULsC0ikIbhwXLC8YU492HuoiO9mgsgHEMCVbQuOl+25AxFczmlC6wJNRgZSD8evukZVqmEypgFeyYcSjSXXmjBa/VdL0ryIpGTfHC8r9eOChk1sS6LtMEfVPImMTDDjcIbWZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xVvpJ9at; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IPP5kJvD"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20cf3e36a76so64570715ad.0
-        for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 02:37:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xVvpJ9at"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539f1292a9bso8069602e87.2
+        for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 03:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729676266; x=1730281066; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ICmxhOxf3rIdsIFy95QRYT4rZHpdER7Q9+r8wV6MVMs=;
-        b=IPP5kJvD2tr+FJcD5mmFdzc4q/MnuzIu40s08U/h9qntiCCoDv7nObDjKl55nqe9uX
-         nU/ow1OZPkcrhTQoTwtQUEiLjXgWMpSHNq1MVtEex6fBrkpEVKTgPZSplRL63GBtDQ38
-         sQBEtvzY+LmDeIRSO4Le3Y6hGEGOeUbvP36K7Y/3kmiqgxcZtBfP4QueOsnk6q5NuQpR
-         l7iecZYUHuSbMjLJHyOssnKV9vhUKfr2IkddnI1N3QOVC31TSdr+t0iayho4PTdZF8zc
-         epr9vkp+8fD4xlkxjDSR88ga6FyWiR+j2DP3dV1MbtBichh5X/ptHIBJ5Y91yHfVOUQv
-         sIGg==
+        d=linaro.org; s=google; t=1729678266; x=1730283066; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5OOvHNGAVgHImRA4rtLY0Acms6nJmTWGumvJk2gBIAw=;
+        b=xVvpJ9atjDSLKxEg0YibQwsfa49UGtvqPhT+qosxkYbiyfBmxHMsIUdmfpIK7WTrpm
+         X8G25wFTpfBO13l9jncXt8+Fb49euhx8/0ZJevkigRgUB7GVcuSI7EGx77Nc0GgVCbdL
+         kUlbPXiIzUEAzO/MUQ7r363H83e7BYlPazftyjxrPUH2EJX6W8K9ZS6fV8ShOOhSKwB6
+         fGaBAOzIdRjEy6ObdzaDuWjfkKr48W9qQYerAiaFregpByQZtSnzUkItlFtlRcN/lca8
+         8KEjCOuZwyPm8s/Q42SoQfK+EW9VezC0/SEz/HDWtgDjuWooywlwUJrgjboaEcoZDkQ6
+         Nc0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729676266; x=1730281066;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ICmxhOxf3rIdsIFy95QRYT4rZHpdER7Q9+r8wV6MVMs=;
-        b=chzug77MBsdLWgpkJ5IFSAcu5AU6WGuPYWyG4RK8XVpUKmAi9J7TCkedKCjIcDw1qe
-         Acfe6ZN++ofZ0vCXVsDNbYhz8f01hYNHVCVUyBP8V7aph2/7opXrUR8EZKysX+jxZf6N
-         3bZEzl37X0TvBQjuY5nBQjf88NKryJ2zo/21phB6R+kcHvFufq+FjpBIh2EmgOV9KBLP
-         w/2OsEq085MG6uQMbMHsZFy4Vh52KUcM4qSe/2+I5ezM2ww37+FpxIin2UfTVXDUuRsO
-         MixlqB6lKvDw3A7R0shoISdiBOsNCtzb0qX/mBiUVreJlTwbx2IcmdZ8poW1zojsEW+u
-         y8Yg==
-X-Forwarded-Encrypted: i=1; AJvYcCXpYvYoFNjZjaXH8FRrrTmCq0jyp03I3BTruEjnFtSo2ap4N/pfNfO39Kfsy8xrZ3FVgwFKVA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWarg5UAxqVhCVuBRegPAG2Nc9G49xolE0gpV5t9RSDHo61tqY
-	BE9U0GQ07EnRCKf3VaEURdLy8iVrIAkF3ZtUam2ZwEYweW8KYNoi
-X-Google-Smtp-Source: AGHT+IEbaEkENgj6TpE1xbgPBOJYfC4icJXGN8eoL/sRAMsaGVBxN5nGzC43ba8GaiTlcpdMpQDopA==
-X-Received: by 2002:a17:902:d4c6:b0:20b:b079:5b7a with SMTP id d9443c01a7336-20fab2dbb0amr16681175ad.50.1729676266411;
-        Wed, 23 Oct 2024 02:37:46 -0700 (PDT)
-Received: from [172.20.10.6] ([121.202.106.54])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0f3302sm54066435ad.250.2024.10.23.02.37.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Oct 2024 02:37:46 -0700 (PDT)
-Message-ID: <5e1b807f-82ac-4ab8-867c-32b2bf2a91ce@gmail.com>
-Date: Wed, 23 Oct 2024 17:37:40 +0800
+        d=1e100.net; s=20230601; t=1729678266; x=1730283066;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5OOvHNGAVgHImRA4rtLY0Acms6nJmTWGumvJk2gBIAw=;
+        b=aITDkSyFvePs842PhuL/gO0qyqDFMnghPajjGao/xzVP+3WVFWFkK2dRJVdGKw/1iJ
+         i43rrnL6Nc70655Guetyp8py3bSFHtLrf/nEJEmNKTbsPdgwzJXOZeiI+P0GeeX4c0AQ
+         CFOZBmfGHOWG/dLNPK6ltIuIv2DnsvWE1vT087uzAP7kHa657FjSibaBfYJsY/PKL8z0
+         8/7qf1X9GumyfF3boq2vTmFYW3yof7LiR2cQNUxPm/qcsbHJGrnoRxJ6HA+8FIGCfwe9
+         JEjN4pCN+q9ZdL4pflLdbJ0v5MACIzXG/Yg3mxSq4pxjUlQXHgbm4Z8hApTH5j1VW4gh
+         ESjg==
+X-Forwarded-Encrypted: i=1; AJvYcCVDpfB1qzFm39MdyQ6LRtBbZNhWmiQGf7ziIYSI15OGvR607jkvrAaCjHjPCx5eITRTeE+R7g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbnqlNVEjeSjH6x1Yxc8ieKJoDsoC0Dg+eo+v8LyI/VIdWqmAK
+	23hi/F2Hffw6ovV6+oSOVJb0X2ZyY0qZwmyTqsoqSGlnYZK6o6raQDwWECpMemNWiFx2lpHNzsZ
+	B/USLkG6J5IGhhu04ao04ozrTgzLAr22Wr7JzZg==
+X-Google-Smtp-Source: AGHT+IE089tWVwoXd/8Hysqc4S/uDg7EGVHjVvwgua3xypehCFmJa3XmQQ+EwelSROlylF6cOjc2uO3oYJn05SS9GVs=
+X-Received: by 2002:a05:6512:1114:b0:539:fde9:4bbe with SMTP id
+ 2adb3069b0e04-53b1a30512fmr994214e87.20.1729678266366; Wed, 23 Oct 2024
+ 03:11:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20241023044423.18294-1-towinchenmi@gmail.com> <CACRpkdZP9oDd+fRKKagFtGbfLx=Rk5LJ7bvaKimw5-t25XZAfQ@mail.gmail.com>
+ <5e1b807f-82ac-4ab8-867c-32b2bf2a91ce@gmail.com>
+In-Reply-To: <5e1b807f-82ac-4ab8-867c-32b2bf2a91ce@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 23 Oct 2024 12:10:55 +0200
+Message-ID: <CACRpkdYjmwHaHPTmjOKR8E9kYQBZAx04Ydby7HKZzE3KhbNh2A@mail.gmail.com>
 Subject: Re: [PATCH v6 RESEND 00/20] Initial device trees for A7-A11 based
  Apple devices
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-watchdog@vger.kernel.org
-References: <20241023044423.18294-1-towinchenmi@gmail.com>
- <CACRpkdZP9oDd+fRKKagFtGbfLx=Rk5LJ7bvaKimw5-t25XZAfQ@mail.gmail.com>
-Content-Language: en-MW
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <CACRpkdZP9oDd+fRKKagFtGbfLx=Rk5LJ7bvaKimw5-t25XZAfQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Lorenzo Pieralisi <lpieralisi@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Oct 23, 2024 at 11:37=E2=80=AFAM Nick Chan <towinchenmi@gmail.com> =
+wrote:
+> On 23/10/2024 17:05, Linus Walleij wrote:
+> > On Wed, Oct 23, 2024 at 6:44=E2=80=AFAM Nick Chan <towinchenmi@gmail.co=
+m> wrote:
+> >
+> >> This series adds device trees for all A7-A11 SoC based iPhones, iPads,
+> >> iPod touches and Apple TVs.
+> >
+> > This is a good and important series. FWIW:
+> > Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> >
+> > Are patches not getting applied since you resend them?
+>
+> This series along with the watchdog reset delay series mentioned in the
+> cover letter have not been applied.
 
-On 23/10/2024 17:05, Linus Walleij wrote:
-> On Wed, Oct 23, 2024 at 6:44 AM Nick Chan <towinchenmi@gmail.com> wrote:
-> 
->> This series adds device trees for all A7-A11 SoC based iPhones, iPads,
->> iPod touches and Apple TVs.
-> 
-> This is a good and important series. FWIW:
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> 
-> Are patches not getting applied since you resend them?
-This series along with the watchdog reset delay series mentioned in the
-cover letter have not been applied.
+It seems to me that the watchdog series is only a runtime dependency
+and these binding+DTS patches are well ripe for merge.
 
-> 
-> Yours,
-> Linus Walleij
+I suspect the three Asahi-affiliated maintainers are too busy with their
+own stuff (like M3 support...) to respond or queue patches as they haven't
+responded to the patch set for the two months it's been floating. (OK
+Sven Peter did respond to some v1 patches.)
 
-Nick Chan
+If nothing happens in a week or so, I suggest you just send a pull request
+to the SoC tree (soc@kernel.org) yourself. Perhaps you should even be added=
+ as
+comaintainer for the ARM/APPLE machine support so things do not
+stack up like this?
+
+Yours,
+Linus Walleij
