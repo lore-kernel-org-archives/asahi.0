@@ -1,91 +1,104 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C571448DF
-	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 09:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FED818453E
+	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 09:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729674326; cv=none; b=Dc7Xr6TuKY7h16jA/3OSgj9fH0ZY38qTUXpgL08n6EK4BIX1TuEzl66NMPyedFFPSovuSD81a5xN6EhqUY3p7HGXMZ+LgTC152sU+ZoLI3n+W+kaGcsTBAqreze0okVAHZ0qdWcVNKdNvs52d6N0YBwe7A5W4Ko1Na6B3Lfyo5s=
+	t=1729676268; cv=none; b=CZMox7P8zjpJDFs7H4Eh2BS8yMOiKT9s6LzXDNMROywKwluIGCD5tnki9rEFOhsSNZqFQ7N6WQ4u/SOPlwr7tqGoOVXJDfkNqggJbjNvw5ZZfso+7+1iO7F1s0t2HjlDqIXW5zAyYybbcF7NIyOrzdakpmmSDdaCNvQiNyAOCzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729674326; c=relaxed/simple;
-	bh=X36zWetOyTJAz93vBOWJ+rocrYfNGhJ7Z73gXa68vyg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=di6qqPZ8tNdr4uJ6LVJviaQz0AMAX4jnCJxld5qbiBdH6RzRe4DQANc6m8Yt0qhWGsyP/Vlry/UIUiJZfwrhwHBa8RrMtTDpA0yP0mMHBQp2ey6KTIlXstcgvSIWAkcHQrfu859Q/mBx/zayzqGMqw+awNLBHedxe/PWT8ej8pA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hoAIChf3; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729676268; c=relaxed/simple;
+	bh=eKHkaNfVW95RqBjaVbuk+1RTrbIoLjh24DVEysWLzBM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pdr7kTk8rMB8tvvhH2psjoxicb4nP4JiIpV6y7Lc+GxUoQYfwJZQrN4chIUBsi7Fd9r9/5M5AlBXvkvoMF8BcWkKVbDz1gRfKYB+DxfdYZnJKfl6xsaeOSqNhijE2KJSjyWdndgmKLOM/AdreGi13IJWnkDoC1iSOlT9wszQ7cU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IPP5kJvD; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hoAIChf3"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539f6e1f756so7634213e87.0
-        for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 02:05:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IPP5kJvD"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20cf3e36a76so64570715ad.0
+        for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 02:37:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729674323; x=1730279123; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X36zWetOyTJAz93vBOWJ+rocrYfNGhJ7Z73gXa68vyg=;
-        b=hoAIChf3jJ4ywQX4Dhowi5Grw+BgSsWazflh0dX0cLoDBB+nE+NchColsb0weGICMq
-         wLQDJN+KAO/axpAgbXWmn0bSm3JufOhfZx910so1J3JxP52xbuBRqhoEfi/9mo/GgNx1
-         8UGPaJN8ydE4F7dlVdcGstZ/EfTXB2D7kady2+DEt2WGSwWxPgCPukhM0fYldt9yRANz
-         00fSETa5UgdkCgdTiqDAv8B0zA0IYzvEWnrQT0Ob3s0xgMwJnLl5NGC5a1pLevpn2L8J
-         MpHj07kL17DcJJSTVtOdkz4iXppaMihkWkfUZLAUGEhmd/JaP5IcF8gH04Nsx8jQ9k0N
-         kYfg==
+        d=gmail.com; s=20230601; t=1729676266; x=1730281066; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ICmxhOxf3rIdsIFy95QRYT4rZHpdER7Q9+r8wV6MVMs=;
+        b=IPP5kJvD2tr+FJcD5mmFdzc4q/MnuzIu40s08U/h9qntiCCoDv7nObDjKl55nqe9uX
+         nU/ow1OZPkcrhTQoTwtQUEiLjXgWMpSHNq1MVtEex6fBrkpEVKTgPZSplRL63GBtDQ38
+         sQBEtvzY+LmDeIRSO4Le3Y6hGEGOeUbvP36K7Y/3kmiqgxcZtBfP4QueOsnk6q5NuQpR
+         l7iecZYUHuSbMjLJHyOssnKV9vhUKfr2IkddnI1N3QOVC31TSdr+t0iayho4PTdZF8zc
+         epr9vkp+8fD4xlkxjDSR88ga6FyWiR+j2DP3dV1MbtBichh5X/ptHIBJ5Y91yHfVOUQv
+         sIGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729674323; x=1730279123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=X36zWetOyTJAz93vBOWJ+rocrYfNGhJ7Z73gXa68vyg=;
-        b=ahkYJ9wCNJqyPXGR0NIBX47cvA8Q6iaRrLNE5OfeZi2LLvVAVLOwrh3JyJJp01WHLe
-         tOSnAOx+CRdSRRIHfhEByWkBZ8aDqRKLbJ/Isc2W8CKT0SCb+91nNIiQSPLi5Dr77ICJ
-         5ryCxarklkK//wPWHvTzESgIfkAeS1Fiw3VFhX+4D2xbVW/WlRBdU7Br+hbAKE+hGrPw
-         BAX4hnuwA/BrhawKkY4KRbub1sEHofHLfkbY/u9zImLr8K+XBqm7k98rI9D4FZ0NxZnL
-         bI0Kj2EQiKOUZegnDtIgsVHmx8oMTzAj/6XToK2q8Mec2pA7G8O3ccmnBstOLOb1bDOm
-         nFuw==
-X-Forwarded-Encrypted: i=1; AJvYcCXLQBE35PmUit5bK0K5Q4my972vzPpeCvc6SXefVVRht2OQa2xtTevciJ8NkIws8MXDijyjcg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxLF8Dn+i3hrBJyuIP4TuoBsLtq1K3eSlB1ZQHKGvDpq5lD4By4
-	kjHKNYW0WL8FeHM4xP6N4TEhHUUVxS7nKwvvsQbtmtURlzuVTvwjHBpCDRc4sEIGIq636HZCmZ0
-	kgUNaSaQT45TdY2sYZwB22zAKZdC240ZUFjf//w==
-X-Google-Smtp-Source: AGHT+IH1+v9bDoKekaMKgbzEkbrdYTS5dXGjA0/CBdqgcdFe8CjG21FHGf37DjwlkgqMpl892dYOQgZjGQaLo7ZGFiE=
-X-Received: by 2002:a05:6512:3e0a:b0:539:f37f:bed9 with SMTP id
- 2adb3069b0e04-53b1a2f42ffmr857364e87.8.1729674322600; Wed, 23 Oct 2024
- 02:05:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729676266; x=1730281066;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ICmxhOxf3rIdsIFy95QRYT4rZHpdER7Q9+r8wV6MVMs=;
+        b=chzug77MBsdLWgpkJ5IFSAcu5AU6WGuPYWyG4RK8XVpUKmAi9J7TCkedKCjIcDw1qe
+         Acfe6ZN++ofZ0vCXVsDNbYhz8f01hYNHVCVUyBP8V7aph2/7opXrUR8EZKysX+jxZf6N
+         3bZEzl37X0TvBQjuY5nBQjf88NKryJ2zo/21phB6R+kcHvFufq+FjpBIh2EmgOV9KBLP
+         w/2OsEq085MG6uQMbMHsZFy4Vh52KUcM4qSe/2+I5ezM2ww37+FpxIin2UfTVXDUuRsO
+         MixlqB6lKvDw3A7R0shoISdiBOsNCtzb0qX/mBiUVreJlTwbx2IcmdZ8poW1zojsEW+u
+         y8Yg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpYvYoFNjZjaXH8FRrrTmCq0jyp03I3BTruEjnFtSo2ap4N/pfNfO39Kfsy8xrZ3FVgwFKVA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWarg5UAxqVhCVuBRegPAG2Nc9G49xolE0gpV5t9RSDHo61tqY
+	BE9U0GQ07EnRCKf3VaEURdLy8iVrIAkF3ZtUam2ZwEYweW8KYNoi
+X-Google-Smtp-Source: AGHT+IEbaEkENgj6TpE1xbgPBOJYfC4icJXGN8eoL/sRAMsaGVBxN5nGzC43ba8GaiTlcpdMpQDopA==
+X-Received: by 2002:a17:902:d4c6:b0:20b:b079:5b7a with SMTP id d9443c01a7336-20fab2dbb0amr16681175ad.50.1729676266411;
+        Wed, 23 Oct 2024 02:37:46 -0700 (PDT)
+Received: from [172.20.10.6] ([121.202.106.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0f3302sm54066435ad.250.2024.10.23.02.37.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Oct 2024 02:37:46 -0700 (PDT)
+Message-ID: <5e1b807f-82ac-4ab8-867c-32b2bf2a91ce@gmail.com>
+Date: Wed, 23 Oct 2024 17:37:40 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241023044423.18294-1-towinchenmi@gmail.com>
-In-Reply-To: <20241023044423.18294-1-towinchenmi@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 23 Oct 2024 11:05:10 +0200
-Message-ID: <CACRpkdZP9oDd+fRKKagFtGbfLx=Rk5LJ7bvaKimw5-t25XZAfQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 RESEND 00/20] Initial device trees for A7-A11 based
  Apple devices
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Catalin Marinas
+ <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Mark Kettenis <kettenis@openbsd.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-watchdog@vger.kernel.org
+References: <20241023044423.18294-1-towinchenmi@gmail.com>
+ <CACRpkdZP9oDd+fRKKagFtGbfLx=Rk5LJ7bvaKimw5-t25XZAfQ@mail.gmail.com>
+Content-Language: en-MW
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <CACRpkdZP9oDd+fRKKagFtGbfLx=Rk5LJ7bvaKimw5-t25XZAfQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 23, 2024 at 6:44=E2=80=AFAM Nick Chan <towinchenmi@gmail.com> w=
-rote:
 
-> This series adds device trees for all A7-A11 SoC based iPhones, iPads,
-> iPod touches and Apple TVs.
+On 23/10/2024 17:05, Linus Walleij wrote:
+> On Wed, Oct 23, 2024 at 6:44 AM Nick Chan <towinchenmi@gmail.com> wrote:
+> 
+>> This series adds device trees for all A7-A11 SoC based iPhones, iPads,
+>> iPod touches and Apple TVs.
+> 
+> This is a good and important series. FWIW:
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> 
+> Are patches not getting applied since you resend them?
+This series along with the watchdog reset delay series mentioned in the
+cover letter have not been applied.
 
-This is a good and important series. FWIW:
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> 
+> Yours,
+> Linus Walleij
 
-Are patches not getting applied since you resend them?
-
-Yours,
-Linus Walleij
+Nick Chan
