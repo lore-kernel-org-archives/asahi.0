@@ -1,55 +1,55 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0FE1E6DFE
-	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 21:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAF71FAC59
+	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 21:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729717566; cv=none; b=A/PADXcdcx64T67fSr9g6HKkKlt3w8mP1vlS4qpVZXxKGapbMombPUT7AqreuJ7AJZf8E+ee0ZigqH/5gxRxCogrQqPBQoJzKK0u9LmTgSGvGS5GLjyv1QSUs8PmHoJDAVDD6pGVC05WIfCt1LHCpaAUplOwHZmaU5l+lwBq8QU=
+	t=1729718110; cv=none; b=fIt0sQWUDB1b3WqaF3Ig/it6WPi/FsOvZqel5fhWJ4ki456/bV9qG4bkCwrlKwhvhp/oxSSMDb/QMb7aY1b9v+4HgoPi6dcscBWpaH6Q9SYZmMeAb/mKaPrePtkPOOxzodzPVuLgadp/TEBgFCaPOUxsw0aOu4jO7yp6q7C3MvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729717566; c=relaxed/simple;
-	bh=/JEcIBihja6V3LP52eHEY4Q3j5KZkMGS+N+dxgjhsRc=;
+	s=arc-20240116; t=1729718110; c=relaxed/simple;
+	bh=4ZP52DrOKx/INwLhclU+6dl4fO5N9uCgynBJoArxSTI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=i/9fkUgE0P1ryiVb6L0apdfzl282kwumgEJWm8WutW4YZYMPlyx7FXQ3jLKJVdHNp+q/9BRjqAR9S/kZ6Me48N2fJJQJ0RHhAOhmkDtPpOP7gG8MhuFqxvUJoqWKbWCNFDaaCuZjeQixJi8NBbMQOn3icnjtsODzdD/Wi9aIK10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1nqt40UG; arc=none smtp.client-ip=209.85.128.48
+	 To:Cc:Content-Type; b=t6U8a+M/Xxvt6sdgrvIdovF6fnRO6zq1CTSpDVmdjY1vtHPtVMYICAEJsrxaAJGUhmgITXZ40JbTUCWbfgOk1U2CerOmZr1xzEoROM2M/RysMoyDbGMxSAvb1qRgV+uxrSCMZUC5Xxxw+4w74/DbELUoy1TObjOrfCmpIhsX3Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZQCvit6U; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1nqt40UG"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43150ea2db6so17875e9.0
-        for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 14:06:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZQCvit6U"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43153c6f70aso17845e9.1
+        for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 14:15:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729717563; x=1730322363; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1729718107; x=1730322907; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/JEcIBihja6V3LP52eHEY4Q3j5KZkMGS+N+dxgjhsRc=;
-        b=1nqt40UGFiBStGycMaqm/b5EqNmpf8D6UiRTwpCFhyuDiq83LRAt5pIipevzLThRbF
-         i20BYy8yxfmLjxvpsm+W0oyolZitFbk5pfq+gKCegzsgCTwBnAKSKHs08vo8IghDzg7K
-         sFNKrZsUUi3onciGGLGA7XZUxcKbDeds76ornnHA5juMESqy7fiOhJcphTP0OMIkqzlK
-         5KdCMciBOEaQ8VhbTDXLE0tQzyM0kktpfbNIwF0UJFswlYg7+Q7MtxcoIIPtsV80bAdV
-         Cb3mYO/N8a3sgx/atKk1nbbdjjamuwRZjGSt1ktbw7wu8gI0i6+xkSGRc6EdVGqJgvJ0
-         pYIg==
+        bh=WfTzqdb1VSf8Gk5yizZmo+tj3CJXoQHkksQYnazcBsI=;
+        b=ZQCvit6U5XHE0EDJc8kjaKZ1/A+4hzuKg7/pPDKp6hFNDWyhVZI7eRYSs4BFL9uk8E
+         6VZoB7glAopz4mV24HbowcHbeyevekRJpEmjkYFtpo9ACmzmXgw0gi8Tr6Zb204YNhcU
+         mlgp915Lhg5Rc/r8IsKY1lz+yivUjxV2GWBrqdmlfr2fTidLdJXtWC2CoRW2p99OXxPO
+         siqTuGDsZVkC8j8xZb+5oU28/D0t3nOT3NvmZ5ElQ5y9rk/JbiLGmut9D2IVgXWoAzUY
+         QN1lYNG3YNAeCoPc0N8jY5q2pM51NGAhNLqsHtR3s1y43CNcCTjpvbrHpyy5Q466mgwW
+         tuwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729717563; x=1730322363;
+        d=1e100.net; s=20230601; t=1729718107; x=1730322907;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/JEcIBihja6V3LP52eHEY4Q3j5KZkMGS+N+dxgjhsRc=;
-        b=BDhZzq5S2odIoo38FGLX8A53KLOGLPgoAdl0dTMh3gYMiwtQq+G84DJJpMl0s8ucJD
-         yJOQyt2U0Ae/LhHMSNM4l9LF/ItWNhYUC0D78usSBpNEw5eFrqkgQUBBGomz3x28s3Oi
-         ZAAImPoUjjsjEQ5Ca/VxpdZTPpMmCExYAHyLaWQx9A19yeEQgRnqCyVWlFiwRJMSMsaJ
-         PvSPjC3gzM3FSJyXFpkdNcDSazheH0t8NxUwCnMN0BFejuRrS6l8QJ5Myzi7vPkrs0ni
-         Txzng2wUQzLWGwqi2ZiD5EbFEBXbwCUdsy80Gan7iQtjBMV+6ZmwxoLq9CUuCN+4hhT4
-         92FA==
-X-Forwarded-Encrypted: i=1; AJvYcCWysrvp6mpsIZCr0rXwuzhCzfsVeuOwloYLmqcF7l7s/UvQJG9dR/Kjm4KEev91VaT4Xt9/gQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxhvFblSXmTU1LBwyDxAoFgJ9kphR/CUS7DSv5msiewLhJ/HSw1
-	tAvOnHyOf5VUALWooo9L4+O+TLHCwe6R7D0Itef+zOS3dOz2nd07XbcCW+KCkoJH6tWQWN9MIKn
-	FWheTFWj8DIJhSTwESc3GqkloduH8ppBgaB6U
-X-Google-Smtp-Source: AGHT+IE7E1sQKkdi+IOPziXhygUCQe4DRbGEMh2n+xHqKHoCU4m0rJ13HS4/hKLnTcO13YuD7nqu8DLLl+hDRTXCmBQ=
-X-Received: by 2002:a05:600c:5023:b0:42c:b0b0:513a with SMTP id
- 5b1f17b1804b1-4318a50525emr1319735e9.2.1729717562737; Wed, 23 Oct 2024
- 14:06:02 -0700 (PDT)
+        bh=WfTzqdb1VSf8Gk5yizZmo+tj3CJXoQHkksQYnazcBsI=;
+        b=SzmLkqLKVNJmimAc7mUrqr4Xd0zUi+ZqsDYgOhVHLtBcYhLRi0AbFaaUcBEpg2uhc4
+         3dZyU+F/F6zAjMFzjEebWXCsOLgRknjAOeoK+KVGWB0KMPufi7wHkfu0Slo2wx+ARGJf
+         /wgKAdLrwiW4HMSqaxjzEcRcomS2tiO1QM/GWViYv3eZLyRyK6h6S3KdMS8ZgZINxPWC
+         vrEszGVEiqp7rSzYpO2cjnZQ89A4RDU8pX9nGzUVVrvN7CoUTt+SSV41J+koE5eHa2iJ
+         jMVQJiDMFojxr9Kh8xDF9BoyNTOxEEeIHz8a6z2l2CWqa/aDbJAFNQkSuPZ7zwBfRYZ5
+         TyYA==
+X-Forwarded-Encrypted: i=1; AJvYcCV8KJd/3S3CvmsWkkkALZCPEz/cPgrabTXV+5o0O+FTdtX0ZUT+kKQUeuoVve1PkdULU5V4cg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YybQJdsf3wfGb+Sf00SXmFkDDJ9SrEE0zwH9IrmBSHXAgkOEXY0
+	MDmDy1GljqoeGqyfTiTCfE9z5miPzXDy95hnaC0JJaSOcfmBMx8dkc47uQZ8w/WHgDKIZtIFuzS
+	5+kVAx9Rfa2IMiH/pgfI9xESNckK1tprVxhxL
+X-Google-Smtp-Source: AGHT+IFqBJIw1NFCo41gy3+FTzGpIJM2Xgam9sFU+VbVhx4UVG5MiIzQo2Dnw0+91MIY4eDDcQSOrd12O2f8n7BVvB0=
+X-Received: by 2002:a05:600c:3d86:b0:428:e6eb:1340 with SMTP id
+ 5b1f17b1804b1-4318a55bda2mr1281755e9.4.1729718106868; Wed, 23 Oct 2024
+ 14:15:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -57,13 +57,12 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20241008183823.36676-21-samitolvanen@google.com>
- <20241008183823.36676-36-samitolvanen@google.com> <55549683-2453-4b67-a380-8ace34b3a06d@suse.com>
-In-Reply-To: <55549683-2453-4b67-a380-8ace34b3a06d@suse.com>
+ <20241008183823.36676-39-samitolvanen@google.com> <8017c328-f039-46c3-b472-f203cd6e2cfe@suse.com>
+In-Reply-To: <8017c328-f039-46c3-b472-f203cd6e2cfe@suse.com>
 From: Sami Tolvanen <samitolvanen@google.com>
-Date: Wed, 23 Oct 2024 21:05:24 +0000
-Message-ID: <CABCJKudc-f4OfyfWnDwXGM=ohSin7Z=y7Fk92Du_17LB9ptV+A@mail.gmail.com>
-Subject: Re: [PATCH v4 15/19] gendwarfksyms: Add support for reserved and
- ignored fields
+Date: Wed, 23 Oct 2024 21:14:30 +0000
+Message-ID: <CABCJKueABoo8xVfE1JBZk-kw8cTK0h5ibOqo+hBEAgpfGSTgdg@mail.gmail.com>
+Subject: Re: [PATCH v4 18/19] kbuild: Add gendwarfksyms as an alternative to genksyms
 To: Petr Pavlu <petr.pavlu@suse.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -76,17 +75,37 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 23, 2024 at 2:53=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wr=
+Hi,
+
+On Wed, Oct 23, 2024 at 2:59=E2=80=AFPM Petr Pavlu <petr.pavlu@suse.com> wr=
 ote:
 >
-> I've noted some nits above which you might want to trivially address.
-
-These all looked reasonable to me, I'll address them in the next version.
-
-> Otherwise this looks ok to me, feel free to add:
+> On 10/8/24 20:38, Sami Tolvanen wrote:
+> > +gendwarfksyms :=3D scripts/gendwarfksyms/gendwarfksyms
+> > +getexportsymbols =3D $(NM) $(1) | sed -n 's/.* __export_symbol_\(.*\)/=
+$(2)/p'
+> > +
+> >  genksyms =3D scripts/genksyms/genksyms         \
+> >       $(if $(1), -T $(2))                     \
+> >       $(if $(KBUILD_PRESERVE), -p)            \
+> >       -r $(or $(wildcard $(2:.symtypes=3D.symref)), /dev/null)
+> >
+> >  # These mirror gensymtypes_S and co below, keep them in synch.
+> > +ifdef CONFIG_GENDWARFKSYMS
+> > +symtypes_dep_c =3D $(obj)/%.o
+> > +cmd_gensymtypes_c =3D $(if $(skip_gendwarfksyms),,                    =
+ \
+> > +     $(call getexportsymbols,$(2:.symtypes=3D.o),\1) |                =
+ \
+> > +     $(gendwarfksyms) $(2:.symtypes=3D.o) $(if $(1), --symtypes $(2)))
 >
-> Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+> Is it possible to pass options to gendwarfksyms that apply to the entire
+> build, specifically, how can one say to use the --stable option? If not
+> then I think it would be good to add something as
+> KBUILD_GENDWARFKSYMS_STABLE (similar to KBUILD_PRESERVE), or maybe
+> a generic GENDWARFKSYMSFLAGS?
 
-Thanks!
+Yeah, I left that as an exercise to the user in this version, but I
+agree, adding a KBUILD_ flag seems reasonable.
 
 Sami
