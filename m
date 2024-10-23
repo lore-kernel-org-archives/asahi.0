@@ -1,57 +1,57 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DFE156256
-	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 04:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC3F156C52
+	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 04:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729658776; cv=none; b=uBxZvNEbw/nQAxP4RaB0BkdTE6/0V9JHxxFmOX6ycd7r60WmICZASRzFooVsCN2ktbJuDP+0L4zMA+Oh2KCLm1YnwXbs3nlnbIr1VZlelyoD8NixTq/V+eZdaW3Xoh1ha6pyr7EipMrFnbgPnCyfqNf/Dhc77tU6CCoC5h5zilY=
+	t=1729658782; cv=none; b=DmPUjoq6LEm48AG4BoVCLuMYwBvHKSibbctaKHj6ZN7udvTIWefyuFPwin8+dR+/SGaCxNFkXqCUnp0XIfx/TiXJPnccMXTe9ANWUiGWdE2tf9z6pHxehp5GWtiYqaAlRte77bxTVBFn324HqXxEa/gN4K9xD+VgJJYa0gmhO0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729658776; c=relaxed/simple;
-	bh=Nj4UYo9pD076edDh5xr2HpIgCOqWZxoI8CUGoOd2KsY=;
+	s=arc-20240116; t=1729658782; c=relaxed/simple;
+	bh=v2yz6ILW1kGDU+IedxRi1vIjNn/8gkzFtY8Yi4sVJUA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hKCYEKlmTL0AHYj8HomMrnlVDqK0uqQRu8bf1ZzGEF7Wkcw+XmiAg3Wtdda6cYtboOun++E9RdeIWP28rNHkKOT29Jel/X/yxVrwEssL57YOQP8o2DlV8mVZ0iiPeO8mediFH/ErWwy6CCbOmXLwRnzSySZ3XWC+440Z7Cwea5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PTS9TJ6Q; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=rmXVjMwPcCSiEPolPrNeAbTiDYj3Hc/BwMqqd0dVTVjzIE+V+0cS0DuFgXS0L7PiQdaTxlukQdfONCA4QvIvu5kq9s36817aaNo7RZTGLKQWtBhpPZjOH48VwBMXXPiSP8MRKGIc1PVBYklHbt8LRcFR+Z6mHuagsogq55LBnGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fV4LlFZ3; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PTS9TJ6Q"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20cbcd71012so57557525ad.3
-        for <asahi@lists.linux.dev>; Tue, 22 Oct 2024 21:46:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fV4LlFZ3"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20cbca51687so62990055ad.1
+        for <asahi@lists.linux.dev>; Tue, 22 Oct 2024 21:46:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729658774; x=1730263574; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1729658779; x=1730263579; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IQuv385CzKnq3zLwf+BYMbcSjCeXWxuc5AxIE/I+jyc=;
-        b=PTS9TJ6QZh38+TU95WSoltMWQP31SJAjk3zzvNNYUNVppxywWrQbY3YLHQRaTyLadR
-         Th5VbXX/og6DRPoN2ik0PIxbhBItRsa1xcQnfXXYuuPtOue3Xl8Hx/kxLJyyKdM2oIV3
-         U8dJLQ1mQ7XB2+BuLuDBa+7JtHcLtNw0hU3iUDT8jaIYOyi2P7mGT7q3oq3jKz8myHQ0
-         KOR/HsD8Kz2HfharMs2dcj8XECAYs90OSLSG+3vU/PjMHjMN8AA6y7HjUnqrYimIH0T7
-         +IHAfIJoVYpkcC+vUkNn3FiZhW4qmDcXyQ1qPC4CiDfvhWMpvlMEol/Te0XBrM2e04nz
-         ecIw==
+        bh=3Y7+yqrOrJvDdsiBEJdGCKVf+3/9W6oRgsxZW76uknw=;
+        b=fV4LlFZ3EFrXxLT6vI8dLw5hgLSrNvDj9gdWfO6GkALub65wYm50vIpqp8VVaKxRmN
+         uZaw/+kaIHu43iyTeF/JS7rxeCwwf8sJMThjIL4X1p0xmSHD7MyHhcTVcZ3Oae5SZBTN
+         mrDVXG5pDzya2zcOOAQHjSNEzq3dOGEiKVA3ar4hBujHfS/Mbub4gOXe+RlAywBmjTg+
+         YAYdiElfcR1JjCnSmczX0mErHOk/+QlHCza3XYcqWvJnq32W0O+g/tZQwXa2L2dHvxiy
+         mKzyMa7ufmgjDE6Y0k8TMaRun4bUF9iHdU5c5UVdygBgyd3CZ8bgiwPB4UFHwJ+XH04E
+         GCgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729658774; x=1730263574;
+        d=1e100.net; s=20230601; t=1729658779; x=1730263579;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IQuv385CzKnq3zLwf+BYMbcSjCeXWxuc5AxIE/I+jyc=;
-        b=h+3v0DFJR4PpjNxT1xNeHUlZxVmUxQWg35EUy+VijNXJ7p5ciBeRfL6s8xP4uAaDHo
-         fG29JOpLmhjZpnsunqHQ9HuPdzGlK2yKjxOGLum9uA9nB/YYq8vqqhXgH8HlbsHClLh+
-         1aU3/OKtsC3pUzAxH9d3/+G63SYTmYwqS4G2SrJquL+IK5a3QEtawda+WriDJ60z22o0
-         tBGvj6zjcGDJ23P3a+Zee2RhSqc5RiweP77HECUcCT+cXSHncd/Du/3HazJ5WTcRLUyH
-         EYvre3cFzixa+UhAGc76BZwcxtTn2SChIh+RqZXNYELDeqzoQjdqSe0licIG13VPbGEX
-         jPVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWyxH/VEOQNAkOD6Bm3wR4CdfkrJL8Mlj9WLc1gPEEGDmOjHPGI+BlyYnj+nKtPhYJKaW78OA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzjjYhf+BUbN3H2klfgRh954FZwpDt5bIG3qK8TIBZJQ5+EQC6p
-	VJ4ClbRq8KAwWrE9H6+QAW7mwIq+2rmxP14zTHPDFe7baL0P448n
-X-Google-Smtp-Source: AGHT+IEp+3z3gVE5nWRACY5aakppI3SlsLkO0SzSCSAR47LOhF6+HyztUUHnLbWBdo9Ygbd87BfbgQ==
-X-Received: by 2002:a17:902:e884:b0:20c:a498:1e4d with SMTP id d9443c01a7336-20fab2e0ed9mr15802355ad.60.1729658774323;
-        Tue, 22 Oct 2024 21:46:14 -0700 (PDT)
+        bh=3Y7+yqrOrJvDdsiBEJdGCKVf+3/9W6oRgsxZW76uknw=;
+        b=nvVdOzZs2LVvSzRPNQIEGrSmAemdJhmEaU49eSDDXhlRU0cl3nzp81Axed53wxxxmh
+         c8PV7+WthPYyc/so4I2ZgqNLEcted/rreHXtyf8H8TTyAiwPyF+nVGfIcQpMVxLXJpv5
+         HHzP1Yvx9lB86if7kW9AqFa+3o2sltWbkMeGidKnAWgUNF4nh/AOJitHYJ6oQY7EuGm0
+         siiDr/FW+sR1KZ5IfdmnsmouuAlBniAODdnwkKZpQRNunj68IzBVEV7dnPSpttn4RTCm
+         MMJMHo+Jw9cyTmkT5NifYJvQmKkJllkDCJEJzxKX/2U9/7SdZIDsrRnDSl9J9Rc3E22X
+         c8RQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVan1bK4E38NOqwiKk00Ls5qg1KujVaMMHj9gdsJqz+WD7bWTUJZNtD6IwAygLJpqs5oZ/TGg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRwhdCfhTu1NUwW1ZK5bav9NxQMrAAcvc9DLqMffjULH9+/NZl
+	UixFdeVz78eVfP44FBNHpoaBuAPL4VL7W1/Nv1eyHQLyH4AqRLWf
+X-Google-Smtp-Source: AGHT+IEorPfxzVA8JvAA4/DPkTMVrov6A/Gg9PEIGNddwVA5e4NP/YRoMFQaTUExL0bMHnL8P2fuqQ==
+X-Received: by 2002:a05:6a21:e8f:b0:1cf:6d20:4d6 with SMTP id adf61e73a8af0-1d978b0a072mr1488634637.16.1729658779466;
+        Tue, 22 Oct 2024 21:46:19 -0700 (PDT)
 Received: from nick-mbp.ust.hk ([182.153.135.7])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20e7f0de3c3sm49983125ad.207.2024.10.22.21.46.09
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20e7f0de3c3sm49983125ad.207.2024.10.22.21.46.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 21:46:13 -0700 (PDT)
+        Tue, 22 Oct 2024 21:46:19 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -74,9 +74,9 @@ To: Hector Martin <marcan@marcan.st>,
 	linux-watchdog@vger.kernel.org
 Cc: Konrad Dybcio <konradybcio@kernel.org>,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH v6 RESEND 18/20] arm64: dts: apple: Add A10X devices
-Date: Wed, 23 Oct 2024 12:40:53 +0800
-Message-ID: <20241023044423.18294-19-towinchenmi@gmail.com>
+Subject: [PATCH v6 RESEND 19/20] arm64: dts: apple: Add A11 devices
+Date: Wed, 23 Oct 2024 12:40:54 +0800
+Message-ID: <20241023044423.18294-20-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241023044423.18294-1-towinchenmi@gmail.com>
 References: <20241023044423.18294-1-towinchenmi@gmail.com>
@@ -90,63 +90,109 @@ Content-Transfer-Encoding: 8bit
 
 From: Konrad Dybcio <konradybcio@kernel.org>
 
-Add DTS files for the A10X SoC and the following devices based on it:
+Add DTS files for the A11 SoC and the following devices based on it:
 
-- Apple TV 4K
-- iPad Pro (2nd Generation) (10.5 Inch)
-- iPad Pro (2nd Generation) (12.9 Inch)
+- iPhone 8
+- iPhone 8 Plus
+- iPhone X
+
+On A11, Apple has introduced independent performance and efficiency core
+clusters, so indicate it in the device tree as well.
 
 Signed-off-by: Konrad Dybcio <konradybcio@kernel.org>
-[Nick: SMP, m1n1 and Apple TV 4K support, uart interrupt and pinctrl fixes]
+[Nick: SMP and m1n1 support, disabled SMC pinctrl]
 Co-developed-by: Nick Chan <towinchenmi@gmail.com>
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- arch/arm64/boot/dts/apple/Makefile          |   5 +
- arch/arm64/boot/dts/apple/t8011-common.dtsi |  46 +++++++
- arch/arm64/boot/dts/apple/t8011-j105a.dts   |  16 +++
- arch/arm64/boot/dts/apple/t8011-j120.dts    |  16 +++
- arch/arm64/boot/dts/apple/t8011-j121.dts    |  16 +++
- arch/arm64/boot/dts/apple/t8011-j207.dts    |  16 +++
- arch/arm64/boot/dts/apple/t8011-j208.dts    |  16 +++
- arch/arm64/boot/dts/apple/t8011-pro2.dtsi   |  42 ++++++
- arch/arm64/boot/dts/apple/t8011.dtsi        | 141 ++++++++++++++++++++
- 9 files changed, 314 insertions(+)
- create mode 100644 arch/arm64/boot/dts/apple/t8011-common.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t8011-j105a.dts
- create mode 100644 arch/arm64/boot/dts/apple/t8011-j120.dts
- create mode 100644 arch/arm64/boot/dts/apple/t8011-j121.dts
- create mode 100644 arch/arm64/boot/dts/apple/t8011-j207.dts
- create mode 100644 arch/arm64/boot/dts/apple/t8011-j208.dts
- create mode 100644 arch/arm64/boot/dts/apple/t8011-pro2.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/t8011.dtsi
+ arch/arm64/boot/dts/apple/Makefile          |   6 +
+ arch/arm64/boot/dts/apple/t8015-8.dtsi      |  13 ++
+ arch/arm64/boot/dts/apple/t8015-8plus.dtsi  |   9 +
+ arch/arm64/boot/dts/apple/t8015-common.dtsi |  48 ++++
+ arch/arm64/boot/dts/apple/t8015-d20.dts     |  14 ++
+ arch/arm64/boot/dts/apple/t8015-d201.dts    |  14 ++
+ arch/arm64/boot/dts/apple/t8015-d21.dts     |  14 ++
+ arch/arm64/boot/dts/apple/t8015-d211.dts    |  14 ++
+ arch/arm64/boot/dts/apple/t8015-d22.dts     |  14 ++
+ arch/arm64/boot/dts/apple/t8015-d221.dts    |  14 ++
+ arch/arm64/boot/dts/apple/t8015-x.dtsi      |  13 ++
+ arch/arm64/boot/dts/apple/t8015.dtsi        | 234 ++++++++++++++++++++
+ 12 files changed, 407 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-8.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-8plus.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-d20.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-d201.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-d21.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-d211.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-d22.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-d221.dts
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-x.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8015.dtsi
 
 diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
-index 4a7002e289a0..a44c14fae7bc 100644
+index a44c14fae7bc..ab6ebb53218a 100644
 --- a/arch/arm64/boot/dts/apple/Makefile
 +++ b/arch/arm64/boot/dts/apple/Makefile
-@@ -41,6 +41,11 @@ dtb-$(CONFIG_ARCH_APPLE) += t8010-j172.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t8010-j71b.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t8010-j72b.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t8010-n112.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t8011-j105a.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t8011-j120.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t8011-j121.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t8011-j207.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += t8011-j208.dtb
+@@ -46,6 +46,12 @@ dtb-$(CONFIG_ARCH_APPLE) += t8011-j120.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t8011-j121.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t8011-j207.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += t8011-j208.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t8015-d201.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t8015-d20.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t8015-d211.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t8015-d21.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t8015-d221.dtb
++dtb-$(CONFIG_ARCH_APPLE) += t8015-d22.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t8103-j274.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t8103-j293.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t8103-j313.dtb
-diff --git a/arch/arm64/boot/dts/apple/t8011-common.dtsi b/arch/arm64/boot/dts/apple/t8011-common.dtsi
+diff --git a/arch/arm64/boot/dts/apple/t8015-8.dtsi b/arch/arm64/boot/dts/apple/t8015-8.dtsi
 new file mode 100644
-index 000000000000..44a0d0ea2ee3
+index 000000000000..b6505b5185bd
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t8011-common.dtsi
-@@ -0,0 +1,46 @@
++++ b/arch/arm64/boot/dts/apple/t8015-8.dtsi
+@@ -0,0 +1,13 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple TV 4K, Apple iPad Pro 2
++ * Apple iPhone 8 common device tree
 + *
-+ * This file contains parts common to all Apple A10X devices.
++ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
++ */
++
++#include "t8015.dtsi"
++#include "t8015-common.dtsi"
++
++/ {
++	chassis-type = "handset";
++};
+diff --git a/arch/arm64/boot/dts/apple/t8015-8plus.dtsi b/arch/arm64/boot/dts/apple/t8015-8plus.dtsi
+new file mode 100644
+index 000000000000..ea291a95f028
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t8015-8plus.dtsi
+@@ -0,0 +1,9 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Apple iPhone 8 Plus common device tree
++ *
++ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
++ */
++
++/* The 8 Plus has minor differences like 1 more camera, 1 GiB of RAM more and a bigger display. */
++#include "t8015-8.dtsi"
+diff --git a/arch/arm64/boot/dts/apple/t8015-common.dtsi b/arch/arm64/boot/dts/apple/t8015-common.dtsi
+new file mode 100644
+index 000000000000..69258a33ea50
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t8015-common.dtsi
+@@ -0,0 +1,48 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Apple iPhone 8, iPhone 8 Plus, iPhone X
++ *
++ * This file contains parts common to all Apple A11 devices.
++ *
++ * target-type: D20, D21, D22, D201, D211, D221
 + *
 + * Copyright (c) 2024, Nick Chan <towinchenmi@gmail.com>
 + */
@@ -188,175 +234,156 @@ index 000000000000..44a0d0ea2ee3
 +&serial0 {
 +	status = "okay";
 +};
-diff --git a/arch/arm64/boot/dts/apple/t8011-j105a.dts b/arch/arm64/boot/dts/apple/t8011-j105a.dts
+diff --git a/arch/arm64/boot/dts/apple/t8015-d20.dts b/arch/arm64/boot/dts/apple/t8015-d20.dts
 new file mode 100644
-index 000000000000..d3e5b69c67aa
+index 000000000000..35d79e2ceebc
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t8011-j105a.dts
-@@ -0,0 +1,16 @@
++++ b/arch/arm64/boot/dts/apple/t8015-d20.dts
+@@ -0,0 +1,14 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple TV 4K (1st Generation), J105a, AppleTV6,2 (A1482)
-+ * Copyright (c) 2024, Nick Chan <towinchenmi@gmail.com>
-+ */
-+
-+/dts-v1/;
-+
-+#include "t8011.dtsi"
-+#include "t8011-common.dtsi"
-+
-+/ {
-+	compatible = "apple,j105a", "apple,t8011", "apple,arm-platform";
-+	model = "Apple TV 4K (1st Generation)";
-+	chassis-type = "television";
-+};
-diff --git a/arch/arm64/boot/dts/apple/t8011-j120.dts b/arch/arm64/boot/dts/apple/t8011-j120.dts
-new file mode 100644
-index 000000000000..1b49bb5c97c3
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t8011-j120.dts
-@@ -0,0 +1,16 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple iPad Pro 2 (12.9-inch) (Wi-Fi), J120, iPad7,1 (A1670)
++ * Apple iPhone 8 (Global), D20 iPhone10,1 (A1863/A1906/A1907)
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
 +
 +/dts-v1/;
 +
-+#include "t8011.dtsi"
-+#include "t8011-common.dtsi"
-+#include "t8011-pro2.dtsi"
++#include "t8015-8.dtsi"
 +
 +/ {
-+	compatible = "apple,j120", "apple,t8011", "apple,arm-platform";
-+	model = "Apple iPad Pro 2 (12.9-inch) (Wi-Fi)";
++	compatible = "apple,d20", "apple,t8015", "apple,arm-platform";
++	model = "Apple iPhone 8 (Global)";
 +};
-diff --git a/arch/arm64/boot/dts/apple/t8011-j121.dts b/arch/arm64/boot/dts/apple/t8011-j121.dts
+diff --git a/arch/arm64/boot/dts/apple/t8015-d201.dts b/arch/arm64/boot/dts/apple/t8015-d201.dts
 new file mode 100644
-index 000000000000..22f4aa1ecbda
+index 000000000000..31e0947fee70
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t8011-j121.dts
-@@ -0,0 +1,16 @@
++++ b/arch/arm64/boot/dts/apple/t8015-d201.dts
+@@ -0,0 +1,14 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPad Pro 2 (12.9-inch) (Cellular), J121, iPad7,2 (A1671)
++ * Apple iPhone 8 (GSM), D20 iPhone10,4 (A1905)
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
 +
 +/dts-v1/;
 +
-+#include "t8011.dtsi"
-+#include "t8011-common.dtsi"
-+#include "t8011-pro2.dtsi"
++#include "t8015-8.dtsi"
 +
 +/ {
-+	compatible = "apple,j121", "apple,t8011", "apple,arm-platform";
-+	model = "Apple iPad Pro 2 (12.9-inch) (Cellular)";
++	compatible = "apple,d201", "apple,t8015", "apple,arm-platform";
++	model = "Apple iPhone 8 (GSM)";
 +};
-diff --git a/arch/arm64/boot/dts/apple/t8011-j207.dts b/arch/arm64/boot/dts/apple/t8011-j207.dts
+diff --git a/arch/arm64/boot/dts/apple/t8015-d21.dts b/arch/arm64/boot/dts/apple/t8015-d21.dts
 new file mode 100644
-index 000000000000..c3384e2cad44
+index 000000000000..a902ba7f1133
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t8011-j207.dts
-@@ -0,0 +1,16 @@
++++ b/arch/arm64/boot/dts/apple/t8015-d21.dts
+@@ -0,0 +1,14 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPad Pro 2 (10.5-inch) (Wi-Fi), J207, iPad7,3 (A1701)
++ * Apple iPhone 8 Plus (Global), D21 iPhone10,2 (A1864/A1897/A1898)
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
 +
 +/dts-v1/;
 +
-+#include "t8011.dtsi"
-+#include "t8011-common.dtsi"
-+#include "t8011-pro2.dtsi"
++#include "t8015-8plus.dtsi"
 +
 +/ {
-+	compatible = "apple,j207", "apple,t8011", "apple,arm-platform";
-+	model = "Apple iPad Pro 2 (10.5-inch) (Wi-Fi)";
++	compatible = "apple,d21", "apple,t8015", "apple,arm-platform";
++	model = "Apple iPhone 8 Plus (Global)";
 +};
-diff --git a/arch/arm64/boot/dts/apple/t8011-j208.dts b/arch/arm64/boot/dts/apple/t8011-j208.dts
+diff --git a/arch/arm64/boot/dts/apple/t8015-d211.dts b/arch/arm64/boot/dts/apple/t8015-d211.dts
 new file mode 100644
-index 000000000000..251fa76efb6b
+index 000000000000..3b3f886c0c09
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t8011-j208.dts
-@@ -0,0 +1,16 @@
++++ b/arch/arm64/boot/dts/apple/t8015-d211.dts
+@@ -0,0 +1,14 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPad Pro 2 (10.5-inch) (Cellular), J208, iPad7,4 (A1709)
++ * Apple iPhone 8 Plus (GSM), D211 iPhone10,5 (A1899)
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
 +
 +/dts-v1/;
 +
-+#include "t8011.dtsi"
-+#include "t8011-common.dtsi"
-+#include "t8011-pro2.dtsi"
++#include "t8015-8plus.dtsi"
 +
 +/ {
-+	compatible = "apple,j208", "apple,t8011", "apple,arm-platform";
-+	model = "Apple iPad Pro 2 (10.5-inch) (Cellular)";
++	compatible = "apple,d211", "apple,t8015", "apple,arm-platform";
++	model = "Apple iPhone 8 Plus (GSM)";
 +};
-diff --git a/arch/arm64/boot/dts/apple/t8011-pro2.dtsi b/arch/arm64/boot/dts/apple/t8011-pro2.dtsi
+diff --git a/arch/arm64/boot/dts/apple/t8015-d22.dts b/arch/arm64/boot/dts/apple/t8015-d22.dts
 new file mode 100644
-index 000000000000..f4e707415003
+index 000000000000..5a7a6092c2d0
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t8011-pro2.dtsi
-@@ -0,0 +1,42 @@
++++ b/arch/arm64/boot/dts/apple/t8015-d22.dts
+@@ -0,0 +1,14 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPad Pro 2 common device tree
++ * Apple iPhone X (Global), D22, iPhone10,3 (A1865)
++ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
++ */
++
++/dts-v1/;
++
++#include "t8015-x.dtsi"
++
++/ {
++	compatible = "apple,d22", "apple,t8015", "apple,arm-platform";
++	model = "Apple iPhone X (Global)";
++};
+diff --git a/arch/arm64/boot/dts/apple/t8015-d221.dts b/arch/arm64/boot/dts/apple/t8015-d221.dts
+new file mode 100644
+index 000000000000..dd920c945bd6
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t8015-d221.dts
+@@ -0,0 +1,14 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Apple iPhone X (GSM), D221, iPhone10,6 (A1901)
++ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
++ */
++
++/dts-v1/;
++
++#include "t8015-x.dtsi"
++
++/ {
++	compatible = "apple,d221", "apple,t8015", "apple,arm-platform";
++	model = "Apple iPhone X (GSM)";
++};
+diff --git a/arch/arm64/boot/dts/apple/t8015-x.dtsi b/arch/arm64/boot/dts/apple/t8015-x.dtsi
+new file mode 100644
+index 000000000000..41134ed40b89
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/t8015-x.dtsi
+@@ -0,0 +1,13 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Apple iPhone X common device tree
 + *
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
 +
-+#include <dt-bindings/input/input.h>
++#include "t8015.dtsi"
++#include "t8015-common.dtsi"
 +
 +/ {
-+	chassis-type = "tablet";
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		button-home {
-+			label = "Home Button";
-+			gpios = <&pinctrl_ap 139 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_HOMEPAGE>;
-+			wakeup-source;
-+		};
-+
-+		button-power {
-+			label = "Power Button";
-+			gpios = <&pinctrl_ap 138 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_POWER>;
-+			wakeup-source;
-+		};
-+
-+		button-voldown {
-+			label = "Volume Down";
-+			gpios = <&pinctrl_ap 43 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_VOLUMEDOWN>;
-+		};
-+
-+		button-volup {
-+			label = "Volume Up";
-+			gpios = <&pinctrl_ap 40 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_VOLUMEUP>;
-+		};
-+	};
++	chassis-type = "handset";
 +};
-diff --git a/arch/arm64/boot/dts/apple/t8011.dtsi b/arch/arm64/boot/dts/apple/t8011.dtsi
+diff --git a/arch/arm64/boot/dts/apple/t8015.dtsi b/arch/arm64/boot/dts/apple/t8015.dtsi
 new file mode 100644
-index 000000000000..6c4ed9dc4a50
+index 000000000000..8828d830e5be
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/t8011.dtsi
-@@ -0,0 +1,141 @@
++++ b/arch/arm64/boot/dts/apple/t8015.dtsi
+@@ -0,0 +1,234 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple T8011 "A10X" SoC
++ * Apple T8015 "A11" SoC
 + *
-+ * Other names: H9G, "Myst"
++ * Other names: H10, "Skye"
 + *
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
@@ -382,25 +409,75 @@ index 000000000000..6c4ed9dc4a50
 +		#address-cells = <2>;
 +		#size-cells = <0>;
 +
-+		cpu0: cpu@0 {
-+			compatible = "apple,hurricane-zephyr";
++		cpu-map {
++			cluster0 {
++				core0 {
++					cpu = <&cpu_e0>;
++				};
++				core1 {
++					cpu = <&cpu_e1>;
++				};
++				core2 {
++					cpu = <&cpu_e2>;
++				};
++				core3 {
++					cpu = <&cpu_e3>;
++				};
++			};
++
++			cluster1 {
++				core0 {
++					cpu = <&cpu_p0>;
++				};
++				core1 {
++					cpu = <&cpu_p1>;
++				};
++			};
++		};
++
++		cpu_e0: cpu@0 {
++			compatible = "apple,mistral";
 +			reg = <0x0 0x0>;
 +			cpu-release-addr = <0 0>; /* To be filled by loader */
 +			enable-method = "spin-table";
 +			device_type = "cpu";
 +		};
 +
-+		cpu1: cpu@1 {
-+			compatible = "apple,hurricane-zephyr";
++		cpu_e1: cpu@1 {
++			compatible = "apple,mistral";
 +			reg = <0x0 0x1>;
 +			cpu-release-addr = <0 0>; /* To be filled by loader */
 +			enable-method = "spin-table";
 +			device_type = "cpu";
 +		};
 +
-+		cpu2: cpu@2 {
-+			compatible = "apple,hurricane-zephyr";
++		cpu_e2: cpu@2 {
++			compatible = "apple,mistral";
 +			reg = <0x0 0x2>;
++			cpu-release-addr = <0 0>; /* To be filled by loader */
++			enable-method = "spin-table";
++			device_type = "cpu";
++		};
++
++		cpu_e3: cpu@3 {
++			compatible = "apple,mistral";
++			reg = <0x0 0x3>;
++			cpu-release-addr = <0 0>; /* To be filled by loader */
++			enable-method = "spin-table";
++			device_type = "cpu";
++		};
++
++		cpu_p0: cpu@10004 {
++			compatible = "apple,monsoon";
++			reg = <0x0 0x10004>;
++			cpu-release-addr = <0 0>; /* To be filled by loader */
++			enable-method = "spin-table";
++			device_type = "cpu";
++		};
++
++		cpu_p1: cpu@10005 {
++			compatible = "apple,monsoon";
++			reg = <0x0 0x10005>;
 +			cpu-release-addr = <0 0>; /* To be filled by loader */
 +			enable-method = "spin-table";
 +			device_type = "cpu";
@@ -414,73 +491,116 @@ index 000000000000..6c4ed9dc4a50
 +		nonposted-mmio;
 +		ranges;
 +
-+		serial0: serial@20a0c0000 {
++		serial0: serial@22e600000 {
 +			compatible = "apple,s5l-uart";
-+			reg = <0x2 0x0a0c0000 0x0 0x4000>;
++			reg = <0x2 0x2e600000 0x0 0x4000>;
 +			reg-io-width = <4>;
 +			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 216 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 282 IRQ_TYPE_LEVEL_HIGH>;
 +			/* Use the bootloader-enabled clocks for now. */
 +			clocks = <&clkref>, <&clkref>;
 +			clock-names = "uart", "clk_uart_baud0";
 +			status = "disabled";
 +		};
 +
-+		aic: interrupt-controller@20e100000 {
-+			compatible = "apple,t8010-aic", "apple,aic";
-+			reg = <0x2 0x0e100000 0x0 0x100000>;
++		aic: interrupt-controller@232100000 {
++			compatible = "apple,t8015-aic", "apple,aic";
++			reg = <0x2 0x32100000 0x0 0x8000>;
 +			#interrupt-cells = <3>;
 +			interrupt-controller;
 +		};
 +
-+		pinctrl_ap: pinctrl@20f100000 {
-+			compatible = "apple,t8010-pinctrl", "apple,pinctrl";
-+			reg = <0x2 0x0f100000 0x0 0x100000>;
++		pinctrl_ap: pinctrl@233100000 {
++			compatible = "apple,t8015-pinctrl", "apple,pinctrl";
++			reg = <0x2 0x33100000 0x0 0x1000>;
 +
 +			gpio-controller;
 +			#gpio-cells = <2>;
-+			gpio-ranges = <&pinctrl_ap 0 0 219>;
-+			apple,npins = <219>;
++			gpio-ranges = <&pinctrl_ap 0 0 223>;
++			apple,npins = <223>;
 +
 +			interrupt-controller;
 +			#interrupt-cells = <2>;
 +			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 42 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 43 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 44 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 45 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 46 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 47 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 48 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 50 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 51 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 52 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 53 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 54 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 55 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 56 IRQ_TYPE_LEVEL_HIGH>;
 +		};
 +
-+		pinctrl_aop: pinctrl@2100f0000 {
-+			compatible = "apple,t8010-pinctrl", "apple,pinctrl";
-+			reg = <0x2 0x100f0000 0x0 0x100000>;
++		pinctrl_aop: pinctrl@2340f0000 {
++			compatible = "apple,t8015-pinctrl", "apple,pinctrl";
++			reg = <0x2 0x340f0000 0x0 0x4000>;
 +
 +			gpio-controller;
 +			#gpio-cells = <2>;
-+			gpio-ranges = <&pinctrl_aop 0 0 42>;
-+			apple,npins = <42>;
++			gpio-ranges = <&pinctrl_aop 0 0 49>;
++			apple,npins = <49>;
 +
 +			interrupt-controller;
 +			#interrupt-cells = <2>;
 +			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 125 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 126 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 127 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 128 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 129 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 130 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 131 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 135 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 136 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 137 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 138 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 139 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 140 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 141 IRQ_TYPE_LEVEL_HIGH>;
 +		};
 +
-+		wdt: watchdog@2102b0000 {
-+			compatible = "apple,t8010-wdt", "apple,wdt";
-+			reg = <0x2 0x102b0000 0x0 0x4000>;
++		pinctrl_nub: pinctrl@2351f0000 {
++			compatible = "apple,t8015-pinctrl", "apple,pinctrl";
++			reg = <0x2 0x351f0000 0x0 0x4000>;
++
++			gpio-controller;
++			#gpio-cells = <2>;
++			gpio-ranges = <&pinctrl_nub 0 0 8>;
++			apple,npins = <8>;
++
++			interrupt-controller;
++			#interrupt-cells = <2>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 168 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 169 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 170 IRQ_TYPE_LEVEL_HIGH>;
++		};
++
++		wdt: watchdog@2352b0000 {
++			compatible = "apple,t8015-wdt", "apple,wdt";
++			reg = <0x2 0x352b0000 0x0 0x4000>;
 +			clocks = <&clkref>;
 +			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 4 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 172 IRQ_TYPE_LEVEL_HIGH>;
++		};
++
++		pinctrl_smc: pinctrl@236024000 {
++			compatible = "apple,t8015-pinctrl", "apple,pinctrl";
++			reg = <0x2 0x36024000 0x0 0x4000>;
++
++			gpio-controller;
++			#gpio-cells = <2>;
++			gpio-ranges = <&pinctrl_smc 0 0 6>;
++			apple,npins = <6>;
++
++			interrupt-controller;
++			#interrupt-cells = <2>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 199 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 200 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 201 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 202 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 203 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 204 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 205 IRQ_TYPE_LEVEL_HIGH>;
++			/*
++			 * SMC is not yet supported and accessing this pinctrl while SMC is
++			 * suspended results in a hang.
++			 */
++			status = "disabled";
 +		};
 +	};
 +
@@ -488,7 +608,7 @@ index 000000000000..6c4ed9dc4a50
 +		compatible = "arm,armv8-timer";
 +		interrupt-parent = <&aic>;
 +		interrupt-names = "phys", "virt";
-+		/* Note that A10X doesn't actually have a hypervisor (EL2 is not implemented). */
++		/* Note that A11 doesn't actually have a hypervisor (EL2 is not implemented). */
 +		interrupts = <AIC_FIQ AIC_TMR_GUEST_PHYS IRQ_TYPE_LEVEL_HIGH>,
 +			     <AIC_FIQ AIC_TMR_GUEST_VIRT IRQ_TYPE_LEVEL_HIGH>;
 +	};
