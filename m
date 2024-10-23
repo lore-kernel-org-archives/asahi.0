@@ -1,54 +1,54 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EA61D0173
-	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 17:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7731BCA07
+	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 17:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729705614; cv=none; b=M0s6DQvRGGDiOPUCEZiDw8CQG1NV7m66yyYFfCPKWaYbwlZM8LPO4KEemQE4EqWb6f+xutzlkYPzlMFeGRnLgAyzImapZ6v5otDrM6foeGMmx1RIzROMAxcXdKazpDDGkU9CP/BsJkCn3N6NQpjYAk6f8mWdTTTzmRmtycsRhFA=
+	t=1729705715; cv=none; b=SFgJ/O+9u0hsrK/3RkgXJwap/WPbCpOehzz1XBVej4bxiUqhYqEDPRvdVw1gn/i3TLFsYtG9fsGP6QJ7dKlv5RUFaOOxwRmoUdar5Ay3iBzHvwY6cGwDdJvmT0NNUY90nmpqzHHnqh9wbXqD1KuWwAFJh6uKIkK9f6To22w6K6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729705614; c=relaxed/simple;
-	bh=i+7ZAlfoQfuCxLYaegZtLOps7LaYlV1n5wy00nEl8Ng=;
+	s=arc-20240116; t=1729705715; c=relaxed/simple;
+	bh=FkIbVmjmGIcTzhG0qGekVnBH4zwusmD5xdfI1M4eVoQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D4vDbq/ZINa6Zaxcq9mAl5SqS8ETLj752HpFGKnph9E+qkAab1tkYDRrd3Max/S/K1y2hgrjth8EfKN+kNhYeVYAzIxX41OElv9UZHcFUou6zOUDyC59aMqQgrtxM89GCve2mIJGglZyhDXEGRxfS+YPYAbnWQaapFavqQrKGwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zf4kVp0L; arc=none smtp.client-ip=209.85.128.53
+	 To:Cc:Content-Type; b=LrPLF1pzgcMUnM4GxhJx4iGzXdSg+6UW9LkyeD5sF7hlN+ijeUTMMejFVGAKzDrGS5YpojUgUocOtkIV1BF0S1bwguvjDjqEOdwwgAyBo8gcNCkrlTckV/l+KjPF4XBZorY5QlFK3hMzF9//WVYwSCZMbDu+uGJueO+flqHECkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g4lGGkqe; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zf4kVp0L"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4315a8cff85so321685e9.0
-        for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 10:46:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g4lGGkqe"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4315a8cff85so322195e9.0
+        for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 10:48:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729705611; x=1730310411; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1729705712; x=1730310512; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=i+7ZAlfoQfuCxLYaegZtLOps7LaYlV1n5wy00nEl8Ng=;
-        b=zf4kVp0LK+v/yykkKWMQVUw4gnNCnGf4Cb+JsxASp48EKVHcPHQRIJwhr6or9RAdKl
-         d+OJDUOq7+hCtYHh368Mkm8S0VQU2mR4L6Nhxwk+ycEUUyz99B+8yh0XKoGjqeWkY1fw
-         q1kuaNSqr9xhx/6RoH8gv0uqgr4q5j4vLEVrtGzxm/7XZHMPy5C8BpqnjMSbVHno+1rr
-         e4FPBa/UwNNNTp0yiklTbO1fP+n3mJK82QyWc7FIDI/kOJ/IKS1OtDClz9Kv1PvWzg8p
-         MGJqC253oxEuSJrmWwsKwulMqdcdqDHH0DaH4bl2qPnoz1unGERaU4cmr6+DBiqhWyn4
-         KtRg==
+        bh=fmdWUQBcQAY3nAqTIo9l9U7SbGU//y7aKjDJylKE1oo=;
+        b=g4lGGkqeANaXjIwC93DsW109BZ84MHOpCLqCcxoK/S7UWVlSj7Nl8KPWAZ0KZUwC61
+         COx4evAgFgPyxOc6QwCOH1iU3qOiAs+IEB1dvZomoLKUvexPWWxXmI7A+3k6lWV9ifKS
+         lZ4U3D6EUHITIPdKRyWTDjxWAOFb+FHVlJvlemrtwgXym4RkyKop0d6HF5Fv7wov22dg
+         Xic9qBL2+WW3LZQiewEqmBiEcFs4iFusLkaUd3fDx2Jp6KgwLn8u8wxgXlU5f71xPoQF
+         l078hCwdU13zOSfxKXp/iGr0867v8oC/zFjpwkiBk/bMqoFIihD7nwm2JTJTfTLZdGQ+
+         A1Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729705611; x=1730310411;
+        d=1e100.net; s=20230601; t=1729705712; x=1730310512;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=i+7ZAlfoQfuCxLYaegZtLOps7LaYlV1n5wy00nEl8Ng=;
-        b=Robikg1AQKKBPPvh8FHm3H70BGAqeKrtxaxQzM2CAQzkwpIrSZkymrVMloFo1RIE9Z
-         ZDedaD8pHcYRSaUGXApiE3mZiBIrQwg81dFLVvDrXPs5bmQ7AW9TAQHRRu9WdDoFzNgU
-         tkr5vG81D2Aa4F6FiC3z9SesmdZdS5Gj8GSP1TktFqIcGK1Qo2UaXrA5HMowsWYgOT+/
-         gP8vwZ6fw4sBFM5dGaIXJBD7+Tc3nlXJf1nYJCvVYCeddSmLucHlsZQpwLKknnxEmR6Q
-         oBTRmpGbeehYTvUA+ccRo9bcT6nsNC7va+CszEu48GaG1K2h1peo7XhNU0zyEtrwBtKH
-         CjIw==
-X-Forwarded-Encrypted: i=1; AJvYcCXjux6efWc3x85GwaHh3CYb2++faclnm7tc5H2fYwpW4M54c4dBkphEr1nvf2OSzke/kY3U8Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzm1qne/mVKePEahGh0oqDwsPjKO0jz1VVa/kJOJ8jnc3O/Jq5b
-	IunSGNePrgTvkzDBvhWuunv4kCDQfwWBvnxTX6bCfWNYqOkhIWFVFvogWjSdR/3aqweDRwsjygR
-	6KDyctc7sle+g1iwXvzrv9Z/RPHOTyxUlut4+
-X-Google-Smtp-Source: AGHT+IGczg9abDGpX4ppjcVsgb3ui7YwoWlv9yFaws8RHe1ZuuGKPzBA2axsxRP2DJ+N1UUksoNEjs6hJSoRSIvhZtM=
-X-Received: by 2002:a05:600c:3d0c:b0:431:416b:9ecf with SMTP id
- 5b1f17b1804b1-4318a55bcccmr78525e9.6.1729705611429; Wed, 23 Oct 2024 10:46:51
+        bh=fmdWUQBcQAY3nAqTIo9l9U7SbGU//y7aKjDJylKE1oo=;
+        b=jaK3NG3vGD2IvvymbKVO08P+u3j+uhVumrokEuW6mfJtpYxBY5U/VQGSEkhgPnn5p8
+         0UG65L/82Tb/JQC3CiVs6oUCFN3y1EvqTpG+kd/C10++TP1rkycLFaAiZPGZWq+DUPMt
+         hBfdSMtW8XfPv31CVVRwfyYca1sS79ia/86+C8TzOXNJozFF1YNk5oYRQ3DQRmELN0A0
+         DltIj6AtMj/ODBx09RTBgWQ7VbzHmrpKhqknW89MZ4SEfzfkTM0nUxqahOC7N5MP2DnS
+         s8utVMeyrR+0uOeSbvMGY2OImvxnIoFmH3Q+X7gr4Rd27mk0FHtIXL5Y5RVW7Yt8OoSb
+         riUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWRAlJXiIHtcVuST+Zr/LUB7lu6aI3EOusB+d9e7/nLStbh04a9JVSglvPThVLrk6MmsJfqg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyyjDpOl9odQcomsrcIQaWexlCE/qnC0ryP23ku+bfQq5eQAVI7
+	AjAqopIUBy5qPqe0+pnCrYYfDk4rsQOgAjN3Wz54RAiMSN7ulFHTZfptwePFdW7QaPRIQoPyfT/
+	2bxmfMrnoe3xiFrE8KERa+kdPdRE6SUffAdTQ
+X-Google-Smtp-Source: AGHT+IG0BkWH9huLxAbcocB6UbaPhZ8uKL24LXDKmU6qhYTIHrvkI6QqSZM/PNXQdPdfOAWmrvv5Co9w8y6YcLQGbFA=
+X-Received: by 2002:a05:600c:a00f:b0:426:5d89:896d with SMTP id
+ 5b1f17b1804b1-4318a5a4eeamr68805e9.1.1729705711389; Wed, 23 Oct 2024 10:48:31
  -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
@@ -57,12 +57,12 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20241008183823.36676-21-samitolvanen@google.com>
- <20241008183823.36676-34-samitolvanen@google.com> <8fa10131-fae2-4052-b541-e4a6ef570d63@suse.com>
-In-Reply-To: <8fa10131-fae2-4052-b541-e4a6ef570d63@suse.com>
+ <20241008183823.36676-35-samitolvanen@google.com> <bf2b3e3c-904b-43c9-a9eb-ab710ff6e7fc@suse.com>
+In-Reply-To: <bf2b3e3c-904b-43c9-a9eb-ab710ff6e7fc@suse.com>
 From: Sami Tolvanen <samitolvanen@google.com>
-Date: Wed, 23 Oct 2024 10:46:14 -0700
-Message-ID: <CABCJKufGTitE6bWwoY-5Pr6MfHnPu2m+RVk4UcZMik=Nri-=kQ@mail.gmail.com>
-Subject: Re: [PATCH v4 13/19] gendwarfksyms: Add symbol versioning
+Date: Wed, 23 Oct 2024 10:47:54 -0700
+Message-ID: <CABCJKuejz2snUN12d7rA7-nNMXjUx9BKYmp86c43E4gJCjZFbA@mail.gmail.com>
+Subject: Re: [PATCH v4 14/19] gendwarfksyms: Add support for kABI rules
 To: Petr Pavlu <petr.pavlu@suse.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -75,22 +75,143 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Petr,
+Hi,
 
-On Tue, Oct 22, 2024 at 4:48=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
+On Tue, Oct 22, 2024 at 7:39=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
 ote:
 >
-> I had some minor comment about adjusting the name of function
-> symbol_print_versions() and possibly changing sym->name to 'char *' on
-> the v2 of the patch:
-> https://lore.kernel.org/all/286b1cc5-1757-4f0a-bb66-0875f4608c7e@suse.com=
-/
-> Please have a look, it seems it felt through the cracks.
+> On 10/8/24 20:38, Sami Tolvanen wrote:
+> > +/*
+> > + * KABI_USE_ARRAY(fqn)
+> > + *   Treat the struct fqn as a declaration, i.e. even if a definition
+> > + *   is available, don't expand the contents.
+> > + */
+> > +#define KABI_STRUCT_DECLONLY(fqn) __KABI_RULE(struct_declonly, fqn, ;)
+>
+> Nit: s/KABI_USE_ARRAY/KABI_STRUCT_DECLONLY/ in the preceding comment.
 
-Sorry, I missed that somehow. I can split this into two functions to
-avoid confusion. Also I'm using const char * to make it obvious that
-the name shouldn't be modified by users of struct symbol. This does
-require a cast when freeing the string, which isn't ideal, but I feel
-it's overall not a terrible trade-off.
+Thanks, I'll fix this in the next version.
+
+> > + * Verify --stable output:
+> > + *
+> > + * RUN: echo -e "ex0\nex1" | \
+> > + * RUN:   ./gendwarfksyms --stable --dump-dies \
+> > + * RUN:      examples/kabi_rules.o 2>&1 >/dev/null | \
+> > + * RUN:   FileCheck examples/kabi_rules.c --check-prefix=3DSTABLE
+> > + */
+>
+> It would be useful to make this test automated. Overall, I believe
+> gendwarfksyms should have a set of automated tests to verify its
+> functionality. At a minimum, I think we would want to work out some
+> blueprint how to write them. Should they be added to kselftests, or
+> would something like kconfig/tests be more appropriate? How to write
+> tests with stable DWARF data that ideally work across all platforms?
+> More tests can be then added incrementally.
+
+Different compilers produce slightly different DWARF data, so we can't
+necessarily guarantee that the output is the same even between
+different compilers, let alone architectures, which makes automated
+testing a bit more challenging. If we want tests for simple cases like
+in these example files, it should be possible to work something out.
+Otherwise, I think the best way to test the tool is to do build tests
+and ensure that there are no warnings or errors, e.g. for missing
+versions. Did you have any thoughts about the kinds of tests you'd
+like to see?
+
+> > +#define KABI_RULE_EMPTY_VALUE ";"
+>
+> Hmm, is there a reason why an empty value is ";" instead of just ""?
+
+Not really, I can change this to an empty string in v5.
+
+> > +
+> > +/*
+> > + * Rule: struct_declonly
+> > + * - For the struct in the target field, treat it as a declaration
+> > + *   only even if a definition is available.
+> > + */
+> > +#define KABI_RULE_TAG_STRUCT_DECLONLY "struct_declonly"
+> > +
+> > +/*
+> > + * Rule: enumerator_ignore
+> > + * - For the enum in the target field, ignore the named enumerator
+> > + *   in the value field.
+> > + */
+> > +#define KABI_RULE_TAG_ENUMERATOR_IGNORE "enumerator_ignore"
+> > +
+> > +enum kabi_rule_type {
+> > +     KABI_RULE_TYPE_UNKNOWN,
+> > +     KABI_RULE_TYPE_STRUCT_DECLONLY,
+> > +     KABI_RULE_TYPE_ENUMERATOR_IGNORE,
+> > +};
+>
+> Nit: All new KABI_* defines and the enum kabi_rule_type added in
+> gendwarfksyms.h are used only locally from kabi.c, so they could be
+> moved in that file.
+
+True, I'll move these.
+
+> > +struct rule {
+> > +     enum kabi_rule_type type;
+> > +     const char *target;
+> > +     const char *value;
+> > +     struct hlist_node hash;
+> > +};
+>
+> What is the idea behind using 'const char *' instead of 'char *' for
+> owned strings in structures?
+
+I mentioned this in the previous response, but it's to make it more
+obvious that the contents of these strings shouldn't be modified by
+the users of this struct.
+
+> > +static inline unsigned int rule_hash(enum kabi_rule_type type,
+> > +                                  const char *target, const char *valu=
+e)
+> > +{
+> > +     return hash_32(type) ^ hash_str(target) ^ hash_str(value);
+> > +}
+> > +
+> > +static inline unsigned int __rule_hash(const struct rule *rule)
+> > +{
+> > +     return rule_hash(rule->type, rule->target, rule->value);
+> > +}
+>
+> Nit: Perhaps call the two hash functions rule_values_hash() and
+> rule_hash() to avoid the "__" prefix?
+
+Sure, I'll rename the functions.
+
+> As a general comment, I believe the gendwarfksyms code overuses the "__"
+> prefix. Similarly, I find harder to navigate its code when, in a few
+> instances, there is a function named <verb>_<object>() and another as
+> <object>_<verb>(). An example of both would be the functions
+> expand_type(), type_expand() and __type_expand().
+
+I suspect this is a matter of personal preference. I don't have strong
+feelings about the naming, but I'm happy to accept suggestions!
+
+> > +     scn =3D elf_nextscn(elf, NULL);
+> > +
+> > +     while (scn) {
+> > +             shdr =3D gelf_getshdr(scn, &shdr_mem);
+> > +             if (shdr) {
+>
+> Isn't it an error when gelf_getshdr() returns NULL and as such it should
+> be reported with error()? If this makes sense then the same handling
+> should be implemented in symbols.c:elf_for_each_global().
+
+Good point, I'll change this, also in symbols.c.
+
+>
+> > +                     const char *sname =3D
+> > +                             elf_strptr(elf, shstrndx, shdr->sh_name);
+> > +
+> > +                     if (sname && !strcmp(sname, KABI_RULE_SECTION)) {
+> > +                             rule_data =3D elf_getdata(scn, NULL);
+>
+> Similarly here for elf_strptr() and elf_getdata().
+
+Ack.
 
 Sami
