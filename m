@@ -1,57 +1,57 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2E113D53F
-	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 04:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD6213CFB6
+	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 04:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729658691; cv=none; b=FGl98CHYQC3qtL4vuBxrM+yPS+AuYfx+KjqquC/WSOe6nCj8s7Z9WUs9eV7vrL0uAiNOtciQueFyqvA4WYtAnB76kGAFcXLfKtbp+U0bq6uNCsjxOaFdbOLXF6EdEfr65OtMxhI66wQ+Jnaz9Lol3MFixzitfTOKVHMfwaXNhLE=
+	t=1729658696; cv=none; b=lLhPXgxoCfEyWkUPuqXuDuCxVbrkfIoUyY97AO/bTmUQFmpka4ITH/mH8M2H+nlJytEBekdAXVZxFSiZfZMQ1rmiStqvisIhhTq+jI3hFnwMql2DgOo5JMCrDIlrp8ChXu41Hc1uHrMKNXiy6dj0DFiiDrkDHLxU+y3ne48v2JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729658691; c=relaxed/simple;
-	bh=Zigzrlnp/ggViYOHlizqBPJEHu5N7+T4SWqNN3pX6F0=;
+	s=arc-20240116; t=1729658696; c=relaxed/simple;
+	bh=oEG6p+vWkAWs7zrYdXJAcLsli3rmOydvcpIRQN95zb8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OuVpxZIxs+PtGTBrKeocTGvG9MN+zQ0I47lC38jrdwu0f9ECp8aiFx+avot4E1PET3aN8s95p0nvtrapDXKIWLbmaJvARn1e9QekHLVq//TWa50Lv7k8sbjiwYuGKl8qhe1GFDkIFEULfFk7pMjQbhsTmJ650XCMSPaP+fsgViQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eU7aIYYY; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=f7fCxixgnpq1T/S0fE1BY2GpgUTqERQyGg3XtgM/EVkHv4pSlGtujCmUB62WrIvHaicwWrYts1n43MLEVIpO/oLYgU2l0Cwd/UTxrWpN/cPR8K8WRU2o5pYg0j3gRxyQGfeCh8tNUQ2W1bfGdchhW26mg2Ngat0hgw/SI1ZaQyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iOJ06Cd3; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eU7aIYYY"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20cbb1cf324so56210725ad.0
-        for <asahi@lists.linux.dev>; Tue, 22 Oct 2024 21:44:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iOJ06Cd3"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-20c70abba48so53271015ad.0
+        for <asahi@lists.linux.dev>; Tue, 22 Oct 2024 21:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729658689; x=1730263489; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1729658694; x=1730263494; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=c/DXdjRCmhmjz3IRlGxg8kr3zWLF2w8ofwZY/NRTv2s=;
-        b=eU7aIYYYy6BlC6iukEa/bxp30Q94WudKtIo6l4A1s4FVBcUZJdpooihDPhMa8gVoRs
-         10+yHxon11KheAAYOOCw+o1K/ikA48/oCfL9qUTkdjAAaRMfNfx3qkmeZtumGQCaDwEQ
-         auUseoBrdNoorgYBd1ptKup4RNsuVDEnG7ifX9hvuh85zXnV/UBbvhFv9Y/LgV0pOD0U
-         9nToKTAXHbpcmsRmlscKVt3gbE3GfWpF/1uKnLcK4lhVh9TDO43+csdbkP9//rTf0Ma8
-         TthuNf2tpfzU1WzXKPtjB1ISJ6z068VIqcveHpo2Ia4Nhq3TzgB5NhI9oXnE7tVE6oH4
-         O1XA==
+        bh=yAdYfBN+Mf10zH0eoCFYz9vxHGOsv0094bye20ACE5Q=;
+        b=iOJ06Cd30tqcmcrTmRRJxJaUxrIAR2Ol8EWGHGN+EGQ5/eI6p/U84Zgova+5/zJD1u
+         CRcfyPthayl5lNaPe6SpkBVyTbPMROnkVE1UrMvY1aLOexPZ+m53/fH6T4TjIOyQgbqB
+         bqXcoe0i0TAoSgWJ1SLfRtNABa5Hdcb+kDEW9lu0Rrg29g/nAwOIAVpAe+3m4cD7Wokh
+         EU/KEKlAzyUyBeEP38TmPwAzkqV1m7aAQ/tzWUq1Wh3XL2bmW0vIV3JTeon2P8u1bMS3
+         7UXbMV9q23CRyZBgWgHUTpMxV5MNszxCRppGAtY8RL0CSUCIbjvYbGsOOD+EYbHpJadJ
+         aFmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729658689; x=1730263489;
+        d=1e100.net; s=20230601; t=1729658694; x=1730263494;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=c/DXdjRCmhmjz3IRlGxg8kr3zWLF2w8ofwZY/NRTv2s=;
-        b=mo2UDgXzrMKXJTBNpNUHQFN25mvszh1bfctkUeuXdug7/14BdpDn+3mu4FSqjLQ1fx
-         UEuRSW+A59YNM67d6cYOMffa8YjN6eL7j1TZmXJncD0CIWGZMEyfU94oxVhM4XC4Ucnz
-         DGUh+PCnNa5zxfdP9vO8yTsdxFRrVKbIFDDJqL1WO4KJwydgcIWe0Xz4DFHiCyEJVaFJ
-         ft+80UL7CihoHeJ53MJpXaJ5BJEMtOnbcASjlL3ZklnB8vsTjS92Z+eV6rMuha/MijUu
-         loT1WPBXceLgoRUImcGSKpKQMPCQXaiOEHHYhIH83dZ3Z4fS7u50iNeO5TaWGWzwNmj/
-         Zsqg==
-X-Forwarded-Encrypted: i=1; AJvYcCWkxuEpLa+QEgCIqGLfr4R2o7WppwtHyDNcxGRo7GK/18yqPBrzYW8jcftnkxKySzw+2CQ/xA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YziKR7KeJ+5mwlLD4rykAG5PRgpn3NwFc2Bvy/uhcSCebK71gjA
-	3doAJ5/HS14EfwyaQfIJaLczNLTazwI79DhwQ3sOh2yx9yPpZWe4
-X-Google-Smtp-Source: AGHT+IGn7UgZ9BJ/TlkQ+E2HAb0XR+rspKCuaZMeClu6zEYk8ERChl9lG0s2Nk1ILro9xGQFJ0oStg==
-X-Received: by 2002:a17:902:690b:b0:20c:f3cf:50e6 with SMTP id d9443c01a7336-20fa9eb649bmr18804295ad.38.1729658689494;
-        Tue, 22 Oct 2024 21:44:49 -0700 (PDT)
+        bh=yAdYfBN+Mf10zH0eoCFYz9vxHGOsv0094bye20ACE5Q=;
+        b=SG0vzG83K+jI5pU9J59P95HHvubVYaRiNbOJIkaQLyTiUOPCU/6i2FehFp9gn1tY4x
+         GPMvr9sopePGe4HPJghjDZyx0iiLT0mMGESOQqvhxBzKVs59N5RMzBupk15SWj39ofhR
+         UVNmK0dVfXyu9kdNn+V0hRplB8+6P23qtBCMbZO4y/PjCj4LPShRzJQUBNExwZZvljl5
+         TXmJWXEz5M/Xd5wofmlcLNPzHeR5HtkNN2u3+m+yALuOErBG41s6lNAXWZ/5Fz0Gbg/k
+         bBD9UWldHoH8Gs2h51tezeI3EVCk/JSCSO+BOboRuD3KgvdE/mTzkKr8pXYKzWtIF0un
+         1pYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWfNqpKL+QqxlSsvfhpOHWQGxC8n4qErz/KEUQcGWszoiWgioY8NFmGgSCnIVW2of8IpD058A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxbDbMdiC6eyWsm2Ur/JQ4OKdDUpjOArW8AbPXVEYW0bNwWsKsK
+	WZd4j9TgsdxrVLjVAK28BevlKm9UJQQvHxPDazknsVdlB6YMOPBF
+X-Google-Smtp-Source: AGHT+IFR5NkdGICd7s9c2//F6zkeu11cFy3HP0c2fdOAiP6AGF9wRnepLtOrmAX5Q8qGU1rxNE+5JQ==
+X-Received: by 2002:a17:902:d4c3:b0:20b:8bd0:7387 with SMTP id d9443c01a7336-20fab307224mr19637715ad.52.1729658694457;
+        Tue, 22 Oct 2024 21:44:54 -0700 (PDT)
 Received: from nick-mbp.ust.hk ([182.153.135.7])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20e7f0de3c3sm49983125ad.207.2024.10.22.21.44.45
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20e7f0de3c3sm49983125ad.207.2024.10.22.21.44.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 21:44:49 -0700 (PDT)
+        Tue, 22 Oct 2024 21:44:54 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -74,9 +74,9 @@ To: Hector Martin <marcan@marcan.st>,
 	linux-watchdog@vger.kernel.org
 Cc: Nick Chan <towinchenmi@gmail.com>,
 	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v6 RESEND 01/20] dt-bindings: arm: cpus: Add Apple A7-A11 CPU cores
-Date: Wed, 23 Oct 2024 12:40:36 +0800
-Message-ID: <20241023044423.18294-2-towinchenmi@gmail.com>
+Subject: [PATCH v6 RESEND 02/20] dt-bindings: watchdog: apple,wdt: Add A7-A11 compatibles
+Date: Wed, 23 Oct 2024 12:40:37 +0800
+Message-ID: <20241023044423.18294-3-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241023044423.18294-1-towinchenmi@gmail.com>
 References: <20241023044423.18294-1-towinchenmi@gmail.com>
@@ -88,45 +88,32 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the following CPU cores:
+The blocks on A7-A11 SoCs are compatible with the existing driver so
+add their per-SoC compatibles.
 
-- apple,cyclone: A7 cores
-- apple,typhoon: A8 cores
-- apple,twister: A9 cores
-- apple,hurricane-zephyr: A10 logical cores
-- apple,monsoon: A11 performance cores
-- apple,mistral: A11 efficiency cores
-
-In the Apple A10, there are physical performance-efficiency cores that
-forms logical cores to software depending on the current p-state, and
-only one type of core may be active at one time.
-
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 Acked-by: Krzysztof Kozlowski <krzk@kernel.org>
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- Documentation/devicetree/bindings/arm/cpus.yaml | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/watchdog/apple,wdt.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
-index c54d20dd9d7e..dc0d219ff9d5 100644
---- a/Documentation/devicetree/bindings/arm/cpus.yaml
-+++ b/Documentation/devicetree/bindings/arm/cpus.yaml
-@@ -87,8 +87,14 @@ properties:
-     enum:
-       - apple,avalanche
-       - apple,blizzard
--      - apple,icestorm
-+      - apple,cyclone
-       - apple,firestorm
-+      - apple,hurricane-zephyr
-+      - apple,icestorm
-+      - apple,mistral
-+      - apple,monsoon
-+      - apple,twister
-+      - apple,typhoon
-       - arm,arm710t
-       - arm,arm720t
-       - arm,arm740t
+diff --git a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+index 21872e15916c..310832fa8c28 100644
+--- a/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+@@ -16,6 +16,11 @@ properties:
+   compatible:
+     items:
+       - enum:
++          - apple,s5l8960x-wdt
++          - apple,t7000-wdt
++          - apple,s8000-wdt
++          - apple,t8010-wdt
++          - apple,t8015-wdt
+           - apple,t8103-wdt
+           - apple,t8112-wdt
+           - apple,t6000-wdt
 -- 
 2.47.0
 
