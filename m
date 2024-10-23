@@ -1,57 +1,57 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F53B14885D
-	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 04:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2846D1547F3
+	for <asahi@lists.linux.dev>; Wed, 23 Oct 2024 04:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729658763; cv=none; b=ezcez9qyRpBk02y7gqPWo/MaymC6F5PXdmL+nITFLsAUlFRrVpvLGVnuButZGkPWyg/fCnfk4+pR6DM00Y9VaWijHSRs+fNhl9V+l9rFqLEZrREuIcalei2yW2/583bjIVEBda0c8gWd6tjJczZt0SXYxq5KU1JGEx6HbubgsPM=
+	t=1729658767; cv=none; b=O21Uf8Kt4X+oHqUtmFbe1wJ8nzEUed3Gx6pu0YDrz2BnabkziFo2AfSeGELr+qmJ+PxEPCaED2MJJUrUdErV79JCd/4rBX7oyvwRN5HRHRG4A66yu2iN9gXYmnMfnb7nI3yuFG11RF1bsO5jOL4gs9YwxkGbeWpiEf1enhi9DvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729658763; c=relaxed/simple;
-	bh=mL07Lv3MQzR5EQhoBQ/Do0t4o63xtCp9Uw+lm0KVT2U=;
+	s=arc-20240116; t=1729658767; c=relaxed/simple;
+	bh=NNLa2ToojVT9gJ9ql2YSywrZGhdfD3vQN78ZiSdEqmY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UzLoYZpiZccA2RyWJtGXUOh8z0S6fONR+d00dWit8CuDYVeL3Y+8GJsBs5czaK26t/g9rQdlc07hfxUE08jrU9/dd9YrlNy4SrKdeIO0fwGnbsytXLQ9Opdhj3oNIVepHT6fE/nYX9F3fGKRnE44bCXGKPUzri55JDdEMbvOpMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WktECLE9; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=jpYXa10lxJRNbPPZFGZ1B6zYUUwE2Wjtld4XrHQrrTO/vI9KCVb3bEmOSJ4q/Yqqn48yQOXHRGH1vWAo6JqZxD5HQTHmkfyiBmm6Tv63bM5SLj1eVziJDScaBEGZAU7SiHmvQYhFwISyp0EdQRCwNjE++PKbSfBcHrcKkm4tLJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SYJ6H8Zs; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WktECLE9"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20c767a9c50so59661125ad.1
-        for <asahi@lists.linux.dev>; Tue, 22 Oct 2024 21:46:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SYJ6H8Zs"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20cdb889222so61805885ad.3
+        for <asahi@lists.linux.dev>; Tue, 22 Oct 2024 21:46:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729658760; x=1730263560; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1729658764; x=1730263564; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q7NKY7djca+NM/4QklI//n9y36tDEyEWXM9GSvRYyKg=;
-        b=WktECLE9Hm1bQcIneQ+K4K8/JUHhyTOzxoPMiR0lFfxZLJ/M4YYsOdMpZQbhXEQOk/
-         ZcATjezm4dBvkCsBZjYtIUl66gBNnSK2gplzfMrjAIMibP/SeR+v7eVu7wTPEnMxpdbI
-         GAPAydvMmAoHpTao6svgBAgALR3SDN6Ts1fu9Q0XOJ6B5YreNb5vRW1lTNAmmk9wVOWy
-         mOzwlJaeEsiYEEhOXD5s1V2efVZxKfRZ9FyYyPCsbsTjRiFInvjYbiQHTQeWG4E+T4Ga
-         DGoaAWqm0/tQklAuBiIyFLnfwhXXHR98YnAM6940xt2T6iKNJtpR7s0CD7D+MiZ/40MM
-         IwwA==
+        bh=B6K6yFxOvBL53qExXu3jUShvFyrVZl54pYpUooOLfxc=;
+        b=SYJ6H8ZsidM/SxFkWfwOkvKh59Yzr7GLP+pJDHtogxbKvb1T+T3t+tSSKIMALe5apa
+         Ze8kajmx5EL+GUgD+8ulHExoM0BBxuoM4xSODUIMSCcnIzdjuy6ud1aWTRIufa8JkwY7
+         NS/hL0taOPOK3Zy6ckN3q6Y833pPohqWaV26bHLvGiZrRGz7L4vCeByZymlRuh3CiR6/
+         0OeJBv2qqyPi3KXmYxcx3R5oRi/P2mwCAK8nznTzgiT7KStwBabB6vYi410m+m0B799O
+         MLlq9fuACrsnnUcHZhPwRtEd5Qzfwa/J2xuncxUMwtNbhQOhZa8JxX4f3rdLw3CZPMNj
+         rWxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729658760; x=1730263560;
+        d=1e100.net; s=20230601; t=1729658764; x=1730263564;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q7NKY7djca+NM/4QklI//n9y36tDEyEWXM9GSvRYyKg=;
-        b=jKdLNg+7JnVq/PKyGkBwJugBqg/bjv/bZvuEn1SwofeDd2n5u9Pw3HxdJ/I9YE108Z
-         mNXMAziuqUlhZQEJbto77OL94boByTUEZIRH1zrw9/bXw/s3aal4h4AOkiVZ9F8qyog/
-         apDP+UumyCtrxp7Ihf0c2JYqnyt6vKQsKXen2X5FSvM4m2kwXU/26l737XHxd7DGM57/
-         Gurmjb3n2HoqofQUu9ET7eVoQdT9sD2sIN/F6FJ6KEkvByXYx3uqASIjiUUR3DhmIMN6
-         E1pSGRt5xTUfW4J1CASlPM2Qu04Yo8z4/XOg7lTIJ9JHXd3j0PsG238AHLu51KW101dL
-         6D3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXZNLnEXeMFPeUSXpW3KyPkNTRBMwvXFV3fS9T+UmGohRzQC8zvCgx/CNGl9BwZnS1j8feIEw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwnbGkhwcCGEmxiV3qwc0jygYsc3fkqOM9crat+Y/5Feo39WaF6
-	/0R9bedEjkHboffKkeRtd6lbLDxYkdQIbIqGJ5fhkXiZebYUcr96
-X-Google-Smtp-Source: AGHT+IFH89gaeARCK1EF2vqVcupCqKhUrBYfDernHILy2SSRmLE7lpQrnKnH7qnx1Xy1X4Xvgj0Tsw==
-X-Received: by 2002:a17:902:d485:b0:20c:79f1:fee9 with SMTP id d9443c01a7336-20fa9e46b54mr18373675ad.11.1729658759641;
-        Tue, 22 Oct 2024 21:45:59 -0700 (PDT)
+        bh=B6K6yFxOvBL53qExXu3jUShvFyrVZl54pYpUooOLfxc=;
+        b=Tu6+tMIBYqPadUuPscmIulWl8vlm25cs1BSAAWmYYIO0L5eaDEQGwFiFacpBRW441H
+         C/50aFdwnDDOhmYGTqsLFCewTaWxEhm/VLZ3m2KAEhYUegE6xWrzYzcEPo60b3VGtjdO
+         WLnPPO6btoprBqAkQjnDC1kXgDxALZe2w8VtkBDh8QorfUc5cclq7OCEOtALuHrkEpF3
+         w1OuIieQHnc4JJ6s9zgbUE1uCtZ++w/EqSFz+9WTHMeL1iVvE4/neOzqxCCSF2TmYXPq
+         FCSA1LoaR3BrUCWZYxsei8BVa5NP3Y1FnxGHTiwZvmlYjbSqTYOEj6Rn2QhakdfJcsxS
+         2foA==
+X-Forwarded-Encrypted: i=1; AJvYcCV30OurdfDjT6fQIMbQxQ0Ac0pRirYsaDOxHhW/yCxA2m6DsvPW+7AeRItqzM0CdZZFPfCxnA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9bYwefqHsvLNiGVDGsyZCKi1L5JSlqArhiG8ZPoNkkcUrAtw5
+	W3WithtlVmQf3+4MFwqqafAgri0pyS+jT5Gz6duJDCWGFCX2H+cQ
+X-Google-Smtp-Source: AGHT+IFSv0T6EhDv32M4zOW8tIRqKJbou9kGmvdMCfWVp0rHm5y3lq1qAETAlf9cY2IvXsZK82HJwA==
+X-Received: by 2002:a05:6a21:3514:b0:1d9:261c:5948 with SMTP id adf61e73a8af0-1d978bd555emr1593456637.47.1729658764428;
+        Tue, 22 Oct 2024 21:46:04 -0700 (PDT)
 Received: from nick-mbp.ust.hk ([182.153.135.7])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20e7f0de3c3sm49983125ad.207.2024.10.22.21.45.55
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-20e7f0de3c3sm49983125ad.207.2024.10.22.21.46.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 21:45:59 -0700 (PDT)
+        Tue, 22 Oct 2024 21:46:04 -0700 (PDT)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -74,9 +74,9 @@ To: Hector Martin <marcan@marcan.st>,
 	linux-watchdog@vger.kernel.org
 Cc: Konrad Dybcio <konradybcio@kernel.org>,
 	Nick Chan <towinchenmi@gmail.com>
-Subject: [PATCH v6 RESEND 15/20] arm64: dts: apple: Add A9 devices
-Date: Wed, 23 Oct 2024 12:40:50 +0800
-Message-ID: <20241023044423.18294-16-towinchenmi@gmail.com>
+Subject: [PATCH v6 RESEND 16/20] arm64: dts: apple: Add A9X devices
+Date: Wed, 23 Oct 2024 12:40:51 +0800
+Message-ID: <20241023044423.18294-17-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241023044423.18294-1-towinchenmi@gmail.com>
 References: <20241023044423.18294-1-towinchenmi@gmail.com>
@@ -90,86 +90,61 @@ Content-Transfer-Encoding: 8bit
 
 From: Konrad Dybcio <konradybcio@kernel.org>
 
-Add DTS files for the A9 SoC and the following devices based on it:
-- iPhone 6s
-- iPhone 6s Plus
-- iPhone SE (2016)
-- iPad 5
+Add the device tree for the A9X SoC and the devices based on it:
+
+- iPad Pro (9.7 Inch)
+- iPad Pro (12.9 Inch) (1st generation)
 
 Signed-off-by: Konrad Dybcio <konradybcio@kernel.org>
-[Nick: SMP, m1n1 and AOP pinctrl support]
+[Nick: SMP and m1n1 support, uart interrupt and pinctrl fixes]
 Co-developed-by: Nick Chan <towinchenmi@gmail.com>
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- arch/arm64/boot/dts/apple/Makefile            |  10 ++
- .../arm64/boot/dts/apple/s800-0-3-common.dtsi |  48 ++++++
- arch/arm64/boot/dts/apple/s8000-j71s.dts      |  15 ++
- arch/arm64/boot/dts/apple/s8000-j72s.dts      |  15 ++
- arch/arm64/boot/dts/apple/s8000-n66.dts       |  15 ++
- arch/arm64/boot/dts/apple/s8000-n69u.dts      |  15 ++
- arch/arm64/boot/dts/apple/s8000-n71.dts       |  15 ++
- arch/arm64/boot/dts/apple/s8000.dtsi          | 144 ++++++++++++++++++
- arch/arm64/boot/dts/apple/s8003-j71t.dts      |  15 ++
- arch/arm64/boot/dts/apple/s8003-j72t.dts      |  15 ++
- arch/arm64/boot/dts/apple/s8003-n66m.dts      |  15 ++
- arch/arm64/boot/dts/apple/s8003-n69.dts       |  15 ++
- arch/arm64/boot/dts/apple/s8003-n71m.dts      |  15 ++
- arch/arm64/boot/dts/apple/s8003.dtsi          |  21 +++
- arch/arm64/boot/dts/apple/s800x-6s.dtsi       |  49 ++++++
- arch/arm64/boot/dts/apple/s800x-ipad5.dtsi    |  43 ++++++
- arch/arm64/boot/dts/apple/s800x-se.dtsi       |  49 ++++++
- 17 files changed, 514 insertions(+)
- create mode 100644 arch/arm64/boot/dts/apple/s800-0-3-common.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/s8000-j71s.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8000-j72s.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8000-n66.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8000-n69u.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8000-n71.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8000.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/s8003-j71t.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8003-j72t.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8003-n66m.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8003-n69.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8003-n71m.dts
- create mode 100644 arch/arm64/boot/dts/apple/s8003.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/s800x-6s.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/s800x-ipad5.dtsi
- create mode 100644 arch/arm64/boot/dts/apple/s800x-se.dtsi
+ arch/arm64/boot/dts/apple/Makefile          |   4 +
+ arch/arm64/boot/dts/apple/s8001-common.dtsi |  48 +++++++
+ arch/arm64/boot/dts/apple/s8001-j127.dts    |  14 +++
+ arch/arm64/boot/dts/apple/s8001-j128.dts    |  14 +++
+ arch/arm64/boot/dts/apple/s8001-j98a.dts    |  14 +++
+ arch/arm64/boot/dts/apple/s8001-j99a.dts    |  14 +++
+ arch/arm64/boot/dts/apple/s8001-pro.dtsi    |  44 +++++++
+ arch/arm64/boot/dts/apple/s8001.dtsi        | 133 ++++++++++++++++++++
+ 8 files changed, 285 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-j127.dts
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-j128.dts
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-j98a.dts
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-j99a.dts
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-pro.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/s8001.dtsi
 
 diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
-index adda522ea490..cbb7e409b7e3 100644
+index cbb7e409b7e3..f8cd10889d9f 100644
 --- a/arch/arm64/boot/dts/apple/Makefile
 +++ b/arch/arm64/boot/dts/apple/Makefile
-@@ -18,6 +18,16 @@ dtb-$(CONFIG_ARCH_APPLE) += t7000-n56.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t7000-n61.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t7001-j81.dtb
- dtb-$(CONFIG_ARCH_APPLE) += t7001-j82.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8000-j71s.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8000-j72s.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8000-n66.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8000-n69u.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8000-n71.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8003-j71t.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8003-j72t.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8003-n66m.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8003-n69.dtb
-+dtb-$(CONFIG_ARCH_APPLE) += s8003-n71m.dtb
+@@ -28,6 +28,10 @@ dtb-$(CONFIG_ARCH_APPLE) += s8003-j72t.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += s8003-n66m.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += s8003-n69.dtb
+ dtb-$(CONFIG_ARCH_APPLE) += s8003-n71m.dtb
++dtb-$(CONFIG_ARCH_APPLE) += s8001-j127.dtb
++dtb-$(CONFIG_ARCH_APPLE) += s8001-j128.dtb
++dtb-$(CONFIG_ARCH_APPLE) += s8001-j98a.dtb
++dtb-$(CONFIG_ARCH_APPLE) += s8001-j99a.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t8103-j274.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t8103-j293.dtb
  dtb-$(CONFIG_ARCH_APPLE) += t8103-j313.dtb
-diff --git a/arch/arm64/boot/dts/apple/s800-0-3-common.dtsi b/arch/arm64/boot/dts/apple/s800-0-3-common.dtsi
+diff --git a/arch/arm64/boot/dts/apple/s8001-common.dtsi b/arch/arm64/boot/dts/apple/s8001-common.dtsi
 new file mode 100644
-index 000000000000..4276bd890e81
+index 000000000000..e94d0e77653a
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s800-0-3-common.dtsi
++++ b/arch/arm64/boot/dts/apple/s8001-common.dtsi
 @@ -0,0 +1,48 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPhone 6s, iPhone 6s Plus, iPad 5, iPhone SE
++ * Apple iPad Pro (9.7-inch), iPad Pro (12.9-inch)
 + *
-+ * This file contains parts common to all Apple A9 devices.
++ * This file contains parts common to all Apple A9X devices.
 + *
-+ * target-type: J71s, J72s, N66, N69u, N71, J71t, J72t, N66m, N69, N71m
++ * target-type: J127, J128, J98a, J99a
 + *
 + * Copyright (c) 2024, Nick Chan <towinchenmi@gmail.com>
 + */
@@ -211,122 +186,147 @@ index 000000000000..4276bd890e81
 +&serial0 {
 +	status = "okay";
 +};
-diff --git a/arch/arm64/boot/dts/apple/s8000-j71s.dts b/arch/arm64/boot/dts/apple/s8000-j71s.dts
+diff --git a/arch/arm64/boot/dts/apple/s8001-j127.dts b/arch/arm64/boot/dts/apple/s8001-j127.dts
 new file mode 100644
-index 000000000000..b5a2dfa1121e
+index 000000000000..8b522085cb3e
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8000-j71s.dts
-@@ -0,0 +1,15 @@
++++ b/arch/arm64/boot/dts/apple/s8001-j127.dts
+@@ -0,0 +1,14 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPad 5 (Wi-Fi) (Samsung), J71s, iPad6,11 (A1822)
++ * Apple iPad Pro (9.7-inch) (Wi-Fi), J127, iPad6,3 (A1673)
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
 +
 +/dts-v1/;
 +
-+#include "s8000.dtsi"
-+#include "s800x-ipad5.dtsi"
++#include "s8001-pro.dtsi"
 +
 +/ {
-+	compatible = "apple,j71s", "apple,s8000", "apple,arm-platform";
-+	model = "Apple iPad 5 (Wi-Fi) (Samsung)";
++	compatible = "apple,j127", "apple,s8001", "apple,arm-platform";
++	model = "Apple iPad Pro (9.7-inch) (Wi-Fi)";
 +};
-diff --git a/arch/arm64/boot/dts/apple/s8000-j72s.dts b/arch/arm64/boot/dts/apple/s8000-j72s.dts
+diff --git a/arch/arm64/boot/dts/apple/s8001-j128.dts b/arch/arm64/boot/dts/apple/s8001-j128.dts
 new file mode 100644
-index 000000000000..8f3dea5adb09
+index 000000000000..cdd3d06dcbf1
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8000-j72s.dts
-@@ -0,0 +1,15 @@
++++ b/arch/arm64/boot/dts/apple/s8001-j128.dts
+@@ -0,0 +1,14 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPad 5 (Cellular) (Samsung), J72s, iPad6,12 (A1823)
++ * Apple iPad Pro (9.7-inch) (Cellular), J128, iPad6,4 (A1674/A1675)
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
 +
 +/dts-v1/;
 +
-+#include "s8000.dtsi"
-+#include "s800x-ipad5.dtsi"
++#include "s8001-pro.dtsi"
 +
 +/ {
-+	compatible = "apple,j72s", "apple,s8000", "apple,arm-platform";
-+	model = "Apple iPad 5 (Cellular) (Samsung)";
++	compatible = "apple,j128", "apple,s8001", "apple,arm-platform";
++	model = "Apple iPad Pro (9.7-inch) (Cellular)";
 +};
-diff --git a/arch/arm64/boot/dts/apple/s8000-n66.dts b/arch/arm64/boot/dts/apple/s8000-n66.dts
+diff --git a/arch/arm64/boot/dts/apple/s8001-j98a.dts b/arch/arm64/boot/dts/apple/s8001-j98a.dts
 new file mode 100644
-index 000000000000..30b4b6630b60
+index 000000000000..6d6b841e7ab0
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8000-n66.dts
-@@ -0,0 +1,15 @@
++++ b/arch/arm64/boot/dts/apple/s8001-j98a.dts
+@@ -0,0 +1,14 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPhone 6s Plus (Samsung), N66, iPhone8,2 (A1634/A1687/A1690/A1699)
++ * Apple iPad Pro (12.9-inch) (Wi-Fi), J98a, iPad6,7 (A1584)
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
 +
 +/dts-v1/;
 +
-+#include "s8000.dtsi"
-+#include "s800x-6s.dtsi"
++#include "s8001-pro.dtsi"
 +
 +/ {
-+	compatible = "apple,n66", "apple,s8000", "apple,arm-platform";
-+	model = "Apple iPhone 6s Plus (Samsung)";
++	compatible = "apple,j98a", "apple,s8001", "apple,arm-platform";
++	model = "Apple iPad Pro (12.9-inch) (Wi-Fi)";
 +};
-diff --git a/arch/arm64/boot/dts/apple/s8000-n69u.dts b/arch/arm64/boot/dts/apple/s8000-n69u.dts
+diff --git a/arch/arm64/boot/dts/apple/s8001-j99a.dts b/arch/arm64/boot/dts/apple/s8001-j99a.dts
 new file mode 100644
-index 000000000000..e63bc2e7f7c1
+index 000000000000..d20194b1cae7
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8000-n69u.dts
-@@ -0,0 +1,15 @@
++++ b/arch/arm64/boot/dts/apple/s8001-j99a.dts
+@@ -0,0 +1,14 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPhone SE (Samsung), N69u, iPhone8,4 (A1662/A1723/A1724)
++ * Apple iPad Pro (12.9-inch) (Cellular), J99a, iPad6,8 (A1652)
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
 +
 +/dts-v1/;
 +
-+#include "s8000.dtsi"
-+#include "s800x-se.dtsi"
++#include "s8001-pro.dtsi"
 +
 +/ {
-+	compatible = "apple,n69u", "apple,s8000", "apple,arm-platform";
-+	model = "Apple iPhone SE (Samsung)";
++	compatible = "apple,j99a", "apple,s8001", "apple,arm-platform";
++	model = "Apple iPad Pro (12.9-inch) (Cellular)";
 +};
-diff --git a/arch/arm64/boot/dts/apple/s8000-n71.dts b/arch/arm64/boot/dts/apple/s8000-n71.dts
+diff --git a/arch/arm64/boot/dts/apple/s8001-pro.dtsi b/arch/arm64/boot/dts/apple/s8001-pro.dtsi
 new file mode 100644
-index 000000000000..f2964a1fc434
+index 000000000000..1fce5a7c4200
 --- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8000-n71.dts
-@@ -0,0 +1,15 @@
++++ b/arch/arm64/boot/dts/apple/s8001-pro.dtsi
+@@ -0,0 +1,44 @@
 +// SPDX-License-Identifier: GPL-2.0+ OR MIT
 +/*
-+ * Apple iPhone 6s (Samsung), N71, iPhone8,1 (A1633/A1688/A1691/A1700)
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+/dts-v1/;
-+
-+#include "s8000.dtsi"
-+#include "s800x-6s.dtsi"
-+
-+/ {
-+	compatible = "apple,n71", "apple,s8000", "apple,arm-platform";
-+	model = "Apple iPhone 6s (Samsung)";
-+};
-diff --git a/arch/arm64/boot/dts/apple/s8000.dtsi b/arch/arm64/boot/dts/apple/s8000.dtsi
-new file mode 100644
-index 000000000000..6e9046ea106c
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8000.dtsi
-@@ -0,0 +1,144 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple S8000 "A9" (Samsung) SoC
++ * Apple iPad Pro (1st generation) common device tree
 + *
-+ * Other names: H8P, "Maui"
++ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
++ */
++
++#include "s8001.dtsi"
++#include "s8001-common.dtsi"
++#include <dt-bindings/input/input.h>
++
++/ {
++	chassis-type = "tablet";
++
++	gpio-keys {
++		compatible = "gpio-keys";
++
++		button-home {
++			label = "Home Button";
++			gpios = <&pinctrl_ap 122 GPIO_ACTIVE_LOW>;
++			linux,code = <KEY_HOMEPAGE>;
++			wakeup-source;
++		};
++
++		button-power {
++			label = "Power Button";
++			gpios = <&pinctrl_ap 123 GPIO_ACTIVE_LOW>;
++			linux,code = <KEY_POWER>;
++			wakeup-source;
++		};
++
++		button-voldown {
++			label = "Volume Down";
++			gpios = <&pinctrl_ap 15 GPIO_ACTIVE_LOW>;
++			linux,code = <KEY_VOLUMEDOWN>;
++		};
++
++		button-volup {
++			label = "Volume Up";
++			gpios = <&pinctrl_ap 12 GPIO_ACTIVE_LOW>;
++			linux,code = <KEY_VOLUMEUP>;
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/s8001.dtsi b/arch/arm64/boot/dts/apple/s8001.dtsi
+new file mode 100644
+index 000000000000..23ee3238844d
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/s8001.dtsi
+@@ -0,0 +1,133 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * Apple S8001 "A9X" SoC
++ *
++ * Other names: H8G, "Elba"
 + *
 + * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
 + */
@@ -381,7 +381,7 @@ index 000000000000..6e9046ea106c
 +			reg = <0x2 0x0a0c0000 0x0 0x4000>;
 +			reg-io-width = <4>;
 +			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 192 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 218 IRQ_TYPE_LEVEL_HIGH>;
 +			/* Use the bootloader-enabled clocks for now. */
 +			clocks = <&clkref>, <&clkref>;
 +			clock-names = "uart", "clk_uart_baud0";
@@ -401,8 +401,8 @@ index 000000000000..6e9046ea106c
 +
 +			gpio-controller;
 +			#gpio-cells = <2>;
-+			gpio-ranges = <&pinctrl_ap 0 0 208>;
-+			apple,npins = <208>;
++			gpio-ranges = <&pinctrl_ap 0 0 219>;
++			apple,npins = <219>;
 +
 +			interrupt-controller;
 +			#interrupt-cells = <2>;
@@ -422,19 +422,19 @@ index 000000000000..6e9046ea106c
 +
 +			gpio-controller;
 +			#gpio-cells = <2>;
-+			gpio-ranges = <&pinctrl_aop 0 0 42>;
-+			apple,npins = <42>;
++			gpio-ranges = <&pinctrl_aop 0 0 28>;
++			apple,npins = <28>;
 +
 +			interrupt-controller;
 +			#interrupt-cells = <2>;
 +			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 113 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 114 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 115 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 116 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 117 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 118 IRQ_TYPE_LEVEL_HIGH>,
-+				     <AIC_IRQ 119 IRQ_TYPE_LEVEL_HIGH>;
++			interrupts = <AIC_IRQ 128 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 129 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 130 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 131 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 132 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 133 IRQ_TYPE_LEVEL_HIGH>,
++				     <AIC_IRQ 134 IRQ_TYPE_LEVEL_HIGH>;
 +		};
 +
 +		wdt: watchdog@2102b0000 {
@@ -450,311 +450,9 @@ index 000000000000..6e9046ea106c
 +		compatible = "arm,armv8-timer";
 +		interrupt-parent = <&aic>;
 +		interrupt-names = "phys", "virt";
-+		/* Note that A9 doesn't actually have a hypervisor (EL2 is not implemented). */
++		/* Note that A9X doesn't actually have a hypervisor (EL2 is not implemented). */
 +		interrupts = <AIC_FIQ AIC_TMR_GUEST_PHYS IRQ_TYPE_LEVEL_HIGH>,
 +			     <AIC_FIQ AIC_TMR_GUEST_VIRT IRQ_TYPE_LEVEL_HIGH>;
-+	};
-+};
-+
-+/*
-+ * The A9 was made by two separate fabs on two different process
-+ * nodes: Samsung made the S8000 (APL0898) on 14nm and TSMC made
-+ * the S8003 (APL1022) on 16nm. While they are seemingly the same,
-+ * they do have distinct part numbers and devices using them have
-+ * distinct model names. There are currently no known differences
-+ * between these as far as Linux is concerned, but let's keep things
-+ * structured properly to make it easier to alter the behaviour of
-+ * one of the chips if need be.
-+ */
-diff --git a/arch/arm64/boot/dts/apple/s8003-j71t.dts b/arch/arm64/boot/dts/apple/s8003-j71t.dts
-new file mode 100644
-index 000000000000..0d906ae80b07
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8003-j71t.dts
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple iPad 5 (Wi-Fi) (TSMC), J71t, iPad6,11 (A1822)
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+/dts-v1/;
-+
-+#include "s8003.dtsi"
-+#include "s800x-ipad5.dtsi"
-+
-+/ {
-+	compatible = "apple,j71t", "apple,s8003", "apple,arm-platform";
-+	model = "Apple iPad 5 (Wi-Fi) (TSMC)";
-+};
-diff --git a/arch/arm64/boot/dts/apple/s8003-j72t.dts b/arch/arm64/boot/dts/apple/s8003-j72t.dts
-new file mode 100644
-index 000000000000..0cd7d88e9dfb
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8003-j72t.dts
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple iPad 5 (Cellular) (TSMC), J72t, iPad6,12 (A1823)
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+/dts-v1/;
-+
-+#include "s8003.dtsi"
-+#include "s800x-ipad5.dtsi"
-+
-+/ {
-+	compatible = "apple,j72t", "apple,s8003", "apple,arm-platform";
-+	model = "Apple iPad 5 (Cellular) (TSMC)";
-+};
-diff --git a/arch/arm64/boot/dts/apple/s8003-n66m.dts b/arch/arm64/boot/dts/apple/s8003-n66m.dts
-new file mode 100644
-index 000000000000..4146cd28160d
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8003-n66m.dts
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple iPhone 6s Plus (TSMC), N66m, iPhone8,2 (A1634/A1687/A1690/A1699)
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+/dts-v1/;
-+
-+#include "s8003.dtsi"
-+#include "s800x-6s.dtsi"
-+
-+/ {
-+	compatible = "apple,n66m", "apple,s8003", "apple,arm-platform";
-+	model = "Apple iPhone 6s Plus (TSMC)";
-+};
-diff --git a/arch/arm64/boot/dts/apple/s8003-n69.dts b/arch/arm64/boot/dts/apple/s8003-n69.dts
-new file mode 100644
-index 000000000000..8eed879b155e
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8003-n69.dts
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple iPhone SE (TSMC), N69, iPhone8,4 (A1662/A1723/A1724)
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+/dts-v1/;
-+
-+#include "s8003.dtsi"
-+#include "s800x-se.dtsi"
-+
-+/ {
-+	compatible = "apple,n69", "apple,s8003", "apple,arm-platform";
-+	model = "Apple iPhone SE (TSMC)";
-+};
-diff --git a/arch/arm64/boot/dts/apple/s8003-n71m.dts b/arch/arm64/boot/dts/apple/s8003-n71m.dts
-new file mode 100644
-index 000000000000..7ec6d2cda0bf
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8003-n71m.dts
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple iPhone 6s (TSMC), N71m, iPhone8,1 (A1633/A1688/A1691/A1700)
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+/dts-v1/;
-+
-+#include "s8003.dtsi"
-+#include "s800x-6s.dtsi"
-+
-+/ {
-+	compatible = "apple,n71m", "apple,s8003", "apple,arm-platform";
-+	model = "Apple iPhone 6s (TSMC)";
-+};
-diff --git a/arch/arm64/boot/dts/apple/s8003.dtsi b/arch/arm64/boot/dts/apple/s8003.dtsi
-new file mode 100644
-index 000000000000..7e4ad4f7e499
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s8003.dtsi
-@@ -0,0 +1,21 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple S8003 "A9" (TSMC) SoC
-+ *
-+ * Other names: H8P, "Malta"
-+ *
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+#include "s8000.dtsi"
-+
-+/*
-+ * The A9 was made by two separate fabs on two different process
-+ * nodes: Samsung made the S8000 (APL0898) on 14nm and TSMC made
-+ * the S8003 (APL1022) on 16nm. While they are seemingly the same,
-+ * they do have distinct part numbers and devices using them have
-+ * distinct model names. There are currently no known differences
-+ * between these as far as Linux is concerned, but let's keep things
-+ * structured properly to make it easier to alter the behaviour of
-+ * one of the chips if need be.
-+ */
-diff --git a/arch/arm64/boot/dts/apple/s800x-6s.dtsi b/arch/arm64/boot/dts/apple/s800x-6s.dtsi
-new file mode 100644
-index 000000000000..49b04db310c6
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s800x-6s.dtsi
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple iPhone 6s / 6S Plus common device tree
-+ *
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+#include "s800-0-3-common.dtsi"
-+#include <dt-bindings/input/input.h>
-+
-+/ {
-+	chassis-type = "handset";
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		button-home {
-+			label = "Home Button";
-+			gpios = <&pinctrl_ap 96 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_HOMEPAGE>;
-+			wakeup-source;
-+		};
-+
-+		button-power {
-+			label = "Power Button";
-+			gpios = <&pinctrl_ap 97 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_POWER>;
-+			wakeup-source;
-+		};
-+
-+		button-voldown {
-+			label = "Volume Down";
-+			gpios = <&pinctrl_ap 67 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_VOLUMEDOWN>;
-+		};
-+
-+		button-volup {
-+			label = "Volume Up";
-+			gpios = <&pinctrl_ap 66 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_VOLUMEUP>;
-+		};
-+
-+		switch-mute {
-+			label = "Mute Switch";
-+			gpios = <&pinctrl_ap 149 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_MUTE>;
-+		};
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/s800x-ipad5.dtsi b/arch/arm64/boot/dts/apple/s800x-ipad5.dtsi
-new file mode 100644
-index 000000000000..32570ed3cdf0
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s800x-ipad5.dtsi
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple iPad 5 common device tree
-+ *
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+#include "s800-0-3-common.dtsi"
-+#include <dt-bindings/input/input.h>
-+
-+/ {
-+	chassis-type = "tablet";
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		button-home {
-+			label = "Home Button";
-+			gpios = <&pinctrl_ap 96 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_HOMEPAGE>;
-+			wakeup-source;
-+		};
-+
-+		button-power {
-+			label = "Power Button";
-+			gpios = <&pinctrl_ap 97 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_POWER>;
-+			wakeup-source;
-+		};
-+
-+		button-voldown {
-+			label = "Volume Down";
-+			gpios = <&pinctrl_ap 143 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_VOLUMEDOWN>;
-+		};
-+
-+		button-volup {
-+			label = "Volume Up";
-+			gpios = <&pinctrl_ap 144 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_VOLUMEUP>;
-+		};
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/apple/s800x-se.dtsi b/arch/arm64/boot/dts/apple/s800x-se.dtsi
-new file mode 100644
-index 000000000000..a1a5690e8371
---- /dev/null
-+++ b/arch/arm64/boot/dts/apple/s800x-se.dtsi
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0+ OR MIT
-+/*
-+ * Apple iPhone SE common device tree
-+ *
-+ * Copyright (c) 2022, Konrad Dybcio <konradybcio@kernel.org>
-+ */
-+
-+#include "s800-0-3-common.dtsi"
-+#include <dt-bindings/input/input.h>
-+
-+/ {
-+	chassis-type = "handset";
-+
-+	gpio-keys {
-+		compatible = "gpio-keys";
-+
-+		button-home {
-+			label = "Home Button";
-+			gpios = <&pinctrl_ap 96 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_HOMEPAGE>;
-+			wakeup-source;
-+		};
-+
-+		button-power {
-+			label = "Power Button";
-+			gpios = <&pinctrl_ap 97 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_POWER>;
-+			wakeup-source;
-+		};
-+
-+		button-voldown {
-+			label = "Volume Down";
-+			gpios = <&pinctrl_ap 67 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_VOLUMEDOWN>;
-+		};
-+
-+		button-volup {
-+			label = "Volume Up";
-+			gpios = <&pinctrl_ap 66 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_VOLUMEUP>;
-+		};
-+
-+		switch-mute {
-+			label = "Mute Switch";
-+			gpios = <&pinctrl_ap 149 GPIO_ACTIVE_LOW>;
-+			linux,code = <KEY_MUTE>;
-+		};
 +	};
 +};
 -- 
