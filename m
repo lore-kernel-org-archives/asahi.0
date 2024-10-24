@@ -1,188 +1,78 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7163A1B392A
-	for <asahi@lists.linux.dev>; Thu, 24 Oct 2024 10:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F33D1171C;
+	Thu, 24 Oct 2024 14:59:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729766065; cv=none; b=JxRNbcmJQrxZbMKTPkaxBLNWqf2Il8fCxw/TShYj9eRkrWPqYTSrCyvqMnUBKC3xSOUO2qVQuK9YpJAQC7VnNKCoTU/bUiepeb6zyCGqK+IB1ldKhDd6kaoIcdqhMv1EVoxnykn5s/cGeKUZtXGZYiW4m7P7bqUahu7getoYRr0=
+	t=1729781974; cv=none; b=g9lnrU88YlHjqvCEVcEvie2i1WlCgr2Vsbb2RkOAvddQF7YAt4+KFg0uNmyxa8VOU7KXxIGj9MtSt73BlVcQGXx8+VQBU9kISFmU4bRLiH2qraccV2gRZ1l93oqAD2ZlCkRsKZ8vVHxrlI0uTemjRBwd9lnLLqJMrD+bYLRarIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729766065; c=relaxed/simple;
-	bh=wnuHN52HqTziMgk5laSF7P1kHtltZdBjaJsRhXEmqWQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rNzkdh5zE5hW9chQ4ntes2BflTZRHE/D0R/mQhuqChD+qYc+5IRs8eTxEh43wVGZZY//AgQX3zTnRECEKS/+J8xf+9zchP+w7IufAKDa65c+9FzD7BYstOztIqTEU5cte7L5S+vd+ZB/gr8r+V0RIIMGFTOetwwQNkLKsGIpmho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B3905497;
-	Thu, 24 Oct 2024 03:34:52 -0700 (PDT)
-Received: from [10.57.88.37] (unknown [10.57.88.37])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4C7373F7C5;
-	Thu, 24 Oct 2024 03:34:20 -0700 (PDT)
-Message-ID: <aef00d9d-0b1d-43f9-90d5-ee1b524ff8c8@arm.com>
-Date: Thu, 24 Oct 2024 11:34:18 +0100
+	s=arc-20240116; t=1729781974; c=relaxed/simple;
+	bh=bFUPoVTwR+LD2fnyv1D32C7lR3TZAYehUcOgaQ/4Z7U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JKjk5RN8YUltR/D3nwANi33V9eCeWFIFNM1oomwL7rvIMxd8VQ4CAU5UaqkBsoGlWAO4P3xiwYbEMBN+kzuAS4g99qlXHFYy5T1JqSjiyWDUlKQxfiPCwWnI9YKYy41FvH3koSPZo7fjENElJCohfzet5s/Sn0UjLVX5qfA01XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GBQelTu7; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GBQelTu7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBEF7C4CEE3;
+	Thu, 24 Oct 2024 14:59:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729781973;
+	bh=bFUPoVTwR+LD2fnyv1D32C7lR3TZAYehUcOgaQ/4Z7U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GBQelTu7RsacYF7ntupGp5OmBIuDZp8G/oBlyKiJ1Zhy7rT3gVuEkHLpu1jJHr+JX
+	 V2c2+DVmBFnrjZ7CStpsBed+a8x76OExN38GQAWff2Z0MHoBCLH5xy6UIoJ+siu5cN
+	 ERMFEs5jnOowX0A/UBS5Ih4VQF9EEyD5BRfdwNi3mceGm3H2B5xpTmlBfcgqBRwCrn
+	 W7l34iZQy/z2PvE8x6pbWd06KFsQR6IjjV7ObkfafhXL95aNIKh64H1m5c5ZQNdRBY
+	 Sz5ABXsOs5KQtjhZXg89nrmn50ci5aF/wTXF2fMzk9mbhf9bUlXJas+KxvevJUMs77
+	 eMm2PWXRCn3zg==
+Date: Thu, 24 Oct 2024 09:59:33 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Conor Dooley <conor+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>, patches@opensource.cirrus.com,
+	Hector Martin <marcan@marcan.st>, Neal Gompa <neal@gompa.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH v2 1/3] dt-bindings: sound: Add CS42L84 codec
+Message-ID: <172978197165.427885.15072999949261436967.robh@kernel.org>
+References: <20241020-cs42l84-v2-0-37ba2b6721d9@gmail.com>
+ <20241020-cs42l84-v2-1-37ba2b6721d9@gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 00/57] Boot-time page size selection for arm64
-Content-Language: en-GB
-To: Neal Gompa <neal@gompa.dev>
-Cc: Nick Chan <towinchenmi@gmail.com>, Eric Curtin <ecurtin@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Ard Biesheuvel <ardb@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
- David Hildenbrand <david@redhat.com>, Greg Marsden
- <greg.marsden@oracle.com>, Ivan Ivanov <ivan.ivanov@suse.com>,
- Kalesh Singh <kaleshsingh@google.com>, Marc Zyngier <maz@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Matthias Brugger <mbrugger@suse.com>,
- Miroslav Benes <mbenes@suse.cz>, Will Deacon <will@kernel.org>,
- Hector Martin <marcan@marcan.st>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, asahi@lists.linux.dev
-References: <20241014105514.3206191-1-ryan.roberts@arm.com>
- <4623805.lGaqSPkdTl@skuld-framework>
- <09e480d7-3ef6-4352-a484-91733ad7d231@arm.com>
- <CAOgh=FwEv3LjA7bfcOvWK7kZEcKRyLpQmTqWn5WDsSsYwGqu+A@mail.gmail.com>
- <649d7aa6-4163-4969-ba14-777f0e9cddb1@arm.com>
- <CAEg-Je9phqMqXCVAEjtXKadKGUmZcuSnFLDn=7C4+MaUu9KpYw@mail.gmail.com>
- <872f1c9c-9fb2-4372-810d-abe5419c4bd8@arm.com>
- <CAEg-Je9RpGGmw_pto7seYj_JGNUjSTKtcjLToQ8Mbp2_zrLGoQ@mail.gmail.com>
- <2174ff43-3ab6-409b-a8a8-bd319a134d86@gmail.com>
- <997f1826-ec45-4d47-ad94-33c0d194b5a4@arm.com>
- <CAEg-Je85pnstdRCxocZ3D0sLtZiCPAB+jHKyW+K-H2rFeVwP7Q@mail.gmail.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <CAEg-Je85pnstdRCxocZ3D0sLtZiCPAB+jHKyW+K-H2rFeVwP7Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241020-cs42l84-v2-1-37ba2b6721d9@gmail.com>
 
-On 22/10/2024 18:30, Neal Gompa wrote:
 
-[...]
-
->>>>>>>>>>
->>>>>>>>>> This is a generally very exciting patch set! I'm looking forward to seeing it
->>>>>>>>>> land so I can take advantage of it for Fedora ARM and Fedora Asahi Remix.
->>>>>>>>>>
->>>>>>>>>> That said, I have a couple of questions:
->>>>>>>>>>
->>>>>>>>>> * Going forward, how would we handle drivers/modules that require a particular
->>>>>>>>>> page size? For example, the Apple Silicon IOMMU driver code requires the
->>>>>>>>>> kernel to operate in 16k page size mode, and it would need to be disabled in
->>>>>>>>>> other page sizes.
->>>>>>>>>
->>>>>>>>> I think these drivers would want to check PAGE_SIZE at probe time and fail if an
->>>>>>>>> unsupported page size is in use. Do you see any issue with that?
->>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> * How would we handle an invalid selection at boot?
->>>>>>>>>
->>>>>>>>> What do you mean by invalid here? The current policy validates that the
->>>>>>>>> requested page size is supported by the HW by checking mmfr0. If no page size is
->>>>>>>>> passed on the command line, or the passed value is not supported by the HW, then
->>>>>>>>> the we default to the largest page size supported by the HW (so for Apple
->>>>>>>>> Silicon that would be 16k since the HW doesn't support 64k). Although I think it
->>>>>>>>> may be better to change that policy to use the smallest page size in this case;
->>>>>>>>> 4k is the safer bet for compat and will waste much less memory than 64k.
->>>>>>>>>
->>>>>>>>>> Can we program in a
->>>>>>>>>> fallback when the "wrong" mode is selected for a chip or something similar?
->>>>>>>>>
->>>>>>>>> Do you mean effectively add a machanism to force 16k if the detected HW is Apple
->>>>>>>>> Silicon? The trouble is that we need to select the page size, very early in
->>>>>>>>> boot, before start_kernel() is called, so we really only have generic arch code
->>>>>>>>> and the command line with which to make the decision.
->>>>>>>>
->>>>>>>> Yes... I think a build-time CONFIG for default page size, which can be
->>>>>>>> overridden by a karg makes sense... Even on platforms like Apple
->>>>>>>> Silicon you may want to test very specific things in 4k by overriding
->>>>>>>> with a karg.
->>>>>>>
->>>>>>> Ahh, yes, that would certainly work. I'll work it into the next version.
->>>>>>>
->>>>>>
->>>>>> Could we maybe extend to have some kind of way to include a table of
->>>>>> SoC IDs that certain modes are disabled (e.g. 64k on Apple Silicon)
->>>>>
->>>>> 64k is already disabled on Apple Silicon because mmfr0 reports that 64k is not
->>>>> supported.
->>>>>
->>>>>> and preferred modes when no arg is set (16k for Apple Silicon)? That
->>>>>
->>>>> And it's not obvious that we should hard-code a page size preference to a SoC
->>>>> ID. If the CPU can support multiple page sizes, it should be up to the SW stack
->>>>> to decide, not the SoC.
->>>>>
->>>>> I'm guessing your desire is to have a single kernel build that will boot 16k by
->>>>> default on Apple Silicon and 4k by default on other systems, all without needing
->>>>> to modify the command line? Personally I think it's cleaner to just require
->>>>> setting the page size on the command line in these cases.
->>>>>
->>>>>> way it'd work something like this:
->>>>>>
->>>>>> 1. Table identification of 4/16/64 depending on identified SoC
->>>>> So I'd prefer not to have this
->>>>>
->>>>>> 2. Unidentified ones follow build-time default
->>>>>> 3. karg forces a mode regardless
->>>>> But keep these 2.
->>>>>
->>>>
->>> Since we are talking about Apple Silicon and page size, I would like to
->>> add that on the Apple Silicon SoCs I am working on, the situation is like
->>> this:
->>>
->>> Apple A7 (s5l8960x), A8 (T7000), A8X (T7001): CPU MMU support 4K and 64K
->>> page sizes.
->>>
->>> Apple A9 (s8000/s8003), A9X (s8001), A10 (t8010), A10X (t8011), A11 (t8015):
->>> CPU MMU Support 16K and 64K page sizes.
->>>
->>> However, all of them have 4K page DART IOMMUs.
->>>
->>>> I think it makes sense to have it, because it's not just Apple Silicon
->>>> where such a preference/requirement may be necessary. Apple Silicon
->>>> technically works at 4k, but is completely broken at 4k because Linux
->>>> cannot do 16k IOMMU with 4k everything else, so being able to at least
->>>> prefer 16k out of the box is important. And SoCs like the NVIDIA Grace
->>>> Hopper platform prefer 64k over other options (though I am unaware of
->>>> a gross incompatibility that effectively requires it like Apple
->>>> Silicon has).
->>>>
->>>> When we're trying to get to "single generic image that works
->>>> everywhere", stuff like this matters and I would really like you to
->>>> consider it from the lens of "we want things to work as automagic as
->>>> they do on x86".
->>> For me, in order to get to this level of automagic, there do need to be
->>> a table of which SoC should use which page size table.
->>
->> OK, but it's not clear to me that this table needs to be in the kernel. Could it
->> not be something in user space (e.g. during installation) that configures the
->> kernel command line?
->>
+On Sun, 20 Oct 2024 00:47:31 +1000, James Calligeros wrote:
+> From: Martin Povišer <povik+lin@cutebit.org>
 > 
-> This is not compatible with using things like ISOs with UEFI+ACPI
-> enabled desktop/server systems. We need to be able to safely,
-> automatically, and correctly boot up and support hardware. The only
-> place to do that early enough is in the kernel. But this can wait
-> until the core stuff is in.
-
-OK got it.
-
+> CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
+> computer models starting with 2021 Macbook Pros. It is not a publicly
+> documented part. To a degree the part is similar to the public CS42L42.
+> (The L84 superseded L83 seen in earlier Apple models, and the L83 was
+> pretty much the same as L42.)
 > 
->> Regardless, the hard work here is getting the boot-time page size selection
->> mechanism in place. Once that's there, follow up patches can add the desired
->> policy. I'd rather leave it out for now to avoid anything slowing down the core
->> work.
->>
+> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> ---
+>  .../bindings/sound/cirrus,cs42l84.yaml   | 56 +++++++++++++++++++++++++
+>  MAINTAINERS                              |  1 +
+>  2 files changed, 57 insertions(+)
 > 
-> Sure, this can be done afterward.
 
-Thanks! I understand the problem a bit better now. I'm sure we can find a
-solution once we have landed the core mechanism.
-
-Thanks,
-Ryan
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
