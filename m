@@ -1,64 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67349201265;
-	Tue, 29 Oct 2024 07:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC83C1E0DE8;
+	Tue, 29 Oct 2024 09:24:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730187699; cv=none; b=WAjeQ5wsFNzg1PpnpQybUAgx24Zx/+/vdqqJJi3xxsA105zx5uJSpJqeeqgp6RDGncA657gSzn1/1nGByn8VoEzvvKY/ogwCq6ZwNYwv8EGBNq3zTwz2z53UubLJcXPWBWRnjJ9g4r47XYT4GDDJ8Ko9hPPBH5v89+DxR9fxJGM=
+	t=1730193850; cv=none; b=d5kWV/bkx77H3YepRKHe3YA6ZQhrv5x4agNbXg8clMq4qCH6GgpMionhxXaRanJy6uAi/pb5O1RmX+TeGgY834ocHcZJ3USDBqLsvNGNznBGLVlQABpIQwLp3NaN7t5He7jdK7A5Lsg2BaRsqt3MuDDP0j7yYDB9R0YpjeFvt1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730187699; c=relaxed/simple;
-	bh=IQEh5EussygJgUUzWfJeQ/FXr/FcOcbs/szaZmJBHo0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XmP4r5xzh7svJvNJteDp6n1jCmx3RXilHdYghjRtrsDmBcUKjy5WyOzB77sNHh64CrhsJqHfIGs8EezfvMG5E3wZqsD4ZY0IcoIaxHz2HzXpT5PPiUGF1n+Mq9B78vxtJPemoQF8BQM1gR4fe0dK9dAPE4uaYzzv3LubuDLumEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=njc8eg0u; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730193850; c=relaxed/simple;
+	bh=JoDMUIR3MZLuq4faH5KVEmV75jGiFgkHynYnnIuBz38=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kVfxlKmqd5I+TEGSYr/VMIjm0sqXxnG3Z0hyMmR4fpwT7nw61VAsbUTt0v68l3zKWVsWCGZ5sBRs7hpgIoB4LqQS7kTZihq4fHo8vhp+cTe3Dd94shaVw7KJyR0cbalfUV+Ozy6UQtuz1aI6PmFqNVay+j3w3GSQ9pMNgPJxGLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fNOubBWC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="njc8eg0u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1029AC4CECD;
-	Tue, 29 Oct 2024 07:41:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fNOubBWC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3957AC4CEE4;
+	Tue, 29 Oct 2024 09:24:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730187699;
-	bh=IQEh5EussygJgUUzWfJeQ/FXr/FcOcbs/szaZmJBHo0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=njc8eg0uqZRauuWTgMREq2+3I7fvICMvCytUBaD/jwew7xxd5bgg8a7910TU+wX2n
-	 kiyTZNV3+e8S/pcF/U01MPhOPstYT3tEZop20jisA5cwaOLHAXAvwHY/UgCLgiOjTu
-	 cxMfs6vllDscfNutuo6b+CsZkyzrjxVAW3U7p1kW5j/iKK4SFHkdFGGP2mqMYgJpLv
-	 W3DVWga7+Zkz1Xa0Y1TAojKBasRXBwQkA5jEEf7ZqKiuXk25JE9rQudaRzrtKqUCNV
-	 vL1zc3zVA54QF8GKsfuBaUEx1sR1zc9sFrHdQrRbN23ruSqFqFfnrSfrdCiTfb/sGu
-	 VaQhZ03dg1EZA==
-Date: Tue, 29 Oct 2024 08:41:34 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH asahi-soc/dt 02/10] dt-bindings: arm: apple:
- apple,pmgr-pwrstate: Add A7-A11 compatibles
-Message-ID: <hz56qyjzjb5ah6hpp3wlpiewmo575gej6nljomgy5hdtacfuk6@7azefzbmokcl>
-References: <20241029010526.42052-1-towinchenmi@gmail.com>
- <20241029010526.42052-3-towinchenmi@gmail.com>
+	s=k20201202; t=1730193850;
+	bh=JoDMUIR3MZLuq4faH5KVEmV75jGiFgkHynYnnIuBz38=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fNOubBWCFB2I3ZftKwqgsiXYTPpwcAjtY0E5ldrJw6Rx+PiwBfgpbNVCVhs1iOLSj
+	 MdwMxMvSbpiwh8wq3ag/ZbtXr/SI6gmVNciBQT/ZRPo7355w3qRpgsYnf4536zvTnv
+	 /uQ+evOE3B22xpVi3sVyUT+P0qR3zG1Ld6sTaEjc+ZRibAdq39NLZ7+Xc0tksh53p2
+	 3o1jxNIqJlEB/L4s02E9Y7VYIKZS0f+ckyDaJICIapkhvxoqUGLIpuXYNgD1RjkQfg
+	 q8zhlSPp+oXzD3UvZXVECfMEbGhM3gy1oCvN13WJy5IWXSUbNetRWMfj0VppeVhl7F
+	 sTI0lc0I0CvHg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	=?UTF-8?q?Martin=20Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Neal Gompa <neal@gompa.dev>,
+	James Calligeros <jcalligeros99@gmail.com>,
+	Hector Martin <marcan@marcan.st>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: cs42l84: remove incorrect of_match_ptr()
+Date: Tue, 29 Oct 2024 09:23:55 +0000
+Message-Id: <20241029092404.3874040-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241029010526.42052-3-towinchenmi@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 29, 2024 at 09:04:00AM +0800, Nick Chan wrote:
-> The blocks found on Apple A7-A11 SoCs are compatible with the existing
-> driver so add their per-SoC compatible.
-> 
-> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
-> ---
->  .../devicetree/bindings/power/apple,pmgr-pwrstate.yaml       | 5 +++++
->  1 file changed, 5 insertions(+)
+From: Arnd Bergmann <arnd@arndb.de>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+The use of of_match_ptr() is incorrect here and just causes
+a warning:
 
-Best regards,
-Krzysztof
+sound/soc/codecs/cs42l84.c:1084:34: error: unused variable 'cs42l84_of_match' [-Werror,-Wunused-const-variable]
+
+Fixes: 250304a0fb34 ("ASoC: cs42l84: Add new codec driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ sound/soc/codecs/cs42l84.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
+index 47731cdc0e67..d176add8c4a6 100644
+--- a/sound/soc/codecs/cs42l84.c
++++ b/sound/soc/codecs/cs42l84.c
+@@ -1096,7 +1096,7 @@ MODULE_DEVICE_TABLE(i2c, cs42l84_id);
+ static struct i2c_driver cs42l84_i2c_driver = {
+ 	.driver = {
+ 		.name = "cs42l84",
+-		.of_match_table = of_match_ptr(cs42l84_of_match),
++		.of_match_table = cs42l84_of_match,
+ 	},
+ 	.id_table = cs42l84_id,
+ 	.probe = cs42l84_i2c_probe,
+-- 
+2.39.5
 
