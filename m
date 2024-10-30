@@ -1,390 +1,335 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2708235A3A
-	for <asahi@lists.linux.dev>; Wed, 30 Oct 2024 17:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD20F2139A4
+	for <asahi@lists.linux.dev>; Wed, 30 Oct 2024 21:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730307720; cv=none; b=qGHUxZUWsI7fibNI0zKd9YQIJM9yQpgS23qBkN1D48NeVQnSUHnNNJNjdXby75HNP67++X85CNX9D26JTiFCco7z8q7uvmiixrPMSt3gWJ7lmtUo+UKmF+4tfszZB6EtTA6NLP6r5Qi8pmTbxKIV/vXKGQPcUzFWMjaHL26frJk=
+	t=1730322030; cv=none; b=TDL9DPPSufYBzULavFMkD4wWWyPreb7AM4eQ7rxibc/aAR4Ey8SY5eFbvMa4Gq0Vz0xET8Qq/1enB3h0ZrDqOtn3426/PtQVQC1IaaKz9xWCh6ALECy7EhYrApFszUGbeHYlecyTELz1YhX+C3d0UHNwWJU9w+eMonw0r4AeDmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730307720; c=relaxed/simple;
-	bh=3FriUdHtDkRRZPJGTzNicaJg/WplN7J779UEvmaSOpk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=nXczWtVk59njEduOmJ90Cw5woOLlj3l0f6McCGFfuPD4xUf3ve5ZxmM2/Af/yCKc1tHM4RAnYDw4BdKmk13iZCjBKkiQ7LfbtLdjKhA16wkaTDbIspHLtI2YJ9Skv2ltZQHG2IPl8vjJ5qHygzzsMbmKoRXXDtEpTtGh/xlk7OA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Xpc71dq1; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
+	s=arc-20240116; t=1730322030; c=relaxed/simple;
+	bh=lyQCKkp48yFiQHrb2X1TI5cHtzSw6UvtKRxCJxEmqTc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sErIEsFbLlttZDMBQEKVptjzOLExJv96FaXQUN/BfMvhbVPV3H5ts9Q5XTF+EupnGQByOHQXVgmpa89ri6+2d0YPPzI7TzlAv2FnH7QeAPvgCwHeVyqh9nAHuIvgbEO23Dc/HT+WofiTRZm7FdyUMbrLhwzzbcNpFcWtZk+AxOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NSt9Q7mi; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Xpc71dq1"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6e389169f92so118880147b3.0
-        for <asahi@lists.linux.dev>; Wed, 30 Oct 2024 10:01:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NSt9Q7mi"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539f1292a9bso349875e87.2
+        for <asahi@lists.linux.dev>; Wed, 30 Oct 2024 14:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730307716; x=1730912516; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gCXKhYHd2Mx+NGKb3+6xjgXWoy+xYokNujvaCJkeSC8=;
-        b=Xpc71dq1oOO0dVJ4iPSbZPDoomVo8OrMlas2fBWOXOUg/PDm6gO8ZWyRFMJqmZfAKR
-         EXpM/pu6ZMv1G3JUzJlvbLg3ZmKjj/yxUoZvmrMC98u73UgsqpGnZXWRJlIhOUBo1v1d
-         l2TL7LPzbJJMGTp14K0Sc+QBLrUKO2W8u/bj0J3wM01K/ZE91abP2CAxqIv4kMhNVYQl
-         qYDYU/NwN9+sMjYq00kN/5q+aWMzAYa+YgvEDBKs7yo8zsXBxU0g5prlR/AIYdApSeQb
-         vlyFYoHkMkh8abtk4jdJIQeRQrmQX3KqeEhk4OOZfsxy4UPznngKlR35qbBgm5+38i7t
-         7Lzg==
+        d=gmail.com; s=20230601; t=1730322026; x=1730926826; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=iTOYM8hLDlIhNM0EHGK2WLZ+VwRTD0dUszdaQDhEWfg=;
+        b=NSt9Q7miCv0sX3xml9twuGVA4E2qTFqvpqEf3+RlGea0KN5r8BV9ZJ73515d9w4Rgv
+         u9o1smrsKSlyZVc5CIHM0qBLlhto/YRUQXWiv1exNqgFF1aTKDipRjemKY5dNL9am7JF
+         /x0lSuMUgfRLoEUbjs9urvwV6vmTvn9TidnviPoPwJ+v5iaM0VxJf7LMgNBV/PoyBpKQ
+         nV8bzDuwNklyZRrvOfQjlLmLgpjl4rt3II1dc8bA5rydk/jB8IRM7ebKHAZKBXSU8MxX
+         QSbkelbMUnftHuYsRSROV6l7hsUBABMCe+6yvzQVar8Q1t2mT05xO1Hwr72/w651BiiL
+         fpqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730307716; x=1730912516;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gCXKhYHd2Mx+NGKb3+6xjgXWoy+xYokNujvaCJkeSC8=;
-        b=YEAMJcTEj8MtgdjVda0414YmrtydZvUb4Ip/SDQa50RUy1eaRsCiIGHwbEmGTj0TnN
-         k6zExCnjbG6Rbu0/E/0imJwLDSFuYGN7gu4Qh4AQ7h4SBO2fCoQyvivJG8G5XqRaIfmy
-         clswm3dh1MJ1rZ74sk6nQavUsuQxScO4WhdD/zT8ioMcScC0PJxeBi4mwsnT3qtsO5Es
-         DUg6zxUnxG5CCa6gq2vW6Mk5W9n7UnM0sXooS4lY7CqsvfcqjiXywEEdLHCkLong8RFp
-         FfOwhBfW9kqlF8uL3KwP1QB9iSJpb9tVLxpvgRVXwtePOwo0fqJ4ToLlN7r6D5faqv4j
-         d3MQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX1m1tQXTIqPqJfZuXj/5j/pwKGhgARX4/Swfn+Mb//fxCWLqD3x6UwCm+6DMCveZTOgGJXDA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2CL/wgpRfey8mtS/t2kErh2/7QW73smw2FGY1A74FOXRExMaR
-	yBhBGrIw3ObWvVJO6sbTqJwntBdrbJNumsvj0mDiiriRRkLPKoJvyzoE2GGHpu/nbFwusC7k0R9
-	z+AByOWkKqE0FFwCnDEWvGX/sSw==
-X-Google-Smtp-Source: AGHT+IFnlhMaDeXQ/6v7SCYeIH1jerB9WtfdLD+6iI6HSe1DJjys46YrL6vqN8je+TUjGgFatkLOlTQGRlnhv5puLNo=
-X-Received: from samitolvanen.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4f92])
- (user=samitolvanen job=sendgmr) by 2002:a05:690c:6481:b0:6e3:da91:3e17 with
- SMTP id 00721157ae682-6ea5231fbb5mr1437b3.2.1730307715651; Wed, 30 Oct 2024
- 10:01:55 -0700 (PDT)
-Date: Wed, 30 Oct 2024 17:01:26 +0000
-In-Reply-To: <20241030170106.1501763-21-samitolvanen@google.com>
+        d=1e100.net; s=20230601; t=1730322026; x=1730926826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iTOYM8hLDlIhNM0EHGK2WLZ+VwRTD0dUszdaQDhEWfg=;
+        b=X/cUHVD0AQfBRmadcQpK/UbMIUwGfMsAj1x01fXVH0g0kNxC1bNUR84PvaExjrFmmx
+         BQvcE8i6E0HOFwkJVIm5fa2OAkVemuU8DixqW/rU3Nc2UjVAv3VxTFJlEvt3TH0S4BiM
+         LqAP3kCPZFD2tJ/n1xzw+gwqwgZ45l1K22xOuSpQAXNhuKFtS+JkwmfZQA6mYpmTnIur
+         lQ5bOc9RNYA/YyNcgBoUfPpvW9sxiqGEWsFe7+E3cmyAqb3rgfk8hfkkACCuul8Ztf/l
+         ZYfbpZA+6dwe89gJoD19x/9aAGh7JA9AAQ5pcGAkVF/y67w6n3rwdJ3AVJk1zfe0g+us
+         xL9A==
+X-Forwarded-Encrypted: i=1; AJvYcCWAHP/f1GUYYLgx9MNFblwLWS0iObrIr3ca1ZMVTkbJ5WnWQ+V/heAI4fisxe8He51R+t3BiA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwPi159VrWAaT7kzfRFsz68OqcA77vMf+BV94kqkAQEeax5MrLJ
+	Oplf3nqH7SWr/Pt0DH2EYHfgCU0mfLWn8HitUqNFSuQ5jNDrbLDayQHSTEFbn4Of2yRz1ljWhPo
+	cWkrUlOXFd+v4VVQVdJY8bd+CUZ4=
+X-Google-Smtp-Source: AGHT+IHn69gcm0LSFxKIg/7imMG1C0qqBwjxlIZpTicJxl6ADiw9oYIxwLzxcFDeC3RuDvF9v4sdvvjyMFy3q2DLgyM=
+X-Received: by 2002:a05:6512:1082:b0:539:fcf9:6332 with SMTP id
+ 2adb3069b0e04-53b348e554bmr8823799e87.33.1730322025610; Wed, 30 Oct 2024
+ 14:00:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
 References: <20241030170106.1501763-21-samitolvanen@google.com>
-X-Developer-Key: i=samitolvanen@google.com; a=openpgp; fpr=35CCFB63B283D6D3AEB783944CB5F6848BBC56EE
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12136; i=samitolvanen@google.com;
- h=from:subject; bh=3FriUdHtDkRRZPJGTzNicaJg/WplN7J779UEvmaSOpk=;
- b=owGbwMvMwCEWxa662nLh8irG02pJDOlKaTFdRtv3hvepTRY2XHo/0H7N2WQ1s+P+/0+ybzJo+
- HIqXsW1o5SFQYyDQVZMkaXl6+qtu787pb76XCQBM4eVCWQIAxenAExkuiHDXxH+rvC1W49KVh11
- C+CwPJm+O4cxdE0J53qxw4bz/xStK2Nk2CvpJTBBa2W5aLjd1dSpImunFT8v7f3/OP7XqxMqU/1 CWAE=
-X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
-Message-ID: <20241030170106.1501763-40-samitolvanen@google.com>
-Subject: [PATCH v5 19/19] Documentation/kbuild: Add DWARF module versioning
-From: Sami Tolvanen <samitolvanen@google.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Gary Guo <gary@garyguo.net>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, Hector Martin <marcan@marcan.st>, 
-	Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, Asahi Linux <asahi@lists.linux.dev>, 
-	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org, 
+In-Reply-To: <20241030170106.1501763-21-samitolvanen@google.com>
+Reply-To: sedat.dilek@gmail.com
+From: Sedat Dilek <sedat.dilek@gmail.com>
+Date: Wed, 30 Oct 2024 21:59:48 +0100
+Message-ID: <CA+icZUWTdgM7HQrnR_NzgZZQE3aXXk+tAqD3srNd1Eyjr5d7EA@mail.gmail.com>
+Subject: Re: [PATCH v5 00/19] Implement DWARF modversions
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, Sami Tolvanen <samitolvanen@google.com>
+	rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add documentation for gendwarfksyms changes, and the kABI stability
-features that can be useful for distributions even though they're not
-used in mainline kernels.
+On Wed, Oct 30, 2024 at 6:01=E2=80=AFPM Sami Tolvanen <samitolvanen@google.=
+com> wrote:
+>
+> Hi,
+>
+> Here's v5 of the DWARF modversions series. The main motivation is
+> modversions support for Rust, which is important for distributions
+> like Android that are about to ship Rust kernel modules. Per Luis'
+> request [1], v2 dropped the Rust specific bits from the series and
+> instead added the feature as an option for the entire kernel to
+> make it easier to evaluate the benefits of this approach, and to
+> get better test coverage. Matt is addressing Rust modversion_info
+> compatibility issues in a separate patch set [2] that depends on this
+> series, and actually allows modversions to be enabled with Rust.
+>
+> Short background: Unlike C, Rust source code doesn't have sufficient
+> information about the final ABI, as the compiler has considerable
+> freedom in adjusting structure layout, for example, which makes
+> using a source code parser like genksyms a non-starter. Based on
+> earlier feedback, this series uses DWARF debugging information for
+> computing versions. DWARF is an established and a relatively stable
+> format, which includes all the necessary ABI details, and adding a
+> CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
+> reasonable trade-off as most distributions already enable it.
+>
+> The first patch moves the genksyms CRC32 implementation to a shared
+> header file to avoid code duplication and the next 15 patches add
+> gendwarfksyms, a tool for computing symbol versions from DWARF. When
+> passed a list of exported symbols and object files, the tool
+> generates an expanded type string for each symbol and computes symbol
+> CRCs similarly to genksyms. gendwarfksyms is written in C and uses
+> libdw to process DWARF. Patch 17 ensures that debugging information
+> is present where we need it, patch 18 adds gendwarfksyms as an
+> alternative to genksyms, and the last patch adds documentation.
+>
+> v5 is based on v6.12-rc5 and for your convenience the series is also
+> available here:
+>
+> https://github.com/samitolvanen/linux/commits/gendwarfksyms-v5
+>
+> If you also want to test the series with Rust modules, this branch
+> adds Matt's latest modversion_info series:
+>
+> https://github.com/samitolvanen/linux/commits/rustmodversions-v5
+>
+> Sami
+>
+>
+> [1] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
+> [2] https://lore.kernel.org/lkml/20240925233854.90072-1-mmaurer@google.co=
+m/
+>
+> ---
+>
+> v5:
+> - Rebased on v6.12-rc5.
+>
+> - Fixed an issue with limiting structure expansion, and applied
+>   Petr's clean-up. (Patch 10)
+>
+> - Dropped an unnecessary return statement in error path. (Patch
+>   12)
+>
+> - Addressed several other smaller issues Petr brought up. (Patches
+>   13, 14, and 15)
+>
+> - Added a KBUILD_GENDWARFKSYMS_STABLE flag to enable --stable for
+>   the entire kernel build. (Patch 18)
+>
 
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Acked-by: Neal Gompa <neal@gompa.dev>
----
- Documentation/kbuild/gendwarfksyms.rst | 276 +++++++++++++++++++++++++
- Documentation/kbuild/index.rst         |   1 +
- 2 files changed, 277 insertions(+)
- create mode 100644 Documentation/kbuild/gendwarfksyms.rst
+Hi Sami,
 
-diff --git a/Documentation/kbuild/gendwarfksyms.rst b/Documentation/kbuild/gendwarfksyms.rst
-new file mode 100644
-index 000000000000..0f5000491132
---- /dev/null
-+++ b/Documentation/kbuild/gendwarfksyms.rst
-@@ -0,0 +1,276 @@
-+=======================
-+DWARF module versioning
-+=======================
-+
-+1. Introduction
-+===============
-+
-+When CONFIG_MODVERSIONS is enabled, symbol versions for modules
-+are typically calculated from preprocessed source code using the
-+**genksyms** tool.  However, this is incompatible with languages such
-+as Rust, where the source code has insufficient information about
-+the resulting ABI. With CONFIG_GENDWARFKSYMS (and CONFIG_DEBUG_INFO)
-+selected, **gendwarfksyms** is used instead to calculate symbol versions
-+from the DWARF debugging information, which contains the necessary
-+details about the final module ABI.
-+
-+1.1. Usage
-+==========
-+
-+gendwarfksyms accepts a list of object files on the command line, and a
-+list of symbol names (one per line) in standard input::
-+
-+        Usage: gendwarfksyms [options] elf-object-file ... < symbol-list
-+
-+        Options:
-+          -d, --debug          Print debugging information
-+              --dump-dies      Dump DWARF DIE contents
-+              --dump-die-map   Print debugging information about die_map changes
-+              --dump-types     Dump type strings
-+              --dump-versions  Dump expanded type strings used for symbol versions
-+          -s, --stable         Support kABI stability features
-+          -T, --symtypes file  Write a symtypes file
-+          -h, --help           Print this message
-+
-+
-+2. Type information availability
-+================================
-+
-+While symbols are typically exported in the same translation unit (TU)
-+where they're defined, it's also perfectly fine for a TU to export
-+external symbols. For example, this is done when calculating symbol
-+versions for exports in stand-alone assembly code.
-+
-+To ensure the compiler emits the necessary DWARF type information in the
-+TU where symbols are actually exported, gendwarfksyms adds a pointer
-+to exported symbols in the `EXPORT_SYMBOL()` macro using the following
-+macro::
-+
-+        #define __GENDWARFKSYMS_EXPORT(sym)                             \
-+                static typeof(sym) *__gendwarfksyms_ptr_##sym __used    \
-+                        __section(".discard.gendwarfksyms") = &sym;
-+
-+
-+When a symbol pointer is found in DWARF, gendwarfksyms can use its
-+type for calculating symbol versions even if the symbol is defined
-+elsewhere. The name of the symbol pointer is expected to start with
-+`__gendwarfksyms_ptr_`, followed by the name of the exported symbol.
-+
-+3. Symtypes output format
-+=========================
-+
-+Similarly to genksyms, gendwarfksyms supports writing a symtypes
-+file for each processed object that contain types for exported
-+symbols and each referenced type that was used in calculating symbol
-+versions. These files can be useful when trying to determine what
-+exactly caused symbol versions to change between builds. To generate
-+symtypes files during a kernel build, set `KBUILD_SYMTYPES=1`.
-+
-+Matching the existing format, the first column of each line contains
-+either a type reference or a symbol name. Type references have a
-+one-letter prefix followed by "#" and the name of the type. Four
-+reference types are supported::
-+
-+        e#<type> = enum
-+        s#<type> = struct
-+        t#<type> = typedef
-+        u#<type> = union
-+
-+Type names with spaces in them are wrapped in single quotes, e.g.::
-+
-+        s#'core::result::Result<u8, core::num::error::ParseIntError>'
-+
-+The rest of the line contains a type string. Unlike with genksyms that
-+produces C-style type strings, gendwarfksyms uses the same simple parsed
-+DWARF format produced by **--dump-dies**, but with type references
-+instead of fully expanded strings.
-+
-+4. Maintaining a stable kABI
-+============================
-+
-+Distribution maintainers often need the ability to make ABI compatible
-+changes to kernel data structures due to LTS updates or backports. Using
-+the traditional `#ifndef __GENKSYMS__` to hide these changes from symbol
-+versioning won't work when processing object files. To support this
-+use case, gendwarfksyms provides kABI stability features designed to
-+hide changes that won't affect the ABI when calculating versions. These
-+features are all gated behind the **--stable** command line flag and are
-+not used in the mainline kernel. To use stable features during a kernel
-+build, set `KBUILD_GENDWARFKSYMS_STABLE=1`.
-+
-+Examples for using these features are provided in the
-+**scripts/gendwarfksyms/examples** directory, including helper macros
-+for source code annotation. Note that as these features are only used to
-+transform the inputs for symbol versioning, the user is responsible for
-+ensuring that their changes actually won't break the ABI.
-+
-+4.1. kABI rules
-+===============
-+
-+kABI rules allow distributions to fine-tune certain parts
-+of gendwarfksyms output and thus control how symbol
-+versions are calculated. These rules are defined in the
-+`.discard.gendwarfksyms.kabi_rules` section of the object file and
-+consist of simple null-terminated strings with the following structure::
-+
-+	version\0type\0target\0value\0
-+
-+This string sequence is repeated as many times as needed to express all
-+the rules. The fields are as follows:
-+
-+- `version`: Ensures backward compatibility for future changes to the
-+  structure. Currently expected to be "1".
-+- `type`: Indicates the type of rule being applied.
-+- `target`: Specifies the target of the rule, typically the fully
-+  qualified name of the DWARF Debugging Information Entry (DIE).
-+- `value`: Provides rule-specific data.
-+
-+The following helper macro, for example, can be used to specify rules
-+in the source code::
-+
-+	#define __KABI_RULE(hint, target, value)                             \
-+		static const char __PASTE(__gendwarfksyms_rule_,             \
-+					  __COUNTER__)[] __used __aligned(1) \
-+			__section(".discard.gendwarfksyms.kabi_rules") =     \
-+				"1\0" #hint "\0" #target "\0" #value
-+
-+
-+Currently, only the rules discussed in this section are supported, but
-+the format is extensible enough to allow further rules to be added as
-+need arises.
-+
-+4.1.1. Managing structure visibility
-+====================================
-+
-+A structure declaration can change into a full definition when
-+additional includes are pulled into the translation unit. This changes
-+the versions of any symbol that references the structure even if the ABI
-+remains unchanged. As it may not be possible to drop includes without
-+breaking the build, the `struct_declonly` rule can be used to specify a
-+data structure as declaration-only, even if the debugging information
-+contains the full definition.
-+
-+The rule fields are expected to be as follows:
-+
-+- `type`: "struct_declonly"
-+- `target`: The fully qualified name of the target data structure
-+  (as shown in **--dump-dies** output).
-+- `value`: This field is ignored and is expected to have the value ";".
-+
-+Using the `__KABI_RULE` macro, this rule can be defined as::
-+
-+	#define KABI_STRUCT_DECLONLY(fqn) \
-+		__KABI_RULE(struct_declonly, fqn, ;)
-+
-+Example usage::
-+
-+	struct s {
-+		/* definition */
-+	};
-+
-+	KABI_STRUCT_DECLONLY(s);
-+
-+4.1.2. Adding enumerators
-+=========================
-+
-+For enums, all enumerators and their values are included in calculating
-+symbol versions, which becomes a problem if we later need to add more
-+enumerators without changing symbol versions. The `enumerator_ignore`
-+rule allows us to hide named enumerators from the input.
-+
-+The rule fields are expected to be as follows:
-+
-+- `type`: "enumerator_ignore"
-+- `target`: The fully qualified name of the target enum
-+  (as shown in **--dump-dies** output).
-+- `value`: The name of the enumerator to ignore.
-+
-+Using the `__KABI_RULE` macro, this rule can be defined as::
-+
-+	#define KABI_ENUMERATOR_IGNORE(fqn, field) \
-+		__KABI_RULE(enumerator_ignore, fqn, field)
-+
-+Example usage::
-+
-+	enum e {
-+		A, B, C, D,
-+	};
-+
-+	KABI_ENUMERATOR_IGNORE(e, B);
-+	KABI_ENUMERATOR_IGNORE(e, C);
-+
-+
-+4.3. Adding structure members
-+=============================
-+
-+Perhaps the most common ABI compatible changeis adding a member to a
-+kernel data structure. When changes to a structure are anticipated,
-+distribution maintainers can pre-emptively reserve space in the
-+structure and take it into use later without breaking the ABI. If
-+changes are needed to data structures without reserved space, existing
-+alignment holes can potentially be used instead. While kABI rules could
-+be added for these type of changes, using unions is typically a more
-+natural method. This section describes gendwarfksyms support for using
-+reserved space in data structures and hiding members that don't change
-+the ABI when calculating symbol versions.
-+
-+4.3.1. Reserving space and replacing members
-+============================================
-+
-+To reserve space in a struct, adding a member of any type with a name
-+that starts with `__kabi_` will result in the name being left out of
-+symbol versioning::
-+
-+        struct s {
-+                long a;
-+                long __kabi_reserved_0; /* reserved for future use */
-+        };
-+
-+The space reserved by this member can be later taken into use by
-+wrapping it into a union, which includes the original type and the
-+replacement struct member::
-+
-+        struct s {
-+                long a;
-+                union {
-+                        long __kabi_reserved_0; /* original type */
-+                        struct b b; /* replaced field */
-+                };
-+        };
-+
-+As long as the reserved member's name in the union starts with
-+`__kabi_reserved_`, the original type will be used for symbol
-+versioning and rest of the union is ignored. The examples include
-+`KABI_(RESERVE|USE)*` macros that help simplify the process and also
-+ensure the replacement member's size won't exceed the reserved space.
-+
-+4.3.2. Hiding members
-+=====================
-+
-+Predicting which structures will require changes during the support
-+timeframe isn't always possible, in which case one might have to resort
-+to placing new members into existing alignment holes::
-+
-+        struct s {
-+                int a;
-+                /* a 4-byte alignment hole */
-+                unsigned long b;
-+        };
-+
-+
-+While this won't change the size of the data structure, one needs to
-+be able to hide the added members from symbol versioning. Similarly
-+to reserved fields, this can be accomplished by wrapping the added
-+member to a union where one of the fields has a name starting with
-+`__kabi_ignored`::
-+
-+        struct s {
-+                int a;
-+                union {
-+                        char __kabi_ignored_0;
-+                        int n;
-+                };
-+                unsigned long b;
-+        };
-+
-+With **--stable**, both versions produce the same symbol version.
-diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
-index cee2f99f734b..e82af05cd652 100644
---- a/Documentation/kbuild/index.rst
-+++ b/Documentation/kbuild/index.rst
-@@ -21,6 +21,7 @@ Kernel Build System
-     reproducible-builds
-     gcc-plugins
-     llvm
-+    gendwarfksyms
- 
- .. only::  subproject and html
- 
--- 
-2.47.0.163.g1226f6d8fa-goog
+perfect timing: Nathan uploaded SLIM LLVM toolchain v19.1.3
 
+KBUILD_GENDWARFKSYMS_STABLE is to be set manually?
+What value is recommended?
+
+Thanks.
+-Sedat-
+
+> - Updated documentation to include KBUILD flags. (Patch 19)
+>
+> - Picked up Reviewed-by tags from v4.
+>
+> v4: https://lore.kernel.org/lkml/20241008183823.36676-21-samitolvanen@goo=
+gle.com/
+> - Rebased on v6.12-rc2, which now includes all the prerequisites.
+>
+> - Dropped unnecessary name_only parameter for symbols.c::for_each
+>   and cleaned up error handling. (Patch 3)
+>
+> - Fixed anonymous scope handling to ensure unnamed DIEs don't get
+>   names. (Patch 4)
+>
+> - Added non-variant children to variant_type output, and included
+>   DW_AT_discr_value attributes for variants. (Patch 9)
+>
+> - Added another symbol pointer test case. (Patch 16)
+>
+> - Picked up (Acked|Reviewed)-by tags from v3.
+>
+>
+> v3: https://lore.kernel.org/lkml/20240923181846.549877-22-samitolvanen@go=
+ogle.com/
+> - Updated SPX license headers.
+>
+> - Squashed the first two patches in v2 and tried to reduce churn as
+>   much as reasonable.
+>
+> - Dropped patch 18 from v2 ("x86/asm-prototypes: Include
+>   <asm/ptrace.h>") as it's addressed by a separate patch.
+>
+> - Changed the error handling code to immediately terminate instead
+>   of propagating the errors back to main, which cleaned up the code
+>   quite a bit.
+>
+> - Switched to the list and hashtable implementations in scripts and
+>   dropped the remaining tools/include dependencies. Added a couple
+>   missing list macros. (patch 1)
+>
+> - Moved the genksyms CRC32 implementation to scripts/include and
+>   dropped the duplicate code. (patches 2 and 14)
+>
+> - Switched from ad-hoc command line parsing to getopt_long (patch 3).
+>
+> - Added structure member and function parameter names to the DIE
+>   output to match genksyms behavior, and tweaked the symtypes format
+>   to be more parser-friendly in general based on Petr's suggestions.
+>
+> - Replaced the declaration-only struct annotations with more generic
+>   kABI stability rules that allow source code annotations to be used
+>   where #ifndef __GENKSYMS__ was previously used.  Added support for
+>   rules that can be used to exclude enumerators from versioning.
+>   (patch 16)
+>
+> - Per Miroslav's suggestion, added an option to hide structure
+>   members from versioning when they're added to existing alignment
+>   holes, for example. (patch 16)
+>
+> - Per Greg's request, added documentation and example macros for the
+>   --stable features, and a couple of test cases. (patches 15, 16, and
+>   20)
+>
+> - Fixed making symtypes files, which need to depend on .o files with
+>   gendwarfksyms. (patch 19)
+>
+> - Addressed several other smaller issues that Petr and Masahiro
+>   kindly pointed out during the v2 review.
+>
+>
+> v2: https://lore.kernel.org/lkml/20240815173903.4172139-21-samitolvanen@g=
+oogle.com/
+> - Per Luis' request, dropped Rust-specific patches and added
+>   gendwarfksyms as an alternative to genksyms for the entire
+>   kernel.
+>
+> - Added support for missing DWARF features needed to handle
+>   also non-Rust code.
+>
+> - Changed symbol address matching to use the symbol table
+>   information instead of relying on addresses in DWARF.
+>
+> - Added __gendwarfksyms_ptr patches to ensure the compiler emits
+>   the necessary type information in DWARF even for symbols that
+>   are defined in other TUs.
+>
+> - Refactored debugging output and moved the more verbose output
+>   behind --dump* flags.
+>
+> - Added a --symtypes flag for generating a genksyms-style
+>   symtypes output based on Petr's feedback, and refactored
+>   symbol version calculations to be based on symtypes instead
+>   of raw --dump-dies output.
+>
+> - Based on feedback from Greg and Petr, added --stable flag and
+>   support for reserved data structure fields and declaration-onl
+>   structures. Also added examples for using these features.
+>
+> - Added a GENDWARFKSYMS option and hooked up kbuild support
+>   for both C and assembly code. Note that with gendwarfksyms,
+>   we have to actually build a temporary .o file for calculating
+>   assembly modversions.
+>
+> v1: https://lore.kernel.org/lkml/20240617175818.58219-17-samitolvanen@goo=
+gle.com/
+>
+> ---
+>
+> Sami Tolvanen (19):
+>   scripts: move genksyms crc32 implementation to a common include
+>   tools: Add gendwarfksyms
+>   gendwarfksyms: Add address matching
+>   gendwarfksyms: Expand base_type
+>   gendwarfksyms: Add a cache for processed DIEs
+>   gendwarfksyms: Expand type modifiers and typedefs
+>   gendwarfksyms: Expand subroutine_type
+>   gendwarfksyms: Expand array_type
+>   gendwarfksyms: Expand structure types
+>   gendwarfksyms: Limit structure expansion
+>   gendwarfksyms: Add die_map debugging
+>   gendwarfksyms: Add symtypes output
+>   gendwarfksyms: Add symbol versioning
+>   gendwarfksyms: Add support for kABI rules
+>   gendwarfksyms: Add support for reserved and ignored fields
+>   gendwarfksyms: Add support for symbol type pointers
+>   export: Add __gendwarfksyms_ptr_ references to exported symbols
+>   kbuild: Add gendwarfksyms as an alternative to genksyms
+>   Documentation/kbuild: Add DWARF module versioning
+>
+>  Documentation/kbuild/gendwarfksyms.rst      |  276 +++++
+>  Documentation/kbuild/index.rst              |    1 +
+>  include/linux/export.h                      |   15 +
+>  kernel/module/Kconfig                       |   31 +
+>  scripts/Makefile                            |    3 +-
+>  scripts/Makefile.build                      |   41 +-
+>  scripts/gendwarfksyms/.gitignore            |    2 +
+>  scripts/gendwarfksyms/Makefile              |   12 +
+>  scripts/gendwarfksyms/cache.c               |   44 +
+>  scripts/gendwarfksyms/die.c                 |  166 +++
+>  scripts/gendwarfksyms/dwarf.c               | 1109 +++++++++++++++++++
+>  scripts/gendwarfksyms/examples/kabi.h       |  141 +++
+>  scripts/gendwarfksyms/examples/kabi_ex0.c   |   86 ++
+>  scripts/gendwarfksyms/examples/kabi_ex1.c   |   89 ++
+>  scripts/gendwarfksyms/examples/kabi_ex2.c   |   98 ++
+>  scripts/gendwarfksyms/examples/kabi_rules.c |   56 +
+>  scripts/gendwarfksyms/examples/symbolptr.c  |   33 +
+>  scripts/gendwarfksyms/gendwarfksyms.c       |  185 ++++
+>  scripts/gendwarfksyms/gendwarfksyms.h       |  288 +++++
+>  scripts/gendwarfksyms/kabi.c                |  263 +++++
+>  scripts/gendwarfksyms/symbols.c             |  339 ++++++
+>  scripts/gendwarfksyms/types.c               |  477 ++++++++
+>  scripts/genksyms/genksyms.c                 |   77 +-
+>  scripts/include/crc32.h                     |   93 ++
+>  24 files changed, 3840 insertions(+), 85 deletions(-)
+>  create mode 100644 Documentation/kbuild/gendwarfksyms.rst
+>  create mode 100644 scripts/gendwarfksyms/.gitignore
+>  create mode 100644 scripts/gendwarfksyms/Makefile
+>  create mode 100644 scripts/gendwarfksyms/cache.c
+>  create mode 100644 scripts/gendwarfksyms/die.c
+>  create mode 100644 scripts/gendwarfksyms/dwarf.c
+>  create mode 100644 scripts/gendwarfksyms/examples/kabi.h
+>  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex0.c
+>  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex1.c
+>  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex2.c
+>  create mode 100644 scripts/gendwarfksyms/examples/kabi_rules.c
+>  create mode 100644 scripts/gendwarfksyms/examples/symbolptr.c
+>  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
+>  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
+>  create mode 100644 scripts/gendwarfksyms/kabi.c
+>  create mode 100644 scripts/gendwarfksyms/symbols.c
+>  create mode 100644 scripts/gendwarfksyms/types.c
+>  create mode 100644 scripts/include/crc32.h
+>
+>
+> base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
+> --
+> 2.47.0.163.g1226f6d8fa-goog
+>
