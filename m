@@ -1,39 +1,39 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6941E19CC2F
-	for <asahi@lists.linux.dev>; Fri,  1 Nov 2024 12:33:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7638522097
+	for <asahi@lists.linux.dev>; Fri,  1 Nov 2024 12:41:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730464420; cv=none; b=RAWLl8/15ye28TSXOJuvSt+jzs+Sudfi/dfE1qsk1Ran8KsrVGLoVdpmQgf4WiFEmpXOcKImR/4dQKha76F9OPLuhjUq5N4bkMc5Kx22bo0qMd3t4hHoRxaSpzGXHBpEaLdfOCeL9wVBTt5oNuwE8sLG8dTWdCjP2aa+/glWhV4=
+	t=1730464879; cv=none; b=sG5AfO2RQeBWBqO8zdANKVku7/oqY9gYeQwOPwqIVhVUN0pquz83hlpp/RJSUwBZYG17F0jABLHczYu8xNxb+4R9bfv8bIK0sSx2pYnwsRPBQLBf9Zdri5PbCebuj64xGlIfx8O+q0eaMrnqVkLUo0/UcWxpRNXRSrqc0p/gYRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730464420; c=relaxed/simple;
-	bh=tC+M1hH7fork9yJ4VGi51sWAlT5oGLZxXxBuaAYIzeA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RbgdSepYZgGu4ld7E3YYwpPwy2meBK/TnITWwv0GXfXGmvhDX99CDAw2dObzVkhw8m2mnFqJQgq9YLIKYwP5m8ziFt4tyP5b9p9fgFSk0oyEQby/5m/CJzPxG0siOnobHwGGn04KuvkykqCjiCEHXFqWv3x2jJ7bquAwXHa5s1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=lzfjqAC7; arc=none smtp.client-ip=212.63.210.85
+	s=arc-20240116; t=1730464879; c=relaxed/simple;
+	bh=1tyJN7tpj71GsXPgw1vXVuu1pL6JI3AXiNqruHLtMhI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=pvHZO69pBBwMeg5wwGPEVSMUY3R174O9HcToGEeEG/Gh2tQzk3Q5VGXbznTnL4M622N12bcvOEVVeGm13A+JpWYxkaMQ+lLFEOuyIwiIUdJUybWsNOFayANyahPG81Zx1hC2lTK7G8U29dMR4r9WyPCrGvNOG96w/PBAyCSrbxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=Kv6tcbiC; arc=none smtp.client-ip=212.63.210.85
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="lzfjqAC7"
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="Kv6tcbiC"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 46C1A4346B;
-	Fri,  1 Nov 2024 12:33:33 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id D8ED843470;
+	Fri,  1 Nov 2024 12:41:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
-	t=1730464414; bh=tC+M1hH7fork9yJ4VGi51sWAlT5oGLZxXxBuaAYIzeA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=lzfjqAC7QS4yk5+91vpLtBSqpyvoMChGk5b35z7ZYw2NAAAgR6QBD5pL+D4TW/1+4
-	 JuCBlvOktUM0YUHhICuYn7AgutVf6XCm2Mh2hOXzg1XY3Z7YspQ2r13G0mXlWVFnZ3
-	 cNIueyOKLfTFxJotxw6emgqMMFcSDSVEe/3b26aMjH1f/kwfUcikAud7drvnh5dF5o
-	 E9uqR9Rg/9hhU4bbQNEd6wvd8xcDW3Z3GtRHmJsnAhfCh/CevZSvaIeylXemsx6zOl
-	 ccYNadlHn4cJE8d4jpgyELl4+1L4rhx7CkOSJe92Rp69IY8y39iU81LXSSVweQg1hc
-	 6i/fZgl31e1dQ==
-Message-ID: <5e0b5238-d781-458a-9285-df54a16232af@marcan.st>
-Date: Fri, 1 Nov 2024 21:33:32 +0900
+	t=1730464874; bh=1tyJN7tpj71GsXPgw1vXVuu1pL6JI3AXiNqruHLtMhI=;
+	h=Date:Subject:To:References:From:In-Reply-To;
+	b=Kv6tcbiCwdREWMYqnVNGYwJkOnH3T7Y4RD5xN+XUWZu1/YP70sS7x6O+xFjNisQOg
+	 vH2QXCmbnrR5W/JPhK9fFYxPHM1gMVzfx3YhFaiyefi+ErqO8klh97X12MaF1EJBTk
+	 ADwUMjkkbk9wFVAhp4koK3Go71UkQnZx7ZPZk/w50LDUCROrcp6DK8zAtc1rBZzkTa
+	 s24sfplZWNRjGJepQGKamyZxHnV/qLo4NA753pdPB9seElIU2nZsBM1qdpTguM7mve
+	 o927WZoRBCx+r6VeEHobSEhNHfp4SfpDhoQv+t98gIE5pic/zuV2nm/4SXpRJrH1hp
+	 gy7Ip2ha3Dy2w==
+Message-ID: <23074410-ffe2-4f68-a983-67cec430f68f@marcan.st>
+Date: Fri, 1 Nov 2024 21:41:13 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -41,66 +41,107 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH asahi-soc/dt 01/10] dt-bindings: arm: apple: apple,pmgr:
- Add A7-A11 compatibles
-To: Krzysztof Kozlowski <krzk@kernel.org>, Nick Chan <towinchenmi@gmail.com>
-Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
- <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
+Subject: Re: [PATCH asahi-soc/dt 00/10] Add PMGR nodes for Apple A7-A11 SoCs
+To: Nick Chan <towinchenmi@gmail.com>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, asahi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20241029010526.42052-1-towinchenmi@gmail.com>
- <20241029010526.42052-2-towinchenmi@gmail.com>
- <wpwa22u5z5hamvme7za7dqe7kjl5bap2a254w32yyqrohz235g@hk3izcckbdqn>
 From: Hector Martin <marcan@marcan.st>
 Content-Language: en-US
-In-Reply-To: <wpwa22u5z5hamvme7za7dqe7kjl5bap2a254w32yyqrohz235g@hk3izcckbdqn>
+In-Reply-To: <20241029010526.42052-1-towinchenmi@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2024/10/29 16:41, Krzysztof Kozlowski wrote:
-> On Tue, Oct 29, 2024 at 09:03:59AM +0800, Nick Chan wrote:
->> The blocks found on Apple A7-A11 SoCs are compatible with the existing
->> driver so add their per-SoC compatibles.
->>
->> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
->> ---
->>  Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
->> index 673277a7a224..5001f4d5a0dc 100644
->> --- a/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
->> +++ b/Documentation/devicetree/bindings/arm/apple/apple,pmgr.yaml
->> @@ -22,6 +22,11 @@ properties:
->>    compatible:
->>      items:
->>        - enum:
->> +          - apple,s5l8960x-pmgr
->> +          - apple,t7000-pmgr
->> +          - apple,s8000-pmgr
->> +          - apple,t8010-pmgr
->> +          - apple,t8015-pmgr
+On 2024/10/29 10:03, Nick Chan wrote:
+> This series adds the PMGR nodes and all known power state subnodes for
+> Apple A7-A11 SoCs, along with the associated dt-bindings.
 > 
-> Assuming you keep the existing order of entries in this file, which is
-> different than usually expected: alphanumeric.
+> ---
+> Nick Chan (10):
+>   dt-bindings: arm: apple: apple,pmgr: Add A7-A11 compatibles
+>   dt-bindings: arm: apple: apple,pmgr-pwrstate: Add A7-A11 compatibles
+>   arm64: dts: apple: s5l8960x: Add PMGR node
+>   arm64: dts: apple: t7000: Add PMGR node
+>   arm64: dts: apple: t7001: Add PMGR node
+>   arm64: dts: apple: s8000: Add PMGR nodes
+>   arm64: dts: apple: s8001: Add PMGR nodes
+>   arm64: dts: apple: t8010: Add PMGR nodes
+>   arm64: dts: apple: t8011: Add PMGR nodes
+>   arm64: dts: apple: t8015: Add PMGR nodes
 > 
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>  .../bindings/arm/apple/apple,pmgr.yaml        |   5 +
+>  .../bindings/power/apple,pmgr-pwrstate.yaml   |   5 +
+>  arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi    |   4 +
+>  arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi  |   4 +
+>  .../arm64/boot/dts/apple/s5l8960x-common.dtsi |   1 +
+>  arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi |   4 +
+>  arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi  | 610 ++++++++++++
+>  arch/arm64/boot/dts/apple/s5l8960x.dtsi       |  13 +
+>  .../arm64/boot/dts/apple/s800-0-3-common.dtsi |   1 +
+>  arch/arm64/boot/dts/apple/s8000-pmgr.dtsi     | 757 ++++++++++++++
+>  arch/arm64/boot/dts/apple/s8000.dtsi          |  22 +
+>  arch/arm64/boot/dts/apple/s8001-common.dtsi   |   1 +
+>  .../arm64/boot/dts/apple/s8001-j98a-j99a.dtsi |  26 +
+>  arch/arm64/boot/dts/apple/s8001-j98a.dts      |   1 +
+>  arch/arm64/boot/dts/apple/s8001-j99a.dts      |   1 +
+>  arch/arm64/boot/dts/apple/s8001-pmgr.dtsi     | 823 ++++++++++++++++
+>  arch/arm64/boot/dts/apple/s8001.dtsi          |  22 +
+>  arch/arm64/boot/dts/apple/s800x-6s.dtsi       |   4 +
+>  arch/arm64/boot/dts/apple/s800x-ipad5.dtsi    |   4 +
+>  arch/arm64/boot/dts/apple/s800x-se.dtsi       |   4 +
+>  arch/arm64/boot/dts/apple/t7000-6.dtsi        |   4 +
+>  arch/arm64/boot/dts/apple/t7000-handheld.dtsi |   4 +
+>  arch/arm64/boot/dts/apple/t7000-j42d.dts      |   1 +
+>  arch/arm64/boot/dts/apple/t7000-mini4.dtsi    |   4 +
+>  arch/arm64/boot/dts/apple/t7000-n102.dts      |   4 +
+>  arch/arm64/boot/dts/apple/t7000-pmgr.dtsi     | 641 ++++++++++++
+>  arch/arm64/boot/dts/apple/t7000.dtsi          |  14 +
+>  arch/arm64/boot/dts/apple/t7001-air2.dtsi     |   1 +
+>  arch/arm64/boot/dts/apple/t7001-pmgr.dtsi     | 650 ++++++++++++
+>  arch/arm64/boot/dts/apple/t7001.dtsi          |  13 +
+>  arch/arm64/boot/dts/apple/t8010-7.dtsi        |   4 +
+>  arch/arm64/boot/dts/apple/t8010-common.dtsi   |   1 +
+>  arch/arm64/boot/dts/apple/t8010-ipad6.dtsi    |   4 +
+>  arch/arm64/boot/dts/apple/t8010-n112.dts      |   4 +
+>  arch/arm64/boot/dts/apple/t8010-pmgr.dtsi     | 772 +++++++++++++++
+>  arch/arm64/boot/dts/apple/t8010.dtsi          |  22 +
+>  arch/arm64/boot/dts/apple/t8011-common.dtsi   |   1 +
+>  arch/arm64/boot/dts/apple/t8011-pmgr.dtsi     | 807 +++++++++++++++
+>  arch/arm64/boot/dts/apple/t8011-pro2.dtsi     |   8 +
+>  arch/arm64/boot/dts/apple/t8011.dtsi          |  22 +
+>  arch/arm64/boot/dts/apple/t8015-common.dtsi   |   1 +
+>  arch/arm64/boot/dts/apple/t8015-pmgr.dtsi     | 931 ++++++++++++++++++
+>  arch/arm64/boot/dts/apple/t8015.dtsi          |  21 +
+>  43 files changed, 6246 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi
+>  create mode 100644 arch/arm64/boot/dts/apple/s8000-pmgr.dtsi
+>  create mode 100644 arch/arm64/boot/dts/apple/s8001-j98a-j99a.dtsi
+>  create mode 100644 arch/arm64/boot/dts/apple/s8001-pmgr.dtsi
+>  create mode 100644 arch/arm64/boot/dts/apple/t7000-pmgr.dtsi
+>  create mode 100644 arch/arm64/boot/dts/apple/t7001-pmgr.dtsi
+>  create mode 100644 arch/arm64/boot/dts/apple/t8010-pmgr.dtsi
+>  create mode 100644 arch/arm64/boot/dts/apple/t8011-pmgr.dtsi
+>  create mode 100644 arch/arm64/boot/dts/apple/t8015-pmgr.dtsi
+> 
+> 
+> base-commit: 5c9de6f45db36b8a74c12e448cf9db87c97bf1e5
 
-Yeah, it's a bit ad-hoc but essentially "by release date" with a fork at
-t6000. So:
+I'm not going to review the actual pmgr spam (I assume you did the usual
+thing and autogenerated it with the m1n1 scripts and then fixed some
+things up by hand, as we do), since really the only useful way to
+validate this is testing and I don't have these devices (nor am I
+familiar with any peculiarities).
 
-- First the ancient s5l series
-- Then all the t/sXXXX chips up to t8103 (M1) (numeric order, ignoring
-prefix letter)
-- Then the rest of the "baseline" Ax,Mx chips that continue after M1,
-which are all numbered t8xxx (numeric order)
-- Finally the t6xxx series (Mx Pro/Mx Max), which forks the timeline and
-numbering after t8103/M1 (M1 Pro = t6000).
+Skimming the rest of the changes it looks reasonable, so:
 
-Unless there's significant objection I'd like to keep this pattern, it
-makes sense from the POV of people working on these chips.
+Acked-by: Hector Martin <marcan@marcan.st>
+
+Would be nice to get at least a cursory review from the DT folks, I'll
+apply to the SoC tree after that (please poke me via direct/non-PATCH
+email if I miss it, those go in a different inbox).
 
 - Hector
 
