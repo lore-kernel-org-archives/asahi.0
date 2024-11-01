@@ -1,59 +1,33 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED05E19F131
-	for <asahi@lists.linux.dev>; Fri,  1 Nov 2024 15:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A0C25634;
+	Fri,  1 Nov 2024 15:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730473774; cv=none; b=Y3jhKpjVxfWV3JSLTaZ5SENRkfGRK+hV/ivSTm++QTTt3XynXcVIDgWx02cz9AomNHzNdXSllt2zA3tJofMEYrnaHYZ9i9IP/Fh3++bhBsUuA5zzKInUeTpfHDfSKm2ukuWuJQhKMSniezo38JrzChfpOi+JOOMzdoQHrt8/t+Y=
+	t=1730475579; cv=none; b=b9g1cTqYd65iWLE5J0iGysNK5+FUruD1XczdWV7r5HKqQFQ0p8dyj8zgG+kjfQLDnlBlB+ZBVB4HwGMqcA9diD4K+DsoUg8QnCyhvgcZMfZ/f2Mm4zlBGkn3QPpmZlrT4Jgub3nZotOBoP2IXp7jkGSOw7SugoK+vRUMIcyslyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730473774; c=relaxed/simple;
-	bh=8O6+8zSdIrOsYZwhpn/UdsD7JMLogYbKMaHww4edegI=;
+	s=arc-20240116; t=1730475579; c=relaxed/simple;
+	bh=vCmihEQoV1sQ3RVSmj0nT8aQeaFnoE7/Rdn3ZKtwFJ0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KwQGARShHqWVXpDUVHGbmXIsdtquMBKiniUKSabFBHr+YqN2/Yc5Mm33etiMJ1nSgChn9tQ96svzcZm7CDC8cRU4ACyarBVFriwM008q7Dao4NOdy8ufeN7USZR8bsgRcrKA25XPaVvwwVieDsebhFRbmdbIs9tVAuMXAd/628w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AgrIj4JV; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=namt8XN6HQlULv9NuwJ6qWrCJ4ycVrPKkGDTk50rpRKN3HKBu9F2x3p41AGKBJG1Xr6WWuVHtiboyBLLmssJ+NyyHI6GNwLYYotsUt35xT1qDlwy5XMo1E13wppzilRKhcXHVZhsxRZMAo4a66omHnab7eb6dCW3I9JWBGbhNJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ggxrEIV5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AgrIj4JV"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-71e5130832aso1662644b3a.0
-        for <asahi@lists.linux.dev>; Fri, 01 Nov 2024 08:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730473772; x=1731078572; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gjnycSKe7PLm9xEIfiXtceGbvBfhF7/8n6iYzZypH+Y=;
-        b=AgrIj4JVz8NJe/aUBMhf3kKoAsmWsV8R9Y6zypzdP5MLcvkncKm7wpq1+P/zHboEsD
-         LvEcFu+dPd0Pf9UDp/uaoys6QUQGoF0fLQ728cclQxcgbhTT+dX9sKc9GqniubBgoQaj
-         IXPlSph4QMTMf0hNTUFvlBbJXC0gPsNz69kHt/vd7zSNu1HAI0GrCn2RPnidZqk27SlC
-         UvpuEDF+kIs4+ZpRAZgy9wrjP0NUZjD5Jpd57qR3mzIFqOkuAlIkpobRzGs1OGDvSO+E
-         Cnurtl7IMNA9Zs9xMFsmj1+AL0/OAeTGChU8fNdXlyr/R7/uQ+tvwoqIgBlVbN/j1H2t
-         9ehg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730473772; x=1731078572;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gjnycSKe7PLm9xEIfiXtceGbvBfhF7/8n6iYzZypH+Y=;
-        b=Hvgfi1TNmjFNQQ78NkmwRn7omsgBXx0NsGj0VMU3pJcD+U1zon4JDYWFNIq43Zce0o
-         h9mIXUC/hYixtKuyqfxeI9LKyYZ9W276YmrKJmbxD00FERSviwAihG7ytlS6H8vbC/FB
-         TBTkcfeEEaRd8+ttlR9H/8uguuq81WhpjwYrZmCpwH1WfsJxxZsKk2TANzpFu+bn0rsz
-         cIrKy3jAdgKxhMja404jA4T1Mf+0cx5hjvVNxC8MYmpq0fHPWu8coCvhsTmBuZi9Umoi
-         CNvlNOo1VcNgPBwiZL/VlR/CKKlZd7aMOQEOniVeedkVHqOI1Btv/LnPUAPXGDQ2U3sm
-         Xtyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpnf4pEEyigJj26IPrIVGJnaG9Jgb/wsBJZfsD3hs4hJ/nP8JFWq8HZFLl9WB+txtZ95F7FA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjTBoKv+IslsPY+Aki/rOufRtPbWP8bca4tBSkURWwzxkAuswt
-	NO7wv5N+0x9v0+toNoot9BdVe58X6NhrZutn1MyJAvvEYCe0Wkb8
-X-Google-Smtp-Source: AGHT+IGj1ICWG+enL/mz+nRHk/RtiB2DmVTTu6rkphqnle4KBHonuvB3QqFfG5gzDuZ4/b49o0GKyg==
-X-Received: by 2002:a05:6a00:3c91:b0:720:75c2:7a92 with SMTP id d2e1a72fcca58-720c98d32b7mr5329009b3a.15.1730473772025;
-        Fri, 01 Nov 2024 08:09:32 -0700 (PDT)
-Received: from [192.168.0.122] ([59.188.211.160])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc2c38c7sm2745972b3a.125.2024.11.01.08.09.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Nov 2024 08:09:31 -0700 (PDT)
-Message-ID: <b0e81bfe-f7d3-475c-95af-7824d60deed9@gmail.com>
-Date: Fri, 1 Nov 2024 23:09:27 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ggxrEIV5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0537C4CED1;
+	Fri,  1 Nov 2024 15:39:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730475579;
+	bh=vCmihEQoV1sQ3RVSmj0nT8aQeaFnoE7/Rdn3ZKtwFJ0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ggxrEIV5y/A0Wp1Sg/E0OYQVDITTMbsixBigKgz+YM2buSPfY3VIiZ2hlmnih4XNX
+	 RVR7sqwZ2VUvun5+61bMLxFjIKdy0xm4e4lyfoOfWbwW8BAR5rUWZmJjwhLZqecRQz
+	 T+ipRhmkM2g2C1OKwNkcxfO/XEmNb9A0ld99O/kv46TFtlmXqbPSke1+zBrcoRd/gB
+	 BolyaoBK+HkIXw68rcRN/SLqKpaO3qCGRl5FmTdjPEjT4e6stVW6gaIyNlr1HaBXcC
+	 4w4gGDR82vWw8acx5fyYSurXt2dnFZ5HIzd7QHkAY/WaB8Z1f9NyeHzc+TDDwb/pnB
+	 engoxprAT3DXw==
+Message-ID: <4ce01e3b-9bcd-4d8c-bfe1-c2b17a4c2566@kernel.org>
+Date: Fri, 1 Nov 2024 16:39:33 +0100
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -61,73 +35,82 @@ List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH asahi-soc/dt 04/10] arm64: dts: apple: t7000: Add PMGR
- node
-To: Rob Herring <robh@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+Subject: Re: [PATCH asahi-soc/dt 01/10] dt-bindings: arm: apple: apple,pmgr:
+ Add A7-A11 compatibles
+To: Hector Martin <marcan@marcan.st>, Nick Chan <towinchenmi@gmail.com>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, asahi@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20241029010526.42052-1-towinchenmi@gmail.com>
- <20241029010526.42052-5-towinchenmi@gmail.com>
- <CAL_JsqLv2DJOsL=3bxf229ZdArL1TqArw+9cLtmjYMkm5yfZ7Q@mail.gmail.com>
-Content-Language: en-MW
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <CAL_JsqLv2DJOsL=3bxf229ZdArL1TqArw+9cLtmjYMkm5yfZ7Q@mail.gmail.com>
+ <20241029010526.42052-2-towinchenmi@gmail.com>
+ <wpwa22u5z5hamvme7za7dqe7kjl5bap2a254w32yyqrohz235g@hk3izcckbdqn>
+ <5e0b5238-d781-458a-9285-df54a16232af@marcan.st>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <5e0b5238-d781-458a-9285-df54a16232af@marcan.st>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-
-On 1/11/2024 21:04, Rob Herring wrote:
-> On Mon, Oct 28, 2024 at 8:06 PM Nick Chan <towinchenmi@gmail.com> wrote:
->>
->> This adds the PMGR node and all known power state subnodes. Since there
->> are a large number of them, let's put them in a separate file to include.
->>
->> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
->> ---
->>  arch/arm64/boot/dts/apple/t7000-6.dtsi        |   4 +
->>  arch/arm64/boot/dts/apple/t7000-handheld.dtsi |   4 +
->>  arch/arm64/boot/dts/apple/t7000-j42d.dts      |   1 +
->>  arch/arm64/boot/dts/apple/t7000-mini4.dtsi    |   4 +
->>  arch/arm64/boot/dts/apple/t7000-n102.dts      |   4 +
->>  arch/arm64/boot/dts/apple/t7000-pmgr.dtsi     | 641 ++++++++++++++++++
->>  arch/arm64/boot/dts/apple/t7000.dtsi          |  14 +
->>  7 files changed, 672 insertions(+)
->>  create mode 100644 arch/arm64/boot/dts/apple/t7000-pmgr.dtsi
->>
->> diff --git a/arch/arm64/boot/dts/apple/t7000-6.dtsi b/arch/arm64/boot/dts/apple/t7000-6.dtsi
->> index f60ea4a4a387..77d74d6af1c4 100644
->> --- a/arch/arm64/boot/dts/apple/t7000-6.dtsi
->> +++ b/arch/arm64/boot/dts/apple/t7000-6.dtsi
->> @@ -48,3 +48,7 @@ switch-mute {
->>                 };
->>         };
->>  };
->> +
->> +&framebuffer0 {
->> +       power-domains = <&ps_disp0 &ps_mipi_dsi>;
->> +};
->> diff --git a/arch/arm64/boot/dts/apple/t7000-handheld.dtsi b/arch/arm64/boot/dts/apple/t7000-handheld.dtsi
->> index 8984c9ec6cc8..566346be5b53 100644
->> --- a/arch/arm64/boot/dts/apple/t7000-handheld.dtsi
->> +++ b/arch/arm64/boot/dts/apple/t7000-handheld.dtsi
->> @@ -10,6 +10,10 @@
->>   */
->>
->>  / {
->> +       aliases {
->> +               framebuffer0 = &framebuffer0;
+On 01/11/2024 13:33, Hector Martin wrote:
+> - First the ancient s5l series
+> - Then all the t/sXXXX chips up to t8103 (M1) (numeric order, ignoring
+> prefix letter)
+> - Then the rest of the "baseline" Ax,Mx chips that continue after M1,
+> which are all numbered t8xxx (numeric order)
+> - Finally the t6xxx series (Mx Pro/Mx Max), which forks the timeline and
+> numbering after t8103/M1 (M1 Pro = t6000).
 > 
-> Looks like an unrelated change. Also, not a standard alias name. So please drop.
-Alright, (for other SoCs as well) the next version will not have any
-"framebuffer0"
-aliases additions.
+> Unless there's significant objection I'd like to keep this pattern, it
+> makes sense from the POV of people working on these chips.
 
-> 
-> Rob
+No, no, it's fine, I am just forgetting where do we have exceptions. :)
 
-Nick Chan
+Best regards,
+Krzysztof
+
