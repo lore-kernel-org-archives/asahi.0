@@ -1,40 +1,40 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C17A19CC27
-	for <asahi@lists.linux.dev>; Fri,  1 Nov 2024 12:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BA117BECA;
+	Fri,  1 Nov 2024 12:22:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730462903; cv=none; b=UIvmx5ep/hoaLPCqVDGqjcdfLXZqnRcGMFZhFWurFprk1ECopF/sJvD0DxB+KF0TcKqez8QT3iTpouJQx7VPl0sSNDWMnTKIyLUuvOLU9VNv7JwZ8j5M5+yBWXPjqTPcCpA034UT1ccEQ2tS+S2k3SnRVXySxjTx++6p6VhQ388=
+	t=1730463773; cv=none; b=nCQIgwacfHZZP+vYX1SiyX/OJaZ9FcsekkTsDrOsnUg8yl6QEFtUKjk6CKBvmRw9PdauNjAKm1POM1Eq3xo/1IbgHs74Q6Wx399h1MkHqrOd9hkHQyZEN+iCzgu/vpY8vYPttj62vc70aZaEgmaM0rtXb2boRHANzgzPz3gwZkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730462903; c=relaxed/simple;
-	bh=evphT9Levh8iSGrIyA3iV2Q4n/gTxYKNQhtxs27IDSU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=t/g7zw1nXDYkC2xGpyNCeZSAx9MA2ECk6OAc3u+A3ZPyoOMiPfxvO83eTMfAXgj1FrX08M9shZnD61HkKq0p7rMllY0ucyIal8iIVEJ1T1DFqvETM6ibbXntEeroLe1xY0ztJCxbOyZK6DKidBmlnN/m6Hosm++G6NEeQ35wCYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=WO+6k39q; arc=none smtp.client-ip=212.63.210.85
+	s=arc-20240116; t=1730463773; c=relaxed/simple;
+	bh=/TA+HIVRRCw8dKJUti+Jl47C1Bz15V0Orwm12b4BAQo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BVp+8FM5ZcqrD6SgVjauqetrjHcNe2fjs/T3JjMUQGk7zMnlrsZv97w7Q2eR+OfzowVmfUPED5p9R+yvsJ2MyX89qzYun7sv4yYJhbH0LZsSl5AV0GbGm/GFhxnpWLl+xsFWczKmzBNSEBujJJGrvGmuPJla98ZQ+yRGKZYVdR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=xNoiSdfS; arc=none smtp.client-ip=212.63.210.85
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="WO+6k39q"
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="xNoiSdfS"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sendonly@marcansoft.com)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 8CEA04346B;
-	Fri,  1 Nov 2024 12:08:09 +0000 (UTC)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 0025F432AE;
+	Fri,  1 Nov 2024 12:22:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1730462890;
-	bh=evphT9Levh8iSGrIyA3iV2Q4n/gTxYKNQhtxs27IDSU=;
+	s=default; t=1730463768;
+	bh=/TA+HIVRRCw8dKJUti+Jl47C1Bz15V0Orwm12b4BAQo=;
 	h=From:Date:Subject:To:Cc;
-	b=WO+6k39q9hO90X4GxNxwlk1Ts7Z0sQPh1L6QVxAwpnAx+FII85VLWxvS9V/dnZKSV
-	 wswPp9+3bdPA5ekkeO3Qd915naCXSm6wgCXyE2K7AXtxAgsgAsHb4cq2s98JRLz3Zt
-	 I3Z0nNqxd2d3nQDzvwbk4EpiMyso2IYckrkYkmZ9G5VoOLQcZ5HL411glRDe+25k5L
-	 8mJtVoBPrKBDeRlOSlDEE0HaqeWwCiLjhOcuV8uPAz0f72envqtAbZ77z+wOmxd0el
-	 5I4xgRhC+zw5+NbEFbJ44VCPDsLLswPDxwQJJqMAd/dH8hdDKX905ieMucKGDHcD4Y
-	 H5z/xqrLqKVIw==
+	b=xNoiSdfS611jDnBHnoMcOBL5g9pU7Hl804x7mbaxffwGon4vQUVIfWf0f7zhxFKMo
+	 fyhJ5KLUy5siPpuOYs17FeECUzvgzfo4oIM9iyj0ViDVirwvZQUkrA17MyzmJXeTD2
+	 dmu7p+ExDLVOHgdEKNh7x0eCYWudlP8A0em5V+qaxSLN+ZLji3jHz54tisc4Tjf/2p
+	 Cn+rs1gFwvYCaz/+MnVh9nTGYlhpdOBiP17NdALfj4xPnvdr8Tg0V+pBQ1dC03/rfS
+	 Lj+ueaf2BNjR+fVuCLRtfYreV3k2TK/TtGNkIwYZXglkw8hTWxHtkH29cFoa1QuWP3
+	 u61x5um0uKguA==
 From: Asahi Lina <lina@asahilina.net>
-Date: Fri, 01 Nov 2024 21:08:02 +0900
-Subject: [PATCH] mm: Fix __wp_page_copy_user fallback path for remote mm
+Date: Fri, 01 Nov 2024 21:22:31 +0900
+Subject: [PATCH] dax: Allow block size > PAGE_SIZE
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -43,107 +43,62 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241101-mm-remote-pfn-v1-1-080b609270b7@asahilina.net>
-X-B4-Tracking: v=1; b=H4sIAKHEJGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDQwND3dxc3aLU3PySVN2CtDzdFCNTIzMzyyRLE3NTJaCegqLUtMwKsHn
- RsbW1AJDfJgVfAAAA
-X-Change-ID: 20241101-mm-remote-pfn-d252669b9475
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Sergio Lopez Pascual <slp@redhat.com>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+Message-Id: <20241101-dax-page-size-v1-1-eedbd0c6b08f@asahilina.net>
+X-B4-Tracking: v=1; b=H4sIAAbIJGcC/x2MQQqAIBAAvyJ7TnBTKPpKdNDcai8mCiGJf086z
+ sBMhUyJKcMiKiR6OPMdOuAgYL9sOEmy7wyjGg2iQultkdF2n/klOWuLatLOEDroTUx0cPl/69b
+ aB5XInvBfAAAA
+X-Change-ID: 20241101-dax-page-size-83a1073b4e1b
+To: Dan Williams <dan.j.williams@intel.com>, 
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>
+Cc: Sergio Lopez Pascual <slp@redhat.com>, linux-fsdevel@vger.kernel.org, 
+ nvdimm@lists.linux.dev, linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
  Asahi Lina <lina@asahilina.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730462889; l=3847;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730463767; l=1369;
  i=lina@asahilina.net; s=20240902; h=from:subject:message-id;
- bh=evphT9Levh8iSGrIyA3iV2Q4n/gTxYKNQhtxs27IDSU=;
- b=hflyZWsN1dNrY23uoJlhzkdpkOKAbGfGkZG7106swJktCq92mh4pd3ABT59AikfQWEZx02yc3
- sSn4Z9BNz22BNzzImHeFplX7auEfLtZxU01IhqdRyPL0ZCYiGPXywoh
+ bh=/TA+HIVRRCw8dKJUti+Jl47C1Bz15V0Orwm12b4BAQo=;
+ b=sme8DUTSaze8Opt4hubzoO/tMB7K2MMTGXJNmRMpSSZwtZbnDp236oTHUIuMtt0wgQmzowHlX
+ 0ZM9LKYWCV6CcgFSXnPTS8pR4ZWkuJQwC/gZWnNoAcAfqUUxKU671+O
 X-Developer-Key: i=lina@asahilina.net; a=ed25519;
  pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
 
-If the source page is a PFN mapping, we copy back from userspace.
-However, if this fault is a remote access, we cannot use
-__copy_from_user_inatomic. Instead, use access_remote_vm() in this case.
+For virtio-dax, the file/FS blocksize is irrelevant. FUSE always uses
+large DAX blocks (2MiB), which will work with all host page sizes. Since
+we are mapping files into the DAX window on the host, the underlying
+block size of the filesystem and its block device (if any) are
+meaningless.
 
-Fixes WARN and incorrect zero-filling when writing to CoW mappings in
-a remote process, such as when using gdb on a binary present on a DAX
-filesystem.
+For real devices with DAX, the only requirement should be that the FS
+block size is *at least* as large as PAGE_SIZE, to ensure that at least
+whole pages can be mapped out of the device contiguously.
 
-[  143.683782] ------------[ cut here ]------------
-[  143.683784] WARNING: CPU: 1 PID: 350 at mm/memory.c:2904 __wp_page_copy_user+0x120/0x2bc
-[  143.683793] CPU: 1 PID: 350 Comm: gdb Not tainted 6.6.52 #1
-[  143.683794] Hardware name: linux,dummy-virt (DT)
-[  143.683795] pstate: 61400005 (nZCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
-[  143.683796] pc : __wp_page_copy_user+0x120/0x2bc
-[  143.683798] lr : __wp_page_copy_user+0x254/0x2bc
-[  143.683799] sp : ffff80008272b8b0
-[  143.683799] x29: ffff80008272b8b0 x28: 0000000000000000 x27: ffff000083bad580
-[  143.683801] x26: 0000000000000000 x25: 0000fffff7fd5000 x24: ffff000081db04c0
-[  143.683802] x23: ffff00014f24b000 x22: fffffc00053c92c0 x21: ffff000083502150
-[  143.683803] x20: 0000fffff7fd5000 x19: ffff80008272b9d0 x18: 0000000000000000
-[  143.683804] x17: ffff000081db0500 x16: ffff800080fe52a0 x15: 0000fffff7fd5000
-[  143.683804] x14: 0000000000bb1845 x13: 0000000000000080 x12: ffff80008272b880
-[  143.683805] x11: ffff000081d13600 x10: ffff000081d13608 x9 : ffff000081d1360c
-[  143.683806] x8 : ffff000083a16f00 x7 : 0000000000000010 x6 : ffff00014f24b000
-[  143.683807] x5 : ffff00014f24c000 x4 : 0000000000000000 x3 : ffff000083582000
-[  143.683807] x2 : 0000000000000f80 x1 : 0000fffff7fd5000 x0 : 0000000000001000
-[  143.683808] Call trace:
-[  143.683809]  __wp_page_copy_user+0x120/0x2bc
-[  143.683810]  wp_page_copy+0x98/0x5c0
-[  143.683813]  do_wp_page+0x250/0x530
-[  143.683814]  __handle_mm_fault+0x278/0x284
-[  143.683817]  handle_mm_fault+0x64/0x1e8
-[  143.683819]  faultin_page+0x5c/0x110
-[  143.683820]  __get_user_pages+0xc8/0x2f4
-[  143.683821]  get_user_pages_remote+0xac/0x30c
-[  143.683823]  __access_remote_vm+0xb4/0x368
-[  143.683824]  access_remote_vm+0x10/0x1c
-[  143.683826]  mem_rw.isra.0+0xc4/0x218
-[  143.683831]  mem_write+0x18/0x24
-[  143.683831]  vfs_write+0xa0/0x37c
-[  143.683834]  ksys_pwrite64+0x7c/0xc0
-[  143.683834]  __arm64_sys_pwrite64+0x20/0x2c
-[  143.683835]  invoke_syscall+0x48/0x10c
-[  143.683837]  el0_svc_common.constprop.0+0x40/0xe0
-[  143.683839]  do_el0_svc+0x1c/0x28
-[  143.683841]  el0_svc+0x3c/0xdc
-[  143.683846]  el0t_64_sync_handler+0x120/0x12c
-[  143.683848]  el0t_64_sync+0x194/0x198
-[  143.683849] ---[ end trace 0000000000000000 ]---
+Fixes warning when using virtio-dax on a 4K guest with a 16K host,
+backed by tmpfs (which sets blksz == PAGE_SIZE on the host).
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 ---
- mm/memory.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ fs/dax.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 3ccee51adfbbd007b24331fe6874265f231a877b..dba25d9734063ac02cdaeb0a5cd5432473f6372e 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -3081,13 +3081,18 @@ static inline int __wp_page_copy_user(struct page *dst, struct page *src,
- 			update_mmu_cache_range(vmf, vma, addr, vmf->pte, 1);
- 	}
+diff --git a/fs/dax.c b/fs/dax.c
+index c62acd2812f8d4981aaba82acfeaf972f555362a..406fb75bdbe9d17a6e4bf3d4cb92683e90f05910 100644
+--- a/fs/dax.c
++++ b/fs/dax.c
+@@ -1032,7 +1032,7 @@ int dax_writeback_mapping_range(struct address_space *mapping,
+ 	int ret = 0;
+ 	unsigned int scanned = 0;
  
-+	/* If the mm is a remote mm, copy in the page using access_remote_vm() */
-+	if (current->mm != mm) {
-+		if (access_remote_vm(mm, (unsigned long)uaddr, kaddr, PAGE_SIZE, 0) != PAGE_SIZE)
-+			goto warn;
-+	}
- 	/*
- 	 * This really shouldn't fail, because the page is there
- 	 * in the page tables. But it might just be unreadable,
- 	 * in which case we just give up and fill the result with
- 	 * zeroes.
- 	 */
--	if (__copy_from_user_inatomic(kaddr, uaddr, PAGE_SIZE)) {
-+	else if (__copy_from_user_inatomic(kaddr, uaddr, PAGE_SIZE)) {
- 		if (vmf->pte)
- 			goto warn;
+-	if (WARN_ON_ONCE(inode->i_blkbits != PAGE_SHIFT))
++	if (WARN_ON_ONCE(inode->i_blkbits < PAGE_SHIFT))
+ 		return -EIO;
  
+ 	if (mapping_empty(mapping) || wbc->sync_mode != WB_SYNC_ALL)
 
 ---
 base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
-change-id: 20241101-mm-remote-pfn-d252669b9475
+change-id: 20241101-dax-page-size-83a1073b4e1b
 
 Cheers,
 ~~ Lina
