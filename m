@@ -1,104 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205FF1A3031;
-	Fri,  1 Nov 2024 14:25:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED05E19F131
+	for <asahi@lists.linux.dev>; Fri,  1 Nov 2024 15:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730471119; cv=none; b=Q1sFB4SEQVi3EHMRuiTUTiHkXVLkR9t3R+A2GItQ8EDwqNOKlPVwpMDAgPaeU76zlzrHKScfiXNvfgmAeP/9cc6EJmbmyd3f8dsz5kvMS8tshh3tDGJpX8V3KX4gQUB8LvddpVhnbwhq68Sa4z55W/JB6sBCF4gUnwWTaRwHivY=
+	t=1730473774; cv=none; b=Y3jhKpjVxfWV3JSLTaZ5SENRkfGRK+hV/ivSTm++QTTt3XynXcVIDgWx02cz9AomNHzNdXSllt2zA3tJofMEYrnaHYZ9i9IP/Fh3++bhBsUuA5zzKInUeTpfHDfSKm2ukuWuJQhKMSniezo38JrzChfpOi+JOOMzdoQHrt8/t+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730471119; c=relaxed/simple;
-	bh=7vrEPIQ4bAMycnZ9O2SmDP1fd541LGxGZlIiiqJbkww=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bPp4hz0atPn+Sli9UhpEugOZEPhGt8vr0YMja3Gic/vvu9q4pa0zIT8oQAVFDZaRBW0MvgaYXOg2QXs8SetdglRdVAVPCZZ7J1M1vwuF5x9nmsEwiGSJFP/TbZBG4CzwskzoW5vTzlLMUM5g9/Dfaz0FRGH53s25NCSyn8ReYfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b/8qkiaO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730473774; c=relaxed/simple;
+	bh=8O6+8zSdIrOsYZwhpn/UdsD7JMLogYbKMaHww4edegI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KwQGARShHqWVXpDUVHGbmXIsdtquMBKiniUKSabFBHr+YqN2/Yc5Mm33etiMJ1nSgChn9tQ96svzcZm7CDC8cRU4ACyarBVFriwM008q7Dao4NOdy8ufeN7USZR8bsgRcrKA25XPaVvwwVieDsebhFRbmdbIs9tVAuMXAd/628w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AgrIj4JV; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b/8qkiaO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AB8B6C4CED8;
-	Fri,  1 Nov 2024 14:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730471118;
-	bh=7vrEPIQ4bAMycnZ9O2SmDP1fd541LGxGZlIiiqJbkww=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=b/8qkiaOffx0IirFn8jZgYKZXIUobR4UZ8A0xFNEVLIpSzpuGrqezzvaUTmOcvZNK
-	 oxMPvlPg5VFiG0Pt8/0dDHRllyR6WaAanyb1+nBZ66PQ79gCAVsn1wakw32dSc+HW4
-	 7KELuhWKIUZBv7Y4i4AItAOvHgjVzjvwyOCYYKO5bx+hZDyRMkr9H1H/iV42ASfj5A
-	 6FqioZguuabaomlgZAD9GcVHoOrqvhMveAelGzGdtpFHtd9eDZr+UIkyadO+KhOOY6
-	 EZoP25wuFEv7Uu3DP4DqrSOxa9E7j1i2WB3jdoNfMWCK264cw8EMHiLL2OxGH0NnSQ
-	 i7701mJAY63tA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9574EE6F063;
-	Fri,  1 Nov 2024 14:25:18 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Fri, 01 Nov 2024 15:25:05 +0100
-Subject: [PATCH v2 3/3] MAINTAINERS: Add apple-spi driver & binding files
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AgrIj4JV"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-71e5130832aso1662644b3a.0
+        for <asahi@lists.linux.dev>; Fri, 01 Nov 2024 08:09:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730473772; x=1731078572; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gjnycSKe7PLm9xEIfiXtceGbvBfhF7/8n6iYzZypH+Y=;
+        b=AgrIj4JVz8NJe/aUBMhf3kKoAsmWsV8R9Y6zypzdP5MLcvkncKm7wpq1+P/zHboEsD
+         LvEcFu+dPd0Pf9UDp/uaoys6QUQGoF0fLQ728cclQxcgbhTT+dX9sKc9GqniubBgoQaj
+         IXPlSph4QMTMf0hNTUFvlBbJXC0gPsNz69kHt/vd7zSNu1HAI0GrCn2RPnidZqk27SlC
+         UvpuEDF+kIs4+ZpRAZgy9wrjP0NUZjD5Jpd57qR3mzIFqOkuAlIkpobRzGs1OGDvSO+E
+         Cnurtl7IMNA9Zs9xMFsmj1+AL0/OAeTGChU8fNdXlyr/R7/uQ+tvwoqIgBlVbN/j1H2t
+         9ehg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730473772; x=1731078572;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gjnycSKe7PLm9xEIfiXtceGbvBfhF7/8n6iYzZypH+Y=;
+        b=Hvgfi1TNmjFNQQ78NkmwRn7omsgBXx0NsGj0VMU3pJcD+U1zon4JDYWFNIq43Zce0o
+         h9mIXUC/hYixtKuyqfxeI9LKyYZ9W276YmrKJmbxD00FERSviwAihG7ytlS6H8vbC/FB
+         TBTkcfeEEaRd8+ttlR9H/8uguuq81WhpjwYrZmCpwH1WfsJxxZsKk2TANzpFu+bn0rsz
+         cIrKy3jAdgKxhMja404jA4T1Mf+0cx5hjvVNxC8MYmpq0fHPWu8coCvhsTmBuZi9Umoi
+         CNvlNOo1VcNgPBwiZL/VlR/CKKlZd7aMOQEOniVeedkVHqOI1Btv/LnPUAPXGDQ2U3sm
+         Xtyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpnf4pEEyigJj26IPrIVGJnaG9Jgb/wsBJZfsD3hs4hJ/nP8JFWq8HZFLl9WB+txtZ95F7FA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjTBoKv+IslsPY+Aki/rOufRtPbWP8bca4tBSkURWwzxkAuswt
+	NO7wv5N+0x9v0+toNoot9BdVe58X6NhrZutn1MyJAvvEYCe0Wkb8
+X-Google-Smtp-Source: AGHT+IGj1ICWG+enL/mz+nRHk/RtiB2DmVTTu6rkphqnle4KBHonuvB3QqFfG5gzDuZ4/b49o0GKyg==
+X-Received: by 2002:a05:6a00:3c91:b0:720:75c2:7a92 with SMTP id d2e1a72fcca58-720c98d32b7mr5329009b3a.15.1730473772025;
+        Fri, 01 Nov 2024 08:09:32 -0700 (PDT)
+Received: from [192.168.0.122] ([59.188.211.160])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc2c38c7sm2745972b3a.125.2024.11.01.08.09.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Nov 2024 08:09:31 -0700 (PDT)
+Message-ID: <b0e81bfe-f7d3-475c-95af-7824d60deed9@gmail.com>
+Date: Fri, 1 Nov 2024 23:09:27 +0800
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241101-asahi-spi-v2-3-763a8a84d834@jannau.net>
-References: <20241101-asahi-spi-v2-0-763a8a84d834@jannau.net>
-In-Reply-To: <20241101-asahi-spi-v2-0-763a8a84d834@jannau.net>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1316; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=wbyAeXiak8ymhiqSGZePVuZ0IdBpI3guim8H/E8/EiU=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhnSVJ2cO5nswZ9Wq7uuQuBKUHqDHVLRqzn3RBfuYhYR9x
- GdLmFR0lLIwiHExyIopsiRpv+xgWF2jGFP7IAxmDisTyBAGLk4BmIjELEaGVat5HtlL5F456etw
- xI/xsAf//aAky1lcQkbzNZX539R/Z/hnLyJ0evtEEa4eJVZT+8CAuBnT/bcsX1P5J3dv2PJZx13
- 5AA==
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: j@jannau.net
-
-From: Hector Martin <marcan@marcan.st>
-
-This Apple SPI controller is present on Apple ARM SoCs (t8103/t6000).
-
-Splitting this change from the binding/driver commits to avoid merge
-conflicts with other things touching this section, as usual.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cc40a9d9b8cd10e2e00caa5a5881381cd40c0d9a..552febcb12a95766ff502960782941d9d016d5e0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2068,6 +2068,7 @@ F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
- F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-+F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
-@@ -2085,6 +2086,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/spi/spi-apple.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
-
--- 
-2.47.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH asahi-soc/dt 04/10] arm64: dts: apple: t7000: Add PMGR
+ node
+To: Rob Herring <robh@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241029010526.42052-1-towinchenmi@gmail.com>
+ <20241029010526.42052-5-towinchenmi@gmail.com>
+ <CAL_JsqLv2DJOsL=3bxf229ZdArL1TqArw+9cLtmjYMkm5yfZ7Q@mail.gmail.com>
+Content-Language: en-MW
+From: Nick Chan <towinchenmi@gmail.com>
+In-Reply-To: <CAL_JsqLv2DJOsL=3bxf229ZdArL1TqArw+9cLtmjYMkm5yfZ7Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
+
+On 1/11/2024 21:04, Rob Herring wrote:
+> On Mon, Oct 28, 2024 at 8:06 PM Nick Chan <towinchenmi@gmail.com> wrote:
+>>
+>> This adds the PMGR node and all known power state subnodes. Since there
+>> are a large number of them, let's put them in a separate file to include.
+>>
+>> Signed-off-by: Nick Chan <towinchenmi@gmail.com>
+>> ---
+>>  arch/arm64/boot/dts/apple/t7000-6.dtsi        |   4 +
+>>  arch/arm64/boot/dts/apple/t7000-handheld.dtsi |   4 +
+>>  arch/arm64/boot/dts/apple/t7000-j42d.dts      |   1 +
+>>  arch/arm64/boot/dts/apple/t7000-mini4.dtsi    |   4 +
+>>  arch/arm64/boot/dts/apple/t7000-n102.dts      |   4 +
+>>  arch/arm64/boot/dts/apple/t7000-pmgr.dtsi     | 641 ++++++++++++++++++
+>>  arch/arm64/boot/dts/apple/t7000.dtsi          |  14 +
+>>  7 files changed, 672 insertions(+)
+>>  create mode 100644 arch/arm64/boot/dts/apple/t7000-pmgr.dtsi
+>>
+>> diff --git a/arch/arm64/boot/dts/apple/t7000-6.dtsi b/arch/arm64/boot/dts/apple/t7000-6.dtsi
+>> index f60ea4a4a387..77d74d6af1c4 100644
+>> --- a/arch/arm64/boot/dts/apple/t7000-6.dtsi
+>> +++ b/arch/arm64/boot/dts/apple/t7000-6.dtsi
+>> @@ -48,3 +48,7 @@ switch-mute {
+>>                 };
+>>         };
+>>  };
+>> +
+>> +&framebuffer0 {
+>> +       power-domains = <&ps_disp0 &ps_mipi_dsi>;
+>> +};
+>> diff --git a/arch/arm64/boot/dts/apple/t7000-handheld.dtsi b/arch/arm64/boot/dts/apple/t7000-handheld.dtsi
+>> index 8984c9ec6cc8..566346be5b53 100644
+>> --- a/arch/arm64/boot/dts/apple/t7000-handheld.dtsi
+>> +++ b/arch/arm64/boot/dts/apple/t7000-handheld.dtsi
+>> @@ -10,6 +10,10 @@
+>>   */
+>>
+>>  / {
+>> +       aliases {
+>> +               framebuffer0 = &framebuffer0;
+> 
+> Looks like an unrelated change. Also, not a standard alias name. So please drop.
+Alright, (for other SoCs as well) the next version will not have any
+"framebuffer0"
+aliases additions.
+
+> 
+> Rob
+
+Nick Chan
