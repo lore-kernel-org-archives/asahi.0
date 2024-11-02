@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB241714A8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04171175D54;
 	Sat,  2 Nov 2024 11:34:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730547264; cv=none; b=tHb3a1Wj57dIQ3FefA/PTKDHAcBb4tmpU/Jc4S5Rnhd5IvhqobfGxMwUce9gkR16X4dwwE93X3D2dGAKbrWhRhV8hp478Kxt+s2lG4nxa+a4Jns60HIsk/20BwFjmY7MXB+saySwNKCylZv6e0KHI1RTTR66UpHWNJdp3JVjcF4=
+	t=1730547264; cv=none; b=nbromCTD5ELdvUR2dp2JbubHawL4M7pYbkLIq3XcZ7DnCLQ6ZfF1pePk0BASmGZCCYonapPUYCHTMgyj47JeIxuDnmHXcLQLIQHTp3n2QNPwafH2h/Zv9MV82gqWYTtL7DqutJjm3nefvy16+738FxRZHvZjA3GBaNZ4c548bbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730547264; c=relaxed/simple;
-	bh=AlyikN0YqHFLUKRJr7wvyyU0Pc9nGL/KGQvMwi2DpR8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RcG7Cn3si4MRexyhkBGkz/yO548Rr8/Uj5w8zdM7Mqgmkdsf9vB2evdj4swft55bkIMrvC0/CKIOLrgmdyk54wPtZV2bbYbTkiYH1RMA2WXcwt4UtbrNBcoNWouTrdmJO/cNaM8h/rZ9hVO0qt6xE6CQ4p7lvaNXe3hNLwgNxPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aqcn2SvE; arc=none smtp.client-ip=10.30.226.201
+	bh=x9YfcGI+ZMh7plS2PDtsRxbl863X2kEq1VSJEDKldzA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=q/PiSrLz4ioNY511wNLdmjuOUGfIBODNiGz8RBimPBD6IhxaiXTQE9L8QlA/0wiTKcD6EkKtc52vqQIylNmh8nhPWkmzdxCi+lkw46oaVBCxArybQ63/fs31dPFsvK6xmhi9FD9OnMqoGfdgyAtHPuW/7JXnPkqjh90sTkHwJB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KINIvesc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqcn2SvE"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 78259C4CEC3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KINIvesc"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ABFC4C4CED9;
 	Sat,  2 Nov 2024 11:34:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1730547263;
-	bh=AlyikN0YqHFLUKRJr7wvyyU0Pc9nGL/KGQvMwi2DpR8=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=aqcn2SvEOY8pjHxeJQvbs0T0x9E4CZ5aOvixMOvSwO6OF0V9x6NJRIFkO8TeoYw+T
-	 TeOQSO2Bcu9cGPM8N24HXyS58gqXN9LneA5Kj7TJWtA5BADi+Du3M58J0SDoji8nmf
-	 2GHwSc0mwZiAUdMKVxn9AC3nG3YJgRPNa82dg1e7yg6LZHzzzLwIkXxqtIrYJPMhmx
-	 y/KIlo7nCJMfy5KcdOlMBHBjEbONP+2Vp9r6xXgqL3tx1ai2lWxifGyW7cK91BIRE1
-	 aVah0cFrAZMRr5maXf714GB6YhPCUlxkLK80yWfPOLMbi9JAOjuiByOFUMdSSkKl9T
-	 3n/wuRjdPQKtA==
+	bh=x9YfcGI+ZMh7plS2PDtsRxbl863X2kEq1VSJEDKldzA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=KINIvesc7IFrUFlECec2TX34+JXWw/qf0rxSey6zNZZ8buciEKVc8BSS2LLXT/k8+
+	 SZN2EJKjV49r4pEjJeIClmR8kaxCy0hFBoZ+ov5nM29dnHtKqhoDEYzK3pm3sM9k8Y
+	 NZMOfMulqW2vP8GoE7gp+7YYhdK6hJF7IlwDVdyAuA6Fx2DtCNDKGEpC+meUczOLcg
+	 hUefGfEX1o+Mso7iambdU905jHJyHe1Botr76ysbkp76VYLcdsLUidqLIqk6GAOrBu
+	 F8w1YIMh6qQlqVC/296CeGsrDBFFoBGy9k/CNlbk0EfM/dQ7AJPTZKv0yvu5gxbvOA
+	 LVVKWFLvBOqdw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60EAFE677FA;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A476FE677FF;
 	Sat,  2 Nov 2024 11:34:23 +0000 (UTC)
 From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Subject: [PATCH 0/5] Add Apple SPI controller and spi-nor dt nodes
-Date: Sat, 02 Nov 2024 12:34:19 +0100
-Message-Id: <20241102-asahi-spi-dt-v1-0-7ac44c0a88f9@jannau.net>
+Date: Sat, 02 Nov 2024 12:34:23 +0100
+Subject: [PATCH 4/5] arm64: dts: apple: t600x: Add spi controller nodes
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,10 +40,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADsOJmcC/x3MMQqAMAxA0atIZgOmtiBeRRxaGzWLlkZEkN7d4
- viG/19QzsIKY/NC5ltUzqOC2gaW3R8bo8RqMJ2xRB2hV78LahKMF7rBWBcCRd8z1CRlXuX5d9N
- cygfIQSgXXgAAAA==
-X-Change-ID: 20241101-asahi-spi-dt-58245bb1da3e
+Message-Id: <20241102-asahi-spi-dt-v1-4-7ac44c0a88f9@jannau.net>
+References: <20241102-asahi-spi-dt-v1-0-7ac44c0a88f9@jannau.net>
+In-Reply-To: <20241102-asahi-spi-dt-v1-0-7ac44c0a88f9@jannau.net>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -52,72 +51,120 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2640; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3545; i=j@jannau.net;
  s=yk2024; h=from:subject:message-id;
- bh=AlyikN0YqHFLUKRJr7wvyyU0Pc9nGL/KGQvMwi2DpR8=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhnQ1PluWEzef/NdxaGN8YLhjclhqcPQNK0uhqR81g4/Ot
- PBl3qjbUcrCIMbFICumyJKk/bKDYXWNYkztgzCYOaxMIEMYuDgFYCIbjjAyvHscZHtPhnfvJbvG
- 153Wme9P3Evgl1y/YuuXwOp5rBpxcxn+B7XsFrA5OfWveJ32XBGGqNbL0ZXzl05hkLLV/p3GeS+
- EEQA=
+ bh=+9ZFqpJ8nwSbJAAJz7hiOfMfbrOzc9lBaAhTOBlh010=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhnQ1PttSvgvvgpYZsPw5X/f7gOnUebLcFxf13zjr7LNmq
+ bu23JSojlIWBjEuBlkxRZYk7ZcdDKtrFGNqH4TBzGFlAhnCwMUpABM5kM7IsPfT483WK2r9/HLa
+ Tri9dF3GqWYSUiifkuXQvc7r6tnAFYwMNyJ8XKIuXVm8Iy3x/SulnX6TtEofCkQ+b3xapaO2JTG
+ IBwA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
 X-Original-From: Janne Grunau <j@jannau.net>
 Reply-To: j@jannau.net
 
-This series adds SPI controller and SPI NOR flash device nodes to the
-man Apple silicon SoC dts files. Only the subset of used SPI controllers
-is added. Five SPI controllers exists according to pmgr ADT data but the
-commits only add controllers found in use on any of the devices. The
-parameters for the missing nodes are guessable but there's no point in
-adding them since no further M1 or M2 devices are expected.
-Together with controller nodes the first SPI device is added. All Apple
-silicon devices connect a SPI NOR flash to spi1. This holds Apple's 1st
-stage bootloader, firmwares, platform and machine specific config data
-and a writeable key-value store (nvram). Expose only the nvram as mtd
-partition since it has use beyond exploring the content. Tools from
-asahi-nvram [1] can modify the (default) boot configuration
-(asahi-bless), read Bluetooth sync keys (asahi-btsync) and read and
-write arbitrary keys (asahi-nvram).
+From: Janne Grunau <j@jannau.net>
 
-Devicetree bindings are included in the driver series. Last version at
-https://lore.kernel.org/linux-devicetree/20241101-asahi-spi-v3-0-3b411c5fb8e5@jannau.net/
-
-This series passes `make CHECK_DTBS=1 dtbs` with the spi bindings except
-for "local-mac-address" for the Bluetooth device (I need get back to
-this).
-
-[1] https://github.com/WhatAmISupposedToPutHere/asahi-nvram/
+Apple silicon devices have one or more SPI devices. Add device tree
+nodes for all known controllers. The missing ones could be guessed and
+tested with a little effort but since the devices expose no pins and
+no new devices are expected there is no point in spending the effort.
+SPI is used for spi-nor and input devices like keyboard, trackpad,
+touchscreen and fingerprint reader. Only the spi-nor flash has upstream
+drivers. Support for it will be added in a following commit.
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
-Hector Martin (1):
-      arm64: dts: apple: t8103: Fix spi4 power domain sort order
+ arch/arm64/boot/dts/apple/t600x-common.dtsi    |  7 +++++++
+ arch/arm64/boot/dts/apple/t600x-die0.dtsi      | 28 ++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t600x-gpio-pins.dtsi | 14 +++++++++++++
+ 3 files changed, 49 insertions(+)
 
-Janne Grunau (4):
-      arm64: dts: apple: t8103: Add spi controller nodes
-      arm64: dts: apple: t8112: Add spi controller nodes
-      arm64: dts: apple: t600x: Add spi controller nodes
-      arm64: dts: apple: Add SPI NOR nvram partition to all devices
+diff --git a/arch/arm64/boot/dts/apple/t600x-common.dtsi b/arch/arm64/boot/dts/apple/t600x-common.dtsi
+index fa8ead69936366999786cdd4910266ee08b5ca7a..87dfc13d74171f62bf3087401918d9d41eaac560 100644
+--- a/arch/arm64/boot/dts/apple/t600x-common.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-common.dtsi
+@@ -362,6 +362,13 @@ clkref: clock-ref {
+ 		clock-output-names = "clkref";
+ 	};
+ 
++	clk_200m: clock-200m {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <200000000>;
++		clock-output-names = "clk_200m";
++	};
++
+ 	/*
+ 	 * This is a fabulated representation of the input clock
+ 	 * to NCO since we don't know the true clock tree.
+diff --git a/arch/arm64/boot/dts/apple/t600x-die0.dtsi b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
+index b1c875e692c8fb9c0af46a23568a7b0cd720141b..e9b3140ba1a996eeb91b3f60470833060b632bd2 100644
+--- a/arch/arm64/boot/dts/apple/t600x-die0.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-die0.dtsi
+@@ -163,6 +163,34 @@ i2c5: i2c@39b054000 {
+ 		status = "disabled";
+ 	};
+ 
++	spi1: spi@39b104000 {
++		compatible = "apple,t6000-spi", "apple,spi";
++		reg = <0x3 0x9b104000 0x0 0x4000>;
++		interrupt-parent = <&aic>;
++		interrupts = <AIC_IRQ 0 1107 IRQ_TYPE_LEVEL_HIGH>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		clocks = <&clk_200m>;
++		pinctrl-0 = <&spi1_pins>;
++		pinctrl-names = "default";
++		power-domains = <&ps_spi1>;
++		status = "disabled";
++	};
++
++	spi3: spi@39b10c000 {
++		compatible = "apple,t6000-spi", "apple,spi";
++		reg = <0x3 0x9b10c000 0x0 0x4000>;
++		interrupt-parent = <&aic>;
++		interrupts = <AIC_IRQ 0 1109 IRQ_TYPE_LEVEL_HIGH>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		clocks = <&clkref>;
++		pinctrl-0 = <&spi3_pins>;
++		pinctrl-names = "default";
++		power-domains = <&ps_spi3>;
++		status = "disabled";
++	};
++
+ 	serial0: serial@39b200000 {
+ 		compatible = "apple,s5l-uart";
+ 		reg = <0x3 0x9b200000 0x0 0x1000>;
+diff --git a/arch/arm64/boot/dts/apple/t600x-gpio-pins.dtsi b/arch/arm64/boot/dts/apple/t600x-gpio-pins.dtsi
+index b31f1a7a2b3fc36e7dfa480d27012d6d0fd56f97..1a994c3c1b79f088d685e13d1dc16e7d1e6546f4 100644
+--- a/arch/arm64/boot/dts/apple/t600x-gpio-pins.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-gpio-pins.dtsi
+@@ -36,6 +36,20 @@ i2c5_pins: i2c5-pins {
+ 			<APPLE_PINMUX(101, 1)>;
+ 	};
+ 
++	spi1_pins: spi1-pins {
++		pinmux = <APPLE_PINMUX(10, 1)>,
++			<APPLE_PINMUX(11, 1)>,
++			<APPLE_PINMUX(32, 1)>,
++			<APPLE_PINMUX(33, 1)>;
++	};
++
++	spi3_pins: spi3-pins {
++		pinmux = <APPLE_PINMUX(52, 1)>,
++			<APPLE_PINMUX(53, 1)>,
++			<APPLE_PINMUX(54, 1)>,
++			<APPLE_PINMUX(55, 1)>;
++	};
++
+ 	pcie_pins: pcie-pins {
+ 		pinmux = <APPLE_PINMUX(0, 1)>,
+ 				<APPLE_PINMUX(1, 1)>,
 
- arch/arm64/boot/dts/apple/spi1-nvram.dtsi      | 39 +++++++++++++++
- arch/arm64/boot/dts/apple/t600x-common.dtsi    |  7 +++
- arch/arm64/boot/dts/apple/t600x-die0.dtsi      | 28 +++++++++++
- arch/arm64/boot/dts/apple/t600x-gpio-pins.dtsi | 14 ++++++
- arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi |  2 +
- arch/arm64/boot/dts/apple/t600x-j375.dtsi      |  2 +
- arch/arm64/boot/dts/apple/t8103-jxxx.dtsi      |  2 +
- arch/arm64/boot/dts/apple/t8103-pmgr.dtsi      | 18 +++----
- arch/arm64/boot/dts/apple/t8103.dtsi           | 68 ++++++++++++++++++++++++++
- arch/arm64/boot/dts/apple/t8112-jxxx.dtsi      |  2 +
- arch/arm64/boot/dts/apple/t8112.dtsi           | 44 ++++++++++++++++-
- 11 files changed, 216 insertions(+), 10 deletions(-)
----
-base-commit: 98f7e32f20d28ec452afb208f9cffc08448a2652
-change-id: 20241101-asahi-spi-dt-58245bb1da3e
-
-Best regards,
 -- 
-Janne Grunau <j@jannau.net>
+2.47.0
 
 
