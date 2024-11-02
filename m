@@ -1,88 +1,179 @@
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D15D156677
-	for <asahi@lists.linux.dev>; Sat,  2 Nov 2024 08:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAADF170A0B;
+	Sat,  2 Nov 2024 11:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730536845; cv=none; b=phFOLroY+OZIIKwWLcz4IR/kXbyoy4NyYk1Ow3y3BGz38CJAmkrwInyA/0mJT75AL+qyg0gkUD12Z0BAa5Wr+XlpzU7Sl5fHarR0jawcT74d6KCWTs+c7J2ViHbuveTKkz1qV0wsGIr9s0fWtgIfXPPx7XwoNBzBgUl9T8yj/uc=
+	t=1730547264; cv=none; b=j9JEIr9qIgqYtMe9DgHFPyZjhHk7tAXxkNVwIPiyVwMnmoV4xYZ/iiEthMWM3Os8uJK4+zkJ99CWbKXyYuUfOW4o80UMkWB4GILGlEYjF7b6LwDOrJ7EayvCXuCDi4NTlOr6f6epoLgMH3H0Y3Fh+3OJU4Tme0RDpYHGzCwaq7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730536845; c=relaxed/simple;
-	bh=m1lACV1FyspB0fk4RuDq9MTLVdmNSTyuRGA+rMaKps4=;
-	h=Date:Message-Id:From:To:Cc:In-Reply-To:Subject:References; b=SFjHT1tU72mIDbmMcyw9sZw2anrwIlh5yp4s99DsFbvN7Z9NblQ/mf1ttzqJ0t+RazDGuXiMjdsPQRGcJVmzC0UKdzma0wSWk584TuBEmnkH4p8HV3WqcrHih5nWhuL9F2bbkhORe5ke+oVtRFVhiJDguDFF8hYsl0txjwpfRfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=DCiN/7lk; arc=none smtp.client-ip=195.121.94.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
+	s=arc-20240116; t=1730547264; c=relaxed/simple;
+	bh=vANsmCOoD0TQdfXrOh5vdj/T2mUFG1OskmBRHSIuSFY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ITHUpOLRqeBbdsFQLqaMB7GYmXINhKaWjfnTpvSRi8ezsX6y8xsz1EhCA+crnSai2vntZoE3JwiPti9ZOLgjqbTJTRMkD30rmSuL2njOMY+IQCfvj+0i6ydeMUd1Kk7oALIZ65C7NmeGimKCIzEgYM3mhbiCRAf13wIvx2alOJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVXRJtUs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="DCiN/7lk"
-X-KPN-MessageId: fb73fc64-98f5-11ef-8d51-005056999439
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id fb73fc64-98f5-11ef-8d51-005056999439;
-	Sat, 02 Nov 2024 09:39:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=subject:to:from:message-id:date;
-	bh=SOESJwGk/m0BH7DybjWTyh29n0WPp4jHNYg51LnvExA=;
-	b=DCiN/7lkFwO7MpBe3tmDSRHPmaemcDLP0hYYF+3E4NLEKN03H4mHJXcJZNNAAQlKxBB8UdvZAG5Jh
-	 J9b1D7HY8/MXxQ3mnDq3KPRYsLpswke8pXjjQBYptWt7T+5DeHyNFbWnbxgHZ6uwLDIP3l9N13rgEy
-	 r7LxcuhaiwExkywlMDZef8K5EX+wo2iDlQCpN8grSVSppyPStgzGcX6//DIFp1ZqyzmhdSX/N+g7jh
-	 K/CsR3ka5AuXmDwIBqP/awaYO/jMoVlZuiUz+2b+1ynKZopZhcYy0r/c83DFbVdGd72ynJtr4cwhsG
-	 +mkoVNjpDzs63hctmVGQ5H1LUBJmdAA==
-X-KPN-MID: 33|CNLLXHK/GrZqDr5w1I7erOjxXIjBx9wdE9L1Mf0wjG4F9Zpd3D6Gd9zERmwBM7Q
- mPAkEG/BAmO2jCnY0x6OdybuAiCXqrxgsYgj7/db/epk=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|B9RhJaWMW/sEKQDBuQQ0hglTReDydKiDe86GzGIp1EwQCBNJ8VbXfe9UflrnJU6
- XTpk5Yf0qfQGb+IcfLRUk5w==
-Received: from bloch.sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id fb974d63-98f5-11ef-9749-005056998788;
-	Sat, 02 Nov 2024 09:39:33 +0100 (CET)
-Date: Sat, 02 Nov 2024 09:39:32 +0100
-Message-Id: <87wmhm3u7v.fsf@bloch.sibelius.xs4all.nl>
-From: Mark Kettenis <mark.kettenis@xs4all.nl>
-To: Nick Chan <towinchenmi@gmail.com>
-Cc: j@jannau.net, marcan@marcan.st, sven@svenpeter.dev,
-	alyssa@rosenzweig.io, broonie@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-In-Reply-To: <46b31874-9fe2-4534-9777-816765a265b1@gmail.com> (message from
-	Nick Chan on Sat, 2 Nov 2024 10:36:56 +0800)
-Subject: Re: [PATCH v3 1/3] dt-bindings: spi: apple,spi: Add binding for Apple
- SPI controllers
-References: <20241101-asahi-spi-v3-0-3b411c5fb8e5@jannau.net>
- <20241101-asahi-spi-v3-1-3b411c5fb8e5@jannau.net> <46b31874-9fe2-4534-9777-816765a265b1@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVXRJtUs"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 908B8C4CED3;
+	Sat,  2 Nov 2024 11:34:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730547263;
+	bh=vANsmCOoD0TQdfXrOh5vdj/T2mUFG1OskmBRHSIuSFY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=JVXRJtUs+DAL1noCEJ+RG9EwVLBt1gNYj5gKUeGV3xcbW1W5xIBL8ComajAiX7TRh
+	 tSmJrKUEaAnSoD0bDIowiHbgJs6dltAS/CENeQ9iM+HJsDOhcb99AeZV/2ORQdHv5G
+	 ZH1R2/lXjjADCyGedVkZov6dyTnX1rxQyns9geXi5CVWnFWWL95EAoq07NhFaMT/8Z
+	 JViswuN2J9Dub2Y63eavDkEssIHRyGG4/cdDupp58xrs5JykQjKkrNP4TLw5yDqyr1
+	 EKjGin1fdQ86XFFcGtgMXL15GIMFjUVkwXDoh9UgL5irl3AF4IaOicmiBVAX6WWbhp
+	 CrjOYpAGp0PIQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 810F7E677F5;
+	Sat,  2 Nov 2024 11:34:23 +0000 (UTC)
+From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
+Date: Sat, 02 Nov 2024 12:34:21 +0100
+Subject: [PATCH 2/5] arm64: dts: apple: t8103: Add spi controller nodes
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241102-asahi-spi-dt-v1-2-7ac44c0a88f9@jannau.net>
+References: <20241102-asahi-spi-dt-v1-0-7ac44c0a88f9@jannau.net>
+In-Reply-To: <20241102-asahi-spi-dt-v1-0-7ac44c0a88f9@jannau.net>
+To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Janne Grunau <j@jannau.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3356; i=j@jannau.net;
+ s=yk2024; h=from:subject:message-id;
+ bh=b1UDB+1sljglElFujEd7C6cEIDOAyC8En801j5/oUGU=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhnQ1Ptsl+TUfG5k0lHbvXWbAcKq+27eV83jxqSMrP7xLP
+ 5bdV2zbUcrCIMbFICumyJKk/bKDYXWNYkztgzCYOaxMIEMYuDgFYCKC6xgZ3qho6r+Kr1xbrWil
+ fa81y1rsVN8f/wOhF6Q3/FHsibknxvBP7f8+f1M1FcG6w6Zb3tb8vPp9KZdX15eYIrspefGfr3J
+ zAAA=
+X-Developer-Key: i=j@jannau.net; a=openpgp;
+ fpr=8B336A6BE4E5695E89B8532B81E806F586338419
+X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
+X-Original-From: Janne Grunau <j@jannau.net>
+Reply-To: j@jannau.net
 
-> Date: Sat, 2 Nov 2024 10:36:56 +0800
-> Content-Language: en-MW
-> 
-> On 2/11/2024 03:26, Janne Grunau via B4 Relay wrote:
-> 
-> [...]
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - apple,t8103-spi
-> > +          - apple,t8112-spi
-> > +          - apple,t6000-spi
-> > +      - const: apple,spi
-> Apple A7-A11 SoCs seems to use a Samsung SPI block, so apple,spi is too
-> generic. Fallback to something like apple,t8103-spi instead.
+From: Janne Grunau <j@jannau.net>
 
-Well, if that is a Samsung SPI block it probably should have a
-"generic" compatible that starts with "samsung,".  The M1/M2
-controllers have a different SPI block (presumably) designed by Apple
-themselves.  So I think it is (still) appropriate that that one is
-"apple,spi".
+Apple silicon devices have one or more SPI devices. Add device tree
+nodes for all known controllers. The missing ones could be guessed and
+tested with a little effort but since the devices expose no pins and
+no new devices are expected there is no point in spending the effort.
+SPI is used for spi-nor and input devices like keyboard, trackpad,
+touchscreen and fingerprint reader. Only the spi-nor flash has upstream
+drivers. Support for it will be added in a following commit.
 
-Also, (upstream) U-Boot already uses the "apple,spi" compatible.  So
-changing it for purity sake just causes pain.
+Signed-off-by: Janne Grunau <j@jannau.net>
+---
+ arch/arm64/boot/dts/apple/t8103.dtsi | 68 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+index 9b0dad6b618444ac6b1c9735c50cccfc3965f947..9b2d32059c3542f12fedd7f4dca309baa66c1bd4 100644
+--- a/arch/arm64/boot/dts/apple/t8103.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+@@ -326,6 +326,20 @@ clkref: clock-ref {
+ 		clock-output-names = "clkref";
+ 	};
+ 
++	clk_120m: clock-120m {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <120000000>;
++		clock-output-names = "clk_120m";
++	};
++
++	clk_200m: clock-200m {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <200000000>;
++		clock-output-names = "clk_200m";
++	};
++
+ 	/*
+ 	 * This is a fabulated representation of the input clock
+ 	 * to NCO since we don't know the true clock tree.
+@@ -441,6 +455,46 @@ fpwm1: pwm@235044000 {
+ 			status = "disabled";
+ 		};
+ 
++		spi0: spi@235100000 {
++			compatible = "apple,t8103-spi", "apple,spi";
++			reg = <0x2 0x35100000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 614 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&clk_200m>;
++			power-domains = <&ps_spi0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
++		spi1: spi@235104000 {
++			compatible = "apple,t8103-spi", "apple,spi";
++			reg = <0x2 0x35104000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 615 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&clk_200m>;
++			pinctrl-0 = <&spi1_pins>;
++			pinctrl-names = "default";
++			power-domains = <&ps_spi1>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
++		spi3: spi@23510c000 {
++			compatible = "apple,t8103-spi", "apple,spi";
++			reg = <0x2 0x3510c000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 617 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&clk_120m>;
++			pinctrl-0 = <&spi3_pins>;
++			pinctrl-names = "default";
++			power-domains = <&ps_spi3>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++			status = "disabled";
++		};
++
+ 		serial0: serial@235200000 {
+ 			compatible = "apple,s5l-uart";
+ 			reg = <0x2 0x35200000 0x0 0x1000>;
+@@ -597,6 +651,20 @@ i2c4_pins: i2c4-pins {
+ 					 <APPLE_PINMUX(134, 1)>;
+ 			};
+ 
++			spi1_pins: spi1-pins {
++				pinmux = <APPLE_PINMUX(42, 1)>,
++					<APPLE_PINMUX(43, 1)>,
++					<APPLE_PINMUX(44, 1)>,
++					<APPLE_PINMUX(45, 1)>;
++			};
++
++			spi3_pins: spi3-pins {
++				pinmux = <APPLE_PINMUX(46, 1)>,
++					<APPLE_PINMUX(47, 1)>,
++					<APPLE_PINMUX(48, 1)>,
++					<APPLE_PINMUX(49, 1)>;
++			};
++
+ 			pcie_pins: pcie-pins {
+ 				pinmux = <APPLE_PINMUX(150, 1)>,
+ 					 <APPLE_PINMUX(151, 1)>,
+
+-- 
+2.47.0
+
 
