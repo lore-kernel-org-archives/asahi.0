@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041C3175D5A;
-	Sat,  2 Nov 2024 11:34:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ADF717A58C;
+	Sat,  2 Nov 2024 11:34:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730547264; cv=none; b=iGxg1N31IGLurxDDC6nJRjMMP4yThdZrG92zBdSm/SqHkz1Pgv7MaxOiY8imF/JQbqYvoneqwt4ofQx/hzY1SpixTOB5Y5b+Ut5Y/FYoNbe+StR+tqYTLue3z4maYJ9shtbgPVGPLqdqOxe2t093wR4Tb/WkiXhAL8GJGh9+r6k=
+	t=1730547264; cv=none; b=eQaMR4SDYZUlc5bh+10ngi8xsYNSnByihpnWdzqy6SIrLDMqC8dFh5eHJ8CJ3Xn4JxUmWU3fUXME0effC+Zb3kMWRq7kkzhS8HBBRLBbVtVvBYCdbnpoPrM/J1nVth0s0UUJk4nrF88133dfK1FnrVJj8DXhOtj9ZI1GYcZatME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730547264; c=relaxed/simple;
-	bh=qVYc4PRjCoyP3Y+OwwdNDXlkVWUjStNQm+XzC7o5J8U=;
+	bh=NtPyrw1FXMvbsmz7Nr23KWeYuAkw5uGGVtbW3/WwzPg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CvhWtTRXAQr8n9R3Vdzmm9iXLupxCJQVASRkj8ZYBHL+SZ78soAG5e+AZAsKzuMq/OitFT5vsrAy5ACRKCtAX3RDhLAs0rOv7SRqjNKJUqMsy/qKXRlw81cSOL8tzJVn2iOy9jvqCr45gixFKScn7wvd64Scr/2csBGPvD5y20g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=byXb0RlC; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=RgWbPe3nJYGunsZGsejZvP+Efh/yyziaEV2iEOymXQEs+anL7gRYx6No4ivglQ4RI9FRLQWZEx6jyOFWTw6CBBFtV1X55sPXT72kb7c0riq32u9kPCrIhqCXU/hX/W/E2ig07roFqlJnhGbnQF8w+15Irnyhrv6EAdNp8Lcy9v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tfCLKIVl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="byXb0RlC"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9FC18C4CED4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tfCLKIVl"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BFBECC4CED7;
 	Sat,  2 Nov 2024 11:34:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1730547263;
-	bh=qVYc4PRjCoyP3Y+OwwdNDXlkVWUjStNQm+XzC7o5J8U=;
+	bh=NtPyrw1FXMvbsmz7Nr23KWeYuAkw5uGGVtbW3/WwzPg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=byXb0RlCU1ovoD6dqU3kW+bI+i8AQUzt3ZnjsZs3czu9SHznPOqSrNY9YhBn2Q5xM
-	 TbjhQoEX7BUXsvRgfAM2pcfPGY0AjK9SEtIsAQQHbiSNli3LIu1hObBlNJ+gty3NPM
-	 fVjikVtbNCEdIbPDtVAYj/DMe9aKwwYKl0bcYY2ATih9aIjteUIZNFMCdc/UOr2+lz
-	 dlGBZGx1M/52INhZ1+wDumHtQCypJmOmN4a06MCnWn6jD+U3SkdbFK6fb3wlOeFTBc
-	 D8PttPZQaz5/TWdfACyDNXEqyQ0EMd3K4E153PJ7iZFg4lNnlf36HPvMKU91Xirocz
-	 Byoz7LhNfwpCA==
+	b=tfCLKIVlF/qtmS2TbdOnH5+/SIaiaQcg2HUFOpxXUlRzU3G8dLnXgNkBbejhx8PqB
+	 dAcQlY1hlZC8G4jPMgvw6O/dBRPxD1D6tpJkkdY/m7cI5tLd0GPx967Qq82aBM8/AT
+	 VlDnF7aKpvESPZIyrUVZH9xPjI6qo5Ng5Zgc1uMY1Cq0Uoco8plg1hxGyQjJlQzCFW
+	 yKFvAFMM7uvwo5WbIZj4UYq9mEpzOGXPk+zw+xUC3dLHHdO1YrYobU/UhMydLdHDUj
+	 3gBHUXcvc04CE0VHEOqF/9ChKO4IMyK1A96uKyp4uFQtGYSWaDK31gTmYW/9NbJmc9
+	 iGHol/hK3sSaA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92671E677FC;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5F30E677FD;
 	Sat,  2 Nov 2024 11:34:23 +0000 (UTC)
 From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Sat, 02 Nov 2024 12:34:22 +0100
-Subject: [PATCH 3/5] arm64: dts: apple: t8112: Add spi controller nodes
+Date: Sat, 02 Nov 2024 12:34:24 +0100
+Subject: [PATCH 5/5] arm64: dts: apple: Add SPI NOR nvram partition to all
+ devices
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241102-asahi-spi-dt-v1-3-7ac44c0a88f9@jannau.net>
+Message-Id: <20241102-asahi-spi-dt-v1-5-7ac44c0a88f9@jannau.net>
 References: <20241102-asahi-spi-dt-v1-0-7ac44c0a88f9@jannau.net>
 In-Reply-To: <20241102-asahi-spi-dt-v1-0-7ac44c0a88f9@jannau.net>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
@@ -51,13 +52,13 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2887; i=j@jannau.net;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3506; i=j@jannau.net;
  s=yk2024; h=from:subject:message-id;
- bh=qBexsIdH/GqhHy7brZ1sYsseqom1YJB59+/UbwP2L/Y=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhnQ1PttALc9N5sx7r1dfUKhVN3diCbv356Wprs+WmZ63/
- jetcWrpKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMJGK94wMHWWvHT6zfS8yKd73
- QbCNS6dz36Zl80pPPO/y180z9S3awMjwJ167fG9t/74pHXlLdGf1njZuSPM+foMxe5nInDlPmaa
- zAwA=
+ bh=4sH2FvtVOU7J6ZD/GsHPG804yvHnrTdh0gHvxrTVtvc=;
+ b=owGbwMvMwCW2UNrmdq9+ahrjabUkhnQ1PrvyhtB54ap732lO8opJM52R+f/D5FkNsoGxHWksx
+ +wqDt/pKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMJH10YwMR55PusaXVe8n5XBh
+ Jqvmi6X3HwnWcxaqPZLuPqRQ7laTxMjwjb09Sa9la9eqb9+XvDPIMT0xK+7G9qk8gW1XQyw2N6m
+ zAQA=
 X-Developer-Key: i=j@jannau.net; a=openpgp;
  fpr=8B336A6BE4E5695E89B8532B81E806F586338419
 X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
@@ -66,94 +67,107 @@ Reply-To: j@jannau.net
 
 From: Janne Grunau <j@jannau.net>
 
-Apple silicon devices have one or more SPI devices. Add device tree
-nodes for all known controllers. The missing ones could be guessed and
-tested with a little effort but since the devices expose no pins and
-no new devices are expected there is no point in spending the effort.
-SPI is used for spi-nor and input devices like keyboard, trackpad,
-touchscreen and fingerprint reader. Only the spi-nor flash has upstream
-drivers. Support for it will be added in a following commit.
+All known M1* and M2* devices use an identical SPI NOR flash
+configuration with a partition containing a non-volatile key:value
+storage. Use a .dtsi and include it for every device.
+The nvram partition parameters itself depend on the version of the
+installed Apple iboot boot loader. m1n1 will fill in the current values
+provided by Apple's iboot.
 
 Signed-off-by: Janne Grunau <j@jannau.net>
 ---
- arch/arm64/boot/dts/apple/t8112.dtsi | 44 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 43 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/apple/spi1-nvram.dtsi      | 39 ++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi |  2 ++
+ arch/arm64/boot/dts/apple/t600x-j375.dtsi      |  2 ++
+ arch/arm64/boot/dts/apple/t8103-jxxx.dtsi      |  2 ++
+ arch/arm64/boot/dts/apple/t8112-jxxx.dtsi      |  2 ++
+ 5 files changed, 47 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
-index 1666e6ab250bc0be9b8318e3c8fc903ccd3f3760..58d88f1ef92a32061765bd3b569fdae0255dcd7e 100644
---- a/arch/arm64/boot/dts/apple/t8112.dtsi
-+++ b/arch/arm64/boot/dts/apple/t8112.dtsi
-@@ -349,6 +349,13 @@ clkref: clock-ref {
- 		clock-output-names = "clkref";
- 	};
- 
-+	clk_200m: clock-200m {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <200000000>;
-+		clock-output-names = "clk_200m";
+diff --git a/arch/arm64/boot/dts/apple/spi1-nvram.dtsi b/arch/arm64/boot/dts/apple/spi1-nvram.dtsi
+new file mode 100644
+index 0000000000000000000000000000000000000000..3df2fd3993b52884d7c00b65099c88d830a7a4c3
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/spi1-nvram.dtsi
+@@ -0,0 +1,39 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++//
++// Devicetree include for common spi-nor nvram flash.
++//
++// Apple uses a consistent configiguration for the nvram on all known M1* and
++// M2* devices.
++//
++// Copyright The Asahi Linux Contributors
++
++/ {
++	aliases {
++		nvram = &nvram;
 +	};
++};
 +
- 	/*
- 	 * This is a fabulated representation of the input clock
- 	 * to NCO since we don't know the true clock tree.
-@@ -467,6 +474,34 @@ fpwm1: pwm@235044000 {
- 			status = "disabled";
- 		};
- 
-+		spi1: spi@235104000 {
-+			compatible = "apple,t8112-spi", "apple,spi";
-+			reg = <0x2 0x35104000 0x0 0x4000>;
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 749 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk_200m>;
-+			pinctrl-0 = <&spi1_pins>;
-+			pinctrl-names = "default";
-+			power-domains = <&ps_spi1>;
++&spi1 {
++	status = "okay";
++
++	flash@0 {
++		compatible = "jedec,spi-nor";
++		reg = <0x0>;
++		spi-max-frequency = <25000000>;
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		partitions {
++			compatible = "fixed-partitions";
 +			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
++			#size-cells = <1>;
 +
-+		spi3: spi@23510c000 {
-+			compatible = "apple,t8112-spi", "apple,spi";
-+			reg = <0x2 0x3510c000 0x0 0x4000>;
-+			interrupt-parent = <&aic>;
-+			interrupts = <AIC_IRQ 751 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clkref>;
-+			pinctrl-0 = <&spi3_pins>;
-+			pinctrl-names = "default";
-+			power-domains = <&ps_spi3>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
- 		serial0: serial@235200000 {
- 			compatible = "apple,s5l-uart";
- 			reg = <0x2 0x35200000 0x0 0x1000>;
-@@ -626,13 +661,20 @@ i2c4_pins: i2c4-pins {
- 					 <APPLE_PINMUX(130, 1)>;
- 			};
- 
--			spi3_pins: spi3-pins {
-+			spi1_pins: spi1-pins {
- 				pinmux = <APPLE_PINMUX(46, 1)>,
- 					<APPLE_PINMUX(47, 1)>,
- 					<APPLE_PINMUX(48, 1)>,
- 					<APPLE_PINMUX(49, 1)>;
- 			};
- 
-+			spi3_pins: spi3-pins {
-+				pinmux = <APPLE_PINMUX(93, 1)>,
-+					<APPLE_PINMUX(94, 1)>,
-+					<APPLE_PINMUX(95, 1)>,
-+					<APPLE_PINMUX(96, 1)>;
++			nvram: partition@700000 {
++				label = "nvram";
++				/* To be filled by the loader */
++				reg = <0x0 0x0>;
++				status = "disabled";
 +			};
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
+index 2e471dfe43cf885c1234d36bf0e0acfdc4904621..22ebc78e120bf8f0f71fd532e9dce4dcd117bbc6 100644
+--- a/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-j314-j316.dtsi
+@@ -119,3 +119,5 @@ sdhci0: mmc@0,0 {
+ &fpwm0 {
+ 	status = "okay";
+ };
 +
- 			pcie_pins: pcie-pins {
- 				pinmux = <APPLE_PINMUX(162, 1)>,
- 					 <APPLE_PINMUX(163, 1)>,
++#include "spi1-nvram.dtsi"
+diff --git a/arch/arm64/boot/dts/apple/t600x-j375.dtsi b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+index 1e5a19e49b089d4b3c5e12828b682d1993e35e75..d5b985ad567936111ee5cccc9ca9fc23d01d9edf 100644
+--- a/arch/arm64/boot/dts/apple/t600x-j375.dtsi
++++ b/arch/arm64/boot/dts/apple/t600x-j375.dtsi
+@@ -126,3 +126,5 @@ &pcie0_dart_2 {
+ &pcie0_dart_3 {
+ 	status = "okay";
+ };
++
++#include "spi1-nvram.dtsi"
+diff --git a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+index 5988a4eb6efaa008c290b1842e0da2aae8052ba4..8e82231acab59ca0bffdcecfb6681f59661fcd96 100644
+--- a/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103-jxxx.dtsi
+@@ -90,3 +90,5 @@ bluetooth0: bluetooth@0,1 {
+ &nco_clkref {
+ 	clock-frequency = <900000000>;
+ };
++
++#include "spi1-nvram.dtsi"
+diff --git a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
+index f5edf61113e7aa869613d672b281f7b7e84efb79..6da35496a4c88dbaba125ebbe8c5a4a428c647c3 100644
+--- a/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
++++ b/arch/arm64/boot/dts/apple/t8112-jxxx.dtsi
+@@ -79,3 +79,5 @@ &i2c3 {
+ &nco_clkref {
+ 	clock-frequency = <900000000>;
+ };
++
++#include "spi1-nvram.dtsi"
 
 -- 
 2.47.0
