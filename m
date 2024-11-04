@@ -1,256 +1,174 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DA2F1AB6F1;
-	Mon,  4 Nov 2024 10:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14B31C4A28;
+	Mon,  4 Nov 2024 10:57:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730716341; cv=none; b=mlCP+REZUHm8TYqC5EZYXS5qxqkCPJ3D6f2+JK5SeAJQYv3bd7whcm+RNuC4YKYPBNt0wPZHouYDhFS8N5AN6EIfD5iFkZozF6iZaLOgaZ+j/vGQuuoQ3cE3tDuqAjBJ4FcBxPv2fh+/YGXQ2MJUBpfMO7eK9XdQdSZDGBwu0j0=
+	t=1730717835; cv=none; b=qBPAo3tKbPfeMnNox6XQxW2ZbcQk1YFV+LbStDLX3yuIP1+8P4h1gmPZwe7GsAr6GgTiwyHFFiAm2Euw2huTkQGMvXzX4cg8sCmOY9+DmDJ3P7JVcPlLp4s0f7y6LGp4sz6hE/zwGP1dtMUO/WdR4iXYq7YrM78mtoQ6ymkmKhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730716341; c=relaxed/simple;
-	bh=0g6fsbrfbKoeB1+lLzNSUUJqImvH5HnzCsnnVU3FqHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sfHqQhZjKaYnx5MVb5txkavFfQiTzT54lbtUp1DKGg2SUmHYx5cbq3FTKFWATI0NCkiEjMXVF8/MM1uTpE4EL9nRljyskjuj4rWNWeKMlhfph2OAShT3KUzxiiP4H/SphjtLp128q6qJRjHrfA4GeV6zkC1w1hxUJ4uvdXGidFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 583E4FEC;
-	Mon,  4 Nov 2024 02:32:47 -0800 (PST)
-Received: from [10.57.88.110] (unknown [10.57.88.110])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7FB933F66E;
-	Mon,  4 Nov 2024 02:32:12 -0800 (PST)
-Message-ID: <6b5b4f25-0f42-4f83-b6b5-82c1adbefe83@arm.com>
-Date: Mon, 4 Nov 2024 10:32:10 +0000
+	s=arc-20240116; t=1730717835; c=relaxed/simple;
+	bh=UPzlo2d9vGTBJpHoau13kgCUyWgH1napUQb+/vB/Dcc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OoP58j4lHyOHb2oIMers2LTY1GBOgrCbewc3+RYI/aDYtI4dIar9Jfg7fNuPqWEwhwMUZnArYfFMHCzS7Ay37QYkdZME4qLByryb4dSQNFhntDLOi9dZRrXci3OMEZahBBB0mAu4/8/IhVw/R3plE2qbEPIWfy0GOEnJqrZLw30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=08jLTSmG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Fo0ezgy4; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=08jLTSmG; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Fo0ezgy4; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="08jLTSmG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Fo0ezgy4";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="08jLTSmG";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Fo0ezgy4"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C8F5F1F45F;
+	Mon,  4 Nov 2024 10:57:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1730717831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IYRQrdsu06X+bjARk5dkS+tv7CJXY6E5nc3x053oWO0=;
+	b=08jLTSmGyqORhZ1ZZxcaE4ZOS8tqlHEW5TeUVQrGc6Kr/1a15fJY2tyWnPX6KKr2JVOEa+
+	S3CBQ0P5ulmUUAJbmahNS0Y+aGmdU1h/1UKW7cXaPw1wwq62gWHBjPB06gzaHPAXyGqXmP
+	F7jLtX6e/B6son4umaU/bsKMvtc946Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1730717831;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IYRQrdsu06X+bjARk5dkS+tv7CJXY6E5nc3x053oWO0=;
+	b=Fo0ezgy4tRYrOrY/8CD3r1r8knyd2MEdiFENBvHKadCaE/FbmB8OpSO2esg+niHceiTmpW
+	m2xPlayNP7F1vbBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1730717831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IYRQrdsu06X+bjARk5dkS+tv7CJXY6E5nc3x053oWO0=;
+	b=08jLTSmGyqORhZ1ZZxcaE4ZOS8tqlHEW5TeUVQrGc6Kr/1a15fJY2tyWnPX6KKr2JVOEa+
+	S3CBQ0P5ulmUUAJbmahNS0Y+aGmdU1h/1UKW7cXaPw1wwq62gWHBjPB06gzaHPAXyGqXmP
+	F7jLtX6e/B6son4umaU/bsKMvtc946Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1730717831;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IYRQrdsu06X+bjARk5dkS+tv7CJXY6E5nc3x053oWO0=;
+	b=Fo0ezgy4tRYrOrY/8CD3r1r8knyd2MEdiFENBvHKadCaE/FbmB8OpSO2esg+niHceiTmpW
+	m2xPlayNP7F1vbBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BB3D213736;
+	Mon,  4 Nov 2024 10:57:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id e9WvLYeoKGdCOgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 04 Nov 2024 10:57:11 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 6A564A0AFB; Mon,  4 Nov 2024 11:57:11 +0100 (CET)
+Date: Mon, 4 Nov 2024 11:57:11 +0100
+From: Jan Kara <jack@suse.cz>
+To: Asahi Lina <lina@asahilina.net>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Sergio Lopez Pascual <slp@redhat.com>,
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH] dax: Allow block size > PAGE_SIZE
+Message-ID: <20241104105711.mqk4of6frmsllarn@quack3>
+References: <20241101-dax-page-size-v1-1-eedbd0c6b08f@asahilina.net>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iommu: Switch back to struct platform_driver::remove()
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>
-Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Clark <robdclark@gmail.com>,
- Yong Wu <yong.wu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Tomasz Jeznach <tjeznach@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Orson Zhai <orsonzhai@gmail.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Nicolin Chen <nicolinc@nvidia.com>,
- Michael Shavit <mshavit@google.com>, Mostafa Saleh <smostafa@google.com>,
- Lu Baolu <baolu.lu@linux.intel.com>,
- Georgi Djakov <quic_c_gdjako@quicinc.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, asahi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org
-References: <20241104064650.799122-2-u.kleine-koenig@baylibre.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20241104064650.799122-2-u.kleine-koenig@baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241101-dax-page-size-v1-1-eedbd0c6b08f@asahilina.net>
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Score: -3.80
+X-Spam-Flag: NO
 
-On 2024-11-04 6:46 am, Uwe Kleine-König wrote:
-> After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-> return void") .remove() is (again) the right callback to implement for
-> platform drivers.
+On Fri 01-11-24 21:22:31, Asahi Lina wrote:
+> For virtio-dax, the file/FS blocksize is irrelevant. FUSE always uses
+> large DAX blocks (2MiB), which will work with all host page sizes. Since
+> we are mapping files into the DAX window on the host, the underlying
+> block size of the filesystem and its block device (if any) are
+> meaningless.
 > 
-> Convert all platform drivers below drivers/iommu to use .remove(), with
-> the eventual goal to drop struct platform_driver::remove_new(). As
-> .remove() and .remove_new() have the same prototypes, conversion is done
-> by just changing the structure member name in the driver initializer.
-
-I dont see any major concern with doing it this way. FWIW,
-
-Acked-by: Robin Murphy <robin.murphy@arm.com>
-
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+> For real devices with DAX, the only requirement should be that the FS
+> block size is *at least* as large as PAGE_SIZE, to ensure that at least
+> whole pages can be mapped out of the device contiguously.
+> 
+> Fixes warning when using virtio-dax on a 4K guest with a 16K host,
+> backed by tmpfs (which sets blksz == PAGE_SIZE on the host).
+> 
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 > ---
-> Hello,
-> 
-> I did a single patch for all of drivers/iommu. While I usually prefer to
-> do one logical change per patch, this seems to be overengineering here
-> as the individual changes are really trivial and shouldn't be much in
-> the way for stable backports. But I'll happily split the patch if you
-> prefer it split.
-> 
-> This is based on today's next, if conflicts arise when you apply it at
-> some later time and don't want to resolve them, feel free to just drop
-> the changes to the conflicting files. I'll notice and followup at a
-> later time then. Or ask me for a fixed resend. (Having said that, I
-> recommend b4 am -3 + git am -3 which should resolve most conflicts just
-> fine.)
-> 
-> Best regards
-> Uwe
-> 
->   drivers/iommu/apple-dart.c                  | 2 +-
->   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c | 2 +-
->   drivers/iommu/arm/arm-smmu/arm-smmu.c       | 2 +-
->   drivers/iommu/arm/arm-smmu/qcom_iommu.c     | 4 ++--
->   drivers/iommu/ipmmu-vmsa.c                  | 2 +-
->   drivers/iommu/msm_iommu.c                   | 2 +-
->   drivers/iommu/mtk_iommu.c                   | 2 +-
->   drivers/iommu/mtk_iommu_v1.c                | 2 +-
->   drivers/iommu/omap-iommu.c                  | 2 +-
->   drivers/iommu/riscv/iommu-platform.c        | 2 +-
->   drivers/iommu/sprd-iommu.c                  | 2 +-
->   11 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/iommu/apple-dart.c b/drivers/iommu/apple-dart.c
-> index eb1e62cd499a..c5bde50d1c42 100644
-> --- a/drivers/iommu/apple-dart.c
-> +++ b/drivers/iommu/apple-dart.c
-> @@ -1352,7 +1352,7 @@ static struct platform_driver apple_dart_driver = {
->   		.pm			= pm_sleep_ptr(&apple_dart_pm_ops),
->   	},
->   	.probe	= apple_dart_probe,
-> -	.remove_new = apple_dart_remove,
-> +	.remove	= apple_dart_remove,
->   };
->   
->   module_platform_driver(apple_dart_driver);
-> diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> index 826db8894fb7..efbc78bffd33 100644
-> --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
-> @@ -4679,7 +4679,7 @@ static struct platform_driver arm_smmu_driver = {
->   		.suppress_bind_attrs	= true,
->   	},
->   	.probe	= arm_smmu_device_probe,
-> -	.remove_new = arm_smmu_device_remove,
-> +	.remove	= arm_smmu_device_remove,
->   	.shutdown = arm_smmu_device_shutdown,
->   };
->   module_driver(arm_smmu_driver, platform_driver_register,
-> diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> index 8321962b3714..4e9bb9f4c4bd 100644
-> --- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> +++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-> @@ -2372,7 +2372,7 @@ static struct platform_driver arm_smmu_driver = {
->   		.suppress_bind_attrs    = true,
->   	},
->   	.probe	= arm_smmu_device_probe,
-> -	.remove_new = arm_smmu_device_remove,
-> +	.remove = arm_smmu_device_remove,
->   	.shutdown = arm_smmu_device_shutdown,
->   };
->   module_platform_driver(arm_smmu_driver);
-> diff --git a/drivers/iommu/arm/arm-smmu/qcom_iommu.c b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-> index b98a7a598b89..9ce2fe50b22c 100644
-> --- a/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-> +++ b/drivers/iommu/arm/arm-smmu/qcom_iommu.c
-> @@ -759,7 +759,7 @@ static struct platform_driver qcom_iommu_ctx_driver = {
->   		.of_match_table	= ctx_of_match,
->   	},
->   	.probe	= qcom_iommu_ctx_probe,
-> -	.remove_new = qcom_iommu_ctx_remove,
-> +	.remove	= qcom_iommu_ctx_remove,
->   };
->   
->   static bool qcom_iommu_has_secure_context(struct qcom_iommu_dev *qcom_iommu)
-> @@ -931,7 +931,7 @@ static struct platform_driver qcom_iommu_driver = {
->   		.pm		= &qcom_iommu_pm_ops,
->   	},
->   	.probe	= qcom_iommu_device_probe,
-> -	.remove_new = qcom_iommu_device_remove,
-> +	.remove	= qcom_iommu_device_remove,
->   };
->   
->   static int __init qcom_iommu_init(void)
-> diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-> index ff55b8c30712..074daf1aac4e 100644
-> --- a/drivers/iommu/ipmmu-vmsa.c
-> +++ b/drivers/iommu/ipmmu-vmsa.c
-> @@ -1159,6 +1159,6 @@ static struct platform_driver ipmmu_driver = {
->   		.pm = pm_sleep_ptr(&ipmmu_pm),
->   	},
->   	.probe = ipmmu_probe,
-> -	.remove_new = ipmmu_remove,
-> +	.remove = ipmmu_remove,
->   };
->   builtin_platform_driver(ipmmu_driver);
-> diff --git a/drivers/iommu/msm_iommu.c b/drivers/iommu/msm_iommu.c
-> index 989e0869d805..ce40f0a419ea 100644
-> --- a/drivers/iommu/msm_iommu.c
-> +++ b/drivers/iommu/msm_iommu.c
-> @@ -838,6 +838,6 @@ static struct platform_driver msm_iommu_driver = {
->   		.of_match_table = msm_iommu_dt_match,
->   	},
->   	.probe		= msm_iommu_probe,
-> -	.remove_new	= msm_iommu_remove,
-> +	.remove		= msm_iommu_remove,
->   };
->   builtin_platform_driver(msm_iommu_driver);
-> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-> index c45313c43b9e..72b68d037b95 100644
-> --- a/drivers/iommu/mtk_iommu.c
-> +++ b/drivers/iommu/mtk_iommu.c
-> @@ -1794,7 +1794,7 @@ MODULE_DEVICE_TABLE(of, mtk_iommu_of_ids);
->   
->   static struct platform_driver mtk_iommu_driver = {
->   	.probe	= mtk_iommu_probe,
-> -	.remove_new = mtk_iommu_remove,
-> +	.remove	= mtk_iommu_remove,
->   	.driver	= {
->   		.name = "mtk-iommu",
->   		.of_match_table = mtk_iommu_of_ids,
-> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
-> index ee4e55b6b190..480e57ea6635 100644
-> --- a/drivers/iommu/mtk_iommu_v1.c
-> +++ b/drivers/iommu/mtk_iommu_v1.c
-> @@ -745,7 +745,7 @@ static const struct dev_pm_ops mtk_iommu_v1_pm_ops = {
->   
->   static struct platform_driver mtk_iommu_v1_driver = {
->   	.probe	= mtk_iommu_v1_probe,
-> -	.remove_new = mtk_iommu_v1_remove,
-> +	.remove	= mtk_iommu_v1_remove,
->   	.driver	= {
->   		.name = "mtk-iommu-v1",
->   		.of_match_table = mtk_iommu_v1_of_ids,
-> diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
-> index 3f72aef8bd5b..b8ced5d0581c 100644
-> --- a/drivers/iommu/omap-iommu.c
-> +++ b/drivers/iommu/omap-iommu.c
-> @@ -1285,7 +1285,7 @@ static const struct of_device_id omap_iommu_of_match[] = {
->   
->   static struct platform_driver omap_iommu_driver = {
->   	.probe	= omap_iommu_probe,
-> -	.remove_new = omap_iommu_remove,
-> +	.remove	= omap_iommu_remove,
->   	.driver	= {
->   		.name	= "omap-iommu",
->   		.pm	= &omap_iommu_pm_ops,
-> diff --git a/drivers/iommu/riscv/iommu-platform.c b/drivers/iommu/riscv/iommu-platform.c
-> index da336863f152..382ba2841849 100644
-> --- a/drivers/iommu/riscv/iommu-platform.c
-> +++ b/drivers/iommu/riscv/iommu-platform.c
-> @@ -81,7 +81,7 @@ static const struct of_device_id riscv_iommu_of_match[] = {
->   
->   static struct platform_driver riscv_iommu_platform_driver = {
->   	.probe = riscv_iommu_platform_probe,
-> -	.remove_new = riscv_iommu_platform_remove,
-> +	.remove = riscv_iommu_platform_remove,
->   	.driver = {
->   		.name = "riscv,iommu",
->   		.of_match_table = riscv_iommu_of_match,
-> diff --git a/drivers/iommu/sprd-iommu.c b/drivers/iommu/sprd-iommu.c
-> index a2f4ffe6d949..e84806eee281 100644
-> --- a/drivers/iommu/sprd-iommu.c
-> +++ b/drivers/iommu/sprd-iommu.c
-> @@ -531,7 +531,7 @@ static struct platform_driver sprd_iommu_driver = {
->   		.suppress_bind_attrs = true,
->   	},
->   	.probe	= sprd_iommu_probe,
-> -	.remove_new = sprd_iommu_remove,
-> +	.remove	= sprd_iommu_remove,
->   };
->   module_platform_driver(sprd_iommu_driver);
->   
-> base-commit: c88416ba074a8913cf6d61b789dd834bbca6681c
+>  fs/dax.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
+Well, I don't quite understand how just relaxing the check is enough. I
+guess it may work with virtiofs (I don't know enough about virtiofs to
+really tell either way) but for ordinary DAX filesystem it would be
+seriously wrong if DAX was used with blocksize > pagesize as multiple
+mapping entries could be pointing to the same PFN which is going to have
+weird results. If virtiofs can actually map 4k subpages out of 16k page on
+host (and generally perform 4k granular tracking etc.), it would seem more
+appropriate if virtiofs actually exposed the filesystem 4k block size instead
+of 16k blocksize? Or am I missing something?
+
+								Honza
+
+> diff --git a/fs/dax.c b/fs/dax.c
+> index c62acd2812f8d4981aaba82acfeaf972f555362a..406fb75bdbe9d17a6e4bf3d4cb92683e90f05910 100644
+> --- a/fs/dax.c
+> +++ b/fs/dax.c
+> @@ -1032,7 +1032,7 @@ int dax_writeback_mapping_range(struct address_space *mapping,
+>  	int ret = 0;
+>  	unsigned int scanned = 0;
+>  
+> -	if (WARN_ON_ONCE(inode->i_blkbits != PAGE_SHIFT))
+> +	if (WARN_ON_ONCE(inode->i_blkbits < PAGE_SHIFT))
+>  		return -EIO;
+>  
+>  	if (mapping_empty(mapping) || wbc->sync_mode != WB_SYNC_ALL)
+> 
+> ---
+> base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
+> change-id: 20241101-dax-page-size-83a1073b4e1b
+> 
+> Cheers,
+> ~~ Lina
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
