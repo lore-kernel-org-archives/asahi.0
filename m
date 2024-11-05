@@ -1,223 +1,106 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A141AC88B
-	for <asahi@lists.linux.dev>; Mon,  4 Nov 2024 22:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F4F24B29;
+	Tue,  5 Nov 2024 03:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730758607; cv=none; b=IejUMhumfunVbO/2jNsNl6DUrDhR/PUkaH0DaYzr2uEUYsBUWR40tAjD6ksDJiih0n1t423kZNrozKC/avxtCG31eE88wxElbasicUezxq7tjiBRuZiYTSgQdmLa6YDlVF16X00IV0NCfd9sKrv29NfOxzMZ3b2BOC3CcA6FACM=
+	t=1730778164; cv=none; b=s9NR3y+L8UTYx4FgZMG4Tl7BKx2He/tUurN8lr/+MOCkb/YYuFal726E7GdtDJXQyJcpcId8yarqEu1La7lz0VzYx8cVHyGR+i6Cp7caCXT9g+uBopj+PzlSn+LiovQOnFbCZJfxr+urH8jcMCGGUQt32SxWJsM2WDSAhqQVFmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730758607; c=relaxed/simple;
-	bh=KspYLPaVUiBiulhfcb/F9ddte9kdJsUyFpLrtdXID7k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ns3bfi992wireHH54d6/+H+/TzwOeJKmpa3v15BOg5HoXUunbmVnP4wWjEf+vpGKK4Eanf1c2XKSz/Af3+LSvSTpzK4nroJN+Y16NomHZ0WTMxzj58lGZY0y5MUa1JwBpi1ZnHZD3h0PX+lSd4Q3KRdbl9dnBNjGA8szxr/n+0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=rKYwT6iG; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
+	s=arc-20240116; t=1730778164; c=relaxed/simple;
+	bh=SYhBjeL3QQHxvmxgitzHmUvIUuClQD3gXZcevAI8S0Q=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=ejFeNeg+9yWmeOR+Zpta6pOUUgWSDsId+wUUXwZbN4YC2IMJvyyg6QvIv8JZazuBS1XBnFN+C9N/FiXddTRci6l3uneU0fQ2hOKzfERa8VQlp1WyjwFdMWHqJjmeevEzRiiEF3WmlkL3peV3nGu/6p9ZdibynVCCo+YS69ztx08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=gkjQJoSb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="rKYwT6iG"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7edb6879196so3246407a12.3
-        for <asahi@lists.linux.dev>; Mon, 04 Nov 2024 14:16:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1730758604; x=1731363404; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wx+CQscmonr+En4OMi1iBJFsPpXGN7GSbg6rvgqJS3g=;
-        b=rKYwT6iG/yiyI+fxwW1rBg+TLDcU9l05ha7Tx0l6qAW3nTWnbPOkNtD6riDuyUb3FJ
-         DO4hVA7xbswVzdngY46T1vTzY/b62RqcMNOyMEIvSi3DGwXpKcSFfXIMl0f5IoA+4z+Q
-         C7Xu2rFT8t6DlU3zfaC8rMnBew988IgnFxCidxwHwhFzi53AVp3rjrFBrT95xtjy5Gqc
-         0c2E4CwMIfpnGtSrPdiX5ornnlHyTaqe+gX2gsLxaU6oent1E5apMwfYuvMN5KO6qlsc
-         qze5ZO6Z+c813IWFMdXnjmYBJznvDPeeyVIZpqBXEGAGgc7ZBEXWesP/KdKRXBkgzZ43
-         Ru+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730758604; x=1731363404;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wx+CQscmonr+En4OMi1iBJFsPpXGN7GSbg6rvgqJS3g=;
-        b=qcObKWAhbtspop9N+TlqnNkCSAxvM2mV17+I+R2nqyibgT1ohDB5nyCf1R0D1FC+3T
-         HvV4Aclwab6KNtDm+tzTRKQUNzqd/VFx6pcEHyDaathFo5oheD+BWRj3NwbVuZ63VepW
-         PgSOo1zwgpXX7kCNJn3NKIJDWQzmb8mD2RTmn/XRQ3o22NZ+W5R25IuefxDBtQKQ1YJr
-         tX0bKNRfWpou8sbVOVhbA+TwUyZMKlTkp1itBo5bPQkwbeCuMm41mq6y7JDW1c45pEzD
-         2emkOzt1aNre5up5PJeR3EK+M2Req1Acb5pxtjvghQEffEZ2ZhcTTDRHxIUjWgj7WiMh
-         NsCw==
-X-Forwarded-Encrypted: i=1; AJvYcCW+l8yIFpW4mg8UfxnvDbPc52hIqeB4nr2wytfth74ygUmh71PIkkMZbOt/zFmAN4bRwYorTA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzdy51m+QEMdWTpHsTgPa0bQBtVCtwXfmT2rQ6lX3lDIVv5CXiw
-	PcOoh7z22RK97D+r5gfi/+fEFUsHXa0vjQHeqm8KDasr/9sKJjVgvfX2aPxLgD4=
-X-Google-Smtp-Source: AGHT+IH/GmFwfz/KLQqwABZCJIOJSQdacBDN9n3cToWkKGuNB5vkYCzMkd096fPZfHkRC1ZU+KBkfQ==
-X-Received: by 2002:a17:902:e80c:b0:20b:b93f:300a with SMTP id d9443c01a7336-210c6872dabmr463716335ad.7.1730758603626;
-        Mon, 04 Nov 2024 14:16:43 -0800 (PST)
-Received: from dread.disaster.area (pa49-186-86-168.pa.vic.optusnet.com.au. [49.186.86.168])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21105708681sm65856185ad.89.2024.11.04.14.16.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 14:16:43 -0800 (PST)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-	(envelope-from <david@fromorbit.com>)
-	id 1t85NI-00AE83-1f;
-	Tue, 05 Nov 2024 09:16:40 +1100
-Date: Tue, 5 Nov 2024 09:16:40 +1100
-From: Dave Chinner <david@fromorbit.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gkjQJoSb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8800EC4CECF;
+	Tue,  5 Nov 2024 03:42:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1730778163;
+	bh=SYhBjeL3QQHxvmxgitzHmUvIUuClQD3gXZcevAI8S0Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gkjQJoSb91JArGv5LdZEmRqdilkMx31DpAXHP2CeVq2yWiZ03q1+AK2AMthYjqNKE
+	 j2LsjW7jzDOSKYZrCv5Xl706gkHWloeYbNVd11ZLhmvn3Wx7gth1N55ITTsO6IQUoq
+	 ugAABEH/478N83VcBUelpaXBqGDOAOKE8DNM5M+Y=
+Date: Mon, 4 Nov 2024 19:42:42 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
 To: Asahi Lina <lina@asahilina.net>
-Cc: Jan Kara <jack@suse.cz>, Dan Williams <dan.j.williams@intel.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Sergio Lopez Pascual <slp@redhat.com>,
-	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-Subject: Re: [PATCH] dax: Allow block size > PAGE_SIZE
-Message-ID: <ZylHyD7Z+ApaiS5g@dread.disaster.area>
-References: <20241101-dax-page-size-v1-1-eedbd0c6b08f@asahilina.net>
- <20241104105711.mqk4of6frmsllarn@quack3>
- <7f0c0a15-8847-4266-974e-c3567df1c25a@asahilina.net>
+Cc: Sergio Lopez Pascual <slp@redhat.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, Jia He
+ <justin.he@arm.com>, Yibo Cai <Yibo.Cai@arm.com>, "Kirill A. Shutemov"
+ <kirill.shutemov@linux.intel.com>, Catalin Marinas
+ <catalin.marinas@arm.com>
+Subject: Re: [PATCH] mm: Fix __wp_page_copy_user fallback path for remote mm
+Message-Id: <20241104194242.2456fbd25cd027b338c07855@linux-foundation.org>
+In-Reply-To: <251d19c0-f788-4291-a4b3-d6f8a9b3b4f1@asahilina.net>
+References: <20241101-mm-remote-pfn-v1-1-080b609270b7@asahilina.net>
+	<20241101120717.11db30a5abc6378da7910719@linux-foundation.org>
+	<251d19c0-f788-4291-a4b3-d6f8a9b3b4f1@asahilina.net>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7f0c0a15-8847-4266-974e-c3567df1c25a@asahilina.net>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 05, 2024 at 12:31:22AM +0900, Asahi Lina wrote:
+On Sat, 2 Nov 2024 06:18:54 +0900 Asahi Lina <lina@asahilina.net> wrote:
+
 > 
 > 
-> On 11/4/24 7:57 PM, Jan Kara wrote:
-> > On Fri 01-11-24 21:22:31, Asahi Lina wrote:
-> >> For virtio-dax, the file/FS blocksize is irrelevant. FUSE always uses
-> >> large DAX blocks (2MiB), which will work with all host page sizes. Since
-> >> we are mapping files into the DAX window on the host, the underlying
-> >> block size of the filesystem and its block device (if any) are
-> >> meaningless.
-> >>
-> >> For real devices with DAX, the only requirement should be that the FS
-> >> block size is *at least* as large as PAGE_SIZE, to ensure that at least
-> >> whole pages can be mapped out of the device contiguously.
-> >>
-> >> Fixes warning when using virtio-dax on a 4K guest with a 16K host,
-> >> backed by tmpfs (which sets blksz == PAGE_SIZE on the host).
-> >>
-> >> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> >> ---
-> >>  fs/dax.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> On 11/2/24 4:07 AM, Andrew Morton wrote:
+> > On Fri, 01 Nov 2024 21:08:02 +0900 Asahi Lina <lina@asahilina.net> wrote:
 > > 
-> > Well, I don't quite understand how just relaxing the check is enough. I
-> > guess it may work with virtiofs (I don't know enough about virtiofs to
-> > really tell either way) but for ordinary DAX filesystem it would be
-> > seriously wrong if DAX was used with blocksize > pagesize as multiple
-> > mapping entries could be pointing to the same PFN which is going to have
-> > weird results.
+> >> If the source page is a PFN mapping, we copy back from userspace.
+> >> However, if this fault is a remote access, we cannot use
+> >> __copy_from_user_inatomic. Instead, use access_remote_vm() in this case.
+> >>
+> >> Fixes WARN and incorrect zero-filling when writing to CoW mappings in
+> >> a remote process, such as when using gdb on a binary present on a DAX
+> >> filesystem.
+> >>
+> >> [  143.683782] ------------[ cut here ]------------
+> >> [  143.683784] WARNING: CPU: 1 PID: 350 at mm/memory.c:2904 __wp_page_copy_user+0x120/0x2bc
+> >>
+> >> ...
+> >>
+> > 
+> > Thanks.  I assume we should backport this into earlier kernels?
+> > 
+> > If so, a Fixes: target is desired, to tell people how far back in time
+> > it should be ported.
 > 
-> Isn't that generally possible by just mapping the same file multiple
-> times? Why would that be an issue?
-
-I think what Jan is talking about having multiple inode->i_mapping
-entries point to the same pfn, not multiple vm mapped regions
-pointing at the same file offset....
-
-> Of course having a block size smaller than the page size is never going
-> to work because you would not be able to map single blocks out of files
-> directly. But I don't see why a larger block size would cause any
-> issues. You'd just use several pages to map a single filesystem block.
-
-If only it were that simple.....
-
-> For example, if the block size is 16K and the page size is 4K, then a
-> single file block would be DAX mapped as four contiguous 4K pages in
-> both physical and virtual memory.
-
-Up until 6.12, filesystems on linux did not support block size >
-page size. This was a constraint of the page cache implementation
-being based around the xarray indexing being tightly tied to
-PAGE_SIZE granularity indexing. Folios and large folio support
-provided the infrastructure to allow indexing to increase to order-N
-based index granularity. It's only taken 20 years to get a solution
-to this problem merged, but it's finally there now.
-
-Unfortunately, the DAX infrastructure is independent of the page
-cache but is also tightly tied to PAGE_SIZE based inode->i_mapping
-index granularity. In a way, this is even more fundamental than the
-page cache issues we had to solve. That's because we don't have
-folios with their own locks and size tracking. In DAX, we use the
-inode->i_mapping xarray entry for a given file offset to -serialise
-access to the backing pfn- via lock bits held in the xarray entry.
-We also encode the size of the dax entry in bits held in the xarray
-entry.
-
-The filesystem needs to track dirty state with filesystem block
-granularity. Operations on filesystem blocks (e.g. partial writes,
-page faults) need to be co-ordinated across the entire filesystem
-block. This means we have to be able to lock a single filesystem
-block whilst we are doing instantiation, sub-block zeroing, etc.
-
-Large folio support in the page cache provided this "single tracking
-object for a > PAGE_SIZE range" support needed to allow fsb >
-page_size in filesystems. The large folio spans the entire
-filesystem block, providing a single serialisation and state
-tracking for all the page cache operations needing to be done on
-that filesystem block.
-
-The DAX infrastructure needs the same changes for fsb > page size
-support. We have a limited number bits we can use for DAX entry
-state:
-
-/*
- * DAX pagecache entries use XArray value entries so they can't be mistaken
- * for pages.  We use one bit for locking, one bit for the entry size (PMD)
- * and two more to tell us if the entry is a zero page or an empty entry that
- * is just used for locking.  In total four special bits.
- *
- * If the PMD bit isn't set the entry has size PAGE_SIZE, and if the ZERO_PAGE
- * and EMPTY bits aren't set the entry is a normal DAX entry with a filesystem
- * block allocation.
- */
-#define DAX_SHIFT       (4)
-#define DAX_LOCKED      (1UL << 0)
-#define DAX_PMD         (1UL << 1)
-#define DAX_ZERO_PAGE   (1UL << 2)
-#define DAX_EMPTY       (1UL << 3)
-
-I *think* that we have at most PAGE_SHIFT worth of bits we can
-use because we only store the pfn part of the pfn_t in the dax
-entry. There are PAGE_SHIFT high bits in the pfn_t that hold
-pfn state that we mask out.
-
-Hence I think we can easily steal another 3 bits for storing an
-order - orders 0-4 are needed (3 bits) for up to 64kB on 4kB
-PAGE_SIZE - so I think this is a solvable problem. There's a lot
-more to it than "just use several pages to map to a single
-filesystem block", though.....
-
-> > If virtiofs can actually map 4k subpages out of 16k page on
-> > host (and generally perform 4k granular tracking etc.), it would seem more
-> > appropriate if virtiofs actually exposed the filesystem 4k block size instead
-> > of 16k blocksize? Or am I missing something?
+> I think so? I'm not sure how back the bug goes though, possibly a long
+> time...
 > 
-> virtiofs itself on the guest does 2MiB mappings into the SHM region, and
-> then the guest is free to map blocks out of those mappings. So as long
-> as the guest page size is less than 2MiB, it doesn't matter, since all
-> files will be aligned in physical memory to that block size. It behaves
-> as if the filesystem block size is 2MiB from the point of view of the
-> guest regardless of the actual block size. For example, if the host page
-> size is 16K, the guest will request a 2MiB mapping of a file, which the
-> VMM will satisfy by mmapping 128 16K pages from its page cache (at
-> arbitrary physical memory addresses) into guest "physical" memory as one
-> contiguous block. Then the guest will see the whole 2MiB mapping as
-> contiguous, even though it isn't in physical RAM, and it can use any
-> page granularity it wants (that is supported by the architecture) to map
-> it to a userland process.
+> > I think it's
+> > 
+> > 83d116c53058 ("mm: fix double page fault on arm64 if PTE_AF is cleared").
+> 
+> That doesn't sound right. The old code prior to the patch still had the
+> __copy_from_user_inatomic() fallback path so it should still have the
+> same problem. That fallback goes back to:
+> 
+>   6aab341e0a28 ("mm: re-architect the VM_UNPAGED logic")
+> 
+> But the ptrace code back then doesn't seem to be using that codepath at
+> all, so that's meaningless. I think this is the proper tag:
+> 
+>   3565fce3a659 ("mm, x86: get_user_pages() for dax mappings")
+> 
+> That's when GUP started working for DAX mappings at all, and if my
+> reading of the code is correct, at that point do_wp_page() was only
+> grabbing the struct page for normal pages to pass to wp_page_copy()
+> (triggering the fallback path for DAX mappings). The code has moved
+> around a lot today but has the same logic, so I think it's been broken
+> since then.
 
-Clearly I'm missing something important because, from this
-description, I honestly don't know which mapping is actually using
-DAX.
+Cool, thanks.
 
-Can you draw out the virtofs stack from userspace in the guest down
-to storage in the host so dumb people like myself know exactly where
-what is being directly accessed and how?
+> Should I resend it with the Fixes tag?
 
--Dave.
--- 
-Dave Chinner
-david@fromorbit.com
+That's OK, I edited the mm.git changelog.
+
