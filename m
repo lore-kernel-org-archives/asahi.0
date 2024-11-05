@@ -1,106 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F4F24B29;
-	Tue,  5 Nov 2024 03:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516181FDF95
+	for <asahi@lists.linux.dev>; Tue,  5 Nov 2024 07:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730778164; cv=none; b=s9NR3y+L8UTYx4FgZMG4Tl7BKx2He/tUurN8lr/+MOCkb/YYuFal726E7GdtDJXQyJcpcId8yarqEu1La7lz0VzYx8cVHyGR+i6Cp7caCXT9g+uBopj+PzlSn+LiovQOnFbCZJfxr+urH8jcMCGGUQt32SxWJsM2WDSAhqQVFmc=
+	t=1730792702; cv=none; b=tdSZcTQQ3/TEy6fwl+c2h8CnCY5xRJzFYcatvaLf/UCKmi8u30y8T+PWo1KH5YUfX+9A2hr9D9pExk7QY9I60UrtrzossFWanoPueGLQBrZT9voTvsOLgrGweHx5Vl885HT+asvnVpgwXzwDxuDJ4DKbxoJ1idy6PaXQWI80Z8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730778164; c=relaxed/simple;
-	bh=SYhBjeL3QQHxvmxgitzHmUvIUuClQD3gXZcevAI8S0Q=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=ejFeNeg+9yWmeOR+Zpta6pOUUgWSDsId+wUUXwZbN4YC2IMJvyyg6QvIv8JZazuBS1XBnFN+C9N/FiXddTRci6l3uneU0fQ2hOKzfERa8VQlp1WyjwFdMWHqJjmeevEzRiiEF3WmlkL3peV3nGu/6p9ZdibynVCCo+YS69ztx08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=gkjQJoSb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730792702; c=relaxed/simple;
+	bh=miGbvf+/sqU0lRhQWVytjVytsWBjDMOz4kDCmq/yZCc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H9J9iR4rUCtfvfei3afGgmxbWh1cUinH04IohCJlkPxbxBDvpYMhi0wjvLpm3Tm9ciI2kun4QerfhSfx04gRpUliJwPCGG0tOUUBNq6SKz/GNvkc0lLBAE0UA8UyzsdBUnHfzdTsgCBnd2tkhLGCaJ2DNrYSlW/CkkjTcxIVXDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=QWjcdGJW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CYKTbZJa; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gkjQJoSb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8800EC4CECF;
-	Tue,  5 Nov 2024 03:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1730778163;
-	bh=SYhBjeL3QQHxvmxgitzHmUvIUuClQD3gXZcevAI8S0Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gkjQJoSb91JArGv5LdZEmRqdilkMx31DpAXHP2CeVq2yWiZ03q1+AK2AMthYjqNKE
-	 j2LsjW7jzDOSKYZrCv5Xl706gkHWloeYbNVd11ZLhmvn3Wx7gth1N55ITTsO6IQUoq
-	 ugAABEH/478N83VcBUelpaXBqGDOAOKE8DNM5M+Y=
-Date: Mon, 4 Nov 2024 19:42:42 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Asahi Lina <lina@asahilina.net>
-Cc: Sergio Lopez Pascual <slp@redhat.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev, Jia He
- <justin.he@arm.com>, Yibo Cai <Yibo.Cai@arm.com>, "Kirill A. Shutemov"
- <kirill.shutemov@linux.intel.com>, Catalin Marinas
- <catalin.marinas@arm.com>
-Subject: Re: [PATCH] mm: Fix __wp_page_copy_user fallback path for remote mm
-Message-Id: <20241104194242.2456fbd25cd027b338c07855@linux-foundation.org>
-In-Reply-To: <251d19c0-f788-4291-a4b3-d6f8a9b3b4f1@asahilina.net>
-References: <20241101-mm-remote-pfn-v1-1-080b609270b7@asahilina.net>
-	<20241101120717.11db30a5abc6378da7910719@linux-foundation.org>
-	<251d19c0-f788-4291-a4b3-d6f8a9b3b4f1@asahilina.net>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="QWjcdGJW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CYKTbZJa"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 5CD6913802C1;
+	Tue,  5 Nov 2024 02:44:59 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Tue, 05 Nov 2024 02:44:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1730792699; x=1730879099; bh=Ym7SjV/dcJ
+	IjkJNBKLo9FclTtu+qxw9/1pp0hE1zJ/0=; b=QWjcdGJWR3sw5TQS86oG5vnUDb
+	AbrlWa9Dj1I52K1momGP0qnUnz5QBIp/R7RJMkgXUGqwzrdaWo/KCyAP3gGivOIT
+	7iTVlY1jYBqRQGTTwIDhdo6JgBpyAjSG/kw7H8mKtvxdoH/IxnbS1CafV/51HfQ/
+	wmyye/HV8QJ7Lnnf7GLY+TXaP+6SOyQxFYixmfjob+TZ4HCPAZXiQ9IoMP1OrKJ/
+	ZOPCmFN3C07/ZUGeEdtetimLFzUF7KJbsfmsRkYHDPLyrE/aHX5GfZxuNMnbaFyC
+	6x2xEXdDYKnY6EvGzN0AemYSxCeaygnAfyzvO/p6I1EIVBOHVj/HE2Pj3f7A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1730792699; x=1730879099; bh=Ym7SjV/dcJIjkJNBKLo9FclTtu+qxw9/1pp
+	0hE1zJ/0=; b=CYKTbZJaYJSl3jIzLRQ2OkGryMyNZEDPXMtJsDxzFjZNrSL2aW1
+	XzAYkGgF2i63sLgBjYYPv0hZCwULacFWB59t415OLzF3cwvnpy+Nrs5T4byuVWv5
+	BnIeGuyWQOLHmMGW3FBCmd1wCX4bPrW4/1vnXU2ExH5hekZsb/sFEsDiGDs88UUt
+	Xy7xDb/xTpKSOWTVsfPLRKR2qEq6E2B57kDZLhti8B3TG7sJafJkYeVFZW8eUcno
+	kggUhiMh+HOPc5jSD9VGjOMh11dhITtEQfwQXQ+ueqK/BGJbcv5/TZo6KDlLg9MA
+	vuBjj6s68atpeiG9unY9rsYdT2VO1V9blxg==
+X-ME-Sender: <xms:-cwpZ3wnCXyyr0lismuD8R6pXFOm3DrdmR4g3mcEsYrXT269jWtbwQ>
+    <xme:-cwpZ_RTpT92to-LTJkXGFG29enfWR4MC8elbgbz0lP82stG_Vk0rR60GxHjcjxuC
+    9sV4fKlPXQWT9RE7Sw>
+X-ME-Received: <xmr:-cwpZxVPIpd0lC2-hIr36Pem1OjmZOxHZZW_-osf83gPsKF4LSp-z3pSJkDSeFu5u-YxziHQucORPECYitCIbSOIV9tdzcAoCpw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeljedgudduvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
+    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
+    cuggftrfgrthhtvghrnhepgfduueffleefkeegueektdehkeejtedtffdtudejhfdvheet
+    gfeigfeltdeufeejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgv
+    thdpnhgspghrtghpthhtohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
+    hkrhiikheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggr
+    nhdrshhtpdhrtghpthhtohepshhvvghnsehsvhgvnhhpvghtvghrrdguvghvpdhrtghpth
+    htoheprghlhihsshgrsehrohhsvghniiifvghighdrihhopdhrtghpthhtohepsghrohho
+    nhhivgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghsrghhiheslh
+    hishhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:-cwpZxj2545d2OzQOOOUm1nZrHGqKOdUqUx2V-2KvLycigdo2M64bA>
+    <xmx:-cwpZ5AcQSoMG4KKssg82ubxwnXY8srKjgRrqrQIKm1tqODhCmZcBw>
+    <xmx:-cwpZ6IlCTOSJXlUDnBNXoxahGKUggkCuUuNfpX-0UZa7yHAPvzVog>
+    <xmx:-cwpZ4AjqpLsJfHtxa2rItJ0sz2ddGV50LhWJPSeu4HPiq0vaEHBiw>
+    <xmx:-8wpZxyVsuz5RqA6v3Yo3gXt_V7f7Q6Ph83nKqvveNkJq14M50Gq1dU4>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 5 Nov 2024 02:44:57 -0500 (EST)
+Date: Tue, 5 Nov 2024 08:44:55 +0100
+From: Janne Grunau <j@jannau.net>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Apple SPI controller driver
+Message-ID: <20241105074455.GA923511@robin.jannau.net>
+References: <20241101-asahi-spi-v3-0-3b411c5fb8e5@jannau.net>
+ <vzulq4ewdbrk7qdurtypxpaoe4jsswddfprtdbudoxipf6d3ya@4gnbmr722pig>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <vzulq4ewdbrk7qdurtypxpaoe4jsswddfprtdbudoxipf6d3ya@4gnbmr722pig>
 
-On Sat, 2 Nov 2024 06:18:54 +0900 Asahi Lina <lina@asahilina.net> wrote:
-
-> 
-> 
-> On 11/2/24 4:07 AM, Andrew Morton wrote:
-> > On Fri, 01 Nov 2024 21:08:02 +0900 Asahi Lina <lina@asahilina.net> wrote:
+On Sat, Nov 02, 2024 at 02:11:51PM +0100, Krzysztof Kozlowski wrote:
+> On Fri, Nov 01, 2024 at 08:26:11PM +0100, Janne Grunau wrote:
+> > Hi all,
 > > 
-> >> If the source page is a PFN mapping, we copy back from userspace.
-> >> However, if this fault is a remote access, we cannot use
-> >> __copy_from_user_inatomic. Instead, use access_remote_vm() in this case.
-> >>
-> >> Fixes WARN and incorrect zero-filling when writing to CoW mappings in
-> >> a remote process, such as when using gdb on a binary present on a DAX
-> >> filesystem.
-> >>
-> >> [  143.683782] ------------[ cut here ]------------
-> >> [  143.683784] WARNING: CPU: 1 PID: 350 at mm/memory.c:2904 __wp_page_copy_user+0x120/0x2bc
-> >>
-> >> ...
-> >>
+> > This updated series address the review comments from the original
+> > submission in 2021 [1]. It adds a new SPI controller driver for Apple
+> > SoCs and is based on spi-sifive. It has been tested with the generic
+> > jedec,spi-nor support and with a downstream driver for an Apple specific
+> > HID over SPI transport.
 > > 
-> > Thanks.  I assume we should backport this into earlier kernels?
+> > As usual, I'm splitting off the MAINTAINERS and DT binding changes.
+> > We would rather merge the MAINTAINERS change through the Asahi-SoC
+> > tree to avoid merge conflicts as things trickle upstream, since
+> > we have other submissions touching that section of the file.
 > > 
-> > If so, a Fixes: target is desired, to tell people how far back in time
-> > it should be ported.
-> 
-> I think so? I'm not sure how back the bug goes though, possibly a long
-> time...
-> 
-> > I think it's
+> > The DT binding change can go via the SPI tree or via ours, but it's
+> > easier if we merge it, as then we can make the DT changes to
+> > instantiate it without worrying about DT validation failures depending
+> > on merge order.
 > > 
-> > 83d116c53058 ("mm: fix double page fault on arm64 if PTE_AF is cleared").
+> > This is mostly Hector's work with a few minor changes to address review
+> > comments from me.
+> > 
+> > [1] https://lore.kernel.org/linux-spi/20211212034726.26306-1-marcan@marcan.st/
+> > 
+> > v2:
+> > - removed '#address-cells' and '#size-cells' from the bindings and added
+> >   Rob's Rb:
 > 
-> That doesn't sound right. The old code prior to the patch still had the
-> __copy_from_user_inatomic() fallback path so it should still have the
-> same problem. That fallback goes back to:
-> 
->   6aab341e0a28 ("mm: re-architect the VM_UNPAGED logic")
-> 
-> But the ptrace code back then doesn't seem to be using that codepath at
-> all, so that's meaningless. I think this is the proper tag:
-> 
->   3565fce3a659 ("mm, x86: get_user_pages() for dax mappings")
-> 
-> That's when GUP started working for DAX mappings at all, and if my
-> reading of the code is correct, at that point do_wp_page() was only
-> grabbing the struct page for normal pages to pass to wp_page_copy()
-> (triggering the fallback path for DAX mappings). The code has moved
-> around a lot today but has the same logic, so I think it's been broken
-> since then.
+> Where?
 
-Cool, thanks.
+Apparently only in my mind. fixed for v4
 
-> Should I resend it with the Fixes tag?
-
-That's OK, I edited the mm.git changelog.
-
+thanks,
+Janne
