@@ -1,115 +1,140 @@
-Received: from mail-il1-f174.google.com (mail-il1-f174.google.com [209.85.166.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DEB1EABB9
-	for <asahi@lists.linux.dev>; Tue,  5 Nov 2024 18:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1C4192B9D
+	for <asahi@lists.linux.dev>; Wed,  6 Nov 2024 07:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730832159; cv=none; b=C43/RSQDqn7kFqoQgsyw4KC52yUfziQtKxaNp/EZ9TfJQoLLyD5Wy1kKDuOEuvoPFLjspfCnJ70ngLde9HWqXmJ2S1bjtQbOGYVtOXhPkjtsy+j4lMizWlGeD+Q5LvQXnRAZK9vvsdrqrspeX8VG1PUV+JUaJ18UnkDULvOCoBo=
+	t=1730876520; cv=none; b=fgqCAmDlfLvvWtl3n4XE/uwEePiwj62/on71IkjFHIYH4jN35BsfvX3ViyPqz2Z3ZXHrPPkFlbkM5NukRWfvzXgbo5O/yQBUQSg2wZX6CZf6rAlHURjoqhF7ZYSEk+25WyMeEZ9/7Eua+Y6sjtYFFI64XF5YXYeT0Hwc5xviJpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730832159; c=relaxed/simple;
-	bh=uRFSGSp6I5JuMM4uZmsg8At2nGyRL0YDNEodwAq8/EY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZgvctCqFTHtrZdJdLP0CT0WanYShDa+RbHzFT8bkxHtcGgQDSuZx4lSY+UhXneJ/tS0MjgiW3ydz+gIq8ZUdfK2MmyVlCvVXgxNdBK3+Bwr94nu5TDIq+Rj3SaFxPUPeVQXHDIqgiQqSakclpBH+yyTr+8+CIydA4i8LcefO26o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=FUfUrdJ+; arc=none smtp.client-ip=209.85.166.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1730876520; c=relaxed/simple;
+	bh=6i2W3ibTGH5O4e4yyOldebzoMIS4R9R/nZbSluVAjHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SYqOgMDAdG9ViDTtjELA0uQA9DYMuSqKKKHkJ7EQwWY4MUok37MXQrH35PV7gaF6yam2jlUOAiMeHIEl4GMt43tkOLkIPO8aPlCsQva4Y3e83WCAjkkAW6gBckDwhVujDlSaAHyukG7bS2wATsBnLheVIqXg0u0kHTE0Ykbvogo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=Bu7zWX9K; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=e9Q77xqH; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="FUfUrdJ+"
-Received: by mail-il1-f174.google.com with SMTP id e9e14a558f8ab-3a4d1633df9so19650905ab.2
-        for <asahi@lists.linux.dev>; Tue, 05 Nov 2024 10:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730832156; x=1731436956; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q/5k2rLKTo7KgnD4BR9+2dIjyjzlQVVkq8ThtV9wFto=;
-        b=FUfUrdJ+CVFto7K1q2iYgW6S11VP5qUS93jfaAdOBWfS7QbMhBBx3oG2Z1WZ7ErKPy
-         2P6OmMnkgBG/40Ugj2Njh1TPhyPsjBWKHDLryEQhYISOaGWIaT+9/71YWv+oG8gaa2Tg
-         eW73KGZs1m7WzrDsTWHRdpPw0eQMb4DAJnpZo52fyeav0XfHEwvL8tKGLWl2SZ17MIC5
-         Z8JHr7tGv4aZIDm9Otu53Tdc8mwEmohk5Bt/FYOft2DsSFo2zqgUH4T1lAL8j+BFVI8+
-         zUVEB9T5YmgjLvM+3cgH21NsKCI+XlV0j49HzKMWnQKZysQpul7LE2XPFClupaWa6S1b
-         DNdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730832156; x=1731436956;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q/5k2rLKTo7KgnD4BR9+2dIjyjzlQVVkq8ThtV9wFto=;
-        b=Z8evOD0NCkLJYTaTqi5amBnVx6HhYNWVf09tK+p66R7SzJPGElz3hPOa5OPOkoaIxG
-         B7tWiSTXxVkd7oN2gDKWlqywTQdz3FufTjYChMbrL7JzSWDhJIEha4N/Pa6pp2k7iJox
-         0nMMuJ6/G/eOKFqIPdhosJZujCQvI8De0gORq7O7gNHuTYe2z/3GNT1ePZwxBP0IodB+
-         Si7R1M2AYC9vwhltIlqpC2SNECX+CEXhuwByJExXeUTI4eX+mfbp2R7+B9zKRFOdmTS/
-         aMSKeT1JDDlvR80tbpgmPumiygxYuV60kbagW5v8iPaWZ9kZIfGgDX5y/e2ckxMrrXQ+
-         uZ9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUR8sESSFbtSHmgQnpxPfhDaIMRg3wda5OygThPXq6VGB0gBm0o1Ed7r1Uyucy5CopnUs+15A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyzWz/wcyxqjNO35I7PtGOCKT61QzuUxY/HqtbyQfQwElY/Kj9s
-	l3WIORMCmes7qicriK0BoiIQl7BEOE9y0WJmctFx2x9KlQ5iyrGebCycGl3PbQl8QJlJh+n3EJF
-	geco6fsAQziFKN+I1EJj1DYwEpYCxMRaJsgH8lQ==
-X-Google-Smtp-Source: AGHT+IHafiE56RLycAX61PwBNuvy4TPzSnAPrcXkk0qt/3LnY4O4q/UmngQM9Vlm/dj0VEmvvCeNfFq4tqlEFF5LAvc=
-X-Received: by 2002:a05:6e02:152e:b0:3a6:b445:dc9c with SMTP id
- e9e14a558f8ab-3a6b445decemr144631815ab.3.1730832155951; Tue, 05 Nov 2024
- 10:42:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="Bu7zWX9K";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e9Q77xqH"
+Received: from phl-compute-08.internal (phl-compute-08.phl.internal [10.202.2.48])
+	by mailfout.phl.internal (Postfix) with ESMTP id 1D21F138013C;
+	Wed,  6 Nov 2024 02:01:57 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-08.internal (MEProxy); Wed, 06 Nov 2024 02:01:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1730876517;
+	 x=1730962917; bh=cprnL8UiFwQzL/WrdFftKzEgHGjA7PfGU1YQSXHETos=; b=
+	Bu7zWX9KLsSF8WY/LuaCK1MPoVWnK7l4Y0Llv7OHZeA7gSbfQevck3AgeRQ2qvwS
+	A0ZQDKguQUOuCka+ZBJKqudJkbCjTdWfQaPX193UlGK6nOG9RIrfJK0KYrQg8XZ1
+	r1RpuH/sbfX2d7fhVcqYrZfAVgdSjkpg2V6UQGvyP8tSGnQZ/1E+Sa68sgDxNcQO
+	IFJrO1//EhADGVIU0MIp6QEqSY3LaaGnulJsppen99aCmt15OZwQ6P9XFSXuOMuL
+	nop5bM4QuQIYJ7KWArKaude2uhh86EbD19xAmTBNPuqn/qjYDU8lxX6lNccjXuNX
+	dPtNq/lwzoIECGDMK7NIMQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730876517; x=
+	1730962917; bh=cprnL8UiFwQzL/WrdFftKzEgHGjA7PfGU1YQSXHETos=; b=e
+	9Q77xqHbWl/KJ3XbEP3ujy1zzen0vLcdby60M3Af4yXhkIoa36tzBb3qDn+u//S/
+	iO3YFM6TMc9/TMrTwJvOcC/IZNTq4UlvQqDJYXSYntnguF1MevJxmvjX2OoVjcS2
+	PBcqd28yuXYUxCElS0Jw3waO7nK7Wb4+IyCtplJv+IJ/ACviaXnlL0zz0Hlyd9rR
+	hV2cNc4KOv/n1XDjnDY/1H95kKY8KAv/+mTn3+Zfid5jmlyizo4ZGLglMniAExKm
+	wJGFEu5srp0Yu1pKYJ2mYgSasPrkPvlFl1cfNhboYqaWoRXP3tHcHvTI/bdDaJhb
+	8yLSrDnq1DIUPwzaS/MQQ==
+X-ME-Sender: <xms:YxQrZ-4PL29SD9AMNCjrk4Fg2oPhCy1s-z1Z1whB_-9yVRaI-_NXRA>
+    <xme:YxQrZ364t_ptQHLMZsW_XrVTFKTOIyeTb7bXRlcyI5PoTDlXS5tHWonRATwVLGZB2
+    7cBakYHBy_KaSn4W8w>
+X-ME-Received: <xmr:YxQrZ9cZgx8Tqjtq3IES5qYtOJoDCEuTvUyg8R4JL3bNC7eLYyOCkZ3tyFYn2Vxkfuq3eIv2tBma-gZTqoITqqlHaCPSOMVmTGM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtddugddutdefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
+    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
+    cuggftrfgrthhtvghrnhepveefkeeuudettddvffevhfevvdekhffgveehfefhffehfeet
+    gfetffeugfevfefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepjhesjhgrnhhnrghurdhnvghtpdhnsggprhgtphhtthhopeduvddpmhhouggv
+    pehsmhhtphhouhhtpdhrtghpthhtohepsghrohhonhhivgeskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshhtpdhrtghpthhtohepshhvvghn
+    sehsvhgvnhhpvghtvghrrdguvghvpdhrtghpthhtoheprghlhihsshgrsehrohhsvghnii
+    ifvghighdrihhopdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrod
+    gutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghsrghhiheslhhishhtshdrlhhi
+    nhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhish
+    htshdrihhnfhhrrgguvggrugdrohhrgh
+X-ME-Proxy: <xmx:YxQrZ7KWIL1PLVuPebP1JPoj7LZvkenJ7gD4QKAymmGiswEcPaq5LA>
+    <xmx:YxQrZyLan1K6P42UA47EhgE6HyUodfJpQKT9Ghcl1s3vVpO_6aBbbA>
+    <xmx:YxQrZ8wISeA-D-fL7XRz-oJvFTh9m65ZaDvkzD1uG-M0GP6ljoqldg>
+    <xmx:YxQrZ2KYrZPynxOMFFO_cBqC3lwgl8uRvvvSslDGpfZhfOGEXd80Gw>
+    <xmx:ZRQrZ0B1WE2iuezHwdzgTKxzPlPsBLu-fGR0Fs36Jo5hJ-_5eee0Ncue>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 6 Nov 2024 02:01:55 -0500 (EST)
+Date: Wed, 6 Nov 2024 08:01:52 +0100
+From: Janne Grunau <j@jannau.net>
+To: Mark Brown <broonie@kernel.org>
+Cc: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] spi: apple: Add driver for Apple SPI controller
+Message-ID: <20241106070152.GA928468@robin.jannau.net>
+References: <20241105-asahi-spi-v4-0-d9734f089fc9@jannau.net>
+ <20241105-asahi-spi-v4-2-d9734f089fc9@jannau.net>
+ <947246c5-b9e6-43e7-a516-7b82136e6e8e@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241104064650.799122-2-u.kleine-koenig@baylibre.com> <6b5b4f25-0f42-4f83-b6b5-82c1adbefe83@arm.com>
-In-Reply-To: <6b5b4f25-0f42-4f83-b6b5-82c1adbefe83@arm.com>
-From: Tomasz Jeznach <tjeznach@rivosinc.com>
-Date: Tue, 5 Nov 2024 10:42:25 -0800
-Message-ID: <CAH2o1u77TViePZ2eh+FY7oQXxFAp+SEVM38ROP1uKfeMZ9E7hg@mail.gmail.com>
-Subject: Re: [PATCH] iommu: Switch back to struct platform_driver::remove()
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Hector Martin <marcan@marcan.st>, 
-	Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
-	Rob Clark <robdclark@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Orson Zhai <orsonzhai@gmail.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Nicolin Chen <nicolinc@nvidia.com>, Michael Shavit <mshavit@google.com>, 
-	Mostafa Saleh <smostafa@google.com>, Lu Baolu <baolu.lu@linux.intel.com>, 
-	Georgi Djakov <quic_c_gdjako@quicinc.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, asahi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <947246c5-b9e6-43e7-a516-7b82136e6e8e@sirena.org.uk>
 
-> > diff --git a/drivers/iommu/riscv/iommu-platform.c b/drivers/iommu/riscv/iommu-platform.c
-> > index da336863f152..382ba2841849 100644
-> > --- a/drivers/iommu/riscv/iommu-platform.c
-> > +++ b/drivers/iommu/riscv/iommu-platform.c
-> > @@ -81,7 +81,7 @@ static const struct of_device_id riscv_iommu_of_match[] = {
-> >
-> >   static struct platform_driver riscv_iommu_platform_driver = {
-> >       .probe = riscv_iommu_platform_probe,
-> > -     .remove_new = riscv_iommu_platform_remove,
-> > +     .remove = riscv_iommu_platform_remove,
-> >       .driver = {
-> >               .name = "riscv,iommu",
-> >               .of_match_table = riscv_iommu_of_match,
-> > diff --git a/drivers/iommu/sprd-iommu.c b/drivers/iommu/sprd-iommu.c
-> > index a2f4ffe6d949..e84806eee281 100644
-> > --- a/drivers/iommu/sprd-iommu.c
-> > +++ b/drivers/iommu/sprd-iommu.c
-> > @@ -531,7 +531,7 @@ static struct platform_driver sprd_iommu_driver = {
-> >               .suppress_bind_attrs = true,
-> >       },
-> >       .probe  = sprd_iommu_probe,
-> > -     .remove_new = sprd_iommu_remove,
-> > +     .remove = sprd_iommu_remove,
-> >   };
-> >   module_platform_driver(sprd_iommu_driver);
-> >
-> > base-commit: c88416ba074a8913cf6d61b789dd834bbca6681c
->
+On Tue, Nov 05, 2024 at 01:58:36PM +0000, Mark Brown wrote:
+> On Tue, Nov 05, 2024 at 09:08:30AM +0100, Janne Grunau wrote:
+> > From: Hector Martin <marcan@marcan.st>
+> > 
+> > This SPI controller is present in Apple SoCs such as the M1 (t8103) and
+> > M1 Pro/Max (t600x). It is a relatively straightforward design with two
+> > 16-entry FIFOs, arbitrary transfer sizes (up to 2**32 - 1) and fully
+> > configurable word size up to 32 bits. It supports one hardware CS line
+> > which can also be driven via the pinctrl/GPIO driver instead, if
+> > desired. TX and RX can be independently enabled.
+> 
+> This breaks the build with current code:
+> 
+> /build/stage/linux/drivers/spi/spi-apple.c: In function ‘apple_spi_probe’:
+> /build/stage/linux/drivers/spi/spi-apple.c:463:16: error: implicit declaration o
+> f function ‘devm_spi_alloc_master’; did you mean ‘devm_spi_alloc_target’? [-Werr
+> or=implicit-function-declaration]
+>   463 |         ctlr = devm_spi_alloc_master(&pdev->dev, sizeof(struct apple_spi
+> ));
+>       |                ^~~~~~~~~~~~~~~~~~~~~
+>       |                devm_spi_alloc_target
+> /build/stage/linux/drivers/spi/spi-apple.c:463:14: error: assignment to ‘struct 
+> spi_controller *’ from ‘int’ makes pointer from integer without a cast [-Werror=
+> int-conversion]
+>   463 |         ctlr = devm_spi_alloc_master(&pdev->dev, sizeof(struct apple_spi
+> ));
+>       |              ^
+> cc1: all warnings being treated as errors
+> 
+> It needs an update for the retirement of the old API name.
 
-Thanks, LGTM for iommu/riscv part of the patch.
+A pitty that there is no good way to enable deprecated warnings just for
+new code.
+Switched to devm_spi_alloc_host() and changed the prefix for
+the bindings commit msg to "spi: dt-bindings:".
 
-Reviewed-by: Tomasz Jeznach <tjeznach@rivosinc.com>
+thanks
+Janne
