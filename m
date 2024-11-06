@@ -1,104 +1,270 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4B4192B98;
-	Wed,  6 Nov 2024 07:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D5C193094;
+	Wed,  6 Nov 2024 10:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730879665; cv=none; b=PyZDfB7FWA3+1//7Zshr3B7udvLLHfbt1J7ciA3pfNMFgoUIRaT3HUozNFB90TByvQyOxjPqaEAZDPuGRmeIr6aHGrCpa6+u/CAOAs54M9qEBM1NsdtI4P7X8qINH4PdOatTuBmD40ixIIJ8N433Nhy6IbZQH6WW9wS1ySs9GI0=
+	t=1730890538; cv=none; b=iVhWUw399GC0sCt8mXPR6i6FBumD4boLh/2gllEXzuDV9BoKuutI6VeY+X1Yhu7uxZCYxGJtqO1kA0pGdgrxZx4tuo23w8LcHmIGrfzE84siME0O8g3gNtoEzNImMXF5KbL+XY3JtUtK7a/qpAzH0sk2a92voNQteZ6wXy5m9pE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730879665; c=relaxed/simple;
-	bh=7vrEPIQ4bAMycnZ9O2SmDP1fd541LGxGZlIiiqJbkww=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AskfYkEMSSs3IVGY6tg4dAM/ijU2Hk+tZKkNKQA7Hx935NKffuRrAb9hJ1Ns69HiuzMHDboM9LwKZUUtlLyXOQgadjuuKrIANuxtnO+3sDKTl7ZMAAOO8NvpSCZCcTZ7/nya91qwWq3qe2smIfQAmV4IZGtvFxBRpKddw+X+IM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iu+PeePE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730890538; c=relaxed/simple;
+	bh=xw7CUVocxa1S1q1z7hb2kHdcroA/d47oFWadAt6lk1w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JjNQti0LMgbeksdqI0M8GZ3iLFFRw+ydNYx5TNtMMfMQ8eN6dVxUZB8oLnKJySJ/kX49kRpde0fz3gFGb2aPvC/QtwLlhgJMyuomVEctJV47U99QHoch6VPiBEmj6G57kQikIGgzl2sZ3+W3d8YTRIYyAPWEXLXRnUA8V5/kHMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=V0/ot55U; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iu+PeePE"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E7E4EC4CED7;
-	Wed,  6 Nov 2024 07:54:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730879665;
-	bh=7vrEPIQ4bAMycnZ9O2SmDP1fd541LGxGZlIiiqJbkww=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Iu+PeePE/GEEYfb6FbpeMRTK51rUkWH6GMgJntrqO1ajwKzF+EPvc1d1Yy7xqKUHP
-	 BWzjVi/SjgQURLOqBaLfGRZaIkCm0m0I/s5sE/DWQi+bdlJn1BCjDQhGZ+z9FWS6t9
-	 DZDD/VE+z+QOuaofcf23X948QMmQGBAaGllNeovOueanW02Q1Q8fh4s9Rv0mOn1uNs
-	 qOwdNyYswVaZ64tjIpNRbmSJiq0R+yH31y/aaq9/KmI1iBhxUING1KW7jAsjkSdki9
-	 /ocbtcBvTe+Svg4PL04/q8Sy++ZU/YtSbdayXSFnY5DanL4Z2W/ZjHjTKfWAeDlPgk
-	 pajSAR2bKjv4A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D87F4D29FB5;
-	Wed,  6 Nov 2024 07:54:24 +0000 (UTC)
-From: Janne Grunau via B4 Relay <devnull+j.jannau.net@kernel.org>
-Date: Wed, 06 Nov 2024 08:54:02 +0100
-Subject: [PATCH v5 3/3] MAINTAINERS: Add apple-spi driver & binding files
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="V0/ot55U"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id ECEC7445A0;
+	Wed,  6 Nov 2024 10:55:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1730890524;
+	bh=xw7CUVocxa1S1q1z7hb2kHdcroA/d47oFWadAt6lk1w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=V0/ot55Uy1XtX5DEiRS3KMP18/l1oK47Aqg9ZfXySZuMOtOlMCPjoUdJWnbXOL9KN
+	 /BBiMB7eGe+sKdwA48mux6IAXlfbf20N8RqQfnYRAHIoFB7JeHfzjhZ4ZSvL6B3X2M
+	 M4D31UOk/6rohmDcDLdqjA4OEc33Mh7LwC64jU/hdHXMemeg3ThagBt0UJzKfy+Cnl
+	 l24nTeDTkHVxBKjRHHvMK0fDmIeiw8F8F13gpvfVsQnnLJtj1hMf1TRIfEuzrkNRb3
+	 5ksN1OdZhsAoqlsqUtFYo3ScHALgxx01WL1kkExm8SfEZ/uMxjRjDuTWlbD5Er9d5A
+	 4XgM4uV7ERchA==
+Message-ID: <21f921b3-6601-4fc4-873f-7ef8358113bb@asahilina.net>
+Date: Wed, 6 Nov 2024 19:55:23 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dax: Allow block size > PAGE_SIZE
+To: Dave Chinner <david@fromorbit.com>
+Cc: Jan Kara <jack@suse.cz>, Dan Williams <dan.j.williams@intel.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Sergio Lopez Pascual
+ <slp@redhat.com>, linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+References: <20241101-dax-page-size-v1-1-eedbd0c6b08f@asahilina.net>
+ <20241104105711.mqk4of6frmsllarn@quack3>
+ <7f0c0a15-8847-4266-974e-c3567df1c25a@asahilina.net>
+ <ZylHyD7Z+ApaiS5g@dread.disaster.area>
+Content-Language: en-US
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <ZylHyD7Z+ApaiS5g@dread.disaster.area>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241106-asahi-spi-v5-3-e81a4f3a8e19@jannau.net>
-References: <20241106-asahi-spi-v5-0-e81a4f3a8e19@jannau.net>
-In-Reply-To: <20241106-asahi-spi-v5-0-e81a4f3a8e19@jannau.net>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Janne Grunau <j@jannau.net>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1316; i=j@jannau.net;
- s=yk2024; h=from:subject:message-id;
- bh=wbyAeXiak8ymhiqSGZePVuZ0IdBpI3guim8H/E8/EiU=;
- b=owGbwMvMwCW2UNrmdq9+ahrjabUkhnRthfUzOlZFlm65nPWA31d2+UxpfaX3bhb9xmdWlsk/M
- dfttwrsKGVhEONikBVTZEnSftnBsLpGMab2QRjMHFYmkCEMXJwCMJG3Lgz/7EJ9pv446XDkfNcc
- vRr1wn7ufpEozhxfWdOnuxxXlu09w/BP+cxVu9ZHHV8kPmvfsX1v5qap9Jm9rneJi47p+8tRwn3
- MAA==
-X-Developer-Key: i=j@jannau.net; a=openpgp;
- fpr=8B336A6BE4E5695E89B8532B81E806F586338419
-X-Endpoint-Received: by B4 Relay for j@jannau.net/yk2024 with auth_id=264
-X-Original-From: Janne Grunau <j@jannau.net>
-Reply-To: j@jannau.net
 
-From: Hector Martin <marcan@marcan.st>
 
-This Apple SPI controller is present on Apple ARM SoCs (t8103/t6000).
 
-Splitting this change from the binding/driver commits to avoid merge
-conflicts with other things touching this section, as usual.
+On 11/5/24 7:16 AM, Dave Chinner wrote:
+> On Tue, Nov 05, 2024 at 12:31:22AM +0900, Asahi Lina wrote:
+>>
+>>
+>> On 11/4/24 7:57 PM, Jan Kara wrote:
+>>> On Fri 01-11-24 21:22:31, Asahi Lina wrote:
+>>>> For virtio-dax, the file/FS blocksize is irrelevant. FUSE always uses
+>>>> large DAX blocks (2MiB), which will work with all host page sizes. Since
+>>>> we are mapping files into the DAX window on the host, the underlying
+>>>> block size of the filesystem and its block device (if any) are
+>>>> meaningless.
+>>>>
+>>>> For real devices with DAX, the only requirement should be that the FS
+>>>> block size is *at least* as large as PAGE_SIZE, to ensure that at least
+>>>> whole pages can be mapped out of the device contiguously.
+>>>>
+>>>> Fixes warning when using virtio-dax on a 4K guest with a 16K host,
+>>>> backed by tmpfs (which sets blksz == PAGE_SIZE on the host).
+>>>>
+>>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
+>>>> ---
+>>>>  fs/dax.c | 2 +-
+>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> Well, I don't quite understand how just relaxing the check is enough. I
+>>> guess it may work with virtiofs (I don't know enough about virtiofs to
+>>> really tell either way) but for ordinary DAX filesystem it would be
+>>> seriously wrong if DAX was used with blocksize > pagesize as multiple
+>>> mapping entries could be pointing to the same PFN which is going to have
+>>> weird results.
+>>
+>> Isn't that generally possible by just mapping the same file multiple
+>> times? Why would that be an issue?
+> 
+> I think what Jan is talking about having multiple inode->i_mapping
+> entries point to the same pfn, not multiple vm mapped regions
+> pointing at the same file offset....
+> 
+>> Of course having a block size smaller than the page size is never going
+>> to work because you would not be able to map single blocks out of files
+>> directly. But I don't see why a larger block size would cause any
+>> issues. You'd just use several pages to map a single filesystem block.
+> 
+> If only it were that simple.....
+> 
+>> For example, if the block size is 16K and the page size is 4K, then a
+>> single file block would be DAX mapped as four contiguous 4K pages in
+>> both physical and virtual memory.
+> 
+> Up until 6.12, filesystems on linux did not support block size >
+> page size. This was a constraint of the page cache implementation
+> being based around the xarray indexing being tightly tied to
+> PAGE_SIZE granularity indexing. Folios and large folio support
+> provided the infrastructure to allow indexing to increase to order-N
+> based index granularity. It's only taken 20 years to get a solution
+> to this problem merged, but it's finally there now.
 
-Signed-off-by: Hector Martin <marcan@marcan.st>
-Signed-off-by: Janne Grunau <j@jannau.net>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+Right, but I thought that was already enforced at the filesystem level.
+I don't understand why the actual DAX infrastructure would care...
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cc40a9d9b8cd10e2e00caa5a5881381cd40c0d9a..552febcb12a95766ff502960782941d9d016d5e0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2068,6 +2068,7 @@ F:	Documentation/devicetree/bindings/pci/apple,pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/apple,pinctrl.yaml
- F:	Documentation/devicetree/bindings/power/apple*
- F:	Documentation/devicetree/bindings/pwm/apple,s5l-fpwm.yaml
-+F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	arch/arm64/boot/dts/apple/
- F:	drivers/bluetooth/hci_bcm4377.c
-@@ -2085,6 +2086,7 @@ F:	drivers/nvmem/apple-efuses.c
- F:	drivers/pinctrl/pinctrl-apple-gpio.c
- F:	drivers/pwm/pwm-apple.c
- F:	drivers/soc/apple/*
-+F:	drivers/spi/spi-apple.c
- F:	drivers/watchdog/apple_wdt.c
- F:	include/dt-bindings/interrupt-controller/apple-aic.h
- F:	include/dt-bindings/pinctrl/apple.h
+Some FSes do already support *smaller* block size than page size (e.g.
+btrfs), but obviously that case is never going to work with DAX.
+ > Unfortunately, the DAX infrastructure is independent of the page
+> cache but is also tightly tied to PAGE_SIZE based inode->i_mapping
+> index granularity. In a way, this is even more fundamental than the
+> page cache issues we had to solve. That's because we don't have
+> folios with their own locks and size tracking. In DAX, we use the
+> inode->i_mapping xarray entry for a given file offset to -serialise
+> access to the backing pfn- via lock bits held in the xarray entry.
+> We also encode the size of the dax entry in bits held in the xarray
+> entry.
+> 
+> The filesystem needs to track dirty state with filesystem block
+> granularity. Operations on filesystem blocks (e.g. partial writes,
+> page faults) need to be co-ordinated across the entire filesystem
+> block. This means we have to be able to lock a single filesystem
+> block whilst we are doing instantiation, sub-block zeroing, etc.
 
--- 
-2.47.0
+Ah, so it's about locking? I had a feeling that might be the case...
 
+> Large folio support in the page cache provided this "single tracking
+> object for a > PAGE_SIZE range" support needed to allow fsb >
+> page_size in filesystems. The large folio spans the entire
+> filesystem block, providing a single serialisation and state
+> tracking for all the page cache operations needing to be done on
+> that filesystem block.
+> 
+> The DAX infrastructure needs the same changes for fsb > page size
+> support. We have a limited number bits we can use for DAX entry
+> state:
+> 
+> /*
+>  * DAX pagecache entries use XArray value entries so they can't be mistaken
+>  * for pages.  We use one bit for locking, one bit for the entry size (PMD)
+>  * and two more to tell us if the entry is a zero page or an empty entry that
+>  * is just used for locking.  In total four special bits.
+>  *
+>  * If the PMD bit isn't set the entry has size PAGE_SIZE, and if the ZERO_PAGE
+>  * and EMPTY bits aren't set the entry is a normal DAX entry with a filesystem
+>  * block allocation.
+>  */
+> #define DAX_SHIFT       (4)
+> #define DAX_LOCKED      (1UL << 0)
+> #define DAX_PMD         (1UL << 1)
+> #define DAX_ZERO_PAGE   (1UL << 2)
+> #define DAX_EMPTY       (1UL << 3)
+> 
+> I *think* that we have at most PAGE_SHIFT worth of bits we can
+> use because we only store the pfn part of the pfn_t in the dax
+> entry. There are PAGE_SHIFT high bits in the pfn_t that hold
+> pfn state that we mask out.
+> 
+> Hence I think we can easily steal another 3 bits for storing an
+> order - orders 0-4 are needed (3 bits) for up to 64kB on 4kB
+> PAGE_SIZE - so I think this is a solvable problem. There's a lot
+> more to it than "just use several pages to map to a single
+> filesystem block", though.....
+
+Honestly, this is all quite over my head... my use case is virtiofs,
+which I think is quite different to running a filesystem on bare-metal
+DAX. It's starting to sound like we should perhaps just gate off the
+check for virtiofs only?
+
+> 
+>>> If virtiofs can actually map 4k subpages out of 16k page on
+>>> host (and generally perform 4k granular tracking etc.), it would seem more
+>>> appropriate if virtiofs actually exposed the filesystem 4k block size instead
+>>> of 16k blocksize? Or am I missing something?
+>>
+>> virtiofs itself on the guest does 2MiB mappings into the SHM region, and
+>> then the guest is free to map blocks out of those mappings. So as long
+>> as the guest page size is less than 2MiB, it doesn't matter, since all
+>> files will be aligned in physical memory to that block size. It behaves
+>> as if the filesystem block size is 2MiB from the point of view of the
+>> guest regardless of the actual block size. For example, if the host page
+>> size is 16K, the guest will request a 2MiB mapping of a file, which the
+>> VMM will satisfy by mmapping 128 16K pages from its page cache (at
+>> arbitrary physical memory addresses) into guest "physical" memory as one
+>> contiguous block. Then the guest will see the whole 2MiB mapping as
+>> contiguous, even though it isn't in physical RAM, and it can use any
+>> page granularity it wants (that is supported by the architecture) to map
+>> it to a userland process.
+> 
+> Clearly I'm missing something important because, from this
+> description, I honestly don't know which mapping is actually using
+> DAX.
+> 
+> Can you draw out the virtofs stack from userspace in the guest down
+> to storage in the host so dumb people like myself know exactly where
+> what is being directly accessed and how?
+
+I'm not familiar with all of the details, but essentially virtiofs is
+FUSE backed by a virtio device instead of userspace, plus the extra DAX
+mapping stuff. Since it's not a real filesystem backed by a block
+device, it has no significant concept of block size itself. i_blkbits
+comes from the st_blksize of the inode stat, which in our case is passed
+through from the underlying filesystem backing the virtiofs in the host
+(but it could be anything, nothing says virtiofs has to be backed by a
+real kernel FS in the host).
+
+So as a baseline, virtiofs is just FUSE and block size doesn't matter
+since all the non-mmap filesystem APIs shouldn't care about block size
+(other than for optimization reasons and issues with torn racy writes).
+The guest should be able to pretend the block size is 4K for FS/VM
+purposes even if it's 16K in the host, and track everything in the page
+cache and DAX infrastructure in terms of 4K blocks. As far as I know
+there is no operation in plain FUSE that actually cares about the block
+size itself.
+
+So then there's DAX/mmap. When DAX is enabled, FUSE can issue
+FUSE_SETUPMAPPING and FUSE_REMOVEMAPPING opcodes. These request that a
+range of a file be mapped into the device memory region used by
+virtiofs. When the VMM receives those, it will use mmap to map the
+backing file into the guest's virtio device memory window, and then the
+guest can use DAX to directly access those pages and allow userspace
+processes to mmap them directly. This means that mmaps are coherent
+between processes on the guest and the host (or in another guest), which
+is the main reason we're doing this.
+
+If you look at fs/fuse/dax.c, you'll see that FUSE_DAX_SHIFT is 21. This
+means that the FUSE code only ever issues
+FUSE_SETUPMAPPING/FUSE_REMOVEMAPPING opcodes with offsets/lengths at
+2MiB granularity within files. So, regardless of the underlying
+filesystem block size in the host (if there is one at all), the guest
+will always see aligned 2MiB blocks of files available in its virtio
+device region, similar to the hypothetical case of an actual
+block-backed DAX filesystem with a 2MiB allocation block size.
+
+We could cap st_blksize in the VMM to 4K, I guess? I don't know if that
+would make more sense than removing the kernel check. On one hand, that
+might result in less optimized I/O if userspace then does 4K writes. On
+the other hand, if we report st_blksize as 16K to userspace then I guess
+it could assume concurrent 16K writes cannot be torn, which is not the
+case if the guest is using 4K pages and page cache blocks (at least not
+until all the folio stuff is worked out for blocks > page size in both
+the page cache and DAX layers).
+
+This WARN still feels like the wrong thing, though. Right now it is the
+only thing in DAX code complaining on a page size/block size mismatch
+(at least for virtiofs). If this is so important, I feel like there
+should be a higher level check elsewhere, like something happening at
+mount time or on file open. It should actually cause the operations to
+fail cleanly.
+
+~~ Lina
 
