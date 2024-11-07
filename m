@@ -1,96 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522D117B439;
-	Wed,  6 Nov 2024 20:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6211DFE0F;
+	Thu,  7 Nov 2024 10:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730925727; cv=none; b=cG2LUit3Jg3hfUlLkPAhqm8xi14f9Wr9F0iWC3W8+BzmeQ12LBtszTOliWOiWcuLm4aqHKe7KIdheWQD4cnjhJxxKn9LvMV8yvNmn1fAq/x4+eumtmtD8bvanGmEk2FWjsvwvA5JbR+AE7UgRA6291nPX3FuP+P9rQp8PYgCaY4=
+	t=1730973679; cv=none; b=sG4wz07kx/TkKmHEwABL/F/n0NtitGUKvx76yUmeBuYWeiBQrfGeLcpCbOAsJ+A5zPoNFEHPaGmzRetCMedv4W1QxhIxUcvSAujjX64NZtg9jcbRQv9I9t7qXAI2gU5khd6eSHFxjWJ7TrNh9mPMlVLMSbxRc+IniscF80CSfL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730925727; c=relaxed/simple;
-	bh=MyX3vKLdgoNWgBlUZe2r+I4QjJHT+W6zplpfpZ/F1mI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=MTnirQAjpkKHE79DcGSZ0XWwCSmA56mogKsRpe0fEd25dOjGf1RkS5unSvtIv9GkCGaCc0mfanXiSYxTD2gxvcKx7bIaV4zDtCuSdzeq0AJ5SC7TqpwA7ONz/M7N99ncdz7S9d/YZ9v7eryfJ7mOH7Bl84IXb5qql5p4dYNCRCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eXtGBP3R; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730973679; c=relaxed/simple;
+	bh=xzy1a+XIjSNMU/9hC5QgXrBmdrtIFDc4aIusSqqZDyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=afpsO4iCyCaS2PrdEr2RuLJpxqHuttj5LanvScfXQImj5tzLtyqvdMLYzswGWEQNws3qOWEVdKA6ve1oq52dEEFXFhCKTk68WO7goVY1XB75NUo40MMKtamBjxPboltCzeQkvTP82grytIxP6mlapUgpLB5qQJgS73NrFwUgCBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dEyWEJFP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2xj1YwUi; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dEyWEJFP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2xj1YwUi; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eXtGBP3R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37867C4CED4;
-	Wed,  6 Nov 2024 20:42:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730925726;
-	bh=MyX3vKLdgoNWgBlUZe2r+I4QjJHT+W6zplpfpZ/F1mI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=eXtGBP3RqH+IvKcwi1Qkk5Nw4s/pFWZCpftB/e9XRwrImO+4M6CBJ/1FLRHVamJiw
-	 PYfL5Cv+2PD+Lx/L0ZDxEM+WaHbjUmpykx1KtaojE3Mgq+Q0rUZ/0NX9gYBvkOFILR
-	 pZb4RiAVTmbul7B1gdaQI0KY9DXdbEa+hQLTUStC/ZDBVaKf5TAiXxZgj5sTt9V3DR
-	 FVe7EdJM9EUUvdpHZWm0IbBKzWnZOukok6no1tk7CzST35iECYGHIPueU/3zgPEZam
-	 NQdbe23z/9fiv+ShgEUNohUnq4uWnYOBk9SP06edwf8wEs1Drl7WetqrDDGHzxfld1
-	 xfklhGblZVLaw==
-From: Mark Brown <broonie@kernel.org>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Janne Grunau <j@jannau.net>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Nick Chan <towinchenmi@gmail.com>, 
- Conor Dooley <conor.dooley@microchip.com>
-In-Reply-To: <20241106-asahi-spi-v5-0-e81a4f3a8e19@jannau.net>
-References: <20241106-asahi-spi-v5-0-e81a4f3a8e19@jannau.net>
-Subject: Re: (subset) [PATCH v5 0/3] Apple SPI controller driver
-Message-Id: <173092572295.200222.12076711239744365643.b4-ty@kernel.org>
-Date: Wed, 06 Nov 2024 20:42:02 +0000
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dEyWEJFP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2xj1YwUi";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dEyWEJFP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2xj1YwUi"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A7AB91F8B8;
+	Thu,  7 Nov 2024 10:01:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1730973669; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GaeMriiFanSTTR3LXqn8YDithSvI9c9ELHnMZEcbcV4=;
+	b=dEyWEJFP9+7pFZto0mTwaAdpdbUBoE+E1Jnb17O6Oi86fWbGp9buUsewrMmL7rRrw3moYr
+	7jZVcuruN+WKKEap2Qyzs/K/w4zP/wOhIzGi/Uj7MGsu3rXbc5PvAc3OzqnOlCCWrtEDWa
+	0WJ825xm66rkDiQFnhSLi1ynKIJEEKY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1730973669;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GaeMriiFanSTTR3LXqn8YDithSvI9c9ELHnMZEcbcV4=;
+	b=2xj1YwUi1NjJGe5xQRuOT/bgQX4rnzwsFc2ixDbkBGV6Ockj2AopBZIxrofb7O4+KoEdm5
+	e2c0LgeZSkEUZIBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=dEyWEJFP;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=2xj1YwUi
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1730973669; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GaeMriiFanSTTR3LXqn8YDithSvI9c9ELHnMZEcbcV4=;
+	b=dEyWEJFP9+7pFZto0mTwaAdpdbUBoE+E1Jnb17O6Oi86fWbGp9buUsewrMmL7rRrw3moYr
+	7jZVcuruN+WKKEap2Qyzs/K/w4zP/wOhIzGi/Uj7MGsu3rXbc5PvAc3OzqnOlCCWrtEDWa
+	0WJ825xm66rkDiQFnhSLi1ynKIJEEKY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1730973669;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GaeMriiFanSTTR3LXqn8YDithSvI9c9ELHnMZEcbcV4=;
+	b=2xj1YwUi1NjJGe5xQRuOT/bgQX4rnzwsFc2ixDbkBGV6Ockj2AopBZIxrofb7O4+KoEdm5
+	e2c0LgeZSkEUZIBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 996BF139B3;
+	Thu,  7 Nov 2024 10:01:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 2mJtJeWPLGd5fwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 07 Nov 2024 10:01:09 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 53202A0AF4; Thu,  7 Nov 2024 11:01:05 +0100 (CET)
+Date: Thu, 7 Nov 2024 11:01:05 +0100
+From: Jan Kara <jack@suse.cz>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Jan Kara <jack@suse.cz>, Asahi Lina <lina@asahilina.net>,
+	Dave Chinner <david@fromorbit.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Sergio Lopez Pascual <slp@redhat.com>,
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH] dax: Allow block size > PAGE_SIZE
+Message-ID: <20241107100105.tktkxs5qhkjwkckg@quack3>
+References: <20241101-dax-page-size-v1-1-eedbd0c6b08f@asahilina.net>
+ <20241104105711.mqk4of6frmsllarn@quack3>
+ <7f0c0a15-8847-4266-974e-c3567df1c25a@asahilina.net>
+ <ZylHyD7Z+ApaiS5g@dread.disaster.area>
+ <21f921b3-6601-4fc4-873f-7ef8358113bb@asahilina.net>
+ <20241106121255.yfvlzcomf7yvrvm7@quack3>
+ <672bcab0911a2_10bc62943f@dwillia2-xfh.jf.intel.com.notmuch>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <672bcab0911a2_10bc62943f@dwillia2-xfh.jf.intel.com.notmuch>
+X-Rspamd-Queue-Id: A7AB91F8B8
+X-Spam-Score: -4.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, 06 Nov 2024 08:53:59 +0100, Janne Grunau wrote:
-> This updated series address the review comments from the original
-> submission in 2021 [1]. It adds a new SPI controller driver for Apple
-> SoCs and is based on spi-sifive. It has been tested with the generic
-> jedec,spi-nor support and with a downstream driver for an Apple specific
-> HID over SPI transport.
+On Wed 06-11-24 11:59:44, Dan Williams wrote:
+> Jan Kara wrote:
+> [..]
+> > > This WARN still feels like the wrong thing, though. Right now it is the
+> > > only thing in DAX code complaining on a page size/block size mismatch
+> > > (at least for virtiofs). If this is so important, I feel like there
+> > > should be a higher level check elsewhere, like something happening at
+> > > mount time or on file open. It should actually cause the operations to
+> > > fail cleanly.
+> > 
+> > That's a fair point. Currently filesystems supporting DAX check for this in
+> > their mount code because there isn't really a DAX code that would get
+> > called during mount and would have enough information to perform the check.
+> > I'm not sure adding a new call just for this check makes a lot of sense.
+> > But if you have some good place in mind, please tell me.
 > 
-> As usual, I'm splitting off the MAINTAINERS and DT binding changes.
-> We would rather merge the MAINTAINERS change through the Asahi-SoC
-> tree to avoid merge conflicts as things trickle upstream, since
-> we have other submissions touching that section of the file.
+> Is not the reason that dax_writeback_mapping_range() the only thing
+> checking ->i_blkbits because 'struct writeback_control' does writeback
+> in terms of page-index ranges?
+
+To be fair, I don't remember why we've put the assertion specifically into
+dax_writeback_mapping_range(). But as Dave explained there's much more to
+this blocksize == pagesize limitation in DAX than just doing writeback in
+terms of page-index ranges. The whole DAX entry tracking in xarray would
+have to be modified to properly support other entry sizes than just PTE &
+PMD sizes because otherwise the entry locking just doesn't provide the
+guarantees that are expected from filesystems (e.g. you could have parallel
+modifications happening to a single fs block in pagesize < blocksize case).
+
+> All other dax entry points are filesystem controlled that know the
+> block-to-pfn-to-mapping relationship.
 > 
-> [...]
+> Recall that dax_writeback_mapping_range() is historically for pmem
+> persistence guarantees to make sure that applications write through CPU
+> cache to media.
 
-Applied to
+Correct.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+> Presumably there are no cache coherency concerns with fuse and dax
+> writes from the guest side are not a risk of being stranded in CPU
+> cache. Host side filesystem writeback will take care of them when / if
+> the guest triggers a storage device cache flush, not a guest page cache
+> writeback.
 
-Thanks!
+I'm not so sure. When you call fsync(2) in the guest on virtiofs file, it
+should provide persistency guarantees on the file contents even in case of
+*host* power failure. So if the guest is directly mapping host's page cache
+pages through virtiofs, filemap_fdatawrite() call in the guest must result
+in fsync(2) on the host to persist those pages. And as far as I vaguely
+remember that happens by KVM catching the arch_wb_cache_pmem() calls and
+issuing fsync(2) on the host. But I could be totally wrong here.
 
-[1/3] spi: dt-bindings: apple,spi: Add binding for Apple SPI controllers
-      commit: 18096d339206de6cdb48500b2c3ad5ad0b48aad7
-[2/3] spi: apple: Add driver for Apple SPI controller
-      commit: c36212b2610d09eb42142beb0d5613c70206c658
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
