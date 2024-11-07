@@ -1,316 +1,126 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9A8185B56
-	for <asahi@lists.linux.dev>; Thu,  7 Nov 2024 17:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558F4322E;
+	Thu,  7 Nov 2024 20:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731000773; cv=none; b=uJMQOdwv0LYU8i14SHzS9K0D1VbvVz8EgUnPNYWtOOzJcIpPzwCLgW2wJakzAnIZbHqcEjBe3RJRI6+6l5xUbp+vgMRbus218Mzb/dwS5R0ajDhgiDBuTMwFvOkAnK9WM22W8o5USBoSMYE53MOYB9ODnYqRnhogzBs4h1cVYOk=
+	t=1731012777; cv=none; b=CUi8o4mFr/ZGjXOSoOWB7tZHNsXynT190UiGUWa7tvpNAW3Zy00SnWxd0jlkG7XEbjjH6nO2hAusQyCGCzRmVvMgpeS6On1/QxXTK2OIJptebbiwb19sCKNU02MKZlfp9JJJMylVGHnYtg2ebOOH4yUCTbL0FSDDP6KLVcawqdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731000773; c=relaxed/simple;
-	bh=dDS3Av2u4bLCuCO6fr0uDRNY9hzb3IazY71L1OrrI/w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hpaq84uTt2DRNJtSOW4US/NFSxboZ4wWaw5nUMdExekmtn/kszu3N1eG1VNo9SNn7MW5wmRb5Kw7z3ti4HAQ5i5ehiW46VGtVrJjlIXQcwZz/Rx5WEGlXQ02RLQ9LFH4swy+mooNJtESq1o9UBwGsAgfo8RiPRMUVWWp6ac6nzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=zcc/GNvw; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	s=arc-20240116; t=1731012777; c=relaxed/simple;
+	bh=usptPoertbPSR+oleLXAHaIeE16gQoLLH+fSptWK5ik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=APTShylcMPfY3DSzAAUBnmotJhFdYlxeT7MG2IQSX9D1URQdf9rvCIS2cfqx1451WsXNnkWymx/kzSD6+4e5Lfibj84fwWRPYdfsXtrdaqoWHvUYyONNOvTMtToFOGaxsJ6GfOZAKGB4trKTVfPS9pDG8eLJBFotic2tNjm9DiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Cr6DtKJg; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="zcc/GNvw"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id BDEC141A48;
-	Thu,  7 Nov 2024 17:32:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1731000768;
-	bh=dDS3Av2u4bLCuCO6fr0uDRNY9hzb3IazY71L1OrrI/w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=zcc/GNvwd0sM9yseZCLm0MqKSUwqsKljhMn9rxNEcueHP1vXqufyh5NB78/4xU14b
-	 zPfOxgjGPtMA7KJDER3szdZJ3cX99KMn5eDgjh4hwXx9dIuE7jiwNXp+hUAPaOY7/R
-	 TgspuMQwjTw2/O0f0hyFZkOWqzIgVtGk8yNzSKzjNO8iLSZRWs9jxX1ZF71sBW7LSc
-	 GeMlFLm42deYIEyG96HQXkbrq/YOo8NvyaFQm5DofGQitMot6eAJnYd07vqdebx4C9
-	 M/R0FdqpnaGmEzqkCj6bWZ/iwb1vpzGIFoiH6McvtliAB45o/oRap04IsKUhYTXeLG
-	 Yghq3R0Tq3xbw==
-Message-ID: <64d386e8-6684-4213-8aba-7d1daf94f2cf@asahilina.net>
-Date: Fri, 8 Nov 2024 02:32:47 +0900
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Cr6DtKJg"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=yl+OOEXvHsPnP3J48r75DDPeER85xSNgZKhr4gd7Cm0=; b=Cr6DtKJgjYQEyswyIdkAroIYcg
+	S7S3EuFJZAKezkZPFb8wXYhElk3wSVijoY+UpH8S3IdsaCceoEu+C+DHJHevrKbZ/9v0FOwekuYCx
+	oyHQz21JO7AsDw0U1cgnC/2ne3Wx0s1e/Ts0upk6Opwvv36gSdYLvGL/9PYlT45X0a2cOshaGN1Ai
+	SpyuOtvT+FoT86Q67vuqEy5ZNJVGde4IMU6pyTqU7l2iFd2PQyEyDiEt9jpwoZT2lyMF4Z+HIB5PJ
+	1r53njx9wd8lEDAvlAzuSJ1ewANYeESfrBp37WqBPF9z/y5uD8oVVgyQBeYNowo9JT98ecPS07fFO
+	QoHEhKRA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1t99Uk-00000007NpN-1y8X;
+	Thu, 07 Nov 2024 20:52:46 +0000
+Date: Thu, 7 Nov 2024 20:52:46 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Dave Chinner <david@fromorbit.com>
+Cc: Asahi Lina <lina@asahilina.net>, Jan Kara <jack@suse.cz>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Sergio Lopez Pascual <slp@redhat.com>,
+	linux-fsdevel@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, asahi@lists.linux.dev
+Subject: Re: [PATCH] dax: Allow block size > PAGE_SIZE
+Message-ID: <Zy0onj9R_VJnk17p@casper.infradead.org>
+References: <20241101-dax-page-size-v1-1-eedbd0c6b08f@asahilina.net>
+ <20241104105711.mqk4of6frmsllarn@quack3>
+ <7f0c0a15-8847-4266-974e-c3567df1c25a@asahilina.net>
+ <ZylHyD7Z+ApaiS5g@dread.disaster.area>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm: Fix __wp_page_copy_user fallback path for remote mm
-To: David Hildenbrand <david@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Sergio Lopez Pascual <slp@redhat.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, asahi@lists.linux.dev
-References: <20241101-mm-remote-pfn-v1-1-080b609270b7@asahilina.net>
- <c00226ea-6e29-4432-a1c4-a25e9e05df9c@redhat.com>
- <2d8380b9-3d03-4263-b5bf-7e0227c83ba9@asahilina.net>
- <0977a33b-8318-43a5-a5a1-4eb8c93ca270@redhat.com>
-Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <0977a33b-8318-43a5-a5a1-4eb8c93ca270@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZylHyD7Z+ApaiS5g@dread.disaster.area>
 
-On 11/8/24 2:14 AM, David Hildenbrand wrote:
-> On 07.11.24 17:43, Asahi Lina wrote:
->> On 11/5/24 9:03 PM, David Hildenbrand wrote:
->>> On 01.11.24 13:08, Asahi Lina wrote:
->>>> If the source page is a PFN mapping, we copy back from userspace.
->>>> However, if this fault is a remote access, we cannot use
->>>> __copy_from_user_inatomic. Instead, use access_remote_vm() in this
->>>> case.
->>>>
->>>> Fixes WARN and incorrect zero-filling when writing to CoW mappings in
->>>> a remote process, such as when using gdb on a binary present on a DAX
->>>> filesystem.
->>>>
->>>> [  143.683782] ------------[ cut here ]------------
->>>> [  143.683784] WARNING: CPU: 1 PID: 350 at mm/memory.c:2904
->>>> __wp_page_copy_user+0x120/0x2bc
->>>> [  143.683793] CPU: 1 PID: 350 Comm: gdb Not tainted 6.6.52 #1
->>>> [  143.683794] Hardware name: linux,dummy-virt (DT)
->>>> [  143.683795] pstate: 61400005 (nZCv daif +PAN -UAO -TCO +DIT -SSBS
->>>> BTYPE=--)
->>>> [  143.683796] pc : __wp_page_copy_user+0x120/0x2bc
->>>> [  143.683798] lr : __wp_page_copy_user+0x254/0x2bc
->>>> [  143.683799] sp : ffff80008272b8b0
->>>> [  143.683799] x29: ffff80008272b8b0 x28: 0000000000000000 x27:
->>>> ffff000083bad580
->>>> [  143.683801] x26: 0000000000000000 x25: 0000fffff7fd5000 x24:
->>>> ffff000081db04c0
->>>> [  143.683802] x23: ffff00014f24b000 x22: fffffc00053c92c0 x21:
->>>> ffff000083502150
->>>> [  143.683803] x20: 0000fffff7fd5000 x19: ffff80008272b9d0 x18:
->>>> 0000000000000000
->>>> [  143.683804] x17: ffff000081db0500 x16: ffff800080fe52a0 x15:
->>>> 0000fffff7fd5000
->>>> [  143.683804] x14: 0000000000bb1845 x13: 0000000000000080 x12:
->>>> ffff80008272b880
->>>> [  143.683805] x11: ffff000081d13600 x10: ffff000081d13608 x9 :
->>>> ffff000081d1360c
->>>> [  143.683806] x8 : ffff000083a16f00 x7 : 0000000000000010 x6 :
->>>> ffff00014f24b000
->>>> [  143.683807] x5 : ffff00014f24c000 x4 : 0000000000000000 x3 :
->>>> ffff000083582000
->>>> [  143.683807] x2 : 0000000000000f80 x1 : 0000fffff7fd5000 x0 :
->>>> 0000000000001000
->>>> [  143.683808] Call trace:
->>>> [  143.683809]  __wp_page_copy_user+0x120/0x2bc
->>>> [  143.683810]  wp_page_copy+0x98/0x5c0
->>>> [  143.683813]  do_wp_page+0x250/0x530
->>>> [  143.683814]  __handle_mm_fault+0x278/0x284
->>>> [  143.683817]  handle_mm_fault+0x64/0x1e8
->>>> [  143.683819]  faultin_page+0x5c/0x110
->>>> [  143.683820]  __get_user_pages+0xc8/0x2f4
->>>> [  143.683821]  get_user_pages_remote+0xac/0x30c
->>>> [  143.683823]  __access_remote_vm+0xb4/0x368
->>>> [  143.683824]  access_remote_vm+0x10/0x1c
->>>> [  143.683826]  mem_rw.isra.0+0xc4/0x218
->>>> [  143.683831]  mem_write+0x18/0x24
->>>> [  143.683831]  vfs_write+0xa0/0x37c
->>>> [  143.683834]  ksys_pwrite64+0x7c/0xc0
->>>> [  143.683834]  __arm64_sys_pwrite64+0x20/0x2c
->>>> [  143.683835]  invoke_syscall+0x48/0x10c
->>>> [  143.683837]  el0_svc_common.constprop.0+0x40/0xe0
->>>> [  143.683839]  do_el0_svc+0x1c/0x28
->>>> [  143.683841]  el0_svc+0x3c/0xdc
->>>> [  143.683846]  el0t_64_sync_handler+0x120/0x12c
->>>> [  143.683848]  el0t_64_sync+0x194/0x198
->>>> [  143.683849] ---[ end trace 0000000000000000 ]---
->>>>
->>>> Signed-off-by: Asahi Lina <lina@asahilina.net>
->>>> ---
->>>>    mm/memory.c | 7 ++++++-
->>>>    1 file changed, 6 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/mm/memory.c b/mm/memory.c
->>>> index
->>>> 3ccee51adfbbd007b24331fe6874265f231a877b..dba25d9734063ac02cdaeb0a5cd5432473f6372e 100644
->>>> --- a/mm/memory.c
->>>> +++ b/mm/memory.c
->>>> @@ -3081,13 +3081,18 @@ static inline int __wp_page_copy_user(struct
->>>> page *dst, struct page *src,
->>>>                update_mmu_cache_range(vmf, vma, addr, vmf->pte, 1);
->>>>        }
->>>>    +    /* If the mm is a remote mm, copy in the page using
->>>> access_remote_vm() */
->>>> +    if (current->mm != mm) {
->>>> +        if (access_remote_vm(mm, (unsigned long)uaddr, kaddr,
->>>> PAGE_SIZE, 0) != PAGE_SIZE)
->>>
->>> access_remote_vm() will do a mmap_read_lock_killable() and then call
->>> into get_user_page_vma_remote() -- fortunately read-access, otherwise
->>> we'd be in trouble :) .
->>>
->>> So we should already be holding the mmap read lock from the previous
->>> access_remote_vm() users (who we end up here) ... doesn't this complain
->>> with lockdep about recursive locking?
->>>
->>> I keep forgetting locking rules, so I might just be wrong.
->>
->> You're right, this complains with lockdep:
->>
->> [   23.154031]
->> [   23.154093] ============================================
->> [   23.154193] WARNING: possible recursive locking detected
->> [   23.154229] 6.6.52 #2 Not tainted
->> [   23.154270] --------------------------------------------
->> [   23.154306] gdb/349 is trying to acquire lock:
->> [   23.154343] ffff0000862e3450 (&mm->mmap_lock){++++}-{3:3}, at:
->> __access_remote_vm+0x3c/0x3a8
->> [   23.154431]
->> [   23.154431] but task is already holding lock:
->> [   23.154474] ffff0000862e3450 (&mm->mmap_lock){++++}-{3:3}, at:
->> __access_remote_vm+0x3c/0x3a8
->> [   23.154553]
->> [   23.154553] other info that might help us debug this:
->> [   23.154598]  Possible unsafe locking scenario:
->> [   23.154598]
->> [   23.154641]        CPU0
->> [   23.154665]        ----
->> [   23.154685]   lock(&mm->mmap_lock);
->> [   23.154712]   lock(&mm->mmap_lock);
->> [   23.154741]
->> [   23.154741]  *** DEADLOCK ***
->> [   23.154741]
->> [   23.154790]  May be due to missing lock nesting notation
->> [   23.154790]
->> [   23.154838] 2 locks held by gdb/349:
->> [   23.154868]  #0: ffff0000835b53f8 (sb_writers#4){.+.+}-{0:0}, at:
->> vfs_write+0x84/0x2e0
->> [   23.154945]  #1: ffff0000862e3450 (&mm->mmap_lock){++++}-{3:3}, at:
->> __access_remote_vm+0x3c/0x3a8
->> [   23.155023]
->> [   23.155023] stack backtrace:
->> [   23.155060] CPU: 5 PID: 349 Comm: gdb Not tainted 6.6.52 #2
->> [   23.155112] Hardware name: linux,dummy-virt (DT)
->> [   23.155148] Call trace:
->> [   23.155167]  dump_backtrace+0x98/0x118
->> [   23.155209]  show_stack+0x18/0x24
->> [   23.155240]  dump_stack_lvl+0x60/0xac
->> [   23.155292]  dump_stack+0x18/0x24
->> [   23.155320]  print_deadlock_bug+0x260/0x34c
->> [   23.155364]  validate_chain+0x364/0x4c0
->> [   23.155393]  __lock_acquire+0x564/0xb64
->> [   23.155420]  lock_acquire.part.0+0x9c/0x1bc
->> [   23.155448]  lock_acquire+0x9c/0x140
->> [   23.155477]  down_read_killable+0x44/0x158
->> [   23.155521]  __access_remote_vm+0x3c/0x3a8
->> [   23.155562]  __wp_page_copy_user+0x13c/0x3a8
->> [   23.155611]  wp_page_copy+0x98/0x4d8
->> [   23.155640]  do_wp_page+0x290/0x594
->> [   23.155671]  __handle_mm_fault+0x258/0x25c
->> [   23.155712]  handle_mm_fault+0x64/0x1f0
->> [   23.155755]  faultin_page+0x64/0x138
->> [   23.155798]  __get_user_pages+0x11c/0x340
->> [   23.155843]  get_user_pages_remote+0xc4/0x404
->> [   23.155895]  __access_remote_vm+0xf4/0x3a8
->> [   23.155922]  access_remote_vm+0x10/0x1c
->> [   23.155952]  mem_rw.isra.0+0xc4/0x218
->> [   23.155996]  mem_write+0x18/0x24
->> [   23.156023]  vfs_write+0xa4/0x2e0
->> [   23.156066]  ksys_pwrite64+0x7c/0xc0
->> [   23.156109]  __arm64_sys_pwrite64+0x20/0x2c
->> [   23.156152]  invoke_syscall+0x48/0x10c
->> [   23.156196]  el0_svc_common.constprop.0+0x40/0xe0
->> [   23.156249]  do_el0_svc+0x1c/0x28
->> [   23.156293]  el0_svc+0x54/0x140
->> [   23.156334]  el0t_64_sync_handler+0x120/0x12c
->> [   23.156384]  el0t_64_sync+0x194/0x198
->>
->> I guess the locking implementation is recursive so that's why this
->> didn't actually deadlock...
->>
->> I'm not sure what the right way to do this is then. The underlying
->> reason why the fallback code is being called is that do_wp_page() calls
->> vm_normal_page(), which returns NULL for VM_PFNMAP pages. So vmf->page
->> is NULL and __wp_page_copy_user has to use the fallback path. However,
->> the reason GUP works is that follow_page_pte() and friends have a
->> specific fallback path for the pte_devmap() case that grabs a struct
->> page anyway. Maybe similar logic should be in do_wp_page() so it can
->> grab a struct page for PFN mappings too?
+On Tue, Nov 05, 2024 at 09:16:40AM +1100, Dave Chinner wrote:
+> The DAX infrastructure needs the same changes for fsb > page size
+> support. We have a limited number bits we can use for DAX entry
+> state:
 > 
-> There is currently WIP to remove pte_devmap() and make vm_normal_page()
-> return these pages as well.
+> /*
+>  * DAX pagecache entries use XArray value entries so they can't be mistaken
+>  * for pages.  We use one bit for locking, one bit for the entry size (PMD)
+>  * and two more to tell us if the entry is a zero page or an empty entry that
+>  * is just used for locking.  In total four special bits.
+>  *
+>  * If the PMD bit isn't set the entry has size PAGE_SIZE, and if the ZERO_PAGE
+>  * and EMPTY bits aren't set the entry is a normal DAX entry with a filesystem
+>  * block allocation.
+>  */
+> #define DAX_SHIFT       (4)
+> #define DAX_LOCKED      (1UL << 0)
+> #define DAX_PMD         (1UL << 1)
+> #define DAX_ZERO_PAGE   (1UL << 2)
+> #define DAX_EMPTY       (1UL << 3)
 > 
-> But that would not be in VM_PFNMAP mappings, because VM_PFNMAP means
-> "don't you ever look at the struct page".
-> 
-> Likely, you do not have a VM_PFNMAP mapping here but instead a
-> VM_MIXEDMAP mapping(or likely no special mapping at all)?
-> 
-> vm_normal_page() returns NULL for pte_devmap(), independent of
-> VM_PFNMAP, because pte_special() should succeed on them.
-> 
-> 
-> 
-> I recall that there is still a problem with false-positives on
-> folio_test_anon() with ZONE_DEVICE pages, so it's maybe not that
-> easy ... and the whole get_dev_pagemap() stuff is nasty.
-> 
-> Likely we would have to do what GUP does, and temporarily grab a pgmap
-> reference. Gah.
-> 
-> 
-> So if we sort out the pagemap stuff and the possibly wrong
-> folio_test_anon() on some ZONE_DEVICE pages (but not all, because IIRC
-> DEVICE_PRIVATE can be anon ...), it might be doable.
-> 
-> But it sounds ugly, especially because that code might change soon and
-> not require messing with ZONE_DEVICE pages on that level.
-> 
-> And then, we'd not be able to handle VM_PFNMAP cleanly ...
-> 
-> 
-> Maybe we could test if the PFN has a directmap and simply read using
-> that? I mean, that's what kmap_local_page() ends up doing on systems
-> without highmem ... and without !defined(HASHED_PAGE_VIRTUAL) && !
-> defined(WANT_PAGE_VIRTUAL) the kmap_local_page() really just is a
-> page_to_virt(), which is mostly mapping a PFN to the corresponding
-> virtual address ...
-> 
-> But it doesn't universally work ...
-> 
->>
->> Or if the problem is just the lock, would just eliding the locking work?
->> I guess that only works if all the calls into wp_page_copy() are
->> guaranteed to hold the mmap lock already, but I don't know if that is
->> true...
-> 
-> The whole "GUP recursively calling into GUP" code looks concerning.
-> Could we even trigger a case where we get a recursive page fault handler
-> call, because of some odd race? (concurrent MADV_DONTNEED or similar)
-> 
-> I think we should much rather fail this remote fault if there is no easy
-> way to make it work right now.
-> 
-> At least I suspect this is primarily a "debugger" scenario that didn't
-> work so far and we could leave it "not working because not supported" in
-> a nicer way?
-> 
-> 
-> If this really must succeed, I can spend some time thinking about how to
-> do this cleaner ...
+> I *think* that we have at most PAGE_SHIFT worth of bits we can
+> use because we only store the pfn part of the pfn_t in the dax
+> entry. There are PAGE_SHIFT high bits in the pfn_t that hold
+> pfn state that we mask out.
 
-Well, this breaks debuggers in general on a virtiofs VM mounted with
-DAX, which is a sensible use case I think. One reason to use DAX is
-avoiding duplication of the page cache between the host and the guest
-(or multiple guests).
+We're a lot more constrained than that on 32-bit.  We support up to 40
+bits of physical address on arm32 (well, the hardware supports it ...
+Linux is not very good with that amount of physical space).  Assuming a
+PAGE_SHIFT of 12, we've got 3 bits (yes, the current DAX doesn't support
+the 40th bit on arm32).  Fortunately, we don't need more than that.
 
-I think the main reason not that many people are trying DAX across the
-board for virtiofs is various bugs that have been slowly fixed, and this
-would be one of the remaining ones...
+There are a set of encodings which don't seem to have a name (perhaps
+I should name it after myself) that can encode any power-of-two that is
+naturally aligned by using just one extra bit.  I've documented it here:
 
-(Full disclosure: For the use case I'm working on we're no longer
-mounting the whole rootfs with DAX right now (only a subset) since we're
-still evaluating the performance, but I'd like to keep the option open
-and having it break debuggers is kind of a blocker...)
+https://kernelnewbies.org/MatthewWilcox/NaturallyAlignedOrder
 
-~~ Lina
+So we can just recycle the DAX_PMD bit as bit 0 of the encoding.
+We can also reclaim DAX_EMPTY by using the "No object" encoding as
+DAX_EMPTY.  So that gives us a bit back.
 
+ie the functions I'd actually have in dax.c would be:
+
+#define DAX_LOCKED	1
+#define DAX_ZERO_PAGE	2
+
+unsigned int dax_entry_order(void *entry)
+{
+	return ffsl(xa_to_value(entry) >> 2) - 1;
+}
+
+unsigned long dax_to_pfn(void *entry)
+{
+	unsigned long v = xa_to_value(entry) >> 2;
+	return (v & (v - 1)) / 2;
+}
+
+void *dax_make_entry(pfn_t pfn, unsigned int order, unsigned long flags)
+{
+	VM_BUG_ON(pfn_t_to_pfn(pfn) & ((1UL << order) - 1) != 0);
+	flags |= (4UL << order) | (pfn_t_to_pfn(pfn) * 8);
+	return xa_mk_value(flags);
+}
+
+bool dax_is_empty_entry(void *entry)
+{
+	return (xa_to_value(entry) >> 2) == 0;
+}
