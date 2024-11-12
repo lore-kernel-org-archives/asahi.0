@@ -1,221 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766B72076D7
-	for <asahi@lists.linux.dev>; Tue, 12 Nov 2024 04:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BA320FA95
+	for <asahi@lists.linux.dev>; Tue, 12 Nov 2024 09:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731384561; cv=none; b=UIf0MFSM76uamdbiyDHYb17L3Uvk/1PG4kTtqyoI887IqWewCayksd8SsZGUFL1Lbc2laW6UYG4MBOr6/SkivmiWXoDK4ZWMma6ERkGw1jv+7YTDgKMmqASpyUnQcOovX0Bepi5HpiAANi8/FXq150RHLq9wbU5eAFohXqoIyUo=
+	t=1731404923; cv=none; b=VRERCvgXMWfFO+K8hvr+0qI9pGNcDLUcbPrdxMRaPIjOnxsYTEUazYCgKcg1yJq+fgP8yHQCBlwos29ANrXHiU8YmsokvbmH3p1UKcBGzXQ4Sd3AcYC6ES4xihEnG+4g3KjaiccB0PD+xVjSJF4Gc7WmadCcA4RjvVYuQUbLH20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731384561; c=relaxed/simple;
-	bh=pR0BtV89O5c28HlJXTslOQmSq8i0VdMQqs5jp/cnj4M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EZ+PO2hECXLNpL1y9OJDOrdblEPkvJkZWPeaQjB0JWM4d0zQCQdbPSA5WZ7obRHBLWyDXel76iWK/kGvjGEpszqxvfybWWuvNiUh9zSXjNysL7mfbvC/vI3JpkEpjCwd61b2bD3Fu5lOJcVOvexurRB83P1iKje6pPcMBMrLIRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eWMa90aM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731404923; c=relaxed/simple;
+	bh=LrtAQhxTOMENsDkUTMA8xkgddOLcwv2DtqWpfLXRdSo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VXULSIpBZJZvkJg6b3ftIX07tGcr1fHqwxYPuUKn0ldDT20nmBnVz/8VAGjLRN7iyl38xgkf9hw8mvEwEhi9xhFhfuYAhJ0GJzeNlAw6BGZqJazx/TsOWIx/daDqAEc7QTHVFKdQg/posLJPlArvfIH0hBc4PECie0J0Jj9Abkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=izgjO7xQ; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eWMa90aM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22CF8C4CED5
-	for <asahi@lists.linux.dev>; Tue, 12 Nov 2024 04:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731384561;
-	bh=pR0BtV89O5c28HlJXTslOQmSq8i0VdMQqs5jp/cnj4M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eWMa90aM8vmXm3QDmMl7620F2UhYvu7a6kfzejmyc+ZsWSOU2KND7KWoXmAEyW6RZ
-	 tlqXMNrWThUaB+pyOstes05Jevr/4rfWHADdNxVMXrRDMaYGzcfSgUFG3H95VSrvOo
-	 AXuo4cYVPEBVVoh+64JGORTU4dldDEKvKCXFF5e5fykR5tYhK7BFgCo9YZiJjqIov+
-	 7JM8VH0Snux9uCnCdEXibzYa2D3NRY/RoSoW9ze0XjuL+Uv64seT2hF2zC/qBGdmcS
-	 TjnUMjJAD2hV4S6Bt3o68aq+W42276DtW5jr9W05naxj/SVDLi/cRY2AY3txoZx6t3
-	 cdfpdbWXDte5Q==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb388e64b0so46833861fa.0
-        for <asahi@lists.linux.dev>; Mon, 11 Nov 2024 20:09:21 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWn+J7DsW2HlU6LVUasA5yyaAeXZWJWJKqe6Gps7IDu/Kc2Z8xmINtkZO4SaSEbIJmPKCDsGg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzpr8lFT+4Uxlh7XueR6agZWvqp79HYUUWVhHG6j5KX/gChRKT/
-	Uf8jnmjRA6Q7+9Yr1BOsMGpIHo6j/ge8O52awRQAC4Poi5wmY9iZOrpINvQLo/bjyGw1Oy7s9FW
-	oeqHNftbVTl/ySYgRClisVSD4YYg=
-X-Google-Smtp-Source: AGHT+IHCz5Kq6glWndE0YFj2o5thdpPMvoFZsNuNTIzXPJG19tiU0tqQWVzQvxPj8BIf5QDsKUvqgDusa+OmiJvxhUw=
-X-Received: by 2002:a05:651c:198a:b0:2fb:4c5c:3f7d with SMTP id
- 38308e7fff4ca-2ff426972bemr5425751fa.5.1731384559779; Mon, 11 Nov 2024
- 20:09:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="izgjO7xQ"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: lina@asahilina.net)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 2255042118;
+	Tue, 12 Nov 2024 09:48:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
+	s=default; t=1731404914;
+	bh=LrtAQhxTOMENsDkUTMA8xkgddOLcwv2DtqWpfLXRdSo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=izgjO7xQF0rD6dbjle7potQOfb9o9kMeJg2fNMJf8M1tniYhJhTTkLi9xDlxySdyc
+	 as71DhG+oYTmbbnKJZi+c1pgLLJn5MIyXyTvXjwDIbn1OM34NrlPw/Y6r2M2AhPptT
+	 UpcwHIaPq80Dua/+/TLdHrFwMQti+IV+pwkGVnxOl/HYQeGmgCZN8YiI90MakOj4R7
+	 sWW66AMdHFfwtUScOnZQw9Q2NTCrzvo3ekF+2f4F0H+1PLW/dcKT+c9f+vo5Fxa5FO
+	 f5BXMI1vpr7SmkA5NsgJjzx1xz4Dsjw6uWUFTmhKo9eryVEY9wSLk4Tn/Y3LFdVKTZ
+	 o6zLkpX+KOdYA==
+Message-ID: <821d15f9-233e-4b9d-8194-5de1835113c7@asahilina.net>
+Date: Tue, 12 Nov 2024 18:48:33 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241030170106.1501763-21-samitolvanen@google.com> <20241030170106.1501763-39-samitolvanen@google.com>
-In-Reply-To: <20241030170106.1501763-39-samitolvanen@google.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Tue, 12 Nov 2024 13:08:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR9c+EEsOvPPn4qSq3gAFskYOXVd=dg8O+bKeeC-HMifw@mail.gmail.com>
-Message-ID: <CAK7LNAR9c+EEsOvPPn4qSq3gAFskYOXVd=dg8O+bKeeC-HMifw@mail.gmail.com>
-Subject: Re: [PATCH v5 18/19] kbuild: Add gendwarfksyms as an alternative to genksyms
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Oct 31, 2024 at 2:01=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
->
-> When MODVERSIONS is enabled, allow selecting gendwarfksyms as the
-> implementation, but default to genksyms.
->
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> Acked-by: Neal Gompa <neal@gompa.dev>
-> ---
->  kernel/module/Kconfig  | 25 ++++++++++++++++++++++++-
->  scripts/Makefile       |  2 +-
->  scripts/Makefile.build | 41 +++++++++++++++++++++++++++++++++--------
->  3 files changed, 58 insertions(+), 10 deletions(-)
->
-> diff --git a/kernel/module/Kconfig b/kernel/module/Kconfig
-> index f9e5f82fa88b..e6b2427e5c19 100644
-> --- a/kernel/module/Kconfig
-> +++ b/kernel/module/Kconfig
-> @@ -169,13 +169,36 @@ config MODVERSIONS
->           make them incompatible with the kernel you are running.  If
->           unsure, say N.
->
-> +choice
-> +       prompt "Module versioning implementation"
-> +       depends on MODVERSIONS
-> +       default GENKSYMS
-> +       help
-> +         Select the tool used to calculate symbol versions for modules.
-> +
-> +         If unsure, select GENKSYMS.
-> +
-> +config GENKSYMS
-> +       bool "genksyms (from source code)"
-> +       help
-> +         Calculate symbol versions from pre-processed source code using
-> +         genksyms.
-> +
-> +         If unsure, say Y.
-> +
->  config GENDWARFKSYMS
-> -       bool
-> +       bool "gendwarfksyms (from debugging information)"
->         depends on DEBUG_INFO
->         # Requires full debugging information, split DWARF not supported.
->         depends on !DEBUG_INFO_REDUCED && !DEBUG_INFO_SPLIT
->         # Requires ELF object files.
->         depends on !LTO
-> +       help
-> +         Calculate symbol versions from DWARF debugging information usin=
-g
-> +         gendwarfksyms. Requires DEBUG_INFO to be enabled.
-> +
-> +         If unsure, say N.
-> +endchoice
->
->  config ASM_MODVERSIONS
->         bool
-> diff --git a/scripts/Makefile b/scripts/Makefile
-> index d7fec46d38c0..8533f4498885 100644
-> --- a/scripts/Makefile
-> +++ b/scripts/Makefile
-> @@ -53,7 +53,7 @@ hostprogs +=3D unifdef
->  targets +=3D module.lds
->
->  subdir-$(CONFIG_GCC_PLUGINS) +=3D gcc-plugins
-> -subdir-$(CONFIG_MODVERSIONS) +=3D genksyms
-> +subdir-$(CONFIG_GENKSYMS) +=3D genksyms
->  subdir-$(CONFIG_GENDWARFKSYMS) +=3D gendwarfksyms
->  subdir-$(CONFIG_SECURITY_SELINUX) +=3D selinux
->  subdir-$(CONFIG_SECURITY_IPE) +=3D ipe
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 8f423a1faf50..d2a0440cdb79 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -107,18 +107,31 @@ cmd_cpp_i_c       =3D $(CPP) $(c_flags) -o $@ $<
->  $(obj)/%.i: $(obj)/%.c FORCE
->         $(call if_changed_dep,cpp_i_c)
->
-> +getexportsymbols =3D $(NM) $(1) | sed -n 's/.* __export_symbol_\(.*\)/$(=
-2)/p'
-> +
-> +gendwarfksyms =3D scripts/gendwarfksyms/gendwarfksyms    \
-> +       $(if $(1), --symtypes $(2))                     \
-> +       $(if $(KBUILD_GENDWARFKSYMS_STABLE), --stable)
-> +
->  genksyms =3D scripts/genksyms/genksyms           \
->         $(if $(1), -T $(2))                     \
->         $(if $(KBUILD_PRESERVE), -p)            \
->         -r $(or $(wildcard $(2:.symtypes=3D.symref)), /dev/null)
->
->  # These mirror gensymtypes_S and co below, keep them in synch.
-> +ifdef CONFIG_GENDWARFKSYMS
-> +symtypes_dep_c =3D $(obj)/%.o
-> +cmd_gensymtypes_c =3D $(if $(skip_gendwarfksyms),,       \
-> +       $(call getexportsymbols,$(2:.symtypes=3D.o),\1) | \
-> +       $(gendwarfksyms) $(2:.symtypes=3D.o))
-> +else
->  cmd_gensymtypes_c =3D $(CPP) -D__GENKSYMS__ $(c_flags) $< | $(genksyms)
-> +endif # CONFIG_GENDWARFKSYMS
->
->  quiet_cmd_cc_symtypes_c =3D SYM $(quiet_modtag) $@
->        cmd_cc_symtypes_c =3D $(call cmd_gensymtypes_c,true,$@) >/dev/null
->
-> -$(obj)/%.symtypes : $(obj)/%.c FORCE
-> +$(obj)/%.symtypes : $(obj)/%.c $(symtypes_dep_c) FORCE
->         $(call cmd,cc_symtypes_c)
->
->  # LLVM assembly
-> @@ -314,19 +327,31 @@ $(obj)/%.ll: $(obj)/%.rs FORCE
->  # This is convoluted. The .S file must first be preprocessed to run guar=
-ds and
->  # expand names, then the resulting exports must be constructed into plai=
-n
->  # EXPORT_SYMBOL(symbol); to build our dummy C file, and that gets prepro=
-cessed
-> -# to make the genksyms input.
-> +# to make the genksyms input or compiled into an object for gendwarfksym=
-s.
->  #
->  # These mirror gensymtypes_c and co above, keep them in synch.
-> -cmd_gensymtypes_S =3D                                                   =
-      \
-> -   { echo "\#include <linux/kernel.h>" ;                                =
-    \
-> -     echo "\#include <asm/asm-prototypes.h>" ;                          =
-    \
-> -     $(NM) $@ | sed -n 's/.* __export_symbol_\(.*\)/EXPORT_SYMBOL(\1);/p=
-' ; } | \
-> -    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
-> +getasmexports =3D                                                       =
-         \
-> +   { echo "\#include <linux/kernel.h>" ;                               \
-> +     echo "\#include <linux/string.h>" ;                               \
-> +     echo "\#include <asm/asm-prototypes.h>" ;                         \
-> +     $(call getexportsymbols,$(2:.symtypes=3D.o),EXPORT_SYMBOL(\1);) ; }
-> +
-> +ifdef CONFIG_GENDWARFKSYMS
-> +cmd_gensymtypes_S =3D                                                   =
- \
-> +       $(getasmexports) |                                              \
-> +       $(CC) $(c_flags) -c -o $(2:.symtypes=3D.gendwarfksyms.o) -xc -;  =
- \
-> +       $(call getexportsymbols,$(2:.symtypes=3D.o),\1) |                =
- \
-> +       $(gendwarfksyms) $(2:.symtypes=3D.gendwarfksyms.o)
-
-
-I do not want to see crazy suffix replacements like this.
-
-I decided to delete this.
-https://lore.kernel.org/linux-kbuild/20241111171753.2917697-2-masahiroy@ker=
-nel.org/T/#u
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm: Fix __wp_page_copy_user fallback path for remote mm
+To: Alistair Popple <apopple@nvidia.com>, David Hildenbrand <david@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Sergio Lopez Pascual <slp@redhat.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev,
+ Dan Williams <dan.j.williams@intel.com>
+References: <20241101-mm-remote-pfn-v1-1-080b609270b7@asahilina.net>
+ <c00226ea-6e29-4432-a1c4-a25e9e05df9c@redhat.com>
+ <2d8380b9-3d03-4263-b5bf-7e0227c83ba9@asahilina.net>
+ <0977a33b-8318-43a5-a5a1-4eb8c93ca270@redhat.com>
+ <64d386e8-6684-4213-8aba-7d1daf94f2cf@asahilina.net>
+ <412298ff-80bc-4111-8c72-29a5263a5d32@redhat.com>
+ <87ttceu0i8.fsf@nvdebian.thelocal>
+Content-Language: en-US
+From: Asahi Lina <lina@asahilina.net>
+In-Reply-To: <87ttceu0i8.fsf@nvdebian.thelocal>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
---=20
-Best Regards
-Masahiro Yamada
+On 11/11/24 8:24 AM, Alistair Popple wrote:
+> 
+> David Hildenbrand <david@redhat.com> writes:
+> 
+>> On 07.11.24 18:32, Asahi Lina wrote:
+>>> On 11/8/24 2:14 AM, David Hildenbrand wrote:
+>>>> I recall that there is still a problem with false-positives on
+>>>> folio_test_anon() with ZONE_DEVICE pages, so it's maybe not that
+>>>> easy ... and the whole get_dev_pagemap() stuff is nasty.
+> 
+> Specifically FS DAX reuses PAGE_MAPPING_ANON in
+> include/linux/page-flags.h
+> 
+>     /*
+>      * Different with flags above, this flag is used only for fsdax mode.  It
+>      * indicates that this page->mapping is now under reflink case.
+>      */
+>     #define PAGE_MAPPING_DAX_SHARED	((void *)0x1)
+> 
+> FS DAX pages are never anon though, so you could probably test for
+> !vma_is_dax() and/or add an implementation of is_fsdax_page().
+> 
+>>>> Likely we would have to do what GUP does, and temporarily grab a pgmap
+>>>> reference. Gah.
+>>>>
+>>>>
+>>>> So if we sort out the pagemap stuff and the possibly wrong
+>>>> folio_test_anon() on some ZONE_DEVICE pages (but not all, because IIRC
+>>>> DEVICE_PRIVATE can be anon ...), it might be doable.
+> 
+> Correct, DEVICE_PRIVATE and DEVICE_COHERENT pages are always anon (at
+> least for now).
+> 
+>>>> But it sounds ugly, especially because that code might change soon and
+>>>> not require messing with ZONE_DEVICE pages on that level.
+> 
+> Yes, I'm hopoing to get the next version of that series posted this
+> week. I found a couple of other FS DAX bugs that slowed me down.
+> 
+>  - Alistair
+> 
+>>>> And then, we'd not be able to handle VM_PFNMAP cleanly ...
+>>>>
+
+If this is all going to be fixed another way soon then I think there's
+no rush to get a workaround in earlier than that, I just don't want it
+to fall by the wayside.
+
+We have my original patch downstream in libkrunfw (which despite the
+lockdep complaints does work in practice), so we can keep that in until
+the proper solution lands upstream.
+
+Alistair, can you Cc me on future submissions? So I'm reminded to test
+this out (FWIW the case I'm interested in is just `gdb /bin/foo` with
+the whole root filesystem on DAX, though I imagine a statically linked
+foo on a DAX mount by itself is probably an equivalent repro).
+
+~~ Lina
