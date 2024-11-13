@@ -1,70 +1,92 @@
-Received: from cmccmta1.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8558018654
-	for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 01:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.151
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10C71FE0FD
+	for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 10:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731463086; cv=none; b=XNoIeGP0XiaPbY0wWThNyEzUB8o2xmPTwtCuKz4dX28VcbmTBWQLOCX0o6Is+W+bkVokiFBuww1VdWnqujkfqQGYLy6P90Fawg5xdUuA0qoExf8EMtYQ9047dABLe/28R1JLc+cQTtbdW0VUTyAvBARRkhO1qbHTvQ04wChuFr4=
+	t=1731494941; cv=none; b=h2odeEWldLP8w1X0ccLRD1IqoC+Knbf+QdPa+4KgYviK3TUYlhOydkQT2KSLi3aJf3NB+3TnlbceBvAFJ/K48uSQ1c0cOLo8OnyMDqIM8fSK4JOz7wZoz6CtFa/eK4N/xYZyIv0VKUjAEUkrmUKS+UL7iag30Zyz6SaRDAF/G7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731463086; c=relaxed/simple;
-	bh=Sb/hii9sYzUkbrxUho4NcJczD6dyngF5OH681nF1keg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Eyv2gl0eoag4RoZ9V9shHAXcvAjqrJWtieVpVdcfXvBIKkihhrn837cvQ8i/0Jdt7FN/u8F5LKg2lb6W038iwtVhKlBJxqPguCcB1g3DfOXCeHjrlnNq8qwYArMQgcRZWoI63+IVBwMzZC+cr2RcMc8XPkdmJ6JTeCgMY9Onivk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app02-12002 (RichMail) with SMTP id 2ee2673407a8852-4986c;
-	Wed, 13 Nov 2024 09:58:00 +0800 (CST)
-X-RM-TRANSID:2ee2673407a8852-4986c
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from localhost.localdomain (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee1673407a7260-71818;
-	Wed, 13 Nov 2024 09:58:00 +0800 (CST)
-X-RM-TRANSID:2ee1673407a7260-71818
-From: liujing <liujing@cmss.chinamobile.com>
-To: povik+lin@cutebit.org
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	asahi@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	liujing <liujing@cmss.chinamobile.com>
-Subject: [PATCH] ASoC: apple: Fix the wrong format specifier
-Date: Wed, 13 Nov 2024 09:57:58 +0800
-Message-Id: <20241113015758.5441-1-liujing@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.27.0
+	s=arc-20240116; t=1731494941; c=relaxed/simple;
+	bh=pIhC9/hK47e7+MFElUqH8Rd9EA0/oH4OsMHtOgvQWH8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mkcZCB6Ji43NEAr0/JnQjXqHWPLbKd0Uo2boQmJVAUWq9iEP5WWry0JL12506eR4lwa3d2kKDOjY+WgdBapbSNYE/OQW1r18z6IxUkEVeDZdF22pBifkGgR2xJuFZ4DS+gyTIiSWKoZu5OXDxhzOQWZFfeMM/X2d901T3eMqGBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=n/gF/X1i; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="n/gF/X1i"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6ea50585bf2so66714187b3.3
+        for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 02:48:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1731494938; x=1732099738; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fCWzNXcfZFUOOoSuUDtlh4LJbgNZ+Kyy0hvbqO83lWc=;
+        b=n/gF/X1ijWP2zPcFFq5V1jedLv2IK1LDxWJbPr+Dw1pMICbGJbwVBGgV3wVIXwsAQ6
+         i3O27NmVI35SxBTKwVxkXK24ONiK6wFLTWq+lqp3I+J4aNez//6Gr44rPXyusyCQDpNV
+         +hzLBc0w3De9FcuF+nsvKDVw9D1pTcPu10A/k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731494938; x=1732099738;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fCWzNXcfZFUOOoSuUDtlh4LJbgNZ+Kyy0hvbqO83lWc=;
+        b=nx3Exd/c+5l0a3nPdme7S3lMJaYZuKC0uYe2rJOnnkcGTQ520jrU//IB2R2nC3q6kf
+         O45zTMG5VJHkJXYeoOnlKrer13+I4bGeMTPywC2qIdBpu7ogo8sVHjIZUg7piYiZDt1Q
+         lfvLjdcZSACVPZUknSPnYSaeLoQhkCVqXGFKIw2DF4UYkodQWo//duJ0mLzhIkIjpdCj
+         Ijn3tx7KG+BuXs+sjEAoTReS9RcHzWpLvq8P0SNyeos9dRFCEbNLhnDZoS0c2xfGjjKF
+         r4iH1yFMxvoVBQteZF87A4onMU/bU1gzfLqRmQiR8wjxIVOPGZA87jyH2C+jsCA0CoXA
+         lOdw==
+X-Forwarded-Encrypted: i=1; AJvYcCXhz1l6WtfCCIYgzn3wiSmJJNq3VOIcK4ydwU5UCB09uMWg1z+X3UIIFVGbl4tdG1eAPEan+g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyy8V+NW/h5FUIydlk4/UEqqmSqGykBVt9q4FnldJ3gje7udGmg
+	TILhjGaN4vrI+M4gpvF1XG4xuGW2VhlwlFp12MjMNla/irOmAVFEi9uzRGBsPaEPcvbuWaCGoLG
+	uHBu4U3b2CJJ2yJV5vkzUtqmzk8qlb760tN0UtQ==
+X-Google-Smtp-Source: AGHT+IHGSBNEx1q2vgfYf1kVAx6WwXY/JhE5tWtIMVAz6Et3j22+/n6fQViPrJ6PXuKqX/MEroYo6kUouNWSXr61TDc=
+X-Received: by 2002:a05:690c:6601:b0:6ea:7b98:3a00 with SMTP id
+ 00721157ae682-6eaddda3741mr188382637b3.16.1731494937730; Wed, 13 Nov 2024
+ 02:48:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241113-dax-no-writeback-v1-1-ee2c3a8d9f84@asahilina.net>
+In-Reply-To: <20241113-dax-no-writeback-v1-1-ee2c3a8d9f84@asahilina.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 13 Nov 2024 11:48:47 +0100
+Message-ID: <CAJfpeguawgi_Hnn2BwieNntbOCB1ghyijEtUOh4QyOrPis--dw@mail.gmail.com>
+Subject: Re: [PATCH] fuse: dax: No-op writepages callback
+To: Asahi Lina <lina@asahilina.net>
+Cc: Dan Williams <dan.j.williams@intel.com>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Sergio Lopez Pascual <slp@redhat.com>, asahi@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Vivek Goyal <vgoyal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-In the mca_fe_hw_params(), the variable tdm_slot_width is of
-type unsigned int, so the output should be %u
+On Tue, 12 Nov 2024 at 20:55, Asahi Lina <lina@asahilina.net> wrote:
+>
+> When using FUSE DAX with virtiofs, cache coherency is managed by the
+> host. Disk persistence is handled via fsync() and friends, which are
+> passed directly via the FUSE layer to the host. Therefore, there's no
+> need to do dax_writeback_mapping_range(). All that ends up doing is a
+> cache flush operation, which is not caught by KVM and doesn't do much,
+> since the host and guest are already cache-coherent.
 
-Signed-off-by: liujing <liujing@cmss.chinamobile.com>
+The conclusion seems convincing.  But adding Vivek, who originally
+added this in commit 9483e7d5809a ("virtiofs: define dax address space
+operations").
 
-diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
-index c9e7d40c47cc..b4f4696809dd 100644
---- a/sound/soc/apple/mca.c
-+++ b/sound/soc/apple/mca.c
-@@ -616,7 +616,7 @@ static int mca_fe_hw_params(struct snd_pcm_substream *substream,
- 			tdm_slot_width = 32;
- 
- 		if (tdm_slot_width < params_width(params)) {
--			dev_err(dev, "TDM slots too narrow (tdm=%d params=%d)\n",
-+			dev_err(dev, "TDM slots too narrow (tdm=%u params=%d)\n",
- 				tdm_slot_width, params_width(params));
- 			return -EINVAL;
- 		}
--- 
-2.27.0
+What I'm not clearly seeing is how virtually aliased CPU caches
+interact with this.  In mm/filemap.c I see the flush_dcache_folio()
+calls which deal with the kernel mapping of a page being in a
+different cacheline as the user mapping.  How does that work in the
+virt environment?
 
+Also I suggest to remove the writepages callback instead of leaving it
+as a no-op.
 
-
+Thanks,
+Miklos
