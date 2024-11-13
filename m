@@ -1,92 +1,131 @@
-Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2553315C145
-	for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 15:17:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAE0168483
+	for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 17:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731511049; cv=none; b=o28S0lW1FmkaUR3gN/jYsmtXV4b6Z5oKBFoiqppJKt5uzdbeA00IqOVO3p2IqllgkvlboP8IHKD0HS7lEPDFQyBie+HyjciAVAN9z4WftxqWgOAQdhTBIIAKTDnfN9IXfY1OZRsDMJivVLR0xeO6AnSpX5SXcuUNZpH1ItgmYvk=
+	t=1731520134; cv=none; b=P4U7fFJpW6kLdvb85QKWXqUZmrOw/xw/tSmATGJPRzpLSem0UT1FJbMxUjIw9pPOKRAOjKECq8G43CWmvT5luvSoWU9HuyaUFCcIJX7e7lELLwTZVigzNn1j0W/eYE+Xz4MMicN/xG9ZQl68DnSnOg+TuJOxRwEWCayQSUM8unE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731511049; c=relaxed/simple;
-	bh=M6Ua2Z81wk5kvIT0yJ2Kgyf9SEEYpRhBz5BAJck28gw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C6wROccpWvHm1zOHhP1dBPjLEE+UKghZ7zwvfm9IqeRBFobUwFFkd4Iah260ZkanC2fbK9E7UpMu9z8v2zLtNNXS2CPJ3kfOI6l4ChT9aJnnjIY7cfW8Ammjv/Hlotg1kl7ElI0w6sDyPfBlh0VGB0Rwo9KmfmmFEYklJNp546o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=HR+BDDqC; arc=none smtp.client-ip=212.63.210.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
+	s=arc-20240116; t=1731520134; c=relaxed/simple;
+	bh=2vvecHebovoeGzhdxA64vP0FIVcZsrzn6/S2UuTdzUQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YEMWnNsZV6gB76EgqqMzlwxS+IBsV/3YyP76q1qFgDVGkbHiI5tDQTAYHk0zw8Bk+Q49gRbleYzdBNxCxxO3xAiPTqwnWxs1DXvchXhaCXQyPrMHfVP2Mk9DyZm8v/byu1lw8ilzlJCvivRWbNR1PjjOneppqfndvG3E0DI4MFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uLgLE0j5; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="HR+BDDqC"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 5A1AF425C7;
-	Wed, 13 Nov 2024 15:17:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1731511043;
-	bh=M6Ua2Z81wk5kvIT0yJ2Kgyf9SEEYpRhBz5BAJck28gw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HR+BDDqC61hcMw5sIXsYzEPfppRFG9ctFYhatX1y/Iri6gVHlVhNknAoEuYvm/69h
-	 YwmP4O/+VswwIknIFoZ+LzaEdZMlB0+To03RaX4Z34sxH/u7ej2H0q3ny90CwXgXWQ
-	 lXMVbq6JOpnp6cDDlIYuMOdDvZ2LEqeg6JdWJgPOzmQ5KiWvjf3+w40Ger4AZL9/MD
-	 pk2v8OneYiwQJZsZ2P2w2sHDpR4uEZsgH1rO0zbkEG31rjLgxG130diSsnZUpZkpV5
-	 Or0nXZRCK3tkVYCfdgyeW2u4NSgFd/0p8qDdpMbPxrYs6EsDvUdz8hnYePScSKdqdp
-	 u8oUvEFfjRMHQ==
-Message-ID: <185be5a4-7bc7-41c1-bdfb-5384fd307a15@asahilina.net>
-Date: Thu, 14 Nov 2024 00:17:21 +0900
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uLgLE0j5"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c93e9e701fso7055a12.1
+        for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 09:48:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731520131; x=1732124931; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ut09l0p4ejZD65rK22Do5DdJADgIGvLTdDvLpb35Lpg=;
+        b=uLgLE0j5Oet0YkGUV5sRC2qWdJDdceffyVDLkAA5FB3aKVJgiRyHeU/pZlrQ+A4pFa
+         pUtsHh/W3xqJgcQrUMs7tgA9AW5SCnCrlDBWBmjvbP6JgAY6L2vmcHuu1YJ8UwqdeDtL
+         rH2cbfOVe7Vcvpe4oaMGG5TyU6/+pkIa1FAvdPjYChR8I1C7vO9YFUUQwb4e9itjIGXW
+         v1jLlFc7JkgiWDteKb8dvTg1En/ffW0qikNqocr2nwIv2nupTO4JQyjCR78qXajeJD8L
+         H2rfkBpoISY7Nvw9nPlwYVys7BaSYxwUsye/H8vIjKJM/xm/qsuPfcAx2s2vOTm6ixYR
+         wljw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731520131; x=1732124931;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ut09l0p4ejZD65rK22Do5DdJADgIGvLTdDvLpb35Lpg=;
+        b=RpigP2M5oTE/A0Vgb8vEcARGhJRMRdnsmONmxWZf2i8zCpnUlw2LxisZSCoiZJpFgd
+         z1iZbXekOtYpm6ckC5NMqXMrtJyLGAs0cNSyEecXyRhA8JLqDH1HbRMsw5WkzWiUg6X/
+         pY0rQF9/A7y/3kAXaA3FrX/u+8IdxzEv8rkC68U0rn/ddyDyxkK+xZ8RYJLR9nL0R3w8
+         +8UVXVTQY2lPEFHvJWRoEqlDo2m0jlBLNO+LmnTvNhFqCBObgsY1s0hpR3sqAPIWT6Ht
+         UPyUVHyj7Tq7Uz/j/fQMweecd5qwKiqy3npVyKdo2BtoGRB6CgL5u5sFqDywADtWJyfl
+         1r8g==
+X-Forwarded-Encrypted: i=1; AJvYcCU57nuAORQ9UqjVfl/96k85JgOJD65QaLV3WXJpp2cJ3ndcqemSxv2PkebkfZxAbXrYRnM7zg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw66uinRYU528h8NWQtuH6A2iLk8tjrSL7aNqxDjmLO9Jb4fy6a
+	bRLCiXfvd0EjMsgLQTxb7LNVMWDDPQ75K6LRL8yPYLzGXV6POTxzBZUcgmYtxp6f5lmym2IDp0S
+	9mEmuP2Z4OVe6zjggg6zgvIYt7/INgzb8SK0y
+X-Gm-Gg: ASbGnctdCaaEnoc21eBQZ/UuieTF9OMobgnynjua+DKOfhx5+NoThPHv52y0BITIj/o
+	eKjdZ85LnoFupUVFnctndBviejiJj
+X-Google-Smtp-Source: AGHT+IF+3cQN9o21cQiIysZAB4NJwFjVHmftEWZ1JWnUJZdbBdxTB+kUQux093XqXmTqkJPQ2rghtkSNf6aJlDPPoDk=
+X-Received: by 2002:a05:6402:886:b0:5cf:7145:be96 with SMTP id
+ 4fb4d7f45d1cf-5cf7145bfa8mr145258a12.2.1731520130908; Wed, 13 Nov 2024
+ 09:48:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: dax: No-op writepages callback
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Dan Williams <dan.j.williams@intel.com>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Matthew Wilcox
- <willy@infradead.org>, Sergio Lopez Pascual <slp@redhat.com>,
- asahi@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vivek Goyal <vgoyal@redhat.com>
-References: <20241113-dax-no-writeback-v1-1-ee2c3a8d9f84@asahilina.net>
- <CAJfpeguawgi_Hnn2BwieNntbOCB1ghyijEtUOh4QyOrPis--dw@mail.gmail.com>
-Content-Language: en-US
-From: Asahi Lina <lina@asahilina.net>
-In-Reply-To: <CAJfpeguawgi_Hnn2BwieNntbOCB1ghyijEtUOh4QyOrPis--dw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241030170106.1501763-21-samitolvanen@google.com>
+ <20241030170106.1501763-39-samitolvanen@google.com> <CAK7LNAR9c+EEsOvPPn4qSq3gAFskYOXVd=dg8O+bKeeC-HMifw@mail.gmail.com>
+In-Reply-To: <CAK7LNAR9c+EEsOvPPn4qSq3gAFskYOXVd=dg8O+bKeeC-HMifw@mail.gmail.com>
+From: Sami Tolvanen <samitolvanen@google.com>
+Date: Wed, 13 Nov 2024 09:48:13 -0800
+Message-ID: <CABCJKudWUBE2ZboktcBEykBReor4T1Cf8dfRCWJYEryoT81OEQ@mail.gmail.com>
+Subject: Re: [PATCH v5 18/19] kbuild: Add gendwarfksyms as an alternative to genksyms
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Masahiro,
 
+On Mon, Nov 11, 2024 at 8:09=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.o=
+rg> wrote:
+>
+> On Thu, Oct 31, 2024 at 2:01=E2=80=AFAM Sami Tolvanen <samitolvanen@googl=
+e.com> wrote:
+> >
+> >  # These mirror gensymtypes_c and co above, keep them in synch.
+> > -cmd_gensymtypes_S =3D                                                 =
+        \
+> > -   { echo "\#include <linux/kernel.h>" ;                              =
+      \
+> > -     echo "\#include <asm/asm-prototypes.h>" ;                        =
+      \
+> > -     $(NM) $@ | sed -n 's/.* __export_symbol_\(.*\)/EXPORT_SYMBOL(\1);=
+/p' ; } | \
+> > -    $(CPP) -D__GENKSYMS__ $(c_flags) -xc - | $(genksyms)
+> > +getasmexports =3D                                                     =
+           \
+> > +   { echo "\#include <linux/kernel.h>" ;                              =
+ \
+> > +     echo "\#include <linux/string.h>" ;                              =
+ \
+> > +     echo "\#include <asm/asm-prototypes.h>" ;                        =
+ \
+> > +     $(call getexportsymbols,$(2:.symtypes=3D.o),EXPORT_SYMBOL(\1);) ;=
+ }
+> > +
+> > +ifdef CONFIG_GENDWARFKSYMS
+> > +cmd_gensymtypes_S =3D                                                 =
+   \
+> > +       $(getasmexports) |                                             =
+ \
+> > +       $(CC) $(c_flags) -c -o $(2:.symtypes=3D.gendwarfksyms.o) -xc -;=
+   \
+> > +       $(call getexportsymbols,$(2:.symtypes=3D.o),\1) |              =
+   \
+> > +       $(gendwarfksyms) $(2:.symtypes=3D.gendwarfksyms.o)
+>
+>
+> I do not want to see crazy suffix replacements like this.
 
-On 11/13/24 7:48 PM, Miklos Szeredi wrote:
-> On Tue, 12 Nov 2024 at 20:55, Asahi Lina <lina@asahilina.net> wrote:
->>
->> When using FUSE DAX with virtiofs, cache coherency is managed by the
->> host. Disk persistence is handled via fsync() and friends, which are
->> passed directly via the FUSE layer to the host. Therefore, there's no
->> need to do dax_writeback_mapping_range(). All that ends up doing is a
->> cache flush operation, which is not caught by KVM and doesn't do much,
->> since the host and guest are already cache-coherent.
-> 
-> The conclusion seems convincing.  But adding Vivek, who originally
-> added this in commit 9483e7d5809a ("virtiofs: define dax address space
-> operations").
-> 
-> What I'm not clearly seeing is how virtually aliased CPU caches
-> interact with this.  In mm/filemap.c I see the flush_dcache_folio()
-> calls which deal with the kernel mapping of a page being in a
-> different cacheline as the user mapping.  How does that work in the
-> virt environment?
-> 
+Yeah, I agree. It does get a bit ugly.
 
-Oof, I forgot those architectures existed...
+> I decided to delete this.
+> https://lore.kernel.org/linux-kbuild/20241111171753.2917697-2-masahiroy@k=
+ernel.org/T/#u
 
-The only architecture that has both a KVM implementation and selects
-ARCH_HAS_CPU_CACHE_ALIASING is mips. Is it possible that no MIPS
-implementations with virtualization also have cache aliasing, and we can
-just not care about this?
+Cool, thanks! I'll rebase v6 on top of your patch.
 
-~~ Lina
-
+Sami
