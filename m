@@ -1,92 +1,115 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10C71FE0FD
-	for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 10:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB79111A8
+	for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 14:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731494941; cv=none; b=h2odeEWldLP8w1X0ccLRD1IqoC+Knbf+QdPa+4KgYviK3TUYlhOydkQT2KSLi3aJf3NB+3TnlbceBvAFJ/K48uSQ1c0cOLo8OnyMDqIM8fSK4JOz7wZoz6CtFa/eK4N/xYZyIv0VKUjAEUkrmUKS+UL7iag30Zyz6SaRDAF/G7M=
+	t=1731506733; cv=none; b=Q6ycm9ZGEWLk/DsP3gwbXYMZmUlzoasSwTDeDd+jaNCUhEXIjJX7g1qKLB9ZSUeiT+NRB45HRVDXBox2tBzeLd0hYIXdAUs5cpY/tHxiXFTMuHmRCEKeGS5h5jn6HDqZB5CRCQOUMvq9aKf1/jhFYO1jvKc4rieGAmugOKx1O58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731494941; c=relaxed/simple;
-	bh=pIhC9/hK47e7+MFElUqH8Rd9EA0/oH4OsMHtOgvQWH8=;
+	s=arc-20240116; t=1731506733; c=relaxed/simple;
+	bh=Dwk+Mvw8oy2pzMvGconGALpUIJPJ0NRNk9ltXBNzyBA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mkcZCB6Ji43NEAr0/JnQjXqHWPLbKd0Uo2boQmJVAUWq9iEP5WWry0JL12506eR4lwa3d2kKDOjY+WgdBapbSNYE/OQW1r18z6IxUkEVeDZdF22pBifkGgR2xJuFZ4DS+gyTIiSWKoZu5OXDxhzOQWZFfeMM/X2d901T3eMqGBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=n/gF/X1i; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="n/gF/X1i"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6ea50585bf2so66714187b3.3
-        for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 02:48:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1731494938; x=1732099738; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fCWzNXcfZFUOOoSuUDtlh4LJbgNZ+Kyy0hvbqO83lWc=;
-        b=n/gF/X1ijWP2zPcFFq5V1jedLv2IK1LDxWJbPr+Dw1pMICbGJbwVBGgV3wVIXwsAQ6
-         i3O27NmVI35SxBTKwVxkXK24ONiK6wFLTWq+lqp3I+J4aNez//6Gr44rPXyusyCQDpNV
-         +hzLBc0w3De9FcuF+nsvKDVw9D1pTcPu10A/k=
+	 To:Cc:Content-Type; b=alysnGX1TJ9CdC3QbiAQSMB9qemij7lPxPccAT+5xaCbdd2rtDKk0LJuwGCAfJP5WZf8HKOqCP3FTWlZAu1GglX2ySzeGJu9PwZUZYye8Vslc2ie80ooxdGC9w0cCFkDMpWfJZ4XMc6SavGcvI0AV5bEK8RvxlTIldapCfsJwNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5c9388a00cfso8765741a12.3
+        for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 06:05:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731494938; x=1732099738;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fCWzNXcfZFUOOoSuUDtlh4LJbgNZ+Kyy0hvbqO83lWc=;
-        b=nx3Exd/c+5l0a3nPdme7S3lMJaYZuKC0uYe2rJOnnkcGTQ520jrU//IB2R2nC3q6kf
-         O45zTMG5VJHkJXYeoOnlKrer13+I4bGeMTPywC2qIdBpu7ogo8sVHjIZUg7piYiZDt1Q
-         lfvLjdcZSACVPZUknSPnYSaeLoQhkCVqXGFKIw2DF4UYkodQWo//duJ0mLzhIkIjpdCj
-         Ijn3tx7KG+BuXs+sjEAoTReS9RcHzWpLvq8P0SNyeos9dRFCEbNLhnDZoS0c2xfGjjKF
-         r4iH1yFMxvoVBQteZF87A4onMU/bU1gzfLqRmQiR8wjxIVOPGZA87jyH2C+jsCA0CoXA
-         lOdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXhz1l6WtfCCIYgzn3wiSmJJNq3VOIcK4ydwU5UCB09uMWg1z+X3UIIFVGbl4tdG1eAPEan+g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyy8V+NW/h5FUIydlk4/UEqqmSqGykBVt9q4FnldJ3gje7udGmg
-	TILhjGaN4vrI+M4gpvF1XG4xuGW2VhlwlFp12MjMNla/irOmAVFEi9uzRGBsPaEPcvbuWaCGoLG
-	uHBu4U3b2CJJ2yJV5vkzUtqmzk8qlb760tN0UtQ==
-X-Google-Smtp-Source: AGHT+IHGSBNEx1q2vgfYf1kVAx6WwXY/JhE5tWtIMVAz6Et3j22+/n6fQViPrJ6PXuKqX/MEroYo6kUouNWSXr61TDc=
-X-Received: by 2002:a05:690c:6601:b0:6ea:7b98:3a00 with SMTP id
- 00721157ae682-6eaddda3741mr188382637b3.16.1731494937730; Wed, 13 Nov 2024
- 02:48:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731506729; x=1732111529;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2UoOpmCzIkTmid4vVTvx8gmwHFbkz8avA1Uo6ylZh+s=;
+        b=MsUI9GMoLV2Pig2goDWZCPiYHucPKB1FkUrTgvi5BHGzao1Wd/1c/8Z2yFZ3NZ7rC8
+         IRKqS3niYDwHsEmTO5lmBxY6e9i7E6tFwpNYj+oub7/NiE/vvX6nBo8eZin7+IKBh8x7
+         SNDzuW686llHCvJllhRtqTSXPSbVqE/ek8B70zWdMAaH/c4iZKvLtc7elfwT3HvJZobN
+         QFMNr++Bn6IkJWwpY9nB3HtsN7V2X9u0w4nZ7q38plyT/Kzs2Vd6HVDqPMjg0TSeS9bm
+         k7N1Ep0MOzaPIIEV4QsK6H1AyYlqB3BPMwx/AocT44y5u/Sw/UOttkLP3RmRuipcg3P4
+         Ve8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXgpXm3usXbxhqSaryEWX1PjxBEgMQYZ3GL4JRtkZrWVRRDS1fZ9mNM0xdPSAGAIGrQ9/51uQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJTz0UicfPvxSaNGPfKhX6vFWmGhfvmvJMugKWLrs8ctYOa1eJ
+	OPGHN6NXMXkEJQa/01gTCw7H0ABuQIEltq2QfqnZGweuffXx9zn/gMJorarqe40=
+X-Google-Smtp-Source: AGHT+IE2zOgVy57kW2Pbw1XvZUBp3JZjOmwDP3qb8N+L331ERPpAdjWHjeXm2brD5LdzLQZjgZ/GzA==
+X-Received: by 2002:a17:907:842:b0:a9e:43d9:401a with SMTP id a640c23a62f3a-a9eeff08c2emr2059007266b.14.1731506728436;
+        Wed, 13 Nov 2024 06:05:28 -0800 (PST)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0e2f063sm857537166b.203.2024.11.13.06.05.27
+        for <asahi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Nov 2024 06:05:27 -0800 (PST)
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c9388a00cfso8765684a12.3
+        for <asahi@lists.linux.dev>; Wed, 13 Nov 2024 06:05:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXK5SHDhEvvMn5uPLhxuoTnHIFs9mZJi01w648tRhBiBDWP3pUBbP63CHecKJBs4MlKXp2eOQ==@lists.linux.dev
+X-Received: by 2002:a17:906:c14d:b0:a99:f67c:2314 with SMTP id
+ a640c23a62f3a-a9eeff44998mr1843487666b.35.1731506727364; Wed, 13 Nov 2024
+ 06:05:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241113-dax-no-writeback-v1-1-ee2c3a8d9f84@asahilina.net>
-In-Reply-To: <20241113-dax-no-writeback-v1-1-ee2c3a8d9f84@asahilina.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 13 Nov 2024 11:48:47 +0100
-Message-ID: <CAJfpeguawgi_Hnn2BwieNntbOCB1ghyijEtUOh4QyOrPis--dw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: dax: No-op writepages callback
-To: Asahi Lina <lina@asahilina.net>
-Cc: Dan Williams <dan.j.williams@intel.com>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Sergio Lopez Pascual <slp@redhat.com>, asahi@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Vivek Goyal <vgoyal@redhat.com>
+References: <20241030170106.1501763-21-samitolvanen@google.com>
+ <20241030170106.1501763-22-samitolvanen@google.com> <CAK7LNAShVzrE6uhXxZ7HepKhmOJYsZeigq6w19jRN3OH-T_Jyg@mail.gmail.com>
+In-Reply-To: <CAK7LNAShVzrE6uhXxZ7HepKhmOJYsZeigq6w19jRN3OH-T_Jyg@mail.gmail.com>
+From: Neal Gompa <neal@gompa.dev>
+Date: Wed, 13 Nov 2024 09:04:51 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je_o-e3Sc0vNJpF+3eG3sZvV-f2zrCdubRAvPSLzVdyd5Q@mail.gmail.com>
+Message-ID: <CAEg-Je_o-e3Sc0vNJpF+3eG3sZvV-f2zrCdubRAvPSLzVdyd5Q@mail.gmail.com>
+Subject: Re: [PATCH v5 01/19] scripts: move genksyms crc32 implementation to a
+ common include
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 12 Nov 2024 at 20:55, Asahi Lina <lina@asahilina.net> wrote:
+On Mon, Nov 11, 2024 at 11:06=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.=
+org> wrote:
 >
-> When using FUSE DAX with virtiofs, cache coherency is managed by the
-> host. Disk persistence is handled via fsync() and friends, which are
-> passed directly via the FUSE layer to the host. Therefore, there's no
-> need to do dax_writeback_mapping_range(). All that ends up doing is a
-> cache flush operation, which is not caught by KVM and doesn't do much,
-> since the host and guest are already cache-coherent.
+> On Thu, Oct 31, 2024 at 2:01=E2=80=AFAM Sami Tolvanen <samitolvanen@googl=
+e.com> wrote:
+> >
+> > Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> > Acked-by: Neal Gompa <neal@gompa.dev>
+>
+> Does this Ack add any value?
+>
+> Acked-by is meaningful only when it is given by someone who
+> maintains the relevant area or has established a reputation.
+>
+> $ git grep "Neal Gompa"
+> $ git shortlog -n -s | grep "Neal Gompa"
+>      2 Neal Gompa
+>
+> His Ack feels more like "I like it" rather than a qualified endorsement.
+>
 
-The conclusion seems convincing.  But adding Vivek, who originally
-added this in commit 9483e7d5809a ("virtiofs: define dax address space
-operations").
+I am going to be one of the primary consumers of this code as the
+Fedora Asahi kernel maintainer and have been driving Rust enablement
+in the Fedora Linux kernel (and eventually the RHEL kernel). I have
+tested and looked over the patches from that lens.
 
-What I'm not clearly seeing is how virtually aliased CPU caches
-interact with this.  In mm/filemap.c I see the flush_dcache_folio()
-calls which deal with the kernel mapping of a page being in a
-different cacheline as the user mapping.  How does that work in the
-virt environment?
+While I might not be well-known here, I am known by the Rust for
+Linux folks, as well as the filesystem folks (since those are the main
+places I tend to frequent). I am also a member of the Asahi Linux team.
 
-Also I suggest to remove the writepages callback instead of leaving it
-as a no-op.
+I've been engaging with the Linux kernel community directly in some
+fashion for nearly a decade. Unfortunately, most of that isn't in the
+form of commits directly to the Linux kernel, though.
 
-Thanks,
-Miklos
+
+
+
+--
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
