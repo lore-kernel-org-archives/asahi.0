@@ -1,98 +1,148 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8621CEE82
-	for <asahi@lists.linux.dev>; Fri, 15 Nov 2024 14:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC87C192B75
+	for <asahi@lists.linux.dev>; Sat, 16 Nov 2024 09:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731679261; cv=none; b=U/KmWhfvoEfRqOPfyqpmDO7cmuoAY/sIZoqgpYdBV0mHyDJf3atr+1TtjDoLQRRkW6nM4vLMcAm/OfuyG/KayOs88wudvv3kjELge/GkAZ3VshhCr+iXI8ZeriRnPHsKWV9QvMiE4FlPtvNoiu/59ULL9WdOaSDF+58AWiCNw/s=
+	t=1731748141; cv=none; b=FRJZGuaFVEskHBs0BQ2ODJJOKo6c61fHrnK6V4dbRfuIYQY8jKM3x0SaVQJehTunZ7d8Hv+ATP3GTqdPJMpA7UYoSMdxy2qL4qyIY627gk+IAAe6rYBthTqHTaANjzc8jh21WAhb2VhpuVdwNRnL0yZ3XJi6mWzNPJ9Z1zzHhMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731679261; c=relaxed/simple;
-	bh=VfVHZrGd4tsTjMi2xv8h9FRmG7Ah4ZiFj6Wn70prO8I=;
+	s=arc-20240116; t=1731748141; c=relaxed/simple;
+	bh=vR2V+V2QxqcQECfOUvT+5A1KplyfZDEMEObd7HFAmoA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WmYPUzeDlqd+XHLh9C1zCOIRYyyFGN0oEZ+V5aHcZOwLy/cyUzD5gogTHUaTSrl5YjfNRupY8us5SIBPsX37MJUhxaXOO+PKPYTzQwZtx9HJR97nJFqM+6x7hlN+rDG3vnnlQ+NdA78L+zHByVqoi8Er+NOFs+A+7u1FbyzGiQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4eNutCxP; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=BjLj/hUwu656cbC8LTmYHH8hptYbpApYSS//iyGyHDSmnkm1yOQQvhqqaQ5fpyECbZwRh5X7bWOAzXpfhToRZDaI8t0RmwAzn0mOJwyh3okf/Qpj89L5Ypx9xj69x1hoQdhbfxmKGcHqBhUER3r36VAxccZCDBOXHpk1Z/Hnmg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDL2mFiq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4eNutCxP"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-432d9bb168cso11514275e9.1
-        for <asahi@lists.linux.dev>; Fri, 15 Nov 2024 06:00:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731679258; x=1732284058; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VfVHZrGd4tsTjMi2xv8h9FRmG7Ah4ZiFj6Wn70prO8I=;
-        b=4eNutCxPMl4pt3AOdVdqNV5ArXVaGF/MnRPhNnhnezzh92krjB0WkzMK2ubYkZJ+mO
-         hApHNdylxcgB6U0S+wLzzOJIq3K+xyJ9TmQGKiQ99qXYhZHEJ7ptq7x+Y+NYt0pYFbtO
-         kHDrLQLGtVyghWEzNyK01byvrQZcX07kyhrghK1yzB/5E2+KUW1gQTqOzcOSn1OnJLKf
-         j8rdL8ikjeJMtqm3P+WkOWNOb+ms6DS0MQl2cspoAcUsxphBxYri4R4Cuu1ZOnF1QRL/
-         tuurC3lpTGTVgKAvHUlCWdnzRkszGk8I+5uygCYWKH0zwRWIdx5nRIgfU3gnReve3SNR
-         3C7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731679258; x=1732284058;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VfVHZrGd4tsTjMi2xv8h9FRmG7Ah4ZiFj6Wn70prO8I=;
-        b=U83P20E3amEHqT2zGdh5rNfl0GFpTZannLim4up1u76W/w9m9lDwUylCSYXtLVOqIk
-         9nEtzjIaiw+WnKM2YQWtUSV4Fhhy4OFLDkqYjhU6fyuOyc46O/IfCa0IIi5K/VX90gW3
-         MhYOfLj+Kk0sAWofEAyWksoshuv59TqUbHPhxbZIubxCbG99FdGRDVxWELlZhHwDJ7B2
-         q2/t2wRfYameuwoLXrdyeRf/DOSQDWPyR0uBkrsjG7HJWlJQCiHewU2by1o6uV59hjn2
-         FabzM3stLGSI2AdteFbqphzMOkuYGeSX+ycmXFcMcp8cmAkVsSNiWCjmtUKleuxQrG5m
-         fArA==
-X-Forwarded-Encrypted: i=1; AJvYcCXTUyJMtWxHl0NnnDql3dm7+Tdc0Hnt+733lgGB6vgALZKwn3U7yBP54Kj2VGDIRbgvO7o27w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1Je17CLBoD9y8sn9syBewd9RsAqRnLMssP45lIy2nJMmlTKKf
-	EsvULn6YHSWUuLqU38JEhS86vT/PGh7d3V5kpXm4344ANW2AIfBuKkQiJTJmxnscmv2yQ+JtFEN
-	5YmZ9dBnxJhMeUlhbF6pDVi+Fn5gJyxYDqlnS
-X-Google-Smtp-Source: AGHT+IFk8/GvWJwG6tNDd12MbN9MckIetCAQntsvm7RXN/fJBQRSRREZVjA31lahN/uOpJgQiKXbK33daKacZwaEsSw=
-X-Received: by 2002:a5d:5982:0:b0:37d:460d:2d07 with SMTP id
- ffacd0b85a97d-38213ffe4c1mr6588655f8f.10.1731679255711; Fri, 15 Nov 2024
- 06:00:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDL2mFiq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5979EC4CED6
+	for <asahi@lists.linux.dev>; Sat, 16 Nov 2024 09:09:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731748141;
+	bh=vR2V+V2QxqcQECfOUvT+5A1KplyfZDEMEObd7HFAmoA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fDL2mFiq2jNynLhRPE6JTTBqZQaY/SWRFVMrn4Sx1RYpe4j99Lo53dJmP9pHDsEms
+	 Tyegx6moZ6nF2SKwXPT5WnwFJFfxn0Sohyw3rC8hlnSeZP26rrySKKtUx/mruIT980
+	 /kZDvxQb+RxAYju6zxetisy59I+ldPEUv1MDsN1ovNx9qT456VP95uCH5O0XP5PNbl
+	 p2uxu8WSl5jhehDaCLezX5ldIgnU65GtYOmn0K6UKigAZ/z3hisX/GjlniQiAdXr4Y
+	 utA9XbZUR+QSxbYc6BWAowo9U1SxwzhVXXMHewkV/81PNfu6bTdiH/QLuTvHKw6CYl
+	 ZCx2uN1dxk6yA==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53da209492cso1808658e87.3
+        for <asahi@lists.linux.dev>; Sat, 16 Nov 2024 01:09:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVX9UEcbednBFCVAlEWoApAVCNBKpkUEyNtxeW+1qQQgLsOu0R7FnlOpMJRSceG4EdmFRWl4Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwEXcuzHJl3wFT3mNLK0LgsFejshm55PRLTg8tvEhpyicahcJpZ
+	9sTP25dQa63BvxOeQWAIH6XJay27F2gXsrWiDt37C0h9bwIGsZeOlAFC7vvjhCjsNxnCI6XKSBa
+	9YalLv5ekQez3Y1bHD5TW3IzEEe4=
+X-Google-Smtp-Source: AGHT+IHpl8ZAglZvngz5xm6ocic+KgEC+INX3t93NnViVbyMnAzYKh2RUbWNfOuCYlzJQ1LoVk0VBgZmNkdKrSdV/4s=
+X-Received: by 2002:ac2:5b1c:0:b0:53d:abc3:82a9 with SMTP id
+ 2adb3069b0e04-53dabc382f0mr1869248e87.19.1731748139824; Sat, 16 Nov 2024
+ 01:08:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241004154149.93856-1-dakr@kernel.org> <3b843e34-48f3-41ca-bd83-9bc137ca6c76@asahilina.net>
-In-Reply-To: <3b843e34-48f3-41ca-bd83-9bc137ca6c76@asahilina.net>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Fri, 15 Nov 2024 15:00:43 +0100
-Message-ID: <CAH5fLgg68b-pfGhDubJMzGA8w4dywviMv+ghw0KV1emFvNKe9Q@mail.gmail.com>
-Subject: Re: [PATCH v9 00/29] Generic `Allocator` support for Rust
-To: Asahi Lina <lina@asahilina.net>
-Cc: Danilo Krummrich <dakr@kernel.org>, ojeda@kernel.org, alex.gaynor@gmail.com, 
-	wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com, 
-	akpm@linux-foundation.org, daniel.almeida@collabora.com, 
-	faith.ekstrand@collabora.com, boris.brezillon@collabora.com, 
-	mcanal@igalia.com, zhiw@nvidia.com, cjia@nvidia.com, jhubbard@nvidia.com, 
-	airlied@redhat.com, ajanulgu@redhat.com, lyude@redhat.com, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-mm@kvack.org, asahi@lists.linux.dev
+References: <20241030170106.1501763-21-samitolvanen@google.com>
+ <20241030170106.1501763-22-samitolvanen@google.com> <CAK7LNAShVzrE6uhXxZ7HepKhmOJYsZeigq6w19jRN3OH-T_Jyg@mail.gmail.com>
+ <CABCJKueVjP8V-=3Ehi4QvQzg1FZh2unyVMDzSJ_vJ_E5EE+gLg@mail.gmail.com>
+In-Reply-To: <CABCJKueVjP8V-=3Ehi4QvQzg1FZh2unyVMDzSJ_vJ_E5EE+gLg@mail.gmail.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 16 Nov 2024 18:08:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARVK1ZpGXZVTAynuo7CDjgB4uT5bQzcGiWseZfaEu7Tvw@mail.gmail.com>
+Message-ID: <CAK7LNARVK1ZpGXZVTAynuo7CDjgB4uT5bQzcGiWseZfaEu7Tvw@mail.gmail.com>
+Subject: Re: [PATCH v5 01/19] scripts: move genksyms crc32 implementation to a
+ common include
+To: Sami Tolvanen <samitolvanen@google.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
+	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 15, 2024 at 12:33=E2=80=AFPM Asahi Lina <lina@asahilina.net> wr=
-ote:
+On Thu, Nov 14, 2024 at 2:54=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
+com> wrote:
 >
-> We (Asahi Linux) noticed that this doesn't support unsized types, which
-> is a regression from the alloc Box. drm/asahi uses boxed trait objects
-> to generalize across certain object types like render commands, so this
-> breaks the driver.
+> Hi,
 >
-> Is there a plan to add this back in? AIUI this would need the
-> coerce_unsized unstable feature, but is there any other blocker?
+> On Mon, Nov 11, 2024 at 8:06=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
+.org> wrote:
+> >
+> > On Thu, Oct 31, 2024 at 2:01=E2=80=AFAM Sami Tolvanen <samitolvanen@goo=
+gle.com> wrote:
+> > >
+> > > To avoid duplication between host programs, move the crc32 code to a
+> > > shared header file.
+> >
+> >
+> > Only the motivation to use this long table is to keep compatibility
+> > between genksyms and gendwarfksyms.
+> > I do not think this should be exposed to other programs.
+> >
+> >
+> > If you avoid the code duplication, you can do
+> >
+> > // scripts/gendwarfksyms/crc.c
+> > #include "../genksyms/crc.c"
+>
+> Sure, that sounds reasonable. I'll change this in the next version.
 
-We're already using coerce_unsized for Arc, so I see no reason we
-can't just add that for KBox too. Soon, we should be able to use the
-derive macro [1] I proposed to do this without unstable language
-features. The limitation that the RFC mentions for custom allocators
-does not apply to KBox because it uses PhantomData<A> instead of A for
-the allocator field.
 
-Alice
+BTW, is it necessary to share the same crc function
+between genksyms and gendwarfksyms?
 
-[1]: https://rust-lang.github.io/rfcs/3621-derive-smart-pointer.html
+If CONFIG_GENKSYMS and CONFIG_GENDWARFKSYMS
+were able to produce the same CRC, it would be a good motivation
+to share the same function.
+However, as far as I tested, gendwarfksyms generates different CRC values.
+
+When a distro migrates to CONFIG_GENDWARFKSYMS,
+the new kernel cannot load old modules built with CONFIG_GENKSYMS.
+
+So, there is no need to share the old code.
+Another solution might be to use crc32() provided by zlib, for example.
+It requires another external library, but this already depends on
+libdw and libelf.
+
+
+
+
+
+
+
+
+
+
+>
+> > > Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
+> > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> > > Acked-by: Neal Gompa <neal@gompa.dev>
+> >
+> > Does this Ack add any value?
+> >
+> > Acked-by is meaningful only when it is given by someone who
+> > maintains the relevant area or has established a reputation.
+> >
+> > $ git grep "Neal Gompa"
+> > $ git shortlog -n -s | grep "Neal Gompa"
+> >      2 Neal Gompa
+> >
+> > His Ack feels more like "I like it" rather than a qualified endorsement=
+.
+>
+> Like Neal explained, an Ack from a potential user of this feature
+> seemed relevant, but if you don't think it's meaningful, I can
+> certainly drop it.
+
+Tested-by is more suitable if he wants to leave something.
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
