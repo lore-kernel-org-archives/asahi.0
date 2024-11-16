@@ -1,148 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC87C192B75
-	for <asahi@lists.linux.dev>; Sat, 16 Nov 2024 09:09:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531C6B652
+	for <asahi@lists.linux.dev>; Sat, 16 Nov 2024 14:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731748141; cv=none; b=FRJZGuaFVEskHBs0BQ2ODJJOKo6c61fHrnK6V4dbRfuIYQY8jKM3x0SaVQJehTunZ7d8Hv+ATP3GTqdPJMpA7UYoSMdxy2qL4qyIY627gk+IAAe6rYBthTqHTaANjzc8jh21WAhb2VhpuVdwNRnL0yZ3XJi6mWzNPJ9Z1zzHhMc=
+	t=1731766869; cv=none; b=oRNGuwTwys5CXnmBZTZKJ8BXNBefkZPxyeBTk7NrXrvEb1l6KxPi+l7xQCpFO2Lqnur8XiVaNz95ahV5xHPRRyfsUaKu3o6Z1gib9v8UvqI8QCftxCJ4s3fWhRyP7fLVsfwxAsI6rqNsPip/w/j7NtTQQr/YQomz3sMMJk7ENhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731748141; c=relaxed/simple;
-	bh=vR2V+V2QxqcQECfOUvT+5A1KplyfZDEMEObd7HFAmoA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BjLj/hUwu656cbC8LTmYHH8hptYbpApYSS//iyGyHDSmnkm1yOQQvhqqaQ5fpyECbZwRh5X7bWOAzXpfhToRZDaI8t0RmwAzn0mOJwyh3okf/Qpj89L5Ypx9xj69x1hoQdhbfxmKGcHqBhUER3r36VAxccZCDBOXHpk1Z/Hnmg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDL2mFiq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731766869; c=relaxed/simple;
+	bh=83ROZP99NHhTBCZDaK6Qiko/B+ob6DGV88osQP9CYow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MyWpb8on3Rz2cDjY7CY12mt/zkw74s9cqKc0bsmsV518b3NMJlqGEgaUa1csMNQLcZTEBiqaDp6tAKRPBx+9SlioquEfbZLZskoziRxcvKUb7sV1hHxoVkANVnPhGmcrID7AH69hSYdi1YvsjlNrTHW4iwSwP+xWHKaz1UFNXKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=QfzbBeD1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IniUWIzZ; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDL2mFiq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5979EC4CED6
-	for <asahi@lists.linux.dev>; Sat, 16 Nov 2024 09:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731748141;
-	bh=vR2V+V2QxqcQECfOUvT+5A1KplyfZDEMEObd7HFAmoA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fDL2mFiq2jNynLhRPE6JTTBqZQaY/SWRFVMrn4Sx1RYpe4j99Lo53dJmP9pHDsEms
-	 Tyegx6moZ6nF2SKwXPT5WnwFJFfxn0Sohyw3rC8hlnSeZP26rrySKKtUx/mruIT980
-	 /kZDvxQb+RxAYju6zxetisy59I+ldPEUv1MDsN1ovNx9qT456VP95uCH5O0XP5PNbl
-	 p2uxu8WSl5jhehDaCLezX5ldIgnU65GtYOmn0K6UKigAZ/z3hisX/GjlniQiAdXr4Y
-	 utA9XbZUR+QSxbYc6BWAowo9U1SxwzhVXXMHewkV/81PNfu6bTdiH/QLuTvHKw6CYl
-	 ZCx2uN1dxk6yA==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53da209492cso1808658e87.3
-        for <asahi@lists.linux.dev>; Sat, 16 Nov 2024 01:09:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVX9UEcbednBFCVAlEWoApAVCNBKpkUEyNtxeW+1qQQgLsOu0R7FnlOpMJRSceG4EdmFRWl4Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwEXcuzHJl3wFT3mNLK0LgsFejshm55PRLTg8tvEhpyicahcJpZ
-	9sTP25dQa63BvxOeQWAIH6XJay27F2gXsrWiDt37C0h9bwIGsZeOlAFC7vvjhCjsNxnCI6XKSBa
-	9YalLv5ekQez3Y1bHD5TW3IzEEe4=
-X-Google-Smtp-Source: AGHT+IHpl8ZAglZvngz5xm6ocic+KgEC+INX3t93NnViVbyMnAzYKh2RUbWNfOuCYlzJQ1LoVk0VBgZmNkdKrSdV/4s=
-X-Received: by 2002:ac2:5b1c:0:b0:53d:abc3:82a9 with SMTP id
- 2adb3069b0e04-53dabc382f0mr1869248e87.19.1731748139824; Sat, 16 Nov 2024
- 01:08:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="QfzbBeD1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IniUWIzZ"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 4B05C1140135;
+	Sat, 16 Nov 2024 09:21:06 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-10.internal (MEProxy); Sat, 16 Nov 2024 09:21:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1731766866;
+	 x=1731853266; bh=NnZ+71/DdSs2iQZjBK1OW6Bj8CARVk7Y17qna5/pE2E=; b=
+	QfzbBeD1RW/sWNjFNlzCSXgCVpVSGop3t7yqoUBDXT/zIHbFXXZnQUTy/gClkqN0
+	KdkGaF1dpXHcTT9cTz4L9F2UIaoJfJyahVri7boWGXscUDwRKBJpzclLM5y/z4qx
+	N8US60oPqTga9qfTaf8iPuubS/GpqWR6E5VtU++Tn7HlASRIEz5E+j0SoLXbHV5z
+	FQuSKyXeJZfT3jSLiTmZrj8k6HxSHHsKiB9dtTOMbQG0kW1dxWIZfntJ4HoVucP0
+	/UK/F3+qEEg3PIZQr/s0YrYX1VhIxTA1QY7YtKKsyOzx0OBbDdoCNQGhmZ9m/D8t
+	qtJcKJeN4YnXZH2QUIoSow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731766866; x=
+	1731853266; bh=NnZ+71/DdSs2iQZjBK1OW6Bj8CARVk7Y17qna5/pE2E=; b=I
+	niUWIzZSVccQU9QPJoduSkdkMzUMyph5sqPfidr+xGwaHqDPCArdbPOJR6dB0fWo
+	y4d5aIdQnOdhOLt14C20UD87lA6isoditurhOgliQoAFPnBrzJRULnSya/68cjgx
+	V8cwH8L2kto4utteQH70+rK1rMdvxAecGtU89+kZfPziJEdFdfsI6/IqT5E3Fz+/
+	OLhTCyNpFzaU8ZPGQ9UFkFF9DIG3h3ULUrnvBrj1b3KtyFrJIwLFH8U79PKSp2hT
+	2hPhwgITlwug6MD/6BwLYzUKNeRloyRwiN3bg41qhWoF0S0hpPiEdoMQyIeCNZxs
+	v4Z9WQtOtn665u+aGIxQw==
+X-ME-Sender: <xms:UKo4Z5Jg5J0aoDA1rmMNY5Wig2A2OUrnElqf6nmCqBUiAIlZd0O00w>
+    <xme:UKo4Z1JmjlNLHRB8FNObvmlYKYi1-5pTPsnVUdOQg2HJiammnwExEBdoEl3s8G6MO
+    npo241FKzyTZMjcYCM>
+X-ME-Received: <xmr:UKo4ZxuVh-qB-M-11LzYZGAkIhBjZlCj2mB1-9RFaZU3AoyLMcgwwF7SX56JVbjiskiw3IFRxhg3cAZmdfTXFumSjFrLt1weiP8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrvdeigdeiudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
+    ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenuc
+    ggtffrrghtthgvrhhnpeevfeekuedutedtvdffvefhvedvkefhgfevheefhfffheeftefg
+    teffuefgveefhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepvdeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegrlhhitggvrhihhhhlsehgohhoghhlvgdrtghomh
+    dprhgtphhtthhopehlihhnrgesrghsrghhihhlihhnrgdrnhgvthdprhgtphhtthhopegu
+    rghkrheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrd
+    horhhgpdhrtghpthhtoheprghlvgigrdhgrgihnhhorhesghhmrghilhdrtghomhdprhgt
+    phhtthhopeifvggushhonhgrfhesghhmrghilhdrtghomhdprhgtphhtthhopegsohhquh
+    hnrdhfvghnghesghhmrghilhdrtghomhdprhgtphhtthhopehgrghrhiesghgrrhihghhu
+    ohdrnhgvthdprhgtphhtthhopegsjhhorhhnfegpghhhsehprhhothhonhhmrghilhdrtg
+    homh
+X-ME-Proxy: <xmx:UKo4Z6YqeM8yjUblx70moc4kZkBcvu1sWGaSMDfwEV3CUnhC5z927A>
+    <xmx:UKo4ZwYRx81ttBhVaoTF-CkILBbssejrXpzukB6i9ujXTfh4fLvZuA>
+    <xmx:UKo4Z-A_fN2BtxLKkyq1wgxMXL_CfcJO-VfAOOefuZvQe8aXJYO71Q>
+    <xmx:UKo4Z-YDaITSK8AMfTOKk-LmPuapH2MJe9zB-Kwa--4nVNMwF-AuYQ>
+    <xmx:Uqo4Z7tvoU4ARpzlIbgFvoABTViD_HY5gL8b1pbdhChvZxIbQcwrW8Ib>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 16 Nov 2024 09:21:04 -0500 (EST)
+Date: Sat, 16 Nov 2024 15:21:02 +0100
+From: Janne Grunau <j@jannau.net>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Asahi Lina <lina@asahilina.net>, Danilo Krummrich <dakr@kernel.org>,
+	ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
+	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+	benno.lossin@proton.me, a.hindborg@samsung.com,
+	akpm@linux-foundation.org, daniel.almeida@collabora.com,
+	faith.ekstrand@collabora.com, boris.brezillon@collabora.com,
+	mcanal@igalia.com, zhiw@nvidia.com, cjia@nvidia.com,
+	jhubbard@nvidia.com, airlied@redhat.com, ajanulgu@redhat.com,
+	lyude@redhat.com, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-mm@kvack.org,
+	asahi@lists.linux.dev
+Subject: Re: [PATCH v9 00/29] Generic `Allocator` support for Rust
+Message-ID: <20241116142102.GA1484376@robin.jannau.net>
+References: <20241004154149.93856-1-dakr@kernel.org>
+ <3b843e34-48f3-41ca-bd83-9bc137ca6c76@asahilina.net>
+ <CAH5fLgg68b-pfGhDubJMzGA8w4dywviMv+ghw0KV1emFvNKe9Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241030170106.1501763-21-samitolvanen@google.com>
- <20241030170106.1501763-22-samitolvanen@google.com> <CAK7LNAShVzrE6uhXxZ7HepKhmOJYsZeigq6w19jRN3OH-T_Jyg@mail.gmail.com>
- <CABCJKueVjP8V-=3Ehi4QvQzg1FZh2unyVMDzSJ_vJ_E5EE+gLg@mail.gmail.com>
-In-Reply-To: <CABCJKueVjP8V-=3Ehi4QvQzg1FZh2unyVMDzSJ_vJ_E5EE+gLg@mail.gmail.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sat, 16 Nov 2024 18:08:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARVK1ZpGXZVTAynuo7CDjgB4uT5bQzcGiWseZfaEu7Tvw@mail.gmail.com>
-Message-ID: <CAK7LNARVK1ZpGXZVTAynuo7CDjgB4uT5bQzcGiWseZfaEu7Tvw@mail.gmail.com>
-Subject: Re: [PATCH v5 01/19] scripts: move genksyms crc32 implementation to a
- common include
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAH5fLgg68b-pfGhDubJMzGA8w4dywviMv+ghw0KV1emFvNKe9Q@mail.gmail.com>
 
-On Thu, Nov 14, 2024 at 2:54=E2=80=AFAM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
->
-> Hi,
->
-> On Mon, Nov 11, 2024 at 8:06=E2=80=AFPM Masahiro Yamada <masahiroy@kernel=
-.org> wrote:
+On Fri, Nov 15, 2024 at 03:00:43PM +0100, Alice Ryhl wrote:
+> On Fri, Nov 15, 2024 at 12:33 PM Asahi Lina <lina@asahilina.net> wrote:
 > >
-> > On Thu, Oct 31, 2024 at 2:01=E2=80=AFAM Sami Tolvanen <samitolvanen@goo=
-gle.com> wrote:
-> > >
-> > > To avoid duplication between host programs, move the crc32 code to a
-> > > shared header file.
+> > We (Asahi Linux) noticed that this doesn't support unsized types, which
+> > is a regression from the alloc Box. drm/asahi uses boxed trait objects
+> > to generalize across certain object types like render commands, so this
+> > breaks the driver.
 > >
-> >
-> > Only the motivation to use this long table is to keep compatibility
-> > between genksyms and gendwarfksyms.
-> > I do not think this should be exposed to other programs.
-> >
-> >
-> > If you avoid the code duplication, you can do
-> >
-> > // scripts/gendwarfksyms/crc.c
-> > #include "../genksyms/crc.c"
->
-> Sure, that sounds reasonable. I'll change this in the next version.
+> > Is there a plan to add this back in? AIUI this would need the
+> > coerce_unsized unstable feature, but is there any other blocker?
+> 
+> We're already using coerce_unsized for Arc, so I see no reason we
+> can't just add that for KBox too. Soon, we should be able to use the
+> derive macro [1] I proposed to do this without unstable language
+> features. The limitation that the RFC mentions for custom allocators
+> does not apply to KBox because it uses PhantomData<A> instead of A for
+> the allocator field.
 
+I have branch rebased onto rust-next and Danilo's "Device / Driver PCI /
+Platform Rust abstractions". In addition to coerce_unsized for kbox
+kvec misses the unproblematic methods clear and truncate and
+array_try_from_vec. drain() as taken from the rust library looks like
+more effort considering kvec's IntoIter.
 
-BTW, is it necessary to share the same crc function
-between genksyms and gendwarfksyms?
-
-If CONFIG_GENKSYMS and CONFIG_GENDWARFKSYMS
-were able to produce the same CRC, it would be a good motivation
-to share the same function.
-However, as far as I tested, gendwarfksyms generates different CRC values.
-
-When a distro migrates to CONFIG_GENDWARFKSYMS,
-the new kernel cannot load old modules built with CONFIG_GENKSYMS.
-
-So, there is no need to share the old code.
-Another solution might be to use crc32() provided by zlib, for example.
-It requires another external library, but this already depends on
-libdw and libelf.
-
-
-
-
-
-
-
-
-
-
->
-> > > Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
-> > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > > Acked-by: Neal Gompa <neal@gompa.dev>
-> >
-> > Does this Ack add any value?
-> >
-> > Acked-by is meaningful only when it is given by someone who
-> > maintains the relevant area or has established a reputation.
-> >
-> > $ git grep "Neal Gompa"
-> > $ git shortlog -n -s | grep "Neal Gompa"
-> >      2 Neal Gompa
-> >
-> > His Ack feels more like "I like it" rather than a qualified endorsement=
-.
->
-> Like Neal explained, an Ack from a potential user of this feature
-> seemed relevant, but if you don't think it's meaningful, I can
-> certainly drop it.
-
-Tested-by is more suitable if he wants to leave something.
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+Janne
