@@ -1,192 +1,120 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7106713E03E
-	for <asahi@lists.linux.dev>; Tue, 19 Nov 2024 21:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0ED81A2545
+	for <asahi@lists.linux.dev>; Wed, 20 Nov 2024 21:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732052296; cv=none; b=cPGW7Q8r3HgDmWwqhpweOHxxUt0/k8ccoTxBJ+KuZyqIyG7WUp+5kbTSbZLQVQqQm4ufFBi44Pl51A9OtMH539JoSMOuR/wg6YsxV5j2nnXUfXoi99vB3iJJ2/dvpT2nalldOQvZTHRw1bOwrDPz3PZhgRX5d7mHey4bq9AcZkk=
+	t=1732139705; cv=none; b=kn7kfn+z0QcouHzqGOOEi19EBFGmK5FkH/sOlAXjESABeZJOX5ARdeiKmBGV7yLXoiI4jQgxArDHidIVGIq4wLbaP6QfEhSkd4e4OjKu/RR2IHjpFZp+tyq+Kx8DWzWZEImhbqMFMroU57+VRO3DuCfmyphbi8GE/tVRv3XSvNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732052296; c=relaxed/simple;
-	bh=Zd2QB6z5/nO/5q32zOMmJULah0pVbTKjUr9QlGKD+V4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qCNEw212/5jqy4cxSDMpzhgvgvOoVj8cz21tNFai1JWEMUWrtturruIw3E00BlSefPMHsoF6yDj5juoGjMrNkSgmSZD8+Ansci2oIPIsHYrzPqvMKSDr3hAHP4SU7dMPtH4TDaWle/AdhnuJDK/0PuWIeD0EyVDiDu+YI6f52FM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=otzO70bT; arc=none smtp.client-ip=209.85.208.44
+	s=arc-20240116; t=1732139705; c=relaxed/simple;
+	bh=p/2HQRb8DSnOeN4sdRAF0ATMaB8otlVUnnqv1o1FzGg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uEZ9IjzfgFd5NFxui/fc5/Jb2Tsu6znv0Yo6mcvx9/EkNoXLWbYH/Hp56INM6wlxMNCcEEr0qprGzhS6qx/9kT5nak2H/eCVhBv2/oM37xuqr2/FLivBlMjBHB6NmyyJVUdVU4fNZoAlVAZvNjNMYIFPeQWcSCRGQUat2HjsEms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nqGvbINg; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="otzO70bT"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5cfc264b8b6so16969a12.0
-        for <asahi@lists.linux.dev>; Tue, 19 Nov 2024 13:38:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nqGvbINg"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-211f1a46f7fso42035ad.0
+        for <asahi@lists.linux.dev>; Wed, 20 Nov 2024 13:55:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732052293; x=1732657093; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KHaLTJLv2qMAaXUVhzeSonG7VLA1CIIMmtCZ7ax6TDw=;
-        b=otzO70bTBTd4UHFiDcdV/ZZ7rluwLNn6v5csasLfsx/DugrHD6QyNAvgBqlX63Ko8Q
-         VJBs61TYDJ+N7nEPGcsUGRYAr8n9DZVNxAXwj5TBpKP6Sw2aTfFQyE3Nr0QOtop8nP54
-         oEDBkgvtdNLjevrCyjLLl7NLtwacB9GYi3jCepTcEER+CzFTtQhNKjN1z3CWWNP4hzul
-         KjU1G+FB0G9WjNR9fTv41Alws+Xofm2lli7tXEOY/ud+VUetruaoC2wGpxEPD3GLHGDP
-         eqOriUuWeyZWY6rpytqlOijAiq15diOCwBz8h+Drxse3IJOzW84e4eG7fsqVlpGCeqmW
-         Ih+A==
+        d=google.com; s=20230601; t=1732139702; x=1732744502; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KJuMd+zGRgDKZ9hMGh3NL+Uf9ATMzUJl+LIc+tHuySg=;
+        b=nqGvbINgb0ui9cKW9C/qx/QDzya3NtnMRF9UlPDlBsWNyh9yLlYj6ZssPZODRaEPSs
+         Xxw/BTtS/sj9OmZ/vCE15yK7KosT0R8TrNov34v2Vl4j4VDsCSLWmtToJQ1FJaEmKFgY
+         /wVRK8ggvf3VRN54ivRB4zqrFJ45nfGAbzAiP2gnUds1uy0yEc1YMoXf3flClGNtKRtb
+         ilM9EKwx9XWl7oZB6OC51+EKRKzhjmJE8NaD56BR/Z+GoiS6frEQWDl4Xxl4HFeOp/2T
+         DK57pT2STENcZrPSpNi7+02gsPSgDA6Yzj6YK7fDn/W9rMRiZzF06bE7ARM90qO/JH7k
+         CgKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732052293; x=1732657093;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KHaLTJLv2qMAaXUVhzeSonG7VLA1CIIMmtCZ7ax6TDw=;
-        b=MkONPr3hM6IboNoojlxwwH93KguC1S196Gm1q/sxx2LdFjCq/f26r+nafiVCzJnOCd
-         BZGzn+d1UJIOnXTBL0KUePYDBL6mnFHVxjAQsiG4UOcB4TfRAfc6dYPXCqx2yvSLbft2
-         yygEaBytFwlORaY4FjD0rkV7wAEsewP/8KHivR0giMq48K76qIv6WfNtJ0QAKH3yVlEa
-         Lgn72R9p8YHKY1u42Q7NrA8E6/RG+HoavTg31LMM1oHn0rhyU5rofUaRdJdNXNfrMTLG
-         RAoyCwy5FgSUyareaT/JhcvHJfBS9YmU2fvw+sMuJeNWzZbpquzk9Dp13p2ampSR0t2m
-         cXpw==
-X-Forwarded-Encrypted: i=1; AJvYcCUeqa2YcvOi7vqCdyzEOI89UFiw4R8iKcIVOAHUI1LinBpi+v586RjQfkrDmYKEGSkiJc+Qdw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyR9j6rVlTM0kWeLlMajFuwd6YDGQ4rhyiKOd1TyrDszbGUk/r8
-	5a6f8Yy7P+1jgLsMlsDdK5OquwX3R3Ylg/OK/UwOSWYBdbyFP/Ru0euVf9+QpIFvuoqPV69DjQs
-	BrifeZUW+cZ0zAnqFLa3aACNF4azwTVZ0Ff2l
-X-Gm-Gg: ASbGncv/ZBY8Bn2kHV83A1+r5Oy86k5JmHXTPycez7GOf0KWFdg1GkDb/A7rrWpYufJ
-	l4kpVWVy1O5bim+DT1qhscEDGgm3cKe5xA3uOpTCMct8U+KvvP2cKkYfyV9sewA==
-X-Google-Smtp-Source: AGHT+IEu1TvsuhTaj4Y+Akxvvr6wi40qDULQBNFY0mTnIT/+3AaCJ0gDLLAcrNpIwNcwmpaw1b+off/DTHI6qwyqUP8=
-X-Received: by 2002:a05:6402:b3a:b0:5cf:f20c:bdf0 with SMTP id
- 4fb4d7f45d1cf-5cff4314190mr20664a12.4.1732052292462; Tue, 19 Nov 2024
- 13:38:12 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732139702; x=1732744502;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KJuMd+zGRgDKZ9hMGh3NL+Uf9ATMzUJl+LIc+tHuySg=;
+        b=WmvOydPlKAZAOAvZyzKjTAqv9xENiHAW4TSpl4j6+aYczkSot9rhdoYnlaUf0VGxOw
+         2xgc3bN4JF0R3boKiiec3uw1ozh9GzmjYRMix4RZFOCTaUrepjjAaE2farRwqkEloVgU
+         WP1U1Z2EMtpfZ2IbUFvMRmB7OBrl34txlQ7bzFkmpWaVe3jy+jNkVreHObo9cgUWGRjB
+         eaORYszL7qgujTnCWdOim9VXePHVTAmv1PWMGDeHFR08my93e5SllvHyGJHVSA1Hkc74
+         JWaVwjrvFK/6LQza7y2BthXYdrY+HzPweQLovagm/U8Eoz9ERlczKQtfHK3M0sv4Q4dN
+         ssbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVMzHZxfnVZkp1V5QKzM2npQorTeZVDxf/6Ttu9Kb47NuMTSNGqvvMWzOwmbbdCCTWvVL6rsA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yym80JOhGmjWbG6lJnC9JjU9ivXkrFuTETmGD51MoaHYPpenfwx
+	ZTSwlrOsoo0zkj8dWNHigLcT4uQ6HXR+AFAY58LdQX3CAexP8B6byySeHHvjbg==
+X-Gm-Gg: ASbGncsY9VhOZIKa7YYG5OidHjYNZMXXCcT938RjqtWg0I2Zm7OZVws5m37EdM1uzyH
+	7RgKetiV7Wcgdlm0BaafCKBSJZtQxHFEi2DvHjjLKP9aWv6ZrO3Y6R/5AHk22oXxBrsy23kuQCc
+	qZMf6TEUBwbAHBrBACYjbKz1s8R1a2oY2ba469C5G9EylWKbKuSDhRsQIL9NA8ZMp2hqcmcYgJG
+	zvzSppmp066dSotSjURo9C1lDcJvaDgDvlQfaGuskt7Aa46UFKXZWycX8wsXW0H+IM0tbUvSxP/
+	9Q4wBYAwyL2rLNM=
+X-Google-Smtp-Source: AGHT+IGKc9ZvPmJIK0nWwQcxR6PLarmpQvpHzkZoZJMXfvRSrnEfA5c5NwlyeWO3fgYs+0aWUjKJ0w==
+X-Received: by 2002:a17:903:178f:b0:1f7:34e4:ebc1 with SMTP id d9443c01a7336-212878a076cmr162705ad.5.1732139701962;
+        Wed, 20 Nov 2024 13:55:01 -0800 (PST)
+Received: from google.com (77.62.105.34.bc.googleusercontent.com. [34.105.62.77])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-212880d16d4sm271285ad.167.2024.11.20.13.55.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2024 13:55:01 -0800 (PST)
+Date: Wed, 20 Nov 2024 21:54:54 +0000
+From: Sami Tolvanen <samitolvanen@google.com>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Matthew Maurer <mmaurer@google.com>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>,
+	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Asahi Linux <asahi@lists.linux.dev>,
+	Sedat Dilek <sedat.dilek@gmail.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v5 10/19] gendwarfksyms: Limit structure expansion
+Message-ID: <20241120215454.GA3512979@google.com>
+References: <20241030170106.1501763-21-samitolvanen@google.com>
+ <20241030170106.1501763-31-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241030170106.1501763-21-samitolvanen@google.com>
- <20241030170106.1501763-22-samitolvanen@google.com> <CAK7LNAShVzrE6uhXxZ7HepKhmOJYsZeigq6w19jRN3OH-T_Jyg@mail.gmail.com>
- <CABCJKueVjP8V-=3Ehi4QvQzg1FZh2unyVMDzSJ_vJ_E5EE+gLg@mail.gmail.com>
- <CAK7LNARVK1ZpGXZVTAynuo7CDjgB4uT5bQzcGiWseZfaEu7Tvw@mail.gmail.com>
- <CABCJKufVpx4dsr7A44qA0ydwTEx+3Qy_OMx9Ch6OKa4nzvRj2g@mail.gmail.com> <20241119204829.GA1926309@frogsfrogsfrogs>
-In-Reply-To: <20241119204829.GA1926309@frogsfrogsfrogs>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 19 Nov 2024 13:37:35 -0800
-Message-ID: <CABCJKue+n2V5vua2=Hwc1SXBdkmdLBD7ac8imt5HO1bsy7s9dw@mail.gmail.com>
-Subject: Re: [PATCH v5 01/19] scripts: move genksyms crc32 implementation to a
- common include
-To: "Darrick J. Wong" <djwong@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Matthew Maurer <mmaurer@google.com>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241030170106.1501763-31-samitolvanen@google.com>
 
-Hi Darrick,
+On Wed, Oct 30, 2024 at 05:01:17PM +0000, Sami Tolvanen wrote:
+> 
+> For pointers, limit structure expansion after the first pointer
+> in the symbol type. This should be plenty for detecting ABI
+> differences, but it stops us from pulling in half the kernel for
+> types that contain pointers to large kernel data structures, like
+> task_struct, for example.
 
-On Tue, Nov 19, 2024 at 12:48=E2=80=AFPM Darrick J. Wong <djwong@kernel.org=
-> wrote:
->
-> On Mon, Nov 18, 2024 at 09:58:09PM +0000, Sami Tolvanen wrote:
-> > Hi,
-> >
-> > On Sat, Nov 16, 2024 at 9:09=E2=80=AFAM Masahiro Yamada <masahiroy@kern=
-el.org> wrote:
-> > >
-> > > On Thu, Nov 14, 2024 at 2:54=E2=80=AFAM Sami Tolvanen <samitolvanen@g=
-oogle.com> wrote:
-> > > >
-> > > > Hi,
-> > > >
-> > > > On Mon, Nov 11, 2024 at 8:06=E2=80=AFPM Masahiro Yamada <masahiroy@=
-kernel.org> wrote:
-> > > > >
-> > > > > On Thu, Oct 31, 2024 at 2:01=E2=80=AFAM Sami Tolvanen <samitolvan=
-en@google.com> wrote:
-> > > > > >
-> > > > > > To avoid duplication between host programs, move the crc32 code=
- to a
-> > > > > > shared header file.
-> > > > >
-> > > > >
-> > > > > Only the motivation to use this long table is to keep compatibili=
-ty
-> > > > > between genksyms and gendwarfksyms.
-> > > > > I do not think this should be exposed to other programs.
-> > > > >
-> > > > >
-> > > > > If you avoid the code duplication, you can do
-> > > > >
-> > > > > // scripts/gendwarfksyms/crc.c
-> > > > > #include "../genksyms/crc.c"
-> > > >
-> > > > Sure, that sounds reasonable. I'll change this in the next version.
-> > >
-> > >
-> > > BTW, is it necessary to share the same crc function
-> > > between genksyms and gendwarfksyms?
-> > >
-> > > If CONFIG_GENKSYMS and CONFIG_GENDWARFKSYMS
-> > > were able to produce the same CRC, it would be a good motivation
-> > > to share the same function.
-> > > However, as far as I tested, gendwarfksyms generates different CRC va=
-lues.
->
-> crc32() is operating on different data, right?  CONFIG_GENDWARFKSYMS
-> computes a crc of the DWARF data, whereas CONFIG_GENKSYMS computes a crc
-> of a magic string from ... the source code, right?  Hence the crcs will
-> never match?
+We spent some time backtesting gendwarfksyms with android15-6.6
+releases to validate the kABI stability options that are currently
+implemented [1]. While we discovered a few missing knobs that are
+needed, we also realized that pointer expansion limits don't work
+when symbols are removed (which is possible without breaking the
+existing ABI when TRIM_UNUSED_KSYMS is used), as the processing
+cut-off can change. Petr also had some concerns about this earlier,
+so instead of coming up with an alternative solution, I'm going to
+drop the pointer expansion limit in v6.
 
-Correct, they will never match.
+I still think that it would be great to come up with a better way to
+limit how deep into internal data structures we go when calculating
+versions, but I suspect that's going to be challenging unless C
+grows an annotation for public / private struct members.
 
-> > > > > > Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
-> > > > > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > > > > > Acked-by: Neal Gompa <neal@gompa.dev>
-> > > > >
-> > > > > Does this Ack add any value?
-> > > > >
-> > > > > Acked-by is meaningful only when it is given by someone who
-> > > > > maintains the relevant area or has established a reputation.
-> > > > >
-> > > > > $ git grep "Neal Gompa"
-> > > > > $ git shortlog -n -s | grep "Neal Gompa"
-> > > > >      2 Neal Gompa
-> > > > >
-> > > > > His Ack feels more like "I like it" rather than a qualified endor=
-sement.
-> > > >
-> > > > Like Neal explained, an Ack from a potential user of this feature
-> > > > seemed relevant, but if you don't think it's meaningful, I can
-> > > > certainly drop it.
-> > >
-> > > Tested-by is more suitable if he wants to leave something.
-> >
-> > Ack. Neal, I'll drop the acks from v6, but if you end up testing that
-> > series, please feel free to add your Tested-by.
->
-> Just my 2 cents, but it seems rude to me to *remove* an Ack from an
-> existing patchset on the grounds that person doesn't appear often in the
-> kernel log.  "We won't hire you for this entry level job because you
-> don't have experience" etc.
->
-> Also, wouldn't Neal be one of the people shepherding this change into
-> distro kernels?  He seems to show up somewhat frequently in the Fedora
-> and SUSE ecosystems.
->
-> Is the problem here that you all think "Acked-by" isn't appropriate from
-> someone who isn't a subsystem maintainer, but the kernel doesn't seem to
-> have a tag for "downstream consumer of this change says they're willing
-> to put their name on the line for this"?
+While looking into another version stability issue compared to
+genksyms, we also came to the conclusion that private structure
+definitions in .c files should be excluded from processing as they
+are opaque outside the CU and cannot change the ABI. I'll include
+this in v6 as well.
 
-I certainly appreciate Neal's input, but I don't have a strong opinion
-about which tag is appropriate. The documentation seems to suggest
-that Acked-by is _often_ used by maintainers and focuses on that use
-case, but doesn't explicitly rule out other folks acking patches
-either:
-
-https://docs.kernel.org/process/submitting-patches.html#when-to-use-acked-b=
-y-cc-and-co-developed-by
-
-Perhaps Greg, or someone else with more experience with the nuances of
-acking, can clarify the policy in this situation?
+[1] https://github.com/samitolvanen/linux/commits/android15-6.6-2024-11-gendwarfksyms/
 
 Sami
