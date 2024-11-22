@@ -1,369 +1,166 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27CC413F435
-	for <asahi@lists.linux.dev>; Fri, 22 Nov 2024 01:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 049664207A
+	for <asahi@lists.linux.dev>; Fri, 22 Nov 2024 09:54:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732240309; cv=none; b=ukMI2JGDukKLt9GdQ5eRdoLlXLMZ3eIKpjfLpHwUQzBnFIL5Diwo2qNHOFo6HZ+SPWGvQtMFsHsi9TCY6XTQLG/+Xf4Pg8bmzaLncDIsCPPzhGAvMo8t01rTY2vMWPtk9oeSvKqy6cwOKSjARp2D3Z9Y3vAZjK4/GpgQcmxCMn4=
+	t=1732269277; cv=none; b=nGo2023vmq0z1t2xKah3UQpoIxXSKZ9Ba7aWAgBcPUk68AEPR/1geRgyKOTHgWk1ua35Xopy4Zxjnu6NfzDo2/ZBTcUW6dq/rIr/Vgam2KmCCqG6hV2NResvbFeNa2f0mWw7b2v7Ov/ObfgMATgU8hg5BO2oWF0c9+7wAl7xh78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732240309; c=relaxed/simple;
-	bh=/aZ5tnhrg58nES9DotuawpjZyBP9ljUcHLWoDrLmcpo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mVkjilpi9kUaQeZTfoM7wDd3TEFBBK5ItuLh0BPkt4QDzmF4Yl6QD1YySR+wiHoEWK9g0b7JGVq4knzSe71LF1C9pnGDIatDRE9nzaWEFn+A9V5N8VBZXKddpnCZNzPucmkcIlDEJo+UM0/tMyBgHS/Z4rCurp4bGm1iGQN7Ut4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3mOvTqK; arc=none smtp.client-ip=209.85.167.51
+	s=arc-20240116; t=1732269277; c=relaxed/simple;
+	bh=4r/AQaOmKgXOK7Xpqvsxu30yzczQ3+695c7PBSnrjUI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ikWNOymvoYQg7fZtFXYVHq8N7763TdgwMelBlpAdXzJDXKHGHqIQ41qUVhVHNcnjH25oQeHFMvHY+cbFHxJPEpWb+TAPr1Ft96cSckOjnSHO4zpBS70vLiJNZPJ6fd/o3Kdmjw9vO0wo5xxOX+SSHdwgDxeNlojzUi/NUTm0G0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jscxTbkV; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3mOvTqK"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53da3545908so1821332e87.1
-        for <asahi@lists.linux.dev>; Thu, 21 Nov 2024 17:51:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jscxTbkV"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-724ea6a8cf4so104737b3a.1
+        for <asahi@lists.linux.dev>; Fri, 22 Nov 2024 01:54:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732240305; x=1732845105; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=i8Z+CPVajeJ3Ry1Xl5fp5aaPACwKhtsug1K6GR7nlyg=;
-        b=Z3mOvTqK2gg5r6BlzEHwYcIAIZBPvTUA0aGBSAvnU/ZotO8Y36yIniBkjzDb2xhLRq
-         12G9TUcgks0Ich3n6sJABWPJ+usv3WelWHaG+JP45KNcuHFpXlf6rf1SU7kknN8DrWkA
-         2JLpxC0xVDJyZrwJgl/Ydpj6T1FX8kTwKp0zIOBktFgYJVfRQGf4hfY6XnKoM7waeaJb
-         mXjUn0y93xSGZuTOkLrIFjQjfcYMYdpVj2wZMA8b3XHSqNkmWBdvY4Ucq81fC6c/iTT0
-         8oqDtv4nzxsJjl/1ctNGyHZcf9pqHJoMZOY+fjf4wEMAlM86a5/PUAtPo5fvjMhAcjv6
-         jCvQ==
+        d=gmail.com; s=20230601; t=1732269275; x=1732874075; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jMwyC39icc4IvLpJGYFqdt3FBTe+CoSHG8g9XwWwf/M=;
+        b=jscxTbkVqTLC2TCLjttPfJwpgyrfKmTjNlYh0Egn40/NO50v1ywsr+de3WLqveO+5w
+         m++aBHrXKGfbHz5FkAScvoOaUpMspYsBzcpwoZyV0jUqZ2tmNWx3T4BmKNqQeTBeCm3P
+         K/58OBYjn+dxQJvAzwjQ60VUlR6wZ8/eXqHBH/SjUO4ChS/j3EIznrMhHlc/7/Uh1/zp
+         C3n2lnFPkL/FDuXt7nAZXnSkNq04XwROr22a8T610bYi7gn2r7jkZ3ORWRwAjPFs3sJe
+         bO1NiaAQcjRA2Zdc9plxjwF7vkWqWutIfovSJtO0aFzi+PZWU4Yo6AfClpe1PkezKT3T
+         YN4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732240305; x=1732845105;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=i8Z+CPVajeJ3Ry1Xl5fp5aaPACwKhtsug1K6GR7nlyg=;
-        b=eqCFTlCp8alcS2MTlYT1FohluArLc9ZgAxEwRqZLx8HW6ltzBsToC7QZMxKhHt9g08
-         v/7Bd5JrDm7f1Q+S9QDIomio9q4/xulokfNGGecV39c/zHVrvO6NkAtD8NJwZqO62lR/
-         z8kOhU7T57uFCdjBp+ZST8/9O4TCRGdmJaScFic51NzI1pgvWDTBsNs8HFjwZnNKrDsB
-         QGybUKQFOPGjIHRQS8u6HL69LdHnG7FPo7uJ6OwPOrBWOmVssY3SsqKXhK1yQ1N+b/oH
-         9WTyv6ImM4F1JGMQrQC0NwV+EB7dmB9dZCApF4QBZ0jfGuXiMIfv1ehBXWG1y13DXCXu
-         N6kw==
-X-Forwarded-Encrypted: i=1; AJvYcCVoBFDQ1KtZboWSqM6CCkybkpLBbtUXvakM+50zY5n7TofACklszfiP9KV3sIZQrYT5o1kQ1g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3Z2u4lcqrJ4rxfqfnU1ews6o/b4IpFbxebtvm1bSlhhugS9fo
-	dCIhPruFsQFl1DoTmxYNTjNUavRKkmiEaKYVI7kVn3sTee0QfaakKneIRcrcBp4lWAe9A3mN5YI
-	fLZiTr8Zxi0l7fFS3BDNr8WH2+0s=
-X-Gm-Gg: ASbGncu2R8v69mBDV0iHc5rMKAvtHCMZqI50I9ut8FDqDBJxiRwNVVDg+I5BiN701OB
-	g/v/z9Uev075NNtnL3O9AJa1JtjRoasUvJQ==
-X-Google-Smtp-Source: AGHT+IFhrF/dTuYAUtNauVsCU2r43xjLhGCO/XkliH18CF905DIz+unOZlD2iAtqVdv86vVM4u4IrbFXUnuFJOYf8n0=
-X-Received: by 2002:a05:6512:1594:b0:53d:a864:2432 with SMTP id
- 2adb3069b0e04-53dd36aa58bmr457837e87.17.1732240304980; Thu, 21 Nov 2024
- 17:51:44 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732269275; x=1732874075;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jMwyC39icc4IvLpJGYFqdt3FBTe+CoSHG8g9XwWwf/M=;
+        b=kHqYeekyXlQQZv22h4iL8l1K701bLlh/bl5ZMbxdrBnN9W3G2v5Liltx0udIMrjWPv
+         uq9y866mffxHVJX/HmMx/qD9kdTsSQ2fitz31597OaQ4+aaJ7JVxuCZ1dnW1T9uDg/L2
+         R34doiQF2yENxgvJt4uOlZf/gZmWi7o+2xhJzNfiK0zKtFGn/jIFyRaICiyWToJXnEvq
+         yXLWOa2phWjBtUeixPmLQcunKrLzylyjctZw/IsoosyOdzUuKSi8UFXWj3FGVJgU9Rbl
+         mnGtpSYG+cpB48fccaU4r3ERqsjLpnO5WkwEy54OJa2s1CfTWO506nxw/Bvstn7Ydlij
+         RFEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWM9Y+HSkRO2xvbaPps6ur4e/6P9+Q4EGa9w2rw380eKub0SJUFpVxHJA0W5xrWuq/scIUqVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywj//nZH/nK6aFThkVLDL90IStsJO7oUS9pDUulKhcmHfMP+Tx6
+	D5N2Uo/R6ANuVXVUvGdOfHHEFWWVop7dQjA6JaO1SNZMVzpUepN/
+X-Gm-Gg: ASbGncubGC+2gOXcIVjUwLzqilCvBN8pRkWycQYhmpaCgvaqyUdLJh7Vpb41ao9NSxX
+	7ZhESCOh6brt6MczOWyItEwdV9o8Onpz1MAUc1wEunssTIm1cwwbDodOhwq6ofrmUy+DzGvYug/
+	IIhh7GpF+o/ZogllsTz0kImKALmkMQeJqdVU9BwmguQP+iept1hz4ruZYeTy3hDZ4ecNhBTiU/c
+	2pETxtsOgIxhTcm4lLCWtcJPlh83wpFMEYGCR8Sx/KzaOgBuVmdU8ABFW+ew5YeMok=
+X-Google-Smtp-Source: AGHT+IEjVX8VWWWGoeSVP64ft86gsom9aoLkVu92O9mQT+9mQ+XFMKlDJE5V2OCvy3SC3WAbz6IS8Q==
+X-Received: by 2002:a05:6a00:c81:b0:71e:cc7:c511 with SMTP id d2e1a72fcca58-724df68f1a3mr2932208b3a.23.1732269275199;
+        Fri, 22 Nov 2024 01:54:35 -0800 (PST)
+Received: from localhost.localdomain ([182.152.110.125])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-7fbcc218a87sm1236332a12.39.2024.11.22.01.54.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 01:54:34 -0800 (PST)
+From: Nick Chan <towinchenmi@gmail.com>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH v3 RESEND 00/10] Add PMGR nodes for Apple A7-A11 SoCs
+Date: Fri, 22 Nov 2024 17:50:29 +0800
+Message-ID: <20241122095136.35046-1-towinchenmi@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com>
-In-Reply-To: <20241121204220.2378181-20-samitolvanen@google.com>
-Reply-To: sedat.dilek@gmail.com
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Fri, 22 Nov 2024 02:51:09 +0100
-Message-ID: <CA+icZUX-gf8624z8u+h-W8KeddCruYDng-4vTggNGwC61NzfNA@mail.gmail.com>
-Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, Neal Gompa <neal@gompa.dev>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 21, 2024 at 9:42=E2=80=AFPM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
->
-> Hi,
->
-> Here's v6 of the DWARF modversions series. The main motivation is
-> modversions support for Rust, which is important for distributions
-> like Android that are about to ship Rust kernel modules. Per Luis'
-> request [1], v2 dropped the Rust specific bits from the series and
-> instead added the feature as an option for the entire kernel to
-> make it easier to evaluate the benefits of this approach, and to
-> get better test coverage. Matt is addressing Rust modversion_info
-> compatibility issues in a separate patch set [2] that depends on
-> this series, and actually allows modversions to be enabled with
-> Rust.
->
-> Short background: Unlike C, Rust source code doesn't have sufficient
-> information about the final ABI, as the compiler has considerable
-> freedom in adjusting structure layout, for example, which makes
-> using a source code parser like genksyms a non-starter. Based on
-> earlier feedback, this series uses DWARF debugging information for
-> computing versions. DWARF is an established and a relatively stable
-> format, which includes all the necessary ABI details, and adding a
-> CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-> reasonable trade-off as most distributions already enable it.
->
-> The first 15 patches add gendwarfksyms, a tool for computing symbol
-> versions from DWARF. When passed a list of exported symbols and
-> object files, the tool generates an expanded type string for each
-> symbol and computes symbol versions. gendwarfksyms is written in C,
-> uses libdw to process DWARF, and zlib for CRC32. Patch 16 ensures
-> that debugging information is present where we need it, patch 17
-> adds gendwarfksyms as an alternative to genksyms, and the last patch
-> adds documentation.
->
-> v6 has changes to structure expansion and the kABI stability
-> features based on our backtesting results with previous Android
-> release kernels (see the change log below). It's also based on
-> linux-kbuild/for-next to include symtypes build rule clean-ups from
-> Masahiro [3]. For your convenience, the series is also available
-> here:
->
-> https://github.com/samitolvanen/linux/commits/gendwarfksyms-v6
->
+This series adds the PMGR nodes and all known power state subnodes for
+Apple A7-A11 SoCs, along with the associated dt-bindings.
 
-Thanks for the update, Sami.
+Changes since v2:
+- Removed "apple,always-on" property from "ps_pmp" from s8001, t8011,
+t8015 power domains. It is not on at boot. (Mixed up with ps_pms which
+is required to be on)
+- Add asahi-soc/dt back into the subject prefix, missing from v2.
 
-What are your plans to get this upstream?
+Link to v2: https://lore.kernel.org/asahi/20241102011004.59339-1-towinchenmi@gmail.com
 
-Is Linux 6.13 the new development base?
+Changes since v1:
+- Removed "framebuffer0" dt aliases. It is not standard and not needed.
 
-Personally, I would like to see a Linux v6.12 LTS version offered.
+Link to v1: https://lore.kernel.org/asahi/20241029010526.42052-1-towinchenmi@gmail.com
 
-LTO is not supported - might be worth mentioning this in the
-documentation patch with some explanations?
+Nick Chan
 
-BTW, I am testing with the latest kmod-git and pahole-git.
+---
+Nick Chan (10):
+  dt-bindings: arm: apple: apple,pmgr: Add A7-A11 compatibles
+  dt-bindings: arm: apple: apple,pmgr-pwrstate: Add A7-A11 compatibles
+  arm64: dts: apple: s5l8960x: Add PMGR node
+  arm64: dts: apple: t7000: Add PMGR node
+  arm64: dts: apple: t7001: Add PMGR node
+  arm64: dts: apple: s8000: Add PMGR nodes
+  arm64: dts: apple: s8001: Add PMGR nodes
+  arm64: dts: apple: t8010: Add PMGR nodes
+  arm64: dts: apple: t8011: Add PMGR nodes
+  arm64: dts: apple: t8015: Add PMGR nodes
 
-I will give this a try when Linux v6.12.1 is released.
+ .../bindings/arm/apple/apple,pmgr.yaml        |   5 +
+ .../bindings/power/apple,pmgr-pwrstate.yaml   |   5 +
+ arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi    |   4 +
+ arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi  |   4 +
+ arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi |   4 +
+ arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi  | 610 ++++++++++++
+ arch/arm64/boot/dts/apple/s5l8960x.dtsi       |  13 +
+ arch/arm64/boot/dts/apple/s8000-pmgr.dtsi     | 757 ++++++++++++++
+ arch/arm64/boot/dts/apple/s8000.dtsi          |  22 +
+ arch/arm64/boot/dts/apple/s8001-common.dtsi   |   1 +
+ .../arm64/boot/dts/apple/s8001-j98a-j99a.dtsi |  26 +
+ arch/arm64/boot/dts/apple/s8001-j98a.dts      |   1 +
+ arch/arm64/boot/dts/apple/s8001-j99a.dts      |   1 +
+ arch/arm64/boot/dts/apple/s8001-pmgr.dtsi     | 822 ++++++++++++++++
+ arch/arm64/boot/dts/apple/s8001.dtsi          |  22 +
+ arch/arm64/boot/dts/apple/s800x-6s.dtsi       |   4 +
+ arch/arm64/boot/dts/apple/s800x-ipad5.dtsi    |   4 +
+ arch/arm64/boot/dts/apple/s800x-se.dtsi       |   4 +
+ arch/arm64/boot/dts/apple/t7000-6.dtsi        |   4 +
+ arch/arm64/boot/dts/apple/t7000-j42d.dts      |   1 +
+ arch/arm64/boot/dts/apple/t7000-mini4.dtsi    |   4 +
+ arch/arm64/boot/dts/apple/t7000-n102.dts      |   4 +
+ arch/arm64/boot/dts/apple/t7000-pmgr.dtsi     | 641 ++++++++++++
+ arch/arm64/boot/dts/apple/t7000.dtsi          |  14 +
+ arch/arm64/boot/dts/apple/t7001-air2.dtsi     |   1 +
+ arch/arm64/boot/dts/apple/t7001-pmgr.dtsi     | 650 ++++++++++++
+ arch/arm64/boot/dts/apple/t7001.dtsi          |  13 +
+ arch/arm64/boot/dts/apple/t8010-7.dtsi        |   4 +
+ arch/arm64/boot/dts/apple/t8010-ipad6.dtsi    |   4 +
+ arch/arm64/boot/dts/apple/t8010-n112.dts      |   4 +
+ arch/arm64/boot/dts/apple/t8010-pmgr.dtsi     | 772 +++++++++++++++
+ arch/arm64/boot/dts/apple/t8010.dtsi          |  22 +
+ arch/arm64/boot/dts/apple/t8011-common.dtsi   |   1 +
+ arch/arm64/boot/dts/apple/t8011-pmgr.dtsi     | 806 +++++++++++++++
+ arch/arm64/boot/dts/apple/t8011-pro2.dtsi     |   8 +
+ arch/arm64/boot/dts/apple/t8011.dtsi          |  22 +
+ arch/arm64/boot/dts/apple/t8015-common.dtsi   |   1 +
+ arch/arm64/boot/dts/apple/t8015-pmgr.dtsi     | 930 ++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8015.dtsi          |  21 +
+ 39 files changed, 6236 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/s8000-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-j98a-j99a.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/s8001-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t7000-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t7001-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8010-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8011-pmgr.dtsi
+ create mode 100644 arch/arm64/boot/dts/apple/t8015-pmgr.dtsi
 
-Best regards,
--Sedat-
 
+base-commit: 28eb75e178d389d325f1666e422bc13bbbb9804c
+-- 
+2.47.0
 
-
-
-> If you also want to test the series with actual Rust modules, this
-> branch adds Matt's latest modversion_info series:
->
-> https://github.com/samitolvanen/linux/commits/rustmodversions-v6
->
-> Sami
->
->
-> [1] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
-> [2] https://lore.kernel.org/linux-modules/20241030-extended-modversions-v=
-8-0-93acdef62ce8@google.com/
-> [3] https://lore.kernel.org/linux-modules/CAK7LNAR9c+EEsOvPPn4qSq3gAFskYO=
-XVd=3Ddg8O+bKeeC-HMifw@mail.gmail.com/
->
-> ---
->
-> v6:
-> - Dropped pointer expansion limits as this affects version
->   stability when exported symbols are removed. (Patch 9)
->
-> - Changed local type definitions (in .c files) that are opaque
->   to external users to be treated as declarations even if a
->   definition is available. (Patch 9)
->
-> - Switched to zlib's CRC32 implementation per Masahiro's
->   suggestion. (Patch 12)
->
-> - Renamed struct_declonly kABI rule to simply declonly, as it
->   applies also to unions and enums, added a new rule for
->   overriding enumerator values, and refactored the examples.
->   (Patch 13)
->
-> - Added --stable support for renamed structure members and
->   also added examples. (Patch 14)
->
-> - Rebased on linux-kbuild/for-next for Masahiro's symtypes
->   build rule clean-ups. (Patch 17)
->
-> - Updated the documentation reflect --stable changes. (Patch 18)
->
-> v5: https://lore.kernel.org/lkml/20241030170106.1501763-21-samitolvanen@g=
-oogle.com/
-> - Rebased on v6.12-rc5.
->
-> - Fixed an issue with limiting structure expansion, and applied
->   Petr's clean-up. (Patch 10)
->
-> - Dropped an unnecessary return statement in error path. (Patch
->   12)
->
-> - Addressed several other smaller issues Petr brought up. (Patches
->   13, 14, and 15)
->
-> - Added a KBUILD_GENDWARFKSYMS_STABLE flag to enable --stable for
->   the entire kernel build. (Patch 18)
->
-> - Updated documentation to include KBUILD flags. (Patch 19)
->
-> - Picked up Reviewed-by tags from v4.
->
-> v4: https://lore.kernel.org/lkml/20241008183823.36676-21-samitolvanen@goo=
-gle.com/
-> - Rebased on v6.12-rc2, which now includes all the prerequisites.
->
-> - Dropped unnecessary name_only parameter for symbols.c::for_each
->   and cleaned up error handling. (Patch 3)
->
-> - Fixed anonymous scope handling to ensure unnamed DIEs don't get
->   names. (Patch 4)
->
-> - Added non-variant children to variant_type output, and included
->   DW_AT_discr_value attributes for variants. (Patch 9)
->
-> - Added another symbol pointer test case. (Patch 16)
->
-> - Picked up (Acked|Reviewed)-by tags from v3.
->
-> v3: https://lore.kernel.org/lkml/20240923181846.549877-22-samitolvanen@go=
-ogle.com/
-> - Updated SPX license headers.
->
-> - Squashed the first two patches in v2 and tried to reduce churn as
->   much as reasonable.
->
-> - Dropped patch 18 from v2 ("x86/asm-prototypes: Include
->   <asm/ptrace.h>") as it's addressed by a separate patch.
->
-> - Changed the error handling code to immediately terminate instead
->   of propagating the errors back to main, which cleaned up the code
->   quite a bit.
->
-> - Switched to the list and hashtable implementations in scripts and
->   dropped the remaining tools/include dependencies. Added a couple
->   missing list macros. (patch 1)
->
-> - Moved the genksyms CRC32 implementation to scripts/include and
->   dropped the duplicate code. (patches 2 and 14)
->
-> - Switched from ad-hoc command line parsing to getopt_long (patch 3).
->
-> - Added structure member and function parameter names to the DIE
->   output to match genksyms behavior, and tweaked the symtypes format
->   to be more parser-friendly in general based on Petr's suggestions.
->
-> - Replaced the declaration-only struct annotations with more generic
->   kABI stability rules that allow source code annotations to be used
->   where #ifndef __GENKSYMS__ was previously used.  Added support for
->   rules that can be used to exclude enumerators from versioning.
->   (patch 16)
->
-> - Per Miroslav's suggestion, added an option to hide structure
->   members from versioning when they're added to existing alignment
->   holes, for example. (patch 16)
->
-> - Per Greg's request, added documentation and example macros for the
->   --stable features, and a couple of test cases. (patches 15, 16, and
->   20)
->
-> - Fixed making symtypes files, which need to depend on .o files with
->   gendwarfksyms. (patch 19)
->
-> - Addressed several other smaller issues that Petr and Masahiro
->   kindly pointed out during the v2 review.
->
-> v2: https://lore.kernel.org/lkml/20240815173903.4172139-21-samitolvanen@g=
-oogle.com/
-> - Per Luis' request, dropped Rust-specific patches and added
->   gendwarfksyms as an alternative to genksyms for the entire
->   kernel.
->
-> - Added support for missing DWARF features needed to handle
->   also non-Rust code.
->
-> - Changed symbol address matching to use the symbol table
->   information instead of relying on addresses in DWARF.
->
-> - Added __gendwarfksyms_ptr patches to ensure the compiler emits
->   the necessary type information in DWARF even for symbols that
->   are defined in other TUs.
->
-> - Refactored debugging output and moved the more verbose output
->   behind --dump* flags.
->
-> - Added a --symtypes flag for generating a genksyms-style
->   symtypes output based on Petr's feedback, and refactored
->   symbol version calculations to be based on symtypes instead
->   of raw --dump-dies output.
->
-> - Based on feedback from Greg and Petr, added --stable flag and
->   support for reserved data structure fields and declaration-onl
->   structures. Also added examples for using these features.
->
-> - Added a GENDWARFKSYMS option and hooked up kbuild support
->   for both C and assembly code. Note that with gendwarfksyms,
->   we have to actually build a temporary .o file for calculating
->   assembly modversions.
->
-> v1: https://lore.kernel.org/lkml/20240617175818.58219-17-samitolvanen@goo=
-gle.com/
->
-> ---
->
-> Sami Tolvanen (18):
->   tools: Add gendwarfksyms
->   gendwarfksyms: Add address matching
->   gendwarfksyms: Expand base_type
->   gendwarfksyms: Add a cache for processed DIEs
->   gendwarfksyms: Expand type modifiers and typedefs
->   gendwarfksyms: Expand subroutine_type
->   gendwarfksyms: Expand array_type
->   gendwarfksyms: Expand structure types
->   gendwarfksyms: Limit structure expansion
->   gendwarfksyms: Add die_map debugging
->   gendwarfksyms: Add symtypes output
->   gendwarfksyms: Add symbol versioning
->   gendwarfksyms: Add support for kABI rules
->   gendwarfksyms: Add support for reserved and ignored fields
->   gendwarfksyms: Add support for symbol type pointers
->   export: Add __gendwarfksyms_ptr_ references to exported symbols
->   kbuild: Add gendwarfksyms as an alternative to genksyms
->   Documentation/kbuild: Add DWARF module versioning
->
->  Documentation/kbuild/gendwarfksyms.rst     |  308 ++++++
->  Documentation/kbuild/index.rst             |    1 +
->  include/linux/export.h                     |   15 +
->  kernel/module/Kconfig                      |   31 +
->  scripts/Makefile                           |    3 +-
->  scripts/Makefile.build                     |   35 +-
->  scripts/gendwarfksyms/.gitignore           |    2 +
->  scripts/gendwarfksyms/Makefile             |   12 +
->  scripts/gendwarfksyms/cache.c              |   51 +
->  scripts/gendwarfksyms/die.c                |  166 +++
->  scripts/gendwarfksyms/dwarf.c              | 1158 ++++++++++++++++++++
->  scripts/gendwarfksyms/examples/kabi.h      |  157 +++
->  scripts/gendwarfksyms/examples/kabi_ex.c   |   30 +
->  scripts/gendwarfksyms/examples/kabi_ex.h   |  263 +++++
->  scripts/gendwarfksyms/examples/symbolptr.c |   33 +
->  scripts/gendwarfksyms/gendwarfksyms.c      |  185 ++++
->  scripts/gendwarfksyms/gendwarfksyms.h      |  301 +++++
->  scripts/gendwarfksyms/kabi.c               |  333 ++++++
->  scripts/gendwarfksyms/symbols.c            |  339 ++++++
->  scripts/gendwarfksyms/types.c              |  477 ++++++++
->  20 files changed, 3893 insertions(+), 7 deletions(-)
->  create mode 100644 Documentation/kbuild/gendwarfksyms.rst
->  create mode 100644 scripts/gendwarfksyms/.gitignore
->  create mode 100644 scripts/gendwarfksyms/Makefile
->  create mode 100644 scripts/gendwarfksyms/cache.c
->  create mode 100644 scripts/gendwarfksyms/die.c
->  create mode 100644 scripts/gendwarfksyms/dwarf.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi.h
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex.h
->  create mode 100644 scripts/gendwarfksyms/examples/symbolptr.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
->  create mode 100644 scripts/gendwarfksyms/kabi.c
->  create mode 100644 scripts/gendwarfksyms/symbols.c
->  create mode 100644 scripts/gendwarfksyms/types.c
->
->
-> base-commit: 3596c721c4348b2a964e43f9296a0c01509ba927
-> --
-> 2.47.0.371.ga323438b13-goog
->
