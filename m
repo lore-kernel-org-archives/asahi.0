@@ -1,61 +1,61 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C652C1DE2DC
-	for <asahi@lists.linux.dev>; Fri, 22 Nov 2024 09:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1017A1DE4C5
+	for <asahi@lists.linux.dev>; Fri, 22 Nov 2024 09:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732269284; cv=none; b=Q7G0LURl1t6+wz4akqy/OljVC+Wofo/X5ip0v6tTh/UUy8YzH2bw+ZW8f/Pag8mZdwdC30n5418KPeNkM2zi5cg1uoFv+ZVKD4KtnzQyHKXsRs1tjDQ02lkg7O47//xzlc9F4OSmXa8l60ZIdfWo1tz5Lo1VtyxFicQlSnToj0E=
+	t=1732269288; cv=none; b=IjhbpGtsbO21lnnne6NdudiaAFJFwYVU+3cIYaBpqugiSUS2i6hqOv9F1OExzthV8d6fQVNRZYDkMVYm+reoDbjWVaJYb0Kmal+OAADjOV7tR1wQxjZTMaNPahkwWDlE/iqB7wz3Z8YolQunnjznFc5Om43ET8Ap6no4yvaHSaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732269284; c=relaxed/simple;
-	bh=hDRg0YaHnMb/3mj2Hdxk7ZixHZuwBUovjfJTVCdFUAw=;
+	s=arc-20240116; t=1732269288; c=relaxed/simple;
+	bh=ztOkG1l9yjVcr2pfAMEkRwns7DNCI2dI76C/ri/QF58=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sgAg7XRBb40kAGD35DeRxteXIZAsPoxMnZhGLM0CADYa5CllkW3hWXebpYEBcZrU8dWECZ7qu8f8+/4a2AH7zWslX/7ceM/1lGZLkEZXFhzrZVbXB0nT0bzV74PyTbs9c96IY7P4Imsx6Z1W9CBqwHtxfP9T8trm2Kk1UNZ5Zq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fcsc/iqX; arc=none smtp.client-ip=209.85.210.180
+	 MIME-Version; b=L+2hhim/JwpxwlPYHbe1iWWiqtZyyDFfuz+OXJ6NDZrswq3dSiM0q27RFXxt8/oGYcNqkMi46D6XpHvvWKUxVddZzTtz8xHgC1w+kuFAGRsvk1vGv3ymcy3eAijcAW+bFVIu+JQKDobpRAB81JpBMtF5L9wzuMjBDVfHYBJe5vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QAFldEUw; arc=none smtp.client-ip=209.85.215.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fcsc/iqX"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-723db2798caso1740772b3a.0
-        for <asahi@lists.linux.dev>; Fri, 22 Nov 2024 01:54:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QAFldEUw"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7fbc29b3145so992171a12.0
+        for <asahi@lists.linux.dev>; Fri, 22 Nov 2024 01:54:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732269282; x=1732874082; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1732269285; x=1732874085; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cAhPP1Ue2Iis5GJtsj6WYVFqMLGyqRg1DOrYPcB4peg=;
-        b=Fcsc/iqXb9G5wYPh6EA1ET9jqP7eUgN0zerS9Wg9Hn1sdUgpT+q73oiXOK6heMLfKk
-         H7zlHyi1u6sbezyBkZFPGVAokp+lopCRcW7/MYrlsmP0KXlHz63BrCeZYknrVv4+uxAp
-         ssoGQUJdDZESPWfGu2PznKN8UoqlttJC11hv9aIPm3qNlJAcI2r56Dy+eT2WQ7WOOHnp
-         hUg6xUFayrm5A9RiZfH9oeKDKH3V7so7nNFduB61SI1GqJr77XKowZ78jkVbkxdjQE0b
-         SMdExsvlU0t84lrLK8zyOR7VtxJ6MaKM/mLzjPhu9cj3T1UrFeOFxVUaPJsaI2uih5ez
-         Zb8Q==
+        bh=AmFdBAmyPJlGFUTTlreUxBYzIDgdjp64ciz7CA5AoGc=;
+        b=QAFldEUwzTqTSjAlkxtv7RgDrmihHhuxpA/LBjgQuQ5dkF/j/yDIazl2x8PWk2GVGc
+         fE+5i69yTwkwDvqRXytYf+k3soAPVgvpc2ot94CdAyQF2oq4uSvGCLeVfh8xK7FwkmUP
+         XE25FOlCQjM2qw2/sGqYUbZ4Y4eOki50F17maPfWEit3dNSak1d6AX5zgaEBf72SivzD
+         2ca7ZpnAFdFNS0KATco7adoW0jii04kuQYmLBpNGcqqP8Yd9kIvj0+mUknJnX6E0s9Bk
+         PTSJB0PDFH+HAbg7Eg8mrSpPSqBQhIFBDp6vZAWpqga1oBzCb1bgvFrH68sKgq6GSS/g
+         yH1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732269282; x=1732874082;
+        d=1e100.net; s=20230601; t=1732269285; x=1732874085;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cAhPP1Ue2Iis5GJtsj6WYVFqMLGyqRg1DOrYPcB4peg=;
-        b=EdRl8QvESaNGyY7TgmyDzCzxLTzQ/lhgwbNuq1qBjeHxqxF6k7c0BXwybnYVWra1xV
-         3A7QubPAS1J8z1NDjVNDj4tf/HiuB/phSY95E8fRk7AdKt+Fncx1zuCvVQWbB88LBah8
-         +gKg6r8LgG/LiOZlFjRQYCJIKPbf8Zue5ZEhFh0O9iRHXsFg5LMb7E1JzI/tzJAgs2Bh
-         4Gf8MsSlCeaFYxW3oxb5qWDr/kR9lZy7Tdi+uBb+6Y+OTeL75qLRBXcdhE3XjsodPxcr
-         NYL+okfqTDF+IPZJDCS0EFuQInkPMUtoWU1JUTc4o7e3W1ohuF0Pjtf1q630H984QVeA
-         ZUQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUG/v+OHqaejLG3ynpfVHwR4q/jzsQSqSncAfI3wh6hSPqtFyzh34ObAOI2M05Z54Ee5TKzUA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywovs7BlVHPY2Bx4YACkt1NH9djRlfuEonAWmpGdr8/Kq5tweJ9
-	4iO1j0LOkb3TfJ0dwOFsS3sG45d8VOucxWeCy8ut573xF4ydNPx4CzQsDYS3
-X-Gm-Gg: ASbGncu0KuiHgrpaVWViqfp+JcthvMRUa4B3GJJoSM67XnWUbxrM0LcRR7AKRmlMzPQ
-	Bk1l1NLfctjRhryLcOI6RWnWNkkPNsc+22AxarVUQXmS5+R2hxWfuCCqwXThY2QDw8l0pC7xqGI
-	AsQhUEEJ+JzEZOg9Ja+yOuojNCRQOyowmIi4oa8H7DbwfrLY8HeblbDHsSSB5A/3S/osOEy72pr
-	lmi8URz9wtVOfSQ6NoqjwZiaQkobBHdzuasI/PEY3klXp07R+pgjdLOXRnNfQ3+pwA=
-X-Google-Smtp-Source: AGHT+IG1mSXwA3TMBrA9RT10+LRaQrL46redGKLRvMQJTuaiKJytNKP6/Q6IsAaMKo5OeafMhXXAtg==
-X-Received: by 2002:a05:6a00:98d:b0:721:19bc:4bf4 with SMTP id d2e1a72fcca58-724df696daemr2863138b3a.23.1732269282031;
-        Fri, 22 Nov 2024 01:54:42 -0800 (PST)
+        bh=AmFdBAmyPJlGFUTTlreUxBYzIDgdjp64ciz7CA5AoGc=;
+        b=f8+E91H7bNwCZ2W30agLhi/B3GwiE/1m00B/JPH5w9Hrw4aXI8lq3NU/rmwo0gv3AT
+         HS9WkrW6UIm1uLVzv3gATBZsana5aIBPp7dnI6bwmifF5STw2iQ1vzfqoILKPcSeupgR
+         SO4DSM1aE7wFfMvEXCMVqPxTuZnC9cjU0XaW62AlC8pfx/+INeADavslf5aK90lgdkLG
+         bHsvHiE9NUWTx80O1mo6AcUS5kN/YNArYW6LWxm6MLwTROO3c68DMfpMlZR6K4NJgO1B
+         isKMSVQAwqHs8v6loBwP3fmUqNmPb0rdYAWspj0DM0Uaznc6gFfhIe2FAMPOIhosFg1w
+         Aoww==
+X-Forwarded-Encrypted: i=1; AJvYcCVT9lo1Xa2HN/qqWJ/TYtFKvhKG/Qjy6QKzfNfUT97rbUqIwf1GlDVr3nzeIez/Lr8MPUj4Dg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxirYDXewCEr7jYCoKtzId/rYoLrkN8X0R0CJRvk+ii7MpNQH1A
+	D/CtkHI1Z9wv23+LXZuCDDaTMqyC47MecYc57UCXNfb3RsdMSZvQ
+X-Gm-Gg: ASbGncsV0uFOhdkQeFZznU6YhOGQPiw1kDItYozWUADDlzFeVm4fD9SAT5/19kSDVPa
+	jCjsZiB5i9recuMV/wZLGMz6wIctmspQrc/1wcSaLWfviTxhEsr7fc2p8hAfm9zSlPJTMmrnRNO
+	BS+QLOTKB+8mYBCUBZb21pCuL6de8Ldz3JnZ6+oSqxNopQVT5KJ+HZhk5881165HQmq9N72/psi
+	5dl2I1IDP8qBzXndwrsvpmNT/500qAao0uPLKJNV8y3FgPFTA5DtAGk5MyfrpHCByA=
+X-Google-Smtp-Source: AGHT+IFz9q3oc2RE2NYFjE+08PZk/6LU2//+16PK588l/k/No7GlDauB+hoMrmFRQHWGF887IrqsCg==
+X-Received: by 2002:a05:6a21:9984:b0:1d9:3acf:8bdd with SMTP id adf61e73a8af0-1e09d9aaf87mr3983535637.22.1732269285104;
+        Fri, 22 Nov 2024 01:54:45 -0800 (PST)
 Received: from localhost.localdomain ([182.152.110.125])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-7fbcc218a87sm1236332a12.39.2024.11.22.01.54.38
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-7fbcc218a87sm1236332a12.39.2024.11.22.01.54.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 01:54:41 -0800 (PST)
+        Fri, 22 Nov 2024 01:54:44 -0800 (PST)
 From: Nick Chan <towinchenmi@gmail.com>
 To: Hector Martin <marcan@marcan.st>,
 	Sven Peter <sven@svenpeter.dev>,
@@ -67,11 +67,10 @@ To: Hector Martin <marcan@marcan.st>,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Nick Chan <towinchenmi@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 RESEND 02/10] dt-bindings: arm: apple: apple,pmgr-pwrstate: Add A7-A11 compatibles
-Date: Fri, 22 Nov 2024 17:50:31 +0800
-Message-ID: <20241122095136.35046-3-towinchenmi@gmail.com>
+Cc: Nick Chan <towinchenmi@gmail.com>
+Subject: [PATCH v3 RESEND 03/10] arm64: dts: apple: s5l8960x: Add PMGR node
+Date: Fri, 22 Nov 2024 17:50:32 +0800
+Message-ID: <20241122095136.35046-4-towinchenmi@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241122095136.35046-1-towinchenmi@gmail.com>
 References: <20241122095136.35046-1-towinchenmi@gmail.com>
@@ -83,32 +82,715 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The blocks found on Apple A7-A11 SoCs are compatible with the existing
-driver so add their per-SoC compatible.
+This adds the PMGR node and all known power state subnodes. Since there
+are a large number of them, let's put them in a separate file to include.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Acked-by: Hector Martin <marcan@marcan.st>
 Signed-off-by: Nick Chan <towinchenmi@gmail.com>
 ---
- .../devicetree/bindings/power/apple,pmgr-pwrstate.yaml       | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi    |   4 +
+ arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi  |   4 +
+ arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi |   4 +
+ arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi  | 610 ++++++++++++++++++
+ arch/arm64/boot/dts/apple/s5l8960x.dtsi       |  13 +
+ 5 files changed, 635 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi
 
-diff --git a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
-index 59a6af735a21..6e9a670eaf56 100644
---- a/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
-+++ b/Documentation/devicetree/bindings/power/apple,pmgr-pwrstate.yaml
-@@ -31,6 +31,11 @@ properties:
-   compatible:
-     items:
-       - enum:
-+          - apple,s5l8960x-pmgr-pwrstate
-+          - apple,t7000-pmgr-pwrstate
-+          - apple,s8000-pmgr-pwrstate
-+          - apple,t8010-pmgr-pwrstate
-+          - apple,t8015-pmgr-pwrstate
-           - apple,t8103-pmgr-pwrstate
-           - apple,t8112-pmgr-pwrstate
-           - apple,t6000-pmgr-pwrstate
+diff --git a/arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi b/arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi
+index 0b16adf07f79..51c081923657 100644
+--- a/arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi
++++ b/arch/arm64/boot/dts/apple/s5l8960x-5s.dtsi
+@@ -49,3 +49,7 @@ switch-mute {
+ 		};
+ 	};
+ };
++
++&framebuffer0 {
++	power-domains = <&ps_disp0 &ps_mipi_dsi>;
++};
+diff --git a/arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi b/arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi
+index 741c5a9f21dd..7d6e799c933a 100644
+--- a/arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi
++++ b/arch/arm64/boot/dts/apple/s5l8960x-air1.dtsi
+@@ -49,3 +49,7 @@ switch-mute {
+ 		};
+ 	};
+ };
++
++&framebuffer0 {
++	power-domains = <&ps_disp0 &ps_dp>;
++};
+diff --git a/arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi b/arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi
+index b27ef5680626..2ba846db2266 100644
+--- a/arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi
++++ b/arch/arm64/boot/dts/apple/s5l8960x-mini2.dtsi
+@@ -49,3 +49,7 @@ switch-mute {
+ 		};
+ 	};
+ };
++
++&framebuffer0 {
++	power-domains = <&ps_disp0 &ps_dp>;
++};
+diff --git a/arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi b/arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi
+new file mode 100644
+index 000000000000..da265f484307
+--- /dev/null
++++ b/arch/arm64/boot/dts/apple/s5l8960x-pmgr.dtsi
+@@ -0,0 +1,610 @@
++// SPDX-License-Identifier: GPL-2.0+ OR MIT
++/*
++ * PMGR Power domains for the Apple S5L8960X "A7" SoC
++ *
++ * Copyright (c) 2024 Nick Chan <towinchenmi@gmail.com>
++ */
++
++&pmgr {
++	ps_cpu0: power-controller@20000 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20000 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "cpu0";
++		apple,always-on; /* Core device */
++	};
++
++	ps_cpu1: power-controller@20008 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20008 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "cpu1";
++		apple,always-on; /* Core device */
++	};
++
++	ps_secuart0: power-controller@200f0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200f0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "secuart0";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_secuart1: power-controller@200f8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200f8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "secuart1";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_cpm: power-controller@20010 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20010 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "cpm";
++		apple,always-on; /* Core device */
++	};
++
++	ps_lio: power-controller@20018 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20018 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "lio";
++		apple,always-on; /* Core device */
++	};
++
++	ps_iomux: power-controller@20020 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20020 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "iomux";
++		apple,always-on; /* Core device */
++	};
++
++	ps_aic: power-controller@20028 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20028 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "aic";
++		apple,always-on; /* Core device */
++	};
++
++	ps_debug: power-controller@20030 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20030 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "debug";
++	};
++
++	ps_dwi: power-controller@20038 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20038 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "dwi";
++	};
++
++	ps_gpio: power-controller@20040 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20040 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "gpio";
++	};
++
++	ps_mca0: power-controller@20048 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20048 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "mca0";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_mca1: power-controller@20050 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20050 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "mca1";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_mca2: power-controller@20058 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20058 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "mca2";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_mca3: power-controller@20060 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20060 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "mca3";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_mca4: power-controller@20068 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20068 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "mca4";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_pwm0: power-controller@20070 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20070 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "pwm0";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_i2c0: power-controller@20078 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20078 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "i2c0";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_i2c1: power-controller@20080 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20080 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "i2c1";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_i2c2: power-controller@20088 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20088 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "i2c2";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_i2c3: power-controller@20090 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20090 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "i2c3";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_spi0: power-controller@20098 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20098 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "spi0";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_spi1: power-controller@200a0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200a0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "spi1";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_spi2: power-controller@200a8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200a8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "spi2";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_spi3: power-controller@200b0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200b0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "spi3";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_uart0: power-controller@200b8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200b8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "uart0";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_uart1: power-controller@200c0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200c0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "uart1";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_uart2: power-controller@200c8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200c8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "uart2";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_uart3: power-controller@200d0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200d0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "uart3";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_uart4: power-controller@200d8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200d8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "uart4";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_uart5: power-controller@200e0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200e0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "uart5";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_uart6: power-controller@200e8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x200e8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "uart6";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_sio_p: power-controller@20110 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20110 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "sio_p";
++	};
++
++	ps_usb: power-controller@20158 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20158 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "usb";
++	};
++
++	ps_usbctrl: power-controller@20160 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20160 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "usbctrl";
++		power-domains = <&ps_usb>;
++	};
++
++	ps_usb2host0: power-controller@20170 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20170 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "usb2host0";
++		power-domains = <&ps_usbctrl>;
++	};
++
++	ps_usb2host1: power-controller@20180 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20180 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "usb2host1";
++		power-domains = <&ps_usbctrl>;
++	};
++
++	ps_disp_busmux: power-controller@201a8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201a8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "disp_busmux";
++	};
++
++	ps_media: power-controller@201d8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201d8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "media";
++	};
++
++	ps_isp: power-controller@201d0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201d0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "isp";
++	};
++
++	ps_msr: power-controller@201e0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201e0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "msr";
++		power-domains = <&ps_media>;
++	};
++
++	ps_jpg: power-controller@201e8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201e8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "jpg";
++		power-domains = <&ps_media>;
++	};
++
++	ps_disp0: power-controller@201b0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201b0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "disp0";
++		power-domains = <&ps_disp_busmux>;
++	};
++
++	ps_aes0: power-controller@20100 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20100 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "aes0";
++		power-domains = <&ps_sio_p>;
++	};
++
++	ps_sio: power-controller@20108 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20108 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "sio";
++		power-domains = <&ps_sio_p>;
++		apple,always-on; /* Core device */
++	};
++
++	ps_hsic0_phy: power-controller@20118 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20118 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "hsic0_phy";
++		power-domains = <&ps_usb2host0>;
++	};
++
++	ps_hsic1_phy: power-controller@20120 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20120 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "hsic1_phy";
++		power-domains = <&ps_usb2host0>;
++	};
++
++	ps_hsic2_phy: power-controller@20128 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20128 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "hsic2_phy";
++		power-domains = <&ps_usb2host1>;
++	};
++
++	ps_ispsens0: power-controller@20130 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20130 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "ispsens0";
++	};
++
++	ps_ispsens1: power-controller@20138 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20138 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "ispsens1";
++	};
++
++	ps_mcc: power-controller@20140 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20140 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "mcc";
++		apple,always-on; /* Core device */
++	};
++
++	ps_mcu: power-controller@20148 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20148 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "mcu";
++		apple,always-on; /* Core device */
++	};
++
++	ps_amp: power-controller@20150 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20150 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "amp";
++		apple,always-on; /* Core device */
++	};
++
++	ps_usb2host0_ohci: power-controller@20168 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20168 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "usb2host0_ohci";
++		power-domains = <&ps_usb2host0>;
++	};
++
++	ps_usb2host1_ohci: power-controller@20178 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20178 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "usb2host1_ohci";
++		power-domains = <&ps_usb2host1>;
++	};
++
++	ps_usbotg: power-controller@20188 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20188 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "usbotg";
++		power-domains = <&ps_usbctrl>;
++	};
++
++	ps_smx: power-controller@20190 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20190 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "smx";
++		apple,always-on; /* Apple fabric, critical block */
++	};
++
++	ps_sf: power-controller@20198 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20198 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "sf";
++		apple,always-on; /* Apple fabric, critical block */
++	};
++
++	ps_cp: power-controller@201a0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201a0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "cp";
++		apple,always-on; /* Core device */
++	};
++
++	ps_mipi_dsi: power-controller@201b8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201b8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "mipi_dsi";
++		power-domains = <&ps_disp_busmux>;
++	};
++
++	ps_dp: power-controller@201c0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201c0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "dp";
++		power-domains = <&ps_disp0>;
++	};
++
++	ps_disp1: power-controller@201c8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201c8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "disp1";
++		power-domains = <&ps_disp_busmux>;
++	};
++
++	ps_vdec: power-controller@201f0 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201f0 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "vdec";
++		power-domains = <&ps_media>;
++	};
++
++	ps_venc: power-controller@201f8 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x201f8 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "venc";
++		power-domains = <&ps_media>;
++	};
++
++	ps_ans: power-controller@20200 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20200 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "ans";
++	};
++
++	ps_ans_dll: power-controller@20208 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20208 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "ans_dll";
++		power-domains = <&ps_ans>;
++	};
++
++	ps_gfx: power-controller@20218 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20218 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "gfx";
++	};
++
++	ps_sep: power-controller@20268 {
++		compatible = "apple,s5l8960x-pmgr-pwrstate", "apple,pmgr-pwrstate";
++		reg = <0x20268 4>;
++		#power-domain-cells = <0>;
++		#reset-cells = <0>;
++		label = "sep";
++		power-domains = <&ps_secuart1>, <&ps_secuart0>;
++		apple,always-on; /* Locked on */
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/s5l8960x.dtsi b/arch/arm64/boot/dts/apple/s5l8960x.dtsi
+index 0218ecac1d83..7705215fbdc7 100644
+--- a/arch/arm64/boot/dts/apple/s5l8960x.dtsi
++++ b/arch/arm64/boot/dts/apple/s5l8960x.dtsi
+@@ -62,9 +62,18 @@ serial0: serial@20a0a0000 {
+ 			/* Use the bootloader-enabled clocks for now. */
+ 			clocks = <&clkref>, <&clkref>;
+ 			clock-names = "uart", "clk_uart_baud0";
++			power-domains = <&ps_uart0>;
+ 			status = "disabled";
+ 		};
+ 
++		pmgr: power-management@20e000000 {
++			compatible = "apple,s5l8960x-pmgr", "apple,pmgr", "syscon", "simple-mfd";
++			#address-cells = <1>;
++			#size-cells = <1>;
++
++			reg = <0x2 0xe000000 0 0x24000>;
++		};
++
+ 		wdt: watchdog@20e027000 {
+ 			compatible = "apple,s5l8960x-wdt", "apple,wdt";
+ 			reg = <0x2 0x0e027000 0x0 0x1000>;
+@@ -78,11 +87,13 @@ aic: interrupt-controller@20e100000 {
+ 			reg = <0x2 0x0e100000 0x0 0x100000>;
+ 			#interrupt-cells = <3>;
+ 			interrupt-controller;
++			power-domains = <&ps_aic>;
+ 		};
+ 
+ 		pinctrl: pinctrl@20e300000 {
+ 			compatible = "apple,s5l8960x-pinctrl", "apple,pinctrl";
+ 			reg = <0x2 0x0e300000 0x0 0x100000>;
++			power-domains = <&ps_gpio>;
+ 
+ 			gpio-controller;
+ 			#gpio-cells = <2>;
+@@ -111,3 +122,5 @@ timer {
+ 			     <AIC_FIQ AIC_TMR_GUEST_VIRT IRQ_TYPE_LEVEL_HIGH>;
+ 	};
+ };
++
++#include "s5l8960x-pmgr.dtsi"
 -- 
 2.47.0
 
