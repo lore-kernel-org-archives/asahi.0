@@ -1,129 +1,102 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD8C1CB305
-	for <asahi@lists.linux.dev>; Fri, 22 Nov 2024 11:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394E2189BAF
+	for <asahi@lists.linux.dev>; Sat, 23 Nov 2024 10:30:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732275081; cv=none; b=GdO/qmmdn0pqoyDMcJjyzb1IvsXVNyE49bfbzFr1nLQfw/sBWBr70nwCyjdQPwUkBqVAzreSNj+u1ux10A/PGaVQiNzv/S0pUyrqV79NJbPLBdj/pwjeFssH9guPKXx5wiWX1XPYGF1EbY1NjoNoEhXn0b4i2Fy7ynqprpMMDtA=
+	t=1732357809; cv=none; b=EKMeUGD2DSZ2sEInkULnsK993RMpaDjIjDo+XWF1X5uT2gBrI1tNLNZ5kvjo0QgBr45pNyfFx2eInheMiLXHu3VmKFJK0o7wFcmmGKFH73/Ix5JLxVep5tv/7ftszMhoFj08DsXFDwLKCf/Lnivco/DDOt++ItwauCDSPZhSBHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732275081; c=relaxed/simple;
-	bh=y0hhf2LTWZz9j36e7RyKaFdzM1AasEDPdlCXTLDDnus=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=M+r0883OL+IfSQLn4vdi0jXgT8tPWxw0R/zO8h5ujuZ2/NZiuhvHbO6UDw7XEOQ+jbKO+evX6wPk0wLjJIyhcgEsng9emZ6+QWe+B1G3w5j8cbSnpAC4qrYYf0hZsyRZNeVvn/juOBqu9OgauzsyWTPiIlmEjA6Wxe8Kr8tging=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=AyOtV3CT; arc=none smtp.client-ip=212.63.210.85
+	s=arc-20240116; t=1732357809; c=relaxed/simple;
+	bh=uWB+JZqwCwSXbMcgHUdQRUsFjjPuBPxc4/FB8kCfG7Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Wj7qsqDlxBr4+mLoxzZA2PE7hbmGZFC5WKPoGDXW2jEuDnKQrkKl/rw9bc4b+nMtLOvly/lzB9HJyO8Cop0WcWfwTjKp64scHtiTV//H7E5rZoeB+addaXecGyTrUi+D4uQAEkZMSlukOd7OMglLoxUQZhWJybCgPpdPmT2V74I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net; spf=pass smtp.mailfrom=asahilina.net; dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b=xxvVxoK1; arc=none smtp.client-ip=212.63.210.85
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asahilina.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="AyOtV3CT"
+	dkim=pass (2048-bit key) header.d=asahilina.net header.i=@asahilina.net header.b="xxvVxoK1"
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: lina@asahilina.net)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id 628E243637;
-	Fri, 22 Nov 2024 11:31:07 +0000 (UTC)
+	(Authenticated sender: sendonly@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 773B043567;
+	Sat, 23 Nov 2024 10:30:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=asahilina.net;
-	s=default; t=1732275068;
-	bh=y0hhf2LTWZz9j36e7RyKaFdzM1AasEDPdlCXTLDDnus=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=AyOtV3CTbTB99lDa4R3qMM1iCM3Me0becYoN72kESrfuAoXrAniJee0IaptcGn3FQ
-	 Q/9mYsJ5z2Kle3VHYPa7LpZ64KKP9kfZYm9Jl2z79OG1wiw1zhbqhLBxPj0DBI+CRl
-	 bIQmxUj1iLAZ45unVPAsdOyuU3gqbmYqMYtvz5a5FHpySExVFC/V3Rj4oJR6nm36d6
-	 ZDUlCv8TDjycY9nIrqcM2vifoaD5qYbBfyQ7B+FX2mnbLcjiMYDHJm5dFJFQuyPQ15
-	 Gsx5mtqi0uTgOARawGua3LDxC7qqRGRbfw0O07IQ/Ki5ahNFZK9etd+gT9eKUrUfwT
-	 RbccsimhNFL4g==
-Message-ID: <d41be32e-4d17-40b2-9dc1-950cdfe32556@asahilina.net>
-Date: Fri, 22 Nov 2024 20:31:06 +0900
+	s=default; t=1732357801;
+	bh=uWB+JZqwCwSXbMcgHUdQRUsFjjPuBPxc4/FB8kCfG7Q=;
+	h=From:Date:Subject:To:Cc;
+	b=xxvVxoK1pcuTOjR46ms40ZbChVbMVHHVMvTBAeLuX+guaUA5Mrx6vDMcnep9Ch+iX
+	 JSAfSBqZxVI/VKWu1cWfSQdK30OewDf0Le+AC7UeM/wtXOHMPVnTYeSYStLcXGVy3R
+	 OksBCUFxW3C2C9MoGziETRhgi6qh5b/cVtxHpE3O7/SJChPtSB2uD3mBHfOn6NVCFU
+	 1nWN9ipTUprrlPYOV3yxn3zCROrHq0BrAdNtSSdyIdhmp0tUZG7Y4XfL61L/foFBBN
+	 cKEHkKcBZ8iDi704J05Tw+RrK5WCNdAMs6EQjQjquiGY5pDBvF0BuFYBIdoma7IXau
+	 lYEi3EifCtUeg==
+From: Asahi Lina <lina@asahilina.net>
+Date: Sat, 23 Nov 2024 19:29:38 +0900
+Subject: [PATCH] rust: alloc: Fix `ArrayLayout` allocations
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: dax: No-op writepages callback
-From: Asahi Lina <lina@asahilina.net>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Dan Williams <dan.j.williams@intel.com>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Matthew Wilcox
- <willy@infradead.org>, Sergio Lopez Pascual <slp@redhat.com>,
- asahi@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vivek Goyal <vgoyal@redhat.com>,
- linux-mips@vger.kernel.org
-References: <20241113-dax-no-writeback-v1-1-ee2c3a8d9f84@asahilina.net>
- <CAJfpeguawgi_Hnn2BwieNntbOCB1ghyijEtUOh4QyOrPis--dw@mail.gmail.com>
- <185be5a4-7bc7-41c1-bdfb-5384fd307a15@asahilina.net>
-Content-Language: en-US
-In-Reply-To: <185be5a4-7bc7-41c1-bdfb-5384fd307a15@asahilina.net>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20241123-rust-fix-arraylayout-v1-1-197e64c95bd4@asahilina.net>
+X-B4-Tracking: v=1; b=H4sIAJGuQWcC/x2MSQqAMAwAvyI5G2ir4PIV8VA1akBUUisW6d8tH
+ gdm5gVHwuSgzV4QutnxsSfQeQbjaveFkKfEYJQptTYFincXzvygFbFhs+HwF6pBK9VMdTMPFaT
+ 0FErKv+36GD9US/XjZgAAAA==
+X-Change-ID: 20241123-rust-fix-arraylayout-0b1009d89fb7
+To: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <benno.lossin@proton.me>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>
+Cc: Janne Grunau <j@jannau.net>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, asahi@lists.linux.dev, 
+ Asahi Lina <lina@asahilina.net>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732357800; l=1319;
+ i=lina@asahilina.net; s=20240902; h=from:subject:message-id;
+ bh=uWB+JZqwCwSXbMcgHUdQRUsFjjPuBPxc4/FB8kCfG7Q=;
+ b=BamdecePrlTYdf5brTAkFQLgQNgrgjvqsDib/ra31cu//I78XbUwWAcggWaRQA9Sdn1szJgGX
+ So4wO2068NfA6ezDC3EABOdDVGuPjv5hLRM0gLwx8AYjXV/v3ymnz9i
+X-Developer-Key: i=lina@asahilina.net; a=ed25519;
+ pk=tpv7cWfUnHNw5jwf6h4t0gGgglt3/xcwlfs0+A/uUu8=
 
+We were accidentally allocating a layout for the *square* of the object
+size due to a variable shadowing mishap.
 
+Fixes memory bloat and page allocation failures in drm/asahi.
 
-On 11/14/24 12:17 AM, Asahi Lina wrote:
-> 
-> 
-> On 11/13/24 7:48 PM, Miklos Szeredi wrote:
->> On Tue, 12 Nov 2024 at 20:55, Asahi Lina <lina@asahilina.net> wrote:
->>>
->>> When using FUSE DAX with virtiofs, cache coherency is managed by the
->>> host. Disk persistence is handled via fsync() and friends, which are
->>> passed directly via the FUSE layer to the host. Therefore, there's no
->>> need to do dax_writeback_mapping_range(). All that ends up doing is a
->>> cache flush operation, which is not caught by KVM and doesn't do much,
->>> since the host and guest are already cache-coherent.
->>
->> The conclusion seems convincing.  But adding Vivek, who originally
->> added this in commit 9483e7d5809a ("virtiofs: define dax address space
->> operations").
->>
->> What I'm not clearly seeing is how virtually aliased CPU caches
->> interact with this.  In mm/filemap.c I see the flush_dcache_folio()
->> calls which deal with the kernel mapping of a page being in a
->> different cacheline as the user mapping.  How does that work in the
->> virt environment?
->>
-> 
-> Oof, I forgot those architectures existed...
-> 
-> The only architecture that has both a KVM implementation and selects
-> ARCH_HAS_CPU_CACHE_ALIASING is mips. Is it possible that no MIPS
-> implementations with virtualization also have cache aliasing, and we can
-> just not care about this?
+Reported-by: Janne Grunau <j@jannau.net>
+Fixes: 9e7bbfa18276 ("rust: alloc: introduce `ArrayLayout`")
+Signed-off-by: Asahi Lina <lina@asahilina.net>
+---
+ rust/kernel/alloc/layout.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think this either isn't a problem, or it's already broken anyway. The
-way Linux deals with cache aliasing for mmap is by using page coloring,
-which forces mmap virtual addresses to keep a fixed color relationship
-to avoid aliasing at the userspace map. Since virtiofs uses aligned 2MiB
-blocks (larger than any L1 dcache size), *as long as* the SHM window is
-suitably aligned by the host VMM it should map without aliasing in
-guest-physical space (if it isn't aligned the mmap will fail in the host
-anyway). Making sure the alignment is sufficient would be the
-responsibility of the host VMM (qemu/libkrun/whatever). That ensures
-coherency between host userspace and guest kernel mappings (there is no
-coherency with host kernel mappings since the direct map addresses won't
-be colored properly, but that is what the flush_dcache_folio() stuff in
-the host kernel takes care of).
+diff --git a/rust/kernel/alloc/layout.rs b/rust/kernel/alloc/layout.rs
+index 7e0c2f46157b772248450a77ff445091e17fdfd7..4b3cd7fdc816c158e63ac74014cbfc0794547e81 100644
+--- a/rust/kernel/alloc/layout.rs
++++ b/rust/kernel/alloc/layout.rs
+@@ -45,7 +45,7 @@ pub const fn empty() -> Self {
+     /// When `len * size_of::<T>()` overflows or when `len * size_of::<T>() > isize::MAX`.
+     pub const fn new(len: usize) -> Result<Self, LayoutError> {
+         match len.checked_mul(core::mem::size_of::<T>()) {
+-            Some(len) if len <= ISIZE_MAX => {
++            Some(size) if size <= ISIZE_MAX => {
+                 // INVARIANT: We checked above that `len * size_of::<T>() <= isize::MAX`.
+                 Ok(Self {
+                     len,
 
-As long as the cache info is passed to the guest properly, the guest
-should in turn do the right alignment for mmap. That makes userspace on
-the guest and userspace on the host coherent.
+---
+base-commit: b2603f8ac8217bc59f5c7f248ac248423b9b99cb
+change-id: 20241123-rust-fix-arraylayout-0b1009d89fb7
 
-Put another way: If this doesn't work without flushing it's already
-broken. The architecture to deal with dcache aliasing in Linux assumes
-all userspace mappings are coherent, and the kernel only needs to deal
-with coherency between its own direct-map view and userspace mappings.
-If it's a DAX mapping and arbitrary processes *outside* the guest can
-have maps of the page and mutate them under the guest kernel, if it's
-not coherent, it's already broken. There's no possible codepath for the
-guest kernel to request flushing the dcache for userspace processes on
-the host. Indeed, since it's supposed to be coherent and userspace
-reads/writes on host and guest (or other guests) cannot be controlled to
-introduce cache maintenance, no cache-flushing solution can work at all.
-
-CCing linux-mips in case they know more.
-
+Cheers,
 ~~ Lina
 
