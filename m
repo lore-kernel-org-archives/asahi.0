@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959A81632F1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05B3165EEB;
 	Sun, 24 Nov 2024 22:29:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732487381; cv=none; b=pR39AG3A/jflZv3iwjT9Fignr1Fir151SZO8TTmHyzeVIxOFB5UG8v1BxdlFBaotTjCndPgaDwT2U5lEivcnhLNweGGdPjb0Br6/g/H0KsIsdf3FpvN4axrQbf8R8p3jg3WNVCzTPmCICrOAOQPcVqT861BM9Heboi6uEieQp3s=
+	t=1732487381; cv=none; b=Za+4f89/8uWcDK6PXYJIi5MbhiNM7mR88VdRhO3T39ME9xay8Q7rSq9EH93UTpqwaYgyJFdDmxlv57DRPJIJuRLkG4bt91HkLIDFs5g5MHcfj8+D67RUFttnwp//JOZwjCFIUpFRo+5PxE26yw2lIXC+SiynMzK1uwFO9ayq5PQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1732487381; c=relaxed/simple;
-	bh=c79EAnCWulfs6GRWWUruMhPsTaQlP4sqW+UN5ZBM3qQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=eFJAiI68imcCL7rMFeJy1+po27NgyPr42+wXBH5ZolEM1++22iHVkcpxJWtoUogj3yhPQVNho/ebpk/t4iTg0KEF02MW/G6Lxy2cq+scoRmV3sZaXaGKbcRPhOYxtvX8JtU+fp+/sNazpbSeagnQcvK3mwOi+CSRlktW4N4DI9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QE2eWlsG; arc=none smtp.client-ip=10.30.226.201
+	bh=IpGpOQfNOp5iiGnwHCRTZsOc8ArMyBSqfq5CPi6XwYE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=MmdQMjtkHpijnOSpsLkunWvJc5lN/ODb0DHWj3t/K0Oj0zyTJzkyd+WQGBZgZwvjwKULFv4YLluUDON7glbLwX7W0Be6pELPb/yWaasPzG2N2oWBY1yEarsdR5qebvusFXMNV3F8beFRFxRHfQDZ0Ma2ezHYHtESU19BOf2s0w8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U4ACMKuR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QE2eWlsG"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2B4BFC4CED3;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U4ACMKuR"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 55ADAC4CEDB;
 	Sun, 24 Nov 2024 22:29:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1732487381;
-	bh=c79EAnCWulfs6GRWWUruMhPsTaQlP4sqW+UN5ZBM3qQ=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=QE2eWlsGZUYvRr5tymXSf2YV+O+HTyF/z63nFx8qvcsdejVyHnFnqIulXzffn8yzF
-	 3F+c0briKayYmDn260FNSC4tyH7XM1bHXNjMD9O7VG8pACNlsFtRkDcxC4mgjSyCID
-	 y/NobayM6riJAX5YNvlR8e1m8Oin3f4VocWq6lb44QawfUyRx73Gmy0wTCRBKZ5v4Y
-	 AZwQXB9Vcw9u8OLoDcKCHTBpT5qkY60wKtz70CH/v8yJT+uvaK3sVldJZsoNRnYXn5
-	 jdYSPLR0x55/xpkeSYzKXc+99VPugf8ZA4sg6W54Y9jp32rLA9gYKB6upDuw53bdpm
-	 rSrpGJGJnHYYA==
+	bh=IpGpOQfNOp5iiGnwHCRTZsOc8ArMyBSqfq5CPi6XwYE=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=U4ACMKuRKBxIS5LX554k5yvmThm19bVmC2wct5nTMSSyY1Izy2sFpM6ZY4aHV1giZ
+	 Zf7pwMWv97iOo96zIb7GH+YQ9rBqC+oC9qoLLN2hrmtRTJRJgUVzxJTQ8Yyj31RJOJ
+	 cOxRYURkDmL0vSCOBv3iWJVyfYuE3YJgOCjY+4fCd364J7KO1DSQXrguScuNJsugHO
+	 B3RGUU2yDJHVvnFi0RIEFJNMLLXiCBxiTgB8LwcNjG1PY1GymKpNAgk++He9/b51Is
+	 zm1EWdB0GLUHsjvOVpQ3b9oX/pnMsZRPzHxvOUZWeySZFH5MKg9u7r6VRavPwUx8sb
+	 xLYBoIgz2SJOw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01C76E668BD;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A5EAE69187;
 	Sun, 24 Nov 2024 22:29:41 +0000 (UTC)
 From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Subject: [PATCH 0/5] Driver for pre-DCP apple display controller.
-Date: Sun, 24 Nov 2024 23:29:23 +0100
-Message-Id: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
+Date: Sun, 24 Nov 2024 23:29:27 +0100
+Subject: [PATCH 4/5] arm64: dts: apple: Add touchbar screen nodes
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
@@ -40,10 +40,9 @@ List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMOoQ2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDQyMT3cSUgpSiXF0j07TkVOOUFItEc0MloOKCotS0zAqwQdGxtbUAW3O
- zcFgAAAA=
-X-Change-ID: 20241124-adpdrm-25fce3dd8a71
+Message-Id: <20241124-adpdrm-v1-4-3191d8e6e49a@gmail.com>
+References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
+In-Reply-To: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
 To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
  Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -55,14 +54,13 @@ To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>,
  Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
 Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>, 
- Nick Chan <towinchenmi@gmail.com>
+ Sasha Finkelstein <fnkl.kernel@gmail.com>, Janne Grunau <j@jannau.net>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732487379; l=1534;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732487379; l=4465;
  i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=c79EAnCWulfs6GRWWUruMhPsTaQlP4sqW+UN5ZBM3qQ=;
- b=s7QBvkr2M/7LlXCH7u4T7kGhNjKD+UEGgYObKwAiPkwJOUb/YCf5XOLGMPqL2P9zWjtZeWozU
- 1YTYqOqXFULA3D4XrCefQz7WnGtLwUgiixx7AL+ou4ofz0QXoOYNVGG
+ bh=/Z/q4ZVJ4fsMdrr5uOJvHeSbqY42cSj9gitq980wGIU=;
+ b=tMPX18T+Mc2Zftsm6YNPtbIp7sj8XBd/laV55C6OqIyQbFNCv8yOKB07ihqOE/mUKeuTEPcAo
+ UYK3LuUFhH2AYZpUGQAd6RLHTXqRFj9AWsBY7pvWa+P4xIN7mOx608+
 X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
@@ -70,37 +68,137 @@ X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
 X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 Reply-To: fnkl.kernel@gmail.com
 
-Hi.
+From: Sasha Finkelstein <fnkl.kernel@gmail.com>
 
-This patch series adds support for a secondary display controller
-present on Apple M1/M2 chips and used to drive the display of the
-"touchbar" touch panel present on those. 
+Adds device tree entries for the touchbar screen
 
+Co-developed-by: Janne Grunau <j@jannau.net>
+Signed-off-by: Janne Grunau <j@jannau.net>
 Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
 ---
-Sasha Finkelstein (5):
-      dt-bindgins: display: Add Apple pre-DCP display controller bindings
-      gpu: drm: adp: Add Apple Display Pipe driver
-      gpu: drm: adp: Add a backlight driver for the Summit LCD
-      arm64: dts: apple: Add touchbar screen nodes
-      MAINTAINERS: Add entries for touchbar display driver
+ arch/arm64/boot/dts/apple/t8103-j293.dts |  8 ++++++++
+ arch/arm64/boot/dts/apple/t8103.dtsi     | 26 ++++++++++++++++++++++++++
+ arch/arm64/boot/dts/apple/t8112-j493.dts | 15 +++++++++++++++
+ arch/arm64/boot/dts/apple/t8112.dtsi     | 25 +++++++++++++++++++++++++
+ 4 files changed, 74 insertions(+)
 
- .../bindings/display/apple,display-pipe.yaml       |  59 ++
- .../bindings/display/panel/apple,summit.yaml       |  24 +
- MAINTAINERS                                        |   2 +
- arch/arm64/boot/dts/apple/t8103-j293.dts           |   8 +
- arch/arm64/boot/dts/apple/t8103.dtsi               |  26 +
- arch/arm64/boot/dts/apple/t8112-j493.dts           |  15 +
- arch/arm64/boot/dts/apple/t8112.dtsi               |  25 +
- drivers/gpu/drm/Kconfig                            |   2 +
- drivers/gpu/drm/Makefile                           |   1 +
- drivers/gpu/drm/adp/Kconfig                        |  14 +
- drivers/gpu/drm/adp/Makefile                       |   5 +
- drivers/gpu/drm/adp/adp_drv.c                      | 814 +++++++++++++++++++++
- drivers/gpu/drm/adp/panel-summit.c                 | 108 +++
- 13 files changed, 1103 insertions(+)
----
-base-commit: 9f16d5e6f220661f73b36a4be1b21575651d8833
-change-id: 20241124-adpdrm-25fce3dd8a71
+diff --git a/arch/arm64/boot/dts/apple/t8103-j293.dts b/arch/arm64/boot/dts/apple/t8103-j293.dts
+index 56b0c67bfcda321b60c621de092643017693ff91..349a8fce6b0b8ccf3305f940ba7242e2c1a67754 100644
+--- a/arch/arm64/boot/dts/apple/t8103-j293.dts
++++ b/arch/arm64/boot/dts/apple/t8103-j293.dts
+@@ -49,3 +49,11 @@ &i2c4 {
+ &fpwm1 {
+ 	status = "okay";
+ };
++
++&display_dfr {
++	status = "okay";
++	dfr_panel: panel@0 {
++		compatible = "apple,summit";
++		reg = <0>;
++	};
++};
+diff --git a/arch/arm64/boot/dts/apple/t8103.dtsi b/arch/arm64/boot/dts/apple/t8103.dtsi
+index 9b0dad6b618444ac6b1c9735c50cccfc3965f947..b377c92c5db3cb4fea53ae2c5dd85acf038429a3 100644
+--- a/arch/arm64/boot/dts/apple/t8103.dtsi
++++ b/arch/arm64/boot/dts/apple/t8103.dtsi
+@@ -356,6 +356,32 @@ cpufreq_p: performance-controller@211e20000 {
+ 			#performance-domain-cells = <0>;
+ 		};
+ 
++		display_dfr: display-pipe@228200000 {
++			compatible = "apple,t8103-display-pipe", "apple,h7-display-pipe";
++			reg-names = "be", "fe", "mipi";
++			reg = <0x2 0x28200000 0x0 0xc000>,
++				<0x2 0x28400000 0x0 0x4000>,
++				<0x2 0x28600000 0x0 0x100000>;
++			power-domains = <&ps_dispdfr_fe>, <&ps_dispdfr_be>, <&ps_mipi_dsi>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 502 IRQ_TYPE_LEVEL_HIGH>,
++				<AIC_IRQ 506 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "be", "fe";
++			status = "disabled";
++			iommus = <&displaydfr_dart 0>;
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		displaydfr_dart: iommu@228304000 {
++			compatible = "apple,t8103-dart";
++			reg = <0x2 0x28304000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 504 IRQ_TYPE_LEVEL_HIGH>;
++			#iommu-cells = <1>;
++			power-domains = <&ps_dispdfr_fe>;
++		};
++
+ 		sio_dart: iommu@235004000 {
+ 			compatible = "apple,t8103-dart";
+ 			reg = <0x2 0x35004000 0x0 0x4000>;
+diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
+index 0ad908349f55406783942735a2e9dad54cda00ec..80e371495f3e097f91e94549c7ac2949609f566f 100644
+--- a/arch/arm64/boot/dts/apple/t8112-j493.dts
++++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
+@@ -35,6 +35,21 @@ led-0 {
+ 	};
+ };
+ 
++&display_dfr {
++	status = "okay";
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	dfr_panel: panel@0 {
++		compatible = "apple,summit";
++		reg = <0>;
++	};
++};
++
++&displaydfr_dart {
++	status = "okay";
++};
++
+ /*
+  * Force the bus number assignments so that we can declare some of the
+  * on-board devices and properties that are populated by the bootloader
+diff --git a/arch/arm64/boot/dts/apple/t8112.dtsi b/arch/arm64/boot/dts/apple/t8112.dtsi
+index 1666e6ab250bc0be9b8318e3c8fc903ccd3f3760..726b11376692580abb129b9be35107bee1550a93 100644
+--- a/arch/arm64/boot/dts/apple/t8112.dtsi
++++ b/arch/arm64/boot/dts/apple/t8112.dtsi
+@@ -379,6 +379,31 @@ cpufreq_p: cpufreq@211e20000 {
+ 			#performance-domain-cells = <0>;
+ 		};
+ 
++		display_dfr: display-pipe@228200000 {
++			compatible = "apple,t8112-display-pipe", "apple,h7-display-pipe";
++			reg-names = "be", "fe", "mipi";
++			reg = <0x2 0x28200000 0x0 0xc000>,
++				<0x2 0x28400000 0x0 0x4000>,
++				<0x2 0x28600000 0x0 0x100000>;
++			power-domains = <&ps_dispdfr_fe>, <&ps_dispdfr_be>, <&ps_mipi_dsi>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 614 IRQ_TYPE_LEVEL_HIGH>,
++				<AIC_IRQ 618 IRQ_TYPE_LEVEL_HIGH>;
++			interrupt-names = "be", "fe";
++			status = "disabled";
++			iommus = <&displaydfr_dart 0>;
++		};
++
++		displaydfr_dart: iommu@228304000 {
++			compatible = "apple,t8110-dart";
++			reg = <0x2 0x28304000 0x0 0x4000>;
++			interrupt-parent = <&aic>;
++			interrupts = <AIC_IRQ 616 IRQ_TYPE_LEVEL_HIGH>;
++			#iommu-cells = <1>;
++			power-domains = <&ps_dispdfr_fe>;
++			status = "disabled";
++		};
++
+ 		sio_dart: iommu@235004000 {
+ 			compatible = "apple,t8110-dart";
+ 			reg = <0x2 0x35004000 0x0 0x4000>;
+
+-- 
+2.47.0
 
 
