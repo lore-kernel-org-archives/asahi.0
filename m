@@ -1,110 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109B32500C6;
-	Sun, 24 Nov 2024 15:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998BF136E23
+	for <asahi@lists.linux.dev>; Sun, 24 Nov 2024 17:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732463317; cv=none; b=WC9tPa+pJLmfhcE/OmIX/cGPxWh0f0GwTS/We7oOlQAH6oit90Bgr9DWjMh4OXaVgic69HtSG4bwGUg6a/tqdflQmMzCsbQGTIVmhef//L7lgSPocFn2jnMB7Yf/z+/z7uMmwbXf2ua1IlDSo1bBxBHIrMAJJ72jx9vPQV5pHBY=
+	t=1732471036; cv=none; b=Q4a5s55Y5OHKMtZHsY3iO6tEqvw/HZfj9zLd6+W2UoCTaEIdCcg8Gma0hD2UTs80CGHg+t04Bo7nJtF4RhayPMQYJJchPBDcNJ1kAta6p6yU9gUf+W4mMYdGcounk1rS2HRYorqb2fB2nAcE3f6D6SyeP/aTcQR6A7AI/8rE4Ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732463317; c=relaxed/simple;
-	bh=hFy8l4XZP0/+kbC7Zjr0Hr9qaIpfqI/wYZHM5yGyXOQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=cUF1bn9vtrVjHewVKw3Qx6OyO5cmCm35PNNnZmZwX4mW4bSQSWvFwhPCYnOUg5NCWIeC05QX+Qi5YnuZ4pG+KocnyG4g2wGyNAuNO82h6WNutHxXN8aki52xtQvaq0RHAxcXj0mNSFTBF/3vh74CGtRTLzggux6ON2t25l/QaVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E2lf8B3d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732471036; c=relaxed/simple;
+	bh=AoEYjMpCajo5+LVgExvIA8kQRuPmtSTPy30HlAvW1gQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g389JPCjSZfZtyWVIFq6fgetOBvlx7do8xZfhFHBf3JcGHZtiO3fDsQUcc6YT73iioAyK6eLxxT81FNepBm8zD3F2kobSckrNQryDGpAs7Is+WLTICgxAftbCgZH4nJRi515dtEjaW26tX5rFobvdTxFKphL2Rdwa8FpdCGcdF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alyssa.is; spf=pass smtp.mailfrom=alyssa.is; dkim=pass (2048-bit key) header.d=alyssa.is header.i=@alyssa.is header.b=SFcF02ZV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LVVY2pME; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=alyssa.is
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alyssa.is
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E2lf8B3d"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 854B6C4CECC;
-	Sun, 24 Nov 2024 15:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732463316;
-	bh=hFy8l4XZP0/+kbC7Zjr0Hr9qaIpfqI/wYZHM5yGyXOQ=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=E2lf8B3dr6gbecqvE0H2OIcnahCDfgeIYX/bez9XGZPrtUam3k12sU1mHpWH+Zbpj
-	 D5Va2nN7CsQy+2ZIRTkDLY2vr5nc9qRfe6Nvmwmxh+9uce4JELhKjByjOlFAtxD4CC
-	 zmxY93akVN6/N/Il18BQeXeDK1yeigpgfK01i4YlIBQRglaJ6FMP3eL/8KVceEmMLp
-	 Tzb4MPWLwywBE2PP3sIKMQRCmtgB6uGuU22F141mxRPEo45l0oHvhe/tujneyUjOGP
-	 F+9+Rx7rsDpG/e5JW4MdoGdKg6xi4p4IKe7RFxYFbeUkCg8Q0BA90Sp4iuZNU0y2xl
-	 IbSIWXAe+urqw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDF1E668B2;
-	Sun, 24 Nov 2024 15:48:36 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Sun, 24 Nov 2024 16:48:28 +0100
-Subject: [PATCH] dmaengine: apple-admac: Avoid accessing registers in probe
+	dkim=pass (2048-bit key) header.d=alyssa.is header.i=@alyssa.is header.b="SFcF02ZV";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LVVY2pME"
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9D86213800F4;
+	Sun, 24 Nov 2024 12:57:10 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Sun, 24 Nov 2024 12:57:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm3; t=1732471030; x=1732557430; bh=PsTjrP/zN41TGyrwJbyG0
+	aUjZNZR/ScZKsMHHcShUo0=; b=SFcF02ZVRnIOjHXLkFXTZn+EW2a1u/wti3xDg
+	2RvIIcyXO9thMqNVLMK2lwt7Ww/NpKDTXZs0J0UjDIwobe8hrjycw9eHvMueSvkR
+	lp+jL1YnMnqygKtYhnR9vjvgAhPpOQuF530GDWrX5evp2w3fO5+wfi8xcoa6ZFDb
+	Mzn5XiMJK+i/0D25bZIVCVWgyJGLjIkL4Us9JV7mBjip2yA6kkqWGIjaHh6Viqq2
+	yKjq8fEnrmBvC9Ejd7zZ3/wQidgc8n7o1gKI8+DSfi96qAnYwpee1KVsHOVfLgav
+	EBJoxbb/xnnD6ohk4kWQhA/URPqCLG42dShCZaeModUUHyglA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1732471030; x=1732557430; bh=PsTjrP/zN41TGyrwJbyG0aUjZNZR/ScZKsM
+	HHcShUo0=; b=LVVY2pME1KMQV3KQQG1v6EV8YQvd5SZvu2FDqzaXuZQ21/VmeCS
+	S7MfPWUNLp1SrGGAwhH7Yks85zWJyXBtYfYdQBYe/BGiuVnSShErR31WQZwjSQMY
+	xWdZnpgokSDOjV7OzAFKcxvat30rSusowyzjzozFJjnzVUPe1+rK3qjHO/A3q26k
+	Yq745UKGuMMs7j61my3qVD7BfvUcs307XYHs8OPuVaStOtcSAQAfeZS0bUO8Iknr
+	g5brspR7zkT8ZYtzw1CGi0K2gtNm0hPPVbBYv4oEDnY9Z8VvU2XFH9lGKH2w/r3P
+	hUZFZwAMFFjnBjl1LizKr4VEBmg0/DYElOw==
+X-ME-Sender: <xms:9WhDZ7bvjRPO7TsMe6n7ByV65EORoxcBcaNSY1QYpyT9KIvgPlcpiA>
+    <xme:9WhDZ6awivCEXngBZKoSbyY-BEq8x2ITVPJQdfM-cjTq_bPmAhmTIrsmvl6IGMKxk
+    JWVXMqdqk68hFHEaQ>
+X-ME-Received: <xmr:9WhDZ9-yKsrHfAQmMvS8QxGF9v4SofKdBVzv0SL9_G26GRg24okIg71K_DWbrDlwqCkPid23v0QISFYEjARYu0DSbtfY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrgeefgddutdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfh
+    rhhomheptehlhihsshgrucftohhsshcuoehhihesrghlhihsshgrrdhisheqnecuggftrf
+    grthhtvghrnhepheekgfdtveettdekuddugeeugfdujeehuefgleegtedthfffudfhhedu
+    hfduuefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    ephhhisegrlhihshhsrgdrihhspdhnsggprhgtphhtthhopedutddpmhhouggvpehsmhht
+    phhouhhtpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshhes
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvghlse
+    hlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheprghsrghhiheslhhi
+    shhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehmrghrtggrnhesmhgrrhgtrghnrd
+    hsthdprhgtphhtthhopegrlhihshhsrgesrhhoshgvnhiifigvihhgrdhiohdprhgtphht
+    thhopehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdprhgtphhtthhopeguvghvihgtvg
+    htrhgvvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:9WhDZxrvWf0HJPlprkcU5lnN4jwaTtUu-HI-ch8GLdVHVE23VT-u0Q>
+    <xmx:9WhDZ2ruV-BRnbplcVWHv0LzGdKc-ZDit0FyrJUQEtzVHG1EpQl_Jg>
+    <xmx:9WhDZ3RbQrw6auqmQRzCeO5WN1HKUllulWWELWDft4Ug-x4BgMh4NA>
+    <xmx:9WhDZ-q5-B_ZbCDiqAxRR8nm-2xmFgxaa87Yd5bW_baJ58ztK1dXDA>
+    <xmx:9mhDZzjvnv4bavyDmMnm8P7Cu4JUAH-O8IX-672Awuc0VwC_9rXz32Bn>
+Feedback-ID: i12284293:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 24 Nov 2024 12:57:08 -0500 (EST)
+Received: by mbp.qyliss.net (Postfix, from userid 1000)
+	id E2160A8A6; Sun, 24 Nov 2024 18:57:06 +0100 (CET)
+From: Alyssa Ross <hi@alyssa.is>
+To: Hector Martin <marcan@marcan.st>,
+	Sven Peter <sven@svenpeter.dev>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: dts: apple: t8112: fix typo in comment
+Date: Sun, 24 Nov 2024 18:56:19 +0100
+Message-ID: <20241124175619.230330-1-hi@alyssa.is>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241124-admac-power-v1-1-58f2165a4d55@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAMtKQ2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDQyMT3cSU3MRk3YL88tQiXfM0Y6Nko0RDC1ODRCWgjoKi1LTMCrBp0bG
- 1tQAYOnwwXQAAAA==
-X-Change-ID: 20241124-admac-power-7f32c2a1850a
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, Vinod Koul <vkoul@kernel.org>, 
- =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732463315; l=1574;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=fzYr2mOnaTThuwM8nzcfIvcWzFVACOsEp4j04pez3Us=;
- b=RMWELGTjitjliRQGKVjh9SJeijRLX/Kvt/3E/LLmmy3YJdBhs3xVJh9TFlJpN0Hg+IxvsqdiH
- zT/+9C3lwZEAHnQOhKvdsR7FrdibkKVGBpZb3XTTIDy4zEzccMhr/E3
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+Content-Transfer-Encoding: 8bit
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+j493 is the M2 13-inch MacBook Pro, as specified in the model set below.
+The M1 13-inch MacBook Pro is j293, and is from 2020.
 
-The ADMAC attached to the AOP has complex power sequencing, and is
-power gated when the probe callback runs. Move the register reads
-to other functions, where we can guarantee that the hardware is
-switched on.
-
-Fixes: 568aa6dd641f ("dmaengine: apple-admac: Allocate cache SRAM to channels")
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Fixes: 2d5ce3fbef32 ("arm64: dts: apple: t8112: Initial t8112 (M2) device trees")
+Signed-off-by: Alyssa Ross <hi@alyssa.is>
 ---
- drivers/dma/apple-admac.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ arch/arm64/boot/dts/apple/t8112-j493.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma/apple-admac.c b/drivers/dma/apple-admac.c
-index 9588773dd2eb670a2f6115fdaef39a0e88248015..037ec38730cf980eee11ebb8ec17be7623879cf8 100644
---- a/drivers/dma/apple-admac.c
-+++ b/drivers/dma/apple-admac.c
-@@ -153,6 +153,8 @@ static int admac_alloc_sram_carveout(struct admac_data *ad,
- {
- 	struct admac_sram *sram;
- 	int i, ret = 0, nblocks;
-+	ad->txcache.size = readl_relaxed(ad->base + REG_TX_SRAM_SIZE);
-+	ad->rxcache.size = readl_relaxed(ad->base + REG_RX_SRAM_SIZE);
+diff --git a/arch/arm64/boot/dts/apple/t8112-j493.dts b/arch/arm64/boot/dts/apple/t8112-j493.dts
+index 0ad908349f55..10f7c635e4d5 100644
+--- a/arch/arm64/boot/dts/apple/t8112-j493.dts
++++ b/arch/arm64/boot/dts/apple/t8112-j493.dts
+@@ -1,18 +1,18 @@
+ // SPDX-License-Identifier: GPL-2.0+ OR MIT
+ /*
+- * Apple MacBook Pro (13-inch, M1, 2022)
++ * Apple MacBook Pro (13-inch, M2, 2022)
+  *
+  * target-type: J493
+  *
+  * Copyright The Asahi Linux Contributors
+  */
  
- 	if (dir == DMA_MEM_TO_DEV)
- 		sram = &ad->txcache;
-@@ -912,12 +914,7 @@ static int admac_probe(struct platform_device *pdev)
- 		goto free_irq;
- 	}
+ /dts-v1/;
  
--	ad->txcache.size = readl_relaxed(ad->base + REG_TX_SRAM_SIZE);
--	ad->rxcache.size = readl_relaxed(ad->base + REG_RX_SRAM_SIZE);
--
- 	dev_info(&pdev->dev, "Audio DMA Controller\n");
--	dev_info(&pdev->dev, "imprint %x TX cache %u RX cache %u\n",
--		 readl_relaxed(ad->base + REG_IMPRINT), ad->txcache.size, ad->rxcache.size);
+ #include "t8112.dtsi"
+ #include "t8112-jxxx.dtsi"
+ #include <dt-bindings/leds/common.h>
  
- 	return 0;
- 
+ / {
+ 	compatible = "apple,j493", "apple,t8112", "apple,arm-platform";
+ 	model = "Apple MacBook Pro (13-inch, M2, 2022)";
 
----
 base-commit: 9f16d5e6f220661f73b36a4be1b21575651d8833
-change-id: 20241124-admac-power-7f32c2a1850a
-
+-- 
+2.47.0
 
