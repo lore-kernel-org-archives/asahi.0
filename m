@@ -1,104 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1BB17E00F;
-	Sun, 24 Nov 2024 22:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE13186295
+	for <asahi@lists.linux.dev>; Sun, 24 Nov 2024 23:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732487382; cv=none; b=eYKSJaqcnKs5TCJRHyQUQFzkA1bAaqIlIW0Ir1kUdEbmGLZq1TiKkmsqir5AXYkDd4RJQkDeiM3HznuNvl8R2KqixGXN2f6YWprPOGER5GMV6ZjPSk7QZsd6gt/C2BFzr6L9gbijM7DWXzMmb6eOFcdSh8DW5A7NGBKq3LwCeFA=
+	t=1732492589; cv=none; b=UrSmgUU5W9b2ywplCiY2pk04tORohfM+T02CLw5f6NQOrFU096w6vimMFpjnwTtI+UzRC/qsoVI3EvVYJVO5i/LcxUZcUx8K25Oz995JafwQaNxhW0YveNaZLS+UCCQ1Xv3qrzUpoX9c3MQcWkpmrqbIz0eZwJOM7EPSPL6lx2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732487382; c=relaxed/simple;
-	bh=8Hp9HnlSkudhEMoVTtPB8Mqq7buNaH8Vu6szhwn5uHQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kPPaJNEeI6OOU7AvXaK3evhEVKFHx0M+Lzk3qVmdtJhcYlOAVRZTXgiXYKivXedRAjA9AxNXQtg/qKivEvx0y4+eZqkqhTySjpPlpbGMUt7J9u58PPkQS2cFOaPhUeqerG0VsQkB9uYxXD+MgCU+nbqIZZN5pibcXGQZNBZ5Qfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UZGG7rOo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732492589; c=relaxed/simple;
+	bh=5XsI2dnv37mBv+p+BtUHDZFriUnNCf9wr1yXZXeXyFQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A0bCd+kcDNUHtUWlAcMXc93aRBiHuCytJyiVC2aCvNiJ/BushLcoUa6vTJBH/sLZxDJF1hsjlCN+2BPzCn0uWUqefDB+B31DLV32Hjqitbg0TpWRxPAB2Nl1uYwXsi6SOziRyAm/ccYCvV/2n7mJXSve4zQMd3So6Hn+L8AUM3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RSFOESXm; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UZGG7rOo"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 68FCAC4CEDD;
-	Sun, 24 Nov 2024 22:29:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732487381;
-	bh=8Hp9HnlSkudhEMoVTtPB8Mqq7buNaH8Vu6szhwn5uHQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UZGG7rOoUb2MQ5pq0RCgDVD0Uh4+J0lOKGx/2DGhvGu353804u3G9PeRttjYaaK1R
-	 sIlF8MKTx4qiCvWgR36Y51xcGHiMhJa7JnXv67wWN4UqUAdkIPRYNn1gXuX0Lba+AN
-	 MlPPclHkzD/1KRGxuZqeIy5rKh1m4xuYlUf6fnpXMfi+t4fV3nCen295fy9k3DVHKo
-	 qQ3A4PUhAsU5tYBrM1hZHEvusSiMR/gUJOr+ynwe795p5grgl5bzNkDa8qYXGDYJyP
-	 80SKszzwUJ6uNkIsTlDUeGscTpO79fnANpJsmGV1LCEpg6mSSDYQMDxaRiDXnZtagM
-	 65DlIgKz062ng==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A195E6ADEC;
-	Sun, 24 Nov 2024 22:29:41 +0000 (UTC)
-From: Sasha Finkelstein via B4 Relay <devnull+fnkl.kernel.gmail.com@kernel.org>
-Date: Sun, 24 Nov 2024 23:29:28 +0100
-Subject: [PATCH 5/5] MAINTAINERS: Add entries for touchbar display driver
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RSFOESXm"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ea33a70fdfso650144a91.2
+        for <asahi@lists.linux.dev>; Sun, 24 Nov 2024 15:56:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732492585; x=1733097385; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5XsI2dnv37mBv+p+BtUHDZFriUnNCf9wr1yXZXeXyFQ=;
+        b=RSFOESXmbBepJTG+x+tSDX5vrPTvd3fX2kYHn+VoSdQBOTqbE5Fi8+feMXjyDUM8IE
+         Fly6eC1qJVbv3tRf5vfX5S0JA9EHCUKt2MIlSOJ7WxrN1AuCMNF8kLagHBLwFrjOvUYH
+         aeCaqWcAm+Sdo41cxyPG7srPIXQ4CUt72Ft30ajINbfwoPEeJf+zpVdpYA8jB4qniWS0
+         sDwi7jK0qec87uTKBAwyeWcXzgzSIu0B0cX9jccFuTb6rQvxz+v6RF9P3oSQjGGZunc+
+         wDWcAkVsbPwATfgTxf9ob3NwGycdlGCAyHdVaRQgYK75fJ1ik7W2s/5oCTLTpooyPDhU
+         b0Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732492585; x=1733097385;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5XsI2dnv37mBv+p+BtUHDZFriUnNCf9wr1yXZXeXyFQ=;
+        b=Umbz/ghrhaJDhbwzz4796meydU4n5R8mv6e/0KkzgchEFmdUpYLA9lVtpG9IvFKy8t
+         In1xYghBa4Rdkf/yOfeoLAiZf+Y1p0QHZ5XeFAaaH15AIZA3pujr3pWT7LFOJrR2Uc9J
+         Rxw6w3Oz1j76Sg+inCs+6vqYmEZ9t/dqonRBQDAASQO7k2IqllAh1T7aNX+pDOyR/1jW
+         C6jVYJwOJKu5Ovl1iGZP+xkIfkAiQyb8tCYvdkllw4KIPtH9yjCa3jgy6a8vS0n2z5d6
+         fGIPa/ZN7naxQa0oQBSpaTDLKeuRbL/jMSCUbyALPfPkHHIVkn7fm6b0UXzypNCmZWRl
+         ZYdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWsnic1usTN6U6DUyJk6IlyGXcWML8c4LS2JHwyzBWmVn1130ETRshtxtDdC/tQSVTzQ8w6HA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwVfWJH3Deqv02OB4CVqxS3v9u9LtaNSsmiCaw8WbWilFaoqP0t
+	vb53QTNFj0EdNNVUvCUVgMcFObihxM7v82i5wuggvewlY2qHJ4cJjCIGeFXT/p/ZRx8o9PnctvM
+	hAK8J2n7g2MmlHcBN/3mbWyNkDyg=
+X-Gm-Gg: ASbGnctfr5+LhNPaXg23hEyueQETLB4MPlZq94LUonJhhf1G0p3xj0sO8zACjrhPOI1
+	35ZdWEiY7O8ZkR+iSG2qOjoeZFzRGzQ==
+X-Google-Smtp-Source: AGHT+IEI7GYwhVxYuokBXCBQbL5ucki1Qy1so2aGi+FFVysnEyTiRPfnjOrI8Gl0mVt194WhWC3goLNn9vaUL4FIULo=
+X-Received: by 2002:a17:90b:4f44:b0:2ea:956b:deab with SMTP id
+ 98e67ed59e1d1-2eb0e87f52fmr6103731a91.4.1732492585588; Sun, 24 Nov 2024
+ 15:56:25 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241124-adpdrm-v1-5-3191d8e6e49a@gmail.com>
-References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
-In-Reply-To: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
-To: Hector Martin <marcan@marcan.st>, Sven Peter <sven@svenpeter.dev>, 
- Alyssa Rosenzweig <alyssa@rosenzweig.io>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev
-Cc: linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sasha Finkelstein <fnkl.kernel@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1732487379; l=1179;
- i=fnkl.kernel@gmail.com; s=20241124; h=from:subject:message-id;
- bh=Zo6z/5ObW5tpoXAd3EL3OeGr9DmJcirQwYT2c5Ljs0k=;
- b=6a+DIWi9GClhX0WByRx54Ur2Q/eMDyfO7632pcDcXF4uq+86V0QRMTAU2VoDMJFZXp6aXA2vH
- AXSUleowlhlDLrepwdiuHmpzTO0gZBEA6pKVWIu+/+sOFSB104Z0Kju
-X-Developer-Key: i=fnkl.kernel@gmail.com; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
-X-Endpoint-Received: by B4 Relay for fnkl.kernel@gmail.com/20241124 with
- auth_id=283
-X-Original-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Reply-To: fnkl.kernel@gmail.com
+References: <20241123-rust-fix-arraylayout-v1-1-197e64c95bd4@asahilina.net>
+In-Reply-To: <20241123-rust-fix-arraylayout-v1-1-197e64c95bd4@asahilina.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 25 Nov 2024 00:56:12 +0100
+Message-ID: <CANiq72=bYXd+Rx4tTmoUPeSMCuPsmrNWzX6fnBR+siULzK4t1A@mail.gmail.com>
+Subject: Re: [PATCH] rust: alloc: Fix `ArrayLayout` allocations
+To: Asahi Lina <lina@asahilina.net>
+Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Janne Grunau <j@jannau.net>, 
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Sasha Finkelstein <fnkl.kernel@gmail.com>
+On Sat, Nov 23, 2024 at 11:30=E2=80=AFAM Asahi Lina <lina@asahilina.net> wr=
+ote:
+>
+> We were accidentally allocating a layout for the *square* of the object
+> size due to a variable shadowing mishap.
+>
+> Fixes memory bloat and page allocation failures in drm/asahi.
+>
+> Reported-by: Janne Grunau <j@jannau.net>
+> Fixes: 9e7bbfa18276 ("rust: alloc: introduce `ArrayLayout`")
+> Signed-off-by: Asahi Lina <lina@asahilina.net>
 
-Add the MAINTAINERS entries for the driver
+Applied to `rust-next` -- thanks everyone!
 
-Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e7f0170977013889ca7c39b17727ba36d32e92dc..1964bb705cae0b0f12e2174fc96c5cd123d31520 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2164,6 +2164,7 @@ F:	Documentation/devicetree/bindings/arm/apple.yaml
- F:	Documentation/devicetree/bindings/arm/apple/*
- F:	Documentation/devicetree/bindings/clock/apple,nco.yaml
- F:	Documentation/devicetree/bindings/cpufreq/apple,cluster-cpufreq.yaml
-+F:	Documentation/devicetree/bindings/display/apple,display-pipe.yaml
- F:	Documentation/devicetree/bindings/dma/apple,admac.yaml
- F:	Documentation/devicetree/bindings/i2c/apple,i2c.yaml
- F:	Documentation/devicetree/bindings/interrupt-controller/apple,*
-@@ -2183,6 +2184,7 @@ F:	drivers/bluetooth/hci_bcm4377.c
- F:	drivers/clk/clk-apple-nco.c
- F:	drivers/cpufreq/apple-soc-cpufreq.c
- F:	drivers/dma/apple-admac.c
-+F:	drivers/gpu/drm/adp/
- F:	drivers/pmdomain/apple/
- F:	drivers/i2c/busses/i2c-pasemi-core.c
- F:	drivers/i2c/busses/i2c-pasemi-platform.c
-
--- 
-2.47.0
-
-
+Cheers,
+Miguel
