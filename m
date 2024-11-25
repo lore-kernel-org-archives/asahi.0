@@ -1,363 +1,216 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B522B9B7
-	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 13:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9053B18B47C
+	for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 14:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.63.210.85
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732541380; cv=none; b=WH0mm+yzsDmfdPJM4MdLTG+/2GYitJ1zeas88okfVzsgnzunM4iLMpswG+pDgkKGFBUBkr+gRNeku8eMPNmH10HTF80o8RgJRKMGW5fofdfdI9rET4vuLYcBpZdwbfm92OYZZbNI4zMDYUAGsVCxQFPx4p4wZcA8oDqB0qJ+a6s=
+	t=1732544649; cv=none; b=jQwn37uxR1bW1VrEFKMzsZ2vYdDii0W4ZdoE7A0XK/DxMNINz9tJCBtOAKpowPtVp9CREMGZGbyzIRGJmTbsMHpS3o5PkWf+AZ5BdBXv6NeDNx0c+D0MZ7oc+HnLOp6bti9wsvr7FG2Qbqqf1FqCLBCDkmxLg2MyUjAOrSCgQ+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732541380; c=relaxed/simple;
-	bh=Ahsf+7m3iG/GKdqKjKW2hw7ObanDERZHiY4c1Vga1cY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rOO4QVm43cYkm0bKE8mMJhuiq9H3Dmt/m6FhOxMZ5UuQnxBAWRrEHBtPBnjbYvtpEfC9MxxGXPWfiRU6NkZ30cmvs7Clfd35Y7PWGm9CC83N/GatlkiDIjfGZudmAHOtDCeVP16m5L1jXifyV+p8E8qafWZTCMTGPCZQTkJ2psk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5d036963a6eso2797448a12.3
-        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 05:29:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732541376; x=1733146176;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NTKrQraN2IyV/SgbyUsYqrdmAhzorxXjm9+NVhb0pbA=;
-        b=WcGp1FUp+BSznvZQreS2yaUJvCNRO+wjX9uSxh1PCpj1X/yvBC6fpQw/oUXEyJ8WYU
-         Sz0BFl6XJLV49NqatbhycEDsVRALS960dYmUXPFxXAUvYRBoxbZwStqWeCqEHRM+ZQbp
-         HA3MVhaVxphvaDvd3du1s31Yd+/UALEhnU0kdWt3zh00CpmQG80FpeWAsdEr4S7r50Bl
-         mDbutx1YPoO4DVrDIRbr+ieV7qp8eZsARZGcwJjtowDnSizxqFTvXMSqZF0OuAjOb+3p
-         LhFxmpBFyFfEKEWXS7A6bX4JUeg/ihgJNgibG33A0KWtVF7HdqfwQmUcR4Vk/0OGTKYM
-         T1fg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3/MC17pRUdywbXWfGTrAvSPuOBgmijBCEDdqU+6qjd0jzCK0HNcUjwa5PBAZAOWok6Pfg8w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxohRJg612gJBIfg9I/UdizmbJJq5egEj5HxKZwRujwPhKAELcj
-	d9mZfaXJYHjCfUmeBU4R9toT7sDA3HuT4SZKM//Qqryg7VsW0G47bDsaNN9zdx8=
-X-Gm-Gg: ASbGncvH6myaXS5z96OX2ecZPlcEhle8ZESXJUYCaxwXmsOtJe6YG2KsuxJTA1C9RbQ
-	Til4u5jSLJw7qDsl/vQTyTNf7MfMfyAshzPHYoHma5fnVFKhlKfXcUsyvG2RYhtiY8jH7FnHR/L
-	SJEfpI/JIHtLVKMVc1j2Hu5xqI3uwwx7Bpd3ysUact6PXz//X2WatvRNm1JcRsaZo8XguQ8a3Pn
-	gi+xXgRVONlCqd+O0tk8wuxq32mAjjtSB5Oytnda9Mj3p+D41Uj3iSrtidYD/vX/0ByE/RcUEGh
-	x73S
-X-Google-Smtp-Source: AGHT+IFCeS7VJJqyhGH85QVmRRUyhVDpAmyZEJlmOpun42R5EEJ0gVw4M+//pJFSKk2y7ez/5+8aaw==
-X-Received: by 2002:a05:6402:1eca:b0:5cf:d333:eb54 with SMTP id 4fb4d7f45d1cf-5d0207945e1mr10138728a12.24.1732541375488;
-        Mon, 25 Nov 2024 05:29:35 -0800 (PST)
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com. [209.85.218.49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa53a146fd0sm281244966b.143.2024.11.25.05.29.34
-        for <asahi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Nov 2024 05:29:34 -0800 (PST)
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aa520699becso431919666b.1
-        for <asahi@lists.linux.dev>; Mon, 25 Nov 2024 05:29:34 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVQ3SakpoeyWSWJ2qwfKUxPRqt37c+h8msD0khDGwglQetFraQOvc8DbcfIo5RSJn9FUMowQg==@lists.linux.dev
-X-Received: by 2002:a17:907:7752:b0:aa5:3b1c:77a7 with SMTP id
- a640c23a62f3a-aa53b1c791amr601319166b.6.1732541374662; Mon, 25 Nov 2024
- 05:29:34 -0800 (PST)
+	s=arc-20240116; t=1732544649; c=relaxed/simple;
+	bh=u2XUWhrR6ss2d9FlTj8Plfh2W/SE71nSefpQ0lgJHkQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tn1s/gC4abmAfOXTxV8M7//v+SKi5LRdIrmqRQT1ZMWEP9gHsAfH8I3CjZTE11ave1hLNJozMJjt3bNju+JeFYh2yop4dby4vJnc7yI9GZ+uqeoQQ0X3Tp6Kepu60RsEH9cmKP2pNXvfwz3ODkPrRv1WvHEcsIeHmvltfKryySE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st; spf=pass smtp.mailfrom=marcan.st; dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b=cNdY7SNX; arc=none smtp.client-ip=212.63.210.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=marcan.st
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marcan.st
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=marcan.st header.i=@marcan.st header.b="cNdY7SNX"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: marcan@marcan.st)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 21AA341DF4;
+	Mon, 25 Nov 2024 14:14:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=marcan.st; s=default;
+	t=1732544094; bh=u2XUWhrR6ss2d9FlTj8Plfh2W/SE71nSefpQ0lgJHkQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=cNdY7SNXxqheP/0KddCcPuwen1NKykhMWb6bNamgVZXyM3ezVRM0HUdEY6L69M4CG
+	 /fJLMTvwVaUN//eLm2uXZJNQmIMbseOLk3Dk4P/EufLqPJdbZGnnniwrauJMV6Bb06
+	 SwXy0JLKwwnMfNSm3NowFr1Ywo/6TFks+sJ2VUREv3HnLhHI1EjN2p9/ab0hzDoUfx
+	 QghpKyWji6vfozrrnNHuM4gEZMSIFY4SAutMDXW3MB2W83onm+tslqNsgDLE1QCcyn
+	 ScCODCDPzEVRt0FZLpOx1dnsJ2D0KTT7YNlr9k1D9IHIYj7+Mw+W1Bc7j1+AHbY+4Y
+	 tWD9FLrZ82LBg==
+Message-ID: <a9d1568e-6240-49a4-b6a0-dcc0d9229eb1@marcan.st>
+Date: Mon, 25 Nov 2024 23:14:51 +0900
 Precedence: bulk
 X-Mailing-List: asahi@lists.linux.dev
 List-Id: <asahi.lists.linux.dev>
 List-Subscribe: <mailto:asahi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:asahi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241121204220.2378181-20-samitolvanen@google.com>
-In-Reply-To: <20241121204220.2378181-20-samitolvanen@google.com>
-From: Neal Gompa <neal@gompa.dev>
-Date: Mon, 25 Nov 2024 08:28:58 -0500
-X-Gmail-Original-Message-ID: <CAEg-Je-h4NitWb2ErFGCOqt0KQfXuyKWLhpnNHCdRzZdxi018Q@mail.gmail.com>
-Message-ID: <CAEg-Je-h4NitWb2ErFGCOqt0KQfXuyKWLhpnNHCdRzZdxi018Q@mail.gmail.com>
-Subject: Re: [PATCH v6 00/18] Implement DWARF modversions
-To: Sami Tolvanen <samitolvanen@google.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Matthew Maurer <mmaurer@google.com>, Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Hector Martin <marcan@marcan.st>, Janne Grunau <j@jannau.net>, Miroslav Benes <mbenes@suse.cz>, 
-	Asahi Linux <asahi@lists.linux.dev>, Sedat Dilek <sedat.dilek@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-modules@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	"Darrick J. Wong" <djwong@kernel.org>, Donald Zickus <dzickus@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] dt-bindgins: display: Add Apple pre-DCP display
+ controller bindings
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig
+ <alyssa@rosenzweig.io>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, asahi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241124-adpdrm-v1-0-3191d8e6e49a@gmail.com>
+ <20241124-adpdrm-v1-1-3191d8e6e49a@gmail.com>
+ <ksdp54qj55v7igvvcshl6y2cxpmqy7rlsh4xsixpptjn7s7wlu@76ejtq6ytvbp>
+From: Hector Martin <marcan@marcan.st>
+Content-Language: en-US
+In-Reply-To: <ksdp54qj55v7igvvcshl6y2cxpmqy7rlsh4xsixpptjn7s7wlu@76ejtq6ytvbp>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 21, 2024 at 3:42=E2=80=AFPM Sami Tolvanen <samitolvanen@google.=
-com> wrote:
->
-> Hi,
->
-> Here's v6 of the DWARF modversions series. The main motivation is
-> modversions support for Rust, which is important for distributions
-> like Android that are about to ship Rust kernel modules. Per Luis'
-> request [1], v2 dropped the Rust specific bits from the series and
-> instead added the feature as an option for the entire kernel to
-> make it easier to evaluate the benefits of this approach, and to
-> get better test coverage. Matt is addressing Rust modversion_info
-> compatibility issues in a separate patch set [2] that depends on
-> this series, and actually allows modversions to be enabled with
-> Rust.
->
-> Short background: Unlike C, Rust source code doesn't have sufficient
-> information about the final ABI, as the compiler has considerable
-> freedom in adjusting structure layout, for example, which makes
-> using a source code parser like genksyms a non-starter. Based on
-> earlier feedback, this series uses DWARF debugging information for
-> computing versions. DWARF is an established and a relatively stable
-> format, which includes all the necessary ABI details, and adding a
-> CONFIG_DEBUG_INFO dependency for Rust symbol versioning seems like a
-> reasonable trade-off as most distributions already enable it.
->
-> The first 15 patches add gendwarfksyms, a tool for computing symbol
-> versions from DWARF. When passed a list of exported symbols and
-> object files, the tool generates an expanded type string for each
-> symbol and computes symbol versions. gendwarfksyms is written in C,
-> uses libdw to process DWARF, and zlib for CRC32. Patch 16 ensures
-> that debugging information is present where we need it, patch 17
-> adds gendwarfksyms as an alternative to genksyms, and the last patch
-> adds documentation.
->
-> v6 has changes to structure expansion and the kABI stability
-> features based on our backtesting results with previous Android
-> release kernels (see the change log below). It's also based on
-> linux-kbuild/for-next to include symtypes build rule clean-ups from
-> Masahiro [3]. For your convenience, the series is also available
-> here:
->
-> https://github.com/samitolvanen/linux/commits/gendwarfksyms-v6
->
-> If you also want to test the series with actual Rust modules, this
-> branch adds Matt's latest modversion_info series:
->
-> https://github.com/samitolvanen/linux/commits/rustmodversions-v6
->
-> Sami
->
->
-> [1] https://lore.kernel.org/lkml/ZnIZEtkkQWEIGf9n@bombadil.infradead.org/
-> [2] https://lore.kernel.org/linux-modules/20241030-extended-modversions-v=
-8-0-93acdef62ce8@google.com/
-> [3] https://lore.kernel.org/linux-modules/CAK7LNAR9c+EEsOvPPn4qSq3gAFskYO=
-XVd=3Ddg8O+bKeeC-HMifw@mail.gmail.com/
->
-> ---
->
-> v6:
-> - Dropped pointer expansion limits as this affects version
->   stability when exported symbols are removed. (Patch 9)
->
-> - Changed local type definitions (in .c files) that are opaque
->   to external users to be treated as declarations even if a
->   definition is available. (Patch 9)
->
-> - Switched to zlib's CRC32 implementation per Masahiro's
->   suggestion. (Patch 12)
->
-> - Renamed struct_declonly kABI rule to simply declonly, as it
->   applies also to unions and enums, added a new rule for
->   overriding enumerator values, and refactored the examples.
->   (Patch 13)
->
-> - Added --stable support for renamed structure members and
->   also added examples. (Patch 14)
->
-> - Rebased on linux-kbuild/for-next for Masahiro's symtypes
->   build rule clean-ups. (Patch 17)
->
-> - Updated the documentation reflect --stable changes. (Patch 18)
->
-> v5: https://lore.kernel.org/lkml/20241030170106.1501763-21-samitolvanen@g=
-oogle.com/
-> - Rebased on v6.12-rc5.
->
-> - Fixed an issue with limiting structure expansion, and applied
->   Petr's clean-up. (Patch 10)
->
-> - Dropped an unnecessary return statement in error path. (Patch
->   12)
->
-> - Addressed several other smaller issues Petr brought up. (Patches
->   13, 14, and 15)
->
-> - Added a KBUILD_GENDWARFKSYMS_STABLE flag to enable --stable for
->   the entire kernel build. (Patch 18)
->
-> - Updated documentation to include KBUILD flags. (Patch 19)
->
-> - Picked up Reviewed-by tags from v4.
->
-> v4: https://lore.kernel.org/lkml/20241008183823.36676-21-samitolvanen@goo=
-gle.com/
-> - Rebased on v6.12-rc2, which now includes all the prerequisites.
->
-> - Dropped unnecessary name_only parameter for symbols.c::for_each
->   and cleaned up error handling. (Patch 3)
->
-> - Fixed anonymous scope handling to ensure unnamed DIEs don't get
->   names. (Patch 4)
->
-> - Added non-variant children to variant_type output, and included
->   DW_AT_discr_value attributes for variants. (Patch 9)
->
-> - Added another symbol pointer test case. (Patch 16)
->
-> - Picked up (Acked|Reviewed)-by tags from v3.
->
-> v3: https://lore.kernel.org/lkml/20240923181846.549877-22-samitolvanen@go=
-ogle.com/
-> - Updated SPX license headers.
->
-> - Squashed the first two patches in v2 and tried to reduce churn as
->   much as reasonable.
->
-> - Dropped patch 18 from v2 ("x86/asm-prototypes: Include
->   <asm/ptrace.h>") as it's addressed by a separate patch.
->
-> - Changed the error handling code to immediately terminate instead
->   of propagating the errors back to main, which cleaned up the code
->   quite a bit.
->
-> - Switched to the list and hashtable implementations in scripts and
->   dropped the remaining tools/include dependencies. Added a couple
->   missing list macros. (patch 1)
->
-> - Moved the genksyms CRC32 implementation to scripts/include and
->   dropped the duplicate code. (patches 2 and 14)
->
-> - Switched from ad-hoc command line parsing to getopt_long (patch 3).
->
-> - Added structure member and function parameter names to the DIE
->   output to match genksyms behavior, and tweaked the symtypes format
->   to be more parser-friendly in general based on Petr's suggestions.
->
-> - Replaced the declaration-only struct annotations with more generic
->   kABI stability rules that allow source code annotations to be used
->   where #ifndef __GENKSYMS__ was previously used.  Added support for
->   rules that can be used to exclude enumerators from versioning.
->   (patch 16)
->
-> - Per Miroslav's suggestion, added an option to hide structure
->   members from versioning when they're added to existing alignment
->   holes, for example. (patch 16)
->
-> - Per Greg's request, added documentation and example macros for the
->   --stable features, and a couple of test cases. (patches 15, 16, and
->   20)
->
-> - Fixed making symtypes files, which need to depend on .o files with
->   gendwarfksyms. (patch 19)
->
-> - Addressed several other smaller issues that Petr and Masahiro
->   kindly pointed out during the v2 review.
->
-> v2: https://lore.kernel.org/lkml/20240815173903.4172139-21-samitolvanen@g=
-oogle.com/
-> - Per Luis' request, dropped Rust-specific patches and added
->   gendwarfksyms as an alternative to genksyms for the entire
->   kernel.
->
-> - Added support for missing DWARF features needed to handle
->   also non-Rust code.
->
-> - Changed symbol address matching to use the symbol table
->   information instead of relying on addresses in DWARF.
->
-> - Added __gendwarfksyms_ptr patches to ensure the compiler emits
->   the necessary type information in DWARF even for symbols that
->   are defined in other TUs.
->
-> - Refactored debugging output and moved the more verbose output
->   behind --dump* flags.
->
-> - Added a --symtypes flag for generating a genksyms-style
->   symtypes output based on Petr's feedback, and refactored
->   symbol version calculations to be based on symtypes instead
->   of raw --dump-dies output.
->
-> - Based on feedback from Greg and Petr, added --stable flag and
->   support for reserved data structure fields and declaration-onl
->   structures. Also added examples for using these features.
->
-> - Added a GENDWARFKSYMS option and hooked up kbuild support
->   for both C and assembly code. Note that with gendwarfksyms,
->   we have to actually build a temporary .o file for calculating
->   assembly modversions.
->
-> v1: https://lore.kernel.org/lkml/20240617175818.58219-17-samitolvanen@goo=
-gle.com/
->
-> ---
->
-> Sami Tolvanen (18):
->   tools: Add gendwarfksyms
->   gendwarfksyms: Add address matching
->   gendwarfksyms: Expand base_type
->   gendwarfksyms: Add a cache for processed DIEs
->   gendwarfksyms: Expand type modifiers and typedefs
->   gendwarfksyms: Expand subroutine_type
->   gendwarfksyms: Expand array_type
->   gendwarfksyms: Expand structure types
->   gendwarfksyms: Limit structure expansion
->   gendwarfksyms: Add die_map debugging
->   gendwarfksyms: Add symtypes output
->   gendwarfksyms: Add symbol versioning
->   gendwarfksyms: Add support for kABI rules
->   gendwarfksyms: Add support for reserved and ignored fields
->   gendwarfksyms: Add support for symbol type pointers
->   export: Add __gendwarfksyms_ptr_ references to exported symbols
->   kbuild: Add gendwarfksyms as an alternative to genksyms
->   Documentation/kbuild: Add DWARF module versioning
->
->  Documentation/kbuild/gendwarfksyms.rst     |  308 ++++++
->  Documentation/kbuild/index.rst             |    1 +
->  include/linux/export.h                     |   15 +
->  kernel/module/Kconfig                      |   31 +
->  scripts/Makefile                           |    3 +-
->  scripts/Makefile.build                     |   35 +-
->  scripts/gendwarfksyms/.gitignore           |    2 +
->  scripts/gendwarfksyms/Makefile             |   12 +
->  scripts/gendwarfksyms/cache.c              |   51 +
->  scripts/gendwarfksyms/die.c                |  166 +++
->  scripts/gendwarfksyms/dwarf.c              | 1158 ++++++++++++++++++++
->  scripts/gendwarfksyms/examples/kabi.h      |  157 +++
->  scripts/gendwarfksyms/examples/kabi_ex.c   |   30 +
->  scripts/gendwarfksyms/examples/kabi_ex.h   |  263 +++++
->  scripts/gendwarfksyms/examples/symbolptr.c |   33 +
->  scripts/gendwarfksyms/gendwarfksyms.c      |  185 ++++
->  scripts/gendwarfksyms/gendwarfksyms.h      |  301 +++++
->  scripts/gendwarfksyms/kabi.c               |  333 ++++++
->  scripts/gendwarfksyms/symbols.c            |  339 ++++++
->  scripts/gendwarfksyms/types.c              |  477 ++++++++
->  20 files changed, 3893 insertions(+), 7 deletions(-)
->  create mode 100644 Documentation/kbuild/gendwarfksyms.rst
->  create mode 100644 scripts/gendwarfksyms/.gitignore
->  create mode 100644 scripts/gendwarfksyms/Makefile
->  create mode 100644 scripts/gendwarfksyms/cache.c
->  create mode 100644 scripts/gendwarfksyms/die.c
->  create mode 100644 scripts/gendwarfksyms/dwarf.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi.h
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex.c
->  create mode 100644 scripts/gendwarfksyms/examples/kabi_ex.h
->  create mode 100644 scripts/gendwarfksyms/examples/symbolptr.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.c
->  create mode 100644 scripts/gendwarfksyms/gendwarfksyms.h
->  create mode 100644 scripts/gendwarfksyms/kabi.c
->  create mode 100644 scripts/gendwarfksyms/symbols.c
->  create mode 100644 scripts/gendwarfksyms/types.c
->
->
-> base-commit: 3596c721c4348b2a964e43f9296a0c01509ba927
-> --
-> 2.47.0.371.ga323438b13-goog
->
+On 2024/11/25 16:45, Krzysztof Kozlowski wrote:
+> On Sun, Nov 24, 2024 at 11:29:24PM +0100, Sasha Finkelstein wrote:
+>> Add bindings for a secondary display controller present on certain
+>> Apple laptops.
+>>
+>> Signed-off-by: Sasha Finkelstein <fnkl.kernel@gmail.com>
+>> ---
+>>  .../bindings/display/apple,display-pipe.yaml       | 59 ++++++++++++++++++++++
+>>  .../bindings/display/panel/apple,summit.yaml       | 24 +++++++++
+>>  2 files changed, 83 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/display/apple,display-pipe.yaml b/Documentation/devicetree/bindings/display/apple,display-pipe.yaml
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..bd25ddc6e09dd636c0221c854e594113f6011866
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/apple,display-pipe.yaml
+> 
+> No, use fallback compatible as filename.
+> 
+>> @@ -0,0 +1,59 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/apple,display-pipe.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Apple pre-DCP display controller.
+>> +
+>> +maintainers:
+>> +  - asahi@lists.linux.dev
+>> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
+>> +
+>> +description: |
+> 
+> Drop |
+> 
+>> +  A secondary display controller used to drive the "touchbar" on certain
+>> +  Apple laptops.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - enum:
+>> +        - "apple,t8112-display-pipe"
+>> +        - "apple,t8103-display-pipe"
+>> +      - const: "apple,h7-display-pipe"
+> 
+> 
+> This wasn't tested... Drop all quotes. Do you see any file with quotes?
+> Why doing things entirely different than everyone else?
+> 
+>> +
+>> +  reg:
+>> +    minItems: 3
+> 
+> Drop
+> 
+>> +    maxItems: 3
+>> +
+>> +  reg-names:
+>> +    items:
+>> +      - const: be
+>> +      - const: fe
+>> +      - const: mipi
+>> +
+>> +  power-domains: true
+> 
+> List the items instead or maxItems: 1.
+> 
+>> +
+>> +  interrupts:
+>> +    minItems: 2
+> 
+> Drop
+> 
+>> +    maxItems: 2
+>> +
+>> +  interrupt-names:
+>> +    items:
+>> +      - const: be
+>> +      - const: fe
+>> +
+>> +  iommus: true
+> 
+> 
+> maxItems: 1
+> 
+>> +
+>> +  "#address-cells":
+>> +    const: 1
+>> +
+>> +  "#size-cells":
+>> +    const: 0
+>> +
+>> +additionalProperties: true
+> 
+> This cannot be true. Must be false.
+> 
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+> 
+> This goes before additionalProperties.
+> 
+> Missing example: that's a strong NAK and prove that this could not be
+> even tested.
+> 
+> Do you see any device schema without example? No. Do not develop things
+> differently, Apple is not unique, special or exceptional.
 
-As my Acked-by was removed, I'm sorry to say that there is no point
-for me to provide feedback since it is unwanted.
+Krzysztof, it is entirely possible to express this same feedback without
+being condescending and rude. I'm pretty sure you can do better than this.
 
-I hope it lands soon, but I also hope the people here who decided that
-a person's efforts aren't worth recording because they don't
-personally know them should reflect on this too. It's a good way to
-keep people from coming into the community for the long term.
+> 
+> 
+>> diff --git a/Documentation/devicetree/bindings/display/panel/apple,summit.yaml b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..dc281c1f52c1ed07cc2f7f804dcfd2f3b4239d89
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/display/panel/apple,summit.yaml
+>> @@ -0,0 +1,24 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/display/panel/apple,summit.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Apple "Summit" display panel.
+>> +
+>> +maintainers:
+>> +  - asahi@lists.linux.dev
+>> +  - Sasha Finkelstein <fnkl.kernel@gmail.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: apple,summit
+> 
+> No, too generic. Panels need much more properties, this is heavily
+> incomplete. See other panel bindings.
+> 
+> Best regards,
+> Krzysztof
+> 
+> 
+> 
 
-Regardless, I've copied one of the RHEL kernel folks (Don Zickus) onto
-this thread to have his team be aware and give feedback. You'll
-probably want their feedback instead of mine.
+- Hector
 
-
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
